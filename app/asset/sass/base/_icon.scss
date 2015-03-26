@@ -14,54 +14,54 @@ i.icon {
   font-style: normal;
 }
 
-i.icon.hsl-logo:before {
+i.icon.icon-hsl-logo:before {
   @extend .icon-other-font-family;
   content: '1';
 }
 
-i.icon.hamburger:before {
+i.icon.icon-hamburger:before {
   @extend .icon-other-font-family;
   content: ')';
 }
 
-i.icon.favourite:before {
+i.icon.icon-favourite:before {
   @extend .icon-other-font-family;
   content: '(';
 }
 
-i.icon.right-arrow:before {
+i.icon.icon-right-arrow:before {
   @extend .icon-other-font-family;
   content: 'D';
 }
 
-i.icon.disruption-info:before {
+i.icon.icon-disruption-info:before {
   @extend .icon-other-font-family;
   content: 'S';
 }
 
 /* Vehicle icons */
 
-i.icon.bus:before {
+i.icon.icon-bus:before {
   @extend .icon-vehicle-font-family;
   content: '2';
 }
 
-i.icon.tram:before {
+i.icon.icon-tram:before {
   @extend .icon-vehicle-font-family;
   content: '3';
 }
 
-i.icon.train:before {
+i.icon.icon-train:before {
   @extend .icon-vehicle-font-family;
   content: '4';
 }
 
-i.icon.metro:before {
+i.icon.icon-metro:before {
   @extend .icon-vehicle-font-family;
   content: '5';
 }
 
-i.icon.ferry:before {
+i.icon.icon-ferry:before {
   @extend .icon-vehicle-font-family;
   content: '6';
 }

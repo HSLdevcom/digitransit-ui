@@ -5,7 +5,7 @@ var bodyParser = require('body-parser')
 var path = require('path')
 
 /********** Global **********/
-var port = 8080
+var port = process.env.PORT || 8080 
 var app = express()
 
 /********** Routes **********/

@@ -15,7 +15,7 @@
 
     "prebrowserify:build": "npm run folder",
     "browserify:build": "browserify app/asset/js/main.js > app/_static/js/bundle.js",
-    "browserify:watch": "watch --wait=1 'npm run browserify:build' app/asset/js/",
+    "browserify:watch": "watch --wait=1 'npm run browserify:build' app/ui-component",
 
     "livereload": "live-reload --port 9000 app/_static app/view",
     "watch": "parallelshell 'npm run css:watch' 'npm run browserify:watch' 'node app/server/server.js' 'npm run livereload'"

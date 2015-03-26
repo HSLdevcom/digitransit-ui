@@ -1,0 +1,105 @@
+$stop-card-background-color: $white;
+$stop-card-border-color: $light-gray;
+$stop-card-title-font-family: $font-family;
+$stop-card-title-font-size: 13px;
+$stop-card-title-color: $gray-blue;
+$stop-card-location-font-family: $font-family;
+$stop-card-location-font-size: 13px;
+$stop-card-location-color: $gray;
+$stop-card-next-departure-font-family: $font-family;
+$stop-card-next-departure-font-size: 15px;
+$stop-card-next-departure-color: 15px;
+$stop-card-normal-font-family: $font-family;
+$stop-card-normal-font-size: 15px;
+$stop-card-favourite-icon-fill-color: $light-gray;
+$stop-card-favourite-icon-hover-fill-color: $hsl-pink;
+$stop-card-favourite-icon-selected-fill-color: $hsl-pink;
+$stop-card-favourite-icon-selected-hover-fill-color: $light-gray;
+$stop-card-favourite-icon-size: 30px;
+
+.stop-cards {
+  margin: 10px;
+}
+
+.stop-card {
+  background-color: $stop-card-background-color;
+  border: 1px solid $stop-card-border-color;
+  border-radius: $border-radius;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 5px;
+}
+
+.stop-card h3 {
+  text-transform: uppercase;
+  color: $stop-card-title-color;
+  font-family: $stop-card-title-font-family;
+  font-size: $stop-card-title-font-size;
+  margin: 0px;
+}
+
+.stop-card p.location {
+  color: $stop-card-location-color;
+  margin: 0px;
+}
+
+.stop-card p.transport {
+  margin: 0px;
+  padding: 0px;
+}
+
+.stop-card p:nth-of-type(2) {
+  margin-top: 0.3em;  
+}
+
+.stop-card .favourite {
+  float: right;
+  font-size: $stop-card-favourite-icon-size;
+  color: $stop-card-favourite-icon-fill-color;
+}
+
+.stop-card .favourite:hover {
+  color: $stop-card-favourite-icon-hover-fill-color;
+}
+
+.stop-card .favourite.selected {
+  float: right;
+  font-size: $stop-card-favourite-icon-size;
+  color: $stop-card-favourite-icon-selected-fill-color;
+}
+
+.stop-card .favourite.selected:hover {
+  color: $stop-card-favourite-icon-selected-hover-fill-color;
+}
+
+.stop-card .location {
+  font-family: $stop-card-location-font-family;
+}
+
+.stop-card .transport span.next-departure {
+  display: inline-block;
+  width: 50px;
+  font-family: $stop-card-next-departure-font-family;
+  font-size: $stop-card-next-departure-font-size;
+}
+
+.stop-card .transport span.following-departure {
+  display: inline-block;
+  width: 50px;
+  font-family: $stop-card-normal-font-family;
+  font-size: $stop-card-normal-font-size;
+}
+
+.stop-card .transport span.vehicle-number {
+  display: inline-block;
+  width: 30px;
+  font-family: $stop-card-normal-font-family;
+  font-size: $stop-card-normal-font-size;
+}
+
+.stop-card .transport span.destination {
+  font-family: $stop-card-normal-font-family;
+  font-size: $stop-card-normal-font-size;
+}

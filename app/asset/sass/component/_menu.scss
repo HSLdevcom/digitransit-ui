@@ -13,19 +13,26 @@ $top-navigation-icon-size: 30px;
   color: $top-navigation-color;
 }
 
-.top-navigation i.icon {
-  font-size: $top-navigation-icon-size;
+.top-navigation .left {
+  float: left;
+}
+
+.top-navigation .center {
+  text-align: center;
+}
+
+.top-navigation .right {
+  float: right;
 }
 
 .top-navigation .title {
   font-family: $top-navigation-title-font-family;
   font-size: $top-navigation-title-font-size;
-  display: inline-block;
-  text-align: center;
 }
 
-.top-navigation .time {
-  float: right;
+.top-navigation i.icon {
+  font-size: $top-navigation-icon-size;
+  vertical-align: middle;
 }
 
 .slideout-menu {

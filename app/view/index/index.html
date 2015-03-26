@@ -5,68 +5,82 @@
   </div>
 </div>
 
-<ul class="tabs">
-  <li class="selected">Lähimmät</li>
-  <li>Edelliset</li>
-  <li><i class="icon favourite"></i> Suosikit</li>
-</ul>
+<div class="tabs">
+   <ul>
+      <li><a data-tab-id="tab1" href="#" class="selected">Lähimmät</a></li>
+      <li><a data-tab-id="tab2" href="#">Edelliset</a></li>
+      <li><a data-tab-id="tab3" href="#"><i class="icon icon-favourite"></i> Suosikit</li></a></li>
+   </ul>
+</div>
 
-<div class="cards">
-  <div class="card">
-    <span class="favourite"><i class="icon favourite"></i></span>
+<div id="tab1" class="stop-cards tab-show tab-content tab-active">
+  <div class="stop-card cursor-pointer">
+    <span class="favourite"><i class="icon icon-favourite"></i></span>
     <h3>Ratamestarinkatu ›</h3>
     <p class="location">Asemapäällikönk. 8 // 2166 // 88m</p>
     <p class="transport">
-      <span class="time">14:44</span>
-      <span class="next-time">15:04</span>
-      <i class="icon bus"></i>
+      <span class="next-departure">14:44</span>
+      <span class="following-departure">15:04</span>
+      <i class="icon icon-bus bus"></i>
       <span class="vehicle-number bus">504</span>
-      <i class="icon right-arrow"></i>
+      <i class="icon icon-right-arrow bus"></i>
       <span class="destination">Kivenlahti</span>
     </p>
   </div>
 
-  <div class="card">
-    <span class="favourite"><i class="icon favourite"></i></span>
+  <div class="stop-card">
+    <span class="favourite"><i class="icon icon-favourite"></i></span>
     <h3>Asemapäällikönkatu ›</h3>
     <p class="location">Ratamestarinkatu // 0662 // 120m</p>
     <p class="transport">
-      <span class="time">3 min</span>
-      <span class="next-time">10 min</span>
-      <i class="icon tram"></i>
+      <span class="next-departure">3 min</span>
+      <span class="following-departure">10 min</span>
+      <i class="icon icon-tram tram"></i>
       <span class="vehicle-number tram">9</span>
-      <i class="icon right-arrow"></i>
+      <i class="icon icon-right-arrow tram"></i>
       <span class="destination">Pasila</span>
     </p>
   </div>
 
-  <div class="card">
-    <span class="favourite"><i class="icon favourite"></i></span>
+  <div class="stop-card">
+    <span class="favourite selected"><i class="icon icon-favourite"></i></span>
     <h3>Pyöräilystadion ›</h3>
     <p class="location">Ratamestarinkatu // 2430 // 560m</p>
     <p class="transport">
-      <span class="time">0 min</span>
-      <span class="next-time">10 min</span>
-      <i class="icon bus"></i>
+      <span class="next-departure">0 min</span>
+      <span class="following-departure">10 min</span>
+      <i class="icon icon-bus bus"></i>
       <span class="vehicle-number bus">615</span>
-      <i class="icon right-arrow"></i>
+      <i class="icon icon-right-arrow bus"></i>
       <span class="destination">Rautatientori</span>
     </p>
     <p class="transport">
-      <span class="time">0 min</span>
-      <span class="next-time">9 min</span>
-      <i class="icon bus"></i>
+      <span class="next-departure">0 min</span>
+      <span class="following-departure">9 min</span>
+      <i class="icon icon-bus bus"></i>
       <span class="vehicle-number bus">620</span>
-      <i class="icon right-arrow"></i>
+      <i class="icon icon-right-arrow bus"></i>
       <span class="destination">Rautatientori</span>
     </p>
     <p class="transport">
-      <span class="time">14:31</span>
-      <span class="next-time">15:31</span>
-      <i class="icon bus"></i>
+      <span class="next-departure">14:31</span>
+      <span class="following-departure">15:31</span>
+      <i class="icon icon-bus bus"></i>
       <span class="vehicle-number bus">15</span>
-      <i class="icon right-arrow"></i>
+      <i class="icon icon-right-arrow bus"></i>
       <span class="destination">Pasila</span>
     </p>
+  </div>
+</div>
+
+<div id="tab2" class="stop-cards tab-content">
+  <div class="stop-card">
+    Edelliset
+  </div>
+</div>
+
+<div id="tab3" class="stop-cards tab-content">
+  <div class="stop-card">
+    Suosikit
   </div>
 </div>
