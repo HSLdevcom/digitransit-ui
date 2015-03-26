@@ -12,6 +12,7 @@
 
 i.icon {
   font-style: normal;
+  vertical-align: middle;
 }
 
 i.icon.icon-hsl-logo:before {
@@ -29,7 +30,7 @@ i.icon.icon-favourite:before {
   content: '(';
 }
 
-i.icon.icon-right-arrow:before {
+i.icon.icon-arrow-right:before {
   @extend .icon-other-font-family;
   content: 'D';
 }
@@ -37,6 +38,11 @@ i.icon.icon-right-arrow:before {
 i.icon.icon-disruption-info:before {
   @extend .icon-other-font-family;
   content: 'S';
+}
+
+i.icon.icon-profile:before {
+  @extend .icon-other-font-family;
+  content: 'H';
 }
 
 /* Vehicle icons */

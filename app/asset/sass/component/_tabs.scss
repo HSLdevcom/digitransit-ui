@@ -29,6 +29,7 @@ $tab-favourite-icon-size: 30px;
    position:relative;
    right:50%;
    border-right: 1px solid $tab-separator-color;
+   min-width: 130px;
 }
 
 .tabs li:last-child {
@@ -45,8 +46,7 @@ $tab-favourite-icon-size: 30px;
 }
 
 .tabs ul li i.icon {
-  font-size: $tab-favourite-icon-size;
-  vertical-align: middle;   
+  font-size: $tab-favourite-icon-size;   
 }
 
 .tabs ul li a:hover {

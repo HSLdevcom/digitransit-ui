@@ -1,0 +1,35 @@
+$top-navigation-background-color: $hsl-blue;
+$top-navigation-color: $white;
+$top-navigation-title-font-family: $font-family;
+$top-navigation-title-font-size: 17px;
+$top-navigation-icon-size: 30px;
+
+.top-navigation {
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: $top-navigation-background-color;
+  height: 40px;
+  line-height: 40px;
+  color: $top-navigation-color;
+}
+
+.top-navigation .left-icons {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+}
+
+.top-navigation .right-icons {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+}
+
+.top-navigation .title {
+  font-family: $top-navigation-title-font-family;
+  font-size: $top-navigation-title-font-size;
+}
+
+.top-navigation i.icon {
+  font-size: $top-navigation-icon-size;
+}
