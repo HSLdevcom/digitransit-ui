@@ -1,0 +1,21 @@
+body {
+  background: $background-color;
+  font-family: $font-family;
+  -webkit-font-smoothing: antialiased;
+}
+
+#main {
+  background-color: $background-color;
+}
+
+.bus {
+  color: $bus-color;
+}
+
+.tram {
+  color: $tram-color;
+}
+
+.metro {
+  color: $metro-color;
+}

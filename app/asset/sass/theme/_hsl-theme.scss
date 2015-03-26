@@ -1,0 +1,57 @@
+/* General palette */
+$white: #ffffff;
+$black: #333;
+$gray-blue: #7f929c;
+$light-gray: #ddd;
+$gray: #999;
+
+/* Palette */
+$hsl-blue: #007ac9;
+$hsl-tram-green: #00985f;
+$hsl-metro-orange: #ff6319;
+$hsl-train-red: #8c4799;
+$hsl-ferry-blue: #00b9e4;
+$hsl-pink: #f092cd;
+$hsl-alert: #dc0451;
+$hsl-distruption: #fed100;
+
+/* Fonts */
+$font-family: "Times New Roman", Georgia, Serif;
+
+/* Application base colors */
+$background-color: #eef1f3;
+
+/* Vehicle colors */
+$bus-color: $hsl-blue;
+$tram-color: $hsl-tram-green;
+$metro-color: $hsl-metro-orange;
+$train-color: $hsl-train-red;
+$ferry-color: $hsl-ferry-blue;
+
+/* Icon fonts */
+@font-face {
+    font-family: 'reittiopas-icon-font-1';
+    src: url('/font/hslpiktokehys-regular-webfont.eot');
+    src: url('/font/hslpiktokehys-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/font/hslpiktokehys-regular-webfont.woff') format('woff'),
+         url('/font/hslpiktokehys-regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'reittiopas-icon-font-2';
+    src: url('/font/hslpiktoilman-regular-webfont.eot');
+    src: url('/font/hslpiktoilman-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/font/hslpiktoilman-regular-webfont.woff') format('woff'),
+         url('/font/hslpiktoilman-regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+$icon-font-family-1: 'reittiopas-icon-font-1';
+$icon-font-family-2: 'reittiopas-icon-font-2';
+
+/* Borders */
+$border-radius: 3px;
+

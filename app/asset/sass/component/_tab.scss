@@ -1,0 +1,27 @@
+$tab-color: $black;
+$tab-selected-color: $black;
+$tab-separator-color: $light-gray;
+
+ul.tabs {
+  list-style-type: none;
+  padding: 10px;
+  margin: 0px;
+  height: 20px;
+}
+
+ul.tabs li {
+  text-transform: uppercase;
+  color: $tab-color;
+  display: inline-block;
+  width: 31%;
+  text-align: center;
+  border-right: 1px solid $tab-separator-color;
+}
+
+ul.tabs li:last-child {
+  border-right: none;
+}
+
+ul.tabs li.selected {
+  color: $tab-selected-color;
+}

@@ -1,0 +1,67 @@
+/* This might come in handy: 
+ * https://mothereff.in/html-entities
+ */
+
+.icon-vehicle-font-family {
+  font-family: $icon-font-family-1;
+} 
+
+.icon-other-font-family {
+  font-family: $icon-font-family-2;
+} 
+
+i.icon {
+  font-style: normal;
+}
+
+i.icon.hsl-logo:before {
+  @extend .icon-other-font-family;
+  content: '1';
+}
+
+i.icon.hamburger:before {
+  @extend .icon-other-font-family;
+  content: ')';
+}
+
+i.icon.favourite:before {
+  @extend .icon-other-font-family;
+  content: '(';
+}
+
+i.icon.right-arrow:before {
+  @extend .icon-other-font-family;
+  content: 'D';
+}
+
+i.icon.disruption-info:before {
+  @extend .icon-other-font-family;
+  content: 'S';
+}
+
+/* Vehicle icons */
+
+i.icon.bus:before {
+  @extend .icon-vehicle-font-family;
+  content: '2';
+}
+
+i.icon.tram:before {
+  @extend .icon-vehicle-font-family;
+  content: '3';
+}
+
+i.icon.train:before {
+  @extend .icon-vehicle-font-family;
+  content: '4';
+}
+
+i.icon.metro:before {
+  @extend .icon-vehicle-font-family;
+  content: '5';
+}
+
+i.icon.ferry:before {
+  @extend .icon-vehicle-font-family;
+  content: '6';
+}

@@ -1,0 +1,46 @@
+{
+  "name": "openjourneyplanner-ui",
+  "version": "0.0.1",
+  "description": "Open Journey Planner UI",
+  "author": "crew@reittiopas.fi",
+  "scripts": {
+    "folder": "mkdir -p app/_static/js; mkdir -p app/_static/css; mkdir -p app/_static/font;",
+    "static": "cp -r app/asset/static/* app/_static",
+    "image": "cp -r app/asset/icon/* app/_static/icon",
+    "font": "cp -r app/asset/font/* app/_static/font",
+    
+    "precss:build": "npm run folder",
+    "css:build": "cat node_modules/purecss/build/pure-min.css > app/_static/css/bundle.css && node-sass app/asset/sass/main.scss --stdout >> app/_static/css/bundle.css",
+    "css:watch": "watch --wait=1 'npm run css:build' app/asset/sass/",
+
+    "prebrowserify:build": "npm run folder",
+    "browserify:build": "browserify app/asset/js/main.js > app/_static/js/bundle.js",
+    "browserify:watch": "watch --wait=1 'npm run browserify:build' app/asset/js/",
+
+    "livereload": "live-reload --port 9000 app/_static app/view",
+    "watch": "parallelshell 'npm run css:watch' 'npm run browserify:watch' 'node app/server/server.js' 'npm run livereload'"
+  },
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "dependencies": {
+    "body-parser": "^1.12.2",
+    "cookie-parser": "^1.3.4",
+    "express": "^4.12.3",
+    "fastclick": "^1.0.6",
+    "hogan-express": "^0.5.2",
+    "jquery": "^2.1.3",
+    "purecss": "^0.6.0",
+    "slideout": "^0.1.5"
+  },
+  "devDependencies": {
+    "browserify": "^9.0.3",
+    "node-sass": "^2.0.1",
+    "watch": "^0.14.0"
+  }
+}

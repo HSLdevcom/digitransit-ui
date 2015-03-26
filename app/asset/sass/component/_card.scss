@@ -1,0 +1,84 @@
+$card-background-color: $white;
+$card-border-color: $light-gray;
+$card-header-font-family: $font-family;
+$card-header-font-size: 13px;
+$card-header-color: $gray-blue;
+$card-sub-header-font-family: $font-family;
+$card-sub-header-font-size: 13px;
+$card-sub-header-color: $gray;
+$card-row-highlighted-font-family: $font-family;
+$card-row-highlighted-font-size: 15px;
+$card-row-highlighted-color: 15px;
+$card-row-font-family: $font-family;
+$card-row-font-size: 15px;
+
+.cards {
+  margin: 10px;
+}
+
+.card {
+  background-color: $card-background-color;
+  border: 1px solid $card-border-color;
+  border-radius: $border-radius;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 5px;
+}
+
+.card h3 {
+  text-transform: uppercase;
+  color: $card-header-color;
+  font-family: $card-header-font-family;
+  font-size: $card-header-font-size;
+  margin: 0px;
+}
+
+.card p.location {
+  color: $card-sub-header-color;
+  margin: 0px;
+}
+
+.card p.transport {
+  margin: 0px;
+  padding: 0px;
+}
+
+.card p:nth-of-type(2) {
+  margin-top: 0.3em;  
+}
+
+.card .favourite {
+  float: right;
+}
+
+.card .location {
+  font-family: $card-sub-header-font-family;
+}
+
+.card .transport span.time {
+  display: inline-block;
+  width: 45px;
+  font-family: $card-row-highlighted-font-family;
+  font-size: $card-row-highlighted-font-size;
+}
+
+.card .transport span.next-time {
+  display: inline-block;
+  width: 45px;
+  font-family: $card-row-font-family;
+  font-size: $card-row-font-size;
+}
+
+.card .transport span.vehicle-number {
+  display: inline-block;
+  width: 30px;
+  font-family: $card-row-font-family;
+  font-size: $card-row-font-size;
+}
+
+.card .transport span.destination {
+  font-family: $card-row-font-family;
+  font-size: $card-row-font-size;
+}
