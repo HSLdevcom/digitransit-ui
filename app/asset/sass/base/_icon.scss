@@ -45,6 +45,21 @@ i.icon.icon-profile:before {
   content: 'H';
 }
 
+i.icon.icon-search:before {
+  @extend .icon-other-font-family;
+  content: '`';
+}
+
+i.icon.icon-clear:before {
+  @extend .icon-other-font-family;
+  content: '|';
+}
+
+i.icon.icon-location:before {
+  @extend .icon-other-font-family;
+  content: '1';
+}
+
 /* Vehicle icons */
 
 i.icon.icon-bus:before {

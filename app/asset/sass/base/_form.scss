@@ -1,0 +1,42 @@
+$form-input-transparency: 0.5;
+$form-input-transparent-color: $white;
+$form-input-border-radius: $border-radius;
+$form-input-postfix-search-color: $white;
+$form-input-postfix-search-fill-color: $hsl-pink;
+
+/* Override foundation styles */
+$input-border-radius: $form-input-border-radius;
+$input-border-style: none;
+$input-border-width: 0;
+$input-prefix-border-type: none;
+$input-prefix-border-width: 0;
+
+input {
+  border-top-left-radius: $form-input-border-radius !important;
+  border-bottom-left-radius: $form-input-border-radius !important;
+  height: 35px;
+}
+
+.transparent {
+  background:rgba(0,0,0, $form-input-transparency) !important;
+  color: $form-input-transparent-color !important;
+}
+
+.postfix {
+  border-top-right-radius: $border-radius !important;
+  border-bottom-right-radius: $border-radius !important;
+}
+
+.prefix {
+  border-top-left-radius: $border-radius !important;
+  border-bottom-left-radius: $border-radius !important;
+}
+
+.postfix.search {
+  color: $form-input-postfix-search-color;
+  background-color: $form-input-postfix-search-fill-color;
+}
+
+.prefix-and-postfix-radius input {
+  border-radius: 0 !important;
+}
