@@ -1,114 +1,203 @@
-<div class="map">
-  <form class="search-form">
-    <div class="row">
-      <div class="small-12 medium-6 medium-offset-3 columns">
-        <div class="row collapse prefix-and-postfix-radius">
-          <div class="small-1 columns">
-            <span class="prefix transparent"><i class="icon icon-location"></i></span>
+<nav id="offcanvas-left" class="offcanvas-menu">
+  <header class="offcanvas-header offcanvas-section">
+    <p class="offcanvas-lead">
+        Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi
+    </p>
+    <div class="offcanvas-login">
+      <div class="inline-block">
+        <i class="icon icon-profile"></i>
+      </div>
+      <div class="inline-block">  
+        <p>
+          <a href="#">Luo tunnus <i class="icon icon-arrow-right"></i></a>
+        </p>
+        <p>
+          <a href="#">Kirjaudu sisään <i class="icon icon-arrow-right"></i></a>
+        </p>
+      </div>
+    </div> 
+  </header>
+  
+  <section class="offcanvas-section">
+    <ul class="offcanvas-list">
+      <li><a href="#">Matkaliput <i class="icon icon-arrow-right"></i></a></li>
+      <li><a href="#">Linjat <i class="icon icon-arrow-right"></i></a></li>
+      <li><a href="#">Pysäkit <i class="icon icon-arrow-right"></i></a></li>
+      <li><a href="#">Asetukset <i class="icon icon-arrow-right"></i></a></li>
+      <li><a href="#">Käyttöehdot <i class="icon icon-arrow-right"></i></a></li>
+      <li><a href="#">HSL:n yhteystiedot <i class="icon icon-arrow-right"></i></a></li>
+    </ul>
+  </section>
+</nav>
+
+<div class="slideout-wrapper">
+  <main id="main" class="panel">
+    <header>
+      <nav class="top-navigation">
+        <div class="left left-icons">
+          <span id="reveal-left-offcanvas" class="cursor-pointer">
+            <i class="icon icon-hamburger"></i>
+          </span>
+          <i class="icon icon-disruption-info"></i>
+        </div>
+        <div class="text-center">
+          <i class="icon icon-hsl-logo"></i>
+          <span class="title">Reittiopas</span>
+        </div>
+        <div class="right-icons">
+          <button class="sub-navigation-switch">nyt</button>
+        </div>
+        <div class="sub-navigation">
+          <div class="row">
+            <div class="small-12 columns">
+              <div class="arrow-up"></div>
+              <form>
+                <input type="text" class="time hour" value="14">:<input type="text" class="time minute" value="12">
+                <select>
+                  <option>Tänään</option>
+                  <option>Huomenna</option>
+                </select>
+                <select>
+                  <option>Lähtöaika</option>
+                  <option>Saapumisaika</option>
+                </select>
+              </form>
+            </div>
           </div>
-          <div class="small-10 columns">
-            <input type="text" placeholder="Opastinsilta 8, Helsinki" class="transparent"/>
+        </div>
+      </nav>
+    </header>
+    <section class="content">
+      <div class="map">
+        <form class="search-form">
+          <div class="row">
+            <div class="small-12 medium-6 medium-offset-3 columns">
+              <div class="row collapse prefix-and-postfix-radius">
+                <div class="small-1 columns">
+                  <span class="prefix transparent"><i class="icon icon-location"></i></span>
+                </div>
+                <div class="small-10 columns">
+                  <input type="text" placeholder="Opastinsilta 8, Helsinki" class="transparent"/>
+                </div>
+                <div class="small-1 columns">
+                  <span class="postfix transparent"><i class="icon icon-clear"></i></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="small-1 columns">
-            <span class="postfix transparent"><i class="icon icon-clear"></i></span>
+          <div class="row">
+            <div class="small-12 medium-6 medium-offset-3 columns">
+              <div class="row collapse postfix-radius">
+                <div class="small-11 columns">
+                  <input type="text" placeholder="Määränpään osoite, linja, pysäkki tai aika" />
+                </div>
+                <div class="small-1 columns">
+                  <span class="postfix search"><i class="icon icon-search"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="fullscreen-toggle">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <div class="tabs">
+             <ul>
+                <li><a data-tab-id="tab1" href="#" class="selected">Lähimmät</a></li>
+                <li><a data-tab-id="tab2" href="#">Edelliset</a></li>
+                <li><a data-tab-id="tab3" href="#"><i class="icon icon-favourite"></i> Suosikit</a></li>
+             </ul>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="small-12 medium-6 medium-offset-3 columns">
-        <div class="row collapse">
-          <div class="small-11 columns">
-            <input type="text" placeholder="Määränpään osoite, linja, pysäkki tai aika" />
+
+      <div class="row">
+        <div id="tab1" class="stop-cards tab-show tab-content tab-active">
+          <div class="small-12 medium-6 large-4 columns">
+            <div class="stop-card cursor-pointer">
+              <span class="favourite"><i class="icon icon-favourite"></i></span>
+              <h3>Ratamestarinkatu ›</h3>
+              <p class="location">Asemapäällikönk. 8 // 2166 // 88m</p>
+              <p class="transport">
+                <span class="next-departure">14:44</span>
+                <span class="following-departure">15:04</span>
+                <i class="icon icon-bus bus"></i>
+                <span class="vehicle-number bus">504</span>
+                <i class="icon icon-arrow-right bus"></i>
+                <span class="destination">Kivenlahti</span>
+              </p>
+            </div>
           </div>
-          <div class="small-1 columns">
-            <span class="postfix search"><i class="icon icon-search"></i></span>
+          <div class="small-12 medium-6 large-4 columns">
+            <div class="stop-card">
+              <span class="favourite"><i class="icon icon-favourite"></i></span>
+              <h3>Asemapäällikönkatu ›</h3>
+              <p class="location">Ratamestarinkatu // 0662 // 120m</p>
+              <p class="transport">
+                <span class="next-departure">3 min</span>
+                <span class="following-departure">10 min</span>
+                <i class="icon icon-tram tram"></i>
+                <span class="vehicle-number tram">9</span>
+                <i class="icon icon-arrow-right tram"></i>
+                <span class="destination">Pasila</span>
+              </p>
+            </div>
+          </div>
+          <div class="small-12 medium-6 large-4 columns end">
+            <div class="stop-card">
+              <span class="favourite selected"><i class="icon icon-favourite"></i></span>
+              <h3>Pyöräilystadion ›</h3>
+              <p class="location">Ratamestarinkatu // 2430 // 560m</p>
+              <p class="transport">
+                <span class="next-departure">0 min</span>
+                <span class="following-departure">10 min</span>
+                <i class="icon icon-bus bus"></i>
+                <span class="vehicle-number bus">615</span>
+                <i class="icon icon-arrow-right bus"></i>
+                <span class="destination">Rautatientori</span>
+              </p>
+              <p class="transport">
+                <span class="next-departure">0 min</span>
+                <span class="following-departure">9 min</span>
+                <i class="icon icon-bus bus"></i>
+                <span class="vehicle-number bus">620</span>
+                <i class="icon icon-arrow-right bus"></i>
+                <span class="destination">Rautatientori</span>
+              </p>
+              <p class="transport">
+                <span class="next-departure">14:31</span>
+                <span class="following-departure">15:31</span>
+                <i class="icon icon-bus bus"></i>
+                <span class="vehicle-number bus">15</span>
+                <i class="icon icon-arrow-right bus"></i>
+                <span class="destination">Pasila</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </form>
-
-  <div class="fullscreen-toggle">
-  </div>
-</div>
-
-<div class="tabs">
-   <ul>
-      <li><a data-tab-id="tab1" href="#" class="selected">Lähimmät</a></li>
-      <li><a data-tab-id="tab2" href="#">Edelliset</a></li>
-      <li><a data-tab-id="tab3" href="#"><i class="icon icon-favourite"></i> Suosikit</a></li>
-   </ul>
-</div>
-
-<div id="tab1" class="stop-cards tab-show tab-content tab-active">
-  <div class="stop-card cursor-pointer">
-    <span class="favourite"><i class="icon icon-favourite"></i></span>
-    <h3>Ratamestarinkatu ›</h3>
-    <p class="location">Asemapäällikönk. 8 // 2166 // 88m</p>
-    <p class="transport">
-      <span class="next-departure">14:44</span>
-      <span class="following-departure">15:04</span>
-      <i class="icon icon-bus bus"></i>
-      <span class="vehicle-number bus">504</span>
-      <i class="icon icon-arrow-right bus"></i>
-      <span class="destination">Kivenlahti</span>
-    </p>
-  </div>
-
-  <div class="stop-card">
-    <span class="favourite"><i class="icon icon-favourite"></i></span>
-    <h3>Asemapäällikönkatu ›</h3>
-    <p class="location">Ratamestarinkatu // 0662 // 120m</p>
-    <p class="transport">
-      <span class="next-departure">3 min</span>
-      <span class="following-departure">10 min</span>
-      <i class="icon icon-tram tram"></i>
-      <span class="vehicle-number tram">9</span>
-      <i class="icon icon-arrow-right tram"></i>
-      <span class="destination">Pasila</span>
-    </p>
-  </div>
-
-  <div class="stop-card">
-    <span class="favourite selected"><i class="icon icon-favourite"></i></span>
-    <h3>Pyöräilystadion ›</h3>
-    <p class="location">Ratamestarinkatu // 2430 // 560m</p>
-    <p class="transport">
-      <span class="next-departure">0 min</span>
-      <span class="following-departure">10 min</span>
-      <i class="icon icon-bus bus"></i>
-      <span class="vehicle-number bus">615</span>
-      <i class="icon icon-arrow-right bus"></i>
-      <span class="destination">Rautatientori</span>
-    </p>
-    <p class="transport">
-      <span class="next-departure">0 min</span>
-      <span class="following-departure">9 min</span>
-      <i class="icon icon-bus bus"></i>
-      <span class="vehicle-number bus">620</span>
-      <i class="icon icon-arrow-right bus"></i>
-      <span class="destination">Rautatientori</span>
-    </p>
-    <p class="transport">
-      <span class="next-departure">14:31</span>
-      <span class="following-departure">15:31</span>
-      <i class="icon icon-bus bus"></i>
-      <span class="vehicle-number bus">15</span>
-      <i class="icon icon-arrow-right bus"></i>
-      <span class="destination">Pasila</span>
-    </p>
-  </div>
-</div>
-
-<div id="tab2" class="stop-cards tab-content">
-  <div class="stop-card">
-    Edelliset
-  </div>
-</div>
-
-<div id="tab3" class="stop-cards tab-content">
-  <div class="stop-card">
-    Suosikit
-  </div>
+      <div class="row">
+        <div id="tab2" class="stop-cards tab-content">
+          <div class="small-12 medium-6 large-4 columns end">
+            <div class="stop-card">
+              Edelliset
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="tab3" class="stop-cards tab-content">
+          <div class="small-12 medium-6 large-4 columns end">
+            <div class="stop-card">
+              Suosikit
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>

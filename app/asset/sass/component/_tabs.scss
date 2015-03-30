@@ -2,6 +2,7 @@ $tab-color: $gray-blue;
 $tab-selected-color: $black;
 $tab-separator-color: $light-gray;
 $tab-favourite-icon-size: 30px;
+$tab-min-width: 100px;
 
 .tabs {
    width:100%;
@@ -29,7 +30,7 @@ $tab-favourite-icon-size: 30px;
    position:relative;
    right:50%;
    border-right: 1px solid $tab-separator-color;
-   min-width: 120px;
+   min-width: $tab-min-width;
 }
 
 .tabs li:last-child {

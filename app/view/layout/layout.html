@@ -11,62 +11,7 @@
 </head>
   <body>
 
-    <nav id="offcanvas-left" class="offcanvas-menu">
-      <header class="offcanvas-header offcanvas-section">
-        <p class="offcanvas-lead">
-            Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi
-        </p>
-        <div class="offcanvas-login">
-          <div class="inline-block">
-            <i class="icon icon-profile"></i>
-          </div>
-          <div class="inline-block">  
-            <p>
-              <a href="#">Luo tunnus <i class="icon icon-arrow-right"></i></a>
-            </p>
-            <p>
-              <a href="#">Kirjaudu sisään <i class="icon icon-arrow-right"></i></a>
-            </p>
-          </div>
-        </div> 
-      </header>
-      
-      <section class="offcanvas-section">
-        <ul class="offcanvas-list">
-          <li><a href="#">Matkaliput <i class="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">Linjat <i class="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">Pysäkit <i class="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">Asetukset <i class="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">Käyttöehdot <i class="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">HSL:n yhteystiedot <i class="icon icon-arrow-right"></i></a></li>
-        </ul>
-      </section>
-    </nav>
-
-    <div class="slideout-wrapper">
-      <main id="main" class="panel">
-        <header>
-          <nav class="top-navigation">
-            <div class="left left-icons">
-              <span id="reveal-left-offcanvas" class="cursor-pointer">
-                <i class="icon icon-hamburger"></i>
-              </span>
-              <i class="icon icon-disruption-info"></i>
-            </div>
-            <div class="text-center">
-              <i class="icon icon-hsl-logo"></i>
-              <span class="title">Reittiopas</span>
-            </div>
-            <div class="right-icons">
-              Nyt
-            </div>
-          </nav>
-        </header>
-        <section class="content">
-          {{{ yield }}}
-        </section>
-      </main>
-    </div>
+    {{{ yield }}}
 
     <!-- Livereload. TODO Remove before production usage -->
     <script src="//localhost:9000"></script> 

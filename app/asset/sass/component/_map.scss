@@ -1,4 +1,21 @@
 div.map {
-  height: 155px;
   background-color: gray;
+}
+
+@media #{$small-up} { 
+  div.map {
+    height: 155px;
+  }
+}
+
+@media #{$medium-up} { 
+  div.map {
+    height: 300px;
+  }
+}
+
+@media #{$large-up} { 
+  div.map {
+    height: 500px;
+  }
 }

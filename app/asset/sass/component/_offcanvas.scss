@@ -1,3 +1,5 @@
+$offcanvas-width: 256px;
+$offcanvas-background-color: #333333;
 $offcanvas-profile-icon-size: 60px;
 $offcanvas-profile-icon-color: $white;
 $offcanvas-lead-text-color: $gray;
@@ -18,11 +20,11 @@ $offcanvas-link-arrow-icon-size: 30px;
   bottom: 0;
   right: 0;
   z-index: 0;
-  width: 256px;
+  width: $offcanvas-width;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   display: none;
-  background-color: #333333;
+  background-color: $offcanvas-background-color;
 }
 
 .slideout-panel {

@@ -12,8 +12,7 @@ $input-prefix-border-type: none;
 $input-prefix-border-width: 0;
 
 input {
-  border-top-left-radius: $form-input-border-radius !important;
-  border-bottom-left-radius: $form-input-border-radius !important;
+  border-radius: $form-input-border-radius;
   height: 35px;
 }
 
@@ -22,12 +21,12 @@ input {
   color: $form-input-transparent-color !important;
 }
 
-.postfix {
+span.postfix {
   border-top-right-radius: $border-radius !important;
   border-bottom-right-radius: $border-radius !important;
 }
 
-.prefix {
+span.prefix {
   border-top-left-radius: $border-radius !important;
   border-bottom-left-radius: $border-radius !important;
 }

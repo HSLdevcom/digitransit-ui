@@ -3,14 +3,41 @@ $top-navigation-color: $white;
 $top-navigation-title-font-family: $font-family;
 $top-navigation-title-font-size: 17px;
 $top-navigation-icon-size: 30px;
+$top-navigation-height: 40px;
+$top-navigation-sub-background-color: #dddddd;
+$top-navigation-sub-input-background-color: #B1B1B1;
+$top-navigation-sub-color: $white;
+$top-navigation-sub-height: 40px;
+$top-navigation-sub-font-size: 13px;
+$top-navigation-switch-background-color: #0068AB;
+$top-navigation-switch-background-color-active: $hsl-blue;
+$top-navigation-switch-color: $white;
+$top-navigation-switch-height: 23px;
+$top-navigation-switch-font-size: 13px;
+$top-navigation-switch-width: 70px;
+$top-navigation-switch-border-radius: 30px;
 
 .top-navigation {
-  padding-left: 10px;
-  padding-right: 10px;
   background-color: $top-navigation-background-color;
-  height: 40px;
-  line-height: 40px;
+  height: $top-navigation-height;
+  line-height: $top-navigation-height;
   color: $top-navigation-color;
+}
+
+#main header {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+
+section.content {
+  position: relative;
+  top: $top-navigation-height;
+  z-index: 1;
+}
+
+section.content.sub-navigation-push {
+  top: $top-navigation-height + $top-navigation-sub-height;
 }
 
 .top-navigation .left-icons {
@@ -32,4 +59,85 @@ $top-navigation-icon-size: 30px;
 
 .top-navigation i.icon {
   font-size: $top-navigation-icon-size;
+}
+
+button.sub-navigation-switch {
+  color: $top-navigation-switch-color;
+  background-color: $top-navigation-switch-background-color;
+  height: $top-navigation-switch-height;
+  border-radius: $top-navigation-switch-border-radius;
+  width: $top-navigation-switch-width;
+  font-size: $top-navigation-switch-font-size;
+  text-transform: uppercase;
+  padding: 0;
+}
+
+button.sub-navigation-switch:focus {
+  outline: 0;
+}
+
+button.sub-navigation-switch:active {
+  background-color: $top-navigation-switch-background-color-active;
+}
+
+.sub-navigation {
+  background-color: $top-navigation-sub-background-color;
+  height: $top-navigation-sub-height;
+  color: $top-navigation-sub-color;
+  font-size: $top-navigation-sub-font-size;
+  width: 100%;
+  position: fixed;
+  top: $top-navigation-height;
+  display: none;
+  text-align: left;
+}
+
+.sub-navigation .arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid $top-navigation-sub-background-color;
+  position: absolute;
+  right: 35px;
+  top: -8px;
+}
+
+.sub-navigation input,
+.sub-navigation select, {
+  background-color: $top-navigation-sub-input-background-color;
+  height: 25px;
+  display: inline-block !important;
+  color: $top-navigation-sub-color;
+}
+
+.sub-navigation input:focus,
+.sub-navigation select:focus {
+  background-color: $top-navigation-sub-input-background-color;
+  outline: none;
+}
+
+.sub-navigation input.time {
+  width: 30px;
+}
+
+.sub-navigation select {
+  width: 120px;
+  border-radius: $border-radius;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.sub-navigation input.time.hour {
+  border-top-left-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.sub-navigation input.time.minute {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
 }
