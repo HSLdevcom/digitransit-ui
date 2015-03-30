@@ -10,7 +10,7 @@
     "static": "cp -r app/asset/static/* app/_static; cp -r app/asset/font/* app/_static/font/",
     
     "precss:build": "npm run folder",
-    "css:build": "cat node_modules/purecss/build/pure-min.css > app/_static/css/bundle.css && node-sass app/asset/sass/main.scss --stdout >> app/_static/css/bundle.css",
+    "css:build": "node-sass app/asset/sass/main.scss --stdout > app/_static/css/bundle.css",
     "css:watch": "watch --wait=1 'npm run css:build' app/asset/sass/",
     
     "prebrowserify:build": "npm run folder",
