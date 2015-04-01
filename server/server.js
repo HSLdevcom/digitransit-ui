@@ -10,7 +10,7 @@ var app = express()
 
 /********** Routes **********/
 var index = require('./route/index')
-var appRoot = process.cwd() + "/app"
+var appRoot = process.cwd() + "/"
 
 /* Setup functions */
 function setUpStaticFolders() {  

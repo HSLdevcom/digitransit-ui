@@ -1,4 +1,4 @@
 .DS_Store
-app/_static
+_static
 npm-debug.log
 node_modules
