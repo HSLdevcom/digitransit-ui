@@ -1,26 +1,21 @@
 React = require('react');
 ReactPropTypes = React.PropTypes;
 LocateActions = require('../action/locate-actions.coffee')
-LocationStore = require('../store/location-store.coffee');
+LocationStore = require('../store/location-store.coffee')
 
-getLocationState = ->
-  lat: LocationStore.lat
-  lon: LocationStore.lon
-  address: LocationStore.address
-
-
-Locate = React.createClass
-  getInitialState: -> 
-    getLocationState() 
+class Locate extends React.Component
+  constructor: -> 
+    super
+    @state = LocationStore.getLocationState() 
   
   componentDidMount: -> 
-    LocationStore.addChangeListener(this.onChange)
+    LocationStore.addChangeListener @onChange
 
   componentWillUnmount: ->
-    LocationStore.removeChangeListener(this.onChange)
+    LocationStore.removeChangeListener @onChange
 
-  onChange: ->
-    this.setState(getLocationState())
+  onChange: =>
+    @setState LocationStore.getLocationState()
 
   render: ->
     location = this.state.lat + ": " + this.state.lon + ", " + this.state.address
