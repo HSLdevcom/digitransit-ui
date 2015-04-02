@@ -26,8 +26,8 @@ function setUpStaticFolders() {
 }
 
 function setUpViewEngine() {
-  app.set('views', appRoot + '/view')
-  app.set('layout', 'layout/layout');
+  app.set('views', appRoot + '/js')
+  app.set('layout', 'app');
   app.engine('html', hoganExpress)
   app.set('view engine', 'html')
 }

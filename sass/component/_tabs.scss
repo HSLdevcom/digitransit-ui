@@ -4,14 +4,14 @@ $tab-separator-color: $light-gray;
 $tab-favourite-icon-size: 30px;
 $tab-min-width: 100px;
 
-.tabs {
+.tabs-navigation {
    width:100%;
    overflow:hidden;
    position:relative;
    text-transform: uppercase;
    margin-top: 10px;
 }
-.tabs ul {
+.tabs-navigation ul {
    clear:left;
    float:left;
    list-style:none;
@@ -21,7 +21,7 @@ $tab-min-width: 100px;
    left:50%;
    text-align:center;
 }
-.tabs ul li {
+.tabs-navigation ul li {
    display:block;
    float:left;
    list-style:none;
@@ -33,11 +33,11 @@ $tab-min-width: 100px;
    min-width: $tab-min-width;
 }
 
-.tabs li:last-child {
+.tabs-navigation li:last-child {
   border-right: none;
 }
 
-.tabs ul li a {
+.tabs-navigation ul li a {
    color: $tab-color;
    display:block;
    margin:0 0 0 1px;
@@ -46,22 +46,18 @@ $tab-min-width: 100px;
    line-height:1.3em;
 }
 
-.tabs ul li i.icon {
+.tabs-navigation ul li i.icon {
   font-size: $tab-favourite-icon-size;   
 }
 
-.tabs ul li a:hover {
+.tabs-navigation ul li a:hover {
    color: $tab-selected-color;
 }
-.tabs ul li a.selected,
-.tabs ul li a.selected:hover {
+.tabs-navigation ul li.is-active a,
+.tabs-navigation ul li a.selected:hover {
   color: $tab-selected-color;
 }
 
-.tab-content {
-  display: none;
-}
-
-.tab-content.tab-active {
-  display: block;
+.tab-panel {
+   margin-top: 20px;
 }
