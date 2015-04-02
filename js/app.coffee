@@ -28,7 +28,7 @@ App = React.createClass
 # Routes
 routes = 
   <Route name="app" path="/" handler={App}>
-    <Route path="/pysakit/:stopId" name="stop" handler={StopPage}/>
+    <Route path="pysakit/:stopId" name="stop" handler={StopPage}/>
     <DefaultRoute handler={IndexPage}/>
     <NotFoundRoute handler={Error404}/>
   </Route>
