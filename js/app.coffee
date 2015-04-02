@@ -29,6 +29,9 @@ App = React.createClass
 routes = 
   <Route name="app" path="/" handler={App}>
     <Route path="pysakit/:stopId" name="stop" handler={StopPage}/>
+    # TEMP solution for dev
+    <Route path="/openjourneyplanner-ui/" name="devindex" handler={IndexPage}/>
+    <Route path="/openjourneyplanner-ui/pysakit/:stopId" name="devstop" handler={StopPage}/>
     <DefaultRoute handler={IndexPage}/>
     <NotFoundRoute handler={Error404}/>
   </Route>
