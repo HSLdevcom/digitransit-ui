@@ -5,6 +5,6 @@ module.exports = {
         title: "Reittiopas"
       } 
     }
-    res.render('page')
+    res.render('app')
   }
 }

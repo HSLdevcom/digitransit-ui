@@ -1,15 +1,14 @@
 # Libraries
-React = require('react')
-Dispatcher = require('./dispatcher/dispatcher.coffee')
-LocationStore = require('./store/location-store.coffee')
-Router = require('react-router')
-FastClick = require('fastclick')
-React = require('react')
-
+React         = require 'react'
+Dispatcher    = require './dispatcher/dispatcher.coffee'
+LocationStore = require './store/location-store.coffee'
+Router        = require 'react-router'
+FastClick     = require 'fastclick'
+React         = require 'react'
 # React Pages
-IndexPage = require('./page/index.coffee');
-StopPage = require('./page/stop.coffee');
-Error404 = require('./page/404.coffee');
+IndexPage     = require './page/index.coffee'
+StopPage      = require './page/stop.coffee'
+Error404      = require './page/404.coffee'
 
 # Enable Fastclick
 window.addEventListener 'load', () ->
@@ -38,5 +37,5 @@ routes =
 
 # Run application
 Router.run(routes, Router.HistoryLocation, (Handler) -> 
-  React.render(<Handler/>, document.getElementById('page'))
+  React.render(<Handler/>, document.getElementById('app'))
 )

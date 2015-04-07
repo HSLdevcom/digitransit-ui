@@ -1,4 +1,4 @@
-Dispatcher = require('../dispatcher/dispatcher.coffee');
+Dispatcher = require '../dispatcher/dispatcher.coffee'
 
 class LocateActions
 

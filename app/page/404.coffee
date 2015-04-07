@@ -1,10 +1,10 @@
-React = require('react');
+React = require 'react'
 
 Page = React.createClass
 
   render: ->
     <div>
-      <p>This is stop page</p>
+      <p>Bummer! page is not found</p>
     </div>
 
 module.exports = Page

@@ -1,8 +1,8 @@
-React = require('react');
-IndexNavigation = require('../component/index-navigation/index-navigation.cjsx')
-IndexOffcanvas = require('../component/index-offcanvas/index-offcanvas.cjsx')
-Map = require('../component/map/map.cjsx')
-StopTabs = require('../component/stop-tabs/stop-tabs.cjsx')
+React           = require 'react'
+IndexNavigation = require '../component/index-navigation/index-navigation.cjsx'
+IndexOffcanvas  = require '../component/index-offcanvas/index-offcanvas.cjsx'
+Map             = require '../component/map/map.cjsx'
+StopTabs        = require '../component/stop-cards/stop-tabs.cjsx'
 
 Page = React.createClass
   render: ->

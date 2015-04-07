@@ -1,28 +1,28 @@
-React = require('react');
-$ = require('jquery')
-IndexSubNavigation = require('./index-sub-navigation.cjsx')
+React              = require 'react'
+$                  = require 'jquery'
+IndexSubNavigation = require './index-sub-navigation.cjsx'
 
-IndexNavigation = React.createClass
+class IndexNavigation extends React.Component
+  constructor: -> 
+    super
+    @state =
+      subNavigationVisible: false
+      text: 'nyt'    
 
-  getInitialState: -> 
-    subNavigationVisible: false
-    text: 'nyt'
-
-  toggleSubnavigation: -> 
-    if this.state.subNavigationVisible
-      this.setState
+  toggleSubnavigation: => 
+    if @state.subNavigationVisible
+      @setState
         subNavigationVisible: false
         text: 'nyt'
       # TODO, how about this?
       $("section.content").removeClass("sub-navigation-push")
     else 
-      this.setState
+      @setState
         subNavigationVisible: true
         text: 'aika'
       $("section.content").addClass("sub-navigation-push")
 
   render: ->
-
     <header>
       <nav className="top-navigation">
         <div className="left left-icons">
@@ -36,9 +36,9 @@ IndexNavigation = React.createClass
           <span className="title">Reittiopas</span>
         </div>
         <div className="right-icons">
-          <button className="sub-navigation-switch" onClick={this.toggleSubnavigation}>{this.state.text}</button>
+          <button className="sub-navigation-switch" onClick={@toggleSubnavigation}>{@state.text}</button>
         </div>
-        <IndexSubNavigation visible={this.state.subNavigationVisible}/>
+        <IndexSubNavigation visible={@state.subNavigationVisible}/>
       </nav>
     </header>
 

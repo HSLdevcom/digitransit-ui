@@ -1,8 +1,8 @@
-React = require('react');
-Slideout = require('slideout')
-$ = require('jquery') 
+React    = require 'react'
+Slideout = require 'slideout'
+$        = require 'jquery'
 
-IndexOffcanvas = React.createClass
+class IndexOffcanvas extends React.Component
   componentDidMount: -> 
     slideout = new Slideout
       'panel': document.getElementById('main'),

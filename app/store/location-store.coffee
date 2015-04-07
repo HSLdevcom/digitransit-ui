@@ -19,8 +19,13 @@ class LocationStore extends Store
     @address='Opastinsilta 6a'
     @emitChanges()
 
+  getLocationState: () ->
+    lat: @lat
+    lon: @lon
+    address: @address
+
   register: -> 
-    Dispatcher.register (action) => 
+    @dispatchToken = Dispatcher.register (action) => 
       switch action.actionType
         when "GeolocationFound" then @storeLocation(action.lat, action.lon)
         when "GeolocationRemoved" then @removeLocation()

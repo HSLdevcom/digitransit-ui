@@ -1,12 +1,12 @@
-React = require('react')
+React = require 'react'
 
-IndexSubNavigation = React.createClass
-  
-  propTypes:
+class IndexSubNavigation extends React.Component
+
+  propTypes =
     visible: React.PropTypes.bool.isRequired
 
   render: ->
-    if not this.props.visible
+    if not @props.visible
       return null
 
     <div className="sub-navigation">
