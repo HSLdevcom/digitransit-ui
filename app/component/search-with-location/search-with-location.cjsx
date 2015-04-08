@@ -1,6 +1,5 @@
 React          = require 'react'
 $              = require 'jquery'
-_              = require 'lodash'
 Typeahead      = require 'typeaheadjs-shim'
 Bloodhound     = require 'bloodhound-shim'
 LocateActions  = require '../../action/locate-actions.coffee'
@@ -24,7 +23,7 @@ class SearchWithLocation extends React.Component
         rateLimitBy: 'debounce'
         rateLimitWait: 100
         filter: (data) -> 
-          _.map(data.responses[0].aggregations.streets.buckets, (result) -> {'value': result.key, 'type': 'address'})
+          data.responses[0].aggregations.streets.buckets.map (result) -> {'value': result.key, 'type': 'address'}
 
     geoData.initialize()
 
