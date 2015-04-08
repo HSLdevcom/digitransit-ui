@@ -4,9 +4,9 @@
 @import 'base/form';
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/grid';
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/forms';
-@import 'component/top-navigation';
-@import 'component/offcanvas';
-@import 'component/stop-card';
-@import 'component/tabs';
-@import 'component/map';
-@import 'component/search';
+@import '../app/component/index-navigation/index-navigation';
+@import '../app/component/index-offcanvas/index-offcanvas';
+@import '../app/component/stop-cards/stop-cards';
+@import '../app/component/stop-cards/stop-tabs';
+@import '../app/component/map/map';
+@import '../app/component/search-with-location/search-with-location';
