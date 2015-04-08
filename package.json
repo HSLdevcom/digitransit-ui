@@ -14,7 +14,8 @@
     "browserify:build": "browserify -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/app.coffee > _static/js/bundle.js; echo 'Bundle built.'",
     "browserify:watch": "watch --wait=1 'npm run browserify:build' app",
     "livereload": "live-reload --port 9000 _static view",
-    "watch": "npm run static; parallelshell 'npm run css:watch' 'npm run browserify:watch' 'node server/server.js' 'npm run livereload'"
+    "watch": "npm run static; parallelshell 'npm run css:watch' 'npm run browserify:watch' 'node server/server.js' 'npm run livereload'",
+    "discify": "browserify --full-paths -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/app.coffee > _static/js/bundle.js; discify _static/js/bundle.js > filesizes.html; echo 'See filesizes.html' with browser"
   },
   "main": "server.js",
   "repository": {
