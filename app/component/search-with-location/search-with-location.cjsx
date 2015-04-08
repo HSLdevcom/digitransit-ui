@@ -1,4 +1,8 @@
 React          = require 'react'
+$              = require 'jquery'
+_              = require 'lodash'
+Typeahead      = require 'typeaheadjs-shim'
+Bloodhound     = require 'bloodhound-shim'
 LocateActions  = require '../../action/locate-actions.coffee'
 LocationStore  = require '../../store/location-store.coffee'
 ReactPropTypes = React.PropTypes;
@@ -11,8 +15,44 @@ class SearchWithLocation extends React.Component
   componentDidMount: -> 
     LocationStore.addChangeListener @onChange
 
+    # Create geocoding datasource
+    geoData = new Bloodhound
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
+      queryTokenizer: Bloodhound.tokenizers.whitespace
+      remote: 
+        url: 'http://localhost:9002/geo.json?q=%QUERY'
+        rateLimitBy: 'debounce'
+        rateLimitWait: 100
+        filter: (data) -> 
+          _.map(data.responses[0].aggregations.streets.buckets, (result) -> {'value': result.key, 'type': 'address'})
+
+    geoData.initialize()
+
+    # create typeahead
+    $(@refs.typeahead.getDOMNode()).typeahead {
+      hint: false
+      highlight: true
+      minLength: 2
+    }, {
+      name: 'geodata'
+      displayKey: 'value'
+      source: geoData.ttAdapter()
+      templates:
+          suggestion: (result) ->
+            switch result.type
+              when 'address' then return "<p class='address'><i class='icon icon-pin'>#{result.value}</i></p>"
+              when 'poi' then return "<p class='poi'>#{result.value} (poi)</p>"
+              else return "<p>#{result.value}</p>"
+    }
+
+    # Move window when search gets focus
+    $(@refs.typeahead.getDOMNode()).focus () -> 
+      location = $(this).offset().top - 45
+      $('hmtl, body').scrollTop(location)
+
   componentWillUnmount: ->
     LocationStore.removeChangeListener @onChange
+    $(@refs.typeahead.getDOMNode()).typeahead('destroy')
 
   onChange: =>
     @setState LocationStore.getLocationState()
@@ -43,7 +83,7 @@ class SearchWithLocation extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              <input type="text" placeholder="Määränpään osoite, linja, pysäkki tai aika" />
+              <input type="text" ref="typeahead" placeholder="Määränpään osoite, linja, pysäkki tai aika" />
             </div>
             <div className="small-1 columns">
               <span className="postfix search"><i className="icon icon-search"></i></span>

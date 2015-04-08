@@ -22,7 +22,7 @@ RouteHandler = Router.RouteHandler
 
 App = React.createClass
   render: ->
-    <RouteHandler/>
+    <RouteHandler/> 
 
 # Routes
 routes = 

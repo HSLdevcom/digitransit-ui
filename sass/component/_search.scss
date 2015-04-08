@@ -1,7 +1,70 @@
+/* Calculate some extra width for typeahead results*/
+$search-result-width: grid-calc($total-columns+1, $total-columns) + 1;
+$search-result-background-color: $white;
+$search-result-text-color: $black;
+$search-result-text-font-weight: 300;
+$search-result-text-highlight-color: $black;
+$search-result-text-highlight-font-weight: 300;
+$search-result-text-highlight-background-color: $light-gray;
+$search-result-text-match-color: $black;
+$search-result-text-match-font-weight: 600;
+$search-result-border-radius: $border-radius;
+$search-result-max-height: 200px;
+$search-result-font-family: $font-family;
+
 .search-form {
   padding-top: 10px;
 }
 
-.search-form input {
+.search-form input.tt-input {
   margin-bottom: 6px;
 }
+
+.search-form input {
+  margin-bottom: 7px !important;
+}
+
+.search-form .tt-dropdown-menu {
+  background-color: $search-result-background-color;
+  color: $search-result-text-color;
+  font-weight: $search-result-text-font-weight;
+  width: $search-result-width;
+  font-family: $search-result-font-family;
+  border-radius: $search-result-border-radius;
+}
+
+.search-form .tt-cursor {
+  color: $search-result-text-highlight-color;
+  font-weight: $search-result-text-highlight-font-weight;
+  background-color: $search-result-text-highlight-background-color;
+}
+
+.search-form .tt-suggestion {
+  padding: 0;
+  margin: 0;
+}
+
+.search-form .tt-suggestion p {
+  padding: 0;
+  margin: 0;
+}
+
+.search-form .tt-suggestion p strong {
+  font-weight: $search-result-text-match-font-weight;
+  color: $search-result-text-match-color;
+}
+
+.search-form .tt-dataset-geodata {
+  width: 100%;
+  padding: 5px;
+  max-height: $search-result-max-height;
+  overflow: auto;
+  box-shadow: 0px 2px 15px gray;
+  border-radius: $search-result-border-radius;
+}
+
+.search-form .twitter-typeahead {
+  width: 100%;
+}
+
+

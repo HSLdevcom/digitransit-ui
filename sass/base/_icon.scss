@@ -60,6 +60,11 @@ i.icon.icon-location:before {
   content: '1';
 }
 
+i.icon.icon-pin:before {
+  @extend .icon-other-font-family;
+  content: 'i';
+}
+
 /* Vehicle icons */
 
 i.icon.icon-bus:before {

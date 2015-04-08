@@ -37,7 +37,7 @@ class IndexNavigation extends React.Component
         </div>
         <div className="right-icons">
           <button className="sub-navigation-switch" onClick={@toggleSubnavigation}>{@state.text}</button>
-        </div>
+        </div>        
         <IndexSubNavigation visible={@state.subNavigationVisible}/>
       </nav>
     </header>
