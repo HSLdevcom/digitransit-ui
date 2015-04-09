@@ -9,7 +9,7 @@
     "static": "cp -r static/* _static; cp -r font/* _static/font/",
     "precss:build": "npm run folder",
     "css:build": "node-sass sass/main.scss --stdout > _static/css/bundle.css",
-    "css:watch": "watch --wait=1 'npm run css:build' sass/",
+    "css:watch": "watch --wait=1 'npm run css:build' app/component",
     "prebrowserify:build": "npm run folder",
     "browserify:build": "browserify -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/app.coffee > _static/js/bundle.js; echo 'Bundle built.'",
     "browserify:watch": "watch --wait=1 'npm run browserify:build' app",

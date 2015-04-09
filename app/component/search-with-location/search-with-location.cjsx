@@ -6,6 +6,8 @@ LocateActions  = require '../../action/locate-actions.coffee'
 LocationStore  = require '../../store/location-store.coffee'
 ReactPropTypes = React.PropTypes;
 
+GEOCODING_SUGGEST_URL = 'http://matka.hsl.fi/geocoder/suggest/'
+
 class SearchWithLocation extends React.Component
   constructor: -> 
     super
@@ -19,7 +21,7 @@ class SearchWithLocation extends React.Component
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
       queryTokenizer: Bloodhound.tokenizers.whitespace
       remote: 
-        url: 'http://localhost:9002/geo.json?q=%QUERY'
+        url: GEOCODING_SUGGEST_URL + '%QUERY'
         rateLimitBy: 'debounce'
         rateLimitWait: 100
         filter: (data) -> 
@@ -57,7 +59,7 @@ class SearchWithLocation extends React.Component
     @setState LocationStore.getLocationState()
 
   render: ->
-    location = this.state.lat + ": " + this.state.lon + ", " + this.state.address
+    location = this.state.lat + ", " + this.state.lon
     <form className="search-form">
       <div className="row">
         <div className="small-12 medium-6 medium-offset-3 columns">
@@ -72,7 +74,7 @@ class SearchWithLocation extends React.Component
             </div>
             <div className="small-1 columns">
               <span className="postfix transparent" onClick={this.removeLocation}>
-                <i className="icon icon-clear"></i>
+                X
               </span>
             </div>
           </div>

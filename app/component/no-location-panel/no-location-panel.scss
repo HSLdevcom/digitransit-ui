@@ -1,0 +1,19 @@
+$no-location-panel-text-color: $gray;
+$no-location-panel-locate-yourself-text-color: $gray;
+$no-location-panel-locate-yourself-font-size: 17px;
+
+.no-location-panel p {
+  color: $no-location-panel-text-color;
+}
+
+.locate-yourself {
+  color: $gray-blue;
+  font-size: $no-location-panel-locate-yourself-font-size;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+
+.locate-yourself .link {
+  border-bottom: 1px dashed $no-location-panel-locate-yourself-text-color;
+}

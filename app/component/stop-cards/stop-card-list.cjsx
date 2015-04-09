@@ -13,6 +13,7 @@ class StopCardList extends React.Component
   componentDidMount: -> 
     NearestStopsStore.addChangeListener @onChange 
     LocationStore.addChangeListener @onLocationChange
+    @onLocationChange()
 
   componentWillUnmount: ->
     NearestStopsStore.removeChangeListener @onChange

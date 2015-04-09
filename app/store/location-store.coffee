@@ -2,6 +2,10 @@ Dispatcher = require('../dispatcher/dispatcher.coffee')
 Store = require('./store.coffee')
 
 class LocationStore extends Store
+
+  STATUS_NO_LOCATION: 'no-location'
+  STATUS_FOUND_LOCATION: 'found-location'
+
   constructor: ->
     super()
     @removeLocation()
@@ -10,19 +14,22 @@ class LocationStore extends Store
   removeLocation: () ->
     @lat = 0
     @lon = 0
-    @address='Ei osoitetta'
+    @address = ''
+    @status = @STATUS_NO_LOCATION
     @emitChanges()
 
   storeLocation: (lat, lon) ->
     @lat = lat
     @lon = lon
     @address='Opastinsilta 6a'
+    @status = @STATUS_FOUND_LOCATION
     @emitChanges()
 
   getLocationState: () ->
     lat: @lat
     lon: @lon
     address: @address
+    status: @status
 
   register: -> 
     @dispatchToken = Dispatcher.register (action) => 
