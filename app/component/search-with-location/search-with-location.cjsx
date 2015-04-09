@@ -18,6 +18,7 @@ class SearchWithLocation extends React.Component
 
     # Create geocoding datasource
     geoData = new Bloodhound
+      limit: 50
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
       queryTokenizer: Bloodhound.tokenizers.whitespace
       remote: 
@@ -25,7 +26,10 @@ class SearchWithLocation extends React.Component
         rateLimitBy: 'debounce'
         rateLimitWait: 100
         filter: (data) -> 
-          data.responses[0].aggregations.streets.buckets.map (result) -> {'value': result.key, 'type': 'address'}
+          streets = data.streetnames.map (result) -> {'value': result.key, 'type': 'address'}
+          stops = data.stops.map (result) -> {'value': result.stop_name, 'type': 'stop'}
+          all = streets.concat stops
+          return all
 
     geoData.initialize()
 
@@ -41,8 +45,8 @@ class SearchWithLocation extends React.Component
       templates:
           suggestion: (result) ->
             switch result.type
-              when 'address' then return "<p class='address needsclick'><i class='icon icon-pin'>#{result.value}</i></p>"
-              when 'poi' then return "<p class='poi'>#{result.value} (poi)</p>"
+              when 'address' then return "<p class='address'><i class='icon icon-pin'> #{result.value}</i></p>"
+              when 'stop' then return "<p class='stop'><i class='icon icon-bus'> #{result.value}</i></p>"
               else return "<p>#{result.value}</p>"
     }
 
@@ -50,10 +54,6 @@ class SearchWithLocation extends React.Component
     $(@refs.typeahead.getDOMNode()).focus () -> 
       location = $(this).offset().top - 45
       $('hmtl, body').scrollTop(location)
-
-    # Add 'needsclick' class for all search results.
-    # Without this fastclick breaks selection of results on IOS devices.
-    $(@refs.typeahead.getDOMNode()).addClass('needsclick');
 
   componentWillUnmount: ->
     LocationStore.removeChangeListener @onChange

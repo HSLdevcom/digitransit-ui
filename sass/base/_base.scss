@@ -1,6 +1,12 @@
 /* Override foundation base */
 $column-gutter: 20px;
 
+/* Disable touch delay on ms-devices */
+html {
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
 body {
   background-color: $background-color !important;
   font-family: $font-family;
