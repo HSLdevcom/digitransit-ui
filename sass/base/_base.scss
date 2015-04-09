@@ -2,7 +2,7 @@
 $column-gutter: 20px;
 
 body {
-  background: $background-color;
+  background-color: $background-color !important;
   font-family: $font-family;
   -webkit-font-smoothing: antialiased;
 }

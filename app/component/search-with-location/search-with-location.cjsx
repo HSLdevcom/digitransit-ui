@@ -41,7 +41,7 @@ class SearchWithLocation extends React.Component
       templates:
           suggestion: (result) ->
             switch result.type
-              when 'address' then return "<p class='address'><i class='icon icon-pin'>#{result.value}</i></p>"
+              when 'address' then return "<p class='address needsclick'><i class='icon icon-pin'>#{result.value}</i></p>"
               when 'poi' then return "<p class='poi'>#{result.value} (poi)</p>"
               else return "<p>#{result.value}</p>"
     }
@@ -50,6 +50,10 @@ class SearchWithLocation extends React.Component
     $(@refs.typeahead.getDOMNode()).focus () -> 
       location = $(this).offset().top - 45
       $('hmtl, body').scrollTop(location)
+
+    # Add 'needsclick' class for all search results.
+    # Without this fastclick breaks selection of results on IOS devices.
+    $(@refs.typeahead.getDOMNode()).addClass('needsclick');
 
   componentWillUnmount: ->
     LocationStore.removeChangeListener @onChange
@@ -70,7 +74,7 @@ class SearchWithLocation extends React.Component
               </span>
             </div>
             <div className="small-10 columns">
-              <input type="text" placeholder={location} className="transparent"/>
+              <input type="text" placeholder={location} className="transparent" onClick={this.locateUser} disabled/>
             </div>
             <div className="small-1 columns">
               <span className="postfix transparent" onClick={this.removeLocation}>
