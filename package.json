@@ -13,7 +13,7 @@
     "prebrowserify:build": "npm run folder",
     "browserify:build": "browserify -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/app.coffee > _static/js/bundle.js; echo 'Bundle built.'",
     "browserify:watch": "watch --wait=1 'npm run browserify:build' app",
-    "livereload": "live-reload --port 9000 _static view",
+    "livereload": "live-reload --port 9000 _static",
     "watch": "npm run static; parallelshell 'npm run css:watch' 'npm run browserify:watch' 'node server/server.js' 'npm run livereload'",
     "discify": "browserify --full-paths -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/app.coffee > _static/js/bundle.js; discify _static/js/bundle.js > filesizes.html; echo 'See filesizes.html' with browser",
     "dist:js": "npm run browserify:build; minify _static/js/bundle.js;",
@@ -63,7 +63,7 @@
     "react-router": "^0.13.2",
     "react-simpletabs": "^0.6.1",
     "slideout": "^0.1.5",
-    "typeahead.js": "^0.10.5",
+    "typeahead.js": "https://github.com/twitter/typeahead.js/tarball/integration-0.11.0",
     "zurb-foundation-5": "^5.4.7"
   },
   "devDependencies": {
