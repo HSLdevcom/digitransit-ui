@@ -1,5 +1,5 @@
-Dispatcher = require('../dispatcher/dispatcher.coffee')
-Store = require('./store.coffee')
+Dispatcher = require '../dispatcher/dispatcher.coffee'
+Store = require './store.coffee'
 LocationStore = require './location-store.coffee'
 
 class NearestStopsStore extends Store

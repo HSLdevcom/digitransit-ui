@@ -1,12 +1,29 @@
-React     = require 'react'
-div       = React.createFactory 'div'
-Departure = require './departure'
-  
-class StopCard extends React.Component
-  StopCard.contextTypes = {
-    router: React.PropTypes.func
-  };
+React                 = require 'react'
+div                   = React.createFactory 'div'
+Departure             = require './departure'
+StopDeparturesStore   = require '../../store/stop-departures-store'
+StopDeparturesActions = require '../../action/stop-departures-action'
 
+
+class StopCard extends React.Component
+  @contextTypes:
+    router: React.PropTypes.func
+
+  constructor: -> 
+    super
+    @state = departures: StopDeparturesStore.departures[@props.id]?
+
+  componentDidMount: -> 
+    StopDeparturesStore.addChangeListener @onChange
+    StopDeparturesActions.stopDeparturesRequest @props.id
+
+  componentWillUnmount: ->
+    StopDeparturesStore.removeChangeListener @onChange
+
+  onChange: =>
+    @setState 
+      departures: StopDeparturesStore.departures[@props.id]
+  
   render: ->
     router = this.context.router
     description = ""
@@ -17,16 +34,21 @@ class StopCard extends React.Component
     if @props.dist
       description += @props.dist + " m"
 
+    departures = []
+
+    for departure in @state.departures
+      departures.push <Departure 
+          times={time.realtimeDeparture for time in departure.times}
+          mode="bus"
+          routeShortName={departure.pattern.shortName}
+          destination={departure.pattern.direction} /> 
+
     <div className="small-12 medium-6 large-4 columns">
       <div className="stop-card cursor-pointer" onClick={() => router.transitionTo('/pysakit/' + @props.id)}>
         <span className="favourite"><i className="icon icon-favourite"></i></span>
         <h3>{@props.name} ›</h3>
         <p className="location">{description}</p>
-        <Departure 
-          times={["14:44", "15:04"]}
-          mode="bus"
-          routeShortName="504"
-          destination="Kivenlahti" />
+        {departures}
       </div>
     </div>
 

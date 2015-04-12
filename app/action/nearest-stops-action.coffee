@@ -1,5 +1,4 @@
 Dispatcher    = require '../dispatcher/dispatcher.coffee'
-LocationStore = require '../store/location-store'
 $             = require 'jquery'
 
 class NearestStopsActions

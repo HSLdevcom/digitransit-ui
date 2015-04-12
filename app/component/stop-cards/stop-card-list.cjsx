@@ -1,7 +1,7 @@
 React               = require 'react' 
-NearestStopsStore   = require '../../store/nearest-stops-store.coffee'
+NearestStopsStore   = require '../../store/nearest-stops-store'
 NearestStopsActions = require '../../action/nearest-stops-action'
-LocationStore       = require '../../store/location-store.coffee' 
+LocationStore       = require '../../store/location-store' 
 StopCard            = require './stop-card'
 div                 = React.createFactory 'div'
 
