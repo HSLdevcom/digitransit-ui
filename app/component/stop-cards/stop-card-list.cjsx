@@ -30,7 +30,7 @@ class StopCardList extends React.Component
 
   render: ->
     stopCards = []
-    stopCards.push <StopCard key={stop.id} name={stop.name}/> for stop in @state.nearestStops
+    stopCards.push <StopCard key={stop.id} name={stop.name} code={stop.code} dist={stop.dist} id={stop.id}/> for stop in @state.nearestStops
     <div className="row">
       {stopCards}
     </div>

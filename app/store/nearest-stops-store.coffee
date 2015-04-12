@@ -12,6 +12,8 @@ class NearestStopsStore extends Store
     @nearestStops = [];
 
   storeNearestStops: (nearestStops) ->
+    nearestStops.sort (a,b) ->
+      if a.dist > b.dist then 1 else -1
     @nearestStops = nearestStops
     @emitChanges()
 
