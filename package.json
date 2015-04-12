@@ -11,11 +11,11 @@
     "css:build": "node-sass sass/main.scss --stdout > _static/css/bundle.css",
     "css:watch": "watch --wait=1 'npm run css:build' app/component",
     "prebrowserify:build": "npm run folder",
-    "browserify:build": "browserify -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/app.coffee > _static/js/bundle.js; echo 'Bundle built.'",
+    "browserify:build": "browserify -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/app.cjsx > _static/js/bundle.js; echo 'Bundle built.'",
     "browserify:watch": "watch --wait=1 'npm run browserify:build' app",
     "livereload": "live-reload --port 9000 _static",
     "watch": "npm run static; parallelshell 'npm run css:watch' 'npm run browserify:watch' 'node server/server.js' 'npm run livereload'",
-    "discify": "browserify --full-paths -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/app.coffee > _static/js/bundle.js; discify _static/js/bundle.js > filesizes.html; echo 'See filesizes.html' with browser",
+    "discify": "browserify --full-paths -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/app.cjsx > _static/js/bundle.js; discify _static/js/bundle.js > filesizes.html; echo 'See filesizes.html' with browser",
     "dist:js": "npm run browserify:build; minify _static/js/bundle.js;",
     "dist:css": "npm run css:build; cleancss _static/css/bundle.css -o _static/css/bundle.min.css",
     "dist": "npm run dist:js; npm run dist:css"

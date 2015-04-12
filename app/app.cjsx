@@ -5,9 +5,9 @@ LocationStore = require './store/location-store.coffee'
 Router        = require 'react-router'
 
 # React Pages
-IndexPage     = require './page/index.coffee'
-StopPage      = require './page/stop.coffee'
-Error404      = require './page/404.coffee'
+IndexPage     = require './page/index.cjsx'
+StopPage      = require './page/stop.cjsx'
+Error404      = require './page/404.cjsx'
 
 # Reittiopas application
 Route = Router.Route;
