@@ -1,8 +1,10 @@
-React           = require 'react'
-IndexNavigation = require '../component/index-navigation/index-navigation.cjsx'
-IndexOffcanvas  = require '../component/index-offcanvas/index-offcanvas.cjsx'
-Map             = require '../component/map/map.cjsx'
-StopTabs        = require '../component/stop-cards/stop-tabs.cjsx'
+React              = require 'react'
+IndexNavigation    = require '../component/index-navigation/index-navigation.cjsx'
+IndexOffcanvas     = require '../component/index-offcanvas/index-offcanvas.cjsx'
+Map                = require '../component/map/map.cjsx'
+StopTabs           = require '../component/stop-cards/stop-tabs.cjsx'
+SearchWithLocation = require '../component/search-with-location/search-with-location.cjsx'
+
 
 Page = React.createClass
   render: ->
@@ -12,7 +14,9 @@ Page = React.createClass
         <main id="main" className="panel">
           <IndexNavigation/>
           <section className="content">
-            <Map/>
+            <Map>
+              <SearchWithLocation/>
+            </Map>
             <StopTabs/>
           </section>
         </main>
