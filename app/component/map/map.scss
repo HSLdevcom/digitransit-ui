@@ -1,3 +1,5 @@
+@import '../../../node_modules/leaflet/dist/leaflet';
+
 div.map {
   background-color: gray;
 }
@@ -6,10 +8,16 @@ div.map {
   div.map {
     height: 155px;
   }
+  div.leaflet-container {
+    height: 155px;
+  }
 }
 
 @media #{$medium-up} { 
   div.map {
+    height: 300px;
+  }
+  div.leaflet-container {
     height: 300px;
   }
 }
@@ -18,4 +26,12 @@ div.map {
   div.map {
     height: 500px;
   }
+  div.leaflet-container {
+    height: 500px;
+  }
 }
+
+div.leaflet-container {
+  position: absolute;
+  width: 100%;
+} 
