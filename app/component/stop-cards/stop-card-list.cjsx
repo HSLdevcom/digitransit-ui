@@ -3,7 +3,6 @@ NearestStopsStore   = require '../../store/nearest-stops-store'
 NearestStopsActions = require '../../action/nearest-stops-action'
 LocationStore       = require '../../store/location-store' 
 StopCard            = require './stop-card'
-div                 = React.createFactory 'div'
 
 class StopCardList extends React.Component
   constructor: -> 
@@ -30,7 +29,7 @@ class StopCardList extends React.Component
 
   render: ->
     stopCards = []
-    stopCards.push <StopCard key={stop.id} name={stop.name} code={stop.code} dist={stop.dist} id={stop.id}/> for stop in @state.nearestStops
+    stopCards.push <StopCard key={stop.id} name={stop.name} code={stop.code} dist={stop.dist} id={stop.id}/> for stop in @state.nearestStops.slice(0,10)
     <div className="row">
       {stopCards}
     </div>

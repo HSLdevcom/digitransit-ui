@@ -48,6 +48,10 @@ $stop-card-favourite-icon-size: 30px;
 .stop-card p.transport {
   margin: 0px;
   padding: 0px;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .stop-card p:nth-of-type(2) {
@@ -80,14 +84,14 @@ $stop-card-favourite-icon-size: 30px;
 
 .stop-card .transport span.next-departure {
   display: inline-block;
-  width: 50px;
+  width: 3.5em;
   font-family: $stop-card-next-departure-font-family;
   font-size: $stop-card-next-departure-font-size;
 }
 
 .stop-card .transport span.following-departure {
   display: inline-block;
-  width: 50px;
+  width: 3.5em;
   font-family: $stop-card-normal-font-family;
   font-size: $stop-card-normal-font-size;
 }

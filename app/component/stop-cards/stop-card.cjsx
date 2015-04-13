@@ -1,5 +1,4 @@
 React                 = require 'react'
-div                   = React.createFactory 'div'
 Departure             = require './departure'
 StopDeparturesStore   = require '../../store/stop-departures-store'
 StopDeparturesActions = require '../../action/stop-departures-action'
@@ -11,11 +10,12 @@ class StopCard extends React.Component
 
   constructor: -> 
     super
-    @state = departures: StopDeparturesStore.departures[@props.id]?
+    @state = departures: StopDeparturesStore.departures[@props.id]
 
   componentDidMount: -> 
     StopDeparturesStore.addChangeListener @onChange
-    StopDeparturesActions.stopDeparturesRequest @props.id
+    if !@state.departures
+      StopDeparturesActions.stopDeparturesRequest @props.id
 
   componentWillUnmount: ->
     StopDeparturesStore.removeChangeListener @onChange
@@ -34,11 +34,15 @@ class StopCard extends React.Component
     if @props.dist
       description += @props.dist + " m"
 
+    if !@state.departures
+      return false
+
     departures = []
 
     for departure in @state.departures
       departures.push <Departure 
-          times={time.realtimeDeparture for time in departure.times}
+          key={departure.pattern.id}
+          times={departure.times}
           mode="bus"
           routeShortName={departure.pattern.shortName}
           destination={departure.pattern.direction} /> 
@@ -51,7 +55,5 @@ class StopCard extends React.Component
         {departures}
       </div>
     </div>
-
-
 
 module.exports = StopCard
