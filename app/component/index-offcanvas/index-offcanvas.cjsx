@@ -11,7 +11,7 @@ class IndexOffcanvas extends React.Component
         'panel': document.getElementById('main'),
         'menu': document.getElementById('offcanvas-left'),
         'padding': 256,
-        'tolerance': 140
+        'tolerance': 1400
 
       $('.offcanvas-menu').show()
 
