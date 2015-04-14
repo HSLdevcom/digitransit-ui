@@ -7,7 +7,7 @@ LocationStore  = require '../../store/location-store.coffee'
 Icon           = require '../icon/icon.cjsx'
 ReactPropTypes = React.PropTypes;
 
-GEOCODING_SUGGEST_URL = 'http://matka.hsl.fi:8080/geocoder/suggest/'
+GEOCODING_SUGGEST_URL = 'http://matka.hsl.fi/geocoder/suggest/'
 
 class SearchWithLocation extends React.Component
   constructor: -> 
