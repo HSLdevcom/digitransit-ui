@@ -15,7 +15,6 @@ $stop-card-favourite-icon-fill-color: $light-gray;
 $stop-card-favourite-icon-hover-fill-color: $hsl-pink;
 $stop-card-favourite-icon-selected-fill-color: $hsl-pink;
 $stop-card-favourite-icon-selected-hover-fill-color: $light-gray;
-$stop-card-favourite-icon-size: 30px;
 
 .stop-cards {
   
@@ -60,17 +59,17 @@ $stop-card-favourite-icon-size: 30px;
 
 .stop-card .favourite {
   float: right;
-  font-size: $stop-card-favourite-icon-size;
-  color: $stop-card-favourite-icon-fill-color;
+  padding: 0;
+  height: 24px;
+  width: 24px;
+  fill: $stop-card-favourite-icon-fill-color;
 }
 
 .stop-card .favourite:hover {
-  color: $stop-card-favourite-icon-hover-fill-color;
+  fill: $stop-card-favourite-icon-hover-fill-color;
 }
 
 .stop-card .favourite.selected {
-  float: right;
-  font-size: $stop-card-favourite-icon-size;
   color: $stop-card-favourite-icon-selected-fill-color;
 }
 
@@ -106,4 +105,11 @@ $stop-card-favourite-icon-size: 30px;
 .stop-card .transport span.destination {
   font-family: $stop-card-normal-font-family;
   font-size: $stop-card-normal-font-size;
+}
+
+.stop-card p.transport .icon {
+  height: 12px;
+  width: 12px;
+  margin-right: 5px;
+  vertical-align: inherit;
 }

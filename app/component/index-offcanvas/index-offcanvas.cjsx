@@ -1,6 +1,7 @@
 React    = require 'react'
 Slideout = require 'slideout'
 $        = require 'jquery'
+Icon     = require '../icon/icon.cjsx'
 
 class IndexOffcanvas extends React.Component
   componentDidMount: -> 
@@ -8,7 +9,7 @@ class IndexOffcanvas extends React.Component
       'panel': document.getElementById('main'),
       'menu': document.getElementById('offcanvas-left'),
       'padding': 256,
-      'tolerance': 70
+      'tolerance': 140
 
     $('#reveal-left-offcanvas').click () -> 
       slideout.toggle()
@@ -21,14 +22,14 @@ class IndexOffcanvas extends React.Component
         </p>
         <div className="offcanvas-login">
           <div className="inline-block">
-            <i className="icon icon-profile"></i>
+            <Icon img={'icon-icon_user'} className="large"/>
           </div>
           <div className="inline-block">  
             <p>
-              <a href="#">Luo tunnus <i className="icon icon-arrow-right"></i></a>
+              <a href="#">Luo tunnus <Icon img={'icon-icon_arrow-right'} className="small"/></a>
             </p>
             <p>
-              <a href="#">Kirjaudu sisään <i className="icon icon-arrow-right"></i></a>
+              <a href="#">Kirjaudu sisään <Icon img={'icon-icon_arrow-right'} className="small"/></a>
             </p>
           </div>
         </div> 
@@ -36,12 +37,12 @@ class IndexOffcanvas extends React.Component
       
       <section className="offcanvas-section">
         <ul className="offcanvas-list">
-          <li><a href="#">Matkaliput <i className="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">Linjat <i className="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">Pysäkit <i className="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">Asetukset <i className="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">Käyttöehdot <i className="icon icon-arrow-right"></i></a></li>
-          <li><a href="#">HSL:n yhteystiedot <i className="icon icon-arrow-right"></i></a></li>
+          <li><a href="#">Matkaliput <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#">Linjat <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#">Pysäkit <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#">Asetukset <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#">Käyttöehdot <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#">HSL:n yhteystiedot <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
         </ul>
       </section>
     </nav>

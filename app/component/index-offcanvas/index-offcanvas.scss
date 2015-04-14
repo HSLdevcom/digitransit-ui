@@ -78,12 +78,6 @@ ul.offcanvas-list li {
   font-size: $offcanvas-link-text-font-size;
 }
 
-ul.offcanvas-list li i.icon {
-  position: absolute;
-  right: 10px;
-  font-size: $offcanvas-link-arrow-icon-size;
-}
-
 .offcanvas-lead {
   color: $offcanvas-lead-text-color;
   font-family: $offcanvas-lead-text-font-family;
@@ -93,4 +87,22 @@ ul.offcanvas-list li i.icon {
 .offcanvas-login {
   font-family: $offcanvas-login-text-font-family;
   font-size: $offcanvas-login-text-font-size;
+}
+
+.offcanvas-menu .icon.small {
+  fill: $offcanvas-link-color;   
+  width: 10px;
+  height: 10px;
+}
+
+.offcanvas-menu .icon.medium {
+  fill: $offcanvas-link-color;   
+  width: 12px;
+  height: 12px;
+}
+
+.offcanvas-menu .icon.large {
+  fill: $offcanvas-link-color;   
+  width: 36px;
+  height: 36px;
 }

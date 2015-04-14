@@ -1,10 +1,9 @@
 module.exports = {
-  index: function home (req, res) {
-    res.locals = {
-      page: {
-        title: "Reittiopas"
-      } 
-    }
-    res.render('app')
-  }
+  index: function(req, res) {
+    res.render('app', { 
+      partials: { 
+        svgSprite: 'svg-sprite'
+      }
+    })
+  } 
 }

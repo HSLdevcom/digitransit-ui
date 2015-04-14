@@ -73,7 +73,7 @@
     "browserify-shim": "^3.8.3",
     "coffee-reactify": "^3.0.0",
     "coffeeify": "^1.0.0",
-    "node-sass": "^3.0.0-beta.4",
+    "node-sass": "3.0.0-beta.4",
     "reactify": "^1.1.0",
     "watch": "^0.14.0"
   }

@@ -2,7 +2,7 @@ React                 = require 'react'
 Departure             = require './departure'
 StopDeparturesStore   = require '../../store/stop-departures-store'
 StopDeparturesActions = require '../../action/stop-departures-action'
-
+Icon                  = require '../icon/icon.cjsx'
 
 class StopCard extends React.Component
   @contextTypes:
@@ -49,7 +49,7 @@ class StopCard extends React.Component
 
     <div className="small-12 medium-6 large-4 columns">
       <div className="stop-card cursor-pointer" onClick={() => router.transitionTo('/pysakit/' + @props.id)}>
-        <span className="favourite"><i className="icon icon-favourite"></i></span>
+        <Icon className="favourite" img="icon-icon_star"/>
         <h3>{@props.name} ›</h3>
         <p className="location">{description}</p>
         {departures}

@@ -19,14 +19,17 @@ body {
 
 .bus {
   color: $bus-color;
+  fill: $bus-color;
 }
 
 .tram {
   color: $tram-color;
+  fill: $tram-color;
 }
 
 .metro {
   color: $metro-color;
+  fill: $metro-color;
 }
 
 .cursor-pointer {

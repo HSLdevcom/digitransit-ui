@@ -1,5 +1,6 @@
 React  = require 'react'
 moment = require 'moment'
+Icon   = require '../icon/icon.cjsx'
 
 class Departure extends React.Component
   renderTime: (time) ->
@@ -18,9 +19,9 @@ class Departure extends React.Component
     <p className="transport">
       <span className="next-departure">{@renderTime @props.times[0]}</span>
       <span className="following-departure">{@renderTime @props.times[1]}</span>
-      <i className={"icon icon-" + @props.mode + " " + @props.mode}></i>
+      <Icon className="#{@props.mode}" img={'icon-icon_bus-withoutBox'}/>
       <span className={"vehicle-number " + @props.mode}>{@props.routeShortName}</span>
-      <i className={"icon icon-arrow-right " + @props.mode}></i>
+      <Icon className="#{@props.mode}" img={'icon-icon_arrow-right'}/>
       <span className="destination">{@props.destination}</span>
     </p>
   

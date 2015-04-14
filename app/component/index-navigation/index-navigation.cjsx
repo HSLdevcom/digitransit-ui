@@ -1,6 +1,7 @@
 React              = require 'react'
 $                  = require 'jquery'
 IndexSubNavigation = require './index-sub-navigation.cjsx'
+Icon               = require '../icon/icon.cjsx'
 
 class IndexNavigation extends React.Component
   constructor: -> 
@@ -26,14 +27,12 @@ class IndexNavigation extends React.Component
     <header>
       <nav className="top-navigation">
         <div className="left left-icons">
-          <span id="reveal-left-offcanvas" className="cursor-pointer">
-            <i className="icon icon-hamburger"></i>
-          </span>
-          <i className="icon icon-disruption-info"></i>
+          <Icon img={'icon-icon_menu'} className="cursor-pointer" id="reveal-left-offcanvas"/>
+          <Icon img={'icon-icon_caution'} className="cursor-pointer disruption-info-inactive"/>
         </div>
         <div className="text-center">
-          <i className="icon icon-hsl-logo"></i>
-          <span className="title">Reittiopas</span>
+          <Icon img={'icon-icon_HSL-logo'}/>
+          <span className="title">Reittiopas Demo</span>
         </div>
         <div className="right-icons">
           <button className="sub-navigation-switch" onClick={@toggleSubnavigation}>{@state.text}</button>

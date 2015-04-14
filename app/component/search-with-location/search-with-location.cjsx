@@ -4,9 +4,10 @@ Typeahead      = require 'typeaheadjs-shim'
 Bloodhound     = require 'bloodhound-shim'
 LocateActions  = require '../../action/locate-actions.coffee'
 LocationStore  = require '../../store/location-store.coffee'
+Icon           = require '../icon/icon.cjsx'
 ReactPropTypes = React.PropTypes;
 
-GEOCODING_SUGGEST_URL = 'http://matka.hsl.fi/geocoder/suggest/'
+GEOCODING_SUGGEST_URL = 'http://matka.hsl.fi:8080/geocoder/suggest/'
 
 class SearchWithLocation extends React.Component
   constructor: -> 
@@ -45,8 +46,8 @@ class SearchWithLocation extends React.Component
       templates:
           suggestion: (result) ->
             switch result.type
-              when 'address' then return "<p class='address'><i class='icon icon-pin'> #{result.value}</i></p>"
-              when 'stop' then return "<p class='stop'><i class='icon icon-bus'> #{result.value}</i></p>"
+              when 'address' then return """<p class='address'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>#{result.value}</p>"""
+              when 'stop' then return """<p class='stop'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_bus-withoutBox"></use></svg>#{result.value}</p>"""
               else return "<p>#{result.value}</p>"
     }
 
@@ -70,7 +71,7 @@ class SearchWithLocation extends React.Component
           <div className="row collapse prefix-and-postfix-radius">
             <div className="small-1 columns">
               <span className="prefix transparent" onClick={this.locateUser}>
-                <i className="icon icon-location"></i>
+                <Icon img={'icon-icon_mapMarker-location'} className="cursor-pointer"/>
               </span>
             </div>
             <div className="small-10 columns">
@@ -78,7 +79,7 @@ class SearchWithLocation extends React.Component
             </div>
             <div className="small-1 columns">
               <span className="postfix transparent" onClick={this.removeLocation}>
-                X
+                <Icon img={'icon-icon_close'} className="cursor-pointer"/>
               </span>
             </div>
           </div>
@@ -91,7 +92,9 @@ class SearchWithLocation extends React.Component
               <input type="text" ref="typeahead" placeholder="Määränpään osoite, linja, pysäkki tai aika" />
             </div>
             <div className="small-1 columns">
-              <span className="postfix search"><i className="icon icon-search"></i></span>
+              <span className="postfix search">
+                <Icon img={'icon-icon_search'}/>
+              </span>
             </div>
           </div>
         </div>

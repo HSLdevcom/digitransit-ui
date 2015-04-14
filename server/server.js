@@ -23,6 +23,8 @@ function setUpStaticFolders() {
   app.use("/icon", express.static(iconFolder))
   var fontFolder = path.join(staticFolder, 'font')
   app.use("/font", express.static(fontFolder))
+  var imgFolder = path.join(staticFolder, 'img')
+  app.use("/img", express.static(imgFolder))
 }
 
 function setUpViewEngine() {

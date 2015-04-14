@@ -16,12 +16,36 @@ $top-navigation-switch-height: 23px;
 $top-navigation-switch-font-size: 13px;
 $top-navigation-switch-width: 70px;
 $top-navigation-switch-border-radius: 30px;
+$top-navigation-icon-color: $white;
+$top-navigation-disruption-info-active-color: rgb(252, 208, 1);
+$top-navigation-disruption-info-inactive-color: rgb(77, 162, 217);
 
 .top-navigation {
   background-color: $top-navigation-background-color;
   height: $top-navigation-height;
   line-height: $top-navigation-height;
   color: $top-navigation-color;
+}
+
+.top-navigation .icon {
+  fill: $top-navigation-icon-color;
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+}
+
+.top-navigation .icon.disruption-info-active {
+  fill: $top-navigation-disruption-info-active-color;
+  margin-left: 13px;
+}
+
+.top-navigation .icon.disruption-info-inactive {
+  fill: $top-navigation-disruption-info-inactive-color;
+  margin-left: 13px;
+}
+
+.icon-container {
+  height: $top-navigation-height;
 }
 
 #main header {
@@ -55,10 +79,6 @@ section.content.sub-navigation-push {
 .top-navigation .title {
   font-family: $top-navigation-title-font-family;
   font-size: $top-navigation-title-font-size;
-}
-
-.top-navigation i.icon {
-  font-size: $top-navigation-icon-size;
 }
 
 button.sub-navigation-switch {
