@@ -1,7 +1,8 @@
 React          = require 'react'
 $              = require 'jquery'
-Typeahead      = require 'typeaheadjs-shim'
-Bloodhound     = require 'bloodhound-shim'
+if window?
+  Typeahead      = require 'typeaheadjs-shim'
+  Bloodhound     = require 'bloodhound-shim'
 LocateActions  = require '../../action/locate-actions.coffee'
 LocationStore  = require '../../store/location-store.coffee'
 Icon           = require '../icon/icon.cjsx'
@@ -17,44 +18,45 @@ class SearchWithLocation extends React.Component
   componentDidMount: -> 
     LocationStore.addChangeListener @onChange
 
-    # Create geocoding datasource
-    geoData = new Bloodhound
-      limit: 50
-      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
-      queryTokenizer: Bloodhound.tokenizers.whitespace
-      remote: 
-        url: GEOCODING_SUGGEST_URL + '%QUERY'
-        rateLimitBy: 'debounce'
-        rateLimitWait: 100
-        filter: (data) -> 
-          streets = data.streetnames.map (result) -> {'value': result.key, 'type': 'address'}
-          stops = data.stops.map (result) -> {'value': result.stop_name, 'type': 'stop'}
-          all = streets.concat stops
-          return all
+    if window?
+      # Create geocoding datasource
+      geoData = new Bloodhound
+        limit: 50
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
+        queryTokenizer: Bloodhound.tokenizers.whitespace
+        remote: 
+          url: GEOCODING_SUGGEST_URL + '%QUERY'
+          rateLimitBy: 'debounce'
+          rateLimitWait: 100
+          filter: (data) -> 
+            streets = data.streetnames.map (result) -> {'value': result.key, 'type': 'address'}
+            stops = data.stops.map (result) -> {'value': result.stop_name, 'type': 'stop'}
+            all = streets.concat stops
+            return all
 
-    geoData.initialize()
+      geoData.initialize()
 
-    # create typeahead
-    $(@refs.typeahead.getDOMNode()).typeahead {
-      hint: false
-      highlight: true
-      minLength: 2
-    }, {
-      name: 'geodata'
-      displayKey: 'value'
-      source: geoData.ttAdapter()
-      templates:
-          suggestion: (result) ->
-            switch result.type
-              when 'address' then return """<p class='address'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>#{result.value}</p>"""
-              when 'stop' then return """<p class='stop'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_bus-withoutBox"></use></svg>#{result.value}</p>"""
-              else return "<p>#{result.value}</p>"
-    }
+      # create typeahead
+      $(@refs.typeahead.getDOMNode()).typeahead {
+        hint: false
+        highlight: true
+        minLength: 2
+      }, {
+        name: 'geodata'
+        displayKey: 'value'
+        source: geoData.ttAdapter()
+        templates:
+            suggestion: (result) ->
+              switch result.type
+                when 'address' then return """<p class='address'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>#{result.value}</p>"""
+                when 'stop' then return """<p class='stop'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_bus-withoutBox"></use></svg>#{result.value}</p>"""
+                else return "<p>#{result.value}</p>"
+      }
 
-    # Move window when search gets focus
-    $(@refs.typeahead.getDOMNode()).focus () -> 
-      location = $(this).offset().top - 45
-      $('hmtl, body').scrollTop(location)
+      # Move window when search gets focus
+      $(@refs.typeahead.getDOMNode()).focus () -> 
+        location = $(this).offset().top - 45
+        $('hmtl, body').scrollTop(location)
 
   componentWillUnmount: ->
     LocationStore.removeChangeListener @onChange

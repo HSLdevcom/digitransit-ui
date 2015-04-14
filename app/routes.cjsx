@@ -1,8 +1,6 @@
 # Libraries
-React         = require 'react'
-Dispatcher    = require './dispatcher/dispatcher.coffee'
-LocationStore = require './store/location-store.coffee'
-Router        = require 'react-router'
+React        = require 'react'
+Router       = require 'react-router'
 
 # React Pages
 IndexPage     = require './page/index.cjsx'
@@ -30,7 +28,4 @@ routes =
     <NotFoundRoute handler={Error404}/>
   </Route>
 
-# Run application
-Router.run(routes, Router.HistoryLocation, (Handler) -> 
-  React.render(<Handler/>, document.getElementById('app'))
-)
+module.exports = routes

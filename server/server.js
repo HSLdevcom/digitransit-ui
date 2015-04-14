@@ -3,13 +3,16 @@ var hoganExpress = require('hogan-express')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var path = require('path')
+var React = require('react')
+var Router = require('react-router')
+require('node-cjsx').transform()
 
 /********** Global **********/
 var port = process.env.PORT || 8080 
 var app = express()
 
 /********** Routes **********/
-var index = require('./route/index')
+var routes = require('../app/routes')
 var appRoot = process.cwd() + "/"
 
 /* Setup functions */
@@ -40,7 +43,12 @@ function setUpMiddleware() {
 
 
 function setUpRoutes() {
-  app.use('/', index.index)
+  app.use(function (req, res) { // pass in `req.url` and the router will immediately match
+    Router.run(routes, req.url, function (Handler) {
+      var content = React.renderToString(React.createElement(Handler, null))
+      res.render('app', {content: content, partials: { svgSprite: 'svg-sprite'}})
+    })
+  })
 }
 
 function startServer() {

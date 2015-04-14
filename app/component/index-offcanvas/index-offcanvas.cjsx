@@ -1,18 +1,22 @@
 React    = require 'react'
-Slideout = require 'slideout'
-$        = require 'jquery'
+if window?
+  Slideout = require 'slideout'
+  $        = require 'jquery'
 Icon     = require '../icon/icon.cjsx'
 
 class IndexOffcanvas extends React.Component
   componentDidMount: -> 
-    slideout = new Slideout
-      'panel': document.getElementById('main'),
-      'menu': document.getElementById('offcanvas-left'),
-      'padding': 256,
-      'tolerance': 140
+    if window?
+      slideout = new Slideout
+        'panel': document.getElementById('main'),
+        'menu': document.getElementById('offcanvas-left'),
+        'padding': 256,
+        'tolerance': 140
 
-    $('#reveal-left-offcanvas').click () -> 
-      slideout.toggle()
+      $('.offcanvas-menu').show()
+
+      $('#reveal-left-offcanvas').click () -> 
+        slideout.toggle()
 
   render: ->
     <nav id="offcanvas-left" className="offcanvas-menu">
