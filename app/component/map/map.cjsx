@@ -26,7 +26,7 @@ class Map extends React.Component
       <div className="map">
         <Leaflet.Map center={@state.center} zoom={13} zoomControl=false>
           <Leaflet.TileLayer
-            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+            url="http://matka.hsl.fi/hsl-map/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
         </Leaflet.Map>
