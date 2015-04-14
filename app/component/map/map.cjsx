@@ -24,7 +24,7 @@ class Map extends React.Component
   render: ->
     if window?
       <div className="map">
-        <Leaflet.Map center={@state.center} zoom={13}>
+        <Leaflet.Map center={@state.center} zoom={13} zoomControl=false>
           <Leaflet.TileLayer
             url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
