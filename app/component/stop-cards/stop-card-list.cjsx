@@ -38,13 +38,17 @@ class StopCardList extends React.Component
     stopCards = []
     for stop in @state.nearestStops.slice(0,@state.numberOfStops)
       stopCards.push <StopCard key={stop.id} name={stop.name} code={stop.code} dist={stop.dist} id={stop.id}/> 
-    <div className="stop-cards row">
+    <div className="stop-cards">
       <div className="row">
         {stopCards}
       </div>
-      <h3 className="show-more" onClick=@addStops>
-        Näytä Lisää
-      </h3>
+      <div className="row">
+        <div className="small-10 small-offset-1 medium-6 medium-offset-3 columns">
+          <button className="show-more" onClick=@addStops>
+            Näytä Lisää
+          </button>
+        </div>
+      </div>
     </div>
     
 module.exports = StopCardList

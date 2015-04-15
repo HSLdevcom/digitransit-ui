@@ -17,7 +17,7 @@ $stop-card-favourite-icon-selected-fill-color: $hsl-pink;
 $stop-card-favourite-icon-selected-hover-fill-color: $light-gray;
 $stop-card-show-more-font-family: $font-family;
 $stop-card-show-more-font-size: 13px;
-$stop-card-show-more-background-color: $gray;
+$stop-card-show-more-background-color: $gray-blue-light;
 $stop-card-show-more-color: $white;
 $stop-card-show-more-width: 10em;
 $stop-card-show-more-border-radius: 30px;
@@ -114,16 +114,16 @@ $stop-card-show-more-border-radius: 30px;
   vertical-align: inherit;
 }
 
-.stop-cards h3.show-more {
+.stop-cards button.show-more {
   text-align: center;
   text-transform: uppercase;
   width: $stop-card-show-more-width;
-  margin: auto auto 2em auto;
   border-radius: $stop-card-show-more-border-radius;
   background: $stop-card-show-more-background-color;
   color: $stop-card-show-more-color;
   font-family: $stop-card-show-more-font-family;
   font-size: $stop-card-show-more-font-size;
-  line-height: 2;
-  padding: 0;
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
 }
