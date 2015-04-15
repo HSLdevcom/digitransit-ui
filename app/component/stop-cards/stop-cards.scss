@@ -127,3 +127,7 @@ $stop-card-show-more-border-radius: 30px;
   height: 40px;
   margin-top: 20px;
 }
+
+.stop-cards button.show-more:focus {
+  outline: 0;
+}

@@ -153,8 +153,7 @@ ul.offcanvas-list li {
   background-color: $content-background-color;
   position: relative;
   top: $top-navigation-height;
-  margin-bottom: 200px;
-  min-height: 600px;
+  margin-bottom: $top-navigation-height;
 }
 
 .content.sub-navigation-push {
