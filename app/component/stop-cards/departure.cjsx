@@ -17,8 +17,7 @@ class Departure extends React.Component
 
   render: ->
     <p className="transport">
-      <span className="next-departure">{@renderTime @props.times[0]}</span>
-      <span className="following-departure">{@renderTime @props.times[1]}</span>
+      <span className="next-departure">{@renderTime @props.time}</span>
       <Icon className="#{@props.mode}" img={'icon-icon_bus-withoutBox'}/>
       <span className={"vehicle-number " + @props.mode}>{@props.routeShortName}</span>
       <Icon className="#{@props.mode}" img={'icon-icon_arrow-right'}/>

@@ -89,21 +89,15 @@ $stop-card-show-more-border-radius: 30px;
 
 .stop-card .transport span.next-departure {
   display: inline-block;
-  width: 3.5em;
+  width: 4em;
   font-family: $stop-card-next-departure-font-family;
   font-size: $stop-card-next-departure-font-size;
-}
-
-.stop-card .transport span.following-departure {
-  display: inline-block;
-  width: 3.5em;
-  font-family: $stop-card-normal-font-family;
-  font-size: $stop-card-normal-font-size;
+  font-weight: 600;
 }
 
 .stop-card .transport span.vehicle-number {
   display: inline-block;
-  width: 30px;
+  width: 3em;
   font-family: $stop-card-normal-font-family;
   font-size: $stop-card-normal-font-size;
 }
