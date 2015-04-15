@@ -35,7 +35,9 @@
   },
   "browser": {
     "typeaheadjs-shim": "./node_modules/typeahead.js/dist/typeahead.bundle.js",
-    "bloodhound-shim": "./node_modules/typeahead.js/dist/bloodhound.js"
+    "bloodhound-shim": "./node_modules/typeahead.js/dist/bloodhound.js",
+    "foundation-shim": "./node_modules/zurb-foundation-5/js/foundation/foundation.js",
+    "foundation-offcanvas-shim": "./node_modules/zurb-foundation-5/js/foundation/foundation.offcanvas.js"
   },
   "browserify-shim": {
     "typeaheadjs-shim": {
@@ -46,6 +48,12 @@
     },
     "bloodhound-shim": {
       "exports": "Bloodhound",
+      "depends": [
+        "jquery:jQuery"
+      ]
+    },
+    "foundation-shim": {
+      "exports": "Foundation",
       "depends": [
         "jquery:jQuery"
       ]
