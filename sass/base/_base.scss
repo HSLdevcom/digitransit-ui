@@ -27,9 +27,19 @@ body {
   fill: $tram-color;
 }
 
-.metro {
+.subway {
   color: $metro-color;
   fill: $metro-color;
+}
+
+.rail {
+  color: $train-color;
+  fill: $train-color;
+}
+
+.ferry {
+  color: $ferry-color;
+  fill: $ferry-color;
 }
 
 .cursor-pointer {

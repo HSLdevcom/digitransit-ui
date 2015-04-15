@@ -43,7 +43,7 @@ class StopCard extends React.Component
       departures.push <Departure 
           key={departure.pattern.id + departure.time.serviceDay + departure.time.realtimeDeparture}
           time={departure.time}
-          mode="bus"
+          mode={departure.pattern.mode.toLowerCase()}
           routeShortName={departure.pattern.shortName}
           destination={departure.pattern.direction} /> 
 
