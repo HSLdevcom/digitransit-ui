@@ -13,11 +13,11 @@ class Icon extends React.Component
 
     id = ""
     if @props.id
-      id = "id=" + @props.id
+      id = "id=" + @props.id + " " # Adding the space here, as otherwise it leads to different number of spaceis in server-side vs client-side html due to minification
 
     html = """
-      <svg #{id} viewBox="0 0 40 40" class="icon #{clazz}">
-        <use xlink:href="##{@props.img}"></use>
+      <svg #{id}viewBox="0 0 40 40" class="icon #{clazz}">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="##{@props.img}"></use>
       </svg>
     """
     <span dangerouslySetInnerHTML={{__html: html}} />
