@@ -9,11 +9,11 @@ class Departure extends React.Component
     now = moment() / 1000;
     departureTime = time.serviceDay + time.realtimeDeparture;
     if (departureTime - now <= 0) # In the past
-      return if time.realtime then "" else "~" + moment(departureTime * 1000).format("HH:mm")
+      return (if time.realtime then "" else "~") + moment(departureTime * 1000).format("HH:mm")
     if (departureTime - now > 20 * 60) # far away
-      return if time.realtime then "" else "~" + moment(departureTime * 1000).format("HH:mm")
+      return (if time.realtime then "" else "~") + moment(departureTime * 1000).format("HH:mm")
     else
-      return if time.realtime then "" else "~" + ((departureTime - now) / 60 | 0) + "min"
+      return (if time.realtime then "" else "~") + ((departureTime - now) / 60 | 0) + "min"
 
   render: ->
     <p className="transport">
