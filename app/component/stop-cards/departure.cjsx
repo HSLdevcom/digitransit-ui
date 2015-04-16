@@ -7,7 +7,7 @@ class Departure extends React.Component
     if (time == undefined)
       return <span>---</span>
     now = moment() / 1000;
-    departureTime = time.serviceDay + time.realtimeDeparture;
+    departureTime = time.serviceDay + time.realtimeDeparture
     if (departureTime - now <= 0) # In the past
       return (if time.realtime then "" else "~") + moment(departureTime * 1000).format("HH:mm")
     if (departureTime - now > 20 * 60) # far away
@@ -18,9 +18,9 @@ class Departure extends React.Component
   render: ->
     <p className="transport">
       <span className="next-departure">{@renderTime @props.time}</span>
-      <Icon className="#{@props.mode}" img={'icon-icon_bus-withoutBox'}/>
+      <Icon className={@props.mode} img={'icon-icon_' + @props.mode + '-withoutBox'}/>
       <span className={"vehicle-number " + @props.mode}>{@props.routeShortName}</span>
-      <Icon className="#{@props.mode}" img={'icon-icon_arrow-right'}/>
+      <Icon className={@props.mode} img='icon-icon_arrow-right'/>
       <span className="destination">{@props.destination}</span>
     </p>
   
