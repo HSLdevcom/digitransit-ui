@@ -1,13 +1,16 @@
+isBrowser     = window?
 React         = require 'react'
-if window?
-  Leaflet       = require 'react-leaflet'
+Leaflet       = if isBrowser then require 'react-leaflet' else null
 LocationStore = require '../../store/location-store' 
 
 
 class Map extends React.Component
   constructor: -> 
     super
-    @state = center: [60.17332, 24.94102]
+    @state =
+      location: [60.17332, 24.94102]
+      zoom: 11
+      hasLocation: false
 
   componentDidMount: -> 
     LocationStore.addChangeListener @onLocationChange
@@ -19,24 +22,32 @@ class Map extends React.Component
   onLocationChange: =>
     coordinates = LocationStore.getLocationState()
     if (coordinates.lat != 0 || coordinates.lon != 0)
-      @setState center: [coordinates.lat, coordinates.lon]
+      @setState
+        location: [coordinates.lat, coordinates.lon]
+        zoom: 15
+        hasLocation: true
 
   render: ->
-    if window?
-      <div className="map">
-        <Leaflet.Map center={@state.center} zoom={13} zoomControl=false>
+    if isBrowser
+      if @state.hasLocation == true
+        marker = <Leaflet.Marker position={@state.location} />
+
+      map =
+        <Leaflet.Map 
+          center={[@state.location[0]+0.001, @state.location[1]]}
+          zoom={@state.zoom}
+          zoomControl=false>
           <Leaflet.TileLayer
             url="http://matka.hsl.fi/hsl-map/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
+          {marker}
         </Leaflet.Map>
-        {@props.children}
-        <div className="fullscreen-toggle"></div>
-      </div>
-    else
-      <div className="map">
-        {@props.children}
-        <div className="fullscreen-toggle"></div>
-      </div>
+
+    <div className="map">
+      {map}
+      {@props.children}
+      <div className="fullscreen-toggle"></div>
+    </div>
 
 module.exports = Map
