@@ -19,7 +19,7 @@ class StopTabs extends React.Component
     @setState LocationStore.getLocationState()
 
   render: -> 
-    if @state.status == LocationStore.STATUS_NO_LOCATION
+    if @state.status != LocationStore.STATUS_FOUND_LOCATION
       panel = <NoLocationPanel/>
     else 
       panel = <StopCardList/>

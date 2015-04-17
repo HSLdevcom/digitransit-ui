@@ -4,7 +4,10 @@ Store = require('./store.coffee')
 class LocationStore extends Store
 
   STATUS_NO_LOCATION: 'no-location'
+  STATUS_SEARCHING_LOCATION: 'searching-location'
   STATUS_FOUND_LOCATION: 'found-location'
+  STATUS_GEOLOCATION_DENIED: 'geolocation-denied'
+  STATUS_GEOLOCATION_NOT_SUPPORTED: 'geolocation-not-supported'
 
   constructor: ->
     super()
@@ -14,14 +17,26 @@ class LocationStore extends Store
   removeLocation: () ->
     @lat = 0
     @lon = 0
-    @address = ''
+    @address = 'Ei sijaintia'
     @status = @STATUS_NO_LOCATION
+    @emitChanges()
+
+  geolocationSearch: () ->
+    @status = @STATUS_SEARCHING_LOCATION
+    @emitChanges()
+
+  geolocationNotSupported: () ->
+    @status = @STATUS_GEOLOCATION_NOT_SUPPORTED
+    @emitChanges()
+
+  geolocationDenied: () ->
+    @status = @STATUS_GEOLOCATION_DENIED
     @emitChanges()
 
   storeLocation: (lat, lon) ->
     @lat = lat
     @lon = lon
-    @address='Opastinsilta 6a'
+    @address='Sijainti löydetty'
     @status = @STATUS_FOUND_LOCATION
     @emitChanges()
 
@@ -34,9 +49,11 @@ class LocationStore extends Store
   register: -> 
     @dispatchToken = Dispatcher.register (action) => 
       switch action.actionType
+        when "GeolocationSearch" then @geolocationSearch()
         when "GeolocationFound" then @storeLocation(action.lat, action.lon)
         when "GeolocationRemoved" then @removeLocation()
-        when "GeolocationNotSupported" then console.log("geolocation not supported")
-        when "GeolocationDenied" then console.log("geolocation denied")
+        when "GeolocationNotSupported" then @geolocationNotSupported()
+        when "GeolocationDenied" then @geolocationDenied()
+        when "ManuallySetPosition" then @storeLocation(action.lat, action.lon)
       
 module.exports = new LocationStore()

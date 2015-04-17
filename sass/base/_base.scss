@@ -1,6 +1,10 @@
 /* Override foundation base */
 $column-gutter: 20px;
 
+/* Transparency settings */
+$transparency: 0.5;
+$transparent-color: $white;
+
 /* Disable touch delay on ms-devices */
 html {
   -ms-touch-action: manipulation;
@@ -60,4 +64,9 @@ body {
 
 .inline-block {
   display: inline-block;
+}
+
+.transparent {
+  background:rgba(0,0,0, $transparency) !important;
+  color: $transparent-color !important;
 }

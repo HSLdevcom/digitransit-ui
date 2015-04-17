@@ -1,5 +1,3 @@
-$form-input-transparency: 0.5;
-$form-input-transparent-color: $white;
 $form-input-border-radius: $border-radius;
 $form-input-postfix-search-color: $white;
 $form-input-postfix-search-fill-color: $hsl-pink;
@@ -14,11 +12,6 @@ $form-spacing: 0.9rem;
 
 input {
   border-radius: $form-input-border-radius;
-}
-
-.transparent {
-  background:rgba(0,0,0, $form-input-transparency) !important;
-  color: $form-input-transparent-color !important;
 }
 
 span.postfix {
