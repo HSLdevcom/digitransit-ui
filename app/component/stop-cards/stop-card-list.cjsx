@@ -3,6 +3,7 @@ NearestStopsStore   = require '../../store/nearest-stops-store'
 NearestStopsActions = require '../../action/nearest-stops-action'
 LocationStore       = require '../../store/location-store' 
 StopCard            = require './stop-card'
+MasonryComponent    = require './MasonryComponent'
 
 class StopCardList extends React.Component
   constructor: -> 
@@ -34,13 +35,18 @@ class StopCardList extends React.Component
     @setState
       numberOfStops: @state.numberOfStops+10
 
+  reloadMasonry: =>
+    @refs['stop-cards-masonry'].performLayout()
+
   render: ->
     stopCards = []
     for stop in @state.nearestStops.slice(0,@state.numberOfStops)
-      stopCards.push <StopCard key={stop.id} name={stop.name} code={stop.code} dist={stop.dist} id={stop.id}/> 
+      stopCards.push <StopCard key={stop.id} name={stop.name} code={stop.code} dist={stop.dist} id={stop.id} reloadMasonry={@reloadMasonry}/> 
     <div className="stop-cards">
       <div className="row">
-        {stopCards}
+        <MasonryComponent ref="stop-cards-masonry">
+          {stopCards}
+        </MasonryComponent>
       </div>
       <div className="row">
         <div className="small-10 small-offset-1 medium-6 medium-offset-3 columns">

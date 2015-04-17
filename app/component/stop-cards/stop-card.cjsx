@@ -20,6 +20,10 @@ class StopCard extends React.Component
   componentWillUnmount: ->
     StopDeparturesStore.removeChangeListener @onChange
 
+  componentDidUpdate: ->
+    if @state.departures && @state.departures.length != 0
+      @props.reloadMasonry()
+
   onChange: =>
     @setState 
       departures: StopDeparturesStore.departures[@props.id]
@@ -34,7 +38,7 @@ class StopCard extends React.Component
     if @props.dist
       description += @props.dist + " m"
 
-    if !@state.departures
+    if !@state.departures || @state.departures.length == 0
       return false
 
     departures = []
