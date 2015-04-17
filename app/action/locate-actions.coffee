@@ -1,4 +1,5 @@
 Dispatcher = require '../dispatcher/dispatcher.coffee'
+$          = require 'jquery'
 
 class LocateActions
 
@@ -14,11 +15,12 @@ class LocateActions
       actionType: "GeolocationSearch"
 
     # and start positioning
-    navigator.geolocation.getCurrentPosition (position) -> 
+    navigator.geolocation.getCurrentPosition (position) => 
         Dispatcher.dispatch
           actionType: "GeolocationFound"
           lat: position.coords.latitude
           lon: position.coords.longitude
+        @reverseGeocodeAddress(position.coords.latitude, position.coords.longitude)
     , (error) ->
       Dispatcher.dispatch
         actionType: "GeolocationDenied"
@@ -32,6 +34,14 @@ class LocateActions
       actionType: "ManuallySetPosition"
       lat: lat
       lon: lon
+    @reverseGeocodeAddress(lat, lon)
+
+  reverseGeocodeAddress: (lat, lon) ->
+    $.getJSON "http://matka.hsl.fi/geocoder/reverse/" + lat + "," + lon, (data) ->
+        Dispatcher.dispatch
+          actionType: "AddressFound"
+          address: data.katunimi
+          number: data.osoitenumero
 
 
 module.exports = new LocateActions

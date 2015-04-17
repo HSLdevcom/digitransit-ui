@@ -94,10 +94,14 @@ class SearchWithLocation extends React.Component
           location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Paikannetaan...</span>
         when LocationStore.STATUS_FOUND_LOCATION
           location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>{this.state.address}</span>
+        when LocationStore.STATUS_FOUND_ADDRESS
+          console.log("ADDRESS")
+          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>{this.state.address}</span>
         when LocationStore.STATUS_GEOLOCATION_DENIED
           location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Et ole sallinut paikannusta</span>
         when LocationStore.STATUS_GEOLOCATION_NOT_SUPPORTED
           location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Paikannus ei ole tuettuna</span>
+
 
     <form className="search-form">
       <div className="row">
