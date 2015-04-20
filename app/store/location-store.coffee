@@ -6,7 +6,7 @@ class LocationStore extends Store
   STATUS_NO_LOCATION: 'no-location'
   STATUS_SEARCHING_LOCATION: 'searching-location'
   STATUS_FOUND_LOCATION: 'found-location'
-  STATUS_FOUND_ADDRESS: 'found-location'
+  STATUS_FOUND_ADDRESS: 'found-address'
   STATUS_GEOLOCATION_DENIED: 'geolocation-denied'
   STATUS_GEOLOCATION_NOT_SUPPORTED: 'geolocation-not-supported'
 
@@ -45,6 +45,13 @@ class LocationStore extends Store
     @status = @STATUS_FOUND_ADDRESS
     @emitChanges()
 
+  storeLocationAndAddress: (lat, lon, address) ->
+    @lat = lat
+    @lon = lon
+    @address = address
+    @status = @STATUS_FOUND_ADDRESS
+    @emitChanges()
+
   getLocationState: () ->
     lat: @lat
     lon: @lon
@@ -59,7 +66,7 @@ class LocationStore extends Store
         when "GeolocationRemoved" then @removeLocation()
         when "GeolocationNotSupported" then @geolocationNotSupported()
         when "GeolocationDenied" then @geolocationDenied()
-        when "ManuallySetPosition" then @storeLocation(action.lat, action.lon)
+        when "ManuallySetPosition" then @storeLocationAndAddress(action.lat, action.lon, action.address)
         when "AddressFound" then @storeAddress(action.address, action.number)
       
 module.exports = new LocationStore()

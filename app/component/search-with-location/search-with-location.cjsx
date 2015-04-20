@@ -36,7 +36,8 @@ class SearchWithLocation extends React.Component
               'value': result.stop_name, 
               'type': 'stop', 
               'lat': result.location[1], 
-              'lon': result.location[0]
+              'lon': result.location[0],
+              'address': result.stop_name,
             all = streets.concat stops
             return all
 
@@ -55,17 +56,18 @@ class SearchWithLocation extends React.Component
             suggestion: (result) ->
               switch result.type
                 when 'address' then return """<p class='address'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>#{result.value}</p>"""
-                when 'stop' then return """<p class='stop'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_bus-withoutBox"></use></svg>#{result.value}</p>"""
+                when 'stop' then return """<p class='stop'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_direction-b"></use></svg>#{result.value}</p>"""
                 else return "<p>#{result.value}</p>"
       }
 
       $(@refs.typeahead.getDOMNode()).bind 'typeahead:selected', (e, suggestion, dataset) =>
-        @manuallySetPositionIfNecessary(suggestion.lat, suggestion.lon)
+        @manuallySetPositionIfNecessary(suggestion.lat, suggestion.lon, suggestion.address)
 
       # Move window when search gets focus
-      $(@refs.typeahead.getDOMNode()).focus () -> 
-        location = $(this).offset().top - 45
-        $('hmtl, body').scrollTop(location)
+      # CURRENTLY DISABLED
+      # $(@refs.typeahead.getDOMNode()).focus () -> 
+      #  location = $(this).offset().top - 45
+      #  $('hmtl, body').scrollTop(location)
 
   componentWillUnmount: ->
     LocationStore.removeChangeListener @onChange
@@ -80,30 +82,37 @@ class SearchWithLocation extends React.Component
   removeLocation: (e) ->
     LocateActions.removeLocation()
 
-  manuallySetPositionIfNecessary: (lat, lon) ->
+  manuallySetPositionIfNecessary: (lat, lon, address) ->
     if this.state.status != LocationStore.STATUS_FOUND_LOCATION and lat != undefined and lon != undefined
-      LocateActions.manuallySetPosition(lat, lon)
+      LocateActions.manuallySetPosition(lat, lon, address)
+      $(@refs.typeahead.getDOMNode()).val('')
 
   render: ->
     arrow = null
+    searchPlaceholder = null
+    clearLocation = null
+
     switch this.state.status
         when LocationStore.STATUS_NO_LOCATION
           location = <span className="inline-block cursor-pointer" onClick={this.locateUser}><span className="dashed">Paikanna</span> tai kirjoita lähtöpaikkasi</span>
           arrow = <div className="arrow-down"></div>
+          searchPlaceholder = "Lähtöosoite, linja tai pysäkki"
         when LocationStore.STATUS_SEARCHING_LOCATION
-          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Paikannetaan...</span>
+          location = <span className="inline-block cursor-pointer">Paikannetaan...</span>
+          searchPlaceholder = ""
         when LocationStore.STATUS_FOUND_LOCATION
           location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>{this.state.address}</span>
+          searchPlaceholder = ""
         when LocationStore.STATUS_FOUND_ADDRESS
-          console.log("ADDRESS")
           location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>{this.state.address}</span>
+          clearLocation = <span className="inline-block right cursor-pointer" onClick={this.removeLocation}><Icon img={'icon-icon_close'}/></span>
+          searchPlaceholder = "Määränpään osoite, linja, tai pysäkki"
         when LocationStore.STATUS_GEOLOCATION_DENIED
-          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Et ole sallinut paikannusta</span>
+          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Kirjoita lähtöpaikkasi</span>
         when LocationStore.STATUS_GEOLOCATION_NOT_SUPPORTED
-          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Paikannus ei ole tuettuna</span>
+          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Kirjoita lähtöpaikkasi</span>
 
-
-    <form className="search-form">
+    <div className="search-form">
       <div className="row">
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row">
@@ -114,9 +123,7 @@ class SearchWithLocation extends React.Component
                 </span>
                 {location}
                 {arrow}
-                <span className="inline-block right cursor-pointer" onClick={this.removeLocation}>
-                  <Icon img={'icon-icon_close'}/>
-                </span>
+                {clearLocation}
               </div>
             </div>
           </div>
@@ -126,17 +133,16 @@ class SearchWithLocation extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              <input type="text" ref="typeahead" placeholder="Määränpään osoite, linja, pysäkki tai aika" />
+              <input type="text" ref="typeahead" placeholder={searchPlaceholder} />
             </div>
             <div className="small-1 columns">
               <span className="postfix search">
                 <Icon img={'icon-icon_search'}/>
-
               </span>
             </div>
           </div>
         </div>
       </div>
-    </form>
+    </div>
 
 module.exports = SearchWithLocation

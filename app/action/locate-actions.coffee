@@ -29,12 +29,12 @@ class LocateActions
     Dispatcher.dispatch
       actionType: "GeolocationRemoved"
 
-  manuallySetPosition: (lat, lon) ->
+  manuallySetPosition: (lat, lon, address) ->
     Dispatcher.dispatch
       actionType: "ManuallySetPosition"
       lat: lat
       lon: lon
-    @reverseGeocodeAddress(lat, lon)
+      address: address
 
   reverseGeocodeAddress: (lat, lon) ->
     $.getJSON "http://matka.hsl.fi/geocoder/reverse/" + lat + "," + lon, (data) ->
