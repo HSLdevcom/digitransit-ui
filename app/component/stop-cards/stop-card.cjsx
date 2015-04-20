@@ -2,6 +2,8 @@ React                 = require 'react'
 Departure             = require './departure'
 StopDeparturesStore   = require '../../store/stop-departures-store'
 StopDeparturesActions = require '../../action/stop-departures-action'
+FavouriteStopsStore   = require '../../store/favourite-stops-store'
+FavouriteStopsActions = require '../../action/favourite-stops-action'
 Icon                  = require '../icon/icon.cjsx'
 
 class StopCard extends React.Component
@@ -28,6 +30,9 @@ class StopCard extends React.Component
     @setState 
       departures: StopDeparturesStore.departures[@props.id]
   
+  addFavouriteStop: (id) =>
+    FavouriteStopsActions.addFavouriteStop(id)
+
   render: ->
     router = this.context.router
     description = ""
@@ -52,10 +57,12 @@ class StopCard extends React.Component
           destination={departure.pattern.direction} /> 
 
     <div className="small-12 medium-6 large-4 columns">
-      <div className="stop-card cursor-pointer" onClick={() => router.transitionTo('/pysakit/' + @props.id)}>
-        <Icon className="favourite" img="icon-icon_star"/>
+      <div className="stop-card cursor-pointer">  
+        <span className="cursor-pointer" onClick={() => this.addFavouriteStop(@props.id)}>
+          <Icon className="favourite" img="icon-icon_star"/>
+        </span>
         <h3>{@props.name} ›</h3>
-        <p className="location">{description}</p>
+        <p className="location" onClick={() => router.transitionTo('/pysakit/' + @props.id)}>{description}</p>
         {departures}
       </div>
     </div>

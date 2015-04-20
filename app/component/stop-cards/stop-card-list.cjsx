@@ -1,30 +1,34 @@
 React               = require 'react' 
-NearestStopsStore   = require '../../store/nearest-stops-store'
 NearestStopsActions = require '../../action/nearest-stops-action'
 LocationStore       = require '../../store/location-store' 
 StopCard            = require './stop-card'
 MasonryComponent    = require './MasonryComponent'
 
+STOP_COUNT = 10
+
 class StopCardList extends React.Component
+  propTypes =
+    store: React.PropTypes.any
+
   constructor: -> 
     super
-    @state = 
-      nearestStops: NearestStopsStore.nearestStops
-      numberOfStops: 10
+    
+  componentWillMount: =>
+    @onChange()
 
-  componentDidMount: -> 
-    NearestStopsStore.addChangeListener @onChange 
+  componentDidMount: => 
+    @props.store.addChangeListener @onChange 
     LocationStore.addChangeListener @onLocationChange
     @onLocationChange()
 
-  componentWillUnmount: ->
-    NearestStopsStore.removeChangeListener @onChange
+  componentWillUnmount: =>
+    @props.store.removeChangeListener @onChange
     LocationStore.removeChangeListener @onLocationChange
 
   onChange: =>
     @setState 
-      nearestStops: NearestStopsStore.nearestStops
-      numberOfStops: 10
+      stops: @props.store.getStops()
+      numberOfStops: STOP_COUNT
   
   onLocationChange: ->
     coordinates = LocationStore.getLocationState()
@@ -33,14 +37,14 @@ class StopCardList extends React.Component
 
   addStops: =>
     @setState
-      numberOfStops: @state.numberOfStops+10
+      numberOfStops: @state.numberOfStops + STOP_COUNT
 
   reloadMasonry: =>
     @refs['stop-cards-masonry'].performLayout()
 
-  render: ->
+  render: =>
     stopCards = []
-    for stop in @state.nearestStops.slice(0,@state.numberOfStops)
+    for stop in @state.stops.slice(0,@state.numberOfStops)
       stopCards.push <StopCard key={stop.id} name={stop.name} code={stop.code} dist={stop.dist} id={stop.id} reloadMasonry={@reloadMasonry}/> 
     <div className="stop-cards">
       <div className="row">

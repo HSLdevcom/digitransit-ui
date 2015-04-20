@@ -5,16 +5,19 @@ LocationStore = require './location-store.coffee'
 class NearestStopsStore extends Store
   constructor: ->
     super()
-    @nearestStops = [];
+    @stops = []
     @register()
 
+  getStops: () ->
+    @stops
+    
   removeNearestStops: ->
-    @nearestStops = [];
+    @stops = []
 
-  storeNearestStops: (nearestStops) ->
-    nearestStops.sort (a,b) ->
+  storeNearestStops: (stops) ->
+    stops.sort (a,b) ->
       if a.dist > b.dist then 1 else -1
-    @nearestStops = nearestStops
+    @stops = stops
     @emitChanges()
 
   register: -> 

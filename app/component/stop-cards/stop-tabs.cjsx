@@ -1,8 +1,10 @@
-React           = require 'react'
-Tabs            = require 'react-simpletabs'
-StopCardList    = require './stop-card-list'
-NoLocationPanel = require '../no-location-panel/no-location-panel'
-LocationStore   = require '../../store/location-store.coffee'
+React               = require 'react'
+Tabs                = require 'react-simpletabs'
+StopCardList        = require './stop-card-list'
+NoLocationPanel     = require '../no-location-panel/no-location-panel'
+LocationStore       = require '../../store/location-store.coffee'
+NearestStopsStore   = require '../../store/nearest-stops-store.coffee'
+FavouriteStopsStore = require '../../store/favourite-stops-store.coffee'
 
 class StopTabs extends React.Component
   constructor: -> 
@@ -20,19 +22,19 @@ class StopTabs extends React.Component
 
   render: -> 
     if @state.status == LocationStore.STATUS_FOUND_LOCATION or @state.status == LocationStore.STATUS_FOUND_ADDRESS
-      panel = <StopCardList/>
+      nearestPanel = <StopCardList key="NearestStopsStore" store={NearestStopsStore}/>
     else 
-      panel = <NoLocationPanel/>
+      nearestPanel = <NoLocationPanel/>
 
     <Tabs>
       <Tabs.Panel title="Lähimmät">
-        {panel}
+        {nearestPanel}
       </Tabs.Panel>
       <Tabs.Panel title='Edelliset'>
         <h2>Edelliset tähän</h2>
       </Tabs.Panel>
       <Tabs.Panel title='Suosikit'>
-        <h2>Suosikit tähän</h2>
+        <StopCardList key="FavouriteStopsStore" store={FavouriteStopsStore}/>
       </Tabs.Panel>
     </Tabs>
 
