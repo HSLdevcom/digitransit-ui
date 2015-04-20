@@ -7,18 +7,10 @@
     "folder": "mkdir -p _static/js; mkdir -p _static/css; mkdir -p _static/font;",
     "prestatic": "npm run folder",
     "static": "cp -r static/* _static; cp -r font/* _static/font/",
-    "precss:build": "npm run folder",
-    "css:build": "node-sass sass/main.scss --stdout > _static/css/bundle.css",
-    "css:watch": "watch --wait=1 'npm run css:build' app/component",
-    "prebrowserify:build": "npm run folder",
-    "browserify:build": "browserify -t coffee-reactify --extension='.cjsx' --extension='.coffee' --debug app/client.cjsx > _static/js/bundle.js; echo 'Bundle built.'",
-    "browserify:watch": "watch --wait=1 'npm run browserify:build' app",
-    "livereload": "live-reload --port 9000 _static",
-    "watch": "npm run static; parallelshell 'npm run css:watch' 'npm run browserify:watch' 'node server/server.js' 'npm run livereload'",
-    "discify": "browserify --full-paths -t coffee-reactify --extension='.cjsx' --extension='.coffee' app/client.cjsx > _static/js/bundle.js; discify _static/js/bundle.js > filesizes.html; echo 'See filesizes.html' with browser",
-    "dist:js": "npm run browserify:build; minify _static/js/bundle.js;",
-    "dist:css": "npm run css:build; cleancss _static/css/bundle.css -o _static/css/bundle.min.css",
-    "dist": "npm run dist:js; npm run dist:css"
+    "predev": "npm run folder",
+    "dev": "NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html --watch . --ignore ./_static/ server/server.js & NODE_ENV=development node ./hotLoadServer.js",
+    "build": "NODE_ENV=production webpack -p --progress --colors",
+    "start": "NODE_ENV=production nodemon server/server"
   },
   "main": "server.js",
   "repository": {
@@ -27,37 +19,6 @@
   },
   "bugs": {
     "url": ""
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browser": {
-    "typeaheadjs-shim": "./node_modules/typeahead.js/dist/typeahead.bundle.js",
-    "bloodhound-shim": "./node_modules/typeahead.js/dist/bloodhound.js",
-    "foundation-shim": "./node_modules/zurb-foundation-5/js/foundation/foundation.js",
-    "foundation-offcanvas-shim": "./node_modules/zurb-foundation-5/js/foundation/foundation.offcanvas.js"
-  },
-  "browserify-shim": {
-    "typeaheadjs-shim": {
-      "exports": "Typeahead",
-      "depends": [
-        "jquery:jQuery"
-      ]
-    },
-    "bloodhound-shim": {
-      "exports": "Bloodhound",
-      "depends": [
-        "jquery:jQuery"
-      ]
-    },
-    "foundation-shim": {
-      "exports": "Foundation",
-      "depends": [
-        "jquery:jQuery"
-      ]
-    }
   },
   "dependencies": {
     "body-parser": "^1.12.2",
@@ -79,12 +40,17 @@
     "zurb-foundation-5": "^5.4.7"
   },
   "devDependencies": {
-    "browserify": "^9.0.3",
-    "browserify-shim": "^3.8.3",
-    "coffee-reactify": "^3.0.0",
-    "coffeeify": "^1.0.0",
+    "css-loader": "^0.10.1",
+    "cjsx-loader": "^2.0.1",
+    "coffee-loader": "^0.7.2",
+    "file-loader": "^0.8.1",
+    "imports-loader": "^0.6.3",
     "node-sass": "3.0.0-beta.4",
-    "reactify": "^1.1.0",
-    "watch": "^0.14.0"
+    "nodemon": "^1.3.7",
+    "react-hot-loader": "^1.2.5",
+    "sass-loader": "^1.0.1",
+    "style-loader": "^0.10.2",
+    "webpack": "^1.8.5",
+    "webpack-dev-server": "^1.8.0"
   }
 }

@@ -3,3 +3,4 @@ _static
 npm-debug.log
 node_modules
 filesizes.html
+stats.json

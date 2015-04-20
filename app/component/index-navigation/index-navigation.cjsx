@@ -2,8 +2,8 @@ React                 = require 'react'
 Icon                  = require '../icon/icon.cjsx'
 IndexSubNavigation    = require './index-sub-navigation.cjsx'
 if window?
-  Foundation          = require 'foundation-shim'
-  FoundationOffcanvas = require 'foundation-offcanvas-shim'
+  Foundation          = require 'imports?jQuery=jquery!zurb-foundation-5/js/foundation/foundation'
+  FoundationOffcanvas = require 'imports?jQuery=jquery!zurb-foundation-5/js/foundation/foundation.offcanvas'
   $                   = require 'jquery'
 
 class IndexNavigation extends React.Component

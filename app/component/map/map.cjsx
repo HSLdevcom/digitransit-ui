@@ -3,6 +3,8 @@ React         = require 'react'
 Leaflet       = if isBrowser then require 'react-leaflet' else null
 LocationStore = require '../../store/location-store' 
 
+if isBrowser
+  require 'leaflet/dist/leaflet.css'
 
 class Map extends React.Component
   constructor: -> 

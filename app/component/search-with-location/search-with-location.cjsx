@@ -1,8 +1,8 @@
 React          = require 'react'
 $              = require 'jquery'
 if window?
-  Typeahead      = require 'typeaheadjs-shim'
-  Bloodhound     = require 'bloodhound-shim'
+  window.jQuery  = require "jquery"
+  Typeahead      = require 'typeahead.js'
 LocateActions  = require '../../action/locate-actions.coffee'
 LocationStore  = require '../../store/location-store.coffee'
 Icon           = require '../icon/icon.cjsx'

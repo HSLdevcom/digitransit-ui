@@ -46,7 +46,11 @@ function setUpRoutes() {
   app.use(function (req, res) { // pass in `req.url` and the router will immediately match
     Router.run(routes, req.url, function (Handler) {
       var content = React.renderToString(React.createElement(Handler, null))
-      res.render('app', {content: content, partials: { svgSprite: 'svg-sprite'}})
+      res.render('app', {
+        content: content,
+        partials: { svgSprite: 'svg-sprite'},
+        livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : ''
+      })
     })
   })
 }
