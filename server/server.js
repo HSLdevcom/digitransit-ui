@@ -49,7 +49,8 @@ function setUpRoutes() {
       res.render('app', {
         content: content,
         partials: { svgSprite: 'svg-sprite'},
-        livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : ''
+        livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : '',
+        style: process.env.NODE_ENV === "development" ? '' : '<link rel="stylesheet" href="css/bundle.css">'
       })
     })
   })

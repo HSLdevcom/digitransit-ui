@@ -12,6 +12,8 @@ class FavouriteStopsStore extends Store
     @register()    
 
   getStops: () ->
+    if !window?
+      return undefined
     storage = window.localStorage
     stops = storage.getItem(STORAGE_KEY)
     JSON.parse(stops)

@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>{{ page.title }}</title>
+  <title>Reittiopas Demo</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  {{{ style }}}
 </head>
 <body>
     {{> svgSprite}}
     <div id="app">{{{ content }}}</div>
 
-    <!-- Livereload. TODO Remove before production usage -->
     <script src="{{ livereload }}js/bundle.js"></script> 
   </body>
 </html>
