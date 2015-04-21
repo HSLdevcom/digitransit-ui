@@ -1,0 +1,45 @@
+.icon {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
+}
+
+#icon-icon_bus .path1 {
+	fill: rgb(255, 255, 255);
+}
+#icon-icon_bus .path2 {
+	fill: rgb(0, 122, 201);
+}
+
+#icon-icon_ferry .path1 {
+	fill: rgb(255, 255, 255);
+}
+#icon-icon_ferry .path2 {
+	fill: rgb(0, 185, 228);
+}
+
+#icon-icon_mapMarker-location .path4 {
+	fill: rgb(0, 185, 228);
+}
+
+#icon-icon_metro .path1 {
+	fill: rgb(255, 255, 255);
+}
+#icon-icon_metro .path2 {
+	fill: rgb(255, 99, 25);
+}
+
+#icon-icon_train .path1 {
+	fill: rgb(255, 255, 255);
+}
+#icon-icon_train .path2 {
+	fill: rgb(140, 71, 153);
+}
+
+#icon-icon_tram .path1 {
+	fill: rgb(255, 255, 255);
+}
+#icon-icon_tram .path2 {
+	fill: rgb(0, 152, 95);
+}

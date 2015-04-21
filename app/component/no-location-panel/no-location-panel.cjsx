@@ -1,5 +1,7 @@
 React          = require 'react'
 LocateActions  = require '../../action/locate-actions.coffee'
+Icon           = require '../icon/icon.cjsx'
+
 
 class NoLocationPanel extends React.Component
   render: ->
@@ -9,7 +11,7 @@ class NoLocationPanel extends React.Component
       </p>
 
       <p className="locate-yourself" onClick={this.locateUser}>
-        <i className="icon icon-location"></i> <span className="link">Paikanna itsesi</span>
+        <Icon img={'icon-icon_mapMarker-location'}/> <span className="link">Paikanna itsesi</span>
       </p>
 
       <p className="text-center">
