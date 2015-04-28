@@ -1,47 +1,43 @@
-Dispatcher = require '../dispatcher/dispatcher.coffee'
 $          = require 'jquery'
 
-class LocateActions
+reverseGeocodeAddress = (actionContext, location, done) ->
+  $.getJSON "http://matka.hsl.fi/geocoder/reverse/" + location.lat + "," + location.lon, (data) ->
+      actionContext.dispatch "AddressFound",
+        address: data.katunimi
+        number: data.osoitenumero
+      done()
 
-  findLocation: ->
-    # First check if we have geolocation support
-    if not navigator.geolocation
-      Dispatcher.dispatch
-        actionType: "GeolocationNotSupported"
-      return 
+findLocation = (actionContext, payload, done) ->
+  # First check if we have geolocation support
+  if not navigator.geolocation
+    actionContext.dispatch "GeolocationNotSupported"
+    done()
+    return
 
-    # Notify that we are searching...
-    Dispatcher.dispatch
-      actionType: "GeolocationSearch"
+  # Notify that we are searching...
+  actionContext.dispatch "GeolocationSearch"
 
-    # and start positioning
-    navigator.geolocation.getCurrentPosition (position) => 
-        Dispatcher.dispatch
-          actionType: "GeolocationFound"
-          lat: position.coords.latitude
-          lon: position.coords.longitude
-        @reverseGeocodeAddress(position.coords.latitude, position.coords.longitude)
-    , (error) ->
-      Dispatcher.dispatch
-        actionType: "GeolocationDenied"
+  # and start positioning
+  navigator.geolocation.getCurrentPosition (position) => 
+      actionContext.dispatch "GeolocationFound",
+        lat: position.coords.latitude
+        lon: position.coords.longitude
+      actionContext.executeAction reverseGeocodeAddress, ('lat': position.coords.latitude, 'lon': position.coords.longitude), done
+  , (error) ->
+    actionContext.dispatch "GeolocationDenied"
+    done()
 
-  removeLocation: ->
-    Dispatcher.dispatch
-      actionType: "GeolocationRemoved"
+removeLocation = (actionContext) ->
+  actionContext.dispatch "GeolocationRemoved"
 
-  manuallySetPosition: (lat, lon, address) ->
-    Dispatcher.dispatch
-      actionType: "ManuallySetPosition"
-      lat: lat
-      lon: lon
-      address: address
+manuallySetPosition = (actionContext, location) ->
+  actionContext.dispatch "ManuallySetPosition",
+    lat: location.lat
+    lon: location.lon
+    address: location.address
 
-  reverseGeocodeAddress: (lat, lon) ->
-    $.getJSON "http://matka.hsl.fi/geocoder/reverse/" + lat + "," + lon, (data) ->
-        Dispatcher.dispatch
-          actionType: "AddressFound"
-          address: data.katunimi
-          number: data.osoitenumero
-
-
-module.exports = new LocateActions
+module.exports =
+  'findLocation':          findLocation
+  'removeLocation':        removeLocation
+  'manuallySetPosition':   manuallySetPosition
+  'reverseGeocodeAddress': reverseGeocodeAddress

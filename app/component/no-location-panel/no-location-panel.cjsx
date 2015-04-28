@@ -4,6 +4,9 @@ Icon           = require '../icon/icon.cjsx'
 
 
 class NoLocationPanel extends React.Component
+  @contextTypes:
+    executeAction: React.PropTypes.func.isRequired
+
   render: ->
     <div className="no-location-panel">
       <p className="text-center">
@@ -33,6 +36,6 @@ class NoLocationPanel extends React.Component
     </div>
 
   locateUser: ->
-    LocateActions.findLocation()
+    @context.executeAction LocateActions.findLocation
 
 module.exports = NoLocationPanel

@@ -8,19 +8,21 @@ Icon                  = require '../icon/icon.cjsx'
 
 class StopCard extends React.Component
   @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
     router: React.PropTypes.func
 
   constructor: -> 
     super
-    @state = departures: StopDeparturesStore.departures[@props.id]
+    @state = departures: @context.getStore(StopDeparturesStore).departures[@props.id]
 
   componentDidMount: -> 
-    StopDeparturesStore.addChangeListener @onChange
+    @context.getStore(StopDeparturesStore).addChangeListener @onChange
     if !@state.departures
-      StopDeparturesActions.stopDeparturesRequest @props.id
+      @context.executeAction StopDeparturesActions.stopDeparturesRequest, @props.id
 
   componentWillUnmount: ->
-    StopDeparturesStore.removeChangeListener @onChange
+    @context.getStore(StopDeparturesStore).removeChangeListener @onChange
 
   componentDidUpdate: ->
     if @state.departures && @state.departures.length != 0
@@ -28,10 +30,10 @@ class StopCard extends React.Component
 
   onChange: =>
     @setState 
-      departures: StopDeparturesStore.departures[@props.id]
+      departures: @context.getStore(StopDeparturesStore).departures[@props.id]
   
   addFavouriteStop: (id) =>
-    FavouriteStopsActions.addFavouriteStop(id)
+    @context.executeAction FavouriteStopsActions.addFavouriteStop, id
 
   render: ->
     router = this.context.router

@@ -4,19 +4,21 @@ if window?
   window.jQuery  = require "jquery"
   Typeahead      = require 'typeahead.js'
 LocateActions  = require '../../action/locate-actions.coffee'
-LocationStore  = require '../../store/location-store.coffee'
 Icon           = require '../icon/icon.cjsx'
-ReactPropTypes = React.PropTypes;
 
 GEOCODING_SUGGEST_URL = 'http://matka.hsl.fi/geocoder/suggest/'
 
 class SearchWithLocation extends React.Component
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
+
   constructor: -> 
     super
-    @state = LocationStore.getLocationState() 
+    @state = @context.getStore('LocationStore').getLocationState() 
   
   componentDidMount: -> 
-    LocationStore.addChangeListener @onChange
+    @context.getStore('LocationStore').addChangeListener @onChange
 
     if window?
       # Create geocoding datasource
@@ -70,20 +72,20 @@ class SearchWithLocation extends React.Component
       #  $('hmtl, body').scrollTop(location)
 
   componentWillUnmount: ->
-    LocationStore.removeChangeListener @onChange
+    @context.getStore('LocationStore').removeChangeListener @onChange
     $(@refs.typeahead.getDOMNode()).typeahead('destroy')
 
   onChange: =>
-    @setState LocationStore.getLocationState()
+    @setState @context.getStore('LocationStore').getLocationState()
 
   locateUser: ->
-    LocateActions.findLocation()
+    @context.executeAction LocateActions.findLocation, {}
 
   removeLocation: (e) ->
-    LocateActions.removeLocation()
+    @context.executeAction LocateActions.removeLocation, {}
 
   manuallySetPositionIfNecessary: (lat, lon, address) ->
-    if this.state.status != LocationStore.STATUS_FOUND_LOCATION and lat != undefined and lon != undefined
+    if this.state.status != @context.getStore('LocationStore').STATUS_FOUND_LOCATION and lat != undefined and lon != undefined
       LocateActions.manuallySetPosition(lat, lon, address)
       $(@refs.typeahead.getDOMNode()).val('')
 
@@ -91,6 +93,7 @@ class SearchWithLocation extends React.Component
     arrow = null
     searchPlaceholder = null
     clearLocation = null
+    LocationStore = @context.getStore 'LocationStore'
 
     switch this.state.status
         when LocationStore.STATUS_NO_LOCATION
