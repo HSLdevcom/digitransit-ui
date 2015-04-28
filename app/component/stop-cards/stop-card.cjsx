@@ -50,7 +50,7 @@ class StopCard extends React.Component
 
     departures = []
 
-    for departure in @state.departures.slice(0,10)
+    for departure in @state.departures.slice(0,5)
       departures.push <Departure 
           key={departure.pattern.id + departure.time.serviceDay + departure.time.realtimeDeparture}
           time={departure.time}
