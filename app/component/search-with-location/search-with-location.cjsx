@@ -2,13 +2,13 @@ React          = require 'react'
 $              = require 'jquery'
 if window?
   window.jQuery  = require "jquery"
-  Typeahead      = require 'typeahead.js'
+  Bloodhound     = require 'typeahead.js'
 LocateActions  = require '../../action/locate-actions.coffee'
 LocationStore  = require '../../store/location-store.coffee'
 Icon           = require '../icon/icon.cjsx'
 ReactPropTypes = React.PropTypes;
 
-GEOCODING_SUGGEST_URL = 'http://matka.hsl.fi/geocoder/suggest/'
+GEOCODING_SUGGEST_URL = 'http://matka.hsl.fi/geocoder/'
 
 class SearchWithLocation extends React.Component
   constructor: -> 
@@ -17,29 +17,28 @@ class SearchWithLocation extends React.Component
   
   componentDidMount: -> 
     LocationStore.addChangeListener @onChange
-
     if window?
       # Create geocoding datasource
+      filterAddressesByNumber = @filterAddressesByNumber
+      filterSuggest = @filterSuggest
+      resolveGeocodingUrl = @resolveGeocodingUrl
+
       geoData = new Bloodhound
-        limit: 50
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('address')
         queryTokenizer: Bloodhound.tokenizers.whitespace
         remote: 
-          url: GEOCODING_SUGGEST_URL + '%QUERY'
+          prepare: (query, settings) ->
+            settings.url = settings.url + resolveGeocodingUrl(query)
+            return settings
+
+          url: GEOCODING_SUGGEST_URL
           rateLimitBy: 'debounce'
           rateLimitWait: 100
           filter: (data) -> 
-            streets = data.streetnames.map (result) -> 
-              'value': result.key, 
-              'type': 'address'              
-            stops = data.stops.map (result) -> 
-              'value': result.stop_name, 
-              'type': 'stop', 
-              'lat': result.location[1], 
-              'lon': result.location[0],
-              'address': result.stop_name,
-            all = streets.concat stops
-            return all
+            if data.results
+              filterAddressesByNumber(data)
+            else 
+              filterSuggest(data)
 
       geoData.initialize()
 
@@ -50,24 +49,65 @@ class SearchWithLocation extends React.Component
         minLength: 2
       }, {
         name: 'geodata'
-        displayKey: 'value'
+        limit: 50
+        displayKey: 'selection'
         source: geoData.ttAdapter()
         templates:
             suggestion: (result) ->
               switch result.type
-                when 'address' then return """<p class='address'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>#{result.value}</p>"""
-                when 'stop' then return """<p class='stop'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_direction-b"></use></svg>#{result.value}</p>"""
-                else return "<p>#{result.value}</p>"
+                when 'stop' then return """<p class='stop'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_direction-b"></use></svg>#{result.address} <span class="city">(#{result.stopCode})</span></p>"""
+                when 'street' then """<p class='address'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>#{result.address}, #{result.city}</p>"""
+                when 'address' then """<p class='address'><svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>#{result.address} #{result.number}, #{result.city}</p>"""
+                else "#{result.address}</p>"
       }
 
-      $(@refs.typeahead.getDOMNode()).bind 'typeahead:selected', (e, suggestion, dataset) =>
-        @manuallySetPositionIfNecessary(suggestion.lat, suggestion.lon, suggestion.address)
+      $(@refs.typeahead.getDOMNode()).bind 'typeahead:select', (e, suggestion, dataset) =>
+        @manuallySetPositionIfNecessary(suggestion)
 
-      # Move window when search gets focus
-      # CURRENTLY DISABLED
-      # $(@refs.typeahead.getDOMNode()).focus () -> 
-      #  location = $(this).offset().top - 45
-      #  $('hmtl, body').scrollTop(location)
+  resolveGeocodingUrl: (query) ->
+    lastCharIsSpace = /\s+$/.test(query)
+    numberInQuery = query.match(/\d/)
+    city = "helsinki"
+    queryWithoutNumbers = query.replace(/\d+/g,'')
+
+    if lastCharIsSpace or numberInQuery
+      return "search/#{city}/#{queryWithoutNumbers}" 
+    else 
+      return "suggest/#{queryWithoutNumbers}"
+    
+  filterSuggest: (data) ->
+    streets = []
+    for streetName, cities of data.streetnames
+      for city in cities
+        streets.push
+          'type': 'street'    
+          'address': "#{streetName}"
+          'city': "#{city.key}"
+          'selection': "#{streetName}"
+
+    stops = data.stops.map (result) -> 
+      'type': 'stop'
+      'address': result.stop_name
+      'lat': result.location[1] 
+      'lon': result.location[0]
+      'stopCode': result.stop_code
+      'selection': "#{result.stop_name} (#{result.stop_code})"
+
+    all = streets.concat stops 
+    return all
+
+  filterAddressesByNumber: (data) ->
+    addresses = []  
+    for address in data.results
+      addresses.push
+        'type': 'address' 
+        'address': address.katunimi
+        'lat': address.location[1] 
+        'lon': address.location[0]
+        'number': address.osoitenumero
+        'city': address.kaupunki
+        'selection': "#{address.katunimi} #{address.osoitenumero}"
+    return addresses
 
   componentWillUnmount: ->
     LocationStore.removeChangeListener @onChange
@@ -82,10 +122,37 @@ class SearchWithLocation extends React.Component
   removeLocation: (e) ->
     LocateActions.removeLocation()
 
-  manuallySetPositionIfNecessary: (lat, lon, address) ->
-    if this.state.status != LocationStore.STATUS_FOUND_LOCATION and lat != undefined and lon != undefined
-      LocateActions.manuallySetPosition(lat, lon, address)
-      $(@refs.typeahead.getDOMNode()).val('')
+  manuallySetPositionIfNecessary: (suggestion) ->
+    type = suggestion.type
+    lat = suggestion.lat 
+    lon = suggestion.lon
+    if suggestion.type == "stop" then value = "#{suggestion.address} (#{suggestion.stopCode})"
+    if suggestion.type == "street" then value = "#{suggestion.address}, #{suggestion.city}"
+    if suggestion.type == "address" then value = "#{suggestion.address} #{suggestion.number}, #{suggestion.city}"
+      
+    # Set location if available and not set already
+    if this.state.status != LocationStore.STATUS_FOUND_ADDRESS and lat != undefined and lon != undefined
+      LocateActions.manuallySetPosition(lat, lon, value)
+      # This has to be done in next event loop
+      setTimeout () =>
+        $(@refs.typeahead.getDOMNode()).val('')
+      , 1
+    # If no location is available, fetch first hit
+    else if this.state.status != LocationStore.STATUS_FOUND_ADDRESS and lat == undefined && lon == undefined
+      $.getJSON "http://matka.hsl.fi/geocoder/search/#{suggestion.city}/#{suggestion.address}", (data) ->
+        if data.results.length == 0
+          # TODO, What now?
+          LocateActions.manuallySetPosition(60.21230809242619, 24.949568995764682, "No first address number, what now!?")  
+        else 
+          lat = data.results[0].location[1]
+          lon = data.results[0].location[0]
+          LocateActions.manuallySetPosition(lat, lon, value)
+      # This has to be done in next event loop
+      setTimeout () =>
+        $(@refs.typeahead.getDOMNode()).val('')
+      , 1
+    
+      
 
   render: ->
     arrow = null
@@ -133,7 +200,7 @@ class SearchWithLocation extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              <input type="text" ref="typeahead" placeholder={searchPlaceholder} />
+              <input id="moi"type="text" ref="typeahead" placeholder={searchPlaceholder} />
             </div>
             <div className="small-1 columns">
               <span className="postfix search">

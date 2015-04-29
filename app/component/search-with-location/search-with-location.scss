@@ -2,6 +2,7 @@
 $search-result-width: grid-calc($total-columns+1, $total-columns) + 1;
 $search-result-background-color: $white;
 $search-result-text-color: $black;
+$search-result-text-city-color: $gray;
 $search-result-text-font-weight: 300;
 $search-result-text-highlight-color: $black;
 $search-result-text-highlight-font-weight: 300;
@@ -48,7 +49,7 @@ $search-form-transparency: $transparency;
   margin-bottom: 5px !important;
 }
 
-.search-form .tt-dropdown-menu {
+.search-form .tt-menu {
   background-color: $search-result-background-color;
   color: $search-result-text-color;
   font-weight: $search-result-text-font-weight;
@@ -64,26 +65,31 @@ $search-form-transparency: $transparency;
 }
 
 .search-form .tt-suggestion {
-  padding: 0;
-  margin: 0;
-}
-
-.search-form .tt-suggestion p {
-  padding: 0px 0 7px 0;
+  padding: 0px 0 5px 0;
   margin: 0;
   cursor: pointer;
 }
 
-.search-form .tt-suggestion p .icon{
+.search-form .tt-suggestion .icon{
   margin-right: 4px;
   width: 16px;
   height: 16px;
   fill: $search-result-icon-color;
 }
 
-.search-form .tt-suggestion p strong {
+.search-form .tt-suggestion strong {
   font-weight: $search-result-text-match-font-weight;
   color: $search-result-text-match-color;
+}
+
+.search-form .tt-suggestion .city {
+  color: $search-result-text-city-color;
+}
+
+/* Don't highlight city name */
+.search-form .tt-suggestion .city strong {
+  color: $search-result-text-city-color;
+  font-weight: $search-result-text-font-weight;
 }
 
 .search-form .tt-dataset-geodata {
