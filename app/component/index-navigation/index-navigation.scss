@@ -191,6 +191,7 @@ button.sub-navigation-switch:active {
   top: $top-navigation-height;
   text-align: left;
   z-index: 100;
+  line-height: $top-navigation-sub-height;
 }
 
 .sub-navigation .arrow-up {
@@ -204,22 +205,21 @@ button.sub-navigation-switch:active {
   margin-top: -8px;
 }
 
-.sub-navigation input,
 .sub-navigation select, {
   background-color: $top-navigation-sub-input-background-color;
   height: 25px;
   display: inline-block !important;
   color: $top-navigation-sub-color;
+  margin-right: 5px;
 }
 
-.sub-navigation input:focus,
 .sub-navigation select:focus {
   background-color: $top-navigation-sub-input-background-color;
   outline: none;
 }
 
-.sub-navigation input.time {
-  width: 30px;
+.sub-navigation select.time {
+  width: 40px;
 }
 
 .sub-navigation select {
@@ -229,16 +229,23 @@ button.sub-navigation-switch:active {
   padding-bottom: 0px;
 }
 
-.sub-navigation input.time.hour {
+.sub-navigation select.time.hour {
   border-top-left-radius: $border-radius;
   border-bottom-left-radius: $border-radius;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  margin-right: 0px;
 }
 
-.sub-navigation input.time.minute {
+.sub-navigation select.time.minute {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
   border-top-right-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
+  margin-left: -5px;
+}
+
+.sub-navigation .timeseparator {
+  margin-left: 33px;
+  position: absolute
 }
