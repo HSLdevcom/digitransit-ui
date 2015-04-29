@@ -30,17 +30,17 @@ module.exports = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.NoErrorsPlugin()
   ] : [
-    new webpack.PrefetchPlugin("react"),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.DefinePlugin({
+      "process.env": {
+          NODE_ENV: JSON.stringify("production")
+      }
+    }),
+    new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       mangle: {
           except: ['$super', '$', 'exports', 'require']
-        }
-      }),
-    new webpack.DefinePlugin({
-      "process.env": {
-          NODE_ENV: JSON.stringify("production")
         }
       }),
     new ExtractTextPlugin("css/bundle.css", {
