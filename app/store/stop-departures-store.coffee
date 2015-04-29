@@ -1,28 +1,25 @@
-Dispatcher = require '../dispatcher/dispatcher.coffee'
-Store      = require './store.coffee'
+Store = require 'fluxible/addons/BaseStore'
 
 class StopDeparturesStore extends Store
-  constructor: ->
-    super()
-    @eventEmitter.setMaxListeners(100)
-    @departures = {};
-    @register()
+  @storeName: 'StopDeparturesStore'
 
-  storeStopDepartures: (id, departures) ->
+  constructor: (dispatcher) ->
+    super(dispatcher)
+    @departures = {}
+
+  storeStopDepartures: (data) ->
     deps = []
-    for departure in departures
+    for departure in data.departures
       for time in departure.times
         deps.push
           time: time
           pattern: departure.pattern
     deps.sort (a,b) ->
       if a.time.serviceDay + a.time.realtimeDeparture > b.time.serviceDay + b.time.realtimeDeparture then 1 else -1
-    @departures[id] = deps
-    @emitChanges()
+    @departures[data.id] = deps
+    @emitChange()
 
-  register: -> 
-    @dispatchToken = Dispatcher.register (action) =>
-      switch action.actionType
-        when "StopDeparturesFound" then @storeStopDepartures(action.id, action.stopDepartures)
-      
-module.exports = new StopDeparturesStore()
+  @handlers:
+    "StopDeparturesFound": 'storeStopDepartures'
+
+module.exports = StopDeparturesStore

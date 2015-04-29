@@ -1,12 +1,15 @@
 isBrowser     = window?
 React         = require 'react'
 Leaflet       = if isBrowser then require 'react-leaflet' else null
-LocationStore = require '../../store/location-store' 
+LocationStore = require '../../store/location-store.coffee'
 
 if isBrowser
   require 'leaflet/dist/leaflet.css'
 
 class Map extends React.Component
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
   constructor: -> 
     super
     @state =
@@ -15,14 +18,14 @@ class Map extends React.Component
       hasLocation: false
 
   componentDidMount: -> 
-    LocationStore.addChangeListener @onLocationChange
+    @context.getStore(LocationStore).addChangeListener @onLocationChange
     @onLocationChange()
 
   componentWillUnmount: ->
-    LocationStore.removeChangeListener @onLocationChange
+    @context.getStore(LocationStore).removeChangeListener @onLocationChange
 
   onLocationChange: =>
-    coordinates = LocationStore.getLocationState()
+    coordinates = @context.getStore(LocationStore).getLocationState()
     if (coordinates.lat != 0 || coordinates.lon != 0)
       @setState
         location: [coordinates.lat, coordinates.lon]

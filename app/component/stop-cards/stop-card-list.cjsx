@@ -1,13 +1,17 @@
 React               = require 'react' 
 NearestStopsActions = require '../../action/nearest-stops-action'
-LocationStore       = require '../../store/location-store' 
 StopCard            = require './stop-card'
 MasonryComponent    = require './MasonryComponent'
+LocationStore       = require '../../store/location-store.coffee'
 
 STOP_COUNT = 10
 
 class StopCardList extends React.Component
-  propTypes =
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
+
+  @propTypes:
     store: React.PropTypes.any
 
   constructor: -> 
@@ -18,22 +22,22 @@ class StopCardList extends React.Component
 
   componentDidMount: => 
     @props.store.addChangeListener @onChange 
-    LocationStore.addChangeListener @onLocationChange
+    @context.getStore(LocationStore).addChangeListener @onLocationChange
     @onLocationChange()
 
   componentWillUnmount: =>
     @props.store.removeChangeListener @onChange
-    LocationStore.removeChangeListener @onLocationChange
+    @context.getStore(LocationStore).removeChangeListener @onLocationChange
 
   onChange: =>
     @setState 
       stops: @props.store.getStops()
       numberOfStops: STOP_COUNT
   
-  onLocationChange: ->
-    coordinates = LocationStore.getLocationState()
+  onLocationChange: =>
+    coordinates = @context.getStore(LocationStore).getLocationState()
     if (coordinates.lat != 0 || coordinates.lon != 0)
-      NearestStopsActions.nearestStopsRequest(coordinates)
+      @context.executeAction NearestStopsActions.nearestStopsRequest, coordinates
 
   addStops: =>
     @setState

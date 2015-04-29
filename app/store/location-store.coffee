@@ -1,5 +1,4 @@
-Dispatcher = require('../dispatcher/dispatcher.coffee')
-Store = require('./store.coffee')
+Store = require 'fluxible/addons/BaseStore'
 
 class LocationStore extends Store
 
@@ -10,47 +9,48 @@ class LocationStore extends Store
   STATUS_GEOLOCATION_DENIED: 'geolocation-denied'
   STATUS_GEOLOCATION_NOT_SUPPORTED: 'geolocation-not-supported'
 
-  constructor: ->
-    super()
+  @storeName: 'LocationStore'
+
+  constructor: (dispatcher) ->
+    super(dispatcher)
     @removeLocation()
-    @register()
 
   removeLocation: () ->
     @lat = 0
     @lon = 0
     @address = ''
     @status = @STATUS_NO_LOCATION
-    @emitChanges()
+    @emitChange()
 
   geolocationSearch: () ->
     @status = @STATUS_SEARCHING_LOCATION
-    @emitChanges()
+    @emitChange()
 
   geolocationNotSupported: () ->
     @status = @STATUS_GEOLOCATION_NOT_SUPPORTED
-    @emitChanges()
+    @emitChange()
 
   geolocationDenied: () ->
     @status = @STATUS_GEOLOCATION_DENIED
-    @emitChanges()
+    @emitChange()
 
-  storeLocation: (lat, lon) ->
-    @lat = lat
-    @lon = lon
+  storeLocation: (location) ->
+    @lat = location.lat
+    @lon = location.lon
     @status = @STATUS_FOUND_LOCATION
-    @emitChanges()
+    @emitChange()
 
-  storeAddress: (address, number) ->
-    @address = address + " " + number
+  storeAddress: (location) ->
+    @address = location.address + " " + location.number
     @status = @STATUS_FOUND_ADDRESS
-    @emitChanges()
+    @emitChange()
 
-  storeLocationAndAddress: (lat, lon, address) ->
-    @lat = lat
-    @lon = lon
-    @address = address
+  storeLocationAndAddress: (location) ->
+    @lat = location.lat
+    @lon = location.lon
+    @address = location.address
     @status = @STATUS_FOUND_ADDRESS
-    @emitChanges()
+    @emitChange()
 
   getLocationState: () ->
     lat: @lat
@@ -58,15 +58,13 @@ class LocationStore extends Store
     address: @address
     status: @status
 
-  register: -> 
-    @dispatchToken = Dispatcher.register (action) => 
-      switch action.actionType
-        when "GeolocationSearch" then @geolocationSearch()
-        when "GeolocationFound" then @storeLocation(action.lat, action.lon)
-        when "GeolocationRemoved" then @removeLocation()
-        when "GeolocationNotSupported" then @geolocationNotSupported()
-        when "GeolocationDenied" then @geolocationDenied()
-        when "ManuallySetPosition" then @storeLocationAndAddress(action.lat, action.lon, action.address)
-        when "AddressFound" then @storeAddress(action.address, action.number)
+  @handlers:
+    "GeolocationSearch":       'geolocationSearch'
+    "GeolocationFound":        'storeLocation'
+    "GeolocationRemoved":      'removeLocation'
+    "GeolocationNotSupported": 'geolocationNotSupported'
+    "GeolocationDenied":       'geolocationDenied'
+    "ManuallySetPosition":     'storeLocationAndAddress'
+    "AddressFound":            'storeAddress'
       
-module.exports = new LocationStore()
+module.exports = LocationStore

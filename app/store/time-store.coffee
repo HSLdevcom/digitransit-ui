@@ -1,11 +1,11 @@
-Dispatcher = require '../dispatcher/dispatcher.coffee'
-Store = require './store.coffee'
+Store = require 'fluxible/addons/BaseStore'
 
 class TimeStore extends Store
-  constructor: ->
-    super()
+  @storeName: 'TimeStore'
+
+  constructor: (dispatcher) ->
+    super(dispatcher)
     @currentTime = @setCurrentTimeNow()
-    @register()
 
   setCurrentTimeNow: ->
     now = new Date()
@@ -17,17 +17,17 @@ class TimeStore extends Store
     # Put timezone as e.g. "+0300"
     @timezone = '+' + @createPrefixZeroIfUnderTen((now.getTimezoneOffset() / 60) * -1) + '00'
 
-  setCurrentTime: (date, hour, minute) ->
+  setCurrentTime: (data) ->
     now = new Date()
-    if date == "today" 
+    if data.date == "today" 
       @nowDate = now.getDate()
     else 
       @nowDate = now.getDate()+1
 
     @nowMonth = @createPrefixZeroIfUnderTen(now.getMonth() + 1)
     @nowYear = now.getFullYear()
-    @nowHour = hour
-    @nowMinute = minute
+    @nowHour = data.hour
+    @nowMinute = data.minute
   
   getTimeHour: () ->
     @nowHour
@@ -45,9 +45,7 @@ class TimeStore extends Store
     else 
       return '' + number
 
-  register: -> 
-    @dispatchToken = Dispatcher.register (action) =>
-      switch action.actionType
-        when "SetCurrentTime" then @setCurrentTime(action.date, action.hour, action.minute)
+  @handlers:
+    'SetCurrentTime': 'setCurrentTime'
       
-module.exports = new TimeStore()
+module.exports = TimeStore

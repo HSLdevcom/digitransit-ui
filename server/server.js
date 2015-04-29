@@ -5,6 +5,8 @@ var bodyParser = require('body-parser')
 var path = require('path')
 var React = require('react')
 var Router = require('react-router')
+var FluxibleComponent = require('fluxible/addons/FluxibleComponent');
+var serialize = require('serialize-javascript');
 require('node-cjsx').transform()
 
 /********** Global **********/
@@ -12,7 +14,7 @@ var port = process.env.PORT || 8080
 var app = express()
 
 /********** Routes **********/
-var routes = require('../app/routes')
+var application = require('../app/app')
 var appRoot = process.cwd() + "/"
 
 /* Setup functions */
@@ -44,10 +46,19 @@ function setUpMiddleware() {
 
 function setUpRoutes() {
   app.use(function (req, res) { // pass in `req.url` and the router will immediately match
-    Router.run(routes, req.url, function (Handler) {
-      var content = React.renderToString(React.createElement(Handler, null))
+    var context = application.createContext()
+    Router.run(application.getComponent(), req.url, function (Handler, state) {
+      var state = 'window.state=' + serialize(application.dehydrate(context)) + ';'
+      // var content = React.renderToString(
+      //   React.createElement(
+      //     FluxibleComponent,
+      //     { context: context.getComponentContext() },
+      //     React.createFactory(Handler)
+      //   )
+      // )
       res.render('app', {
-        content: content,
+        //content: content,
+        state: state,
         partials: { svgSprite: 'svg-sprite'},
         livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : '',
         style: process.env.NODE_ENV === "development" ? '' : '<link rel="stylesheet" href="css/bundle.css">'

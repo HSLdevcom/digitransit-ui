@@ -1,5 +1,8 @@
 React = require 'react'
 
+if window?
+  require './icon.css'
+
 class Icon extends React.Component
   
   propTypes =

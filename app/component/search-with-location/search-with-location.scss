@@ -26,10 +26,14 @@ $search-form-transparency: $transparency;
   position: relative;
 }
 
+.search-form .icon {
+  fill: $search-form-icon-color;
+  vertical-align: middle;
+  width: 17px;
+  height: 17px;
+}
+
 .search-form .location .icon {
-  height: 16px;
-  width: 16px;
-  vertical-align: text-top;
   margin-right: 10px;
 }
 
@@ -70,10 +74,8 @@ $search-form-transparency: $transparency;
   cursor: pointer;
 }
 
-.search-form .tt-suggestion .icon{
+.search-form .tt-suggestion .icon {
   margin-right: 4px;
-  width: 16px;
-  height: 16px;
   fill: $search-result-icon-color;
 }
 
@@ -103,10 +105,6 @@ $search-form-transparency: $transparency;
 
 .search-form .twitter-typeahead {
   width: 100%;
-}
-
-.search-form .icon {
-  fill: $search-form-icon-color;
 }
 
 .search-form .arrow-down {

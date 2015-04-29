@@ -1,10 +1,3 @@
-Dispatcher    = require '../dispatcher/dispatcher.coffee'
-
-class FavouriteStopsActions
-
-  addFavouriteStop: (stopId) ->
-    Dispatcher.dispatch
-      actionType: "AddFavouriteStop"
+module.exports = addFavouriteStop: (actionContext, stopId) ->
+    actionContext.dispatch "AddFavouriteStop",
       stopId: stopId
-
-module.exports = new FavouriteStopsActions

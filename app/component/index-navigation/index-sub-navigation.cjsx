@@ -4,12 +4,20 @@ TimeActions = require '../../action/time-action'
 
 class IndexSubNavigation extends React.Component
 
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
+    router: React.PropTypes.func
+
   propTypes =
     visible: React.PropTypes.bool.isRequired
 
   componentDidMount: ->
-    TimeStore.addChangeListener @onChange
-  
+    @context.getStore(TimeStore).addChangeListener @onChange
+
+  componentWillUnmount: ->
+    @context.getStore(TimeStore).removeChangeListener @onChange
+
   onChange: =>
     # What to do when time passes?
 
@@ -17,25 +25,31 @@ class IndexSubNavigation extends React.Component
     hour = @refs.hour.getDOMNode().value
     minute = @refs.minute.getDOMNode().value
     date = @refs.date.getDOMNode().value
-    TimeActions.setCurrentTime(date, hour, minute)
+    @context.executeAction TimeActions.setCurrentTime, {
+      'date': date, 
+      'hour': hour, 
+      'minute': minute
+    }
 
   render: ->
 
     if not @props.visible
       return null
 
+    ts = @context.getStore(TimeStore)
+
     hours = []
     for hour in [0..23]
-      hourString = TimeStore.createPrefixZeroIfUnderTen(hour)
-      if hour == TimeStore.getTimeHour()
+      hourString = ts.createPrefixZeroIfUnderTen(hour)
+      if hour == ts.getTimeHour()
         hours.push <option selected value={hourString}>{hourString}</option>
       else 
         hours.push <option value={hourString}>{hourString}</option>
 
     minutes = []
     for minute in [0..59]
-      minuteString = TimeStore.createPrefixZeroIfUnderTen(minute)
-      if minute == TimeStore.getTimeMinute()
+      minuteString = ts.createPrefixZeroIfUnderTen(minute)
+      if minute == ts.getTimeMinute()
         minutes.push <option selected value={minuteString}>{minuteString}</option>
       else
         minutes.push <option value={minuteString}>{minuteString}</option>

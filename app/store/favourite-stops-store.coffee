@@ -1,15 +1,15 @@
-Dispatcher = require '../dispatcher/dispatcher.coffee'
-Store = require './store.coffee'
+Store = require 'fluxible/addons/BaseStore'
 
 STORAGE_KEY = "favouriteStops"
 FORCE_STORE_CLEAN = false
 
 class FavouriteStopsStore extends Store
-  constructor: ->
-    super()
+  @storeName: 'FavouriteStopsStore'
+
+  constructor: (dispatcher) ->
+    super(dispatcher)
     if @getStops() == null or FORCE_STORE_CLEAN
       window.localStorage.setItem(STORAGE_KEY, "[]")
-    @register()    
 
   getStops: () ->
     if !window?
@@ -34,11 +34,9 @@ class FavouriteStopsStore extends Store
       "lon": 0,
       "name": "Favourite"
     @storeStops(stops)
-    @emitChanges()
+    @emitChange()
 
-  register: -> 
-    @dispatchToken = Dispatcher.register (action) =>
-      switch action.actionType
-        when "AddFavouriteStop" then @addFavouriteStop(action.stopId)
+  @handlers:
+    "AddFavouriteStop": "addFavouriteStop"
       
-module.exports = new FavouriteStopsStore()
+module.exports = FavouriteStopsStore

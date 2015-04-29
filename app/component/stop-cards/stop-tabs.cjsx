@@ -2,27 +2,28 @@ React               = require 'react'
 Tabs                = require 'react-simpletabs'
 StopCardList        = require './stop-card-list'
 NoLocationPanel     = require '../no-location-panel/no-location-panel'
-LocationStore       = require '../../store/location-store.coffee'
-NearestStopsStore   = require '../../store/nearest-stops-store.coffee'
-FavouriteStopsStore = require '../../store/favourite-stops-store.coffee'
 
 class StopTabs extends React.Component
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
   constructor: -> 
     super
-    @state = LocationStore.getLocationState() 
+    @state = @context.getStore('LocationStore').getLocationState() 
 
   componentDidMount: -> 
-    LocationStore.addChangeListener @onChange
+    @context.getStore('LocationStore').addChangeListener @onChange
 
   componentWillUnmount: ->
-    LocationStore.removeChangeListener @onChange
+    @context.getStore('LocationStore').removeChangeListener @onChange
 
   onChange: =>
-    @setState LocationStore.getLocationState()
+    @setState @context.getStore('LocationStore').getLocationState()
 
   render: -> 
+    LocationStore = @context.getStore 'LocationStore' 
     if @state.status == LocationStore.STATUS_FOUND_LOCATION or @state.status == LocationStore.STATUS_FOUND_ADDRESS
-      nearestPanel = <StopCardList key="NearestStopsStore" store={NearestStopsStore}/>
+      nearestPanel = <StopCardList key="NearestStopsStore" store={@context.getStore 'NearestStopsStore'}/>
     else 
       nearestPanel = <NoLocationPanel/>
 
@@ -34,7 +35,7 @@ class StopTabs extends React.Component
         <h2>Edelliset tähän</h2>
       </Tabs.Panel>
       <Tabs.Panel title='Suosikit'>
-        <StopCardList key="FavouriteStopsStore" store={FavouriteStopsStore}/>
+        <StopCardList key="FavouriteStopsStore" store={@context.getStore 'FavouriteStopsStore'}/>
       </Tabs.Panel>
     </Tabs>
 
