@@ -46,7 +46,11 @@ class StopCardContainer extends React.Component
     departureObjs
 
   render: =>
-    <StopCard key={@props.stop} stop={@context.getStore('StopInformationStore').getStop(@props.stop)} dist={@context.getStore('NearestStopsStore').getDistance(@props.stop)}>
+    <StopCard
+      key={@props.stop}
+      stop={@context.getStore('StopInformationStore').getStop(@props.stop)}
+      dist={@context.getStore('NearestStopsStore').getDistance(@props.stop)}
+      favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop)}>
       {@getDepartures()}
     </StopCard>
 

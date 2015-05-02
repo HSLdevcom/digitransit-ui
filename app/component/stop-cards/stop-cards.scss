@@ -76,11 +76,11 @@ $stop-card-show-more-border-radius: 30px;
 }
 
 .stop-card .favourite.selected {
-  color: $stop-card-favourite-icon-selected-fill-color;
+  fill: $stop-card-favourite-icon-selected-fill-color;
 }
 
 .stop-card .favourite.selected:hover {
-  color: $stop-card-favourite-icon-selected-hover-fill-color;
+  fill: $stop-card-favourite-icon-selected-hover-fill-color;
 }
 
 .stop-card .location {
