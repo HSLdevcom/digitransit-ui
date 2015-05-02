@@ -22,6 +22,7 @@ class NearestStopsStore extends Store
     stops.sort (a,b) ->
       if a.dist > b.dist then 1 else -1
     @stops = []
+    @distances = {}
     for stop in stops
       @stops.push(stop.id)
       @distances[stop.id] = stop.dist
