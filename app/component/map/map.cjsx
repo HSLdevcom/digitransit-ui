@@ -1,6 +1,8 @@
 isBrowser     = window?
 React         = require 'react'
+Icon          = require '../icon/icon'
 Leaflet       = if isBrowser then require 'react-leaflet' else null
+L             = if isBrowser then require 'leaflet' else null
 LocationStore = require '../../store/location-store.coffee'
 
 if isBrowser
@@ -9,6 +11,8 @@ if isBrowser
 class Map extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+
+  @currentLocationIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-location')), className: 'current-location-marker') else null
 
   constructor: -> 
     super
@@ -35,7 +39,9 @@ class Map extends React.Component
   render: ->
     if isBrowser
       if @state.hasLocation == true
-        marker = <Leaflet.Marker position={@state.location} />
+        marker = <Leaflet.Marker
+          position={@state.location}
+          icon={Map.currentLocationIcon}/>
 
       map =
         <Leaflet.Map 
