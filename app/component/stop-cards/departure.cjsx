@@ -16,12 +16,13 @@ class Departure extends React.Component
       return (if time.realtime then "" else "~") + ((departureTime - now) / 60 | 0) + "min"
 
   render: ->
+    mode = @props.departure.pattern.mode.toLowerCase()
     <p className="transport">
-      <span className="next-departure">{@renderTime @props.time}</span>
-      <Icon className={@props.mode} img={'icon-icon_' + @props.mode }/>
-      <span className={"vehicle-number " + @props.mode}>{@props.routeShortName}</span>
-      <Icon className={@props.mode} img='icon-icon_arrow-right'/>
-      <span className="destination">{@props.destination}</span>
+      <span className="next-departure">{@renderTime @props.departure.time}</span>
+      <Icon className={mode} img={'icon-icon_' + mode }/>
+      <span className={"vehicle-number " + mode}>{@props.departure.pattern.shortName}</span>
+      <Icon className={mode} img='icon-icon_arrow-right'/>
+      <span className="destination">{@props.departure.pattern.direction or @props.departure.pattern.longName}</span>
     </p>
   
 module.exports = Departure

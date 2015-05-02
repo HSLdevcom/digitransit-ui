@@ -1,4 +1,5 @@
 Store = require 'fluxible/addons/BaseStore'
+_     = require 'lodash'
 
 STORAGE_KEY = "favouriteStops"
 FORCE_STORE_CLEAN = false
@@ -8,7 +9,9 @@ class FavouriteStopsStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    if @getStops() == null or FORCE_STORE_CLEAN
+    @stops = @getStops()
+    if @stops == null or FORCE_STORE_CLEAN
+      @stops = []
       window.localStorage.setItem(STORAGE_KEY, "[]")
 
   getStops: () ->
@@ -18,23 +21,18 @@ class FavouriteStopsStore extends Store
     stops = storage.getItem(STORAGE_KEY)
     JSON.parse(stops)
 
-  storeStops: (stops) ->
+  isFavourite: (id) ->
+    _.contains(@stops, id)
+
+  storeStops: () ->
     storage = window.localStorage
-    s = JSON.stringify(stops)
+    s = JSON.stringify(@stops)
     window.localStorage.setItem(STORAGE_KEY, s)
 
   addFavouriteStop: (stopId) =>
-    console.log(@getStops())
-    stops = @getStops()
-    stops.push
-      "code": stopId,
-      "dist": 0,
-      "id": stopId,
-      "lat": 0,
-      "lon": 0,
-      "name": "Favourite"
-    @storeStops(stops)
-    @emitChange()
+    @stops.push stopId
+    @storeStops()
+    @emitChange(stopId)
 
   @handlers:
     "AddFavouriteStop": "addFavouriteStop"

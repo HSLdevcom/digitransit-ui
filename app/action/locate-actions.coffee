@@ -1,4 +1,8 @@
 $          = require 'jquery'
+executeMultiple = require 'fluxible-action-utils/async/executeMultiple'
+NearestStopsActions = require './nearest-stops-action'
+StopDeparturesActions = require './stop-departures-action'
+
 
 reverseGeocodeAddress = (actionContext, location, done) ->
   $.getJSON "http://matka.hsl.fi/geocoder/reverse/" + location.lat + "," + location.lon, (data) ->
@@ -19,10 +23,24 @@ findLocation = (actionContext, payload, done) ->
 
   # and start positioning
   navigator.geolocation.getCurrentPosition (position) => 
-      actionContext.dispatch "GeolocationFound",
-        lat: position.coords.latitude
-        lon: position.coords.longitude
-      actionContext.executeAction reverseGeocodeAddress, ('lat': position.coords.latitude, 'lon': position.coords.longitude), done
+    actionContext.dispatch "GeolocationFound",
+      lat: position.coords.latitude
+      lon: position.coords.longitude
+    executeMultiple actionContext,
+      reverseGeocode:
+        action: reverseGeocodeAddress
+        params:
+          lat: position.coords.latitude
+          lon: position.coords.longitude
+      nearestStops:
+        action: NearestStopsActions.nearestStopsRequest
+        params:
+          lat: position.coords.latitude
+          lon: position.coords.longitude
+      nearestStopsDepartures: ['nearestStops',
+        action: StopDeparturesActions.fetchInitialStops
+        params: {} ]
+    , () -> done()
   , (error) ->
     actionContext.dispatch "GeolocationDenied"
     done()

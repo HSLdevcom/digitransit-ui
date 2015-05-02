@@ -1,3 +1,2 @@
-module.exports = addFavouriteStop: (actionContext, stopId) ->
-    actionContext.dispatch "AddFavouriteStop",
-      stopId: stopId
+module.exports = addFavouriteStop: (actionContext, stopId) -> 
+  actionContext.dispatch "AddFavouriteStop", stopId
