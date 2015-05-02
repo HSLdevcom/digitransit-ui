@@ -53,6 +53,16 @@ manuallySetPosition = (actionContext, location, done) ->
     lat: location.lat
     lon: location.lon
     address: location.address
+  executeMultiple actionContext,
+    nearestStops:
+      action: NearestStopsActions.nearestStopsRequest
+      params:
+        lat: location.lat
+        lon: location.lon
+    nearestStopsDepartures: ['nearestStops',
+      action: StopDeparturesActions.fetchInitialStops
+      params: {} ]
+  , () -> done()
 
 module.exports =
   'findLocation':          findLocation
