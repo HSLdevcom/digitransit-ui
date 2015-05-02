@@ -120,10 +120,10 @@ class SearchWithLocation extends React.Component
     @setState @context.getStore('LocationStore').getLocationState()
 
   locateUser: ->
-    @context.executeAction LocateActions.findLocation, {}
+    @context.executeAction LocateActions.findLocation
 
   removeLocation: (e) ->
-    @context.executeAction LocateActions.removeLocation, {}
+    @context.executeAction LocateActions.removeLocation
 
   manuallySetPositionIfNecessary: (suggestion) ->
     type = suggestion.type
