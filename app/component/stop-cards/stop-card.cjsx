@@ -26,12 +26,12 @@ class StopCard extends React.Component
       return false
 
     <div className="small-12 medium-6 large-4 columns">
-      <div className="stop-card cursor-pointer">  
+      <div className="stop-card cursor-pointer" onClick={() => @context.router.transitionTo('/pysakit/' + @props.stop.id)}>  
         <span className="cursor-pointer" onClick={@addFavouriteStop}>
           <Icon className="favourite" img="icon-icon_star"/>
         </span>
         <h3>{@props.stop.name} ›</h3>
-        <p className="location" onClick={() => @context.router.transitionTo('/pysakit/' + @props.stop.id)}>{description}</p>
+        <p className="location">{description}</p>
         {@props.children}
       </div>
     </div>
