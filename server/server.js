@@ -45,19 +45,19 @@ function setUpMiddleware() {
 
 
 function setUpRoutes() {
-  app.use(function (req, res) { // pass in `req.url` and the router will immediately match
+  app.use(function (req, res, next) { // pass in `req.url` and the router will immediately match
     var context = application.createContext()
     Router.run(application.getComponent(), req.url, function (Handler, state) {
       var state = 'window.state=' + serialize(application.dehydrate(context)) + ';'
-      // var content = React.renderToString(
-      //   React.createElement(
-      //     FluxibleComponent,
-      //     { context: context.getComponentContext() },
-      //     React.createFactory(Handler)
-      //   )
-      // )
+      var content = React.renderToString(
+        React.createElement(
+          FluxibleComponent,
+          { context: context.getComponentContext() },
+          React.createFactory(Handler)()
+        )
+      )
       res.render('app', {
-        //content: content,
+        content: content,
         state: state,
         partials: { svgSprite: 'svg-sprite'},
         livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : '',
