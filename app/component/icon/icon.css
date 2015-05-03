@@ -23,17 +23,17 @@
 	fill: rgb(0, 185, 228);
 }
 
-#icon-icon_metro .path1 {
+#icon-icon_subway .path1 {
 	fill: rgb(255, 255, 255);
 }
-#icon-icon_metro .path2 {
+#icon-icon_subway .path2 {
 	fill: rgb(255, 99, 25);
 }
 
-#icon-icon_train .path1 {
+#icon-icon_rail .path1 {
 	fill: rgb(255, 255, 255);
 }
-#icon-icon_train .path2 {
+#icon-icon_rail .path2 {
 	fill: rgb(140, 71, 153);
 }
 
