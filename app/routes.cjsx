@@ -15,15 +15,14 @@ RouteHandler = Router.RouteHandler
 
 App = React.createClass
   render: ->
-    <RouteHandler/> 
+    <RouteHandler/>
+
+ROOT_PATH = if process?.env.ROOT_PATH != undefined then process.env.ROOT_PATH else '/'
 
 # Routes
 routes = 
-  <Route name="app" path="/" handler={App}>
+  <Route name="app" path={ROOT_PATH} handler={App}>
     <Route path="pysakit/:stopId" name="stop" handler={StopPage}/>
-    # TEMP solution for dev
-    <Route path="/openjourneyplanner-ui/" name="devindex" handler={IndexPage}/>
-    <Route path="/openjourneyplanner-ui/pysakit/:stopId" name="devstop" handler={StopPage}/>
     <DefaultRoute handler={IndexPage}/>
     <NotFoundRoute handler={Error404}/>
   </Route>

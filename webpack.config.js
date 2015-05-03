@@ -20,7 +20,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, "_static"),
     filename: 'js/bundle.js',
-    publicPath: 'http://localhost:' + port + '/'
+    chunkFilename: 'js/[id].js',
+    publicPath: (process.env.NODE_ENV === "development") ? 'http://localhost:' + port + '/' : (process.env.ROOT_PATH != undefined) ? process.env.ROOT_PATH : '/'
   },
   resolveLoader: {
     modulesDirectories: ['node_modules']
@@ -33,12 +34,16 @@ module.exports = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       "process.env": {
-          NODE_ENV: JSON.stringify("production")
+          NODE_ENV: JSON.stringify("production"),
+          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/')
       }
     }),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
       mangle: {
           except: ['$super', '$', 'exports', 'require']
         }
@@ -53,6 +58,7 @@ module.exports = {
   },
   module: {
     loaders: [
+      { test: /\/app\/page\/.*\.cjsx$/, loader: 'react-router-proxy' },
       (process.env.NODE_ENV === "development") ? { test: /\.css$/, loaders: ['style', 'css']} : { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css")},
       { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },

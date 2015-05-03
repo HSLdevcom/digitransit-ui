@@ -18,18 +18,19 @@ var application = require('../app/app')
 var appRoot = process.cwd() + "/"
 
 /* Setup functions */
-function setUpStaticFolders() {  
+function setUpStaticFolders() {
   var staticFolder = appRoot + "/_static"
+  var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
   var cssFolder = path.join(staticFolder, 'css')
-  app.use("/css", express.static(cssFolder))
+  app.use(rootPath +"css", express.static(cssFolder))
   var jsFolder = path.join(staticFolder, 'js')
-  app.use("/js", express.static(jsFolder))
+  app.use(rootPath +"js", express.static(jsFolder))
   var iconFolder = path.join(staticFolder, 'icon')
-  app.use("/icon", express.static(iconFolder))
+  app.use(rootPath +"icon", express.static(iconFolder))
   var fontFolder = path.join(staticFolder, 'font')
-  app.use("/font", express.static(fontFolder))
+  app.use(rootPath +"font", express.static(fontFolder))
   var imgFolder = path.join(staticFolder, 'img')
-  app.use("/img", express.static(imgFolder))
+  app.use(rootPath +"img", express.static(imgFolder))
 }
 
 function setUpViewEngine() {
@@ -56,12 +57,13 @@ function setUpRoutes() {
           React.createFactory(Handler)()
         )
       )
+      var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
       res.render('app', {
         content: content,
         state: state,
         partials: { svgSprite: 'svg-sprite'},
-        livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : '',
-        style: process.env.NODE_ENV === "development" ? '' : '<link rel="stylesheet" href="css/bundle.css">'
+        livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
+        style: process.env.NODE_ENV === "development" ? '' : '<link rel="stylesheet" href="' + rootPath + 'css/bundle.css">'
       })
     })
   })
