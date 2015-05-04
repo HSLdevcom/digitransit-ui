@@ -2,7 +2,7 @@ React                 = require 'react'
 Departure             = require './departure'
 StopCard              = require './stop-card'
 StopDeparturesActions = require '../../action/stop-departures-action'
-
+_                     = require 'lodash'
 
 class StopCardContainer extends React.Component
   @contextTypes:
@@ -35,14 +35,26 @@ class StopCardContainer extends React.Component
     if !id or id == @props.stop
       @forceUpdate()
   
-  getDepartures: =>
+  getDepartures: (showMissingRoutes) =>
     departureObjs = []
+    seenRoutes = []
     departures = @context.getStore('StopDeparturesStore').getDepartures(@props.stop)
     if !departures
-      return []
+      return false
     for departure in departures.slice(0,@props.departures)
       id = departure.pattern.id + departure.time.servideDay + departure.time.scheduledDeparture
       departureObjs.push <Departure key={id} departure={departure} />
+      seenRoutes.push(departure.pattern.shortName)
+    if showMissingRoutes
+      missingRoutes = _.difference(_.uniq(departure.pattern.shortName for departure in departures), seenRoutes)
+      missingRoutes.sort()
+      if missingRoutes.length == 0
+      else if missingRoutes.length == 1
+        departureObjs.push <p className="missing-routes">Lisäksi linja {missingRoutes[0]}</p>
+      else if missingRoutes.length == 2
+        departureObjs.push <p className="missing-routes">Lisäksi linjat {missingRoutes[0]} ja {missingRoutes[0]}</p>  
+      else
+        departureObjs.push <p className="missing-routes">Lisäksi linjat {missingRoutes.slice(0,-1).join ', '} ja {missingRoutes[missingRoutes.length-1]}</p>  
     departureObjs
 
   render: =>
@@ -51,7 +63,7 @@ class StopCardContainer extends React.Component
       stop={@context.getStore('StopInformationStore').getStop(@props.stop)}
       dist={@context.getStore('NearestStopsStore').getDistance(@props.stop)}
       favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop)}>
-      {@getDepartures()}
+      {@getDepartures(true)}
     </StopCard>
 
 module.exports = StopCardContainer

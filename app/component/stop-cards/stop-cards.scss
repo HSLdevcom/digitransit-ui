@@ -114,6 +114,15 @@ $stop-card-show-more-border-radius: 30px;
   vertical-align: inherit;
 }
 
+.stop-card p.missing-routes {
+  font-family: $stop-card-normal-font-family;
+  font-size: $stop-card-normal-font-size;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  text-overflow: ellipsis;
+}
+
 .stop-cards button.show-more {
   text-align: center;
   text-transform: uppercase;
