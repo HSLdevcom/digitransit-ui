@@ -23,7 +23,7 @@ ROOT_PATH = if process?.env.ROOT_PATH != undefined then process.env.ROOT_PATH el
 routes = 
   <Route name="app" path={ROOT_PATH} handler={App}>
     <Route path="pysakit/:stopId" name="stop" handler={StopPage}/>
-    <DefaultRoute handler={IndexPage}/>
+    <DefaultRoute name="index" handler={IndexPage}/>
     <NotFoundRoute handler={Error404}/>
   </Route>
 
