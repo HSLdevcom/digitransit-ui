@@ -9,7 +9,7 @@ stopInformationRequest = (actionContext, id, done) ->
 
 stopDeparturesRequest = (actionContext, id, done) ->
   actionContext.dispatch "StopDeparturesFetchStarted", id
-  $.getJSON "http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id + "/stoptimes?detail=true", (data) ->
+  $.getJSON "http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id + "/stoptimes?detail=true&numberOfDepartures=5", (data) ->
     actionContext.dispatch "StopDeparturesFound",
       id: id
       departures: data
