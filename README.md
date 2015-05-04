@@ -2,15 +2,14 @@
 Open Journey Planner UI
 
 # Install requirements 
-- Install Node.js
-- sudo npm install -g node-sass
-- sudo npm install -g parallelshell
-- sudo npm install -g watch
-- sudo npm install -g browserify
-- sudo npm install -g disc
-- sudo npm install -g live-reload
+- Install Node.js and NPM
 - npm install
 
-# Start server
-- npm run watch
+# Start dev server (with hot code reloading)
+- npm run dev
 - Browse to http://localhost:8080/
+
+# Build release version and start production server
+
+- npm run build
+- npm run start
