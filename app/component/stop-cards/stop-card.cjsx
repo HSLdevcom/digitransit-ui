@@ -7,7 +7,8 @@ class StopCard extends React.Component
     executeAction: React.PropTypes.func.isRequired
     router: React.PropTypes.func
 
-  addFavouriteStop: () =>
+  addFavouriteStop: (e) =>
+    e.stopPropagation()
     @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.id
 
   render: ->
