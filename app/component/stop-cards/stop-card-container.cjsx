@@ -50,11 +50,11 @@ class StopCardContainer extends React.Component
       missingRoutes.sort()
       if missingRoutes.length == 0
       else if missingRoutes.length == 1
-        departureObjs.push <p className="missing-routes">Lisäksi linja {missingRoutes[0]}</p>
+        departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linja {missingRoutes[0]}</p>
       else if missingRoutes.length == 2
-        departureObjs.push <p className="missing-routes">Lisäksi linjat {missingRoutes[0]} ja {missingRoutes[0]}</p>  
+        departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linjat {missingRoutes[0]} ja {missingRoutes[0]}</p>  
       else
-        departureObjs.push <p className="missing-routes">Lisäksi linjat {missingRoutes.slice(0,-1).join ', '} ja {missingRoutes[missingRoutes.length-1]}</p>  
+        departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linjat {missingRoutes.slice(0,-1).join ', '} ja {missingRoutes[missingRoutes.length-1]}</p>  
     departureObjs
 
   render: =>
