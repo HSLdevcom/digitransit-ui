@@ -4,13 +4,14 @@ $stop-card-title-font-family: $font-family;
 $stop-card-title-font-size: 13px;
 $stop-card-title-color: $gray-blue;
 $stop-card-location-font-family: $font-family;
-$stop-card-location-font-size: 13px;
+$stop-card-location-font-size: 15px;
 $stop-card-location-color: $gray;
-$stop-card-next-departure-font-family: $font-family;
+$stop-card-next-departure-font-family: $font-family-narrow;
 $stop-card-next-departure-font-size: 15px;
 $stop-card-next-departure-color: 15px;
 $stop-card-normal-font-family: $font-family;
-$stop-card-normal-font-size: 15px;
+$stop-card-normal-font-size: 13px;
+$stop-card-normal-line-height: 1.2;
 $stop-card-favourite-icon-fill-color: $light-gray;
 $stop-card-favourite-icon-hover-fill-color: $hsl-pink;
 $stop-card-favourite-icon-selected-fill-color: $hsl-pink;
@@ -42,10 +43,16 @@ $stop-card-show-more-border-radius: 30px;
   color: $stop-card-title-color;
   font-family: $stop-card-title-font-family;
   font-size: $stop-card-title-font-size;
+  font-weight: $font-weight-bold;
+  line-height: $stop-card-normal-line-height;
   margin: 0px;
 }
 
 .stop-card p.location {
+  font-family: $stop-card-location-font-family;
+  font-size: $stop-card-location-font-size;
+  font-weight: $font-weight-light;
+  line-height: $stop-card-normal-line-height;
   color: $stop-card-location-color;
   margin: 0px;
 }
@@ -57,6 +64,7 @@ $stop-card-show-more-border-radius: 30px;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: $stop-card-normal-line-height;
 }
 
 .stop-card p:nth-of-type(2) {
@@ -83,28 +91,26 @@ $stop-card-show-more-border-radius: 30px;
   fill: $stop-card-favourite-icon-selected-hover-fill-color;
 }
 
-.stop-card .location {
-  font-family: $stop-card-location-font-family;
-}
-
 .stop-card .transport span.next-departure {
   display: inline-block;
   width: 4em;
   font-family: $stop-card-next-departure-font-family;
   font-size: $stop-card-next-departure-font-size;
-  font-weight: 600;
+  font-weight: $font-weight-bold;
 }
 
 .stop-card .transport span.vehicle-number {
   display: inline-block;
   width: 3em;
-  font-family: $stop-card-normal-font-family;
-  font-size: $stop-card-normal-font-size;
+  font-family: $stop-card-next-departure-font-family;
+  font-size: $stop-card-next-departure-font-size;
+  font-weight: $font-weight-bold;
 }
 
 .stop-card .transport span.destination {
-  font-family: $stop-card-normal-font-family;
-  font-size: $stop-card-normal-font-size;
+  font-family: $stop-card-next-departure-font-family;
+  font-size: $stop-card-next-departure-font-size;
+  font-weight: $font-weight-light;
 }
 
 .stop-card p.transport .icon {
@@ -116,11 +122,13 @@ $stop-card-show-more-border-radius: 30px;
 
 .stop-card p.missing-routes {
   font-family: $stop-card-normal-font-family;
-  font-size: $stop-card-normal-font-size;
-  margin: 0px;
+  font-size: $stop-card-location-font-size;
+  font-weight: $font-weight-light;
+  margin: 0.5em 0 0;
   padding: 0px;
   width: 100%;
-  text-overflow: ellipsis;
+  line-height: $stop-card-normal-line-height;
+  color: #999;
 }
 
 .stop-cards button.show-more {
