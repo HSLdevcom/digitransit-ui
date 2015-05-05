@@ -39,29 +39,32 @@ $top-navigation-sub-font-size: 13px;
 $top-navigation-switch-background-color: #0068AB;
 $top-navigation-switch-background-color-active: $hsl-blue;
 $top-navigation-switch-color: $white;
-$top-navigation-switch-height: 23px;
-$top-navigation-switch-font-size: 13px;
+$top-navigation-switch-height: 20px;
+$top-navigation-switch-font-size: 9pt;
 $top-navigation-switch-width: 70px;
 $top-navigation-switch-border-radius: 30px;
 
 nav.tab-bar .icon {
   fill: $top-navigation-icon-color;
+  font-size: 13pt;
 }
 
 nav.tab-bar .icon.left-off-canvas-toggle {
-  width: 100%;
-  height: 100%;
-  padding-left: 10px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  position: absolute;
+  left: 8px;
+  height: 1.2em;
+  width: 1.2em;
+  top: 10px;
+  vertical-align: middle;
 }
 
 nav.tab-bar .icon.disruption-info {
   position: absolute;
-  left: 15px;
-  height: 24px;
-  width: 24px;
-  top: 8px;
+  left: 6px;
+  height: 1.2em;
+  width: 1.2em;
+  top: 10px;
+  vertical-align: middle;
  }
 
 nav.tab-bar .icon.disruption-info.inactive {
@@ -73,11 +76,16 @@ nav.tab-bar .icon.disruption-info.active {
 }
 
 nav.tab-bar .icon.logo {
-  height: 24px;
-  width: 24px;
+  height: 1em;
+  width: 1em;
   top: 8px;
   margin-right: 5px;
+  margin-bottom: 2px;
   vertical-align: middle;
+}
+
+nav.tab-bar .title {
+  color: $top-navigation-icon-color;
 }
 
 .off-canvas-wrap {

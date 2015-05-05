@@ -1,6 +1,7 @@
 React                 = require 'react'
-Icon                  = require '../icon/icon.cjsx'
-IndexSubNavigation    = require './index-sub-navigation.cjsx'
+Link                  = require 'react-router/lib/components/Link'
+Icon                  = require '../icon/icon'
+IndexSubNavigation    = require './index-sub-navigation'
 if window?
   Foundation          = require 'imports?jQuery=jquery!zurb-foundation-5/js/foundation/foundation'
   FoundationOffcanvas = require 'imports?jQuery=jquery!zurb-foundation-5/js/foundation/foundation.offcanvas'
@@ -41,8 +42,10 @@ class IndexNavigation extends React.Component
             
             <section className="middle tab-bar-section">
               <Icon img={'icon-icon_caution'} className="cursor-pointer disruption-info inactive"/>
-              <Icon img={'icon-icon_HSL-logo'} className="logo"/>
-              <span className="title">Reittiopas Demo</span>
+              <Link to="index">
+                <Icon img={'icon-icon_HSL-logo'} className="logo"/>
+                <span className="title">Reittiopas Demo</span>
+              </Link>
             </section>
 
             <section className="right">
