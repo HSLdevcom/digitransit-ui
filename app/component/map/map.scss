@@ -4,20 +4,29 @@ $large-map-height: 500px;
 
 
 @media #{$small-up} { 
-  div.map, div.leaflet-container, div.background-gradient {
+  div.map, div.leaflet-container {
     height: $small-map-height;
+  }
+  div.background-gradient {
+    height: $small-map-height * 0.7;
   }
 }
 
 @media #{$medium-up} { 
-  div.map, div.leaflet-container, div.background-gradient {
+  div.map, div.leaflet-container {
     height: $medium-map-height;
+  }
+  div.background-gradient {
+    height: $medium-map-height * 0.5;
   }
 }
 
 @media #{$large-up} { 
-  div.map, div.leaflet-container, div.background-gradient {
+  div.map, div.leaflet-container {
     height: $large-map-height;
+  }
+  div.background-gradient {
+    height: $large-map-height * 0.3;
   }
 }
 
@@ -46,7 +55,7 @@ div.background-gradient {
   width: 100%;
   position: absolute;
   top: 0px;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(153, 153, 153, 0));
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(153, 153, 153, 0));
   pointer-events: none;
 }
 
