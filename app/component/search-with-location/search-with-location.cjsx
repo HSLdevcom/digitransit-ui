@@ -190,9 +190,11 @@ class SearchWithLocation extends React.Component
           clearLocation = <span className="inline-block right cursor-pointer" onClick={this.removeLocation}><Icon img={'icon-icon_close'}/></span>
           searchPlaceholder = "Määränpään osoite, linja, tai pysäkki"
         when LocationStore.STATUS_GEOLOCATION_DENIED
-          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Kirjoita lähtöpaikkasi</span>
+          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Lähtöosoite, linja tai pysäkki</span>
         when LocationStore.STATUS_GEOLOCATION_NOT_SUPPORTED
           location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Kirjoita lähtöpaikkasi</span>
+        when LocationStore.STATUS_GEOLOCATION_TIMEOUT
+          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>Paikannus ei onnistunut. <span className="dashed">Yritä uudelleen</span> tai kirjoita lähtöpiste</span>
 
     <div className="search-form">
       <div className="row">

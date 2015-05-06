@@ -8,10 +8,12 @@ LocateActions      = require '../action/locate-actions.coffee'
 
 class Page extends React.Component
   @contextTypes:
+    getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
   componentDidMount: ->
-    @context.executeAction LocateActions.findLocation
+    if @context.getStore('LocationStore').getLocationState().status == 'no-location'
+      @context.executeAction LocateActions.findLocation
 
   render: ->
     <IndexNavigation>

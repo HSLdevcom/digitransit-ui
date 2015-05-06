@@ -42,8 +42,16 @@ findLocation = (actionContext, payload, done) ->
         params: {} ]
     , () -> done()
   , (error) ->
-    actionContext.dispatch "GeolocationDenied"
+    if error.code == 1
+      actionContext.dispatch "GeolocationDenied"
+    else if error.code == 2
+      actionContext.dispatch "GeolocationNotSupported"
+    else if error.code == 2
+      actionContext.dispatch "GeolocationTimeout"
+    else # When could this happen?
+      actionContext.dispatch "GeolocationNotSupported"
     done()
+  , enableHighAccuracy: true, timeout: 10000, maximumAge: 60000
 
 removeLocation = (actionContext) ->
   actionContext.dispatch "GeolocationRemoved"

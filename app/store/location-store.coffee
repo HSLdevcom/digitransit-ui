@@ -7,6 +7,7 @@ class LocationStore extends Store
   STATUS_FOUND_LOCATION: 'found-location'
   STATUS_FOUND_ADDRESS: 'found-address'
   STATUS_GEOLOCATION_DENIED: 'geolocation-denied'
+  STATUS_GEOLOCATION_TIMEOUT: 'geolocation-timeout'
   STATUS_GEOLOCATION_NOT_SUPPORTED: 'geolocation-not-supported'
 
   @storeName: 'LocationStore'
@@ -32,6 +33,10 @@ class LocationStore extends Store
 
   geolocationDenied: () ->
     @status = @STATUS_GEOLOCATION_DENIED
+    @emitChange()
+
+  geolocationTimeout: () ->
+    @status = @STATUS_GEOLOCATION_TIMEOUT
     @emitChange()
 
   storeLocation: (location) ->
@@ -64,6 +69,7 @@ class LocationStore extends Store
     "GeolocationRemoved":      'removeLocation'
     "GeolocationNotSupported": 'geolocationNotSupported'
     "GeolocationDenied":       'geolocationDenied'
+    "GeolocationTimeout":       'geolocationTimeout'
     "ManuallySetPosition":     'storeLocationAndAddress'
     "AddressFound":            'storeAddress'
       
