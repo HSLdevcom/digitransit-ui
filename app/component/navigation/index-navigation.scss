@@ -78,6 +78,15 @@ nav.top-bar .icon.disruption-info.active {
   fill: $top-navigation-disruption-info-inactive-color;
 }
 
+nav.top-bar .icon.back {
+  position: absolute;
+  left: 0.5em;
+  height: 1.2em;
+  width: 1.2em;
+  top: 10px;
+  vertical-align: middle;
+}
+
 nav.top-bar .icon.logo {
   height: 1em;
   width: 1em;
