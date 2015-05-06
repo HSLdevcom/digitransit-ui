@@ -38,6 +38,10 @@ module.exports = {
           ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/')
       }
     }),
+    new webpack.PrefetchPlugin('react'),
+    new webpack.PrefetchPlugin('react-router'),
+    new webpack.PrefetchPlugin('fluxible'),
+    new webpack.PrefetchPlugin('leaflet'),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
@@ -60,9 +64,9 @@ module.exports = {
     loaders: [
       { test: /\/app\/page\/.*\.cjsx$/, loader: 'react-router-proxy' },
       (process.env.NODE_ENV === "development") ? { test: /\.css$/, loaders: ['style', 'css']} : { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css")},
-      { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx']},
+      (process.env.NODE_ENV === "development") ? { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx']} : { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },
-      { test: /\.jsx$/, loafers: ['react-hot', 'jsx']},
+      (process.env.NODE_ENV === "development") ? { test: /\.jsx$/, loafers: ['react-hot', 'jsx']} : { test: /\.jsx$/, loafer: 'jsx'},
       (process.env.NODE_ENV === "development") ? { test: /\.scss$/, loaders: ['style', 'css', 'sass']} : { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", "css!sass-loader")},
       { test: /\.(eot|png|ttf|woff)$/, loader: 'file'}
     ]
