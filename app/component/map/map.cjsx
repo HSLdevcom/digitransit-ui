@@ -24,6 +24,8 @@ class Map extends React.Component
   componentDidMount: -> 
     @context.getStore(LocationStore).addChangeListener @onLocationChange
     @onLocationChange()
+    L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
+
 
   componentWillUnmount: ->
     @context.getStore(LocationStore).removeChangeListener @onLocationChange
@@ -45,12 +47,14 @@ class Map extends React.Component
 
       map =
         <Leaflet.Map 
+          ref='map'
           center={[@state.location[0]+0.001, @state.location[1]]}
           zoom={@state.zoom}
-          zoomControl=false>
+          zoomControl=false
+          attributionControl=false>
           <Leaflet.TileLayer
             url="http://matka.hsl.fi/hsl-map/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            attribution='&copy; <a href="http://osm.org/copyright">OSM</a>'
           />
           {marker}
         </Leaflet.Map>
