@@ -22,7 +22,21 @@ ROOT_PATH = if process?.env.ROOT_PATH != undefined then process.env.ROOT_PATH el
 # Routes
 routes = 
   <Route name="app" path={ROOT_PATH} handler={App}>
-    <Route path="pysakit/:stopId" name="stop" handler={StopPage}/>
+    <Route path="kartta" name="map" handler={Error404}/>
+    <Route path="pysakit" name="stopList" handler={Error404}/>
+    <Route path="pysakit/:stopId" handler={StopPage}>
+      <Route path="kartta" name="stopMap" handler={Error404}/>
+      <DefaultRoute name="stop" handler={Error404}/>
+    </Route>
+    <Route path="linjat" name="routeList" handler={Error404}/>
+    <Route path="linjat/:routeId" handler={Error404}>
+      <Route path="kartta" name="routeMap" handler={Error404}/>
+      <Route path="aikataulu" name="routeTimetable" handler={Error404}/>
+      <DefaultRoute name="route" handler={Error404}/>
+    </Route>
+    <Route path="reitti(/:from)/:to" name="tripList" handler={Error404}/>
+    <Route path="reitti/:from/:to/:hash" name="trip" handler={Error404}/>
+    <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" handler={Error404}/>
     <DefaultRoute name="index" handler={IndexPage}/>
     <NotFoundRoute handler={Error404}/>
   </Route>
