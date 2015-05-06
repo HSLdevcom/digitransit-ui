@@ -1,27 +1,23 @@
+$small-map-height: 155px;
+$medium-map-height: 300px;
+$large-map-height: 500px;
+
+
 @media #{$small-up} { 
-  div.map {
-    height: 155px;
-  }
-  div.leaflet-container {
-    height: 155px;
+  div.map, div.leaflet-container, div.background-gradient {
+    height: $small-map-height;
   }
 }
 
 @media #{$medium-up} { 
-  div.map {
-    height: 300px;
-  }
-  div.leaflet-container {
-    height: 300px;
+  div.map, div.leaflet-container, div.background-gradient {
+    height: $medium-map-height;
   }
 }
 
 @media #{$large-up} { 
-  div.map {
-    height: 500px;
-  }
-  div.leaflet-container {
-    height: 500px;
+  div.map, div.leaflet-container, div.background-gradient {
+    height: $large-map-height;
   }
 }
 
@@ -30,7 +26,7 @@ div.leaflet-container {
   width: 100%;
 }
 
-.leaflet-container {
+div.leaflet-container {
   background: rgb(230, 229, 217);
 } 
 
@@ -44,6 +40,14 @@ div.current-location-marker > span > svg.icon {
   margin-top: -12px;
   margin-left: -12px;
   fill: white;
+}
+
+div.background-gradient {
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(153, 153, 153, 0));
+  pointer-events: none;
 }
 
 div.map {
