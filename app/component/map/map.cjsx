@@ -1,9 +1,11 @@
 isBrowser     = window?
 React         = require 'react'
 Icon          = require '../icon/icon'
-Leaflet       = if isBrowser then require 'react-leaflet' else null
+LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
+Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
+TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else null
 L             = if isBrowser then require 'leaflet' else null
-LocationStore = require '../../store/location-store.coffee'
+LocationStore = require '../../store/location-store'
 
 if isBrowser
   require 'leaflet/dist/leaflet.css'
@@ -41,23 +43,23 @@ class Map extends React.Component
   render: ->
     if isBrowser
       if @state.hasLocation == true
-        marker = <Leaflet.Marker
+        marker = <Marker
           position={@state.location}
           icon={Map.currentLocationIcon}/>
 
       map =
-        <Leaflet.Map 
+        <LeafletMap 
           ref='map'
           center={[@state.location[0]+0.001, @state.location[1]]}
           zoom={@state.zoom}
           zoomControl=false
           attributionControl=false>
-          <Leaflet.TileLayer
+          <TileLayer
             url="http://matka.hsl.fi/hsl-map/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OSM</a>'
           />
           {marker}
-        </Leaflet.Map>
+        </LeafletMap>
 
     <div className="map">
       {map}

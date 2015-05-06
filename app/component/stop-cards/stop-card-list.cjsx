@@ -1,4 +1,5 @@
-React            = require 'react/addons' 
+React            = require 'react'
+cloneWithProps   = require 'react/lib/cloneWithProps' 
 MasonryComponent = require './MasonryComponent'
 
 class StopCardList extends React.Component
@@ -7,7 +8,7 @@ class StopCardList extends React.Component
 
   renderChildrenWithReloadMasonry: =>
     React.Children.map @props.children, (child) =>
-      React.addons.cloneWithProps child,
+      cloneWithProps child,
         reloadMasonry: @reloadMasonry
 
   render: =>

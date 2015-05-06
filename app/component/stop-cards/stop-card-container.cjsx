@@ -2,7 +2,8 @@ React                 = require 'react'
 Departure             = require './departure'
 StopCard              = require './stop-card'
 StopDeparturesActions = require '../../action/stop-departures-action'
-_                     = require 'lodash'
+uniq                  = require 'lodash/array/uniq'
+difference            = require 'lodash/array/difference'
 
 class StopCardContainer extends React.Component
   @contextTypes:
@@ -46,7 +47,7 @@ class StopCardContainer extends React.Component
       departureObjs.push <Departure key={id} departure={departure} />
       seenRoutes.push(departure.pattern.shortName)
     if showMissingRoutes
-      missingRoutes = _.difference(_.uniq(departure.pattern.shortName for departure in departures), seenRoutes)
+      missingRoutes = difference(uniq(departure.pattern.shortName for departure in departures), seenRoutes)
       missingRoutes.sort()
       if missingRoutes.length == 0
       else if missingRoutes.length == 1

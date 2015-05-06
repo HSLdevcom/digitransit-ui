@@ -1,5 +1,5 @@
-Store = require 'fluxible/addons/BaseStore'
-_     = require 'lodash'
+Store    = require 'fluxible/addons/BaseStore'
+includes = require 'lodash/collection/includes'
 
 STORAGE_KEY = "favouriteStops"
 FORCE_STORE_CLEAN = false
@@ -22,7 +22,7 @@ class FavouriteStopsStore extends Store
     JSON.parse(stops)
 
   isFavourite: (id) ->
-    _.contains(@stops, id)
+    includes(@stops, id)
 
   storeStops: () ->
     storage = window.localStorage
