@@ -1,11 +1,10 @@
 /* foundation override */
 $menu-slide: "transform 200ms ease";
-$tabbar-bg: $hsl-blue;
-$tabbar-height: rem-calc(40);
-$off-canvas-bg: #333333;
-$off-canvas-bg-hover: scale-color($gray, $lightness: -30%);
-$off-canvas-bg-active: scale-color($gray, $lightness: -30%);
-$tabbar-left-section-border: 0px;
+$topbar-bg: $hsl-blue;
+$topbar-height: 40px;
+$offcanvas-background: #333333;
+$offcanvas-background-hover: scale-color($gray, $lightness: -30%);
+$offcanvas-background-active: scale-color($gray, $lightness: -30%);
 
 /* top bar icons */
 $top-navigation-icon-color: $white;
@@ -44,69 +43,78 @@ $top-navigation-switch-font-size: 9pt;
 $top-navigation-switch-width: 70px;
 $top-navigation-switch-border-radius: 30px;
 
-nav.tab-bar .icon {
+nav.top-bar {
+  text-align: center;
+}
+
+nav.top-bar .icon {
   fill: $top-navigation-icon-color;
   font-size: 13pt;
 }
 
-nav.tab-bar .icon.left-off-canvas-toggle {
+nav.top-bar .icon.left-off-canvas-toggle {
   position: absolute;
-  left: 8px;
+  left: 0.5em;
   height: 1.2em;
   width: 1.2em;
   top: 10px;
   vertical-align: middle;
 }
 
-nav.tab-bar .icon.disruption-info {
+nav.top-bar .icon.disruption-info {
   position: absolute;
-  left: 6px;
+  left: 2.5em;
   height: 1.2em;
   width: 1.2em;
   top: 10px;
   vertical-align: middle;
  }
 
-nav.tab-bar .icon.disruption-info.inactive {
+nav.top-bar .icon.disruption-info.inactive {
   fill: $top-navigation-disruption-info-inactive-color;
 }
 
-nav.tab-bar .icon.disruption-info.active {
+nav.top-bar .icon.disruption-info.active {
   fill: $top-navigation-disruption-info-inactive-color;
 }
 
-nav.tab-bar .icon.logo {
+nav.top-bar .icon.logo {
   height: 1em;
   width: 1em;
   top: 8px;
-  margin-right: 5px;
   margin-bottom: 2px;
   vertical-align: middle;
 }
 
-nav.tab-bar .title {
+nav.top-bar .title {
+  text-align: center;
   color: $top-navigation-icon-color;
+
+  a {
+    text-decoration: none;
+  }
 }
 
-.off-canvas-wrap {
-  background-color: $content-background-color;
+.off-canvas ~ div.grid-frame {
+  background: transparent;
 }
 
-.left-off-canvas-menu {
+.left.off-canvas {
   padding-top: 20px;
   color: $offcanvas-link-color;
+  height:100%;
 }
 
-.left-off-canvas-menu i.icon-profile {
+.left.off-canvas i.icon-profile {
   font-size: $offcanvas-profile-icon-size;
   color: $offcanvas-profile-icon-color;
 }
 
-.left-off-canvas-menu .offcanvas-login i.icon-arrow-right {
+.left.off-canvas .offcanvas-login i.icon-arrow-right {
   font-size: $offcanvas-login-arrow-icon-size;
 }
 
-.left-off-canvas-menu a {
+.left.off-canvas a {
   color: $offcanvas-link-color;
   text-decoration: none;
 }
@@ -139,19 +147,19 @@ ul.offcanvas-list li {
   font-size: $offcanvas-login-text-font-size;
 }
 
-.left-off-canvas-menu .icon.small {
+.left.off-canvas .icon.small {
   fill: $offcanvas-link-color;   
   width: 10px;
   height: 10px;
 }
 
-.left-off-canvas-menu .icon.medium {
+.left.off-canvas .icon.medium {
   fill: $offcanvas-link-color;   
   width: 12px;
   height: 12px;
 }
 
-.left-off-canvas-menu .icon.large {
+.left.off-canvas .icon.large {
   fill: $offcanvas-link-color;   
   width: 36px;
   height: 36px;
@@ -170,7 +178,7 @@ ul.offcanvas-list li {
 }
 
 /* Subnavigation */
-button.sub-navigation-switch {
+.top-bar button.sub-navigation-switch {
   color: $top-navigation-switch-color;
   background-color: $top-navigation-switch-background-color;
   height: $top-navigation-switch-height;
@@ -178,15 +186,19 @@ button.sub-navigation-switch {
   width: $top-navigation-switch-width;
   font-size: $top-navigation-switch-font-size;
   text-transform: uppercase;
+  position: absolute;
   padding: 0;
+  right: 0px;
+  top: 10px;
+  vertical-align: middle;
   margin-right: 10px;
 }
 
-button.sub-navigation-switch:focus {
+.top-bar button.sub-navigation-switch:focus {
   outline: 0;
 }
 
-button.sub-navigation-switch:active {
+.top-bar button.sub-navigation-switch:active {
   background-color: $top-navigation-switch-background-color-active;
 }
 
