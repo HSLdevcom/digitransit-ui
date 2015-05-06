@@ -24,6 +24,7 @@ $search-form-transparency: $transparency;
   border-radius: $search-form-border-radius;
   line-height: 35px;
   position: relative;
+  font-size: 11pt;
 }
 
 .search-form .icon {
@@ -35,14 +36,26 @@ $search-form-transparency: $transparency;
 
 .search-form .location .icon {
   margin-right: 10px;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.search-form .location .right .icon {
+  margin-right: 10px;
+  width: 0.8em;
+  height: 0.8em;
 }
 
 .search-form .location .dashed {
   border-bottom: 1px dashed $search-form-icon-color;
 }
 
+.search-form .location .address {
+  font-weight: 300;
+}
+
 .search-form {
-  padding-top: 5px;
+  padding-top: 10px;
 }
 
 .search-form input.tt-input {

@@ -1,7 +1,6 @@
 $tab-color: $gray-blue;
 $tab-selected-color: $black;
 $tab-separator-color: $light-gray;
-$tab-favourite-icon-size: 30px;
 $tab-min-width: 100px;
 
 .tabs-navigation {
@@ -31,6 +30,8 @@ $tab-min-width: 100px;
    right:50%;
    border-right: 1px solid $tab-separator-color;
    min-width: $tab-min-width;
+   font-size: 9pt;
+   font-weight: 700;
 }
 
 .tabs-navigation li:last-child {
@@ -46,10 +47,6 @@ $tab-min-width: 100px;
    line-height:1.3em;
 }
 
-.tabs-navigation ul li i.icon {
-  font-size: $tab-favourite-icon-size;   
-}
-
 .tabs-navigation ul li a:hover {
    color: $tab-selected-color;
 }
@@ -59,5 +56,5 @@ $tab-min-width: 100px;
 }
 
 .tab-panel {
-   margin-top: 20px;
+   margin-top: 8px;
 }

@@ -1,10 +1,10 @@
 $stop-card-background-color: $white;
 $stop-card-border-color: $light-gray;
 $stop-card-title-font-family: $font-family;
-$stop-card-title-font-size: 13px;
+$stop-card-title-font-size: 12px;
 $stop-card-title-color: $gray-blue;
 $stop-card-location-font-family: $font-family;
-$stop-card-location-font-size: 15px;
+$stop-card-location-font-size: 13px;
 $stop-card-location-color: $gray;
 $stop-card-next-departure-font-family: $font-family-narrow;
 $stop-card-next-departure-font-size: 15px;
@@ -12,10 +12,11 @@ $stop-card-next-departure-color: 15px;
 $stop-card-normal-font-family: $font-family;
 $stop-card-normal-font-size: 13px;
 $stop-card-normal-line-height: 1.2;
-$stop-card-favourite-icon-fill-color: $light-gray;
+$stop-card-favourite-icon-stroke-color: $light-gray;
+$stop-card-favourite-icon-fill-color: $white;
 $stop-card-favourite-icon-hover-fill-color: $hsl-pink;
 $stop-card-favourite-icon-selected-fill-color: $hsl-pink;
-$stop-card-favourite-icon-selected-hover-fill-color: $light-gray;
+$stop-card-favourite-icon-selected-hover-fill-color: $white;
 $stop-card-show-more-font-family: $font-family;
 $stop-card-show-more-font-size: 13px;
 $stop-card-show-more-background-color: $gray-blue-light;
@@ -76,6 +77,8 @@ $stop-card-show-more-border-radius: 30px;
   padding: 0;
   height: 24px;
   width: 24px;
+  stroke: $stop-card-favourite-icon-stroke-color;
+  stroke-width: 50px;
   fill: $stop-card-favourite-icon-fill-color;
 }
 
@@ -93,7 +96,9 @@ $stop-card-show-more-border-radius: 30px;
 
 .stop-card .transport span.next-departure {
   display: inline-block;
-  width: 4em;
+  width: 3em;
+  margin-right: 1em;
+  text-align: right;
   font-family: $stop-card-next-departure-font-family;
   font-size: $stop-card-next-departure-font-size;
   font-weight: $font-weight-bold;
@@ -101,7 +106,7 @@ $stop-card-show-more-border-radius: 30px;
 
 .stop-card .transport span.vehicle-number {
   display: inline-block;
-  width: 3em;
+  width: 2.5em;
   font-family: $stop-card-next-departure-font-family;
   font-size: $stop-card-next-departure-font-size;
   font-weight: $font-weight-bold;
@@ -116,7 +121,6 @@ $stop-card-show-more-border-radius: 30px;
 .stop-card p.transport .icon {
   height: 12px;
   width: 12px;
-  margin-right: 5px;
   vertical-align: inherit;
 }
 

@@ -183,10 +183,10 @@ class SearchWithLocation extends React.Component
           location = <span className="inline-block cursor-pointer">Paikannetaan...</span>
           searchPlaceholder = ""
         when LocationStore.STATUS_FOUND_LOCATION
-          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>{this.state.address}</span>
+          location = <span className="inline-block cursor-pointer address" onClick={this.locateUser}>{this.state.address}</span>
           searchPlaceholder = ""
         when LocationStore.STATUS_FOUND_ADDRESS
-          location = <span className="inline-block cursor-pointer" onClick={this.locateUser}>{this.state.address}</span>
+          location = <span className="inline-block cursor-pointer address" onClick={this.locateUser}>{this.state.address}</span>
           clearLocation = <span className="inline-block right cursor-pointer" onClick={this.removeLocation}><Icon img={'icon-icon_close'}/></span>
           searchPlaceholder = "Määränpään osoite, linja, tai pysäkki"
         when LocationStore.STATUS_GEOLOCATION_DENIED

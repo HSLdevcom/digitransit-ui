@@ -22,6 +22,7 @@ class Icon extends React.Component
       <svg #{id}viewBox="0 0 40 40" class="icon #{clazz}">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="##{@props.img}"></use>
       </svg>
+      #{if @props.children then @props.children else ""}
     """
     <span dangerouslySetInnerHTML={{__html: html}} />
 
