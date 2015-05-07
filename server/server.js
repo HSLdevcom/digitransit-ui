@@ -49,6 +49,9 @@ function setUpRoutes() {
   app.use(function (req, res, next) { // pass in `req.url` and the router will immediately match
     var context = application.createContext()
     Router.run(application.getComponent(), req.url, function (Handler, state) {
+      if (state.routes[1].isNotFound) {
+        res.status(404)
+      }
       var state = 'window.state=' + serialize(application.dehydrate(context)) + ';'
       var content = React.renderToString(
         React.createElement(

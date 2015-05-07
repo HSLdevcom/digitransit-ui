@@ -6,6 +6,7 @@ Router       = require 'react-router'
 IndexPage     = require './page/index.cjsx'
 MapPage       = require './page/map.cjsx'
 StopPage      = require './page/stop.cjsx'
+SummaryPage   = require './page/summary.cjsx'
 Error404      = require './page/404.cjsx'
 
 # Reittiopas application
@@ -35,11 +36,11 @@ routes =
       <Route path="aikataulu" name="routeTimetable" handler={Error404}/>
       <DefaultRoute name="route" handler={Error404}/>
     </Route>
-    <Route path="reitti(/:from)/:to" name="tripList" handler={Error404}/>
+    <Route path="reitti/:from/:to" name="tripList" handler={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="trip" handler={Error404}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" handler={Error404}/>
     <DefaultRoute name="index" handler={IndexPage}/>
-    <NotFoundRoute handler={Error404}/>
+    <NotFoundRoute name="404" handler={Error404}/>
   </Route>
 
 module.exports = routes
