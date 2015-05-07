@@ -5,7 +5,7 @@ Map                = require '../component/map/map'
 Page = React.createClass
   render: ->
     <DefaultNavigation className="fullscreen">
-      <Map fullscreen={true}/>
+      <Map className="fullscreen"/>
     </DefaultNavigation>
 
 module.exports = Page

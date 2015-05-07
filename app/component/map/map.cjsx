@@ -61,7 +61,7 @@ class Map extends React.Component
           {marker}
         </LeafletMap>
 
-    <div className={"map" + if @props.fullscreen then " fullscreen" else ""}>
+    <div className={"map " + if @props.className then @props.className else ""}>
       {map}
       <div className="background-gradient"></div>
       {@props.children}
