@@ -17,7 +17,7 @@ class NoLocationPanel extends React.Component
         <Icon img={'icon-icon_mapMarker-location'}/> <span className="link">Paikanna itsesi</span>
       </p>
 
-      <p className="text-center">
+      <p className="text-center separator">
         Tai
       </p>
 
@@ -25,7 +25,7 @@ class NoLocationPanel extends React.Component
         Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.
       </p>
 
-      <p className="text-center">
+      <p className="text-center separator">
         Tai
       </p>
 

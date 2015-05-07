@@ -4,9 +4,10 @@ $no-location-panel-locate-yourself-font-size: 17px;
 
 .no-location-panel p {
   color: $no-location-panel-text-color;
+  font-weight: 300;
 }
 
-.locate-yourself {
+.no-location-panel p.locate-yourself {
   color: $gray-blue;
   font-size: $no-location-panel-locate-yourself-font-size;
   font-weight: bold;
