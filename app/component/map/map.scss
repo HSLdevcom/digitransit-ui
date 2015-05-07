@@ -2,9 +2,12 @@ $small-map-height: 155px;
 $medium-map-height: 300px;
 $large-map-height: 500px;
 
+div.map.fullscreen, div.map.fullscreen div.leaflet-container {
+  height: 100%;
+}
 
 @media #{$small-up} { 
-  div.map, div.leaflet-container {
+  div.map, div.map div.leaflet-container {
     height: $small-map-height;
   }
   div.background-gradient {
@@ -13,7 +16,7 @@ $large-map-height: 500px;
 }
 
 @media #{$medium-up} { 
-  div.map, div.leaflet-container {
+  div.map, div.map div.leaflet-container {
     height: $medium-map-height;
   }
   div.background-gradient {
@@ -22,7 +25,7 @@ $large-map-height: 500px;
 }
 
 @media #{$large-up} { 
-  div.map, div.leaflet-container {
+  div.map, div.map div.leaflet-container {
     height: $large-map-height;
   }
   div.background-gradient {

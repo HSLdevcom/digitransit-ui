@@ -5,7 +5,7 @@ TopNavigation         = require './top-navigation'
 
 class DefaultNavigation extends React.Component
   render: ->
-    <div>
+    <div className={@props.className}>
       <TopNavigation>
         <Link to="index">
           <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back"/>
