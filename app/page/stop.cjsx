@@ -8,7 +8,6 @@ Page = React.createClass
     <DefaultNavigation>
       <Map/>
       <StopCardContainer stop={@props.params.stopId}/>
-      <p>This is stop page</p>
     </DefaultNavigation>
 
 module.exports = Page

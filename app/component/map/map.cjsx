@@ -59,6 +59,7 @@ class Map extends React.Component
             attribution='&copy; <a href="http://osm.org/copyright">OSM</a>'
           />
           {marker}
+          {@props.leafletObjs}
         </LeafletMap>
 
     <div className={"map " + if @props.className then @props.className else ""}>
