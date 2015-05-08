@@ -24,6 +24,7 @@ class Search extends React.Component
   componentDidMount: => 
     if isBrowser
       document.getElementById(AUTOSUGGEST_ID).addEventListener('keyup', @suggestionEnterPress)
+      document.getElementById(AUTOSUGGEST_ID).addEventListener('keydown', @suggestionArrowPress)
 
   componentWillUnmount: =>
     @context.getStore('LocationStore').removeChangeListener @onChange
@@ -58,6 +59,24 @@ class Search extends React.Component
       queryAddress: address 
       queryNumber: input.match(/\d+/)
     }
+
+  # Scroll selection if needed
+  suggestionArrowPress: (e) =>
+    if e.which != 38 and e.which != 40
+      return
+
+    suggestions = document.getElementsByClassName("react-autosuggest__suggestion--focused")
+    if suggestions.length == 0
+      return
+    
+    autoSuggestDiv = document.getElementById("react-autosuggest-1")
+    selectedSuggestion = suggestions[0]
+    if e.which == 38
+      # Up
+      autoSuggestDiv.scrollTop = selectedSuggestion.offsetTop - 50
+    else if e.which == 40
+      # Down
+      autoSuggestDiv.scrollTop = selectedSuggestion.offsetTop - 60
 
   suggestionEnterPress: (e) =>
     if event.which == 13 and not this.setLocationInProgess
@@ -216,8 +235,6 @@ class Search extends React.Component
     beforeMatch = value.slice(0, firstMatchIndex)
     match = value.slice(firstMatchIndex, lastMatchIndex)
     afterMatch = value.slice(lastMatchIndex, value.length)
-    console.log("#{value}: #{firstMatchIndex} - #{lastMatchIndex}")
-    console.log("#{value}: #{beforeMatch}-#{match}-#{afterMatch}")
     return (
       <span>
         <span dangerouslySetInnerHTML={__html: icon}/> 
