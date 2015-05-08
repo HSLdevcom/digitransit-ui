@@ -12,13 +12,24 @@ class Search extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    router: React.PropTypes.func.isRequired
 
   constructor: -> 
     super
   
-  componentDidMount: -> 
+  componentWillMount: =>
+    @context.getStore('LocationStore').addChangeListener @onChange
+    @setState @context.getStore('LocationStore').getLocationState()
+
+  componentDidMount: => 
     if isBrowser
       document.getElementById(AUTOSUGGEST_ID).addEventListener('keyup', @suggestionEnterPress)
+
+  componentWillUnmount: =>
+    @context.getStore('LocationStore').removeChangeListener @onChange
+
+  onChange: =>
+    @setState @context.getStore('LocationStore').getLocationState()    
 
   analyzeInput: (input) =>
     isLastCharSpace =  /\s+$/.test(input)
@@ -82,7 +93,7 @@ class Search extends React.Component
       else
         console.log("Cannot find any locations with #{address}, #{number}, #{cities}")
 
-  setLocation: (lat, lon, address) ->
+  setLocation: (lat, lon, address) =>
     # Set location can be called in two ways:
     # 1) When autocomplete keydown enter happens (We prefer this optino)
     # 2) When pure input keyup happens (We use this as second option)
@@ -96,12 +107,24 @@ class Search extends React.Component
     setTimeout () =>
       this.setLocationInProgess = false
     , 500
-    
-    @context.executeAction LocateActions.manuallySetPosition, {
-      'lat': lat
-      'lon': lon
-      'address': address
-    }
+
+    # We first check if we already have a location. 
+    if @state.hasLocation
+      # Yes, location to be set is destination address
+      @context.router.transitionTo "tripList", 
+        from: "#{@state.lat},#{@state.lon}"
+        to: "#{lat},#{lon}"
+    else 
+      # No, This is a start location
+      @context.executeAction LocateActions.manuallySetPosition, {
+        'lat': lat
+        'lon': lon
+        'address': address
+      }
+      # After settings starting point, we want to clear input. 
+      setTimeout () -> 
+        document.getElementById(AUTOSUGGEST_ID).value = ""
+      , 100
 
   getSuggestions: (input, callback) =>
     analyzed = @analyzeInput(input)
@@ -212,10 +235,14 @@ class Search extends React.Component
       analyzed = @analyzeInput(suggestion.selection)
       @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
 
-  render: ->
+  render: =>
+    inputDisabled = if @state.isLocationingInProgress then "disabled" else ""
+    placeholder = if @state.hasLocation then 'Määränpään osoite, linja tai pysäkki' else 'Lähtöosoite, linja tai pysäkki'
+
     inputAttributes =
       id: AUTOSUGGEST_ID
-      placeholder: 'Lähtöosoite, linja tai pysäkki'
+      placeholder: placeholder
+      disabled: inputDisabled
 
     <Autosuggest 
       inputAttributes={inputAttributes}

@@ -62,6 +62,9 @@ class LocationStore extends Store
     lon: @lon
     address: @address
     status: @status
+    hasLocation: @status == @STATUS_FOUND_ADDRESS or @status == @STATUS_FOUND_LOCATION
+    # Locationing is in progress when browser is searching address or reverse geocoding is in progress
+    isLocationingInProgress: @status == @STATUS_SEARCHING_LOCATION or @status == @STATUS_FOUND_LOCATION 
 
   @handlers:
     "GeolocationSearch":       'geolocationSearch'
