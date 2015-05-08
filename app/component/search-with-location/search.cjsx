@@ -136,17 +136,18 @@ class Search extends React.Component
     XhrPromise.getJson("http://matka.hsl.fi/geocoder/suggest/#{address}").then (data) =>
       streets = []
       uniqueCities = []
-      for streetName, cities of data.streetnames
-        for city in cities
-          streets.push
-            'type': 'street'    
-            'address': "#{streetName}"
-            'city': "#{city.key}"
-            'selection': "#{streetName}, #{city.key}"
-        
-          # Store all city names for address search where address is exact match
-          if city.key.toLowerCase() not in uniqueCities and streetName.toLowerCase() == address.toLowerCase()
-            uniqueCities.push(city.key.toLowerCase())
+      for street in data.streetnames_fi
+        for streetName, cities of street
+          for city in cities
+            streets.push
+              'type': 'street'    
+              'address': "#{streetName}"
+              'city': "#{city.key}"
+              'selection': "#{streetName}, #{city.key}"
+          
+            # Store all city names for address search where address is exact match
+            if city.key.toLowerCase() not in uniqueCities and streetName.toLowerCase() == address.toLowerCase()
+              uniqueCities.push(city.key.toLowerCase())
 
       @setState
         previousSuggestCities: uniqueCities
