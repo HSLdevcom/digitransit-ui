@@ -112,8 +112,8 @@ class Search extends React.Component
     if @state.hasLocation
       # Yes, location to be set is destination address
       @context.router.transitionTo "tripList", 
-        from: "#{@state.lat},#{@state.lon}"
-        to: "#{lat},#{lon}"
+        from: "#{@state.address}::#{@state.lat},#{@state.lon}"
+        to: "#{address}::#{lat},#{lon}"
     else 
       # No, This is a start location
       @context.executeAction LocateActions.manuallySetPosition, {
