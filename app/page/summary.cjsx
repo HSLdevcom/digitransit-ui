@@ -30,7 +30,28 @@ class SummaryPage extends React.Component
         rows.push <SummaryRow key={i} data={data}/> 
 
     <DefaultNavigation className="fullscreen">
-      <Map><div style={{position: 'absolute'}}>{@props.params.from} {@props.params.to}</div></Map>
+      <Map>
+        <div className="search-form">
+          <div className="row">
+            <div className="small-12 medium-6 medium-offset-3 columns">
+              <div className="row collapse postfix-radius">
+                <div className="small-12 columns">
+                  <input type="text" disabled value={@props.params.from.split("::")[0]}/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="small-12 medium-6 medium-offset-3 columns">
+              <div className="row collapse postfix-radius">
+                <div className="small-12 columns">
+                  <input type="text" disabled value={@props.params.to.split("::")[0]}/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Map>
       <div>{rows}</div>
     </DefaultNavigation>
 
