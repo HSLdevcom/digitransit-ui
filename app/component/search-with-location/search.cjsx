@@ -236,8 +236,14 @@ class Search extends React.Component
       @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
 
   render: =>
-    inputDisabled = if @state.isLocationingInProgress then "disabled" else ""
-    placeholder = if @state.hasLocation then 'Määränpään osoite, linja tai pysäkki' else 'Lähtöosoite, linja tai pysäkki'
+    inputDisabled = ""
+    if @state.isLocationingInProgress
+      inputDisabled = 'disabled'
+      placeholder = 'Odota, sijaintiasi etsitään'
+    else if @state.hasLocation
+      placeholder = 'Määränpään osoite, linja tai pysäkki' 
+    else 
+      placeholder = 'Lähtöosoite, linja tai pysäkki'
 
     inputAttributes =
       id: AUTOSUGGEST_ID
