@@ -195,15 +195,16 @@ class Search extends React.Component
   renderSuggestion: (suggestion, input) ->
     value = suggestion.selection
     reqex = new RegExp('\\b' + value, 'i')
-    firstMatchIndex = value.search(reqex)
-
+    firstMatchIndex = value.toLowerCase().indexOf(input.toLowerCase())
+    lastMatchIndex = firstMatchIndex + input.length
+    
     switch suggestion.type
       when 'street' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>"""
       when 'address' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>"""
       when 'stop' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_direction-b"></use></svg>"""
       else icon = "<span>*</span>"
 
-    # Should these be skipped?
+    # suggestion can match even if input text is not visible
     if firstMatchIndex == -1
       return (
         <span>
@@ -213,9 +214,10 @@ class Search extends React.Component
       )
 
     beforeMatch = value.slice(0, firstMatchIndex)
-    match = value.slice(firstMatchIndex, firstMatchIndex + input.length)
-    afterMatch = value.slice(firstMatchIndex + input.length)
-
+    match = value.slice(firstMatchIndex, lastMatchIndex)
+    afterMatch = value.slice(lastMatchIndex, value.length)
+    console.log("#{value}: #{firstMatchIndex} - #{lastMatchIndex}")
+    console.log("#{value}: #{beforeMatch}-#{match}-#{afterMatch}")
     return (
       <span>
         <span dangerouslySetInnerHTML={__html: icon}/> 
