@@ -140,10 +140,6 @@ class Search extends React.Component
         'lon': lon
         'address': address
       }
-      # After settings starting point, we want to clear input. 
-      setTimeout () -> 
-        document.getElementById(AUTOSUGGEST_ID).value = ""
-      , 100
 
   getSuggestions: (input, callback) =>
     analyzed = @analyzeInput(input)
@@ -270,10 +266,14 @@ class Search extends React.Component
       disabled: inputDisabled
 
     <Autosuggest 
+      # We use two different components depending on location state
+      # this way we can prevent autosuggest from keeping selected value as state
+      key={if @state.hasLocation then 'to' else 'from'}
       inputAttributes={inputAttributes}
       suggestions={@getSuggestions}
       suggestionRenderer={@renderSuggestion}
       suggestionValue={@suggestionValue}
-      onSuggestionSelected={@suggestionSelected}/>    
+      onSuggestionSelected={@suggestionSelected}
+      showWhen={(input) => input.trim().length >= 2}/>    
 
 module.exports = Search
