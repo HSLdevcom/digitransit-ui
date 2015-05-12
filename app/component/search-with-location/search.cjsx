@@ -21,11 +21,6 @@ class Search extends React.Component
     @context.getStore('LocationStore').addChangeListener @onChange
     @setState @context.getStore('LocationStore').getLocationState()
 
-  componentDidMount: => 
-    if isBrowser
-      document.getElementById(AUTOSUGGEST_ID).addEventListener('keyup', @suggestionEnterPress)
-      document.getElementById(AUTOSUGGEST_ID).addEventListener('keydown', @suggestionArrowPress)
-
   componentWillUnmount: =>
     @context.getStore('LocationStore').removeChangeListener @onChange
 
@@ -60,30 +55,6 @@ class Search extends React.Component
       queryNumber: input.match(/\d+/)
     }
 
-  # Scroll selection if needed
-  suggestionArrowPress: (e) =>
-    if e.which != 38 and e.which != 40
-      return
-
-    suggestions = document.getElementsByClassName("react-autosuggest__suggestion--focused")
-    if suggestions.length == 0
-      return
-    
-    autoSuggestDiv = document.getElementById("react-autosuggest-1")
-    selectedSuggestion = suggestions[0]
-    if e.which == 38
-      # Up
-      autoSuggestDiv.scrollTop = selectedSuggestion.offsetTop - 50
-    else if e.which == 40
-      # Down
-      autoSuggestDiv.scrollTop = selectedSuggestion.offsetTop - 60
-
-  suggestionEnterPress: (e) =>
-    if event.which == 13 and not this.setLocationInProgess
-      input = document.getElementById(AUTOSUGGEST_ID).value
-      analyzed = @analyzeInput(input)
-      @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
-
   findLocation: (cities, address, number) =>
     # We need to have city information available when finding location
     if not cities or cities.length == 0
@@ -114,7 +85,7 @@ class Search extends React.Component
 
   setLocation: (lat, lon, address) =>
     # Set location can be called in two ways:
-    # 1) When autocomplete keydown enter happens (We prefer this optino)
+    # 1) When autocomplete keydown enter happens (We prefer this option)
     # 2) When pure input keyup happens (We use this as second option)
     # So we set up a gap period when calls to this method are "no operation"
     
@@ -250,6 +221,44 @@ class Search extends React.Component
       analyzed = @analyzeInput(suggestion.selection)
       @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
 
+  # This will get autoSuggestComponent when it mounts
+  handleAutoSuggestMount: (autoSuggestComponent) =>
+    if autoSuggestComponent
+      input = autoSuggestComponent.refs.input.getDOMNode()
+      input.addEventListener('keyup', @suggestionEnterPress)
+      input.addEventListener('keydown', @suggestionArrowPress)
+      this.autoSuggestInput = input
+
+  # Scroll selection if needed
+  # See: https://github.com/moroshko/react-autosuggest/issues/21
+  suggestionArrowPress: (e) =>
+    if e.which != 38 and e.which != 40
+      return
+   
+    suggestions = document.getElementsByClassName("react-autosuggest__suggestion--focused")
+    if suggestions.length == 0 then return
+    selectedSuggestion = suggestions[0]
+    
+    autoSuggestDivs = document.getElementsByClassName("react-autosuggest__suggestions")
+    if autoSuggestDivs.length == 0 then return
+    autoSuggestDiv = autoSuggestDivs[0]
+
+    if e.which == 38
+      # Up
+      autoSuggestDiv.scrollTop = selectedSuggestion.offsetTop - 90
+    else if e.which == 40
+      # Down
+      autoSuggestDiv.scrollTop = selectedSuggestion.offsetTop - 60
+
+  # Handle enter
+  # See: https://github.com/moroshko/react-autosuggest/issues/22
+  suggestionEnterPress: (e) =>
+    if e.which == 13 and not this.setLocationInProgess
+      analyzed = @analyzeInput(this.autoSuggestInput.value)
+      @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
+
+  # We use two different components depending on location state
+  # this way we can prevent autosuggest from keeping selected value as state
   render: =>
     inputDisabled = ""
     if @state.isLocationingInProgress
@@ -266,8 +275,7 @@ class Search extends React.Component
       disabled: inputDisabled
 
     <Autosuggest 
-      # We use two different components depending on location state
-      # this way we can prevent autosuggest from keeping selected value as state
+      ref={@handleAutoSuggestMount}
       key={if @state.hasLocation then 'to' else 'from'}
       inputAttributes={inputAttributes}
       suggestions={@getSuggestions}
