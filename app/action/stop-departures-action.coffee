@@ -1,15 +1,15 @@
-$               = require 'jquery'
+xhrPromise      = require '../util/xhr-promise'
 executeMultiple = require 'fluxible-action-utils/async/executeMultiple'
 
 stopInformationRequest = (actionContext, id, done) ->
   if !actionContext.getStore('StopInformationStore').getStop(id)
-    $.getJSON "http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id , (data) ->
+    xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id).then (data) ->
       actionContext.dispatch "StopInformationFound", data
       done()
 
 stopDeparturesRequest = (actionContext, id, done) ->
   actionContext.dispatch "StopDeparturesFetchStarted", id
-  $.getJSON "http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id + "/stoptimes?detail=true&numberOfDepartures=5", (data) ->
+  xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id + "/stoptimes?detail=true&numberOfDepartures=5").then (data) ->
     actionContext.dispatch "StopDeparturesFound",
       id: id
       departures: data

@@ -1,11 +1,11 @@
-$             = require 'jquery'
+xhrPromise = require '../util/xhr-promise'
 
 module.exports = nearestStopsRequest: (actionContext, coordinates, done) ->
     if coordinates
-      $.getJSON "http://matka.hsl.fi/otp/routers/finland" + "/index/stops",
+      xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/index/stops",
         lat: coordinates.lat
         lon: coordinates.lon
         radius: 1000
-      , (data) ->
+      ).then (data) ->
         actionContext.dispatch "NearestStopsFound", data
         done()
