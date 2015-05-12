@@ -9,6 +9,7 @@ dehydratedState   = window.state; # Sent from the server
 
 require "../sass/main.scss"
 
+require.include 'leaflet' # Force into main bundle.js
 
 RenderApp = (context, Handler) ->
   React.render(
