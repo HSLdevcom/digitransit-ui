@@ -9,13 +9,10 @@ class SummaryPage extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
+  @loadAction: RouteSearchActions.routeSearchRequest
+
   componentDidMount: -> 
     @context.getStore('RouteSearchStore').addChangeListener @onChange
-    options = 
-      fromPlace: @props.params.from
-      toPlace: @props.params.to
-      preferredAgencies: "HSL"
-    @context.executeAction RouteSearchActions.routeSearchRequest, options
 
   componentWillUnmount: ->
     @context.getStore('RouteSearchStore').removeChangeListener @onChange

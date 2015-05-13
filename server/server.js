@@ -7,6 +7,7 @@ var React = require('react')
 var Router = require('react-router')
 var FluxibleComponent = require('fluxible/addons/FluxibleComponent');
 var serialize = require('serialize-javascript');
+var Promise = require('es6-promise').Promise;
 require('node-cjsx').transform()
 
 /********** Global **********/
@@ -52,22 +53,29 @@ function setUpRoutes() {
       if (state.routes[1].isNotFound) {
         res.status(404)
       }
-      var state = 'window.state=' + serialize(application.dehydrate(context)) + ';'
-      var content = React.renderToString(
-        React.createElement(
-          FluxibleComponent,
-          { context: context.getComponentContext() },
-          React.createFactory(Handler)()
+      var render = function() {
+        var content = React.renderToString(
+          React.createElement(
+            FluxibleComponent,
+            { context: context.getComponentContext() },
+            React.createFactory(Handler)()
+          )
         )
-      )
-      var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
-      res.render('app', {
-        content: content,
-        state: state,
-        partials: { svgSprite: 'svg-sprite'},
-        livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
-        style: process.env.NODE_ENV === "development" ? '' : '<link rel="stylesheet" href="' + rootPath + 'css/bundle.css">'
-      })
+        var appState = 'window.state=' + serialize(application.dehydrate(context)) + ';'
+        var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
+        res.render('app', {
+          content: content,
+          state: appState,
+          partials: { svgSprite: 'svg-sprite'},
+          livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
+          style: process.env.NODE_ENV === "development" ? '' : '<link rel="stylesheet" href="' + rootPath + 'css/bundle.css">'
+        })
+      }
+      if (state.routes[state.routes.length -1].handler.loadAction) {
+        context.getActionContext().executeAction(state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}).then(render)
+      } else {
+        render()
+      }
     })
   })
 }

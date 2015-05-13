@@ -14,6 +14,12 @@ class RouteSearchStore extends Store
     @data = data
     @emitChange()
 
+  dehydrate: ->
+    @data
+
+  rehydrate: (data) ->
+    @data = data
+
   @handlers:
     "RouteFound": 'storeRouteSearch'
 

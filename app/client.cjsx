@@ -33,5 +33,7 @@ app.rehydrate dehydratedState, (err, context) ->
       RenderApp context, Handler
       firstRender = false
     else
-      #context.executeAction navigateAction, state, () ->
+      if state.routes[state.routes.length-1].handler.loadAction
+        context.getActionContext().executeAction(state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}).then(-> RenderApp context, Handler)
+      else
         RenderApp context, Handler

@@ -1,4 +1,4 @@
-Xhr            = require 'xhr'
+Xhr            = require 'httpify'
 Promise        = (require 'es6-promise').Promise
 
 serialize = (obj, prefix) ->
@@ -10,7 +10,7 @@ serialize = (obj, prefix) ->
       k = if prefix then prefix + "[" + p + "]" else p
       v = obj[p]
       str.push(if typeof v == "object" then serialize(v, k) else encodeURIComponent(k) + "=" + encodeURIComponent(v))
-  "?" + str.join "&"
+  str.join "&"
 
 class XhrPromise 
 
@@ -20,12 +20,12 @@ class XhrPromise
       Xhr
         timout: 2000
         method: 'get'
-        uri: encodeURI(url) + serialize(params)
+        uri: encodeURI(url) + if params then ("?" + serialize(params)) else ""
         headers:
           "Accept": "application/json"
       , (err, resp, body) ->
         if err == null
-          resolve(JSON.parse(body)) 
+          resolve(resp.body) 
         else 
           reject(err)
     )

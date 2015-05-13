@@ -1,6 +1,9 @@
 xhrPromise = require '../util/xhr-promise'
 
-module.exports = routeSearchRequest: (actionContext, options, done) ->
-  xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/plan", options).then (data) ->
+module.exports = routeSearchRequest: (actionContext, options) ->
+  params =
+    fromPlace: options.params.from
+    toPlace: options.params.to
+    preferredAgencies: "HSL"
+  xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/plan", params).then (data) ->
     actionContext.dispatch "RouteFound", data
-    done()
