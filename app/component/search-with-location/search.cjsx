@@ -84,20 +84,6 @@ class Search extends React.Component
         console.log("Cannot find any locations with #{address}, #{number}, #{cities}")
 
   setLocation: (lat, lon, address) =>
-    # Set location can be called in two ways:
-    # 1) When autocomplete keydown enter happens (We prefer this option)
-    # 2) When pure input keyup happens (We use this as second option)
-    # So we set up a gap period when calls to this method are "no operation"
-    
-    if this.setLocationInProgess
-      return
-    this.setLocationInProgess = true
-
-    # After gap period, method can be called again
-    setTimeout () =>
-      this.setLocationInProgess = false
-    , 500
-
     # We first check if we already have a location. 
     if @state.hasLocation
       # Yes, location to be set is destination address
@@ -214,7 +200,9 @@ class Search extends React.Component
   suggestionValue: (suggestion) ->
     return suggestion.selection
 
-  suggestionSelected: (suggestion, event) =>
+  suggestionSelected: (suggestion, e) =>
+    # Prevent default so that form submit will not happen in this case
+    e.preventDefault()
     if suggestion.lat != undefined and suggestion.lon != undefined
       @setLocation(suggestion.lat, suggestion.lon, suggestion.selection)
     else 
@@ -222,10 +210,10 @@ class Search extends React.Component
       @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
 
   # This will get autoSuggestComponent when it mounts
+  # See: https://github.com/moroshko/react-autosuggest/issues/21
   handleAutoSuggestMount: (autoSuggestComponent) =>
     if autoSuggestComponent
       input = autoSuggestComponent.refs.input.getDOMNode()
-      input.addEventListener('keyup', @suggestionEnterPress)
       input.addEventListener('keydown', @suggestionArrowPress)
       this.autoSuggestInput = input
 
@@ -250,12 +238,11 @@ class Search extends React.Component
       # Down
       autoSuggestDiv.scrollTop = selectedSuggestion.offsetTop - 60
 
-  # Handle enter
-  # See: https://github.com/moroshko/react-autosuggest/issues/22
-  suggestionEnterPress: (e) =>
-    if e.which == 13 and not this.setLocationInProgess
-      analyzed = @analyzeInput(this.autoSuggestInput.value)
-      @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
+  # Happens when user presses enter without selecting anything from autosuggest
+  onSubmit: (e) =>
+    e.preventDefault()
+    analyzed = @analyzeInput(this.autoSuggestInput.value)
+    @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
 
   # We use two different components depending on location state
   # this way we can prevent autosuggest from keeping selected value as state
@@ -274,14 +261,16 @@ class Search extends React.Component
       placeholder: placeholder
       disabled: inputDisabled
 
-    <Autosuggest 
-      ref={@handleAutoSuggestMount}
-      key={if @state.hasLocation then 'to' else 'from'}
-      inputAttributes={inputAttributes}
-      suggestions={@getSuggestions}
-      suggestionRenderer={@renderSuggestion}
-      suggestionValue={@suggestionValue}
-      onSuggestionSelected={@suggestionSelected}
-      showWhen={(input) => input.trim().length >= 2}/>    
+    <form onSubmit={@onSubmit}>
+      <Autosuggest 
+        ref={@handleAutoSuggestMount}
+        key={if @state.hasLocation then 'to' else 'from'}
+        inputAttributes={inputAttributes}
+        suggestions={@getSuggestions}
+        suggestionRenderer={@renderSuggestion}
+        suggestionValue={@suggestionValue}
+        onSuggestionSelected={@suggestionSelected}
+        showWhen={(input) => input.trim().length >= 2}/>    
+    </form>
 
 module.exports = Search
