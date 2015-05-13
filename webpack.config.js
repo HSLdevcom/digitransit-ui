@@ -62,7 +62,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\/app\/page\/.*\.cjsx$/, loader: 'react-router-proxy' },
+      //{ test: /\/app\/page\/.*\.cjsx$/, loader: 'react-router-proxy' },
       (process.env.NODE_ENV === "development") ? { test: /\.css$/, loaders: ['style', 'css']} : { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css")},
       (process.env.NODE_ENV === "development") ? { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx']} : { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },
