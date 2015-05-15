@@ -6,6 +6,14 @@ div.map.fullscreen, div.map.fullscreen div.leaflet-container {
   height: 100%;
 }
 
+div.map.summaryMap {
+  height: calc(100% - 12em);
+}
+
+div.map.summaryMap div.leaflet-container {
+  height: calc(100% - 12em - 40px);
+}
+
 @media #{$small-up} { 
   div.map, div.map div.leaflet-container {
     height: $small-map-height;
@@ -53,6 +61,14 @@ div.current-location-marker > span > svg.icon {
   margin-left: -12px;
   fill: white;
 }
+
+div.from > span > svg.icon, div.to > span > svg.icon {
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  margin-left: -6px;
+}
+
 
 div.background-gradient {
   width: 100%;

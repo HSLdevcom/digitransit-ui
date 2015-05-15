@@ -36,6 +36,7 @@
     "masonry": "geta6/masonry",
     "moment": "^2.10.2",
     "node-cjsx": "^1.0.0",
+    "polyline-encoded": "0.0.7",
     "react": "^0.13.2",
     "react-autosuggest": "^1.12.1",
     "react-leaflet": "^0.5.0",

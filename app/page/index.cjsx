@@ -2,7 +2,7 @@ React              = require 'react'
 IndexNavigation    = require '../component/navigation/index-navigation.cjsx'
 Map                = require '../component/map/map.cjsx'
 StopTabs           = require '../component/stop-cards/stop-tabs.cjsx'
-SearchWithLocation = require '../component/search-with-location/search-with-location.cjsx'
+SearchWithLocation = require '../component/search/search-with-location.cjsx'
 LocateActions      = require '../action/locate-actions.coffee'
 
 

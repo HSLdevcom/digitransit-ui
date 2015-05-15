@@ -4,12 +4,19 @@ Icon                  = require '../icon/icon'
 TopNavigation         = require './top-navigation'
 
 class DefaultNavigation extends React.Component
+  @contextTypes:
+    router: React.PropTypes.func
+
+  goBack: =>
+    if !@context.router.goBack()
+      @context.router.transitionTo("index")
+
   render: ->
     <div className={@props.className}>
       <TopNavigation>
-        <Link to="index">
+        <div onClick=@goBack>
           <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back"/>
-        </Link>
+        </div>
       </TopNavigation>
       <section ref="content" className="content">
         {@props.children}

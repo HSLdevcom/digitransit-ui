@@ -47,6 +47,16 @@ body {
   fill: $ferry-color;
 }
 
+.from {
+  color: $from-color;
+  fill: $from-color;
+}
+
+.to {
+  color: $to-color;
+  fill: $to-color;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
