@@ -7,9 +7,10 @@ FromToSearch       = require '../component/search/from-to-search'
 isBrowser          = window?
 Polyline           = if isBrowser then require 'react-leaflet/lib/Polyline' else null
 Marker             = if isBrowser then require 'react-leaflet/lib/Marker' else null
-polyUtil           = require('polyline-encoded');
-Icon               = require '../component/icon/icon.cjsx'
-
+CircleMarker       = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
+polyUtil           = require 'polyline-encoded'
+Icon               = require '../component/icon/icon'
+getSelector        = require '../component/util/get-selector'
 
 class SummaryPage extends React.Component
   @contextTypes:
@@ -41,7 +42,12 @@ class SummaryPage extends React.Component
       for data, i in @context.getStore('RouteSearchStore').getData().plan.itineraries
         rows.push <SummaryRow key={i} hash={i} params={@props.params} data={data}/>
         for leg, j in data.legs
-          leafletObjs.push <Polyline key={i + "," + j} positions={polyUtil.decode leg.legGeometry.points} color="#999"/>
+          color = if isBrowser then getSelector("." + leg.mode).style?.color else "#999" # TODO: Need a better way to do this
+          leafletObjs.push <Polyline key={i + "," + j + leg.mode + "halo"} positions={polyUtil.decode leg.legGeometry.points} color="#fff" opacity=1 weight=5 />
+          leafletObjs.push <Polyline key={i + "," + j + leg.mode} positions={polyUtil.decode leg.legGeometry.points} color={color or "#999"} opacity=1 weight=3 />
+          if j != 0
+            leafletObjs.push <CircleMarker key={i + "," + j + leg.mode + "circleHalo"} center={lat: leg.from.lat, lng: leg.from.lon} radius=3 color="#fff" opacity=1 />
+            leafletObjs.push <CircleMarker key={i + "," + j + leg.mode + "circle"} center={lat: leg.from.lat, lng: leg.from.lon} radius=2 color={color or "#999"} fill={color or "#999"} opacity=1 fillOpacity=1 />
 
     <DefaultNavigation className="fullscreen">
       <Map className="summaryMap" leafletObjs={leafletObjs}>
