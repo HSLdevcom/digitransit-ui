@@ -1,6 +1,8 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var autoprefixer = require('autoprefixer-core');
+var csswring = require('csswring');
 
 var port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -63,12 +65,13 @@ module.exports = {
   module: {
     loaders: [
       //{ test: /\/app\/page\/.*\.cjsx$/, loader: 'react-router-proxy' },
-      (process.env.NODE_ENV === "development") ? { test: /\.css$/, loaders: ['style', 'css']} : { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css")},
+      (process.env.NODE_ENV === "development") ? { test: /\.css$/, loaders: ['style', 'css', 'postcss']} : { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!postcss")},
       (process.env.NODE_ENV === "development") ? { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx']} : { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },
       (process.env.NODE_ENV === "development") ? { test: /\.jsx$/, loafers: ['react-hot', 'jsx']} : { test: /\.jsx$/, loafer: 'jsx'},
-      (process.env.NODE_ENV === "development") ? { test: /\.scss$/, loaders: ['style', 'css', 'sass']} : { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", "css!sass-loader")},
+      (process.env.NODE_ENV === "development") ? { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass']} : { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", "css!postcss!sass")},
       { test: /\.(eot|png|ttf|woff)$/, loader: 'file'}
     ]
-  }
+  },
+  postcss: (process.env.NODE_ENV === "development") ? [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] })] : [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] }), csswring]
 };
