@@ -1,6 +1,6 @@
 React            = require 'react'
 cloneWithProps   = require 'react/lib/cloneWithProps' 
-MasonryComponent = require './MasonryComponent'
+MasonryComponent = require '../util/masonry-component'
 
 class StopCardList extends React.Component
   reloadMasonry: =>
