@@ -104,6 +104,15 @@ nav.top-bar .title {
   }
 }
 
+nav.top-bar .icon.right-off-canvas-toggle {
+  position: absolute;
+  left: calc(100% - 1.7em);
+  height: 1.2em;
+  width: 1.2em;
+  top: 10px;
+  vertical-align: middle;
+}
+
 .off-canvas ~ div.grid-frame {
   background: transparent;
 }
@@ -172,6 +181,12 @@ ul.offcanvas-list li {
   fill: $offcanvas-link-color;   
   width: 36px;
   height: 36px;
+}
+
+.right.off-canvas {
+  padding-top: 20px;
+  color: $offcanvas-link-color;
+  height:100%;
 }
 
 /* content */

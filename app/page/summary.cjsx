@@ -1,5 +1,5 @@
 React              = require 'react'
-DefaultNavigation  = require '../component/navigation/default-navigation'
+SummaryNavigation  = require '../component/navigation/summary-navigation'
 Map                = require '../component/map/map'
 RouteSearchActions = require '../action/route-search-action'
 SummaryRow         = require '../component/summary/summary-row'
@@ -49,11 +49,11 @@ class SummaryPage extends React.Component
             leafletObjs.push <CircleMarker key={i + "," + j + leg.mode + "circleHalo"} center={lat: leg.from.lat, lng: leg.from.lon} radius=3 color="#fff" opacity=1 />
             leafletObjs.push <CircleMarker key={i + "," + j + leg.mode + "circle"} center={lat: leg.from.lat, lng: leg.from.lon} radius=2 color={color or "#999"} fill={color or "#999"} opacity=1 fillOpacity=1 />
 
-    <DefaultNavigation className="fullscreen">
+    <SummaryNavigation className="fullscreen">
       <Map className="summaryMap" leafletObjs={leafletObjs}>
         <FromToSearch params={@props.params}/>
       </Map>
       <div>{rows}</div>
-    </DefaultNavigation>
+    </SummaryNavigation>
 
 module.exports = SummaryPage
