@@ -10,7 +10,7 @@ Marker             = if isBrowser then require 'react-leaflet/lib/Marker' else n
 CircleMarker       = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
 polyUtil           = require 'polyline-encoded'
 Icon               = require '../component/icon/icon'
-getSelector        = require '../component/util/get-selector'
+getSelector        = require '../util/get-selector'
 
 class SummaryPage extends React.Component
   @contextTypes:
