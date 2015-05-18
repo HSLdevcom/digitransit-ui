@@ -66,7 +66,6 @@ class Map extends React.Component
       {map}
       <div className="background-gradient"></div>
       {@props.children}
-      <div className="fullscreen-toggle"></div>
     </div>
 
 module.exports = Map

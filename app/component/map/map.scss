@@ -2,6 +2,10 @@ $small-map-height: 155px;
 $medium-map-height: 300px;
 $large-map-height: 500px;
 
+div.map {
+  position: relative;
+}
+
 div.map.fullscreen, div.map.fullscreen div.leaflet-container {
   height: 100%;
 }
@@ -11,19 +15,22 @@ div.map.summaryMap {
 }
 
 div.map.summaryMap div.leaflet-container {
-  height: calc(100% - 12em - 40px);
+  height: 100%;
 }
 
-@media #{$small-up} { 
+@media #{$small-only} { 
   div.map, div.map div.leaflet-container {
     height: $small-map-height;
   }
   div.background-gradient {
     height: $small-map-height * 0.7;
   }
+  div.leaflet-control-attribution {
+    display: none;
+  }
 }
 
-@media #{$medium-up} { 
+@media #{$medium-only} { 
   div.map, div.map div.leaflet-container {
     height: $medium-map-height;
   }
@@ -76,6 +83,22 @@ div.background-gradient {
   top: 0px;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(153, 153, 153, 0));
   pointer-events: none;
+}
+
+div.fullscreen-toggle {
+  position: absolute;
+  height: 2em;
+  background: rgba(0, 0, 0, 0.5);
+  width: 2em;
+  bottom: 0px;
+  right: 1em;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+
+div.fullscreen-toggle span .icon {
+  margin: 0.5em;
+  fill: rgb(255, 255, 255);
 }
 
 div.map {
