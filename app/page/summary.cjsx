@@ -23,14 +23,22 @@ class SummaryPage extends React.Component
 
   @toIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'to') else null
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @context.getStore('RouteSearchStore').addChangeListener @onChange
+    @setMapBounds()
 
   componentWillUnmount: ->
     @context.getStore('RouteSearchStore').removeChangeListener @onChange
 
   onChange: =>
     @forceUpdate()
+    @setMapBounds()
+
+  setMapBounds: ->
+    setTimeout => # We need to do this after leaflet has loaded in the child element
+      bounds = [@context.getStore('RouteSearchStore').getData().plan.from, @context.getStore('RouteSearchStore').getData().plan.to]
+      @refs.map.refs.map.getLeafletElement().fitBounds bounds, paddingTopLeft: [0, 110]
+    , 5
 
   render: ->
     rows = []
@@ -50,7 +58,7 @@ class SummaryPage extends React.Component
             leafletObjs.push <CircleMarker key={i + "," + j + leg.mode + "circle"} center={lat: leg.from.lat, lng: leg.from.lon} radius=2 color={color or "#999"} fill={color or "#999"} opacity=1 fillOpacity=1 />
 
     <SummaryNavigation className="fullscreen">
-      <Map className="summaryMap" leafletObjs={leafletObjs}>
+      <Map ref="map" className="summaryMap" leafletObjs={leafletObjs}>
         <FromToSearch params={@props.params}/>
       </Map>
       <div>{rows}</div>
