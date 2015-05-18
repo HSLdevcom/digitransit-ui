@@ -14,7 +14,7 @@ class Map extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  @currentLocationIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-location')), className: 'current-location-marker') else null
+  @currentLocationIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-location-animated')), className: 'current-location-marker') else null
 
   constructor: -> 
     super
