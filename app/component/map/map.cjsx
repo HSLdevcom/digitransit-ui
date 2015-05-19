@@ -37,7 +37,7 @@ class Map extends React.Component
     if (coordinates.lat != 0 || coordinates.lon != 0)
       @setState
         location: [coordinates.lat, coordinates.lon]
-        zoom: 15
+        zoom: 16
         hasLocation: true
 
   render: ->
@@ -50,7 +50,7 @@ class Map extends React.Component
       map =
         <LeafletMap 
           ref='map'
-          center={[@state.location[0]+0.001, @state.location[1]]}
+          center={[@state.location[0]+0.0005, @state.location[1]]}
           zoom={@state.zoom}
           zoomControl=false
           attributionControl=false>
