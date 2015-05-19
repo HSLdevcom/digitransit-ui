@@ -55,8 +55,9 @@ class Map extends React.Component
           zoomControl=false
           attributionControl=false>
           <TileLayer
-            url="http://matka.hsl.fi/hsl-map/{z}/{x}/{y}.png"
+            url="http://matka.hsl.fi/hsl-map/{z}/{x}/{y}{size}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OSM</a>'
+            size={if L.Browser.retina then "@2x" else  ""}
           />
           {marker}
           {@props.leafletObjs}
