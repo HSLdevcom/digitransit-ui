@@ -1,11 +1,11 @@
 isBrowser     = window?
 React         = require 'react'
 Icon          = require '../icon/icon'
+StopMarkerContainer = require './stop-marker-container'
 LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
 Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else null
 L             = if isBrowser then require 'leaflet' else null
-LocationStore = require '../../store/location-store'
 
 if isBrowser
   require 'leaflet/dist/leaflet.css'
@@ -24,16 +24,16 @@ class Map extends React.Component
       hasLocation: false
 
   componentDidMount: -> 
-    @context.getStore(LocationStore).addChangeListener @onLocationChange
+    @context.getStore('LocationStore').addChangeListener @onLocationChange
     @onLocationChange()
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
 
 
   componentWillUnmount: ->
-    @context.getStore(LocationStore).removeChangeListener @onLocationChange
+    @context.getStore('LocationStore').removeChangeListener @onLocationChange
 
   onLocationChange: =>
-    coordinates = @context.getStore(LocationStore).getLocationState()
+    coordinates = @context.getStore('LocationStore').getLocationState()
     if (coordinates.lat != 0 || coordinates.lon != 0)
       @setState
         location: [coordinates.lat, coordinates.lon]
@@ -59,6 +59,7 @@ class Map extends React.Component
             attribution='&copy; <a href="http://osm.org/copyright">OSM</a>'
             size={if L.Browser.retina then "@2x" else  ""}
           />
+          <StopMarkerContainer showStops={@props.showStops}/>
           {marker}
           {@props.leafletObjs}
         </LeafletMap>
