@@ -189,7 +189,7 @@ class Search extends React.Component
     match = value.slice(firstMatchIndex, lastMatchIndex)
     afterMatch = value.slice(lastMatchIndex, value.length)
     return (
-      <span>
+      <span id={value}>
         <span dangerouslySetInnerHTML={__html: icon}/> 
         {beforeMatch}
         <strong>{match}</strong>

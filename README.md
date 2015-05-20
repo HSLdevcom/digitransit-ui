@@ -13,3 +13,15 @@ Open Journey Planner UI
 
 - npm run build
 - npm run start
+
+# Running webdriver ui tests
+
+## Local - Phantomjs
+- sudo npm install -g phantomjs
+- Run "phantomjs --webdriver=4444"
+- Run "./run-ui-tests.sh local"
+
+## Saucelabs 
+- Ensure you have saucelabs account with apikey
+- Run "./run-ui-tests.sh saucelabs". This will tell you to create 'credentials.json' file. Create it.
+- Run "./run-ui-tests.sh saucelabs"

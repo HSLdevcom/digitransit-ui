@@ -11,9 +11,10 @@
   {{{ style }}}
 </head>
 <body>
-    {{> svgSprite}}
+    {{> svgSprite }}
     <div id="app" style="height: 100%;">{{{ content }}}</div>
 
+    {{> phantomjsPrototypePolyfill }}
     <script>{{{ state }}}</script>
     <script async src="{{ livereload }}js/bundle.js"></script> 
   </body>

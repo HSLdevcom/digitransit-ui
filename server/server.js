@@ -63,13 +63,23 @@ function setUpRoutes() {
         )
         var appState = 'window.state=' + serialize(application.dehydrate(context)) + ';'
         var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
-        res.render('app', {
+
+        var appJson = {
           content: content,
           state: appState,
-          partials: { svgSprite: 'svg-sprite'},
+          partials: { 
+            svgSprite: 'svg-sprite'
+          },
           livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
           style: process.env.NODE_ENV === "development" ? '' : '<link rel="stylesheet" href="' + rootPath + 'css/bundle.css">'
-        })
+        }
+
+        // In order to use phantomjs we need this prototype polyfill on page
+        if (process.env.NODE_ENV === "development") {
+          appJson.partials.phantomjsPrototypePolyfill = 'phantomjs-prototype-polyfill'
+        }
+
+        res.render('app', appJson)
       }
       if (state.routes[state.routes.length -1].handler.loadAction) {
         context.getActionContext().executeAction(state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}).then(render)
