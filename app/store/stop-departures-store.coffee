@@ -6,12 +6,22 @@ class StopDeparturesStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @departures = {}
+    @initialStopsStatus = false
 
   getDepartures: (id) =>
     @departures[id]
 
   startStopDeparturesFetch: (id) ->
     @departures[id] = false
+
+  initialStopsFetched: ->
+    @initialStopsStatus = true
+
+  initialStopsFetchStarted: ->
+    @initialStopsStatus = false
+
+  getInitialStopsFetchInProgress: =>
+    !@initialStopsStatus
 
   storeStopDepartures: (data) ->
     deps = []
@@ -28,5 +38,6 @@ class StopDeparturesStore extends Store
   @handlers:
     "StopDeparturesFound": 'storeStopDepartures'
     "StopDeparturesFetchStarted": 'startStopDeparturesFetch'
+    "StopsDeparturesFound": 'initialStopsFetched'
 
 module.exports = StopDeparturesStore

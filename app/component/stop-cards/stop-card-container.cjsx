@@ -15,11 +15,11 @@ class StopCardContainer extends React.Component
     @context.getStore('StopInformationStore').addChangeListener @onChange
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
     @context.getStore('NearestStopsStore').addChangeListener @onChange
-    if @context.getStore('StopDeparturesStore').getDepartures(@props.stop) == undefined
-      # This should not be run if the departures are already being fetched
-      @context.executeAction StopDeparturesActions.stopDeparturesRequest, @props.stop
-    if @context.getStore('StopInformationStore').getStop(@props.stop) == undefined
-      @context.executeAction StopDeparturesActions.stopInformationRequest, @props.stop
+    if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
+      if @context.getStore('StopDeparturesStore').getDepartures(@props.stop) == undefined
+        @context.executeAction StopDeparturesActions.stopDeparturesRequest, @props.stop
+      if @context.getStore('StopInformationStore').getStop(@props.stop) == undefined
+        @context.executeAction StopDeparturesActions.stopInformationRequest, @props.stop
 
 
   componentWillUnmount: ->
@@ -53,7 +53,7 @@ class StopCardContainer extends React.Component
       else if missingRoutes.length == 1
         departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linja {missingRoutes[0]}</p>
       else if missingRoutes.length == 2
-        departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linjat {missingRoutes[0]} ja {missingRoutes[0]}</p>  
+        departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linjat {missingRoutes[0]} ja {missingRoutes[1]}</p>
       else
         departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linjat {missingRoutes.slice(0,-1).join ', '} ja {missingRoutes[missingRoutes.length-1]}</p>  
     departureObjs

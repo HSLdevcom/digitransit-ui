@@ -6,6 +6,7 @@ class NearestStopsStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @stops = []
+    @stopsInRectangle = []
     @distances = {}
 
   getStops: ->
@@ -28,8 +29,16 @@ class NearestStopsStore extends Store
       @distances[stop.id] = stop.dist
     @emitChange()
 
+  storeStopsInRectangle: (stops) ->
+    @stopsInRectangle = stops
+    @emitChange('rectangle')
+
+  getStopsInRectangle: ->
+    @stopsInRectangle
+
   @handlers:
     "NearestStopsFound":   'storeNearestStops'
     "NearestStopsRemoved": 'removeNearestStops'
+    "StopsInRectangleFound": 'storeStopsInRectangle'
       
 module.exports = NearestStopsStore

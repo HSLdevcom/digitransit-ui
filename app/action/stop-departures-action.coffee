@@ -15,19 +15,21 @@ stopDeparturesRequest = (actionContext, id, done) ->
       departures: data
     done()
 
-fetchInitialStops = (actionContext, payload, done) ->
+fetchStopsDepartures = (actionContext, options, done) ->
   NearestStopsStore = actionContext.getStore('NearestStopsStore')
   actions = {}
-  for stop in NearestStopsStore.getStops().slice(0,10)
+  for stop in NearestStopsStore.getStops().slice(options.from, options.to)
     actions["information" + stop] =
       action: stopInformationRequest
       params: stop
     actions["departures" + stop] =
       action: stopDeparturesRequest
       params: stop
-  executeMultiple actionContext, actions, () -> done()
+  executeMultiple actionContext, actions, () -> 
+    actionContext.dispatch "StopsDeparturesFound"
+    done()
 
 module.exports = 
   'stopDeparturesRequest': stopDeparturesRequest
   'stopInformationRequest': stopInformationRequest
-  'fetchInitialStops': fetchInitialStops
+  'fetchStopsDepartures': fetchStopsDepartures

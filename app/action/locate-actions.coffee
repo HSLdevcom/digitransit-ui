@@ -38,8 +38,10 @@ findLocation = (actionContext, payload, done) ->
           lat: position.coords.latitude
           lon: position.coords.longitude
       nearestStopsDepartures: ['nearestStops',
-        action: StopDeparturesActions.fetchInitialStops
-        params: {} ]
+        action: StopDeparturesActions.fetchStopsDepartures
+        params:
+          from: 0
+          to: 10 ]
     , () -> done()
   , (error) ->
     if error.code == 1
@@ -68,8 +70,10 @@ manuallySetPosition = (actionContext, location, done) ->
         lat: location.lat
         lon: location.lon
     nearestStopsDepartures: ['nearestStops',
-      action: StopDeparturesActions.fetchInitialStops
-      params: {} ]
+      action: StopDeparturesActions.fetchStopsDepartures
+      params:
+          from: 0
+          to: 10 ]
   , () -> done()
 
 module.exports =
