@@ -62,9 +62,9 @@ class Search extends React.Component
       return
 
     # Construct urls for all cities depending whether we have a number present or not
-    queryPath = if number then "/#{address}/#{number}" else "/#{address}"
     urls = cities.map (city) ->
-      "http://matka.hsl.fi/geocoder/search/#{city}" + queryPath
+      queryPath = if number then "address/#{city}/#{address}/#{number}" else "street/#{city}/#{address}"
+      "http://matka.hsl.fi/geocoder/" + queryPath
     
     # Query all constructed urls for address and hope to find hits from one city
     XhrPromise.getJsons(urls).then (cityResults) => 
@@ -75,8 +75,8 @@ class Search extends React.Component
           foundLocations.push(data.results[0])
 
       if foundLocations.length == 1
-        # TODO, change "municipality" when geocoder supports 'kaupunki'
-        addressString = if number then "#{address} #{number}, #{foundLocations[0].municipality}" else "#{address}, #{foundLocations[0].kaupunki}"
+        # TODO, handle Swedish names too at some point
+        addressString = if number then "#{address} #{number}, #{foundLocations[0].municipalityFi}" else "#{address}, #{foundLocations[0].municipalityFi}"
         @setLocation(foundLocations[0].location[1], foundLocations[0].location[0], addressString)
       else if foundLocations.length > 1
         console.log("Query #{address}, #{number}, #{cities} returns results from more than 1 city. Cannot set location.")        
@@ -108,23 +108,23 @@ class Search extends React.Component
   searchAddresses: (cities, address, number, callback) ->
     numberRegex = if number then new RegExp("^" + number) else /.*/
     urls = cities.map (city) ->
-      "http://matka.hsl.fi/geocoder/search/#{city}/#{address}"
+      "http://matka.hsl.fi/geocoder/street/#{city}/#{address}"
 
     XhrPromise.getJsons(urls).then (cityResults) ->
       addresses = []  
       for data in cityResults
         for address in data.results
           if numberRegex.test(parseInt(address.osoitenumero))
-            staircaseSelection = if address.kiinteiston_jakokirjain != "" then address.kiinteiston_jakokirjain else ""
+            staircaseSelection = if address.unit? then address.unit else ""
             addresses.push
-              'type': 'address' 
-              'address': address.katunimi
-              'lat': address.location[1] 
+              'type': 'address'
+              'address': address.streetFi  # TODO Swedish names here too
+              'lat': address.location[1]
               'lon': address.location[0]
-              'number': address.osoitenumero
-              'staircase': address.kiinteiston_jakokirjain
-              'city': address.kaupunki
-              'selection': "#{address.katunimi} #{address.osoitenumero}#{staircaseSelection}, #{address.kaupunki}"
+              'number': address.number
+              'staircase': address.unit
+              'city': address.municipalityFi  # TODO Swedish names here too
+              'selection': "#{address.streetFi} #{address.number}#{staircaseSelection}, #{address.municipalityFi}"
       callback(null, addresses)
 
   searchSuggests: (address, callback) => 
