@@ -50,7 +50,7 @@ class StopMarkerContainer extends React.Component
           e.stopPropagation()
           @context.executeAction FavouriteStopsActions.addFavouriteStop, stop.id
         popup = <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}><StopMarkerPopup stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop}/></DynamicPopup>
-        stops.push <CircleMarker map={@props.map} key={stop.id} center={lat: stop.lat, lng: stop.lon} radius=4 weight=2 fillColor={color} opacity=1 color="#fff" fillOpacity=1 >{popup}</CircleMarker>
+        stops.push <CircleMarker map={@props.map} key={stop.id} center={lat: stop.lat, lng: stop.lon} radius=4 weight=2 color={color} opacity=1 fillColor="#fff" fillOpacity=1 >{popup}</CircleMarker>
     stops
 
   render: ->
