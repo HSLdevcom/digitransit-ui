@@ -40,7 +40,7 @@ module.exports = {
           NODE_ENV: JSON.stringify("production"),
           ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/')
         },
-        title: "browser"
+        title: JSON.stringify("browser")
       }
     }),
     new webpack.PrefetchPlugin('react'),
