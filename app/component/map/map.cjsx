@@ -2,6 +2,7 @@ isBrowser     = window?
 React         = require 'react'
 Icon          = require '../icon/icon'
 StopMarkerContainer = require './stop-marker-container'
+#VehicleMarkerContainer = require './vehicle-marker-container'
 LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
 Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else null
@@ -47,6 +48,9 @@ class Map extends React.Component
           position={@state.location}
           icon={Map.currentLocationIcon}/>
 
+      stops = if @props.showStops then <StopMarkerContainer/> else ""
+      vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
+
       map =
         <LeafletMap 
           ref='map'
@@ -59,7 +63,8 @@ class Map extends React.Component
             attribution='&copy; <a href="http://osm.org/copyright">OSM</a>'
             size={if L.Browser.retina then "@2x" else  ""}
           />
-          <StopMarkerContainer showStops={@props.showStops}/>
+          {stops}
+          {vehicles}
           {marker}
           {@props.leafletObjs}
         </LeafletMap>

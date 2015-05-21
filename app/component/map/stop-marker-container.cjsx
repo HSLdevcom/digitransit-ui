@@ -45,8 +45,6 @@ class StopMarkerContainer extends React.Component
     stops
 
   render: ->
-    if !@props.showStops
-      return false
     <div>{@getStops()}</div>
 
 module.exports = StopMarkerContainer

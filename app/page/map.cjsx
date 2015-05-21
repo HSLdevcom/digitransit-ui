@@ -13,7 +13,7 @@ class Page extends React.Component
 
   render: ->
     <DefaultNavigation className="fullscreen">
-      <Map className="fullscreen" showStops=true>
+      <Map className="fullscreen" showStops=true showVehicles=true>
         <SearchWithLocation/>
         <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}><Icon img={'icon-icon_minimize'} className="cursor-pointer" /></div>
       </Map>

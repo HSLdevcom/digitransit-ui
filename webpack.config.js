@@ -35,9 +35,12 @@ module.exports = {
   ] : [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
-      "process.env": {
+      process: {
+        env: {
           NODE_ENV: JSON.stringify("production"),
           ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/')
+        },
+        title: "browser"
       }
     }),
     new webpack.PrefetchPlugin('react'),

@@ -35,6 +35,7 @@
     "lodash": "^3.7.0",
     "masonry": "geta6/masonry",
     "moment": "^2.10.2",
+    "mqtt": "^1.1.5",
     "node-cjsx": "^1.0.0",
     "polyline-encoded": "0.0.7",
     "react": "^0.13.2",
