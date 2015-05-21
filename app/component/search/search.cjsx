@@ -29,7 +29,7 @@ class Search extends React.Component
 
   analyzeInput: (input) =>
     isLastCharSpace =  /\s+$/.test(input)
-    isNumbersInQuery = input.match(/\d/)
+    isNumbersInQuery = if input.match(/\d/) then true else false
     containsComma = input.lastIndexOf(',') > -1
     cities = []
     if containsComma 
@@ -52,7 +52,7 @@ class Search extends React.Component
       query: input
       queryCities: cities
       queryAddress: address 
-      queryNumber: input.match(/\d+/)
+      queryNumber: if isNumbersInQuery then input.match(/\d+/)[0] else null
     }
 
   findLocation: (cities, address, number) =>
@@ -114,7 +114,7 @@ class Search extends React.Component
       addresses = []  
       for data in cityResults
         for address in data.results
-          if numberRegex.test(parseInt(address.osoitenumero))
+          if numberRegex.test(parseInt(address.number))
             staircaseSelection = if address.unit? then address.unit else ""
             addresses.push
               'type': 'address'
