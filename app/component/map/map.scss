@@ -2,6 +2,9 @@ $small-map-height: 155px;
 $medium-map-height: 300px;
 $large-map-height: 500px;
 
+$stop-popup-background-color: $white;
+$stop-popup-bottom-color: $light-gray;
+
 div.map {
   position: relative;
 }
@@ -76,6 +79,46 @@ div.from > span > svg.icon, div.to > span > svg.icon {
   margin-left: -6px;
 }
 
+div.stop-marker-popup {
+  .leaflet-popup-content-wrapper {
+    .leaflet-popup-content {
+      .stop-card {
+        border: 1px solid $gray;
+        padding: 0px;
+        .stop-card-header {
+          padding: 12px 15px;
+        }
+        .bottom {
+          font-family: $stop-card-location-font-family;
+          font-size: $stop-card-location-font-size;
+          font-weight: 400;
+          line-height: $stop-card-normal-line-height;
+          color: $gray;
+          margin: 0px auto 0px;
+          padding: 0.5em 1em;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+          background: $background-color;
+          .route {
+            float: right;
+          }
+        }
+      }
+      width: 250px;
+      margin: 0;
+    }
+
+    border-radius: 3px;
+    padding: 0;
+  }
+  .leaflet-popup-tip-container {
+    .leaflet-popup-tip  {
+      border: 1px solid $gray;
+      background: $background-color;
+    }
+    margin: -6px 0px;
+  }
+}
 
 div.background-gradient {
   width: 100%;

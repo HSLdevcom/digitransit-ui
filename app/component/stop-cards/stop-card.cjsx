@@ -1,5 +1,4 @@
 React                 = require 'react'
-Icon                  = require '../icon/icon.cjsx'
 StopCardHeader        = require './stop-card-header'
 
 class StopCard extends React.Component
