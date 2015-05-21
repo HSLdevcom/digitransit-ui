@@ -41,7 +41,7 @@ class Search extends React.Component
       address = input.replace(/\d+/g,'').trim()
     
     # Use previous cities only if not already set
-    if @state and cities.length == 0
+    if @state and @state.previousSuggestCities and cities.length == 0
       cities = cities.concat @state.previousSuggestCities
 
     return {
@@ -100,7 +100,7 @@ class Search extends React.Component
 
   getSuggestions: (input, callback) =>
     analyzed = @analyzeInput(input)
-    if analyzed.isAddressSearch
+    if analyzed.isAddressSearch && analyzed.queryCities.length > 0
       @searchAddresses(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber, callback)
     else 
       @searchSuggests(analyzed.queryAddress, callback)
