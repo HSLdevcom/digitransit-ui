@@ -2,8 +2,10 @@ React                 = require 'react'
 Departure             = require './departure'
 StopCard              = require './stop-card'
 StopDeparturesActions = require '../../action/stop-departures-action'
+FavouriteStopsActions = require '../../action/favourite-stops-action'
 uniq                  = require 'lodash/array/uniq'
 difference            = require 'lodash/array/difference'
+
 
 class StopCardContainer extends React.Component
   @contextTypes:
@@ -35,6 +37,10 @@ class StopCardContainer extends React.Component
   onChange: (id) =>
     if !id or id == @props.stop
       @forceUpdate()
+
+  addFavouriteStop: (e) =>
+    e.stopPropagation()
+    @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.id
   
   getDepartures: (showMissingRoutes) =>
     departureObjs = []
@@ -63,7 +69,8 @@ class StopCardContainer extends React.Component
       key={@props.stop}
       stop={@context.getStore('StopInformationStore').getStop(@props.stop)}
       dist={@context.getStore('NearestStopsStore').getDistance(@props.stop)}
-      favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop)}>
+      favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop)}
+      addFavouriteStop={@addFavouriteStop}>
       {@getDepartures(true)}
     </StopCard>
 

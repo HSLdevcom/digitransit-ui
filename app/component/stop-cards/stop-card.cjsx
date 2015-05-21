@@ -1,5 +1,4 @@
 React                 = require 'react'
-FavouriteStopsActions = require '../../action/favourite-stops-action'
 Icon                  = require '../icon/icon.cjsx'
 StopCardHeader        = require './stop-card-header'
 
@@ -13,7 +12,7 @@ class StopCard extends React.Component
 
     <div className="small-12 medium-6 large-4 columns">
       <div className="stop-card cursor-pointer" onClick={() => @context.router.transitionTo('stop', { stopId: @props.stop.id})}>  
-        <StopCardHeader stop=@props.stop />
+        <StopCardHeader stop={@props.stop} favourite={@props.favourite} addFavouriteStop={@props.addFavouriteStop}/>
         {@props.children}
       </div>
     </div>
