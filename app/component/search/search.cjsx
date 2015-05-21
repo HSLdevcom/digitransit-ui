@@ -149,11 +149,11 @@ class Search extends React.Component
 
       stops = data.stops.map (result) -> 
         'type': 'stop'
-        'address': result.stop_name
+        'address': result.nameFi
         'lat': result.location[1] 
         'lon': result.location[0]
-        'stopCode': result.stop_code
-        'selection': "#{result.stop_name} (#{result.stop_code})"
+        'stopCode': result.stopCode
+        'selection': "#{result.nameFi} (#{result.stopCode})"
       
       if streets.length == 1 and stops.length == 0
         # We can directly do address search
