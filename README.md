@@ -19,7 +19,7 @@ Open Journey Planner UI
 
 ## Local - Phantomjs
 - sudo npm install -g phantomjs
-- sudo npm install -g mocha
+- Run development enviroment as described above
 - Run "phantomjs --webdriver=4444"
 - Run "./run-ui-tests.sh local"
 

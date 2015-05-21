@@ -1,5 +1,6 @@
-if(!process.env.BASE_URL) throw("No 'BASE_URL' variable found!")
-if(!process.env.TIMEOUT) throw("No 'TIMEOUT' variable found!")
+if not process.env.BASE_URL then throw "No 'BASE_URL' variable found!"
+if not process.env.TIMEOUT then throw "No 'TIMEOUT' variable found!"
+  
 console.log("Test url is '" + process.env.BASE_URL + "'")
 console.log("Test timeout is '" + process.env.TIMEOUT + "'")
 

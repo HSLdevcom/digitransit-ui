@@ -4,11 +4,13 @@ clear
 echo "Running Tests"
 echo "***************************"
 
+MOCHA_CMD=./node_modules/mocha/bin/mocha
+
 if [ "$1" == "local" ]; then
-  TIMEOUT=3000 \
+  TIMEOUT=10000 \
   DRIVER='local' \
   BASE_URL='http://localhost:8080' \
-  mocha -t 3000 -R spec test/front-page/*.js
+  $MOCHA_CMD -t 0 -R spec --compilers coffee:coffee-script/register test/*/*-spec.coffee
 elif [ "$1" == "saucelabs" ]; then
 
   if [ ! -f ./test/credentials.json ]; then
@@ -25,12 +27,12 @@ elif [ "$1" == "saucelabs" ]; then
   fi
 
   # https://saucelabs.com/platforms/
-  TIMEOUT=30000 \
+  TIMEOUT=10000 \
   DRIVER='saucelabs' \
-  BASE_URL='http://matka.hsl.fi/openjourneyplanner-ui/' \
+  BASE_URL='http://matka.hsl.fi/openjourneyplanner-ui' \
   BROWSER='chrome' \
   PLATFORM='Windows 2012' \
-  mocha -t 30000 -R spec test/front-page/*.js
+  $MOCHA_CMD -t 0 -R spec --compilers coffee:coffee-script/register test/*/*-spec.coffee
 else
   echo "Please specify environment. 'local' or 'saucelabs'"
 fi  
