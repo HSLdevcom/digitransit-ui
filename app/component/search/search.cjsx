@@ -128,7 +128,8 @@ class Search extends React.Component
       callback(null, addresses)
 
   searchSuggests: (address, callback) => 
-    XhrPromise.getJson("http://matka.hsl.fi/geocoder/suggest/#{address}").then (data) =>
+    cities = "city=helsinki&city=vantaa&city=espoo&city=kauniainen&city=kirkkonummi&city=sipoo"
+    XhrPromise.getJson("http://matka.hsl.fi/geocoder/suggest/#{address}?#{cities}").then (data) =>
       streets = []
       uniqueCities = []
       for street in data.streetnames_fi
