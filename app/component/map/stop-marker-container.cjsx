@@ -8,6 +8,7 @@ NearestStopsAction = require '../../action/nearest-stops-action'
 FavouriteStopsActions = require '../../action/favourite-stops-action'
 L             = if isBrowser then require 'leaflet' else null
 
+STOPS_MAX_ZOOM = 14
 
 class StopMarkerContainer extends React.Component
   @contextTypes:
@@ -27,7 +28,7 @@ class StopMarkerContainer extends React.Component
       @forceUpdate()
 
   onMapMove: =>
-    if 15 < @props.map.getZoom()
+    if STOPS_MAX_ZOOM < @props.map.getZoom()
       bounds = @props.map.getBounds()
       @context.executeAction NearestStopsAction.stopsInRectangleRequest, 
         minLat: bounds.getSouth()
@@ -59,6 +60,6 @@ class StopMarkerContainer extends React.Component
     stops
 
   render: ->
-    <div>{if 15 < @props.map.getZoom() then @getStops() else ""}</div>
+    <div>{if STOPS_MAX_ZOOM < @props.map.getZoom() then @getStops() else ""}</div>
 
 module.exports = StopMarkerContainer
