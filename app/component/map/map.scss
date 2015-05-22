@@ -99,9 +99,13 @@ div.stop-marker-popup {
           border-bottom-left-radius: 3px;
           border-bottom-right-radius: 3px;
           background: $background-color;
-          .route {
-            float: right;
+          a {
+            color: $gray;
+            text-decoration: none;
           }
+          text-align: center;
+          columns: 2 auto;
+          column-rule: 1px solid $light-gray
         }
       }
       width: 250px;
