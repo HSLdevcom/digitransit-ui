@@ -109,7 +109,6 @@ class Search extends React.Component
 
   getSuggestions: (input, callback) =>
     analyzed = @analyzeInput(input)
-    console.log(analyzed)
     if analyzed.isAddressSearch && analyzed.queryCities.length > 0
       @searchAddresses(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber, callback)
     else 
