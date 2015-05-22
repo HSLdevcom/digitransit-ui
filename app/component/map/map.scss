@@ -86,12 +86,21 @@ div.stop-marker-popup {
         border: 1px solid $gray;
         padding: 0px;
         .stop-card-header {
-          padding: 12px 15px;
+          padding: 1em 1em 0.5em;
+        }
+        .route-list {
+          padding: 0em 1em 0.25em;
+          div {
+            font-family: $font-family-narrow;
+            font-size: 12pt;
+            font-weight: $font-weight-bold;
+            line-height: $stop-card-normal-line-height;
+          }
         }
         .bottom {
           font-family: $stop-card-location-font-family;
           font-size: $stop-card-location-font-size;
-          font-weight: 400;
+          font-weight: $font-weight-normal;
           line-height: $stop-card-normal-line-height;
           color: $gray;
           margin: 0px auto 0px;

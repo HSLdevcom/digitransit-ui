@@ -5,7 +5,7 @@ CircleMarker  = if isBrowser then require 'react-leaflet/lib/CircleMarker' else 
 getSelector   = require '../../util/get-selector'
 StopMarkerPopup = require './stop-marker-popup'
 NearestStopsAction = require '../../action/nearest-stops-action'
-FavouriteStopsActions = require '../../action/favourite-stops-action'
+FavouriteStopsAction = require '../../action/favourite-stops-action'
 L             = if isBrowser then require 'leaflet' else null
 
 STOPS_MAX_ZOOM = 14
@@ -51,10 +51,10 @@ class StopMarkerContainer extends React.Component
         favourite = @context.getStore('FavouriteStopsStore').isFavourite(stop.id)
         addFavouriteStop = (e) =>
           e.stopPropagation()
-          @context.executeAction FavouriteStopsActions.addFavouriteStop, stop.id
+          @context.executeAction FavouriteStopsAction.addFavouriteStop, stop.id
         popup = 
           <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
-            <StopMarkerPopup stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} getFrom={getFrom}/>
+            <StopMarkerPopup stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} getFrom={getFrom} stopInformationStore={@context.getStore('StopInformationStore')} executeAction={@context.executeAction}/>
           </DynamicPopup>
         stops.push <CircleMarker map={@props.map} key={stop.id + "outline"} center={lat: stop.lat, lng: stop.lon} radius=8 weight=1 color="#333" opacity=0.4 fillColor="#fff" fillOpacity=1 />
         stops.push <CircleMarker map={@props.map} key={stop.id} center={lat: stop.lat, lng: stop.lon} radius=4.5 weight=4 color={color} opacity=1 fillColor="#fff" fillOpacity=1 >{popup}</CircleMarker>

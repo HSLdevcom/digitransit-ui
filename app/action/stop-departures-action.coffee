@@ -7,6 +7,12 @@ stopInformationRequest = (actionContext, id, done) ->
       actionContext.dispatch "StopInformationFound", data
       done()
 
+stopRoutesRequest = (actionContext, id, done) ->
+  if !actionContext.getStore('StopInformationStore').getRoutes(id)
+    xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id + "/routes").then (data) ->
+      actionContext.dispatch "StopRoutesFound", {data: data, id: id}
+      done()
+
 stopDeparturesRequest = (actionContext, id, done) ->
   actionContext.dispatch "StopDeparturesFetchStarted", id
   xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id + "/stoptimes?detail=true&numberOfDepartures=5").then (data) ->
@@ -33,3 +39,4 @@ module.exports =
   'stopDeparturesRequest': stopDeparturesRequest
   'stopInformationRequest': stopInformationRequest
   'fetchStopsDepartures': fetchStopsDepartures
+  'stopRoutesRequest': stopRoutesRequest
