@@ -28,17 +28,26 @@ class Search extends React.Component
     @setState @context.getStore('LocationStore').getLocationState()    
 
   analyzeInput: (input) =>
+    containsComma = input.lastIndexOf(',') > -1
+    containsSpace = input.lastIndexOf(' ') > -1
     isLastCharSpace =  /\s+$/.test(input)
     isNumbersInQuery = if input.match(/\d/) then true else false
-    containsComma = input.lastIndexOf(',') > -1
+    isStopCodeSearch = isNumbersInQuery and not containsSpace
+    isAddressSearch = (isNumbersInQuery or isLastCharSpace) and not isStopCodeSearch
     cities = []
-    if containsComma 
+    if containsComma
+      # Try to find city
       address = input.substring(0, input.lastIndexOf(',')).replace(/\d+/g,'').trim()
       city = input.substring(input.lastIndexOf(',')+1, input.length).trim()
+      number = if isNumbersInQuery then input.match(/\d+/)[0] else null
       if city.length > 0
         cities.push(city.toLowerCase()) 
-    else 
+    else if isStopCodeSearch
+      address = input.trim()
+    else
+      # This is address 
       address = input.replace(/\d+/g,'').trim()
+      number = if isNumbersInQuery then input.match(/\d+/)[0] else null
     
     # Use previous cities only if not already set
     if @state and @state.previousSuggestCities and cities.length == 0
@@ -48,11 +57,11 @@ class Search extends React.Component
       isValidSearch: input.trim().length > 0
       isLastCharSpace: isLastCharSpace
       isNumbersInQuery: isNumbersInQuery 
-      isAddressSearch: isNumbersInQuery or isLastCharSpace
+      isAddressSearch: isAddressSearch
       query: input
       queryCities: cities
       queryAddress: address 
-      queryNumber: if isNumbersInQuery then input.match(/\d+/)[0] else null
+      queryNumber: number
     }
 
   findLocation: (cities, address, number) =>
@@ -100,6 +109,7 @@ class Search extends React.Component
 
   getSuggestions: (input, callback) =>
     analyzed = @analyzeInput(input)
+    console.log(analyzed)
     if analyzed.isAddressSearch && analyzed.queryCities.length > 0
       @searchAddresses(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber, callback)
     else 
@@ -151,10 +161,11 @@ class Search extends React.Component
       stops = data.stops.map (result) -> 
         'type': 'stop'
         'address': result.nameFi
+        'city': result.municipalityFi
         'lat': result.location[1] 
         'lon': result.location[0]
         'stopCode': result.stopCode
-        'selection': "#{result.nameFi} (#{result.stopCode})"
+        'selection': "#{result.nameFi} (#{result.stopCode}), #{result.municipalityFi}"
       
       if streets.length == 1 and stops.length == 0
         # We can directly do address search
