@@ -30,7 +30,6 @@
     "fluxible": "^0.4.6",
     "fluxible-action-utils": "^0.2.1",
     "foundation-apps": "^1.1.0",
-    "hogan-express": "^0.5.2",
     "httpify": "^1.0.0",
     "lodash": "^3.7.0",
     "masonry": "geta6/masonry",

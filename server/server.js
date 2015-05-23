@@ -1,7 +1,7 @@
 var express = require('express')
-var hoganExpress = require('hogan-express')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
+var fs = require('fs')
 var path = require('path')
 var React = require('react')
 var Router = require('react-router')
@@ -12,16 +12,21 @@ require('node-cjsx').transform()
 
 /********** Global **********/
 var port = process.env.PORT || 8080 
+var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
 var app = express()
 
-/********** Routes **********/
+/********** Application **********/
 var application = require('../app/app')
 var appRoot = process.cwd() + "/"
+var applicationHtml = require('../app/html')
+var svgSprite = fs.readFileSync('app/svg-sprite.svg')
+if (process.env.NODE_ENV !== "development") {
+  var css = fs.readFileSync('_static/css/bundle.css')
+}
 
 /* Setup functions */
 function setUpStaticFolders() {
   var staticFolder = appRoot + "/_static"
-  var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
   var cssFolder = path.join(staticFolder, 'css')
   app.use(rootPath +"css", express.static(cssFolder))
   var jsFolder = path.join(staticFolder, 'js')
@@ -32,26 +37,16 @@ function setUpStaticFolders() {
   app.use(rootPath +"img", express.static(imgFolder))
 }
 
-function setUpViewEngine() {
-  app.set('views', appRoot + '/app')
-  app.engine('html', hoganExpress)
-  app.set('view engine', 'html')
-}
-
 function setUpMiddleware() {
   app.use(cookieParser())
   app.use(bodyParser.raw())
 }
 
-
 function setUpRoutes() {
   app.use(function (req, res, next) { // pass in `req.url` and the router will immediately match
     var context = application.createContext()
     Router.run(application.getComponent(), req.url, function (Handler, state) {
-      if (state.routes[1].isNotFound) {
-        res.status(404)
-      }
-      var render = function() {
+      render = function() {
         var content = React.renderToString(
           React.createElement(
             FluxibleComponent,
@@ -59,25 +54,25 @@ function setUpRoutes() {
             React.createFactory(Handler)()
           )
         )
-        var appState = 'window.state=' + serialize(application.dehydrate(context)) + ';'
-        var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
 
-        var appJson = {
-          content: content,
-          state: appState,
-          partials: { 
-            svgSprite: 'svg-sprite'
-          },
-          livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
-          style: process.env.NODE_ENV === "development" ? '' : '<link rel="stylesheet" href="' + rootPath + 'css/bundle.css">'
-        }
+        var html = React.renderToString(
+          React.createElement(
+            applicationHtml,
+            {
+              css: process.env.NODE_ENV === "development" ? false : css,
+              svgSprite: svgSprite,
+              content: content,
+              phantomjsPrototypePolyfill: process.env.NODE_ENV === "development" ? fs.readFileSync('app/util/phantomjs-prototype-polyfill.js') : "",
+              state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
+              livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath
+            }
+          )
+        )
 
-        // In order to use phantomjs we need this prototype polyfill on page
-        if (process.env.NODE_ENV === "development") {
-          appJson.partials.phantomjsPrototypePolyfill = 'phantomjs-prototype-polyfill'
-        }
-
-        res.render('app', appJson)
+        res.send('<!doctype html>' + html);
+      }
+      if (state.routes[1].isNotFound) {
+        res.status(404)
       }
       if (state.routes[state.routes.length -1].handler.loadAction) {
         context.getActionContext().executeAction(state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}).then(render)
@@ -95,7 +90,6 @@ function startServer() {
 }
 
 /********** Init **********/
-setUpViewEngine()
 setUpStaticFolders()
 setUpMiddleware()
 setUpRoutes()
