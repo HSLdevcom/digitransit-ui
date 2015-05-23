@@ -6,7 +6,7 @@
 // 'hot loads' our javascript for super fast live reload in development
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config');
+var config = require('../webpack.config');
 
 var port = process.env.HOT_LOAD_PORT || 9000;
 

@@ -8,8 +8,8 @@
     "prestatic": "npm run folder",
     "static": "cp -r static/* _static",
     "predev": "npm run folder",
-    "dev": "NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html --watch . --ignore ./_static/ server/server.js & NODE_ENV=development node ./hotLoadServer.js",
-    "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development node ./hotLoadServer.js",
+    "dev": "NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html --watch . --ignore ./_static/ server/server.js & NODE_ENV=development node server/hotLoadServer.js",
+    "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development node server/hotLoadServer.js",
     "build": "NODE_ENV=production webpack -p --progress --colors",
     "start": "NODE_ENV=production nodemon server/server"
   },
