@@ -28,8 +28,6 @@ function setUpStaticFolders() {
   app.use(rootPath +"js", express.static(jsFolder))
   var iconFolder = path.join(staticFolder, 'icon')
   app.use(rootPath +"icon", express.static(iconFolder))
-  var fontFolder = path.join(staticFolder, 'font')
-  app.use(rootPath +"font", express.static(fontFolder))
   var imgFolder = path.join(staticFolder, 'img')
   app.use(rootPath +"img", express.static(imgFolder))
 }
