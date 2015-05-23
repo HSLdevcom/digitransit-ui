@@ -19,9 +19,9 @@ var app = express()
 var application = require('../app/app')
 var appRoot = process.cwd() + "/"
 var applicationHtml = require('../app/html')
-var svgSprite = fs.readFileSync('app/svg-sprite.svg')
+var svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
 if (process.env.NODE_ENV !== "development") {
-  var css = fs.readFileSync('_static/css/bundle.css')
+  var css = fs.readFileSync(appRoot + '_static/css/bundle.css')
 }
 
 /* Setup functions */
