@@ -1,4 +1,4 @@
-<!-- https://github.com/conversocial/phantomjs-polyfill/blob/master/bind-polyfill.js -->
+//https://github.com/conversocial/phantomjs-polyfill/blob/master/bind-polyfill.js
 if (typeof Function.prototype.bind != 'function') {
 Function.prototype.bind = function bind(obj) {
     var args = Array.prototype.slice.call(arguments, 1),
