@@ -11,7 +11,7 @@ class StopCard extends React.Component
 
     <div className="small-12 medium-6 large-4 columns">
       <div className="stop-card cursor-pointer" onClick={() => @context.router.transitionTo('stop', { stopId: @props.stop.id})}>  
-        <StopCardHeader stop={@props.stop} favourite={@props.favourite} addFavouriteStop={@props.addFavouriteStop}/>
+        <StopCardHeader stop={@props.stop} favourite={@props.favourite} addFavouriteStop={@props.addFavouriteStop} dist={@props.dist}/>
         {@props.children}
       </div>
     </div>
