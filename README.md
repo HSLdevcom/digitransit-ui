@@ -18,10 +18,7 @@ Open Journey Planner UI
 ## Running webdriver ui tests
 
 ### Local - Phantomjs
-- sudo npm install -g phantomjs
-- Run development enviroment as described above
-- Run "phantomjs --webdriver=4444"
-- Run "./run-ui-tests.sh local"
+- npm run test
 
 ### Saucelabs 
 - Ensure you have saucelabs account with apikey
