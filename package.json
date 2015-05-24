@@ -4,9 +4,7 @@
   "description": "Open Journey Planner UI",
   "author": "crew@reittiopas.fi",
   "scripts": {
-    "folder": "mkdir -p _static/js; mkdir -p _static/css;",
-    "prestatic": "npm run folder",
-    "static": "cp -r static/* _static",
+    "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "predev": "npm run static",
     "prestart": "npm run static",
     "dev": "NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html --watch . --ignore ./_static/ server/server.js & NODE_ENV=development node server/hotLoadServer.js",
