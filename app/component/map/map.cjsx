@@ -7,6 +7,7 @@ LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
 Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else null
 L             = if isBrowser then require 'leaflet' else null
+config        = require '../../config'
 
 if isBrowser
   require 'leaflet/dist/leaflet.css'
@@ -59,8 +60,8 @@ class Map extends React.Component
           zoomControl=false
           attributionControl=false>
           <TileLayer
-            url="http://matka.hsl.fi/hsl-map/{z}/{x}/{y}{size}.png"
-            attribution='&copy; <a href="http://osm.org/copyright">OSM</a>'
+            url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
             size={if L.Browser.retina then "@2x" else  ""}
           />
           {stops}

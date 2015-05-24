@@ -4,6 +4,7 @@ Autosuggest    = require 'react-autosuggest'
 LocateActions  = require '../../action/locate-actions.coffee'
 Icon           = require '../icon/icon.cjsx'
 XhrPromise     = require '../../util/xhr-promise.coffee'
+config         = require '../../config'
 
 AUTOSUGGEST_ID = 'autosuggest'
 
@@ -72,8 +73,7 @@ class Search extends React.Component
 
     # Construct urls for all cities depending whether we have a number present or not
     urls = cities.map (city) ->
-      queryPath = if number then "address/#{city}/#{address}/#{number}" else "street/#{city}/#{address}"
-      "http://matka.hsl.fi/geocoder/" + queryPath
+      config.URL.GEOCODER + if number then "address/#{city}/#{address}/#{number}" else "street/#{city}/#{address}"
     
     # Query all constructed urls for address and hope to find hits from one city
     XhrPromise.getJsons(urls).then (cityResults) => 
@@ -117,7 +117,7 @@ class Search extends React.Component
   searchAddresses: (cities, address, number, callback) ->
     numberRegex = if number then new RegExp("^" + number) else /.*/
     urls = cities.map (city) ->
-      "http://matka.hsl.fi/geocoder/street/#{city}/#{address}"
+      config.URL.GEOCODER + "street/#{city}/#{address}"
 
     XhrPromise.getJsons(urls).then (cityResults) ->
       addresses = []  
@@ -138,7 +138,7 @@ class Search extends React.Component
 
   searchSuggests: (address, callback) => 
     cities = "city=helsinki&city=vantaa&city=espoo&city=kauniainen&city=kirkkonummi&city=sipoo"
-    XhrPromise.getJson("http://matka.hsl.fi/geocoder/suggest/#{address}?#{cities}").then (data) =>
+    XhrPromise.getJson(config.URL.GEOCODER + "suggest/#{address}?#{cities}").then (data) =>
       streets = []
       uniqueCities = []
       for street in data.streetnames_fi

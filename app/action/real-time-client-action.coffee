@@ -1,8 +1,9 @@
 mqtt = if window? then require 'mqtt' else null
+config = require '../config'
 
 module.exports = 
   startRealTimeClient: (actionContext, options, done) ->
-    client = mqtt.connect 'ws://213.138.147.225:1883'
+    client = mqtt.connect config.URL.MQTT
     client.on 'connect', =>
       client.subscribe('/hfp/journey/#')
     client.on 'message', (topic, message) =>

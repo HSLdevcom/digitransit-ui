@@ -2,10 +2,11 @@ xhrPromise = require '../util/xhr-promise'
 executeMultiple = require 'fluxible-action-utils/async/executeMultiple'
 NearestStopsActions = require './nearest-stops-action'
 StopDeparturesActions = require './stop-departures-action'
+config        = require '../config'
 
 
 reverseGeocodeAddress = (actionContext, location, done) ->
-  xhrPromise.getJson("http://matka.hsl.fi/geocoder/reverse/" + location.lat + "," + location.lon).then (data) ->
+  xhrPromise.getJson(config.URL.GEOCODER + "reverse/" + location.lat + "," + location.lon).then (data) ->
       actionContext.dispatch "AddressFound",
         address: data.katunimi
         number: data.osoitenumero

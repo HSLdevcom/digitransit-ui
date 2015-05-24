@@ -1,21 +1,22 @@
 xhrPromise      = require '../util/xhr-promise'
 executeMultiple = require 'fluxible-action-utils/async/executeMultiple'
+config          = require '../config'
 
 stopInformationRequest = (actionContext, id, done) ->
   if !actionContext.getStore('StopInformationStore').getStop(id)
-    xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id).then (data) ->
+    xhrPromise.getJson(config.URL.OTP + "index/stops/" + id).then (data) ->
       actionContext.dispatch "StopInformationFound", data
       done()
 
 stopRoutesRequest = (actionContext, id, done) ->
   if !actionContext.getStore('StopInformationStore').getRoutes(id)
-    xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id + "/routes").then (data) ->
+    xhrPromise.getJson(config.URL.OTP + "index/stops/" + id + "/routes").then (data) ->
       actionContext.dispatch "StopRoutesFound", {data: data, id: id}
       done()
 
 stopDeparturesRequest = (actionContext, id, done) ->
   actionContext.dispatch "StopDeparturesFetchStarted", id
-  xhrPromise.getJson("http://matka.hsl.fi/otp/routers/finland" + "/index/stops/" + id + "/stoptimes?detail=true&numberOfDepartures=5").then (data) ->
+  xhrPromise.getJson(config.URL.OTP + "index/stops/" + id + "/stoptimes?detail=true&numberOfDepartures=5").then (data) ->
     actionContext.dispatch "StopDeparturesFound",
       id: id
       departures: data
