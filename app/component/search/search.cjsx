@@ -85,7 +85,7 @@ class Search extends React.Component
 
       if foundLocations.length == 1
         # TODO, handle Swedish names too at some point
-        addressString = if number then "#{address} #{number}, #{foundLocations[0].municipalityFi}" else "#{address}, #{foundLocations[0].municipalityFi}"
+        addressString = if number then "#{address} #{number}, #{foundLocations[0].municipalityFi}" else "#{address} #{foundLocations[0].number}, #{foundLocations[0].municipalityFi}"
         @setLocation(foundLocations[0].location[1], foundLocations[0].location[0], addressString)
       else if foundLocations.length > 1
         console.log("Query #{address}, #{number}, #{cities} returns results from more than 1 city. Cannot set location.")        

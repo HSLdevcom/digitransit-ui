@@ -38,3 +38,4 @@ describe TEST_NAME, () ->
   it 'Should find address numbers for both "Kirkkotie, Espoo" and "Kirkkotie, Vantaa" by "kirkkotie 1"'
   it 'Should scroll search div when search results are scrolled using arrow keys'
   it 'Should find "Klovi (E2431), Espoo" stop by "e2431"'
+  it 'Should use and show "Immonkuja 1, Vantaa" when "Immonkuja, Vantaa" is selected from autosuggest'
