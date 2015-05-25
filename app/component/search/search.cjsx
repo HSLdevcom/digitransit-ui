@@ -273,15 +273,26 @@ class Search extends React.Component
       disabled: inputDisabled
 
     <form onSubmit={@onSubmit}>
-      <Autosuggest 
-        ref={@handleAutoSuggestMount}
-        key={if @state.hasLocation then 'to' else 'from'}
-        inputAttributes={inputAttributes}
-        suggestions={@getSuggestions}
-        suggestionRenderer={@renderSuggestion}
-        suggestionValue={@suggestionValue}
-        onSuggestionSelected={@suggestionSelected}
-        showWhen={(input) => input.trim().length >= 2}/>    
+    <div className="small-12 medium-6 medium-offset-3 columns">
+      <div className="row collapse postfix-radius">
+        <div className="small-11 columns">
+          <Autosuggest 
+            ref={@handleAutoSuggestMount}
+            key={if @state.hasLocation then 'to' else 'from'}
+            inputAttributes={inputAttributes}
+            suggestions={@getSuggestions}
+            suggestionRenderer={@renderSuggestion}
+            suggestionValue={@suggestionValue}
+            onSuggestionSelected={@suggestionSelected}
+            showWhen={(input) => input.trim().length >= 2}/>    
+        </div>
+        <div className="small-1 columns">
+          <span className="postfix search cursor-pointer" onClick={@onSubmit}>
+            <Icon img={'icon-icon_search'}/>
+          </span>
+        </div>
+      </div>
+    </div>
     </form>
 
 module.exports = Search

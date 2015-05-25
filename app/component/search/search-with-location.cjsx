@@ -17,18 +17,7 @@ class SearchWithLocation extends React.Component
         </div>
       </div>
       <div className="row">
-        <div className="small-12 medium-6 medium-offset-3 columns">
-          <div className="row collapse postfix-radius">
-            <div className="small-11 columns">
-              <Search/>
-            </div>
-            <div className="small-1 columns">
-              <span className="postfix search">
-                <Icon img={'icon-icon_search'}/>
-              </span>
-            </div>
-          </div>
-        </div>
+        <Search/>
       </div>
     </div>
 
