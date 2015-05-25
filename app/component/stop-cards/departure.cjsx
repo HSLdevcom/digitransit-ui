@@ -20,9 +20,9 @@ class Departure extends React.Component
     <p className="transport">
       <span className="next-departure">{@renderTime @props.departure.time}</span>
       <Icon className={mode} img={'icon-icon_' + mode }/>
-      <span className={(if @props.departure.pattern.shortName then "vehicle-number " else "") + mode}>{@props.departure.pattern.shortName}</span>
+      <span className={(if @props.departure.pattern.shortName then "vehicle-number " else "") + mode}>&nbsp;{@props.departure.pattern.shortName}</span>
       <Icon className={mode} img='icon-icon_arrow-right'/>
-      <span className="destination">{@props.departure.pattern.direction or @props.departure.pattern.longName}</span>
+      <span className="destination">&nbsp;{@props.departure.pattern.direction or @props.departure.pattern.longName}</span>
     </p>
   
 module.exports = Departure
