@@ -10,6 +10,7 @@ reverseGeocodeAddress = (actionContext, location, done) ->
       actionContext.dispatch "AddressFound",
         address: data.katunimi
         number: data.osoitenumero
+        city: data.kaupunki
       done()
 
 findLocation = (actionContext, payload, done) ->

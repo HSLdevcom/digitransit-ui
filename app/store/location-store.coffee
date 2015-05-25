@@ -47,7 +47,7 @@ class LocationStore extends Store
     @emitChange()
 
   storeAddress: (location) ->
-    @address = location.address + " " + location.number
+    @address = "#{location.address} #{location.number}, #{location.city}"
     @status = @STATUS_FOUND_ADDRESS
     @emitChange()
 
@@ -76,7 +76,7 @@ class LocationStore extends Store
     "GeolocationRemoved":      'removeLocation'
     "GeolocationNotSupported": 'geolocationNotSupported'
     "GeolocationDenied":       'geolocationDenied'
-    "GeolocationTimeout":       'geolocationTimeout'
+    "GeolocationTimeout":      'geolocationTimeout'
     "ManuallySetPosition":     'storeLocationAndAddress'
     "AddressFound":            'storeAddress'
       
