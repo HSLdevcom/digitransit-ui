@@ -55,7 +55,7 @@ class StopMarkerContainer extends React.Component
           @context.executeAction FavouriteStopsAction.addFavouriteStop, stop.id
         popup = 
           <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
-            <StopMarkerPopup stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} getFrom={getFrom} stopInformationStore={@context.getStore('StopInformationStore')} executeAction={@context.executeAction}/>
+            <StopMarkerPopup stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} getFrom={getFrom} stopInformationStore={@context.getStore('StopInformationStore')} nearestStopsStore={@context.getStore('NearestStopsStore')} executeAction={@context.executeAction}/>
           </DynamicPopup>
         stops.push <CircleMarker map={@props.map} key={stop.id + "outline"} center={lat: stop.lat, lng: stop.lon} radius=8 weight=1 color="#333" opacity=0.4 fillColor="#fff" fillOpacity=1 />
         stops.push <CircleMarker map={@props.map} key={stop.id} center={lat: stop.lat, lng: stop.lon} radius=4.5 weight=4 color={color} opacity=1 fillColor="#fff" fillOpacity=1 >{popup}</CircleMarker>
