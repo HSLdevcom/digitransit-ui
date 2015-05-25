@@ -22,8 +22,13 @@ findLocation = (actionContext, payload, done) ->
   # Notify that we are searching...
   actionContext.dispatch "GeolocationSearch"
 
+  # Set timeout
+
+  timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationTimeout"), 10000)
+
   # and start positioning
   navigator.geolocation.getCurrentPosition (position) => 
+    window.clearTimeout(timeoutId)
     actionContext.dispatch "GeolocationFound",
       lat: position.coords.latitude
       lon: position.coords.longitude
@@ -44,7 +49,8 @@ findLocation = (actionContext, payload, done) ->
           from: 0
           to: 10 ]
     , () -> done()
-  , (error) ->
+  , (error) =>
+    window.clearTimeout(timeoutId)
     if error.code == 1
       actionContext.dispatch "GeolocationDenied"
     else if error.code == 2
