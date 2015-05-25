@@ -2,6 +2,7 @@ React         = require 'react'
 isBrowser     = window?
 DynamicPopup  = if isBrowser then require './dynamic-popup' else null
 CircleMarker  = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
+Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 getSelector   = require '../../util/get-selector'
 StopMarkerPopup = require './stop-marker-popup'
 NearestStopsAction = require '../../action/nearest-stops-action'
@@ -58,6 +59,7 @@ class StopMarkerContainer extends React.Component
           </DynamicPopup>
         stops.push <CircleMarker map={@props.map} key={stop.id + "outline"} center={lat: stop.lat, lng: stop.lon} radius=8 weight=1 color="#333" opacity=0.4 fillColor="#fff" fillOpacity=1 />
         stops.push <CircleMarker map={@props.map} key={stop.id} center={lat: stop.lat, lng: stop.lon} radius=4.5 weight=4 color={color} opacity=1 fillColor="#fff" fillOpacity=1 >{popup}</CircleMarker>
+        stops.push <Marker map={@props.map} key={stop.name + "_text"} position={lat: stop.lat, lng: stop.lon} icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}/>
 
     stops
 
