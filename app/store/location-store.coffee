@@ -25,6 +25,7 @@ class LocationStore extends Store
 
   geolocationSearch: () ->
     @status = @STATUS_SEARCHING_LOCATION
+    @address = ''
     @emitChange()
 
   geolocationNotSupported: () ->
