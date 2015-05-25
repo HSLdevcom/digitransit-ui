@@ -4,3 +4,6 @@ module.exports =
     GEOCODER: 'http://matka.hsl.fi/geocoder/'
     MAP: 'http://matka.hsl.fi/hsl-map/'
     MQTT: 'ws://213.138.147.225:1883'
+    FONT: 'http://fonts.googleapis.com/css?family=Nunito:300,400,700|Open+Sans+Condensed:300,700'
+  title: 'Digitransit demo'
+

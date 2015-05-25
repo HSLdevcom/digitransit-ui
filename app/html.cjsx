@@ -1,4 +1,5 @@
 React = require 'react'
+config = require './config'
 
 class Application extends React.Component
   render: ->
@@ -6,11 +7,11 @@ class Application extends React.Component
     <head>
       <meta charSet="utf-8"/>
       <meta httpEquiv="x-ua-compatible" content="ie=edge"/>
-      <title>Digitransit demo</title>
+      <title>{config.title}</title>
       <meta name="description" content=""/>
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
       <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-      <link href='http://fonts.googleapis.com/css?family=Nunito:300,400,700|Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'/>
+      <link href={config.URL.FONT} rel='stylesheet' type='text/css'/>
       <style dangerouslySetInnerHTML={ __html: @props.css }/>
     </head>
     <body>
