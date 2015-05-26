@@ -24,10 +24,6 @@ $stop-card-show-more-color: $white;
 $stop-card-show-more-width: 10em;
 $stop-card-show-more-border-radius: 30px;
 
-.stop-cards {
-  
-}
-
 .stop-card {
   background-color: $stop-card-background-color;
   border: 1px solid $stop-card-border-color;
@@ -39,7 +35,35 @@ $stop-card-show-more-border-radius: 30px;
   margin-bottom: 5px;
 }
 
-.stop-card h3 {
+.stop-card-header.stop-page {
+  margin: 0.7em 1em;
+}
+
+.stop-card-header.stop-page h3 {
+  color: $black;
+  font-size: 12pt;
+  font-weight: $font-weight-normal;
+  text-transform: none;
+}
+
+.stop-card-header.stop-page .favourite {
+  float: right;
+  padding: 0;
+  margin-top: 0.4em;
+  padding-left: 0.7em;
+  border-left: solid 1px $light-gray;
+  height: 24px;
+  width: calc(24px + 0.7em);
+  stroke: $stop-card-favourite-icon-stroke-color;
+  stroke-width: 50px;
+  fill: $stop-card-favourite-icon-fill-color;
+}
+
+.stop-card-header {
+  margin-bottom: 0.3em;
+}
+
+.stop-card-header h3 {
   text-transform: uppercase;
   color: $stop-card-title-color;
   font-family: $stop-card-title-font-family;
@@ -49,7 +73,7 @@ $stop-card-show-more-border-radius: 30px;
   margin: 0px;
 }
 
-.stop-card p.location {
+.stop-card-header p.location {
   font-family: $stop-card-location-font-family;
   font-size: $stop-card-location-font-size;
   font-weight: $font-weight-light;
@@ -58,21 +82,7 @@ $stop-card-show-more-border-radius: 30px;
   margin: 0px;
 }
 
-.stop-card p.transport {
-  margin: 0px;
-  padding: 0px;
-  white-space: nowrap;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: $stop-card-normal-line-height;
-}
-
-.stop-card-header {
-  margin-bottom: 0.3em;  
-}
-
-.stop-card .favourite {
+.stop-card-header .favourite {
   float: right;
   padding: 0;
   height: 24px;
@@ -82,19 +92,35 @@ $stop-card-show-more-border-radius: 30px;
   fill: $stop-card-favourite-icon-fill-color;
 }
 
-.stop-card .favourite:hover {
+.stop-card-header .favourite:hover {
   fill: $stop-card-favourite-icon-hover-fill-color;
 }
 
-.stop-card .favourite.selected {
+.stop-card-header .favourite.selected {
   fill: $stop-card-favourite-icon-selected-fill-color;
 }
 
-.stop-card .favourite.selected:hover {
+.stop-card-header .favourite.selected:hover {
   fill: $stop-card-favourite-icon-selected-hover-fill-color;
 }
 
-.stop-card .transport span.next-departure {
+.departure-list p.transport {
+  margin: 0px;
+  padding: 0px;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: $stop-card-normal-line-height;
+}
+
+.departure-list.stop-page p.transport {
+  margin: 0.1em 0em;
+  padding: 0.45em 1em;
+  background: $white;
+}
+
+.departure-list .transport span.next-departure {
   display: inline-block;
   width: 3em;
   margin-right: 1em;
@@ -104,7 +130,7 @@ $stop-card-show-more-border-radius: 30px;
   font-weight: $font-weight-bold;
 }
 
-.stop-card .transport span.vehicle-number {
+.departure-list .transport span.vehicle-number {
   display: inline-block;
   width: 2.5em;
   font-family: $stop-card-next-departure-font-family;
@@ -112,19 +138,19 @@ $stop-card-show-more-border-radius: 30px;
   font-weight: $font-weight-bold;
 }
 
-.stop-card .transport span.destination {
+.departure-list .transport span.destination {
   font-family: $stop-card-next-departure-font-family;
   font-size: $stop-card-next-departure-font-size;
   font-weight: $font-weight-light;
 }
 
-.stop-card p.transport .icon {
+.departure-list p.transport .icon {
   height: 12px;
   width: 12px;
   vertical-align: inherit;
 }
 
-.stop-card p.missing-routes {
+.departure-list p.missing-routes {
   font-family: $stop-card-normal-font-family;
   font-size: $stop-card-location-font-size;
   font-weight: $font-weight-light;

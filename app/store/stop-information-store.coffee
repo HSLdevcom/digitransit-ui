@@ -22,6 +22,14 @@ class StopInformationStore extends Store
     @routes[data.id] = data.data
     @emitChange(data.id)
 
+  dehydrate: ->
+    stops: @stops
+    routes: @routes
+
+  rehydrate: (data) ->
+    @stops = data.stops
+    @routes = data.routes
+
   @handlers:
     "StopInformationFound": 'storeStopInformation'
     "StopRoutesFound": 'storeRouteInformation'

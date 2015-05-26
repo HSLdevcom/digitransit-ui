@@ -16,6 +16,7 @@ class StopDeparturesStore extends Store
 
   initialStopsFetched: ->
     @initialStopsStatus = true
+    @emitChange()
 
   initialStopsFetchStarted: ->
     @initialStopsStatus = false
@@ -34,6 +35,13 @@ class StopDeparturesStore extends Store
       if a.time.serviceDay + a.time.realtimeDeparture > b.time.serviceDay + b.time.realtimeDeparture then 1 else -1
     @departures[data.id] = deps
     @emitChange(data.id)
+
+  dehydrate: ->
+    @departures
+
+  rehydrate: (data) ->
+    @departures = data
+    @initialStopsStatus = true
 
   @handlers:
     "StopDeparturesFound": 'storeStopDepartures'

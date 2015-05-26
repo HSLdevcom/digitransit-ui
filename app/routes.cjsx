@@ -27,9 +27,8 @@ routes =
   <Route name="app" path={ROOT_PATH} handler={App}>
     <Route path="kartta" name="map" handler={MapPage}/>
     <Route path="pysakit" name="stopList" handler={Error404}/>
-    <Route path="pysakit/:stopId" handler={StopPage}>
+    <Route path="pysakit/:stopId" name="stop" handler={StopPage}>
       <Route path="kartta" name="stopMap" handler={Error404}/>
-      <DefaultRoute name="stop" handler={Error404}/>
     </Route>
     <Route path="linjat" name="routeList" handler={Error404}/>
     <Route path="linjat/:routeId" handler={Error404}>

@@ -55,8 +55,8 @@ class Map extends React.Component
       map =
         <LeafletMap 
           ref='map'
-          center={[@state.location[0]+0.0005, @state.location[1]]}
-          zoom={@state.zoom}
+          center={@props.center or [@state.location[0]+0.0005, @state.location[1]]}
+          zoom={@props.zoom or @state.zoom}
           zoomControl=false
           attributionControl=false>
           <TileLayer
