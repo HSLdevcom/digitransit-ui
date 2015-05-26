@@ -34,7 +34,7 @@ class Page extends React.Component
       <Map center={lat:stop.lat, lng:stop.lon} zoom={16} leafletObjs={leafletObjs}>
         <Link to="stopMap" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>
-      <DepartureListContainer showMissingRoutes={false} stop={@props.params.stopId} className="stop-page"/>
+      <DepartureListContainer showMissingRoutes={false} stop={@props.params.stopId} className="stop-page" routeLinks={true}/>
     </DefaultNavigation>
 
 module.exports = Page

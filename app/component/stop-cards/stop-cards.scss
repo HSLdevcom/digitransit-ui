@@ -8,7 +8,7 @@ $stop-card-location-font-size: 13px;
 $stop-card-location-color: $gray;
 $stop-card-next-departure-font-family: $font-family-narrow;
 $stop-card-next-departure-font-size: 15px;
-$stop-card-next-departure-color: 15px;
+$stop-card-next-departure-color: $gray;
 $stop-card-normal-font-family: $font-family;
 $stop-card-normal-font-size: 13px;
 $stop-card-normal-line-height: 1.2;
@@ -118,6 +118,11 @@ $stop-card-show-more-border-radius: 30px;
   margin: 0.1em 0em;
   padding: 0.45em 1em;
   background: $white;
+}
+
+.departure-list.stop-page a {
+  color: $black;
+  text-decoration: none;
 }
 
 .departure-list .transport span.next-departure {
