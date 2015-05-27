@@ -7,7 +7,6 @@ class Icon extends React.Component
   
   propTypes =
     img: React.PropTypes.string.isRequired
-    action: React.PropTypes.boolean
 
   render: ->
     clazz = ""

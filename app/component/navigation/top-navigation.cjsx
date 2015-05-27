@@ -8,7 +8,6 @@ class TopNavigation extends React.Component
       <nav className="top-bar">
         <section className="title">
           <Link to="index">
-            {#<Icon img={'icon-icon_HSL-logo'} className="logo"/>}
             <span className="title">Digitransit demo</span>
           </Link>
         </section>
