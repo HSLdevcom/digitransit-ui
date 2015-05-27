@@ -1,25 +1,21 @@
 React              = require 'react'
 DefaultNavigation  = require '../component/navigation/default-navigation'
+Icon               = require '../component/icon/icon'
 Map                = require '../component/map/map'
-DepartureListContainer = require '../component/stop-cards/departure-list-container'
+Link               = require 'react-router/lib/components/Link'
 StopCardHeader     = require '../component/stop-cards/stop-card-header'
 StopDeparturesAction = require '../action/stop-departures-action'
+FavouriteStopsAction = require '../action/favourite-stops-action'
 isBrowser          = window?
 CircleMarker       = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
-FavouriteStopsAction = require '../action/favourite-stops-action'
-Link               = require 'react-router/lib/components/Link'
-Icon               = require '../component/icon/icon'
+
 
 class Page extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.func
 
   @loadAction: StopDeparturesAction.stopPageDataRequest
-
-  toggleFullscreenMap: =>
-    @context.router.transitionTo("stopMap", {stopId: @props.params.stopId})
 
   render: ->
     stop = @context.getStore('StopInformationStore').getStop(@props.params.stopId)
@@ -30,16 +26,14 @@ class Page extends React.Component
       @context.executeAction FavouriteStopsAction.addFavouriteStop, stop.id
     color = "#007AC9" # TODO: Should come from stop
     leafletObjs = []
-    leafletObjs.push <CircleMarker key="marker_outline" center={lat: stop.lat, lng: stop.lon} radius=8 weight=1 color="#333" opacity=0.4 fillColor="#fff" fillOpacity=1 />
-    leafletObjs.push  <CircleMarker key="marker" center={lat: stop.lat, lng: stop.lon} radius=4.5 weight=4 color={color} opacity=1 fillColor="#fff" fillOpacity=1 />
+    leafletObjs.push <CircleMarker key="marker_outline" center={lat: stop.lat, lng: stop.lon} radius=16 weight=1 color="#333" opacity=0.4 fillColor="#fff" fillOpacity=1 />
+    leafletObjs.push  <CircleMarker key="marker" center={lat: stop.lat, lng: stop.lon} radius=9 weight=8 color={color} opacity=1 fillColor="#fff" fillOpacity=1 />
 
     <DefaultNavigation className="fullscreen">
-      <Map center={lat:stop.lat+0.0005, lng:stop.lon} zoom={16} leafletObjs={leafletObjs}>
-        <div style={{position:'absolute', height:'100%', width:'100%'}} onClick={@toggleFullscreenMap}></div>
+      <Map center={lat:stop.lat+0.0005, lng:stop.lon} zoom={16} leafletObjs={leafletObjs} className="fullscreen">
         <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page" infoIcon={true}/>
-        <Link to="stopMap" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
+        <Link to="stop" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_minimize'} className="cursor-pointer" /></div></Link>
       </Map>
-      <DepartureListContainer showMissingRoutes={false} stop={@props.params.stopId} className="stop-page below-map" routeLinks={true}/>
     </DefaultNavigation>
 
 module.exports = Page

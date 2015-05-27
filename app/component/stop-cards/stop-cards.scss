@@ -48,10 +48,20 @@ $stop-card-show-more-border-radius: 30px;
   text-transform: none;
 }
 
+.stop-card-header.stop-page .info {
+  float: right;
+  color: $gray-blue;
+  padding: 0;
+  margin-top: 0.3em;
+  padding-right: 0.7em;
+  height: 24px;
+  width: calc(24px + 0.7em);
+}
+
 .stop-card-header.stop-page .favourite {
   float: right;
   padding: 0;
-  margin-top: 0.4em;
+  margin-top: 0.3em;
   padding-left: 0.7em;
   border-left: solid 1px $light-gray;
   height: 24px;
@@ -104,6 +114,10 @@ $stop-card-show-more-border-radius: 30px;
 
 .stop-card-header .favourite.selected:hover {
   fill: $stop-card-favourite-icon-selected-hover-fill-color;
+}
+
+.departure-list.stop-page {
+  overflow-y: auto;
 }
 
 .departure-list p.transport {

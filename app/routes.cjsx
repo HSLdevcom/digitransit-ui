@@ -7,6 +7,7 @@ IndexPage     = require './page/index'
 ItineraryPage = require './page/itinerary'
 MapPage       = require './page/map'
 StopPage      = require './page/stop'
+StopMapPage   = require './page/stop-map'
 SummaryPage   = require './page/summary'
 Error404      = require './page/404'
 
@@ -27,9 +28,9 @@ routes =
   <Route name="app" path={ROOT_PATH} handler={App}>
     <Route path="kartta" name="map" handler={MapPage}/>
     <Route path="pysakit" name="stopList" handler={Error404}/>
-    <Route path="pysakit/:stopId" name="stop" handler={StopPage}>
-      <Route path="kartta" name="stopMap" handler={Error404}/>
-    </Route>
+    <Route path="pysakit/:stopId" name="stop" handler={StopPage}/>
+    <Route path="pysakit/:stopId/kartta" name="stopMap" handler={StopMapPage}/>
+    <Route path="pysakit/:stopId/info" name="stopInfo" handler={Error404}/>
     <Route path="linjat" name="routeList" handler={Error404}/>
     <Route path="linjat/:routeId" handler={Error404}>
       <Route path="kartta" name="routeMap" handler={Error404}/>

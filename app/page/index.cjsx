@@ -12,6 +12,7 @@ class Page extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    router: React.PropTypes.func
 
   componentDidMount: ->
     if @context.getStore('LocationStore').getLocationState().status == 'no-location'
