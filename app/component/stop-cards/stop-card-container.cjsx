@@ -13,6 +13,7 @@ class StopCardContainer extends React.Component
     @context.getStore('StopInformationStore').addChangeListener @onChange
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
     @context.getStore('NearestStopsStore').addChangeListener @onChange
+    @context.getStore('StopDeparturesStore').addChangeListener @componentDidUpdate
     if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
       if @context.getStore('StopInformationStore').getStop(@props.stop) == undefined
         @context.executeAction StopDeparturesActions.stopInformationRequest, @props.stop
@@ -22,8 +23,9 @@ class StopCardContainer extends React.Component
     @context.getStore('StopInformationStore').removeChangeListener @onChange
     @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
     @context.getStore('NearestStopsStore').removeChangeListener @onChange
+    @context.getStore('StopDeparturesStore').removeChangeListener @componentDidUpdate
 
-  componentDidUpdate: ->
+  componentDidUpdate: =>
     if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
       if @props.reloadMasonry?
         @props.reloadMasonry()
@@ -43,7 +45,7 @@ class StopCardContainer extends React.Component
       dist={@context.getStore('NearestStopsStore').getDistance(@props.stop)}
       favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop)}
       addFavouriteStop={@addFavouriteStop}>
-      <DepartureListContainer showMissingRoutes={true} stop={@props.stop} departures={@props.departures} reloadMasonry={@props.reloadMasonry}/>
+      <DepartureListContainer showMissingRoutes={true} stop={@props.stop} departures={@props.departures}/>
     </StopCard>
 
 module.exports = StopCardContainer

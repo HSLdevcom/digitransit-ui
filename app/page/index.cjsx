@@ -17,6 +17,9 @@ class Page extends React.Component
     if @context.getStore('LocationStore').getLocationState().status == 'no-location'
       @context.executeAction LocateActions.findLocation
 
+  toggleFullscreenMap: =>
+    @context.router.transitionTo("map")
+
   render: ->
     <IndexNavigation>
       <Map showStops=true>

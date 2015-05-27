@@ -21,18 +21,9 @@ class DepartureListContainer extends React.Component
   componentWillUnmount: ->
     @context.getStore('StopDeparturesStore').removeChangeListener @onChange
 
-  componentDidUpdate: ->
-    if @props.reloadMasonry
-      @props.reloadMasonry()
-
   onChange: (id) =>
     if !id or id == @props.stop
       @forceUpdate()
-
-  componentDidUpdate: ->
-    if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
-      if @props.reloadMasonry?
-        @props.reloadMasonry()
 
   getDepartures: (showMissingRoutes) =>
     departureObjs = []
