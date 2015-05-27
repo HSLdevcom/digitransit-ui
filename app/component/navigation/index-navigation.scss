@@ -46,23 +46,35 @@ $top-navigation-switch-border-radius: 30px;
 nav.top-bar {
   text-align: center;
 
-  .icon {
+  .icon-holder {
+    height: $top-navigation-height;
+    width: $top-navigation-height;
     position: absolute;
-    fill: $top-navigation-icon-color;
-    font-size: 13pt;
-    height: 1.2em;
-    width: 1.2em;
-    top: 10px;
-    vertical-align: middle;
+    top: 0;
 
-    &.left-off-canvas-toggle {  // "The hamburger", appears on main page only
-      left: 0.5em;
-    }
     &.back {  // Appears on other than main pages, instead of "the hamburger"
       left: 0.5em;
     }
     &.disruption-info {
       left: 2.5em;
+    }
+    &.right-off-canvas-toggle {
+      left: calc(100% - 1.7em);
+    }
+    &.sub-navigation-switch {
+      width: $top-navigation-switch-width;
+      padding: 0;
+      right: 10px;
+
+      &:focus button {
+        outline: 0;
+      }
+      &:active button {
+        background-color: $top-navigation-switch-background-color-active;
+      }
+    }
+
+    .icon.disruption-info {
       &.inactive {
         fill: $top-navigation-disruption-info-inactive-color;
       }
@@ -70,9 +82,14 @@ nav.top-bar {
         fill: $top-navigation-disruption-info-active-color;
       }
     }
-    &.right-off-canvas-toggle {
-      left: calc(100% - 1.7em);
-    }
+  }
+
+  .icon {
+    fill: $top-navigation-icon-color;
+    font-size: 13pt;
+    height: 1.2em;
+    width: 1.2em;
+    vertical-align: middle;
   }
 
   .title {
@@ -171,27 +188,22 @@ ul.offcanvas-list {
 }
 
 /* Subnavigation */
-.top-bar button.sub-navigation-switch {
+.top-bar .sub-navigation-switch button {
+  position: relative;
+  right: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+
+  height: $top-navigation-switch-height;
+  width: $top-navigation-switch-width;
+  border-radius: $top-navigation-switch-border-radius;
+
   color: $top-navigation-switch-color;
   background-color: $top-navigation-switch-background-color;
-  height: $top-navigation-switch-height;
-  border-radius: $top-navigation-switch-border-radius;
-  width: $top-navigation-switch-width;
   font-size: $top-navigation-switch-font-size;
   text-transform: uppercase;
-  position: absolute;
-  padding: 0;
-  right: 0px;
-  top: 10px;
   vertical-align: middle;
-  margin-right: 10px;
-
-  &:focus {
-    outline: 0;
-  }
-  &:active {
-    background-color: $top-navigation-switch-background-color-active;
-  }
 }
 
 .sub-navigation {

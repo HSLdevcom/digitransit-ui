@@ -4,7 +4,7 @@ if window?
   require './icon.css'
 
 class Icon extends React.Component
-  
+
   propTypes =
     img: React.PropTypes.string.isRequired
 

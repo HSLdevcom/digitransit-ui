@@ -11,7 +11,7 @@ class BackButton extends React.Component
       @context.router.transitionTo("index")
 
   render: ->
-    <div onClick=@goBack>
+    <div onClick=@goBack className="cursor-pointer icon-holder">
       <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back"/>
     </div>
 
