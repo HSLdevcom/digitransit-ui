@@ -36,7 +36,9 @@ $stop-card-show-more-border-radius: 30px;
 }
 
 .stop-card-header.stop-page {
-  margin: 0.7em 1em;
+  padding: 0.7em 1em;
+  background-color: $stop-card-background-color;
+  position: relative;
 }
 
 .stop-card-header.stop-page h3 {

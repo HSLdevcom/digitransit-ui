@@ -30,8 +30,8 @@ class Page extends React.Component
     leafletObjs.push  <CircleMarker key="marker" center={lat: stop.lat, lng: stop.lon} radius=4.5 weight=4 color={color} opacity=1 fillColor="#fff" fillOpacity=1 />
 
     <DefaultNavigation>
-      <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page"/>
-      <Map center={lat:stop.lat, lng:stop.lon} zoom={16} leafletObjs={leafletObjs}>
+      <Map center={lat:stop.lat+0.0005, lng:stop.lon} zoom={16} leafletObjs={leafletObjs}>
+        <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page"/>
         <Link to="stopMap" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>
       <DepartureListContainer showMissingRoutes={false} stop={@props.params.stopId} className="stop-page" routeLinks={true}/>
