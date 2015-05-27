@@ -45,72 +45,44 @@ $top-navigation-switch-border-radius: 30px;
 
 nav.top-bar {
   text-align: center;
-}
 
-nav.top-bar .icon {
-  fill: $top-navigation-icon-color;
-  font-size: 13pt;
-}
+  .icon {
+    position: absolute;
+    fill: $top-navigation-icon-color;
+    font-size: 13pt;
+    height: 1.2em;
+    width: 1.2em;
+    top: 10px;
+    vertical-align: middle;
 
-nav.top-bar .icon.left-off-canvas-toggle {
-  position: absolute;
-  left: 0.5em;
-  height: 1.2em;
-  width: 1.2em;
-  top: 10px;
-  vertical-align: middle;
-}
-
-nav.top-bar .icon.disruption-info {
-  position: absolute;
-  left: 2.5em;
-  height: 1.2em;
-  width: 1.2em;
-  top: 10px;
-  vertical-align: middle;
- }
-
-nav.top-bar .icon.disruption-info.inactive {
-  fill: $top-navigation-disruption-info-inactive-color;
-}
-
-nav.top-bar .icon.disruption-info.active {
-  fill: $top-navigation-disruption-info-inactive-color;
-}
-
-nav.top-bar .icon.back {
-  position: absolute;
-  left: 0.5em;
-  height: 1.2em;
-  width: 1.2em;
-  top: 10px;
-  vertical-align: middle;
-}
-
-nav.top-bar .icon.logo {
-  height: 1em;
-  width: 1em;
-  top: 8px;
-  margin-bottom: 2px;
-  vertical-align: middle;
-}
-
-nav.top-bar .title {
-  text-align: center;
-  color: $top-navigation-icon-color;
-
-  a {
-    text-decoration: none;
+    &.left-off-canvas-toggle {  // "The hamburger", appears on main page only
+      left: 0.5em;
+    }
+    &.back {  // Appears on other than main pages, instead of "the hamburger"
+      left: 0.5em;
+    }
+    &.disruption-info {
+      left: 2.5em;
+      &.inactive {
+        fill: $top-navigation-disruption-info-inactive-color;
+      }
+      &.active {
+        fill: $top-navigation-disruption-info-active-color;
+      }
+    }
+    &.right-off-canvas-toggle {
+      left: calc(100% - 1.7em);
+    }
   }
-}
 
-nav.top-bar .icon.right-off-canvas-toggle {
-  position: absolute;
-  left: calc(100% - 1.7em);
-  height: 1.2em;
-  width: 1.2em;
-  top: 10px;
-  vertical-align: middle;
+  .title {
+    text-align: center;
+    color: $top-navigation-icon-color;
+
+    a {
+      text-decoration: none;
+    }
+  }
 }
 
 .off-canvas ~ div.grid-frame {
@@ -121,20 +93,35 @@ nav.top-bar .icon.right-off-canvas-toggle {
   padding-top: 20px;
   color: $offcanvas-link-color;
   height:100%;
-}
 
-.left.off-canvas i.icon-profile {
-  font-size: $offcanvas-profile-icon-size;
-  color: $offcanvas-profile-icon-color;
-}
+  i.icon-profile {
+    font-size: $offcanvas-profile-icon-size;
+    color: $offcanvas-profile-icon-color;
+  }
+  .offcanvas-login i.icon-arrow-right {
+    font-size: $offcanvas-login-arrow-icon-size;
+  }
+  a {
+    color: $offcanvas-link-color;
+    text-decoration: none;
+  }
+  .icon{
+    fill: $offcanvas-link-color;
+    &.small {
+      width: 10px;
+      height: 10px;
+    }
 
-.left.off-canvas .offcanvas-login i.icon-arrow-right {
-  font-size: $offcanvas-login-arrow-icon-size;
-}
+    &.medium {
+      width: 12px;
+      height: 12px;
+    }
 
-.left.off-canvas a {
-  color: $offcanvas-link-color;
-  text-decoration: none;
+    &.large {
+      width: 36px;
+      height: 36px;
+    }
+  }
 }
 
 .offcanvas-section {
@@ -144,14 +131,13 @@ nav.top-bar .icon.right-off-canvas-toggle {
 ul.offcanvas-list {
   list-style: none;
   padding-left: 10px;
-}
-
-ul.offcanvas-list li {
-  border-bottom: 1px solid #262626;
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-  font-size: $offcanvas-link-text-font-size;
+  li {
+    border-bottom: 1px solid #262626;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: $offcanvas-link-text-font-size;
+  }
 }
 
 .offcanvas-lead {
@@ -165,23 +151,6 @@ ul.offcanvas-list li {
   font-size: $offcanvas-login-text-font-size;
 }
 
-.left.off-canvas .icon.small {
-  fill: $offcanvas-link-color;   
-  width: 10px;
-  height: 10px;
-}
-
-.left.off-canvas .icon.medium {
-  fill: $offcanvas-link-color;   
-  width: 12px;
-  height: 12px;
-}
-
-.left.off-canvas .icon.large {
-  fill: $offcanvas-link-color;   
-  width: 36px;
-  height: 36px;
-}
 
 .right.off-canvas {
   padding-top: 20px;
@@ -195,10 +164,10 @@ ul.offcanvas-list li {
   position: relative;
   top: $top-navigation-height;
   height: calc(100% - 40px);
-}
 
-.content.sub-navigation-push {
-  top: 2 * $top-navigation-height;
+  .sub-navigation-push {
+    top: 2 * $top-navigation-height;
+  }
 }
 
 /* Subnavigation */
@@ -216,14 +185,13 @@ ul.offcanvas-list li {
   top: 10px;
   vertical-align: middle;
   margin-right: 10px;
-}
 
-.top-bar button.sub-navigation-switch:focus {
-  outline: 0;
-}
-
-.top-bar button.sub-navigation-switch:active {
-  background-color: $top-navigation-switch-background-color-active;
+  &:focus {
+    outline: 0;
+  }
+  &:active {
+    background-color: $top-navigation-switch-background-color-active;
+  }
 }
 
 .sub-navigation {
@@ -237,60 +205,56 @@ ul.offcanvas-list li {
   text-align: left;
   z-index: 100;
   line-height: $top-navigation-sub-height;
-}
 
-.sub-navigation .arrow-up {
-  width: 0; 
-  height: 0; 
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid $top-navigation-sub-background-color;
-  right: 35px;
-  position: fixed;
-  margin-top: -8px;
-}
+  .arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid $top-navigation-sub-background-color;
+    right: 35px;
+    position: fixed;
+    margin-top: -8px;
+  }
 
-.sub-navigation select, {
-  background-color: $top-navigation-sub-input-background-color;
-  height: 25px;
-  display: inline-block !important;
-  color: $top-navigation-sub-color;
-  margin-right: 5px;
-}
+  select {
+    width: 120px;
+    border-radius: $border-radius;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: $top-navigation-sub-input-background-color;
+    height: 25px;
+    display: inline-block !important;
+    color: $top-navigation-sub-color;
+    margin-right: 5px;
 
-.sub-navigation select:focus {
-  background-color: $top-navigation-sub-input-background-color;
-  outline: none;
-}
+    &:focus {
+      background-color: $top-navigation-sub-input-background-color;
+      outline: none;
+    }
 
-.sub-navigation select.time {
-  width: 40px;
-}
+    .time {
+      width: 40px;
 
-.sub-navigation select {
-  width: 120px;
-  border-radius: $border-radius;
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
+      .hour {
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-right: 0px;
+      }
+      .minute {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+        margin-left: -5px;
+      }
+    }
+  }
 
-.sub-navigation select.time.hour {
-  border-top-left-radius: $border-radius;
-  border-bottom-left-radius: $border-radius;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-right: 0px;
-}
-
-.sub-navigation select.time.minute {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  border-top-right-radius: $border-radius;
-  border-bottom-right-radius: $border-radius;
-  margin-left: -5px;
-}
-
-.sub-navigation .timeseparator {
-  margin-left: 33px;
-  position: absolute
+  .timeseparator {
+    margin-left: 33px;
+    position: absolute
+  }
 }
