@@ -57,7 +57,7 @@ class Map extends React.Component
           ref='map'
           center={@props.center or [@state.location[0]+0.0005, @state.location[1]]}
           zoom={@props.zoom or @state.zoom}
-          zoomControl=false
+          zoomControl={not L.Browser.touch}
           attributionControl=false>
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
