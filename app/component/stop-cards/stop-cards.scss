@@ -171,6 +171,19 @@ $stop-card-show-more-border-radius: 30px;
   vertical-align: inherit;
 }
 
+.departure-list .date-row {
+  font-size: 10pt;
+  text-transform: uppercase;
+  color: $gray;
+  padding-left: 1em;
+  font-weight:  $font-weight-bold;
+}
+
+.departure-list.stop-page .date-row{
+  border-bottom: solid 1px $light-gray;
+  border-top: solid 1px $light-gray;
+}
+
 .departure-list p.missing-routes {
   font-family: $stop-card-normal-font-family;
   font-size: $stop-card-location-font-size;

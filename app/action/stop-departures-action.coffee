@@ -33,6 +33,17 @@ currentDayStopDeparturesRequest = (actionContext, id, done) ->
     actionContext.dispatch "StopDeparturesFound",
       id: id
       departures: data
+      date: moment()
+    done()
+
+nextDayStopDeparturesRequest = (actionContext, id, done) ->
+  actionContext.dispatch "AdditionalStopDeparturesFetchStarted", id
+  date = moment(actionContext.getStore("StopDeparturesStore").getDateForStop(id)).add(1, 'd');
+  xhrPromise.getJson(config.URL.OTP + "index/stops/" + id + "/stoptimes/" + date.format("YYYYMMDD") + "?detail=true").then (data) ->
+    actionContext.dispatch "AdditionalStopDeparturesFound",
+      id: id
+      departures: data
+      date: date
     done()
 
 fetchStopsDepartures = (actionContext, options, done) ->
@@ -65,3 +76,4 @@ module.exports =
   'fetchStopsDepartures': fetchStopsDepartures
   'stopRoutesRequest': stopRoutesRequest
   'stopPageDataRequest': stopPageDataRequest
+  'nextDayStopDeparturesRequest': nextDayStopDeparturesRequest

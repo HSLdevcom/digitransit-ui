@@ -39,7 +39,7 @@ class Page extends React.Component
         <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page" infoIcon={true}/>
         <Link to="stopMap" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>
-      <DepartureListContainer showMissingRoutes={false} stop={@props.params.stopId} className="stop-page below-map" routeLinks={true}/>
+      <DepartureListContainer showMissingRoutes={false} stop={@props.params.stopId} className="stop-page below-map" routeLinks={true} infiniteScroll={true}/>
     </DefaultNavigation>
 
 module.exports = Page

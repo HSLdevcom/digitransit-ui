@@ -4,8 +4,9 @@ StopDeparturesActions = require '../../action/stop-departures-action'
 uniq                  = require 'lodash/array/uniq'
 difference            = require 'lodash/array/difference'
 moment                = require 'moment'
-Link               = require 'react-router/lib/components/Link'
+Link                  = require 'react-router/lib/components/Link'
 
+moment.locale('fi')
 
 class DepartureListContainer extends React.Component
   @contextTypes:
@@ -17,6 +18,8 @@ class DepartureListContainer extends React.Component
     if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
       if @context.getStore('StopDeparturesStore').getDepartures(@props.stop) == undefined
         @context.executeAction StopDeparturesActions.stopDeparturesRequest, @props.stop
+    if @props.infiniteScroll
+      @scrollHandler target: React.findDOMNode this
 
   componentWillUnmount: ->
     @context.getStore('StopDeparturesStore').removeChangeListener @onChange
@@ -25,14 +28,22 @@ class DepartureListContainer extends React.Component
     if !id or id == @props.stop
       @forceUpdate()
 
+  scrollHandler: (e) =>
+    if (e.target.scrollTopMax-e.target.scrollTop) < 250 and !@context.getStore('StopDeparturesStore').getAdditionalStopsFetchInProgress()
+      @context.executeAction StopDeparturesActions.nextDayStopDeparturesRequest, @props.stop
+
   getDepartures: (showMissingRoutes) =>
     departureObjs = []
     seenRoutes = []
+    previousTime = moment()
     departures = @context.getStore('StopDeparturesStore').getDepartures(@props.stop)
     if !departures
       return false
     for departure, i in departures
-      if moment().isBefore((departure.time.serviceDay + departure.time.scheduledDeparture)*1000)
+      departureTime = moment((departure.time.serviceDay + departure.time.scheduledDeparture)*1000)
+      if !departureTime.isSame(previousTime, 'day')
+        departureObjs.push <div key={departureTime.format('DDMMYYYY')} className="date-row">{departureTime.format('dddd D.M.YYYY')}</div>
+      if moment().isBefore(departureTime)
         id = departure.pattern.id + departure.time.serviceDay + departure.time.scheduledDeparture
         routeParts = departure.pattern.id.split(":")
         if @props.routeLinks
@@ -42,6 +53,7 @@ class DepartureListContainer extends React.Component
         seenRoutes.push(departure.pattern.shortName)
         if seenRoutes.length >= @props.departures
           break
+      previousTime = departureTime
 
     if showMissingRoutes
       missingRoutes = difference(uniq(departure.pattern.shortName for departure in departures), seenRoutes)
@@ -56,7 +68,7 @@ class DepartureListContainer extends React.Component
     departureObjs
 
   render: =>
-    <div className={"departure-list" + (if @props.className then " " + @props.className else "")}>
+    <div className={"departure-list" + (if @props.className then " " + @props.className else "")} onScroll={if @props.infiniteScroll and window? then @scrollHandler else null}>
       {@getDepartures(@props.showMissingRoutes)}
     </div>
 

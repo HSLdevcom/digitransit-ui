@@ -7,7 +7,7 @@
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "predev": "npm run static",
     "prestart": "npm run static",
-    "dev": "NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html --watch . --ignore ./_static/ server/server.js & NODE_ENV=development node server/hotLoadServer.js",
+    "dev": "NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html,coffee --watch . --ignore ./_static/ server/server.js & NODE_ENV=development node server/hotLoadServer.js",
     "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development node server/hotLoadServer.js",
     "test": "./run-ui-tests.sh local",
     "build": "NODE_ENV=production webpack -p --progress --colors",

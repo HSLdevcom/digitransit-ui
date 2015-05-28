@@ -6,7 +6,9 @@ class StopDeparturesStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @departures = {}
+    @dates = {}
     @initialStopsStatus = false
+    @additionalStopStatus = false
 
   getDepartures: (id) =>
     @departures[id]
@@ -24,6 +26,15 @@ class StopDeparturesStore extends Store
   getInitialStopsFetchInProgress: =>
     !@initialStopsStatus
 
+  startAdditionalStopDeparturesFetch: =>
+    @additionalStopStatus = false
+
+  getAdditionalStopsFetchInProgress: =>
+    !@additionalStopStatus
+
+  getDateForStop: (id) =>
+    @dates[id]
+
   storeStopDepartures: (data) ->
     deps = []
     for departure in data.departures
@@ -34,18 +45,38 @@ class StopDeparturesStore extends Store
     deps.sort (a,b) ->
       if a.time.serviceDay + a.time.realtimeDeparture > b.time.serviceDay + b.time.realtimeDeparture then 1 else -1
     @departures[data.id] = deps
+    @dates[data.id] = data.date
+    @emitChange(data.id)
+
+  storeAdditionalStopDepartures: (data) ->
+    deps = @departures[data.id] or []
+    for departure in data.departures
+      for time in departure.times
+        deps.push
+          time: time
+          pattern: departure.pattern
+    deps.sort (a,b) ->
+      if a.time.serviceDay + a.time.realtimeDeparture > b.time.serviceDay + b.time.realtimeDeparture then 1 else -1
+    @departures[data.id] = deps
+    @dates[data.id] = data.date
+    @additionalStopStatus = true
     @emitChange(data.id)
 
   dehydrate: ->
-    @departures
+    departures: @departures
+    dates: @dates
 
   rehydrate: (data) ->
-    @departures = data
+    @departures = data.departures
+    @dates = data.dates
+    @additionalStopStatus = true
     @initialStopsStatus = true
 
   @handlers:
     "StopDeparturesFound": 'storeStopDepartures'
     "StopDeparturesFetchStarted": 'startStopDeparturesFetch'
     "StopsDeparturesFound": 'initialStopsFetched'
+    "AdditionalStopDeparturesFound": 'storeAdditionalStopDepartures'
+    "AdditionalStopDeparturesFetchStarted": 'startAdditionalStopDeparturesFetch'
 
 module.exports = StopDeparturesStore

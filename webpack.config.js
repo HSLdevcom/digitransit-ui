@@ -30,10 +30,10 @@ module.exports = {
   },
   plugins: (process.env.NODE_ENV === "development") ? [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en/),
     new webpack.NoErrorsPlugin()
   ] : [
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en/),
     new webpack.DefinePlugin({
       process: {
         env: {
