@@ -11,7 +11,7 @@ class FromToSearch extends React.Component
             <div className="small-11 columns">
               <input type="text" disabled value={@props.params.from.split("::")[0]}/>
             </div>
-            <Link to="itineraryList" params={{to: @props.params.from, from: @props.params.to}} className="small-1 columns">
+            <Link to="summary" params={{to: @props.params.from, from: @props.params.to}} className="small-1 columns">
               <span className="postfix search">
                 <Icon img={'icon-icon_direction-a'}/>
               </span>

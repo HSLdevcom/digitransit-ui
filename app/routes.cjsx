@@ -37,7 +37,7 @@ routes =
       <Route path="aikataulu" name="routeTimetable" handler={Error404}/>
       <DefaultRoute name="route" handler={Error404}/>
     </Route>
-    <Route path="reitti/:from/:to" name="itineraryList" handler={SummaryPage}/>
+    <Route path="reitti/:from/:to" name="summary" handler={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" handler={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" handler={Error404}/>
     <DefaultRoute name="index" handler={IndexPage}/>

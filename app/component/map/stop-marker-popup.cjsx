@@ -28,7 +28,7 @@ class StopMarkerPopup extends React.Component
       <RouteList ref="routeList" routes={@props.stopInformationStore.getRoutes(@props.stop.id)}/>
       <div className="bottom location">
         <Link to="stop" params={{stopId: @props.stop.id}}><Icon img={'icon-icon_time'}> Näytä lähdöt</Icon></Link><br/>
-        <Link to="itineraryList" params={{to: "#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}", from: @props.getFrom()}} className="route"><Icon img={'icon-icon_route'}> Reititä tänne</Icon></Link>
+        <Link to="summary" params={{to: "#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}", from: @props.getFrom()}} className="route"><Icon img={'icon-icon_route'}> Reititä tänne</Icon></Link>
       </div>
     </div>
 

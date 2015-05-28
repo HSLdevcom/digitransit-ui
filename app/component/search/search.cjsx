@@ -98,7 +98,7 @@ class Search extends React.Component
     # We first check if we already have a location. 
     if @state.hasLocation
       # Yes, location to be set is destination address
-      @context.router.transitionTo "itineraryList", 
+      @context.router.transitionTo "summary",
         from: "#{@state.address}::#{@state.lat},#{@state.lon}"
         to: "#{address}::#{lat},#{lon}"
     else 
