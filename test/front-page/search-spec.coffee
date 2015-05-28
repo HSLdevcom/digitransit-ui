@@ -24,7 +24,7 @@ describe TEST_NAME, () ->
       driver.wait(Until.elementIsEnabled(autosuggest), TIMEOUT).then () ->
         autosuggest.sendKeys("sampsan")
 
-    driver.wait(Until.elementLocated(By.id("Sampsantie, helsinki")), TIMEOUT).then (sampsantie) ->
+    driver.wait(Until.elementLocated(By.id("Sampsantie, Helsinki")), TIMEOUT).then (sampsantie) ->
       sampsantie.click()  
     .then () ->
       done() 
