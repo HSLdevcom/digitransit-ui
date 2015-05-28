@@ -33,6 +33,7 @@
     "httpify": "^1.0.0",
     "lodash": "^3.7.0",
     "masonry": "geta6/masonry",
+    "merge": "^1.2.0",
     "moment": "^2.10.2",
     "mqtt": "^1.1.5",
     "node-cjsx": "^1.0.0",

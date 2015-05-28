@@ -7,6 +7,7 @@ LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
 Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else null
 L             = if isBrowser then require 'leaflet' else null
+merge         = require 'merge'
 config        = require '../../config'
 
 if isBrowser
@@ -15,17 +16,18 @@ if isBrowser
 class Map extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+    router: React.PropTypes.func
 
   @currentLocationIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-location-animated')), className: 'current-location-marker') else null
 
-  constructor: -> 
+  constructor: ->
     super
     @state =
       location: [60.17332, 24.94102]
       zoom: 11
       hasLocation: false
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @context.getStore('LocationStore').addChangeListener @onLocationChange
     @onLocationChange()
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
@@ -42,6 +44,12 @@ class Map extends React.Component
         zoom: 16
         hasLocation: true
 
+  updateQuery: =>
+      center = @refs.map.getLeafletElement().getCenter()
+      @context.router.replaceWith(@context.router.getCurrentPathname(),
+                                  @context.router.getCurrentParams(),
+                                  merge(@context.router.getCurrentQuery(), {zoom: @refs.map.getLeafletElement().getZoom(), lon: center.lng, lat: center.lat}))
+
   render: ->
     if isBrowser
       if @state.hasLocation == true
@@ -53,12 +61,15 @@ class Map extends React.Component
       vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
 
       map =
-        <LeafletMap 
+        <LeafletMap
           ref='map'
-          center={@props.center or [@state.location[0]+0.0005, @state.location[1]]}
-          zoom={@props.zoom or @state.zoom}
+          center={[@context.router.getCurrentQuery().lat or @props.lat or @state.location[0]+0.0005,
+                   @context.router.getCurrentQuery().lon or @props.lon or @state.location[1]]}
+          zoom={@context.router.getCurrentQuery().zoom or @props.zoom or @state.zoom}
           zoomControl={not L.Browser.touch}
-          attributionControl=false>
+          attributionControl=false
+          onLeafletMoveend=@updateQuery
+          >
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
@@ -69,6 +80,7 @@ class Map extends React.Component
           {marker}
           {@props.leafletObjs}
         </LeafletMap>
+
 
     <div className={"map " + if @props.className then @props.className else ""}>
       {map}

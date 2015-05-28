@@ -34,7 +34,7 @@ class Page extends React.Component
     leafletObjs.push  <CircleMarker key="marker" center={lat: stop.lat, lng: stop.lon} radius=4.5 weight=4 color={color} opacity=1 fillColor="#fff" fillOpacity=1 />
 
     <DefaultNavigation className="fullscreen">
-      <Map center={lat:stop.lat+0.0005, lng:stop.lon} zoom={16} leafletObjs={leafletObjs}>
+      <Map lat={stop.lat+0.0005} lon={stop.lon} zoom={16} leafletObjs={leafletObjs}>
         <div style={{position:'absolute', height:'100%', width:'100%'}} onClick={@toggleFullscreenMap}></div>
         <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page" infoIcon={true}/>
         <Link to="stopMap" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>

@@ -26,6 +26,8 @@ class Search extends React.Component
     @context.getStore('LocationStore').removeChangeListener @onChange
 
   onChange: =>
+    @context.router.replaceWith(@context.router.getCurrentPathname(),
+                                @context.router.getCurrentParams())
     @setState @context.getStore('LocationStore').getLocationState()    
 
   analyzeInput: (input) =>
