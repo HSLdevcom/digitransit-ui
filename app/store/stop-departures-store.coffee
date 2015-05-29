@@ -18,6 +18,7 @@ class StopDeparturesStore extends Store
 
   initialStopsFetched: ->
     @initialStopsStatus = true
+    @additionalStopStatus = true
     @emitChange()
 
   initialStopsFetchStarted: ->
