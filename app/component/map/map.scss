@@ -60,6 +60,10 @@ div.map.summaryMap div.leaflet-container {
   }
 }
 
+div.leaflet-control-container div.leaflet-top {
+  top: 5em;
+}
+
 div.leaflet-container {
   position: absolute;
   width: 100%;
@@ -140,6 +144,15 @@ div.stop-marker-popup {
     }
     margin: -6px 0px;
   }
+}
+
+div.stop-name-marker {
+  font-family: $font-family;
+  font-size: 8.5pt;
+  font-weight: $font-weight-bold;
+  text-shadow: 0 0 0 $white, 1px 0 0 $white, 0 1px 0 $white, -1px 0 0 $white, 0 -1px 0 $white, 0 0 0.2em $white;
+  text-transform: uppercase;
+  color: $gray;
 }
 
 div.background-gradient {
