@@ -28,7 +28,7 @@ div.map.summaryMap div.leaflet-container {
   div.background-gradient {
     height: $small-map-height * 0.7;
   }
-  div.leaflet-control-attribution {
+  div.map:not(.fullscreen) div.leaflet-container div.leaflet-control-container div div.leaflet-control-attribution {
     display: none;
   }
   div.below-map {
