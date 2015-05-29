@@ -19,6 +19,7 @@ class StopMarkerContainer extends React.Component
   componentDidMount: -> 
     @props.map.on 'moveend', @onMapMove
     @context.getStore('NearestStopsStore').addChangeListener @onChange
+    @onMapMove()
 
   componentWillUnmount: ->
     @props.map.off 'moveend', @onMapMove
@@ -44,6 +45,8 @@ class StopMarkerContainer extends React.Component
     getFrom = () =>
       @context.getStore('LocationStore').getLocationString()
     @context.getStore('NearestStopsStore').getStopsInRectangle().forEach (stop) =>
+      if @props.skipStops? and stop.id in @props.skipStops
+        return
       if @context.getStore('StopInformationStore').getStop(stop.id)
         stop = @context.getStore('StopInformationStore').getStop(stop.id)
       if stop

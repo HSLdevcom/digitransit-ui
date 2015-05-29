@@ -29,7 +29,7 @@ class DepartureListContainer extends React.Component
       @forceUpdate()
 
   scrollHandler: (e) =>
-    if (e.target.scrollTopMax-e.target.scrollTop) < 250 and !@context.getStore('StopDeparturesStore').getAdditionalStopsFetchInProgress()
+    if (e.target.scrollHeight-e.target.scrollTop-e.target.offsetHeight) < 250 and !@context.getStore('StopDeparturesStore').getAdditionalStopsFetchInProgress()
       @context.executeAction StopDeparturesActions.nextDayStopDeparturesRequest, @props.stop
 
   getDepartures: (showMissingRoutes) =>

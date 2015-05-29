@@ -57,7 +57,7 @@ class Map extends React.Component
           position={@state.location}
           icon={Map.currentLocationIcon}/>
 
-      stops = if @props.showStops then <StopMarkerContainer/> else ""
+      stops = if @props.showStops then <StopMarkerContainer skipStops={@props.skipStops}/> else ""
       vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
 
       map =
