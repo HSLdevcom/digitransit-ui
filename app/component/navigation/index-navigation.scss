@@ -59,7 +59,7 @@ nav.top-bar {
       left: 2.5em;
     }
     &.right-off-canvas-toggle {
-      left: calc(100% - 1.7em);
+      right: 0;
     }
     &.sub-navigation-switch {
       width: $top-navigation-switch-width;

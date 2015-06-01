@@ -20,8 +20,8 @@ class SummaryNavigation extends React.Component
         <div className="fixed">
           <nav className="top-bar">
             <BackButton/>
-            <div onClick={@toggleOffcanvas}>
-              <Icon img={'icon-icon_ellipsis'} className="cursor-pointer right-off-canvas-toggle"/>
+            <div onClick={@toggleOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
+              <Icon img={'icon-icon_ellipsis'}/>
             </div>
           </nav>
         </div>
