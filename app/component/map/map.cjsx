@@ -45,10 +45,10 @@ class Map extends React.Component
         hasLocation: true
 
   updateQuery: =>
-      center = @refs.map.getLeafletElement().getCenter()
-      @context.router.replaceWith(@context.router.getCurrentPathname(),
-                                  @context.router.getCurrentParams(),
-                                  merge(@context.router.getCurrentQuery(), {zoom: @refs.map.getLeafletElement().getZoom(), lon: center.lng, lat: center.lat}))
+      #center = @refs.map.getLeafletElement().getCenter()
+      #@context.router.replaceWith(@context.router.getCurrentPathname(),
+      #                            @context.router.getCurrentParams(),
+      #                            merge(@context.router.getCurrentQuery(), {zoom: @refs.map.getLeafletElement().getZoom(), lon: center.lng, lat: center.lat}))
 
   render: ->
     if isBrowser
