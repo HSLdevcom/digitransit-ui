@@ -22,15 +22,24 @@ class Map extends React.Component
 
   constructor: ->
     super
-    @state =
-      location: [60.17332, 24.94102]
-      zoom: 11
-      hasLocation: false
+    coordinates = @context.getStore('LocationStore').getLocationState()
+    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
+      @state =
+        location: [coordinates.lat, coordinates.lon]
+        zoom: 16
+        hasLocation: true
+    else
+      @state =
+        location: [60.17332, 24.94102]
+        zoom: 11
+        hasLocation: false
 
   componentDidMount: ->
     @context.getStore('LocationStore').addChangeListener @onLocationChange
     @onLocationChange()
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
+    if @props.fitBounds
+      @refs.map.getLeafletElement().fitBounds [@props.from, @props.to], paddingTopLeft: @props.padding
 
 
   componentWillUnmount: ->
@@ -38,11 +47,15 @@ class Map extends React.Component
 
   onLocationChange: =>
     coordinates = @context.getStore('LocationStore').getLocationState()
-    if (coordinates.lat != 0 || coordinates.lon != 0)
-      @setState
-        location: [coordinates.lat, coordinates.lon]
-        zoom: 16
-        hasLocation: true
+    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
+      if !@props.fitBounds
+        @setState
+          location: [coordinates.lat, coordinates.lon]
+          zoom: 16
+          hasLocation: true
+      else
+        @setState
+          hasLocation: true
 
   updateQuery: =>
       #center = @refs.map.getLeafletElement().getCenter()
