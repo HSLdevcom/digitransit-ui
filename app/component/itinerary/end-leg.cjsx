@@ -11,10 +11,7 @@ class EndLeg extends React.Component
           {moment(@props.endTime).format('HH:mm')}
         </div>
       </div>
-      <div className={"small-1 columns itinerary-line-column to"}>
-        •
-      </div>
-      <div className="small-9 columns itinerary-instruction-column">
+      <div className="small-10 columns itinerary-instruction-column to">
         <div>Lopeta matka paikassa</div>
         <div>{@props.to}</div>
       </div>

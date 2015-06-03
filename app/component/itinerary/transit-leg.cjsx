@@ -16,10 +16,7 @@ class TransitLeg extends React.Component
           {@props.leg.routeShortName}
         </div>
       </div>
-      <div className={"small-1 columns itinerary-line-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
-        •
-      </div>
-      <div className="small-9 columns itinerary-instruction-column">
+      <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
         {if @props.index == 0 then <div>Aloita matka pysäkiltä</div> else false}
         <div>{@props.leg.from.name}</div>
         <div>{if @props.leg.headsign then "Linja #{@props.leg.route} suuntaan #{@props.leg.headsign}" else "Linja #{@props.leg.route}"}</div>
