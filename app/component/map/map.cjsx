@@ -45,10 +45,16 @@ class Map extends React.Component
         hasLocation: true
 
   updateQuery: =>
-      #center = @refs.map.getLeafletElement().getCenter()
-      #@context.router.replaceWith(@context.router.getCurrentPathname(),
-      #                            @context.router.getCurrentParams(),
-      #                            merge(@context.router.getCurrentQuery(), {zoom: @refs.map.getLeafletElement().getZoom(), lon: center.lng, lat: center.lat}))
+      center = @refs.map.getLeafletElement().getCenter()
+      @context.router.replaceWith(
+          @context.router.getCurrentPathname(),
+          @context.router.getCurrentParams(),
+          merge(@context.router.getCurrentQuery(),
+                zoom: @refs.map.getLeafletElement().getZoom()
+                # Android Chrome gets into infinite recursion always changing
+                # Leaflet map longitude by around 0.00003 from what it was set to
+                lon: center.lng.toFixed(4)
+                lat: center.lat.toFixed(4)))
 
   render: ->
     if isBrowser

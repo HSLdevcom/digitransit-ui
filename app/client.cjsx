@@ -2,6 +2,7 @@
 React             = require 'react'
 Router            = require 'react-router'
 FluxibleComponent = require 'fluxible/addons/FluxibleComponent'
+isEqual           = require 'lodash/lang/isEqual'
 
 app               = require './app'
 
@@ -25,15 +26,17 @@ app.rehydrate dehydratedState, (err, context) ->
   window.context = context
 
   firstRender = true
+  oldParams = undefined
   Router.run app.getComponent(), Router.HistoryLocation, (Handler, state) ->
-    if firstRender 
+    if firstRender
       # Don't call the action on the first render on top of the server rehydration
       # Otherwise there is a race condition where the action gets executed before
       # render has been called, which can cause the checksum to fail.
       RenderApp context, Handler
       firstRender = false
     else
-      if state.routes[state.routes.length-1].handler.loadAction
-        context.getActionContext().executeAction(state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}).then(-> RenderApp context, Handler)
+      if not isEqual(oldParams, state.params) and state.routes[state.routes.length-1].handler.loadAction
+          oldParams = state.params
+          context.getActionContext().executeAction(state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}).then(-> RenderApp context, Handler)
       else
         RenderApp context, Handler
