@@ -71,7 +71,7 @@ module.exports = {
       (process.env.NODE_ENV === "development") ? { test: /\.css$/, loaders: ['style', 'css', 'postcss']} : { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!postcss")},
       (process.env.NODE_ENV === "development") ? { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx']} : { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },
-      (process.env.NODE_ENV === "development") ? { test: /\.jsx$/, loafers: ['react-hot', 'jsx']} : { test: /\.jsx$/, loafer: 'jsx'},
+      (process.env.NODE_ENV === "development") ? { test: /\.jsx$/, loaders: ['react-hot', 'jsx']} : { test: /\.jsx$/, loader: 'jsx'},
       (process.env.NODE_ENV === "development") ? { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass']} : { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", "css!postcss!sass")},
       { test: /\.(eot|png|ttf|woff)$/, loader: 'file'}
     ]
