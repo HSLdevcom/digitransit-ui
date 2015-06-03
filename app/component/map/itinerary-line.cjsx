@@ -4,6 +4,7 @@ Polyline           = if isBrowser then require 'react-leaflet/lib/Polyline' else
 CircleMarker       = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
 FeatureGroup       = if isBrowser then require 'react-leaflet/lib/FeatureGroup' else null
 Marker             = if isBrowser then require 'react-leaflet/lib/Marker' else null
+L                  = if isBrowser then require 'leaflet' else null
 Icon               = require '../icon/icon'
 polyUtil           = require 'polyline-encoded'
 getSelector        = require '../../util/get-selector'
@@ -24,6 +25,13 @@ class ItineraryLine extends React.Component
       objs.push <Polyline map={@props.map} key={i + leg.mode} positions={polyUtil.decode leg.legGeometry.points} color={color or "#999"} opacity=1 weight=3 />
       objs.push <CircleMarker map={@props.map} key={i + "," + j + leg.mode + "circleHalo"} center={lat: leg.from.lat, lng: leg.from.lon} radius=3 color="#fff" opacity=1 />
       objs.push <CircleMarker map={@props.map} key={i + "," + j + leg.mode + "circle"} center={lat: leg.from.lat, lng: leg.from.lon} radius=2 color={color or "#999"} fill={color or "#999"} opacity=1 fillOpacity=1 />
+      if leg.transitLeg and @props.showTransferLabels
+        objs.push <Marker map={@props.map}
+                           key={i + "_text"}
+                           position={lat: leg.from.lat, lng: leg.from.lon}
+                           icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},leg.from.name)), className: 'stop-name-marker ' + leg.mode.toLowerCase(), iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
+                           clickable={false}/>
+
 
     <div style={{display: "none"}}>{objs}</div>
 
