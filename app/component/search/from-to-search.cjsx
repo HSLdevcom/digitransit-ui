@@ -33,7 +33,6 @@ class FromToSearch extends React.Component
           </div>
         </div>
       </div>
-      <Icon img={'icon-icon_direction-a'} className="cursor-pointer"/>
     </div>
 
 module.exports = FromToSearch
