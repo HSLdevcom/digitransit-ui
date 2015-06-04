@@ -6,5 +6,6 @@ module.exports = routeSearchRequest: (actionContext, options) ->
     fromPlace: options.params.from
     toPlace: options.params.to
     preferredAgencies: "HSL"
+    showIntermediateStops: true
   xhrPromise.getJson(config.URL.OTP + "plan", params).then (data) ->
     actionContext.dispatch "RouteFound", data
