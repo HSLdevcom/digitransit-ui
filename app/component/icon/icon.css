@@ -5,6 +5,14 @@
 	fill: currentColor;
 }
 
+/* ================================================================================
+Example showing how to change the color/size of the icons:
+.icon-name {
+	font-size: 32px; // works because "width" & "height" were set using em units
+	color: red; // works because "fill" was set to "currentColor"
+}
+================================================================================ */
+
 #icon-icon_bus .path1 {
 	fill: rgb(255, 255, 255);
 }
@@ -27,18 +35,18 @@
 	fill: rgb(0, 185, 228);
 }
 
-#icon-icon_subway .path1 {
-	fill: rgb(255, 255, 255);
-}
-#icon-icon_subway .path2 {
-	fill: rgb(255, 99, 25);
-}
-
 #icon-icon_rail .path1 {
 	fill: rgb(255, 255, 255);
 }
 #icon-icon_rail .path2 {
 	fill: rgb(140, 71, 153);
+}
+
+#icon-icon_subway .path1 {
+	fill: rgb(255, 255, 255);
+}
+#icon-icon_subway .path2 {
+	fill: rgb(255, 99, 25);
 }
 
 #icon-icon_tram .path1 {
@@ -47,3 +55,4 @@
 #icon-icon_tram .path2 {
 	fill: rgb(0, 152, 95);
 }
+
