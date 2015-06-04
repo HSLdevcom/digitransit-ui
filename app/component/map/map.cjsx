@@ -64,10 +64,8 @@ class Map extends React.Component
           @context.router.getCurrentParams(),
           merge(@context.router.getCurrentQuery(),
                 zoom: @refs.map.getLeafletElement().getZoom()
-                # Android Chrome gets into infinite recursion always changing
-                # Leaflet map longitude by around 0.00003 from what it was set to
-                lon: center.lng.toFixed(4)
-                lat: center.lat.toFixed(4)))
+                lon: center.lng
+                lat: center.lat))
 
   render: ->
     if isBrowser
@@ -87,7 +85,8 @@ class Map extends React.Component
           zoom={@context.router.getCurrentQuery().zoom or @props.zoom or @state.zoom}
           zoomControl={not L.Browser.touch}
           attributionControl=false
-          onLeafletMoveend=@updateQuery
+          onLeafletDragend=@updateQuery
+          onLeafletZoomend=@updateQuery
           >
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
