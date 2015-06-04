@@ -31,10 +31,6 @@ Example showing how to change the color/size of the icons:
 	fill: rgb(0, 185, 228);
 }
 
-#icon-icon_mapMarker-location-animated .path4 {
-	fill: rgb(0, 185, 228);
-}
-
 #icon-icon_rail .path1 {
 	fill: rgb(255, 255, 255);
 }

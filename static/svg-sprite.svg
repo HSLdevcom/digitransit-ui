@@ -220,18 +220,18 @@
   <title>icon_walk</title>
   <path class="path1" d="M345.2 820.179l61.47-132.651c8.088-3.233 16.177-6.47 22.65-11.322v-1.618c17.792-12.94 27.502-33.968 29.117-58.234v-25.88l142.354 3.233 187.648 376.914-111.615 56.619-148.828-297.649-79.262 163.383-114.856 134.266-97.061-77.651 108.382-129.411zM558.735 310.614c33.968 27.498 46.908 63.089 45.294 105.146l-3.237 153.679-142.354-3.233 1.618-137.503-24.265 37.209-3.233 148.824c0 17.795-6.474 32.354-17.799 40.442-11.322 8.088-22.643 12.944-40.442 12.944-17.792 0-29.117-6.47-40.438-14.558-9.707-8.088-16.177-22.65-16.177-40.442l3.233-173.093 77.647-137.499c11.325-16.177 32.354-24.265 58.241-24.265 37.205-0.004 72.792 8.085 101.912 32.35zM398.582 131.051c1.622-71.177 61.474-129.414 132.651-127.796 72.796 1.618 131.029 59.856 129.414 132.651-1.618 71.177-61.47 129.411-132.651 127.796-72.796-1.618-131.029-61.474-129.414-132.651zM623.442 551.644l1.615-116.471 77.647 1.615c17.795 0 32.354 8.088 40.442 17.795 8.088 12.94 12.944 24.265 12.944 42.057 0 16.177-4.855 29.12-14.558 40.442-8.088 9.707-22.65 16.177-40.442 16.177l-77.647-1.615z"></path>
 </symbol>
-<symbol id="icon-icon_mapMarker-location-animated" viewBox="0 0 1024 1024">
+<symbol id="icon-icon_mapMarker-location-animated" viewBox="0 0 64 64">
   <title>icon_mapMarker-location-animated</title>
-  <circle stroke-width="100" r="400" fill="rgba(0,0,0,0)" cx="512" stroke="rgba(0,0,0,0.25)" cy="512" id="circle_halo">
-    <animate from="125" attributeName="r" to="500" dur="2s" repeatCount="indefinite"/>
+  <circle stroke-width="6" r="25" fill="rgba(0,0,0,0)" cx="32" stroke="rgba(0,0,0,0.25)" cy="32" id="circle_outer_halo">
+    <animate from="7" attributeName="r" to="31" dur="2s" repeatCount="indefinite"/>
     <animate values="rgba(0,0,0,0.25) ;rgba(0,0,0,0.25) ; rgba(0,0,0,0.0)" keyTimes="0;0.7;1" attributeName="stroke" dur="2s" repeatCount="indefinite"/>
   </circle>
-  <circle stroke-width="50" r="400" fill="rgba(0,0,0,0)" cx="512" stroke="rgba(255,255,255,1)" cy="512" id="circle">
-    <animate from="125" attributeName="r" to="500" begin="0s" dur="2s" repeatCount="indefinite" id="circ-anim"/>
+  <circle stroke-width="3" r="25" fill="rgba(0,0,0,0)" cx="32" stroke="rgba(255,255,255,1)" cy="32" id="circle_outer">
+    <animate from="7" attributeName="r" to="31" dur="2s" repeatCount="indefinite" id="circ-anim"/>
     <animate values="rgba(255,255,255,1) ;rgba(255,255,255,1) ; rgba(255,255,255,0.0)" keyTimes="0;0.7;1" attributeName="stroke" dur="2s" repeatCount="indefinite"/>
   </circle>
-  <circle stroke="rgba(0,0,0,0.25)" r="180" stroke-width="30" fill="white" cx="512" cy="512" id="circle2"/>
-  <path class="path4" d="M512 426.665c47.129 0 85.335 38.206 85.335 85.335s-38.206 85.335-85.335 85.335c-47.129 0-85.335-38.206-85.335-85.335s38.206-85.335 85.335-85.335z"></path>
+  <circle stroke="rgba(0,0,0,0.25)" r="11" stroke-width="2" fill="white" cx="32" cy="32" id="circle_middle"/>
+  <circle r="6" fill="rgb(0,185,228)" cx="32" cy="32" id="circle_inner"></path>
 </symbol>
 </defs>
 </svg>
