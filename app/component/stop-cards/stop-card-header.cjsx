@@ -19,7 +19,7 @@ class StopCardHeader extends React.Component
     if @props.infoIcon
       info = <Link to="stopInfo" params={{stopId: @props.stop.id}}>
           <span className="cursor-pointer">
-            <Icon className="info" img="icon-icon_plus"/>
+            <Icon className="info" img="icon-icon_info"/>
           </span>
         </Link>
     else
