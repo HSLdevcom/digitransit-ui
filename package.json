@@ -37,6 +37,7 @@
     "moment": "^2.10.3",
     "mqtt": "^1.2.1",
     "node-cjsx": "^1.0.0",
+    "polyfill-service": "^1.4.0",
     "polyline-encoded": "^0.0.7",
     "react": "^0.13.3",
     "react-autosuggest": "^1.14.0",

@@ -17,9 +17,9 @@ class Application extends React.Component
     <body>
         <div style={{display: "none"}} dangerouslySetInnerHTML={ __html: @props.svgSprite }/>
         <div id="app" style={{height: "100%"}} dangerouslySetInnerHTML={ __html: @props.content } ></div>
-        <script dangerouslySetInnerHTML={ __html: @props.phantomjsPrototypePolyfill }/>
+        <script dangerouslySetInnerHTML={ __html: @props.polyfill }/>
         <script dangerouslySetInnerHTML={ __html: @props.state }/>
-        <script async src={ @props.livereload + "js/bundle.js" }/> 
+        <script async src={ @props.livereload + "js/bundle.js" }/>
       </body>
     </html>
 

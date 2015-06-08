@@ -7,6 +7,7 @@ var React = require('react')
 var Router = require('react-router')
 var FluxibleComponent = require('fluxible/addons/FluxibleComponent');
 var serialize = require('serialize-javascript');
+var polyfillService = require('polyfill-service');
 var Promise = require('es6-promise').Promise;
 require('node-cjsx').transform()
 
@@ -55,6 +56,14 @@ function setUpRoutes() {
           )
         )
 
+        var polyfillContent = '';
+
+        if(req.headers['user-agent'].indexOf('PhantomJS/1') > -1 ){
+          polyfillContent = fs.readFileSync('app/util/phantomjs-prototype-polyfill.js');
+        } else {
+          polyfillContent = polyfillService.getPolyfillString({uaString: req.headers['user-agent'], features: {'Function.prototype.bind': {flags: []}, 'matchMedia': {flags: []}}});
+        }
+
         var html = React.renderToString(
           React.createElement(
             applicationHtml,
@@ -62,7 +71,7 @@ function setUpRoutes() {
               css: process.env.NODE_ENV === "development" ? false : css,
               svgSprite: svgSprite,
               content: content,
-              phantomjsPrototypePolyfill: process.env.NODE_ENV === "development" ? fs.readFileSync('app/util/phantomjs-prototype-polyfill.js') : "",
+              polyfill: polyfillContent,
               state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
               livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath
             }
