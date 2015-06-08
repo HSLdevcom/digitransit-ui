@@ -26,7 +26,7 @@ class StopCardHeader extends React.Component
       info = ""
 
     <div className={"stop-card-header" + (if @props.className then " " + @props.className else "")}>
-      <span className="cursor-pointer" onClick={@props.addFavouriteStop}>
+      <span className="cursor-pointer" onTouchTap={@props.addFavouriteStop}>
         <Icon className={"favourite" + (if @props.favourite then " selected" else "")} img="icon-icon_star"/>
       </span>
       {info}

@@ -24,6 +24,11 @@ $stop-card-show-more-color: $white;
 $stop-card-show-more-width: 10em;
 $stop-card-show-more-border-radius: 30px;
 
+.stop-cards div div a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 .stop-card {
   background-color: $stop-card-background-color;
   border: 1px solid $stop-card-border-color;

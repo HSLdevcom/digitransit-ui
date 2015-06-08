@@ -35,7 +35,7 @@ class Page extends React.Component
 
     <DefaultNavigation className="fullscreen">
       <Map lat={stop.lat+0.0005} lon={stop.lon} zoom={16} leafletObjs={leafletObjs}>
-        <div style={{position:'absolute', height:'100%', width:'100%'}} onClick={@toggleFullscreenMap}></div>
+        <div style={{position:'absolute', height:'100%', width:'100%'}} onTouchTap={@toggleFullscreenMap}></div>
         <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page" infoIcon={true}/>
         <Link to="stopMap" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>

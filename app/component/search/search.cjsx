@@ -289,7 +289,7 @@ class Search extends React.Component
             showWhen={(input) => input.trim().length >= 2}/>    
         </div>
         <div className="small-1 columns">
-          <span className="postfix search cursor-pointer" onClick={@onSubmit}>
+          <span className="postfix search cursor-pointer" onTouchTap={@onSubmit}>
             <Icon img={'icon-icon_search'}/>
           </span>
         </div>

@@ -12,6 +12,9 @@ require "../sass/main.scss"
 
 require.include 'leaflet' # Force into main bundle.js
 
+injectTapEventPlugin = require "react-tap-event-plugin"
+injectTapEventPlugin()
+
 RenderApp = (context, Handler) ->
   React.render(
   	<FluxibleComponent context={context.getComponentContext()}>

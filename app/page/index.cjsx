@@ -24,7 +24,7 @@ class Page extends React.Component
   render: ->
     <IndexNavigation>
       <Map showStops=true>
-        <div style={{position:'absolute', height:'100%', width:'100%'}} onClick={@toggleFullscreenMap}></div>
+        <div style={{position:'absolute', height:'100%', width:'100%'}} onTouchTap={@toggleFullscreenMap}></div>
         <SearchWithLocation/>
         <Link to="map"><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>

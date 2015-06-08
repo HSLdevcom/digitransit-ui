@@ -44,6 +44,7 @@
     "react-router": "^0.13.3",
     "react-simpletabs": "^0.6.1",
     "react-slick": "hannesj/react-slick",
+    "react-tap-event-plugin": "^0.1.7",
     "serialize-javascript": "^1.0.0",
     "slick-carousel": "^1.5.5",
     "zurb-foundation-5": "^5.4.7"
