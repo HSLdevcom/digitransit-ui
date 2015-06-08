@@ -231,7 +231,7 @@
     <animate values="rgba(255,255,255,1) ;rgba(255,255,255,1) ; rgba(255,255,255,0.0)" keyTimes="0;0.7;1" attributeName="stroke" dur="2s" repeatCount="indefinite"/>
   </circle>
   <circle stroke="rgba(0,0,0,0.25)" r="11" stroke-width="2" fill="white" cx="32" cy="32" id="circle_middle"/>
-  <circle r="6" fill="rgb(0,185,228)" cx="32" cy="32" id="circle_inner">
+  <circle r="6" fill="rgb(0,185,228)" cx="32" cy="32" id="circle_inner"/>
 </symbol>
 </defs>
 </svg>
