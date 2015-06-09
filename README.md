@@ -1,5 +1,5 @@
-# openjourneyplanner-ui
-Open Journey Planner UI
+# digitransit-ui
+Digitransit UI
 
 ## Install requirements
 - Install Node.js and NPM

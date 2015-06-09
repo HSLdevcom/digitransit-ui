@@ -1,8 +1,9 @@
 {
-  "name": "openjourneyplanner-ui",
+  "name": "digitransit-ui",
   "version": "0.0.1",
-  "description": "Open Journey Planner UI",
+  "description": "Digitransit UI - open nationwide journey planning platform",
   "author": "crew@reittiopas.fi",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "predev": "npm run static",
@@ -19,7 +20,7 @@
     "url": ""
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/HSLdevcom/digitransit-ui/issues"
   },
   "dependencies": {
     "body-parser": "^1.12.4",
