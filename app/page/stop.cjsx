@@ -28,13 +28,9 @@ class Page extends React.Component
     addFavouriteStop = (e) =>
       e.stopPropagation()
       @context.executeAction FavouriteStopsAction.addFavouriteStop, stop.id
-    color = "#007AC9" # TODO: Should come from stop
-    leafletObjs = []
-    leafletObjs.push <CircleMarker key="marker_outline" center={lat: stop.lat, lng: stop.lon} radius=8 weight=1 color="#333" opacity=0.4 fillColor="#fff" fillOpacity=1 />
-    leafletObjs.push  <CircleMarker key="marker" center={lat: stop.lat, lng: stop.lon} radius=4.5 weight=4 color={color} opacity=1 fillColor="#fff" fillOpacity=1 />
 
     <DefaultNavigation className="fullscreen">
-      <Map lat={stop.lat+0.0005} lon={stop.lon} zoom={16} leafletObjs={leafletObjs}>
+      <Map lat={stop.lat+0.0005} lon={stop.lon} zoom={16} showStops=true hilightedStops=[stop.id]>
         <div style={{position:'absolute', height:'100%', width:'100%'}} onTouchTap={@toggleFullscreenMap}></div>
         <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page" infoIcon={true}/>
         <Link to="stopMap" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
