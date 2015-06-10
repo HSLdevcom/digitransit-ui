@@ -1,11 +1,11 @@
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
-module.exports = routeSearchRequest: (actionContext, options) ->
+module.exports = itinerarySearchRequest: (actionContext, options) ->
   params =
     fromPlace: options.params.from
     toPlace: options.params.to
     preferredAgencies: "HSL"
     showIntermediateStops: true
   xhrPromise.getJson(config.URL.OTP + "plan", params).then (data) ->
-    actionContext.dispatch "RouteFound", data
+    actionContext.dispatch "ItineraryFound", data

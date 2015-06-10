@@ -1,7 +1,7 @@
 Store = require 'fluxible/addons/BaseStore'
 
-class RouteSearchStore extends Store
-  @storeName: 'RouteSearchStore'
+class ItinerarySearchStore extends Store
+  @storeName: 'ItinerarySearchStore'
 
   constructor: (dispatcher) ->
     super(dispatcher)
@@ -10,7 +10,7 @@ class RouteSearchStore extends Store
   getData: ->
     @data
 
-  storeRouteSearch: (data) ->
+  storeItinerarySearch: (data) ->
     @data = data
     @emitChange()
 
@@ -21,6 +21,6 @@ class RouteSearchStore extends Store
     @data = data
 
   @handlers:
-    "RouteFound": 'storeRouteSearch'
+    "ItineraryFound": 'storeItinerarySearch'
 
-module.exports = RouteSearchStore
+module.exports = ItinerarySearchStore

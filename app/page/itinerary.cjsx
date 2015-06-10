@@ -9,7 +9,7 @@ class ItineraryPage extends React.Component
     getStore: React.PropTypes.func.isRequired
 
   render: ->
-    plan = @context.getStore('RouteSearchStore').getData().plan
+    plan = @context.getStore('ItinerarySearchStore').getData().plan
     itineraries = plan.itineraries
     slides = []
 
