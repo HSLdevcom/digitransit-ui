@@ -13,7 +13,7 @@ class RoutePage extends React.Component
   render: ->
     <DefaultNavigation className="fullscreen">
       <RouteHeaderContainer id={@props.params.routeId}/>
-      <Tabs>
+      <Tabs className="route-tabs">
         <Tabs.Panel title="Pysäkit">
           Pysäkit tähän
         </Tabs.Panel>

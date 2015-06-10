@@ -1,0 +1,43 @@
+
+div.route-header {
+  margin: 0 15px;
+  line-height: 1;
+  border-bottom: solid 1px $light-gray;
+  h1 {
+    font-family: $font-family-narrow;
+    font-size: 24pt;
+    padding: 0.4em 0 0.2em;
+    margin: 0;
+    .icon {
+      height: 0.8em;
+      width: 0.8em;
+    }
+  }
+  .route-header-name {
+    margin: 0;
+    font-size: 10pt;
+    color: $gray;
+    font-weight: $font-weight-light;
+  }
+  .route-header-direction {
+    margin: 0.5em 0;
+    color: $black;
+    .icon {
+      height: 0.5em;
+      width: 0.5em;
+    }
+    .route-header-direction-switch {
+      background: currentColor;
+      width: 1.7em;
+      height: 1.2em;
+      padding: 2px;
+      border-radius: 0.6em;
+      fill: white;
+      vertical-align: bottom;
+    }
+  }
+}
+
+div.route-tabs .tab-panel {
+  background: white;
+}

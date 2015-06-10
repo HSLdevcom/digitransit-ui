@@ -20,7 +20,7 @@ class RouteHeader extends React.Component
         &nbsp;{@props.route.shortName}
       </h1>
       <div className="route-header-name">{@props.route.longName}</div>
-      <div className="route-header-direction">{@props.pattern.stops[0].name} <Icon className={mode} img={'icon-icon_arrow-right'}/> {@props.pattern.trips[0].tripHeadsign}</div>
+      <div className="route-header-direction">{@props.pattern.stops[0].name} <Icon className={mode} img={'icon-icon_arrow-right'}/> {@props.pattern.trips[0].tripHeadsign} <Icon className={"route-header-direction-switch " + mode} img={'icon-icon_direction-b'}/></div>
     </div>
 
 module.exports = RouteHeader
