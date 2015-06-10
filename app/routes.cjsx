@@ -6,6 +6,7 @@ Router       = require 'react-router'
 IndexPage     = require './page/index'
 ItineraryPage = require './page/itinerary'
 MapPage       = require './page/map'
+RoutePage     = require './page/route'
 StopPage      = require './page/stop'
 StopMapPage   = require './page/stop-map'
 SummaryPage   = require './page/summary'
@@ -32,11 +33,7 @@ routes =
     <Route path="pysakit/:stopId/kartta" name="stopMap" handler={StopMapPage}/>
     <Route path="pysakit/:stopId/info" name="stopInfo" handler={Error404}/>
     <Route path="linjat" name="routeList" handler={Error404}/>
-    <Route path="linjat/:routeId" handler={Error404}>
-      <Route path="kartta" name="routeMap" handler={Error404}/>
-      <Route path="aikataulu" name="routeTimetable" handler={Error404}/>
-      <DefaultRoute name="route" handler={Error404}/>
-    </Route>
+    <Route path="linjat/:routeId" name="route" handler={RoutePage}/>
     <Route path="reitti/:from/:to" name="summary" handler={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" handler={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" handler={Error404}/>

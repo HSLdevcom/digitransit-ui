@@ -45,9 +45,8 @@ class DepartureListContainer extends React.Component
         departureObjs.push <div key={departureTime.format('DDMMYYYY')} className="date-row">{departureTime.format('dddd D.M.YYYY')}</div>
       if moment().isBefore(departureTime)
         id = departure.pattern.id + departure.time.serviceDay + departure.time.scheduledDeparture
-        routeParts = departure.pattern.id.split(":")
         if @props.routeLinks
-          departureObjs.push <Link to="route" params={{routeId: routeParts[0] + ":" + routeParts[1]}}><Departure key={id} departure={departure} /></Link>
+          departureObjs.push <Link to="route" params={{routeId: departure.pattern.id}}><Departure key={id} departure={departure}/></Link>
         else
           departureObjs.push <Departure key={id} departure={departure} />
         seenRoutes.push(departure.pattern.shortName)
