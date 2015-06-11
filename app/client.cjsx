@@ -12,6 +12,8 @@ require "../sass/main.scss"
 
 require.include 'leaflet' # Force into main bundle.js
 
+window._debug = require 'debug' # Allow _debug.enable('*') in browser console
+
 injectTapEventPlugin = require "react-tap-event-plugin"
 injectTapEventPlugin()
 
