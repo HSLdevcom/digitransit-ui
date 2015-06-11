@@ -1,7 +1,10 @@
+$route-header-height: 115px;
+
 
 div.route-header {
   margin: 0 15px;
   line-height: 1;
+  height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
   border-bottom: solid 1px $light-gray;
   h1 {
     font-family: $font-family-narrow;
@@ -34,10 +37,107 @@ div.route-header {
       border-radius: 0.6em;
       fill: white;
       vertical-align: bottom;
+      margin-left: 1ex;
     }
   }
 }
 
-div.route-tabs .tab-panel {
-  background: white;
+div.route-tabs {
+  .tab-panel {
+    background: white;
+    height: calc(100% - 1.2em - 8px);
+    > div {
+      height: 100%;
+      overflow: auto;
+    }
+  }
+  .tabs-navigation {
+    height: 1.2em;
+  }
+  height: calc(100% - #{$route-header-height} - 10px);
+}
+
+div.route-stop-list {
+  font-family: $font-family-narrow;
+  .route-stop-now {
+    min-height: 1px; //Prevent columns from collapsing
+  }
+  .route-stop-name {
+    margin-left: -1em;
+    padding-left: 1em;
+    min-height: 1px;
+    font-weight: $font-weight-bold;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 17px;
+      bottom: -7px;
+      left:0;
+      border-left: solid 3px;
+    }
+    &::after {
+      width:12px;
+      height:12px;
+      position: absolute;
+      top: 1px;
+      left: -4px;
+    }
+    &.bus::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
+    }
+    &.tram::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($tram-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
+    }
+    &.rail::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($train-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
+    }
+    &.subway::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($metro-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
+    }
+    &.ferry::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($ferry-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
+    }
+  }
+  .route-stop-address {
+    font-size: 10pt;
+    font-weight: $font-weight-light;
+    color: $gray;
+  }
+  .route-stop-code {
+    text-align: right;
+    direction: rtl;
+    font-weight: $font-weight-bold;
+    color: $gray;
+    min-height: 1px;
+  }
+  .route-stop-mins {
+    text-align: right;
+    direction: rtl;
+    min-height: 1px;
+  }
+  > :nth-child(1) {
+    position: sticky;
+    border-bottom: solid 1px $background-color;
+    padding-bottom: 2px;
+    font-size: 9pt;
+    font-weight: $font-weight-bold;
+    .route-stop-code {
+      color: $black;
+    }
+    .route-stop-name::before {
+      border: none;
+    }
+    .route-stop-name::after {
+      content: none;
+    }
+  }
+  > :not(:nth-child(1)) {
+    font-size: 11pt;
+    border-bottom: solid 1px $background-color;
+  }
+  > :nth-last-child(1) {
+    .route-stop-name::before {
+      border:none;
+    }
+  }
 }

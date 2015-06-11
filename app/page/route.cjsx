@@ -5,6 +5,7 @@ Tabs               = require 'react-simpletabs'
 Map                = require '../component/map/map'
 RouteInformationAction = require '../action/route-information-action'
 RouteHeaderContainer = require '../component/route/route-header-container'
+RouteStopListContainer = require '../component/route/route-stop-list-container'
 ItineraryLine      = require '../component/map/itinerary-line'
 
 class RoutePage extends React.Component
@@ -15,10 +16,10 @@ class RoutePage extends React.Component
       <RouteHeaderContainer id={@props.params.routeId}/>
       <Tabs className="route-tabs">
         <Tabs.Panel title="Pysäkit">
-          Pysäkit tähän
+          <RouteStopListContainer id={@props.params.routeId}/>
         </Tabs.Panel>
-        <Tabs.Panel title="Kartta">
-          <Map>
+        <Tabs.Panel title="Kartta" className="fullscreen">
+          <Map className="fullscreen">
           </Map>
         </Tabs.Panel>
         <Tabs.Panel title="Aikataulut">
