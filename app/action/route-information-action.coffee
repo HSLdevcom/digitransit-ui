@@ -13,7 +13,7 @@ routeInformationRequest = (actionContext, id, done) ->
 
 routePatternsRequest = (actionContext, id, done) ->
   if !actionContext.getStore('RouteInformationStore').getRoutePatterns(id)
-    xhrPromise.getJson(config.URL.OTP + "index/routes/" + id + "/patters").then (data) ->
+    xhrPromise.getJson(config.URL.OTP + "index/routes/" + id + "/patterns").then (data) ->
       actionContext.dispatch "RoutePatternsFound", {id: id, data: data}
       done()
   else
