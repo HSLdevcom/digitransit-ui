@@ -98,9 +98,18 @@ class Search extends React.Component
     # We first check if we already have a location. 
     if @state.hasLocation
       # Yes, location to be set is destination address
-      @context.router.transitionTo "summary",
-        from: "#{@state.address}::#{@state.lat},#{@state.lon}"
-        to: "#{address}::#{lat},#{lon}"
+      # First, we must blur input field because without this
+      # Android keeps virtual keyboard open too long which
+      # causes problems in next page rendering
+      @autoSuggestInput.blur()
+
+      # Then we can transition. We must do this in next
+      # event loop in order to get blur finished.
+      setTimeout(() =>
+        @context.router.transitionTo "summary",
+          from: "#{@state.address}::#{@state.lat},#{@state.lon}"
+          to: "#{address}::#{lat},#{lon}"
+      ,0)
     else 
       # No, This is a start location
       @context.executeAction LocateActions.manuallySetPosition, {
