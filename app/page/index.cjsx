@@ -21,10 +21,12 @@ class Page extends React.Component
   toggleFullscreenMap: =>
     @context.router.transitionTo("map")
 
+  # Notice that we won't use onTouchTap here. That causes currently this problem:
+  # https://github.com/facebook/react/issues/2061
   render: ->
     <IndexNavigation>
       <Map showStops=true>
-        <div style={{position:'absolute', height:'100%', width:'100%'}} onTouchTap={@toggleFullscreenMap}></div>
+        <div style={{position:'absolute', height:'100%', width:'100%'}} onClick={@toggleFullscreenMap}></div>
         <SearchWithLocation/>
         <Link to="map"><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>
