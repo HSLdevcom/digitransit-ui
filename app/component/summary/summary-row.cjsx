@@ -4,35 +4,127 @@ Link               = require 'react-router/lib/components/Link'
 Icon               = require '../icon/icon'
 
 class SummaryRow extends React.Component
+
   render: ->
     data = @props.data
     startTime = moment(data.startTime)
     endTime = moment(data.endTime)
-    duration = moment(endTime-startTime)
+    duration = moment.duration(endTime).subtract(startTime)
     legs = []
     legTimes = []
     MIN_SIZE = "3.7em"
     for leg, i in data.legs
+      isLastLeg = i == data.legs.length-1
+      isFirstLeg = i == 0
       legStart = moment(leg.startTime)
       legEnd = moment(leg.endTime)
       position = ((legStart-startTime)/duration)
       width = (((legEnd-startTime)/duration))-position
-      if leg.transitLeg
-        legs.push <span key={i} style={{position: 'absolute', left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))", width: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{width}) + #{MIN_SIZE})", borderBottom: '3px solid', overflow: 'hidden'}} className={leg.mode.toLowerCase()}><Icon key={i} className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()} />{leg.route}</span>
-        legTimes.push <span key={i} style={{position: 'absolute', left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))", 'overflow': 'hidden'}} className={leg.mode.toLowerCase()}>{legStart.format("HH:mm")}</span>
+
+      # TODO
+      # This is a quick hack to determine whether we have enough room to show
+      # last leg's start time or not. As you can imagine, this is not bulletproof
+      # And does not work responsively. However, it is probably better that just
+      # always hiding last leg's start time
+      # This should probably be done using Matchmedia API
+      isEnoughRoomForLastLegStartTime = width > 0.3
+
+      # Is this row active of not
+      activeClass = if @props.active then " active" else ""
+
+      styleLine = 
+        position: 'absolute'
+        left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
+        width: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{width}) + #{MIN_SIZE} - 2px)"
+        borderBottom: '3px solid'
+        whiteSpace: 'nowrap'
+        # By enabling this mode circles will not show
+        #overflow: 'hidden'
+
+      styleTime = 
+        position: 'absolute'
+        left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
+        overflow: 'hidden'
+        color: 'black'
+        'fontWeight': 400
+        whiteSpace: 'nowrap'
+
+      styleTimeLast = 
+        overflow: 'hidden'
+        color: 'black'
+        float: 'right'
+        'fontWeight': '400'
+        whiteSpace: 'nowrap'
+
+      # Use either vehicle number or walking distance as text
+      if leg.transitLeg and leg.mode.toLowerCase() == 'subway'
+        text = " M"
+      else if leg.transitLeg and leg.route.length < 6
+        text = " #{leg.route}"
+      else if leg.transitLeg and leg.route.length >= 6
+        # This is somewhat dirty approach. Question is: what can we show when
+        # Leg's description is so long that it does not fit to screen?
+        # By enabling overflow: 'hidden' above we can kind of fix this, but also
+        # that option will mostly show garbage for user
+        text = ""
+      else 
+        km = (leg.distance/1000).toFixed(1)
+        text = if km == "0.0" then "0.1km" else "#{km}km"
+
+      # Mode circle
+      if isFirstLeg 
+        circleClass = "start"
+      else if isLastLeg
+        circleClass = leg.mode.toLowerCase() + " end" 
+      else 
+        circleClass = leg.mode.toLowerCase()
+
+      legs.push (
+        <span key={i+'a'} style={styleLine} className={leg.mode.toLowerCase()}>  
+          <span key={i+'b'} className="summary-circle #{circleClass}#{activeClass}"></span>
+          <Icon key={i+'c'} className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()} />
+          {text}
+        </span>
+      )
+
+      if isFirstLeg
+        legTimes.push (
+          <span key={i+'a'} style={styleTime}>
+            {legStart.format("HH:mm")}
+          </span>
+        )
+      else if isLastLeg    
+        if isEnoughRoomForLastLegStartTime 
+          legTimes.push (
+            <span key={i+'a'} style={styleTime}>
+              {legStart.format("HH:mm")}
+            </span>
+          )
+
+        legTimes.push (
+          <span key={i+'b'} style={styleTimeLast}>
+            {legEnd.format("HH:mm")}
+          </span>
+        )
       else
-        legs.push <span key={i} style={{position: 'absolute', left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))", width: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{width}) + #{MIN_SIZE})", borderBottom: '3px solid', overflow: 'hidden'}} className={leg.mode.toLowerCase()}><Icon key={i} className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()} />{if leg.distance > 1000 then ((leg.distance/1000).toFixed(1) + "km") else (Math.round(leg.distance/100)*100 + "m")}</span>
-        legTimes.push <span key={i} style={{position: 'absolute', left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))", 'overflow': 'hidden'}} className={leg.mode.toLowerCase()}>{legStart.format("HH:mm")}</span>
+        legTimes.push (
+          <span key={i+'a'} style={styleTime}>
+            {legStart.format("HH:mm")}
+          </span>
+        )
 
-    <div style={{paddingLeft: "0.5em", paddingTop: "0", fontSize: "10pt", color: "#999", background:"#fff", borderBottom: "2px solid #EEF1F3"}}>
-      <div style={{position: "relative", width: "calc(100% - 4em)", paddingTop: '1em', paddingBottom: '2em', whiteSpace: 'nowrap'}}>{legs}</div>
-      <div style={{position: "relative", width: "calc(100% - 4em)", marginBottom: '0em', whiteSpace: 'nowrap'}}>{legTimes}{#<span className="right">{endTime.format("HH:mm")}</span>}</div>
-
-      <Link style={{color: "#999", display: "block", position: "absolute", right: "0", height: "4em", width: "4em", marginTop: "-3em"}} to="itinerary" params={{from: @props.params.from, to:@props.params.to, hash:@props.hash}}>
-        <div style={{position: "absolute", left: "calc(100% - 3.5em)", marginTop: "1em" }}>{Math.round(duration/1000/60)}min</div>
-        <div style={{position: "absolute", left: "calc(100% - 2.5em)", marginTop: "2.5em" }}>
-          <Icon img={'icon-icon_arrow-right'} className="cursor-pointer"/>
-        </div>
+    if duration.hours() >= 1 
+      durationText = "#{duration.hours()}h #{duration.minutes()}m"
+    else 
+      durationText = "#{duration.minutes()} min"
+    
+    <div className="itinerary-summary-row cursor-pointer#{activeClass}" onTouchTap={() => @props.onSelectRoute(@props.hash)}>
+      <div className="itinerary-legs">{legs}</div>
+      <div className="itinerary-leg-times">{legTimes}</div>      
+      <Link className="itinerary-link" to="itinerary" params={{from: @props.params.from, to:@props.params.to, hash:@props.hash}}>
+        {durationText}
+        <br/>
+        <Icon img={'icon-icon_arrow-right'} className="cursor-pointer"/>
       </Link>
       <br/>
     </div>
