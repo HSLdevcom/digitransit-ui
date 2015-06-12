@@ -22,7 +22,7 @@ class RouteStopListContainer extends React.Component
 
     stopObjs = []
 
-    stopObjs.push <div className="route-stop row">
+    stopObjs.push <div key="header" className="route-stop row">
       <div className="columns small-3 route-stop-now">
         Juuri Nyt
       </div>

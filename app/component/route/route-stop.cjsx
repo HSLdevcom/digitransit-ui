@@ -5,7 +5,7 @@ class RouteStop extends React.Component
   render: ->
     <div className="route-stop row">
       <div className="columns small-3 route-stop-now">
-        {@props.stop.now or ""}
+        {@props.stop.now}
       </div>
       <Link to="stop" params={{stopId: @props.stop.id}}>
         <div className={"columns small-6 route-stop-name " + @props.mode}>
@@ -18,7 +18,7 @@ class RouteStop extends React.Component
           {@props.stop.code}
         </div>
         <div className="columns small-1 route-stop-mins">
-          {@props.stop.minutes or ""}
+          {@props.stop.minutes}
        </div>
       </Link>
     </div>
