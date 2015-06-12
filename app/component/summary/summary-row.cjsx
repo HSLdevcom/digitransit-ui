@@ -26,6 +26,7 @@ class SummaryRow extends React.Component
       # last leg's start time or not. As you can imagine, this is not bulletproof
       # And does not work responsively. However, it is probably better that just
       # always hiding last leg's start time
+      # This should probably be done using Matchmedia API
       isEnoughRoomForLastLegStartTime = width > 0.3
 
       # Is this row active of not
