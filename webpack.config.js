@@ -76,5 +76,9 @@ module.exports = {
       { test: /\.(eot|png|ttf|woff)$/, loader: 'file'}
     ]
   },
-  postcss: (process.env.NODE_ENV === "development") ? [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] })] : [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] }), csswring]
+  postcss: (process.env.NODE_ENV === "development") ? [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] })] : [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] }), csswring],
+  node: {
+    net: "empty",
+    tls: "empty"
+  }
 };
