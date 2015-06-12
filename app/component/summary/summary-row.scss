@@ -68,27 +68,27 @@
  */
 
 .summary-circle.bus::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='#{rgba($bus-color, 0.9999999)}' stroke-width='3' fill='white' cx='15' cy='15' r='3'/></svg>") no-repeat;
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
 .summary-circle.tram::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='#{rgba($tram-color, 0.9999999)}' stroke-width='3' fill='white' cx='15' cy='15' r='3'/></svg>") no-repeat;
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($tram-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
 .summary-circle.subway::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='#{rgba($metro-color, 0.9999999)}' stroke-width='3' fill='white' cx='15' cy='15' r='3'/></svg>") no-repeat;
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($metro-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
 .summary-circle.rail::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='#{rgba($train-color, 0.9999999)}' stroke-width='3' fill='white' cx='15' cy='15' r='3'/></svg>") no-repeat;
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($train-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
 .summary-circle.ferry::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='#{rgba($ferry-color, 0.9999999)}' stroke-width='3' fill='white' cx='15' cy='15' r='3'/></svg>") no-repeat;
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($ferry-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
 .summary-circle.walk::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='#{rgba($walk-color, 0.9999999)}' stroke-width='3' fill='white' cx='15' cy='15' r='3'/></svg>") no-repeat;
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($walk-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
 .summary-circle.start::before {
