@@ -17,11 +17,13 @@ class VehicleMarkerContainer extends React.Component
     @vehicles = {}
 
   componentDidMount: ->
-    @context.executeAction RealTimeInformationAction.startRealTimeClient
+    if @props.startRealTimeClient
+      @context.executeAction RealTimeInformationAction.startRealTimeClient
     @context.getStore('RealTimeInformationStore').addChangeListener @onChange
 
   componentWillUnmount: ->
-    @context.executeAction RealTimeInformationAction.stopRealTimeClient @context.getStore('RealTimeInformationStore').addChangeListener.client
+    if @props.startRealTimeClient and @context.getStore('RealTimeInformationStore').addChangeListener.client
+      @context.executeAction RealTimeInformationAction.stopRealTimeClient @context.getStore('RealTimeInformationStore').addChangeListener.client
     @context.getStore('RealTimeInformationStore').removeChangeListener @onChange
 
   onChange: (id) =>
