@@ -85,11 +85,11 @@ div.current-location-marker > span > svg.icon {
   fill: white;
 }
 
-div.from > span > svg.icon, div.to > span > svg.icon {
-  width: 24px;
-  height: 24px;
-  margin-top: -12px;
-  margin-left: -6px;
+div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
+  > span > svg.icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 div.stop-marker-popup {
