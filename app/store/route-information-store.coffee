@@ -9,6 +9,7 @@ class RouteInformationStore extends Store
     @patterns = {}
     @routePatterns = {}
     @routeTrips = {}
+    @patternGeometries = {}
 
   getRoute: (id) =>
     @routes[id]
@@ -21,6 +22,9 @@ class RouteInformationStore extends Store
 
   getRouteTrips: (id) =>
     @routePatterns[id]
+
+  getPatternGeometry: (id) =>
+    @patternGeometries[id]
 
   storeRouteInformation: (data) ->
     @routes[data.id] = data
@@ -38,22 +42,29 @@ class RouteInformationStore extends Store
     @routeTrips[data.id] = data.data
     @emitChange(data.id)
 
+  storePatternGeometry: (data) ->
+    @patternGeometries[data.id] = data.data
+    @emitChange(data.id)
+
   dehydrate: ->
     routes: @routes
     patterns: @patterns
     routePatterns: @routePatterns
     routeTrips: @routeTrips
+    patternGeometries: @patternGeometries
 
   rehydrate: (data) ->
     @routes = data.routes
     @patterns = data.patterns
     @routePatterns = data.routePatterns
     @routeTrips = data.routeTrips
+    @patternGeometries = data.patternGeometries
 
   @handlers:
     "RouteInformationFound": 'storeRouteInformation'
     "PatternInformationFound": 'storePatternInformation'
     "RoutePatternsFound": 'storeRoutePatterns'
     "RouteTripsFound": 'storeRouteTrips'
+    "PatternGeometryFound": 'storePatternGeometry'
 
 module.exports = RouteInformationStore

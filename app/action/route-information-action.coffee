@@ -35,6 +35,14 @@ patternInformationRequest = (actionContext, id, done) ->
   else
     done()
 
+patternGeometryRequest = (actionContext, id, done) ->
+  if !actionContext.getStore('RouteInformationStore').getPatternGeometry(id)
+    xhrPromise.getJson(config.URL.OTP + "index/patterns/" + id + "/geometry").then (data) ->
+      actionContext.dispatch "PatternGeometryFound", {id: id, data: data}
+      done()
+  else
+    done()
+
 routePageDataRequest =  (actionContext, options, done) ->
   patternId = options.params.routeId
   routeId = patternId.split(':',2).join(':')
@@ -48,6 +56,9 @@ routePageDataRequest =  (actionContext, options, done) ->
     patternInfo:
       action: patternInformationRequest
       params: patternId
+    patternGeometry:
+      action: patternGeometryRequest
+      params: patternId
     , -> done()
 
 module.exports = 
@@ -55,4 +66,5 @@ module.exports =
   'routePatternsRequest': routePatternsRequest
   'routeTripsRequest': routeTripsRequest
   'patternInformationRequest': patternInformationRequest
+  'patternGeometryRequest': patternGeometryRequest
   'routePageDataRequest': routePageDataRequest
