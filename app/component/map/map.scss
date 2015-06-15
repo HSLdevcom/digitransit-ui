@@ -92,6 +92,11 @@ div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
   }
 }
 
+div.leaflet-marker-icon.vehicle-marker {
+  border: none;
+  background: none;
+}
+
 div.stop-marker-popup {
   .leaflet-popup-content-wrapper {
     .leaflet-popup-content {
