@@ -35,12 +35,9 @@ module.exports = {
   ] : [
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en/),
     new webpack.DefinePlugin({
-      process: {
-        env: {
-          NODE_ENV: JSON.stringify("production"),
-          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/')
-        },
-        title: JSON.stringify("browser")
+      'process.env': {
+        NODE_ENV: JSON.stringify("production"),
+        ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/')
       }
     }),
     new webpack.PrefetchPlugin('react'),

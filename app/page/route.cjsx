@@ -23,9 +23,9 @@ class RoutePage extends React.Component
       @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2]}
 
   componentWillUnmount: ->
-    client = @context.getStore('RealTimeInformationStore').addChangeListener.client
+    client = @context.getStore('RealTimeInformationStore').client
     if client
-      @context.executeAction RealTimeInformationAction.stopRealTimeClient
+      @context.executeAction RealTimeClient.stopRealTimeClient, client
 
   render: ->
     <DefaultNavigation className="fullscreen">

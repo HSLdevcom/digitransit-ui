@@ -11,7 +11,8 @@ class VehicleMarkerContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  @busIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_bus'))) else null
+  @vehicleIcons: if !isBrowser then null else 
+    bus: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_bus')), className: 'vehicle-icon')
 
   constructor: () ->
     @vehicles = {}
@@ -28,7 +29,7 @@ class VehicleMarkerContainer extends React.Component
 
   onChange: (id) =>
     message = @context.getStore('RealTimeInformationStore').getVehicle(id)
-    @vehicles[id] = <Marker map={@props.map} key={id} position={lat: message.lat, lng: message.long} icon={VehicleMarkerContainer.busIcon}/>
+    @vehicles[id] = <Marker map={@props.map} key={id} position={lat: message.lat, lng: message.long} icon={VehicleMarkerContainer.vehicleIcons[message.mode]}/>
     @forceUpdate()
 
   render: ->
