@@ -63,7 +63,7 @@ $stop-card-show-more-border-radius: 30px;
   width: calc(24px + 0.7em);
 }
 
-.stop-card-header.stop-page .favourite {
+.stop-card-header.stop-page .favourite-icon {
   float: right;
   padding: 0;
   margin-top: 0.3em;
@@ -99,9 +99,14 @@ $stop-card-show-more-border-radius: 30px;
   margin: 0px;
 }
 
-.stop-card-header .favourite {
+.stop-card-header .favourite-icon {
   float: right;
   padding: 0;
+  height: 24px;
+  width: 24px;
+}
+
+.stop-card-header .icon.favourite {
   height: 24px;
   width: 24px;
   stroke: $stop-card-favourite-icon-stroke-color;
@@ -109,15 +114,15 @@ $stop-card-show-more-border-radius: 30px;
   fill: $stop-card-favourite-icon-fill-color;
 }
 
-.stop-card-header .favourite:hover {
+.stop-card-header .icon.favourite:hover {
   fill: $stop-card-favourite-icon-hover-fill-color;
 }
 
-.stop-card-header .favourite.selected {
+.stop-card-header .icon.favourite.selected {
   fill: $stop-card-favourite-icon-selected-fill-color;
 }
 
-.stop-card-header .favourite.selected:hover {
+.stop-card-header .icon.favourite.selected:hover {
   fill: $stop-card-favourite-icon-selected-hover-fill-color;
 }
 
