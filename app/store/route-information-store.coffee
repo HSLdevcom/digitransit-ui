@@ -10,6 +10,7 @@ class RouteInformationStore extends Store
     @routePatterns = {}
     @routeTrips = {}
     @patternGeometries = {}
+    @fuzzyTrips = {}
 
   getRoute: (id) =>
     @routes[id]
@@ -25,6 +26,10 @@ class RouteInformationStore extends Store
 
   getPatternGeometry: (id) =>
     @patternGeometries[id]
+
+  getFuzzyTrip: (details) =>
+    key = "#{details.route}/trips/#{details.date}/#{details.direction}/#{details.trip}"
+    @fuzzyTrips[key]
 
   storeRouteInformation: (data) ->
     @routes[data.id] = data
@@ -46,12 +51,18 @@ class RouteInformationStore extends Store
     @patternGeometries[data.id] = data.data
     @emitChange(data.id)
 
+  storeFuzzyTripInformation: (data) ->
+    key = "#{data.details.route}/trips/#{data.details.date}/#{data.details.direction}/#{data.details.trip}"
+    @fuzzyTrips[key] = data.data
+    @emitChange(data.details.route)
+
   dehydrate: ->
     routes: @routes
     patterns: @patterns
     routePatterns: @routePatterns
     routeTrips: @routeTrips
     patternGeometries: @patternGeometries
+    fuzzyTrips: @fuzzyTrips
 
   rehydrate: (data) ->
     @routes = data.routes
@@ -59,6 +70,7 @@ class RouteInformationStore extends Store
     @routePatterns = data.routePatterns
     @routeTrips = data.routeTrips
     @patternGeometries = data.patternGeometries
+    @fuzzyTrips = data.fuzzyTrips
 
   @handlers:
     "RouteInformationFound": 'storeRouteInformation'
@@ -66,5 +78,6 @@ class RouteInformationStore extends Store
     "RoutePatternsFound": 'storeRoutePatterns'
     "RouteTripsFound": 'storeRouteTrips'
     "PatternGeometryFound": 'storePatternGeometry'
+    "FuzzyTripInformationFound": 'storeFuzzyTripInformation'
 
 module.exports = RouteInformationStore

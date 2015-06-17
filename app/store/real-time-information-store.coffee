@@ -15,12 +15,9 @@ class RealTimeInformationStore extends Store
     @vehicles = {}
 
   handleMessage: (message) ->
-    [_, _, _, mode, id, line, dir, headsign, start_time, next_stop, geohash...] = message.topic.split '/'
-    @vehicles[id] = JSON.parse(message.message).VP
-    @vehicles[id].mode = mode
+    @vehicles[message.id] = message.message
     #console.log @vehicles[id]
-    #console.log [mode, id, line, dir, headsign, start_time, next_stop, geohash...]
-    @emitChange(id)
+    @emitChange(message.id)
 
   getVehicle: (id) =>
     @vehicles[id]

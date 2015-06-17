@@ -23,7 +23,7 @@ class RouteMapContainer extends React.Component
     geometry = @context.getStore('RouteInformationStore').getPatternGeometry(@props.id)
     mode = GtfsUtils.typeToName[@context.getStore('RouteInformationStore').getRoute(@props.id.split(':',2).join(':')).type]
 
-    leafletObj = [<RouteLine key="line" mode={mode} stops={stops} geometry={geometry}/>, <VehicleMarkerContainer key="vehicles"/>]
+    leafletObj = [<RouteLine key="line" mode={mode} stops={stops} geometry={geometry}/>, <VehicleMarkerContainer key="vehicles" pattern={@props.id}/>]
 
     <Map className="fullscreen" leafletObjs={leafletObj} fitBounds={true} from={stops[0]} to={stops[stops.length-1]}>
     </Map>

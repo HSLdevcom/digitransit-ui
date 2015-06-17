@@ -151,6 +151,70 @@ div.stop-marker-popup {
   }
 }
 
+div.route-marker-popup {
+  .leaflet-popup-content-wrapper {
+    .leaflet-popup-content {
+      .trip-card {
+        border: 1px solid $gray;
+        padding: 0px;
+        .route-header {
+          padding: 0;
+          height: auto;
+          margin: 0 0.7em 0.7em;
+          border-bottom: none;
+          h1 {
+            font-size: 12pt;
+          }
+          .route-header-direction {
+            display: none;
+          }
+          .route-header-trip {
+            position: absolute;
+            top: 0.7em;
+            margin-left: 1em;
+            font-size: 70%;
+            padding: 0.1em 0.4em;
+            border: solid 1px $light-gray;
+            border-radius: $border-radius;
+            color: $gray;
+          }
+        }
+        .bottom {
+          font-family: $stop-card-location-font-family;
+          font-size: $stop-card-location-font-size;
+          font-weight: $font-weight-normal;
+          line-height: $stop-card-normal-line-height;
+          color: $gray;
+          margin: 0px auto 0px;
+          padding: 0.5em 1em;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+          background: $background-color;
+          a {
+            color: $gray;
+            text-decoration: none;
+          }
+          text-align: center;
+          columns: 2 auto;
+          column-rule: 1px solid $light-gray
+        }
+      }
+      width: 250px;
+      margin: 0;
+    }
+
+    border-radius: 3px;
+    padding: 0;
+  }
+  .leaflet-popup-tip-container {
+    .leaflet-popup-tip  {
+      border: 1px solid $gray;
+      background: $background-color;
+    }
+    margin: -2px auto;
+  }
+}
+
 div.stop-name-marker {
   font-family: $font-family;
   font-size: 8.5pt;

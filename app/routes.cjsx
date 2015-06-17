@@ -34,6 +34,7 @@ routes =
     <Route path="pysakit/:stopId/info" name="stopInfo" handler={Error404}/>
     <Route path="linjat" name="routeList" handler={Error404}/>
     <Route path="linjat/:routeId" name="route" handler={RoutePage}/>
+    <Route path="lahdot/:tripId" name="trip" handler={Error404}/>
     <Route path="reitti/:from/:to" name="summary" handler={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" handler={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" handler={Error404}/>

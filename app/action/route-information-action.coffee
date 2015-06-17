@@ -43,6 +43,14 @@ patternGeometryRequest = (actionContext, id, done) ->
   else
     done()
 
+fuzzyTripInformationRequest = (actionContext, details, done) ->
+  if !actionContext.getStore('RouteInformationStore').getFuzzyTrip(details)
+    xhrPromise.getJson(config.URL.OTP + "index/routes/#{details.route}/trips/#{details.date}/#{details.direction}/#{details.trip}").then (data) ->
+      actionContext.dispatch "FuzzyTripInformationFound", {details: details, data: data}
+      done()
+  else
+    done()
+
 routePageDataRequest =  (actionContext, options, done) ->
   patternId = options.params.routeId
   routeId = patternId.split(':',2).join(':')
@@ -67,4 +75,5 @@ module.exports =
   'routeTripsRequest': routeTripsRequest
   'patternInformationRequest': patternInformationRequest
   'patternGeometryRequest': patternGeometryRequest
+  'fuzzyTripInformationRequest': fuzzyTripInformationRequest
   'routePageDataRequest': routePageDataRequest
