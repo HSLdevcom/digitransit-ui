@@ -1,8 +1,6 @@
 React                 = require 'react'
 Link                  = require 'react-router/lib/components/Link'
 Icon                  = require '../icon/icon'
-moment                = require 'moment'
-Link                  = require 'react-router/lib/components/Link'
 
 class RouteStop extends React.Component
   @contextTypes:
@@ -11,21 +9,12 @@ class RouteStop extends React.Component
   render: ->
     vehicles = []
     if @props.vehicles
-      date = moment().format("YYYYMMDD")
       for vehicle in @props.vehicles
-        # We should probably inject the correct trip id earlies to the message and do the other fixups needed
-        details =
-          route: "HSL:" + vehicle.route
-          date: date
-          direction: parseInt(vehicle.dir)-1
-          trip: vehicle.trip
-
-        trip = @context.getStore('RouteInformationStore').getFuzzyTrip(details)
-        if trip
-          vehicles.push <Link to="trip" params={{tripId: trip.id}}>
-              <Icon className={@props.mode} img={'icon-icon_' + @props.mode}/>
+        if vehicle.trip
+          vehicles.push <Link key={vehicle.id} to="trip" params={{tripId: vehicle.trip.id}}>
+              <Icon className={vehicle.mode} img={'icon-icon_' + vehicle.mode}/>
             </Link>
-        else vehicles.push <Icon className={@props.mode} img={'icon-icon_' + @props.mode}/>
+        else vehicles.push <Icon key={vehicle.id} className={@props.mode} img={'icon-icon_' + @props.mode}/>
 
     <div className="route-stop row">
       <div className="columns small-3 route-stop-now">

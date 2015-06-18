@@ -1,7 +1,6 @@
 xhrPromise      = require '../util/xhr-promise'
 executeMultiple = require 'fluxible-action-utils/async/executeMultiple'
 config          = require '../config'
-moment          = require 'moment'
 
 routeInformationRequest = (actionContext, id, done) ->
   if !actionContext.getStore('RouteInformationStore').getRoute(id)

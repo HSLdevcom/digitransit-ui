@@ -27,6 +27,21 @@ class RoutePage extends React.Component
     if client
       @context.executeAction RealTimeClient.stopRealTimeClient, client
 
+  componentWillReceiveProps: (newProps) ->
+    route = newProps.params.routeId.split(':')
+    client = @context.getStore('RealTimeInformationStore').client
+    if client
+      if route[0].toLowerCase() == 'hsl'
+        @context.executeAction RealTimeClient.updateTopic,
+          client: client
+          oldTopics: @context.getStore('RealTimeInformationStore').getSubscriptions()
+          newTopic: {route: route[1], direction: route[2]}
+      else
+        @componentWillUnmount()
+    else
+      if route[0].toLowerCase() == 'hsl'
+        @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2]}
+
   render: ->
     <DefaultNavigation className="fullscreen">
       <RouteHeaderContainer id={@props.params.routeId}/>

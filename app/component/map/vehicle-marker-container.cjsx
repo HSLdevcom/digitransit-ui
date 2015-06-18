@@ -6,8 +6,6 @@ Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 L             = if isBrowser then require 'leaflet' else null
 RealTimeInformationAction = require '../../action/real-time-client-action'
 Icon          = require '../icon/icon'
-moment        = require 'moment'
-
 
 class VehicleMarkerContainer extends React.Component
   @contextTypes:
@@ -21,10 +19,12 @@ class VehicleMarkerContainer extends React.Component
   constructor: () ->
     @vehicles = {}
 
-  componentDidMount: ->
+  componentWillMount: ->
     if @props.startRealTimeClient
       @context.executeAction RealTimeInformationAction.startRealTimeClient
     @context.getStore('RealTimeInformationStore').addChangeListener @onChange
+    for id, message of @context.getStore('RealTimeInformationStore').vehicles
+      @updateVehicle(id, message)
 
   componentWillUnmount: ->
     if @props.startRealTimeClient and @context.getStore('RealTimeInformationStore').addChangeListener.client
@@ -33,9 +33,12 @@ class VehicleMarkerContainer extends React.Component
 
   onChange: (id) =>
     message = @context.getStore('RealTimeInformationStore').getVehicle(id)
+    @updateVehicle(id, message)
+
+  updateVehicle: (id, message) ->
     popup =
       <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"route-marker-popup"}}>
-        <RouteMarkerPopup route={message.line} direction={parseInt(message.dir)-1} trip={message.start} date={moment().format("YYYYMMDD")} context={@context}/>
+        <RouteMarkerPopup message={message} context={@context}/>
       </DynamicPopup>
     @vehicles[id] = <Marker map={@props.map} key={id} position={lat: message.lat, lng: message.long} icon={VehicleMarkerContainer.vehicleIcons[message.mode]}>{popup}</Marker>
     @forceUpdate()
