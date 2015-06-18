@@ -8,7 +8,10 @@ class RouteHeader extends React.Component
   render: =>
     mode = GtfsUtils.typeToName[@props.route.type]
     trip = if @props.trip then <span className="route-header-trip">{@props.trip.substring(0,2)}:{@props.trip.substring(2,4)} →</span> else ""
-    reverseId = "#{@props.route.id}:#{if @props.pattern.id.split(':')[2] == '1' then '0' else '1'}:01"
+    if @props.reverseId
+      reverse = <Link to="route" params={{routeId: @props.reverseId}}>
+          <Icon className={"route-header-direction-switch " + mode} img={'icon-icon_direction-b'}/>
+        </Link>
 
     <div className="route-header">
       <h1 className={mode}>
@@ -21,9 +24,7 @@ class RouteHeader extends React.Component
         {@props.pattern.stops[0].name}&nbsp;
         <Icon className={mode} img={'icon-icon_arrow-right'}/>&nbsp;
         {@props.pattern.trips[0].tripHeadsign}
-        <Link to="route" params={{routeId: reverseId}}>
-          <Icon className={"route-header-direction-switch " + mode} img={'icon-icon_direction-b'}/>
-        </Link>
+        {reverse}
       </div>
     </div>
 

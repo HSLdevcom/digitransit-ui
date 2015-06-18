@@ -1,5 +1,6 @@
 React                 = require 'react'
 RouteHeader           = require './route-header'
+without               = require 'lodash/array/without'
 
 class RouteHeaderContainer extends React.Component
   @contextTypes:
@@ -21,10 +22,16 @@ class RouteHeaderContainer extends React.Component
   #  @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.id
   
   render: =>
+    routeId = @props.id.split(':',2).join(':')
+    reverseIds = without(p.id for p in (@context.getStore('RouteInformationStore').getRoutePatterns(routeId)), @props.id)
+    if reverseIds.length == 1
+      reverseId = reverseIds[0]
+
     <RouteHeader
       key={@props.id}
-      route={@context.getStore('RouteInformationStore').getRoute(@props.id.split(':',2).join(':'))}
-      pattern={@context.getStore('RouteInformationStore').getPattern(@props.id)}>
+      route={@context.getStore('RouteInformationStore').getRoute(routeId)}
+      pattern={@context.getStore('RouteInformationStore').getPattern(@props.id)}
+      reverseId={reverseId}>
     </RouteHeader>
 
 module.exports = RouteHeaderContainer
