@@ -1,6 +1,7 @@
 React                 = require 'react'
 RouteStop             = require './route-stop'
 GtfsUtils             = require '../../util/gtfs'
+groupBy               = require 'lodash/collection/groupBy'
 
 class RouteStopListContainer extends React.Component
   @contextTypes:
@@ -8,17 +9,25 @@ class RouteStopListContainer extends React.Component
 
   componentDidMount: -> 
     @context.getStore('RouteInformationStore').addChangeListener @onChange
+    @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
 
   componentWillUnmount: ->
     @context.getStore('RouteInformationStore').removeChangeListener @onChange
+    @context.getStore('RealTimeInformationStore').removeChangeListener @onRealTimeChange
 
   onChange: (id) =>
     if !id or id == @props.id or id == @props.id.split(':',2).join(':')
       @forceUpdate()
+
+  onRealTimeChange: =>
+    @forceUpdate()
   
   getStops: (id) =>
     stops = @context.getStore('RouteInformationStore').getPattern(id).stops
     mode = GtfsUtils.typeToName[@context.getStore('RouteInformationStore').getRoute(@props.id.split(':',2).join(':')).type]
+    vehicles = @context.getStore('RealTimeInformationStore').vehicles
+    vehicle_stops = groupBy vehicles, (vehicle) ->
+      "HSL:" + vehicle.next_stop
 
     stopObjs = []
 
@@ -38,7 +47,7 @@ class RouteStopListContainer extends React.Component
     </div>
 
     stops.forEach (stop) ->
-      stopObjs.push <RouteStop key={stop.id} stop={stop} mode={mode}/>
+      stopObjs.push <RouteStop key={stop.id} stop={stop} mode={mode} vehicles={vehicle_stops[stop.id]}/>
 
     stopObjs
 
