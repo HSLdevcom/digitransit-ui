@@ -34,12 +34,12 @@ class SummaryPage extends React.Component
 
     if @context.getStore('RouteSearchStore').getData().plan
       for data, i in @context.getStore('RouteSearchStore').getData().plan.itineraries
-        active = i == activeIndex
-        rows.push <SummaryRow key={i} hash={i} params={@props.params} data={data} active={active} onSelectRoute={@onSelectRoute}/>
-        leafletObjs.push <ItineraryLine key={i} legs={data.legs} showFromToMarkers={i==0} active={active}/>
+        passive = i != activeIndex
+        rows.push <SummaryRow key={i} hash={i} params={@props.params} data={data} passive={passive} onSelectRoute={@onSelectRoute}/>
+        leafletObjs.push <ItineraryLine key={i} legs={data.legs} showFromToMarkers={i==0} passive={passive}/>
 
     # Draw active last
-    leafletObjs = sortBy(leafletObjs, (i) => i.props.active == true)
+    leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
 
     <SummaryNavigation className="fullscreen">
       <Map ref="map" className="summaryMap" leafletObjs={leafletObjs} fitBounds={true} from={@context.getStore('RouteSearchStore').getData().plan.from} to={@context.getStore('RouteSearchStore').getData().plan.to} padding={[0, 110]}>
