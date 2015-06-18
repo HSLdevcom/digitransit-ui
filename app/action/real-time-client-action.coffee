@@ -36,10 +36,11 @@ module.exports =
           trip: messageContents.tripStartTime
         actionContext.executeAction RouteInformationAction.fuzzyTripInformationRequest, details, ->
           messageContents.trip = actionContext.getStore('RouteInformationStore').getFuzzyTrip(details)
-          actionContext.dispatch "RealTimeClientMessage", 
-            id: id
-            message: messageContents
-      actionContext.dispatch "RealTimeClientStarted", 
+          actionContext.executeAction RouteInformationAction.patternInformationRequest, messageContents.trip.pattern.id, ->
+            actionContext.dispatch "RealTimeClientMessage",
+              id: id
+              message: messageContents
+      actionContext.dispatch "RealTimeClientStarted",
         client: client
         topics: [getTopic(options)]
       done()
