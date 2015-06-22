@@ -23,7 +23,7 @@ class SummaryPage extends React.Component
   onChange: =>
     @forceUpdate()
 
-  onSelectRoute: (index) =>
+  onSelectActive: (index) =>
     @setState
       activeIndex: index
 
@@ -37,7 +37,7 @@ class SummaryPage extends React.Component
     if plan
       for data, i in plan.itineraries
         passive = i != activeIndex
-        rows.push <SummaryRow key={i} hash={i} params={@props.params} data={data} passive={passive} onSelectRoute={@onSelectRoute}/>
+        rows.push <SummaryRow key={i} hash={i} params={@props.params} data={data} passive={passive} onSelect={@onSelectActive}/>
         leafletObjs.push <ItineraryLine key={i} legs={data.legs} showFromToMarkers={i==0} passive={passive}/>
 
     # Draw active last
