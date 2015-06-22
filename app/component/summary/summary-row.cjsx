@@ -29,8 +29,8 @@ class SummaryRow extends React.Component
       # This should probably be done using Matchmedia API
       isEnoughRoomForLastLegStartTime = width > 0.3
 
-      # Is this row active of not
-      activeClass = if @props.active then " active" else ""
+      # Is this row passive or not
+      passiveClass = if @props.passive then " passive" else ""
 
       styleLine = 
         position: 'absolute'
@@ -81,7 +81,7 @@ class SummaryRow extends React.Component
 
       legs.push (
         <span key={i+'a'} style={styleLine} className={leg.mode.toLowerCase()}>  
-          <span key={i+'b'} className="summary-circle #{circleClass}#{activeClass}"></span>
+          <span key={i+'b'} className="summary-circle #{circleClass}#{passiveClass}"></span>
           <Icon key={i+'c'} className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()} />
           {text}
         </span>
@@ -118,7 +118,7 @@ class SummaryRow extends React.Component
     else 
       durationText = "#{duration.minutes()} min"
     
-    <div className="itinerary-summary-row cursor-pointer#{activeClass}" onTouchTap={() => @props.onSelectRoute(@props.hash)}>
+    <div className="itinerary-summary-row cursor-pointer#{passiveClass}" onTouchTap={() => @props.onSelectRoute(@props.hash)}>
       <div className="itinerary-legs">{legs}</div>
       <div className="itinerary-leg-times">{legTimes}</div>      
       <Link className="itinerary-link" to="itinerary" params={{from: @props.params.from, to:@props.params.to, hash:@props.hash}}>

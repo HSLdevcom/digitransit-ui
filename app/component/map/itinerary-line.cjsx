@@ -20,12 +20,12 @@ class ItineraryLine extends React.Component
       objs.push <Marker map={@props.map} key="from" position={@props.legs[0].from} icon={ItineraryLine.fromIcon}/>
       objs.push <Marker map={@props.map} key="to" position={@props.legs[@props.legs.length-1].to} icon={ItineraryLine.toIcon}/>
     for leg, i in @props.legs
-      color = if isBrowser and @props.active then getSelector("." + leg.mode).style?.color else "#c2c2c2" # TODO: Need a better way to do this
-      objs.push <Polyline map={@props.map} key={i + leg.mode + @props.active + "halo"} positions={polyUtil.decode leg.legGeometry.points} color="#fff" opacity=1 weight=5 />
-      objs.push <Polyline map={@props.map} key={i + leg.mode + @props.active} positions={polyUtil.decode leg.legGeometry.points} color={color or "#999"} opacity=1 weight=3 />      
-      if isBrowser and @props.active
-        objs.push <CircleMarker map={@props.map} key={i + "," + leg.mode + @props.active + "circleHalo"} center={lat: leg.from.lat, lng: leg.from.lon} radius=3 color="#fff" opacity=1 />
-        objs.push <CircleMarker map={@props.map} key={i + "," + leg.mode + @props.active + "circle"} center={lat: leg.from.lat, lng: leg.from.lon} radius=2 color={color or "#999"} fill={color or "#999"} opacity=1 fillOpacity=1 />
+      color = if isBrowser and @props.passive and @props.passive == true then "#c2c2c2" else getSelector("." + leg.mode).style?.color
+      objs.push <Polyline map={@props.map} key={i + leg.mode + @props.passive + "halo"} positions={polyUtil.decode leg.legGeometry.points} color="#fff" opacity=1 weight=5 />
+      objs.push <Polyline map={@props.map} key={i + leg.mode + @props.passive} positions={polyUtil.decode leg.legGeometry.points} color={color or "#999"} opacity=1 weight=3 />      
+      if not @props.passive or @props.passive == false
+        objs.push <CircleMarker map={@props.map} key={i + "," + leg.mode + @props.passive + "circleHalo"} center={lat: leg.from.lat, lng: leg.from.lon} radius=3 color="#fff" opacity=1 />
+        objs.push <CircleMarker map={@props.map} key={i + "," + leg.mode + @props.passive + "circle"} center={lat: leg.from.lat, lng: leg.from.lon} radius=2 color={color or "#999"} fill={color or "#999"} opacity=1 fillOpacity=1 />
 
       if leg.transitLeg and @props.showTransferLabels
         objs.push <Marker map={@props.map}

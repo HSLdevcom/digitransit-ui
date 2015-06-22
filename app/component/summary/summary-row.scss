@@ -4,11 +4,11 @@
   padding-bottom: 0.2em; 
   font-size: 10pt;
   color: #999;
-  background-color: $background-color;
+  background-color: $white;
   border-bottom: 1px solid $light-gray;
 
-  &.active {
-    background-color: $white;
+  &.passive {
+    background-color: $background-color;
   }
 
   & .itinerary-legs {
@@ -92,11 +92,11 @@
 }
 
 .summary-circle.start::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($from-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='white' stroke-width='2' fill='#{rgba($from-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
 }
 
-.summary-circle.start.active::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='white' stroke-width='2' fill='#{rgba($from-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
+.summary-circle.start.passive::before {
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($from-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
 }
 
 .summary-circle.end::after {
@@ -105,14 +105,14 @@
   position: absolute;
   bottom: -1px;
   right: 5px;
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='white' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
 }
 
-.summary-circle.end.active::after {
+.summary-circle.end.passive::after {
   width:15px;
   height:15px;
   position: absolute;
   bottom: -1px;
   right: 5px;
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='white' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
 }
