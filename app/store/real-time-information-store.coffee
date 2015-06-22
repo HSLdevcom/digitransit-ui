@@ -6,24 +6,35 @@ class RealTimeInformationStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @vehicles = {}
+    @subscriptions = []
 
-  storeClient: (client) =>
-    @client = client
+  storeClient: (data) =>
+    @client = data.client
+    @subscriptions = data.topics
 
   clearClient: ->
     @client = undefined
+    @vehicles = {}
+    @subscriptions = []
+
+  updateSubscriptions: (topics) =>
+    @subscriptions = topics
+    @vehicles = {}
 
   handleMessage: (message) ->
-    [_, _, _, mode, id, line, dir, headsign, start_time, next_stop, geohash...] = message.topic.split '/'
-    @vehicles[id] = JSON.parse(message.message).VP
-    @emitChange(id)
+    @vehicles[message.id] = message.message
+    @emitChange(message.id)
 
   getVehicle: (id) =>
     @vehicles[id]
+
+  getSubscriptions: =>
+    @subscriptions
 
   @handlers:
     "RealTimeClientStarted": 'storeClient'
     "RealTimeClientStopped": 'clearClient'
     "RealTimeClientMessage": 'handleMessage'
+    "RealTimeClientTopicChanged" : 'updateSubscriptions'
 
 module.exports = RealTimeInformationStore

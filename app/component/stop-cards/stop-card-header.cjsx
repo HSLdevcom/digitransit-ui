@@ -25,8 +25,10 @@ class StopCardHeader extends React.Component
     else
       info = ""
 
+    # We use onClick in the following, as it is rendered sometimes in a popup, in which the touch tap event does not fire (as it is part of another react render)
+
     <div className={"stop-card-header" + (if @props.className then " " + @props.className else "")}>
-      <span className="cursor-pointer" onTouchTap={@props.addFavouriteStop}>
+      <span className="cursor-pointer favourite-icon" onClick={@props.addFavouriteStop}>
         <Icon className={"favourite" + (if @props.favourite then " selected" else "")} img="icon-icon_star"/>
       </span>
       {info}

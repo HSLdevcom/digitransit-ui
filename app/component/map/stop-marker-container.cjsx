@@ -6,7 +6,6 @@ Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 getSelector   = require '../../util/get-selector'
 StopMarkerPopup = require './stop-marker-popup'
 NearestStopsAction = require '../../action/nearest-stops-action'
-FavouriteStopsAction = require '../../action/favourite-stops-action'
 L             = if isBrowser then require 'leaflet' else null
 
 STOPS_MAX_ZOOM = 14
@@ -42,22 +41,18 @@ class StopMarkerContainer extends React.Component
 
   getStops: ->
     stops = []
-    getFrom = () =>
-      @context.getStore('LocationStore').getLocationString()
     @context.getStore('NearestStopsStore').getStopsInRectangle().forEach (stop) =>
       if @context.getStore('StopInformationStore').getStop(stop.id)
         stop = @context.getStore('StopInformationStore').getStop(stop.id)
       if stop
         color = "#007AC9" # TODO: Should come from stop
         #https://github.com/codebusters/react-leaflet/commit/c7b897e3ef429774323c7d8130f2fae504779b1a
-        favourite = @context.getStore('FavouriteStopsStore').isFavourite(stop.id)
         selected = @props.hilightedStops and stop.id in @props.hilightedStops
-        addFavouriteStop = (e) =>
-          e.stopPropagation()
-          @context.executeAction FavouriteStopsAction.addFavouriteStop, stop.id
-        popup = 
+        # This is copied to route-line.cjsx. Remember to change both at the same time
+        # to retain visual consistency.
+        popup =
           <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
-            <StopMarkerPopup stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} getFrom={getFrom} stopInformationStore={@context.getStore('StopInformationStore')} nearestStopsStore={@context.getStore('NearestStopsStore')} executeAction={@context.executeAction}/>
+            <StopMarkerPopup stop={stop} context={@context}/>
           </DynamicPopup>
         stops.push <CircleMarker map={@props.map}
                                  key={stop.id + "outline"}

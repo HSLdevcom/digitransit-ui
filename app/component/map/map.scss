@@ -85,11 +85,16 @@ div.current-location-marker > span > svg.icon {
   fill: white;
 }
 
-div.from > span > svg.icon, div.to > span > svg.icon {
-  width: 24px;
-  height: 24px;
-  margin-top: -12px;
-  margin-left: -6px;
+div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
+  > span > svg.icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+div.leaflet-marker-icon.vehicle-marker {
+  border: none;
+  background: none;
 }
 
 div.stop-marker-popup {
@@ -143,6 +148,82 @@ div.stop-marker-popup {
       background: $background-color;
     }
     margin: -6px 0px;
+  }
+}
+
+div.route-marker-popup {
+  .leaflet-popup-content-wrapper {
+    .leaflet-popup-content {
+      .trip-card {
+        border: 1px solid $gray;
+        padding: 0px;
+        .route-header {
+          padding: 0;
+          height: auto;
+          margin: 0 0.7em 0.7em;
+          border-bottom: none;
+          h1 {
+            font-size: 12pt;
+          }
+          .route-header-direction {
+            display: none;
+          }
+          .route-header-trip {
+            position: absolute;
+            top: 0.7em;
+            margin-left: 1em;
+            font-size: 70%;
+            padding: 0.1em 0.4em;
+            border: solid 1px $light-gray;
+            border-radius: $border-radius;
+            color: $gray;
+          }
+          .favourite-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 0;
+            height: 18px;
+            width: 18px;
+            .icon.favourite {
+              height: 18px;
+              width: 18px;
+            }
+          }
+        }
+        .bottom {
+          font-family: $stop-card-location-font-family;
+          font-size: $stop-card-location-font-size;
+          font-weight: $font-weight-normal;
+          line-height: $stop-card-normal-line-height;
+          color: $gray;
+          margin: 0px auto 0px;
+          padding: 0.5em 1em;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+          background: $background-color;
+          a {
+            color: $gray;
+            text-decoration: none;
+          }
+          text-align: center;
+          columns: 2 auto;
+          column-rule: 1px solid $light-gray
+        }
+      }
+      width: 250px;
+      margin: 0;
+    }
+
+    border-radius: 3px;
+    padding: 0;
+  }
+  .leaflet-popup-tip-container {
+    .leaflet-popup-tip  {
+      border: 1px solid $gray;
+      background: $background-color;
+    }
+    margin: -2px auto;
   }
 }
 
