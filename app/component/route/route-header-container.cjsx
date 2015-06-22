@@ -1,6 +1,7 @@
 React                 = require 'react'
 RouteHeader           = require './route-header'
 without               = require 'lodash/array/without'
+FavouriteRoutesActions = require '../../action/favourite-routes-action'
 
 class RouteHeaderContainer extends React.Component
   @contextTypes:
@@ -9,17 +10,19 @@ class RouteHeaderContainer extends React.Component
 
   componentDidMount: -> 
     @context.getStore('RouteInformationStore').addChangeListener @onChange
+    @context.getStore('FavouriteRoutesStore').addChangeListener @onChange
 
   componentWillUnmount: ->
     @context.getStore('RouteInformationStore').removeChangeListener @onChange
+    @context.getStore('FavouriteRoutesStore').removeChangeListener @onChange
 
   onChange: (id) =>
     if !id or id == @props.id or id == @props.id.split(':',2).join(':')
       @forceUpdate()
 
-  #addFavouriteStop: (e) =>
-  #  e.stopPropagation()
-  #  @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.id
+  addFavouriteRoute: (e) =>
+    e.stopPropagation()
+    @context.executeAction FavouriteRoutesActions.addFavouriteRoute, @props.id.split(':',2).join(':')
   
   render: =>
     routeId = @props.id.split(':',2).join(':')
@@ -31,7 +34,9 @@ class RouteHeaderContainer extends React.Component
       key={@props.id}
       route={@context.getStore('RouteInformationStore').getRoute(routeId)}
       pattern={@context.getStore('RouteInformationStore').getPattern(@props.id)}
-      reverseId={reverseId}>
+      reverseId={reverseId}
+      favourite={@context.getStore('FavouriteRoutesStore').isFavourite(routeId)}
+      addFavouriteRoute={@addFavouriteRoute}>
     </RouteHeader>
 
 module.exports = RouteHeaderContainer

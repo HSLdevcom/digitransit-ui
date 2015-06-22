@@ -16,16 +16,19 @@ class RouteHeader extends React.Component
     <div className="route-header">
       <h1 className={mode}>
         <Icon img={'icon-icon_' + mode}/>
-        &nbsp;{@props.route.shortName}
+        {" " + @props.route.shortName}
         {trip}
       </h1>
       <div className="route-header-name">{@props.route.longName}</div>
       <div className="route-header-direction">
-        {@props.pattern.stops[0].name}&nbsp;
-        <Icon className={mode} img={'icon-icon_arrow-right'}/>&nbsp;
-        {@props.pattern.trips[0].tripHeadsign}
+        {@props.pattern.stops[0].name + " "}
+        <Icon className={mode} img={'icon-icon_arrow-right'}/>
+        {" " + @props.pattern.trips[0].tripHeadsign}
         {reverse}
       </div>
+      <span className="cursor-pointer favourite-icon" onClick={@props.addFavouriteRoute}>
+        <Icon className={"favourite" + (if @props.favourite then " selected" else "")} img="icon-icon_star"/>
+      </span>
     </div>
 
 module.exports = RouteHeader
