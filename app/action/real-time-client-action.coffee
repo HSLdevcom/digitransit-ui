@@ -9,7 +9,7 @@ getTopic = (options) ->
   direction = if options.direction then parseInt(options.direction) + 1  else "+"
   '/hfp/journey/+/+/' + route + '/' + direction + '/#'
 
-parseMessage = (topic, message, actionContext) -> 
+parseMessage = (topic, message, actionContext) ->
   [_, _, _, mode, id, line, dir, headsign, start_time, next_stop, geohash...] = topic.split '/'
   if message instanceof Uint8Array
     parsedMessage = JSON.parse(message).VP
@@ -39,7 +39,7 @@ parseMessage = (topic, message, actionContext) ->
         id: id
         message: messageContents
 
-module.exports = 
+module.exports =
   startRealTimeClient: (actionContext, options, done) ->
     #Fetch initial data
     xhrPromise.getJson(config.URL.REALTIME + (getTopic(options)).replace('#', '')).then (data) ->

@@ -6,8 +6,8 @@ class RouteInformationStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @routes = {}
-    @patterns = {}
-    @routePatterns = {}
+    @patterns = {}  # Stores the actual information about a pattern. Routes do not share patterns.
+    @routePatterns = {}  # Stores which patterns a route uses, but no more.
     @routeTrips = {}
     @patternGeometries = {}
     @fuzzyTrips = {}

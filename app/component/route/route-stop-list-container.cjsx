@@ -1,3 +1,6 @@
+# Shows the stops that a single pattern of a route uses,
+# and all vehicles on that route for the same direction (but all patterns, not just this).
+
 React                 = require 'react'
 RouteStop             = require './route-stop'
 GtfsUtils             = require '../../util/gtfs'
@@ -7,7 +10,7 @@ class RouteStopListContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @context.getStore('RouteInformationStore').addChangeListener @onChange
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
 
@@ -21,7 +24,7 @@ class RouteStopListContainer extends React.Component
 
   onRealTimeChange: =>
     @forceUpdate()
-  
+
   getStops: (id) =>
     stops = @context.getStore('RouteInformationStore').getPattern(id).stops
     mode = GtfsUtils.typeToName[@context.getStore('RouteInformationStore').getRoute(@props.id.split(':',2).join(':')).type]

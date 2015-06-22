@@ -23,7 +23,6 @@ class RealTimeInformationStore extends Store
 
   handleMessage: (message) ->
     @vehicles[message.id] = message.message
-    #console.log @vehicles[id]
     @emitChange(message.id)
 
   getVehicle: (id) =>

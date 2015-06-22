@@ -48,7 +48,9 @@ class StopMarkerContainer extends React.Component
         color = "#007AC9" # TODO: Should come from stop
         #https://github.com/codebusters/react-leaflet/commit/c7b897e3ef429774323c7d8130f2fae504779b1a
         selected = @props.hilightedStops and stop.id in @props.hilightedStops
-        popup = 
+        # This is copied to route-line.cjsx. Remember to change both at the same time
+        # to retain visual consistency.
+        popup =
           <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
             <StopMarkerPopup stop={stop} context={@context}/>
           </DynamicPopup>

@@ -26,13 +26,15 @@ class RouteLine extends React.Component
     objs.push <Polyline map={@props.map} key={"halo"} positions={polyUtil.decode @props.geometry.points} color="#fff" opacity=1 weight=5 />
     objs.push <Polyline map={@props.map} key={"line"} positions={polyUtil.decode @props.geometry.points} color={color} opacity=1 weight=3 />
     @props.stops.forEach (stop, i) =>
-      popup = 
+     # This is copied to stop-marker-container.cjsx. Remember to change both at the same time
+     # to retain visual consistency.
+     popup =
         <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
           <StopMarkerPopup stop={stop} context={@context}/>
         </DynamicPopup>
       objs.push <CircleMarker map={@props.map} key={i + "circleHalo"} center={lat: stop.lat, lng: stop.lon} radius=3 color="#fff" opacity=1 >{popup}</CircleMarker>
       objs.push <CircleMarker map={@props.map} key={i + "circle"} center={lat: stop.lat, lng: stop.lon} radius=2 color={color} fill={color} opacity=1 fillOpacity=1 clickable={false}/>
-    
+
     <div style={{display: "none"}}>{objs}</div>
 
 module.exports = RouteLine
