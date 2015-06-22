@@ -1,45 +1,55 @@
 config = require '../config'
 RouteInformationAction = require './route-information-action'
 moment = require 'moment'
+xhrPromise = require '../util/xhr-promise'
+
 
 getTopic = (options) ->
   route = if options.route then options.route else "+"
   direction = if options.direction then parseInt(options.direction) + 1  else "+"
   '/hfp/journey/+/+/' + route + '/' + direction + '/#'
 
+parseMessage = (topic, message, actionContext) -> 
+  [_, _, _, mode, id, line, dir, headsign, start_time, next_stop, geohash...] = topic.split '/'
+  if message instanceof Uint8Array
+    parsedMessage = JSON.parse(message).VP
+  else
+    parsedMessage = message.VP
+  messageContents =
+    id: id
+    route: "HSL:" + line
+    direction: parseInt(dir) - 1
+    tripStartTime: start_time
+    operatingDay: if parsedMessage.oday != "XXX" then parsedMessage.oday else moment().format("YYYYMMDD")
+    mode: mode
+    delay: parsedMessage.dl
+    next_stop: next_stop
+    timestamp: parsedMessage.tsi
+    lat: parsedMessage.lat
+    long: parsedMessage.long
+  details = # Used for fuzzy trip id matching
+    route: messageContents.route
+    date: messageContents.operatingDay
+    direction: messageContents.direction
+    trip: messageContents.tripStartTime
+  actionContext.executeAction RouteInformationAction.fuzzyTripInformationRequest, details, ->
+    messageContents.trip = actionContext.getStore('RouteInformationStore').getFuzzyTrip(details)
+    actionContext.executeAction RouteInformationAction.patternInformationRequest, messageContents.trip.pattern.id, ->
+      actionContext.dispatch "RealTimeClientMessage",
+        id: id
+        message: messageContents
+
 module.exports = 
   startRealTimeClient: (actionContext, options, done) ->
+    #Fetch initial data
+    xhrPromise.getJson(config.URL.REALTIME + (getTopic(options)).replace('#', '')).then (data) ->
+      parseMessage(topic, message, actionContext) for topic, message of data
     require.ensure ['mqtt'], ->
       mqtt = require 'mqtt'
       client = mqtt.connect config.URL.MQTT
       client.on 'connect', =>
-        client.subscribe(getTopic(options))
-      client.on 'message', (topic, message) =>
-        [_, _, _, mode, id, line, dir, headsign, start_time, next_stop, geohash...] = topic.split '/'
-        parsedMessage = JSON.parse(message).VP
-        messageContents =
-          id: id
-          route: "HSL:" + line
-          direction: parseInt(dir) - 1
-          tripStartTime: start_time
-          operatingDay: if parsedMessage.oday != "XXX" then parsedMessage.oday else moment().format("YYYYMMDD")
-          mode: mode
-          delay: parsedMessage.dl
-          next_stop: next_stop
-          timestamp: parsedMessage.tsi
-          lat: parsedMessage.lat
-          long: parsedMessage.long
-        details = # Used for fuzzy trip id matching
-          route: messageContents.route
-          date: messageContents.operatingDay
-          direction: messageContents.direction
-          trip: messageContents.tripStartTime
-        actionContext.executeAction RouteInformationAction.fuzzyTripInformationRequest, details, ->
-          messageContents.trip = actionContext.getStore('RouteInformationStore').getFuzzyTrip(details)
-          actionContext.executeAction RouteInformationAction.patternInformationRequest, messageContents.trip.pattern.id, ->
-            actionContext.dispatch "RealTimeClientMessage",
-              id: id
-              message: messageContents
+        client.subscribe getTopic(options)
+      client.on 'message', (topic, message) -> parseMessage(topic, message, actionContext)
       actionContext.dispatch "RealTimeClientStarted",
         client: client
         topics: [getTopic(options)]
@@ -50,6 +60,10 @@ module.exports =
     newTopic = getTopic(options.newTopic)
     options.client.subscribe(newTopic)
     actionContext.dispatch "RealTimeClientTopicChanged", [newTopic]
+    # Do the loading of initial data after clearing the vehicles object
+    xhrPromise.getJson(config.URL.REALTIME + newTopic.replace('#', '')).then (data) ->
+      parseMessage(topic, message, actionContext) for topic, message of data
+    done()
 
   stopRealTimeClient: (actionContext, client, done) ->
     client.end()
