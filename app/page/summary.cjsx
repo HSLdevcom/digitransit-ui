@@ -44,7 +44,7 @@ class SummaryPage extends React.Component
     leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
 
     <SummaryNavigation className="fullscreen">
-      <Map ref="map" className="summaryMap" leafletObjs={leafletObjs} fitBounds={true} from={plan.from} to={plan.to} padding={[0, 110]}>
+      <Map ref="map" className="summaryMap" leafletObjs={leafletObjs} fitBounds={true} from={@props.params.from} to={@props.params.to} padding={[0, 110]}>
         <FromToSearch params={@props.params}/>
       </Map>
       <div>{rows}</div>

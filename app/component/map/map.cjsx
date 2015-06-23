@@ -34,13 +34,34 @@ class Map extends React.Component
         zoom: 11
         hasLocation: false
 
+  setBounds: (props) ->
+    if typeof props.from == 'string'
+      if props.from.indexOf('::') != -1
+        from = props.from.split('::')[1].split(',')
+      else
+        from = props.from.split(',')
+    else
+      from = props.from
+    if typeof props.to == 'string'
+      if props.to.indexOf('::') != -1
+        to = props.to.split('::')[1].split(',')
+      else
+        to = props.to.split(',')
+    else
+      to = props.to
+
+    @refs.map.getLeafletElement().fitBounds [from, to], paddingTopLeft: props.padding
+
   componentDidMount: ->
     @context.getStore('LocationStore').addChangeListener @onLocationChange
     @onLocationChange()
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
     if @props.fitBounds
-      @refs.map.getLeafletElement().fitBounds [@props.from, @props.to], paddingTopLeft: @props.padding
+      @setBounds(@props)
 
+  componentWillUpdate: (newProps) ->
+    if newProps.fitBounds and (newProps.from != @props.from or newProps.to != @props.to)
+      @setBounds(newProps)
 
   componentWillUnmount: ->
     @context.getStore('LocationStore').removeChangeListener @onLocationChange

@@ -2,6 +2,7 @@ xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
 module.exports = itinerarySearchRequest: (actionContext, options) ->
+  actionContext.dispatch "ItinerarySearchStarted"
   params =
     fromPlace: options.params.from
     toPlace: options.params.to

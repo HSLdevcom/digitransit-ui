@@ -6,6 +6,8 @@ Link                  = require 'react-router/lib/components/Link'
 
 class RouteHeader extends React.Component
   render: =>
+    unless @props.route
+      return <div className="route-header"/>
     mode = GtfsUtils.typeToName[@props.route.type]
     trip = if @props.trip then <span className="route-header-trip">{@props.trip.substring(0,2)}:{@props.trip.substring(2,4)} →</span> else ""
     if @props.reverseId
@@ -21,9 +23,9 @@ class RouteHeader extends React.Component
       </h1>
       <div className="route-header-name">{@props.route.longName}</div>
       <div className="route-header-direction">
-        {@props.pattern.stops[0].name + " "}
+        {if @props.pattern then (@props.pattern.stops[0].name + " ") else " "}
         <Icon className={mode} img={'icon-icon_arrow-right'}/>
-        {" " + @props.pattern.trips[0].tripHeadsign}
+        {if @props.pattern then (" " + @props.pattern.trips[0].tripHeadsign) else " "}
         {reverse}
       </div>
       <span className="cursor-pointer favourite-icon" onClick={@props.addFavouriteRoute}>

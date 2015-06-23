@@ -26,9 +26,11 @@ class RouteHeaderContainer extends React.Component
   
   render: =>
     routeId = @props.id.split(':',2).join(':')
-    reverseIds = without(p.id for p in (@context.getStore('RouteInformationStore').getRoutePatterns(routeId)), @props.id)
-    if reverseIds.length == 1
-      reverseId = reverseIds[0]
+    patterns = @context.getStore('RouteInformationStore').getRoutePatterns(routeId)
+    if patterns
+      reverseIds = without(p.id for p in patterns, @props.id)
+      if reverseIds.length == 1
+        reverseId = reverseIds[0]
 
     <RouteHeader
       key={@props.id}

@@ -14,6 +14,10 @@ class ItinerarySearchStore extends Store
     @data = data
     @emitChange()
 
+  clearItinerary: ->
+    @data = {}
+    @emitChange()
+
   dehydrate: ->
     @data
 
@@ -22,5 +26,6 @@ class ItinerarySearchStore extends Store
 
   @handlers:
     "ItineraryFound": 'storeItinerarySearch'
+    "ItinerarySearchStarted": 'clearItinerary'
 
 module.exports = ItinerarySearchStore

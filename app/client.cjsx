@@ -42,6 +42,5 @@ app.rehydrate dehydratedState, (err, context) ->
     else
       if not isEqual(oldParams, state.params) and state.routes[state.routes.length-1].handler.loadAction
           oldParams = state.params
-          context.getActionContext().executeAction(state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}).then(-> RenderApp context, Handler)
-      else
-        RenderApp context, Handler
+          context.getActionContext().executeAction state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}
+      RenderApp context, Handler

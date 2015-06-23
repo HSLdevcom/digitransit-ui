@@ -18,12 +18,26 @@ class Page extends React.Component
 
   @loadAction: StopDeparturesAction.stopPageDataRequest
 
+
+  componentDidMount: ->
+    @context.getStore('StopInformationStore').addChangeListener @onChange
+    @context.getStore('FavouriteStopsStore').addChangeListener @onChange
+
+  componentWillUnmount: ->
+    @context.getStore('StopInformationStore').removeChangeListener @onChange
+    @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
+
+  onChange: (id) =>
+    if !id or id == @props.params.stopId
+      @forceUpdate()
+
   toggleFullscreenMap: =>
     @context.router.transitionTo("stopMap", {stopId: @props.params.stopId})
 
   render: ->
     stop = @context.getStore('StopInformationStore').getStop(@props.params.stopId)
-    departures = @context.getStore('StopDeparturesStore').getDepartures(@props.params.stopId)
+    unless stop
+      return <DefaultNavigation className="fullscreen"/>
     favourite = @context.getStore('FavouriteStopsStore').isFavourite(stop.id)
     addFavouriteStop = (e) =>
       e.stopPropagation()

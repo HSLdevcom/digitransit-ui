@@ -26,6 +26,9 @@ class RouteStopListContainer extends React.Component
     @forceUpdate()
 
   getStops: (id) =>
+    pattern = @context.getStore('RouteInformationStore').getPattern(id)
+    unless pattern
+      return []
     stops = @context.getStore('RouteInformationStore').getPattern(id).stops
     mode = GtfsUtils.typeToName[@context.getStore('RouteInformationStore').getRoute(@props.id.split(':',2).join(':')).type]
     vehicles = @context.getStore('RealTimeInformationStore').vehicles
