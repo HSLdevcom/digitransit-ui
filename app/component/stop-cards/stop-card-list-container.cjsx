@@ -26,7 +26,8 @@ class StopCardListContainer extends React.Component
   getStopCards: =>
     stopCards = []
     for stop in @props.store.getStops().slice(0,@state.numberOfStops)
-      stopCards.push <StopCardContainer key={stop} stop={stop} departures=DEPARTURES_COUNT /> 
+      if stop.substring(0, 3) is 'HSL'
+        stopCards.push <StopCardContainer key={stop} stop={stop} departures=DEPARTURES_COUNT /> 
     stopCards
 
   render: =>
