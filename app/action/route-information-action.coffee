@@ -68,7 +68,7 @@ routePageDataRequest =  (actionContext, options, done) ->
       params: patternId
     , -> done()
 
-module.exports = 
+module.exports =
   'routeInformationRequest': routeInformationRequest
   'routePatternsRequest': routePatternsRequest
   'routeTripsRequest': routeTripsRequest

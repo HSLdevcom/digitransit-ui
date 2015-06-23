@@ -13,7 +13,7 @@ class DepartureListContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @context.getStore('StopDeparturesStore').addChangeListener @onChange
     if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
       if @context.getStore('StopDeparturesStore').getDepartures(@props.stop) == undefined
@@ -63,7 +63,7 @@ class DepartureListContainer extends React.Component
       else if missingRoutes.length == 2
         departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linjat {missingRoutes[0]} ja {missingRoutes[1]}</p>
       else
-        departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linjat {missingRoutes.slice(0,-1).join ', '} ja {missingRoutes[missingRoutes.length-1]}</p>  
+        departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linjat {missingRoutes.slice(0,-1).join ', '} ja {missingRoutes[missingRoutes.length-1]}</p>
     departureObjs
 
   render: =>

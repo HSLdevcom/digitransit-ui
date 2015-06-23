@@ -32,7 +32,7 @@ class SummaryRow extends React.Component
       # Is this row passive or not
       passiveClass = if @props.passive then " passive" else ""
 
-      styleLine = 
+      styleLine =
         position: 'absolute'
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
         width: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{width}) + #{MIN_SIZE} - 2px)"
@@ -41,7 +41,7 @@ class SummaryRow extends React.Component
         # By enabling this mode circles will not show
         #overflow: 'hidden'
 
-      styleTime = 
+      styleTime =
         position: 'absolute'
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
         overflow: 'hidden'
@@ -49,7 +49,7 @@ class SummaryRow extends React.Component
         'fontWeight': 400
         whiteSpace: 'nowrap'
 
-      styleTimeLast = 
+      styleTimeLast =
         overflow: 'hidden'
         color: 'black'
         float: 'right'
@@ -67,20 +67,20 @@ class SummaryRow extends React.Component
         # By enabling overflow: 'hidden' above we can kind of fix this, but also
         # that option will mostly show garbage for user
         text = ""
-      else 
+      else
         km = (leg.distance/1000).toFixed(1)
         text = if km == "0.0" then "0.1km" else "#{km}km"
 
       # Mode circle
-      if isFirstLeg 
+      if isFirstLeg
         circleClass = "start"
       else if isLastLeg
-        circleClass = leg.mode.toLowerCase() + " end" 
-      else 
+        circleClass = leg.mode.toLowerCase() + " end"
+      else
         circleClass = leg.mode.toLowerCase()
 
       legs.push (
-        <span key={i+'a'} style={styleLine} className={leg.mode.toLowerCase()}>  
+        <span key={i+'a'} style={styleLine} className={leg.mode.toLowerCase()}>
           <span key={i+'b'} className="summary-circle #{circleClass}#{passiveClass}"></span>
           <Icon key={i+'c'} className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()} />
           {text}
@@ -93,8 +93,8 @@ class SummaryRow extends React.Component
             {legStart.format("HH:mm")}
           </span>
         )
-      else if isLastLeg    
-        if isEnoughRoomForLastLegStartTime 
+      else if isLastLeg
+        if isEnoughRoomForLastLegStartTime
           legTimes.push (
             <span key={i+'a'} style={styleTime}>
               {legStart.format("HH:mm")}
@@ -113,14 +113,14 @@ class SummaryRow extends React.Component
           </span>
         )
 
-    if duration.hours() >= 1 
+    if duration.hours() >= 1
       durationText = "#{duration.hours()}h #{duration.minutes()}m"
-    else 
+    else
       durationText = "#{duration.minutes()} min"
-    
+
     <div className="itinerary-summary-row cursor-pointer#{passiveClass}" onTouchTap={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-legs">{legs}</div>
-      <div className="itinerary-leg-times">{legTimes}</div>      
+      <div className="itinerary-leg-times">{legTimes}</div>
       <Link className="itinerary-link" to="itinerary" params={{from: @props.params.from, to:@props.params.to, hash:@props.hash}}>
         {durationText}
         <br/>

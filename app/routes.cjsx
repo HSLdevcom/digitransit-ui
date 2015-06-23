@@ -25,7 +25,7 @@ App = React.createClass
 ROOT_PATH = if process?.env.ROOT_PATH != undefined then process.env.ROOT_PATH else '/'
 
 # Routes
-routes = 
+routes =
   <Route name="app" path={ROOT_PATH} handler={App}>
     <Route path="kartta" name="map" handler={MapPage}/>
     <Route path="pysakit" name="stopList" handler={Error404}/>

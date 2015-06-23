@@ -28,7 +28,7 @@ findLocation = (actionContext, payload, done) ->
   timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationTimeout"), 10000)
 
   # and start positioning
-  navigator.geolocation.getCurrentPosition (position) => 
+  navigator.geolocation.getCurrentPosition (position) =>
     window.clearTimeout(timeoutId)
     actionContext.dispatch "GeolocationFound",
       lat: position.coords.latitude

@@ -36,5 +36,5 @@ class FavouriteRoutesStore extends Store
 
   @handlers:
     "AddFavouriteRoute": "addFavouriteRoute"
-      
+
 module.exports = FavouriteRoutesStore

@@ -21,7 +21,7 @@ div.map.summaryMap div.leaflet-container {
   height: 100%;
 }
 
-@media #{$small-only} { 
+@media #{$small-only} {
   div.map, div.map div.leaflet-container {
     height: $small-map-height;
   }
@@ -36,7 +36,7 @@ div.map.summaryMap div.leaflet-container {
   }
 }
 
-@media #{$medium-only} { 
+@media #{$medium-only} {
   div.map, div.map div.leaflet-container {
     height: $medium-map-height;
   }
@@ -48,7 +48,7 @@ div.map.summaryMap div.leaflet-container {
   }
 }
 
-@media #{$large-up} { 
+@media #{$large-up} {
   div.map, div.map div.leaflet-container {
     height: $large-map-height;
   }
@@ -71,7 +71,7 @@ div.leaflet-container {
 
 div.leaflet-container {
   background: rgb(230, 229, 217);
-} 
+}
 
 .leaflet-bottom.leaflet-right {
   z-index: 0;

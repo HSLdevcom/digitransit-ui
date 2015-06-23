@@ -14,7 +14,7 @@ class NearestStopsStore extends Store
 
   getDistance: (id) ->
     @distances[id]
-    
+
   removeNearestStops: ->
     @stops = []
     @distances = {}
@@ -40,5 +40,5 @@ class NearestStopsStore extends Store
     "NearestStopsFound":   'storeNearestStops'
     "NearestStopsRemoved": 'removeNearestStops'
     "StopsInRectangleFound": 'storeStopsInRectangle'
-      
+
 module.exports = NearestStopsStore

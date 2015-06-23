@@ -13,7 +13,7 @@ class VehicleMarkerContainer extends React.Component
     executeAction: React.PropTypes.func.isRequired
     router: React.PropTypes.func.isRequired
 
-  @vehicleIcons: if !isBrowser then null else 
+  @vehicleIcons: if !isBrowser then null else
     bus: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_bus')), className: 'vehicle-icon', iconSize: [18, 18], iconAnchor: [9, 9])
     tram: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_tram')), className: 'vehicle-icon', iconSize: [18, 18], iconAnchor: [9, 9])
     rail: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_rail')), className: 'vehicle-icon', iconSize: [18, 18], iconAnchor: [9, 9])

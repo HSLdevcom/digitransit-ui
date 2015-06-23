@@ -14,7 +14,7 @@ class BackButton extends React.Component
   # When react-tap-plugin works better
   goBack: =>
     setTimeout(() =>
-      if !@context.router.goBack() 
+      if !@context.router.goBack()
         @context.router.transitionTo("index")
     , 0)
 

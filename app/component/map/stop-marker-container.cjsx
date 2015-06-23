@@ -14,7 +14,7 @@ class StopMarkerContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @props.map.on 'moveend', @onMapMove
     @context.getStore('NearestStopsStore').addChangeListener @onChange
     @onMapMove()
@@ -30,7 +30,7 @@ class StopMarkerContainer extends React.Component
   onMapMove: =>
     if STOPS_MAX_ZOOM < @props.map.getZoom()
       bounds = @props.map.getBounds()
-      @context.executeAction NearestStopsAction.stopsInRectangleRequest, 
+      @context.executeAction NearestStopsAction.stopsInRectangleRequest,
         minLat: bounds.getSouth()
         minLon: bounds.getWest()
         maxLat: bounds.getNorth()

@@ -14,7 +14,7 @@ class RouteMarkerPopup extends React.Component
   getChildContext: () ->
     router: @props.context.router
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @props.context.getStore('RouteInformationStore').addChangeListener @onChange
     @props.context.getStore('FavouriteRoutesStore').addChangeListener @onChange
 

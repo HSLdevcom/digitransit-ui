@@ -65,7 +65,7 @@ class LocationStore extends Store
     status: @status
     hasLocation: @status == @STATUS_FOUND_ADDRESS or @status == @STATUS_FOUND_LOCATION
     # Locationing is in progress when browser is searching address or reverse geocoding is in progress
-    isLocationingInProgress: @status == @STATUS_SEARCHING_LOCATION or @status == @STATUS_FOUND_LOCATION 
+    isLocationingInProgress: @status == @STATUS_SEARCHING_LOCATION or @status == @STATUS_FOUND_LOCATION
 
   getLocationString: () ->
     "#{@address}::#{@lat},#{@lon}"
@@ -79,5 +79,5 @@ class LocationStore extends Store
     "GeolocationTimeout":      'geolocationTimeout'
     "ManuallySetPosition":     'storeLocationAndAddress'
     "AddressFound":            'storeAddress'
-      
+
 module.exports = LocationStore

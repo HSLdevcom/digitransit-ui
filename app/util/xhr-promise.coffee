@@ -12,7 +12,7 @@ serialize = (obj, prefix) ->
       str.push(if typeof v == "object" then serialize(v, k) else encodeURIComponent(k) + "=" + encodeURIComponent(v))
   str.join "&"
 
-class XhrPromise 
+class XhrPromise
 
   # Return Promise for a url json get request
   getJson: (url, params) ->
@@ -25,8 +25,8 @@ class XhrPromise
           "Accept": "application/json"
       , (err, resp, body) ->
         if err == null
-          resolve(resp.body) 
-        else 
+          resolve(resp.body)
+        else
           reject(err)
     )
     return p
@@ -36,6 +36,6 @@ class XhrPromise
     promises = urls.map (url) =>
       @getJson(url)
     return Promise.all(promises)
-    
 
-module.exports = new XhrPromise() 
+
+module.exports = new XhrPromise()

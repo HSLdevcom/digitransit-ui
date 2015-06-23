@@ -8,7 +8,7 @@ class RouteHeaderContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @context.getStore('RouteInformationStore').addChangeListener @onChange
     @context.getStore('FavouriteRoutesStore').addChangeListener @onChange
 
@@ -23,7 +23,7 @@ class RouteHeaderContainer extends React.Component
   addFavouriteRoute: (e) =>
     e.stopPropagation()
     @context.executeAction FavouriteRoutesActions.addFavouriteRoute, @props.id.split(':',2).join(':')
-  
+
   render: =>
     routeId = @props.id.split(':',2).join(':')
     patterns = @context.getStore('RouteInformationStore').getRoutePatterns(routeId)

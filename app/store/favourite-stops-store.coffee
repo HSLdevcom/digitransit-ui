@@ -36,5 +36,5 @@ class FavouriteStopsStore extends Store
 
   @handlers:
     "AddFavouriteStop": "addFavouriteStop"
-      
+
 module.exports = FavouriteStopsStore

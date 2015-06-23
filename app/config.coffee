@@ -1,4 +1,4 @@
-module.exports = 
+module.exports =
   URL:
     OTP: 'http://matka.hsl.fi/otp/routers/finland/'
     GEOCODER: 'http://matka.hsl.fi/geocoder/'

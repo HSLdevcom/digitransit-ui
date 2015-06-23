@@ -8,11 +8,11 @@ class StopTabs extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  constructor: -> 
+  constructor: ->
     super
-    @state = @context.getStore('LocationStore').getLocationState() 
+    @state = @context.getStore('LocationStore').getLocationState()
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @context.getStore('LocationStore').addChangeListener @onChange
 
   componentWillUnmount: ->
@@ -21,11 +21,11 @@ class StopTabs extends React.Component
   onChange: =>
     @setState @context.getStore('LocationStore').getLocationState()
 
-  render: -> 
-    LocationStore = @context.getStore 'LocationStore' 
+  render: ->
+    LocationStore = @context.getStore 'LocationStore'
     if @state.status == LocationStore.STATUS_FOUND_LOCATION or @state.status == LocationStore.STATUS_FOUND_ADDRESS
       nearestPanel = <StopCardListContainer key="NearestStopsStore" store={@context.getStore 'NearestStopsStore'}/>
-    else 
+    else
       nearestPanel = <NoLocationPanel/>
 
     <Tabs>
