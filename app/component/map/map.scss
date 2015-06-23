@@ -92,9 +92,13 @@ div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
   }
 }
 
-div.leaflet-marker-icon.vehicle-marker {
+div.leaflet-marker-icon.vehicle-icon {
   border: none;
   background: none;
+  > span > svg.icon {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 div.stop-marker-popup {
