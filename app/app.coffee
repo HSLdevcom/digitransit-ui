@@ -14,4 +14,4 @@ app.registerStore require('./store/stop-departures-store')
 app.registerStore require('./store/stop-information-store')
 app.registerStore require('./store/time-store')
 
-module.exports = app;
+module.exports = app

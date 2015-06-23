@@ -43,7 +43,7 @@ currentDayStopDeparturesRequest = (actionContext, id, done) ->
 
 nextDayStopDeparturesRequest = (actionContext, id, done) ->
   actionContext.dispatch "AdditionalStopDeparturesFetchStarted", id
-  date = moment(actionContext.getStore("StopDeparturesStore").getDateForStop(id)).add(1, 'd');
+  date = moment(actionContext.getStore("StopDeparturesStore").getDateForStop(id)).add(1, 'd')
   xhrPromise.getJson(config.URL.OTP + "index/stops/" + id + "/stoptimes/" + date.format("YYYYMMDD") + "?detail=true").then (data) ->
     actionContext.dispatch "AdditionalStopDeparturesFound",
       id: id
