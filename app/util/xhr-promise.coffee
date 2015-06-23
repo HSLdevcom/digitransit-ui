@@ -9,7 +9,11 @@ serialize = (obj, prefix) ->
     if obj.hasOwnProperty p
       k = if prefix then prefix + "[" + p + "]" else p
       v = obj[p]
-      str.push(if typeof v == "object" then serialize(v, k) else encodeURIComponent(k) + "=" + encodeURIComponent(v))
+      str.push(
+        if typeof v == "object"
+          serialize(v, k)
+        else
+          encodeURIComponent(k) + "=" + encodeURIComponent(v))
   str.join "&"
 
 class XhrPromise

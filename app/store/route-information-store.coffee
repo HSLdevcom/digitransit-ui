@@ -52,7 +52,11 @@ class RouteInformationStore extends Store
     @emitChange(data.id)
 
   storeFuzzyTripInformation: (data) ->
-    key = "#{data.details.route}/trips/#{data.details.date}/#{data.details.direction}/#{data.details.trip}"
+    key = "#{data.details.route}/" +
+          "trips/" +
+          "#{data.details.date}/" +
+          "#{data.details.direction}/" +
+          "#{data.details.trip}"
     @fuzzyTrips[key] = data.data
 
   dehydrate: ->

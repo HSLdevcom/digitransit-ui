@@ -44,9 +44,13 @@ patternGeometryRequest = (actionContext, id, done) ->
 
 fuzzyTripInformationRequest = (actionContext, details, done) ->
   if !actionContext.getStore('RouteInformationStore').getFuzzyTrip(details)
-    xhrPromise.getJson(config.URL.OTP + "index/routes/#{details.route}/trips/#{details.date}/#{details.direction}/#{details.trip}").then (data) ->
-      actionContext.dispatch "FuzzyTripInformationFound", {details: details, data: data}
-      done()
+    xhrPromise.getJson(
+      config.URL.OTP +
+      "index/routes/#{details.route}/trips/#{details.date}/#{details.direction}/#{details.trip}")
+      .then(
+        (data) ->
+          actionContext.dispatch "FuzzyTripInformationFound", {details: details, data: data}
+          done())
   else
     done()
 

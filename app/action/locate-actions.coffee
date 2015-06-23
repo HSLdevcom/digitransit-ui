@@ -6,7 +6,8 @@ config        = require '../config'
 
 
 reverseGeocodeAddress = (actionContext, location, done) ->
-  xhrPromise.getJson(config.URL.GEOCODER + "reverse/" + location.lat + "," + location.lon).then (data) ->
+  xhrPromise.getJson(config.URL.GEOCODER + "reverse/" +
+                     location.lat + "," + location.lon).then (data) ->
     actionContext.dispatch "AddressFound",
       address: data.katunimi
       number: data.osoitenumero

@@ -20,7 +20,11 @@ parseMessage = (topic, message, actionContext) ->
     route: "HSL:" + line
     direction: parseInt(dir) - 1
     tripStartTime: start_time
-    operatingDay: if parsedMessage.oday != "XXX" then parsedMessage.oday else moment().format("YYYYMMDD")
+    operatingDay:
+      if parsedMessage.oday != "XXX"
+        parsedMessage.oday
+      else
+        moment().format("YYYYMMDD")
     mode: mode
     delay: parsedMessage.dl
     next_stop: next_stop
@@ -32,12 +36,18 @@ parseMessage = (topic, message, actionContext) ->
     date: messageContents.operatingDay
     direction: messageContents.direction
     trip: messageContents.tripStartTime
-  actionContext.executeAction RouteInformationAction.fuzzyTripInformationRequest, details, ->
-    messageContents.trip = actionContext.getStore('RouteInformationStore').getFuzzyTrip(details)
-    actionContext.executeAction RouteInformationAction.patternInformationRequest, messageContents.trip.pattern.id, ->
-      actionContext.dispatch "RealTimeClientMessage",
-        id: id
-        message: messageContents
+  actionContext.executeAction(
+    RouteInformationAction.fuzzyTripInformationRequest,
+    details,
+    ->
+      messageContents.trip = actionContext.getStore('RouteInformationStore').getFuzzyTrip(details)
+      actionContext.executeAction(
+        RouteInformationAction.patternInformationRequest,
+        messageContents.trip.pattern.id,
+        ->
+          actionContext.dispatch "RealTimeClientMessage",
+            id: id
+            message: messageContents))
 
 module.exports =
   startRealTimeClient: (actionContext, options, done) ->
