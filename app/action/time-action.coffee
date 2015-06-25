@@ -1,5 +1,5 @@
-module.exports = setCurrentTime: (actionContext, data) ->
-  actionContext.dispatch 'SetCurrentTime',
-    'date': data.date
-    'hour': data.hour
-    'minute': data.minute
+module.exports =
+  setCurrentTime: (actionContext, data) ->
+    actionContext.dispatch 'SetCurrentTime', data
+  unsetCurrentTime: (actionContext, data) ->
+    actionContext.dispatch 'UnsetCurrentTime'

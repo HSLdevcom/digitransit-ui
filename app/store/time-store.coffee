@@ -1,51 +1,38 @@
 Store = require 'fluxible/addons/BaseStore'
+moment = require 'moment'
 
 class TimeStore extends Store
   @storeName: 'TimeStore'
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @currentTime = @setCurrentTimeNow()
+    @setCurrentTimeNow()
 
   setCurrentTimeNow: ->
-    now = new Date()
-    @nowDate = @createPrefixZeroIfUnderTen(now.getDate()) 
-    @nowMonth = @createPrefixZeroIfUnderTen(now.getMonth() + 1)
-    @nowYear = now.getFullYear()
-    @nowHour = now.getHours()
-    @nowMinute = now.getMinutes()
-    # Put timezone as e.g. "+0300"
-    @timezone = '+' + @createPrefixZeroIfUnderTen((now.getTimezoneOffset() / 60) * -1) + '00'
+    @time = moment()
+    @status = "UNSET"
+    @emitChange()
+    setTimeout =>
+      if @status == "UNSET"
+        @setCurrentTimeNow()
+    , 60*1000 #Update each minute
 
   setCurrentTime: (data) ->
-    now = new Date()
-    if data.date == "today" 
-      @nowDate = now.getDate()
-    else 
-      @nowDate = now.getDate()+1
+    @time = data
+    @status = "SET"
+    @emitChange()
 
-    @nowMonth = @createPrefixZeroIfUnderTen(now.getMonth() + 1)
-    @nowYear = now.getFullYear()
-    @nowHour = data.hour
-    @nowMinute = data.minute
-  
-  getTimeHour: () ->
-    @nowHour
+  getTimeHour: ->
+    @time.format('HH')
 
-  getTimeMinute: () ->
-    @nowMinute
+  getTimeMinute: ->
+    @time.format('mm')
 
-  getDate: () ->
-    pattern = @nowYear + "-" + @nowMonth + "-" + @nowDate + "T" + @nowHour + ":" + @nowMinute + @timezone
-    new Date(pattern)
-
-  createPrefixZeroIfUnderTen: (number) ->
-    if number < 10 
-      return '0' + number
-    else 
-      return '' + number
+  getTime: ->
+    @time
 
   @handlers:
     'SetCurrentTime': 'setCurrentTime'
-      
+    'UnsetCurrentTime': 'setCurrentTimeNow'
+
 module.exports = TimeStore
