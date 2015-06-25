@@ -230,21 +230,37 @@ ul.offcanvas-list {
   }
 
   select {
+    background-color: $top-navigation-sub-input-background-color;
+    color: $top-navigation-sub-color;
+    &:focus, &:hover {
+      background-color: $top-navigation-sub-input-background-color;
+      outline: none;
+    }
+  }
+}
+
+.top-bar > .time-selectors {
+  select {
+    background-color: $top-navigation-sub-background-color;
+    color: $top-navigation-sub-color;
+    &:focus, &:hover {
+      background-color: $top-navigation-sub-background-color;
+      outline: none;
+    }
+  }
+}
+
+
+.time-selectors {
+  select {
     appearance: none;
     width: 120px;
     border-radius: $border-radius;
     padding-top: 0px;
     padding-bottom: 0px;
-    background-color: $top-navigation-sub-input-background-color;
     height: 25px;
     display: inline-block !important;
-    color: $top-navigation-sub-color;
     margin-right: 5px;
-
-    &:focus, &:hover {
-      background-color: $top-navigation-sub-input-background-color;
-      outline: none;
-    }
 
     &.time {
       width: 2.5em;
