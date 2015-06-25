@@ -7,6 +7,7 @@ class TimeStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @setCurrentTimeNow()
+    @setArriveBy(false)
 
   setCurrentTimeNow: ->
     @time = moment()
@@ -22,17 +23,19 @@ class TimeStore extends Store
     @status = "SET"
     @emitChange()
 
-  getTimeHour: ->
-    @time.format('HH')
-
-  getTimeMinute: ->
-    @time.format('mm')
+  setArriveBy: (arriveBy) ->
+    @arriveBy = arriveBy
+    @emitChange()
 
   getTime: ->
     @time
 
+  getArriveBy: ->
+    @arriveBy
+
   @handlers:
     'SetCurrentTime': 'setCurrentTime'
     'UnsetCurrentTime': 'setCurrentTimeNow'
+    'SetArriveBy': 'setArriveBy'
 
 module.exports = TimeStore
