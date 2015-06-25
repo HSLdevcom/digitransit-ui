@@ -5,7 +5,8 @@ module.exports = itinerarySearchRequest: (actionContext, options) ->
   actionContext.dispatch "ItinerarySearchStarted"
   time = actionContext.getStore("TimeStore").getTime()
   arriveBy = actionContext.getStore("TimeStore").getArriveBy()
-  actionContext.dispatch "SetCurrentTime", time
+  if actionContext.getStore("TimeStore").status == "UNSET"
+    actionContext.dispatch "SetCurrentTime", time
   params =
     fromPlace: options.params.from
     toPlace: options.params.to
