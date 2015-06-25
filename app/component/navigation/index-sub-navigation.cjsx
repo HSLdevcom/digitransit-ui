@@ -5,17 +5,10 @@ moment        = require 'moment'
 TimeSelectors = require './time-selectors'
 
 class IndexSubNavigation extends React.Component
-
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.func
-
   propTypes =
     visible: React.PropTypes.bool.isRequired
 
   render: ->
-
     if not @props.visible
       return null
 

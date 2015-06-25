@@ -4,7 +4,6 @@ TimeActions = require '../../action/time-action'
 moment      = require 'moment'
 
 class TimeSelectors extends React.Component
-
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
