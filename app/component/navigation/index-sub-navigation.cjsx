@@ -1,7 +1,4 @@
 React         = require 'react'
-TimeStore     = require '../../store/time-store'
-TimeActions   = require '../../action/time-action'
-moment        = require 'moment'
 TimeSelectors = require './time-selectors'
 
 class IndexSubNavigation extends React.Component
