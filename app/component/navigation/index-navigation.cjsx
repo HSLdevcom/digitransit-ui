@@ -5,25 +5,28 @@ IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
 
 class IndexNavigation extends React.Component
-  constructor: -> 
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
+  constructor: ->
     super
     @state =
       subNavigationVisible: false
       offcanvasVisible: false
-      text: 'nyt'    
+      text: if @context.getStore("TimeStore").status == "UNSET" then "Nyt" else "Myöhemmin"
 
-  toggleSubnavigation: => 
+  toggleSubnavigation: =>
     if @state.subNavigationVisible
       @setState
         subNavigationVisible: false
-        text: 'nyt'
+        text: if @context.getStore("TimeStore").status == "UNSET" then "Nyt" else "Myöhemmin"
       # TODO, how about this?
       el = @refs.content.getDOMNode()
       if (el.classList)
         el.classList.remove("sub-navigation-push");
       else
         el.className = el.className.replace(new RegExp('(^|\\b)sub-navigation-push(\\b|$)', 'gi'), ' ');
-    else 
+    else
       @setState
         subNavigationVisible: true
         text: 'aika'

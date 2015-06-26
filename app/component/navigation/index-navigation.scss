@@ -30,13 +30,13 @@ $content-background-color: $background-color;
 
 /* Subnavigation */
 $top-navigation-height: 40px;
-$top-navigation-sub-background-color: #dddddd;
-$top-navigation-sub-input-background-color: #B1B1B1;
+$top-navigation-sub-background-color: $hsl-dark-blue;
+$top-navigation-sub-input-background-color: $hsl-blue;
 $top-navigation-sub-color: $white;
 $top-navigation-sub-height: 40px;
 $top-navigation-sub-font-size: 13px;
-$top-navigation-switch-background-color: #0068AB;
-$top-navigation-switch-background-color-active: $hsl-blue;
+$top-navigation-switch-background-color: $hsl-dark-blue;
+$top-navigation-switch-background-color-active: $hsl-dark-blue;
 $top-navigation-switch-color: $white;
 $top-navigation-switch-height: 20px;
 $top-navigation-switch-font-size: 9pt;
@@ -230,43 +230,59 @@ ul.offcanvas-list {
   }
 
   select {
+    background-color: $top-navigation-sub-input-background-color;
+    color: $top-navigation-sub-color;
+    &:focus, &:hover {
+      background-color: $top-navigation-sub-input-background-color;
+      outline: none;
+    }
+  }
+}
+
+.top-bar > .time-selectors {
+  select {
+    background-color: $top-navigation-sub-background-color;
+    color: $top-navigation-sub-color;
+    &:focus, &:hover {
+      background-color: $top-navigation-sub-background-color;
+      outline: none;
+    }
+  }
+}
+
+
+.time-selectors {
+  select {
+    appearance: none;
     width: 120px;
     border-radius: $border-radius;
     padding-top: 0px;
     padding-bottom: 0px;
-    background-color: $top-navigation-sub-input-background-color;
     height: 25px;
     display: inline-block !important;
-    color: $top-navigation-sub-color;
     margin-right: 5px;
 
-    &:focus {
-      background-color: $top-navigation-sub-input-background-color;
-      outline: none;
-    }
+    &.time {
+      width: 2.5em;
 
-    .time {
-      width: 40px;
-
-      .hour {
+      &.hour {
         border-top-left-radius: $border-radius;
         border-bottom-left-radius: $border-radius;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         margin-right: 0px;
       }
-      .minute {
+      &.minute {
         border-top-left-radius: 0 !important;
         border-bottom-left-radius: 0 !important;
         border-top-right-radius: $border-radius;
         border-bottom-right-radius: $border-radius;
-        margin-left: -5px;
+        margin-left: 0;
       }
     }
   }
 
   .timeseparator {
-    margin-left: 33px;
-    position: absolute
+    font-weight: $font-weight-bold;
   }
 }

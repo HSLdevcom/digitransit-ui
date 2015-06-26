@@ -21,7 +21,12 @@ stopRoutesRequest = (actionContext, id, done) ->
 
 stopDeparturesRequest = (actionContext, id, done) ->
   actionContext.dispatch "StopDeparturesFetchStarted", id
-  xhrPromise.getJson(config.URL.OTP + "index/stops/" + id + "/stoptimes?detail=true&numberOfDepartures=5").then (data) ->
+  timeStore = actionContext.getStore('TimeStore')
+  if timeStore.status == "SET"
+    time = "&startTime=" + actionContext.getStore('TimeStore').getTime().unix()
+  else
+    time = ""
+  xhrPromise.getJson(config.URL.OTP + "index/stops/#{id}/stoptimes?detail=true&numberOfDepartures=5#{time}").then (data) ->
     actionContext.dispatch "StopDeparturesFound",
       id: id
       departures: data
@@ -56,7 +61,7 @@ fetchStopsDepartures = (actionContext, options, done) ->
     actions["departures" + stop] =
       action: stopDeparturesRequest
       params: stop
-  executeMultiple actionContext, actions, () -> 
+  executeMultiple actionContext, actions, () ->
     actionContext.dispatch "StopsDeparturesFound"
     done()
 
@@ -70,7 +75,7 @@ stopPageDataRequest =  (actionContext, options, done) ->
       params: options.params.stopId
     , -> done()
 
-module.exports = 
+module.exports =
   'stopDeparturesRequest': stopDeparturesRequest
   'stopInformationRequest': stopInformationRequest
   'fetchStopsDepartures': fetchStopsDepartures

@@ -1,51 +1,47 @@
 Store = require 'fluxible/addons/BaseStore'
+moment = require 'moment'
 
 class TimeStore extends Store
+  # Stores the user-selected time centrally for the application
+  # getTime always returns a valid moment object. Status is set either to UNSET
+  # if the user has not selected a time, or SET if the time has been fixed.
+  # The arriveBy-flags tells that the user has selected that he wants to arrive
+  # before the selected time to his destination.
+
   @storeName: 'TimeStore'
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @currentTime = @setCurrentTimeNow()
+    @setCurrentTimeNow()
+    @setArriveBy(false)
 
   setCurrentTimeNow: ->
-    now = new Date()
-    @nowDate = @createPrefixZeroIfUnderTen(now.getDate()) 
-    @nowMonth = @createPrefixZeroIfUnderTen(now.getMonth() + 1)
-    @nowYear = now.getFullYear()
-    @nowHour = now.getHours()
-    @nowMinute = now.getMinutes()
-    # Put timezone as e.g. "+0300"
-    @timezone = '+' + @createPrefixZeroIfUnderTen((now.getTimezoneOffset() / 60) * -1) + '00'
+    @time = moment()
+    @status = "UNSET"
+    @emitChange()
+    setTimeout =>
+      if @status == "UNSET"
+        @setCurrentTimeNow()
+    , 60*1000 #Update each minute
 
   setCurrentTime: (data) ->
-    now = new Date()
-    if data.date == "today" 
-      @nowDate = now.getDate()
-    else 
-      @nowDate = now.getDate()+1
+    @time = data
+    @status = "SET"
+    @emitChange()
 
-    @nowMonth = @createPrefixZeroIfUnderTen(now.getMonth() + 1)
-    @nowYear = now.getFullYear()
-    @nowHour = data.hour
-    @nowMinute = data.minute
-  
-  getTimeHour: () ->
-    @nowHour
+  setArriveBy: (arriveBy) ->
+    @arriveBy = arriveBy
+    @emitChange()
 
-  getTimeMinute: () ->
-    @nowMinute
+  getTime: ->
+    @time
 
-  getDate: () ->
-    pattern = @nowYear + "-" + @nowMonth + "-" + @nowDate + "T" + @nowHour + ":" + @nowMinute + @timezone
-    new Date(pattern)
-
-  createPrefixZeroIfUnderTen: (number) ->
-    if number < 10 
-      return '0' + number
-    else 
-      return '' + number
+  getArriveBy: ->
+    @arriveBy
 
   @handlers:
     'SetCurrentTime': 'setCurrentTime'
-      
+    'UnsetCurrentTime': 'setCurrentTimeNow'
+    'SetArriveBy': 'setArriveBy'
+
 module.exports = TimeStore

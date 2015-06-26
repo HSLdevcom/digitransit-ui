@@ -16,12 +16,17 @@ class SummaryPage extends React.Component
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
+    @context.getStore("TimeStore").addChangeListener @onTimeChange
 
   componentWillUnmount: ->
     @context.getStore('ItinerarySearchStore').removeChangeListener @onChange
+    @context.getStore("TimeStore").removeChangeListener @onTimeChange
 
   onChange: =>
     @forceUpdate()
+
+  onTimeChange: =>
+    @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
   onSelectActive: (index) =>
     @setState
@@ -29,7 +34,7 @@ class SummaryPage extends React.Component
 
   render: ->
     rows = []
-    leafletObjs = [] 
+    leafletObjs = []
     activeIndex = if @state and @state.activeIndex then @state.activeIndex else 0
 
     plan = @context.getStore('ItinerarySearchStore').getData().plan
