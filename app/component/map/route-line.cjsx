@@ -8,7 +8,6 @@ DynamicPopup       = if isBrowser then require './dynamic-popup' else null
 StopMarkerPopup    = require './stop-marker-popup'
 Icon               = require '../icon/icon'
 polyUtil           = require 'polyline-encoded'
-getSelector        = require '../../util/get-selector'
 
 class RouteLine extends React.Component
   @contextTypes:
@@ -20,11 +19,19 @@ class RouteLine extends React.Component
 
   render: ->
     objs = []
-    color = if isBrowser then getSelector("." + @props.mode).style?.color else "#999" # TODO: Need a better way to do this
+    modeClass = @props.mode.toLowerCase()
     objs.push <Marker map={@props.map} key="from" position={@props.stops[0]} icon={RouteLine.fromIcon}/>
     objs.push <Marker map={@props.map} key="to" position={@props.stops[@props.stops.length-1]} icon={RouteLine.toIcon}/>
-    objs.push <Polyline map={@props.map} key={"halo"} positions={polyUtil.decode @props.geometry.points} color="#fff" opacity=1 weight=5 />
-    objs.push <Polyline map={@props.map} key={"line"} positions={polyUtil.decode @props.geometry.points} color={color} opacity=1 weight=3 />
+    objs.push <Polyline map={@props.map}
+                        key={"halo"}
+                        positions={polyUtil.decode @props.geometry.points}
+                        className="leg-halo #{modeClass}"
+                        weight=5 />
+    objs.push <Polyline map={@props.map}
+                        key={"line"}
+                        positions={polyUtil.decode @props.geometry.points}
+                        className="leg #{modeClass}"
+                        weight=3 />
     @props.stops.forEach (stop, i) =>
      # This is copied to stop-marker-container.cjsx. Remember to change both at the same time
      # to retain visual consistency.
@@ -32,8 +39,19 @@ class RouteLine extends React.Component
         <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
           <StopMarkerPopup stop={stop} context={@context}/>
         </DynamicPopup>
-      objs.push <CircleMarker map={@props.map} key={i + "circleHalo"} center={lat: stop.lat, lng: stop.lon} radius=3 color="#fff" opacity=1 >{popup}</CircleMarker>
-      objs.push <CircleMarker map={@props.map} key={i + "circle"} center={lat: stop.lat, lng: stop.lon} radius=2 color={color} fill={color} opacity=1 fillOpacity=1 clickable={false}/>
+     objs.push <CircleMarker map={@props.map}
+                             key={i + "circleHalo"}
+                             center={lat: stop.lat, lng: stop.lon}
+                             className="stop-on-line-halo #{modeClass}"
+                             radius=3 >
+        {popup}
+     </CircleMarker>
+     objs.push <CircleMarker map={@props.map}
+                             key={i + "circle"}
+                             center={lat: stop.lat, lng: stop.lon}
+                             className="stop-on-line #{modeClass}"
+                             radius=2
+                             clickable={false} />
 
     <div style={{display: "none"}}>{objs}</div>
 

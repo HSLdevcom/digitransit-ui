@@ -240,6 +240,47 @@ div.stop-name-marker {
   color: $gray;
 }
 
+.map .stop-halo {
+  stroke: #333;
+  stroke-opacity: 0.4;
+  fill: #fff;
+  fill-opacity: 1;
+}
+
+.map .stop {
+  stroke: currentColor;
+  stroke-opacity: 1;
+  fill: #fff;
+  fill-opacity: 1;
+}
+
+.map .stop-on-line-halo {
+  stroke: #fff;
+  stroke-opacity: 1;
+}
+
+.map .stop-on-line {
+  stroke: currentColor;
+  stroke-opacity: 1;
+  fill: currentColor;
+  fill-opacity: 1;
+}
+
+.map .leg-halo {
+  stroke: #fff;
+  stroke-opacity: 1;
+}
+
+.map .leg {
+  stroke: currentColor;
+  stroke-opacity: 1;
+}
+
+/* color to use instead of mode-specific colors */
+.map .passive {
+  color: #c2c2c2;
+}
+
 div.background-gradient {
   width: 100%;
   position: absolute;

@@ -3,7 +3,6 @@ isBrowser     = window?
 DynamicPopup  = if isBrowser then require './dynamic-popup' else null
 CircleMarker  = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
 Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
-getSelector   = require '../../util/get-selector'
 StopMarkerPopup = require './stop-marker-popup'
 NearestStopsAction = require '../../action/nearest-stops-action'
 L             = if isBrowser then require 'leaflet' else null
@@ -45,7 +44,7 @@ class StopMarkerContainer extends React.Component
       if @context.getStore('StopInformationStore').getStop(stop.id)
         stop = @context.getStore('StopInformationStore').getStop(stop.id)
       if stop
-        color = "#007AC9" # TODO: Should come from stop
+        modeClass = "bus" # TODO: Should come from stop
         #https://github.com/codebusters/react-leaflet/commit/c7b897e3ef429774323c7d8130f2fae504779b1a
         selected = @props.hilightedStops and stop.id in @props.hilightedStops
         # This is copied to route-line.cjsx. Remember to change both at the same time
@@ -57,11 +56,17 @@ class StopMarkerContainer extends React.Component
         stops.push <CircleMarker map={@props.map}
                                  key={stop.id + "outline"}
                                  center={lat: stop.lat, lng: stop.lon}
-                                 radius={if selected then 13 else 8} weight=1 color="#333" opacity=0.4 fillColor="#fff" fillOpacity=1 >{popup}</CircleMarker>
+                                 className="#{modeClass} stop-halo"
+                                 radius={if selected then 13 else 8}
+                                 weight=1 >
+          {popup}
+        </CircleMarker>
         stops.push <CircleMarker map={@props.map}
                                  key={stop.id}
                                  center={lat: stop.lat, lng: stop.lon}
-                                 radius={if selected then 8 else 4.5} weight={if selected then 7 else 4} color={color} opacity=1 fillColor="#fff" fillOpacity=1
+                                 className="#{modeClass} stop"
+                                 radius={if selected then 8 else 4.5}
+                                 weight={if selected then 7 else 4}
                                  clickable={false} />
                                  # when the CircleMarker is not clickable, the click goes to element behind it (the bigger marker)
         stops.push <Marker map={@props.map}
