@@ -1,5 +1,4 @@
 Xhr            = require 'httpify'
-Promise        = (require 'es6-promise').Promise
 
 serialize = (obj, prefix) ->
   if not obj

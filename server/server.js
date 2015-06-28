@@ -56,13 +56,17 @@ function setUpRoutes() {
           )
         )
 
-        var polyfillContent = '';
-
-        if(req.headers['user-agent'].indexOf('PhantomJS/1') > -1 ){
-          polyfillContent = fs.readFileSync('app/util/phantomjs-prototype-polyfill.js');
-        } else {
-          polyfillContent = polyfillService.getPolyfillString({uaString: req.headers['user-agent'], features: {'Function.prototype.bind': {flags: []}, 'matchMedia': {flags: []}}});
-        }
+        var polyfillContent = polyfillService.getPolyfillString({
+          uaString: req.headers['user-agent'],
+          features: {
+            'Function.prototype.bind': {flags: ['gated']},
+            'matchMedia': {flags: ['gated']},
+            'fetch': {flags: ['gated']},
+            'Promise': {flags: ['gated']}
+          },
+          minify: true,
+          unknown: 'polyfill'
+        });
 
         var html = React.renderToString(
           React.createElement(
