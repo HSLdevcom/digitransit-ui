@@ -11,6 +11,9 @@ var polyfillService = require('polyfill-service');
 var Promise = require('es6-promise').Promise;
 require('node-cjsx').transform()
 
+/********** Polyfill **********/
+global.fetch = require('node-fetch');
+
 /********** Global **********/
 var port = process.env.PORT || 8080 
 var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
