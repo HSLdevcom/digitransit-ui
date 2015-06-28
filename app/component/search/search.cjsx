@@ -295,7 +295,8 @@ class Search extends React.Component
             suggestionRenderer={@renderSuggestion}
             suggestionValue={@suggestionValue}
             onSuggestionSelected={@suggestionSelected}
-            showWhen={(input) => input.trim().length >= 2}/>    
+            showWhen={(input) => input.trim().length >= 2}
+            scrollBar={true}/>
         </div>
         <div className="small-1 columns">
           <span className="postfix search cursor-pointer" onTouchTap={@onSubmit}>
