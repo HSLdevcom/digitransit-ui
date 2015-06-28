@@ -8,7 +8,6 @@ var Router = require('react-router')
 var FluxibleComponent = require('fluxible/addons/FluxibleComponent');
 var serialize = require('serialize-javascript');
 var polyfillService = require('polyfill-service');
-var Promise = require('es6-promise').Promise;
 require('node-cjsx').transform()
 
 /********** Polyfill **********/
