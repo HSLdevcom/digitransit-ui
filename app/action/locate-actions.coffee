@@ -86,7 +86,7 @@ manuallySetPosition = (actionContext, location, done) ->
   , () -> done()
 
 module.exports =
-  'findLocation':          findLocation
-  'removeLocation':        removeLocation
-  'manuallySetPosition':   manuallySetPosition
+  'findLocation': findLocation
+  'removeLocation': removeLocation
+  'manuallySetPosition': manuallySetPosition
   'reverseGeocodeAddress': reverseGeocodeAddress

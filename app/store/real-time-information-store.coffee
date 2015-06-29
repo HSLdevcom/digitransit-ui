@@ -35,6 +35,6 @@ class RealTimeInformationStore extends Store
     "RealTimeClientStarted": 'storeClient'
     "RealTimeClientStopped": 'clearClient'
     "RealTimeClientMessage": 'handleMessage'
-    "RealTimeClientTopicChanged" : 'updateSubscriptions'
+    "RealTimeClientTopicChanged": 'updateSubscriptions'
 
 module.exports = RealTimeInformationStore

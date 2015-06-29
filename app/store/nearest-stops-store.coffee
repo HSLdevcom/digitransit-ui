@@ -37,7 +37,7 @@ class NearestStopsStore extends Store
     @stopsInRectangle
 
   @handlers:
-    "NearestStopsFound":   'storeNearestStops'
+    "NearestStopsFound": 'storeNearestStops'
     "NearestStopsRemoved": 'removeNearestStops'
     "StopsInRectangleFound": 'storeStopsInRectangle'
 

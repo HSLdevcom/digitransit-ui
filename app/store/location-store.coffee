@@ -74,13 +74,13 @@ class LocationStore extends Store
     "#{@address}::#{@lat},#{@lon}"
 
   @handlers:
-    "GeolocationSearch":       'geolocationSearch'
-    "GeolocationFound":        'storeLocation'
-    "GeolocationRemoved":      'removeLocation'
+    "GeolocationSearch": 'geolocationSearch'
+    "GeolocationFound": 'storeLocation'
+    "GeolocationRemoved": 'removeLocation'
     "GeolocationNotSupported": 'geolocationNotSupported'
-    "GeolocationDenied":       'geolocationDenied'
-    "GeolocationTimeout":      'geolocationTimeout'
-    "ManuallySetPosition":     'storeLocationAndAddress'
-    "AddressFound":            'storeAddress'
+    "GeolocationDenied": 'geolocationDenied'
+    "GeolocationTimeout": 'geolocationTimeout'
+    "ManuallySetPosition": 'storeLocationAndAddress'
+    "AddressFound": 'storeAddress'
 
 module.exports = LocationStore
