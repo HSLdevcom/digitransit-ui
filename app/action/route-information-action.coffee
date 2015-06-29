@@ -56,7 +56,7 @@ fuzzyTripInformationRequest = (actionContext, details, done) ->
 
 routePageDataRequest =  (actionContext, options, done) ->
   patternId = options.params.routeId
-  routeId = patternId.split(':',2).join(':')
+  routeId = patternId.split(':', 2).join(':')
   executeMultiple actionContext,
     routeInfo:
       action: routeInformationRequest

@@ -19,10 +19,11 @@ class TimeStore extends Store
     @time = moment()
     @status = "UNSET"
     @emitChange()
-    setTimeout =>
-      if @status == "UNSET"
-        @setCurrentTimeNow()
-    , 60*1000 #Update each minute
+    setTimeout(
+      =>
+        if @status == "UNSET"
+          @setCurrentTimeNow()
+      , 60 * 1000)  # Update each minute
 
   setCurrentTime: (data) ->
     @time = data

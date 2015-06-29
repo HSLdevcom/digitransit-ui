@@ -20,7 +20,7 @@ class NearestStopsStore extends Store
     @distances = {}
 
   storeNearestStops: (stops) ->
-    stops.sort (a,b) ->
+    stops.sort(a, b) ->
       if a.dist > b.dist then 1 else -1
     @stops = []
     @distances = {}
