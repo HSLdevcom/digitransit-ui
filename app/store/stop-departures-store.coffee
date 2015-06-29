@@ -43,12 +43,12 @@ class StopDeparturesStore extends Store
         deps.push
           time: time
           pattern: departure.pattern
-    deps.sort(a, b) ->
+    deps.sort((a, b) ->
       if a.time.serviceDay + a.time.realtimeDeparture >
          b.time.serviceDay + b.time.realtimeDeparture
         1
       else
-        -1
+        -1)
     @departures[data.id] = deps
     @dates[data.id] = data.date
     @emitChange(data.id)
@@ -60,12 +60,12 @@ class StopDeparturesStore extends Store
         deps.push
           time: time
           pattern: departure.pattern
-    deps.sort(a, b) ->
+    deps.sort((a, b) ->
       if a.time.serviceDay + a.time.realtimeDeparture >
          b.time.serviceDay + b.time.realtimeDeparture
         1
       else
-        -1
+        -1)
     @departures[data.id] = deps
     @dates[data.id] = data.date
     @additionalStopStatus = true
