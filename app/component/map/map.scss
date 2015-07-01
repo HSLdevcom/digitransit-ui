@@ -89,6 +89,8 @@ div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
   > span > svg.icon {
     width: 24px;
     height: 24px;
+    stroke: white;
+    stroke-width: 60px;
   }
 }
 
