@@ -31,13 +31,21 @@ module.exports = {
   plugins: (process.env.NODE_ENV === "development") ? [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en/),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify("development"),
+        ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
+        CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
+      }
+    }),
     new webpack.NoErrorsPlugin()
   ] : [
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en/),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify("production"),
-        ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/')
+        ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
+        CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
       }
     }),
     new webpack.PrefetchPlugin('react'),
@@ -57,7 +65,7 @@ module.exports = {
     new ExtractTextPlugin("css/bundle.css", {
             allChunks: true
         }),
-    new webpack.NoErrorsPlugin()    
+    new webpack.NoErrorsPlugin()
   ],
   resolve: {
     extensions: ['', '.js', '.cjsx', '.jsx', '.coffee']
