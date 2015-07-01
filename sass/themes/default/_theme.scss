@@ -1,0 +1,61 @@
+/* General palette */
+$white: #ffffff;
+$black: #333;
+$gray-blue: #7f929c;
+$gray-blue-light: rgb(182, 193, 199);
+$light-gray: #ddd;
+$medium-gray: #ccc;
+$gray: #999;
+
+/* Palette */
+$hsl-alert: #dc0451;
+$hsl-disruption: #fed100;
+
+$livi-bus-blue: rgb(0, 136, 206);
+$livi-logo-blue: rgb(61, 183, 228);
+$livi-airplane-blue: rgb(0, 70, 173);
+$livi-ferry-blue: rgb(53, 181, 179);
+$livi-gold: rgb(233, 171, 0);
+$hsl-tram-green: #00985f;
+$hsl-metro-orange: #ff6319;
+$hsl-train-red: #8c4799;
+$vr-train-green: rgb(100, 190, 20);
+
+
+$primary-color: $white;
+$primary-font-color: $gray;
+$secondary-color: #eef1f3;
+$secondary-font-color: $gray-blue;
+$title-color: $livi-logo-blue;
+$favourite-color: $livi-gold;
+$hilight-color: $livi-logo-blue;
+$action-color: $livi-logo-blue;
+$disruption-color: $hsl-disruption;
+$disruption-passive-color: $livi-logo-blue;
+
+/* Fonts */
+$font-family: Lato, Arial, Georgia, Serif;
+$font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
+
+$body-font-family: $font-family;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+/* Application base colors */
+$background-color: #eef1f3;
+$dark-color: $gray;
+
+/* Vehicle colors */
+$bus-color: $livi-bus-blue;
+$tram-color: $hsl-tram-green;
+$metro-color: $hsl-metro-orange;
+$train-color: $vr-train-green;
+$ferry-color: $livi-ferry-blue;
+$from-color: #64be14;
+$to-color: #f092cd;
+$walk-color: $gray;
+
+/* Borders */
+$border-radius: 3px;

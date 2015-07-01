@@ -1,15 +1,16 @@
 /* foundation override */
 $menu-slide: "transform 200ms ease";
-$topbar-bg: $hsl-blue;
+$topbar-bg: $primary-color;
 $topbar-height: 40px;
 $offcanvas-background: #333333;
 $offcanvas-background-hover: scale-color($gray, $lightness: -30%);
 $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 
 /* top bar icons */
-$top-navigation-icon-color: $white;
-$top-navigation-disruption-info-active-color: rgb(252, 208, 1);
-$top-navigation-disruption-info-inactive-color: rgb(77, 162, 217);
+$top-navigation-icon-color: $primary-font-color;
+$top-navigation-title-color: $title-color;
+$top-navigation-disruption-info-active-color: $disruption-color;
+$top-navigation-disruption-info-inactive-color: $disruption-passive-color;
 
 /* offcanvas */
 $offcanvas-profile-icon-size: 60px;
@@ -30,14 +31,14 @@ $content-background-color: $background-color;
 
 /* Subnavigation */
 $top-navigation-height: 40px;
-$top-navigation-sub-background-color: $hsl-dark-blue;
-$top-navigation-sub-input-background-color: $hsl-blue;
-$top-navigation-sub-color: $white;
+$top-navigation-sub-background-color: $secondary-color;
+$top-navigation-sub-input-background-color: $primary-color;
+$top-navigation-sub-color: $secondary-font-color;
 $top-navigation-sub-height: 40px;
 $top-navigation-sub-font-size: 13px;
-$top-navigation-switch-background-color: $hsl-dark-blue;
-$top-navigation-switch-background-color-active: $hsl-dark-blue;
-$top-navigation-switch-color: $white;
+$top-navigation-switch-background-color: $secondary-color;
+$top-navigation-switch-background-color-active: $secondary-color;
+$top-navigation-switch-color: $secondary-font-color;
 $top-navigation-switch-height: 20px;
 $top-navigation-switch-font-size: 9pt;
 $top-navigation-switch-width: 70px;
@@ -94,7 +95,7 @@ nav.top-bar {
 
   .title {
     text-align: center;
-    color: $top-navigation-icon-color;
+    color: $top-navigation-title-color;
 
     a {
       text-decoration: none;

@@ -16,7 +16,18 @@ $hsl-train-red: #8c4799;
 $hsl-ferry-blue: #00b9e4;
 $hsl-pink: #f092cd;
 $hsl-alert: #dc0451;
-$hsl-distruption: #fed100;
+$hsl-disruption: #fed100;
+
+$primary-color: $hsl-blue;
+$primary-font-color: $white;
+$secondary-color: $hsl-dark-blue;
+$secondary-font-color: $white;
+$title-color: $white;
+$favourite-color: $hsl-pink;
+$hilight-color: $hsl-pink;
+$action-color: $hsl-blue;
+$disruption-color: $hsl-disruption;
+$disruption-passive-color: rgb(77, 162, 217);
 
 /* Fonts */
 $font-family: Nunito, Arial, Georgia, Serif;
