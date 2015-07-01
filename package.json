@@ -42,7 +42,7 @@
     "polyfill-service": "^1.4.0",
     "polyline-encoded": "^0.0.7",
     "react": "^0.13.3",
-    "react-autosuggest": "^1.14.0",
+    "react-autosuggest": "https://github.com/moroshko/react-autosuggest/tarball/2.0",
     "react-leaflet": "^0.6.1",
     "react-router": "^0.13.3",
     "react-simpletabs": "^0.6.1",
