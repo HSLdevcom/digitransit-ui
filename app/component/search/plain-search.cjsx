@@ -9,8 +9,8 @@ AUTOSUGGEST_ID = 'autosuggest'
 class PlainSearch extends React.Component
   propTypes =
     initialSelection: React.PropTypes.object
+    inputAttributes: React.PropTypes.object
     onSelection: React.PropTypes.func.isRequired
-    filterCities: React.PropTypes.arrayOf(React.PropTypes.String)
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -19,10 +19,16 @@ class PlainSearch extends React.Component
 
   constructor: ->
     super
+    # XXX This needs to be configurable
+    @filterCities = ['Helsinki', 'Espoo', 'Kauniainen', 'Vantaa', 'Sipoo',
+                     'Kirkkonummi']
 
   # input: what the user has typed to react-autosuggest component
   # callback: react-autosuggest function to call with results list
   getSuggestions: (input, callback) =>
+    # Save this so we can do multistep autocomplete and return suggestions
+    # even when react-autosuggest doesn't ask for them
+    @suggestionCallback = callback
     analyzed = @analyzeInput(input)
     if analyzed.isAddressSearch && analyzed.queryCity
       @searchAddresses(analyzed.queryCity, analyzed.queryAddress, analyzed.queryNumber, callback)
@@ -76,7 +82,7 @@ class PlainSearch extends React.Component
               'address': address.streetFi  # TODO Swedish names here too
               'lat': address.location[1]
               'lon': address.location[0]
-              'number': address.number
+              'number': if address.number isnt 0 then address.number else ''
               'staircase': address.unit
               'city': address.municipalityFi  # TODO Swedish names here too
               'description': "#{address.streetFi} #{address.number}#{staircaseSelection}, #{address.municipalityFi}"
@@ -88,7 +94,7 @@ class PlainSearch extends React.Component
     XhrPromise.getJson(
       config.URL.GEOCODER +
       # XXX Test if this work with no prop given
-      "suggest/#{address}?" + @props.filterCities.join('&'))
+      "suggest/#{address}?" + @filterCities.join('&'))
       .then (data) =>
         streets = []
         for street in data.streetnames_fi
@@ -160,18 +166,18 @@ class PlainSearch extends React.Component
     e.preventDefault()
     @setState suggestion
     if suggestion.type is 'street'
-      @searchAddresses(suggestion.city, suggestion.address, null, callback)
+      @searchAddresses(suggestion.city, suggestion.address, null, @suggestionCallback)
     else
       # We have coordinates - inform parent
       @props.onSelection(suggestion)
 
-  # This will get autoSuggestComponent when it mounts
+  # This will get autosuggestComponent when it mounts
   # See: https://github.com/moroshko/react-autosuggest/issues/21
-  handleAutoSuggestMount: (autoSuggestComponent) =>
-    if autoSuggestComponent
-      input = autoSuggestComponent.refs.input.getDOMNode()
+  handleAutosuggestMount: (autosuggestComponent) =>
+    if autosuggestComponent
+      input = autosuggestComponent.refs.input.getDOMNode()
       input.addEventListener('keydown', @suggestionArrowPress)
-      this.autoSuggestInput = input
+      @autosuggestInput = input
 
   # Scroll selection if needed
   # See: https://github.com/moroshko/react-autosuggest/issues/21
@@ -185,37 +191,32 @@ class PlainSearch extends React.Component
       return
     selectedSuggestion = suggestions[0]
 
-    autoSuggestDivs = document.getElementsByClassName(
+    autosuggestDivs = document.getElementsByClassName(
       "react-autosuggest__suggestions")
-    if autoSuggestDivs.length == 0 then return
-    autoSuggestDiv = autoSuggestDivs[0]
+    if autosuggestDivs.length == 0 then return
+    autosuggestDiv = autosuggestDivs[0]
 
     if e.which is 38
       # Up
-      autoSuggestDiv.scrollTop = selectedSuggestion.offsetTop - 90
+      autosuggestDiv.scrollTop = selectedSuggestion.offsetTop - 90
     else if e.which is 40
       # Down
-      autoSuggestDiv.scrollTop = selectedSuggestion.offsetTop - 60
+      autosuggestDiv.scrollTop = selectedSuggestion.offsetTop - 60
 
   # Happens when user presses enter without selecting anything from autosuggest
   onSubmit: (e) =>
     e.preventDefault()
 
-  onInputChange: (input) =>
-    @props.onInput input
-
   render: =>
     <form onSubmit={@onSubmit}>
       <Autosuggest
-        ref={@handleAutoSuggestMount}
-        inputAttributes={
-          placeholder: 'osoite'}
+        ref={@handleAutosuggestMount}
+        inputAttributes={@props.inputAttributes}
         value={@props.value}
         suggestions={@getSuggestions}
         suggestionRenderer={@renderSuggestion}
         suggestionValue={@suggestionValue}
         onSuggestionSelected={@suggestionSelected}
-        onInputChange={@onInputChange}
         showWhen={(input) => input.trim().length >= 2}/>
     </form>
 

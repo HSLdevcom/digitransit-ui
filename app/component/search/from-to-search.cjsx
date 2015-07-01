@@ -31,12 +31,6 @@ class FromToSearch extends React.Component
   componentWillReceiveProps: (newProps) =>
     @setState(transformProps(newProps))
 
-  onFromChange: (value) =>
-    @setState {fromValue: value}
-
-  onToChange: (value) =>
-    @setState {toValue: value}
-
   selectOrigin: (location) =>
     @setState {from: "#{location.description}::#{location.lat},#{location.lon}"}
     @search()
@@ -51,9 +45,10 @@ class FromToSearch extends React.Component
     @search()
 
   onSwitch: =>
-    console.log @state
-    if (@state.fromValue is locationValue(@state.from) and
-        @state.toValue is locationValue(@state.to))
+    from = React.findDOMNode(@refs.from.autosuggestInput).value
+    to = React.findDOMNode(@refs.to.autosuggestInput).value
+    if (from is locationValue(@state.from) and
+        to is locationValue(@state.to))
       # The user has not changed the inputs, so we can directly change the actual route
       @setState {from: @state.to, to: @state.from}
       @search()
@@ -61,9 +56,9 @@ class FromToSearch extends React.Component
       # The user has changed the inputs, so we only switch the texts
       @setState
         from: @state.to
-        fromValue: @state.toValue
+        fromValue: to
         to: @state.from
-        toValue: @state.fromValue
+        toValue: from
 
   # Get new itineraries for new origin and destination
   search: =>
@@ -76,17 +71,13 @@ class FromToSearch extends React.Component
 
 
   render: =>
-    # XXX This needs to be configurable
-    cities = ['Helsinki', 'Espoo']
-
     <div className="search-form">
       <div className="row">
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              <PlainSearch value={@state.fromValue}
-                           filterCities={cities}
-                           onInput={@onFromChange}
+              <PlainSearch ref="from"
+                           value={@state.fromValue}
                            onSelection={@selectOrigin} />
             </div>
             <div className="small-1 columns">
@@ -101,9 +92,8 @@ class FromToSearch extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              <PlainSearch value={@state.toValue}
-                           filterCities={cities}
-                           onInput={@onToChange}
+              <PlainSearch ref="to"
+                           value={@state.toValue}
                            onSelection={@selectDestination} />
             </div>
             <div className="small-1 columns">
