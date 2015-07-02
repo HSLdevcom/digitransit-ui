@@ -148,8 +148,8 @@ class Search extends React.Component
       callback(null, addresses)
 
   searchSuggests: (address, callback) =>
-    cities = "city=helsinki&city=vantaa&city=espoo&city=kauniainen&city=kerava&city=kirkkonummi&city=sipoo"
-    XhrPromise.getJson(config.URL.GEOCODER + "suggest/#{address}?#{cities}").then (data) =>
+    options = if config.cities then {city: config.cities} else undefined
+    XhrPromise.getJson(config.URL.GEOCODER + "suggest/#{address}", options).then (data) =>
       streets = []
       uniqueCities = []
       for street in data.streetnames_fi

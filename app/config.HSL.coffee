@@ -6,4 +6,6 @@ module.exports =
     MQTT: 'ws://213.138.147.225:1883'
     FONT: 'http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700'
     REALTIME: 'http://matka.hsl.fi/navigator-server'
-  title: 'Digitransit demo (HSL)'
+  title: 'Digitransit demo (Paikallinen)'
+  preferredAgency: 'HSL'
+  cities: ["helsinki", "vantaa", "espoo", "kauniainen", "kerava", "kirkkonummi", "sipoo"]
