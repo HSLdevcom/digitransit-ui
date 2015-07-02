@@ -9,7 +9,7 @@ class SummaryRow extends React.Component
     data = @props.data
     startTime = moment(data.startTime)
     endTime = moment(data.endTime)
-    duration = moment.duration(endTime).subtract(startTime)
+    duration = endTime.diff(startTime)
     legs = []
     legTimes = []
     MIN_SIZE = "3.7em"
@@ -113,8 +113,9 @@ class SummaryRow extends React.Component
           </span>
         )
 
+    duration = moment.duration(duration)
     if duration.hours() >= 1
-      durationText = "#{duration.hours()}h #{duration.minutes()}m"
+      durationText = "#{duration.hours()}h #{duration.minutes()}min"
     else
       durationText = "#{duration.minutes()} min"
 
