@@ -14,6 +14,7 @@ class StopMarkerContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    router: React.PropTypes.func.isRequired
 
   componentDidMount: ->
     @props.map.on 'moveend', @onMapMove
@@ -41,6 +42,7 @@ class StopMarkerContainer extends React.Component
 
   getStops: ->
     stops = []
+    renderedNames = []
     @context.getStore('NearestStopsStore').getStopsInRectangle().forEach (stop) =>
       if config.preferredAgency and config.preferredAgency != stop.id.split(':')[0]
         return
@@ -72,11 +74,13 @@ class StopMarkerContainer extends React.Component
                                  weight={if selected then 7 else 4}
                                  clickable={false} />
                                  # when the CircleMarker is not clickable, the click goes to element behind it (the bigger marker)
-        stops.push <Marker map={@props.map}
-                           key={stop.name + "_text"}
-                           position={lat: stop.lat, lng: stop.lon}
-                           icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
-                           clickable={false}/>
+        unless stop.name in renderedNames
+          stops.push <Marker map={@props.map}
+                             key={stop.name + "_text"}
+                             position={lat: stop.lat, lng: stop.lon}
+                             icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
+                             clickable={false}/>
+          renderedNames.push stop.name
 
     stops
 

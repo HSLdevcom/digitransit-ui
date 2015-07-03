@@ -11,6 +11,12 @@ StopInformationAction = require '../../action/stop-departures-action'
 
 
 class StopMarkerPopup extends React.Component
+  @childContextTypes:
+    router: React.PropTypes.func.isRequired
+
+  getChildContext: () ->
+    router: @props.context.router
+
   componentDidMount: ->
     @props.context.getStore('StopInformationStore').addChangeListener @onChange
     @props.context.getStore('NearestStopsStore').addChangeListener @onChange
