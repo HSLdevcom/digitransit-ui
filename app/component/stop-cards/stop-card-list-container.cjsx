@@ -1,6 +1,7 @@
 React             = require 'react'
 StopCardContainer = require './stop-card-container'
 StopCardList      = require './stop-card-list'
+config            = require '../../config'
 
 STOP_COUNT = 10
 DEPARTURES_COUNT = 5
@@ -26,7 +27,7 @@ class StopCardListContainer extends React.Component
   getStopCards: =>
     stopCards = []
     for stop in @props.store.getStops().slice(0,@state.numberOfStops)
-      if stop.substring(0, 3) is 'HSL'
+      if !config.preferredAgency or config.preferredAgency == stop.split(':')[0]
         stopCards.push <StopCardContainer key={stop} stop={stop} departures=DEPARTURES_COUNT />
     stopCards
 

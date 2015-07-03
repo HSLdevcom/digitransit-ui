@@ -14,11 +14,11 @@ class VehicleMarkerContainer extends React.Component
     router: React.PropTypes.func.isRequired
 
   @vehicleIcons: if !isBrowser then null else
-    bus: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_bus')), className: 'vehicle-icon', iconSize: [18, 18], iconAnchor: [9, 9])
-    tram: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_tram')), className: 'vehicle-icon', iconSize: [18, 18], iconAnchor: [9, 9])
-    rail: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_rail')), className: 'vehicle-icon', iconSize: [18, 18], iconAnchor: [9, 9])
-    subway: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_subway')), className: 'vehicle-icon', iconSize: [18, 18], iconAnchor: [9, 9])
-    ferry: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_ferry')), className: 'vehicle-icon', iconSize: [18, 18], iconAnchor: [9, 9])
+    bus: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_bus')), className: 'vehicle-icon bus', iconSize: [18, 18], iconAnchor: [9, 9])
+    tram: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_tram')), className: 'vehicle-icon tram', iconSize: [18, 18], iconAnchor: [9, 9])
+    rail: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_rail')), className: 'vehicle-icon rail', iconSize: [18, 18], iconAnchor: [9, 9])
+    subway: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_subway')), className: 'vehicle-icon subway', iconSize: [18, 18], iconAnchor: [9, 9])
+    ferry: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_ferry')), className: 'vehicle-icon ferry', iconSize: [18, 18], iconAnchor: [9, 9])
 
   constructor: () ->
     @vehicles = {}

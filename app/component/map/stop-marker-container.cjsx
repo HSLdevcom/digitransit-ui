@@ -6,6 +6,7 @@ Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 StopMarkerPopup = require './stop-marker-popup'
 NearestStopsAction = require '../../action/nearest-stops-action'
 L             = if isBrowser then require 'leaflet' else null
+config        = require '../../config'
 
 STOPS_MAX_ZOOM = 14
 
@@ -41,6 +42,8 @@ class StopMarkerContainer extends React.Component
   getStops: ->
     stops = []
     @context.getStore('NearestStopsStore').getStopsInRectangle().forEach (stop) =>
+      if config.preferredAgency and config.preferredAgency != stop.id.split(':')[0]
+        return
       if @context.getStore('StopInformationStore').getStop(stop.id)
         stop = @context.getStore('StopInformationStore').getStop(stop.id)
       if stop

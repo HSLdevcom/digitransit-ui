@@ -17,14 +17,14 @@ Example showing how to change the color/size of the icons:
 	fill: rgb(255, 255, 255);
 }
 #icon-icon_bus .path2 {
-	fill: rgb(0, 122, 201);
+	fill: currentColor;
 }
 
 #icon-icon_ferry .path1 {
 	fill: rgb(255, 255, 255);
 }
 #icon-icon_ferry .path2 {
-	fill: rgb(0, 185, 228);
+	fill: currentColor;
 }
 
 #icon-icon_mapMarker-location .path4 {
@@ -35,20 +35,19 @@ Example showing how to change the color/size of the icons:
 	fill: rgb(255, 255, 255);
 }
 #icon-icon_rail .path2 {
-	fill: rgb(140, 71, 153);
+	fill: currentColor;
 }
 
 #icon-icon_subway .path1 {
 	fill: rgb(255, 255, 255);
 }
 #icon-icon_subway .path2 {
-	fill: rgb(255, 99, 25);
+	fill: currentColor;
 }
 
 #icon-icon_tram .path1 {
 	fill: rgb(255, 255, 255);
 }
 #icon-icon_tram .path2 {
-	fill: rgb(0, 152, 95);
+	fill: currentColor;
 }
-
