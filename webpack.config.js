@@ -29,7 +29,7 @@ function getLoadersConfig(env) {
       { test: /\.coffee$/, loader: 'coffee' },
       { test: /\.jsx$/, loader: 'jsx'},
       { test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style", 'css!postcss!sass!includePaths[]=' +
+        loader: ExtractTextPlugin.extract("style", 'css!postcss!sass?includePaths[]=' +
           (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default')))
       },
       { test: /\.(eot|png|ttf|woff)$/, loader: 'file'}
