@@ -84,7 +84,7 @@ function getPluginsConfig(env) {
 }
 
 module.exports = {
-  devtool: (process.env.NODE_ENV === "development") ? 'eval' : undefined, // This is not as dirty as it looks. It just generates source maps without being crazy slow.
+  devtool: (process.env.NODE_ENV === "development") ? 'eval' : 'source-map', // This is not as dirty as it looks. It just generates source maps without being crazy slow.
   debug: (process.env.NODE_ENV === "development") ? true : false,
   cache: true,
   entry: (process.env.NODE_ENV === "development") ? [
