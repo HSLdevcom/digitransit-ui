@@ -12,7 +12,7 @@ var Promise = require('es6-promise').Promise;
 require('node-cjsx').transform()
 
 /********** Global **********/
-var port = process.env.PORT || 8080 
+var port = process.env.PORT || 8080
 var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
 var app = express()
 
@@ -32,6 +32,8 @@ function setUpStaticFolders() {
   app.use(rootPath +"css", express.static(cssFolder))
   var jsFolder = path.join(staticFolder, 'js')
   app.use(rootPath +"js", express.static(jsFolder))
+  var jsFolder = path.join(staticFolder, 'map')
+  app.use(rootPath +"map", express.static(jsFolder))
   var iconFolder = path.join(staticFolder, 'icon')
   app.use(rootPath +"icon", express.static(iconFolder))
   var imgFolder = path.join(staticFolder, 'img')
@@ -95,7 +97,7 @@ function setUpRoutes() {
 function startServer() {
   var server = app.listen(port, function() {
     console.log('Reittiopas UI available on port %d', server.address().port)
-  })  
+  })
 }
 
 /********** Init **********/

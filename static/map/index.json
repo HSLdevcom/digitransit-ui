@@ -1,0 +1,311 @@
+{
+
+    "center": 
+
+[
+
+    37.7731,
+    -4.2957,
+    6
+
+],
+"format": "pbf",
+"vector_layers": 
+[
+
+{
+
+    "id": "landuse",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "class": "String"
+    }
+
+},
+{
+
+    "id": "water",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number"
+    }
+
+},
+{
+
+    "id": "waterway",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "type": "String",
+        "class": "String"
+    }
+
+},
+{
+
+    "id": "aeroway",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "type": "String"
+    }
+
+},
+{
+
+    "id": "building",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "type": "String",
+        "name": "String",
+        "area": "Number"
+    }
+
+},
+{
+
+    "id": "landuse_overlay",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "class": "String"
+    }
+
+},
+{
+
+    "id": "road",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "oneway": "Number",
+        "type": "String",
+        "class": "String"
+    }
+
+},
+{
+
+    "id": "bridge",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "oneway": "Number",
+        "layer": "Number",
+        "type": "String",
+        "class": "String"
+    }
+
+},
+{
+
+    "id": "tunnel",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "oneway": "Number",
+        "layer": "Number",
+        "type": "String",
+        "class": "String"
+    }
+
+},
+{
+
+    "id": "admin",
+    "description": "osm_tanzania",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "admin_level": "Number",
+        "disputed": "Number",
+        "maritime": "Number"
+    }
+
+},
+{
+
+    "id": "country_label",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "name": "String",
+        "name_en": "String",
+        "rank": "Number"
+    }
+
+},
+{
+
+    "id": "state_label",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "name": "String",
+        "name_en": "String",
+        "area": "Number"
+    }
+
+},
+{
+
+    "id": "place_label",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "name": "String",
+        "name_en": "String",
+        "type": "String",
+        "capital": "Number",
+        "ldir": "String",
+        "localrank": "Number",
+        "scalerank": "Number"
+    }
+
+},
+{
+
+    "id": "road_label",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "name": "String",
+        "name_en": "String",
+        "ref": "String",
+        "reflen": "Number",
+        "len": "Number",
+        "class": "String"
+    }
+
+},
+{
+
+    "id": "waterway_label",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "name": "String",
+        "name_en": "String",
+        "type": "String",
+        "class": "String"
+    }
+
+},
+{
+
+    "id": "water_label",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+    {
+        "osm_id": "Number",
+        "name": "String",
+        "name_en": "String",
+        "area": "Number"
+    }
+
+},
+{
+
+    "id": "poi_label",
+    "description": "",
+    "minzoom": 0,
+    "maxzoom": 22,
+    "fields": 
+
+        {
+            "osm_id": "Number",
+            "name": "String",
+            "name_en": "String",
+            "type": "String",
+            "scalerank": "Number",
+            "localrank": "Number",
+            "maki": "String"
+        }
+    }
+
+],
+"maxzoom": 17,
+"minzoom": 0,
+"name": "Untitled",
+"bounds": 
+[
+
+    -180,
+    -85.0511,
+    180,
+    85.0511
+
+],
+"tiles": 
+
+    [
+        "http://matka.hsl.fi/hsl-vector-map/{z}/{x}/{y}.pbf"
+    ],
+    "tilejson": "2.0.0"
+
+}
