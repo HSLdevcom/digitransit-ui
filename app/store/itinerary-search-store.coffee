@@ -7,7 +7,7 @@ class ItinerarySearchStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @data = JSON.parse(window.localStorage.getItemSTORAGE_KEY) or {}
+    @data = if d = window.localStorage.getItemSTORAGE_KEY then JSON.parse(d) else {}
 
   getData: ->
     @data

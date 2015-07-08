@@ -74,7 +74,7 @@ function getPluginsConfig(env) {
           warnings: false
         },
         mangle: {
-          except: ['$super', '$', 'exports', 'require']
+          except: ['$super', '$', 'exports', 'require', 'window']
         },
         exclude: /mapboxgl/
       }),
