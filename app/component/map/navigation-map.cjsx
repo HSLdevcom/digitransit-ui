@@ -19,15 +19,13 @@ dataAsGeoJSON = (data) ->
   res
 
 _toRad = (deg) -> deg * Math.PI / 180
-
 _toDeg = (rad) -> rad * 180 / Math.PI
 
 getBearing = (lat1,lng1,lat2,lng2) ->
-  dLon = _toRad lng2-lng1
-  y = Math.sin(dLon) * Math.cos(_toRad lat2)
-  x = Math.cos(_toRad lat1)*Math.sin(_toRad lat2) - Math.sin(_toRad lat1)*Math.cos(_toRad lat2)*Math.cos(dLon)
-  brng = _toDeg Math.atan2(y, x)
-  360 - ((brng + 360) % 360)
+  lonScale = Math.cos _toRad (lat1+lat2)/2
+  dx = lat2-lat1
+  dy = (lng2-lng1)/lonScale
+  (90 - _toDeg(Math.atan2(dx, dy))) % 360
 
 class NavigationMap extends React.Component
   @contextTypes:
