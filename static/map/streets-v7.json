@@ -202,7 +202,7 @@
     "@landuse-hospital": "#F2E3E1",
     "@land": "#E8E0D8",
     "@name": "{name_en}",
-    "@landcover": "#E9E5C2",
+    "@landcover": "#B0C89F",
     "@tunnel-case-dark": "#666",
     "@aeroway": "#dbcedb",
     "@label-city-md-size": {
