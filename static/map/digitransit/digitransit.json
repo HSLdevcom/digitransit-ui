@@ -1,0 +1,58 @@
+{
+  "bus": {
+    "x": 0,
+    "y": 0,
+    "width": 80,
+    "height": 60,
+    "pixelRatio": 1,
+    "sdf": false
+  },
+  "ferry": {
+    "x": 82,
+    "y": 0,
+    "width": 80,
+    "height": 60,
+    "pixelRatio": 1,
+    "sdf": false
+  },
+  "location": {
+    "x": 164,
+    "y": 62,
+    "width": 32,
+    "height": 32,
+    "pixelRatio": 1,
+    "sdf": false
+  },
+  "marker": {
+    "x": 198,
+    "y": 62,
+    "width": 32,
+    "height": 32,
+    "pixelRatio": 1,
+    "sdf": false
+  },
+  "rail": {
+    "x": 0,
+    "y": 62,
+    "width": 80,
+    "height": 60,
+    "pixelRatio": 1,
+    "sdf": false
+  },
+  "subway": {
+    "x": 82,
+    "y": 62,
+    "width": 80,
+    "height": 60,
+    "pixelRatio": 1,
+    "sdf": false
+  },
+  "tram": {
+    "x": 164,
+    "y": 0,
+    "width": 80,
+    "height": 60,
+    "pixelRatio": 1,
+    "sdf": false
+  }
+}
