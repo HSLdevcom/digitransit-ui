@@ -307,7 +307,7 @@
       ],
       "base": 1
     },
-    "@building": "#e8e0cc",
+    "@building": "#e0d8d0",
     "@landuse-sand": "#F7ECD2",
     "@road-trunk-case": "#666",
     "@ramp-1": {
@@ -424,7 +424,7 @@
         ]
       ]
     },
-    "@building-shadow": "#cbc6b7",
+    "@building-shadow": "#d4ccc4",
     "@label-road": "#3a3836",
     "@rail-low": "#ccc5bd",
     "@label-transit": "#000000",
@@ -534,11 +534,11 @@
   },
   "sources": {
     "composite": {
-      "url": "/map/index.json",
+      "url": "http://digitransit.fi/hsl-vector-map/index.json",
       "type": "vector"
     }
   },
-  "sprite": "https://www.mapbox.com/mapbox-gl-styles/sprites/mapbox-streets",
+  "sprite": "/map/mapbox/mapbox-streets",
   "glyphs": "mapbox://fontstack/{fontstack}/{range}.pbf",
   "layers": [
     {
@@ -1528,7 +1528,7 @@
       "type": "fill",
       "source": "composite",
       "source-layer": "building",
-      "minzoom": 15,
+      "minzoom": 12,
       "maxzoom": 22,
       "interactive": true,
       "layout": {
@@ -1540,11 +1540,11 @@
           "base": 1,
           "stops": [
             [
-              15.5,
+              12.5,
               0
             ],
             [
-              16,
+              14.5,
               1
             ]
           ]
@@ -1560,11 +1560,11 @@
           "base": 1,
           "stops": [
             [
-              15,
+              12,
               "@land"
             ],
             [
-              16,
+              13,
               "@building"
             ]
           ]
@@ -1573,21 +1573,21 @@
           "base": 1,
           "stops": [
             [
-              15,
+              12,
               0
             ],
             [
-              15.5,
+              14,
               1
             ]
           ]
         },
-        "fill-outline-color": "#d0cbbb",
+        "fill-outline-color": "#d4ccc4",
         "fill-translate": {
           "base": 1,
           "stops": [
             [
-              15,
+              13,
               [
                 0,
                 0
@@ -2460,7 +2460,7 @@
       "type": "line",
       "source": "composite",
       "source-layer": "tunnel",
-      "minzoom": 13,
+      "minzoom": 11,
       "maxzoom": 22,
       "interactive": true,
       "filter": [
@@ -2480,7 +2480,7 @@
         "line-color": {
           "stops": [
             [
-              13,
+              11,
               "#d8d5c8"
             ],
             [
@@ -2500,7 +2500,7 @@
         "line-color": {
           "stops": [
             [
-              13,
+              11,
               "#d8d5c8"
             ],
             [
@@ -3216,7 +3216,7 @@
       "type": "line",
       "source": "composite",
       "source-layer": "road",
-      "minzoom": 13,
+      "minzoom": 11,
       "maxzoom": 22,
       "interactive": true,
       "filter": [
@@ -3962,7 +3962,7 @@
       "type": "line",
       "source": "composite",
       "source-layer": "bridge",
-      "minzoom": 13,
+      "minzoom": 11,
       "maxzoom": 22,
       "interactive": true,
       "filter": [
