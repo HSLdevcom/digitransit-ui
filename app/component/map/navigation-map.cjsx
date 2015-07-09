@@ -39,7 +39,6 @@ class NavigationMap extends React.Component
     require.ensure ['mapbox-gl/dist/mapbox-gl', './mapbox-gl.css'], =>
       require './mapbox-gl.css'
       mapboxgl = require 'mapbox-gl/dist/mapbox-gl'
-      mapboxgl.accessToken = 'pk.eyJ1IjoiaGFubmVzIiwiYSI6IjE0MTU1YjdhZWJiYWVmZjM4YWYwOTkyMGM3OTg2OTRmIn0.s9O-s9fl2HKP-f63axyqig';
       Fulltilt = require('exports?window.FULLTILT!fulltilt/dist/fulltilt.js')
       coordinates = @context.getStore('LocationStore').getLocationState()
       map = new mapboxgl.Map
