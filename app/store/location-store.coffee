@@ -46,6 +46,11 @@ class LocationStore extends Store
     @status = @STATUS_FOUND_LOCATION
     @emitChange()
 
+  storeLocationWithoutEmit: (location) ->
+    @lat = location.lat
+    @lon = location.lon
+    @status = @STATUS_FOUND_LOCATION
+
   storeAddress: (location) ->
     @address = "#{location.address} #{location.number}, #{location.city}"
     @status = @STATUS_FOUND_ADDRESS
@@ -73,14 +78,26 @@ class LocationStore extends Store
   getLocationString: () ->
     "#{@address}::#{@lat},#{@lon}"
 
+  storeWatchId: (watchId) ->
+    @watchId = watchId
+
+  clearWatchId: ->
+    @watchId = undefined
+
+  getWatchId: ->
+    @watchId
+
   @handlers:
     "GeolocationSearch": 'geolocationSearch'
     "GeolocationFound": 'storeLocation'
+    "GeolocationUpdated": 'storeLocationWithoutEmit'
     "GeolocationRemoved": 'removeLocation'
     "GeolocationNotSupported": 'geolocationNotSupported'
     "GeolocationDenied": 'geolocationDenied'
     "GeolocationTimeout": 'geolocationTimeout'
     "ManuallySetPosition": 'storeLocationAndAddress'
     "AddressFound": 'storeAddress'
+    "GeolocationWatchStarted": 'storeWatchId'
+    "GeolocationWatchStopped": 'clearWatchId'
 
 module.exports = LocationStore

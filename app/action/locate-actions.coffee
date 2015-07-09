@@ -64,6 +64,47 @@ findLocation = (actionContext, payload, done) ->
     done()
   , enableHighAccuracy: true, timeout: 10000, maximumAge: 60000
 
+startLocationWatch = (actionContext, payload, done) ->
+  # First check if we have geolocation support
+  if not navigator.geolocation
+    actionContext.dispatch "GeolocationNotSupported"
+    done()
+    return
+
+  # Set timeout
+  timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationWatchTimeout"), 10000)
+
+  # and start positioning
+  watchId = navigator.geolocation.watchPosition (position) =>
+    if timeoutId
+      window.clearTimeout(timeoutId)
+      timeoutId = undefined
+    actionContext.dispatch "GeolocationUpdated",
+      lat: position.coords.latitude
+      lon: position.coords.longitude
+      heading: position.coordinates.heading
+  , (error) =>
+    if timeoutId
+      window.clearTimeout(timeoutId)
+    if error.code == 1
+      actionContext.dispatch "GeolocationDenied"
+    else if error.code == 2
+      actionContext.dispatch "GeolocationNotSupported"
+    else if error.code == 2
+      actionContext.dispatch "GeolocationTimeout"
+    else # When could this happen?
+      actionContext.dispatch "GeolocationNotSupported"
+    done()
+  , enableHighAccuracy: true, timeout: 60000, maximumAge: 0
+
+  actionContext.dispatch "GeolocationWatchStarted", watchId
+  done()
+
+stopLocationWatch = (actionContext, payload, done) ->
+  navigator.geolocation.clearWatch actionContext.getStore("LocationStore").getWatchId()
+  actionContext.dispatch "GeolocationWatchStopped"
+  done()
+
 removeLocation = (actionContext) ->
   actionContext.dispatch "GeolocationRemoved"
 
@@ -90,3 +131,5 @@ module.exports =
   'removeLocation': removeLocation
   'manuallySetPosition': manuallySetPosition
   'reverseGeocodeAddress': reverseGeocodeAddress
+  'startLocationWatch': startLocationWatch
+  'stopLocationWatch': stopLocationWatch
