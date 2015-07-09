@@ -539,7 +539,7 @@
     }
   },
   "sprite": "/map/digitransit",
-  "glyphs": "mapbox://fontstack/{fontstack}/{range}.pbf",
+  "glyphs": "/mapFonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -4507,7 +4507,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular"
+        "text-font": "HSL Medium"
       },
       "paint": {
         "text-size": "@country-label-lg-size",
@@ -4562,7 +4562,7 @@
         "visibility": "visible",
         "text-max-size": "@country-label-md-size",
         "text-max-width": 6,
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular"
+        "text-font": "HSL Medium"
       },
       "paint": {
         "text-size": "@country-label-md-size",
@@ -4604,7 +4604,7 @@
         "visibility": "visible",
         "text-max-size": "@country-label-sm-size",
         "text-max-width": 6,
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular"
+        "text-font": "HSL Medium"
       },
       "paint": {
         "text-size": "@country-label-sm-size",
@@ -4658,7 +4658,7 @@
           ]
         },
         "text-transform": "uppercase",
-        "text-font": "DIN Offc Pro Bold, Arial Unicode MS Bold",
+        "text-font": "HSL Bold",
         "text-padding": 1,
         "visibility": "visible",
         "text-field": {
@@ -4735,7 +4735,7 @@
           ]
         },
         "text-transform": "uppercase",
-        "text-font": "DIN Offc Pro Bold, Arial Unicode MS Bold",
+        "text-font": "HSL Bold",
         "visibility": "visible",
         "text-field": {
           "base": 1,
@@ -4806,7 +4806,7 @@
           ]
         },
         "text-transform": "uppercase",
-        "text-font": "DIN Offc Pro Bold, Arial Unicode MS Bold",
+        "text-font": "HSL Bold",
         "visibility": "visible",
         "text-field": {
           "base": 1,
@@ -4884,7 +4884,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular"
+        "text-font": "HSL Medium Italic"
       },
       "paint": {
         "text-color": "@label-water",
@@ -4944,7 +4944,7 @@
           ]
         },
         "symbol-placement": "line",
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular"
+        "text-font": "HSL Medium Italic"
       },
       "paint": {
         "text-color": "@label-water",
@@ -5004,7 +5004,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular"
+        "text-font": "HSL Medium Italic"
       },
       "paint": {
         "text-color": "@label-water",
@@ -5049,7 +5049,7 @@
         "text-line-height": 1.1,
         "symbol-min-distance": 250,
         "text-max-size": 20,
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular",
+        "text-font": "HSL Medium Italic",
         "symbol-placement": "line",
         "visibility": "visible",
         "text-field": "{name_en}",
@@ -5102,7 +5102,7 @@
         "text-line-height": 1.5,
         "text-max-size": 20,
         "symbol-placement": "point",
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular"
+        "text-font": "HSL Medium Italic"
       },
       "paint": {
         "text-color": "@label-water",
@@ -5158,7 +5158,7 @@
           ]
         },
         "text-max-size": 16,
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular",
+        "text-font": "HSL Medium Italic",
         "symbol-placement": "line",
         "visibility": "visible",
         "text-field": "{name_en}",
@@ -5219,11 +5219,11 @@
           "stops": [
             [
               7,
-              "DIN Offc Pro Regular, Arial Unicode MS Regular"
+              "HSL Medium"
             ],
             [
               8,
-              "DIN Offc Pro Medium, Arial Unicode MS Regular"
+              "HSL Medium"
             ]
           ]
         },
@@ -5328,11 +5328,11 @@
           "stops": [
             [
               7,
-              "DIN Offc Pro Regular, Arial Unicode MS Regular"
+              "HSL Medium"
             ],
             [
               8,
-              "DIN Offc Pro Medium, Arial Unicode MS Regular"
+              "HSL Medium"
             ]
           ]
         },
@@ -5438,11 +5438,11 @@
           "stops": [
             [
               7,
-              "DIN Offc Pro Regular, Arial Unicode MS Regular"
+              "HSL Medium"
             ],
             [
               8,
-              "DIN Offc Pro Medium, Arial Unicode MS Regular"
+              "HSL Medium"
             ]
           ]
         },
@@ -5583,11 +5583,11 @@
           "stops": [
             [
               7,
-              "DIN Offc Pro Regular, Arial Unicode MS Regular"
+              "HSL Medium"
             ],
             [
               8,
-              "DIN Offc Pro Medium, Arial Unicode MS Regular"
+              "HSL Medium"
             ]
           ]
         }
@@ -5662,11 +5662,11 @@
           "stops": [
             [
               7,
-              "DIN Offc Pro Regular, Arial Unicode MS Regular"
+              "HSL Medium"
             ],
             [
               8,
-              "DIN Offc Pro Medium, Arial Unicode MS Regular"
+              "HSL Medium"
             ]
           ]
         },
@@ -5767,7 +5767,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": 14,
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 2,
         "visibility": "visible",
@@ -5837,11 +5837,11 @@
           "stops": [
             [
               11,
-              "DIN Offc Pro Regular, Arial Unicode MS Regular"
+              "HSL Medium"
             ],
             [
               12,
-              "DIN Offc Pro Medium, Arial Unicode MS Regular"
+              "HSL Medium"
             ]
           ]
         },
@@ -5951,7 +5951,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "text-max-width": 7
       },
       "paint": {
@@ -6005,7 +6005,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular"
+        "text-font": "HSL Medium"
       },
       "paint": {
         "text-size": {
@@ -6059,7 +6059,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "text-letter-spacing": 0.15,
         "text-max-width": 7,
         "text-padding": 3
@@ -6118,7 +6118,7 @@
         "text-transform": "uppercase",
         "text-letter-spacing": 0.1,
         "text-max-width": 7,
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "text-padding": 3
       },
       "paint": {
@@ -6176,7 +6176,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 2,
         "visibility": "visible",
@@ -6262,7 +6262,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 2,
         "visibility": "visible",
@@ -6380,7 +6380,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": "@poi-scalerank1",
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 2,
         "visibility": "visible",
@@ -6448,7 +6448,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": "@poi-scalerank1",
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 2,
         "visibility": "visible",
@@ -6490,7 +6490,7 @@
       "layout": {
         "text-field": "{name_en}",
         "visibility": "visible",
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular",
+        "text-font": "HSL Medium Italic",
         "text-max-width": 7,
         "text-max-size": {
           "base": 1,
@@ -6545,7 +6545,7 @@
       "layout": {
         "text-field": "{name_en}",
         "visibility": "visible",
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular",
+        "text-font": "HSL Medium Italic",
         "text-max-width": 7,
         "text-max-size": {
           "base": 1,
@@ -6622,7 +6622,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "icon-allow-overlap": false,
         "symbol-placement": "point",
         "text-justify": "center",
@@ -6718,7 +6718,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": "@poi-scalerank2",
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 2,
         "visibility": "visible",
@@ -6793,7 +6793,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": "@poi-scalerank2",
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 2,
         "visibility": "visible",
@@ -6847,7 +6847,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": 9,
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": {
           "base": 1,
           "stops": [
@@ -6923,7 +6923,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": 9,
-        "text-font": "DIN Offc Pro Bold, Arial Unicode MS Bold",
+        "text-font": "HSL Bold",
         "symbol-placement": {
           "base": 1,
           "stops": [
@@ -7002,7 +7002,7 @@
             ]
           ]
         },
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "line",
         "text-padding": 1,
         "visibility": "visible",
@@ -7055,7 +7055,7 @@
       "layout": {
         "symbol-min-distance": 500,
         "text-max-angle": 30,
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "line",
         "text-padding": 1,
         "visibility": "visible",
@@ -7111,7 +7111,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 30,
         "text-max-size": 12,
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "line",
         "text-padding": 1,
         "visibility": "visible",
@@ -7171,7 +7171,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": "@poi-scalerank3",
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 2,
         "visibility": "visible",
@@ -7235,7 +7235,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": "@poi-scalerank3",
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 1,
         "visibility": "visible",
@@ -7291,7 +7291,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": "@poi-scalerank4",
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 1,
         "visibility": "visible",
@@ -7360,7 +7360,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": "@poi-scalerank4",
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 1,
         "visibility": "visible",
@@ -7429,7 +7429,7 @@
         "text-ignore-placement": false,
         "text-max-angle": 38,
         "text-max-size": "@poi-scalerank4",
-        "text-font": "DIN Offc Pro Medium, Arial Unicode MS Regular",
+        "text-font": "HSL Medium",
         "symbol-placement": "point",
         "text-padding": 2,
         "visibility": "visible",
@@ -7470,7 +7470,7 @@
       "layout": {
         "text-field": "{name_en}",
         "visibility": "visible",
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular",
+        "text-font": "HSL Medium Italic",
         "symbol-placement": "line",
         "text-max-angle": 30
       },
@@ -7517,7 +7517,7 @@
         "text-max-angle": 25,
         "visibility": "visible",
         "text-padding": 5,
-        "text-font": "DIN Offc Pro Regular, Arial Unicode MS Regular"
+        "text-font": "HSL Medium"
       },
       "paint": {
         "text-size": 9.5,
@@ -7538,7 +7538,7 @@
       "layout": {
         "visibility": "visible",
         "text-field": "{house_num}",
-        "text-font": "DIN Offc Pro Italic, Arial Unicode MS Regular",
+        "text-font": "HSL Medium Italic",
         "symbol-placement": "point",
         "text-max-size": 9.5,
         "text-padding": 4,
