@@ -82,7 +82,7 @@ startLocationWatch = (actionContext, payload, done) ->
     actionContext.dispatch "GeolocationUpdated",
       lat: position.coords.latitude
       lon: position.coords.longitude
-      heading: position.coordinates.heading
+      heading: position.coords.heading
   , (error) =>
     if timeoutId
       window.clearTimeout(timeoutId)

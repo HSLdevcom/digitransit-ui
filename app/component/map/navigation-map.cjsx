@@ -60,65 +60,63 @@ class NavigationMap extends React.Component
     require.ensure ['mapbox-gl/dist/mapbox-gl-dev', './mapbox-gl.css'], =>
       require './mapbox-gl.css'
       mapboxgl = require 'mapbox-gl/dist/mapbox-gl-dev'
-      Fulltilt = require('exports?window.FULLTILT!fulltilt/dist/fulltilt.js')
       coordinates = @context.getStore('LocationStore').getLocationState()
+      plan = @context.getStore('ItinerarySearchStore').getData().plan.itineraries[@props.hash]
       map = new mapboxgl.Map
         container: 'map'
         style: '/map/streets-v7.json' # stylesheet location
         center: [coordinates.lat, coordinates.lon]
-        zoom: 15
+        zoom: 16
+        pitch: 45
+        bearing: geoUtils.getBearing(
+          plan.legs[0].from.lat,
+          plan.legs[0].from.lon,
+          plan.legs[0].to.lat,
+          plan.legs[0].to.lon)
 
-      plan = @context.getStore('ItinerarySearchStore').getData().plan.itineraries[@props.hash]
-      geoJSON = dataAsGeoJSON plan
-      bearing = geoUtils.getBearing plan.legs[0].from.lat, plan.legs[0].from.lon, plan.legs[0].to.lat, plan.legs[0].to.lon
+      mapLoaded = new Promise (resolve) -> map.on 'load', resolve
 
-      locationJSONsource = new mapboxgl.GeoJSONSource data: locationAsGeoJSON coordinates
+      Fulltilt = require('exports?window.FULLTILT!fulltilt/dist/fulltilt.js')
+      fulltiltLoaded = Fulltilt.getDeviceOrientation(type: 'world')
 
-      map.on 'load', ->
+      mapLoaded.then =>
+        #debug("map loaded")
         map.addSource 'route',
           type: "geojson"
-          data: geoJSON
-
+          data: dataAsGeoJSON plan
         map.addLayer getLayerForMode(mode) for mode in ["walk", "bus", "tram", "subway", "rail", "ferry"]
 
-        map.addSource 'location', locationJSONsource
+        @locationJSONsource = new mapboxgl.GeoJSONSource data: locationAsGeoJSON coordinates
+        map.addSource 'location', @locationJSONsource
         map.addLayer getLayerforLocation()
 
-        map.easeTo({duration:2000, pitch:45, zoom:16.75, bearing: bearing})
-
-        compassAvailable = false
-        Fulltilt.getDeviceOrientation(type: 'world').then((orientation) ->
-          console.log "compass set up"
-          compassAvailable = true
-          setInterval ->
-            newCoordinates = @context.getStore('LocationStore').getLocationState()
-            if newCoordinates.lon != coordinates.lat or newCoordinates.lon != coordinates.lon
-              locationJSONsource.setData locationAsGeoJSON coordinates
-              coordinates = newCoordinates
-            euler = orientation.getScreenAdjustedEuler()
-            map.easeTo
-              center: [coordinates.lat, coordinates.lon]
-              bearing: 360 - euler.alpha
-              pitch: if isNaN(euler.beta) then 45 else Math.max(euler.beta, 0)
-              duration: 150
-          , 150
-        , (err) ->
-          console.log "Compass not available: #{err}")
-          setInterval ->
-            newCoordinates = @context.getStore('LocationStore').getLocationState()
-            if newCoordinates.lon != coordinates.lat or newCoordinates.lon != coordinates.lon
-              locationJSONsource.setData locationAsGeoJSON coordinates
-              coordinates = newCoordinates
-            euler = orientation.getScreenAdjustedEuler()
-            map.easeTo
-              center: [coordinates.lat, coordinates.lon]
-              bearing: coordinates.heading or null
-              pitch: 45
-              duration: 150
+        fulltiltLoaded.then(
+          (orientation) => @initializeCompass(map, true, orientation)
+        , (errror) => @initializeCompass(map, false)
+        )
     , 'mapboxgl'
+
+  initializeCompass: (map, compassAvailable, orientation) ->
+    coordinates = @context.getStore('LocationStore').getLocationState()
+    @intervalId = setInterval =>
+      newCoordinates = @context.getStore('LocationStore').getLocationState()
+      if newCoordinates.lon != coordinates.lat or newCoordinates.lon != coordinates.lon
+        @locationJSONsource.setData locationAsGeoJSON coordinates
+        coordinates = newCoordinates
+      if compassAvailable
+        euler = orientation.getScreenAdjustedEuler()
+      map.easeTo
+        center: [coordinates.lat, coordinates.lon]
+        bearing: if compassAvailable then 360 - euler.alpha else coordinates.heading or null
+        pitch: if compassAvailable and isNaN(euler.beta) then Math.max(euler.beta, 0) else 45
+        duration: 150
+    , 150
 
   componentWillUnmount: ->
     @context.executeAction LocateActions.stopLocationWatch
+    if @intervalId
+      clearInterval(@intervalId)
+      @intervalId = undefined
 
   render: ->
     <div id="map" className="fullscreen"/>
