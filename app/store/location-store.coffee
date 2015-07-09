@@ -19,6 +19,7 @@ class LocationStore extends Store
   removeLocation: () ->
     @lat = 0
     @lon = 0
+    @heading = null
     @address = ''
     @status = @STATUS_NO_LOCATION
     @emitChange()
@@ -40,10 +41,9 @@ class LocationStore extends Store
     @status = @STATUS_GEOLOCATION_TIMEOUT
     @emitChange()
 
+  # When watching for position, we don't want to be updated each time, but ratehr poll for it
   storeLocation: (location) ->
-    @lat = location.lat
-    @lon = location.lon
-    @status = @STATUS_FOUND_LOCATION
+    @storeLocationWithoutEmit location
     @emitChange()
 
   storeLocationWithoutEmit: (location) ->
