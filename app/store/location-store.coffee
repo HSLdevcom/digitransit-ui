@@ -49,7 +49,7 @@ class LocationStore extends Store
   storeLocationWithoutEmit: (location) ->
     @lat = location.lat
     @lon = location.lon
-    @heading = location.heading
+    @heading = if location.heading then location.heading else @heading
     @status = @STATUS_FOUND_LOCATION
 
   storeAddress: (location) ->

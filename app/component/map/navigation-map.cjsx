@@ -107,7 +107,7 @@ class NavigationMap extends React.Component
         euler = orientation.getScreenAdjustedEuler()
       map.easeTo
         center: [coordinates.lat, coordinates.lon]
-        bearing: if compassAvailable then 360 - euler.alpha else coordinates.heading or null
+        bearing: if compassAvailable then 360 - euler.alpha else coordinates.heading
         pitch: if compassAvailable and isNaN(euler.beta) then Math.max(euler.beta, 0) else 45
         duration: 150
     , 150
