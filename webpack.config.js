@@ -12,6 +12,7 @@ function getLoadersConfig(env) {
       { test: /\.css$/, loaders: ['style', 'css', 'postcss']},
       { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },
+      { test: /\.json$/, loader: 'json'},
       { test: /\.jsx$/, loaders: ['react-hot', 'jsx']},
       { test: /\.scss$/,
         loaders: [
@@ -27,6 +28,7 @@ function getLoadersConfig(env) {
       { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!postcss")},
       { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },
+      { test: /\.json$/, loader: 'json'},
       { test: /\.jsx$/, loader: 'jsx'},
       { test: /\.scss$/,
         loader: ExtractTextPlugin.extract("style", 'css!postcss!sass?includePaths[]=' +
@@ -72,8 +74,9 @@ function getPluginsConfig(env) {
           warnings: false
         },
         mangle: {
-          except: ['$super', '$', 'exports', 'require']
-        }
+          except: ['$super', '$', 'exports', 'require', 'window']
+        },
+        exclude: /mapboxgl/
       }),
       new ExtractTextPlugin("css/bundle.css", {
         allChunks: true
@@ -97,7 +100,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, "_static"),
     filename: 'js/bundle.js',
-    chunkFilename: 'js/[id].js',
+    chunkFilename: 'js/[name].js',
     publicPath: (process.env.NODE_ENV === "development") ?
       'http://localhost:' + port + '/' : (process.env.ROOT_PATH != undefined) ? process.env.ROOT_PATH :
       '/'
@@ -119,5 +122,11 @@ module.exports = {
   node: {
     net: "empty",
     tls: "empty"
+  },
+  worker: {
+    output: {
+      filename: 'js/[hash].worker.js',
+      chunkFilename: 'js/[id].[hash].worker.js'
+    }
   }
 };

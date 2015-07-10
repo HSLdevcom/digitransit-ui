@@ -19,6 +19,7 @@ class LocationStore extends Store
   removeLocation: () ->
     @lat = 0
     @lon = 0
+    @heading = null
     @address = ''
     @status = @STATUS_NO_LOCATION
     @emitChange()
@@ -40,11 +41,16 @@ class LocationStore extends Store
     @status = @STATUS_GEOLOCATION_TIMEOUT
     @emitChange()
 
+  # When watching for position, we don't want to be updated each time, but rather poll for it
   storeLocation: (location) ->
+    @storeLocationWithoutEmit location
+    @emitChange()
+
+  storeLocationWithoutEmit: (location) ->
     @lat = location.lat
     @lon = location.lon
+    @heading = if location.heading then location.heading else @heading
     @status = @STATUS_FOUND_LOCATION
-    @emitChange()
 
   storeAddress: (location) ->
     @address = "#{location.address} #{location.number}, #{location.city}"
@@ -73,14 +79,26 @@ class LocationStore extends Store
   getLocationString: () ->
     "#{@address}::#{@lat},#{@lon}"
 
+  storeWatchId: (watchId) ->
+    @watchId = watchId
+
+  clearWatchId: ->
+    @watchId = undefined
+
+  getWatchId: ->
+    @watchId
+
   @handlers:
     "GeolocationSearch": 'geolocationSearch'
     "GeolocationFound": 'storeLocation'
+    "GeolocationUpdated": 'storeLocationWithoutEmit'
     "GeolocationRemoved": 'removeLocation'
     "GeolocationNotSupported": 'geolocationNotSupported'
     "GeolocationDenied": 'geolocationDenied'
     "GeolocationTimeout": 'geolocationTimeout'
     "ManuallySetPosition": 'storeLocationAndAddress'
     "AddressFound": 'storeAddress'
+    "GeolocationWatchStarted": 'storeWatchId'
+    "GeolocationWatchStopped": 'clearWatchId'
 
 module.exports = LocationStore

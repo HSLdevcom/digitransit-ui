@@ -64,6 +64,7 @@ module.exports =
         client: client
         topics: [getTopic(options)]
       done()
+    , 'mqtt'
 
   updateTopic: (actionContext, options, done) ->
     options.client.unsubscribe(options.oldTopics)
