@@ -6,6 +6,7 @@ Router       = require 'react-router'
 IndexPage     = require './page/index'
 ItineraryPage = require './page/itinerary'
 MapPage       = require './page/map'
+NavigationPage = require './page/navigation'
 RoutePage     = require './page/route'
 StopPage      = require './page/stop'
 StopMapPage   = require './page/stop-map'
@@ -37,7 +38,7 @@ routes =
     <Route path="lahdot/:tripId" name="trip" handler={Error404}/>
     <Route path="reitti/:from/:to" name="summary" handler={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" handler={ItineraryPage}/>
-    <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" handler={Error404}/>
+    <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" handler={NavigationPage}/>
     <DefaultRoute name="index" handler={IndexPage}/>
     <NotFoundRoute name="404" handler={Error404}/>
   </Route>
