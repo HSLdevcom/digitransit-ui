@@ -27,7 +27,7 @@ class ItineraryTabs extends React.Component
       <Tabs className="itinerary-tabs">
         <Tabs.Panel title="Ohjeet" className="fullscreen">
           <TicketInformation/>
-          {legs}          
+          {legs}
         </Tabs.Panel>
         <Tabs.Panel title="Kartta">
           <Map ref="map" className="fullscreen" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs-1].to} padding={[0, 0]}/>

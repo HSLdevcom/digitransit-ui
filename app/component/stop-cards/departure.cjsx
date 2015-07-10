@@ -24,5 +24,5 @@ class Departure extends React.Component
       <Icon className={mode} img='icon-icon_arrow-right'/>
       <span className="destination">&nbsp;{@props.departure.pattern.direction or @props.departure.pattern.longName}</span>
     </p>
-  
+
 module.exports = Departure

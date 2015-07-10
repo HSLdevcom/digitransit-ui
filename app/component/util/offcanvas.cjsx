@@ -6,7 +6,7 @@ class Offcanvas extends React.Component
     position: 'left'
 
   render: ->
-    classes = 
+    classes =
       'off-canvas': true
       'is-active': this.props.open
 

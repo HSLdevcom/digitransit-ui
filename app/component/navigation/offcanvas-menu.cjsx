@@ -13,7 +13,7 @@ class OffcanvasMenu extends React.Component
           <div className="inline-block">
             <Icon img={'icon-icon_user'} className="large"/>
           </div>
-          <div className="inline-block">  
+          <div className="inline-block">
             <p>
               <a href="#">Luo tunnus <Icon img={'icon-icon_arrow-right'} className="small"/></a>
             </p>
@@ -21,9 +21,9 @@ class OffcanvasMenu extends React.Component
               <a href="#">Kirjaudu sisään <Icon img={'icon-icon_arrow-right'} className="small"/></a>
             </p>
           </div>
-        </div> 
+        </div>
       </header>
-      
+
       <section className="offcanvas-section">
         <ul className="offcanvas-list">
           <li><a href="#">Matkaliput <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>

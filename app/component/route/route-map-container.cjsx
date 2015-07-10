@@ -8,7 +8,7 @@ class RouteMapContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @context.getStore('RouteInformationStore').addChangeListener @onChange
 
   componentWillUnmount: ->

@@ -19,7 +19,7 @@ class DynamicPopup extends React.Component
     return <noscript/>
 
   doCreatePopup: ->
-    popup = 
+    popup =
       options: @props.options
       popup: @props.children
     @_leafletElement = @createLeafletPopup popup

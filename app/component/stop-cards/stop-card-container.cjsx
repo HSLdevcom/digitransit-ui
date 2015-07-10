@@ -9,7 +9,7 @@ class StopCardContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @context.getStore('StopInformationStore').addChangeListener @onChange
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
     @context.getStore('NearestStopsStore').addChangeListener @onChange
@@ -37,7 +37,7 @@ class StopCardContainer extends React.Component
   addFavouriteStop: (e) =>
     e.stopPropagation()
     @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.id
-  
+
   render: =>
     <StopCard
       key={@props.stop}

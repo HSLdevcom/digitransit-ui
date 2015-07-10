@@ -26,30 +26,37 @@ stopDeparturesRequest = (actionContext, id, done) ->
     time = "&startTime=" + actionContext.getStore('TimeStore').getTime().unix()
   else
     time = ""
-  xhrPromise.getJson(config.URL.OTP + "index/stops/#{id}/stoptimes?detail=true&numberOfDepartures=5#{time}").then (data) ->
-    actionContext.dispatch "StopDeparturesFound",
-      id: id
-      departures: data
-    done()
+  xhrPromise.getJson(config.URL.OTP +
+                     "index/stops/#{id}/stoptimes" +
+                     "?detail=true&numberOfDepartures=5#{time}")
+    .then (data) ->
+      actionContext.dispatch "StopDeparturesFound",
+        id: id
+        departures: data
+      done()
 
 currentDayStopDeparturesRequest = (actionContext, id, done) ->
   actionContext.dispatch "StopDeparturesFetchStarted", id
-  xhrPromise.getJson(config.URL.OTP + "index/stops/" + id + "/stoptimes/" + moment().format("YYYYMMDD") + "?detail=true").then (data) ->
-    actionContext.dispatch "StopDeparturesFound",
-      id: id
-      departures: data
-      date: moment()
-    done()
+  xhrPromise.getJson(config.URL.OTP + "index/stops/" + id + "/stoptimes/" +
+                     moment().format("YYYYMMDD") + "?detail=true")
+    .then (data) ->
+      actionContext.dispatch "StopDeparturesFound",
+        id: id
+        departures: data
+        date: moment()
+      done()
 
 nextDayStopDeparturesRequest = (actionContext, id, done) ->
   actionContext.dispatch "AdditionalStopDeparturesFetchStarted", id
-  date = moment(actionContext.getStore("StopDeparturesStore").getDateForStop(id)).add(1, 'd');
-  xhrPromise.getJson(config.URL.OTP + "index/stops/" + id + "/stoptimes/" + date.format("YYYYMMDD") + "?detail=true").then (data) ->
-    actionContext.dispatch "AdditionalStopDeparturesFound",
-      id: id
-      departures: data
-      date: date
-    done()
+  date = moment(actionContext.getStore("StopDeparturesStore").getDateForStop(id)).add(1, 'd')
+  xhrPromise.getJson(config.URL.OTP + "index/stops/" + id + "/stoptimes/" +
+                     date.format("YYYYMMDD") + "?detail=true")
+    .then (data) ->
+      actionContext.dispatch "AdditionalStopDeparturesFound",
+        id: id
+        departures: data
+        date: date
+      done()
 
 fetchStopsDepartures = (actionContext, options, done) ->
   NearestStopsStore = actionContext.getStore('NearestStopsStore')

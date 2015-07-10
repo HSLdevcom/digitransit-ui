@@ -103,7 +103,7 @@ module.exports = React.createClass({
 
     render: function () {
         return (
-            React.createElement("div", {ref: "masonryContainer"}, 
+            React.createElement("div", {ref: "masonryContainer"},
                 this.props.children
             )
         );

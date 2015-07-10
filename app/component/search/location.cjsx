@@ -8,11 +8,11 @@ class Location extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  constructor: -> 
+  constructor: ->
     super
-    @state = @context.getStore('LocationStore').getLocationState() 
-  
-  componentDidMount: -> 
+    @state = @context.getStore('LocationStore').getLocationState()
+
+  componentDidMount: ->
      @context.getStore('LocationStore').addChangeListener @onChange
 
   componentWillUnmount: ->
@@ -54,8 +54,8 @@ class Location extends React.Component
         location = <span className="inline-block cursor-pointer" onTouchTap={this.locateUser}>Kirjoita lähtöpaikkasi</span>
       when LocationStore.STATUS_GEOLOCATION_TIMEOUT
         location = <span className="inline-block cursor-pointer" onTouchTap={this.locateUser}>Paikannus ei onnistunut. <span className="dashed">Yritä uudelleen</span> tai kirjoita lähtöpiste</span>
-    
-    <div className="transparent location"> 
+
+    <div className="transparent location">
       <span className="inline-block" onTouchTap={this.locateUser}>
         <Icon img={'icon-icon_mapMarker-location'}/>
       </span>

@@ -10,7 +10,7 @@ module.exports = itinerarySearchRequest: (actionContext, options) ->
   params =
     fromPlace: options.params.from
     toPlace: options.params.to
-    preferredAgencies: "HSL"
+    preferredAgencies: config.preferredAgency or ""
     showIntermediateStops: true
     arriveBy: arriveBy
     date: time.format("YYYY-MM-DD")

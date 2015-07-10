@@ -4,12 +4,16 @@ serialize = (obj, prefix) ->
   str = []
   for p of obj
     if obj.hasOwnProperty p
-      k = if prefix then prefix + "[" + p + "]" else p
+      k = if prefix then prefix else p
       v = obj[p]
-      str.push(if typeof v == "object" then serialize(v, k) else encodeURIComponent(k) + "=" + encodeURIComponent(v))
+      str.push(
+        if typeof v == "object"
+          serialize(v, k)
+        else
+          encodeURIComponent(k) + "=" + encodeURIComponent(v))
   str.join "&"
 
-class XhrPromise 
+class XhrPromise
 
   # Return Promise for a url json get request
   getJson: (url, params) ->
@@ -26,6 +30,6 @@ class XhrPromise
     promises = urls.map (url) =>
       @getJson(url)
     return Promise.all(promises)
-    
 
-module.exports = new XhrPromise() 
+
+module.exports = new XhrPromise()

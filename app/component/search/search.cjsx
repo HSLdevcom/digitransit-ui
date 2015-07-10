@@ -15,9 +15,9 @@ class Search extends React.Component
     executeAction: React.PropTypes.func.isRequired
     router: React.PropTypes.func.isRequired
 
-  constructor: -> 
+  constructor: ->
     super
-  
+
   componentWillMount: =>
     @context.getStore('LocationStore').addChangeListener @onChange
     @setState @context.getStore('LocationStore').getLocationState()
@@ -28,7 +28,7 @@ class Search extends React.Component
   onChange: =>
     @context.router.replaceWith(@context.router.getCurrentPathname(),
                                 @context.router.getCurrentParams())
-    @setState @context.getStore('LocationStore').getLocationState()    
+    @setState @context.getStore('LocationStore').getLocationState()
 
   analyzeInput: (input) =>
     containsComma = input.lastIndexOf(',') > -1
@@ -44,14 +44,14 @@ class Search extends React.Component
       city = input.substring(input.lastIndexOf(',')+1, input.length).trim()
       number = if isNumbersInQuery then input.match(/\d+/)[0] else null
       if city.length > 0
-        cities.push(city.toLowerCase()) 
+        cities.push(city.toLowerCase())
     else if isStopCodeSearch
       address = input.trim()
     else
-      # This is address 
+      # This is address
       address = input.replace(/\d+/g,'').trim()
       number = if isNumbersInQuery then input.match(/\d+/)[0] else null
-    
+
     # Use previous cities only if not already set
     if @state and @state.previousSuggestCities and cities.length == 0
       cities = cities.concat @state.previousSuggestCities
@@ -59,11 +59,11 @@ class Search extends React.Component
     return {
       isValidSearch: input.trim().length > 0
       isLastCharSpace: isLastCharSpace
-      isNumbersInQuery: isNumbersInQuery 
+      isNumbersInQuery: isNumbersInQuery
       isAddressSearch: isAddressSearch
       query: input
       queryCities: cities
-      queryAddress: address 
+      queryAddress: address
       queryNumber: number
     }
 
@@ -76,9 +76,9 @@ class Search extends React.Component
     # Construct urls for all cities depending whether we have a number present or not
     urls = cities.map (city) ->
       config.URL.GEOCODER + if number then "address/#{city}/#{address}/#{number}" else "street/#{city}/#{address}"
-    
+
     # Query all constructed urls for address and hope to find hits from one city
-    XhrPromise.getJsons(urls).then (cityResults) => 
+    XhrPromise.getJsons(urls).then (cityResults) =>
       foundLocations = []
       for data in cityResults
         if data.results.length > 0
@@ -90,12 +90,12 @@ class Search extends React.Component
         addressString = if number then "#{address} #{number}, #{foundLocations[0].municipalityFi}" else "#{address} #{foundLocations[0].number}, #{foundLocations[0].municipalityFi}"
         @setLocation(foundLocations[0].location[1], foundLocations[0].location[0], addressString)
       else if foundLocations.length > 1
-        console.log("Query #{address}, #{number}, #{cities} returns results from more than 1 city. Cannot set location.")        
+        console.log("Query #{address}, #{number}, #{cities} returns results from more than 1 city. Cannot set location.")
       else
         console.log("Cannot find any locations with #{address}, #{number}, #{cities}")
 
   setLocation: (lat, lon, address) =>
-    # We first check if we already have a location. 
+    # We first check if we already have a location.
     if @state.hasLocation
       # Yes, location to be set is destination address
       # First, we must blur input field because without this
@@ -110,7 +110,7 @@ class Search extends React.Component
           from: "#{@state.address}::#{@state.lat},#{@state.lon}"
           to: "#{address}::#{lat},#{lon}"
       ,0)
-    else 
+    else
       # No, This is a start location
       @context.executeAction LocateActions.manuallySetPosition, {
         'lat': lat
@@ -122,16 +122,16 @@ class Search extends React.Component
     analyzed = @analyzeInput(input)
     if analyzed.isAddressSearch && analyzed.queryCities.length > 0
       @searchAddresses(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber, callback)
-    else 
+    else
       @searchSuggests(analyzed.queryAddress, callback)
-    
+
   searchAddresses: (cities, address, number, callback) ->
     numberRegex = if number then new RegExp("^" + number) else /.*/
     urls = cities.map (city) ->
       config.URL.GEOCODER + "street/#{city}/#{address}"
 
     XhrPromise.getJsons(urls).then (cityResults) ->
-      addresses = []  
+      addresses = []
       for data in cityResults
         for address in data.results
           if numberRegex.test(parseInt(address.number))
@@ -147,20 +147,20 @@ class Search extends React.Component
               'selection': "#{address.streetFi} #{address.number}#{staircaseSelection}, #{address.municipalityFi}"
       callback(null, addresses)
 
-  searchSuggests: (address, callback) => 
-    cities = "city=helsinki&city=vantaa&city=espoo&city=kauniainen&city=kerava&city=kirkkonummi&city=sipoo"
-    XhrPromise.getJson(config.URL.GEOCODER + "suggest/#{address}?#{cities}").then (data) =>
+  searchSuggests: (address, callback) =>
+    options = if config.cities then {city: config.cities} else undefined
+    XhrPromise.getJson(config.URL.GEOCODER + "suggest/#{address}", options).then (data) =>
       streets = []
       uniqueCities = []
       for street in data.streetnames_fi
         for streetName, cities of street
           for city in cities
             streets.push
-              'type': 'street'    
+              'type': 'street'
               'address': "#{streetName}"
               'city': "#{city.key}"
               'selection': "#{streetName}, #{city.key}"
-          
+
             # Store all city names for address search where address is exact match
             if city.key.toLowerCase() not in uniqueCities and streetName.toLowerCase() == address.toLowerCase()
               uniqueCities.push(city.key.toLowerCase())
@@ -168,30 +168,30 @@ class Search extends React.Component
       @setState
         previousSuggestCities: uniqueCities
 
-      stops = data.stops.map (result) -> 
+      stops = data.stops.map (result) ->
         'type': 'stop'
         'address': result.nameFi
         'city': result.municipalityFi
-        'lat': result.location[1] 
+        'lat': result.location[1]
         'lon': result.location[0]
         'stopCode': result.stopCode
         'selection': "#{result.nameFi} (#{result.stopCode}), #{result.municipalityFi}"
-      
+
       if streets.length == 1 and stops.length == 0
         # We can directly do address search
         @searchAddresses([streets[0].city], streets[0].address, null, callback)
         callback(null, all)
-      else 
+      else
         # We just show results
-        all = streets.concat stops   
-        callback(null, all) 
+        all = streets.concat stops
+        callback(null, all)
 
   renderSuggestion: (suggestion, input) ->
     value = suggestion.selection
     reqex = new RegExp('\\b' + value, 'i')
     firstMatchIndex = value.toLowerCase().indexOf(input.toLowerCase())
     lastMatchIndex = firstMatchIndex + input.length
-    
+
     switch suggestion.type
       when 'street' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>"""
       when 'address' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>"""
@@ -212,13 +212,13 @@ class Search extends React.Component
     afterMatch = value.slice(lastMatchIndex, value.length)
     return (
       <span id={value}>
-        <span dangerouslySetInnerHTML={__html: icon}/> 
+        <span dangerouslySetInnerHTML={__html: icon}/>
         {beforeMatch}
         <strong>{match}</strong>
         {afterMatch}
       </span>
     )
-  
+
   suggestionValue: (suggestion) ->
     return suggestion.selection
 
@@ -227,7 +227,7 @@ class Search extends React.Component
     e.preventDefault()
     if suggestion.lat != undefined and suggestion.lon != undefined
       @setLocation(suggestion.lat, suggestion.lon, suggestion.selection)
-    else 
+    else
       analyzed = @analyzeInput(suggestion.selection)
       @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
 
@@ -244,11 +244,11 @@ class Search extends React.Component
   suggestionArrowPress: (e) =>
     if e.which != 38 and e.which != 40
       return
-   
+
     suggestions = document.getElementsByClassName("react-autosuggest__suggestion--focused")
     if suggestions.length == 0 then return
     selectedSuggestion = suggestions[0]
-    
+
     autoSuggestDivs = document.getElementsByClassName("react-autosuggest__suggestions")
     if autoSuggestDivs.length == 0 then return
     autoSuggestDiv = autoSuggestDivs[0]
@@ -274,8 +274,8 @@ class Search extends React.Component
       inputDisabled = 'disabled'
       placeholder = 'Odota, sijaintiasi etsitään'
     else if @state.hasLocation
-      placeholder = 'Määränpään osoite, linja tai pysäkki' 
-    else 
+      placeholder = 'Määränpään osoite, linja tai pysäkki'
+    else
       placeholder = 'Lähtöosoite, linja tai pysäkki'
 
     inputAttributes =
@@ -287,7 +287,7 @@ class Search extends React.Component
     <div className="small-12 medium-6 medium-offset-3 columns">
       <div className="row collapse postfix-radius">
         <div className="small-11 columns">
-          <Autosuggest 
+          <Autosuggest
             ref={@handleAutoSuggestMount}
             key={if @state.hasLocation then 'to' else 'from'}
             inputAttributes={inputAttributes}

@@ -1,17 +1,18 @@
 React             = require 'react'
 StopCardContainer = require './stop-card-container'
 StopCardList      = require './stop-card-list'
+config            = require '../../config'
 
 STOP_COUNT = 10
 DEPARTURES_COUNT = 5
 
 class StopCardListContainer extends React.Component
-  constructor: -> 
+  constructor: ->
     super
     @state = numberOfStops: STOP_COUNT
 
-  componentDidMount: => 
-    @props.store.addChangeListener @onChange 
+  componentDidMount: =>
+    @props.store.addChangeListener @onChange
 
   componentWillUnmount: =>
     @props.store.removeChangeListener @onChange
@@ -26,8 +27,8 @@ class StopCardListContainer extends React.Component
   getStopCards: =>
     stopCards = []
     for stop in @props.store.getStops().slice(0,@state.numberOfStops)
-      if stop.substring(0, 3) is 'HSL'
-        stopCards.push <StopCardContainer key={stop} stop={stop} departures=DEPARTURES_COUNT /> 
+      if !config.preferredAgency or config.preferredAgency == stop.split(':')[0]
+        stopCards.push <StopCardContainer key={stop} stop={stop} departures=DEPARTURES_COUNT />
     stopCards
 
   render: =>

@@ -44,15 +44,19 @@ patternGeometryRequest = (actionContext, id, done) ->
 
 fuzzyTripInformationRequest = (actionContext, details, done) ->
   if !actionContext.getStore('RouteInformationStore').getFuzzyTrip(details)
-    xhrPromise.getJson(config.URL.OTP + "index/routes/#{details.route}/trips/#{details.date}/#{details.direction}/#{details.trip}").then (data) ->
-      actionContext.dispatch "FuzzyTripInformationFound", {details: details, data: data}
-      done()
+    xhrPromise.getJson(
+      config.URL.OTP +
+      "index/routes/#{details.route}/trips/#{details.date}/#{details.direction}/#{details.trip}")
+      .then(
+        (data) ->
+          actionContext.dispatch "FuzzyTripInformationFound", {details: details, data: data}
+          done())
   else
     done()
 
 routePageDataRequest =  (actionContext, options, done) ->
   patternId = options.params.routeId
-  routeId = patternId.split(':',2).join(':')
+  routeId = patternId.split(':', 2).join(':')
   executeMultiple actionContext,
     routeInfo:
       action: routeInformationRequest
@@ -68,7 +72,7 @@ routePageDataRequest =  (actionContext, options, done) ->
       params: patternId
     , -> done()
 
-module.exports = 
+module.exports =
   'routeInformationRequest': routeInformationRequest
   'routePatternsRequest': routePatternsRequest
   'routeTripsRequest': routeTripsRequest

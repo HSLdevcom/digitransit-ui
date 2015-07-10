@@ -14,14 +14,14 @@ class NearestStopsStore extends Store
 
   getDistance: (id) ->
     @distances[id]
-    
+
   removeNearestStops: ->
     @stops = []
     @distances = {}
 
   storeNearestStops: (stops) ->
-    stops.sort (a,b) ->
-      if a.dist > b.dist then 1 else -1
+    stops.sort((a, b) ->
+      if a.dist > b.dist then 1 else -1)
     @stops = []
     @distances = {}
     for stop in stops
@@ -37,8 +37,8 @@ class NearestStopsStore extends Store
     @stopsInRectangle
 
   @handlers:
-    "NearestStopsFound":   'storeNearestStops'
+    "NearestStopsFound": 'storeNearestStops'
     "NearestStopsRemoved": 'removeNearestStops'
     "StopsInRectangleFound": 'storeStopsInRectangle'
-      
+
 module.exports = NearestStopsStore

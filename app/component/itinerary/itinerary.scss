@@ -73,7 +73,9 @@ $itinerary-navigate-icon-size: 50px;
       margin-bottom: 0.3em;
     }
     .icon {
-      color: $gray;
+      &.walk {
+        color: $gray;
+      }
       font-size: 13pt;
     }
   }
@@ -127,7 +129,7 @@ $itinerary-navigate-icon-size: 50px;
     text-align: center;
     &.navigate {
       border-right: none;
-      color: $hsl-blue;
+      color: $action-color;
       a {
         color: inherit;
         text-decoration: inherit;
@@ -139,7 +141,7 @@ $itinerary-navigate-icon-size: 50px;
         width: $itinerary-navigate-icon-size;
         border-radius: 30px;
         color: white;
-        background: $hsl-blue;
+        background: $action-color;
         position: absolute;
         bottom: 20px;
       }
@@ -155,7 +157,7 @@ $slick-font-family: $font-family;
 $slick-arrow-color: $gray;
 $slick-dots-height: 20px;
 $slick-dot-color: $gray;
-$slick-dot-color-active: $hsl-blue;
+$slick-dot-color-active: $action-color;
 $slick-prev-character: "←" !default;
 $slick-next-character: "→" !default;
 $slick-dot-character: "•" !default;

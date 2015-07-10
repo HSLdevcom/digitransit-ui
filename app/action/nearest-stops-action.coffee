@@ -1,7 +1,7 @@
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
-module.exports = 
+module.exports =
   nearestStopsRequest: (actionContext, coordinates, done) ->
     if coordinates
       xhrPromise.getJson(config.URL.OTP + "index/stops",

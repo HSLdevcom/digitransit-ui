@@ -6,6 +6,7 @@ Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 StopMarkerPopup = require './stop-marker-popup'
 NearestStopsAction = require '../../action/nearest-stops-action'
 L             = if isBrowser then require 'leaflet' else null
+config        = require '../../config'
 
 STOPS_MAX_ZOOM = 14
 
@@ -13,8 +14,9 @@ class StopMarkerContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    router: React.PropTypes.func.isRequired
 
-  componentDidMount: -> 
+  componentDidMount: ->
     @props.map.on 'moveend', @onMapMove
     @context.getStore('NearestStopsStore').addChangeListener @onChange
     @onMapMove()
@@ -30,7 +32,7 @@ class StopMarkerContainer extends React.Component
   onMapMove: =>
     if STOPS_MAX_ZOOM < @props.map.getZoom()
       bounds = @props.map.getBounds()
-      @context.executeAction NearestStopsAction.stopsInRectangleRequest, 
+      @context.executeAction NearestStopsAction.stopsInRectangleRequest,
         minLat: bounds.getSouth()
         minLon: bounds.getWest()
         maxLat: bounds.getNorth()
@@ -40,7 +42,10 @@ class StopMarkerContainer extends React.Component
 
   getStops: ->
     stops = []
+    renderedNames = []
     @context.getStore('NearestStopsStore').getStopsInRectangle().forEach (stop) =>
+      if config.preferredAgency and config.preferredAgency != stop.id.split(':')[0]
+        return
       if @context.getStore('StopInformationStore').getStop(stop.id)
         stop = @context.getStore('StopInformationStore').getStop(stop.id)
       if stop
@@ -69,11 +74,13 @@ class StopMarkerContainer extends React.Component
                                  weight={if selected then 7 else 4}
                                  clickable={false} />
                                  # when the CircleMarker is not clickable, the click goes to element behind it (the bigger marker)
-        stops.push <Marker map={@props.map}
-                           key={stop.name + "_text"}
-                           position={lat: stop.lat, lng: stop.lon}
-                           icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
-                           clickable={false}/>
+        unless stop.name in renderedNames
+          stops.push <Marker map={@props.map}
+                             key={stop.name + "_text"}
+                             position={lat: stop.lat, lng: stop.lon}
+                             icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
+                             clickable={false}/>
+          renderedNames.push stop.name
 
     stops
 

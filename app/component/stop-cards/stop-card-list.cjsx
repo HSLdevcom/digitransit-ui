@@ -1,5 +1,5 @@
 React            = require 'react'
-cloneWithProps   = require 'react/lib/cloneWithProps' 
+cloneWithProps   = require 'react/lib/cloneWithProps'
 MasonryComponent = require '../util/masonry-component'
 
 class StopCardList extends React.Component
@@ -26,5 +26,5 @@ class StopCardList extends React.Component
         </div>
       </div>
     </div>
-    
+
 module.exports = StopCardList
