@@ -1,6 +1,3 @@
-Xhr            = require 'httpify'
-Promise        = (require 'es6-promise').Promise
-
 serialize = (obj, prefix) ->
   if not obj
     return ""
@@ -20,20 +17,13 @@ class XhrPromise
 
   # Return Promise for a url json get request
   getJson: (url, params) ->
-    p = new Promise((resolve, reject) ->
-      Xhr
-        timout: 2000
-        method: 'get'
-        uri: encodeURI(url) + if params then ("?" + serialize(params)) else ""
-        headers:
-          "Accept": "application/json"
-      , (err, resp, body) ->
-        if err == null
-          resolve(resp.body)
-        else
-          reject(err)
-    )
-    return p
+    fetch((encodeURI(url) + if params then ("?" + serialize params) else ""),
+      timeout: 10000
+      method: 'GET'
+      headers:
+        "Accept": "application/json"
+    ).then (res) ->
+      res.json()
 
   # Return Promise for array of url json get requests
   getJsons: (urls) =>
