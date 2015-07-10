@@ -41,7 +41,7 @@ function getPluginsConfig(env) {
   if (env === "development") {
     return([
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en/),
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en\-gb/),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify("development"),
@@ -53,7 +53,7 @@ function getPluginsConfig(env) {
     ])
   } else {
     return([
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en/),
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en\-gb/),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify("production"),
@@ -119,5 +119,8 @@ module.exports = {
   node: {
     net: "empty",
     tls: "empty"
-  }
+  },
+  externals: [
+    {"es6-promise": "var Promise"}
+  ]
 };
