@@ -1,4 +1,4 @@
-{
+module.exports = {
   "version": 7,
   "name": "Mapbox Streets",
   "constants": {
@@ -538,8 +538,8 @@
       "type": "vector"
     }
   },
-  "sprite": "/map/digitransit",
-  "glyphs": "/mapFonts/{fontstack}/{range}.pbf",
+  "sprite": process.env.ROOT_PATH + "map/digitransit",
+  "glyphs": process.env.ROOT_PATH + "mapFonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",

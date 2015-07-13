@@ -17,7 +17,7 @@ class NavigationMap extends React.Component
       @requirePromise = Promise.all [
         require('promise?global,mapboxgl!mapbox-gl/dist/mapbox-gl-dev')(),
         require('promise?global,mapboxgl!./mapbox-gl.css')(),
-        require('promise?global,mapboxgl!../../../static/map/streets-v7.json')(),
+        require('promise?global,mapboxgl!./mapbox-gl-style')(),
         require('promise?global,mapboxgl!exports?window.FULLTILT!fulltilt/dist/fulltilt.js')()
       ]
 
@@ -67,24 +67,28 @@ class NavigationMap extends React.Component
 
       if newCoordinates.lon != coordinates.lat or newCoordinates.lon != coordinates.lon
         @locationJSONsource.setData geoUtils.locationAsGeoJSON coordinates
-        coordinates = newCoordinates
 
       if compassAvailable
         euler = orientation.getScreenAdjustedEuler()
-        @bearing = 360 - euler.alpha
+        bearing = 360 - euler.alpha
         # Check that pitch could be calculated and that it is not negative
-        @pitch = if !isNaN(euler.beta) then Math.max(euler.beta, 0) else 45
+        pitch = if !isNaN(euler.beta) then Math.max(euler.beta, 0) else 45
       else
         heading = coordinates.heading
         # Bearing might not be availabe from the GPS, then use the previous value
-        @bearing = if heading or heading == 0 then heading else @bearing
-        @pitch = 45
+        bearing = if heading or heading == 0 then heading else @bearing
+        pitch = 45
 
-      map.easeTo
-        center: [coordinates.lat, coordinates.lon]
-        bearing: @bearing
-        pitch: @pitch
-        duration: 150
+      if (newCoordinates.lon != coordinates.lat or newCoordinates.lon != coordinates.lon or
+          bearing != @bearing or pitch != @pitch)
+        map.easeTo
+          center: [coordinates.lat, coordinates.lon]
+          bearing: bearing
+          pitch: pitch
+          duration: 150
+        coordinates = newCoordinates
+        @bearing = bearing
+        @pitch = pitch
     , 150 # Duration for setInterval
 
   componentWillUnmount: ->
