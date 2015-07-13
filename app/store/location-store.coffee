@@ -41,7 +41,7 @@ class LocationStore extends Store
     @status = @STATUS_GEOLOCATION_TIMEOUT
     @emitChange()
 
-  # When watching for position, we don't want to be updated each time, but ratehr poll for it
+  # When watching for position, we don't want to be updated each time, but rather poll for it
   storeLocation: (location) ->
     @storeLocationWithoutEmit location
     @emitChange()
