@@ -1,6 +1,7 @@
 React         = require 'react'
 geoUtils      = require '../../util/geo-utils'
 LocateActions = require '../../action/locate-actions.coffee'
+RealTimeInformationAction = require '../../action/real-time-client-action'
 
 
 class NavigationMap extends React.Component
@@ -46,7 +47,7 @@ class NavigationMap extends React.Component
           data: geoUtils.dataAsGeoJSON plan
 
         for mode in ["walk", "bus", "tram", "subway", "rail", "ferry"]
-          map.addLayer geoUtils.getLayerForMode(mode)
+          map.addLayer geoUtils.getLayerForMode mode
 
         @locationJSONsource = new mapboxgl.GeoJSONSource(
           data: geoUtils.locationAsGeoJSON coordinates
@@ -54,6 +55,24 @@ class NavigationMap extends React.Component
 
         map.addSource 'location', @locationJSONsource
         map.addLayer geoUtils.getLayerforLocation()
+
+        @context.executeAction(
+          RealTimeInformationAction.startRealTimeClient,
+          geoUtils.getTopicsForPlan plan
+        )
+
+        vehiclesJSONsource = new mapboxgl.GeoJSONSource(
+          data: geoUtils.vehiclesAsGeoJson @context.getStore("RealTimeInformationStore").vehicles
+        )
+
+        map.addSource 'vehicles', vehiclesJSONsource
+        map.addLayer geoUtils.getLayerForVehicles()
+
+        @vehicleIntervalId = setInterval =>
+          vehiclesJSONsource.setData(
+            geoUtils.vehiclesAsGeoJson @context.getStore("RealTimeInformationStore").vehicles
+          )
+        , 1000 # Update vehicle locations each second
 
         fulltiltLoaded.then(
           (orientation) => @initializeCompass(map, true, orientation)
@@ -92,6 +111,14 @@ class NavigationMap extends React.Component
     if @intervalId
       clearInterval(@intervalId)
       @intervalId = undefined
+
+    if @vehicleIntervalId
+      clearInterval(@vehicleIntervalId)
+      @vehicleIntervalId = undefined
+
+    client = @context.getStore('RealTimeInformationStore').client
+    if client
+      @context.executeAction RealTimeClient.stopRealTimeClient, client
 
   render: ->
     <div id="map" className="fullscreen"/>
