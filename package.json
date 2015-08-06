@@ -31,7 +31,7 @@
     "fluxible": "^0.4.12",
     "fluxible-action-utils": "^0.2.2",
     "foundation-apps": "^1.1.0",
-    "fulltilt": "richtr/Full-Tilt",
+    "fulltilt": "https://github.com/Full-Tilt/Full-Tilt/archive/0.5.3.tar.gz",
     "lodash": "^3.9.3",
     "mapbox-gl": "^0.8.1",
     "masonry": "geta6/masonry",
