@@ -188,7 +188,6 @@ class Search extends React.Component
 
   renderSuggestion: (suggestion, input) ->
     value = suggestion.selection
-    reqex = new RegExp('\\b' + value, 'i')
     firstMatchIndex = value.toLowerCase().indexOf(input.toLowerCase())
     lastMatchIndex = firstMatchIndex + input.length
 
