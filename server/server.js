@@ -5,7 +5,7 @@ var fs = require('fs')
 var path = require('path')
 var React = require('react')
 var Router = require('react-router')
-var FluxibleComponent = require('fluxible/addons/FluxibleComponent');
+var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
 var serialize = require('serialize-javascript');
 var polyfillService = require('polyfill-service');
 require('node-cjsx').transform()

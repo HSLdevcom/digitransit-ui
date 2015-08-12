@@ -1,7 +1,7 @@
 # Libraries
 React             = require 'react'
 Router            = require 'react-router'
-FluxibleComponent = require 'fluxible/addons/FluxibleComponent'
+FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
 isEqual           = require 'lodash/lang/isEqual'
 
 app               = require './app'
