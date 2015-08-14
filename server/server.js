@@ -69,7 +69,7 @@ function setUpRoutes() {
           features: {
             'Function.prototype.bind': {flags: ['gated']},
             'matchMedia': {flags: ['gated']},
-            'fetch': {flags: ['gated']},
+            'fetch': {flags: ['always', 'gated']}, // 'always' for ie_mob
             'Promise': {flags: ['gated']}
           },
           minify: true,
