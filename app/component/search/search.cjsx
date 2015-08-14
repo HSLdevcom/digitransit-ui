@@ -180,7 +180,6 @@ class Search extends React.Component
       if streets.length == 1 and stops.length == 0
         # We can directly do address search
         @searchAddresses([streets[0].city], streets[0].address, null, callback)
-        callback(null, all)
       else
         # We just show results
         all = streets.concat stops
