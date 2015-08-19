@@ -26,7 +26,7 @@ class Page extends React.Component
   render: ->
     <IndexNavigation>
       <Map showStops=true>
-        <div style={{position:'absolute', height:'100%', width:'100%'}} onClick={@toggleFullscreenMap}></div>
+        <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}></div>
         <SearchWithLocation/>
         <Link to="#{process.env.ROOT_PATH}kartta"><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>

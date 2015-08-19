@@ -1,5 +1,4 @@
 React            = require 'react'
-cloneWithProps   = require 'react/lib/cloneWithProps'
 MasonryComponent = require '../util/masonry-component'
 
 class StopCardList extends React.Component
@@ -8,7 +7,7 @@ class StopCardList extends React.Component
 
   renderChildrenWithReloadMasonry: =>
     React.Children.map @props.children, (child) =>
-      cloneWithProps child,
+      React.cloneElement child,
         reloadMasonry: @reloadMasonry
 
   render: =>

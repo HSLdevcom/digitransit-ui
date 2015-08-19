@@ -4,6 +4,7 @@ var bodyParser = require('body-parser')
 var fs = require('fs')
 var path = require('path')
 var React = require('react')
+var ReactDOM = require('react-dom/server')
 var Router = require('react-router/lib/Router')
 var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
 var Location = require('react-router/lib/Location');
@@ -58,7 +59,7 @@ function setUpRoutes() {
     var location = new Location(req.path, req.query);
     Router.run(application.getComponent(), location, function (error, initialState, transition) {
       render = function() {
-        var content = React.renderToString(
+        var content = ReactDOM.renderToString(
           React.createElement(
             FluxibleComponent,
             { context: context.getComponentContext() },
@@ -84,7 +85,7 @@ function setUpRoutes() {
           unknown: 'polyfill'
         });
 
-        var html = React.renderToStaticMarkup(
+        var html = ReactDOM.renderToStaticMarkup(
           React.createElement(
             applicationHtml,
             {

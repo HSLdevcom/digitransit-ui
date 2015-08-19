@@ -6,7 +6,7 @@ class FromToSearch extends React.Component
   render: ->
     <div className="search-form">
       <div className="row">
-        <div className="small-12 medium-6 medium-offset-3 columns">
+        <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
               <input type="text" disabled value={@props.params.from.split("::")[0]}/>
@@ -20,7 +20,7 @@ class FromToSearch extends React.Component
         </div>
       </div>
       <div className="row">
-        <div className="small-12 medium-6 medium-offset-3 columns">
+        <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
               <input type="text" disabled value={@props.params.to.split("::")[0]}/>

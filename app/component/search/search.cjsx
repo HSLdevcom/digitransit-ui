@@ -278,7 +278,7 @@ class Search extends React.Component
       disabled: inputDisabled
 
     <form onSubmit={@onSubmit}>
-    <div className="small-12 medium-6 medium-offset-3 columns">
+    <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
       <div className="row collapse postfix-radius">
         <div className="small-11 columns">
           <Autosuggest

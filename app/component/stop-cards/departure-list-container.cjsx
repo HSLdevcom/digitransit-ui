@@ -1,4 +1,5 @@
 React                 = require 'react'
+ReactDom              = require 'react-dom'
 Departure             = require './departure'
 StopDeparturesActions = require '../../action/stop-departures-action'
 uniq                  = require 'lodash/array/uniq'
@@ -19,7 +20,7 @@ class DepartureListContainer extends React.Component
       if @context.getStore('StopDeparturesStore').getDepartures(@props.stop) == undefined
         @context.executeAction StopDeparturesActions.stopDeparturesRequest, @props.stop
     if @props.infiniteScroll
-      @scrollHandler target: React.findDOMNode this
+      @scrollHandler target: ReactDom.findDOMNode this
 
   componentWillUnmount: ->
     @context.getStore('StopDeparturesStore').removeChangeListener @onChange

@@ -1,5 +1,6 @@
 # Libraries
 React             = require 'react'
+ReactDOM          = require 'react-dom'
 Router            = require 'react-router/lib/Router'
 History           = require('react-router/lib/BrowserHistory').history
 FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
@@ -15,8 +16,8 @@ require.include 'leaflet' # Force into main bundle.js
 
 window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 
-injectTapEventPlugin = require "react-tap-event-plugin"
-injectTapEventPlugin()
+#injectTapEventPlugin = require "react-tap-event-plugin"
+#injectTapEventPlugin()
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
@@ -24,7 +25,7 @@ app.rehydrate dehydratedState, (err, context) ->
     throw err
   window.context = context
 
-  React.render(
+  ReactDOM.render(
   	<FluxibleComponent context={context.getComponentContext()}>
 		  <Router history={History} children={app.getComponent()} onUpdate={() ->
         if context.getActionContext().executeAction

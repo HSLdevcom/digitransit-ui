@@ -289,6 +289,14 @@ div.background-gradient {
   top: 0px;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(153, 153, 153, 0));
   pointer-events: none;
+  z-index: 801;
+}
+
+div.map-click-prevent-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 801;
 }
 
 div.fullscreen-toggle {
@@ -300,6 +308,7 @@ div.fullscreen-toggle {
   right: 1em;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
+  z-index: 802;
 }
 
 div.fullscreen-toggle span .icon {

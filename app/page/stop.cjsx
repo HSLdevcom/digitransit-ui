@@ -45,7 +45,7 @@ class Page extends React.Component
 
     <DefaultNavigation className="fullscreen">
       <Map lat={stop.lat+0.0005} lon={stop.lon} zoom={16} showStops=true hilightedStops=[stop.id]>
-        <div style={{position:'absolute', height:'100%', width:'100%'}} onTouchTap={@toggleFullscreenMap}></div>
+        <div className="map-click-prevent-overlay" onTouchTap={@toggleFullscreenMap}></div>
         <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page" infoIcon={true}/>
         <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta"><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>
