@@ -1,6 +1,6 @@
 React                 = require 'react'
 Icon                  = require '../icon/icon.cjsx'
-Link                  = require 'react-router/lib/components/Link'
+Link                  = require('react-router/lib/Link').Link
 
 
 class StopCardHeader extends React.Component
@@ -17,7 +17,7 @@ class StopCardHeader extends React.Component
       description += @props.dist + " m"
 
     if @props.infoIcon
-      info = <Link to="stopInfo" params={{stopId: @props.stop.id}}>
+      info = <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.id}/info">
           <span className="cursor-pointer">
             <Icon className="info" img="icon-icon_info"/>
           </span>

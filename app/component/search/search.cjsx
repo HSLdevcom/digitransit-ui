@@ -13,7 +13,7 @@ class Search extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.object.isRequired
 
   constructor: ->
     super
@@ -26,8 +26,6 @@ class Search extends React.Component
     @context.getStore('LocationStore').removeChangeListener @onChange
 
   onChange: =>
-    @context.router.replaceWith(@context.router.getCurrentPathname(),
-                                @context.router.getCurrentParams())
     @setState @context.getStore('LocationStore').getLocationState()
 
   analyzeInput: (input) =>
@@ -106,9 +104,7 @@ class Search extends React.Component
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
       setTimeout(() =>
-        @context.router.transitionTo "summary",
-          from: "#{@state.address}::#{@state.lat},#{@state.lon}"
-          to: "#{address}::#{lat},#{lon}"
+        @context.router.transitionTo "#{process.env.ROOT_PATH}reitti/#{@state.address}::#{@state.lat},#{@state.lon}/#{address}::#{lat},#{lon}"
       ,0)
     else
       # No, This is a start location

@@ -1,6 +1,6 @@
 React = require 'react'
 Icon  = require '../icon/icon'
-Link  = require 'react-router/lib/components/Link'
+Link  = require('react-router/lib/Link').Link
 
 class FromToSearch extends React.Component
   render: ->
@@ -11,7 +11,7 @@ class FromToSearch extends React.Component
             <div className="small-11 columns">
               <input type="text" disabled value={@props.params.from.split("::")[0]}/>
             </div>
-            <Link to="summary" params={{to: @props.params.from, from: @props.params.to}} className="small-1 columns">
+            <Link to="#{process.env.ROOT_PATH}reitti/#{@props.params.to}/#{@props.params.from}" className="small-1 columns">
               <span className="postfix search">
                 <Icon img={'icon-icon_direction-a'}/>
               </span>

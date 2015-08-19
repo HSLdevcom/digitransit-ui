@@ -52,7 +52,7 @@ class RoutePage extends React.Component
           <RouteMapContainer id={@props.params.routeId}/>
         </Tabs.Panel>
         <Tabs.Panel title="Aikataulut">
-          Aikataulut tähän
+          <div>Aikataulut tähän</div>
         </Tabs.Panel>
       </Tabs>
     </DefaultNavigation>

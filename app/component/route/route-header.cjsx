@@ -1,7 +1,7 @@
 React                 = require 'react'
 Icon                  = require '../icon/icon'
 GtfsUtils             = require '../../util/gtfs'
-Link                  = require 'react-router/lib/components/Link'
+Link                  = require('react-router/lib/Link').Link
 
 
 class RouteHeader extends React.Component
@@ -11,7 +11,7 @@ class RouteHeader extends React.Component
     mode = GtfsUtils.typeToName[@props.route.type]
     trip = if @props.trip then <span className="route-header-trip">{@props.trip.substring(0,2)}:{@props.trip.substring(2,4)} →</span> else ""
     if @props.reverseId
-      reverse = <Link to="route" params={{routeId: @props.reverseId}}>
+      reverse = <Link to="#{process.env.ROOT_PATH}linjat/#{@props.reverseId}">
           <Icon className={"route-header-direction-switch " + mode} img={'icon-icon_direction-b'}/>
         </Link>
 

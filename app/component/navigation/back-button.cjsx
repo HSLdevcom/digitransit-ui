@@ -1,10 +1,10 @@
 React                 = require 'react'
-Link                  = require 'react-router/lib/components/Link'
+Link                  = require('react-router/lib/Link').Link
 Icon                  = require '../icon/icon'
 
 class BackButton extends React.Component
   @contextTypes:
-    router: React.PropTypes.func
+    router: React.PropTypes.object
 
   # TODO
   # Transition back in next event loop
@@ -14,8 +14,10 @@ class BackButton extends React.Component
   # When react-tap-plugin works better
   goBack: =>
     setTimeout(() =>
-      if !@context.router.goBack()
-        @context.router.transitionTo("index")
+      if window.history.length > 1
+        @context.router.goBack()
+      else
+        @context.router.transitionTo(process.env.ROOT_PATH)
     , 0)
 
   render: ->

@@ -7,14 +7,14 @@ StopDeparturesAction = require '../action/stop-departures-action'
 isBrowser          = window?
 CircleMarker       = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
 FavouriteStopsAction = require '../action/favourite-stops-action'
-Link               = require 'react-router/lib/components/Link'
+Link               = require('react-router/lib/Link').Link
 Icon               = require '../component/icon/icon'
 
 class Page extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.func
+    router: React.PropTypes.object.isRequired
 
   @loadAction: StopDeparturesAction.stopPageDataRequest
 
@@ -32,7 +32,7 @@ class Page extends React.Component
       @forceUpdate()
 
   toggleFullscreenMap: =>
-    @context.router.transitionTo("stopMap", {stopId: @props.params.stopId})
+    @context.router.transitionTo "#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta"
 
   render: ->
     stop = @context.getStore('StopInformationStore').getStop(@props.params.stopId)
@@ -47,7 +47,7 @@ class Page extends React.Component
       <Map lat={stop.lat+0.0005} lon={stop.lon} zoom={16} showStops=true hilightedStops=[stop.id]>
         <div style={{position:'absolute', height:'100%', width:'100%'}} onTouchTap={@toggleFullscreenMap}></div>
         <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page" infoIcon={true}/>
-        <Link to="stopMap" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
+        <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta"><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>
       <DepartureListContainer showMissingRoutes={false} stop={@props.params.stopId} className="stop-page below-map" routeLinks={true} infiniteScroll={true}/>
     </DefaultNavigation>

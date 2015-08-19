@@ -1,5 +1,5 @@
 React                 = require 'react'
-Link                  = require 'react-router/lib/components/Link'
+Link                  = require('react-router/lib/Link').Link
 Icon                  = require '../icon/icon'
 
 class RouteStop extends React.Component
@@ -11,7 +11,7 @@ class RouteStop extends React.Component
     if @props.vehicles
       for vehicle in @props.vehicles
         if vehicle.trip
-          vehicles.push <Link key={vehicle.id} to="trip" params={{tripId: vehicle.trip.id}}>
+          vehicles.push <Link key={vehicle.id} to="#{process.env.ROOT_PATH}lahdot/#{vehicle.trip.id}">
               <Icon className={vehicle.mode} img={'icon-icon_' + vehicle.mode}/>
             </Link>
         else vehicles.push <Icon key={vehicle.id} className={@props.mode} img={'icon-icon_' + @props.mode}/>
@@ -21,7 +21,7 @@ class RouteStop extends React.Component
         {@props.stop.now}
         {vehicles}
       </div>
-      <Link to="stop" params={{stopId: @props.stop.id}}>
+      <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.id}">
         <div className={"columns small-6 route-stop-name " + @props.mode}>
           {@props.stop.name}<br/>
             <span className="route-stop-address">

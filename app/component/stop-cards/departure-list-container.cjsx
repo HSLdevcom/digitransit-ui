@@ -4,7 +4,7 @@ StopDeparturesActions = require '../../action/stop-departures-action'
 uniq                  = require 'lodash/array/uniq'
 difference            = require 'lodash/array/difference'
 moment                = require 'moment'
-Link                  = require 'react-router/lib/components/Link'
+Link                  = require('react-router/lib/Link').Link
 
 moment.locale('fi')
 
@@ -46,7 +46,7 @@ class DepartureListContainer extends React.Component
       if moment().isBefore(departureTime)
         id = departure.pattern.id + departure.time.serviceDay + departure.time.scheduledDeparture
         if @props.routeLinks
-          departureObjs.push <Link to="route" params={{routeId: departure.pattern.id}}><Departure key={id} departure={departure}/></Link>
+          departureObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.id}" key={id}><Departure departure={departure}/></Link>
         else
           departureObjs.push <Departure key={id} departure={departure} />
         seenRoutes.push(departure.pattern.shortName)

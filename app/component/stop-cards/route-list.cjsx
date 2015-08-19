@@ -1,6 +1,5 @@
 React                 = require 'react'
 Icon                  = require '../icon/icon.cjsx'
-Link                  = require 'react-router/lib/components/Link'
 groupBy               = require 'lodash/collection/groupBy'
 
 class RouteList extends React.Component

@@ -14,7 +14,7 @@ class StopMarkerContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.object.isRequired
 
   componentDidMount: ->
     @props.map.on 'moveend', @onMapMove

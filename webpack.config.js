@@ -24,7 +24,6 @@ function getLoadersConfig(env) {
     ])
   } else {
     return([
-      //{ test: /\/app\/page\/.*\.cjsx$/, loader: 'react-router-proxy' },
       { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!postcss")},
       { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },

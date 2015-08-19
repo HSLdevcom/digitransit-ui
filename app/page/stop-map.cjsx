@@ -2,7 +2,7 @@ React              = require 'react'
 DefaultNavigation  = require '../component/navigation/default-navigation'
 Icon               = require '../component/icon/icon'
 Map                = require '../component/map/map'
-Link               = require 'react-router/lib/components/Link'
+Link               = require('react-router/lib/Link').Link
 StopCardHeader     = require '../component/stop-cards/stop-card-header'
 StopDeparturesAction = require '../action/stop-departures-action'
 FavouriteStopsAction = require '../action/favourite-stops-action'
@@ -27,7 +27,7 @@ class Page extends React.Component
     <DefaultNavigation className="fullscreen">
       <Map lat={stop.lat+0.0005} lon={stop.lon} zoom={16} className="fullscreen" showStops=true hilightedStops=[stop.id]>
         <StopCardHeader stop={stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={0} className="stop-page" infoIcon={true}/>
-        <Link to="stop" params={{stopId: @props.params.stopId}}><div className="fullscreen-toggle"><Icon img={'icon-icon_minimize'} className="cursor-pointer" /></div></Link>
+        <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}"><div className="fullscreen-toggle"><Icon img={'icon-icon_minimize'} className="cursor-pointer" /></div></Link>
       </Map>
     </DefaultNavigation>
 

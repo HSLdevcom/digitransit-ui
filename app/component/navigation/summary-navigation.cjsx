@@ -1,5 +1,4 @@
 React                 = require 'react'
-Link                  = require 'react-router/lib/components/Link'
 Icon                  = require '../icon/icon'
 Offcanvas             = require '../util/offcanvas'
 BackButton            = require './back-button'

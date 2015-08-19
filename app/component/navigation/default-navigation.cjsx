@@ -1,6 +1,4 @@
 React                 = require 'react'
-Link                  = require 'react-router/lib/components/Link'
-Icon                  = require '../icon/icon'
 TopNavigation         = require './top-navigation'
 BackButton            = require './back-button'
 

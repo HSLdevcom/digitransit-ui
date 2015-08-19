@@ -1,7 +1,7 @@
 React                 = require 'react'
 RouteHeader           = require '../route/route-header'
 Icon                  = require '../icon/icon.cjsx'
-Link                  = require 'react-router/lib/components/Link'
+Link                  = require('react-router/lib/Link').Link
 FavouriteStopsAction  = require '../../action/favourite-stops-action'
 GtfsUtils             = require '../../util/gtfs'
 FavouriteRoutesActions = require '../../action/favourite-routes-action'
@@ -39,10 +39,10 @@ class RouteMarkerPopup extends React.Component
         favourite={@props.context.getStore('FavouriteRoutesStore').isFavourite(@props.message.route)}
         addFavouriteRoute={@addFavouriteRoute}/>
       <div className="bottom location">
-        <Link to="trip" params={{tripId: @props.message.trip.id}}>
+        <Link to="#{process.env.ROOT_PATH}lahdot/#{@props.message.trip.id}">
           <Icon img={'icon-icon_time'}> Lähdön tiedot</Icon></Link>
         <br/>
-        <Link to="route" params={{routeId: @props.message.trip.pattern.id}} className="route">
+        <Link to="#{process.env.ROOT_PATH}linjat/#{@props.message.trip.pattern.id}" className="route">
           <Icon img={'icon-icon_' + @props.message.mode + "-withoutBox"}> Linjan tiedot</Icon>
         </Link>
       </div>
