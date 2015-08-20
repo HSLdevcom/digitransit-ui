@@ -10,7 +10,8 @@ var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
 var Location = require('react-router/lib/Location');
 var serialize = require('serialize-javascript');
 var polyfillService = require('polyfill-service');
-require('node-cjsx').transform()
+require('node-cjsx').transform();
+require("babel/register");
 
 /********** Polyfill **********/
 global.fetch = require('node-fetch');
@@ -59,19 +60,19 @@ function setUpRoutes() {
     var location = new Location(req.path, req.query);
     Router.run(application.getComponent(), location, function (error, initialState, transition) {
       render = function() {
-        var content = ReactDOM.renderToString(
-          React.createElement(
-            FluxibleComponent,
-            { context: context.getComponentContext() },
-            React.createElement(
-              Router,
-              { location: initialState.location,
-                branch: initialState.branch,
-                components: initialState.components,
-                params: initialState.params }
-            )
-          )
-        )
+        var content = "" //ReactDOM.renderToString(
+        //  React.createElement(
+        //    FluxibleComponent,
+        //    { context: context.getComponentContext() },
+        //    React.createElement(
+        //      Router,
+        //      { location: initialState.location,
+        //        branch: initialState.branch,
+        //        components: initialState.components,
+        //        params: initialState.params }
+        //    )
+        //  )
+        //)
 
         var polyfillContent = polyfillService.getPolyfillString({
           uaString: req.headers['user-agent'],

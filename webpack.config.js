@@ -20,7 +20,8 @@ function getLoadersConfig(env) {
           'sass?includePaths[]=' + (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default'))
         ]
       },
-      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'}
+      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
+      { test: /app\/queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
     ])
   } else {
     return([
@@ -122,7 +123,7 @@ module.exports = {
     net: "empty",
     tls: "empty"
   },
-  externals: {"es6-promise": "var Promise"},
+  externals: {"es6-promise": "var Promise", "fetch": "var fetch"},
   worker: {
     output: {
       filename: 'js/[hash].worker.js',
