@@ -229,7 +229,7 @@ class Search extends React.Component
   # See: https://github.com/moroshko/react-autosuggest/issues/21
   handleAutoSuggestMount: (autoSuggestComponent) =>
     if autoSuggestComponent
-      input = autoSuggestComponent.refs.input.getDOMNode()
+      input = autoSuggestComponent.refs.input
       input.addEventListener('keydown', @suggestionArrowPress)
       this.autoSuggestInput = input
 

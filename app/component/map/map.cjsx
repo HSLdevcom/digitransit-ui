@@ -1,5 +1,6 @@
 isBrowser     = window?
 React         = require 'react'
+ReactDOM      = require 'react-dom/server'
 Icon          = require '../icon/icon'
 StopMarkerContainer = require './stop-marker-container'
 #VehicleMarkerContainer = require './vehicle-marker-container'
@@ -16,7 +17,7 @@ class Map extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  @currentLocationIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-location-animated')), className: 'current-location-marker') else null
+  @currentLocationIcon: if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_mapMarker-location-animated')), className: 'current-location-marker') else null
 
   constructor: ->
     super

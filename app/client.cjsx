@@ -35,7 +35,7 @@ app.rehydrate dehydratedState, (err, context) ->
     <FluxibleComponent context={context.getComponentContext()}>
       <Router history={History} children={app.getComponent()} createElement={reactRouterRelay()}
         onUpdate={() ->
-          if context.getActionContext().executeAction
+          if @state.components[@state.components.length-1].loadAction
             context.getActionContext().executeAction(
               @state.components[@state.components.length-1].loadAction,
               {params: @state.params, query: @state.location.query}
