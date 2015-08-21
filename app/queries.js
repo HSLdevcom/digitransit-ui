@@ -13,13 +13,20 @@ var StopQueries = {
 var StopPageFragments = {
   stop: () =>  Relay.QL`
     fragment on Stop {
-      id
+      lat
+      lon
+      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+    }
+  `,
+};
+
+var StopCardHeaderFragments = {
+  stop: () => Relay.QL`
+    fragment on Stop {
       gtfsId
       name
       code
       desc
-      lat
-      lon
     }
   `,
 };
@@ -27,4 +34,5 @@ var StopPageFragments = {
 module.exports = {
   StopQueries: StopQueries,
   StopPageFragments: StopPageFragments,
-}
+  StopCardHeaderFragments: StopCardHeaderFragments,
+};

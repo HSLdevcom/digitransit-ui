@@ -1,5 +1,5 @@
 React              = require 'react'
-Relay              = require 'react-relay';
+Relay              = require 'react-relay'
 queries            = require '../queries'
 DefaultNavigation  = require '../component/navigation/default-navigation'
 Map                = require '../component/map/map'

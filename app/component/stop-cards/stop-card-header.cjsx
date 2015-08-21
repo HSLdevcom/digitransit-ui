@@ -1,13 +1,20 @@
 React                 = require 'react'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
 Icon                  = require '../icon/icon.cjsx'
 Link                  = require('react-router/lib/Link').Link
+classNames            = require 'classnames'
 
 
 class StopCardHeader extends React.Component
-  render: ->
-    if !@props.stop
-      return false
+  getInfoIcon: ->
+    <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}/info">
+      <span className="cursor-pointer">
+        <Icon className="info" img="icon-icon_info"/>
+      </span>
+    </Link>
 
+  getDescription: ->
     description = ""
     if @props.stop.desc
       description += @props.stop.desc + " // "
@@ -15,25 +22,17 @@ class StopCardHeader extends React.Component
       description += @props.stop.code + " // "
     if @props.dist
       description += @props.dist + " m"
+    description
 
-    if @props.infoIcon
-      info = <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.id}/info">
-          <span className="cursor-pointer">
-            <Icon className="info" img="icon-icon_info"/>
-          </span>
-        </Link>
-    else
-      info = ""
-
+  render: ->
     # We use onClick in the following, as it is rendered sometimes in a popup, in which the touch tap event does not fire (as it is part of another react render)
-
-    <div className={"stop-card-header" + (if @props.className then " " + @props.className else "")}>
+    <div className={classNames "stop-card-header", @props.className}>
       <span className="cursor-pointer favourite-icon" onClick={@props.addFavouriteStop}>
-        <Icon className={"favourite" + (if @props.favourite then " selected" else "")} img="icon-icon_star"/>
+        <Icon className={classNames "favourite", selected: @props.favourite} img="icon-icon_star"/>
       </span>
-      {info}
+      {if @props.infoIcon then @getInfoIcon()}
       <h3>{@props.stop.name} ›</h3>
-      <p className="location">{description}</p>
+      <p className="location">{@getDescription()}</p>
     </div>
 
-module.exports = StopCardHeader
+module.exports = Relay.createContainer(StopCardHeader, fragments: queries.StopCardHeaderFragments)
