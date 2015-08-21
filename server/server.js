@@ -106,10 +106,11 @@ function setUpRoutes() {
         res.status(404).send("Not found!");
       }
       else {
-        if (initialState.components[initialState.components.length-1].loadAction) {
-          context.getActionContext().executeAction(
-            initialState.components[initialState.components.length-1].loadAction,
-            {params:initialState.params, query:initialState.location.query}).then(render)
+        if (initialState.components[initialState.components.length-1] &&
+          initialState.components[initialState.components.length-1].loadAction) {
+            context.getActionContext().executeAction(
+              initialState.components[initialState.components.length-1].loadAction,
+              {params:initialState.params, query:initialState.location.query}).then(render)
         } else {
           render()
         }

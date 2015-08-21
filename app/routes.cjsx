@@ -8,6 +8,7 @@ MapPage       = require './page/map'
 NavigationPage = require './page/navigation'
 RoutePage     = require './page/route'
 StopMapPage   = require './page/stop-map'
+StopPage      = require './page/stop'
 SummaryPage   = require './page/summary'
 Error404      = require './page/404'
 
@@ -24,7 +25,7 @@ routes =
   <Route path={ROOT_PATH} name="app" indexRoute={component: IndexPage}>
     <Route path="kartta" name="map" component={MapPage}/>
     <Route path="pysakit" name="stopList" component={Error404}/>
-    <Route path="pysakit/:stopId" name="stop" component={queries.StopPage} queries={queries.StopQueries}/>
+    <Route path="pysakit/:stopId" name="stop" component={StopPage} queries={queries.StopQueries}/>
     <Route path="pysakit/:stopId/kartta" name="stopMap" component={StopMapPage}/>
     <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404}/>
     <Route path="linjat" name="routeList" component={Error404}/>

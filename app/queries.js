@@ -10,20 +10,21 @@ var StopQueries = {
   `,
 };
 
-var StopPage = Relay.createContainer(require('./page/stop'), {
-  fragments: {
-    stop: () =>  Relay.QL`
-      fragment on Stop {
-        id
-        gtfsId
-        name
-        code
-      }
-    `,
-  }
-});
+var StopPageFragments = {
+  stop: () =>  Relay.QL`
+    fragment on Stop {
+      id
+      gtfsId
+      name
+      code
+      desc
+      lat
+      lon
+    }
+  `,
+};
 
 module.exports = {
   StopQueries: StopQueries,
-  StopPage: StopPage,
+  StopPageFragments: StopPageFragments,
 }
