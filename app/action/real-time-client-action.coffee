@@ -52,28 +52,35 @@ parseMessage = (topic, message, actionContext) ->
 module.exports =
   startRealTimeClient: (actionContext, options, done) ->
     #Fetch initial data
-    xhrPromise.getJson(config.URL.REALTIME + (getTopic(options)).replace('#', '')).then (data) ->
-      parseMessage(topic, message, actionContext) for topic, message of data
+    if !Array.isArray(options)
+      options = [options]
+    topics = (getTopic(option) for option in options)
+    for topic in topics
+      xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then (data) ->
+        parseMessage(resTopic, message, actionContext) for resTopic, message of data
     require.ensure ['mqtt'], ->
       mqtt = require 'mqtt'
       client = mqtt.connect config.URL.MQTT
       client.on 'connect', =>
-        client.subscribe getTopic(options)
+        client.subscribe topics
       client.on 'message', (topic, message) -> parseMessage(topic, message, actionContext)
       actionContext.dispatch "RealTimeClientStarted",
         client: client
-        topics: [getTopic(options)]
+        topics: topics
       done()
     , 'mqtt'
 
   updateTopic: (actionContext, options, done) ->
     options.client.unsubscribe(options.oldTopics)
-    newTopic = getTopic(options.newTopic)
-    options.client.subscribe(newTopic)
-    actionContext.dispatch "RealTimeClientTopicChanged", [newTopic]
+    if !Array.isArray(options.newTopic)
+      options.newTopic = [options.newTopic]
+    newTopics = (getTopic(option) for option in options.newTopic)
+    options.client.subscribe(newTopics)
+    actionContext.dispatch "RealTimeClientTopicChanged", newTopics
     # Do the loading of initial data after clearing the vehicles object
-    xhrPromise.getJson(config.URL.REALTIME + newTopic.replace('#', '')).then (data) ->
-      parseMessage(topic, message, actionContext) for topic, message of data
+    for topic in newTopics
+      xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then (data) ->
+        parseMessage(resTopic, message, actionContext) for resTopic, message of data
     done()
 
   stopRealTimeClient: (actionContext, client, done) ->
