@@ -1,8 +1,8 @@
 React         = require 'react'
 geoUtils      = require '../../util/geo-utils'
 LocateActions = require '../../action/locate-actions.coffee'
+RealTimeClient = require '../../action/real-time-client-action'
 RealTimeInformationAction = require '../../action/real-time-client-action'
-
 
 class NavigationMap extends React.Component
   @contextTypes:
@@ -37,6 +37,9 @@ class NavigationMap extends React.Component
         bearing: @bearing
       )
 
+      # Store map. We will have to remove it when component will unmount
+      @map = map
+
       mapLoaded = new Promise((resolve) -> map.on 'load', resolve)
 
       fulltiltLoaded = Fulltilt.getDeviceOrientation(type: 'world')
@@ -67,7 +70,7 @@ class NavigationMap extends React.Component
 
         map.addSource 'vehicles', vehiclesJSONsource
         map.addLayer geoUtils.getLayerForVehicles()
-
+        
         @vehicleIntervalId = setInterval =>
           vehiclesJSONsource.setData(
             geoUtils.vehiclesAsGeoJson @context.getStore("RealTimeInformationStore").vehicles
@@ -78,6 +81,8 @@ class NavigationMap extends React.Component
           (orientation) => @initializeCompass(map, true, orientation)
         , (errror) => @initializeCompass(map, false)
         )
+
+ 
 
   initializeCompass: (map, compassAvailable, orientation) ->
     coordinates = @context.getStore('LocationStore').getLocationState()
@@ -119,6 +124,9 @@ class NavigationMap extends React.Component
     client = @context.getStore('RealTimeInformationStore').client
     if client
       @context.executeAction RealTimeClient.stopRealTimeClient, client
+
+    # Clear all Map resources
+    @map.remove()
 
   render: ->
     <div id="map" className="fullscreen"/>
