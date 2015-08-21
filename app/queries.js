@@ -15,6 +15,30 @@ var StopPageFragments = {
     fragment on Stop {
       lat
       lon
+      routes {
+        gtfsId
+        shortName
+        longName
+        type
+        color
+      }
+      stopTimesToday: stoptimesForServiceDate(date: $date) {
+        pattern {
+          route {
+            gtfsId
+            shortName
+            longName
+            type
+            color
+          }
+          headsign
+        }
+        stoptimes {
+          scheduledDeparture
+          realtimeDeparture
+          realtime
+        }
+      }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
