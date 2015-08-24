@@ -22,23 +22,7 @@ var StopPageFragments = {
         type
         color
       }
-      stopTimesToday: stoptimesForServiceDate(date: $date) {
-        pattern {
-          route {
-            gtfsId
-            shortName
-            longName
-            type
-            color
-          }
-          headsign
-        }
-        stoptimes {
-          scheduledDeparture
-          realtimeDeparture
-          realtime
-        }
-      }
+      ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
@@ -55,8 +39,34 @@ var StopCardHeaderFragments = {
   `,
 };
 
+var DepartureListFragments = {
+  stop: () => Relay.QL`
+    fragment on Stop {
+      stopTimes: stoptimesForServiceDate(date: $date) {
+        pattern {
+          route {
+            gtfsId
+            shortName
+            longName
+            type
+            color
+          }
+          code
+          headsign
+        }
+        stoptimes {
+          realtimeDeparture
+          realtime
+          serviceDay
+        }
+      }
+    }
+  `,
+}
+
 module.exports = {
   StopQueries: StopQueries,
   StopPageFragments: StopPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
+  DepartureListFragments: DepartureListFragments,
 };
