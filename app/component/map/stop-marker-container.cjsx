@@ -14,9 +14,11 @@ STOPS_MAX_ZOOM = 14
 
 class StopMarkerContainer extends React.Component
   @contextTypes:
+    #Needed for passing context to dynamic popup, maybe should be done in there?
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
     router: React.PropTypes.object.isRequired
+    route: React.PropTypes.object.isRequired
 
   componentDidMount: ->
     @props.map.on 'moveend', @onMapMove
@@ -40,8 +42,6 @@ class StopMarkerContainer extends React.Component
     stops = []
     renderedNames = []
     @props.stopsInRectangle.stopsByBbox.forEach (stop) =>
-      if config.preferredAgency and config.preferredAgency != stop.gtfsId.split(':')[0] # Add this to graphQL endpoint
-        return
       modeClass = stop.routes[0].type.toLowerCase()
       selected = @props.hilightedStops and stop.id in @props.hilightedStops
       # This is copied to route-line.cjsx. Remember to change both at the same time
@@ -51,6 +51,7 @@ class StopMarkerContainer extends React.Component
         <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
           <StopMarkerPopup stop={stop} context={@context}/>
         </DynamicPopup>
+
       stops.push <CircleMarker map={@props.map}
                                key={stop.gtfsId + "outline"}
                                center={lat: stop.lat, lng: stop.lon}
@@ -65,14 +66,14 @@ class StopMarkerContainer extends React.Component
                                className="#{modeClass} stop"
                                radius={if selected then 8 else 4.5}
                                weight={if selected then 7 else 4}
-                               clickable={false} />
+                               interactive={false} />
                                # when the CircleMarker is not clickable, the click goes to element behind it (the bigger marker)
       unless stop.name in renderedNames
         stops.push <Marker map={@props.map}
                            key={stop.name + "_text"}
                            position={lat: stop.lat, lng: stop.lon}
                            icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
-                           clickable={false}/>
+                           interactive={false}/>
         renderedNames.push stop.name
 
     stops
