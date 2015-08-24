@@ -47,7 +47,7 @@ class DepartureListContainer extends React.Component
   getDepartures: (showMissingRoutes) =>
     departureObjs = []
     seenRoutes = []
-    previousTime = moment()
+    previousTime = currentTime = moment()
     for departure, i in @state.departures
       if departure.stoptime.isAfter(previousTime, 'day')
         departureObjs.push <div key={departure.stoptime.format('DDMMYYYY')} className="date-row">
@@ -57,10 +57,10 @@ class DepartureListContainer extends React.Component
         id = "#{departure.pattern.code}:#{departure.stoptime.valueOf()}"
         if @props.routeLinks
           departureObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.code}" key={id}>
-            <Departure departure={departure}/>
+            <Departure departure={departure} currentTime={currentTime}/>
           </Link>
         else
-          departureObjs.push <Departure key={id} departure={departure} />
+          departureObjs.push <Departure key={id} departure={departure} currentTime={currentTime}/>
         seenRoutes.push(departure.pattern.route.shortName)
         if seenRoutes.length >= @props.departures
           break
