@@ -18,6 +18,13 @@ var StopMapQueries = {
       },
     }
   `,
+  stopsInRectangle: (Component) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('stopsInRectangle')}
+      }
+    }
+  `,
 };
 
 var StopPageFragments = {
@@ -38,6 +45,25 @@ var StopPageFragments = {
   `,
 };
 
+var StopMarkerContainerFragments = {
+  stopsInRectangle: () => Relay.QL`
+    fragment on QueryType {
+      stopsByBbox(minLat: $minLat, minLon: $minLon, maxLat: $maxLat, maxLon: $maxLon, agency: $agency) {
+        lat
+        lon
+        gtfsId
+        name
+        routes {
+          gtfsId
+          shortName
+          type
+        }
+        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      }
+    }
+  `,
+}
+
 var StopMapPageFragments = {
   stop: () =>  Relay.QL`
     fragment on Stop {
@@ -46,6 +72,11 @@ var StopMapPageFragments = {
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
+  stopsInRectangle: () => Relay.QL`
+    fragment on QueryType {
+      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
+    }
+  `
 };
 
 var StopCardHeaderFragments = {
@@ -88,6 +119,7 @@ module.exports = {
   StopQueries: StopQueries,
   StopMapQueries: StopMapQueries,
   StopPageFragments: StopPageFragments,
+  StopMarkerContainerFragments: StopMarkerContainerFragments,
   StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
   DepartureListFragments: DepartureListFragments,

@@ -20,7 +20,13 @@ class Page extends React.Component
       @context.executeAction FavouriteStopsAction.addFavouriteStop, @props.params.stopId
 
     <DefaultNavigation className="fullscreen">
-      <Map lat={@props.stop.lat+0.0005} lon={@props.stop.lon} zoom={16} className="fullscreen" showStops=true hilightedStops=[@props.params.stopId]>
+      <Map lat={@props.stop.lat+0.0005}
+           lon={@props.stop.lon}
+           zoom={16}
+           className="fullscreen"
+           showStops=true
+           hilightedStops=[@props.params.stopId]
+           stopsInRectangle={@props.stopsInRectangle}>
         <StopCardHeader stop={@props.stop} favourite={favourite} addFavouriteStop={addFavouriteStop} className="stop-page" infoIcon={true}/>
         <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}">
           <div className="fullscreen-toggle">

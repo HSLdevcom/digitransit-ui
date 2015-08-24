@@ -1,4 +1,6 @@
 React         = require 'react'
+Relay         = require 'react-relay'
+queries       = require '../../queries'
 isBrowser     = window?
 DynamicPopup  = if isBrowser then require './dynamic-popup' else null
 CircleMarker  = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
@@ -18,21 +20,15 @@ class StopMarkerContainer extends React.Component
 
   componentDidMount: ->
     @props.map.on 'moveend', @onMapMove
-    @context.getStore('NearestStopsStore').addChangeListener @onChange
     @onMapMove()
 
   componentWillUnmount: ->
     @props.map.off 'moveend', @onMapMove
-    @context.getStore('NearestStopsStore').removeChangeListener @onChange
-
-  onChange: (type) =>
-    if type == 'rectangle'
-      @forceUpdate()
 
   onMapMove: =>
     if STOPS_MAX_ZOOM < @props.map.getZoom()
       bounds = @props.map.getBounds()
-      @context.executeAction NearestStopsAction.stopsInRectangleRequest,
+      @props.relay.setVariables
         minLat: bounds.getSouth()
         minLon: bounds.getWest()
         maxLat: bounds.getNorth()
@@ -43,48 +39,53 @@ class StopMarkerContainer extends React.Component
   getStops: ->
     stops = []
     renderedNames = []
-    @context.getStore('NearestStopsStore').getStopsInRectangle().forEach (stop) =>
-      if config.preferredAgency and config.preferredAgency != stop.id.split(':')[0]
+    @props.stopsInRectangle.stopsByBbox.forEach (stop) =>
+      if config.preferredAgency and config.preferredAgency != stop.gtfsId.split(':')[0] # Add this to graphQL endpoint
         return
-      if @context.getStore('StopInformationStore').getStop(stop.id)
-        stop = @context.getStore('StopInformationStore').getStop(stop.id)
-      if stop
-        modeClass = "bus" # TODO: Should come from stop
-        #https://github.com/codebusters/react-leaflet/commit/c7b897e3ef429774323c7d8130f2fae504779b1a
-        selected = @props.hilightedStops and stop.id in @props.hilightedStops
-        # This is copied to route-line.cjsx. Remember to change both at the same time
-        # to retain visual consistency.
-        popup =
-          <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
-            <StopMarkerPopup stop={stop} context={@context}/>
-          </DynamicPopup>
-        stops.push <CircleMarker map={@props.map}
-                                 key={stop.id + "outline"}
-                                 center={lat: stop.lat, lng: stop.lon}
-                                 className="#{modeClass} stop-halo"
-                                 radius={if selected then 13 else 8}
-                                 weight=1 >
-          {popup}
-        </CircleMarker>
-        stops.push <CircleMarker map={@props.map}
-                                 key={stop.id}
-                                 center={lat: stop.lat, lng: stop.lon}
-                                 className="#{modeClass} stop"
-                                 radius={if selected then 8 else 4.5}
-                                 weight={if selected then 7 else 4}
-                                 clickable={false} />
-                                 # when the CircleMarker is not clickable, the click goes to element behind it (the bigger marker)
-        unless stop.name in renderedNames
-          stops.push <Marker map={@props.map}
-                             key={stop.name + "_text"}
-                             position={lat: stop.lat, lng: stop.lon}
-                             icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
-                             clickable={false}/>
-          renderedNames.push stop.name
+      modeClass = stop.routes[0].type.toLowerCase()
+      selected = @props.hilightedStops and stop.id in @props.hilightedStops
+      # This is copied to route-line.cjsx. Remember to change both at the same time
+      # to retain visual consistency.
+      #https://github.com/codebusters/react-leaflet/commit/c7b897e3ef429774323c7d8130f2fae504779b1a
+      popup =
+        <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
+          <StopMarkerPopup stop={stop} context={@context}/>
+        </DynamicPopup>
+      stops.push <CircleMarker map={@props.map}
+                               key={stop.gtfsId + "outline"}
+                               center={lat: stop.lat, lng: stop.lon}
+                               className="#{modeClass} stop-halo"
+                               radius={if selected then 13 else 8}
+                               weight=1 >
+        {popup}
+      </CircleMarker>
+      stops.push <CircleMarker map={@props.map}
+                               key={stop.gtfsId}
+                               center={lat: stop.lat, lng: stop.lon}
+                               className="#{modeClass} stop"
+                               radius={if selected then 8 else 4.5}
+                               weight={if selected then 7 else 4}
+                               clickable={false} />
+                               # when the CircleMarker is not clickable, the click goes to element behind it (the bigger marker)
+      unless stop.name in renderedNames
+        stops.push <Marker map={@props.map}
+                           key={stop.name + "_text"}
+                           position={lat: stop.lat, lng: stop.lon}
+                           icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
+                           clickable={false}/>
+        renderedNames.push stop.name
 
     stops
 
   render: ->
     <div>{if STOPS_MAX_ZOOM < @props.map.getZoom() then @getStops() else ""}</div>
 
-module.exports = StopMarkerContainer
+module.exports = Relay.createContainer(StopMarkerContainer,
+  fragments: queries.StopMarkerContainerFragments
+  initialVariables: # Ugly hack, not my fault
+    minLat: 0.1
+    minLon: 0.1
+    maxLat: 0.1
+    maxLon: 0.1
+    agency: config.preferredAgency
+)

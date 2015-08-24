@@ -127,6 +127,15 @@
                         "ofType": null
                     },
                     "defaultValue": null
+                }, {
+                    "name": "agency",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": null
                 }],
                 "type": {
                     "kind": "LIST",
@@ -785,7 +794,7 @@
                 "deprecationReason": null
             }, {
                 "name": "RAIL",
-                "description": "Rail. Used for intercity or long-distance travel.",
+                "description": null,
                 "isDeprecated": false,
                 "deprecationReason": null
             }, {
@@ -811,6 +820,11 @@
             }, {
                 "name": "FUNICULAR",
                 "description": "Funicular. Any rail system designed for steep inclines.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "AIRPLANE",
+                "description": null,
                 "isDeprecated": false,
                 "deprecationReason": null
             }],
