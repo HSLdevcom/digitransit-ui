@@ -67,8 +67,7 @@ class DepartureListContainer extends React.Component
       previousTime = departure.stoptime
 
     if showMissingRoutes
-      missingRoutes = difference(uniq(departure.pattern.route.shortName for departure in departures), seenRoutes)
-      missingRoutes.sort()
+      missingRoutes = difference((stop.routes.map (route) -> route.shortName), seenRoutes).sort()
       if missingRoutes.length == 0
       else if missingRoutes.length == 1
         departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linja {missingRoutes[0]}</p>
