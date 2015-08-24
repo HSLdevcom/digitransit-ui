@@ -10,6 +10,16 @@ var StopQueries = {
   `,
 };
 
+var StopMapQueries = {
+  stop: (Component) => Relay.QL`
+    query  {
+      stop(id: $stopId) {
+        ${Component.getFragment('stop')},
+      },
+    }
+  `,
+};
+
 var StopPageFragments = {
   stop: () =>  Relay.QL`
     fragment on Stop {
@@ -23,6 +33,16 @@ var StopPageFragments = {
         color
       }
       ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+    }
+  `,
+};
+
+var StopMapPageFragments = {
+  stop: () =>  Relay.QL`
+    fragment on Stop {
+      lat
+      lon
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
@@ -66,7 +86,9 @@ var DepartureListFragments = {
 
 module.exports = {
   StopQueries: StopQueries,
+  StopMapQueries: StopMapQueries,
   StopPageFragments: StopPageFragments,
+  StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
   DepartureListFragments: DepartureListFragments,
 };
