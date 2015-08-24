@@ -43,7 +43,7 @@ class StopMarkerContainer extends React.Component
     renderedNames = []
     @props.stopsInRectangle.stopsByBbox.forEach (stop) =>
       modeClass = stop.routes[0].type.toLowerCase()
-      selected = @props.hilightedStops and stop.id in @props.hilightedStops
+      selected = @props.hilightedStops and stop.gtfsId in @props.hilightedStops
       # This is copied to route-line.cjsx. Remember to change both at the same time
       # to retain visual consistency.
       #https://github.com/codebusters/react-leaflet/commit/c7b897e3ef429774323c7d8130f2fae504779b1a

@@ -8,6 +8,13 @@ var StopQueries = {
       },
     }
   `,
+  stopsInRectangle: (Component) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('stopsInRectangle')}
+      }
+    }
+  `,
 };
 
 var StopMapQueries = {
@@ -43,6 +50,11 @@ var StopPageFragments = {
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
+  stopsInRectangle: () => Relay.QL`
+    fragment on QueryType {
+      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
+    }
+  `
 };
 
 var StopMarkerContainerFragments = {
