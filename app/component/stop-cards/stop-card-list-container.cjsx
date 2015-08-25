@@ -1,4 +1,6 @@
 React             = require 'react'
+Relay             = require 'react-relay'
+queries           = require '../../queries'
 StopCardContainer = require './stop-card-container'
 StopCardList      = require './stop-card-list'
 config            = require '../../config'
@@ -11,24 +13,14 @@ class StopCardListContainer extends React.Component
     super
     @state = numberOfStops: STOP_COUNT
 
-  componentDidMount: =>
-    @props.store.addChangeListener @onChange
-
-  componentWillUnmount: =>
-    @props.store.removeChangeListener @onChange
-
-  onChange: =>
-    @forceUpdate()
-
   addStops: =>
     @setState
       numberOfStops: @state.numberOfStops + STOP_COUNT
 
   getStopCards: =>
     stopCards = []
-    for stop in @props.store.getStops().slice(0,@state.numberOfStops)
-      if !config.preferredAgency or config.preferredAgency == stop.split(':')[0]
-        stopCards.push <StopCardContainer key={stop} stop={stop} departures=DEPARTURES_COUNT />
+    for stop in @props.stops.stopsByRadius.slice(0,@state.numberOfStops)
+      stopCards.push <StopCardContainer key={stop.stop.gtfsId} stop={stop} departures=DEPARTURES_COUNT />
     stopCards
 
   render: =>
@@ -36,4 +28,11 @@ class StopCardListContainer extends React.Component
     	{@getStopCards()}
     </StopCardList>
 
-module.exports = StopCardListContainer
+module.exports = Relay.createContainer(StopCardListContainer,
+  fragments: queries.StopListContainerFragments
+  initialVariables:
+    lat: 60.2
+    lon: 24.9393
+    radius: 500.1
+    agency: config.preferredAgency
+)

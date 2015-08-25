@@ -1,5 +1,22 @@
 import Relay from 'react-relay';
 
+var IndexQueries = {
+  stops: (Component) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('stops')}
+      }
+    }
+  `,
+  stopsInRectangle: (Component) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('stopsInRectangle')}
+      }
+    }
+  `,
+}
+
 var StopQueries = {
   stop: (Component) => Relay.QL`
     query  {
@@ -34,6 +51,34 @@ var StopMapQueries = {
   `,
 };
 
+var IndexPageFragments = {
+  stops: () => Relay.QL`
+    fragment on QueryType {
+      ${require('./component/stop-cards/stop-card-list-container').getFragment('stops')}
+    }
+  `,
+  stopsInRectangle: () => Relay.QL`
+    fragment on QueryType {
+      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
+    }
+  `,
+}
+
+var StopListContainerFragments = {
+  stops: () => Relay.QL`
+    fragment on QueryType {
+      stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency) {
+        stop {
+          gtfsId
+          ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+          ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+        }
+        distance
+      }
+    }
+  `,
+}
+
 var StopPageFragments = {
   stop: () =>  Relay.QL`
     fragment on Stop {
@@ -57,8 +102,23 @@ var StopPageFragments = {
   `
 };
 
-var StopMarkerContainerFragments = {
+var StopMapPageFragments = {
+  stop: () =>  Relay.QL`
+    fragment on Stop {
+      lat
+      lon
+      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+    }
+  `,
   stopsInRectangle: () => Relay.QL`
+    fragment on QueryType {
+      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
+    }
+  `
+};
+
+var StopMarkerContainerFragments = {
+  stopsInRectangle: (variables) => Relay.QL`
     fragment on QueryType {
       stopsByBbox(minLat: $minLat, minLon: $minLon, maxLat: $maxLat, maxLon: $maxLon, agency: $agency) {
         lat
@@ -75,21 +135,6 @@ var StopMarkerContainerFragments = {
     }
   `,
 }
-
-var StopMapPageFragments = {
-  stop: () =>  Relay.QL`
-    fragment on Stop {
-      lat
-      lon
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-    }
-  `,
-  stopsInRectangle: () => Relay.QL`
-    fragment on QueryType {
-      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
-    }
-  `
-};
 
 var StopCardHeaderFragments = {
   stop: () => Relay.QL`
@@ -128,8 +173,11 @@ var DepartureListFragments = {
 }
 
 module.exports = {
+  IndexQueries: IndexQueries,
   StopQueries: StopQueries,
   StopMapQueries: StopMapQueries,
+  IndexPageFragments: IndexPageFragments,
+  StopListContainerFragments: StopListContainerFragments,
   StopPageFragments: StopPageFragments,
   StopMarkerContainerFragments: StopMarkerContainerFragments,
   StopMapPageFragments: StopMapPageFragments,

@@ -22,7 +22,7 @@ ROOT_PATH = if process?.env.ROOT_PATH != undefined then process.env.ROOT_PATH el
 
 # Routes
 routes =
-  <Route path={ROOT_PATH} name="app" indexRoute={component: IndexPage}>
+  <Route path={ROOT_PATH} name="app" indexRoute={component: IndexPage, queries: queries.IndexQueries}>
     <Route path="kartta" name="map" component={MapPage}/>
     <Route path="pysakit" name="stopList" component={Error404}/>
     <Route path="pysakit/:stopId" name="stop" component={StopPage} queries={queries.StopQueries}/>

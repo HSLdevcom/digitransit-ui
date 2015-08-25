@@ -1,4 +1,6 @@
 React              = require 'react'
+Relay              = require 'react-relay'
+queries            = require '../queries'
 IndexNavigation    = require '../component/navigation/index-navigation.cjsx'
 Map                = require '../component/map/map.cjsx'
 StopTabs           = require '../component/stop-cards/stop-tabs.cjsx'
@@ -25,12 +27,12 @@ class Page extends React.Component
   # https://github.com/facebook/react/issues/2061
   render: ->
     <IndexNavigation>
-      <Map showStops=true>
+      <Map showStops={true} stopsInRectangle={@props.stopsInRectangle}>
         <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}></div>
         <SearchWithLocation/>
         <Link to="#{process.env.ROOT_PATH}kartta"><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>
-      <StopTabs/>
+      <StopTabs nearestStops={@props.stops}/>
     </IndexNavigation>
 
-module.exports = Page
+module.exports = Relay.createContainer(Page, fragments: queries.IndexPageFragments)

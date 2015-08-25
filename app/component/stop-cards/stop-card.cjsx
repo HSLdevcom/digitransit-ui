@@ -8,7 +8,7 @@ class StopCard extends React.Component
       return false
 
     <div className="small-12 medium-6 large-4 columns">
-      <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.id}">
+      <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}">
         <div className="stop-card cursor-pointer">
           <StopCardHeader stop={@props.stop} favourite={@props.favourite} addFavouriteStop={@props.addFavouriteStop} dist={@props.dist}/>
           {@props.children}

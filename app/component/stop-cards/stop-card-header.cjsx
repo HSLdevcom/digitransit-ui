@@ -21,7 +21,7 @@ class StopCardHeader extends React.Component
     if @props.stop.code
       description += @props.stop.code + " // "
     if @props.dist
-      description += @props.dist + " m"
+      description += Math.round(@props.dist) + " m"
     description
 
   render: ->

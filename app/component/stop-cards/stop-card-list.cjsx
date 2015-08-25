@@ -2,19 +2,11 @@ React            = require 'react'
 MasonryComponent = require '../util/masonry-component'
 
 class StopCardList extends React.Component
-  reloadMasonry: =>
-    @refs['stop-cards-masonry'].performLayout()
-
-  renderChildrenWithReloadMasonry: =>
-    React.Children.map @props.children, (child) =>
-      React.cloneElement child,
-        reloadMasonry: @reloadMasonry
-
   render: =>
     <div className="stop-cards">
       <div className="row">
         <MasonryComponent ref="stop-cards-masonry">
-          {@renderChildrenWithReloadMasonry()}
+          {@props.children}
         </MasonryComponent>
       </div>
       <div className="row">

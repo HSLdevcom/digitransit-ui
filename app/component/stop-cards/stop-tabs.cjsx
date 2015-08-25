@@ -24,7 +24,7 @@ class StopTabs extends React.Component
   render: ->
     LocationStore = @context.getStore 'LocationStore'
     if @state.status == LocationStore.STATUS_FOUND_LOCATION or @state.status == LocationStore.STATUS_FOUND_ADDRESS
-      nearestPanel = <StopCardListContainer key="NearestStopsStore" store={@context.getStore 'NearestStopsStore'}/>
+      nearestPanel = <StopCardListContainer key="NearestStopsStore" stops={@props.nearestStops}/>
     else
       nearestPanel = <NoLocationPanel/>
 

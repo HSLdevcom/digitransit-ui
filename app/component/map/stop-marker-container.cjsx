@@ -83,7 +83,7 @@ class StopMarkerContainer extends React.Component
 
 module.exports = Relay.createContainer(StopMarkerContainer,
   fragments: queries.StopMarkerContainerFragments
-  initialVariables: # Ugly hack, not my fault
+  initialVariables: # Ugly hack, not my fault https://github.com/facebook/relay/issues/97
     minLat: 0.1
     minLon: 0.1
     maxLat: 0.1

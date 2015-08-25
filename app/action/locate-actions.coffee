@@ -1,7 +1,4 @@
 xhrPromise = require '../util/xhr-promise'
-executeMultiple = require 'fluxible-action-utils/async/executeMultiple'
-NearestStopsActions = require './nearest-stops-action'
-StopDeparturesActions = require './stop-departures-action'
 config        = require '../config'
 
 
@@ -34,23 +31,10 @@ findLocation = (actionContext, payload, done) ->
     actionContext.dispatch "GeolocationFound",
       lat: position.coords.latitude
       lon: position.coords.longitude
-    executeMultiple actionContext,
-      reverseGeocode:
-        action: reverseGeocodeAddress
-        params:
-          lat: position.coords.latitude
-          lon: position.coords.longitude
-      nearestStops:
-        action: NearestStopsActions.nearestStopsRequest
-        params:
-          lat: position.coords.latitude
-          lon: position.coords.longitude
-      nearestStopsDepartures: ['nearestStops',
-        action: StopDeparturesActions.fetchStopsDepartures
-        params:
-          from: 0
-          to: 10 ]
-    , () -> done()
+    actionContext.executeAction reverseGeocodeAddress,
+      lat: position.coords.latitude
+      lon: position.coords.longitude
+    , done
   , (error) =>
     window.clearTimeout(timeoutId)
     if error.code == 1
@@ -113,18 +97,7 @@ manuallySetPosition = (actionContext, location, done) ->
     lat: location.lat
     lon: location.lon
     address: location.address
-  executeMultiple actionContext,
-    nearestStops:
-      action: NearestStopsActions.nearestStopsRequest
-      params:
-        lat: location.lat
-        lon: location.lon
-    nearestStopsDepartures: ['nearestStops',
-      action: StopDeparturesActions.fetchStopsDepartures
-      params:
-          from: 0
-          to: 10 ]
-  , () -> done()
+  done()
 
 module.exports =
   'findLocation': findLocation

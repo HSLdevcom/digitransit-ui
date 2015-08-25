@@ -10,42 +10,27 @@ class StopCardContainer extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
   componentDidMount: ->
-    @context.getStore('StopInformationStore').addChangeListener @onChange
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
-    @context.getStore('NearestStopsStore').addChangeListener @onChange
-    @context.getStore('StopDeparturesStore').addChangeListener @componentDidUpdate
-    if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
-      if @context.getStore('StopInformationStore').getStop(@props.stop) == undefined
-        @context.executeAction StopDeparturesActions.stopInformationRequest, @props.stop
-
 
   componentWillUnmount: ->
-    @context.getStore('StopInformationStore').removeChangeListener @onChange
     @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
-    @context.getStore('NearestStopsStore').removeChangeListener @onChange
-    @context.getStore('StopDeparturesStore').removeChangeListener @componentDidUpdate
-
-  componentDidUpdate: =>
-    if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
-      if @props.reloadMasonry?
-        @props.reloadMasonry()
 
   onChange: (id) =>
-    if !id or id == @props.stop
+    if !id or id == @props.stop.stop.gtfsId
       @forceUpdate()
 
   addFavouriteStop: (e) =>
     e.stopPropagation()
-    @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.id
+    @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.stop.gtfsId
 
   render: =>
     <StopCard
-      key={@props.stop}
-      stop={@context.getStore('StopInformationStore').getStop(@props.stop)}
-      dist={@context.getStore('NearestStopsStore').getDistance(@props.stop)}
-      favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop)}
+      key={@props.stop.stop.gtfsId}
+      stop={@props.stop.stop}
+      dist={@props.stop.distance}
+      favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop.stop.gtfsId)}
       addFavouriteStop={@addFavouriteStop}>
-      <DepartureListContainer showMissingRoutes={true} stop={@props.stop} departures={@props.departures}/>
+      <DepartureListContainer showMissingRoutes={false} stop={@props.stop.stop} departures={@props.departures}/>
     </StopCard>
 
 module.exports = StopCardContainer

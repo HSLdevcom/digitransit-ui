@@ -283,6 +283,11 @@ div.stop-name-marker {
   color: #c2c2c2;
 }
 
+/* Fix to default leaflet behavior */
+.leaflet-map-pane svg.icon {
+  position: relative;
+}
+
 div.background-gradient {
   width: 100%;
   position: absolute;
