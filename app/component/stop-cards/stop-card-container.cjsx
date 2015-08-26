@@ -1,7 +1,6 @@
 React                 = require 'react'
 DepartureListContainer = require './departure-list-container'
 StopCard              = require './stop-card'
-StopDeparturesActions = require '../../action/stop-departures-action'
 FavouriteStopsActions = require '../../action/favourite-stops-action'
 
 class StopCardContainer extends React.Component

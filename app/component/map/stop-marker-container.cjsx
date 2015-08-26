@@ -6,7 +6,6 @@ DynamicPopup  = if isBrowser then require './dynamic-popup' else null
 CircleMarker  = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
 Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 StopMarkerPopup = require './stop-marker-popup'
-NearestStopsAction = require '../../action/nearest-stops-action'
 L             = if isBrowser then require 'leaflet' else null
 config        = require '../../config'
 
