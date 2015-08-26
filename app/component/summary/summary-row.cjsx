@@ -119,7 +119,7 @@ class SummaryRow extends React.Component
     else
       durationText = "#{duration.minutes()} min"
 
-    <div className="itinerary-summary-row cursor-pointer#{passiveClass}" onTouchTap={() => @props.onSelect(@props.hash)}>
+    <div className="itinerary-summary-row cursor-pointer#{passiveClass}" onClick={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-legs">{legs}</div>
       <div className="itinerary-leg-times">{legTimes}</div>
       <Link className="itinerary-link" to="#{process.env.ROOT_PATH}reitti/#{@props.params.from}/#{@props.params.to}/#{@props.hash}">

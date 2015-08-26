@@ -21,7 +21,7 @@ class SummaryNavigation extends React.Component
           <nav className="top-bar">
             <BackButton/>
             <TimeSelectors/>
-            <div onTouchTap={@toggleOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
+            <div onClick={@toggleOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
               <Icon img={'icon-icon_ellipsis'}/>
             </div>
           </nav>

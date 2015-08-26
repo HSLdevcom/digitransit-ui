@@ -11,7 +11,7 @@ class StopCardList extends React.Component
       </div>
       <div className="row">
         <div className="small-10 small-offset-1 medium-6 medium-offset-3 columns">
-          <button className="show-more" onTouchTap=@props.addStops>
+          <button className="show-more" onClick=@props.addStops>
             Näytä Lisää
           </button>
         </div>

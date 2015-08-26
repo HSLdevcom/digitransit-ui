@@ -21,7 +21,7 @@ class BackButton extends React.Component
     , 0)
 
   render: ->
-    <div onTouchTap=@goBack className="cursor-pointer icon-holder">
+    <div onClick=@goBack className="cursor-pointer icon-holder">
       <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back"/>
     </div>
 

@@ -16,13 +16,14 @@ class StopCardListContainer extends React.Component
     super
     @state = numberOfStops: STOP_COUNT
 
-  componentDidMount: ->
-    @context.getStore('LocationStore').addChangeListener @onLocationChange
+  componentDidMount: =>
+    @context.getStore('LocationStore').addChangeListener @onChange
+    @onChange()
 
   componentWillUnmount: ->
-    @context.getStore('LocationStore').removeChangeListener @onLocationChange
+    @context.getStore('LocationStore').removeChangeListener @onChange
 
-  onLocationChange: =>
+  onChange: =>
     coordinates = @context.getStore('LocationStore').getLocationState()
     if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
       @props.relay.setVariables
@@ -30,6 +31,9 @@ class StopCardListContainer extends React.Component
         lon: coordinates.lon
 
   addStops: =>
+    if @props.stops.stopsByRadius.length < (@state.numberOfStops + STOP_COUNT)
+      @props.relay.setVariables
+        radius: @props.relay.variables.radius + 500
     @setState
       numberOfStops: @state.numberOfStops + STOP_COUNT
 

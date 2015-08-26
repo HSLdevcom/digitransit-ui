@@ -23,7 +23,7 @@ class Page extends React.Component
   toggleFullscreenMap: =>
     @context.router.transitionTo("#{process.env.ROOT_PATH}kartta")
 
-  # Notice that we won't use onTouchTap here. That causes currently this problem:
+  # Notice that we won't use onClick here. That causes currently this problem:
   # https://github.com/facebook/react/issues/2061
   render: ->
     <IndexNavigation>
