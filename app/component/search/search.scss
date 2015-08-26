@@ -17,6 +17,18 @@ $search-form-icon-color: $white;
 $search-form-border-radius: $border-radius;
 $search-form-transparency: $transparency;
 
+.input-placeholder {
+    background-color: white;
+    border-radius: $form-input-border-radius;
+    padding: 2pt;
+}
+
+.address-box {
+    padding: 2pt;
+    background-color: $light-gray;
+    border-radius: $form-input-border-radius;
+}
+
 .search-form .location {
   height: 35px;
   margin-bottom: 5px;

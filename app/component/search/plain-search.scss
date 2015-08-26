@@ -1,0 +1,36 @@
+$search-result-width: grid-calc($total-columns+1, $total-columns) + 1;
+$search-result-background-color: $white;
+$search-result-text-color: $black;
+$search-result-text-city-color: $gray;
+$search-result-text-font-weight: 300;
+$search-result-text-highlight-color: $black;
+$search-result-text-highlight-font-weight: 300;
+$search-result-text-highlight-background-color: $light-gray;
+$search-result-text-match-color: $black;
+$search-result-text-match-font-weight: 600;
+$search-result-border-radius: $border-radius;
+$search-result-max-height: 130px;
+$search-result-font-family: $font-family;
+$search-result-icon-color: $black;
+$search-form-icon-color: $white;
+$search-form-border-radius: $border-radius;
+$search-form-transparency: $transparency;
+
+.input-placeholder {
+    background-color: white;
+    border-radius: $form-input-border-radius;
+    padding: 2pt;
+}
+
+.address-box {
+    padding: 2pt;
+    background-color: $light-gray;
+    border-radius: $form-input-border-radius;
+
+    .icon {
+      vertical-align: middle;
+      width: 20;
+      height: 20px;
+    }
+}
+

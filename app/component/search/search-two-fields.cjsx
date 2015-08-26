@@ -1,5 +1,6 @@
 React = require 'react'
 Icon = require '../icon/icon'
+EndpointActions  = require '../../action/endpoint-actions.coffee'
 PlainSearch = require './plain-search'
 Link = require 'react-router/lib/components/Link'
 config = require '../../config'
@@ -8,6 +9,9 @@ locationValue = (location) ->
   decodeURIComponent(location.split("::")[0])
 
 class SearchTwoFields extends React.Component
+  @contextTypes:
+    executeAction: React.PropTypes.func.isRequired
+
   constructor: (props) ->
     super
 
@@ -15,9 +19,22 @@ class SearchTwoFields extends React.Component
     @setState
         fromValue: ""
         toValue: ""
+        useOriginPosition: true
+        useDestinationPosition: false
 
-  onFromChange: (value) =>
-    @setState {fromValue: value}
+  selectOrigin: (point) =>
+    @context.executeAction EndpointActions.setOrigin, {
+                           'lat': point.lat
+                           'lon': point.lon
+                           'address': point.address
+    }
+
+  selectDestination: (point) =>
+    @context.executeAction EndpointActions.setDestination, {
+                           'lat': point.lat
+                           'lon': point.lon
+                           'address': point.address
+    }
 
   onToChange: (value) =>
     @setState {toValue: value}
@@ -28,6 +45,12 @@ class SearchTwoFields extends React.Component
   onSubmit: (e) =>
     e.preventDefault()
 
+  removePositionFromOrigin: () =>
+    @setState {useOriginPosition: false}
+
+  removePositionFromDestination: () =>
+    @setState {useDestinationPosition: false}
+
   render: =>
     <div className="search-form">
       <div className="row">
@@ -37,7 +60,11 @@ class SearchTwoFields extends React.Component
               <PlainSearch value={@state.fromValue}
                            filterCities={config.cities}
                            onInput={@onFromChange}
-                           onSelection={@selectOrigin} />
+                           onSelection={@selectOrigin}
+                           placeholder="Lähtöpaikka"
+                           removePosition={@removePositionFromOrigin}
+                           useCurrentPosition=@state.useOriginPosition
+                           />
             </div>
             <div className="small-1 columns">
               <span className="postfix search cursor-pointer" onTouchTap={@onSwitch}>
@@ -54,7 +81,11 @@ class SearchTwoFields extends React.Component
               <PlainSearch value={@state.toValue}
                            filterCities={config.cities}
                            onInput={@onToChange}
-                           onSelection={@selectDestination} />
+                           onSelection={@selectDestination}
+                           placeholder="Määränpää"
+                           removePosition={@removePositionFromDestination}
+                           useCurrentPosition=@state.useDestinationPosition
+                           />
             </div>
             <div className="small-1 columns">
               <span className="postfix search cursor-pointer" onTouchTap={@onSearch}>
