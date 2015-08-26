@@ -60,6 +60,35 @@ class SearchTwoFields extends React.Component
           to: "#{@state.destination.address}::#{@state.destination.lat},#{@state.destination.lon}"
       ,0)
 
+  onSwitch: (e) =>
+    e.preventDefault()
+    origin = @state.origin
+    destination = @state.destination
+
+    # Avoid accidentally having both set at the same time
+    # (causing a itinerary search) when actually only one is
+    @clearOrigin()
+    @clearDestination()
+
+    if origin.useCurrentPosition
+      @context.executeAction EndpointActions.setDestinationToCurrent
+    else
+      @context.executeAction EndpointActions.setDestination, {
+                           'lat': origin.lat
+                           'lon': origin.lon
+                           'address': origin.address
+      }
+
+    if destination.useCurrentPosition
+      @context.executeAction EndpointActions.setOriginToCurrent
+    else
+      @context.executeAction EndpointActions.setOrigin, {
+                           'lat': destination.lat
+                           'lon': destination.lon
+                           'address': destination.address
+      }
+
+
   onSearch: (e) =>
     e.preventDefault()
 
