@@ -11,16 +11,23 @@ locationValue = (location) ->
 class SearchTwoFields extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
+    getStore: React.PropTypes.func.isRequired
+    router: React.PropTypes.func.isRequired
 
   constructor: (props) ->
     super
 
   componentWillMount: =>
+    @context.getStore('EndpointStore').addChangeListener @onEndpointChange
     @setState
-        fromValue: ""
-        toValue: ""
-        useOriginPosition: true
-        useDestinationPosition: false
+        origin: @context.getStore('EndpointStore').getOrigin()
+        destination: @context.getStore('EndpointStore').getDestination()
+
+  onEndpointChange: =>
+    @setState
+        origin: @context.getStore('EndpointStore').getOrigin()
+        destination: @context.getStore('EndpointStore').getDestination()
+    @routeIfPossible()
 
   selectOrigin: (point) =>
     @context.executeAction EndpointActions.setOrigin, {
@@ -36,20 +43,33 @@ class SearchTwoFields extends React.Component
                            'address': point.address
     }
 
-  onToChange: (value) =>
-    @setState {toValue: value}
+  routeIfPossible: =>
+    # If we have a geolocation, the search fields using the location will
+    # update their selection constantly (and fire onSelects)
+    if @state.origin.lat and @state.destination.lat
+      # First, we must blur input field because without this
+      # Android keeps virtual keyboard open too long which
+      # causes problems in next page rendering
+      #@autoSuggestInput.blur()
+
+      # Then we can transition. We must do this in next
+      # event loop in order to get blur finished.
+      setTimeout(() =>
+        @context.router.transitionTo "summary",
+          from: "#{@state.origin.address}::#{@state.origin.lat},#{@state.origin.lon}"
+          to: "#{@state.destination.address}::#{@state.destination.lat},#{@state.destination.lon}"
+      ,0)
 
   onSearch: (e) =>
     e.preventDefault()
 
-  onSubmit: (e) =>
-    e.preventDefault()
+  clearOrigin: () =>
+    # This happens within geolocation store emit changes, but it's not cascading
+    # since it's a different store, so it's ok.
+    @context.executeAction EndpointActions.clearOrigin
 
-  removePositionFromOrigin: () =>
-    @setState {useOriginPosition: false}
-
-  removePositionFromDestination: () =>
-    @setState {useDestinationPosition: false}
+  clearDestination: () =>
+    @context.executeAction EndpointActions.clearDestination
 
   render: =>
     <div className="search-form">
@@ -57,14 +77,12 @@ class SearchTwoFields extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              <PlainSearch value={@state.fromValue}
-                           filterCities={config.cities}
-                           onInput={@onFromChange}
-                           onSelection={@selectOrigin}
-                           placeholder="Lähtöpaikka"
-                           removePosition={@removePositionFromOrigin}
-                           useCurrentPosition=@state.useOriginPosition
-                           />
+              <PlainSearch
+                onSelection={@selectOrigin}
+                placeholder="Lähtöpaikka"
+                clearSelection={@clearOrigin}
+                selection=@state.origin
+                />
             </div>
             <div className="small-1 columns">
               <span className="postfix search cursor-pointer" onTouchTap={@onSwitch}>
@@ -78,14 +96,12 @@ class SearchTwoFields extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              <PlainSearch value={@state.toValue}
-                           filterCities={config.cities}
-                           onInput={@onToChange}
-                           onSelection={@selectDestination}
-                           placeholder="Määränpää"
-                           removePosition={@removePositionFromDestination}
-                           useCurrentPosition=@state.useDestinationPosition
-                           />
+              <PlainSearch
+                onSelection={@selectDestination}
+                placeholder="Määränpää"
+                clearSelection={@clearDestination}
+                selection=@state.destination
+                />
             </div>
             <div className="small-1 columns">
               <span className="postfix search cursor-pointer" onTouchTap={@onSearch}>

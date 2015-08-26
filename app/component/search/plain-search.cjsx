@@ -8,59 +8,78 @@ AUTOSUGGEST_ID = 'autosuggest'
 
 class PlainSearch extends React.Component
   propTypes =
-    initialSelection: React.PropTypes.object
+    selection: React.PropTypes.object.isRequired
     onSelection: React.PropTypes.func.isRequired
-    filterCities: React.PropTypes.arrayOf(React.PropTypes.String)
+    clearSelection: React.PropTypes.func.isRequired
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.func.isRequired
 
   constructor: ->
     super
 
   componentWillMount: =>
-    @setState
-        selection: null
+    @setState @context.getStore('LocationStore').addChangeListener @onGeolocationChange
+
+  componentDidMount: =>
+    @context.getStore('LocationStore').addChangeListener @onGeolocationChange
+    @onGeolocationChange()
+
+  componentWillUnmount: =>
+    @context.getStore('LocationStore').removeChangeListener @onGeolocationChange
+
+  onGeolocationChange: =>
+    geo = @context.getStore('LocationStore').getLocationState()
+    @setState geo
+    if @props.selection.useCurrentPosition
+      if geo.hasLocation
+        @props.onSelection {
+            lat: geo.lat
+            lon: geo.lon
+            address: geo.address
+        }
+      else if not (geo.status == 'no-location' or geo.isLocationingInProgress)
+        @removePosition()
 
   suggestionSelected: (lat, lon, address) =>
-    suggestion =
-        lat: lat,
-        lon: lon,
+    @props.onSelection {
+        lat: lat
+        lon: lon
         address: address
-    @setState
-        selection: suggestion
-    @props.onSelection(suggestion)
-
+    }
 
   # Happens when user presses enter without selecting anything from autosuggest
   onSubmit: (e) =>
     e.preventDefault()
 
   removePosition: () =>
-    if @props.removePosition
-      @props.removePosition()
+    @props.clearSelection()
 
   removeSelection: () =>
-    @setState
-        selection: null
+    @props.clearSelection()
 
   render: =>
-    if @props.useCurrentPosition
+    if @props.selection.useCurrentPosition
+      if @state.isLocationingInProgress
+        geolocation_text = 'Sijaintiasi etsitään'
+      else if @state.hasLocation
+        geolocation_text = 'Oma sijainti'
+      else
+        geolocation_text = 'No location?!?'
+
       <div className="input-placeholder">
         <div className="address-box">
         <span className="inline-block" onTouchTap={this.locateUser}>
             <Icon img={'icon-icon_mapMarker-location'}/>
         </span>
-        Oma sijainti
+        {geolocation_text}
         <span className="inline-block right cursor-pointer" onTouchTap={@removePosition}><Icon img={'icon-icon_close'}/></span>
         </div>
       </div>
-    else if @state.selection
+    else if @props.selection.address
       <div className="input-placeholder">
         <div className="address-box">
-          {@state.selection.address}
+          {@props.selection.address}
           <span className="inline-block right cursor-pointer" onTouchTap={@removeSelection}><Icon img={'icon-icon_close'}/></span>
         </div>
       </div>

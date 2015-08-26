@@ -8,15 +8,23 @@ class EndpointStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @clearOrigin()
+    @setOriginToCurrent()
     @clearDestination()
 
   clearOrigin: () ->
-    @origin = null
+    @origin =
+        useCurrentPosition: false
+        lat: null
+        lon: null
+        address: null
     @emitChange()
 
   clearDestination: () ->
-    @destination = null
+    @destination =
+        useCurrentPosition: false
+        lat: null
+        lon: null
+        address: null
     @emitChange()
 
   setOriginToCurrent: () ->
@@ -27,20 +35,20 @@ class EndpointStore extends Store
     @destination =
         useCurrentPosition: true
 
-  storeOrigin: (location) ->
+  setOrigin: (location) ->
     @origin =
         useCurrentPosition: false
         lat: location.lat
         lon: location.lon
-        address: "#{location.address} #{location.number}, #{location.city}"
+        address: location.address
     @emitChange()
 
-  storeDestination: (location) ->
+  setDestination: (location) ->
     @destination =
         useCurrentPosition: false
         lat: location.lat
         lon: location.lon
-        address: "#{location.address} #{location.number}, #{location.city}"
+        address: location.address
     @emitChange()
 
   getOrigin: () ->
@@ -54,5 +62,7 @@ class EndpointStore extends Store
     "setDestination": "setDestination"
     "setOriginToCurrent": "setOriginToCurrent"
     "setDestinationToCurrent": "setDestinationToCurrent"
+    "clearOrigin": "clearOrigin"
+    "clearDestination": "clearDestination"
 
 module.exports = EndpointStore
