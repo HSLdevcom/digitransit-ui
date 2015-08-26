@@ -17,6 +17,16 @@ var IndexQueries = {
   `,
 }
 
+var MapPageQueries = {
+  stopsInRectangle: (Component) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('stopsInRectangle')}
+      }
+    }
+  `,
+}
+
 var StopQueries = {
   stop: (Component) => Relay.QL`
     query  {
@@ -57,6 +67,14 @@ var IndexPageFragments = {
       ${require('./component/stop-cards/stop-card-list-container').getFragment('stops')}
     }
   `,
+  stopsInRectangle: () => Relay.QL`
+    fragment on QueryType {
+      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
+    }
+  `,
+}
+
+var MapPageFragments = {
   stopsInRectangle: () => Relay.QL`
     fragment on QueryType {
       ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
@@ -174,9 +192,11 @@ var DepartureListFragments = {
 
 module.exports = {
   IndexQueries: IndexQueries,
+  MapPageQueries: MapPageQueries,
   StopQueries: StopQueries,
   StopMapQueries: StopMapQueries,
   IndexPageFragments: IndexPageFragments,
+  MapPageFragments: MapPageFragments,
   StopListContainerFragments: StopListContainerFragments,
   StopPageFragments: StopPageFragments,
   StopMarkerContainerFragments: StopMarkerContainerFragments,
