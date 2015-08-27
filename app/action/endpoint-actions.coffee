@@ -1,7 +1,3 @@
-xhrPromise = require '../util/xhr-promise'
-executeMultiple = require 'fluxible-action-utils/async/executeMultiple'
-config        = require '../config'
-
 setOrigin = (actionContext, location, done) ->
   actionContext.dispatch "setOrigin",
     lat: location.lat

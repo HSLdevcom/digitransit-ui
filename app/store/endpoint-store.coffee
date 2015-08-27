@@ -30,25 +30,28 @@ class EndpointStore extends Store
   setOriginToCurrent: () ->
     @origin =
         useCurrentPosition: true
+        lat: null
+        lon: null
+        address: null
 
   setDestinationToCurrent: () ->
     @destination =
         useCurrentPosition: true
+        lat: null
+        lon: null
+        address: null
 
   setOrigin: (location) ->
-    @origin =
-        useCurrentPosition: false
-        lat: location.lat
-        lon: location.lon
-        address: location.address
+    # Do not override useCurrentPosition
+    @origin.lat = location.lat
+    @origin.lon = location.lon
+    @origin.address = location.address
     @emitChange()
 
   setDestination: (location) ->
-    @destination =
-        useCurrentPosition: false
-        lat: location.lat
-        lon: location.lon
-        address: location.address
+    @destination.lat = location.lat
+    @destination.lon = location.lon
+    @destination.address = location.address
     @emitChange()
 
   getOrigin: () ->
