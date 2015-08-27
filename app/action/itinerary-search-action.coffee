@@ -17,3 +17,6 @@ module.exports = itinerarySearchRequest: (actionContext, options) ->
     time: time.format("HH:mm:ss")
   xhrPromise.getJson(config.URL.OTP + "plan", params).then (data) ->
     actionContext.dispatch "ItineraryFound", data
+  .catch (err) ->
+    console.log("Failed to perform itinerary search!")
+    console.log(err)
