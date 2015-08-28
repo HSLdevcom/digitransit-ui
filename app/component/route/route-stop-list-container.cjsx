@@ -2,6 +2,8 @@
 # and all vehicles on that route for the same direction (but all patterns, not just this).
 
 React                 = require 'react'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
 RouteStop             = require './route-stop'
 GtfsUtils             = require '../../util/gtfs'
 groupBy               = require 'lodash/collection/groupBy'
@@ -11,26 +13,16 @@ class RouteStopListContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
 
   componentDidMount: ->
-    @context.getStore('RouteInformationStore').addChangeListener @onChange
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
 
   componentWillUnmount: ->
-    @context.getStore('RouteInformationStore').removeChangeListener @onChange
     @context.getStore('RealTimeInformationStore').removeChangeListener @onRealTimeChange
-
-  onChange: (id) =>
-    if !id or id == @props.id or id == @props.id.split(':',2).join(':')
-      @forceUpdate()
 
   onRealTimeChange: =>
     @forceUpdate()
 
-  getStops: (id) =>
-    pattern = @context.getStore('RouteInformationStore').getPattern(id)
-    unless pattern
-      return []
-    stops = @context.getStore('RouteInformationStore').getPattern(id).stops
-    mode = GtfsUtils.typeToName[@context.getStore('RouteInformationStore').getRoute(@props.id.split(':',2).join(':')).type]
+  getStops: () =>
+    mode = @props.route.route.type.toLowerCase()
     vehicles = @context.getStore('RealTimeInformationStore').vehicles
     vehicle_stops = groupBy vehicles, (vehicle) ->
       "HSL:" + vehicle.next_stop
@@ -52,14 +44,14 @@ class RouteStopListContainer extends React.Component
       </div>
     </div>
 
-    stops.forEach (stop) ->
-      stopObjs.push <RouteStop key={stop.id} stop={stop} mode={mode} vehicles={vehicle_stops[stop.id]}/>
+    @props.route.stops.forEach (stop) ->
+      stopObjs.push <RouteStop key={stop.gtfsId} stop={stop} mode={mode} vehicles={vehicle_stops[stop.gtfsId]}/>
 
     stopObjs
 
   render: =>
     <div className="route-stop-list">
-      {@getStops(@props.id)}
+      {@getStops()}
     </div>
 
-module.exports = RouteStopListContainer
+module.exports = Relay.createContainer(RouteStopListContainer, fragments: queries.RouteStopListFragments)

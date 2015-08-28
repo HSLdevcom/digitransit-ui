@@ -983,6 +983,21 @@
                 "isDeprecated": false,
                 "deprecationReason": null
             }, {
+                "name": "geometry",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "coordinates",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
                 "name": "semanticHash",
                 "description": null,
                 "args": [],
@@ -1993,6 +2008,37 @@
             "fields": null,
             "inputFields": null,
             "interfaces": null,
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "coordinates",
+            "description": null,
+            "fields": [{
+                "name": "lat",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Float",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "lon",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Float",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
             "enumValues": null,
             "possibleTypes": null
         }, {

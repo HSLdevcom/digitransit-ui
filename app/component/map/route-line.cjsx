@@ -7,7 +7,6 @@ L                  = if isBrowser then require 'leaflet' else null
 DynamicPopup       = if isBrowser then require './dynamic-popup' else null
 StopMarkerPopup    = require './stop-marker-popup'
 Icon               = require '../icon/icon'
-polyUtil           = require 'polyline-encoded'
 
 class RouteLine extends React.Component
   @contextTypes:
@@ -24,12 +23,12 @@ class RouteLine extends React.Component
     objs.push <Marker map={@props.map} key="to" position={@props.stops[@props.stops.length-1]} icon={RouteLine.toIcon}/>
     objs.push <Polyline map={@props.map}
                         key={"halo"}
-                        positions={polyUtil.decode @props.geometry.points}
+                        positions={@props.geometry}
                         className="leg-halo #{modeClass}"
                         weight=5 />
     objs.push <Polyline map={@props.map}
                         key={"line"}
-                        positions={polyUtil.decode @props.geometry.points}
+                        positions={@props.geometry}
                         className="leg #{modeClass}"
                         weight=3 />
     @props.stops.forEach (stop, i) =>

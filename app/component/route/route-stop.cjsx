@@ -3,9 +3,6 @@ Link                  = require('react-router/lib/Link').Link
 Icon                  = require '../icon/icon'
 
 class RouteStop extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-
   render: ->
     vehicles = []
     if @props.vehicles
@@ -18,14 +15,13 @@ class RouteStop extends React.Component
 
     <div className="route-stop row">
       <div className="columns small-3 route-stop-now">
-        {@props.stop.now}
         {vehicles}
       </div>
-      <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.id}">
+      <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}">
         <div className={"columns small-6 route-stop-name " + @props.mode}>
           {@props.stop.name}<br/>
             <span className="route-stop-address">
-              {@props.stop.address}
+              {@props.stop.desc}
             </span>
         </div>
         <div className="columns small-2 route-stop-code">

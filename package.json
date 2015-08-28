@@ -54,7 +54,7 @@
     "react-simpletabs": "^0.6.1",
     "react-slick": "^0.6.5",
     "react-tap-event-plugin": "^0.1.7",
-    "react-router-relay": "devknoll/relay-nested-routes#next",
+    "react-router-relay": "^0.4.1",
     "serialize-javascript": "^1.0.0",
     "slick-carousel": "^1.5.8",
     "zurb-foundation-5": "^5.4.7"

@@ -61,6 +61,16 @@ var StopMapQueries = {
   `,
 };
 
+var RouteQueries = {
+  route: (Component) => Relay.QL`
+    query {
+      pattern(id: $routeId){
+        ${Component.getFragment('route')}
+      }
+    }
+  `,
+};
+
 var IndexPageFragments = {
   stops: () => Relay.QL`
     fragment on QueryType {
@@ -72,7 +82,7 @@ var IndexPageFragments = {
       ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
     }
   `,
-}
+};
 
 var MapPageFragments = {
   stopsInRectangle: () => Relay.QL`
@@ -80,7 +90,74 @@ var MapPageFragments = {
       ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
     }
   `,
-}
+};
+
+var RoutePageFragments = {
+  route: () => Relay.QL`
+    fragment on Pattern {
+      ${require('./component/route/route-header-container').getFragment('route')}
+      ${require('./component/route/route-map-container').getFragment('route')}
+      ${require('./component/route/route-stop-list-container').getFragment('route')}
+    }
+  `,
+};
+
+var RouteHeaderFragments = {
+  route: () => Relay.QL`
+    fragment on Pattern {
+      code
+      headsign
+      route {
+        gtfsId
+        type
+        shortName
+        longName
+        patterns {
+          code
+        }
+      }
+      stops {
+        name
+      }
+    }
+  `,
+};
+
+var RouteStopListFragments = {
+  route: () => Relay.QL`
+    fragment on Pattern {
+      route {
+        type
+      }
+      stops {
+        gtfsId
+        name
+        desc
+        code
+      }
+    }
+  `,
+};
+
+var RouteMapFragments = {
+  route: () => Relay.QL`
+    fragment on Pattern {
+      geometry {
+        lat
+        lon
+      }
+      code
+      route {
+        type
+      }
+      stops {
+        lat
+        lon
+
+      }
+    }
+  `,
+};
 
 var StopListContainerFragments = {
   stops: () => Relay.QL`
@@ -95,7 +172,7 @@ var StopListContainerFragments = {
       }
     }
   `,
-}
+};
 
 var StopPageFragments = {
   stop: () =>  Relay.QL`
@@ -195,8 +272,13 @@ module.exports = {
   MapPageQueries: MapPageQueries,
   StopQueries: StopQueries,
   StopMapQueries: StopMapQueries,
+  RouteQueries: RouteQueries,
   IndexPageFragments: IndexPageFragments,
   MapPageFragments: MapPageFragments,
+  RoutePageFragments: RoutePageFragments,
+  RouteHeaderFragments: RouteHeaderFragments,
+  RouteStopListFragments: RouteStopListFragments,
+  RouteMapFragments: RouteMapFragments,
   StopListContainerFragments: StopListContainerFragments,
   StopPageFragments: StopPageFragments,
   StopMarkerContainerFragments: StopMarkerContainerFragments,

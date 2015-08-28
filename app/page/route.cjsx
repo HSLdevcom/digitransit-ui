@@ -1,4 +1,6 @@
 React                  = require 'react'
+Relay                  = require 'react-relay'
+queries                = require '../queries'
 DefaultNavigation      = require '../component/navigation/default-navigation'
 Tabs                   = require 'react-simpletabs'
 Map                    = require '../component/map/map'
@@ -10,8 +12,6 @@ RealTimeClient         = require '../action/real-time-client-action'
 ItineraryLine          = require '../component/map/itinerary-line'
 
 class RoutePage extends React.Component
-  @loadAction: RouteInformationAction.routePageDataRequest
-
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
@@ -43,13 +43,13 @@ class RoutePage extends React.Component
 
   render: ->
     <DefaultNavigation className="fullscreen">
-      <RouteHeaderContainer id={@props.params.routeId}/>
+      <RouteHeaderContainer route={@props.route}/>
       <Tabs className="route-tabs">
         <Tabs.Panel title="Pysäkit">
-          <RouteStopListContainer id={@props.params.routeId}/>
+          <RouteStopListContainer route={@props.route}/>
         </Tabs.Panel>
         <Tabs.Panel title="Kartta" className="fullscreen">
-          <RouteMapContainer id={@props.params.routeId}/>
+          <RouteMapContainer route={@props.route}/>
         </Tabs.Panel>
         <Tabs.Panel title="Aikataulut">
           <div>Aikataulut tähän</div>
@@ -57,4 +57,4 @@ class RoutePage extends React.Component
       </Tabs>
     </DefaultNavigation>
 
-module.exports = RoutePage
+module.exports = Relay.createContainer(RoutePage, fragments: queries.RoutePageFragments)

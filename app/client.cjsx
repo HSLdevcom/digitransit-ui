@@ -3,7 +3,7 @@ React             = require 'react'
 ReactDOM          = require 'react-dom'
 Router            = require 'react-router/lib/Router'
 Relay             = require 'react-relay'
-reactRouterRelay  = require 'react-router-relay'
+ReactRouterRelay  = require 'react-router-relay'
 History           = require('react-router/lib/BrowserHistory').history
 FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
 isEqual           = require 'lodash/lang/isEqual'
@@ -33,8 +33,8 @@ app.rehydrate dehydratedState, (err, context) ->
 
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
-      <Router history={History} children={app.getComponent()} createElement={reactRouterRelay()}
-        onUpdate={() ->
+      <Router history={History} children={app.getComponent()}
+              createElement={ReactRouterRelay.createElement} onUpdate={() ->
           if @state.components[@state.components.length-1].loadAction
             context.getActionContext().executeAction(
               @state.components[@state.components.length-1].loadAction,

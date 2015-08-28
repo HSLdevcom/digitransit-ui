@@ -29,7 +29,7 @@ routes =
     <Route path="pysakit/:stopId/kartta" name="stopMap" component={StopMapPage}  queries={queries.StopMapQueries}/>
     <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404}/>
     <Route path="linjat" name="routeList" component={Error404}/>
-    <Route path="linjat/:routeId" name="route" component={RoutePage}/>
+    <Route path="linjat/:routeId" name="route" component={RoutePage} queries={queries.RouteQueries}/>
     <Route path="lahdot/:tripId" name="trip" component={Error404}/>
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
