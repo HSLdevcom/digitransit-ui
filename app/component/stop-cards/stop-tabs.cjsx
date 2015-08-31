@@ -32,6 +32,7 @@ class StopTabs extends React.Component
           lat: @state.lat
           lon: @state.lon
           })}
+        renderLoading={-> <div>Loading</div>}
         renderFetched={(data) =>
           <StopCardListContainer
           key="NearestStopsStore"
