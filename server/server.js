@@ -15,6 +15,7 @@ require("babel/register");
 
 /********** Polyfill **********/
 global.fetch = require('node-fetch');
+global.self = {fetch: global.fetch};
 
 /********** Global **********/
 var port = process.env.PORT || 8080
