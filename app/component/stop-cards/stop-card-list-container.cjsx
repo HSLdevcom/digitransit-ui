@@ -5,7 +5,7 @@ StopCardContainer = require './stop-card-container'
 StopCardList      = require './stop-card-list'
 config            = require '../../config'
 
-STOP_COUNT = 10
+STOP_COUNT = 5
 DEPARTURES_COUNT = 5
 
 class StopCardListContainer extends React.Component
@@ -53,6 +53,6 @@ module.exports = Relay.createContainer(StopCardListContainer,
   initialVariables:
     lat: 0.1
     lon: 0.1
-    radius: 500.1
+    radius: 200.1
     agency: config.preferredAgency
 )
