@@ -1,26 +1,6 @@
 import Relay from 'react-relay';
 
-var IndexQueries = {
-  stops: (Component) => Relay.QL`
-    query {
-      viewer {
-        ${Component.getFragment('stops')}
-      }
-    }
-  `,
-}
-
 var StopQueries = {
-  stop: (Component) => Relay.QL`
-    query  {
-      stop(id: $stopId) {
-        ${Component.getFragment('stop')},
-      },
-    }
-  `,
-};
-
-var StopMapQueries = {
   stop: (Component) => Relay.QL`
     query  {
       stop(id: $stopId) {
@@ -36,14 +16,6 @@ var RouteQueries = {
       pattern(id: $routeId){
         ${Component.getFragment('route')}
       }
-    }
-  `,
-};
-
-var IndexPageFragments = {
-  stops: () => Relay.QL`
-    fragment on QueryType {
-      ${require('./component/stop-cards/stop-card-list-container').getFragment('stops')}
     }
   `,
 };
@@ -114,6 +86,26 @@ var RouteMapFragments = {
     }
   `,
 };
+
+class StopListContainerRoute extends Relay.Route {
+  static queries = {
+    stops: (Component, variables) => Relay.QL`
+      query {
+        viewer {
+          ${Component.getFragment('stops', {
+            lat: variables.lat,
+            lon: variables.lon,
+          })}
+        }
+      }
+    `,
+  }
+  static paramDefinitions = {
+    lat: {required: true},
+    lon: {required: true},
+  }
+  static routeName = 'StopListContainerRoute'
+}
 
 var StopListContainerFragments = {
   stops: () => Relay.QL`
@@ -238,15 +230,13 @@ var DepartureListFragments = {
 }
 
 module.exports = {
-  IndexQueries: IndexQueries,
   StopQueries: StopQueries,
-  StopMapQueries: StopMapQueries,
   RouteQueries: RouteQueries,
-  IndexPageFragments: IndexPageFragments,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
   RouteMapFragments: RouteMapFragments,
+  StopListContainerRoute: StopListContainerRoute,
   StopListContainerFragments: StopListContainerFragments,
   StopPageFragments: StopPageFragments,
   StopMarkerContainerRoute: StopMarkerContainerRoute,

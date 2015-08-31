@@ -51,8 +51,8 @@ class StopCardListContainer extends React.Component
 module.exports = Relay.createContainer(StopCardListContainer,
   fragments: queries.StopListContainerFragments
   initialVariables:
-    lat: 0.1
-    lon: 0.1
+    lat: null
+    lon: null
     radius: 400.1
     agency: config.preferredAgency
 )

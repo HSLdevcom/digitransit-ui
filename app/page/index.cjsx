@@ -32,7 +32,7 @@ class Page extends React.Component
         <SearchWithLocation/>
         <Link to="#{process.env.ROOT_PATH}kartta"><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>
-      <StopTabs nearestStops={@props.stops}/>
+      <StopTabs/>
     </IndexNavigation>
 
-module.exports = Relay.createContainer(Page, fragments: queries.IndexPageFragments)
+module.exports = Page
