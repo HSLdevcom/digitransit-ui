@@ -1,26 +1,22 @@
-# digitransit-ui
-Digitransit UI
+![Logo](https://raw.githubusercontent.com/wiki/HSLdevcom/digitransit/images/logo.png)
 
-## Install requirements
-- Install Node.js and NPM
-  (if you are on Debian, the distribution version is likely too old -
-  in case of problems try https://deb.nodesource.com)
-- npm install
+Digitransit-ui is a mobile friendly User interface built to work with Digitransit platform
 
-## Start dev server (with hot code reloading)
-- npm run dev
-- Browse to http://localhost:8080/
+## Licensing
+The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.
 
-## Build release version and start production server
-- npm run build
-- npm run start
+## Demos
+* [Finland - Helsinki city area demo](http://matka.hsl.fi/)
+* [Finland - National demo](http://digitransit.fi/digitransit-ui/)
 
-## Running webdriver ui tests
-
-### Local - Phantomjs
-- npm run test
-
-### Saucelabs 
-- Ensure you have saucelabs account with apikey
-- Run "./run-ui-tests.sh saucelabs". This will tell you to create 'credentials.json' file. Create it.
-- Run "./run-ui-tests.sh saucelabs"
+## Digitransit-ui 
+* [Terms](docs/Terms.md)
+* [Architecture](docs/Architecture.md)
+* [Positioning](docs/Position.md)
+* [Locations](docs/Location.md)
+* Components
+  * [Map](docs/Component-map.md)
+  * [Search](docs/Component-search.md) 
+  * [Stop card](docs/Component-stop-card.md)
+* [Installation](docs/Installation.md)
+* [Running tests](docs/Tests.md)
