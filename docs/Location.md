@@ -1,6 +1,6 @@
 Location has two functions. Firstly, it marks routing start and stop location and possibly a routing via point. Secondly it controls what applications shows as "happening near you".
 
-![Location](https://raw.githubusercontent.com/wiki/HSLdevcom/digitransit-ui/docs/images/location.png)
+![Location](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/docs/docs/images/location.png)
 
 |State|Description|
 |--------|-------|

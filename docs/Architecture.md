@@ -4,7 +4,7 @@ Digitransit-ui is a React based web application. React components can access dat
 
 Basically, we priorize GraphQL queries and use flux only when we have to.
 
-![Architecture](https://raw.githubusercontent.com/wiki/HSLdevcom/digitransit/docs/images/architecture.png)
+![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/docs/docs/images/architecture.png)
 
 Links:
 * https://facebook.github.io/flux/docs/overview.html
