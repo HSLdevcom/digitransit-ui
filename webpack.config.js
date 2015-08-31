@@ -124,7 +124,12 @@ module.exports = {
     net: "empty",
     tls: "empty"
   },
-  externals: {"es6-promise": "var Promise", "fetch": "var fetch"},
+  externals: {
+    "es6-promise": "var Promise",
+    "fetch": "var fetch",
+    "fbjs/lib/fetch": "var fetch",
+    "./fetch": "var fetch",
+  },
   worker: {
     output: {
       filename: 'js/[hash].worker.js',
