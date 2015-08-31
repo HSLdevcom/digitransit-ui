@@ -33,7 +33,7 @@ class StopCardListContainer extends React.Component
   addStops: =>
     if @props.stops.stopsByRadius.length < (@state.numberOfStops + STOP_COUNT)
       @props.relay.setVariables
-        radius: @props.relay.variables.radius + 500
+        radius: @props.relay.variables.radius + 250
     @setState
       numberOfStops: @state.numberOfStops + STOP_COUNT
 
@@ -53,6 +53,6 @@ module.exports = Relay.createContainer(StopCardListContainer,
   initialVariables:
     lat: 0.1
     lon: 0.1
-    radius: 200.1
+    radius: 400.1
     agency: config.preferredAgency
 )
