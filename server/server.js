@@ -11,7 +11,7 @@ var Location = require('react-router/lib/Location');
 var serialize = require('serialize-javascript');
 var polyfillService = require('polyfill-service');
 require('node-cjsx').transform();
-require("babel/register");
+require("babel/register")({stage: 0});
 
 /********** Polyfill **********/
 global.fetch = require('node-fetch');

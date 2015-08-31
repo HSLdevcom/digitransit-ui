@@ -8,23 +8,6 @@ var IndexQueries = {
       }
     }
   `,
-  stopsInRectangle: (Component) => Relay.QL`
-    query {
-      viewer {
-        ${Component.getFragment('stopsInRectangle')}
-      }
-    }
-  `,
-}
-
-var MapPageQueries = {
-  stopsInRectangle: (Component) => Relay.QL`
-    query {
-      viewer {
-        ${Component.getFragment('stopsInRectangle')}
-      }
-    }
-  `,
 }
 
 var StopQueries = {
@@ -35,13 +18,6 @@ var StopQueries = {
       },
     }
   `,
-  stopsInRectangle: (Component) => Relay.QL`
-    query {
-      viewer {
-        ${Component.getFragment('stopsInRectangle')}
-      }
-    }
-  `,
 };
 
 var StopMapQueries = {
@@ -50,13 +26,6 @@ var StopMapQueries = {
       stop(id: $stopId) {
         ${Component.getFragment('stop')},
       },
-    }
-  `,
-  stopsInRectangle: (Component) => Relay.QL`
-    query {
-      viewer {
-        ${Component.getFragment('stopsInRectangle')}
-      }
     }
   `,
 };
@@ -75,19 +44,6 @@ var IndexPageFragments = {
   stops: () => Relay.QL`
     fragment on QueryType {
       ${require('./component/stop-cards/stop-card-list-container').getFragment('stops')}
-    }
-  `,
-  stopsInRectangle: () => Relay.QL`
-    fragment on QueryType {
-      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
-    }
-  `,
-};
-
-var MapPageFragments = {
-  stopsInRectangle: () => Relay.QL`
-    fragment on QueryType {
-      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
     }
   `,
 };
@@ -190,11 +146,6 @@ var StopPageFragments = {
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
-  stopsInRectangle: () => Relay.QL`
-    fragment on QueryType {
-      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
-    }
-  `
 };
 
 var StopMapPageFragments = {
@@ -205,12 +156,31 @@ var StopMapPageFragments = {
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
-  stopsInRectangle: () => Relay.QL`
-    fragment on QueryType {
-      ${require('./component/map/stop-marker-container').getFragment('stopsInRectangle')}
-    }
-  `
 };
+
+class StopMarkerContainerRoute extends Relay.Route {
+  static queries = {
+    stopsInRectangle: (Component, variables) => Relay.QL`
+      query {
+        viewer {
+          ${Component.getFragment('stopsInRectangle', {
+            minLat: variables.minLat,
+            minLon: variables.minLon,
+            maxLat: variables.maxLat,
+            maxLon: variables.maxLon,
+          })}
+        }
+      }
+    `,
+  }
+  static paramDefinitions = {
+    minLat: {required: true},
+    minLon: {required: true},
+    maxLat: {required: true},
+    maxLon: {required: true},
+  }
+  static routeName = 'StopMarkerContainerRoute'
+}
 
 var StopMarkerContainerFragments = {
   stopsInRectangle: (variables) => Relay.QL`
@@ -269,18 +239,17 @@ var DepartureListFragments = {
 
 module.exports = {
   IndexQueries: IndexQueries,
-  MapPageQueries: MapPageQueries,
   StopQueries: StopQueries,
   StopMapQueries: StopMapQueries,
   RouteQueries: RouteQueries,
   IndexPageFragments: IndexPageFragments,
-  MapPageFragments: MapPageFragments,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
   RouteMapFragments: RouteMapFragments,
   StopListContainerFragments: StopListContainerFragments,
   StopPageFragments: StopPageFragments,
+  StopMarkerContainerRoute: StopMarkerContainerRoute,
   StopMarkerContainerFragments: StopMarkerContainerFragments,
   StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,

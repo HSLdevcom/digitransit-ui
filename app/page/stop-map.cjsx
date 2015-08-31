@@ -25,8 +25,7 @@ class Page extends React.Component
            zoom={16}
            className="fullscreen"
            showStops=true
-           hilightedStops=[@props.params.stopId]
-           stopsInRectangle={@props.stopsInRectangle}>
+           hilightedStops=[@props.params.stopId]>
         <StopCardHeader stop={@props.stop} favourite={favourite} addFavouriteStop={addFavouriteStop} className="stop-page" infoIcon={true}/>
         <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}">
           <div className="fullscreen-toggle">

@@ -1,6 +1,8 @@
 isBrowser     = window?
 React         = require 'react'
 ReactDOM      = require 'react-dom/server'
+Relay         = require 'react-relay'
+queries       = require '../../queries'
 Icon          = require '../icon/icon'
 StopMarkerContainer = require './stop-marker-container'
 #VehicleMarkerContainer = require './vehicle-marker-container'
@@ -84,7 +86,7 @@ class Map extends React.Component
           position={@state.location}
           icon={Map.currentLocationIcon}/>
 
-      stops = if @props.showStops then <StopMarkerContainer hilightedStops={@props.hilightedStops} stopsInRectangle={@props.stopsInRectangle}/> else ""
+      stops = if @props.showStops then <StopMarkerContainer hilightedStops={@props.hilightedStops}/>
       vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
 
       map =

@@ -27,7 +27,7 @@ class Page extends React.Component
   # https://github.com/facebook/react/issues/2061
   render: ->
     <IndexNavigation>
-      <Map showStops={true} stopsInRectangle={@props.stopsInRectangle}>
+      <Map showStops={true}>
         <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}></div>
         <SearchWithLocation/>
         <Link to="#{process.env.ROOT_PATH}kartta"><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
