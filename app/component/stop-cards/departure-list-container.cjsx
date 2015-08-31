@@ -22,7 +22,7 @@ class DepartureListContainer extends React.Component
   getStoptimes: (stoptimes) ->
     stoptimes.map (pattern) ->
       pattern.stoptimes.map (stoptime) ->
-        stoptime: moment(stoptime.serviceDay, "YYYY-MM-DD").add(stoptime.realtimeDeparture, 's')
+        stoptime: stoptime.serviceDay + stoptime.realtimeDeparture
         realtime: stoptime.realtime
         pattern: pattern.pattern
 
@@ -47,14 +47,16 @@ class DepartureListContainer extends React.Component
   getDepartures: (showMissingRoutes) =>
     departureObjs = []
     seenRoutes = []
-    previousTime = currentTime = moment()
+    currentTime = new Date().getTime() / 1000
+    currentDate = new Date().setHours(0, 0, 0, 0) / 1000
     for departure, i in @state.departures
-      if departure.stoptime.isAfter(previousTime, 'day')
-        departureObjs.push <div key={departure.stoptime.format('DDMMYYYY')} className="date-row">
-          {departure.stoptime.format('dddd D.M.YYYY')}
+      if departure.stoptime > currentDate + 86400 # TODO: test for DST change dates
+        departureObjs.push <div key={moment(departure.stoptime * 1000).format('DDMMYYYY')} className="date-row">
+          {moment(departure.stoptime * 1000).format('dddd D.M.YYYY')}
         </div>
-      if moment().isBefore(departure.stoptime)
-        id = "#{departure.pattern.code}:#{departure.stoptime.valueOf()}"
+        currentDate = new Date().setHours(24, 0, 0, 0) / 1000
+      if currentTime < departure.stoptime
+        id = "#{departure.pattern.code}:#{departure.stoptime}"
         if @props.routeLinks
           departureObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.code}" key={id}>
             <Departure departure={departure} currentTime={currentTime}/>
@@ -64,7 +66,6 @@ class DepartureListContainer extends React.Component
         seenRoutes.push(departure.pattern.route.shortName)
         if seenRoutes.length >= @props.departures
           break
-      previousTime = departure.stoptime
 
     if showMissingRoutes
       missingRoutes = difference((stop.routes.map (route) -> route.shortName), seenRoutes).sort()

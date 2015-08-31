@@ -1980,7 +1980,7 @@
                 "args": [],
                 "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Long",
                     "ofType": null
                 },
                 "isDeprecated": false,
@@ -2005,6 +2005,15 @@
             "kind": "SCALAR",
             "name": "Boolean",
             "description": "Built-in Boolean",
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "SCALAR",
+            "name": "Long",
+            "description": "Long type",
             "fields": null,
             "inputFields": null,
             "interfaces": null,

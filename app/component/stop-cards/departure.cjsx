@@ -4,12 +4,12 @@ Icon   = require '../icon/icon.cjsx'
 
 class Departure extends React.Component
   renderTime: (departure) ->
-    if (departure.stoptime.isBefore(@props.currentTime)) # In the past
-      return (if departure.realtime then "" else "~") + departure.stoptime.format "HH:mm"
-    if (departure.stoptime.diff(@props.currentTime, 'm') > 20) # far away
-      return (if departure.realtime then "" else "~") + departure.stoptime.format "HH:mm"
+    if departure.stoptime < @props.currentTime # In the past
+      return (if departure.realtime then "" else "~") + moment(departure.stoptime * 1000).format "HH:mm"
+    if departure.stoptime > @props.currentTime + 1200 # far away
+      return (if departure.realtime then "" else "~") + moment(departure.stoptime * 1000).format "HH:mm"
     else
-      return (if departure.realtime then "" else "~") + departure.stoptime.diff(@props.currentTime, 'm') + "min"
+      return (if departure.realtime then "" else "~") + moment(departure.stoptime * 1000).diff(@props.currentTime * 1000, 'm') + "min"
 
   render: ->
     mode = @props.departure.pattern.route.type.toLowerCase()
