@@ -3,9 +3,6 @@
         "queryType": {
             "name": "QueryType"
         },
-        "mutationType": {
-            "name": "MutationType"
-        },
         "types": [{
             "kind": "OBJECT",
             "name": "QueryType",
