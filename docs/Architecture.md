@@ -7,7 +7,7 @@ Basically, division between alternatives is:
 - If server endpoint does not support GraphQL, flux can be used to retrieve that data
 - Flux stores are mainly used to store application state
 
-![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/docs/docs/images/architecture.png)
+![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/architecture.png)
 
 Links:
 * https://facebook.github.io/flux/docs/overview.html
