@@ -2,7 +2,7 @@ Position is user's current position that is queried through HTML geolocation int
 
 Note that in this context "Position" is not same thing as "Location". User's position will change during a trip but start and stop locations remain the same.
 
-![Position](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/docs/docs/images/position.png)
+![Position](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/position.png)
 
 |State|Description|
 |--------|-------|
