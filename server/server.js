@@ -61,20 +61,25 @@ function setUpRoutes() {
     var location = new Location(req.path, req.query);
     Router.run(application.getComponent(), location, function (error, initialState, transition) {
       render = function() {
-        var content = "" //ReactDOM.renderToString(
-        //  React.createElement(
-        //    FluxibleComponent,
-        //    { context: context.getComponentContext() },
-        //    React.createElement(
-        //      Router,
-        //      { location: initialState.location,
-        //        branch: initialState.branch,
-        //        components: initialState.components,
-        //        params: initialState.params }
-        //    )
-        //  )
-        //)
-
+        var content = "";
+        if (initialState.components[1].getQuery) {// Ugly way to see if this is a Relay RootComponent
+          console.log("no content");
+        }
+        else {
+          content = ReactDOM.renderToString(
+            React.createElement(
+              FluxibleComponent,
+              { context: context.getComponentContext() },
+              React.createElement(
+                Router,
+                { location: initialState.location,
+                  branch: initialState.branch,
+                  components: initialState.components,
+                  params: initialState.params }
+              )
+            )
+          );
+        };
         var polyfillContent = polyfillService.getPolyfillString({
           uaString: req.headers['user-agent'],
           features: {
