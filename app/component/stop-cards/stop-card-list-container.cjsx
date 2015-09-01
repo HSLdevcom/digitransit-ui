@@ -12,10 +12,6 @@ class StopCardListContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  constructor: ->
-    super
-    @state = numberOfStops: STOP_COUNT
-
   componentDidMount: =>
     @context.getStore('LocationStore').addChangeListener @onChange
     @onChange()
@@ -31,16 +27,18 @@ class StopCardListContainer extends React.Component
         lon: coordinates.lon
 
   addStops: =>
-    if @props.stops.stopsByRadius.length < (@state.numberOfStops + STOP_COUNT)
-      @props.relay.setVariables
-        radius: @props.relay.variables.radius + 250
-    @setState
-      numberOfStops: @state.numberOfStops + STOP_COUNT
+    if !@props.stops.stopsByRadius.pageInfo.hasNextPage
+      radius = @props.relay.variables.radius + 2000
+    else
+      radius = @props.relay.variables.radius
+    @props.relay.setVariables
+      numberOfStops: @props.relay.variables.numberOfStops + STOP_COUNT
+      radius: radius
 
   getStopCards: =>
     stopCards = []
-    for stop in @props.stops.stopsByRadius.slice(0,@state.numberOfStops)
-      stopCards.push <StopCardContainer key={stop.stop.gtfsId} stop={stop} departures=DEPARTURES_COUNT />
+    for edge in @props.stops.stopsByRadius.edges
+      stopCards.push <StopCardContainer key={edge.node.stop.gtfsId} stop={edge.node} departures=DEPARTURES_COUNT />
     stopCards
 
   render: =>
@@ -53,6 +51,7 @@ module.exports = Relay.createContainer(StopCardListContainer,
   initialVariables:
     lat: null
     lon: null
-    radius: 400.1
+    radius: 2000.1
+    numberOfStops: STOP_COUNT
     agency: config.preferredAgency
 )

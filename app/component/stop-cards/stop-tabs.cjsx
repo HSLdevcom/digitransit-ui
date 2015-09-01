@@ -42,7 +42,7 @@ class StopTabs extends React.Component
           />
         }
       />
-    else if !@state.status or @state.status == LocationStore.STATUS_NO_LOCATION
+    else if @state.status == LocationStore.STATUS_NO_LOCATION or @state.status == LocationStore.STATUS_SEARCHING_LOCATION
       nearestPanel = <div className="spinner-loader"/>
     else
       nearestPanel = <NoLocationPanel/>

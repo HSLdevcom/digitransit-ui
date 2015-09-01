@@ -110,13 +110,20 @@ class StopListContainerRoute extends Relay.Route {
 var StopListContainerFragments = {
   stops: () => Relay.QL`
     fragment on QueryType {
-      stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency) {
-        stop {
-          gtfsId
-          ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-          ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+      stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
+        edges{
+          node {
+            stop {
+              gtfsId
+              ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+              ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+            }
+            distance
+          }
         }
-        distance
+        pageInfo {
+          hasNextPage
+        }
       }
     }
   `,
