@@ -32,7 +32,7 @@ class StopTabs extends React.Component
           lat: @state.lat
           lon: @state.lon
           })}
-        renderLoading={-> <div>Loading</div>}
+        renderLoading={-> <div className="spinner-loader"/>}
         renderFetched={(data) =>
           <StopCardListContainer
           key="NearestStopsStore"
@@ -42,6 +42,8 @@ class StopTabs extends React.Component
           />
         }
       />
+    else if !@state.status or @state.status == LocationStore.STATUS_NO_LOCATION
+      nearestPanel = <div className="spinner-loader"/>
     else
       nearestPanel = <NoLocationPanel/>
 
