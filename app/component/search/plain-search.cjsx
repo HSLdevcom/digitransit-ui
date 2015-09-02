@@ -18,9 +18,6 @@ class PlainSearch extends React.Component
   constructor: ->
     super
 
-  componentWillMount: =>
-    @setState @context.getStore('LocationStore').addChangeListener @onGeolocationChange
-
   componentDidMount: =>
     @context.getStore('LocationStore').addChangeListener @onGeolocationChange
     @onGeolocationChange()
@@ -59,7 +56,9 @@ class PlainSearch extends React.Component
     @props.clearSelection()
 
   render: =>
-    if @props.selection.useCurrentPosition
+    # We don't have state on the server, because we don't have a geolocation,
+    # so just render the input field
+    if @state and @props.selection.useCurrentPosition
       if @state.isLocationingInProgress
         geolocation_text = 'Sijaintiasi etsitään'
       else if @state.hasLocation

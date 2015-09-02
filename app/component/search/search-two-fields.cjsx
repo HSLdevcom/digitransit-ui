@@ -23,6 +23,9 @@ class SearchTwoFields extends React.Component
         origin: @context.getStore('EndpointStore').getOrigin()
         destination: @context.getStore('EndpointStore').getDestination()
 
+  componentWillUnmount: =>
+    @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
+
   onEndpointChange: =>
     @setState
         origin: @context.getStore('EndpointStore').getOrigin()
@@ -43,22 +46,13 @@ class SearchTwoFields extends React.Component
                            'address': point.address
     }
 
-  routeIfPossible: =>
-    # If we have a geolocation, the search fields using the location will
-    # update their selection constantly (and fire onSelects)
-    if @state.origin.lat and @state.destination.lat
-      # First, we must blur input field because without this
-      # Android keeps virtual keyboard open too long which
-      # causes problems in next page rendering
-      #@autoSuggestInput.blur()
+  clearOrigin: () =>
+    # This happens within geolocation store emit changes, but it's not cascading
+    # since it's a different store, so it's ok.
+    @context.executeAction EndpointActions.clearOrigin
 
-      # Then we can transition. We must do this in next
-      # event loop in order to get blur finished.
-      setTimeout(() =>
-        @context.router.transitionTo "summary",
-          from: "#{@state.origin.address}::#{@state.origin.lat},#{@state.origin.lon}"
-          to: "#{@state.destination.address}::#{@state.destination.lat},#{@state.destination.lon}"
-      ,0)
+  clearDestination: () =>
+    @context.executeAction EndpointActions.clearDestination
 
   onSwitch: (e) =>
     e.preventDefault()
@@ -88,17 +82,22 @@ class SearchTwoFields extends React.Component
                            'address': destination.address
       }
 
+  routeIfPossible: =>
+    # If we have a geolocation, the search fields using the location will
+    # update their selection constantly (and fire onSelects)
+    if @state.origin.lat and @state.destination.lat
+      # First, we must blur input field because without this
+      # Android keeps virtual keyboard open too long which
+      # causes problems in next page rendering
+      #@autoSuggestInput.blur()
 
-  onSearch: (e) =>
-    e.preventDefault()
-
-  clearOrigin: () =>
-    # This happens within geolocation store emit changes, but it's not cascading
-    # since it's a different store, so it's ok.
-    @context.executeAction EndpointActions.clearOrigin
-
-  clearDestination: () =>
-    @context.executeAction EndpointActions.clearDestination
+      # Then we can transition. We must do this in next
+      # event loop in order to get blur finished.
+      setTimeout(() =>
+        @context.router.transitionTo "summary",
+          from: "#{@state.origin.address}::#{@state.origin.lat},#{@state.origin.lon}"
+          to: "#{@state.destination.address}::#{@state.destination.lat},#{@state.destination.lon}"
+      ,0)
 
   render: =>
     <div className="search-form">
@@ -133,7 +132,8 @@ class SearchTwoFields extends React.Component
                 />
             </div>
             <div className="small-1 columns">
-              <span className="postfix search cursor-pointer" onTouchTap={@onSearch}>
+              <span className="postfix search cursor-pointer"
+                    onTouchTap={@routeIfPossible}>
                 <Icon img={'icon-icon_search'}/>
               </span>
             </div>
