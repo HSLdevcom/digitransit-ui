@@ -1,23 +1,40 @@
 Feature: Search component
 
-  Scenario: Routing should be done when both From and To fields become populated
-    Given That user has entered From or To value
-    When User enters missing Location
+  Scenario: Search should be disabled during 'Positioning'
+    Given That Search component is on page
+    When Positioning is in progress
+    Then Search fields should not be editable
+    And Switch sould not be possible
+    And Search magnifying glass should be disable
+    And 'Searching position' text should be shown
+
+  Scenario: Routing should be performed automatically when 'From field' or 'To field' becomes populated
+    Given That there is value in either 'From' or 'To' input
+    When Other field also becomes populated
     Then Routing should be performed
 
   Scenario: From and To location switch
     When user clicks on "switch" button
     Then From and To location should be switched 
+    And no routing should be performed
 
-  Scenario: From and To values should be initialized to values set previously during the session
-    Given User has set From or To location
-    When User goes to page that has search available
-    Then Values should be initialized from session data
-
-  Scenario: Routing should be done on 'magnifying glass' click
+  Scenario: Routing should be performed on 'magnifying glass' click
     Given That user has entered From and To values
     When User clicks on 'magnifying glass'
     Then Routing should be performed
+
+  Scenario: 'My position' is cleared as destination
+    Given That user Position has been resolved
+    And user's 'My positionä is as 'From' location
+    And To location is empty
+    When User switches 'My position' to 'To location' by clicking switch button
+    And Removes 'My position' from 'To location'
+    Then 'From input' should be returned to form where 'Position' and 'Write address' options are available 
+
+  Scenario: From and To location values should be initialized to values set previously during the session
+    Given User has set From or To location
+    When User goes to page that has search available
+    Then Values should be initialized from session data
 
   Scenario: Routing uses user's current location
     Given From location is 'My location'
@@ -59,13 +76,13 @@ Feature: Search component
   Scenario: Enter press should select unique address
     Given User is trying to set from or to location
     When User types 'Salomonkatu 2'
-    And presses enter
+    And User presses enter
     Then 'Salomonkatu 2, Helsinki' should be selected because it's the only hit available
 
   Scenario: Fuzzy results should be used
     Given User is trying to set from or to location
     When User types value that results in fuzzy match hit
-    And presses enter
+    And User presses enter
     Then Selection should work as with 'Non fuzzy' matches
 
   Scenario: Enter press should select closest hits to the user when multiple hits are found
@@ -74,20 +91,20 @@ Feature: Search component
     When User types 'Kirkkotie 2'
     And presses enter
     And Geocoding resolves 'Kirkkotie 2' from 'Vantaa' and 'Kauniainen'
-    Then "Kirkkotie 2, Vantaa" should be selected because it's the closest one
+    Then "Kirkkotie 2, Vantaa" should be selected because it's the closest one to the user
 
   Scenario: Enter press should select first hit when multiple hits are available and user's location is not known
     Given User is trying to set from or to location
     And user's Position is unknown
     When User types 'Kirkkotie 2'
-    And presses enter
+    And User presses enter
     And Geocoding resolves 'Kirkkotie 2' from 'Vantaa' and 'Kauniainen'
     Then "Kirkkotie 2, Kauniainen" should be selected because it's the first hit
 
   Scenario: Search with non existing number
     Given User is trying to set from or to location
     When User types address number that is not availabe like 'Sampsantie 100'
-    And presses enter
+    And User presses enter
     Then Selection should work as with existing number matches
 
   Scenario: Search with other language
@@ -98,7 +115,7 @@ Feature: Search component
   Scenario: Search results ordering
     Given User has reveived search results of multiple type
     When Search results are shown
-    Then Order should be 1. address, 2. stop, 3. POI
+    Then Order should be alphabetically ordered 'per type': 1. address, 2. stop, 3. POI
 
   Scenario: City name is easily used in search
     Given User is trying to set from or to location
