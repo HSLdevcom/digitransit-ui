@@ -289,6 +289,7 @@ ul.offcanvas-list {
 }
 
 /* Modal */
+/* Foundation overrides */
 $global-padding: 10px;
 $foundation-version: $font-family;
 
@@ -296,18 +297,28 @@ $modal-zindex: 1100;
 @media #{$small-only} {
   #app .modal  {
     width: 90%;
-    max-height: 80%;
   }
 }
 #app .modal {
   border-radius: $border-radius;
   padding: 10px 22px;
+  max-height: 85%;
 
   p  {
     margin: 10px 0;
   }
-  h3 {
-    margin-top: 0;
+  h2 {
+    float:left;
+  }
+  .modal-wrapper  {
+    height: 100%;
+  }
+  .modal-content  {
+    max-height: 64vh;
+    overflow-y: auto;
+    section {
+      padding-bottom: 20px;
+    }
   }
   .modal-top-nav {
     text-align: right;
@@ -332,17 +343,30 @@ $modal-zindex: 1100;
       padding-right: 5px;
     }
   }
+  .icon.center {
+    display: block;
+    float: left;
+    margin-top: 3px;
+  }
 }
 
 /* application styles */
 .warning {
-  background-color: $hsl-disruption;
+  background-color: $disruption-color;
   padding: 8px 12px;
-  margin: 0 -12px;
+  margin: 5px 0;
+  border-radius: $border-radius
 }
-
+h2 {
+  color: $primary-color;
+  font-weight: $font-weight-normal;
+}
+.uppercase  {
+  text-transform: uppercase;
+}
 .line, .time {
   font-family: $font-family-narrow;
+}
+.bold {
   font-weight: $font-weight-bold;
-  font-size: 13pt;
 }
