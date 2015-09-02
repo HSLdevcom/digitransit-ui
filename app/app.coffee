@@ -8,7 +8,6 @@ app.registerStore require('./store/favourite-stops-store')
 app.registerStore require('./store/itinerary-search-store')
 app.registerStore require('./store/location-store')
 app.registerStore require('./store/real-time-information-store')
-app.registerStore require('./store/route-information-store')
 app.registerStore require('./store/time-store')
 
 module.exports = app

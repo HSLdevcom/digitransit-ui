@@ -1,4 +1,6 @@
 React         = require 'react'
+Relay         = require 'react-relay'
+queries       = require '../../queries'
 isBrowser     = window?
 DynamicPopup  = if isBrowser then require './dynamic-popup' else null
 RouteMarkerPopup = require './route-marker-popup'
@@ -6,6 +8,13 @@ Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 L             = if isBrowser then require 'leaflet' else null
 RealTimeInformationAction = require '../../action/real-time-client-action'
 Icon          = require '../icon/icon'
+
+popupOptions =
+  offset: [106, 3]
+  closeButton:false
+  maxWidth:250
+  minWidth:250
+  className:"route-marker-popup"
 
 class VehicleMarkerContainer extends React.Component
   @contextTypes:
@@ -40,11 +49,32 @@ class VehicleMarkerContainer extends React.Component
     @updateVehicle(id, message)
 
   updateVehicle: (id, message) ->
-    popup =
-      <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"route-marker-popup"}}>
-        <RouteMarkerPopup message={message} context={@context}/>
-      </DynamicPopup>
-    @vehicles[id] = <Marker map={@props.map} key={id} position={lat: message.lat, lng: message.long} icon={VehicleMarkerContainer.vehicleIcons[message.mode]}>{popup}</Marker>
+    popup = <Relay.RootContainer
+      Component={RouteMarkerPopup}
+      route={new queries.RouteMarkerPopupRoute(
+        route: message.route
+        direction: message.direction
+        date: message.operatingDay
+        time: message.tripStartTime.substring(0,2) * 60 * 60 + message.tripStartTime.substring(2,4) * 60)}
+      renderFetched={(data) =>
+        <RouteMarkerPopup trip={data.trip}
+                          message={message}
+                          context={@context}
+                          route={message.route}
+                          direction={message.direction}
+                          date={message.operatingDay}
+                          time={message.tripStartTime.substring(0,2) * 60 * 60 + message.tripStartTime.substring(2,4) * 60}/>
+      }/>
+
+    @vehicles[id] =
+      <Marker map={@props.map}
+              key={id}
+              position={lat: message.lat, lng: message.long}
+              icon={VehicleMarkerContainer.vehicleIcons[message.mode]}>
+        <DynamicPopup options=popupOptions>
+          {popup}
+        </DynamicPopup>
+      </Marker>
     @forceUpdate()
 
   render: ->

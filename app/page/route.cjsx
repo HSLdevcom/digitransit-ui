@@ -3,13 +3,10 @@ Relay                  = require 'react-relay'
 queries                = require '../queries'
 DefaultNavigation      = require '../component/navigation/default-navigation'
 Tabs                   = require 'react-simpletabs'
-Map                    = require '../component/map/map'
-RouteInformationAction = require '../action/route-information-action'
 RouteHeaderContainer   = require '../component/route/route-header-container'
 RouteStopListContainer = require '../component/route/route-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
-ItineraryLine          = require '../component/map/itinerary-line'
 
 class RoutePage extends React.Component
   @contextTypes:

@@ -27,7 +27,6 @@ class StopMarkerPopup extends React.Component
   render: ->
     favourite = @props.context.getStore('FavouriteStopsStore').isFavourite(@props.stop.id)
     addFavouriteStop = (e) =>
-      console.log e
       e.stopPropagation()
       @props.context.executeAction FavouriteStopsAction.addFavouriteStop, @props.stop.id
 

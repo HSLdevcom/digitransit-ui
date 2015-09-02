@@ -81,7 +81,9 @@ var RouteMapFragments = {
       stops {
         lat
         lon
-
+        name
+        gtfsId
+        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
       }
     }
   `,
@@ -236,6 +238,53 @@ var DepartureListFragments = {
   `,
 }
 
+class RouteMarkerPopupRoute extends Relay.Route {
+  static queries = {
+    trip: (Component, variables) => Relay.QL`
+      query {
+        viewer {
+          ${Component.getFragment('trip', {
+            route: variables.route,
+            direction: variables.direction,
+            date: variables.date,
+            time: variables.time,
+          })}
+        }
+      }
+    `,
+  }
+  static paramDefinitions = {
+    route: {required: true},
+    direction: {required: true},
+    time: {required: true},
+    date: {required: true},
+  }
+  static routeName = 'RouteMarkerPopupRoute'
+}
+
+var RouteMarkerPopupFragments = {
+  trip: () => Relay.QL`
+    fragment on QueryType {
+      fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
+        gtfsId
+        pattern {
+          code
+          headsign
+          stops {
+            name
+          }
+        }
+      }
+      route(id: $route) {
+        gtfsId
+        type
+        shortName
+        longName
+      }
+    }
+  `,
+}
+
 module.exports = {
   StopQueries: StopQueries,
   RouteQueries: RouteQueries,
@@ -251,4 +300,6 @@ module.exports = {
   StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
   DepartureListFragments: DepartureListFragments,
+  RouteMarkerPopupRoute: RouteMarkerPopupRoute,
+  RouteMarkerPopupFragments: RouteMarkerPopupFragments,
 };

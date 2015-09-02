@@ -12,6 +12,9 @@ class RouteLine extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    router: React.PropTypes.object.isRequired
+    route: React.PropTypes.object.isRequired
+
 
   @fromIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'from', iconAnchor: [12,24]) else null
   @toIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'to', iconAnchor: [12,24]) else null
@@ -25,12 +28,14 @@ class RouteLine extends React.Component
                         key={"halo"}
                         positions={@props.geometry}
                         className="leg-halo #{modeClass}"
-                        weight=5 />
+                        weight=5
+                        interactive={false} />
     objs.push <Polyline map={@props.map}
                         key={"line"}
                         positions={@props.geometry}
                         className="leg #{modeClass}"
-                        weight=3 />
+                        weight=3
+                        interactive={false} />
     @props.stops.forEach (stop, i) =>
      # This is copied to stop-marker-container.cjsx. Remember to change both at the same time
      # to retain visual consistency.
@@ -50,7 +55,7 @@ class RouteLine extends React.Component
                              center={lat: stop.lat, lng: stop.lon}
                              className="stop-on-line #{modeClass}"
                              radius=2
-                             clickable={false} />
+                             interactive={false} />
 
     <div style={{display: "none"}}>{objs}</div>
 

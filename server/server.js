@@ -62,10 +62,7 @@ function setUpRoutes() {
     Router.run(application.getComponent(), location, function (error, initialState, transition) {
       render = function() {
         var content = "";
-        if (initialState.components[1].getQuery) {// Ugly way to see if this is a Relay RootComponent
-          console.log("no content");
-        }
-        else {
+        if (!initialState.components[1].getQuery) {// Ugly way to see if this is a Relay RootComponent
           content = ReactDOM.renderToString(
             React.createElement(
               FluxibleComponent,
