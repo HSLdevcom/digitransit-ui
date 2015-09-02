@@ -16,7 +16,7 @@ class RouteHeader extends React.Component
     <div className="route-header">
       <h1 className={mode}>
         <Icon img={'icon-icon_' + mode}/>
-        {" " + @props.route.shortName}
+        {" " + (@props.route.shortName or "")}
         {trip}
       </h1>
       <div className="route-header-name">{@props.route.longName}</div>
