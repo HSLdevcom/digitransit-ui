@@ -287,3 +287,62 @@ ul.offcanvas-list {
     font-weight: $font-weight-bold;
   }
 }
+
+/* Modal */
+$global-padding: 10px;
+$foundation-version: $font-family;
+
+$modal-zindex: 1100;
+@media #{$small-only} {
+  #app .modal  {
+    width: 90%;
+    max-height: 80%;
+  }
+}
+#app .modal {
+  border-radius: $border-radius;
+  padding: 10px 22px;
+
+  p  {
+    margin: 10px 0;
+  }
+  h3 {
+    margin-top: 0;
+  }
+  .modal-top-nav {
+    text-align: right;
+    padding-top: 10px;
+  }
+  .disruption-header  {
+    .line {
+      margin: 0 5px 0 10px;
+    }
+    .time {
+      &:before {
+        content: " – ";
+      }
+    }
+  }
+  .disruption-details {
+    span  {
+      display:block;
+    }
+    b {
+      float:left;
+      padding-right: 5px;
+    }
+  }
+}
+
+/* application styles */
+.warning {
+  background-color: $hsl-disruption;
+  padding: 8px 12px;
+  margin: 0 -12px;
+}
+
+.line, .time {
+  font-family: $font-family-narrow;
+  font-weight: $font-weight-bold;
+  font-size: 13pt;
+}

@@ -3,6 +3,7 @@ Link                  = require 'react-router/lib/components/Link'
 IndexTopNavigation    = require './index-top-navigation'
 IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
+DisruptionInfo        = require './disruption-info'
 
 class IndexNavigation extends React.Component
   @contextTypes:
@@ -13,6 +14,7 @@ class IndexNavigation extends React.Component
     @state =
       subNavigationVisible: false
       offcanvasVisible: false
+      disruptionVisible: false
       text: if @context.getStore("TimeStore").status == "UNSET" then "Nyt" else "Myöhemmin"
 
   toggleSubnavigation: =>
@@ -39,12 +41,16 @@ class IndexNavigation extends React.Component
   toggleOffcanvas: =>
     @setState offcanvasVisible: !@state.offcanvasVisible
 
+  toggleDisruptionInfo: =>
+    @setState disruptionVisible: !@state.disruptionVisible
+
   render: ->
     <div>
       <OffcanvasMenu open={@state.offcanvasVisible}/>
+      <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
 
       <div className="grid-frame">
-        <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} subnavigationText={@state.text}/>
+        <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} subnavigationText={@state.text}/>
         <IndexSubNavigation visible={@state.subNavigationVisible}/>
         <section ref="content" className="content">
           {@props.children}
