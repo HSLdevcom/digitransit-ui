@@ -44,3 +44,6 @@ app.rehydrate dehydratedState, (err, context) ->
           oldParams = state.params
           context.getActionContext().executeAction state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}
       RenderApp context, Handler
+
+  # Fetch all alerts after rendering has commenced
+  context.getActionContext().executeAction require('./action/disruption-actions').getDisruptions

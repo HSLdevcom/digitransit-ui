@@ -2,7 +2,7 @@
 
 // FeedMessage ========================================
 
-exports.FeedMessage = {read: readFeedMessage};
+module.exports = {read: readFeedMessage};
 
 function readFeedMessage(pbf, end) {
     return pbf.readFields(readFeedMessageField, {"entity": []}, end);
@@ -15,7 +15,7 @@ function readFeedMessageField(tag, feedmessage, pbf) {
 
 // FeedHeader ========================================
 
-exports.FeedHeader = {read: readFeedHeader};
+var FeedHeader = {read: readFeedHeader};
 
 FeedHeader.Incrementality = {
     "FULL_DATASET": 0,
@@ -36,7 +36,7 @@ function readFeedHeaderField(tag, feedheader, pbf) {
 
 // FeedEntity ========================================
 
-exports.FeedEntity = {read: readFeedEntity};
+var FeedEntity = {read: readFeedEntity};
 
 function readFeedEntity(pbf, end) {
     return pbf.readFields(readFeedEntityField, {}, end);
@@ -52,7 +52,7 @@ function readFeedEntityField(tag, feedentity, pbf) {
 
 // TripUpdate ========================================
 
-var TripUpdate = exports.TripUpdate = {read: readTripUpdate};
+var TripUpdate = {read: readTripUpdate};
 
 function readTripUpdate(pbf, end) {
     return pbf.readFields(readTripUpdateField, {"stop_time_update": []}, end);
@@ -84,7 +84,7 @@ function readStopTimeEventField(tag, stoptimeevent, pbf) {
 
 TripUpdate.StopTimeUpdate = {read: readStopTimeUpdate};
 
-StopTimeUpdate.ScheduleRelationship = {
+TripUpdate.StopTimeUpdate.ScheduleRelationship = {
     "SCHEDULED": 0,
     "SKIPPED": 1,
     "NO_DATA": 2
@@ -106,7 +106,7 @@ function readStopTimeUpdateField(tag, stoptimeupdate, pbf) {
 
 // VehiclePosition ========================================
 
-exports.VehiclePosition = {read: readVehiclePosition};
+var VehiclePosition = {read: readVehiclePosition};
 
 VehiclePosition.VehicleStopStatus = {
     "INCOMING_AT": 0,
@@ -152,7 +152,7 @@ function readVehiclePositionField(tag, vehicleposition, pbf) {
 
 // Alert ========================================
 
-exports.Alert = {read: readAlert};
+var Alert = {read: readAlert};
 
 Alert.Cause = {
     "UNKNOWN_CAUSE": 1,
@@ -200,7 +200,7 @@ function readAlertField(tag, alert, pbf) {
 
 // TimeRange ========================================
 
-exports.TimeRange = {read: readTimeRange};
+var TimeRange = {read: readTimeRange};
 
 function readTimeRange(pbf, end) {
     return pbf.readFields(readTimeRangeField, {}, end);
@@ -213,7 +213,7 @@ function readTimeRangeField(tag, timerange, pbf) {
 
 // Position ========================================
 
-exports.Position = {read: readPosition};
+var Position = {read: readPosition};
 
 function readPosition(pbf, end) {
     return pbf.readFields(readPositionField, {}, end);
@@ -229,7 +229,7 @@ function readPositionField(tag, position, pbf) {
 
 // TripDescriptor ========================================
 
-exports.TripDescriptor = {read: readTripDescriptor};
+var TripDescriptor = {read: readTripDescriptor};
 
 TripDescriptor.ScheduleRelationship = {
     "SCHEDULED": 0,
@@ -253,7 +253,7 @@ function readTripDescriptorField(tag, tripdescriptor, pbf) {
 
 // VehicleDescriptor ========================================
 
-exports.VehicleDescriptor = {read: readVehicleDescriptor};
+var VehicleDescriptor = {read: readVehicleDescriptor};
 
 function readVehicleDescriptor(pbf, end) {
     return pbf.readFields(readVehicleDescriptorField, {}, end);
@@ -267,7 +267,7 @@ function readVehicleDescriptorField(tag, vehicledescriptor, pbf) {
 
 // EntitySelector ========================================
 
-exports.EntitySelector = {read: readEntitySelector};
+var EntitySelector = {read: readEntitySelector};
 
 function readEntitySelector(pbf, end) {
     return pbf.readFields(readEntitySelectorField, {}, end);
@@ -283,7 +283,7 @@ function readEntitySelectorField(tag, entityselector, pbf) {
 
 // TranslatedString ========================================
 
-var TranslatedString = exports.TranslatedString = {read: readTranslatedString};
+var TranslatedString = {read: readTranslatedString};
 
 function readTranslatedString(pbf, end) {
     return pbf.readFields(readTranslatedStringField, {"translation": []}, end);
