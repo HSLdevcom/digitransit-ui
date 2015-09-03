@@ -50,7 +50,7 @@
     "react-dom": "^0.14.0-beta3",
     "react-leaflet": "^0.6.2",
     "react-relay": "^0.2.0",
-    "react-router": "^1.0.0-beta3",
+    "react-router": "1.0.0-beta3",
     "react-simpletabs": "^0.6.1",
     "react-slick": "^0.6.5",
     "react-tap-event-plugin": "^0.1.7",
