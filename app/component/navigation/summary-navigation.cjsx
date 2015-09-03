@@ -1,7 +1,7 @@
 React                 = require 'react'
 Link                  = require 'react-router/lib/components/Link'
 Icon                  = require '../icon/icon'
-Offcanvas             = require '../util/offcanvas'
+OffcanvasCustomize    = require './offcanvas-customize'
 BackButton            = require './back-button'
 TimeSelectors         = require './time-selectors'
 
@@ -9,20 +9,21 @@ class SummaryNavigation extends React.Component
   constructor: ->
     super
     @state =
-      offcanvasVisible: false
+      offcanvasCustomizeVisible: false
 
-  toggleOffcanvas: =>
-    @setState offcanvasVisible: !@state.offcanvasVisible
+  toggleOffcanvasCustomize: =>
+    @setState offcanvasCustomizeVisible: !@state.offcanvasCustomizeVisible
 
   render: ->
     <div className="fullscreen">
-      <Offcanvas open={@state.offcanvasVisible} position="right"/>
+      <OffcanvasCustomize open={@state.offcanvasCustomizeVisible}/>
+
       <div className="fullscreen grid-frame">
         <div className="fixed">
           <nav className="top-bar">
             <BackButton/>
             <TimeSelectors/>
-            <div onTouchTap={@toggleOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
+            <div onTouchTap={@toggleOffcanvasCustomize} className="icon-holder cursor-pointer right-off-canvas-toggle">
               <Icon img={'icon-icon_ellipsis'}/>
             </div>
           </nav>
