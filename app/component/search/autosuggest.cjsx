@@ -230,6 +230,7 @@ class Autosuggest extends React.Component
     inputAttributes =
       id: AUTOSUGGEST_ID
       placeholder: @props.placeholder
+      value: @props.value
 
     <ReactAutosuggest
       ref={@handleAutoSuggestMount}

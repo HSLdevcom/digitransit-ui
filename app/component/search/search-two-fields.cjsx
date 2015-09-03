@@ -1,7 +1,7 @@
 React = require 'react'
 Icon = require '../icon/icon'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
-PlainSearch = require './plain-search'
+Autosuggest = require './autosuggest'
 Link = require 'react-router/lib/components/Link'
 config = require '../../config'
 
@@ -22,9 +22,29 @@ class SearchTwoFields extends React.Component
     @setState
         origin: @context.getStore('EndpointStore').getOrigin()
         destination: @context.getStore('EndpointStore').getDestination()
+    @onGeolocationChange()
+
+  componentDidMount: =>
+    @context.getStore('LocationStore').addChangeListener @onGeolocationChange
 
   componentWillUnmount: =>
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
+    @context.getStore('LocationStore').removeChangeListener @onGeolocationChange
+
+  onGeolocationChange: =>
+    geo = @context.getStore('LocationStore').getLocationState()
+    @setState
+        geo: geo
+    if not (geo.status == 'no-location' or
+            geo.isLocationingInProgress or
+            geo.hasLocation)
+      @removePosition()
+
+  removePosition: =>
+    if @state.origin.useCurrentPosition
+      @context.executeAction EndpointActions.clearOrigin
+    if @state.destination.useCurrentPosition
+      @context.executeAction EndpointActions.clearDestination
 
   onEndpointChange: =>
     @setState
@@ -32,37 +52,34 @@ class SearchTwoFields extends React.Component
         destination: @context.getStore('EndpointStore').getDestination()
     @routeIfPossible()
 
-  selectOrigin: (point) =>
+  selectOrigin: (lat, lon, address) =>
     @context.executeAction EndpointActions.setOrigin, {
-                           'lat': point.lat
-                           'lon': point.lon
-                           'address': point.address
+                           'lat': lat
+                           'lon': lon
+                           'address': address
     }
 
-  selectDestination: (point) =>
+  selectDestination: (lat, lon, address) =>
     @context.executeAction EndpointActions.setDestination, {
-                           'lat': point.lat
-                           'lon': point.lon
-                           'address': point.address
+                           'lat': lat
+                           'lon': lon
+                           'address': address
     }
-
-  clearOrigin: () =>
-    # This happens within geolocation store emit changes, but it's not cascading
-    # since it's a different store, so it's ok.
-    @context.executeAction EndpointActions.clearOrigin
-
-  clearDestination: () =>
-    @context.executeAction EndpointActions.clearDestination
 
   onSwitch: (e) =>
     e.preventDefault()
+
     origin = @state.origin
     destination = @state.destination
 
+    # Button is disabled when geolocationing is in process
+    if origin.useCurrentPosition and @state.geo.isLocationingInProgress
+      return
+
     # Avoid accidentally having both set at the same time
     # (causing a itinerary search) when actually only one is
-    @clearOrigin()
-    @clearDestination()
+    @context.executeAction EndpointActions.clearOrigin
+    @context.executeAction EndpointActions.clearDestination
 
     if origin.useCurrentPosition
       @context.executeAction EndpointActions.setDestinationToCurrent
@@ -83,34 +100,72 @@ class SearchTwoFields extends React.Component
       }
 
   routeIfPossible: =>
-    # If we have a geolocation, the search fields using the location will
-    # update their selection constantly (and fire onSelects)
-    if @state.origin.lat and @state.destination.lat
+    if ((@state.origin.lat or @state.origin.useCurrentPosition and
+                              @state.geo.hasLocation) and
+        (@state.destination.lat or @state.destination.useCurrentPosition and
+                                   @state.geo.hasLocation))
       # First, we must blur input field because without this
       # Android keeps virtual keyboard open too long which
       # causes problems in next page rendering
       #@autoSuggestInput.blur()
 
+      geo_string = "Oma sijainti::#{@state.geo.lat},#{@state.geo.lon}"
+
+      if @state.origin.useCurrentPosition
+        from = geo_string
+      else
+        from = "#{@state.origin.address}::#{@state.origin.lat},#{@state.origin.lon}"
+
+      if @state.destination.useCurrentPosition
+        to = geo_string
+      else
+        to = "#{@state.destination.address}::#{@state.destination.lat},#{@state.destination.lon}"
+
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
       setTimeout(() =>
         @context.router.transitionTo "summary",
-          from: "#{@state.origin.address}::#{@state.origin.lat},#{@state.origin.lon}"
-          to: "#{@state.destination.address}::#{@state.destination.lat},#{@state.destination.lon}"
+          from: from
+          to: to
       ,0)
 
   render: =>
+    # We don't have state on the server, because we don't have a geolocation,
+    # so just render the input field
+    if @state.geo
+      geolocation_div =
+          <div className="input-placeholder">
+            <div className="address-box">
+            <span className="inline-block" onTouchTap={this.locateUser}>
+                <Icon img={'icon-icon_mapMarker-location'}/>
+            </span>
+            {if @state.geo.isLocationingInProgress
+               'Sijaintiasi etsitään'
+             else if @state.geo.hasLocation
+               'Oma sijainti'
+             else
+               'No location?!?'}
+            <span className="inline-block right cursor-pointer"
+                  onTouchTap={@removePosition}>
+              <Icon img={'icon-icon_close'} /></span>
+            </div>
+          </div>
+
     <div className="search-form">
       <div className="row">
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              <PlainSearch
-                onSelection={@selectOrigin}
-                placeholder="Lähtöpaikka"
-                clearSelection={@clearOrigin}
-                selection=@state.origin
-                />
+              {if @state.origin.useCurrentPosition
+                 geolocation_div
+               else
+                 <form onSubmit={@onSubmit}>
+                   <Autosuggest onSelection={@selectOrigin}
+                                placeholder="Lähtöpaikka"
+                                value=@state.origin.address
+                                />
+                 </form>
+              }
             </div>
             <div className="small-1 columns">
               <span className="postfix search cursor-pointer" onTouchTap={@onSwitch}>
@@ -124,12 +179,19 @@ class SearchTwoFields extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              <PlainSearch
-                onSelection={@selectDestination}
-                placeholder="Määränpää"
-                clearSelection={@clearDestination}
-                selection=@state.destination
-                />
+              {if @state.origin.useCurrentPosition and
+                  @state.geo.isLocationingInProgress
+                'Waiting for position'
+               else if @state.destination.useCurrentPosition
+                 geolocation_div
+               else
+                 <form onSubmit={@onSubmit}>
+                   <Autosuggest onSelection={@selectDestination}
+                                placeholder="Määränpää"
+                                value=@state.destination.address
+                                />
+                 </form>
+              }
             </div>
             <div className="small-1 columns">
               <span className="postfix search cursor-pointer"
