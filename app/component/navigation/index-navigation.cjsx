@@ -3,7 +3,7 @@ Link                  = require 'react-router/lib/components/Link'
 IndexTopNavigation    = require './index-top-navigation'
 IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
-DisruptionInfo        = require './disruption-info'
+DisruptionInfo        = require '../disruption/disruption-info-container'
 
 class IndexNavigation extends React.Component
   @contextTypes:
