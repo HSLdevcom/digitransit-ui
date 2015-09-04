@@ -3,7 +3,7 @@ Link                  = require 'react-router/lib/components/Link'
 IndexTopNavigation    = require './index-top-navigation'
 IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
-DisruptionInfo        = require '../disruption/disruption-info-container'
+DisruptionInfo        = require '../disruption/disruption-info'
 
 class IndexNavigation extends React.Component
   @contextTypes:
@@ -16,6 +16,18 @@ class IndexNavigation extends React.Component
       offcanvasVisible: false
       disruptionVisible: false
       text: if @context.getStore("TimeStore").status == "UNSET" then "Nyt" else "Myöhemmin"
+
+  componentDidMount: ->
+    @context.getStore('DisruptionStore').addChangeListener @onChange
+    @setState
+      disruptionData: @context.getStore('DisruptionStore').getData()
+
+  componentWillUnmount: ->
+    @context.getStore('DisruptionStore').removeChangeListener @onChange
+
+  onChange: =>
+    @setState
+      disruptionData: @context.getStore('DisruptionStore').getData()
 
   toggleSubnavigation: =>
     if @state.subNavigationVisible
@@ -42,7 +54,16 @@ class IndexNavigation extends React.Component
     @setState offcanvasVisible: !@state.offcanvasVisible
 
   toggleDisruptionInfo: =>
-    @setState disruptionVisible: !@state.disruptionVisible
+    if @isDisruptions()
+      @setState disruptionVisible: !@state.disruptionVisible
+
+  isDisruptions: ->
+    isDisruptions = false
+    if @state.disruptionData
+      if @state.disruptionData.entity.length > 0
+        isDisruptions = true
+    return isDisruptions
+
 
   render: ->
     <div>
@@ -50,7 +71,7 @@ class IndexNavigation extends React.Component
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
 
       <div className="grid-frame">
-        <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} subnavigationText={@state.text}/>
+        <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} isDisruptions={@isDisruptions()} subnavigationText={@state.text}/>
         <IndexSubNavigation visible={@state.subNavigationVisible}/>
         <section ref="content" className="content">
           {@props.children}

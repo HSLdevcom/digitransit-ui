@@ -20,6 +20,8 @@ $modal-zindex: 1100;
   }
   h2 {
     float:left;
+    color: $primary-color;
+    font-weight: $font-weight-normal;
   }
   .modal-wrapper  {
     height: 100%;
@@ -68,10 +70,7 @@ $modal-zindex: 1100;
   margin: 5px 0;
   border-radius: $border-radius;
 
-  h2 {
-    color: $primary-color;
-    font-weight: $font-weight-normal;
-  }
+
   .vehicle-number  {
     position:relative;
     &:before {
@@ -84,6 +83,7 @@ $modal-zindex: 1100;
     }
   }
 }
+
 
 .transport.disruption {
   background-color: rgba($disruption-color-rgb, 0.5) !important;
