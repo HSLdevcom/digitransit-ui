@@ -3,9 +3,7 @@ import Relay from 'react-relay';
 var StopQueries = {
   stop: (Component) => Relay.QL`
     query  {
-      stop(id: $stopId) {
-        ${Component.getFragment('stop')},
-      },
+      stop(id: $stopId)
     }
   `,
 };
@@ -13,9 +11,7 @@ var StopQueries = {
 var RouteQueries = {
   route: (Component) => Relay.QL`
     query {
-      pattern(id: $routeId){
-        ${Component.getFragment('route')}
-      }
+      pattern(id: $routeId)
     }
   `,
 };
