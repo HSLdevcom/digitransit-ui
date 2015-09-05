@@ -3,14 +3,6 @@ Icon  = require '../icon/icon'
 
 
 class DisruptionRow extends React.Component
-  @propTypes:
-    mode: React.PropTypes.string
-    line: React.PropTypes.string
-    startTime: React.PropTypes.obj
-    endTime: React.PropTypes.obj
-    description: React.PropTypes.string
-    cause: React.PropTypes.string
-
   render: ->
     <div className='row'>
       <section className='grid-content'>

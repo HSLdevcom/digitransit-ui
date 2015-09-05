@@ -5,9 +5,6 @@ GtfsUtils       = require '../../util/gtfs'
 
 
 class DisruptionRowContainer extends React.Component
-  @propTypes:
-    disruption: React.PropTypes.obj
-
   getLineText: (lineList)  ->
     lineRouteList = []
     for lineData, i in lineList
