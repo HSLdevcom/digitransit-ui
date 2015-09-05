@@ -1,7 +1,7 @@
 React                 = require 'react'
 Link                  = require 'react-router/lib/components/Link'
 Icon                  = require '../icon/icon'
-OffcanvasCustomize    = require './offcanvas-customize'
+OffcanvasCustomize    = require '../customize/offcanvas-customize'
 BackButton            = require './back-button'
 TimeSelectors         = require './time-selectors'
 
