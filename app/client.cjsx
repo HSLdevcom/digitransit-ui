@@ -7,6 +7,7 @@ ReactRouterRelay  = require 'react-router-relay'
 History           = require('react-router/lib/BrowserHistory').history
 FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
 isEqual           = require 'lodash/lang/isEqual'
+config            = require './config'
 
 app               = require './app'
 
@@ -19,7 +20,7 @@ require.include 'leaflet' # Force into main bundle.js
 window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 
 Relay.injectNetworkLayer(
-  new Relay.DefaultNetworkLayer('http://matka.hsl.fi/otp/routers/default/index/graphql')
+  new Relay.DefaultNetworkLayer("#{config.URL.OTP}index/graphql")
 );
 
 #injectTapEventPlugin = require "react-tap-event-plugin"
