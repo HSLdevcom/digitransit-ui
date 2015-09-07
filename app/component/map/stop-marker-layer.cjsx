@@ -42,6 +42,8 @@ class StopMarkerLayer extends React.Component
     stops = []
     renderedNames = []
     @props.stopsInRectangle.stopsByBbox.forEach (stop) =>
+      if stop.routes.length == 0
+        return
       modeClass = stop.routes[0].type.toLowerCase()
       selected = @props.hilightedStops and stop.gtfsId in @props.hilightedStops
       # This is copied to route-line.cjsx. Remember to change both at the same time
