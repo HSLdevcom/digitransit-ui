@@ -1,6 +1,5 @@
 # Libraries
 React        = require 'react'
-Router       = require 'react-router'
 
 # React Pages
 IndexPage     = require './page/index'
@@ -8,39 +7,33 @@ ItineraryPage = require './page/itinerary'
 MapPage       = require './page/map'
 NavigationPage = require './page/navigation'
 RoutePage     = require './page/route'
-StopPage      = require './page/stop'
 StopMapPage   = require './page/stop-map'
+StopPage      = require './page/stop'
 SummaryPage   = require './page/summary'
 Error404      = require './page/404'
 
-# Reittiopas application
-Route = Router.Route;
-NotFoundRoute = Router.NotFoundRoute;
-DefaultRoute = Router.DefaultRoute;
-RouteHandler = Router.RouteHandler
+# Queriesd
+queries = require('./queries')
 
-App = React.createClass
-  render: ->
-    <RouteHandler/>
+# Reittiopas application
+Route = require('react-router/lib/Route').Route
 
 ROOT_PATH = if process?.env.ROOT_PATH != undefined then process.env.ROOT_PATH else '/'
 
 # Routes
 routes =
-  <Route name="app" path={ROOT_PATH} handler={App}>
-    <Route path="kartta" name="map" handler={MapPage}/>
-    <Route path="pysakit" name="stopList" handler={Error404}/>
-    <Route path="pysakit/:stopId" name="stop" handler={StopPage}/>
-    <Route path="pysakit/:stopId/kartta" name="stopMap" handler={StopMapPage}/>
-    <Route path="pysakit/:stopId/info" name="stopInfo" handler={Error404}/>
-    <Route path="linjat" name="routeList" handler={Error404}/>
-    <Route path="linjat/:routeId" name="route" handler={RoutePage}/>
-    <Route path="lahdot/:tripId" name="trip" handler={Error404}/>
-    <Route path="reitti/:from/:to" name="summary" handler={SummaryPage}/>
-    <Route path="reitti/:from/:to/:hash" name="itinerary" handler={ItineraryPage}/>
-    <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" handler={NavigationPage}/>
-    <DefaultRoute name="index" handler={IndexPage}/>
-    <NotFoundRoute name="404" handler={Error404}/>
+  <Route path={ROOT_PATH} name="app" indexRoute={component: IndexPage}>
+    <Route path="kartta" name="map" component={MapPage}/>
+    <Route path="pysakit" name="stopList" component={Error404}/>
+    <Route path="pysakit/:stopId" name="stop" component={StopPage} queries={queries.StopQueries}/>
+    <Route path="pysakit/:stopId/kartta" name="stopMap" component={StopMapPage} queries={queries.StopQueries}/>
+    <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404}/>
+    <Route path="linjat" name="routeList" component={Error404}/>
+    <Route path="linjat/:routeId" name="route" component={RoutePage} queries={queries.RouteQueries}/>
+    <Route path="lahdot/:tripId" name="trip" component={Error404}/>
+    <Route path="reitti/:from/:to" name="summary" component={SummaryPage}/>
+    <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
+    <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={NavigationPage}/>
   </Route>
 
 module.exports = routes

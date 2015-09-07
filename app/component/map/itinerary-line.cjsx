@@ -1,4 +1,5 @@
 React              = require 'react'
+ReactDOM           = require 'react-dom/server'
 isBrowser          = window?
 Polyline           = if isBrowser then require 'react-leaflet/lib/Polyline' else null
 CircleMarker       = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
@@ -10,8 +11,8 @@ polyUtil           = require 'polyline-encoded'
 
 class ItineraryLine extends React.Component
 
-  @fromIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'from', iconAnchor: [12,24]) else null
-  @toIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'to', iconAnchor: [12,24]) else null
+  @fromIcon: if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'from', iconAnchor: [12,24]) else null
+  @toIcon: if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'to', iconAnchor: [12,24]) else null
 
   render: ->
     objs = []
@@ -47,7 +48,7 @@ class ItineraryLine extends React.Component
                            key={i + "_text"}
                            position={lat: leg.from.lat, lng: leg.from.lon}
                            icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},leg.from.name)), className: 'stop-name-marker ' + modeClass, iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
-                           clickable={false}/>
+                           interactive={false}/>
 
     <div style={{display: "none"}}>{objs}</div>
 

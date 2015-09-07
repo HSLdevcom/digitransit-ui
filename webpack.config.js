@@ -20,11 +20,11 @@ function getLoadersConfig(env) {
           'sass?includePaths[]=' + (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default'))
         ]
       },
-      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'}
+      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
+      { test: /app\/queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
     ])
   } else {
     return([
-      //{ test: /\/app\/page\/.*\.cjsx$/, loader: 'react-router-proxy' },
       { test: /\.css$/, loader: ExtractTextPlugin.extract("style", "css!postcss")},
       { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },
@@ -34,7 +34,8 @@ function getLoadersConfig(env) {
         loader: ExtractTextPlugin.extract("style", 'css!postcss!sass?includePaths[]=' +
           (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default')))
       },
-      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'}
+      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
+      { test: /app\/queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
     ])
   }
 }
@@ -123,7 +124,12 @@ module.exports = {
     net: "empty",
     tls: "empty"
   },
-  externals: {"es6-promise": "var Promise"},
+  externals: {
+    "es6-promise": "var Promise",
+    "fetch": "var fetch",
+    "fbjs/lib/fetch": "var fetch",
+    "./fetch": "var fetch",
+  },
   worker: {
     output: {
       filename: 'js/[hash].worker.js',

@@ -93,6 +93,9 @@ div.route-tabs {
 
 div.route-stop-list {
   font-family: $font-family-narrow;
+  .route-stop.row {
+    padding-bottom: 4px;
+  }
   .route-stop-now {
     min-height: 1px; //Prevent columns from collapsing
   }
@@ -100,6 +103,7 @@ div.route-stop-list {
     margin-left: -1em;
     padding-left: 1em;
     min-height: 1px;
+    line-height: 1.2;
     font-weight: $font-weight-bold;
     &::before {
       content: "";
@@ -133,7 +137,7 @@ div.route-stop-list {
     }
   }
   .route-stop-address {
-    font-size: 10pt;
+    font-size: 11pt;
     font-weight: $font-weight-light;
     color: $gray;
   }

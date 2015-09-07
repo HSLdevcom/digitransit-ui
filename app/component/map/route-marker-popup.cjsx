@@ -1,51 +1,56 @@
 React                 = require 'react'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
 RouteHeader           = require '../route/route-header'
 Icon                  = require '../icon/icon.cjsx'
-Link                  = require 'react-router/lib/components/Link'
-FavouriteStopsAction  = require '../../action/favourite-stops-action'
-GtfsUtils             = require '../../util/gtfs'
+Link                  = require('react-router/lib/Link').Link
 FavouriteRoutesActions = require '../../action/favourite-routes-action'
 
 
 class RouteMarkerPopup extends React.Component
   @childContextTypes:
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.object.isRequired
 
   getChildContext: () ->
     router: @props.context.router
 
   componentDidMount: ->
-    @props.context.getStore('RouteInformationStore').addChangeListener @onChange
     @props.context.getStore('FavouriteRoutesStore').addChangeListener @onChange
 
   componentWillUnmount: ->
-    @props.context.getStore('RouteInformationStore').removeChangeListener @onChange
     @props.context.getStore('FavouriteRoutesStore').addChangeListener @onChange
 
   onChange: (id) =>
-    if !id or id.split(':',2).join(':') == @props.message.route or id == @props.message.route
+    if !id or id == @props.trip.route.gtfsId
       @forceUpdate()
 
   addFavouriteRoute: (e) =>
     e.stopPropagation()
-    @props.context.executeAction FavouriteRoutesActions.addFavouriteRoute, @props.message.route
+    @props.context.executeAction FavouriteRoutesActions.addFavouriteRoute, @props.trip.route.gtfsId
 
   render: ->
     <div className="trip-card popup">
       <RouteHeader
-        route={@props.context.getStore('RouteInformationStore').getRoute(@props.message.route)}
-        pattern={@props.context.getStore('RouteInformationStore').getPattern(@props.message.trip.pattern.id)}
+        route={@props.trip.route}
+        pattern={@props.trip.fuzzyTrip.pattern}
         trip={@props.message.tripStartTime}
-        favourite={@props.context.getStore('FavouriteRoutesStore').isFavourite(@props.message.route)}
+        favourite={@props.context.getStore('FavouriteRoutesStore').isFavourite(@props.trip.route.gtfsId)}
         addFavouriteRoute={@addFavouriteRoute}/>
       <div className="bottom location">
-        <Link to="trip" params={{tripId: @props.message.trip.id}}>
+        <Link to="#{process.env.ROOT_PATH}lahdot/#{@props.trip.fuzzyTrip.gtfsId}">
           <Icon img={'icon-icon_time'}> Lähdön tiedot</Icon></Link>
         <br/>
-        <Link to="route" params={{routeId: @props.message.trip.pattern.id}} className="route">
+        <Link to="#{process.env.ROOT_PATH}linjat/#{@props.trip.fuzzyTrip.pattern.code}" className="route">
           <Icon img={'icon-icon_' + @props.message.mode + "-withoutBox"}> Linjan tiedot</Icon>
         </Link>
       </div>
     </div>
 
-module.exports = RouteMarkerPopup
+module.exports = Relay.createContainer(RouteMarkerPopup,
+  fragments: queries.RouteMarkerPopupFragments
+  initialVariables:
+    route: null
+    direction: null
+    date: null
+    time: null
+)

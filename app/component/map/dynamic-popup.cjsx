@@ -1,4 +1,5 @@
 React = require 'react'
+ReactDom = require 'react-dom'
 Leaflet = require 'leaflet'
 
 class DynamicPopup extends React.Component
@@ -33,7 +34,7 @@ class DynamicPopup extends React.Component
         if !this._container
           @_initLayout()
         # Inject our React component
-        React.render @_reactPopup, @_contentNode
+        ReactDom.render @_reactPopup, @_contentNode
         # now call "super" method
         L.Popup.prototype.onAdd.call @, map
     return new PopupClass()

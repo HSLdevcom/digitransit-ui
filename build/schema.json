@@ -1,0 +1,2854 @@
+{
+    "__schema": {
+        "queryType": {
+            "name": "QueryType"
+        },
+        "mutationType": null,
+        "types": [{
+            "kind": "OBJECT",
+            "name": "QueryType",
+            "description": null,
+            "fields": [{
+                "name": "node",
+                "description": "Fetches an object given its ID",
+                "args": [{
+                    "name": "id",
+                    "description": "The ID of an object",
+                    "type": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "SCALAR",
+                            "name": "ID",
+                            "ofType": null
+                        }
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "INTERFACE",
+                    "name": "Node",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "agencies",
+                "description": "Get all agencies for the specified graph",
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Agency",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "agency",
+                "description": "Get a single agency based on agency ID",
+                "args": [{
+                    "name": "id",
+                    "description": null,
+                    "type": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        }
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Agency",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stops",
+                "description": "Get all stops for the specified graph",
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Stop",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stopsByBbox",
+                "description": "Get all stops within the specified bounding box",
+                "args": [{
+                    "name": "minLat",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "minLon",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "maxLat",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "maxLon",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "agency",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Stop",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stopsByRadius",
+                "description": "Get all stops within the specified radius from a location. The returned type has two fields stop and distance",
+                "args": [{
+                    "name": "lat",
+                    "description": "Latitude of the location",
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "lon",
+                    "description": "Longitude of the location",
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "radius",
+                    "description": "Radius (in meters) to search for from the specidied location",
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "agency",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "before",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "after",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "first",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "last",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "stopAtDistanceConnection",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stop",
+                "description": "Get a single stop based on its id (format is Agency:StopId)",
+                "args": [{
+                    "name": "id",
+                    "description": null,
+                    "type": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        }
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Stop",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "routes",
+                "description": "Get all routes for the specified graph",
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Route",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "route",
+                "description": "Get a single route based on its id (format is Agency:RouteId)",
+                "args": [{
+                    "name": "id",
+                    "description": null,
+                    "type": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        }
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Route",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "trips",
+                "description": "Get all trips for the specified graph",
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Trip",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "trip",
+                "description": "Get a single trip based on its id (format is Agency:TripId)",
+                "args": [{
+                    "name": "id",
+                    "description": null,
+                    "type": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        }
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Trip",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "fuzzyTrip",
+                "description": null,
+                "args": [{
+                    "name": "route",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "direction",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "date",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }, {
+                    "name": "time",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Trip",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "patterns",
+                "description": "Get all patterns for the specified graph",
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Pattern",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "pattern",
+                "description": "Get a single pattern based on its id",
+                "args": [{
+                    "name": "id",
+                    "description": null,
+                    "type": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        }
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Pattern",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "clusters",
+                "description": "Get all clusters for the specified graph",
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Cluster",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "cluster",
+                "description": "Get a single cluster based on its id",
+                "args": [{
+                    "name": "id",
+                    "description": null,
+                    "type": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        }
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Cluster",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "viewer",
+                "description": "Needed until https://github.com/facebook/relay/issues/112 is resolved",
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "QueryType",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "INTERFACE",
+            "name": "Node",
+            "description": "An object with an ID",
+            "fields": [{
+                "name": "id",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "ID",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": null,
+            "possibleTypes": [{
+                "kind": "OBJECT",
+                "name": "Agency",
+                "ofType": null
+            }, {
+                "kind": "OBJECT",
+                "name": "Route",
+                "ofType": null
+            }, {
+                "kind": "OBJECT",
+                "name": "Pattern",
+                "ofType": null
+            }, {
+                "kind": "OBJECT",
+                "name": "Trip",
+                "ofType": null
+            }, {
+                "kind": "OBJECT",
+                "name": "Stop",
+                "ofType": null
+            }, {
+                "kind": "OBJECT",
+                "name": "Cluster",
+                "ofType": null
+            }]
+        }, {
+            "kind": "SCALAR",
+            "name": "ID",
+            "description": "Built-in ID",
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "Agency",
+            "description": "Agency in the graph",
+            "fields": [{
+                "name": "id",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "ID",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "gtfsId",
+                "description": "Agency id",
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "name",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "url",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "timezone",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "lang",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "phone",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "fareUrl",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "routes",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Route",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [{
+                "kind": "INTERFACE",
+                "name": "Node",
+                "ofType": null
+            }],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "SCALAR",
+            "name": "String",
+            "description": "Built-in String",
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "Route",
+            "description": null,
+            "fields": [{
+                "name": "id",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "ID",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "gtfsId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "agency",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Agency",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "shortName",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "longName",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "type",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "desc",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "url",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "color",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "textColor",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "bikesAllowed",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "ENUM",
+                    "name": "BikesAllowed",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "patterns",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Pattern",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stops",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Stop",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "trips",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Trip",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [{
+                "kind": "INTERFACE",
+                "name": "Node",
+                "ofType": null
+            }],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "ENUM",
+            "name": "BikesAllowed",
+            "description": null,
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": [{
+                "name": "NO_INFORMATION",
+                "description": "There is no bike information for the trip.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "ALLOWED",
+                "description": "The vehicle being used on this particular trip can accommodate at least one bicycle.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "NOT_ALLOWED",
+                "description": "No bicycles are allowed on this trip.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "Pattern",
+            "description": null,
+            "fields": [{
+                "name": "id",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "ID",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "route",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Route",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "directionId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "name",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "code",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "headsign",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "trips",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "OBJECT",
+                            "name": "Trip",
+                            "ofType": null
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stops",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "OBJECT",
+                            "name": "Stop",
+                            "ofType": null
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "geometry",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "coordinates",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "semanticHash",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [{
+                "kind": "INTERFACE",
+                "name": "Node",
+                "ofType": null
+            }],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "SCALAR",
+            "name": "Int",
+            "description": "Built-in Int",
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "Trip",
+            "description": null,
+            "fields": [{
+                "name": "id",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "ID",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "gtfsId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "route",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Route",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "serviceId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "tripShortName",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "tripHeadsign",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "routeShortName",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "directionId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "blockId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "shapeId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "wheelchairAccessible",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "ENUM",
+                    "name": "WheelchairBoarding",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "bikesAllowed",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "ENUM",
+                    "name": "BikesAllowed",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "pattern",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Pattern",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stops",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "LIST",
+                        "name": null,
+                        "ofType": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stop"
+                            }
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "semanticHash",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "LIST",
+                        "name": null,
+                        "ofType": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stop"
+                            }
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stoptimes",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Stoptime",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "geometry",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [{
+                "kind": "INTERFACE",
+                "name": "Node",
+                "ofType": null
+            }],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "ENUM",
+            "name": "WheelchairBoarding",
+            "description": null,
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": [{
+                "name": "NO_INFORMATION",
+                "description": "There is no accessibility information for the stop.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "POSSIBLE",
+                "description": "At least some vehicles at this stop can be boarded by a rider in a wheelchair.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "NOT_POSSIBLE",
+                "description": "Wheelchair boarding is not possible at this stop.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "Stop",
+            "description": null,
+            "fields": [{
+                "name": "id",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "ID",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "gtfsId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "name",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "lat",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "lon",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "code",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "desc",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "zoneId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "url",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "locationType",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "ENUM",
+                    "name": "LocationType",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "parentStation",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Stop",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "wheelchairBoarding",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "ENUM",
+                    "name": "WheelchairBoarding",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "direction",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "timezone",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "vehicleType",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "platformCode",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "cluster",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Cluster",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "routes",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "OBJECT",
+                            "name": "Route",
+                            "ofType": null
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "patterns",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Pattern",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "transfers",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "stopAtDistance",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stoptimesForServiceDate",
+                "description": null,
+                "args": [{
+                    "name": "date",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": null
+                }],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "StoptimesInPattern",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stoptimesForPatterns",
+                "description": null,
+                "args": [{
+                    "name": "startTime",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": "0"
+                }, {
+                    "name": "timeRange",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                    },
+                    "defaultValue": "86400"
+                }, {
+                    "name": "numberOfDepartures",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                    },
+                    "defaultValue": "5"
+                }],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "StoptimesInPattern",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stoptimesWithoutPatterns",
+                "description": null,
+                "args": [{
+                    "name": "startTime",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    },
+                    "defaultValue": "0"
+                }, {
+                    "name": "timeRange",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                    },
+                    "defaultValue": "86400"
+                }, {
+                    "name": "numberOfDepartures",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Int",
+                        "ofType": null
+                    },
+                    "defaultValue": "5"
+                }],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Stoptime",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [{
+                "kind": "INTERFACE",
+                "name": "Node",
+                "ofType": null
+            }],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "SCALAR",
+            "name": "Float",
+            "description": "Built-in Float",
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "ENUM",
+            "name": "LocationType",
+            "description": "Identifies whether this stop represents a stop or station.",
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": [{
+                "name": "STOP",
+                "description": "A location where passengers board or disembark from a transit vehicle.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "STATION",
+                "description": "A physical structure or area that contains one or more stop.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "ENTRANCE",
+                "description": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "Cluster",
+            "description": null,
+            "fields": [{
+                "name": "id",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "ID",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "gtfsId",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "name",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "lat",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "lon",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Float",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stops",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "OBJECT",
+                            "name": "Stop",
+                            "ofType": null
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [{
+                "kind": "INTERFACE",
+                "name": "Node",
+                "ofType": null
+            }],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "stopAtDistance",
+            "description": null,
+            "fields": [{
+                "name": "stop",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Stop",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "distance",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Float",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "StoptimesInPattern",
+            "description": null,
+            "fields": [{
+                "name": "pattern",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Pattern",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "stoptimes",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "Stoptime",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "Stoptime",
+            "description": null,
+            "fields": [{
+                "name": "stop",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Stop",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "scheduledArrival",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "realtimeArrival",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "arrivalDelay",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "scheduledDeparture",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "realtimeDeparture",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "departureDelay",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "timepoint",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "realtime",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "serviceDay",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Long",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "trip",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "Trip",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "description": "Built-in Boolean",
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "SCALAR",
+            "name": "Long",
+            "description": "Long type",
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "coordinates",
+            "description": null,
+            "fields": [{
+                "name": "lat",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Float",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "lon",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Float",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "stopAtDistanceConnection",
+            "description": "A connection to a list of items.",
+            "fields": [{
+                "name": "edges",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "stopAtDistanceEdge",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "pageInfo",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "PageInfo",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "stopAtDistanceEdge",
+            "description": "An edge in a connection.",
+            "fields": [{
+                "name": "node",
+                "description": "The item at the end of the edge",
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "stopAtDistance",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "cursor",
+                "description": "",
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "PageInfo",
+            "description": "Information about pagination in a connection.",
+            "fields": [{
+                "name": "hasNextPage",
+                "description": "When paginating forwards, are there more items?",
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Boolean",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "hasPreviousPage",
+                "description": "When paginating backwards, are there more items?",
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Boolean",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "startCursor",
+                "description": "When paginating backwards, the cursor to continue.",
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "endCursor",
+                "description": "When paginating forwards, the cursor to continue.",
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "__Schema",
+            "description": "A GraphQL Introspection defines the capabilities of a GraphQL server. It exposes all available types and directives on 'the server, as well as the entry points for query and  'mutation operations.",
+            "fields": [{
+                "name": "types",
+                "description": "A list of all types supported by this server.",
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "LIST",
+                        "name": null,
+                        "ofType": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "__Type"
+                            }
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "queryType",
+                "description": "The type that query operations will be rooted at.",
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "__Type",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "mutationType",
+                "description": "If this server supports mutation, the type that mutation operations will be rooted at.",
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "__Type",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "directives",
+                "description": "'A list of all directives supported by this server.",
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "LIST",
+                        "name": null,
+                        "ofType": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "__Directive"
+                            }
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "__Type",
+            "description": null,
+            "fields": [{
+                "name": "kind",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "ENUM",
+                        "name": "__TypeKind",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "name",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "description",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "fields",
+                "description": null,
+                "args": [{
+                    "name": "includeDeprecated",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Boolean",
+                        "ofType": null
+                    },
+                    "defaultValue": "false"
+                }],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "OBJECT",
+                            "name": "__Field",
+                            "ofType": null
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "interfaces",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "OBJECT",
+                            "name": "__Type",
+                            "ofType": null
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "possibleTypes",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "OBJECT",
+                            "name": "__Type",
+                            "ofType": null
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "enumValues",
+                "description": null,
+                "args": [{
+                    "name": "includeDeprecated",
+                    "description": null,
+                    "type": {
+                        "kind": "SCALAR",
+                        "name": "Boolean",
+                        "ofType": null
+                    },
+                    "defaultValue": "false"
+                }],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "OBJECT",
+                            "name": "__EnumValue",
+                            "ofType": null
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "inputFields",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                            "kind": "OBJECT",
+                            "name": "__InputValue",
+                            "ofType": null
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "ofType",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "OBJECT",
+                    "name": "__Type",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "ENUM",
+            "name": "__TypeKind",
+            "description": "An enum describing what kind of type a given __Type is",
+            "fields": null,
+            "inputFields": null,
+            "interfaces": null,
+            "enumValues": [{
+                "name": "SCALAR",
+                "description": "Indicates this type is a scalar.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "OBJECT",
+                "description": "Indicates this type is an object. `fields` and `interfaces` are valid fields.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "INTERFACE",
+                "description": "Indicates this type is an interface. `fields` and `possibleTypes` are valid fields.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "UNION",
+                "description": "Indicates this type is a union. `possibleTypes` is a valid field.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "ENUM",
+                "description": "Indicates this type is an enum. `enumValues` is a valid field.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "INPUT_OBJECT",
+                "description": "Indicates this type is an input object. `inputFields` is a valid field.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "LIST",
+                "description": "Indicates this type is a list. `ofType` is a valid field.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "NON_NULL",
+                "description": "Indicates this type is a non-null. `ofType` is a valid field.",
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "__Field",
+            "description": null,
+            "fields": [{
+                "name": "name",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "description",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "args",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "LIST",
+                        "name": null,
+                        "ofType": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "__InputValue"
+                            }
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "type",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "__Type",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "isDeprecated",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Boolean",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "deprecationReason",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "__InputValue",
+            "description": null,
+            "fields": [{
+                "name": "name",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "description",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "type",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "OBJECT",
+                        "name": "__Type",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "defaultValue",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "__EnumValue",
+            "description": null,
+            "fields": [{
+                "name": "name",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "String",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "description",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "isDeprecated",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Boolean",
+                        "ofType": null
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "deprecationReason",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }, {
+            "kind": "OBJECT",
+            "name": "__Directive",
+            "description": null,
+            "fields": [{
+                "name": "name",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "description",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "args",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "LIST",
+                        "name": null,
+                        "ofType": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "__InputValue"
+                            }
+                        }
+                    }
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "onOperation",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "onFragment",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }, {
+                "name": "onField",
+                "description": null,
+                "args": [],
+                "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                },
+                "isDeprecated": false,
+                "deprecationReason": null
+            }],
+            "inputFields": null,
+            "interfaces": [],
+            "enumValues": null,
+            "possibleTypes": null
+        }],
+        "directives": [{
+            "name": "include",
+            "description": "Directs the executor to include this field or fragment only when the `if` argument is true",
+            "args": [{
+                "name": "if",
+                "description": "Included when true.",
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Boolean",
+                        "ofType": null
+                    }
+                },
+                "defaultValue": null
+            }],
+            "onOperation": false,
+            "onFragment": true,
+            "onField": true
+        }, {
+            "name": "skip",
+            "description": "Directs the executor to skip this field or fragment when the `if`'argument is true.",
+            "args": [{
+                "name": "skip",
+                "description": "Skipped when true.",
+                "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Boolean",
+                        "ofType": null
+                    }
+                },
+                "defaultValue": null
+            }],
+            "onOperation": false,
+            "onFragment": true,
+            "onField": true
+        }]
+    }
+}

@@ -15,13 +15,13 @@ module.exports = React.createClass({
 
     initializeMasonry: function(force) {
         if (!this.masonry || force) {
-            this.masonry = new Masonry(this.refs[this.reference].getDOMNode(), this.options);
+            this.masonry = new Masonry(this.refs[this.reference], this.options);
             this.domChildren = this.getNewDomChildren();
         }
     },
 
     getNewDomChildren: function () {
-        var node = this.refs[this.reference].getDOMNode();
+        var node = this.refs[this.reference];
         var children = this.options.itemSelector ? node.querySelectorAll(this.options.itemSelector) : node.children;
 
         return Array.prototype.slice.call(children);

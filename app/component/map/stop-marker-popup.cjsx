@@ -1,31 +1,23 @@
 React                 = require 'react'
 StopCardHeader        = require '../stop-cards/stop-card-header'
 Icon                  = require '../icon/icon.cjsx'
-Link                  = require 'react-router/lib/components/Link'
+Link                  = require('react-router/lib/Link').Link
 RouteList             = require '../stop-cards/route-list'
 FavouriteStopsAction  = require '../../action/favourite-stops-action'
 
-
-# Should be extracted into a separate container class
-StopInformationAction = require '../../action/stop-departures-action'
-
-
 class StopMarkerPopup extends React.Component
   @childContextTypes:
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.object.isRequired
+    route: React.PropTypes.object.isRequired
 
   getChildContext: () ->
     router: @props.context.router
+    route: @props.context.route
 
   componentDidMount: ->
-    @props.context.getStore('StopInformationStore').addChangeListener @onChange
-    @props.context.getStore('NearestStopsStore').addChangeListener @onChange
     @props.context.getStore('FavouriteStopsStore').addChangeListener @onChange
-    @props.context.executeAction StopInformationAction.stopRoutesRequest, @props.stop.id
 
   componentWillUnmount: ->
-    @props.context.getStore('StopInformationStore').removeChangeListener @onChange
-    @props.context.getStore('NearestStopsStore').removeChangeListener @onChange
     @props.context.getStore('FavouriteStopsStore').addChangeListener @onChange
 
   onChange: (id) =>
@@ -35,16 +27,18 @@ class StopMarkerPopup extends React.Component
   render: ->
     favourite = @props.context.getStore('FavouriteStopsStore').isFavourite(@props.stop.id)
     addFavouriteStop = (e) =>
-      console.log e
       e.stopPropagation()
       @props.context.executeAction FavouriteStopsAction.addFavouriteStop, @props.stop.id
 
     <div className="stop-card popup">
-      <StopCardHeader stop={@props.stop} favourite={favourite} addFavouriteStop={addFavouriteStop} dist={@props.context.getStore('NearestStopsStore').getDistance(@props.stop.id)}/>
-      <RouteList ref="routeList" routes={@props.context.getStore('StopInformationStore').getRoutes(@props.stop.id)}/>
+      <StopCardHeader stop={@props.stop} favourite={favourite} addFavouriteStop={addFavouriteStop}/>
+      <RouteList ref="routeList" routes={@props.stop.routes}/>
       <div className="bottom location">
-        <Link to="stop" params={{stopId: @props.stop.id}}><Icon img={'icon-icon_time'}> Näytä lähdöt</Icon></Link><br/>
-        <Link to="summary" params={{to: "#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}", from: @props.context.getStore('LocationStore').getLocationString()}} className="route"><Icon img={'icon-icon_route'}> Reititä tänne</Icon></Link>
+        <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}> Näytä lähdöt</Icon></Link><br/>
+        <Link to="#{process.env.ROOT_PATH}reitti/#{@props.context.getStore('LocationStore').getLocationString()}/#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}" className="route">
+          <Icon img={'icon-icon_route'}> Reititä tänne
+          </Icon>
+        </Link>
       </div>
     </div>
 

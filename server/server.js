@@ -4,14 +4,18 @@ var bodyParser = require('body-parser')
 var fs = require('fs')
 var path = require('path')
 var React = require('react')
-var Router = require('react-router')
+var ReactDOM = require('react-dom/server')
+var Router = require('react-router/lib/Router')
 var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
+var Location = require('react-router/lib/Location');
 var serialize = require('serialize-javascript');
 var polyfillService = require('polyfill-service');
-require('node-cjsx').transform()
+require('node-cjsx').transform();
+require("babel/register")({stage: 0});
 
 /********** Polyfill **********/
 global.fetch = require('node-fetch');
+global.self = {fetch: global.fetch};
 
 /********** Global **********/
 var port = process.env.PORT || 8080
@@ -54,29 +58,39 @@ function setUpMiddleware() {
 function setUpRoutes() {
   app.use(function (req, res, next) { // pass in `req.url` and the router will immediately match
     var context = application.createContext()
-    Router.run(application.getComponent(), req.url, function (Handler, state) {
+    var location = new Location(req.path, req.query);
+    Router.run(application.getComponent(), location, function (error, initialState, transition) {
       render = function() {
-        var content = React.renderToString(
-          React.createElement(
-            FluxibleComponent,
-            { context: context.getComponentContext() },
-            React.createFactory(Handler)()
-          )
-        )
-
+        var content = "";
+        if (!initialState.components[1].getQuery) {// Ugly way to see if this is a Relay RootComponent
+          content = ReactDOM.renderToString(
+            React.createElement(
+              FluxibleComponent,
+              { context: context.getComponentContext() },
+              React.createElement(
+                Router,
+                { location: initialState.location,
+                  branch: initialState.branch,
+                  components: initialState.components,
+                  params: initialState.params }
+              )
+            )
+          );
+        };
         var polyfillContent = polyfillService.getPolyfillString({
           uaString: req.headers['user-agent'],
           features: {
             'Function.prototype.bind': {flags: ['gated']},
             'matchMedia': {flags: ['gated']},
             'fetch': {flags: ['always', 'gated']}, // 'always' for ie_mob
-            'Promise': {flags: ['gated']}
+            'Promise': {flags: ['gated']},
+            'String.prototype.repeat': {flags: ['gated']},
           },
           minify: true,
           unknown: 'polyfill'
         });
 
-        var html = React.renderToString(
+        var html = ReactDOM.renderToStaticMarkup(
           React.createElement(
             applicationHtml,
             {
@@ -92,13 +106,18 @@ function setUpRoutes() {
 
         res.send('<!doctype html>' + html);
       }
-      if (state.routes[1].isNotFound) {
-        res.status(404)
+      if (!initialState) {
+        res.status(404).send("Not found!");
       }
-      if (state.routes[state.routes.length -1].handler.loadAction) {
-        context.getActionContext().executeAction(state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}).then(render)
-      } else {
-        render()
+      else {
+        if (initialState.components[initialState.components.length-1] &&
+          initialState.components[initialState.components.length-1].loadAction) {
+            context.getActionContext().executeAction(
+              initialState.components[initialState.components.length-1].loadAction,
+              {params:initialState.params, query:initialState.location.query}).then(render)
+        } else {
+          render()
+        }
       }
     })
   })

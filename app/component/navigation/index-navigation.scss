@@ -44,6 +44,10 @@ $top-navigation-switch-font-size: 9pt;
 $top-navigation-switch-width: 70px;
 $top-navigation-switch-border-radius: 30px;
 
+.fixed {
+  z-index: 1003 !important; // Needed for leaflet
+}
+
 nav.top-bar {
   text-align: center;
 

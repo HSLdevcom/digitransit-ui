@@ -126,3 +126,7 @@ $search-form-transparency: $transparency;
   left: 47%;
   z-index: 1;
 }
+
+.search-form-map-overlay {
+  z-index: 802;
+}

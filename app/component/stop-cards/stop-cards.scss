@@ -44,6 +44,7 @@ $stop-card-show-more-border-radius: 30px;
   padding: 0.7em 1em;
   background-color: $stop-card-background-color;
   position: relative;
+  z-index: 802;
 }
 
 .stop-card-header.stop-page h3 {

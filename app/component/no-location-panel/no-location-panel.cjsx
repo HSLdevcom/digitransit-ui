@@ -13,7 +13,7 @@ class NoLocationPanel extends React.Component
         Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.
       </p>
 
-      <p className="locate-yourself" onTouchTap={this.locateUser}>
+      <p className="locate-yourself" onClick={this.locateUser}>
         <Icon img={'icon-icon_mapMarker-location'}/> <span className="link">Paikanna itsesi</span>
       </p>
 

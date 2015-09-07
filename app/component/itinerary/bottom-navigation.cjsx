@@ -1,6 +1,6 @@
 React = require 'react'
 Icon  = require '../icon/icon'
-Link  = require 'react-router/lib/components/Link'
+Link  = require('react-router/lib/Link').Link
 
 
 class BottomNavigation extends React.Component
@@ -14,7 +14,7 @@ class BottomNavigation extends React.Component
         <Icon img={'icon-icon_print'}/> Tulosta
       </div>
       <div className="small-4 columns navigate">
-        <Link to="navigate" params={{from: @props.params.from, to:@props.params.to, hash:@props.params.hash}}>
+        <Link to="#{process.env.ROOT_PATH}reitti/#{@props.params.from}/#{@props.params.to}/#{@props.params.hash}/navigoi">
          <Icon img={'icon-icon_arrow-right'}/> Navigoi
         </Link>
       </div>

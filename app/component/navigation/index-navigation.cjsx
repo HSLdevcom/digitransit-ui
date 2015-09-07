@@ -1,5 +1,4 @@
 React                 = require 'react'
-Link                  = require 'react-router/lib/components/Link'
 IndexTopNavigation    = require './index-top-navigation'
 IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'

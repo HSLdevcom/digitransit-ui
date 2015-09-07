@@ -13,7 +13,7 @@ class Search extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.object.isRequired
 
   constructor: ->
     super
@@ -26,8 +26,6 @@ class Search extends React.Component
     @context.getStore('LocationStore').removeChangeListener @onChange
 
   onChange: =>
-    @context.router.replaceWith(@context.router.getCurrentPathname(),
-                                @context.router.getCurrentParams())
     @setState @context.getStore('LocationStore').getLocationState()
 
   analyzeInput: (input) =>
@@ -106,9 +104,7 @@ class Search extends React.Component
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
       setTimeout(() =>
-        @context.router.transitionTo "summary",
-          from: "#{@state.address}::#{@state.lat},#{@state.lon}"
-          to: "#{address}::#{lat},#{lon}"
+        @context.router.transitionTo "#{process.env.ROOT_PATH}reitti/#{@state.address}::#{@state.lat},#{@state.lon}/#{address}::#{lat},#{lon}"
       ,0)
     else
       # No, This is a start location
@@ -233,7 +229,7 @@ class Search extends React.Component
   # See: https://github.com/moroshko/react-autosuggest/issues/21
   handleAutoSuggestMount: (autoSuggestComponent) =>
     if autoSuggestComponent
-      input = autoSuggestComponent.refs.input.getDOMNode()
+      input = autoSuggestComponent.refs.input
       input.addEventListener('keydown', @suggestionArrowPress)
       this.autoSuggestInput = input
 
@@ -282,7 +278,7 @@ class Search extends React.Component
       disabled: inputDisabled
 
     <form onSubmit={@onSubmit}>
-    <div className="small-12 medium-6 medium-offset-3 columns">
+    <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
       <div className="row collapse postfix-radius">
         <div className="small-11 columns">
           <Autosuggest
@@ -297,7 +293,7 @@ class Search extends React.Component
             scrollBar={true}/>
         </div>
         <div className="small-1 columns">
-          <span className="postfix search cursor-pointer" onTouchTap={@onSubmit}>
+          <span className="postfix search cursor-pointer" onClick={@onSubmit}>
             <Icon img={'icon-icon_search'}/>
           </span>
         </div>

@@ -1,4 +1,6 @@
 React                 = require 'react'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
 StopCardListContainer = require './stop-card-list-container'
 NoLocationPanel       = require '../no-location-panel/no-location-panel'
@@ -24,7 +26,24 @@ class StopTabs extends React.Component
   render: ->
     LocationStore = @context.getStore 'LocationStore'
     if @state.status == LocationStore.STATUS_FOUND_LOCATION or @state.status == LocationStore.STATUS_FOUND_ADDRESS
-      nearestPanel = <StopCardListContainer key="NearestStopsStore" store={@context.getStore 'NearestStopsStore'}/>
+      nearestPanel = <Relay.RootContainer
+        Component={StopCardListContainer}
+        route={new queries.StopListContainerRoute({
+          lat: @state.lat
+          lon: @state.lon
+          })}
+        renderLoading={-> <div className="spinner-loader"/>}
+        renderFetched={(data) =>
+          <StopCardListContainer
+          key="NearestStopsStore"
+            stops={data.stops}
+            lat={@state.lat}
+            lon={@state.lon}
+          />
+        }
+      />
+    else if @state.status == LocationStore.STATUS_NO_LOCATION or @state.status == LocationStore.STATUS_SEARCHING_LOCATION
+      nearestPanel = <div className="spinner-loader"/>
     else
       nearestPanel = <NoLocationPanel/>
 

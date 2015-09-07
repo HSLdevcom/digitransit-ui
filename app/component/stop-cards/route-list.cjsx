@@ -1,14 +1,13 @@
 React                 = require 'react'
 Icon                  = require '../icon/icon.cjsx'
-Link                  = require 'react-router/lib/components/Link'
 groupBy               = require 'lodash/collection/groupBy'
 
 class RouteList extends React.Component
   render: ->
     routeObjs = []
-    for k, v of groupBy(@props.routes, (r) -> r.mode.toLowerCase())
-      routeObjs.push <div key={k} className={k}><Icon img={'icon-icon_' + k} />
-      	  {" " + route.shortName for route in v when route.shortName}
+    for mode, routes of groupBy(@props.routes, (route) -> route.type.toLowerCase())
+      routeObjs.push <div key={mode} className={mode}><Icon img={'icon-icon_' + mode} />
+      	  {" " + route.shortName for route in routes when route.shortName}
       	</div>
 
     <div className="route-list">

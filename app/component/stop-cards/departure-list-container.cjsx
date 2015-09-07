@@ -1,62 +1,74 @@
 React                 = require 'react'
+ReactDom              = require 'react-dom'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
 Departure             = require './departure'
-StopDeparturesActions = require '../../action/stop-departures-action'
 uniq                  = require 'lodash/array/uniq'
 difference            = require 'lodash/array/difference'
 moment                = require 'moment'
-Link                  = require 'react-router/lib/components/Link'
+Link                  = require('react-router/lib/Link').Link
+classNames            = require 'classnames'
+
 
 moment.locale('fi')
 
 class DepartureListContainer extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
+  constructor: (props) ->
+    @state =
+      departures: Array.prototype.concat.apply([], @getStoptimes props.stop.stopTimes).sort (a, b) ->
+        return a.stoptime - b.stoptime
+      loading: false
+
+  getStoptimes: (stoptimes) ->
+    stoptimes.map (pattern) ->
+      pattern.stoptimes.map (stoptime) ->
+        stoptime: stoptime.serviceDay + stoptime.realtimeDeparture
+        realtime: stoptime.realtime
+        pattern: pattern.pattern
 
   componentDidMount: ->
-    @context.getStore('StopDeparturesStore').addChangeListener @onChange
-    if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
-      if @context.getStore('StopDeparturesStore').getDepartures(@props.stop) == undefined
-        @context.executeAction StopDeparturesActions.stopDeparturesRequest, @props.stop
     if @props.infiniteScroll
-      @scrollHandler target: React.findDOMNode this
-
-  componentWillUnmount: ->
-    @context.getStore('StopDeparturesStore').removeChangeListener @onChange
-
-  onChange: (id) =>
-    if !id or id == @props.stop
-      @forceUpdate()
+      @scrollHandler target: ReactDom.findDOMNode this
 
   scrollHandler: (e) =>
-    if (e.target.scrollHeight-e.target.scrollTop-e.target.offsetHeight) < 250 and !@context.getStore('StopDeparturesStore').getAdditionalStopsFetchInProgress()
-      @context.executeAction StopDeparturesActions.nextDayStopDeparturesRequest, @props.stop
+    if (e.target.scrollHeight-e.target.scrollTop-e.target.offsetHeight) < 250 and !@state.loading
+      @props.relay.setVariables
+        date: moment(@props.relay.variables.date, "YYYYMMDD").add(1, 'd').format("YYYYMMDD")
+      @setState loading: true
+
+  componentWillReceiveProps: (newProps) ->
+    if newProps.relay.variables.date != @props.relay.variables.date
+      @setState
+        departures: Array.prototype.concat.apply(
+          @state.departures, @getStoptimes newProps.stop.stopTimes).sort (a, b) ->
+            return a.stoptime - b.stoptime
+        loading: false
 
   getDepartures: (showMissingRoutes) =>
     departureObjs = []
     seenRoutes = []
-    previousTime = moment()
-    departures = @context.getStore('StopDeparturesStore').getDepartures(@props.stop)
-    if !departures
-      return false
-    for departure, i in departures
-      departureTime = moment((departure.time.serviceDay + departure.time.scheduledDeparture)*1000)
-      if !departureTime.isSame(previousTime, 'day')
-        departureObjs.push <div key={departureTime.format('DDMMYYYY')} className="date-row">{departureTime.format('dddd D.M.YYYY')}</div>
-      if moment().isBefore(departureTime)
-        id = departure.pattern.id + departure.time.serviceDay + departure.time.scheduledDeparture
+    currentTime = new Date().getTime() / 1000
+    currentDate = new Date().setHours(0, 0, 0, 0) / 1000
+    for departure, i in @state.departures
+      if departure.stoptime > currentDate + 86400 # TODO: test for DST change dates
+        departureObjs.push <div key={moment(departure.stoptime * 1000).format('DDMMYYYY')} className="date-row">
+          {moment(departure.stoptime * 1000).format('dddd D.M.YYYY')}
+        </div>
+        currentDate = new Date().setHours(24, 0, 0, 0) / 1000
+      if currentTime < departure.stoptime
+        id = "#{departure.pattern.code}:#{departure.stoptime}"
         if @props.routeLinks
-          departureObjs.push <Link to="route" params={{routeId: departure.pattern.id}}><Departure key={id} departure={departure}/></Link>
+          departureObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.code}" key={id}>
+            <Departure departure={departure} currentTime={currentTime}/>
+          </Link>
         else
-          departureObjs.push <Departure key={id} departure={departure} />
-        seenRoutes.push(departure.pattern.shortName)
+          departureObjs.push <Departure key={id} departure={departure} currentTime={currentTime}/>
+        seenRoutes.push(departure.pattern.route.shortName)
         if seenRoutes.length >= @props.departures
           break
-      previousTime = departureTime
 
     if showMissingRoutes
-      missingRoutes = difference(uniq(departure.pattern.shortName for departure in departures), seenRoutes)
-      missingRoutes.sort()
+      missingRoutes = difference((stop.routes.map (route) -> route.shortName), seenRoutes).sort()
       if missingRoutes.length == 0
       else if missingRoutes.length == 1
         departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linja {missingRoutes[0]}</p>
@@ -67,8 +79,13 @@ class DepartureListContainer extends React.Component
     departureObjs
 
   render: =>
-    <div className={"departure-list" + (if @props.className then " " + @props.className else "")} onScroll={if @props.infiniteScroll and window? then @scrollHandler else null}>
+    <div className={classNames("departure-list", @props.className)}
+         onScroll={if @props.infiniteScroll and window? then @scrollHandler else null}>
       {@getDepartures(@props.showMissingRoutes)}
     </div>
 
-module.exports = DepartureListContainer
+module.exports = Relay.createContainer(DepartureListContainer,
+  fragments: queries.DepartureListFragments
+  initialVariables:
+    date: moment().format("YYYYMMDD")
+)

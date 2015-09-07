@@ -1,5 +1,4 @@
 config = require '../config'
-RouteInformationAction = require './route-information-action'
 moment = require 'moment'
 xhrPromise = require '../util/xhr-promise'
 
@@ -31,23 +30,9 @@ parseMessage = (topic, message, actionContext) ->
     timestamp: parsedMessage.tsi
     lat: parsedMessage.lat
     long: parsedMessage.long
-  details = # Used for fuzzy trip id matching
-    route: messageContents.route
-    date: messageContents.operatingDay
-    direction: messageContents.direction
-    trip: messageContents.tripStartTime
-  actionContext.executeAction(
-    RouteInformationAction.fuzzyTripInformationRequest,
-    details,
-    ->
-      messageContents.trip = actionContext.getStore('RouteInformationStore').getFuzzyTrip(details)
-      actionContext.executeAction(
-        RouteInformationAction.patternInformationRequest,
-        messageContents.trip.pattern.id,
-        ->
-          actionContext.dispatch "RealTimeClientMessage",
-            id: id
-            message: messageContents))
+  actionContext.dispatch "RealTimeClientMessage",
+    id: id
+    message: messageContents
 
 module.exports =
   startRealTimeClient: (actionContext, options, done) ->

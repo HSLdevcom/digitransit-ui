@@ -1,8 +1,13 @@
 # Libraries
 React             = require 'react'
-Router            = require 'react-router'
+ReactDOM          = require 'react-dom'
+Router            = require 'react-router/lib/Router'
+Relay             = require 'react-relay'
+ReactRouterRelay  = require 'react-router-relay'
+History           = require('react-router/lib/BrowserHistory').history
 FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
 isEqual           = require 'lodash/lang/isEqual'
+config            = require './config'
 
 app               = require './app'
 
@@ -14,15 +19,12 @@ require.include 'leaflet' # Force into main bundle.js
 
 window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 
-injectTapEventPlugin = require "react-tap-event-plugin"
-injectTapEventPlugin()
+Relay.injectNetworkLayer(
+  new Relay.DefaultNetworkLayer("#{config.URL.OTP}index/graphql")
+);
 
-RenderApp = (context, Handler) ->
-  React.render(
-  	<FluxibleComponent context={context.getComponentContext()}>
-  		<Handler/>
-  	</FluxibleComponent>, document.getElementById('app'))
-
+#injectTapEventPlugin = require "react-tap-event-plugin"
+#injectTapEventPlugin()
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
@@ -30,17 +32,15 @@ app.rehydrate dehydratedState, (err, context) ->
     throw err
   window.context = context
 
-  firstRender = true
-  oldParams = undefined
-  Router.run app.getComponent(), Router.HistoryLocation, (Handler, state) ->
-    if firstRender
-      # Don't call the action on the first render on top of the server rehydration
-      # Otherwise there is a race condition where the action gets executed before
-      # render has been called, which can cause the checksum to fail.
-      RenderApp context, Handler
-      firstRender = false
-    else
-      if not isEqual(oldParams, state.params) and state.routes[state.routes.length-1].handler.loadAction
-          oldParams = state.params
-          context.getActionContext().executeAction state.routes[state.routes.length-1].handler.loadAction, {params:state.params, query:state.query}
-      RenderApp context, Handler
+  ReactDOM.render(
+    <FluxibleComponent context={context.getComponentContext()}>
+      <Router history={History} children={app.getComponent()}
+              createElement={ReactRouterRelay.createElement} onUpdate={() ->
+          if @state.components[@state.components.length-1].loadAction
+            context.getActionContext().executeAction(
+              @state.components[@state.components.length-1].loadAction,
+              {params: @state.params, query: @state.location.query}
+            )
+        }
+      />
+    </FluxibleComponent>, document.getElementById('app'))
