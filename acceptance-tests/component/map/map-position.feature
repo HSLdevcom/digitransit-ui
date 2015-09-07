@@ -17,6 +17,7 @@ Feature: Map component reacts to Position change
     When Position status becomes 'Positioning'
     Then Positioning overlay should be shown
     And Map should be locked in place
+    And Zoom buttons should be disabled
   
   Scenario: Position status becomes 'Tracking position'
     Given Map is mounted on page
