@@ -22,17 +22,18 @@ class RouteLine extends React.Component
   render: ->
     objs = []
     modeClass = @props.mode.toLowerCase()
+    geometry = @props.geometry or @props.stops
     objs.push <Marker map={@props.map} key="from" position={@props.stops[0]} icon={RouteLine.fromIcon}/>
     objs.push <Marker map={@props.map} key="to" position={@props.stops[@props.stops.length-1]} icon={RouteLine.toIcon}/>
     objs.push <Polyline map={@props.map}
                         key={"halo"}
-                        positions={@props.geometry}
+                        positions={geometry}
                         className="leg-halo #{modeClass}"
                         weight=5
                         interactive={false} />
     objs.push <Polyline map={@props.map}
                         key={"line"}
-                        positions={@props.geometry}
+                        positions={geometry}
                         className="leg #{modeClass}"
                         weight=3
                         interactive={false} />
