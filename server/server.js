@@ -84,7 +84,7 @@ function setUpRoutes() {
             'matchMedia': {flags: ['gated']},
             'fetch': {flags: ['always', 'gated']}, // 'always' for ie_mob
             'Promise': {flags: ['gated']},
-            'String.prototype.repeat': {flags: ['gated']},
+            'String.prototype.repeat': {flags: ['always', 'gated']}
           },
           minify: true,
           unknown: 'polyfill'
