@@ -3,6 +3,7 @@
         "queryType": {
             "name": "QueryType"
         },
+        "mutationType": null,
         "types": [{
             "kind": "OBJECT",
             "name": "QueryType",
@@ -745,8 +746,8 @@
                 "description": null,
                 "args": [],
                 "type": {
-                    "kind": "ENUM",
-                    "name": "TransportationType",
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                 },
                 "isDeprecated": false,
@@ -859,60 +860,6 @@
                 "ofType": null
             }],
             "enumValues": null,
-            "possibleTypes": null
-        }, {
-            "kind": "ENUM",
-            "name": "TransportationType",
-            "description": null,
-            "fields": null,
-            "inputFields": null,
-            "interfaces": null,
-            "enumValues": [{
-                "name": "TRAM",
-                "description": "Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.",
-                "isDeprecated": false,
-                "deprecationReason": null
-            }, {
-                "name": "SUBWAY",
-                "description": "Subway, Metro. Any underground rail system within a metropolitan area.",
-                "isDeprecated": false,
-                "deprecationReason": null
-            }, {
-                "name": "RAIL",
-                "description": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-            }, {
-                "name": "BUS",
-                "description": "Bus. Used for short- and long-distance bus routes.",
-                "isDeprecated": false,
-                "deprecationReason": null
-            }, {
-                "name": "FERRY",
-                "description": "Ferry. Used for short- and long-distance boat service.",
-                "isDeprecated": false,
-                "deprecationReason": null
-            }, {
-                "name": "CABLE_CAR",
-                "description": "Cable car. Used for street-level cable cars where the cable runs beneath the car.",
-                "isDeprecated": false,
-                "deprecationReason": null
-            }, {
-                "name": "GONDOLA",
-                "description": "Gondola, Suspended cable car. Typically used for aerial cable cars where the car is suspended from the cable.",
-                "isDeprecated": false,
-                "deprecationReason": null
-            }, {
-                "name": "FUNICULAR",
-                "description": "Funicular. Any rail system designed for steep inclines.",
-                "isDeprecated": false,
-                "deprecationReason": null
-            }, {
-                "name": "AIRPLANE",
-                "description": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-            }],
             "possibleTypes": null
         }, {
             "kind": "ENUM",
@@ -1547,8 +1494,8 @@
                 "description": null,
                 "args": [],
                 "type": {
-                    "kind": "ENUM",
-                    "name": "TransportationType",
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                 },
                 "isDeprecated": false,
@@ -2259,15 +2206,6 @@
             "possibleTypes": null
         }, {
             "kind": "OBJECT",
-            "name": "MutationType",
-            "description": null,
-            "fields": [],
-            "inputFields": null,
-            "interfaces": [],
-            "enumValues": null,
-            "possibleTypes": null
-        }, {
-            "kind": "OBJECT",
             "name": "__Schema",
             "description": "A GraphQL Introspection defines the capabilities of a GraphQL server. It exposes all available types and directives on 'the server, as well as the entry points for query and  'mutation operations.",
             "fields": [{
@@ -2312,13 +2250,9 @@
                 "description": "If this server supports mutation, the type that mutation operations will be rooted at.",
                 "args": [],
                 "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                        "kind": "OBJECT",
-                        "name": "__Type",
-                        "ofType": null
-                    }
+                    "kind": "OBJECT",
+                    "name": "__Type",
+                    "ofType": null
                 },
                 "isDeprecated": false,
                 "deprecationReason": null
