@@ -1,4 +1,4 @@
-Feature: Map component should be zoomed in when placed on stop page
+Feature: Map component on stop page
 
   Scenario: On stop page map should be zoomed in
     Given Map is on stop page

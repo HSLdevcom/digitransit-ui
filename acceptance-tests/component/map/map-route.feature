@@ -1,4 +1,4 @@
-Feature: Map component show Route
+Feature: Map component shows Route
 
   Scenario: Route is shown on map with large stop icons
     Given Route is displayed on map
@@ -9,3 +9,7 @@ Feature: Map component show Route
     Given Route is displayed on map
     When Zoom level is below 15 
     Then Route stops should be 'small icons'
+
+  Scenario: Map shows only vehicles for selected route
+    Given Route is displayed on map
+    Then Only vehicles on selected route should be displayed

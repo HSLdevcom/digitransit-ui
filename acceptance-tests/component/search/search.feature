@@ -85,21 +85,12 @@ Feature: Search component
     And User presses enter
     Then Selection should work as with 'Non fuzzy' matches
 
-  Scenario: Enter press should select closest hits to the user when multiple hits are found
+  Scenario: Enter press should select alphabetically first hit when multiple hits are available
     Given User is trying to set from or to location
-    And user's Position is in Vantaa
-    When User types 'Kirkkotie 2'
-    And presses enter
-    And Geocoding resolves 'Kirkkotie 2' from 'Vantaa' and 'Kauniainen'
-    Then "Kirkkotie 2, Vantaa" should be selected because it's the closest one to the user
-
-  Scenario: Enter press should select first hit when multiple hits are available and user's location is not known
-    Given User is trying to set from or to location
-    And user's Position is unknown
     When User types 'Kirkkotie 2'
     And User presses enter
     And Geocoding resolves 'Kirkkotie 2' from 'Vantaa' and 'Kauniainen'
-    Then "Kirkkotie 2, Kauniainen" should be selected because it's the first hit
+    Then "Kirkkotie 2, Kauniainen" should be selected because it's alphabetically first hit
 
   Scenario: Search with non existing number
     Given User is trying to set from or to location
