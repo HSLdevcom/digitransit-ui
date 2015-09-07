@@ -5,6 +5,7 @@ uniq                  = require 'lodash/array/uniq'
 difference            = require 'lodash/array/difference'
 moment                = require 'moment'
 Link                  = require 'react-router/lib/components/Link'
+classnames            = require 'classnames'
 
 moment.locale('fi')
 
@@ -15,6 +16,7 @@ class DepartureListContainer extends React.Component
 
   componentDidMount: ->
     @context.getStore('StopDeparturesStore').addChangeListener @onChange
+    @context.getStore('DisruptionStore').addChangeListener @onChange
     if !@context.getStore('StopDeparturesStore').getInitialStopsFetchInProgress()
       if @context.getStore('StopDeparturesStore').getDepartures(@props.stop) == undefined
         @context.executeAction StopDeparturesActions.stopDeparturesRequest, @props.stop
@@ -22,6 +24,7 @@ class DepartureListContainer extends React.Component
       @scrollHandler target: React.findDOMNode this
 
   componentWillUnmount: ->
+    @context.getStore('DisruptionStore').removeChangeListener @onChange
     @context.getStore('StopDeparturesStore').removeChangeListener @onChange
 
   onChange: (id) =>
@@ -37,6 +40,8 @@ class DepartureListContainer extends React.Component
     seenRoutes = []
     previousTime = moment()
     departures = @context.getStore('StopDeparturesStore').getDepartures(@props.stop)
+    disruptionRoutes = @context.getStore('DisruptionStore').getRoutes()
+
     if !departures
       return false
     for departure, i in departures
@@ -45,10 +50,15 @@ class DepartureListContainer extends React.Component
         departureObjs.push <div key={departureTime.format('DDMMYYYY')} className="date-row">{departureTime.format('dddd D.M.YYYY')}</div>
       if moment().isBefore(departureTime)
         id = departure.pattern.id + departure.time.serviceDay + departure.time.scheduledDeparture
+
+        # check if departure is in the disruption info
+        disruptionClass = classnames
+          disruption: disruptionRoutes.indexOf(departure.pattern.id.split(":", 3).join(':')) != -1
+
         if @props.routeLinks
-          departureObjs.push <Link to="route" params={{routeId: departure.pattern.id}}><Departure key={id} departure={departure}/></Link>
+          departureObjs.push <Link to="route" params={{routeId: departure.pattern.id}}><Departure key={id} className={disruptionClass} departure={departure}/></Link>
         else
-          departureObjs.push <Departure key={id} departure={departure} />
+          departureObjs.push <Departure key={id} className={disruptionClass} departure={departure} />
         seenRoutes.push(departure.pattern.shortName)
         if seenRoutes.length >= @props.departures
           break
