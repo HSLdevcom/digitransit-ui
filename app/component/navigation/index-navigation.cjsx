@@ -2,6 +2,7 @@ React                 = require 'react'
 IndexTopNavigation    = require './index-top-navigation'
 IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
+DisruptionInfo        = require '../disruption/disruption-info'
 
 class IndexNavigation extends React.Component
   @contextTypes:
@@ -12,7 +13,17 @@ class IndexNavigation extends React.Component
     @state =
       subNavigationVisible: false
       offcanvasVisible: false
+      disruptionVisible: false
       text: if @context.getStore("TimeStore").status == "UNSET" then "Nyt" else "Myöhemmin"
+
+  componentDidMount: ->
+    @context.getStore('DisruptionStore').addChangeListener @onChange
+    
+  componentWillUnmount: ->
+    @context.getStore('DisruptionStore').removeChangeListener @onChange
+
+  onChange: =>
+    @forceUpdate()
 
   toggleSubnavigation: =>
     if @state.subNavigationVisible
@@ -38,12 +49,26 @@ class IndexNavigation extends React.Component
   toggleOffcanvas: =>
     @setState offcanvasVisible: !@state.offcanvasVisible
 
+  toggleDisruptionInfo: =>
+    if @isDisruptions()
+      @setState disruptionVisible: !@state.disruptionVisible
+
+  isDisruptions: ->
+    isDisruptions = false
+    disruptionData = @context.getStore('DisruptionStore').getData()
+    if disruptionData
+      if disruptionData.entity.length > 0
+        isDisruptions = true
+    return isDisruptions
+
+
   render: ->
     <div>
       <OffcanvasMenu open={@state.offcanvasVisible}/>
+      <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
 
       <div className="grid-frame">
-        <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} subnavigationText={@state.text}/>
+        <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} isDisruptions={@isDisruptions()} subnavigationText={@state.text}/>
         <IndexSubNavigation visible={@state.subNavigationVisible}/>
         <section ref="content" className="content">
           {@props.children}

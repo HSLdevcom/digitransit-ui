@@ -18,7 +18,7 @@ Feature: Map component reacts to Position change
     Then Positioning overlay should be shown
     And Map should be locked in place
     And Zoom buttons should be disabled
-  
+
   Scenario: Position status becomes 'Tracking position'
     Given Map is mounted on page
     When Position status becomes 'Tracking position'
@@ -31,7 +31,7 @@ Feature: Map component reacts to Position change
     When Position status becomes 'Previous position'
     Then User's location should be freezed where it is
     And 'Positioning overlay' should be hidden
-   
+
   Scenario: Error occurs and previous position is available
     Given Map is mounted on page
     And User's previous position is available

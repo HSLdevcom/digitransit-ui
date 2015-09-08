@@ -3,6 +3,7 @@ Fluxible = require 'fluxible'
 app = new Fluxible(
   component: require './routes.cjsx')
 
+app.registerStore require('./store/disruption-store')
 app.registerStore require('./store/favourite-routes-store')
 app.registerStore require('./store/favourite-stops-store')
 app.registerStore require('./store/itinerary-search-store')
