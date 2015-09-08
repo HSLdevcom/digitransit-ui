@@ -1,10 +1,19 @@
-React       = require 'react'
-Icon        = require '../icon/icon'
-Offcanvas   = require '../util/offcanvas'
+React           = require 'react'
+Icon            = require '../icon/icon'
+Offcanvas       = require '../util/offcanvas'
+Slider          = require '../util/slider'
 
 class OffcanvasCustomize extends React.Component
   @propTypes:
     open: React.PropTypes.bool
+
+  constructor: ->
+    @state = sliderWalk: 50
+
+  walkOnChange: ->
+    @setState
+      sliderWalk: event.target.value
+    console.log event.target.value
 
   render: ->
     <Offcanvas open={@props.open} className="offcanvas-customize" position="right">
@@ -58,8 +67,16 @@ class OffcanvasCustomize extends React.Component
 
 
       <section className="offcanvas-section">
-        
+
+        <Slider
+          headerText={"Kävely"}
+          onSliderChange={@walkOnChange}
+          minText={"Vähän kävelyä"}
+          maxText={"Suosi kävelyä"}
+        />
       </section>
     </Offcanvas>
+
+
 
 module.exports = OffcanvasCustomize

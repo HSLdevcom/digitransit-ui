@@ -57,7 +57,7 @@ $btn-heigth: 17px;
 }
 .btn-bar  {
   .btn{
-    border-right: 2px solid $offcanvas-background;
+    border-right: 1px solid $offcanvas-background;
   }
   [class*="column"] + [class*="column"]:last-child {
     border-right: none;
@@ -82,4 +82,13 @@ body .columns-5 {
 
 
 [class*="column"] + [class*="column"]:last-child {
+*/
+
+
+
+
+
+/*
+  Slider header
+  .stop-card-header h3
 */
