@@ -10,7 +10,7 @@ class DisruptionRow extends React.Component
           <div className='icon center'>
             <Icon img={'icon-icon_' + @props.mode} className={@props.mode}/>
           </div>
-          <span className='line bus bold'>{@props.line}</span>
+          <span className={'line bold ' + @props.mode}>{@props.line}</span>
           <span className='time bold'>{@props.startTime.format("HH:mm")} - {@props.endTime.format("HH:mm")}</span>
         </div>
         <div className='disruption-content'>
