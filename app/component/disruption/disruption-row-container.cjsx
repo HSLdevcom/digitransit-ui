@@ -2,14 +2,13 @@ React           = require 'react'
 moment          = require 'moment'
 DisruptionRow   = require './disruption-row'
 GtfsUtils       = require '../../util/gtfs'
+uniq            = require 'lodash/array/uniq'
 
 
 class DisruptionRowContainer extends React.Component
   getLineText: (lineList)  ->
-    lineRouteList = []
-    lineList.map (lineData) ->
-      if lineRouteList.indexOf(lineData.route_id) == -1
-        lineRouteList.push lineData.route_id
+    lineRouteList = uniq lineList.map (lineData) ->
+      lineData.route_id
     text = lineRouteList.join(", ")
     return text
 
