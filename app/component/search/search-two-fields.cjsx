@@ -183,7 +183,7 @@ class SearchTwoFields extends React.Component
             <div className="small-11 columns">
               {if @state.origin.useCurrentPosition and
                   @state.geo.isLocationingInProgress
-                'Waiting for position'
+                <input type="text" disabled="disabled" placeholder="Määränpää"/>
                else if @state.destination.useCurrentPosition
                 geolocation_div
                else
