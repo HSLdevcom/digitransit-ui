@@ -1,16 +1,15 @@
 React = require 'react'
+Relay = require 'react-relay'
+queries = require '../../queries'
 Icon  = require '../icon/icon'
-
+RouteList = require '../stop-cards/route-list'
 
 class DisruptionRow extends React.Component
   render: ->
     <div className='row'>
       <section className='grid-content'>
         <div className='disruption-header disruption'>
-          <div className='icon center'>
-            <Icon img={'icon-icon_' + @props.mode} className={@props.mode}/>
-          </div>
-          <span className={'line bold ' + @props.mode}>{@props.line}</span>
+          <RouteList routes={@props.routes}/>
           <span className='time bold'>{@props.startTime.format("HH:mm")} - {@props.endTime.format("HH:mm")}</span>
         </div>
         <div className='disruption-content'>
@@ -24,4 +23,5 @@ class DisruptionRow extends React.Component
       </section>
     </div>
 
-module.exports = DisruptionRow
+module.exports = Relay.createContainer DisruptionRow,
+  fragments: queries.DisruptionRowFragments

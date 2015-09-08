@@ -281,6 +281,26 @@ var RouteMarkerPopupFragments = {
   `,
 }
 
+class DisruptionRowRoute extends Relay.Route {
+  static queries = {
+    routes: () => Relay.QL`query { routes(ids: $ids) }`,
+  }
+  static paramDefinitions = {
+    ids: {required: true},
+  }
+  static routeName = 'DisruptionRowRoute'
+}
+
+var DisruptionRowFragments = {
+  routes: () => Relay.QL`
+    fragment on Route @relay(plural:true) {
+      gtfsId
+      type
+      shortName
+    }
+  `,
+};
+
 module.exports = {
   StopQueries: StopQueries,
   RouteQueries: RouteQueries,
@@ -298,4 +318,6 @@ module.exports = {
   DepartureListFragments: DepartureListFragments,
   RouteMarkerPopupRoute: RouteMarkerPopupRoute,
   RouteMarkerPopupFragments: RouteMarkerPopupFragments,
+  DisruptionRowRoute: DisruptionRowRoute,
+  DisruptionRowFragments: DisruptionRowFragments,
 };
