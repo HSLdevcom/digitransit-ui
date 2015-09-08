@@ -13,6 +13,9 @@ classNames            = require 'classnames'
 moment.locale('fi')
 
 class DepartureListContainer extends React.Component
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
   constructor: (props) ->
     @state =
       departures: Array.prototype.concat.apply([], @getStoptimes props.stop.stopTimes).sort (a, b) ->
