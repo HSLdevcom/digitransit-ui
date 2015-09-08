@@ -8,7 +8,7 @@ class DisruptionRow extends React.Component
       <section className='grid-content'>
         <div className='disruption-header disruption'>
           <div className='icon center'>
-            <Icon viewBox="0 0 40 40" img={'icon-icon_' + @props.mode} className={@props.mode}/>
+            <Icon img={'icon-icon_' + @props.mode} className={@props.mode}/>
           </div>
           <span className='line bus bold'>{@props.line}</span>
           <span className='time bold'>{@props.startTime.format("HH:mm")} - {@props.endTime.format("HH:mm")}</span>

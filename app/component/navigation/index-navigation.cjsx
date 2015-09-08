@@ -19,15 +19,12 @@ class IndexNavigation extends React.Component
 
   componentDidMount: ->
     @context.getStore('DisruptionStore').addChangeListener @onChange
-    @setState
-      disruptionData: @context.getStore('DisruptionStore').getData()
-
+    
   componentWillUnmount: ->
     @context.getStore('DisruptionStore').removeChangeListener @onChange
 
   onChange: =>
-    @setState
-      disruptionData: @context.getStore('DisruptionStore').getData()
+    @forceUpdate()
 
   toggleSubnavigation: =>
     if @state.subNavigationVisible
@@ -59,8 +56,9 @@ class IndexNavigation extends React.Component
 
   isDisruptions: ->
     isDisruptions = false
-    if @state.disruptionData
-      if @state.disruptionData.entity.length > 0
+    disruptionData = @context.getStore('DisruptionStore').getData()
+    if disruptionData
+      if disruptionData.entity.length > 0
         isDisruptions = true
     return isDisruptions
 

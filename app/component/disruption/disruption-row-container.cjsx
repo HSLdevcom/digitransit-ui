@@ -7,16 +7,17 @@ GtfsUtils       = require '../../util/gtfs'
 class DisruptionRowContainer extends React.Component
   getLineText: (lineList)  ->
     lineRouteList = []
-    for lineData, i in lineList
+    lineList.map (lineData) ->
       if lineRouteList.indexOf(lineData.route_id) == -1
         lineRouteList.push lineData.route_id
     text = lineRouteList.join(", ")
     return text
 
-  getDescriptionByLanguage: (descriptionList) ->
-    # TODO: check for active language. Now returning Finnish text
-    # [0] - fi, [1] - se, [2] - en
-    descriptionList[0].text
+  # available languages: fi, se, en
+  getDescriptionByLanguage: (descriptionList, language) ->
+    descriptionList.map (description) ->
+      if(description.language == language)
+        return description.text
 
   render: ->
     data = @props.disruption.alert
@@ -26,7 +27,7 @@ class DisruptionRowContainer extends React.Component
     endTime = moment(data.active_period[0].end)
     cause = data.cause
 
-    description = @getDescriptionByLanguage(data.description_text.translation)
+    description = @getDescriptionByLanguage(data.description_text.translation, "fi")
 
     <DisruptionRow
       mode={mode}

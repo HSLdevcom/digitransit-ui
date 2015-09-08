@@ -25,7 +25,7 @@ class DisruptionInfo extends React.Component
     disruptionRowContainers = []
     data = @context.getStore('DisruptionStore').getData()
     if data
-      for disruption, i in data.entity
+      data.entity.map (disruption) ->
         disruptionRowContainers.push <DisruptionRowContainer key={disruption.id} disruption={disruption}/>
 
     <Modal open={@props.open} headerText="Poikkeusinfo" toggleVisibility={@props.toggleDisruptionInfo}>
