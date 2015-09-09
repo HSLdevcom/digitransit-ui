@@ -57,7 +57,7 @@ class DepartureListContainer extends React.Component
   getDepartures: (showMissingRoutes) =>
     departureObjs = []
     seenRoutes = []
-    disruptionRoutes = @context.getStore('DisruptionStore').getRoutes()
+    disruptionRoutes = @context.getStore('DisruptionStore').getRoutes() or []
     currentTime = new Date().getTime() / 1000
     currentDate = new Date().setHours(0, 0, 0, 0) / 1000
     for departure, i in @state.departures
