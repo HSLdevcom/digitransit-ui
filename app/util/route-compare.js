@@ -1,12 +1,6 @@
 module.exports = function (a, b) {
-  if (a.shortName == undefined) {
-    a.shortName = "";
-  }
-  if (b.shortName == undefined) {
-    b.shortName = "";
-  }
-  var partsA = a.shortName.match(/^[A-Za-z]?(0*)([0-9]*)/);
-  var partsB = b.shortName.match(/^[A-Za-z]?(0*)([0-9]*)/);
+  var partsA = (a.shortName || "").match(/^[A-Za-z]?(0*)([0-9]*)/);
+  var partsB = (b.shortName || "").match(/^[A-Za-z]?(0*)([0-9]*)/);
   if (partsA[1].length != partsB[1].length) {
     if (partsA[1].length + partsA[2].length == 0) {
       return -1; // A is the one with no numbers at all, wins leading zero
