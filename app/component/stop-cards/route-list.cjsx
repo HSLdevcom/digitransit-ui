@@ -10,8 +10,10 @@ class RouteList extends React.Component
     routeObjs = []
     for mode, routes of groupBy(@props.routes, (route) -> route.type.toLowerCase())
       routeObjs.push <div key={mode} className={mode}><Icon img={'icon-icon_' + mode} />
-        {" " + uniq(routes.sort(routeCompare).map((route) -> route.shortName)).join(', ')}
-      </div>
+      	  {" " + uniq(
+            route.shortName for route in routes.sort(routeCompare) when route.shortName
+          ).join(', ')}
+      	</div>
 
     <div className="route-list">
       {routeObjs}
