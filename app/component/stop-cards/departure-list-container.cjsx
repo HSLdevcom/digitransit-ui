@@ -13,6 +13,9 @@ classNames            = require 'classnames'
 moment.locale('fi')
 
 class DepartureListContainer extends React.Component
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
   constructor: (props) ->
     @state =
       departures: Array.prototype.concat.apply([], @getStoptimes props.stop.stopTimes).sort (a, b) ->
@@ -29,6 +32,13 @@ class DepartureListContainer extends React.Component
   componentDidMount: ->
     if @props.infiniteScroll
       @scrollHandler target: ReactDom.findDOMNode this
+    @context.getStore('DisruptionStore').addChangeListener @onChange
+
+  componentWillUnmount: ->
+    @context.getStore('DisruptionStore').removeChangeListener @onChange
+
+  onChange: () =>
+    @forceUpdate()
 
   scrollHandler: (e) =>
     if (e.target.scrollHeight-e.target.scrollTop-e.target.offsetHeight) < 250 and !@state.loading
@@ -47,6 +57,7 @@ class DepartureListContainer extends React.Component
   getDepartures: (showMissingRoutes) =>
     departureObjs = []
     seenRoutes = []
+    disruptionRoutes = @context.getStore('DisruptionStore').getRoutes() or []
     currentTime = new Date().getTime() / 1000
     currentDate = new Date().setHours(0, 0, 0, 0) / 1000
     for departure, i in @state.departures
@@ -57,12 +68,17 @@ class DepartureListContainer extends React.Component
         currentDate = new Date().setHours(24, 0, 0, 0) / 1000
       if currentTime < departure.stoptime
         id = "#{departure.pattern.code}:#{departure.stoptime}"
+
+        # check if departure is in the disruption info
+        disruptionClass = classNames
+          disruption: disruptionRoutes.indexOf(departure.pattern.code.split(":", 3).join(':')) != -1
+
         if @props.routeLinks
           departureObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.code}" key={id}>
-            <Departure departure={departure} currentTime={currentTime}/>
+            <Departure departure={departure} currentTime={currentTime} className={disruptionClass} />
           </Link>
         else
-          departureObjs.push <Departure key={id} departure={departure} currentTime={currentTime}/>
+          departureObjs.push <Departure key={id} departure={departure} currentTime={currentTime} className={disruptionClass} />
         seenRoutes.push(departure.pattern.route.shortName)
         if seenRoutes.length >= @props.departures
           break

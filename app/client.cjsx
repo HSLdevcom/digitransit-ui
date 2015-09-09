@@ -43,4 +43,8 @@ app.rehydrate dehydratedState, (err, context) ->
             )
         }
       />
-    </FluxibleComponent>, document.getElementById('app'))
+    </FluxibleComponent>, document.getElementById('app')
+  )
+
+  # Fetch all alerts after rendering has commenced
+  context.getActionContext().executeAction require('./action/disruption-actions').getDisruptions

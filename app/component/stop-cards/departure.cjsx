@@ -1,6 +1,7 @@
 React  = require 'react'
 moment = require 'moment'
 Icon   = require '../icon/icon.cjsx'
+cx     = require 'classnames'
 
 class Departure extends React.Component
   renderTime: (departure) ->
@@ -13,7 +14,7 @@ class Departure extends React.Component
 
   render: ->
     mode = @props.departure.pattern.route.type.toLowerCase()
-    <p className="transport">
+    <p className={cx 'transport', @props.className}>
       <span className="next-departure">{@renderTime @props.departure}</span>
       <Icon className={mode} img={'icon-icon_' + mode }/>
       <span className={(if @props.departure.pattern.route.shortName then "vehicle-number " else "") + mode}>&nbsp;{@props.departure.pattern.route.shortName}</span>

@@ -15,7 +15,7 @@ Feature: Search component
 
   Scenario: From and To location switch
     When user clicks on "switch" button
-    Then From and To location should be switched 
+    Then From and To location should be switched
     And no routing should be performed
 
   Scenario: Routing should be performed on 'magnifying glass' click
@@ -29,7 +29,7 @@ Feature: Search component
     And To location is empty
     When User switches 'My position' to 'To location' by clicking switch button
     And Removes 'My position' from 'To location'
-    Then 'From input' should be returned to form where 'Position' and 'Write address' options are available 
+    Then 'From input' should be returned to form where 'Position' and 'Write address' options are available
 
   Scenario: From and To location values should be initialized to values set previously during the session
     Given User has set From or To location
