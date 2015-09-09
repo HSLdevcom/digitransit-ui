@@ -3,7 +3,7 @@ Icon                  = require '../icon/icon.cjsx'
 groupBy               = require 'lodash/collection/groupBy'
 uniq                  = require 'lodash/array/uniq'
 routeCompare          = require '../../util/route-compare'
-
+cx                    = require 'classnames'
 
 class RouteList extends React.Component
   render: ->
@@ -13,7 +13,7 @@ class RouteList extends React.Component
         {" " + uniq(routes.sort(routeCompare).map((route) -> route.shortName)).join(', ')}
       </div>
 
-    <div className="route-list">
+    <div className={cx 'route-list', @props.className}>
       {routeObjs}
     </div>
 

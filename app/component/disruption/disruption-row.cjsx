@@ -9,7 +9,7 @@ class DisruptionRow extends React.Component
     <div className='row'>
       <section className='grid-content'>
         <div className='disruption-header disruption'>
-          <RouteList routes={@props.routes}/>
+          <RouteList className="left" routes={@props.routes}/>
           <span className='time bold'>{@props.startTime.format("HH:mm")} - {@props.endTime.format("HH:mm")}</span>
         </div>
         <div className='disruption-content'>
