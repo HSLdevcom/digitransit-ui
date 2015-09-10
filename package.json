@@ -47,7 +47,7 @@
     "polyfill-service": "1.6.0-rc.1",
     "polyline-encoded": "^0.0.7",
     "react": "^0.14.0-beta3",
-    "react-autosuggest": "^1.18.3",
+    "react-autosuggest": "moroshko/react-autosuggest#2.0",
     "react-dom": "^0.14.0-beta3",
     "react-leaflet": "^0.6.2",
     "react-relay": "^0.2.1",

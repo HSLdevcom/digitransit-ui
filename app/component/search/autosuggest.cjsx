@@ -36,10 +36,6 @@ class Autosuggest extends React.Component
       address = input.replace(/\d+/g,'').trim()
       number = if isNumbersInQuery then input.match(/\d+/)[0] else null
 
-    # Use previous cities only if not already set
-    if @state and @state.previousSuggestCities and cities.length == 0
-      cities = cities.concat @state.previousSuggestCities
-
     return {
       isValidSearch: input.trim().length > 0
       isLastCharSpace: isLastCharSpace
@@ -124,9 +120,6 @@ class Autosuggest extends React.Component
             # Store all city names for address search where address is exact match
             if city.key.toLowerCase() not in uniqueCities and streetName.toLowerCase() == address.toLowerCase()
               uniqueCities.push(city.key.toLowerCase())
-
-      @setState
-        previousSuggestCities: uniqueCities
 
       stops = data.stops.map (result) ->
         'type': 'stop'
@@ -230,11 +223,11 @@ class Autosuggest extends React.Component
     inputAttributes =
       id: AUTOSUGGEST_ID
       placeholder: @props.placeholder
-      value: @props.value
 
     <ReactAutosuggest
       ref={@handleAutoSuggestMount}
       inputAttributes={inputAttributes}
+      value={@props.value}
       suggestions={@getSuggestions}
       suggestionRenderer={@renderSuggestion}
       suggestionValue={@suggestionValue}

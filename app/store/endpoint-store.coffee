@@ -33,6 +33,7 @@ class EndpointStore extends Store
         lat: null
         lon: null
         address: null
+    @emitChange()
 
   setDestinationToCurrent: () ->
     @destination =
@@ -40,6 +41,7 @@ class EndpointStore extends Store
         lat: null
         lon: null
         address: null
+    @emitChange()
 
   setOrigin: (location) ->
     # Do not override useCurrentPosition

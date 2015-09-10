@@ -47,9 +47,11 @@ class SearchTwoFields extends React.Component
       @context.executeAction EndpointActions.clearDestination
 
   onEndpointChange: =>
+    origin = @context.getStore('EndpointStore').getOrigin()
+    destination = @context.getStore('EndpointStore').getDestination()
     @setState
-        origin: @context.getStore('EndpointStore').getOrigin()
-        destination: @context.getStore('EndpointStore').getDestination()
+        origin: origin
+        destination: destination
     @routeIfPossible()
 
   selectOrigin: (lat, lon, address) =>
