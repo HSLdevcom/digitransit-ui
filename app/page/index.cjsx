@@ -4,7 +4,7 @@ queries            = require '../queries'
 IndexNavigation    = require '../component/navigation/index-navigation.cjsx'
 Map                = require '../component/map/map.cjsx'
 StopTabs           = require '../component/stop-cards/stop-tabs.cjsx'
-SearchWithLocation = require '../component/search/search-with-location.cjsx'
+SearchTwoFields       = require '../component/search/search-two-fields.cjsx'
 Icon               = require '../component/icon/icon'
 LocateActions      = require '../action/locate-actions.coffee'
 Link               = require('react-router/lib/Link').Link
@@ -29,7 +29,7 @@ class Page extends React.Component
     <IndexNavigation>
       <Map showStops={true}>
         <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}></div>
-        <SearchWithLocation/>
+        <SearchTwoFields/>
         <Link to="#{process.env.ROOT_PATH}kartta"><div className="fullscreen-toggle"><Icon img={'icon-icon_maximize'} className="cursor-pointer" /></div></Link>
       </Map>
       <StopTabs/>
