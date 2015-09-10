@@ -2,9 +2,37 @@
   SLIDER
 */
 
-/* generated with http://danielstern.ca/range.css/?ref=css-tricks#/ */
 $thumb-color-gray: #575757;
 $thumb-color-pink: $favourite-color;
+
+$slider-title-color: $gray-blue;
+$slider-title-font-family: $font-family;
+$slider-title-font-size: 14px;
+
+$slider-normal-line-height: 1.2;
+$slider-normal-font-size: 12px;
+
+.slider-container {
+  padding: 10px 0;
+  h3 {
+    text-transform: uppercase;
+    color: $slider-title-color;
+    font-family: $slider-title-font-family;
+    font-size: $slider-title-font-size;
+    font-weight: $font-weight-bold;
+    line-height: $slider-normal-line-height;
+    margin: 0px;
+  }
+}
+.slider-help-text {
+    font-family: $font-family;
+    font-size: $slider-normal-font-size;
+    font-weight: $font-weight-light;
+    line-height: $slider-normal-line-height;
+    color: $gray;
+    margin: 0;
+}
+
 
 input[type=range].slider {
   -webkit-appearance: none;
@@ -93,12 +121,101 @@ input[type=range].slider:focus::-ms-fill-upper {
 }
 
 
-/* actvie */
-input[type=range].slider.active::-webkit-slider-thumb,
-input[type=range].slider.active::-moz-range-track,
-input[type=range].slider.active::-moz-range-thumb,
-input[type=range].slider.active::-ms-fill-lower,
-input[type=range].slider.active::-ms-fill-upper,
-input[type=range].slider.active::-ms-thumb {
-    background: $thumb-color-pink;
+
+.slider-container.active  {
+  input[type=range].slider::-webkit-slider-thumb {
+    background-color: $thumb-color-pink !important;
+  }
+  input[type=range].slider::-moz-range-thumb  {
+    background-color: $thumb-color-pink !important;
+  }
+  input[type=range].slider::-ms-thumb {
+    background-color: $thumb-color-pink !important;
+  }
+
+}
+
+
+
+
+
+
+/*
+  TOGGLE BUTTON
+*/
+
+$dark-gray: rgb(87,87,87);  /*TODO: move to template? */
+$btn-highlight-opacity: 0.9;
+
+$btn-inactive-background-color: $dark-gray;
+$btn-bus-active-background-color: $bus-color;
+$btn-tram-active-background-color: $tram-color;
+$btn-train-active-background-color: $train-color;
+$btn-subway-active-background-color: $metro-color;
+$btn-ferry-active-background-color: $ferry-color;
+$btn-radio-checked-background-color: $white;
+
+$btn-icon-color: $white;
+$btn-icon-color-checked: $black;
+
+$btn-width: 17px;
+$btn-heigth: 17px;
+
+.btn {
+  background-color: $btn-inactive-background-color;
+  text-align: center;
+  background-color: #575757;
+
+  &:hover {
+    opacity: $btn-highlight-opacity;
+  }
+  &.bus {
+    background-color: $btn-bus-active-background-color;
+  }
+  &.tram {
+    background-color: $btn-tram-active-background-color;
+  }
+  &.train {
+    background-color: $btn-train-active-background-color;
+  }
+  &.subway {
+    background-color: $btn-subway-active-background-color;
+  }
+  &.ferry {
+    background-color: $btn-ferry-active-background-color;
+  }
+  &.walk, &.cycle, &.car  {
+    background-color: $btn-radio-checked-background-color;
+    .icon {
+      color: $btn-icon-color-checked;
+    }
+  }
+
+  .icon-holder {
+    padding-top: 9pt;
+    padding-bottom: 5pt;
+  }
+  .icon {
+    color: $btn-icon-color;
+    width: $btn-width;
+    height: $btn-heigth;
+  }
+}
+.btn-bar  {
+  .btn{
+    border-right: 1px solid $offcanvas-background;
+  }
+  [class*="column"] + [class*="column"]:last-child {
+    border-right: none;
+  }
+}
+
+
+.first-btn {
+  border-top-left-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+}
+.last-btn {
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
 }

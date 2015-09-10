@@ -16,18 +16,11 @@ class Slider extends React.Component
     maxText: ""
 
   render: ->
-    classes =
-      'slider': true
-
-    if (@props.className)
-      classes[@props.className] = true
-    <div className={cx classes}>
+    <div className={cx 'slider-container', @props.className}>
       <h3>{@props.headerText}</h3>
-      <input id={@props.id} className={cx(classes)} type="range" min={@props.min} max={@props.max} step={@props.step} onChange={@props.onSliderChange} />
-      <p>
-        <span>{@props.minText}</span>
-        <span>{@props.maxText}</span>
-      </p>
+      <input id={@props.id} className={cx('slider')} type="range" min={@props.min} max={@props.max} step={@props.step} onMouseUp={@props.onSliderChange} />
+      <span className="slider-help-text left">{@props.minText}</span>
+      <span className="slider-help-text right">{@props.maxText}</span>
     </div>
 
 

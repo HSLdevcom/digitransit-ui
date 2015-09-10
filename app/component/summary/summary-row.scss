@@ -116,3 +116,13 @@
   right: 5px;
   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
 }
+
+
+
+/*
+  Offcanvas Customize
+*/
+
+body .columns-5 {
+  width: 20%;
+}
