@@ -17,7 +17,7 @@ $search-form-icon-color: $white;
 $search-form-border-radius: $border-radius;
 $search-form-transparency: $transparency;
 $search-form-input-height: 40px;
-$search-form-input-overlay-height: 30px;
+$search-form-input-overlay-height: 32px;
 $search-form-input-overlay-border-color: #E1E1E1;
 
 .search-form .icon {
@@ -59,7 +59,8 @@ $search-form-input-overlay-border-color: #E1E1E1;
     @include form-element();
     height: $search-form-input-height;
     line-height: $search-form-input-overlay-height;
-    padding-top: 5px;
+    border-top-left-radius: $input-border-radius;
+    border-bottom-left-radius: $input-border-radius;
 }
 
 .search-form .address-box {
@@ -72,7 +73,7 @@ $search-form-input-overlay-border-color: #E1E1E1;
 
     .icon {
       fill: $gray;
-      vertical-align: middle;
+      vertical-align: text-bottom;
       width: 15px;
       height: 15px;
       margin-right: 5px;
