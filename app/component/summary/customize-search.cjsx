@@ -18,9 +18,6 @@ class CustomizeSearch extends React.Component
   onChange: =>
     @forceUpdate()
 
-  walkOnChange: ->
-    console.log event.target.value
-
   render: ->
     <div>
       <section className="offcanvas-section">
@@ -45,7 +42,8 @@ class CustomizeSearch extends React.Component
         <Slider
           className="active"
           headerText={"Kävely"}
-          onSliderChange={@walkOnChange}
+          defaultValue={@context.getStore('ItinerarySearchStore').getWalkDistance()}
+          onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setWalkDistance, event.target.value)}
           minText={"Vähän kävelyä"}
           maxText={"Suosi kävelyä"}
         />
@@ -53,7 +51,8 @@ class CustomizeSearch extends React.Component
       <section className="offcanvas-section">
         <Slider
           headerText={"Vaihdot"}
-          onSliderChange={@walkOnChange}
+          defaultValue={@context.getStore('ItinerarySearchStore').getTransportChanges()}
+          onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setTransportChanges, event.target.value)}
           minText={"Vähän vaihtoja"}
           maxText={"Saa olla vaihtoja"}
         />
@@ -63,7 +62,8 @@ class CustomizeSearch extends React.Component
           min={1}
           max={13}
           headerText={"Vaihtomarginaali"}
-          onSliderChange={@walkOnChange}
+          defaultValue={@context.getStore('ItinerarySearchStore').getWaitTime()}
+          onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setWaitTime, event.target.value)}
           minText={"1 min"}
           maxText={"12 min"}
         />
@@ -71,7 +71,8 @@ class CustomizeSearch extends React.Component
       <section className="offcanvas-section">
         <Slider
           headerText={"Kävelynopeus"}
-          onSliderChange={@walkOnChange}
+          defaultValue={@context.getStore('ItinerarySearchStore').getWalkSpeed()}
+          onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setWalkSpeed, event.target.value)}
           minText={"Hidas"}
           maxText={"Juoksu"}
         />

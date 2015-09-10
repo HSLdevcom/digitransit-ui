@@ -42,3 +42,16 @@ module.exports =
 
   toggleCarState: (actionContext)  ->
     actionContext.dispatch "ToggleCarState"
+
+
+  setWalkDistance: (actionContext, value) ->
+    actionContext.dispatch "SetWalkDistance", value
+
+  setTransportChanges: (actionContext, value) ->
+    actionContext.dispatch "SetTransportChanges", value
+
+  setWaitTime: (actionContext, value) ->
+    actionContext.dispatch "SetWaitTime", value
+
+  setWalkSpeed: (actionContext, value) ->
+    actionContext.dispatch "SetWalkSpeed", value

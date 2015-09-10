@@ -52,7 +52,7 @@ input[type=range].slider::-webkit-slider-runnable-track {
   border: 2px solid #575757;
 }
 input[type=range].slider::-webkit-slider-thumb {
-  box-shadow: 1px 1px 1px #b4b4b4, 0px 0px 1px #c1c1c1;
+  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
   border: 3px solid #ffffff;
   height: 24px;
   width: 24px;
@@ -75,7 +75,7 @@ input[type=range].slider::-moz-range-track {
   border: 2px solid $thumb-color-gray;
 }
 input[type=range].slider::-moz-range-thumb {
-  box-shadow: 1px 1px 1px #b4b4b4, 0px 0px 1px #c1c1c1;
+  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
   border: 3px solid #ffffff;
   height: 24px;
   width: 24px;
@@ -104,7 +104,7 @@ input[type=range].slider::-ms-fill-upper {
   box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
 }
 input[type=range].slider::-ms-thumb {
-  box-shadow: 1px 1px 1px #b4b4b4, 0px 0px 1px #c1c1c1;
+  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
   border: 3px solid #ffffff;
   height: 24px;
   width: 24px;
@@ -155,7 +155,8 @@ $btn-subway-active-background-color: $metro-color;
 $btn-ferry-active-background-color: $ferry-color;
 $btn-radio-checked-background-color: $white;
 
-$btn-icon-color: $white;
+$btn-icon-color-inactive: $medium-gray;
+$btn-icon-color-active: $white;
 $btn-icon-color-checked: $black;
 
 $btn-width: 17px;
@@ -190,13 +191,18 @@ $btn-heigth: 17px;
       color: $btn-icon-color-checked;
     }
   }
+  &.bus, &.tram, &.train, &.subway, &.ferry {
+    .icon{
+      color:$btn-icon-color-active;
+    }
+  }
 
   .icon-holder {
     padding-top: 9pt;
     padding-bottom: 5pt;
   }
   .icon {
-    color: $btn-icon-color;
+    color: $btn-icon-color-inactive;
     width: $btn-width;
     height: $btn-heigth;
   }

@@ -19,6 +19,10 @@ class ItinerarySearchStore extends Store
     @walkState = true
     @CycleState = false
     @carState = false
+    @walkDistance = 70
+    @transportChanges = 50
+    @waitTime = 7
+    @walkSpeed = 50
 
   getData: ->
     @data
@@ -40,44 +44,64 @@ class ItinerarySearchStore extends Store
   getCarState: ->
     @carState
 
+  getWalkDistance: ->
+    @walkDistance
+  getTransportChanges: ->
+    @transportChanges
+  getWaitTime: ->
+    @waitTime
+  getWalkSpeed: ->
+    @walkSpeed
+
+
   toggleBusState: ->
     @busState = !@busState
     @emitChange()
-
   toggleTramState: ->
     @tramState = !@tramState
     @emitChange()
-
   toggleTrainState: ->
     @trainState = !@trainState
     @emitChange()
-
   toggleSubwayState: ->
     @subwayState = !@subwayState
     @emitChange()
-
   toggleFerryState: ->
     @ferryState = !@ferryState
     @emitChange()
-
   toggleWalkState: ->
     @clearRadioButtons()
     @walkState = !@walkState
     @emitChange()
-
   toggleCycleState: ->
     @clearRadioButtons()
     @cycleState = !@cycleState
     @emitChange()
-
   toggleCarState: ->
     @clearRadioButtons()
     @carState = !@carState
     @emitChange()
-
   clearRadioButtons: ->
     @walkState = @cycleState = @carState = false
     return
+
+
+  setWalkDistance: (value) ->
+    @walkDistance = value
+    @emitChange()
+
+  setTransportChanges: (value) ->
+    @transportChanges = value
+    @emitChange()
+
+  setWaitTime: (value) ->
+    @waitTime = value
+    @emitChange()
+
+  setWalkSpeed: (value) ->
+    @walkSpeed = value
+    @emitChange()
+
 
   storeItinerarySearch: (data) ->
     @data = data
@@ -105,6 +129,10 @@ class ItinerarySearchStore extends Store
     "ToggleWalkState" : 'toggleWalkState'
     "ToggleCycleState" : 'toggleCycleState'
     "ToggleCarState" : 'toggleCarState'
+    "SetWalkDistance" : "setWalkDistance"
+    "SetTransportChanges" : "setTransportChanges"
+    "SetWaitTime" : "setWaitTime"
+    "SetWalkSpeed" : "setWalkSpeed"
 
 
 module.exports = ItinerarySearchStore
