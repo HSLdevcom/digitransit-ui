@@ -17,18 +17,6 @@ $search-form-icon-color: $white;
 $search-form-border-radius: $border-radius;
 $search-form-transparency: $transparency;
 
-.input-placeholder {
-    background-color: white;
-    border-radius: $form-input-border-radius;
-    padding: 2pt;
-}
-
-.address-box {
-    padding: 2pt;
-    background-color: $light-gray;
-    border-radius: $form-input-border-radius;
-}
-
 .search-form .location {
   height: 35px;
   margin-bottom: 5px;
@@ -77,6 +65,26 @@ $search-form-transparency: $transparency;
 .search-form input {
   margin-bottom: 5px !important;
 }
+
+.search-form .input-placeholder {
+    @include form-element();
+}
+
+.search-form .address-box {
+    padding-left: 10pt;
+    background-color: $light-gray;
+    border-radius: $form-input-border-radius;
+    border-color: $medium-gray;
+    border-width: 1pt;
+
+    .icon {
+      fill: $gray;
+      vertical-align: middle;
+      width: 20;
+      height: 20px;
+    }
+}
+
 
 .search-form .react-autosuggest__suggestions {
   background-color: $search-result-background-color;
