@@ -24,8 +24,8 @@ class Autosuggest extends React.Component
     cities = []
     if containsComma
       # Try to find city
-      address = input.substring(0, input.lastIndexOf(',')).replace(/\d+/g,'').trim()
-      city = input.substring(input.lastIndexOf(',')+1, input.length).trim()
+      address = input.substring(0, input.lastIndexOf(',')).replace(/\d+/g, '').trim()
+      city = input.substring(input.lastIndexOf(',') + 1, input.length).trim()
       number = if isNumbersInQuery then input.match(/\d+/)[0] else null
       if city.length > 0
         cities.push(city.toLowerCase())
@@ -33,7 +33,7 @@ class Autosuggest extends React.Component
       address = input.trim()
     else
       # This is address
-      address = input.replace(/\d+/g,'').trim()
+      address = input.replace(/\d+/g, '').trim()
       number = if isNumbersInQuery then input.match(/\d+/)[0] else null
 
     return {
@@ -54,8 +54,12 @@ class Autosuggest extends React.Component
       return
 
     # Construct urls for all cities depending whether we have a number present or not
-    urls = cities.map (city) ->
-      config.URL.GEOCODER + if number then "address/#{city}/#{address}/#{number}" else "street/#{city}/#{address}"
+    urls = cities.map((city) ->
+      if number
+        config.URL.GEOCODER + "address/#{city}/#{address}/#{number}"
+      else
+        config.URL.GEOCODER + "street/#{city}/#{address}"
+    )
 
     # Query all constructed urls for address and hope to find hits from one city
     XhrPromise.getJsons(urls).then (cityResults) =>
@@ -67,10 +71,17 @@ class Autosuggest extends React.Component
 
       if foundLocations.length == 1
         # TODO, handle Swedish names too at some point
-        addressString = if number then "#{address} #{number}, #{foundLocations[0].municipalityFi}" else "#{address} #{foundLocations[0].number}, #{foundLocations[0].municipalityFi}"
-        @props.onSelection(foundLocations[0].location[1], foundLocations[0].location[0], addressString)
+        if number
+          addressString = "#{address} #{number}, #{foundLocations[0].municipalityFi}"
+        else
+          addressString = "#{address} #{foundLocations[0].number}, " +
+                          "#{foundLocations[0].municipalityFi}"
+        @props.onSelection(foundLocations[0].location[1],
+                           foundLocations[0].location[0],
+                           addressString)
       else if foundLocations.length > 1
-        console.log("Query #{address}, #{number}, #{cities} returns results from more than 1 city. Cannot set location.")
+        console.log("Query #{address}, #{number}, #{cities}" +
+                    "returns results from more than 1 city. Cannot set location.")
       else
         console.log("Cannot find any locations with #{address}, #{number}, #{cities}")
 
@@ -100,7 +111,8 @@ class Autosuggest extends React.Component
               'number': address.number
               'staircase': address.unit
               'city': address.municipalityFi  # TODO Swedish names here too
-              'selection': "#{address.streetFi} #{address.number}#{staircaseSelection}, #{address.municipalityFi}"
+              'selection': "#{address.streetFi} #{address.number}#{staircaseSelection}, " +
+                           "#{address.municipalityFi}"
       callback(null, addresses)
 
   searchSuggests: (address, callback) =>
@@ -118,7 +130,8 @@ class Autosuggest extends React.Component
               'selection': "#{streetName}, #{city.key}"
 
             # Store all city names for address search where address is exact match
-            if city.key.toLowerCase() not in uniqueCities and streetName.toLowerCase() == address.toLowerCase()
+            if (city.key.toLowerCase() not in uniqueCities and
+                streetName.toLowerCase() == address.toLowerCase())
               uniqueCities.push(city.key.toLowerCase())
 
       stops = data.stops.map (result) ->
@@ -144,10 +157,17 @@ class Autosuggest extends React.Component
     lastMatchIndex = firstMatchIndex + input.length
 
     switch suggestion.type
-      when 'street' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>"""
-      when 'address' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>"""
-      when 'stop' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_bus-stop"></use></svg>"""
-      else icon = "<span>*</span>"
+      when 'street'
+        icon = '<svg viewBox="0 0 40 40" class="icon">' +
+                 '<use xlink:href="#icon-icon_place"></use></svg>'
+      when 'address'
+        icon = '<svg viewBox="0 0 40 40" class="icon">' +
+                 '<use xlink:href="#icon-icon_place"></use></svg>'
+      when 'stop'
+        icon = '<svg viewBox="0 0 40 40" class="icon">' +
+                 '<use xlink:href="#icon-icon_bus-stop"></use></svg>'
+      else
+        icon = "<span>*</span>"
 
     # suggestion can match even if input text is not visible
     if firstMatchIndex == -1
@@ -188,7 +208,7 @@ class Autosuggest extends React.Component
     if autoSuggestComponent
       input = autoSuggestComponent.refs.input.getDOMNode()
       input.addEventListener('keydown', @suggestionArrowPress)
-      this.autoSuggestInput = input
+      @autoSuggestInput = input
 
   # Scroll selection if needed
   # See: https://github.com/moroshko/react-autosuggest/issues/21
@@ -214,7 +234,7 @@ class Autosuggest extends React.Component
   # Happens when user presses enter without selecting anything from autosuggest
   onSubmit: (e) =>
     e.preventDefault()
-    analyzed = @analyzeInput(this.autoSuggestInput.value)
+    analyzed = @analyzeInput(@autoSuggestInput.value)
     @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
 
   # We use two different components depending on location state

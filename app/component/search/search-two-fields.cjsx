@@ -20,8 +20,8 @@ class SearchTwoFields extends React.Component
   componentWillMount: =>
     @context.getStore('EndpointStore').addChangeListener @onEndpointChange
     @setState
-        origin: @context.getStore('EndpointStore').getOrigin()
-        destination: @context.getStore('EndpointStore').getDestination()
+      origin: @context.getStore('EndpointStore').getOrigin()
+      destination: @context.getStore('EndpointStore').getDestination()
     @onGeolocationChange()
 
   componentDidMount: =>
@@ -34,7 +34,7 @@ class SearchTwoFields extends React.Component
   onGeolocationChange: =>
     geo = @context.getStore('LocationStore').getLocationState()
     @setState
-        geo: geo
+      geo: geo
     if not (geo.status == 'no-location' or
             geo.isLocationingInProgress or
             geo.hasLocation)
@@ -50,22 +50,22 @@ class SearchTwoFields extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
     @setState
-        origin: origin
-        destination: destination
+      origin: origin
+      destination: destination
     @routeIfPossible()
 
   selectOrigin: (lat, lon, address) =>
     @context.executeAction EndpointActions.setOrigin, {
-                           'lat': lat
-                           'lon': lon
-                           'address': address
+      'lat': lat
+      'lon': lon
+      'address': address
     }
 
   selectDestination: (lat, lon, address) =>
     @context.executeAction EndpointActions.setDestination, {
-                           'lat': lat
-                           'lon': lon
-                           'address': address
+      'lat': lat
+      'lon': lon
+      'address': address
     }
 
   onSwitch: (e) =>
@@ -87,18 +87,18 @@ class SearchTwoFields extends React.Component
       @context.executeAction EndpointActions.setDestinationToCurrent
     else
       @context.executeAction EndpointActions.setDestination, {
-                           'lat': origin.lat
-                           'lon': origin.lon
-                           'address': origin.address
+        'lat': origin.lat
+        'lon': origin.lon
+        'address': origin.address
       }
 
     if destination.useCurrentPosition
       @context.executeAction EndpointActions.setOriginToCurrent
     else
       @context.executeAction EndpointActions.setOrigin, {
-                           'lat': destination.lat
-                           'lon': destination.lon
-                           'address': destination.address
+        'lat': destination.lat
+        'lon': destination.lon
+        'address': destination.address
       }
 
   routeIfPossible: =>
@@ -129,7 +129,7 @@ class SearchTwoFields extends React.Component
         @context.router.transitionTo "summary",
           from: from
           to: to
-      ,0)
+      , 0)
 
   render: =>
     # We don't have state on the server, because we don't have a geolocation,
@@ -138,15 +138,15 @@ class SearchTwoFields extends React.Component
       geolocation_div =
           <div className="input-placeholder">
             <div className="address-box">
-            <span className="inline-block" onTouchTap={this.locateUser}>
+            <span className="inline-block" onTouchTap={@locateUser}>
                 <Icon img={'icon-icon_mapMarker-location'}/>
             </span>
             {if @state.geo.isLocationingInProgress
-               'Sijaintiasi etsitään'
+              'Sijaintiasi etsitään'
              else if @state.geo.hasLocation
-               'Oma sijainti'
+              'Oma sijainti'
              else
-               'No location?!?'}
+              'No location?!?'}
             <span className="inline-block right cursor-pointer"
                   onTouchTap={@removePosition}>
               <Icon img={'icon-icon_close'} /></span>
@@ -159,14 +159,14 @@ class SearchTwoFields extends React.Component
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
               {if @state.origin.useCurrentPosition
-                 geolocation_div
+                geolocation_div
                else
-                 <form onSubmit={@onSubmit}>
-                   <Autosuggest onSelection={@selectOrigin}
-                                placeholder="Lähtöpaikka"
-                                value=@state.origin.address
-                                />
-                 </form>
+                <form onSubmit={@onSubmit}>
+                  <Autosuggest onSelection={@selectOrigin}
+                               placeholder="Lähtöpaikka"
+                               value=@state.origin.address
+                               />
+                </form>
               }
             </div>
             <div className="small-1 columns">
@@ -185,14 +185,14 @@ class SearchTwoFields extends React.Component
                   @state.geo.isLocationingInProgress
                 'Waiting for position'
                else if @state.destination.useCurrentPosition
-                 geolocation_div
+                geolocation_div
                else
-                 <form onSubmit={@onSubmit}>
-                   <Autosuggest onSelection={@selectDestination}
-                                placeholder="Määränpää"
-                                value=@state.destination.address
-                                />
-                 </form>
+                <form onSubmit={@onSubmit}>
+                  <Autosuggest onSelection={@selectDestination}
+                               placeholder="Määränpää"
+                               value=@state.destination.address
+                               />
+                </form>
               }
             </div>
             <div className="small-1 columns">

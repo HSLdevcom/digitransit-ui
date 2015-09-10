@@ -11,7 +11,11 @@ class Page extends React.Component
     <DefaultNavigation className="fullscreen">
       <Map className="fullscreen" showStops=true showVehicles=true>
         <SearchTwoFields />
-        <Link to={process.env.ROOT_PATH}><div className="fullscreen-toggle"><Icon img={'icon-icon_minimize'} className="cursor-pointer" /></div></Link>
+        <Link to={process.env.ROOT_PATH}>
+          <div className="fullscreen-toggle">
+            <Icon img={'icon-icon_minimize'} className="cursor-pointer" />
+          </div>
+        </Link>
       </Map>
     </DefaultNavigation>
 
