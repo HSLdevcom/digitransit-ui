@@ -13,14 +13,16 @@ class ToggleButton extends React.Component
       # @props.checkedClass to btn div
     classes =
       'btn': true
-      'column': true
 
     if @props.state
       classes[@props.checkedClass] = @props.state
 
+    if @props.icon
+      iconTag = <div className="icon-holder cursor-pointer"><Icon img={'icon-icon_' + @props.icon} className="" /></div>
     <div className={cx classes, @props.className} onClick={@props.onBtnClick}>
-      <div className="icon-holder cursor-pointer">
-        <Icon img={'icon-icon_' + @props.icon} className="" />
+      {iconTag}
+      <div>
+        {@props.children}
       </div>
     </div>
 

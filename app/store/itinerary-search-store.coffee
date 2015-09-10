@@ -11,6 +11,9 @@ class ItinerarySearchStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @data = if d = window?.localStorage?.getItemSTORAGE_KEY then JSON.parse(d) else {}
+    # TODO: fetch the real options
+    @ticketOptions = ["Ei lippuvyöhykerajoitusta", "some other thext", "more options"]
+    @accessibilityOptions = ["Ei rajoitusta", "Wheelchair", "keppi"]
     @busState = true
     @tramState = true
     @trainState = true
@@ -26,6 +29,12 @@ class ItinerarySearchStore extends Store
 
   getData: ->
     @data
+
+  getTicketOptions: ->
+    @ticketOptions
+
+  getAccessibilityOptions: ->
+    @accessibilityOptions
 
   getBusState: ->
     @busState

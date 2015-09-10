@@ -5,7 +5,7 @@
 $thumb-color-gray: #575757;
 $thumb-color-pink: $favourite-color;
 
-$slider-title-color: $gray-blue;
+$slider-title-color: $gray;
 $slider-title-font-family: $font-family;
 $slider-title-font-size: 14px;
 
@@ -143,8 +143,6 @@ input[type=range].slider:focus::-ms-fill-upper {
 /*
   TOGGLE BUTTON
 */
-
-$dark-gray: rgb(87,87,87);  /*TODO: move to template? */
 $btn-highlight-opacity: 0.9;
 
 $btn-inactive-background-color: $dark-gray;
@@ -166,6 +164,8 @@ $btn-heigth: 17px;
   background-color: $btn-inactive-background-color;
   text-align: center;
   background-color: #575757;
+  float:left;
+  cursor: pointer;
 
   &:hover {
     opacity: $btn-highlight-opacity;
@@ -216,6 +216,15 @@ $btn-heigth: 17px;
   }
 }
 
+.standalone-btn {
+  padding: 6px 15px;
+  border-radius: 20px;
+  .icon-holder  {
+    padding: 0;
+    margin: 0;
+    margin-top: 4px;
+  }
+}
 
 .first-btn {
   border-top-left-radius: $border-radius;

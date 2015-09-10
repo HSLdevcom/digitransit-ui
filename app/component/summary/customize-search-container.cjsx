@@ -10,7 +10,7 @@ class CustomizeSearchContainer extends React.Component
 
 
   render: ->
-    <Offcanvas open={@props.open} className="offcanvas-customize" position="right">
+    <Offcanvas open={@props.open} className="customize-search" position="right">
       <CustomizeSearch/>
     </Offcanvas>
 

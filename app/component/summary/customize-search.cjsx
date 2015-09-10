@@ -18,6 +18,16 @@ class CustomizeSearch extends React.Component
   onChange: =>
     @forceUpdate()
 
+  getTicketOptions: ->
+    options = @context.getStore('ItinerarySearchStore').getTicketOptions()
+    options.map (optionText, index) ->
+      <option key={index} value={index}>{optionText}</option>
+
+  getAccessibilityOptions: ->
+    options = @context.getStore('ItinerarySearchStore').getAccessibilityOptions()
+    options.map (optionText, index) ->
+      <option key={"accessibility-" + index} value={"accessibility-" + index}>{optionText}</option>
+
   render: ->
     <div>
       <section className="offcanvas-section">
@@ -76,6 +86,43 @@ class CustomizeSearch extends React.Component
           minText={"Hidas"}
           maxText={"Juoksu"}
         />
+      </section>
+      <section className="offcanvas-section">
+        <h3>Lippuvyöhykkeet</h3>
+        <select>
+        {@getTicketOptions()}
+        </select>
+      </section>
+      <section className="offcanvas-section">
+        <h3>Esteettömyys</h3>
+        <select>
+          {@getAccessibilityOptions()}
+        </select>
+      </section>
+      <section className="offcanvas-section">
+        <h3>Lisää reitille välipiste</h3>
+        <div className="row">
+          <div className="column small-7 remove-padding">
+            <input type="text" placeholder="Kirjoita osoite" />
+          </div>
+          <div className="column small-5">
+            <ToggleButton className="standalone-btn">Lisää</ToggleButton>
+          </div>
+        </div>
+      </section>
+      <section className="offcanvas-section">
+        <h3>Lisää reitille välipiste</h3>
+        <div className="row">
+          <div className="column small-6 remove-padding">
+            <input type="text" placeholder="" />
+          </div>
+          <div className="column small-3">
+            <ToggleButton className="standalone-btn" icon="plus"/>
+          </div>
+          <div className="column small-3">
+            <ToggleButton className="standalone-btn" icon="plus"/>
+          </div>
+        </div>
       </section>
     </div>
 module.exports = CustomizeSearch
