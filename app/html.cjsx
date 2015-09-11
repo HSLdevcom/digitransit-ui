@@ -20,6 +20,7 @@ class Application extends React.Component
         <div id="app" style={{height: "100%"}} dangerouslySetInnerHTML={ __html: @props.content } ></div>
         <script dangerouslySetInnerHTML={ __html: @props.polyfill }/>
         <script dangerouslySetInnerHTML={ __html: @props.state }/>
+        <script dangerouslySetInnerHTML={ __html: @props.locale }/>
         <script async src={ @props.livereload + "js/bundle.js" }/>
       </body>
     </html>

@@ -11,6 +11,7 @@ isEqual           = require 'lodash/lang/isEqual'
 config            = require './config'
 
 app               = require './app'
+translations = require './translations'
 
 dehydratedState   = window.state; # Sent from the server
 
@@ -24,12 +25,6 @@ Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer("#{config.URL.OTP}index/graphql")
 );
 
-# XXX This needs to be on the server side too
-# XXX Need messages for every locale
-messages =
-  'own-position': 'Oma paikka'
-  'destination': 'Joulumaa'
-
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
   if err
@@ -42,7 +37,7 @@ app.rehydrate dehydratedState, (err, context) ->
   # If you change how the locales and messages are loaded, change server.js too.
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
-      <IntlProvider messages=messages>
+      <IntlProvider messages=translations[window.locale] locale=window.locale>
         <Router history={History} children={app.getComponent()}
                 createElement={ReactRouterRelay.createElement} onUpdate={() ->
             if @state.components[@state.components.length-1].loadAction

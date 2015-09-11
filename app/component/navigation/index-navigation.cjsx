@@ -4,9 +4,12 @@ IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
 
+intl = require('react-intl')
+
 class IndexNavigation extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+    intl: intl.intlShape.isRequired
 
   constructor: ->
     super
@@ -14,11 +17,14 @@ class IndexNavigation extends React.Component
       subNavigationVisible: false
       offcanvasVisible: false
       disruptionVisible: false
-      text: if @context.getStore("TimeStore").status == "UNSET" then "Nyt" else "Myöhemmin"
+      text: if @context.getStore("TimeStore").status == "UNSET"
+              @context.intl.formatMessage({id: 'now', 'defaultMessage': "Nyt"})
+            else
+              @context.intl.formatMessage({id: 'later', 'defaultMessage': "Myöhemmin"})
 
   componentDidMount: ->
     @context.getStore('DisruptionStore').addChangeListener @onChange
-    
+
   componentWillUnmount: ->
     @context.getStore('DisruptionStore').removeChangeListener @onChange
 

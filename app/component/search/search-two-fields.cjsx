@@ -7,7 +7,6 @@ config = require '../../config'
 
 intl = require('react-intl')
 FormattedMessage = intl.FormattedMessage
-FormattedDate = intl.FormattedDate
 
 locationValue = (location) ->
   decodeURIComponent(location.split("::")[0])
@@ -170,7 +169,8 @@ class SearchTwoFields extends React.Component
                else
                 <form onSubmit={@onSubmit}>
                   <Autosuggest onSelection={@selectOrigin}
-                               placeholder="Lähtöpaikka"
+                               placeholder={@context.intl.formatMessage(
+                                 {id: 'origin', defaultMessage: "Lähtöpaikka"})}
                                value=@state.origin.address
                                />
                 </form>
@@ -190,7 +190,11 @@ class SearchTwoFields extends React.Component
             <div className="small-11 columns">
               {if @state.origin.useCurrentPosition and
                   @state.geo.isLocationingInProgress
-                <input type="text" disabled="disabled" placeholder="Määränpää"/>
+                <input type="text"
+                       placeholder={@context.intl.formatMessage(
+                         {id: 'destination', defaultMessage: "Määränpää"})}
+                       disabled="disabled"
+                       />
                else if @state.destination.useCurrentPosition
                 geolocation_div
                else

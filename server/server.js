@@ -29,6 +29,7 @@ var app = express()
 
 /********** Application **********/
 var application = require('../app/app')
+var translations = require('../app/translations')
 var appRoot = process.cwd() + "/"
 var applicationHtml = require('../app/html')
 var svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
@@ -62,6 +63,8 @@ function setUpMiddleware() {
 
 function setUpRoutes() {
   app.use(function (req, res, next) { // pass in `req.url` and the router will immediately match
+    var locale = req.query.locale || req.acceptsLanguages(['fi', 'sv', 'en']) || 'en';
+    var messages = translations[locale]
     var context = application.createContext()
     var location = new Location(req.path, req.query);
     Router.run(application.getComponent(), location, function (error, initialState, transition) {
@@ -73,7 +76,7 @@ function setUpRoutes() {
               FluxibleComponent,
               { context: context.getComponentContext() },
               React.createElement(
-                IntlProvider, {},
+                IntlProvider, {locale: locale},
                 React.createElement(
                   Router,
                   { location: initialState.location,
@@ -107,7 +110,8 @@ function setUpRoutes() {
               content: content,
               polyfill: polyfillContent,
               state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
-              livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath
+              livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
+              locale: 'window.locale="' + locale + '"'
             }
           )
         )

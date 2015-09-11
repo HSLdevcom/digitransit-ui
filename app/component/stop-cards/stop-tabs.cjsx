@@ -6,9 +6,13 @@ StopCardListContainer = require './stop-card-list-container'
 NoLocationPanel       = require '../no-location-panel/no-location-panel'
 Icon                  = require '../icon/icon.cjsx'
 
+intl = require('react-intl')
+FormattedMessage = intl.FormattedMessage
+
 class StopTabs extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+    intl: intl.intlShape.isRequired
 
   constructor: ->
     super
@@ -48,13 +52,17 @@ class StopTabs extends React.Component
       nearestPanel = <NoLocationPanel/>
 
     <Tabs>
-      <Tabs.Panel title="Lähimmät">
+      <Tabs.Panel
+        title={@context.intl.formatMessage({id: 'nearest', defaultMessage: "Lähimmät"})} >
         {nearestPanel}
       </Tabs.Panel>
-      <Tabs.Panel title='Edelliset'>
+      <Tabs.Panel
+        title={@context.intl.formatMessage({id: 'previous', defaultMessage: "Edelliset"})} >
         <h2>Edelliset tähän</h2>
       </Tabs.Panel>
-      <Tabs.Panel title={<Icon  className="favourite" img="icon-icon_star">Suosikit</Icon>}>
+      <Tabs.Panel title={<Icon  className="favourite" img="icon-icon_star">
+                           {@context.intl.formatMessage(
+                             {id: "favourites", defaultMessage: "Suosikit"})}</Icon>}>
         <StopCardListContainer key="FavouriteStopsStore" store={@context.getStore 'FavouriteStopsStore'}/>
       </Tabs.Panel>
     </Tabs>
