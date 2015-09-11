@@ -1,3 +1,7 @@
+// Polyfill for node
+// XXX Test on new node 4.0 release
+global.Intl = require('intl');
+
 var express = require('express')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
@@ -7,6 +11,7 @@ var React = require('react')
 var ReactDOM = require('react-dom/server')
 var Router = require('react-router/lib/Router')
 var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
+var IntlProvider = require('react-intl').IntlProvider;
 var Location = require('react-router/lib/Location');
 var serialize = require('serialize-javascript');
 var polyfillService = require('polyfill-service');
@@ -62,17 +67,20 @@ function setUpRoutes() {
     Router.run(application.getComponent(), location, function (error, initialState, transition) {
       render = function() {
         var content = "";
-        if (!initialState.components[1].getQuery) {// Ugly way to see if this is a Relay RootComponent
+        if (!initialState.components[initialState.components.length - 1].getQuery) {// Ugly way to see if this is a Relay RootComponent
           content = ReactDOM.renderToString(
             React.createElement(
               FluxibleComponent,
               { context: context.getComponentContext() },
               React.createElement(
-                Router,
-                { location: initialState.location,
-                  branch: initialState.branch,
-                  components: initialState.components,
-                  params: initialState.params }
+                IntlProvider, {},
+                React.createElement(
+                  Router,
+                  { location: initialState.location,
+                    branch: initialState.branch,
+                    components: initialState.components,
+                    params: initialState.params }
+                )
               )
             )
           );
