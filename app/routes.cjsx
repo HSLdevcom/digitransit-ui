@@ -11,6 +11,7 @@ StopMapPage   = require './page/stop-map'
 StopPage      = require './page/stop'
 SummaryPage   = require './page/summary'
 Error404      = require './page/404'
+TypographyPage= require './page/typography'
 
 # Queriesd
 queries = require('./queries')
@@ -34,6 +35,7 @@ routes =
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={NavigationPage}/>
+    <Route path="typography" name="typography" component={TypographyPage}/>
   </Route>
 
 module.exports = routes
