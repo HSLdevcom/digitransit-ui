@@ -126,9 +126,7 @@ class SearchTwoFields extends React.Component
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
       setTimeout(() =>
-        @context.router.transitionTo "summary",
-          from: from
-          to: to
+        @context.router.transitionTo("#{process.env.ROOT_PATH}reitti/#{from}/#{to}")
       , 0)
 
   render: =>
