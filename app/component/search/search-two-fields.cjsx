@@ -138,7 +138,7 @@ class SearchTwoFields extends React.Component
       geolocation_div =
           <div className="input-placeholder">
             <div className="address-box">
-            <span className="inline-block" onTouchTap={@locateUser}>
+            <span className="inline-block" onClick={@locateUser}>
                 <Icon img={'icon-icon_mapMarker-location'}/>
             </span>
             {if @state.geo.isLocationingInProgress
@@ -148,7 +148,7 @@ class SearchTwoFields extends React.Component
              else
               'No location?!?'}
             <span className="inline-block right cursor-pointer"
-                  onTouchTap={@removePosition}>
+                  onClick={@removePosition}>
               <Icon img={'icon-icon_close'} /></span>
             </div>
           </div>
@@ -170,7 +170,7 @@ class SearchTwoFields extends React.Component
               }
             </div>
             <div className="small-1 columns">
-              <span className="postfix search cursor-pointer" onTouchTap={@onSwitch}>
+              <span className="postfix search cursor-pointer" onClick={@onSwitch}>
                 <Icon img={'icon-icon_direction-a'}/>
               </span>
             </div>
@@ -197,7 +197,7 @@ class SearchTwoFields extends React.Component
             </div>
             <div className="small-1 columns">
               <span className="postfix search cursor-pointer"
-                    onTouchTap={@routeIfPossible}>
+                    onClick={@routeIfPossible}>
                 <Icon img={'icon-icon_search'}/>
               </span>
             </div>
