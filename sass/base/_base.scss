@@ -98,3 +98,12 @@ div.spinner-loader {
 @keyframes spin {
   100% { transform:rotate(360deg); }
 }
+
+/* Used on the typography page */
+.code {
+  font-family: monospace;
+  color: crimson;
+  font-weight: 400;
+  padding: 0 10px;
+  font-size: 16px;
+}
