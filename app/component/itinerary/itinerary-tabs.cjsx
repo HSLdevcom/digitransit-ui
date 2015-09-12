@@ -9,7 +9,12 @@ ItinerarySummary   = require './itinerary-summary'
 Map                = require '../map/map'
 ItineraryLine      = require '../map/itinerary-line'
 
+intl = require('react-intl')
+
 class ItineraryTabs extends React.Component
+  @contextTypes:
+    intl: intl.intlShape.isRequired
+
   render: ->
     legs = []
     numberOfLegs = @props.itinerary.legs.length
@@ -25,11 +30,17 @@ class ItineraryTabs extends React.Component
     <div>
       <ItinerarySummary itinerary={@props.itinerary}/>
       <Tabs className="itinerary-tabs">
-        <Tabs.Panel title="Ohjeet" className="fullscreen">
+        <Tabs.Panel
+          title={@context.intl.formatMessage(
+            {id: 'instructions', defaultMessage: "Ohjeet"})}
+          className="fullscreen">
           <TicketInformation/>
           {legs}
         </Tabs.Panel>
-        <Tabs.Panel title="Kartta">
+        <Tabs.Panel
+          title={@context.intl.formatMessage(
+            {id: 'map', defaultMessage: "Kartta"})}
+          >
           <Map ref="map" className="fullscreen" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs-1].to} padding={[0, 0]}/>
         </Tabs.Panel>
       </Tabs>
