@@ -1,5 +1,5 @@
 React                 = require 'react'
-Link                  = require('react-router/lib/Link').Link
+Link                  = require 'react-router/lib/Link'
 Icon                  = require '../icon/icon'
 Config                = require '../../config'
 

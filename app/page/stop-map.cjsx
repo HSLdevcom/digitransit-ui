@@ -4,7 +4,7 @@ queries            = require '../queries'
 DefaultNavigation  = require '../component/navigation/default-navigation'
 Icon               = require '../component/icon/icon'
 Map                = require '../component/map/map'
-Link               = require('react-router/lib/Link').Link
+Link               = require 'react-router/lib/Link'
 StopCardHeader     = require '../component/stop-cards/stop-card-header'
 FavouriteStopsAction = require '../action/favourite-stops-action'
 

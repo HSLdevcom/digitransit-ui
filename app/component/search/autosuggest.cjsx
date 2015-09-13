@@ -7,10 +7,6 @@ config         = require '../../config'
 AUTOSUGGEST_ID = 'autosuggest'
 
 class Autosuggest extends React.Component
-
-  @contextTypes:
-    router: React.PropTypes.func.isRequired
-
   constructor: ->
     super
 
@@ -206,7 +202,7 @@ class Autosuggest extends React.Component
   # See: https://github.com/moroshko/react-autosuggest/issues/21
   handleAutoSuggestMount: (autoSuggestComponent) =>
     if autoSuggestComponent
-      input = autoSuggestComponent.refs.input.getDOMNode()
+      input = autoSuggestComponent.refs.input
       input.addEventListener('keydown', @suggestionArrowPress)
       @autoSuggestInput = input
 

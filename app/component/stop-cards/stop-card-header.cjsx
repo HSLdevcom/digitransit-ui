@@ -2,7 +2,7 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Icon                  = require '../icon/icon.cjsx'
-Link                  = require('react-router/lib/Link').Link
+Link                  = require 'react-router/lib/Link'
 classNames            = require 'classnames'
 
 

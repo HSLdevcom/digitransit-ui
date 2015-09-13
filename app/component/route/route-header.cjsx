@@ -1,7 +1,7 @@
 React                 = require 'react'
 Icon                  = require '../icon/icon'
 GtfsUtils             = require '../../util/gtfs'
-Link                  = require('react-router/lib/Link').Link
+Link                  = require 'react-router/lib/Link'
 
 
 class RouteHeader extends React.Component

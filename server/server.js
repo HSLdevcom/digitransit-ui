@@ -1,26 +1,30 @@
-// Polyfill for node
-// XXX Test on new node 4.0 release
-global.Intl = require('intl');
-
+/********** Server **********/
 var express = require('express')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var fs = require('fs')
 var path = require('path')
-var React = require('react')
-var ReactDOM = require('react-dom/server')
-var Router = require('react-router/lib/Router')
-var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
-var IntlProvider = require('react-intl').IntlProvider;
-var Location = require('react-router/lib/Location');
-var serialize = require('serialize-javascript');
-var polyfillService = require('polyfill-service');
+
+/********** Polyfills (for node) **********/
 require('node-cjsx').transform();
 require("babel/register")({stage: 0});
 
-/********** Polyfill **********/
 global.fetch = require('node-fetch');
 global.self = {fetch: global.fetch};
+
+// XXX Test on new node 4.0 release
+global.Intl = require('intl');
+
+/********** Libraries **********/
+var React = require('react')
+var ReactDOM = require('react-dom/server')
+var match = require('react-router/lib/match')
+var RoutingContext = require('react-router/lib/RoutingContext')
+var createLocation = require('history/lib/createLocation');
+var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
+var IntlProvider = require('react-intl').IntlProvider;
+var serialize = require('serialize-javascript');
+var polyfillService = require('polyfill-service');
 
 /********** Global **********/
 var port = process.env.PORT || 8080
@@ -61,78 +65,94 @@ function setUpMiddleware() {
   app.use(bodyParser.raw())
 }
 
+function getPolyfills(userAgent) {
+  polyfillService.getPolyfillString({
+    uaString: userAgent,
+    features: {
+      'Function.prototype.bind': {flags: ['gated']},
+      'matchMedia': {flags: ['gated']},
+      'fetch': {flags: ['always', 'gated']}, // 'always' for ie_mob
+      'Promise': {flags: ['gated']},
+      'String.prototype.repeat': {flags: ['always', 'gated']}
+    },
+    minify: true,
+    unknown: 'polyfill'
+  });
+}
+
 function setUpRoutes() {
   app.use(function (req, res, next) { // pass in `req.url` and the router will immediately match
     var locale = req.query.locale || req.acceptsLanguages(['fi', 'sv', 'en']) || 'en';
     var messages = translations[locale]
     var context = application.createContext()
-    var location = new Location(req.path, req.query);
-    Router.run(application.getComponent(), location, function (error, initialState, transition) {
-      render = function() {
-        var content = "";
-        if (!initialState.components[initialState.components.length - 1].getQuery) {// Ugly way to see if this is a Relay RootComponent
-          content = ReactDOM.renderToString(
-            React.createElement(
-              FluxibleComponent,
-              { context: context.getComponentContext() },
-              React.createElement(
-                IntlProvider, {locale: locale},
-                React.createElement(
-                  Router,
-                  { location: initialState.location,
-                    branch: initialState.branch,
-                    components: initialState.components,
-                    params: initialState.params }
-                )
-              )
-            )
-          );
-        };
-        var polyfillContent = polyfillService.getPolyfillString({
-          uaString: req.headers['user-agent'],
-          features: {
-            'Function.prototype.bind': {flags: ['gated']},
-            'matchMedia': {flags: ['gated']},
-            'fetch': {flags: ['always', 'gated']}, // 'always' for ie_mob
-            'Promise': {flags: ['gated']},
-            'String.prototype.repeat': {flags: ['always', 'gated']}
-          },
-          minify: true,
-          unknown: 'polyfill'
-        });
+    var location = createLocation(req.url);
 
-        var html = ReactDOM.renderToStaticMarkup(
-          React.createElement(
-            applicationHtml,
-            {
-              css: process.env.NODE_ENV === "development" ? false : css,
-              svgSprite: svgSprite,
-              content: content,
-              polyfill: polyfillContent,
-              state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
-              livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
-              locale: 'window.locale="' + locale + '"'
-            }
-          )
-        )
-
-        res.send('<!doctype html>' + html);
+    match({routes: application.getComponent(), location: location}, function (error, redirectLocation, renderProps) {
+      if (redirectLocation) {
+        res.redirect(301, redirectLocation.pathname + redirectLocation.search)
       }
-      if (!initialState) {
-        res.status(404).send("Not found!");
+      else if (error) {
+        res.status(500).send(error.message)
+      }
+      else if (renderProps == null) {
+        res.status(404).send('Not found')
       }
       else {
-        if (initialState.components[initialState.components.length-1] &&
-          initialState.components[initialState.components.length-1].loadAction) {
-            context.getActionContext().executeAction(
-              initialState.components[initialState.components.length-1].loadAction,
-              {params:initialState.params, query:initialState.location.query}).then(render)
-        } else {
-          render()
-        }
+        var promises = renderProps.components.map(function(component){
+          if (component instanceof Object && component.loadAction) {
+            return context.getActionContext().executeAction(component.loadAction,
+              {params:renderProps.params, query:renderProps.location.query});
+          } else {
+            return true;
+          }
+        });
+        Promise.all(promises).then(function(){
+          var content = "";
+          // Ugly way to see if this is a Relay RootComponent
+          // until Relay gets server rendering capabilities
+          if (!renderProps.components.some(function(i){return (i instanceof Object && i.getQuery)})){
+            // TODO: This should be moved to a place to coexist with similar content from client.coffee
+            content = ReactDOM.renderToString(
+              React.createElement(
+                FluxibleComponent,
+                { context: context.getComponentContext() },
+                React.createElement(
+                  IntlProvider, {locale: locale},
+                  React.createElement(
+                    RoutingContext,
+                    { history: renderProps.history,
+                      createElement: React.createElement,
+                      location: renderProps.location,
+                      routes: renderProps.routes,
+                      params: renderProps.params,
+                      components: renderProps.components
+                    }
+                  )
+                )
+              )
+            );
+          };
+
+          var html = ReactDOM.renderToStaticMarkup(
+            React.createElement(
+              applicationHtml,
+              {
+                css: process.env.NODE_ENV === "development" ? false : css,
+                svgSprite: svgSprite,
+                content: content,
+                polyfill: getPolyfills(req.headers['user-agent']),
+                state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
+                livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
+                locale: 'window.locale="' + locale + '"'
+              }
+            )
+          )
+
+          res.send('<!doctype html>' + html);
+        });
       }
-    })
-  })
+    });
+  });
 }
 
 function startServer() {

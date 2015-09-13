@@ -13,16 +13,18 @@ SummaryPage   = require './page/summary'
 Error404      = require './page/404'
 
 # Queriesd
-queries = require('./queries')
+queries = require './queries'
 
 # Reittiopas application
-Route = require('react-router/lib/Route').Route
+Route = require 'react-router/lib/Route'
+IndexRoute = require 'react-router/lib/IndexRoute'
 
 ROOT_PATH = if process?.env.ROOT_PATH != undefined then process.env.ROOT_PATH else '/'
 
 # Routes
 routes =
-  <Route path={ROOT_PATH} name="app" indexRoute={component: IndexPage}>
+  <Route path={ROOT_PATH} name="app">
+    <IndexRoute component={IndexPage}/>
     <Route path="kartta" name="map" component={MapPage}/>
     <Route path="pysakit" name="stopList" component={Error404}/>
     <Route path="pysakit/:stopId" name="stop" component={StopPage} queries={queries.StopQueries}/>
