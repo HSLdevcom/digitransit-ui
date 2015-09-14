@@ -113,7 +113,7 @@ class CustomizeSearch extends React.Component
           headerText={"Vaihdot"}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkBoardCost()}
           onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setWalkBoardCost, event.target.value)}
-          min={0}
+          min={1}
           max={1800}
           step={60}
           minText={"Vähän vaihtoja"}
@@ -125,7 +125,7 @@ class CustomizeSearch extends React.Component
           headerText={"Vaihtomarginaali"}
           defaultValue={@context.getStore('ItinerarySearchStore').getMinTransferTime()}
           onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setMinTransferTime, event.target.value)}
-          min={0}
+          min={1}
           max={900}
           step={60}
           minText={"1 min"}

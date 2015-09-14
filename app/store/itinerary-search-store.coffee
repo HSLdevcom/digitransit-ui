@@ -11,6 +11,8 @@ class ItinerarySearchStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @data = if d = window?.localStorage?.getItemSTORAGE_KEY then JSON.parse(d) else {}
+    @fromPlace = ""
+    @toPlace   = ""
     @ticketOptions = [
       {
         "displayName":   "Ei lippuvyöhykerajoitusta",
@@ -40,11 +42,30 @@ class ItinerarySearchStore extends Store
 
     @walkReluctance = 2
     @walkBoardCost = 600          # Vaihdot
-    @minTransferTime = 180         # Vaihtomarginaali
+    @minTransferTime = 180        # Vaihtomarginaali
     @walkSpeed = 1.2
 
   getData: ->
     @data
+
+  getOptions: ->
+    params: {
+      "to": @toPlace,
+      "from": @fromPlace
+    }
+
+  getMode: ->
+    mode = []
+    if @getWalkState() then mode.push("WALK")
+    if @getCycleState() then mode.push("BICYCLE")
+    if @getCarState() then mode.push("CAR")
+    if @getBusState() then mode.push("BUS")
+    if @getTramState() then mode.push("TRAM")
+    if @getTrainState() then mode.push("RAIL")
+    if @getSubwayState() then mode.push("SUBWAY")
+    if @getFerryState() then mode.push("FERRY")
+    return mode.join(",")
+
 
   getTicketOptions: ->
     @ticketOptions
@@ -81,6 +102,8 @@ class ItinerarySearchStore extends Store
     @minTransferTime
   getWalkSpeed: ->
     @walkSpeed
+  isWheelchair: ->
+    @selectedAccessibilityOption == "1"
 
 
   toggleBusState: ->
@@ -114,17 +137,21 @@ class ItinerarySearchStore extends Store
     @walkState = @cycleState = @carState = false
     return
 
+  updateFromToPlaces: (params)  ->
+    @toPlace = params.to
+    @fromPlace = params.from
+    @emitChange()
 
   setWalkReluctance: (value) ->
     @walkReluctance = value
     @emitChange()
 
   setWalkBoardCost: (value) ->
-    @walkBoardCost = value * 60
+    @walkBoardCost = value
     @emitChange()
 
   setMinTransferTime: (value) ->
-    @minTransferTime = value * 60
+    @minTransferTime = value
     @emitChange()
 
   setWalkSpeed: (value) ->
@@ -165,6 +192,7 @@ class ItinerarySearchStore extends Store
     "ToggleWalkState" : 'toggleWalkState'
     "ToggleCycleState" : 'toggleCycleState'
     "ToggleCarState" : 'toggleCarState'
+    "UpdateFromToPlaces": 'updateFromToPlaces'
     "SetWalkReluctance" : "setWalkReluctance"
     "SetWalkBoardCost" : "setWalkBoardCost"
     "SetMinTransferTime" : "setMinTransferTime"
