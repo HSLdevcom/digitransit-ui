@@ -21,9 +21,9 @@ translations =
     'num-stops': '{stops, plural,
                              =1 {yksi pysäkki}
                              other {# pysäkkiä}
-                            }({minutes, plural,
-                               =1 {one minute}
-                               other {# minutes}})'
+                            } ({minutes, plural,
+                               =1 {yksi minuutti}
+                               other {# minuutia}})'
     'alight': 'Nouse kyydistä pysäkillä'
     'start-journey-place': 'Aloita matka paikasta'
     'walk-to-destination': 'Kävele määränpäähän'
@@ -31,5 +31,38 @@ translations =
     'share': 'Jaa ohje'
     'print': 'Tulosta'
     'navigate': 'Navigoi'
+
+  'sv':
+    'searching-position': 'Positionerar'
+    'own-position': 'Egen position'
+    'no-position': 'Ingen position'
+    'origin': 'Från'
+    'destination': 'Destination'
+    'nearest': 'Närmaste'
+    'previous': 'Senaste'
+    'favourites': 'Favoriter'
+    'show-more': 'Visa fler'
+    'now': 'Nu'
+    'later': 'Senare'
+    'instructions': 'Instruktioner'
+    'map': 'Karta'
+    'start-journey-stop': 'Utgå från hållplatsen'
+    'route-with-headsign': "Linje {route} i riktning mot {headsign}"
+    'route-without-headsign': "Linje {route}"
+    'end-journey': 'Sluta resan vid'
+    'required-ticket': 'Biljett för resan'
+    'num-stops': '{stops, plural,
+                             =1 {en hållplats}
+                             other {# hållplatser}
+                            } ({minutes, plural,
+                               =1 {en minut}
+                               other {# minuter}})'
+    'alight': 'Stig av vid hållplatsen'
+    'start-journey-place': 'Utgå från'
+    'walk-to-destination': 'Gå till destination'
+    'walk-to-stop': 'Gå till hållplatsen'
+    'share': 'Dela resan'
+    'print': 'Skriv ut'
+    'navigate': 'Navigera'
 
 module.exports = translations
