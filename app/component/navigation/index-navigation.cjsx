@@ -18,9 +18,9 @@ class IndexNavigation extends React.Component
       offcanvasVisible: false
       disruptionVisible: false
       text: if @context.getStore("TimeStore").status == "UNSET"
-              @context.intl.formatMessage({id: 'now', 'defaultMessage': "Nyt"})
+              @context.intl.formatMessage({id: 'now', 'defaultMessage': "Now"})
             else
-              @context.intl.formatMessage({id: 'later', 'defaultMessage': "Myöhemmin"})
+              @context.intl.formatMessage({id: 'later', 'defaultMessage': "Later"})
 
   componentDidMount: ->
     @context.getStore('DisruptionStore').addChangeListener @onChange
@@ -35,7 +35,10 @@ class IndexNavigation extends React.Component
     if @state.subNavigationVisible
       @setState
         subNavigationVisible: false
-        text: if @context.getStore("TimeStore").status == "UNSET" then "Nyt" else "Myöhemmin"
+        text: if @context.getStore("TimeStore").status == "UNSET"
+                @context.intl.formatMessage({id: 'now', 'defaultMessage': "Now"})
+              else
+                @context.intl.formatMessage({id: 'later', 'defaultMessage': "Later"})
       # TODO, how about this?
       el = @refs.content.getDOMNode()
       if (el.classList)

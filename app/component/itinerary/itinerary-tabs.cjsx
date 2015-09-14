@@ -32,14 +32,14 @@ class ItineraryTabs extends React.Component
       <Tabs className="itinerary-tabs">
         <Tabs.Panel
           title={@context.intl.formatMessage(
-            {id: 'instructions', defaultMessage: "Ohjeet"})}
+            {id: 'instructions', defaultMessage: "Instructions"})}
           className="fullscreen">
           <TicketInformation/>
           {legs}
         </Tabs.Panel>
         <Tabs.Panel
           title={@context.intl.formatMessage(
-            {id: 'map', defaultMessage: "Kartta"})}
+            {id: 'map', defaultMessage: "Map"})}
           >
           <Map ref="map" className="fullscreen" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs-1].to} padding={[0, 0]}/>
         </Tabs.Panel>

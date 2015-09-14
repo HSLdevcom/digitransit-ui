@@ -22,7 +22,7 @@ class TransitLeg extends React.Component
         {if @props.index == 0
           <div>
             <FormattedMessage id='start-journey-stop'
-                              defaultMessage='Aloita matka pysäkiltä' />
+                              defaultMessage='Start journey from stop' />
           </div>
         else
           false}
@@ -32,12 +32,12 @@ class TransitLeg extends React.Component
                                  values={{
                                    route: @props.leg.route
                                    headsign: @props.leg.headsign}}
-                                 defaultMessage="Linja {route} suuntaan {headsign}" />
+                                 defaultMessage="Route {route} towards {headsign}" />
              else
                <FormattedMessage id='route-without-headsign'
                                  values={{
                                    route: @props.leg.route}}
-                                 defaultMessage="Linja {route}" />}
+                                 defaultMessage="Route {route}" />}
         </div>
         <div>
           <FormattedMessage
@@ -46,14 +46,14 @@ class TransitLeg extends React.Component
                 stops: @props.leg.intermediateStops.length
                 minutes: Math.round(@props.leg.duration/60)}}
             defaultMessage='{stops, plural,
-                             =1 {yksi pysäkki}
-                             other {# pysäkkiä}
-                            }({minutes, plural,
-                               =1 {one minute}
-                               other {# minutes}})' />
+                             =1 {one stop}
+                             other {# stops}
+                            } ({minutes, plural,
+                                =1 {one minute}
+                                other {# minutes}})' />
         </div>
         <div><FormattedMessage id='alight'
-                               defaultMessage='Nouse kyydistä pysäkillä' /></div>
+                               defaultMessage='Alight at stop' /></div>
         <div>{@props.leg.to.name}</div>
       </div>
     </div>

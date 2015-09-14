@@ -1,36 +1,35 @@
 translations =
   'fi':
-    'own-position': 'Oma paikka'
-    'destination': 'Joulumaa'
-  'en':
-    'own-position': 'Own position'
-    'origin': 'Origin'
-    'destination': 'Destination'
-    'favourites': 'Favourites'
-    'nearest': 'Nearest'
-    'previous': 'Previous'
-    'show-more': 'Show more'
-    'now': 'Now'
-    'later': 'Later'
-    'instructions': 'Instructions'
-    'map': 'Map'
-    'start-journey-place': 'Start journey from'
-    'start-journey-stop': 'Start journey from stop'
-    'end-journey': 'End journey at'
-    'walk-to-destination': 'Walk to destination'
-    'walk-to-stop': 'Walk to stop'
-    'navigate': 'Navigate'
-    'required-ticket': 'Ticket required for the journey'
+    'searching-position': 'Sijaintiasi etsitään'
+    'own-position': 'Oma sijainti'
+    'no-position': 'Ei sijaintia'
+    'origin': 'Lähtöpaikka'
+    'destination': 'Määränpää'
+    'nearest': 'Lähimmät'
+    'previous': 'Edelliset'
+    'favourites': 'Suosikit'
+    'show-more': 'Näytä lisää'
+    'now': 'Nyt'
+    'later': 'Myöhemmin'
+    'instructions': 'Ohjeet'
+    'map': 'Kartta'
+    'start-journey-stop': 'Aloita matka pysäkiltä'
+    'route-with-headsign': "Linja {route} suuntaan {headsign}"
+    'route-without-headsign': "Linja {route}"
+    'end-journey': 'Lopeta matka paikassa'
+    'required-ticket': 'Reitillä tarvittava lippu'
     'num-stops': '{stops, plural,
-                   =1 {one stop}
-                   other {# stops}
-                  } ({minutes, plural,
-                      =1 {one minute}
-                      other {# minutes}})'
-    'alight': 'Alight at stop'
-    'route-with-headsign': "Route {route} towards {headsign}"
-    'route-without-headsign': "Route {route}"
-    'share': 'Share'
-    'print': 'Print'
+                             =1 {yksi pysäkki}
+                             other {# pysäkkiä}
+                            }({minutes, plural,
+                               =1 {one minute}
+                               other {# minutes}})'
+    'alight': 'Nouse kyydistä pysäkillä'
+    'start-journey-place': 'Aloita matka paikasta'
+    'walk-to-destination': 'Kävele määränpäähän'
+    'walk-to-stop': 'Kävele pysäkille'
+    'share': 'Jaa ohje'
+    'print': 'Tulosta'
+    'navigate': 'Navigoi'
 
 module.exports = translations

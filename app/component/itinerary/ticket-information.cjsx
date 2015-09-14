@@ -12,7 +12,7 @@ class TicketInformation extends React.Component
       </div>
       <div>
         <FormattedMessage id='required-ticket'
-                          defaultMessage='Reitillä tarvittava lippu' />
+                          defaultMessage='Ticket required for the journey' />
       </div>
       <div className="itinerary-ticket-information-price">
         : €

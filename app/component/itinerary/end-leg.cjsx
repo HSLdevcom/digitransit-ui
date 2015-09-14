@@ -16,7 +16,7 @@ class EndLeg extends React.Component
       </div>
       <div className="small-10 columns itinerary-instruction-column to">
         <div><FormattedMessage id='end-journey'
-                               defaultMessage='Lopeta matka paikassa' /></div>
+                               defaultMessage='End journey at' /></div>
         <div>{@props.to}</div>
       </div>
     </div>

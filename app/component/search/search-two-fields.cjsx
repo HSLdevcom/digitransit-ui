@@ -145,13 +145,13 @@ class SearchTwoFields extends React.Component
             </span>
             {if @state.geo.isLocationingInProgress
               <FormattedMessage id="searching-position"
-                                defaultMessage='Sijaintiasi etsitään' />
+                                defaultMessage='Searching for your position' />
              else if @state.geo.hasLocation
               <FormattedMessage id="own-position"
-                                defaultMessage='Oma sijainti' />
+                                defaultMessage='Own position' />
              else
               <FormattedMessage id="no-position"
-                                defaultMessage='Ei sijaintia' />
+                                defaultMessage='No position' />
             }
             <span className="inline-block right cursor-pointer"
                   onClick={@removePosition}>
@@ -170,7 +170,7 @@ class SearchTwoFields extends React.Component
                 <form onSubmit={@onSubmit}>
                   <Autosuggest onSelection={@selectOrigin}
                                placeholder={@context.intl.formatMessage(
-                                 {id: 'origin', defaultMessage: "Lähtöpaikka"})}
+                                 {id: 'origin', defaultMessage: "Origin"})}
                                value=@state.origin.address
                                />
                 </form>
@@ -192,7 +192,7 @@ class SearchTwoFields extends React.Component
                   @state.geo.isLocationingInProgress
                 <input type="text"
                        placeholder={@context.intl.formatMessage(
-                         {id: 'destination', defaultMessage: "Määränpää"})}
+                         {id: 'destination', defaultMessage: "Destination"})}
                        disabled="disabled"
                        />
                else if @state.destination.useCurrentPosition
@@ -201,7 +201,7 @@ class SearchTwoFields extends React.Component
                 <form onSubmit={@onSubmit}>
                   <Autosuggest onSelection={@selectDestination}
                                placeholder={@context.intl.formatMessage(
-                                 {id: 'destination', defaultMessage: "Määränpää"})}
+                                 {id: 'destination', defaultMessage: "Destination"})}
                                value=@state.destination.address
                                />
                 </form>

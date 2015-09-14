@@ -53,16 +53,16 @@ class StopTabs extends React.Component
 
     <Tabs>
       <Tabs.Panel
-        title={@context.intl.formatMessage({id: 'nearest', defaultMessage: "Lähimmät"})} >
+        title={@context.intl.formatMessage({id: 'nearest', defaultMessage: "Nearest"})} >
         {nearestPanel}
       </Tabs.Panel>
       <Tabs.Panel
-        title={@context.intl.formatMessage({id: 'previous', defaultMessage: "Edelliset"})} >
+        title={@context.intl.formatMessage({id: 'previous', defaultMessage: "Previous"})} >
         <h2>Edelliset tähän</h2>
       </Tabs.Panel>
       <Tabs.Panel title={<Icon  className="favourite" img="icon-icon_star">
                            {@context.intl.formatMessage(
-                             {id: "favourites", defaultMessage: "Suosikit"})}</Icon>}>
+                             {id: "favourites", defaultMessage: "Favourites"})}</Icon>}>
         <StopCardListContainer key="FavouriteStopsStore" store={@context.getStore 'FavouriteStopsStore'}/>
       </Tabs.Panel>
     </Tabs>

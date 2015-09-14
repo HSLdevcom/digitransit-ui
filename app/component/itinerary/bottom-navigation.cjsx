@@ -11,16 +11,16 @@ class BottomNavigation extends React.Component
     <div className="itinerary-bottom-navigation row">
       <div className="small-4 columns">
         <Icon img={'icon-icon_share'}/><FormattedMessage id='share'
-                                                         defaultMessage='Jaa ohje' />
+                                                         defaultMessage='Share' />
       </div>
       <div className="small-4 columns">
         <Icon img={'icon-icon_print'}/><FormattedMessage id='print'
-                                                         defaultMessage='Tulosta' />
+                                                         defaultMessage='Print' />
       </div>
       <div className="small-4 columns navigate">
         <Link to="#{process.env.ROOT_PATH}reitti/#{@props.params.from}/#{@props.params.to}/#{@props.params.hash}/navigoi">
          <Icon img={'icon-icon_arrow-right'}/>
-           <FormattedMessage id='navigate' defaultMessage='Navigoi' />
+           <FormattedMessage id='navigate' defaultMessage='Navigate' />
         </Link>
       </div>
     </div>
