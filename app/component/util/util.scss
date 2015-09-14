@@ -5,7 +5,7 @@
 $thumb-color-gray: #575757;
 $thumb-color-pink: $favourite-color;
 
-$slider-title-color: $gray;
+$slider-title-color: $gray-blue;
 $slider-title-font-family: $font-family;
 $slider-title-font-size: 14px;
 
@@ -222,7 +222,7 @@ $btn-heigth: 17px;
   .icon-holder  {
     padding: 0;
     margin: 0;
-    margin-top: 4px;
+    margin-bottom: -4px;
   }
 }
 

@@ -1,6 +1,6 @@
 React                       = require 'react'
 Icon                        = require '../icon/icon'
-CustomizeSearchContainer    = require '../summary/customize-search-container'
+CustomizeSearch             = require '../summary/customize-search'
 BackButton                  = require './back-button'
 TimeSelectors               = require './time-selectors'
 
@@ -16,7 +16,7 @@ class SummaryNavigation extends React.Component
 
   render: ->
     <div className="fullscreen">
-      <CustomizeSearchContainer open={@state.customizeSearchOffcanvas}/>
+      <CustomizeSearch open={@state.customizeSearchOffcanvas}/>
 
       <div className="fullscreen grid-frame">
         <div className="fixed">

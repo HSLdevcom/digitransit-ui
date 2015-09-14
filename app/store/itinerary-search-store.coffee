@@ -11,9 +11,24 @@ class ItinerarySearchStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @data = if d = window?.localStorage?.getItemSTORAGE_KEY then JSON.parse(d) else {}
-    # TODO: fetch the real options
-    @ticketOptions = ["Ei lippuvyöhykerajoitusta", "some other thext", "more options"]
-    @accessibilityOptions = ["Ei rajoitusta", "Wheelchair", "keppi"]
+    @ticketOptions = [
+      {
+        "displayName":   "Ei lippuvyöhykerajoitusta",
+        "value":  "0"
+      }
+    ]
+    @accessibilityOptions = [
+      {
+        "displayName":   "Ei rajoitusta",
+        "value":  "0"
+      },
+      {
+        "displayName":   "Liikun pyörätuolilla",
+        "value":  "1"
+      }
+    ]
+    @selectedTicketOption = "0";
+    @selectedAccessibilityOption = "0"
     @busState = true
     @tramState = true
     @trainState = true
@@ -22,19 +37,24 @@ class ItinerarySearchStore extends Store
     @walkState = true
     @CycleState = false
     @carState = false
-    @walkDistance = 70
-    @transportChanges = 50
-    @waitTime = 7
-    @walkSpeed = 50
+
+    @walkReluctance = 2
+    @walkBoardCost = 600          # Vaihdot
+    @minTransferTime = 180         # Vaihtomarginaali
+    @walkSpeed = 1.2
 
   getData: ->
     @data
 
   getTicketOptions: ->
     @ticketOptions
-
   getAccessibilityOptions: ->
     @accessibilityOptions
+  getSelectedTicketOption: ->
+    @selectedTicketOption
+  getSelectedAccessibilityOption: ->
+    @selectedAccessibilityOption
+
 
   getBusState: ->
     @busState
@@ -53,12 +73,12 @@ class ItinerarySearchStore extends Store
   getCarState: ->
     @carState
 
-  getWalkDistance: ->
-    @walkDistance
-  getTransportChanges: ->
-    @transportChanges
-  getWaitTime: ->
-    @waitTime
+  getWalkReluctance: ->
+    @walkReluctance
+  getWalkBoardCost: ->
+    @walkBoardCost
+  getMinTransferTime: ->
+    @minTransferTime
   getWalkSpeed: ->
     @walkSpeed
 
@@ -95,22 +115,29 @@ class ItinerarySearchStore extends Store
     return
 
 
-  setWalkDistance: (value) ->
-    @walkDistance = value
+  setWalkReluctance: (value) ->
+    @walkReluctance = value
     @emitChange()
 
-  setTransportChanges: (value) ->
-    @transportChanges = value
+  setWalkBoardCost: (value) ->
+    @walkBoardCost = value * 60
     @emitChange()
 
-  setWaitTime: (value) ->
-    @waitTime = value
+  setMinTransferTime: (value) ->
+    @minTransferTime = value * 60
     @emitChange()
 
   setWalkSpeed: (value) ->
     @walkSpeed = value
     @emitChange()
 
+  setTicketOption: (value) ->
+    @selectedTicketOption = value
+    @emitChange()
+
+  setAccessibilityOption: (value) ->
+    @selectedAccessibilityOption = value
+    @emitChange()
 
   storeItinerarySearch: (data) ->
     @data = data
@@ -138,10 +165,11 @@ class ItinerarySearchStore extends Store
     "ToggleWalkState" : 'toggleWalkState'
     "ToggleCycleState" : 'toggleCycleState'
     "ToggleCarState" : 'toggleCarState'
-    "SetWalkDistance" : "setWalkDistance"
-    "SetTransportChanges" : "setTransportChanges"
-    "SetWaitTime" : "setWaitTime"
+    "SetWalkReluctance" : "setWalkReluctance"
+    "SetWalkBoardCost" : "setWalkBoardCost"
+    "SetMinTransferTime" : "setMinTransferTime"
     "SetWalkSpeed" : "setWalkSpeed"
-
+    "SetTicketOption" : "setTicketOption"
+    "SetAccessibilityOption" : "setAccessibilityOption"
 
 module.exports = ItinerarySearchStore
