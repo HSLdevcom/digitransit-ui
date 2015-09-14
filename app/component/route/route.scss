@@ -127,7 +127,7 @@ div.route-stop-list {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($tram-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
     }
     &.rail::after{
-      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($train-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($rail-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
     }
     &.subway::after{
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($metro-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");

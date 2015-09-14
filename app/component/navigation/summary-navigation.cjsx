@@ -1,27 +1,29 @@
-React                 = require 'react'
-Icon                  = require '../icon/icon'
-Offcanvas             = require '../util/offcanvas'
-BackButton            = require './back-button'
-TimeSelectors         = require './time-selectors'
+React                       = require 'react'
+Icon                        = require '../icon/icon'
+CustomizeSearch             = require '../summary/customize-search'
+BackButton                  = require './back-button'
+TimeSelectors               = require './time-selectors'
+
 
 class SummaryNavigation extends React.Component
   constructor: ->
     super
     @state =
-      offcanvasVisible: false
+      customizeSearchOffcanvas: false
 
-  toggleOffcanvas: =>
-    @setState offcanvasVisible: !@state.offcanvasVisible
+  toggleCustomizeSearchOffcanvas: =>
+    @setState customizeSearchOffcanvas: !@state.customizeSearchOffcanvas
 
   render: ->
     <div className="fullscreen">
-      <Offcanvas open={@state.offcanvasVisible} position="right"/>
+      <CustomizeSearch open={@state.customizeSearchOffcanvas}/>
+
       <div className="fullscreen grid-frame">
         <div className="fixed">
           <nav className="top-bar">
             <BackButton/>
             <TimeSelectors/>
-            <div onClick={@toggleOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
+            <div onClick={@toggleCustomizeSearchOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
               <Icon img={'icon-icon_ellipsis'}/>
             </div>
           </nav>
