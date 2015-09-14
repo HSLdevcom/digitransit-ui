@@ -2,21 +2,21 @@ React                  = require 'react'
 Relay                  = require 'react-relay'
 queries                = require '../queries'
 DefaultNavigation      = require '../component/navigation/default-navigation'
-Tabs                   = require 'react-simpletabs'
 RouteHeaderContainer   = require '../component/route/route-header-container'
 RouteStopListContainer = require '../component/route/route-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
 
-class RoutePage extends React.Component
+class TripPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
   componentDidMount: ->
-    route = @props.params.routeId.split(':')
+    route = @props.trip.pattern.code.split(':')
     if route[0].toLowerCase() == 'hsl'
-      @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2]}
+      trip = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
+      @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2], trip: trip}
 
   componentWillUnmount: ->
     client = @context.getStore('RealTimeInformationStore').client
@@ -24,34 +24,30 @@ class RoutePage extends React.Component
       @context.executeAction RealTimeClient.stopRealTimeClient, client
 
   componentWillReceiveProps: (newProps) ->
-    route = newProps.params.routeId.split(':')
+    route = newProps.trip.pattern.code.split(':')
     client = @context.getStore('RealTimeInformationStore').client
     if client
       if route[0].toLowerCase() == 'hsl'
+        @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
         @context.executeAction RealTimeClient.updateTopic,
           client: client
           oldTopics: @context.getStore('RealTimeInformationStore').getSubscriptions()
-          newTopic: {route: route[1], direction: route[2]}
+          newTopic: {route: route[1], direction: route[2], trip: trip}
       else
         @componentWillUnmount()
     else
       if route[0].toLowerCase() == 'hsl'
         @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2]}
 
+  getStartTime: (time) ->
+    trip = "" + Math.floor(time / 60 / 60 ) + time / 60 % 60
+
   render: ->
+    trip = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
     <DefaultNavigation className="fullscreen">
-      <RouteHeaderContainer route={@props.route}/>
-      <Tabs className="route-tabs">
-        <Tabs.Panel title="Pysäkit">
-          <RouteStopListContainer route={@props.route}/>
-        </Tabs.Panel>
-        <Tabs.Panel title="Kartta" className="fullscreen">
-          <RouteMapContainer route={@props.route} className="fullscreen"/>
-        </Tabs.Panel>
-        <Tabs.Panel title="Aikataulut">
-          <div>Aikataulut tähän</div>
-        </Tabs.Panel>
-      </Tabs>
+      <RouteHeaderContainer route={@props.trip.pattern} trip={trip}/>
+      <RouteMapContainer route={@props.trip.pattern} trip={trip}/>
+      <RouteStopListContainer route={@props.trip.pattern}/>
     </DefaultNavigation>
 
-module.exports = Relay.createContainer(RoutePage, fragments: queries.RoutePageFragments)
+module.exports = Relay.createContainer(TripPage, fragments: queries.TripPageFragments)

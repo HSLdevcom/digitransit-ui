@@ -1,7 +1,7 @@
 import Relay from 'react-relay';
 
 var StopQueries = {
-  stop: (Component) => Relay.QL`
+  stop: () => Relay.QL`
     query  {
       stop(id: $stopId)
     }
@@ -9,9 +9,17 @@ var StopQueries = {
 };
 
 var RouteQueries = {
-  route: (Component) => Relay.QL`
+  route: () => Relay.QL`
     query {
       pattern(id: $routeId)
+    }
+  `,
+};
+
+var TripQueries = {
+  trip: () => Relay.QL`
+    query {
+      trip(id: $tripId)
     }
   `,
 };
@@ -234,6 +242,22 @@ var DepartureListFragments = {
   `,
 }
 
+var TripPageFragments = {
+  trip: () => Relay.QL`
+    fragment on Trip {
+      pattern {
+        code
+        ${require('./component/route/route-header-container').getFragment('route')}
+        ${require('./component/route/route-map-container').getFragment('route')}
+        ${require('./component/route/route-stop-list-container').getFragment('route')}
+      }
+      stoptimes {
+        scheduledDeparture
+      }
+    }
+  `,
+}
+
 class RouteMarkerPopupRoute extends Relay.Route {
   static queries = {
     trip: (Component, variables) => Relay.QL`
@@ -304,6 +328,7 @@ var DisruptionRowFragments = {
 module.exports = {
   StopQueries: StopQueries,
   RouteQueries: RouteQueries,
+  TripQueries: TripQueries,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
@@ -316,6 +341,7 @@ module.exports = {
   StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
   DepartureListFragments: DepartureListFragments,
+  TripPageFragments: TripPageFragments,
   RouteMarkerPopupRoute: RouteMarkerPopupRoute,
   RouteMarkerPopupFragments: RouteMarkerPopupFragments,
   DisruptionRowRoute: DisruptionRowRoute,

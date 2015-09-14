@@ -6,7 +6,8 @@ xhrPromise = require '../util/xhr-promise'
 getTopic = (options) ->
   route = if options.route then options.route else "+"
   direction = if options.direction then parseInt(options.direction) + 1  else "+"
-  '/hfp/journey/+/+/' + route + '/' + direction + '/#'
+  trip = if options.trip then options.trip else "+"
+  "/hfp/journey/+/+/#{route}/#{direction}/+/#{trip}/#"
 
 parseMessage = (topic, message, actionContext) ->
   [_, _, _, mode, id, line, dir, headsign, start_time, next_stop, geohash...] = topic.split '/'

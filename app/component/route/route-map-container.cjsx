@@ -12,9 +12,17 @@ class RouteMapContainer extends React.Component
     geometry = @props.route.geometry
     mode = @props.route.route.type
 
-    leafletObj = [<RouteLine key="line" mode={mode} stops={stops} geometry={geometry}/>, <VehicleMarkerContainer key="vehicles" pattern={@props.route.code}/>]
+    leafletObj = [
+      <RouteLine key="line" mode={mode} stops={stops} geometry={geometry}/>,
+      <VehicleMarkerContainer key="vehicles" pattern={@props.route.code} trip={@props.trip}/>
+    ]
 
-    <Map className="fullscreen" leafletObjs={leafletObj} fitBounds={true} from={stops[0]} to={stops[stops.length-1]}>
-    </Map>
+    <Map
+      className={@props.className}
+      leafletObjs={leafletObj}
+      fitBounds={true}
+      from={stops[0]}
+      to={stops[stops.length-1]}
+    />
 
 module.exports = Relay.createContainer(RouteMapContainer, fragments: queries.RouteMapFragments)
