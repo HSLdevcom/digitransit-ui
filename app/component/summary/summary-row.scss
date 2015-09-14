@@ -80,7 +80,7 @@
 }
 
 .summary-circle.rail::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($train-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($rail-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
 .summary-circle.ferry::before {

@@ -33,7 +33,7 @@ class ItinerarySearchStore extends Store
     @selectedAccessibilityOption = "0"
     @busState = true
     @tramState = true
-    @trainState = true
+    @railState = true
     @subwayState = true
     @ferryState = true
     @walkState = true
@@ -61,7 +61,7 @@ class ItinerarySearchStore extends Store
     if @getCarState() then mode.push("CAR")
     if @getBusState() then mode.push("BUS")
     if @getTramState() then mode.push("TRAM")
-    if @getTrainState() then mode.push("RAIL")
+    if @getRailState() then mode.push("RAIL")
     if @getSubwayState() then mode.push("SUBWAY")
     if @getFerryState() then mode.push("FERRY")
     return mode.join(",")
@@ -81,8 +81,8 @@ class ItinerarySearchStore extends Store
     @busState
   getTramState: ->
     @tramState
-  getTrainState: ->
-    @trainState
+  getRailState: ->
+    @railState
   getSubwayState: ->
     @subwayState
   getFerryState: ->
@@ -112,8 +112,8 @@ class ItinerarySearchStore extends Store
   toggleTramState: ->
     @tramState = !@tramState
     @emitChange()
-  toggleTrainState: ->
-    @trainState = !@trainState
+  toggleRailState: ->
+    @railState = !@railState
     @emitChange()
   toggleSubwayState: ->
     @subwayState = !@subwayState
@@ -186,7 +186,7 @@ class ItinerarySearchStore extends Store
     "ItinerarySearchStarted": 'clearItinerary'
     "ToggleBusState" : 'toggleBusState'
     "ToggleTramState" : 'toggleTramState'
-    "ToggleTrainState" : 'toggleTrainState'
+    "ToggleRailState" : 'toggleRailState'
     "ToggleSubwayState" : 'toggleSubwayState'
     "ToggleFerryState" : 'toggleFerryState'
     "ToggleWalkState" : 'toggleWalkState'

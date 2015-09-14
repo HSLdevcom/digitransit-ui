@@ -148,7 +148,7 @@ $btn-highlight-opacity: 0.9;
 $btn-inactive-background-color: $dark-gray;
 $btn-bus-active-background-color: $bus-color;
 $btn-tram-active-background-color: $tram-color;
-$btn-train-active-background-color: $train-color;
+$btn-rail-active-background-color: $rail-color;
 $btn-subway-active-background-color: $metro-color;
 $btn-ferry-active-background-color: $ferry-color;
 $btn-radio-checked-background-color: $white;
@@ -176,8 +176,8 @@ $btn-heigth: 17px;
   &.tram {
     background-color: $btn-tram-active-background-color;
   }
-  &.train {
-    background-color: $btn-train-active-background-color;
+  &.rail {
+    background-color: $btn-rail-active-background-color;
   }
   &.subway {
     background-color: $btn-subway-active-background-color;
@@ -191,7 +191,7 @@ $btn-heigth: 17px;
       color: $btn-icon-color-checked;
     }
   }
-  &.bus, &.tram, &.train, &.subway, &.ferry {
+  &.bus, &.tram, &.rail, &.subway, &.ferry {
     .icon{
       color:$btn-icon-color-active;
     }

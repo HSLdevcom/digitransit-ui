@@ -46,8 +46,8 @@ module.exports =
       null,
       actionContext.executeAction itinerarySearchRequest
 
-  toggleTrainState: (actionContext)  ->
-    actionContext.dispatch "ToggleTrainState",
+  toggleRailState: (actionContext)  ->
+    actionContext.dispatch "ToggleRailState",
       null,
       actionContext.executeAction itinerarySearchRequest
 

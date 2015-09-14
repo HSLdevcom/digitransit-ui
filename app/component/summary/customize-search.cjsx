@@ -49,9 +49,9 @@ class CustomizeSearch extends React.Component
           />
           <ToggleButton
             icon="rail-withoutBox"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleTrainState}
-            state={@context.getStore('ItinerarySearchStore').getTrainState()}
-            checkedClass="train"
+            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleRailState}
+            state={@context.getStore('ItinerarySearchStore').getRailState()}
+            checkedClass="rail"
             className="columns-5"
           />
           <ToggleButton
