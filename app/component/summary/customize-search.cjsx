@@ -101,33 +101,34 @@ class CustomizeSearch extends React.Component
         <Slider
           headerText={"Kävely"}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkReluctance()}
-          onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setWalkReluctance, event.target.value)}
-          min={1}
+          onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setWalkReluctance, e.target.value)}
+          min={0.8}
           max={10}
-          minText={"Vähän kävelyä"}
-          maxText={"Suosi kävelyä"}
+          step={0.2}
+          minText={"Suosi kävelyä"}
+          maxText={"Vähän kävelyä"}
         />
       </section>
       <section className="offcanvas-section">
         <Slider
           headerText={"Vaihdot"}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkBoardCost()}
-          onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setWalkBoardCost, event.target.value)}
+          onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setWalkBoardCost, e.target.value)}
           min={1}
           max={1800}
           step={60}
-          minText={"Vähän vaihtoja"}
-          maxText={"Saa olla vaihtoja"}
+          minText={"Saa olla vaihtoja"}
+          maxText={"Vähän vaihtoja"}
         />
       </section>
       <section className="offcanvas-section">
         <Slider
           headerText={"Vaihtomarginaali"}
           defaultValue={@context.getStore('ItinerarySearchStore').getMinTransferTime()}
-          onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setMinTransferTime, event.target.value)}
-          min={1}
-          max={900}
-          step={60}
+          onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setMinTransferTime, e.target.value)}
+          min={60}
+          max={660}
+          step={30}
           minText={"1 min"}
           maxText={"12 min"}
         />
@@ -136,7 +137,7 @@ class CustomizeSearch extends React.Component
         <Slider
           headerText={"Kävelynopeus"}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkSpeed()}
-          onSliderChange={() -> @context.executeAction(ItinerarySearchAction.setWalkSpeed, event.target.value)}
+          onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setWalkSpeed, e.target.value)}
           min={0.5}
           max={3}
           step={0.1}
@@ -151,7 +152,7 @@ class CustomizeSearch extends React.Component
           name="ticket"
           selected={@context.getStore('ItinerarySearchStore').getSelectedTicketOption()}
           options={@context.getStore('ItinerarySearchStore').getTicketOptions()}
-          onSelectChange={() -> @context.executeAction(ItinerarySearchAction.setTicketOption, event.target.value)}
+          onSelectChange={(e) -> @context.executeAction(ItinerarySearchAction.setTicketOption, e.target.value)}
         />
       </section>
       <section className="offcanvas-section">
@@ -160,7 +161,7 @@ class CustomizeSearch extends React.Component
           name="accessible"
           selected={@context.getStore('ItinerarySearchStore').getSelectedAccessibilityOption()}
           options={@context.getStore('ItinerarySearchStore').getAccessibilityOptions()}
-          onSelectChange={() -> @context.executeAction(ItinerarySearchAction.setAccessibilityOption, event.target.value)}
+          onSelectChange={(e) -> @context.executeAction(ItinerarySearchAction.setAccessibilityOption, e.target.value)}
         />
       </section>
 
