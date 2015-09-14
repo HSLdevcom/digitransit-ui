@@ -49,7 +49,7 @@ translations =
     'start-journey-stop': 'Utgå från hållplatsen'
     'route-with-headsign': "Linje {route} i riktning mot {headsign}"
     'route-without-headsign': "Linje {route}"
-    'end-journey': 'Sluta resan vid'
+    'end-journey': 'Avsluta resan vid'
     'required-ticket': 'Biljett för resan'
     'num-stops': '{stops, plural,
                              =1 {en hållplats}
