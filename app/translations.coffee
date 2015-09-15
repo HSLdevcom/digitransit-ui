@@ -34,7 +34,7 @@ translations =
     'minutes': 'minuuttia'
 
   'sv':
-    'searching-position': 'Positionerar'
+    'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
     'no-position': 'Ingen position'
     'origin': 'Från'
