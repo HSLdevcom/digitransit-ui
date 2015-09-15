@@ -5,6 +5,7 @@ $gray-blue: #7f929c;
 $gray-blue-light: rgb(182, 193, 199);
 $light-gray: #ddd;
 $medium-gray: #ccc;
+$dark-gray: #575757;
 $gray: #999;
 
 /* Palette */
@@ -18,8 +19,8 @@ $livi-ferry-blue: rgb(53, 181, 179);
 $livi-gold: rgb(233, 171, 0);
 $hsl-tram-green: #00985f;
 $hsl-metro-orange: #ff6319;
-$hsl-train-red: #8c4799;
-$vr-train-green: rgb(100, 190, 20);
+$hsl-rail-red: #8c4799;
+$vr-rail-green: rgb(100, 190, 20);
 
 
 $primary-color: $white;
@@ -51,7 +52,7 @@ $dark-color: $gray;
 $bus-color: $livi-bus-blue;
 $tram-color: $hsl-tram-green;
 $metro-color: $hsl-metro-orange;
-$train-color: $vr-train-green;
+$rail-color: $vr-rail-green;
 $ferry-color: $livi-ferry-blue;
 $from-color: #64be14;
 $to-color: #f092cd;

@@ -1,0 +1,236 @@
+/*
+  SLIDER
+*/
+
+$thumb-color-gray: #575757;
+$thumb-color-pink: $favourite-color;
+
+$slider-title-color: $gray-blue;
+$slider-title-font-family: $font-family;
+$slider-title-font-size: 14px;
+
+$slider-normal-line-height: 1.2;
+$slider-normal-font-size: 12px;
+
+.slider-container {
+  padding: 10px 0;
+  h3 {
+    text-transform: uppercase;
+    color: $slider-title-color;
+    font-family: $slider-title-font-family;
+    font-size: $slider-title-font-size;
+    font-weight: $font-weight-bold;
+    line-height: $slider-normal-line-height;
+    margin: 0px;
+  }
+}
+.slider-help-text {
+    font-family: $font-family;
+    font-size: $slider-normal-font-size;
+    font-weight: $font-weight-light;
+    line-height: $slider-normal-line-height;
+    color: $gray;
+    margin: 0;
+}
+
+
+input[type=range].slider {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 8.5px 0;
+}
+input[type=range].slider:focus {
+  outline: none;
+}
+input[type=range].slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 7px;
+  cursor: pointer;
+  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+  background: #000000;
+  border-radius: 3px;
+  border: 2px solid #575757;
+}
+input[type=range].slider::-webkit-slider-thumb {
+  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
+  border: 3px solid #ffffff;
+  height: 24px;
+  width: 24px;
+  border-radius: 15px;
+  background: $thumb-color-gray;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -10.5px;
+}
+input[type=range].slider:focus::-webkit-slider-runnable-track {
+  background: #0d0d0d;
+}
+input[type=range].slider::-moz-range-track {
+  width: 100%;
+  height: 7px;
+  cursor: pointer;
+  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+  background: #000000;
+  border-radius: 3px;
+  border: 2px solid $thumb-color-gray;
+}
+input[type=range].slider::-moz-range-thumb {
+  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
+  border: 3px solid #ffffff;
+  height: 24px;
+  width: 24px;
+  border-radius: 15px;
+  background: $thumb-color-gray;
+  cursor: pointer;
+}
+input[type=range].slider::-ms-track {
+  width: 100%;
+  height: 7px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range].slider::-ms-fill-lower {
+  background: #000000;
+  border: 2px solid $thumb-color-gray;
+  border-radius: 6px;
+  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+}
+input[type=range].slider::-ms-fill-upper {
+  background: #000000;
+  border: 2px solid $thumb-color-gray;
+  border-radius: 6px;
+  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+}
+input[type=range].slider::-ms-thumb {
+  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
+  border: 3px solid #ffffff;
+  height: 24px;
+  width: 24px;
+  border-radius: 15px;
+  background: $thumb-color-gray;
+  cursor: pointer;
+  height: 7px;
+}
+input[type=range].slider:focus::-ms-fill-lower {
+  background: #000000;
+}
+input[type=range].slider:focus::-ms-fill-upper {
+  background: #0d0d0d;
+}
+
+
+
+.slider-container.active  {
+  input[type=range].slider::-webkit-slider-thumb {
+    background-color: $thumb-color-pink !important;
+  }
+  input[type=range].slider::-moz-range-thumb  {
+    background-color: $thumb-color-pink !important;
+  }
+  input[type=range].slider::-ms-thumb {
+    background-color: $thumb-color-pink !important;
+  }
+
+}
+
+
+
+
+
+
+/*
+  TOGGLE BUTTON
+*/
+$btn-highlight-opacity: 0.9;
+
+$btn-inactive-background-color: $dark-gray;
+$btn-bus-active-background-color: $bus-color;
+$btn-tram-active-background-color: $tram-color;
+$btn-rail-active-background-color: $rail-color;
+$btn-subway-active-background-color: $metro-color;
+$btn-ferry-active-background-color: $ferry-color;
+$btn-radio-checked-background-color: $white;
+
+$btn-icon-color-inactive: $medium-gray;
+$btn-icon-color-active: $white;
+$btn-icon-color-checked: $black;
+
+$btn-width: 17px;
+$btn-heigth: 17px;
+
+.btn {
+  background-color: $btn-inactive-background-color;
+  text-align: center;
+  background-color: #575757;
+  float:left;
+  cursor: pointer;
+
+  &:hover {
+    opacity: $btn-highlight-opacity;
+  }
+  &.bus {
+    background-color: $btn-bus-active-background-color;
+  }
+  &.tram {
+    background-color: $btn-tram-active-background-color;
+  }
+  &.rail {
+    background-color: $btn-rail-active-background-color;
+  }
+  &.subway {
+    background-color: $btn-subway-active-background-color;
+  }
+  &.ferry {
+    background-color: $btn-ferry-active-background-color;
+  }
+  &.walk, &.cycle, &.car  {
+    background-color: $btn-radio-checked-background-color;
+    .icon {
+      color: $btn-icon-color-checked;
+    }
+  }
+  &.bus, &.tram, &.rail, &.subway, &.ferry {
+    .icon{
+      color:$btn-icon-color-active;
+    }
+  }
+
+  .icon-holder {
+    padding-top: 9pt;
+    padding-bottom: 5pt;
+  }
+  .icon {
+    color: $btn-icon-color-inactive;
+    width: $btn-width;
+    height: $btn-heigth;
+  }
+}
+.btn-bar  {
+  .btn{
+    border-right: 1px solid $offcanvas-background;
+  }
+  [class*="column"] + [class*="column"]:last-child {
+    border-right: none;
+  }
+}
+
+.standalone-btn {
+  padding: 6px 15px;
+  border-radius: 20px;
+  .icon-holder  {
+    padding: 0;
+    margin: 0;
+    margin-bottom: -4px;
+  }
+}
+
+.first-btn {
+  border-top-left-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+}
+.last-btn {
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+}
