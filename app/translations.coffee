@@ -31,6 +31,7 @@ translations =
     'share': 'Jaa ohje'
     'print': 'Tulosta'
     'navigate': 'Navigoi'
+    'minutes': 'minuuttia'
 
   'sv':
     'searching-position': 'Positionerar'
@@ -64,5 +65,6 @@ translations =
     'share': 'Dela resan'
     'print': 'Skriv ut'
     'navigate': 'Navigera'
+    'minutes': 'minuter'
 
 module.exports = translations
