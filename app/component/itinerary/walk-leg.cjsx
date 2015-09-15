@@ -2,6 +2,9 @@ React = require 'react'
 Icon  = require '../icon/icon'
 moment = require 'moment'
 
+intl = require('react-intl')
+FormattedMessage = intl.FormattedMessage
+
 class WalkLeg extends React.Component
 
   render: ->
@@ -13,11 +16,23 @@ class WalkLeg extends React.Component
         <Icon className={@props.leg.mode.toLowerCase()} img={'icon-icon_' + @props.leg.mode.toLowerCase() }/>
       </div>
       <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
-        {if @props.index == 0 then <div>Aloita matka paikasta</div> else false}
+        {if @props.index == 0
+          <div>
+            <FormattedMessage id="start-journey-place"
+                              defaultMessage='Start journey from' />
+          </div>
+        else
+          false }
         <div>{@props.leg.from.name}</div>
-        <div>{if @props.legs == @props.index+1 then "Kävele määränpäähän" else "Kävele pysäkille"}</div>
+        <div>{if @props.legs == @props.index+1
+               <FormattedMessage id="walk-to-destination"
+                                 defaultMessage='Walk to destination' />
+              else
+               <FormattedMessage id="walk-to-stop"
+                                 defaultMessage='Walk to stop' /> }
+        </div>
         <div>{@props.leg.to.name}</div>
-        <div>{Math.round(@props.leg.distance)} m ({Math.round(@props.leg.duration/60)} minuuttia)</div>
+        <div>{Math.round(@props.leg.distance)} m ({Math.round(@props.leg.duration/60)} <FormattedMessage id='minutes' defaultMessage='minutes' />)</div>
       </div>
     </div>
 

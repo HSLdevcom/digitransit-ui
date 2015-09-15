@@ -5,6 +5,9 @@ Autosuggest = require './autosuggest'
 Link = require('react-router/lib/Link').Link
 config = require '../../config'
 
+intl = require('react-intl')
+FormattedMessage = intl.FormattedMessage
+
 locationValue = (location) ->
   decodeURIComponent(location.split("::")[0])
 
@@ -13,6 +16,7 @@ class SearchTwoFields extends React.Component
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
     router: React.PropTypes.func.isRequired
+    intl: intl.intlShape.isRequired
 
   constructor: (props) ->
     super
@@ -140,11 +144,15 @@ class SearchTwoFields extends React.Component
                 <Icon img={'icon-icon_mapMarker-location'}/>
             </span>
             {if @state.geo.isLocationingInProgress
-              'Sijaintiasi etsitään'
+              <FormattedMessage id="searching-position"
+                                defaultMessage='Searching for your position' />
              else if @state.geo.hasLocation
-              'Oma sijainti'
+              <FormattedMessage id="own-position"
+                                defaultMessage='Own position' />
              else
-              'No location?!?'}
+              <FormattedMessage id="no-position"
+                                defaultMessage='No position' />
+            }
             <span className="inline-block right cursor-pointer"
                   onClick={@removePosition}>
               <Icon img={'icon-icon_close'} /></span>
@@ -161,7 +169,8 @@ class SearchTwoFields extends React.Component
                else
                 <form onSubmit={@onSubmit}>
                   <Autosuggest onSelection={@selectOrigin}
-                               placeholder="Lähtöpaikka"
+                               placeholder={@context.intl.formatMessage(
+                                 {id: 'origin', defaultMessage: "Origin"})}
                                value=@state.origin.address
                                />
                 </form>
@@ -181,13 +190,18 @@ class SearchTwoFields extends React.Component
             <div className="small-11 columns">
               {if @state.origin.useCurrentPosition and
                   @state.geo.isLocationingInProgress
-                <input type="text" disabled="disabled" placeholder="Määränpää"/>
+                <input type="text"
+                       placeholder={@context.intl.formatMessage(
+                         {id: 'destination', defaultMessage: "Destination"})}
+                       disabled="disabled"
+                       />
                else if @state.destination.useCurrentPosition
                 geolocation_div
                else
                 <form onSubmit={@onSubmit}>
                   <Autosuggest onSelection={@selectDestination}
-                               placeholder="Määränpää"
+                               placeholder={@context.intl.formatMessage(
+                                 {id: 'destination', defaultMessage: "Destination"})}
                                value=@state.destination.address
                                />
                 </form>
