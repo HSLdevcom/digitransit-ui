@@ -20,69 +20,73 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+
+p {
+  font-size: 1em; /* variable? */
+  font-family: $body-font-family;
+  font-weight: $font-weight-light;
+  color: $dark-color;
+}
+a {
+  font-size: 1em; /* variable? */
+  color: $link-color;
+  font-weight: $font-weight-bold;
+}
+
+/* HEADINGS */
+h3,
+.h3  {
+  font-family: $body-font-family;
+  font-weight: $font-weight-bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  line-height: $line-height-normal;
+  color: $link-color; /* here or through being a link? */
+}
+
+h4,
+.h4 {
+  color:$black;
+  font-weight: $font-weight-normal;
+  font-size: 1pc;
+  font-family: $body-font-family;
+  line-height: $line-height-normal;
+  margin: 0;
+  text-transform: none;
+}
+
+
+/* SUB HEADERS */
+.sub-header-h3 {
+  font-family: $body-font-family;
+  font-size: 13px;
+  font-weight: $font-weight-light;
+  margin: 0 !important;
+  line-height: 1.2;
+  /*color: $dark-color;*/
+}
+
+
+.details {
+  color: $black;
+  font-family: $font-family-narrow;
+  font-size: 15px;
+  font-weight: $font-weight-bold;
+  display: inline-block;
+}
+.destination {
+  font-weight: $font-weight-light;
+}
+
+
 #main {
   background-color: $background-color;
 }
 
-.bus {
-  color: $bus-color;
-}
-
-.tram {
-  color: $tram-color;
-}
-
-.subway {
-  color: $metro-color;
-}
-
-.rail {
-  color: $rail-color;
-}
-
-.ferry {
-  color: $ferry-color;
-}
-
-.walk {
-  color: $walk-color;
-}
-
-.from {
-  color: $from-color;
-}
-
-.to {
-  color: $to-color;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.left {
-  float: left;
-}
-
-.right {
-  float: right;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.inline-block {
-  display: inline-block;
-}
 
 .transparent {
   background:rgba(0,0,0, $transparency) !important;
   color: $transparent-color !important;
-}
-
-.fullscreen {
-  height: 100%;
 }
 
 div.spinner-loader {

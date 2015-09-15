@@ -1,0 +1,111 @@
+/*
+  Helper Classes
+  These classes may be used through out the application on any DOM-element
+*/
+
+/* COLOR */
+.bus {
+  color: $bus-color;
+}
+
+.tram {
+  color: $tram-color;
+}
+
+.subway {
+  color: $metro-color;
+}
+
+.rail {
+  color: $train-color;
+}
+
+.ferry {
+  color: $ferry-color;
+}
+
+.walk {
+  color: $walk-color;
+}
+
+.from {
+  color: $from-color;
+}
+
+.to {
+  color: $to-color;
+}
+.favourite-icon {
+  padding: 0;
+  height: 24px;
+  width: 24px;
+  .icon.favourite {
+    height: 24px;
+    width: 24px;
+    stroke: $light-gray;
+    stroke-width: 50px;
+    fill: $white;
+
+    &:hover {
+      fill: $favourite-color;
+    }
+
+    &.selected {
+      fill: $favourite-color;
+    }
+
+    &.selected:hover {
+      fill: $white;
+    }
+  }
+}
+.info {
+    width: 24px;
+    height: 24px;
+    color: $gray-blue;
+}
+
+/* Positioning */
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.fullscreen {
+  height: 100%;
+}
+.padding-small  {
+  padding: 0.45em 1em;
+}
+.padding-normal  {
+  padding: 0.7em 1em;
+}
+
+/* Appearance */
+.cursor-pointer {
+  cursor: pointer;
+}
+.dashed-underline {
+  border-bottom: 1px dashed $dark-color;
+}
+.bold {
+  font-weight: $font-weight-bold;
+}
+.no-decoration  {
+  text-decoration:none;
+}
+.large-text {
+  font-size: 1.1em;
+}
