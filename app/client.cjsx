@@ -5,7 +5,7 @@ IntlProvider = require('react-intl').IntlProvider
 Router            = require 'react-router/lib/Router'
 Relay             = require 'react-relay'
 ReactRouterRelay  = require 'react-router-relay'
-History           = require('react-router/lib/BrowserHistory').history
+History           = require 'history/lib/createBrowserHistory'
 FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
 isEqual           = require 'lodash/lang/isEqual'
 config            = require './config'
@@ -16,8 +16,6 @@ translations = require './translations'
 dehydratedState   = window.state; # Sent from the server
 
 require "../sass/main.scss"
-
-require.include 'leaflet' # Force into main bundle.js
 
 window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 
@@ -38,7 +36,7 @@ app.rehydrate dehydratedState, (err, context) ->
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
       <IntlProvider messages=translations[window.locale] locale=window.locale>
-        <Router history={History} children={app.getComponent()}
+        <Router history={History()} children={app.getComponent()}
                 createElement={ReactRouterRelay.createElement} onUpdate={() ->
             if @state.components[@state.components.length-1].loadAction
               context.getActionContext().executeAction(

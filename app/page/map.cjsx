@@ -3,7 +3,7 @@ DefaultNavigation  = require '../component/navigation/default-navigation'
 SearchTwoFields    = require '../component/search/search-two-fields.cjsx'
 Icon               = require '../component/icon/icon'
 Map                = require '../component/map/map'
-Link               = require('react-router/lib/Link').Link
+Link               = require 'react-router/lib/Link'
 
 
 class Page extends React.Component

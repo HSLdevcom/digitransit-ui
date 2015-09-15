@@ -1,10 +1,10 @@
 React                 = require 'react'
-Link                  = require('react-router/lib/Link').Link
+Link                  = require 'react-router/lib/Link'
 Icon                  = require '../icon/icon'
 
 class BackButton extends React.Component
   @contextTypes:
-    router: React.PropTypes.object
+    history: React.PropTypes.object
 
   # TODO
   # Transition back in next event loop
@@ -15,9 +15,9 @@ class BackButton extends React.Component
   goBack: =>
     setTimeout(() =>
       if window.history.length > 1
-        @context.router.goBack()
+        @context.history.goBack()
       else
-        @context.router.transitionTo(process.env.ROOT_PATH)
+        @context.history.pushState null, process.env.ROOT_PATH
     , 0)
 
   render: ->

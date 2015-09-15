@@ -1,6 +1,6 @@
 React                 = require 'react'
 StopCardHeader        = require './stop-card-header'
-Link                  = require('react-router/lib/Link').Link
+Link                  = require 'react-router/lib/Link'
 
 class StopCard extends React.Component
   render: ->

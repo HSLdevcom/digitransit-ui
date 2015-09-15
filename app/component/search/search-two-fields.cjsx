@@ -2,7 +2,7 @@ React = require 'react'
 Icon = require '../icon/icon'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
 Autosuggest = require './autosuggest'
-Link = require('react-router/lib/Link').Link
+Link = require 'react-router/lib/Link'
 config = require '../../config'
 
 intl = require('react-intl')
@@ -15,7 +15,7 @@ class SearchTwoFields extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
-    router: React.PropTypes.func.isRequired
+    history: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
   constructor: (props) ->
@@ -130,7 +130,7 @@ class SearchTwoFields extends React.Component
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
       setTimeout(() =>
-        @context.router.transitionTo("#{process.env.ROOT_PATH}reitti/#{from}/#{to}")
+        @context.history.pushState(null, "#{process.env.ROOT_PATH}reitti/#{from}/#{to}")
       , 0)
 
   render: =>

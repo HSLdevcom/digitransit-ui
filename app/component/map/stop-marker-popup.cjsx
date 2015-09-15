@@ -1,17 +1,17 @@
 React                 = require 'react'
 StopCardHeader        = require '../stop-cards/stop-card-header'
 Icon                  = require '../icon/icon.cjsx'
-Link                  = require('react-router/lib/Link').Link
+Link                  = require 'react-router/lib/Link'
 RouteList             = require '../stop-cards/route-list'
 FavouriteStopsAction  = require '../../action/favourite-stops-action'
 
 class StopMarkerPopup extends React.Component
   @childContextTypes:
-    router: React.PropTypes.object.isRequired
+    history: React.PropTypes.object.isRequired
     route: React.PropTypes.object.isRequired
 
   getChildContext: () ->
-    router: @props.context.router
+    history: @props.context.history
     route: @props.context.route
 
   componentDidMount: ->

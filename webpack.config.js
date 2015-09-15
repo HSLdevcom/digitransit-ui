@@ -1,7 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var autoprefixer = require('autoprefixer-core');
+var autoprefixer = require('autoprefixer');
 var csswring = require('csswring');
 
 var port = process.env.HOT_LOAD_PORT || 9000;
@@ -13,7 +13,7 @@ function getLoadersConfig(env) {
       { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },
       { test: /\.json$/, loader: 'json'},
-      { test: /\.jsx$/, loaders: ['react-hot', 'jsx']},
+      { test: /\.jsx$/, loaders: ['react-hot', 'babel']},
       { test: /\.scss$/,
         loaders: [
           'style', 'css', 'postcss',
@@ -29,7 +29,7 @@ function getLoadersConfig(env) {
       { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
       { test: /\.coffee$/, loader: 'coffee' },
       { test: /\.json$/, loader: 'json'},
-      { test: /\.jsx$/, loader: 'jsx'},
+      { test: /\.jsx$/, loader: 'babel'},
       { test: /\.scss$/,
         loader: ExtractTextPlugin.extract("style", 'css!postcss!sass?includePaths[]=' +
           (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default')))
