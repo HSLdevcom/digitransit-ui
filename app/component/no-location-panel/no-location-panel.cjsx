@@ -8,20 +8,20 @@ class NoLocationPanel extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
   render: ->
-    <div className="no-location-panel">
-      <p className="text-center">
+    <div className="no-location-panel text-center">
+      <p>
         Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.
       </p>
 
-      <p className="locate-yourself" onClick={this.locateUser}>
-        <Icon img={'icon-icon_mapMarker-location'}/> <span className="link">Paikanna itsesi</span>
+      <p className="locate-yourself large-text" onClick={this.locateUser}>
+        <Icon img={'icon-icon_mapMarker-location'}/> <a className="dashed-underline">Paikanna itsesi</a>
       </p>
 
-      <p className="text-center separator">
+      <p className="separator">
         Tai
       </p>
 
-      <p className="text-center">
+      <p>
         Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.
       </p>
 
@@ -29,7 +29,7 @@ class NoLocationPanel extends React.Component
         Tai
       </p>
 
-      <p className="text-center">
+      <p>
         Valitse sijaintisi edellisistä hauistasi:
       </p>
 
