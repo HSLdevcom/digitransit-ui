@@ -3,7 +3,7 @@ Icon               = require '../component/icon/icon'
 Link               = require('react-router/lib/Link').Link
 
 
-class TypographyPage extends React.Component
+class StyleGuidelinesPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
@@ -201,7 +201,7 @@ class TypographyPage extends React.Component
 
   render: ->
 
-    <div className="container column typography">
+    <div className="container column">
       <div className="sub-header">Colors</div>
       {@getColors()}
 
@@ -225,4 +225,4 @@ class TypographyPage extends React.Component
 
 
 
-module.exports = TypographyPage
+module.exports = StyleGuidelinesPage

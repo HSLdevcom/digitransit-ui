@@ -2,16 +2,16 @@
 React        = require 'react'
 
 # React Pages
-IndexPage     = require './page/index'
-ItineraryPage = require './page/itinerary'
-MapPage       = require './page/map'
-NavigationPage = require './page/navigation'
-RoutePage     = require './page/route'
-StopMapPage   = require './page/stop-map'
-StopPage      = require './page/stop'
-SummaryPage   = require './page/summary'
-Error404      = require './page/404'
-TypographyPage= require './page/typography'
+IndexPage           = require './page/index'
+ItineraryPage       = require './page/itinerary'
+MapPage             = require './page/map'
+NavigationPage      = require './page/navigation'
+RoutePage           = require './page/route'
+StopMapPage         = require './page/stop-map'
+StopPage            = require './page/stop'
+SummaryPage         = require './page/summary'
+Error404            = require './page/404'
+StyleGuidelinesPage = require './page/style-guidelines'
 
 # Queriesd
 queries = require './queries'
@@ -37,7 +37,7 @@ routes =
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={NavigationPage}/>
-    <Route path="typography" name="typography" component={TypographyPage}/>
+    <Route path="styleguidelines" name="styleGuidelines" component={StyleGuidelinesPage}/>
   </Route>
 
 module.exports = routes
