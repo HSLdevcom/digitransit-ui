@@ -15,11 +15,11 @@ class Departure extends React.Component
   render: ->
     mode = @props.departure.pattern.route.type.toLowerCase()
     <p className={cx 'transport', @props.className}>
-      <span className="next-departure">{@renderTime @props.departure}</span>
+      <span className="details next-departure">{@renderTime @props.departure}</span>
       <Icon className={mode} img={'icon-icon_' + mode }/>
-      <span className={(if @props.departure.pattern.route.shortName then "vehicle-number " else "") + mode}>&nbsp;{@props.departure.pattern.route.shortName}</span>
+      <span className={(if @props.departure.pattern.route.shortName then "details vehicle-number " else "") + mode}>&nbsp;{@props.departure.pattern.route.shortName}</span>
       <Icon className={mode} img='icon-icon_arrow-right'/>
-      <span className="destination">&nbsp;{@props.departure.pattern.headsign or @props.departure.pattern.route.longName}</span>
+      <span className="details destination">&nbsp;{@props.departure.pattern.headsign or @props.departure.pattern.route.longName}</span>
     </p>
 
 module.exports = Departure

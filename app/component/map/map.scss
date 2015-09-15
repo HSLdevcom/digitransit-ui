@@ -106,10 +106,10 @@ div.leaflet-marker-icon.vehicle-icon {
 div.stop-marker-popup {
   .leaflet-popup-content-wrapper {
     .leaflet-popup-content {
-      .stop-card {
+      .card {
         border: 1px solid $gray;
         padding: 0px;
-        .stop-card-header {
+        .card-header {
           padding: 1em 1em 0.5em;
         }
         .route-list {
@@ -118,14 +118,14 @@ div.stop-marker-popup {
             font-family: $font-family-narrow;
             font-size: 12pt;
             font-weight: $font-weight-bold;
-            line-height: $stop-card-normal-line-height;
+            line-height: $line-height-normal;
           }
         }
         .bottom {
-          font-family: $stop-card-location-font-family;
-          font-size: $stop-card-location-font-size;
+          font-family: $body-font-family;
+          font-size: 13px;
           font-weight: $font-weight-normal;
-          line-height: $stop-card-normal-line-height;
+          line-height: $line-height-normal;
           color: $gray;
           margin: 0px auto 0px;
           padding: 0.5em 1em;
@@ -198,10 +198,10 @@ div.route-marker-popup {
           }
         }
         .bottom {
-          font-family: $stop-card-location-font-family;
-          font-size: $stop-card-location-font-size;
+          font-family: $body-font-family;
+          font-size: 13px;
           font-weight: $font-weight-normal;
-          line-height: $stop-card-normal-line-height;
+          line-height: $line-height-normal;
           color: $gray;
           margin: 0px auto 0px;
           padding: 0.5em 1em;
