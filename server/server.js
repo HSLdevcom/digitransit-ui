@@ -74,7 +74,7 @@ function getPolyfills(userAgent) {
       'fetch': {flags: ['always', 'gated']}, // 'always' for ie_mob
       'Promise': {flags: ['gated']},
       'String.prototype.repeat': {flags: ['always', 'gated']},
-      'Intl': {flags: ['gated']},
+      'Intl': {flags: ['always', 'gated']}, // 'always' until #474 is merged upstream
     },
     minify: true,
     unknown: 'polyfill'
