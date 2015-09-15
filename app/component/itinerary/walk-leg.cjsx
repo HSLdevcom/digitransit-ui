@@ -32,7 +32,7 @@ class WalkLeg extends React.Component
                                  defaultMessage='Walk to stop' /> }
         </div>
         <div>{@props.leg.to.name}</div>
-        <div>{Math.round(@props.leg.distance)} m ({Math.round(@props.leg.duration/60)} <FormattedMessage id='minutes' defaultMessage='minutes' />)</div>
+        <div>{Math.round(@props.leg.distance)} m ({Math.round(@props.leg.duration / 60)} <FormattedMessage id='minutes' defaultMessage='minutes' />)</div>
       </div>
     </div>
 
