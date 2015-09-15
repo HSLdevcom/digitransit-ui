@@ -5,6 +5,7 @@ $gray-blue: #7f929c;
 $gray-blue-light: rgb(182, 193, 199);
 $light-gray: #ddd;
 $medium-gray: #ccc;
+$dark-gray: #575757;
 $gray: #999;
 
 /* Palette */
@@ -12,7 +13,7 @@ $hsl-blue: #007ac9;
 $hsl-dark-blue: #0062a1;
 $hsl-tram-green: #00985f;
 $hsl-metro-orange: #ff6319;
-$hsl-train-red: #8c4799;
+$hsl-rail-red: #8c4799;
 $hsl-ferry-blue: #00b9e4;
 $hsl-pink: #f092cd;
 $hsl-alert: #dc0451;
@@ -47,7 +48,7 @@ $dark-color: $gray;
 $bus-color: $hsl-blue;
 $tram-color: $hsl-tram-green;
 $metro-color: $hsl-metro-orange;
-$train-color: $hsl-train-red;
+$rail-color: $hsl-rail-red;
 $ferry-color: $hsl-ferry-blue;
 $from-color: #64be14;
 $to-color: #f092cd;

@@ -147,7 +147,7 @@ nav.top-bar {
 }
 
 .offcanvas-section {
-  padding-left: 20px;
+  padding: 5px 20px;
 }
 
 ul.offcanvas-list {
@@ -175,7 +175,8 @@ ul.offcanvas-list {
 
 
 .right.off-canvas {
-  padding-top: 20px;
+  padding-top: 40px;
+  padding-bottom: 20px;
   color: $offcanvas-link-color;
   height:100%;
 }
