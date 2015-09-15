@@ -73,7 +73,8 @@ function getPolyfills(userAgent) {
       'matchMedia': {flags: ['gated']},
       'fetch': {flags: ['always', 'gated']}, // 'always' for ie_mob
       'Promise': {flags: ['gated']},
-      'String.prototype.repeat': {flags: ['always', 'gated']}
+      'String.prototype.repeat': {flags: ['always', 'gated']},
+      'Intl': {flags: ['always', 'gated']}, // 'always' until #474 is merged upstream
     },
     minify: true,
     unknown: 'polyfill'

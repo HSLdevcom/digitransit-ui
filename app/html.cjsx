@@ -11,7 +11,10 @@ class Application extends React.Component
       <title>{config.title}</title>
       <meta name="description" content=""/>
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-      <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+      <meta name="mobile-web-app-capable" content="yes">
+      <link rel="apple-touch-icon" href="/digitransit-ui/img/apple-touch-icon.png"/>
+      <link rel="touch-icon" href="/digitransit-ui/img/apple-touch-icon.png"/>
+      <link rel="icon" href="/digitransit-ui/img/favicon.ico">
       <link href={config.URL.FONT} rel='stylesheet' type='text/css'/>
       <style dangerouslySetInnerHTML={ __html: @props.css }/>
     </head>

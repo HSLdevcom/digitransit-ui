@@ -8,4 +8,4 @@ module.exports =
     FONT: 'http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700'
     REALTIME: 'http://digitransit.fi/navigator-server'
   cities: []
-  title: 'Digitransit demo (Kansallinen)'
+  title: 'Digitransit'
