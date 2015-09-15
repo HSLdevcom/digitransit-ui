@@ -34,10 +34,19 @@ $font-family: Nunito, Arial, Georgia, Serif;
 $font-family-narrow: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif;
 
 $body-font-family: $font-family;
+$link-color: $gray-blue;
+
 
 $font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-bold: 900;
+
+$line-height-normal: 1.2;
+
+$font-size-small: 0.8em; /* ~13px */
+$font-size-normal: 1em;  /* ~15px */
+
+
 
 /* Application base colors */
 $background-color: #eef1f3;
