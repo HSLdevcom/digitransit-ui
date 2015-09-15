@@ -66,7 +66,7 @@ function setUpMiddleware() {
 }
 
 function getPolyfills(userAgent) {
-  polyfillService.getPolyfillString({
+  return polyfillService.getPolyfillString({
     uaString: userAgent,
     features: {
       'Function.prototype.bind': {flags: ['gated']},
