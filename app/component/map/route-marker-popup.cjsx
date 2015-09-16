@@ -29,7 +29,7 @@ class RouteMarkerPopup extends React.Component
     @props.context.executeAction FavouriteRoutesActions.addFavouriteRoute, @props.trip.route.gtfsId
 
   render: ->
-    <div className="trip-card popup">
+    <div className="card">
       <RouteHeader
         route={@props.trip.route}
         pattern={@props.trip.fuzzyTrip.pattern}

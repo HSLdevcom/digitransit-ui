@@ -31,8 +31,8 @@ class StopCardHeader extends React.Component
         <Icon className={classNames "favourite", selected: @props.favourite} img="icon-icon_star"/>
       </span>
       {if @props.infoIcon then @getInfoIcon()}
-      <span className={@props.headingStyle || "h3"}>{@props.stop.name} ›</span>
-      <p className="sub-header-h3">{@getDescription()}</p>
+      <span className={@props.headingStyle || "h4"}>{@props.stop.name} ›</span>
+      <p className="sub-header-h4">{@getDescription()}</p>
     </div>
 
 module.exports = Relay.createContainer(StopCardHeader, fragments: queries.StopCardHeaderFragments)

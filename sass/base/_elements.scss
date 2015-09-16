@@ -72,3 +72,51 @@ $border-radius-rounded: 30px;
     font-family: $font-family-narrow;
   }
 }
+
+
+/* ICONS */
+.favourite-icon {
+  padding: 0;
+  height: 24px;
+  width: 24px;
+  .icon.favourite {
+    height: 24px;
+    width: 24px;
+    stroke: $light-gray;
+    stroke-width: 50px;
+    fill: $white;
+
+    &:hover {
+      fill: $favourite-color;
+    }
+
+    &.selected {
+      fill: $favourite-color;
+    }
+
+    &.selected:hover {
+      fill: $white;
+    }
+  }
+}
+.fullscreen-toggle {
+  position: absolute;
+  height: 2em;
+  background: rgba(0, 0, 0, 0.5);
+  width: 2em;
+  bottom: 0px;
+  right: 1em;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  z-index: 802;
+  .icon {
+   margin: 0.5em 0.5em 0 0.5em;
+   fill: rgb(255, 255, 255);
+ }
+}
+
+.info {
+    width: 24px;
+    height: 24px;
+    color: $gray-blue;
+}
