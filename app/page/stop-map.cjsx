@@ -22,7 +22,7 @@ class Page extends React.Component
     <DefaultNavigation className="fullscreen">
       <Map lat={@props.stop.lat+0.0005}
            lon={@props.stop.lon}
-           zoom={16}
+           zoom={18}
            className="fullscreen"
            showStops=true
            hilightedStops=[@props.params.stopId]>
