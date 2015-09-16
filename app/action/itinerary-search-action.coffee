@@ -1,7 +1,15 @@
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
-module.exports = itinerarySearchRequest: (actionContext, options) ->
+
+itinerarySearchRequest = (actionContext, options) ->
+  itinerarySearchStore = actionContext.getStore('ItinerarySearchStore')
+  if options?.params
+    actionContext.dispatch "UpdateFromToPlaces",
+      to: options.params.to
+      from: options.params.from
+  else
+    options = itinerarySearchStore.getOptions()
   actionContext.dispatch "ItinerarySearchStarted"
   time = actionContext.getStore("TimeStore").getTime()
   arriveBy = actionContext.getStore("TimeStore").getArriveBy()
@@ -15,5 +23,90 @@ module.exports = itinerarySearchRequest: (actionContext, options) ->
     arriveBy: arriveBy
     date: time.format("YYYY-MM-DD")
     time: time.format("HH:mm:ss")
-  xhrPromise.getJson(config.URL.OTP + "plan", params).then (data) ->
+    mode: itinerarySearchStore.getMode()
+    walkReluctance: itinerarySearchStore.getWalkReluctance()
+    walkBoardCost: itinerarySearchStore.getWalkBoardCost()
+    minTransferTime: itinerarySearchStore.getMinTransferTime()
+    walkSpeed: itinerarySearchStore.getWalkSpeed()
+    wheelchair: itinerarySearchStore.isWheelchair()
+  xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
     actionContext.dispatch "ItineraryFound", data
+  , (err) ->
+    console.error("Failed to perform itinerary search!")
+    console.error(err)
+  )
+
+
+module.exports =
+  'itinerarySearchRequest' : itinerarySearchRequest
+
+  toggleBusState: (actionContext)  ->
+    actionContext.dispatch "ToggleBusState",
+      null,
+      actionContext.executeAction itinerarySearchRequest
+
+  toggleTramState: (actionContext)  ->
+    actionContext.dispatch "ToggleTramState",
+      null,
+      actionContext.executeAction itinerarySearchRequest
+
+  toggleRailState: (actionContext)  ->
+    actionContext.dispatch "ToggleRailState",
+      null,
+      actionContext.executeAction itinerarySearchRequest
+
+  toggleSubwayState: (actionContext)  ->
+    actionContext.dispatch "ToggleSubwayState",
+      null,
+      actionContext.executeAction itinerarySearchRequest
+
+  toggleFerryState: (actionContext)  ->
+    actionContext.dispatch "ToggleFerryState",
+      null,
+      actionContext.executeAction itinerarySearchRequest
+
+  toggleWalkState: (actionContext)  ->
+    actionContext.dispatch "ToggleWalkState",
+      null,
+      actionContext.executeAction itinerarySearchRequest
+
+  toggleCycleState: (actionContext)  ->
+    actionContext.dispatch "ToggleCycleState",
+      null,
+      actionContext.executeAction itinerarySearchRequest
+
+  toggleCarState: (actionContext)  ->
+    actionContext.dispatch "ToggleCarState",
+      null,
+      actionContext.executeAction itinerarySearchRequest
+
+
+  setWalkReluctance: (actionContext, value) ->
+    actionContext.dispatch "SetWalkReluctance",
+      value,
+      actionContext.executeAction itinerarySearchRequest
+
+  setWalkBoardCost: (actionContext, value) ->
+    actionContext.dispatch "SetWalkBoardCost",
+      value,
+      actionContext.executeAction itinerarySearchRequest
+
+  setMinTransferTime: (actionContext, value) ->
+    actionContext.dispatch "SetMinTransferTime",
+      value,
+      actionContext.executeAction itinerarySearchRequest
+
+  setWalkSpeed: (actionContext, value) ->
+    actionContext.dispatch "SetWalkSpeed",
+      value,
+      actionContext.executeAction itinerarySearchRequest
+
+  setTicketOption: (actionContext, value) ->
+    actionContext.dispatch "SetTicketOption",
+      value,
+      actionContext.executeAction itinerarySearchRequest
+
+  setAccessibilityOption: (actionContext, value) ->
+    actionContext.dispatch "SetAccessibilityOption",
+      value,
+      actionContext.executeAction itinerarySearchRequest

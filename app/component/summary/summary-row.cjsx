@@ -1,6 +1,6 @@
 React              = require 'react'
 moment             = require 'moment'
-Link               = require('react-router/lib/Link').Link
+Link               = require 'react-router/lib/Link'
 Icon               = require '../icon/icon'
 
 class SummaryRow extends React.Component

@@ -1,32 +1,14 @@
 isBrowser      = window?
 React          = require 'react'
-Autosuggest    = require 'react-autosuggest'
-LocateActions  = require '../../action/locate-actions.coffee'
-Icon           = require '../icon/icon.cjsx'
+ReactAutosuggest    = require 'react-autosuggest'
 XhrPromise     = require '../../util/xhr-promise.coffee'
 config         = require '../../config'
 
 AUTOSUGGEST_ID = 'autosuggest'
 
-class Search extends React.Component
-
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.object.isRequired
-
+class Autosuggest extends React.Component
   constructor: ->
     super
-
-  componentWillMount: =>
-    @context.getStore('LocationStore').addChangeListener @onChange
-    @setState @context.getStore('LocationStore').getLocationState()
-
-  componentWillUnmount: =>
-    @context.getStore('LocationStore').removeChangeListener @onChange
-
-  onChange: =>
-    @setState @context.getStore('LocationStore').getLocationState()
 
   analyzeInput: (input) =>
     containsComma = input.lastIndexOf(',') > -1
@@ -38,8 +20,8 @@ class Search extends React.Component
     cities = []
     if containsComma
       # Try to find city
-      address = input.substring(0, input.lastIndexOf(',')).replace(/\d+/g,'').trim()
-      city = input.substring(input.lastIndexOf(',')+1, input.length).trim()
+      address = input.substring(0, input.lastIndexOf(',')).replace(/\d+/g, '').trim()
+      city = input.substring(input.lastIndexOf(',') + 1, input.length).trim()
       number = if isNumbersInQuery then input.match(/\d+/)[0] else null
       if city.length > 0
         cities.push(city.toLowerCase())
@@ -47,12 +29,8 @@ class Search extends React.Component
       address = input.trim()
     else
       # This is address
-      address = input.replace(/\d+/g,'').trim()
+      address = input.replace(/\d+/g, '').trim()
       number = if isNumbersInQuery then input.match(/\d+/)[0] else null
-
-    # Use previous cities only if not already set
-    if @state and @state.previousSuggestCities and cities.length == 0
-      cities = cities.concat @state.previousSuggestCities
 
     return {
       isValidSearch: input.trim().length > 0
@@ -72,8 +50,12 @@ class Search extends React.Component
       return
 
     # Construct urls for all cities depending whether we have a number present or not
-    urls = cities.map (city) ->
-      config.URL.GEOCODER + if number then "address/#{city}/#{address}/#{number}" else "street/#{city}/#{address}"
+    urls = cities.map((city) ->
+      if number
+        config.URL.GEOCODER + "address/#{city}/#{address}/#{number}"
+      else
+        config.URL.GEOCODER + "street/#{city}/#{address}"
+    )
 
     # Query all constructed urls for address and hope to find hits from one city
     XhrPromise.getJsons(urls).then (cityResults) =>
@@ -85,34 +67,19 @@ class Search extends React.Component
 
       if foundLocations.length == 1
         # TODO, handle Swedish names too at some point
-        addressString = if number then "#{address} #{number}, #{foundLocations[0].municipalityFi}" else "#{address} #{foundLocations[0].number}, #{foundLocations[0].municipalityFi}"
-        @setLocation(foundLocations[0].location[1], foundLocations[0].location[0], addressString)
+        if number
+          addressString = "#{address} #{number}, #{foundLocations[0].municipalityFi}"
+        else
+          addressString = "#{address} #{foundLocations[0].number}, " +
+                          "#{foundLocations[0].municipalityFi}"
+        @props.onSelection(foundLocations[0].location[1],
+                           foundLocations[0].location[0],
+                           addressString)
       else if foundLocations.length > 1
-        console.log("Query #{address}, #{number}, #{cities} returns results from more than 1 city. Cannot set location.")
+        console.log("Query #{address}, #{number}, #{cities}" +
+                    "returns results from more than 1 city. Cannot set location.")
       else
         console.log("Cannot find any locations with #{address}, #{number}, #{cities}")
-
-  setLocation: (lat, lon, address) =>
-    # We first check if we already have a location.
-    if @state.hasLocation
-      # Yes, location to be set is destination address
-      # First, we must blur input field because without this
-      # Android keeps virtual keyboard open too long which
-      # causes problems in next page rendering
-      @autoSuggestInput.blur()
-
-      # Then we can transition. We must do this in next
-      # event loop in order to get blur finished.
-      setTimeout(() =>
-        @context.router.transitionTo "#{process.env.ROOT_PATH}reitti/#{@state.address}::#{@state.lat},#{@state.lon}/#{address}::#{lat},#{lon}"
-      ,0)
-    else
-      # No, This is a start location
-      @context.executeAction LocateActions.manuallySetPosition, {
-        'lat': lat
-        'lon': lon
-        'address': address
-      }
 
   getSuggestions: (input, callback) =>
     analyzed = @analyzeInput(input)
@@ -140,7 +107,8 @@ class Search extends React.Component
               'number': address.number
               'staircase': address.unit
               'city': address.municipalityFi  # TODO Swedish names here too
-              'selection': "#{address.streetFi} #{address.number}#{staircaseSelection}, #{address.municipalityFi}"
+              'selection': "#{address.streetFi} #{address.number}#{staircaseSelection}, " +
+                           "#{address.municipalityFi}"
       callback(null, addresses)
 
   searchSuggests: (address, callback) =>
@@ -158,11 +126,9 @@ class Search extends React.Component
               'selection': "#{streetName}, #{city.key}"
 
             # Store all city names for address search where address is exact match
-            if city.key.toLowerCase() not in uniqueCities and streetName.toLowerCase() == address.toLowerCase()
+            if (city.key.toLowerCase() not in uniqueCities and
+                streetName.toLowerCase() == address.toLowerCase())
               uniqueCities.push(city.key.toLowerCase())
-
-      @setState
-        previousSuggestCities: uniqueCities
 
       stops = data.stops.map (result) ->
         'type': 'stop'
@@ -187,10 +153,17 @@ class Search extends React.Component
     lastMatchIndex = firstMatchIndex + input.length
 
     switch suggestion.type
-      when 'street' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>"""
-      when 'address' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_place"></use></svg>"""
-      when 'stop' then icon = """<svg viewBox="0 0 40 40" class="icon"><use xlink:href="#icon-icon_bus-stop"></use></svg>"""
-      else icon = "<span>*</span>"
+      when 'street'
+        icon = '<svg viewBox="0 0 40 40" class="icon">' +
+                 '<use xlink:href="#icon-icon_place"></use></svg>'
+      when 'address'
+        icon = '<svg viewBox="0 0 40 40" class="icon">' +
+                 '<use xlink:href="#icon-icon_place"></use></svg>'
+      when 'stop'
+        icon = '<svg viewBox="0 0 40 40" class="icon">' +
+                 '<use xlink:href="#icon-icon_bus-stop"></use></svg>'
+      else
+        icon = "<span>*</span>"
 
     # suggestion can match even if input text is not visible
     if firstMatchIndex == -1
@@ -220,7 +193,7 @@ class Search extends React.Component
     # Prevent default so that form submit will not happen in this case
     e.preventDefault()
     if suggestion.lat != undefined and suggestion.lon != undefined
-      @setLocation(suggestion.lat, suggestion.lon, suggestion.selection)
+      @props.onSelection(suggestion.lat, suggestion.lon, suggestion.selection)
     else
       analyzed = @analyzeInput(suggestion.selection)
       @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
@@ -231,7 +204,7 @@ class Search extends React.Component
     if autoSuggestComponent
       input = autoSuggestComponent.refs.input
       input.addEventListener('keydown', @suggestionArrowPress)
-      this.autoSuggestInput = input
+      @autoSuggestInput = input
 
   # Scroll selection if needed
   # See: https://github.com/moroshko/react-autosuggest/issues/21
@@ -257,48 +230,25 @@ class Search extends React.Component
   # Happens when user presses enter without selecting anything from autosuggest
   onSubmit: (e) =>
     e.preventDefault()
-    analyzed = @analyzeInput(this.autoSuggestInput.value)
+    analyzed = @analyzeInput(@autoSuggestInput.value)
     @findLocation(analyzed.queryCities, analyzed.queryAddress, analyzed.queryNumber)
 
   # We use two different components depending on location state
   # this way we can prevent autosuggest from keeping selected value as state
   render: =>
-    inputDisabled = ""
-    if @state.isLocationingInProgress
-      inputDisabled = 'disabled'
-      placeholder = 'Odota, sijaintiasi etsitään'
-    else if @state.hasLocation
-      placeholder = 'Määränpään osoite, linja tai pysäkki'
-    else
-      placeholder = 'Lähtöosoite, linja tai pysäkki'
-
     inputAttributes =
       id: AUTOSUGGEST_ID
-      placeholder: placeholder
-      disabled: inputDisabled
+      placeholder: @props.placeholder
 
-    <form onSubmit={@onSubmit}>
-    <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
-      <div className="row collapse postfix-radius">
-        <div className="small-11 columns">
-          <Autosuggest
-            ref={@handleAutoSuggestMount}
-            key={if @state.hasLocation then 'to' else 'from'}
-            inputAttributes={inputAttributes}
-            suggestions={@getSuggestions}
-            suggestionRenderer={@renderSuggestion}
-            suggestionValue={@suggestionValue}
-            onSuggestionSelected={@suggestionSelected}
-            showWhen={(input) => input.trim().length >= 2}
-            scrollBar={true}/>
-        </div>
-        <div className="small-1 columns">
-          <span className="postfix search cursor-pointer" onClick={@onSubmit}>
-            <Icon img={'icon-icon_search'}/>
-          </span>
-        </div>
-      </div>
-    </div>
-    </form>
+    <ReactAutosuggest
+      ref={@handleAutoSuggestMount}
+      inputAttributes={inputAttributes}
+      value={@props.value}
+      suggestions={@getSuggestions}
+      suggestionRenderer={@renderSuggestion}
+      suggestionValue={@suggestionValue}
+      onSuggestionSelected={@suggestionSelected}
+      showWhen={(input) => input.trim().length >= 2}
+      scrollBar={true}/>
 
-module.exports = Search
+module.exports = Autosuggest

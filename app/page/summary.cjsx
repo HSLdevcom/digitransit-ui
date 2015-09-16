@@ -3,7 +3,7 @@ SummaryNavigation  = require '../component/navigation/summary-navigation'
 Map                = require '../component/map/map'
 ItinerarySearchActions = require '../action/itinerary-search-action'
 SummaryRow         = require '../component/summary/summary-row'
-FromToSearch       = require '../component/search/from-to-search'
+SearchTwoFields       = require '../component/search/search-two-fields'
 ItineraryLine      = require '../component/map/itinerary-line'
 sortBy             = require 'lodash/collection/sortBy'
 
@@ -50,7 +50,7 @@ class SummaryPage extends React.Component
 
     <SummaryNavigation className="fullscreen">
       <Map ref="map" className="summaryMap" leafletObjs={leafletObjs} fitBounds={true} from={@props.params.from} to={@props.params.to} padding={[0, 110]}>
-        <FromToSearch params={@props.params}/>
+        <SearchTwoFields />
       </Map>
       <div>{rows}</div>
     </SummaryNavigation>

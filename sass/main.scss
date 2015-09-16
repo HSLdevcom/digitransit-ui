@@ -8,10 +8,10 @@
 @import 'base/elements';
 
 
-/* We need grid for responsive stuff here */
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/grid';
 
-/* Application components */
+// Some of these files override sass variables Foundation uses,
+// so they must be loaded before the relevant foundation modules
 @import '../app/component/stop-cards/stop-cards';
 @import '../app/component/stop-cards/stop-tabs';
 @import '../app/component/map/map';
@@ -21,8 +21,8 @@
 @import '../app/component/route/route';
 @import '../app/component/summary/summary-row';
 @import '../app/component/disruption/disruption';
+@import '../app/component/util/util';
 
-/* Rest of the foundation components */
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/forms';
 @import '../node_modules/foundation-apps/scss/components/off-canvas';
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/top-bar';
@@ -30,3 +30,7 @@
 /* Modal */
 @import '../node_modules/foundation-apps/scss/helpers/breakpoints';
 @import '../node_modules/foundation-apps/scss/components/modal';
+
+// And these application specific styles use Foundation variables,
+// so they have to be loaded afterwards
+@import '../app/component/search/search';

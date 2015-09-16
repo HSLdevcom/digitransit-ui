@@ -16,7 +16,7 @@ Feature: Search component
   Scenario: From and To location switch
     When user clicks on "switch" button
     Then From and To location should be switched
-    And no routing should be performed
+    And routing should be performed
 
   Scenario: Routing should be performed on 'magnifying glass' click
     Given That user has entered From and To values

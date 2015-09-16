@@ -16,34 +16,16 @@ $search-result-icon-color: $black;
 $search-form-icon-color: $white;
 $search-form-border-radius: $border-radius;
 $search-form-transparency: $transparency;
-
-.search-form .location {
-  height: 35px;
-  margin-bottom: 5px;
-  padding-left: 5px;
-  border-radius: $search-form-border-radius;
-  line-height: 35px;
-  position: relative;
-  font-size: 11pt;
-}
+$search-form-input-height: 40px;
+$search-form-input-overlay-height: 32px;
+$search-form-input-overlay-border-color: #E1E1E1;
+$search-form-input-overlay-background-color: #EEF1F3;
 
 .search-form .icon {
   fill: $search-form-icon-color;
   vertical-align: middle;
   width: 17px;
   height: 17px;
-}
-
-.search-form .location .icon {
-  margin-right: 10px;
-  width: 1.5em;
-  height: 1.5em;
-}
-
-.search-form .location .right .icon {
-  margin-right: 10px;
-  width: 0.8em;
-  height: 0.8em;
 }
 
 .search-form .location .dashed {
@@ -55,16 +37,50 @@ $search-form-transparency: $transparency;
 }
 
 .search-form {
-  padding-top: 10px;
-}
-
-.search-form input.tt-input {
-  margin-bottom: 5px;
+  padding-top: 15px;
 }
 
 .search-form input {
-  margin-bottom: 5px !important;
+  margin-bottom: 0px;
+  height: $search-form-input-height;
+  border-top-left-radius: $search-form-border-radius;
+  border-bottom-left-radius: $search-form-border-radius;
+  /* These two will disable right border radius for Firefox f*/
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  padding-left: 15px;
 }
+
+.search-form .postfix {
+  height: $search-form-input-height;
+  line-height: $search-form-input-height;
+}
+
+.search-form .input-placeholder {
+    @include form-element();
+    height: $search-form-input-height;
+    line-height: $search-form-input-overlay-height;
+    border-top-left-radius: $input-border-radius;
+    border-bottom-left-radius: $input-border-radius;
+}
+
+.search-form .address-box {
+    background-color: $search-form-input-overlay-background-color;
+    border-radius: $form-input-border-radius;
+    border: 1px solid $search-form-input-overlay-border-color;
+    height: $search-form-input-overlay-height;
+    padding-left: 5px;
+    padding-right: 3px;
+
+    .icon {
+      fill: $gray;
+      vertical-align: sub;
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+    }
+}
+
 
 .search-form .react-autosuggest__suggestions {
   background-color: $search-result-background-color;
@@ -75,10 +91,10 @@ $search-form-transparency: $transparency;
   border-radius: $search-result-border-radius;
   list-style-type: none;
   padding: 5px;
-  margin: 0;
+  margin: 5px 0 0 0;
   max-height: $search-result-max-height;
   overflow: auto;
-  box-shadow: 0px 2px 15px gray;
+  box-shadow: 0px 1px 10px gray;
   z-index: 1000;
   position: relative;
 }

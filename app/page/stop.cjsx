@@ -6,7 +6,7 @@ Map                = require '../component/map/map'
 DepartureListContainer = require '../component/stop-cards/departure-list-container'
 StopCardHeader     = require '../component/stop-cards/stop-card-header'
 FavouriteStopsAction = require '../action/favourite-stops-action'
-Link               = require('react-router/lib/Link').Link
+Link               = require 'react-router/lib/Link'
 Icon               = require '../component/icon/icon'
 moment             = require 'moment'
 
@@ -14,7 +14,7 @@ class Page extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.object.isRequired
+    history: React.PropTypes.object.isRequired
 
   componentDidMount: ->
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
@@ -27,7 +27,7 @@ class Page extends React.Component
       @forceUpdate()
 
   toggleFullscreenMap: =>
-    @context.router.transitionTo "#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta"
+    @context.history.pushState null, "#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta"
 
   render: ->
     favourite = @context.getStore('FavouriteStopsStore').isFavourite(@props.params.stopId)

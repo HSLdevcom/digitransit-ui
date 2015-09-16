@@ -47,11 +47,11 @@ class TimeSelectors extends React.Component
     arriveBy = @context.getStore(TimeStore).getArriveBy()
 
     <div className="time-selectors">
-      <select ref="hour" className="time hour" value={time.format('H')} onChange={this.changeTime}>
+      <select ref="hour" className="time hour hide-dropdown" value={time.format('H')} onChange={this.changeTime}>
         {@getHours()}
       </select>
       <span className="timeseparator">:</span>
-      <select ref="minute" className="time minute" value={time.format('m')} onChange={this.changeTime}>
+      <select ref="minute" className="time minute hide-dropdown" value={time.format('m')} onChange={this.changeTime}>
         {@getMinutes()}
       </select>
       <select ref="date" value={time.format('YYYY-MM-DD')} onChange={this.changeTime}>

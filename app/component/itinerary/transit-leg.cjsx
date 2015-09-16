@@ -2,17 +2,12 @@ React = require 'react'
 Icon  = require '../icon/icon'
 moment = require 'moment'
 
+intl = require('react-intl')
+FormattedMessage = intl.FormattedMessage
 
 class TransitLeg extends React.Component
 
   render: ->
-    stops = @props.leg.intermediateStops
-
-    if stops.length == 1
-      stop_text = "1 pysäkki"
-    else
-      stop_text = "#{stops.length} pysäkkiä"
-
     <div key={@props.index} style={{width:"100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
@@ -24,11 +19,41 @@ class TransitLeg extends React.Component
         </div>
       </div>
       <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
-        {if @props.index == 0 then <div>Aloita matka pysäkiltä</div> else false}
+        {if @props.index == 0
+          <div>
+            <FormattedMessage id='start-journey-stop'
+                              defaultMessage='Start journey from stop' />
+          </div>
+        else
+          false}
         <div>{@props.leg.from.name}</div>
-        <div>{if @props.leg.headsign then "Linja #{@props.leg.route} suuntaan #{@props.leg.headsign}" else "Linja #{@props.leg.route}"}</div>
-        <div>{stop_text} ({Math.round(@props.leg.duration/60)} minuuttia)</div>
-        <div>Nouse kyydistä pysäkillä</div>
+        <div>{if @props.leg.headsign
+               <FormattedMessage id='route-with-headsign'
+                                 values={{
+                                   route: @props.leg.route
+                                   headsign: @props.leg.headsign}}
+                                 defaultMessage="Route {route} towards {headsign}" />
+             else
+               <FormattedMessage id='route-without-headsign'
+                                 values={{
+                                   route: @props.leg.route}}
+                                 defaultMessage="Route {route}" />}
+        </div>
+        <div>
+          <FormattedMessage
+            id='num-stops'
+            values={{
+                stops: @props.leg.intermediateStops.length
+                minutes: Math.round(@props.leg.duration/60)}}
+            defaultMessage='{stops, plural,
+                             =1 {one stop}
+                             other {# stops}
+                            } ({minutes, plural,
+                                =1 {one minute}
+                                other {# minutes}})' />
+        </div>
+        <div><FormattedMessage id='alight'
+                               defaultMessage='Alight at stop' /></div>
         <div>{@props.leg.to.name}</div>
       </div>
     </div>

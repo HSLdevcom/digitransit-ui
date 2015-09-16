@@ -20,7 +20,7 @@ class VehicleMarkerContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.object.isRequired
+    history: React.PropTypes.object.isRequired
 
   @vehicleIcons: if !isBrowser then null else
     bus: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_bus')), className: 'vehicle-icon bus', iconSize: [18, 18], iconAnchor: [9, 9])

@@ -6,6 +6,7 @@ app = new Fluxible(
 app.registerStore require('./store/disruption-store')
 app.registerStore require('./store/favourite-routes-store')
 app.registerStore require('./store/favourite-stops-store')
+app.registerStore require('./store/endpoint-store')
 app.registerStore require('./store/itinerary-search-store')
 app.registerStore require('./store/location-store')
 app.registerStore require('./store/real-time-information-store')

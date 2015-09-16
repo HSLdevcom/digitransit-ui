@@ -6,7 +6,7 @@ Departure             = require './departure'
 uniq                  = require 'lodash/array/uniq'
 difference            = require 'lodash/array/difference'
 moment                = require 'moment'
-Link                  = require('react-router/lib/Link').Link
+Link                  = require 'react-router/lib/Link'
 classNames            = require 'classnames'
 
 

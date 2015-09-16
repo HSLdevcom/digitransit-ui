@@ -1,5 +1,8 @@
 React = require 'react'
 
+intl = require('react-intl')
+FormattedMessage = intl.FormattedMessage
+
 class TicketInformation extends React.Component
 
   render: ->
@@ -8,7 +11,8 @@ class TicketInformation extends React.Component
         Osta lippu
       </div>
       <div>
-        Reitillä tarvittava lippu
+        <FormattedMessage id='required-ticket'
+                          defaultMessage='Ticket required for the journey' />
       </div>
       <div className="itinerary-ticket-information-price">
         : €

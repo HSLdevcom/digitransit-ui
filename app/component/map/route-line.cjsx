@@ -12,7 +12,7 @@ class RouteLine extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.object.isRequired
+    history: React.PropTypes.object.isRequired
     route: React.PropTypes.object.isRequired
 
 

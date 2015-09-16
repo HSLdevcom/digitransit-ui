@@ -80,7 +80,7 @@
 }
 
 .summary-circle.rail::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($train-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($rail-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
 .summary-circle.ferry::before {
@@ -115,4 +115,63 @@
   bottom: -1px;
   right: 5px;
   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
+}
+
+
+
+/*
+  Customize Search
+*/
+
+body .columns-5 {
+  width: 20%;
+}
+body select  {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 1024 1024'><path stroke='white' fill='#{rgba($white, 1)}' class='path1' d='M845.224 212.621l-333.221 333.235-333.224-333.235c-40.901-40.901-107.212-40.901-148.113 0v0c-40.901 40.901-40.897 107.212 0 148.109l481.333 481.326 481.333-481.326c40.901-40.901 40.901-107.212 0-148.109v0c-40.897-40.904-107.212-40.901-148.109 0z'></path></svg>");
+  background-position: right 10px top 50%;
+  margin-bottom: 0;
+}
+.hide-dropdown  {
+  background-image: none;
+}
+
+
+.customize-search {
+  select  {
+    background-color: $dark-gray;
+    color:$white;
+    &:hover {
+      background-color: $dark-gray;
+    }
+  }
+  h3 {
+    text-transform: uppercase;
+    color: $gray-blue;
+    font-family: $font-family;
+    font-size: 14px;
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+    margin: 10px 0 5px 0;
+  }
+  input[type="text"] {
+    background-color: transparent;
+    border: 1px solid #575757;
+    border-radius: $border-radius;
+    color: $white;
+    display: block;
+    margin: 0;
+    width: 100%;
+    appearance: none;
+    box-shadow: none;
+    border-radius: none;
+  }
+  input[type="text"]:focus {
+    color: $black;
+    outline: none;
+  }
+
+}
+
+.remove-padding {
+  padding:0 !important;
 }
