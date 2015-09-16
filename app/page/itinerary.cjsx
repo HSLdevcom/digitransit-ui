@@ -10,6 +10,8 @@ class ItineraryPage extends React.Component
 
   render: ->
     plan = @context.getStore('ItinerarySearchStore').getData().plan
+    unless plan
+      return <DefaultNavigation className="fullscreen"/>
     itineraries = plan.itineraries
     slides = []
 

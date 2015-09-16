@@ -2,15 +2,13 @@ Store = require 'fluxible/addons/BaseStore'
 
 STORAGE_KEY = "currentItinerary"
 
-
-
-
 class ItinerarySearchStore extends Store
   @storeName: 'ItinerarySearchStore'
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @data = if d = window?.localStorage?.getItemSTORAGE_KEY then JSON.parse(d) else {}
+    localData = window?.localStorage?.getItem STORAGE_KEY
+    @data = if localData then JSON.parse(localData) else {}
     @fromPlace = ""
     @toPlace   = ""
     @ticketOptions = [
@@ -168,11 +166,12 @@ class ItinerarySearchStore extends Store
 
   storeItinerarySearch: (data) ->
     @data = data
+    window?.localStorage?.setItem STORAGE_KEY, JSON.stringify @data
     @emitChange()
-    window.localStorage.setItem STORAGE_KEY, JSON.stringify @data
 
   clearItinerary: ->
     @data = {}
+    window?.localStorage?.removeItem STORAGE_KEY
     @emitChange()
 
   dehydrate: ->
