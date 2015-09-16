@@ -70,15 +70,18 @@
 .left {
   float: left;
 }
-
 .right {
   float: right;
 }
-
 .text-center {
   text-align: center;
 }
-
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
+}
 .inline-block {
   display: inline-block;
 }
@@ -92,7 +95,12 @@
 .padding-normal  {
   padding: 0.7em 1em;
 }
-
+.no-padding  {
+  padding: 0 !important;
+}
+.no-margin  {
+  margin: 0 !important;
+}
 /* Appearance */
 .cursor-pointer {
   cursor: pointer;
@@ -104,8 +112,14 @@
   font-weight: $font-weight-bold;
 }
 .no-decoration  {
-  text-decoration:none;
+  text-decoration: none;
 }
 .large-text {
   font-size: 1.1em;
+}
+.uppercase  {
+  text-transform: uppercase;
+}
+.bold {
+  font-weight: $font-weight-bold;
 }

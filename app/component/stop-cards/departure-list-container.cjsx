@@ -54,7 +54,7 @@ class DepartureListContainer extends React.Component
             return a.stoptime - b.stoptime
         loading: false
 
-  getDepartures: (showMissingRoutes) =>
+  getDepartures: (showMissingRoutes, rowClasses) =>
     departureObjs = []
     seenRoutes = []
     disruptionRoutes = @context.getStore('DisruptionStore').getRoutes() or []
@@ -70,15 +70,17 @@ class DepartureListContainer extends React.Component
         id = "#{departure.pattern.code}:#{departure.stoptime}"
 
         # check if departure is in the disruption info
-        disruptionClass = classNames
+        classes =
           disruption: disruptionRoutes.indexOf(departure.pattern.code.split(":", 3).join(':')) != -1
+        if rowClasses
+          classes[rowClasses] = true
 
         if @props.routeLinks
           departureObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.code}" key={id}>
-            <Departure departure={departure} currentTime={currentTime} className={disruptionClass} />
+            <Departure departure={departure} currentTime={currentTime} className={classNames(classes)} />
           </Link>
         else
-          departureObjs.push <Departure key={id} departure={departure} currentTime={currentTime} className={disruptionClass} />
+          departureObjs.push <Departure key={id} departure={departure} currentTime={currentTime} className={classNames(classes)} />
         seenRoutes.push(departure.pattern.route.shortName)
         if seenRoutes.length >= @props.departures
           break
@@ -97,7 +99,7 @@ class DepartureListContainer extends React.Component
   render: =>
     <div className={classNames("departure-list", @props.className)}
          onScroll={if @props.infiniteScroll and window? then @scrollHandler else null}>
-      {@getDepartures(@props.showMissingRoutes)}
+      {@getDepartures(@props.showMissingRoutes, @props.rowClasses)}
     </div>
 
 module.exports = Relay.createContainer(DepartureListContainer,

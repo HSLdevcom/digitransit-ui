@@ -1,6 +1,52 @@
 
+.card {
+  background-color: $white;
+  border: 1px solid $light-gray;
+  border-radius: $border-radius;
+  margin-bottom: 5px;
+}
+
+.card-header {
+  background-color: $white;
+  margin-bottom: 0.3em;
+  h3 {
+   margin: 0;
+ }
+}
+
+.transport  {
+  background-color: $white;
+  line-height: $line-height-normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  .icon {
+    height: 12px;
+    width: 12px;
+    vertical-align: inherit;
+  }
+}
+
+.departure-list .date-row {
+  font-size: 10pt;
+  text-transform: uppercase;
+  color: $gray;
+  padding-left: 1em;
+  font-weight:  $font-weight-bold;
+  .missing-routes {
+    font-family: $font-family;
+    font-size: 13px;
+    font-weight: $font-weight-light;
+    margin: 0.5em 0 0;
+    padding: 0px;
+    width: 100%;
+    line-height: $line-height-normal;
+    color: #999;
+  }
+}
+
 /* STOP PAGE */
 .stop-page  {
+  overflow-y: auto;
   &.card-header  {
     padding: 0.7em 1em;
     position: relative;
@@ -16,71 +62,15 @@
     margin-right: 0.7em;
     margin-top: 0.3em;
   }
-}
-
-
-/* Departure */
-.departure-list.stop-page {
-  overflow-y: auto;
-}
-
-.departure-list p.transport {
-  margin: 0px;
-  padding: 0px;
-  white-space: nowrap;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: $line-height-normal;
-}
-
-.departure-list.stop-page p.transport {
-  margin: 0.1em 0em;
-  padding: 0.45em 1em;
-  background: $white;
-}
-
-.departure-list.stop-page a {
-  color: $black;
-  text-decoration: none;
-}
-
-.departure-list .transport span.next-departure {
-  width: 3em;
-  margin-right: 1em;
-  text-align: right;
-}
-
-.departure-list .transport span.vehicle-number {
-  width: 2.5em;
-}
-
-.departure-list p.transport .icon {
-  height: 12px;
-  width: 12px;
-  vertical-align: inherit;
-}
-
-.departure-list .date-row {
-  font-size: 10pt;
-  text-transform: uppercase;
-  color: $gray;
-  padding-left: 1em;
-  font-weight:  $font-weight-bold;
-}
-
-.departure-list.stop-page .date-row{
-  border-bottom: solid 1px $light-gray;
-  border-top: solid 1px $light-gray;
-}
-
-.departure-list p.missing-routes {
-  font-family: $font-family;
-  font-size: 13px;
-  font-weight: $font-weight-light;
-  margin: 0.5em 0 0;
-  padding: 0px;
-  width: 100%;
-  line-height: $line-height-normal;
-  color: #999;
+  .transport {
+    margin: 0.1em 0;
+  }
+  a {
+    color: $black;
+    text-decoration: none;
+  }
+  .date-row {
+    border-bottom: solid 1px $light-gray;
+    border-top: solid 1px $light-gray;
+  }
 }

@@ -45,7 +45,7 @@ class Page extends React.Component
           </div>
         </Link>
       </Map>
-      <DepartureListContainer showMissingRoutes={false} stop={@props.stop} className="stop-page below-map" routeLinks={true} infiniteScroll={true}/>
+      <DepartureListContainer rowClasses="padding-normal" howMissingRoutes={false} stop={@props.stop} className="stop-page below-map" routeLinks={true} infiniteScroll={true}/>
     </DefaultNavigation>
 
 module.exports = Relay.createContainer(Page, fragments: queries.StopPageFragments)

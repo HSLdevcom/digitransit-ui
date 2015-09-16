@@ -9,59 +9,6 @@ $modal-zindex: 1100;
   }
 }
 
-/* Modal */
-#app .modal {
-  border-radius: $border-radius;
-  padding: 10px 22px;
-  max-height: 85%;
-
-  p  {
-    margin: 10px 0;
-  }
-  h2 {
-    float:left;
-    color: $black;
-    font-weight: $font-weight-normal;
-  }
-  .modal-wrapper  {
-    height: 100%;
-  }
-  .modal-content  {
-    max-height: 64vh;
-    overflow-y: auto;
-    section {
-      padding-bottom: 20px;
-    }
-  }
-  .modal-top-nav {
-    text-align: right;
-    padding-top: 10px;
-  }
-  .disruption-header  {
-    .line {
-      margin: 0 5px 0 10px;
-    }
-    .time {
-      &:before {
-        content: " – ";
-      }
-    }
-  }
-  .disruption-details {
-    span  {
-      display:block;
-    }
-    b {
-      float:left;
-      padding-right: 5px;
-    }
-  }
-  .icon.center {
-    display: block;
-    float: left;
-    margin-top: 3px;
-  }
-}
 
 /* application styles */
 .disruption {
@@ -70,9 +17,9 @@ $modal-zindex: 1100;
   margin: 5px 0;
   border-radius: $border-radius;
 
-
   .vehicle-number  {
     position:relative;
+    /* disruption icon */
     &:before {
       width:12px;
       height:12px;
@@ -84,20 +31,7 @@ $modal-zindex: 1100;
   }
 }
 
-
 .transport.disruption {
   background-color: rgba($disruption-color, 0.3) !important;
   margin-bottom: 1px !important;
-}
-
-
-.uppercase  {
-  text-transform: uppercase;
-}
-.line, .time {
-  padding: 0 10px;
-  font-family: $font-family-narrow;
-}
-.bold {
-  font-weight: $font-weight-bold;
 }
