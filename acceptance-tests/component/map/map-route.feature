@@ -10,6 +10,6 @@ Feature: Map component shows Route
     When Zoom level is below 15 
     Then Route stops should be 'small icons'
 
-  Scenario: Map shows only vehicles for selected route
+  Scenario: Map shows vehicles only for selected route
     Given Route is displayed on map
     Then Only vehicles on selected route should be displayed
