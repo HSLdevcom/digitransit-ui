@@ -31,7 +31,7 @@ class StopCardHeader extends React.Component
         <Icon className={classNames "favourite", selected: @props.favourite} img="icon-icon_star"/>
       </span>
       {if @props.infoIcon then @getInfoIcon()}
-      <h3 className={@props.headingStyle}>{@props.stop.name} ›</h3>
+      <span className={@props.headingStyle || "h3"}>{@props.stop.name} ›</span>
       <p className="sub-header-h3">{@getDescription()}</p>
     </div>
 

@@ -33,6 +33,25 @@ a {
 }
 
 /* HEADINGS */
+h1,
+.h1 {
+  color:$black;
+  font-size: $font-size-large;
+  font-weight: $font-weight-normal;
+  font-family: $body-font-family;
+  line-height: $line-height-normal;
+  text-transform: none;
+}
+h2,
+.h2 {
+  color:$black;
+  font-weight: $font-weight-normal;
+  font-size: $font-size-normal;
+  font-family: $body-font-family;
+  line-height: $line-height-normal;
+  margin: 0;
+  text-transform: none;
+}
 h3,
 .h3  {
   font-family: $body-font-family;
@@ -43,39 +62,47 @@ h3,
   color: $link-color; /* here or through being a link? */
 }
 
-h4,
-.h4 {
-  color:$black;
-  font-weight: $font-weight-normal;
-  font-size: 1pc;
-  font-family: $body-font-family;
-  line-height: $line-height-normal;
-  margin: 0;
-  text-transform: none;
-}
+
 
 
 /* SUB HEADERS */
 .sub-header-h3 {
   font-family: $body-font-family;
-  font-size: 13px;
+  font-size: $font-size-small;
   font-weight: $font-weight-light;
   margin: 0 !important;
-  line-height: 1.2;
+  line-height: 0.8;
+  padding-bottom: 5px;
   /*color: $dark-color;*/
 }
 
 
-.details {
+.route-detail-text {
+  /* parent class for time, vehicle-number, destination*/
   color: $black;
   font-family: $font-family-narrow;
-  font-size: 15px;
+  font-size: $font-size-normal;
+  /*font-weight: $font-weight-bold;*/
+  & .time,
+  & .vehicle-number,
+  & .destination {
+    display: inline-block;
+  }
+}
+.time {
   font-weight: $font-weight-bold;
-  display: inline-block;
+  width: 3em;
+  margin-right: 1em;
+  text-align: right;
+}
+.vehicle-number {
+  font-weight: $font-weight-bold;
+  width: 2.5em;
+  margin-left: 5px;
 }
 .destination {
-  font-weight: $font-weight-light;
 }
+
 
 
 #main {

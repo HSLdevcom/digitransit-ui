@@ -33,7 +33,7 @@ class Modal extends React.Component
     <div className={cx('modal-overlay', isActive)} style={overlayStyle} onClick={@props.toggleVisibility} >
       <div id={@props.id} data-closable={true} className={cx(modalClasses, isActive)} onClick={@stopClickPropagation}>
         <div className='row'>
-          <h2>{@props.headerText}</h2>
+          <h1 className='left'>{@props.headerText}</h1>
           <div className='small-1 columns right text-right modal-top-nav'>
             <a onClick={@props.toggleVisibility} className="close-button">
               <Icon img={'icon-icon_close'}/>
