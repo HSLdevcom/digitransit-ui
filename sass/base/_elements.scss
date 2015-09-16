@@ -2,6 +2,24 @@ $border-radius-rounded: 30px;
 
 
 
+.card {
+  background-color: $white;
+  border: 1px solid $light-gray;
+  border-radius: $border-radius;
+  margin-bottom: 5px;
+  line-height: $line-height-normal;
+}
+
+.card-header {
+  background-color: $white;
+  margin-bottom: 0.3em;
+  h3 {
+   margin: 0;
+ }
+}
+
+
+
 .show-more {
   text-align: center;
   text-transform: uppercase;
