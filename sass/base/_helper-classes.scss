@@ -35,35 +35,7 @@
 .to {
   color: $to-color;
 }
-.favourite-icon {
-  padding: 0;
-  height: 24px;
-  width: 24px;
-  .icon.favourite {
-    height: 24px;
-    width: 24px;
-    stroke: $light-gray;
-    stroke-width: 50px;
-    fill: $white;
 
-    &:hover {
-      fill: $favourite-color;
-    }
-
-    &.selected {
-      fill: $favourite-color;
-    }
-
-    &.selected:hover {
-      fill: $white;
-    }
-  }
-}
-.info {
-    width: 24px;
-    height: 24px;
-    color: $gray-blue;
-}
 
 /* Positioning */
 

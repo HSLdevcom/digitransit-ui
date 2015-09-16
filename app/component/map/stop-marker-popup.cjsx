@@ -30,7 +30,7 @@ class StopMarkerPopup extends React.Component
       e.stopPropagation()
       @props.context.executeAction FavouriteStopsAction.addFavouriteStop, @props.stop.id
 
-    <div className="card popup">
+    <div className="card">
       <StopCardHeader stop={@props.stop} favourite={favourite} addFavouriteStop={addFavouriteStop}/>
       <RouteList ref="routeList" routes={@props.stop.routes}/>
       <div className="bottom location">

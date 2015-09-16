@@ -50,7 +50,7 @@ class StopMarkerLayer extends React.Component
       # to retain visual consistency.
       #https://github.com/codebusters/react-leaflet/commit/c7b897e3ef429774323c7d8130f2fae504779b1a
       popup =
-        <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
+        <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"popup"}}>
           <StopMarkerPopup stop={stop} context={@context}/>
         </DynamicPopup>
 
@@ -74,7 +74,7 @@ class StopMarkerLayer extends React.Component
         stops.push <Marker map={@props.map}
                            key={stop.name + "_text"}
                            position={lat: stop.lat, lng: stop.lon}
-                           icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
+                           icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'popup', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
                            interactive={false}/>
         renderedNames.push stop.name
 

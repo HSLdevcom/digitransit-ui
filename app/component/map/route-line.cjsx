@@ -41,7 +41,7 @@ class RouteLine extends React.Component
      # This is copied to stop-marker-container.cjsx. Remember to change both at the same time
      # to retain visual consistency.
      popup =
-        <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"stop-marker-popup"}}>
+        <DynamicPopup options={{offset: [106, 3], closeButton:false, maxWidth:250, minWidth:250, className:"popup"}}>
           <StopMarkerPopup stop={stop} context={@context}/>
         </DynamicPopup>
      objs.push <CircleMarker map={@props.map}
