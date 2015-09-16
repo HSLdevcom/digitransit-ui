@@ -8,5 +8,6 @@ module.exports =
     FONT: 'http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700'
     REALTIME: 'http://matka.hsl.fi/navigator-server'
   title: 'Digitransit (HSL)'
+  icon: 'hsl-icon.png'
   preferredAgency: 'HSL'
   cities: ["helsinki", "vantaa", "espoo", "kauniainen", "kerava", "kirkkonummi", "sipoo"]
