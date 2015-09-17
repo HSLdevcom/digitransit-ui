@@ -16,7 +16,6 @@ class DisruptionRowContainer extends React.Component
 
   render: ->
     data = @props.disruption.alert
-    mode = GtfsUtils.typeToName[data.informed_entity[0].route_type]
     startTime = moment(data.active_period[0].start * 1000)
     endTime = moment(data.active_period[0].end * 1000)
     cause = data.cause
@@ -30,7 +29,6 @@ class DisruptionRowContainer extends React.Component
       )}
       renderFetched={(data) =>
         <DisruptionRow
-          mode={mode}
           routes={data.routes}
           startTime={startTime}
           endTime={endTime}
