@@ -28,6 +28,8 @@ class StopTabs extends React.Component
     @setState @context.getStore('LocationStore').getLocationState()
 
   render: ->
+    favouritesTitle = <span><Icon className="favourite" img="icon-icon_star"/>
+      &nbsp;{@context.intl.formatMessage({id: "favourites", defaultMessage: "Favourites"})}</span>
     LocationStore = @context.getStore 'LocationStore'
     if @state.status == LocationStore.STATUS_FOUND_LOCATION or @state.status == LocationStore.STATUS_FOUND_ADDRESS
       nearestPanel = <Relay.RootContainer
@@ -60,9 +62,7 @@ class StopTabs extends React.Component
         title={@context.intl.formatMessage({id: 'previous', defaultMessage: "Previous"})} >
         <h2>Edelliset tähän</h2>
       </Tabs.Panel>
-      <Tabs.Panel title={<Icon  className="favourite" img="icon-icon_star">
-                           {@context.intl.formatMessage(
-                             {id: "favourites", defaultMessage: "Favourites"})}</Icon>}>
+      <Tabs.Panel title={favouritesTitle}>
         <StopCardListContainer key="FavouriteStopsStore" store={@context.getStore 'FavouriteStopsStore'}/>
       </Tabs.Panel>
     </Tabs>

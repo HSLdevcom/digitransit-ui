@@ -4,11 +4,9 @@ if window?
   require './icon.css'
 
 module.exports = (props) ->
-  <span>
-    <svg id={props.id} viewBox="0 0 40 40" className={"icon #{props.className}"}>
-      <use xlinkHref="##{props.img}"/>
-    </svg>
-    {if props.children then props.children}
-  </span>
+  <svg id={props.id} viewBox="0 0 40 40" className={"icon #{props.className}"}>
+    <use xlinkHref="##{props.img}"/>
+  </svg>
+
 
 module.exports.displayName = "Icon"
