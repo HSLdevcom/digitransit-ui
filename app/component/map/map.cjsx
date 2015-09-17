@@ -29,19 +29,31 @@ class Map extends React.Component
     else
       null
 
+  @fromIcon:
+    if isBrowser
+      L.divIcon(
+        html: ReactDOM.renderToStaticMarkup(
+          React.createElement(
+            Icon, img: 'icon-icon_mapMarker-point')),
+        className: 'from', iconAnchor: [12, 24])
+    else
+      null
+
   constructor: ->
     super
     coordinates = @context.getStore('LocationStore').getLocationState()
     if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
       @state =
-        location: [coordinates.lat, coordinates.lon]
+        position: [coordinates.lat, coordinates.lon]
         zoom: 16
-        hasLocation: true
+        hasPosition: true
+        origin: {lat: null, lon: null}
     else
       @state =
-        location: [60.17332, 24.94102]
+        position: [60.17332, 24.94102]
         zoom: 11
-        hasLocation: false
+        hasPosition: false
+        origin: {lat: null, lon: null}
 
   setBounds: (props) ->
     @refs.map.getLeafletElement().fitBounds(
@@ -50,6 +62,7 @@ class Map extends React.Component
 
   componentDidMount: ->
     @context.getStore('LocationStore').addChangeListener @onLocationChange
+    @context.getStore('EndpointStore').addChangeListener @onEndpointChange
     @onLocationChange()
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
     if @props.fitBounds
@@ -61,34 +74,46 @@ class Map extends React.Component
 
   componentWillUnmount: ->
     @context.getStore('LocationStore').removeChangeListener @onLocationChange
+    @context.getStore('LocationStore').removeChangeListener @onEndpointChange
 
   onLocationChange: =>
     coordinates = @context.getStore('LocationStore').getLocationState()
     if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
       if !@props.fitBounds
         @setState
-          location: [coordinates.lat, coordinates.lon]
+          position: [coordinates.lat, coordinates.lon]
           zoom: 16
-          hasLocation: true
+          hasPosition: true
       else
         @setState
-          hasLocation: true
+          hasPosition: true
+
+  onEndpointChange: =>
+    origin = @context.getStore('EndpointStore').getOrigin()
+    @setState
+      origin: origin
 
   render: ->
     if isBrowser
-      if @state.hasLocation == true
-        marker = <Marker
-          position={@state.location}
+      if @state.origin.lat
+        fromMarker = <Marker
+          position={[@state.origin.lat, @state.origin.lon]}
+          icon={Map.fromIcon}/>
+      if @state.hasPosition == true
+        positionMarker = <Marker
+          position={@state.position}
           icon={Map.currentLocationIcon}/>
 
-      stops = if @props.showStops then <StopMarkerContainer hilightedStops={@props.hilightedStops}/>
+      if @props.showStops
+        stops = <StopMarkerContainer hilightedStops={@props.hilightedStops}/>
+
       vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
 
       map =
         <LeafletMap
           ref='map'
-          center={[@props.lat or @state.location[0]+0.0005,
-                   @props.lon or @state.location[1]]}
+          center={[@props.lat or @state.origin.lat or @state.position[0] + 0.0005,
+                   @props.lon or @state.origin.lon or @state.position[1]]}
           zoom={@props.zoom or @state.zoom}
           zoomControl={not L.Browser.touch}
           attributionControl=false
@@ -100,7 +125,8 @@ class Map extends React.Component
           />
           {stops}
           {vehicles}
-          {marker}
+          {fromMarker}
+          {positionMarker}
           {@props.leafletObjs}
         </LeafletMap>
 

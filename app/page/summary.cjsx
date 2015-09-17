@@ -44,8 +44,15 @@ class SummaryPage extends React.Component
     if plan
       for data, i in plan.itineraries
         passive = i != activeIndex
-        rows.push <SummaryRow key={i} hash={i} params={@props.params} data={data} passive={passive} onSelect={@onSelectActive}/>
-        leafletObjs.push <ItineraryLine key={i} legs={data.legs} showFromToMarkers={i==0} passive={passive}/>
+        rows.push <SummaryRow key={i}
+                              hash={i}
+                              params={@props.params}
+                              data={data} passive={passive}
+                              onSelect={@onSelectActive}/>
+        leafletObjs.push <ItineraryLine key={i}
+                                        legs={data.legs}
+                                        showFromToMarkers={i == 0}
+                                        passive={passive}/>
 
     # Draw active last
     leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)

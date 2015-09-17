@@ -163,7 +163,8 @@ class SearchTwoFields extends React.Component
 
     <div className="search-form">
       <div className="row">
-        <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
+        <div className="small-12 medium-6 medium-offset-3 columns
+                        search-form-map-overlay">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
               {if @state.origin.useCurrentPosition
