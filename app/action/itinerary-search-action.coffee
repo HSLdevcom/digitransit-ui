@@ -2,7 +2,7 @@ xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
 
-itinerarySearchRequest = (actionContext, options) ->
+itinerarySearchRequest = (actionContext, options, done) ->
   itinerarySearchStore = actionContext.getStore('ItinerarySearchStore')
   if options?.params
     actionContext.dispatch "UpdateFromToPlaces",
@@ -31,9 +31,11 @@ itinerarySearchRequest = (actionContext, options) ->
     wheelchair: itinerarySearchStore.isWheelchair()
   xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
     actionContext.dispatch "ItineraryFound", data
+    done()
   , (err) ->
     console.error("Failed to perform itinerary search!")
     console.error(err)
+    done()
   )
 
 

@@ -40,6 +40,7 @@ var svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
 if (process.env.NODE_ENV !== "development") {
   var css = fs.readFileSync(appRoot + '_static/css/bundle.css')
 }
+var translations = require('../app/translations')
 
 /* Setup functions */
 function setUpStaticFolders() {
@@ -118,7 +119,10 @@ function setUpRoutes() {
                 FluxibleComponent,
                 { context: context.getComponentContext() },
                 React.createElement(
-                  IntlProvider, {locale: locale},
+                  IntlProvider,
+                  { locale: locale,
+                    messages: translations[locale]
+                  },
                   React.createElement(
                     RoutingContext,
                     { history: renderProps.history,
