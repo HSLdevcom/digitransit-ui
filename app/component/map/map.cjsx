@@ -19,7 +19,15 @@ class Map extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  @currentLocationIcon: if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_mapMarker-location-animated')), className: 'current-location-marker') else null
+  @currentLocationIcon:
+    if isBrowser
+      L.divIcon(
+        html: ReactDOM.renderToStaticMarkup(
+          React.createElement(
+            Icon, img: 'icon-icon_mapMarker-location-animated')),
+        className: 'current-location-marker')
+    else
+      null
 
   constructor: ->
     super
@@ -36,22 +44,9 @@ class Map extends React.Component
         hasLocation: false
 
   setBounds: (props) ->
-    if typeof props.from == 'string'
-      if props.from.indexOf('::') != -1
-        from = props.from.split('::')[1].split(',')
-      else
-        from = props.from.split(',')
-    else
-      from = props.from
-    if typeof props.to == 'string'
-      if props.to.indexOf('::') != -1
-        to = props.to.split('::')[1].split(',')
-      else
-        to = props.to.split(',')
-    else
-      to = props.to
-
-    @refs.map.getLeafletElement().fitBounds [from, to], paddingTopLeft: props.padding
+    @refs.map.getLeafletElement().fitBounds(
+      [props.from, props.to],
+      paddingTopLeft: props.padding)
 
   componentDidMount: ->
     @context.getStore('LocationStore').addChangeListener @onLocationChange

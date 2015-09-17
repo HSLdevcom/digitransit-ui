@@ -76,6 +76,7 @@ function getPolyfills(userAgent) {
       'Promise': {flags: ['gated']},
       'String.prototype.repeat': {flags: ['always', 'gated']},
       'Intl': {flags: ['always', 'gated']}, // 'always' until #474 is merged upstream
+      'Object.assign': {flags: ['gated']},
     },
     minify: true,
     unknown: 'polyfill'

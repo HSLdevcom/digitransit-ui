@@ -6,6 +6,8 @@ SummaryRow         = require '../component/summary/summary-row'
 SearchTwoFields       = require '../component/search/search-two-fields'
 ItineraryLine      = require '../component/map/itinerary-line'
 sortBy             = require 'lodash/collection/sortBy'
+{otpToLocation, locationToCoords} = require '../util/otp-strings'
+
 
 class SummaryPage extends React.Component
   @contextTypes:
@@ -49,7 +51,13 @@ class SummaryPage extends React.Component
     leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
 
     <SummaryNavigation className="fullscreen">
-      <Map ref="map" className="summaryMap" leafletObjs={leafletObjs} fitBounds={true} from={@props.params.from} to={@props.params.to} padding={[0, 110]}>
+      <Map ref="map"
+           className="summaryMap"
+           leafletObjs={leafletObjs}
+           fitBounds={true}
+           from={locationToCoords(otpToLocation(@props.params.from))}
+           to={locationToCoords(otpToLocation(@props.params.to))}
+           padding={[0, 110]}>
         <SearchTwoFields />
       </Map>
       <div>{rows}</div>
