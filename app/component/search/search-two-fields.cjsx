@@ -4,6 +4,7 @@ EndpointActions  = require '../../action/endpoint-actions.coffee'
 Autosuggest = require './autosuggest'
 Link = require 'react-router/lib/Link'
 config = require '../../config'
+{locationToOTP} = require '../../util/otp-strings'
 
 intl = require('react-intl')
 FormattedMessage = intl.FormattedMessage
@@ -115,17 +116,18 @@ class SearchTwoFields extends React.Component
       # causes problems in next page rendering
       #@autoSuggestInput.blur()
 
-      geo_string = "Oma sijainti::#{@state.geo.lat},#{@state.geo.lon}"
+      geo_string = locationToOTP(
+        Object.assign({address: "Oma sijainti"}, @state.geo))
 
       if @state.origin.useCurrentPosition
         from = geo_string
       else
-        from = "#{@state.origin.address}::#{@state.origin.lat},#{@state.origin.lon}"
+        from = locationToOTP(@state.origin)
 
       if @state.destination.useCurrentPosition
         to = geo_string
       else
-        to = "#{@state.destination.address}::#{@state.destination.lat},#{@state.destination.lon}"
+        to = locationToOTP(@state.destination)
 
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
@@ -161,7 +163,8 @@ class SearchTwoFields extends React.Component
 
     <div className="search-form">
       <div className="row">
-        <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
+        <div className="small-12 medium-6 medium-offset-3 columns
+                        search-form-map-overlay">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
               {if @state.origin.useCurrentPosition

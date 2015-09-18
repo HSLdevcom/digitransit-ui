@@ -16,7 +16,9 @@ Feature: Map component reacts to Location changes
     Given Map is mounted on page
     And Position status is something else than 'Tracking position'
     When Location status becomes 'From location set'
-    Then From Location marker should be shown as a "droplet"
+    Then Map pans to the set location
+    And from location marker (blue droplet) should be shown at the set location
+    And the position marker (white-blue circle) is still shown if it's in map bounds
 
   Scenario: Location status becomes 'Route set'
     Given Map is being mounted on page

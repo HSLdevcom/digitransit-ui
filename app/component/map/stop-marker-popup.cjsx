@@ -34,10 +34,9 @@ class StopMarkerPopup extends React.Component
       <StopCardHeader stop={@props.stop} favourite={favourite} addFavouriteStop={addFavouriteStop}/>
       <RouteList ref="routeList" routes={@props.stop.routes}/>
       <div className="bottom location">
-        <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}> Näytä lähdöt</Icon></Link><br/>
+        <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
         <Link to="#{process.env.ROOT_PATH}reitti/#{@props.context.getStore('LocationStore').getLocationString()}/#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}" className="route">
-          <Icon img={'icon-icon_route'}> Reititä tänne
-          </Icon>
+          <Icon img={'icon-icon_route'}/> Reititä tänne
         </Link>
       </div>
     </div>
