@@ -141,3 +141,32 @@ div.spinner-loader {
 @keyframes spin {
   100% { transform:rotate(360deg); }
 }
+
+hr  {
+  clear:both;
+}
+
+
+/*
+  Style Guidelines Page
+*/
+.code {
+  font-family: monospace;
+  color: crimson;
+  font-weight: 400;
+  padding: 0 10px;
+  font-size: 16px;
+}
+.color-code {
+    display: inline-block;
+    padding-bottom: 20px;
+}
+.color-palette  {
+  margin-bottom:-20px;
+}
+.sub-header {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 10px 0;
+}
