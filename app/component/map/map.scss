@@ -100,8 +100,6 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 }
 
-
-
 .popup {
   .route-header {
     height:auto;
@@ -125,8 +123,12 @@ div.leaflet-marker-icon.vehicle-icon {
   .leaflet-popup-content {
     margin: 0;
   }
+  .card {
+    border-color: $dark-color
+  }
   .card-header {
     padding: 1em 1em 0.5em;
+    border-radius: $border-radius;
   }
 
   .bottom {

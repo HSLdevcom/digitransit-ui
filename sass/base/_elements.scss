@@ -1,7 +1,5 @@
 $border-radius-rounded: 30px;
 
-
-
 .card {
   background-color: $white;
   border: 1px solid $light-gray;
@@ -9,7 +7,6 @@ $border-radius-rounded: 30px;
   margin-bottom: 5px;
   line-height: $line-height-normal;
 }
-
 .card-header {
   background-color: $white;
   margin-bottom: 0.3em;
@@ -17,8 +14,6 @@ $border-radius-rounded: 30px;
    margin: 0;
  }
 }
-
-
 
 .show-more {
   text-align: center;
@@ -86,11 +81,10 @@ $border-radius-rounded: 30px;
     margin-top: 3px;
   }
   .line, .time {
-    padding: 0 10px;
+    padding: 0;
     font-family: $font-family-narrow;
   }
 }
-
 
 /* ICONS */
 .favourite-icon {
