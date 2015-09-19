@@ -57,9 +57,9 @@ class StyleGuidelinesPage extends React.Component
           <span className="code color-code">$action-color</span>#007ac9
           <br />
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#FED103'}/>
+            <rect width="50" height="50" style={fill:'#fed100'}/>
           </svg>
-          <span className="code color-code">$disruption-color</span>#FED103
+          <span className="code color-code">$disruption-color</span>#fed100
           <br />
           <svg className="color-palette" width="50" height="50">
             <rect width="50" height="50" style={fill:'#4DA2D9'}/>
@@ -84,12 +84,25 @@ class StyleGuidelinesPage extends React.Component
 
   getHeadings: ->
     <section>
-      <h1>Heading 1</h1>
-      <h2>Heading 2</h2>
-      <h3>Heading 3</h3>
-      <h4>Heading 4</h4>
-      <h5>Heading 5</h5>
-      <h6>Heading 6</h6>
+      <h1>Heading 1<span className="code">{"<h1>"}</span></h1>
+      <h2>Heading 2<span className="code">{"<h2>"}</span></h2>
+      <h3>Heading 3<span className="code">{"<h3>"}</span></h3>
+      <h4>Heading 4<span className="code">{"<h4>"}</span></h4>
+      <h5>Heading 5<span className="code">{"<h5>"}</span></h5>
+      <h6>Heading 6<span className="code">{"<h6>"}</span></h6>
+    </section>
+
+  getSubHeaders: ->
+    <section>
+      <p className="sub-header-h4">This is a sub header<span className="code">.sub-header-h4</span></p>
+    </section>
+
+  getTextStyles: ->
+    <section>
+      <a href="#">This is a link</a><span className="code">{"<a>"}</span>
+      <p>Paragraph: normal text looks like this<span className="code">{"<p>"}</span></p>
+      <span>span style</span><span className="code">{"<span>"}</span>
+      <p className="bold">this text is bold<span className="code">.bold or {"<b>"}</span></p>
     </section>
 
   getIcons: ->
@@ -193,10 +206,49 @@ class StyleGuidelinesPage extends React.Component
         <Icon img={'icon-icon_walk'}/>
         <span className="code">icon-icon_walk</span><br />
         <Icon img={'icon-icon_mapMarker-location-animated'}/>
-        <span className="code">icon-icon_mapMarker-location-animated</span><br />
+        <span className="code">icon-icon_mapMarker-location-animated</span>
       </div>
     </section>
 
+  getHelpers: ->
+    <section>
+      <div className="bus">some div<span className="code">.bus</span></div>
+      <div className="tram">some div<span className="code">.tram</span></div>
+      <div className="rail">some div<span className="code">.rail</span></div>
+      <div className="subway">some div<span className="code">.subway</span></div>
+      <div className="ferry">some div<span className="code">.ferry</span></div>
+
+      <div className="walk">some div<span className="code">.walk</span></div>
+      <div className="from">some div<span className="code">.from</span></div>
+      <div className="to">some div<span className="code">.to</span></div>
+      <br/>
+      <div className="cursor-pointer">some div<span className="code">.cursor-pointer</span></div>
+      <div className="dashed-underline">some div<span className="code">.dashed-underline</span></div>
+      <div className="bold">some div<span className="code">.bold</span></div>
+      <div className="uppercase">some div<span className="code">.uppercase</span></div>
+      <br/>
+      <div className="padding-small" style={{border: '1px solid '}}>the border is not part of the style<span className="code">.padding-small</span></div>
+      <div className="padding-normal" style={{border: '1px solid '}}>some div<span className="code">.padding-normal</span></div>
+      <div className="padding-vertical-small" style={{border: '1px solid '}}>some div<span className="code">.padding-vertical-small</span></div>
+      <div className="padding-vertical-normal" style={{border: '1px solid '}}>some div<span className="code">.padding-vertical-normal</span></div>
+      <div className="padding-horizontal" style={{border: '1px solid '}}>some div<span className="code">.padding-horizontal</span></div>
+      <div className="no-padding">some div<span className="code">.no-padding</span></div>
+      <div className="no-margin">some div<span className="code">.no-margin</span></div>
+      <br/>
+      <div className="left">float left<span className="code">.left</span></div>
+      <div className="right">float right<span className="code">.right</span></div>
+      <div className="clear">flot is cleared<span className="code">.clear</span></div>
+      <div className="text-left">text aligned to left<span className="code">.text-left</span></div>
+      <div className="text-right">text aligned to right<span className="code">.text-right</span></div>
+      <div className="text-center">text centered aligned<span className="code">.text-center</span></div>
+      <div className="inline-block">this div is inlied<span className="code">.inline-block</span></div>
+      <div className="inline-block">this also<span className="code">.inline-block</span></div>
+
+
+
+
+
+    </section>
 
 
   render: ->
@@ -210,17 +262,26 @@ class StyleGuidelinesPage extends React.Component
       {@getFonts()}
 
       <hr></hr>
+      <div className="sub-header">Text Styles</div>
+      {@getTextStyles()}
+
+      <hr></hr>
       <div className="sub-header">Headings</div>
       {@getHeadings()}
+
+      <hr></hr>
+      <div className="sub-header">Sub Headings</div>
+      {@getSubHeaders()}
 
       <hr></hr>
       <div className="sub-header">Icons</div>
       {@getIcons()}
 
       <hr></hr>
-      <div className="sub-header"></div>
-      <a href="#">This is a link</a>
+      <div className="sub-header">Helper Classes</div>
+      {@getHelpers()}
 
+      <p></p>
     </div>
 
 
