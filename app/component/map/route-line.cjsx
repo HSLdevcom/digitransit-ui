@@ -1,4 +1,5 @@
 React              = require 'react'
+ReactDOM           = require 'react-dom/server'
 isBrowser          = window?
 Polyline           = if isBrowser then require 'react-leaflet/lib/Polyline' else null
 CircleMarker       = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
@@ -16,8 +17,8 @@ class RouteLine extends React.Component
     route: React.PropTypes.object.isRequired
 
 
-  @fromIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'from', iconAnchor: [12,24]) else null
-  @toIcon: if isBrowser then L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'to', iconAnchor: [12,24]) else null
+  @fromIcon: if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'from', iconAnchor: [12,24]) else null
+  @toIcon: if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'to', iconAnchor: [12,24]) else null
 
   render: ->
     objs = []

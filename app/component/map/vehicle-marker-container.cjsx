@@ -1,4 +1,5 @@
 React         = require 'react'
+ReactDOM      = require 'react-dom/server'
 Relay         = require 'react-relay'
 queries       = require '../../queries'
 isBrowser     = window?
@@ -23,11 +24,11 @@ class VehicleMarkerContainer extends React.Component
     history: React.PropTypes.object.isRequired
 
   @vehicleIcons: if !isBrowser then null else
-    bus: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_bus')), className: 'vehicle-icon bus', iconSize: [18, 18], iconAnchor: [9, 9])
-    tram: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_tram')), className: 'vehicle-icon tram', iconSize: [18, 18], iconAnchor: [9, 9])
-    rail: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_rail')), className: 'vehicle-icon rail', iconSize: [18, 18], iconAnchor: [9, 9])
-    subway: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_subway')), className: 'vehicle-icon subway', iconSize: [18, 18], iconAnchor: [9, 9])
-    ferry: L.divIcon(html: React.renderToString(React.createElement(Icon, img: 'icon-icon_ferry')), className: 'vehicle-icon ferry', iconSize: [18, 18], iconAnchor: [9, 9])
+    bus: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_bus')), className: 'vehicle-icon bus', iconSize: [18, 18], iconAnchor: [9, 9])
+    tram: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_tram')), className: 'vehicle-icon tram', iconSize: [18, 18], iconAnchor: [9, 9])
+    rail: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_rail')), className: 'vehicle-icon rail', iconSize: [18, 18], iconAnchor: [9, 9])
+    subway: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_subway')), className: 'vehicle-icon subway', iconSize: [18, 18], iconAnchor: [9, 9])
+    ferry: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_ferry')), className: 'vehicle-icon ferry', iconSize: [18, 18], iconAnchor: [9, 9])
 
   constructor: () ->
     @vehicles = {}

@@ -1,4 +1,5 @@
 React         = require 'react'
+ReactDOM      = require 'react-dom/server'
 Relay         = require 'react-relay'
 queries       = require '../../queries'
 isBrowser     = window?
@@ -74,7 +75,7 @@ class StopMarkerLayer extends React.Component
         stops.push <Marker map={@props.map}
                            key={stop.name + "_text"}
                            position={lat: stop.lat, lng: stop.lon}
-                           icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
+                           icon={if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement('div',{},stop.name)), className: 'stop-name-marker', iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
                            interactive={false}/>
         renderedNames.push stop.name
 
