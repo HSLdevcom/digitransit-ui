@@ -72,10 +72,10 @@ function getPolyfills(userAgent) {
     features: {
       'Function.prototype.bind': {flags: ['gated']},
       'matchMedia': {flags: ['gated']},
-      'fetch': {flags: ['always', 'gated']}, // 'always' for ie_mob
+      'fetch': {flags: ['gated']},
       'Promise': {flags: ['gated']},
-      'String.prototype.repeat': {flags: ['always', 'gated']},
-      'Intl': {flags: ['always', 'gated']}, // 'always' until #474 is merged upstream
+      'String.prototype.repeat': {flags: ['gated']},
+      'Intl': {flags: ['gated']},
       'Object.assign': {flags: ['gated']},
     },
     minify: true,
@@ -101,15 +101,16 @@ function setUpRoutes() {
         res.status(404).send('Not found')
       }
       else {
-        var promises = renderProps.components.map(function(component){
+        var promises = [getPolyfills(req.headers['user-agent'])];
+        promises.concat(renderProps.components.map(function(component){
           if (component instanceof Object && component.loadAction) {
             return context.getActionContext().executeAction(component.loadAction,
               {params:renderProps.params, query:renderProps.location.query});
           } else {
             return true;
           }
-        });
-        Promise.all(promises).then(function(){
+        }));
+        Promise.all(promises).then(function(polyfills){
           var content = "";
           // Ugly way to see if this is a Relay RootComponent
           // until Relay gets server rendering capabilities
@@ -146,7 +147,7 @@ function setUpRoutes() {
                 css: process.env.NODE_ENV === "development" ? false : css,
                 svgSprite: svgSprite,
                 content: content,
-                polyfill: getPolyfills(req.headers['user-agent']),
+                polyfill: polyfills,
                 state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
                 livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
                 locale: 'window.locale="' + locale + '"'

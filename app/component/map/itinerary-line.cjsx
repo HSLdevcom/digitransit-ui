@@ -47,7 +47,7 @@ class ItineraryLine extends React.Component
         objs.push <Marker map={@props.map}
                            key={i + "_text"}
                            position={lat: leg.from.lat, lng: leg.from.lon}
-                           icon={if isBrowser then L.divIcon(html: React.renderToString(React.createElement('div',{},leg.from.name)), className: 'stop-name-marker ' + modeClass, iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
+                           icon={if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement('div',{},leg.from.name)), className: 'stop-name-marker ' + modeClass, iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
                            interactive={false}/>
 
     <div style={{display: "none"}}>{objs}</div>
