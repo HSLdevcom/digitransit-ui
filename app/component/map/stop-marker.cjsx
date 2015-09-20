@@ -50,6 +50,7 @@ class StopMarker extends React.Component
     @forceUpdate()
 
   getStopMarker: ->
+    # TODO: lazy-initialize popup. Based on initial profiling it takes a lot of time atm
     <Marker key="stop"
             map={@props.map}
             key={@props.stop.gtfsId}
@@ -76,7 +77,7 @@ class StopMarker extends React.Component
               html: ReactDOM.renderToStaticMarkup(<div>{@props.stop.name}</div>)
               className: 'stop-name-marker'
               iconSize: [150, 0]
-              iconAnchor: [-10, 10]}
+              iconAnchor: [-8, 7]}
             />
 
   render: ->
