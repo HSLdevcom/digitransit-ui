@@ -8,7 +8,6 @@ L                  = if isBrowser then require 'leaflet' else null
 Icon               = require '../icon/icon'
 polyUtil           = require 'polyline-encoded'
 
-
 class ItineraryLine extends React.Component
 
   @fromIcon: if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'from', iconAnchor: [12,24]) else null
