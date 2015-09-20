@@ -1,13 +1,13 @@
 React              = require 'react'
 ReactDOM           = require 'react-dom/server'
 isBrowser          = window?
+StopMarker         = require './stop-marker'
 Polyline           = if isBrowser then require 'react-leaflet/lib/Polyline' else null
-CircleMarker       = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
-FeatureGroup       = if isBrowser then require 'react-leaflet/lib/FeatureGroup' else null
 Marker             = if isBrowser then require 'react-leaflet/lib/Marker' else null
 L                  = if isBrowser then require 'leaflet' else null
 Icon               = require '../icon/icon'
 polyUtil           = require 'polyline-encoded'
+
 
 class ItineraryLine extends React.Component
 
@@ -27,28 +27,22 @@ class ItineraryLine extends React.Component
                           className="leg-halo #{modeClass}"
                           weight=5 />
       objs.push <Polyline map={@props.map}
-                          key={i + leg.mode + @props.passive}
+                          key={i + leg.mode + @props.passive + "line"}
                           positions={polyUtil.decode leg.legGeometry.points}
                           className="leg #{modeClass}"
                           weight=3 />
       if not @props.passive
-        objs.push <CircleMarker map={@props.map}
-                                key={i + "," + leg.mode + @props.passive + "circleHalo"}
-                                center={lat: leg.from.lat, lng: leg.from.lon}
-                                className="stop-on-line-halo #{modeClass}"
-                                radius=3 />
-        objs.push <CircleMarker map={@props.map}
-                                key={i + "," + leg.mode + @props.passive + "circle"}
-                                center={lat: leg.from.lat, lng: leg.from.lon}
-                                className="stop-on-line #{modeClass}"
-                                radius=2 />
-
-      if leg.transitLeg and @props.showTransferLabels
-        objs.push <Marker map={@props.map}
-                           key={i + "_text"}
-                           position={lat: leg.from.lat, lng: leg.from.lon}
-                           icon={if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement('div',{},leg.from.name)), className: 'stop-name-marker ' + modeClass, iconSize: [150, 0], iconAnchor: [-10, 10]) else null}
-                           interactive={false}/>
+        objs.push <StopMarker map={@props.map}
+                              key={i + "," + leg.mode + "marker"}
+                              stop={
+                                lat: leg.from.lat
+                                lon: leg.from.lon
+                                name: leg.from.name
+                                gtfsId: leg.from.stopId
+                                code: leg.from.stopCode
+                              }
+                              mode={modeClass}
+                              renderText={leg.transitLeg and @props.showTransferLabels}/>
 
     <div style={{display: "none"}}>{objs}</div>
 
