@@ -21,14 +21,14 @@ Feature: Map component reacts to Location changes
     And the position marker (white-blue circle) is still shown if it's in map bounds
 
   Scenario: Location status becomes 'Route set'
-    Given Map is being mounted on page
+    Given Map is being mounted on Summary page
     When Location status is 'Route set'
     Then From and To Location markers should be drawn
     And all available routes should be drawn on map
     And selected route should be hilighted
 
   Scenario: Location status becomes 'Route via point set'
-    Given Map is being mounted on page
+    Given Map is being mounted on Summary page
     When Location status is 'Route set'
     Then From, To, and via Location markers should be drawn
     And all available routes should be drawn on map
