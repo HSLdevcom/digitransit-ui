@@ -7,6 +7,7 @@ queries               = require '../../queries'
 RouteStop             = require './route-stop'
 GtfsUtils             = require '../../util/gtfs'
 groupBy               = require 'lodash/collection/groupBy'
+classnames            = require 'classnames'
 
 class RouteStopListContainer extends React.Component
   @contextTypes:
@@ -29,28 +30,13 @@ class RouteStopListContainer extends React.Component
 
     stopObjs = []
 
-    stopObjs.push <div key="header" className="route-stop row">
-      <div className="columns small-3 route-stop-now">
-        Juuri Nyt
-      </div>
-      <div className="columns small-6 route-stop-name ">
-        Pysäkki
-      </div>
-      <div className="columns small-2 route-stop-code">
-        Pysäkkinumero
-      </div>
-      <div className="columns small-1 route-stop-mins">
-        Min
-      </div>
-    </div>
-
     @props.route.stops.forEach (stop) ->
       stopObjs.push <RouteStop key={stop.gtfsId} stop={stop} mode={mode} vehicles={vehicle_stops[stop.gtfsId]}/>
 
     stopObjs
 
   render: =>
-    <div className="route-stop-list">
+    <div className={classnames "route-stop-list", @props.className}>
       {@getStops()}
     </div>
 

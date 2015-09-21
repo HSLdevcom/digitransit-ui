@@ -3,6 +3,7 @@ Relay                  = require 'react-relay'
 queries                = require '../queries'
 DefaultNavigation      = require '../component/navigation/default-navigation'
 Tabs                   = require 'react-simpletabs'
+RouteListHeader        = require '../component/route/route-list-header'
 RouteHeaderContainer   = require '../component/route/route-header-container'
 RouteStopListContainer = require '../component/route/route-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
@@ -43,6 +44,10 @@ class RoutePage extends React.Component
       <RouteHeaderContainer route={@props.route}/>
       <Tabs className="route-tabs">
         <Tabs.Panel title="Pysäkit">
+          <RouteListHeader
+            headers={["Juuri Nyt", "Pysäkki", "Pysäkkinumero", "Min"]}
+            columnClasses={["small-3 route-stop-now", "small-6 route-stop-name", "small-2 route-stop-code", "small-1 route-stop-mins"]}
+          />
           <RouteStopListContainer route={@props.route}/>
         </Tabs.Panel>
         <Tabs.Panel title="Kartta" className="fullscreen">

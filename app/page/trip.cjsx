@@ -4,6 +4,8 @@ queries                = require '../queries'
 DefaultNavigation      = require '../component/navigation/default-navigation'
 RouteHeaderContainer   = require '../component/route/route-header-container'
 RouteStopListContainer = require '../component/route/route-stop-list-container'
+RouteListHeader             = require '../component/route/route-list-header'
+TripStopListContainer  = require '../component/trip/trip-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
 
@@ -44,10 +46,15 @@ class TripPage extends React.Component
 
   render: ->
     trip = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
-    <DefaultNavigation className="fullscreen">
+    # similar map as Stop-page
+    <DefaultNavigation className="fullscreen trip">
       <RouteHeaderContainer route={@props.trip.pattern} trip={trip}/>
-      <RouteMapContainer route={@props.trip.pattern} trip={trip}/>
-      <RouteStopListContainer route={@props.trip.pattern}/>
+      <RouteMapContainer className="map-small" route={@props.trip.pattern} trip={trip}/>
+      <RouteListHeader
+        headers={["Aika", "Pysäkki", "Pysäkkinumero"]}
+        columnClasses={["small-3 route-stop-now", "small-7 route-stop-name", "small-2 route-stop-code"]}
+       />
+      <TripStopListContainer className="below-map" route={@props.trip.pattern}/>
     </DefaultNavigation>
 
 module.exports = Relay.createContainer(TripPage, fragments: queries.TripPageFragments)
