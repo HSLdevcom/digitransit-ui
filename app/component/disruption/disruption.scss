@@ -9,95 +9,33 @@ $modal-zindex: 1100;
   }
 }
 
-/* Modal */
-#app .modal {
-  border-radius: $border-radius;
-  padding: 10px 22px;
-  max-height: 85%;
-
-  p  {
-    margin: 10px 0;
-  }
-  h2 {
-    float:left;
-    color: $black;
-    font-weight: $font-weight-normal;
-  }
-  .modal-wrapper  {
-    height: 100%;
-  }
-  .modal-content  {
-    max-height: 64vh;
-    overflow-y: auto;
-    section {
-      padding-bottom: 20px;
-    }
-  }
-  .modal-top-nav {
-    text-align: right;
-    padding-top: 10px;
-  }
-  .disruption-header  {
-    .line {
-      margin: 0 5px 0 10px;
-    }
-    .time {
-      &:before {
-        content: " – ";
-      }
-    }
-  }
-  .disruption-details {
-    span  {
-      display:block;
-    }
-    b {
-      float:left;
-      padding-right: 5px;
-    }
-  }
-  .icon.center {
-    display: block;
-    float: left;
-    margin-top: 3px;
-  }
-}
-
-/* application styles */
 .disruption {
   background-color: rgba($disruption-color, 0.5) !important;
   padding: 8px 12px;
   margin: 5px 0;
   border-radius: $border-radius;
 
-
   .vehicle-number  {
     position:relative;
+    /* disruption icon */
     &:before {
       width:12px;
       height:12px;
       position: absolute;
       bottom: 5px;
-      left: -19px;
+      left: -24px;
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 1024 1024'><path stroke='white' stroke-width='60' fill='#{rgba($disruption-color, 0.9999999)}' class='path1' d='M1006.801 779.481c12.373 17.68 17.68 38.892 17.68 60.105 0 60.105-49.502 111.373-111.373 111.373h-802.597c-38.896 0-76.014-21.213-95.468-56.572-19.442-33.589-19.442-76.014 0-109.603l401.302-696.523c19.442-33.589 56.568-54.805 95.457-54.805 40.662 0 76.014 21.213 97.231 54.805l397.769 691.22zM573.68 277.415c1.77-21.213-12.373-37.122-31.819-37.122h-60.105c-19.446 0-31.823 15.909-30.049 37.122l30.049 346.497c1.77 17.676 14.147 30.052 30.049 30.052 17.68 0 30.056-12.376 31.823-30.052l30.052-346.497zM571.913 774.177c0-33.589-24.753-58.338-60.112-58.338-33.582 0-60.101 24.753-60.101 58.338v8.84c0 33.589 26.519 58.338 60.101 58.338 35.356 0 60.112-24.753 60.112-58.338v-8.84z'></path></svg>");
     }
   }
 }
 
+.disruption-header .route-list div {
+    font-family: $body-font-family;
+    font-weight: $font-weight-normal;
+    line-height: 1.5;
+}
 
 .transport.disruption {
   background-color: rgba($disruption-color, 0.3) !important;
   margin-bottom: 1px !important;
-}
-
-
-.uppercase  {
-  text-transform: uppercase;
-}
-.line, .time {
-  padding: 0 10px;
-  font-family: $font-family-narrow;
-}
-.bold {
-  font-weight: $font-weight-bold;
 }

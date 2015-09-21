@@ -1,3 +1,5 @@
+/* default theme */
+
 /* General palette */
 $white: #ffffff;
 $black: #333;
@@ -39,10 +41,18 @@ $font-family: Lato, Arial, Georgia, Serif;
 $font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
 
 $body-font-family: $font-family;
+$link-color: $gray-blue;
 
 $font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-bold: 700;
+
+$line-height-normal: 1.2;
+
+$font-size-small: 13px;
+$font-size-normal: 16px;
+$font-size-large: 24px;
+$font-size-xlarge: 32px;
 
 /* Application base colors */
 $background-color: #eef1f3;

@@ -6,9 +6,9 @@ FormattedMessage = intl.FormattedMessage
 
 class StopCardList extends React.Component
   render: =>
-    <div className="stop-cards">
+    <div className="cards">
       <div className="row">
-        <MasonryComponent ref="stop-cards-masonry">
+        <MasonryComponent ref="cards-masonry">
           {@props.children}
         </MasonryComponent>
       </div>

@@ -1,3 +1,5 @@
+/* HSL theme */
+
 /* General palette */
 $white: #ffffff;
 $black: #333;
@@ -17,7 +19,7 @@ $hsl-rail-red: #8c4799;
 $hsl-ferry-blue: #00b9e4;
 $hsl-pink: #f092cd;
 $hsl-alert: #dc0451;
-$hsl-disruption: rgb(254, 209, 3);
+$hsl-disruption: #fed100;
 
 $primary-color: $hsl-blue;
 $primary-font-color: $white;
@@ -35,10 +37,18 @@ $font-family: Nunito, Arial, Georgia, Serif;
 $font-family-narrow: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif;
 
 $body-font-family: $font-family;
+$link-color: $gray-blue;
 
 $font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-bold: 900;
+
+$line-height-normal: 1.2;
+
+$font-size-small: 13px;
+$font-size-normal: 16px;
+$font-size-large: 24px;
+$font-size-xlarge: 32px;
 
 /* Application base colors */
 $background-color: #eef1f3;

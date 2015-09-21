@@ -2,9 +2,6 @@ $small-map-height: 155px;
 $medium-map-height: 300px;
 $large-map-height: 500px;
 
-$stop-popup-background-color: $white;
-$stop-popup-bottom-color: $light-gray;
-
 div.map {
   position: relative;
 }
@@ -103,133 +100,76 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 }
 
-div.stop-marker-popup {
-  .leaflet-popup-content-wrapper {
-    .leaflet-popup-content {
-      .stop-card {
-        border: 1px solid $gray;
-        padding: 0px;
-        .stop-card-header {
-          padding: 1em 1em 0.5em;
-        }
-        .route-list {
-          padding: 0em 1em 0.25em;
-          div {
-            font-family: $font-family-narrow;
-            font-size: 12pt;
-            font-weight: $font-weight-bold;
-            line-height: $stop-card-normal-line-height;
-          }
-        }
-        .bottom {
-          font-family: $stop-card-location-font-family;
-          font-size: $stop-card-location-font-size;
-          font-weight: $font-weight-normal;
-          line-height: $stop-card-normal-line-height;
-          color: $gray;
-          margin: 0px auto 0px;
-          padding: 0.5em 1em;
-          border-bottom-left-radius: 3px;
-          border-bottom-right-radius: 3px;
-          background: $background-color;
-          a {
-            color: $gray;
-            text-decoration: none;
-          }
-          text-align: center;
-          columns: 2 auto;
-          column-rule: 1px solid $light-gray
-        }
-      }
-      width: 250px;
-      margin: 0;
+.popup {
+  .route-header {
+    height:auto;
+    border: none;
+    & h1 {
+      font-size: 12pt;
     }
+    .route-header-name {
+      display:none;
+    }
+    .route-header-direction {
+      color: $dark-color;
+      font-size: $font-size-small;
+    }
+  }
 
-    border-radius: 3px;
+  .leaflet-popup-content-wrapper {
+    border-radius: $border-radius;
     padding: 0;
   }
+  .leaflet-popup-content {
+    margin: 0;
+  }
+  .card {
+    border-color: $dark-color
+  }
+  .card-header {
+    padding: 1em 1em 0.5em;
+    border-radius: $border-radius;
+  }
+
+  .bottom {
+    font-family: $body-font-family;
+    font-size: 13px;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-normal;
+    color: $gray;
+    margin: 0px auto 0px;
+    padding: 0.5em 1em;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background: $background-color;
+    text-align: center;
+    columns: 2 auto;
+    column-rule: 1px solid $light-gray;
+    border-top: solid 1px #ddd;
+    a {
+      color: $gray;
+      text-decoration: none;
+    }
+  }
+
   .leaflet-popup-tip-container {
+    margin: -6px 0px;
     .leaflet-popup-tip  {
       border: 1px solid $gray;
       background: $background-color;
     }
-    margin: -6px 0px;
   }
 }
-
-div.route-marker-popup {
-  .leaflet-popup-content-wrapper {
-    .leaflet-popup-content {
-      .trip-card {
-        border: 1px solid $gray;
-        padding: 0px;
-        .route-header {
-          padding: 0;
-          height: auto;
-          margin: 0 0.7em 0.7em;
-          border-bottom: none;
-          h1 {
-            font-size: 12pt;
-          }
-          .route-header-direction {
-            display: none;
-          }
-          .route-header-trip {
-            position: absolute;
-            top: 0.7em;
-            margin-left: 1em;
-            font-size: 70%;
-            padding: 0.1em 0.4em;
-            border: solid 1px $light-gray;
-            border-radius: $border-radius;
-            color: $gray;
-          }
-          .favourite-icon {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            padding: 0;
-            height: 18px;
-            width: 18px;
-            .icon.favourite {
-              height: 18px;
-              width: 18px;
-            }
-          }
-        }
-        .bottom {
-          font-family: $stop-card-location-font-family;
-          font-size: $stop-card-location-font-size;
-          font-weight: $font-weight-normal;
-          line-height: $stop-card-normal-line-height;
-          color: $gray;
-          margin: 0px auto 0px;
-          padding: 0.5em 1em;
-          border-bottom-left-radius: 3px;
-          border-bottom-right-radius: 3px;
-          background: $background-color;
-          a {
-            color: $gray;
-            text-decoration: none;
-          }
-          text-align: center;
-          columns: 2 auto;
-          column-rule: 1px solid $light-gray
-        }
-      }
-      width: 250px;
-      margin: 0;
-    }
-
-    border-radius: 3px;
-    padding: 0;
-  }
-  .leaflet-popup-tip-container {
-    .leaflet-popup-tip  {
-      border: 1px solid $gray;
-      background: $background-color;
-    }
-    margin: -2px auto;
+.route-header {
+  .route-header-trip {
+    position: absolute;
+    top: 0.7em;
+    margin-left: 1em;
+    font-size: 70%;
+    padding: 0.1em 0.4em;
+    border: solid 1px $light-gray;
+    border-radius: $border-radius;
+    color: $gray;
   }
 }
 
@@ -297,23 +237,6 @@ div.map-click-prevent-overlay {
   height: 100%;
   width: 100%;
   z-index: 801;
-}
-
-div.fullscreen-toggle {
-  position: absolute;
-  height: 2em;
-  background: rgba(0, 0, 0, 0.5);
-  width: 2em;
-  bottom: 0px;
-  right: 1em;
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
-  z-index: 802;
-}
-
-div.fullscreen-toggle span .icon {
-  margin: 0.5em 0.5em 0 0.5em;
-  fill: rgb(255, 255, 255);
 }
 
 div.map {

@@ -12,6 +12,11 @@ Feature: Search component
     Given That there is value in either 'From' or 'To' input
     When Other field also becomes populated
     Then Routing should be performed
+    
+  Scenario: Routing should not be performed when back button is used
+    Given User moves back from some page
+    When There are values in both 'From' or 'To' input
+    Then Routing should not be performed
 
   Scenario: From and To location switch
     When user clicks on "switch" button

@@ -1,0 +1,134 @@
+$border-radius-rounded: 30px;
+
+.card {
+  background-color: $white;
+  border: 1px solid $light-gray;
+  border-radius: $border-radius;
+  margin-bottom: 5px;
+  line-height: $line-height-normal;
+}
+.card-header {
+  background-color: $white;
+  margin-bottom: 0.3em;
+  h3 {
+   margin: 0;
+ }
+}
+
+.show-more {
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: $border-radius-rounded;
+  background: $gray-blue-light;
+  color: $white;
+  font-family: $body-font-family;
+  font-size: $font-size-small;
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
+  padding: 0;
+  &:hover,
+  &:focus {
+    background-color: $gray-blue-light;
+    outline: 0;
+  }
+}
+
+/* Modal */
+#app .modal {
+  border-radius: $border-radius;
+  padding: 10px 22px;
+  max-height: 85%;
+
+  p  {
+    margin: 10px 0;
+  }
+  .modal-wrapper  {
+    height: 100%;
+  }
+  .modal-content  {
+    max-height: 64vh;
+    overflow-y: auto;
+    section {
+      padding-bottom: 20px;
+    }
+  }
+  .modal-top-nav {
+    padding-top: 10px;
+  }
+  .disruption-header  {
+    .line {
+      margin: 0 5px 0 10px;
+    }
+    .time {
+      &:before {
+        content: " – ";
+      }
+    }
+  }
+  .disruption-details {
+    span  {
+      display:block;
+    }
+    b {
+      float:left;
+      padding-right: 5px;
+    }
+  }
+  .icon.center {
+    display: block;
+    float: left;
+    margin-top: 3px;
+  }
+  .line, .time {
+    padding: 0;
+    font-family: $font-family-narrow;
+  }
+}
+
+/* ICONS */
+.favourite-icon {
+  padding: 0;
+  height: 24px;
+  width: 24px;
+  .icon.favourite {
+    height: 24px;
+    width: 24px;
+    stroke: $light-gray;
+    stroke-width: 50px;
+    fill: $white;
+
+    &:hover {
+      fill: $favourite-color;
+    }
+
+    &.selected {
+      fill: $favourite-color;
+    }
+
+    &.selected:hover {
+      fill: $white;
+    }
+  }
+}
+.fullscreen-toggle {
+  position: absolute;
+  height: 2em;
+  background: rgba(0, 0, 0, 0.5);
+  width: 2em;
+  bottom: 0px;
+  right: 1em;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  z-index: 802;
+  .icon {
+   margin: 0.5em 0.5em 0 0.5em;
+   fill: rgb(255, 255, 255);
+ }
+}
+
+.info {
+    width: 24px;
+    height: 24px;
+    color: $gray-blue;
+}
