@@ -61,7 +61,7 @@ class StopMarker extends React.Component
          closeButton:false
          maxWidth:250
          minWidth:250
-         className:"stop-marker-popup"}>
+         className:"popup"}>
          <StopMarkerPopup stop={@props.stop} context={@context}/>
        </Popup>
     </Marker>
@@ -75,7 +75,7 @@ class StopMarker extends React.Component
             interactive={false}
             icon={L.divIcon
               html: ReactDOM.renderToStaticMarkup(<div>{@props.stop.name}</div>)
-              className: 'stop-name-marker'
+              className: 'popup stop-name-marker'
               iconSize: [150, 0]
               iconAnchor: [-8, 7]}
             />

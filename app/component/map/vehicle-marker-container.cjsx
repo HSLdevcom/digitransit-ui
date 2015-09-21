@@ -15,7 +15,7 @@ popupOptions =
   closeButton:false
   maxWidth:250
   minWidth:250
-  className:"route-marker-popup"
+  className:"popup"
 
 class VehicleMarkerContainer extends React.Component
   @contextTypes:
