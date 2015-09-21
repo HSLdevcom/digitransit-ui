@@ -19,35 +19,41 @@ class StopTabs extends React.Component
     @state = @context.getStore('LocationStore').getLocationState()
 
   componentDidMount: ->
-    @context.getStore('LocationStore').addChangeListener @onChange
+    @context.getStore('LocationStore').addChangeListener @onPositionChange
+    @context.getStore('EndpointStore').addChangeListener @onEndpointChange
 
   componentWillUnmount: ->
-    @context.getStore('LocationStore').removeChangeListener @onChange
+    @context.getStore('LocationStore').removeChangeListener @onPositionChange
+    @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
 
-  onChange: =>
+  onPositionChange: =>
     @setState @context.getStore('LocationStore').getLocationState()
+
+  onEndpointChange: =>
+    # This does not override the position; new object properties are merged to state
+    @setState
+      origin: Object.assign({}, @context.getStore('EndpointStore').getOrigin())
+
+  getContainer: (lat, lon) =>
+    <Relay.RootContainer
+      Component={StopCardListContainer}
+      route={new queries.StopListContainerRoute({
+        lat: lat
+        lon: lon
+        })}
+      renderLoading={-> <div className="spinner-loader"/>}
+      }
+    />
 
   render: ->
     favouritesTitle = <span><Icon className="favourite" img="icon-icon_star"/>
       &nbsp;{@context.intl.formatMessage({id: "favourites", defaultMessage: "Favourites"})}</span>
     LocationStore = @context.getStore 'LocationStore'
-    if @state.status == LocationStore.STATUS_FOUND_LOCATION or @state.status == LocationStore.STATUS_FOUND_ADDRESS
-      nearestPanel = <Relay.RootContainer
-        Component={StopCardListContainer}
-        route={new queries.StopListContainerRoute({
-          lat: @state.lat
-          lon: @state.lon
-          })}
-        renderLoading={-> <div className="spinner-loader"/>}
-        renderFetched={(data) =>
-          <StopCardListContainer
-          key="NearestStopsStore"
-            stops={data.stops}
-            lat={@state.lat}
-            lon={@state.lon}
-          />
-        }
-      />
+    if @state.origin and @state.origin.lat
+      nearestPanel = @getContainer(@state.origin.lat, @state.origin.lon)
+    else if (@state.status == LocationStore.STATUS_FOUND_LOCATION or
+             @state.status == LocationStore.STATUS_FOUND_ADDRESS)
+      nearestPanel = @getContainer(@state.lat, @state.lon)
     else if @state.status == LocationStore.STATUS_SEARCHING_LOCATION
       nearestPanel = <div className="spinner-loader"/>
     else

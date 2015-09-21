@@ -89,9 +89,8 @@ class Map extends React.Component
           hasPosition: true
 
   onEndpointChange: =>
-    origin = @context.getStore('EndpointStore').getOrigin()
     @setState
-      origin: origin
+      origin: @context.getStore('EndpointStore').getOrigin()
 
   render: ->
     if isBrowser
