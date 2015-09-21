@@ -3,8 +3,8 @@ Relay              = require 'react-relay'
 queries            = require '../queries'
 IndexNavigation    = require '../component/navigation/index-navigation.cjsx'
 Map                = require '../component/map/map.cjsx'
-StopTabs           = require '../component/stop-cards/stop-tabs.cjsx'
-SearchTwoFields       = require '../component/search/search-two-fields.cjsx'
+FrontpagePanel     = require '../component/front-page/front-page-panel.cjsx'
+SearchTwoFields    = require '../component/search/search-two-fields.cjsx'
 Icon               = require '../component/icon/icon'
 LocateActions      = require '../action/locate-actions.coffee'
 Link               = require 'react-router/lib/Link'
@@ -37,7 +37,7 @@ class Page extends React.Component
           </div>
         </Link>
       </Map>
-      <StopTabs/>
+      <FrontpagePanel/>
     </IndexNavigation>
 
 module.exports = Page

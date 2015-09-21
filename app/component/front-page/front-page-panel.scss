@@ -3,6 +3,29 @@ $tab-selected-color: $black;
 $tab-separator-color: $light-gray;
 $tab-min-width: 100px;
 
+.frontpage-panel {
+  position: absolute;
+  display: block;
+  top: 10em;
+  z-index: 1000000;
+}
+
+.frontpage-bottom-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 1em;
+  right: 1em;
+  width: calc(100% - 2em);
+  height: 4em;
+
+  .div {
+    display: inline block;
+    float: left;
+    width: 5em;
+    height: 2em;
+  }
+}
+
 .tabs-navigation {
    width:100%;
    overflow:hidden;

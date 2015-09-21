@@ -2,14 +2,14 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
-StopCardListContainer = require './stop-card-list-container'
-NoLocationPanel       = require '../no-location-panel/no-location-panel'
+StopCardListContainer = require '../stop-cards/stop-card-list-container'
+NoLocationPanel       = require './no-location-panel'
 Icon                  = require '../icon/icon.cjsx'
 
 intl = require('react-intl')
 FormattedMessage = intl.FormattedMessage
 
-class StopTabs extends React.Component
+class FrontpageTabs extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
@@ -34,7 +34,7 @@ class StopTabs extends React.Component
     @setState
       origin: Object.assign({}, @context.getStore('EndpointStore').getOrigin())
 
-  getContainer: (lat, lon) =>
+  getStopContainer: (lat, lon) =>
     <Relay.RootContainer
       Component={StopCardListContainer}
       route={new queries.StopListContainerRoute({
@@ -45,32 +45,54 @@ class StopTabs extends React.Component
       }
     />
 
+  selectPanel: (selection) =>
+    if selection == @state.selectedPanel
+      @setState
+        selectedPanel: null
+    else
+      @setState
+        selectedPanel: selection
+
   render: ->
-    favouritesTitle = <span><Icon className="favourite" img="icon-icon_star"/>
-      &nbsp;{@context.intl.formatMessage({id: "favourites", defaultMessage: "Favourites"})}</span>
+    console.log @state.selectedPanel
+
     LocationStore = @context.getStore 'LocationStore'
     if @state.origin and @state.origin.lat
-      nearestPanel = @getContainer(@state.origin.lat, @state.origin.lon)
+      stopsPanel = @getStopContainer(@state.origin.lat, @state.origin.lon)
     else if (@state.status == LocationStore.STATUS_FOUND_LOCATION or
              @state.status == LocationStore.STATUS_FOUND_ADDRESS)
-      nearestPanel = @getContainer(@state.lat, @state.lon)
+      stopsPanel = @getStopContainer(@state.lat, @state.lon)
     else if @state.status == LocationStore.STATUS_SEARCHING_LOCATION
-      nearestPanel = <div className="spinner-loader"/>
+      stopsPanel = <div className="spinner-loader"/>
     else
-      nearestPanel = <NoLocationPanel/>
+      stopsPanel = <NoLocationPanel/>
 
-    <Tabs>
-      <Tabs.Panel
-        title={@context.intl.formatMessage({id: 'nearest', defaultMessage: "Nearest"})} >
-        {nearestPanel}
-      </Tabs.Panel>
-      <Tabs.Panel
-        title={@context.intl.formatMessage({id: 'previous', defaultMessage: "Previous"})} >
-        <h2>Edelliset tähän</h2>
-      </Tabs.Panel>
-      <Tabs.Panel title={favouritesTitle}>
-        <StopCardListContainer key="FavouriteStopsStore" store={@context.getStore 'FavouriteStopsStore'}/>
-      </Tabs.Panel>
-    </Tabs>
+    if @state.selectedPanel == 1
+        panel = <h2>Linjat tähän</h2>
+    else if @state.selectedPanel == 2
+        panel = stopsPanel
+    else if @state.selectedPanel == 3
+        panel = <h2>Suosikit tähän</h2>
 
-module.exports = StopTabs
+    <div>
+      <div className="frontpage-panel">
+        {panel}
+      </div>
+      <div className='frontpage-bottom-navigation'>
+        <div className={if @state.selectPanel == 1 then "selected"}
+             onClick={=> @selectPanel(1)}>
+          <FormattedMessage id='routes' defaultMessage="Routes" />
+        </div>
+        <div className={if @state.selectPanel == 2 then "selected"}
+             onClick={=> @selectPanel(2)}>
+          <FormattedMessage id='stops' defaultMessage="Stops" />
+        </div>
+        <div className={if @state.selectPanel == 3 then "selected"}
+             onClick={=> @selectPanel(3)}>
+          <Icon className="favourite" img="icon-icon_star"/>
+          <FormattedMessage id='favourites' defaultMessage="Favourites" />
+        </div>
+      </div>
+    </div>
+
+module.exports = FrontpageTabs

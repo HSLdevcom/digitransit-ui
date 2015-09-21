@@ -10,9 +10,9 @@
 // Some of these files override sass variables Foundation uses,
 // so they must be loaded before the relevant foundation modules
 @import '../app/component/stop-cards/stop-cards';
-@import '../app/component/stop-cards/stop-tabs';
 @import '../app/component/map/map';
-@import '../app/component/no-location-panel/no-location-panel';
+@import '../app/component/front-page/front-page-panel';
+@import '../app/component/front-page/no-location-panel';
 @import '../app/component/navigation/index-navigation';
 @import '../app/component/itinerary/itinerary';
 @import '../app/component/route/route';
