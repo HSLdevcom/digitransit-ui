@@ -66,11 +66,26 @@ var RouteStopListFragments = {
 var RouteMapFragments = {
   route: () => Relay.QL`
     fragment on Pattern {
+      code
+      stops {
+        lat
+        lon
+        name
+        gtfsId
+        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      }
+      ${require('./component/map/route-line').getFragment('route')}
+    }
+  `,
+};
+
+var RouteLineFragments = {
+  route: () => Relay.QL`
+    fragment on Pattern {
       geometry {
         lat
         lon
       }
-      code
       route {
         type
       }

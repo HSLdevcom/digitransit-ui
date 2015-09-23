@@ -1,4 +1,6 @@
 React              = require 'react'
+Relay              = require 'react-relay'
+queries            = require '../../queries'
 ReactDOM           = require 'react-dom/server'
 isBrowser          = window?
 StopMarker         = require './stop-marker'
@@ -11,19 +13,19 @@ class RouteLine extends React.Component
       return false
 
     objs = []
-    modeClass = @props.mode.toLowerCase()
+    modeClass = @props.route.route.type.toLowerCase()
 
     objs.push <LocationMarker map=@props.map
-                              position={@props.stops[0]}
+                              position={@props.route.stops[0]}
                               class='from' />
     objs.push <LocationMarker map=@props.map
-                              position={@props.stops[@props.stops.length-1]}
+                              position={@props.route.stops[@props.route.stops.length-1]}
                               class='to' />
     objs.push <Line map={@props.map}
-                    geometry={@props.geometry or @props.stops}
+                    geometry={@props.route.geometry or @props.route.stops}
                     mode={modeClass} />
 
-    @props.stops.forEach (stop) =>
+    @props.route.stops.forEach (stop) =>
       objs.push <StopMarker map={@props.map}
                             stop={stop}
                             key={stop.gtfsId}
@@ -31,4 +33,4 @@ class RouteLine extends React.Component
 
     <div style={{display: "none"}}>{objs}</div>
 
-module.exports = RouteLine
+module.exports = Relay.createContainer(RouteLine, fragments: queries.RouteLineFragments)
