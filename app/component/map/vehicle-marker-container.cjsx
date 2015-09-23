@@ -52,7 +52,7 @@ class VehicleMarkerContainer extends React.Component
   updateVehicle: (id, message) ->
     popup = <Relay.RootContainer
       Component={RouteMarkerPopup}
-      route={new queries.RouteMarkerPopupRoute(
+      route={new queries.FuzzyTripRoute(
         route: message.route
         direction: message.direction
         date: message.operatingDay

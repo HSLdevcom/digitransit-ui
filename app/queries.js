@@ -254,11 +254,12 @@ var TripPageFragments = {
       stoptimes {
         scheduledDeparture
       }
+      gtfsId
     }
   `,
 }
 
-class RouteMarkerPopupRoute extends Relay.Route {
+class FuzzyTripRoute extends Relay.Route {
   static queries = {
     trip: (Component, variables) => Relay.QL`
       query {
@@ -279,7 +280,20 @@ class RouteMarkerPopupRoute extends Relay.Route {
     time: {required: true},
     date: {required: true},
   }
-  static routeName = 'RouteMarkerPopupRoute'
+  static routeName = 'FuzzyTripRoute'
+}
+
+var TripLinkFragments = {
+  trip: () => Relay.QL`
+    fragment on QueryType {
+      fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
+        gtfsId
+        route	{
+          type
+        }
+      }
+    }
+  `,
 }
 
 var RouteMarkerPopupFragments = {
@@ -342,7 +356,8 @@ module.exports = {
   StopCardHeaderFragments: StopCardHeaderFragments,
   DepartureListFragments: DepartureListFragments,
   TripPageFragments: TripPageFragments,
-  RouteMarkerPopupRoute: RouteMarkerPopupRoute,
+  FuzzyTripRoute: FuzzyTripRoute,
+  TripLinkFragments: TripLinkFragments,
   RouteMarkerPopupFragments: RouteMarkerPopupFragments,
   DisruptionRowRoute: DisruptionRowRoute,
   DisruptionRowFragments: DisruptionRowFragments,
