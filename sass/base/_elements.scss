@@ -1,5 +1,6 @@
 $border-radius-rounded: 30px;
 
+/* Card */
 .card {
   background-color: $white;
   border: 1px solid $light-gray;
@@ -14,7 +15,50 @@ $border-radius-rounded: 30px;
    margin: 0;
  }
 }
+/* Tabs */
+.tabs {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: $white;
+  margin: 0;
+  padding: 0;
+  h4, .h4 {
+    font-size:$font-size-small;
+  }
+  .selected {
+    color: $black;
+  }
+  li {
+    float: left;
+    list-style: none;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    color: $dark-color;
+    padding: 16px 0 13px 0;
+    border-left: 1px solid $light-gray;
+    border-top: 1px solid $light-gray;
+    &:nth-child(1) {
+      border-left: none;
+    }
+    &:hover {
+      opacity:0.9;
+    }
+    // arrow pointing up
+    &:before {
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      top: 3px;
+      left: 47%;
+      transform: rotate(180deg);
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'><path stroke='white' fill='#{rgba($light-gray, 1)}' class='path1' d='M845.224 212.621l-333.221 333.235-333.224-333.235c-40.901-40.901-107.212-40.901-148.113 0v0c-40.901 40.901-40.897 107.212 0 148.109l481.333 481.326 481.333-481.326c40.901-40.901 40.901-107.212 0-148.109v0c-40.897-40.904-107.212-40.901-148.109 0z'></path></svg>");
+    }
+  }
+}
 
+/* buttons */
 .show-more {
   text-align: center;
   text-transform: uppercase;
@@ -126,7 +170,9 @@ $border-radius-rounded: 30px;
    fill: rgb(255, 255, 255);
  }
 }
-
+.prefix-icon {
+  margin-right: 6px;
+}
 .info {
     width: 24px;
     height: 24px;

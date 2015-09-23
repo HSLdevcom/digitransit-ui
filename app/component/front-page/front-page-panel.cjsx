@@ -5,6 +5,7 @@ Tabs                  = require 'react-simpletabs'
 StopCardListContainer = require '../stop-cards/stop-card-list-container'
 NoLocationPanel       = require './no-location-panel'
 Icon                  = require '../icon/icon.cjsx'
+classnames            = require 'classnames'
 
 intl = require('react-intl')
 FormattedMessage = intl.FormattedMessage
@@ -54,8 +55,6 @@ class FrontpageTabs extends React.Component
         selectedPanel: selection
 
   render: ->
-    console.log @state.selectedPanel
-
     LocationStore = @context.getStore 'LocationStore'
     if @state.origin and @state.origin.lat
       stopsPanel = @getStopContainer(@state.origin.lat, @state.origin.lon)
@@ -67,32 +66,40 @@ class FrontpageTabs extends React.Component
     else
       stopsPanel = <NoLocationPanel/>
 
+    tabClasses = []
+    selectedClass =
+      selected:true
     if @state.selectedPanel == 1
         panel = <h2>Linjat tähän</h2>
+        tabClasses[1] = selectedClass
     else if @state.selectedPanel == 2
         panel = stopsPanel
+        tabClasses[2] = selectedClass
     else if @state.selectedPanel == 3
         panel = <h2>Suosikit tähän</h2>
+        tabClasses[3] = selectedClass
 
-    <div>
+    <div className="frontpage">
       <div className="frontpage-panel">
         {panel}
       </div>
-      <div className='frontpage-bottom-navigation'>
-        <div className={if @state.selectPanel == 1 then "selected"}
+      <ul className='tabs'>
+        <li className={classnames (tabClasses[1]), "small-4", "h4"}
              onClick={=> @selectPanel(1)}>
+          <Icon className="prefix-icon" img="icon-icon_bus-withoutBox"/>
           <FormattedMessage id='routes' defaultMessage="Routes" />
-        </div>
-        <div className={if @state.selectPanel == 2 then "selected"}
+        </li>
+        <li className={classnames (tabClasses[2]), "small-4", "h4"}
              onClick={=> @selectPanel(2)}>
+          <Icon className="prefix-icon" img="icon-icon_bus-stop"/>
           <FormattedMessage id='stops' defaultMessage="Stops" />
-        </div>
-        <div className={if @state.selectPanel == 3 then "selected"}
+        </li>
+        <li className={classnames (tabClasses[3]), "small-4", "h4"}
              onClick={=> @selectPanel(3)}>
-          <Icon className="favourite" img="icon-icon_star"/>
+          <Icon className="prefix-icon" img="icon-icon_star"/>
           <FormattedMessage id='favourites' defaultMessage="Favourites" />
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
 
 module.exports = FrontpageTabs
