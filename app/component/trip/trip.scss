@@ -3,16 +3,8 @@ $trip-small-map-height: 100px;
 $trip-medium-map-height: 200px;
 $trip-large-map-height: 300px;
 
-.trip {
-  .route-header {
-    height:$trip-route-header-height;
-  }
-  .route-header-direction {
-    font-size: $font-size-small;
-    color: $dark-color;
-    font-weight: $font-weight-normal;
-  }
 
+.trip {
   // Small map
   @media #{$small-only} {
     .map.map-small, .map.map-small div.leaflet-container {
@@ -53,6 +45,14 @@ $trip-large-map-height: 300px;
     }
   }
 }
+.route-header.trip-header {
+  height:$trip-route-header-height;
+  .route-header-direction {
+    font-size: $font-size-small;
+    color: $dark-color;
+    font-weight: $font-weight-normal;
+  }
+}
 
 .passed div {
   color: $dark-color;
@@ -65,5 +65,11 @@ $trip-large-map-height: 300px;
     &.ferry::after  {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($dark-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
     }
+  }
+}
+
+.trip-map {
+  .map.fullscreen {
+    height: calc(100% - #{$trip-route-header-height});
   }
 }

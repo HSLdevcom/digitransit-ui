@@ -2,25 +2,24 @@ React           = require 'react'
 Link            = require 'react-router/lib/Link'
 Icon            = require '../icon/icon'
 classnames      = require 'classnames'
+TripLink              = require '../trip/trip-link'
 
 class TripRouteStop extends React.Component
+  # TODO: get the time to the following stops
+  getTimeToStop: ->
 
   render: ->
     vehicles = []
     if @props.vehicles
       for vehicle in @props.vehicles
-        if vehicle.trip
-          vehicles.push <Link key={vehicle.id} to="#{process.env.ROOT_PATH}lahdot/#{vehicle.trip.id}">
-              <Icon className={vehicle.mode} img={'icon-icon_' + vehicle.mode}/>
-            </Link>
-        else vehicles.push <Icon id="now" key={vehicle.id} className={@props.mode} img={'icon-icon_' + @props.mode}/>
+        vehicles.push <Icon id="now" key={vehicle.id} className={@props.mode} img={'icon-icon_' + @props.mode}/>
 
     stopPassed =
       passed: !@props.stopPassed
 
     <div className={classnames "route-stop row", stopPassed}>
       <div className="columns small-3 route-stop-time">
-        1 min
+        {@getTimeToStop()}
         <div className="route-stop-now-icon">
           {vehicles}
         </div>

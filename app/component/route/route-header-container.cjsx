@@ -33,6 +33,7 @@ class RouteHeaderContainer extends React.Component
 
     #TODO: all of trips should be reanmed pattern
     <RouteHeader
+      className={@props.className}
       key={@props.route.code}
       route={@props.route.route}
       pattern={@props.route}

@@ -9,7 +9,7 @@ TripStopListContainer  = require '../component/trip/trip-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
 
-class TripPage extends React.Component
+class TripMapPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
@@ -25,22 +25,6 @@ class TripPage extends React.Component
     if client
       @context.executeAction RealTimeClient.stopRealTimeClient, client
 
-  componentWillReceiveProps: (newProps) ->
-    route = newProps.trip.pattern.code.split(':')
-    client = @context.getStore('RealTimeInformationStore').client
-    if client
-      if route[0].toLowerCase() == 'hsl'
-        @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
-        @context.executeAction RealTimeClient.updateTopic,
-          client: client
-          oldTopics: @context.getStore('RealTimeInformationStore').getSubscriptions()
-          newTopic: {route: route[1], direction: route[2], trip: trip}
-      else
-        @componentWillUnmount()
-    else
-      if route[0].toLowerCase() == 'hsl'
-        @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2]}
-
   getStartTime: (time) ->
     hours = ('0' + Math.floor(time / 60 / 60 )).slice(-2)
     mins = ('0' + (time / 60 % 60)).slice(-2)
@@ -49,14 +33,9 @@ class TripPage extends React.Component
   render: ->
     trip = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
 
-    <DefaultNavigation className="fullscreen trip">
+    <DefaultNavigation className="fullscreen trip-map">
       <RouteHeaderContainer className="trip-header" route={@props.trip.pattern} trip={trip}/>
-      <RouteMapContainer className="map-small" route={@props.trip.pattern} trip={trip} tripId={@props.trip.gtfsId}/>
-      <RouteListHeader
-        headers={["Aika", "Pysäkki", "Pysäkkinumero"]}
-        columnClasses={["small-3 route-stop-now", "small-7 route-stop-name", "small-2 route-stop-code"]}
-       />
-      <TripStopListContainer className="below-map" route={@props.trip.pattern}/>
+      <RouteMapContainer className="fullscreen" route={@props.trip.pattern} trip={trip} tripId={@props.trip.gtfsId} fullscreen={true}/>
     </DefaultNavigation>
 
-module.exports = Relay.createContainer(TripPage, fragments: queries.TripPageFragments)
+module.exports = Relay.createContainer(TripMapPage, fragments: queries.TripPageFragments)

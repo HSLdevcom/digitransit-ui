@@ -2,19 +2,19 @@ React                 = require 'react'
 Icon                  = require '../icon/icon'
 GtfsUtils             = require '../../util/gtfs'
 Link                  = require 'react-router/lib/Link'
-
+classnames            = require 'classnames'
 
 class RouteHeader extends React.Component
   render: =>
     mode = @props.route.type.toLowerCase()
-    trip = if @props.trip then <span className="route-header-trip">{('0' + @props.trip.substring(0,2)).slice(-2)}:{('0' + @props.trip.substring(2,4)).slice(-2)} →</span> else ""
+    trip = if @props.trip then <span className="route-header-trip">{@props.trip.substring(0,2)}:{@props.trip.substring(2,4)} →</span> else ""
     headerText = if !@props.trip then <div className="route-header-name">{@props.route.longName}</div>
     if @props.reverseId && !@props.trip
       reverse = <Link to="#{process.env.ROOT_PATH}linjat/#{@props.reverseId}">
           <Icon className={"route-header-direction-switch " + mode} img={'icon-icon_direction-b'}/>
         </Link>
 
-    <div className="route-header">
+    <div className={classnames "route-header", @props.className}>
       <h1 className={mode}>
         <Icon img={'icon-icon_' + mode}/>
         {" " + (@props.route.shortName or "")}

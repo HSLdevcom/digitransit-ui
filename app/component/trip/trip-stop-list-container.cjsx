@@ -5,6 +5,7 @@ GtfsUtils               = require '../../util/gtfs'
 groupBy                 = require 'lodash/collection/groupBy'
 classnames              = require 'classnames'
 TripRouteStop           = require './trip-route-stop'
+isEmpty                 = require 'lodash/lang/isEmpty'
 
 class TripStopListContainer extends React.Component
   @contextTypes:
@@ -22,14 +23,14 @@ class TripStopListContainer extends React.Component
   getStops: ->
     mode = @props.route.route.type.toLowerCase()
     vehicles = @context.getStore('RealTimeInformationStore').vehicles
-    vehicle_stops = groupBy vehicles, (vehicle) ->
+    vehicleStops = groupBy vehicles, (vehicle) ->
       "HSL:" + vehicle.next_stop
 
-    stopPassed = false
+    stopPassed = isEmpty(vehicleStops) ? true : false
     @props.route.stops.map (stop) ->
-      if vehicle_stops[stop.gtfsId]
+      if vehicleStops[stop.gtfsId]
         stopPassed = true
-      <TripRouteStop key={stop.gtfsId} stop={stop} mode={mode} vehicles={vehicle_stops[stop.gtfsId]} stopPassed={stopPassed}/>
+      <TripRouteStop key={stop.gtfsId} stop={stop} mode={mode} vehicles={vehicleStops[stop.gtfsId]} stopPassed={stopPassed}/>
 
   render: ->
     <div className={classnames "route-stop-list", @props.className}>
