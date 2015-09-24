@@ -9,23 +9,6 @@ STOP_COUNT = 5
 DEPARTURES_COUNT = 5
 
 class StopCardListContainer extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-
-  componentDidMount: =>
-    @context.getStore('LocationStore').addChangeListener @onChange
-    @onChange()
-
-  componentWillUnmount: ->
-    @context.getStore('LocationStore').removeChangeListener @onChange
-
-  onChange: =>
-    coordinates = @context.getStore('LocationStore').getLocationState()
-    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
-      @props.relay.setVariables
-        lat: coordinates.lat
-        lon: coordinates.lon
-
   addStops: =>
     if !@props.stops.stopsByRadius.pageInfo.hasNextPage
       radius = @props.relay.variables.radius + 2000
@@ -51,7 +34,7 @@ module.exports = Relay.createContainer(StopCardListContainer,
   initialVariables:
     lat: null
     lon: null
-    radius: 2000.1
+    radius: 2000
     numberOfStops: STOP_COUNT
     agency: config.preferredAgency
 )

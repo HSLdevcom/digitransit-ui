@@ -5,6 +5,10 @@ Digitransit-ui is a mobile friendly User interface built to work with Digitransi
 ## Licensing
 The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.
 
+## Issues
+Our main issue tracking is handled in [https://digitransit.atlassian.net](https://digitransit.atlassian.net)
+However, we also monitor this repository's issues and import them to Jira. You can create issues in GitHub.
+
 ## Demos
 * [Finland - Helsinki city area demo](http://matka.hsl.fi/)
 * [Finland - National demo](http://digitransit.fi/digitransit-ui/)

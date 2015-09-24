@@ -320,7 +320,7 @@ var RouteMarkerPopupFragments = {
 
 class DisruptionRowRoute extends Relay.Route {
   static queries = {
-    routes: () => Relay.QL`query { route(id: $ids) }`,
+    routes: () => Relay.QL`query { routes(ids: $ids) }`,
   }
   static paramDefinitions = {
     ids: {required: true},

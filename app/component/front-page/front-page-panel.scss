@@ -3,12 +3,27 @@ $tab-selected-color: $black;
 $tab-separator-color: $light-gray;
 $tab-min-width: 100px;
 
+.frontpage-panel-wrapper {
+  padding-bottom: 43px; // height of .tabs
+  .tabs-row {
+    position: fixed;
+    bottom: 0;
+  }
+}
+
+.front-page {
+  .map.fullscreen {
+    height: calc(100% - 50px);
+  }
+}
+
+// <Tab> component
 .tabs-navigation {
    width:100%;
    overflow:hidden;
    position:relative;
    text-transform: uppercase;
-   margin-top: 10px;
+   padding: 10px 0;
 }
 .tabs-navigation ul {
    clear:left;
@@ -53,8 +68,4 @@ $tab-min-width: 100px;
 .tabs-navigation ul li.is-active a,
 .tabs-navigation ul li a.selected:hover {
   color: $tab-selected-color;
-}
-
-.tab-panel {
-   margin-top: 8px;
 }

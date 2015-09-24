@@ -85,10 +85,7 @@ div.route-tabs {
       overflow: auto;
     }
   }
-  .tabs-navigation {
-    height: 1.2em;
-  }
-  height: calc(100% - #{$route-header-height} - 10px);
+  height: calc(100% - #{$route-header-height} - 14px);
 }
 
 div.route-stop-list {
