@@ -31,6 +31,7 @@
 
 /* STOP PAGE */
 .stop-page  {
+  overflow-y: auto;
   &.card-header  {
     padding: 0.7em 1em;
     position: relative;

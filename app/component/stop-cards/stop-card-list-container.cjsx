@@ -51,7 +51,7 @@ module.exports = Relay.createContainer(StopCardListContainer,
   initialVariables:
     lat: null
     lon: null
-    radius: 2000.1
+    radius: 2000
     numberOfStops: STOP_COUNT
     agency: config.preferredAgency
 )

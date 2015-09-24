@@ -36,9 +36,7 @@
   color: $to-color;
 }
 
-
 /* Positioning */
-
 .left {
   float: left;
 }
@@ -57,6 +55,10 @@
 .inline-block {
   display: inline-block;
 }
+.clear  {
+  float:none;
+  clear:both;
+}
 
 .fullscreen {
   height: 100%;
@@ -66,6 +68,15 @@
 }
 .padding-normal  {
   padding: 0.7em 1em;
+}
+.padding-vertical-small {
+  padding: 0.45em 0;
+}
+.padding-vertical-normal  {
+  padding: 0.7em 0;
+}
+.padding-horizontal  {
+  padding: 0 1em;
 }
 .no-padding  {
   padding: 0 !important;
@@ -91,7 +102,4 @@
 }
 .uppercase  {
   text-transform: uppercase;
-}
-.bold {
-  font-weight: $font-weight-bold;
 }

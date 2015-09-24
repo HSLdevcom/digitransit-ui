@@ -13,6 +13,7 @@ SummaryPage   = require './page/summary'
 TripPage      = require './page/trip'
 TripMapPage   = require './page/trip-map'
 Error404      = require './page/404'
+StyleGuidelinesPage = require './page/style-guidelines'
 
 # Queriesd
 queries = require './queries'
@@ -39,6 +40,7 @@ routes =
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={NavigationPage}/>
+    <Route path="styleguidelines" name="styleGuidelines" component={StyleGuidelinesPage}/>
   </Route>
 
 module.exports = routes

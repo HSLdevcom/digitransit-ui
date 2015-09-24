@@ -1,5 +1,5 @@
 React                 = require 'react'
-ReactDom              = require 'react-dom'
+ReactDOM              = require 'react-dom'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Departure             = require './departure'
@@ -31,7 +31,7 @@ class DepartureListContainer extends React.Component
 
   componentDidMount: ->
     if @props.infiniteScroll
-      @scrollHandler target: ReactDom.findDOMNode this
+      @scrollHandler target: ReactDOM.findDOMNode this
     @context.getStore('DisruptionStore').addChangeListener @onChange
 
   componentWillUnmount: ->
