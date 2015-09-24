@@ -4,7 +4,6 @@ React        = require 'react'
 # React Pages
 IndexPage     = require './page/index'
 ItineraryPage = require './page/itinerary'
-MapPage       = require './page/map'
 NavigationPage = require './page/navigation'
 RoutePage     = require './page/route'
 StopMapPage   = require './page/stop-map'
@@ -28,7 +27,6 @@ ROOT_PATH = if process?.env.ROOT_PATH != undefined then process.env.ROOT_PATH el
 routes =
   <Route path={ROOT_PATH} name="app">
     <IndexRoute component={IndexPage}/>
-    <Route path="kartta" name="map" component={MapPage}/>
     <Route path="pysakit" name="stopList" component={Error404}/>
     <Route path="pysakit/:stopId" name="stop" component={StopPage} queries={queries.StopQueries}/>
     <Route path="pysakit/:stopId/kartta" name="stopMap" component={StopMapPage} queries={queries.StopQueries}/>
