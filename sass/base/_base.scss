@@ -18,23 +18,14 @@ body {
   font-weight: $font-weight-normal;
   -webkit-font-smoothing: antialiased;
 }
-<<<<<<< HEAD
-
-
-=======
 #main {
   background-color: $background-color;
 }
->>>>>>> origin/master
 p {
   font-size: $font-size-normal;
   font-family: $body-font-family;
   font-weight: $font-weight-light;
-<<<<<<< HEAD
-  color: $dark-color;
-=======
   color: $black;
->>>>>>> origin/master
 }
 a {
   color: $link-color;
@@ -79,12 +70,6 @@ h4,
   color: $link-color;
 }
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> origin/master
 /* SUB HEADERS */
 .sub-header-h4 {
   font-family: $body-font-family;
@@ -92,15 +77,9 @@ h4,
   font-weight: $font-weight-light;
   line-height: 1;
   margin: 0 !important;
-<<<<<<< HEAD
-}
-
-
-=======
   color: $dark-color;
 }
 
->>>>>>> origin/master
 .route-list {
   padding: 0em 1em 0.25em;
   div {
@@ -133,27 +112,12 @@ h4,
   margin-left: 5px;
 }
 .destination {
-<<<<<<< HEAD
 }
-
-
-
-#main {
-  background-color: $background-color;
-}
-
-
-=======
-}
->>>>>>> origin/master
 .transparent {
   background:rgba(0,0,0, $transparency) !important;
   color: $transparent-color !important;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 div.spinner-loader {
   position: absolute;
   left: 50%;
