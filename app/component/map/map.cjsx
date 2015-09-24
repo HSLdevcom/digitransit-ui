@@ -114,7 +114,7 @@ class Map extends React.Component
           center={[@props.lat or @state.origin.lat or @state.position[0] + 0.0005,
                    @props.lon or @state.origin.lon or @state.position[1]]}
           zoom={@props.zoom or @state.zoom}
-          zoomControl={not L.Browser.touch}
+          zoomControl={not (@props.disableZoom or L.Browser.touch)}
           attributionControl=false
           >
           <TileLayer
