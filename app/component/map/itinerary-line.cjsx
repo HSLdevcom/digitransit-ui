@@ -1,8 +1,11 @@
 React              = require 'react'
+Relay              = require 'react-relay'
+queries            = require '../../queries'
 isBrowser          = window?
 StopMarker         = require './stop-marker'
 LocationMarker     = require './location-marker'
 Line               = require './line'
+TripLine               = require './trip-line'
 polyUtil           = require 'polyline-encoded'
 
 class ItineraryLine extends React.Component
@@ -25,6 +28,15 @@ class ItineraryLine extends React.Component
                       geometry={polyUtil.decode leg.legGeometry.points}
                       mode={mode} />
       if not @props.passive
+        if leg.tripId
+          objs.push <Relay.RootContainer
+            Component={TripLine}
+            route={new queries.TripRoute(
+              id: leg.agencyId + ":" + leg.tripId)}
+            renderFetched={(data) =>
+              <TripLine map={@props.map}
+                        route={data.route} />
+            } />
         objs.push <StopMarker map={@props.map}
                               key={i + "," + leg.mode + "marker"}
                               stop={

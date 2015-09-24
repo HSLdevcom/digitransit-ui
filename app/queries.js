@@ -7,6 +7,29 @@ var StopQueries = {
     }
   `,
 };
+class TripRoute extends Relay.Route {
+  static queries = {
+    route: (Component, variables) => Relay.QL`query {
+        trip(id: $id) {
+          ${Component.getFragment('route')}
+        }
+    }`,
+  }
+  static paramDefinitions = {
+    id: {required: true},
+  }
+  static routeName = "TripRoute"
+}
+
+var TripPatternFragments = {
+  route: (Component, variables) => Relay.QL`
+    fragment on Trip {
+      pattern {
+        ${require('./component/map/route-line').getFragment('route')}
+      }
+    }
+  `,
+};
 
 var RouteQueries = {
   route: (Component) => Relay.QL`
@@ -318,11 +341,14 @@ var DisruptionRowFragments = {
 
 module.exports = {
   StopQueries: StopQueries,
+  TripRoute: TripRoute,
+  TripPatternFragments: TripPatternFragments,
   RouteQueries: RouteQueries,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
   RouteMapFragments: RouteMapFragments,
+  RouteLineFragments: RouteLineFragments,
   StopListContainerRoute: StopListContainerRoute,
   StopListContainerFragments: StopListContainerFragments,
   StopPageFragments: StopPageFragments,
