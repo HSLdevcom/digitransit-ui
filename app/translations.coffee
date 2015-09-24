@@ -32,6 +32,8 @@ translations =
     'print': 'Tulosta'
     'navigate': 'Navigoi'
     'minutes': 'minuuttia'
+    'nearby-stops': 'Lähellä olevia pysäkkejä'
+    'nearby-routes': 'Lähellä kulkevat linjat'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -66,5 +68,7 @@ translations =
     'print': 'Skriv ut'
     'navigate': 'Navigera'
     'minutes': 'minuter'
+    'nearby-stops': 'Närliggande hållplatser'
+    'nearby-routes': 'Närbelägna linjer'
 
 module.exports = translations
