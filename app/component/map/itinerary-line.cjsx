@@ -23,20 +23,47 @@ class ItineraryLine extends React.Component
 
     for leg, i in @props.legs
       mode = if @props.passive then "passive" else leg.mode.toLowerCase()
+      legStops = leg.intermediateStops.concat([leg.from, leg.to])
+
       objs.push <Line map={@props.map}
                       key={i + leg.mode + @props.passive}
                       geometry={polyUtil.decode leg.legGeometry.points}
                       mode={mode} />
+
       if not @props.passive
         if leg.tripId
-          objs.push <Relay.RootContainer
-            Component={TripLine}
-            route={new queries.TripRoute(
-              id: leg.agencyId + ":" + leg.tripId)}
-            renderFetched={(data) =>
-              <TripLine map={@props.map}
-                        route={data.route} />
-            } />
+          do (legStops) =>
+            # We need the do for closure over legStops,
+            # otherwise it would always point to the last leg when Relay renders
+
+            # TripRoute is a dummy to pass pattern from trip on to RouteLine
+            objs.push <Relay.RootContainer
+              Component={TripLine}
+              route={new queries.TripRoute(
+                id: leg.agencyId + ":" + leg.tripId)}
+              renderFetched={(data) =>
+                <TripLine map={@props.map}
+                          route={data.route}
+                          filteredStops={legStops} />
+              } />
+
+        legStops.forEach (stop) =>
+          # Put subdued markers on intermediate stops
+          # (actually all stops, but we draw over them next)
+          objs.push <StopMarker map={@props.map}
+                                stop={
+                                  lat: stop.lat
+                                  lon: stop.lon
+                                  name: stop.name
+                                  gtfsId: stop.stopId
+                                  code: stop.stopCode
+                                }
+                                key="intermediate-#{stop.stopId}"
+                                mode={mode}
+                                thin=true />
+
+        # Draw a more noticiable marker for the first stop
+        # (where user changes vehicles/modes)
         objs.push <StopMarker map={@props.map}
                               key={i + "," + leg.mode + "marker"}
                               stop={

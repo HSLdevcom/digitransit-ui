@@ -1,18 +1,17 @@
 import Relay from 'react-relay';
 
 var StopQueries = {
-  stop: (Component) => Relay.QL`
+  stop: () => Relay.QL`
     query  {
       stop(id: $stopId)
     }
   `,
 };
+
 class TripRoute extends Relay.Route {
   static queries = {
-    route: (Component, variables) => Relay.QL`query {
-        trip(id: $id) {
-          ${Component.getFragment('route')}
-        }
+    route: () => Relay.QL`query {
+        trip(id: $id)
     }`,
   }
   static paramDefinitions = {
@@ -22,7 +21,7 @@ class TripRoute extends Relay.Route {
 }
 
 var TripPatternFragments = {
-  route: (Component, variables) => Relay.QL`
+  route: () => Relay.QL`
     fragment on Trip {
       pattern {
         ${require('./component/map/route-line').getFragment('route')}
