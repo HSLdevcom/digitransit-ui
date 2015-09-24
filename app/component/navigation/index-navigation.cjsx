@@ -72,14 +72,14 @@ class IndexNavigation extends React.Component
 
 
   render: ->
-    <div>
+    <div className={@props.className}>
       <OffcanvasMenu open={@state.offcanvasVisible}/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
 
-      <div className="grid-frame">
+      <div className="grid-frame fullscreen">
         <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} isDisruptions={@isDisruptions()} subnavigationText={@state.text}/>
         <IndexSubNavigation visible={@state.subNavigationVisible}/>
-        <section ref="content" className="content">
+        <section ref="content" className="content fullscreen">
           {@props.children}
         </section>
       </div>

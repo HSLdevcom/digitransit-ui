@@ -3,11 +3,17 @@ $tab-selected-color: $black;
 $tab-separator-color: $light-gray;
 $tab-min-width: 100px;
 
-.frontpage {
+.frontpage-panel-wrapper {
   padding-bottom: 43px; // height of .tabs
   .tabs-row {
     position: fixed;
     bottom: 0;
+  }
+}
+
+.front-page {
+  .map.fullscreen {
+    height: calc(100% - 50px);
   }
 }
 

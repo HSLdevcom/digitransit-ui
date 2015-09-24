@@ -23,19 +23,10 @@ class Page extends React.Component
   toggleFullscreenMap: =>
     @context.history.pushState null, "#{process.env.ROOT_PATH}kartta"
 
-  # Notice that we won't use onClick here. That causes currently this problem:
-  # https://github.com/facebook/react/issues/2061
   render: ->
-    <IndexNavigation>
-      <Map showStops={true}>
-        <div className="map-click-prevent-overlay"
-             onClick={@toggleFullscreenMap}></div>
+    <IndexNavigation className="front-page fullscreen">
+      <Map className="fullscreen" showStops={true}>
         <SearchTwoFields/>
-        <Link to="#{process.env.ROOT_PATH}kartta">
-          <div className="fullscreen-toggle">
-            <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
-          </div>
-        </Link>
       </Map>
       <FrontpagePanel/>
     </IndexNavigation>

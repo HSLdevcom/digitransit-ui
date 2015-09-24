@@ -79,7 +79,7 @@ class FrontpageTabs extends React.Component
         panel = <h2>Suosikit tähän</h2>
         tabClasses[3] = selectedClass
 
-    <div className="frontpage">
+    <div className="frontpage-panel-wrapper">
       <div className="frontpage-panel">
         {panel}
       </div>

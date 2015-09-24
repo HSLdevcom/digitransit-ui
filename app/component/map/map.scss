@@ -6,7 +6,7 @@ div.map {
   position: relative;
 }
 
-div.map.fullscreen, div.map.fullscreen div.leaflet-container {
+.map.fullscreen, .map.fullscreen .leaflet-container {
   height: 100%;
 }
 
