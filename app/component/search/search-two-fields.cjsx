@@ -204,7 +204,7 @@ class SearchTwoFields extends React.Component
                 <form onSubmit={@onSubmit}>
                   <Autosuggest onSelection={@selectDestination}
                                placeholder={@context.intl.formatMessage(
-                                 {id: 'destination', defaultMessage: "Where to?"})}
+                                 {id: 'destination', defaultMessage: "Where to? - address or stop"})}
                                value=@state.destination.address
                                />
                 </form>
