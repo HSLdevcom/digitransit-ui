@@ -1,10 +1,10 @@
 translations =
   'fi':
-    'searching-position': 'Sijaintiasi etsitään'
-    'own-position': 'Oma sijainti'
+    'searching-position': 'Paikannetaan...'
+    'own-position': 'Nykyinen sijaintisi'
     'no-position': 'Ei sijaintia'
-    'origin': 'Lähtöpaikka'
-    'destination': 'Määränpää'
+    'origin': 'Mistä? - osoite tai pysäkki'
+    'destination': 'Mihin? - osoite tai pysäkki'
     'nearest': 'Lähimmät'
     'previous': 'Edelliset'
     'favourites': 'Suosikit'
