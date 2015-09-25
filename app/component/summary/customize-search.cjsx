@@ -165,34 +165,6 @@ class CustomizeSearch extends React.Component
         />
       </section>
 
-      <section className="offcanvas-section">
-        <div className="route-filter">
-          <h3>Suosi tai rajaa linjoja</h3>
-          <div className="row">
-            <div className="column small-6 remove-padding">
-              <input type="text" placeholder="" />
-            </div>
-            <div className="column small-3">
-              <ToggleButton className="standalone-btn" icon="plus"/>
-            </div>
-            <div className="column small-3">
-              <ToggleButton className="standalone-btn" icon="plus"/>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="offcanvas-section">
-        <h3>Lisää reitille välipiste</h3>
-        <div className="row">
-          <div className="column small-7 remove-padding">
-            <input type="text" placeholder="Kirjoita osoite" />
-          </div>
-          <div className="column small-5">
-            <ToggleButton className="standalone-btn">Lisää</ToggleButton>
-          </div>
-        </div>
-      </section>
     </Offcanvas>
 
 

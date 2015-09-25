@@ -70,31 +70,50 @@ class FrontpageTabs extends React.Component
     selectedClass =
       selected:true
     if @state.selectedPanel == 1
-        panel = <h2>Linjat tähän</h2>
+        panel = <div className="frontpage-panel-wrapper">
+                  <div className="frontpage-panel">
+                    <div className="row">
+                      <h3><FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/></h3>
+                    </div>
+                  </div>
+                </div>
         tabClasses[1] = selectedClass
     else if @state.selectedPanel == 2
-        panel = stopsPanel
+        panel = <div className="frontpage-panel-wrapper">
+                  <div className="frontpage-panel">
+                    <div className="row">
+                      <h3><FormattedMessage id='nearby-stops' defaultMessage='Nearby stops'/></h3>
+                    </div>
+                    <div className="scrollable">
+                      {stopsPanel}
+                    </div>
+                  </div>
+                </div>
         tabClasses[2] = selectedClass
     else if @state.selectedPanel == 3
-        panel = <h2>Suosikit tähän</h2>
+        panel = <div className="frontpage-panel-wrapper">
+                  <div className="frontpage-panel">
+                    <div className="row">
+                      <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
+                    </div>
+                  </div>
+                </div>
         tabClasses[3] = selectedClass
 
-    <div className="frontpage-panel-wrapper">
-      <div className="frontpage-panel">
-        {panel}
-      </div>
+    <div className="frontpage-panel-container">
+      {panel}
       <ul className='tabs-row tabs-arrow-up'>
-        <li className={classnames (tabClasses[1]), "small-4", "h4"}
+        <li className={classnames (tabClasses[1]), 'small-4', 'h4', 'hover'}
              onClick={=> @selectPanel(1)}>
           <Icon className="prefix-icon" img="icon-icon_bus-withoutBox"/>
           <FormattedMessage id='routes' defaultMessage="Routes" />
         </li>
-        <li className={classnames (tabClasses[2]), "small-4", "h4"}
+        <li className={classnames (tabClasses[2]), 'small-4', 'h4', 'hover'}
              onClick={=> @selectPanel(2)}>
           <Icon className="prefix-icon" img="icon-icon_bus-stop"/>
           <FormattedMessage id='stops' defaultMessage="Stops" />
         </li>
-        <li className={classnames (tabClasses[3]), "small-4", "h4"}
+        <li className={classnames (tabClasses[3]), 'small-4', 'h4', 'hover'}
              onClick={=> @selectPanel(3)}>
           <Icon className="prefix-icon" img="icon-icon_star"/>
           <FormattedMessage id='favourites' defaultMessage="Favourites" />
