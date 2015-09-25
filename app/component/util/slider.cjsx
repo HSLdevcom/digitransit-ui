@@ -17,7 +17,7 @@ class Slider extends React.Component
 
   render: ->
     <div className={cx 'slider-container', @props.className}>
-      <h3>{@props.headerText}</h3>
+      <h4>{@props.headerText}</h4>
       <input
         id={@props.id}
         className={cx('slider')}
@@ -29,8 +29,8 @@ class Slider extends React.Component
         onMouseUp={@props.onSliderChange}
         onTouchEnd={@props.onSliderChange}
       />
-      <span className="slider-help-text left">{@props.minText}</span>
-      <span className="slider-help-text right">{@props.maxText}</span>
+      <span className="sub-header-h5 left">{@props.minText}</span>
+      <span className="sub-header-h5 right">{@props.maxText}</span>
     </div>
 
 

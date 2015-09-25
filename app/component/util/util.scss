@@ -5,34 +5,12 @@
 $thumb-color-gray: #575757;
 $thumb-color-pink: $favourite-color;
 
-$slider-title-color: $gray-blue;
-$slider-title-font-family: $font-family;
-$slider-title-font-size: 14px;
-
-$slider-normal-line-height: 1.2;
-$slider-normal-font-size: 12px;
-
 .slider-container {
   padding: 10px 0;
-  h3 {
-    text-transform: uppercase;
-    color: $slider-title-color;
-    font-family: $slider-title-font-family;
-    font-size: $slider-title-font-size;
-    font-weight: $font-weight-bold;
-    line-height: $slider-normal-line-height;
-    margin: 0px;
+  h4 {
+    margin: 0;
   }
 }
-.slider-help-text {
-    font-family: $font-family;
-    font-size: $slider-normal-font-size;
-    font-weight: $font-weight-light;
-    line-height: $slider-normal-line-height;
-    color: $gray;
-    margin: 0;
-}
-
 
 input[type=range].slider {
   -webkit-appearance: none;
