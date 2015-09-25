@@ -13,7 +13,7 @@ class Select extends React.Component
 
   render: ->
     <div>
-      <h3>{@props.headerText}</h3>
+      <h4>{@props.headerText}</h4>
       <select id="test" onChange={@props.onSelectChange} value={@props.selected}>
          {@getOptionTags(@props.options)}
       </select>

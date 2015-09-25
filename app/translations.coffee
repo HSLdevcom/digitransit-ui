@@ -1,10 +1,10 @@
 translations =
   'fi':
-    'searching-position': 'Sijaintiasi etsitään'
-    'own-position': 'Oma sijainti'
+    'searching-position': 'Paikannetaan...'
+    'own-position': 'Nykyinen sijaintisi'
     'no-position': 'Ei sijaintia'
-    'origin': 'Lähtöpaikka'
-    'destination': 'Määränpää'
+    'origin': 'Mistä? - osoite tai pysäkki'
+    'destination': 'Mihin? - osoite tai pysäkki'
     'nearest': 'Lähimmät'
     'previous': 'Edelliset'
     'favourites': 'Suosikit'
@@ -32,6 +32,8 @@ translations =
     'print': 'Tulosta'
     'navigate': 'Navigoi'
     'minutes': 'minuuttia'
+    'nearby-stops': 'Lähellä olevia pysäkkejä'
+    'nearby-routes': 'Lähellä kulkevat linjat'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -66,5 +68,7 @@ translations =
     'print': 'Skriv ut'
     'navigate': 'Navigera'
     'minutes': 'minuter'
+    'nearby-stops': 'Närliggande hållplatser'
+    'nearby-routes': 'Närbelägna linjer'
 
 module.exports = translations

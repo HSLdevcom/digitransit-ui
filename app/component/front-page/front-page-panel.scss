@@ -4,7 +4,21 @@ $tab-separator-color: $light-gray;
 $tab-min-width: 100px;
 
 .frontpage-panel-wrapper {
-  padding-bottom: 43px; // height of .tabs
+  position: absolute;
+  top: 60px;
+  z-index: 802;
+  width: 100%;
+  height: calc(100% - 110px);
+  overflow: hidden;
+  background-color: $background-color;
+
+  .frontpage-panel {
+    height: 100%;
+    padding: 15px 0;
+    h3  {
+      padding: 10px;
+    }
+  }
   .tabs-row {
     position: fixed;
     bottom: 0;
