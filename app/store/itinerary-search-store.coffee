@@ -62,6 +62,7 @@ class ItinerarySearchStore extends Store
     if @getRailState() then mode.push("RAIL")
     if @getSubwayState() then mode.push("SUBWAY")
     if @getFerryState() then mode.push("FERRY")
+    mode.push "AIRPLANE"
     return mode.join(",")
 
 
