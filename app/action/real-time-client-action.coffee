@@ -28,6 +28,7 @@ parseMessage = (topic, message, actionContext) ->
     mode: mode
     delay: parsedMessage.dl
     next_stop: next_stop
+    stop_index: parsedMessage.stop_index
     timestamp: parsedMessage.tsi
     lat: parsedMessage.lat
     long: parsedMessage.long
