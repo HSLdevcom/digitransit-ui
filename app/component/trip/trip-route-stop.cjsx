@@ -8,11 +8,9 @@ moment          = require 'moment'
 class TripRouteStop extends React.Component
   renderTime: (realtimeDeparture, currentTimeFromMidnight, realtime) ->
     # times are given in minutes since midnight
-    if realtimeDeparture > currentTimeFromMidnight + 20
-      departureTime = moment().hour(0).minute(0).second(0).minute(realtimeDeparture)
-      return (if realtime then "" else "~") + moment(departureTime).format "HH:mm"
-    else if realtimeDeparture > currentTimeFromMidnight
-      return (if realtime then "" else "~") + moment(realtimeDeparture - currentTimeFromMidnight)
+    departureTime = moment().hour(0).minute(0).second(0).minute(realtimeDeparture)
+    return (moment(departureTime).format "HH:mm")
+    # TODO: display real-time estimation to the stop
 
   render: ->
     vehicles = []

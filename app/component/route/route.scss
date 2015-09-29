@@ -77,7 +77,7 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
 .columns.route-stop-time {
   text-align: right;
   color: $dark-color;
-  padding-right: 33px;
+  padding-right: 36px;
   padding-top: 1px;
 }
 .route-stop-name {
@@ -100,14 +100,11 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
   position: relative;
   svg {
     position: absolute;
-    top: -20px;
-    right: -17px;
+    top: -40px;
+    right: -20px;
     z-index: 1;
   }
 }
-
-
-
 
 .route-header {
   margin: 0 15px;
