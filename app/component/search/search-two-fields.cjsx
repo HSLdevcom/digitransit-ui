@@ -1,7 +1,7 @@
 React = require 'react'
 Icon = require '../icon/icon'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
-Autosuggest = require './autosuggest'
+Autosuggest = require './pelias-autosuggest'
 Link = require 'react-router/lib/Link'
 config = require '../../config'
 {locationToOTP} = require '../../util/otp-strings'
@@ -149,11 +149,11 @@ class SearchTwoFields extends React.Component
               <FormattedMessage id="searching-position"
                                 defaultMessage='Searching for your position...' />
              else if @state.geo.hasLocation
-              <FormattedMessage id="own-position"
-                                defaultMessage='My current position' />
+               <FormattedMessage id="own-position"
+                                 defaultMessage='My current position' />
              else
-              <FormattedMessage id="no-position"
-                                defaultMessage='No position' />
+               <FormattedMessage id="no-position"
+                                 defaultMessage='No position' />
             }
             <span className="inline-block right cursor-pointer"
                   onClick={@removePosition}>
@@ -170,13 +170,13 @@ class SearchTwoFields extends React.Component
               {if @state.origin.useCurrentPosition
                 geolocation_div
                else
-                <form onSubmit={@onSubmit}>
-                  <Autosuggest onSelection={@selectOrigin}
-                               placeholder={@context.intl.formatMessage(
-                                 {id: 'origin', defaultMessage: "From where? - address or stop"})}
-                               value=@state.origin.address
-                               />
-                </form>
+                 <Autosuggest onSelection={@selectOrigin}
+                              placeholder={@context.intl.formatMessage(
+                                id: 'origin'
+                                defaultMessage: "From where? - address or stop")}
+                              value=@state.origin.address
+                              id="origin"
+                              />
               }
             </div>
             <div className="small-1 columns">
@@ -193,21 +193,22 @@ class SearchTwoFields extends React.Component
             <div className="small-11 columns">
               {if @state.origin.useCurrentPosition and
                   @state.geo.isLocationingInProgress
-                <input type="text"
-                       placeholder={@context.intl.formatMessage(
-                         {id: 'destination', defaultMessage: "Where to? - address or stop"})}
-                       disabled="disabled"
-                       />
+                 <input type="text"
+                        placeholder={@context.intl.formatMessage(
+                          id: 'destination'
+                          defaultMessage: "Where to? - address or stop")}
+                        disabled="disabled"
+                        />
                else if @state.destination.useCurrentPosition
-                geolocation_div
+                 geolocation_div
                else
-                <form onSubmit={@onSubmit}>
-                  <Autosuggest onSelection={@selectDestination}
-                               placeholder={@context.intl.formatMessage(
-                                 {id: 'destination', defaultMessage: "Where to? - address or stop"})}
-                               value=@state.destination.address
-                               />
-                </form>
+                 <Autosuggest onSelection={@selectDestination}
+                              placeholder={@context.intl.formatMessage(
+                                id: 'destination'
+                                defaultMessage: "Where to? - address or stop")}
+                              value=@state.destination.address
+                              id="destination"
+                              />
               }
             </div>
             <div className="small-1 columns">

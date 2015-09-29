@@ -7,6 +7,7 @@ module.exports =
     ALERTS: 'http://matka.hsl.fi/hsl-alert/'
     FONT: 'http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700'
     REALTIME: 'http://matka.hsl.fi/navigator-server'
+    PELIAS: 'http://matka.hsl.fi/pelias/v1/autocomplete'
   title: 'Digitransit (HSL)'
   icon: 'hsl-icon.png'
   preferredAgency: 'HSL'
