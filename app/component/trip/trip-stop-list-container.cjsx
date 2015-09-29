@@ -6,6 +6,7 @@ groupBy                 = require 'lodash/collection/groupBy'
 classnames              = require 'classnames'
 TripRouteStop           = require './trip-route-stop'
 isEmpty                 = require 'lodash/lang/isEmpty'
+moment                  = require 'moment'
 
 class TripStopListContainer extends React.Component
   @contextTypes:
@@ -21,20 +22,39 @@ class TripStopListContainer extends React.Component
     @forceUpdate()
 
   getStops: ->
-    mode = @props.route.route.type.toLowerCase()
+    mode = @props.trip.route.type.toLowerCase()
     vehicles = @context.getStore('RealTimeInformationStore').vehicles
-    vehicleStops = groupBy vehicles, (vehicle) ->
-      "HSL:" + vehicle.next_stop
+    vehicle = !isEmpty(vehicles) && vehicles[Object.keys(vehicles)[0]]
 
-    stopPassed = isEmpty(vehicleStops) ? true : false
-    @props.route.stops.map (stop) ->
-      if vehicleStops[stop.gtfsId]
+    currentTime = moment()
+    currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'minutes');
+    stopPassed = false
+
+    @props.trip.stoptimes.map (stoptime, index) ->
+      departureTime = stoptime.realtimeDeparture / 60
+      nextStop = "HSL:" + vehicle.next_stop
+      if nextStop == stoptime.stop.gtfsId
         stopPassed = true
-      <TripRouteStop key={stop.gtfsId} stop={stop} mode={mode} vehicles={vehicleStops[stop.gtfsId]} stopPassed={stopPassed}/>
+      else if vehicle.stop_index == index
+        # tram: next_stop is undefined
+        stopPassed = true
+      else if (departureTime > currentTimeFromMidnight && isEmpty(vehicle))
+        stopPassed = true
+
+      <TripRouteStop
+        key={stoptime.stop.gtfsId}
+        stop={stoptime.stop}
+        mode={mode}
+        vehicle={if nextStop == stoptime.stop.gtfsId then vehicle}
+        stopPassed={stopPassed}
+        realtime={stoptime.realtime}
+        realtimeDeparture={departureTime}
+        currentTimeFromMidnight={currentTimeFromMidnight}
+       />
 
   render: ->
     <div className={classnames "route-stop-list", @props.className}>
       {@getStops()}
     </div>
 
-module.exports = Relay.createContainer(TripStopListContainer, fragments: queries.RouteStopListFragments)
+module.exports = Relay.createContainer(TripStopListContainer, fragments: queries.TripStopListFragments)

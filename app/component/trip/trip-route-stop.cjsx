@@ -2,24 +2,29 @@ React           = require 'react'
 Link            = require 'react-router/lib/Link'
 Icon            = require '../icon/icon'
 classnames      = require 'classnames'
-TripLink              = require '../trip/trip-link'
+TripLink        = require '../trip/trip-link'
+moment          = require 'moment'
 
 class TripRouteStop extends React.Component
-  # TODO: get the time to the following stops
-  getTimeToStop: ->
+  renderTime: (realtimeDeparture, currentTimeFromMidnight, realtime) ->
+    # times are given in minutes since midnight
+    if realtimeDeparture > currentTimeFromMidnight + 20
+      departureTime = moment().hour(0).minute(0).second(0).minute(realtimeDeparture)
+      return (if realtime then "" else "~") + moment(departureTime).format "HH:mm"
+    else if realtimeDeparture > currentTimeFromMidnight
+      return (if realtime then "" else "~") + moment(realtimeDeparture - currentTimeFromMidnight)
 
   render: ->
     vehicles = []
-    if @props.vehicles
-      for vehicle in @props.vehicles
-        vehicles.push <Icon id="now" key={vehicle.id} className={@props.mode} img={'icon-icon_' + @props.mode}/>
+    if @props.vehicle
+      vehicles.push <Icon id="now" key={@props.vehicle.id} className={@props.mode} img={'icon-icon_' + @props.mode}/>
 
     stopPassed =
       passed: !@props.stopPassed
 
     <div className={classnames "route-stop row", stopPassed}>
       <div className="columns small-3 route-stop-time">
-        {@getTimeToStop()}
+        {@renderTime(@props.realtimeDeparture, @props.currentTimeFromMidnight, @props.realtime)}
         <div className="route-stop-now-icon">
           {vehicles}
         </div>

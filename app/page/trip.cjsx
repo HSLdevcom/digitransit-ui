@@ -56,7 +56,7 @@ class TripPage extends React.Component
         headers={["Aika", "Pysäkki", "Pysäkkinumero"]}
         columnClasses={["small-3 route-stop-now", "small-7 route-stop-name", "small-2 route-stop-code"]}
        />
-      <TripStopListContainer className="below-map" route={@props.trip.pattern}/>
+      <TripStopListContainer className="below-map" trip={@props.trip}/>
     </DefaultNavigation>
 
 module.exports = Relay.createContainer(TripPage, fragments: queries.TripPageFragments)

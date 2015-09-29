@@ -249,15 +249,34 @@ var TripPageFragments = {
         code
         ${require('./component/route/route-header-container').getFragment('route')}
         ${require('./component/route/route-map-container').getFragment('route')}
-        ${require('./component/route/route-stop-list-container').getFragment('route')}
       }
       stoptimes {
         scheduledDeparture
       }
       gtfsId
+      ${require('./component/trip/trip-stop-list-container').getFragment('trip')}
     }
   `,
 }
+var TripStopListFragments = {
+  trip: () => Relay.QL`
+    fragment on Trip {
+      route {
+        type
+      }
+      stoptimes	{
+        stop{
+          gtfsId
+          name
+          desc
+          code
+        }
+        realtimeDeparture
+        realtime
+      }
+    }
+  `,
+};
 
 class FuzzyTripRoute extends Relay.Route {
   static queries = {
@@ -347,6 +366,7 @@ module.exports = {
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
   RouteMapFragments: RouteMapFragments,
+  TripStopListFragments: TripStopListFragments,
   StopListContainerRoute: StopListContainerRoute,
   StopListContainerFragments: StopListContainerFragments,
   StopPageFragments: StopPageFragments,
