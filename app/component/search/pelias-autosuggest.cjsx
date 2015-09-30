@@ -82,7 +82,7 @@ class Autosuggest extends React.Component
         onSuggestionSelected={@onSuggestionSelected}
         inputAttributes={
           placeholder: @props.placeholder
-          onBlur: @onSubmit
+          #onBlur: @onSubmit Uh, causes a bug, as it is called after bluring the input after a selection has been done
         }
         id={@props.id}
         scrollBar={true}
