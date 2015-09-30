@@ -4,6 +4,7 @@ queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
 StopCardListContainer = require '../stop-cards/stop-card-list-container'
 NoLocationPanel       = require './no-location-panel'
+FavouritesPanel     = require './favourites-panel'
 Icon                  = require '../icon/icon.cjsx'
 classnames            = require 'classnames'
 
@@ -66,10 +67,14 @@ class FrontpageTabs extends React.Component
     else
       stopsPanel = <NoLocationPanel/>
 
+
+    favouritesPanel = <FavouritesPanel/>
+
     tabClasses = []
     selectedClass =
       selected:true
-    if @state.selectedPanel == 1
+    switch @state.selectedPanel
+      when 'nearby-routes'
         panel = <div className="frontpage-panel-wrapper">
                   <div className="frontpage-panel">
                     <div className="row">
@@ -77,8 +82,8 @@ class FrontpageTabs extends React.Component
                     </div>
                   </div>
                 </div>
-        tabClasses[1] = selectedClass
-    else if @state.selectedPanel == 2
+        tabClasses['nearby-routes'] = selectedClass
+       when 'nearby-stops'
         panel = <div className="frontpage-panel-wrapper">
                   <div className="frontpage-panel">
                     <div className="row">
@@ -89,32 +94,34 @@ class FrontpageTabs extends React.Component
                     </div>
                   </div>
                 </div>
-        tabClasses[2] = selectedClass
-    else if @state.selectedPanel == 3
+        tabClasses['nearby-stops'] = selectedClass
+      when 'favourites'
         panel = <div className="frontpage-panel-wrapper">
                   <div className="frontpage-panel">
                     <div className="row">
                       <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
                     </div>
+                     <div className="scrollable">
+                        {favouritesPanel}
+                     </div>
                   </div>
                 </div>
-        tabClasses[3] = selectedClass
-
+        tabClasses['favourites'] = selectedClass
     <div className="frontpage-panel-container">
       {panel}
       <ul className='tabs-row tabs-arrow-up'>
-        <li className={classnames (tabClasses[1]), 'small-4', 'h4', 'hover'}
-             onClick={=> @selectPanel(1)}>
+        <li className={classnames (tabClasses['nearby-routes']), 'small-4', 'h4', 'hover'}
+             onClick={=> @selectPanel('nearby-routes')}>
           <Icon className="prefix-icon" img="icon-icon_bus-withoutBox"/>
           <FormattedMessage id='routes' defaultMessage="Routes" />
         </li>
-        <li className={classnames (tabClasses[2]), 'small-4', 'h4', 'hover'}
-             onClick={=> @selectPanel(2)}>
+        <li className={classnames (tabClasses['nearby-stops']), 'small-4', 'h4', 'hover'}
+             onClick={=> @selectPanel('nearby-stops')}>
           <Icon className="prefix-icon" img="icon-icon_bus-stop"/>
           <FormattedMessage id='stops' defaultMessage="Stops" />
         </li>
-        <li className={classnames (tabClasses[3]), 'small-4', 'h4', 'hover'}
-             onClick={=> @selectPanel(3)}>
+        <li className={classnames (tabClasses['favourites']), 'small-4', 'h4', 'hover'}
+             onClick={=> @selectPanel('favourites')}>
           <Icon className="prefix-icon" img="icon-icon_star"/>
           <FormattedMessage id='favourites' defaultMessage="Favourites" />
         </li>
