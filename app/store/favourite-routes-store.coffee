@@ -30,7 +30,10 @@ class FavouriteRoutesStore extends Store
     window.localStorage.setItem(STORAGE_KEY, s)
 
   addFavouriteRoute: (routeId) =>
-    @routes.push routeId
+    newRoutes = @routes.filter (id) -> id isnt routeId
+    if newRoutes.length is @routes.length
+      newRoutes.push routeId
+    @routes = newRoutes
     @storeRoutes()
     @emitChange(routeId)
 
