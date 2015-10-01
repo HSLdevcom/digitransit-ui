@@ -4,7 +4,7 @@ queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
 NearStopCardListContainer = require '../stop-cards/near-stop-card-list-container'
 NoLocationPanel       = require './no-location-panel'
-FavouritesPanel     = require './favourites-panel'
+FavouritesPanel     = require '../favourites/favourites-panel'
 Icon                  = require '../icon/icon.cjsx'
 classnames            = require 'classnames'
 

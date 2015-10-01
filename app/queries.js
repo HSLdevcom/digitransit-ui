@@ -156,8 +156,6 @@ var FavouriteStopListContainerFragments = {
     `,
 };
 
-
-
 var StopPageFragments = {
   stop: () =>  Relay.QL`
     fragment on Stop {
@@ -312,6 +310,27 @@ var RouteMarkerPopupFragments = {
   `,
 }
 
+
+class FavouriteRowRoute extends Relay.Route {
+  static queries = {
+      routes: () => Relay.QL`query { routes(ids: $ids) }`,
+  }
+  static paramDefinitions = {
+    ids: {required: true},
+  }
+  static routeName = 'FavouriteRowRoute' 
+}
+
+var FavouriteRouteRowFragments = {
+    routes: () => Relay.QL`
+      fragment on Route @relay(plural:true) {
+        gtfsId
+        type
+        shortName
+      }
+   `,
+};
+
 class DisruptionRowRoute extends Relay.Route {
   static queries = {
     routes: () => Relay.QL`query { routes(ids: $ids) }`,
@@ -330,7 +349,7 @@ var DisruptionRowFragments = {
       shortName
     }
   `,
-};
+}
 
 module.exports = {
   StopQueries: StopQueries,
