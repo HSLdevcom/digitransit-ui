@@ -30,7 +30,7 @@ class RouteMapContainer extends React.Component
         </Link>
       else
         <div>
-            <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
+          <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
           <Link to="#{process.env.ROOT_PATH}lahdot/#{@props.tripId}/kartta">
             <div className="fullscreen-toggle">
               <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
