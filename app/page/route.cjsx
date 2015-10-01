@@ -3,6 +3,7 @@ Relay                  = require 'react-relay'
 queries                = require '../queries'
 DefaultNavigation      = require '../component/navigation/default-navigation'
 Tabs                   = require 'react-simpletabs'
+RouteListHeader        = require '../component/route/route-list-header'
 RouteHeaderContainer   = require '../component/route/route-header-container'
 RouteStopListContainer = require '../component/route/route-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
@@ -40,13 +41,14 @@ class RoutePage extends React.Component
 
   render: ->
     <DefaultNavigation className="fullscreen">
-      <RouteHeaderContainer route={@props.route}/>
+      <RouteHeaderContainer pattern={@props.pattern}/>
       <Tabs className="route-tabs">
         <Tabs.Panel title="Pysäkit">
-          <RouteStopListContainer route={@props.route}/>
+          <RouteListHeader/>
+          <RouteStopListContainer pattern={@props.pattern}/>
         </Tabs.Panel>
         <Tabs.Panel title="Kartta" className="fullscreen">
-          <RouteMapContainer route={@props.route}/>
+          <RouteMapContainer pattern={@props.pattern} className="fullscreen"/>
         </Tabs.Panel>
         <Tabs.Panel title="Aikataulut">
           <div>Aikataulut tähän</div>

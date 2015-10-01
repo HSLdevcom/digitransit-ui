@@ -38,7 +38,9 @@ class VehicleMarkerContainer extends React.Component
       @context.executeAction RealTimeInformationAction.startRealTimeClient
     @context.getStore('RealTimeInformationStore').addChangeListener @onChange
     for id, message of @context.getStore('RealTimeInformationStore').vehicles
-      @updateVehicle(id, message)
+      # if tripStartTime has been specified, use only the updates for vehicles with matching startTime
+      if !@props.trip || message.tripStartTime == @props.trip
+        @updateVehicle(id, message)
 
   componentWillUnmount: ->
     if @props.startRealTimeClient and @context.getStore('RealTimeInformationStore').addChangeListener.client
@@ -52,7 +54,7 @@ class VehicleMarkerContainer extends React.Component
   updateVehicle: (id, message) ->
     popup = <Relay.RootContainer
       Component={RouteMarkerPopup}
-      route={new queries.RouteMarkerPopupRoute(
+      route={new queries.FuzzyTripRoute(
         route: message.route
         direction: message.direction
         date: message.operatingDay

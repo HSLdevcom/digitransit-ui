@@ -47,6 +47,7 @@ class StopMarkerLayer extends React.Component
         return
       modeClass = stop.routes[0].type.toLowerCase()
       selected = @props.hilightedStops and stop.gtfsId in @props.hilightedStops
+
       #TODO: set showName
       stops.push <StopMarker key={stop.gtfsId}
                              map={@props.map}

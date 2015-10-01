@@ -9,6 +9,8 @@ RoutePage     = require './page/route'
 StopMapPage   = require './page/stop-map'
 StopPage      = require './page/stop'
 SummaryPage   = require './page/summary'
+TripPage      = require './page/trip'
+TripMapPage   = require './page/trip-map'
 Error404      = require './page/404'
 StyleGuidelinesPage = require './page/style-guidelines'
 
@@ -31,7 +33,8 @@ routes =
     <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404}/>
     <Route path="linjat" name="routeList" component={Error404}/>
     <Route path="linjat/:routeId" name="route" component={RoutePage} queries={queries.RouteQueries}/>
-    <Route path="lahdot/:tripId" name="trip" component={Error404}/>
+    <Route path="lahdot/:tripId" name="trip" component={TripPage} queries={queries.TripQueries}/>
+    <Route path="lahdot/:tripId/kartta" name="tripMap" component={TripMapPage} queries={queries.TripQueries}/>
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={NavigationPage}/>

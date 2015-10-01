@@ -17,6 +17,9 @@ div.map.summaryMap {
 div.map.summaryMap div.leaflet-container {
   height: 100%;
 }
+.below-map  {
+  overflow: auto;
+}
 
 @media #{$small-only} {
   div.map, div.map div.leaflet-container {
