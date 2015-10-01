@@ -41,14 +41,14 @@ class RoutePage extends React.Component
 
   render: ->
     <DefaultNavigation className="fullscreen">
-      <RouteHeaderContainer route={@props.route}/>
+      <RouteHeaderContainer pattern={@props.pattern}/>
       <Tabs className="route-tabs">
         <Tabs.Panel title="Pysäkit">
           <RouteListHeader/>
-          <RouteStopListContainer route={@props.route}/>
+          <RouteStopListContainer pattern={@props.pattern}/>
         </Tabs.Panel>
         <Tabs.Panel title="Kartta" className="fullscreen">
-          <RouteMapContainer route={@props.route} className="fullscreen"/>
+          <RouteMapContainer pattern={@props.pattern} className="fullscreen"/>
         </Tabs.Panel>
         <Tabs.Panel title="Aikataulut">
           <div>Aikataulut tähän</div>

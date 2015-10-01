@@ -42,13 +42,13 @@ class RouteMapContainer extends React.Component
     @forceUpdate()
 
   render: ->
-    stops = @props.route.stops
-    geometry = @props.route.geometry
-    mode = @props.route.route.type
+    stops = @props.pattern.stops
+    geometry = @props.pattern.geometry
+    mode = @props.pattern.route.type
 
     leafletObj = [
       <RouteLine key="line" mode={mode} stops={stops} geometry={geometry}/>,
-      <VehicleMarkerContainer key="vehicles" pattern={@props.route.code} trip={@props.trip}/>
+      <VehicleMarkerContainer key="vehicles" pattern={@props.pattern.code} trip={@props.trip}/>
     ]
 
     <Map

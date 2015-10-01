@@ -9,7 +9,7 @@ var StopQueries = {
 };
 
 var RouteQueries = {
-  route: () => Relay.QL`
+  pattern: () => Relay.QL`
     query {
       pattern(id: $routeId)
     }
@@ -25,17 +25,17 @@ var TripQueries = {
 };
 
 var RoutePageFragments = {
-  route: () => Relay.QL`
+  pattern: () => Relay.QL`
     fragment on Pattern {
-      ${require('./component/route/route-header-container').getFragment('route')}
-      ${require('./component/route/route-map-container').getFragment('route')}
-      ${require('./component/route/route-stop-list-container').getFragment('route')}
+      ${require('./component/route/route-header-container').getFragment('pattern')}
+      ${require('./component/route/route-map-container').getFragment('pattern')}
+      ${require('./component/route/route-stop-list-container').getFragment('pattern')}
     }
   `,
 };
 
 var RouteHeaderFragments = {
-  route: () => Relay.QL`
+  pattern: () => Relay.QL`
     fragment on Pattern {
       code
       headsign
@@ -56,7 +56,7 @@ var RouteHeaderFragments = {
 };
 
 var RouteStopListFragments = {
-  route: () => Relay.QL`
+  pattern: () => Relay.QL`
     fragment on Pattern {
       route {
         type
@@ -72,7 +72,7 @@ var RouteStopListFragments = {
 };
 
 var RouteMapFragments = {
-  route: () => Relay.QL`
+  pattern: () => Relay.QL`
     fragment on Pattern {
       geometry {
         lat

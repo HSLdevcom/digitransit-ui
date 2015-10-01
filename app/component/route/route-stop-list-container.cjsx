@@ -23,14 +23,14 @@ class RouteStopListContainer extends React.Component
     @forceUpdate()
 
   getStops: () =>
-    mode = @props.route.route.type.toLowerCase()
+    mode = @props.pattern.route.type.toLowerCase()
     vehicles = @context.getStore('RealTimeInformationStore').vehicles
     vehicle_stops = groupBy vehicles, (vehicle) ->
       "HSL:" + vehicle.next_stop
 
     stopObjs = []
 
-    @props.route.stops.forEach (stop) ->
+    @props.pattern.stops.forEach (stop) ->
       stopObjs.push <RouteStop key={stop.gtfsId} stop={stop} mode={mode} vehicles={vehicle_stops[stop.gtfsId]}/>
 
     stopObjs

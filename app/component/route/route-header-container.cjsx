@@ -17,26 +17,26 @@ class RouteHeaderContainer extends React.Component
     @context.getStore('FavouriteRoutesStore').removeChangeListener @onChange
 
   onChange: (id) =>
-    if !id or id == @props.route.route.gtfsId
+    if !id or id == @props.pattern.route.gtfsId
       @forceUpdate()
 
   addFavouriteRoute: (e) =>
     e.stopPropagation()
-    @context.executeAction FavouriteRoutesActions.addFavouriteRoute, @props.route.route.gtfsId
+    @context.executeAction FavouriteRoutesActions.addFavouriteRoute, @props.pattern.route.gtfsId
 
   render: =>
-    routeId = @props.route.route.gtfsId
-    patterns = @props.route.route.patterns.map (pattern) -> pattern.code
-    reverseIds = without(patterns, @props.route.code)
+    routeId = @props.pattern.route.gtfsId
+    patterns = @props.pattern.route.patterns.map (pattern) -> pattern.code
+    reverseIds = without(patterns, @props.pattern.code)
     if reverseIds.length == 1
       reverseId = reverseIds[0]
 
     #TODO: all of trips should be reanmed pattern
     <RouteHeader
       className={@props.className}
-      key={@props.route.code}
-      route={@props.route.route}
-      pattern={@props.route}
+      key={@props.pattern.code}
+      route={@props.pattern.route}
+      pattern={@props.pattern}
       trip={@props.trip}
       reverseId={reverseId}
       favourite={@context.getStore('FavouriteRoutesStore').isFavourite(routeId)}

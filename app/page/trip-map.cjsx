@@ -3,7 +3,6 @@ Relay                  = require 'react-relay'
 queries                = require '../queries'
 DefaultNavigation      = require '../component/navigation/default-navigation'
 RouteHeaderContainer   = require '../component/route/route-header-container'
-RouteStopListContainer = require '../component/route/route-stop-list-container'
 RouteListHeader             = require '../component/route/route-list-header'
 TripStopListContainer  = require '../component/trip/trip-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
@@ -34,8 +33,8 @@ class TripMapPage extends React.Component
     trip = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
 
     <DefaultNavigation className="fullscreen trip-map">
-      <RouteHeaderContainer className="trip-header" route={@props.trip.pattern} trip={trip}/>
-      <RouteMapContainer className="fullscreen" route={@props.trip.pattern} trip={trip} tripId={@props.trip.gtfsId} fullscreen={true}/>
+      <RouteHeaderContainer className="trip-header" pattern={@props.trip.pattern} trip={trip}/>
+      <RouteMapContainer className="fullscreen" pattern={@props.trip.pattern} trip={trip} tripId={@props.trip.gtfsId} fullscreen={true}/>
     </DefaultNavigation>
 
 module.exports = Relay.createContainer(TripMapPage, fragments: queries.TripPageFragments)
