@@ -28,6 +28,12 @@ class Autosuggest extends React.Component
         icon = <Icon img="icon-icon_place"/>
       when 'stop'
         icon = <Icon img="icon-icon_bus-stop"/>
+      when 'locality'
+        icon = <Icon img="icon-icon_city"/>
+      when 'localadmin'
+        icon = <Icon img="icon-icon_city"/>
+      when 'neighbourhood'
+        icon = <Icon img="icon-icon_city"/>
       else
         icon = "*"
 
