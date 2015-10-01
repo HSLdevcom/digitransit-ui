@@ -3,6 +3,7 @@ Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
 StopCardListContainer = require '../stop-cards/stop-card-list-container'
+RouteListContainer    = require '../route/route-list-container'
 NoLocationPanel       = require './no-location-panel'
 Icon                  = require '../icon/icon.cjsx'
 classnames            = require 'classnames'
@@ -46,6 +47,16 @@ class FrontpageTabs extends React.Component
       }
     />
 
+  getRoutesContainer: (lat, lon) =>
+    <Relay.RootContainer
+      Component={RouteListContainer}
+      route={new queries.RouteListContainerRoute({
+        lat: lat
+        lon: lon
+        })}
+      renderLoading={-> <div className="spinner-loader"/>}
+    />
+
   selectPanel: (selection) =>
     if selection == @state.selectedPanel
       @setState
@@ -58,13 +69,18 @@ class FrontpageTabs extends React.Component
     LocationStore = @context.getStore 'LocationStore'
     if @state.origin and @state.origin.lat
       stopsPanel = @getStopContainer(@state.origin.lat, @state.origin.lon)
+      routesPanel = @getRoutesContainer(@state.origin.lat, @state.origin.lon)
     else if (@state.status == LocationStore.STATUS_FOUND_LOCATION or
              @state.status == LocationStore.STATUS_FOUND_ADDRESS)
       stopsPanel = @getStopContainer(@state.lat, @state.lon)
+      routesPanel = @getRoutesContainer(@state.lat, @state.lon)
     else if @state.status == LocationStore.STATUS_SEARCHING_LOCATION
       stopsPanel = <div className="spinner-loader"/>
+      routesPanel = <div className="spinner-loader"/>
     else
       stopsPanel = <NoLocationPanel/>
+      routesPanel = <NoLocationPanel/>
+
 
     tabClasses = []
     selectedClass =
@@ -74,6 +90,9 @@ class FrontpageTabs extends React.Component
                   <div className="frontpage-panel">
                     <div className="row">
                       <h3><FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/></h3>
+                    </div>
+                    <div className="scrollable">
+                      {routesPanel}
                     </div>
                   </div>
                 </div>
