@@ -9,10 +9,17 @@ AUTOSUGGEST_ID = 'autosuggest'
 class Autosuggest extends React.Component
 
   getName: (suggestion) ->
-    if suggestion.layer == 'address'
-      "#{suggestion.street} #{suggestion.housenumber}, #{suggestion.locality}"
-    else
-      suggestion.label
+    switch suggestion.layer
+      when 'address'
+        "#{suggestion.street} #{suggestion.housenumber}, #{suggestion.locality}"
+      when 'locality'
+        "#{suggestion.name}"
+      when 'neighbourhood'
+        "#{suggestion.name}, #{suggestion.locality}"
+      when 'venue'
+        "#{suggestion.name}, #{suggestion.locality}"
+      else
+        suggestion.label
 
   getSuggestions: (input, callback) ->
     XhrPromise.getJson(config.URL.PELIAS, text: input)
