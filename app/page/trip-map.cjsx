@@ -16,8 +16,8 @@ class TripMapPage extends React.Component
   componentDidMount: ->
     route = @props.trip.pattern.code.split(':')
     if route[0].toLowerCase() == 'hsl'
-      trip = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
-      @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2], trip: trip}
+      tripStarTtime = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
+      @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2], tripStarTtime: tripStarTtime}
 
   componentWillUnmount: ->
     client = @context.getStore('RealTimeInformationStore').client
@@ -30,11 +30,11 @@ class TripMapPage extends React.Component
     return hours + mins
 
   render: ->
-    trip = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
+    tripStarTtime = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
 
     <DefaultNavigation className="fullscreen trip-map">
-      <RouteHeaderContainer className="trip-header" pattern={@props.trip.pattern} trip={trip}/>
-      <RouteMapContainer className="fullscreen" pattern={@props.trip.pattern} trip={trip} tripId={@props.trip.gtfsId} fullscreen={true}/>
+      <RouteHeaderContainer className="trip-header" pattern={@props.trip.pattern} trip={tripStarTtime}/>
+      <RouteMapContainer className="fullscreen" pattern={@props.trip.pattern} trip={tripStarTtime} tripId={@props.trip.gtfsId} fullscreen={true}/>
     </DefaultNavigation>
 
 module.exports = Relay.createContainer(TripMapPage, fragments: queries.TripPageFragments)

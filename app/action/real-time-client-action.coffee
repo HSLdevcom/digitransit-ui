@@ -2,12 +2,14 @@ config = require '../config'
 moment = require 'moment'
 xhrPromise = require '../util/xhr-promise'
 
-
+# getTopic
+# Returns valid MQTT topic to be subscribed
+# Input: options - route.direction, trip start time are used to generate the topic
 getTopic = (options) ->
   route = if options.route then options.route else "+"
   direction = if options.direction then parseInt(options.direction) + 1  else "+"
-  trip = if options.trip then options.trip else "+"
-  "/hfp/journey/+/+/#{route}/#{direction}/+/#{trip}/#"
+  tripStartTime = if options.tripStartTime then options.tripStartTime else "+"
+  "/hfp/journey/+/+/#{route}/#{direction}/+/#{tripStartTime}/#"
 
 parseMessage = (topic, message, actionContext) ->
   [_, _, _, mode, id, line, dir, headsign, start_time, next_stop, geohash...] = topic.split '/'

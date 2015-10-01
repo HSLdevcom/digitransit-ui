@@ -17,8 +17,8 @@ class TripPage extends React.Component
   componentDidMount: ->
     route = @props.trip.pattern.code.split(':')
     if route[0].toLowerCase() == 'hsl'
-      trip = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
-      @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2], trip: trip}
+      tripStartTime = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
+      @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2], tripStartTime: tripStartTime}
 
   componentWillUnmount: ->
     client = @context.getStore('RealTimeInformationStore').client
@@ -30,16 +30,17 @@ class TripPage extends React.Component
     client = @context.getStore('RealTimeInformationStore').client
     if client
       if route[0].toLowerCase() == 'hsl'
-        @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
+        tripStartTime = @getStartTime(newProps.trip.stoptimes[0].scheduledDeparture)
         @context.executeAction RealTimeClient.updateTopic,
           client: client
           oldTopics: @context.getStore('RealTimeInformationStore').getSubscriptions()
-          newTopic: {route: route[1], direction: route[2], trip: trip}
+          newTopic: {route: route[1], direction: route[2], tripStartTime: tripStartTime}
       else
         @componentWillUnmount()
     else
       if route[0].toLowerCase() == 'hsl'
-        @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2]}
+        tripStartTime = @getStartTime(newProps.trip.stoptimes[0].scheduledDeparture)
+        @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2], tripStartTime: tripStartTime}
 
   getStartTime: (time) ->
     hours = ('0' + Math.floor(time / 60 / 60 )).slice(-2)
@@ -47,11 +48,11 @@ class TripPage extends React.Component
     return hours + mins
 
   render: ->
-    trip = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
+    tripStartTime = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
 
     <DefaultNavigation className="fullscreen trip">
-      <RouteHeaderContainer className="trip-header" pattern={@props.trip.pattern} trip={trip}/>
-      <RouteMapContainer className="map-small" pattern={@props.trip.pattern} trip={trip} tripId={@props.trip.gtfsId}/>
+      <RouteHeaderContainer className="trip-header" pattern={@props.trip.pattern} trip={tripStartTime}/>
+      <RouteMapContainer className="map-small" pattern={@props.trip.pattern} trip={tripStartTime} tripId={@props.trip.gtfsId}/>
       <TripListHeader/>
       <TripStopListContainer className="below-map" trip={@props.trip}/>
     </DefaultNavigation>
