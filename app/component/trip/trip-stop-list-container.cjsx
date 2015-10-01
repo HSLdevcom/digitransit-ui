@@ -27,18 +27,17 @@ class TripStopListContainer extends React.Component
     vehicle = !isEmpty(vehicles) && vehicles[Object.keys(vehicles)[0]]
 
     currentTime = moment()
-    currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'minutes');
+    currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds');
     stopPassed = false
 
     @props.trip.stoptimes.map (stoptime, index) ->
-      departureTime = stoptime.realtimeDeparture / 60
       nextStop = "HSL:" + vehicle.next_stop
       if nextStop == stoptime.stop.gtfsId
         stopPassed = true
       else if vehicle.stop_index == index
         # tram: next_stop is undefined
         stopPassed = true
-      else if (departureTime > currentTimeFromMidnight && isEmpty(vehicle))
+      else if (stoptime.realtimeDeparture > currentTimeFromMidnight && isEmpty(vehicle))
         stopPassed = true
 
       <TripRouteStop
@@ -48,7 +47,7 @@ class TripStopListContainer extends React.Component
         vehicle={if nextStop == stoptime.stop.gtfsId then vehicle}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
-        realtimeDeparture={departureTime}
+        realtimeDeparture={stoptime.realtimeDeparture}
         currentTimeFromMidnight={currentTimeFromMidnight}
        />
 
