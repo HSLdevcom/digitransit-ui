@@ -73,6 +73,10 @@ a h4,
 a .h4 {
   color: $link-color;
 }
+h1 a {
+  color: inherit;
+  text-decoration: none;
+}
 
 /* SUB HEADERS */
 .sub-header-h4 {
@@ -128,6 +132,7 @@ a .h4 {
   background:rgba(0,0,0, $transparency) !important;
   color: $transparent-color !important;
 }
+
 div.spinner-loader {
   position: absolute;
   left: 50%;
