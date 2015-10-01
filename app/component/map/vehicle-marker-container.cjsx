@@ -38,6 +38,7 @@ class VehicleMarkerContainer extends React.Component
       @context.executeAction RealTimeInformationAction.startRealTimeClient
     @context.getStore('RealTimeInformationStore').addChangeListener @onChange
     for id, message of @context.getStore('RealTimeInformationStore').vehicles
+      # if tripStartTime has been specified, use only the updates for vehicles with matching startTime
       if !@props.trip || message.tripStartTime == @props.trip
         @updateVehicle(id, message)
 
