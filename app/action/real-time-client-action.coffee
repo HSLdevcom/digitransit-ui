@@ -3,8 +3,8 @@ moment = require 'moment'
 xhrPromise = require '../util/xhr-promise'
 
 # getTopic
-# Returns valid MQTT topic to be subscribed
-# Input: options - route.direction, trip start time are used to generate the topic
+# Returns MQTT topic to be subscribed
+# Input: options - route, direction, tripStartTime are used to generate the topic
 getTopic = (options) ->
   route = if options.route then options.route else "+"
   direction = if options.direction then parseInt(options.direction) + 1  else "+"
