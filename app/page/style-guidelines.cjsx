@@ -143,6 +143,10 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_thumb-up</span><br />
       </div>
       <div className="medium-4 column">
+        <Icon img={'icon-icon_airplane'}/>
+        <span className="code">icon-icon_airplane</span><br />
+        <Icon img={'icon-icon_airplane-withoutBox'}/>
+        <span className="code">icon-icon_airplane-withoutBox</span><br />
         <Icon img={'icon-icon_ellipsis'}/>
         <span className="code">icon-icon_ellipsis</span><br />
         <Icon img={'icon-icon_ferry-withoutBox'}/>
