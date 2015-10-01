@@ -1,21 +1,30 @@
-React             = require 'react'
-NoFavouritesPanel = require './no-favourites-panel'
+React                           = require 'react'
+Relay                           = require 'react-relay'
+NoFavouritesPanel               = require './no-favourites-panel'
+FavouriteStopCardListContainer  = require '../stop-cards/favourite-stop-card-list-container'
+queries                         = require '../../queries'
 
 class FavouritesPanel extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
+  getNearStopContainer: (ids) =>
+    <Relay.RootContainer
+      Component={FavouriteStopCardListContainer}
+      route={new queries.FavouriteStopListContainerRoute({
+        ids: ids
+        })}
+      renderLoading={-> <div className="spinner-loader"/>}
+      }
+    />
   render: ->
-    FavouriteRoutesStore = @context.getStore 'FavouriteRoutesStore'
-    routes = FavouriteRoutesStore.getRoutes()
-    if routes.length==0
-      <NoFavouritesPanel/> if routes.length==0
+    FavouriteStopsStore = @context.getStore 'FavouriteStopsStore'
+    stops = FavouriteStopsStore.getStops()
+
+    if stops.length==0
+      <NoFavouritesPanel/>
     else
-      <div className="favourites-panel text-center">
-        <p>
-          Favourites panel {routes}
-        </p>
-      </div>
+      @getNearStopContainer(stops)
 
 module.exports = FavouritesPanel

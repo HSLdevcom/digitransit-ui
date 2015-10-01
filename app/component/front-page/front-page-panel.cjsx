@@ -2,7 +2,7 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
-StopCardListContainer = require '../stop-cards/stop-card-list-container'
+NearStopCardListContainer = require '../stop-cards/near-stop-card-list-container'
 NoLocationPanel       = require './no-location-panel'
 FavouritesPanel     = require './favourites-panel'
 Icon                  = require '../icon/icon.cjsx'
@@ -38,7 +38,7 @@ class FrontpageTabs extends React.Component
 
   getStopContainer: (lat, lon) =>
     <Relay.RootContainer
-      Component={StopCardListContainer}
+      Component={NearStopCardListContainer}
       route={new queries.StopListContainerRoute({
         lat: lat
         lon: lon

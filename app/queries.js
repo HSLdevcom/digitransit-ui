@@ -105,7 +105,7 @@ class StopListContainerRoute extends Relay.Route {
   static routeName = 'StopListContainerRoute'
 }
 
-var StopListContainerFragments = {
+var NearStopListContainerFragments = {
   stops: () => Relay.QL`
     fragment on QueryType {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
@@ -126,6 +126,42 @@ var StopListContainerFragments = {
     }
   `,
 };
+
+class FavouriteStopListContainerRoute extends Relay.Route {
+  static queries = {
+      stops: (Component, variables) => Relay.QL`
+      query {
+  viewer {
+    ${Component.getFragment('stops', {
+      ids: variables.ids,
+    })}
+}
+}
+`,
+}
+static paramDefinitions = {
+  ids: {required: true},
+}
+static routeName = 'FavouriteStopListContainerRoute'
+}
+
+var FavouriteStopListContainerFragments = {
+    stops: () => Relay.QL`
+      fragment on QueryType {
+        stops(ids: $ids) {
+          gtfsId
+          ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+          ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+  }
+
+
+
+
+}
+`,
+};
+
+
 
 var StopPageFragments = {
   stop: () =>  Relay.QL`
@@ -309,7 +345,9 @@ module.exports = {
   RouteStopListFragments: RouteStopListFragments,
   RouteMapFragments: RouteMapFragments,
   StopListContainerRoute: StopListContainerRoute,
-  StopListContainerFragments: StopListContainerFragments,
+  NearStopListContainerFragments: NearStopListContainerFragments,
+  FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,
+  FavouriteStopListContainerRoute: FavouriteStopListContainerRoute,
   StopPageFragments: StopPageFragments,
   StopMarkerContainerRoute: StopMarkerContainerRoute,
   StopMarkerContainerFragments: StopMarkerContainerFragments,
