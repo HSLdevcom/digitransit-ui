@@ -8,6 +8,7 @@ TripStopListContainer  = require '../component/trip/trip-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
 FormattedMessage       = require('react-intl').FormattedMessage
+timeUtils              = require '../util/time-utils'
 
 class TripPage extends React.Component
   @contextTypes:
@@ -17,7 +18,7 @@ class TripPage extends React.Component
   componentDidMount: ->
     route = @props.trip.pattern.code.split(':')
     if route[0].toLowerCase() == 'hsl'
-      tripStartTime = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
+      tripStartTime = timeUtils.getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
       @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2], tripStartTime: tripStartTime}
 
   componentWillUnmount: ->
@@ -30,7 +31,7 @@ class TripPage extends React.Component
     client = @context.getStore('RealTimeInformationStore').client
     if client
       if route[0].toLowerCase() == 'hsl'
-        tripStartTime = @getStartTime(newProps.trip.stoptimes[0].scheduledDeparture)
+        tripStartTime = timeUtils.getStartTime(newProps.trip.stoptimes[0].scheduledDeparture)
         @context.executeAction RealTimeClient.updateTopic,
           client: client
           oldTopics: @context.getStore('RealTimeInformationStore').getSubscriptions()
@@ -39,16 +40,11 @@ class TripPage extends React.Component
         @componentWillUnmount()
     else
       if route[0].toLowerCase() == 'hsl'
-        tripStartTime = @getStartTime(newProps.trip.stoptimes[0].scheduledDeparture)
+        tripStartTime = timeUtils.getStartTime(newProps.trip.stoptimes[0].scheduledDeparture)
         @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2], tripStartTime: tripStartTime}
 
-  getStartTime: (time) ->
-    hours = ('0' + Math.floor(time / 60 / 60 )).slice(-2)
-    mins = ('0' + (time / 60 % 60)).slice(-2)
-    return hours + mins
-
   render: ->
-    tripStartTime = @getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
+    tripStartTime = timeUtils.getStartTime(@props.trip.stoptimes[0].scheduledDeparture)
 
     <DefaultNavigation className="fullscreen trip">
       <RouteHeaderContainer className="trip-header" pattern={@props.trip.pattern} trip={tripStartTime}/>
