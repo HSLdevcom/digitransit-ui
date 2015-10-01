@@ -2,23 +2,20 @@ React             = require 'react'
 FormattedMessage  = require('react-intl').FormattedMessage
 
 ###
-  Headers for 4 columns
+  Headers for 3 columns
 ###
-class RouteListHeader extends React.Component
+class TripListHeader extends React.Component
   render: ->
     <div className="route-list-header route-stop row padding-vertical-small">
       <div className="columns small-3 route-stop-now">
-        <FormattedMessage id='right-now' defaultMessage='Right now' />
+        <FormattedMessage id='time' defaultMessage='Time' />
       </div>
-      <div className="columns small-6 route-stop-name">
+      <div className="columns small-7 route-stop-name">
         <FormattedMessage id='stop' defaultMessage='Stop' />
       </div>
       <div className="columns small-2 route-stop-code">
         <FormattedMessage id='stop-number' defaultMessage='Stop number' />
       </div>
-      <div className="columns small-1 route-stop-mins">
-        <FormattedMessage id='minutes' defaultMessage='Minutes' />
-      </div>
     </div>
 
-module.exports = RouteListHeader
+module.exports = TripListHeader

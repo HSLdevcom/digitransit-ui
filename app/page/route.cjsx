@@ -44,10 +44,7 @@ class RoutePage extends React.Component
       <RouteHeaderContainer route={@props.route}/>
       <Tabs className="route-tabs">
         <Tabs.Panel title="Pysäkit">
-          <RouteListHeader
-            headers={["Juuri Nyt", "Pysäkki", "Pysäkkinumero", "Min"]}
-            columnClasses={["small-3 route-stop-now", "small-6 route-stop-name", "small-2 route-stop-code", "small-1 route-stop-mins"]}
-          />
+          <RouteListHeader/>
           <RouteStopListContainer route={@props.route}/>
         </Tabs.Panel>
         <Tabs.Panel title="Kartta" className="fullscreen">

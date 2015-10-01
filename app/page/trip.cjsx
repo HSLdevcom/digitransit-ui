@@ -4,10 +4,11 @@ queries                = require '../queries'
 DefaultNavigation      = require '../component/navigation/default-navigation'
 RouteHeaderContainer   = require '../component/route/route-header-container'
 RouteStopListContainer = require '../component/route/route-stop-list-container'
-RouteListHeader             = require '../component/route/route-list-header'
+TripListHeader         = require '../component/trip/trip-list-header'
 TripStopListContainer  = require '../component/trip/trip-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
+FormattedMessage       = require('react-intl').FormattedMessage
 
 class TripPage extends React.Component
   @contextTypes:
@@ -52,10 +53,7 @@ class TripPage extends React.Component
     <DefaultNavigation className="fullscreen trip">
       <RouteHeaderContainer className="trip-header" route={@props.trip.pattern} trip={trip}/>
       <RouteMapContainer className="map-small" route={@props.trip.pattern} trip={trip} tripId={@props.trip.gtfsId}/>
-      <RouteListHeader
-        headers={["Aika", "Pysäkki", "Pysäkkinumero"]}
-        columnClasses={["small-3 route-stop-now", "small-7 route-stop-name", "small-2 route-stop-code"]}
-       />
+      <TripListHeader/>
       <TripStopListContainer className="below-map" trip={@props.trip}/>
     </DefaultNavigation>
 
