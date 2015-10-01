@@ -1,7 +1,7 @@
 import Relay from 'react-relay';
 
 var StopQueries = {
-  stop: (Component) => Relay.QL`
+  stop: () => Relay.QL`
     query  {
       stop(id: $stopId)
     }
@@ -9,25 +9,33 @@ var StopQueries = {
 };
 
 var RouteQueries = {
-  route: (Component) => Relay.QL`
+  pattern: () => Relay.QL`
     query {
       pattern(id: $routeId)
     }
   `,
 };
 
+var TripQueries = {
+  trip: () => Relay.QL`
+    query {
+      trip(id: $tripId)
+    }
+  `,
+};
+
 var RoutePageFragments = {
-  route: () => Relay.QL`
+  pattern: () => Relay.QL`
     fragment on Pattern {
-      ${require('./component/route/route-header-container').getFragment('route')}
-      ${require('./component/route/route-map-container').getFragment('route')}
-      ${require('./component/route/route-stop-list-container').getFragment('route')}
+      ${require('./component/route/route-header-container').getFragment('pattern')}
+      ${require('./component/route/route-map-container').getFragment('pattern')}
+      ${require('./component/route/route-stop-list-container').getFragment('pattern')}
     }
   `,
 };
 
 var RouteHeaderFragments = {
-  route: () => Relay.QL`
+  pattern: () => Relay.QL`
     fragment on Pattern {
       code
       headsign
@@ -48,7 +56,7 @@ var RouteHeaderFragments = {
 };
 
 var RouteStopListFragments = {
-  route: () => Relay.QL`
+  pattern: () => Relay.QL`
     fragment on Pattern {
       route {
         type
@@ -64,7 +72,7 @@ var RouteStopListFragments = {
 };
 
 var RouteMapFragments = {
-  route: () => Relay.QL`
+  pattern: () => Relay.QL`
     fragment on Pattern {
       geometry {
         lat
@@ -234,7 +242,43 @@ var DepartureListFragments = {
   `,
 }
 
-class RouteMarkerPopupRoute extends Relay.Route {
+var TripPageFragments = {
+  trip: () => Relay.QL`
+    fragment on Trip {
+      pattern {
+        code
+        ${require('./component/route/route-header-container').getFragment('pattern')}
+        ${require('./component/route/route-map-container').getFragment('pattern')}
+      }
+      stoptimes {
+        scheduledDeparture
+      }
+      gtfsId
+      ${require('./component/trip/trip-stop-list-container').getFragment('trip')}
+    }
+  `,
+}
+var TripStopListFragments = {
+  trip: () => Relay.QL`
+    fragment on Trip {
+      route {
+        type
+      }
+      stoptimes	{
+        stop{
+          gtfsId
+          name
+          desc
+          code
+        }
+        realtimeDeparture
+        realtime
+      }
+    }
+  `,
+};
+
+class FuzzyTripRoute extends Relay.Route {
   static queries = {
     trip: (Component, variables) => Relay.QL`
       query {
@@ -255,7 +299,20 @@ class RouteMarkerPopupRoute extends Relay.Route {
     time: {required: true},
     date: {required: true},
   }
-  static routeName = 'RouteMarkerPopupRoute'
+  static routeName = 'FuzzyTripRoute'
+}
+
+var TripLinkFragments = {
+  trip: () => Relay.QL`
+    fragment on QueryType {
+      fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
+        gtfsId
+        route	{
+          type
+        }
+      }
+    }
+  `,
 }
 
 var RouteMarkerPopupFragments = {
@@ -304,10 +361,12 @@ var DisruptionRowFragments = {
 module.exports = {
   StopQueries: StopQueries,
   RouteQueries: RouteQueries,
+  TripQueries: TripQueries,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
   RouteMapFragments: RouteMapFragments,
+  TripStopListFragments: TripStopListFragments,
   StopListContainerRoute: StopListContainerRoute,
   StopListContainerFragments: StopListContainerFragments,
   StopPageFragments: StopPageFragments,
@@ -316,7 +375,9 @@ module.exports = {
   StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
   DepartureListFragments: DepartureListFragments,
-  RouteMarkerPopupRoute: RouteMarkerPopupRoute,
+  TripPageFragments: TripPageFragments,
+  FuzzyTripRoute: FuzzyTripRoute,
+  TripLinkFragments: TripLinkFragments,
   RouteMarkerPopupFragments: RouteMarkerPopupFragments,
   DisruptionRowRoute: DisruptionRowRoute,
   DisruptionRowFragments: DisruptionRowFragments,

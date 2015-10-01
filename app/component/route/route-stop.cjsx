@@ -1,22 +1,23 @@
 React                 = require 'react'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
 Link                  = require 'react-router/lib/Link'
-Icon                  = require '../icon/icon'
-cx                    = require 'classnames'
+TripLink              = require '../trip/trip-link'
 
 class RouteStop extends React.Component
+
   render: ->
     vehicles = []
     if @props.vehicles
       for vehicle in @props.vehicles
-        if vehicle.trip
-          vehicles.push <div className="route-now-content">
-                          <Link key={vehicle.id} to="#{process.env.ROOT_PATH}lahdot/#{vehicle.trip.id}">
-                            <Icon className={cx vehicle.mode, 'large-icon'} img={'icon-icon_' + vehicle.mode + '-live'}/>
-                          </Link>
-                        </div>
-        else vehicles.push  <div className="route-now-content">
-                              <Icon key={vehicle.id} className={cx @props.mode, 'large-icon'} img={'icon-icon_' + @props.mode + '-live'}/>
-                            </div>
+        vehicles.push <Relay.RootContainer
+          Component={TripLink}
+          route={new queries.FuzzyTripRoute(
+            route: vehicle.route
+            direction: vehicle.direction
+            date: vehicle.operatingDay
+            time: vehicle.tripStartTime.substring(0, 2) * 60 * 60 + vehicle.tripStartTime.substring(2, 4) * 60
+          )}/>
 
     <div className="route-stop row">
       <div className="columns small-3 route-stop-now">

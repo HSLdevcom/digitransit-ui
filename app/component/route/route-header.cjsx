@@ -2,24 +2,27 @@ React                 = require 'react'
 Icon                  = require '../icon/icon'
 GtfsUtils             = require '../../util/gtfs'
 Link                  = require 'react-router/lib/Link'
-
+classnames            = require 'classnames'
 
 class RouteHeader extends React.Component
   render: =>
     mode = @props.route.type.toLowerCase()
     trip = if @props.trip then <span className="route-header-trip">{@props.trip.substring(0,2)}:{@props.trip.substring(2,4)} →</span> else ""
-    if @props.reverseId
+    headerText = if !@props.trip then <div className="route-header-name">{@props.route.longName}</div>
+    routeLineText = " " + (@props.route.shortName or "")
+    routeLine = if @props.trip then <Link to="#{process.env.ROOT_PATH}linjat/#{@props.pattern.code}">{routeLineText}</Link> else routeLineText
+    if @props.reverseId && !@props.trip
       reverse = <Link to="#{process.env.ROOT_PATH}linjat/#{@props.reverseId}">
           <Icon className={"route-header-direction-switch " + mode} img={'icon-icon_direction-b'}/>
         </Link>
 
-    <div className="route-header">
+    <div className={classnames "route-header", @props.className}>
       <h1 className={mode}>
         <Icon img={'icon-icon_' + mode}/>
-        {" " + (@props.route.shortName or "")}
+        {routeLine}
         {trip}
       </h1>
-      <div className="route-header-name">{@props.route.longName}</div>
+      {headerText}
       <div className="route-header-direction">
         {if @props.pattern then (@props.pattern.stops[0].name + " ") else " "}
         <Icon className={mode} img={'icon-icon_arrow-right'}/>
