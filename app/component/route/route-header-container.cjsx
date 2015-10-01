@@ -31,7 +31,6 @@ class RouteHeaderContainer extends React.Component
     if reverseIds.length == 1
       reverseId = reverseIds[0]
 
-    #TODO: all of trips should be reanmed pattern
     <RouteHeader
       className={@props.className}
       key={@props.pattern.code}
