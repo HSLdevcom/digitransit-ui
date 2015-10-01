@@ -247,8 +247,8 @@ var TripPageFragments = {
     fragment on Trip {
       pattern {
         code
-        ${require('./component/route/route-header-container').getFragment('route')}
-        ${require('./component/route/route-map-container').getFragment('route')}
+        ${require('./component/route/route-header-container').getFragment('pattern')}
+        ${require('./component/route/route-map-container').getFragment('pattern')}
       }
       stoptimes {
         scheduledDeparture
