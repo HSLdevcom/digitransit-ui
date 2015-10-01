@@ -1,6 +1,7 @@
 React                 = require 'react'
 Link                  = require 'react-router/lib/Link'
 Icon                  = require '../icon/icon'
+cx                    = require 'classnames'
 
 class RouteStop extends React.Component
   render: ->
@@ -8,10 +9,14 @@ class RouteStop extends React.Component
     if @props.vehicles
       for vehicle in @props.vehicles
         if vehicle.trip
-          vehicles.push <Link key={vehicle.id} to="#{process.env.ROOT_PATH}lahdot/#{vehicle.trip.id}">
-              <Icon className={vehicle.mode} img={'icon-icon_' + vehicle.mode}/>
-            </Link>
-        else vehicles.push <Icon key={vehicle.id} className={@props.mode} img={'icon-icon_' + @props.mode}/>
+          vehicles.push <div className="route-now-content">
+                          <Link key={vehicle.id} to="#{process.env.ROOT_PATH}lahdot/#{vehicle.trip.id}">
+                            <Icon className={cx vehicle.mode, 'large-icon'} img={'icon-icon_' + vehicle.mode + '-live'}/>
+                          </Link>
+                        </div>
+        else vehicles.push  <div className="route-now-content">
+                              <Icon key={vehicle.id} className={cx @props.mode, 'large-icon'} img={'icon-icon_' + @props.mode + '-live'}/>
+                            </div>
 
     <div className="route-stop row">
       <div className="columns small-3 route-stop-now">

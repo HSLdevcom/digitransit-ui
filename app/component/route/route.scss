@@ -95,6 +95,9 @@ div.route-stop-list {
   }
   .route-stop-now {
     min-height: 1px; //Prevent columns from collapsing
+    .route-now-content  {
+      padding-top: 10px;
+    }
   }
   .route-stop-name {
     margin-left: -1em;

@@ -19,7 +19,7 @@ class Application extends React.Component
       <style dangerouslySetInnerHTML={ __html: @props.css }/>
     </head>
     <body>
-        <div style={{display: "none"}} dangerouslySetInnerHTML={ __html: @props.svgSprite }/>
+        <div style={{visibility: "hidden"}} dangerouslySetInnerHTML={ __html: @props.svgSprite }/>
         <div id="app" style={{height: "100%"}} dangerouslySetInnerHTML={ __html: @props.content } ></div>
         <script dangerouslySetInnerHTML={ __html: @props.polyfill }/>
         <script dangerouslySetInnerHTML={ __html: @props.state }/>
