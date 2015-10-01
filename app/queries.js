@@ -36,6 +36,47 @@ class RouteListContainerRoute extends Relay.Route {
   static routeName = 'RouteListContainerRoute'
 }
 
+var RouteListContainerFragments = {
+  stops: () => Relay.QL`
+    fragment on QueryType {
+      stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
+        edges {
+          node {
+            stop {
+              gtfsId
+	      name
+	      code
+	      desc
+	      stoptimesForPatterns (numberOfDepartures:1) {
+		pattern {
+		  code
+		  headsign
+		  name
+		  route {
+		    type
+		    shortName
+		    longName
+		  }
+		}
+		stoptimes {
+		  realtime
+		  realtimeDeparture
+		  serviceDay
+		}
+	      }
+            }
+            distance
+          }
+        }
+        pageInfo {
+          hasNextPage
+	  endCursor
+        }
+      }
+    }
+  `,
+};
+
 var RoutePageFragments = {
   route: () => Relay.QL`
     fragment on Pattern {
@@ -325,6 +366,7 @@ module.exports = {
   StopQueries: StopQueries,
   RouteQueries: RouteQueries,
   RouteListContainerRoute: RouteListContainerRoute,
+  RouteListContainerFragments: RouteListContainerFragments,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
