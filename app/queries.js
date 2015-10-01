@@ -131,18 +131,17 @@ class FavouriteStopListContainerRoute extends Relay.Route {
   static queries = {
       stops: (Component, variables) => Relay.QL`
       query {
-  viewer {
-    ${Component.getFragment('stops', {
-      ids: variables.ids,
-    })}
-}
-}
-`,
-}
-static paramDefinitions = {
-  ids: {required: true},
-}
-static routeName = 'FavouriteStopListContainerRoute'
+        viewer {
+          ${Component.getFragment('stops', {
+          ids: variables.ids,
+        })}
+      }
+    }`,
+  }
+  static paramDefinitions = {
+    ids: {required: true},
+  }
+  static routeName = 'FavouriteStopListContainerRoute'
 }
 
 var FavouriteStopListContainerFragments = {
@@ -152,13 +151,9 @@ var FavouriteStopListContainerFragments = {
           gtfsId
           ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
           ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
-  }
-
-
-
-
-}
-`,
+        }
+      }
+    `,
 };
 
 
