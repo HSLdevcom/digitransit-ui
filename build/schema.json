@@ -83,7 +83,22 @@
                     {
                         "name": "stops",
                         "description": "Get all stops for the specified graph",
-                        "args": [],
+                        "args": [
+                            {
+                                "name": "ids",
+                                "description": null,
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            }
+                        ],
                         "type": {
                             "kind": "LIST",
                             "name": null,
@@ -192,7 +207,7 @@
                                 "description": "Radius (in meters) to search for from the specidied location",
                                 "type": {
                                     "kind": "SCALAR",
-                                    "name": "Float",
+                                    "name": "Int",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -1140,7 +1155,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "OBJECT",
-                                "name": "coordinates",
+                                "name": "Coordinates",
                                 "ofType": null
                             }
                         },
@@ -1404,6 +1419,33 @@
                         "name": "stoptimes",
                         "description": null,
                         "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stoptime",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "stoptimesForDate",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "serviceDay",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
                         "type": {
                             "kind": "LIST",
                             "name": null,
@@ -2062,7 +2104,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "Float",
+                            "name": "Int",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -2278,7 +2320,7 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "coordinates",
+                "name": "Coordinates",
                 "description": null,
                 "fields": [
                     {
