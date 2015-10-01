@@ -16,6 +16,26 @@ var RouteQueries = {
   `,
 };
 
+class RouteListContainerRoute extends Relay.Route {
+  static queries = {
+    stops: (Component, variables) => Relay.QL`
+      query {
+        viewer {
+          ${Component.getFragment('stops', {
+            lat: variables.lat,
+            lon: variables.lon,
+          })}
+        }
+      }
+    `,
+  }
+  static paramDefinitions = {
+    lat: {required: true},
+    lon: {required: true},
+  }
+  static routeName = 'RouteListContainerRoute'
+}
+
 var RoutePageFragments = {
   route: () => Relay.QL`
     fragment on Pattern {
@@ -304,6 +324,7 @@ var DisruptionRowFragments = {
 module.exports = {
   StopQueries: StopQueries,
   RouteQueries: RouteQueries,
+  RouteListContainerRoute: RouteListContainerRoute,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
