@@ -10,15 +10,14 @@ class RouteStop extends React.Component
     vehicles = []
     if @props.vehicles
       for vehicle in @props.vehicles
-          vehicles.push <Relay.RootContainer
-            Component={TripLink}
-            route={new queries.FuzzyTripRoute(
-              route: vehicle.route
-              direction: vehicle.direction
-              date: vehicle.operatingDay
-              time: vehicle.tripStartTime.substring(0,2) * 60 * 60 + vehicle.tripStartTime.substring(2,4) * 60
-            )}/>
-
+        vehicles.push <Relay.RootContainer
+          Component={TripLink}
+          route={new queries.FuzzyTripRoute(
+            route: vehicle.route
+            direction: vehicle.direction
+            date: vehicle.operatingDay
+            time: vehicle.tripStartTime.substring(0, 2) * 60 * 60 + vehicle.tripStartTime.substring(2, 4) * 60
+          )}/>
 
     <div className="route-stop row">
       <div className="columns small-3 route-stop-now">

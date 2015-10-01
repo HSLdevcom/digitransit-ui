@@ -24,11 +24,11 @@ class VehicleMarkerContainer extends React.Component
     history: React.PropTypes.object.isRequired
 
   @vehicleIcons: if !isBrowser then null else
-    bus: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_bus')), className: 'vehicle-icon bus', iconSize: [18, 18], iconAnchor: [9, 9])
-    tram: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_tram')), className: 'vehicle-icon tram', iconSize: [18, 18], iconAnchor: [9, 9])
-    rail: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_rail')), className: 'vehicle-icon rail', iconSize: [18, 18], iconAnchor: [9, 9])
-    subway: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_subway')), className: 'vehicle-icon subway', iconSize: [18, 18], iconAnchor: [9, 9])
-    ferry: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_ferry')), className: 'vehicle-icon ferry', iconSize: [18, 18], iconAnchor: [9, 9])
+    bus: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_bus-live')), className: 'vehicle-icon bus', iconSize: [20, 20], iconAnchor: [10, 10])
+    tram: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_tram-live')), className: 'vehicle-icon tram', iconSize: [20, 20], iconAnchor: [10, 10])
+    rail: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_rail-live')), className: 'vehicle-icon rail', iconSize: [20, 20], iconAnchor: [10, 10])
+    subway: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_subway-live')), className: 'vehicle-icon subway', iconSize: [20, 20], iconAnchor: [10, 10])
+    ferry: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_ferry-live')), className: 'vehicle-icon ferry', iconSize: [20, 20], iconAnchor: [10, 10])
 
   constructor: () ->
     @vehicles = {}

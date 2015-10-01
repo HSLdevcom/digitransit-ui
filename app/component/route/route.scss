@@ -72,6 +72,9 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
   position:relative;
   div {
     min-height: 1px;
+    .route-now-content {
+      padding-top: 10px;
+    }
   }
 }
 .columns.route-stop-time {
@@ -101,7 +104,7 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
   svg {
     position: absolute;
     top: -40px;
-    right: -20px;
+    right: -22px;
     z-index: 1;
   }
 }

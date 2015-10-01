@@ -4,6 +4,7 @@ Icon            = require '../icon/icon'
 classnames      = require 'classnames'
 TripLink        = require '../trip/trip-link'
 moment          = require 'moment'
+cx              = require 'classnames'
 
 class TripRouteStop extends React.Component
   renderTime: (realtimeDeparture, currentTimeFromMidnight, realtime) ->
@@ -15,7 +16,11 @@ class TripRouteStop extends React.Component
   render: ->
     vehicles = []
     if @props.vehicle
-      vehicles.push <Icon id="now" key={@props.vehicle.id} className={@props.mode} img={'icon-icon_' + @props.mode}/>
+      vehicles.push <Icon id="now"
+                          key={@props.vehicle.id}
+                          className={cx @props.mode, 'large-icon'}
+                          img={"icon-icon_#{@props.mode}-live"}
+        />
 
     stopPassed =
       passed: !@props.stopPassed

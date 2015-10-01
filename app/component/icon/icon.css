@@ -5,49 +5,52 @@
 	fill: currentColor;
 }
 
-/* ================================================================================
+/* =======================================================================================
 Example showing how to change the color/size of the icons:
 .icon-name {
 	font-size: 32px; // works because "width" & "height" were set using em units
-	color: red; // works because "fill" was set to "currentColor"
+	color: red; // works for single-colored icons, because "fill" was set to "currentColor"
 }
-================================================================================ */
-
-#icon-icon_bus .path1 {
-	fill: rgb(255, 255, 255);
+======================================================================================== */
+.fill-color1 {
+	fill: #000;
 }
-#icon-icon_bus .path2 {
-	fill: currentColor;
+.fill-color2 {
+	fill: #333;
 }
-
-#icon-icon_ferry .path1 {
-	fill: rgb(255, 255, 255);
+.fill-color3 {
+	fill: #007247;
 }
-#icon-icon_ferry .path2 {
-	fill: currentColor;
+.fill-color4 {
+	fill: #005c97;
 }
-
+.fill-color5 {
+	fill: #00985f;
+}
+.fill-color6 {
+	fill: #693573;
+}
+.fill-color7 {
+	fill: #008bab;
+}
+.fill-color8 {
+	fill: #007ac9;
+}
+.fill-color9 {
+	fill: #bf4a13;
+}
+.fill-color10 {
+	fill: #8c4799;
+}
+.fill-color11 {
+	fill: #00b9e4;
+}
+.fill-color12 {
+	fill: #ff6319;
+}
+.fill-color13 {
+	fill: #fff;
+}
 #icon-icon_mapMarker-location .path4 {
 	fill: rgb(0, 185, 228);
-}
-
-#icon-icon_rail .path1 {
-	fill: rgb(255, 255, 255);
-}
-#icon-icon_rail .path2 {
-	fill: currentColor;
-}
-
-#icon-icon_subway .path1 {
-	fill: rgb(255, 255, 255);
-}
-#icon-icon_subway .path2 {
-	fill: currentColor;
-}
-
-#icon-icon_tram .path1 {
-	fill: rgb(255, 255, 255);
-}
-#icon-icon_tram .path2 {
-	fill: currentColor;
 }

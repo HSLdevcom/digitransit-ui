@@ -3,13 +3,19 @@ Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Link                  = require 'react-router/lib/Link'
 Icon                  = require '../icon/icon'
+cx                    = require 'classnames'
 
 class TripLink extends React.Component
 
   render: ->
-    <Link key={@props.trip.fuzzyTrip.gtfsId} to="#{process.env.ROOT_PATH}lahdot/#{@props.trip.fuzzyTrip.gtfsId}">
-      <Icon className={@props.trip.fuzzyTrip.route.type.toLowerCase()} img={'icon-icon_' + @props.trip.fuzzyTrip.route.type.toLowerCase()}/>
-    </Link>
+    <div className="route-now-content">
+      <Link key={@props.trip.fuzzyTrip.gtfsId} to="#{process.env.ROOT_PATH}lahdot/#{@props.trip.fuzzyTrip.gtfsId}">
+        <Icon className={cx @props.trip.fuzzyTrip.route.type.toLowerCase(), 'large-icon'}
+              img={'icon-icon_' + @props.trip.fuzzyTrip.route.type.toLowerCase() + '-live'}
+        />
+      </Link>
+    </div>
+
 
 module.exports = Relay.createContainer(TripLink,
   fragments: queries.TripLinkFragments
