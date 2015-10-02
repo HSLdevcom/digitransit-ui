@@ -14,6 +14,7 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
   font-family: $font-family-narrow;
   line-height: $line-height-normal;
   height: $route-list-header-height;
+  overflow: hidden;
   div {
     color: $black;
     font-size: $font-size-small;
