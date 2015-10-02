@@ -14,7 +14,7 @@ class StopCardList extends React.Component
       </div>
       <div className="row">
         <div className="small-10 small-offset-1 medium-6 medium-offset-3 columns">
-          <button className="show-more" onClick=@props.addStops>
+          <button className="show-more cursor-pointer" onClick=@props.addStops>
             <FormattedMessage id="show-more" defaultMessage="Show more" />
           </button>
         </div>
