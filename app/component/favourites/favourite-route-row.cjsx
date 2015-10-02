@@ -11,7 +11,6 @@ class FavouriteRouteRow extends React.Component
 
   render: =>
     className = @props.route.type.toLowerCase()
-    console.log("rendering",@props.route)
     <div key={@props.route.gtfsId} className="small-12 medium-6 large-4 columns">
         <div className="card padding-small cursor-pointer">
           <p className="transport route-detail-text no-padding no-margin">
