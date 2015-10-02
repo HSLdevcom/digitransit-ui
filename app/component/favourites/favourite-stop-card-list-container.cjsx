@@ -17,7 +17,6 @@ class FavouriteStopCardListContainer extends React.Component
   getStopCards: =>
     stopCards = []
     for stop in @props.stops.stops
-      console.log stop
       stopCards.push <StopCardContainer key={stop.gtfsId} stop={{stop:stop}} departures=DEPARTURES_COUNT />
     stopCards
 

@@ -367,23 +367,32 @@ var RouteMarkerPopupFragments = {
   `,
 }
 
-
-class FavouriteRowRoute extends Relay.Route {
+class FavouriteRouteRowRoute extends Relay.Route {
   static queries = {
-      routes: () => Relay.QL`query { routes(ids: $ids) }`,
+      routes: (Component, variables) => Relay.QL`
+        query {
+          viewer {
+            ${Component.getFragment('routes', {
+              ids: variables.ids
+            })}
+          }}`,
   }
   static paramDefinitions = {
     ids: {required: true},
   }
-  static routeName = 'FavouriteRowRoute' 
+  static routeName = 'FavouriteRouteRowRoute'
 }
 
 var FavouriteRouteRowFragments = {
     routes: () => Relay.QL`
-      fragment on Route @relay(plural:true) {
-        gtfsId
-        type
-        shortName
+      fragment on QueryType {
+        routes(ids: $ids) {
+          gtfsId
+          shortName
+          longName
+          type
+          color
+        }
       }
    `,
 };
@@ -421,6 +430,8 @@ module.exports = {
   NearStopListContainerFragments: NearStopListContainerFragments,
   FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,
   FavouriteStopListContainerRoute: FavouriteStopListContainerRoute,
+  FavouriteRouteRowRoute:FavouriteRouteRowRoute,
+  FavouriteRouteRowFragments:FavouriteRouteRowFragments,
   StopPageFragments: StopPageFragments,
   StopMarkerContainerRoute: StopMarkerContainerRoute,
   StopMarkerContainerFragments: StopMarkerContainerFragments,

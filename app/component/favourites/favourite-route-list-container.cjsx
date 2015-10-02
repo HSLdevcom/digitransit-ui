@@ -1,33 +1,29 @@
 React             = require 'react'
 Relay             = require 'react-relay'
 queries           = require '../../queries'
-StopCardContainer = require '../stop-cards/stop-card-container'
-StopCardList      = require '../stop-cards/stop-card-list'
+FavouriteRouteRow = require './favourite-route-row'
 config            = require '../../config'
 
-STOP_COUNT = 5
-DEPARTURES_COUNT = 5
-
-class FavouriteStopCardListContainer extends React.Component
+class FavouriteRouteListContainer extends React.Component
 
   proptypes: {
-    stops: React.PropTypes.any.isRequired
+    routes: React.PropTypes.array
   }
 
-  getStopCards: =>
-    stopCards = []
-    for stop in @props.stops.stops
-      console.log stop
-      stopCards.push <StopCardContainer key={stop.gtfsId} stop={{stop:stop}} departures=DEPARTURES_COUNT />
-    stopCards
+  getRoutes: =>
+    routes = []
+    for route in @props.routes.routes
+      console.log("adding", route)
+      routes.push <FavouriteRouteRow key={route.gtfsId} route={route}></FavouriteRouteRow>
+    routes
 
   render: =>
-    <StopCardList addStops=false>
-    	{@getStopCards()}
-    </StopCardList>
+    <div>
+      {@getRoutes()}
+    </div>
 
-module.exports = Relay.createContainer(FavouriteStopCardListContainer,
-  fragments: queries.FavouriteStopListContainerFragments
+module.exports = Relay.createContainer(FavouriteRouteListContainer,
+  fragments: queries.FavouriteRouteRowFragments
   initialVariables:
     ids: null
 )

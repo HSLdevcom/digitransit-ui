@@ -2,12 +2,12 @@ React                           = require 'react'
 Relay                           = require 'react-relay'
 NoFavouritesPanel               = require './no-favourites-panel'
 FavouriteStopCardListContainer  = require './favourite-stop-card-list-container'
+FavouriteRouteListContainer     = require './favourite-route-list-container'
 queries                         = require '../../queries'
 
 class FavouritesPanel extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
 
   getFavouriteStopContainer: (ids) =>
     <Relay.RootContainer
@@ -20,15 +20,14 @@ class FavouritesPanel extends React.Component
     />
 
   getFavouriteRouteContainer: (ids) =>
-    <div>{JSON.stringify ids}</div>
-#    <Relay.RootContainer
-#      Component={FavouriteStopCardListContainer}
-#      route={new queries.FavouriteStopListContainerRoute({
-#        ids: ids
-#        })}
-#      renderLoading={-> <div className="spinner-loader"/>}
-#      }
-#    />
+    <Relay.RootContainer
+      Component={FavouriteRouteListContainer}
+      route={new queries.FavouriteRouteRowRoute({
+        ids: ids
+        })}
+      renderLoading={-> <div className="spinner-loader"/>}
+      }
+    />
 
   getFavourites: (stops, routes) =>
     c=[]
@@ -47,7 +46,7 @@ class FavouritesPanel extends React.Component
       <NoFavouritesPanel/>
     else
       <div>
-        {@getFavourites(stops, routes)}
+      {@getFavourites(stops, routes)}
       </div>
 
 module.exports = FavouritesPanel
