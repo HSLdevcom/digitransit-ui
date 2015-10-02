@@ -3,9 +3,7 @@ Relay             = require 'react-relay'
 queries           = require '../../queries'
 StopCardContainer = require '../stop-cards/stop-card-container'
 StopCardList      = require '../stop-cards/stop-card-list'
-config            = require '../../config'
 
-STOP_COUNT = 5
 DEPARTURES_COUNT = 5
 
 class FavouriteStopCardListContainer extends React.Component
