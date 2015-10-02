@@ -8,6 +8,7 @@ RouteHeaderContainer   = require '../component/route/route-header-container'
 RouteStopListContainer = require '../component/route/route-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
+FormattedMessage       = require('react-intl').FormattedMessage
 
 class RoutePage extends React.Component
   @contextTypes:
@@ -43,14 +44,14 @@ class RoutePage extends React.Component
     <DefaultNavigation className="fullscreen">
       <RouteHeaderContainer pattern={@props.pattern}/>
       <Tabs className="route-tabs">
-        <Tabs.Panel title="Pysäkit">
+        <Tabs.Panel title={<FormattedMessage id='stops' defaultMessage='Stops' />}>
           <RouteListHeader/>
           <RouteStopListContainer pattern={@props.pattern}/>
         </Tabs.Panel>
-        <Tabs.Panel title="Kartta" className="fullscreen">
+        <Tabs.Panel title={<FormattedMessage id='map' defaultMessage='Map' />} className="fullscreen">
           <RouteMapContainer pattern={@props.pattern} className="fullscreen"/>
         </Tabs.Panel>
-        <Tabs.Panel title="Aikataulut">
+        <Tabs.Panel title={<FormattedMessage id='timetable' defaultMessage='Timetable' />}>
           <div>Aikataulut tähän</div>
         </Tabs.Panel>
       </Tabs>
