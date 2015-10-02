@@ -19,60 +19,40 @@ class Autosuggest extends React.Component
       when 'venue'
         "#{suggestion.name}, #{suggestion.locality}"
       else
-        suggestion.label
+        "#{suggestion.label}"
+
+  getIcon: (layer) ->
+    switch layer
+      when 'address'
+        <Icon img="icon-icon_place"/>
+      when 'stop'
+        <Icon img="icon-icon_bus-stop"/>
+      when 'locality'
+        <Icon img="icon-icon_city"/>
+      when 'localadmin'
+        <Icon img="icon-icon_city"/>
+      when 'neighbourhood'
+        <Icon img="icon-icon_city"/>
+      else
+        <Icon img="icon-icon_place"/>
 
   getSuggestions: (input, callback) ->
-    XhrPromise.getJson(config.URL.PELIAS, text: input)
-      .then (res) -> callback null, res.features
+    XhrPromise.getJson(config.URL.PELIAS, text: input).then (res) -> callback null, res.features
 
   renderSuggestions: (suggestion, input) =>
-    value = @getName suggestion.properties
-    firstMatchIndex = value.toLowerCase().indexOf(input.toLowerCase())
-    lastMatchIndex = firstMatchIndex + input.length
-
-    switch suggestion.properties.layer
-      when 'address'
-        icon = <Icon img="icon-icon_place"/>
-      when 'stop'
-        icon = <Icon img="icon-icon_bus-stop"/>
-      when 'locality'
-        icon = <Icon img="icon-icon_city"/>
-      when 'localadmin'
-        icon = <Icon img="icon-icon_city"/>
-      when 'neighbourhood'
-        icon = <Icon img="icon-icon_city"/>
-      else
-        icon = "*"
-
-    # suggestion can match even if input text is not visible
-    if firstMatchIndex == -1
-      return (
-        <span>
-          {icon}
-          {value}
-        </span>
-      )
-
-    beforeMatch = value.slice(0, firstMatchIndex)
-    match = value.slice(firstMatchIndex, lastMatchIndex)
-    afterMatch = value.slice(lastMatchIndex, value.length)
-    return (
-      <span id={value}>
-        {icon}
-        {beforeMatch}
-        <strong>{match}</strong>
-        {afterMatch}
+    return <span>
+        {@getIcon suggestion.properties.layer}
+        {@getName suggestion.properties}
       </span>
-    )
 
   suggestionValue: (suggestion) =>
     @getName suggestion.properties
 
   onSuggestionSelected: (suggestion, event) =>
     event.preventDefault()
-    @props.onSelection(suggestion.geometry.coordinates[1],
+    @props.onSelection suggestion.geometry.coordinates[1],
                        suggestion.geometry.coordinates[0],
-                       @getName suggestion.properties)
+                       @getName suggestion.properties
 
   # Happens when user presses enter without selecting anything from autosuggest
   onSubmit: (e) =>
