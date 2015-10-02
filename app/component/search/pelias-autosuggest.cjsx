@@ -37,7 +37,9 @@ class Autosuggest extends React.Component
         <Icon img="icon-icon_place"/>
 
   getSuggestions: (input, callback) ->
-    XhrPromise.getJson(config.URL.PELIAS, text: input).then (res) -> callback null, res.features
+    opts = Object.assign(text: input, config.searchParams)
+
+    XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> callback null, res.features
 
   renderSuggestions: (suggestion, input) =>
     return <span>

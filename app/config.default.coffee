@@ -10,3 +10,4 @@ module.exports =
     PELIAS: 'http://digitransit.fi/pelias/v1/autocomplete'
   cities: []
   title: 'Digitransit'
+  searchParams: {}
