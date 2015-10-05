@@ -13,7 +13,7 @@ class NoLocationPanel extends React.Component
         Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.
       </p>
 
-      <p className="locate-yourself large-text" onClick={this.locateUser}>
+      <p className="locate-yourself large-text cursor-pointer" onClick={@locateUser}>
         <Icon img={'icon-icon_mapMarker-location'}/> <a className="dashed-underline">Paikanna itsesi</a>
       </p>
 

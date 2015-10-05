@@ -106,7 +106,7 @@ class FrontpageTabs extends React.Component
 
     <div className="frontpage-panel-container">
       {panel}
-      <ul className='tabs-row tabs-arrow-up'>
+      <ul className='tabs-row tabs-arrow-up cursor-pointer'>
         <li className={classnames (tabClasses[1]), 'small-4', 'h4', 'hover'}
              onClick={=> @selectPanel(1)}>
           <Icon className="prefix-icon" img="icon-icon_bus-withoutBox"/>
