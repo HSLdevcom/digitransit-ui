@@ -13,6 +13,7 @@ class FavouritesPanel extends React.Component
 
   getFavouriteStopContainer: (ids) =>
     <Relay.RootContainer
+      key="fav-tops"
       Component={FavouriteStopCardListContainer}
       route={new queries.FavouriteStopListContainerRoute({
         ids: ids
@@ -23,6 +24,7 @@ class FavouritesPanel extends React.Component
 
   getFavouriteRouteContainer: (ids) =>
     <Relay.RootContainer
+      key="fav-routes"
       Component={FavouriteRoutesContainer}
       route={new queries.FavouriteRouteRowRoute({
         ids: ids
