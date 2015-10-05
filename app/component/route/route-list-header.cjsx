@@ -10,14 +10,14 @@ class RouteListHeader extends React.Component
       <div className="columns small-3 route-stop-now">
         <FormattedMessage id='right-now' defaultMessage='Right now' />
       </div>
-      <div className="columns small-6 route-stop-name">
+      <div className="columns small-5 route-stop-name">
         <FormattedMessage id='stop' defaultMessage='Stop' />
       </div>
-      <div className="columns small-2 route-stop-code">
+      <div className="columns small-3 route-stop-code">
         <FormattedMessage id='stop-number' defaultMessage='Stop number' />
       </div>
       <div className="columns small-1 route-stop-mins">
-        <FormattedMessage id='minutes' defaultMessage='Minutes' />
+        <FormattedMessage id='minutes' defaultMessage='Min' />
       </div>
     </div>
 
