@@ -15,7 +15,6 @@ class Autosuggest extends React.Component
 
   render: ->
     if @usePelias()
-      console.log("Pelias")
       <AutosuggestPelias
         onSelection={@props.onSelection}
         placeholder={@props.placeholder}
@@ -23,7 +22,6 @@ class Autosuggest extends React.Component
         id={@props.id}
         />
     else
-      console.log("tigi")
       <AutosuggestDigitransit
         onSelection={@props.onSelection}
         placeholder={@props.placeholder}
