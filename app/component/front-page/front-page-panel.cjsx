@@ -39,6 +39,7 @@ class FrontpageTabs extends React.Component
   getStopContainer: (lat, lon) =>
     <Relay.RootContainer
       Component={StopCardListContainer}
+      forceFetch={true}
       route={new queries.StopListContainerRoute({
         lat: lat
         lon: lon
@@ -50,6 +51,7 @@ class FrontpageTabs extends React.Component
   getRoutesContainer: (lat, lon) =>
     <Relay.RootContainer
       Component={RouteListContainer}
+      forceFetch={true}
       route={new queries.RouteListContainerRoute({
         lat: lat
         lon: lon
