@@ -17,7 +17,7 @@ class FavouriteRouteListContainer extends React.Component
     routes
 
   render: =>
-    <div>
+    <div className="row">
       {@getRoutes()}
     </div>
 
