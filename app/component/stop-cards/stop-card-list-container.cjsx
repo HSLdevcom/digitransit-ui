@@ -4,6 +4,7 @@ queries           = require '../../queries'
 StopCardContainer = require './stop-card-container'
 StopCardList      = require './stop-card-list'
 config            = require '../../config'
+moment            = require 'moment'
 
 STOP_COUNT = 5
 DEPARTURES_COUNT = 5
@@ -37,4 +38,5 @@ module.exports = Relay.createContainer(StopCardListContainer,
     radius: 2000
     numberOfStops: STOP_COUNT
     agency: config.preferredAgency
+    date: moment().format("YYYYMMDD")
 )

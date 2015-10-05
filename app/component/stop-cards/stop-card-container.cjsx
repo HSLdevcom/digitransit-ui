@@ -29,7 +29,7 @@ class StopCardContainer extends React.Component
       dist={@props.stop.distance}
       favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop.stop.gtfsId)}
       addFavouriteStop={@addFavouriteStop}>
-      <DepartureListContainer rowClasses="no-padding no-margin" showMissingRoutes={false} stop={@props.stop.stop} departures={@props.departures}/>
+      <DepartureListContainer rowClasses="no-padding no-margin" stoptimes={@props.stop.stop.stoptimes} limit={@props.departures}/>
     </StopCard>
 
 module.exports = StopCardContainer

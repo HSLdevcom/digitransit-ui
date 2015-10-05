@@ -4,14 +4,14 @@ React      = require 'react'
 Relay      = require 'react-relay'
 queries    = require '../../queries'
 RouteStop  = require './route-stop'
-Departure  = require '../stop-cards/departure'
+DepartureListContainer = require '../stop-cards/departure-list-container'
 Link       = require 'react-router/lib/Link'
 sortBy     = require 'lodash/collection/sortBy'
 config     = require '../../config'
 moment     = require 'moment'
 classNames = require 'classnames'
 
-STOP_COUNT = 5
+STOP_COUNT = 15 # TODO should handle this for real
 
 class RouteListContainer extends React.Component
   @contextTypes:
@@ -26,32 +26,16 @@ class RouteListContainer extends React.Component
   onRealTimeChange: =>
     @forceUpdate()
 
-  getRoutes: =>
-    currentTime = new Date().getTime() / 1000
-
+  getDepartures: =>
     departures = []
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
-      for departure in stop.stoptimesForPatterns
-        if departure.stoptimes
-          stoptime = departure.stoptimes[0]
-          departure.realtime = stoptime.realtime
-          departure.stoptime = stoptime.serviceDay + stoptime.realtimeDeparture
-          departures.push departure
-
-    departures = sortBy(departures, "stoptime")
-    routeObjs = []
-    for departure in departures
-      id = "#{departure.pattern.code}:#{departure.stoptime}"
-      routeObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.code}" key={id}>
-        <Departure currentTime={currentTime} departure={departure}/>
-      </Link>
-    routeObjs
+      for departure in stop.stoptimes
+        departures.push departure
+    departures
 
   render: =>
-    <div className={classNames("departure-list", @props.className)} onScroll={if @props.infiniteScroll and window? then @scrollHandler else null}>
-      {@getRoutes()}
-    </div>
+    <DepartureListContainer rowClasses="no-padding no-margin" stoptimes={@getDepartures()} limit={STOP_COUNT}/>
 
 module.exports = Relay.createContainer(RouteListContainer,
   fragments: queries.RouteListContainerFragments
@@ -61,4 +45,5 @@ module.exports = Relay.createContainer(RouteListContainer,
     radius: 2000
     numberOfStops: STOP_COUNT
     agency: config.preferredAgency
+    date: moment().format("YYYYMMDD") # TODO check this, what date should be used?
 )

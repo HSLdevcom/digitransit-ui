@@ -18,11 +18,14 @@ class DepartureListContainer extends React.Component
 
   constructor: (props) ->
     @state =
-      departures: Array.prototype.concat.apply([], @getStoptimes props.stop.stopTimes).sort (a, b) ->
-        return a.stoptime - b.stoptime
+      departures: @mergeDepartures [], @asDepartures props.stoptimes
       loading: false
 
-  getStoptimes: (stoptimes) ->
+  mergeDepartures: (oldDepartures, newDepartures) ->
+    Array.prototype.concat.apply(oldDepartures, newDepartures).sort (a, b) ->
+      return a.stoptime - b.stoptime
+
+  asDepartures: (stoptimes) ->
     stoptimes.map (pattern) ->
       pattern.stoptimes.map (stoptime) ->
         stoptime: stoptime.serviceDay + stoptime.realtimeDeparture
@@ -49,12 +52,10 @@ class DepartureListContainer extends React.Component
   componentWillReceiveProps: (newProps) ->
     if newProps.relay.variables.date != @props.relay.variables.date
       @setState
-        departures: Array.prototype.concat.apply(
-          @state.departures, @getStoptimes newProps.stop.stopTimes).sort (a, b) ->
-            return a.stoptime - b.stoptime
+        departures: @mergeDepartures @state.departures, @asDepartures newProps.stoptimes
         loading: false
 
-  getDepartures: (showMissingRoutes, rowClasses) =>
+  getDepartures: (rowClasses) =>
     departureObjs = []
     seenRoutes = []
     disruptionRoutes = @context.getStore('DisruptionStore').getRoutes() or []
@@ -82,11 +83,11 @@ class DepartureListContainer extends React.Component
         else
           departureObjs.push <Departure key={id} departure={departure} currentTime={currentTime} className={classNames(classes)} />
         seenRoutes.push(departure.pattern.route.shortName)
-        if seenRoutes.length >= @props.departures
+        if seenRoutes.length >= @props.limit
           break
 
-    if showMissingRoutes
-      missingRoutes = difference((stop.routes.map (route) -> route.shortName), seenRoutes).sort()
+    if @props.routes
+      missingRoutes = difference(@props.routes, seenRoutes).sort()
       if missingRoutes.length == 0
       else if missingRoutes.length == 1
         departureObjs.push <p key="missingRoutes" className="missing-routes">Lisäksi linja {missingRoutes[0]}</p>
@@ -99,7 +100,7 @@ class DepartureListContainer extends React.Component
   render: =>
     <div className={classNames("departure-list", @props.className)}
          onScroll={if @props.infiniteScroll and window? then @scrollHandler else null}>
-      {@getDepartures(@props.showMissingRoutes, @props.rowClasses)}
+      {@getDepartures(@props.rowClasses)}
     </div>
 
 module.exports = Relay.createContainer(DepartureListContainer,

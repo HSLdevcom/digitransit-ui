@@ -47,22 +47,8 @@ var RouteListContainerFragments = {
 	      name
 	      code
 	      desc
-	      stoptimesForPatterns (numberOfDepartures:1) {
-		pattern {
-		  code
-		  headsign
-		  name
-		  route {
-		    type
-		    shortName
-		    longName
-		  }
-		}
-		stoptimes {
-		  realtime
-		  realtimeDeparture
-		  serviceDay
-		}
+              stoptimes: stoptimesForPatterns(numberOfDepartures:1) {
+		${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
 	      }
             }
             distance
@@ -175,7 +161,9 @@ var StopListContainerFragments = {
             stop {
               gtfsId
               ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-              ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+              stoptimes: stoptimesForServiceDate(date: $date) {
+		 ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
+	      }
             }
             distance
           }
@@ -200,7 +188,9 @@ var StopPageFragments = {
         type
         color
       }
-      ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+      stoptimes: stoptimesForServiceDate(date: $date) {
+	${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
+      }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
@@ -271,25 +261,23 @@ var StopCardHeaderFragments = {
 };
 
 var DepartureListFragments = {
-  stop: () => Relay.QL`
-    fragment on Stop {
-      stopTimes: stoptimesForServiceDate(date: $date) {
-        pattern {
-          route {
-            gtfsId
-            shortName
-            longName
-            type
-            color
-          }
-          code
-          headsign
+  stoptimes: () => Relay.QL`
+    fragment on StoptimesInPattern @relay(plural:true) {
+      pattern {
+        route {
+          gtfsId
+          shortName
+          longName
+          type
+          color
         }
-        stoptimes {
-          realtimeDeparture
-          realtime
-          serviceDay
-        }
+        code
+        headsign
+      }
+      stoptimes {
+        realtimeDeparture
+        realtime
+        serviceDay
       }
     }
   `,
