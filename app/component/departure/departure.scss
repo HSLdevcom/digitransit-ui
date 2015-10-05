@@ -1,0 +1,15 @@
+// departure specific styles
+.transport  {
+  .vehicle-number {
+    width: 2.5em;
+  }
+  .destination  {
+    line-height: $line-height-normal;
+  }
+}
+
+// route-number
+.route-number {
+  vertical-align: top;
+  display: inline-block;
+}
