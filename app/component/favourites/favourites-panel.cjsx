@@ -2,7 +2,7 @@ React                           = require 'react'
 Relay                           = require 'react-relay'
 NoFavouritesPanel               = require './no-favourites-panel'
 FavouriteStopCardListContainer  = require './favourite-stop-card-list-container'
-FavouriteRouteListContainer     = require './favourite-route-list-container'
+FavouriteRoutesContainer     = require './favourite-routes-container'
 queries                         = require '../../queries'
 
 class FavouritesPanel extends React.Component
@@ -23,7 +23,7 @@ class FavouritesPanel extends React.Component
 
   getFavouriteRouteContainer: (ids) =>
     <Relay.RootContainer
-      Component={FavouriteRouteListContainer}
+      Component={FavouriteRoutesContainer}
       route={new queries.FavouriteRouteRowRoute({
         ids: ids
         })}
