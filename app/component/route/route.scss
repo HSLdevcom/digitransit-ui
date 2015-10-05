@@ -19,12 +19,17 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
     color: $black;
     font-size: $font-size-small;
   }
+  &.route-stop {
+    min-height:0;
+  }
 }
+
 // stop list
 .route-stop-list {
   font-family: $font-family-narrow;
   font-weight: $font-weight-bold;
   .route-stop-name  {
+    height: 38px;
     // vertical line
     &::before {
       content: "";
@@ -71,6 +76,7 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
   padding-bottom: 4px;
   line-height: $line-height-normal;
   position:relative;
+  min-height: 43px;
   div {
     min-height: 1px;
     .route-now-content {
