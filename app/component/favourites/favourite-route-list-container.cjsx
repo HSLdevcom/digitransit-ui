@@ -1,8 +1,8 @@
-React             = require 'react'
-Relay             = require 'react-relay'
-queries           = require '../../queries'
-FavouriteRouteRow = require './favourite-route-row'
-config            = require '../../config'
+React                 = require 'react'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
+FavouriteRouteRow     = require './favourite-route-row'
+config                = require '../../config'
 
 class FavouriteRouteListContainer extends React.Component
 

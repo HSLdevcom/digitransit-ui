@@ -6,8 +6,10 @@ FavouriteRouteListContainer     = require './favourite-route-list-container'
 queries                         = require '../../queries'
 
 class FavouritesPanel extends React.Component
+
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
 
   getFavouriteStopContainer: (ids) =>
     <Relay.RootContainer
@@ -28,6 +30,15 @@ class FavouritesPanel extends React.Component
       renderLoading={-> <div className="spinner-loader"/>}
       }
     />
+
+  componentDidMount: ->
+    @context.getStore('FavouriteRoutesStore').addChangeListener @onChange
+
+  componentWillUnmount: ->
+    @context.getStore('FavouriteRoutesStore').removeChangeListener @onChange
+
+  onChange: (id) =>
+    @forceUpdate()
 
   getFavourites: (stops, routes) =>
     c=[]
