@@ -156,6 +156,9 @@ function setUpRoutes() {
           )
 
           res.send('<!doctype html>' + html);
+        }).catch(function(err) {
+          console.log(err);
+          res.status(500).send(err);
         });
       }
     });
