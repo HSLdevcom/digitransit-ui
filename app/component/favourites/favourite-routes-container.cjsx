@@ -13,7 +13,6 @@ class FavouriteRouteListContainer extends React.Component
   getRoutes: =>
     routes = []
     for route in @props.routes.routes
-      console.log route
       routes.push <FavouriteRouteRow key={route.patterns[0].code} route={route}></FavouriteRouteRow>
     routes
 
