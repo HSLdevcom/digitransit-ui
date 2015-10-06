@@ -8,7 +8,7 @@ class Autosuggest extends React.Component
     location: React.PropTypes.object.isRequired
 
   usePelias: ->
-    isBrowser and @context.location.query.hasOwnProperty('pelias')
+    @context.location.query.hasOwnProperty('pelias')
 
   render: ->
     Autosuggest = if @usePelias() then AutosuggestPelias else AutosuggestDigitransit

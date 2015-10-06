@@ -20,7 +20,11 @@ var React = require('react')
 var ReactDOM = require('react-dom/server')
 var match = require('react-router/lib/match')
 var RoutingContext = require('react-router/lib/RoutingContext')
-var createLocation = require('history/lib/createLocation');
+
+/* History management */
+var createHistory = require('history/lib/createMemoryHistory');
+var useQueries = require('history/lib/useQueries');
+
 var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
 var IntlProvider = require('react-intl').IntlProvider;
 var serialize = require('serialize-javascript');
@@ -88,7 +92,7 @@ function setUpRoutes() {
     var locale = req.query.locale || req.acceptsLanguages(['fi', 'sv', 'en']) || 'en';
     var messages = translations[locale]
     var context = application.createContext()
-    var location = createLocation(req.url);
+    var location = useQueries(createHistory)().createLocation(req.url);
 
     match({routes: application.getComponent(), location: location}, function (error, redirectLocation, renderProps) {
       if (redirectLocation) {
