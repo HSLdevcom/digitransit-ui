@@ -7,7 +7,13 @@ module.exports =
     ALERTS: 'http://matka.hsl.fi/hsl-alert/'
     FONT: 'http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700'
     REALTIME: 'http://matka.hsl.fi/navigator-server'
+    PELIAS: 'http://matka.hsl.fi/pelias/v1/search'
   title: 'Digitransit (HSL)'
   icon: 'hsl-icon.png'
   preferredAgency: 'HSL'
   cities: ["helsinki", "vantaa", "espoo", "kauniainen", "kerava", "kirkkonummi", "sipoo"]
+  searchParams:
+    "boundary.rect.min_lat": 59.9
+    "boundary.rect.max_lat": 60.45
+    "boundary.rect.min_lon": 24.3
+    "boundary.rect.max_lon": 25.5

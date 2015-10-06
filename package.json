@@ -34,7 +34,7 @@
     "fluxible-addons-react": "0.2.0-rc2",
     "foundation-apps": "^1.1.0",
     "fulltilt": "https://github.com/Full-Tilt/Full-Tilt/archive/0.5.3.tar.gz",
-    "history": "^1.11.1",
+    "history": "^1.12.1",
     "intl": "^1.0.0",
     "leaflet": "^1.0.0-beta.1",
     "lodash": "^3.10.1",
