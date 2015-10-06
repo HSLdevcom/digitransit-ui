@@ -4,12 +4,6 @@ Link               = require('react-router/lib/Link').Link
 
 
 class StyleGuidelinesPage extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.object.isRequired
-
-
   getColors: ->
     return (
       <section>
@@ -127,6 +121,8 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_bus-withoutBox</span><br />
         <Icon img={'icon-icon_bus'}/>
         <span className="code">icon-icon_bus</span><br />
+        <Icon className="icon-test" img={'icon-icon_bus-live'}/>
+        <span className="code">icon-icon_bus-live</span><br />
         <Icon img={'icon-icon_car'}/>
         <span className="code">icon-icon_car</span><br />
         <Icon img={'icon-icon_caution'}/>
@@ -141,14 +137,24 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_direction-a</span><br />
         <Icon img={'icon-icon_direction-b'}/>
         <span className="code">icon-icon_direction-b</span><br />
+        <Icon img={'icon-icon_thumb-down'}/>
+        <span className="code">icon-icon_thumb-down</span><br />
+        <Icon img={'icon-icon_thumb-up'}/>
+        <span className="code">icon-icon_thumb-up</span><br />
       </div>
       <div className="medium-4 column">
+        <Icon img={'icon-icon_airplane'}/>
+        <span className="code">icon-icon_airplane</span><br />
+        <Icon img={'icon-icon_airplane-withoutBox'}/>
+        <span className="code">icon-icon_airplane-withoutBox</span><br />
         <Icon img={'icon-icon_ellipsis'}/>
         <span className="code">icon-icon_ellipsis</span><br />
         <Icon img={'icon-icon_ferry-withoutBox'}/>
         <span className="code">icon-icon_ferry-withoutBox</span><br />
         <Icon img={'icon-icon_ferry'}/>
         <span className="code">icon-icon_ferry</span><br />
+        <Icon img={'icon-icon_ferry-live'}/>
+        <span className="code">icon-icon_ferry-live</span><br />
         <Icon img={'icon-icon_HSL-logo'}/>
         <span className="code">icon-icon_HSL-logo</span><br />
         <Icon img={'icon-icon_info'}/>
@@ -173,12 +179,16 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_plus</span><br />
         <Icon img={'icon-icon_print'}/>
         <span className="code">icon-icon_print</span><br />
+        <Icon img={'icon-icon_city'}/>
+        <span className="code">icon-icon_city</span><br />
       </div>
       <div className="medium-4 column">
         <Icon img={'icon-icon_rail-withoutBox'}/>
         <span className="code">icon-icon_rail-withoutBox</span><br />
         <Icon img={'icon-icon_rail'}/>
         <span className="code">icon-icon_rail</span><br />
+        <Icon img={'icon-icon_rail-live'}/>
+        <span className="code">icon-icon_rail-live</span><br />
         <Icon img={'icon-icon_route'}/>
         <span className="code">icon-icon_route</span><br />
         <Icon img={'icon-icon_search'}/>
@@ -193,12 +203,16 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_subway-withoutBox</span><br />
         <Icon img={'icon-icon_subway'}/>
         <span className="code">icon-icon_subway</span><br />
+        <Icon img={'icon-icon_subway-live'}/>
+        <span className="code">icon-icon_subway-live</span><br />
         <Icon img={'icon-icon_time'}/>
         <span className="code">icon-icon_time</span><br />
         <Icon img={'icon-icon_tram-withoutBox'}/>
         <span className="code">icon-icon_tram-withoutBox</span><br />
         <Icon img={'icon-icon_tram'}/>
         <span className="code">icon-icon_tram</span><br />
+        <Icon img={'icon-icon_tram-live'}/>
+        <span className="code">icon-icon_tram-live</span><br />
         <Icon img={'icon-icon_user'}/>
         <span className="code">icon-icon_user</span><br />
         <Icon img={'icon-icon_waiting'}/>
@@ -208,6 +222,12 @@ class StyleGuidelinesPage extends React.Component
         <Icon img={'icon-icon_mapMarker-location-animated'}/>
         <span className="code">icon-icon_mapMarker-location-animated</span>
       </div>
+      <p>
+        <Icon className="large-icon" img={'icon-icon_subway-live'}/>
+        <span className="code">.large-icon</span><br />
+        <Icon className="large-icon" img={'icon-icon_user'}/>
+        <span className="code">.large-icon</span><br />
+      </p>
     </section>
 
   getHelpers: ->
@@ -243,16 +263,9 @@ class StyleGuidelinesPage extends React.Component
       <div className="text-center">text centered aligned<span className="code">.text-center</span></div>
       <div className="inline-block">this div is inlied<span className="code">.inline-block</span></div>
       <div className="inline-block">this also<span className="code">.inline-block</span></div>
-
-
-
-
-
     </section>
 
-
   render: ->
-
     <div className="container column">
       <div className="sub-header">Colors</div>
       {@getColors()}
@@ -283,7 +296,5 @@ class StyleGuidelinesPage extends React.Component
 
       <p></p>
     </div>
-
-
 
 module.exports = StyleGuidelinesPage

@@ -17,6 +17,9 @@ div.map.summaryMap {
 div.map.summaryMap div.leaflet-container {
   height: 100%;
 }
+.below-map  {
+  overflow: auto;
+}
 
 @media #{$small-only} {
   div.map, div.map div.leaflet-container {
@@ -95,8 +98,8 @@ div.leaflet-marker-icon.vehicle-icon {
   border: none;
   background: none;
   > span > svg.icon {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
 }
 

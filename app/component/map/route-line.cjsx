@@ -13,24 +13,24 @@ class RouteLine extends React.Component
       return false
 
     objs = []
-    modeClass = @props.route.route.type.toLowerCase()
+    modeClass = @props.pattern.route.type.toLowerCase()
 
     unless @props.thin
       # We are drawing a background line under an itinerary line,
       # so we don't want many markers cluttering the map
       objs.push <LocationMarker map=@props.map
-                                position={@props.route.stops[0]}
+                                position={@props.pattern.stops[0]}
                                 class='from' />
       objs.push <LocationMarker map=@props.map
-                                position={@props.route.stops[@props.route.stops.length-1]}
+                                position={@props.pattern.stops[@props.pattern.stops.length-1]}
                                 class='to' />
 
     objs.push <Line map={@props.map}
-                    geometry={@props.route.geometry or @props.route.stops}
+                    geometry={@props.pattern.geometry or @props.pattern.stops}
                     mode={modeClass}
                     thin={@props.thin} />
 
-    @props.route.stops.forEach (stop) =>
+    @props.pattern.stops.forEach (stop) =>
       if @props.filteredStops
         gtfsIds = @props.filteredStops.map((stop) -> stop.stopId)
         if gtfsIds.indexOf(stop.gtfsId) != -1

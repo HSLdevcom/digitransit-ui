@@ -43,7 +43,7 @@ class ItineraryLine extends React.Component
                 id: leg.agencyId + ":" + leg.tripId)}
               renderFetched={(data) =>
                 <TripLine map={@props.map}
-                          route={data.route}
+                          pattern={data.pattern}
                           filteredStops={legStops} />
               } />
 

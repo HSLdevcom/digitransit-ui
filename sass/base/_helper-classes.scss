@@ -36,9 +36,7 @@
   color: $to-color;
 }
 
-
 /* Positioning */
-
 .left {
   float: left;
 }
@@ -61,7 +59,12 @@
   float:none;
   clear:both;
 }
-
+// parent DOM-element requires overflow:hidden; height: x;
+.scrollable {
+  overflow: auto;
+  height: 100%;
+  padding-bottom: 20px;
+}
 .fullscreen {
   height: 100%;
 }
@@ -104,4 +107,17 @@
 }
 .uppercase  {
   text-transform: uppercase;
+}
+.hover  {
+  &:hover {
+    opacity:0.8;
+    transition: 0.1s ease-in-out;
+  }
+}
+.hide-dropdown  {
+  background-image: none;
+}
+.large-icon {
+  width: 20px;
+  height: 20px;
 }

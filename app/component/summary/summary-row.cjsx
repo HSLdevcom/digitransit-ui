@@ -14,12 +14,12 @@ class SummaryRow extends React.Component
     legTimes = []
     MIN_SIZE = "3.7em"
     for leg, i in data.legs
-      isLastLeg = i == data.legs.length-1
+      isLastLeg = i == data.legs.length - 1
       isFirstLeg = i == 0
       legStart = moment(leg.startTime)
       legEnd = moment(leg.endTime)
-      position = ((legStart-startTime)/duration)
-      width = (((legEnd-startTime)/duration))-position
+      position = ((legStart - startTime) / duration)
+      width = (((legEnd - startTime) / duration)) - position
 
       # TODO
       # This is a quick hack to determine whether we have enough room to show
@@ -68,7 +68,7 @@ class SummaryRow extends React.Component
         # that option will mostly show garbage for user
         text = ""
       else
-        km = (leg.distance/1000).toFixed(1)
+        km = (leg.distance / 1000).toFixed(1)
         text = if km == "0.0" then "0.1km" else "#{km}km"
 
       # Mode circle
@@ -80,35 +80,35 @@ class SummaryRow extends React.Component
         circleClass = leg.mode.toLowerCase()
 
       legs.push (
-        <span key={i+'a'} style={styleLine} className={leg.mode.toLowerCase()}>
-          <span key={i+'b'} className="summary-circle #{circleClass}#{passiveClass}"></span>
-          <Icon key={i+'c'} className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()} />
+        <span key={i + 'a'} style={styleLine} className={leg.mode.toLowerCase()}>
+          <span key={i + 'b'} className="summary-circle #{circleClass}#{passiveClass}"></span>
+          <Icon key={i + 'c'} className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()} />
           {text}
         </span>
       )
 
       if isFirstLeg
         legTimes.push (
-          <span key={i+'a'} style={styleTime}>
+          <span key={i + 'a'} style={styleTime}>
             {legStart.format("HH:mm")}
           </span>
         )
       else if isLastLeg
         if isEnoughRoomForLastLegStartTime
           legTimes.push (
-            <span key={i+'a'} style={styleTime}>
+            <span key={i + 'a'} style={styleTime}>
               {legStart.format("HH:mm")}
             </span>
           )
 
         legTimes.push (
-          <span key={i+'b'} style={styleTimeLast}>
+          <span key={i + 'b'} style={styleTimeLast}>
             {legEnd.format("HH:mm")}
           </span>
         )
       else
         legTimes.push (
-          <span key={i+'a'} style={styleTime}>
+          <span key={i + 'a'} style={styleTime}>
             {legStart.format("HH:mm")}
           </span>
         )
