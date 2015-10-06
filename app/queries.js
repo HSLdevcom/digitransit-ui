@@ -391,10 +391,10 @@ var FavouriteRouteRowFragments = {
           {
             code
           }
+          gtfsId
           shortName
           longName
           type
-          color
         }
       }
    `,
