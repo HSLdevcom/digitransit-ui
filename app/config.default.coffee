@@ -7,5 +7,7 @@ module.exports =
     ALERTS: 'http://matka.hsl.fi/hsl-alert/'
     FONT: 'http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700'
     REALTIME: 'http://digitransit.fi/navigator-server'
+    PELIAS: 'http://digitransit.fi/pelias/v1/autocomplete'
   cities: []
   title: 'Digitransit'
+  searchParams: {}
