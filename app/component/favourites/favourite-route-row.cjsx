@@ -7,7 +7,7 @@ FavouriteRouteActions = require '../../action/favourite-routes-action'
 class FavouriteRouteRow extends React.Component
 
   proptypes: {
-    route: React.PropTypes.func.isRequired
+    route: React.PropTypes.object.isRequired
   }
 
   @contextTypes:
