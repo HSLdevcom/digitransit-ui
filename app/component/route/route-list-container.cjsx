@@ -37,7 +37,6 @@ class RouteListContainer extends React.Component
         bucket = departureBuckets[d] or []
         bucket.push departure
         departureBuckets[d] = bucket
-    #departures
     departureBuckets
 
   render: =>
