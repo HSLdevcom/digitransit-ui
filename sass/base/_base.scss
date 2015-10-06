@@ -124,9 +124,9 @@ h1 a {
 .vehicle-number {
   font-weight: $font-weight-bold;
   padding: 0 5px;
+  vertical-align: top;
 }
 .destination {
-  line-height: 1.5;
   max-width: 70%;
 }
 
