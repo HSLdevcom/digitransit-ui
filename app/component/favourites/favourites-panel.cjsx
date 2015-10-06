@@ -43,7 +43,7 @@ class FavouritesPanel extends React.Component
     @forceUpdate()
 
   getFavourites: (stops, routes) =>
-    c=[]
+    c = []
     c.push @getFavouriteStopContainer(stops)
     c.push @getFavouriteRouteContainer(routes)
     c
@@ -55,11 +55,14 @@ class FavouritesPanel extends React.Component
     FavouriteRoutesStore = @context.getStore 'FavouriteRoutesStore'
     routes = FavouriteRoutesStore.getRoutes()
 
-    if stops.concat(routes).length==0
+    if stops.concat(routes).length == 0
       <NoFavouritesPanel/>
     else
       <div>
-      {@getFavourites(stops, routes)}
+        {@getFavourites(stops, routes)}
       </div>
+
+
+
 
 module.exports = FavouritesPanel

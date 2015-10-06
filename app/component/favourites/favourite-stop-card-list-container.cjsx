@@ -15,12 +15,12 @@ class FavouriteStopCardListContainer extends React.Component
   getStopCards: =>
     stopCards = []
     for stop in @props.stops.stops
-      stopCards.push <StopCardContainer key={stop.gtfsId} stop={{stop:stop}} departures=DEPARTURES_COUNT />
+      stopCards.push <StopCardContainer key={stop.gtfsId} stop={stop: stop} departures=DEPARTURES_COUNT />
     stopCards
 
   render: =>
     <StopCardList addStops=false>
-    	{@getStopCards()}
+      {@getStopCards()}
     </StopCardList>
 
 module.exports = Relay.createContainer(FavouriteStopCardListContainer,
