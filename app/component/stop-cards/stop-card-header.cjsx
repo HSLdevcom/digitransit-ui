@@ -25,7 +25,6 @@ class StopCardHeader extends React.Component
     description
 
   render: ->
-    # We use onClick in the following, as it is rendered sometimes in a popup, in which the touch tap event does not fire (as it is part of another react render)
     <div className={classNames "card-header", @props.className}>
       <span className="cursor-pointer favourite-icon right" onClick={@props.addFavouriteStop}>
         <Icon className={classNames "favourite", selected: @props.favourite} img="icon-icon_star"/>

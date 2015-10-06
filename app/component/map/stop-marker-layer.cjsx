@@ -2,11 +2,6 @@ React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../queries'
 isBrowser     = window?
-DynamicPopup  = if isBrowser then require './dynamic-popup' else null
-CircleMarker  = if isBrowser then require 'react-leaflet/lib/CircleMarker' else null
-Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
-StopMarkerPopup = require './stop-marker-popup'
-L             = if isBrowser then require 'leaflet' else null
 config        = require '../../config'
 StopMarker    = require './stop-marker'
 
@@ -47,6 +42,7 @@ class StopMarkerLayer extends React.Component
         return
       modeClass = stop.routes[0].type.toLowerCase()
       selected = @props.hilightedStops and stop.gtfsId in @props.hilightedStops
+
       #TODO: set showName
       stops.push <StopMarker key={stop.gtfsId}
                              map={@props.map}

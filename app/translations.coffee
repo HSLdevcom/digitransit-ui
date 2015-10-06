@@ -34,6 +34,14 @@ translations =
     'minutes': 'minuuttia'
     'nearby-stops': 'Lähellä olevia pysäkkejä'
     'nearby-routes': 'Lähellä kulkevat linjat'
+    'routes': 'Linjat'
+    'time': 'Aika'
+    'stop': 'Pysäkki'
+    'stops' : 'Pysäkit'
+    'stop-number': 'Pysäkkinumero'
+    'right-now' : 'Juuri nyt'
+    'minutes': 'min'
+    'timetable' : 'Aikataulu'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -70,5 +78,13 @@ translations =
     'minutes': 'minuter'
     'nearby-stops': 'Närliggande hållplatser'
     'nearby-routes': 'Närbelägna linjer'
+    'routes': 'Linjer'
+    'time': 'Tid'
+    'stop': 'Hållplats'
+    'stops' : 'Hållplatser'
+    'stop-number': 'Hållplatsens nummer'
+    'right-now' : 'Just nu'
+    'minutes': 'min'
+    'timetable' : 'Tidtabeller'
 
 module.exports = translations

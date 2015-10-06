@@ -49,7 +49,7 @@
   },
   "max_line_length": {
     "value": 100,
-    "level": "error",
+    "level": "ignore",
     "limitComments": true
   },
   "missing_fat_arrows": {

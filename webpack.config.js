@@ -111,7 +111,10 @@ module.exports = {
   },
   plugins: getPluginsConfig(process.env.NODE_ENV),
   resolve: {
-    extensions: ['', '.js', '.cjsx', '.jsx', '.coffee']
+    extensions: ['', '.js', '.cjsx', '.jsx', '.coffee'],
+    alias: {
+      leaflet$: path.resolve(__dirname, "vendor/leaflet-custom-src"),
+    },
   },
   module: {
     loaders: getLoadersConfig(process.env.NODE_ENV)

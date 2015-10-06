@@ -31,7 +31,7 @@ class NavigationMap extends React.Component
       map = new mapboxgl.Map(
         container: 'map'
         style: mapStyle
-        center: [coordinates.lat, coordinates.lon]
+        center: [coordinates.lon, coordinates.lat]
         zoom: 16
         pitch: 45
         bearing: @bearing
@@ -70,7 +70,7 @@ class NavigationMap extends React.Component
 
         map.addSource 'vehicles', vehiclesJSONsource
         map.addLayer geoUtils.getLayerForVehicles()
-        
+
         @vehicleIntervalId = setInterval =>
           vehiclesJSONsource.setData(
             geoUtils.vehiclesAsGeoJson @context.getStore("RealTimeInformationStore").vehicles
@@ -82,7 +82,7 @@ class NavigationMap extends React.Component
         , (errror) => @initializeCompass(map, false)
         )
 
- 
+
 
   initializeCompass: (map, compassAvailable, orientation) ->
     coordinates = @context.getStore('LocationStore').getLocationState()
@@ -106,7 +106,7 @@ class NavigationMap extends React.Component
       if (newCoordinates.lon != coordinates.lat or newCoordinates.lon != coordinates.lon or
           bearing != @bearing or pitch != @pitch)
         map.easeTo
-          center: [coordinates.lat, coordinates.lon]
+          center: [coordinates.lon, coordinates.lat]
           bearing: bearing
           pitch: pitch
           duration: 150
