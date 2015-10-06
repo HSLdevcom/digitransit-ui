@@ -139,7 +139,7 @@ class FavouriteStopListContainerRoute extends Relay.Route {
   static queries = {
       stops: (Component, variables) => Relay.QL`
       query {
-        viewer {
+        stops(ids: $ids) {
           ${Component.getFragment('stops', {
           ids: variables.ids,
         })}
@@ -154,12 +154,10 @@ class FavouriteStopListContainerRoute extends Relay.Route {
 
 var FavouriteStopListContainerFragments = {
     stops: () => Relay.QL`
-      fragment on QueryType {
-        stops(ids: $ids) {
-          gtfsId
-          ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-          ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
-        }
+      fragment on Stop @relay(plural:true){
+        gtfsId
+        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+        ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
       }
     `,
 };
