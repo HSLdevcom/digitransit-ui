@@ -89,7 +89,7 @@ class FrontpageTabs extends React.Component
       selected:true
     if @state.selectedPanel == 1
         panel = <div className="frontpage-panel-wrapper">
-                  <div className="frontpage-panel">
+                  <div className="frontpage-panel nearby-routes">
                     <div className="row">
                       <h3><FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/></h3>
                     </div>

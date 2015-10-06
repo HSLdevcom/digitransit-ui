@@ -197,3 +197,10 @@ div.route-tabs {
   }
   height: calc(100% - #{$route-header-height} - 14px);
 }
+
+.nearby-routes {
+  overflow-y: auto;
+  .transport {
+    margin: 0.1em 0;
+  }
+}

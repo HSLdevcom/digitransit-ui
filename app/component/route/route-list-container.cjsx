@@ -35,7 +35,7 @@ class RouteListContainer extends React.Component
     departures
 
   render: =>
-    <DepartureListContainer rowClasses="no-padding no-margin" stoptimes={@getDepartures()} limit={STOP_COUNT}/>
+    <DepartureListContainer rowClasses="padding-normal" stoptimes={@getDepartures()} limit={STOP_COUNT}/>
 
 module.exports = Relay.createContainer(RouteListContainer,
   fragments: queries.RouteListContainerFragments
