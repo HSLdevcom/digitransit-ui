@@ -48,6 +48,12 @@ var RouteListContainerFragments = {
               code
               desc
               stoptimes: stoptimesForPatterns(numberOfDepartures:1) {
+		pattern {
+		  headsign
+		  route {
+		    gtfsId
+		  }
+		}
                 ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
               }
             }

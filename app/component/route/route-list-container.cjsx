@@ -11,7 +11,7 @@ config     = require '../../config'
 moment     = require 'moment'
 classNames = require 'classnames'
 
-STOP_COUNT = 100 # TODO should handle this for real
+STOP_COUNT = 30
 
 class RouteListContainer extends React.Component
   @contextTypes:
@@ -27,16 +27,18 @@ class RouteListContainer extends React.Component
     @forceUpdate()
 
   getDepartures: =>
-    departures = []
     departureBuckets = {}
+    seenDepartures = {}
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
       d = edge.node.distance // @props.relay.variables.bucketSize
       for departure in stop.stoptimes
-        departures.push departure
-        bucket = departureBuckets[d] or []
-        bucket.push departure
-        departureBuckets[d] = bucket
+        seenKey = departure.pattern.route.gtfsId + ":" + departure.pattern.headsign
+        unless seenDepartures[seenKey]
+          bucket = departureBuckets[d] or []
+          bucket.push departure
+          departureBuckets[d] = bucket
+          seenDepartures[seenKey] = true
     departureBuckets
 
   render: =>
