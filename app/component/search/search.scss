@@ -2,17 +2,14 @@
 $search-result-width: grid-calc($total-columns+1, $total-columns) + 1;
 $search-result-background-color: $white;
 $search-result-text-color: $black;
-$search-result-text-city-color: $gray;
 $search-result-text-font-weight: 300;
 $search-result-text-highlight-color: $black;
 $search-result-text-highlight-font-weight: 300;
-$search-result-text-highlight-background-color: $light-gray;
-$search-result-text-match-color: $black;
-$search-result-text-match-font-weight: 600;
+$search-result-text-highlight-background-color: $background-color;
 $search-result-border-radius: $border-radius;
 $search-result-max-height: 130px;
 $search-result-font-family: $font-family;
-$search-result-icon-color: $black;
+$search-result-icon-color: $gray;
 $search-form-icon-color: $white;
 $search-form-border-radius: $border-radius;
 $search-form-transparency: $transparency;
@@ -115,21 +112,6 @@ $search-form-input-overlay-background-color: #EEF1F3;
 .search-form .react-autosuggest__suggestion .icon {
   margin-right: 4px;
   fill: $search-result-icon-color;
-}
-
-.search-form .react-autosuggest__suggestion strong {
-  font-weight: $search-result-text-match-font-weight;
-  color: $search-result-text-match-color;
-}
-
-.search-form .react-autosuggest__suggestion .city {
-  color: $search-result-text-city-color;
-}
-
-/* Don't highlight city name */
-.search-form .react-autosuggest__suggestion .city strong {
-  color: $search-result-text-city-color;
-  font-weight: $search-result-text-font-weight;
 }
 
 .search-form .arrow-down {
