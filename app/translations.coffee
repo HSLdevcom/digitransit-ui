@@ -42,6 +42,7 @@ translations =
     'right-now' : 'Juuri nyt'
     'minutes': 'min'
     'timetable' : 'Aikataulu'
+    'under': 'alle'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -86,5 +87,6 @@ translations =
     'right-now' : 'Just nu'
     'minutes': 'min'
     'timetable' : 'Tidtabeller'
+    'under' : 'mindre än'
 
 module.exports = translations
