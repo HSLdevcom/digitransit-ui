@@ -22,7 +22,7 @@ class FavouritesPanel extends React.Component
       }
     />
 
-  getFavouriteRouteContainer: (ids) =>
+  getFavouriteRouteListContainer: (ids) =>
     <Relay.RootContainer
       key="fav-routes"
       Component={FavouriteRoutesContainer}
@@ -44,24 +44,16 @@ class FavouritesPanel extends React.Component
   onChange: (id) =>
     @forceUpdate()
 
-  getFavourites: (stops, routes) =>
-    c = []
-    c.push @getFavouriteStopContainer(stops)
-    c.push @getFavouriteRouteContainer(routes)
-    c
-
   render: ->
     FavouriteStopsStore = @context.getStore 'FavouriteStopsStore'
-    stops = FavouriteStopsStore.getStops()
-
     FavouriteRoutesStore = @context.getStore 'FavouriteRoutesStore'
-    routes = FavouriteRoutesStore.getRoutes()
 
-    if stops.concat(routes).length == 0
+    if FavouriteStopsStore.getStops().concat(FavouriteRoutesStore.getRoutes()).length == 0
       <NoFavouritesPanel/>
     else
       <div>
-        {@getFavourites(stops, routes)}
+        {@getFavouriteStopContainer FavouriteStopsStore.getStops()}
+        {@getFavouriteRouteListContainer FavouriteRoutesStore.getRoutes()}
       </div>
 
 
