@@ -387,7 +387,10 @@ var FavouriteRouteRowFragments = {
     routes: () => Relay.QL`
       fragment on QueryType {
         routes(ids: $ids) {
-          gtfsId
+          patterns
+          {
+            code
+          }
           shortName
           longName
           type
