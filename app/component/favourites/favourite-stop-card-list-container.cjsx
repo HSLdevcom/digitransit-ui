@@ -19,7 +19,7 @@ class FavouriteStopCardListContainer extends React.Component
     stopCards
 
   render: =>
-    <StopCardList addStops=false>
+    <StopCardList className="row" addStops=false>
     	{@getStopCards()}
     </StopCardList>
 
