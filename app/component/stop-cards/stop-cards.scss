@@ -1,16 +1,16 @@
 
 .transport  {
-  background-color: $white;
-  line-height: $line-height-normal;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  .icon {
-    height: 12px;
-    width: 12px;
-    vertical-align: inherit;
-  }
+  //background-color: $white;
+  //line-height: $line-height-normal;
+  //overflow: hidden;
+  //text-overflow: ellipsis;
+            //.icon {
+            //  height: 12px;
+            //  width: 12px;
+            //  vertical-align: inherit;
+            //}
 }
-
+// --> later: ListHeader component
 .departure-list .date-row {
   font-size: 10pt;
   text-transform: uppercase;
@@ -47,8 +47,8 @@
     margin-right: 0.7em;
     margin-top: 0.3em;
   }
-  .transport {
-    margin: 0.1em 0;
+  .departure {
+    border-bottom: solid 1px $light-gray; // TODO
   }
   a {
     color: $black;
@@ -56,6 +56,6 @@
   }
   .date-row {
     border-bottom: solid 1px $light-gray;
-    border-top: solid 1px $light-gray;
+    //border-top: solid 1px $light-gray;
   }
 }
