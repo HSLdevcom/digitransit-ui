@@ -35,6 +35,12 @@
 .to {
   color: $to-color;
 }
+.gray {
+  color: $dark-color;
+  p {
+    color: $dark-color;
+  }
+}
 
 /* Positioning */
 .left {
@@ -120,6 +126,13 @@
 .large-icon {
   width: 20px;
   height: 20px;
+}
+body .large {
+  //font-size: 23px;
+  & .icon {
+    width: 20px;
+    height: 20px;
+  }
 }
 .border-bottom  {
   border-bottom: 1px solid $light-gray;

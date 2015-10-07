@@ -8,7 +8,7 @@ config            = require '../../config'
 STOP_COUNT = 5
 DEPARTURES_COUNT = 5
 
-class StopCardListContainer extends React.Component
+class NearStopCardListContainer extends React.Component
   addStops: =>
     if !@props.stops.stopsByRadius.pageInfo.hasNextPage
       radius = @props.relay.variables.radius + 2000
@@ -29,8 +29,8 @@ class StopCardListContainer extends React.Component
     	{@getStopCards()}
     </StopCardList>
 
-module.exports = Relay.createContainer(StopCardListContainer,
-  fragments: queries.StopListContainerFragments
+module.exports = Relay.createContainer(NearStopCardListContainer,
+  fragments: queries.NearStopListContainerFragments
   initialVariables:
     lat: null
     lon: null

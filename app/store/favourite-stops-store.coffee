@@ -29,12 +29,18 @@ class FavouriteStopsStore extends Store
     s = JSON.stringify(@stops)
     window.localStorage.setItem(STORAGE_KEY, s)
 
-  addFavouriteStop: (stopId) =>
-    @stops.push stopId
+  toggleFavouriteStop: (stopId) =>
+    if typeof stopId isnt 'string'
+      throw "stopId is not a string:" + JSON.stringify stopId
+    newStops = @stops.filter (id) -> id isnt stopId
+
+    if newStops.length is @stops.length
+      newStops.push stopId
+    @stops = newStops
     @storeStops()
     @emitChange(stopId)
 
   @handlers:
-    "AddFavouriteStop": "addFavouriteStop"
+    "AddFavouriteStop": "toggleFavouriteStop"
 
 module.exports = FavouriteStopsStore

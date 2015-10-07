@@ -42,6 +42,7 @@ translations =
     'right-now' : 'Juuri nyt'
     'minutes': 'min'
     'timetable' : 'Aikataulu'
+    'no-favourites' : 'Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä.'
 
   'sv':
     'searching-position': 'Letar efter position'
