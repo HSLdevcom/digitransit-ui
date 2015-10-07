@@ -52,6 +52,7 @@ var RouteListContainerFragments = {
 		  headsign
 		  route {
 		    gtfsId
+		    type
 		  }
 		}
                 ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}

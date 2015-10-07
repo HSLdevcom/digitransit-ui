@@ -22,22 +22,28 @@ class RouteListContainer extends React.Component
 
   componentDidMount: ->
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
+    @context.getStore('ModeStore').addChangeListener @onModeChange
 
   componentWillUnmount: ->
     @context.getStore('RealTimeInformationStore').removeChangeListener @onRealTimeChange
+    @context.getStore('ModeStore').removeChangeListener @onModeChange
 
   onRealTimeChange: =>
+    @forceUpdate()
+
+  onModeChange: =>
     @forceUpdate()
 
   getDepartures: =>
     departureBuckets = {}
     seenDepartures = {}
+    mode = @context.getStore('ModeStore').getMode()
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
       d = edge.node.distance // config.nearbyRoutes.bucketSize
       for departure in stop.stoptimes
         seenKey = departure.pattern.route.gtfsId + ":" + departure.pattern.headsign
-        unless seenDepartures[seenKey]
+        unless seenDepartures[seenKey] or departure.pattern.route.type not in mode
           bucket = departureBuckets[d] or []
           bucket.push departure
           departureBuckets[d] = bucket

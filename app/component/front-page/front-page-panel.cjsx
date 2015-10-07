@@ -4,6 +4,7 @@ queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
 RouteListContainer    = require '../route/route-list-container'
 StopCardListContainer = require '../stop-cards/nearest-stop-card-list-container'
+ModeFilter            = require '../route/mode-filter'
 NoLocationPanel       = require './no-location-panel'
 Icon                  = require '../icon/icon.cjsx'
 classnames            = require 'classnames'
@@ -95,6 +96,9 @@ class FrontpageTabs extends React.Component
                   <div className="frontpage-panel nearby-routes">
                     <div className="row">
                       <h3><FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/></h3>
+                    </div>
+                    <div className="row">
+                      <ModeFilter id="nearby-routes-mode"/>
                     </div>
                     <div className="scrollable">
                       {routesPanel}
