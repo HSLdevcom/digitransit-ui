@@ -2,10 +2,11 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
-StopCardListContainer = require '../stop-cards/stop-card-list-container'
+StopCardListContainer = require '../stop-cards/nearest-stop-card-list-container'
 NoLocationPanel       = require './no-location-panel'
 Icon                  = require '../icon/icon.cjsx'
 classnames            = require 'classnames'
+FavouritesPanel       = require '../favourites/favourites-panel'
 
 intl = require('react-intl')
 FormattedMessage = intl.FormattedMessage
@@ -66,6 +67,8 @@ class FrontpageTabs extends React.Component
     else
       stopsPanel = <NoLocationPanel/>
 
+    favouritesPanel = <FavouritesPanel/>
+
     tabClasses = []
     selectedClass =
       selected:true
@@ -95,6 +98,9 @@ class FrontpageTabs extends React.Component
                   <div className="frontpage-panel">
                     <div className="row">
                       <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
+                    </div>
+                    <div className="scrollable">
+                      {favouritesPanel}
                     </div>
                   </div>
                 </div>
