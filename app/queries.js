@@ -369,11 +369,11 @@ class FavouriteRouteRowRoute extends Relay.Route {
   static queries = {
       routes: (Component, variables) => Relay.QL`
         query {
-          viewer {
+          routes (ids:$ids) {
             ${Component.getFragment('routes', {
-              ids: variables.ids
-            })}
-          }}`,
+            ids: variables.ids
+        })}
+      }}`,
   }
   static paramDefinitions = {
     ids: {required: true},
@@ -383,17 +383,14 @@ class FavouriteRouteRowRoute extends Relay.Route {
 
 var FavouriteRouteRowFragments = {
     routes: () => Relay.QL`
-      fragment on QueryType {
-        routes(ids: $ids) {
-          patterns
-          {
+      fragment on Route @relay(plural:true) {
+        patterns {
             code
-          }
-          gtfsId
-          shortName
-          longName
-          type
         }
+        gtfsId
+        shortName
+        longName
+        type
       }
    `,
 };
