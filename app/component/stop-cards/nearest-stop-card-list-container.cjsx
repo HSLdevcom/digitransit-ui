@@ -27,7 +27,7 @@ class NearStopCardListContainer extends React.Component
 
   render: =>
     <StopCardList addStops=@addStops>
-    	{@getStopCards()}
+      {@getStopCards()}
     </StopCardList>
 
 module.exports = Relay.createContainer(NearStopCardListContainer,

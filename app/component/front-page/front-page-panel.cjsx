@@ -90,7 +90,7 @@ class FrontpageTabs extends React.Component
 
     tabClasses = []
     selectedClass =
-      selected:true
+      selected: true
     if @state.selectedPanel == 1
         panel = <div className="frontpage-panel-wrapper">
                   <div className="frontpage-panel nearby-routes">
@@ -105,31 +105,32 @@ class FrontpageTabs extends React.Component
                     </div>
                   </div>
                 </div>
-        tabClasses[1] = selectedClass
+              </div>
+      tabClasses[1] = selectedClass
     else if @state.selectedPanel == 2
-        panel = <div className="frontpage-panel-wrapper">
-                  <div className="frontpage-panel">
-                    <div className="row">
-                      <h3><FormattedMessage id='nearby-stops' defaultMessage='Nearby stops'/></h3>
-                    </div>
-                    <div className="scrollable">
-                      {stopsPanel}
-                    </div>
+      panel = <div className="frontpage-panel-wrapper">
+                <div className="frontpage-panel">
+                  <div className="row">
+                    <h3><FormattedMessage id='nearby-stops' defaultMessage='Nearby stops'/></h3>
+                  </div>
+                  <div className="scrollable">
+                    {stopsPanel}
                   </div>
                 </div>
-        tabClasses[2] = selectedClass
+              </div>
+      tabClasses[2] = selectedClass
     else if @state.selectedPanel == 3
-        panel = <div className="frontpage-panel-wrapper">
-                  <div className="frontpage-panel">
-                    <div className="row">
-                      <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
-                    </div>
-                    <div className="scrollable">
-                      {favouritesPanel}
-                    </div>
+      panel = <div className="frontpage-panel-wrapper">
+                <div className="frontpage-panel">
+                  <div className="row">
+                    <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
+                  </div>
+                  <div className="scrollable">
+                    {favouritesPanel}
                   </div>
                 </div>
-        tabClasses[3] = selectedClass
+              </div>
+      tabClasses[3] = selectedClass
 
     <div className="frontpage-panel-container">
       {panel}
