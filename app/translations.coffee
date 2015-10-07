@@ -37,12 +37,13 @@ translations =
     'routes': 'Linjat'
     'time': 'Aika'
     'stop': 'Pysäkki'
-    'stops' : 'Pysäkit'
+    'stops': 'Pysäkit'
     'stop-number': 'Pysäkkinumero'
-    'right-now' : 'Juuri nyt'
+    'right-now': 'Juuri nyt'
     'minutes': 'min'
-    'timetable' : 'Aikataulu'
-    'no-favourites' : 'Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä.'
+    'timetable': 'Aikataulu'
+    'no-favourites': 'Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä.'
+    'under': 'alle'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -82,10 +83,11 @@ translations =
     'routes': 'Linjer'
     'time': 'Tid'
     'stop': 'Hållplats'
-    'stops' : 'Hållplatser'
+    'stops': 'Hållplatser'
     'stop-number': 'Hållplatsens nummer'
-    'right-now' : 'Just nu'
+    'right-now': 'Just nu'
     'minutes': 'min'
-    'timetable' : 'Tidtabeller'
+    'timetable': 'Tidtabeller'
+    'under': 'mindre än'
 
 module.exports = translations
