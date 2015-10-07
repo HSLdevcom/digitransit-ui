@@ -21,7 +21,7 @@ class StopCardContainer extends React.Component
       @forceUpdate()
 
   addFavouriteStop: (e) =>
-    e.stopPropagation()
+    e.preventDefault()
     @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.gtfsId
 
   render: =>
