@@ -15,13 +15,18 @@ class FavouriteStopCardListContainer extends React.Component
   getStopCards: =>
     stopCards = []
     for stop in @props.stops
-      stopCards.push <StopCardContainer key={stop.gtfsId} stop={stop: stop} departures=DEPARTURES_COUNT />
+      stopCards.push <StopCardContainer key={stop.gtfsId}
+                                        stop={stop}
+                                        departures=DEPARTURES_COUNT
+                                        className="padding-small"/>
     stopCards
 
   render: =>
     <StopCardList classname="row" addStops=false hideShowMoreButton=true>
       {@getStopCards()}
     </StopCardList>
+
+
 
 module.exports = Relay.createContainer(FavouriteStopCardListContainer,
   fragments: queries.FavouriteStopListContainerFragments

@@ -20,8 +20,8 @@ class StopCardHeader extends React.Component
       description += @props.stop.desc + " // "
     if @props.stop.code
       description += @props.stop.code + " // "
-    if @props.dist
-      description += Math.round(@props.dist) + " m"
+    if @props.distance
+      description += Math.round(@props.distance) + " m"
     description
 
   render: ->

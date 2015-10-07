@@ -21,7 +21,11 @@ class NearStopCardListContainer extends React.Component
   getStopCards: =>
     stopCards = []
     for edge in @props.stops.stopsByRadius.edges
-      stopCards.push <StopCardContainer key={edge.node.stop.gtfsId} stop={edge.node} departures=DEPARTURES_COUNT />
+      stopCards.push <StopCardContainer key={edge.node.stop.gtfsId}
+                                        stop={edge.node.stop}
+                                        distance={edge.node.distance}
+                                        departures=DEPARTURES_COUNT
+                                        className="padding-small"/>
     stopCards
 
   render: =>
