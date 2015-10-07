@@ -1,4 +1,6 @@
 React                 = require 'react'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
 DepartureListContainer = require './departure-list-container'
 StopCard              = require './stop-card'
 FavouriteStopsActions = require '../../action/favourite-stops-action'
@@ -15,21 +17,23 @@ class StopCardContainer extends React.Component
     @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
 
   onChange: (id) =>
-    if !id or id == @props.stop.stop.gtfsId
+    if !id or id == @props.stop.gtfsId
       @forceUpdate()
 
   addFavouriteStop: (e) =>
-    e.stopPropagation()
-    @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.stop.gtfsId
+    e.preventDefault()
+    @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.gtfsId
 
   render: =>
     <StopCard
-      key={@props.stop.stop.gtfsId}
-      stop={@props.stop.stop}
-      dist={@props.stop.distance}
-      favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop.stop.gtfsId)}
+      className={@props.className}
+      stop={@props.stop}
+      distance={@props.distance}
+      favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop.gtfsId)}
       addFavouriteStop={@addFavouriteStop}>
       <DepartureListContainer rowClasses="no-padding no-margin" stoptimes={@props.stop.stop.stoptimes} limit={@props.departures}/>
     </StopCard>
 
-module.exports = StopCardContainer
+
+module.exports = Relay.createContainer StopCardContainer,
+  fragments: queries.StopCardContainerFragments

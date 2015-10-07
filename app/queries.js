@@ -100,6 +100,15 @@ var TripQueries = {
   `,
 };
 
+class StopRoute extends Relay.Route {
+  static queries = StopQueries
+  static paramDefinitions = {
+    stopId: {required: true},
+  }
+  static routeName = 'StopRoute'
+}
+
+
 var RoutePageFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
@@ -216,6 +225,7 @@ var NearStopListContainerFragments = {
               stoptimes: stoptimesForServiceDate(date: $date) {
                  ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
               }
+              ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
             }
             distance
           }
@@ -246,13 +256,21 @@ class FavouriteStopListContainerRoute extends Relay.Route {
 }
 
 var FavouriteStopListContainerFragments = {
-    stops: () => Relay.QL`
-      fragment on Stop @relay(plural:true){
-        gtfsId
-        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-        ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
-      }
-    `,
+  stops: () => Relay.QL`
+    fragment on Stop @relay(plural:true){
+      gtfsId
+      ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
+    }
+  `,
+};
+
+var StopCardContainerFragments = {
+  stop: () => Relay.QL`
+    fragment on Stop{
+      gtfsId
+      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+    }`
 };
 
 var StopPageFragments = {
@@ -285,7 +303,7 @@ var StopMapPageFragments = {
   `,
 };
 
-class StopMarkerContainerRoute extends Relay.Route {
+class StopMarkerLayerRoute extends Relay.Route {
   static queries = {
     stopsInRectangle: (Component, variables) => Relay.QL`
       query {
@@ -306,10 +324,10 @@ class StopMarkerContainerRoute extends Relay.Route {
     maxLat: {required: true},
     maxLon: {required: true},
   }
-  static routeName = 'StopMarkerContainerRoute'
+  static routeName = 'StopMarkerLayerRoute'
 }
 
-var StopMarkerContainerFragments = {
+var StopMarkerLayerFragments = {
   stopsInRectangle: (variables) => Relay.QL`
     fragment on QueryType {
       stopsByBbox(minLat: $minLat, minLon: $minLon, maxLat: $maxLat, maxLon: $maxLon, agency: $agency) {
@@ -318,12 +336,18 @@ var StopMarkerContainerFragments = {
         gtfsId
         name
         routes {
-          gtfsId
-          shortName
           type
         }
-        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
       }
+    }
+  `,
+}
+
+var StopMarkerPopupFragments = {
+  stop: () => Relay.QL`
+    fragment on Stop{
+      gtfsId
+      ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
     }
   `,
 }
@@ -516,6 +540,7 @@ module.exports = {
   RouteListContainerRoute: RouteListContainerRoute,
   RouteListContainerFragments: RouteListContainerFragments,
   TripQueries: TripQueries,
+  StopRoute: StopRoute,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
@@ -527,10 +552,12 @@ module.exports = {
   FavouriteRouteRowRoute:FavouriteRouteRowRoute,
   FavouriteRouteRowFragments:FavouriteRouteRowFragments,
   FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,
+  StopCardContainerFragments: StopCardContainerFragments,
   FavouriteStopListContainerRoute: FavouriteStopListContainerRoute,
   StopPageFragments: StopPageFragments,
-  StopMarkerContainerRoute: StopMarkerContainerRoute,
-  StopMarkerContainerFragments: StopMarkerContainerFragments,
+  StopMarkerLayerRoute: StopMarkerLayerRoute,
+  StopMarkerLayerFragments: StopMarkerLayerFragments,
+  StopMarkerPopupFragments: StopMarkerPopupFragments,
   StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
   DepartureListFragments: DepartureListFragments,
