@@ -92,17 +92,16 @@ class FrontpageTabs extends React.Component
     selectedClass =
       selected: true
     if @state.selectedPanel == 1
-        panel = <div className="frontpage-panel-wrapper">
-                  <div className="frontpage-panel nearby-routes">
-                    <div className="row">
-                      <h3><FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/></h3>
-                    </div>
-                    <div className="row">
-                      <ModeFilter id="nearby-routes-mode"/>
-                    </div>
-                    <div className="scrollable">
-                      {routesPanel}
-                    </div>
+      panel = <div className="frontpage-panel-wrapper">
+                <div className="frontpage-panel nearby-routes">
+                  <div className="row">
+                    <h3><FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/></h3>
+                  </div>
+                  <div className="row">
+                    <ModeFilter id="nearby-routes-mode"/>
+                  </div>
+                  <div className="scrollable">
+                    {routesPanel}
                   </div>
                 </div>
               </div>
