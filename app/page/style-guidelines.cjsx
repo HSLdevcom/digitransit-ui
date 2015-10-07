@@ -1,7 +1,46 @@
 React              = require 'react'
 Icon               = require '../component/icon/icon'
 Link               = require('react-router/lib/Link').Link
+# React Components
+Departure          = require '../component/departure/departure'
+RouteNumber        = require '../component/departure/route-number'
+RouteDestination   = require '../component/departure/route-destination'
+DepartureTime      = require '../component/departure/departure-time'
 
+realtimeDeparture = {
+  "stoptime": 1444165199,
+  "realtime": true,
+  "pattern": {
+    "__dataID__": "UGF0dGVybjpIU0w6NDYxMToxOjAx",
+    "route": {
+      "__dataID__": "Um91dGU6SFNMOjQ2MTE=",
+      "gtfsId": "HSL:4611",
+      "shortName": "611",
+      "longName": "Rautatientori - Siltamäki - Suutarila - Tikkurila",
+      "type": "BUS",
+      "color": null
+    },
+    "code": "HSL:4611:1:01",
+    "headsign": "Rautatientori"
+  }
+}
+departure = {
+  "stoptime": 1444185960,
+  "realtime": false,
+  "pattern": {
+    "__dataID__": "UGF0dGVybjpIU0w6MTAwN0I6MDowMg==",
+    "route": {
+      "__dataID__": "Um91dGU6SFNMOjEwMDdC",
+      "gtfsId": "HSL:1007B",
+      "shortName": "7B",
+      "longName": "Senaatintori-Pasila-Töölö-Senaatintori",
+      "type": "TRAM",
+      "color": null
+    },
+    "code": "HSL:1007B:0:02",
+    "headsign": "Pasila"
+  }
+}
 
 class StyleGuidelinesPage extends React.Component
   getColors: ->
@@ -60,6 +99,7 @@ class StyleGuidelinesPage extends React.Component
           </svg>
           <span className="code color-code">$disruption-passive-color</span>#4DA2D9
         </div>
+        <p>TODO: dynamically get these colors, now only for HSL</p>
       </section>
     );
 
@@ -247,11 +287,11 @@ class StyleGuidelinesPage extends React.Component
       <div className="bold">some div<span className="code">.bold</span></div>
       <div className="uppercase">some div<span className="code">.uppercase</span></div>
       <br/>
-      <div className="padding-small" style={{border: '1px solid '}}>the border is not part of the style<span className="code">.padding-small</span></div>
-      <div className="padding-normal" style={{border: '1px solid '}}>some div<span className="code">.padding-normal</span></div>
-      <div className="padding-vertical-small" style={{border: '1px solid '}}>some div<span className="code">.padding-vertical-small</span></div>
-      <div className="padding-vertical-normal" style={{border: '1px solid '}}>some div<span className="code">.padding-vertical-normal</span></div>
-      <div className="padding-horizontal" style={{border: '1px solid '}}>some div<span className="code">.padding-horizontal</span></div>
+      <div className="padding-small border-dashed">the border is not part of the style<span className="code">.padding-small</span></div>
+      <div className="padding-normal border-dashed">some div<span className="code">.padding-normal</span></div>
+      <div className="padding-vertical-small border-dashed">some div<span className="code">.padding-vertical-small</span></div>
+      <div className="padding-vertical-normal border-dashed">some div<span className="code">.padding-vertical-normal</span></div>
+      <div className="padding-horizontal border-dashed">some div<span className="code">.padding-horizontal</span></div>
       <div className="no-padding">some div<span className="code">.no-padding</span></div>
       <div className="no-margin">some div<span className="code">.no-margin</span></div>
       <br/>
@@ -263,6 +303,70 @@ class StyleGuidelinesPage extends React.Component
       <div className="text-center">text centered aligned<span className="code">.text-center</span></div>
       <div className="inline-block">this div is inlied<span className="code">.inline-block</span></div>
       <div className="inline-block">this also<span className="code">.inline-block</span></div>
+    </section>
+
+  getDepartureMolecules: ->
+    currentTime = new Date().getTime() / 1000
+    <section>
+      <div className="card padding-normal">
+        <h2>Departure</h2>
+        <p>Display a departure row using molecules / React components</p>
+        <p>Props:</p>
+        <ul>
+          <li>departure</li>
+          <li>currentTime</li>
+        </ul>
+        <p className="code">{'<Departure departure={departure} currentTime={currentTime} />'}</p>
+        <Departure departure={realtimeDeparture} currentTime={currentTime} className="border-dashed"/>
+        <Departure departure={departure} currentTime={currentTime} className="border-dashed"/>
+        <p className="code">{'<Departure departure={departure} currentTime={currentTime} className="padding-normal border-bottom"/>'}</p>
+        <Departure departure={realtimeDeparture} currentTime={currentTime} className="padding-normal border-dashed border-bottom"/>
+      </div>
+      <div className="card padding-normal">
+        <h2>DepartureTime</h2>
+        <p>Display time in correct format, Timetable / Realtime</p>
+        <p>Props:</p>
+        <ul>
+          <li>time</li>
+          <li>realtime: bool</li>
+          <li>currentTime</li>
+        </ul>
+        <p className="code">{'<DepartureTime departure={departure} currentTime={currentTime}/>'}</p>
+        <DepartureTime time={realtimeDeparture.stoptime} realtime={realtimeDeparture.realtime} currentTime={currentTime}/>
+        <p>time without realtime data</p>
+        <DepartureTime time={departure.stoptime} realtime={departure.realtime} currentTime={currentTime}/>
+      </div>
+      <div className="card padding-normal">
+        <h2>RouteNumber</h2>
+        <p>Display mode icon, Display route number with mode color</p>
+        <p>Props:</p>
+        <ul>
+          <li>mode</li>
+          <li>text (shortText)</li>
+        </ul>
+        <p className="code">{'<RouteNumber mode={departure.pattern.route.type} text={departure.pattern.route.shortName} />'}</p>
+        <RouteNumber mode={realtimeDeparture.pattern.route.type} text={realtimeDeparture.pattern.route.shortName}/>
+      </div>
+      <div className="card padding-normal">
+        <p className="code">RouteDestination</p>
+        <p>Display arrow with mode color, Display destination (headsign)</p>
+        <p>Props:</p>
+        <ul>
+          <li>mode</li>
+          <li>destination</li>
+        </ul>
+        <p className="code">{'<RouteDestination mode={departure.pattern.route.type} destination={departure.pattern.headsign or departure.pattern.route.longName}/>'}</p>
+        <RouteDestination mode={realtimeDeparture.pattern.route.type} destination={realtimeDeparture.pattern.headsign or realtimeDeparture.pattern.route.longName}/>
+      </div>
+      <div className="card padding-normal">
+        <h2>StopReference</h2>
+        <p>Display stop number / platform number, Text color depends on mode</p>
+        <p>Props:</p>
+        <ul>
+          <li>mode</li>
+          <li>stop</li>
+        </ul>
+      </div>
     </section>
 
   render: ->
@@ -293,6 +397,13 @@ class StyleGuidelinesPage extends React.Component
       <hr></hr>
       <div className="sub-header">Helper Classes</div>
       {@getHelpers()}
+
+      <hr></hr>
+      <div className="sub-header">Components - "Molecules"</div>
+      <hr></hr>
+
+      <h1>Departure – Molecules</h1>
+      {@getDepartureMolecules()}
 
       <p></p>
     </div>
