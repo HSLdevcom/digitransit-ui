@@ -1,11 +1,14 @@
 React         = require 'react'
 ReactDOM      = require 'react-dom/server'
+Relay         = require 'react-relay'
+queries       = require '../../queries'
 isBrowser     = window?
 Marker        = if isBrowser then require 'react-leaflet/lib/Marker'
 Popup         = if isBrowser then require './dynamic-popup'
 #Popup        = if isBrowser then require 'react-leaflet/lib/Popup'
 L             = if isBrowser then require 'leaflet'
 StopMarkerPopup = require './stop-marker-popup'
+provideContext = require 'fluxible-addons-react/provideContext'
 
 STOPS_SMALL_MAX_ZOOM = 15
 
@@ -50,7 +53,8 @@ class StopMarker extends React.Component
     @forceUpdate()
 
   getStopMarker: ->
-    # TODO: lazy-initialize popup. Based on initial profiling it takes a lot of time atm
+    StopMarkerPopupWithContext = provideContext StopMarkerPopup
+
     <Marker key="stop"
             map={@props.map}
             key={@props.stop.gtfsId}
@@ -58,11 +62,15 @@ class StopMarker extends React.Component
             icon={StopMarker.getStopIcon @props.mode, @props.selected, @props.map.getZoom()}>
        <Popup options={
          offset: [106, 3]
-         closeButton:false
-         maxWidth:250
-         minWidth:250
-         className:"popup"}>
-         <StopMarkerPopup stop={@props.stop} context={@context}/>
+         closeButton: false
+         maxWidth: 250
+         minWidth: 250
+         className: "popup"}>
+         <Relay.RootContainer
+           Component={StopMarkerPopup}
+           route={new queries.StopRoute(stopId: @props.stop.gtfsId)}
+           renderFetched={(data) => <StopMarkerPopupWithContext stop={data.stop} context={@context}/>}
+         />
        </Popup>
     </Marker>
 
@@ -78,7 +86,7 @@ class StopMarker extends React.Component
               className: 'popup stop-name-marker'
               iconSize: [150, 0]
               iconAnchor: [-8, 7]}
-            />
+    />
 
   render: ->
     unless isBrowser

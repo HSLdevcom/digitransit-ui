@@ -24,6 +24,15 @@ var TripQueries = {
   `,
 };
 
+class StopRoute extends Relay.Route {
+  static queries = StopQueries
+  static paramDefinitions = {
+    stopId: {required: true},
+  }
+  static routeName = 'StopRoute'
+}
+
+
 var RoutePageFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
@@ -197,7 +206,7 @@ var StopMapPageFragments = {
   `,
 };
 
-class StopMarkerContainerRoute extends Relay.Route {
+class StopMarkerLayerRoute extends Relay.Route {
   static queries = {
     stopsInRectangle: (Component, variables) => Relay.QL`
       query {
@@ -218,10 +227,10 @@ class StopMarkerContainerRoute extends Relay.Route {
     maxLat: {required: true},
     maxLon: {required: true},
   }
-  static routeName = 'StopMarkerContainerRoute'
+  static routeName = 'StopMarkerLayerRoute'
 }
 
-var StopMarkerContainerFragments = {
+var StopMarkerLayerFragments = {
   stopsInRectangle: (variables) => Relay.QL`
     fragment on QueryType {
       stopsByBbox(minLat: $minLat, minLon: $minLon, maxLat: $maxLat, maxLon: $maxLon, agency: $agency) {
@@ -230,12 +239,18 @@ var StopMarkerContainerFragments = {
         gtfsId
         name
         routes {
-          gtfsId
-          shortName
           type
         }
-        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
       }
+    }
+  `,
+}
+
+var StopMarkerPopupFragments = {
+  stop: () => Relay.QL`
+    fragment on Stop{
+      gtfsId
+      ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
     }
   `,
 }
@@ -426,6 +441,7 @@ module.exports = {
   StopQueries: StopQueries,
   RouteQueries: RouteQueries,
   TripQueries: TripQueries,
+  StopRoute: StopRoute,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
@@ -439,8 +455,9 @@ module.exports = {
   StopCardContainerFragments: StopCardContainerFragments,
   FavouriteStopListContainerRoute: FavouriteStopListContainerRoute,
   StopPageFragments: StopPageFragments,
-  StopMarkerContainerRoute: StopMarkerContainerRoute,
-  StopMarkerContainerFragments: StopMarkerContainerFragments,
+  StopMarkerLayerRoute: StopMarkerLayerRoute,
+  StopMarkerLayerFragments: StopMarkerLayerFragments,
+  StopMarkerPopupFragments: StopMarkerPopupFragments,
   StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
   DepartureListFragments: DepartureListFragments,

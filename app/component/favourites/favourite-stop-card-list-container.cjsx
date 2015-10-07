@@ -23,6 +23,8 @@ class FavouriteStopCardListContainer extends React.Component
       {@getStopCards()}
     </StopCardList>
 
+
+
 module.exports = Relay.createContainer(FavouriteStopCardListContainer,
   fragments: queries.FavouriteStopListContainerFragments
   initialVariables:
