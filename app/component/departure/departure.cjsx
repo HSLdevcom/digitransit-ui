@@ -1,28 +1,26 @@
-React         = require 'react'
-moment        = require 'moment'
-Icon          = require '../icon/icon.cjsx'
-cx            = require 'classnames'
-RouteNumber   = require './route-number'
-
+React             = require 'react'
+cx                = require 'classnames'
+RouteNumber       = require './route-number'
+RouteDestination  = require './route-destination'
+DepartureTime     = require './departure-time'
 
 class Departure extends React.Component
-  renderTime: (departure) ->
-    if departure.stoptime < @props.currentTime # In the past
-      return (if departure.realtime then "" else "~") + moment(departure.stoptime * 1000).format "HH:mm"
-    if departure.stoptime > @props.currentTime + 1200 # far away
-      return (if departure.realtime then "" else "~") + moment(departure.stoptime * 1000).format "HH:mm"
-    else
-      return (if departure.realtime then "" else "~") + moment(departure.stoptime * 1000).diff(@props.currentTime * 1000, 'm') + "min"
+
 
   render: ->
     mode = @props.departure.pattern.route.type.toLowerCase()
     <p className={cx 'departure', 'route-detail-text', @props.className}>
-      <span className="time">{@renderTime @props.departure}</span>
+      <DepartureTime
+        time={@props.departure.stoptime}
+        realtime={@props.departure.realtime}
+        currentTime={@props.currentTime}/>
       <RouteNumber
         mode={mode}
-        shortName={@props.departure.pattern.route.shortName} />
-      <Icon className={mode} img='icon-icon_arrow-right'/>
-      <span className="destination">&nbsp;{@props.departure.pattern.headsign or @props.departure.pattern.route.longName}</span>
+        text={@props.departure.pattern.route.shortName} />
+      <RouteDestination
+        mode={mode}
+        destination={@props.departure.pattern.headsign or @props.departure.pattern.route.longName}
+       />
     </p>
 
 module.exports = Departure
