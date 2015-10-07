@@ -96,6 +96,10 @@ $search-form-input-overlay-background-color: #EEF1F3;
   position: relative;
 }
 
+.search-form .react-autosuggest {
+  margin-bottom: 8px;
+}
+
 .search-form .react-autosuggest__suggestion--focused {
   color: $search-result-text-highlight-color;
   font-weight: $search-result-text-highlight-font-weight;
