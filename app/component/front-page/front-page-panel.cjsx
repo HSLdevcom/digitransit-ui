@@ -98,6 +98,8 @@ class FrontpageTabs extends React.Component
                   <div className="frontpage-panel">
                     <div className="row">
                       <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
+                    </div>
+                    <div className="scrollable">
                       {favouritesPanel}
                     </div>
                   </div>

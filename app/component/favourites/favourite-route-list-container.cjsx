@@ -2,6 +2,7 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 FavouriteRouteRow     = require './favourite-route-row'
+MasonryComponent      = require '../util/masonry-component'
 config                = require '../../config'
 
 class FavouriteRouteListContainer extends React.Component
@@ -18,7 +19,9 @@ class FavouriteRouteListContainer extends React.Component
 
   render: =>
     <div className="row">
-      {@getRoutes()}
+      <MasonryComponent ref="cards-masonry">
+        {@getRoutes()}
+      </MasonryComponent>
     </div>
 
 
