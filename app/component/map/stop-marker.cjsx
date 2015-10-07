@@ -51,11 +51,13 @@ class StopMarker extends React.Component
 
   getStopMarker: ->
     # TODO: lazy-initialize popup. Based on initial profiling it takes a lot of time atm
-    <Marker key="stop"
-            map={@props.map}
+    <Marker map={@props.map}
             key={@props.stop.gtfsId}
             position={lat: @props.stop.lat, lng: @props.stop.lon}
-            icon={StopMarker.getStopIcon @props.mode, @props.selected, @props.map.getZoom()}>
+            icon={StopMarker.getStopIcon(
+                    @props.mode + (if @props.thin then " thin" else ""),
+                    @props.selected,
+                    @props.map.getZoom())}>
        <Popup options={
          offset: [106, 3]
          closeButton:false

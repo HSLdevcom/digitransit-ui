@@ -1,6 +1,7 @@
 $small-map-height: 155px;
 $medium-map-height: 300px;
 $large-map-height: 500px;
+$stop-thin-opacity: 0.4;
 
 div.map {
   position: relative;
@@ -199,11 +200,21 @@ div.stop-name-marker {
   fill-opacity: 1;
 }
 
+.map .thin .stop {
+  stroke-opacity: $stop-thin-opacity;
+  fill-opacity: $stop-thin-opacity;
+}
+
 .map .stop-small {
   stroke: #fff;
   stroke-opacity: 1;
   fill: currentColor;
   fill-opacity: 1;
+}
+
+.map .thin .stop-small {
+  stroke-opacity: $stop-thin-opacity;
+  fill-opacity: $stop-thin-opacity;
 }
 
 .map .leg-halo {
@@ -214,6 +225,10 @@ div.stop-name-marker {
 .map .leg {
   stroke: currentColor;
   stroke-opacity: 1;
+}
+
+.map .thin {
+  stroke-opacity: 0.5;
 }
 
 /* color to use instead of mode-specific colors */

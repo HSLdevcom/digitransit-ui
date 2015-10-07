@@ -8,6 +8,28 @@ var StopQueries = {
   `,
 };
 
+class TripRoute extends Relay.Route {
+  static queries = {
+    pattern: () => Relay.QL`query {
+        trip(id: $id)
+    }`,
+  }
+  static paramDefinitions = {
+    id: {required: true},
+  }
+  static routeName = "TripRoute"
+}
+
+var TripPatternFragments = {
+  pattern: () => Relay.QL`
+    fragment on Trip {
+      pattern {
+        ${require('./component/map/route-line').getFragment('pattern')}
+      }
+    }
+  `,
+};
+
 var RouteQueries = {
   pattern: () => Relay.QL`
     query {
@@ -74,11 +96,26 @@ var RouteStopListFragments = {
 var RouteMapFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
+      code
+      stops {
+        lat
+        lon
+        name
+        gtfsId
+        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      }
+      ${require('./component/map/route-line').getFragment('pattern')}
+    }
+  `,
+};
+
+var RouteLineFragments = {
+  pattern: () => Relay.QL`
+    fragment on Pattern {
       geometry {
         lat
         lon
       }
-      code
       route {
         type
       }
@@ -417,12 +454,15 @@ var DisruptionRowFragments = {
 
 module.exports = {
   StopQueries: StopQueries,
+  TripRoute: TripRoute,
+  TripPatternFragments: TripPatternFragments,
   RouteQueries: RouteQueries,
   TripQueries: TripQueries,
   RoutePageFragments: RoutePageFragments,
   RouteHeaderFragments: RouteHeaderFragments,
   RouteStopListFragments: RouteStopListFragments,
   RouteMapFragments: RouteMapFragments,
+  RouteLineFragments: RouteLineFragments,
   TripStopListFragments: TripStopListFragments,
   StopListContainerRoute: StopListContainerRoute,
   NearStopListContainerFragments: NearStopListContainerFragments,
