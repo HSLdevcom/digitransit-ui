@@ -50,7 +50,7 @@ class RouteListContainer extends React.Component
     departureLists = []
     for d, departures of departureBuckets
       distance = d * bucketSize
-      if d == 0          
+      if distance == 0
         departureLists.push <div key={"h"+d} className="departure-list-header padding-vertical-small">
           <FormattedMessage id='under' defaultMessage="under" /> {"#{bucketSize} m"}
         </div>
