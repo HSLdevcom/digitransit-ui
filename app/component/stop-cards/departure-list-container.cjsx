@@ -2,7 +2,7 @@ React                 = require 'react'
 ReactDOM              = require 'react-dom'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
-Departure             = require './departure'
+Departure             = require '../departure/departure'
 uniq                  = require 'lodash/array/uniq'
 difference            = require 'lodash/array/difference'
 moment                = require 'moment'
@@ -62,7 +62,7 @@ class DepartureListContainer extends React.Component
     currentDate = new Date().setHours(0, 0, 0, 0) / 1000
     for departure, i in @state.departures
       if departure.stoptime > currentDate + 86400 # TODO: test for DST change dates
-        departureObjs.push <div key={moment(departure.stoptime * 1000).format('DDMMYYYY')} className="date-row">
+        departureObjs.push <div key={moment(departure.stoptime * 1000).format('DDMMYYYY')} className="date-row border-bottom">
           {moment(departure.stoptime * 1000).format('dddd D.M.YYYY')}
         </div>
         currentDate = new Date().setHours(24, 0, 0, 0) / 1000
