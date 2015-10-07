@@ -121,8 +121,7 @@ var NearStopListContainerFragments = {
           node {
             stop {
               gtfsId
-              ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-              ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+              ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
             }
             distance
           }
@@ -153,13 +152,21 @@ class FavouriteStopListContainerRoute extends Relay.Route {
 }
 
 var FavouriteStopListContainerFragments = {
-    stops: () => Relay.QL`
-      fragment on Stop @relay(plural:true){
-        gtfsId
-        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-        ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
-      }
-    `,
+  stops: () => Relay.QL`
+    fragment on Stop @relay(plural:true){
+      gtfsId
+      ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
+    }
+  `,
+};
+
+var StopCardContainerFragments = {
+  stop: () => Relay.QL`
+    fragment on Stop{
+      gtfsId
+      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+    }`
 };
 
 var StopPageFragments = {
@@ -429,6 +436,7 @@ module.exports = {
   FavouriteRouteRowRoute:FavouriteRouteRowRoute,
   FavouriteRouteRowFragments:FavouriteRouteRowFragments,
   FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,
+  StopCardContainerFragments: StopCardContainerFragments,
   FavouriteStopListContainerRoute: FavouriteStopListContainerRoute,
   StopPageFragments: StopPageFragments,
   StopMarkerContainerRoute: StopMarkerContainerRoute,

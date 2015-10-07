@@ -14,11 +14,13 @@ class StopCard extends React.Component
             stop={@props.stop}
             favourite={@props.favourite}
             addFavouriteStop={@props.addFavouriteStop}
-            dist={@props.dist}
+            distance={@props.distance}
           />
           {@props.children}
         </div>
       </Link>
     </div>
+
+
 
 module.exports = StopCard
