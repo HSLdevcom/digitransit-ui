@@ -1,11 +1,13 @@
 React          = require 'react'
+FormattedMessage = require('react-intl').FormattedMessage
 
 class NoFavouritesPanel extends React.Component
 
   render: ->
     <div className="gray text-center">
       <p>
-        Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä.
+        <FormattedMessage id="no-favourites"
+                          defaultMessage="Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä." />
       </p>
     </div>
 
