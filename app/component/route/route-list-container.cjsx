@@ -31,7 +31,7 @@ class RouteListContainer extends React.Component
     seenDepartures = {}
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
-      d = edge.node.distance // @props.relay.variables.bucketSize
+      d = edge.node.distance // config.nearbyRoutes.bucketSize
       for departure in stop.stoptimes
         seenKey = departure.pattern.route.gtfsId + ":" + departure.pattern.headsign
         unless seenDepartures[seenKey]
@@ -42,7 +42,7 @@ class RouteListContainer extends React.Component
     departureBuckets
 
   render: =>
-    bucketSize = @props.relay.variables.bucketSize
+    bucketSize = config.nearbyRoutes.bucketSize
     departureBuckets = @getDepartures()
     departureLists = []
     for d, departures of departureBuckets
@@ -64,9 +64,8 @@ module.exports = Relay.createContainer(RouteListContainer,
   initialVariables:
     lat: null
     lon: null
-    radius: 2000
+    radius: config.nearbyRoutes.radius
     numberOfStops: STOP_COUNT
     agency: config.preferredAgency
-    bucketSize: 100
     date: moment().format("YYYYMMDD") # TODO check this, what date should be used?
 )
