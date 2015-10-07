@@ -43,6 +43,7 @@ translations =
     'minutes': 'min'
     'timetable' : 'Aikataulu'
     'under': 'alle'
+    'no-favourites' : 'Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä.'
 
   'sv':
     'searching-position': 'Letar efter position'

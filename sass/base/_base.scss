@@ -123,11 +123,13 @@ h1 a {
 }
 .vehicle-number {
   font-weight: $font-weight-bold;
-  width: 2.5em;
-  margin-left: 5px;
+  padding: 0 5px;
+  vertical-align: top;
 }
 .destination {
+  max-width: 70%;
 }
+
 .transparent {
   background:rgba(0,0,0, $transparency) !important;
   color: $transparent-color !important;

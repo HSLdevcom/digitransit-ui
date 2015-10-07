@@ -13,6 +13,10 @@ However, we also monitor this repository's issues and import them to Jira. You c
 * [Finland - Helsinki city area demo](http://matka.hsl.fi/)
 * [Finland - National demo](http://digitransit.fi/digitransit-ui/)
 
+## Testing
+
+Digitransit-ui is tested to work on Firefox 29-, Chrome 45-, IE 9-, iOS 6- Safari using [Browserstack](http://www.browserstack.com/). Acceptance tests are written in `.feature` files in Gherkin syntax under `acceptance-tests`
+
 ## Digitransit-ui 
 * [Terms](docs/Terms.md)
 * [Architecture](docs/Architecture.md)

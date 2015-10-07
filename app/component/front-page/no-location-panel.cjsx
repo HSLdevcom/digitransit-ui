@@ -8,7 +8,7 @@ class NoLocationPanel extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
   render: ->
-    <div className="no-location-panel text-center">
+    <div className="gray text-center">
       <p>
         Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.
       </p>
@@ -25,7 +25,7 @@ class NoLocationPanel extends React.Component
         Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.
       </p>
 
-      <p className="text-center separator">
+      <p className="separator">
         Tai
       </p>
 

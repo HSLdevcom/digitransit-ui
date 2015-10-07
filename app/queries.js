@@ -166,7 +166,7 @@ class StopListContainerRoute extends Relay.Route {
   static routeName = 'StopListContainerRoute'
 }
 
-var StopListContainerFragments = {
+var NearStopListContainerFragments = {
   stops: () => Relay.QL`
     fragment on QueryType {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
@@ -188,6 +188,33 @@ var StopListContainerFragments = {
       }
     }
   `,
+};
+
+class FavouriteStopListContainerRoute extends Relay.Route {
+  static queries = {
+      stops: (Component, variables) => Relay.QL`
+      query {
+        stops(ids: $ids) {
+          ${Component.getFragment('stops', {
+          ids: variables.ids,
+        })}
+      }
+    }`,
+  }
+  static paramDefinitions = {
+    ids: {required: true},
+  }
+  static routeName = 'FavouriteStopListContainerRoute'
+}
+
+var FavouriteStopListContainerFragments = {
+    stops: () => Relay.QL`
+      fragment on Stop @relay(plural:true){
+        gtfsId
+        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+        ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+      }
+    `,
 };
 
 var StopPageFragments = {
@@ -393,6 +420,36 @@ var RouteMarkerPopupFragments = {
   `,
 }
 
+class FavouriteRouteRowRoute extends Relay.Route {
+  static queries = {
+      routes: (Component, variables) => Relay.QL`
+        query {
+          routes (ids:$ids) {
+            ${Component.getFragment('routes', {
+            ids: variables.ids
+        })}
+      }}`,
+  }
+  static paramDefinitions = {
+    ids: {required: true},
+  }
+  static routeName = 'FavouriteRouteRowRoute'
+}
+
+var FavouriteRouteRowFragments = {
+    routes: () => Relay.QL`
+      fragment on Route @relay(plural:true) {
+        patterns {
+            code
+        }
+        gtfsId
+        shortName
+        longName
+        type
+      }
+   `,
+};
+
 class DisruptionRowRoute extends Relay.Route {
   static queries = {
     routes: () => Relay.QL`query { routes(ids: $ids) }`,
@@ -411,7 +468,7 @@ var DisruptionRowFragments = {
       shortName
     }
   `,
-};
+}
 
 module.exports = {
   StopQueries: StopQueries,
@@ -425,7 +482,11 @@ module.exports = {
   RouteMapFragments: RouteMapFragments,
   TripStopListFragments: TripStopListFragments,
   StopListContainerRoute: StopListContainerRoute,
-  StopListContainerFragments: StopListContainerFragments,
+  NearStopListContainerFragments: NearStopListContainerFragments,
+  FavouriteRouteRowRoute:FavouriteRouteRowRoute,
+  FavouriteRouteRowFragments:FavouriteRouteRowFragments,
+  FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,
+  FavouriteStopListContainerRoute: FavouriteStopListContainerRoute,
   StopPageFragments: StopPageFragments,
   StopMarkerContainerRoute: StopMarkerContainerRoute,
   StopMarkerContainerFragments: StopMarkerContainerFragments,
