@@ -114,6 +114,7 @@ module.exports = {
     extensions: ['', '.js', '.cjsx', '.jsx', '.coffee'],
     alias: {
       leaflet$: path.resolve(__dirname, "vendor/leaflet-custom-src"),
+      'react-relay': path.resolve(__dirname, "vendor/react-relay"),
     },
   },
   module: {
