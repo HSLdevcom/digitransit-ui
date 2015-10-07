@@ -4,6 +4,7 @@
   line-height: $line-height-normal;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   .icon {
     height: 12px;
     width: 12px;
