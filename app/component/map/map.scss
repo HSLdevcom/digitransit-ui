@@ -1,6 +1,7 @@
 $small-map-height: 155px;
 $medium-map-height: 300px;
 $large-map-height: 500px;
+$stop-thin-opacity: 0.4;
 
 div.map {
   position: relative;
@@ -200,8 +201,8 @@ div.stop-name-marker {
 }
 
 .map .thin .stop {
-  stroke-opacity: 0.5;
-  fill-opacity: 0.5;
+  stroke-opacity: $stop-thin-opacity;
+  fill-opacity: $stop-thin-opacity;
 }
 
 .map .stop-small {
@@ -212,8 +213,8 @@ div.stop-name-marker {
 }
 
 .map .thin .stop-small {
-  stroke-opacity: 0.5;
-  fill-opacity: 0.5;
+  stroke-opacity: $stop-thin-opacity;
+  fill-opacity: $stop-thin-opacity;
 }
 
 .map .leg-halo {
