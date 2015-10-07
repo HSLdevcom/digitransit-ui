@@ -32,7 +32,7 @@ class StopMarkerPopup extends React.Component
       @props.context.executeAction FavouriteStopsAction.addFavouriteStop, @props.stop.id
 
     <div className="card">
-      <StopCardContainer stop={@props.stop} departures={5}/>
+      <StopCardContainer stop={@props.stop} departures={5} className="padding-small"/>
       <div className="bottom location">
         <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
         <Link to="#{process.env.ROOT_PATH}reitti/#{@props.context.getStore('LocationStore').getLocationString()}/#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}" className="route">

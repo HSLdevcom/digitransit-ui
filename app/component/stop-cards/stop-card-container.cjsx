@@ -26,6 +26,7 @@ class StopCardContainer extends React.Component
 
   render: =>
     <StopCard
+      className={@props.className}
       stop={@props.stop}
       distance={@props.distance}
       favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop.gtfsId)}
