@@ -114,15 +114,17 @@ nav.top-bar {
 .lang-select {
   list-style: none;
   border-bottom: 1px solid #262626;
-  padding: 0px 0px 20px 0px;
+  padding: 2px 5px 2px 5px;
   margin: 0;
   .lang {
     display: inline-block;
-    a.selected {
-
-      border-radius: 3px;
-      background-color: #379;
+    text-transform: uppercase;
+    a {
       padding: 2px 5px 2px 5px;
+    }
+    a.selected {
+      border-radius: 3px;
+      background-color: $dark-color;
     }
   }
 }
