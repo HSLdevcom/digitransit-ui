@@ -6,3 +6,5 @@ filesizes.html
 stats.json
 test/credentials.json
 *.swp
+tests_output
+test_screenshots

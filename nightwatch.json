@@ -1,0 +1,31 @@
+{
+  "src_folders" : ["nightwatch/"],
+
+  "selenium" : {
+    "start_process" : false,
+    "host" : "hub.browserstack.com",
+    "port" : 80
+  },
+
+  "test_settings" : {
+    "default" : {
+      "launch_url" : "http://hub.browserstack.com",
+      "selenium_port"  : 80,
+      "selenium_host"  : "hub.browserstack.com",
+      "silent": true,
+      "screenshots" : {
+        "enabled" : true,
+        "on_failure" : true,
+        "on_error" : true,
+        "path" : "test_screenshots/"
+      },
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.user": "tomihukkalainen1",
+        "browserstack.key": ""
+      }
+    }
+  }
+}
