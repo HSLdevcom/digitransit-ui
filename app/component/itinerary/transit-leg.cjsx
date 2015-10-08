@@ -2,7 +2,7 @@ React = require 'react'
 Icon  = require '../icon/icon'
 moment = require 'moment'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class TransitLeg extends React.Component

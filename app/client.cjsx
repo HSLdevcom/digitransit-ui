@@ -1,7 +1,7 @@
 # Libraries
 React             = require 'react'
 ReactDOM          = require 'react-dom'
-IntlProvider = require('react-intl').IntlProvider
+IntlProvider      = require('react-intl').IntlProvider
 Router            = require 'react-router/lib/Router'
 Relay             = require 'react-relay'
 ReactRouterRelay  = require 'react-router-relay'
