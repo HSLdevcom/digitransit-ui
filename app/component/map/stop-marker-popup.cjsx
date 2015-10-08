@@ -1,8 +1,9 @@
 React                 = require 'react'
-StopCardHeader        = require '../stop-cards/stop-card-header'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
+StopCardContainer     = require '../stop-cards/stop-card-container'
 Icon                  = require '../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
-RouteList             = require '../stop-cards/route-list'
 FavouriteStopsAction  = require '../../action/favourite-stops-action'
 
 class StopMarkerPopup extends React.Component
@@ -31,8 +32,7 @@ class StopMarkerPopup extends React.Component
       @props.context.executeAction FavouriteStopsAction.addFavouriteStop, @props.stop.id
 
     <div className="card">
-      <StopCardHeader stop={@props.stop} favourite={favourite} addFavouriteStop={addFavouriteStop}/>
-      <RouteList ref="routeList" routes={@props.stop.routes}/>
+      <StopCardContainer stop={@props.stop} departures={5} className="padding-small"/>
       <div className="bottom location">
         <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
         <Link to="#{process.env.ROOT_PATH}reitti/#{@props.context.getStore('LocationStore').getLocationString()}/#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}" className="route">
@@ -41,4 +41,5 @@ class StopMarkerPopup extends React.Component
       </div>
     </div>
 
-module.exports = StopMarkerPopup
+module.exports = Relay.createContainer StopMarkerPopup,
+  fragments: queries.StopMarkerPopupFragments
