@@ -7,7 +7,7 @@ class NoFavouritesPanel extends React.Component
     <div className="gray text-center">
       <p>
         <FormattedMessage id="no-favourites"
-                          defaultMessage="Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä." />
+                          defaultMessage="You have not yet saved any favorites, so we can not show them."/>
       </p>
     </div>
 
