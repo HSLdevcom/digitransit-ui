@@ -71,7 +71,11 @@ class RouteListContainer extends React.Component
           {"#{distance} - #{distance + bucketSize} m"}
         </div>
       if departures
-        departureLists.push <DepartureListContainer key={d} rowClasses="padding-normal" stoptimes={departures}/>
+        departureLists.push <DepartureListContainer
+          key={d}
+          rowClasses="padding-normal"
+          routeLinks={true}
+          stoptimes={departures}/>
     <div>{departureLists}</div>
 
 module.exports = Relay.createContainer(RouteListContainer,
