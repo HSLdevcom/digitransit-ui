@@ -1,11 +1,13 @@
 React     = require 'react'
 Icon      = require '../icon/icon'
 Offcanvas = require '../util/offcanvas'
+LangSelect= require './lang-select'
 
 class OffcanvasMenu extends React.Component
   render: ->
     <Offcanvas open={@props.open} position="left">
       <header className="offcanvas-header offcanvas-section">
+        <LangSelect/>
         <p className="offcanvas-lead">
             Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi
         </p>
