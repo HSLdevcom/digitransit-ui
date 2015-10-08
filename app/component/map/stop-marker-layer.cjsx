@@ -57,7 +57,7 @@ class StopMarkerLayer extends React.Component
     <div>{if STOPS_MAX_ZOOM < @props.map.getZoom() then @getStops() else ""}</div>
 
 module.exports = Relay.createContainer(StopMarkerLayer,
-  fragments: queries.StopMarkerContainerFragments
+  fragments: queries.StopMarkerLayerFragments
   initialVariables:
     minLat: null
     minLon: null
