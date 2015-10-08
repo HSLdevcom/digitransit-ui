@@ -2,7 +2,9 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
+RouteListContainer    = require '../route/route-list-container'
 StopCardListContainer = require '../stop-cards/nearest-stop-card-list-container'
+ModeFilter            = require '../route/mode-filter'
 NoLocationPanel       = require './no-location-panel'
 Icon                  = require '../icon/icon.cjsx'
 classnames            = require 'classnames'
@@ -39,12 +41,24 @@ class FrontpageTabs extends React.Component
   getStopContainer: (lat, lon) =>
     <Relay.RootContainer
       Component={StopCardListContainer}
+      forceFetch={true}
       route={new queries.StopListContainerRoute({
         lat: lat
         lon: lon
         })}
       renderLoading={-> <div className="spinner-loader"/>}
       }
+    />
+
+  getRoutesContainer: (lat, lon) =>
+    <Relay.RootContainer
+      Component={RouteListContainer}
+      forceFetch={true}
+      route={new queries.RouteListContainerRoute({
+        lat: lat
+        lon: lon
+        })}
+      renderLoading={-> <div className="spinner-loader"/>}
     />
 
   selectPanel: (selection) =>
@@ -59,13 +73,18 @@ class FrontpageTabs extends React.Component
     LocationStore = @context.getStore 'LocationStore'
     if @state.origin and @state.origin.lat
       stopsPanel = @getStopContainer(@state.origin.lat, @state.origin.lon)
+      routesPanel = @getRoutesContainer(@state.origin.lat, @state.origin.lon)
     else if (@state.status == LocationStore.STATUS_FOUND_LOCATION or
              @state.status == LocationStore.STATUS_FOUND_ADDRESS)
       stopsPanel = @getStopContainer(@state.lat, @state.lon)
+      routesPanel = @getRoutesContainer(@state.lat, @state.lon)
     else if @state.status == LocationStore.STATUS_SEARCHING_LOCATION
       stopsPanel = <div className="spinner-loader"/>
+      routesPanel = <div className="spinner-loader"/>
     else
       stopsPanel = <NoLocationPanel/>
+      routesPanel = <NoLocationPanel/>
+
 
     favouritesPanel = <FavouritesPanel/>
 
@@ -77,6 +96,9 @@ class FrontpageTabs extends React.Component
                 <div className="frontpage-panel nearby-routes">
                   <div className="row">
                     <h3><FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/></h3>
+                  </div>
+                  <div className="row">
+                    <ModeFilter id="nearby-routes-mode"/>
                   </div>
                   <div className="scrollable">
                     {routesPanel}

@@ -12,5 +12,6 @@ app.registerStore require('./store/location-store')
 app.registerStore require('./store/real-time-information-store')
 app.registerStore require('./store/time-store')
 app.registerStore require('./store/preferences-store')
+app.registerStore require('./store/mode-store')
 
 module.exports = app
