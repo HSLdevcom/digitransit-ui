@@ -18,7 +18,7 @@ class ModeFilter extends React.Component
 
   render: ->
     store = @context.getStore('ModeStore')
-    <div className="row btn-bar">
+    <div className="row btn-bar mode-filter">
       <ToggleButton
         icon="bus-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleBusState}
