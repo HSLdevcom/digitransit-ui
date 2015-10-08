@@ -1,5 +1,5 @@
 ## Install requirements
-- Install Node.js 0.12.*
+- Install Node.js
   (if you are on Debian, the distribution version is likely too old -
   in case of problems try https://deb.nodesource.com)
 - sudo npm install -g npm@3
