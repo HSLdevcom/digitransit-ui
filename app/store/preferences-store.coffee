@@ -9,11 +9,14 @@ class PreferencesStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @preferences = @loadPreferences()
-    if @preferences == undefined
+    if @preferences == undefined || @preferences == null
       @preferences = {}
     # init language if not defined
     if @preferences.language == undefined
-      @preferences.language = !window?'en' || window.locale
+      if window?
+        @preferences.language = window.locale
+      else
+        @preferences.language = 'en'
 
   getLanguage: ->
     @preferences.language || 'en'
