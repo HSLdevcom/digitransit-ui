@@ -10,10 +10,24 @@
   (you will get warnings, ignore those for now)
 
 ## Start national version dev server (with hot code reloading)
+
+###Mac/Linux
+
 - npm run dev
 
+###Windows
+
+- Run national-win-launch-script.bat, found in /win-launch-scripts
+
 ## Start HSL version dev server (with hot code reloading)
+
+###Mac/Linux
+
 - CONFIG=hsl npm run dev
+
+###Windows
+
+- Launch the hsl-win-launch-script.bat, found in /win-launch-scripts
 
 ## Browse to application 
 - http://localhost:8080/
