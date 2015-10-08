@@ -42,10 +42,10 @@ class FrontpageTabs extends React.Component
     <Relay.RootContainer
       Component={StopCardListContainer}
       forceFetch={true}
-      route={new queries.StopListContainerRoute({
+      route={new queries.StopListContainerRoute
         lat: lat
         lon: lon
-        })}
+      }
       renderLoading={-> <div className="spinner-loader"/>}
       }
     />
@@ -54,10 +54,10 @@ class FrontpageTabs extends React.Component
     <Relay.RootContainer
       Component={RouteListContainer}
       forceFetch={true}
-      route={new queries.RouteListContainerRoute({
+      route={new queries.RouteListContainerRoute
         lat: lat
         lon: lon
-        })}
+      }
       renderLoading={-> <div className="spinner-loader"/>}
     />
 

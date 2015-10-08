@@ -15,9 +15,9 @@ class FavouritesPanel extends React.Component
     <Relay.RootContainer
       key="fav-tops"
       Component={FavouriteStopCardListContainer}
-      route={new queries.FavouriteStopListContainerRoute({
+      route={new queries.FavouriteStopListContainerRoute
         ids: ids
-        })}
+      }
       renderLoading={-> <div className="spinner-loader"/>}
       }
     />
@@ -26,9 +26,9 @@ class FavouritesPanel extends React.Component
     <Relay.RootContainer
       key="fav-routes"
       Component={FavouriteRouteListContainer}
-      route={new queries.FavouriteRouteRowRoute({
+      route={new queries.FavouriteRouteRowRoute
         ids: ids
-        })}
+      }
       renderLoading={-> <div className="spinner-loader"/>}
       }
     />
