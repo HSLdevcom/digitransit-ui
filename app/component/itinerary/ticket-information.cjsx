@@ -1,6 +1,6 @@
 React = require 'react'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class TicketInformation extends React.Component

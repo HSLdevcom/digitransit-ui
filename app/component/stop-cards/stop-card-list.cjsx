@@ -1,7 +1,7 @@
 React            = require 'react'
 MasonryComponent = require '../util/masonry-component'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class StopCardList extends React.Component

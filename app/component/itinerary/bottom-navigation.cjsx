@@ -2,7 +2,7 @@ React = require 'react'
 Icon  = require '../icon/icon'
 Link  = require 'react-router/lib/Link'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class BottomNavigation extends React.Component
