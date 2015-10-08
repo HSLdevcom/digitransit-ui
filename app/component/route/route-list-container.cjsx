@@ -34,21 +34,10 @@ class RouteListContainer extends React.Component
   onModeChange: =>
     @forceUpdate()
 
-  sortBuckets: (departureBuckets) =>
-    buckets = []
-    for d of departureBuckets
-      buckets.push d
-    buckets = sortBy buckets, (d) -> parseInt d, 10
-    
-    sortedBuckets = []
-    for d in buckets
-      sortedBuckets.push [d, departureBuckets[d]]
-    sortedBuckets
-
   limitBuckets: (departureBuckets, count) =>
     limitedBuckets = []
     count = 0
-    for [d, departures] in departureBuckets
+    for d, departures of departureBuckets
       limitedBuckets.push [d, departures]
       count += departures.length
       if count > STOP_COUNT
@@ -57,7 +46,7 @@ class RouteListContainer extends React.Component
     
 
   getDepartures: =>
-    departureBuckets = {}
+    departureBuckets = []
     seenDepartures = {}
     mode = @context.getStore('ModeStore').getMode()
     for edge in @props.stops.stopsByRadius.edges
@@ -70,7 +59,7 @@ class RouteListContainer extends React.Component
           bucket.push departure
           departureBuckets[d] = bucket
           seenDepartures[seenKey] = true
-    @limitBuckets @sortBuckets departureBuckets, STOP_COUNT
+    @limitBuckets departureBuckets, STOP_COUNT
 
   render: =>
     bucketSize = config.nearbyRoutes.bucketSize
