@@ -88,6 +88,7 @@ translations =
     'right-now': 'Just nu'
     'minutes': 'min'
     'timetable': 'Tidtabeller'
+    'no-favourites': 'Ni har ännu inte sparat några favoriter, så vi kan inte visa dem'
     'under': 'mindre än'
 
 module.exports = translations
