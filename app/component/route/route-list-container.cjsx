@@ -34,6 +34,28 @@ class RouteListContainer extends React.Component
   onModeChange: =>
     @forceUpdate()
 
+  sortBuckets: (departureBuckets) =>
+    buckets = []
+    for d of departureBuckets
+      buckets.push d
+    buckets = sortBy buckets, (d) -> parseInt d, 10
+    
+    sortedBuckets = []
+    for d in buckets
+      sortedBuckets.push [d, departureBuckets[d]]
+    sortedBuckets
+
+  limitBuckets: (departureBuckets, count) =>
+    limitedBuckets = []
+    count = 0
+    for [d, departures] in departureBuckets
+      limitedBuckets.push [d, departures]
+      count += departures.length
+      if count > STOP_COUNT
+        break
+    return limitedBuckets
+    
+
   getDepartures: =>
     departureBuckets = {}
     seenDepartures = {}
@@ -48,13 +70,13 @@ class RouteListContainer extends React.Component
           bucket.push departure
           departureBuckets[d] = bucket
           seenDepartures[seenKey] = true
-    departureBuckets
+    @limitBuckets @sortBuckets departureBuckets, STOP_COUNT
 
   render: =>
     bucketSize = config.nearbyRoutes.bucketSize
     departureBuckets = @getDepartures()
     departureLists = []
-    for d, departures of departureBuckets
+    for [d, departures] in departureBuckets
       distance = d * bucketSize
       if distance == 0
         departureLists.push <div key={"h"+d} className="departure-list-header padding-vertical-small">
@@ -65,7 +87,7 @@ class RouteListContainer extends React.Component
           {"#{distance} - #{distance + bucketSize} m"}
         </div>
       if departures
-        departureLists.push <DepartureListContainer key={d} rowClasses="padding-normal" stoptimes={departures} limit={STOP_COUNT}/>
+        departureLists.push <DepartureListContainer key={d} rowClasses="padding-normal" stoptimes={departures}/>
     <div>{departureLists}</div>
 
 module.exports = Relay.createContainer(RouteListContainer,
