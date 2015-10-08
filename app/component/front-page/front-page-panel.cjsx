@@ -10,7 +10,7 @@ Icon                  = require '../icon/icon.cjsx'
 classnames            = require 'classnames'
 FavouritesPanel       = require '../favourites/favourites-panel'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class FrontpageTabs extends React.Component

@@ -4,7 +4,7 @@ IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 
 class IndexNavigation extends React.Component
   @contextTypes:
