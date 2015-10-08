@@ -28,7 +28,7 @@ class ComponentUsageExample extends React.Component
   getChild: (child) ->
     <div>
       <span className="code">
-        {"<#{child.type.name} #{@getPropStrings child.props}/>"}
+        {"<#{child.type.displayName || child.type.name} #{@getPropStrings child.props}/>"}
       </span>
       <div className="border-dashed">{child}</div>
     </div>

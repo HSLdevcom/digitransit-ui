@@ -2,19 +2,19 @@ React = require 'react'
 cx    = require 'classnames'
 Icon  = require '../icon/icon'
 
-class RouteNumber extends React.Component
-  @description:
-    "Display mode icon and route number with mode color"
+RouteNumber = (props) ->
+  mode = props.mode.toLowerCase()
+  <span className={cx "route-number", props.className} >
+    <Icon className={mode} img={'icon-icon_' + mode}/>
+    <span className={"vehicle-number " + mode}>{props.text}</span>
+  </span>
 
-  @propTypes:
-    mode: React.PropTypes.string.isRequired
-    text: React.PropTypes.string.isRequired
+RouteNumber.description = "Display mode icon and route number with mode color"
 
-  render: ->
-    mode = @props.mode.toLowerCase()
-    <span className={cx "route-number", @props.className} >
-      <Icon className={mode} img={'icon-icon_' + mode}/>
-      <span className={"vehicle-number " + mode}>{@props.text}</span>
-    </span>
+RouteNumber.propTypes =
+  mode: React.PropTypes.string.isRequired
+  text: React.PropTypes.string.isRequired
+
+RouteNumber.displayName = "RouteNumber"
 
 module.exports = RouteNumber

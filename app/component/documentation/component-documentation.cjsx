@@ -14,7 +14,7 @@ class ComponentDocumentation extends React.Component
 
   render: ->
     <div className="card padding-normal">
-      <h2>{@props.component.name}</h2>
+      <h2>{@props.component.displayName || @props.component.name}</h2>
       <p>{@props.component.description}</p>
       <p>Props:</p>
       <ul>
