@@ -120,11 +120,11 @@ nav.top-bar {
     display: inline-block;
     text-transform: uppercase;
     a {
-      padding: 2px 5px 2px 5px;
+      padding: 2px 10px 2px 10px;
     }
     a.selected {
       border-radius: 3px;
-      background-color: $dark-color;
+      background-color: rgba($white, 0.15);
     }
   }
 }
