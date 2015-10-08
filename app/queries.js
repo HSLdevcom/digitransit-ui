@@ -38,6 +38,60 @@ var RouteQueries = {
   `,
 };
 
+class RouteListContainerRoute extends Relay.Route {
+  static queries = {
+    stops: (Component, variables) => Relay.QL`
+      query {
+        viewer {
+          ${Component.getFragment('stops', {
+            lat: variables.lat,
+            lon: variables.lon,
+          })}
+        }
+      }
+    `,
+  }
+  static paramDefinitions = {
+    lat: {required: true},
+    lon: {required: true},
+  }
+  static routeName = 'RouteListContainerRoute'
+}
+
+var RouteListContainerFragments = {
+  stops: () => Relay.QL`
+    fragment on QueryType {
+      stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
+        edges {
+          node {
+            stop {
+              gtfsId
+              name
+              code
+              desc
+              stoptimes: stoptimesForPatterns(numberOfDepartures:1) {
+		pattern {
+		  headsign
+		  route {
+		    gtfsId
+		    type
+		  }
+		}
+                ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
+              }
+            }
+            distance
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  `,
+};
+
 var TripQueries = {
   trip: () => Relay.QL`
     query {
@@ -210,8 +264,10 @@ var StopCardContainerFragments = {
   stop: () => Relay.QL`
     fragment on Stop{
       gtfsId
+      stoptimes: stoptimesForServiceDate(date: $date) {
+        ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
+      }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-      ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
     }`
 };
 
@@ -227,7 +283,9 @@ var StopPageFragments = {
         type
         color
       }
-      ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
+      stoptimes: stoptimesForServiceDate(date: $date) {
+        ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
+      }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
@@ -304,25 +362,23 @@ var StopCardHeaderFragments = {
 };
 
 var DepartureListFragments = {
-  stop: () => Relay.QL`
-    fragment on Stop {
-      stopTimes: stoptimesForServiceDate(date: $date) {
-        pattern {
-          route {
-            gtfsId
-            shortName
-            longName
-            type
-            color
-          }
-          code
-          headsign
+  stoptimes: () => Relay.QL`
+    fragment on StoptimesInPattern @relay(plural:true) {
+      pattern {
+        route {
+          gtfsId
+          shortName
+          longName
+          type
+          color
         }
-        stoptimes {
-          realtimeDeparture
-          realtime
-          serviceDay
-        }
+        code
+        headsign
+      }
+      stoptimes {
+        realtimeDeparture
+        realtime
+        serviceDay
       }
     }
   `,
@@ -350,7 +406,7 @@ var TripStopListFragments = {
       route {
         type
       }
-      stoptimes	{
+      stoptimes        {
         stop{
           gtfsId
           name
@@ -393,7 +449,7 @@ var TripLinkFragments = {
     fragment on QueryType {
       fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
         gtfsId
-        route	{
+        route        {
           type
         }
       }
@@ -479,6 +535,8 @@ module.exports = {
   TripRoute: TripRoute,
   TripPatternFragments: TripPatternFragments,
   RouteQueries: RouteQueries,
+  RouteListContainerRoute: RouteListContainerRoute,
+  RouteListContainerFragments: RouteListContainerFragments,
   TripQueries: TripQueries,
   StopRoute: StopRoute,
   RoutePageFragments: RoutePageFragments,
