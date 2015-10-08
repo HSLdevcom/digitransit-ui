@@ -2,7 +2,7 @@ React         = require 'react'
 TimeSelectors = require './time-selectors'
 
 class IndexSubNavigation extends React.Component
-  propTypes =
+  @propTypes:
     visible: React.PropTypes.bool.isRequired
 
   render: ->

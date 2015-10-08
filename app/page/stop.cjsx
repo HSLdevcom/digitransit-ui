@@ -59,7 +59,7 @@ class Page extends React.Component
                               className="stop-page below-map"
                               routeLinks={true}
                               infiniteScroll={true}
-                              rowClasses="padding-normal" />
+                              rowClasses="padding-normal border-bottom" />
     </DefaultNavigation>
 
 module.exports = Relay.createContainer(Page,

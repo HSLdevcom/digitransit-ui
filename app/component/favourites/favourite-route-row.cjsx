@@ -7,9 +7,9 @@ RouteNumber           = require '../departure/route-number'
 
 class FavouriteRouteRow extends React.Component
 
-  proptypes: {
+  @propTypes:
     route: React.PropTypes.object.isRequired
-  }
+  
 
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
@@ -26,7 +26,7 @@ class FavouriteRouteRow extends React.Component
             <Link to="#{process.env.ROOT_PATH}linjat/#{@props.route.patterns[0].code}" className="no-decoration">
               <RouteNumber
                 mode={@props.route.type}
-                lineNumber={@props.route.shortName}
+                text={@props.route.shortName}
                 className="large"/>
               <span className="destination"> - {@props.route.longName}</span>
             </Link>
