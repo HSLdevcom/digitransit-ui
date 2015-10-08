@@ -31,7 +31,7 @@ class FavouriteStopsStore extends Store
 
   toggleFavouriteStop: (stopId) =>
     if typeof stopId isnt 'string'
-      throw "stopId is not a string:" + JSON.stringify stopId
+      throw new Error("stopId is not a string:" + JSON.stringify stopId)
     newStops = @stops.filter (id) -> id isnt stopId
 
     if newStops.length is @stops.length
