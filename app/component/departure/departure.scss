@@ -1,11 +1,49 @@
-// departure specific styles
-.transport  {
+
+.departure  {
+  // parent class for time, vehicle-number, destination
+  background: $white;
+  line-height: $line-height-normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+
   .vehicle-number {
     width: 2.5em;
   }
+  .icon {
+    height: 12px;
+    width: 12px;
+  }
 }
 
-// route-number
+.route-detail-text {
+  color: $black;
+  font-family: $font-family-narrow;
+  font-size: $font-size-normal;
+}
+
+& .time,
+& .vehicle-number,
+& .destination {
+  display: inline-block;
+}
+
+.time {
+  font-weight: $font-weight-bold;
+  width: 3em;
+  margin-right: 1em;
+  text-align: right;
+}
+.vehicle-number {
+  font-weight: $font-weight-bold;
+  padding: 0 5px;
+  vertical-align: top;
+}
+.destination {
+  max-width: 70%;
+}
+
+// route-number component
 .route-number {
   vertical-align: top;
   display: inline-block;

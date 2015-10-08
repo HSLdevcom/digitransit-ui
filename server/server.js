@@ -46,6 +46,7 @@ if (process.env.NODE_ENV !== "development") {
 }
 var translations = require('../app/translations')
 
+
 /* Setup functions */
 function setUpStaticFolders() {
   var staticFolder = appRoot + "/_static"
@@ -89,7 +90,7 @@ function getPolyfills(userAgent) {
 
 function setUpRoutes() {
   app.use(function (req, res, next) { // pass in `req.url` and the router will immediately match
-    var locale = req.query.locale || req.acceptsLanguages(['fi', 'sv', 'en']) || 'en';
+    var locale = req.cookies.lang  || req.acceptsLanguages(['fi', 'sv', 'en']) || 'en';
     var messages = translations[locale]
     var context = application.createContext()
     var location = useQueries(createHistory)().createLocation(req.url);
@@ -161,8 +162,8 @@ function setUpRoutes() {
 
           res.send('<!doctype html>' + html);
         }).catch(function(err) {
-          console.log(err);
-          res.status(500).send(err);
+          console.log(err.stack);
+          res.status(500).send(err.stack);
         });
       }
     });

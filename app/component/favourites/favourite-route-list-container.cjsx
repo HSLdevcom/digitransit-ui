@@ -7,9 +7,9 @@ config                = require '../../config'
 
 class FavouriteRouteListContainer extends React.Component
 
-  proptypes: {
+  @propTypes:
     routes: React.PropTypes.array
-  }
+
 
   getRoutes: =>
     routes = []

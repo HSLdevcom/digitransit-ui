@@ -111,6 +111,24 @@ nav.top-bar {
   background: transparent;
 }
 
+.lang-select {
+  list-style: none;
+  border-bottom: 1px solid #262626;
+  padding: 2px 5px 2px 5px;
+  margin: 0;
+  .lang {
+    display: inline-block;
+    text-transform: uppercase;
+    a {
+      padding: 2px 10px 2px 10px;
+    }
+    a.selected {
+      border-radius: 3px;
+      background-color: rgba($white, 0.15);
+    }
+  }
+}
+
 .left.off-canvas {
   padding-top: 20px;
   color: $offcanvas-link-color;

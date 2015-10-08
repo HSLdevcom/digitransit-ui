@@ -31,7 +31,7 @@ class FavouriteRoutesStore extends Store
 
   addFavouriteRoute: (routeId) =>
     if typeof routeId isnt 'string'
-      throw "routeId is not a string:" + JSON.stringify routeId
+      throw new Error("routeId is not a string:" + JSON.stringify routeId)
     newRoutes = @routes.filter (id) -> id isnt routeId
     if newRoutes.length is @routes.length
       newRoutes.push routeId
