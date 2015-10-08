@@ -21,15 +21,10 @@ class RouteListContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
 
   componentDidMount: ->
-    @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
     @context.getStore('ModeStore').addChangeListener @onModeChange
 
   componentWillUnmount: ->
-    @context.getStore('RealTimeInformationStore').removeChangeListener @onRealTimeChange
     @context.getStore('ModeStore').removeChangeListener @onModeChange
-
-  onRealTimeChange: =>
-    @forceUpdate()
 
   onModeChange: =>
     @forceUpdate()
