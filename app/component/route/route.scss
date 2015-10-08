@@ -25,7 +25,8 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
 }
 
 .departure-list-header {
-  border-bottom: solid 1px #eef1f3;
+  border-top: 1px solid $light-gray;
+  border-bottom: 1px solid $light-gray;
   font-weight: $font-weight-bold;
   font-family: $font-family-narrow;
   line-height: $line-height-normal;
@@ -33,7 +34,8 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
   overflow: hidden;
   color: $gray;
   font-size: $font-size-small;
-  margin-left: 1em;
+  margin-left: 0;
+  padding-left: 1em;
 }
 
 // stop list
@@ -211,12 +213,17 @@ div.route-tabs {
 }
 
 .nearby-routes {
-  overflow-y: auto;
+  overflow: hidden;
   .transport {
     margin: 0.1em 0;
+  }
+  .mode-filter {
+    margin-bottom: 1em;
   }
 }
 
 .mode-filter {
+  width: 160px;
   user-select: none;
+  float: right;
 }

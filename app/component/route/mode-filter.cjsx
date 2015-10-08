@@ -18,41 +18,34 @@ class ModeFilter extends React.Component
 
   render: ->
     store = @context.getStore('ModeStore')
-    <div className="row btn-bar mode-filter">
+    <div className="btn-bar mode-filter">
       <ToggleButton
         icon="bus-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleBusState}
         state={store.getBusState()}
         checkedClass="bus"
-        className="columns-5 first-btn"
+        className="columns small-3 first-btn"
       />
       <ToggleButton
         icon="tram-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleTramState}
         state={store.getTramState()}
         checkedClass="tram"
-        className="columns-5"
+        className="columns small-3"
       />
       <ToggleButton
         icon="rail-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleRailState}
         state={store.getRailState()}
         checkedClass="rail"
-        className="columns-5"
+        className="columns small-3"
       />
       <ToggleButton
         icon="subway-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleSubwayState}
         state={store.getSubwayState()}
         checkedClass="subway"
-        className="columns-5"
-      />
-      <ToggleButton
-        icon="ferry-withoutBox"
-        onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleFerryState}
-        state={store.getFerryState()}
-        checkedClass="ferry"
-        className="columns-5 last-btn"
+        className="columns small-3 last-btn"
       />
     </div>
 

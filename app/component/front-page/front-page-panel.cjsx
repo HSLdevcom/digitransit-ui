@@ -95,11 +95,12 @@ class FrontpageTabs extends React.Component
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel nearby-routes">
                   <div className="row">
-                    <h3><FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/></h3>
+                    <h3>
+                      <ModeFilter id="nearby-routes-mode"/>
+                      <FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/>
+                    </h3>
                   </div>
-                  <div className="row">
-                    <ModeFilter id="nearby-routes-mode"/>
-                  </div>
+
                   <div className="scrollable">
                     {routesPanel}
                   </div>
