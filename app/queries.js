@@ -221,10 +221,6 @@ var NearStopListContainerFragments = {
           node {
             stop {
               gtfsId
-              ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-              stoptimes: stoptimesForServiceDate(date: $date) {
-                 ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
-              }
               ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
             }
             distance
@@ -268,8 +264,10 @@ var StopCardContainerFragments = {
   stop: () => Relay.QL`
     fragment on Stop{
       gtfsId
+      stoptimes: stoptimesForServiceDate(date: $date) {
+        ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
+      }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-      ${require('./component/stop-cards/departure-list-container').getFragment('stop')}
     }`
 };
 

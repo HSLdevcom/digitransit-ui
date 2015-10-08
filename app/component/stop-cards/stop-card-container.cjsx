@@ -4,6 +4,7 @@ queries               = require '../../queries'
 DepartureListContainer = require './departure-list-container'
 StopCard              = require './stop-card'
 FavouriteStopsActions = require '../../action/favourite-stops-action'
+moment                = require 'moment'
 
 class StopCardContainer extends React.Component
   @contextTypes:
@@ -31,9 +32,11 @@ class StopCardContainer extends React.Component
       distance={@props.distance}
       favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop.gtfsId)}
       addFavouriteStop={@addFavouriteStop}>
-      <DepartureListContainer rowClasses="no-padding no-margin" stoptimes={@props.stop.stop.stoptimes} limit={@props.departures}/>
+      <DepartureListContainer rowClasses="no-padding no-margin" stoptimes={@props.stop.stoptimes} limit={@props.departures}/>
     </StopCard>
 
 
 module.exports = Relay.createContainer StopCardContainer,
   fragments: queries.StopCardContainerFragments
+  initialVariables:
+    date: moment().format("YYYYMMDD") # TODO check this, what date should be used?
