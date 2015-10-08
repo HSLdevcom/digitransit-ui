@@ -9,6 +9,12 @@
 - npm install
   (you will get warnings, ignore those for now)
 
+## :warning: What if 'npm install' fails?
+- Ensure you have npm3 installed: 'sudo npm install -f npm@3'
+- Clear npm cache: 'npm cache clean'
+- remove node_modules: 'rm -rf node_modules'
+- Try again: 'npm install'
+
 ## Start national version dev server (with hot code reloading)
 - npm run dev
 
