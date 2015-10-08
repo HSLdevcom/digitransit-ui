@@ -17,7 +17,7 @@ class StoreListeningIntlProvider extends React.Component
     @forceUpdate()
 
   render: ->
-    children = @props.children;
+    children = @props.children
 
     <IntlProvider messages={@props.translations[@context.getStore('PreferencesStore').getLanguage()]} locale={@context.getStore('PreferencesStore').getLanguage()}>
       {children}
