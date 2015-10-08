@@ -16,7 +16,7 @@ class PreferencesStore extends Store
       @preferences.language = !window?'en' || window.locale
 
   getLanguage: ->
-    @preferences.language || 'fi'
+    @preferences.language || 'en'
 
   setLanguage: (language) ->
     if language not in ALLOWED_LANGUAGES
