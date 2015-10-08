@@ -17,39 +17,40 @@ class ModeFilter extends React.Component
     @context.getStore("ModeStore").removeChangeListener @onModeChange
 
   render: ->
+    store = @context.getStore('ModeStore')
     <div className="row btn-bar">
       <ToggleButton
         icon="bus-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleBusState}
-        state={@context.getStore('ModeStore').getBusState()}
+        state={store.getBusState()}
         checkedClass="bus"
         className="columns-5 first-btn"
       />
       <ToggleButton
         icon="tram-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleTramState}
-        state={@context.getStore('ModeStore').getTramState()}
+        state={store.getTramState()}
         checkedClass="tram"
         className="columns-5"
       />
       <ToggleButton
         icon="rail-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleRailState}
-        state={@context.getStore('ModeStore').getRailState()}
+        state={store.getRailState()}
         checkedClass="rail"
         className="columns-5"
       />
       <ToggleButton
         icon="subway-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleSubwayState}
-        state={@context.getStore('ModeStore').getSubwayState()}
+        state={store.getSubwayState()}
         checkedClass="subway"
         className="columns-5"
       />
       <ToggleButton
         icon="ferry-withoutBox"
         onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleFerryState}
-        state={@context.getStore('ModeStore').getFerryState()}
+        state={store.getFerryState()}
         checkedClass="ferry"
         className="columns-5 last-btn"
       />
