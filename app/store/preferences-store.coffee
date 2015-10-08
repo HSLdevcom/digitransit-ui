@@ -9,14 +9,6 @@ class PreferencesStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @preferences = @loadPreferences()
-    if @preferences == undefined || @preferences == null
-      @preferences = {}
-    # init language if not defined
-    if @preferences.language == undefined
-      if window?
-        @preferences.language = window.locale
-      else
-        @preferences.language = 'en'
 
   getLanguage: ->
     @preferences.language || 'en'
@@ -35,11 +27,15 @@ class PreferencesStore extends Store
 
 
   loadPreferences: ->
-    if !window?
-      return undefined
-    storage = window.localStorage
-    preferences = storage.getItem(STORAGE_KEY)
-    JSON.parse(preferences)
+    if window?
+      storage = window.localStorage
+      preferences = storage.getItem(STORAGE_KEY)
+      if preferences?
+        JSON.parse(preferences)
+      else
+        language: if window.locale then window.locale else 'en'
+    else
+      language: 'en'
 
   storePreferences: () ->
     storage = window.localStorage
