@@ -7,9 +7,9 @@ RouteNumber           = require '../departure/route-number'
 
 class FavouriteRouteRow extends React.Component
 
-  proptypes: {
+  @propTypes:
     route: React.PropTypes.object.isRequired
-  }
+  
 
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired

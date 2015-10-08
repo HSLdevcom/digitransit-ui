@@ -3,7 +3,10 @@ cx    = require 'classnames'
 Icon  = require '../icon/icon'
 
 class RouteNumber extends React.Component
-  PropTypes:
+  @description:
+    "Display mode icon and route number with mode color"
+
+  @propTypes:
     mode: React.PropTypes.string.isRequired
     text: React.PropTypes.string.isRequired
 

@@ -3,7 +3,10 @@ Icon        = require '../icon/icon.cjsx'
 cx          = require 'classnames'
 
 class RouteDestination extends React.Component
-  PropTypes:
+  @destination:
+   "Display arrow with mode color and the destination of the route (headsign)"
+
+  @propTypes:
     mode: React.PropTypes.string.isRequired
     destination: React.PropTypes.string.isRequired
 

@@ -8,9 +8,8 @@ DEPARTURES_COUNT = 5
 
 class FavouriteStopCardListContainer extends React.Component
 
-  proptypes: {
+  @propTypes:
     stops: React.PropTypes.any.isRequired
-  }
 
   getStopCards: =>
     stopCards = []
