@@ -2,6 +2,8 @@ React              = require 'react'
 Icon               = require '../component/icon/icon'
 Link               = require('react-router/lib/Link').Link
 # React Components
+ComponentUsageExample = require '../component/documentation/component-usage-example'
+ComponentDocumentation  = require '../component/documentation/component-documentation'
 Departure          = require '../component/departure/departure'
 RouteNumber        = require '../component/departure/route-number'
 RouteDestination   = require '../component/departure/route-destination'
@@ -307,59 +309,40 @@ class StyleGuidelinesPage extends React.Component
 
   getDepartureMolecules: ->
     currentTime = new Date().getTime() / 1000
-    <section>
-      <div className="card padding-normal">
-        <h2>Departure</h2>
-        <p>Display a departure row using molecules / React components</p>
-        <p>Props:</p>
-        <ul>
-          <li>departure</li>
-          <li>currentTime</li>
-        </ul>
-        <p className="code">{'<Departure departure={departure} currentTime={currentTime} />'}</p>
-        <Departure departure={realtimeDeparture} currentTime={currentTime} className="border-dashed"/>
-        <Departure departure={departure} currentTime={currentTime} className="border-dashed"/>
-        <p className="code">{'<Departure departure={departure} currentTime={currentTime} className="padding-normal border-bottom"/>'}</p>
-        <Departure departure={realtimeDeparture} currentTime={currentTime} className="padding-normal border-dashed border-bottom"/>
-      </div>
-      <div className="card padding-normal">
-        <h2>DepartureTime</h2>
-        <p>Display time in correct format, Timetable / Realtime</p>
-        <p>Props:</p>
-        <ul>
-          <li>time</li>
-          <li>realtime: bool</li>
-          <li>currentTime</li>
-        </ul>
-        <p className="code">{'<DepartureTime departure={departure} currentTime={currentTime}/>'}</p>
-        <DepartureTime time={realtimeDeparture.stoptime} realtime={realtimeDeparture.realtime} currentTime={currentTime}/>
-        <p>time without realtime data</p>
-        <DepartureTime time={departure.stoptime} realtime={departure.realtime} currentTime={currentTime}/>
-      </div>
-      <div className="card padding-normal">
-        <h2>RouteNumber</h2>
-        <p>Display mode icon, Display route number with mode color</p>
-        <p>Props:</p>
-        <ul>
-          <li>mode</li>
-          <li>text (shortText)</li>
-        </ul>
-        <p className="code">{'<RouteNumber mode={departure.pattern.route.type} text={departure.pattern.route.shortName} />'}</p>
-        <RouteNumber mode={realtimeDeparture.pattern.route.type} text={realtimeDeparture.pattern.route.shortName}/>
-      </div>
-      <div className="card padding-normal">
-        <p className="code">RouteDestination</p>
-        <p>Display arrow with mode color, Display destination (headsign)</p>
-        <p>Props:</p>
-        <ul>
-          <li>mode</li>
-          <li>destination</li>
-        </ul>
-        <p className="code">{'<RouteDestination mode={departure.pattern.route.type} destination={departure.pattern.headsign or departure.pattern.route.longName}/>'}</p>
-        <RouteDestination mode={realtimeDeparture.pattern.route.type} destination={realtimeDeparture.pattern.headsign or realtimeDeparture.pattern.route.longName}/>
-      </div>
+    <div>
+      <ComponentDocumentation component=Departure>
+        <ComponentUsageExample>
+          <Departure departure={realtimeDeparture} currentTime={currentTime}/>
+        </ComponentUsageExample>
+        <ComponentUsageExample description="adding padding classes">
+          <Departure departure={departure} currentTime={currentTime} className="padding-normal padding-bottom"/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
+      <ComponentDocumentation component=DepartureTime>
+        <ComponentUsageExample description="real time">
+          <DepartureTime departureTime={realtimeDeparture.stoptime} realtime={realtimeDeparture.realtime} currentTime={currentTime}/>
+        </ComponentUsageExample>
+        <ComponentUsageExample description="not real time">
+          <DepartureTime departureTime={departure.stoptime} realtime={departure.realtime} currentTime={currentTime}/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
+      <ComponentDocumentation component=RouteNumber>
+        <ComponentUsageExample>
+          <RouteNumber mode={realtimeDeparture.pattern.route.type} text={realtimeDeparture.pattern.route.shortName}/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
+      <ComponentDocumentation component=RouteDestination>
+        <ComponentUsageExample>
+          <RouteDestination mode={realtimeDeparture.pattern.route.type} destination={realtimeDeparture.pattern.headsign or realtimeDeparture.pattern.route.longName}/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
       <div className="card padding-normal">
         <h2>StopReference</h2>
+        TODO
         <p>Display stop number / platform number, Text color depends on mode</p>
         <p>Props:</p>
         <ul>
@@ -367,10 +350,13 @@ class StyleGuidelinesPage extends React.Component
           <li>stop</li>
         </ul>
       </div>
-    </section>
+    </div>
 
   render: ->
     <div className="container column">
+      <h1>UI Elements</h1>
+      <hr></hr>
+
       <div className="sub-header">Colors</div>
       {@getColors()}
 
@@ -399,10 +385,9 @@ class StyleGuidelinesPage extends React.Component
       {@getHelpers()}
 
       <hr></hr>
-      <div className="sub-header">Components - "Molecules"</div>
+      <h1>Components</h1>
       <hr></hr>
 
-      <h1>Departure – Molecules</h1>
       {@getDepartureMolecules()}
 
       <p></p>
