@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV == 'production') {
+  var raven = require('raven');
+  var RavenClient = new raven.Client(process.env.SENTRY_SECRET_DSN);
+}
 /********** Server **********/
 var express = require('express')
 var cookieParser = require('cookie-parser')
@@ -162,6 +166,9 @@ function setUpRoutes() {
 
           res.send('<!doctype html>' + html);
         }).catch(function(err) {
+          if (process.env.NODE_ENV == 'production') {
+            RavenClient.captureException(err);
+          }
           console.log(err.stack);
           res.status(500).send(err.stack);
         });

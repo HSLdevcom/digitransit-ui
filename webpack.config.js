@@ -61,7 +61,8 @@ function getPluginsConfig(env) {
         'process.env': {
           NODE_ENV: JSON.stringify("production"),
           ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
-          CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
+          CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default'),
+          SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
         }
       }),
       new webpack.PrefetchPlugin('react'),

@@ -17,13 +17,15 @@
 
 ## Start national version dev server (with hot code reloading)
 - npm run dev
+- Sentry is not used on dev server
 
 ## Start HSL version dev server (with hot code reloading)
 - CONFIG=hsl npm run dev
 
-## Browse to application 
+## Browse to application
 - http://localhost:8080/
 
 ## Build release version and start production server
-- npm run build
-- npm run start
+- SENTRY_DSN=YOUR_PUBLIC_DSN npm run build
+- SENTRY_SECRET_DSN=YOUR_SECRET_DSN npm run start
+- If you are not using Sentry, just leave the env vars undefined.
