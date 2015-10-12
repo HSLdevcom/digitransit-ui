@@ -84,7 +84,7 @@ class RouteListContainer extends React.Component
       if departures
         departureLists.push <DepartureListContainer
           key={d}
-          rowClasses="padding-normal"
+          rowClasses="padding-normal underline"
           routeLinks={true}
           stoptimes={departures}/>
     <div>{departureLists}</div>

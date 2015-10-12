@@ -25,7 +25,6 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
 }
 
 .departure-list-header {
-  border-top: 1px solid $light-gray;
   border-bottom: 1px solid $light-gray;
   font-weight: $font-weight-bold;
   line-height: $line-height-normal;
@@ -218,6 +217,9 @@ div.route-tabs {
   }
   .mode-filter {
     margin-bottom: 1em;
+  }
+  .underline {
+      border-bottom: 1px solid $light-gray;
   }
 }
 
