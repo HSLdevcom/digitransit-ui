@@ -28,9 +28,9 @@ class Modal extends React.Component
       'column': true
 
 
-    overlayStyle = {};
+    overlayStyle = {}
     if (!@props.overlay)
-      overlayStyle.background = 'transparent';
+      overlayStyle.background = 'transparent'
 
     <div className={cx('modal-overlay', 'cursor-pointer', isActive)} style={overlayStyle} onClick={@props.toggleVisibility} >
       <div id={@props.id} data-closable={true} className={cx(modalClasses, isActive)} onClick={@stopClickPropagation}>
@@ -51,4 +51,4 @@ class Modal extends React.Component
     </div>
 
 
-module.exports = Modal;
+module.exports = Modal

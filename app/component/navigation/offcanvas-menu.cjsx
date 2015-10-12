@@ -1,7 +1,7 @@
-React     = require 'react'
-Icon      = require '../icon/icon'
-Offcanvas = require '../util/offcanvas'
-LangSelect= require './lang-select'
+React      = require 'react'
+Icon       = require '../icon/icon'
+Offcanvas  = require '../util/offcanvas'
+LangSelect = require './lang-select'
 FormattedMessage = require('react-intl').FormattedMessage
 
 class OffcanvasMenu extends React.Component
@@ -38,5 +38,7 @@ class OffcanvasMenu extends React.Component
         </ul>
       </section>
     </Offcanvas>
+
+
 
 module.exports = OffcanvasMenu
