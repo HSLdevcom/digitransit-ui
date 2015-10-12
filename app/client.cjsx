@@ -1,7 +1,6 @@
 # Libraries
 React             = require 'react'
 ReactDOM          = require 'react-dom'
-IntlProvider = require('react-intl').IntlProvider
 Router            = require 'react-router/lib/Router'
 Relay             = require 'react-relay'
 ReactRouterRelay  = require 'react-router-relay'
@@ -9,9 +8,9 @@ History           = require 'history/lib/createBrowserHistory'
 FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
 isEqual           = require 'lodash/lang/isEqual'
 config            = require './config'
-
+StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
-translations = require './translations'
+translations      = require './translations'
 
 dehydratedState   = window.state; # Sent from the server
 
@@ -25,6 +24,7 @@ Relay.injectNetworkLayer(
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
+
   if err
     throw err
   window.context = context
@@ -35,7 +35,7 @@ app.rehydrate dehydratedState, (err, context) ->
   # If you change how the locales and messages are loaded, change server.js too.
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
-      <IntlProvider messages=translations[window.locale] locale=window.locale>
+      <StoreListeningIntlProvider translations={translations}>
         <Router history={History()} children={app.getComponent()}
                 createElement={ReactRouterRelay.createElement} onUpdate={() ->
             if @state.components[@state.components.length-1].loadAction
@@ -45,7 +45,7 @@ app.rehydrate dehydratedState, (err, context) ->
               )
           }
         />
-      </IntlProvider>
+      </StoreListeningIntlProvider>
     </FluxibleComponent>, document.getElementById('app')
   )
 

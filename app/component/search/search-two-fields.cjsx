@@ -6,7 +6,7 @@ Link = require 'react-router/lib/Link'
 config = require '../../config'
 {locationToOTP} = require '../../util/otp-strings'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 locationValue = (location) ->
