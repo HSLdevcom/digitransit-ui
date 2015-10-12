@@ -17,7 +17,7 @@
 
 ###Windows
 
-- Run national-win-launch-script.bat, found in /win-launch-scripts
+- npm run dev-win-national
 
 ## Start HSL version dev server (with hot code reloading)
 
@@ -27,9 +27,9 @@
 
 ###Windows
 
-- Launch the hsl-win-launch-script.bat, found in /win-launch-scripts
+- npm run dev-win-hsl
 
-## Browse to application 
+## Browse to application
 - http://localhost:8080/
 
 ## Build release version and start production server
