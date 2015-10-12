@@ -34,6 +34,9 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
   font-size: $font-size-small;
   margin-left: 0;
   padding-left: 1em;
+  &:first-of-type {
+      border-top: 1px solid $light-gray;
+  }
 }
 
 // stop list
