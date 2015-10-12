@@ -1,10 +1,9 @@
-React     = require 'react'
-Modal     = require '../util/modal'
+React                   = require 'react'
+Modal                   = require '../util/modal'
 DisruptionRowContainer  = require './disruption-row-container'
 
-
-
 class DisruptionInfo extends React.Component
+
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
@@ -26,7 +25,7 @@ class DisruptionInfo extends React.Component
     disruptionRowContainers = data?.entity.map (disruption) ->
       <DisruptionRowContainer key={disruption.id} disruption={disruption}/>
 
-    <Modal open={@props.open} headerText="Poikkeusinfo" toggleVisibility={@props.toggleDisruptionInfo}>
+    <Modal open={@props.open} id="disruption-info" defaultMessage="Disruption Info" toggleVisibility={@props.toggleDisruptionInfo}>
       {disruptionRowContainers}
     </Modal>
 

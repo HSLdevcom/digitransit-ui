@@ -51,6 +51,8 @@ translations =
     'create-account': 'Luo HKL tunnus'
     'login': 'Kirjaudu sisään'
     'off-canvas-info': 'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi'
+    'cause': 'syy'
+    'disruption-info': 'Poikkeusinfo'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -104,5 +106,7 @@ translations =
     'create-account': 'Skapa HRT-konto'
     'login': 'Logga in'
     'off-canvas-info': 'Genom att logga in du kan återhämta ditt favoriter och du kan använda dem i andra av dina anordning'
+    'cause': 'Orsak'
+    'disruption-info': 'Undantagsinfo'
 
 module.exports = translations
