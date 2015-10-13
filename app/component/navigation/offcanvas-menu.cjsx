@@ -3,8 +3,12 @@ Icon       = require '../icon/icon'
 Offcanvas  = require '../util/offcanvas'
 LangSelect = require './lang-select'
 FormattedMessage = require('react-intl').FormattedMessage
+NotImplemented = require('../util/not-implemented')
 
 class OffcanvasMenu extends React.Component
+  @contextTypes:
+    executeAction: React.PropTypes.func.isRequired
+
   render: ->
     <Offcanvas open={@props.open} position="left">
       <header className="offcanvas-header offcanvas-section">
@@ -29,7 +33,7 @@ class OffcanvasMenu extends React.Component
 
       <section className="offcanvas-section">
         <ul className="offcanvas-list">
-          <li><a href="#"><FormattedMessage id="tickets" defaultMessage="Tickets"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#" onClick={NotImplemented.onClick(@context, 'id','defaultTranslation')} ><FormattedMessage id="tickets" defaultMessage="Tickets"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
           <li><a href="#"><FormattedMessage id="routes" defaultMessage="Routes"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
           <li><a href="#"><FormattedMessage id="stops" defaultMessage="Stops"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
           <li><a href="#"><FormattedMessage id="settings" defaultMessage="Settings"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
