@@ -24,6 +24,20 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
   }
 }
 
+.departure-list-header {
+  border-top: 1px solid $light-gray;
+  border-bottom: 1px solid $light-gray;
+  font-weight: $font-weight-bold;
+  font-family: $font-family-narrow;
+  line-height: $line-height-normal;
+  height: $route-list-header-height;
+  overflow: hidden;
+  color: $gray;
+  font-size: $font-size-small;
+  margin-left: 0;
+  padding-left: 1em;
+}
+
 // stop list
 .route-stop-list {
   font-family: $font-family-narrow;
@@ -196,4 +210,20 @@ div.route-tabs {
     }
   }
   height: calc(100% - #{$route-header-height} - 14px);
+}
+
+.nearby-routes {
+  overflow: hidden;
+  .transport {
+    margin: 0.1em 0;
+  }
+  .mode-filter {
+    margin-bottom: 1em;
+  }
+}
+
+.mode-filter {
+  width: 160px;
+  user-select: none;
+  float: right;
 }

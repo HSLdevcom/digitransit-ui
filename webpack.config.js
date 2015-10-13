@@ -21,7 +21,7 @@ function getLoadersConfig(env) {
         ]
       },
       { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
-      { test: /app\/queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
+      { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
     ])
   } else {
     return([
@@ -35,7 +35,7 @@ function getLoadersConfig(env) {
           (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default')))
       },
       { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
-      { test: /app\/queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
+      { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
     ])
   }
 }
@@ -44,7 +44,7 @@ function getPluginsConfig(env) {
   if (env === "development") {
     return([
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en\-gb/),
+      new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /fi|sv|en\-gb/),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify("development"),
@@ -114,6 +114,7 @@ module.exports = {
     extensions: ['', '.js', '.cjsx', '.jsx', '.coffee'],
     alias: {
       leaflet$: path.resolve(__dirname, "vendor/leaflet-custom-src"),
+      'react-relay': path.resolve(__dirname, "vendor/react-relay"),
     },
   },
   module: {

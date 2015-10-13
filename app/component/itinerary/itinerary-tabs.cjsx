@@ -9,7 +9,7 @@ ItinerarySummary   = require './itinerary-summary'
 Map                = require '../map/map'
 ItineraryLine      = require '../map/itinerary-line'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 
 class ItineraryTabs extends React.Component
   @contextTypes:

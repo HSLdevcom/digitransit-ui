@@ -1,7 +1,48 @@
 React              = require 'react'
 Icon               = require '../component/icon/icon'
 Link               = require('react-router/lib/Link').Link
+# React Components
+ComponentUsageExample = require '../component/documentation/component-usage-example'
+ComponentDocumentation  = require '../component/documentation/component-documentation'
+Departure          = require '../component/departure/departure'
+RouteNumber        = require '../component/departure/route-number'
+RouteDestination   = require '../component/departure/route-destination'
+DepartureTime      = require '../component/departure/departure-time'
 
+realtimeDeparture = {
+  "stoptime": 1444165199,
+  "realtime": true,
+  "pattern": {
+    "__dataID__": "UGF0dGVybjpIU0w6NDYxMToxOjAx",
+    "route": {
+      "__dataID__": "Um91dGU6SFNMOjQ2MTE=",
+      "gtfsId": "HSL:4611",
+      "shortName": "611",
+      "longName": "Rautatientori - Siltamäki - Suutarila - Tikkurila",
+      "type": "BUS",
+      "color": null
+    },
+    "code": "HSL:4611:1:01",
+    "headsign": "Rautatientori"
+  }
+}
+departure = {
+  "stoptime": 1444185960,
+  "realtime": false,
+  "pattern": {
+    "__dataID__": "UGF0dGVybjpIU0w6MTAwN0I6MDowMg==",
+    "route": {
+      "__dataID__": "Um91dGU6SFNMOjEwMDdC",
+      "gtfsId": "HSL:1007B",
+      "shortName": "7B",
+      "longName": "Senaatintori-Pasila-Töölö-Senaatintori",
+      "type": "TRAM",
+      "color": null
+    },
+    "code": "HSL:1007B:0:02",
+    "headsign": "Pasila"
+  }
+}
 
 class StyleGuidelinesPage extends React.Component
   getColors: ->
@@ -60,6 +101,7 @@ class StyleGuidelinesPage extends React.Component
           </svg>
           <span className="code color-code">$disruption-passive-color</span>#4DA2D9
         </div>
+        <p>TODO: dynamically get these colors, now only for HSL</p>
       </section>
     );
 
@@ -247,11 +289,11 @@ class StyleGuidelinesPage extends React.Component
       <div className="bold">some div<span className="code">.bold</span></div>
       <div className="uppercase">some div<span className="code">.uppercase</span></div>
       <br/>
-      <div className="padding-small" style={{border: '1px solid '}}>the border is not part of the style<span className="code">.padding-small</span></div>
-      <div className="padding-normal" style={{border: '1px solid '}}>some div<span className="code">.padding-normal</span></div>
-      <div className="padding-vertical-small" style={{border: '1px solid '}}>some div<span className="code">.padding-vertical-small</span></div>
-      <div className="padding-vertical-normal" style={{border: '1px solid '}}>some div<span className="code">.padding-vertical-normal</span></div>
-      <div className="padding-horizontal" style={{border: '1px solid '}}>some div<span className="code">.padding-horizontal</span></div>
+      <div className="padding-small border-dashed">the border is not part of the style<span className="code">.padding-small</span></div>
+      <div className="padding-normal border-dashed">some div<span className="code">.padding-normal</span></div>
+      <div className="padding-vertical-small border-dashed">some div<span className="code">.padding-vertical-small</span></div>
+      <div className="padding-vertical-normal border-dashed">some div<span className="code">.padding-vertical-normal</span></div>
+      <div className="padding-horizontal border-dashed">some div<span className="code">.padding-horizontal</span></div>
       <div className="no-padding">some div<span className="code">.no-padding</span></div>
       <div className="no-margin">some div<span className="code">.no-margin</span></div>
       <br/>
@@ -265,8 +307,56 @@ class StyleGuidelinesPage extends React.Component
       <div className="inline-block">this also<span className="code">.inline-block</span></div>
     </section>
 
+  getDepartureMolecules: ->
+    currentTime = new Date().getTime() / 1000
+    <div>
+      <ComponentDocumentation component=Departure>
+        <ComponentUsageExample>
+          <Departure departure={realtimeDeparture} currentTime={currentTime}/>
+        </ComponentUsageExample>
+        <ComponentUsageExample description="adding padding classes">
+          <Departure departure={departure} currentTime={currentTime} className="padding-normal padding-bottom"/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
+      <ComponentDocumentation component=DepartureTime>
+        <ComponentUsageExample description="real time">
+          <DepartureTime departureTime={realtimeDeparture.stoptime} realtime={realtimeDeparture.realtime} currentTime={currentTime}/>
+        </ComponentUsageExample>
+        <ComponentUsageExample description="not real time">
+          <DepartureTime departureTime={departure.stoptime} realtime={departure.realtime} currentTime={currentTime}/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
+      <ComponentDocumentation component=RouteNumber>
+        <ComponentUsageExample>
+          <RouteNumber mode={realtimeDeparture.pattern.route.type} text={realtimeDeparture.pattern.route.shortName}/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
+      <ComponentDocumentation component=RouteDestination>
+        <ComponentUsageExample>
+          <RouteDestination mode={realtimeDeparture.pattern.route.type} destination={realtimeDeparture.pattern.headsign or realtimeDeparture.pattern.route.longName}/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
+      <div className="card padding-normal">
+        <h2>StopReference</h2>
+        TODO
+        <p>Display stop number / platform number, Text color depends on mode</p>
+        <p>Props:</p>
+        <ul>
+          <li>mode</li>
+          <li>stop</li>
+        </ul>
+      </div>
+    </div>
+
   render: ->
     <div className="container column">
+      <h1>UI Elements</h1>
+      <hr></hr>
+
       <div className="sub-header">Colors</div>
       {@getColors()}
 
@@ -293,6 +383,12 @@ class StyleGuidelinesPage extends React.Component
       <hr></hr>
       <div className="sub-header">Helper Classes</div>
       {@getHelpers()}
+
+      <hr></hr>
+      <h1>Components</h1>
+      <hr></hr>
+
+      {@getDepartureMolecules()}
 
       <p></p>
     </div>

@@ -6,5 +6,8 @@ filesizes.html
 stats.json
 test/credentials.json
 *.swp
+.idea
+*.iml
+*~
 tests_output
 test_screenshots

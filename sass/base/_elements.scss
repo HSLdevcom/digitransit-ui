@@ -10,7 +10,7 @@ $border-radius-rounded: 30px;
 }
 .card-header {
   background-color: $white;
-  margin-bottom: 0.3em;
+  padding: 0.3em 0 0.5em;
   h3 {
    margin: 0;
  }
@@ -90,6 +90,7 @@ $border-radius-rounded: 30px;
   border-radius: $border-radius;
   padding: 10px 22px;
   max-height: 85%;
+  cursor: auto;
 
   p  {
     margin: 10px 0;

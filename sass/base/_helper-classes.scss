@@ -7,33 +7,35 @@
 .bus {
   color: $bus-color;
 }
-
 .tram {
   color: $tram-color;
 }
-
 .subway {
   color: $metro-color;
 }
-
 .rail {
   color: $rail-color;
 }
-
 .ferry {
   color: $ferry-color;
 }
-
 .walk {
   color: $walk-color;
 }
-
 .from {
   color: $from-color;
 }
-
+.realtime {
+    color: $realtime-color;
+}
 .to {
   color: $to-color;
+}
+.gray {
+  color: $dark-color;
+  p {
+    color: $dark-color;
+  }
 }
 
 /* Positioning */
@@ -120,4 +122,17 @@
 .large-icon {
   width: 20px;
   height: 20px;
+}
+body .large {
+  //font-size: 23px;
+  & .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+.border-bottom  {
+  border-bottom: 1px solid $light-gray;
+}
+.border-dashed  {
+  border: 1px dashed $light-gray;
 }

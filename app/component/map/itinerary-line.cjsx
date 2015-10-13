@@ -1,36 +1,69 @@
 React              = require 'react'
-ReactDOM           = require 'react-dom/server'
+Relay              = require 'react-relay'
+queries            = require '../../queries'
 isBrowser          = window?
 StopMarker         = require './stop-marker'
-Polyline           = if isBrowser then require 'react-leaflet/lib/Polyline' else null
-Marker             = if isBrowser then require 'react-leaflet/lib/Marker' else null
-L                  = if isBrowser then require 'leaflet' else null
-Icon               = require '../icon/icon'
+LocationMarker     = require './location-marker'
+Line               = require './line'
+TripLine               = require './trip-line'
 polyUtil           = require 'polyline-encoded'
 
 class ItineraryLine extends React.Component
-
-  @fromIcon: if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'from', iconAnchor: [12,24]) else null
-  @toIcon: if isBrowser then L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_mapMarker-point')), className: 'to', iconAnchor: [12,24]) else null
-
   render: ->
+    if not isBrowser
+      return false
     objs = []
     if @props.showFromToMarkers
-      objs.push <Marker map={@props.map} key="from" position={@props.legs[0].from} icon={ItineraryLine.fromIcon}/>
-      objs.push <Marker map={@props.map} key="to" position={@props.legs[@props.legs.length-1].to} icon={ItineraryLine.toIcon}/>
+      objs.push <LocationMarker map=@props.map
+                                position={@props.legs[0].from}
+                                class='from' />
+      objs.push <LocationMarker map=@props.map
+                                position={@props.legs[@props.legs.length-1].to}
+                                class='to' />
+
     for leg, i in @props.legs
-      modeClass = if @props.passive then "passive" else leg.mode.toLowerCase()
-      objs.push <Polyline map={@props.map}
-                          key={i + leg.mode + @props.passive + "halo"}
-                          positions={polyUtil.decode leg.legGeometry.points}
-                          className="leg-halo #{modeClass}"
-                          weight=5 />
-      objs.push <Polyline map={@props.map}
-                          key={i + leg.mode + @props.passive + "line"}
-                          positions={polyUtil.decode leg.legGeometry.points}
-                          className="leg #{modeClass}"
-                          weight=3 />
+      mode = if @props.passive then "passive" else leg.mode.toLowerCase()
+      legStops = leg.intermediateStops.concat([leg.from, leg.to])
+
+      objs.push <Line map={@props.map}
+                      key={i + leg.mode + @props.passive}
+                      geometry={polyUtil.decode leg.legGeometry.points}
+                      mode={mode} />
+
       if not @props.passive
+        if leg.tripId
+          do (legStops) =>
+            # We need the do for closure over legStops,
+            # otherwise it would always point to the last leg when Relay renders
+
+            # TripRoute is a dummy to pass pattern from trip on to RouteLine
+            objs.push <Relay.RootContainer
+              Component={TripLine}
+              route={new queries.TripRoute(
+                id: leg.agencyId + ":" + leg.tripId)}
+              renderFetched={(data) =>
+                <TripLine map={@props.map}
+                          pattern={data.pattern}
+                          filteredStops={legStops} />
+              } />
+
+        legStops.forEach (stop) =>
+          # Put subdued markers on intermediate stops
+          # (actually all stops, but we draw over them next)
+          objs.push <StopMarker map={@props.map}
+                                stop={
+                                  lat: stop.lat
+                                  lon: stop.lon
+                                  name: stop.name
+                                  gtfsId: stop.stopId
+                                  code: stop.stopCode
+                                }
+                                key="intermediate-#{stop.stopId}"
+                                mode={mode}
+                                thin=true />
+
+        # Draw a more noticiable marker for the first stop
+        # (where user changes vehicles/modes)
         objs.push <StopMarker map={@props.map}
                               key={i + "," + leg.mode + "marker"}
                               stop={
@@ -40,7 +73,7 @@ class ItineraryLine extends React.Component
                                 gtfsId: leg.from.stopId
                                 code: leg.from.stopCode
                               }
-                              mode={modeClass}
+                              mode={mode}
                               renderText={leg.transitLeg and @props.showTransferLabels}/>
 
     <div style={{display: "none"}}>{objs}</div>

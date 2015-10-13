@@ -1,7 +1,7 @@
 React            = require 'react'
 MasonryComponent = require '../util/masonry-component'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class StopCardList extends React.Component
@@ -9,16 +9,23 @@ class StopCardList extends React.Component
     <div className="cards">
       <div className="row">
         <MasonryComponent ref="cards-masonry">
-          {@props.children}
+          {@props.children.map (child) ->
+            <div className="small-12 medium-6 large-4 columns">
+              {child}
+            </div>
+          }
         </MasonryComponent>
       </div>
-      <div className="row">
-        <div className="small-10 small-offset-1 medium-6 medium-offset-3 columns">
-          <button className="show-more cursor-pointer" onClick=@props.addStops>
-            <FormattedMessage id="show-more" defaultMessage="Show more" />
-          </button>
-        </div>
-      </div>
+      {if not @props.hideShowMoreButton
+        <div className="row">
+          <div className="small-10 small-offset-1 medium-6 medium-offset-3 columns">
+            <button className="show-more cursor-pointer" onClick=@props.addStops>
+              <FormattedMessage id="show-more" defaultMessage="Show more" />
+            </button>
+          </div>
+        </div>}
     </div>
+
+
 
 module.exports = StopCardList

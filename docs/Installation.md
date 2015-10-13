@@ -1,5 +1,5 @@
 ## Install requirements
-- Install Node.js 0.12.*
+- Install Node.js
   (if you are on Debian, the distribution version is likely too old -
   in case of problems try https://deb.nodesource.com)
 - sudo npm install -g npm@3
@@ -9,13 +9,33 @@
 - npm install
   (you will get warnings, ignore those for now)
 
+## :warning: What if 'npm install' fails?
+- Ensure you have npm3 installed: 'sudo npm install -f npm@3'
+- Clear npm cache: 'npm cache clean'
+- remove node_modules: 'rm -rf node_modules'
+- Try again: 'npm install'
+
 ## Start national version dev server (with hot code reloading)
+
+###Mac/Linux
+
 - npm run dev
 
+###Windows
+
+- npm run dev-win-national
+
 ## Start HSL version dev server (with hot code reloading)
+
+###Mac/Linux
+
 - CONFIG=hsl npm run dev
 
-## Browse to application 
+###Windows
+
+- npm run dev-win-hsl
+
+## Browse to application
 - http://localhost:8080/
 
 ## Build release version and start production server

@@ -2,12 +2,15 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
-StopCardListContainer = require '../stop-cards/stop-card-list-container'
+RouteListContainer    = require '../route/route-list-container'
+StopCardListContainer = require '../stop-cards/nearest-stop-card-list-container'
+ModeFilter            = require '../route/mode-filter'
 NoLocationPanel       = require './no-location-panel'
 Icon                  = require '../icon/icon.cjsx'
 classnames            = require 'classnames'
+FavouritesPanel       = require '../favourites/favourites-panel'
 
-intl = require('react-intl')
+intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class FrontpageTabs extends React.Component
@@ -38,12 +41,24 @@ class FrontpageTabs extends React.Component
   getStopContainer: (lat, lon) =>
     <Relay.RootContainer
       Component={StopCardListContainer}
-      route={new queries.StopListContainerRoute({
+      forceFetch={true}
+      route={new queries.StopListContainerRoute
         lat: lat
         lon: lon
-        })}
+      }
       renderLoading={-> <div className="spinner-loader"/>}
       }
+    />
+
+  getRoutesContainer: (lat, lon) =>
+    <Relay.RootContainer
+      Component={RouteListContainer}
+      forceFetch={true}
+      route={new queries.RouteListContainerRoute
+        lat: lat
+        lon: lon
+      }
+      renderLoading={-> <div className="spinner-loader"/>}
     />
 
   selectPanel: (selection) =>
@@ -58,47 +73,64 @@ class FrontpageTabs extends React.Component
     LocationStore = @context.getStore 'LocationStore'
     if @state.origin and @state.origin.lat
       stopsPanel = @getStopContainer(@state.origin.lat, @state.origin.lon)
+      routesPanel = @getRoutesContainer(@state.origin.lat, @state.origin.lon)
     else if (@state.status == LocationStore.STATUS_FOUND_LOCATION or
              @state.status == LocationStore.STATUS_FOUND_ADDRESS)
       stopsPanel = @getStopContainer(@state.lat, @state.lon)
+      routesPanel = @getRoutesContainer(@state.lat, @state.lon)
     else if @state.status == LocationStore.STATUS_SEARCHING_LOCATION
       stopsPanel = <div className="spinner-loader"/>
+      routesPanel = <div className="spinner-loader"/>
     else
       stopsPanel = <NoLocationPanel/>
+      routesPanel = <NoLocationPanel/>
+
+
+    favouritesPanel = <FavouritesPanel/>
 
     tabClasses = []
     selectedClass =
-      selected:true
+      selected: true
     if @state.selectedPanel == 1
-        panel = <div className="frontpage-panel-wrapper">
-                  <div className="frontpage-panel">
-                    <div className="row">
-                      <h3><FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/></h3>
-                    </div>
+      panel = <div className="frontpage-panel-wrapper">
+                <div className="frontpage-panel nearby-routes">
+                  <div className="row">
+                    <h3>
+                      <ModeFilter id="nearby-routes-mode"/>
+                      <FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/>
+                    </h3>
+                  </div>
+
+                  <div className="scrollable">
+                    {routesPanel}
                   </div>
                 </div>
-        tabClasses[1] = selectedClass
+              </div>
+      tabClasses[1] = selectedClass
     else if @state.selectedPanel == 2
-        panel = <div className="frontpage-panel-wrapper">
-                  <div className="frontpage-panel">
-                    <div className="row">
-                      <h3><FormattedMessage id='nearby-stops' defaultMessage='Nearby stops'/></h3>
-                    </div>
-                    <div className="scrollable">
-                      {stopsPanel}
-                    </div>
+      panel = <div className="frontpage-panel-wrapper">
+                <div className="frontpage-panel">
+                  <div className="row">
+                    <h3><FormattedMessage id='nearby-stops' defaultMessage='Nearby stops'/></h3>
+                  </div>
+                  <div className="scrollable">
+                    {stopsPanel}
                   </div>
                 </div>
-        tabClasses[2] = selectedClass
+              </div>
+      tabClasses[2] = selectedClass
     else if @state.selectedPanel == 3
-        panel = <div className="frontpage-panel-wrapper">
-                  <div className="frontpage-panel">
-                    <div className="row">
-                      <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
-                    </div>
+      panel = <div className="frontpage-panel-wrapper">
+                <div className="frontpage-panel">
+                  <div className="row">
+                    <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
+                  </div>
+                  <div className="scrollable">
+                    {favouritesPanel}
                   </div>
                 </div>
-        tabClasses[3] = selectedClass
+              </div>
+      tabClasses[3] = selectedClass
 
     <div className="frontpage-panel-container">
       {panel}

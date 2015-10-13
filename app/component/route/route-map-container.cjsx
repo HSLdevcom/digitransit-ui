@@ -43,11 +43,9 @@ class RouteMapContainer extends React.Component
 
   render: ->
     stops = @props.pattern.stops
-    geometry = @props.pattern.geometry
-    mode = @props.pattern.route.type
 
     leafletObj = [
-      <RouteLine key="line" mode={mode} stops={stops} geometry={geometry}/>,
+      <RouteLine key="line" pattern={@props.pattern} />
       <VehicleMarkerContainer key="vehicles" pattern={@props.pattern.code} trip={@props.trip}/>
     ]
 

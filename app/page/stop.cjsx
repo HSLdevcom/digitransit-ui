@@ -55,12 +55,15 @@ class Page extends React.Component
           </div>
         </Link>
       </Map>
-      <DepartureListContainer showMissingRoutes={false}
-                              stop={@props.stop}
+      <DepartureListContainer stoptimes={@props.stop.stoptimes}
                               className="stop-page below-map"
                               routeLinks={true}
                               infiniteScroll={true}
-                              rowClasses="padding-normal" />
+                              rowClasses="padding-normal border-bottom" />
     </DefaultNavigation>
 
-module.exports = Relay.createContainer(Page, fragments: queries.StopPageFragments)
+module.exports = Relay.createContainer(Page,
+  fragments: queries.StopPageFragments,
+  initialVariables:
+    date: moment().format("YYYYMMDD")
+)
