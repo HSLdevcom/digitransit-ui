@@ -8,10 +8,13 @@ AUTOSUGGEST_ID = 'autosuggest'
 
 class Autosuggest extends React.Component
 
+  getNumberIfNotZero: (number) ->
+    if number and not (number is "0") then " #{number}" else ""
+
   getName: (suggestion) ->
     switch suggestion.layer
       when 'address'
-        "#{suggestion.street} #{suggestion.housenumber}, #{suggestion.locality}"
+        "#{suggestion.street}#{@getNumberIfNotZero suggestion.housenumber}, #{suggestion.locality}"
       when 'locality'
         "#{suggestion.name}"
       when 'neighbourhood'
