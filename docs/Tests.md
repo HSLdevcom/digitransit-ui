@@ -4,7 +4,7 @@
 ### Local - Phantomjs
 - npm run test
 
-### Saucelabs 
+### Saucelabs
 - Ensure you have saucelabs account with apikey
 - Run "./run-ui-tests.sh saucelabs". This will tell you to create 'credentials.json' file. Create it.
 - Run "./run-ui-tests.sh saucelabs"
@@ -24,4 +24,6 @@
 - Run "unzip BrowserStackLocal-linux-x64.zip"
 - Run "./BrowserStackLocal YOUR_BROWSERSTACK_KEY"
 - Run "npm run dev"
-- Run "env BROWSERSTACK_USER=YOUR_USERNAME BROWSERSTACK_KEY=YOUR_KEY node_modules/nightwatch/bin/nightwatch -e browserstack"
+- Run "env BROWSERSTACK_USER=YOUR_USERNAME BROWSERSTACK_KEY=YOUR_KEY node_modules/nightwatch/bin/nightwatch -e bs-fx,bs-chrome,bs-iphone"
+- For some reason Android and IE11 on Windows 10 won't work with local server, but do work when deployed publicly.
+- IE has bugs and fails tests.
