@@ -2,16 +2,22 @@
   "src_folders" : ["nightwatch/"],
 
   "selenium" : {
-    "start_process" : false,
-    "host" : "hub.browserstack.com",
-    "port" : 80
+    "start_process" : true,
+    "server_path" : "selenium-server-standalone-2.48.2.jar",
+    "log_path" : "",
+    "host" : "127.0.0.1",
+    "port" : 4444,
+    "cli_args" : {
+      "webdriver.chrome.driver" : "",
+      "webdriver.ie.driver" : ""
+    }
   },
 
   "test_settings" : {
     "default" : {
-      "launch_url" : "http://hub.browserstack.com",
-      "selenium_port"  : 80,
-      "selenium_host"  : "hub.browserstack.com",
+      "launch_url" : "http://localhost:8080",
+      "selenium_port"  : 4444,
+      "selenium_host"  : "localhost",
       "silent": true,
       "screenshots" : {
         "enabled" : true,
@@ -22,10 +28,35 @@
       "desiredCapabilities": {
         "browserName": "firefox",
         "javascriptEnabled": true,
-        "acceptSslCerts": true,
-        "browserstack.user": "tomihukkalainen1",
-        "browserstack.key": ""
+        "acceptSslCerts": true
       }
+    },
+
+    "browserstack" : {
+      "selenium_port"  : 80,
+      "selenium_host"  : "hub.browserstack.com",
+      "selenium": {
+        "start_process" : false
+      },
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_KEY}",
+        "browserstack.local": true
+      }
+    },
+
+    "phantom": {
+      "selenium_port"  : 4444,
+      "selenium_host"  : "localhost",
+        "desiredCapabilities" : {
+          "browserName" : "phantomjs",
+          "javascriptEnabled" : true,
+          "acceptSslCerts" : true,
+          "phantomjs.binary.path" : "node_modules/phantomjs/bin/phantomjs"
+        }
     }
   }
 }

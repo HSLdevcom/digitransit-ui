@@ -1,9 +1,9 @@
 module.exports = {
   'Frontpage map loads' : function (browser) {
     browser
-      .url('http://matka.hsl.fi/digitransit-ui/')
+      .init()
       .assert.visible('div.leaflet-map-pane')
-      .assert.containsText('span.title', 'fooDigitransit')
+      .assert.containsText('span.title', 'Digitransit')
   },
 
   'Stops menu opens' : function (browser) {
