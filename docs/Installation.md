@@ -38,6 +38,12 @@
 ## Browse to application
 - http://localhost:8080/
 
+## Changing url for OpenTripPlanner and Geocoding
+In package.json there is a configuration variable "SERVER_ROOT". It controls where user interface connects in order to do e.g. routing.
+By default it uses http://matka.hsl.fi but you can override SERVER_ROOT like so:
+
+- npm run dev --digitransit-ui:SERVER_ROOT=http://dev.digitransit.fi
+
 ## Build release version and start production server
-- npm run build
+- npm run build --digitransit-ui:SERVER_ROOT={This depends on environment}
 - npm run start
