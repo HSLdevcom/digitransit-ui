@@ -18,10 +18,7 @@ after (done) ->
     done()
 
 describe TEST_NAME, () ->
-  it 'Should be visible', (done) ->
-    driver.wait(Until.elementLocated(By.id("map1")), TIMEOUT).then (map) ->
-      done()
-
+  it 'Should be visible'
   it 'Should be zoomable and pannable'
   it 'Should be minimized when icon is clicked and return to previous page'
   it 'Should show stop popup when stop icon is clicked'
