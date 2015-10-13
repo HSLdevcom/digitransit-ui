@@ -10,7 +10,7 @@
   (you will get warnings, ignore those for now)
 
 ## :warning: What if 'npm install' fails?
-- Ensure you have npm3 installed: 'sudo npm install -f npm@3'
+- Ensure you have npm3 installed: 'sudo npm install -g npm@3'
 - Clear npm cache: 'npm cache clean'
 - remove node_modules: 'rm -rf node_modules'
 - Try again: 'npm install'
