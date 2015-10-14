@@ -45,6 +45,15 @@ translations =
     'no-favourites': 'Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä.'
     'distance-under': 'Etäisyys alle {distance} m'
     'distance-between': 'Etäisyys {distance1} m — {distance2} m'
+    'tickets': 'Matkaliput'
+    'settings': 'Asetukset'
+    'terms-of-use': 'Käyttöehdot'
+    'hsl-contact-information': 'HSL:n yhteystiedot'
+    'create-account': 'Luo HKL tunnus'
+    'login': 'Kirjaudu sisään'
+    'off-canvas-info': 'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi'
+    'cause': 'syy'
+    'disruption-info': 'Poikkeusinfo'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -92,5 +101,14 @@ translations =
     'no-favourites': 'Ni har ännu inte sparat några favoriter, så vi kan inte visa dem'
     'distance-under': 'Avstånd mindre än {distance} m'
     'distance-between': 'Avstånd {distance1} m — {distance2} m'
+    'tickets': 'Biljetter'
+    'settings': 'Inställningar'
+    'terms-of-use': 'Användarvillkor'
+    'hsl-contact-information': 'HRT Kontaktuppgifter'
+    'create-account': 'Skapa HRT-konto'
+    'login': 'Logga in'
+    'off-canvas-info': 'Genom att logga in du kan återhämta ditt favoriter och du kan använda dem i andra av dina anordning'
+    'cause': 'Orsak'
+    'disruption-info': 'Undantagsinfo'
 
 module.exports = translations
