@@ -8,8 +8,12 @@ Departure          = require '../component/departure/departure'
 RouteNumber        = require '../component/departure/route-number'
 RouteDestination   = require '../component/departure/route-destination'
 DepartureTime      = require '../component/departure/departure-time'
+StopReference      = require '../component/stop/stop-reference'
 
 realtimeDeparture = {
+  "stop": {
+    "code": "4611"
+  },
   "stoptime": 1444165199,
   "realtime": true,
   "pattern": {
@@ -27,6 +31,9 @@ realtimeDeparture = {
   }
 }
 departure = {
+  "stop": {
+    "code": "1007"
+  },
   "stoptime": 1444185960,
   "realtime": false,
   "pattern": {
@@ -317,6 +324,9 @@ class StyleGuidelinesPage extends React.Component
         <ComponentUsageExample description="adding padding classes">
           <Departure departure={departure} currentTime={currentTime} className="padding-normal padding-bottom"/>
         </ComponentUsageExample>
+        <ComponentUsageExample description="with stop number">
+          <Departure departure={departure} showStop={true} currentTime={currentTime} className="padding-normal padding-bottom"/>
+        </ComponentUsageExample>
       </ComponentDocumentation>
 
       <ComponentDocumentation component=DepartureTime>
@@ -340,16 +350,11 @@ class StyleGuidelinesPage extends React.Component
         </ComponentUsageExample>
       </ComponentDocumentation>
 
-      <div className="card padding-normal">
-        <h2>StopReference</h2>
-        TODO
-        <p>Display stop number / platform number, Text color depends on mode</p>
-        <p>Props:</p>
-        <ul>
-          <li>mode</li>
-          <li>stop</li>
-        </ul>
-      </div>
+      <ComponentDocumentation component=StopReference>
+        <ComponentUsageExample>
+          <StopReference mode={realtimeDeparture.pattern.route.type} code={realtimeDeparture.stop.code}/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
     </div>
 
   render: ->
