@@ -3,6 +3,7 @@ Relay = require 'react-relay'
 queries = require '../../queries'
 Icon  = require '../icon/icon'
 RouteList = require '../stop-cards/route-list'
+FormattedMessage = require('react-intl').FormattedMessage
 
 class DisruptionRow extends React.Component
   render: ->
@@ -18,10 +19,12 @@ class DisruptionRow extends React.Component
           </p>
         </div>
         <div className='disruption-details hide'>
-          <span><b className='uppercase'>syy:</b> {@props.cause}</span>
+          <span><b className='uppercase'><FormattedMessage id="cause" defaultMessage="cause"/>:</b> {@props.cause}</span>
         </div>
       </section>
     </div>
+
+
 
 module.exports = Relay.createContainer DisruptionRow,
   fragments: queries.DisruptionRowFragments

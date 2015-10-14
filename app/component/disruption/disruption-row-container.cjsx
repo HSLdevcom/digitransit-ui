@@ -7,9 +7,16 @@ GtfsUtils       = require '../../util/gtfs'
 uniq            = require 'lodash/array/uniq'
 
 
+
 class DisruptionRowContainer extends React.Component
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
   # available languages: fi, se, en
   getDescriptionByLanguage: (descriptionList, language) ->
+    if language == 'sv'
+      language = 'se'
+
     descriptionList.map (description) ->
       if(description.language == language)
         return description.text
@@ -20,7 +27,7 @@ class DisruptionRowContainer extends React.Component
     endTime = moment(data.active_period[0].end * 1000)
     cause = data.cause
 
-    description = @getDescriptionByLanguage(data.description_text.translation, "fi")
+    description = @getDescriptionByLanguage(data.description_text.translation, @context.getStore('PreferencesStore').getLanguage())
 
     <Relay.RootContainer
       Component={DisruptionRow}

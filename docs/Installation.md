@@ -16,11 +16,25 @@
 - Try again: 'npm install'
 
 ## Start national version dev server (with hot code reloading)
+
+###Mac/Linux
+
 - npm run dev
 - Sentry is not used on dev server
 
+###Windows
+
+- npm run dev-win-national
+
 ## Start HSL version dev server (with hot code reloading)
+
+###Mac/Linux
+
 - CONFIG=hsl npm run dev
+
+###Windows
+
+- npm run dev-win-hsl
 
 ## Browse to application
 - http://localhost:8080/
