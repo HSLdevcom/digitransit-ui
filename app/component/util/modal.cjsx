@@ -15,7 +15,6 @@ class Modal extends React.Component
   # makes it possible to press the modal without closing it
   stopClickPropagation: (e) =>
     if @props.allowClicks!= true
-      console.log "preventing..."
       e.preventDefault()
       e.stopPropagation()
 
