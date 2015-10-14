@@ -9,6 +9,6 @@ test/credentials.json
 .idea
 *.iml
 *~
-tests_output
+test_output
 test/binaries
 selenium-debug.log
