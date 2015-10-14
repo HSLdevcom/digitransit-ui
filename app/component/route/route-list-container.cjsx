@@ -64,16 +64,27 @@ class RouteListContainer extends React.Component
       distance = d * bucketSize
       if distance == 0
         departureLists.push <div key={"h"+d} className="departure-list-header padding-vertical-small">
-          <FormattedMessage id='under' defaultMessage="under" /> {"#{bucketSize} m"}
+          <FormattedMessage
+            id='distance-under'
+            defaultMessage="Distance under {distance} m"
+            values={
+              distance: bucketSize
+            }/>
         </div>
       else
         departureLists.push <div key={"h"+d} className="departure-list-header padding-vertical-small">
-          {"#{distance} - #{distance + bucketSize} m"}
+          <FormattedMessage
+            id='distance-between'
+            defaultMessage="Distance {distance1} m — {distance2} m"
+            values={
+              distance1: distance
+              distance2: distance + bucketSize
+            }/>
         </div>
       if departures
         departureLists.push <DepartureListContainer
           key={d}
-          rowClasses="padding-normal"
+          rowClasses="padding-normal underline"
           routeLinks={true}
           stoptimes={departures}/>
     <div>{departureLists}</div>
