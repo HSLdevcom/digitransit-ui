@@ -2,7 +2,7 @@
   "name": "digitransit-ui",
   "version": "0.0.1",
   "description": "Digitransit UI - open nationwide journey planning platform",
-  "author": "crew@reittiopas.fi",
+  "author": "digitransit@hsl.fi",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
@@ -12,14 +12,16 @@
     "dev-win-hsl": "cd win-launch-scripts&& hsl-win-launch-script.bat",
     "dev-win-national": "cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
     "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development node server/hotLoadServer.js",
-    "test": "./run-ui-tests.sh local",
+    "test-local": "./test/script/run-ui-tests.sh local",
+    "test-browserstack": "./test/script/run-ui-tests.sh browserstack",
+    "test-acceptance": "./acceptance-tests/script/run-acceptance-tests.sh",
     "build": "NODE_ENV=production webpack -p --progress --colors",
     "start": "NODE_ENV=production nodemon server/server"
   },
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/HSLdevcom/digitransit-ui"
   },
   "bugs": {
     "url": "https://github.com/HSLdevcom/digitransit-ui/issues"

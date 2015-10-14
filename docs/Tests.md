@@ -1,29 +1,34 @@
+Testing is done using Nightwatch.js and WebDriver remote API. Tests can be run either locally or through BrowserStack.
 
-## Running webdriver ui tests
+# UI-tests
 
-### Local - Phantomjs
-- npm run test
+## folder locations
+- 'test'-folder contains all tests
+- 'test/config'-folder contains nightwatch config
+- 'test/script'-folder contains scripts to that actually run your tests
+- 'test/binaries'-folder contains automatically downloaded Selenium standalone implementation and BrowserStack tunneling software
 
-### Saucelabs
-- Ensure you have saucelabs account with apikey
-- Run "./run-ui-tests.sh saucelabs". This will tell you to create 'credentials.json' file. Create it.
-- Run "./run-ui-tests.sh saucelabs"
+## Requirements
+- You need Linux or OSX to run tests
 
-### Selenium end-to-end
+## Running tests using local firefox
+- run: npm run test-local
 
-#### Local Firefox
+## Running tests using BrowserStack
+- run: "npm run test-browserstack -- YOUR_BROWSERSTACK_USERNAME YOUR_BROWSERSTACK_KEY"
 
-- Run "wget https://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar"
-- Run "npm run dev"
-- Run "node_modules/nightwatch/bin/nightwatch"
-- PhantomJS end-to-end tests do not currently work, but it can be run with
-  "node_modules/nightwatch/bin/nightwatch -e phantom --skiptags nophantom"
+## :warning: Known issues
+- Local: PhantomJS end-to-end tests do not currently work, but it can be run with "node_modules/nightwatch/bin/nightwatch -e phantom --skiptags nophantom"
+- BrowserStack: For some reason Android and IE11 on Windows 10 won't work with local server, but do work when deployed publicly.
+- BrowserStack: IE has bugs and fails tests.
 
-#### BrowserStack
-- Run "wget https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip" (on another platform check https://www.browserstack.com/local-testing)
-- Run "unzip BrowserStackLocal-linux-x64.zip"
-- Run "./BrowserStackLocal YOUR_BROWSERSTACK_KEY"
-- Run "npm run dev"
-- Run "env BROWSERSTACK_USER=YOUR_USERNAME BROWSERSTACK_KEY=YOUR_KEY node_modules/nightwatch/bin/nightwatch -e bs-fx,bs-chrome,bs-iphone"
-- For some reason Android and IE11 on Windows 10 won't work with local server, but do work when deployed publicly.
-- IE has bugs and fails tests.
+## Test output
+Test output and screenshots will be generated to 'test_output'
+
+# Acceptance tests (:warning: Work in progress)
+
+## Folder locations
+- 'acceptance-tests'-folder contains all acceptance tests in Gherkin format
+
+## Running acceptance tests
+- run: npm run test-acceptance

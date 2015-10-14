@@ -10,4 +10,5 @@ test/credentials.json
 *.iml
 *~
 tests_output
-test_screenshots
+test/binaries
+selenium-debug.log
