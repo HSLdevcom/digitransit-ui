@@ -23,6 +23,7 @@ class DepartureListContainer extends React.Component
   asDepartures: (stoptimes) ->
     stoptimes.map (pattern) ->
       pattern.stoptimes.map (stoptime) ->
+        stop: stoptime.stop
         stoptime: stoptime.serviceDay + stoptime.realtimeDeparture
         realtime: stoptime.realtime
         pattern: pattern.pattern
@@ -72,10 +73,10 @@ class DepartureListContainer extends React.Component
 
       if @props.routeLinks
         departureObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.code}" key={id}>
-          <Departure departure={departure} currentTime={currentTime} className={classNames(classes)} />
+          <Departure departure={departure} showStop={@props.showStops} currentTime={currentTime} className={classNames(classes)}/>
         </Link>
       else
-        departureObjs.push <Departure key={id} departure={departure} currentTime={currentTime} className={classNames(classes)} />
+        departureObjs.push <Departure key={id} departure={departure} showStop={@props.showStops} currentTime={currentTime} className={classNames(classes)} />
       #seenRoutes.push(departure.pattern.route.shortName)
       #if seenRoutes.length >= @props.limit
       #  break
