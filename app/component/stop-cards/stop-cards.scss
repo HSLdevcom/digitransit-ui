@@ -1,8 +1,9 @@
 
 .departure-list .date-row {
   font-size: 10pt;
-  text-transform: uppercase;
+  text-transform: capitalize;
   color: $gray;
+  background-color: $white;
   padding-left: 1em;
   font-weight:  $font-weight-bold;
   .missing-routes {
@@ -10,7 +11,7 @@
     font-size: 13px;
     font-weight: $font-weight-light;
     margin: 0.5em 0 0;
-    padding: 0px;
+    padding: 0;
     width: 100%;
     line-height: $line-height-normal;
     color: #999;

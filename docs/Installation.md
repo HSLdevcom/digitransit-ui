@@ -10,7 +10,7 @@
   (you will get warnings, ignore those for now)
 
 ## :warning: What if 'npm install' fails?
-- Ensure you have npm3 installed: 'sudo npm install -f npm@3'
+- Ensure you have npm3 installed: 'sudo npm install -g npm@3'
 - Clear npm cache: 'npm cache clean'
 - remove node_modules: 'rm -rf node_modules'
 - Try again: 'npm install'
@@ -38,6 +38,11 @@
 ## Browse to application
 - http://localhost:8080/
 
+## Changing url for OpenTripPlanner and Geocoding
+In package.json there is a configuration variable "SERVER_ROOT". It controls where user interface connects in order to do e.g. routing.
+By default it uses http://matka.hsl.fi but you can override SERVER_ROOT like so:
+
+- SERVER_ROOT=http://dev.digitransit.fi npm run dev
 ## Build release version and start production server
-- npm run build
+- SERVER_ROOT=YOUR_API_SERVER npm run build
 - npm run start

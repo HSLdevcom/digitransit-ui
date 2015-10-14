@@ -11,7 +11,6 @@
     "dev": "NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html,coffee --watch ./app/ server/server.js & NODE_ENV=development node server/hotLoadServer.js",
     "dev-win-hsl": "cd win-launch-scripts&& hsl-win-launch-script.bat",
     "dev-win-national": "cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
-    "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development node server/hotLoadServer.js",
     "test": "./run-ui-tests.sh local",
     "build": "NODE_ENV=production webpack -p --progress --colors",
     "start": "NODE_ENV=production nodemon server/server"
