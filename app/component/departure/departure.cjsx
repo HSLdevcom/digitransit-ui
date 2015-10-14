@@ -25,6 +25,7 @@ Departure.description =
 
 Departure.propTypes =
   departure: React.PropTypes.object.isRequired
+  showStop: React.PropTypes.bool
   currentTime: React.PropTypes.number.isRequired
   className: React.PropTypes.string
 
