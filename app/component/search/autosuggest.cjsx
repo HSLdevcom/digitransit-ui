@@ -11,16 +11,19 @@ class Autosuggest extends React.Component
   getNumberIfNotZero: (number) ->
     if number and not (number is "0") then " #{number}" else ""
 
+  getLocality: (suggestion) ->
+    if config.pelias.useNeighbourhood && suggestion.neighbourhood then suggestion.neighbourhood else suggestion.locality
+
   getName: (suggestion) ->
     switch suggestion.layer
       when 'address'
-        "#{suggestion.street}#{@getNumberIfNotZero suggestion.housenumber}, #{suggestion.locality}"
+        "#{suggestion.street}#{@getNumberIfNotZero suggestion.housenumber}, #{@getLocality suggestion}"
       when 'locality'
-        "#{suggestion.name}"
+        "#{suggestion.name}, #{@getLocality suggestion}"
       when 'neighbourhood'
-        "#{suggestion.name}, #{suggestion.locality}"
+        "#{suggestion.name}, #{@getLocality suggestion}"
       when 'venue'
-        "#{suggestion.name}, #{suggestion.locality}"
+        "#{suggestion.name}, #{@getLocality suggestion}"
       else
         "#{suggestion.label}"
 
