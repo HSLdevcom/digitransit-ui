@@ -22,10 +22,10 @@ class OffcanvasMenu extends React.Component
           </div>
           <div className="inline-block">
             <p>
-              <a href="#"><FormattedMessage id="create-account" defaultMessage="Create account"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
+              <a href="#" onClick={NotImplemented.onClick(@context, 'create-account')}><FormattedMessage id="create-account" defaultMessage="Create account"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
             </p>
             <p>
-              <a href="#"><FormattedMessage id="login" defaultMessage="Log in"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
+              <a href="#" onClick={NotImplemented.onClick(@context, 'login')}><FormattedMessage id="login" defaultMessage="Log in"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
             </p>
           </div>
         </div>
@@ -33,12 +33,12 @@ class OffcanvasMenu extends React.Component
 
       <section className="offcanvas-section">
         <ul className="offcanvas-list">
-          <li><a href="#" onClick={NotImplemented.onClick(@context, 'id','defaultTranslation')} ><FormattedMessage id="tickets" defaultMessage="Tickets"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="routes" defaultMessage="Routes"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="stops" defaultMessage="Stops"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="settings" defaultMessage="Settings"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="terms-of-use" defaultMessage="Terms of Use"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="hsl-contact-information" defaultMessage="HSL Contacts"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#" onClick={NotImplemented.onClick(@context, 'tickets')} ><FormattedMessage id="tickets" defaultMessage="Tickets"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#" onClick={NotImplemented.onClick(@context, 'routes')}><FormattedMessage id="routes" defaultMessage="Routes"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#" onClick={NotImplemented.onClick(@context, 'stops')}><FormattedMessage id="stops" defaultMessage="Stops"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#" onClick={NotImplemented.onClick(@context, 'settings')}><FormattedMessage id="settings" defaultMessage="Settings"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#" onClick={NotImplemented.onClick(@context, 'terms-of-use')}><FormattedMessage id="terms-of-use" defaultMessage="Terms of Use"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><a href="#" onClick={NotImplemented.onClick(@context, 'hsl-contact-information')}><FormattedMessage id="hsl-contact-information" defaultMessage="HSL Contacts"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
         </ul>
       </section>
     </Offcanvas>

@@ -4,15 +4,18 @@ queries               = require '../../queries'
 Icon                  = require '../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
 classNames            = require 'classnames'
-
+NotImplemented        = require('../util/not-implemented')
 
 class StopCardHeader extends React.Component
+  @contextTypes:
+    executeAction: React.PropTypes.func.isRequired
+
   getInfoIcon: ->
-    <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}/info">
+    <a href="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}/info" onClick={NotImplemented.onClick(@context, 'info')}>
       <span className="cursor-pointer">
         <Icon className="info right" img="icon-icon_info"/>
       </span>
-    </Link>
+    </a>
 
   getDescription: ->
     description = ""

@@ -1,6 +1,8 @@
 React                = require 'react'
 Modal                = require './modal'
 NotImplementedAction = require('../../action/notimplemented-action')
+FormattedMessage     = require('react-intl').FormattedMessage
+
 class NotImplemented extends React.Component
 
   @contextTypes:
@@ -9,7 +11,6 @@ class NotImplemented extends React.Component
 
   constructor: ->
     super
-    console.log("c", @context)
     @state =
       open: false
 
@@ -20,28 +21,27 @@ class NotImplemented extends React.Component
     @context.getStore("NotImplementedStore").removeChangeListener @onChange
 
   onChange: (details) =>
-    console.log "onChange"
     @toggle true
 
   @onClick: (context, id, defaultMessage) ->
-    () =>
+    (e) =>
+      e.preventDefault() if e
       context.executeAction NotImplementedAction.click, {id:id, defaultMessage:defaultMessage}
+      false
 
   toggle: (state) =>
     newState = state==true||state==false|| !@state.open
-    console.log("new state", newState)
     @setState({open: newState}, ()->
-      console.log "called back";
       @forceUpdate())
 
   render: ->
     <Modal open={@state.open} id="not-implemented-title" defaultMessage="Not Implemented" toggleVisibility={@toggle}>
       <p>
-        Jos haluat osallistua kehitystyöhön, löydät lisätietoa suunnitelluista toiminnallisuuksista oheisista linkeistä.
+        <FormattedMessage id="not-implemented-msg" defaultMessage="If you want to participate into development of this service/feature please see more information from the below links."/>
       </p>
-      <a href="#">Github</a><br/>
-      <a href="#">Invision</a><br/>
-      <a href="#">Jira</a><br/>
+      <a href="https://github.com/HSLdevcom/digitransit-ui">Github</a><br/>
+      <a href="https://projects.invisionapp.com/share/MY2F0CQ2W#/screens">Invision</a><br/>
+      <a href="https://digitransit.atlassian.net/secure/Dashboard.jspa">Jira</a><br/>
     </Modal>
 
 

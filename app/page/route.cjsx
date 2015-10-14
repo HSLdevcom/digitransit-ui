@@ -9,6 +9,8 @@ RouteStopListContainer = require '../component/route/route-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
 FormattedMessage       = require('react-intl').FormattedMessage
+NotImplemented         = require '../component/util/not-implemented'
+
 
 class RoutePage extends React.Component
   @contextTypes:
@@ -40,10 +42,15 @@ class RoutePage extends React.Component
       if route[0].toLowerCase() == 'hsl'
         @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2]}
 
+  before: (i) =>
+    if(i==3) #tab 3 selected
+      NotImplemented.onClick(@context, 'info')()
+      false
+
   render: ->
     <DefaultNavigation className="fullscreen">
       <RouteHeaderContainer pattern={@props.pattern}/>
-      <Tabs className="route-tabs">
+      <Tabs className="route-tabs" onBeforeChange={@before}>
         <Tabs.Panel title={<FormattedMessage id='stops' defaultMessage='Stops' />}>
           <RouteListHeader/>
           <RouteStopListContainer pattern={@props.pattern}/>
@@ -55,6 +62,7 @@ class RoutePage extends React.Component
           <div>Aikataulut tähän</div>
         </Tabs.Panel>
       </Tabs>
+      <NotImplemented/>
     </DefaultNavigation>
 
 module.exports = Relay.createContainer(RoutePage, fragments: queries.RoutePageFragments)
