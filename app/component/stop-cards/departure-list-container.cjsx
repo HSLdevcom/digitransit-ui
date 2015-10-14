@@ -23,6 +23,7 @@ class DepartureListContainer extends React.Component
   asDepartures: (stoptimes) ->
     stoptimes.map (pattern) ->
       pattern.stoptimes.map (stoptime) ->
+        stop: stoptime.stop
         stoptime: stoptime.serviceDay + stoptime.realtimeDeparture
         realtime: stoptime.realtime
         pattern: pattern.pattern
