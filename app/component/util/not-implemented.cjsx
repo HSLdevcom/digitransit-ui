@@ -1,13 +1,12 @@
 React                = require 'react'
 Modal                = require './modal'
-NotImplementedAction = require('../../action/notimplemented-action')
+NotImplementedAction = require('../../action/not-implemented-action')
 FormattedMessage     = require('react-intl').FormattedMessage
 
 class NotImplemented extends React.Component
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
 
   constructor: ->
     super
@@ -23,19 +22,21 @@ class NotImplemented extends React.Component
   onChange: (details) =>
     @toggle true
 
-  @onClick: (context, id, defaultMessage) ->
-    (e) =>
-      e.preventDefault() if e
-      context.executeAction NotImplementedAction.click, {id:id, defaultMessage:defaultMessage}
-      false
-
   toggle: (state) =>
-    newState = state==true||state==false|| !@state.open
+    if(state==true || state==false)
+      newState = state
+    else
+      newState = !@state.open
     @setState({open: newState}, ()->
+      console.log "forceUpdate"
       @forceUpdate())
 
+  localName: ->
+    name = @context.getStore("NotImplementedStore").getName()
+    return name: name
+
   render: ->
-    <Modal open={@state.open} id="not-implemented-title" defaultMessage="Not Implemented" toggleVisibility={@toggle}>
+    <Modal open={@state.open} title={<FormattedMessage id="not-implemented" values={@localName()} defaultMessage='{name} - feature is not implemented'/>} toggleVisibility={@toggle}>
       <p>
         <FormattedMessage id="not-implemented-msg" defaultMessage="If you want to participate into development of this service/feature please see more information from the below links."/>
       </p>
@@ -43,6 +44,5 @@ class NotImplemented extends React.Component
       <a href="https://projects.invisionapp.com/share/MY2F0CQ2W#/screens">Invision</a><br/>
       <a href="https://digitransit.atlassian.net/secure/Dashboard.jspa">Jira</a><br/>
     </Modal>
-
 
 module.exports = NotImplemented

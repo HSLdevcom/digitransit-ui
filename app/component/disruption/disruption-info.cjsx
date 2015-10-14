@@ -1,6 +1,7 @@
 React                   = require 'react'
 Modal                   = require '../util/modal'
 DisruptionRowContainer  = require './disruption-row-container'
+FormattedMessage        = require('react-intl').FormattedMessage
 
 class DisruptionInfo extends React.Component
 
@@ -25,7 +26,7 @@ class DisruptionInfo extends React.Component
     disruptionRowContainers = data?.entity.map (disruption) ->
       <DisruptionRowContainer key={disruption.id} disruption={disruption}/>
 
-    <Modal open={@props.open} id="disruption-info" defaultMessage="Disruption Info" toggleVisibility={@props.toggleDisruptionInfo}>
+    <Modal open={@props.open} title={<FormattedMessage id="disruption-info" defaultMessage="Disruption Info"/>} toggleVisibility={@props.toggleDisruptionInfo}>
       {disruptionRowContainers}
     </Modal>
 

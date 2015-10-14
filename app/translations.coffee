@@ -53,6 +53,8 @@ translations =
     'off-canvas-info': 'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi'
     'cause': 'syy'
     'disruption-info': 'Poikkeusinfo'
+    'not-implemented': '{name} -toiminnallisuus on vielä kesken'
+    'not-implemented-msg': 'Jos haluat osallistua kehitystyöhön, löydät lisätietoa suunnitelluista toiminnallisuuksista oheisista linkeistä.'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -108,5 +110,7 @@ translations =
     'off-canvas-info': 'Genom att logga in du kan återhämta ditt favoriter och du kan använda dem i andra av dina anordning'
     'cause': 'Orsak'
     'disruption-info': 'Undantagsinfo'
+    'not-implemented': '{name} - funktionen är inte implementerad'
+    'not-implemented-msg': 'Om du vill delta i utvecklingen , kan du hitta mer information om de planerade funktionerna i följande länkar'
 
 module.exports = translations

@@ -3,11 +3,10 @@ Icon       = require '../icon/icon'
 Offcanvas  = require '../util/offcanvas'
 LangSelect = require './lang-select'
 FormattedMessage = require('react-intl').FormattedMessage
-NotImplemented = require('../util/not-implemented')
+NotImplementedLink = require '../util/not-implemented-link'
+
 
 class OffcanvasMenu extends React.Component
-  @contextTypes:
-    executeAction: React.PropTypes.func.isRequired
 
   render: ->
     <Offcanvas open={@props.open} position="left">
@@ -22,10 +21,10 @@ class OffcanvasMenu extends React.Component
           </div>
           <div className="inline-block">
             <p>
-              <a href="#" onClick={NotImplemented.onClick(@context, 'create-account')}><FormattedMessage id="create-account" defaultMessage="Create account"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
+              <NotImplementedLink name={<FormattedMessage id="create-account" defaultMessage="Create account"/>}> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink>
             </p>
             <p>
-              <a href="#" onClick={NotImplemented.onClick(@context, 'login')}><FormattedMessage id="login" defaultMessage="Log in"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
+              <NotImplementedLink name={<FormattedMessage id="login" defaultMessage="Login"/>}><Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink>
             </p>
           </div>
         </div>
@@ -33,12 +32,12 @@ class OffcanvasMenu extends React.Component
 
       <section className="offcanvas-section">
         <ul className="offcanvas-list">
-          <li><a href="#" onClick={NotImplemented.onClick(@context, 'tickets')} ><FormattedMessage id="tickets" defaultMessage="Tickets"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#" onClick={NotImplemented.onClick(@context, 'routes')}><FormattedMessage id="routes" defaultMessage="Routes"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#" onClick={NotImplemented.onClick(@context, 'stops')}><FormattedMessage id="stops" defaultMessage="Stops"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#" onClick={NotImplemented.onClick(@context, 'settings')}><FormattedMessage id="settings" defaultMessage="Settings"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#" onClick={NotImplemented.onClick(@context, 'terms-of-use')}><FormattedMessage id="terms-of-use" defaultMessage="Terms of Use"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#" onClick={NotImplemented.onClick(@context, 'hsl-contact-information')}><FormattedMessage id="hsl-contact-information" defaultMessage="HSL Contacts"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><NotImplementedLink name={<FormattedMessage id="tickets" defaultMessage="Tickets"/>}> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="routes" defaultMessage="Routes"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="stops" defaultMessage="Stops"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="settings" defaultMessage="Settings"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="terms-of-use" defaultMessage ="Terms of Use"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="hsl-contact-information" defaultMessage="HSL Contact Information"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
         </ul>
       </section>
     </Offcanvas>

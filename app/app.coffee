@@ -13,7 +13,7 @@ app.registerStore require './store/real-time-information-store'
 app.registerStore require './store/time-store'
 app.registerStore require './store/preferences-store'
 app.registerStore require './store/mode-store'
-app.registerStore require './store/notimplemented-store'
+app.registerStore require './store/not-implemented-store'
 
 
 module.exports = app
