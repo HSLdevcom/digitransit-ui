@@ -2,6 +2,7 @@ React                = require 'react'
 Modal                = require './modal'
 NotImplementedAction = require('../../action/not-implemented-action')
 FormattedMessage     = require('react-intl').FormattedMessage
+Icon                 = require('../icon/icon')
 
 class NotImplemented extends React.Component
 
@@ -36,7 +37,8 @@ class NotImplemented extends React.Component
     return name: name
 
   render: ->
-    <Modal open={@state.open} title={<FormattedMessage id="not-implemented" values={@localName()} defaultMessage='{name} - feature is not implemented'/>} toggleVisibility={@toggle}>
+    <Modal allowClicks=true open={@state.open} title={<FormattedMessage id="not-implemented" values={@localName()} defaultMessage='{name} - feature is not implemented'/>} toggleVisibility={@toggle}>
+      <Icon img='icon-icon_under-construction'/>
       <p>
         <FormattedMessage id="not-implemented-msg" defaultMessage="If you want to participate into development of this service/feature please see more information from the below links."/>
       </p>

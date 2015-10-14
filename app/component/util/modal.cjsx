@@ -7,14 +7,17 @@ class Modal extends React.Component
     open: React.PropTypes.bool
     toggleVisibility: React.PropTypes.func
     title: React.PropTypes.string
+    allowClicks: React.PropTypes.bool
 
   @defaultProps:
     overlay: true
 
   # makes it possible to press the modal without closing it
-  stopClickPropagation: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
+  stopClickPropagation: (e) =>
+    if @props.allowClicks!= true
+      console.log "preventing..."
+      e.preventDefault()
+      e.stopPropagation()
 
   render: ->
     isActive =
