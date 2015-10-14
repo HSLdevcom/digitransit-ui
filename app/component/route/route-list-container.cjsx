@@ -86,7 +86,8 @@ class RouteListContainer extends React.Component
           key={d}
           rowClasses="padding-normal underline"
           routeLinks={true}
-          stoptimes={departures}/>
+          stoptimes={departures}
+          showStops={true}/>
     <div>{departureLists}</div>
 
 module.exports = Relay.createContainer(RouteListContainer,

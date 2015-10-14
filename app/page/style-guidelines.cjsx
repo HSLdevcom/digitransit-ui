@@ -8,41 +8,41 @@ Departure          = require '../component/departure/departure'
 RouteNumber        = require '../component/departure/route-number'
 RouteDestination   = require '../component/departure/route-destination'
 DepartureTime      = require '../component/departure/departure-time'
+StopReference      = require '../component/stop/stop-reference'
 
-realtimeDeparture = {
-  "stoptime": 1444165199,
-  "realtime": true,
-  "pattern": {
-    "__dataID__": "UGF0dGVybjpIU0w6NDYxMToxOjAx",
-    "route": {
-      "__dataID__": "Um91dGU6SFNMOjQ2MTE=",
-      "gtfsId": "HSL:4611",
-      "shortName": "611",
-      "longName": "Rautatientori - Siltamäki - Suutarila - Tikkurila",
-      "type": "BUS",
-      "color": null
-    },
-    "code": "HSL:4611:1:01",
-    "headsign": "Rautatientori"
-  }
-}
-departure = {
-  "stoptime": 1444185960,
-  "realtime": false,
-  "pattern": {
-    "__dataID__": "UGF0dGVybjpIU0w6MTAwN0I6MDowMg==",
-    "route": {
-      "__dataID__": "Um91dGU6SFNMOjEwMDdC",
-      "gtfsId": "HSL:1007B",
-      "shortName": "7B",
-      "longName": "Senaatintori-Pasila-Töölö-Senaatintori",
-      "type": "TRAM",
-      "color": null
-    },
-    "code": "HSL:1007B:0:02",
-    "headsign": "Pasila"
-  }
-}
+realtimeDeparture =
+  stop:
+    code: "4611"
+  stoptime: 1444165199
+  realtime: true
+  pattern:
+    __dataID__: "UGF0dGVybjpIU0w6NDYxMToxOjAx"
+    route:
+      __dataID__: "Um91dGU6SFNMOjQ2MTE="
+      gtfsId: "HSL:4611"
+      shortName: "611"
+      longName: "Rautatientori - Siltamäki - Suutarila - Tikkurila"
+      type: "BUS"
+      color: null
+    code: "HSL:4611:1:01"
+    headsign: "Rautatientori"
+
+departure =
+  stop:
+    code: "1007"
+  stoptime: 1444185960
+  realtime: false
+  pattern:
+    __dataID__: "UGF0dGVybjpIU0w6MTAwN0I6MDowMg=="
+    route:
+      __dataID__: "Um91dGU6SFNMOjEwMDdC"
+      gtfsId: "HSL:1007B"
+      shortName: "7B"
+      longName: "Senaatintori-Pasila-Töölö-Senaatintori"
+      type: "TRAM"
+      color: null
+    code: "HSL:1007B:0:02"
+    headsign: "Pasila"
 
 class StyleGuidelinesPage extends React.Component
   getColors: ->
@@ -317,6 +317,9 @@ class StyleGuidelinesPage extends React.Component
         <ComponentUsageExample description="adding padding classes">
           <Departure departure={departure} currentTime={currentTime} className="padding-normal padding-bottom"/>
         </ComponentUsageExample>
+        <ComponentUsageExample description="with stop number">
+          <Departure departure={departure} showStop={true} currentTime={currentTime} className="padding-normal padding-bottom"/>
+        </ComponentUsageExample>
       </ComponentDocumentation>
 
       <ComponentDocumentation component=DepartureTime>
@@ -340,16 +343,11 @@ class StyleGuidelinesPage extends React.Component
         </ComponentUsageExample>
       </ComponentDocumentation>
 
-      <div className="card padding-normal">
-        <h2>StopReference</h2>
-        TODO
-        <p>Display stop number / platform number, Text color depends on mode</p>
-        <p>Props:</p>
-        <ul>
-          <li>mode</li>
-          <li>stop</li>
-        </ul>
-      </div>
+      <ComponentDocumentation component=StopReference>
+        <ComponentUsageExample>
+          <StopReference mode={realtimeDeparture.pattern.route.type} code={realtimeDeparture.stop.code}/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
     </div>
 
   render: ->
