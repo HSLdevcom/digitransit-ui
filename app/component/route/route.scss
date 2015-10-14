@@ -25,10 +25,8 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
 }
 
 .departure-list-header {
-  border-top: 1px solid $light-gray;
   border-bottom: 1px solid $light-gray;
   font-weight: $font-weight-bold;
-  font-family: $font-family-narrow;
   line-height: $line-height-normal;
   height: $route-list-header-height;
   overflow: hidden;
@@ -36,6 +34,9 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
   font-size: $font-size-small;
   margin-left: 0;
   padding-left: 1em;
+  &:first-of-type {
+      border-top: 1px solid $light-gray;
+  }
 }
 
 // stop list
@@ -219,6 +220,9 @@ div.route-tabs {
   }
   .mode-filter {
     margin-bottom: 1em;
+  }
+  .underline {
+      border-bottom: 1px solid $light-gray;
   }
 }
 

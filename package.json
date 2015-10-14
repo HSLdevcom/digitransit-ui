@@ -56,7 +56,7 @@
     "react-dom": "^0.14.0",
     "react-intl": "^2.0.0-pr-3",
     "react-leaflet": "^0.8.0",
-    "react-relay": "^0.3.2",
+    "react-relay": "^0.4.0",
     "react-router": "1.0.0-rc3",
     "react-router-relay": "^0.6.2",
     "react-simpletabs": "^0.7.0",
@@ -68,7 +68,7 @@
   "devDependencies": {
     "autoprefixer": "^6.0.3",
     "babel-loader": "^5.3.2",
-    "babel-relay-plugin": "^0.2.6",
+    "babel-relay-plugin": "^0.3.0",
     "chance": "^0.8.0",
     "cjsx-loader": "^2.0.1",
     "coffee-loader": "^0.7.2",
