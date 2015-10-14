@@ -379,6 +379,9 @@ var DepartureListFragments = {
         realtimeDeparture
         realtime
         serviceDay
+	stop {
+	  code
+	}
       }
     }
   `,
