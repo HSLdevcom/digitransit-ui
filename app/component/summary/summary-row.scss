@@ -44,31 +44,6 @@
       }
     }
   }
-
-  & .itinerary-link {
-    color: #999;
-    display: block;
-    position: absolute;
-    right: 0;
-    height: 4em;
-    width: 4em;
-    margin-top: -3em;
-    text-align: center;
-    text-decoration: none;
-    padding-top: 1em;
-
-    & .itinerary-duration {
-      position: absolute;
-      left: calc(100% - 3.5em);
-      margin-top: 1em;
-    }
-
-    & .itinerary-arrow {
-      position: absolute;
-      left: calc(100% - 2.5em);
-      margin-top: 2.5em;
-    }
-  }
 }
 
 .summary-circle::before {
