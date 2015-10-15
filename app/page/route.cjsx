@@ -9,7 +9,8 @@ RouteStopListContainer = require '../component/route/route-stop-list-container'
 RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
 FormattedMessage       = require('react-intl').FormattedMessage
-NotImplemented         = require '../component/util/not-implemented'
+NotImplementedAction   = require('../action/not-implemented-action')
+NotImplemented         = require('../component/util/not-implemented')
 
 
 class RoutePage extends React.Component
@@ -43,8 +44,8 @@ class RoutePage extends React.Component
         @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2]}
 
   before: (i) =>
-    if(i==3) #tab 3 selected
-      NotImplemented.onClick(@context, 'info')()
+    if(i==3) #tab 3==timetable selected
+      @context.executeAction NotImplementedAction.click, name: <FormattedMessage id='timetable' defaultMessage='Timetable' />
       false
 
   render: ->
