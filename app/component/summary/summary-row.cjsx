@@ -90,14 +90,12 @@ class SummaryRow extends React.Component
         <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
       </span>
 
-      startTimeComponent = <DepartureTime
-        departureTime={leg.startTime / 1000}
-        realtime={leg.realTime}
-        currentTime={currentTime}
-        style={styleTime} />
-
       unless isLastLeg and not isEnoughRoomForLastLegStartTime
-        legTimes.push startTimeComponent
+        legTimes.push <DepartureTime
+          departureTime={leg.startTime / 1000}
+          realtime={leg.realTime}
+          currentTime={currentTime}
+          style={styleTime} />
 
       if isLastLeg
         legTimes.push <DepartureTime
