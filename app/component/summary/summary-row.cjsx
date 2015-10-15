@@ -96,18 +96,15 @@ class SummaryRow extends React.Component
         currentTime={currentTime}
         style={styleTime} />
 
-      if isFirstLeg
+      unless isLastLeg and not isEnoughRoomForLastLegStartTime
         legTimes.push startTimeComponent
-      else if isLastLeg
-        if isEnoughRoomForLastLegStartTime
-          legTimes.push startTimeComponent
+
+      if isLastLeg
         legTimes.push <DepartureTime
           departureTime={leg.endTime / 1000}
           realtime={leg.realTime}
           currentTime={currentTime}
           style={styleTimeLast} />
-      else
-        legTimes.push startTimeComponent
 
     duration = moment.duration(duration)
     if duration.hours() >= 1
