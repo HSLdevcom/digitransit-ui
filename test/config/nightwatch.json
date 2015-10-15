@@ -56,7 +56,8 @@
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
-        "browserstack.local": true
+        "browserstack.local": true,
+        "build": "${BROWSERSTACK_BUILD}"
       }
     },
     "bs-chrome": {
@@ -71,7 +72,8 @@
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
-        "browserstack.local": true
+        "browserstack.local": true,
+        "build": "${BROWSERSTACK_BUILD}"
       }
     },
     "bs-ie": {
@@ -88,7 +90,8 @@
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
-        "browserstack.local": true
+        "browserstack.local": true,
+        "build": "${BROWSERSTACK_BUILD}"
       }
     },
     "bs-android": {
@@ -103,7 +106,8 @@
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
-        "browserstack.local": true
+        "browserstack.local": true,
+        "build": "${BROWSERSTACK_BUILD}"
       }
     },
     "bs-iphone": {
@@ -118,7 +122,8 @@
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
-        "browserstack.local": true
+        "browserstack.local": true,
+        "build": "${BROWSERSTACK_BUILD}"
       }
     }
   }
