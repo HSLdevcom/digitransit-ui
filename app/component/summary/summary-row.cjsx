@@ -2,6 +2,7 @@ React              = require 'react'
 moment             = require 'moment'
 Link               = require 'react-router/lib/Link'
 Icon               = require '../icon/icon'
+RouteNumber        = require '../departure/route-number'
 
 class SummaryRow extends React.Component
 
@@ -79,13 +80,10 @@ class SummaryRow extends React.Component
       else
         circleClass = leg.mode.toLowerCase()
 
-      legs.push (
-        <span key={i + 'a'} style={styleLine} className={leg.mode.toLowerCase()}>
-          <span key={i + 'b'} className="summary-circle #{circleClass}#{passiveClass}"></span>
-          <Icon key={i + 'c'} className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()} />
-          {text}
-        </span>
-      )
+      legs.push <span key={i + 'a'} style={styleLine} className={leg.mode.toLowerCase()}>
+        <span key={i + 'b'} className="summary-circle #{circleClass}#{passiveClass}"></span>
+        <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
+      </span>
 
       if isFirstLeg
         legTimes.push (
