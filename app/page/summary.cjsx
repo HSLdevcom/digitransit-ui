@@ -20,8 +20,8 @@ class SummaryPage extends React.Component
     @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
   componentWillUpdate: (props) ->
-    console.log @props
-    #@context.executeAction ItinerarySearchActions.itinerarySearchRequest, props
+    if props.params.from != @props.params.from or props.params.to != @props.params.to
+      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, props
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
