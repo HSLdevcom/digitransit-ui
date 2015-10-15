@@ -41,10 +41,9 @@ function checkDependencies {
 killtree() {
   local _pid=$1
   kill -stop ${_pid} # needed to stop quickly forking parent from producing children between child killing and parent killing
-  # TODO: Does not work with OSX
-  #for _child in $(ps -o pid --no-headers --ppid ${_pid}); do
-  # killtree ${_child}
-  #done
+  for _child in $(pgrep -P ${_pid}); do
+    killtree ${_child}
+  done
   kill -TERM ${_pid}
 }
 
@@ -57,12 +56,17 @@ if [ "$1" == "local" ]; then
   sleep 10
   # Then run tests
   $NIGHTWATCH_BINARY -c ./test/config/nightwatch.json
-  NIGHTWATCH_PID=$!
-  # Kill Node and Nightwatch
-  killtree $NODE_PID
-  killtree $NIGHTWATCH_PID
+  TESTSTATUS=$?
 
+  # Kill Node
+  killtree $NODE_PID
+  exit $TESTSTATUS
 elif [ "$1" == "browserstack" ]; then
+  if [ "$#" -ne 3 ]; then
+    echo "ERROR: You need to use BrowserStack Username and API key as parameters"
+    echo "usage: npm run test-browserstack -- BROWSERSTACK_USERNAME BROWSERSTACK_KEY"
+    exit
+  fi
   npm run dev &
   NODE_PID=$!
   $BROWSERSTACK_LOCAL_BINARY $3 &
@@ -71,11 +75,11 @@ elif [ "$1" == "browserstack" ]; then
   sleep 10
   # Then run tests
   env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/config/nightwatch.json -e bs-fx,bs-chrome,bs-iphone
-  NIGHTWATCH_PID=$!
-  # Kill Node, Browserstack, and Nightwatch
+  TESTSTATUS=$?
+  # Kill Node and Browserstack tunnel
   killtree $NODE_PID
   killtree $BROWSERSTACK_PID
-  killtree $NIGHTWATCH_PID
+  exit $TESTSTATUS
 else
   echo "Please specify environment. 'local' or 'browserstack'"
 fi
