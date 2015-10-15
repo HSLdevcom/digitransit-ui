@@ -34,20 +34,11 @@ class SummaryRow extends React.Component
       isEnoughRoomForLastLegStartTime = width > 0.3
 
       styleLine =
-        position: 'absolute'
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
         width: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{width}) + #{MIN_SIZE} - 2px)"
-        borderBottom: '3px solid'
-        whiteSpace: 'nowrap'
-        # By enabling this mode circles will not show
-        #overflow: 'hidden'
 
       styleTime =
-        position: 'absolute'
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
-
-      styleTimeLast =
-        float: 'right'
 
       # Use either vehicle number or walking distance as text
       if leg.transitLeg and leg.mode.toLowerCase() == 'subway'
@@ -72,7 +63,7 @@ class SummaryRow extends React.Component
 
       legs.push <span key={i + 'a'}
         style={styleLine}
-        className={leg.mode.toLowerCase()}>
+        className={classNames("line", leg.mode.toLowerCase())}>
         <span key={i + 'b'} className={classNames("summary-circle", legClasses)}></span>
         <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
       </span>
@@ -88,8 +79,7 @@ class SummaryRow extends React.Component
         legTimes.push <DepartureTime
           departureTime={leg.endTime / 1000}
           realtime={leg.realTime}
-          currentTime={currentTime}
-          style={styleTimeLast} />
+          currentTime={currentTime} />
 
     duration = moment.duration(duration)
     if duration.hours() >= 1
