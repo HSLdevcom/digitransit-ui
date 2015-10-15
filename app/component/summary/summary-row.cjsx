@@ -3,11 +3,13 @@ moment             = require 'moment'
 Link               = require 'react-router/lib/Link'
 Icon               = require '../icon/icon'
 RouteNumber        = require '../departure/route-number'
+DepartureTime      = require '../departure/departure-time'
 
 class SummaryRow extends React.Component
 
   render: ->
     data = @props.data
+    currentTime = moment()
     startTime = moment(data.startTime)
     endTime = moment(data.endTime)
     duration = endTime.diff(startTime)
@@ -88,30 +90,29 @@ class SummaryRow extends React.Component
       </span>
 
       if isFirstLeg
-        legTimes.push (
-          <span key={i + 'a'} style={styleTime}>
-            {legStart.format("HH:mm")}
-          </span>
-        )
+        legTimes.push <DepartureTime
+          departureTime={leg.startTime / 1000}
+          realtime={leg.realTime}
+          currentTime={currentTime}
+          style={styleTime} />
       else if isLastLeg
         if isEnoughRoomForLastLegStartTime
-          legTimes.push (
-            <span key={i + 'a'} style={styleTime}>
-              {legStart.format("HH:mm")}
-            </span>
-          )
-
-        legTimes.push (
-          <span key={i + 'b'} style={styleTimeLast}>
-            {legEnd.format("HH:mm")}
-          </span>
-        )
+          legTimes.push <DepartureTime
+            departureTime={leg.startTime / 1000}
+            realtime={leg.realTime}
+            currentTime={currentTime}
+            style={styleTime} />
+        legTimes.push <DepartureTime
+          departureTime={leg.endTime / 1000}
+          realtime={leg.realTime}
+          currentTime={currentTime}
+          style={styleTimeLast} />
       else
-        legTimes.push (
-          <span key={i + 'a'} style={styleTime}>
-            {legStart.format("HH:mm")}
-          </span>
-        )
+        legTimes.push <DepartureTime
+          departureTime={leg.startTime / 1000}
+          realtime={leg.realTime}
+          currentTime={currentTime}
+          style={styleTime} />
 
     duration = moment.duration(duration)
     if duration.hours() >= 1
