@@ -12,6 +12,8 @@ module.exports =
   title: "Digitransit"
   cities: []
   searchParams: {}
+  pelias:
+    useNeighbourhood: true
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000
