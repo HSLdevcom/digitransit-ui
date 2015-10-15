@@ -2,7 +2,7 @@ React                = require 'react'
 Modal                = require './modal'
 NotImplementedAction = require('../../action/not-implemented-action')
 FormattedMessage     = require('react-intl').FormattedMessage
-Icon                 = require('../icon/icon')
+Icon  = require '../icon/icon'
 
 class NotImplemented extends React.Component
 
@@ -37,14 +37,25 @@ class NotImplemented extends React.Component
     return name: name
 
   render: ->
-    <Modal allowClicks=true open={@state.open} title={<FormattedMessage id="not-implemented" values={@localName()} defaultMessage='{name} - feature is not implemented'/>} toggleVisibility={@toggle}>
-      <Icon img='icon-icon_under-construction'/>
-      <p>
-        <FormattedMessage id="not-implemented-msg" defaultMessage="If you want to participate into development of this service/feature please see more information from the below links."/>
-      </p>
-      <a href="https://github.com/HSLdevcom/digitransit-ui">Github</a><br/>
-      <a href="https://projects.invisionapp.com/share/MY2F0CQ2W#/screens">Invision</a><br/>
-      <a href="https://digitransit.atlassian.net/secure/Dashboard.jspa">Jira</a><br/>
+    <Modal allowClicks=true open={@state.open} title="" toggleVisibility={@toggle}>
+      <div className="row">
+        <div className="small-4 columns">
+          <Icon className="not-implemented-icon" img='icon-icon_under-construction'/>
+        </div>
+        <div className="small-8 columns">
+          <h2 className="no-padding no-margin not-implemented-color"><FormattedMessage id="not-implemented" values={@localName()} defaultMessage='{name} - feature is not implemented'/></h2>
+        </div>
+      </div>
+      <div className="row">
+        <div className="small-12 columns not-implemented">
+          <p>
+            <FormattedMessage id="not-implemented-msg" defaultMessage="If you want to participate into development of this service/feature please see more information from the below links."/>
+          </p>
+          <a className="primary-color" href="https://github.com/HSLdevcom/digitransit-ui">Github &rsaquo;</a><br/>
+          <a className="primary-color" href="https://projects.invisionapp.com/share/MY2F0CQ2W#/screens">Invision &rsaquo;</a><br/>
+          <a className="primary-color" href="https://digitransit.atlassian.net/secure/Dashboard.jspa">Jira &rsaquo;</a><br/>
+        </div>
+      </div>
     </Modal>
 
 module.exports = NotImplemented
