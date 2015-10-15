@@ -45,15 +45,9 @@ class SummaryRow extends React.Component
       styleTime =
         position: 'absolute'
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
-        overflow: 'hidden'
-        fontWeight: 400
-        whiteSpace: 'nowrap'
 
       styleTimeLast =
-        overflow: 'hidden'
         float: 'right'
-        fontWeight: '400'
-        whiteSpace: 'nowrap'
 
       # Use either vehicle number or walking distance as text
       if leg.transitLeg and leg.mode.toLowerCase() == 'subway'

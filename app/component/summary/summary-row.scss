@@ -24,6 +24,10 @@
     margin-bottom: 0em;
     white-space: nowrap;
     color: black;
+    .time {
+      font-weight: 400;
+      overflow: hidden;
+    }
   }
 
   & .itinerary-link {
