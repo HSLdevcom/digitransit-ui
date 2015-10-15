@@ -80,7 +80,9 @@ class SummaryRow extends React.Component
       else
         circleClass = leg.mode.toLowerCase()
 
-      legs.push <span key={i + 'a'} style={styleLine} className={leg.mode.toLowerCase()}>
+      legs.push <span key={i + 'a'}
+        style={styleLine}
+        className={leg.mode.toLowerCase()}>
         <span key={i + 'b'} className="summary-circle #{circleClass}#{passiveClass}"></span>
         <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
       </span>
