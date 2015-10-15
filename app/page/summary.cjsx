@@ -14,8 +14,14 @@ class SummaryPage extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
     history: React.PropTypes.object.isRequired
+    location: React.PropTypes.object.isRequired
 
-  @loadAction: ItinerarySearchActions.itinerarySearchRequest
+  componentWillMount: ->
+    @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+
+  componentWillUpdate: (props) ->
+    console.log @props
+    #@context.executeAction ItinerarySearchActions.itinerarySearchRequest, props
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
@@ -32,17 +38,13 @@ class SummaryPage extends React.Component
     @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
   getActiveIndex: =>
-    if @state and @state.activeIndex then @state.activeIndex else 0
+    @context.location.state?.summaryPageSelected or 0
 
   onSelectActive: (index) =>
     if @getActiveIndex() == index # second click navigates
-      plan = @context.getStore('ItinerarySearchStore').getData().plan
-      from = plan.itineraries[index].from
-      to = plan.itineraries[index].to
-      @context.history.pushState null, "#{process.env.ROOT_PATH}reitti/#{from}/#{to}/#{index}"
+      @context.history.pushState null, "#{@context.location.pathname}/#{index}"
     else
-      @setState
-        activeIndex: index
+      @context.history.replaceState summaryPageSelected: index, @context.location.pathname
 
   render: ->
     rows = []

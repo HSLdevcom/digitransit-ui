@@ -7,7 +7,7 @@ class ItinerarySearchStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    localData = window?.localStorage?.getItem STORAGE_KEY
+    localData = window?.sessionStorage?.getItem STORAGE_KEY
     @data = if localData then JSON.parse(localData) else {}
     @fromPlace = ""
     @toPlace   = ""
@@ -167,12 +167,12 @@ class ItinerarySearchStore extends Store
 
   storeItinerarySearch: (data) ->
     @data = data
-    window?.localStorage?.setItem STORAGE_KEY, JSON.stringify @data
+    window?.sessionStorage?.setItem STORAGE_KEY, JSON.stringify @data
     @emitChange()
 
   clearItinerary: ->
     @data = {}
-    window?.localStorage?.removeItem STORAGE_KEY
+    window?.sessionStorage?.removeItem STORAGE_KEY
     @emitChange()
 
   dehydrate: ->
