@@ -6,6 +6,11 @@ Icon  = require '../icon/icon'
 
 class NotImplemented extends React.Component
 
+  @description:
+    "
+    Placeholder for a 'not implemented' popup. It is activated from clicking of not-implemented-link
+    "
+
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
