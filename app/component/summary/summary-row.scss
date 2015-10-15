@@ -15,14 +15,33 @@
     position: relative;
     width: calc(100% - 4em);
     padding-bottom: 2em;
-    white-space: 'nowrap';
+    white-space: nowrap;
+    .line {
+      position: absolute;
+      border-bottom: 3px solid;
+      white-space: nowrap;
+    }
+    .vehicle-number {
+      font-weight: 400;
+    }
   }
 
   & .itinerary-leg-times {
     position: relative;
     width: calc(100% - 4em);
-    margin-bottom: 0em;
-    white-space: 'nowrap';
+    margin-bottom: 0;
+    white-space: nowrap;
+    color: black;
+    .time {
+      font-weight: 400;
+      overflow: hidden;
+      position: absolute;
+      &:last-of-type {
+          position: relative;
+          float: right;
+          margin-right: 0;
+      }
+    }
   }
 
   & .itinerary-link {
