@@ -70,13 +70,13 @@ var RouteListContainerFragments = {
               code
               desc
               stoptimes: stoptimesForPatterns(numberOfDepartures:1) {
-		pattern {
-		  headsign
-		  route {
-		    gtfsId
-		    type
-		  }
-		}
+                pattern {
+                  headsign
+                  route {
+                    gtfsId
+                    type
+                  }
+                }
                 ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
               }
             }
@@ -379,9 +379,9 @@ var DepartureListFragments = {
         realtimeDeparture
         realtime
         serviceDay
-	stop {
-	  code
-	}
+        stop {
+          code
+        }
       }
     }
   `,
