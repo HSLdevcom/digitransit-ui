@@ -6,7 +6,7 @@ class Modal extends React.Component
   @propTypes:
     open: React.PropTypes.bool
     toggleVisibility: React.PropTypes.func
-    title: React.PropTypes.string
+    title: React.PropTypes.node
     allowClicks: React.PropTypes.bool
 
   @defaultProps:
