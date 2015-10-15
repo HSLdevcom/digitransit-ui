@@ -45,7 +45,7 @@ class RoutePage extends React.Component
 
   before: (i) =>
     if(i==3) #tab 3==timetable selected
-      @context.executeAction NotImplementedAction.click, name: <FormattedMessage id='timetable' defaultMessage='Timetable' />T†œO
+      @context.executeAction NotImplementedAction.click, name: <FormattedMessage id='timetable' defaultMessage='Timetable' />
       false
 
   render: ->
