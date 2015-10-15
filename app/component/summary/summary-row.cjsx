@@ -87,30 +87,24 @@ class SummaryRow extends React.Component
         <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
       </span>
 
+      startTimeComponent = <DepartureTime
+        departureTime={leg.startTime / 1000}
+        realtime={leg.realTime}
+        currentTime={currentTime}
+        style={styleTime} />
+
       if isFirstLeg
-        legTimes.push <DepartureTime
-          departureTime={leg.startTime / 1000}
-          realtime={leg.realTime}
-          currentTime={currentTime}
-          style={styleTime} />
+        legTimes.push startTimeComponent
       else if isLastLeg
         if isEnoughRoomForLastLegStartTime
-          legTimes.push <DepartureTime
-            departureTime={leg.startTime / 1000}
-            realtime={leg.realTime}
-            currentTime={currentTime}
-            style={styleTime} />
+          legTimes.push startTimeComponent
         legTimes.push <DepartureTime
           departureTime={leg.endTime / 1000}
           realtime={leg.realTime}
           currentTime={currentTime}
           style={styleTimeLast} />
       else
-        legTimes.push <DepartureTime
-          departureTime={leg.startTime / 1000}
-          realtime={leg.realTime}
-          currentTime={currentTime}
-          style={styleTime} />
+        legTimes.push startTimeComponent
 
     duration = moment.duration(duration)
     if duration.hours() >= 1
