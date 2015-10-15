@@ -8,14 +8,7 @@ class NotImplementedStore extends Store
 
   click: (feature) =>
     @feature = feature
-    console.log("not implemented click", feature)
     @emitChange(feature)
-
-  getId: =>
-    @feature.id
-
-  getDefaultMessage: =>
-    @feature.defaultMessage
 
   getName: =>
     @feature.name

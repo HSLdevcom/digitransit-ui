@@ -29,7 +29,6 @@ class NotImplemented extends React.Component
     else
       newState = !@state.open
     @setState({open: newState}, ()->
-      console.log "forceUpdate"
       @forceUpdate())
 
   localName: ->
