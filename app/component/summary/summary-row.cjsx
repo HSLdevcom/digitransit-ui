@@ -4,6 +4,7 @@ Link               = require 'react-router/lib/Link'
 Icon               = require '../icon/icon'
 RouteNumber        = require '../departure/route-number'
 DepartureTime      = require '../departure/departure-time'
+classNames         = require 'classnames'
 
 class SummaryRow extends React.Component
 
@@ -31,9 +32,6 @@ class SummaryRow extends React.Component
       # always hiding last leg's start time
       # This should probably be done using Matchmedia API
       isEnoughRoomForLastLegStartTime = width > 0.3
-
-      # Is this row passive or not
-      passiveClass = if @props.passive then " passive" else ""
 
       styleLine =
         position: 'absolute'
@@ -80,10 +78,15 @@ class SummaryRow extends React.Component
       else
         circleClass = leg.mode.toLowerCase()
 
+      legClasses =
+        "summary-circle": true
+        passive: @props.passive
+      legClasses[circleClass] = true
+
       legs.push <span key={i + 'a'}
         style={styleLine}
         className={leg.mode.toLowerCase()}>
-        <span key={i + 'b'} className="summary-circle #{circleClass}#{passiveClass}"></span>
+        <span key={i + 'b'} className={classNames(legClasses)}></span>
         <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
       </span>
 
@@ -112,7 +115,12 @@ class SummaryRow extends React.Component
     else
       durationText = "#{duration.minutes()} min"
 
-    <div className="itinerary-summary-row cursor-pointer#{passiveClass}" onClick={() => @props.onSelect(@props.hash)}>
+    classes =
+      "itinerary-summary-row": true
+      "cursor-pointer":true
+      passive: @props.passive
+
+    <div className={classNames(classes)} onClick={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-legs">{legs}</div>
       <div className="itinerary-leg-times">{legTimes}</div>
       <Link className="itinerary-link" to="#{process.env.ROOT_PATH}reitti/#{@props.params.from}/#{@props.params.to}/#{@props.hash}">
