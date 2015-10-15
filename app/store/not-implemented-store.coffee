@@ -4,7 +4,7 @@ class NotImplementedStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @feature={}
+    @feature = {}
 
   click: (feature) =>
     @feature = feature

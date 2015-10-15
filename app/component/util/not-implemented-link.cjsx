@@ -9,8 +9,8 @@ class NotImplementedLink extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
 
-  notImplemented:  =>
-    context.executeAction NotImplementedAction.click, {name:@props.name}
+  notImplemented: =>
+    context.executeAction NotImplementedAction.click, {name: @props.name}
 
   render: ->
     <a href="#" onClick={@notImplemented}>{@props.name}

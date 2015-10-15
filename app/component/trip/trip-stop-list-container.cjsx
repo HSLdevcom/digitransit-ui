@@ -27,7 +27,7 @@ class TripStopListContainer extends React.Component
     vehicle = !isEmpty(vehicles) && vehicles[Object.keys(vehicles)[0]]
 
     currentTime = moment()
-    currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds');
+    currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds')
     stopPassed = false
 
     @props.trip.stoptimes.map (stoptime, index) ->

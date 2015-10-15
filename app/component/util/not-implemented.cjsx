@@ -24,11 +24,12 @@ class NotImplemented extends React.Component
     @toggle true
 
   toggle: (state) =>
-    if(state==true || state==false)
+    if state == true || state == false
       newState = state
     else
       newState = !@state.open
-    @setState({open: newState}, ()->
+
+    @setState({open: newState}, () =>
       @forceUpdate())
 
   localName: ->
