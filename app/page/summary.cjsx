@@ -13,6 +13,7 @@ class SummaryPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    history: React.PropTypes.object.isRequired
 
   @loadAction: ItinerarySearchActions.itinerarySearchRequest
 
@@ -34,8 +35,14 @@ class SummaryPage extends React.Component
     if @state and @state.activeIndex then @state.activeIndex else 0
 
   onSelectActive: (index) =>
-    @setState
-      activeIndex: index
+    if @getActiveIndex() == index # second click navigates
+      plan = @context.getStore('ItinerarySearchStore').getData().plan
+      from = plan.itineraries[index].from
+      to = plan.itineraries[index].to
+      @context.history.pushState null, "#{process.env.ROOT_PATH}reitti/#{from}/#{to}/#{index}"
+    else
+      @setState
+        activeIndex: index
 
   render: ->
     rows = []
