@@ -30,6 +30,9 @@ class SummaryPage extends React.Component
   onTimeChange: =>
     @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
+  getActiveIndex: =>
+    if @state and @state.activeIndex then @state.activeIndex else 0
+
   onSelectActive: (index) =>
     @setState
       activeIndex: index
@@ -37,7 +40,7 @@ class SummaryPage extends React.Component
   render: ->
     rows = []
     leafletObjs = []
-    activeIndex = if @state and @state.activeIndex then @state.activeIndex else 0
+    activeIndex = @getActiveIndex()
 
     plan = @context.getStore('ItinerarySearchStore').getData().plan
 
