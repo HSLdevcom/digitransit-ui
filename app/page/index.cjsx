@@ -3,7 +3,7 @@ Relay              = require 'react-relay'
 queries            = require '../queries'
 IndexNavigation    = require '../component/navigation/index-navigation.cjsx'
 Map                = require '../component/map/map.cjsx'
-FrontpagePanel     = require '../component/front-page/front-page-panel.cjsx'
+FrontPagePanel     = require '../component/front-page/front-page-panel.cjsx'
 SearchTwoFields    = require '../component/search/search-two-fields.cjsx'
 Icon               = require '../component/icon/icon'
 LocateActions      = require '../action/locate-actions.coffee'
@@ -28,7 +28,7 @@ class Page extends React.Component
       <Map className="fullscreen" showStops={true}>
         <SearchTwoFields/>
       </Map>
-      <FrontpagePanel/>
+      <FrontPagePanel/>
     </IndexNavigation>
 
 module.exports = Page

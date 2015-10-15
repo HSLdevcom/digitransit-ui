@@ -3,8 +3,11 @@ Icon       = require '../icon/icon'
 Offcanvas  = require '../util/offcanvas'
 LangSelect = require './lang-select'
 FormattedMessage = require('react-intl').FormattedMessage
+NotImplementedLink = require '../util/not-implemented-link'
+
 
 class OffcanvasMenu extends React.Component
+
   render: ->
     <Offcanvas open={@props.open} position="left">
       <header className="offcanvas-header offcanvas-section">
@@ -18,10 +21,10 @@ class OffcanvasMenu extends React.Component
           </div>
           <div className="inline-block">
             <p>
-              <a href="#"><FormattedMessage id="create-account" defaultMessage="Create account"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
+              <NotImplementedLink name={<FormattedMessage id="create-account" defaultMessage="Create account"/>}><FormattedMessage id="create-account"/> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink>
             </p>
             <p>
-              <a href="#"><FormattedMessage id="login" defaultMessage="Log in"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
+              <NotImplementedLink name={<FormattedMessage id="login" defaultMessage="Login"/>}><FormattedMessage id="login"/> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink>
             </p>
           </div>
         </div>
@@ -29,12 +32,12 @@ class OffcanvasMenu extends React.Component
 
       <section className="offcanvas-section">
         <ul className="offcanvas-list">
-          <li><a href="#"><FormattedMessage id="tickets" defaultMessage="Tickets"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="routes" defaultMessage="Routes"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="stops" defaultMessage="Stops"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="settings" defaultMessage="Settings"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="terms-of-use" defaultMessage="Terms of Use"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
-          <li><a href="#"><FormattedMessage id="hsl-contact-information" defaultMessage="HSL Contacts"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></a></li>
+          <li><NotImplementedLink name={<FormattedMessage id="tickets" defaultMessage="Tickets"/>}><FormattedMessage id="tickets"/> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="routes" defaultMessage="Routes"/>}><FormattedMessage id="routes"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="stops" defaultMessage="Stops"/>}><FormattedMessage id="stops"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="settings" defaultMessage="Settings"/>}><FormattedMessage id="settings"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="terms-of-use" defaultMessage ="Terms of Use"/>}><FormattedMessage id="terms-of-use"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
+          <li><NotImplementedLink name={<FormattedMessage id="hsl-contact-information" defaultMessage="HSL Contact Information"/>}><FormattedMessage id="hsl-contact-information"/> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
         </ul>
       </section>
     </Offcanvas>
