@@ -15,7 +15,6 @@ class PreferencesStore extends Store
 
   setLanguage: (language) ->
     if language not in ALLOWED_LANGUAGES
-      console.log("Rejecting illegal language", language)
       return
 
     @preferences.language = language

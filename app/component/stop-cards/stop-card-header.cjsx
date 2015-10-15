@@ -4,15 +4,16 @@ queries               = require '../../queries'
 Icon                  = require '../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
 classNames            = require 'classnames'
-
+NotImplementedLink    = require('../util/not-implemented-link')
 
 class StopCardHeader extends React.Component
+
   getInfoIcon: ->
-    <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}/info">
+    <NotImplementedLink href="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}/info" name="info">
       <span className="cursor-pointer">
         <Icon className="info right" img="icon-icon_info"/>
       </span>
-    </Link>
+    </NotImplementedLink>
 
   getDescription: ->
     description = ""
