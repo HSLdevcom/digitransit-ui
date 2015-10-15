@@ -48,13 +48,11 @@ class SummaryRow extends React.Component
         position: 'absolute'
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
         overflow: 'hidden'
-        color: 'black'
         'fontWeight': 400
         whiteSpace: 'nowrap'
 
       styleTimeLast =
         overflow: 'hidden'
-        color: 'black'
         float: 'right'
         'fontWeight': '400'
         whiteSpace: 'nowrap'
