@@ -1,0 +1,125 @@
+{
+  "src_folders": ["test/"],
+  "output_folder": "test_output",
+
+  "selenium": {
+    "start_process": true,
+    "server_path": "test/binaries/selenium-server-standalone-2.48.2.jar",
+    "log_path": "",
+    "host": "127.0.0.1",
+    "port": 4444,
+    "cli_args": {
+      "webdriver.chrome.driver": "",
+      "webdriver.ie.driver": ""
+    }
+  },
+
+  "test_settings": {
+    "default": {
+      "launch_url": "http://localhost:8080",
+      "selenium_port": 4444,
+      "selenium_host": "localhost",
+      "silent": true,
+      "screenshots": {
+        "enabled": true,
+        "on_failure": true,
+        "on_error": true,
+        "path": "test_output/screenshots/"
+      },
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      }
+    },
+
+    "phantom": {
+      "selenium_port": 4444,
+      "selenium_host": "localhost",
+        "desiredCapabilities": {
+          "browserName": "phantomjs",
+          "javascriptEnabled": true,
+          "acceptSslCerts": true,
+          "phantomjs.binary.path": "node_modules/phantomjs/bin/phantomjs"
+        }
+    },
+
+    "bs-fx": {
+      "selenium_port": 80,
+      "selenium_host": "hub.browserstack.com",
+      "selenium": {
+        "start_process": false
+      },
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_KEY}",
+        "browserstack.local": true
+      }
+    },
+    "bs-chrome": {
+      "selenium_port": 80,
+      "selenium_host": "hub.browserstack.com",
+      "selenium": {
+        "start_process": false
+      },
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_KEY}",
+        "browserstack.local": true
+      }
+    },
+    "bs-ie": {
+      "selenium_port": 80,
+      "selenium_host": "hub.browserstack.com",
+      "selenium": {
+        "start_process": false
+      },
+      "desiredCapabilities": {
+        "browserName": "internet explorer",
+        "version": "11",
+        "platform": "WIN8",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_KEY}",
+        "browserstack.local": true
+      }
+    },
+    "bs-android": {
+      "selenium_port": 80,
+      "selenium_host": "hub.browserstack.com",
+      "selenium": {
+        "start_process": false
+      },
+      "desiredCapabilities": {
+        "browserName": "android",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_KEY}",
+        "browserstack.local": true
+      }
+    },
+    "bs-iphone": {
+      "selenium_port": 80,
+      "selenium_host": "hub.browserstack.com",
+      "selenium": {
+        "start_process": false
+      },
+      "desiredCapabilities": {
+        "browserName": "iPhone",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_KEY}",
+        "browserstack.local": true
+      }
+    }
+  }
+}

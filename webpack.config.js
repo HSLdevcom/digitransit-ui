@@ -47,6 +47,7 @@ function getPluginsConfig(env) {
       new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /fi|sv|en\-gb/),
       new webpack.DefinePlugin({
         'process.env': {
+          SERVER_ROOT: JSON.stringify((typeof process.env.SERVER_ROOT === "undefined") ? 'http://matka.hsl.fi': process.env.SERVER_ROOT),
           NODE_ENV: JSON.stringify("development"),
           ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
           CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
@@ -59,6 +60,7 @@ function getPluginsConfig(env) {
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en\-gb/),
       new webpack.DefinePlugin({
         'process.env': {
+          SERVER_ROOT: JSON.stringify((typeof process.env.SERVER_ROOT === "undefined") ? 'http://matka.hsl.fi': process.env.SERVER_ROOT),
           NODE_ENV: JSON.stringify("production"),
           ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
           CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
@@ -114,7 +116,6 @@ module.exports = {
     extensions: ['', '.js', '.cjsx', '.jsx', '.coffee'],
     alias: {
       leaflet$: path.resolve(__dirname, "vendor/leaflet-custom-src"),
-      'react-relay': path.resolve(__dirname, "vendor/react-relay"),
     },
   },
   module: {
