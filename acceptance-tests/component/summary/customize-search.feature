@@ -8,8 +8,7 @@ Feature: Customize Search feature
 
   Scenario: Customize Search Visibility (hide)
     Given That user has opened the Customize Search offcanvas
-    When the user clicks the "customize menu-icon"
-    Or outside the offcanvas
+    When the user clicks the "customize menu-icon" or outside the offcanvas
     Then the Customize Search offcanvas will hide
 
   Scenario: Open Customize Search For The First Time

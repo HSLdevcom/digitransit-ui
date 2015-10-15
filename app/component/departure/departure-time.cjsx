@@ -3,7 +3,7 @@ timeUtils   = require '../../util/time-utils'
 cx          = require 'classnames'
 
 DepartureTime = (props) ->
-  <span className={cx "time", "realtime": props.realtime}>
+  <span style={props.style} className={cx "time", "realtime": props.realtime}>
     {timeUtils.renderDepartureStoptime props.departureTime, props.realtime, props.currentTime}
   </span>
 
@@ -15,6 +15,7 @@ DepartureTime.propTypes =
   departureTime: React.PropTypes.number.isRequired
   realtime: React.PropTypes.bool
   currentTime: React.PropTypes.number.isRequired
+  style: React.PropTypes.object
 
 DepartureTime.displayName = "DepartureTime"
 

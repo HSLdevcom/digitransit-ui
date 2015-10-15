@@ -78,6 +78,8 @@ translations =
     'page-not-found': 'Voe rähmä! Sivuu ei löytyny'
     'today': 'Tänään'
     'tomorrow': 'Huomenna'
+    'not-implemented': '{name} -toiminnallisuus on vielä kesken'
+    'not-implemented-msg': 'Jos haluat osallistua kehitystyöhön, löydät lisätietoa suunnitelluista toiminnallisuuksista oheisista linkeistä.'
 
 
   'sv':
@@ -158,5 +160,7 @@ translations =
     'page-not-found': 'Sidan kunde inte hittas ੨( ･᷄ ︵･᷅ )ｼ'
     'today': 'Idag'
     'tomorrow': 'Imorgon'
+    'not-implemented': '{name} - funktionen är inte implementerad'
+    'not-implemented-msg': 'Om du vill delta i utvecklingen , kan du hitta mer information om de planerade funktionerna i följande länkar'
 
 module.exports = translations

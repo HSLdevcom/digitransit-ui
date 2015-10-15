@@ -2,7 +2,7 @@
   "name": "digitransit-ui",
   "version": "0.0.1",
   "description": "Digitransit UI - open nationwide journey planning platform",
-  "author": "crew@reittiopas.fi",
+  "author": "digitransit@hsl.fi",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
@@ -11,14 +11,17 @@
     "dev": "NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html,coffee --watch ./app/ server/server.js & NODE_ENV=development node server/hotLoadServer.js",
     "dev-win-hsl": "cd win-launch-scripts&& hsl-win-launch-script.bat",
     "dev-win-national": "cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
-    "test": "./run-ui-tests.sh local",
+    "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development node server/hotLoadServer.js",
+    "test-local": "./test/script/run-ui-tests.sh local",
+    "test-browserstack": "./test/script/run-ui-tests.sh browserstack",
+    "test-acceptance": "./acceptance-tests/script/run-acceptance-tests.sh",
     "build": "NODE_ENV=production webpack -p --progress --colors",
     "start": "NODE_ENV=production nodemon server/server"
   },
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/HSLdevcom/digitransit-ui"
   },
   "bugs": {
     "url": "https://github.com/HSLdevcom/digitransit-ui/issues"
@@ -53,7 +56,7 @@
     "react-dom": "^0.14.0",
     "react-intl": "^2.0.0-pr-3",
     "react-leaflet": "^0.8.0",
-    "react-relay": "^0.3.2",
+    "react-relay": "^0.4.0",
     "react-router": "1.0.0-rc3",
     "react-router-relay": "^0.6.2",
     "react-simpletabs": "^0.7.0",
@@ -65,7 +68,7 @@
   "devDependencies": {
     "autoprefixer": "^6.0.3",
     "babel-loader": "^5.3.2",
-    "babel-relay-plugin": "^0.2.6",
+    "babel-relay-plugin": "^0.3.0",
     "chance": "^0.8.0",
     "cjsx-loader": "^2.0.1",
     "coffee-loader": "^0.7.2",
@@ -78,6 +81,7 @@
     "imports-loader": "^0.6.4",
     "json-loader": "^0.5.3",
     "mocha": "^2.3.3",
+    "nightwatch": "^0.8.4",
     "node-sass": "^3.3.3",
     "nodemon": "^1.7.1",
     "phantomjs": "^1.9.18",

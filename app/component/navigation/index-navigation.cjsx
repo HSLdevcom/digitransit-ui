@@ -3,6 +3,7 @@ IndexTopNavigation    = require './index-top-navigation'
 IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
+NotImplemented        = require '../util/not-implemented'
 
 intl = require 'react-intl'
 
@@ -82,6 +83,7 @@ class IndexNavigation extends React.Component
   render: ->
     <div className={@props.className}>
       <OffcanvasMenu open={@state.offcanvasVisible}/>
+      <NotImplemented/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
 
       <div className="grid-frame fullscreen">

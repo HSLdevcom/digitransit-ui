@@ -13,7 +13,7 @@ FavouritesPanel       = require '../favourites/favourites-panel'
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
-class FrontpageTabs extends React.Component
+class FrontPagePanel extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
@@ -153,4 +153,4 @@ class FrontpageTabs extends React.Component
       </ul>
     </div>
 
-module.exports = FrontpageTabs
+module.exports = FrontPagePanel
