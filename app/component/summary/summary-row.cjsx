@@ -64,23 +64,16 @@ class SummaryRow extends React.Component
         km = (leg.distance / 1000).toFixed(1)
         text = if km == "0.0" then "0.1km" else "#{km}km"
 
-      # Mode circle
-      if isFirstLeg
-        circleClass = "start"
-      else if isLastLeg
-        circleClass = leg.mode.toLowerCase() + " end"
-      else
-        circleClass = leg.mode.toLowerCase()
-
       legClasses =
-        "summary-circle": true
+        "#{leg.mode.toLowerCase()}": !isFirstLeg
         passive: @props.passive
-      legClasses[circleClass] = true
+        start: isFirstLeg
+        end: isLastLeg
 
       legs.push <span key={i + 'a'}
         style={styleLine}
         className={leg.mode.toLowerCase()}>
-        <span key={i + 'b'} className={classNames(legClasses)}></span>
+        <span key={i + 'b'} className={classNames("summary-circle", legClasses)}></span>
         <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
       </span>
 
@@ -104,10 +97,11 @@ class SummaryRow extends React.Component
     else
       durationText = "#{duration.minutes()} min"
 
-    classes =
-      "itinerary-summary-row": true
-      "cursor-pointer":true
+    classes = [
+      "itinerary-summary-row"
+      "cursor-pointer"
       passive: @props.passive
+    ]
 
     <div className={classNames(classes)} onClick={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-legs">{legs}</div>
