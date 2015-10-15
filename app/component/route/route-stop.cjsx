@@ -10,7 +10,7 @@ class RouteStop extends React.Component
     vehicles = []
     if @props.vehicles
       for vehicle in @props.vehicles
-        vehicles.push <Relay.RootContainer
+        vehicles.push <Relay.RootContainer key={vehicle.id}
           Component={TripLink}
           route={new queries.FuzzyTripRoute(
             route: vehicle.route

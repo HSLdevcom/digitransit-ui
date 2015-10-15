@@ -9,6 +9,8 @@ RouteNumber        = require '../component/departure/route-number'
 RouteDestination   = require '../component/departure/route-destination'
 DepartureTime      = require '../component/departure/departure-time'
 StopReference      = require '../component/stop/stop-reference'
+NotImplemented     = require '../component/util/not-implemented'
+NotImplementedLink     = require '../component/util/not-implemented-link'
 
 realtimeDeparture =
   stop:
@@ -262,7 +264,9 @@ class StyleGuidelinesPage extends React.Component
         <Icon img={'icon-icon_walk'}/>
         <span className="code">icon-icon_walk</span><br />
         <Icon img={'icon-icon_mapMarker-location-animated'}/>
-        <span className="code">icon-icon_mapMarker-location-animated</span>
+        <span className="code">icon-icon_mapMarker-location-animated</span><br />
+        <Icon img={'icon-icon_under-construction'}/>
+        <span className="code">icon-icon_under-construction</span>
       </div>
       <p>
         <Icon className="large-icon" img={'icon-icon_subway-live'}/>
@@ -348,6 +352,19 @@ class StyleGuidelinesPage extends React.Component
           <StopReference mode={realtimeDeparture.pattern.route.type} code={realtimeDeparture.stop.code}/>
         </ComponentUsageExample>
       </ComponentDocumentation>
+
+      <ComponentDocumentation component=NotImplementedLink>
+        <ComponentUsageExample description="simple link">
+          <NotImplementedLink name="The promiseware" href="#">This is a not implemented link to Promiseware</NotImplementedLink>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
+      <ComponentDocumentation component=NotImplemented>
+        <ComponentUsageExample>
+          <NotImplemented/>
+        </ComponentUsageExample>
+      </ComponentDocumentation>
+
     </div>
 
   render: ->
