@@ -48,9 +48,10 @@ class Autosuggest extends React.Component
     XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> callback null, res.features
 
   renderSuggestions: (suggestion, input) =>
-    return <span>
+    displayText = @getName suggestion.properties
+    return <span id={displayText}>
         {@getIcon suggestion.properties.layer}
-        {@getName suggestion.properties}
+        {displayText}
       </span>
 
   suggestionValue: (suggestion) =>

@@ -120,6 +120,7 @@
         "browserName": "iPhone",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
+        "autoAcceptAlerts" : true,
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,

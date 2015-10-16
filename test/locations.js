@@ -15,8 +15,8 @@ module.exports = {
   },
   'Search works' : function (b) {
     b.setValue('.search-form > .row:nth-child(1) input', 'Sampsantie, helsinki');
-    b.waitForElementVisible("[id='Sampsantie, Helsinki']", 1000);
-    b.click("[id='Sampsantie, Helsinki']");
+    b.waitForElementVisible("[id='Sampsantie 2, 00610 Käpylä']", 1000);
+    b.click("[id='Sampsantie 2, 00610 Käpylä']");
     b.end();
   }
 

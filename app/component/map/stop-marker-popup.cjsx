@@ -5,6 +5,8 @@ StopCardContainer     = require '../stop-cards/stop-card-container'
 Icon                  = require '../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
 FavouriteStopsAction  = require '../../action/favourite-stops-action'
+{FormattedMessage} = require('react-intl')
+
 
 class StopMarkerPopup extends React.Component
   @childContextTypes:
@@ -36,7 +38,7 @@ class StopMarkerPopup extends React.Component
       <div className="bottom location">
         <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
         <Link to="#{process.env.ROOT_PATH}reitti/#{@props.context.getStore('LocationStore').getLocationString()}/#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}" className="route">
-          <Icon img={'icon-icon_route'}/> Reititä tänne
+          <Icon img={'icon-icon_route'}/> <FormattedMessage id="route-here" defaultMessage="Route to here" />
         </Link>
       </div>
     </div>
