@@ -12,7 +12,7 @@ StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
 
-dehydratedState   = window.state; # Sent from the server
+dehydratedState   = window.state # Sent from the server
 
 require "../sass/main.scss"
 
@@ -20,7 +20,7 @@ window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer("#{config.URL.OTP}index/graphql")
-);
+)
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
@@ -36,8 +36,10 @@ app.rehydrate dehydratedState, (err, context) ->
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
       <StoreListeningIntlProvider translations={translations}>
-        <Router history={History()} children={app.getComponent()}
-                createElement={ReactRouterRelay.createElement} onUpdate={() ->
+        <Router
+          history={History()}
+          children={app.getComponent()}
+          createElement={ReactRouterRelay.createElement} onUpdate={() =>
             if @state.components[@state.components.length-1].loadAction
               context.getActionContext().executeAction(
                 @state.components[@state.components.length-1].loadAction,

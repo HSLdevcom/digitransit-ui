@@ -17,4 +17,4 @@ class Offcanvas extends React.Component
         {this.props.children}
     </div>
 
-module.exports = Offcanvas;
+module.exports = Offcanvas

@@ -64,9 +64,9 @@ class StopMarker extends React.Component
     <Marker map={@props.map}
             position={lat: @props.stop.lat, lng: @props.stop.lon}
             icon={StopMarker.getStopIcon(
-                    @props.mode + (if @props.thin then " thin" else ""),
-                    @props.selected,
-                    @props.map.getZoom())}>
+              @props.mode + (if @props.thin then " thin" else ""),
+              @props.selected,
+              @props.map.getZoom())}>
        <Popup options={
          offset: [106, 3]
          closeButton: false

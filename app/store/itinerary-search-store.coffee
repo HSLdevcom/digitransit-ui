@@ -27,7 +27,7 @@ class ItinerarySearchStore extends Store
         "value":  "1"
       }
     ]
-    @selectedTicketOption = "0";
+    @selectedTicketOption = "0"
     @selectedAccessibilityOption = "0"
     @busState = true
     @tramState = true
