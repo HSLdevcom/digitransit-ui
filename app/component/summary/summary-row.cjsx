@@ -10,7 +10,7 @@ class SummaryRow extends React.Component
 
   render: ->
     data = @props.data
-    currentTime = moment()
+    currentTime = moment().valueOf()
     startTime = moment(data.startTime)
     endTime = moment(data.endTime)
     duration = endTime.diff(startTime)
