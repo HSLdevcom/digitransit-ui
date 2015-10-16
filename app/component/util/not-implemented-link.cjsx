@@ -2,16 +2,23 @@ React                = require 'react'
 Modal                = require './modal'
 NotImplementedAction = require('../../action/not-implemented-action')
 FormattedMessage     = require('react-intl').FormattedMessage
-
+ComponentUsageExample = require '../documentation/component-usage-example'
 class NotImplementedLink extends React.Component
 
   @description:
-    "
-    Builds a link that opens a 'not implemented' popup.
+    <div>
+      <p>
+        Builds a link that opens a 'not implemented' popup.
+      </p>
+      <p>
+        The 'not implemented' -popup can also be activated by sending a event through
+        not-implemented-action#click
+      </p>
+      <ComponentUsageExample>
+        <NotImplementedLink name="The promiseware">Promiseware</NotImplementedLink>
+      </ComponentUsageExample>
+    </div>
 
-    The 'not implemented' -popup can also be activated by sending a event through
-    not-implemented-action#click
-    "
 
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
@@ -21,6 +28,7 @@ class NotImplementedLink extends React.Component
 
   notImplemented: =>
     context.executeAction NotImplementedAction.click, {name: @props.name}
+    return false
 
   render: ->
     <a href="#" onClick={@notImplemented}>
