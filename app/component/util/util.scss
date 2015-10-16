@@ -1,9 +1,16 @@
 /*
   SLIDER
 */
+$slider-gray: #575757;
+/* Track is the line where the circle moves */
+$track-box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+$track-border: 2px solid $slider-gray;
 
-$thumb-color-gray: #575757;
+/* Thumb is the circle on the track */
 $thumb-color-pink: $favourite-color;
+$thumb-box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
+$thumb-border: 3px solid #ffffff;
+$thumb-size: 24px;
 
 .slider-container {
   padding: 10px 0;
@@ -13,32 +20,34 @@ $thumb-color-pink: $favourite-color;
 }
 
 input[type=range].slider {
-  -webkit-appearance: none;
-  width: 100%;
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 100%; /* Specific width is required for Firefox. */
   margin: 8.5px 0;
 }
 input[type=range].slider:focus {
   outline: none;
 }
+
 input[type=range].slider::-webkit-slider-runnable-track {
   width: 100%;
   height: 7px;
   cursor: pointer;
-  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+  box-shadow: $track-box-shadow;
   background: #000000;
   border-radius: 3px;
-  border: 2px solid #575757;
+  border: $track-border;
 }
+
 input[type=range].slider::-webkit-slider-thumb {
-  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
-  border: 3px solid #ffffff;
-  height: 24px;
-  width: 24px;
+  box-shadow: $thumb-box-shadow;
+  border: $thumb-border;
+  height: $thumb-size;
+  width: $thumb-size;
   border-radius: 15px;
-  background: $thumb-color-gray;
+  background: $slider-gray;
   cursor: pointer;
   -webkit-appearance: none;
-  margin-top: -10.5px;
+  margin-top: -10.5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
 }
 input[type=range].slider:focus::-webkit-slider-runnable-track {
   background: #0d0d0d;
@@ -47,47 +56,47 @@ input[type=range].slider::-moz-range-track {
   width: 100%;
   height: 7px;
   cursor: pointer;
-  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+  box-shadow: $track-box-shadow;
   background: #000000;
   border-radius: 3px;
-  border: 2px solid $thumb-color-gray;
+  border: $track-border;
 }
 input[type=range].slider::-moz-range-thumb {
-  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
-  border: 3px solid #ffffff;
-  height: 24px;
-  width: 24px;
+  box-shadow: $thumb-box-shadow;
+  border: $thumb-border;
+  height: $thumb-size;
+  width: $thumb-size;
   border-radius: 15px;
-  background: $thumb-color-gray;
+  background: $slider-gray;
   cursor: pointer;
 }
 input[type=range].slider::-ms-track {
   width: 100%;
   height: 7px;
   cursor: pointer;
-  background: transparent;
+  background: transparent; /* Hides the slider so custom styles can be added */
   border-color: transparent;
   color: transparent;
 }
 input[type=range].slider::-ms-fill-lower {
   background: #000000;
-  border: 2px solid $thumb-color-gray;
+  border: $track-border;
   border-radius: 6px;
-  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+  box-shadow: $track-box-shadow;
 }
 input[type=range].slider::-ms-fill-upper {
   background: #000000;
-  border: 2px solid $thumb-color-gray;
+  border: $track-border;
   border-radius: 6px;
-  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+  box-shadow: $track-box-shadow;
 }
 input[type=range].slider::-ms-thumb {
-  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
-  border: 3px solid #ffffff;
-  height: 24px;
-  width: 24px;
+  box-shadow: $thumb-box-shadow;
+  border: $thumb-border;
+  height: $thumb-size;
+  width: $thumb-size;
   border-radius: 15px;
-  background: $thumb-color-gray;
+  background: $slider-gray;
   cursor: pointer;
   height: 7px;
 }
