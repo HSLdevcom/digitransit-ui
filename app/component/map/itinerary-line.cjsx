@@ -7,47 +7,48 @@ LocationMarker     = require './location-marker'
 Line               = require './line'
 TripLine               = require './trip-line'
 polyUtil           = require 'polyline-encoded'
+cx                 = require 'classnames'
 
 class ItineraryLine extends React.Component
   render: ->
     if not isBrowser
       return false
+
     objs = []
+
     if @props.showFromToMarkers
+      #TODO: refactor FromToMarkers into own file, used also in RouteLine
       objs.push <LocationMarker map=@props.map
+                                key="from"
                                 position={@props.legs[0].from}
                                 class='from' />
       objs.push <LocationMarker map=@props.map
-                                position={@props.legs[@props.legs.length-1].to}
+                                key="to"
+                                position={@props.legs[@props.legs.length - 1].to}
                                 class='to' />
+
+    itineraryStops = Array::concat.apply [], @props.legs.map (leg) ->
+      leg.intermediateStops.concat [leg.from, leg.to]
 
     for leg, i in @props.legs
       mode = if @props.passive then "passive" else leg.mode.toLowerCase()
-      legStops = leg.intermediateStops.concat([leg.from, leg.to])
 
       objs.push <Line map={@props.map}
                       key={i + leg.mode + @props.passive}
                       geometry={polyUtil.decode leg.legGeometry.points}
                       mode={mode} />
 
-      if not @props.passive
+      unless @props.passive
         if leg.tripId
-          do (legStops) =>
-            # We need the do for closure over legStops,
-            # otherwise it would always point to the last leg when Relay renders
+          objs.push <Relay.RootContainer
+            Component={TripLine}
+            route={new queries.TripRoute(id: leg.agencyId + ":" + leg.tripId)}
+            renderLoading={() -> false}
+            renderFetched={(data) =>
+              <TripLine map={@props.map} pattern={data.pattern} filteredStops={itineraryStops}/>
+            } />
 
-            # TripRoute is a dummy to pass pattern from trip on to RouteLine
-            objs.push <Relay.RootContainer
-              Component={TripLine}
-              route={new queries.TripRoute(
-                id: leg.agencyId + ":" + leg.tripId)}
-              renderFetched={(data) =>
-                <TripLine map={@props.map}
-                          pattern={data.pattern}
-                          filteredStops={legStops} />
-              } />
-
-        legStops.forEach (stop) =>
+        leg.intermediateStops?.forEach (stop) =>
           # Put subdued markers on intermediate stops
           # (actually all stops, but we draw over them next)
           objs.push <StopMarker map={@props.map}
