@@ -41,8 +41,8 @@ class ItineraryLine extends React.Component
         if leg.tripId
           objs.push <Relay.RootContainer
             Component={TripLine}
-            key={leg.agencyId + ":" + leg.tripId}
-            route={new queries.TripRoute(id: leg.agencyId + ":" + leg.tripId)}
+            key={leg.tripId}
+            route={new queries.TripRoute(id: leg.tripId)}
             renderLoading={() -> false}
             renderFetched={(data) =>
               <TripLine map={@props.map} pattern={data.pattern} filteredStops={itineraryStops}/>
