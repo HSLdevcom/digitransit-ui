@@ -8,6 +8,14 @@ clear
 echo "Running ui-tests: $1"
 echo "***************************"
 
+# Check if build name is set, if not this is probably a local build for user.
+# This makes it easier to find current build from BrowserStack
+if [ -z "$BROWSERSTACK_BUILD" ]; then
+  USER=`whoami`
+  export BROWSERSTACK_BUILD="Local build for $USER'"
+fi
+
+
 PLATFORM=`uname`
 if [ $PLATFORM == 'Darwin' ]; then
   SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar
