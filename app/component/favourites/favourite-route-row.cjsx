@@ -9,7 +9,6 @@ class FavouriteRouteRow extends React.Component
 
   @propTypes:
     route: React.PropTypes.object.isRequired
-  
 
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired

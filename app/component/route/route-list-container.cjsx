@@ -38,7 +38,6 @@ class RouteListContainer extends React.Component
       if count > STOP_COUNT
         break
     return limitedBuckets
-    
 
   getDepartures: =>
     departureBuckets = []
