@@ -7,7 +7,6 @@ LocationMarker     = require './location-marker'
 Line               = require './line'
 TripLine               = require './trip-line'
 polyUtil           = require 'polyline-encoded'
-cx                 = require 'classnames'
 
 class ItineraryLine extends React.Component
   render: ->
