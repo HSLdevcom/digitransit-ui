@@ -1,3 +1,14 @@
+if process.env.NODE_ENV == 'production'
+  Raven = require 'raven-js'
+  Raven.config(process.env.SENTRY_DSN).install()
+
+  # Rebind console.error so that we can catch async exceptions from React
+  console_error = console.error
+  # this cannot be bound here, so never use =>
+  console.error = (message, error) ->
+    Raven.captureException(error)
+    console_error.apply(this, arguments)
+
 # Libraries
 React             = require 'react'
 ReactDOM          = require 'react-dom'
@@ -24,7 +35,6 @@ Relay.injectNetworkLayer(
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
-
   if err
     throw err
   window.context = context
