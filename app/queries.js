@@ -345,6 +345,9 @@ var StopMarkerPopupFragments = {
   stop: () => Relay.QL`
     fragment on Stop{
       gtfsId
+      lat
+      lon
+      name
       ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
     }
   `,

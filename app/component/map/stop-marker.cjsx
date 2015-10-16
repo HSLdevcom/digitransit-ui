@@ -9,6 +9,8 @@ Popup         = if isBrowser then require './dynamic-popup'
 L             = if isBrowser then require 'leaflet'
 StopMarkerPopup = require './stop-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
+intl          = require 'react-intl'
+
 
 STOPS_SMALL_MAX_ZOOM = 15
 
@@ -35,6 +37,7 @@ class StopMarker extends React.Component
     executeAction: React.PropTypes.func.isRequired
     history: React.PropTypes.object.isRequired
     route: React.PropTypes.object.isRequired
+    intl: intl.intlShape.isRequired
 
   @getStopIcon: (mode, selected, zoom) ->
     L.divIcon
@@ -53,7 +56,10 @@ class StopMarker extends React.Component
     @forceUpdate()
 
   getStopMarker: ->
-    StopMarkerPopupWithContext = provideContext StopMarkerPopup
+    StopMarkerPopupWithContext = provideContext StopMarkerPopup,
+      intl: intl.intlShape.isRequired
+      history: React.PropTypes.object.isRequired
+      route: React.PropTypes.object.isRequired
 
     <Marker map={@props.map}
             position={lat: @props.stop.lat, lng: @props.stop.lon}
