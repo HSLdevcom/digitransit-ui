@@ -25,11 +25,13 @@ class WalkLeg extends React.Component
           false }
         <div>{@props.leg.from.name}</div>
         <div>{if @props.legs == @props.index+1
-               <FormattedMessage id="walk-to-destination"
-                                 defaultMessage='Walk to destination' />
-              else
-               <FormattedMessage id="walk-to-stop"
-                                 defaultMessage='Walk to stop' /> }
+          <FormattedMessage
+            id="walk-to-destination"
+            defaultMessage='Walk to destination' />
+        else
+          <FormattedMessage
+            id="walk-to-stop"
+            defaultMessage='Walk to stop' /> }
         </div>
         <div>{@props.leg.to.name}</div>
         <div>{Math.round(@props.leg.distance)} m ({Math.round(@props.leg.duration / 60)} <FormattedMessage id='minutes' defaultMessage='minutes' />)</div>

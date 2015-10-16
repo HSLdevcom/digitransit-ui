@@ -105,7 +105,7 @@ class StyleGuidelinesPage extends React.Component
         </div>
         <p>TODO: dynamically get these colors, now only for HSL</p>
       </section>
-    );
+    )
 
   getFonts: ->
     return (
@@ -118,7 +118,7 @@ class StyleGuidelinesPage extends React.Component
         <p style={fontFamily: 'Open Sans Condensed', fontWeight:'400'}>Secondary font: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif<span className="code">$font-weight-normal</span></p>
         <p style={fontFamily: 'Open Sans Condensed', fontWeight:'600'}>Secondary font: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif<span className="code">$font-weight-bold</span></p>
       </section>
-    );
+    )
 
   getHeadings: ->
     <section>

@@ -28,32 +28,37 @@ class TransitLeg extends React.Component
           false}
         <div>{@props.leg.from.name}</div>
         <div>{if @props.leg.headsign
-               <FormattedMessage id='route-with-headsign'
-                                 values={{
-                                   route: @props.leg.route
-                                   headsign: @props.leg.headsign}}
-                                 defaultMessage="Route {route} towards {headsign}" />
-             else
-               <FormattedMessage id='route-without-headsign'
-                                 values={{
-                                   route: @props.leg.route}}
-                                 defaultMessage="Route {route}" />}
+          <FormattedMessage
+            id='route-with-headsign'
+            values={{
+              route: @props.leg.route
+              headsign: @props.leg.headsign}}
+              defaultMessage="Route {route} towards {headsign}" />
+         else
+           <FormattedMessage
+            id='route-without-headsign'
+            values={{
+              route: @props.leg.route}}
+              defaultMessage="Route {route}" />}
         </div>
         <div>
           <FormattedMessage
             id='num-stops'
             values={{
-                stops: @props.leg.intermediateStops.length
-                minutes: Math.round(@props.leg.duration/60)}}
-            defaultMessage='{stops, plural,
-                             =1 {one stop}
-                             other {# stops}
-                            } ({minutes, plural,
-                                =1 {one minute}
-                                other {# minutes}})' />
+              stops: @props.leg.intermediateStops.length
+              minutes: Math.round(@props.leg.duration/60)}}
+            defaultMessage='{
+              stops, plural,
+              =1 {one stop}
+              other {# stops}
+              } ({minutes, plural,
+              =1 {one minute}
+              other {# minutes}})' />
         </div>
-        <div><FormattedMessage id='alight'
-                               defaultMessage='Alight at stop' /></div>
+        <div><FormattedMessage
+          id='alight'
+          defaultMessage='Alight at stop'/>
+        </div>
         <div>{@props.leg.to.name}</div>
       </div>
     </div>
