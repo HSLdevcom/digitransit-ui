@@ -54,15 +54,15 @@ class ItinerarySearchStore extends Store
 
   getMode: ->
     mode = []
-    if @getWalkState() then mode.push("WALK")
-    if @getCycleState() then mode.push("BICYCLE")
-    if @getCarState() then mode.push("CAR")
-    if @getBusState() then mode.push("BUS")
-    if @getTramState() then mode.push("TRAM")
-    if @getRailState() then mode.push("RAIL")
-    if @getSubwayState() then mode.push("SUBWAY")
-    if @getFerryState() then mode.push("FERRY")
-    mode.push "AIRPLANE"
+    if @getBusState() then mode.push "BUS"
+    if @getTramState() then mode.push "TRAM"
+    if @getRailState() then mode.push "RAIL"
+    if @getSubwayState() then mode.push "SUBWAY"
+    if @getFerryState() then mode.push "FERRY"
+    if mode.length then mode.push "AIRPLANE"
+    if @getWalkState() then mode.push "WALK"
+    if @getCycleState() then mode.push "BICYCLE"
+    if @getCarState() then mode.push "CAR"
     return mode.join(",")
 
 
