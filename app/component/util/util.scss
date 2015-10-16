@@ -79,7 +79,8 @@ input[type=range].slider {
   width: 24px;
   border-radius: 15px;
   background: $slider-gray;
-  cursor: pointer;
+  box-sizing: border-box; /* Default in webkit, not in Gecko */
+  cursor: ew-resize;
 }
 
 input[type=range].slider {
