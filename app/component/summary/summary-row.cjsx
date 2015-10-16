@@ -71,6 +71,7 @@ class SummaryRow extends React.Component
 
       unless isLastLeg and not isEnoughRoomForLastLegStartTime
         legTimes.push <DepartureTime
+          key={i + "depTime"}
           departureTime={leg.startTime / 1000}
           realtime={leg.realTime}
           currentTime={currentTime}
@@ -78,6 +79,7 @@ class SummaryRow extends React.Component
 
       if isLastLeg
         legTimes.push <DepartureTime
+          key="arrivalTime"
           departureTime={leg.endTime / 1000}
           realtime={leg.realTime}
           currentTime={currentTime} />
