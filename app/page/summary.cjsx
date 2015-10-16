@@ -13,8 +13,17 @@ class SummaryPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    history: React.PropTypes.object.isRequired
+    location: React.PropTypes.object.isRequired
 
-  @loadAction: ItinerarySearchActions.itinerarySearchRequest
+  componentWillMount: ->
+    props = @context.getStore('ItinerarySearchStore').getOptions()
+    if props.params.from != @props.params.from or props.params.to != @props.params.to
+      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+
+  componentWillUpdate: (props) ->
+    if props.params.from != @props.params.from or props.params.to != @props.params.to
+      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, props
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
@@ -30,14 +39,19 @@ class SummaryPage extends React.Component
   onTimeChange: =>
     @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
+  getActiveIndex: =>
+    @context.location.state?.summaryPageSelected or 0
+
   onSelectActive: (index) =>
-    @setState
-      activeIndex: index
+    if @getActiveIndex() == index # second click navigates
+      @context.history.pushState null, "#{@context.location.pathname}/#{index}"
+    else
+      @context.history.replaceState summaryPageSelected: index, @context.location.pathname
 
   render: ->
     rows = []
     leafletObjs = []
-    activeIndex = if @state and @state.activeIndex then @state.activeIndex else 0
+    activeIndex = @getActiveIndex()
 
     plan = @context.getStore('ItinerarySearchStore').getData().plan
 

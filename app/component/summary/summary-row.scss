@@ -1,7 +1,9 @@
 .itinerary-summary-row {
   padding-left: 0.5em;
+  padding-right: 0.5em;
   padding-top: 0.8em;
   padding-bottom: 0.2em;
+  overflow: hidden;
   font-size: 10pt;
   color: #999;
   background-color: $white;
@@ -13,13 +15,16 @@
 
   & .itinerary-legs {
     position: relative;
-    width: calc(100% - 4em);
+    width: 100%;
     padding-bottom: 2em;
     white-space: nowrap;
     .line {
       position: absolute;
       border-bottom: 3px solid;
       white-space: nowrap;
+      &.walk {
+        border-bottom-style: dotted;
+      }
     }
     .vehicle-number {
       font-weight: 400;
@@ -28,7 +33,7 @@
 
   & .itinerary-leg-times {
     position: relative;
-    width: calc(100% - 4em);
+    width: 100%;
     margin-bottom: 0;
     white-space: nowrap;
     color: black;
@@ -41,31 +46,6 @@
           float: right;
           margin-right: 0;
       }
-    }
-  }
-
-  & .itinerary-link {
-    color: #999;
-    display: block;
-    position: absolute;
-    right: 0;
-    height: 4em;
-    width: 4em;
-    margin-top: -3em;
-    text-align: center;
-    text-decoration: none;
-    padding-top: 1em;
-
-    & .itinerary-duration {
-      position: absolute;
-      left: calc(100% - 3.5em);
-      margin-top: 1em;
-    }
-
-    & .itinerary-arrow {
-      position: absolute;
-      left: calc(100% - 2.5em);
-      margin-top: 2.5em;
     }
   }
 }
