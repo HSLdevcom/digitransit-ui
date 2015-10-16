@@ -30,7 +30,7 @@ class ItineraryLine extends React.Component
       leg.intermediateStops.concat [leg.from, leg.to]
 
     for leg, i in @props.legs
-      mode = if @props.passive then "passive" else leg.mode.toLowerCase()
+      mode = leg.mode.toLowerCase() + " passive" if @props.passive
 
       objs.push <Line map={@props.map}
                       key={i + leg.mode + @props.passive}
