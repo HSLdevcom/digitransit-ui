@@ -10,6 +10,14 @@ $slider-gray: #575757;
   }
 }
 
+/* This sets the actual clickable area. In webkit even the thumb cannot be
+   clicked unless the cursor is in the input element. */
+.slider {
+  height: 21px;
+  background: none;
+  cursor: pointer;
+}
+
 input[type=range].slider {
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 100%; /* Specific width is required for Firefox. */
@@ -93,6 +101,10 @@ input[type=range].slider {
   }
   &::-moz-range-thumb {
     @include thumb;
+  }
+  /* Prevent Firefox from drawing an ugly dotted line over the thumb */
+  &::-moz-focus-outer {
+    border: 0;
   }
   &::-ms-thumb {
     @include thumb;
