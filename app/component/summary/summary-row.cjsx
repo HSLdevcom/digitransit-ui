@@ -52,7 +52,7 @@ class SummaryRow extends React.Component
         # that option will mostly show garbage for user
         text = ""
       else
-        m = (leg.distance).toFixed(0)
+        m = Math.ceil(leg.distance / 10) * 10
         km = (leg.distance / 1000).toFixed(1)
         text = if m < 1000 then "#{m}m" else "#{km}km"
 
