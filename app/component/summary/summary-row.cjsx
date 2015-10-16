@@ -52,8 +52,9 @@ class SummaryRow extends React.Component
         # that option will mostly show garbage for user
         text = ""
       else
+        m = (leg.distance).toFixed(0)
         km = (leg.distance / 1000).toFixed(1)
-        text = if km == "0.0" then "0.1km" else "#{km}km"
+        text = if m < 1000 then "#{m}m" else "#{km}km"
 
       legClasses =
         "#{leg.mode.toLowerCase()}": !isFirstLeg
