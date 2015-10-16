@@ -9,7 +9,6 @@ Link       = require 'react-router/lib/Link'
 sortBy     = require 'lodash/collection/sortBy'
 config     = require '../../config'
 moment     = require 'moment'
-classNames = require 'classnames'
 intl       = require 'react-intl'
 
 FormattedMessage = intl.FormattedMessage
