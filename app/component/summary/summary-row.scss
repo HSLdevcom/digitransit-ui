@@ -22,6 +22,9 @@
       position: absolute;
       border-bottom: 3px solid;
       white-space: nowrap;
+      &.walk {
+        border-bottom-style: dotted;
+      }
     }
     .vehicle-number {
       font-weight: 400;
