@@ -6,11 +6,13 @@ Offcanvas             = require '../util/offcanvas'
 ItinerarySearchAction = require '../../action/itinerary-search-action'
 Select                = require '../util/select'
 
+intl = require 'react-intl'
 
 class CustomizeSearch extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    intl: intl.intlShape.isRequired
 
   @propTypes:
     open: React.PropTypes.bool
@@ -99,31 +101,38 @@ class CustomizeSearch extends React.Component
 
       <section className="offcanvas-section">
         <Slider
-          headerText={"Kävely"}
+          headerText={@context.intl.formatMessage(
+            {id: 'walking', defaultMessage: "Walking"})}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkReluctance()}
           onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setWalkReluctance, e.target.value)}
           min={0.8}
           max={10}
           step={0.2}
-          minText={"Suosi kävelyä"}
-          maxText={"Vähän kävelyä"}
+          minText={@context.intl.formatMessage(
+            {id: 'prefer-walking', defaultMessage: "Prefer walking"})}
+          maxText={@context.intl.formatMessage(
+            {id: 'avoid-walking', defaultMessage: "Avoid walking"})}
         />
       </section>
       <section className="offcanvas-section">
         <Slider
-          headerText={"Vaihdot"}
+          headerText={@context.intl.formatMessage(
+            {id: 'transfers', defaultMessage: "Transfers"})}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkBoardCost()}
           onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setWalkBoardCost, e.target.value)}
           min={1}
           max={1800}
           step={60}
-          minText={"Saa olla vaihtoja"}
-          maxText={"Vähän vaihtoja"}
+          minText={@context.intl.formatMessage(
+            {id: 'transfers-allowed', defaultMessage: "Transfers allowed"})}
+          maxText={@context.intl.formatMessage(
+            {id: 'avoid-transfers', defaultMessage: "Avoid transfers"})}
         />
       </section>
       <section className="offcanvas-section">
         <Slider
-          headerText={"Vaihtomarginaali"}
+          headerText={@context.intl.formatMessage(
+            {id: 'transfer-margin', defaultMessage: "Transfer margin"})}
           defaultValue={@context.getStore('ItinerarySearchStore').getMinTransferTime()}
           onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setMinTransferTime, e.target.value)}
           min={60}
@@ -135,20 +144,24 @@ class CustomizeSearch extends React.Component
       </section>
       <section className="offcanvas-section">
         <Slider
-          headerText={"Kävelynopeus"}
+          headerText={@context.intl.formatMessage(
+            {id: 'walking-speed', defaultMessage: "Walking speed"})}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkSpeed()}
           onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setWalkSpeed, e.target.value)}
           min={0.5}
           max={3}
           step={0.1}
-          minText={"Hidas"}
-          maxText={"Juoksu"}
+          minText={@context.intl.formatMessage(
+            {id: 'slow', defaultMessage: "Slow"})}
+          maxText={@context.intl.formatMessage(
+            {id: 'run', defaultMessage: "Run"})}
         />
       </section>
 
       <section className="offcanvas-section">
         <Select
-          headerText="Lippuvyöhykkeet"
+          headerText={@context.intl.formatMessage(
+            {id: 'zones', defaultMessage: "Zones"})}
           name="ticket"
           selected={@context.getStore('ItinerarySearchStore').getSelectedTicketOption()}
           options={@context.getStore('ItinerarySearchStore').getTicketOptions()}
@@ -157,7 +170,8 @@ class CustomizeSearch extends React.Component
       </section>
       <section className="offcanvas-section">
         <Select
-          headerText="Esteettömyys"
+          headerText={@context.intl.formatMessage(
+            {id: 'accessibility', defaultMessage: "Accessibility"})}
           name="accessible"
           selected={@context.getStore('ItinerarySearchStore').getSelectedAccessibilityOption()}
           options={@context.getStore('ItinerarySearchStore').getAccessibilityOptions()}
