@@ -9,14 +9,6 @@ FavouriteStopsAction  = require '../../action/favourite-stops-action'
 
 
 class StopMarkerPopup extends React.Component
-  @childContextTypes:
-    history: React.PropTypes.object.isRequired
-    route: React.PropTypes.object.isRequired
-
-  getChildContext: () ->
-    history: @props.context.history
-    route: @props.context.route
-
   componentDidMount: ->
     @props.context.getStore('FavouriteStopsStore').addChangeListener @onChange
 
