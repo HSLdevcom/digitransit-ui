@@ -17,7 +17,9 @@ class SummaryPage extends React.Component
     location: React.PropTypes.object.isRequired
 
   componentWillMount: ->
-    @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+    props = @context.getStore('ItinerarySearchStore').getOptions()
+    if props.params.from != @props.params.from or props.params.to != @props.params.to
+      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
   componentWillUpdate: (props) ->
     if props.params.from != @props.params.from or props.params.to != @props.params.to
