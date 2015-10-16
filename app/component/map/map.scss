@@ -221,7 +221,7 @@ div.stop-name-marker {
   stroke-opacity: 1;
   &.walk {
     stroke-linecap: round;
-    stroke-dasharray: 1, 7;
+    stroke-dasharray: 0.1, 7;
   }
 }
 
@@ -230,7 +230,7 @@ div.stop-name-marker {
   stroke-opacity: 1;
   &.walk {
     stroke-linecap: round;
-    stroke-dasharray: 1, 7;
+    stroke-dasharray: 0.1, 7;
   }
 }
 
