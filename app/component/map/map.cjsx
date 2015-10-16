@@ -111,9 +111,10 @@ class Map extends React.Component
       map =
         <LeafletMap
           ref='map'
-          center={[@props.lat or @state.origin.lat or @state.position[0] + 0.0005,
+          center={unless @props.fitBounds then [
+                   @props.lat or @state.origin.lat or @state.position[0] + 0.0005,
                    @props.lon or @state.origin.lon or @state.position[1]]}
-          zoom={@props.zoom or @state.zoom}
+          zoom={unless @props.fitBounds then @props.zoom or @state.zoom}
           zoomControl={not (@props.disableZoom or L.Browser.touch)}
           attributionControl=false
           >
