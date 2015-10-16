@@ -1,3 +1,14 @@
+if process.env.NODE_ENV == 'production'
+  Raven = require 'raven-js'
+  Raven.config(process.env.SENTRY_DSN).install()
+
+  # Rebind console.error so that we can catch async exceptions from React
+  console_error = console.error
+  # this cannot be bound here, so never use =>
+  console.error = (message, error) ->
+    Raven.captureException(error)
+    console_error.apply(this, arguments)
+
 # Libraries
 React             = require 'react'
 ReactDOM          = require 'react-dom'
@@ -12,7 +23,7 @@ StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
 
-dehydratedState   = window.state; # Sent from the server
+dehydratedState   = window.state # Sent from the server
 
 require "../sass/main.scss"
 
@@ -20,11 +31,10 @@ window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer("#{config.URL.OTP}index/graphql")
-);
+)
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
-
   if err
     throw err
   window.context = context
@@ -36,8 +46,11 @@ app.rehydrate dehydratedState, (err, context) ->
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
       <StoreListeningIntlProvider translations={translations}>
-        <Router history={History()} children={app.getComponent()}
-                createElement={ReactRouterRelay.createElement}/>
+        <Router
+          history={History()}
+          children={app.getComponent()}
+          createElement={ReactRouterRelay.createElement}
+        />
       </StoreListeningIntlProvider>
     </FluxibleComponent>, document.getElementById('app')
   )

@@ -48,8 +48,7 @@ class TripStopListContainer extends React.Component
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
         realtimeDeparture={stoptime.realtimeDeparture}
-        currentTimeFromMidnight={currentTimeFromMidnight}
-       />
+        currentTimeFromMidnight={currentTimeFromMidnight}/>
 
   render: ->
     <div className={classnames "route-stop-list", @props.className}>

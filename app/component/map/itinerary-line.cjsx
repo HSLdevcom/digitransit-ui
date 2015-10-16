@@ -7,7 +7,6 @@ LocationMarker     = require './location-marker'
 Line               = require './line'
 TripLine               = require './trip-line'
 polyUtil           = require 'polyline-encoded'
-cx                 = require 'classnames'
 
 class ItineraryLine extends React.Component
   render: ->
@@ -31,7 +30,7 @@ class ItineraryLine extends React.Component
       leg.intermediateStops.concat [leg.from, leg.to]
 
     for leg, i in @props.legs
-      mode = if @props.passive then "passive" else leg.mode.toLowerCase()
+      mode = leg.mode.toLowerCase() + if @props.passive then " passive" else ""
 
       objs.push <Line map={@props.map}
                       key={i + leg.mode + @props.passive}

@@ -22,7 +22,7 @@ class ItineraryTabs extends React.Component
       if leg.transitLeg
         legs.push <TransitLeg key={j} index={j} leg={leg}/>
       else
-        legs.push <WalkLeg key={j}  index={j} leg={leg} legs={numberOfLegs}/>
+        legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs}/>
     legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs-1].to.name}/>
 
     leafletObj = <ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
@@ -38,9 +38,10 @@ class ItineraryTabs extends React.Component
           {legs}
         </Tabs.Panel>
         <Tabs.Panel
-          title={@context.intl.formatMessage(
-            {id: 'map', defaultMessage: "Map"})}
-          >
+          title={@context.intl.formatMessage({
+            id: 'map',
+            defaultMessage: "Map"
+          })}>
           <Map ref="map" className="fullscreen" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs-1].to} padding={[0, 0]}/>
         </Tabs.Panel>
       </Tabs>
