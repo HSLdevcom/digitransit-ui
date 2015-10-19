@@ -56,6 +56,11 @@ $itinerary-navigate-icon-size: 50px;
     margin-top: 0.25em;
     padding: 0.5em 1.5em;
   }
+
+  .itinerary-ticket-information-buy a {
+    text-decoration: none;
+    color: white;
+  }
 }
 
 .row.itinerary-row {
