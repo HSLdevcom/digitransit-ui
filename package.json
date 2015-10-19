@@ -75,6 +75,7 @@
     "chance": "^0.8.0",
     "cjsx-loader": "^2.0.1",
     "coffee-loader": "^0.7.2",
+    "coffeelint": "^1.13.0",
     "css-loader": "^0.19.0",
     "csswring": "^4.0.0",
     "exports-loader": "^0.6.2",
