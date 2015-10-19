@@ -1,6 +1,8 @@
 React = require 'react'
 cx    = require 'classnames'
 Icon  = require '../icon/icon'
+ComponentUsageExample = require '../documentation/component-usage-example'
+Example               = require '../documentation/example-data'
 
 RouteNumber = (props) ->
   mode = props.mode.toLowerCase()
@@ -9,7 +11,13 @@ RouteNumber = (props) ->
     <span className={"vehicle-number " + mode}>{props.text}</span>
   </span>
 
-RouteNumber.description = "Display mode icon and route number with mode color"
+RouteNumber.description =
+  <div>
+    <p>Display mode icon and route number with mode color</p>
+    <ComponentUsageExample>
+      <RouteNumber mode={Example.realtimeDeparture.pattern.route.type} text={Example.realtimeDeparture.pattern.route.shortName}/>
+    </ComponentUsageExample>
+  </div>
 
 RouteNumber.propTypes =
   mode: React.PropTypes.string.isRequired
