@@ -309,11 +309,7 @@ class StyleGuidelinesPage extends React.Component
         </ComponentUsageExample>
       </ComponentDocumentation>
 
-      <ComponentDocumentation component=StopReference>
-        <ComponentUsageExample>
-          <StopReference mode={Example.realtimeDeparture.pattern.route.type} code={Example.realtimeDeparture.stop.code}/>
-        </ComponentUsageExample>
-      </ComponentDocumentation>
+      <ComponentDocumentation component=StopReference />
 
       <ComponentDocumentation component=NotImplementedLink />
       <ComponentDocumentation component=NotImplemented />
