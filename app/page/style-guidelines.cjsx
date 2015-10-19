@@ -339,6 +339,10 @@ class StyleGuidelinesPage extends React.Component
         <ComponentUsageExample>
           <RouteNumber mode={realtimeDeparture.pattern.route.type} text={realtimeDeparture.pattern.route.shortName}/>
         </ComponentUsageExample>
+
+        <ComponentUsageExample description="in vertical configuration">
+          <RouteNumber mode={realtimeDeparture.pattern.route.type} text={realtimeDeparture.pattern.route.shortName} vertical={true}/>
+        </ComponentUsageExample>
       </ComponentDocumentation>
 
       <ComponentDocumentation component=RouteDestination>

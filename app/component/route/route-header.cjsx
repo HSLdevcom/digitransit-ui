@@ -2,6 +2,7 @@ React                 = require 'react'
 Icon                  = require '../icon/icon'
 GtfsUtils             = require '../../util/gtfs'
 Link                  = require 'react-router/lib/Link'
+RouteNumber           = require '../departure/route-number'
 cx                    = require 'classnames'
 
 class RouteHeader extends React.Component
@@ -18,8 +19,7 @@ class RouteHeader extends React.Component
 
     <div className={cx "route-header", @props.className}>
       <h1 className={mode}>
-        <Icon img={'icon-icon_' + mode}/>
-        {routeLine}
+        <RouteNumber mode={mode} text={routeLine}/>
         {trip}
       </h1>
       {headerText}

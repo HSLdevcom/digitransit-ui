@@ -1,5 +1,5 @@
 React = require 'react'
-Icon  = require '../icon/icon'
+RouteNumber  = require '../departure/route-number'
 moment = require 'moment'
 
 intl = require 'react-intl'
@@ -13,7 +13,7 @@ class WalkLeg extends React.Component
         <div className="itinerary-time-column-time">
           {moment(@props.leg.startTime).format('HH:mm')}
         </div>
-        <Icon className={@props.leg.mode.toLowerCase()} img={'icon-icon_' + @props.leg.mode.toLowerCase() }/>
+        <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
       </div>
       <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
         {if @props.index == 0
