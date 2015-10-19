@@ -7,7 +7,7 @@ class ItinerarySearchStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    localData = window?.localStorage?.getItem STORAGE_KEY
+    localData = window?.sessionStorage?.getItem STORAGE_KEY
     @data = if localData then JSON.parse(localData) else {}
     @fromPlace = ""
     @toPlace   = ""
@@ -27,7 +27,7 @@ class ItinerarySearchStore extends Store
         "value":  "1"
       }
     ]
-    @selectedTicketOption = "0";
+    @selectedTicketOption = "0"
     @selectedAccessibilityOption = "0"
     @busState = true
     @tramState = true
@@ -54,15 +54,15 @@ class ItinerarySearchStore extends Store
 
   getMode: ->
     mode = []
-    if @getWalkState() then mode.push("WALK")
-    if @getCycleState() then mode.push("BICYCLE")
-    if @getCarState() then mode.push("CAR")
-    if @getBusState() then mode.push("BUS")
-    if @getTramState() then mode.push("TRAM")
-    if @getRailState() then mode.push("RAIL")
-    if @getSubwayState() then mode.push("SUBWAY")
-    if @getFerryState() then mode.push("FERRY")
-    mode.push "AIRPLANE"
+    if @getBusState() then mode.push "BUS"
+    if @getTramState() then mode.push "TRAM"
+    if @getRailState() then mode.push "RAIL"
+    if @getSubwayState() then mode.push "SUBWAY"
+    if @getFerryState() then mode.push "FERRY"
+    if mode.length then mode.push "AIRPLANE"
+    if @getWalkState() then mode.push "WALK"
+    if @getCycleState() then mode.push "BICYCLE"
+    if @getCarState() then mode.push "CAR"
     return mode.join(",")
 
 
@@ -167,12 +167,12 @@ class ItinerarySearchStore extends Store
 
   storeItinerarySearch: (data) ->
     @data = data
-    window?.localStorage?.setItem STORAGE_KEY, JSON.stringify @data
+    window?.sessionStorage?.setItem STORAGE_KEY, JSON.stringify @data
     @emitChange()
 
   clearItinerary: ->
     @data = {}
-    window?.localStorage?.removeItem STORAGE_KEY
+    window?.sessionStorage?.removeItem STORAGE_KEY
     @emitChange()
 
   dehydrate: ->

@@ -10,7 +10,7 @@ class SummaryRow extends React.Component
 
   render: ->
     data = @props.data
-    currentTime = moment()
+    currentTime = moment().valueOf()
     startTime = moment(data.startTime)
     endTime = moment(data.endTime)
     duration = endTime.diff(startTime)
@@ -52,8 +52,9 @@ class SummaryRow extends React.Component
         # that option will mostly show garbage for user
         text = ""
       else
+        m = Math.ceil(leg.distance / 10) * 10
         km = (leg.distance / 1000).toFixed(1)
-        text = if km == "0.0" then "0.1km" else "#{km}km"
+        text = if m < 1000 then "#{m}m" else "#{km}km"
 
       legClasses =
         "#{leg.mode.toLowerCase()}": !isFirstLeg
@@ -70,6 +71,7 @@ class SummaryRow extends React.Component
 
       unless isLastLeg and not isEnoughRoomForLastLegStartTime
         legTimes.push <DepartureTime
+          key={i + "depTime"}
           departureTime={leg.startTime / 1000}
           realtime={leg.realTime}
           currentTime={currentTime}
@@ -77,6 +79,7 @@ class SummaryRow extends React.Component
 
       if isLastLeg
         legTimes.push <DepartureTime
+          key="arrivalTime"
           departureTime={leg.endTime / 1000}
           realtime={leg.realTime}
           currentTime={currentTime} />
@@ -96,11 +99,6 @@ class SummaryRow extends React.Component
     <div className={classNames(classes)} onClick={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-legs">{legs}</div>
       <div className="itinerary-leg-times">{legTimes}</div>
-      <Link className="itinerary-link" to="#{process.env.ROOT_PATH}reitti/#{@props.params.from}/#{@props.params.to}/#{@props.hash}">
-        {durationText}
-        <br/>
-        <Icon img={'icon-icon_arrow-right'} className="cursor-pointer"/>
-      </Link>
       <br/>
     </div>
 

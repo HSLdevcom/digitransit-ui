@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV == 'production') {
+  var raven = require('raven');
+  var RavenClient = new raven.Client(process.env.SENTRY_SECRET_DSN);
+}
 /********** Server **********/
 var express = require('express')
 var cookieParser = require('cookie-parser')
@@ -106,16 +110,7 @@ function setUpRoutes() {
         res.status(404).send('Not found')
       }
       else {
-        var promises = [getPolyfills(req.headers['user-agent'])];
-        promises.concat(renderProps.components.map(function(component){
-          if (component instanceof Object && component.loadAction) {
-            return context.getActionContext().executeAction(component.loadAction,
-              {params:renderProps.params, query:renderProps.location.query});
-          } else {
-            return true;
-          }
-        }));
-        Promise.all(promises).then(function(polyfills){
+        getPolyfills(req.headers['user-agent']).then(function(polyfills){
           var content = "";
           // Ugly way to see if this is a Relay RootComponent
           // until Relay gets server rendering capabilities
@@ -162,6 +157,9 @@ function setUpRoutes() {
 
           res.send('<!doctype html>' + html);
         }).catch(function(err) {
+          if (process.env.NODE_ENV == 'production') {
+            RavenClient.captureException(err);
+          }
           console.log(err.stack);
           res.status(500).send(err.stack);
         });
