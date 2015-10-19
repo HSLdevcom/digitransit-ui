@@ -212,3 +212,13 @@ $btn-heigth: 17px;
   border-top-right-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
 }
+
+/*
+  ARROW LINK
+*/
+
+.right-arrow-blue-background {
+  border-radius: 30px;
+  color: white;
+  background: $action-color;
+}
