@@ -226,7 +226,6 @@ div.stop-name-marker {
 }
 
 .map .leg {
-  stroke: currentColor;
   stroke-opacity: 1;
   &.walk {
     stroke-linecap: round;
@@ -236,11 +235,6 @@ div.stop-name-marker {
 
 .map .thin {
   stroke-opacity: 0.5;
-}
-
-/* color to use instead of mode-specific colors */
-.map .passive {
-  color: #c2c2c2;
 }
 
 /* Fix to default leaflet behavior */

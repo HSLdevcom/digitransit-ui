@@ -26,16 +26,18 @@ class ItineraryLine extends React.Component
                                 position={@props.legs[@props.legs.length - 1].to}
                                 class='to' />
 
-    itineraryStops = Array::concat.apply [], @props.legs.map (leg) ->
-      leg.intermediateStops.concat [leg.from, leg.to]
+    unless @props.passive
+      itineraryStops = Array::concat.apply [], @props.legs.map (leg) ->
+        leg.intermediateStops.concat [leg.from, leg.to]
 
     for leg, i in @props.legs
       mode = leg.mode.toLowerCase() + if @props.passive then " passive" else ""
 
       objs.push <Line map={@props.map}
-                      key={i + leg.mode + @props.passive}
+                      key={"#{@props.hash}_#{i}"}
                       geometry={polyUtil.decode leg.legGeometry.points}
-                      mode={mode} />
+                      mode={leg.mode.toLowerCase()}
+                      passive={@props.passive}/>
 
       unless @props.passive
         if leg.tripId
