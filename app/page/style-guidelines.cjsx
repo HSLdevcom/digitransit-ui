@@ -302,13 +302,7 @@ class StyleGuidelinesPage extends React.Component
       </ComponentDocumentation>
 
       <ComponentDocumentation component=RouteNumber />
-
-      <ComponentDocumentation component=RouteDestination>
-        <ComponentUsageExample>
-          <RouteDestination mode={Example.realtimeDeparture.pattern.route.type} destination={Example.realtimeDeparture.pattern.headsign or Example.realtimeDeparture.pattern.route.longName}/>
-        </ComponentUsageExample>
-      </ComponentDocumentation>
-
+      <ComponentDocumentation component=RouteDestination />
       <ComponentDocumentation component=StopReference />
 
       <ComponentDocumentation component=NotImplementedLink />
