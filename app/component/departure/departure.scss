@@ -50,4 +50,7 @@
 .route-number {
   vertical-align: top;
   display: inline-block;
+  &.vertical {
+    text-align: center;
+  }
 }

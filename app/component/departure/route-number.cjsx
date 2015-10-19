@@ -6,8 +6,9 @@ Example               = require '../documentation/example-data'
 
 RouteNumber = (props) ->
   mode = props.mode.toLowerCase()
-  <span className={cx "route-number", props.className} >
+  <span className={cx "route-number", props.className, {'vertical': props.vertical}} >
     <Icon className={mode} img={'icon-icon_' + mode}/>
+    {if props.vertical then <br/>}
     <span className={"vehicle-number " + mode}>{props.text}</span>
   </span>
 
@@ -17,11 +18,16 @@ RouteNumber.description =
     <ComponentUsageExample>
       <RouteNumber mode={Example.realtimeDeparture.pattern.route.type} text={Example.realtimeDeparture.pattern.route.shortName}/>
     </ComponentUsageExample>
+
+    <ComponentUsageExample description="in vertical configuration">
+      <RouteNumber mode={Example.realtimeDeparture.pattern.route.type} text={Example.realtimeDeparture.pattern.route.shortName} vertical={true}/>
+    </ComponentUsageExample>
   </div>
 
 RouteNumber.propTypes =
   mode: React.PropTypes.string.isRequired
-  text: React.PropTypes.string.isRequired
+  text: React.PropTypes.string
+  vertical: React.PropTypes.bool
 
 RouteNumber.displayName = "RouteNumber"
 

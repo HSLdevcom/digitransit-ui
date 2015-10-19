@@ -285,7 +285,6 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=StopReference />
       <ComponentDocumentation component=NotImplementedLink />
       <ComponentDocumentation component=NotImplemented />
-
     </div>
 
   render: ->
