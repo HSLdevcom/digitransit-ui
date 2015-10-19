@@ -3,7 +3,7 @@ Relay                   = require 'react-relay'
 queries                 = require '../../queries'
 GtfsUtils               = require '../../util/gtfs'
 groupBy                 = require 'lodash/collection/groupBy'
-classnames              = require 'classnames'
+cx                      = require 'classnames'
 TripRouteStop           = require './trip-route-stop'
 isEmpty                 = require 'lodash/lang/isEmpty'
 moment                  = require 'moment'
@@ -51,7 +51,7 @@ class TripStopListContainer extends React.Component
         currentTimeFromMidnight={currentTimeFromMidnight}/>
 
   render: ->
-    <div className={classnames "route-stop-list", @props.className}>
+    <div className={cx "route-stop-list", @props.className}>
       {@getStops()}
     </div>
 

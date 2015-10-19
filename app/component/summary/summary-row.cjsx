@@ -4,7 +4,7 @@ Link               = require 'react-router/lib/Link'
 Icon               = require '../icon/icon'
 RouteNumber        = require '../departure/route-number'
 DepartureTime      = require '../departure/departure-time'
-classNames         = require 'classnames'
+cx                 = require 'classnames'
 
 class SummaryRow extends React.Component
 
@@ -64,8 +64,8 @@ class SummaryRow extends React.Component
 
       legs.push <span key={i + 'a'}
         style={styleLine}
-        className={classNames("line", leg.mode.toLowerCase())}>
-        <span key={i + 'b'} className={classNames("summary-circle", legClasses)}></span>
+        className={cx "line", leg.mode.toLowerCase()}>
+        <span key={i + 'b'} className={cx "summary-circle", legClasses}></span>
         <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
       </span>
 
@@ -96,7 +96,7 @@ class SummaryRow extends React.Component
       passive: @props.passive
     ]
 
-    <div className={classNames(classes)} onClick={() => @props.onSelect(@props.hash)}>
+    <div className={cx classes} onClick={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-legs">{legs}</div>
       <div className="itinerary-leg-times">{legTimes}</div>
       <br/>

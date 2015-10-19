@@ -20,7 +20,7 @@ class Slider extends React.Component
       <h4>{@props.headerText}</h4>
       <input
         id={@props.id}
-        className={cx('slider')}
+        className={cx 'slider'}
         type="range"
         defaultValue={@props.defaultValue}
         min={@props.min}

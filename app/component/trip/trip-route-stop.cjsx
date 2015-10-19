@@ -1,7 +1,6 @@
 React           = require 'react'
 Link            = require 'react-router/lib/Link'
 Icon            = require '../icon/icon'
-classnames      = require 'classnames'
 TripLink        = require '../trip/trip-link'
 moment          = require 'moment'
 cx              = require 'classnames'
@@ -25,7 +24,7 @@ class TripRouteStop extends React.Component
     stopPassed =
       passed: !@props.stopPassed
 
-    <div className={classnames "route-stop row", stopPassed}>
+    <div className={cx "route-stop row", stopPassed}>
       <div className="columns small-3 route-stop-time">
         {@renderTime(@props.realtimeDeparture, @props.currentTimeFromMidnight, @props.realtime)}
         <div className="route-stop-now-icon">
