@@ -1,5 +1,4 @@
 React = require 'react'
-Icon  = require '../icon/icon'
 moment = require 'moment'
 
 intl = require('react-intl')
