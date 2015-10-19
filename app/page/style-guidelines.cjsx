@@ -280,18 +280,7 @@ class StyleGuidelinesPage extends React.Component
 
   getDepartureMolecules: ->
     <div>
-      <ComponentDocumentation component=Departure>
-        <ComponentUsageExample>
-          <Departure departure={Example.realtimeDeparture} currentTime={Example.currentTime}/>
-        </ComponentUsageExample>
-        <ComponentUsageExample description="adding padding classes">
-          <Departure departure={Example.departure} currentTime={Example.currentTime} className="padding-normal padding-bottom"/>
-        </ComponentUsageExample>
-        <ComponentUsageExample description="with stop number">
-          <Departure departure={Example.departure} showStop={true} currentTime={Example.currentTime} className="padding-normal padding-bottom"/>
-        </ComponentUsageExample>
-      </ComponentDocumentation>
-
+      <ComponentDocumentation component=Departure />
       <ComponentDocumentation component=DepartureTime />
       <ComponentDocumentation component=RouteNumber />
       <ComponentDocumentation component=RouteDestination />
