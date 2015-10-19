@@ -14,7 +14,7 @@ RouteNumber.description = "Display mode icon and route number with mode color"
 
 RouteNumber.propTypes =
   mode: React.PropTypes.string.isRequired
-  text: React.PropTypes.string.isRequired
+  text: React.PropTypes.string
   vertical: React.PropTypes.bool
 
 RouteNumber.displayName = "RouteNumber"
