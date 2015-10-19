@@ -292,15 +292,7 @@ class StyleGuidelinesPage extends React.Component
         </ComponentUsageExample>
       </ComponentDocumentation>
 
-      <ComponentDocumentation component=DepartureTime>
-        <ComponentUsageExample description="real time">
-          <DepartureTime departureTime={Example.realtimeDeparture.stoptime} realtime={Example.realtimeDeparture.realtime} currentTime={Example.currentTime}/>
-        </ComponentUsageExample>
-        <ComponentUsageExample description="not real time">
-          <DepartureTime departureTime={Example.departure.stoptime} realtime={Example.departure.realtime} currentTime={Example.currentTime}/>
-        </ComponentUsageExample>
-      </ComponentDocumentation>
-
+      <ComponentDocumentation component=DepartureTime />
       <ComponentDocumentation component=RouteNumber />
       <ComponentDocumentation component=RouteDestination />
       <ComponentDocumentation component=StopReference />
