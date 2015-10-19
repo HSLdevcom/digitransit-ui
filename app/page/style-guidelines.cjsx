@@ -2,49 +2,16 @@ React              = require 'react'
 Icon               = require '../component/icon/icon'
 Link               = require('react-router/lib/Link').Link
 # React Components
-ComponentUsageExample = require '../component/documentation/component-usage-example'
-ComponentDocumentation  = require '../component/documentation/component-documentation'
+ComponentUsageExample  = require '../component/documentation/component-usage-example'
+ComponentDocumentation = require '../component/documentation/component-documentation'
+Example            = require '../component/documentation/example-data'
 Departure          = require '../component/departure/departure'
 RouteNumber        = require '../component/departure/route-number'
 RouteDestination   = require '../component/departure/route-destination'
 DepartureTime      = require '../component/departure/departure-time'
 StopReference      = require '../component/stop/stop-reference'
 NotImplemented     = require '../component/util/not-implemented'
-NotImplementedLink     = require '../component/util/not-implemented-link'
-
-realtimeDeparture =
-  stop:
-    code: "4611"
-  stoptime: 1444165199
-  realtime: true
-  pattern:
-    __dataID__: "UGF0dGVybjpIU0w6NDYxMToxOjAx"
-    route:
-      __dataID__: "Um91dGU6SFNMOjQ2MTE="
-      gtfsId: "HSL:4611"
-      shortName: "611"
-      longName: "Rautatientori - Siltamäki - Suutarila - Tikkurila"
-      type: "BUS"
-      color: null
-    code: "HSL:4611:1:01"
-    headsign: "Rautatientori"
-
-departure =
-  stop:
-    code: "1007"
-  stoptime: 1444185960
-  realtime: false
-  pattern:
-    __dataID__: "UGF0dGVybjpIU0w6MTAwN0I6MDowMg=="
-    route:
-      __dataID__: "Um91dGU6SFNMOjEwMDdC"
-      gtfsId: "HSL:1007B"
-      shortName: "7B"
-      longName: "Senaatintori-Pasila-Töölö-Senaatintori"
-      type: "TRAM"
-      color: null
-    code: "HSL:1007B:0:02"
-    headsign: "Pasila"
+NotImplementedLink = require '../component/util/not-implemented-link'
 
 class StyleGuidelinesPage extends React.Component
   getColors: ->
@@ -312,52 +279,44 @@ class StyleGuidelinesPage extends React.Component
     </section>
 
   getDepartureMolecules: ->
-    currentTime = new Date().getTime() / 1000
     <div>
       <ComponentDocumentation component=Departure>
         <ComponentUsageExample>
-          <Departure departure={realtimeDeparture} currentTime={currentTime}/>
+          <Departure departure={Example.realtimeDeparture} currentTime={Example.currentTime}/>
         </ComponentUsageExample>
         <ComponentUsageExample description="adding padding classes">
-          <Departure departure={departure} currentTime={currentTime} className="padding-normal padding-bottom"/>
+          <Departure departure={Example.departure} currentTime={Example.currentTime} className="padding-normal padding-bottom"/>
         </ComponentUsageExample>
         <ComponentUsageExample description="with stop number">
-          <Departure departure={departure} showStop={true} currentTime={currentTime} className="padding-normal padding-bottom"/>
+          <Departure departure={Example.departure} showStop={true} currentTime={Example.currentTime} className="padding-normal padding-bottom"/>
         </ComponentUsageExample>
       </ComponentDocumentation>
 
       <ComponentDocumentation component=DepartureTime>
         <ComponentUsageExample description="real time">
-          <DepartureTime departureTime={realtimeDeparture.stoptime} realtime={realtimeDeparture.realtime} currentTime={currentTime}/>
+          <DepartureTime departureTime={Example.realtimeDeparture.stoptime} realtime={Example.realtimeDeparture.realtime} currentTime={Example.currentTime}/>
         </ComponentUsageExample>
         <ComponentUsageExample description="not real time">
-          <DepartureTime departureTime={departure.stoptime} realtime={departure.realtime} currentTime={currentTime}/>
+          <DepartureTime departureTime={Example.departure.stoptime} realtime={Example.departure.realtime} currentTime={Example.currentTime}/>
         </ComponentUsageExample>
       </ComponentDocumentation>
 
-      <ComponentDocumentation component=RouteNumber>
-        <ComponentUsageExample>
-          <RouteNumber mode={realtimeDeparture.pattern.route.type} text={realtimeDeparture.pattern.route.shortName}/>
-        </ComponentUsageExample>
-      </ComponentDocumentation>
+      <ComponentDocumentation component=RouteNumber />
 
       <ComponentDocumentation component=RouteDestination>
         <ComponentUsageExample>
-          <RouteDestination mode={realtimeDeparture.pattern.route.type} destination={realtimeDeparture.pattern.headsign or realtimeDeparture.pattern.route.longName}/>
+          <RouteDestination mode={Example.realtimeDeparture.pattern.route.type} destination={Example.realtimeDeparture.pattern.headsign or Example.realtimeDeparture.pattern.route.longName}/>
         </ComponentUsageExample>
       </ComponentDocumentation>
 
       <ComponentDocumentation component=StopReference>
         <ComponentUsageExample>
-          <StopReference mode={realtimeDeparture.pattern.route.type} code={realtimeDeparture.stop.code}/>
+          <StopReference mode={Example.realtimeDeparture.pattern.route.type} code={Example.realtimeDeparture.stop.code}/>
         </ComponentUsageExample>
       </ComponentDocumentation>
 
-      <ComponentDocumentation component=NotImplementedLink>
-      </ComponentDocumentation>
-
-      <ComponentDocumentation component=NotImplemented>
-      </ComponentDocumentation>
+      <ComponentDocumentation component=NotImplementedLink />
+      <ComponentDocumentation component=NotImplemented />
 
     </div>
 
