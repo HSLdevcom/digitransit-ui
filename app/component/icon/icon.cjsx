@@ -10,6 +10,14 @@ Icon = (props) ->
     </svg>
   </span>
 
+Icon.asString = (img, className, id) -> """<span>
+  <svg#{if id then " id=" + id else ""} viewBox="0 0 40 40" class="icon #{className or ""}">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="##{img}"/>
+  </svg></span>
+"""
+
 Icon.displayName = "Icon"
+
+Icon.description = "Shows an icon from the SVG sprite"
 
 module.exports = Icon
