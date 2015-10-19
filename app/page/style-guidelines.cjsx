@@ -2,9 +2,7 @@ React              = require 'react'
 Icon               = require '../component/icon/icon'
 Link               = require('react-router/lib/Link').Link
 # React Components
-ComponentUsageExample  = require '../component/documentation/component-usage-example'
 ComponentDocumentation = require '../component/documentation/component-documentation'
-Example            = require '../component/documentation/example-data'
 Departure          = require '../component/departure/departure'
 RouteNumber        = require '../component/departure/route-number'
 RouteDestination   = require '../component/departure/route-destination'
@@ -285,7 +283,6 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=RouteNumber />
       <ComponentDocumentation component=RouteDestination />
       <ComponentDocumentation component=StopReference />
-
       <ComponentDocumentation component=NotImplementedLink />
       <ComponentDocumentation component=NotImplemented />
 
