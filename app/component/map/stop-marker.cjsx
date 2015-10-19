@@ -55,6 +55,9 @@ class StopMarker extends React.Component
   onMapMove: =>
     @forceUpdate()
 
+  shouldComponentUpdate: (nextProps) ->
+    return nextProps.stop.gtfsId != @props.stop.gtfsId;
+
   getStopMarker: ->
     StopMarkerPopupWithContext = provideContext StopMarkerPopup,
       intl: intl.intlShape.isRequired
