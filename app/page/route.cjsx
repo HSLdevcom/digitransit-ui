@@ -10,7 +10,6 @@ RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
 FormattedMessage       = require('react-intl').FormattedMessage
 NotImplementedAction   = require('../action/not-implemented-action')
-NotImplemented         = require('../component/util/not-implemented')
 
 
 class RoutePage extends React.Component
@@ -63,7 +62,6 @@ class RoutePage extends React.Component
           <div>Aikataulut tähän</div>
         </Tabs.Panel>
       </Tabs>
-      <NotImplemented/>
     </DefaultNavigation>
 
 module.exports = Relay.createContainer(RoutePage, fragments: queries.RoutePageFragments)
