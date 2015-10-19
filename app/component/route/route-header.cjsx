@@ -3,7 +3,7 @@ Icon                  = require '../icon/icon'
 GtfsUtils             = require '../../util/gtfs'
 Link                  = require 'react-router/lib/Link'
 RouteNumber           = require '../departure/route-number'
-classnames            = require 'classnames'
+cx                    = require 'classnames'
 
 class RouteHeader extends React.Component
   render: =>
@@ -17,7 +17,7 @@ class RouteHeader extends React.Component
           <Icon className={"route-header-direction-switch " + mode} img={'icon-icon_direction-b'}/>
         </Link>
 
-    <div className={classnames "route-header", @props.className}>
+    <div className={cx "route-header", @props.className}>
       <h1 className={mode}>
         <RouteNumber mode={mode} text={routeLine}/>
         {trip}
