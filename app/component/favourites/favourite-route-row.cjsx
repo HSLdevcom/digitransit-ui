@@ -1,7 +1,7 @@
 React                 = require 'react'
 Icon                  = require '../icon/icon'
 Link                  = require 'react-router/lib/Link'
-classNames            = require 'classnames'
+cx                    = require 'classnames'
 FavouriteRouteActions = require '../../action/favourite-routes-action'
 RouteNumber           = require '../departure/route-number'
 
@@ -9,7 +9,6 @@ class FavouriteRouteRow extends React.Component
 
   @propTypes:
     route: React.PropTypes.object.isRequired
-  
 
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
@@ -31,7 +30,7 @@ class FavouriteRouteRow extends React.Component
               <span className="destination"> - {@props.route.longName}</span>
             </Link>
             <span className="cursor-pointer favourite-icon right" onClick={@addFavouriteRoute}>
-              <Icon className={classNames "favourite", selected: true} img="icon-icon_star"/>
+              <Icon className={cx "favourite", selected: true} img="icon-icon_star"/>
             </span>
           </p>
         </div>
