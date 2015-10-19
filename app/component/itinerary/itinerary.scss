@@ -35,6 +35,13 @@ $itinerary-navigate-icon-size: 50px;
   }
 }
 
+.itinerary-summary--onmap-black {
+  border-radius: 5px;
+  color: $white;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 802;
+}
+
 .itinerary-ticket-information {
   color: $gray;
   font-weight: $font-weight-light;
@@ -134,19 +141,17 @@ $itinerary-navigate-icon-size: 50px;
         color: inherit;
         text-decoration: inherit;
       }
-      .icon {
-        font-size: $itinerary-navigate-icon-size/2;
-        padding: $itinerary-navigate-icon-size/4;
-        height: $itinerary-navigate-icon-size;
-        width: $itinerary-navigate-icon-size;
-        border-radius: 30px;
-        color: white;
-        background: $action-color;
-        position: absolute;
-        bottom: 20px;
-      }
     }
   }
+}
+
+.itinerary-bottom-navigation__icon {
+  font-size: $itinerary-navigate-icon-size/2;
+  padding: $itinerary-navigate-icon-size/4;
+  height: $itinerary-navigate-icon-size;
+  width: $itinerary-navigate-icon-size;
+  position: absolute;
+  bottom: 20px;
 }
 
 /* Slick */

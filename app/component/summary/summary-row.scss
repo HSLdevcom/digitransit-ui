@@ -156,3 +156,23 @@
 .remove-padding {
   padding:0 !important;
 }
+
+/*
+  Duration and link components
+*/
+
+.itinerary-summary--summary-row {
+  position: absolute;
+  bottom: 6px;
+  right: 12px;
+}
+
+.arrow-link--summary-row {
+  padding: 16.5px;
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  z-index: 803;
+  bottom: 33px;
+  right: 12px;
+}

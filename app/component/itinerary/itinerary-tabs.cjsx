@@ -8,6 +8,7 @@ TicketInformation  = require './ticket-information'
 ItinerarySummary   = require './itinerary-summary'
 Map                = require '../map/map'
 ItineraryLine      = require '../map/itinerary-line'
+ItineraryTimeFrame = require './itinerary-time-frame'
 
 intl = require 'react-intl'
 
@@ -28,7 +29,7 @@ class ItineraryTabs extends React.Component
     leafletObj = <ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
 
     <div>
-      <ItinerarySummary itinerary={@props.itinerary}/>
+      <ItinerarySummary itinerary={@props.itinerary}><ItineraryTimeFrame itinerary={@props.itinerary}/></ItinerarySummary>
       <Tabs className="itinerary-tabs">
         <Tabs.Panel
           title={@context.intl.formatMessage(
