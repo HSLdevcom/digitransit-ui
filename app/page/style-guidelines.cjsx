@@ -354,10 +354,14 @@ class StyleGuidelinesPage extends React.Component
       </ComponentDocumentation>
 
       <ComponentDocumentation component=NotImplementedLink>
-        <ComponentUsageExample description="simple link">
-          <NotImplementedLink name="The promiseware" href="#">This is a not implemented link to Promiseware</NotImplementedLink>
+        <ComponentUsageExample description="Simple text link">
+          <NotImplementedLink name="The promiseware"/>
+        </ComponentUsageExample>
+        <ComponentUsageExample description="Simple custom text link">
+          <NotImplementedLink name="The other promiseware" nonTextLink=true> FOO!</NotImplementedLink>
         </ComponentUsageExample>
       </ComponentDocumentation>
+
 
       <ComponentDocumentation component=NotImplemented>
         <ComponentUsageExample>
