@@ -15,7 +15,7 @@ class Application extends React.Component
       <link rel="apple-touch-icon" href="#{process.env.ROOT_PATH}img/#{config.icon}"/>
       <link rel="touch-icon" href="#{process.env.ROOT_PATH}img/#{config.icon}"/>
       <link rel="icon" href="#{process.env.ROOT_PATH}img/#{config.icon}"/>
-      <link href={config.URL.FONT} rel='stylesheet' type='text/css'/>
+      <style dangerouslySetInnerHTML={ __html: @props.fonts }/>
       <style dangerouslySetInnerHTML={ __html: @props.css }/>
     </head>
     <body>
