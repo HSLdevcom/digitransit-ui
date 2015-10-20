@@ -1,10 +1,20 @@
+# Set up logging to Sentry
 if process.env.NODE_ENV == 'production'
   Raven = require 'raven-js'
   Raven.config(process.env.SENTRY_DSN).install()
 
   # Rebind console.error so that we can catch async exceptions from React
+  # We want the original 'this' here so don't use =>
+
   console_error = console.error
-  # this cannot be bound here, so never use =>
+
+  # Fix console.error.apply etc. for IE9
+  if (Function.prototype.bind and window.console and typeof console.log == "object")
+    ["log", "info", "warn", "error", "assert", "dir", "clear", "profile", "profileEnd"]
+    .forEach(
+      ((method) -> console[method] = @bind(console[method], console))
+      , Function.prototype.call)
+
   console.error = (message, error) ->
     Raven.captureException(error)
     console_error.apply(this, arguments)
