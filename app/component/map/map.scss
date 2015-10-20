@@ -13,10 +13,12 @@ div.map {
 
 div.map.summaryMap {
   height: calc(100% - 12em);
+  min-height: 200px;
 }
 
 div.map.summaryMap div.leaflet-container {
   height: 100%;
+  min-height: 200px;
 }
 .below-map  {
   overflow: auto;
