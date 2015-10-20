@@ -64,6 +64,7 @@ class SummaryPage extends React.Component
                               data={data} passive={passive}
                               onSelect={@onSelectActive}/>
         leafletObjs.push <ItineraryLine key={i}
+                                        hash={i}
                                         legs={data.legs}
                                         showFromToMarkers={i == 0}
                                         passive={passive}/>

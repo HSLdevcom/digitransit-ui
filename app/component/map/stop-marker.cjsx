@@ -1,5 +1,4 @@
 React         = require 'react'
-ReactDOM      = require 'react-dom/server'
 Relay         = require 'react-relay'
 queries       = require '../../queries'
 isBrowser     = window?
@@ -14,21 +13,21 @@ intl          = require 'react-intl'
 
 STOPS_SMALL_MAX_ZOOM = 15
 
-iconSvg = ReactDOM.renderToStaticMarkup <svg viewBox="0 0 18 18">
-    <circle key="halo" className="stop-halo" cx="9" cy="9" r="8" strokeWidth="1"/>
-    <circle key="stop" className="stop" cx="9" cy="9" r="4.5" strokeWidth="4"/>
-  </svg>
+iconSvg = """<svg viewBox="0 0 18 18">
+    <circle key="halo" class="stop-halo" cx="9" cy="9" r="8" stroke-width="1"/>
+    <circle key="stop" class="stop" cx="9" cy="9" r="4.5" stroke-width="4"/>
+  </svg>"""
 
 # A slightly bigger icon to be showed on stop page map for the selected stop
-selectedIconSvg = ReactDOM.renderToStaticMarkup <svg viewBox="0 0 28 28">
-    <circle key="halo" className="stop-halo" cx="14" cy="14" r="13" strokeWidth="1"/>
-    <circle key="stop" className="stop" cx="14" cy="14" r="8" strokeWidth="7"/>
-  </svg>
+selectedIconSvg = """<svg viewBox="0 0 28 28">
+    <circle key="halo" class="stop-halo" cx="14" cy="14" r="13" stroke-width="1"/>
+    <circle key="stop" class="stop" cx="14" cy="14" r="8" stroke-width="7"/>
+  </svg>"""
 
 # Small icon for zoom levels <= 15
-smallIconSvg = ReactDOM.renderToStaticMarkup <svg viewBox="0 0 8 8">
-    <circle className="stop-small" cx="4" cy="4" r="3" strokeWidth="1"/>
-  </svg>
+smallIconSvg = """<svg viewBox="0 0 8 8">
+    <circle class="stop-small" cx="4" cy="4" r="3" stroke-width="1"/>
+  </svg>"""
 
 class StopMarker extends React.Component
   @contextTypes:
@@ -54,6 +53,9 @@ class StopMarker extends React.Component
 
   onMapMove: =>
     @forceUpdate()
+
+  shouldComponentUpdate: (nextProps) ->
+    return nextProps.stop.gtfsId != @props.stop.gtfsId;
 
   getStopMarker: ->
     StopMarkerPopupWithContext = provideContext StopMarkerPopup,
@@ -89,7 +91,7 @@ class StopMarker extends React.Component
             position={lat: @props.stop.lat, lng: @props.stop.lon}
             interactive={false}
             icon={L.divIcon
-              html: ReactDOM.renderToStaticMarkup(<div>{@props.stop.name}</div>)
+              html: "<div>#{@props.stop.name}</div>"
               className: 'popup stop-name-marker'
               iconSize: [150, 0]
               iconAnchor: [-8, 7]}

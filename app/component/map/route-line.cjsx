@@ -1,7 +1,6 @@
 React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../../queries'
-ReactDOM           = require 'react-dom/server'
 isBrowser          = window?
 StopMarker         = require './stop-marker'
 LocationMarker     = require './location-marker'
