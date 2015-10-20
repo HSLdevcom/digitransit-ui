@@ -4,12 +4,11 @@ React      = require 'react'
 Relay      = require 'react-relay'
 queries    = require '../../queries'
 RouteStop  = require './route-stop'
-DepartureListContainer = require '../stop-cards/departure-list-container'
+DepartureListContainer = require '../departure/departure-list-container'
 Link       = require 'react-router/lib/Link'
 sortBy     = require 'lodash/collection/sortBy'
 config     = require '../../config'
 moment     = require 'moment'
-classNames = require 'classnames'
 intl       = require 'react-intl'
 
 FormattedMessage = intl.FormattedMessage
@@ -38,7 +37,6 @@ class RouteListContainer extends React.Component
       if count > STOP_COUNT
         break
     return limitedBuckets
-    
 
   getDepartures: =>
     departureBuckets = []

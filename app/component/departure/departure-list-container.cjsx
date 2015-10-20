@@ -2,12 +2,12 @@ React                 = require 'react'
 ReactDOM              = require 'react-dom'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
-Departure             = require '../departure/departure'
+Departure             = require './departure'
 uniq                  = require 'lodash/array/uniq'
 difference            = require 'lodash/array/difference'
 moment                = require 'moment'
 Link                  = require 'react-router/lib/Link'
-classNames            = require 'classnames'
+cx                    = require 'classnames'
 
 
 moment.locale('fi')
@@ -73,10 +73,10 @@ class DepartureListContainer extends React.Component
 
       if @props.routeLinks
         departureObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.code}" key={id}>
-          <Departure departure={departure} showStop={@props.showStops} currentTime={currentTime} className={classNames(classes)}/>
+          <Departure departure={departure} showStop={@props.showStops} currentTime={currentTime} className={cx classes}/>
         </Link>
       else
-        departureObjs.push <Departure key={id} departure={departure} showStop={@props.showStops} currentTime={currentTime} className={classNames(classes)} />
+        departureObjs.push <Departure key={id} departure={departure} showStop={@props.showStops} currentTime={currentTime} className={cx classes} />
       #seenRoutes.push(departure.pattern.route.shortName)
       #if seenRoutes.length >= @props.limit
       #  break
@@ -93,7 +93,7 @@ class DepartureListContainer extends React.Component
     departureObjs
 
   render: =>
-    <div className={classNames("departure-list", @props.className)}
+    <div className={cx "departure-list", @props.className}
          onScroll={if @props.infiniteScroll and window? then @scrollHandler else null}>
       {@getDepartures(@props.rowClasses)}
     </div>

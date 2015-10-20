@@ -13,7 +13,7 @@ class Offcanvas extends React.Component
     classes[this.props.position] = true
     if (this.props.className)
       classes[this.props.className] = true
-    <div id={this.props.id} className={cx(classes)}>
+    <div id={this.props.id} className={cx classes}>
         {this.props.children}
     </div>
 

@@ -3,7 +3,7 @@ Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Icon                  = require '../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
-classNames            = require 'classnames'
+cx                    = require 'classnames'
 NotImplementedLink    = require('../util/not-implemented-link')
 
 class StopCardHeader extends React.Component
@@ -26,9 +26,9 @@ class StopCardHeader extends React.Component
     description
 
   render: ->
-    <div className={classNames "card-header", @props.className}>
+    <div className={cx "card-header", @props.className}>
       <span className="cursor-pointer favourite-icon right" onClick={@props.addFavouriteStop}>
-        <Icon className={classNames "favourite", selected: @props.favourite} img="icon-icon_star"/>
+        <Icon className={cx "favourite", selected: @props.favourite} img="icon-icon_star"/>
       </span>
       {if @props.infoIcon then @getInfoIcon()}
       <span className={@props.headingStyle || "h4"}>{@props.stop.name} ›</span>
