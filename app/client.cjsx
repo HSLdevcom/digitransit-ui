@@ -5,6 +5,14 @@ if process.env.NODE_ENV == 'production'
   # Rebind console.error so that we can catch async exceptions from React
   console_error = console.error
   # this cannot be bound here, so never use =>
+  # Fix for IE9
+  if (Function.prototype.bind and window.console and typeof console.log == "object")
+    ["log", "info", "warn", "error", "assert", "dir", "clear", "profile", "profileEnd"]
+    .forEach(
+      ((method) -> console[method] = @bind(console[method], console))
+      , Function.prototype.call)
+
+  # this cannot be bound here, so never use =>
   console.error = (message, error) ->
     Raven.captureException(error)
     console_error.apply(this, arguments)
