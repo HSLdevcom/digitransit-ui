@@ -79,13 +79,14 @@ function getPolyfills(userAgent) {
   return polyfillService.getPolyfillString({
     uaString: userAgent,
     features: {
-      'Function.prototype.bind': {flags: ['gated']},
       'matchMedia': {flags: ['gated']},
       'fetch': {flags: ['gated']},
       'Promise': {flags: ['gated']},
       'String.prototype.repeat': {flags: ['gated']},
       'Intl': {flags: ['gated']},
       'Object.assign': {flags: ['gated']},
+      'Array.prototype.find': {flags: ['gated']},
+      'es5': {flags: ['gated']},
     },
     minify: true,
     unknown: 'polyfill'
