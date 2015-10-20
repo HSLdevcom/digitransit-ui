@@ -49,6 +49,13 @@ if (process.env.NODE_ENV !== "development") {
   var css = fs.readFileSync(appRoot + '_static/css/bundle.css')
 }
 var translations = require('../app/translations')
+// Cache fonts from google, so that we don't need an additional roud trip to fetch font definitions
+var fonts = ""
+fetch(require('../app/config').URL.FONT).then(function(res){
+  res.text().then(function(text){
+    fonts = text
+  })
+})
 
 
 /* Setup functions */
@@ -151,7 +158,8 @@ function setUpRoutes() {
                 polyfill: polyfills,
                 state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
                 livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
-                locale: 'window.locale="' + locale + '"'
+                locale: 'window.locale="' + locale + '"',
+                fonts: fonts
               }
             )
           )
