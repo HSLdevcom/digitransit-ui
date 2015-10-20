@@ -12,7 +12,7 @@ class NoLocationPanel extends React.Component
     <div className="gray text-center">
       <p>
         <FormattedMessage
-          id="no-position"
+          id="no-position-no-stops"
           defaultMessage="Nearest stops cannot be shown because your position is not known." />
       </p>
 
