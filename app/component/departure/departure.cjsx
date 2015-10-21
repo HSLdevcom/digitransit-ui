@@ -4,6 +4,8 @@ RouteNumber       = require './route-number'
 RouteDestination  = require './route-destination'
 DepartureTime     = require './departure-time'
 StopReference     = require '../stop/stop-reference'
+ComponentUsageExample = require '../documentation/component-usage-example'
+Example = require '../documentation/example-data'
 
 Departure = (props) ->
   stopReference = <span/>
@@ -29,7 +31,19 @@ Departure = (props) ->
   </p>
 
 Departure.description =
-  "Display a departure row using react components"
+  <div>
+    <p>Display a departure row using react components</p>
+    <ComponentUsageExample>
+      <Departure departure={Example.realtimeDeparture} currentTime={Example.currentTime}/>
+    </ComponentUsageExample>
+    <ComponentUsageExample description="adding padding classes">
+      <Departure departure={Example.departure} currentTime={Example.currentTime} className="padding-normal padding-bottom"/>
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with stop number">
+      <Departure departure={Example.departure} showStop={true} currentTime={Example.currentTime} className="padding-normal padding-bottom"/>
+    </ComponentUsageExample>
+  </div>
+
 
 Departure.propTypes =
   departure: React.PropTypes.object.isRequired

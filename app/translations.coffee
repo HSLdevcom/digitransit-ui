@@ -70,7 +70,7 @@ translations =
     'run': 'Juoksu'
     'zones': 'Lippuvyöhykkeet'
     'accessibility': 'Esteettömyys'
-    'no-position': 'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.'
+    'no-position-no-stops': 'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.'
     'geolocate-yourself': 'Paikanna itsesi'
     'or': 'Tai'
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.'
@@ -152,7 +152,7 @@ translations =
     'run': 'Löpning'
     'zones': 'Biljettzoner'
     'accessibility': 'Tillgänglighet'
-    'no-position': '' #TODO: duplicate key
+    'no-position-no-stops': 'Närmaste hållplatser kan inte visas, då din position inte är känd.'
     'geolocate-yourself': 'Leta efter position'
     'or': 'Eller'
     'give-position': 'Skriv in position i sökfältet ovan.'

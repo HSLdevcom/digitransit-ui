@@ -1,6 +1,5 @@
 isBrowser     = window?
 React         = require 'react'
-ReactDOM      = require 'react-dom/server'
 Relay         = require 'react-relay'
 queries       = require '../../queries'
 Icon          = require '../icon/icon'
@@ -21,21 +20,18 @@ class Map extends React.Component
 
   @currentLocationIcon:
     if isBrowser
-      L.divIcon(
-        html: ReactDOM.renderToStaticMarkup(
-          React.createElement(
-            Icon, img: 'icon-icon_mapMarker-location-animated')),
-        className: 'current-location-marker')
+      L.divIcon
+        html: Icon.asString 'icon-icon_mapMarker-location-animated'
+        className: 'current-location-marker'
     else
       null
 
   @fromIcon:
     if isBrowser
-      L.divIcon(
-        html: ReactDOM.renderToStaticMarkup(
-          React.createElement(
-            Icon, img: 'icon-icon_mapMarker-point')),
-        className: 'from', iconAnchor: [12, 24])
+      L.divIcon
+        html: Icon.asString 'icon-icon_mapMarker-point'
+        className: 'from'
+        iconAnchor: [12, 24]
     else
       null
 
