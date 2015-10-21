@@ -3,6 +3,7 @@ React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../queries'
 Icon          = require '../icon/icon'
+LocationMarker = require './location-marker'
 StopMarkerContainer = require './stop-marker-container'
 #VehicleMarkerContainer = require './vehicle-marker-container'
 LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
@@ -23,15 +24,6 @@ class Map extends React.Component
       L.divIcon
         html: Icon.asString 'icon-icon_mapMarker-location-animated'
         className: 'current-location-marker'
-    else
-      null
-
-  @fromIcon:
-    if isBrowser
-      L.divIcon
-        html: Icon.asString 'icon-icon_mapMarker-point'
-        className: 'from'
-        iconAnchor: [12, 24]
     else
       null
 
@@ -75,14 +67,10 @@ class Map extends React.Component
       location = @getLocation()
 
       if origin?.lat
-        fromMarker = <Marker
-          position={[origin.lat, origin.lon]}
-          icon={Map.fromIcon}/>
+        fromMarker = <LocationMarker position={origin} className="from"/>
 
       if location.hasPosition == true
-        positionMarker = <Marker
-          position={location.coordinates}
-          icon={Map.currentLocationIcon}/>
+        positionMarker = <Marker position={location.coordinates} icon={Map.currentLocationIcon}/>
 
       if @props.showStops
         stops = <StopMarkerContainer hilightedStops={@props.hilightedStops}/>
