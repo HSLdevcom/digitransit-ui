@@ -1,22 +1,24 @@
 React = require 'react'
 moment = require 'moment'
 cx = require 'classnames'
-ItineraryDuration = require './itinerary-duration'
-ItineraryWalkDistance = require "./itinerary-walk-distance"
+Duration = require './duration'
+WalkDistance = require "./walk-distance"
 
 class ItinerarySummary extends React.Component
 
-  ItinerarySummary.description =
-    "Displays itinerary summary row; itinerary's duration and walk distance"
-
-  ItinerarySummary.propTypes =
-    itinerary: React.PropTypes.object.isRequired
-
   render: ->
     <div className={cx 'itinerary-summary', @props.className}>
-      <ItineraryDuration itinerary={@props.itinerary}/>
+      <Duration duration={@props.itinerary.duration} className="duration--itinerary-summary"/>
         {@props.children}
-      <ItineraryWalkDistance itinerary={@props.itinerary}/>
+      <WalkDistance walkDistance={@props.itinerary.walkDistance}/>
     </div>
+
+ItinerarySummary.description =
+  "Displays itinerary summary row; itinerary's duration and walk distance"
+
+ItinerarySummary.propTypes =
+  itinerary: React.PropTypes.object.isRequired
+
+ItinerarySummary.displayName = "ItinerarySummary"
 
 module.exports = ItinerarySummary

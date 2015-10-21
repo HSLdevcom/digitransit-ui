@@ -1,3 +1,6 @@
+
+$arrow-link-size: 50px;
+
 /*
   SLIDER
 */
@@ -115,9 +118,6 @@ input[type=range].slider:focus::-ms-fill-upper {
 
 
 
-
-
-
 /*
   TOGGLE BUTTON
 */
@@ -218,6 +218,9 @@ $btn-heigth: 17px;
 */
 
 .right-arrow-blue-background {
+  padding: 13px;
+  height: $arrow-link-size;
+  width: $arrow-link-size;
   border-radius: 30px;
   color: white;
   background: $action-color;
