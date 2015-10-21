@@ -113,6 +113,9 @@ function setUpRoutes() {
       }
       else if (error) {
         res.status(500).send(error.message)
+        if (process.env.NODE_ENV == 'production') {
+          RavenClient.captureException(error,{extra:{"url":req.originalUrl, headers:req.headers}});
+        }
       }
       else if (renderProps == null) {
         res.status(404).send('Not found')
@@ -167,7 +170,7 @@ function setUpRoutes() {
           res.send('<!doctype html>' + html);
         }).catch(function(err) {
           if (process.env.NODE_ENV == 'production') {
-            RavenClient.captureException(err);
+            RavenClient.captureException(err,{extra:{"url":req.originalUrl, headers:req.headers}});
           }
           console.log(err.stack);
           res.status(500).send(err.stack);
