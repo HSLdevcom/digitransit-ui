@@ -35,21 +35,16 @@ class Map extends React.Component
     else
       null
 
-  constructor: ->
-    super
+  getLocation: ->
     coordinates = @context.getStore('LocationStore').getLocationState()
     if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
-      @state =
-        position: [coordinates.lat, coordinates.lon]
-        zoom: 16
-        hasPosition: true
-        origin: {lat: null, lon: null}
+      coordinates: [coordinates.lat, coordinates.lon]
+      zoom: 16
+      hasPosition: true
     else
-      @state =
-        position: [60.17332, 24.94102]
-        zoom: 11
-        hasPosition: false
-        origin: {lat: null, lon: null}
+      coordinates: [60.17332, 24.94102]
+      zoom: 11
+      hasPosition: false
 
   setBounds: (props) ->
     @refs.map.getLeafletElement().fitBounds(
@@ -57,9 +52,8 @@ class Map extends React.Component
       paddingTopLeft: props.padding)
 
   componentDidMount: ->
-    @context.getStore('LocationStore').addChangeListener @onLocationChange
-    @context.getStore('EndpointStore').addChangeListener @onEndpointChange
-    @onLocationChange()
+    @context.getStore('LocationStore').addChangeListener @onChange
+    @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
     if @props.fitBounds
       @setBounds(@props)
@@ -69,34 +63,25 @@ class Map extends React.Component
       @setBounds(newProps)
 
   componentWillUnmount: ->
-    @context.getStore('LocationStore').removeChangeListener @onLocationChange
-    @context.getStore('LocationStore').removeChangeListener @onEndpointChange
+    @context.getStore('LocationStore').removeChangeListener @onChange
+    @context.getStore('EndpointStore').removeChangeListener @onChange
 
-  onLocationChange: =>
-    coordinates = @context.getStore('LocationStore').getLocationState()
-    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
-      if !@props.fitBounds
-        @setState
-          position: [coordinates.lat, coordinates.lon]
-          zoom: 16
-          hasPosition: true
-      else
-        @setState
-          hasPosition: true
-
-  onEndpointChange: =>
-    @setState
-      origin: @context.getStore('EndpointStore').getOrigin()
+  onChange: =>
+    @forceUpdate()
 
   render: ->
     if isBrowser
-      if @state.origin.lat
+      origin = @context.getStore('EndpointStore').getOrigin()
+      location = @getLocation()
+
+      if origin?.lat
         fromMarker = <Marker
-          position={[@state.origin.lat, @state.origin.lon]}
+          position={[origin.lat, origin.lon]}
           icon={Map.fromIcon}/>
-      if @state.hasPosition == true
+
+      if location.hasPosition == true
         positionMarker = <Marker
-          position={@state.position}
+          position={location.coordinates}
           icon={Map.currentLocationIcon}/>
 
       if @props.showStops
@@ -108,9 +93,9 @@ class Map extends React.Component
         <LeafletMap
           ref='map'
           center={unless @props.fitBounds then [
-                   @props.lat or @state.origin.lat or @state.position[0] + 0.0005,
-                   @props.lon or @state.origin.lon or @state.position[1]]}
-          zoom={unless @props.fitBounds then @props.zoom or @state.zoom}
+                   @props.lat or origin.lat or location.coordinates[0] + 0.0005,
+                   @props.lon or origin.lon or location.coordinates[1]]}
+          zoom={unless @props.fitBounds then @props.zoom or location.zoom}
           zoomControl={not (@props.disableZoom or L.Browser.touch)}
           attributionControl=false
           >
