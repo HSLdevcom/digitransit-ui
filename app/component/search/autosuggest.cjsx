@@ -47,7 +47,6 @@ class Autosuggest extends React.Component
         <Icon img="icon-icon_place"/>
 
   getSuggestions: (input, callback) =>
-    @props.onSelection()  # Modifying selection clears it
     opts = Object.assign(text: input, config.searchParams)
 
     XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> callback null, res.features
@@ -85,7 +84,11 @@ class Autosuggest extends React.Component
         suggestionRenderer={@renderSuggestions}
         suggestionValue={@suggestionValue}
         defaultValue={@props.value}
-        showWhen={(input) -> input.trim().length >= 2}
+        showWhen={(input) =>
+          if input == ""  # Clearing input field clears selection
+            @props.onSelection()
+          return input.trim().length >= 2
+        }
         onSuggestionSelected={@onSuggestionSelected}
         inputAttributes={
           placeholder: @props.placeholder

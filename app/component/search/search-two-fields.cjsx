@@ -63,7 +63,7 @@ class SearchTwoFields extends React.Component
         'lon': lon
         'address': address
       }
-    else if @state.origin.lat  # Clearing when not necessary is slow
+    else
       @context.executeAction EndpointActions.clearOrigin
 
   selectDestination: (lat, lon, address) =>
@@ -73,7 +73,7 @@ class SearchTwoFields extends React.Component
         'lon': lon
         'address': address
       }
-    else if @state.destination.lat
+    else
       @context.executeAction EndpointActions.clearDestination
 
   onSwitch: (e) =>
