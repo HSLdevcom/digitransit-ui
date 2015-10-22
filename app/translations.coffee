@@ -80,8 +80,7 @@ translations =
     'tomorrow': 'Huomenna'
     'not-implemented': '{name} -toiminnallisuus on vielä kesken'
     'not-implemented-msg': 'Jos haluat osallistua kehitystyöhön, löydät lisätietoa suunnitelluista toiminnallisuuksista oheisista linkeistä.'
-
-
+    'route-not-possible': 'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -162,5 +161,6 @@ translations =
     'tomorrow': 'Imorgon'
     'not-implemented': '{name} - funktionen är inte implementerad'
     'not-implemented-msg': 'Om du vill delta i utvecklingen , kan du hitta mer information om de planerade funktionerna i följande länkar'
+    'route-not-possible': 'Tyvärr din rutt är inte möjligt. Tekniskt fel: "{error}"'
 
 module.exports = translations
