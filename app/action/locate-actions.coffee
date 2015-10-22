@@ -1,6 +1,25 @@
 xhrPromise = require '../util/xhr-promise'
 config        = require '../config'
 
+mockData =
+  position:
+    coords:
+      latitude: 60.2
+      longitude: 24.95
+      heading: 0
+
+geolocator = ->
+  if window.location.search?.indexOf('mock') > -1
+    geolocation:
+      getCurrentPosition: (callback) ->
+        callback(mockData.position)
+      watchPosition: (callback) ->
+        console.log('watch')
+      clearWatch: (id) ->
+        console.log('clear')
+  else
+    geolocation:
+      navigator.geolocation
 
 reverseGeocodeAddress = (actionContext, location, done) ->
   xhrPromise.getJson(config.URL.GEOCODER + "reverse/" +
@@ -13,7 +32,7 @@ reverseGeocodeAddress = (actionContext, location, done) ->
 
 findLocation = (actionContext, payload, done) ->
   # First check if we have geolocation support
-  if not navigator.geolocation
+  if not geolocator().geolocation
     actionContext.dispatch "GeolocationNotSupported"
     done()
     return
@@ -26,7 +45,7 @@ findLocation = (actionContext, payload, done) ->
   timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationTimeout"), 10000)
 
   # and start positioning
-  navigator.geolocation.getCurrentPosition (position) =>
+  geolocator().geolocation.getCurrentPosition (position) =>
     window.clearTimeout(timeoutId)
     actionContext.dispatch "GeolocationFound",
       lat: position.coords.latitude
@@ -50,7 +69,7 @@ findLocation = (actionContext, payload, done) ->
 
 startLocationWatch = (actionContext, payload, done) ->
   # First check if we have geolocation support
-  if not navigator.geolocation
+  if not geolocator().geolocation
     actionContext.dispatch "GeolocationNotSupported"
     done()
     return
@@ -59,7 +78,7 @@ startLocationWatch = (actionContext, payload, done) ->
   timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationWatchTimeout"), 10000)
 
   # and start positioning
-  watchId = navigator.geolocation.watchPosition (position) =>
+  watchId = geolocator().geolocation.watchPosition (position) =>
     if timeoutId
       window.clearTimeout(timeoutId)
       timeoutId = undefined
@@ -85,7 +104,7 @@ startLocationWatch = (actionContext, payload, done) ->
   done()
 
 stopLocationWatch = (actionContext, payload, done) ->
-  navigator.geolocation.clearWatch actionContext.getStore("LocationStore").getWatchId()
+  geolocator().geolocation.clearWatch actionContext.getStore("LocationStore").getWatchId()
   actionContext.dispatch "GeolocationWatchStopped"
   done()
 
