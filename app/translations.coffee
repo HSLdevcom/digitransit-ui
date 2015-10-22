@@ -50,7 +50,7 @@ translations =
     'settings': 'Asetukset'
     'terms-of-use': 'Käyttöehdot'
     'hsl-contact-information': 'HSL:n yhteystiedot'
-    'create-account': 'Luo HKL tunnus'
+    'create-account': 'Luo HSL tunnus'
     'login': 'Kirjaudu sisään'
     'off-canvas-info': 'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi'
     'cause': 'syy'
