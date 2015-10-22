@@ -48,16 +48,19 @@ class EndpointStore extends Store
     @emitChange()
 
   setOrigin: (location) ->
-    # Do not override useCurrentPosition
-    @origin.lat = location.lat
-    @origin.lon = location.lon
-    @origin.address = location.address
+    @origin =
+      useCurrentPosition: false
+      lat: location.lat
+      lon: location.lon
+      address: location.address
     @emitChange()
 
   setDestination: (location) ->
-    @destination.lat = location.lat
-    @destination.lon = location.lon
-    @destination.address = location.address
+    @destination =
+      useCurrentPosition: false
+      lat: location.lat
+      lon: location.lon
+      address: location.address
     @emitChange()
 
   getOrigin: () ->
@@ -72,6 +75,14 @@ class EndpointStore extends Store
     if @destination.useCurrentPosition
       @clearDestination()
     @emitChange()
+
+  dehydrate: ->
+    {@origin, @destination}
+
+  rehydrate: (data) ->
+    @origin = data.origin
+    @destination = data.destination
+
 
   @handlers:
     "setOrigin": "setOrigin"
