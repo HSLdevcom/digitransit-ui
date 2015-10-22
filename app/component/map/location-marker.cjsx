@@ -10,7 +10,7 @@ class LocationMarker extends React.Component
       position={@props.position}
       icon={L.divIcon(
         html: Icon.asString 'icon-icon_mapMarker-point'
-        className: @props.class
+        className: @props.className
         iconAnchor: [12, 24])}/>
 
 module.exports = LocationMarker
