@@ -19,9 +19,6 @@ class SearchTwoFields extends React.Component
     history: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
-  constructor: (props) ->
-    super
-
   componentWillMount: =>
     @context.getStore('EndpointStore').addChangeListener @onEndpointChange
     @setState

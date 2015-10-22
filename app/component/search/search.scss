@@ -111,6 +111,8 @@ $search-form-input-overlay-background-color: #EEF1F3;
   margin: 0;
   cursor: pointer;
   height: 1.9em;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
 .search-form .react-autosuggest__suggestion .icon {

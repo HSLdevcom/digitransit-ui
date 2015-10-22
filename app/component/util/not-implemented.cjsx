@@ -3,13 +3,19 @@ Modal                = require './modal'
 NotImplementedAction = require('../../action/not-implemented-action')
 FormattedMessage     = require('react-intl').FormattedMessage
 Icon  = require '../icon/icon'
+ComponentUsageExample = require '../documentation/component-usage-example'
 
 class NotImplemented extends React.Component
 
   @description:
-    "
-    Placeholder for a 'not implemented' popup. It is activated from clicking of not-implemented-link
-    "
+    <div>
+      <p>
+         Placeholder for a 'not implemented' popup. It is activated from clicking of not-implemented-link
+      </p>
+      <ComponentUsageExample>
+        <NotImplemented/>
+      </ComponentUsageExample>
+    </div>
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired

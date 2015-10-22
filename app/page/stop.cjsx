@@ -3,13 +3,12 @@ Relay              = require 'react-relay'
 queries            = require '../queries'
 DefaultNavigation  = require '../component/navigation/default-navigation'
 Map                = require '../component/map/map'
-DepartureListContainer = require '../component/stop-cards/departure-list-container'
+DepartureListContainer = require '../component/departure/departure-list-container'
 StopCardHeader     = require '../component/stop-cards/stop-card-header'
 FavouriteStopsAction = require '../action/favourite-stops-action'
 Link               = require 'react-router/lib/Link'
 Icon               = require '../component/icon/icon'
 moment             = require 'moment'
-NotImplemented     = require '../component/util/not-implemented'
 
 class Page extends React.Component
   @contextTypes:
@@ -61,7 +60,7 @@ class Page extends React.Component
                               routeLinks={true}
                               infiniteScroll={true}
                               rowClasses="padding-normal border-bottom" />
-      <NotImplemented/>
+
     </DefaultNavigation>
 
 

@@ -54,7 +54,7 @@ getLayerforLocation = ->
 
 getTopicsForPlan = (plan) ->
   for leg in plan.legs when leg.transitLeg and leg.agencyId == "HSL"
-    route: leg.routeId
+    route: leg.routeId.split(":")[1]
     # direction is not yet returned in plan endpoint
 
 vehiclesAsGeoJson = (vehicles) ->

@@ -7,7 +7,7 @@ queries               = require '../../queries'
 RouteStop             = require './route-stop'
 GtfsUtils             = require '../../util/gtfs'
 groupBy               = require 'lodash/collection/groupBy'
-classnames            = require 'classnames'
+cx                    = require 'classnames'
 
 class RouteStopListContainer extends React.Component
   @contextTypes:
@@ -36,7 +36,7 @@ class RouteStopListContainer extends React.Component
     stopObjs
 
   render: =>
-    <div className={classnames "route-stop-list", @props.className}>
+    <div className={cx "route-stop-list", @props.className}>
       {@getStops()}
     </div>
 

@@ -63,7 +63,8 @@ function getPluginsConfig(env) {
           SERVER_ROOT: JSON.stringify((typeof process.env.SERVER_ROOT === "undefined") ? 'http://matka.hsl.fi': process.env.SERVER_ROOT),
           NODE_ENV: JSON.stringify("production"),
           ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
-          CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
+          CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default'),
+          SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
         }
       }),
       new webpack.PrefetchPlugin('react'),
@@ -114,9 +115,7 @@ module.exports = {
   plugins: getPluginsConfig(process.env.NODE_ENV),
   resolve: {
     extensions: ['', '.js', '.cjsx', '.jsx', '.coffee'],
-    alias: {
-      leaflet$: path.resolve(__dirname, "vendor/leaflet-custom-src"),
-    },
+    alias: {},
   },
   module: {
     loaders: getLoadersConfig(process.env.NODE_ENV)

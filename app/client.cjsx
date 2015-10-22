@@ -1,3 +1,28 @@
+# Set up logging to Sentry
+if process.env.NODE_ENV == 'production'
+  Raven = require 'raven-js'
+  Raven.config(process.env.SENTRY_DSN).install()
+
+  # Rebind console.error if it exists so that we can catch async exceptions from React
+  # We want the original 'this' here so don't use =>
+
+  if window.console
+    console_error = console.error
+
+    # Fix console.error.apply etc. for IE9
+    if typeof console.log == "object"
+      ["log", "info", "warn", "error", "assert", "dir", "clear", "profile", "profileEnd"]
+      .forEach(
+        ((method) -> console[method] = @bind(console[method], console))
+        , Function.prototype.call)
+
+    console.error = (message, error) ->
+      Raven.captureException(error)
+      console_error.apply(this, arguments)
+
+  else
+    window.console = error: (message, error) -> Raven.captureException(error)
+
 # Libraries
 React             = require 'react'
 ReactDOM          = require 'react-dom'
@@ -12,7 +37,7 @@ StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
 
-dehydratedState   = window.state; # Sent from the server
+dehydratedState   = window.state # Sent from the server
 
 require "../sass/main.scss"
 
@@ -20,11 +45,10 @@ window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer("#{config.URL.OTP}index/graphql")
-);
+)
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
-
   if err
     throw err
   window.context = context
@@ -36,14 +60,10 @@ app.rehydrate dehydratedState, (err, context) ->
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
       <StoreListeningIntlProvider translations={translations}>
-        <Router history={History()} children={app.getComponent()}
-                createElement={ReactRouterRelay.createElement} onUpdate={() ->
-            if @state.components[@state.components.length-1].loadAction
-              context.getActionContext().executeAction(
-                @state.components[@state.components.length-1].loadAction,
-                {params: @state.params, query: @state.location.query}
-              )
-          }
+        <Router
+          history={History()}
+          children={app.getComponent()}
+          createElement={ReactRouterRelay.createElement}
         />
       </StoreListeningIntlProvider>
     </FluxibleComponent>, document.getElementById('app')
