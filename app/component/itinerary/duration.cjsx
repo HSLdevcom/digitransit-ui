@@ -4,10 +4,17 @@ cx    = require 'classnames'
 
 Duration = (props) ->
 
+  durationInMinutes = Math.round(props.duration/60)
+  hours = Math.floor(props.duration / (60 * 60))
+  divisor = props.duration % (60 * 60)
+  minutes = Math.round(divisor / 60)
+
+  duration = if durationInMinutes < 60 then "#{durationInMinutes}min" else "#{hours}h #{minutes}min"
+
   <span className={cx props.className}>
     <Icon img={'icon-icon_time'}/>
     <span className="duration">
-      &nbsp;{Math.round(props.duration/60)}min
+      &nbsp;{duration}
     </span>
   </span>
 
