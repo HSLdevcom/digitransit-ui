@@ -25,6 +25,9 @@ clearOrigin = (actionContext, done) ->
 clearDestination = (actionContext, done) ->
   actionContext.dispatch "clearDestination",
 
+clearGeolocation = (actionContext, done) ->
+  actionContext.dispatch "clearGeolocation"
+
 module.exports =
   'setOrigin': setOrigin
   'setDestination': setDestination
@@ -33,3 +36,4 @@ module.exports =
   'swapOriginDestination': swapOriginDestination
   'clearOrigin': clearOrigin
   'clearDestination': clearDestination
+  'clearGeolocation': clearGeolocation

@@ -1,5 +1,6 @@
 React = require 'react'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
+LocateActions  = require '../../action/locate-actions.coffee'
 Autosuggest = require './autosuggest'
 Link = require 'react-router/lib/Link'
 {locationToOTP} = require '../../util/otp-strings'
@@ -26,12 +27,6 @@ class SearchTwoFieldsContainer extends React.Component
 
   onGeolocationChange: =>
     @forceUpdate()
-
-  removePosition: =>
-    if @context.getStore('EndpointStore').getOrigin().useCurrentPosition
-      @context.executeAction EndpointActions.clearOrigin
-    if @context.getStore('EndpointStore').getDestination().useCurrentPosition
-      @context.executeAction EndpointActions.clearDestination
 
   onEndpointChange: =>
     @forceUpdate()
@@ -97,7 +92,7 @@ class SearchTwoFieldsContainer extends React.Component
   getGeolocationBar: (geolocation) =>
     <GeolocationBar
       geolocation={geolocation}
-      removePosition={@removePosition}
+      removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
       locateUser={() => @context.executeAction LocateActions.findLocation}
     />
 

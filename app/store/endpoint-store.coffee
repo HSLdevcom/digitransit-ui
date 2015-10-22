@@ -66,6 +66,13 @@ class EndpointStore extends Store
   getDestination: () ->
     @destination
 
+  clearGeolocation: () ->
+    if @origin.useCurrentPosition
+      @clearOrigin()
+    if @destination.useCurrentPosition
+      @clearDestination()
+    @emitChange()
+
   @handlers:
     "setOrigin": "setOrigin"
     "setDestination": "setDestination"
@@ -74,5 +81,9 @@ class EndpointStore extends Store
     "swapOriginDestination": "swapOriginDestination"
     "clearOrigin": "clearOrigin"
     "clearDestination": "clearDestination"
+    "GeolocationNotSupported": 'clearGeolocation'
+    "GeolocationDenied": 'clearGeolocation'
+    "GeolocationTimeout": 'clearGeolocation'
+    "clearGeolocation": "clearGeolocation"
 
 module.exports = EndpointStore
