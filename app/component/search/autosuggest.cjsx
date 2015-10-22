@@ -46,7 +46,7 @@ class Autosuggest extends React.Component
       else
         <Icon img="icon-icon_place"/>
 
-  getSuggestions: (input, callback) ->
+  getSuggestions: (input, callback) =>
     opts = Object.assign(text: input, config.searchParams)
 
     XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> callback null, res.features
@@ -84,7 +84,15 @@ class Autosuggest extends React.Component
         suggestionRenderer={@renderSuggestions}
         suggestionValue={@suggestionValue}
         defaultValue={@props.value}
-        showWhen={(input) -> input.trim().length >= 2}
+        showWhen={(input) =>
+          # This a dirty hack to do two things:
+          # 1) we start showing results after 2 characters (this one is ok)
+          # 2) when we notice that everything is cleared, we remove location from flux store (not ok)
+          # react-autosuggest should support second case, but it currently doesn't
+          if input == ""
+            @props.onSelection()
+          return input.trim().length >= 2
+        }
         onSuggestionSelected={@onSuggestionSelected}
         inputAttributes={
           placeholder: @props.placeholder
