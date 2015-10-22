@@ -70,6 +70,8 @@ class SearchTwoFieldsContainer extends React.Component
       # causes problems in next page rendering
       #@autoSuggestInput.blur()
 
+      # TODO: currently address gets overwritten by reverse from geolocation
+      # Swap the position of the two arguments to get "Oma sijainti"
       geo_string = locationToOTP(
         Object.assign({address: "Oma sijainti"}, geolocation))
 
