@@ -2,6 +2,7 @@ React              = require 'react'
 SummaryNavigation  = require '../component/navigation/summary-navigation'
 Map                = require '../component/map/map'
 ItinerarySearchActions = require '../action/itinerary-search-action'
+EndpointActions    = require '../action/endpoint-actions.coffee'
 SummaryRow         = require '../component/summary/summary-row'
 SearchTwoFields       = require '../component/search/search-two-fields-container'
 ItineraryLine      = require '../component/map/itinerary-line'
@@ -16,6 +17,12 @@ class SummaryPage extends React.Component
     executeAction: React.PropTypes.func.isRequired
     history: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
+
+  @loadAction: (params) ->
+    [
+      [EndpointActions.setOrigin, otpToLocation(params.from)],
+      [EndpointActions.setDestination, otpToLocation(params.to)]
+    ]
 
   componentWillMount: ->
     props = @context.getStore('ItinerarySearchStore').getOptions()
