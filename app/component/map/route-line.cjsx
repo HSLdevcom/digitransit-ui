@@ -23,11 +23,11 @@ class RouteLine extends React.Component
       objs.push <LocationMarker map=@props.map
                                 key="from"
                                 position={@props.pattern.stops[0]}
-                                class='from' />
+                                className='from' />
       objs.push <LocationMarker map=@props.map
                                 key="to"
                                 position={@props.pattern.stops[@props.pattern.stops.length-1]}
-                                class='to' />
+                                className='to' />
 
     line = <Line map={@props.map}
                  key="line"
