@@ -30,7 +30,7 @@ class SearchTwoFieldsContainer extends React.Component
 
   onEndpointChange: =>
     @forceUpdate()
-    @routeIfPossible()
+    @routeIfPossible() #TODO: this should not be done here
 
   selectOrigin: (lat, lon, address) =>
     @context.executeAction EndpointActions.setOrigin, {
