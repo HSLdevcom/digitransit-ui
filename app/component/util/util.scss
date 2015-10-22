@@ -4,9 +4,13 @@
 $slider-gray: #575757;
 
 .slider-container {
-  padding: 10px 0;
+  padding: 10px 0 7px;
   h4 {
     margin: 0;
+  }
+
+  .sub-header-h5 {
+    line-height: 0.75;
   }
 }
 
@@ -21,7 +25,7 @@ $slider-gray: #575757;
 input[type=range].slider {
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 100%; /* Specific width is required for Firefox. */
-  margin: 8.5px 0;
+  margin: 3px 0 0;
 }
 input[type=range].slider:focus {
   outline: none;
