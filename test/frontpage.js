@@ -1,26 +1,49 @@
-module.exports = {
-  before: function (browser) {
-    browser.init();
-  },
+describe('Frontpage', function () {
+  before(function (browser, done) {
+    browser.url('http://localhost:8080/?mock', function() {
+      done();
+    });
+  });
 
-  after: function (browser) {
-    browser.end();
-  },
+  after(function (browser, done) {
+    browser.end(function() {
+      done();
+    });
+  });
 
-  'Frontpage map loads': function (browser) {
+  it('should contain map', function (browser) {
     browser.expect.element('div.leaflet-map-pane').to.be.visible;
     browser.expect.element('span.title').text.to.contain('Digitransit');
-  },
+  });
 
-  'Stops menu opens': function (browser) {
-    browser.click('.tabs-row li:nth-child(2)');
-    browser.expect.element('.frontpage-panel-wrapper').to.be.visible;
-    browser.expect.element('.cards').to.be.present.before(1000);
-    browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
-  },
+  describe('stops tab', function () {
+    describe('when clicked', function () {
+      before(function (browser, done) {
+        browser.click('.tabs-row li:nth-child(2)', function () {
+          done();
+        });
+      });
 
-  'Stops menu closes': function (browser) {
-    browser.click('.tabs-row li:nth-child(2)');
-    browser.expect.element('.frontpage-panel-wrapper').not.to.be.present;
-  }
-};
+      it('should open', function (browser) {
+        browser.expect.element('.frontpage-panel-wrapper').to.be.visible;
+      });
+
+      it('should contain stop cards', function (browser) {
+        browser.expect.element('.cards').to.be.present.before(1000);
+        browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
+      });
+
+      describe('and clicked again', function() {
+        before(function (browser, done) {
+          browser.click('.tabs-row li:nth-child(2)', function () {
+            done();
+          });
+        });
+
+        it('should close', function (browser) {
+          browser.expect.element('.frontpage-panel-wrapper').not.to.be.present;
+        });
+      });
+    });
+  });
+});
