@@ -27,6 +27,10 @@ class EndpointStore extends Store
         address: null
     @emitChange()
 
+  swapOriginDestination: () ->
+    [@destination, @origin] = [@origin, @destination]
+    @emitChange()
+
   setOriginToCurrent: () ->
     @origin =
         useCurrentPosition: true
@@ -67,6 +71,7 @@ class EndpointStore extends Store
     "setDestination": "setDestination"
     "setOriginToCurrent": "setOriginToCurrent"
     "setDestinationToCurrent": "setDestinationToCurrent"
+    "swapOriginDestination": "swapOriginDestination"
     "clearOrigin": "clearOrigin"
     "clearDestination": "clearDestination"
 

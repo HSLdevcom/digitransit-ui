@@ -5,6 +5,7 @@ Autosuggest = require './autosuggest'
 Link = require 'react-router/lib/Link'
 config = require '../../config'
 {locationToOTP} = require '../../util/otp-strings'
+GeolocationBar = require './geolocation-bar'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -21,12 +22,6 @@ class SearchTwoFields extends React.Component
 
   componentWillMount: =>
     @context.getStore('EndpointStore').addChangeListener @onEndpointChange
-    @setState
-      origin: @context.getStore('EndpointStore').getOrigin()
-      destination: @context.getStore('EndpointStore').getDestination()
-    @onGeolocationChange()
-
-  componentDidMount: =>
     @context.getStore('LocationStore').addChangeListener @onGeolocationChange
 
   componentWillUnmount: =>
@@ -34,26 +29,16 @@ class SearchTwoFields extends React.Component
     @context.getStore('LocationStore').removeChangeListener @onGeolocationChange
 
   onGeolocationChange: =>
-    geo = @context.getStore('LocationStore').getLocationState()
-    @setState
-      geo: geo
-    if not (geo.status == 'no-location' or
-            geo.isLocationingInProgress or
-            geo.hasLocation)
-      @removePosition()
+    @forceUpdate()
 
   removePosition: =>
-    if @state.origin.useCurrentPosition
+    if @context.getStore('EndpointStore').getOrigin().useCurrentPosition
       @context.executeAction EndpointActions.clearOrigin
-    if @state.destination.useCurrentPosition
+    if @context.getStore('EndpointStore').getDestination().useCurrentPosition
       @context.executeAction EndpointActions.clearDestination
 
   onEndpointChange: =>
-    origin = @context.getStore('EndpointStore').getOrigin()
-    destination = @context.getStore('EndpointStore').getDestination()
-    @setState
-      origin: origin
-      destination: destination
+    @forceUpdate()
     @routeIfPossible()
 
   selectOrigin: (lat, lon, address) =>
@@ -73,58 +58,39 @@ class SearchTwoFields extends React.Component
   onSwitch: (e) =>
     e.preventDefault()
 
-    origin = @state.origin
-    destination = @state.destination
+    origin = @context.getStore('EndpointStore').getOrigin()
+    geolocation = @context.getStore('LocationStore').getLocationState()
 
     # Button is disabled when geolocationing is in process
-    if origin.useCurrentPosition and @state.geo.isLocationingInProgress
+    if origin.useCurrentPosition and geolocation.isLocationingInProgress
       return
 
-    # Avoid accidentally having both set at the same time
-    # (causing a itinerary search) when actually only one is
-    @context.executeAction EndpointActions.clearOrigin
-    @context.executeAction EndpointActions.clearDestination
-
-    if origin.useCurrentPosition
-      @context.executeAction EndpointActions.setDestinationToCurrent
-    else
-      @context.executeAction EndpointActions.setDestination, {
-        'lat': origin.lat
-        'lon': origin.lon
-        'address': origin.address
-      }
-
-    if destination.useCurrentPosition
-      @context.executeAction EndpointActions.setOriginToCurrent
-    else
-      @context.executeAction EndpointActions.setOrigin, {
-        'lat': destination.lat
-        'lon': destination.lon
-        'address': destination.address
-      }
+    @context.executeAction EndpointActions.swapOriginDestination
 
   routeIfPossible: =>
-    if ((@state.origin.lat or @state.origin.useCurrentPosition and
-                              @state.geo.hasLocation) and
-        (@state.destination.lat or @state.destination.useCurrentPosition and
-                                   @state.geo.hasLocation))
+    geolocation = @context.getStore('LocationStore').getLocationState()
+    origin = @context.getStore('EndpointStore').getOrigin()
+    destination = @context.getStore('EndpointStore').getDestination()
+
+    if ((origin.lat or origin.useCurrentPosition and geolocation.hasLocation) and
+        (destination.lat or destination.useCurrentPosition and geolocation.hasLocation))
       # First, we must blur input field because without this
       # Android keeps virtual keyboard open too long which
       # causes problems in next page rendering
       #@autoSuggestInput.blur()
 
       geo_string = locationToOTP(
-        Object.assign({address: "Oma sijainti"}, @state.geo))
+        Object.assign({address: "Oma sijainti"}, geolocation))
 
-      if @state.origin.useCurrentPosition
+      if origin.useCurrentPosition
         from = geo_string
       else
-        from = locationToOTP(@state.origin)
+        from = locationToOTP(origin)
 
-      if @state.destination.useCurrentPosition
+      if destination.useCurrentPosition
         to = geo_string
       else
-        to = locationToOTP(@state.destination)
+        to = locationToOTP(destination)
 
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
@@ -133,30 +99,9 @@ class SearchTwoFields extends React.Component
       , 0)
 
   render: =>
-    # We don't have state on the server, because we don't have a geolocation,
-    # so just render the input field
-    if @state.geo
-      geolocation_div =
-          <div className="input-placeholder">
-            <div className="address-box">
-            <span className="inline-block" onClick={@locateUser}>
-                <Icon img={'icon-icon_mapMarker-location'}/>
-            </span>
-            {if @state.geo.isLocationingInProgress
-              <FormattedMessage id="searching-position"
-                                defaultMessage='Searching for your position...' />
-             else if @state.geo.hasLocation
-               <FormattedMessage id="own-position"
-                                 defaultMessage='My current position' />
-             else
-               <FormattedMessage id="no-position"
-                                 defaultMessage='No position' />
-            }
-            <span className="inline-block right cursor-pointer"
-                  onClick={@removePosition}>
-              <Icon img={'icon-icon_close'} /></span>
-            </div>
-          </div>
+    geolocation = @context.getStore('LocationStore').getLocationState()
+    origin = @context.getStore('EndpointStore').getOrigin()
+    destination = @context.getStore('EndpointStore').getDestination()
 
     <div className="search-form">
       <div className="row">
@@ -164,14 +109,18 @@ class SearchTwoFields extends React.Component
                         search-form-map-overlay">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              {if @state.origin.useCurrentPosition
-                geolocation_div
+              {if origin.useCurrentPosition
+                <GeolocationBar
+                  geolocation={geolocation}
+                  removePosition={@removePosition}
+                  locateUser={() => @context.executeAction LocateActions.findLocation}
+                />
                else
                  <Autosuggest onSelection={@selectOrigin}
                               placeholder={@context.intl.formatMessage(
                                 id: 'origin'
                                 defaultMessage: "From where? - address or stop")}
-                              value=@state.origin.address
+                              value=origin.address
                               id="origin"
                               />
               }
@@ -188,22 +137,24 @@ class SearchTwoFields extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              {if @state.origin.useCurrentPosition and
-                  @state.geo.isLocationingInProgress
-                 <input type="text"
-                        placeholder={@context.intl.formatMessage(
-                          id: 'destination'
-                          defaultMessage: "Where to? - address or stop")}
-                        disabled="disabled"
-                        />
-               else if @state.destination.useCurrentPosition
-                 geolocation_div
+              {if origin.useCurrentPosition and geolocation.isLocationingInProgress
+                <input type="text"
+                       placeholder={@context.intl.formatMessage(
+                         id: 'destination'
+                         defaultMessage: "Where to? - address or stop")}
+                       disabled="disabled"/>
+               else if destination.useCurrentPosition
+                 <GeolocationBar
+                   geolocation={geolocation}
+                   removePosition={@removePosition}
+                   locateUser={() => @context.executeAction LocateActions.findLocation}
+                 />
                else
                  <Autosuggest onSelection={@selectDestination}
                               placeholder={@context.intl.formatMessage(
                                 id: 'destination'
                                 defaultMessage: "Where to? - address or stop")}
-                              value=@state.destination.address
+                              value=destination.address
                               id="destination"
                               />
               }

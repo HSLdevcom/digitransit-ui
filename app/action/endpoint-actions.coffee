@@ -16,6 +16,9 @@ setOriginToCurrent = (actionContext, done) ->
 setDestinationToCurrent = (actionContext, done) ->
   actionContext.dispatch "setDestinationToCurrent",
 
+swapOriginDestination = (actionContext, done) ->
+  actionContext.dispatch "swapOriginDestination"
+
 clearOrigin = (actionContext, done) ->
   actionContext.dispatch "clearOrigin",
 
@@ -27,5 +30,6 @@ module.exports =
   'setDestination': setDestination
   'setOriginToCurrent': setOriginToCurrent
   'setDestinationToCurrent': setDestinationToCurrent
+  'swapOriginDestination': swapOriginDestination
   'clearOrigin': clearOrigin
   'clearDestination': clearDestination
