@@ -96,6 +96,7 @@ class SearchTwoFieldsContainer extends React.Component
         <Autosuggest
           key="origin"
           onSelectionAction={EndpointActions.setOrigin}
+          onEmptyAction={EndpointActions.clearOrigin}
           placeholder={@context.intl.formatMessage(
             id: 'origin'
             defaultMessage: "From where? - address or stop")}
@@ -119,6 +120,7 @@ class SearchTwoFieldsContainer extends React.Component
         <Autosuggest
           key="destination"
           onSelectionAction={EndpointActions.setDestination}
+          onEmptyAction={EndpointActions.clearDestination}
           placeholder={@context.intl.formatMessage(
             id: 'destination'
             defaultMessage: "Where to? - address or stop")}
