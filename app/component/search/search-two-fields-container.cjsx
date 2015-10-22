@@ -32,20 +32,6 @@ class SearchTwoFieldsContainer extends React.Component
     @forceUpdate()
     @routeIfPossible() #TODO: this should not be done here
 
-  selectOrigin: (lat, lon, address) =>
-    @context.executeAction EndpointActions.setOrigin, {
-      'lat': lat
-      'lon': lon
-      'address': address
-    }
-
-  selectDestination: (lat, lon, address) =>
-    @context.executeAction EndpointActions.setDestination, {
-      'lat': lat
-      'lon': lon
-      'address': address
-    }
-
   onSwitch: (e) =>
     e.preventDefault()
 
@@ -109,7 +95,7 @@ class SearchTwoFieldsContainer extends React.Component
       else
         <Autosuggest
           key="origin"
-          onSelection={@selectOrigin}
+          onSelectionAction={EndpointActions.setOrigin}
           placeholder={@context.intl.formatMessage(
             id: 'origin'
             defaultMessage: "From where? - address or stop")}
@@ -132,7 +118,7 @@ class SearchTwoFieldsContainer extends React.Component
       else
         <Autosuggest
           key="destination"
-          onSelection={@selectDestination}
+          onSelectionAction={EndpointActions.setDestination}
           placeholder={@context.intl.formatMessage(
             id: 'destination'
             defaultMessage: "Where to? - address or stop")}
