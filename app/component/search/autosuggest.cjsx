@@ -85,7 +85,11 @@ class Autosuggest extends React.Component
         suggestionValue={@suggestionValue}
         defaultValue={@props.value}
         showWhen={(input) =>
-          if input == ""  # Clearing input field clears selection
+          # This a dirty hack to do two things:
+          # 1) we start showing results after 2 characters (this one is ok)
+          # 2) when we notice that everything is cleared, we remove location from flux store (not ok)
+          # react-autosuggest should support second case, but it currently doesn't
+          if input == ""
             @props.onSelection()
           return input.trim().length >= 2
         }
