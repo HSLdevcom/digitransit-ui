@@ -103,27 +103,55 @@ class SearchTwoFields extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
+    from =
+      if origin.useCurrentPosition
+        <GeolocationBar
+          geolocation={geolocation}
+          removePosition={@removePosition}
+          locateUser={() => @context.executeAction LocateActions.findLocation}
+        />
+      else
+        <Autosuggest
+          onSelection={@selectOrigin}
+          placeholder={@context.intl.formatMessage(
+            id: 'origin'
+            defaultMessage: "From where? - address or stop")}
+          value=origin.address
+          id="origin"
+        />
+
+    to =
+      if origin.useCurrentPosition and geolocation.isLocationingInProgress
+        <input
+          type="text"
+          placeholder={@context.intl.formatMessage(
+            id: 'destination'
+            defaultMessage: "Where to? - address or stop")}
+          disabled="disabled"
+        />
+      else if destination.useCurrentPosition
+        <GeolocationBar
+          geolocation={geolocation}
+          removePosition={@removePosition}
+          locateUser={() => @context.executeAction LocateActions.findLocation}
+        />
+      else
+        <Autosuggest
+          onSelection={@selectDestination}
+          placeholder={@context.intl.formatMessage(
+            id: 'destination'
+            defaultMessage: "Where to? - address or stop")}
+          value=destination.address
+          id="destination"
+        />
+
     <div className="search-form">
       <div className="row">
         <div className="small-12 medium-6 medium-offset-3 columns
                         search-form-map-overlay">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              {if origin.useCurrentPosition
-                <GeolocationBar
-                  geolocation={geolocation}
-                  removePosition={@removePosition}
-                  locateUser={() => @context.executeAction LocateActions.findLocation}
-                />
-               else
-                 <Autosuggest onSelection={@selectOrigin}
-                              placeholder={@context.intl.formatMessage(
-                                id: 'origin'
-                                defaultMessage: "From where? - address or stop")}
-                              value=origin.address
-                              id="origin"
-                              />
-              }
+              {from}
             </div>
             <div className="small-1 columns">
               <span className="postfix search cursor-pointer" onClick={@onSwitch}>
@@ -137,27 +165,7 @@ class SearchTwoFields extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
           <div className="row collapse postfix-radius">
             <div className="small-11 columns">
-              {if origin.useCurrentPosition and geolocation.isLocationingInProgress
-                <input type="text"
-                       placeholder={@context.intl.formatMessage(
-                         id: 'destination'
-                         defaultMessage: "Where to? - address or stop")}
-                       disabled="disabled"/>
-               else if destination.useCurrentPosition
-                 <GeolocationBar
-                   geolocation={geolocation}
-                   removePosition={@removePosition}
-                   locateUser={() => @context.executeAction LocateActions.findLocation}
-                 />
-               else
-                 <Autosuggest onSelection={@selectDestination}
-                              placeholder={@context.intl.formatMessage(
-                                id: 'destination'
-                                defaultMessage: "Where to? - address or stop")}
-                              value=destination.address
-                              id="destination"
-                              />
-              }
+              {to}
             </div>
             <div className="small-1 columns">
               <span className="postfix search cursor-pointer"
