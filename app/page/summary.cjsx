@@ -75,7 +75,7 @@ class SummaryPage extends React.Component
                                         passive={passive}/>
     else if data.error
       rows = data.error.msg
-      Raven.captureMessage("OTP returned an error when requesting a plan", data)
+      Raven.captureMessage("OTP returned an error when requesting a plan", {extra: data})
 
     # Draw active last
     leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
