@@ -60,18 +60,24 @@ class SearchTwoFields extends React.Component
     @routeIfPossible()
 
   selectOrigin: (lat, lon, address) =>
-    @context.executeAction EndpointActions.setOrigin, {
-      'lat': lat
-      'lon': lon
-      'address': address
-    }
+    if lat
+      @context.executeAction EndpointActions.setOrigin, {
+        'lat': lat
+        'lon': lon
+        'address': address
+      }
+    else if @state.origin.lat  # Clearing when not necessary is slow
+      @context.executeAction EndpointActions.clearOrigin
 
   selectDestination: (lat, lon, address) =>
-    @context.executeAction EndpointActions.setDestination, {
-      'lat': lat
-      'lon': lon
-      'address': address
-    }
+    if lat
+      @context.executeAction EndpointActions.setDestination, {
+        'lat': lat
+        'lon': lon
+        'address': address
+      }
+    else if @state.destination.lat
+      @context.executeAction EndpointActions.clearDestination
 
   onSwitch: (e) =>
     e.preventDefault()

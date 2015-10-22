@@ -42,7 +42,8 @@ class Autosuggest extends React.Component
       else
         <Icon img="icon-icon_place"/>
 
-  getSuggestions: (input, callback) ->
+  getSuggestions: (input, callback) =>
+    @props.onSelection()  # Modifying selection clears it
     opts = Object.assign(text: input, config.searchParams)
 
     XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> callback null, res.features
