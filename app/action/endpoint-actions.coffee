@@ -3,29 +3,31 @@ setOrigin = (actionContext, location, done) ->
     lat: location.lat
     lon: location.lon
     address: location.address
+  done()
 
 setDestination = (actionContext, location, done) ->
   actionContext.dispatch "setDestination",
     lat: location.lat
     lon: location.lon
     address: location.address
+  done()
 
-setOriginToCurrent = (actionContext, done) ->
-  actionContext.dispatch "setOriginToCurrent",
+setOriginToCurrent = (actionContext) ->
+  actionContext.dispatch "setOriginToCurrent"
 
-setDestinationToCurrent = (actionContext, done) ->
-  actionContext.dispatch "setDestinationToCurrent",
+setDestinationToCurrent = (actionContext) ->
+  actionContext.dispatch "setDestinationToCurrent"
 
-swapOriginDestination = (actionContext, done) ->
+swapOriginDestination = (actionContext) ->
   actionContext.dispatch "swapOriginDestination"
 
-clearOrigin = (actionContext, done) ->
-  actionContext.dispatch "clearOrigin",
+clearOrigin = (actionContext) ->
+  actionContext.dispatch "clearOrigin"
 
-clearDestination = (actionContext, done) ->
-  actionContext.dispatch "clearDestination",
+clearDestination = (actionContext) ->
+  actionContext.dispatch "clearDestination"
 
-clearGeolocation = (actionContext, done) ->
+clearGeolocation = (actionContext) ->
   actionContext.dispatch "clearGeolocation"
 
 module.exports =
