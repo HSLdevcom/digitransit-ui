@@ -1,6 +1,5 @@
 if (process.env.NODE_ENV == 'production') {
   var raven = require('raven');
-  var RavenClient = new raven.Client(process.env.SENTRY_SECRET_DSN);
 }
 /********** Server **********/
 var express = require('express')
