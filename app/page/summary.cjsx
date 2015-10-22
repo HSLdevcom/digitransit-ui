@@ -1,3 +1,4 @@
+Raven = require 'raven-js'
 React              = require 'react'
 SummaryNavigation  = require '../component/navigation/summary-navigation'
 Map                = require '../component/map/map'
@@ -57,10 +58,10 @@ class SummaryPage extends React.Component
     leafletObjs = []
     activeIndex = @getActiveIndex()
 
-    plan = @context.getStore('ItinerarySearchStore').getData().plan
+    data = @context.getStore('ItinerarySearchStore').getData()
 
-    if plan
-      for data, i in plan.itineraries
+    if data.plan
+      for data, i in data.plan.itineraries
         passive = i != activeIndex
         rows.push <SummaryRow key={i}
                               hash={i}
@@ -72,6 +73,9 @@ class SummaryPage extends React.Component
                                         legs={data.legs}
                                         showFromToMarkers={i == 0}
                                         passive={passive}/>
+    else if data.error
+      rows = data.error.msg
+      Raven.captureMessage("OTP returned an error when requesting a plan", data)
 
     # Draw active last
     leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
