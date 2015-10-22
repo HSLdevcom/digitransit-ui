@@ -1,6 +1,5 @@
 if (process.env.NODE_ENV == 'production') {
   var raven = require('raven');
-  var RavenClient = new raven.Client(process.env.SENTRY_SECRET_DSN);
 }
 /********** Server **********/
 var express = require('express')
@@ -57,7 +56,6 @@ fetch(require('../app/config').URL.FONT).then(function(res){
   })
 })
 
-
 /* Setup functions */
 function setUpStaticFolders() {
   var staticFolder = appRoot + "/_static"
@@ -82,6 +80,17 @@ function setUpMiddleware() {
   app.use(bodyParser.raw())
 }
 
+function onError(err, req, res, next) {
+  res.statusCode = 500;
+  res.end(err.message + err.stack);
+}
+
+function setupRaven() {
+  if (process.env.NODE_ENV == 'production') {
+    app.use(raven.middleware.express.requestHandler(process.env.SENTRY_SECRET_DSN));
+  }
+}
+
 function getPolyfills(userAgent) {
   return polyfillService.getPolyfillString({
     uaString: userAgent,
@@ -100,6 +109,15 @@ function getPolyfills(userAgent) {
   });
 }
 
+
+function setupErrorHandling(){
+  if(process.env.NODE_ENV == 'production') {
+    app.use(raven.middleware.express.errorHandler(process.env.SENTRY_SECRET_DSN));
+  }
+
+  app.use(onError);
+}
+
 function setUpRoutes() {
   app.use(function (req, res, next) { // pass in `req.url` and the router will immediately match
     var locale = req.cookies.lang  || req.acceptsLanguages(['fi', 'sv', 'en']) || 'en';
@@ -112,7 +130,7 @@ function setUpRoutes() {
         res.redirect(301, redirectLocation.pathname + redirectLocation.search)
       }
       else if (error) {
-        res.status(500).send(error.message)
+        return next(error);
       }
       else if (renderProps == null) {
         res.status(404).send('Not found')
@@ -174,11 +192,8 @@ function setUpRoutes() {
 
           res.send('<!doctype html>' + html);
         }).catch(function(err) {
-          if (process.env.NODE_ENV == 'production') {
-            RavenClient.captureException(err);
-          }
-          console.log(err.stack);
-          res.status(500).send(err.stack);
+          if(err)
+            return next(err);
         });
       }
     });
@@ -192,8 +207,10 @@ function startServer() {
 }
 
 /********** Init **********/
+setupRaven()
 setUpStaticFolders()
 setUpMiddleware()
 setUpRoutes()
+setupErrorHandling()
 startServer()
 module.exports.app = app

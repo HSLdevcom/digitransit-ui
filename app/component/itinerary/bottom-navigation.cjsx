@@ -1,6 +1,7 @@
 React = require 'react'
 Icon  = require '../icon/icon'
 Link  = require 'react-router/lib/Link'
+ArrowLink = require '../util/arrow-link'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -18,10 +19,10 @@ class BottomNavigation extends React.Component
                                                          defaultMessage='Print' />
       </div>
       <div className="small-4 columns navigate">
-        <Link to="#{process.env.ROOT_PATH}reitti/#{@props.params.from}/#{@props.params.to}/#{@props.params.hash}/navigoi">
-         <Icon img={'icon-icon_arrow-right'}/>
-           <FormattedMessage id='navigate' defaultMessage='Navigate' />
-        </Link>
+        <ArrowLink to="#{process.env.ROOT_PATH}reitti/#{@props.params.from}/#{@props.params.to}/#{@props.params.hash}/navigoi"
+                   className="itinerary-bottom-navigation__icon right-arrow-blue-background">
+          <FormattedMessage id='navigate' defaultMessage='Navigate' />
+        </ArrowLink>
       </div>
     </div>
 
