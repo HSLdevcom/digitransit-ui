@@ -30,8 +30,27 @@ $itinerary-navigate-icon-size: 50px;
   padding: 0.5em 1em;
   height: $itinerary-summary-height;
   border-bottom: solid 1px $light-gray;
-  .itinerary-summary-duration {
-    font-weight: $font-weight-bold;
+}
+
+.duration {
+  font-weight: $font-weight-bold;
+}
+
+.duration--itinerary-summary,
+.timeframe--itinerary-summary {
+  padding-right: 10px;
+}
+
+.itinerary-summary--onmap-black {
+  border-radius: $border-radius;
+  color: $white;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 802;
+
+  .walk-distance,
+  .duration {
+    font-family: $font-family-narrow;
+    font-size: $font-size-normal;
   }
 }
 
@@ -139,19 +158,17 @@ $itinerary-navigate-icon-size: 50px;
         color: inherit;
         text-decoration: inherit;
       }
-      .icon {
-        font-size: $itinerary-navigate-icon-size/2;
-        padding: $itinerary-navigate-icon-size/4;
-        height: $itinerary-navigate-icon-size;
-        width: $itinerary-navigate-icon-size;
-        border-radius: 30px;
-        color: white;
-        background: $action-color;
-        position: absolute;
-        bottom: 20px;
-      }
     }
   }
+}
+
+.itinerary-bottom-navigation__icon {
+  font-size: $itinerary-navigate-icon-size/2;
+  padding: $itinerary-navigate-icon-size/4;
+  height: $itinerary-navigate-icon-size;
+  width: $itinerary-navigate-icon-size;
+  position: absolute;
+  bottom: 20px;
 }
 
 /* Slick */

@@ -20,11 +20,11 @@ class ItineraryLine extends React.Component
       objs.push <LocationMarker map=@props.map
                                 key="from"
                                 position={@props.legs[0].from}
-                                class='from' />
+                                className='from' />
       objs.push <LocationMarker map=@props.map
                                 key="to"
                                 position={@props.legs[@props.legs.length - 1].to}
-                                class='to' />
+                                className='to' />
 
     unless @props.passive
       itineraryStops = Array::concat.apply [], @props.legs.map (leg) ->

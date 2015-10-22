@@ -1,104 +1,125 @@
+
+$arrow-link-size: 50px;
+
 /*
   SLIDER
 */
-
-$thumb-color-gray: #575757;
-$thumb-color-pink: $favourite-color;
+$slider-gray: #575757;
 
 .slider-container {
-  padding: 10px 0;
+  padding: 10px 0 7px;
   h4 {
     margin: 0;
   }
+
+  .sub-header-h5 {
+    line-height: 0.75;
+  }
+}
+
+/* This sets the actual clickable area. In webkit even the thumb cannot be
+   clicked unless the cursor is in the input element. */
+.slider {
+  height: 21px;
+  background: none;
+  cursor: pointer;
 }
 
 input[type=range].slider {
-  -webkit-appearance: none;
-  width: 100%;
-  margin: 8.5px 0;
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 100%; /* Specific width is required for Firefox. */
+  margin: 3px 0 0;
 }
 input[type=range].slider:focus {
   outline: none;
 }
-input[type=range].slider::-webkit-slider-runnable-track {
+
+/* Track is the line where the circle moves */
+$track-box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+$track-border: 2px solid $slider-gray;
+
+/* Mixins work, but straight nested definitions don't */
+@mixin track {
   width: 100%;
   height: 7px;
   cursor: pointer;
-  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+  box-shadow: $track-box-shadow;
   background: #000000;
   border-radius: 3px;
-  border: 2px solid #575757;
-}
-input[type=range].slider::-webkit-slider-thumb {
-  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
-  border: 3px solid #ffffff;
-  height: 24px;
-  width: 24px;
-  border-radius: 15px;
-  background: $thumb-color-gray;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -10.5px;
-}
-input[type=range].slider:focus::-webkit-slider-runnable-track {
-  background: #0d0d0d;
-}
-input[type=range].slider::-moz-range-track {
-  width: 100%;
-  height: 7px;
-  cursor: pointer;
-  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
-  background: #000000;
-  border-radius: 3px;
-  border: 2px solid $thumb-color-gray;
-}
-input[type=range].slider::-moz-range-thumb {
-  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
-  border: 3px solid #ffffff;
-  height: 24px;
-  width: 24px;
-  border-radius: 15px;
-  background: $thumb-color-gray;
-  cursor: pointer;
-}
-input[type=range].slider::-ms-track {
-  width: 100%;
-  height: 7px;
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-input[type=range].slider::-ms-fill-lower {
-  background: #000000;
-  border: 2px solid $thumb-color-gray;
-  border-radius: 6px;
-  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
-}
-input[type=range].slider::-ms-fill-upper {
-  background: #000000;
-  border: 2px solid $thumb-color-gray;
-  border-radius: 6px;
-  box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
-}
-input[type=range].slider::-ms-thumb {
-  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
-  border: 3px solid #ffffff;
-  height: 24px;
-  width: 24px;
-  border-radius: 15px;
-  background: $thumb-color-gray;
-  cursor: pointer;
-  height: 7px;
-}
-input[type=range].slider:focus::-ms-fill-lower {
-  background: #000000;
-}
-input[type=range].slider:focus::-ms-fill-upper {
-  background: #0d0d0d;
+  border: $track-border;
 }
 
+input[type=range].slider {
+  &::-webkit-slider-runnable-track {
+    @include track;
+  }
+  &:focus::-webkit-slider-runnable-track {
+    background: #0d0d0d;
+  }
+  &::-moz-range-track {
+    @include track;
+  }
+  &::-ms-track {
+    @include track;
+    background: transparent; /* Hides the slider so custom styles can be added */
+    border-color: transparent;
+    color: transparent;
+  }
+  &::-ms-fill-lower {
+    background: #000000;
+    border: $track-border;
+    border-radius: 6px;
+    box-shadow: $track-box-shadow;
+  }
+  &::-ms-fill-upper {
+    background: #000000;
+    border: $track-border;
+    border-radius: 6px;
+    box-shadow: $track-box-shadow;
+  }
+  &:focus::-ms-fill-lower {
+    background: #000000;
+  }
+  &:focus::-ms-fill-upper {
+    background: #0d0d0d;
+  }
+}
 
+/* Thumb is the circle on the track */
+
+@mixin thumb {
+  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
+  border: 3px solid #ffffff;
+  height: 24px;
+  width: 24px;
+  border-radius: 15px;
+  background: $slider-gray;
+  box-sizing: border-box; /* Default in webkit, not in Gecko */
+  cursor: ew-resize;
+}
+
+input[type=range].slider {
+  &::-webkit-slider-thumb {
+    @include thumb;
+    -webkit-appearance: none;
+    /* You need to specify a margin in Chrome,
+       but in Firefox and IE it is automatic */
+    margin-top: -10.5px;
+  }
+  &::-moz-range-thumb {
+    @include thumb;
+  }
+  /* Prevent Firefox from drawing an ugly dotted line over the thumb */
+  &::-moz-focus-outer {
+    border: 0;
+  }
+  &::-ms-thumb {
+    @include thumb;
+    height: 7px;
+  }
+}
+
+$thumb-color-pink: $favourite-color;
 
 .slider-container.active  {
   input[type=range].slider::-webkit-slider-thumb {
@@ -110,12 +131,7 @@ input[type=range].slider:focus::-ms-fill-upper {
   input[type=range].slider::-ms-thumb {
     background-color: $thumb-color-pink !important;
   }
-
 }
-
-
-
-
 
 
 /*
@@ -211,4 +227,17 @@ $btn-heigth: 17px;
 .last-btn {
   border-top-right-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
+}
+
+/*
+  ARROW LINK
+*/
+
+.right-arrow-blue-background {
+  padding: 13px;
+  height: $arrow-link-size;
+  width: $arrow-link-size;
+  border-radius: 30px;
+  color: white;
+  background: $action-color;
 }

@@ -10,6 +10,9 @@ class RouteHeaderContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
+  @propTypes:
+    pattern: React.PropTypes.node.isRequired
+
   componentDidMount: ->
     @context.getStore('FavouriteRoutesStore').addChangeListener @onChange
 

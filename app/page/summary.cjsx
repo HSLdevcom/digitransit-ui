@@ -1,5 +1,7 @@
 React              = require 'react'
 SummaryNavigation  = require '../component/navigation/summary-navigation'
+ItinerarySummary   = require '../component/itinerary/itinerary-summary'
+ArrowLink          = require '../component/util/arrow-link'
 Map                = require '../component/map/map'
 ItinerarySearchActions = require '../action/itinerary-search-action'
 SummaryRow         = require '../component/summary/summary-row'
@@ -60,6 +62,11 @@ class SummaryPage extends React.Component
     plan = @context.getStore('ItinerarySearchStore').getData().plan
 
     if plan
+      summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"
+                                  itinerary={plan.itineraries[@getActiveIndex()]}
+                                  />
+      toItinerary = <ArrowLink to="#{@context.location.pathname}/#{@getActiveIndex()}"
+                               className="arrow-link--summary-row right-arrow-blue-background"/>
       for data, i in plan.itineraries
         passive = i != activeIndex
         rows.push <SummaryRow key={i}
@@ -85,6 +92,8 @@ class SummaryPage extends React.Component
            to={locationToCoords(otpToLocation(@props.params.to))}
            padding={[0, 110]}>
         <SearchTwoFields />
+        {toItinerary}
+        {summary}
       </Map>
       <div>{rows}</div>
     </SummaryNavigation>
