@@ -1,19 +1,15 @@
 React = require 'react'
-Icon = require '../icon/icon'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
 Autosuggest = require './autosuggest'
 Link = require 'react-router/lib/Link'
-config = require '../../config'
 {locationToOTP} = require '../../util/otp-strings'
 GeolocationBar = require './geolocation-bar'
+SearchTwoFields = require './search-two-fields'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
-locationValue = (location) ->
-  decodeURIComponent(location.split("::")[0])
-
-class SearchTwoFields extends React.Component
+class SearchTwoFieldsContainer extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
@@ -98,6 +94,13 @@ class SearchTwoFields extends React.Component
         @context.history.pushState(null, "#{process.env.ROOT_PATH}reitti/#{from}/#{to}")
       , 0)
 
+  getGeolocationBar: (geolocation) =>
+    <GeolocationBar
+      geolocation={geolocation}
+      removePosition={@removePosition}
+      locateUser={() => @context.executeAction LocateActions.findLocation}
+    />
+
   render: =>
     geolocation = @context.getStore('LocationStore').getLocationState()
     origin = @context.getStore('EndpointStore').getOrigin()
@@ -105,13 +108,10 @@ class SearchTwoFields extends React.Component
 
     from =
       if origin.useCurrentPosition
-        <GeolocationBar
-          geolocation={geolocation}
-          removePosition={@removePosition}
-          locateUser={() => @context.executeAction LocateActions.findLocation}
-        />
+        @getGeolocationBar(geolocation)
       else
         <Autosuggest
+          key="origin"
           onSelection={@selectOrigin}
           placeholder={@context.intl.formatMessage(
             id: 'origin'
@@ -123,6 +123,7 @@ class SearchTwoFields extends React.Component
     to =
       if origin.useCurrentPosition and geolocation.isLocationingInProgress
         <input
+          key="destination"
           type="text"
           placeholder={@context.intl.formatMessage(
             id: 'destination'
@@ -130,13 +131,10 @@ class SearchTwoFields extends React.Component
           disabled="disabled"
         />
       else if destination.useCurrentPosition
-        <GeolocationBar
-          geolocation={geolocation}
-          removePosition={@removePosition}
-          locateUser={() => @context.executeAction LocateActions.findLocation}
-        />
+        @getGeolocationBar(geolocation)
       else
         <Autosuggest
+          key="destination"
           onSelection={@selectDestination}
           placeholder={@context.intl.formatMessage(
             id: 'destination'
@@ -145,37 +143,6 @@ class SearchTwoFields extends React.Component
           id="destination"
         />
 
-    <div className="search-form">
-      <div className="row">
-        <div className="small-12 medium-6 medium-offset-3 columns
-                        search-form-map-overlay">
-          <div className="row collapse postfix-radius">
-            <div className="small-11 columns">
-              {from}
-            </div>
-            <div className="small-1 columns">
-              <span className="postfix search cursor-pointer" onClick={@onSwitch}>
-                <Icon img={'icon-icon_direction-a'}/>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
-          <div className="row collapse postfix-radius">
-            <div className="small-11 columns">
-              {to}
-            </div>
-            <div className="small-1 columns">
-              <span className="postfix search cursor-pointer"
-                    onClick={@routeIfPossible}>
-                <Icon img={'icon-icon_search'}/>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
 
-module.exports = SearchTwoFields
+module.exports = SearchTwoFieldsContainer
