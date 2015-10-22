@@ -1,14 +1,14 @@
 React = require 'react'
+NotImplementedLink = require '../util/not-implemented-link'
 
-intl = require 'react-intl'
-FormattedMessage = intl.FormattedMessage
+{FormattedMessage} = require('react-intl')
 
 class TicketInformation extends React.Component
 
   render: ->
     <div className="itinerary-ticket-information">
       <div className="itinerary-ticket-information-buy">
-        Osta lippu
+        <NotImplementedLink name={<FormattedMessage id='buy-ticket' defaultMessage='Buy a ticket' />}/>
       </div>
       <div>
         <FormattedMessage id='required-ticket'

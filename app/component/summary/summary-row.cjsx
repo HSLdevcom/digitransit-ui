@@ -2,11 +2,15 @@ React              = require 'react'
 moment             = require 'moment'
 Link               = require 'react-router/lib/Link'
 Icon               = require '../icon/icon'
+RouteNumber        = require '../departure/route-number'
+DepartureTime      = require '../departure/departure-time'
+cx                 = require 'classnames'
 
 class SummaryRow extends React.Component
 
   render: ->
     data = @props.data
+    currentTime = moment().valueOf()
     startTime = moment(data.startTime)
     endTime = moment(data.endTime)
     duration = endTime.diff(startTime)
@@ -29,32 +33,12 @@ class SummaryRow extends React.Component
       # This should probably be done using Matchmedia API
       isEnoughRoomForLastLegStartTime = width > 0.3
 
-      # Is this row passive or not
-      passiveClass = if @props.passive then " passive" else ""
-
       styleLine =
-        position: 'absolute'
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
         width: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{width}) + #{MIN_SIZE} - 2px)"
-        borderBottom: '3px solid'
-        whiteSpace: 'nowrap'
-        # By enabling this mode circles will not show
-        #overflow: 'hidden'
 
       styleTime =
-        position: 'absolute'
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
-        overflow: 'hidden'
-        color: 'black'
-        'fontWeight': 400
-        whiteSpace: 'nowrap'
-
-      styleTimeLast =
-        overflow: 'hidden'
-        color: 'black'
-        float: 'right'
-        'fontWeight': '400'
-        whiteSpace: 'nowrap'
 
       # Use either vehicle number or walking distance as text
       if leg.transitLeg and leg.mode.toLowerCase() == 'subway'
@@ -68,50 +52,37 @@ class SummaryRow extends React.Component
         # that option will mostly show garbage for user
         text = ""
       else
+        m = Math.ceil(leg.distance / 10) * 10
         km = (leg.distance / 1000).toFixed(1)
-        text = if km == "0.0" then "0.1km" else "#{km}km"
+        text = if m < 1000 then "#{m}m" else "#{km}km"
 
-      # Mode circle
-      if isFirstLeg
-        circleClass = "start"
-      else if isLastLeg
-        circleClass = leg.mode.toLowerCase() + " end"
-      else
-        circleClass = leg.mode.toLowerCase()
+      legClasses =
+        "#{leg.mode.toLowerCase()}": !isFirstLeg
+        passive: @props.passive
+        start: isFirstLeg
+        end: isLastLeg
 
-      legs.push (
-        <span key={i + 'a'} style={styleLine} className={leg.mode.toLowerCase()}>
-          <span key={i + 'b'} className="summary-circle #{circleClass}#{passiveClass}"></span>
-          <Icon key={i + 'c'} className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()} />
-          {text}
-        </span>
-      )
+      legs.push <span key={i + 'a'}
+        style={styleLine}
+        className={cx "line", leg.mode.toLowerCase()}>
+        <span key={i + 'b'} className={cx "summary-circle", legClasses}></span>
+        <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
+      </span>
 
-      if isFirstLeg
-        legTimes.push (
-          <span key={i + 'a'} style={styleTime}>
-            {legStart.format("HH:mm")}
-          </span>
-        )
-      else if isLastLeg
-        if isEnoughRoomForLastLegStartTime
-          legTimes.push (
-            <span key={i + 'a'} style={styleTime}>
-              {legStart.format("HH:mm")}
-            </span>
-          )
+      unless isLastLeg and not isEnoughRoomForLastLegStartTime
+        legTimes.push <DepartureTime
+          key={i + "depTime"}
+          departureTime={leg.startTime / 1000}
+          realtime={leg.realTime}
+          currentTime={currentTime}
+          style={styleTime} />
 
-        legTimes.push (
-          <span key={i + 'b'} style={styleTimeLast}>
-            {legEnd.format("HH:mm")}
-          </span>
-        )
-      else
-        legTimes.push (
-          <span key={i + 'a'} style={styleTime}>
-            {legStart.format("HH:mm")}
-          </span>
-        )
+      if isLastLeg
+        legTimes.push <DepartureTime
+          key="arrivalTime"
+          departureTime={leg.endTime / 1000}
+          realtime={leg.realTime}
+          currentTime={currentTime} />
 
     duration = moment.duration(duration)
     if duration.hours() >= 1
@@ -119,14 +90,15 @@ class SummaryRow extends React.Component
     else
       durationText = "#{duration.minutes()} min"
 
-    <div className="itinerary-summary-row cursor-pointer#{passiveClass}" onClick={() => @props.onSelect(@props.hash)}>
+    classes = [
+      "itinerary-summary-row"
+      "cursor-pointer"
+      passive: @props.passive
+    ]
+
+    <div className={cx classes} onClick={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-legs">{legs}</div>
       <div className="itinerary-leg-times">{legTimes}</div>
-      <Link className="itinerary-link" to="#{process.env.ROOT_PATH}reitti/#{@props.params.from}/#{@props.params.to}/#{@props.hash}">
-        {durationText}
-        <br/>
-        <Icon img={'icon-icon_arrow-right'} className="cursor-pointer"/>
-      </Link>
       <br/>
     </div>
 

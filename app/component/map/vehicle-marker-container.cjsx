@@ -1,5 +1,4 @@
 React         = require 'react'
-ReactDOM      = require 'react-dom/server'
 Relay         = require 'react-relay'
 queries       = require '../../queries'
 isBrowser     = window?
@@ -12,10 +11,10 @@ Icon          = require '../icon/icon'
 
 popupOptions =
   offset: [106, 3]
-  closeButton:false
-  maxWidth:250
-  minWidth:250
-  className:"popup"
+  closeButton: false
+  maxWidth: 250
+  minWidth: 250
+  className: "popup"
 
 class VehicleMarkerContainer extends React.Component
   @contextTypes:
@@ -24,11 +23,11 @@ class VehicleMarkerContainer extends React.Component
     history: React.PropTypes.object.isRequired
 
   @vehicleIcons: if !isBrowser then null else
-    bus: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_bus-live')), className: 'vehicle-icon bus', iconSize: [20, 20], iconAnchor: [10, 10])
-    tram: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_tram-live')), className: 'vehicle-icon tram', iconSize: [20, 20], iconAnchor: [10, 10])
-    rail: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_rail-live')), className: 'vehicle-icon rail', iconSize: [20, 20], iconAnchor: [10, 10])
-    subway: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_subway-live')), className: 'vehicle-icon subway', iconSize: [20, 20], iconAnchor: [10, 10])
-    ferry: L.divIcon(html: ReactDOM.renderToStaticMarkup(React.createElement(Icon, img: 'icon-icon_ferry-live')), className: 'vehicle-icon ferry', iconSize: [20, 20], iconAnchor: [10, 10])
+    bus: L.divIcon(html: Icon.asString('icon-icon_bus-live'), className: 'vehicle-icon bus', iconSize: [20, 20], iconAnchor: [10, 10])
+    tram: L.divIcon(html: Icon.asString('icon-icon_tram-live'), className: 'vehicle-icon tram', iconSize: [20, 20], iconAnchor: [10, 10])
+    rail: L.divIcon(html: Icon.asString('icon-icon_rail-live'), className: 'vehicle-icon rail', iconSize: [20, 20], iconAnchor: [10, 10])
+    subway: L.divIcon(html: Icon.asString('icon-icon_subway-live'), className: 'vehicle-icon subway', iconSize: [20, 20], iconAnchor: [10, 10])
+    ferry: L.divIcon(html: Icon.asString('icon-icon_ferry-live'), className: 'vehicle-icon ferry', iconSize: [20, 20], iconAnchor: [10, 10])
 
   constructor: () ->
     @vehicles = {}
@@ -58,7 +57,7 @@ class VehicleMarkerContainer extends React.Component
         route: message.route
         direction: message.direction
         date: message.operatingDay
-        time: message.tripStartTime.substring(0,2) * 60 * 60 + message.tripStartTime.substring(2,4) * 60)}
+        time: message.tripStartTime.substring(0, 2) * 60 * 60 + message.tripStartTime.substring(2, 4) * 60)}
       renderFetched={(data) =>
         <RouteMarkerPopup trip={data.trip}
                           message={message}
@@ -66,7 +65,7 @@ class VehicleMarkerContainer extends React.Component
                           route={message.route}
                           direction={message.direction}
                           date={message.operatingDay}
-                          time={message.tripStartTime.substring(0,2) * 60 * 60 + message.tripStartTime.substring(2,4) * 60}/>
+                          time={message.tripStartTime.substring(0, 2) * 60 * 60 + message.tripStartTime.substring(2, 4) * 60}/>
       }/>
 
     @vehicles[id] =

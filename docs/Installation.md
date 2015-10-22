@@ -2,47 +2,53 @@
 - Install Node.js
   (if you are on Debian, the distribution version is likely too old -
   in case of problems try https://deb.nodesource.com)
-- sudo npm install -g npm@3
-- sudo npm install -g nodemon
-- sudo npm install -g node-sass
-- sudo npm install -g webpack
-- npm install
+- `sudo npm install -g npm@3`
+- `sudo npm install -g nodemon`
+- `sudo npm install -g node-sass`
+- `sudo npm install -g webpack`
+- `npm install`
   (you will get warnings, ignore those for now)
 
 ## :warning: What if 'npm install' fails?
-- Ensure you have npm3 installed: 'sudo npm install -g npm@3'
-- Clear npm cache: 'npm cache clean'
-- remove node_modules: 'rm -rf node_modules'
-- Try again: 'npm install'
+- Ensure you have npm3 installed: `sudo npm install -g npm@3`
+- Clear npm cache: `npm cache clean`
+- remove node_modules: `rm -rf node_modules`
+- Try again: `npm install`
 
-## Start national version dev server (with hot code reloading)
+## Start development version
 
-###Mac/Linux
+- OSX / Linux: `npm run dev`
+- Windows: `npm run dev-win-national`
+- open: http://localhost:8080
 
-- npm run dev
+## Start production version
+- `npm run build`
+- `npm run start`
+- open: http://localhost:8080
 
-###Windows
+## Configuration application
+Digitransit ui can be configured in multiple ways. You can
+- Change between National and Regional versions using CONFIG parameter
+- Switch API backend using SERVER_ROOT parameter
+- Enable Sentry client side error monitoring using SENTRY_* parameters
 
-- npm run dev-win-national
+Note that you can combine multiple configuration parameters.
 
-## Start HSL version dev server (with hot code reloading)
+### Changing National/Regional version (optional)
+Start national version
+- `npm run build`
+- `npm run start`
 
-###Mac/Linux
+Start HSL version
+- `CONFIG=hsl npm run build`
+- `CONFIG=hsl npm run start`
 
-- CONFIG=hsl npm run dev
+### Changing url for OpenTripPlanner and Geocoding (optional)
+By default digitransit-ui uses services from http://matka.hsl.fi but you can override API server like so:
+- `SERVER_ROOT=http://dev.digitransit.fi npm run build`
+- `npm run start`
 
-###Windows
-
-- npm run dev-win-hsl
-
-## Browse to application
-- http://localhost:8080/
-
-## Changing url for OpenTripPlanner and Geocoding
-In package.json there is a configuration variable "SERVER_ROOT". It controls where user interface connects in order to do e.g. routing.
-By default it uses http://matka.hsl.fi but you can override SERVER_ROOT like so:
-
-- SERVER_ROOT=http://dev.digitransit.fi npm run dev
-## Build release version and start production server
-- SERVER_ROOT=YOUR_API_SERVER npm run build
-- npm run start
+### Using Sentry to track client errors (optional)
+Sentry can be configured like so:
+- `SENTRY_DSN=https://xxxxx@app.getsentry.com/zzzzz npm run build`
+- `SENTRY_SECRET_DSN=https://xxxx:yyyy@app.getsentry.com/zzzzz npm run start`

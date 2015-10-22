@@ -1,5 +1,7 @@
 React = require 'react'
 cx    = require 'classnames'
+ComponentUsageExample = require '../documentation/component-usage-example'
+Example = require '../documentation/example-data'
 
 StopReference = (props) ->
   mode = props.mode.toLowerCase()
@@ -7,7 +9,13 @@ StopReference = (props) ->
     {props.code}
   </span>
 
-StopReference.description = "Display stop number / platform number, Text color depends on mode."
+StopReference.description =
+  <div>
+    <p>Display stop number / platform number, Text color depends on mode.</p>
+    <ComponentUsageExample>
+      <StopReference mode={Example.realtimeDeparture.pattern.route.type} code={Example.realtimeDeparture.stop.code}/>
+    </ComponentUsageExample>
+  </div>
 
 StopReference.propTypes =
   mode: React.PropTypes.string.isRequired

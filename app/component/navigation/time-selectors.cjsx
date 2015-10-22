@@ -2,11 +2,14 @@ React       = require 'react'
 TimeStore   = require '../../store/time-store'
 TimeActions = require '../../action/time-action'
 moment      = require 'moment'
+{FormattedMessage, intlShape} = require('react-intl')
+
 
 class TimeSelectors extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    intl: intlShape.isRequired
 
   componentDidMount: ->
     @context.getStore(TimeStore).addChangeListener @onChange
@@ -36,8 +39,12 @@ class TimeSelectors extends React.Component
   getDates: ->
     dates = []
     date = moment()
-    dates.push <option value={date.format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>Tänään</option>
-    dates.push <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>Huomenna</option>
+    dates.push(
+      <option value={date.format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>
+        {@context.intl.formatMessage({id: "today", defaultMessage: "Today"})}</option>)
+    dates.push(
+      <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>
+        {@context.intl.formatMessage({id: "tomorrow", defaultMessage: "Tomorrow"})}</option>)
     for day in [0..28]
       dates.push <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>{date.format('dd D.M')}</option>
     dates
@@ -58,8 +65,10 @@ class TimeSelectors extends React.Component
         {@getDates()}
       </select>
       <select ref="arriveBy" value={arriveBy} onChange={this.setArriveBy}>
-        <option value="false">Lähtöaika</option>
-        <option value="true">Saapumisaika</option>
+        <option value="false">
+          {@context.intl.formatMessage({id: "leaving-at", defaultMessage: "Leaving at"})}</option>
+        <option value="true">
+          {@context.intl.formatMessage({id: "arriving-at", defaultMessage: "Arriving at"})}</option>
       </select>
     </div>
 

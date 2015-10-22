@@ -10,4 +10,6 @@ class NavigationPage extends React.Component
       <NavigationMap hash={parseInt(@props.params.hash)}/>
     </DefaultNavigation>
 
+
+
 module.exports = NavigationPage

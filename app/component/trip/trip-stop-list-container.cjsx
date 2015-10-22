@@ -3,7 +3,7 @@ Relay                   = require 'react-relay'
 queries                 = require '../../queries'
 GtfsUtils               = require '../../util/gtfs'
 groupBy                 = require 'lodash/collection/groupBy'
-classnames              = require 'classnames'
+cx                      = require 'classnames'
 TripRouteStop           = require './trip-route-stop'
 isEmpty                 = require 'lodash/lang/isEmpty'
 moment                  = require 'moment'
@@ -27,7 +27,7 @@ class TripStopListContainer extends React.Component
     vehicle = !isEmpty(vehicles) && vehicles[Object.keys(vehicles)[0]]
 
     currentTime = moment()
-    currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds');
+    currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds')
     stopPassed = false
 
     @props.trip.stoptimes.map (stoptime, index) ->
@@ -48,11 +48,10 @@ class TripStopListContainer extends React.Component
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
         realtimeDeparture={stoptime.realtimeDeparture}
-        currentTimeFromMidnight={currentTimeFromMidnight}
-       />
+        currentTimeFromMidnight={currentTimeFromMidnight}/>
 
   render: ->
-    <div className={classnames "route-stop-list", @props.className}>
+    <div className={cx "route-stop-list", @props.className}>
       {@getStops()}
     </div>
 

@@ -77,7 +77,7 @@ var RouteListContainerFragments = {
                     type
                   }
                 }
-                ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
+                ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
               }
             }
             distance
@@ -265,7 +265,7 @@ var StopCardContainerFragments = {
     fragment on Stop{
       gtfsId
       stoptimes: stoptimesForServiceDate(date: $date) {
-        ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
+        ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
       }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }`
@@ -284,7 +284,7 @@ var StopPageFragments = {
         color
       }
       stoptimes: stoptimesForServiceDate(date: $date) {
-        ${require('./component/stop-cards/departure-list-container').getFragment('stoptimes')}
+        ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
       }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
@@ -345,6 +345,9 @@ var StopMarkerPopupFragments = {
   stop: () => Relay.QL`
     fragment on Stop{
       gtfsId
+      lat
+      lon
+      name
       ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
     }
   `,

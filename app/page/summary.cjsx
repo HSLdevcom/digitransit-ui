@@ -7,14 +7,24 @@ SearchTwoFields       = require '../component/search/search-two-fields'
 ItineraryLine      = require '../component/map/itinerary-line'
 sortBy             = require 'lodash/collection/sortBy'
 {otpToLocation, locationToCoords} = require '../util/otp-strings'
+{supportsHistory}  = require 'history/lib/DOMUtils'
 
 
 class SummaryPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    history: React.PropTypes.object.isRequired
+    location: React.PropTypes.object.isRequired
 
-  @loadAction: ItinerarySearchActions.itinerarySearchRequest
+  componentWillMount: ->
+    props = @context.getStore('ItinerarySearchStore').getOptions()
+    if props.params.from != @props.params.from or props.params.to != @props.params.to
+      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+
+  componentWillUpdate: (props) ->
+    if props.params.from != @props.params.from or props.params.to != @props.params.to
+      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, props
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
@@ -30,14 +40,22 @@ class SummaryPage extends React.Component
   onTimeChange: =>
     @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
+  getActiveIndex: =>
+    @context.location.state?.summaryPageSelected or @state?.summaryPageSelected or 0
+
   onSelectActive: (index) =>
-    @setState
-      activeIndex: index
+    if @getActiveIndex() == index # second click navigates
+      @context.history.pushState null, "#{@context.location.pathname}/#{index}"
+    else if supportsHistory()
+      @context.history.replaceState summaryPageSelected: index, @context.location.pathname
+    else
+      @setState summaryPageSelected: index
+      @forceReload()
 
   render: ->
     rows = []
     leafletObjs = []
-    activeIndex = if @state and @state.activeIndex then @state.activeIndex else 0
+    activeIndex = @getActiveIndex()
 
     plan = @context.getStore('ItinerarySearchStore').getData().plan
 
@@ -50,6 +68,7 @@ class SummaryPage extends React.Component
                               data={data} passive={passive}
                               onSelect={@onSelectActive}/>
         leafletObjs.push <ItineraryLine key={i}
+                                        hash={i}
                                         legs={data.legs}
                                         showFromToMarkers={i == 0}
                                         passive={passive}/>

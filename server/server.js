@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV == 'production') {
+  var raven = require('raven');
+  var RavenClient = new raven.Client(process.env.SENTRY_SECRET_DSN);
+}
 /********** Server **********/
 var express = require('express')
 var cookieParser = require('cookie-parser')
@@ -45,6 +49,13 @@ if (process.env.NODE_ENV !== "development") {
   var css = fs.readFileSync(appRoot + '_static/css/bundle.css')
 }
 var translations = require('../app/translations')
+// Cache fonts from google, so that we don't need an additional roud trip to fetch font definitions
+var fonts = ""
+fetch(require('../app/config').URL.FONT).then(function(res){
+  res.text().then(function(text){
+    fonts = text
+  })
+})
 
 
 /* Setup functions */
@@ -75,13 +86,14 @@ function getPolyfills(userAgent) {
   return polyfillService.getPolyfillString({
     uaString: userAgent,
     features: {
-      'Function.prototype.bind': {flags: ['gated']},
       'matchMedia': {flags: ['gated']},
       'fetch': {flags: ['gated']},
       'Promise': {flags: ['gated']},
       'String.prototype.repeat': {flags: ['gated']},
       'Intl': {flags: ['gated']},
       'Object.assign': {flags: ['gated']},
+      'Array.prototype.find': {flags: ['gated']},
+      'es5': {flags: ['gated']},
     },
     minify: true,
     unknown: 'polyfill'
@@ -106,16 +118,7 @@ function setUpRoutes() {
         res.status(404).send('Not found')
       }
       else {
-        var promises = [getPolyfills(req.headers['user-agent'])];
-        promises.concat(renderProps.components.map(function(component){
-          if (component instanceof Object && component.loadAction) {
-            return context.getActionContext().executeAction(component.loadAction,
-              {params:renderProps.params, query:renderProps.location.query});
-          } else {
-            return true;
-          }
-        }));
-        Promise.all(promises).then(function(polyfills){
+        getPolyfills(req.headers['user-agent']).then(function(polyfills){
           var content = "";
           // Ugly way to see if this is a Relay RootComponent
           // until Relay gets server rendering capabilities
@@ -155,13 +158,17 @@ function setUpRoutes() {
                 polyfill: polyfills,
                 state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
                 livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
-                locale: 'window.locale="' + locale + '"'
+                locale: 'window.locale="' + locale + '"',
+                fonts: fonts
               }
             )
           )
 
           res.send('<!doctype html>' + html);
         }).catch(function(err) {
+          if (process.env.NODE_ENV == 'production') {
+            RavenClient.captureException(err);
+          }
           console.log(err.stack);
           res.status(500).send(err.stack);
         });

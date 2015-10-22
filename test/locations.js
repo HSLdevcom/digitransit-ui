@@ -14,9 +14,9 @@ module.exports = {
     browser.expect.element('.search-form > .row:nth-child(1) input').to.be.present;
   },
   'Search works' : function (b) {
-    b.setValue('.search-form > .row:nth-child(1) input', 'Sampsantie, helsinki');
-    b.waitForElementVisible("[id='Sampsantie, Helsinki']", 1000);
-    b.click("[id='Sampsantie, Helsinki']");
+    b.setValue('.search-form > .row:nth-child(1) input', 'Sampsantie');
+    b.waitForElementVisible("[id='Sampsantie 9, 45100 Kouvola Keskus']", 1000);
+    b.click("[id='Sampsantie 9, 45100 Kouvola Keskus']");
     b.end();
   }
 
