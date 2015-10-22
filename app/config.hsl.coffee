@@ -23,3 +23,4 @@ module.exports =
   nearbyRoutes:
     radius: 2000
     bucketSize: 100
+  maxWalkDistance: 2500
