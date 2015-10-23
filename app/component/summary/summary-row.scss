@@ -90,6 +90,10 @@
   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($walk-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
+.summary-circle.waiting::before {
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($waiting-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
+}
+
 .summary-circle.start::before {
   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='white' stroke-width='2' fill='#{rgba($from-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
 }

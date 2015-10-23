@@ -1,6 +1,57 @@
+last = require 'lodash/array/last'
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
+create_wait_leg = (start_time, duration, point, placename) ->
+  leg =
+    mode: "WAITING"
+    routeType: null # non-transit
+    route: ""
+    duration: duration
+    startTime: start_time
+    endTime: start_time + duration
+    legGeometry: {points: [point]}
+    from:
+      lat: point[0] * 1e-5
+      lon: point[1] * 1e-5
+      name: placename
+    intermediateStops: []
+  leg.to = leg.from
+  return leg
+
+add_waiting_legs = (data) ->
+  for itinerary in data.plan?.itineraries or []
+    new_legs = []
+    time = itinerary.startTime # tracks when next leg should start
+    for leg in itinerary.legs
+      wait_time = leg.startTime - time
+      time = leg.endTime # next leg should start when this one ended
+
+      # If there's unaccounted time before a leg, add a waiting leg
+      if wait_time > 1000  # OTP often marks time between walk and vehicle as 1000ms
+        # OTP starts walking legs as late as possible,
+        # so change it to start as early as possible and add the wait after
+        if leg.routeType == null
+          leg.startTime -= wait_time
+          leg.endTime -= wait_time
+          new_legs.push leg
+          new_legs.push(
+            create_wait_leg(leg.endTime,
+                            wait_time,
+                            last(leg.legGeometry.points),
+                            leg.to.name))
+        # Other legs can't be started whenever we want (the bus comes when it comes),
+        # so add the waiting leg before the transit leg
+        else
+          new_legs.push(
+            create_wait_leg(leg.startTime - wait_time,
+                            wait_time,
+                            leg.legGeometry.points[0],
+                            leg.from.name))
+          new_legs.push leg
+      else
+        new_legs.push leg
+    itinerary.legs = new_legs
 
 itinerarySearchRequest = (actionContext, options, done) ->
   itinerarySearchStore = actionContext.getStore('ItinerarySearchStore')
@@ -30,6 +81,7 @@ itinerarySearchRequest = (actionContext, options, done) ->
     walkSpeed: itinerarySearchStore.getWalkSpeed()
     wheelchair: itinerarySearchStore.isWheelchair()
   xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
+    add_waiting_legs(data)
     actionContext.dispatch "ItineraryFound", data
     done()
   , (err) ->
@@ -40,7 +92,7 @@ itinerarySearchRequest = (actionContext, options, done) ->
 
 
 module.exports =
-  'itinerarySearchRequest' : itinerarySearchRequest
+  'itinerarySearchRequest': itinerarySearchRequest
 
   toggleBusState: (actionContext)  ->
     actionContext.dispatch "ToggleBusState",
