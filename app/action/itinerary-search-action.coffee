@@ -80,6 +80,7 @@ itinerarySearchRequest = (actionContext, options, done) ->
     minTransferTime: itinerarySearchStore.getMinTransferTime()
     walkSpeed: itinerarySearchStore.getWalkSpeed()
     wheelchair: itinerarySearchStore.isWheelchair()
+    maxWalkDistance: config.maxWalkDistance
   xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
     add_waiting_legs(data)
     actionContext.dispatch "ItineraryFound", data

@@ -1,3 +1,4 @@
+Raven = require 'raven-js'
 React              = require 'react'
 SummaryNavigation  = require '../component/navigation/summary-navigation'
 ItinerarySummary   = require '../component/itinerary/itinerary-summary'
@@ -10,7 +11,9 @@ ItineraryLine      = require '../component/map/itinerary-line'
 sortBy             = require 'lodash/collection/sortBy'
 {otpToLocation, locationToCoords} = require '../util/otp-strings'
 {supportsHistory}  = require 'history/lib/DOMUtils'
+intl               = require 'react-intl'
 
+FormattedMessage = intl.FormattedMessage
 
 class SummaryPage extends React.Component
   @contextTypes:
@@ -59,8 +62,8 @@ class SummaryPage extends React.Component
     leafletObjs = []
     activeIndex = @getActiveIndex()
 
-    plan = @context.getStore('ItinerarySearchStore').getData().plan
-
+    data = @context.getStore('ItinerarySearchStore').getData()
+    plan = data.plan
     if plan
       summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"
                                   itinerary={plan.itineraries[@getActiveIndex()]}
@@ -79,6 +82,15 @@ class SummaryPage extends React.Component
                                         legs={data.legs}
                                         showFromToMarkers={i == 0}
                                         passive={passive}/>
+    else if data.error
+      rows = <FormattedMessage
+          id='route-not-possible'
+          defaultMessage="Unfortunately your route is not possible. Technical error: '{error}'"
+          values={
+            error: data.error.msg
+          }/>
+      Raven.captureMessage("OTP returned an error when requesting a plan", {extra: data})
+
 
     # Draw active last
     leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
