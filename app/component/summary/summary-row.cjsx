@@ -1,5 +1,6 @@
 React              = require 'react'
 moment             = require 'moment'
+time               = require "../../util/time"
 Link               = require 'react-router/lib/Link'
 Icon               = require '../icon/icon'
 RouteNumber        = require '../departure/route-number'
@@ -84,11 +85,7 @@ class SummaryRow extends React.Component
           realtime={leg.realTime}
           currentTime={currentTime} />
 
-    duration = moment.duration(duration)
-    if duration.hours() >= 1
-      durationText = "#{duration.hours()}h #{duration.minutes()}min"
-    else
-      durationText = "#{duration.minutes()} min"
+    durationText = time.asString(duration)
 
     classes = [
       "itinerary-summary-row"
