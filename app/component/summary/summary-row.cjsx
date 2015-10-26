@@ -1,6 +1,6 @@
 React              = require 'react'
 moment             = require 'moment'
-time               = require "../../util/time"
+timeUtils          = require '../../util/time-utils'
 Link               = require 'react-router/lib/Link'
 Icon               = require '../icon/icon'
 RouteNumber        = require '../departure/route-number'
@@ -85,7 +85,7 @@ class SummaryRow extends React.Component
           realtime={leg.realTime}
           currentTime={currentTime} />
 
-    durationText = time.asString(duration)
+    durationText = timeUtils.durationToString(duration)
 
     classes = [
       "itinerary-summary-row"
