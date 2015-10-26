@@ -43,14 +43,11 @@ class LocationStore extends Store
 
   # When watching for position, we don't want to be updated each time, but rather poll for it
   storeLocation: (location) ->
-    @storeLocationWithoutEmit location
-    @emitChange()
-
-  storeLocationWithoutEmit: (location) ->
     @lat = location.lat
     @lon = location.lon
     @heading = if location.heading then location.heading else @heading
     @status = @STATUS_FOUND_LOCATION
+    @emitChange()
 
   storeAddress: (location) ->
     @address = "#{location.address} #{location.number}, #{location.city}"
@@ -91,7 +88,6 @@ class LocationStore extends Store
   @handlers:
     "GeolocationSearch": 'geolocationSearch'
     "GeolocationFound": 'storeLocation'
-    "GeolocationUpdated": 'storeLocationWithoutEmit'
     "GeolocationRemoved": 'removeLocation'
     "GeolocationNotSupported": 'geolocationNotSupported'
     "GeolocationDenied": 'geolocationDenied'

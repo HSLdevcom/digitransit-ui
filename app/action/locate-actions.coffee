@@ -55,6 +55,9 @@ startLocationWatch = (actionContext, payload, done) ->
     done()
     return
 
+  # Notify that we are searching...
+  actionContext.dispatch "GeolocationSearch"
+
   # Set timeout
   timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationWatchTimeout"), 10000)
 
@@ -63,10 +66,14 @@ startLocationWatch = (actionContext, payload, done) ->
     if timeoutId
       window.clearTimeout(timeoutId)
       timeoutId = undefined
-    actionContext.dispatch "GeolocationUpdated",
+    actionContext.dispatch "GeolocationFound",
       lat: position.coords.latitude
       lon: position.coords.longitude
       heading: position.coords.heading
+    actionContext.executeAction reverseGeocodeAddress,
+      lat: position.coords.latitude
+      lon: position.coords.longitude
+    , done
   , (error) =>
     if timeoutId
       window.clearTimeout(timeoutId)

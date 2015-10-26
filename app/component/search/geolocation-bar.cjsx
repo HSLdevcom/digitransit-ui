@@ -3,10 +3,11 @@ Icon = require '../icon/icon'
 {FormattedMessage} = require 'react-intl'
 
 getLocationMessage = (geolocation) ->
-  if geolocation.isLocationingInProgress
-    <FormattedMessage id="searching-position" defaultMessage='Searching for your position...' />
-  else if geolocation.hasLocation
+
+  if geolocation.hasLocation
     <FormattedMessage id="own-position" defaultMessage='My current position' />
+  else if geolocation.isLocationingInProgress
+    <FormattedMessage id="searching-position" defaultMessage='Searching for your position...' />
   else
     <FormattedMessage id="no-position" defaultMessage='No position' />
 
