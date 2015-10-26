@@ -1,15 +1,11 @@
 React = require 'react'
 Icon  = require '../icon/icon'
 cx    = require 'classnames'
+time  = require "../../util/time"
 
 Duration = (props) ->
 
-  durationInMinutes = Math.round(props.duration/60)
-  hours = Math.floor(props.duration / (60 * 60))
-  divisor = props.duration % (60 * 60)
-  minutes = Math.round(divisor / 60)
-
-  duration = if durationInMinutes < 60 then "#{durationInMinutes}min" else "#{hours}h #{minutes}min"
+  duration = time.asString(props.duration*1000)
 
   <span className={cx props.className}>
     <Icon img={'icon-icon_time'}/>
