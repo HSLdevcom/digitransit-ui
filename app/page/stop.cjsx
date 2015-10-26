@@ -35,21 +35,19 @@ class Page extends React.Component
       e.stopPropagation()
       @context.executeAction FavouriteStopsAction.addFavouriteStop, @props.params.stopId
 
-    <DefaultNavigation>
+    <DefaultNavigation className="fullscreen">
       <StopCardHeader stop={@props.stop}
                       favourite={favourite}
                       addFavouriteStop={addFavouriteStop}
                       className="stop-page header"
                       headingStyle="h3"
                       infoIcon={true}/>
-        <Map
-             lat={@props.stop.lat}
+        <Map lat={@props.stop.lat}
              lon={@props.stop.lon}
              zoom={16}
              showStops=true
              hilightedStops=[@props.params.stopId]
-             disableZoom=true
-             className="map">
+             disableZoom=true>
           <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
 
           <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta">
