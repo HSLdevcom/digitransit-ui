@@ -7,6 +7,8 @@ config         = require '../../config'
 AUTOSUGGEST_ID = 'autosuggest'
 
 class Autosuggest extends React.Component
+  @contextTypes:
+    executeAction: React.PropTypes.func.isRequired
 
   getNumberIfNotZero: (number) ->
     if number and not (number is "0") then " #{number}" else ""
@@ -63,9 +65,10 @@ class Autosuggest extends React.Component
 
   onSuggestionSelected: (suggestion, event) =>
     event.preventDefault()
-    @props.onSelection suggestion.geometry.coordinates[1],
-                       suggestion.geometry.coordinates[0],
-                       @getName suggestion.properties
+    @context.executeAction @props.onSelectionAction,
+      lat: suggestion.geometry.coordinates[1]
+      lon: suggestion.geometry.coordinates[0],
+      address: @getName suggestion.properties
 
   # Happens when user presses enter without selecting anything from autosuggest
   onSubmit: (e) =>
@@ -90,7 +93,7 @@ class Autosuggest extends React.Component
           # 2) when we notice that everything is cleared, we remove location from flux store (not ok)
           # react-autosuggest should support second case, but it currently doesn't
           if input == ""
-            @props.onSelection()
+            @context.executeAction @props.onEmptyAction
           return input.trim().length >= 2
         }
         onSuggestionSelected={@onSuggestionSelected}
