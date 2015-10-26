@@ -19,11 +19,11 @@ class FrontPagePanel extends React.Component
     intl: intl.intlShape.isRequired
 
   componentDidMount: ->
-    @context.getStore('LocationStore').addChangeListener @onChange
+    @context.getStore('PositionStore').addChangeListener @onChange
     @context.getStore('EndpointStore').addChangeListener @onChange
 
   componentWillUnmount: ->
-    @context.getStore('LocationStore').removeChangeListener @onChange
+    @context.getStore('PositionStore').removeChangeListener @onChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
 
   onChange: =>
@@ -61,19 +61,19 @@ class FrontPagePanel extends React.Component
         selectedPanel: selection
 
   render: ->
-    LocationStore = @context.getStore 'LocationStore'
-    location = LocationStore.getLocationState()
+    PositionStore = @context.getStore 'PositionStore'
+    location = PositionStore.getLocationState()
     origin = @context.getStore('EndpointStore').getOrigin()
 
 
     if origin?.lat
       stopsPanel = @getStopContainer(origin.lat, origin.lon)
       routesPanel = @getRoutesContainer(origin.lat, origin.lon)
-    else if (location.status == LocationStore.STATUS_FOUND_LOCATION or
-             location.status == LocationStore.STATUS_FOUND_ADDRESS)
+    else if (location.status == PositionStore.STATUS_FOUND_LOCATION or
+             location.status == PositionStore.STATUS_FOUND_ADDRESS)
       stopsPanel = @getStopContainer(location.lat, location.lon)
       routesPanel = @getRoutesContainer(location.lat, location.lon)
-    else if location.status == LocationStore.STATUS_SEARCHING_LOCATION
+    else if location.status == PositionStore.STATUS_SEARCHING_LOCATION
       stopsPanel = <div className="spinner-loader"/>
       routesPanel = <div className="spinner-loader"/>
     else

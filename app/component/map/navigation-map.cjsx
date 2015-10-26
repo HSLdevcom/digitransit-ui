@@ -24,7 +24,7 @@ class NavigationMap extends React.Component
 
   componentDidMount: ->
     @requirePromise.then ([mapboxgl, mapboxcss, mapStyle, Fulltilt]) =>
-      coordinates = @context.getStore('LocationStore').getLocationState()
+      coordinates = @context.getStore('PositionStore').getLocationState()
       plan = @context.getStore('ItinerarySearchStore').getData().plan.itineraries[@props.hash]
       @bearing = geoUtils.getBearing(
         plan.legs[0].from.lat, plan.legs[0].from.lon, plan.legs[0].to.lat, plan.legs[0].to.lon)
@@ -85,9 +85,9 @@ class NavigationMap extends React.Component
 
 
   initializeCompass: (map, compassAvailable, orientation) ->
-    coordinates = @context.getStore('LocationStore').getLocationState()
+    coordinates = @context.getStore('PositionStore').getLocationState()
     @intervalId = setInterval =>
-      newCoordinates = @context.getStore('LocationStore').getLocationState()
+      newCoordinates = @context.getStore('PositionStore').getLocationState()
 
       if newCoordinates.lon != coordinates.lat or newCoordinates.lon != coordinates.lon
         @locationJSONsource.setData geoUtils.locationAsGeoJSON coordinates
