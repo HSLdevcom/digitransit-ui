@@ -7,7 +7,7 @@ Map                = require '../component/map/map'
 ItinerarySearchActions = require '../action/itinerary-search-action'
 EndpointActions    = require '../action/endpoint-actions.coffee'
 SummaryRow         = require '../component/summary/summary-row'
-SearchTwoFields       = require '../component/search/search-two-fields-container'
+SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
 ItineraryLine      = require '../component/map/itinerary-line'
 sortBy             = require 'lodash/collection/sortBy'
 {otpToLocation, locationToCoords} = require '../util/otp-strings'
@@ -110,7 +110,7 @@ class SummaryPage extends React.Component
            from={locationToCoords(otpToLocation(@props.params.from))}
            to={locationToCoords(otpToLocation(@props.params.to))}
            padding={[0, 110]}>
-        <SearchTwoFields />
+        <SearchTwoFieldsContainer/>
         {toItinerary}
         {summary}
       </Map>
