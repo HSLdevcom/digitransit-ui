@@ -7,7 +7,6 @@ getStartTime = (time) ->
   mins = ('0' + (time / 60 % 60)).slice(-2)
   return hours + mins
 
-
 renderDepartureStoptime = (time, realtime, currentTime) ->
   if time < currentTime # In the past
     return (if realtime then "°" else "") + moment(time * 1000).format "HH:mm"
@@ -16,6 +15,19 @@ renderDepartureStoptime = (time, realtime, currentTime) ->
   else
     return (if realtime then "°" else "") + moment(time * 1000).diff(currentTime * 1000, 'm') + "min"
 
+# renders trip duration to string
+# input: time duration - milliseconds
+durationToString = (duration) ->
+  duration = moment.duration(duration)
+
+  if duration.hours() >= 1
+    durationText = "#{duration.hours()}h #{duration.minutes()}min"
+  else
+    durationText = "#{duration.minutes()} min"
+
+  return durationText
+
 module.exports =
   getStartTime: getStartTime
   renderDepartureStoptime: renderDepartureStoptime
+  durationToString: durationToString
