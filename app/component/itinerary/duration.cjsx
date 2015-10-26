@@ -1,11 +1,11 @@
-React = require 'react'
-Icon  = require '../icon/icon'
-cx    = require 'classnames'
-time  = require "../../util/time"
+React       = require 'react'
+Icon        = require '../icon/icon'
+cx          = require 'classnames'
+timeUtils   = require '../../util/time-utils'
 
 Duration = (props) ->
 
-  duration = time.asString(props.duration*1000)
+  duration = timeUtils.durationToString(props.duration*1000)
 
   <span className={cx props.className}>
     <Icon img={'icon-icon_time'}/>
