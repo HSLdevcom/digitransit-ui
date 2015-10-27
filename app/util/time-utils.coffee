@@ -1,4 +1,4 @@
-moment            = require 'moment'
+moment = require 'moment'
 
 # converts the given parameter into a string in format HHmm
 # Input: time - seconds since midnight
@@ -9,11 +9,11 @@ getStartTime = (time) ->
 
 renderDepartureStoptime = (time, realtime, currentTime) ->
   if time < currentTime # In the past
-    return (if realtime then "°" else "") + moment(time * 1000).format "HH:mm"
-  if time > currentTime + 1200 # far away
-    return (if realtime then "°" else "") + moment(time * 1000).format "HH:mm"
+    moment(time * 1000).format "HH:mm"
+  else if time > currentTime + 1200 # far away
+    moment(time * 1000).format "HH:mm"
   else
-    return (if realtime then "°" else "") + moment(time * 1000).diff(currentTime * 1000, 'm') + "min"
+    moment(time * 1000).diff(currentTime * 1000, 'm') + "min"
 
 # renders trip duration to string
 # input: time duration - milliseconds
