@@ -11,6 +11,12 @@ intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class SearchTwoFieldsContainer extends React.Component
+
+  constructor: ->
+    super
+    @state =
+      positionState: @context.getStore('PositionStore').getLocationState()
+
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
@@ -26,7 +32,10 @@ class SearchTwoFieldsContainer extends React.Component
     @context.getStore('PositionStore').removeChangeListener @onGeolocationChange
 
   onGeolocationChange: =>
-    @forceUpdate()
+    #We want to rerender only if position status changes,
+    #not if position changes
+    if @positionStatusChanged
+      @setState({positionState: @context.getStore('PositionStore').getLocationState()})
 
   onEndpointChange: =>
     @forceUpdate()
@@ -43,6 +52,10 @@ class SearchTwoFieldsContainer extends React.Component
       return
 
     @context.executeAction EndpointActions.swapOriginDestination
+
+  positionStatusChanged: =>
+    return @state.positionState.hasLocation != @context.getStore('PositionStore').getLocationState().hasLocation or
+    @state.positionState.isLocationingInProgress != @context.getStore('PositionStore').getLocationState().isLocationingInProgress
 
   routeIfPossible: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -105,16 +118,7 @@ class SearchTwoFieldsContainer extends React.Component
         />
 
     to =
-      if origin.useCurrentPosition and geolocation.isLocationingInProgress
-        <input
-          key="destination"
-          type="text"
-          placeholder={@context.intl.formatMessage(
-            id: 'destination'
-            defaultMessage: "Where to? - address or stop")}
-          disabled="disabled"
-        />
-      else if destination.useCurrentPosition
+      if destination.useCurrentPosition
         @getGeolocationBar(geolocation)
       else
         <Autosuggest

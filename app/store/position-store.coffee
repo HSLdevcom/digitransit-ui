@@ -70,8 +70,7 @@ class PositionStore extends Store
     # Locationing is in progress when browser is:
     #   searching address or
     #   reverse geocoding is in progress
-    isLocationingInProgress: @status == @STATUS_SEARCHING_LOCATION or
-                             @status == @STATUS_FOUND_LOCATION
+    isLocationingInProgress: @status == @STATUS_SEARCHING_LOCATION
 
   getLocationString: () ->
     "#{@address}::#{@lat},#{@lon}"
