@@ -13,7 +13,12 @@ class TransitLeg extends React.Component
         <div className="itinerary-time-column-time">
           {moment(@props.leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={@props.leg.mode.toLowerCase()} text={@props.leg.routeShortName} vertical={true}/>
+        <RouteNumber
+          mode={@props.leg.mode.toLowerCase()}
+          text={@props.leg.routeShortName}
+          realtime={@props.leg.realTime}
+          vertical={true}
+        />
       </div>
       <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
         {if @props.index == 0

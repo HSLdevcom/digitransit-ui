@@ -12,8 +12,7 @@
     width: 2.5em;
   }
   .icon {
-    height: 12px;
-    width: 12px;
+    font-size: 9pt;
   }
   .stop-reference {
       float: right;
@@ -50,6 +49,7 @@
 // route-number component
 .route-number {
   vertical-align: top;
+  position: relative;
   display: inline-block;
   &.vertical {
     text-align: center;
@@ -58,8 +58,7 @@
 
 .icon.realtime-icon {
   position: absolute !important;
-  margin-top: -0.045em;
-  margin-left: -0.21em;
+  margin-left: -0.2em;
   height: 0.3em;
   width: 0.3em;
 }
