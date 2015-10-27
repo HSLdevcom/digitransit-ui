@@ -4,7 +4,7 @@ queries            = require '../queries'
 IndexNavigation    = require '../component/navigation/index-navigation.cjsx'
 Map                = require '../component/map/map.cjsx'
 FrontPagePanel     = require '../component/front-page/front-page-panel.cjsx'
-SearchTwoFields    = require '../component/search/search-two-fields.cjsx'
+SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
 Icon               = require '../component/icon/icon'
 LocateActions      = require '../action/locate-actions.coffee'
 Link               = require 'react-router/lib/Link'
@@ -26,7 +26,7 @@ class Page extends React.Component
   render: ->
     <IndexNavigation className="front-page fullscreen">
       <Map className="fullscreen" showStops={true}>
-        <SearchTwoFields/>
+        <SearchTwoFieldsContainer/>
       </Map>
       <FrontPagePanel/>
     </IndexNavigation>

@@ -3,8 +3,8 @@
 
 otpToLocation = (otpString) ->
   address: otpString.split('::')[0]
-  lat: otpString.split('::')[1].split(',')[0]
-  lon: otpString.split('::')[1].split(',')[1]
+  lat: parseFloat otpString.split('::')[1].split(',')[0]
+  lon: parseFloat otpString.split('::')[1].split(',')[1]
 
 locationToOTP = (location) ->
   "#{location.address}::#{location.lat},#{location.lon}"
