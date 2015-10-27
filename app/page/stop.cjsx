@@ -35,7 +35,7 @@ class Page extends React.Component
       e.stopPropagation()
       @context.executeAction FavouriteStopsAction.addFavouriteStop, @props.params.stopId
 
-    <DefaultNavigation className="fullscreen">
+    <DefaultNavigation className="fullscreen stop">
       <StopCardHeader stop={@props.stop}
                       favourite={favourite}
                       addFavouriteStop={addFavouriteStop}
