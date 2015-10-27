@@ -54,25 +54,3 @@ Example showing how to change the color/size of the icons:
 #icon-icon_mapMarker-location .path4 {
   fill: rgb(0, 185, 228);
 }
-
-
-.realtime-inner-arc {
-  animation: realtime-inner-arc 2s ease infinite;
-}
-
-.realtime-outer-arc {
-  animation: realtime-outer-arc 2s ease infinite;
-}
-@keyframes realtime-inner-arc {
-  0% { opacity: 1; }
-  50% { opacity: 1; }
-  75% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-@keyframes realtime-outer-arc{
-  0% { opacity: 1; }
-  50% { opacity: 1; }
-  75% { opacity: 0; }
-  100% { opacity: 0; }
-}

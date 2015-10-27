@@ -3,6 +3,7 @@
   // parent class for time, vehicle-number, destination
   background: $white;
   line-height: $line-height-normal;
+  position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
@@ -56,7 +57,7 @@
 }
 
 .icon.realtime-icon {
-  position: absolute;
+  position: absolute !important;
   margin-top: -0.045em;
   margin-left: -0.21em;
   height: 0.3em;
