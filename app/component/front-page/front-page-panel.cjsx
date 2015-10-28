@@ -63,8 +63,6 @@ class FrontPagePanel extends React.Component
       @setState
         selectedPanel: selection
 
-  #force redraw when location changed
-
   render: ->
     PositionStore = @context.getStore 'PositionStore'
     location = PositionStore.getLocationState()
