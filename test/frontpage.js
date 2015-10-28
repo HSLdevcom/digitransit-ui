@@ -11,7 +11,7 @@ describe('Frontpage', function () {
   });
 
   it('should contain map', function (browser) {
-    browser.expect.element('div.leaflet-map-pane').to.be.visible;
+    browser.expect.map().to.be.visible;
     browser.expect.element('span.title').text.to.contain('Digitransit');
   });
 

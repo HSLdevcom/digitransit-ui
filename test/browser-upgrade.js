@@ -12,4 +12,8 @@ module.exports = function (browser) {
       done();
     });
   };
+
+  browser.expect.map = function () {
+    return browser.expect.element('div.leaflet-map-pane');
+  };
 };
