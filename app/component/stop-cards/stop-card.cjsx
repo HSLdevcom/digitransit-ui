@@ -8,7 +8,7 @@ class StopCard extends React.Component
     if !@props.stop || !@props.children || @props.children.length == 0
       return false
 
-    <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}" className="no-decoration">
+    <Link to="/pysakit/#{@props.stop.gtfsId}" className="no-decoration">
       <div className={cx "card", "cursor-pointer", @props.className}>
         <StopCardHeader
           stop={@props.stop}

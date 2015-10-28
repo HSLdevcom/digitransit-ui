@@ -10,6 +10,7 @@ module.exports =
     FONT: "http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700"
     REALTIME: "#{SERVER_ROOT}/navigator-server"
     PELIAS: "#{SERVER_ROOT}/pelias/v1/autocomplete"
+  ROOT_PATH: process.env.ROOT_PATH or ''
   title: "Digitransit"
   cities: []
   searchParams: {}

@@ -62,7 +62,7 @@ function getPluginsConfig(env) {
         'process.env': {
           SERVER_ROOT: JSON.stringify(process.env.SERVER_ROOT),
           NODE_ENV: JSON.stringify("production"),
-          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
+          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH),
           CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default'),
           SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
         }

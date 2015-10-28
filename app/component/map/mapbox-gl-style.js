@@ -9,8 +9,8 @@ module.exports = {
       "type": "vector"
     }
   },
-  "sprite": process.env.ROOT_PATH + "map/digitransit",
-  "glyphs": process.env.ROOT_PATH + "mapFonts/{fontstack}/{range}.pbf",
+  "sprite": config.ROOT_PATH + "/map/digitransit",
+  "glyphs": config.ROOT_PATH + "/mapFonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",

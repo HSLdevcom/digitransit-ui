@@ -10,6 +10,7 @@ module.exports =
     FONT: "http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700"
     REALTIME: "#{SERVER_ROOT}/navigator-server"
     PELIAS: "#{SERVER_ROOT}/pelias/v1/search"
+  ROOT_PATH: process.env.ROOT_PATH or ''
   title: "Digitransit (HSL)"
   cities: ["helsinki", "vantaa", "espoo", "kauniainen", "kerava", "kirkkonummi", "sipoo"]
   icon: "hsl-icon.png"
