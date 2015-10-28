@@ -1,6 +1,7 @@
-SERVER_ROOT = if process.env.SERVER_ROOT? then process.env.SERVER_ROOT else if process.env.NODE_ENV == "development" then "http://dev.digitransit.fi" else "http://matka.hsl.fi"
+SERVER_ROOT = process.env.SERVER_ROOT or "http://matka.hsl.fi"
 module.exports =
   URL:
+    SERVER_ROOT: SERVER_ROOT
     OTP: "#{SERVER_ROOT}/otp/routers/finland/"
     GEOCODER: "#{SERVER_ROOT}/geocoder/"
     MAP: "#{SERVER_ROOT}/hsl-map/"

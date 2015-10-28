@@ -1,9 +1,11 @@
+config = require('../../config')
+
 module.exports = {
   "version": 8,
   "name": "Mapbox Streets",
   "sources": {
     "composite": {
-      "url": ((typeof process.env.SERVER_ROOT !== "undefined") ? process.env.SERVER_ROOT : (process.env.NODE_ENV == "development") ? "http://dev.digitransit.fi" : "http://matka.hsl.fi") + "/hsl-vector-map/index.json",
+      "url": config.URL.SERVER_ROOT + "/hsl-vector-map/index.json",
       "type": "vector"
     }
   },
