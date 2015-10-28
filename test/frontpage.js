@@ -1,9 +1,7 @@
 describe('Frontpage', function () {
   before(function (browser, done) {
     require('./browser-upgrade.js')(browser);
-    browser.url('http://localhost:8080/?mock', function() {
-      done();
-    });
+    browser.init(done);
   });
 
   after(function (browser, done) {
