@@ -58,8 +58,17 @@
 
 .icon.realtime-icon {
   position: absolute !important;
-  margin-top: -0.15em;
+  margin-top: -0.1em;
   margin-left: -0.35em;
   height: 0.5em;
   width: 0.5em;
+}
+
+.itinerary-legs .icon.realtime-icon.realtime {
+  margin-top: -0.2em;
+  margin-left: -0.32em;
+}
+
+.itinerary-time-column .icon.realtime-icon.realtime {
+  margin-top: -0.3em;
 }
