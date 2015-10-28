@@ -4,8 +4,8 @@
   background: $white;
   line-height: $line-height-normal;
   position: relative;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-y: visible;
+  white-space: nowrap;
   margin: 0;
 
   .vehicle-number {
