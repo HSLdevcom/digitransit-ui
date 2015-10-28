@@ -1,5 +1,6 @@
 describe('Frontpage', function () {
   before(function (browser, done) {
+    require('./browser-upgrade.js')(browser);
     browser.url('http://localhost:8080/?mock', function() {
       done();
     });
@@ -18,11 +19,7 @@ describe('Frontpage', function () {
 
   describe('at Mäkelänrinne', function () {
     before(function (browser, done) {
-      browser.execute(function () {
-        window.mock.geolocation.setCurrentPosition(60.2, 24.95, 0)
-      }, null, function (result) {
-        done();
-      });
+      browser.setCurrentPosition(60.2, 24.95, 0, done);
     });
 
     describe('stops tab', function () {
