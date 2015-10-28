@@ -12,6 +12,11 @@ class PositionStore extends Store
 
   @storeName: 'PositionStore'
 
+  snap:
+    1: undefined,
+    100: undefined
+
+
   constructor: (dispatcher) ->
     super(dispatcher)
     @removeLocation()
@@ -42,12 +47,27 @@ class PositionStore extends Store
     @emitChange()
 
   # When watching for position, we don't want to be updated each time, but rather poll for it
-  storeLocation: (location) ->
+positions  storeLocation: (location) ->
     @lat = location.lat
     @lon = location.lon
     @heading = if location.heading then location.heading else @heading
     @status = @STATUS_FOUND_LOCATION
-    @emitChange()
+    @locationChanged(@lat,@lon)
+
+  locationChanged: (newLat, newLng) ->
+
+    latlng = new L.LatLng(newLat, newLng);
+    for snapLen of @snap
+
+      if @snap[snapLen] == undefined
+        @snap[snapLen] = latlng
+        @emitChange(snapLen)
+
+      distance = latlng.distanceTo(@snap[snapLen])
+
+      if distance > snapLen
+        @snap[snapLen] = latlng
+        @emitChange(snapLen)
 
   storeAddress: (location) ->
     @address = "#{location.address} #{location.number}, #{location.city}"
