@@ -1,8 +1,10 @@
 xhrPromise = require '../util/xhr-promise'
-config        = require '../config'
+config     = require '../config'
+debounce   = require 'lodash/function/debounce'
 
 
 reverseGeocodeAddress = (actionContext, location, done) ->
+
   xhrPromise.getJson(config.URL.GEOCODER + "reverse/" +
                      location.lat + "," + location.lon).then (data) ->
     actionContext.dispatch "AddressFound",
@@ -31,10 +33,7 @@ findLocation = (actionContext, payload, done) ->
     actionContext.dispatch "GeolocationFound",
       lat: position.coords.latitude
       lon: position.coords.longitude
-    actionContext.executeAction reverseGeocodeAddress,
-      lat: position.coords.latitude
-      lon: position.coords.longitude
-    , done
+    runReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
   , (error) =>
     window.clearTimeout(timeoutId)
     if error.code == 1
@@ -47,6 +46,15 @@ findLocation = (actionContext, payload, done) ->
       actionContext.dispatch "GeolocationNotSupported"
     done()
   , enableHighAccuracy: true, timeout: 10000, maximumAge: 60000
+
+
+runReverseGeocodingAction = (actionContext, lat,lon,done) ->
+  actionContext.executeAction reverseGeocodeAddress,
+    lat: lat
+    lon: lon
+  , done
+
+debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading:true});
 
 startLocationWatch = (actionContext, payload, done) ->
   # First check if we have geolocation support
@@ -70,10 +78,8 @@ startLocationWatch = (actionContext, payload, done) ->
       lat: position.coords.latitude
       lon: position.coords.longitude
       heading: position.coords.heading
-    actionContext.executeAction reverseGeocodeAddress,
-      lat: position.coords.latitude
-      lon: position.coords.longitude
-    , done
+
+    debouncedRunReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
   , (error) =>
     if timeoutId
       window.clearTimeout(timeoutId)

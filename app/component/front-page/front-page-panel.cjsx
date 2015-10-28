@@ -19,17 +19,18 @@ class FrontPagePanel extends React.Component
     intl: intl.intlShape.isRequired
 
   componentDidMount: ->
-    @context.getStore('PositionStore').addChangeListener @onChange
-    @context.getStore('TimeStore').addChangeListener @onChange
+    @context.getStore('PositionStore').addChangeListener @onPositionChange
     @context.getStore('EndpointStore').addChangeListener @onChange
 
   componentWillUnmount: ->
-    @context.getStore('PositionStore').removeChangeListener @onChange
+    @context.getStore('PositionStore').removeChangeListener @onPositionChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
-    @context.getStore('TimeStore').removeChangeListener @onChange
+
+  onPositionChange: (snapSize) =>
+    if 10 == parseInt(snapSize)
+      @onChange()
 
   onChange: =>
-    console.log("force updating");
     @forceUpdate()
 
   getStopContainer: (lat, lon) =>
