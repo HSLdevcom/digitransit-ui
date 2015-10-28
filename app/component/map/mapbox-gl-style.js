@@ -3,7 +3,7 @@ module.exports = {
   "name": "Mapbox Streets",
   "sources": {
     "composite": {
-      "url": "http://digitransit.fi/hsl-vector-map/index.json",
+      "url": ((typeof process.env.SERVER_ROOT !== "undefined") ? process.env.SERVER_ROOT : (process.env.NODE_ENV == "development") ? "http://dev.digitransit.fi" : "http://matka.hsl.fi") + "/hsl-vector-map/index.json",
       "type": "vector"
     }
   },

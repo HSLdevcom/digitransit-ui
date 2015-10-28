@@ -3,3 +3,8 @@
 .stop-reference {
   font-weight: $font-weight-bold;
 }
+
+
+div.stop > .content {
+  height: calc(100% - 91px);
+}

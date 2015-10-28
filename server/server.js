@@ -136,7 +136,16 @@ function setUpRoutes() {
         res.status(404).send('Not found')
       }
       else {
-        getPolyfills(req.headers['user-agent']).then(function(polyfills){
+
+        var promises = [getPolyfills(req.headers['user-agent'])]
+        if (renderProps.components[1].loadAction){
+          renderProps.components[1].loadAction(renderProps.params).forEach(function (action){
+            promises.push(context.executeAction(action[0], action[1]))
+          })
+        }
+
+        Promise.all(promises).then(function(results) {
+          var polyfills = results[0];
           var content = "";
           // Ugly way to see if this is a Relay RootComponent
           // until Relay gets server rendering capabilities
