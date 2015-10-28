@@ -16,32 +16,46 @@ describe('Frontpage', function () {
     browser.expect.element('span.title').text.to.contain('Digitransit');
   });
 
-  describe('stops tab', function () {
-    describe('when clicked', function () {
-      before(function (browser, done) {
-        browser.click('.tabs-row li:nth-child(2)', function () {
-          done();
+  describe('at Mäkelänrinne', function () {
+    before(function (browser, done) {
+      browser.execute(function () {
+        window.mock.geolocation.setCurrentCoords({
+            latitude: 60.2,
+            longitude: 24.95,
+            heading: 0
         });
+      }, null, function (result) {
+        done();
       });
+    });
 
-      it('should open', function (browser) {
-        browser.expect.element('.frontpage-panel-wrapper').to.be.visible;
-      });
-
-      it('should contain stop cards', function (browser) {
-        browser.expect.element('.cards').to.be.present.before(1000);
-        browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
-      });
-
-      describe('and clicked again', function() {
+    describe('stops tab', function () {
+      describe('when clicked', function () {
         before(function (browser, done) {
           browser.click('.tabs-row li:nth-child(2)', function () {
             done();
           });
         });
 
-        it('should close', function (browser) {
-          browser.expect.element('.frontpage-panel-wrapper').not.to.be.present;
+        it('should open', function (browser) {
+          browser.expect.element('.frontpage-panel-wrapper').to.be.visible;
+        });
+
+        it('should contain stop cards', function (browser) {
+          browser.expect.element('.cards').to.be.present.before(1000);
+          browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
+        });
+
+        describe('and clicked again', function() {
+          before(function (browser, done) {
+            browser.click('.tabs-row li:nth-child(2)', function () {
+              done();
+            });
+          });
+
+          it('should close', function (browser) {
+            browser.expect.element('.frontpage-panel-wrapper').not.to.be.present;
+          });
         });
       });
     });
