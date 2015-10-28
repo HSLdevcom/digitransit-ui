@@ -13,6 +13,29 @@ class RouteStopListContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
+  setNearestStopDistance: (stops) =>
+    state = @context.getStore('PositionStore').getLocationState()
+    if state.hasLocation == true
+      @myPos = new L.LatLng(state.lat, state.lon);
+    else
+      @myPos = null
+
+
+    @minDist = Number.MAX_VALUE
+    @minStop = null
+    stops.forEach((stop)=>
+      stop.distance = undefined
+      stopPos = new L.LatLng(stop.lat, stop.lon);
+      if @myPos != null
+        distance = @myPos.distanceTo(stopPos)
+        if distance < @minDist
+          @minDist = distance
+          @minStop = stop
+    )
+
+    if @minStop != null
+      @minStop.distance = @minDist
+
   componentDidMount: ->
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
 
@@ -36,6 +59,7 @@ class RouteStopListContainer extends React.Component
     stopObjs
 
   render: =>
+    @setNearestStopDistance(@props.pattern.stops)
     <div className={cx "route-stop-list", @props.className}>
       {@getStops()}
     </div>
