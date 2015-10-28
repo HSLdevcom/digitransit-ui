@@ -36,7 +36,7 @@ config            = require './config'
 StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
-LocateActions     = require './action/locate-actions.coffee'
+PositionActions     = require './action/position-actions.coffee'
 
 dehydratedState   = window.state # Sent from the server
 
@@ -75,4 +75,4 @@ app.rehydrate dehydratedState, (err, context) ->
 
   #start positioning
   if window?
-    @context.executeAction LocateActions.startLocationWatch
+    @context.executeAction PositionActions.startLocationWatch
