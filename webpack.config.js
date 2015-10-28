@@ -49,7 +49,7 @@ function getPluginsConfig(env) {
         'process.env': {
           SERVER_ROOT: JSON.stringify((typeof process.env.SERVER_ROOT === "undefined") ? 'http://dev.digitransit.fi': process.env.SERVER_ROOT),
           NODE_ENV: JSON.stringify("development"),
-          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
+          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH),
           CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
         }
       }),
