@@ -144,7 +144,8 @@ function setUpRoutes() {
           })
         }
 
-        Promise.all(promises).then(function(polyfills){
+        Promise.all(promises).then(function(results) {
+          var polyfills = results[0];
           var content = "";
           // Ugly way to see if this is a Relay RootComponent
           // until Relay gets server rendering capabilities

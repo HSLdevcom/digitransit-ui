@@ -16,6 +16,15 @@ if isBrowser
   require 'leaflet/dist/leaflet.css'
 
 class Map extends React.Component
+
+  @propTypes: #todo not complete
+    fitBounds: React.PropTypes.bool
+    center:    React.PropTypes.bool
+    from:      React.PropTypes.object
+    to:        React.PropTypes.object
+    padding:   React.PropTypes.number
+    zoom:      React.PropTypes.number
+
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
