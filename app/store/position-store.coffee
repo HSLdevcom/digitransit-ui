@@ -13,7 +13,7 @@ class PositionStore extends Store
   @storeName: 'PositionStore'
 
   snap:
-    1: undefined,
+    10: undefined,
     100: undefined
 
 
@@ -56,18 +56,23 @@ class PositionStore extends Store
 
   locationChanged: (newLat, newLng) ->
 
+    emitted = false
     latlng = new L.LatLng(newLat, newLng);
     for snapLen of @snap
 
       if @snap[snapLen] == undefined
         @snap[snapLen] = latlng
         @emitChange(snapLen)
+        emitted = true
 
       distance = latlng.distanceTo(@snap[snapLen])
 
       if distance > snapLen
         @snap[snapLen] = latlng
         @emitChange(snapLen)
+        emitted = true
+    if !emitted
+        @emitChange()
 
   storeAddress: (location) ->
     @address = "#{location.address} #{location.number}, #{location.city}"
