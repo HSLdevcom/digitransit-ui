@@ -8,10 +8,20 @@ FormattedMessage = intl.FormattedMessage
 class TransitLeg extends React.Component
 
   render: ->
+    originalTime = if @props.leg.realTime and @props.leg.departureDelay >= 180 then [
+      <br/>,
+      <span className="original-time">
+        {moment(@props.leg.startTime).subtract(@props.leg.departureDelay, 's').format('HH:mm')}
+      </span>
+    ] else false
+
     <div key={@props.index} style={{width:"100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(@props.leg.startTime).format('HH:mm')}
+          <span className={if @props.leg.realTime then "realtime" else ""}>
+            {moment(@props.leg.startTime).format('HH:mm')}
+          </span>
+          {originalTime}
         </div>
         <RouteNumber
           mode={@props.leg.mode.toLowerCase()}
