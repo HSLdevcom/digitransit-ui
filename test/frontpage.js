@@ -23,9 +23,7 @@ describe('Frontpage', function () {
     describe('stops tab', function () {
       describe('when clicked', function () {
         before(function (browser, done) {
-          browser.click('.tabs-row li:nth-child(2)', function () {
-            done();
-          });
+          browser.stopsTab.click(done);
         });
 
         it('should open', function (browser) {
@@ -39,9 +37,7 @@ describe('Frontpage', function () {
 
         describe('and clicked again', function() {
           before(function (browser, done) {
-            browser.click('.tabs-row li:nth-child(2)', function () {
-              done();
-            });
+            browser.stopsTab.click(done);
           });
 
           it('should close', function (browser) {
