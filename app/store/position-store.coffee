@@ -47,7 +47,7 @@ class PositionStore extends Store
     @emitChange()
 
   # When watching for position, we don't want to be updated each time, but rather poll for it
-positions  storeLocation: (location) ->
+  storeLocation: (location) ->
     @lat = location.lat
     @lon = location.lon
     @heading = if location.heading then location.heading else @heading
