@@ -20,13 +20,16 @@ class FrontPagePanel extends React.Component
 
   componentDidMount: ->
     @context.getStore('PositionStore').addChangeListener @onChange
+    @context.getStore('TimeStore').addChangeListener @onChange
     @context.getStore('EndpointStore').addChangeListener @onChange
 
   componentWillUnmount: ->
     @context.getStore('PositionStore').removeChangeListener @onChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onChange
 
   onChange: =>
+    console.log("force updating");
     @forceUpdate()
 
   getStopContainer: (lat, lon) =>
@@ -60,6 +63,8 @@ class FrontPagePanel extends React.Component
       @setState
         selectedPanel: selection
 
+  #force redraw when location changed
+
   render: ->
     PositionStore = @context.getStore 'PositionStore'
     location = PositionStore.getLocationState()
@@ -79,7 +84,6 @@ class FrontPagePanel extends React.Component
     else
       stopsPanel = <NoPositionPanel/>
       routesPanel = <NoPositionPanel/>
-
 
     favouritesPanel = <FavouritesPanel/>
 
