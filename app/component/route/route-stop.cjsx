@@ -29,6 +29,7 @@ class RouteStop extends React.Component
             <span className="route-stop-address">
               {@props.stop.desc}
             </span>
+            {"" + if @props.stop.distance then @props.stop.distance + "m" else ""}
         </div>
         <div className="columns small-2 route-stop-code">
           {@props.stop.code}
