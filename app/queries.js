@@ -148,6 +148,8 @@ var RouteStopListFragments = {
       }
       stops {
         gtfsId
+        lat
+        lon
         name
         desc
         code
