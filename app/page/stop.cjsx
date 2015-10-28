@@ -35,26 +35,28 @@ class Page extends React.Component
       e.stopPropagation()
       @context.executeAction FavouriteStopsAction.addFavouriteStop, @props.params.stopId
 
-    <DefaultNavigation className="fullscreen">
-      <Map lat={@props.stop.lat + 0.0005}
-           lon={@props.stop.lon}
-           zoom={18}
-           showStops=true
-           hilightedStops=[@props.params.stopId]
-           disableZoom=true >
-        <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
-        <StopCardHeader stop={@props.stop}
-                        favourite={favourite}
-                        addFavouriteStop={addFavouriteStop}
-                        className="stop-page"
-                        headingStyle="h3"
-                        infoIcon={true}/>
-        <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta">
-          <div className="fullscreen-toggle">
-            <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
-          </div>
-        </Link>
-      </Map>
+    <DefaultNavigation className="fullscreen stop">
+      <StopCardHeader stop={@props.stop}
+                      favourite={favourite}
+                      addFavouriteStop={addFavouriteStop}
+                      className="stop-page header"
+                      headingStyle="h3"
+                      infoIcon={true}/>
+        <Map lat={@props.stop.lat}
+             lon={@props.stop.lon}
+             zoom={16}
+             showStops=true
+             hilightedStops=[@props.params.stopId]
+             disableZoom=true>
+          <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
+
+          <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta">
+            <div className="fullscreen-toggle">
+              <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
+            </div>
+          </Link>
+
+        </Map>
       <DepartureListContainer stoptimes={@props.stop.stoptimes}
                               className="stop-page below-map"
                               routeLinks={true}

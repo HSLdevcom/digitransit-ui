@@ -27,6 +27,10 @@ class EndpointStore extends Store
         address: null
     @emitChange()
 
+  swapOriginDestination: () ->
+    [@destination, @origin] = [@origin, @destination]
+    @emitChange()
+
   setOriginToCurrent: () ->
     @origin =
         useCurrentPosition: true
@@ -44,16 +48,19 @@ class EndpointStore extends Store
     @emitChange()
 
   setOrigin: (location) ->
-    # Do not override useCurrentPosition
-    @origin.lat = location.lat
-    @origin.lon = location.lon
-    @origin.address = location.address
+    @origin =
+      useCurrentPosition: false
+      lat: location.lat
+      lon: location.lon
+      address: location.address
     @emitChange()
 
   setDestination: (location) ->
-    @destination.lat = location.lat
-    @destination.lon = location.lon
-    @destination.address = location.address
+    @destination =
+      useCurrentPosition: false
+      lat: location.lat
+      lon: location.lon
+      address: location.address
     @emitChange()
 
   getOrigin: () ->
@@ -62,12 +69,32 @@ class EndpointStore extends Store
   getDestination: () ->
     @destination
 
+  clearGeolocation: () ->
+    if @origin.useCurrentPosition
+      @clearOrigin()
+    if @destination.useCurrentPosition
+      @clearDestination()
+    @emitChange()
+
+  dehydrate: ->
+    {@origin, @destination}
+
+  rehydrate: (data) ->
+    @origin = data.origin
+    @destination = data.destination
+
+
   @handlers:
     "setOrigin": "setOrigin"
     "setDestination": "setDestination"
     "setOriginToCurrent": "setOriginToCurrent"
     "setDestinationToCurrent": "setDestinationToCurrent"
+    "swapOriginDestination": "swapOriginDestination"
     "clearOrigin": "clearOrigin"
     "clearDestination": "clearDestination"
+    "GeolocationNotSupported": 'clearGeolocation'
+    "GeolocationDenied": 'clearGeolocation'
+    "GeolocationTimeout": 'clearGeolocation'
+    "clearGeolocation": "clearGeolocation"
 
 module.exports = EndpointStore
