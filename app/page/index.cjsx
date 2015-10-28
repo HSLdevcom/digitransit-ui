@@ -6,7 +6,6 @@ Map                = require '../component/map/map.cjsx'
 FrontPagePanel     = require '../component/front-page/front-page-panel.cjsx'
 SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
 Icon               = require '../component/icon/icon'
-LocateActions      = require '../action/locate-actions.coffee'
 Link               = require 'react-router/lib/Link'
 
 

@@ -5,7 +5,7 @@ Tabs                  = require 'react-simpletabs'
 RouteListContainer    = require '../route/route-list-container'
 StopCardListContainer = require '../stop-cards/nearest-stop-card-list-container'
 ModeFilter            = require '../route/mode-filter'
-NoLocationPanel       = require './no-location-panel'
+NoPositionPanel       = require './no-position-panel'
 Icon                  = require '../icon/icon.cjsx'
 cx                    = require 'classnames'
 FavouritesPanel       = require '../favourites/favourites-panel'
@@ -77,8 +77,8 @@ class FrontPagePanel extends React.Component
       stopsPanel = <div className="spinner-loader"/>
       routesPanel = <div className="spinner-loader"/>
     else
-      stopsPanel = <NoLocationPanel/>
-      routesPanel = <NoLocationPanel/>
+      stopsPanel = <NoPositionPanel/>
+      routesPanel = <NoPositionPanel/>
 
 
     favouritesPanel = <FavouritesPanel/>

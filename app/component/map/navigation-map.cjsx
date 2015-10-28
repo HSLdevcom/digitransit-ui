@@ -1,6 +1,6 @@
 React         = require 'react'
 geoUtils      = require '../../util/geo-utils'
-LocateActions = require '../../action/locate-actions.coffee'
+PositionActions = require '../../action/position-actions.coffee'
 RealTimeClient = require '../../action/real-time-client-action'
 RealTimeInformationAction = require '../../action/real-time-client-action'
 
@@ -116,7 +116,7 @@ class NavigationMap extends React.Component
     , 150 # Duration for setInterval
 
   componentWillUnmount: ->
-    @context.executeAction LocateActions.stopLocationWatch
+    @context.executeAction PositionActions.stopLocationWatch
     if @intervalId
       clearInterval(@intervalId)
       @intervalId = undefined

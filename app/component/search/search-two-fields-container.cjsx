@@ -1,6 +1,6 @@
 React = require 'react'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
-LocateActions  = require '../../action/locate-actions.coffee'
+PositionActions  = require '../../action/position-actions.coffee'
 Autosuggest = require './autosuggest'
 Link = require 'react-router/lib/Link'
 {locationToOTP} = require '../../util/otp-strings'
@@ -81,7 +81,7 @@ class SearchTwoFieldsContainer extends React.Component
     <GeolocationBar
       geolocation={geolocation}
       removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
-      locateUser={() => @context.executeAction LocateActions.findLocation}
+      locateUser={() => @context.executeAction PositionActions.findLocation}
     />
 
   render: =>
