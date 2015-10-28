@@ -24,11 +24,13 @@ class ServiceStore extends Store
         longitude: 24.9402
         heading: 0
     return {
-      setCurrentCoords: (coords) ->
-        this.setCurrentPosition
-          coords: coords
-      setCurrentPosition: (position) ->
-        window.mock.data.position = position;
+      setCurrentPosition: (lat, lon, heading) ->
+        position =
+          coords:
+            latitude: lat
+            longitude: lon
+            heading: heading;
+        window.mock.data.position = position
         for watcher in watchers
           watcher position
       getCurrentPosition: (callback) ->

@@ -19,11 +19,7 @@ describe('Frontpage', function () {
   describe('at Mäkelänrinne', function () {
     before(function (browser, done) {
       browser.execute(function () {
-        window.mock.geolocation.setCurrentCoords({
-            latitude: 60.2,
-            longitude: 24.95,
-            heading: 0
-        });
+        window.mock.geolocation.setCurrentPosition(60.2, 24.95, 0)
       }, null, function (result) {
         done();
       });
