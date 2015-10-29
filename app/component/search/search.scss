@@ -41,7 +41,7 @@ $search-form-input-overlay-background-color: #EEF1F3;
   border-top-left-radius: $search-form-border-radius;
   border-bottom-left-radius: $search-form-border-radius;
   padding-left: 15px;
-  box-shadow: 1px 4px 20px rgba(0,0,0,0.2);
+  box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
   transition: none;
 }
 
@@ -59,7 +59,7 @@ $search-form-input-overlay-background-color: #EEF1F3;
 .search-form .postfix {
   height: $search-form-input-height;
   line-height: $search-form-input-height;
-  box-shadow: 1px 4px 20px rgba(0,0,0,0.2);
+  box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
   .icon {
     font-size: 15px;
   }
@@ -81,6 +81,7 @@ $search-form-input-overlay-background-color: #EEF1F3;
     line-height: $search-form-input-overlay-height;
     border-top-left-radius: $input-border-radius;
     border-bottom-left-radius: $input-border-radius;
+    box-shadow: 2px 4px 5px rgba(0,0,0,0.2);
 }
 
 .search-form .address-box {
