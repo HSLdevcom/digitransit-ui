@@ -39,6 +39,6 @@ class ServiceStore extends Store
       clearInterval id
 
   @handlers:
-    "geolocator": 'geolocator'
+    'geolocator': 'geolocator'
 
 module.exports = ServiceStore
