@@ -95,9 +95,8 @@ setDistanceToNearestStop = (lat, lon, stops) ->
 
   if @minStop != null and @minDist < config.nearestStopDistance.maxShownDistance
     @minStop.nearestDistance = @minDist
-    console.log "distance set"
 
-
+    
 module.exports =
   dataAsGeoJSON: dataAsGeoJSON
   getBearing: getBearing
