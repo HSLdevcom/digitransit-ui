@@ -1,5 +1,6 @@
 polyUtil      = require 'polyline-encoded'
 getSelector   = require './get-selector'
+config        = require '../config'
 
 toRad = (deg) -> deg * Math.PI / 180
 toDeg = (rad) -> rad * 180 / Math.PI
@@ -92,7 +93,7 @@ setDistanceToNearestStop = (lat, lon, stops) ->
         @minStop = stop
   )
 
-  if @minStop != null
+  if @minStop != null and @minDist < config.nearestStopDistance.maxShownDistance
     @minStop.nearestDistance = @minDist
     console.log "distance set"
 

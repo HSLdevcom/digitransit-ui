@@ -18,3 +18,5 @@ module.exports =
     radius: 10000
     bucketSize: 1000
   maxWalkDistance: 10000
+  nearestStopDistance:
+    maxShownDistance: 5000
