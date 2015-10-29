@@ -36,7 +36,8 @@ config            = require './config'
 StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
-PositionActions     = require './action/position-actions.coffee'
+PositionActions   = require './action/position-actions.coffee'
+MapTrackActions   = require './action/map-track-actions.coffee'
 
 dehydratedState   = window.state # Sent from the server
 
@@ -73,6 +74,9 @@ app.rehydrate dehydratedState, (err, context) ->
   # Fetch all alerts after rendering has commenced
   context.getActionContext().executeAction require('./action/disruption-actions').getDisruptions
 
-  #start positioning
   if window?
+    #start positioning
     @context.executeAction PositionActions.startLocationWatch
+
+    #set map track true on default
+    @context.executeAction MapTrackActions.startMapTrack
