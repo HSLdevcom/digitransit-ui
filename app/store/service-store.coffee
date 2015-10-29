@@ -24,6 +24,14 @@ class ServiceStore extends Store
         longitude: 24.9402
         heading: 0
     return {
+      notifyWatchers: ->
+        for watcher in watchers
+          watcher window.mock.data.position
+      move: (dlat, dlon, heading) ->
+        window.mock.data.position.coords.latitude += dlat
+        window.mock.data.position.coords.longitude += dlon
+        window.mock.data.position.coords.heading = heading if heading
+        this.notifyWatchers()
       setCurrentPosition: (lat, lon, heading) ->
         position =
           coords:
@@ -31,8 +39,7 @@ class ServiceStore extends Store
             longitude: lon
             heading: heading;
         window.mock.data.position = position
-        for watcher in watchers
-          watcher position
+        this.notifyWatchers()
       getCurrentPosition: (callback) ->
         callback(window.mock.data.position)
       watchPosition: (callback) ->
