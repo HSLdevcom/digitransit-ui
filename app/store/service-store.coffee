@@ -31,7 +31,7 @@ class ServiceStore extends Store
         window.mock.data.position.coords.latitude += dlat
         window.mock.data.position.coords.longitude += dlon
         window.mock.data.position.coords.heading = heading if heading
-        this.notifyWatchers()
+        @notifyWatchers()
       setCurrentPosition: (lat, lon, heading) ->
         position =
           coords:
@@ -39,7 +39,7 @@ class ServiceStore extends Store
             longitude: lon
             heading: heading;
         window.mock.data.position = position
-        this.notifyWatchers()
+        @notifyWatchers()
       getCurrentPosition: (callback) ->
         callback(window.mock.data.position)
       watchPosition: (callback) ->
@@ -49,6 +49,6 @@ class ServiceStore extends Store
     }
 
   @handlers:
-    "geolocator": 'geolocator'
+    'geolocator': 'geolocator'
 
 module.exports = ServiceStore
