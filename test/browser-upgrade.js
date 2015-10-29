@@ -19,7 +19,7 @@ module.exports = function (browser) {
 
   browser.stopsTab = {};
   browser.stopsTab.click = function (done) {
-    browser.click('.tabs-row li:nth-child(2)', function () {
+    browser.click('.tabs-row .nearby-stops', function () {
       done();
     });
   };
