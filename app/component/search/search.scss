@@ -62,6 +62,7 @@ $search-form-input-overlay-background-color: #EEF1F3;
   box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
   .icon {
     font-size: 15px;
+    margin-top: -4px;
   }
 }
 
@@ -73,6 +74,9 @@ $search-form-input-overlay-background-color: #EEF1F3;
   display: block;
   margin-left: 0.3em;
   font-size: 17px;
+  .icon {
+    margin-top: -4px;
+  }
 }
 
 .search-form .input-placeholder {
