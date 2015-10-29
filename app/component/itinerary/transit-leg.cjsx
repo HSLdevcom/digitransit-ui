@@ -1,6 +1,7 @@
 React        = require 'react'
 RouteNumber  = require '../departure/route-number'
 moment       = require 'moment'
+config       = require '../../config'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -8,7 +9,7 @@ FormattedMessage = intl.FormattedMessage
 class TransitLeg extends React.Component
 
   render: ->
-    originalTime = if @props.leg.realTime and @props.leg.departureDelay >= 180 then [
+    originalTime = if @props.leg.realTime and @props.leg.departureDelay >= config.itinerary.delayThreshold then [
       <br/>,
       <span className="original-time">
         {moment(@props.leg.startTime).subtract(@props.leg.departureDelay, 's').format('HH:mm')}
