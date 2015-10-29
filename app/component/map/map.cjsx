@@ -54,6 +54,7 @@ class Map extends React.Component
 
   componentDidMount: ->
     @context.getStore('PositionStore').addChangeListener @onChange
+    @context.getStore('MapTrackStore').addChangeListener @onChange
     @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
     if @props.fitBounds
@@ -66,6 +67,7 @@ class Map extends React.Component
   componentWillUnmount: ->
     @context.getStore('PositionStore').removeChangeListener @onChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
+    @context.getStore('MapTrackStore').removeChangeListener @onChange
 
   onChange: =>
     @forceUpdate()
@@ -74,6 +76,8 @@ class Map extends React.Component
     if isBrowser
       origin = @context.getStore('EndpointStore').getOrigin()
       location = @getLocation()
+
+      mapTracking = @context.getStore('MapTrackStore').getMapTrackState()
 
       if origin?.lat
         fromMarker = <LocationMarker position={origin} className="from"/>
@@ -89,7 +93,7 @@ class Map extends React.Component
       map =
         <LeafletMap
           ref='map'
-          center={unless @props.fitBounds then [
+          center={unless @props.fitBounds or (!mapTracking and location.hasPosition) then [
                    @props.lat or origin.lat or location.coordinates[0] + 0.0005,
                    @props.lon or origin.lon or location.coordinates[1]]}
           zoom={unless @props.fitBounds then @props.zoom or location.zoom}
