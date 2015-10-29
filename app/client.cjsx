@@ -29,7 +29,9 @@ ReactDOM          = require 'react-dom'
 Router            = require 'react-router/lib/Router'
 Relay             = require 'react-relay'
 ReactRouterRelay  = require 'react-router-relay'
-History           = require 'history/lib/createBrowserHistory'
+createHistory     = require 'history/lib/createBrowserHistory'
+useBasename       = require 'history/lib/useBasename'
+useQueries        = require 'history/lib/useQueries'
 FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
 isEqual           = require 'lodash/lang/isEqual'
 config            = require './config'
@@ -61,7 +63,7 @@ app.rehydrate dehydratedState, (err, context) ->
     <FluxibleComponent context={context.getComponentContext()}>
       <StoreListeningIntlProvider translations={translations}>
         <Router
-          history={History()}
+          history={useBasename(useQueries(createHistory))(basename: config.ROOT_PATH)}
           children={app.getComponent()}
           createElement={ReactRouterRelay.createElement}
         />

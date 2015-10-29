@@ -9,7 +9,7 @@ NotImplementedLink    = require('../util/not-implemented-link')
 class StopCardHeader extends React.Component
 
   getInfoIcon: ->
-    <NotImplementedLink href="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}/info" name="info" nonTextLink={true}>
+    <NotImplementedLink href="/pysakit/#{@props.stop.gtfsId}/info" name="info" nonTextLink={true}>
       <span className="cursor-pointer">
         <Icon className="info right" img="icon-icon_info"/>
       </span>
