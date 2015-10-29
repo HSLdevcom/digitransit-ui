@@ -26,3 +26,5 @@ module.exports =
     radius: 2000
     bucketSize: 100
   maxWalkDistance: 2500
+  itinerary:
+    delayThreshold: 180

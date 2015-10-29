@@ -67,7 +67,7 @@ class SummaryRow extends React.Component
         style={styleLine}
         className={cx "line", leg.mode.toLowerCase()}>
         <span key={i + 'b'} className={cx "summary-circle", legClasses}></span>
-        <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
+        <RouteNumber mode={leg.mode.toLowerCase()} text={text} realtime={leg.realTime}/>
       </span>
 
       unless isLastLeg and not isEnoughRoomForLastLegStartTime

@@ -1,6 +1,7 @@
 React        = require 'react'
 RouteNumber  = require '../departure/route-number'
 moment       = require 'moment'
+config       = require '../../config'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -8,12 +9,27 @@ FormattedMessage = intl.FormattedMessage
 class TransitLeg extends React.Component
 
   render: ->
-    <div key={@props.index} style={{width:"100%"}} className="row itinerary-row">
+    originalTime = if @props.leg.realTime and @props.leg.departureDelay >= config.itinerary.delayThreshold then [
+      <br/>,
+      <span className="original-time">
+        {moment(@props.leg.startTime).subtract(@props.leg.departureDelay, 's').format('HH:mm')}
+      </span>
+    ] else false
+
+    <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(@props.leg.startTime).format('HH:mm')}
+          <span className={if @props.leg.realTime then "realtime" else ""}>
+            {moment(@props.leg.startTime).format('HH:mm')}
+          </span>
+          {originalTime}
         </div>
-        <RouteNumber mode={@props.leg.mode.toLowerCase()} text={@props.leg.routeShortName} vertical={true}/>
+        <RouteNumber
+          mode={@props.leg.mode.toLowerCase()}
+          text={@props.leg.routeShortName}
+          realtime={@props.leg.realTime}
+          vertical={true}
+        />
       </div>
       <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
         {if @props.index == 0
@@ -43,7 +59,7 @@ class TransitLeg extends React.Component
             id='num-stops'
             values={{
               stops: @props.leg.intermediateStops.length
-              minutes: Math.round(@props.leg.duration/60)}}
+              minutes: Math.round(@props.leg.duration / 60)}}
             defaultMessage='{
               stops, plural,
               =1 {one stop}
@@ -59,5 +75,6 @@ class TransitLeg extends React.Component
         <div>{@props.leg.to.name}</div>
       </div>
     </div>
+
 
 module.exports = TransitLeg
