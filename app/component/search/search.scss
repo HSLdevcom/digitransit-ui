@@ -13,16 +13,14 @@ $search-result-icon-color: $gray;
 $search-form-icon-color: $white;
 $search-form-border-radius: $border-radius;
 $search-form-transparency: $transparency;
-$search-form-input-height: 40px;
-$search-form-input-overlay-height: 32px;
+$search-form-input-height: 35px;
+$search-form-input-overlay-height: 27px;
 $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
 
 .search-form .icon {
   fill: $search-form-icon-color;
   vertical-align: middle;
-  width: 17px;
-  height: 17px;
 }
 
 .search-form .location .dashed {
@@ -34,23 +32,51 @@ $search-form-input-overlay-background-color: #EEF1F3;
 }
 
 .search-form {
-  padding-top: 15px;
+  padding-top: 10px;
 }
 
-.search-form input {
+.search-form input, .search-form input:focus {
   margin-bottom: 0px;
   height: $search-form-input-height;
   border-top-left-radius: $search-form-border-radius;
   border-bottom-left-radius: $search-form-border-radius;
+  padding-left: 15px;
+  box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
+  transition: none;
+}
+
+.search-form > :not(.upper-search-form) > div input {
   /* These two will disable right border radius for Firefox f*/
   border-top-right-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  padding-left: 15px;
+}
+
+.search-form .upper-search-form input, .search-form .upper-search-form .input-placeholder {
+  border-top-right-radius: $search-form-border-radius;
+  border-bottom-right-radius: $search-form-border-radius;
 }
 
 .search-form .postfix {
   height: $search-form-input-height;
   line-height: $search-form-input-height;
+  box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
+  .icon {
+    font-size: 15px;
+    margin-top: -4px;
+  }
+}
+
+.search-form .switch-from-to {
+  height: $search-form-input-height;
+  line-height: $search-form-input-height;
+  border-radius: $border-radius;
+  background-color: rgba($dark-gray, 0.6);
+  display: block;
+  margin-left: 0.3em;
+  font-size: 17px;
+  .icon {
+    margin-top: -4px;
+  }
 }
 
 .search-form .input-placeholder {
@@ -59,6 +85,7 @@ $search-form-input-overlay-background-color: #EEF1F3;
     line-height: $search-form-input-overlay-height;
     border-top-left-radius: $input-border-radius;
     border-bottom-left-radius: $input-border-radius;
+    box-shadow: 2px 4px 5px rgba(0,0,0,0.2);
 }
 
 .search-form .address-box {
@@ -68,12 +95,13 @@ $search-form-input-overlay-background-color: #EEF1F3;
     height: $search-form-input-overlay-height;
     padding-left: 5px;
     padding-right: 3px;
+    font-weight: $font-weight-light;
 
     .icon {
       fill: $gray;
       vertical-align: sub;
-      width: 15px;
-      height: 15px;
+      width: 1em;
+      height: 1em;
       margin-right: 5px;
     }
 }
@@ -92,7 +120,7 @@ $search-form-input-overlay-background-color: #EEF1F3;
   max-height: $search-result-max-height;
   overflow: auto;
   box-shadow: 0px 1px 10px gray;
-  z-index: 1000;
+  z-index: 1100;
   position: relative;
 }
 
