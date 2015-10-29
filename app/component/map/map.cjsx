@@ -11,6 +11,7 @@ Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else null
 L             = if isBrowser then require 'leaflet' else null
 config        = require '../../config'
+MapTrackActions = require '../../action/map-track-actions'
 
 if isBrowser
   require 'leaflet/dist/leaflet.css'
@@ -27,6 +28,7 @@ class Map extends React.Component
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
 
   @currentLocationIcon:
     if isBrowser
@@ -57,6 +59,7 @@ class Map extends React.Component
     @context.getStore('MapTrackStore').addChangeListener @onChange
     @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
+    @refs.map.getLeafletElement().addEventListener('dragstart', @disableMapTrack)
     if @props.fitBounds
       @setBounds(@props)
 
@@ -71,6 +74,9 @@ class Map extends React.Component
 
   onChange: =>
     @forceUpdate()
+
+  disableMapTrack: =>
+    @context.executeAction MapTrackActions.endMapTrack
 
   render: ->
     if isBrowser
