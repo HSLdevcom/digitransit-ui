@@ -75,7 +75,7 @@ class SummaryPage extends React.Component
       summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"
                                   itinerary={plan.itineraries[@getActiveIndex()]}
                                   />
-      toItinerary = <ArrowLink to="#{@context.location.pathname}/#{@getActiveIndex()}"
+      toItinerary = <ArrowLink to="/#{@context.location.pathname}/#{@getActiveIndex()}"
                                className="arrow-link--summary-row right-arrow-blue-background"/>
       for data, i in plan.itineraries
         passive = i != activeIndex

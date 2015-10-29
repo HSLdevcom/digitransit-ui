@@ -1,6 +1,7 @@
-SERVER_ROOT = if process.env.SERVER_ROOT? then process.env.SERVER_ROOT else if process.env.NODE_ENV == "development" then "http://dev.digitransit.fi" else "http://matka.hsl.fi"
+SERVER_ROOT = process.env.SERVER_ROOT or "http://beta.digitransit.fi"
 module.exports =
   URL:
+    SERVER_ROOT: SERVER_ROOT
     OTP: "#{SERVER_ROOT}/otp/routers/finland/"
     GEOCODER: "#{SERVER_ROOT}/geocoder/"
     MAP: "#{SERVER_ROOT}/hsl-map/"
@@ -9,6 +10,7 @@ module.exports =
     FONT: "http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700"
     REALTIME: "#{SERVER_ROOT}/navigator-server"
     PELIAS: "#{SERVER_ROOT}/pelias/v1/autocomplete"
+  ROOT_PATH: process.env.ROOT_PATH or ''
   title: "Digitransit"
   cities: []
   searchParams: {}

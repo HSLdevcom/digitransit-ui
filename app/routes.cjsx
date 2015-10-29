@@ -21,11 +21,9 @@ queries = require './queries'
 Route = require 'react-router/lib/Route'
 IndexRoute = require 'react-router/lib/IndexRoute'
 
-ROOT_PATH = if process?.env.ROOT_PATH != undefined then process.env.ROOT_PATH else '/'
-
 # Routes
 routes =
-  <Route path={ROOT_PATH} name="app">
+  <Route path="/" name="app">
     <IndexRoute component={IndexPage}/>
     <Route path="pysakit" name="stopList" component={Error404}/>
     <Route path="pysakit/:stopId" name="stop" component={StopPage} queries={queries.StopQueries}/>

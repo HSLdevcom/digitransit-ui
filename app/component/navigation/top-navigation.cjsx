@@ -8,7 +8,7 @@ class TopNavigation extends React.Component
     <div className="fixed">
       <nav className="top-bar">
         <section className="title">
-          <Link to={process.env.ROOT_PATH}>
+          <Link to="/">
             <span className="title">{Config.title}</span>
           </Link>
         </section>
