@@ -27,7 +27,7 @@ class Page extends React.Component
       @forceUpdate()
 
   toggleFullscreenMap: =>
-    @context.history.pushState null, "#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta"
+    @context.history.pushState null, "/pysakit/#{@props.params.stopId}/kartta"
 
   render: ->
     favourite = @context.getStore('FavouriteStopsStore').isFavourite(@props.params.stopId)
@@ -50,7 +50,7 @@ class Page extends React.Component
              disableZoom=true>
           <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
 
-          <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}/kartta">
+          <Link to="/pysakit/#{@props.params.stopId}/kartta">
             <div className="fullscreen-toggle">
               <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
             </div>

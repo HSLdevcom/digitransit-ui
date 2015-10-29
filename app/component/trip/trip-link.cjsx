@@ -9,7 +9,7 @@ class TripLink extends React.Component
 
   render: ->
     <div className="route-now-content">
-      <Link key={@props.trip.fuzzyTrip.gtfsId} to="#{process.env.ROOT_PATH}lahdot/#{@props.trip.fuzzyTrip.gtfsId}">
+      <Link key={@props.trip.fuzzyTrip.gtfsId} to="/lahdot/#{@props.trip.fuzzyTrip.gtfsId}">
         <Icon className={cx @props.trip.fuzzyTrip.route.type.toLowerCase(), 'large-icon'}
               img={'icon-icon_' + @props.trip.fuzzyTrip.route.type.toLowerCase() + '-live'}
         />

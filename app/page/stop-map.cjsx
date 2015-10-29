@@ -28,7 +28,7 @@ class Page extends React.Component
            headingStyle="h3"
             showStops=true
            hilightedStops=[@props.params.stopId]>
-        <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.params.stopId}">
+        <Link to="/pysakit/#{@props.params.stopId}">
           <div className="smallscreen-toggle">
             <Icon img={'icon-icon_minimize'} className="cursor-pointer" />
           </div>

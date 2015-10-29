@@ -16,7 +16,7 @@ class Page extends React.Component
     history: React.PropTypes.object.isRequired
 
   toggleFullscreenMap: =>
-    @context.history.pushState null, "#{process.env.ROOT_PATH}kartta"
+    @context.history.pushState null, "/kartta"
 
   render: ->
     <IndexNavigation className="front-page fullscreen">

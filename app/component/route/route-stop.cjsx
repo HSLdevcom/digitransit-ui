@@ -24,7 +24,7 @@ class RouteStop extends React.Component
       <div className="columns small-3 route-stop-now">
         {vehicles}
       </div>
-      <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}">
+      <Link to="/pysakit/#{@props.stop.gtfsId}">
         <div className={"columns small-6 route-stop-name " + @props.mode}>
           {@props.stop.name} {<WalkDistance className="route-stop-address" icon="icon_mapMarker-location-animated" walkDistance={@props.stop.nearestDistance}/> unless @props.stop.nearestDistance==undefined}<br/>
             <span className="route-stop-address">
