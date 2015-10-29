@@ -28,3 +28,5 @@ module.exports =
   maxWalkDistance: 2500
   itinerary:
     delayThreshold: 180
+  nearestStopDistance:
+    maxShownDistance: 5000
