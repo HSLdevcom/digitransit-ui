@@ -16,7 +16,7 @@ class TransitLeg extends React.Component
       </span>
     ] else false
 
-    <div key={@props.index} style={{width:"100%"}} className="row itinerary-row">
+    <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           <span className={if @props.leg.realTime then "realtime" else ""}>
@@ -59,7 +59,7 @@ class TransitLeg extends React.Component
             id='num-stops'
             values={{
               stops: @props.leg.intermediateStops.length
-              minutes: Math.round(@props.leg.duration/60)}}
+              minutes: Math.round(@props.leg.duration / 60)}}
             defaultMessage='{
               stops, plural,
               =1 {one stop}
@@ -75,5 +75,6 @@ class TransitLeg extends React.Component
         <div>{@props.leg.to.name}</div>
       </div>
     </div>
+
 
 module.exports = TransitLeg
