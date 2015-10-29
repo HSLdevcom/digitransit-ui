@@ -4,6 +4,7 @@ Icon            = require '../icon/icon'
 TripLink        = require '../trip/trip-link'
 moment          = require 'moment'
 cx              = require 'classnames'
+WalkDistance    = require '../itinerary/walk-distance'
 
 class TripRouteStop extends React.Component
   renderTime: (realtimeDeparture, currentTimeFromMidnight, realtime) ->
@@ -34,7 +35,7 @@ class TripRouteStop extends React.Component
 
       <Link to="/pysakit/#{@props.stop.gtfsId}">
         <div className={"columns small-7 route-stop-name " + @props.mode}>
-          {@props.stop.name}<br/>
+          {@props.stop.name}{<WalkDistance className="route-stop-address" icon="icon_mapMarker-location-animated" walkDistance={@props.stop.nearestDistance}/> unless @props.stop.nearestDistance==undefined}<br/>
           <span className="route-stop-address">
             {@props.stop.desc}
           </span>
