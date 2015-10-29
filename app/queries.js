@@ -420,6 +420,8 @@ var TripStopListFragments = {
           name
           desc
           code
+          lat
+          lon
         }
         realtimeDeparture
         realtime
