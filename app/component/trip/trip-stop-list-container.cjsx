@@ -7,10 +7,16 @@ cx                      = require 'classnames'
 TripRouteStop           = require './trip-route-stop'
 isEmpty                 = require 'lodash/lang/isEmpty'
 moment                  = require 'moment'
+geoUtils              = require '../../util/geo-utils'
 
 class TripStopListContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+
+  setNearestStopDistance: (stops) =>
+    state = @context.getStore('PositionStore').getLocationState()
+    if state.hasLocation == true
+      geoUtils.setDistanceToNearestStop(state.lat, state.lon, stops);
 
   componentDidMount: ->
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
@@ -22,6 +28,10 @@ class TripStopListContainer extends React.Component
     @forceUpdate()
 
   getStops: ->
+    @setNearestStopDistance(@props.trip.stoptimes.map(
+      (stoptime)->
+        stoptime.stop
+    ))
     mode = @props.trip.route.type.toLowerCase()
     vehicles = @context.getStore('RealTimeInformationStore').vehicles
     vehicle = !isEmpty(vehicles) && vehicles[Object.keys(vehicles)[0]]
@@ -29,6 +39,7 @@ class TripStopListContainer extends React.Component
     currentTime = moment()
     currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds')
     stopPassed = false
+
 
     @props.trip.stoptimes.map (stoptime, index) ->
       nextStop = "HSL:" + vehicle.next_stop
@@ -44,6 +55,7 @@ class TripStopListContainer extends React.Component
         key={stoptime.stop.gtfsId}
         stop={stoptime.stop}
         mode={mode}
+        nearestDistance={stoptime.stop.nearestDistanceß}
         vehicle={if nextStop == stoptime.stop.gtfsId then vehicle}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}

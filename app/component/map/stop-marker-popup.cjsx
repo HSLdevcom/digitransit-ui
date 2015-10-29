@@ -28,8 +28,8 @@ class StopMarkerPopup extends React.Component
     <div className="card">
       <StopCardContainer stop={@props.stop} departures={5} className="padding-small"/>
       <div className="bottom location">
-        <Link to="#{process.env.ROOT_PATH}pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
-        <Link to="#{process.env.ROOT_PATH}reitti/#{@props.context.getStore('PositionStore').getLocationString()}/#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}" className="route">
+        <Link to="/pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
+        <Link to="/reitti/#{@props.context.getStore('PositionStore').getLocationString()}/#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}" className="route">
           <Icon img={'icon-icon_route'}/> <FormattedMessage id="route-here" defaultMessage="Route to here" />
         </Link>
       </div>

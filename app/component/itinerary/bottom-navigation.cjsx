@@ -19,7 +19,7 @@ class BottomNavigation extends React.Component
                                                          defaultMessage='Print' />
       </div>
       <div className="small-4 columns navigate">
-        <ArrowLink to="#{process.env.ROOT_PATH}reitti/#{@props.params.from}/#{@props.params.to}/#{@props.params.hash}/navigoi"
+        <ArrowLink to="/reitti/#{@props.params.from}/#{@props.params.to}/#{@props.params.hash}/navigoi"
                    className="itinerary-bottom-navigation__icon right-arrow-blue-background">
           <FormattedMessage id='navigate' defaultMessage='Navigate' />
         </ArrowLink>

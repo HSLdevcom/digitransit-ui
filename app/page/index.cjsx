@@ -17,7 +17,7 @@ class Page extends React.Component
     history: React.PropTypes.object.isRequired
 
   toggleFullscreenMap: =>
-    @context.history.pushState null, "#{process.env.ROOT_PATH}kartta"
+    @context.history.pushState null, "/kartta"
 
   componentWillMount: =>
     @context.getStore('MapTrackStore').addChangeListener @onTrackStatusChange

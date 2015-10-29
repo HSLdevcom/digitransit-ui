@@ -1,6 +1,7 @@
-SERVER_ROOT = if process.env.SERVER_ROOT? then process.env.SERVER_ROOT else if process.env.NODE_ENV == "development" then "http://dev.digitransit.fi" else "http://matka.hsl.fi"
+SERVER_ROOT = process.env.SERVER_ROOT or "http://matka.hsl.fi"
 module.exports =
   URL:
+    SERVER_ROOT: SERVER_ROOT
     OTP: "#{SERVER_ROOT}/otp/routers/finland/"
     GEOCODER: "#{SERVER_ROOT}/geocoder/"
     MAP: "#{SERVER_ROOT}/hsl-map/"
@@ -9,6 +10,7 @@ module.exports =
     FONT: "http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700"
     REALTIME: "#{SERVER_ROOT}/navigator-server"
     PELIAS: "#{SERVER_ROOT}/pelias/v1/search"
+  ROOT_PATH: process.env.ROOT_PATH or ''
   title: "Digitransit (HSL)"
   cities: ["helsinki", "vantaa", "espoo", "kauniainen", "kerava", "kirkkonummi", "sipoo"]
   icon: "hsl-icon.png"
@@ -24,3 +26,5 @@ module.exports =
     radius: 2000
     bucketSize: 100
   maxWalkDistance: 2500
+  nearestStopDistance:
+    maxShownDistance: 5000

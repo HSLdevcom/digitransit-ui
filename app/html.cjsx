@@ -12,9 +12,9 @@ class Application extends React.Component
       <meta name="description" content=""/>
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
       <meta name="mobile-web-app-capable" content="yes"/>
-      <link rel="apple-touch-icon" href="#{process.env.ROOT_PATH}img/#{config.icon}"/>
-      <link rel="touch-icon" href="#{process.env.ROOT_PATH}img/#{config.icon}"/>
-      <link rel="icon" href="#{process.env.ROOT_PATH}img/#{config.icon}"/>
+      <link rel="apple-touch-icon" href="#{config.ROOT_PATH}/img/#{config.icon}"/>
+      <link rel="touch-icon" href="#{config.ROOT_PATH}/img/#{config.icon}"/>
+      <link rel="icon" href="#{config.ROOT_PATH}/img/#{config.icon}"/>
       <style dangerouslySetInnerHTML={ __html: @props.fonts }/>
       <style dangerouslySetInnerHTML={ __html: @props.css }/>
     </head>
