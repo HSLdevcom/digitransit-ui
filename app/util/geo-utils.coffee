@@ -77,6 +77,25 @@ getLayerForVehicles = ->
     "icon-ignore-placement": true
     "icon-image": "{mode}"
 
+setDistanceToNearestStop = (lat, lon, stops) ->
+  @myPos = new L.LatLng(lat, lon);
+
+  @minDist = Number.MAX_VALUE
+  @minStop = null
+  stops.forEach((stop)=>
+    stop.nearestDistance = undefined #clear exisitng
+    stopPos = new L.LatLng(stop.lat, stop.lon);
+    if @myPos != null
+      distance = @myPos.distanceTo(stopPos)
+      if distance < @minDist
+        @minDist = distance
+        @minStop = stop
+  )
+
+  if @minStop != null
+    @minStop.nearestDistance = @minDist
+    console.log "distance set"
+
 
 module.exports =
   dataAsGeoJSON: dataAsGeoJSON
@@ -87,3 +106,4 @@ module.exports =
   getTopicsForPlan: getTopicsForPlan
   vehiclesAsGeoJson: vehiclesAsGeoJson
   getLayerForVehicles: getLayerForVehicles
+  setDistanceToNearestStop: setDistanceToNearestStop

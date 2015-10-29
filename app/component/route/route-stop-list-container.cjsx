@@ -8,6 +8,7 @@ RouteStop             = require './route-stop'
 GtfsUtils             = require '../../util/gtfs'
 groupBy               = require 'lodash/collection/groupBy'
 cx                    = require 'classnames'
+geoUtils              = require '../../util/geo-utils'
 
 class RouteStopListContainer extends React.Component
   @contextTypes:
@@ -16,25 +17,7 @@ class RouteStopListContainer extends React.Component
   setNearestStopDistance: (stops) =>
     state = @context.getStore('PositionStore').getLocationState()
     if state.hasLocation == true
-      @myPos = new L.LatLng(state.lat, state.lon);
-    else
-      @myPos = null
-
-
-    @minDist = Number.MAX_VALUE
-    @minStop = null
-    stops.forEach((stop)=>
-      stop.distance = undefined
-      stopPos = new L.LatLng(stop.lat, stop.lon);
-      if @myPos != null
-        distance = @myPos.distanceTo(stopPos)
-        if distance < @minDist
-          @minDist = distance
-          @minStop = stop
-    )
-
-    if @minStop != null
-      @minStop.distance = @minDist
+      geoUtils.setDistanceToNearestStop(state.lat, state.lon, stops);
 
   componentDidMount: ->
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
