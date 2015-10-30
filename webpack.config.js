@@ -103,11 +103,9 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, "_static"),
-    filename: 'js/bundle.js',
-    chunkFilename: 'js/[name].js',
-    publicPath: (process.env.NODE_ENV === "development") ?
-      'http://localhost:' + port + '/' : (process.env.ROOT_PATH != undefined) ? process.env.ROOT_PATH :
-      '/'
+    filename: '/js/bundle.js',
+    chunkFilename: '/js/[name].js',
+    publicPath: (process.env.NODE_ENV === "development") ? 'http://localhost:' + port + '/' : (process.env.ROOT_PATH || '')
   },
   resolveLoader: {
     modulesDirectories: ['node_modules']
