@@ -37,7 +37,7 @@ class Map extends React.Component
       null
 
   getLocation: ->
-    coordinates = @context.getStore('LocationStore').getLocationState()
+    coordinates = @context.getStore('PositionStore').getLocationState()
     if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
       coordinates: [coordinates.lat, coordinates.lon]
       zoom: 16
@@ -53,7 +53,7 @@ class Map extends React.Component
       paddingTopLeft: props.padding)
 
   componentDidMount: ->
-    @context.getStore('LocationStore').addChangeListener @onChange
+    @context.getStore('PositionStore').addChangeListener @onChange
     @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
     if not (@props.disableZoom or L.Browser.touch)
@@ -66,7 +66,7 @@ class Map extends React.Component
       @setBounds(newProps)
 
   componentWillUnmount: ->
-    @context.getStore('LocationStore').removeChangeListener @onChange
+    @context.getStore('PositionStore').removeChangeListener @onChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
 
   onChange: =>
