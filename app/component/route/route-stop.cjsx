@@ -17,7 +17,15 @@ class RouteStop extends React.Component
             direction: vehicle.direction
             date: vehicle.operatingDay
             time: vehicle.tripStartTime.substring(0, 2) * 60 * 60 + vehicle.tripStartTime.substring(2, 4) * 60
-          )}/>
+          )}
+          renderFetched={(data) =>
+              console.log "RouteStop", data
+              <TripLink
+                   trip={data.trip}
+                   routeType={vehicle.mode}
+              />
+          }
+          />
 
     <div className="route-stop row">
       <div className="columns small-3 route-stop-now">
