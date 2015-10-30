@@ -63,8 +63,15 @@ div.map.summaryMap div.leaflet-container {
   }
 }
 
-div.leaflet-control-container div.leaflet-top {
-  top: 7em;
+/* Hide top container for small screens.
+ * When we are demoing application on a desktop browser in "narrow mobile width"
+ * Leaflet top bar icons are always in a way of something.
+ * Note that only checking if we are on mobile device using Leaflet.Browser.touch is not enough.
+ */
+@media #{$small-only} {
+  div.leaflet-control-container div.leaflet-top {
+    display: none;
+  }
 }
 
 div.leaflet-container {

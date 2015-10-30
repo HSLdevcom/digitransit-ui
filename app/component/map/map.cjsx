@@ -56,8 +56,8 @@ class Map extends React.Component
     @context.getStore('LocationStore').addChangeListener @onChange
     @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
-    if not @props.disableZoom or L.Browser.touch
-      L.control.zoom(position: 'bottomleft').addTo @refs.map.getLeafletElement()
+    if not (@props.disableZoom or L.Browser.touch)
+      L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
     if @props.fitBounds
       @setBounds(@props)
 
