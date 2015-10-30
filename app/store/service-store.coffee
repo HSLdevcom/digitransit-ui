@@ -12,9 +12,7 @@ class ServiceStore extends Store
       window.mock.geolocation =  @makeMockGeolocation()
 
   geolocator: ->
-    return {
-      geolocation: @mock?.geolocation or navigator.geolocation
-    }
+    geolocation: @mock?.geolocation or navigator.geolocation
 
   makeMockGeolocation: ->
     window.mock.data.position =
