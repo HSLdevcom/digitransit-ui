@@ -62,7 +62,7 @@ class Map extends React.Component
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
     @refs.map.getLeafletElement().addEventListener('dragstart', @disableMapTrack)
     if not @props.disableZoom or L.Browser.touch
-      L.control.zoom(position: 'bottomleft').addTo @refs.map.getLeafletElement()
+      L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
     if @props.fitBounds
       @setBounds(@props)
 
