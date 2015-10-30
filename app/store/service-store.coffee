@@ -7,7 +7,7 @@ class ServiceStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     if window.location.search?.indexOf('mock') > -1
-      window.mock = @mock = 
+      window.mock = @mock =
         data: {}
       window.mock.geolocation =  @makeMockGeolocation()
 
@@ -17,7 +17,7 @@ class ServiceStore extends Store
     }
 
   makeMockGeolocation: ->
-    watchers = [];
+    watchers = []
     window.mock.data.position =
       coords:
         latitude: 60.1992
@@ -31,19 +31,19 @@ class ServiceStore extends Store
         window.mock.data.position.coords.latitude += dlat
         window.mock.data.position.coords.longitude += dlon
         window.mock.data.position.coords.heading = heading if heading
-        this.notifyWatchers()
+        @notifyWatchers()
       setCurrentPosition: (lat, lon, heading) ->
         position =
           coords:
             latitude: lat
             longitude: lon
-            heading: heading;
+            heading: heading
         window.mock.data.position = position
-        this.notifyWatchers()
+        @notifyWatchers()
       getCurrentPosition: (callback) ->
         callback(window.mock.data.position)
       watchPosition: (callback) ->
-        watchers.push callback;
+        watchers.push callback
       clearWatch: (id) ->
         delete watchers[id]
     }
