@@ -7,6 +7,8 @@ $border-radius-rounded: 30px;
   border-radius: $border-radius;
   margin-bottom: 5px;
   line-height: $line-height-normal;
+  overflow-x: hidden;
+
 }
 .card-header {
   background-color: $white;

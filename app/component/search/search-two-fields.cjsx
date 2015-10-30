@@ -3,14 +3,14 @@ Icon = require '../icon/icon'
 
 SearchTwoFields = (props) ->
   <div className="search-form">
-    <div className="row">
+    <div className="row upper-search-form">
       <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
         <div className="row collapse postfix-radius">
           <div className="small-11 columns">
             {props.from}
           </div>
           <div className="small-1 columns">
-            <span className="postfix search cursor-pointer" onClick={props.onSwitch}>
+            <span className="switch-from-to text-center search cursor-pointer" onClick={props.onSwitch}>
               <Icon img={'icon-icon_direction-a'}/>
             </span>
           </div>
