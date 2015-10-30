@@ -30,12 +30,12 @@ describe('Frontpage', function () {
           browser.expect.element('.frontpage-panel-wrapper').to.be.visible;
         });
 
-        it('should contain stop cards', function (browser) {
+        it('should contain stop card', function (browser) {
           browser.expect.element('.cards').to.be.present.before(1000);
           browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
         });
 
-        describe('and clicked again', function() {
+        describe('when clicked again', function() {
           before(function (browser, done) {
             browser.stopsTab.click(done);
           });

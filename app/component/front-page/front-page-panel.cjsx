@@ -130,17 +130,17 @@ class FrontPagePanel extends React.Component
     <div className="frontpage-panel-container">
       {panel}
       <ul className='tabs-row tabs-arrow-up cursor-pointer'>
-        <li className={cx (tabClasses[1]), 'small-4', 'h4', 'hover'}
+        <li className={cx (tabClasses[1]), 'small-4', 'h4', 'hover', 'nearby-routes'}
              onClick={=> @selectPanel(1)}>
           <Icon className="prefix-icon" img="icon-icon_bus-withoutBox"/>
           <FormattedMessage id='routes' defaultMessage="Routes" />
         </li>
-        <li className={cx (tabClasses[2]), 'small-4', 'h4', 'hover'}
+        <li className={cx (tabClasses[2]), 'small-4', 'h4', 'hover', 'nearby-stops'}
              onClick={=> @selectPanel(2)}>
           <Icon className="prefix-icon" img="icon-icon_bus-stop"/>
           <FormattedMessage id='stops' defaultMessage="Stops" />
         </li>
-        <li className={cx (tabClasses[3]), 'small-4', 'h4', 'hover'}
+        <li className={cx (tabClasses[3]), 'small-4', 'h4', 'hover', 'favourites'}
              onClick={=> @selectPanel(3)}>
           <Icon className="prefix-icon" img="icon-icon_star"/>
           <FormattedMessage id='favourites' defaultMessage="Favourites" />
