@@ -6,8 +6,8 @@ Map                = require '../component/map/map.cjsx'
 FrontPagePanel     = require '../component/front-page/front-page-panel.cjsx'
 SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
 Icon               = require '../component/icon/icon'
-LocateActions      = require '../action/locate-actions.coffee'
 Link               = require 'react-router/lib/Link'
+PositionActions    = require '../action/position-actions'
 
 
 class Page extends React.Component
@@ -17,8 +17,8 @@ class Page extends React.Component
     history: React.PropTypes.object.isRequired
 
   componentDidMount: ->
-    if @context.getStore('LocationStore').getLocationState().status == 'no-location'
-      @context.executeAction LocateActions.findLocation
+    if @context.getStore('PositionStore').getLocationState().status == 'no-location'
+      @context.executeAction PositionActions.findLocation
 
   toggleFullscreenMap: =>
     @context.history.pushState null, "/kartta"

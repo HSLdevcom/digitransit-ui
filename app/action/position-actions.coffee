@@ -87,7 +87,7 @@ startLocationWatch = (actionContext, payload, done) ->
   done()
 
 stopLocationWatch = (actionContext, payload, done) ->
-  geolocator(actionContext).geolocation.clearWatch actionContext.getStore("LocationStore").getWatchId()
+  geolocator(actionContext).geolocation.clearWatch actionContext.getStore("PositionStore").getWatchId()
   actionContext.dispatch "GeolocationWatchStopped"
   done()
 
