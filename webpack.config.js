@@ -49,7 +49,7 @@ function getPluginsConfig(env) {
         'process.env': {
           SERVER_ROOT: JSON.stringify((typeof process.env.SERVER_ROOT === "undefined") ? 'http://dev.digitransit.fi': process.env.SERVER_ROOT),
           NODE_ENV: JSON.stringify("development"),
-          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
+          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH),
           CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
         }
       }),
@@ -60,9 +60,9 @@ function getPluginsConfig(env) {
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en\-gb/),
       new webpack.DefinePlugin({
         'process.env': {
-          SERVER_ROOT: JSON.stringify((typeof process.env.SERVER_ROOT === "undefined") ? 'http://matka.hsl.fi': process.env.SERVER_ROOT),
+          SERVER_ROOT: JSON.stringify(process.env.SERVER_ROOT),
           NODE_ENV: JSON.stringify("production"),
-          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH ? process.env.ROOT_PATH : '/'),
+          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH),
           CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default'),
           SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
         }
@@ -105,9 +105,7 @@ module.exports = {
     path: path.join(__dirname, "_static"),
     filename: 'js/bundle.js',
     chunkFilename: 'js/[name].js',
-    publicPath: (process.env.NODE_ENV === "development") ?
-      'http://localhost:' + port + '/' : (process.env.ROOT_PATH != undefined) ? process.env.ROOT_PATH :
-      '/'
+    publicPath: ((process.env.NODE_ENV === "development") ? 'http://localhost:' + port : (process.env.ROOT_PATH || '')) + '/'
   },
   resolveLoader: {
     modulesDirectories: ['node_modules']

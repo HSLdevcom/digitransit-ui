@@ -1,6 +1,7 @@
 $form-input-border-radius: $border-radius;
 $form-input-postfix-search-color: $white;
 $form-input-postfix-search-fill-color: $hilight-color;
+$form-input-postfix-search-fill-color-difference: 5%;
 
 /* Override foundation styles */
 $input-border-radius: $form-input-border-radius;
@@ -26,7 +27,7 @@ span.prefix {
 
 .postfix.search {
   color: $form-input-postfix-search-color;
-  background-color: $form-input-postfix-search-fill-color;
+  background: linear-gradient(to bottom, lighten($form-input-postfix-search-fill-color, 15%) 1px, lighten($form-input-postfix-search-fill-color, $form-input-postfix-search-fill-color-difference) 1px, darken($form-input-postfix-search-fill-color, $form-input-postfix-search-fill-color-difference));
 }
 
 .prefix-and-postfix-radius input {

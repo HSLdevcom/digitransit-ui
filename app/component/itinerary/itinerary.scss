@@ -98,10 +98,17 @@ $itinerary-navigate-icon-size: 50px;
       margin-bottom: 0.3em;
     }
     .icon {
-      &.walk {
-        color: $gray;
+      &.realtime-icon.realtime {
+        margin-top: -0.35em;
       }
-      font-size: 13pt;
+      font-size: 14pt;
+    }
+    .original-time {
+      text-decoration: line-through;
+      color: $gray;
+    }
+    .route-number {
+      padding-top: 0.25em;
     }
   }
   .itinerary-instruction-column::before {
@@ -119,9 +126,8 @@ $itinerary-navigate-icon-size: 50px;
     left:3px;
     border-left: solid 3.5px;
   }
-  .itinerary-instruction-column.from::after {
-    color: $medium-gray;
-    top: 0.9em;
+  .itinerary-instruction-column.walk:not(.to)::after{
+    border-left-style: dotted;
   }
   .itinerary-instruction-column {
     font-size: 10pt;
