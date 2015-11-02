@@ -12,7 +12,7 @@ class DisruptionStore extends Store
   calculateRoutes: (data) ->
     [].concat.apply [], data.entity.map (entity) ->
       entity.alert.informed_entity.map (line) ->
-        line.agency_id + ':' + line.route_id + ':' + line.trip.direction_id.toString()
+        line.agency_id + ':' + line.route_id + ':' + line.trip?.direction_id.toString()
 
   storeDisruptions: (data) ->
     @data = data
