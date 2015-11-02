@@ -17,7 +17,7 @@ class RouteStopListContainer extends React.Component
   setNearestStopDistance: (stops) =>
     state = @context.getStore('PositionStore').getLocationState()
     if state.hasLocation == true
-      geoUtils.setDistanceToNearestStop(state.lat, state.lon, stops);
+      geoUtils.setDistanceToNearestStop(state.lat, state.lon, stops)
 
   componentDidMount: ->
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange

@@ -7,7 +7,7 @@ cx                      = require 'classnames'
 TripRouteStop           = require './trip-route-stop'
 isEmpty                 = require 'lodash/lang/isEmpty'
 moment                  = require 'moment'
-geoUtils              = require '../../util/geo-utils'
+geoUtils                = require '../../util/geo-utils'
 
 class TripStopListContainer extends React.Component
   @contextTypes:
@@ -16,7 +16,7 @@ class TripStopListContainer extends React.Component
   setNearestStopDistance: (stops) =>
     state = @context.getStore('PositionStore').getLocationState()
     if state.hasLocation == true
-      geoUtils.setDistanceToNearestStop(state.lat, state.lon, stops);
+      geoUtils.setDistanceToNearestStop(state.lat, state.lon, stops)
 
   componentDidMount: ->
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
