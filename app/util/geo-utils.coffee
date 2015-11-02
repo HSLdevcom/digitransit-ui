@@ -1,6 +1,7 @@
 polyUtil      = require 'polyline-encoded'
 getSelector   = require './get-selector'
 config        = require '../config'
+L             = if window? then require 'leaflet' else null
 
 toRad = (deg) -> deg * Math.PI / 180
 toDeg = (rad) -> rad * 180 / Math.PI
