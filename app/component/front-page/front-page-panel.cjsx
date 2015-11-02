@@ -9,6 +9,8 @@ NoPositionPanel       = require './no-position-panel'
 Icon                  = require '../icon/icon.cjsx'
 cx                    = require 'classnames'
 FavouritesPanel       = require '../favourites/favourites-panel'
+NearestRoutesContainer= require './nearest-routes-container'
+NearestStopsContainer = require './nearest-stops-container'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -19,40 +21,16 @@ class FrontPagePanel extends React.Component
     intl: intl.intlShape.isRequired
 
   componentDidMount: ->
-    @context.getStore('PositionStore').addChangeListener @onChange
     @context.getStore('EndpointStore').addChangeListener @onChange
 
   componentWillUnmount: ->
-    @context.getStore('PositionStore').removeChangeListener @onChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
 
-  onChange: =>
+  onChange: () =>
     @forceUpdate()
 
-  getStopContainer: (lat, lon) =>
-    <Relay.RootContainer
-      Component={StopCardListContainer}
-      forceFetch={true}
-      route={new queries.StopListContainerRoute
-        lat: lat
-        lon: lon
-      }
-      renderLoading={-> <div className="spinner-loader"/>}
-      }
-    />
-
-  getRoutesContainer: (lat, lon) =>
-    <Relay.RootContainer
-      Component={RouteListContainer}
-      forceFetch={true}
-      route={new queries.RouteListContainerRoute
-        lat: lat
-        lon: lon
-      }
-      renderLoading={-> <div className="spinner-loader"/>}
-    />
-
   selectPanel: (selection) =>
+
     if selection == @state?.selectedPanel
       @setState
         selectedPanel: null
@@ -60,19 +38,20 @@ class FrontPagePanel extends React.Component
       @setState
         selectedPanel: selection
 
+
   render: ->
     PositionStore = @context.getStore 'PositionStore'
     location = PositionStore.getLocationState()
     origin = @context.getStore('EndpointStore').getOrigin()
 
-
     if origin?.lat
-      stopsPanel = @getStopContainer(origin.lat, origin.lon)
-      routesPanel = @getRoutesContainer(origin.lat, origin.lon)
+
+      stopsPanel = <NearestStopsContainer lat={origin.lat} lon={origin.lon}/>
+      routesPanel = <NearestRoutesContainer lat={origin.lat} lon={origin.lon}/>
     else if (location.status == PositionStore.STATUS_FOUND_LOCATION or
              location.status == PositionStore.STATUS_FOUND_ADDRESS)
-      stopsPanel = @getStopContainer(location.lat, location.lon)
-      routesPanel = @getRoutesContainer(location.lat, location.lon)
+      stopsPanel = <NearestStopsContainer lat={location.lat} lon={location.lon}/>
+      routesPanel = <NearestRoutesContainer lat={location.lat} lon={location.lon}/>
     else if location.status == PositionStore.STATUS_SEARCHING_LOCATION
       stopsPanel = <div className="spinner-loader"/>
       routesPanel = <div className="spinner-loader"/>
@@ -96,7 +75,7 @@ class FrontPagePanel extends React.Component
                     </h3>
                   </div>
 
-                  <div className="scrollable">
+                  <div className="scrollable" id="scrollable-routes">
                     {routesPanel}
                   </div>
                 </div>
