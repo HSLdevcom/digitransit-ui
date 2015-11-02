@@ -15,7 +15,7 @@ class RouteStopListContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
 
   setNearestStopDistance: (stops) =>
-    state = @context.getStore('LocationStore').getLocationState()
+    state = @context.getStore('PositionStore').getLocationState()
     if state.hasLocation == true
       geoUtils.setDistanceToNearestStop(state.lat, state.lon, stops);
 
