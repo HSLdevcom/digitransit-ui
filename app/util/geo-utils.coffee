@@ -79,23 +79,22 @@ getLayerForVehicles = ->
     "icon-image": "{mode}"
 
 setDistanceToNearestStop = (lat, lon, stops) ->
-  @myPos = new L.LatLng(lat, lon);
+  myPos = new L.LatLng(lat, lon)
 
-  @minDist = Number.MAX_VALUE
-  @minStop = null
-  stops.forEach((stop)=>
+  minDist = Number.MAX_VALUE
+  minStop = null
+  stops.forEach((stop) ->
     stop.nearestDistance = undefined #clear exisitng
-    stopPos = new L.LatLng(stop.lat, stop.lon);
-    if @myPos != null
-      distance = @myPos.distanceTo(stopPos)
-      if distance < @minDist
-        @minDist = distance
-        @minStop = stop
+    stopPos = new L.LatLng(stop.lat, stop.lon)
+    if myPos != null
+      distance = myPos.distanceTo(stopPos)
+      if distance < minDist
+        minDist = distance
+        minStop = stop
   )
 
-  if @minStop != null and @minDist < config.nearestStopDistance.maxShownDistance
-    @minStop.nearestDistance = @minDist
-    console.log "distance set"
+  if minStop != null and minDist < config.nearestStopDistance.maxShownDistance
+    minStop.nearestDistance = minDist
 
 
 module.exports =
