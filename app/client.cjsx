@@ -38,6 +38,7 @@ config            = require './config'
 StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
+PositionActions     = require './action/position-actions.coffee'
 
 dehydratedState   = window.state # Sent from the server
 

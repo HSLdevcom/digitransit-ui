@@ -1,6 +1,6 @@
 React = require 'react'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
-LocateActions  = require '../../action/locate-actions.coffee'
+PositionActions  = require '../../action/position-actions.coffee'
 Autosuggest = require './autosuggest'
 Link = require 'react-router/lib/Link'
 {locationToOTP} = require '../../util/otp-strings'
@@ -19,11 +19,11 @@ class SearchTwoFieldsContainer extends React.Component
 
   componentWillMount: =>
     @context.getStore('EndpointStore').addChangeListener @onEndpointChange
-    @context.getStore('LocationStore').addChangeListener @onGeolocationChange
+    @context.getStore('PositionStore').addChangeListener @onGeolocationChange
 
   componentWillUnmount: =>
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
-    @context.getStore('LocationStore').removeChangeListener @onGeolocationChange
+    @context.getStore('PositionStore').removeChangeListener @onGeolocationChange
 
   onGeolocationChange: =>
     @forceUpdate()
@@ -36,7 +36,7 @@ class SearchTwoFieldsContainer extends React.Component
     e.preventDefault()
 
     origin = @context.getStore('EndpointStore').getOrigin()
-    geolocation = @context.getStore('LocationStore').getLocationState()
+    geolocation = @context.getStore('PositionStore').getLocationState()
 
     # Button is disabled when geolocationing is in process
     if origin.useCurrentPosition and geolocation.isLocationingInProgress
@@ -45,7 +45,7 @@ class SearchTwoFieldsContainer extends React.Component
     @context.executeAction EndpointActions.swapOriginDestination
 
   routeIfPossible: =>
-    geolocation = @context.getStore('LocationStore').getLocationState()
+    geolocation = @context.getStore('PositionStore').getLocationState()
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
@@ -81,11 +81,11 @@ class SearchTwoFieldsContainer extends React.Component
     <GeolocationBar
       geolocation={geolocation}
       removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
-      locateUser={() => @context.executeAction LocateActions.findLocation}
+      locateUser={() => @context.executeAction PositionActions.findLocation}
     />
 
   render: =>
-    geolocation = @context.getStore('LocationStore').getLocationState()
+    geolocation = @context.getStore('PositionStore').getLocationState()
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 

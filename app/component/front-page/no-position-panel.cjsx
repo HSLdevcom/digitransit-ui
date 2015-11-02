@@ -1,10 +1,10 @@
 React          = require 'react'
-LocateActions  = require '../../action/locate-actions.coffee'
+PositionActions  = require '../../action/position-actions.coffee'
 Icon           = require '../icon/icon.cjsx'
 {FormattedMessage} = require('react-intl')
 
 
-class NoLocationPanel extends React.Component
+class NoPositionPanel extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
 
@@ -49,6 +49,6 @@ class NoLocationPanel extends React.Component
     </div>
 
   locateUser: ->
-    @context.executeAction LocateActions.findLocation
+    @context.executeAction PositionActions.findLocation
 
-module.exports = NoLocationPanel
+module.exports = NoPositionPanel
