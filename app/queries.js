@@ -453,11 +453,8 @@ class FuzzyTripRoute extends Relay.Route {
 var TripLinkFragments = {
   trip: () => Relay.QL`
     fragment on QueryType {
-      fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
+      trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
         gtfsId
-        route        {
-          type
-        }
       }
     }
   `,

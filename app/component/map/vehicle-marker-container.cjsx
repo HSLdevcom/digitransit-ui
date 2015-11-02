@@ -59,13 +59,7 @@ class VehicleMarkerContainer extends React.Component
         date: message.operatingDay
         time: message.tripStartTime.substring(0, 2) * 60 * 60 + message.tripStartTime.substring(2, 4) * 60)}
       renderFetched={(data) =>
-        <RouteMarkerPopup trip={data.trip}
-                          message={message}
-                          context={@context}
-                          route={message.route}
-                          direction={message.direction}
-                          date={message.operatingDay}
-                          time={message.tripStartTime.substring(0, 2) * 60 * 60 + message.tripStartTime.substring(2, 4) * 60}/>
+        <RouteMarkerPopup {... data} message={message} context={@context}/>
       }/>
 
     @vehicles[id] =

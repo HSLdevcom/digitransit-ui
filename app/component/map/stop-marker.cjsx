@@ -78,7 +78,7 @@ class StopMarker extends React.Component
          <Relay.RootContainer
            Component={StopMarkerPopup}
            route={new queries.StopRoute(stopId: @props.stop.gtfsId)}
-           renderFetched={(data) => <StopMarkerPopupWithContext stop={data.stop} context={@context}/>}
+           renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}
          />
        </Popup>
     </Marker>

@@ -8,19 +8,20 @@ cx                    = require 'classnames'
 class TripLink extends React.Component
 
   render: ->
-    console.log "TripLink props", @props
+    icon =
+      <Icon
+        className={cx @props.routeType, 'large-icon'}
+        img={'icon-icon_' + @props.routeType + '-live'}
+      />
 
-    trip = @props.trip
-    type = @props.routeType
-
-    <div className="route-now-content">
-      <Link to={trip and "/lahdot/#{trip.gtfsId}"}
-            onClick={() => trip?}>
-        <Icon className={cx type, 'large-icon'}
-              img={'icon-icon_' + type + '-live'}
-        />
+    if @props.trip.trip
+      <Link to={@props.trip.trip and "/lahdot/#{@props.trip.trip.gtfsId}"} className="route-now-content">
+        {icon}
       </Link>
-    </div>
+    else
+      <div className="route-now-content">
+        {icon}
+      </div>
 
 
 module.exports = Relay.createContainer(TripLink,
