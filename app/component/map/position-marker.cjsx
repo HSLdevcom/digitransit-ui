@@ -33,7 +33,6 @@ class PositionMarker extends React.Component
     @forceUpdate()
 
   render: ->
-    location = @getLocation()
-    <Marker map={@props.map} position={location.coordinates} icon={PositionMarker.currentLocationIcon}/>
+    <Marker map={@props.map} position={@getLocation().coordinates} icon={PositionMarker.currentLocationIcon}/>
 
 module.exports = PositionMarker
