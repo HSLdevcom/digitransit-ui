@@ -6,11 +6,10 @@ MapTrackAction  = require '../../action/map-track-actions'
 
 class ToggleMapTracking extends React.Component
   @contextTypes:
-    getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  handleClick: ->
-    if !@context.getStore('MapTrackStore').getMapTrackState()
+  handleClick: =>
+    if !@props.tracking
       @context.executeAction MapTrackAction.startMapTrack
     else
       @context.executeAction MapTrackAction.endMapTrack
