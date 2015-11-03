@@ -1,5 +1,7 @@
 polyUtil      = require 'polyline-encoded'
 getSelector   = require './get-selector'
+config        = require '../config'
+L             = if window? then require 'leaflet' else null
 
 toRad = (deg) -> deg * Math.PI / 180
 toDeg = (rad) -> rad * 180 / Math.PI
@@ -77,6 +79,24 @@ getLayerForVehicles = ->
     "icon-ignore-placement": true
     "icon-image": "{mode}"
 
+getDistanceToNearestStop = (lat, lon, stops) ->
+  myPos = new L.LatLng(lat, lon)
+
+  minDist = Number.MAX_VALUE
+  minStop = null
+  stops.forEach((stop) ->
+    stopPos = new L.LatLng(stop.lat, stop.lon)
+    if myPos != null
+      distance = myPos.distanceTo(stopPos)
+      if distance < minDist
+        minDist = distance
+        minStop = stop
+  )
+
+  {
+    stop: minStop,
+    distance: minDist
+  }
 
 module.exports =
   dataAsGeoJSON: dataAsGeoJSON
@@ -87,3 +107,4 @@ module.exports =
   getTopicsForPlan: getTopicsForPlan
   vehiclesAsGeoJson: vehiclesAsGeoJson
   getLayerForVehicles: getLayerForVehicles
+  getDistanceToNearestStop: getDistanceToNearestStop

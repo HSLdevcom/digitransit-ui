@@ -148,6 +148,8 @@ var RouteStopListFragments = {
       }
       stops {
         gtfsId
+        lat
+        lon
         name
         desc
         code
@@ -418,6 +420,8 @@ var TripStopListFragments = {
           name
           desc
           code
+          lat
+          lon
         }
         realtimeDeparture
         realtime
