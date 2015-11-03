@@ -26,13 +26,14 @@ class NotImplementedLink extends React.Component
   @propTypes:
     name: React.PropTypes.node
     nonTextLink: React.PropTypes.bool
+    className: React.PropTypes.string
 
   notImplemented: =>
     context.executeAction NotImplementedAction.click, {name: @props.name}
     return false
 
   render: ->
-    <a href="#" onClick={@notImplemented}>
+    <a href="#" onClick={@notImplemented} className={@props.className}>
      {@props.name unless @props.nonTextLink}
      {@props.children}
     </a>

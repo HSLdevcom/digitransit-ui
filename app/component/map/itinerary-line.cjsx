@@ -47,7 +47,7 @@ class ItineraryLine extends React.Component
             route={new queries.TripRoute(id: leg.tripId)}
             renderLoading={() -> false}
             renderFetched={(data) =>
-              <TripLine map={@props.map} pattern={data.pattern} filteredStops={itineraryStops}/>
+              <TripLine {... data} map={@props.map} filteredStops={itineraryStops}/>
             } />
 
         leg.intermediateStops?.forEach (stop) =>

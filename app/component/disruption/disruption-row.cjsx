@@ -10,7 +10,7 @@ class DisruptionRow extends React.Component
     <div className='row'>
       <section className='grid-content'>
         <div className='disruption-header disruption'>
-          <RouteList className="left" routes={@props.routes}/>
+          <RouteList className="left" routes={route for route in @props.routes when route}/>
           <span className='time bold'>{@props.startTime.format("HH:mm")} - {@props.endTime.format("HH:mm")}</span>
         </div>
         <div className='disruption-content'>
@@ -23,7 +23,6 @@ class DisruptionRow extends React.Component
         </div>
       </section>
     </div>
-
 
 
 module.exports = Relay.createContainer DisruptionRow,
