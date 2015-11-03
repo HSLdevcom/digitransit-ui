@@ -14,10 +14,10 @@ class RouteStopListContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  setNearestStopDistance: (stops) =>
+  getNearestStopDistance: (stops) =>
     state = @context.getStore('PositionStore').getLocationState()
     if state.hasLocation == true
-      geoUtils.setDistanceToNearestStop(state.lat, state.lon, stops)
+      geoUtils.getDistanceToNearestStop(state.lat, state.lon, stops)
 
   componentDidMount: ->
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
@@ -28,7 +28,8 @@ class RouteStopListContainer extends React.Component
   onRealTimeChange: =>
     @forceUpdate()
 
-  getStops: () =>
+  getStops: () ->
+    nearest = @getNearestStopDistance(@props.pattern.stops)
     mode = @props.pattern.route.type.toLowerCase()
     vehicles = @context.getStore('RealTimeInformationStore').vehicles
     vehicle_stops = groupBy vehicles, (vehicle) ->
@@ -37,12 +38,11 @@ class RouteStopListContainer extends React.Component
     stopObjs = []
 
     @props.pattern.stops.forEach (stop) ->
-      stopObjs.push <RouteStop key={stop.gtfsId} stop={stop} mode={mode} vehicles={vehicle_stops[stop.gtfsId]}/>
+      stopObjs.push <RouteStop key={stop.gtfsId} stop={stop} mode={mode} vehicles={vehicle_stops[stop.gtfsId]} distance={if nearest!=undefined && nearest.stop==stop then nearest.distance else undefined}/>
 
     stopObjs
 
-  render: =>
-    @setNearestStopDistance(@props.pattern.stops)
+  render: ->
     <div className={cx "route-stop-list", @props.className}>
       {@getStops()}
     </div>
