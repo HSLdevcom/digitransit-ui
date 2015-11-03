@@ -11,7 +11,7 @@ class MapWithTracking extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  description =
+  @description:
     <div>
       <p>Renders a map with map-tracking functionality</p>
       <ComponentUsageExample description="">
@@ -19,7 +19,7 @@ class MapWithTracking extends React.Component
       </ComponentUsageExample>
     </div>
 
-  displayName = "MapWithTracking"
+  @displayName: "MapWithTracking"
 
   constructor: ->
     super
