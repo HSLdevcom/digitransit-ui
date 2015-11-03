@@ -21,12 +21,14 @@ class TripLink extends React.Component
         {icon}
       </Link>
     else # We cannot match. TODO.
-      <div className="route-now-content">
-        <NotImplementedLink nonTextLink={true} name={<FormattedMessage id="realtime-matching" defaultMessage="Realtime matching"/>}>
-          {icon}
-        </NotImplementedLink>
-      </div>
-
+      <NotImplementedLink
+        nonTextLink={true}
+        className="route-now-content"
+        name={<FormattedMessage
+        id="realtime-matching"
+        defaultMessage="Realtime matching"/>}>
+        {icon}
+      </NotImplementedLink>
 
 module.exports = Relay.createContainer(TripLink,
   fragments: queries.TripLinkFragments
