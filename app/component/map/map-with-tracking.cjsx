@@ -15,8 +15,6 @@ class MapWithTracking extends React.Component
     super
     #Check if we have a position already
     locationState = @context.getStore('PositionStore').getLocationState()
-    console.log("initiator was called, and we had a position: ")
-    console.log(locationState.hasLocation)
     if locationState.hasLocation
       initialZoom = 16
       initialLat = locationState.lat
