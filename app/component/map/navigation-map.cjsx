@@ -11,7 +11,7 @@ class NavigationMap extends React.Component
 
   componentWillMount: ->
     if window?
-      @context.executeAction LocateActions.startLocationWatch
+      @context.executeAction PositionActions.startLocationWatch
 
       # Lazy-load the map, as it is quite big (~400KB), and only needed in this component
       # Promise-loader returns a function, which returns the actual promise when called.
