@@ -29,13 +29,6 @@ class Map extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  getLocation: ->
-    coordinates = @context.getStore('PositionStore').getLocationState()
-    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
-      hasPosition: true
-    else
-      hasPosition: false
-
   setBounds: (props) ->
     @refs.map.getLeafletElement().fitBounds(
       [props.from, props.to],
@@ -69,7 +62,6 @@ class Map extends React.Component
   render: =>
     if isBrowser
       origin = @context.getStore('EndpointStore').getOrigin()
-      location = @getLocation()
 
       if origin?.lat
         fromMarker = <LocationMarker position={origin} className="from"/>
