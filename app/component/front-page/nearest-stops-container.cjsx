@@ -1,5 +1,5 @@
 Relay                  = require 'react-relay'
-StopCardListContainer  = require '../route/route-list-container'
+StopCardListContainer  = require '../stop-cards/nearest-stop-card-list-container'
 queries                = require '../../queries'
 React                  = require 'react'
 
