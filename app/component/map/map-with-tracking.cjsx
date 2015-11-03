@@ -73,7 +73,7 @@ class MapWithTracking extends React.Component
         zoom: 16
         lat: locationState.lat
         lon: locationState.lon
-        @context.executeAction MapTrackActions.startMapTrack #start map track because position was found
+        () => @context.executeAction MapTrackActions.startMapTrack #start map track because position was found
 
   render: =>
     <Map className="fullscreen" showStops={true} lat={@state.lat} lon={@state.lon} zoom={@state.zoom} disableMapTrack={@disableMapTrack}>
