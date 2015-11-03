@@ -9,7 +9,7 @@ class ServiceStore extends Store
     if window.location.search?.indexOf('mock') > -1
       window.mock = @mock =
         data: {}
-      window.mock.geolocation =  @makeMockGeolocation()
+      window.mock.geolocation = @makeMockGeolocation()
 
   geolocator: ->
     geolocation: @mock?.geolocation or navigator.geolocation
