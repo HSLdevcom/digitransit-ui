@@ -29,7 +29,6 @@ class NearestStopsContainer extends React.Component
         lat: @props.lat
         lon: @props.lon
       }
-      renderLoading={-> <div className="spinner-loader"/>}
       }
     />
 module.exports = NearestStopsContainer
