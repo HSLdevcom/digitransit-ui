@@ -32,12 +32,8 @@ class Map extends React.Component
   getLocation: ->
     coordinates = @context.getStore('PositionStore').getLocationState()
     if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
-      coordinates: [coordinates.lat, coordinates.lon]
-      zoom: 16
       hasPosition: true
     else
-      coordinates: [60.17332, 24.94102]
-      zoom: 11
       hasPosition: false
 
   setBounds: (props) ->
