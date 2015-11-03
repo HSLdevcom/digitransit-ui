@@ -74,8 +74,7 @@ class Map extends React.Component
       if origin?.lat
         fromMarker = <LocationMarker position={origin} className="from"/>
 
-      if location.hasPosition == true
-        positionMarker = <PositionMarker/>
+      positionMarker = <PositionMarker/>
 
       if @props.showStops
         stops = <StopMarkerContainer hilightedStops={@props.hilightedStops}/>
