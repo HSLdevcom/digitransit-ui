@@ -80,16 +80,8 @@ class Map extends React.Component
           [@props.lat, @props.lon]
         else if origin.lat and origin.lon
           [origin.lat, origin.lon]  #origin is used
-        else
-          undefined # no center to use
 
-      zoom =
-        if @props.fitBounds
-          undefined
-        else if @props.zoom
-          @props.zoom
-        else
-          undefined
+      zoom = if not @props.fitBounds and @props.zoom then @props.zoom
 
       map =
         <LeafletMap
