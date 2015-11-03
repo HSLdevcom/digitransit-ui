@@ -12,11 +12,6 @@ class PositionStore extends Store
 
   @storeName: 'PositionStore'
 
-  snap:
-    10: undefined,
-    100: undefined
-
-
   constructor: (dispatcher) ->
     super(dispatcher)
     @removeLocation()
@@ -53,27 +48,7 @@ class PositionStore extends Store
     @lon = location.lon
     @heading = if location.heading then location.heading else @heading
     @status = @STATUS_FOUND_LOCATION
-    @locationChanged(@lat, @lon, statusChanged)
-
-  locationChanged: (newLat, newLng, statusChanged) ->
-
-    emitted = false
-    latlng = new L.LatLng(newLat, newLng);
-    for snapLen of @snap
-
-      if @snap[snapLen] == undefined
-        @snap[snapLen] = latlng
-        @emitChange(snapLen: snapLen, statusChanged: statusChanged)
-        emitted = true
-
-      distance = latlng.distanceTo(@snap[snapLen])
-
-      if distance > snapLen
-        @snap[snapLen] = latlng
-        @emitChange(snapLen: snapLen, statusChanged: statusChanged)
-        emitted = true
-    if !emitted
-        @emitChange(statusChanged: statusChanged)
+    @emitChange(statusChanged: statusChanged)
 
   storeAddress: (location) ->
     @address = "#{location.address} #{location.number}, #{location.city}"
