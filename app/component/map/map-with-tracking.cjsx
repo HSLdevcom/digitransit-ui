@@ -15,20 +15,14 @@ class MapWithTracking extends React.Component
     super
     #Check if we have a position already
     locationState = @context.getStore('PositionStore').getLocationState()
-    if locationState.hasLocation
-      initialZoom = 16
-      initialLat = locationState.lat
-      initialLon = locationState.lon
+    @state = if locationState.hasLocation
+      zoom: 16
+      lat: locationState.lat
+      lon: locationState.lon
     else
-      initialZoom = config.initialLocation.zoom
-      initialLat = config.initialLocation.lat
-      initialLon = config.initialLocation.lon
-
-    @state =
-      zoom: initialZoom
-      lat: initialLat
-      lon: initialLon
-      mapTracking: false
+      zoom: config.initialLocation.zoom
+      lat: config.initialLocation.lat
+      lon: config.initialLocation.lon
 
   componentWillMount: =>
     @context.getStore('PositionStore').addChangeListener @onPositionChange
