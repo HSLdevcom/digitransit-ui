@@ -4,6 +4,8 @@ queries               = require '../../queries'
 Link                  = require 'react-router/lib/Link'
 Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
+NotImplementedLink    = require '../util/not-implemented-link'
+FormattedMessage      = require('react-intl').FormattedMessage
 
 class TripLink extends React.Component
 
@@ -18,9 +20,11 @@ class TripLink extends React.Component
       <Link to={@props.trip.trip and "/lahdot/#{@props.trip.trip.gtfsId}"} className="route-now-content">
         {icon}
       </Link>
-    else
+    else # We cannot match. TODO.
       <div className="route-now-content">
-        {icon}
+        <NotImplementedLink nonTextLink={true} name={<FormattedMessage id="realtime-matching" defaultMessage="Realtime matching"/>}>
+          {icon}
+        </NotImplementedLink>
       </div>
 
 
