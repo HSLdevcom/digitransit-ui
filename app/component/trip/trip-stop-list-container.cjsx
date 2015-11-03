@@ -54,7 +54,6 @@ class TripStopListContainer extends React.Component
         key={stoptime.stop.gtfsId}
         stop={stoptime.stop}
         mode={mode}
-        nearestDistance={stoptime.stop.nearestDistanceß}
         vehicle={if nextStop == stoptime.stop.gtfsId then vehicle}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}

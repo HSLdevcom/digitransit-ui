@@ -40,13 +40,14 @@ class RouteStopListContainer extends React.Component
     stopObjs = []
 
     @props.pattern.stops.forEach (stop) ->
+      isNearest = nearest != undefined and nearest.stop == stop;
       stopObjs.push <RouteStop
         key={stop.gtfsId}
         stop={stop}
         mode={mode}
         vehicles={vehicle_stops[stop.gtfsId]}
-        distance={if nearest!=undefined && nearest.stop==stop then nearest.distance else undefined}
-        ref={"nearestStop" if stop.nearestDistance}
+        distance={if isNearest then nearest.distance else undefined}
+        ref={"nearestStop" if isNearest}
       />
     stopObjs
 
