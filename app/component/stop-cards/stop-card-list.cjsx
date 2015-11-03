@@ -10,7 +10,7 @@ class StopCardList extends React.Component
       <div className="row">
         <MasonryComponent ref="cards-masonry">
           {@props.children.map (child) ->
-            <div className="small-12 medium-6 large-4 columns">
+            <div key={child.key} className="small-12 medium-6 large-4 columns">
               {child}
             </div>
           }
