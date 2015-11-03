@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "babel": "^6.0.15",
+    "babel-core": "^6.0.20",
     "body-parser": "^1.14.1",
     "classnames": "^2.2.0",
     "cookie-parser": "^1.4.0",
