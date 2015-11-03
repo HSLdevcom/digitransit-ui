@@ -90,9 +90,6 @@ MapWithTracking.description =
     </ComponentUsageExample>
   </div>
 
-MapWithTracking.propTypes =
-  departureTime: React.PropTypes.number.isRequired
-
 MapWithTracking.displayName = "MapWithTracking"
 
 module.exports = MapWithTracking
