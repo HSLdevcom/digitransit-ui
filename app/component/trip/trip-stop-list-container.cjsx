@@ -28,10 +28,7 @@ class TripStopListContainer extends React.Component
     @forceUpdate()
 
   getStops: ->
-    nearest = @getNearestStopDistance(@props.trip.stoptimes.map(
-      (stoptime)->
-        stoptime.stop
-    ))
+    nearest = @getNearestStopDistance(@props.trip.stoptimes.map((stoptime) -> stoptime.stop))
     mode = @props.trip.route.type.toLowerCase()
     vehicles = @context.getStore('RealTimeInformationStore').vehicles
     vehicle = !isEmpty(vehicles) && vehicles[Object.keys(vehicles)[0]]
@@ -57,7 +54,7 @@ class TripStopListContainer extends React.Component
         vehicle={if nextStop == stoptime.stop.gtfsId then vehicle}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
-        distance={if nearest!=undefined && nearest.stop==stoptime.stop then nearest.distance else undefined}
+        distance={if nearest?.stop.gtfsId == stoptime.stop.gtfsId then nearest.distance}
         realtimeDeparture={stoptime.realtimeDeparture}
         currentTimeFromMidnight={currentTimeFromMidnight}/>
 
