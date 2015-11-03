@@ -27,10 +27,14 @@ class RouteStop extends React.Component
       <Link to="/pysakit/#{@props.stop.gtfsId}">
         <div className={"columns small-6 route-stop-name " + @props.mode}>
 
-          {@props.stop.name} {<WalkDistance className="nearest-route-stop" icon="icon_location_with_user" walkDistance={@props.distance}/> unless @props.distance==undefined}<br/>
-            <span className="route-stop-address">
-              {@props.stop.desc}
-            </span>
+          {@props.stop.name}{"\u00A0"}
+          {if @props.distance then <WalkDistance className="nearest-route-stop"
+                                                 icon="icon_location_with_user"
+                                                 walkDistance={@props.distance}/>}
+          <br/>
+          <span className="route-stop-address">
+            {@props.stop.desc}
+          </span>
         </div>
         <div className="columns small-2 route-stop-code">
           {@props.stop.code}
