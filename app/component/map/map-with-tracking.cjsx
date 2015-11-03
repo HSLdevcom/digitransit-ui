@@ -1,11 +1,12 @@
-React       = require 'react'
-timeUtils   = require '../../util/time-utils'
-cx          = require 'classnames'
+React                 = require 'react'
+timeUtils             = require '../../util/time-utils'
+cx                    = require 'classnames'
 ComponentUsageExample = require '../documentation/component-usage-example'
 Example               = require '../documentation/example-data'
 Map                   = require './map.cjsx'
 ToggleMapTracking     = require '../navigation/toggle-map-tracking'
-MapTrackActions = require '../../action/map-track-actions'
+MapTrackActions       = require '../../action/map-track-actions'
+config                = require '../../config'
 
 class MapWithTracking extends React.Component
   @contextTypes:
@@ -21,9 +22,9 @@ class MapWithTracking extends React.Component
       initialLat = locationState.lat
       initialLon = locationState.lon
     else
-      initialZoom = 11
-      initialLat = 60.17332
-      initialLon = 24.94102
+      initialZoom = config.initialLocation.zoom
+      initialLat = config.initialLocation.lat
+      initialLon = config.initialLocation.lon
 
     @state =
       zoom: initialZoom

@@ -30,3 +30,7 @@ module.exports =
     maxShownDistance: 5000
   itinerary:
     delayThreshold: 180
+  initialLocation:
+    zoom: 11
+    lat: 60.17332
+    lon: 24.94102
