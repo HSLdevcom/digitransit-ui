@@ -5,18 +5,18 @@ ComponentUsageExample = require '../documentation/component-usage-example'
 Example               = require '../documentation/example-data'
 Map                   = require './map.cjsx'
 ToggleMapTracking     = require '../navigation/toggle-map-tracking'
-MapTrackActions       = require '../../action/map-track-actions'
 config                = require '../../config'
 
 class MapWithTracking extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
 
   constructor: ->
     super
     #Check if we have a position already
     locationState = @context.getStore('PositionStore').getLocationState()
+    console.log("initiator was called, and we had a position: ")
+    console.log(locationState.hasLocation)
     if locationState.hasLocation
       initialZoom = 16
       initialLat = locationState.lat
@@ -30,38 +30,41 @@ class MapWithTracking extends React.Component
       zoom: initialZoom
       lat: initialLat
       lon: initialLon
+      mapTracking: false
 
   componentWillMount: =>
-    @context.getStore('MapTrackStore').addChangeListener @onTrackStatusChange
     @context.getStore('PositionStore').addChangeListener @onPositionChange
 
   componentWillUnmount: =>
-    @context.getStore('MapTrackStore').removeChangeListener @onTrackStatusChange
     @context.getStore('PositionStore').removeChangeListener @onPositionChange
 
-  disableMapTrack: =>
-    @context.executeAction MapTrackActions.endMapTrack
+  disableMapTracking: =>
+    @setState
+      mapTracking: false
+      zoom: undefined
+      lat: undefined
+      lon: undefined
 
-  onTrackStatusChange: =>
+  enableMapTracking: =>
     locationState = @context.getStore('PositionStore').getLocationState()
-    trackState = @context.getStore('MapTrackStore').getMapTrackState()
 
-    if locationState.hasLocation and trackState
+    if locationState.hasLocation
       @setState
+        mapTracking: true
         zoom: undefined
         lat: locationState.lat
         lon: locationState.lon
     else
       @setState
+        mapTracking: true
         zoom: undefined
         lat: undefined
         lon: undefined
 
   onPositionChange: (status) =>
     locationState = @context.getStore('PositionStore').getLocationState()
-    trackState = @context.getStore('MapTrackStore').getMapTrackState()
 
-    if locationState.hasLocation and trackState
+    if locationState.hasLocation and @state.mapTracking
       newLat = locationState.lat
       newLon = locationState.lon
       @setState
@@ -73,12 +76,14 @@ class MapWithTracking extends React.Component
         zoom: 16
         lat: locationState.lat
         lon: locationState.lon
-        () => @context.executeAction MapTrackActions.startMapTrack #start map track because position was found
+        @enableMapTracking #start map track because position was found
 
   render: =>
-    <Map className="fullscreen" showStops={true} lat={@state.lat} lon={@state.lon} zoom={@state.zoom} disableMapTrack={@disableMapTrack}>
+    <Map className="fullscreen" showStops={true} lat={@state.lat} lon={@state.lon} zoom={@state.zoom} disableMapTracking={@disableMapTracking}>
       {@props.children}
-      <ToggleMapTracking tracking={@context.getStore('MapTrackStore').getMapTrackState()}
+      <ToggleMapTracking tracking={@state.mapTracking}
+                         disableMapTracking={@disableMapTracking}
+                         enableMapTracking={@enableMapTracking}
                          onlineClassName="icon-mapMarker-toggle-positioning-online"
                          offlineClassName="icon-mapMarker-toggle-positioning-offline"/>
     </Map>
