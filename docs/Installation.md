@@ -26,6 +26,10 @@
 - `npm run start`
 - open: http://localhost:8080
 
+## Analyse webpack bundle
+- run: `webpack -p --json > digitransit.json`
+- Upload `digitransit.json` to `http://webpack.github.io/analyse/`
+
 ## Configuration application
 Digitransit ui can be configured in multiple ways. You can
 - Change between National and Regional versions using CONFIG parameter
