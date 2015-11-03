@@ -79,6 +79,3 @@ app.rehydrate dehydratedState, (err, context) ->
   if window?
     #start positioning
     @context.executeAction PositionActions.startLocationWatch
-
-    #set map track true on default
-    @context.executeAction MapTrackActions.startMapTrack
