@@ -11,6 +11,16 @@ class MapWithTracking extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
+  description =
+    <div>
+      <p>Renders a map with map-tracking functionality</p>
+      <ComponentUsageExample description="">
+        <MapWithTracking/>
+      </ComponentUsageExample>
+    </div>
+
+  displayName = "MapWithTracking"
+
   constructor: ->
     super
     #Check if we have a position already
@@ -81,15 +91,5 @@ class MapWithTracking extends React.Component
                          onlineClassName="icon-mapMarker-toggle-positioning-online"
                          offlineClassName="icon-mapMarker-toggle-positioning-offline"/>
     </Map>
-
-MapWithTracking.description =
-  <div>
-    <p>Renders a map with map-tracking functionality</p>
-    <ComponentUsageExample description="">
-      <MapWithTracking/>
-    </ComponentUsageExample>
-  </div>
-
-MapWithTracking.displayName = "MapWithTracking"
 
 module.exports = MapWithTracking
