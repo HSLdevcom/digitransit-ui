@@ -23,7 +23,7 @@ class TimeStore extends Store
       =>
         if @status == "UNSET"
           @setCurrentTimeNow()
-      , 15 * 1000)  # Update twice in a minute
+      , 30 * 1000)  # Update twice in a minute
 
   setCurrentTime: (data) ->
     @time = data
