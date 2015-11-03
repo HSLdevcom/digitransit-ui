@@ -28,8 +28,7 @@
     "url": "https://github.com/HSLdevcom/digitransit-ui/issues"
   },
   "dependencies": {
-    "babel": "^6.0.15",
-    "babel-core": "^6.0.20",
+    "babel": "^5.8.29",
     "body-parser": "^1.14.1",
     "classnames": "^2.2.0",
     "cookie-parser": "^1.4.0",
@@ -71,7 +70,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
-    "babel-loader": "^6.0.1",
+    "babel-loader": "^5.3.3",
     "babel-relay-plugin": "^0.3.0",
     "chance": "^0.8.0",
     "cjsx-loader": "^2.0.1",
