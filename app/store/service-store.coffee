@@ -35,7 +35,9 @@ class ServiceStore extends Store
       callback(window.mock.data.position)
     watchPosition: (callback) ->
       callback(window.mock.data.position)
-      setInterval callback, 100, window.mock.data.position
+      setInterval () ->
+        callback(window.mock.data.position)
+      , 100
     clearWatch: (id) ->
       clearInterval id
 
