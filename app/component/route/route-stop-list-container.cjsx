@@ -2,6 +2,7 @@
 # and all vehicles on that route for the same direction (but all patterns, not just this).
 
 React                 = require 'react'
+ReactDOM              = require 'react-dom'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 RouteStop             = require './route-stop'
@@ -21,6 +22,7 @@ class RouteStopListContainer extends React.Component
 
   componentDidMount: ->
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
+    ReactDOM.findDOMNode(@refs.nearestStop).scrollIntoView(false) if @refs.nearestStop
 
   componentWillUnmount: ->
     @context.getStore('RealTimeInformationStore').removeChangeListener @onRealTimeChange
@@ -37,7 +39,13 @@ class RouteStopListContainer extends React.Component
     stopObjs = []
 
     @props.pattern.stops.forEach (stop) ->
-      stopObjs.push <RouteStop key={stop.gtfsId} stop={stop} mode={mode} vehicles={vehicle_stops[stop.gtfsId]}/>
+      stopObjs.push <RouteStop
+        key={stop.gtfsId}
+        stop={stop}
+        mode={mode}
+        vehicles={vehicle_stops[stop.gtfsId]}
+        ref={"nearestStop" if stop.nearestDistance}
+      />
 
     stopObjs
 
