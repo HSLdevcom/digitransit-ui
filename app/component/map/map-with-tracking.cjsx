@@ -19,10 +19,12 @@ class MapWithTracking extends React.Component
       zoom: 16
       lat: locationState.lat
       lon: locationState.lon
+      mapTracking: false
     else
       zoom: config.initialLocation.zoom
       lat: config.initialLocation.lat
       lon: config.initialLocation.lon
+      mapTracking: false
 
   componentWillMount: =>
     @context.getStore('PositionStore').addChangeListener @onPositionChange
