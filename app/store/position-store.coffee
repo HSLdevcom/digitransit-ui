@@ -55,7 +55,7 @@ class PositionStore extends Store
     @locationChanged(@lat,@lon)
 
   locationChanged: (newLat, newLng) ->
-    console.log("position changed");
+#    console.log("position changed");
 
     emitted = false
     latlng = new L.LatLng(newLat, newLng);
@@ -63,7 +63,7 @@ class PositionStore extends Store
 
       if @snap[snapLen] == undefined
         @snap[snapLen] = latlng
-        console.log("position:", snapLen);
+#        console.log("position:", snapLen);
         @emitChange(snapLen)
         emitted = true
 
