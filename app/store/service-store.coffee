@@ -25,12 +25,11 @@ class ServiceStore extends Store
       window.mock.data.position.coords.longitude += dlon
       window.mock.data.position.coords.heading = heading if heading
     setCurrentPosition: (lat, lon, heading) ->
-      position =
+      window.mock.data.position =
         coords:
           latitude: lat
           longitude: lon
           heading: heading
-      window.mock.data.position = position
     getCurrentPosition: (callback) ->
       callback(window.mock.data.position)
     watchPosition: (callback) ->
