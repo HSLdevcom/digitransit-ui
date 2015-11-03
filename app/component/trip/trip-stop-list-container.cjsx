@@ -13,10 +13,10 @@ class TripStopListContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
-  setNearestStopDistance: (stops) =>
+  getNearestStopDistance: (stops) =>
     state = @context.getStore('PositionStore').getLocationState()
     if state.hasLocation == true
-      geoUtils.setDistanceToNearestStop(state.lat, state.lon, stops)
+      geoUtils.getDistanceToNearestStop(state.lat, state.lon, stops)
 
   componentDidMount: ->
     @context.getStore('RealTimeInformationStore').addChangeListener @onRealTimeChange
@@ -28,7 +28,7 @@ class TripStopListContainer extends React.Component
     @forceUpdate()
 
   getStops: ->
-    @setNearestStopDistance(@props.trip.stoptimes.map(
+    nearest = @getNearestStopDistance(@props.trip.stoptimes.map(
       (stoptime)->
         stoptime.stop
     ))
@@ -39,7 +39,6 @@ class TripStopListContainer extends React.Component
     currentTime = moment()
     currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds')
     stopPassed = false
-
 
     @props.trip.stoptimes.map (stoptime, index) ->
       nextStop = "HSL:" + vehicle.next_stop
@@ -59,6 +58,7 @@ class TripStopListContainer extends React.Component
         vehicle={if nextStop == stoptime.stop.gtfsId then vehicle}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
+        distance={if nearest!=undefined && nearest.stop==stoptime.stop then nearest.distance else undefined}
         realtimeDeparture={stoptime.realtimeDeparture}
         currentTimeFromMidnight={currentTimeFromMidnight}/>
 
