@@ -37,7 +37,6 @@ class TripStopListContainer extends React.Component
     currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds')
     stopPassed = false
 
-
     @props.trip.stoptimes.map (stoptime, index) ->
       nextStop = "HSL:" + vehicle.next_stop
       if nextStop == stoptime.stop.gtfsId
@@ -52,7 +51,6 @@ class TripStopListContainer extends React.Component
         key={stoptime.stop.gtfsId}
         stop={stoptime.stop}
         mode={mode}
-        nearestDistance={stoptime.stop.nearestDistanceß}
         vehicle={if nextStop == stoptime.stop.gtfsId then vehicle}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
