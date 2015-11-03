@@ -7,11 +7,10 @@ LocationMarker = require './location-marker'
 StopMarkerContainer = require './stop-marker-container'
 #VehicleMarkerContainer = require './vehicle-marker-container'
 LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
-Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else null
 L             = if isBrowser then require 'leaflet' else null
 config        = require '../../config'
-MapTrackActions = require '../../action/map-track-actions'
+PositionMarker = require './position-marker'
 
 if isBrowser
   require 'leaflet/dist/leaflet.css'
@@ -30,14 +29,6 @@ class Map extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  @currentLocationIcon:
-    if isBrowser
-      L.divIcon
-        html: Icon.asString 'icon-icon_mapMarker-location-animated'
-        className: 'current-location-marker'
-    else
-      null
-
   getLocation: ->
     coordinates = @context.getStore('PositionStore').getLocationState()
     if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
@@ -55,12 +46,11 @@ class Map extends React.Component
       paddingTopLeft: props.padding)
 
   componentDidMount: ->
-
-    @context.getStore('PositionStore').addChangeListener @onChange
-    @context.getStore('MapTrackStore').addChangeListener @onChange
     @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
-    @refs.map.getLeafletElement().addEventListener('dragstart', @disableMapTrack)
+    if @props.disableMapTrack
+      @refs.map.getLeafletElement().addEventListener('dragstart', @props.disableMapTrack)
+      @refs.map.getLeafletElement().addEventListener('zoomend', @props.disableMapTrack)
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
     if @props.fitBounds
@@ -71,41 +61,54 @@ class Map extends React.Component
       @setBounds(newProps)
 
   componentWillUnmount: ->
-    @context.getStore('PositionStore').removeChangeListener @onChange
+    @context.getStore('PositionStore').removeChangeListener @onPositionChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
-    @context.getStore('MapTrackStore').removeChangeListener @onChange
 
-  onChange: =>
+  onChange: (endPointChange) =>
+    if endPointChange in ['set-origin']
+      origin = @context.getStore('EndpointStore').getOrigin()
+      @refs.map.getLeafletElement().setView([origin.lat, origin.lon])
     @forceUpdate()
 
-  disableMapTrack: =>
-    @context.executeAction MapTrackActions.endMapTrack
-
-  render: ->
+  render: =>
     if isBrowser
       origin = @context.getStore('EndpointStore').getOrigin()
       location = @getLocation()
-
-      mapTracking = @context.getStore('MapTrackStore').getMapTrackState()
 
       if origin?.lat
         fromMarker = <LocationMarker position={origin} className="from"/>
 
       if location.hasPosition == true
-        positionMarker = <Marker position={location.coordinates} icon={Map.currentLocationIcon}/>
+        positionMarker = <PositionMarker/>
 
       if @props.showStops
         stops = <StopMarkerContainer hilightedStops={@props.hilightedStops}/>
 
       vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
 
+      center =
+        if @props.fitBounds
+          undefined #fitBounds is used instead
+        else if @props.lat and @props.lon
+          [@props.lat, @props.lon]
+        else if origin.lat and origin.lon
+          [origin.lat, origin.lon]  #origin is used
+        else
+          undefined # no center to use
+
+      zoom =
+        if @props.fitBounds
+          undefined
+        else if @props.zoom
+          @props.zoom
+        else
+          undefined
+
       map =
         <LeafletMap
           ref='map'
-          center={unless @props.fitBounds or (!mapTracking and location.hasPosition) then [
-                   @props.lat or origin.lat or location.coordinates[0] + 0.0005,
-                   @props.lon or origin.lon or location.coordinates[1]]}
-          zoom={unless @props.fitBounds then @props.zoom or location.zoom}
+          center={center}
+          zoom={zoom}
           zoomControl={false}
           attributionControl=false
           >

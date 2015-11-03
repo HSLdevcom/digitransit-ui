@@ -7,8 +7,7 @@ FrontPagePanel     = require '../component/front-page/front-page-panel.cjsx'
 SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
 Icon               = require '../component/icon/icon'
 Link               = require 'react-router/lib/Link'
-ToggleMapTracking   = require '../component/navigation/toggle-map-tracking'
-
+MapWithTracking    = require '../component/map/map-with-tracking'
 
 class Page extends React.Component
   @contextTypes:
@@ -19,23 +18,11 @@ class Page extends React.Component
   toggleFullscreenMap: =>
     @context.history.pushState null, "/kartta"
 
-  componentWillMount: =>
-    @context.getStore('MapTrackStore').addChangeListener @onTrackStatusChange
-
-  componentWillUnmount: =>
-    @context.getStore('MapTrackStore').removeChangeListener @onTrackStatusChange
-
-  onTrackStatusChange: =>
-    @forceUpdate()
-
   render: ->
     <IndexNavigation className="front-page fullscreen">
-      <Map className="fullscreen" showStops={true}>
+      <MapWithTracking>
         <SearchTwoFieldsContainer/>
-        <ToggleMapTracking tracking={@context.getStore('MapTrackStore').getMapTrackState()}
-                           onlineClassName="icon-mapMarker-toggle-positioning-online"
-                           offlineClassName="icon-mapMarker-toggle-positioning-offline"/>
-      </Map>
+      </MapWithTracking>
       <FrontPagePanel/>
     </IndexNavigation>
 

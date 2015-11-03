@@ -26,8 +26,8 @@ class FrontPagePanel extends React.Component
     @context.getStore('PositionStore').removeChangeListener @onPositionChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
 
-  onPositionChange: (snapSize) =>
-    if 10 == parseInt(snapSize)
+  onPositionChange: (positionChange) =>
+    if 10 == parseInt(positionChange.snapLen)
       @onChange()
 
   onChange: =>

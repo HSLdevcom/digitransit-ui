@@ -6,14 +6,15 @@ class MapTrackStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @init
+    @init()
 
   init: ->
     @tracking = false
 
   trackMapForUserStarted: ->
-    @tracking = true
-    @emitChange()
+    if !@tracking
+      @tracking = true
+      @emitChange()
 
   trackMapForUserEnded: ->
     @tracking = false

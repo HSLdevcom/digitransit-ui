@@ -48,14 +48,14 @@ class PositionStore extends Store
 
   # When watching for position, we don't want to be updated each time, but rather poll for it
   storeLocation: (location) ->
+    statusChanged = @hasStatusChanged(true)
     @lat = location.lat
     @lon = location.lon
     @heading = if location.heading then location.heading else @heading
     @status = @STATUS_FOUND_LOCATION
-    @locationChanged(@lat,@lon)
+    @locationChanged(@lat, @lon, statusChanged)
 
-  locationChanged: (newLat, newLng) ->
-    console.log("position changed");
+  locationChanged: (newLat, newLng, statusChanged) ->
 
     emitted = false
     latlng = new L.LatLng(newLat, newLng);
@@ -63,24 +63,25 @@ class PositionStore extends Store
 
       if @snap[snapLen] == undefined
         @snap[snapLen] = latlng
-        console.log("position:", snapLen);
-        @emitChange(snapLen)
+        @emitChange(snapLen: snapLen, statusChanged: statusChanged)
         emitted = true
 
       distance = latlng.distanceTo(@snap[snapLen])
 
       if distance > snapLen
         @snap[snapLen] = latlng
-        @emitChange(snapLen)
-        console.log("position:", snapLen);
+        @emitChange(snapLen: snapLen, statusChanged: statusChanged)
         emitted = true
     if !emitted
-        @emitChange()
+        @emitChange(statusChanged: statusChanged)
 
   storeAddress: (location) ->
     @address = "#{location.address} #{location.number}, #{location.city}"
     @status = @STATUS_FOUND_ADDRESS
     @emitChange()
+
+  hasStatusChanged: (hasLocation) =>
+    return hasLocation != @getLocationState().hasLocation
 
   storeLocationAndAddress: (location) ->
     @lat = location.lat

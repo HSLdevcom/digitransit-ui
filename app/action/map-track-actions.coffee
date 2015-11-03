@@ -6,6 +6,7 @@ startMapTrack = (actionContext, payload, done) ->
 
 endMapTrack = (actionContext, payload, done) ->
   actionContext.dispatch "TrackMapForUserEnded"
+  done()
 
 module.exports =
   'startMapTrack': startMapTrack
