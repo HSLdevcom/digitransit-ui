@@ -5,6 +5,12 @@ React                 = require 'react'
 
 class NearestRoutesContainer extends React.Component
 
+
+  constructor: ->
+    super
+    @state = {
+      "useSpinner": true
+    }
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
@@ -12,16 +18,18 @@ class NearestRoutesContainer extends React.Component
     lat: React.PropTypes.number.isRequired
     lon: React.PropTypes.number.isRequired
 
-  componentDidMount: ->
+  componentDidMount: =>
     @context.getStore('TimeStore').addChangeListener @onChange
+    @setState({"useSpinner": false})
 
   componentWillUnmount: ->
     @context.getStore('TimeStore').removeChangeListener @onChange
+    @setState({"useSpinner": true})
 
   onChange: =>
     @forceUpdate()
 
-  render: ->
+  render: =>
     <Relay.RootContainer
       Component={RouteListContainer}
       forceFetch={true}
@@ -29,7 +37,7 @@ class NearestRoutesContainer extends React.Component
         lat: @props.lat
         lon: @props.lon
       }
-      renderLoading={-> <div className="spinner-loader"/>}
+      renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else null}
     />
 
 module.exports = NearestRoutesContainer
