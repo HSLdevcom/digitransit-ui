@@ -17,7 +17,8 @@
   "test_runner": {
     "type": "mocha",
     "options": {
-      "reporter": "list"
+      "reporter": "list",
+      "exitOnFailure": true
     }
   },
 
