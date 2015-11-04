@@ -6,16 +6,11 @@ cx = require 'classnames'
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
-
-class ArrowLink extends React.Component
-
 ArrowLink = (props) ->
-
-  render: ->
-    <Link to={props.to}>
-      <Icon img={'icon-icon_arrow-right'} className={cx props.className}/>
-      {props.children}
-    </Link>
+  <Link to={props.to}>
+    <Icon img={'icon-icon_arrow-right'} className={cx props.className}/>
+    {props.children}
+  </Link>
 
 ArrowLink.description =
   "Icon of right-arrow that is a clickable link. One must
