@@ -31,26 +31,12 @@ add_wait_legs = (data) ->
 
       # If there's enough unaccounted time before a leg, add a wait leg
       if wait_time > 180000
-        # OTP starts walking legs as late as possible,
-        # so change it to start as early as possible and add the wait after
-        if leg.routeType == null
-          leg.startTime -= wait_time
-          leg.endTime -= wait_time
-          new_legs.push leg
-          new_legs.push(
-            create_wait_leg(leg.endTime,
-                            wait_time,
-                            last(polyUtil.decode(leg.legGeometry.points)),
-                            leg.to.name))
-        # Other legs can't be started whenever we want (the bus comes when it comes),
-        # so add the wait leg before the transit leg
-        else
-          new_legs.push(
-            create_wait_leg(leg.startTime - wait_time,
-                            wait_time,
-                            polyUtil.decode(leg.legGeometry.points)[0],
-                            leg.from.name))
-          new_legs.push leg
+        new_legs.push(
+          create_wait_leg(leg.startTime - wait_time,
+                          wait_time,
+                          polyUtil.decode(leg.legGeometry.points)[0],
+                          leg.from.name))
+        new_legs.push leg
       else
         new_legs.push leg
     itinerary.legs = new_legs
