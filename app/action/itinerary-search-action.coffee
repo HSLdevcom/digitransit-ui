@@ -30,14 +30,15 @@ add_wait_legs = (data) ->
     waitThreshold = config.itinerary.waitThreshold * 1000
     for leg in itinerary.legs
       wait_time = leg.startTime - time
-      time = leg.endTime # next leg should start when this one ended
       # If there's enough unaccounted time before a leg, add a wait leg
       if wait_time > waitThreshold
         new_legs.push(
-          create_wait_leg(leg.startTime - wait_time,
+          create_wait_leg(time,
                           wait_time,
                           polyUtil.decode(leg.legGeometry.points)[0],
                           leg.from.name))
+
+      time = leg.endTime  # next wait leg should start when this transit leg ends
 
       # Then add original leg
       new_legs.push leg
