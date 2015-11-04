@@ -41,17 +41,19 @@ class MapWithTracking extends React.Component
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
 
   disableMapTracking: =>
-    @setState
-      mapTracking: false
-      useConfig: false
-      useZoomedIn: false
+    if @state.mapTracking
+      @setState
+        mapTracking: false
+        useConfig: false
+        useZoomedIn: false
 
   enableMapTracking: =>
-    @setState
-      mapTracking: true
-      useConfig: false
-      useZoomedIn: false
-      useOrigin: false
+    if !@state.mapTracking
+      @setState
+        mapTracking: true
+        useConfig: false
+        useZoomedIn: false
+        useOrigin: false
 
   onEndpointChange: (endPointChange) =>
     if endPointChange in ['set-origin']
