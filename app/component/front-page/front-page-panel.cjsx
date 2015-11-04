@@ -80,7 +80,6 @@ class FrontPagePanel extends React.Component
       stopsPanel = <NoPositionPanel/>
       routesPanel = <NoPositionPanel/>
 
-
     favouritesPanel = <FavouritesPanel/>
 
     tabClasses = []

@@ -7,8 +7,7 @@ FrontPagePanel     = require '../component/front-page/front-page-panel.cjsx'
 SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
 Icon               = require '../component/icon/icon'
 Link               = require 'react-router/lib/Link'
-PositionActions    = require '../action/position-actions'
-
+MapWithTracking    = require '../component/map/map-with-tracking'
 
 class Page extends React.Component
   @contextTypes:
@@ -16,18 +15,14 @@ class Page extends React.Component
     executeAction: React.PropTypes.func.isRequired
     history: React.PropTypes.object.isRequired
 
-  componentDidMount: ->
-    if @context.getStore('PositionStore').getLocationState().status == 'no-location'
-      @context.executeAction PositionActions.findLocation
-
   toggleFullscreenMap: =>
     @context.history.pushState null, "/kartta"
 
   render: ->
     <IndexNavigation className="front-page fullscreen">
-      <Map className="fullscreen" showStops={true}>
+      <MapWithTracking>
         <SearchTwoFieldsContainer/>
-      </Map>
+      </MapWithTracking>
       <FrontPagePanel/>
     </IndexNavigation>
 

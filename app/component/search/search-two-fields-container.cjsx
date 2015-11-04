@@ -11,6 +11,10 @@ intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class SearchTwoFieldsContainer extends React.Component
+
+  constructor: ->
+    super
+
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
@@ -25,8 +29,11 @@ class SearchTwoFieldsContainer extends React.Component
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
     @context.getStore('PositionStore').removeChangeListener @onGeolocationChange
 
-  onGeolocationChange: =>
-    @forceUpdate()
+  onGeolocationChange: (statusChanged)=>
+    #We want to rerender only if position status changes,
+    #not if position changes
+    if statusChanged
+      @forceUpdate()
 
   onEndpointChange: =>
     @forceUpdate()
@@ -105,16 +112,7 @@ class SearchTwoFieldsContainer extends React.Component
         />
 
     to =
-      if origin.useCurrentPosition and geolocation.isLocationingInProgress
-        <input
-          key="destination"
-          type="text"
-          placeholder={@context.intl.formatMessage(
-            id: 'destination'
-            defaultMessage: "Where to? - address or stop")}
-          disabled="disabled"
-        />
-      else if destination.useCurrentPosition
+      if destination.useCurrentPosition
         @getGeolocationBar(geolocation)
       else
         <Autosuggest
