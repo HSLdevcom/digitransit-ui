@@ -25,7 +25,7 @@ describe('Stop tab', function () {
       });
 
       it('should contain stop card', function (browser) {
-        browser.expect.element('.cards').to.be.present.before(1000);
+        browser.expect.element('.cards').to.be.present;
         browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
       });
 
@@ -35,11 +35,10 @@ describe('Stop tab', function () {
         });
 
         it('should update stop page to contain Bulevardi', function (browser) {
-          browser.expect.element('.cards').to.be.present.before(2000);
+          browser.expect.element('.cards').to.be.present;
           browser.expect.element('.cards .card:first-child .h4').text.to.contain('BULEVARDI');
         });
       });
     });
   });
 });
-
