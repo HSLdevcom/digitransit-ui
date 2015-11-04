@@ -1,25 +1,27 @@
 last = require 'lodash/array/last'
+polyUtil = require 'polyline-encoded'
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
 create_wait_leg = (start_time, duration, point, placename) ->
   leg =
-    mode: "WAITING"
+    mode: "WAIT"
     routeType: null # non-transit
     route: ""
-    duration: duration
+    # OTP returns start and end times in milliseconds, but durations in seconds
+    duration: duration / 1000
     startTime: start_time
     endTime: start_time + duration
-    legGeometry: {points: [point]}
+    legGeometry: {points: polyUtil.encode([point])}
     from:
-      lat: point[0] * 1e-5
-      lon: point[1] * 1e-5
+      lat: point[0]
+      lon: point[1]
       name: placename
     intermediateStops: []
   leg.to = leg.from
   return leg
 
-add_waiting_legs = (data) ->
+add_wait_legs = (data) ->
   for itinerary in data.plan?.itineraries or []
     new_legs = []
     time = itinerary.startTime # tracks when next leg should start
@@ -27,8 +29,8 @@ add_waiting_legs = (data) ->
       wait_time = leg.startTime - time
       time = leg.endTime # next leg should start when this one ended
 
-      # If there's unaccounted time before a leg, add a waiting leg
-      if wait_time > 1000  # OTP often marks time between walk and vehicle as 1000ms
+      # If there's enough unaccounted time before a leg, add a wait leg
+      if wait_time > 180000
         # OTP starts walking legs as late as possible,
         # so change it to start as early as possible and add the wait after
         if leg.routeType == null
@@ -38,15 +40,15 @@ add_waiting_legs = (data) ->
           new_legs.push(
             create_wait_leg(leg.endTime,
                             wait_time,
-                            last(leg.legGeometry.points),
+                            last(polyUtil.decode(leg.legGeometry.points)),
                             leg.to.name))
         # Other legs can't be started whenever we want (the bus comes when it comes),
-        # so add the waiting leg before the transit leg
+        # so add the wait leg before the transit leg
         else
           new_legs.push(
             create_wait_leg(leg.startTime - wait_time,
                             wait_time,
-                            leg.legGeometry.points[0],
+                            polyUtil.decode(leg.legGeometry.points)[0],
                             leg.from.name))
           new_legs.push leg
       else
@@ -82,7 +84,7 @@ itinerarySearchRequest = (actionContext, options, done) ->
     wheelchair: itinerarySearchStore.isWheelchair()
     maxWalkDistance: config.maxWalkDistance
   xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
-    add_waiting_legs(data)
+    add_wait_legs(data)
     actionContext.dispatch "ItineraryFound", data
     done()
   , (err) ->

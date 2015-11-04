@@ -42,9 +42,9 @@ class SummaryRow extends React.Component
       # Use either vehicle number or walking distance as text
       if leg.transitLeg and leg.mode.toLowerCase() == 'subway'
         text = " M"
-      else if leg.mode == 'WAITING'
-        # Use waiting time in minutes
-        text = " #{Math.floor(leg.duration / 60000)}min"
+      else if leg.mode == 'WAIT'
+        # Use waittime in minutes
+        text = " #{Math.round(leg.duration / 60)}min"
       else if leg.transitLeg and leg.route.length < 6
         text = " #{leg.route}"
       else if leg.transitLeg and leg.route.length >= 6
