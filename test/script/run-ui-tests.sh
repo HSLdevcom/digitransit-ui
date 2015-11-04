@@ -17,9 +17,13 @@ fi
 
 
 PLATFORM=`uname`
+ARCHITECTURE=`arch`
 if [ $PLATFORM == 'Darwin' ]; then
   SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-darwin-x64.zip"
+elif [ $ARCHITECTURE == 'i686' ]; then
+  SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar
+  BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-ia32.zip"
 else
   SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
