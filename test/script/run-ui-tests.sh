@@ -62,7 +62,7 @@ killtree() {
 checkDependencies
 
 if [ "$1" == "local" ]; then
-  npm run dev-nowatch &
+  CONFIG=hsl npm run dev-nowatch &
   NODE_PID=$!
   # Wait for the server to start
   sleep 10
@@ -79,7 +79,7 @@ elif [ "$1" == "browserstack" ]; then
     echo "usage: npm run test-browserstack -- BROWSERSTACK_USERNAME BROWSERSTACK_KEY"
     exit
   fi
-  npm run dev &
+  CONFIG=hsl npm run dev &
   NODE_PID=$!
   $BROWSERSTACK_LOCAL_BINARY $3 &
   BROWSERSTACK_PID=$!
