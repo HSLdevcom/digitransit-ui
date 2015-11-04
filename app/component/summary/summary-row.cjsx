@@ -2,7 +2,6 @@ React              = require 'react'
 moment             = require 'moment'
 timeUtils          = require '../../util/time-utils'
 Link               = require 'react-router/lib/Link'
-Icon               = require '../icon/icon'
 RouteNumber        = require '../departure/route-number'
 DepartureTime      = require '../departure/departure-time'
 cx                 = require 'classnames'
@@ -44,6 +43,9 @@ class SummaryRow extends React.Component
       # Use either vehicle number or walking distance as text
       if leg.transitLeg and leg.mode.toLowerCase() == 'subway'
         text = " M"
+      else if leg.mode == 'WAIT'
+        # Use waittime in minutes
+        text = " #{Math.round(leg.duration / 60)}min"
       else if leg.transitLeg and leg.route.length < 6
         text = " #{leg.route}"
       else if leg.transitLeg and leg.route.length >= 6

@@ -224,8 +224,8 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_tram-live</span><br />
         <Icon img={'icon-icon_user'}/>
         <span className="code">icon-icon_user</span><br />
-        <Icon img={'icon-icon_waiting'}/>
-        <span className="code">icon-icon_waiting</span><br />
+        <Icon img={'icon-icon_wait'}/>
+        <span className="code">icon-icon_wait</span><br />
         <Icon img={'icon-icon_walk'}/>
         <span className="code">icon-icon_walk</span><br />
         <Icon img={'icon-icon_mapMarker-location-animated'}/>
@@ -252,6 +252,7 @@ class StyleGuidelinesPage extends React.Component
       <div className="ferry">some div<span className="code">.ferry</span></div>
 
       <div className="walk">some div<span className="code">.walk</span></div>
+      <div className="wait">some div<span className="code">.wait</span></div>
       <div className="from">some div<span className="code">.from</span></div>
       <div className="to">some div<span className="code">.to</span></div>
       <br/>
