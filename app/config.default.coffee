@@ -22,6 +22,9 @@ module.exports =
   maxWalkDistance: 10000
   maxBikingDistance: 40000
   itinerary:
+    # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180
+    # Wait time to show "wait leg"? e.g. 180 means over 3 minutes are shown as wait time. Measured in seconds.
+    waitThreshold: 180
   nearestStopDistance:
     maxShownDistance: 5000
