@@ -29,7 +29,12 @@ itinerarySearchRequest = (actionContext, options, done) ->
     minTransferTime: itinerarySearchStore.getMinTransferTime()
     walkSpeed: itinerarySearchStore.getWalkSpeed()
     wheelchair: itinerarySearchStore.isWheelchair()
-    maxWalkDistance: config.maxWalkDistance
+
+  if itinerarySearchStore.getMode().indexOf('BICYCLE') ==-1
+    params.maxWalkDistance = config.maxWalkDistance
+  else
+    params.maxWalkDistance = config.maxBikingDistance;
+
   xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
     actionContext.dispatch "ItineraryFound", data
     done()
