@@ -30,20 +30,12 @@ class Map extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
   componentDidMount: =>
-    @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
 
   componentWillUnmount: ->
     @context.getStore('PositionStore').removeChangeListener @onPositionChange
-    @context.getStore('EndpointStore').removeChangeListener @onChange
-
-  onChange: (endPointChange) =>
-    if endPointChange in ['set-origin']
-      origin = @context.getStore('EndpointStore').getOrigin()
-      @refs.map.getLeafletElement().setView([origin.lat, origin.lon])
-    @forceUpdate()
 
   render: =>
     if isBrowser

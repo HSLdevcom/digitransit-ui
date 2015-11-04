@@ -34,9 +34,11 @@ class MapWithTracking extends React.Component
 
   componentWillMount: =>
     @context.getStore('PositionStore').addChangeListener @onPositionChange
+    @context.getStore('EndpointStore').addChangeListener @onEndpointChange
 
   componentWillUnmount: =>
     @context.getStore('PositionStore').removeChangeListener @onPositionChange
+    @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
 
   disableMapTracking: =>
     @setState
@@ -49,6 +51,13 @@ class MapWithTracking extends React.Component
       mapTracking: true
       useConfig: false
       useZoomedIn: false
+      useOrigin: false
+
+  onEndpointChange: (endPointChange) =>
+    if endPointChange in ['set-origin']
+      @setState
+        useOrigin: true
+        mapTracking: false
 
   onPositionChange: (status) =>
     locationState = @context.getStore('PositionStore').getLocationState()
@@ -75,6 +84,10 @@ class MapWithTracking extends React.Component
       zoom = config.initialLocation.zoom
       lat = config.initialLocation.lat
       lon = config.initialLocation.lon
+    else if @state.useOrigin
+      origin = @context.getStore('EndpointStore').getOrigin()
+      lat = origin.lat
+      lon = origin.lon
 
     if @state.useZoomedIn
       zoom = 16
