@@ -3,9 +3,8 @@ Icon            = require '../icon/icon'
 
 class ToggleMapTracking extends React.Component
   @propTypes:
-    enableMapTracking: React.PropTypes.func.isRequired
-    disableMapTracking: React.PropTypes.func.isRequired
-    tracking: React.PropTypes.bool.isRequired
+    handleClick: React.PropTypes.func.isRequired
+    className: React.PropTypes.string.isRequired
 
   render: ->
     <div className="toggle-positioning-container" onClick={@props.handleClick}>

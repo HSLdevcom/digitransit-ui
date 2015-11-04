@@ -102,7 +102,6 @@ class MapWithTracking extends React.Component
     >
       {@props.children}
       <ToggleMapTracking
-        tracking={@state.mapTracking}
         handleClick={if @state.mapTracking then @disableMapTracking else @enableMapTracking}
         className={"icon-mapMarker-toggle-positioning-" + if @state.mapTracking then "online" else "offline"}
       />
