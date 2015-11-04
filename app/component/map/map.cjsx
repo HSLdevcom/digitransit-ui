@@ -29,11 +29,6 @@ class Map extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  setBounds: (props) ->
-    @refs.map.getLeafletElement().fitBounds(
-      [props.from, props.to],
-      paddingTopLeft: props.padding)
-
   componentDidMount: =>
     @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
@@ -42,12 +37,6 @@ class Map extends React.Component
       @refs.map.getLeafletElement().addEventListener('zoomend', @props.disableMapTracking)
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
-    if @props.fitBounds
-      @setBounds(@props)
-
-  componentWillUpdate: (newProps) ->
-    if newProps.fitBounds and (newProps.from != @props.from or newProps.to != @props.to)
-      @setBounds(newProps)
 
   componentWillUnmount: ->
     @context.getStore('PositionStore').removeChangeListener @onPositionChange
@@ -90,6 +79,8 @@ class Map extends React.Component
           zoom={zoom}
           zoomControl={false}
           attributionControl=false
+          bounds={if @props.fitBounds then [@props.from, @props.to]}
+          boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
           >
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
