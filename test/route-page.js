@@ -1,4 +1,6 @@
 describe('Route Page', function () {
+  this.timeout(120000);
+
   before(function (browser, done) {
     require('./browser-upgrade.js')(browser);
     browser.url("http://127.0.0.1:8080/linjat/HSL:1006:1:01?mock", function () {

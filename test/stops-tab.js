@@ -1,4 +1,6 @@
 describe('Stop tab', function () {
+  this.timeout(120000);
+
   before(function (browser, done) {
     require('./browser-upgrade.js')(browser);
     browser.init(done);
