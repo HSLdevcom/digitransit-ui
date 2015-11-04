@@ -4,18 +4,31 @@ queries               = require '../../queries'
 Link                  = require 'react-router/lib/Link'
 Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
+NotImplementedLink    = require '../util/not-implemented-link'
+FormattedMessage      = require('react-intl').FormattedMessage
 
 class TripLink extends React.Component
 
   render: ->
-    <div className="route-now-content">
-      <Link key={@props.trip.fuzzyTrip.gtfsId} to="#{process.env.ROOT_PATH}lahdot/#{@props.trip.fuzzyTrip.gtfsId}">
-        <Icon className={cx @props.trip.fuzzyTrip.route.type.toLowerCase(), 'large-icon'}
-              img={'icon-icon_' + @props.trip.fuzzyTrip.route.type.toLowerCase() + '-live'}
-        />
-      </Link>
-    </div>
+    icon =
+      <Icon
+        className={cx @props.routeType, 'large-icon'}
+        img={'icon-icon_' + @props.routeType + '-live'}
+      />
 
+    if @props.trip.trip
+      <Link to={@props.trip.trip and "/lahdot/#{@props.trip.trip.gtfsId}"} className="route-now-content">
+        {icon}
+      </Link>
+    else # We cannot match. TODO.
+      <NotImplementedLink
+        nonTextLink={true}
+        className="route-now-content"
+        name={<FormattedMessage
+        id="realtime-matching"
+        defaultMessage="Realtime matching"/>}>
+        {icon}
+      </NotImplementedLink>
 
 module.exports = Relay.createContainer(TripLink,
   fragments: queries.TripLinkFragments

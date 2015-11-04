@@ -58,7 +58,7 @@ killtree() {
 checkDependencies
 
 if [ "$1" == "local" ]; then
-  npm run dev &
+  npm run dev-nowatch &
   NODE_PID=$!
   # Wait for the server to start
   sleep 10

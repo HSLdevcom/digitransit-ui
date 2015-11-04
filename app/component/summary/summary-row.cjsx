@@ -1,5 +1,6 @@
 React              = require 'react'
 moment             = require 'moment'
+timeUtils          = require '../../util/time-utils'
 Link               = require 'react-router/lib/Link'
 RouteNumber        = require '../departure/route-number'
 DepartureTime      = require '../departure/departure-time'
@@ -68,7 +69,7 @@ class SummaryRow extends React.Component
         style={styleLine}
         className={cx "line", leg.mode.toLowerCase()}>
         <span key={i + 'b'} className={cx "summary-circle", legClasses}></span>
-        <RouteNumber mode={leg.mode.toLowerCase()} text={text}/>
+        <RouteNumber mode={leg.mode.toLowerCase()} text={text} realtime={leg.realTime}/>
       </span>
 
       unless isLastLeg and not isEnoughRoomForLastLegStartTime
@@ -86,11 +87,7 @@ class SummaryRow extends React.Component
           realtime={leg.realTime}
           currentTime={currentTime} />
 
-    duration = moment.duration(duration)
-    if duration.hours() >= 1
-      durationText = "#{duration.hours()}h #{duration.minutes()}min"
-    else
-      durationText = "#{duration.minutes()} min"
+    durationText = timeUtils.durationToString(duration)
 
     classes = [
       "itinerary-summary-row"

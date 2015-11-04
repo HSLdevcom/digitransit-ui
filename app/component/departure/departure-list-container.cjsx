@@ -72,7 +72,7 @@ class DepartureListContainer extends React.Component
         classes[rowClasses] = true
 
       if @props.routeLinks
-        departureObjs.push <Link to="#{process.env.ROOT_PATH}linjat/#{departure.pattern.code}" key={id}>
+        departureObjs.push <Link to="/linjat/#{departure.pattern.code}" key={id}>
           <Departure departure={departure} showStop={@props.showStops} currentTime={currentTime} className={cx classes}/>
         </Link>
       else

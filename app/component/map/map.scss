@@ -1,4 +1,4 @@
-$small-map-height: 155px;
+$small-map-height: 120px;
 $medium-map-height: 300px;
 $large-map-height: 500px;
 $stop-thin-opacity: 0.4;
@@ -29,7 +29,7 @@ div.map.summaryMap div.leaflet-container {
     height: $small-map-height;
   }
   div.background-gradient {
-    height: $small-map-height * 0.7;
+    height: $small-map-height;
   }
   div.map:not(.fullscreen) div.leaflet-container div.leaflet-control-container div div.leaflet-control-attribution {
     display: none;
@@ -63,8 +63,15 @@ div.map.summaryMap div.leaflet-container {
   }
 }
 
-div.leaflet-control-container div.leaflet-top {
-  top: 5em;
+/* Hide top container for small screens.
+ * When we are demoing application on a desktop browser in "narrow mobile width"
+ * Leaflet top bar icons are always in a way of something.
+ * Note that only checking if we are on mobile device using Leaflet.Browser.touch is not enough.
+ */
+@media #{$small-only} {
+  div.leaflet-control-container div.leaflet-top {
+    display: none;
+  }
 }
 
 div.leaflet-container {
@@ -74,10 +81,6 @@ div.leaflet-container {
 
 div.leaflet-container {
   background: rgb(230, 229, 217);
-}
-
-.leaflet-bottom.leaflet-right {
-  z-index: 0;
 }
 
 div.current-location-marker > span > svg.icon {
@@ -248,7 +251,7 @@ div.background-gradient {
   width: 100%;
   position: absolute;
   top: 0px;
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(153, 153, 153, 0));
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
   pointer-events: none;
   z-index: 801;
 }

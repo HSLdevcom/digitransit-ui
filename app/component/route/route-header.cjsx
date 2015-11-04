@@ -11,9 +11,9 @@ class RouteHeader extends React.Component
     trip = if @props.trip then <span className="route-header-trip">{@props.trip.substring(0,2)}:{@props.trip.substring(2,4)} →</span> else ""
     headerText = if !@props.trip then <div className="route-header-name">{@props.route.longName}</div>
     routeLineText = " " + (@props.route.shortName or "")
-    routeLine = if @props.trip then <Link to="#{process.env.ROOT_PATH}linjat/#{@props.pattern.code}">{routeLineText}</Link> else routeLineText
+    routeLine = if @props.trip then <Link to="/linjat/#{@props.pattern.code}">{routeLineText}</Link> else routeLineText
     if @props.reverseId && !@props.trip
-      reverse = <Link to="#{process.env.ROOT_PATH}linjat/#{@props.reverseId}">
+      reverse = <Link to="/linjat/#{@props.reverseId}">
           <Icon className={"route-header-direction-switch " + mode} img={'icon-icon_direction-b'}/>
         </Link>
 

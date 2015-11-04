@@ -17,7 +17,7 @@ class BackButton extends React.Component
       if window.history.length > 1
         @context.history.goBack()
       else
-        @context.history.pushState null, process.env.ROOT_PATH
+        @context.history.pushState null, "/"
     , 0)
 
   render: ->

@@ -1,6 +1,6 @@
 Store = require 'fluxible/addons/BaseStore'
 
-class LocationStore extends Store
+class PositionStore extends Store
 
   STATUS_NO_LOCATION: 'no-location'
   STATUS_SEARCHING_LOCATION: 'searching-location'
@@ -10,7 +10,7 @@ class LocationStore extends Store
   STATUS_GEOLOCATION_TIMEOUT: 'geolocation-timeout'
   STATUS_GEOLOCATION_NOT_SUPPORTED: 'geolocation-not-supported'
 
-  @storeName: 'LocationStore'
+  @storeName: 'PositionStore'
 
   constructor: (dispatcher) ->
     super(dispatcher)
@@ -101,4 +101,4 @@ class LocationStore extends Store
     "GeolocationWatchStarted": 'storeWatchId'
     "GeolocationWatchStopped": 'clearWatchId'
 
-module.exports = LocationStore
+module.exports = PositionStore

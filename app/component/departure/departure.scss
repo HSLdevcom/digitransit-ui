@@ -3,16 +3,16 @@
   // parent class for time, vehicle-number, destination
   background: $white;
   line-height: $line-height-normal;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  position: relative;
+  overflow-y: visible;
+  white-space: nowrap;
   margin: 0;
 
   .vehicle-number {
     width: 2.5em;
   }
   .icon {
-    height: 12px;
-    width: 12px;
+    font-size: 9pt;
   }
   .stop-reference {
       float: right;
@@ -49,8 +49,17 @@
 // route-number component
 .route-number {
   vertical-align: top;
+  position: relative;
   display: inline-block;
   &.vertical {
     text-align: center;
   }
+}
+
+.icon.realtime-icon {
+  position: absolute !important;
+  margin-top: -0.1em;
+  margin-left: -0.35em;
+  height: 0.5em;
+  width: 0.5em;
 }

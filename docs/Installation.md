@@ -26,6 +26,13 @@
 - `npm run start`
 - open: http://localhost:8080
 
+## Analyse webpack bundle
+- run: `webpack -p --json > digitransit.json`
+- Upload `digitransit.json` to `http://webpack.github.io/analyse/`
+
+Or you can also use this:
+- https://github.com/robertknight/webpack-bundle-size-analyzer
+
 ## Configuration application
 Digitransit ui can be configured in multiple ways. You can
 - Change between National and Regional versions using CONFIG parameter

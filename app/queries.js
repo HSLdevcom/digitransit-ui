@@ -148,6 +148,8 @@ var RouteStopListFragments = {
       }
       stops {
         gtfsId
+        lat
+        lon
         name
         desc
         code
@@ -418,6 +420,8 @@ var TripStopListFragments = {
           name
           desc
           code
+          lat
+          lon
         }
         realtimeDeparture
         realtime
@@ -453,11 +457,8 @@ class FuzzyTripRoute extends Relay.Route {
 var TripLinkFragments = {
   trip: () => Relay.QL`
     fragment on QueryType {
-      fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
+      trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
         gtfsId
-        route        {
-          type
-        }
       }
     }
   `,

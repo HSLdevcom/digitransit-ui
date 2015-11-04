@@ -1,14 +1,16 @@
+config = require('../../config')
+
 module.exports = {
   "version": 8,
   "name": "Mapbox Streets",
   "sources": {
     "composite": {
-      "url": "http://digitransit.fi/hsl-vector-map/index.json",
+      "url": config.URL.SERVER_ROOT + "/hsl-vector-map/index.json",
       "type": "vector"
     }
   },
-  "sprite": process.env.ROOT_PATH + "map/digitransit",
-  "glyphs": process.env.ROOT_PATH + "mapFonts/{fontstack}/{range}.pbf",
+  "sprite": config.ROOT_PATH + "/map/digitransit",
+  "glyphs": config.ROOT_PATH + "/mapFonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",

@@ -27,6 +27,7 @@ var RoutingContext = require('react-router/lib/RoutingContext')
 /* History management */
 var createHistory = require('history/lib/createMemoryHistory');
 var useQueries = require('history/lib/useQueries');
+var useBasename = require('history/lib/useBasename');
 
 var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
 var IntlProvider = require('react-intl').IntlProvider;
@@ -35,12 +36,12 @@ var polyfillService = require('polyfill-service');
 
 /********** Global **********/
 var port = process.env.PORT || 8080
-var rootPath = process.env.ROOT_PATH != undefined ? process.env.ROOT_PATH : '/'
 var app = express()
 
 /********** Application **********/
 var application = require('../app/app')
 var translations = require('../app/translations')
+var config = require('../app/config')
 var appRoot = process.cwd() + "/"
 var applicationHtml = require('../app/html')
 var svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
@@ -50,7 +51,7 @@ if (process.env.NODE_ENV !== "development") {
 var translations = require('../app/translations')
 // Cache fonts from google, so that we don't need an additional roud trip to fetch font definitions
 var fonts = ""
-fetch(require('../app/config').URL.FONT).then(function(res){
+fetch(config.URL.FONT).then(function(res){
   res.text().then(function(text){
     fonts = text
   })
@@ -60,19 +61,19 @@ fetch(require('../app/config').URL.FONT).then(function(res){
 function setUpStaticFolders() {
   var staticFolder = appRoot + "/_static"
   var cssFolder = path.join(staticFolder, 'css')
-  app.use(rootPath + "css", express.static(cssFolder))
+  app.use(config.ROOT_PATH + "/css", express.static(cssFolder))
   var jsFolder = path.join(staticFolder, 'js')
-  app.use(rootPath + "js", express.static(jsFolder))
+  app.use(config.ROOT_PATH + "/js", express.static(jsFolder))
   var mapFontsFolder = path.join(staticFolder, 'map', 'fonts')
-  app.use(rootPath + "mapFonts", express.static(mapFontsFolder, {
+  app.use(config.ROOT_PATH + "/mapFonts", express.static(mapFontsFolder, {
     setHeaders: function(res) {res.setHeader("Content-Encoding","gzip")}
   }))
   var mapFolder = path.join(staticFolder, 'map')
-  app.use(rootPath + "map", express.static(mapFolder))
+  app.use(config.ROOT_PATH + "/map", express.static(mapFolder))
   var iconFolder = path.join(staticFolder, 'icon')
-  app.use(rootPath + "icon", express.static(iconFolder))
+  app.use(config.ROOT_PATH + "/icon", express.static(iconFolder))
   var imgFolder = path.join(staticFolder, 'img')
-  app.use(rootPath + "img", express.static(imgFolder))
+  app.use(config.ROOT_PATH + "/img", express.static(imgFolder))
 }
 
 function setUpMiddleware() {
@@ -123,7 +124,7 @@ function setUpRoutes() {
     var locale = req.cookies.lang  || req.acceptsLanguages(['fi', 'sv', 'en']) || 'en';
     var messages = translations[locale]
     var context = application.createContext()
-    var location = useQueries(createHistory)().createLocation(req.url);
+    var location = useBasename(useQueries(createHistory))({basename: config.ROOT_PATH}).createLocation(req.url);
 
     match({routes: application.getComponent(), location: location}, function (error, redirectLocation, renderProps) {
       if (redirectLocation) {
@@ -136,7 +137,16 @@ function setUpRoutes() {
         res.status(404).send('Not found')
       }
       else {
-        getPolyfills(req.headers['user-agent']).then(function(polyfills){
+
+        var promises = [getPolyfills(req.headers['user-agent'])]
+        if (renderProps.components[1].loadAction){
+          renderProps.components[1].loadAction(renderProps.params).forEach(function (action){
+            promises.push(context.executeAction(action[0], action[1]))
+          })
+        }
+
+        Promise.all(promises).then(function(results) {
+          var polyfills = results[0];
           var content = "";
           // Ugly way to see if this is a Relay RootComponent
           // until Relay gets server rendering capabilities
@@ -175,7 +185,7 @@ function setUpRoutes() {
                 content: content,
                 polyfill: polyfills,
                 state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
-                livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : rootPath,
+                livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : config.ROOT_PATH + "/",
                 locale: 'window.locale="' + locale + '"',
                 fonts: fonts
               }

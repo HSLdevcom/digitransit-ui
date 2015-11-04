@@ -36,7 +36,7 @@ class DisruptionRowContainer extends React.Component
       )}
       renderFetched={(data) =>
         <DisruptionRow
-          routes={data.routes}
+          {... data}
           startTime={startTime}
           endTime={endTime}
           description={description}

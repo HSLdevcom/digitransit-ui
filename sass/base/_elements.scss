@@ -7,6 +7,8 @@ $border-radius-rounded: 30px;
   border-radius: $border-radius;
   margin-bottom: 5px;
   line-height: $line-height-normal;
+  overflow-x: hidden;
+
 }
 .card-header {
   background-color: $white;
@@ -178,6 +180,13 @@ $border-radius-rounded: 30px;
    fill: rgb(255, 255, 255);
  }
 }
+
+.smallscreen-toggle {
+  @extend .fullscreen-toggle;
+  position: fixed;
+}
+
+
 .prefix-icon {
   margin-right: 6px;
 }

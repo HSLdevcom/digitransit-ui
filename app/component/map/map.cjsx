@@ -16,6 +16,15 @@ if isBrowser
   require 'leaflet/dist/leaflet.css'
 
 class Map extends React.Component
+
+  @propTypes: #todo not complete
+    fitBounds: React.PropTypes.bool
+    center:    React.PropTypes.bool
+    from:      React.PropTypes.object
+    to:        React.PropTypes.object
+    padding:   React.PropTypes.number
+    zoom:      React.PropTypes.number
+
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
@@ -28,7 +37,7 @@ class Map extends React.Component
       null
 
   getLocation: ->
-    coordinates = @context.getStore('LocationStore').getLocationState()
+    coordinates = @context.getStore('PositionStore').getLocationState()
     if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
       coordinates: [coordinates.lat, coordinates.lon]
       zoom: 16
@@ -44,9 +53,11 @@ class Map extends React.Component
       paddingTopLeft: props.padding)
 
   componentDidMount: ->
-    @context.getStore('LocationStore').addChangeListener @onChange
+    @context.getStore('PositionStore').addChangeListener @onChange
     @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
+    if not (@props.disableZoom or L.Browser.touch)
+      L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
     if @props.fitBounds
       @setBounds(@props)
 
@@ -55,7 +66,7 @@ class Map extends React.Component
       @setBounds(newProps)
 
   componentWillUnmount: ->
-    @context.getStore('LocationStore').removeChangeListener @onChange
+    @context.getStore('PositionStore').removeChangeListener @onChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
 
   onChange: =>
@@ -84,7 +95,7 @@ class Map extends React.Component
                    @props.lat or origin.lat or location.coordinates[0] + 0.0005,
                    @props.lon or origin.lon or location.coordinates[1]]}
           zoom={unless @props.fitBounds then @props.zoom or location.zoom}
-          zoomControl={not (@props.disableZoom or L.Browser.touch)}
+          zoomControl={false}
           attributionControl=false
           >
           <TileLayer

@@ -1,6 +1,6 @@
 React         = require 'react'
 geoUtils      = require '../../util/geo-utils'
-LocateActions = require '../../action/locate-actions.coffee'
+PositionActions = require '../../action/position-actions.coffee'
 RealTimeClient = require '../../action/real-time-client-action'
 RealTimeInformationAction = require '../../action/real-time-client-action'
 
@@ -11,7 +11,7 @@ class NavigationMap extends React.Component
 
   componentWillMount: ->
     if window?
-      @context.executeAction LocateActions.startLocationWatch
+      @context.executeAction PositionActions.startLocationWatch
 
       # Lazy-load the map, as it is quite big (~400KB), and only needed in this component
       # Promise-loader returns a function, which returns the actual promise when called.
@@ -24,7 +24,7 @@ class NavigationMap extends React.Component
 
   componentDidMount: ->
     @requirePromise.then ([mapboxgl, mapboxcss, mapStyle, Fulltilt]) =>
-      coordinates = @context.getStore('LocationStore').getLocationState()
+      coordinates = @context.getStore('PositionStore').getLocationState()
       plan = @context.getStore('ItinerarySearchStore').getData().plan.itineraries[@props.hash]
       @bearing = geoUtils.getBearing(
         plan.legs[0].from.lat, plan.legs[0].from.lon, plan.legs[0].to.lat, plan.legs[0].to.lon)
@@ -85,9 +85,9 @@ class NavigationMap extends React.Component
 
 
   initializeCompass: (map, compassAvailable, orientation) ->
-    coordinates = @context.getStore('LocationStore').getLocationState()
+    coordinates = @context.getStore('PositionStore').getLocationState()
     @intervalId = setInterval =>
-      newCoordinates = @context.getStore('LocationStore').getLocationState()
+      newCoordinates = @context.getStore('PositionStore').getLocationState()
 
       if newCoordinates.lon != coordinates.lat or newCoordinates.lon != coordinates.lon
         @locationJSONsource.setData geoUtils.locationAsGeoJSON coordinates
@@ -116,7 +116,7 @@ class NavigationMap extends React.Component
     , 150 # Duration for setInterval
 
   componentWillUnmount: ->
-    @context.executeAction LocateActions.stopLocationWatch
+    @context.executeAction PositionActions.stopLocationWatch
     if @intervalId
       clearInterval(@intervalId)
       @intervalId = undefined

@@ -29,9 +29,9 @@ class StopMarkerContainer extends React.Component
       }
       renderFetched={(data) =>
         <StopMarkerLayer
+          {... data}
           hilightedStops={@props.hilightedStops}
           map={@props.map}
-          stopsInRectangle={data.stopsInRectangle}
           minLat={minLat}
           minLon={minLon}
           maxLat={maxLat}

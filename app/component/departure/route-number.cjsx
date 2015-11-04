@@ -7,6 +7,7 @@ Example               = require '../documentation/example-data'
 RouteNumber = (props) ->
   mode = props.mode.toLowerCase()
   <span className={cx "route-number", props.className, {'vertical': props.vertical}} >
+    {if props.realtime then <Icon img="icon-icon_realtime" className="realtime-icon realtime"/>}
     <Icon className={mode} img={'icon-icon_' + mode}/>
     {if props.vertical then <br/>}
     <span className={"vehicle-number " + mode}>{props.text}</span>
@@ -19,6 +20,10 @@ RouteNumber.description =
       <RouteNumber mode={Example.realtimeDeparture.pattern.route.type} text={Example.realtimeDeparture.pattern.route.shortName}/>
     </ComponentUsageExample>
 
+    <ComponentUsageExample description="with realtime symbol">
+      <RouteNumber mode={Example.realtimeDeparture.pattern.route.type} text={Example.realtimeDeparture.pattern.route.shortName} realtime={true}/>
+    </ComponentUsageExample>
+
     <ComponentUsageExample description="in vertical configuration">
       <RouteNumber mode={Example.realtimeDeparture.pattern.route.type} text={Example.realtimeDeparture.pattern.route.shortName} vertical={true}/>
     </ComponentUsageExample>
@@ -26,6 +31,7 @@ RouteNumber.description =
 
 RouteNumber.propTypes =
   mode: React.PropTypes.string.isRequired
+  realtime: React.PropTypes.bool
   text: React.PropTypes.string
   vertical: React.PropTypes.bool
 

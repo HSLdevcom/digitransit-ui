@@ -231,7 +231,9 @@ class StyleGuidelinesPage extends React.Component
         <Icon img={'icon-icon_mapMarker-location-animated'}/>
         <span className="code">icon-icon_mapMarker-location-animated</span><br />
         <Icon img={'icon-icon_under-construction'}/>
-        <span className="code">icon-icon_under-construction</span>
+        <span className="code">icon-icon_under-construction</span><br />
+        <Icon img={'icon-icon_location_with_user'}/>
+        <span className="code">icon-icon_location_with_user</span>
       </div>
       <p>
         <Icon className="large-icon" img={'icon-icon_subway-live'}/>
