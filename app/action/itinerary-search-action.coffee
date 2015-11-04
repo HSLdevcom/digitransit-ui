@@ -5,19 +5,19 @@ config     = require '../config'
 
 create_wait_leg = (start_time, duration, point, placename) ->
   leg =
-    mode: "WAIT"
-    routeType: null # non-transit
-    route: ""
     # OTP returns start and end times in milliseconds, but durations in seconds
     duration: duration / 1000
-    startTime: start_time
     endTime: start_time + duration
-    legGeometry: {points: polyUtil.encode([point])}
     from:
       lat: point[0]
       lon: point[1]
       name: placename
     intermediateStops: []
+    legGeometry: {points: polyUtil.encode([point])}
+    mode: "WAIT"
+    routeType: null # non-transit
+    route: ""
+    startTime: start_time
   leg.to = leg.from
   return leg
 
@@ -25,20 +25,23 @@ add_wait_legs = (data) ->
   for itinerary in data.plan?.itineraries or []
     new_legs = []
     time = itinerary.startTime # tracks when next leg should start
+
+    # Read wait threshold from config and change it to milliseconds
+    waitThreshold = config.itinerary.waitThreshold * 1000
     for leg in itinerary.legs
       wait_time = leg.startTime - time
       time = leg.endTime # next leg should start when this one ended
-
       # If there's enough unaccounted time before a leg, add a wait leg
-      if wait_time > 180000
+      if wait_time > waitThreshold
         new_legs.push(
           create_wait_leg(leg.startTime - wait_time,
                           wait_time,
                           polyUtil.decode(leg.legGeometry.points)[0],
                           leg.from.name))
-        new_legs.push leg
-      else
-        new_legs.push leg
+
+      # Then add original leg
+      new_legs.push leg
+
     itinerary.legs = new_legs
 
 itinerarySearchRequest = (actionContext, options, done) ->
