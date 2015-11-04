@@ -20,6 +20,7 @@ module.exports =
     radius: 10000
     bucketSize: 1000
   maxWalkDistance: 10000
+  maxBikingDistance: 40000
   itinerary:
     delayThreshold: 180
   nearestStopDistance:
