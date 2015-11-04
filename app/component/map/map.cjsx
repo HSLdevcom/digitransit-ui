@@ -19,11 +19,11 @@ class Map extends React.Component
 
   @propTypes: #todo not complete
     fitBounds: React.PropTypes.bool
-    center:    React.PropTypes.bool
-    from:      React.PropTypes.object
-    to:        React.PropTypes.object
-    padding:   React.PropTypes.number
-    zoom:      React.PropTypes.number
+    center: React.PropTypes.bool
+    from: React.PropTypes.object
+    to: React.PropTypes.object
+    padding: React.PropTypes.number
+    zoom: React.PropTypes.number
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -32,9 +32,6 @@ class Map extends React.Component
   componentDidMount: =>
     @context.getStore('EndpointStore').addChangeListener @onChange
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
-    if @props.disableMapTracking
-      @refs.map.getLeafletElement().addEventListener('dragstart', @props.disableMapTracking)
-      @refs.map.getLeafletElement().addEventListener('zoomend', @props.disableMapTracking)
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
 
@@ -72,6 +69,11 @@ class Map extends React.Component
 
       zoom = if not @props.fitBounds and @props.zoom then @props.zoom
 
+      if (@props.disableMapTracking and !@props.fitBounds)
+        leafletEvents =
+          onLeafletDragstart: @props.disableMapTracking
+          onLeafletZoomend: @props.disableMapTracking
+
       map =
         <LeafletMap
           ref='map'
@@ -81,6 +83,7 @@ class Map extends React.Component
           attributionControl=false
           bounds={if @props.fitBounds then [@props.from, @props.to]}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
+          {... leafletEvents}
           >
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
