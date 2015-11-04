@@ -239,7 +239,7 @@ ul.offcanvas-list {
   position: fixed;
   top: $top-navigation-height;
   text-align: left;
-  z-index: 100;
+  z-index: 900;
   line-height: $top-navigation-sub-height;
 
   .arrow-up {
