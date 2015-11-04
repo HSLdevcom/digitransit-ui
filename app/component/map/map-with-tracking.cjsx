@@ -26,14 +26,10 @@ class MapWithTracking extends React.Component
     #Check if we have a position already
     locationState = @context.getStore('PositionStore').getLocationState()
     @state = if locationState.hasLocation
-      zoom: 16
-      lat: locationState.lat
-      lon: locationState.lon
-      mapTracking: false
+      mapTracking: true
+      useZoomedIn: true
     else
-      zoom: config.initialLocation.zoom
-      lat: config.initialLocation.lat
-      lon: config.initialLocation.lon
+      useConfig: true
       mapTracking: false
 
   componentWillMount: =>
@@ -45,51 +41,58 @@ class MapWithTracking extends React.Component
   disableMapTracking: =>
     @setState
       mapTracking: false
-      zoom: undefined
-      lat: undefined
-      lon: undefined
+      useConfig: false
+      useZoomedIn: false
 
   enableMapTracking: =>
-    locationState = @context.getStore('PositionStore').getLocationState()
-
-    if locationState.hasLocation
-      @setState
-        mapTracking: true
-        zoom: undefined
-        lat: locationState.lat
-        lon: locationState.lon
-    else
-      @setState
-        mapTracking: true
-        zoom: undefined
-        lat: undefined
-        lon: undefined
+    @setState
+      mapTracking: true
+      useConfig: false
+      useZoomedIn: false
 
   onPositionChange: (status) =>
     locationState = @context.getStore('PositionStore').getLocationState()
 
-    if locationState.hasLocation and @state.mapTracking
-      newLat = locationState.lat
-      newLon = locationState.lon
-      @setState
-        lat: newLat
-        lon: newLon
-
-    if status.statusChanged
-      @setState
-        zoom: 16
-        lat: locationState.lat
-        lon: locationState.lon
-        @enableMapTracking #start map track because position was found
+    if locationState.hasLocation
+      if status.statusChanged
+        @setState
+          useConfig: false
+          useZoomedIn: true
+          () => @setState
+            useZoomedIn: false
+            mapTracking: true #start map track because position was found
+      else
+        @forceUpdate()
 
   render: =>
-    <Map className="fullscreen" showStops={true} lat={@state.lat} lon={@state.lon} zoom={@state.zoom} disableMapTracking={@disableMapTracking}>
+
+    locationState = @context.getStore('PositionStore').getLocationState()
+
+    if @state.mapTracking and locationState.hasLocation
+      lat = locationState.lat
+      lon = locationState.lon
+    else if @state.useConfig
+      zoom = config.initialLocation.zoom
+      lat = config.initialLocation.lat
+      lon = config.initialLocation.lon
+
+    if @state.useZoomedIn
+      zoom = 16
+
+    <Map
+      className="fullscreen"
+      showStops={true}
+      lat={lat}
+      lon={lon}
+      zoom={zoom}
+      disableMapTracking={@disableMapTracking}
+    >
       {@props.children}
-      <ToggleMapTracking tracking={@state.mapTracking}
-                         disableMapTracking={@disableMapTracking}
-                         enableMapTracking={@enableMapTracking}
-                         onlineClassName="icon-mapMarker-toggle-positioning-online"
-                         offlineClassName="icon-mapMarker-toggle-positioning-offline"/>
+      <ToggleMapTracking
+        tracking={@state.mapTracking}
+        handleClick={if @state.mapTracking then @disableMapTracking else @enableMapTracking}
+        className={"icon-mapMarker-toggle-positioning-" + if @state.mapTracking then "online" else "offline"}
+      />
     </Map>
 
 module.exports = MapWithTracking
