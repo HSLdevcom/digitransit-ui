@@ -5,9 +5,7 @@ describe('Frontpage', function () {
   });
 
   after(function (browser, done) {
-    browser.end(function() {
-      done();
-    });
+    browser.finish(done);
   });
 
   it('should contain map', function (browser) {

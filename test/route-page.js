@@ -7,9 +7,7 @@ describe('Route Page', function () {
   });
 
   after(function (browser, done) {
-    browser.end(function () {
-      done();
-    });
+    browser.finish(done);
   });
 
   describe('when location is known', function () {

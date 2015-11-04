@@ -5,9 +5,7 @@ describe('Stop tab', function () {
   });
 
   after(function (browser, done) {
-    browser.end(function () {
-      done();
-    });
+    browser.finish(done);
   });
 
   describe('at Mäkelänrinne', function () {

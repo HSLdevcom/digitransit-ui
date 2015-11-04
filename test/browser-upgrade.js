@@ -1,4 +1,10 @@
 module.exports = function (browser) {
+  browser.finish = function (done) {
+    browser.end(function () {
+      done();
+    });
+  };
+
   browser.setCurrentPosition = function (lat, lon, heading, done) {
     browser.execute(function (lat, lon, heading) {
       window.mock.geolocation.setCurrentPosition(lat, lon, heading);
