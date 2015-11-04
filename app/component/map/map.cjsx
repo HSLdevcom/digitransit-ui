@@ -19,63 +19,32 @@ class Map extends React.Component
 
   @propTypes: #todo not complete
     fitBounds: React.PropTypes.bool
-    center:    React.PropTypes.bool
-    from:      React.PropTypes.object
-    to:        React.PropTypes.object
-    padding:   React.PropTypes.number
-    zoom:      React.PropTypes.number
+    center: React.PropTypes.bool
+    from: React.PropTypes.object
+    to: React.PropTypes.object
+    padding: React.PropTypes.number
+    zoom: React.PropTypes.number
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  getLocation: ->
-    coordinates = @context.getStore('PositionStore').getLocationState()
-    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
-      hasPosition: true
-    else
-      hasPosition: false
-
-  setBounds: (props) ->
-    @refs.map.getLeafletElement().fitBounds(
-      [props.from, props.to],
-      paddingTopLeft: props.padding)
-
-  componentDidMount: ->
-    @context.getStore('EndpointStore').addChangeListener @onChange
+  componentDidMount: =>
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
-    if @props.disableMapTrack
-      @refs.map.getLeafletElement().addEventListener('dragstart', @props.disableMapTrack)
-      @refs.map.getLeafletElement().addEventListener('zoomend', @props.disableMapTrack)
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
-    if @props.fitBounds
-      @setBounds(@props)
-
-  componentWillUpdate: (newProps) ->
-    if newProps.fitBounds and (newProps.from != @props.from or newProps.to != @props.to)
-      @setBounds(newProps)
 
   componentWillUnmount: ->
     @context.getStore('PositionStore').removeChangeListener @onPositionChange
-    @context.getStore('EndpointStore').removeChangeListener @onChange
-
-  onChange: (endPointChange) =>
-    if endPointChange in ['set-origin']
-      origin = @context.getStore('EndpointStore').getOrigin()
-      @refs.map.getLeafletElement().setView([origin.lat, origin.lon])
-    @forceUpdate()
 
   render: =>
     if isBrowser
       origin = @context.getStore('EndpointStore').getOrigin()
-      location = @getLocation()
 
       if origin?.lat
         fromMarker = <LocationMarker position={origin} className="from"/>
 
-      if location.hasPosition == true
-        positionMarker = <PositionMarker/>
+      positionMarker = <PositionMarker/>
 
       if @props.showStops
         stops = <StopMarkerContainer hilightedStops={@props.hilightedStops}/>
@@ -89,16 +58,13 @@ class Map extends React.Component
           [@props.lat, @props.lon]
         else if origin.lat and origin.lon
           [origin.lat, origin.lon]  #origin is used
-        else
-          undefined # no center to use
 
-      zoom =
-        if @props.fitBounds
-          undefined
-        else if @props.zoom
-          @props.zoom
-        else
-          undefined
+      zoom = if not @props.fitBounds and @props.zoom then @props.zoom
+
+      if (@props.disableMapTracking and !@props.fitBounds)
+        leafletEvents =
+          onLeafletDragstart: @props.disableMapTracking
+          onLeafletZoomend: @props.disableMapTracking
 
       map =
         <LeafletMap
@@ -107,6 +73,9 @@ class Map extends React.Component
           zoom={zoom}
           zoomControl={false}
           attributionControl=false
+          bounds={if @props.fitBounds then [@props.from, @props.to]}
+          boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
+          {... leafletEvents}
           >
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}

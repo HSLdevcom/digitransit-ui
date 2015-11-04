@@ -1,24 +1,14 @@
 React           = require 'react'
 Icon            = require '../icon/icon'
-cx              = require 'classnames'
-MapTrackAction  = require '../../action/map-track-actions'
-
 
 class ToggleMapTracking extends React.Component
-  @contextTypes:
-    executeAction: React.PropTypes.func.isRequired
-
-  handleClick: =>
-    if !@props.tracking
-      @context.executeAction MapTrackAction.startMapTrack
-    else
-      @context.executeAction MapTrackAction.endMapTrack
+  @propTypes:
+    handleClick: React.PropTypes.func.isRequired
+    className: React.PropTypes.string.isRequired
 
   render: ->
-    <div className="toggle-positioning-container" onClick={@handleClick}>
-      <Icon img={'icon-icon_mapMarker-location'}
-            className={cx "icon-mapMarker-toggle-positioning-online": @props.tracking,
-                           "icon-mapMarker-toggle-positioning-offline": !@props.tracking}/>
+    <div className="toggle-positioning-container" onClick={@props.handleClick}>
+      <Icon img='icon-icon_mapMarker-location' className={@props.className}/>
     </div>
 
 module.exports = ToggleMapTracking
