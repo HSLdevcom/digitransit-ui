@@ -51,7 +51,7 @@ class FavouritesPanel extends React.Component
   componentWillUnmount: ->
     @context.getStore('FavouriteRoutesStore').removeChangeListener @onChange
     @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
-    @context.getStore('TimeStore').addChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onChange
 
   onChange: (id) =>
     @forceUpdate()
