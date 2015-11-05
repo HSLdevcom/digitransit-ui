@@ -25,7 +25,7 @@ class FavouritesPanel extends React.Component
         ids: ids
       }
       forceFetch={true}
-      renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else null}
+      renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
       }
     />
 
@@ -37,7 +37,7 @@ class FavouritesPanel extends React.Component
       route={new queries.FavouriteRouteRowRoute
         ids: ids
       }
-      renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else null}
+      renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
       }
     />
 
