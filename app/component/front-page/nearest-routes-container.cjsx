@@ -35,7 +35,7 @@ class NearestRoutesContainer extends React.Component
         lat: @props.lat
         lon: @props.lon
       }
-      renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else null}
+      renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
     />
 
 module.exports = NearestRoutesContainer
