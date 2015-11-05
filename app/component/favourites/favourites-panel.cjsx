@@ -25,6 +25,7 @@ class FavouritesPanel extends React.Component
       route={new queries.FavouriteStopListContainerRoute
         ids: ids
       }
+      forceFetch={true}
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else null}
       }
     />
@@ -32,6 +33,7 @@ class FavouritesPanel extends React.Component
   getFavouriteRouteListContainer: (ids) =>
     <Relay.RootContainer
       key="fav-routes"
+      forceFetch={true}
       Component={FavouriteRouteListContainer}
       route={new queries.FavouriteRouteRowRoute
         ids: ids
