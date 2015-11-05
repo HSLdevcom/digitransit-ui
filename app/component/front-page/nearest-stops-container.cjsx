@@ -7,9 +7,9 @@ class NearestStopsContainer extends React.Component
 
   constructor: ->
     super
-    @state = {
-      "useSpinner": true
-    }
+    @state =
+      useSpinner: true
+
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -35,6 +35,7 @@ class NearestStopsContainer extends React.Component
       route={new queries.StopListContainerRoute
         lat: @props.lat
         lon: @props.lon
+
       }
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
       }

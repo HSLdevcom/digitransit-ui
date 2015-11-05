@@ -7,9 +7,9 @@ class NearestRoutesContainer extends React.Component
 
   constructor: ->
     super
-    @state = {
-      "useSpinner": true
-    }
+    @state =
+      useSpinner: true
+
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
