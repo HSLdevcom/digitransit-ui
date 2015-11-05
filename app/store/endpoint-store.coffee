@@ -53,7 +53,7 @@ class EndpointStore extends Store
       lat: location.lat
       lon: location.lon
       address: location.address
-    @emitChange()
+    @emitChange("set-origin")
 
   setDestination: (location) ->
     @destination =

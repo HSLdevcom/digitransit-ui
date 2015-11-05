@@ -239,7 +239,7 @@ ul.offcanvas-list {
   position: fixed;
   top: $top-navigation-height;
   text-align: left;
-  z-index: 100;
+  z-index: 900;
   line-height: $top-navigation-sub-height;
 
   .arrow-up {
@@ -274,6 +274,27 @@ ul.offcanvas-list {
   }
 }
 
+.toggle-positioning-container {
+  position: absolute;
+  z-index: 802;
+  bottom: 15px;
+  left: 12px;
+  background-color: $background-color;
+  padding: 6px;
+  border-radius: $border-radius;
+  line-height: 0.5;
+  box-shadow:0 0 1px #000000;
+}
+
+.icon-mapMarker-toggle-positioning-online {
+  color: $favourite-color;
+  font-size: 24px;
+}
+
+.icon-mapMarker-toggle-positioning-offline {
+  color: $gray-blue;
+  font-size: 24px;
+}
 
 .time-selectors {
   select {

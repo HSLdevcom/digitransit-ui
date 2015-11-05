@@ -1,6 +1,49 @@
+last = require 'lodash/array/last'
+polyUtil = require 'polyline-encoded'
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
+create_wait_leg = (start_time, duration, point, placename) ->
+  leg =
+    # OTP returns start and end times in milliseconds, but durations in seconds
+    duration: duration / 1000
+    endTime: start_time + duration
+    from:
+      lat: point[0]
+      lon: point[1]
+      name: placename
+    intermediateStops: []
+    legGeometry: {points: polyUtil.encode([point])}
+    mode: "WAIT"
+    routeType: null # non-transit
+    route: ""
+    startTime: start_time
+  leg.to = leg.from
+  return leg
+
+add_wait_legs = (data) ->
+  for itinerary in data.plan?.itineraries or []
+    new_legs = []
+    time = itinerary.startTime # tracks when next leg should start
+
+    # Read wait threshold from config and change it to milliseconds
+    waitThreshold = config.itinerary.waitThreshold * 1000
+    for leg in itinerary.legs
+      wait_time = leg.startTime - time
+      # If there's enough unaccounted time before a leg, add a wait leg
+      if wait_time > waitThreshold
+        new_legs.push(
+          create_wait_leg(time,
+                          wait_time,
+                          polyUtil.decode(leg.legGeometry.points)[0],
+                          leg.from.name))
+
+      time = leg.endTime  # next wait leg should start when this transit leg ends
+
+      # Then add original leg
+      new_legs.push leg
+
+    itinerary.legs = new_legs
 
 itinerarySearchRequest = (actionContext, options, done) ->
   itinerarySearchStore = actionContext.getStore('ItinerarySearchStore')
@@ -29,8 +72,14 @@ itinerarySearchRequest = (actionContext, options, done) ->
     minTransferTime: itinerarySearchStore.getMinTransferTime()
     walkSpeed: itinerarySearchStore.getWalkSpeed()
     wheelchair: itinerarySearchStore.isWheelchair()
-    maxWalkDistance: config.maxWalkDistance
+
+  if itinerarySearchStore.getMode().indexOf('BICYCLE') ==-1
+    params.maxWalkDistance = config.maxWalkDistance
+  else
+    params.maxWalkDistance = config.maxBikingDistance;
+
   xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
+    add_wait_legs(data)
     actionContext.dispatch "ItineraryFound", data
     done()
   , (err) ->
@@ -41,7 +90,7 @@ itinerarySearchRequest = (actionContext, options, done) ->
 
 
 module.exports =
-  'itinerarySearchRequest' : itinerarySearchRequest
+  'itinerarySearchRequest': itinerarySearchRequest
 
   toggleBusState: (actionContext)  ->
     actionContext.dispatch "ToggleBusState",

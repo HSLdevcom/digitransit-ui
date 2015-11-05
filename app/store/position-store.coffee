@@ -43,19 +43,20 @@ class PositionStore extends Store
 
   # When watching for position, we don't want to be updated each time, but rather poll for it
   storeLocation: (location) ->
-    @storeLocationWithoutEmit location
-    @emitChange()
-
-  storeLocationWithoutEmit: (location) ->
+    statusChanged = @hasStatusChanged(true)
     @lat = location.lat
     @lon = location.lon
     @heading = if location.heading then location.heading else @heading
     @status = @STATUS_FOUND_LOCATION
+    @emitChange(statusChanged: statusChanged)
 
   storeAddress: (location) ->
     @address = "#{location.address} #{location.number}, #{location.city}"
     @status = @STATUS_FOUND_ADDRESS
     @emitChange()
+
+  hasStatusChanged: (hasLocation) =>
+    return hasLocation != @getLocationState().hasLocation
 
   storeLocationAndAddress: (location) ->
     @lat = location.lat
@@ -73,8 +74,7 @@ class PositionStore extends Store
     # Locationing is in progress when browser is:
     #   searching address or
     #   reverse geocoding is in progress
-    isLocationingInProgress: @status == @STATUS_SEARCHING_LOCATION or
-                             @status == @STATUS_FOUND_LOCATION
+    isLocationingInProgress: @status == @STATUS_SEARCHING_LOCATION
 
   getLocationString: () ->
     "#{@address}::#{@lat},#{@lon}"
@@ -91,7 +91,6 @@ class PositionStore extends Store
   @handlers:
     "GeolocationSearch": 'geolocationSearch'
     "GeolocationFound": 'storeLocation'
-    "GeolocationUpdated": 'storeLocationWithoutEmit'
     "GeolocationRemoved": 'removeLocation'
     "GeolocationNotSupported": 'geolocationNotSupported'
     "GeolocationDenied": 'geolocationDenied'
