@@ -5,7 +5,6 @@ React                 = require 'react'
 
 class NearestRoutesContainer extends React.Component
 
-
   constructor: ->
     super
     @state = {
