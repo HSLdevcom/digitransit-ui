@@ -7,12 +7,11 @@ queries                         = require '../../queries'
 
 class FavouritesPanel extends React.Component
 
- constructor: ->
+  constructor: ->
     super
     @state = {
       "useSpinner": true
     }
-
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired

@@ -5,7 +5,7 @@ React                  = require 'react'
 
 class NearestStopsContainer extends React.Component
 
- constructor: ->
+  constructor: ->
     super
     @state = {
       "useSpinner": true
@@ -24,13 +24,11 @@ class NearestStopsContainer extends React.Component
 
   componentWillUnmount: ->
     @context.getStore('TimeStore').removeChangeListener @onChange
-    console.log("unmount");
 
   onChange: =>
     @forceUpdate()
 
   render: =>
-    console.log("spinner:", @state.useSpinner)
     <Relay.RootContainer
       Component={StopCardListContainer}
       forceFetch={true}
