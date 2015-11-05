@@ -24,7 +24,6 @@ class NearestRoutesContainer extends React.Component
 
   componentWillUnmount: ->
     @context.getStore('TimeStore').removeChangeListener @onChange
-    @setState({"useSpinner": true})
 
   onChange: =>
     @forceUpdate()
