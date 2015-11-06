@@ -82,6 +82,7 @@ translations =
     'not-implemented-msg': 'Jos haluat osallistua kehitystyöhön, löydät lisätietoa suunnitelluista toiminnallisuuksista oheisista linkeistä.'
     'route-not-possible': 'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"'
     'realtime-matching': 'Realiajan integraatio'
+    'locate': 'Paikanna'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -164,4 +165,5 @@ translations =
     'not-implemented-msg': 'Om du vill delta i utvecklingen , kan du hitta mer information om de planerade funktionerna i följande länkar'
     'route-not-possible': 'Tyvärr din rutt är inte möjligt. Tekniskt fel: "{error}"'
     'realtime-matching': 'Realtidsintegration'
+    'locate': 'Lokalisera'
 module.exports = translations
