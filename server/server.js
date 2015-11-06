@@ -94,7 +94,7 @@ function setupRaven() {
 
 function getPolyfills(userAgent) {
   return polyfillService.getPolyfillString({
-    uaString: userAgent,
+    uaString: userAgent || '',
     features: {
       'matchMedia': {flags: ['gated']},
       'fetch': {flags: ['gated']},
