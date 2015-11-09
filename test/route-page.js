@@ -1,15 +1,8 @@
-describe('Route Page', function () {
-  this.timeout(120000);
+var suite = require('./suite.js').suite;
 
+suite('Route Page', function () {
   before(function (browser, done) {
-    require('./browser-upgrade.js')(browser);
-    browser.init("/linjat/HSL:1006:1:01", function () {
-      done()
-    });
-  });
-
-  after(function (browser, done) {
-    browser.finish(done);
+    browser.init("/linjat/HSL:1006:1:01", done);
   });
 
   describe('when location is known', function () {

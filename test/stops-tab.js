@@ -1,15 +1,6 @@
-describe('Stop tab', function () {
-  this.timeout(120000);
+var suite = require('./suite.js').suite;
 
-  before(function (browser, done) {
-    require('./browser-upgrade.js')(browser);
-    browser.init(done);
-  });
-
-  after(function (browser, done) {
-    browser.finish(done);
-  });
-
+suite('Stop tab', function () {
   describe('at Mäkelänrinne', function () {
     before(function (browser, done) {
       browser.setCurrentPosition(60.2, 24.95, 0, done);

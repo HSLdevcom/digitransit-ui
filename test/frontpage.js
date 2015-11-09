@@ -1,15 +1,6 @@
-describe('Frontpage', function () {
-  this.timeout(120000);
+var suite = require('./suite.js').suite;
 
-  before(function (browser, done) {
-    require('./browser-upgrade.js')(browser);
-    browser.init(done);
-  });
-
-  after(function (browser, done) {
-    browser.finish(done);
-  });
-
+suite('Frontpage', function () {
   it('should have title', function (browser) {
     browser.expect.element('span.title').text.to.contain('Digitransit');
   });
