@@ -1,4 +1,4 @@
-var suite = require('./suite.js').suite;
+var suite = require('./api/suite.js').suite;
 
 suite('Frontpage', function () {
   it('should have title', function (browser) {
