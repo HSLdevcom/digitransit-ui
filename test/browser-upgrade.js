@@ -16,12 +16,18 @@ module.exports = function (browser) {
   };
 
   browser.init = function(url, done) {
-    var launch_url = browser.launch_url;
+    var launch_url = browser.launch_url + '/';
     if (typeof(url) === 'string') {
-      launch_url = url;
+      if (url.indexOf('http://') === 0) {
+        launch_url = url;
+      } else {
+        launch_url = browser.launch_url + url;
+      }
     } else {
       done = url;
     }
+
+    launch_url = launch_url + '?mock';
 
     browser.timeouts('script', GLOBAL_TIMEOUT_MS, function () {
       browser.timeouts('implicit', GLOBAL_TIMEOUT_MS, function () {

@@ -3,7 +3,7 @@ describe('Route Page', function () {
 
   before(function (browser, done) {
     require('./browser-upgrade.js')(browser);
-    browser.init("http://127.0.0.1:8080/linjat/HSL:1006:1:01?mock", function () {
+    browser.init("/linjat/HSL:1006:1:01", function () {
       done()
     });
   });
