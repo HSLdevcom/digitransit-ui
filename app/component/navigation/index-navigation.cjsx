@@ -21,11 +21,11 @@ class IndexNavigation extends React.Component
       text: if @context.getStore("TimeStore").status == "UNSET"
         @context.intl.formatMessage
           id: 'now'
-          'defaultMessage': "Now"
+          defaultMessage: "Now"
       else
         @context.intl.formatMessage
           id: 'later'
-          'defaultMessage': "Later"
+          defaultMessage: "Later"
 
   componentDidMount: ->
     @context.getStore('DisruptionStore').addChangeListener @onChange
@@ -43,11 +43,11 @@ class IndexNavigation extends React.Component
         text: if @context.getStore("TimeStore").status == "UNSET"
           @context.intl.formatMessage
             id: 'now'
-            'defaultMessage': "Now"
+            defaultMessage: "Now"
         else
           @context.intl.formatMessage
             id: 'later'
-            'defaultMessage': "Later"
+            defaultMessage: "Later"
 
       # TODO, how about this?
       el = @refs.content.getDOMNode()
@@ -58,7 +58,9 @@ class IndexNavigation extends React.Component
     else
       @setState
         subNavigationVisible: true
-        text: 'aika'
+        text: @context.intl.formatMessage(
+          id: 'time'
+          defaultMessage: "Time")
       el = @refs.content.getDOMNode()
       if el.classList
         el.classList.add "sub-navigation-push"

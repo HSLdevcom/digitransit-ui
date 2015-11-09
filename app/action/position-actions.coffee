@@ -50,13 +50,13 @@ findLocation = (actionContext, payload, done) ->
   , enableHighAccuracy: true, timeout: 10000, maximumAge: 60000
 
 
-runReverseGeocodingAction = (actionContext, lat,lon,done) ->
+runReverseGeocodingAction = (actionContext, lat, lon, done) ->
   actionContext.executeAction reverseGeocodeAddress,
     lat: lat
     lon: lon
   , done
 
-debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading:true});
+debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading: true})
 
 startLocationWatch = (actionContext, payload, done) ->
   # First check if we have geolocation support

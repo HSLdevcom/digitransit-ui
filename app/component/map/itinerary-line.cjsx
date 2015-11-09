@@ -31,6 +31,8 @@ class ItineraryLine extends React.Component
         leg.intermediateStops.concat [leg.from, leg.to]
 
     for leg, i in @props.legs
+      if leg.mode == "WAIT"  # No sense trying to render a non-moving leg
+        continue
       mode = leg.mode.toLowerCase() + if @props.passive then " passive" else ""
 
       objs.push <Line map={@props.map}

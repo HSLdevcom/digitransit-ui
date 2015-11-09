@@ -34,9 +34,6 @@ class Map extends React.Component
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
 
-  componentWillUnmount: ->
-    @context.getStore('PositionStore').removeChangeListener @onPositionChange
-
   render: =>
     if isBrowser
       origin = @context.getStore('EndpointStore').getOrigin()

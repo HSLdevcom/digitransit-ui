@@ -7,39 +7,50 @@ queries                         = require '../../queries'
 
 class FavouritesPanel extends React.Component
 
+  constructor: ->
+    super
+    @state =
+      useSpinner: true
+    
+
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
   getFavouriteStopContainer: (ids) =>
     <Relay.RootContainer
-      key="fav-tops"
+      key="fav-stops"
       Component={FavouriteStopCardListContainer}
       route={new queries.FavouriteStopListContainerRoute
         ids: ids
       }
-      renderLoading={-> <div className="spinner-loader"/>}
+      forceFetch={true}
+      renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
       }
     />
 
   getFavouriteRouteListContainer: (ids) =>
     <Relay.RootContainer
       key="fav-routes"
+      forceFetch={true}
       Component={FavouriteRouteListContainer}
       route={new queries.FavouriteRouteRowRoute
         ids: ids
       }
-      renderLoading={-> <div className="spinner-loader"/>}
+      renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
       }
     />
 
   componentDidMount: ->
     @context.getStore('FavouriteRoutesStore').addChangeListener @onChange
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
+    @context.getStore('TimeStore').addChangeListener @onChange
+    @setState({"useSpinner": false})
 
   componentWillUnmount: ->
     @context.getStore('FavouriteRoutesStore').removeChangeListener @onChange
     @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onChange
 
   onChange: (id) =>
     @forceUpdate()
