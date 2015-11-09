@@ -59,8 +59,8 @@ class IndexNavigation extends React.Component
       @setState
         subNavigationVisible: true
         text: @context.intl.formatMessage(
-                id: 'time'
-                defaultMessage: "Time")
+          id: 'time'
+          defaultMessage: "Time")
       el = @refs.content.getDOMNode()
       if el.classList
         el.classList.add "sub-navigation-push"
