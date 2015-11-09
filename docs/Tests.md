@@ -49,6 +49,29 @@ suite('Frontpage', function () {
 });
 ```
 
+Initial url includes the mock-parameter, which gives the tests functionality to e.g. change position. Here setCurrentPosition is a feature of the upgraded browser object, which in turn requires mock functionality to be present. See also [service-store.cjsx](../app/store/service-score.cjsx).
+
+```js
+describe('at Mäkelänrinne', function () {
+  before(function (browser, done) {
+    browser.setCurrentPosition(60.2, 24.95, 0, done);
+  });
+  ...
+});
+```
+
+You can also use this functionality while developing, in the console
+```js
+// change current position
+window.mock.geolocation.setCurrentPosition(60.2, 24.95);
+
+// move north from current position
+window.mock.geolocation.move(0.001, 0);
+
+// travel to rautatientori from current position
+window.mock.geolocation.demo();
+```
+
 # Acceptance tests (:warning: Work in progress)
 
 ## Folder locations
