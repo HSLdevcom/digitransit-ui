@@ -25,9 +25,22 @@ suite('Stop tab', function () {
           browser.setCurrentPosition(60.1661419, 24.9373367, 0, done);
         });
 
-        it('should update stop page to contain Bulevardi', function (browser) {
+        it('should not update stop tab yet', function (browser) {
           browser.expect.element('.cards').to.be.present;
-          browser.expect.element('.cards .card:first-child .h4').text.to.contain('BULEVARDI');
+          browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
+        });
+
+        describe('but when stop tab is reopened', function () {
+          before(function (browser, done) {
+            browser.stopsTab.click(function () {
+              browser.stopsTab.click(done);
+            });
+          });
+
+          it('should contain Bulevardi', function (browser) {
+            browser.expect.element('.cards').to.be.present;
+            browser.expect.element('.cards .card:first-child .h4').text.to.contain('BULEVARDI');
+          });
         });
       });
     });
