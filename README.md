@@ -18,11 +18,13 @@ However, we also monitor this repository's issues and import them to Jira. You c
 
 ## Testing [![Build Status](https://snap-ci.com/HSLdevcom/digitransit-ui/branch/master/build_image)](https://snap-ci.com/HSLdevcom/digitransit-ui/branch/master/)
 
-Digitransit-ui is tested to work on Firefox 29-, Chrome 45-, IE 9-, iOS 6- Safari. For automated testing we use [Nightwatch](http://nightwatchjs.org/) and [Browserstack](http://browserstack.com/).
+Digitransit-ui is tested to work on Firefox 29-, Chrome 45-, IE 9-, iOS 6- and Safari. For automated testing we use [Nightwatch](http://nightwatchjs.org/) and [BrowserStack](http://browserstack.com/).
 - Continuous Integration: [https://snap-ci.com/HSLdevcom/digitransit-ui/](https://snap-ci.com/HSLdevcom/digitransit-ui/)
-- BrowserStack (not public): [Browserstack](http://www.browserstack.com/)
+- BrowserStack (not public): [BrowserStack](http://www.browserstack.com/)
 
 Acceptance tests are written in `.feature` files in Gherkin syntax under [accceptance-tests folder](acceptance-tests/). Currently acceptance tests are not automatically run.
+
+More information about [testing](docs/Tests.md).
 
 ## Documentation
 * [Terms](docs/Terms.md)

@@ -14,7 +14,7 @@ Automated tests for digitransit-ui are written in Mocha format with custom exten
 
 ## Running tests
 
-Running the tests starts a local dev server (with nowatch and HSL config) to port 8000 (iPhone 6+ on Browserstack can only use a limited number of ports).
+Running the tests starts a local dev server (with nowatch and HSL config) to port 8000 (iPhone 6+ on BrowserStack can only use a limited number of ports).
 
 Using local firefox
 ```
@@ -23,7 +23,7 @@ npm run test-local
 
 Using BrowserStack
 ```
-npm run test-browserstack -- YOUR_BROWSERSTACK_USERNAME YOUR_BROWSERSTACK_KEY"
+npm run test-browserstack -- YOUR_BROWSERSTACK_USERNAME YOUR_BROWSERSTACK_KEY
 ```
 
 ## :warning: Known issues
