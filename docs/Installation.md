@@ -33,6 +33,10 @@
 Or you can also use this:
 - https://github.com/robertknight/webpack-bundle-size-analyzer
 
+## Configure Git Hooks
+You should configure git pre-commit hook to run tests and lint. That can be done like so:
+- `ln -s ../../hooks/pre-commit.sh .git/hooks/pre-commit`
+
 ## Configuration application
 Digitransit ui can be configured in multiple ways. You can
 - Change between National and Regional versions using CONFIG parameter

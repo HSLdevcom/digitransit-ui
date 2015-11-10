@@ -1,15 +1,8 @@
-describe('Route Page', function () {
-  before(function (browser, done) {
-    require('./browser-upgrade.js')(browser);
-    browser.url("http://127.0.0.1:8080/linjat/HSL:1006:1:01?mock", function () {
-      done()
-    });
-  });
+var suite = require('./api/suite.js').suite;
 
-  after(function (browser, done) {
-    browser.end(function () {
-      done();
-    });
+suite('Route Page', function () {
+  before(function (browser, done) {
+    browser.init("/linjat/HSL:1006:1:01", done);
   });
 
   describe('when location is known', function () {
@@ -18,7 +11,7 @@ describe('Route Page', function () {
     });
 
     it('should contain walk distance to nearest stop', function (browser) {
-      browser.expect.element('span.walk-distance').to.be.present.before(2000);
+      browser.expect.element('span.walk-distance').to.be.present;
     });
   });
 });

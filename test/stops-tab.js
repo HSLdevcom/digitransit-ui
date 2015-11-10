@@ -1,15 +1,6 @@
-describe('Stop tab', function () {
-  before(function (browser, done) {
-    require('./browser-upgrade.js')(browser);
-    browser.init(done);
-  });
+var suite = require('./api/suite.js').suite;
 
-  after(function (browser, done) {
-    browser.end(function () {
-      done();
-    });
-  });
-
+suite('Stop tab', function () {
   describe('at Mäkelänrinne', function () {
     before(function (browser, done) {
       browser.setCurrentPosition(60.2, 24.95, 0, done);
@@ -25,7 +16,7 @@ describe('Stop tab', function () {
       });
 
       it('should contain stop card', function (browser) {
-        browser.expect.element('.cards').to.be.present.before(1000);
+        browser.expect.element('.cards').to.be.present;
         browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
       });
 
@@ -34,12 +25,24 @@ describe('Stop tab', function () {
           browser.setCurrentPosition(60.1661419, 24.9373367, 0, done);
         });
 
-        it('should update stop page to contain Bulevardi', function (browser) {
-          browser.expect.element('.cards').to.be.present.before(2000);
-          browser.expect.element('.cards .card:first-child .h4').text.to.contain('BULEVARDI');
+        it('should not update stop tab yet', function (browser) {
+          browser.expect.element('.cards').to.be.present;
+          browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
+        });
+
+        describe('but when stop tab is reopened', function () {
+          before(function (browser, done) {
+            browser.stopsTab.click(function () {
+              browser.stopsTab.click(done);
+            });
+          });
+
+          it('should contain Bulevardi', function (browser) {
+            browser.expect.element('.cards').to.be.present;
+            browser.expect.element('.cards .card:first-child .h4').text.to.contain('BULEVARDI');
+          });
         });
       });
     });
   });
 });
-
