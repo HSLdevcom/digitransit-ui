@@ -5,6 +5,9 @@ Digitransit-ui is a mobile friendly User interface built to work with Digitransi
 ## Screenshot
 ![Screenshot](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/screenshot.png)
 
+## Demo
+![Demo](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/demo.gif)
+
 ## Licensing
 The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.
 
