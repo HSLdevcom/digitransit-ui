@@ -16,6 +16,7 @@ class ServiceStore extends Store
 
   makeMockGeolocation: ->
     callbacks = []
+    follow = false
     window.mock.data.position =
       coords:
         latitude: 60.1992
@@ -24,6 +25,34 @@ class ServiceStore extends Store
     notify: () ->
       for callback in callbacks
         callback window.mock.data.position
+    demo: () ->
+      from = window.mock.data.position.coords
+      to =
+        latitude: 60.1716
+        longitude: 24.9406
+      steps = 180
+      track = []
+      for i in [0...steps]
+        f = i / steps
+        variation = Math.random() * 0.0001 - 0.00005
+        lat = f * to.latitude + (1.0 - f) * from.latitude + variation
+        lon = f * to.longitude + (1.0 - f) * from.longitude + variation
+        track.push
+          latitude: lat
+          longitude: lon
+      follow =
+        track: track
+        index: 0
+        interval: setInterval @followTrack, 1000
+    followTrack: () ->
+      i = follow.index or 0
+      if follow.track and i < follow.track.length
+        position = follow.track[i]
+        ++follow.index
+        window.mock.geolocation.setCurrentPosition position.latitude, position.longitude
+      else
+        clearInterval follow.interval
+        follow = false
     move: (dlat, dlon, heading) ->
       window.mock.data.position.coords.latitude += dlat
       window.mock.data.position.coords.longitude += dlon

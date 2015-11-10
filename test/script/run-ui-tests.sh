@@ -17,9 +17,13 @@ fi
 
 
 PLATFORM=`uname`
+ARCHITECTURE=`arch`
 if [ $PLATFORM == 'Darwin' ]; then
   SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-darwin-x64.zip"
+elif [ $ARCHITECTURE == 'i686' ]; then
+  SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar
+  BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-ia32.zip"
 else
   SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
@@ -58,7 +62,7 @@ killtree() {
 checkDependencies
 
 if [ "$1" == "local" ]; then
-  npm run dev-nowatch &
+  CONFIG=hsl PORT=8000 npm run dev-nowatch &
   NODE_PID=$!
   # Wait for the server to start
   sleep 10
@@ -75,7 +79,7 @@ elif [ "$1" == "browserstack" ]; then
     echo "usage: npm run test-browserstack -- BROWSERSTACK_USERNAME BROWSERSTACK_KEY"
     exit
   fi
-  npm run dev &
+  CONFIG=hsl PORT=8000 npm run dev-nowatch &
   NODE_PID=$!
   $BROWSERSTACK_LOCAL_BINARY $3 &
   BROWSERSTACK_PID=$!
