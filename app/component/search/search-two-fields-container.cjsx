@@ -20,7 +20,7 @@ class SearchTwoFieldsContainer extends React.Component
     dest = @context.getStore('EndpointStore').getDestination()
 
     @state =
-      if origin.userCurrentPosition
+      if origin.useCurrentPosition
         origin:
           userInput: false
       else
