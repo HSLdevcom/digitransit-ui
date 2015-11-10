@@ -37,7 +37,7 @@ $search-form-input-overlay-background-color: #EEF1F3;
   }
   .navigate-or-input-icon--offline {
     fill: $gray-blue;
-    font-size: 21px;
+    font-size: 18px;
     margin-left: 5px;
     cursor: pointer;
   }
@@ -186,4 +186,8 @@ $search-form-input-overlay-background-color: #EEF1F3;
 
 .navigate-or-input {
   background-color: $search-form-input-overlay-background-color;
+}
+
+.geolocation-bar-location-icon {
+  font-size: 18px;
 }
