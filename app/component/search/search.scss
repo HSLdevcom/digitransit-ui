@@ -23,6 +23,26 @@ $search-form-input-overlay-background-color: #EEF1F3;
   vertical-align: middle;
 }
 
+.search-form {
+  .navigate-or-input-messages {
+    color: $gray-blue;
+    border-bottom-style: dotted;
+    border-color: $gray-blue;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  .navigate-or-input--or {
+    color: $gray;
+  }
+  .navigate-or-input-icon--offline {
+    fill: $gray-blue;
+    font-size: 21px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+}
+
 .search-form .location .dashed {
   border-bottom: 1px dashed $search-form-icon-color;
 }
@@ -162,4 +182,8 @@ $search-form-input-overlay-background-color: #EEF1F3;
 
 .search-form-map-overlay {
   z-index: 802;
+}
+
+.navigate-or-input {
+  background-color: $search-form-input-overlay-background-color;
 }
