@@ -17,6 +17,7 @@ $search-form-input-height: 35px;
 $search-form-input-overlay-height: 27px;
 $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
+$search-form-location-icon-size: 18px;
 
 .search-form .icon {
   fill: $search-form-icon-color;
@@ -37,7 +38,7 @@ $search-form-input-overlay-background-color: #EEF1F3;
   }
   .navigate-or-input-icon--offline {
     fill: $gray-blue;
-    font-size: 18px;
+    font-size: $search-form-location-icon-size;
     margin-left: 5px;
     cursor: pointer;
   }
@@ -189,5 +190,5 @@ $search-form-input-overlay-background-color: #EEF1F3;
 }
 
 .geolocation-bar-location-icon {
-  font-size: 18px;
+  font-size: $search-form-location-icon-size;
 }
