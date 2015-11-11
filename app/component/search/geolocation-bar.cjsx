@@ -1,6 +1,7 @@
 React = require 'react'
 Icon = require '../icon/icon'
 {FormattedMessage} = require 'react-intl'
+cx = require 'classnames'
 
 getLocationMessage = (geolocation) ->
 
@@ -14,7 +15,7 @@ getLocationMessage = (geolocation) ->
 GeolocationBar = (props) ->
   <div className="input-placeholder">
     <div className="address-box">
-      <span className="inline-block" onClick={props.locateUser}>
+      <span className={cx 'inline-block', 'geolocation-bar-location-icon'} onClick={props.locateUser}>
         <Icon img={'icon-icon_mapMarker-location'}/>
       </span>
       {getLocationMessage props.geolocation}

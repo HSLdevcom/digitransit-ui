@@ -60,8 +60,16 @@ class Autosuggest extends React.Component
         {displayText}
       </span>
 
+  componentDidMount: =>
+    if @refs.input.refs.input.value == ""
+      @refs.input.refs.input.focus()
+
   suggestionValue: (suggestion) =>
     @getName suggestion.properties
+
+  disableInput: =>
+    if @refs.input.refs.input.value == "" and @props.id == "origin"
+      @props.disableInput()
 
   onSuggestionSelected: (suggestion, event) =>
     event.preventDefault()
@@ -99,6 +107,7 @@ class Autosuggest extends React.Component
         onSuggestionSelected={@onSuggestionSelected}
         inputAttributes={
           placeholder: @props.placeholder
+          onBlur: @disableInput
           #onBlur: @onSubmit Uh, causes a bug, as it is called after bluring the input after a selection has been done
         }
         id={@props.id}

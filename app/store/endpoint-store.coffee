@@ -17,7 +17,7 @@ class EndpointStore extends Store
         lat: null
         lon: null
         address: null
-    @emitChange()
+    @emitChange('origin')
 
   clearDestination: () ->
     @destination =
@@ -25,7 +25,7 @@ class EndpointStore extends Store
         lat: null
         lon: null
         address: null
-    @emitChange()
+    @emitChange('destination')
 
   swapOriginDestination: () ->
     [@destination, @origin] = [@origin, @destination]
@@ -74,7 +74,6 @@ class EndpointStore extends Store
       @clearOrigin()
     if @destination.useCurrentPosition
       @clearDestination()
-    @emitChange()
 
   dehydrate: ->
     {@origin, @destination}
