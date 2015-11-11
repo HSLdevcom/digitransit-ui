@@ -25,7 +25,7 @@ class EndpointStore extends Store
         lat: null
         lon: null
         address: null
-    @emitChange('dest')
+    @emitChange('destination')
 
   swapOriginDestination: () ->
     [@destination, @origin] = [@origin, @destination]

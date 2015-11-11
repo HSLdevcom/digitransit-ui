@@ -17,12 +17,23 @@ getOriginMessage = () ->
 
 NavigateOrInput = (props) ->
   <div className="input-placeholder navigate-or-input">
-      <span onClick={props.setToCurrent}  className="inline-block">
-        <Icon img='icon-icon_mapMarker-location' className={"navigate-or-input-icon--offline"}/>
-      </span>
-      <span onClick={props.setToCurrent} className="navigate-or-input-messages">{getTrackMeMessage()}</span>
-      <span className="navigate-or-input--or"><FormattedMessage id="or" defaultMessage='or' /></span>
-      <span onClick={props.enableInput.bind(null, props.id)} className="navigate-or-input-messages">{getOriginMessage()}</span>
+    <span onClick={props.setToCurrent}  className="inline-block">
+      <Icon
+        img='icon-icon_mapMarker-location'
+        className={"navigate-or-input-icon--offline"}
+      />
+    </span>
+    <span
+      onClick={props.setToCurrent}
+      className="navigate-or-input-messages">{getTrackMeMessage()}
+    </span>
+    <span className="navigate-or-input--or">
+      <FormattedMessage id="or" defaultMessage='or' />
+    </span>
+    <span
+      onClick={props.enableInput.bind(null, props.id)}
+      className="navigate-or-input-messages">{getOriginMessage()}
+    </span>
   </div>
 
 NavigateOrInput.propTypes =
