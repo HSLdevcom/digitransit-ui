@@ -90,6 +90,10 @@
   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($ferry-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }
 
+.summary-circle.bicycle_rent::before {
+  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($citybike-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
+}
+
 .summary-circle.walk::before {
   content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($walk-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
 }

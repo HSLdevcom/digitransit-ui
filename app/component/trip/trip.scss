@@ -62,7 +62,8 @@ $trip-large-map-height: 300px;
     &.tram::after,
     &.rail::after,
     &.subway::after,
-    &.ferry::after  {
+    &.ferry::after,
+    &.bicycle_rent::after  {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($dark-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
     }
   }
