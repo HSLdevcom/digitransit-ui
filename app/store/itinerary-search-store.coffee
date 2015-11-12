@@ -35,7 +35,7 @@ class ItinerarySearchStore extends Store
     @subwayState = true
     @ferryState = true
     @walkState = true
-    @CycleState = false
+    @cycleState = false
     @carState = false
 
     @walkReluctance = 2
