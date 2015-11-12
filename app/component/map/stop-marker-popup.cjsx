@@ -5,6 +5,7 @@ StopCardContainer     = require '../stop-cards/stop-card-container'
 Icon                  = require '../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
 FavouriteStopsAction  = require '../../action/favourite-stops-action'
+MarkerPopupBottom     = require './marker-popup-bottom'
 {FormattedMessage} = require('react-intl')
 
 
@@ -27,12 +28,9 @@ class StopMarkerPopup extends React.Component
 
     <div className="card">
       <StopCardContainer stop={@props.stop} departures={5} className="padding-small"/>
-      <div className="bottom location">
+      <MarkerPopupBottom routeHere="/reitti/#{@props.context.getStore('PositionStore').getLocationString()}/#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}">
         <Link to="/pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
-        <Link to="/reitti/#{@props.context.getStore('PositionStore').getLocationString()}/#{@props.stop.name}::#{@props.stop.lat},#{@props.stop.lon}" className="route">
-          <Icon img={'icon-icon_route'}/> <FormattedMessage id="route-here" defaultMessage="Route to here" />
-        </Link>
-      </div>
+      </MarkerPopupBottom>
     </div>
 
 module.exports = Relay.createContainer StopMarkerPopup,
