@@ -77,7 +77,7 @@ class Map extends React.Component
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
-            size={if L.Browser.retina then "@2x" else  ""}/>
+            size={if config.map?.useRetinaTiles and L.Browser.retina then "@2x" else  ""}/>
           {stops}
           {vehicles}
           {fromMarker}
