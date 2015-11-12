@@ -38,3 +38,5 @@ module.exports =
     lon: 24.94102
   nearestStopDistance:
     maxShownDistance: 5000
+  map:
+    useRetinaTiles: true
