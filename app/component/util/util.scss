@@ -189,7 +189,7 @@ $btn-heigth: 17px;
       color: $btn-icon-color-checked;
     }
   }
-  &.bus, &.tram, &.rail, &.subway, &.ferry, &.bicycle_rent {
+  &.bus, &.tram, &.rail, &.subway, &.ferry, &.citybike {
     .icon{
       color:$btn-icon-color-active;
     }
