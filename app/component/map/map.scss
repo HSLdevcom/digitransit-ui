@@ -224,17 +224,25 @@ div.stop-name-marker {
 .map .leg-halo {
   stroke: #fff;
   stroke-opacity: 1;
-  &.walk {
+  &.walk, &.bicycle_walk, &.citybike_walk {
     stroke-linecap: round;
     stroke-dasharray: 0.1, 7;
+  }
+  &.bicycle, &.citybike{
+    stroke-linecap: round;
+    stroke-dasharray: 10, 5;
   }
 }
 
 .map .leg {
   stroke-opacity: 1;
-  &.walk {
+  &.walk, &.bicycle_walk, &.citybike_walk {
     stroke-linecap: round;
     stroke-dasharray: 0.1, 7;
+  }
+  &.bicycle, &.citybike{
+    stroke-linecap: round;
+    stroke-dasharray: 10, 5;
   }
 }
 

@@ -37,7 +37,7 @@ class ItinerarySearchStore extends Store
     @citybikeState = false
     # These three are mutually exclusive
     @walkState = true
-    @cycleState = false
+    @bicycleState = false
     @carState = false
 
     @walkReluctance = 2
@@ -64,7 +64,7 @@ class ItinerarySearchStore extends Store
     if @getCitybikeState() then mode.push "BICYCLE_RENT"
     if mode.length then mode.push "AIRPLANE"
     if @getWalkState() then mode.push "WALK"
-    if @getCycleState() then mode.push "BICYCLE"
+    if @getBicycleState() then mode.push "BICYCLE"
     if @getCarState() then mode.push "CAR"
     return mode.join(",")
 
@@ -93,8 +93,8 @@ class ItinerarySearchStore extends Store
     @citybikeState
   getWalkState: ->
     @walkState
-  getCycleState: ->
-    @cycleState
+  getBicycleState: ->
+    @bicycleState
   getCarState: ->
     @carState
 
@@ -132,9 +132,9 @@ class ItinerarySearchStore extends Store
     @clearRadioButtons()
     @walkState = !@walkState
     @emitChange()
-  toggleCycleState: ->
+  toggleBicycleState: ->
     @clearRadioButtons()
-    @cycleState = !@cycleState
+    @bicycleState = !@bicycleState
     @emitChange()
   toggleCarState: ->
     @clearRadioButtons()
@@ -142,7 +142,7 @@ class ItinerarySearchStore extends Store
     @emitChange()
 
   clearRadioButtons: ->
-    @walkState = @cycleState = @carState = false
+    @walkState = @bicycleState = @carState = false
     return
 
   updateFromToPlaces: (params)  ->
@@ -200,7 +200,7 @@ class ItinerarySearchStore extends Store
     "ToggleFerryState": 'toggleFerryState'
     "ToggleCitybikeState": 'toggleCitybikeState'
     "ToggleWalkState": 'toggleWalkState'
-    "ToggleCycleState": 'toggleCycleState'
+    "ToggleBicycleState": 'toggleBicycleState'
     "ToggleCarState": 'toggleCarState'
     "UpdateFromToPlaces": 'updateFromToPlaces'
     "SetWalkReluctance": "setWalkReluctance"
