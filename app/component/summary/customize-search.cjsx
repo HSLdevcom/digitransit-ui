@@ -74,7 +74,7 @@ class CustomizeSearch extends React.Component
             icon="citybike-withoutBox"
             onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleCitybikeState}
             state={@context.getStore('ItinerarySearchStore').getCitybikeState()}
-            checkedClass="bicycle_rent"
+            checkedClass="citybike"
             className="mode-icon last-btn"
           />
         </div>

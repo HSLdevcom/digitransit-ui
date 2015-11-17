@@ -81,7 +81,7 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
     &.ferry::after{
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($ferry-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
     }
-    &.bicycle_rent::after{
+    &.citybike::after{
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($citybike-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
     }
   }
