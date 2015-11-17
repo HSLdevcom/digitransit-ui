@@ -1,6 +1,4 @@
 React       = require 'react'
-ComponentUsageExample = require '../documentation/component-usage-example'
-Example = require '../documentation/example-data'
 Link                  = require 'react-router/lib/Link'
 Icon                  = require '../icon/icon.cjsx'
 {FormattedMessage} = require('react-intl')
