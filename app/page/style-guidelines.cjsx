@@ -69,6 +69,8 @@ class StyleGuidelinesPage extends React.Component
           <span className="code color-code">$disruption-passive-color</span>#4DA2D9
         </div>
         <p>TODO: dynamically get these colors, now only for HSL</p>
+
+        <img src="/img/hsl_reittiopas_map-strokes_02.png" />
       </section>
     )
 
