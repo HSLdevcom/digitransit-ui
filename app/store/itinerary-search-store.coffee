@@ -13,18 +13,18 @@ class ItinerarySearchStore extends Store
     @toPlace   = ""
     @ticketOptions = [
       {
-        "displayName":   "Ei lippuvyöhykerajoitusta",
-        "value":  "0"
+        "displayName": "Ei lippuvyöhykerajoitusta",
+        "value": "0"
       }
     ]
     @accessibilityOptions = [
       {
-        "displayName":   "Ei rajoitusta",
-        "value":  "0"
+        "displayName": "Ei rajoitusta",
+        "value": "0"
       },
       {
-        "displayName":   "Liikun pyörätuolilla",
-        "value":  "1"
+        "displayName": "Liikun pyörätuolilla",
+        "value": "1"
       }
     ]
     @selectedTicketOption = "0"
@@ -34,13 +34,15 @@ class ItinerarySearchStore extends Store
     @railState = true
     @subwayState = true
     @ferryState = true
+    @citybikeState = false
+    # These three are mutually exclusive
     @walkState = true
     @cycleState = false
     @carState = false
 
     @walkReluctance = 2
-    @walkBoardCost = 600          # Vaihdot
-    @minTransferTime = 180        # Vaihtomarginaali
+    @walkBoardCost = 600          # Vaihdot / transfers
+    @minTransferTime = 180        # Vaihtomarginaali / transfer margin
     @walkSpeed = 1.2
 
   getData: ->
@@ -59,6 +61,7 @@ class ItinerarySearchStore extends Store
     if @getRailState() then mode.push "RAIL"
     if @getSubwayState() then mode.push "SUBWAY"
     if @getFerryState() then mode.push "FERRY"
+    if @getCitybikeState() then mode.push "BICYCLE_RENT"
     if mode.length then mode.push "AIRPLANE"
     if @getWalkState() then mode.push "WALK"
     if @getCycleState() then mode.push "BICYCLE"
@@ -86,6 +89,8 @@ class ItinerarySearchStore extends Store
     @subwayState
   getFerryState: ->
     @ferryState
+  getCitybikeState: ->
+    @citybikeState
   getWalkState: ->
     @walkState
   getCycleState: ->
@@ -120,6 +125,9 @@ class ItinerarySearchStore extends Store
   toggleFerryState: ->
     @ferryState = !@ferryState
     @emitChange()
+  toggleCitybikeState: ->
+    @citybikeState = !@citybikeState
+    @emitChange()
   toggleWalkState: ->
     @clearRadioButtons()
     @walkState = !@walkState
@@ -132,6 +140,7 @@ class ItinerarySearchStore extends Store
     @clearRadioButtons()
     @carState = !@carState
     @emitChange()
+
   clearRadioButtons: ->
     @walkState = @cycleState = @carState = false
     return
@@ -184,20 +193,21 @@ class ItinerarySearchStore extends Store
   @handlers:
     "ItineraryFound": 'storeItinerarySearch'
     "ItinerarySearchStarted": 'clearItinerary'
-    "ToggleBusState" : 'toggleBusState'
-    "ToggleTramState" : 'toggleTramState'
-    "ToggleRailState" : 'toggleRailState'
-    "ToggleSubwayState" : 'toggleSubwayState'
-    "ToggleFerryState" : 'toggleFerryState'
-    "ToggleWalkState" : 'toggleWalkState'
-    "ToggleCycleState" : 'toggleCycleState'
-    "ToggleCarState" : 'toggleCarState'
+    "ToggleBusState": 'toggleBusState'
+    "ToggleTramState": 'toggleTramState'
+    "ToggleRailState": 'toggleRailState'
+    "ToggleSubwayState": 'toggleSubwayState'
+    "ToggleFerryState": 'toggleFerryState'
+    "ToggleCitybikeState": 'toggleCitybikeState'
+    "ToggleWalkState": 'toggleWalkState'
+    "ToggleCycleState": 'toggleCycleState'
+    "ToggleCarState": 'toggleCarState'
     "UpdateFromToPlaces": 'updateFromToPlaces'
-    "SetWalkReluctance" : "setWalkReluctance"
-    "SetWalkBoardCost" : "setWalkBoardCost"
-    "SetMinTransferTime" : "setMinTransferTime"
-    "SetWalkSpeed" : "setWalkSpeed"
-    "SetTicketOption" : "setTicketOption"
-    "SetAccessibilityOption" : "setAccessibilityOption"
+    "SetWalkReluctance": "setWalkReluctance"
+    "SetWalkBoardCost": "setWalkBoardCost"
+    "SetMinTransferTime": "setMinTransferTime"
+    "SetWalkSpeed": "setWalkSpeed"
+    "SetTicketOption": "setTicketOption"
+    "SetAccessibilityOption": "setAccessibilityOption"
 
 module.exports = ItinerarySearchStore

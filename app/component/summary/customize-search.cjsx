@@ -40,35 +40,42 @@ class CustomizeSearch extends React.Component
             onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleBusState}
             state={@context.getStore('ItinerarySearchStore').getBusState()}
             checkedClass="bus"
-            className="columns-5 first-btn"
+            className="mode-icon first-btn"
           />
           <ToggleButton
             icon="tram-withoutBox"
             onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleTramState}
             state={@context.getStore('ItinerarySearchStore').getTramState()}
             checkedClass="tram"
-            className="columns-5"
+            className="mode-icon"
           />
           <ToggleButton
             icon="rail-withoutBox"
             onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleRailState}
             state={@context.getStore('ItinerarySearchStore').getRailState()}
             checkedClass="rail"
-            className="columns-5"
+            className="mode-icon"
           />
           <ToggleButton
             icon="subway-withoutBox"
             onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleSubwayState}
             state={@context.getStore('ItinerarySearchStore').getSubwayState()}
             checkedClass="subway"
-            className="columns-5"
+            className="mode-icon"
           />
           <ToggleButton
             icon="ferry-withoutBox"
             onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleFerryState}
             state={@context.getStore('ItinerarySearchStore').getFerryState()}
             checkedClass="ferry"
-            className="columns-5 last-btn"
+            className="mode-icon"
+          />
+          <ToggleButton
+            icon="citybike-withoutBox"
+            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleCitybikeState}
+            state={@context.getStore('ItinerarySearchStore').getCitybikeState()}
+            checkedClass="citybike"
+            className="mode-icon last-btn"
           />
         </div>
       </section>

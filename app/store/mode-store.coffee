@@ -14,6 +14,7 @@ class ModeStore extends Store
       railState: true
       subwayState: true
       ferryState: true
+      citybikeState: false
 
   getData: ->
     @data
@@ -25,6 +26,7 @@ class ModeStore extends Store
     if @getRailState() then mode.push "RAIL"
     if @getSubwayState() then mode.push "SUBWAY"
     if @getFerryState() then mode.push "FERRY"
+    if @getCitybikeState() then mode.push "BICYCLE_RENT"
     mode.push "AIRPLANE"
     return mode
 
@@ -41,6 +43,8 @@ class ModeStore extends Store
     @data.subwayState
   getFerryState: ->
     @data.ferryState
+  getCitybikeState: ->
+    @data.citybikeState
 
   toggleBusState: ->
     @data.busState = !@data.busState
@@ -60,6 +64,10 @@ class ModeStore extends Store
     @emitChange()
   toggleFerryState: ->
     @data.ferryState = !@data.ferryState
+    @storeMode()
+    @emitChange()
+  toggleCitybikeState: ->
+    @data.citybikeState = !@data.citybikeState
     @storeMode()
     @emitChange()
 
@@ -83,5 +91,6 @@ class ModeStore extends Store
     "ToggleRailState" : 'toggleRailState'
     "ToggleSubwayState" : 'toggleSubwayState'
     "ToggleFerryState" : 'toggleFerryState'
+    "ToggleCitybikeState" : 'toggleCitybikeState'
 
 module.exports = ModeStore
