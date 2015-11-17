@@ -31,8 +31,11 @@ add_wait_legs = (data) ->
 
     for leg in itinerary.legs
 
-      if leg.mode == 'BICYCLE' and leg.rentedBike == true
-        leg.mode = 'CITYBIKE'
+      if leg.rentedBike == true
+        if leg.mode == 'BICYCLE'
+          leg.mode = 'CITYBIKE'
+        if leg.mode == 'WALK'
+          leg.mode = 'CITYBIKE_WALK'
 
       wait_time = leg.startTime - time
       # If there's enough unaccounted time before a leg, add a wait leg
@@ -134,8 +137,8 @@ module.exports =
       null,
       actionContext.executeAction itinerarySearchRequest
 
-  toggleCycleState: (actionContext)  ->
-    actionContext.dispatch "ToggleCycleState",
+  toggleBicycleState: (actionContext)  ->
+    actionContext.dispatch "ToggleBicycleState",
       null,
       actionContext.executeAction itinerarySearchRequest
 

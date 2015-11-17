@@ -23,6 +23,10 @@ class Line extends React.Component
   render: ->
     className = cx
       walk: @props.mode == "walk"
+      citybike: @props.mode == "citybike"
+      bicycle: @props.mode == "bicycle"
+      citybike_walk: @props.mode == "citybike_walk"
+      bicycle_walk: @props.mode == "bicycle_walk"
       thin: @props.thin
 
     # https://github.com/Leaflet/Leaflet/issues/2662

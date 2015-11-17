@@ -69,6 +69,8 @@ class StyleGuidelinesPage extends React.Component
           <span className="code color-code">$disruption-passive-color</span>#4DA2D9
         </div>
         <p>TODO: dynamically get these colors, now only for HSL</p>
+
+        <img src="/img/hsl_reittiopas_map-strokes_02.png" />
       </section>
     )
 
@@ -138,8 +140,8 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_caution</span><br />
         <Icon img={'icon-icon_close'}/>
         <span className="code">icon-icon_close</span><br />
-        <Icon img={'icon-icon_cycle'}/>
-        <span className="code">icon-icon_cycle</span><br />
+        <Icon img={'icon-icon_bicycle'}/>
+        <span className="code">icon-icon_bicycle</span><br />
         <Icon img={'icon-icon_cyclist'}/>
         <span className="code">icon-icon_cyclist</span><br />
         <Icon img={'icon-icon_direction-a'}/>
@@ -257,6 +259,7 @@ class StyleGuidelinesPage extends React.Component
       <div className="citybike">some div<span className="code">.citybike</span></div>
 
       <div className="walk">some div<span className="code">.walk</span></div>
+      <div className="bicycle">some div<span className="code">.bicycle</span></div>
       <div className="wait">some div<span className="code">.wait</span></div>
       <div className="from">some div<span className="code">.from</span></div>
       <div className="to">some div<span className="code">.to</span></div>
