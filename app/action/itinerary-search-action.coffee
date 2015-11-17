@@ -77,8 +77,10 @@ itinerarySearchRequest = (actionContext, options, done) ->
     minTransferTime: itinerarySearchStore.getMinTransferTime()
     walkSpeed: itinerarySearchStore.getWalkSpeed()
     wheelchair: itinerarySearchStore.isWheelchair()
+    # TODO: remove ugly hack when fixed in OTP
+    disableRemainingWeightHeuristic: itinerarySearchStore.getCitybikeState()
 
-  if itinerarySearchStore.getMode().indexOf('BICYCLE') ==-1
+  if itinerarySearchStore.getMode().indexOf('BICYCLE') == -1
     params.maxWalkDistance = config.maxWalkDistance
   else
     params.maxWalkDistance = config.maxBikingDistance;
