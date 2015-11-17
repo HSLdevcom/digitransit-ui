@@ -84,6 +84,11 @@ translations =
     'route-not-possible': 'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"'
     'realtime-matching': 'Realiajan integraatio'
     'locate': 'Paikanna'
+    'extra-info': 'Lisätietoa'
+    'bike-availability': 'Pyöriä vapaina asemalla'
+    'citybike-register-required': 'Kaupunkipyörien käyttö vaatii rekisteröitymisen'
+    'use-citybike': 'Ota käyttöön'
+    'citybike': 'Kaupunkipyörä'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -168,4 +173,7 @@ translations =
     'route-not-possible': 'Tyvärr din rutt är inte möjligt. Tekniskt fel: "{error}"'
     'realtime-matching': 'Realtidsintegration'
     'locate': 'Lokalisera'
+    'extra-info': 'mer info'
+    'bike-availability': 'Cyklar finns'
+
 module.exports = translations
