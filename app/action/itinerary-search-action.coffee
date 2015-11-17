@@ -28,7 +28,12 @@ add_wait_legs = (data) ->
 
     # Read wait threshold from config and change it to milliseconds
     waitThreshold = config.itinerary.waitThreshold * 1000
+
     for leg in itinerary.legs
+
+      if leg.mode == 'BICYCLE' and leg.rentedBike == true
+        leg.mode = 'CITYBIKE'
+
       wait_time = leg.startTime - time
       # If there's enough unaccounted time before a leg, add a wait leg
       if wait_time > waitThreshold

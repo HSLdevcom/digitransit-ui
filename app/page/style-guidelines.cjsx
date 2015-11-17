@@ -254,7 +254,7 @@ class StyleGuidelinesPage extends React.Component
       <div className="rail">some div<span className="code">.rail</span></div>
       <div className="subway">some div<span className="code">.subway</span></div>
       <div className="ferry">some div<span className="code">.ferry</span></div>
-      <div className="bicycle_rent">some div<span className="code">.bicycle_rent</span></div>
+      <div className="citybike">some div<span className="code">.citybike</span></div>
 
       <div className="walk">some div<span className="code">.walk</span></div>
       <div className="wait">some div<span className="code">.wait</span></div>
