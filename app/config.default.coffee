@@ -12,7 +12,6 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{SERVER_ROOT}/pelias/v1/reverse"
   ROOT_PATH: process.env.ROOT_PATH or ''
   title: "Digitransit"
-  cities: []
   searchParams: {}
   pelias:
     useNeighbourhood: true

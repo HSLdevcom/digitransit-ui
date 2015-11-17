@@ -10,10 +10,8 @@ module.exports =
     REALTIME: "#{SERVER_ROOT}/navigator-server"
     PELIAS: "#{SERVER_ROOT}/pelias/v1/search"
     PELIAS_REVERSE_GEOCODER: "#{SERVER_ROOT}/pelias/v1/reverse"
-
   ROOT_PATH: process.env.ROOT_PATH or ''
   title: "Digitransit (HSL)"
-  cities: ["helsinki", "vantaa", "espoo", "kauniainen", "kerava", "kirkkonummi", "sipoo"]
   icon: "hsl-icon.png"
   preferredAgency: "HSL"
   searchParams:
