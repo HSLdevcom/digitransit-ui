@@ -50,7 +50,7 @@ class CityBikeMarker extends React.Component
     <Marker map={@props.map}
             position={lat: @props.station.y, lng: @props.station.x}
             icon={CityBikeMarker.getStopIcon(
-              "bicycle_rent" + (if @props.thin then " thin" else ""),
+              "citybike" + (if @props.thin then " thin" else ""),
               @props.selected,
               @props.map.getZoom())}>
        <Popup options={
