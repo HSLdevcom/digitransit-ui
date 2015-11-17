@@ -7,12 +7,17 @@ geolocator = (actionContext) ->
 
 reverseGeocodeAddress = (actionContext, location, done) ->
 
-  xhrPromise.getJson(config.URL.GEOCODER + "reverse/" +
-                     location.lat + "," + location.lon).then (data) ->
-    actionContext.dispatch "AddressFound",
-      address: data.katunimi
-      number: data.osoitenumero
-      city: data.kaupunki
+  xhrPromise.getJson(config.URL.PELIAS_REVERSE_GEOCODER +
+      "?point.lat=" + location.lat +
+      "&point.lon=" + location.lon +
+      "size=1"
+  ).then (data) ->
+    if data.features? && data.features.length >0
+      match = data.features[0].properties
+      actionContext.dispatch "AddressFound",
+        address: match.street
+        number: match.housenumber
+        city: match.locality
     done()
 
 findLocation = (actionContext, payload, done) ->
