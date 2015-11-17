@@ -12,7 +12,7 @@ reverseGeocodeAddress = (actionContext, location, done) ->
       "&point.lon=" + location.lon +
       "&size=1"
   ).then (data) ->
-    if data.features? && data.features.length >0
+    if data.features? && data.features.length > 0
       match = data.features[0].properties
       actionContext.dispatch "AddressFound",
         address: match.street
