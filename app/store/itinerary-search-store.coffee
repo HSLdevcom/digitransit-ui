@@ -13,18 +13,18 @@ class ItinerarySearchStore extends Store
     @toPlace   = ""
     @ticketOptions = [
       {
-        "displayName":   "Ei lippuvyöhykerajoitusta",
-        "value":  "0"
+        "displayName": "Ei lippuvyöhykerajoitusta",
+        "value": "0"
       }
     ]
     @accessibilityOptions = [
       {
-        "displayName":   "Ei rajoitusta",
-        "value":  "0"
+        "displayName": "Ei rajoitusta",
+        "value": "0"
       },
       {
-        "displayName":   "Liikun pyörätuolilla",
-        "value":  "1"
+        "displayName": "Liikun pyörätuolilla",
+        "value": "1"
       }
     ]
     @selectedTicketOption = "0"
@@ -193,21 +193,21 @@ class ItinerarySearchStore extends Store
   @handlers:
     "ItineraryFound": 'storeItinerarySearch'
     "ItinerarySearchStarted": 'clearItinerary'
-    "ToggleBusState" : 'toggleBusState'
-    "ToggleTramState" : 'toggleTramState'
-    "ToggleRailState" : 'toggleRailState'
-    "ToggleSubwayState" : 'toggleSubwayState'
-    "ToggleFerryState" : 'toggleFerryState'
-    "ToggleCitybikeState" : 'toggleCitybikeState'
-    "ToggleWalkState" : 'toggleWalkState'
-    "ToggleCycleState" : 'toggleCycleState'
-    "ToggleCarState" : 'toggleCarState'
+    "ToggleBusState": 'toggleBusState'
+    "ToggleTramState": 'toggleTramState'
+    "ToggleRailState": 'toggleRailState'
+    "ToggleSubwayState": 'toggleSubwayState'
+    "ToggleFerryState": 'toggleFerryState'
+    "ToggleCitybikeState": 'toggleCitybikeState'
+    "ToggleWalkState": 'toggleWalkState'
+    "ToggleCycleState": 'toggleCycleState'
+    "ToggleCarState": 'toggleCarState'
     "UpdateFromToPlaces": 'updateFromToPlaces'
-    "SetWalkReluctance" : "setWalkReluctance"
-    "SetWalkBoardCost" : "setWalkBoardCost"
-    "SetMinTransferTime" : "setMinTransferTime"
-    "SetWalkSpeed" : "setWalkSpeed"
-    "SetTicketOption" : "setTicketOption"
-    "SetAccessibilityOption" : "setAccessibilityOption"
+    "SetWalkReluctance": "setWalkReluctance"
+    "SetWalkBoardCost": "setWalkBoardCost"
+    "SetMinTransferTime": "setMinTransferTime"
+    "SetWalkSpeed": "setWalkSpeed"
+    "SetTicketOption": "setTicketOption"
+    "SetAccessibilityOption": "setAccessibilityOption"
 
 module.exports = ItinerarySearchStore
