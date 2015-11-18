@@ -4,12 +4,11 @@ config     = require '../config'
 
 cityBikeSearchRequest = (actionContext, options, done) =>
 
-  xhrPromise.getJson(config.URL.OTP + "bike_rental", []).then((data) ->
+  xhrPromise.getJson(config.URL.OTP + "bike_rental").then((data) ->
     actionContext.dispatch "CityBikeStationsFound", data
     done()
   , (err) ->
-    console.error("Failed to perform cityBikeStations search!")
-    console.error(err)
+    console.error("Failed to perform cityBikeStations search!", err)
     done()
   )
 
