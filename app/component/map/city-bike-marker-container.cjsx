@@ -11,7 +11,8 @@ class CityBikeMarkerContainer extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
   componentWillMount: ->
-    @context.executeAction CityBikeActions.cityBikeSearchRequest
+    data = @context.getStore('CityBikeStore').getData()
+    @context.executeAction CityBikeActions.cityBikeSearchRequest if not data?.stations?
     @context.getStore('CityBikeStore').addChangeListener @onCityBikeChange
 
   componentDidMount: ->

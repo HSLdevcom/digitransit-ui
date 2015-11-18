@@ -7,15 +7,13 @@ class CityBikeStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    localData = window?.sessionStorage?.getItem STORAGE_KEY
-    @data = if localData then JSON.parse(localData) else {}
+    @data = {}
 
   getData: ->
     @data
 
   storeCityBikeStationSearch: (data) ->
     @data = data
-    window?.sessionStorage?.setItem STORAGE_KEY, JSON.stringify @data
     @emitChange()
 
   @handlers:
