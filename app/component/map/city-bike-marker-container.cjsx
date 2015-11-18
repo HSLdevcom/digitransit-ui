@@ -31,13 +31,14 @@ class CityBikeMarkerContainer extends React.Component
     stations = []
     data = @context.getStore('CityBikeStore').getData()
 
-    data.stations.forEach (station) =>
+    data?.stations?.forEach (station) =>
       #TODO: set showName
-      stations.push <CityBikeMarker key={station.id}
-                             map={@props.map}
-                             station={station}/>
+      stations.push <CityBikeMarker
+        key={station.id}
+        map={@props.map}
+        station={station}
+      />
     stations
-
 
   render: ->
     <div>{if STOPS_MAX_ZOOM < @props.map.getZoom() then @getStations() else ""}</div>
