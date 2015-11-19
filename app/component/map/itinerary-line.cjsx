@@ -18,10 +18,6 @@ class ItineraryLine extends React.Component
     if @props.showFromToMarkers
       #TODO: refactor FromToMarkers into own file, used also in RouteLine
       objs.push <LocationMarker map=@props.map
-                                key="from"
-                                position={@props.legs[0].from}
-                                className='from' />
-      objs.push <LocationMarker map=@props.map
                                 key="to"
                                 position={@props.legs[@props.legs.length - 1].to}
                                 className='to' />
