@@ -13,8 +13,6 @@ module.exports =
   ROOT_PATH: process.env.ROOT_PATH or ''
   title: "Digitransit"
   searchParams: {}
-  pelias:
-    useNeighbourhood: true
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000
