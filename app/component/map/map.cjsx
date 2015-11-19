@@ -69,6 +69,9 @@ class Map extends React.Component
           center={center}
           zoom={zoom}
           zoomControl={false}
+          # Prevent other things behind the map reacting to map interaction
+          onLeafletMousedown= {(e) =>
+            e.originalEvent.stopPropagation()}
           attributionControl=false
           bounds={if @props.fitBounds then [@props.from, @props.to]}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
