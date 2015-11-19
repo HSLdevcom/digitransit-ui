@@ -34,7 +34,12 @@ departure =
 
 currentTime = new Date().getTime() / 1000
 
+station =
+  bikesAvailable: 1
+  spacesAvailable: 1
+
 module.exports =
   realtimeDeparture: realtimeDeparture
   departure: departure
   currentTime: currentTime
+  station: station
