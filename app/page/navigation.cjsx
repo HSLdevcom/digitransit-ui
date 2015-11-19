@@ -11,5 +11,4 @@ class NavigationPage extends React.Component
     </DefaultNavigation>
 
 
-
 module.exports = NavigationPage

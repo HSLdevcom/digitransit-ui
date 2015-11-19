@@ -31,10 +31,10 @@ class NearestRoutesContainer extends React.Component
     <Relay.RootContainer
       Component={RouteListContainer}
       forceFetch={true}
-      route={new queries.RouteListContainerRoute
+      route={new queries.RouteListContainerRoute(
         lat: @props.lat
         lon: @props.lon
-      }
+      )}
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
     />
 

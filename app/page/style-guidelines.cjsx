@@ -17,54 +17,54 @@ class StyleGuidelinesPage extends React.Component
       <section>
         <div className="medium-6 column">
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#007ac9'}/>
+            <rect width="50" height="50" style={fill: '#007ac9'}/>
           </svg>
           <span className="code color-code">$primary-color</span>#007ac9
           <br />
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#ffffff'}/>
+            <rect width="50" height="50" style={fill: '#ffffff'}/>
           </svg>
           <span className="code color-code">$primary-font-color</span>#ffffff
           <br />
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#0062a1'}/>
+            <rect width="50" height="50" style={fill: '#0062a1'}/>
           </svg>
           <span className="code color-code">$secondary-color</span>#0062a1
           <br />
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#ffffff'}/>
+            <rect width="50" height="50" style={fill: '#ffffff'}/>
           </svg>
           <span className="code color-code">$secondary-font-color</span>#ffffff
           <br />
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#ffffff'}/>
+            <rect width="50" height="50" style={fill: '#ffffff'}/>
           </svg>
           <span className="code color-code">$title-color</span>#ffffff
           <br />
         </div>
         <div className="medium-6 column">
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#f092cd'}/>
+            <rect width="50" height="50" style={fill: '#f092cd'}/>
           </svg>
           <span className="code color-code">$favourite-color</span>#f092cd
           <br />
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#f092cd'}/>
+            <rect width="50" height="50" style={fill: '#f092cd'}/>
           </svg>
           <span className="code color-code">$hilight-color</span>#f092cd
           <br />
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#007ac9'}/>
+            <rect width="50" height="50" style={fill: '#007ac9'}/>
           </svg>
           <span className="code color-code">$action-color</span>#007ac9
           <br />
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#fed100'}/>
+            <rect width="50" height="50" style={fill: '#fed100'}/>
           </svg>
           <span className="code color-code">$disruption-color</span>#fed100
           <br />
           <svg className="color-palette" width="50" height="50">
-            <rect width="50" height="50" style={fill:'#4DA2D9'}/>
+            <rect width="50" height="50" style={fill: '#4DA2D9'}/>
           </svg>
           <span className="code color-code">$disruption-passive-color</span>#4DA2D9
         </div>
@@ -82,8 +82,8 @@ class StyleGuidelinesPage extends React.Component
         <p style={{fontWeight: '400 '}}>Primary font normal - Weight 400: "Nunito, Arial, Georgia, Serif"<span className="code">$font-weight-normal</span></p>
         <p style={{fontWeight: '600 '}}>Primary font bold   - Weight 600: "Nunito, Arial, Georgia, Serif"<span className="code">$font-weight-bold</span></p>
         <span className="code">$font-family-narrow</span>
-        <p style={fontFamily: 'Open Sans Condensed', fontWeight:'400'}>Secondary font: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif<span className="code">$font-weight-normal</span></p>
-        <p style={fontFamily: 'Open Sans Condensed', fontWeight:'600'}>Secondary font: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif<span className="code">$font-weight-bold</span></p>
+        <p style={fontFamily: 'Open Sans Condensed', fontWeight: '400'}>Secondary font: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif<span className="code">$font-weight-normal</span></p>
+        <p style={fontFamily: 'Open Sans Condensed', fontWeight: '600'}>Secondary font: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif<span className="code">$font-weight-bold</span></p>
       </section>
     )
 

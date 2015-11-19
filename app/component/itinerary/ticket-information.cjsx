@@ -19,4 +19,5 @@ class TicketInformation extends React.Component
       </div>
     </div>
 
+
 module.exports = TicketInformation

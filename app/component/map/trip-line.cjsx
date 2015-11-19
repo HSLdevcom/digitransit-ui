@@ -10,4 +10,5 @@ class TripLine extends React.Component
                thin=true
                filteredStops={@props.filteredStops} />
 
+
 module.exports = Relay.createContainer(TripLine, fragments: queries.TripPatternFragments)

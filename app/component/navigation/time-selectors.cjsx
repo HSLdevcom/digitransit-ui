@@ -54,17 +54,17 @@ class TimeSelectors extends React.Component
     arriveBy = @context.getStore(TimeStore).getArriveBy()
 
     <div className="time-selectors">
-      <select ref="hour" className="time hour hide-dropdown" value={time.format('H')} onChange={this.changeTime}>
+      <select ref="hour" className="time hour hide-dropdown" value={time.format('H')} onChange={@changeTime}>
         {@getHours()}
       </select>
       <span className="timeseparator">:</span>
-      <select ref="minute" className="time minute hide-dropdown" value={time.format('m')} onChange={this.changeTime}>
+      <select ref="minute" className="time minute hide-dropdown" value={time.format('m')} onChange={@changeTime}>
         {@getMinutes()}
       </select>
-      <select ref="date" value={time.format('YYYY-MM-DD')} onChange={this.changeTime}>
+      <select ref="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}>
         {@getDates()}
       </select>
-      <select ref="arriveBy" value={arriveBy} onChange={this.setArriveBy}>
+      <select ref="arriveBy" value={arriveBy} onChange={@setArriveBy}>
         <option value="false">
           {@context.intl.formatMessage({id: "leaving-at", defaultMessage: "Leaving at"})}</option>
         <option value="true">

@@ -37,42 +37,42 @@ class CustomizeSearch extends React.Component
         <div className="row btn-bar">
           <ToggleButton
             icon="bus-withoutBox"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleBusState}
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleBusState}
             state={@context.getStore('ItinerarySearchStore').getBusState()}
             checkedClass="bus"
             className="mode-icon first-btn"
           />
           <ToggleButton
             icon="tram-withoutBox"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleTramState}
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleTramState}
             state={@context.getStore('ItinerarySearchStore').getTramState()}
             checkedClass="tram"
             className="mode-icon"
           />
           <ToggleButton
             icon="rail-withoutBox"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleRailState}
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleRailState}
             state={@context.getStore('ItinerarySearchStore').getRailState()}
             checkedClass="rail"
             className="mode-icon"
           />
           <ToggleButton
             icon="subway-withoutBox"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleSubwayState}
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleSubwayState}
             state={@context.getStore('ItinerarySearchStore').getSubwayState()}
             checkedClass="subway"
             className="mode-icon"
           />
           <ToggleButton
             icon="ferry-withoutBox"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleFerryState}
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleFerryState}
             state={@context.getStore('ItinerarySearchStore').getFerryState()}
             checkedClass="ferry"
             className="mode-icon"
           />
           <ToggleButton
             icon="citybike-withoutBox"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleCitybikeState}
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleCitybikeState}
             state={@context.getStore('ItinerarySearchStore').getCitybikeState()}
             checkedClass="citybike"
             className="mode-icon last-btn"
@@ -84,21 +84,21 @@ class CustomizeSearch extends React.Component
         <div className="row btn-bar">
           <ToggleButton
             icon="walk"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleWalkState}
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleWalkState}
             state={@context.getStore('ItinerarySearchStore').getWalkState()}
             checkedClass="walk"
             className="first-btn small-4"
           />
           <ToggleButton
             icon="bicycle"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleBicycleState}
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleBicycleState}
             state={@context.getStore('ItinerarySearchStore').getBicycleState()}
             checkedClass="bicycle"
             className=" small-4"
           />
           <ToggleButton
             icon="car"
-            onBtnClick={() -> @context.executeAction ItinerarySearchAction.toggleCarState}
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleCarState}
             state={@context.getStore('ItinerarySearchStore').getCarState()}
             checkedClass="car"
             className="last-btn small-4"
@@ -111,7 +111,7 @@ class CustomizeSearch extends React.Component
           headerText={@context.intl.formatMessage(
             {id: 'walking', defaultMessage: "Walking"})}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkReluctance()}
-          onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setWalkReluctance, e.target.value)}
+          onSliderChange={(e) => @context.executeAction(ItinerarySearchAction.setWalkReluctance, e.target.value)}
           min={0.8}
           max={10}
           step={0.2}
@@ -126,7 +126,7 @@ class CustomizeSearch extends React.Component
           headerText={@context.intl.formatMessage(
             {id: 'transfers', defaultMessage: "Transfers"})}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkBoardCost()}
-          onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setWalkBoardCost, e.target.value)}
+          onSliderChange={(e) => @context.executeAction(ItinerarySearchAction.setWalkBoardCost, e.target.value)}
           min={1}
           max={1800}
           step={60}
@@ -141,7 +141,7 @@ class CustomizeSearch extends React.Component
           headerText={@context.intl.formatMessage(
             {id: 'transfer-margin', defaultMessage: "Transfer margin"})}
           defaultValue={@context.getStore('ItinerarySearchStore').getMinTransferTime()}
-          onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setMinTransferTime, e.target.value)}
+          onSliderChange={(e) => @context.executeAction(ItinerarySearchAction.setMinTransferTime, e.target.value)}
           min={60}
           max={660}
           step={30}
@@ -154,7 +154,7 @@ class CustomizeSearch extends React.Component
           headerText={@context.intl.formatMessage(
             {id: 'walking-speed', defaultMessage: "Walking speed"})}
           defaultValue={@context.getStore('ItinerarySearchStore').getWalkSpeed()}
-          onSliderChange={(e) -> @context.executeAction(ItinerarySearchAction.setWalkSpeed, e.target.value)}
+          onSliderChange={(e) => @context.executeAction(ItinerarySearchAction.setWalkSpeed, e.target.value)}
           min={0.5}
           max={3}
           step={0.1}
@@ -172,7 +172,7 @@ class CustomizeSearch extends React.Component
           name="ticket"
           selected={@context.getStore('ItinerarySearchStore').getSelectedTicketOption()}
           options={@context.getStore('ItinerarySearchStore').getTicketOptions()}
-          onSelectChange={(e) -> @context.executeAction(ItinerarySearchAction.setTicketOption, e.target.value)}
+          onSelectChange={(e) => @context.executeAction(ItinerarySearchAction.setTicketOption, e.target.value)}
         />
       </section>
       <section className="offcanvas-section">
@@ -182,7 +182,7 @@ class CustomizeSearch extends React.Component
           name="accessible"
           selected={@context.getStore('ItinerarySearchStore').getSelectedAccessibilityOption()}
           options={@context.getStore('ItinerarySearchStore').getAccessibilityOptions()}
-          onSelectChange={(e) -> @context.executeAction(ItinerarySearchAction.setAccessibilityOption, e.target.value)}
+          onSelectChange={(e) => @context.executeAction(ItinerarySearchAction.setAccessibilityOption, e.target.value)}
         />
       </section>
 

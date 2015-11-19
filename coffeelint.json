@@ -3,10 +3,10 @@
     "transforms": [ "coffee-react-transform" ]
   },
   "arrow_spacing": {
-    "level": "warn"
+    "level": "error"
   },
   "braces_spacing": {
-    "level": "warn",
+    "level": "error",
     "spaces": 0,
     "empty_object_spaces": 0
   },
@@ -17,7 +17,7 @@
     "level": "error"
   },
   "colon_assignment_spacing": {
-    "level": "warn",
+    "level": "error",
     "spacing": {
       "left": 0,
       "right": 1
@@ -37,7 +37,7 @@
     "level": "warn"
   },
   "eol_last": {
-    "level": "warn"
+    "level": "error"
   },
   "indentation": {
     "value": 2,
@@ -121,7 +121,7 @@
     "doubleNotLevel": "ignore"
   },
   "space_operators": {
-    "level": "warn"
+    "level": "error"
   },
   "spacing_after_comma": {
     "level": "warn"

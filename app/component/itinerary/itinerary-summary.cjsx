@@ -13,6 +13,7 @@ class ItinerarySummary extends React.Component
       <WalkDistance walkDistance={@props.itinerary.walkDistance}/>
     </div>
 
+
 ItinerarySummary.description =
   "Displays itinerary summary row; itinerary's duration and walk distance"
 

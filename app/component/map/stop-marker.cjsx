@@ -55,7 +55,7 @@ class StopMarker extends React.Component
     @forceUpdate()
 
   shouldComponentUpdate: (nextProps) ->
-    return nextProps.stop.gtfsId != @props.stop.gtfsId;
+    return nextProps.stop.gtfsId != @props.stop.gtfsId
 
   getStopMarker: ->
     StopMarkerPopupWithContext = provideContext StopMarkerPopup,

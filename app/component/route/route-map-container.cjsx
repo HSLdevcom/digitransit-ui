@@ -54,7 +54,7 @@ class RouteMapContainer extends React.Component
       leafletObjs={leafletObj}
       fitBounds={true}
       from={stops[0]}
-      to={stops[stops.length-1]}>
+      to={stops[stops.length - 1]}>
 
       {@getFullScreenToggle()}
     </Map>

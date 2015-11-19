@@ -21,5 +21,4 @@ class StopCard extends React.Component
     </Link>
 
 
-
 module.exports = StopCard

@@ -9,7 +9,7 @@ NoPositionPanel       = require './no-position-panel'
 Icon                  = require '../icon/icon.cjsx'
 cx                    = require 'classnames'
 FavouritesPanel       = require '../favourites/favourites-panel'
-NearestRoutesContainer= require './nearest-routes-container'
+NearestRoutesContainer = require './nearest-routes-container'
 NearestStopsContainer = require './nearest-stops-container'
 
 intl = require 'react-intl'
