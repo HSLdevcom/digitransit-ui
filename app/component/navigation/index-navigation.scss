@@ -203,12 +203,7 @@ ul.offcanvas-list {
 .content {
   background-color: $content-background-color;
   position: relative;
-  top: $top-navigation-height;
   height: calc(100% - 40px);
-
-  .sub-navigation-push {
-    top: 2 * $top-navigation-height;
-  }
 }
 
 /* Subnavigation */
