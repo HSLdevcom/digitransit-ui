@@ -2,16 +2,11 @@ React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../queries'
 isBrowser     = window?
-Marker        = if isBrowser then require 'react-leaflet/lib/Marker'
-Popup         = if isBrowser then require './dynamic-popup'
-#Popup        = if isBrowser then require 'react-leaflet/lib/Popup'
-L             = if isBrowser then require 'leaflet'
 StopMarkerPopup = require './stop-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
+GenericMarker = require './generic-marker'
 
-
-STOPS_SMALL_MAX_ZOOM = 15
 
 iconSvg = """<svg viewBox="0 0 18 18">
     <circle key="halo" class="stop-halo" cx="9" cy="9" r="8" stroke-width="1"/>
@@ -38,71 +33,35 @@ class StopMarker extends React.Component
     route: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
-  @getStopIcon: (mode, selected, zoom) ->
-    L.divIcon
-      html: if zoom <= STOPS_SMALL_MAX_ZOOM then smallIconSvg else if selected then selectedIconSvg else iconSvg
-      iconSize: if zoom <= STOPS_SMALL_MAX_ZOOM then [8, 8] else if selected then [28, 28] else [18, 18]
-      className: mode + ' cursor-pointer'
-
-  componentDidMount: ->
-    @props.map.on 'zoomend', @onMapMove
-    @onMapMove()
-
-  componentWillUnmount: ->
-    @props.map.off 'zoomend', @onMapMove
-
-  onMapMove: =>
-    @forceUpdate()
-
-  shouldComponentUpdate: (nextProps) ->
-    return nextProps.stop.gtfsId != @props.stop.gtfsId;
-
   getStopMarker: ->
     StopMarkerPopupWithContext = provideContext StopMarkerPopup,
       intl: intl.intlShape.isRequired
       history: React.PropTypes.object.isRequired
       route: React.PropTypes.object.isRequired
 
-    <Marker map={@props.map}
-            position={lat: @props.stop.lat, lng: @props.stop.lon}
-            icon={StopMarker.getStopIcon(
-              @props.mode + (if @props.thin then " thin" else ""),
-              @props.selected,
-              @props.map.getZoom())}>
-       <Popup options={
-         offset: [106, 3]
-         closeButton: false
-         maxWidth: 250
-         minWidth: 250
-         className: "popup"}>
-         <Relay.RootContainer
-           Component={StopMarkerPopup}
-           route={new queries.StopRoute(stopId: @props.stop.gtfsId)}
-           renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}
-         />
-       </Popup>
-    </Marker>
-
-  getStopNameMarker: ->
-    unless @props.renderName
-      return false
-    <Marker map={@props.map}
-            key={@props.stop.name + "_text"}
-            position={lat: @props.stop.lat, lng: @props.stop.lon}
-            interactive={false}
-            icon={L.divIcon
-              html: "<div>#{@props.stop.name}</div>"
-              className: 'popup stop-name-marker'
-              iconSize: [150, 0]
-              iconAnchor: [-8, 7]}
-    />
+    <GenericMarker
+      position={lat: @props.stop.lat, lon: @props.stop.lon}
+      mode={@props.mode}
+      icons={smallIconSvg: smallIconSvg, iconSvg: iconSvg, selectedIconSvg: selectedIconSvg}
+      iconSizes={smallIconSvg: [8, 8], iconSvg: [18, 18], selectedIconSvg: [28, 28]}
+      map={@props.map}
+      id={@props.stop.gtfsId}
+      renderName={@props.renderName}
+      selected={@props.selected}
+      name={@props.stop.name}
+    >
+      <Relay.RootContainer
+        Component={StopMarkerPopup}
+        route={new queries.StopRoute(stopId: @props.stop.gtfsId)}
+        renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}
+      />
+    </GenericMarker>
 
   render: ->
     unless isBrowser
       return ""
     <div>
       {@getStopMarker()}
-      {@getStopNameMarker()}
     </div>
 
 module.exports = StopMarker

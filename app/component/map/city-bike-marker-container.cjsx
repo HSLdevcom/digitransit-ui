@@ -18,9 +18,6 @@ class CityBikeMarkerContainer extends React.Component
       </ComponentUsageExample>
     </div>
 
-  @propTypes:
-    map: React.PropTypes.object.isRequired
-
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
