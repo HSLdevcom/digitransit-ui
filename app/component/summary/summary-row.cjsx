@@ -8,7 +8,7 @@ cx                 = require 'classnames'
 
 class SummaryRow extends React.Component
 
-  render: ->
+  render: -> # TODO: divide into separate components/functions
     data = @props.data
     currentTime = moment().valueOf()
     startTime = moment(data.startTime)

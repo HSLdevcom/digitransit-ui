@@ -12,5 +12,4 @@ class NoFavouritesPanel extends React.Component
     </div>
 
 
-
 module.exports = NoFavouritesPanel

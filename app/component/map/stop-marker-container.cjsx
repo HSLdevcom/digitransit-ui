@@ -21,12 +21,12 @@ class StopMarkerContainer extends React.Component
 
     <Relay.RootContainer
       Component={StopMarkerLayer}
-      route={new queries.StopMarkerLayerRoute
+      route={new queries.StopMarkerLayerRoute(
         minLat: minLat
         minLon: minLon
         maxLat: maxLat
         maxLon: maxLon
-      }
+      )}
       renderFetched={(data) =>
         <StopMarkerLayer
           {... data}

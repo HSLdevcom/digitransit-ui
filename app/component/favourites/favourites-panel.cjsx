@@ -11,7 +11,7 @@ class FavouritesPanel extends React.Component
     super
     @state =
       useSpinner: true
-    
+
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -21,9 +21,9 @@ class FavouritesPanel extends React.Component
     <Relay.RootContainer
       key="fav-stops"
       Component={FavouriteStopCardListContainer}
-      route={new queries.FavouriteStopListContainerRoute
+      route={new queries.FavouriteStopListContainerRoute(
         ids: ids
-      }
+      )}
       forceFetch={true}
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
       }
@@ -34,9 +34,9 @@ class FavouritesPanel extends React.Component
       key="fav-routes"
       forceFetch={true}
       Component={FavouriteRouteListContainer}
-      route={new queries.FavouriteRouteRowRoute
+      route={new queries.FavouriteRouteRowRoute(
         ids: ids
-      }
+      )}
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
       }
     />

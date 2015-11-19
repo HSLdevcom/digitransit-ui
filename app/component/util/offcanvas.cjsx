@@ -8,13 +8,13 @@ class Offcanvas extends React.Component
   render: ->
     classes =
       'off-canvas': true
-      'is-active': this.props.open
+      'is-active': @props.open
 
-    classes[this.props.position] = true
-    if (this.props.className)
-      classes[this.props.className] = true
-    <div id={this.props.id} className={cx classes}>
-        {this.props.children}
+    classes[@props.position] = true
+    if (@props.className)
+      classes[@props.className] = true
+    <div id={@props.id} className={cx classes}>
+        {@props.children}
     </div>
 
 module.exports = Offcanvas

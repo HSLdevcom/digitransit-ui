@@ -4,7 +4,7 @@ cx    = require 'classnames'
 
 WalkDistance = (props) ->
 
-  roundedWalkDistanceInM = Math.round(props.walkDistance/100)*100
+  roundedWalkDistanceInM = Math.round(props.walkDistance / 100) * 100
   roundedWalkDistanceInKm = (roundedWalkDistanceInM / 1000).toFixed(1)
   walkDistance = if roundedWalkDistanceInM < 1000 then "#{roundedWalkDistanceInM}m" else "#{roundedWalkDistanceInKm}km"
   icon = 'icon-' + (props.icon or 'icon_walk')

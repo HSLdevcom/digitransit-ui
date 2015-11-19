@@ -27,5 +27,4 @@ class StopCardList extends React.Component
     </div>
 
 
-
 module.exports = StopCardList

@@ -15,4 +15,5 @@ class DefaultNavigation extends React.Component
       <NotImplemented/>
     </div>
 
+
 module.exports = DefaultNavigation

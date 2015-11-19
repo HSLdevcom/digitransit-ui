@@ -17,5 +17,4 @@ class TopNavigation extends React.Component
     </div>
 
 
-
 module.exports = TopNavigation

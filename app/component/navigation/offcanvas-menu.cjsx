@@ -43,5 +43,4 @@ class OffcanvasMenu extends React.Component
     </Offcanvas>
 
 
-
 module.exports = OffcanvasMenu

@@ -18,7 +18,7 @@ class ComponentUsageExample extends React.Component
     (for key, value of props
       switch typeof value
         when 'string'
-          "#{key}='#{value}'" if key!='children'
+          "#{key}='#{value}'" if key != 'children'
         when 'object'
           "#{key}={" + (("#{key1}: #{value1}" for key1, value1 of value).join ", ") + "}"
         else

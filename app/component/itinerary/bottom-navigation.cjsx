@@ -26,4 +26,5 @@ class BottomNavigation extends React.Component
       </div>
     </div>
 
+
 module.exports = BottomNavigation

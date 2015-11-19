@@ -8,7 +8,7 @@ FormattedMessage = intl.FormattedMessage
 class WalkLeg extends React.Component
 
   render: ->
-    <div key={@props.index} style={{width:"100%"}} className="row itinerary-row">
+    <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(@props.leg.startTime).format('HH:mm')}
@@ -24,7 +24,7 @@ class WalkLeg extends React.Component
         else
           false }
         <div>{@props.leg.from.name}</div>
-        <div>{if @props.legs == @props.index+1
+        <div>{if @props.legs == @props.index + 1
           <FormattedMessage
             id="walk-to-destination"
             defaultMessage='Walk to destination' />
@@ -37,5 +37,6 @@ class WalkLeg extends React.Component
         <div>{Math.round(@props.leg.distance)} m ({Math.round(@props.leg.duration / 60)} <FormattedMessage id='minutes' defaultMessage='minutes' />)</div>
       </div>
     </div>
+
 
 module.exports = WalkLeg
