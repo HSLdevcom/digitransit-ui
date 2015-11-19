@@ -1,10 +1,25 @@
 React         = require 'react'
 CityBikeActions = require '../../action/city-bike-actions'
 CityBikeMarker = require './city-bike-marker'
+ComponentUsageExample = require '../documentation/component-usage-example'
 
 STOPS_MAX_ZOOM = 14
 
 class CityBikeMarkerContainer extends React.Component
+
+  @description:
+    <div>
+      <p>
+        Renders all citybike stations if zoom is over 14.
+        Requires map to be found in props.
+      </p>
+      <ComponentUsageExample description="">
+        <CityBikeMarkerContainer/>
+      </ComponentUsageExample>
+    </div>
+
+  @propTypes:
+    map: React.PropTypes.object.isRequired
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired

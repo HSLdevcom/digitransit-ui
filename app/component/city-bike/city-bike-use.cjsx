@@ -1,5 +1,6 @@
 React                 = require 'react'
 {FormattedMessage}    = require('react-intl')
+ComponentUsageExample = require '../documentation/component-usage-example'
 
 
 CityBikeUse = (props) ->
@@ -13,9 +14,16 @@ CityBikeUse = (props) ->
       <button className="use-bike-button cursor-pointer">
         <FormattedMessage id='use-citybike' defaultMessage='Use a bike'/>
       </button>
-
     </div>
 
 CityBikeUse.displayName = "CityBikeUse"
+
+CityBikeUse.description =
+    <div>
+      <p>Renders use a city bike content</p>
+      <ComponentUsageExample description="">
+        <CityBikeUse/>
+      </ComponentUsageExample>
+    </div>
 
 module.exports = CityBikeUse

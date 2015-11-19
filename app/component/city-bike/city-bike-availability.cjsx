@@ -1,6 +1,7 @@
 React                 = require 'react'
 cx                    = require 'classnames'
 {FormattedMessage}    = require('react-intl')
+ComponentUsageExample = require '../documentation/component-usage-example'
 
 CityBikeAvailability = (props) ->
 
@@ -16,5 +17,17 @@ CityBikeAvailability = (props) ->
   </div>
 
 CityBikeAvailability.displayName = "CityBikeAvailability"
+
+CityBikeAvailability.description =
+  <div>
+    <p>Renders information about citybike availability</p>
+    <ComponentUsageExample description="">
+      <CityBikeAvailability bikesAvailable="1" totalSpaces="2"/>
+    </ComponentUsageExample>
+  </div>
+
+CityBikeAvailability.propTypes =
+  bikesAvailable: React.PropTypes.number.isRequired
+  totalSpaces: React.PropTypes.number.isRequired
 
 module.exports = CityBikeAvailability
