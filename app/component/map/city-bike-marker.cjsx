@@ -5,6 +5,8 @@ provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 Icon          = require '../icon/icon'
 GenericMarker = require './generic-marker'
+Example               = require '../documentation/example-data'
+ComponentUsageExample = require '../documentation/component-usage-example'
 
 
 # Small icon for zoom levels <= 15
@@ -13,6 +15,28 @@ smallIconSvg = """<svg viewBox="0 0 8 8">
   </svg>"""
 
 class CityBikeMarker extends React.Component
+
+
+  @description:
+    <div>
+      <p>Renders a citybike marker</p>
+      <ComponentUsageExample description="">
+        <CityBikeMarker
+          key={Example.station.id}
+          map={"leaflet map object here"}
+          station={Example.station}
+        >
+        </CityBikeMarker>
+      </ComponentUsageExample>
+    </div>
+
+  @displayName: "CityBikeMarker"
+
+  @propTypes:
+    station: React.PropTypes.object.isRequired
+    key: React.PropTypes.string
+    map: React.PropTypes.object.isRequired
+
   @contextTypes:
     #Needed for passing context to dynamic popup, maybe should be done in there?
     getStore: React.PropTypes.func.isRequired

@@ -4,11 +4,40 @@ Marker        = if isBrowser then require 'react-leaflet/lib/Marker'
 Popup         = if isBrowser then require './dynamic-popup'
 L             = if isBrowser then require 'leaflet'
 provideContext = require 'fluxible-addons-react/provideContext'
+ComponentUsageExample = require '../documentation/component-usage-example'
 
 
 STOPS_SMALL_MAX_ZOOM = 15
 
 class GenericMarker extends React.Component
+
+  @description:
+    <div>
+      <p>A base class for markers.</p>
+      <ComponentUsageExample description="">
+        <GenericMarker
+          position={lat: 60.1626075196532, lon: 24.939603788199364}
+          mode="citybike"
+          icons={smallIconSvg: "smallIcon in svg", iconSvg: "icon in svg"}
+          iconSizes={smallIconSvg: [8, 8], iconSvg: [20, 20]}
+          map={"leaflet map object"}
+          id={"marker id here"}
+        >
+      </ComponentUsageExample>
+    </div>
+
+  @displayName: "GenericMarker"
+
+  @propTypes:
+    position: React.PropTypes.object.isRequired
+    mode: React.PropTypes.string.isRequired
+    icons: React.PropTypes.object.isRequired
+    iconSizes: React.PropTypes.object.isRequired
+    map: React.PropTypes.object.isRequired
+    id: React.PropTypes.string
+    renderName: React.PropTypes.bool
+    selected: React.PropTypes.bool
+    name: React.PropTypes.string
 
   getIcon: (mode, selected, zoom) =>
     L.divIcon
