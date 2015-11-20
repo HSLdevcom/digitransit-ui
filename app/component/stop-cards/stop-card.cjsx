@@ -23,19 +23,9 @@ class StopCard extends React.Component
     if !@props.stop || !@props.children || @props.children.length == 0
       return false
 
-    #TODO: Implement city bike stop page, then remove this if
-    if @props.cityBike
-      <NotImplementedLink
-        nonTextLink={true}
-        name={<FormattedMessage id='citybike' defaultMessage='Citybike'/>}
-        className="no-decoration"
-      >
-        {@getContent()}
-      </NotImplementedLink>
-    else
-      <Link to="/pysakit/#{@props.stop.gtfsId}" className="no-decoration">
-        {@getContent()}
-      </Link>
+    <Link to="/pysakit/#{@props.stop.gtfsId}" className="no-decoration">
+      {@getContent()}
+    </Link>
 
 
 module.exports = StopCard
