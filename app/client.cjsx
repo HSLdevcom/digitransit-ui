@@ -1,28 +1,4 @@
-# Set up logging to Sentry
-if process.env.NODE_ENV == 'production'
-  Raven = require 'raven-js'
-  Raven.config(process.env.SENTRY_DSN).install()
-
-  # Rebind console.error if it exists so that we can catch async exceptions from React
-  # We want the original 'this' here so don't use =>
-
-  if window.console
-    console_error = console.error
-
-    # Fix console.error.apply etc. for IE9
-    if typeof console.log == "object"
-      ["log", "info", "warn", "error", "assert", "dir", "clear", "profile", "profileEnd"]
-      .forEach(
-        ((method) -> console[method] = @bind(console[method], console))
-        , Function.prototype.call)
-
-    console.error = (message, error) ->
-      Raven.captureException(error)
-      console_error.apply(this, arguments)
-
-  else
-    window.console = error: (message, error) -> Raven.captureException(error)
-
+require './util/raven'
 # Libraries
 React             = require 'react'
 ReactDOM          = require 'react-dom'
@@ -38,7 +14,7 @@ StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
 PositionActions   = require './action/position-actions.coffee'
-
+piwik             = require('./util/piwik').getTracker(process.env.PIWIK_ADDRESS, process.env.PIWIK_ID)
 dehydratedState   = window.state # Sent from the server
 
 require "../sass/main.scss"
@@ -54,6 +30,8 @@ app.rehydrate dehydratedState, (err, context) ->
   if err
     throw err
   window.context = context
+  Raven?.setUserContext piwik: piwik.getVisitorId()
+  context.piwik = piwik
 
   # We include IntlProvider here, because on the server it's done in server.js,
   # which ignores this file. Unfortunately contexts don't propagate if we put
@@ -65,6 +43,10 @@ app.rehydrate dehydratedState, (err, context) ->
         <ReactRouterRelay.RelayRouter
           history={useBasename(useQueries(createHistory))(basename: config.ROOT_PATH)}
           children={app.getComponent()}
+          onUpdate={() ->
+            context.piwik.setCustomUrl(@history.createHref(@state.location))
+            context.piwik.trackPageView()
+          }
         />
       </StoreListeningIntlProvider>
     </FluxibleComponent>, document.getElementById('app')
@@ -75,4 +57,5 @@ app.rehydrate dehydratedState, (err, context) ->
 
   if window?
     #start positioning
-    @context.executeAction PositionActions.startLocationWatch
+    context.piwik.enableLinkTracking()
+    context.executeAction PositionActions.startLocationWatch
