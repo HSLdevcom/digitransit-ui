@@ -59,7 +59,7 @@ class GenericMarker extends React.Component
     @forceUpdate()
 
   shouldComponentUpdate: (nextProps) ->
-    return nextProps.id != @props.id;
+    return nextProps.id != @props.id
 
   getMarker: ->
     <Marker map={@props.map}
