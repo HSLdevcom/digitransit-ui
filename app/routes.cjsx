@@ -11,6 +11,7 @@ StopPage      = require './page/stop'
 SummaryPage   = require './page/summary'
 TripPage      = require './page/trip'
 TripMapPage   = require './page/trip-map'
+LoadingPage   = require './page/loading'
 Error404      = require './page/404'
 StyleGuidelinesPage = require './page/style-guidelines'
 
@@ -26,13 +27,13 @@ routes =
   <Route path="/" name="app">
     <IndexRoute component={IndexPage}/>
     <Route path="pysakit" name="stopList" component={Error404}/>
-    <Route path="pysakit/:stopId" name="stop" component={StopPage} queries={queries.StopQueries}/>
-    <Route path="pysakit/:stopId/kartta" name="stopMap" component={StopMapPage} queries={queries.StopQueries}/>
+    <Route path="pysakit/:stopId" name="stop" component={StopPage} queries={queries.StopQueries} renderLoading={() => <LoadingPage/>}/>
+    <Route path="pysakit/:stopId/kartta" name="stopMap" component={StopMapPage} queries={queries.StopQueries} renderLoading={() => <LoadingPage/>}/>
     <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404}/>
     <Route path="linjat" name="routeList" component={Error404}/>
-    <Route path="linjat/:routeId" name="route" component={RoutePage} queries={queries.RouteQueries}/>
-    <Route path="lahdot/:tripId" name="trip" component={TripPage} queries={queries.TripQueries}/>
-    <Route path="lahdot/:tripId/kartta" name="tripMap" component={TripMapPage} queries={queries.TripQueries}/>
+    <Route path="linjat/:routeId" name="route" component={RoutePage} queries={queries.RouteQueries} renderLoading={() => <LoadingPage/>}/>
+    <Route path="lahdot/:tripId" name="trip" component={TripPage} queries={queries.TripQueries} renderLoading={() => <LoadingPage/>}/>
+    <Route path="lahdot/:tripId/kartta" name="tripMap" component={TripMapPage} queries={queries.TripQueries} renderLoading={() => <LoadingPage/>}/>
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={NavigationPage}/>
