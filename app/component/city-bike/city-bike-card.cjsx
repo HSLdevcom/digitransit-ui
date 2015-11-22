@@ -1,11 +1,11 @@
 React                 = require 'react'
 Link                  = require 'react-router/lib/Link'
-cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
 {FormattedMessage}    = require('react-intl')
 CardHeader            = require('../card/card-header')
 Example               = require '../documentation/example-data'
 ComponentUsageExample = require '../documentation/component-usage-example'
+Card                  = require '../card/card'
 
 class CityBikeCard extends React.Component
 
@@ -28,13 +28,13 @@ class CityBikeCard extends React.Component
     className: React.PropTypes.string
 
   getContent: =>
-    <div className={cx "card", "cursor-pointer", @props.className}>
+    <Card className={@props.className}>
       <CardHeader
         name={@props.station.name}
         description={@props.station.name}
       />
       {@props.children}
-    </div>
+    </Card>
 
   render: ->
     if !@props.station || !@props.children || @props.children.length == 0
