@@ -86,7 +86,7 @@ itinerarySearchRequest = (actionContext, options, done) ->
   if itinerarySearchStore.getMode().indexOf('BICYCLE') == -1
     params.maxWalkDistance = config.maxWalkDistance
   else
-    params.maxWalkDistance = config.maxBikingDistance;
+    params.maxWalkDistance = config.maxBikingDistance
 
   xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
     add_wait_legs(data)

@@ -30,6 +30,7 @@ class TripLink extends React.Component
         {icon}
       </NotImplementedLink>
 
+
 module.exports = Relay.createContainer(TripLink,
   fragments: queries.TripLinkFragments
   initialVariables:

@@ -32,12 +32,13 @@ class NearestStopsContainer extends React.Component
     <Relay.RootContainer
       Component={StopCardListContainer}
       forceFetch={true}
-      route={new queries.StopListContainerRoute
+      route={new queries.StopListContainerRoute(
         lat: @props.lat
         lon: @props.lon
-
-      }
+      )}
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
       }
     />
+
+
 module.exports = NearestStopsContainer

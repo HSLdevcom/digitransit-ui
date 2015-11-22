@@ -8,7 +8,7 @@ cx                    = require 'classnames'
 class RouteHeader extends React.Component
   render: =>
     mode = @props.route.type.toLowerCase()
-    trip = if @props.trip then <span className="route-header-trip">{@props.trip.substring(0,2)}:{@props.trip.substring(2,4)} →</span> else ""
+    trip = if @props.trip then <span className="route-header-trip">{@props.trip.substring(0, 2)}:{@props.trip.substring(2, 4)} →</span> else ""
     headerText = if !@props.trip then <div className="route-header-name">{@props.route.longName}</div>
     routeLineText = " " + (@props.route.shortName or "")
     routeLine = if @props.trip then <Link to="/linjat/#{@props.pattern.code}">{routeLineText}</Link> else routeLineText
@@ -33,5 +33,6 @@ class RouteHeader extends React.Component
         <Icon className={"favourite" + (if @props.favourite then " selected" else "")} img="icon-icon_star"/>
       </span>
     </div>
+
 
 module.exports = RouteHeader

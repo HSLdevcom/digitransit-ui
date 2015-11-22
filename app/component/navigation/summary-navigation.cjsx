@@ -19,15 +19,13 @@ class SummaryNavigation extends React.Component
       <CustomizeSearch open={@state.customizeSearchOffcanvas}/>
 
       <div className="fullscreen grid-frame">
-        <div className="fixed">
-          <nav className="top-bar">
-            <BackButton/>
-            <TimeSelectors/>
-            <div onClick={@toggleCustomizeSearchOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
-              <Icon img={'icon-icon_ellipsis'}/>
-            </div>
-          </nav>
-        </div>
+        <nav className="top-bar">
+          <BackButton/>
+          <TimeSelectors/>
+          <div onClick={@toggleCustomizeSearchOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
+            <Icon img={'icon-icon_ellipsis'}/>
+          </div>
+        </nav>
         <section ref="content" className="content">
           {@props.children}
         </section>

@@ -26,7 +26,6 @@ if process.env.NODE_ENV == 'production'
 # Libraries
 React             = require 'react'
 ReactDOM          = require 'react-dom'
-Router            = require 'react-router/lib/Router'
 Relay             = require 'react-relay'
 ReactRouterRelay  = require 'react-router-relay'
 createHistory     = require 'history/lib/createBrowserHistory'
@@ -63,10 +62,9 @@ app.rehydrate dehydratedState, (err, context) ->
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
       <StoreListeningIntlProvider translations={translations}>
-        <Router
+        <ReactRouterRelay.RelayRouter
           history={useBasename(useQueries(createHistory))(basename: config.ROOT_PATH)}
           children={app.getComponent()}
-          createElement={ReactRouterRelay.createElement}
         />
       </StoreListeningIntlProvider>
     </FluxibleComponent>, document.getElementById('app')

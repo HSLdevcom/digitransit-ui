@@ -76,7 +76,7 @@ class RouteListContainer extends React.Component
             distance2: distance + bucketSize
           }/>
 
-      departureLists.push <div key={"h"+d} className="departure-list-header padding-vertical-small">
+      departureLists.push <div key={"h" + d} className="departure-list-header padding-vertical-small">
         {distanceLabel}
         <span className="right">
           <FormattedMessage

@@ -9,7 +9,7 @@ class ModeFilter extends React.Component
 
   onModeChange: =>
     @forceUpdate()
-    
+
   componentDidMount: ->
     @context.getStore("ModeStore").addChangeListener @onModeChange
 
@@ -21,28 +21,28 @@ class ModeFilter extends React.Component
     <div className="btn-bar mode-filter">
       <ToggleButton
         icon="bus-withoutBox"
-        onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleBusState}
+        onBtnClick={() => @context.executeAction ModeSelectedAction.toggleBusState}
         state={store.getBusState()}
         checkedClass="bus"
         className="columns small-3 first-btn"
       />
       <ToggleButton
         icon="tram-withoutBox"
-        onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleTramState}
+        onBtnClick={() => @context.executeAction ModeSelectedAction.toggleTramState}
         state={store.getTramState()}
         checkedClass="tram"
         className="columns small-3"
       />
       <ToggleButton
         icon="rail-withoutBox"
-        onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleRailState}
+        onBtnClick={() => @context.executeAction ModeSelectedAction.toggleRailState}
         state={store.getRailState()}
         checkedClass="rail"
         className="columns small-3"
       />
       <ToggleButton
         icon="subway-withoutBox"
-        onBtnClick={() -> @context.executeAction ModeSelectedAction.toggleSubwayState}
+        onBtnClick={() => @context.executeAction ModeSelectedAction.toggleSubwayState}
         state={store.getSubwayState()}
         checkedClass="subway"
         className="columns small-3 last-btn"

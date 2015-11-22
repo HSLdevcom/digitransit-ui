@@ -28,15 +28,15 @@ class DynamicPopup extends React.Component
   createLeafletPopup: (reactElement) ->
     PopupClass = Leaflet.Popup.extend
       options: reactElement.options
-      _reactPopup:reactElement.popup
+      _reactPopup: reactElement.popup
       onAdd: (map) ->
         # make sure our basic container exists
-        if !this._container
+        if !@_container
           @_initLayout()
         # Inject our React component
         ReactDOM.render @_reactPopup, @_contentNode
         # now call "super" method
-        L.Popup.prototype.onAdd.call @, map
+        L.Popup.prototype.onAdd.call this, map
     return new PopupClass()
 
 module.exports = DynamicPopup

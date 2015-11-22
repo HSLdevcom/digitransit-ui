@@ -5,7 +5,7 @@ timeUtils   = require '../../util/time-utils'
 
 Duration = (props) ->
 
-  duration = timeUtils.durationToString(props.duration*1000)
+  duration = timeUtils.durationToString(props.duration * 1000)
 
   <span className={cx props.className}>
     <Icon img={'icon-icon_time'}/>
