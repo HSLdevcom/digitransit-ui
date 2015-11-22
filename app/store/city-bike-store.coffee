@@ -1,7 +1,5 @@
 Store = require 'fluxible/addons/BaseStore'
 
-STORAGE_KEY = "cityBikeStations"
-
 class CityBikeStore extends Store
   @storeName: 'CityBikeStore'
 
