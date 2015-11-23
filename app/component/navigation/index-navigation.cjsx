@@ -11,6 +11,7 @@ class IndexNavigation extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
+    piwik: React.PropTypes.object.isRequired
 
   constructor: ->
     super
@@ -68,10 +69,12 @@ class IndexNavigation extends React.Component
         el.className += " sub-navigation-push"
 
   toggleOffcanvas: =>
+    @context.piwik.trackEvent "Offcanvas", "Index", if @state.offcanvasVisible then "close" else "open"
     @setState offcanvasVisible: !@state.offcanvasVisible
 
   toggleDisruptionInfo: =>
     if @isDisruptions()
+      @context.piwik.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"
       @setState disruptionVisible: !@state.disruptionVisible
 
   isDisruptions: ->

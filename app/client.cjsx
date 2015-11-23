@@ -15,6 +15,7 @@ app               = require './app'
 translations      = require './translations'
 PositionActions   = require './action/position-actions.coffee'
 piwik             = require('./util/piwik').getTracker(process.env.PIWIK_ADDRESS, process.env.PIWIK_ID)
+PiwikProvider     = require './component/util/piwik-provider'
 dehydratedState   = window.state # Sent from the server
 
 require "../sass/main.scss"
@@ -32,7 +33,6 @@ app.rehydrate dehydratedState, (err, context) ->
   if err
     throw err
   window.context = context
-  context.piwik = piwik
 
   # We include IntlProvider here, because on the server it's done in server.js,
   # which ignores this file. Unfortunately contexts don't propagate if we put
@@ -40,16 +40,18 @@ app.rehydrate dehydratedState, (err, context) ->
   # If you change how the locales and messages are loaded, change server.js too.
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
-      <StoreListeningIntlProvider translations={translations}>
-        <ReactRouterRelay.RelayRouter
-          history={useBasename(useQueries(createHistory))(basename: config.ROOT_PATH)}
-          children={app.getComponent()}
-          onUpdate={() ->
-            context.piwik.setCustomUrl(@history.createHref(@state.location))
-            context.piwik.trackPageView()
-          }
-        />
-      </StoreListeningIntlProvider>
+      <PiwikProvider piwik={piwik}>
+        <StoreListeningIntlProvider translations={translations}>
+          <ReactRouterRelay.RelayRouter
+            history={useBasename(useQueries(createHistory))(basename: config.ROOT_PATH)}
+            children={app.getComponent()}
+            onUpdate={() ->
+              piwik.setCustomUrl(@history.createHref(@state.location))
+              piwik.trackPageView()
+            }
+          />
+        </StoreListeningIntlProvider>
+      </PiwikProvider>
     </FluxibleComponent>, document.getElementById('app')
   )
 
@@ -58,5 +60,5 @@ app.rehydrate dehydratedState, (err, context) ->
 
   if window?
     #start positioning
-    context.piwik.enableLinkTracking()
+    piwik.enableLinkTracking()
     context.executeAction PositionActions.startLocationWatch
