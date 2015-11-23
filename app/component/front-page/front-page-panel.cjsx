@@ -19,7 +19,7 @@ class FrontPagePanel extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
-    piwik: React.PropTypes.object.isRequired
+    piwik: React.PropTypes.object
 
   componentDidMount: ->
     @context.getStore('EndpointStore').addChangeListener @onChange
@@ -111,7 +111,7 @@ class FrontPagePanel extends React.Component
       <ul className='tabs-row tabs-arrow-up cursor-pointer'>
         <li className={cx (tabClasses[1]), 'small-4', 'h4', 'hover', 'nearby-routes'}
             onClick={=>
-              @context.piwik.trackEvent "Front page tabs", "Routes", if @state?.selectedPanel == 1 then "close" else "open"
+              @context.piwik?.trackEvent "Front page tabs", "Routes", if @state?.selectedPanel == 1 then "close" else "open"
               @selectPanel(1)
             }>
           <Icon className="prefix-icon" img="icon-icon_bus-withoutBox"/>
@@ -119,7 +119,7 @@ class FrontPagePanel extends React.Component
         </li>
         <li className={cx (tabClasses[2]), 'small-4', 'h4', 'hover', 'nearby-stops'}
             onClick={=>
-              @context.piwik.trackEvent "Front page tabs", "Stops", if @state?.selectedPanel == 2 then "close" else "open"
+              @context.piwik?.trackEvent "Front page tabs", "Stops", if @state?.selectedPanel == 2 then "close" else "open"
               @selectPanel(2)
             }>
           <Icon className="prefix-icon" img="icon-icon_bus-stop"/>
@@ -127,7 +127,7 @@ class FrontPagePanel extends React.Component
         </li>
         <li className={cx (tabClasses[3]), 'small-4', 'h4', 'hover', 'favourites'}
             onClick={=>
-              @context.piwik.trackEvent "Front page tabs", "Favourites", if @state?.selectedPanel == 3 then "close" else "open"
+              @context.piwik?.trackEvent "Front page tabs", "Favourites", if @state?.selectedPanel == 3 then "close" else "open"
               @selectPanel(3)
             }>
           <Icon className="prefix-icon" img="icon-icon_star"/>

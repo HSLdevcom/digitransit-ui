@@ -7,7 +7,7 @@ TimeSelectors               = require './time-selectors'
 
 class SummaryNavigation extends React.Component
   @contextTypes:
-    piwik: React.PropTypes.object.isRequired
+    piwik: React.PropTypes.object
 
   constructor: ->
     super
@@ -15,7 +15,7 @@ class SummaryNavigation extends React.Component
       customizeSearchOffcanvas: false
 
   toggleCustomizeSearchOffcanvas: =>
-    @context.piwik.trackEvent "Offcanvas", "Customize Search", if @state.customizeSearchOffcanvas then "close" else "open"
+    @context.piwik?.trackEvent "Offcanvas", "Customize Search", if @state.customizeSearchOffcanvas then "close" else "open"
     @setState customizeSearchOffcanvas: !@state.customizeSearchOffcanvas
 
   render: ->
