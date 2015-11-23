@@ -1,28 +1,4 @@
-# Set up logging to Sentry
-if process.env.NODE_ENV == 'production'
-  Raven = require 'raven-js'
-  Raven.config(process.env.SENTRY_DSN).install()
-
-  # Rebind console.error if it exists so that we can catch async exceptions from React
-  # We want the original 'this' here so don't use =>
-
-  if window.console
-    console_error = console.error
-
-    # Fix console.error.apply etc. for IE9
-    if typeof console.log == "object"
-      ["log", "info", "warn", "error", "assert", "dir", "clear", "profile", "profileEnd"]
-      .forEach(
-        ((method) -> console[method] = @bind(console[method], console))
-        , Function.prototype.call)
-
-    console.error = (message, error) ->
-      Raven.captureException(error)
-      console_error.apply(this, arguments)
-
-  else
-    window.console = error: (message, error) -> Raven.captureException(error)
-
+require './util/raven'
 # Libraries
 React             = require 'react'
 ReactDOM          = require 'react-dom'
@@ -38,7 +14,8 @@ StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
 PositionActions   = require './action/position-actions.coffee'
-
+piwik             = require('./util/piwik').getTracker(process.env.PIWIK_ADDRESS, process.env.PIWIK_ID)
+PiwikProvider     = require './component/util/piwik-provider'
 dehydratedState   = window.state # Sent from the server
 
 require "../sass/main.scss"
@@ -48,6 +25,8 @@ window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer("#{config.URL.OTP}index/graphql")
 )
+
+Raven?.setUserContext piwik: piwik.getVisitorId()
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
@@ -61,12 +40,18 @@ app.rehydrate dehydratedState, (err, context) ->
   # If you change how the locales and messages are loaded, change server.js too.
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
-      <StoreListeningIntlProvider translations={translations}>
-        <ReactRouterRelay.RelayRouter
-          history={useBasename(useQueries(createHistory))(basename: config.ROOT_PATH)}
-          children={app.getComponent()}
-        />
-      </StoreListeningIntlProvider>
+      <PiwikProvider piwik={piwik}>
+        <StoreListeningIntlProvider translations={translations}>
+          <ReactRouterRelay.RelayRouter
+            history={useBasename(useQueries(createHistory))(basename: config.ROOT_PATH)}
+            children={app.getComponent()}
+            onUpdate={() ->
+              piwik.setCustomUrl(@history.createHref(@state.location))
+              piwik.trackPageView()
+            }
+          />
+        </StoreListeningIntlProvider>
+      </PiwikProvider>
     </FluxibleComponent>, document.getElementById('app')
   )
 
@@ -75,4 +60,5 @@ app.rehydrate dehydratedState, (err, context) ->
 
   if window?
     #start positioning
-    @context.executeAction PositionActions.startLocationWatch
+    piwik.enableLinkTracking()
+    context.executeAction PositionActions.startLocationWatch

@@ -3,6 +3,7 @@ ReactAutosuggest = require 'react-autosuggest'
 Icon           = require '../icon/icon'
 XhrPromise     = require '../../util/xhr-promise.coffee'
 config         = require '../../config'
+sortBy         = require 'lodash/collection/sortBy'
 
 AUTOSUGGEST_ID = 'autosuggest'
 
@@ -49,7 +50,15 @@ class Autosuggest extends React.Component
   getSuggestions: (input, callback) =>
     opts = Object.assign(text: input, config.searchParams)
 
-    XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> callback null, res.features
+    XhrPromise.getJson(config.URL.PELIAS, opts).then (res) ->
+      features = res.features
+
+      if config.autoSuggest?
+        features = sortBy(features,
+          (feature) ->
+            config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
+          )
+      callback null, features
 
   renderSuggestions: (suggestion, input) =>
     displayText = @getName suggestion.properties

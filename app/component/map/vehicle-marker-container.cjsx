@@ -51,6 +51,9 @@ class VehicleMarkerContainer extends React.Component
     @updateVehicle(id, message)
 
   updateVehicle: (id, message) ->
+    #TODO: cjsx doesn't like objects withing nested elements
+    loadingPopupStyle = {"height": 150}
+
     popup = <Relay.RootContainer
       Component={RouteMarkerPopup}
       route={new queries.FuzzyTripRoute(
@@ -58,6 +61,7 @@ class VehicleMarkerContainer extends React.Component
         direction: message.direction
         date: message.operatingDay
         time: message.tripStartTime.substring(0, 2) * 60 * 60 + message.tripStartTime.substring(2, 4) * 60)}
+      renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
       renderFetched={(data) =>
         <RouteMarkerPopup {... data} message={message} context={@context}/>
       }/>

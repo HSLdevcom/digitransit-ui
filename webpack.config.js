@@ -65,6 +65,8 @@ function getPluginsConfig(env) {
           ROOT_PATH: JSON.stringify(process.env.ROOT_PATH),
           CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default'),
           SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
+          PIWIK_ADDRESS: JSON.stringify(process.env.PIWIK_ADDRESS),
+          PIWIK_ID: JSON.stringify(process.env.PIWIK_ID),
         }
       }),
       new webpack.PrefetchPlugin('react'),

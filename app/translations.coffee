@@ -89,6 +89,7 @@ translations =
     'citybike-register-required': 'Kaupunkipyörien käyttö vaatii rekisteröitymisen'
     'use-citybike': 'Ota käyttöön'
     'citybike': 'Kaupunkipyörä'
+    'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -175,5 +176,5 @@ translations =
     'locate': 'Lokalisera'
     'extra-info': 'mer info'
     'bike-availability': 'Cyklar finns'
-
+    'inquiry': 'Delta på förfrågan'
 module.exports = translations
