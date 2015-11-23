@@ -63,6 +63,9 @@ class StopMarker extends React.Component
       history: React.PropTypes.object.isRequired
       route: React.PropTypes.object.isRequired
 
+    #TODO: cjsx doesn't like objects withing nested elements
+    loadingPopupStyle = {"height": 150}
+
     <Marker map={@props.map}
             position={lat: @props.stop.lat, lng: @props.stop.lon}
             icon={StopMarker.getStopIcon(
@@ -78,6 +81,7 @@ class StopMarker extends React.Component
          <Relay.RootContainer
            Component={StopMarkerPopup}
            route={new queries.StopRoute(stopId: @props.stop.gtfsId)}
+           renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
            renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}
          />
        </Popup>
