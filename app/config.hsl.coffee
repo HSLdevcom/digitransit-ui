@@ -37,3 +37,4 @@ module.exports =
     maxShownDistance: 5000
   map:
     useRetinaTiles: true
+  showCityBikes: true

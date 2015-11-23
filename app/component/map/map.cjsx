@@ -46,7 +46,7 @@ class Map extends React.Component
 
       if @props.showStops
         stops = <StopMarkerContainer hilightedStops={@props.hilightedStops}/>
-        cityBikes = <CityBikeMarkerContainer/>
+        cityBikes = if config.showCityBikes then <CityBikeMarkerContainer/> else null
 
       vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
 
