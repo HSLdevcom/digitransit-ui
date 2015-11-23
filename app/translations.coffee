@@ -84,7 +84,7 @@ translations =
     'route-not-possible': 'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"'
     'realtime-matching': 'Realiajan integraatio'
     'locate': 'Paikanna'
-    'inquiry': 'Osallistu kyselyyn'
+    'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
