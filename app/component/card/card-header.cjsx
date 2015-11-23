@@ -2,7 +2,7 @@ React                 = require 'react'
 Icon                  = require '../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
-NotImplementedLink    = require('../util/not-implemented-link')
+NotImplementedLink    = require '../util/not-implemented-link'
 ComponentUsageExample = require '../documentation/component-usage-example'
 
 CardHeader = (props) ->

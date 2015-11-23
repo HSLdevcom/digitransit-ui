@@ -1,6 +1,6 @@
 React                 = require 'react'
-CityBikeAvailability  = require('./city-bike-availability')
-CityBikeUse           = require('./city-bike-use')
+CityBikeAvailability  = require './city-bike-availability'
+CityBikeUse           = require './city-bike-use'
 ComponentUsageExample = require '../documentation/component-usage-example'
 Example = require '../documentation/example-data'
 
