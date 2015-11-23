@@ -7,10 +7,10 @@ class Card extends React.Component
 
   @description:
     <div>
-      <p>Renders a container for one card</p>
+      <p>Renders a card container</p>
       <ComponentUsageExample description="">
         <Card className={"padding-small"}>
-          <p>Im content of a card</p>
+          content of a card
         </Card>
       </ComponentUsageExample>
     </div>

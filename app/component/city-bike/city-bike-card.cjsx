@@ -16,7 +16,7 @@ class CityBikeCard extends React.Component
         <CityBikeCard
           className={"padding-small"}
           station={Example.station}>
-          <p>Im content of the citybike card</p>
+          Im content of the citybike card
         </CityBikeCard>
       </ComponentUsageExample>
     </div>

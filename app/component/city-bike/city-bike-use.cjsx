@@ -20,7 +20,7 @@ CityBikeUse.displayName = "CityBikeUse"
 
 CityBikeUse.description =
     <div>
-      <p>Renders use a city bike content</p>
+      <p>Renders use citybike component</p>
       <ComponentUsageExample description="">
         <CityBikeUse/>
       </ComponentUsageExample>

@@ -13,12 +13,12 @@ class CityBikePopup extends React.Component
 
   @description:
     <div>
-      <p>Renders a citybike popup</p>
+      <p>Renders a citybike popup.</p>
       <ComponentUsageExample description="">
         <CityBikePopup
           context={"context object here"}
           station={Example.station}>
-          <p>Im content of the citybike card</p>
+          Im content of a citybike card
         </CityBikePopup>
       </ComponentUsageExample>
     </div>
@@ -31,13 +31,15 @@ class CityBikePopup extends React.Component
 
   render: ->
 
+    locationString = if @props.context.getStore then @props.context.getStore('PositionStore').getLocationString() else ""
+
     <div className="card">
       <CityBikeCard
         className={"padding-small"}
         station={@props.station}>
         <CityBikeContent station={@props.station}/>
       </CityBikeCard>
-      <MarkerPopupBottom routeHere="/reitti/#{@props.context.getStore('PositionStore').getLocationString()}/#{@props.station.name}::#{@props.station.y},#{@props.station.x}">
+      <MarkerPopupBottom routeHere="/reitti/#{locationString}/#{@props.station.name}::#{@props.station.y},#{@props.station.x}">
         <NotImplementedLink nonTextLink={true} name={<FormattedMessage id='extra-info' defaultMessage='More info' />}>
           <Icon img={'icon-icon_info'}/> Lisätietoa<br/>
         </NotImplementedLink>

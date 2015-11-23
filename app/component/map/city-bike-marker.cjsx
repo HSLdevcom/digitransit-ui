@@ -16,14 +16,13 @@ smallIconSvg = """<svg viewBox="0 0 8 8">
 
 class CityBikeMarker extends React.Component
 
-
   @description:
     <div>
       <p>Renders a citybike marker</p>
       <ComponentUsageExample description="">
         <CityBikeMarker
           key={Example.station.id}
-          map={"leaflet map object here"}
+          map={"leaflet map here"}
           station={Example.station}
         >
         </CityBikeMarker>

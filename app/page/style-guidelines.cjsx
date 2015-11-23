@@ -11,6 +11,14 @@ StopReference      = require '../component/stop/stop-reference'
 NotImplemented     = require '../component/util/not-implemented'
 NotImplementedLink = require '../component/util/not-implemented-link'
 
+CardHeader         = require '../component/card/card-header'
+Card               = require '../component/card/card'
+CityBikeCard       = require '../component/city-bike/city-bike-card'
+CityBikeContent    = require '../component/city-bike/city-bike-content'
+CityBikeAvailability = require '../component/city-bike/city-bike-availability'
+CityBikeUse          = require '../component/city-bike/city-bike-use'
+CityBikePopup       = require '../component/map/city-bike-popup'
+
 class StyleGuidelinesPage extends React.Component
   getColors: ->
     return (
@@ -298,6 +306,17 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=NotImplemented />
     </div>
 
+  getCardComponents: ->
+    <div>
+      <ComponentDocumentation component=CardHeader />
+      <ComponentDocumentation component=Card />
+      <ComponentDocumentation component=CityBikeCard />
+      <ComponentDocumentation component=CityBikeContent />
+      <ComponentDocumentation component=CityBikeAvailability />
+      <ComponentDocumentation component=CityBikeUse />
+      <ComponentDocumentation component=CityBikePopup />
+    </div>
+
   render: ->
     <div className="container column">
       <h1>UI Elements</h1>
@@ -335,6 +354,7 @@ class StyleGuidelinesPage extends React.Component
       <hr></hr>
 
       {@getDepartureMolecules()}
+      {@getCardComponents()}
 
       <p></p>
     </div>
