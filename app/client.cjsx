@@ -25,12 +25,13 @@ Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer("#{config.URL.OTP}index/graphql")
 )
 
+Raven?.setUserContext piwik: piwik.getVisitorId()
+
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
   if err
     throw err
   window.context = context
-  Raven?.setUserContext piwik: piwik.getVisitorId()
   context.piwik = piwik
 
   # We include IntlProvider here, because on the server it's done in server.js,
