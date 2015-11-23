@@ -84,6 +84,7 @@ translations =
     'route-not-possible': 'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"'
     'realtime-matching': 'Realiajan integraatio'
     'locate': 'Paikanna'
+    'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -168,4 +169,5 @@ translations =
     'route-not-possible': 'Tyvärr din rutt är inte möjligt. Tekniskt fel: "{error}"'
     'realtime-matching': 'Realtidsintegration'
     'locate': 'Lokalisera'
+    'inquiry': 'Delta på förfrågan'
 module.exports = translations
