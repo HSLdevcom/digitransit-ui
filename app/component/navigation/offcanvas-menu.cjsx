@@ -12,6 +12,7 @@ class OffcanvasMenu extends React.Component
     <Offcanvas open={@props.open} position="left">
       <header className="offcanvas-header offcanvas-section">
         <LangSelect/>
+        <a href="https://www.webropolsurveys.com/S/3BE1415777B02A7D.par">Osallistu kyselyyn <Icon img={'icon-icon_arrow-right'} className="small"/></a>
         <p className="offcanvas-lead">
           <FormattedMessage id="off-canvas-info" defaultMessage="By loggin in to this service you can restore your favourites and use them on all of your devices"/>
         </p>
