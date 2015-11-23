@@ -1,15 +1,16 @@
 React                 = require 'react'
 StopCardHeader        = require './stop-card-header'
 Link                  = require 'react-router/lib/Link'
-cx                    = require 'classnames'
+Card                  = require '../card/card'
 
 class StopCard extends React.Component
+
   render: ->
     if !@props.stop || !@props.children || @props.children.length == 0
       return false
 
     <Link to="/pysakit/#{@props.stop.gtfsId}" className="no-decoration">
-      <div className={cx "card", "cursor-pointer", @props.className}>
+      <Card className={@props.className}>
         <StopCardHeader
           stop={@props.stop}
           favourite={@props.favourite}
@@ -17,7 +18,7 @@ class StopCard extends React.Component
           distance={@props.distance}
         />
         {@props.children}
-      </div>
+      </Card>
     </Link>
 
 

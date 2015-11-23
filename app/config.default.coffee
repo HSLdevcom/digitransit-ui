@@ -34,3 +34,4 @@ module.exports =
   autoSuggest:
     sortOrder: locality: 1, address: 2 ,stop: 3
     sortOthers: 4
+  showCityBikes: false

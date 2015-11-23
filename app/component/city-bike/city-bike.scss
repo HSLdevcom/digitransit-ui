@@ -1,0 +1,66 @@
+$citybike-available-color: $citybike-color;
+$citybike-not-available-color: $light-gray;
+
+.city-bike-medium-size {
+  font-size: 20px;
+  border: 1px solid white;
+}
+
+.col2-unit{
+  @include grid-column(6); // (12/2 = 6)
+}
+
+.city-bike-availability-container {
+
+  .bike-availability-header {
+    margin-top: 5px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .col2-unit {
+    height: 8px;
+    background: $citybike-not-available-color;
+    background-clip: content-box;
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .row {
+    .available {
+      background: $citybike-color;
+      background-clip: content-box;
+    }
+    .col2-unit:first-child {
+      padding-left: 0;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+    .col2-unit:last-child {
+      padding-right: 0;
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+  }
+}
+
+.city-bike-use-container {
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid;
+  border-color: $light-gray;
+  text-align: center;
+
+  .use-bike-button {
+    text-align: center;
+    border-radius: 30px;
+    background: $gray-blue;
+    color: #ffffff;
+    font-family: Nunito, Arial, Georgia, Serif;
+    font-size: 13px;
+    width: 80%;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding: 0;
+  }
+}

@@ -34,7 +34,16 @@ departure =
 
 currentTime = new Date().getTime() / 1000
 
+station =
+  bikesAvailable: 1
+  spacesAvailable: 1
+  id: "Fredrikinkatu_27[24.940-60.163]"
+  name: "Fredrikinkatu 27"
+  x: 24.939603788199364
+  y: 60.1626075196532
+
 module.exports =
   realtimeDeparture: realtimeDeparture
   departure: departure
   currentTime: currentTime
+  station: station
