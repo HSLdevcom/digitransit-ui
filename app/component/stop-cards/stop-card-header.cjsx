@@ -4,8 +4,8 @@ queries               = require '../../queries'
 Icon                  = require '../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
-NotImplementedLink    = require('../util/not-implemented-link')
-CardHeader            = require('../card/card-header')
+NotImplementedLink    = require '../util/not-implemented-link'
+CardHeader            = require '../card/card-header'
 
 class StopCardHeader extends React.Component
 
@@ -27,18 +27,16 @@ class StopCardHeader extends React.Component
     description
 
   render: ->
-    <div>
-      <CardHeader
-        addFavourite={@props.addFavouriteStop}
-        className={@props.className}
-        favourite={@props.favourite}
-        headingStyle={@props.headingStyle}
-        name={@props.stop.name}
-        description={@getDescription()}
-      >
-        {if @props.infoIcon then @getInfoIcon()}
-      </CardHeader>
-    </div>
+    <CardHeader
+      addFavourite={@props.addFavouriteStop}
+      className={@props.className}
+      favourite={@props.favourite}
+      headingStyle={@props.headingStyle}
+      name={@props.stop.name}
+      description={@getDescription()}
+    >
+      {if @props.infoIcon then @getInfoIcon()}
+    </CardHeader>
 
 
 module.exports = Relay.createContainer(StopCardHeader, fragments: queries.StopCardHeaderFragments)
