@@ -93,7 +93,7 @@ function setupRaven() {
 }
 
 function getPolyfills(userAgent) {
-  if (!userAgent or userAgent.search(/(SamsungBrowser|Google Page Speed Insights)/) != -1) {
+  if (!userAgent || userAgent.search(/(SamsungBrowser|Google Page Speed Insights)/) != -1) {
     // Do not trust Samsung, see https://digitransit.atlassian.net/browse/DT-360
     userAgent = "";
   }
