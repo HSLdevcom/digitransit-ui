@@ -7,13 +7,17 @@ ComponentUsageExample = require '../documentation/component-usage-example'
 CityBikeAvailability = (props) ->
 
   columnWidth = {width: (100.0 / props.totalSpaces) + "%"}
-  rows = []
-  for i in [0 ... props.totalSpaces]
-    rows.push <div className={cx "city-bike-column", {available: i < props.bikesAvailable}} style=columnWidth> </div>
+  rows = [0 ... props.totalSpaces].map (_, i) ->
+    <div
+      key={i}
+      className={cx "city-bike-column", {available: i < props.bikesAvailable}}
+      style=columnWidth
+    />
 
   <div className="city-bike-availability-container">
     <p className="sub-header-h4 bike-availability-header">
-      <FormattedMessage id='bike-availability' defaultMessage='Bikes available' /> ({props.bikesAvailable}/{props.totalSpaces})
+      <FormattedMessage id='bike-availability' defaultMessage='Bikes available' />
+      {"\u00a0"}({props.bikesAvailable}/{props.totalSpaces})
     </p>
     <div className="row">
       {rows}
