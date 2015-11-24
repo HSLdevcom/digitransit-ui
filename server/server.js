@@ -44,7 +44,7 @@ var translations = require('../app/translations')
 var config = require('../app/config')
 var appRoot = process.cwd() + "/"
 var applicationHtml = require('../app/html')
-var svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
+var svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.' + (process.env.CONFIG || 'default') + '.svg')
 if (process.env.NODE_ENV !== "development") {
   var css = fs.readFileSync(appRoot + '_static/css/bundle.css')
 }

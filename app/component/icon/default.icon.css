@@ -1,0 +1,45 @@
+.icon {
+ display: inline-block;
+ width: 1em;
+ height: 1em;
+ fill: currentColor;
+}
+
+/* ================================================================================
+Example showing how to change the color/size of the icons:
+.icon-name {
+ font-size: 32px; // works because "width" & "height" were set using em units
+ color: red; // works because "fill" was set to "currentColor"
+}
+================================================================================ */
+
+#icon-icon_airplane .path2 {
+ fill: rgb(255, 255, 255);
+}
+
+#icon-icon_bus .path2, #icon-icon_bus .path3, #icon-icon_bus .path4 {
+ fill: rgb(255, 255, 255);
+}
+
+#icon-icon_ferry .path2, #icon-icon_ferry .path3 {
+ fill: rgb(255, 255, 255);
+}
+
+#icon-icon_mapMarker-location .path1, #icon-icon_mapMarker-location .path2, #icon-icon_mapMarker-location .path3 {
+ fill: rgb(255, 255, 255);
+}
+#icon-icon_mapMarker-location .path4 {
+ fill: rgb(61, 183, 228);
+}
+
+#icon-icon_subway .path2 {
+ fill: rgb(255, 255, 255);
+}
+
+#icon-icon_rail .path2 {
+ fill: rgb(255, 255, 255);
+}
+
+#icon-icon_tram .path2 {
+ fill: rgb(255, 255, 255);
+}
