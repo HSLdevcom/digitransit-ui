@@ -27,7 +27,8 @@ class DisruptionRowContainer extends React.Component
     endTime = moment(data.active_period[0].end * 1000)
     cause = data.cause
 
-    description = @getDescriptionByLanguage(data.description_text.translation, @context.getStore('PreferencesStore').getLanguage())
+    if data.description_text?
+      description = @getDescriptionByLanguage(data.description_text.translation, @context.getStore('PreferencesStore').getLanguage())
 
     <Relay.RootContainer
       Component={DisruptionRow}
