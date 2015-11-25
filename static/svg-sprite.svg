@@ -382,47 +382,47 @@
 	<path class="path1" d="M255.96 261.061c0 144.793 117.215 264.15 258.554 264.15h3.45c141.343 0 258.554-119.357 258.554-264.15s-117.211-262.008-258.55-262.008c-144.793 0-262.008 117.215-262.008 262.008z"></path>
 	<path class="path2" d="M888.376 656.93c-28.821-89.662-79.128-120.882-159.189-120.882h-64.042c0 0-63.425 69.382-152.169 69.382-90.984 0-152.039-69.382-152.039-69.382h-64.046c-80.060 0-128.829 31.219-160.85 120.882 0 0-71.636 251.918-71.372 284.579 0.177 21.913 14.894 39.394 34.694 45.955 20.613 9.291 64.985 17.68 125.372 23.976l27.321-175.557h25.988v180.231c68.638 5.119 150.724 8.103 238.649 8.103 87.755 0 169.564-2.977 238.201-8.081v-180.253h26.415l28.355 175.315c60.419-6.409 104.423-14.829 124.071-24.251 16.621-6.141 27.553-20.797 27.553-45.409-0.004-32.661-72.911-284.607-72.911-284.607z"></path>
 </symbol>
-<symbol id="icon-icon_mapMarker-location-animated" viewBox="0 0 64 64">
+<symbol id="icon-icon_mapMarker-location-animated" viewBox="0 0 2248 2248">
   <title>icon_mapMarker-location-animated</title>
 	<circle fill="#f092cd" cx="1124" cy="1124" r="400"/>
 	<circle stroke-width="111" r="450" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(255,255,255,1)" cy="1124" id="circle_white_first">
 		<animate from="400" attributeName="r" to="999" dur="2s" repeatCount="indefinite" id="first"/>
 		<animate values="0 ; 300 ; 111 ; 111" attributeName="stroke-width" dur="2s" keyTimes="0;0.25;0.26;1" begin="0s;" repeatCount="indefinite"/>
-		<animate values="rgba(255,255,255,1) ;rgba(255,255,255,0.5) ; rgba(255,255,255,0.05)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="0s"/>
+		<animate values="rgba(255,255,255,0.9) ;rgba(255,255,255,0.9) ; rgba(255,255,255,0.5) ; rgba(255,255,255,0.05)" keyTimes="0;0.25;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="0s"/>
 	</circle>
 	<circle stroke-width="70" r="435" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(240, 146, 205, 0.1)" cy="1124" id="circle_pink_first">
     <animate from="435" attributeName="r" to="1079" dur="2s" repeatCount="indefinite"/>
-		<animate values="rgba(240, 146, 205, 1) ;rgba(240, 146, 205, 0.5) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite"/>
+		<animate values="rgba(240, 146, 205, 0.9) ;rgba(240, 146, 205, 0.5) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite"/>
 		<animate values="70 ; 90" attributeName="stroke-width" dur="2s" keyTimes="0;1" begin="0s" repeatCount="indefinite"/>
   </circle>
 	<circle stroke-width="111" r="450" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(255,255,255,1)" cy="1124" id="circle_white_second">
 		<animate from="400" attributeName="r" to="999" dur="2s" repeatCount="indefinite" begin="0.5s" id="second"/>
 		<animate values="0 ; 300 ; 111 ; 111" attributeName="stroke-width" dur="2s" keyTimes="0;0.25;0.26;1" begin="0.5s" repeatCount="indefinite"/>
-		<animate values="rgba(255,255,255,1) ;rgba(255,255,255,0.5) ; rgba(255,255,255,0.05)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+		<animate values="rgba(255,255,255,0.9) ;rgba(255,255,255,0.9) ; rgba(255,255,255,0.5) ; rgba(255,255,255,0.05)" keyTimes="0;0.25;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="0.5s"/>
 	</circle>
 	<circle stroke-width="70" r="435" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(240, 146, 205, 0.1)" cy="1124" id="circle_pink_second">
     <animate from="435" attributeName="r" to="1079" dur="2s" repeatCount="indefinite" begin="0.5s"/>
-		<animate values="rgba(240, 146, 205, 1) ;rgba(240, 146, 205, 0.5) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+		<animate values="rgba(240, 146, 205, 0.9) ;rgba(240, 146, 205, 0.5) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="0.5s"/>
 		<animate values="70 ; 90" attributeName="stroke-width" dur="2s" keyTimes="0;1" begin="0.5s" repeatCount="indefinite"/>
   </circle>
 	<circle stroke-width="111" r="450" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(255,255,255,1)" cy="1124" id="circle_white_third">
 		<animate from="400" attributeName="r" to="999" dur="2s" repeatCount="indefinite" begin="1.0s" id="third"/>
 		<animate values="0 ; 300 ; 111 ; 111" attributeName="stroke-width" dur="2s" keyTimes="0;0.25;0.26;1" begin="1.0s" repeatCount="indefinite"/>
-		<animate values="rgba(255,255,255,1) ;rgba(255,255,255,0.5) ; rgba(255,255,255,0.05)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.0s"/>
+		<animate values="rgba(255,255,255,0.9) ;rgba(255,255,255,0.9) ; rgba(255,255,255,0.5) ; rgba(255,255,255,0.05)" keyTimes="0;0.25;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.0s"/>
 	</circle>
 	<circle stroke-width="70" r="435" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(240, 146, 205, 0.1)" cy="1124" id="circle_pink_third">
     <animate from="435" attributeName="r" to="1079" dur="2s" dur="2s" repeatCount="indefinite" begin="1.0s"/>
-		<animate values="rgba(240, 146, 205, 1) ;rgba(240, 146, 205, 0.5) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.0s"/>
+		<animate values="rgba(240, 146, 205, 0.9) ;rgba(240, 146, 205, 0.5) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.0s"/>
 		<animate values="70 ; 90" attributeName="stroke-width" dur="2s" keyTimes="0;1" begin="1.0s" repeatCount="indefinite"/>
 	</circle>
 	<circle stroke-width="111" r="450" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(255,255,255,1)" cy="1124" id="circle_white_fourth">
 		<animate from="400" attributeName="r" to="999" dur="2s" repeatCount="indefinite" begin="1.5s" id="fourth"/>
 		<animate values="0 ; 300 ; 111 ; 111" attributeName="stroke-width" dur="2s" keyTimes="0;0.25;0.26;1" begin="1.5s" repeatCount="indefinite"/>
-		<animate values="rgba(255,255,255,1) ;rgba(255,255,255,0.5) ; rgba(255,255,255,0.05)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+		<animate values="rgba(255,255,255,0.9) ;rgba(255,255,255,0.9) ; rgba(255,255,255,0.5) ; rgba(255,255,255,0.05)" keyTimes="0;0.25;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.5s"/>
 	</circle>
 	<circle stroke-width="70" r="435" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(240, 146, 205, 0.1)" cy="1124" id="circle_pink_fourth">
     <animate from="435" attributeName="r" to="1079" dur="2s" repeatCount="indefinite" begin="1.5s"/>
-		<animate values="rgba(240, 146, 205, 1) ;rgba(240, 146, 205, 0.5) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+		<animate values="rgba(240, 146, 205, 0.9) ;rgba(240, 146, 205, 0.5) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.5s"/>
 		<animate values="70 ; 90" attributeName="stroke-width" dur="2s" keyTimes="0;1" begin="1.5s" repeatCount="indefinite"/>
 	</circle>
 	<svg x="27%" y="28%">
