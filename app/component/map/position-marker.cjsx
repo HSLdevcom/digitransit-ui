@@ -13,7 +13,7 @@ class PositionMarker extends React.Component
   @currentLocationIcon:
     if isBrowser
       L.divIcon
-        html: Icon.asString 'icon-icon_location_with_user'
+        html: Icon.asString 'icon-icon_mapMarker-location-animated'
         className: 'current-location-marker'
     else
       null
