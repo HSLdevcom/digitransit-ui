@@ -1,9 +1,15 @@
 React                   = require 'react'
+Relay                   = require 'react-relay'
+queries                 = require '../../queries'
 Modal                   = require '../util/modal'
-DisruptionRowContainer  = require './disruption-row-container'
+DisruptionListContainer = require './disruption-list-container'
 FormattedMessage        = require('react-intl').FormattedMessage
 
 class DisruptionInfo extends React.Component
+  constructor: ->
+    super
+    @state =
+      useSpinner: true
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -12,22 +18,17 @@ class DisruptionInfo extends React.Component
     open: React.PropTypes.bool
     toggleDisruptionInfo: React.PropTypes.func
 
-  componentDidMount: ->
-    @context.getStore('DisruptionStore').addChangeListener @onChange
-
-  componentWillUnmount: ->
-    @context.getStore('DisruptionStore').removeChangeListener @onChange
-
-  onChange: =>
-    @forceUpdate()
-
   render: ->
-    data = @context.getStore('DisruptionStore').getData()
-    disruptionRowContainers = data?.entity.map (disruption) ->
-      <DisruptionRowContainer key={disruption.id} disruption={disruption}/>
-
-    <Modal open={@props.open} title={<FormattedMessage id="disruption-info" defaultMessage="Disruption Info"/>} toggleVisibility={@props.toggleDisruptionInfo}>
-      {disruptionRowContainers}
-    </Modal>
+    if typeof window != 'undefined'
+      <Modal open={@props.open} title={<FormattedMessage id="disruption-info" defaultMessage="Disruption Info"/>} toggleVisibility={@props.toggleDisruptionInfo}>
+        <Relay.RootContainer
+          Component={DisruptionListContainer}
+          forceFetch={true}
+          route={new queries.DisruptionInfoRoute}
+          renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
+        />
+      </Modal>
+    else
+      <div></div>
 
 module.exports = DisruptionInfo

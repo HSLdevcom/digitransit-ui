@@ -28,15 +28,6 @@ class IndexNavigation extends React.Component
           id: 'later'
           defaultMessage: "Later"
 
-  componentDidMount: ->
-    @context.getStore('DisruptionStore').addChangeListener @onChange
-
-  componentWillUnmount: ->
-    @context.getStore('DisruptionStore').removeChangeListener @onChange
-
-  onChange: =>
-    @forceUpdate()
-
   toggleSubnavigation: =>
     if @state.subNavigationVisible
       @setState
@@ -73,18 +64,8 @@ class IndexNavigation extends React.Component
     @setState offcanvasVisible: !@state.offcanvasVisible
 
   toggleDisruptionInfo: =>
-    if @isDisruptions()
-      @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"
-      @setState disruptionVisible: !@state.disruptionVisible
-
-  isDisruptions: ->
-    isDisruptions = false
-    disruptionData = @context.getStore('DisruptionStore').getData()
-    if disruptionData
-      if disruptionData.entity.length > 0
-        isDisruptions = true
-    return isDisruptions
-
+    @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"
+    @setState disruptionVisible: !@state.disruptionVisible
 
   render: ->
     <div className={@props.className}>
@@ -93,7 +74,7 @@ class IndexNavigation extends React.Component
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
 
       <div className="grid-frame fullscreen">
-        <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} isDisruptions={@isDisruptions()} subnavigationText={@state.text}/>
+        <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} subnavigationText={@state.text}/>
         <IndexSubNavigation visible={@state.subNavigationVisible}/>
         <section ref="content" className="content fullscreen">
           {@props.children}
