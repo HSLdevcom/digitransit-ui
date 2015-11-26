@@ -3,7 +3,7 @@ Icon                        = require '../icon/icon'
 CustomizeSearch             = require '../summary/customize-search'
 BackButton                  = require './back-button'
 TimeSelectors               = require './time-selectors'
-LeftNav               = require 'material-ui/lib/left-nav'
+LeftNav                     = require 'material-ui/lib/left-nav'
 
 class SummaryNavigation extends React.Component
   @contextTypes:
@@ -21,7 +21,7 @@ class SummaryNavigation extends React.Component
 
   render: ->
     <div className="fullscreen">
-      <LeftNav style={zIndex:11} openRight=true ref="rightNav" docked={false} open={@state.offcanvasVisible}>
+      <LeftNav disableSwipeToOpen=true style={zIndex:11} openRight=true ref="rightNav" docked={false} open={@state.offcanvasVisible}>
         <CustomizeSearch/>
       </LeftNav>
 

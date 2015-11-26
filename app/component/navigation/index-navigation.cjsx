@@ -92,7 +92,7 @@ class IndexNavigation extends React.Component
     <div className={@props.className}>
       <NotImplemented/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
-      <LeftNav style={zIndex:11} ref="leftNav" docked={false} open={@state.offcanvasVisible}>
+      <LeftNav disableSwipeToOpen=true style={zIndex:11} ref="leftNav" docked={false} open={@state.offcanvasVisible}>
         <OffcanvasMenu/>
       </LeftNav>
       <div className="grid-frame fullscreen">
