@@ -22,10 +22,6 @@ class Page extends React.Component
 
   render: ->
     <div className="fullscreen">
-      <LeftNav style={zIndex:10, backgroundColor:'#000'} ref="leftNav" docked={false} open={true}>
-        <OffcanvasMenu/>
-      </LeftNav>
-
       <IndexNavigation className="front-page fullscreen">
         <MapWithTracking>
           <SearchTwoFieldsContainer/>
