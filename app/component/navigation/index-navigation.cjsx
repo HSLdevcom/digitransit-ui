@@ -4,6 +4,7 @@ IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
 NotImplemented        = require '../util/not-implemented'
+LeftNav               = require 'material-ui/lib/left-nav'
 
 intl = require 'react-intl'
 
@@ -71,6 +72,7 @@ class IndexNavigation extends React.Component
   toggleOffcanvas: =>
     @context.piwik?.trackEvent "Offcanvas", "Index", if @state.offcanvasVisible then "close" else "open"
     @setState offcanvasVisible: !@state.offcanvasVisible
+    @refs.leftNav.open();
 
   toggleDisruptionInfo: =>
     if @isDisruptions()
@@ -86,13 +88,15 @@ class IndexNavigation extends React.Component
     return isDisruptions
 
 
-  render: ->
+  render: =>
     <div className={@props.className}>
-      <OffcanvasMenu open={@state.offcanvasVisible}/>
       <NotImplemented/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
-
+      <LeftNav style={zIndex:11, backgroundColor:'#000'} ref="leftNav" docked={false} open={@state.offcanvasVisible}>
+        <OffcanvasMenu/>
+      </LeftNav>
       <div className="grid-frame fullscreen">
+
         <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} isDisruptions={@isDisruptions()} subnavigationText={@state.text}/>
         <IndexSubNavigation visible={@state.subNavigationVisible}/>
         <section ref="content" className="content fullscreen">

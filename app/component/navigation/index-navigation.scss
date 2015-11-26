@@ -45,7 +45,7 @@ $top-navigation-switch-width: 70px;
 $top-navigation-switch-border-radius: 30px;
 
 .fixed {
-  z-index: 1003 !important; // Needed for leaflet
+  z-index: 3 !important;
 }
 
 nav.top-bar {
@@ -129,7 +129,7 @@ nav.top-bar {
   }
 }
 
-.left.off-canvas {
+.left-off-canvas {
   padding-top: 20px;
   color: $offcanvas-link-color;
   height:100%;
@@ -234,7 +234,7 @@ ul.offcanvas-list {
   position: fixed;
   top: $top-navigation-height;
   text-align: left;
-  z-index: 900;
+  z-index: 9;
   line-height: $top-navigation-sub-height;
 
   .arrow-up {
@@ -271,7 +271,7 @@ ul.offcanvas-list {
 
 .toggle-positioning-container {
   position: absolute;
-  z-index: 802;
+  z-index: 3;
   bottom: 15px;
   left: 12px;
   background-color: $background-color;

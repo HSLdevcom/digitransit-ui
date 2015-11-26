@@ -8,6 +8,8 @@ SearchTwoFieldsContainer = require '../component/search/search-two-fields-contai
 Icon               = require '../component/icon/icon'
 Link               = require 'react-router/lib/Link'
 MapWithTracking    = require '../component/map/map-with-tracking'
+OffcanvasMenu         = require '../component/navigation/offcanvas-menu'
+LeftNav               = require 'material-ui/lib/left-nav'
 
 class Page extends React.Component
   @contextTypes:
@@ -19,11 +21,16 @@ class Page extends React.Component
     @context.history.pushState null, "/kartta"
 
   render: ->
-    <IndexNavigation className="front-page fullscreen">
-      <MapWithTracking>
-        <SearchTwoFieldsContainer/>
-      </MapWithTracking>
-      <FrontPagePanel/>
-    </IndexNavigation>
+    <div className="fullscreen">
+      <LeftNav style={zIndex:10, backgroundColor:'#000'} ref="leftNav" docked={false} open={true}>
+        <OffcanvasMenu/>
+      </LeftNav>
 
+      <IndexNavigation className="front-page fullscreen">
+        <MapWithTracking>
+          <SearchTwoFieldsContainer/>
+        </MapWithTracking>
+        <FrontPagePanel/>
+      </IndexNavigation>
+    </div>
 module.exports = Page

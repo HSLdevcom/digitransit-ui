@@ -246,6 +246,14 @@ div.stop-name-marker {
   }
 }
 
+.leaflet-pane {
+  z-index:2 !important;
+}
+
+.leaflet-left {
+  z-index:6 !important;
+}
+
 .map .thin {
   stroke-opacity: 0.5;
 }
@@ -261,14 +269,14 @@ div.background-gradient {
   top: 0px;
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
   pointer-events: none;
-  z-index: 801;
+  z-index: 5;
 }
 
 div.map-click-prevent-overlay {
   position: absolute;
   height: 100%;
   width: 100%;
-  z-index: 801;
+  z-index: 3;
 }
 
 div.map {
