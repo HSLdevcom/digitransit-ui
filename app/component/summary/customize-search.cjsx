@@ -32,7 +32,7 @@ class CustomizeSearch extends React.Component
       <option key={index} value={option.value}>{option.displayName}</option>
 
   render: ->
-    <Offcanvas open={@props.open} className="customize-search" position="right">
+    <div className="customize-search">
       <section className="offcanvas-section">
         <div className="row btn-bar">
           <ToggleButton
@@ -186,7 +186,7 @@ class CustomizeSearch extends React.Component
         />
       </section>
 
-    </Offcanvas>
+    </div>
 
 
 module.exports = CustomizeSearch
