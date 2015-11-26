@@ -1,6 +1,6 @@
 React         = require 'react'
 Relay         = require 'react-relay'
-queries       = require '../../queries'
+queries       = require '../../../queries'
 StopMarkerLayer = require './stop-marker-layer'
 
 STOPS_MAX_ZOOM = 14

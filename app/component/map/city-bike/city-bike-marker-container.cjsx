@@ -1,7 +1,7 @@
 React         = require 'react'
-CityBikeActions = require '../../action/city-bike-actions'
+CityBikeActions = require '../../../action/city-bike-actions'
 CityBikeMarker = require './city-bike-marker'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require '../../documentation/component-usage-example'
 
 STOPS_MAX_ZOOM = 14
 

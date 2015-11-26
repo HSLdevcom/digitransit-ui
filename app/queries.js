@@ -24,7 +24,7 @@ var TripPatternFragments = {
   pattern: () => Relay.QL`
     fragment on Trip {
       pattern {
-        ${require('./component/map/route-line').getFragment('pattern')}
+        ${require('./component/map/route/route-line').getFragment('pattern')}
       }
     }
   `,
@@ -169,7 +169,7 @@ var RouteMapFragments = {
         gtfsId
         ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
       }
-      ${require('./component/map/route-line').getFragment('pattern')}
+      ${require('./component/map/route/route-line').getFragment('pattern')}
     }
   `,
 };

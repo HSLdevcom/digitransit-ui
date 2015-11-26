@@ -1,8 +1,8 @@
 React         = require 'react'
 Relay         = require 'react-relay'
-queries       = require '../../queries'
+queries       = require '../../../queries'
 isBrowser     = window?
-config        = require '../../config'
+config        = require '../../../config'
 StopMarker    = require './stop-marker'
 
 STOPS_MAX_ZOOM = 14

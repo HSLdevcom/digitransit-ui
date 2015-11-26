@@ -1,11 +1,11 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
-queries               = require '../../queries'
-StopCardContainer     = require '../stop-cards/stop-card-container'
-Icon                  = require '../icon/icon.cjsx'
+queries               = require '../../../queries'
+StopCardContainer     = require '../../stop-cards/stop-card-container'
+Icon                  = require '../../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
-FavouriteStopsAction  = require '../../action/favourite-stops-action'
-MarkerPopupBottom     = require './marker-popup-bottom'
+FavouriteStopsAction  = require '../../../action/favourite-stops-action'
+MarkerPopupBottom     = require '../marker-popup-bottom'
 {FormattedMessage} = require('react-intl')
 
 

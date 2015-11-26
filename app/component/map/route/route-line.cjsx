@@ -1,10 +1,10 @@
 React              = require 'react'
 Relay              = require 'react-relay'
-queries            = require '../../queries'
+queries            = require '../../../queries'
 isBrowser          = window?
-StopMarker         = require './stop-marker'
-LocationMarker     = require './location-marker'
-Line               = require './line'
+StopMarker         = require '../stop/stop-marker'
+LocationMarker     = require '../location-marker'
+Line               = require '../line'
 
 class RouteLine extends React.Component
   render: ->
