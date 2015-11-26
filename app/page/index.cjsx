@@ -8,8 +8,6 @@ SearchTwoFieldsContainer = require '../component/search/search-two-fields-contai
 Icon               = require '../component/icon/icon'
 Link               = require 'react-router/lib/Link'
 MapWithTracking    = require '../component/map/map-with-tracking'
-OffcanvasMenu         = require '../component/navigation/offcanvas-menu'
-LeftNav               = require 'material-ui/lib/left-nav'
 
 class Page extends React.Component
   @contextTypes:
