@@ -88,7 +88,7 @@ class IndexNavigation extends React.Component
     return isDisruptions
 
 
-  render: =>
+  render: ->
     <div className={@props.className}>
       <NotImplemented/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
