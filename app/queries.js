@@ -370,16 +370,16 @@ var DepartureListFragments = {
   stoptimes: () => Relay.QL`
     fragment on StoptimesInPattern @relay(plural:true) {
       pattern {
+        alerts {
+          effectiveStartDate
+          effectiveEndDate
+        }
         route {
           gtfsId
           shortName
           longName
           type
           color
-          alerts {
-            effectiveStartDate
-            effectiveEndDate
-          }
         }
         code
         headsign

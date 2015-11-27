@@ -46,7 +46,7 @@ class DepartureListContainer extends React.Component
           departure.stoptime <= alert.effectiveEndDate
 
       classes =
-        disruption: (filter departure.pattern.route.alerts, validAt).length > 0
+        disruption: (filter departure.pattern.alerts, validAt).length > 0
 
       if rowClasses
         classes[rowClasses] = true
