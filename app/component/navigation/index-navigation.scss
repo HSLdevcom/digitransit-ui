@@ -129,10 +129,13 @@ nav.top-bar {
   }
 }
 
-.left.off-canvas {
+.left-off-canvas {
+  padding: 0;
+  background: #333;
   padding-top: 20px;
   color: $offcanvas-link-color;
   height:100%;
+  overflow-y: auto;
 
   i.icon-profile {
     font-size: $offcanvas-profile-icon-size;
@@ -189,14 +192,6 @@ ul.offcanvas-list {
 .offcanvas-login {
   font-family: $offcanvas-login-text-font-family;
   font-size: $offcanvas-login-text-font-size;
-}
-
-
-.right.off-canvas {
-  padding-top: 40px;
-  padding-bottom: 20px;
-  color: $offcanvas-link-color;
-  height:100%;
 }
 
 /* content */
@@ -325,4 +320,8 @@ ul.offcanvas-list {
   .timeseparator {
     font-weight: $font-weight-bold;
   }
+}
+
+.offcanvas > div {
+  z-index:2000 !important;
 }
