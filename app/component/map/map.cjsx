@@ -32,6 +32,11 @@ class Map extends React.Component
 
   componentDidMount: =>
     L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
+    # Stop leaflet from propagating mouse and touch events
+    # to prevent other things behind the map reacting to map interactions
+    # (slick swipe in particular)
+    L.DomEvent.disableClickPropagation(@refs.map.getLeafletElement()._container)
+
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
 
