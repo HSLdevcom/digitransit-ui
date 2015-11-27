@@ -2,7 +2,6 @@ React                 = require 'react'
 Icon                  = require '../icon/icon'
 Slider                = require '../util/slider'
 ToggleButton          = require '../util/toggle-button'
-Offcanvas             = require '../util/offcanvas'
 ItinerarySearchAction = require '../../action/itinerary-search-action'
 Select                = require '../util/select'
 
