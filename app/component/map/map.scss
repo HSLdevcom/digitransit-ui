@@ -269,14 +269,14 @@ div.background-gradient {
   top: 0px;
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
   pointer-events: none;
-  z-index: 5;
+  z-index: 1;
 }
 
 div.map-click-prevent-overlay {
   position: absolute;
   height: 100%;
   width: 100%;
-  z-index: 3;
+  z-index: 1;
 }
 
 div.map {
