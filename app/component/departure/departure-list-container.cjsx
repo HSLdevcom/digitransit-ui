@@ -5,6 +5,7 @@ queries               = require '../../queries'
 Departure             = require './departure'
 uniq                  = require 'lodash/array/uniq'
 difference            = require 'lodash/array/difference'
+filter                = require 'lodash/collection/filter'
 moment                = require 'moment'
 Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
@@ -40,8 +41,12 @@ class DepartureListContainer extends React.Component
         currentDate = new Date().setHours(24, 0, 0, 0) / 1000 #TODO: this should be changed, now always sets tomorrow
       id = "#{departure.pattern.code}:#{departure.stoptime}"
 
+      validAt = (alert) =>
+        alert.effectiveStartDate <= departure.stoptime &&
+          departure.stoptime <= alert.effectiveEndDate
+
       classes =
-        disruption: departure.pattern.route.alerts.length > 0
+        disruption: (filter departure.pattern.route.alerts, validAt).length > 0
 
       if rowClasses
         classes[rowClasses] = true

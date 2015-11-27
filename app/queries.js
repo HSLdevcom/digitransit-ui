@@ -377,7 +377,8 @@ var DepartureListFragments = {
           type
           color
           alerts {
-            alertDescriptionText
+            effectiveStartDate
+            effectiveEndDate
           }
         }
         code
