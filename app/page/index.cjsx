@@ -19,12 +19,10 @@ class Page extends React.Component
     @context.history.pushState null, "/kartta"
 
   render: ->
-    <div className="fullscreen">
-      <IndexNavigation className="front-page fullscreen">
-        <MapWithTracking>
-          <SearchTwoFieldsContainer/>
-        </MapWithTracking>
-        <FrontPagePanel/>
-      </IndexNavigation>
-    </div>
+    <IndexNavigation className="front-page fullscreen">
+      <MapWithTracking>
+        <SearchTwoFieldsContainer/>
+      </MapWithTracking>
+      <FrontPagePanel/>
+    </IndexNavigation>
 module.exports = Page
