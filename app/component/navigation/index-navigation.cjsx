@@ -72,7 +72,7 @@ class IndexNavigation extends React.Component
   toggleOffcanvas: =>
     @context.piwik?.trackEvent "Offcanvas", "Index", if @state.offcanvasVisible then "close" else "open"
     @setState offcanvasVisible: !@state.offcanvasVisible
-    @refs.rightNav.toggle()
+    @refs.leftNav.toggle()
 
   toggleDisruptionInfo: =>
     if @isDisruptions()
