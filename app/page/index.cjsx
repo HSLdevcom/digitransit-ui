@@ -25,5 +25,5 @@ class Page extends React.Component
       </MapWithTracking>
       <FrontPagePanel/>
     </IndexNavigation>
-    
+
 module.exports = Page

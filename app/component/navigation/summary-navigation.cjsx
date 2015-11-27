@@ -17,11 +17,11 @@ class SummaryNavigation extends React.Component
   toggleCustomizeSearchOffcanvas: =>
     @context.piwik?.trackEvent "Offcanvas", "Customize Search", if @state.customizeSearchOffcanvas then "close" else "open"
     @setState customizeSearchOffcanvas: !@state.customizeSearchOffcanvas
-    @refs.rightNav.toggle();
+    @refs.rightNav.toggle()
 
   render: ->
     <div className="fullscreen">
-      <LeftNav className="offcanvas" disableSwipeToOpen=true style={zIndex:11} openRight=true ref="rightNav" docked={false} open={@state.offcanvasVisible}>
+      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} open={@state.offcanvasVisible}>
         <CustomizeSearch/>
       </LeftNav>
 
