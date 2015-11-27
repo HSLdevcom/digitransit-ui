@@ -21,7 +21,7 @@ class SummaryNavigation extends React.Component
 
   render: ->
     <div className="fullscreen">
-      <LeftNav disableSwipeToOpen=true style={zIndex:11} openRight=true ref="rightNav" docked={false} open={@state.offcanvasVisible}>
+      <LeftNav className="offcanvas" disableSwipeToOpen=true style={zIndex:11} openRight=true ref="rightNav" docked={false} open={@state.offcanvasVisible}>
         <CustomizeSearch/>
       </LeftNav>
 

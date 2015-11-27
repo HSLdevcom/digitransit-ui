@@ -45,7 +45,7 @@ $top-navigation-switch-width: 70px;
 $top-navigation-switch-border-radius: 30px;
 
 .fixed {
-  z-index: 3 !important;
+  z-index: 1003 !important;
 }
 
 nav.top-bar {
@@ -229,7 +229,7 @@ ul.offcanvas-list {
   position: fixed;
   top: $top-navigation-height;
   text-align: left;
-  z-index: 9;
+  z-index: 900;
   line-height: $top-navigation-sub-height;
 
   .arrow-up {
@@ -266,7 +266,7 @@ ul.offcanvas-list {
 
 .toggle-positioning-container {
   position: absolute;
-  z-index: 2;
+  z-index: 802;
   bottom: 15px;
   left: 12px;
   background-color: $background-color;
@@ -320,4 +320,8 @@ ul.offcanvas-list {
   .timeseparator {
     font-weight: $font-weight-bold;
   }
+}
+
+.offcanvas > div {
+  z-index:2000 !important;
 }
