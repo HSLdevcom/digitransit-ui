@@ -4,8 +4,11 @@ queries       = require '../../../queries'
 isBrowser     = window?
 config        = require '../../../config'
 StopMarker    = require './stop-marker'
+TerminalMarker = require './terminal-marker'
+uniq          = require 'lodash/array/uniq'
 
 STOPS_MAX_ZOOM = 14
+TERMINAL_STOPS_MAX_ZOOM = 18
 
 
 class StopMarkerLayer extends React.Component
@@ -43,14 +46,27 @@ class StopMarkerLayer extends React.Component
       modeClass = stop.routes[0].type.toLowerCase()
       selected = @props.hilightedStops and stop.gtfsId in @props.hilightedStops
 
-      #TODO: set showName
-      stops.push <StopMarker key={stop.gtfsId}
-                             map={@props.map}
-                             stop={stop}
-                             selected={selected}
-                             mode={modeClass}
-                             renderName={stop.name not in renderedNames} />
-      renderedNames.push stop.name
+      if not stop.parentStation or @props.map.getZoom() == TERMINAL_STOPS_MAX_ZOOM
+        stops.push <StopMarker key={stop.gtfsId}
+                               map={@props.map}
+                               stop={stop}
+                               selected={selected}
+                               mode={modeClass}
+                               renderName={stop.name not in renderedNames} />
+        renderedNames.push stop.name
+
+      if stop.parentStation and @props.map.getZoom() < TERMINAL_STOPS_MAX_ZOOM
+        stops.push <TerminalMarker
+                          key={stop.parentStation.gtfsId}
+                          map={@props.map}
+                          terminal={stop.parentStation}
+                          selected={selected}
+                          mode={modeClass}
+                          renderName={true} />
+
+    #remove duplicate terminals:
+    stops = uniq(stops, 'key')
+
     stops
 
   render: ->

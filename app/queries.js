@@ -335,6 +335,14 @@ var StopMarkerLayerFragments = {
         lon
         gtfsId
         name
+        locationType
+        platformCode
+        parentStation {
+          gtfsId
+          name
+          lat
+          lon
+        }
         routes {
           type
         }
