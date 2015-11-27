@@ -45,6 +45,7 @@
     "lodash": "^3.10.1",
     "mapbox-gl": "^0.11.4",
     "masonry": "geta6/masonry",
+    "material-ui": "^0.13.4",
     "moment": "^2.10.6",
     "mqtt": "^1.5.0",
     "node-cjsx": "^1.0.0",
