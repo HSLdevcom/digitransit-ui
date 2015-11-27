@@ -1,5 +1,6 @@
 React        = require 'react'
 RouteNumber  = require '../departure/route-number'
+Link         = require 'react-router/lib/Link'
 moment       = require 'moment'
 config       = require '../../config'
 
@@ -17,20 +18,22 @@ class TransitLeg extends React.Component
     ] else false
 
     <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
-        <div className="itinerary-time-column-time">
-          <span className={if @props.leg.realTime then "realtime" else ""}>
-            {moment(@props.leg.startTime).format('HH:mm')}
-          </span>
-          {originalTime}
+      <Link to="/lahdot/#{@props.leg.tripId}">
+        <div className="small-2 columns itinerary-time-column">
+          <div className="itinerary-time-column-time">
+            <span className={if @props.leg.realTime then "realtime" else ""}>
+              {moment(@props.leg.startTime).format('HH:mm')}
+            </span>
+            {originalTime}
+          </div>
+          <RouteNumber
+            mode={@props.leg.mode.toLowerCase()}
+            text={@props.leg.routeShortName}
+            realtime={@props.leg.realTime}
+            vertical={true}
+          />
         </div>
-        <RouteNumber
-          mode={@props.leg.mode.toLowerCase()}
-          text={@props.leg.routeShortName}
-          realtime={@props.leg.realTime}
-          vertical={true}
-        />
-      </div>
+      </Link>
       <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
         {if @props.index == 0
           <div>
