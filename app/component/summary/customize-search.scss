@@ -4,10 +4,9 @@
   padding-bottom: 20px;
   color: $offcanvas-link-color;
   height:100%;
-  overflow:scroll;
+  overflow-y: auto;
 }
 
 .mode-icon {
   width: 16.666%;
 }
-

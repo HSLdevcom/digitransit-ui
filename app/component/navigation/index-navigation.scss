@@ -135,7 +135,7 @@ nav.top-bar {
   padding-top: 20px;
   color: $offcanvas-link-color;
   height:100%;
-  overflow: scroll;
+  overflow-y: auto;
 
   i.icon-profile {
     font-size: $offcanvas-profile-icon-size;
