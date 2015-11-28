@@ -1,3 +1,4 @@
+config = require('../../../config')
 React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../../queries'
@@ -6,12 +7,6 @@ config        = require '../../../config'
 StopMarker    = require './stop-marker'
 TerminalMarker = require './terminal-marker'
 uniq          = require 'lodash/array/uniq'
-
-# Lowest level when stop or terminal markers are rendered
-STOPS_MIN_ZOOM = 15
-
-# Highest level when terminals are still rendered instead of individual stops
-TERMINAL_STOPS_MAX_ZOOM = 17
 
 
 class StopMarkerLayer extends React.Component
@@ -30,7 +25,7 @@ class StopMarkerLayer extends React.Component
     @props.map.off 'moveend', @onMapMove
 
   onMapMove: =>
-    if @props.map.getZoom() >= STOPS_MIN_ZOOM
+    if @props.map.getZoom() >= config.stopsMinZoom
       bounds = @props.map.getBounds()
       @props.relay.setVariables
         minLat: bounds.getSouth()
@@ -49,7 +44,7 @@ class StopMarkerLayer extends React.Component
       modeClass = stop.routes[0].type.toLowerCase()
       selected = @props.hilightedStops and stop.gtfsId in @props.hilightedStops
 
-      if stop.parentStation and @props.map.getZoom() <= TERMINAL_STOPS_MAX_ZOOM
+      if stop.parentStation and @props.map.getZoom() <= config.terminalStopsMaxZoom
         stops.push <TerminalMarker
                           key={stop.parentStation.gtfsId}
                           map={@props.map}
@@ -71,7 +66,7 @@ class StopMarkerLayer extends React.Component
     return uniq(stops, 'key')
 
   render: ->
-    <div>{if @props.map.getZoom() >= STOPS_MIN_ZOOM then @getStops() else ""}</div>
+    <div>{if @props.map.getZoom() >= config.stopsMinZoom then @getStops() else ""}</div>
 
 module.exports = Relay.createContainer(StopMarkerLayer,
   fragments: queries.StopMarkerLayerFragments
