@@ -3,10 +3,10 @@ isBrowser     = window?
 CityBikePopup = require './city-bike-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
-Icon          = require '../icon/icon'
-GenericMarker = require './generic-marker'
-Example               = require '../documentation/example-data'
-ComponentUsageExample = require '../documentation/component-usage-example'
+Icon          = require '../../icon/icon'
+GenericMarker = require '../generic-marker'
+Example               = require '../../documentation/example-data'
+ComponentUsageExample = require '../../documentation/component-usage-example'
 
 
 # Small icon for zoom levels <= 15

@@ -1,11 +1,11 @@
 React         = require 'react'
 Relay         = require 'react-relay'
-queries       = require '../../queries'
+queries       = require '../../../queries'
 isBrowser     = window?
 StopMarkerPopup = require './stop-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
-GenericMarker = require './generic-marker'
+GenericMarker = require '../generic-marker'
 
 
 iconSvg = """<svg viewBox="0 0 18 18">
