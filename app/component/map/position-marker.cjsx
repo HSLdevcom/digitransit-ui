@@ -15,6 +15,7 @@ class PositionMarker extends React.Component
       L.divIcon
         html: Icon.asString 'icon-icon_mapMarker-location-animated'
         className: 'current-location-marker'
+        iconSize: [40, 40]
     else
       null
 
