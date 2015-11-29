@@ -4,9 +4,10 @@
 	<stop offset="80%" stop-color="white"/>
 	<stop offset="100%" stop-color="#f092cd"/>
 </radialGradient>
-<radialGradient id="mapMarker-white" cx="50%" cy="50%" r="80%">
+<radialGradient id="mapMarker-white" cx="50%" cy="50%" r="70%">
   <stop offset="0%" stop-color="rgb(255,255,255)" stop-opacity="1" />
-  <stop offset="100%" stop-color="rgb(255,255,255)" stop-opacity="0" />
+	<stop offset="25%" stop-color="rgb(255,255,255)" stop-opacity="1" />
+  <stop offset="70%" stop-color="rgb(255,255,255)" stop-opacity="0" />
 </radialGradient>
 <symbol id="icon-icon_HSL-logo" viewBox="0 0 1024 1024">
 	<title>icon_HSL-logo</title>
@@ -388,29 +389,29 @@
 </symbol>
 <symbol id="icon-icon_mapMarker-location-animated" viewBox="0 0 2248 2248">
   <title>icon_mapMarker-location-animated</title>
-	<circle fill="#f092cd" cx="1124" cy="1124" r="400"/>
-	<circle cx="1124" cy="1124" r="762" stroke-width="724" fill="none" stroke="url(#mapMarker-white)" />
-	<circle stroke-width="70" r="435" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(240, 146, 205, 0.1)" cy="1124" id="circle_pink_first">
-    <animate from="435" attributeName="r" to="1079" dur="2s" repeatCount="indefinite"/>
-		<animate values="rgba(240, 146, 205, 1) ;rgba(240, 146, 205, 0.6) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite"/>
-		<animate values="70 ; 90" attributeName="stroke-width" dur="2s" keyTimes="0;1" begin="0s" repeatCount="indefinite"/>
+	<circle fill="#EF80C6" cx="1124" cy="1124" r="340"/>
+	<circle cx="1124" cy="1124" r="732" stroke-width="784" fill="none" stroke="url(#mapMarker-white)" />
+	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(239, 128, 198, 0.1)" cy="1124" id="circle_pink_first">
+    <animate from="340" attributeName="r" to="1079" dur="1.6s" repeatCount="indefinite"/>
+		<animate values="rgba(239, 128, 198, 1) ;rgba(239, 128, 198, 0.4) ; rgba(239, 128, 198, 0.1) ; rgba(239, 128, 198, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="1.6s" repeatCount="indefinite"/>
+		<animate values="50 ; 150" attributeName="stroke-width" dur="1.6s" keyTimes="0;1" begin="0s" repeatCount="indefinite"/>
   </circle>
-	<circle stroke-width="70" r="435" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(240, 146, 205, 0.1)" cy="1124" id="circle_pink_second">
-    <animate from="435" attributeName="r" to="1079" dur="2s" repeatCount="indefinite" begin="0.5s"/>
-		<animate values="rgba(240, 146, 205, 1) ;rgba(240, 146, 205, 0.6) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="0.5s"/>
-		<animate values="70 ; 90" attributeName="stroke-width" dur="2s" keyTimes="0;1" begin="0.5s" repeatCount="indefinite"/>
+	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(239, 128, 198, 0.1)" cy="1124" id="circle_pink_second">
+    <animate from="340" attributeName="r" to="1079" dur="1.6s" repeatCount="indefinite" begin="0.4s"/>
+		<animate values="rgba(239, 128, 198, 1) ;rgba(239, 128, 198, 0.4) ; rgba(239, 128, 198, 0.1) ; rgba(239, 128, 198, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="1.6s" repeatCount="indefinite" begin="0.4s"/>
+		<animate values="50 ; 150" attributeName="stroke-width" dur="1.6s" keyTimes="0;1" begin="0.4s" repeatCount="indefinite"/>
   </circle>
-	<circle stroke-width="70" r="435" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(240, 146, 205, 0.1)" cy="1124" id="circle_pink_third">
-    <animate from="435" attributeName="r" to="1079" dur="2s" repeatCount="indefinite" begin="1.0s"/>
-		<animate values="rgba(240, 146, 205, 1) ;rgba(240, 146, 205, 0.6) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.0s"/>
-		<animate values="70 ; 90" attributeName="stroke-width" dur="2s" keyTimes="0;1" begin="1.0s" repeatCount="indefinite"/>
+	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(239, 128, 198, 0.1)" cy="1124" id="circle_pink_third">
+    <animate from="340" attributeName="r" to="1079" dur="1.6s" repeatCount="indefinite" begin="0.8s"/>
+		<animate values="rgba(239, 128, 198, 1) ;rgba(239, 128, 198, 0.4) ; rgba(239, 128, 198, 0.1) ; rgba(239, 128, 198, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="1.6s" repeatCount="indefinite" begin="0.8s"/>
+		<animate values="50 ; 150" attributeName="stroke-width" dur="1.6s" keyTimes="0;1" begin="0.8s" repeatCount="indefinite"/>
 	</circle>
-	<circle stroke-width="70" r="435" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(240, 146, 205, 0.1)" cy="1124" id="circle_pink_fourth">
-    <animate from="435" attributeName="r" to="1079" dur="2s" repeatCount="indefinite" begin="1.5s"/>
-		<animate values="rgba(240, 146, 205, 1) ;rgba(240, 146, 205, 0.6) ; rgba(240, 146, 205, 0.1)" keyTimes="0;0.5;1" attributeName="stroke" dur="2s" repeatCount="indefinite" begin="1.5s"/>
-		<animate values="70 ; 90" attributeName="stroke-width" dur="2s" keyTimes="0;1" begin="1.5s" repeatCount="indefinite"/>
+	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(239, 128, 198, 0.1)" cy="1124" id="circle_pink_fourth">
+    <animate from="340" attributeName="r" to="1079" dur="1.6s" repeatCount="indefinite" begin="1.2s"/>
+		<animate values="rgba(239, 128, 198, 1) ;rgba(239, 128, 198, 0.4) ; rgba(239, 128, 198, 0.1) ; rgba(239, 128, 198, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="1.6s" repeatCount="indefinite" begin="1.2s"/>
+		<animate values="50 ; 150" attributeName="stroke-width" dur="1.6s" keyTimes="0;1" begin="1.2s" repeatCount="indefinite"/>
 	</circle>
-	<svg x="27%" y="28%">
+	<svg x="32%" y="35%" width=800 height=750 viewBox="0 0 1024 1024">
 	<g id="user-icon" fill="#fff">
 		<path class="path1" d="M362.79 324.412c0 84.704 68.57 154.528 151.253 154.528h2.018c82.687 0 151.255-69.824 151.255-154.528s-68.568-153.274-151.252-153.274c-84.703 0-153.274 68.57-153.274 153.274z"/>
 		<path class="path2" d="M732.752 555.996c-16.86-52.453-46.29-70.716-93.125-70.716h-37.465s-37.104 40.588-89.02 40.588c-53.224 0-88.942-40.588-88.942-40.588h-37.467c-46.835 0-75.365 18.263-94.097 70.716 0 0-41.907 147.372-41.752 166.478.103 12.82 8.713 23.046 20.296 26.884 12.058 5.435 38.016 10.343 73.342 14.026l15.983-102.7h15.203v105.434c40.153 2.995 88.174 4.74 139.61 4.74 51.336 0 99.195-1.74 139.347-4.727V660.684h15.453l16.588 102.56c35.345-3.75 61.087-8.676 72.58-14.187 9.724-3.593 16.12-12.167 16.12-26.565-.003-19.105-42.653-166.494-42.653-166.494z"/>
