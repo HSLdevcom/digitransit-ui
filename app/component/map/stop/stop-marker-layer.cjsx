@@ -1,11 +1,12 @@
+config = require('../../../config')
 React         = require 'react'
 Relay         = require 'react-relay'
-queries       = require '../../queries'
+queries       = require '../../../queries'
 isBrowser     = window?
-config        = require '../../config'
+config        = require '../../../config'
 StopMarker    = require './stop-marker'
-
-STOPS_MAX_ZOOM = 14
+TerminalMarker = require './terminal-marker'
+uniq          = require 'lodash/array/uniq'
 
 
 class StopMarkerLayer extends React.Component
@@ -24,7 +25,7 @@ class StopMarkerLayer extends React.Component
     @props.map.off 'moveend', @onMapMove
 
   onMapMove: =>
-    if STOPS_MAX_ZOOM < @props.map.getZoom()
+    if @props.map.getZoom() >= config.stopsMinZoom
       bounds = @props.map.getBounds()
       @props.relay.setVariables
         minLat: bounds.getSouth()
@@ -43,18 +44,29 @@ class StopMarkerLayer extends React.Component
       modeClass = stop.routes[0].type.toLowerCase()
       selected = @props.hilightedStops and stop.gtfsId in @props.hilightedStops
 
-      #TODO: set showName
-      stops.push <StopMarker key={stop.gtfsId}
-                             map={@props.map}
-                             stop={stop}
-                             selected={selected}
-                             mode={modeClass}
-                             renderName={stop.name not in renderedNames} />
-      renderedNames.push stop.name
-    stops
+      if stop.parentStation and @props.map.getZoom() <= config.terminalStopsMaxZoom
+        stops.push <TerminalMarker
+                          key={stop.parentStation.gtfsId}
+                          map={@props.map}
+                          terminal={stop.parentStation}
+                          selected={selected}
+                          mode={modeClass}
+                          renderName={true} />
+      else
+        stops.push <StopMarker key={stop.gtfsId}
+                               map={@props.map}
+                               stop={stop}
+                               selected={selected}
+                               mode={modeClass}
+                               renderName={stop.name not in renderedNames} />
+        renderedNames.push stop.name
+
+
+    # return without duplicate terminals
+    return uniq(stops, 'key')
 
   render: ->
-    <div>{if STOPS_MAX_ZOOM < @props.map.getZoom() then @getStops() else ""}</div>
+    <div>{if @props.map.getZoom() >= config.stopsMinZoom then @getStops() else ""}</div>
 
 module.exports = Relay.createContainer(StopMarkerLayer,
   fragments: queries.StopMarkerLayerFragments

@@ -93,13 +93,13 @@ function setupRaven() {
 }
 
 function getPolyfills(userAgent) {
-  if (userAgent.search(/(SamsungBrowser|Google Page Speed Insights)/) != -1) {
+  if (!userAgent || userAgent.search(/(SamsungBrowser|Google Page Speed Insights)/) != -1) {
     // Do not trust Samsung, see https://digitransit.atlassian.net/browse/DT-360
     userAgent = "";
   }
 
   return polyfillService.getPolyfillString({
-    uaString: userAgent || '',
+    uaString: userAgent,
     features: {
       'matchMedia': {flags: ['gated']},
       'fetch': {flags: ['gated']},
@@ -129,6 +129,7 @@ function setUpRoutes() {
     var locale = req.cookies.lang  || req.acceptsLanguages(['fi', 'sv', 'en']) || 'en';
     var messages = translations[locale]
     var context = application.createContext()
+    navigator = {userAgent:req.headers['user-agent']};  //required by material-ui
     var location = useBasename(useQueries(createHistory))({basename: config.ROOT_PATH}).createLocation(req.url);
 
     match({routes: application.getComponent(), location: location}, function (error, redirectLocation, renderProps) {

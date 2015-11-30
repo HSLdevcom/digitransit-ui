@@ -3,7 +3,7 @@ Icon                        = require '../icon/icon'
 CustomizeSearch             = require '../summary/customize-search'
 BackButton                  = require './back-button'
 TimeSelectors               = require './time-selectors'
-
+LeftNav                     = require 'material-ui/lib/left-nav'
 
 class SummaryNavigation extends React.Component
   @contextTypes:
@@ -17,10 +17,13 @@ class SummaryNavigation extends React.Component
   toggleCustomizeSearchOffcanvas: =>
     @context.piwik?.trackEvent "Offcanvas", "Customize Search", if @state.customizeSearchOffcanvas then "close" else "open"
     @setState customizeSearchOffcanvas: !@state.customizeSearchOffcanvas
+    @refs.rightNav.toggle()
 
   render: ->
     <div className="fullscreen">
-      <CustomizeSearch open={@state.customizeSearchOffcanvas}/>
+      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} open={@state.offcanvasVisible}>
+        <CustomizeSearch/>
+      </LeftNav>
 
       <div className="fullscreen grid-frame">
         <nav className="top-bar">

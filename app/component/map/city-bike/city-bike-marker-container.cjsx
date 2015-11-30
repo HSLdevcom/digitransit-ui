@@ -1,9 +1,8 @@
-React         = require 'react'
-CityBikeActions = require '../../action/city-bike-actions'
+config = require('../../../config')
+React = require 'react'
+CityBikeActions = require '../../../action/city-bike-actions'
 CityBikeMarker = require './city-bike-marker'
-ComponentUsageExample = require '../documentation/component-usage-example'
-
-STOPS_MAX_ZOOM = 14
+ComponentUsageExample = require '../../documentation/component-usage-example'
 
 class CityBikeMarkerContainer extends React.Component
 
@@ -54,6 +53,6 @@ class CityBikeMarkerContainer extends React.Component
     stations
 
   render: ->
-    <div>{if STOPS_MAX_ZOOM < @props.map.getZoom() then @getStations() else ""}</div>
+    <div>{if @props.map.getZoom() >= config.stopsMinZoom then @getStations() else ""}</div>
 
 module.exports = CityBikeMarkerContainer

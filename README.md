@@ -19,6 +19,10 @@ However, we also monitor this repository's issues and import them to Jira. You c
 * [Finland - Helsinki city area demo](http://matka.hsl.fi/)
 * [Finland - National demo](http://digitransit.fi/digitransit-ui/)
 
+## Dependencies
+See if npm dependencies are up-to-date: https://gemnasium.com/HSLdevcom/digitransit-ui
+
+
 ## Testing [![Build Status](https://snap-ci.com/HSLdevcom/digitransit-ui/branch/master/build_image)](https://snap-ci.com/HSLdevcom/digitransit-ui/branch/master/)
 
 Digitransit-ui is tested to work on Firefox 29-, Chrome 45-, IE 9-, iOS 6- and Safari. For automated testing we use [Nightwatch](http://nightwatchjs.org/) and [BrowserStack](http://browserstack.com/).

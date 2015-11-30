@@ -85,7 +85,7 @@ translations =
     'realtime-matching': 'Realiajan integraatio'
     'locate': 'Paikanna'
     'extra-info': 'Lisätietoa'
-    'bike-availability': 'Pyöriä vapaina asemalla'
+    'bike-availability': 'Pyöriä asemalla juuri nyt'
     'citybike-register-required': 'Kaupunkipyörien käyttö vaatii rekisteröitymisen'
     'use-citybike': 'Ota käyttöön'
     'citybike': 'Kaupunkipyörä'
