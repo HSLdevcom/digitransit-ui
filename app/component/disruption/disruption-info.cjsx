@@ -6,11 +6,6 @@ DisruptionListContainer = require './disruption-list-container'
 FormattedMessage        = require('react-intl').FormattedMessage
 
 class DisruptionInfo extends React.Component
-  constructor: ->
-    super
-    @state =
-      useSpinner: true
-
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
@@ -25,7 +20,7 @@ class DisruptionInfo extends React.Component
           Component={DisruptionListContainer}
           forceFetch={true}
           route={new queries.DisruptionInfoRoute()}
-          renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
+          renderLoading={=> <div className="spinner-loader"/>}
         />
       </Modal>
     else
