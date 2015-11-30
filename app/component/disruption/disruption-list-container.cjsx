@@ -3,9 +3,13 @@ Relay            = require 'react-relay'
 queries          = require '../../queries'
 moment           = require 'moment'
 DisruptionRow    = require './disruption-row'
-FormattedMessage = require('react-intl').FormattedMessage
+{FormattedMessage, intlShape} = require('react-intl')
+find             = require 'lodash/collection/find'
 
 class DisruptionListContainer extends React.Component
+  @contextTypes:
+    intl: intlShape
+
   render: ->
     alerts = []
     for alert in @props.alerts.alerts
@@ -13,12 +17,11 @@ class DisruptionListContainer extends React.Component
       startTime = moment(alert.effectiveStartDate * 1000)
       endTime = moment(alert.effectiveEndDate * 1000)
       cause = 'because'#alert.cause
-      description = alert.alertDescriptionText
+      description = find alert.alertDescriptionText, ((text) => text.language == @context.intl.locale), 'text'
       routes = [alert.route]
       alerts.push <DisruptionRow key={id} description={description} startTime={startTime} endTime={endTime} cause={cause} routes={routes}/>
 
     <div>
-      <h3>Alerts</h3>
       {alerts}
     </div>
 

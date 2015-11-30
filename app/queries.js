@@ -553,8 +553,14 @@ var DisruptionListContainerFragments = {
   fragment on QueryType {
     alerts {
       id
-      alertHeaderText
-      alertDescriptionText
+      alertHeaderTextTranslations {
+        text
+        language
+      }
+      alertDescriptionTextTranslations {
+        text
+        language
+      }
       effectiveStartDate
       effectiveEndDate
       route {
