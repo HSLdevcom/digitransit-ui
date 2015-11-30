@@ -8,5 +8,6 @@ class DisruptionListContainer extends React.Component
   render: ->
     <DisruptionList alerts={@props.alerts.alerts}/>
 
+
 module.exports = Relay.createContainer DisruptionListContainer,
   fragments: queries.DisruptionListContainerFragments

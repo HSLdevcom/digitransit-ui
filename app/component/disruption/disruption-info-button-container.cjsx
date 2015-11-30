@@ -12,7 +12,7 @@ class DisruptionInfoButtonContainer extends React.Component
       <Relay.RootContainer
         Component={DisruptionInfoButton}
         forceFetch={true}
-        route={new queries.DisruptionInfoRoute}
+        route={new queries.DisruptionInfoRoute()}
         renderFetched={(data) =>
           <DisruptionInfoButton
             toggleDisruptionInfo={@props.toggleDisruptionInfo}
@@ -23,4 +23,4 @@ class DisruptionInfoButtonContainer extends React.Component
     else
       <div></div>
 
-module.exports =DisruptionInfoButtonContainer
+module.exports = DisruptionInfoButtonContainer

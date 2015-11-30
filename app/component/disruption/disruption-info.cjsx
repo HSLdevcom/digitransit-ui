@@ -24,11 +24,12 @@ class DisruptionInfo extends React.Component
         <Relay.RootContainer
           Component={DisruptionListContainer}
           forceFetch={true}
-          route={new queries.DisruptionInfoRoute}
+          route={new queries.DisruptionInfoRoute()}
           renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
         />
       </Modal>
     else
       <div></div>
+
 
 module.exports = DisruptionInfo
