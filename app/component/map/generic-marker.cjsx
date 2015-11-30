@@ -60,9 +60,14 @@ class GenericMarker extends React.Component
   shouldComponentUpdate: (nextProps) ->
     return nextProps.id != @props.id
 
+  openPopup: =>
+    @refs['marker'].getLeafletElement().openPopup()
+
   getMarker: ->
     <Marker map={@props.map}
+            ref="marker"
             position={lat: @props.position.lat, lng: @props.position.lon}
+            interactive={false}
             icon={@getIcon(
               @props.mode + (if @props.thin then " thin" else ""),
               @props.selected,

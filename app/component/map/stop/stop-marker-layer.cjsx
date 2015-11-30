@@ -20,9 +20,11 @@ class StopMarkerLayer extends React.Component
   componentDidMount: ->
     @props.map.on 'moveend', @onMapMove
     @onMapMove()
+    @props.map.on 'click', @onMapClick
 
   componentWillUnmount: ->
     @props.map.off 'moveend', @onMapMove
+    @props.map.off 'click', @onMapClick
 
   onMapMove: =>
     if @props.map.getZoom() >= config.stopsMinZoom
@@ -34,6 +36,19 @@ class StopMarkerLayer extends React.Component
         maxLon: bounds.getEast()
     else
       @forceUpdate()
+
+  onMapClick: (e) =>
+    score = Infinity
+    closest = null
+    for _, s of @refs
+      stop = s.props.stop or s.props.terminal
+      distance = e.layerPoint.distanceTo @props.map.latLngToLayerPoint [stop.lat, stop.lon]
+      if distance < score
+        score = distance
+        closest = stop.gtfsId
+
+    if score < 20 # if distance less than 20 pixels
+      @refs[closest].openPopup()
 
   getStops: ->
     stops = []
@@ -47,6 +62,7 @@ class StopMarkerLayer extends React.Component
       if stop.parentStation and @props.map.getZoom() <= config.terminalStopsMaxZoom
         stops.push <TerminalMarker
                           key={stop.parentStation.gtfsId}
+                          ref={stop.parentStation.gtfsId}
                           map={@props.map}
                           terminal={stop.parentStation}
                           selected={selected}
@@ -54,6 +70,7 @@ class StopMarkerLayer extends React.Component
                           renderName={true} />
       else
         stops.push <StopMarker key={stop.gtfsId}
+                               ref={stop.gtfsId}
                                map={@props.map}
                                stop={stop}
                                selected={selected}
