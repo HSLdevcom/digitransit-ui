@@ -28,6 +28,7 @@ class DepartureListContainer extends React.Component
         stoptime: stoptime.serviceDay + stoptime.realtimeDeparture
         realtime: stoptime.realtime
         pattern: pattern.pattern
+        trip: stoptime.trip
 
   getDepartures: (rowClasses) =>
     departureObjs = []
@@ -43,7 +44,8 @@ class DepartureListContainer extends React.Component
 
       validAt = (alert) =>
         alert.effectiveStartDate <= departure.stoptime &&
-          departure.stoptime <= alert.effectiveEndDate
+          departure.stoptime <= alert.effectiveEndDate &&
+          (not alert.trip.gtfsId or (alert.trip.gtfsId == departure.trip.gtfsId))
 
       classes =
         disruption: (filter departure.pattern.alerts, validAt).length > 0

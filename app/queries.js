@@ -381,6 +381,9 @@ var DepartureListFragments = {
         alerts {
           effectiveStartDate
           effectiveEndDate
+          trip {
+            gtfsId
+          }
         }
         route {
           gtfsId
@@ -398,6 +401,9 @@ var DepartureListFragments = {
         serviceDay
         stop {
           code
+        }
+        trip {
+          gtfsId
         }
       }
     }
