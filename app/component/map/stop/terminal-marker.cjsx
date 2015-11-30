@@ -43,7 +43,7 @@ class TerminalMarker extends React.Component
       iconSizes={smallIconSvg: [8, 8], iconSvg: [20, 20]}
       map={@props.map}
       id={@props.terminal.gtfsId}
-      renderName={false}
+      renderName={@props.renderName}
       selected={@props.selected}
       name={@props.terminal.name}
     >
