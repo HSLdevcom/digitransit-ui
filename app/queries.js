@@ -77,6 +77,9 @@ var RouteListContainerFragments = {
                     type
                   }
                 }
+                stoptimes {
+                  pickupType
+                }
                 ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
               }
             }
