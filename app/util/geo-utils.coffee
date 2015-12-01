@@ -98,6 +98,25 @@ getDistanceToNearestStop = (lat, lon, stops) ->
     distance: minDist
   }
 
+getDistanceToFurthestStop = (lat, lon, stops) ->
+  myPos = new L.LatLng(lat, lon)
+
+  maxDist = 0
+  maxStop = null
+  stops.forEach((stop) ->
+    stopPos = new L.LatLng(stop.lat, stop.lon)
+    if myPos != null
+      distance = myPos.distanceTo(stopPos)
+      if distance > maxDist
+        maxDist = distance
+        maxStop = stop
+  )
+
+  {
+    stop: maxStop,
+    distance: maxDist
+  }
+
 module.exports =
   dataAsGeoJSON: dataAsGeoJSON
   getBearing: getBearing
@@ -108,3 +127,4 @@ module.exports =
   vehiclesAsGeoJson: vehiclesAsGeoJson
   getLayerForVehicles: getLayerForVehicles
   getDistanceToNearestStop: getDistanceToNearestStop
+  getDistanceToFurthestStop: getDistanceToFurthestStop
