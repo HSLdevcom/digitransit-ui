@@ -1,5 +1,40 @@
 import Relay from 'react-relay';
 
+var TerminalQueries = {
+  terminal: () => Relay.QL`
+    query  {
+      station(id: $terminalId)
+    }
+  `,
+};
+
+class TerminalRoute extends Relay.Route {
+  static queries = TerminalQueries
+  static paramDefinitions = {
+    terminalId: {required: true},
+  }
+  static routeName = 'TerminalRoute'
+}
+
+var TerminalMarkerPopupFragments = {
+  terminal: () => Relay.QL`
+    fragment on Stop{
+      gtfsId
+      lat
+      lon
+      name
+      desc
+      stops {
+        platformCode
+        routes {
+          shortName
+          type
+        }
+      }
+    }
+  `,
+}
+
 var StopQueries = {
   stop: () => Relay.QL`
     query  {
@@ -547,6 +582,9 @@ var DisruptionRowFragments = {
 
 module.exports = {
   StopQueries: StopQueries,
+  TerminalRoute: TerminalRoute,
+  TerminalQueries: TerminalQueries,
+  TerminalMarkerPopupFragments: TerminalMarkerPopupFragments,
   TripRoute: TripRoute,
   TripPatternFragments: TripPatternFragments,
   RouteQueries: RouteQueries,
