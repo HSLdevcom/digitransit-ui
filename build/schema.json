@@ -1741,6 +1741,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "stops",
+                        "description": "Returns all stops that are childen of this station (Only applicable for locationType = 1)",
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stop",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "routes",
                         "description": null,
                         "args": [],
