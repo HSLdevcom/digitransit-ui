@@ -32,7 +32,7 @@ module.exports =
   map:
     useRetinaTiles: true
   autoSuggest:
-    sortOrder: locality: 1, address: 2 ,stop: 3
+    sortOrder: locality: 1, address: 2, stop: 3
     sortOthers: 4
   showCityBikes: false
   # Lowest level when stop or terminal markers are rendered at all

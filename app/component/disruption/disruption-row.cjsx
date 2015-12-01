@@ -25,5 +25,4 @@ class DisruptionRow extends React.Component
     </div>
 
 
-module.exports = Relay.createContainer DisruptionRow,
-  fragments: queries.DisruptionRowFragments
+module.exports = DisruptionRow
