@@ -3,7 +3,7 @@ var introspectionQuery = require('graphql/utilities/introspectionQuery').introsp
 var fetch = require('node-fetch')
 var outputFilename = 'schema.json';
 
-fetch('http://matka.hsl.fi/otp/routers/default/index/graphql', {
+fetch((process.env.SERVER_ROOT || 'http://matka.hsl.fi') + '/otp/routers/default/index/graphql', {
   method: 'post',
   headers: {
     'Accept': 'application/json',
