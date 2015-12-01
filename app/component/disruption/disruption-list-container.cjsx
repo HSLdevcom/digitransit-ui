@@ -21,8 +21,12 @@ class DisruptionListContainer extends React.Component
       routes = [alert.route]
       alerts.push <DisruptionRow key={id} description={description} startTime={startTime} endTime={endTime} cause={cause} routes={routes}/>
 
+    if @props.alerts.alerts.length == 0
+      noAlerts = <FormattedMessage id="disruption-info-no-alerts" defaultMessage="No disruption info."/>
+
     <div>
       {alerts}
+      {noAlerts}
     </div>
 
 module.exports = Relay.createContainer DisruptionListContainer,
