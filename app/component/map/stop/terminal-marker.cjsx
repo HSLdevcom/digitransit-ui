@@ -1,19 +1,14 @@
 React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../../queries'
+geoUtils      = require '../../../util/geo-utils'
 isBrowser     = window?
 Icon          = require '../../icon/icon'
-StopMarkerPopup = require './stop-marker-popup'
-provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
+L             = if isBrowser then require 'leaflet' else null
+Circle        = if isBrowser then require 'react-leaflet/lib/Circle'
 
-
-
-# Small icon for zoom levels <= 15
-smallIconSvg = """<svg viewBox="0 0 8 8">
-    <circle class="stop-small" cx="4" cy="4" r="3" stroke-width="1"/>
-  </svg>"""
 
 class TerminalMarker extends React.Component
   @contextTypes:
@@ -28,19 +23,14 @@ class TerminalMarker extends React.Component
     Icon.asString 'icon-icon_station', 'terminal-medium-size'
 
   getTerminalMarker: ->
-    StopMarkerPopupWithContext = provideContext StopMarkerPopup,
-      intl: intl.intlShape.isRequired
-      history: React.PropTypes.object.isRequired
-      route: React.PropTypes.object.isRequired
-
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = {"height": 150}
 
     <GenericMarker
       position={lat: @props.terminal.lat, lon: @props.terminal.lon}
       mode={@props.mode}
-      icons={smallIconSvg: smallIconSvg, iconSvg: @getTerminalMediumIcon()}
-      iconSizes={smallIconSvg: [8, 8], iconSvg: [20, 20]}
+      icons={smallIconSvg: @getTerminalMediumIcon(), iconSvg: @getTerminalMediumIcon()}
+      iconSizes={smallIconSvg: [24, 24], iconSvg: [24, 24]}
       map={@props.map}
       id={@props.terminal.gtfsId}
       renderName={@props.renderName}
@@ -54,6 +44,17 @@ class TerminalMarker extends React.Component
     unless isBrowser
       return ""
     <div>
+      <Circle
+        map={@props.map}
+        center={lat: @props.terminal.lat, lng: @props.terminal.lon}
+        radius={geoUtils.getDistanceToFurthestStop(@props.terminal.lat, @props.terminal.lon, @props.terminal.stops).distance}
+        fillOpacity=0.05
+        weight=1
+        opacity=0.3
+        className={@props.mode}
+        fillColor='currentColor'
+        color='currentColor'
+      />
       {@getTerminalMarker()}
     </div>
 
