@@ -386,6 +386,13 @@ var DepartureListFragments = {
   stoptimes: () => Relay.QL`
     fragment on StoptimesInPattern @relay(plural:true) {
       pattern {
+        alerts {
+          effectiveStartDate
+          effectiveEndDate
+          trip {
+            gtfsId
+          }
+        }
         route {
           gtfsId
           shortName
@@ -402,6 +409,9 @@ var DepartureListFragments = {
         serviceDay
         stop {
           code
+        }
+        trip {
+          gtfsId
         }
       }
     }
@@ -533,25 +543,52 @@ var FavouriteRouteRowFragments = {
    `,
 };
 
-class DisruptionRowRoute extends Relay.Route {
+class DisruptionInfoRoute extends Relay.Route {
   static queries = {
-    routes: () => Relay.QL`query { routes(ids: $ids) }`,
+    alerts: (Component) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('alerts')}
+      }
+    }
+   `,
   }
-  static paramDefinitions = {
-    ids: {required: true},
-  }
-  static routeName = 'DisruptionRowRoute'
+  static routeName = 'DisruptionInfoRoute'
 }
 
-var DisruptionRowFragments = {
-  routes: () => Relay.QL`
-    fragment on Route @relay(plural:true) {
-      gtfsId
-      type
-      shortName
+var DisruptionListContainerFragments = {
+  alerts: () => Relay.QL`
+  fragment on QueryType {
+    alerts {
+      id
+      alertHeaderTextTranslations {
+        text
+        language
+      }
+      alertDescriptionTextTranslations {
+        text
+        language
+      }
+      effectiveStartDate
+      effectiveEndDate
+      route {
+        shortName
+        type
+      }
     }
+  }
   `,
-}
+};
+
+var DisruptionInfoButtonFragments = {
+  alerts: () => Relay.QL`
+  fragment on QueryType {
+    alerts {
+      id
+    }
+  }
+  `,
+};
 
 module.exports = {
   StopQueries: StopQueries,
@@ -586,6 +623,7 @@ module.exports = {
   FuzzyTripRoute: FuzzyTripRoute,
   TripLinkFragments: TripLinkFragments,
   RouteMarkerPopupFragments: RouteMarkerPopupFragments,
-  DisruptionRowRoute: DisruptionRowRoute,
-  DisruptionRowFragments: DisruptionRowFragments,
+  DisruptionInfoRoute: DisruptionInfoRoute,
+  DisruptionListContainerFragments: DisruptionListContainerFragments,
+  DisruptionInfoButtonFragments: DisruptionInfoButtonFragments,
 };
