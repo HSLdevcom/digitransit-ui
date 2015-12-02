@@ -22,20 +22,22 @@ class TerminalMarkerPopup extends React.Component
     @props.terminal.stops.forEach (stop, i) ->
       mode = stop.routes[0].type.toLowerCase()
       stops.push(
-        <div className="padding-small">
-          <Icon className={mode} img={'icon-icon_' + mode}/>
-          <span className="h4">
-            <FormattedMessage
-              id='platform-num'
-              defaultMessage="Platform {platformCode}"
-              values={
-                platformCode: stop.platformCode
-              }/>
-          </span>
-          <span className={"h4 " + mode}>
-            {pluck(sortBy(stop.routes, 'shortName'), 'shortName').join(', ')}
-          </span>
-        </div>
+        <Link to="/pysakit/#{stop.gtfsId}" className="no-decoration">
+          <div className="padding-small">
+            <Icon className={mode} img={'icon-icon_' + mode}/>
+            <span className="h4">
+              <FormattedMessage
+                id='platform-num'
+                defaultMessage="Platform {platformCode}"
+                values={
+                  platformCode: stop.platformCode
+                }/>
+            </span>
+            <span className={"h4 " + mode}>
+              {pluck(sortBy(stop.routes, 'shortName'), 'shortName').join(', ')}
+            </span>
+          </div>
+        </Link>
       )
 
     <div className="card">

@@ -25,6 +25,7 @@ var TerminalMarkerPopupFragments = {
       name
       desc
       stops {
+        gtfsId
         platformCode
         routes {
           shortName
