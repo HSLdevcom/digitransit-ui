@@ -98,24 +98,14 @@ getDistanceToNearestStop = (lat, lon, stops) ->
     distance: minDist
   }
 
-getDistanceToFurthestStop = (lat, lon, stops) ->
-  myPos = new L.LatLng(lat, lon)
+getDistanceToFurthestStop = (coordinates, stops) ->
+  stops.map (stop) ->
+    stop: stop
+    distance: coordinates.distanceTo new L.LatLng(stop.lat, stop.lon)
+  .reduce (previous, current) ->
+    if current.distance > previous.distance then current else previous
+  , stop: null, distance: 0
 
-  maxDist = 0
-  maxStop = null
-  stops.forEach((stop) ->
-    stopPos = new L.LatLng(stop.lat, stop.lon)
-    if myPos != null
-      distance = myPos.distanceTo(stopPos)
-      if distance > maxDist
-        maxDist = distance
-        maxStop = stop
-  )
-
-  {
-    stop: maxStop,
-    distance: maxDist
-  }
 
 module.exports =
   dataAsGeoJSON: dataAsGeoJSON

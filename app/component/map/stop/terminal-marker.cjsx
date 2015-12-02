@@ -7,6 +7,7 @@ Icon          = require '../../icon/icon'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
 Circle        = if isBrowser then require 'react-leaflet/lib/Circle'
+L             = if window? then require 'leaflet' else null
 
 
 class TerminalMarker extends React.Component
@@ -46,7 +47,7 @@ class TerminalMarker extends React.Component
       <Circle
         map={@props.map}
         center={lat: @props.terminal.lat, lng: @props.terminal.lon}
-        radius={geoUtils.getDistanceToFurthestStop(@props.terminal.lat, @props.terminal.lon, @props.terminal.stops).distance}
+        radius={geoUtils.getDistanceToFurthestStop(new L.LatLng(@props.terminal.lat, @props.terminal.lon), @props.terminal.stops).distance}
         fillOpacity=0.05
         weight=1
         opacity=0.3
