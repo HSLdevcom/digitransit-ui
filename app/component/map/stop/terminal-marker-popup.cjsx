@@ -10,33 +10,31 @@ NotImplementedLink = require '../../util/not-implemented-link'
 moment                = require 'moment'
 pluck = require 'lodash/collection/pluck'
 sortBy = require 'lodash/collection/sortBy'
-
+naturalSort = require 'javascript-natural-sort'
 
 class TerminalMarkerPopup extends React.Component
   render: ->
-    stops = []
-    sortBy(@props.terminal.stops, 'platformCode').forEach (stop, i) ->
+    stops = @props.terminal.stops.slice().sort((a, b) -> naturalSort(a.platformCode, b.platformCode)).map (stop, i) ->
       mode = stop.routes[0].type.toLowerCase()
-      stops.push(
-        <Link to="/pysakit/#{stop.gtfsId}" className="no-decoration">
-          <div className="platform padding-small">
-            <Icon className={mode + " platform-icon"} img={'icon-icon_' + mode}/>
-            <div className="platform-texts">
-              <span className="platform-name sub-header-h4">
-                <FormattedMessage
-                  id='platform-num'
-                  defaultMessage="Platform {platformCode}"
-                  values={
-                    platformCode: stop.platformCode
-                  }/>
-              </span>
-              <div className={mode + " platform-routes"}>
-                {pluck(sortBy(stop.routes, 'shortName'), 'shortName').join(', ')}
-              </div>
+      <Link to="/pysakit/#{stop.gtfsId}" key={stop.gtfsId} className="no-decoration">
+        <div className="platform padding-small">
+          <Icon className={mode + " platform-icon"} img={'icon-icon_' + mode}/>
+          <div className="platform-texts">
+            <span className="platform-name sub-header-h4">
+              <FormattedMessage
+                id='platform-num'
+                defaultMessage="Platform {platformCode}"
+                values={
+                  platformCode: stop.platformCode
+                }/>
+            </span>
+            <div className={mode + " platform-routes"}>
+              {sortBy(stop.routes, (route) -> route.shortName or route.longName)
+                .map((route) -> route.shortName or route.longName).join(', ')}
             </div>
           </div>
-        </Link>
-      )
+        </div>
+      </Link>
 
     <div className="card">
       <div className="padding-small h4">
@@ -48,7 +46,7 @@ class TerminalMarkerPopup extends React.Component
       </div>
       <MarkerPopupBottom
         routeHere="/reitti/#{@props.context.getStore('PositionStore').getLocationString()}/#{@props.terminal.name}::#{@props.terminal.lat},#{@props.terminal.lon}">
-        <NotImplementedLink name={<FormattedMessage id='departures' defaultMessage='Departures' />}/><br/>
+        <Icon img={'icon-icon_time'}/> <NotImplementedLink name={<FormattedMessage id='departures' defaultMessage='Departures' />}/><br/>
       </MarkerPopupBottom>
     </div>
 

@@ -29,6 +29,7 @@ var TerminalMarkerPopupFragments = {
         platformCode
         routes {
           shortName
+          longName
           type
         }
       }
