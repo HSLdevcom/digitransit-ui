@@ -6,7 +6,6 @@ isBrowser     = window?
 Icon          = require '../../icon/icon'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
-L             = if isBrowser then require 'leaflet' else null
 Circle        = if isBrowser then require 'react-leaflet/lib/Circle'
 
 
