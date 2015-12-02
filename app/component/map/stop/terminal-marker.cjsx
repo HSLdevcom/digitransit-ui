@@ -20,7 +20,11 @@ class TerminalMarker extends React.Component
     intl: intl.intlShape.isRequired
 
   getTerminalMediumIcon: =>
-    Icon.asString 'icon-icon_station--onmap', 'terminal-medium-size'
+    """<span>
+        <svg viewBox="0 0 40 40" class="icon terminal-medium-size">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_station--onmap"/>
+        </svg>
+      </span>"""
 
   getTerminalMarker: ->
     #TODO: cjsx doesn't like objects withing nested elements
