@@ -51,7 +51,7 @@ class StopMarkerLayer extends React.Component
                           terminal={stop.parentStation}
                           selected={selected}
                           mode={modeClass}
-                          renderName={true} />
+                          renderName={false} />
       else
         stops.push <StopMarker key={stop.gtfsId}
                                map={@props.map}
