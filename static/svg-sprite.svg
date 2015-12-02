@@ -228,7 +228,7 @@
 	<title>icon_station--onmap</title>
 	<circle key="halo" class="stop-halo" cx="1174" cy="1174" r="1135" stroke-width="78" stroke="#333" stroke-opacity="0.4" fill="#fff" fill-opacity="1"/>
 	<circle fill="currentColor" fill-opacity="1" cx="1174" cy="1174" r="980"/>
-	<use x="657" y="657" class="fill-color13" xlink:href="#icon-icon_station"/>
+	<use x="657" y="657" width="1024" height="1024" class="fill-color13" xlink:href="#icon-icon_station"/>
 </symbol>
 <symbol id="icon-icon_station" viewBox="0 0 1024 1024">
 	<title>icon_station</title>
