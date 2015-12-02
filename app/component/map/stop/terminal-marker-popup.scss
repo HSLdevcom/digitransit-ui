@@ -1,6 +1,6 @@
 .terminal-platforms {
-  overflow-y: scroll;
-  height: 6em;
+  overflow-y: auto;
+  max-height: 130px;
 }
 
 .platform{
@@ -11,5 +11,5 @@
   height: 2em;
   width: 2em;
   float: left;
-  margin: 0.5em;
+  margin: 0 0.5em;
 }
