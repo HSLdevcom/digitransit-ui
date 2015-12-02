@@ -19,12 +19,8 @@ class TerminalMarker extends React.Component
     route: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
-  getTerminalMediumIcon: =>
-    """<span>
-        <svg viewBox="0 0 40 40" class="icon terminal-medium-size">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_station--onmap"/>
-        </svg>
-      </span>"""
+  @terminalIcon:
+    Icon.asString 'icon-icon_station--onmap', 'terminal-medium-size'
 
   getTerminalMarker: ->
     #TODO: cjsx doesn't like objects withing nested elements
@@ -33,7 +29,7 @@ class TerminalMarker extends React.Component
     <GenericMarker
       position={lat: @props.terminal.lat, lon: @props.terminal.lon}
       mode={@props.mode}
-      icons={smallIconSvg: @getTerminalMediumIcon(), iconSvg: @getTerminalMediumIcon()}
+      icons={smallIconSvg: TerminalMarker.terminalIcon, iconSvg: TerminalMarker.terminalIcon}
       iconSizes={smallIconSvg: [24, 24], iconSvg: [24, 24]}
       map={@props.map}
       id={@props.terminal.gtfsId}
