@@ -55,5 +55,3 @@ class TerminalMarkerPopup extends React.Component
 
 module.exports = Relay.createContainer TerminalMarkerPopup,
   fragments: queries.TerminalMarkerPopupFragments
-  initialVariables:
-    date: moment().format("YYYYMMDD") # TODO check this, what date should be used?
