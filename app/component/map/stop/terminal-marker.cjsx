@@ -3,7 +3,7 @@ Relay         = require 'react-relay'
 queries       = require '../../../queries'
 isBrowser     = window?
 Icon          = require '../../icon/icon'
-StopMarkerPopup = require './stop-marker-popup'
+TerminalMarkerPopup = require './terminal-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
@@ -28,7 +28,7 @@ class TerminalMarker extends React.Component
     Icon.asString 'icon-icon_station', 'terminal-medium-size'
 
   getTerminalMarker: ->
-    StopMarkerPopupWithContext = provideContext StopMarkerPopup,
+    TerminalMarkerPopupWithContext = provideContext TerminalMarkerPopup,
       intl: intl.intlShape.isRequired
       history: React.PropTypes.object.isRequired
       route: React.PropTypes.object.isRequired
@@ -47,7 +47,12 @@ class TerminalMarker extends React.Component
       selected={@props.selected}
       name={@props.terminal.name}
     >
-    #TODO: TerminalPopup
+      <Relay.RootContainer
+        Component={TerminalMarkerPopup}
+        route={new queries.TerminalRoute(terminalId: @props.terminal.gtfsId)}
+        renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
+        renderFetched={(data) => <TerminalMarkerPopupWithContext {... data} context={@context}/>}
+      />
     </GenericMarker>
 
   render: ->
