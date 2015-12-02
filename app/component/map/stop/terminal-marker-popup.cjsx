@@ -14,8 +14,6 @@ sortBy = require 'lodash/collection/sortBy'
 
 class TerminalMarkerPopup extends React.Component
   render: ->
-    console.log @props
-
     stops = []
     sortBy(@props.terminal.stops, 'platformCode').forEach (stop, i) ->
       mode = stop.routes[0].type.toLowerCase()
