@@ -15,11 +15,8 @@ class TerminalMarkerPopup extends React.Component
   render: ->
     console.log @props
 
-    @props.terminal.stops.sort(
-      (a, b) ->
-        a.platformCode - b.platformCode)
     stops = []
-    @props.terminal.stops.forEach (stop, i) ->
+    sortBy(@props.terminal.stops, 'platformCode').forEach (stop, i) ->
       mode = stop.routes[0].type.toLowerCase()
       stops.push(
         <Link to="/pysakit/#{stop.gtfsId}" className="no-decoration">
@@ -33,7 +30,7 @@ class TerminalMarkerPopup extends React.Component
                   platformCode: stop.platformCode
                 }/>
             </span>
-            <span className={"h4 " + mode}>
+            <span className={mode}>
               {pluck(sortBy(stop.routes, 'shortName'), 'shortName').join(', ')}
             </span>
           </div>
@@ -45,9 +42,12 @@ class TerminalMarkerPopup extends React.Component
         {@props.terminal.name}
         {@props.terminal.desc}
       </div>
-      {stops}
-      <MarkerPopupBottom routeHere="/reitti/#{@props.context.getStore('PositionStore').getLocationString()}/#{stop.name}::#{stop.lat},#{stop.lon}">
-        <Link to="/pysakit/#{stop.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
+      <div className="terminal-platforms">
+        {stops}
+      </div>
+      <MarkerPopupBottom
+        routeHere="/reitti/#{@props.context.getStore('PositionStore').getLocationString()}/#{@props.terminal.name}::#{@props.terminal.lat},#{@props.terminal.lon}">
+        <Link to="/pysakit/#{@props.terminal.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
       </MarkerPopupBottom>
     </div>
 
