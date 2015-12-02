@@ -4,6 +4,8 @@ queries       = require '../../../queries'
 geoUtils      = require '../../../util/geo-utils'
 isBrowser     = window?
 Icon          = require '../../icon/icon'
+TerminalMarkerPopup = require './terminal-marker-popup'
+provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
 Circle        = if isBrowser then require 'react-leaflet/lib/Circle'
@@ -23,6 +25,11 @@ class TerminalMarker extends React.Component
     Icon.asString 'icon-icon_station--onmap', 'terminal-medium-size'
 
   getTerminalMarker: ->
+    TerminalMarkerPopupWithContext = provideContext TerminalMarkerPopup,
+      intl: intl.intlShape.isRequired
+      history: React.PropTypes.object.isRequired
+      route: React.PropTypes.object.isRequired
+
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = {"height": 150}
 
@@ -37,7 +44,12 @@ class TerminalMarker extends React.Component
       selected={@props.selected}
       name={@props.terminal.name}
     >
-    #TODO: TerminalPopup
+      <Relay.RootContainer
+        Component={TerminalMarkerPopup}
+        route={new queries.TerminalRoute(terminalId: @props.terminal.gtfsId)}
+        renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
+        renderFetched={(data) => <TerminalMarkerPopupWithContext {... data} context={@context}/>}
+      />
     </GenericMarker>
 
   render: ->

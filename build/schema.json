@@ -299,6 +299,33 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "station",
+                        "description": "Get a single station (stop with location_type = 1) based on its id (format is Agency:StopId)",
+                        "args": [
+                            {
+                                "name": "id",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Stop",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "routes",
                         "description": "Get all routes for the specified graph",
                         "args": [
