@@ -10,8 +10,9 @@ class Application extends React.Component
       <meta httpEquiv="Content-Language" content="fi"/>
       <title>{config.title}</title>
       <meta name="description" content=""/>
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui"/>
       <meta name="mobile-web-app-capable" content="yes"/>
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
       <link rel="apple-touch-icon" href="#{config.ROOT_PATH}/img/#{config.icon}"/>
       <link rel="touch-icon" href="#{config.ROOT_PATH}/img/#{config.icon}"/>
       <link rel="icon" href="#{config.ROOT_PATH}/img/#{config.icon}"/>
