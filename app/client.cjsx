@@ -4,6 +4,7 @@ React             = require 'react'
 ReactDOM          = require 'react-dom'
 Relay             = require 'react-relay'
 ReactRouterRelay  = require 'react-router-relay'
+{addLocaleData}   = require 'react-intl'
 createHistory     = require 'history/lib/createBrowserHistory'
 useBasename       = require 'history/lib/useBasename'
 useQueries        = require 'history/lib/useQueries'
@@ -27,6 +28,10 @@ Relay.injectNetworkLayer(
 )
 
 Raven?.setUserContext piwik: piwik.getVisitorId()
+
+# English data added as default
+addLocaleData require "react-intl/lib/locale-data/fi"
+addLocaleData require "react-intl/lib/locale-data/sv"
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
