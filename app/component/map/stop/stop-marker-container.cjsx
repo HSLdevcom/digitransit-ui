@@ -1,13 +1,12 @@
+config = require('../../../config')
 React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../../queries'
 StopMarkerLayer = require './stop-marker-layer'
 
-STOPS_MAX_ZOOM = 14
-
 class StopMarkerContainer extends React.Component
   render: ->
-    if STOPS_MAX_ZOOM >= @props.map.getZoom()
+    if @props.map.getZoom() < config.stopsMinZoom
       minLat = 0.1
       minLon = 0.1
       maxLat = 0.1
@@ -39,7 +38,6 @@ class StopMarkerContainer extends React.Component
         />
       }
     />
-
 
 
 module.exports = StopMarkerContainer

@@ -32,6 +32,12 @@ module.exports =
   map:
     useRetinaTiles: true
   autoSuggest:
-    sortOrder: locality: 1, address: 2 ,stop: 3
+    sortOrder: locality: 1, address: 2, stop: 3
     sortOthers: 4
   showCityBikes: false
+  # Lowest level when stop or terminal markers are rendered at all
+  stopsMinZoom: 15
+  # Highest level when stops and terminals are still rendered as small markers
+  stopsSmallMaxZoom: 15
+  # Highest level when terminals are still rendered instead of individual stops
+  terminalStopsMaxZoom: 17

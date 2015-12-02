@@ -1,3 +1,4 @@
+config = require('../../config')
 React         = require 'react'
 isBrowser     = window?
 Marker        = if isBrowser then require 'react-leaflet/lib/Marker'
@@ -6,8 +7,6 @@ L             = if isBrowser then require 'leaflet'
 provideContext = require 'fluxible-addons-react/provideContext'
 ComponentUsageExample = require '../documentation/component-usage-example'
 
-
-STOPS_SMALL_MAX_ZOOM = 15
 
 class GenericMarker extends React.Component
 
@@ -42,10 +41,10 @@ class GenericMarker extends React.Component
   getIcon: (mode, selected, zoom) =>
     L.divIcon
       html:
-        if zoom <= STOPS_SMALL_MAX_ZOOM then @props.icons.smallIconSvg
+        if zoom <= config.stopsSmallMaxZoom then @props.icons.smallIconSvg
         else if selected then @props.icons.selectedIconSvg else @props.icons.iconSvg
       iconSize:
-        if zoom <= STOPS_SMALL_MAX_ZOOM then @props.iconSizes.smallIconSvg
+        if zoom <= config.stopsSmallMaxZoom then @props.iconSizes.smallIconSvg
         else if selected then @props.iconSizes.selectedIconSvg else @props.iconSizes.iconSvg
       className: mode + ' cursor-pointer'
 

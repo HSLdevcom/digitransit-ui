@@ -84,11 +84,7 @@ div.leaflet-container {
 }
 
 div.current-location-marker > span > svg.icon {
-  width: 64px;
-  height: 64px;
-  margin-top: -27px;
-  margin-left: -27px;
-  fill: white;
+  font-size: 40px;
 }
 
 div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
