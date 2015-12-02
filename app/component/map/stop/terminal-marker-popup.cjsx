@@ -5,6 +5,7 @@ DepartureListContainer = require '../../departure/departure-list-container'
 Icon                  = require '../../icon/icon.cjsx'
 Link                  = require 'react-router/lib/Link'
 MarkerPopupBottom     = require '../marker-popup-bottom'
+NotImplementedLink = require '../../util/not-implemented-link'
 {FormattedMessage} = require('react-intl')
 moment                = require 'moment'
 pluck = require 'lodash/collection/pluck'
@@ -20,25 +21,27 @@ class TerminalMarkerPopup extends React.Component
       mode = stop.routes[0].type.toLowerCase()
       stops.push(
         <Link to="/pysakit/#{stop.gtfsId}" className="no-decoration">
-          <div className="padding-small">
-            <Icon className={mode} img={'icon-icon_' + mode}/>
-            <span className="h4">
-              <FormattedMessage
-                id='platform-num'
-                defaultMessage="Platform {platformCode}"
-                values={
-                  platformCode: stop.platformCode
-                }/>
-            </span>
-            <span className={mode}>
-              {pluck(sortBy(stop.routes, 'shortName'), 'shortName').join(', ')}
-            </span>
+          <div className="platform padding-small">
+            <Icon className={mode + " platform-icon"} img={'icon-icon_' + mode}/>
+            <div className="platform-texts">
+              <span className="platform-name sub-header-h4">
+                <FormattedMessage
+                  id='platform-num'
+                  defaultMessage="Platform {platformCode}"
+                  values={
+                    platformCode: stop.platformCode
+                  }/>
+              </span>
+              <div className={mode + " platform-routes"}>
+                {pluck(sortBy(stop.routes, 'shortName'), 'shortName').join(', ')}
+              </div>
+            </div>
           </div>
         </Link>
       )
 
     <div className="card">
-      <div className="card-header padding-small">
+      <div className="padding-small h4">
         {@props.terminal.name}
         {@props.terminal.desc}
       </div>
@@ -47,7 +50,7 @@ class TerminalMarkerPopup extends React.Component
       </div>
       <MarkerPopupBottom
         routeHere="/reitti/#{@props.context.getStore('PositionStore').getLocationString()}/#{@props.terminal.name}::#{@props.terminal.lat},#{@props.terminal.lon}">
-        <Link to="/pysakit/#{@props.terminal.gtfsId}"><Icon img={'icon-icon_time'}/> Näytä lähdöt</Link><br/>
+        <NotImplementedLink name={<FormattedMessage id='departures' defaultMessage='Departures' />}/><br/>
       </MarkerPopupBottom>
     </div>
 

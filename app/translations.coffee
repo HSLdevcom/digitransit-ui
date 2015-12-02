@@ -90,6 +90,9 @@ translations =
     'use-citybike': 'Ota käyttöön'
     'citybike': 'Kaupunkipyörä'
     'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi'
+    'platform-num': 'Laituri {platformCode}'
+    'departures': 'Lähdöt'
+
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -177,4 +180,7 @@ translations =
     'extra-info': 'mer info'
     'bike-availability': 'Cyklar finns'
     'inquiry': 'Delta på förfrågan'
+    'platform-num': 'Platform {platformCode}'
+    'departures': 'Avgånger'
+
 module.exports = translations
