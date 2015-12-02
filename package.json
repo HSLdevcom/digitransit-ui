@@ -41,6 +41,7 @@
     "fulltilt": "https://github.com/Full-Tilt/Full-Tilt/archive/0.5.3.tar.gz",
     "history": "^1.13.1",
     "intl": "^1.0.1",
+    "javascript-natural-sort": "^0.7.1",
     "leaflet": "^1.0.0-beta.2",
     "lodash": "^3.10.1",
     "mapbox-gl": "^0.11.4",
