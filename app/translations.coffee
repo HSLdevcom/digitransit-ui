@@ -182,7 +182,7 @@ translations =
     'extra-info': 'mer info'
     'bike-availability': 'Cyklar finns'
     'inquiry': 'Delta på förfrågan'
-    'platform-num': 'Platform {platformCode}'
-    'departures': 'Avgånger'
+    'platform-num': 'Plattform {platformCode}'
+    'departures': 'Avgångar'
 
 module.exports = translations
