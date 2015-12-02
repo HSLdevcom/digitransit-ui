@@ -19,7 +19,7 @@ class TerminalMarker extends React.Component
     intl: intl.intlShape.isRequired
 
   getTerminalMediumIcon: =>
-    Icon.asString 'icon-icon_station', 'terminal-medium-size'
+    Icon.asString 'icon-icon_station--onmap', 'terminal-medium-size'
 
   getTerminalMarker: ->
     #TODO: cjsx doesn't like objects withing nested elements
