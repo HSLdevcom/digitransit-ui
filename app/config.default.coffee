@@ -43,3 +43,6 @@ module.exports =
   terminalStopsMaxZoom: 17
   colors:
     primary: "#fff"
+  socialMedia:
+    title: "Uusi Matka.fi"
+    description: "Liikenneviraston Matka.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."

@@ -45,3 +45,6 @@ module.exports =
   terminalStopsMaxZoom: 17
   colors:
     primary: "#007ac9"
+  socialMedia:
+    title: "Uusi Reittiopas"
+    description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
