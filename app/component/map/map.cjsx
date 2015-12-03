@@ -55,8 +55,6 @@ class Map extends React.Component
           undefined #fitBounds is used instead
         else if @props.lat and @props.lon
           [@props.lat, @props.lon]
-        else if origin.lat and origin.lon
-          [origin.lat, origin.lon]  #origin is used
 
       zoom = if not @props.fitBounds and @props.zoom then @props.zoom
 
