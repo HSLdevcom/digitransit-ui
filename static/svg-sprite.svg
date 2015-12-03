@@ -224,6 +224,12 @@
 	<path class="path6" d="M967.118 56.882h-910.235v512.007h910.235c31.422 0 56.89-25.468 56.89-56.89v-398.228c0-31.422-25.468-56.89-56.89-56.89zM881.783 398.221c0 15.711-12.734 28.445-28.445 28.445h-59.371c1.579 4.454 2.482 9.226 2.482 14.222 0 23.564-19.103 42.667-42.667 42.667s-42.667-19.103-42.667-42.667c0-4.996 0.903-9.768 2.482-14.222h-374.747c1.579 4.454 2.482 9.226 2.482 14.222 0 23.564-19.103 42.667-42.667 42.667s-42.667-19.103-42.667-42.667c0-4.996 0.903-9.768 2.482-14.222h-59.371c-15.711 0-28.445-12.734-28.445-28.445v-199.114c0-15.711 12.734-28.445 28.445-28.445h654.231c15.711 0 28.445 12.734 28.445 28.445v199.114z"></path>
 	<path class="path7" d="M711.114 199.107h142.224v85.335h-142.224v-85.335z"></path>
 </symbol>
+<symbol id="icon-icon_station--onmap" viewBox="0 0 2348 2348">
+	<title>icon_station--onmap</title>
+	<circle key="halo" class="stop-halo" cx="1174" cy="1174" r="1135" stroke-width="78" stroke="#333" stroke-opacity="0.4" fill="#fff" fill-opacity="1"/>
+	<circle fill="currentColor" fill-opacity="1" cx="1174" cy="1174" r="980"/>
+	<use x="657" y="657" width="1024" height="1024" class="fill-color13" xlink:href="#icon-icon_station"/>
+</symbol>
 <symbol id="icon-icon_station" viewBox="0 0 1024 1024">
 	<title>icon_station</title>
 	<path class="path1" d="M-0.007 80.935l1023.776-80.823v80.826l-1023.776 269.413v-269.417z"></path>

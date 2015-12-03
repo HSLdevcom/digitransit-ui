@@ -1,19 +1,16 @@
 React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../../queries'
+geoUtils      = require '../../../util/geo-utils'
 isBrowser     = window?
 Icon          = require '../../icon/icon'
 TerminalMarkerPopup = require './terminal-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
+Circle        = if isBrowser then require 'react-leaflet/lib/Circle'
+L             = if window? then require 'leaflet' else null
 
-
-
-# Small icon for zoom levels <= 15
-smallIconSvg = """<svg viewBox="0 0 8 8">
-    <circle class="stop-small" cx="4" cy="4" r="3" stroke-width="1"/>
-  </svg>"""
 
 class TerminalMarker extends React.Component
   @contextTypes:
@@ -24,8 +21,8 @@ class TerminalMarker extends React.Component
     route: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
-  getTerminalMediumIcon: =>
-    Icon.asString 'icon-icon_station', 'terminal-medium-size'
+  @terminalIcon:
+    Icon.asString 'icon-icon_station--onmap', 'terminal-medium-size'
 
   getTerminalMarker: ->
     TerminalMarkerPopupWithContext = provideContext TerminalMarkerPopup,
@@ -39,8 +36,8 @@ class TerminalMarker extends React.Component
     <GenericMarker
       position={lat: @props.terminal.lat, lon: @props.terminal.lon}
       mode={@props.mode}
-      icons={smallIconSvg: smallIconSvg, iconSvg: @getTerminalMediumIcon()}
-      iconSizes={smallIconSvg: [8, 8], iconSvg: [20, 20]}
+      icons={smallIconSvg: TerminalMarker.terminalIcon, iconSvg: TerminalMarker.terminalIcon}
+      iconSizes={smallIconSvg: [24, 24], iconSvg: [24, 24]}
       map={@props.map}
       id={@props.terminal.gtfsId}
       renderName={@props.renderName}
@@ -59,6 +56,17 @@ class TerminalMarker extends React.Component
     unless isBrowser
       return ""
     <div>
+      <Circle
+        map={@props.map}
+        center={lat: @props.terminal.lat, lng: @props.terminal.lon}
+        radius={geoUtils.getDistanceToFurthestStop(new L.LatLng(@props.terminal.lat, @props.terminal.lon), @props.terminal.stops).distance}
+        fillOpacity=0.05
+        weight=1
+        opacity=0.3
+        className={@props.mode}
+        fillColor='currentColor'
+        color='currentColor'
+      />
       {@getTerminalMarker()}
     </div>
 
