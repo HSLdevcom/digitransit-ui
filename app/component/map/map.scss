@@ -88,12 +88,29 @@ div.current-location-marker > span > svg.icon {
 }
 
 div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
-  > span > svg.icon {
-    width: 24px;
-    height: 24px;
-    stroke: white;
-    stroke-width: 60px;
+  > span {
+    &::before {
+      color: white;
+      position: absolute;
+      left: 6.0pt;
+      z-index: 1000;
+    }
+
+    > svg.icon {
+      width: 24px;
+      height: 24px;
+      stroke: white;
+      stroke-width: 60px;
+    }
   }
+}
+
+div.leaflet-marker-icon.from > span::before {
+  content: "A";
+}
+
+div.leaflet-marker-icon.to > span::before {
+  content: "B";
 }
 
 div.leaflet-marker-icon.vehicle-icon {
