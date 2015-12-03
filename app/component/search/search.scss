@@ -192,3 +192,7 @@ $search-form-location-icon-size: 18px;
 .geolocation-bar-location-icon {
   font-size: $search-form-location-icon-size;
 }
+
+.address-box .geolocation-bar-location-icon svg.icon {
+  fill: $hilight-color;
+}

@@ -6,7 +6,9 @@ Icon   = require '../icon/icon'
 
 class LocationMarker extends React.Component
   render: ->
-    <Marker map={@props.map}
+    <Marker
+      map={@props.map}
+      zIndexOffset=10
       position={@props.position}
       icon={L.divIcon(
         html: Icon.asString 'icon-icon_mapMarker-point'
