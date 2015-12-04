@@ -1,45 +1,56 @@
 .icon {
- display: inline-block;
- width: 1em;
- height: 1em;
- fill: currentColor;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
 }
 
-/* ================================================================================
+/* =======================================================================================
 Example showing how to change the color/size of the icons:
 .icon-name {
- font-size: 32px; // works because "width" & "height" were set using em units
- color: red; // works because "fill" was set to "currentColor"
+  font-size: 32px; // works because "width" & "height" were set using em units
+  color: red; // works for single-colored icons, because "fill" was set to "currentColor"
 }
-================================================================================ */
-
-#icon-icon_airplane .path2 {
- fill: rgb(255, 255, 255);
+======================================================================================== */
+.fill-color1 {
+  fill: #50671c;
 }
-
-#icon-icon_bus .path2, #icon-icon_bus .path3, #icon-icon_bus .path4 {
- fill: rgb(255, 255, 255);
+.fill-color2 {
+  fill: #00669b;
 }
-
-#icon-icon_ferry .path2, #icon-icon_ferry .path3 {
- fill: rgb(255, 255, 255);
+.fill-color3 {
+  fill: #6a8925;
 }
-
-#icon-icon_mapMarker-location .path1, #icon-icon_mapMarker-location .path2, #icon-icon_mapMarker-location .path3 {
- fill: rgb(255, 255, 255);
+.fill-color4 {
+  fill: #0046ad;
 }
-#icon-icon_mapMarker-location .path4 {
- fill: rgb(61, 183, 228);
+.fill-color5 {
+  fill: #b26900;
 }
-
-#icon-icon_subway .path2 {
- fill: rgb(255, 255, 255);
+.fill-color6 {
+  fill: #288886;
 }
-
-#icon-icon_rail .path2 {
- fill: rgb(255, 255, 255);
+.fill-color7 {
+  fill: #0088ce;
 }
-
-#icon-icon_tram .path2 {
- fill: rgb(255, 255, 255);
+.fill-color8 {
+  fill: #35b5b3;
+}
+.fill-color9 {
+  fill: #ed8c00;
+}
+.fill-color10 {
+  fill: #836a8d;
+}
+.fill-color11 {
+  fill: #fbb800;
+}
+.fill-color12 {
+  fill: #3db7e4;
+}
+.fill-color13 {
+  fill: #af8dbc;
+}
+.fill-color14 {
+  fill: #fff;
 }

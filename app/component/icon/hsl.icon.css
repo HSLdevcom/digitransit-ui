@@ -46,8 +46,11 @@ Example showing how to change the color/size of the icons:
   fill: #00b9e4;
 }
 .fill-color12 {
-  fill: #ff6319;
+  fill: #fbb800;
 }
 .fill-color13 {
+  fill: #ff6319;
+}
+.fill-color14 {
   fill: #fff;
 }
