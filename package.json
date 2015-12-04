@@ -17,7 +17,7 @@
     "test-acceptance": "./acceptance-tests/script/run-acceptance-tests.sh",
     "lint": "node_modules/.bin/coffeelint -f coffeelint.json --ext=cjsx,coffee app",
     "build": "NODE_ENV=production webpack -p --progress --colors",
-    "start": "NODE_ENV=production nodemon server/server"
+    "start": "NODE_ENV=production node server/server"
   },
   "main": "server.js",
   "repository": {
