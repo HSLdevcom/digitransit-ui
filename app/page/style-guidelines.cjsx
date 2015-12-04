@@ -17,7 +17,7 @@ CityBikeCard       = require '../component/city-bike/city-bike-card'
 CityBikeContent    = require '../component/city-bike/city-bike-content'
 CityBikeAvailability = require '../component/city-bike/city-bike-availability'
 CityBikeUse          = require '../component/city-bike/city-bike-use'
-CityBikePopup       = require '../component/map/city-bike-popup'
+CityBikePopup       = require '../component/map/city-bike/city-bike-popup'
 
 class StyleGuidelinesPage extends React.Component
   getColors: ->

@@ -14,6 +14,7 @@
 // so they must be loaded before the relevant foundation modules
 @import '../app/component/stop-cards/stop-cards';
 @import '../app/component/map/map';
+@import '../app/component/map/stop/terminal-marker-popup';
 @import '../app/component/front-page/front-page-panel';
 @import '../app/component/navigation/index-navigation';
 @import '../app/component/itinerary/itinerary';
@@ -27,6 +28,7 @@
 @import '../app/component/util/util';
 @import '../app/component/util/not-implemented';
 @import '../app/component/city-bike/city-bike';
+@import '../app/component/map/stop/terminal-marker';
 
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/forms';
 @import '../node_modules/foundation-apps/scss/components/off-canvas';

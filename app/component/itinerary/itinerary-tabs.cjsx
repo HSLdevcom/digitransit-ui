@@ -37,15 +37,22 @@ class ItineraryTabs extends React.Component
           title={@context.intl.formatMessage(
             {id: 'instructions', defaultMessage: "Instructions"})}
           className="fullscreen">
-          <TicketInformation/>
-          {legs}
+          <div>
+            <TicketInformation/>
+            {legs}
+          </div>
         </Tabs.Panel>
         <Tabs.Panel
           title={@context.intl.formatMessage({
             id: 'map',
             defaultMessage: "Map"
           })}>
-          <Map ref="map" className="fullscreen" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to} padding={[0, 0]}/>
+          <div
+            onTouchStart={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
+            >
+            <Map ref="map" className="fullscreen" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to} padding={[0, 0]}/>
+          </div>
         </Tabs.Panel>
       </Tabs>
     </div>

@@ -55,6 +55,7 @@ translations =
     'off-canvas-info': 'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi'
     'cause': 'syy'
     'disruption-info': 'Poikkeusinfo'
+    'disruption-info-no-alerts': 'Ei poikkeustiedotteita.'
     'leaving-at': 'Lähtöaika'
     'arriving-at': 'Saapumisaika'
     'route-here': 'Reititä tänne'
@@ -90,6 +91,9 @@ translations =
     'use-citybike': 'Ota käyttöön'
     'citybike': 'Kaupunkipyörä'
     'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi'
+    'platform-num': 'Laituri {platformCode}'
+    'departures': 'Lähdöt'
+
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -145,6 +149,7 @@ translations =
     'off-canvas-info': 'Genom att logga in du kan återhämta ditt favoriter och du kan använda dem i andra av dina anordning'
     'cause': 'Orsak'
     'disruption-info': 'Undantagsinfo'
+    'disruption-info-no-alerts': 'Inga undantagsmeddelanden.'
     'leaving-at': 'Avgångstid'
     'arriving-at': 'Ankomsttid'
     'route-here': 'Sök rut hit'
@@ -177,4 +182,7 @@ translations =
     'extra-info': 'mer info'
     'bike-availability': 'Cyklar finns'
     'inquiry': 'Delta på förfrågan'
+    'platform-num': 'Plattform {platformCode}'
+    'departures': 'Avgångar'
+
 module.exports = translations

@@ -1,18 +1,15 @@
 React      = require 'react'
 Icon       = require '../icon/icon'
-Offcanvas  = require '../util/offcanvas'
 LangSelect = require './lang-select'
 FormattedMessage = require('react-intl').FormattedMessage
 NotImplementedLink = require '../util/not-implemented-link'
-
-
 class OffcanvasMenu extends React.Component
 
   render: ->
-    <Offcanvas open={@props.open} position="left">
-      <header className="offcanvas-header offcanvas-section">
+    <div className="left-off-canvas">
+      <header className="offcanvas-section">
         <LangSelect/>
-        <p style={'font-size': '20px', 'background-color': '#888888', 'padding': '20px'}>
+        <p style={'fontSize': '20px', 'backgroundColor': '#888888', 'padding': '20px'}>
           <a href="https://www.webropolsurveys.com/S/3BE1415777B02A7D.par"><FormattedMessage id="inquiry" defaultMessage="Participate on inquiry"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
         </p>
         <p className="offcanvas-lead">
@@ -43,7 +40,7 @@ class OffcanvasMenu extends React.Component
           <li><NotImplementedLink name={<FormattedMessage id="hsl-contact-information" defaultMessage="HSL Contact Information"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
         </ul>
       </section>
-    </Offcanvas>
+    </div>
 
 
 module.exports = OffcanvasMenu

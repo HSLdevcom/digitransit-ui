@@ -1,0 +1,15 @@
+.terminal-platforms {
+  overflow-y: auto;
+  max-height: 130px;
+}
+
+.platform{
+  border-top: solid $light-gray 1pt;
+}
+
+.platform-icon {
+  height: 2em;
+  width: 2em;
+  float: left;
+  margin: 0 0.5em;
+}

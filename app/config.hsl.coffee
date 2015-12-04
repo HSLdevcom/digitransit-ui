@@ -12,7 +12,6 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{SERVER_ROOT}/pelias/v1/reverse"
   ROOT_PATH: process.env.ROOT_PATH or ''
   title: "Digitransit (HSL)"
-  icon: "hsl-icon.png"
   preferredAgency: "HSL"
   searchParams:
     "boundary.rect.min_lat": 59.9
@@ -38,3 +37,11 @@ module.exports =
   map:
     useRetinaTiles: true
   showCityBikes: true
+  # Lowest level when stop or terminal markers are rendered at all
+  stopsMinZoom: 15
+  # Highest level when stops and terminals are still rendered as small markers
+  stopsSmallMaxZoom: 15
+  # Highest level when terminals are still rendered instead of individual stops
+  terminalStopsMaxZoom: 17
+  colors:
+    primary: "#007ac9"
