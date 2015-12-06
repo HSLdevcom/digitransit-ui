@@ -13,8 +13,10 @@ class Application extends React.Component
       <meta httpEquiv="Content-Language" content="fi"/>
       <title>{config.title}</title>
       <meta name="description" content=""/>
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui"/>
       <meta name="mobile-web-app-capable" content="yes"/>
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
+      <link rel="apple-touch-startup-image" href="#{root}/img/#{configPath}-icons/ios-splash-screen.png"/>
       <link rel="apple-touch-icon" sizes="57x57" href="#{root}/img/#{configPath}-icons/apple-icon-57x57.png"/>
       <link rel="apple-touch-icon" sizes="60x60" href="#{root}/img/#{configPath}-icons/apple-icon-60x60.png"/>
       <link rel="apple-touch-icon" sizes="72x72" href="#{root}/img/#{configPath}-icons/apple-icon-72x72.png"/>
@@ -33,6 +35,18 @@ class Application extends React.Component
       <meta name="msapplication-TileColor" content="#{config.colors.primary}"/>
       <meta name="msapplication-TileImage" content="#{root}/img/#{configPath}-icons/ms-icon-144x144.png"/>
       <meta name="theme-color" content="#{config.colors.primary}"/>
+      <meta property="og:url" content="#{root}/" />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={config.socialMedia.title} />
+      <meta property="og:site_name" content={config.socialMedia.title} />
+      <meta property="og:description" content={config.socialMedia.description} />
+      <meta property="og:image" content="#{root}/img/#{configPath}-icons/social-share.png"/>
+      <meta property="og:locale" content="fi_FI" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@hsldevcom" />
+      <meta name="twitter:title" content={config.socialMedia.title} />
+      <meta name="twitter:description" content={config.socialMedia.description} />
+      <meta name="twitter:image" content="#{root}/img/#{configPath}-icons/social-share.png"/>
       <style dangerouslySetInnerHTML={ __html: @props.fonts }/>
       <style dangerouslySetInnerHTML={ __html: @props.css }/>
     </head>
