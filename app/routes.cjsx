@@ -4,7 +4,6 @@ React        = require 'react'
 # React Pages
 IndexPage     = require './page/index'
 ItineraryPage = require './page/itinerary'
-NavigationPage = require './page/navigation'
 RoutePage     = require './page/route'
 StopMapPage   = require './page/stop-map'
 StopPage      = require './page/stop'
@@ -36,7 +35,7 @@ routes =
     <Route path="lahdot/:tripId/kartta" name="tripMap" component={TripMapPage} queries={queries.TripQueries} renderLoading={() => <LoadingPage/>}/>
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage}/>
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
-    <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={NavigationPage}/>
+    <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={Error404}/>
     <Route path="styleguidelines" name="styleGuidelines" component={StyleGuidelinesPage}/>
   </Route>
 

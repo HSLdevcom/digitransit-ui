@@ -83,7 +83,6 @@ function getPluginsConfig(env) {
         mangle: {
           except: ['$super', '$', 'exports', 'require', 'window']
         },
-        exclude: /mapboxgl/
       }),
       new ExtractTextPlugin("css/bundle.css", {
         allChunks: true
