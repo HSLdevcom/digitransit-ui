@@ -41,3 +41,8 @@ module.exports =
   stopsSmallMaxZoom: 15
   # Highest level when terminals are still rendered instead of individual stops
   terminalStopsMaxZoom: 17
+  colors:
+    primary: "#fff"
+  socialMedia:
+    title: "Uusi Matka.fi"
+    description: "Liikenneviraston Matka.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."

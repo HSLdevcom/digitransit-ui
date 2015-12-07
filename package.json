@@ -17,7 +17,7 @@
     "test-acceptance": "./acceptance-tests/script/run-acceptance-tests.sh",
     "lint": "node_modules/.bin/coffeelint -f coffeelint.json --ext=cjsx,coffee app",
     "build": "NODE_ENV=production webpack -p --progress --colors",
-    "start": "NODE_ENV=production nodemon server/server"
+    "start": "NODE_ENV=production node server/server"
   },
   "main": "server.js",
   "repository": {
@@ -66,6 +66,7 @@
     "react-router-relay": "^0.8.0",
     "react-simpletabs": "^0.7.0",
     "react-slick": "^0.9.2",
+    "react-tap-event-plugin": "^0.2.1",
     "serialize-javascript": "^1.1.2",
     "slick-carousel": "^1.5.8",
     "zurb-foundation-5": "^5.4.7"

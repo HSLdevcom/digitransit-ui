@@ -29,6 +29,9 @@ Relay.injectNetworkLayer(
 
 Raven?.setUserContext piwik: piwik.getVisitorId()
 
+#Material-ui uses touch tap events
+require('react-tap-event-plugin')()
+
 # English data added as default
 addLocaleData require "react-intl/lib/locale-data/fi"
 addLocaleData require "react-intl/lib/locale-data/sv"
