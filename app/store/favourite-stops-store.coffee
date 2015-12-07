@@ -24,8 +24,7 @@ class FavouriteStopsStore extends Store
     includes(@stops, id)
 
   storeStops: () ->
-    s = JSON.stringify(@stops)
-    storage.setItem(STORAGE_KEY, s)
+    storage.setItem(STORAGE_KEY, @stops)
 
   toggleFavouriteStop: (stopId) =>
     if typeof stopId isnt 'string'

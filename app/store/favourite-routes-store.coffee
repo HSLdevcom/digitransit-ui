@@ -24,8 +24,7 @@ class FavouriteRoutesStore extends Store
     includes(@routes, id)
 
   storeRoutes: () ->
-    s = JSON.stringify(@routes)
-    storage.setItem(STORAGE_KEY, s)
+    storage.setItem(STORAGE_KEY, @routes)
 
   addFavouriteRoute: (routeId) =>
     if typeof routeId isnt 'string'
