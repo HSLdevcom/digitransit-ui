@@ -1,4 +1,5 @@
-Store = require 'fluxible/addons/BaseStore'
+Store   = require 'fluxible/addons/BaseStore'
+storage = require './local-storage'
 
 STORAGE_KEY = "mode"
 
@@ -7,7 +8,7 @@ class ModeStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    localData = window?.localStorage?.getItem STORAGE_KEY
+    localData = storage.getItem STORAGE_KEY
     @data = if localData then JSON.parse(localData) else
       busState: true
       tramState: true
@@ -72,11 +73,11 @@ class ModeStore extends Store
     @emitChange()
 
   storeMode: ->
-    window?.localStorage?.setItem STORAGE_KEY, JSON.stringify @data
+    storage.setItem STORAGE_KEY, @data
 
   clearMode: ->
     @data = {}
-    window?.localStorage?.removeItem STORAGE_KEY
+    storage.removeItem STORAGE_KEY
     @emitChange()
 
   dehydrate: ->
