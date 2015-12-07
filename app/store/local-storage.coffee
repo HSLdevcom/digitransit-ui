@@ -12,5 +12,6 @@ module.exports =
       console.log "reading", k
       window.localStorage.getItem k
 
-
+  removeItem: (k)->
+    window?.localStorage?.removeItem STORAGE_KEY
 
