@@ -1,11 +1,9 @@
-
-
 module.exports =
   setItem: (k,v)->
     if window?
       console.log "storing", k, v
       try
-        window.localStorage.setItem k,v
+        window.localStorage.setItem k,JSON.stringify(v)
       catch er
         console.log("could not localStorage.setItem")
 
