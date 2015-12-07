@@ -17,8 +17,6 @@ class FavouriteRoutesStore extends Store
       @routes = @getRoutes()
 
   getRoutes: () ->
-    if !window?
-      return undefined
     routes = storage.getItem(STORAGE_KEY) || "[]"
     JSON.parse(routes)
 

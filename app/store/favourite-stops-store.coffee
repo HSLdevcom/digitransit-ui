@@ -17,8 +17,6 @@ class FavouriteStopsStore extends Store
       @stops = @getStops()
 
   getStops: () ->
-    if !window?
-      return undefined
     stops = storage.getItem(STORAGE_KEY) || "[]"
     JSON.parse(stops)
 
