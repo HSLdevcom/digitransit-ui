@@ -166,6 +166,8 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_cyclist</span><br />
         <Icon img="icon-icon_digitransit-logo"/>
         <span className="code">icon-icon_digitransit-logo</span><br />
+      </div>
+      <div className="medium-4 column">
         <Icon img="icon-icon_direction-a"/>
         <span className="code">icon-icon_direction-a</span><br />
         <Icon img="icon-icon_direction-b"/>
@@ -210,6 +212,8 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_position</span><br />
         <Icon img="icon-icon_print"/>
         <span className="code">icon-icon_print</span><br />
+      </div>
+      <div className="medium-4 column">
         <Icon img="icon-icon_rail"/>
         <span className="code">icon-icon_rail</span><br />
         <Icon img="icon-icon_rail-live"/>
