@@ -1,15 +1,14 @@
 module.exports =
   setItem: (k,v)->
-    if window?
-      console.log "storing", k, v
+    if window?.localStorage?
       try
         window.localStorage.setItem k,JSON.stringify(v)
-      catch er
-        console.log("could not localStorage.setItem")
+      catch error
+        if error.name == 'QuotaExceededError'
+          console.warn('[localStorage] Unable to save state; localStorage is not available in Safari private mode')
 
   getItem: (k)->
-    if window?
-      console.log "reading", k
+    if window?.localStorage?
       window.localStorage.getItem k
 
   removeItem: (k)->
