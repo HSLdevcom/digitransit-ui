@@ -33,7 +33,7 @@ class SearchTwoFieldsContainer extends React.Component
     if statusChanged
       @forceUpdate()
 
-  onEndpointChange: (clearGeolocation) =>
+  onEndpointChange: () =>
     @forceUpdate()
 
     @routeIfPossible() #TODO: this should not be done here
@@ -77,7 +77,7 @@ class SearchTwoFieldsContainer extends React.Component
   getGeolocationBar: (geolocation) =>
     <GeolocationBar
       geolocation={geolocation}
-      removePosition={() => @context.executeAction PositionActions.removePoisiton}
+      removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
       locateUser={() => @context.executeAction PositionActions.findLocation}
     />
 
