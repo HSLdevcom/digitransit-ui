@@ -11,6 +11,7 @@ cx                    = require 'classnames'
 FavouritesPanel       = require '../favourites/favourites-panel'
 NearestRoutesContainer = require './nearest-routes-container'
 NearestStopsContainer = require './nearest-stops-container'
+{supportsHistory}     = require 'history/lib/DOMUtils'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -20,25 +21,51 @@ class FrontPagePanel extends React.Component
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
     piwik: React.PropTypes.object
+    history: React.PropTypes.object.isRequired
+    location: React.PropTypes.object.isRequired
 
   componentDidMount: ->
+    if @context.location.state?.selectedPanel
+      @setState
+        selectedPanel: @context.location.state.selectedPanel
     @context.getStore('EndpointStore').addChangeListener @onChange
+    @unlistenHistory = @context.history.listen @onHistoryChange
 
   componentWillUnmount: ->
     @context.getStore('EndpointStore').removeChangeListener @onChange
+    @unlistenHistory() if @unlistenHistory
+
+  onHistoryChange: (foo, event) =>
+    if event?.location?.state?.selectedPanel
+      @setState
+        selectedPanel: event.location.state.selectedPanel
+    else
+      @setState
+        selectedPanel: null
 
   onChange: () =>
     @forceUpdate()
 
   selectPanel: (selection) =>
+    oldSelection = @state?.selectedPanel
+    if selection == oldSelection # clicks again to close
+      newSelection = null
+    else
+      newSelection = selection
 
-    if selection == @state?.selectedPanel
-      @setState
-        selectedPanel: null
+    if supportsHistory()
+      tabOpensOrCloses = oldSelection == null or newSelection == null
+      if tabOpensOrCloses
+        @context.history.pushState
+          selectedPanel: newSelection
+        , @context.location.pathname
+      else
+        @context.history.replaceState
+          selectedPanel: newSelection
+        , @context.location.pathname
     else
       @setState
-        selectedPanel: selection
-
+        selectedPanel: newSelection
 
   render: ->
     PositionStore = @context.getStore 'PositionStore'
@@ -46,7 +73,6 @@ class FrontPagePanel extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
 
     if origin?.lat
-
       stopsPanel = <NearestStopsContainer lat={origin.lat} lon={origin.lon}/>
       routesPanel = <NearestRoutesContainer lat={origin.lat} lon={origin.lon}/>
     else if (location.status == PositionStore.STATUS_FOUND_LOCATION or
