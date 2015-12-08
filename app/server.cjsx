@@ -69,9 +69,9 @@ getScripts = ->
   else
     [
       <script dangerouslySetInnerHTML={ __html: manifest }/>,
-      <script src={stats.assetsByChunkName.common[0]}/>,
-      <script src={stats.assetsByChunkName.leaflet[0]}/>,
-      <script src={stats.assetsByChunkName.main[0]}/>
+      <script src={(config.ROOT_PATH or '') + '/' + stats.assetsByChunkName.common[0]}/>,
+      <script src={(config.ROOT_PATH or '') + '/' + stats.assetsByChunkName.leaflet[0]}/>,
+      <script src={(config.ROOT_PATH or '') + '/' + stats.assetsByChunkName.main[0]}/>
     ]
 
 getContent = (context, renderProps, locale) ->
