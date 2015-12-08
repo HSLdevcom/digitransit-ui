@@ -13,11 +13,6 @@ FormattedMessage = intl.FormattedMessage
 
 class SearchTwoFieldsContainer extends React.Component
 
-  constructor: ->
-    super
-    @state =
-      originUserInput: !@context.getStore('EndpointStore').getOrigin().useCurrentPosition
-
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
@@ -36,46 +31,20 @@ class SearchTwoFieldsContainer extends React.Component
     #We want to rerender only if position status changes,
     #not if position changes
     if statusChanged
+      console.log "geolocation status changed"
       @forceUpdate()
 
   onEndpointChange: (clearGeolocation) =>
-    if clearGeolocation in ['origin']
-      @setState
-        originUserInput: true
-    else
-      @forceUpdate()
+    @forceUpdate()
 
     @routeIfPossible() #TODO: this should not be done here
 
   onSwitch: (e) =>
     e.preventDefault()
-
-    origin = @context.getStore('EndpointStore').getOrigin()
-    geolocation = @context.getStore('PositionStore').getLocationState()
-
-    # Button is disabled when geolocationing is in process
-    if origin.useCurrentPosition and geolocation.isLocationingInProgress
+    if @context.getStore('EndpointStore').getOrigin().useCurrentPosition and @context.getStore('PositionStore').getLocationState().isLocationingInProgress
       return
 
     @context.executeAction EndpointActions.swapOriginDestination
-
-  removePosition: =>
-    @context.executeAction EndpointActions.clearGeolocation
-
-  setOriginToCurrent: =>
-    @context.executeAction EndpointActions.setOriginToCurrent
-
-  setDestinationToCurrent: =>
-    @context.executeAction EndpointActions.setDestinationToCurrent
-
-  enableInputMode: (endpoint) =>
-    if endpoint == 'origin'
-      @setState
-        originUserInput: true
-
-  disableInputMode: (endpoint) =>
-    @setState if endpoint == "origin"
-      originUserInput: false
 
   routeIfPossible: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -113,7 +82,7 @@ class SearchTwoFieldsContainer extends React.Component
   getGeolocationBar: (geolocation) =>
     <GeolocationBar
       geolocation={geolocation}
-      removePosition={@removePosition}
+      removePosition={() => @context.executeAction PositionActions.removePoisiton}
       locateUser={() => @context.executeAction PositionActions.findLocation}
     />
 
@@ -122,10 +91,19 @@ class SearchTwoFieldsContainer extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
+    console.log("origin", origin);
+    console.log("destination", destination);
+
     from =
       if origin.useCurrentPosition
         @getGeolocationBar(geolocation)
-      else if @state.originUserInput
+      else if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !origin.userSetPosition
+        <NavigateOrInput
+          setToCurrent={()-> @context.executeAction EndpointActions.setOriginToCurrent}
+          enableInput={() -> @context.executeAction EndpointActions.enableOriginInputMode}
+          id='origin'
+        />
+      else
         <Autosuggest
           key="origin"
           onSelectionAction={EndpointActions.setOrigin}
@@ -135,18 +113,18 @@ class SearchTwoFieldsContainer extends React.Component
             defaultMessage: "From where? - address or stop")}
           value=origin.address
           id="origin"
-          disableInput={@disableInputMode.bind(null, 'origin')}
-        />
-      else
-        <NavigateOrInput
-          setToCurrent={@setOriginToCurrent}
-          enableInput={@enableInputMode}
-          id='origin'
+          disableInput={() -> @context.executeAction EndpointActions.disablOriginInputMode}
         />
 
     to =
       if destination.useCurrentPosition
         @getGeolocationBar(geolocation)
+      else if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !destination.userSetPosition
+        <NavigateOrInput
+                setToCurrent={()-> @context.executeAction EndpointActions.setDestinationToCurrent}
+                enableInput={() -> @context.executeAction EndpointActions.enableDestinationInputMode}
+                id='destination'
+        />
       else
         <Autosuggest
           key="destination"
@@ -157,6 +135,7 @@ class SearchTwoFieldsContainer extends React.Component
             defaultMessage: "Where to? - address or stop")}
           value=destination.address
           id="destination"
+          disableInput={() -> @context.executeAction EndpointActions.disablDestinationInputMode}
         />
 
     <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>

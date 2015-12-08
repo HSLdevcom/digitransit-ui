@@ -11,52 +11,64 @@ class EndpointStore extends Store
     @setOriginToCurrent()
     @clearDestination()
 
+  isCurrentPositionInUse: () ->
+    a = @origin.useCurrentPosition || @destination.useCurrentPosition
+    console.log("is currentPosition in use:", a);
+    a
+
   clearOrigin: () ->
-    @origin =
-        useCurrentPosition: false
-        lat: null
-        lon: null
-        address: null
+    @origin = @getUseCurrent(false)
     @emitChange('origin')
 
   clearDestination: () ->
-    @destination =
-        useCurrentPosition: false
-        lat: null
-        lon: null
-        address: null
+    @destination = @getUseCurrent(false);
     @emitChange('destination')
 
   swapOriginDestination: () ->
+    console.log("store swapping!")
     [@destination, @origin] = [@origin, @destination]
     @emitChange()
 
   setOriginToCurrent: () ->
-    @origin =
-        useCurrentPosition: true
-        lat: null
-        lon: null
-        address: null
+    #todo should toggle useCurrent from destination?
+    @origin = @getUseCurrent(true)
     @emitChange()
 
   setDestinationToCurrent: () ->
-    @destination =
-        useCurrentPosition: true
-        lat: null
-        lon: null
-        address: null
+    #todo should toggle useCurrent from origin?
+    @destination = @getUseCurrent(true)
     @emitChange()
+
+  getUseCurrent: (useCurrent) ->
+    useCurrentPosition: useCurrent
+    userSetPosition: false
+    lat: null
+    lon: null
+    address: null
 
   setOrigin: (location) ->
     @origin =
+      userSetPosition: true
       useCurrentPosition: false
       lat: location.lat
       lon: location.lon
       address: location.address
     @emitChange("set-origin")
 
+  enableOriginInputMode: () ->
+    console.log "enable origin input"
+    @origin.userSetPosition = true
+    @origin.useCurrentPosition = false
+    @emitChange()
+
+  disableOriginInputMode: () ->
+    console.log "disable origin input"
+    @origin.userSetPosition = false
+    @emitChange()
+
   setDestination: (location) ->
     @destination =
+      userSetPosition: true
       useCurrentPosition: false
       lat: location.lat
       lon: location.lon
@@ -91,9 +103,12 @@ class EndpointStore extends Store
     "swapOriginDestination": "swapOriginDestination"
     "clearOrigin": "clearOrigin"
     "clearDestination": "clearDestination"
-    "GeolocationNotSupported": 'clearGeolocation'
-    "GeolocationDenied": 'clearGeolocation'
-    "GeolocationTimeout": 'clearGeolocation'
+    "GeolocationNotSupported": "clearGeolocation"
+    "GeolocationDenied": "clearGeolocation"
+    "GeolocationTimeout": "clearGeolocation"
     "clearGeolocation": "clearGeolocation"
+    "isCurrentPositionInUse": "isCurrentPositionInUse"
+    "enableOriginInputMode": "enableOriginInputMode"
+    "disableOriginInputMode": "disableOriginInputMode"
 
 module.exports = EndpointStore
