@@ -106,7 +106,7 @@ class FrontPagePanel extends React.Component
               </div>
       tabClasses[3] = selectedClass
 
-    <div className="frontpage-panel-container">
+    <div className="frontpage-panel-container no-select">
       {panel}
       <ul className='tabs-row tabs-arrow-up cursor-pointer'>
         <li className={cx (tabClasses[1]), 'small-4', 'h4', 'hover', 'nearby-routes'}
