@@ -39,7 +39,6 @@
     "fluxible-addons-react": "^0.2.0",
     "foundation-apps": "^1.1.0",
     "history": "^1.13.1",
-    "intl": "^1.0.1",
     "javascript-natural-sort": "^0.7.1",
     "leaflet": "^1.0.0-beta.2",
     "lodash": "^3.10.1",
@@ -95,6 +94,7 @@
     "sass-loader": "^3.1.2",
     "selenium-webdriver": "^2.48.2",
     "sigmund": "^1.0.1",
+    "stats-webpack-plugin": "^0.2.2",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"

@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var csswring = require('csswring');
+var StatsPlugin = require('stats-webpack-plugin');
 
 var port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -74,8 +75,13 @@ function getPluginsConfig(env) {
       new webpack.PrefetchPlugin('react-router'),
       new webpack.PrefetchPlugin('fluxible'),
       new webpack.PrefetchPlugin('leaflet'),
+      new webpack.NamedModulesPlugin(), //TODO: Change to HashedModuleIdsPlugin
+      new webpack.optimize.CommonsChunkPlugin({
+        names: ['common', 'leaflet', 'manifest']
+      }),
+      new StatsPlugin('../stats.json', {chunkModules: true}),
       new webpack.optimize.OccurrenceOrderPlugin(true),
-      new webpack.optimize.DedupePlugin(),
+      //new webpack.optimize.DedupePlugin(), //TODO: crashes weirdly
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false
@@ -100,13 +106,29 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:' + port,
     'webpack/hot/dev-server',
     './app/client'
-  ] : [
-    './app/client'
-  ],
+  ] : {
+    main: './app/client',
+    common: [ // These come from all imports in client.cjsx
+      'react',
+      'react-dom',
+      'react-relay',
+      'react-router-relay',
+      'react-intl',
+      'history/lib/createBrowserHistory',
+      'history/lib/useBasename',
+      'history/lib/useQueries',
+      'fluxible-addons-react/FluxibleComponent',
+      'lodash/lang/isEqual',
+      'react-tap-event-plugin',
+      'react-router',
+      'fluxible'
+    ],
+    leaflet: ['leaflet']
+  },
   output: {
     path: path.join(__dirname, "_static"),
-    filename: 'js/bundle.js',
-    chunkFilename: 'js/[name].js',
+    filename: (process.env.NODE_ENV === "development") ? 'js/bundle.js': 'js/[name].[chunkhash].js',
+    chunkFilename: 'js/[name].[chunkhash].js',
     publicPath: ((process.env.NODE_ENV === "development") ? 'http://localhost:' + port : (process.env.ROOT_PATH || '')) + '/'
   },
   resolveLoader: {

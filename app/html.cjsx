@@ -56,7 +56,7 @@ class Application extends React.Component
         <script dangerouslySetInnerHTML={ __html: @props.polyfill }/>
         <script dangerouslySetInnerHTML={ __html: @props.state }/>
         <script dangerouslySetInnerHTML={ __html: @props.locale }/>
-        <script async src={ @props.livereload + "js/bundle.js" }/>
+        {@props.scripts}
       </body>
     </html>
 
