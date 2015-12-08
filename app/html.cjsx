@@ -3,8 +3,8 @@ config = require './config'
 
 class Application extends React.Component
   render: ->
-    configPath = process.env.CONFIG or 'default'
-    root = config.ROOT_PATH or ''
+    configPath = config.CONFIG
+    root = config.APP_PATH
 
     <html lang="fi">
     <head>
@@ -56,6 +56,7 @@ class Application extends React.Component
         <script dangerouslySetInnerHTML={ __html: @props.polyfill }/>
         <script dangerouslySetInnerHTML={ __html: @props.state }/>
         <script dangerouslySetInnerHTML={ __html: @props.locale }/>
+        <script dangerouslySetInnerHTML={ __html: @props.config }/>
         <script async src={ @props.livereload + "js/bundle.js" }/>
       </body>
     </html>

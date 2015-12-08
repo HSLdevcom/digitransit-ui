@@ -1,13 +1,3 @@
-if (process.env.NODE_ENV == 'production') {
-  var raven = require('raven');
-}
-/********** Server **********/
-var express = require('express')
-var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
-var fs = require('fs')
-var path = require('path')
-
 /********** Polyfills (for node) **********/
 require('node-cjsx').transform();
 require("babel/register")({stage: 0});
@@ -17,6 +7,21 @@ global.self = {fetch: global.fetch};
 
 // XXX Test on new node 4.0 release
 global.Intl = require('intl');
+
+/** Config */
+var config = require('../app/config')
+
+/** Raven */
+if (config.NODE_ENV == 'production') {
+  var raven = require('raven');
+}
+/********** Server **********/
+var express = require('express')
+var cookieParser = require('cookie-parser')
+var bodyParser = require('body-parser')
+var fs = require('fs')
+var path = require('path')
+
 
 /********** Libraries **********/
 var React = require('react')
@@ -35,17 +40,16 @@ var serialize = require('serialize-javascript');
 var polyfillService = require('polyfill-service');
 
 /********** Global **********/
-var port = process.env.PORT || 8080
+var port = config.PORT || 8080
 var app = express()
 
 /********** Application **********/
 var application = require('../app/app')
 var translations = require('../app/translations')
-var config = require('../app/config')
 var appRoot = process.cwd() + "/"
 var applicationHtml = require('../app/html')
 var svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
-if (process.env.NODE_ENV !== "development") {
+if (config.NODE_ENV !== "development") {
   var css = fs.readFileSync(appRoot + '_static/css/bundle.css')
 }
 var translations = require('../app/translations')
@@ -60,7 +64,7 @@ fetch(config.URL.FONT).then(function(res){
 /* Setup functions */
 function setUpStaticFolders() {
   var staticFolder = appRoot + "/_static"
-  app.use(config.ROOT_PATH, express.static(staticFolder))
+  app.use(config.APP_PATH, express.static(staticFolder))
 }
 
 function setUpMiddleware() {
@@ -74,8 +78,8 @@ function onError(err, req, res, next) {
 }
 
 function setupRaven() {
-  if (process.env.NODE_ENV == 'production') {
-    app.use(raven.middleware.express.requestHandler(process.env.SENTRY_SECRET_DSN));
+  if (config.NODE_ENV == 'production') {
+    app.use(raven.middleware.express.requestHandler(config.SENTRY_SECRET_DSN));
   }
 }
 
@@ -107,8 +111,8 @@ function getPolyfills(userAgent) {
 
 
 function setupErrorHandling(){
-  if(process.env.NODE_ENV == 'production') {
-    app.use(raven.middleware.express.errorHandler(process.env.SENTRY_SECRET_DSN));
+  if(config.NODE_ENV == 'production') {
+    app.use(raven.middleware.express.errorHandler(config.SENTRY_SECRET_DSN));
   }
 
   app.use(onError);
@@ -120,7 +124,7 @@ function setUpRoutes() {
     var messages = translations[locale]
     var context = application.createContext()
     navigator = {userAgent:req.headers['user-agent']};  //required by material-ui
-    var location = useBasename(useQueries(createHistory))({basename: config.ROOT_PATH}).createLocation(req.url);
+    var location = useBasename(useQueries(createHistory))({basename: config.APP_PATH}).createLocation(req.url);
 
     match({routes: application.getComponent(), location: location}, function (error, redirectLocation, renderProps) {
       if (redirectLocation) {
@@ -176,14 +180,15 @@ function setUpRoutes() {
             React.createElement(
               applicationHtml,
               {
-                css: process.env.NODE_ENV === "development" ? false : css,
+                css: config.NODE_ENV === "development" ? false : css,
                 svgSprite: svgSprite,
                 content: content,
                 polyfill: polyfills,
                 state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
-                livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : config.ROOT_PATH + "/",
+                livereload: config.NODE_ENV === "development" ? '//localhost:9000/' : config.APP_PATH + "/",
                 locale: 'window.locale="' + locale + '"',
-                fonts: fonts
+                fonts: fonts,
+                config: 'window.config=' + JSON.stringify(config)
               }
             )
           )
