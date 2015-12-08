@@ -1,34 +1,28 @@
-FROM node:0.12
+FROM node:5.1
 MAINTAINER Reittiopas version: 0.1
 
-#### Environment variables #####
-# API_URL: Url where OpenTripPlanner and Geocoding APIs are used.
-# - Example: API_URL="": uses localhost
-# - Example: API_ULR="http://matka.hsl.fi": uses matka.hsl.fi
-# SENTRY_DNS: Sentry DNS if needed
-# SENTRY_SECRET_DSN: Sentry secret if needed
-# PORT: Http port for application
-# CONFIG: config theme for application
-# - Example: CONFIG="hsl": uses HSL version
-# - Example: CONFIG="default": uses white label version
+# Build variables
+ARG SERVER_ROOT
+ARG CONFIG
+ARG SENTRY_DNS
 
-ENV workdir="/opt/digitransit-ui"
-WORKDIR ${workdir}
+# Run variables
+ENV WORK=/opt/digitransit-ui
+ENV SENTRY_SECRET_DSN=
+ENV PORT=8080
+ENV ROOT_PATH=
+ENV SERVER_ROOT=${SERVER_ROOT}
 
-# Dependencies
-RUN apt-get update
-RUN apt-get install -y git libglew-dev
-RUN npm install -g npm@3
+WORKDIR ${WORK}
 
-# App
-RUN mkdir -p ${workdir}
-ADD . ${workdir}
+# Add application
+RUN mkdir -p ${WORK}
+ADD . ${WORK}
 
-ENV ROOT_PATH=""
-ENV SERVER_ROOT=${API_URL}
-
+# Build
 RUN npm install && \
   npm run static && \
+  npm rebuild node-sass && \
   npm run build
 
-CMD export PORT=${PORT}; npm run start
+CMD npm run start
