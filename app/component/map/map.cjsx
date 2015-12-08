@@ -4,8 +4,8 @@ Relay         = require 'react-relay'
 queries       = require '../../queries'
 Icon          = require '../icon/icon'
 LocationMarker = require './location-marker'
-StopMarkerContainer = require './stop-marker-container'
-CityBikeMarkerContainer = require './city-bike-marker-container'
+StopMarkerContainer = require './stop/stop-marker-container'
+CityBikeMarkerContainer = require './city-bike/city-bike-marker-container'
 #VehicleMarkerContainer = require './vehicle-marker-container'
 LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
 TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else null
@@ -55,8 +55,6 @@ class Map extends React.Component
           undefined #fitBounds is used instead
         else if @props.lat and @props.lon
           [@props.lat, @props.lon]
-        else if origin.lat and origin.lon
-          [origin.lat, origin.lon]  #origin is used
 
       zoom = if not @props.fitBounds and @props.zoom then @props.zoom
 

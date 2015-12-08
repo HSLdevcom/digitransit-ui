@@ -6,6 +6,7 @@ var csswring = require('csswring');
 
 var port = process.env.HOT_LOAD_PORT || 9000;
 
+
 function getLoadersConfig(env) {
   if (env === "development") {
     return([
@@ -73,7 +74,7 @@ function getPluginsConfig(env) {
       new webpack.PrefetchPlugin('react-router'),
       new webpack.PrefetchPlugin('fluxible'),
       new webpack.PrefetchPlugin('leaflet'),
-      new webpack.optimize.OccurenceOrderPlugin(true),
+      new webpack.optimize.OccurrenceOrderPlugin(true),
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
@@ -82,7 +83,6 @@ function getPluginsConfig(env) {
         mangle: {
           except: ['$super', '$', 'exports', 'require', 'window']
         },
-        exclude: /mapboxgl/
       }),
       new ExtractTextPlugin("css/bundle.css", {
         allChunks: true

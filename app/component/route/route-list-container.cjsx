@@ -47,7 +47,7 @@ class RouteListContainer extends React.Component
       d = edge.node.distance // config.nearbyRoutes.bucketSize
       for departure in stop.stoptimes
         seenKey = departure.pattern.route.gtfsId + ":" + departure.pattern.headsign
-        unless seenDepartures[seenKey] or departure.pattern.route.type not in mode
+        unless seenDepartures[seenKey] or departure.pattern.route.type not in mode or departure.stoptimes[0]?.pickupType == "NONE"
           bucket = departureBuckets[d] or []
           bucket.push departure
           departureBuckets[d] = bucket

@@ -2,13 +2,17 @@ React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../../queries'
 isBrowser          = window?
-StopMarker         = require './stop-marker'
+StopMarker         = require './stop/stop-marker'
 LocationMarker     = require './location-marker'
 Line               = require './line'
 TripLine               = require './trip-line'
 polyUtil           = require 'polyline-encoded'
 
 class ItineraryLine extends React.Component
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
+
   render: ->
     if not isBrowser
       return false
@@ -16,11 +20,11 @@ class ItineraryLine extends React.Component
     objs = []
 
     if @props.showFromToMarkers
-      #TODO: refactor FromToMarkers into own file, used also in RouteLine
-      objs.push <LocationMarker map=@props.map
-                                key="from"
-                                position={@props.legs[0].from}
-                                className='from' />
+      if @context.getStore('EndpointStore').getOrigin().useCurrentPosition
+        objs.push <LocationMarker map=@props.map
+                                  key="from"
+                                  position={@props.legs[0].from}
+                                  className='from' />
       objs.push <LocationMarker map=@props.map
                                 key="to"
                                 position={@props.legs[@props.legs.length - 1].to}

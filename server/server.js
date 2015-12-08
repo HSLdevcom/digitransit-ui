@@ -60,20 +60,7 @@ fetch(config.URL.FONT).then(function(res){
 /* Setup functions */
 function setUpStaticFolders() {
   var staticFolder = appRoot + "/_static"
-  var cssFolder = path.join(staticFolder, 'css')
-  app.use(config.ROOT_PATH + "/css", express.static(cssFolder))
-  var jsFolder = path.join(staticFolder, 'js')
-  app.use(config.ROOT_PATH + "/js", express.static(jsFolder))
-  var mapFontsFolder = path.join(staticFolder, 'map', 'fonts')
-  app.use(config.ROOT_PATH + "/mapFonts", express.static(mapFontsFolder, {
-    setHeaders: function(res) {res.setHeader("Content-Encoding","gzip")}
-  }))
-  var mapFolder = path.join(staticFolder, 'map')
-  app.use(config.ROOT_PATH + "/map", express.static(mapFolder))
-  var iconFolder = path.join(staticFolder, 'icon')
-  app.use(config.ROOT_PATH + "/icon", express.static(iconFolder))
-  var imgFolder = path.join(staticFolder, 'img')
-  app.use(config.ROOT_PATH + "/img", express.static(imgFolder))
+  app.use(config.ROOT_PATH, express.static(staticFolder))
 }
 
 function setUpMiddleware() {
@@ -93,19 +80,22 @@ function setupRaven() {
 }
 
 function getPolyfills(userAgent) {
-  if (userAgent.search(/(SamsungBrowser|Google Page Speed Insights)/) != -1) {
+  if (!userAgent || userAgent.search(/(SamsungBrowser|Google Page Speed Insights)/) != -1) {
     // Do not trust Samsung, see https://digitransit.atlassian.net/browse/DT-360
     userAgent = "";
   }
 
   return polyfillService.getPolyfillString({
-    uaString: userAgent || '',
+    uaString: userAgent,
     features: {
       'matchMedia': {flags: ['gated']},
       'fetch': {flags: ['gated']},
       'Promise': {flags: ['gated']},
       'String.prototype.repeat': {flags: ['gated']},
       'Intl': {flags: ['gated']},
+      'Intl.~locale.en': {flags: ['gated']},
+      'Intl.~locale.fi': {flags: ['gated']},
+      'Intl.~locale.sv': {flags: ['gated']},
       'Object.assign': {flags: ['gated']},
       'Array.prototype.find': {flags: ['gated']},
       'es5': {flags: ['gated']},
@@ -129,6 +119,7 @@ function setUpRoutes() {
     var locale = req.cookies.lang  || req.acceptsLanguages(['fi', 'sv', 'en']) || 'en';
     var messages = translations[locale]
     var context = application.createContext()
+    navigator = {userAgent:req.headers['user-agent']};  //required by material-ui
     var location = useBasename(useQueries(createHistory))({basename: config.ROOT_PATH}).createLocation(req.url);
 
     match({routes: application.getComponent(), location: location}, function (error, redirectLocation, renderProps) {

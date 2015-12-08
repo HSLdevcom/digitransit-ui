@@ -1,5 +1,42 @@
 import Relay from 'react-relay';
 
+var TerminalQueries = {
+  terminal: () => Relay.QL`
+    query  {
+      station(id: $terminalId)
+    }
+  `,
+};
+
+class TerminalRoute extends Relay.Route {
+  static queries = TerminalQueries
+  static paramDefinitions = {
+    terminalId: {required: true},
+  }
+  static routeName = 'TerminalRoute'
+}
+
+var TerminalMarkerPopupFragments = {
+  terminal: () => Relay.QL`
+    fragment on Stop{
+      gtfsId
+      lat
+      lon
+      name
+      desc
+      stops {
+        gtfsId
+        platformCode
+        routes {
+          shortName
+          longName
+          type
+        }
+      }
+    }
+  `,
+}
+
 var StopQueries = {
   stop: () => Relay.QL`
     query  {
@@ -24,7 +61,7 @@ var TripPatternFragments = {
   pattern: () => Relay.QL`
     fragment on Trip {
       pattern {
-        ${require('./component/map/route-line').getFragment('pattern')}
+        ${require('./component/map/route/route-line').getFragment('pattern')}
       }
     }
   `,
@@ -76,6 +113,9 @@ var RouteListContainerFragments = {
                     gtfsId
                     type
                   }
+                }
+                stoptimes {
+                  pickupType
                 }
                 ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
               }
@@ -169,7 +209,7 @@ var RouteMapFragments = {
         gtfsId
         ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
       }
-      ${require('./component/map/route-line').getFragment('pattern')}
+      ${require('./component/map/route/route-line').getFragment('pattern')}
     }
   `,
 };
@@ -335,6 +375,19 @@ var StopMarkerLayerFragments = {
         lon
         gtfsId
         name
+        locationType
+        platformCode
+        parentStation {
+          gtfsId
+          name
+          lat
+          lon
+          stops {
+            gtfsId
+            lat
+            lon
+          }
+        }
         routes {
           type
         }
@@ -370,6 +423,13 @@ var DepartureListFragments = {
   stoptimes: () => Relay.QL`
     fragment on StoptimesInPattern @relay(plural:true) {
       pattern {
+        alerts {
+          effectiveStartDate
+          effectiveEndDate
+          trip {
+            gtfsId
+          }
+        }
         route {
           gtfsId
           shortName
@@ -386,6 +446,9 @@ var DepartureListFragments = {
         serviceDay
         stop {
           code
+        }
+        trip {
+          gtfsId
         }
       }
     }
@@ -517,28 +580,58 @@ var FavouriteRouteRowFragments = {
    `,
 };
 
-class DisruptionRowRoute extends Relay.Route {
+class DisruptionInfoRoute extends Relay.Route {
   static queries = {
-    routes: () => Relay.QL`query { routes(ids: $ids) }`,
+    alerts: (Component) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('alerts')}
+      }
+    }
+   `,
   }
-  static paramDefinitions = {
-    ids: {required: true},
-  }
-  static routeName = 'DisruptionRowRoute'
+  static routeName = 'DisruptionInfoRoute'
 }
 
-var DisruptionRowFragments = {
-  routes: () => Relay.QL`
-    fragment on Route @relay(plural:true) {
-      gtfsId
-      type
-      shortName
+var DisruptionListContainerFragments = {
+  alerts: () => Relay.QL`
+  fragment on QueryType {
+    alerts {
+      id
+      alertHeaderTextTranslations {
+        text
+        language
+      }
+      alertDescriptionTextTranslations {
+        text
+        language
+      }
+      effectiveStartDate
+      effectiveEndDate
+      route {
+        shortName
+        type
+      }
     }
+  }
   `,
-}
+};
+
+var DisruptionInfoButtonFragments = {
+  alerts: () => Relay.QL`
+  fragment on QueryType {
+    alerts {
+      id
+    }
+  }
+  `,
+};
 
 module.exports = {
   StopQueries: StopQueries,
+  TerminalRoute: TerminalRoute,
+  TerminalQueries: TerminalQueries,
+  TerminalMarkerPopupFragments: TerminalMarkerPopupFragments,
   TripRoute: TripRoute,
   TripPatternFragments: TripPatternFragments,
   RouteQueries: RouteQueries,
@@ -570,6 +663,7 @@ module.exports = {
   FuzzyTripRoute: FuzzyTripRoute,
   TripLinkFragments: TripLinkFragments,
   RouteMarkerPopupFragments: RouteMarkerPopupFragments,
-  DisruptionRowRoute: DisruptionRowRoute,
-  DisruptionRowFragments: DisruptionRowFragments,
+  DisruptionInfoRoute: DisruptionInfoRoute,
+  DisruptionListContainerFragments: DisruptionListContainerFragments,
+  DisruptionInfoButtonFragments: DisruptionInfoButtonFragments,
 };

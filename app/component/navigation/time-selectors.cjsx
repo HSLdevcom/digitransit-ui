@@ -61,10 +61,10 @@ class TimeSelectors extends React.Component
       <select ref="minute" className="time minute hide-dropdown" value={time.format('m')} onChange={@changeTime}>
         {@getMinutes()}
       </select>
-      <select ref="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}>
+      <select className="date" ref="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}>
         {@getDates()}
       </select>
-      <select ref="arriveBy" value={arriveBy} onChange={@setArriveBy}>
+      <select className="arrive" ref="arriveBy" value={arriveBy} onChange={@setArriveBy}>
         <option value="false">
           {@context.intl.formatMessage({id: "leaving-at", defaultMessage: "Leaving at"})}</option>
         <option value="true">

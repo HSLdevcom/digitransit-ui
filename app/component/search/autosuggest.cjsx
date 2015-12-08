@@ -40,6 +40,8 @@ class Autosuggest extends React.Component
         <Icon img="icon-icon_bus-stop"/>
       when 'locality'
         <Icon img="icon-icon_city"/>
+      when 'station'
+        <Icon img="icon-icon_station"/>
       when 'localadmin'
         <Icon img="icon-icon_city"/>
       when 'neighbourhood'

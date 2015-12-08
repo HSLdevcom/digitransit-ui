@@ -3,16 +3,24 @@ cx                    = require 'classnames'
 {FormattedMessage}    = require('react-intl')
 ComponentUsageExample = require '../documentation/component-usage-example'
 
+
 CityBikeAvailability = (props) ->
+
+  columnWidth = {width: (100.0 / props.totalSpaces) + "%"}
+  rows = [0 ... props.totalSpaces].map (_, i) ->
+    <div
+      key={i}
+      className={cx "city-bike-column", {available: i < props.bikesAvailable}}
+      style=columnWidth
+    />
 
   <div className="city-bike-availability-container">
     <p className="sub-header-h4 bike-availability-header">
       <FormattedMessage id='bike-availability' defaultMessage='Bikes available' />
-       {props.bikesAvailable}/{props.totalSpaces}
+      {"\u00a0"}({props.bikesAvailable}/{props.totalSpaces})
     </p>
     <div className="row">
-      <div className={cx "col2-unit", {available: props.bikesAvailable > 0}}></div>
-      <div className={cx "col2-unit", {available: props.bikesAvailable > 1}}></div>
+      {rows}
     </div>
   </div>
 
