@@ -96,8 +96,6 @@ class SearchTwoFieldsContainer extends React.Component
           setToCurrent={() => @context.executeAction EndpointActions.setOriginToCurrent}
           enableInput={() => @context.executeAction EndpointActions.enableOriginInputMode}
           id='origin'
-          locateId='locate'
-          locateDefault='Locate'
           giveId='give-origin'
           giveDefault='Type origin'
         />
@@ -122,8 +120,6 @@ class SearchTwoFieldsContainer extends React.Component
           setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
           enableInput={() => @context.executeAction EndpointActions.enableDestinationInputMode}
           id='destination'
-          locateId='locate'
-          locateDefault='Locate'
           giveId='give-destination'
           giveDefault='Type destinationn'
         />

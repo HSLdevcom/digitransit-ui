@@ -14,8 +14,8 @@ NavigateOrInput = (props) ->
       onClick={props.setToCurrent}
       className="navigate-or-input-messages">
         <FormattedMessage
-          id={props.locateId}
-          defaultMessage={props.locateDefault}
+          id='locate'
+          defaultMessage='Locate'
         />
     </span>
     <span className="navigate-or-input--or">
