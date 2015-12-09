@@ -7,7 +7,7 @@ sortBy         = require 'lodash/collection/sortBy'
 
 AUTOSUGGEST_ID = 'autosuggest'
 
-class AutosuggestWrapper extends React.Component
+class Autosuggest extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
 
@@ -115,4 +115,4 @@ class AutosuggestWrapper extends React.Component
       />
     </form>
 
-module.exports = AutosuggestWrapper
+module.exports = Autosuggest

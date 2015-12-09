@@ -90,9 +90,9 @@ class EndpointStore extends Store
 
   clearGeolocation: () ->
     if @origin.useCurrentPosition
-      @origin = @getUseCurrent(@origin, false);
+      @origin = @getUseCurrent(@origin, false)
     if @destination.useCurrentPosition
-      @destination = @getUseCurrent(@destination, false);
+      @destination = @getUseCurrent(@destination, false)
     @emitChange()
 
   dehydrate: ->
