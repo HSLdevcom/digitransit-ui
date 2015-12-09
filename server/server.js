@@ -1,3 +1,11 @@
+/********** Polyfills (for node) **********/
+require('node-cjsx').transform();
+require("babel/register")({stage: 0});
+
+global.fetch = require('node-fetch');
+global.self = {fetch: global.fetch};
+
+
 var config = require('../app/config');
 if (config.NODE_ENV == 'production') {
   var raven = require('raven');
@@ -7,13 +15,6 @@ if (config.NODE_ENV == 'production') {
 var express = require('express')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
-
-/********** Polyfills (for node) **********/
-require('node-cjsx').transform();
-require("babel/register")({stage: 0});
-
-global.fetch = require('node-fetch');
-global.self = {fetch: global.fetch};
 
 /********** Global **********/
 var port = config.PORT || 8080
