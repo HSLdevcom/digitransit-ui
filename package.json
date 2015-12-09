@@ -69,7 +69,6 @@
     "react-tap-event-plugin": "^0.2.1",
     "serialize-javascript": "^1.1.2",
     "slick-carousel": "^1.5.8",
-    "svg4everybody": "^2.0.1",
     "zurb-foundation-5": "^5.4.7"
   },
   "devDependencies": {

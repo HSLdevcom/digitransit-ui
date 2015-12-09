@@ -1,6 +1,5 @@
 React = require 'react'
 cx = require 'classnames'
-config = require '../../config'
 
 if window?
   require './icon.css'
