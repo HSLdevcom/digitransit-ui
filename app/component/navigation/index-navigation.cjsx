@@ -5,6 +5,7 @@ OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
 NotImplemented        = require '../util/not-implemented'
 LeftNav               = require 'material-ui/lib/left-nav'
+{supportsHistory}     = require 'history/lib/DOMUtils'
 
 intl = require 'react-intl'
 
@@ -13,9 +14,12 @@ class IndexNavigation extends React.Component
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
     piwik: React.PropTypes.object
+    history: React.PropTypes.object.isRequired
+    location: React.PropTypes.object.isRequired
 
   constructor: ->
     super
+    @offcanvasChanging = false
     @state =
       subNavigationVisible: false
       offcanvasVisible: false
@@ -28,6 +32,22 @@ class IndexNavigation extends React.Component
         @context.intl.formatMessage
           id: 'later'
           defaultMessage: "Later"
+
+  componentDidMount: ->
+    @unlistenHistory = @context.history.listen @onHistoryChange
+
+  componentWillUnmount: ->
+    @unlistenHistory() if @unlistenHistory
+
+  onHistoryChange: (foo, event) =>
+    shouldBeVisible = event?.location?.state?.offcanvasVisible || false
+    @setState
+      offcanvasVisible: shouldBeVisible
+    if !@offcanvasChanging # caused by history navigation or user action?
+      if !@refs.leftNav.state.open and shouldBeVisible
+        @refs.leftNav.toggle()
+      else if @refs.leftNav.state.open and !shouldBeVisible
+        @refs.leftNav.close()
 
   toggleSubnavigation: =>
     if @state.subNavigationVisible
@@ -61,9 +81,29 @@ class IndexNavigation extends React.Component
         el.className += " sub-navigation-push"
 
   toggleOffcanvas: =>
-    @context.piwik?.trackEvent "Offcanvas", "Index", if @state.offcanvasVisible then "close" else "open"
-    @setState offcanvasVisible: !@state.offcanvasVisible
     @refs.leftNav.toggle()
+
+  openOffcanvas: =>
+    @offcanvasChanging = true
+    @context.piwik?.trackEvent "Offcanvas", "Index", "open"
+    if supportsHistory()
+      @context.history.pushState
+        offcanvasVisible: true
+      , @context.location.pathname
+    else
+      @setState offcanvasVisible: true
+    @offcanvasChanging = false
+
+  closeOffcanvas: =>
+    @offcanvasChanging = true
+    @context.piwik?.trackEvent "Offcanvas", "Index", "close"
+    if supportsHistory()
+      @context.history.pushState
+        offcanvasVisible: false
+      , @context.location.pathname
+    else
+      @setState offcanvasVisible: false
+    @offcanvasChanging = false
 
   toggleDisruptionInfo: =>
     @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"
@@ -73,7 +113,7 @@ class IndexNavigation extends React.Component
     <div className={@props.className}>
       <NotImplemented/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
-      <LeftNav className="offcanvas" disableSwipeToOpen=true ref="leftNav" docked={false} open={@state.offcanvasVisible}>
+      <LeftNav className="offcanvas" disableSwipeToOpen=true ref="leftNav" docked={false} onNavOpen={@openOffcanvas} onNavClose={@closeOffcanvas}>
         <OffcanvasMenu/>
       </LeftNav>
       <div className="grid-frame fullscreen">
