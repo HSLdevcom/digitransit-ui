@@ -13,7 +13,7 @@ getLocationMessage = (geolocation) ->
     <FormattedMessage id="no-position" defaultMessage='No position' />
 
 GeolocationBar = (props) ->
-  <div key={props.geolocation.hasLocation + props.geolocation.isLocationingInProgress} className="input-placeholder">
+  <div className="input-placeholder">
     <div className="address-box">
       <span className={cx 'inline-block', 'geolocation-bar-location-icon'} onClick={props.locateUser}>
         <Icon img={'icon-icon_mapMarker-location'}/>
