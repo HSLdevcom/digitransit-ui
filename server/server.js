@@ -57,7 +57,7 @@ function setUpRoutes() {
 
 function startServer() {
   var server = app.listen(port, function() {
-    console.log('Reittiopas UI available on port %d', server.address().port)
+    console.log('Digitransit-ui available on port %d', server.address().port)
   })
 }
 
