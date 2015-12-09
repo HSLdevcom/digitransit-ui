@@ -93,6 +93,8 @@ translations =
     'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi'
     'platform-num': 'Laituri {platformCode}'
     'departures': 'Lähdöt'
+    'no-route-msg': 'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta osoitetta tai lorem ipsum sit dolor.'
+    'close': 'Sulje'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -184,5 +186,8 @@ translations =
     'inquiry': 'Delta på förfrågan'
     'platform-num': 'Plattform {platformCode}'
     'departures': 'Avgångar'
+    # TODO
+    'no-route-msg': ''
+    'close': ''
 
 module.exports = translations
