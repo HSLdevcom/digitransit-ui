@@ -25,10 +25,10 @@ class SummaryNavigation extends React.Component
   toggleCustomizeSearchOffcanvas: =>
     @refs.rightNav.toggle()
 
-  openOffcanvas: =>
+  openSearchOffcanvas: =>
     @internalSetOffcanvas(true)
 
-  closeOffcanvas: =>
+  closeSearchOffcanvas: =>
     @internalSetOffcanvas(false)
 
   internalSetOffcanvas: (newState) =>
@@ -40,7 +40,7 @@ class SummaryNavigation extends React.Component
 
   render: ->
     <div className="fullscreen">
-      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} onNavOpen={@openOffcanvas} onNavClose={@closeOffCanvas}>
+      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} onNavOpen={@openSearchOffcanvas} onNavClose={@closeSearchOffcanvas}>
         <CustomizeSearch/>
       </LeftNav>
 
