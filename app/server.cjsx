@@ -35,8 +35,8 @@ svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
 
 if config.NODE_ENV != 'development'
   css = [
-    <link rel="stylesheet" type="text/css" href={stats.assetsByChunkName.main[1]}/>
-    <link rel="stylesheet" type="text/css" href={stats.assetsByChunkName[config.CONFIG + '_theme'][1]}/>
+    <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName.main[1]}/>
+    <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName[config.CONFIG + '_theme'][1]}/>
   ]
 
 # Cache fonts from google, so that we don't need an additional roud trip to fetch font definitions
@@ -72,9 +72,9 @@ getScripts = ->
   else
     [
       <script dangerouslySetInnerHTML={ __html: manifest }/>,
-      <script src={(config.ROOT_PATH or '') + '/' + stats.assetsByChunkName.common[0]}/>,
-      <script src={(config.ROOT_PATH or '') + '/' + stats.assetsByChunkName.leaflet[0]}/>,
-      <script src={(config.ROOT_PATH or '') + '/' + stats.assetsByChunkName.main[0]}/>
+      <script src={config.APP_PATH + '/' + stats.assetsByChunkName.common[0]}/>,
+      <script src={config.APP_PATH + '/' + stats.assetsByChunkName.leaflet[0]}/>,
+      <script src={config.APP_PATH + '/' + stats.assetsByChunkName.main[0]}/>
     ]
 
 getContent = (context, renderProps, locale) ->
