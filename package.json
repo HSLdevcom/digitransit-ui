@@ -27,6 +27,9 @@
   "bugs": {
     "url": "https://github.com/HSLdevcom/digitransit-ui/issues"
   },
+  "browser": {
+    "./app/config.coffee": "./app/config.client.coffee"
+  },
   "dependencies": {
     "babel": "^5.8.29",
     "body-parser": "^1.14.1",

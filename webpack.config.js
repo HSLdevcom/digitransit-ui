@@ -22,7 +22,7 @@ function getLoadersConfig(env) {
           'sass?includePaths[]=' + (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default'))
         ]
       },
-      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
+      { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file'},
       { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
     ])
   } else {
@@ -33,7 +33,7 @@ function getLoadersConfig(env) {
       { test: /\.json$/, loader: 'json'},
       { test: /\.jsx$/, loader: 'babel'},
       { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", 'css!postcss!sass')},
-      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
+      { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file'},
       { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
     ])
   }
@@ -103,7 +103,8 @@ module.exports = {
     ],
     leaflet: ['leaflet'],
     default_theme: ['./sass/themes/default/main.scss'],
-    hsl_theme: ['./sass/themes/hsl/main.scss']
+    hsl_theme: ['./sass/themes/hsl/main.scss'],
+    default_svg: ['./static/svg-sprite.svg']
   },
   output: {
     path: path.join(__dirname, "_static"),
