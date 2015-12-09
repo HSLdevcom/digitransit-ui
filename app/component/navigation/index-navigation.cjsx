@@ -84,9 +84,12 @@ class IndexNavigation extends React.Component
   internalSetOffcanvas: (newState) =>
     @context.piwik?.trackEvent "Offcanvas", "Index", newState ? "open" : "close"
     if supportsHistory()
-      @context.history.pushState
-        offcanvasVisible: newState
-      , @context.location.pathname
+      if newState
+        @context.history.pushState
+          offcanvasVisible: newState
+        , @context.location.pathname
+      else
+        @context.history.goBack()
 
   toggleDisruptionInfo: =>
     @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"

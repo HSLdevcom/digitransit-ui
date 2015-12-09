@@ -34,9 +34,12 @@ class SummaryNavigation extends React.Component
   internalSetOffcanvas: (newState) =>
     @context.piwik?.trackEvent "Offcanvas", "Customize Search", newState ? "close" : "open"
     if supportsHistory()
-      @context.history.pushState
-        customizeSearchOffcanvas: newState
-      , @context.location.pathname
+      if newState
+        @context.history.pushState
+          customizeSearchOffcanvas: newState
+        , @context.location.pathname
+      else
+        @context.history.goBack()
 
   render: ->
     <div className="fullscreen">
