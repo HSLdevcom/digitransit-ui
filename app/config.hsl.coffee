@@ -1,5 +1,3 @@
-find = require 'lodash/collection/find'
-
 CONFIG = process.env.CONFIG or 'hsl'
 API_URL = process.env.API_URL or 'http://dev.reittiopas.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
@@ -8,11 +6,6 @@ PIWIK_ID = process.env.PIWIK_ID or ''
 SENTRY_DSN = process.env.SENTRY_DSN or ''
 NODE_ENV = process.env.NODE_ENV or 'development'
 PORT = process.env.PORT or 8080
-
-appRoot = process.cwd() + '/'
-if process.env.NODE_ENV != 'development'
-  stats = require('../stats.json')
-  svgSprite = APP_PATH + '/' + find(stats.modules, 'id', "./static/svg-sprite.svg").assets[0]
 
 module.exports =
   PIWIK_ADDRESS: "#{PIWIK_ADDRESS}"
@@ -69,4 +62,3 @@ module.exports =
   socialMedia:
     title: "Uusi Reittiopas"
     description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
-  svgSprite: "#{svgSprite}"

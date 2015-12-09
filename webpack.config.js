@@ -98,8 +98,7 @@ module.exports = {
     ],
     leaflet: ['leaflet'],
     default_theme: ['./sass/themes/default/main.scss'],
-    hsl_theme: ['./sass/themes/hsl/main.scss'],
-    default_svg: ['./static/svg-sprite.svg']
+    hsl_theme: ['./sass/themes/hsl/main.scss']
   },
   output: {
     path: path.join(__dirname, "_static"),

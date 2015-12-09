@@ -5,12 +5,10 @@ config = require '../../config'
 if window?
   require './icon.css'
 
-sprite_file = if config.NODE_ENV == "development" then "" else config.svgSprite
-
 Icon = (props) ->
   <span>
     <svg id={props.id} viewBox="0 0 40 40" className={cx "icon", props.className}>
-      <use xlinkHref="#{sprite_file}##{props.img}"/>
+      <use xlinkHref="##{props.img}"/>
     </svg>
   </span>
 

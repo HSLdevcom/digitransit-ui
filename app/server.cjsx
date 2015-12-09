@@ -31,11 +31,7 @@ if config.NODE_ENV != 'development'
   stats = require('../stats.json')
   manifest = fs.readFileSync(appRoot + "_static/" + stats.assetsByChunkName.manifest[0])
 
-svgSprite =
-  if config.NODE_ENV == 'development'
-    fs.readFileSync(appRoot + 'static/svg-sprite.svg')
-  else
-    ''
+svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
 
 if config.NODE_ENV != 'development'
   css = [
