@@ -19,7 +19,8 @@ piwik             = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, con
 PiwikProvider     = require './component/util/piwik-provider'
 dehydratedState   = window.state # Sent from the server
 
-require "../sass/main.scss"
+if config.NODE_ENV == 'development'
+  require "../sass/themes/#{config.CONFIG}/main.scss"
 
 window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 

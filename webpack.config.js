@@ -32,10 +32,7 @@ function getLoadersConfig(env) {
       { test: /\.coffee$/, loader: 'coffee' },
       { test: /\.json$/, loader: 'json'},
       { test: /\.jsx$/, loader: 'babel'},
-      { test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style", 'css!postcss!sass?includePaths[]=' +
-          (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default')))
-      },
+      { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", 'css!postcss!sass')},
       { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
       { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
     ])
@@ -71,7 +68,7 @@ function getPluginsConfig(env) {
           except: ['$super', '$', 'exports', 'require', 'window']
         },
       }),
-      new ExtractTextPlugin("css/bundle.css", {
+      new ExtractTextPlugin("css/[name].[chunkhash].css", {
         allChunks: true
       }),
       new webpack.NoErrorsPlugin()
@@ -104,7 +101,9 @@ module.exports = {
       'react-router',
       'fluxible'
     ],
-    leaflet: ['leaflet']
+    leaflet: ['leaflet'],
+    default_theme: ['./sass/themes/default/main.scss'],
+    hsl_theme: ['./sass/themes/hsl/main.scss']
   },
   output: {
     path: path.join(__dirname, "_static"),

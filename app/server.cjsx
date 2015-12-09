@@ -25,22 +25,25 @@ config = require('./config')
 translations = require('./translations')
 ApplicationHtml = require('./html')
 
+# Look up paths for various asset files
 appRoot = process.cwd() + '/'
-svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
 if config.NODE_ENV != 'development'
-  css = fs.readFileSync(appRoot + '_static/css/bundle.css')
+  stats = require('../stats.json')
+  manifest = fs.readFileSync(appRoot + "_static/" + stats.assetsByChunkName.manifest[0])
+
+svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
+
+if config.NODE_ENV != 'development'
+  css = [
+    <link rel="stylesheet" type="text/css" href={stats.assetsByChunkName.main[1]}/>
+    <link rel="stylesheet" type="text/css" href={stats.assetsByChunkName[config.CONFIG + '_theme'][1]}/>
+  ]
 
 # Cache fonts from google, so that we don't need an additional roud trip to fetch font definitions
 fonts = ''
 fetch(config.URL.FONT).then (res) ->
   res.text().then (text) ->
     fonts = text
-
-# Look up paths for various asset files
-if config.NODE_ENV != 'development'
-  stats = require('../stats.json')
-  manifest = fs.readFileSync(appRoot + "_static/" + stats.assetsByChunkName.manifest[0])
-
 
 getPolyfills = (userAgent) ->
   if !userAgent or /(SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
