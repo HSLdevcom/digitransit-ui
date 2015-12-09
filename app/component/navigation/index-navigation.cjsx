@@ -19,10 +19,8 @@ class IndexNavigation extends React.Component
 
   constructor: ->
     super
-    @offcanvasChanging = false
     @state =
       subNavigationVisible: false
-      offcanvasVisible: false
       disruptionVisible: false
       text: if @context.getStore("TimeStore").status == "UNSET"
         @context.intl.formatMessage
@@ -41,13 +39,7 @@ class IndexNavigation extends React.Component
 
   onHistoryChange: (foo, event) =>
     shouldBeVisible = event?.location?.state?.offcanvasVisible || false
-    @setState
-      offcanvasVisible: shouldBeVisible
-    if !@offcanvasChanging # caused by history navigation or user action?
-      if !@refs.leftNav.state.open and shouldBeVisible
-        @refs.leftNav.toggle()
-      else if @refs.leftNav.state.open and !shouldBeVisible
-        @refs.leftNav.close()
+    @refs.leftNav.setState open: shouldBeVisible
 
   toggleSubnavigation: =>
     if @state.subNavigationVisible
@@ -90,15 +82,11 @@ class IndexNavigation extends React.Component
     @internalSetOffcanvas(false)
 
   internalSetOffcanvas: (newState) =>
-    @offcanvasChanging = true
     @context.piwik?.trackEvent "Offcanvas", "Index", newState ? "open" : "close"
     if supportsHistory()
       @context.history.pushState
         offcanvasVisible: newState
       , @context.location.pathname
-    else
-      @setState offcanvasVisible: newState
-    @offcanvasChanging = false
 
   toggleDisruptionInfo: =>
     @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"

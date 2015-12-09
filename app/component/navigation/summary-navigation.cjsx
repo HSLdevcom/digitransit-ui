@@ -12,12 +12,6 @@ class SummaryNavigation extends React.Component
     history: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
 
-  constructor: ->
-    super
-    @offcanvasChanging = false
-    @state =
-      customizeSearchOffcanvas: false
-
   componentDidMount: ->
     @unlistenHistory = @context.history.listen @onHistoryChange
 
@@ -26,13 +20,7 @@ class SummaryNavigation extends React.Component
 
   onHistoryChange: (foo, event) =>
     shouldBeVisible = event?.location?.state?.customizeSearchOffcanvas || false
-    @setState
-      offcanvasVisible: shouldBeVisible
-    if !@offcanvasChanging # caused by history navigation or user action?
-      if !@refs.rightNav.state.open and shouldBeVisible
-        @refs.rightNav.toggle()
-      else if @refs.rightNav.state.open and !shouldBeVisible
-        @refs.rightNav.close()
+    @refs.rightNav.setState open: shouldBeVisible
 
   toggleCustomizeSearchOffcanvas: =>
     @refs.rightNav.toggle()
@@ -44,15 +32,11 @@ class SummaryNavigation extends React.Component
     @internalSetOffcanvas(false)
 
   internalSetOffcanvas: (newState) =>
-    @offcanvasChanging = true
     @context.piwik?.trackEvent "Offcanvas", "Customize Search", newState ? "close" : "open"
     if supportsHistory()
       @context.history.pushState
         customizeSearchOffcanvas: newState
       , @context.location.pathname
-    else
-      @setState customizeSearchOffcanvas: newState
-    @offcanvasChanging = false
 
   render: ->
     <div className="fullscreen">
