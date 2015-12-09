@@ -172,6 +172,10 @@ function setUpRoutes() {
             );
           };
 
+
+          var host = req.headers["host"]||"localhost";
+          var hostname = host.split(":")[0];
+
           var html = ReactDOM.renderToStaticMarkup(
             React.createElement(
               applicationHtml,
@@ -181,7 +185,7 @@ function setUpRoutes() {
                 content: content,
                 polyfill: polyfills,
                 state: 'window.state=' + serialize(application.dehydrate(context)) + ';',
-                livereload: process.env.NODE_ENV === "development" ? '//localhost:9000/' : config.ROOT_PATH + "/",
+                livereload: process.env.NODE_ENV === "development" ? "//" + hostname + ":9000/" : config.ROOT_PATH + "/",
                 locale: 'window.locale="' + locale + '"',
                 fonts: fonts
               }
