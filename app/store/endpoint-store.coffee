@@ -110,9 +110,9 @@ class EndpointStore extends Store
     "swapOriginDestination": "swapOriginDestination"
     "clearOrigin": "clearOrigin"
     "clearDestination": "clearDestination"
-    "GeolocationNotSupported": "clearGeolocation"
-    "GeolocationDenied": "clearGeolocation"
-    "GeolocationTimeout": "clearGeolocation"
+    'GeolocationNotSupported': 'clearGeolocation'
+    'GeolocationDenied': 'clearGeolocation'
+    'GeolocationTimeout': 'clearGeolocation'
     "clearGeolocation": "clearGeolocation"
     "isCurrentPositionInUse": "isCurrentPositionInUse"
     "enableOriginInputMode": "enableOriginInputMode"

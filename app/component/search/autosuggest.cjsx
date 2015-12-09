@@ -70,7 +70,7 @@ class Autosuggest extends React.Component
       </span>
 
   componentDidMount: =>
-    if @props.autofocus && @refs.input.refs.input.value == ""
+    if @refs.input.refs.input.value == ""
       @refs.input.refs.input.focus()
 
   suggestionValue: (suggestion) =>
@@ -104,8 +104,8 @@ class Autosuggest extends React.Component
           # 1) we start showing results after 2 characters (this one is ok)
           # 2) when we notice that everything is cleared, we remove location from flux store (not ok)
           # react-autosuggest should support second case, but it currently doesn't
-          #if input == ""
-           # @props.onEmptyAction()
+          if input == ""
+            @props.onEmptyAction()
           input.trim().length >= 2
         }
         onSuggestionSelected={@onSuggestionSelected}
