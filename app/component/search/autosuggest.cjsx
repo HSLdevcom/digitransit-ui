@@ -69,16 +69,12 @@ class AutosuggestWrapper extends React.Component
         {displayText}
       </span>
 
-  #componentDidMount: =>
-    #if @refs.input.refs.input.value == ""
-    #  @refs.input.refs.input.focus()
+  componentDidMount: =>
+    if @props.autofocus && @refs.input.refs.input.value == ""
+      @refs.input.refs.input.focus()
 
   suggestionValue: (suggestion) =>
     @getName suggestion.properties
-
-  disableInput: =>
-    if @refs.input.refs.input.value == "" and @props.id == "origin"
-      @props.disableInput()
 
   onSuggestionSelected: (suggestion, event) =>
     @context.executeAction @props.onSelectionAction,
@@ -93,8 +89,8 @@ class AutosuggestWrapper extends React.Component
 
   render: =>
     inputAttributes =
-      id: AUTOSUGGEST_ID
       placeholder: @props.placeholder
+      onBlur: @props.disableInput
 
     <form onSubmit={@onSubmit}>
       <ReactAutosuggest
@@ -113,11 +109,7 @@ class AutosuggestWrapper extends React.Component
           input.trim().length >= 2
         }
         onSuggestionSelected={@onSuggestionSelected}
-        inputAttributes={
-          placeholder: @props.placeholder
-          onBlur: @disableInput
-          #onBlur: @onSubmit Uh, causes a bug, as it is called after bluring the input after a selection has been done
-        }
+        inputAttributes = {inputAttributes}
         id={@props.id}
         scrollBar={true}
       />

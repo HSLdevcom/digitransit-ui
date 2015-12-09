@@ -137,6 +137,7 @@ class SearchTwoFieldsContainer extends React.Component
             defaultMessage: "Where to? - address or stop")}
           value=destination?.address
           id="destination"
+          autofocus={!destination.address || destination.address.length==0}
           disableInput={() => @context.executeAction EndpointActions.disableDestinationInputMode}
         />
 

@@ -28,7 +28,6 @@ clearDestination = (actionContext) ->
   actionContext.dispatch "clearDestination"
 
 clearGeolocation = (actionContext) ->
-  console.log("clear")
   actionContext.dispatch "clearGeolocation"
 
 disableOriginInputMode = (actionContext) ->
