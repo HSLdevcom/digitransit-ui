@@ -8,20 +8,20 @@ class EndpointStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @origin = @getUseCurrent(true)
-    @destination = @getUseCurrent(false)
+    @origin = @getUseCurrent(@origin, true)
+    @destination = @getUseCurrent(@destination, false)
 
   isCurrentPositionInUse: () ->
     @origin.useCurrentPosition || @destination.useCurrentPosition
 
   clearOrigin: () ->
     if @origin?.userSetPosition && @origin.address?.length > 0
-      @origin = @getUseCurrent(false)
+      @origin = @getUseCurrent(@origin, false)
       @emitChange()
 
   clearDestination: () =>
     if @destination?.userSetPosition && @destination.address?.length > 0
-      @destination = @getUseCurrent(false)
+      @destination = @getUseCurrent(@destination, false)
       @emitChange()
 
   swapOriginDestination: () ->
@@ -29,16 +29,16 @@ class EndpointStore extends Store
     @emitChange()
 
   setOriginToCurrent: () ->
-    @origin = @getUseCurrent(true)
+    @origin = @getUseCurrent(@origin, true)
     @emitChange()
 
   setDestinationToCurrent: () ->
-    @destination = @getUseCurrent(true)
+    @destination = @getUseCurrent(@destination, true)
     @emitChange()
 
-  getUseCurrent: (useCurrent) =>
+  getUseCurrent: (current, useCurrent) =>
     useCurrentPosition: useCurrent
-    userSetPosition: @destination?.userSetPosition || false
+    userSetPosition: current?.userSetPosition || false
     lat: null
     lon: null
     address: null
@@ -90,9 +90,9 @@ class EndpointStore extends Store
 
   clearGeolocation: () ->
     if @origin.useCurrentPosition
-      @origin.useCurrentPosition = false
+      @origin = @getUseCurrent(@origin, false);
     if @destination.useCurrentPosition
-      @destination.useCurrentPosition = false
+      @destination = @getUseCurrent(@destination, false);
     @emitChange()
 
   dehydrate: ->

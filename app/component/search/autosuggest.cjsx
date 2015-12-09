@@ -81,7 +81,6 @@ class AutosuggestWrapper extends React.Component
       @props.disableInput()
 
   onSuggestionSelected: (suggestion, event) =>
-    event.preventDefault()
     @context.executeAction @props.onSelectionAction,
       lat: suggestion.geometry.coordinates[1]
       lon: suggestion.geometry.coordinates[0],
@@ -89,8 +88,8 @@ class AutosuggestWrapper extends React.Component
 
   # Happens when user presses enter without selecting anything from autosuggest
   onSubmit: (e) =>
-    e.preventDefault()
     @getSuggestions @refs.input.state.value, (err, values) => @onSuggestionSelected values[0], e
+    e.preventDefault()
 
   render: =>
     inputAttributes =
