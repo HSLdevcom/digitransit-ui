@@ -130,7 +130,7 @@ module.exports = (req, res, next) ->
       res.redirect 301, redirectLocation.pathname + redirectLocation.search
     else if error
       return next(error)
-    else if renderProps == null
+    else if !renderProps
       res.status(404).send 'Not found'
     else
       promises = [getPolyfills(req.headers['user-agent'])]
