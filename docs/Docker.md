@@ -5,15 +5,11 @@ You can run Digitransit-ui in docker. This is probably the easiest way to see th
 - Docker 1.9
 - On Mac and Windows use [Docker toolbox](https://www.docker.com/docker-toolbox)
 
-## Run National white label version for testing
-- `docker run -p 8080:8080 hsldevcom/digitransit-ui:default`
+## Run latest national white label version for testing
+- `docker run -p 8080:8080 hsldevcom/digitransit-ui`
 
-## Run HSL version for testing
-- `docker run -p 8080:8080 -e CONFIG=hsl hsldevcom/digitransit-ui:hsl`
-
-## Running in production
-You must use following additional variables:
-- `-e SENTRY_SECRET_DSN=<...>`
+## Run latest HSL version for testing
+- `docker run -p 8080:8080 -e CONFIG=hsl hsldevcom/digitransit-ui`
 
 ## Access running application
 On Linux:
@@ -27,11 +23,20 @@ On Mac:
 On Windows:
 - ??
 
+## Running in production
+You must use following additional variables:
+- `-e SENTRY_DSN=<..>`
+- `-e SENTRY_SECRET_DSN=<..>`
+- `-e CONFIG=<..>`
+- `-e PIWIK_ADDRESS=<..>`
+- `-e PIWIK_ID=<..>`
+- `-e NODE_ENV=production`
+
 ## Build new snapshot image
 Only Linux and Mac OS are supported.
 
-### Build new snapshot image
-- `./release snapshot`
+### Build new latest image
+- `./release`
 
 ### Build new release image
 - `./release release`
