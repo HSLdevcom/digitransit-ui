@@ -84,25 +84,20 @@ class IndexNavigation extends React.Component
     @refs.leftNav.toggle()
 
   openOffcanvas: =>
-    @offcanvasChanging = true
-    @context.piwik?.trackEvent "Offcanvas", "Index", "open"
-    if supportsHistory()
-      @context.history.pushState
-        offcanvasVisible: true
-      , @context.location.pathname
-    else
-      @setState offcanvasVisible: true
-    @offcanvasChanging = false
+    @internalSetOffcanvas(true)
 
   closeOffcanvas: =>
+    @internalSetOffcanvas(false)
+
+  internalSetOffcanvas: (newState) =>
     @offcanvasChanging = true
-    @context.piwik?.trackEvent "Offcanvas", "Index", "close"
+    @context.piwik?.trackEvent "Offcanvas", "Index", newState ? "open" : "close"
     if supportsHistory()
       @context.history.pushState
-        offcanvasVisible: false
+        offcanvasVisible: newState
       , @context.location.pathname
     else
-      @setState offcanvasVisible: false
+      @setState offcanvasVisible: newState
     @offcanvasChanging = false
 
   toggleDisruptionInfo: =>
