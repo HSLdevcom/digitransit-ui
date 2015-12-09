@@ -13,7 +13,7 @@ getLocationMessage = (geolocation) ->
     <FormattedMessage id="no-position" defaultMessage='No position' />
 
 GeolocationBar = (props) ->
-  <div className="input-placeholder">
+  <div key={props.key} className="input-placeholder">
     <div className="address-box">
       <span className={cx 'inline-block', 'geolocation-bar-location-icon'} onClick={props.locateUser}>
         <Icon img={'icon-icon_mapMarker-location'}/>
@@ -29,6 +29,7 @@ GeolocationBar.propTypes =
   locateUser: React.PropTypes.func.isRequired
   removePosition: React.PropTypes.func.isRequired
   geolocation: React.PropTypes.object.isRequired
+  key: React.PropTypes.object.isRequired
 
 GeolocationBar.displayName = "GeolocationBar"
 

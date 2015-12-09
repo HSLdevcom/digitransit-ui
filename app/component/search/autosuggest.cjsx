@@ -7,7 +7,7 @@ sortBy         = require 'lodash/collection/sortBy'
 
 AUTOSUGGEST_ID = 'autosuggest'
 
-class Autosuggest extends React.Component
+class AutosuggestWrapper extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
 
@@ -69,9 +69,9 @@ class Autosuggest extends React.Component
         {displayText}
       </span>
 
-  componentDidMount: =>
-    if @refs.input.refs.input.value == ""
-      @refs.input.refs.input.focus()
+  #componentDidMount: =>
+    #if @refs.input.refs.input.value == ""
+    #  @refs.input.refs.input.focus()
 
   suggestionValue: (suggestion) =>
     @getName suggestion.properties
@@ -109,9 +109,9 @@ class Autosuggest extends React.Component
           # 1) we start showing results after 2 characters (this one is ok)
           # 2) when we notice that everything is cleared, we remove location from flux store (not ok)
           # react-autosuggest should support second case, but it currently doesn't
-          if input == ""
-            @context.executeAction @props.onEmptyAction
-          return input.trim().length >= 2
+          #if input == ""
+           # @props.onEmptyAction()
+          input.trim().length >= 2
         }
         onSuggestionSelected={@onSuggestionSelected}
         inputAttributes={
@@ -124,4 +124,4 @@ class Autosuggest extends React.Component
       />
     </form>
 
-module.exports = Autosuggest
+module.exports = AutosuggestWrapper

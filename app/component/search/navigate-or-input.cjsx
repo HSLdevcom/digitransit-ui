@@ -2,19 +2,6 @@ React = require 'react'
 Icon = require '../icon/icon'
 {FormattedMessage} = require 'react-intl'
 
-
-getTrackMeMessage = () ->
-  <FormattedMessage
-    id="locate"
-    defaultMessage='Locate'
-  />
-
-getOriginMessage = () ->
-  <FormattedMessage
-    id="give-origin"
-    defaultMessage='Type origin'
-  />
-
 NavigateOrInput = (props) ->
   <div className="input-placeholder navigate-or-input">
     <span onClick={props.setToCurrent}  className="inline-block">
@@ -25,14 +12,22 @@ NavigateOrInput = (props) ->
     </span>
     <span
       onClick={props.setToCurrent}
-      className="navigate-or-input-messages">{getTrackMeMessage()}
+      className="navigate-or-input-messages">
+        <FormattedMessage
+          id={props.locateId}
+          defaultMessage={props.locateDefault}
+        />
     </span>
     <span className="navigate-or-input--or">
       <FormattedMessage id="or" defaultMessage='or' />
     </span>
     <span
-      onClick={props.enableInput.bind(null, props.id)}
-      className="navigate-or-input-messages">{getOriginMessage()}
+      onClick={props.enableInput}
+      className="navigate-or-input-messages">
+        <FormattedMessage
+          id={props.giveId}
+          defaultMessage={props.giveDefault}
+        />
     </span>
   </div>
 

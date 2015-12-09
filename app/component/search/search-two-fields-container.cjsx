@@ -34,6 +34,8 @@ class SearchTwoFieldsContainer extends React.Component
       @forceUpdate()
 
   onEndpointChange: () =>
+    origin = @context.getStore('EndpointStore').getOrigin()
+    destination = @context.getStore('EndpointStore').getDestination()
     @forceUpdate()
 
     @routeIfPossible() #TODO: this should not be done here
@@ -74,9 +76,9 @@ class SearchTwoFieldsContainer extends React.Component
         @context.history.pushState(null, "/reitti/#{from}/#{to}")
       , 0)
 
-  getGeolocationBar: (geolocation) =>
+  getGeolocationBar: () =>
     <GeolocationBar
-      geolocation={geolocation}
+      geolocation={@context.getStore('PositionStore').getLocationState()}
       removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
       locateUser={() => @context.executeAction PositionActions.findLocation}
     />
@@ -87,47 +89,55 @@ class SearchTwoFieldsContainer extends React.Component
     destination = @context.getStore('EndpointStore').getDestination()
 
     from =
-      if origin.useCurrentPosition
-        @getGeolocationBar(geolocation)
+      if origin?.useCurrentPosition
+        @getGeolocationBar()
       else if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !origin.userSetPosition
         <NavigateOrInput
           setToCurrent={() => @context.executeAction EndpointActions.setOriginToCurrent}
           enableInput={() => @context.executeAction EndpointActions.enableOriginInputMode}
           id='origin'
+          locateId='locate'
+          locateDefault='Locate'
+          giveId='give-origin'
+          giveDefault='Type origin'
         />
       else
         <Autosuggest
-          key="origin"
+          key={origin.address}
           onSelectionAction={EndpointActions.setOrigin}
-          onEmptyAction={EndpointActions.clearOrigin}
+          onEmptyAction={() => @context.executeAction EndpointActions.clearOrigin}
           placeholder={@context.intl.formatMessage(
             id: 'origin'
             defaultMessage: "From where? - address or stop")}
-          value=origin.address
+          value=origin?.address
           id="origin"
-          disableInput={() => @context.executeAction EndpointActions.disablOriginInputMode}
+          disableInput={() => @context.executeAction EndpointActions.disableOriginInputMode}
         />
 
     to =
-      if destination.useCurrentPosition
-        @getGeolocationBar(geolocation)
+      if destination?.useCurrentPosition
+        @getGeolocationBar()
       else if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !destination.userSetPosition
         <NavigateOrInput
-                setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
-                enableInput={() => @context.executeAction EndpointActions.enableDestinationInputMode}
-                id='destination'
+          setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
+          enableInput={() => @context.executeAction EndpointActions.enableDestinationInputMode}
+          id='destination'
+          locateId='locate'
+          locateDefault='Locate'
+          giveId='give-destination'
+          giveDefault='Type destinationn'
         />
       else
         <Autosuggest
-          key="destination"
+          key={destination.address}
           onSelectionAction={EndpointActions.setDestination}
-          onEmptyAction={EndpointActions.clearDestination}
+          onEmptyAction={() => @context.executeAction EndpointActions.clearDestination}
           placeholder={@context.intl.formatMessage(
             id: 'destination'
             defaultMessage: "Where to? - address or stop")}
-          value=destination.address
+          value=destination?.address
           id="destination"
-          disableInput={() => @context.executeAction EndpointActions.disablDestinationInputMode}
+          disableInput={() => @context.executeAction EndpointActions.disableDestinationInputMode}
         />
 
     <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>

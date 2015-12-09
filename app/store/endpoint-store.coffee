@@ -8,19 +8,21 @@ class EndpointStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @setOriginToCurrent()
-    @clearDestination()
+    @origin = @getUseCurrent(true)
+    @destination = @getUseCurrent(false)
 
   isCurrentPositionInUse: () ->
     @origin.useCurrentPosition || @destination.useCurrentPosition
 
   clearOrigin: () ->
-    @origin = @getUseCurrent(false)
-    @emitChange()
+    if @origin?.userSetPosition && @origin.address?.length > 0
+      @origin = @getUseCurrent(false)
+      @emitChange()
 
-  clearDestination: () ->
-    @destination = @getUseCurrent(false)
-    @emitChange()
+  clearDestination: () =>
+    if @destination?.userSetPosition && @destination.address?.length > 0
+      @destination = @getUseCurrent(false)
+      @emitChange()
 
   swapOriginDestination: () ->
     [@destination, @origin] = [@origin, @destination]
@@ -34,9 +36,9 @@ class EndpointStore extends Store
     @destination = @getUseCurrent(true)
     @emitChange()
 
-  getUseCurrent: (useCurrent) ->
+  getUseCurrent: (useCurrent) =>
     useCurrentPosition: useCurrent
-    userSetPosition: false
+    userSetPosition: @destination?.userSetPosition || false
     lat: null
     lon: null
     address: null
@@ -51,12 +53,24 @@ class EndpointStore extends Store
     @emitChange()
 
   enableOriginInputMode: () ->
-    @origin.userSetPosition = true
-    @origin.useCurrentPosition = false
-    @emitChange()
+    @enable(@origin)
 
   disableOriginInputMode: () ->
     @origin.userSetPosition = false
+    @origin.address = ""
+    @emitChange()
+
+  enableDestinationInputMode: () ->
+    @enable(@destination)
+
+  enable: (t) ->
+    t.userSetPosition = true
+    t.useCurrentPosition = false
+    @emitChange()
+
+  disableDestinationInputMode: () ->
+    @destination.userSetPosition = false
+    @destination.address = ""
     @emitChange()
 
   setDestination: (location) ->
@@ -76,9 +90,10 @@ class EndpointStore extends Store
 
   clearGeolocation: () ->
     if @origin.useCurrentPosition
-      @clearOrigin()
+      @origin.useCurrentPosition = false
     if @destination.useCurrentPosition
-      @clearDestination()
+      @destination.useCurrentPosition = false
+    @emitChange()
 
   dehydrate: ->
     {@origin, @destination}
@@ -86,7 +101,6 @@ class EndpointStore extends Store
   rehydrate: (data) ->
     @origin = data.origin
     @destination = data.destination
-
 
   @handlers:
     "setOrigin": "setOrigin"
@@ -103,5 +117,7 @@ class EndpointStore extends Store
     "isCurrentPositionInUse": "isCurrentPositionInUse"
     "enableOriginInputMode": "enableOriginInputMode"
     "disableOriginInputMode": "disableOriginInputMode"
+    "enableDestinationInputMode": "enableDestinationInputMode"
+    "disableDestinationInputMode": "disableDestinationInputMode"
 
 module.exports = EndpointStore

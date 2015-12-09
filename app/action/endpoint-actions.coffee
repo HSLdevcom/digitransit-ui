@@ -28,6 +28,7 @@ clearDestination = (actionContext) ->
   actionContext.dispatch "clearDestination"
 
 clearGeolocation = (actionContext) ->
+  console.log("clear")
   actionContext.dispatch "clearGeolocation"
 
 disableOriginInputMode = (actionContext) ->
@@ -35,6 +36,12 @@ disableOriginInputMode = (actionContext) ->
 
 enableOriginInputMode = (actionContext) ->
   actionContext.dispatch "enableOriginInputMode"
+
+disableDestinationInputMode = (actionContext) ->
+  actionContext.dispatch "disableDestinationInputMode"
+
+enableDestinationInputMode = (actionContext) ->
+  actionContext.dispatch "enableDestinationInputMode"
 
 module.exports =
   'setOrigin': setOrigin
@@ -47,3 +54,5 @@ module.exports =
   'clearGeolocation': clearGeolocation
   'disableOriginInputMode': disableOriginInputMode
   'enableOriginInputMode': enableOriginInputMode
+  'enableDestinationInputMode': enableDestinationInputMode
+  'disableDestinationInputMode': disableDestinationInputMode
