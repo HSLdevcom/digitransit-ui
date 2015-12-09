@@ -60,10 +60,6 @@ fetch(config.URL.FONT).then(function(res){
 /* Setup functions */
 function setUpStaticFolders() {
   var staticFolder = appRoot + "/_static"
-  var mapFontsFolder = path.join(staticFolder, 'map', 'fonts')
-  app.use(config.ROOT_PATH + "/mapFonts", express.static(mapFontsFolder, {
-    setHeaders: function(res) {res.setHeader("Content-Encoding","gzip")}
-  }))
   app.use(config.ROOT_PATH, express.static(staticFolder))
 }
 
