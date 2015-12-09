@@ -24,17 +24,13 @@ NavigateOrInput = (props) ->
     <span
       onClick={props.enableInput}
       className="navigate-or-input-messages">
-        <FormattedMessage
-          id={props.giveId}
-          defaultMessage={props.giveDefault}
-        />
+        {props.text}
     </span>
   </div>
 
 NavigateOrInput.propTypes =
-  setToCurrent: React.PropTypes.func.isRequired
   enableInput: React.PropTypes.func.isRequired
-  id: React.PropTypes.string.isRequired
+  text: React.PropTypes.string.isRequired
 
 NavigateOrInput.displayName = "NavigateOrInput"
 
