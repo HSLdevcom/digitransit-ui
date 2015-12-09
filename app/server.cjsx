@@ -109,7 +109,7 @@ getHtml = (context, renderProps, locale, polyfills) ->
     content={getContent(context, renderProps, locale)}
     polyfill={polyfills}
     state={'window.state=' + serialize(application.dehydrate(context)) + ';'}
-    livereload={if config.NODE_ENV == 'development' then '//localhost:9000/' else config.ROOT_PATH + '/'}
+    livereload={if config.NODE_ENV == 'development' then '//localhost:9000/' else config.APP_PATH + '/'}
     locale={'window.locale="' + locale + '"'}
     scripts={getScripts()}
     fonts={fonts}
@@ -122,7 +122,7 @@ module.exports = (req, res, next) ->
   context = application.createContext()
   #required by material-ui
   global.navigator = userAgent: req.headers['user-agent']
-  location = useBasename(useQueries(createHistory))(basename: config.ROOT_PATH).createLocation(req.url)
+  location = useBasename(useQueries(createHistory))(basename: config.APP_PATH).createLocation(req.url)
 
   match {routes: context.getComponent(), location: location}
   , (error, redirectLocation, renderProps) ->

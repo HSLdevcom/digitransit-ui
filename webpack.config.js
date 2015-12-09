@@ -16,12 +16,7 @@ function getLoadersConfig(env) {
       { test: /\.coffee$/, loader: 'coffee' },
       { test: /\.json$/, loader: 'json'},
       { test: /\.jsx$/, loaders: ['react-hot', 'babel']},
-      { test: /\.scss$/,
-        loaders: [
-          'style', 'css', 'postcss',
-          'sass?includePaths[]=' + (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default'))
-        ]
-      },
+      { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass']},
       { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file'},
       { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
     ])
@@ -110,7 +105,7 @@ module.exports = {
     path: path.join(__dirname, "_static"),
     filename: (process.env.NODE_ENV === "development") ? 'js/bundle.js': 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[name].[chunkhash].js',
-    publicPath: ((process.env.NODE_ENV === "development") ? 'http://localhost:' + port : (process.env.ROOT_PATH || '')) + '/'
+    publicPath: ((process.env.NODE_ENV === "development") ? 'http://localhost:' + port : (process.env.APP_PATH || '')) + '/'
   },
   resolveLoader: {
     modulesDirectories: ['node_modules']

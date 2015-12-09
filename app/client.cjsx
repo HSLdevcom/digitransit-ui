@@ -52,7 +52,7 @@ app.rehydrate dehydratedState, (err, context) ->
       <PiwikProvider piwik={piwik}>
         <StoreListeningIntlProvider translations={translations}>
           <ReactRouterRelay.RelayRouter
-            history={useBasename(useQueries(createHistory))(basename: config.ROOT_PATH)}
+            history={useBasename(useQueries(createHistory))(basename: config.APP_PATH)}
             children={app.getComponent()}
             onUpdate={() ->
               piwik.setCustomUrl(@history.createHref(@state.location))
