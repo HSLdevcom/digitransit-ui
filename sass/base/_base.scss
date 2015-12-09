@@ -140,6 +140,10 @@ body select  {
   margin-bottom: 0;
 }
 
+.no-select {
+  user-select: none;
+}
+
 /*
   Style Guidelines Page
 */
