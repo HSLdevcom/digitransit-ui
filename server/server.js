@@ -1,4 +1,5 @@
-if (process.env.NODE_ENV == 'production') {
+var config = require('../app/config');
+if (config.NODE_ENV == 'production') {
   var raven = require('raven');
 }
 
@@ -15,14 +16,14 @@ global.fetch = require('node-fetch');
 global.self = {fetch: global.fetch};
 
 /********** Global **********/
-var port = process.env.PORT || 8080
+var port = config.PORT || 8080
 var app = express()
 
 /* Setup functions */
 function setUpStaticFolders() {
   var staticFolder = process.cwd() + "/_static"
   // Sert cache for 1 week
-  app.use(require('../app/config').ROOT_PATH, express.static(staticFolder, {maxAge: 604800000}))
+  app.use(config.APP_PATH, express.static(staticFolder, {maxAge: 604800000}))
 }
 
 function setUpMiddleware() {
@@ -36,13 +37,13 @@ function onError(err, req, res, next) {
 }
 
 function setupRaven() {
-  if (process.env.NODE_ENV == 'production') {
+  if (config.NODE_ENV == 'production') {
     app.use(raven.middleware.express.requestHandler(process.env.SENTRY_SECRET_DSN));
   }
 }
 
 function setupErrorHandling(){
-  if(process.env.NODE_ENV == 'production') {
+  if(config.NODE_ENV == 'production') {
     app.use(raven.middleware.express.errorHandler(process.env.SENTRY_SECRET_DSN));
   }
 

@@ -1,7 +1,9 @@
 # Set up logging to Sentry
-if process.env.NODE_ENV == 'production'
+config = require '../config'
+
+if config.NODE_ENV == 'production'
   Raven = require 'raven-js'
-  Raven.config(process.env.SENTRY_DSN).install()
+  Raven.config(config.SENTRY_DSN).install()
 
   # Rebind console.error if it exists so that we can catch async exceptions from React
   # We want the original 'this' here so don't use =>

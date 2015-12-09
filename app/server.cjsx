@@ -27,7 +27,7 @@ ApplicationHtml = require('./html')
 
 appRoot = process.cwd() + '/'
 svgSprite = fs.readFileSync(appRoot + 'static/svg-sprite.svg')
-if process.env.NODE_ENV != 'development'
+if config.NODE_ENV != 'development'
   css = fs.readFileSync(appRoot + '_static/css/bundle.css')
 
 # Cache fonts from google, so that we don't need an additional roud trip to fetch font definitions
@@ -37,7 +37,7 @@ fetch(config.URL.FONT).then (res) ->
     fonts = text
 
 # Look up paths for various asset files
-if process.env.NODE_ENV != 'development'
+if config.NODE_ENV != 'development'
   stats = require('../stats.json')
   manifest = fs.readFileSync(appRoot + "_static/" + stats.assetsByChunkName.manifest[0])
 
@@ -64,7 +64,7 @@ getPolyfills = (userAgent) ->
     unknown: 'polyfill'
 
 getScripts = ->
-  if process.env.NODE_ENV == 'development'
+  if config.NODE_ENV == 'development'
     <script async src="//localhost:9000/js/bundle.js"/>
   else
     [
@@ -97,15 +97,16 @@ getContent = (context, renderProps, locale) ->
 
 getHtml = (context, renderProps, locale, polyfills) ->
   ReactDOM.renderToStaticMarkup <ApplicationHtml
-    css={if process.env.NODE_ENV == 'development' then false else css}
+    css={if config.NODE_ENV == 'development' then false else css}
     svgSprite={svgSprite}
     content={getContent(context, renderProps, locale)}
     polyfill={polyfills}
     state={'window.state=' + serialize(application.dehydrate(context)) + ';'}
-    livereload={if process.env.NODE_ENV == 'development' then '//localhost:9000/' else config.ROOT_PATH + '/'}
+    livereload={if config.NODE_ENV == 'development' then '//localhost:9000/' else config.ROOT_PATH + '/'}
     locale={'window.locale="' + locale + '"'}
     scripts={getScripts()}
     fonts={fonts}
+    config={'window.config=' + JSON.stringify(config)}
   />
 
 module.exports = (req, res, next) ->

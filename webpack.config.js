@@ -47,30 +47,11 @@ function getPluginsConfig(env) {
     return([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /fi|sv|en\-gb/),
-      new webpack.DefinePlugin({
-        'process.env': {
-          SERVER_ROOT: JSON.stringify((typeof process.env.SERVER_ROOT === "undefined") ? 'http://dev.digitransit.fi': process.env.SERVER_ROOT),
-          NODE_ENV: JSON.stringify("development"),
-          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH),
-          CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
-        }
-      }),
       new webpack.NoErrorsPlugin()
     ])
   } else {
     return([
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en\-gb/),
-      new webpack.DefinePlugin({
-        'process.env': {
-          SERVER_ROOT: JSON.stringify(process.env.SERVER_ROOT),
-          NODE_ENV: JSON.stringify("production"),
-          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH),
-          CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default'),
-          SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
-          PIWIK_ADDRESS: JSON.stringify(process.env.PIWIK_ADDRESS),
-          PIWIK_ID: JSON.stringify(process.env.PIWIK_ID),
-        }
-      }),
       new webpack.PrefetchPlugin('react'),
       new webpack.PrefetchPlugin('react-router'),
       new webpack.PrefetchPlugin('fluxible'),

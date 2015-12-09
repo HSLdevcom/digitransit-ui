@@ -15,7 +15,7 @@ StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
 PositionActions   = require './action/position-actions.coffee'
-piwik             = require('./util/piwik').getTracker(process.env.PIWIK_ADDRESS, process.env.PIWIK_ID)
+piwik             = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID)
 PiwikProvider     = require './component/util/piwik-provider'
 dehydratedState   = window.state # Sent from the server
 
