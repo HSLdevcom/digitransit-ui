@@ -1,22 +1,14 @@
 React = require 'react'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
 PositionActions  = require '../../action/position-actions.coffee'
-Autosuggest = require './autosuggest'
-Link = require 'react-router/lib/Link'
 {locationToOTP} = require '../../util/otp-strings'
-GeolocationBar = require './geolocation-bar'
 SearchTwoFields = require './search-two-fields'
-NavigateOrInput = require './navigate-or-input'
+SearchField     = require './search-field'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class SearchTwoFieldsContainer extends React.Component
-
-  constructor: ->
-    super
-    @state =
-      originUserInput: !@context.getStore('EndpointStore').getOrigin().useCurrentPosition
 
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
@@ -38,44 +30,17 @@ class SearchTwoFieldsContainer extends React.Component
     if statusChanged
       @forceUpdate()
 
-  onEndpointChange: (clearGeolocation) =>
-    if clearGeolocation in ['origin']
-      @setState
-        originUserInput: true
-    else
-      @forceUpdate()
+  onEndpointChange: () =>
+    @forceUpdate()
 
     @routeIfPossible() #TODO: this should not be done here
 
   onSwitch: (e) =>
     e.preventDefault()
-
-    origin = @context.getStore('EndpointStore').getOrigin()
-    geolocation = @context.getStore('PositionStore').getLocationState()
-
-    # Button is disabled when geolocationing is in process
-    if origin.useCurrentPosition and geolocation.isLocationingInProgress
+    if @context.getStore('EndpointStore').getOrigin().useCurrentPosition and @context.getStore('PositionStore').getLocationState().isLocationingInProgress
       return
 
     @context.executeAction EndpointActions.swapOriginDestination
-
-  removePosition: =>
-    @context.executeAction EndpointActions.clearGeolocation
-
-  setOriginToCurrent: =>
-    @context.executeAction EndpointActions.setOriginToCurrent
-
-  setDestinationToCurrent: =>
-    @context.executeAction EndpointActions.setDestinationToCurrent
-
-  enableInputMode: (endpoint) =>
-    if endpoint == 'origin'
-      @setState
-        originUserInput: true
-
-  disableInputMode: (endpoint) =>
-    @setState if endpoint == "origin"
-      originUserInput: false
 
   routeIfPossible: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -84,10 +49,6 @@ class SearchTwoFieldsContainer extends React.Component
 
     if ((origin.lat or origin.useCurrentPosition and geolocation.hasLocation) and
         (destination.lat or destination.useCurrentPosition and geolocation.hasLocation))
-      # First, we must blur input field because without this
-      # Android keeps virtual keyboard open too long which
-      # causes problems in next page rendering
-      #@autoSuggestInput.blur()
 
       # TODO: currently address gets overwritten by reverse from geolocation
       # Swap the position of the two arguments to get "Oma sijainti"
@@ -110,54 +71,46 @@ class SearchTwoFieldsContainer extends React.Component
         @context.history.pushState(null, "/reitti/#{from}/#{to}")
       , 0)
 
-  getGeolocationBar: (geolocation) =>
-    <GeolocationBar
-      geolocation={geolocation}
-      removePosition={@removePosition}
-      locateUser={() => @context.executeAction PositionActions.findLocation}
-    />
-
   render: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
     from =
-      if origin.useCurrentPosition
-        @getGeolocationBar(geolocation)
-      else if @state.originUserInput
-        <Autosuggest
-          key="origin"
-          onSelectionAction={EndpointActions.setOrigin}
-          onEmptyAction={EndpointActions.clearOrigin}
-          placeholder={@context.intl.formatMessage(
-            id: 'origin'
-            defaultMessage: "From where? - address or stop")}
-          value=origin.address
-          id="origin"
-          disableInput={@disableInputMode.bind(null, 'origin')}
-        />
-      else
-        <NavigateOrInput
-          setToCurrent={@setOriginToCurrent}
-          enableInput={@enableInputMode}
-          id='origin'
-        />
+      <SearchField
+        endpoint={origin}
+        geolocation={geolocation}
+        setToCurrent={() => @context.executeAction EndpointActions.setOriginToCurrent}
+        enableInputMode={() => @context.executeAction EndpointActions.enableOriginInputMode}
+        disableInputMode={() => @context.executeAction EndpointActions.disableOriginInputMode}
+        clear={() => @context.executeAction EndpointActions.clearOrigin}
+        autosuggestPlaceholder={@context.intl.formatMessage(
+          id: 'origin'
+          defaultMessage: 'From where? - address or stop')}
+        navigateOrInputPlaceHolder={@context.intl.formatMessage(
+          id: 'give-origin'
+          defaultMessage: 'Type origin')}
+        id='origin'
+        onSelectAction={EndpointActions.setOrigin}
+      />
 
     to =
-      if destination.useCurrentPosition
-        @getGeolocationBar(geolocation)
-      else
-        <Autosuggest
-          key="destination"
-          onSelectionAction={EndpointActions.setDestination}
-          onEmptyAction={EndpointActions.clearDestination}
-          placeholder={@context.intl.formatMessage(
-            id: 'destination'
-            defaultMessage: "Where to? - address or stop")}
-          value=destination.address
-          id="destination"
-        />
+      <SearchField
+        endpoint={destination}
+        geolocation={geolocation}
+        setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
+        enableInputMode={() => @context.executeAction EndpointActions.enableDestinationInputMode}
+        disableInputMode={() => @context.executeAction EndpointActions.disableDestinationInputMode}
+        clear={() => @context.executeAction EndpointActions.clearDestination}
+        autosuggestPlaceholder={@context.intl.formatMessage(
+          id: 'destination'
+          defaultMessage: 'Where to? - address or stop')}
+        navigateOrInputPlaceHolder={@context.intl.formatMessage(
+          id: 'give-destination'
+          defaultMessage: 'Type destination')}
+        id='destination'
+        onSelectAction={EndpointActions.setDestination}
+      />
 
     <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
 
