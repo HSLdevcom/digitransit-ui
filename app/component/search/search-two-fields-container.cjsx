@@ -7,6 +7,8 @@ Link = require 'react-router/lib/Link'
 GeolocationBar = require './geolocation-bar'
 SearchTwoFields = require './search-two-fields'
 NavigateOrInput = require './navigate-or-input'
+{getRoutePath}   = require '../../util/path'
+
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -107,7 +109,7 @@ class SearchTwoFieldsContainer extends React.Component
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
       setTimeout(() =>
-        @context.history.pushState(null, "/reitti/#{encodeURIComponent(from)}/#{encodeURIComponent(to)}")
+        @context.history.pushState(null, getRoutePath(from, to))
       , 0)
 
   getGeolocationBar: (geolocation) =>

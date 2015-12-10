@@ -93,6 +93,7 @@ translations =
     'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi'
     'platform-num': 'Laituri {platformCode}'
     'departures': 'Lähdöt'
+    'show-departures': 'Näytä lähdöt'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -184,5 +185,6 @@ translations =
     'inquiry': 'Delta på förfrågan'
     'platform-num': 'Plattform {platformCode}'
     'departures': 'Avgångar'
+    'show-departures': 'Visa avgångar'
 
 module.exports = translations
