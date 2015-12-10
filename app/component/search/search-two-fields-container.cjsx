@@ -13,11 +13,6 @@ FormattedMessage = intl.FormattedMessage
 
 class SearchTwoFieldsContainer extends React.Component
 
-  constructor: ->
-    super
-    @state =
-      originUserInput: !@context.getStore('EndpointStore').getOrigin().useCurrentPosition
-
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
@@ -38,44 +33,17 @@ class SearchTwoFieldsContainer extends React.Component
     if statusChanged
       @forceUpdate()
 
-  onEndpointChange: (clearGeolocation) =>
-    if clearGeolocation in ['origin']
-      @setState
-        originUserInput: true
-    else
-      @forceUpdate()
+  onEndpointChange: () =>
+    @forceUpdate()
 
     @routeIfPossible() #TODO: this should not be done here
 
   onSwitch: (e) =>
     e.preventDefault()
-
-    origin = @context.getStore('EndpointStore').getOrigin()
-    geolocation = @context.getStore('PositionStore').getLocationState()
-
-    # Button is disabled when geolocationing is in process
-    if origin.useCurrentPosition and geolocation.isLocationingInProgress
+    if @context.getStore('EndpointStore').getOrigin().useCurrentPosition and @context.getStore('PositionStore').getLocationState().isLocationingInProgress
       return
 
     @context.executeAction EndpointActions.swapOriginDestination
-
-  removePosition: =>
-    @context.executeAction EndpointActions.clearGeolocation
-
-  setOriginToCurrent: =>
-    @context.executeAction EndpointActions.setOriginToCurrent
-
-  setDestinationToCurrent: =>
-    @context.executeAction EndpointActions.setDestinationToCurrent
-
-  enableInputMode: (endpoint) =>
-    if endpoint == 'origin'
-      @setState
-        originUserInput: true
-
-  disableInputMode: (endpoint) =>
-    @setState if endpoint == "origin"
-      originUserInput: false
 
   routeIfPossible: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -84,10 +52,6 @@ class SearchTwoFieldsContainer extends React.Component
 
     if ((origin.lat or origin.useCurrentPosition and geolocation.hasLocation) and
         (destination.lat or destination.useCurrentPosition and geolocation.hasLocation))
-      # First, we must blur input field because without this
-      # Android keeps virtual keyboard open too long which
-      # causes problems in next page rendering
-      #@autoSuggestInput.blur()
 
       # TODO: currently address gets overwritten by reverse from geolocation
       # Swap the position of the two arguments to get "Oma sijainti"
@@ -113,7 +77,7 @@ class SearchTwoFieldsContainer extends React.Component
   getGeolocationBar: (geolocation) =>
     <GeolocationBar
       geolocation={geolocation}
-      removePosition={@removePosition}
+      removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
       locateUser={() => @context.executeAction PositionActions.findLocation}
     />
 
@@ -125,7 +89,13 @@ class SearchTwoFieldsContainer extends React.Component
     from =
       if origin.useCurrentPosition
         @getGeolocationBar(geolocation)
-      else if @state.originUserInput
+      else if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !origin.userSetPosition
+        <NavigateOrInput
+          setToCurrent={() => @context.executeAction EndpointActions.setOriginToCurrent}
+          enableInput={() => @context.executeAction EndpointActions.enableOriginInputMode}
+          id='origin'
+        />
+      else
         <Autosuggest
           key="origin"
           onSelectionAction={EndpointActions.setOrigin}
@@ -135,18 +105,18 @@ class SearchTwoFieldsContainer extends React.Component
             defaultMessage: "From where? - address or stop")}
           value=origin.address
           id="origin"
-          disableInput={@disableInputMode.bind(null, 'origin')}
-        />
-      else
-        <NavigateOrInput
-          setToCurrent={@setOriginToCurrent}
-          enableInput={@enableInputMode}
-          id='origin'
+          disableInput={() => @context.executeAction EndpointActions.disablOriginInputMode}
         />
 
     to =
       if destination.useCurrentPosition
         @getGeolocationBar(geolocation)
+      else if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !destination.userSetPosition
+        <NavigateOrInput
+                setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
+                enableInput={() => @context.executeAction EndpointActions.enableDestinationInputMode}
+                id='destination'
+        />
       else
         <Autosuggest
           key="destination"
@@ -157,6 +127,7 @@ class SearchTwoFieldsContainer extends React.Component
             defaultMessage: "Where to? - address or stop")}
           value=destination.address
           id="destination"
+          disableInput={() => @context.executeAction EndpointActions.disablDestinationInputMode}
         />
 
     <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>

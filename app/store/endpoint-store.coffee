@@ -11,52 +11,57 @@ class EndpointStore extends Store
     @setOriginToCurrent()
     @clearDestination()
 
+  isCurrentPositionInUse: () ->
+    @origin.useCurrentPosition || @destination.useCurrentPosition
+
   clearOrigin: () ->
-    @origin =
-        useCurrentPosition: false
-        lat: null
-        lon: null
-        address: null
-    @emitChange('origin')
+    @origin = @getUseCurrent(false)
+    @emitChange()
 
   clearDestination: () ->
-    @destination =
-        useCurrentPosition: false
-        lat: null
-        lon: null
-        address: null
-    @emitChange('destination')
+    @destination = @getUseCurrent(false)
+    @emitChange()
 
   swapOriginDestination: () ->
     [@destination, @origin] = [@origin, @destination]
     @emitChange()
 
   setOriginToCurrent: () ->
-    @origin =
-        useCurrentPosition: true
-        lat: null
-        lon: null
-        address: null
+    @origin = @getUseCurrent(true)
     @emitChange()
 
   setDestinationToCurrent: () ->
-    @destination =
-        useCurrentPosition: true
-        lat: null
-        lon: null
-        address: null
+    @destination = @getUseCurrent(true)
     @emitChange()
+
+  getUseCurrent: (useCurrent) ->
+    useCurrentPosition: useCurrent
+    userSetPosition: false
+    lat: null
+    lon: null
+    address: null
 
   setOrigin: (location) ->
     @origin =
+      userSetPosition: true
       useCurrentPosition: false
       lat: location.lat
       lon: location.lon
       address: location.address
-    @emitChange("set-origin")
+    @emitChange()
+
+  enableOriginInputMode: () ->
+    @origin.userSetPosition = true
+    @origin.useCurrentPosition = false
+    @emitChange()
+
+  disableOriginInputMode: () ->
+    @origin.userSetPosition = false
+    @emitChange()
 
   setDestination: (location) ->
     @destination =
+      userSetPosition: true
       useCurrentPosition: false
       lat: location.lat
       lon: location.lon
@@ -91,9 +96,12 @@ class EndpointStore extends Store
     "swapOriginDestination": "swapOriginDestination"
     "clearOrigin": "clearOrigin"
     "clearDestination": "clearDestination"
-    "GeolocationNotSupported": 'clearGeolocation'
-    "GeolocationDenied": 'clearGeolocation'
-    "GeolocationTimeout": 'clearGeolocation'
+    "GeolocationNotSupported": "clearGeolocation"
+    "GeolocationDenied": "clearGeolocation"
+    "GeolocationTimeout": "clearGeolocation"
     "clearGeolocation": "clearGeolocation"
+    "isCurrentPositionInUse": "isCurrentPositionInUse"
+    "enableOriginInputMode": "enableOriginInputMode"
+    "disableOriginInputMode": "disableOriginInputMode"
 
 module.exports = EndpointStore
