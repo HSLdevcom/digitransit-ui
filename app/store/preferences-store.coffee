@@ -1,4 +1,5 @@
 Store             = require 'fluxible/addons/BaseStore'
+storage           = require './local-storage'
 
 STORAGE_KEY       = "userPreferences"
 ALLOWED_LANGUAGES = ['fi', 'sv', 'en']
@@ -24,10 +25,8 @@ class PreferencesStore extends Store
 
     @emitChange(language)
 
-
   loadPreferences: ->
     if window?
-      storage = window.localStorage
       preferences = storage.getItem(STORAGE_KEY)
       if preferences?
         JSON.parse(preferences)
@@ -37,9 +36,7 @@ class PreferencesStore extends Store
       language: 'en'
 
   storePreferences: () ->
-    storage = window.localStorage
-    p = JSON.stringify(@preferences)
-    window.localStorage.setItem(STORAGE_KEY, p)
+    storage.setItem(STORAGE_KEY, @preferences)
 
   @handlers:
     "SetLanguage": 'setLanguage'

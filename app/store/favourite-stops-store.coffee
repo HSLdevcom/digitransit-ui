@@ -1,5 +1,6 @@
 Store    = require 'fluxible/addons/BaseStore'
 includes = require 'lodash/collection/includes'
+storage = require './local-storage'
 
 STORAGE_KEY = "favouriteStops"
 FORCE_STORE_CLEAN = false
@@ -9,25 +10,21 @@ class FavouriteStopsStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @stops = @getStops()
-    if @stops == null or FORCE_STORE_CLEAN
+    if @stops == FORCE_STORE_CLEAN
       @stops = []
-      window.localStorage.setItem(STORAGE_KEY, "[]")
+      @storeStops()
+    else
+      @stops = @getStops()
 
   getStops: () ->
-    if !window?
-      return undefined
-    storage = window.localStorage
-    stops = storage.getItem(STORAGE_KEY)
+    stops = storage.getItem(STORAGE_KEY) || "[]"
     JSON.parse(stops)
 
   isFavourite: (id) ->
     includes(@stops, id)
 
   storeStops: () ->
-    storage = window.localStorage
-    s = JSON.stringify(@stops)
-    window.localStorage.setItem(STORAGE_KEY, s)
+    storage.setItem(STORAGE_KEY, @stops)
 
   toggleFavouriteStop: (stopId) =>
     if typeof stopId isnt 'string'

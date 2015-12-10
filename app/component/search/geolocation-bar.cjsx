@@ -16,7 +16,7 @@ GeolocationBar = (props) ->
   <div className="input-placeholder">
     <div className="address-box">
       <span className={cx 'inline-block', 'geolocation-bar-location-icon'} onClick={props.locateUser}>
-        <Icon img={'icon-icon_mapMarker-location'}/>
+        <Icon img={'icon-icon_position'}/>
       </span>
       {getLocationMessage props.geolocation}
       <span className="inline-block right cursor-pointer" onClick={props.removePosition}>

@@ -8,6 +8,7 @@ TripRouteStop           = require './trip-route-stop'
 isEmpty                 = require 'lodash/lang/isEmpty'
 moment                  = require 'moment'
 geoUtils                = require '../../util/geo-utils'
+config                  = require '../../config'
 
 class TripStopListContainer extends React.Component
   @contextTypes:
@@ -54,7 +55,7 @@ class TripStopListContainer extends React.Component
         vehicle={if nextStop == stoptime.stop.gtfsId then vehicle}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
-        distance={if nearest?.stop.gtfsId == stoptime.stop.gtfsId then nearest.distance}
+        distance={if nearest?.stop.gtfsId == stoptime.stop.gtfsId and  nearest.distance < config.nearestStopDistance.maxShownDistance then nearest.distance}
         realtimeDeparture={stoptime.realtimeDeparture}
         currentTimeFromMidnight={currentTimeFromMidnight}/>
 

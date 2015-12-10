@@ -1,5 +1,6 @@
 Store    = require 'fluxible/addons/BaseStore'
 includes = require 'lodash/collection/includes'
+storage = require './local-storage'
 
 STORAGE_KEY = "favouriteRoutes"
 FORCE_STORE_CLEAN = false
@@ -9,25 +10,21 @@ class FavouriteRoutesStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @routes = @getRoutes()
-    if @routes == null or FORCE_STORE_CLEAN
+    if FORCE_STORE_CLEAN
       @routes = []
-      window.localStorage.setItem(STORAGE_KEY, "[]")
+      storeRoutes()
+    else
+      @routes = @getRoutes()
 
   getRoutes: () ->
-    if !window?
-      return undefined
-    storage = window.localStorage
-    routes = storage.getItem(STORAGE_KEY)
+    routes = storage.getItem(STORAGE_KEY) || "[]"
     JSON.parse(routes)
 
   isFavourite: (id) ->
     includes(@routes, id)
 
   storeRoutes: () ->
-    storage = window.localStorage
-    s = JSON.stringify(@routes)
-    window.localStorage.setItem(STORAGE_KEY, s)
+    storage.setItem(STORAGE_KEY, @routes)
 
   addFavouriteRoute: (routeId) =>
     if typeof routeId isnt 'string'

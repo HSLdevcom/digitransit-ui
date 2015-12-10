@@ -15,11 +15,12 @@ StoreListeningIntlProvider = require './util/store-listening-intl-provider'
 app               = require './app'
 translations      = require './translations'
 PositionActions   = require './action/position-actions.coffee'
-piwik             = require('./util/piwik').getTracker(process.env.PIWIK_ADDRESS, process.env.PIWIK_ID)
+piwik             = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID)
 PiwikProvider     = require './component/util/piwik-provider'
 dehydratedState   = window.state # Sent from the server
 
-require "../sass/main.scss"
+if process.env.NODE_ENV == 'development'
+  require "../sass/themes/#{config.CONFIG}/main.scss"
 
 window._debug = require 'debug' # Allow _debug.enable('*') in browser console
 
@@ -51,7 +52,7 @@ app.rehydrate dehydratedState, (err, context) ->
       <PiwikProvider piwik={piwik}>
         <StoreListeningIntlProvider translations={translations}>
           <ReactRouterRelay.RelayRouter
-            history={useBasename(useQueries(createHistory))(basename: config.ROOT_PATH)}
+            history={useBasename(useQueries(createHistory))(basename: config.APP_PATH)}
             children={app.getComponent()}
             onUpdate={() ->
               piwik.setCustomUrl(@history.createHref(@state.location))
