@@ -10,6 +10,7 @@ GtfsUtils             = require '../../util/gtfs'
 groupBy               = require 'lodash/collection/groupBy'
 cx                    = require 'classnames'
 geoUtils              = require '../../util/geo-utils'
+config                = require '../../config'
 
 class RouteStopListContainer extends React.Component
   @contextTypes:
@@ -46,7 +47,7 @@ class RouteStopListContainer extends React.Component
         stop={stop}
         mode={mode}
         vehicles={vehicle_stops[stop.gtfsId]}
-        distance={nearest.distance if isNearest}
+        distance={nearest.distance if isNearest and nearest.distance < config.nearestStopDistance.maxShownDistance}
         ref={"nearestStop" if isNearest}
       />
     stopObjs
