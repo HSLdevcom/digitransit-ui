@@ -107,7 +107,7 @@ class SearchTwoFieldsContainer extends React.Component
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
       setTimeout(() =>
-        @context.history.pushState(null, "/reitti/#{from}/#{to}")
+        @context.history.pushState(null, "/reitti/#{encodeURIComponent(from)}/#{encodeURIComponent(to)}")
       , 0)
 
   getGeolocationBar: (geolocation) =>
