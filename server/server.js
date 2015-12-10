@@ -80,8 +80,10 @@ function setupRaven() {
 }
 
 function getPolyfills(userAgent) {
-  if (!userAgent || userAgent.search(/(SamsungBrowser|Google Page Speed Insights)/) != -1) {
-    // Do not trust Samsung, see https://digitransit.atlassian.net/browse/DT-360
+  if (!userAgent || userAgent.search(/(GT-|SM-|SamsungBrowser|Google Page Speed Insights)/) != -1) {
+    // Do not trust Samsung, see
+    // https://digitransit.atlassian.net/browse/DT-360
+    // https://digitransit.atlassian.net/browse/DT-445
     userAgent = "";
   }
 
