@@ -30,10 +30,10 @@ class FrontPagePanel extends React.Component
   componentWillUnmount: ->
     @context.getStore('EndpointStore').removeChangeListener @onChange
 
-  onChange: () =>
+  onChange: =>
     @forceUpdate()
 
-  getSelectedPanel: () =>
+  getSelectedPanel: =>
     if typeof window != 'undefined' and supportsHistory()
       @context.location.state?.selectedPanel
     else
