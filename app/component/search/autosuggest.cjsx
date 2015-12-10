@@ -84,8 +84,8 @@ class Autosuggest extends React.Component
 
   # Happens when user presses enter without selecting anything from autosuggest
   onSubmit: (e) =>
-    @getSuggestions @refs.input.state.value, (err, values) => @onSuggestionSelected values[0], e
     e.preventDefault()
+    @getSuggestions @refs.input.state.value, (err, values) => @onSuggestionSelected values[0], e
 
   render: =>
     inputAttributes =
