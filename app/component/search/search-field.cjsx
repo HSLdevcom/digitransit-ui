@@ -42,7 +42,7 @@ class SearchField extends React.Component
       <Autosuggest
         key={@props.endpoint.address}
         onSelectionAction={@props.onSelectAction}
-        onEmptyAction={@props.clear}
+        onEmpty={@props.clear}
         placeholder={@props.autosuggestPlaceholder}
         value={@props.endpoint?.address}
         id={@props.id}

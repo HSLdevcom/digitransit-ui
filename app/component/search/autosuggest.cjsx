@@ -105,7 +105,7 @@ class Autosuggest extends React.Component
           # 2) when we notice that everything is cleared, we remove location from flux store (not ok)
           # react-autosuggest should support second case, but it currently doesn't
           if input == ""
-            @props.onEmptyAction()
+            @props.onEmpty()
           input.trim().length >= 2
         }
         onSuggestionSelected={@onSuggestionSelected}
