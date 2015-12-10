@@ -1,0 +1,56 @@
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+/* =======================================================================================
+Example showing how to change the color/size of the icons:
+.icon-name {
+  font-size: 32px; // works because "width" & "height" were set using em units
+  color: red; // works for single-colored icons, because "fill" was set to "currentColor"
+}
+======================================================================================== */
+.fill-color1 {
+  fill: #000;
+}
+.fill-color2 {
+  fill: #333;
+}
+.fill-color3 {
+  fill: #007247;
+}
+.fill-color4 {
+  fill: #005c97;
+}
+.fill-color5 {
+  fill: #00985f;
+}
+.fill-color6 {
+  fill: #693573;
+}
+.fill-color7 {
+  fill: #008bab;
+}
+.fill-color8 {
+  fill: #007ac9;
+}
+.fill-color9 {
+  fill: #bf4a13;
+}
+.fill-color10 {
+  fill: #8c4799;
+}
+.fill-color11 {
+  fill: #00b9e4;
+}
+.fill-color12 {
+  fill: #fbb800;
+}
+.fill-color13 {
+  fill: #ff6319;
+}
+.fill-color14 {
+  fill: #fff;
+}

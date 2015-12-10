@@ -22,7 +22,7 @@ class TerminalMarker extends React.Component
     intl: intl.intlShape.isRequired
 
   @terminalIcon:
-    Icon.asString 'icon-icon_station--onmap', 'terminal-medium-size'
+    Icon.asString 'icon-icon_mapMarker-station', 'terminal-medium-size'
 
   getTerminalMarker: ->
     TerminalMarkerPopupWithContext = provideContext TerminalMarkerPopup,

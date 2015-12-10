@@ -2,7 +2,7 @@ React = require 'react'
 cx = require 'classnames'
 
 if window?
-  require './icon.css'
+  require "./#{process.env.CONFIG or 'default'}.icon.css"
 
 Icon = (props) ->
   <span>
