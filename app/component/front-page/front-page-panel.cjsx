@@ -25,29 +25,22 @@ class FrontPagePanel extends React.Component
     location: React.PropTypes.object.isRequired
 
   componentDidMount: ->
-    if @context.location.state?.selectedPanel
-      @setState
-        selectedPanel: @context.location.state.selectedPanel
     @context.getStore('EndpointStore').addChangeListener @onChange
-    @unlistenHistory = @context.history.listen @onHistoryChange
 
   componentWillUnmount: ->
     @context.getStore('EndpointStore').removeChangeListener @onChange
-    @unlistenHistory() if @unlistenHistory
-
-  onHistoryChange: (foo, event) =>
-    if event?.location?.state?.selectedPanel
-      @setState
-        selectedPanel: event.location.state.selectedPanel
-    else
-      @setState
-        selectedPanel: null
 
   onChange: () =>
     @forceUpdate()
 
+  getSelectedPanel: () =>
+    if typeof window != 'undefined' and supportsHistory()
+      @context.location.state?.selectedPanel
+    else
+      @state?.selectedPanel
+
   selectPanel: (selection) =>
-    oldSelection = @state?.selectedPanel
+    oldSelection = @getSelectedPanel()
     if selection == oldSelection # clicks again to close
       newSelection = null
     else
@@ -91,7 +84,7 @@ class FrontPagePanel extends React.Component
     tabClasses = []
     selectedClass =
       selected: true
-    if @state?.selectedPanel == 1
+    if @getSelectedPanel() == 1
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel nearby-routes">
                   <div className="row">
@@ -107,7 +100,7 @@ class FrontPagePanel extends React.Component
                 </div>
               </div>
       tabClasses[1] = selectedClass
-    else if @state?.selectedPanel == 2
+    else if @getSelectedPanel() == 2
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel">
                   <div className="row">
@@ -119,7 +112,7 @@ class FrontPagePanel extends React.Component
                 </div>
               </div>
       tabClasses[2] = selectedClass
-    else if @state?.selectedPanel == 3
+    else if @getSelectedPanel() == 3
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel">
                   <div className="row">
