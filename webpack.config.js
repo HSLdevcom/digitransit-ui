@@ -39,11 +39,13 @@ function getPluginsConfig(env) {
     return([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /fi|sv|en\-gb/),
+      new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify("development")}}),
       new webpack.NoErrorsPlugin()
     ])
   } else {
     return([
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en\-gb/),
+      new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify("production")}}),
       new webpack.PrefetchPlugin('react'),
       new webpack.PrefetchPlugin('react-router'),
       new webpack.PrefetchPlugin('fluxible'),

@@ -27,13 +27,13 @@ ApplicationHtml = require('./html')
 
 # Look up paths for various asset files
 appRoot = process.cwd() + '/'
-if config.NODE_ENV != 'development'
+if process.env.NODE_ENV != 'development'
   stats = require('../stats.json')
   manifest = fs.readFileSync(appRoot + "_static/" + stats.assetsByChunkName.manifest[0])
 
 svgSprite = fs.readFileSync(appRoot + "static/svg-sprite.#{config.CONFIG}.svg")
 
-if config.NODE_ENV != 'development'
+if process.env.NODE_ENV != 'development'
   css = [
     <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName.main[1]}/>
     <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName[config.CONFIG + '_theme'][1]}/>
@@ -67,7 +67,7 @@ getPolyfills = (userAgent) ->
     unknown: 'polyfill'
 
 getScripts = (req) ->
-  if config.NODE_ENV == 'development'
+  if process.env.NODE_ENV == 'development'
     host = req.headers['host']?.split(':')[0] or 'localhost'
     <script async src={"//#{host}:9000/js/bundle.js"}/>
   else
@@ -101,7 +101,7 @@ getContent = (context, renderProps, locale) ->
 
 getHtml = (context, renderProps, locale, polyfills, req) ->
   ReactDOM.renderToStaticMarkup <ApplicationHtml
-    css={if config.NODE_ENV == 'development' then false else css}
+    css={if process.env.NODE_ENV == 'development' then false else css}
     svgSprite={svgSprite}
     content={getContent(context, renderProps, locale)}
     polyfill={polyfills}

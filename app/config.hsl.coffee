@@ -4,14 +4,12 @@ APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
 SENTRY_DSN = process.env.SENTRY_DSN or ''
-NODE_ENV = process.env.NODE_ENV or 'development'
 PORT = process.env.PORT or 8080
 
 module.exports =
   PIWIK_ADDRESS: "#{PIWIK_ADDRESS}"
   PIWIK_ID: "#{PIWIK_ID}"
   SENTRY_DSN: "#{SENTRY_DSN}"
-  NODE_ENV: "#{NODE_ENV}"
   PORT: PORT
   CONFIG: "#{CONFIG}"
   URL:

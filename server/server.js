@@ -7,7 +7,7 @@ global.self = {fetch: global.fetch};
 
 
 var config = require('../app/config');
-if (config.NODE_ENV == 'production') {
+if (process.env.NODE_ENV == 'production') {
   var raven = require('raven');
 }
 
@@ -38,13 +38,13 @@ function onError(err, req, res, next) {
 }
 
 function setupRaven() {
-  if (config.NODE_ENV == 'production') {
+  if (process.env.NODE_ENV == 'production') {
     app.use(raven.middleware.express.requestHandler(process.env.SENTRY_SECRET_DSN));
   }
 }
 
 function setupErrorHandling(){
-  if(config.NODE_ENV == 'production') {
+  if(process.env.NODE_ENV == 'production') {
     app.use(raven.middleware.express.errorHandler(process.env.SENTRY_SECRET_DSN));
   }
 

@@ -1,7 +1,7 @@
 # Set up logging to Sentry
 config = require '../config'
 
-if config.NODE_ENV == 'production'
+if process.env.NODE_ENV == 'production'
   Raven = require 'raven-js'
   require 'raven-js/plugins/native.js'
   require 'raven-js/plugins/console.js'
