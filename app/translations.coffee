@@ -4,7 +4,7 @@ translations =
     'own-position': 'Nykyinen sijaintisi'
     'no-position': 'Ei sijaintia'
     'origin': 'Mistä? - osoite tai pysäkki'
-    'destination': 'Mihin? - osoite tai pysäkki'
+    'destination': 'Minne? - osoite tai pysäkki'
     'nearest': 'Lähimmät'
     'previous': 'Edelliset'
     'favourites': 'Suosikit'
