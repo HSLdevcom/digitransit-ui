@@ -66,9 +66,10 @@ getPolyfills = (userAgent) ->
     minify: true
     unknown: 'polyfill'
 
-getScripts = ->
+getScripts = (req) ->
   if config.NODE_ENV == 'development'
-    <script async src="//localhost:9000/js/bundle.js"/>
+    host = req.headers['host']?.split(':')[0] or 'localhost'
+    <script async src={"//#{host}:9000/js/bundle.js"}/>
   else
     [
       <script dangerouslySetInnerHTML={ __html: manifest }/>,
@@ -98,16 +99,15 @@ getContent = (context, renderProps, locale) ->
     </FluxibleComponent>
   )
 
-getHtml = (context, renderProps, locale, polyfills) ->
+getHtml = (context, renderProps, locale, polyfills, req) ->
   ReactDOM.renderToStaticMarkup <ApplicationHtml
     css={if config.NODE_ENV == 'development' then false else css}
     svgSprite={svgSprite}
     content={getContent(context, renderProps, locale)}
     polyfill={polyfills}
     state={'window.state=' + serialize(application.dehydrate(context)) + ';'}
-    livereload={if config.NODE_ENV == 'development' then '//localhost:9000/' else config.APP_PATH + '/'}
     locale={'window.locale="' + locale + '"'}
-    scripts={getScripts()}
+    scripts={getScripts(req)}
     fonts={fonts}
     config={'window.config=' + JSON.stringify(config)}
   />
@@ -134,5 +134,5 @@ module.exports = (req, res, next) ->
         renderProps.components[1].loadAction(renderProps.params).forEach (action) ->
           promises.push context.executeAction(action[0], action[1])
       Promise.all(promises).then((results) ->
-        res.send '<!doctype html>' + getHtml context, renderProps, locale, results[0]
+        res.send '<!doctype html>' + getHtml context, renderProps, locale, results[0], req
       ).catch (err) -> return next(err) if err
