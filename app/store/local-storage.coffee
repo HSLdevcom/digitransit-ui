@@ -12,4 +12,4 @@ module.exports =
       window.localStorage.getItem k
 
   removeItem: (k) ->
-    window?.localStorage?.removeItem STORAGE_KEY
+    window?.localStorage?.removeItem k
