@@ -8,7 +8,6 @@ MarkerPopupBottom     = require '../marker-popup-bottom'
 NotImplementedLink = require '../../util/not-implemented-link'
 {FormattedMessage} = require('react-intl')
 moment                = require 'moment'
-pluck = require 'lodash/collection/pluck'
 sortBy = require 'lodash/collection/sortBy'
 naturalSort = require 'javascript-natural-sort'
 
