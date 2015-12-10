@@ -36,6 +36,12 @@ disableOriginInputMode = (actionContext) ->
 enableOriginInputMode = (actionContext) ->
   actionContext.dispatch "enableOriginInputMode"
 
+disableDestinationInputMode = (actionContext) ->
+  actionContext.dispatch "disableDestinationInputMode"
+
+enableDestinationInputMode = (actionContext) ->
+  actionContext.dispatch "enableDestinationInputMode"
+
 module.exports =
   'setOrigin': setOrigin
   'setDestination': setDestination
@@ -47,3 +53,5 @@ module.exports =
   'clearGeolocation': clearGeolocation
   'disableOriginInputMode': disableOriginInputMode
   'enableOriginInputMode': enableOriginInputMode
+  'enableDestinationInputMode': enableDestinationInputMode
+  'disableDestinationInputMode': disableDestinationInputMode

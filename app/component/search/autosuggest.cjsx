@@ -76,12 +76,7 @@ class Autosuggest extends React.Component
   suggestionValue: (suggestion) =>
     @getName suggestion.properties
 
-  disableInput: =>
-    if @refs.input.refs.input.value == "" and @props.id == "origin"
-      @props.disableInput()
-
   onSuggestionSelected: (suggestion, event) =>
-    event.preventDefault()
     @context.executeAction @props.onSelectionAction,
       lat: suggestion.geometry.coordinates[1]
       lon: suggestion.geometry.coordinates[0],
@@ -89,13 +84,13 @@ class Autosuggest extends React.Component
 
   # Happens when user presses enter without selecting anything from autosuggest
   onSubmit: (e) =>
-    e.preventDefault()
     @getSuggestions @refs.input.state.value, (err, values) => @onSuggestionSelected values[0], e
+    e.preventDefault()
 
   render: =>
     inputAttributes =
-      id: AUTOSUGGEST_ID
       placeholder: @props.placeholder
+      onBlur: @props.disableInput
 
     <form onSubmit={@onSubmit}>
       <ReactAutosuggest
@@ -110,15 +105,11 @@ class Autosuggest extends React.Component
           # 2) when we notice that everything is cleared, we remove location from flux store (not ok)
           # react-autosuggest should support second case, but it currently doesn't
           if input == ""
-            @context.executeAction @props.onEmptyAction
-          return input.trim().length >= 2
+            @props.onEmptyAction()
+          input.trim().length >= 2
         }
         onSuggestionSelected={@onSuggestionSelected}
-        inputAttributes={
-          placeholder: @props.placeholder
-          onBlur: @disableInput
-          #onBlur: @onSubmit Uh, causes a bug, as it is called after bluring the input after a selection has been done
-        }
+        inputAttributes = {inputAttributes}
         id={@props.id}
         scrollBar={true}
       />
