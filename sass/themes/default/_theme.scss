@@ -18,6 +18,9 @@ $livi-bus-blue: rgb(0, 136, 206);
 $livi-logo-blue: rgb(61, 183, 228);
 $livi-airplane-blue: rgb(0, 70, 173);
 $livi-ferry-blue: rgb(53, 181, 179);
+$livi-rail-purple: rgb(175, 141, 188);
+$livi-subway-orange: rgb(237, 140, 0);
+$livi-tram-green: rgb(106, 137, 37);
 $livi-gold: rgb(233, 171, 0);
 $hsl-tram-green: #00985f;
 $hsl-metro-orange: #ff6319;
@@ -61,10 +64,11 @@ $background-color: #eef1f3;
 $dark-color: $gray;
 
 /* Vehicle colors */
+$airplane-color: $livi-airplane-blue;
 $bus-color: $livi-bus-blue;
-$tram-color: $hsl-tram-green;
-$metro-color: $hsl-metro-orange;
-$rail-color: $vr-rail-green;
+$tram-color: $livi-tram-green;
+$metro-color: $livi-subway-orange;
+$rail-color: $livi-rail-purple;
 $ferry-color: $livi-ferry-blue;
 $citybike-color: #FBB800;
 $from-color: #64be14;

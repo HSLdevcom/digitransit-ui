@@ -19,7 +19,7 @@ NavigateOrInput = (props) ->
   <div className="input-placeholder navigate-or-input">
     <span onClick={props.setToCurrent}  className="inline-block">
       <Icon
-        img='icon-icon_mapMarker-location'
+        img='icon-icon_position'
         className={"navigate-or-input-icon--offline"}
       />
     </span>
