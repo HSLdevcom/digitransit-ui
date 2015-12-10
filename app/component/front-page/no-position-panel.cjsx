@@ -17,7 +17,7 @@ class NoPositionPanel extends React.Component
       </p>
 
       <p className="locate-yourself large-text cursor-pointer" onClick={@locateUser}>
-        <Icon img={'icon-icon_mapMarker-location'}/>
+        <Icon img={'icon-icon_position'}/>
         <a className="dashed-underline">
           <FormattedMessage
             id="geolocate-yourself"

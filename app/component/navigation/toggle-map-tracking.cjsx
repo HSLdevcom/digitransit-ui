@@ -8,7 +8,7 @@ class ToggleMapTracking extends React.Component
 
   render: ->
     <div className="toggle-positioning-container" onClick={@props.handleClick}>
-      <Icon img='icon-icon_mapMarker-location' className={@props.className}/>
+      <Icon img='icon-icon_position' className={@props.className}/>
     </div>
 
 module.exports = ToggleMapTracking

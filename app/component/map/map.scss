@@ -229,6 +229,8 @@ div.stop-name-marker {
   fill-opacity: 1;
 }
 
+.map svg use { pointer-events:none; }
+
 .map .thin .stop-small {
   stroke-opacity: $stop-thin-opacity;
   fill-opacity: $stop-thin-opacity;

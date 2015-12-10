@@ -38,6 +38,7 @@ More information about [testing](docs/Tests.md).
 * [Architecture](docs/Architecture.md)
 * [Positioning](docs/Position.md)
 * [Locations](docs/Location.md)
+* [Run in Docker](docs/Docker.md)
 * [Style guide](http://matka.hsl.fi/digitransit-ui/styleguidelines)
 * [Installation](docs/Installation.md)
 * [Tests](docs/Tests.md)

@@ -1,16 +1,28 @@
-SERVER_ROOT = process.env.SERVER_ROOT or "http://matka.hsl.fi"
+CONFIG = process.env.CONFIG or 'hsl'
+API_URL = process.env.API_URL or 'http://dev.reittiopas.fi'
+APP_PATH = process.env.APP_CONTEXT or ''
+PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
+PIWIK_ID = process.env.PIWIK_ID or ''
+SENTRY_DSN = process.env.SENTRY_DSN or ''
+PORT = process.env.PORT or 8080
+
 module.exports =
+  PIWIK_ADDRESS: "#{PIWIK_ADDRESS}"
+  PIWIK_ID: "#{PIWIK_ID}"
+  SENTRY_DSN: "#{SENTRY_DSN}"
+  PORT: PORT
+  CONFIG: "#{CONFIG}"
   URL:
-    SERVER_ROOT: SERVER_ROOT
-    OTP: "#{SERVER_ROOT}/otp/routers/finland/"
-    MAP: "#{SERVER_ROOT}/hsl-map/"
+    API_URL: "#{API_URL}"
+    OTP: "#{API_URL}/otp/routers/finland/"
+    MAP: "#{API_URL}/hsl-map/"
     MQTT: "ws://213.138.147.225:1883"
-    ALERTS: "#{SERVER_ROOT}/hsl-alert/"
+    ALERTS: "#{API_URL}/hsl-alert/"
     FONT: "http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700"
-    REALTIME: "#{SERVER_ROOT}/navigator-server"
-    PELIAS: "#{SERVER_ROOT}/pelias/v1/search"
-    PELIAS_REVERSE_GEOCODER: "#{SERVER_ROOT}/pelias/v1/reverse"
-  ROOT_PATH: process.env.ROOT_PATH or ''
+    REALTIME: "#{API_URL}/navigator-server"
+    PELIAS: "#{API_URL}/pelias/v1/search"
+    PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
+  APP_PATH: "#{APP_PATH}"
   title: "Digitransit (HSL)"
   preferredAgency: "HSL"
   searchParams:

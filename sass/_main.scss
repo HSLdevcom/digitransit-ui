@@ -1,6 +1,3 @@
-/* Theme */
-@import 'theme';
-
 /* Base styles */
 @import 'base/base';
 @import 'base/form';
@@ -31,7 +28,6 @@
 @import '../app/component/map/stop/terminal-marker';
 
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/forms';
-@import '../node_modules/foundation-apps/scss/components/off-canvas';
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/top-bar';
 
 /* Modal */

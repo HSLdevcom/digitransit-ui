@@ -1,9 +1,6 @@
 React = require 'react'
 cx = require 'classnames'
 
-if window?
-  require './icon.css'
-
 Icon = (props) ->
   <span>
     <svg id={props.id} viewBox="0 0 40 40" className={cx "icon", props.className}>

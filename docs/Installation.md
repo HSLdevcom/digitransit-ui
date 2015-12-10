@@ -1,3 +1,6 @@
+## Want to get started quickly?
+- [Run application in Docker](Docker.md).
+
 ## Install requirements
 - Install Node.js
   (if you are on Debian, the distribution version is likely too old -

@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var csswring = require('csswring');
+var StatsPlugin = require('stats-webpack-plugin');
 
 var port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -15,14 +16,9 @@ function getLoadersConfig(env) {
       { test: /\.coffee$/, loader: 'coffee' },
       { test: /\.json$/, loader: 'json'},
       { test: /\.jsx$/, loaders: ['react-hot', 'babel']},
-      { test: /\.scss$/,
-        loaders: [
-          'style', 'css', 'postcss',
-          'sass?includePaths[]=' + (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default'))
-        ]
-      },
-      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
-      { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
+      { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass']},
+      { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file'},
+      { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {presets: ['es2015', 'react'], plugins: ['transform-class-properties', './build/babelRelayPlugin']}},
     ])
   } else {
     return([
@@ -31,12 +27,9 @@ function getLoadersConfig(env) {
       { test: /\.coffee$/, loader: 'coffee' },
       { test: /\.json$/, loader: 'json'},
       { test: /\.jsx$/, loader: 'babel'},
-      { test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style", 'css!postcss!sass?includePaths[]=' +
-          (path.resolve(__dirname, "./sass/themes", process.env.CONFIG ? process.env.CONFIG : 'default')))
-      },
-      { test: /\.(eot|png|ttf|woff)$/, loader: 'file'},
-      { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {stage: 0, plugins: ['./build/babelRelayPlugin']}},
+      { test: /\.scss$/, loader: ExtractTextPlugin.extract("style", 'css!postcss!sass')},
+      { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file'},
+      { test: /app(\/|\\)queries\.js$/, loader: 'babel', query: {presets: ['es2015', 'react'], plugins: ['transform-class-properties', './build/babelRelayPlugin']}},
     ])
   }
 }
@@ -46,36 +39,24 @@ function getPluginsConfig(env) {
     return([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /fi|sv|en\-gb/),
-      new webpack.DefinePlugin({
-        'process.env': {
-          SERVER_ROOT: JSON.stringify((typeof process.env.SERVER_ROOT === "undefined") ? 'http://dev.digitransit.fi': process.env.SERVER_ROOT),
-          NODE_ENV: JSON.stringify("development"),
-          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH),
-          CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default')
-        }
-      }),
+      new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify("development")}}),
       new webpack.NoErrorsPlugin()
     ])
   } else {
     return([
       new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en\-gb/),
-      new webpack.DefinePlugin({
-        'process.env': {
-          SERVER_ROOT: JSON.stringify(process.env.SERVER_ROOT),
-          NODE_ENV: JSON.stringify("production"),
-          ROOT_PATH: JSON.stringify(process.env.ROOT_PATH),
-          CONFIG: JSON.stringify(process.env.CONFIG ? process.env.CONFIG : 'default'),
-          SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
-          PIWIK_ADDRESS: JSON.stringify(process.env.PIWIK_ADDRESS),
-          PIWIK_ID: JSON.stringify(process.env.PIWIK_ID),
-        }
-      }),
+      new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify("production")}}),
       new webpack.PrefetchPlugin('react'),
       new webpack.PrefetchPlugin('react-router'),
       new webpack.PrefetchPlugin('fluxible'),
       new webpack.PrefetchPlugin('leaflet'),
+      new webpack.NamedModulesPlugin(), //TODO: Change to HashedModuleIdsPlugin
+      new webpack.optimize.CommonsChunkPlugin({
+        names: ['common', 'leaflet', 'manifest']
+      }),
+      new StatsPlugin('../stats.json', {chunkModules: true}),
       new webpack.optimize.OccurrenceOrderPlugin(true),
-      new webpack.optimize.DedupePlugin(),
+      //new webpack.optimize.DedupePlugin(), //TODO: crashes weirdly
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false
@@ -84,7 +65,7 @@ function getPluginsConfig(env) {
           except: ['$super', '$', 'exports', 'require', 'window']
         },
       }),
-      new ExtractTextPlugin("css/bundle.css", {
+      new ExtractTextPlugin("css/[name].[chunkhash].css", {
         allChunks: true
       }),
       new webpack.NoErrorsPlugin()
@@ -100,14 +81,32 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:' + port,
     'webpack/hot/dev-server',
     './app/client'
-  ] : [
-    './app/client'
-  ],
+  ] : {
+    main: './app/client',
+    common: [ // These come from all imports in client.cjsx
+      'react',
+      'react-dom',
+      'react-relay',
+      'react-router-relay',
+      'react-intl',
+      'history/lib/createBrowserHistory',
+      'history/lib/useBasename',
+      'history/lib/useQueries',
+      'fluxible-addons-react/FluxibleComponent',
+      'lodash/lang/isEqual',
+      'react-tap-event-plugin',
+      'react-router',
+      'fluxible'
+    ],
+    leaflet: ['leaflet'],
+    default_theme: ['./sass/themes/default/main.scss'],
+    hsl_theme: ['./sass/themes/hsl/main.scss']
+  },
   output: {
     path: path.join(__dirname, "_static"),
-    filename: 'js/bundle.js',
-    chunkFilename: 'js/[name].js',
-    publicPath: ((process.env.NODE_ENV === "development") ? 'http://localhost:' + port : (process.env.ROOT_PATH || '')) + '/'
+    filename: (process.env.NODE_ENV === "development") ? 'js/bundle.js': 'js/[name].[chunkhash].js',
+    chunkFilename: 'js/[name].[chunkhash].js',
+    publicPath: ((process.env.NODE_ENV === "development") ? 'http://localhost:' + port : (process.env.APP_PATH || '')) + '/'
   },
   resolveLoader: {
     modulesDirectories: ['node_modules']

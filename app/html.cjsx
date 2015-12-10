@@ -3,8 +3,8 @@ config = require './config'
 
 class Application extends React.Component
   render: ->
-    configPath = process.env.CONFIG or 'default'
-    root = config.ROOT_PATH or ''
+    configPath = config.CONFIG
+    root = config.APP_PATH
 
     <html lang="fi">
     <head>
@@ -48,15 +48,16 @@ class Application extends React.Component
       <meta name="twitter:description" content={config.socialMedia.description} />
       <meta name="twitter:image" content="#{root}/img/#{configPath}-icons/social-share.png"/>
       <style dangerouslySetInnerHTML={ __html: @props.fonts }/>
-      <style dangerouslySetInnerHTML={ __html: @props.css }/>
+      {@props.css}
     </head>
     <body>
         <div style={{visibility: "hidden"}} dangerouslySetInnerHTML={ __html: @props.svgSprite }/>
         <div id="app" style={{height: "100%"}} dangerouslySetInnerHTML={ __html: @props.content } ></div>
         <script dangerouslySetInnerHTML={ __html: @props.polyfill }/>
         <script dangerouslySetInnerHTML={ __html: @props.state }/>
+        <script dangerouslySetInnerHTML={ __html: @props.config }/>
         <script dangerouslySetInnerHTML={ __html: @props.locale }/>
-        <script async src={ @props.livereload + "js/bundle.js" }/>
+        {@props.scripts}
       </body>
     </html>
 
