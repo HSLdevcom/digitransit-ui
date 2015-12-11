@@ -11,6 +11,14 @@ class Autosuggest extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
 
+  @propTypes:
+    onSelectionAction: React.PropTypes.string.isRequired
+    placeholder: React.PropTypes.string.isRequired
+    onBlur: React.PropTypes.func.isRequired
+    disableInput: React.PropTypes.func.isRequired
+    onEmpty: React.PropTypes.func.isRequired
+    id: React.PropTypes.string.isRequired
+
   getNumberIfNotZero: (number) ->
     if number and not (number is "0") then " #{number}" else ""
 
