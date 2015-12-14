@@ -79,7 +79,8 @@ class Autosuggest extends React.Component
       </span>
 
   componentDidMount: =>
-    if @props.focus() or (@refs.input.refs.input.value == "" and !L.Browser.touch)
+    #if @props.focus() or
+    if (@refs.input.refs.input.value == "" and !L.Browser.touch)
       @focusInput()
 
   focusInput: ->
