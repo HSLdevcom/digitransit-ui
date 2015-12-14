@@ -47,7 +47,7 @@
     "fluxible-action-utils": "^0.2.4",
     "fluxible-addons-react": "^0.2.0",
     "foundation-apps": "^1.2.0",
-    "history": "Macroz/history",
+    "history": "1.13.0",
     "javascript-natural-sort": "^0.7.1",
     "leaflet": "^1.0.0-beta.2",
     "lodash": "^3.10.1",
