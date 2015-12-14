@@ -48,7 +48,6 @@ class FrontPagePanel extends React.Component
 
     if supportsHistory()
       tabOpensOrCloses = oldSelection == null or typeof oldSelection == 'undefined' or newSelection == null
-      console.log oldSelection + ' ' + newSelection + ' ' +tabOpensOrCloses
       if tabOpensOrCloses
         @context.history.pushState
           selectedPanel: newSelection
