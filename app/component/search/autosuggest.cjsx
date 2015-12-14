@@ -4,6 +4,7 @@ Icon           = require '../icon/icon'
 XhrPromise     = require '../../util/xhr-promise.coffee'
 config         = require '../../config'
 sortBy         = require 'lodash/collection/sortBy'
+L              = if window? then require 'leaflet' else null
 
 AUTOSUGGEST_ID = 'autosuggest'
 
@@ -12,9 +13,8 @@ class Autosuggest extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
   @propTypes:
-    onSelectionAction: React.PropTypes.string.isRequired
+    onSelectionAction: React.PropTypes.func.isRequired
     placeholder: React.PropTypes.string.isRequired
-    onBlur: React.PropTypes.func.isRequired
     disableInput: React.PropTypes.func.isRequired
     onEmpty: React.PropTypes.func.isRequired
     id: React.PropTypes.string.isRequired
@@ -78,7 +78,7 @@ class Autosuggest extends React.Component
       </span>
 
   componentDidMount: =>
-    if @refs.input.refs.input.value == ""
+    if @refs.input.refs.input.value == "" and !L.Browser.touch
       @refs.input.refs.input.focus()
 
   suggestionValue: (suggestion) =>
