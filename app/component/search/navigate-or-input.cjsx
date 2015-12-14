@@ -3,7 +3,10 @@ Icon = require '../icon/icon'
 {FormattedMessage} = require 'react-intl'
 
 NavigateOrInput = (props) ->
-  <div className="input-placeholder navigate-or-input">
+  <div style={
+    visibility: props.visibility
+    position: "absolute"
+    top: "0px"} className="input-placeholder navigate-or-input">
     <span onClick={props.setToCurrent}  className="inline-block">
       <Icon
         img='icon-icon_position'

@@ -24,23 +24,27 @@ class SearchField extends React.Component
     id: React.PropTypes.string.isRequired
     focus: React.PropTypes.func.isRequired
 
+
+  getGeolocationBar: =>
+    <GeolocationBar
+      geolocation={@props.geolocation}
+      removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
+      locateUser={() => @context.executeAction PositionActions.findLocation}
+    />
+
   render: =>
 
     if @props.endpoint?.useCurrentPosition
-      <GeolocationBar
-        geolocation={@props.geolocation}
-        removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
-        locateUser={() => @context.executeAction PositionActions.findLocation}
-      />
-    else if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !@props.endpoint.userSetPosition
-      <NavigateOrInput
-        setToCurrent={@props.setToCurrent}
-        enableInput={@props.enableInputMode}
-        id={@props.id}
-        text={@props.navigateOrInputPlaceHolder}
-      />
+      return @getGeolocationBar()
+
+    if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !@props.endpoint.userSetPosition
+      hidden1 = false
     else
+      hidden1 = true
+
+    <div>
       <Autosuggest
+        ref="autosuggest"
         key={@props.endpoint.address}
         onSelectionAction={@props.onSelectAction}
         onEmpty={@props.clear}
@@ -49,6 +53,19 @@ class SearchField extends React.Component
         id={@props.id}
         disableInput={@props.disableInputMode}
         focus={@props.focus}
+        visibility={if hidden1 then  "visible" else "hidden"}
       />
+      <NavigateOrInput
+        setToCurrent={@props.setToCurrent}
+        enableInput={() =>
+          @props.enableInputMode()
+          ## safari...
+          @refs.autosuggest.focusInput()
+        }
+        id={@props.id}
+        text={@props.navigateOrInputPlaceHolder}
+        visibility={if hidden1 then "hidden" else "visible"}
+      />
+    </div>
 
 module.exports = SearchField
