@@ -22,6 +22,7 @@ class SearchField extends React.Component
     autosuggestPlaceholder: React.PropTypes.string.isRequired
     navigateOrInputPlaceHolder: React.PropTypes.string.isRequired
     id: React.PropTypes.string.isRequired
+    focus: React.PropTypes.func.isRequired
 
   render: =>
 
@@ -47,6 +48,7 @@ class SearchField extends React.Component
         value={@props.endpoint?.address}
         id={@props.id}
         disableInput={@props.disableInputMode}
+        focus={@props.focus}
       />
 
 module.exports = SearchField

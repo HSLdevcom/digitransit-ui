@@ -92,6 +92,7 @@ class SearchTwoFieldsContainer extends React.Component
           defaultMessage: 'Type origin')}
         id='origin'
         onSelectAction={EndpointActions.setOrigin}
+        focus={@context.getStore('EndpointStore').isOriginFocus}
       />
 
     to =
@@ -110,6 +111,8 @@ class SearchTwoFieldsContainer extends React.Component
           defaultMessage: 'Type destination')}
         id='destination'
         onSelectAction={EndpointActions.setDestination}
+        focus={@context.getStore('EndpointStore').isDestinationFocus}
+
       />
 
     <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>

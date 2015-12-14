@@ -8,6 +8,8 @@ class EndpointStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
+    @originFocusRequired = false
+    @destinationFocusRequired = false
     @origin = @getUseCurrent(@origin, true)
     @destination = @getUseCurrent(@destination, false)
 
@@ -52,7 +54,8 @@ class EndpointStore extends Store
       address: location.address
     @emitChange()
 
-  enableOriginInputMode: () ->
+  enableOriginInputMode: () =>
+    @originFocusRequired = true
     @enable(@origin)
 
   disableOriginInputMode: () ->
@@ -61,12 +64,24 @@ class EndpointStore extends Store
     @emitChange()
 
   enableDestinationInputMode: () ->
+    @destinationFocusRequired = true
     @enable(@destination)
 
   enable: (t) ->
     t.userSetPosition = true
     t.useCurrentPosition = false
+    focusRequired = true
     @emitChange()
+
+  isOriginFocus: () =>
+    focus = @originFocusRequired
+    @originFocusRequired = false
+    focus
+
+  isDestinationFocus: () =>
+    focus = @destinationFocusRequired
+    @destinationFocusRequired = false
+    focus
 
   disableDestinationInputMode: () ->
     @destination.userSetPosition = false
@@ -119,5 +134,8 @@ class EndpointStore extends Store
     "disableOriginInputMode": "disableOriginInputMode"
     "enableDestinationInputMode": "enableDestinationInputMode"
     "disableDestinationInputMode": "disableDestinationInputMode"
+    "isDestinationFocus": "isDestinationFocus"
+    "isOriginFocus": "isOriginFocus"
+
 
 module.exports = EndpointStore

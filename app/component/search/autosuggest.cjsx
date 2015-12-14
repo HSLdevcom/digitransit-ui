@@ -18,6 +18,7 @@ class Autosuggest extends React.Component
     disableInput: React.PropTypes.func.isRequired
     onEmpty: React.PropTypes.func.isRequired
     id: React.PropTypes.string.isRequired
+    focus: React.PropTypes.func.isRequired
 
   getNumberIfNotZero: (number) ->
     if number and not (number is "0") then " #{number}" else ""
@@ -78,8 +79,11 @@ class Autosuggest extends React.Component
       </span>
 
   componentDidMount: =>
-    if @refs.input.refs.input.value == "" and !L.Browser.touch
-      @refs.input.refs.input.focus()
+    if @props.focus() or (@refs.input.refs.input.value == "" and !L.Browser.touch)
+      @focusInput()
+
+  focusInput: ->
+    @refs.input.refs.input.focus()
 
   suggestionValue: (suggestion) =>
     @getName suggestion.properties
