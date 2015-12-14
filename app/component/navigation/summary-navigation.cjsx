@@ -12,26 +12,14 @@ class SummaryNavigation extends React.Component
     history: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
 
-  componentDidMount: ->
-    @unlistenHistory = @context.history.listen @onHistoryChange
-
-  componentWillUnmount: ->
-    @unlistenHistory() if @unlistenHistory
-
-  onHistoryChange: (foo, event) =>
-    shouldBeVisible = event?.location?.state?.customizeSearchOffcanvas || false
-    @refs.rightNav.setState open: shouldBeVisible
-
   toggleCustomizeSearchOffcanvas: =>
-    @refs.rightNav.toggle()
+    @internalSetOffcanvas !@getOffcanvasState()
 
-  openSearchOffcanvas: =>
-    @internalSetOffcanvas(true)
-
-  closeSearchOffcanvas: =>
-    @internalSetOffcanvas(false)
+  onRequestChange: (newState) =>
+    @internalSetOffcanvas newState
 
   internalSetOffcanvas: (newState) =>
+    @setState customizeSearchOffcanvas: newState
     @context.piwik?.trackEvent "Offcanvas", "Customize Search", newState ? "close" : "open"
     if supportsHistory()
       if newState
@@ -41,9 +29,19 @@ class SummaryNavigation extends React.Component
       else
         @context.history.goBack()
 
+  getOffcanvasState: =>
+    if typeof window != 'undefined' and supportsHistory()
+      @context.location?.state?.customizeSearchOffcanvas || false
+    else
+      @state?.customizeSearchOffcanvas
+
+  toggleDisruptionInfo: =>
+    @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"
+    @setState disruptionVisible: !@state.disruptionVisible
+
   render: ->
     <div className="fullscreen">
-      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} onNavOpen={@openSearchOffcanvas} onNavClose={@closeSearchOffcanvas}>
+      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
         <CustomizeSearch/>
       </LeftNav>
 
