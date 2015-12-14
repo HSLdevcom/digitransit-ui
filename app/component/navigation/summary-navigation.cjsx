@@ -20,7 +20,7 @@ class SummaryNavigation extends React.Component
 
   internalSetOffcanvas: (newState) =>
     @setState customizeSearchOffcanvas: newState
-    @context.piwik?.trackEvent "Offcanvas", "Customize Search", newState ? "close" : "open"
+    @context.piwik?.trackEvent "Offcanvas", "Customize Search", if newState then "close" else "open"
     if supportsHistory()
       if newState
         @context.history.pushState
