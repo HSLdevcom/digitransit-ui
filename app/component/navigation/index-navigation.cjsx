@@ -31,16 +31,6 @@ class IndexNavigation extends React.Component
           id: 'later'
           defaultMessage: "Later"
 
-  componentDidMount: ->
-    @unlistenHistory = @context.history.listen @onHistoryChange
-
-  componentWillUnmount: ->
-    @unlistenHistory() if @unlistenHistory
-
-  onHistoryChange: (foo, event) =>
-    shouldBeVisible = event?.location?.state?.offcanvasVisible || false
-    @refs.leftNav.setState open: shouldBeVisible
-
   toggleSubnavigation: =>
     if @state.subNavigationVisible
       @setState
@@ -73,15 +63,13 @@ class IndexNavigation extends React.Component
         el.className += " sub-navigation-push"
 
   toggleOffcanvas: =>
-    @refs.leftNav.toggle()
+    @internalSetOffcanvas !@getOffcanvasState()
 
-  openOffcanvas: =>
-    @internalSetOffcanvas(true)
-
-  closeOffcanvas: =>
-    @internalSetOffcanvas(false)
+  onRequestChange: (newState) =>
+    @internalSetOffcanvas newState
 
   internalSetOffcanvas: (newState) =>
+    @setState offcanvasVisible: newState
     @context.piwik?.trackEvent "Offcanvas", "Index", newState ? "open" : "close"
     if supportsHistory()
       if newState
@@ -91,6 +79,12 @@ class IndexNavigation extends React.Component
       else
         @context.history.goBack()
 
+  getOffcanvasState: =>
+    if typeof window != 'undefined' and supportsHistory()
+      @context.location?.state?.offcanvasVisible || false
+    else
+      @state?.offcanvasVisible
+
   toggleDisruptionInfo: =>
     @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"
     @setState disruptionVisible: !@state.disruptionVisible
@@ -99,7 +93,7 @@ class IndexNavigation extends React.Component
     <div className={@props.className}>
       <NotImplemented/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
-      <LeftNav className="offcanvas" disableSwipeToOpen=true ref="leftNav" docked={false} onNavOpen={@openOffcanvas} onNavClose={@closeOffcanvas}>
+      <LeftNav className="offcanvas" disableSwipeToOpen=true ref="leftNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
         <OffcanvasMenu/>
       </LeftNav>
       <div className="grid-frame fullscreen">
