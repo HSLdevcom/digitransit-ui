@@ -186,8 +186,7 @@ translations =
     'inquiry': 'Delta på förfrågan'
     'platform-num': 'Plattform {platformCode}'
     'departures': 'Avgångar'
-    # TODO
-    'no-route-msg': ''
-    'close': ''
+    'no-route-msg': 'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress eller lorem ipsum sit dolor.'
+    'close': 'Stäng'
 
 module.exports = translations
