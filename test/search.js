@@ -5,7 +5,7 @@ suite('Search', function () {
     browser.setCurrentPosition(60.2, 24.95, 0, done);
   });
 
-  describe.only('When Origin is manually set to "Kamppi"', function () {
+  describe('When Origin is manually set to "Kamppi"', function () {
 
     before(function (browser, done) {
       browser.origin.disableCurrentPosition(function () {
