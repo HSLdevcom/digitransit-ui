@@ -51,6 +51,7 @@ class SearchField extends React.Component
         value={@props.endpoint?.address}
         id={@props.id + "-autosuggest"}
         disableInput={@props.disableInputMode}
+
         focus={@props.focus}
         visibility={if hidden1 then  "visible" else "hidden"}
       />
