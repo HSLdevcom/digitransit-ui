@@ -65,7 +65,7 @@ class EndpointStore extends Store
 
   disableOriginInputMode: () ->
 #    console.log("disable origin input mode")
-    if(@origin.address=="")
+    if(@origin.address == "")
       @origin.userSetPosition = false
     @emitChange()
 #    @origin.address = ""
