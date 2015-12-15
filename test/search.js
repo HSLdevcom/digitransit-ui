@@ -2,15 +2,35 @@ var suite = require('./api/suite.js').suite;
 
 suite('Search', function () {
   before(function (browser, done) {
-    done()
+    browser.setCurrentPosition(60.2, 24.95, 0, done);
   });
 
-  describe('When Origin is manually set to "Kamppi"', function () {
+  describe.only('When Origin is manually set to "Kamppi"', function () {
+
+    before(function (browser, done) {
+      browser.origin.disableCurrentPosition(function(){
+        browser.origin.enableInput(function() {
+          browser.origin.enterText("Kamppi", done);
+        })
+      })
+    });
+
     it('should remain set to "Kamppi" when Origin input receives and loses focus', function (browser) {
+      browser.assert.value('#origin-autosuggest > div:nth-child(1) > input[type=text]', "Kamppi, Helsinki");
+      browser.origin.clickInput(function(){
+        browser.assert.value('#origin-autosuggest > div:nth-child(1) > input[type=text]', "Kamppi, Helsinki");
+        browser.map.click(function(){
+          browser.assert.value('#origin-autosuggest > div:nth-child(1) > input[type=text]', "Kamppi, Helsinki");
+        })
+      });
+
+    });
+
+    it('should be possible to write Destination', function (browser) {
       browser.end()
     });
 
-    it('should be possible to write Destination or use current position', function (browser) {
+    it('should be possible to use current position', function (browser) {
       browser.end()
     });
 
