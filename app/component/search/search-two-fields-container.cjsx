@@ -3,6 +3,7 @@ EndpointActions  = require '../../action/endpoint-actions.coffee'
 PositionActions  = require '../../action/position-actions.coffee'
 {locationToOTP} = require '../../util/otp-strings'
 SearchTwoFields = require './search-two-fields'
+{getRoutePath}   = require '../../util/path'
 SearchField     = require './search-field'
 
 intl = require 'react-intl'
@@ -68,7 +69,7 @@ class SearchTwoFieldsContainer extends React.Component
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
       setTimeout(() =>
-        @context.history.pushState(null, "/reitti/#{from}/#{to}")
+        @context.history.pushState(null, getRoutePath(from, to))
       , 0)
 
   render: =>

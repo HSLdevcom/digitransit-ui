@@ -582,11 +582,9 @@ var FavouriteRouteRowFragments = {
 
 class DisruptionInfoRoute extends Relay.Route {
   static queries = {
-    alerts: (Component) => Relay.QL`
+    alerts: () => Relay.QL`
     query {
-      viewer {
-        ${Component.getFragment('alerts')}
-      }
+      viewer
     }
    `,
   }
