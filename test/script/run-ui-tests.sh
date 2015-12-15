@@ -79,8 +79,6 @@ elif [ "$1" == "browserstack" ]; then
     echo "usage: npm run test-browserstack -- BROWSERSTACK_USERNAME BROWSERSTACK_KEY"
     exit
   fi
-  CONFIG=hsl PORT=8000 npm run dev-nowatch &
-  NODE_PID=$!
   $BROWSERSTACK_LOCAL_BINARY $3 &
   BROWSERSTACK_PID=$!
   # Wait for the server to start
@@ -89,7 +87,6 @@ elif [ "$1" == "browserstack" ]; then
   env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/config/nightwatch.json -e bs-fx,bs-chrome,bs-iphone
   TESTSTATUS=$?
   # Kill Node and Browserstack tunnel
-  killtree $NODE_PID
   killtree $BROWSERSTACK_PID
   exit $TESTSTATUS
 else
