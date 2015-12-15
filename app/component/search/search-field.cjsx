@@ -17,7 +17,6 @@ class SearchField extends React.Component
     setToCurrent: React.PropTypes.func.isRequired
     enableInputMode: React.PropTypes.func.isRequired
     disableInputMode: React.PropTypes.func.isRequired
-    clear: React.PropTypes.func.isRequired
     onSelectAction: React.PropTypes.func.isRequired
     autosuggestPlaceholder: React.PropTypes.string.isRequired
     navigateOrInputPlaceHolder: React.PropTypes.string.isRequired
@@ -48,7 +47,6 @@ class SearchField extends React.Component
         ref="autosuggest"
         key={@props.endpoint.address}
         onSelectionAction={@props.onSelectAction}
-        onEmpty={@props.clear}
         placeholder={@props.autosuggestPlaceholder}
         value={@props.endpoint?.address}
         id={@props.id + "-autosuggest"}
