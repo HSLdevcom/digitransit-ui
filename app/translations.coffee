@@ -4,7 +4,7 @@ translations =
     'own-position': 'Nykyinen sijaintisi'
     'no-position': 'Ei sijaintia'
     'origin': 'Mistä? - osoite tai pysäkki'
-    'destination': 'Mihin? - osoite tai pysäkki'
+    'destination': 'Minne? - osoite tai pysäkki'
     'nearest': 'Lähimmät'
     'previous': 'Edelliset'
     'favourites': 'Suosikit'
@@ -94,6 +94,7 @@ translations =
     'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi'
     'platform-num': 'Laituri {platformCode}'
     'departures': 'Lähdöt'
+    'show-departures': 'Näytä lähdöt'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -186,5 +187,6 @@ translations =
     'inquiry': 'Delta på förfrågan'
     'platform-num': 'Plattform {platformCode}'
     'departures': 'Avgångar'
+    'show-departures': 'Visa avgångar'
 
 module.exports = translations
