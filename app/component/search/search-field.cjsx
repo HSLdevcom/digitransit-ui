@@ -30,6 +30,7 @@ class SearchField extends React.Component
       geolocation={@props.geolocation}
       removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
       locateUser={() => @context.executeAction PositionActions.findLocation}
+      id={@props.id + "-geolocationbar"}
     />
 
   render: =>
@@ -50,7 +51,7 @@ class SearchField extends React.Component
         onEmpty={@props.clear}
         placeholder={@props.autosuggestPlaceholder}
         value={@props.endpoint?.address}
-        id={@props.id}
+        id={@props.id + "-autosuggest"}
         disableInput={@props.disableInputMode}
         focus={@props.focus}
         visibility={if hidden1 then  "visible" else "hidden"}
@@ -62,7 +63,7 @@ class SearchField extends React.Component
           ## safari...
           @refs.autosuggest.focusInput()
         }
-        id={@props.id}
+        id={@props.id + "-placeholder"}
         text={@props.navigateOrInputPlaceHolder}
         visibility={if hidden1 then "hidden" else "visible"}
       />

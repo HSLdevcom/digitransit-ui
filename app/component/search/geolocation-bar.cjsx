@@ -20,7 +20,7 @@ GeolocationBar = (props) ->
       </span>
       {getLocationMessage props.geolocation}
       <span className="inline-block right cursor-pointer" onClick={props.removePosition}>
-        <Icon img={'icon-icon_close'} />
+        <Icon id={props.id} img={'icon-icon_close'} />
       </span>
     </div>
   </div>
@@ -29,6 +29,7 @@ GeolocationBar.propTypes =
   locateUser: React.PropTypes.func.isRequired
   removePosition: React.PropTypes.func.isRequired
   geolocation: React.PropTypes.object.isRequired
+  id: React.PropTypes.string.isRequired
 
 GeolocationBar.displayName = "GeolocationBar"
 

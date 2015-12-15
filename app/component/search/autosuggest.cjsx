@@ -105,7 +105,7 @@ class Autosuggest extends React.Component
       placeholder: @props.placeholder
       onBlur: @props.disableInput
 
-    <form onSubmit={@onSubmit}>
+    <form id={@props.id} onSubmit={@onSubmit}>
       <ReactAutosuggest
         ref="input"
         suggestions={@getSuggestions}
@@ -123,7 +123,6 @@ class Autosuggest extends React.Component
         }
         onSuggestionSelected={@onSuggestionSelected}
         inputAttributes = {inputAttributes}
-        id={@props.id}
         scrollBar={true}
       />
     </form>
