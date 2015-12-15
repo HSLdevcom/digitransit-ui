@@ -50,4 +50,52 @@ module.exports = function (browser) {
       done();
     });
   };
+
+
+  //map functions
+  browser.map= {
+    click: function(done){
+      browser.click('div.leaflet-map-pane', done);
+    }
+  }
+
+
+  //origin functions
+  browser.origin = {
+    disableCurrentPosition: function(done) {
+  //    console.log("disable current position");
+      browser.expect.element('#origin-geolocationbar').to.be.visible.before(500);
+      browser.click('#origin-geolocationbar', function(){
+ //       browser.expect.element('#origin-placeholder-input').to.be.visible.before(500);
+ //       console.log("disable current position->");
+        done()
+      })
+    },
+    enableInput: function(done) {
+//      console.log("enable input");
+      browser.expect.element('#origin-placeholder-input').to.be.visible.before(500);
+      browser.click('#origin-placeholder-input', function(){
+        browser.pause(10, function(){
+//          browser.expect.element('#origin-autosuggest').to.be.visible.before(500);
+//          console.log("enable input->");
+          done();
+        })
+
+      })
+    },
+    enterText: function type(text, done) {
+//      console.log("enter text:", text);
+      browser.expect.element('#origin-autosuggest > div:nth-child(1) > input[type=text]').to.be.visible.before(500);
+      browser.setValue('#origin-autosuggest > div:nth-child(1) > input[type=text]', [text, browser.Keys.ENTER], function(){
+        console.log("text entered, checking dom...");
+        done();
+      });
+      console.log("func exit");
+    },
+    clickInput: function(done) {
+      browser.click("#origin-autosuggest > div:nth-child(1) > input[type=text]", done);
+    }
+
+  }
+
 };
