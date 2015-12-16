@@ -86,16 +86,16 @@ module.exports = function (browser) {
     },
     enterText: function type(text, done) {
 //      console.log("enter text:", text);
-      browser.expect.element('#origin-autosuggest > div:nth-child(1) > input[type=text]').to.be.visible.before(500);
-      browser.setValue('#origin-autosuggest > div:nth-child(1) > input[type=text]', [text, browser.Keys.ENTER], function () {
+      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.visible.before(500);
+      browser.setValue('#origin-autosuggest > div > input[type=text]', [text, browser.Keys.ENTER], function () {
         done();
       });
     },
     clickInput: function (done) {
-      browser.click("#origin-autosuggest > div:nth-child(1) > input[type=text]", done);
+      browser.click("#origin-autosuggest > div > input[type=text]", done);
     },
     clearInput: function (done) {
-      browser.clearValue('#origin-autosuggest > div:nth-child(1) > input[type=text]', done);
+      browser.clearValue('#origin-autosuggest > div > input[type=text]', done);
     }
   }
   //destination functions
@@ -126,16 +126,16 @@ module.exports = function (browser) {
     },
     enterText: function type(text, done) {
 //      console.log("enter text:", text);
-      browser.expect.element('#destination-autosuggest > div:nth-child(1) > input[type=text]').to.be.visible.before(500);
-      browser.setValue('#destination-autosuggest > div:nth-child(1) > input[type=text]', [text, browser.Keys.ENTER], function () {
+      browser.expect.element('#destination-autosuggest > div > input[type=text]').to.be.visible.before(500);
+      browser.setValue('#destination-autosuggest > div > input[type=text]', [text, browser.Keys.ENTER], function () {
         done();
       });
     },
     clickInput: function (done) {
-      browser.click("#destination-autosuggest > div:nth-child(1) > input[type=text]", done);
+      browser.click("#destination-autosuggest > div > input[type=text]", done);
     },
     clearInput: function (done) {
-      browser.clearValue('#destination-autosuggest > div:nth-child(1) > input[type=text]', done);
+      browser.clearValue('#destination-autosuggest > div > input[type=text]', done);
     }
 
   }
