@@ -84,7 +84,8 @@ class Autosuggest extends React.Component
       @focusInput()
 
   focusInput: ->
-    @refs.input.refs.input.focus()
+    if(@refs.input.refs.input)
+      @refs.input.refs.input.focus()
 
   suggestionValue: (suggestion) =>
     @getName suggestion.properties
