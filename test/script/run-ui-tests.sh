@@ -86,7 +86,7 @@ elif [ "$1" == "browserstack" ]; then
   # Wait for the server to start
   sleep 10
   # Then run tests
-  env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/config/nightwatch.json -e bs-fx,bs-chrome,bs-iphone
+  env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/config/nightwatch.json -e bs-fx,bs-chrome,bs-iphone,bs-ie
   TESTSTATUS=$?
   # Kill Node and Browserstack tunnel
   killtree $NODE_PID

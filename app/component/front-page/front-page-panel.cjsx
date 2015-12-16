@@ -11,6 +11,7 @@ cx                    = require 'classnames'
 FavouritesPanel       = require '../favourites/favourites-panel'
 NearestRoutesContainer = require './nearest-routes-container'
 NearestStopsContainer = require './nearest-stops-container'
+{supportsHistory}     = require 'history/lib/DOMUtils'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -20,6 +21,8 @@ class FrontPagePanel extends React.Component
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
     piwik: React.PropTypes.object
+    history: React.PropTypes.object.isRequired
+    location: React.PropTypes.object.isRequired
 
   componentDidMount: ->
     @context.getStore('EndpointStore').addChangeListener @onChange
@@ -27,18 +30,35 @@ class FrontPagePanel extends React.Component
   componentWillUnmount: ->
     @context.getStore('EndpointStore').removeChangeListener @onChange
 
-  onChange: () =>
+  onChange: =>
     @forceUpdate()
 
-  selectPanel: (selection) =>
+  getSelectedPanel: =>
+    if typeof window != 'undefined' and supportsHistory()
+      @context.location.state?.selectedPanel
+    else
+      @state?.selectedPanel
 
-    if selection == @state?.selectedPanel
-      @setState
-        selectedPanel: null
+  selectPanel: (selection) =>
+    oldSelection = @getSelectedPanel()
+    if selection == oldSelection # clicks again to close
+      newSelection = null
+    else
+      newSelection = selection
+
+    if supportsHistory()
+      tabOpensOrCloses = oldSelection == null or typeof oldSelection == 'undefined' or newSelection == null
+      if tabOpensOrCloses
+        @context.history.pushState
+          selectedPanel: newSelection
+        , @context.location.pathname
+      else
+        @context.history.replaceState
+          selectedPanel: newSelection
+        , @context.location.pathname
     else
       @setState
-        selectedPanel: selection
-
+        selectedPanel: newSelection
 
   render: ->
     PositionStore = @context.getStore 'PositionStore'
@@ -46,7 +66,6 @@ class FrontPagePanel extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
 
     if origin?.lat
-
       stopsPanel = <NearestStopsContainer lat={origin.lat} lon={origin.lon}/>
       routesPanel = <NearestRoutesContainer lat={origin.lat} lon={origin.lon}/>
     else if (location.status == PositionStore.STATUS_FOUND_LOCATION or
@@ -65,7 +84,7 @@ class FrontPagePanel extends React.Component
     tabClasses = []
     selectedClass =
       selected: true
-    if @state?.selectedPanel == 1
+    if @getSelectedPanel() == 1
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel nearby-routes">
                   <div className="row">
@@ -81,7 +100,7 @@ class FrontPagePanel extends React.Component
                 </div>
               </div>
       tabClasses[1] = selectedClass
-    else if @state?.selectedPanel == 2
+    else if @getSelectedPanel() == 2
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel">
                   <div className="row">
@@ -93,7 +112,7 @@ class FrontPagePanel extends React.Component
                 </div>
               </div>
       tabClasses[2] = selectedClass
-    else if @state?.selectedPanel == 3
+    else if @getSelectedPanel() == 3
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel">
                   <div className="row">

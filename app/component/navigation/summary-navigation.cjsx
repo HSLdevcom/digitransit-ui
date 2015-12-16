@@ -4,24 +4,44 @@ CustomizeSearch             = require '../summary/customize-search'
 BackButton                  = require './back-button'
 TimeSelectors               = require './time-selectors'
 LeftNav                     = require 'material-ui/lib/left-nav'
+{supportsHistory}           = require 'history/lib/DOMUtils'
 
 class SummaryNavigation extends React.Component
   @contextTypes:
     piwik: React.PropTypes.object
-
-  constructor: ->
-    super
-    @state =
-      customizeSearchOffcanvas: false
+    history: React.PropTypes.object.isRequired
+    location: React.PropTypes.object.isRequired
 
   toggleCustomizeSearchOffcanvas: =>
-    @context.piwik?.trackEvent "Offcanvas", "Customize Search", if @state.customizeSearchOffcanvas then "close" else "open"
-    @setState customizeSearchOffcanvas: !@state.customizeSearchOffcanvas
-    @refs.rightNav.toggle()
+    @internalSetOffcanvas !@getOffcanvasState()
+
+  onRequestChange: (newState) =>
+    @internalSetOffcanvas newState
+
+  internalSetOffcanvas: (newState) =>
+    @setState customizeSearchOffcanvas: newState
+    @context.piwik?.trackEvent "Offcanvas", "Customize Search", if newState then "close" else "open"
+    if supportsHistory()
+      if newState
+        @context.history.pushState
+          customizeSearchOffcanvas: newState
+        , @context.location.pathname
+      else
+        @context.history.goBack()
+
+  getOffcanvasState: =>
+    if typeof window != 'undefined' and supportsHistory()
+      @context.location?.state?.customizeSearchOffcanvas || false
+    else
+      @state?.customizeSearchOffcanvas
+
+  toggleDisruptionInfo: =>
+    @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"
+    @setState disruptionVisible: !@state.disruptionVisible
 
   render: ->
     <div className="fullscreen">
-      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} open={@state.offcanvasVisible}>
+      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
         <CustomizeSearch/>
       </LeftNav>
 
