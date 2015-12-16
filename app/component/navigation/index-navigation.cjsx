@@ -5,6 +5,7 @@ OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
 NotImplemented        = require '../util/not-implemented'
 LeftNav               = require 'material-ui/lib/left-nav'
+{supportsHistory}     = require 'history/lib/DOMUtils'
 
 intl = require 'react-intl'
 
@@ -13,12 +14,13 @@ class IndexNavigation extends React.Component
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
     piwik: React.PropTypes.object
+    history: React.PropTypes.object.isRequired
+    location: React.PropTypes.object.isRequired
 
   constructor: ->
     super
     @state =
       subNavigationVisible: false
-      offcanvasVisible: false
       disruptionVisible: false
       text: if @context.getStore("TimeStore").status == "UNSET"
         @context.intl.formatMessage
@@ -61,9 +63,27 @@ class IndexNavigation extends React.Component
         el.className += " sub-navigation-push"
 
   toggleOffcanvas: =>
-    @context.piwik?.trackEvent "Offcanvas", "Index", if @state.offcanvasVisible then "close" else "open"
-    @setState offcanvasVisible: !@state.offcanvasVisible
-    @refs.leftNav.toggle()
+    @internalSetOffcanvas !@getOffcanvasState()
+
+  onRequestChange: (newState) =>
+    @internalSetOffcanvas newState
+
+  internalSetOffcanvas: (newState) =>
+    @setState offcanvasVisible: newState
+    @context.piwik?.trackEvent "Offcanvas", "Index", if newState then "open" else "close"
+    if supportsHistory()
+      if newState
+        @context.history.pushState
+          offcanvasVisible: newState
+        , @context.location.pathname
+      else
+        @context.history.goBack()
+
+  getOffcanvasState: =>
+    if typeof window != 'undefined' and supportsHistory()
+      @context.location?.state?.offcanvasVisible || false
+    else
+      @state?.offcanvasVisible
 
   toggleDisruptionInfo: =>
     @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"
@@ -73,7 +93,7 @@ class IndexNavigation extends React.Component
     <div className={@props.className}>
       <NotImplemented/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
-      <LeftNav className="offcanvas" disableSwipeToOpen=true ref="leftNav" docked={false} open={@state.offcanvasVisible}>
+      <LeftNav className="offcanvas" disableSwipeToOpen=true ref="leftNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
         <OffcanvasMenu/>
       </LeftNav>
       <div className="grid-frame fullscreen">

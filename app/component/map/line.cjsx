@@ -2,7 +2,6 @@ isBrowser          = window?
 React              = require 'react'
 Polyline           = if isBrowser then require 'react-leaflet/lib/Polyline' else null
 cx                 = require 'classnames'
-getSelector        = require '../../util/get-selector'
 
 
 class Line extends React.Component
@@ -21,13 +20,9 @@ class Line extends React.Component
       @refs.line.getLeafletElement().bringToFront()
 
   render: ->
-    className = cx
-      walk: @props.mode == "walk"
-      citybike: @props.mode == "citybike"
-      bicycle: @props.mode == "bicycle"
-      citybike_walk: @props.mode == "citybike_walk"
-      bicycle_walk: @props.mode == "bicycle_walk"
+    className = cx [@props.mode,
       thin: @props.thin
+    ]
 
     # https://github.com/Leaflet/Leaflet/issues/2662
     # updating className does not work currently :(
@@ -45,7 +40,7 @@ class Line extends React.Component
                         ref="line"
                         positions={@props.geometry}
                         className="leg #{className}"
-                        color={if @props.passive then "#c2c2c2" else getSelector(".#{@props.mode}").style?.color}
+                        color={if @props.passive then "#c2c2c2" else "currentColor"}
                         weight={if @props.thin then 2 else 3}
                         interactive={false} />
 

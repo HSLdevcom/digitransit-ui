@@ -6,7 +6,7 @@ cx = require 'classnames'
 getLocationMessage = (geolocation) ->
 
   if geolocation.hasLocation
-    <FormattedMessage id="own-position" defaultMessage='My current position' />
+    <FormattedMessage id="own-position" defaultMessage='Your current location' />
   else if geolocation.isLocationingInProgress
     <FormattedMessage id="searching-position" defaultMessage='Searching for your position...' />
   else
