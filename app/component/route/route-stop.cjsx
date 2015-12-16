@@ -36,7 +36,7 @@ class RouteStop extends React.Component
 
           {@props.stop.name}{"\u00A0"}
           {if @props.distance then <WalkDistance className="nearest-route-stop"
-                                                 icon="icon_location_with_user"
+                                                 icon="icon_location-with-user"
                                                  walkDistance={@props.distance}/>}
           <br/>
           <span className="route-stop-address">
