@@ -3,8 +3,9 @@ config = require './config'
 configPath = config.CONFIG
 root = config.APP_PATH
 
-metaData =
-  title: config.title
+meta =
+  title: ''
+  titleTemplate: "%s #{config.title}"
   meta: [
     {'http-equiv': 'x-ua-compatible', content: 'ie=edge'}
     {'http-equiv': 'Content-Language', content: 'fi'}
@@ -49,4 +50,4 @@ metaData =
     {rel: 'manifest', href: "#{root}/manifest.#{configPath}.json"}
   ]
 
-module.exports = metaData
+module.exports = meta
