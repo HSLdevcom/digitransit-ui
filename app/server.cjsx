@@ -22,6 +22,7 @@ polyfillService = require 'polyfill-service'
 ### Application ###
 application = require('./app')
 config = require('./config')
+meta = require('./meta')
 translations = require('./translations')
 ApplicationHtml = require('./html')
 

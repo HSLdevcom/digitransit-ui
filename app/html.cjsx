@@ -1,14 +1,16 @@
-React = require 'react'
+React  = require 'react'
+Helmet = require 'react-helmet'
 config = require './config'
 
 class Application extends React.Component
   render: ->
-    configPath = config.CONFIG
-    root = config.APP_PATH
+    head = Helmet.rewind()
 
     <html lang="fi">
     <head>
-      <title>{config.title}</title>
+      {head?.title.toComponent()}
+      {head?.meta.toComponent()}
+      {head?.link.toComponent()}
       <style dangerouslySetInnerHTML={ __html: @props.fonts }/>
       {@props.css}
     </head>
