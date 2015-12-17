@@ -8,6 +8,7 @@
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "predev": "npm run static",
     "prestart": "npm run static",
+    "prewin-start": "if not exist _static\\js mkdir _static\\js&& if not exist _static\\css mkdir _static\\css&& xcopy static\\* _static /e /s",
     "dev": "NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html,coffee --watch ./app/ server/server.js & NODE_ENV=development node server/hotLoadServer.js",
     "dev-win-hsl": "cd win-launch-scripts&& hsl-win-launch-script.bat",
     "dev-win-national": "cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
@@ -17,7 +18,9 @@
     "test-acceptance": "./acceptance-tests/script/run-acceptance-tests.sh",
     "lint": "node_modules/.bin/coffeelint -f coffeelint.json --ext=cjsx,coffee app",
     "build": "NODE_ENV=production webpack -p --progress --colors",
-    "start": "NODE_ENV=production node server/server"
+    "win-build": "set NODE_ENV=production&& webpack -p --progress --colors",
+    "start": "NODE_ENV=production node server/server",
+    "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js"
   },
   "main": "server.js",
   "repository": {
@@ -47,7 +50,7 @@
     "fluxible-action-utils": "^0.2.4",
     "fluxible-addons-react": "^0.2.0",
     "foundation-apps": "^1.2.0",
-    "history": "1.13.1",
+    "history": "1.13.0",
     "javascript-natural-sort": "^0.7.1",
     "leaflet": "^1.0.0-beta.2",
     "lodash": "^3.10.1",
@@ -79,6 +82,7 @@
   "devDependencies": {
     "autoprefixer": "^6.1.2",
     "babel-loader": "^6.2.0",
+    "babel-plugin-dev-expression": "^0.1.0",
     "chance": "^0.8.0",
     "cjsx-loader": "^2.1.0",
     "coffee-loader": "^0.7.2",
