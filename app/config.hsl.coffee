@@ -23,7 +23,7 @@ module.exports =
     PELIAS: "#{API_URL}/pelias/v1/search"
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
   APP_PATH: "#{APP_PATH}"
-  title: "Digitransit (HSL)"
+  title: "Reittiopas.fi"
   preferredAgency: "HSL"
   searchParams:
     "boundary.rect.min_lat": 59.9
