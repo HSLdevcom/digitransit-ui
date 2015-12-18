@@ -1,5 +1,6 @@
 Raven = require 'raven-js'
 React              = require 'react'
+Helmet             = require 'react-helmet'
 SummaryNavigation  = require '../component/navigation/summary-navigation'
 ItinerarySummary   = require '../component/itinerary/itinerary-summary'
 ArrowLink          = require '../component/util/arrow-link'
@@ -22,6 +23,7 @@ class SummaryPage extends React.Component
     executeAction: React.PropTypes.func.isRequired
     history: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
+    intl: intl.intlShape.isRequired
 
   @loadAction: (params) ->
     [
@@ -102,7 +104,12 @@ class SummaryPage extends React.Component
     # Draw active last
     leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
 
+    meta =
+      title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestion"}
+      description: @context.intl.formatMessage {id: 'itinerary-summary-page.description', defaultMessage: "Discover public transportation from near and far"}
+
     <SummaryNavigation className="fullscreen">
+      <Helmet {...meta} />
       <Map ref="map"
            className="summaryMap"
            leafletObjs={leafletObjs}
