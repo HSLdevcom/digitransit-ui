@@ -8,7 +8,7 @@ meta =
   meta: [
     {'http-equiv': 'x-ua-compatible', content: 'ie=edge'}
     {'http-equiv': 'Content-Language', content: 'fi'}
-    {name: 'charset' content: 'utf-8'}
+    {name: 'charset', content: 'utf-8'}
     {name: 'description', content: 'Löydä joukkoliikennetarjonta lähelle ja kauas.'}
     {name: 'keywords', content: 'reitti,reitit,opas,reittiopas,joukkoliikenne'}
     {name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui'}
