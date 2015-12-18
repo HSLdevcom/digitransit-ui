@@ -1,8 +1,6 @@
 React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../queries'
-meta               = require '../meta'
-Helmet             = require 'react-helmet'
 IndexNavigation    = require '../component/navigation/index-navigation.cjsx'
 FrontPagePanel     = require '../component/front-page/front-page-panel.cjsx'
 SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
@@ -21,7 +19,6 @@ class Page extends React.Component
 
   render: ->
     <IndexNavigation className="front-page fullscreen">
-      <Helmet {...meta}/>
       <MapWithTracking>
         <SearchTwoFieldsContainer/>
       </MapWithTracking>
