@@ -39,11 +39,13 @@ class NoRoutePopup extends React.Component
                 id="no-route-msg"
                 defaultMessage="Unfortunately no route was found between the locations you gave. Please change origin and/or destination address."/>
             </p>
-            <a>
-              <FormattedMessage
-                id="close"
-                defaultMessage="Close"/>
-            </a>
+            <p>
+              <a>
+                <FormattedMessage
+                  id="close"
+                  defaultMessage="Close"/>
+              </a>
+            </p>
       </div>
     </Modal>
 
