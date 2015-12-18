@@ -36,8 +36,8 @@ class NoRoutePopup extends React.Component
         <Icon className="no-route-found-icon" img='icon-icon_no_route_found'/>
             <p>
               <FormattedMessage
-                id="not-route-msg"
-                defaultMessage="Unfortunately no route was found between the locations you gave. Please change the address or lorem ipsum sit dolor."/>
+                id="no-route-msg"
+                defaultMessage="Unfortunately no route was found between the locations you gave. Please change origin and/or destination address."/>
             </p>
             <a>
               <FormattedMessage
