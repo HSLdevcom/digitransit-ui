@@ -93,7 +93,7 @@ translations =
     'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi'
     'platform-num': 'Laituri {platformCode}'
     'departures': 'Lähdöt'
-    'no-route-msg': 'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta osoitetta tai lorem ipsum sit dolor.'
+    'no-route-msg': 'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.'
     'close': 'Sulje'
 
   'sv':
@@ -186,7 +186,7 @@ translations =
     'inquiry': 'Delta på förfrågan'
     'platform-num': 'Plattform {platformCode}'
     'departures': 'Avgångar'
-    'no-route-msg': 'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress eller lorem ipsum sit dolor.'
+    'no-route-msg': 'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.'
     'close': 'Stäng'
 
 module.exports = translations
