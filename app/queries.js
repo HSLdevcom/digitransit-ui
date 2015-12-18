@@ -318,6 +318,8 @@ var StopPageFragments = {
     fragment on Stop {
       lat
       lon
+      name
+      code
       routes {
         gtfsId
         shortName
