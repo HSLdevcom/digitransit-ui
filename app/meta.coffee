@@ -4,14 +4,13 @@ configPath = config.CONFIG
 root = config.APP_PATH
 
 meta =
-  title: ''
-  titleTemplate: "%s #{config.title}"
+  title: config.title
   meta: [
     {'http-equiv': 'x-ua-compatible', content: 'ie=edge'}
     {'http-equiv': 'Content-Language', content: 'fi'}
-    {name: 'charset', content: 'utf-8'}
-    {name: 'description', content: 'reit-ti-o-pas'}
-    {name: 'keywords', content: 'reitti,opas,reittiopas'}
+    {name: 'charset' content: 'utf-8'}
+    {name: 'description', content: 'Löydä joukkoliikennetarjonta lähelle ja kauas.'}
+    {name: 'keywords', content: 'reitti,reitit,opas,reittiopas,joukkoliikenne'}
     {name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui'}
     {name: 'mobile-web-app-capable', content: 'yes'}
     {name: 'apple-mobile-web-app-capable', content: 'yes'}
