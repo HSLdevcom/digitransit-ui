@@ -107,7 +107,7 @@ class SummaryPage extends React.Component
     meta =
       title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestion"}
       meta: [
-        {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-summary-page.description', defaultMessage: "Discover public transportation from near and far"}}
+        {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-summary-page.description', defaultMessage: "Route suggestion"}}
       ]
 
     <SummaryNavigation className="fullscreen">
