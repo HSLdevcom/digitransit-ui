@@ -106,6 +106,8 @@ translations =
     'platform-num': 'Laituri {platformCode}'
     'departures': 'Lähdöt'
     'show-departures': 'Näytä lähdöt'
+    'no-route-msg': 'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.'
+    'close': 'Sulje'
 
   'sv':
     'searching-position': 'Letar efter position'
@@ -199,5 +201,7 @@ translations =
     'platform-num': 'Plattform {platformCode}'
     'departures': 'Avgångar'
     'show-departures': 'Visa avgångar'
+    'no-route-msg': 'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.'
+    'close': 'Stäng'
 
 module.exports = translations
