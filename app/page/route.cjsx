@@ -68,8 +68,8 @@ class RoutePage extends React.Component
         ]
 
       <DefaultNavigation className="fullscreen">
-       <Helmet {...meta} />
-       <RouteHeaderContainer pattern={@props.pattern}/>
+        <Helmet {...meta} />
+        <RouteHeaderContainer pattern={@props.pattern}/>
         <Tabs className="route-tabs" onBeforeChange={@before}>
           <Tabs.Panel title={<FormattedMessage id='stops' defaultMessage='Stops' />}>
             <RouteListHeader/>
