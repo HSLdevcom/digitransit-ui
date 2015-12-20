@@ -1,4 +1,4 @@
-Raven = require 'raven-js'
+Raven              = require 'raven-js'
 React              = require 'react'
 Helmet             = require 'react-helmet'
 SummaryNavigation  = require '../component/navigation/summary-navigation'
