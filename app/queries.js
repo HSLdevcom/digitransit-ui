@@ -466,6 +466,10 @@ var TripPageFragments = {
     fragment on Trip {
       pattern {
         code
+        route {
+          shortName
+          longName
+        }
         ${require('./component/route/route-header-container').getFragment('pattern')}
         ${require('./component/route/route-map-container').getFragment('pattern')}
       }
