@@ -38,11 +38,15 @@ class Page extends React.Component
       e.stopPropagation()
       @context.executeAction FavouriteStopsAction.addFavouriteStop, @props.params.stopId
 
-    meta =
-      title: @context.intl.formatMessage {id: 'stop-page.title', defaultMessage: 'Stop {stop_name} - {stop_code}'},
+    params =
         stop_name: @props.stop.name
         stop_code: @props.stop.code
-      description: @context.intl.formatMessage {id: 'stop-page.description', defaultMessage: 'Stop {stop_name} - {stop_code}'},
+
+    meta =
+      title: @context.intl.formatMessage {id: 'stop-page.title', defaultMessage: 'Stop {stop_name} - {stop_code}'}, params
+      meta: [
+        {name: 'description', content: @context.intl.formatMessage {id: 'stop-page.description', defaultMessage: 'Stop {stop_name} - {stop_code}'}, params}
+      ]
 
     <DefaultNavigation className="fullscreen stop">
       <Helmet {...meta} />
