@@ -152,6 +152,10 @@ class StopRoute extends Relay.Route {
 var RoutePageFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
+      route {
+        shortName
+        longName
+      }
       ${require('./component/route/route-header-container').getFragment('pattern')}
       ${require('./component/route/route-map-container').getFragment('pattern')}
       ${require('./component/route/route-stop-list-container').getFragment('pattern')}
