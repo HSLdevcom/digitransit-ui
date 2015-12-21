@@ -44,9 +44,10 @@ class SearchTwoFieldsContainer extends React.Component
     @context.executeAction EndpointActions.swapOriginDestination
 
   pushNonSearchState: () =>
-    setTimeout(() =>
-      @context.history.pushState(null, "/")
-    , 0)
+    if location.pathname != "/"
+      setTimeout(() =>
+        @context.history.pushState(null, "/")
+      , 0)
 
   routeIfPossible: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
