@@ -22,6 +22,7 @@ class SearchField extends React.Component
     navigateOrInputPlaceHolder: React.PropTypes.string.isRequired
     id: React.PropTypes.string.isRequired
     focus: React.PropTypes.func.isRequired
+    onEmpty: React.PropTypes.func.isRequired
 
 
   getGeolocationBar: =>
@@ -51,7 +52,7 @@ class SearchField extends React.Component
         value={@props.endpoint?.address}
         id={@props.id + "-autosuggest"}
         disableInput={@props.disableInputMode}
-        onEmpty= {() -> return }
+        onEmpty= {@props.onEmpty}
         focus={@props.focus}
         visibility={if hidden1 then  "visible" else "hidden"}
       />

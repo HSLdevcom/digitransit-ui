@@ -84,7 +84,7 @@ class SearchTwoFieldsContainer extends React.Component
         setToCurrent={() => @context.executeAction EndpointActions.setOriginToCurrent}
         enableInputMode={() => @context.executeAction EndpointActions.enableOriginInputMode}
         disableInputMode={() => @context.executeAction EndpointActions.disableOriginInputMode}
-        clear={() => @context.executeAction EndpointActions.clearOrigin}
+        onEmpty={() => @context.executeAction EndpointActions.clearOrigin}
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'origin'
           defaultMessage: 'From where? - address or stop')}
@@ -103,7 +103,7 @@ class SearchTwoFieldsContainer extends React.Component
         setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
         enableInputMode={() => @context.executeAction EndpointActions.enableDestinationInputMode}
         disableInputMode={() => @context.executeAction EndpointActions.disableDestinationInputMode}
-        clear={() => @context.executeAction EndpointActions.clearDestination}
+        onEmpty={() => @context.executeAction EndpointActions.clearDestination}
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'destination'
           defaultMessage: 'Where to? - address or stop')}

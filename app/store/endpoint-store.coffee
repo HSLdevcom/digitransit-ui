@@ -16,15 +16,17 @@ class EndpointStore extends Store
   isCurrentPositionInUse: () ->
     @origin.useCurrentPosition || @destination.useCurrentPosition
 
-  clearOrigin: () ->
+  clearOrigin: () =>
 #    console.log("clear origin")
     if @origin?.userSetPosition && @origin.address?.length > 0
-      @origin = @getUseCurrent(@origin, false)
+      @origin = @getUseCurrent(null, false)
       @emitChange("set-origin")
 
   clearDestination: () =>
+#    console.log("clear destination")
     if @destination?.userSetPosition && @destination.address?.length > 0
-      @destination = @getUseCurrent(@destination, false)
+
+      @destination = @getUseCurrent(null, false)
       @emitChange()
 
   swapOriginDestination: () ->
@@ -38,6 +40,7 @@ class EndpointStore extends Store
     @emitChange("set-origin")
 
   setDestinationToCurrent: () ->
+#    console.log("setDestination ToCurrent")
     @destination = @getUseCurrent(@destination, true)
     @emitChange()
 
