@@ -65,7 +65,7 @@ class EndpointStore extends Store
 
   disableOriginInputMode: () ->
 #    console.log("disable origin input mode")
-    if(@origin.address == "")
+    if @origin.address == ""
       @origin.userSetPosition = false
     @emitChange()
 #    @origin.address = ""
@@ -77,7 +77,6 @@ class EndpointStore extends Store
   enable: (t) ->
     t.userSetPosition = true
     t.useCurrentPosition = false
-    focusRequired = true
     @emitChange()
 
   isOriginFocus: () =>
@@ -91,8 +90,9 @@ class EndpointStore extends Store
     focus
 
   disableDestinationInputMode: () ->
-    @destination.userSetPosition = false
-    @destination.address = ""
+    if @destination.address == ""
+      @destination.userSetPosition = false
+#    @destination.address = ""
     @emitChange()
 
   setDestination: (location) ->
