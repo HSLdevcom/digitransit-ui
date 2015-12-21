@@ -42,8 +42,7 @@ broadcastCurrentLocation = (actionContext, pos) ->
     @position = pos
 
   if @position
-    console.log("shoudl broadcast:", pos);
-    setTimeout((() -> actionContext.dispatch "GeolocationFound", @position) ,0)
+    actionContext.dispatch "GeolocationFound", @position
 
 startLocationWatch = (actionContext, payload, done) ->
   # First check if we have geolocation support
@@ -58,8 +57,9 @@ startLocationWatch = (actionContext, payload, done) ->
   # Set timeout
   timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationWatchTimeout"), 10000)
 
-  # and start positioning
-  watchId = geolocator(actionContext).geolocation.watchPosition (position) =>
+  window.retrieveGeolocation = (position) ->
+    if window.digitransitPosition
+      window.digitransitPosition = undefined
     if timeoutId
       window.clearTimeout(timeoutId)
       timeoutId = undefined
@@ -69,21 +69,10 @@ startLocationWatch = (actionContext, payload, done) ->
       heading: position.coords.heading
 
     debouncedRunReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
-  , (error) =>
-    if timeoutId
-      window.clearTimeout(timeoutId)
-    if error.code == 1
-      actionContext.dispatch "GeolocationDenied"
-    else if error.code == 2
-      actionContext.dispatch "GeolocationNotSupported"
-    else if error.code == 3
-      actionContext.dispatch "GeolocationTimeout"
-    else # When could this happen?
-      actionContext.dispatch "GeolocationNotSupported"
-    done()
-  , enableHighAccuracy: true, timeout: 60000, maximumAge: 0
 
-  actionContext.dispatch "GeolocationWatchStarted", watchId
+  if window.digiTransitPosition
+    window.retrieveGeolocation window.digiTransitPosition
+
   done()
 
 stopLocationWatch = (actionContext, payload, done) ->

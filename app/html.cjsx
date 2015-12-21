@@ -48,6 +48,7 @@ class Application extends React.Component
       <meta name="twitter:description" content={config.socialMedia.description} />
       <meta name="twitter:image" content="#{root}/img/#{configPath}-icons/social-share.png"/>
       <style dangerouslySetInnerHTML={ __html: @props.fonts }/>
+      <script dangerouslySetInnerHTML={ __html: @props.geolocationStarter }/>
       {@props.css}
     </head>
     <body>
