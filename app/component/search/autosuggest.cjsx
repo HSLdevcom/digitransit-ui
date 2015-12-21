@@ -19,7 +19,6 @@ class Autosuggest extends React.Component
     onEmpty: React.PropTypes.func.isRequired
     id: React.PropTypes.string.isRequired
     focus: React.PropTypes.func.isRequired
-    onEmpty: React.PropTypes.func.isRequired
 
   getNumberIfNotZero: (number) ->
     if number and not (number is "0") then " #{number}" else ""
