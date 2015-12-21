@@ -117,6 +117,25 @@ class EndpointStore extends Store
       @destination = @getUseCurrent(@destination, false)
     @emitChange()
 
+  addressFound: () =>
+#    console.log("addressFound")
+    @addressFound = true
+    if @checkState()
+      @emitChange()
+
+  geolocationFound: () =>
+#    console.log("geolocationFound")
+    @geolocationFound = true
+    if @checkState()
+      @emitChange()
+
+  checkState: () =>
+    res = (@addressFound == true and @geolocationFound == true and !@geoLocationEstablished)
+    if(res)
+      @geoLocationEstablished = true
+
+    res
+
   dehydrate: ->
     {@origin, @destination}
 
@@ -136,6 +155,8 @@ class EndpointStore extends Store
     "GeolocationDenied": 'clearGeolocation'
     "GeolocationTimeout": 'clearGeolocation'
     "clearGeolocation": "clearGeolocation"
+    "AddressFound": "addressFound"
+    "GeolocationFound": "geolocationFound"
     "isCurrentPositionInUse": "isCurrentPositionInUse"
     "enableOriginInputMode": "enableOriginInputMode"
     "disableOriginInputMode": "disableOriginInputMode"
