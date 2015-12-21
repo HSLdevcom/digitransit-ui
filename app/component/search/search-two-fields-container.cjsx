@@ -43,6 +43,11 @@ class SearchTwoFieldsContainer extends React.Component
 
     @context.executeAction EndpointActions.swapOriginDestination
 
+  pushNonSearchState: () =>
+    setTimeout(() =>
+      @context.history.pushState(null, "/")
+    , 0)
+
   routeIfPossible: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
     origin = @context.getStore('EndpointStore').getOrigin()
@@ -84,7 +89,9 @@ class SearchTwoFieldsContainer extends React.Component
         setToCurrent={() => @context.executeAction EndpointActions.setOriginToCurrent}
         enableInputMode={() => @context.executeAction EndpointActions.enableOriginInputMode}
         disableInputMode={() => @context.executeAction EndpointActions.disableOriginInputMode}
-        onEmpty={() => @context.executeAction EndpointActions.clearOrigin}
+        onEmpty={() =>
+          @pushNonSearchState()
+          @context.executeAction EndpointActions.clearOrigin}
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'origin'
           defaultMessage: 'From where? - address or stop')}
@@ -103,7 +110,9 @@ class SearchTwoFieldsContainer extends React.Component
         setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
         enableInputMode={() => @context.executeAction EndpointActions.enableDestinationInputMode}
         disableInputMode={() => @context.executeAction EndpointActions.disableDestinationInputMode}
-        onEmpty={() => @context.executeAction EndpointActions.clearDestination}
+        onEmpty={() =>
+          @pushNonSearchState()
+          @context.executeAction EndpointActions.clearDestination}
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'destination'
           defaultMessage: 'Where to? - address or stop')}
