@@ -20,7 +20,7 @@ class EndpointStore extends Store
 #    console.log("clear origin")
     if @origin?.userSetPosition && @origin.address?.length > 0
       @origin = @getUseCurrent(@origin, false)
-      @emitChange()
+      @emitChange("set-origin")
 
   clearDestination: () =>
     if @destination?.userSetPosition && @destination.address?.length > 0
@@ -35,7 +35,7 @@ class EndpointStore extends Store
   setOriginToCurrent: () ->
 #    console.log("set origin to current")
     @origin = @getUseCurrent(@origin, true)
-    @emitChange()
+    @emitChange("set-origin")
 
   setDestinationToCurrent: () ->
     @destination = @getUseCurrent(@destination, true)
@@ -56,7 +56,7 @@ class EndpointStore extends Store
       lat: location.lat
       lon: location.lon
       address: location.address
-    @emitChange()
+    @emitChange("set-origin")
 
   enableOriginInputMode: () =>
 #    console.log("enable origin input mode")
@@ -64,11 +64,9 @@ class EndpointStore extends Store
     @enable(@origin)
 
   disableOriginInputMode: () ->
-#    console.log("disable origin input mode")
     if @origin.address == ""
       @origin.userSetPosition = false
-    @emitChange()
-#    @origin.address = ""
+      @emitChange()
 
   enableDestinationInputMode: () ->
     @destinationFocusRequired = true
@@ -92,8 +90,7 @@ class EndpointStore extends Store
   disableDestinationInputMode: () ->
     if @destination.address == ""
       @destination.userSetPosition = false
-#    @destination.address = ""
-    @emitChange()
+      @emitChange()
 
   setDestination: (location) ->
     @destination =
