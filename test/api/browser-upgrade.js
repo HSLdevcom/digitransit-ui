@@ -1,5 +1,6 @@
 module.exports = function (browser) {
   var GLOBAL_TIMEOUT_MS = 180000;
+  var ELEMENT_VISIBLE_TIMEOUT = 5000;
 
   browser.finish = function (done) {
     browser.end(function () {
@@ -54,88 +55,58 @@ module.exports = function (browser) {
   //map functions
   browser.map = {
     click: function (done) {
-      browser.click('div.leaflet-map-pane', done);
+      browser.click('div.map', done);
     }
   }
 
   //origin functions
   browser.origin = {
-    disableCurrentPosition: function (done) {
-      //    console.log("disable current position");
-      browser.expect.element('#origin-geolocationbar').to.be.visible.before(500);
-      browser.click('#origin-geolocationbar', function () {
-        //       browser.expect.element('#origin-placeholder-input').to.be.visible.before(500);
-        //       console.log("disable current position->");
-        done()
-      })
+    disableCurrentPosition: function () {
+      browser.expect.element('#origin-geolocationbar').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      return browser.click('#origin-geolocationbar');
     },
-    enableCurrentPosition: function (done) {
-      browser.click('#origin-placeholder-locate')
+    enableCurrentPosition: function () {
+      return browser.click('#origin-placeholder-locate')
     },
-    enableInput: function (done) {
-//      console.log("enable input");
-      browser.expect.element('#origin-placeholder-input').to.be.visible.before(500);
-      browser.click('#origin-placeholder-input', function () {
-        browser.pause(10, function () {
-//          browser.expect.element('#origin-autosuggest').to.be.visible.before(500);
-//          console.log("enable input->");
-          done();
-        })
+    enableInput: function () {
+      browser.expect.element('#origin-placeholder-input').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      return browser.click('#origin-placeholder-input')
 
-      })
     },
-    enterText: function type(text, done) {
-//      console.log("enter text:", text);
-      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.visible.before(500);
-      browser.setValue('#origin-autosuggest > div > input[type=text]', [text, browser.Keys.ENTER], function () {
-        done();
-      });
+    enterText: function type(text) {
+      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      return browser.setValue('#origin-autosuggest > div > input[type=text]', text + browser.Keys.ENTER);
     },
-    clickInput: function (done) {
-      browser.click("#origin-autosuggest > div > input[type=text]", done);
+    clickInput: function () {
+      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      return browser.click("#origin-autosuggest > div > input[type=text]");
     },
     clearInput: function (done) {
-      browser.clearValue('#origin-autosuggest > div > input[type=text]', done);
+      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      return browser.clearValue('#origin-autosuggest > div > input[type=text]');
     }
   }
   //destination functions
   browser.destination = {
-    disableCurrentPosition: function (done) {
-      //    console.log("disable current position");
-      browser.expect.element('#destination-geolocationbar').to.be.visible.before(500);
-      browser.click('#destination-geolocationbar', function () {
-        //       browser.expect.element('#origin-placeholder-input').to.be.visible.before(500);
-        //       console.log("disable current position->");
-        done()
-      })
+    disableCurrentPosition: function () {
+      browser.expect.element('#destination-geolocationbar').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.click('#destination-geolocationbar');
     },
-    enableCurrentPosition: function (done) {
+    enableCurrentPosition: function () {
       browser.click('#destination-placeholder-locate')
     },
-    enableInput: function (done) {
-//      console.log("enable input");
-//      browser.expect.element('#destination-placeholder-input').to.be.visible.before(500);
-      browser.click('#destination-placeholder-input', function () {
-        browser.pause(10, function () {
-//          browser.expect.element('#origin-autosuggest').to.be.visible.before(500);
-//          console.log("enable input->");
-          done();
-        })
-
-      })
+    enableInput: function () {
+      browser.click('#destination-placeholder-input');
     },
-    enterText: function type(text, done) {
-//      console.log("enter text:", text);
-      browser.expect.element('#destination-autosuggest > div > input[type=text]').to.be.visible.before(500);
-      browser.setValue('#destination-autosuggest > div > input[type=text]', [text, browser.Keys.ENTER], function () {
-        done();
-      });
+    enterText: function type(text) {
+      browser.expect.element('#destination-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.setValue('#destination-autosuggest > div > input[type=text]', text + browser.Keys.ENTER);
     },
-    clickInput: function (done) {
-      browser.click("#destination-autosuggest > div > input[type=text]", done);
+    clickInput: function () {
+      browser.click("#destination-autosuggest > div > input[type=text]");
     },
-    clearInput: function (done) {
-      browser.clearValue('#destination-autosuggest > div > input[type=text]', done);
+    clearInput: function () {
+      browser.clearValue('#destination-autosuggest > div > input[type=text]');
     }
 
   }
