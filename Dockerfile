@@ -1,28 +1,27 @@
-FROM node:0.12
-MAINTAINER Pelias
+FROM node:5.1
+MAINTAINER Reittiopas version: 0.1
 
-EXPOSE 3100
-LABEL io.openshift.expose-services 3100:http
-
-# Where the app is built and run inside the docker fs
-ENV WORK=/opt/pelias
-
-# Used indirectly for saving npm logs etc.
-ENV HOME=/opt/pelias
+ENV WORK=/opt/digitransit-ui
+ENV SENTRY_DSN=''
+ENV SENTRY_SECRET_DSN=''
+ENV PORT=8080
+ENV API_URL=''
+ENV APP_PATH=''
+ENV CONFIG=''
+ENV PIWIK_ADDRESS=''
+ENV PIWIK_ID=''
+ENV NODE_ENV=''
 
 WORKDIR ${WORK}
+
+# Add application
+RUN mkdir -p ${WORK}
 ADD . ${WORK}
 
-# Build and set permissions for arbitary non-root user
+# Build
 RUN npm install && \
-  npm test && \
-  chmod -R a+rwX .
+  npm run static && \
+  npm rebuild node-sass && \
+  npm run build
 
-ADD pelias.json.docker pelias.json
-
-# Don't run as root, because there's no reason to (https://docs.docker.com/engine/articles/dockerfile_best-practices/#user).
-# This also reveals permission problems on local Docker.
-RUN chown -R 9999:9999 ${WORK}
-USER 9999
-
-CMD npm start
+CMD npm run start
