@@ -29,11 +29,13 @@ class SearchTwoFieldsContainer extends React.Component
     #We want to rerender only if position status changes,
     #not if position changes
     if statusChanged
-      @forceUpdate()
+      if @context.getStore('PositionStore').getLocationState().status == 'found-address'
+        @routeIfPossible() #TODO: this should not be done here
+      else
+        @forceUpdate()
 
   onEndpointChange: () =>
     @forceUpdate()
-
     @routeIfPossible() #TODO: this should not be done here
 
   onSwitch: (e) =>
