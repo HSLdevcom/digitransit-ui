@@ -63,7 +63,7 @@
     "polyfill-service": "^2.2.0",
     "polyline-encoded": "^0.0.7",
     "raven": "^0.9.0",
-    "raven-js": "^2.0.0-rc1",
+    "raven-js": "2.0.0-rc1",
     "react": "^0.14.3",
     "react-autosuggest": "^2.2.0",
     "react-dom": "^0.14.3",
