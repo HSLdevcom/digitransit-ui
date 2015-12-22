@@ -1,4 +1,4 @@
-Raven = require 'raven-js'
+Raven              = if window? then require 'raven-js' else null
 React              = require 'react'
 SummaryNavigation  = require '../component/navigation/summary-navigation'
 ItinerarySummary   = require '../component/itinerary/itinerary-summary'
