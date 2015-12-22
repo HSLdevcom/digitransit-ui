@@ -79,7 +79,7 @@ elif [ "$1" == "browserstack" ]; then
     echo "usage: npm run test-browserstack -- BROWSERSTACK_USERNAME BROWSERSTACK_KEY"
     exit
   fi
-  CONFIG=hsl PORT=8000 npm run dev-nowatch &
+  npm run build; CONFIG=hsl PORT=8000 npm run start &
   NODE_PID=$!
   $BROWSERSTACK_LOCAL_BINARY $3 &
   BROWSERSTACK_PID=$!
