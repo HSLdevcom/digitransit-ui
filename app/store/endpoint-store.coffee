@@ -17,30 +17,24 @@ class EndpointStore extends Store
     @origin.useCurrentPosition || @destination.useCurrentPosition
 
   clearOrigin: () =>
-#    console.log("clear origin")
     if @origin?.userSetPosition && @origin.address?.length > 0
       @origin = @getUseCurrent(null, false)
       @emitChange("set-origin")
 
   clearDestination: () =>
-#    console.log("clear destination")
     if @destination?.userSetPosition && @destination.address?.length > 0
-
       @destination = @getUseCurrent(null, false)
       @emitChange()
 
   swapOriginDestination: () ->
-#    console.log("swap")
     [@destination, @origin] = [@origin, @destination]
     @emitChange()
 
   setOriginToCurrent: () ->
-#    console.log("set origin to current")
     @origin = @getUseCurrent(@origin, true)
     @emitChange("set-origin")
 
   setDestinationToCurrent: () ->
-#    console.log("setDestination ToCurrent")
     @destination = @getUseCurrent(@destination, true)
     @emitChange()
 
@@ -52,7 +46,6 @@ class EndpointStore extends Store
     address: null
 
   setOrigin: (location) ->
-#    console.log("setOrigin")
     @origin =
       userSetPosition: true
       useCurrentPosition: false
@@ -62,7 +55,6 @@ class EndpointStore extends Store
     @emitChange("set-origin")
 
   enableOriginInputMode: () =>
-#    console.log("enable origin input mode")
     @originFocusRequired = true
     @enable(@origin)
 
