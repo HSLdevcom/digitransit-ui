@@ -91,12 +91,6 @@ dispatchErrorEventIfError = () ->
       actionContext.dispatch "GeolocationTimeout"
     window.digitransitPositionError = undefined
 
-
-stopLocationWatch = (actionContext, payload, done) ->
-  geolocator(actionContext).geolocation.clearWatch actionContext.getStore("PositionStore").getWatchId()
-  actionContext.dispatch "GeolocationWatchStopped"
-  done()
-
 removeLocation = (actionContext) ->
   actionContext.dispatch "GeolocationRemoved"
 
@@ -113,4 +107,3 @@ module.exports =
   'manuallySetPosition': manuallySetPosition
   'reverseGeocodeAddress': reverseGeocodeAddress
   'startLocationWatch': startLocationWatch
-  'stopLocationWatch': stopLocationWatch
