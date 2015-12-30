@@ -14,6 +14,9 @@ class ServiceStore extends Store
   geolocator: ->
     geolocation: @mock?.geolocation or navigator.geolocation
 
+  notify: () ->
+    window.retrieveGeolocation(window.mock.data.position)
+
   makeMockGeolocation: ->
     callbacks = []
     follow = false
@@ -22,9 +25,8 @@ class ServiceStore extends Store
         latitude: 60.1992
         longitude: 24.9402
         heading: 0
-    notify: () ->
-      for callback in callbacks
-        callback window.mock.data.position
+    @notify()
+
     demo: () ->
       from = window.mock.data.position.coords
       to =
@@ -53,7 +55,7 @@ class ServiceStore extends Store
       else
         clearInterval follow.interval
         follow = false
-    move: (dlat, dlon, heading) ->
+    move: (dlat, dlon, heading) =>
       window.mock.data.position.coords.latitude += dlat
       window.mock.data.position.coords.longitude += dlon
       window.mock.data.position.coords.heading = heading if heading
