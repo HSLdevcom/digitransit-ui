@@ -29,11 +29,13 @@ class SearchTwoFieldsContainer extends React.Component
     #We want to rerender only if position status changes,
     #not if position changes
     if statusChanged
-      @forceUpdate()
+      if @context.getStore('PositionStore').getLocationState().status == 'found-address'
+        @routeIfPossible() #TODO: this should not be done here
+      else
+        @forceUpdate()
 
   onEndpointChange: () =>
     @forceUpdate()
-
     @routeIfPossible() #TODO: this should not be done here
 
   onSwitch: (e) =>
@@ -42,6 +44,12 @@ class SearchTwoFieldsContainer extends React.Component
       return
 
     @context.executeAction EndpointActions.swapOriginDestination
+
+  pushNonSearchState: () =>
+    if location.pathname != "/"
+      setTimeout(() =>
+        @context.history.pushState(null, "/")
+      , 0)
 
   routeIfPossible: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -84,7 +92,9 @@ class SearchTwoFieldsContainer extends React.Component
         setToCurrent={() => @context.executeAction EndpointActions.setOriginToCurrent}
         enableInputMode={() => @context.executeAction EndpointActions.enableOriginInputMode}
         disableInputMode={() => @context.executeAction EndpointActions.disableOriginInputMode}
-        clear={() => @context.executeAction EndpointActions.clearOrigin}
+        onEmpty={() =>
+          @pushNonSearchState()
+          @context.executeAction EndpointActions.clearOrigin}
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'origin'
           defaultMessage: 'From where? - address or stop')}
@@ -93,6 +103,7 @@ class SearchTwoFieldsContainer extends React.Component
           defaultMessage: 'Type origin')}
         id='origin'
         onSelectAction={EndpointActions.setOrigin}
+        focus={@context.getStore('EndpointStore').isOriginFocus}
       />
 
     to =
@@ -102,7 +113,9 @@ class SearchTwoFieldsContainer extends React.Component
         setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
         enableInputMode={() => @context.executeAction EndpointActions.enableDestinationInputMode}
         disableInputMode={() => @context.executeAction EndpointActions.disableDestinationInputMode}
-        clear={() => @context.executeAction EndpointActions.clearDestination}
+        onEmpty={() =>
+          @pushNonSearchState()
+          @context.executeAction EndpointActions.clearDestination}
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'destination'
           defaultMessage: 'Where to? - address or stop')}
@@ -111,6 +124,8 @@ class SearchTwoFieldsContainer extends React.Component
           defaultMessage: 'Type destination')}
         id='destination'
         onSelectAction={EndpointActions.setDestination}
+        focus={@context.getStore('EndpointStore').isDestinationFocus}
+
       />
 
     <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>

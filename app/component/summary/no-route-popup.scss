@@ -1,0 +1,22 @@
+.icon.no-route-found-icon {
+  width: 100%;
+  height: 10em;
+}
+
+.no-route-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    font-weight: $font-weight-normal;
+    font-size: $font-size-normal;
+    text-align: center;
+  }
+
+  a {
+    font-weight: $font-weight-bold;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+}
