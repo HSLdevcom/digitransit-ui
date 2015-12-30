@@ -57,7 +57,10 @@ startLocationWatch = (actionContext, payload, done) ->
   # Set timeout
   timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationWatchTimeout"), 10000)
 
+  ##define function to retrieve geolocation updates
   window.retrieveGeolocation = (position) ->
+    dispatchErrorEventIfError()
+
     if window.digitransitPosition
       window.digitransitPosition = undefined
     if timeoutId
@@ -70,10 +73,24 @@ startLocationWatch = (actionContext, payload, done) ->
 
     debouncedRunReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
 
+  dispatchErrorEventIfError()
+
   if window.digiTransitPosition
     window.retrieveGeolocation window.digiTransitPosition
 
   done()
+
+dispatchErrorEventIfError = () ->
+  error = window.digitransitPositionError
+  if error
+    if error.code == 1
+      actionContext.dispatch "GeolocationDenied"
+    else if error.code == 2
+      actionContext.dispatch "GeolocationNotSupported"
+    else if error.code == 3
+      actionContext.dispatch "GeolocationTimeout"
+    window.digitransitPositionError = undefinedß
+
 
 stopLocationWatch = (actionContext, payload, done) ->
   geolocator(actionContext).geolocation.clearWatch actionContext.getStore("PositionStore").getWatchId()
