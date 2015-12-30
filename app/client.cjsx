@@ -65,6 +65,4 @@ app.rehydrate dehydratedState, (err, context) ->
   )
 
   if window?
-    #start positioning
     piwik.enableLinkTracking()
-    context.executeAction PositionActions.startLocationWatch
