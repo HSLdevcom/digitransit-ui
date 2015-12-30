@@ -89,7 +89,7 @@ dispatchErrorEventIfError = () ->
       actionContext.dispatch "GeolocationNotSupported"
     else if error.code == 3
       actionContext.dispatch "GeolocationTimeout"
-    window.digitransitPositionError = undefinedß
+    window.digitransitPositionError = undefined
 
 
 stopLocationWatch = (actionContext, payload, done) ->
