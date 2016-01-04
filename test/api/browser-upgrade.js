@@ -1,6 +1,7 @@
 module.exports = function (browser) {
   var GLOBAL_TIMEOUT_MS = 180000;
   var ELEMENT_VISIBLE_TIMEOUT = 5000;
+  browser.ELEMENT_VISIBLE_TIMEOUT = ELEMENT_VISIBLE_TIMEOUT;
 
   browser.finish = function (done) {
     browser.end(function () {

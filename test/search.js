@@ -1,5 +1,4 @@
 var suite = require('./api/suite.js').suite;
-var ELEMENT_VISIBLE_TIMEOUT = 5000;
 var SLEEP_TIME = 1000;
 
 suite('Search', function () {
@@ -12,7 +11,7 @@ suite('Search', function () {
     before(function (browser, done) {
       browser.origin.disableCurrentPosition();
       browser.origin.enableInput();
-      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.present.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.present.before(browser.ELEMENT_VISIBLE_TIMEOUT);
       browser.origin.enterText("kamppi");
       browser.pause(SLEEP_TIME);
       done();
@@ -28,7 +27,7 @@ suite('Search', function () {
 
     it('should be possible to write Destination', function (browser) {
       browser.destination.enableInput();
-      browser.expect.element('#destination-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#destination-autosuggest > div > input[type=text]').to.be.visible.before(browser.ELEMENT_VISIBLE_TIMEOUT);
       browser.destination.enterText("Kluuvi");
       browser.pause(SLEEP_TIME);
       browser.assert.value('#destination-autosuggest > div > input[type=text]', "Kluuvi, Helsinki");
@@ -38,18 +37,18 @@ suite('Search', function () {
 
     it('should use "Sampsantie 40, Helsinki" address when Destination is written as "sampsantie 40"', function (browser, done) {
       browser.destination.enableInput();
-      browser.expect.element('#destination-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#destination-autosuggest > div > input[type=text]').to.be.visible.before(browser.ELEMENT_VISIBLE_TIMEOUT);
       browser.destination.enterText("samsantie 40");
       browser.pause(SLEEP_TIME);
       browser.assert.value('#destination-autosuggest > div > input[type=text]', "Sampsantie 40, Helsinki");
-      browser.destination.enterText("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
+      browser.destination.enterText("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
       browser.pause(SLEEP_TIME);
     });
 
     it('should be possible to use current position', function (browser) {
       browser.map.click();
       browser.destination.enableCurrentPosition();
-      browser.expect.element('#destination-geolocationbar').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#destination-geolocationbar').to.be.visible.before( browser.ELEMENT_VISIBLE_TIMEOUT);
     });
   });
 
