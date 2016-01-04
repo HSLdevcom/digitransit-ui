@@ -63,45 +63,45 @@ module.exports = function (browser) {
   //origin functions
   browser.origin = {
     disableCurrentPosition: function () {
-      browser.expect.element('#origin-geolocationbar').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#origin-geolocationbar').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
       return browser.click('#origin-geolocationbar');
     },
     enableCurrentPosition: function () {
       return browser.click('#origin-placeholder-locate')
     },
     enableInput: function () {
-      browser.expect.element('#origin-placeholder-input').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#origin-placeholder-input').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
       return browser.click('#origin-placeholder-input')
 
     },
     enterText: function type(text) {
-      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
       return browser.setValue('#origin-autosuggest > div > input[type=text]', text + browser.Keys.ENTER);
     },
     clickInput: function () {
-      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
       return browser.click("#origin-autosuggest > div > input[type=text]");
     },
     clearInput: function (done) {
-      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
       return browser.clearValue('#origin-autosuggest > div > input[type=text]');
     }
   }
   //destination functions
   browser.destination = {
     disableCurrentPosition: function () {
-      browser.expect.element('#destination-geolocationbar').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#destination-geolocationbar').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
       browser.click('#destination-geolocationbar');
     },
     enableCurrentPosition: function () {
       browser.click('#destination-placeholder-locate')
     },
     enableInput: function () {
-      browser.expect.element('#destination-placeholder-input').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#destination-placeholder-input').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
       browser.click('#destination-placeholder-input');
     },
     enterText: function type(text) {
-      browser.expect.element('#destination-autosuggest > div > input[type=text]').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#destination-autosuggest > div > input[type=text]').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
       browser.setValue('#destination-autosuggest > div > input[type=text]', text + browser.Keys.ENTER);
     },
     clickInput: function () {
