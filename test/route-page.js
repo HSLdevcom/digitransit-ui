@@ -11,7 +11,7 @@ suite('Route Page', function () {
     });
 
     it('should contain walk distance to nearest stop', function (browser) {
-      browser.expect.element('span.walk-distance').to.be.present.before(500);
+      browser.expect.element('span.walk-distance').to.be.present.before(browser.ELEMENT_VISIBLE_TIMEOUT);
     });
   });
 });
