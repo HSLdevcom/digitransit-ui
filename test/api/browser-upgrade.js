@@ -1,6 +1,6 @@
 module.exports = function (browser) {
   var GLOBAL_TIMEOUT_MS = 180000;
-  var ELEMENT_VISIBLE_TIMEOUT = 5000;
+  var ELEMENT_VISIBLE_TIMEOUT = 10000;
   browser.ELEMENT_VISIBLE_TIMEOUT = ELEMENT_VISIBLE_TIMEOUT;
 
   browser.finish = function (done) {
@@ -97,6 +97,7 @@ module.exports = function (browser) {
       browser.click('#destination-placeholder-locate')
     },
     enableInput: function () {
+      browser.expect.element('#destination-placeholder-input').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
       browser.click('#destination-placeholder-input');
     },
     enterText: function type(text) {
