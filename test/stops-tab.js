@@ -25,6 +25,7 @@ suite('Stop tab', function () {
           browser.setCurrentPosition(60.1661419, 24.9373367, 0, done);
         });
         it('the contents of stop tab should update', function (browser) {
+          browser.pause(1000);
           browser.expect.element('.cards .card:first-child .h4').to.be.present.before(browser.ELEMENT_VISIBLE_TIMEOUT);
           browser.expect.element('.cards .card:first-child .h4').text.to.contain('BULEVARDI');
         });
