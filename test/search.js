@@ -8,16 +8,12 @@ suite('Search', function () {
 
   describe('When Origin is manually set to "Kamppi"', function () {
 
-    before(function (browser, done) {
-      browser.origin.disableCurrentPosition();
-      browser.origin.enableInput();
-      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.present.before(browser.ELEMENT_VISIBLE_TIMEOUT);
-      browser.origin.enterText("kamppi");
-      browser.pause(SLEEP_TIME);
-      done();
-    });
 
     it('should remain set to "Kamppi" when Origin input receives and loses focus', function (browser) {
+      browser.origin.disableCurrentPosition();
+      browser.origin.enableInput();
+      browser.expect.element('#origin-autosuggest > div > input[type=text]').to.be.enabled.before(browser.ELEMENT_VISIBLE_TIMEOUT);
+      browser.origin.enterText("kamppi");
       browser.origin.clickInput();
       browser.assert.value('#origin-autosuggest > div > input[type=text]', "Kamppi, Helsinki");
       browser.map.click();
