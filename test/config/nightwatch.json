@@ -126,7 +126,8 @@
         "start_process": false
       },
       "desiredCapabilities": {
-        "browserName": "iPhone",
+        "browser": "iPhone",
+        "device" : "iPhone 6",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "autoAcceptAlerts" : true,
