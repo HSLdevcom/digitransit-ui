@@ -6,7 +6,7 @@ var TerminalQueries = {
       station(id: $terminalId)
     }
   `,
-};
+}
 
 class TerminalRoute extends Relay.Route {
   static queries = TerminalQueries;
@@ -43,7 +43,7 @@ var StopQueries = {
       stop(id: $stopId)
     }
   `,
-};
+}
 
 class TripRoute extends Relay.Route {
   static queries = {
@@ -65,7 +65,7 @@ var TripPatternFragments = {
       }
     }
   `,
-};
+}
 
 var RouteQueries = {
   pattern: () => Relay.QL`
@@ -73,7 +73,7 @@ var RouteQueries = {
       pattern(id: $routeId)
     }
   `,
-};
+}
 
 class RouteListContainerRoute extends Relay.Route {
   static queries = {
@@ -130,7 +130,7 @@ var RouteListContainerFragments = {
       }
     }
   `,
-};
+}
 
 var TripQueries = {
   trip: () => Relay.QL`
@@ -138,7 +138,7 @@ var TripQueries = {
       trip(id: $tripId)
     }
   `,
-};
+}
 
 class StopRoute extends Relay.Route {
   static queries = StopQueries;
@@ -157,7 +157,7 @@ var RoutePageFragments = {
       ${require('./component/route/route-stop-list-container').getFragment('pattern')}
     }
   `,
-};
+}
 
 var RouteHeaderFragments = {
   pattern: () => Relay.QL`
@@ -178,7 +178,7 @@ var RouteHeaderFragments = {
       }
     }
   `,
-};
+}
 
 var RouteStopListFragments = {
   pattern: () => Relay.QL`
@@ -196,7 +196,7 @@ var RouteStopListFragments = {
       }
     }
   `,
-};
+}
 
 var RouteMapFragments = {
   pattern: () => Relay.QL`
@@ -212,7 +212,7 @@ var RouteMapFragments = {
       ${require('./component/map/route/route-line').getFragment('pattern')}
     }
   `,
-};
+}
 
 var RouteLineFragments = {
   pattern: () => Relay.QL`
@@ -233,7 +233,7 @@ var RouteLineFragments = {
       }
     }
   `,
-};
+}
 
 class StopListContainerRoute extends Relay.Route {
   static queries = {
@@ -274,7 +274,7 @@ var NearStopListContainerFragments = {
       }
     }
   `,
-};
+}
 
 class FavouriteStopListContainerRoute extends Relay.Route {
   static queries = {
@@ -300,7 +300,7 @@ var FavouriteStopListContainerFragments = {
       ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
     }
   `,
-};
+}
 
 var StopCardContainerFragments = {
   stop: () => Relay.QL`
@@ -311,7 +311,7 @@ var StopCardContainerFragments = {
       }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }`
-};
+}
 
 var StopPageFragments = {
   stop: () =>  Relay.QL`
@@ -331,7 +331,7 @@ var StopPageFragments = {
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
-};
+}
 
 var StopMapPageFragments = {
   stop: () =>  Relay.QL`
@@ -341,7 +341,7 @@ var StopMapPageFragments = {
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
-};
+}
 
 class StopMarkerLayerRoute extends Relay.Route {
   static queries = {
@@ -417,7 +417,7 @@ var StopCardHeaderFragments = {
       desc
     }
   `,
-};
+}
 
 var DepartureListFragments = {
   stoptimes: () => Relay.QL`
@@ -471,6 +471,7 @@ var TripPageFragments = {
     }
   `,
 }
+
 var TripStopListFragments = {
   trip: () => Relay.QL`
     fragment on Trip {
@@ -491,7 +492,7 @@ var TripStopListFragments = {
       }
     }
   `,
-};
+}
 
 class FuzzyTripRoute extends Relay.Route {
   static queries = {
@@ -578,7 +579,7 @@ var FavouriteRouteRowFragments = {
         type
       }
    `,
-};
+}
 
 class DisruptionInfoRoute extends Relay.Route {
   static queries = {
@@ -613,7 +614,7 @@ var DisruptionListContainerFragments = {
     }
   }
   `,
-};
+}
 
 var DisruptionInfoButtonFragments = {
   alerts: () => Relay.QL`
@@ -623,7 +624,7 @@ var DisruptionInfoButtonFragments = {
     }
   }
   `,
-};
+}
 
 module.exports = {
   StopQueries: StopQueries,
