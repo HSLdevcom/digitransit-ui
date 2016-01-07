@@ -9,11 +9,11 @@ var TerminalQueries = {
 };
 
 class TerminalRoute extends Relay.Route {
-  static queries = TerminalQueries
+  static queries = TerminalQueries;
   static paramDefinitions = {
     terminalId: {required: true},
-  }
-  static routeName = 'TerminalRoute'
+  };
+  static routeName = 'TerminalRoute';
 }
 
 var TerminalMarkerPopupFragments = {
@@ -50,11 +50,11 @@ class TripRoute extends Relay.Route {
     pattern: () => Relay.QL`query {
         trip(id: $id)
     }`,
-  }
+  };
   static paramDefinitions = {
     id: {required: true},
-  }
-  static routeName = "TripRoute"
+  };
+  static routeName = "TripRoute";
 }
 
 var TripPatternFragments = {
@@ -87,12 +87,12 @@ class RouteListContainerRoute extends Relay.Route {
         }
       }
     `,
-  }
+  };
   static paramDefinitions = {
     lat: {required: true},
     lon: {required: true},
-  }
-  static routeName = 'RouteListContainerRoute'
+  };
+  static routeName = 'RouteListContainerRoute';
 }
 
 var RouteListContainerFragments = {
@@ -141,11 +141,11 @@ var TripQueries = {
 };
 
 class StopRoute extends Relay.Route {
-  static queries = StopQueries
+  static queries = StopQueries;
   static paramDefinitions = {
     stopId: {required: true},
-  }
-  static routeName = 'StopRoute'
+  };
+  static routeName = 'StopRoute';
 }
 
 
@@ -247,12 +247,12 @@ class StopListContainerRoute extends Relay.Route {
         }
       }
     `,
-  }
+  };
   static paramDefinitions = {
     lat: {required: true},
     lon: {required: true},
-  }
-  static routeName = 'StopListContainerRoute'
+  };
+  static routeName = 'StopListContainerRoute';
 }
 
 var NearStopListContainerFragments = {
@@ -286,11 +286,11 @@ class FavouriteStopListContainerRoute extends Relay.Route {
         })}
       }
     }`,
-  }
+  };
   static paramDefinitions = {
     ids: {required: true},
-  }
-  static routeName = 'FavouriteStopListContainerRoute'
+  };
+  static routeName = 'FavouriteStopListContainerRoute';
 }
 
 var FavouriteStopListContainerFragments = {
@@ -357,14 +357,14 @@ class StopMarkerLayerRoute extends Relay.Route {
         }
       }
     `,
-  }
+  };
   static paramDefinitions = {
     minLat: {required: true},
     minLon: {required: true},
     maxLat: {required: true},
     maxLon: {required: true},
-  }
-  static routeName = 'StopMarkerLayerRoute'
+  };
+  static routeName = 'StopMarkerLayerRoute';
 }
 
 var StopMarkerLayerFragments = {
@@ -507,14 +507,14 @@ class FuzzyTripRoute extends Relay.Route {
         }
       }
     `,
-  }
+  };
   static paramDefinitions = {
     route: {required: true},
     direction: {required: true},
     time: {required: true},
     date: {required: true},
-  }
-  static routeName = 'FuzzyTripRoute'
+  };
+  static routeName = 'FuzzyTripRoute';
 }
 
 var TripLinkFragments = {
@@ -559,11 +559,11 @@ class FavouriteRouteRowRoute extends Relay.Route {
             ids: variables.ids
         })}
       }}`,
-  }
+  };
   static paramDefinitions = {
     ids: {required: true},
-  }
-  static routeName = 'FavouriteRouteRowRoute'
+  };
+  static routeName = 'FavouriteRouteRowRoute';
 }
 
 var FavouriteRouteRowFragments = {
@@ -587,8 +587,8 @@ class DisruptionInfoRoute extends Relay.Route {
       viewer
     }
    `,
-  }
-  static routeName = 'DisruptionInfoRoute'
+  };
+  static routeName = 'DisruptionInfoRoute';
 }
 
 var DisruptionListContainerFragments = {
