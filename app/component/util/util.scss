@@ -20,7 +20,7 @@ $slider-gray: #575757;
 /* This sets the actual clickable area. In webkit even the thumb cannot be
    clicked unless the cursor is in the input element. */
 .slider {
-  height: 21px;
+// no height because it hides range on windows mobile  height: 21px;
   background: none;
   cursor: pointer;
 }
@@ -64,6 +64,7 @@ input[type=range].slider {
     background: transparent; /* Hides the slider so custom styles can be added */
     border-color: transparent;
     color: transparent;
+    border-width: 10px;
   }
   &::-ms-fill-lower {
     background: #000000;
@@ -115,7 +116,7 @@ input[type=range].slider {
   }
   &::-ms-thumb {
     @include thumb;
-    height: 7px;
+    height: 24px;
   }
 }
 
