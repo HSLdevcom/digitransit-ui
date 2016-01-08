@@ -27,9 +27,9 @@ class Slider extends React.Component
   componentWillUnmount: ->
     @refs.slider.removeEventListener("touchmove", @f)
 
-  f: (e)->
+  f: (e) ->
     #prevent right nav from hiding
-    e.stopPropagation();
+    e.stopPropagation()
 
   render: ->
     <div ref="slider" className={cx 'slider-container', @props.className}>
