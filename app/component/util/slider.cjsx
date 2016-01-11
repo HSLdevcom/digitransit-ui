@@ -6,6 +6,12 @@ cx            = require 'classnames'
 class Slider extends React.Component
   @propTypes:
     onSliderChange: React.PropTypes.func.isRequired
+    min: React.PropTypes.number
+    max: React.PropTypes.number
+    step: React.PropTypes.number
+    headerText: React.PropTypes.string
+    minText: React.PropTypes.string
+    maxText: React.PropTypes.string
 
   @defaultProps:
     min: 0
@@ -15,8 +21,18 @@ class Slider extends React.Component
     minText: ""
     maxText: ""
 
+  componentDidMount: ->
+    @refs.slider.addEventListener("touchmove", @f)
+
+  componentWillUnmount: ->
+    @refs.slider.removeEventListener("touchmove", @f)
+
+  f: (e) ->
+    #prevent right nav from hiding
+    e.stopPropagation()
+
   render: ->
-    <div className={cx 'slider-container', @props.className}>
+    <div ref="slider" className={cx 'slider-container', @props.className}>
       <h4>{@props.headerText}</h4>
       <input
         id={@props.id}
@@ -32,7 +48,5 @@ class Slider extends React.Component
       <span className="sub-header-h5 left">{@props.minText}</span>
       <span className="sub-header-h5 right">{@props.maxText}</span>
     </div>
-
-
 
 module.exports = Slider
