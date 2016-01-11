@@ -180,7 +180,9 @@ class ItinerarySearchStore extends Store
       window?.sessionStorage?.setItem STORAGE_KEY, JSON.stringify @data
     catch error
       if error.name == 'QuotaExceededError'
-        console.warn('[localStorage] Unable to save state; sessionStorage is not available in Safari private mode')
+        console.error('[sessionStorage] Unable to save state; sessionStorage is not available in Safari private mode')
+      else
+        throw error
 
     @emitChange()
 
