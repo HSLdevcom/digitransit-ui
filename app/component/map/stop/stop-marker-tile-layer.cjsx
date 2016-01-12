@@ -62,7 +62,6 @@ class SVGTile
     @el.appendChild stop
 
   onMapClick: (e) =>
-    L.DomEvent.stopPropagation(e)
     if @features
 
       point =
@@ -79,6 +78,7 @@ class SVGTile
       , [null, Infinity]
 
       if dist < 300 #?
+        L.DomEvent.stopPropagation(e)
         @onStopClicked(nearest.toGeoJSON(@coords.x, @coords.y, @coords.z))
 
 # class CanvasTile
