@@ -9,6 +9,9 @@ BaseTileLayer = require 'react-leaflet/lib/BaseTileLayer'
 omit          = require 'lodash/object/omit'
 getSelector   = require '../../../util/get-selector'
 Popup         = require '../dynamic-popup'
+StopMarkerPopup = require './stop-marker-popup'
+provideContext = require 'fluxible-addons-react/provideContext'
+intl          = require 'react-intl'
 
 class SVGTile
   constructor: (@coords, done, @map) ->
@@ -60,57 +63,57 @@ class SVGTile
 
   onMapClick: (e) =>
     L.DomEvent.stopPropagation(e)
+    if @features
 
-    point =
-      x: e.offsetX * 16
-      y: e.offsetY * 16
+      point =
+        x: e.offsetX * 16
+        y: e.offsetY * 16
 
-    [nearest, dist] = @features.reduce (previous, current) ->
-      g = current.loadGeometry()[0][0]
-      dist = Math.sqrt((point.x - g.x) ** 2 + (point.y - g.y) ** 2)
-      if dist < previous[1]
-        [current, dist]
-      else
-        previous
-    , [null, Infinity]
+      [nearest, dist] = @features.reduce (previous, current) ->
+        g = current.loadGeometry()[0][0]
+        dist = Math.sqrt((point.x - g.x) ** 2 + (point.y - g.y) ** 2)
+        if dist < previous[1]
+          [current, dist]
+        else
+          previous
+      , [null, Infinity]
 
-    if dist < 300 #?
-      @onStopClicked(nearest.toGeoJSON(@coords.x, @coords.y, @coords.z))
-      #popup = L.popup().setLatLng([f.geometry.coordinates[1], f.geometry.coordinates[0]]).setContent(nearest.properties.name).addTo(@map)
+      if dist < 300 #?
+        @onStopClicked(nearest.toGeoJSON(@coords.x, @coords.y, @coords.z))
 
-class CanvasTile
-  constructor: (@coords, done, @map) ->
-    @el = document.createElement 'canvas'
-    @el.setAttribute "class", "leaflet-tile"
-    @el.setAttribute "height", "512"
-    @el.setAttribute "width", "512"
-    if @coords.z < 14 or !@el.getContext
-      return
-    fetch("http://172.30.1.194:8001/#{@coords.z}/#{@coords.x}/#{@coords.y}.pbf").then (res) =>
-      if res.status != 200
-        done(null, @el)
-        return
-      res.arrayBuffer().then (buf) =>
-        vt = new VectorTile(new Protobuf(buf))
-        if vt.layers.geojsonLayer
-          for i in [0..vt.layers.geojsonLayer.length - 1]
-            @addFeature vt.layers.geojsonLayer.feature i
-        done(null, @el)
-      , (err) -> console.log err
-
-  addFeature: (feature) =>
-    unless feature.properties.type
-      return
-    geom = feature.loadGeometry()
-    ctx = @el.getContext '2d'
-    ctx.beginPath()
-    ctx.fillStyle = getSelector(".#{feature.properties.type?.toLowerCase()}").style.color
-    ctx.arc geom[0][0].x / 8, geom[0][0].y / 8, 100 / 8, 0, Math.PI * 2
-    ctx.fill()
-    ctx.beginPath()
-    ctx.fillStyle = '#fff'
-    ctx.arc geom[0][0].x / 8, geom[0][0].y / 8, 50 / 8, 0, Math.PI * 2
-    ctx.fill()
+# class CanvasTile
+#   constructor: (@coords, done, @map) ->
+#     @el = document.createElement 'canvas'
+#     @el.setAttribute "class", "leaflet-tile"
+#     @el.setAttribute "height", "512"
+#     @el.setAttribute "width", "512"
+#     if @coords.z < 14 or !@el.getContext
+#       return
+#     fetch("http://172.30.1.194:8001/#{@coords.z}/#{@coords.x}/#{@coords.y}.pbf").then (res) =>
+#       if res.status != 200
+#         done(null, @el)
+#         return
+#       res.arrayBuffer().then (buf) =>
+#         vt = new VectorTile(new Protobuf(buf))
+#         if vt.layers.geojsonLayer
+#           for i in [0..vt.layers.geojsonLayer.length - 1]
+#             @addFeature vt.layers.geojsonLayer.feature i
+#         done(null, @el)
+#       , (err) -> console.log err
+#
+#   addFeature: (feature) =>
+#     unless feature.properties.type
+#       return
+#     geom = feature.loadGeometry()
+#     ctx = @el.getContext '2d'
+#     ctx.beginPath()
+#     ctx.fillStyle = getSelector(".#{feature.properties.type?.toLowerCase()}").style.color
+#     ctx.arc geom[0][0].x / 8, geom[0][0].y / 8, 100 / 8, 0, Math.PI * 2
+#     ctx.fill()
+#     ctx.beginPath()
+#     ctx.fillStyle = '#fff'
+#     ctx.arc geom[0][0].x / 8, geom[0][0].y / 8, 50 / 8, 0, Math.PI * 2
+#     ctx.fill()
 
 
 class StopMarkerTileLayer extends BaseTileLayer
@@ -118,6 +121,7 @@ class StopMarkerTileLayer extends BaseTileLayer
     #Needed for passing context to dynamic popup, maybe should be done in there?
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    intl: intl.intlShape.isRequired
     history: React.PropTypes.object.isRequired
     route: React.PropTypes.object.isRequired
 
@@ -138,6 +142,14 @@ class StopMarkerTileLayer extends BaseTileLayer
     @refs.popup?._leafletElement.openOn(@props.map)
 
   render: () ->
+    StopMarkerPopupWithContext = provideContext StopMarkerPopup,
+      intl: intl.intlShape.isRequired
+      history: React.PropTypes.object.isRequired
+      route: React.PropTypes.object.isRequired
+
+    #TODO: cjsx doesn't like objects withing nested elements
+    loadingPopupStyle = {"height": 150}
+
     console.log JSON.stringify @state?.openPopup
     if @state?.openPopup
       <Popup options={
@@ -148,7 +160,11 @@ class StopMarkerTileLayer extends BaseTileLayer
         className: "popup"}
         latlng={L.latLng [@state.openPopup.geometry.coordinates[1], @state.openPopup.geometry.coordinates[0]]}
         ref="popup">
-        <div>ASDFASDF</div>
+        <Relay.RootContainer
+          Component={StopMarkerPopup}
+          route={new queries.StopRoute(stopId: @state.openPopup.properties.gtfsId)}
+          renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
+          renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}/>
       </Popup>
     else
       null
