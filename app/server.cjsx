@@ -85,7 +85,7 @@ getScripts = (req) ->
 getContent = (context, renderProps, locale) ->
   # Ugly way to see if this is a Relay RootComponent
   # until Relay gets server rendering capabilities
-  if renderProps.components.some(((i) -> i instanceof Object and i.getQuery))
+  if renderProps.components.some(((i) -> i instanceof Object and i.hasFragment))
     return ''
 
   # TODO: This should be moved to a place to coexist with similar content from client.cjsx
