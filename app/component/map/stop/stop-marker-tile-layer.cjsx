@@ -8,6 +8,7 @@ L             = require 'leaflet'
 BaseTileLayer = require 'react-leaflet/lib/BaseTileLayer'
 omit          = require 'lodash/object/omit'
 getSelector   = require '../../../util/get-selector'
+Popup         = require '../dynamic-popup'
 
 class SVGTile
   constructor: (@coords, done, @map) ->
@@ -58,11 +59,11 @@ class SVGTile
     @el.appendChild stop
 
   onMapClick: (e) =>
-    console.log "clicked"
+    L.DomEvent.stopPropagation(e)
+
     point =
       x: e.offsetX * 16
       y: e.offsetY * 16
-    console.log point
 
     [nearest, dist] = @features.reduce (previous, current) ->
       g = current.loadGeometry()[0][0]
@@ -73,12 +74,9 @@ class SVGTile
         previous
     , [null, Infinity]
 
-    f = nearest.toGeoJSON(@coords.x, @coords.y, @coords.z)
-    console.log f
     if dist < 300 #?
-      popup = L.popup().setLatLng([f.geometry.coordinates[1], f.geometry.coordinates[0]]).setContent(nearest.properties.name).addTo(@map)
-      console.log popup
-      popup.openPopup()
+      @onStopClicked(nearest.toGeoJSON(@coords.x, @coords.y, @coords.z))
+      #popup = L.popup().setLatLng([f.geometry.coordinates[1], f.geometry.coordinates[0]]).setContent(nearest.properties.name).addTo(@map)
 
 class CanvasTile
   constructor: (@coords, done, @map) ->
@@ -125,6 +123,9 @@ class StopMarkerTileLayer extends BaseTileLayer
 
   createTile: (coords, done) =>
     tile = new SVGTile(coords, done, @props.map)
+    tile.onStopClicked = (stop) =>
+      console.log stop
+      @setState openPopup: stop
     tile.el
 
   componentWillMount: () ->
@@ -133,7 +134,24 @@ class StopMarkerTileLayer extends BaseTileLayer
     @leafletElement = new L.GridLayer(props)
     @leafletElement.createTile = @createTile
 
+  componentDidUpdate: ->
+    @refs.popup?._leafletElement.openOn(@props.map)
+
   render: () ->
+    console.log JSON.stringify @state?.openPopup
+    if @state?.openPopup
+      <Popup options={
+        offset: [106, 3]
+        closeButton: false
+        maxWidth: 250
+        minWidth: 250
+        className: "popup"}
+        latlng={L.latLng [@state.openPopup.geometry.coordinates[1], @state.openPopup.geometry.coordinates[0]]}
+        ref="popup">
+        <div>ASDFASDF</div>
+      </Popup>
+    else
+      null
 
 
 module.exports = StopMarkerTileLayer

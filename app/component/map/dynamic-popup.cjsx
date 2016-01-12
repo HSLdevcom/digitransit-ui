@@ -11,6 +11,7 @@ class DynamicPopup extends React.Component
 
   componentWillUnmount: ->
     @props.map.removeLayer @_leafletElement
+    ReactDOM.unmountComponentAtNode(@_contentNode)
 
   render: ->
     popup = @_leafletElement
@@ -24,11 +25,15 @@ class DynamicPopup extends React.Component
       options: @props.options
       popup: @props.children
     @_leafletElement = @createLeafletPopup popup
+    # set latlng if defined specifically
+    if @props.latlng
+      @_leafletElement.setLatLng @props.latlng
 
   createLeafletPopup: (reactElement) ->
     PopupClass = Leaflet.Popup.extend
       options: reactElement.options
       _reactPopup: reactElement.popup
+
       onAdd: (map) ->
         # make sure our basic container exists
         if !@_container
