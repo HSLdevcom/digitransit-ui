@@ -39,7 +39,7 @@ module.exports = function (browser) {
       done = url;
     }
 
-    console.log('commit=' + process.env.SNAP_COMMIT_SHORT);
+    console.log('snap_commit_short=' + process.env.SNAP_COMMIT_SHORT);
     console.log('launch_url=' + (launch_url || 'default'));
 
     browser.timeouts('script', GLOBAL_TIMEOUT_MS, function () {
