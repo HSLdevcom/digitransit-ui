@@ -63,3 +63,7 @@
   height: 0.5em;
   width: 0.5em;
 }
+
+.leaflet-map-pane .departure svg {
+    z-index: 0;
+}

@@ -47,7 +47,7 @@ findLocation = (actionContext, payload, done) ->
       actionContext.dispatch "GeolocationDenied"
     else if error.code == 2
       actionContext.dispatch "GeolocationNotSupported"
-    else if error.code == 2
+    else if error.code == 3
       actionContext.dispatch "GeolocationTimeout"
     else # When could this happen?
       actionContext.dispatch "GeolocationNotSupported"
