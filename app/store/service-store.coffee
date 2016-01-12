@@ -59,7 +59,7 @@ class ServiceStore extends Store
       window.mock.data.position.coords.longitude += dlon
       window.mock.data.position.coords.heading = heading if heading
       @notify()
-    setCurrentPosition: (lat, lon, heading) ->
+    setCurrentPosition: (lat, lon, heading) =>
       window.mock.data.position.coords.latitude = lat
       window.mock.data.position.coords.longitude = lon
       window.mock.data.position.coords.heading = heading if heading
