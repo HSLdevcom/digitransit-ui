@@ -57,12 +57,11 @@ startLocationWatch = (actionContext, payload, done) ->
   # Set timeout
   timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationWatchTimeout"), 10000)
 
-  ##define function to retrieve geolocation updates
+  ##re define function to retrieve position updates (geolocation.js/mock)
   window.retrieveGeolocation = (position) ->
-    dispatchErrorEventIfError()
 
-    if window.digitransitPosition
-      window.digitransitPosition = undefined
+    if window.position.pos != null
+      window.position.pos = null
     if timeoutId
       window.clearTimeout(timeoutId)
       timeoutId = undefined
@@ -73,23 +72,26 @@ startLocationWatch = (actionContext, payload, done) ->
 
     debouncedRunReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
 
-  dispatchErrorEventIfError()
+  ##re define function to retrieve position errors (geolocation.js)
+  window.retrieveError = (error) ->
+    if error
+      if error.code == 1
+        actionContext.dispatch "GeolocationDenied"
+      else if error.code == 2
+        actionContext.dispatch "GeolocationNotSupported"
+      else if error.code == 3
+        actionContext.dispatch "GeolocationTimeout"
+      window.position.error = null
 
-  if window.digiTransitPosition
-    window.retrieveGeolocation window.digiTransitPosition
+  if window.position.error != null
+    window.retrieveError window.position.error
+    window.position.error = null
 
+  if window.position.pos != null
+    window.retrieveGeolocation window.position.pos
+    window.position.pos = null
   done()
 
-dispatchErrorEventIfError = () ->
-  error = window.digitransitPositionError
-  if error
-    if error.code == 1
-      actionContext.dispatch "GeolocationDenied"
-    else if error.code == 2
-      actionContext.dispatch "GeolocationNotSupported"
-    else if error.code == 3
-      actionContext.dispatch "GeolocationTimeout"
-    window.digitransitPositionError = undefined
 
 removeLocation = (actionContext) ->
   actionContext.dispatch "GeolocationRemoved"
