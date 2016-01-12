@@ -4,12 +4,21 @@ Icon           = require '../icon/icon'
 XhrPromise     = require '../../util/xhr-promise.coffee'
 config         = require '../../config'
 sortBy         = require 'lodash/collection/sortBy'
+L              = if window? then require 'leaflet' else null
 
 AUTOSUGGEST_ID = 'autosuggest'
 
 class Autosuggest extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
+
+  @propTypes:
+    onSelectionAction: React.PropTypes.func.isRequired
+    placeholder: React.PropTypes.string.isRequired
+    disableInput: React.PropTypes.func.isRequired
+    onEmpty: React.PropTypes.func.isRequired
+    id: React.PropTypes.string.isRequired
+    focus: React.PropTypes.func.isRequired
 
   getNumberIfNotZero: (number) ->
     if number and not (number is "0") then " #{number}" else ""
@@ -70,7 +79,11 @@ class Autosuggest extends React.Component
       </span>
 
   componentDidMount: =>
-    if @refs.input.refs.input.value == ""
+    if (@refs.input.refs.input.value == "" and !L.Browser.touch)
+      @focusInput()
+
+  focusInput: ->
+    if(@refs.input.refs.input)
       @refs.input.refs.input.focus()
 
   suggestionValue: (suggestion) =>
@@ -92,7 +105,7 @@ class Autosuggest extends React.Component
       placeholder: @props.placeholder
       onBlur: @props.disableInput
 
-    <form onSubmit={@onSubmit}>
+    <form id={@props.id} onSubmit={@onSubmit}>
       <ReactAutosuggest
         ref="input"
         suggestions={@getSuggestions}
@@ -110,7 +123,6 @@ class Autosuggest extends React.Component
         }
         onSuggestionSelected={@onSuggestionSelected}
         inputAttributes = {inputAttributes}
-        id={@props.id}
         scrollBar={true}
       />
     </form>

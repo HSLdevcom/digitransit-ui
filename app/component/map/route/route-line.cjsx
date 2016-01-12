@@ -44,7 +44,7 @@ class RouteLine extends React.Component
       <StopMarker map={@props.map}
                   stop={stop}
                   key={stop.gtfsId}
-                  mode={modeClass}
+                  mode={modeClass + if @props.thin then " thin" else ""}
                   thin={@props.thin} />
 
     <div style={display: "none"}>{objs}{line}{markers}</div>
