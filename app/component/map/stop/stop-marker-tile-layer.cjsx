@@ -21,7 +21,7 @@ class SVGTile
     @el.addEventListener "click", @onMapClick
     if @coords.z < 14
       return
-    fetch("http://localhost:8001/#{@coords.z}/#{@coords.x}/#{@coords.y}.pbf").then (res) =>
+    fetch("#{config.URL.STOP_MAP}#{@coords.z}/#{@coords.x}/#{@coords.y}.pbf").then (res) =>
       if res.status != 200
         done(null, @el)
         return
