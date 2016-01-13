@@ -1,8 +1,9 @@
 React           = require 'react'
-EndpointActions = require '../../action/endpoint-actions.coffee'
+EndpointActions = require '../../action/endpoint-actions'
 Autosuggest     = require './autosuggest'
 GeolocationBar  = require './geolocation-bar'
 NavigateOrInput = require './navigate-or-input'
+PositionActions = require '../../action/position-actions'
 
 class SearchField extends React.Component
 

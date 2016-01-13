@@ -12,7 +12,7 @@ Icon               = require '../component/icon/icon'
 moment             = require 'moment'
 intl               = require 'react-intl'
 
-class Page extends React.Component
+class StopPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
@@ -80,7 +80,7 @@ class Page extends React.Component
     </DefaultNavigation>
 
 
-module.exports = Relay.createContainer(Page,
+module.exports = Relay.createContainer(StopPage,
   fragments: queries.StopPageFragments,
   initialVariables:
     date: moment().format("YYYYMMDD")
