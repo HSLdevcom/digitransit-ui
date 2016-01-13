@@ -16,7 +16,7 @@ module.exports =
     API_URL: "#{API_URL}"
     OTP: "#{API_URL}/otp/routers/finland/"
     MAP: "#{API_URL}/hsl-map/"
-    STOP_MAP: "#{API_URL}:8080/hsl-stop-map/"
+    STOP_MAP: "#{API_URL}/hsl-stop-map/"
     MQTT: "ws://213.138.147.225:1883"
     ALERTS: "#{API_URL}/hsl-alert/"
     FONT: "http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700"
