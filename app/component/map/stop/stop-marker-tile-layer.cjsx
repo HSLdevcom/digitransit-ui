@@ -36,12 +36,12 @@ class SVGTile
   addFeature: (feature) =>
     unless feature.properties.type
       return
-    stop = document.createElementNS 'http://www.w3.org/2000/svg', 'circle'
+    stop = L.SVG.create 'circle'
     geom = feature.loadGeometry()
     stop.setAttribute "cx", geom[0][0].x
     stop.setAttribute "cy", geom[0][0].y
     unless @coords.z <= config.stopsSmallMaxZoom
-      halo = document.createElementNS 'http://www.w3.org/2000/svg', 'circle'
+      halo = L.SVG.create 'circle'
       stop.setAttribute "class", feature.properties.type?.toLowerCase() + " stop cursor-pointer"
       stop.setAttribute "r", 72
       stop.setAttribute "stroke-width", 64
