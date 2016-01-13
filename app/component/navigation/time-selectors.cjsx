@@ -1,5 +1,4 @@
 React       = require 'react'
-TimeStore   = require '../../store/time-store'
 TimeActions = require '../../action/time-action'
 moment      = require 'moment'
 {FormattedMessage, intlShape} = require('react-intl')
@@ -12,10 +11,10 @@ class TimeSelectors extends React.Component
     intl: intlShape.isRequired
 
   componentDidMount: ->
-    @context.getStore(TimeStore).addChangeListener @onChange
+    @context.getStore('TimeStore').addChangeListener @onChange
 
   componentWillUnmount: ->
-    @context.getStore(TimeStore).removeChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onChange
 
   onChange: =>
     @forceUpdate()
@@ -50,8 +49,8 @@ class TimeSelectors extends React.Component
     dates
 
   render: ->
-    time = @context.getStore(TimeStore).getTime()
-    arriveBy = @context.getStore(TimeStore).getArriveBy()
+    time = @context.getStore('TimeStore').getTime()
+    arriveBy = @context.getStore('TimeStore').getArriveBy()
 
     <div className="time-selectors">
       <select ref="hour" className="time hour hide-dropdown" value={time.format('H')} onChange={@changeTime}>
