@@ -10,8 +10,7 @@ class DynamicPopup extends React.Component
     @doCreatePopup()
 
   componentWillUnmount: ->
-    @props.map.removeLayer @_leafletElement
-    ReactDOM.unmountComponentAtNode(@_contentNode)
+    @props.map?.removeLayer @_leafletElement
 
   render: ->
     popup = @_leafletElement
@@ -42,6 +41,11 @@ class DynamicPopup extends React.Component
         ReactDOM.render @_reactPopup, @_contentNode
         # now call "super" method
         L.Popup.prototype.onAdd.call this, map
+
+      onRemove: (map) ->
+        ReactDOM.unmountComponentAtNode(@_contentNode)
+        L.Popup.prototype.onRemove.call this, map
+
     return new PopupClass()
 
 module.exports = DynamicPopup
