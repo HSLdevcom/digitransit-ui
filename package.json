@@ -75,6 +75,7 @@
     "react-simpletabs": "0.7.0",
     "react-slick": "0.9.3",
     "react-tap-event-plugin": "0.2.1",
+    "react-helmet": "2.2.0",
     "serialize-javascript": "1.1.2",
     "slick-carousel": "1.5.9",
     "zurb-foundation-5": "5.4.7"

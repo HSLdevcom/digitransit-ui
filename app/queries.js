@@ -152,6 +152,10 @@ class StopRoute extends Relay.Route {
 var RoutePageFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
+      route {
+        shortName
+        longName
+      }
       ${require('./component/route/route-header-container').getFragment('pattern')}
       ${require('./component/route/route-map-container').getFragment('pattern')}
       ${require('./component/route/route-stop-list-container').getFragment('pattern')}
@@ -318,6 +322,8 @@ var StopPageFragments = {
     fragment on Stop {
       lat
       lon
+      name
+      code
       routes {
         gtfsId
         shortName
@@ -460,6 +466,10 @@ var TripPageFragments = {
     fragment on Trip {
       pattern {
         code
+        route {
+          shortName
+          longName
+        }
         ${require('./component/route/route-header-container').getFragment('pattern')}
         ${require('./component/route/route-map-container').getFragment('pattern')}
       }
