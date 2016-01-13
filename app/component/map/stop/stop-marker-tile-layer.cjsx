@@ -55,10 +55,6 @@ class SVGTile
       stop.setAttribute "class", feature.properties.type?.toLowerCase() + " stop-small cursor-pointer"
       stop.setAttribute "r", 48
       stop.setAttribute "stroke-width", 16
-    #circle._feature = feature
-    #circle.addEventListener "click", (e) =>
-    #  f = e.target._feature.toGeoJSON(@coords.x, @coords.y, @coords.z)
-    #  L.popup().setLatLng([f.geometry.coordinates[1], f.geometry.coordinates[0]]).setContent(f.properties.name).openOn(@map)
     @el.appendChild stop
 
   onMapClick: (e) =>
@@ -81,6 +77,8 @@ class SVGTile
         L.DomEvent.stopPropagation(e)
         @onStopClicked(nearest.toGeoJSON(@coords.x, @coords.y, @coords.z))
 
+
+# Alternative implementation to SVGTile
 # class CanvasTile
 #   constructor: (@coords, done, @map) ->
 #     @el = document.createElement 'canvas'
@@ -128,7 +126,6 @@ class StopMarkerTileLayer extends BaseTileLayer
   createTile: (coords, done) =>
     tile = new SVGTile(coords, done, @props.map)
     tile.onStopClicked = (stop) =>
-      console.log stop
       @setState openPopup: stop
     tile.el
 
@@ -150,7 +147,6 @@ class StopMarkerTileLayer extends BaseTileLayer
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = {"height": 150}
 
-    console.log JSON.stringify @state?.openPopup
     if @state?.openPopup
       <Popup options={
         offset: [106, 3]
