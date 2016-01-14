@@ -12,7 +12,7 @@ window.retrieveError = function retrieveError(error) {
 }
 
 setTimeout(function() {
-  if(window.location.search.indexOf('mock') === -1){
+  if(window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined){
     window.geoWatchId = navigator.geolocation.watchPosition(function geoPosition(position) {
         window.retrieveGeolocation(position);
       }, function handleError(error) {
