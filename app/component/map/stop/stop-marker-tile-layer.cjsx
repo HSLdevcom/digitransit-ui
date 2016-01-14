@@ -15,7 +15,7 @@ intl          = require 'react-intl'
 
 class SVGTile
   constructor: (@coords, done, @map) ->
-    @el = document.createElementNS 'http://www.w3.org/2000/svg', 'svg'
+    @el = L.SVG.create 'svg'
     @el.setAttribute "class", "leaflet-tile"
     @el.setAttribute "viewBox", "0 0 4096 4096"
     @el.addEventListener "click", @onMapClick
