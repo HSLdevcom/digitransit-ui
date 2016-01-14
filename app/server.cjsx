@@ -47,11 +47,12 @@ fetch(config.URL.FONT).then (res) ->
     fonts = text
 
 getPolyfills = (userAgent) ->
-  if !userAgent or /(GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
-    # Do not trust Samsung
+  if !userAgent or /(LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
+    # Do not trust Samsung, LG
     # see https://digitransit.atlassian.net/browse/DT-360
     # https://digitransit.atlassian.net/browse/DT-445
     userAgent = ''
+
   polyfillService.getPolyfillString
     uaString: userAgent
     features:
@@ -59,10 +60,10 @@ getPolyfills = (userAgent) ->
       'fetch': flags: ['gated']
       'Promise': flags: ['gated']
       'String.prototype.repeat': flags: ['gated']
-      'Intl': flags: ['gated']
-      'Intl.~locale.en': flags: ['gated']
-      'Intl.~locale.fi': flags: ['gated']
-      'Intl.~locale.sv': flags: ['gated']
+      'Intl': flags: ['always', 'gated']
+      'Intl.~locale.en': flags: ['always', 'gated']
+      'Intl.~locale.fi': flags: ['always', 'gated']
+      'Intl.~locale.sv': flags: ['always', 'gated']
       'Object.assign': flags: ['gated']
       'Array.prototype.find': flags: ['gated']
       'es5': flags: ['gated']
