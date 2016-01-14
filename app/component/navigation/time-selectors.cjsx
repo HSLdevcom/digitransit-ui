@@ -49,7 +49,7 @@ class TimeSelectors extends React.Component
     dates
 
   render: ->
-    time = @context.getStore('TimeStore').getTime()
+    time = @context.getStore('TimeStore').getSelectedTime()
     arriveBy = @context.getStore('TimeStore').getArriveBy()
 
     <div className="time-selectors">

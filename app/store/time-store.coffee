@@ -16,7 +16,7 @@ class TimeStore extends Store
     @setArriveBy(false)
 
   setSelectedTimeToNow: ->
-    @time = moment()
+    @selectedTime = moment()
     @status = "UNSET"
     @emitChange()
     setTimeout(
@@ -26,7 +26,7 @@ class TimeStore extends Store
       , 30 * 1000)  # Update twice in a minute
 
   setSelectedTime: (data) ->
-    @time = data
+    @selectedTime = data
     @status = "SET"
     @emitChange()
 
@@ -34,8 +34,8 @@ class TimeStore extends Store
     @arriveBy = arriveBy
     @emitChange()
 
-  getTime: ->
-    @time
+  getSelectedTime: ->
+    @selectedTime
 
   getArriveBy: ->
     @arriveBy
