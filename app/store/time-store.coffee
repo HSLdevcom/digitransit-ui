@@ -15,7 +15,7 @@ class TimeStore extends Store
     @setCurrentTimeNow()
     @setArriveBy(false)
 
-  setCurrentTimeNow: ->
+  setCurrentTimeToNow: ->
     @time = moment()
     @status = "UNSET"
     @emitChange()
@@ -42,7 +42,7 @@ class TimeStore extends Store
 
   @handlers:
     'SetCurrentTime': 'setCurrentTime'
-    'UnsetCurrentTime': 'setCurrentTimeNow'
+    'UnsetCurrentTime': 'setCurrentTimeToNow'
     'SetArriveBy': 'setArriveBy'
 
 module.exports = TimeStore
