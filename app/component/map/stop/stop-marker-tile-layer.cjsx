@@ -76,6 +76,8 @@ class SVGTile
       if dist < 300 #?
         L.DomEvent.stopPropagation e
         @onStopClicked nearest.toGeoJSON @coords.x, @coords.y, @coords.z
+      else
+        @onStopClicked false
 
 
 # Alternative implementation to SVGTile
