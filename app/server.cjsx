@@ -34,6 +34,8 @@ if process.env.NODE_ENV != 'development'
 
 svgSprite = fs.readFileSync(appRoot + "static/svg-sprite.#{config.CONFIG}.svg")
 
+geolocationStarter = fs.readFileSync(appRoot + "static/geolocation.js")
+
 if process.env.NODE_ENV != 'development'
   css = [
     <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName.main[1]}/>
@@ -114,6 +116,7 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
     scripts={getScripts(req)}
     fonts={fonts}
     config={'window.config=' + JSON.stringify(config)}
+    geolocationStarter={geolocationStarter}
   />
 
 module.exports = (req, res, next) ->
