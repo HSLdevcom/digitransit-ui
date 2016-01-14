@@ -12,11 +12,12 @@ class TimeStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
+    @currentTime = moment()
+    @arriveBy = false
     @setSelectedTimeToNow()
-    @setArriveBy(false)
 
   setSelectedTimeToNow: ->
-    @selectedTime = moment()
+    @selectedTime = @currentTime
     @status = "UNSET"
     @emitChange()
     setTimeout(
@@ -30,12 +31,19 @@ class TimeStore extends Store
     @status = "SET"
     @emitChange()
 
+  setCurrentTime: (data) ->
+    @currentTime = data
+    @emitChange()
+
   setArriveBy: (arriveBy) ->
     @arriveBy = arriveBy
     @emitChange()
 
   getSelectedTime: ->
     @selectedTime
+
+  getCurrentTime: ->
+    @currentTime
 
   getArriveBy: ->
     @arriveBy
