@@ -23,14 +23,14 @@ class SVGTile
       return
     fetch("#{config.URL.STOP_MAP}#{@coords.z}/#{@coords.x}/#{@coords.y}.pbf").then (res) =>
       if res.status != 200
-        done(null, @el)
+        done null, @el
         return
       res.arrayBuffer().then (buf) =>
         vt = new VectorTile(new Protobuf(buf))
         @features = [0..vt.layers.geojsonLayer?.length - 1].map (i) => vt.layers.geojsonLayer.feature i
         for i in @features
           @addFeature i
-        done(null, @el)
+        done null, @el
       , (err) -> console.log err
 
   addFeature: (feature) =>
@@ -74,8 +74,8 @@ class SVGTile
       , [null, Infinity]
 
       if dist < 300 #?
-        L.DomEvent.stopPropagation(e)
-        @onStopClicked(nearest.toGeoJSON(@coords.x, @coords.y, @coords.z))
+        L.DomEvent.stopPropagation e
+        @onStopClicked nearest.toGeoJSON @coords.x, @coords.y, @coords.z
 
 
 # Alternative implementation to SVGTile
