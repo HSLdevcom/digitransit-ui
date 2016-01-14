@@ -39,10 +39,14 @@ module.exports = function (browser) {
       done = url;
     }
 
+    console.log('snap_commit_short=' + process.env.SNAP_COMMIT_SHORT);
+    console.log('launch_url=' + (launch_url || 'default'));
+
     browser.timeouts('script', GLOBAL_TIMEOUT_MS, function () {
       browser.timeouts('implicit', GLOBAL_TIMEOUT_MS, function () {
         browser.timeouts('page load', GLOBAL_TIMEOUT_MS, function () {
           browser.url(launch_url, function () {
+            console.log('session id=' + browser.sessionId);
             done();
           });
         });

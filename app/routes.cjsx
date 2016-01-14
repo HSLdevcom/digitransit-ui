@@ -1,6 +1,8 @@
 # Libraries
 React        = require 'react'
 
+TopLevel      = require './component/top-level'
+
 # React Pages
 IndexPage     = require './page/index'
 ItineraryPage = require './page/itinerary'
@@ -23,7 +25,7 @@ IndexRoute = require 'react-router/lib/IndexRoute'
 
 # Routes
 routes =
-  <Route path="/" name="app">
+  <Route path="/" name="app" component={TopLevel}>
     <IndexRoute component={IndexPage}/>
     <Route path="pysakit" name="stopList" component={Error404}/>
     <Route path="pysakit/:stopId" name="stop" component={StopPage} queries={queries.StopQueries} renderLoading={() => <LoadingPage/>}/>

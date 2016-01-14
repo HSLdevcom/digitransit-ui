@@ -8,9 +8,12 @@ Example = require '../documentation/example-data'
 CityBikeContent = (props) ->
 
   render: ->
+    # Available is hardcoded to  0, because when station information is static,
+    # OTP always shows free bikes.
+    # In production we could use props.station.bikesAvailable
     <div className="city-bike-container">
       <CityBikeAvailability
-        bikesAvailable={props.station.bikesAvailable}
+        bikesAvailable=0
         totalSpaces={props.station.bikesAvailable + props.station.spacesAvailable}/>
       <CityBikeUse/>
     </div>

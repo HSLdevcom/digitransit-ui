@@ -22,6 +22,7 @@ polyfillService = require 'polyfill-service'
 ### Application ###
 application = require('./app')
 config = require('./config')
+meta = require('./meta')
 translations = require('./translations')
 ApplicationHtml = require('./html')
 
@@ -32,6 +33,8 @@ if process.env.NODE_ENV != 'development'
   manifest = fs.readFileSync(appRoot + "_static/" + stats.assetsByChunkName.manifest[0])
 
 svgSprite = fs.readFileSync(appRoot + "static/svg-sprite.#{config.CONFIG}.svg")
+
+geolocationStarter = fs.readFileSync(appRoot + "static/geolocation.js")
 
 if process.env.NODE_ENV != 'development'
   css = [
@@ -46,11 +49,12 @@ fetch(config.URL.FONT).then (res) ->
     fonts = text
 
 getPolyfills = (userAgent) ->
-  if !userAgent or /(GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
-    # Do not trust Samsung
+  if !userAgent or /(LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
+    # Do not trust Samsung, LG
     # see https://digitransit.atlassian.net/browse/DT-360
     # https://digitransit.atlassian.net/browse/DT-445
     userAgent = ''
+
   polyfillService.getPolyfillString
     uaString: userAgent
     features:
@@ -58,10 +62,10 @@ getPolyfills = (userAgent) ->
       'fetch': flags: ['gated']
       'Promise': flags: ['gated']
       'String.prototype.repeat': flags: ['gated']
-      'Intl': flags: ['gated']
-      'Intl.~locale.en': flags: ['gated']
-      'Intl.~locale.fi': flags: ['gated']
-      'Intl.~locale.sv': flags: ['gated']
+      'Intl': flags: ['always', 'gated']
+      'Intl.~locale.en': flags: ['always', 'gated']
+      'Intl.~locale.fi': flags: ['always', 'gated']
+      'Intl.~locale.sv': flags: ['always', 'gated']
       'Object.assign': flags: ['gated']
       'Array.prototype.find': flags: ['gated']
       'es5': flags: ['gated']
@@ -83,7 +87,7 @@ getScripts = (req) ->
 getContent = (context, renderProps, locale) ->
   # Ugly way to see if this is a Relay RootComponent
   # until Relay gets server rendering capabilities
-  if renderProps.components.some(((i) -> i instanceof Object and i.getQuery))
+  if renderProps.components.some(((i) -> i instanceof Object and i.hasFragment))
     return ''
 
   # TODO: This should be moved to a place to coexist with similar content from client.cjsx
@@ -112,6 +116,7 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
     scripts={getScripts(req)}
     fonts={fonts}
     config={'window.config=' + JSON.stringify(config)}
+    geolocationStarter={geolocationStarter}
   />
 
 module.exports = (req, res, next) ->

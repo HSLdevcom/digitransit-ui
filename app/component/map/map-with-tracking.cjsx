@@ -69,9 +69,11 @@ class MapWithTracking extends React.Component
         @setState
           useConfig: false
           useZoomedIn: true
+          initLocationFound: true
           () => @setState
             useZoomedIn: false
             mapTracking: true #start map track because position was found
+            initLocationFound: false
       else
         @forceUpdate()
 
@@ -79,7 +81,7 @@ class MapWithTracking extends React.Component
 
     locationState = @context.getStore('PositionStore').getLocationState()
 
-    if @state.mapTracking and locationState.hasLocation
+    if @state.mapTracking and locationState.hasLocation or @state.initLocationFound
       lat = locationState.lat
       lon = locationState.lon
     else if @state.useConfig
