@@ -20,11 +20,12 @@ class TimeStore extends Store
     @selectedTime = @currentTime
     @status = "UNSET"
     @emitChange()
-    setTimeout(
-      =>
-        if @status == "UNSET"
-          @setSelectedTimeToNow()
-      , 30 * 1000)  # Update twice in a minute
+    twicePerMinute = 30 * 1000
+    setTimeout @updateSelectedTime, twicePerMinute
+
+  updateSelectedTime: =>
+    if @status == "UNSET"
+      @setSelectedTimeToNow()
 
   setSelectedTime: (data) ->
     @selectedTime = data
