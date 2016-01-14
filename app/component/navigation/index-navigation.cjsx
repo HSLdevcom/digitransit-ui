@@ -22,7 +22,7 @@ class IndexNavigation extends React.Component
     @state =
       subNavigationVisible: false
       disruptionVisible: false
-      text: if @context.getStore("TimeStore").status == "UNSET"
+      text: unless @context.getStore("TimeStore").isSelectedTimeSet()
         @context.intl.formatMessage
           id: 'now'
           defaultMessage: "Now"
@@ -35,7 +35,7 @@ class IndexNavigation extends React.Component
     if @state.subNavigationVisible
       @setState
         subNavigationVisible: false
-        text: if @context.getStore("TimeStore").status == "UNSET"
+        text: unless @context.getStore("TimeStore").isSelectedStatusSet()
           @context.intl.formatMessage
             id: 'now'
             defaultMessage: "Now"

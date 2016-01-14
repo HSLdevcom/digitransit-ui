@@ -64,7 +64,7 @@ itinerarySearchRequest = (actionContext, options, done) ->
   actionContext.dispatch "ItinerarySearchStarted"
   time = actionContext.getStore("TimeStore").getSelectedTime()
   arriveBy = actionContext.getStore("TimeStore").getArriveBy()
-  if actionContext.getStore("TimeStore").status == "UNSET"
+  unless actionContext.getStore("TimeStore").isSelectedTimeSet()
     actionContext.dispatch "SetSelectedTime", time
   params =
     fromPlace: options.params.from

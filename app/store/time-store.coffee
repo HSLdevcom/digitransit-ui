@@ -23,8 +23,11 @@ class TimeStore extends Store
     twicePerMinute = 30 * 1000
     setTimeout @updateSelectedTime, twicePerMinute
 
+  isSelectedTimeSet: =>
+    @status == "SET"
+
   updateSelectedTime: =>
-    if @status == "UNSET"
+    unless @isSelectedTimeSet()
       @setSelectedTimeToNow()
 
   setSelectedTime: (data) ->
