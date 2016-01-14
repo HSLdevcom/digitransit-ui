@@ -47,6 +47,11 @@ fetch(config.URL.FONT).then (res) ->
     fonts = text
 
 getPolyfills = (userAgent) ->
+  if !userAgent or /(LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
+    # Do not trust Samsung, LG
+    # see https://digitransit.atlassian.net/browse/DT-360
+    # https://digitransit.atlassian.net/browse/DT-445
+    userAgent = ''
 
   polyfillService.getPolyfillString
     uaString: userAgent
