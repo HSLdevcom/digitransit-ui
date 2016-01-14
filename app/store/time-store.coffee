@@ -12,20 +12,20 @@ class TimeStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @setCurrentTimeNow()
+    @setSelectedTimeToNow()
     @setArriveBy(false)
 
-  setCurrentTimeToNow: ->
+  setSelectedTimeToNow: ->
     @time = moment()
     @status = "UNSET"
     @emitChange()
     setTimeout(
       =>
         if @status == "UNSET"
-          @setCurrentTimeNow()
+          @setSelectedTimeToNow()
       , 30 * 1000)  # Update twice in a minute
 
-  setCurrentTime: (data) ->
+  setSelectedTime: (data) ->
     @time = data
     @status = "SET"
     @emitChange()
@@ -41,8 +41,8 @@ class TimeStore extends Store
     @arriveBy
 
   @handlers:
-    'SetCurrentTime': 'setCurrentTime'
-    'UnsetCurrentTime': 'setCurrentTimeToNow'
+    'SetSelectedTime': 'setSelectedTime'
+    'UnsetSelectedTime': 'setSelectedTimeToNow'
     'SetArriveBy': 'setArriveBy'
 
 module.exports = TimeStore

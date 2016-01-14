@@ -23,7 +23,7 @@ class TimeSelectors extends React.Component
     hour = @refs.hour.getDOMNode().value
     minute = @refs.minute.getDOMNode().value
     date = @refs.date.getDOMNode().value
-    @context.executeAction TimeActions.setCurrentTime,
+    @context.executeAction TimeActions.setSelectedTime,
       moment("#{hour}:#{minute} #{date}", "H:m YYYY-MM-DD")
 
   setArriveBy: =>
