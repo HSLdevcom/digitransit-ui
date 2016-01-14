@@ -37,10 +37,10 @@ runReverseGeocodingAction = (actionContext, lat, lon, done) ->
 
 debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading: true})
 
-broadcastCurrentLocation = (actionContext, pos) ->
-  if pos
-    @position = pos
+setCurrentLocation = (pos) =>
+  @position = pos
 
+broadcastCurrentLocation = (actionContext) =>
   if @position
     actionContext.dispatch "GeolocationFound", @position
 
@@ -65,10 +65,12 @@ startLocationWatch = (actionContext, payload, done) ->
     if timeoutId
       window.clearTimeout(timeoutId)
       timeoutId = undefined
-    broadcastCurrentLocation actionContext,
+    setCurrentLocation
       lat: position.coords.latitude
       lon: position.coords.longitude
       heading: position.coords.heading
+
+    broadcastCurrentLocation actionContext
 
     debouncedRunReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
 
