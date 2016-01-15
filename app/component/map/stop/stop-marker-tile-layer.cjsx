@@ -128,6 +128,8 @@ class StopMarkerTileLayer extends BaseTileLayer
   createTile: (coords, done) =>
     tile = new SVGTile(coords, done, @props.map)
     tile.onStopClicked = (stop) =>
+      if @props.disableMapTracking
+        @props.disableMapTracking()
       @setState openPopup: stop
     tile.el
 
