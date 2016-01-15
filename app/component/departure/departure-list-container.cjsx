@@ -33,7 +33,12 @@ class DepartureListContainer extends React.Component
     departureObjs = []
     currentTime = new Date().getTime() / 1000
     currentDate = new Date().setHours(0, 0, 0, 0) / 1000
-    for departure, i in @mergeDepartures(@asDepartures(@props.stoptimes)).filter((departure) -> currentTime < departure.stoptime).slice 0, @props.limit
+
+    departures = @mergeDepartures(@asDepartures(@props.stoptimes))
+      .filter((departure) -> currentTime < departure.stoptime)
+      .slice 0, @props.limit
+
+    for departure, i in departures
       if departure.stoptime > currentDate + 86400 # TODO: test for DST change dates
         departureObjs.push <div key={moment(departure.stoptime * 1000).format('DDMMYYYY')} className="date-row border-bottom">
           {moment(departure.stoptime * 1000).format('dddd D.M.YYYY')}
