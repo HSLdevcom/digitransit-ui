@@ -30,10 +30,10 @@ class FrontPagePanel extends React.Component
     @context.getStore('PositionStore').removeChangeListener @onGeolocationChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
 
-  onGeolocationChange: (statusChanged) =>
+  onGeolocationChange: (status) =>
     #We want to rerender only if position status changes,
     #not if position changes
-    if statusChanged
+    if status.statusChanged
       @forceUpdate()
 
   onChange: =>

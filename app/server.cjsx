@@ -34,6 +34,8 @@ if process.env.NODE_ENV != 'development'
 
 svgSprite = fs.readFileSync(appRoot + "static/svg-sprite.#{config.CONFIG}.svg")
 
+geolocationStarter = fs.readFileSync(appRoot + "static/geolocation.js")
+
 if process.env.NODE_ENV != 'development'
   css = [
     <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName.main[1]}/>
@@ -47,11 +49,12 @@ fetch(config.URL.FONT).then (res) ->
     fonts = text
 
 getPolyfills = (userAgent) ->
-  if !userAgent or /(GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
-    # Do not trust Samsung
+  if !userAgent or /(LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
+    # Do not trust Samsung, LG
     # see https://digitransit.atlassian.net/browse/DT-360
     # https://digitransit.atlassian.net/browse/DT-445
     userAgent = ''
+
   polyfillService.getPolyfillString
     uaString: userAgent
     features:
@@ -59,10 +62,10 @@ getPolyfills = (userAgent) ->
       'fetch': flags: ['gated']
       'Promise': flags: ['gated']
       'String.prototype.repeat': flags: ['gated']
-      'Intl': flags: ['gated']
-      'Intl.~locale.en': flags: ['gated']
-      'Intl.~locale.fi': flags: ['gated']
-      'Intl.~locale.sv': flags: ['gated']
+      'Intl': flags: ['always', 'gated']
+      'Intl.~locale.en': flags: ['always', 'gated']
+      'Intl.~locale.fi': flags: ['always', 'gated']
+      'Intl.~locale.sv': flags: ['always', 'gated']
       'Object.assign': flags: ['gated']
       'Array.prototype.find': flags: ['gated']
       'es5': flags: ['gated']
@@ -113,6 +116,7 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
     scripts={getScripts(req)}
     fonts={fonts}
     config={'window.config=' + JSON.stringify(config)}
+    geolocationStarter={geolocationStarter}
   />
 
 module.exports = (req, res, next) ->

@@ -12,6 +12,7 @@ class Application extends React.Component
       {head?.meta.toComponent()}
       {head?.link.toComponent()}
       <style dangerouslySetInnerHTML={ __html: @props.fonts }/>
+      <script dangerouslySetInnerHTML={ __html: @props.geolocationStarter }/>
       {@props.css}
     </head>
     <body>
