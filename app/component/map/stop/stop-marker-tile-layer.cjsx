@@ -157,6 +157,7 @@ class StopMarkerTileLayer extends BaseTileLayer
         closeButton: false
         maxWidth: 250
         minWidth: 250
+        autoPanPaddingTopLeft: [5, 125]
         className: "popup"}
         latlng={L.latLng [@state.openPopup.geometry.coordinates[1], @state.openPopup.geometry.coordinates[0]]}
         ref="popup">
