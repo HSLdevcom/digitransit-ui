@@ -1,12 +1,15 @@
 React              = require 'react'
+Helmet             = require 'react-helmet'
 DefaultNavigation  = require '../component/navigation/default-navigation'
 Slider             = require 'react-slick'
 BottomNavigation   = require '../component/itinerary/bottom-navigation'
 ItineraryTabs      = require '../component/itinerary/itinerary-tabs'
+intl               = require 'react-intl'
 
 class ItineraryPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+    intl: intl.intlShape.isRequired
 
   render: ->
     plan = @context.getStore('ItinerarySearchStore').getData().plan
@@ -25,7 +28,14 @@ class ItineraryPage extends React.Component
       initialSlide: parseInt(@props.params.hash)
       swipeToSlide: true
 
+    meta =
+      title: @context.intl.formatMessage {id: 'itinerary-page.title', defaultMessage: "Route"}
+      meta: [
+        {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-page.description', defaultMessage: "Route"}}
+      ]
+
     <DefaultNavigation className="fullscreen">
+      <Helmet {...meta} />
       <Slider {...settings}>
         {slides}
       </Slider>

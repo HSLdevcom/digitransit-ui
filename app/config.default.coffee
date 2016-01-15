@@ -23,7 +23,7 @@ module.exports =
     PELIAS: "#{API_URL}/pelias/v1/autocomplete"
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
   APP_PATH: "#{APP_PATH}"
-  title: "Digitransit"
+  title: "Matka.fi"
   searchParams: {}
   nearbyRoutes:
     radius: 10000

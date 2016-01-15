@@ -92,8 +92,9 @@
       },
       "desiredCapabilities": {
         "browserName": "internet explorer",
-        "version": "11",
-        "platform": "WIN8",
+        "browser": "IE",
+        "os": "WINDOWS",
+        "os_version": "8",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
@@ -125,7 +126,8 @@
         "start_process": false
       },
       "desiredCapabilities": {
-        "browserName": "iPhone",
+        "browser": "iPhone",
+        "device" : "iPhone 6",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "autoAcceptAlerts" : true,

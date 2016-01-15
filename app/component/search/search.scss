@@ -44,6 +44,14 @@ $search-form-location-icon-size: 18px;
   }
 }
 
+.abs-top {
+  position:absolute;
+  top: 0px;
+}
+
+.hidden {
+  visibility:hidden;
+}
 .search-form .location .dashed {
   border-bottom: 1px dashed $search-form-icon-color;
 }
