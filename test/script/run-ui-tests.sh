@@ -15,9 +15,6 @@ if [ -z "$BROWSERSTACK_BUILD" ]; then
   export BROWSERSTACK_BUILD="Local build for $USER'"
 fi
 
-if [ -z "$START
-
-
 PLATFORM=`uname`
 ARCHITECTURE=`arch`
 if [ $PLATFORM == 'Darwin' ]; then
