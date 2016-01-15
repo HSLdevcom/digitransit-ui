@@ -44,10 +44,10 @@ class TimeStore extends Store
     @emitChange()
 
   getSelectedTime: ->
-    @selectedTime
+    @selectedTime.clone()
 
   getCurrentTime: ->
-    @currentTime
+    @currentTime.clone()
 
   getArriveBy: ->
     @arriveBy
