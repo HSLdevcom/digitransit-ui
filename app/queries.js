@@ -261,7 +261,7 @@ class StopListContainerRoute extends Relay.Route {
   static routeName = 'StopListContainerRoute';
 }
 
-var NearStopListContainerFragments = {
+var NearestStopListContainerFragments = {
   stops: ({date}) => Relay.QL`
     fragment on QueryType {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
@@ -657,7 +657,7 @@ module.exports = {
   RouteLineFragments: RouteLineFragments,
   TripStopListFragments: TripStopListFragments,
   StopListContainerRoute: StopListContainerRoute,
-  NearStopListContainerFragments: NearStopListContainerFragments,
+  NearestStopListContainerFragments: NearestStopListContainerFragments,
   FavouriteRouteRowRoute:FavouriteRouteRowRoute,
   FavouriteRouteRowFragments:FavouriteRouteRowFragments,
   FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,
