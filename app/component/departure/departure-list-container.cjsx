@@ -15,6 +15,15 @@ class DepartureListContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
 
+  componentDidMount: ->
+    @context.getStore('TimeStore').addChangeListener @onChange
+
+  componentWillUnmount: ->
+    @context.getStore('TimeStore').removeChangeListener @onChange
+
+  onChange: =>
+    @forceUpdate()
+
   mergeDepartures: (departures) ->
     Array.prototype.concat.apply([], departures).sort (a, b) ->
       return a.stoptime - b.stoptime
