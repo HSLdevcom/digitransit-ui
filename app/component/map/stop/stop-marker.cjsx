@@ -33,6 +33,9 @@ class StopMarker extends React.Component
     route: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
+  openPopup: =>
+    @refs['genericmarker'].openPopup()
+
   getStopMarker: ->
     StopMarkerPopupWithContext = provideContext StopMarkerPopup,
       intl: intl.intlShape.isRequired
@@ -43,6 +46,7 @@ class StopMarker extends React.Component
     loadingPopupStyle = {"height": 150}
 
     <GenericMarker
+      ref="genericmarker"
       position={lat: @props.stop.lat, lon: @props.stop.lon}
       mode={@props.mode}
       icons={smallIconSvg: smallIconSvg, iconSvg: iconSvg, selectedIconSvg: selectedIconSvg}

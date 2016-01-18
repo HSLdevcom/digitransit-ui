@@ -24,6 +24,9 @@ class TerminalMarker extends React.Component
   @terminalIcon:
     Icon.asString 'icon-icon_mapMarker-station', 'terminal-medium-size'
 
+  openPopup: =>
+    @refs['genericmarker'].openPopup()
+
   getTerminalMarker: ->
     TerminalMarkerPopupWithContext = provideContext TerminalMarkerPopup,
       intl: intl.intlShape.isRequired
@@ -34,6 +37,7 @@ class TerminalMarker extends React.Component
     loadingPopupStyle = {"height": 150}
 
     <GenericMarker
+      ref="genericmarker"
       position={lat: @props.terminal.lat, lon: @props.terminal.lon}
       mode={@props.mode}
       icons={smallIconSvg: TerminalMarker.terminalIcon, iconSvg: TerminalMarker.terminalIcon}
