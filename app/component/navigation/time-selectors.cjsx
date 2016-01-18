@@ -37,7 +37,7 @@ class TimeSelectors extends React.Component
 
   getDates: ->
     dates = []
-    date = moment()
+    date = actionContext.getStore("TimeStore").getCurrentTime()
     dates.push(
       <option value={date.format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>
         {@context.intl.formatMessage({id: "today", defaultMessage: "Today"})}</option>)
