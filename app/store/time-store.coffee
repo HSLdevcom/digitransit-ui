@@ -10,9 +10,11 @@ class TimeStore extends Store
 
   @storeName: 'TimeStore'
 
+  twicePerMinute = 30 * 1000
+
   constructor: (dispatcher) ->
     super(dispatcher)
-    @currentTime = moment()
+    @updateCurrentTime()
     @arriveBy = false
     @setSelectedTimeToNow()
 
@@ -20,11 +22,14 @@ class TimeStore extends Store
     @selectedTime = @currentTime
     @status = "UNSET"
     @emitChange()
-    twicePerMinute = 30 * 1000
     setTimeout @updateSelectedTime, twicePerMinute
 
   isSelectedTimeSet: =>
     @status == "SET"
+
+  updateCurrentTime: =>
+    @currentTime = moment()
+    setTimeout @updateCurrentTime, twicePerMinute
 
   updateSelectedTime: =>
     unless @isSelectedTimeSet()
