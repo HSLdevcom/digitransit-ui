@@ -35,7 +35,7 @@ class NearestStopCardListContainer extends React.Component
       {@getStopCards()}
     </StopCardList>
 
-module.exports = Relay.createContainer(NeareastStopCardListContainer,
+module.exports = Relay.createContainer(NearestStopCardListContainer,
   fragments: queries.NearestStopListContainerFragments
   initialVariables:
     lat: null
