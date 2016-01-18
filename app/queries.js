@@ -247,6 +247,7 @@ class StopListContainerRoute extends Relay.Route {
           ${Component.getFragment('stops', {
             lat: variables.lat,
             lon: variables.lon,
+            date: variables.date,
           })}
         }
       }
@@ -255,19 +256,20 @@ class StopListContainerRoute extends Relay.Route {
   static paramDefinitions = {
     lat: {required: true},
     lon: {required: true},
+    date: {required: true},
   };
   static routeName = 'StopListContainerRoute';
 }
 
 var NearStopListContainerFragments = {
-  stops: () => Relay.QL`
+  stops: ({date}) => Relay.QL`
     fragment on QueryType {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
         edges{
           node {
             stop {
               gtfsId
-              ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
+              ${require('./component/stop-cards/stop-card-container').getFragment('stop', {date})}
             }
             distance
           }

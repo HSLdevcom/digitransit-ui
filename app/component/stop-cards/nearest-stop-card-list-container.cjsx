@@ -26,6 +26,7 @@ class NearStopCardListContainer extends React.Component
                                         stop={edge.node.stop}
                                         distance={edge.node.distance}
                                         departures=DEPARTURES_COUNT
+                                        date={@props.relay.variables.date}
                                         className="padding-small"/>
     stopCards
 
@@ -42,5 +43,5 @@ module.exports = Relay.createContainer(NearStopCardListContainer,
     radius: 2000
     numberOfStops: STOP_COUNT
     agency: config.preferredAgency
-    date: moment().format("YYYYMMDD")
+    date: null
 )

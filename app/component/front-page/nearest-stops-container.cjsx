@@ -1,7 +1,7 @@
-Relay                  = require 'react-relay'
-StopCardListContainer  = require '../stop-cards/nearest-stop-card-list-container'
-queries                = require '../../queries'
-React                  = require 'react'
+Relay   = require 'react-relay'
+NearestStopCardListContainer  = require '../stop-cards/nearest-stop-card-list-container'
+queries = require '../../queries'
+React   = require 'react'
 
 class NearestStopsContainer extends React.Component
 
@@ -36,11 +36,12 @@ class NearestStopsContainer extends React.Component
 
   render: =>
     <Relay.RootContainer
-      Component={StopCardListContainer}
+      Component={NearestStopCardListContainer}
       forceFetch={true}
       route={new queries.StopListContainerRoute(
         lat: @props.lat
         lon: @props.lon
+        date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
       )}
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
       }
