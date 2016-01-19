@@ -18,15 +18,15 @@ class NearestStopsContainer extends React.Component
     lat: React.PropTypes.number.isRequired
     lon: React.PropTypes.number.isRequired
 
-  componentDidMount: ->
-    @context.getStore('TimeStore').addChangeListener @onChange
-    @setState({"useSpinner": false})
-
   shouldComponentUpdate: (nextProps, nextState) =>
     ## rerender only when location changes
     if nextProps.lat == @props.lat && nextProps.lon == @props.lon
       return false
     true
+
+  componentDidMount: ->
+    @context.getStore('TimeStore').addChangeListener @onChange
+    @setState({"useSpinner": false})
 
   componentWillUnmount: ->
     @context.getStore('TimeStore').removeChangeListener @onChange
