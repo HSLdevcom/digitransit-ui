@@ -52,8 +52,9 @@ class SummaryPage extends React.Component
   onChange: =>
     @forceUpdate()
 
-  onTimeChange: =>
-    @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+  onTimeChange: (e) =>
+    if e.selectedTime
+      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
   getActiveIndex: =>
     @context.location.state?.summaryPageSelected or @state?.summaryPageSelected or 0
