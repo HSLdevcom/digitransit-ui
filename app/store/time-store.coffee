@@ -21,7 +21,8 @@ class TimeStore extends Store
   setSelectedTimeToNow: ->
     @selectedTime = @currentTime
     @status = "UNSET"
-    @emitChange()
+    @emitChange
+      selectedTime: @selectedTime
     setTimeout @updateSelectedTime, twicePerMinute
 
   isSelectedTimeSet: =>
@@ -38,15 +39,19 @@ class TimeStore extends Store
   setSelectedTime: (data) ->
     @selectedTime = data
     @status = "SET"
-    @emitChange()
+    @emitChange
+      selectedTime: @selectedTime
 
   setCurrentTime: (data) ->
     @currentTime = data
-    @emitChange()
+    @emitChange
+      currentTime: @selectedTime
 
   setArriveBy: (arriveBy) ->
     @arriveBy = arriveBy
-    @emitChange()
+    @emitChange
+      selectedTime: @selectedTime
+
 
   getSelectedTime: ->
     @selectedTime.clone()
