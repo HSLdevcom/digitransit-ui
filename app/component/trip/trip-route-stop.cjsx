@@ -6,9 +6,12 @@ cx              = require 'classnames'
 WalkDistance    = require '../itinerary/walk-distance'
 
 class TripRouteStop extends React.Component
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
   renderTime: (realtimeDeparture, currentTimeFromMidnight, realtime) ->
     # times are given in minutes since midnight
-    departureTime = moment().startOf('day').second(realtimeDeparture)
+    departureTime = @context.getStore('TimeStore').getCurrentTime().startOf('day').second(realtimeDeparture)
     return (moment(departureTime).format "HH:mm")
     # TODO: display real-time estimation to the stop
 
