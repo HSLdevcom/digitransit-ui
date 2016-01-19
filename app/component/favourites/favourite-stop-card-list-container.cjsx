@@ -17,6 +17,7 @@ class FavouriteStopCardListContainer extends React.Component
       stopCards.push <StopCardContainer key={stop.gtfsId}
                                         stop={stop}
                                         departures=DEPARTURES_COUNT
+                                        date={@props.relay.variables.date}
                                         className="padding-small"/>
     stopCards
 
@@ -31,4 +32,5 @@ module.exports = Relay.createContainer(FavouriteStopCardListContainer,
   fragments: queries.FavouriteStopListContainerFragments
   initialVariables:
     ids: null
+    date: null
 )

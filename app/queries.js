@@ -288,22 +288,24 @@ class FavouriteStopListContainerRoute extends Relay.Route {
       query {
         stops(ids: $ids) {
           ${Component.getFragment('stops', {
-          ids: variables.ids,
+            ids: variables.ids,
+            date: variables.date,
         })}
       }
     }`,
   };
   static paramDefinitions = {
     ids: {required: true},
+    date: {required: true},
   };
   static routeName = 'FavouriteStopListContainerRoute';
 }
 
 var FavouriteStopListContainerFragments = {
-  stops: () => Relay.QL`
+  stops: ({date}) => Relay.QL`
     fragment on Stop @relay(plural:true){
       gtfsId
-      ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
+      ${require('./component/stop-cards/stop-card-container').getFragment('stop', {date})}
     }
   `,
 }
