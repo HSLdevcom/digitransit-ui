@@ -21,8 +21,9 @@ class DepartureListContainer extends React.Component
   componentWillUnmount: ->
     @context.getStore('TimeStore').removeChangeListener @onChange
 
-  onChange: =>
-    @forceUpdate()
+  onChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
 
   mergeDepartures: (departures) ->
     Array.prototype.concat.apply([], departures).sort (a, b) ->

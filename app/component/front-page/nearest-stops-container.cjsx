@@ -31,8 +31,9 @@ class NearestStopsContainer extends React.Component
   componentWillUnmount: ->
     @context.getStore('TimeStore').removeChangeListener @onChange
 
-  onChange: =>
-    @forceUpdate()
+  onChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
 
   render: =>
     <Relay.RootContainer

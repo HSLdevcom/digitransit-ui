@@ -44,16 +44,20 @@ class FavouritesPanel extends React.Component
   componentDidMount: ->
     @context.getStore('FavouriteRoutesStore').addChangeListener @onChange
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
-    @context.getStore('TimeStore').addChangeListener @onChange
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
     @setState({"useSpinner": false})
 
   componentWillUnmount: ->
     @context.getStore('FavouriteRoutesStore').removeChangeListener @onChange
     @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
-    @context.getStore('TimeStore').removeChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   onChange: (id) =>
     @forceUpdate()
+
+  onTimeChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
 
   render: ->
     FavouriteStopsStore = @context.getStore 'FavouriteStopsStore'
