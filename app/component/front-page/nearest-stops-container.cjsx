@@ -44,7 +44,6 @@ class NearestStopsContainer extends React.Component
         date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
       )}
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
-      }
     />
 
 
