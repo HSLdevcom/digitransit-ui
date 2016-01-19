@@ -144,6 +144,7 @@ class StopRoute extends Relay.Route {
   static queries = StopQueries;
   static paramDefinitions = {
     stopId: {required: true},
+    date: {required: true},
   };
   static routeName = 'StopRoute';
 }
@@ -407,13 +408,13 @@ var StopMarkerLayerFragments = {
 }
 
 var StopMarkerPopupFragments = {
-  stop: () => Relay.QL`
+  stop: ({date}) => Relay.QL`
     fragment on Stop{
       gtfsId
       lat
       lon
       name
-      ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
+      ${require('./component/stop-cards/stop-card-container').getFragment('stop', {date})}
     }
   `,
 }

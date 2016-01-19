@@ -55,7 +55,10 @@ class StopMarker extends React.Component
     >
       <Relay.RootContainer
         Component={StopMarkerPopup}
-        route={new queries.StopRoute(stopId: @props.stop.gtfsId)}
+        route={new queries.StopRoute(
+          stopId: @props.stop.gtfsId
+          date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
+        )}
         renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
         renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}
       />
