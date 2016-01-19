@@ -28,7 +28,7 @@ class TimeStore extends Store
     @status == "SET"
 
   updateCurrentTime: =>
-    @currentTime = moment()
+    @setCurrentTime moment()
     setTimeout @updateCurrentTime, twicePerMinute
 
   updateSelectedTime: =>
