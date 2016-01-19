@@ -60,6 +60,7 @@
     "mqtt": "1.6.3",
     "node-cjsx": "1.0.0",
     "node-fetch": "1.3.3",
+    "pbf": "^1.3.5",
     "polyfill-service": "2.2.0",
     "polyline-encoded": "0.0.7",
     "raven": "0.9.0",
@@ -78,6 +79,7 @@
     "react-helmet": "2.2.0",
     "serialize-javascript": "1.1.2",
     "slick-carousel": "1.5.9",
+    "vector-tile": "^1.2.0",
     "zurb-foundation-5": "5.4.7"
   },
   "devDependencies": {

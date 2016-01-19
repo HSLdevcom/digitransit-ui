@@ -41,6 +41,12 @@ class FavouritesPanel extends React.Component
       }
     />
 
+  shouldComponentUpdate: (nextProps, nextState) =>
+    ## do not render on state change
+    if nextState.useSpinner == false && @state.useSpinner == true
+      return false
+    true
+
   componentDidMount: ->
     @context.getStore('FavouriteRoutesStore').addChangeListener @onChange
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange

@@ -4,7 +4,7 @@ Relay         = require 'react-relay'
 queries       = require '../../queries'
 Icon          = require '../icon/icon'
 LocationMarker = require './location-marker'
-StopMarkerContainer = require './stop/stop-marker-container'
+StopMarkerContainer = if isBrowser then require './stop/stop-marker-tile-layer' else null
 CityBikeMarkerContainer = require './city-bike/city-bike-marker-container'
 #VehicleMarkerContainer = require './vehicle-marker-container'
 LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
@@ -45,7 +45,7 @@ class Map extends React.Component
       positionMarker = <PositionMarker/>
 
       if @props.showStops
-        stops = <StopMarkerContainer hilightedStops={@props.hilightedStops}/>
+        stops = <StopMarkerContainer hilightedStops={@props.hilightedStops} disableMapTracking={@props.disableMapTracking}/>
         cityBikes = if config.showCityBikes then <CityBikeMarkerContainer/> else null
 
       vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
