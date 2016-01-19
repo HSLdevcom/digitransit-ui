@@ -43,11 +43,11 @@ class SummaryPage extends React.Component
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
-    @context.getStore("TimeStore").addChangeListener @onTimeChange
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
 
   componentWillUnmount: ->
     @context.getStore('ItinerarySearchStore').removeChangeListener @onChange
-    @context.getStore("TimeStore").removeChangeListener @onTimeChange
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   onChange: =>
     @forceUpdate()
