@@ -1,5 +1,5 @@
 # Libraries
-React        = require 'react'
+React         = require 'react'
 
 TopLevel      = require './component/top-level'
 
