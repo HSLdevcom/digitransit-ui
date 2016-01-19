@@ -73,6 +73,7 @@ class SummaryPage extends React.Component
     activeIndex = @getActiveIndex()
 
     data = @context.getStore('ItinerarySearchStore').getData()
+    currentTime = @context.getStore('TimeStore').getCurrentTime()
     plan = data.plan
     if plan
       summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"
@@ -85,7 +86,9 @@ class SummaryPage extends React.Component
         rows.push <SummaryRow key={i}
                               hash={i}
                               params={@props.params}
-                              data={data} passive={passive}
+                              data={data}
+                              passive={passive}
+                              currentTime={currentTime}
                               onSelect={@onSelectActive}/>
         leafletObjs.push <ItineraryLine key={i}
                                         hash={i}
