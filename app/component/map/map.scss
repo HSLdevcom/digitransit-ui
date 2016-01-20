@@ -109,6 +109,11 @@ div.leaflet-marker-icon.place.halo {
   }
 }
 
+.tripMap div.leaflet-marker-icon.place,
+.summaryMap div.leaflet-marker-icon.place {
+    display: none;
+}
+
 div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
   > span {
     &::before {

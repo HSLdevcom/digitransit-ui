@@ -41,8 +41,8 @@ class Map extends React.Component
       origin = @context.getStore('EndpointStore').getOrigin()
 
       if origin?.lat
-        placeMarker = <PlaceMarker position={origin}/>
         fromMarker = <LocationMarker position={origin} className="from"/>
+        placeMarker = <PlaceMarker position={origin}/>
 
       positionMarker = <PositionMarker/>
 
