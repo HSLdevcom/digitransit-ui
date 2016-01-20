@@ -12,6 +12,7 @@ TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else nul
 L             = if isBrowser then require 'leaflet' else null
 config        = require '../../config'
 PositionMarker = require './position-marker'
+PlaceMarker = require './place-marker'
 
 if isBrowser
   require 'leaflet/dist/leaflet.css'
@@ -40,6 +41,7 @@ class Map extends React.Component
       origin = @context.getStore('EndpointStore').getOrigin()
 
       if origin?.lat
+        placeMarker = <PlaceMarker position={origin}/>
         fromMarker = <LocationMarker position={origin} className="from"/>
 
       positionMarker = <PositionMarker/>
@@ -82,6 +84,7 @@ class Map extends React.Component
           {vehicles}
           {fromMarker}
           {positionMarker}
+          {placeMarker}
           {@props.leafletObjs}
           {cityBikes}
         </LeafletMap>

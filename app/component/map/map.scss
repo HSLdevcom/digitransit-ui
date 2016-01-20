@@ -87,6 +87,30 @@ div.current-location-marker > span > svg.icon {
   font-size: 40px;
 }
 
+div.leaflet-marker-icon.place {
+  > span {
+    > svg.icon {
+      width: 24px;
+      height: 24px;
+      fill: $primary-color;
+      stroke: #fff;
+      stroke-width: 50px;
+    }
+  }
+}
+
+div.leaflet-marker-icon.place.halo {
+  > span {
+    > svg.icon {
+      width: 24px;
+      height: 24px;
+      fill: #fff;
+      stroke: #fff;
+      stroke-width: 50px;
+    }
+  }
+}
+
 div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
   > span {
     &::before {
