@@ -27,15 +27,15 @@ class SVGTile
         return
       res.arrayBuffer().then (buf) =>
         vt = new VectorTile(new Protobuf(buf))
-        @features = [0..vt.layers.geojsonLayer?.length - 1].map (i) => vt.layers.geojsonLayer.feature i
+        @features = [0..vt.layers.geojsonLayer?.length - 1]
+          .map((i) -> vt.layers.geojsonLayer.feature i)
+          .filter((feature) -> feature.properties.type)
         for i in @features
           @addFeature i
         done null, @el
       , (err) -> console.log err
 
   addFeature: (feature) =>
-    unless feature.properties.type
-      return
     stop = L.SVG.create 'circle'
     geom = feature.loadGeometry()
     stop.setAttribute "cx", geom[0][0].x
