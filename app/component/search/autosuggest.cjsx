@@ -11,6 +11,7 @@ AUTOSUGGEST_ID = 'autosuggest'
 class Autosuggest extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
+    getStore: React.PropTypes.func.isRequired
 
   @propTypes:
     onSelectionAction: React.PropTypes.func.isRequired
@@ -59,7 +60,11 @@ class Autosuggest extends React.Component
         <Icon img="icon-icon_place"/>
 
   getSuggestions: (input, callback) =>
-    opts = Object.assign(text: input, config.searchParams)
+    geolocation = @context.getStore('PositionStore').getLocationState()
+    if config.locationAwareSuggestions && geolocation.hasLocation
+      opts = Object.assign(text: input, config.searchParams, "focus.point.lat":geolocation.lat,"focus.point.lon":geolocation.lon)
+    else
+      opts = Object.assign(text: input, config.searchParams)
 
     XhrPromise.getJson(config.URL.PELIAS, opts).then (res) ->
       features = res.features
