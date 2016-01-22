@@ -163,7 +163,10 @@ class StopMarkerTileLayer extends BaseTileLayer
         ref="popup">
         <Relay.RootContainer
           Component={StopMarkerPopup}
-          route={new queries.StopRoute(stopId: @state.openPopup.properties.gtfsId)}
+          route={new queries.StopRoute(
+            stopId: @state.openPopup.properties.gtfsId
+            date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
+          )}
           renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
           renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}/>
       </Popup>
