@@ -43,17 +43,18 @@ class SummaryPage extends React.Component
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
-    @context.getStore("TimeStore").addChangeListener @onTimeChange
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
 
   componentWillUnmount: ->
     @context.getStore('ItinerarySearchStore').removeChangeListener @onChange
-    @context.getStore("TimeStore").removeChangeListener @onTimeChange
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   onChange: =>
     @forceUpdate()
 
-  onTimeChange: =>
-    @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+  onTimeChange: (e) =>
+    if e.selectedTime
+      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
   getActiveIndex: =>
     @context.location.state?.summaryPageSelected or @state?.summaryPageSelected or 0
@@ -73,6 +74,7 @@ class SummaryPage extends React.Component
     activeIndex = @getActiveIndex()
 
     data = @context.getStore('ItinerarySearchStore').getData()
+    currentTime = @context.getStore('TimeStore').getCurrentTime()
     plan = data.plan
     if plan
       summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"
@@ -85,7 +87,9 @@ class SummaryPage extends React.Component
         rows.push <SummaryRow key={i}
                               hash={i}
                               params={@props.params}
-                              data={data} passive={passive}
+                              data={data}
+                              passive={passive}
+                              currentTime={currentTime}
                               onSelect={@onSelectActive}/>
         leafletObjs.push <ItineraryLine key={i}
                                         hash={i}

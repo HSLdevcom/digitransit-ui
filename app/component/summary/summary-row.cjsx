@@ -7,10 +7,9 @@ DepartureTime      = require '../departure/departure-time'
 cx                 = require 'classnames'
 
 class SummaryRow extends React.Component
-
   render: -> # TODO: divide into separate components/functions
     data = @props.data
-    currentTime = moment().valueOf()
+    currentTime = @props.currentTime
     startTime = moment(data.startTime)
     endTime = moment(data.endTime)
     duration = endTime.diff(startTime)
