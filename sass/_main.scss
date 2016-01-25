@@ -4,8 +4,8 @@
 @import 'base/helper-classes';
 @import 'base/elements';
 
-
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/grid';
+@import 'base/helper-classes-after-foundations';
 
 // Some of these files override sass variables Foundation uses,
 // so they must be loaded before the relevant foundation modules

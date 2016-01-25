@@ -83,7 +83,7 @@ class StopPage extends React.Component
 
         </Map>
       <DepartureListContainer stoptimes={@props.stop.stoptimes}
-                              className="stop-page below-map"
+                              className="stop-page below-map momentum-scroll"
                               routeLinks={true}
                               infiniteScroll={true}
                               rowClasses="padding-normal border-bottom" />

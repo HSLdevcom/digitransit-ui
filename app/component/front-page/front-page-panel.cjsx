@@ -100,7 +100,7 @@ class FrontPagePanel extends React.Component
                     </h3>
                   </div>
 
-                  <div className="scrollable" id="scrollable-routes">
+                  <div className="scrollable momentum-scroll" id="scrollable-routes">
                     {routesPanel}
                   </div>
                 </div>
@@ -112,7 +112,7 @@ class FrontPagePanel extends React.Component
                   <div className="row">
                     <h3><FormattedMessage id='nearby-stops' defaultMessage='Nearby stops'/></h3>
                   </div>
-                  <div className="scrollable">
+                  <div className="scrollable momentum-scroll">
                     {stopsPanel}
                   </div>
                 </div>
@@ -124,7 +124,7 @@ class FrontPagePanel extends React.Component
                   <div className="row">
                     <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
                   </div>
-                  <div className="scrollable">
+                  <div className="scrollable momentum-scroll">
                     {favouritesPanel}
                   </div>
                 </div>
