@@ -29,6 +29,9 @@
 - `npm run start`
 - open: http://localhost:8080
 
+Note: on Windows, add "win" prefix to the run commands above. For example: `npm run win-build`.
+The same applies to other npm run commands below.
+
 ## Analyse webpack bundle
 - run: `webpack -p --json > digitransit.json`
 - Upload `digitransit.json` to `http://webpack.github.io/analyse/`
