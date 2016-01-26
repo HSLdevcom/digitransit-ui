@@ -61,7 +61,7 @@ app.rehydrate dehydratedState, (err, context) ->
               if @href != undefined && newHref == "/" && @href != newHref
                 if Feedback.shouldDisplayPopup()
                   console.log("!!display popup!!")
-                  Feedback.recordResult(piwik, context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf(),"a","b","c");
+                  Feedback.recordResult(piwik, context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf(), "a", "b", "c")
               @href = newHref
               piwik.setCustomUrl(@history.createHref(@state.location))
               piwik.trackPageView()

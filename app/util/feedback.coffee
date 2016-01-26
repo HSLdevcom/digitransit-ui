@@ -13,7 +13,7 @@ shouldDisplayPopup = (time) ->
 
 # time (currentTime) in ms
 recordResult = (piwik, time, a1, a2, a3) ->
-  reactCookie.save 'fid', time, 'path':'/'
+  reactCookie.save 'fid', time, 'path': '/'
   if a1 then piwik.setCustomVariable 1, 'nps', a1, 'visit'
   if a2 then piwik.setCustomVariable 2, 'prefer_new', a2, 'visit'
   if a3 then piwik.setCustomVariable 3, 'feedback', a3, 'visit'

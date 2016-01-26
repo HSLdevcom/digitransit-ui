@@ -43,7 +43,7 @@ class FrontPagePanel extends React.Component
   onReturnToFrontPage: ->
     if Feedback.shouldDisplayPopup()
       console.log("!!display popup!!")
-      Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(),"a","b","c");
+      Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(), "a", "b", "c")
 
   getSelectedPanel: =>
     if typeof window != 'undefined' and supportsHistory()
