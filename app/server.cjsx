@@ -72,6 +72,16 @@ getPolyfills = (userAgent) ->
     minify: true
     unknown: 'polyfill'
 
+
+processFeedback = (req, res) ->
+
+  if req.headers.dnt == 1
+    return
+
+  visitCount = req.cookies.vc | 0
+  console.log 'visitCount is ', visitCount, new Date(), req.url
+  res.cookie 'vc', visitCount + 1
+
 getScripts = (req) ->
   if process.env.NODE_ENV == 'development'
     host = req.headers['host']?.split(':')[0] or 'localhost'
@@ -121,6 +131,7 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
 
 module.exports = (req, res, next) ->
   # pass in `req.url` and the router will immediately match
+  processFeedback req, res
   locale = req.cookies.lang or req.acceptsLanguages(['fi', 'sv', 'en']) or 'en'
   context = application.createContext()
   #required by material-ui
