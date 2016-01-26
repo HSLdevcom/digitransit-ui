@@ -34,7 +34,7 @@ class TripStopListContainer extends React.Component
     vehicles = @context.getStore('RealTimeInformationStore').vehicles
     vehicle = !isEmpty(vehicles) && vehicles[Object.keys(vehicles)[0]]
 
-    currentTime = moment()
+    currentTime = @context.getStore('TimeStore').getCurrentTime()
     currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds')
     stopPassed = false
 

@@ -28,7 +28,11 @@ class StopMarkerPopup extends React.Component
       @props.context.executeAction FavouriteStopsAction.addFavouriteStop, @props.stop.id
 
     <div className="card">
-      <StopCardContainer stop={@props.stop} departures={5} className="padding-small"/>
+      <StopCardContainer
+        stop={@props.stop}
+        departures={5}
+        date={@props.relay.variables.date}
+        className="padding-small"/>
       <MarkerPopupBottom routeHere={routePath}>
         <Link to="/pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}/><FormattedMessage id='show-departures' defaultMessage='Show departures' /></Link><br/>
       </MarkerPopupBottom>
@@ -37,3 +41,5 @@ class StopMarkerPopup extends React.Component
 
 module.exports = Relay.createContainer StopMarkerPopup,
   fragments: queries.StopMarkerPopupFragments
+  initialVariables:
+    date: null

@@ -10,39 +10,61 @@ class TimeStore extends Store
 
   @storeName: 'TimeStore'
 
+  twicePerMinute = 30 * 1000
+
   constructor: (dispatcher) ->
     super(dispatcher)
-    @setCurrentTimeNow()
-    @setArriveBy(false)
+    @updateCurrentTime()
+    @arriveBy = false
+    @setSelectedTimeToNow()
 
-  setCurrentTimeNow: ->
-    @time = moment()
+  setSelectedTimeToNow: ->
+    @selectedTime = @currentTime
     @status = "UNSET"
-    @emitChange()
-    setTimeout(
-      =>
-        if @status == "UNSET"
-          @setCurrentTimeNow()
-      , 30 * 1000)  # Update twice in a minute
+    @emitChange
+      selectedTime: @selectedTime
+    setTimeout @updateSelectedTime, twicePerMinute
+
+  isSelectedTimeSet: =>
+    @status == "SET"
+
+  updateCurrentTime: =>
+    @setCurrentTime moment()
+    setTimeout @updateCurrentTime, twicePerMinute
+
+  updateSelectedTime: =>
+    unless @isSelectedTimeSet()
+      @setSelectedTimeToNow()
+
+  setSelectedTime: (data) ->
+    @selectedTime = data
+    @status = "SET"
+    @emitChange
+      selectedTime: @selectedTime
 
   setCurrentTime: (data) ->
-    @time = data
-    @status = "SET"
-    @emitChange()
+    @currentTime = data
+    @emitChange
+      currentTime: @selectedTime
 
   setArriveBy: (arriveBy) ->
     @arriveBy = arriveBy
-    @emitChange()
+    @emitChange
+      selectedTime: @selectedTime
 
-  getTime: ->
-    @time
+
+  getSelectedTime: ->
+    @selectedTime.clone()
+
+  getCurrentTime: ->
+    @currentTime.clone()
 
   getArriveBy: ->
     @arriveBy
 
   @handlers:
-    'SetCurrentTime': 'setCurrentTime'
-    'UnsetCurrentTime': 'setCurrentTimeNow'
+    'SetSelectedTime': 'setSelectedTime'
+    'UnsetSelectedTime': 'setSelectedTimeToNow'
     'SetArriveBy': 'setArriveBy'
 
 module.exports = TimeStore

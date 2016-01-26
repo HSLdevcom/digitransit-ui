@@ -12,7 +12,6 @@ class FavouritesPanel extends React.Component
     @state =
       useSpinner: true
 
-
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
@@ -23,6 +22,7 @@ class FavouritesPanel extends React.Component
       Component={FavouriteStopCardListContainer}
       route={new queries.FavouriteStopListContainerRoute(
         ids: ids
+        date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
       )}
       forceFetch={true}
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
@@ -50,16 +50,20 @@ class FavouritesPanel extends React.Component
   componentDidMount: ->
     @context.getStore('FavouriteRoutesStore').addChangeListener @onChange
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
-    @context.getStore('TimeStore').addChangeListener @onChange
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
     @setState({"useSpinner": false})
 
   componentWillUnmount: ->
     @context.getStore('FavouriteRoutesStore').removeChangeListener @onChange
     @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
-    @context.getStore('TimeStore').removeChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   onChange: (id) =>
     @forceUpdate()
+
+  onTimeChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
 
   render: ->
     FavouriteStopsStore = @context.getStore 'FavouriteStopsStore'
@@ -72,7 +76,6 @@ class FavouritesPanel extends React.Component
         {@getFavouriteStopContainer FavouriteStopsStore.getStops()}
         {@getFavouriteRouteListContainer FavouriteRoutesStore.getRoutes()}
       </div>
-
 
 
 

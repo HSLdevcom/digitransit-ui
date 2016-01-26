@@ -1,7 +1,7 @@
 module.exports =
-  setCurrentTime: (actionContext, data) ->
-    actionContext.dispatch 'SetCurrentTime', data
+  setSelectedTime: (actionContext, data) ->
+    actionContext.dispatch 'SetSelectedTime', data
   setArriveBy: (actionContext, data) ->
     actionContext.dispatch 'SetArriveBy', data
-  unsetCurrentTime: (actionContext, data) ->
-    actionContext.dispatch 'UnsetCurrentTime'
+  unsetSelectedTime: (actionContext, data) ->
+    actionContext.dispatch 'UnsetSelectedTime'

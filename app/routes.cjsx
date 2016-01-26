@@ -1,5 +1,5 @@
 # Libraries
-React        = require 'react'
+React         = require 'react'
 
 TopLevel      = require './component/top-level'
 
@@ -16,7 +16,7 @@ LoadingPage   = require './page/loading'
 Error404      = require './page/404'
 StyleGuidelinesPage = require './page/style-guidelines'
 
-# Queriesd
+# Queries
 queries = require './queries'
 
 # Reittiopas application
