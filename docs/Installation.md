@@ -29,7 +29,7 @@
 - `npm run start`
 - open: http://localhost:8080
 
-Note: on Windows, add "win" prefix to the run commands above. For example: `npm run win-build`.
+Note: on Windows, add "win-" prefix to the run commands above. For example: `npm run win-build`.
 The same applies to other npm run commands below.
 
 ## Analyse webpack bundle
