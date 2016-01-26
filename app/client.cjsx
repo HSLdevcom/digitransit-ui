@@ -18,6 +18,7 @@ PositionActions   = require './action/position-actions.coffee'
 piwik             = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID)
 PiwikProvider     = require './component/util/piwik-provider'
 dehydratedState   = window.state # Sent from the server
+Feedback          = require './util/feedback'
 
 if process.env.NODE_ENV == 'development'
   require "../sass/themes/#{config.CONFIG}/main.scss"
@@ -55,6 +56,13 @@ app.rehydrate dehydratedState, (err, context) ->
             history={useBasename(useQueries(createHistory))(basename: config.APP_PATH)}
             children={app.getComponent()}
             onUpdate={() ->
+              # track "getting back to home"
+              newHref = @history.createHref(@state.location)
+              if @href != undefined && newHref == "/" && @href != newHref
+                if Feedback.shouldDisplayPopup()
+                  console.log("!!display popup!!")
+                  Feedback.recordResult(piwik, context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf(),"a","b","c");
+              @href = newHref
               piwik.setCustomUrl(@history.createHref(@state.location))
               piwik.trackPageView()
             }
