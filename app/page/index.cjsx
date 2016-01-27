@@ -7,6 +7,7 @@ SearchTwoFieldsContainer = require '../component/search/search-two-fields-contai
 Icon               = require '../component/icon/icon'
 Link               = require 'react-router/lib/Link'
 MapWithTracking    = require '../component/map/map-with-tracking'
+FeedbackPanel      = require '../component/feedback/feedback-panel.cjsx'
 
 class Page extends React.Component
   @contextTypes:
@@ -23,6 +24,7 @@ class Page extends React.Component
         <SearchTwoFieldsContainer/>
       </MapWithTracking>
       <FrontPagePanel/>
+      <FeedbackPanel/>
     </IndexNavigation>
 
 module.exports = Page
