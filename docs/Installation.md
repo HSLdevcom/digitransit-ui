@@ -2,7 +2,7 @@
 - [Run application in Docker](Docker.md).
 
 ## Install requirements
-- Install Node.js
+- Install Node.js version 5 or newer
   (if you are on Debian, the distribution version is likely too old -
   in case of problems try https://deb.nodesource.com)
 - `sudo npm install -g npm@3`
