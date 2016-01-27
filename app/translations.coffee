@@ -108,6 +108,11 @@ translations =
     'show-departures': 'Näytä lähdöt'
     'no-route-msg': 'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.'
     'close': 'Sulje'
+    'likely-to-recommend': 'Kuinka todennäköistä on, että suosittelisit palveluamme ystävälle tai kollegallesi?'
+    'likely-to-use': 'Kuinka todennäköisesti käyttäisit tätä palvelua enemmin kuin nykyistä Reittiopas.fi-palvelua?'
+    'how-to-rate-service': 'Kuinka arvioisit palvelua?'
+    'char-left': 'merkkiä'
+    'send': 'Lähetä'
 
   'sv':
     'searching-position': 'Letar efter position'
