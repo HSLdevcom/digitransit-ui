@@ -4,6 +4,7 @@ Icon                  = require '../icon/icon.cjsx'
 ScoreTable            = require './score-table'
 TextAreaWithCounter   = require './text-area-with-counter'
 FeedbackActions       = require '../../action/feedback-action'
+Feedback              = require '../../util/feedback'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -57,7 +58,7 @@ class FeedbackPanel extends React.Component
     @setState
       postFirstQuestion: true
       selectedNPS: answer
-    #TODO: send first answer to PIWIK
+    Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(), answer)
 
   answerSecondQuestion: (answer) =>
     @setState
@@ -70,9 +71,8 @@ class FeedbackPanel extends React.Component
       charLeft: FEEDBACK_OPEN_AREA_MAX_CHARS - input.length
 
   sendAll: =>
-    #TODO: send all values to PIWIK
+    Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(), @state.selectedNPS, @state.useThisMoreLikely, @state.openText)
     @closeModal()
-    return
 
   render: ->
 
