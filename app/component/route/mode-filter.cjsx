@@ -45,6 +45,13 @@ class ModeFilter extends React.Component
         onBtnClick={() => @context.executeAction ModeSelectedAction.toggleSubwayState}
         state={store.getSubwayState()}
         checkedClass="subway"
+        className="columns small-3"
+      />
+      <ToggleButton
+        icon="airplane-withoutBox"
+        onBtnClick={() => @context.executeAction ModeSelectedAction.toggleAirplaneState}
+        state={store.getAirplaneState()}
+        checkedClass="air"
         className="columns small-3 last-btn"
       />
     </div>

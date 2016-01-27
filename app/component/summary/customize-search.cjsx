@@ -70,6 +70,13 @@ class CustomizeSearch extends React.Component
             className="mode-icon"
           />
           <ToggleButton
+            icon="airplane-withoutBox"
+            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleAirplaneState}
+            state={@context.getStore('ItinerarySearchStore').getAirplaneState()}
+            checkedClass="air"
+            className="mode-icon"
+          />
+          <ToggleButton
             icon="citybike-withoutBox"
             onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleCitybikeState}
             state={@context.getStore('ItinerarySearchStore').getCitybikeState()}

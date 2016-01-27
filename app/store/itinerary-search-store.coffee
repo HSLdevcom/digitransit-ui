@@ -34,6 +34,7 @@ class ItinerarySearchStore extends Store
     @railState = true
     @subwayState = true
     @ferryState = true
+    @airplaneState = true
     @citybikeState = false
     # These three are mutually exclusive
     @walkState = true
@@ -61,8 +62,8 @@ class ItinerarySearchStore extends Store
     if @getRailState() then mode.push "RAIL"
     if @getSubwayState() then mode.push "SUBWAY"
     if @getFerryState() then mode.push "FERRY"
+    if @getAirplaneState() then mode.push "AIRPLANE"
     if @getCitybikeState() then mode.push "BICYCLE_RENT"
-    if mode.length then mode.push "AIRPLANE"
     if @getWalkState() then mode.push "WALK"
     if @getBicycleState() then mode.push "BICYCLE"
     if @getCarState() then mode.push "CAR"
@@ -89,6 +90,8 @@ class ItinerarySearchStore extends Store
     @subwayState
   getFerryState: ->
     @ferryState
+  getAirplaneState: ->
+    @airplaneState
   getCitybikeState: ->
     @citybikeState
   getWalkState: ->
@@ -124,6 +127,9 @@ class ItinerarySearchStore extends Store
     @emitChange()
   toggleFerryState: ->
     @ferryState = !@ferryState
+    @emitChange()
+  toggleAirplaneState: ->
+    @airplaneState = !@airplaneState
     @emitChange()
   toggleCitybikeState: ->
     @citybikeState = !@citybikeState
@@ -205,6 +211,7 @@ class ItinerarySearchStore extends Store
     "ToggleRailState": 'toggleRailState'
     "ToggleSubwayState": 'toggleSubwayState'
     "ToggleFerryState": 'toggleFerryState'
+    "ToggleAirplaneState": 'toggleAirplaneState'
     "ToggleCitybikeState": 'toggleCitybikeState'
     "ToggleWalkState": 'toggleWalkState'
     "ToggleBicycleState": 'toggleBicycleState'
