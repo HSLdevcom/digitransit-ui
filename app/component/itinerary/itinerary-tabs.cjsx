@@ -9,8 +9,11 @@ ItinerarySummary   = require './itinerary-summary'
 Map                = require '../map/map'
 ItineraryLine      = require '../map/itinerary-line'
 TimeFrame = require './time-frame'
+config        = require '../../config'
 
 intl = require 'react-intl'
+
+ticketInformation = if config.hideTicketInformation then null else <TicketInformation/>
 
 class ItineraryTabs extends React.Component
   @contextTypes:
@@ -38,7 +41,7 @@ class ItineraryTabs extends React.Component
             {id: 'instructions', defaultMessage: "Instructions"})}
           className="fullscreen">
           <div>
-            <TicketInformation/>
+            {ticketInformation}
             {legs}
           </div>
         </Tabs.Panel>
