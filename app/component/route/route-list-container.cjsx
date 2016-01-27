@@ -102,5 +102,4 @@ module.exports = Relay.createContainer(RouteListContainer,
     radius: config.nearbyRoutes.radius
     numberOfStops: STOP_COUNT
     agency: config.preferredAgency
-    date: moment().format("YYYYMMDD") # TODO check this, what date should be used?
 )

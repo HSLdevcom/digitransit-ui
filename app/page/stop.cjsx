@@ -19,15 +19,26 @@ class StopPage extends React.Component
     history: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
+  componentWillMount: ->
+    @props.relay.setVariables
+      date: @context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD')
+
   componentDidMount: ->
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
 
   componentWillUnmount: ->
     @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   onChange: (id) =>
     if !id or id == @props.params.stopId
       @forceUpdate()
+
+  onTimeChange: (e) =>
+    if e.currentTime
+      date = @context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD')
+      @props.relay.setVariables({date: date}, () => @forceUpdate())
 
   toggleFullscreenMap: =>
     @context.history.pushState null, "/pysakit/#{@props.params.stopId}/kartta"
@@ -83,5 +94,5 @@ class StopPage extends React.Component
 module.exports = Relay.createContainer(StopPage,
   fragments: queries.StopPageFragments,
   initialVariables:
-    date: moment().format("YYYYMMDD")
+    date: moment().format('YYYYMMDD') # will be reset later from TimeStore
 )

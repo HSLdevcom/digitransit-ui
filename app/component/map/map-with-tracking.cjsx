@@ -74,7 +74,7 @@ class MapWithTracking extends React.Component
             useZoomedIn: false
             mapTracking: true #start map track because position was found
             initLocationFound: false
-      else
+      else if @state.mapTracking
         @forceUpdate()
 
   render: =>

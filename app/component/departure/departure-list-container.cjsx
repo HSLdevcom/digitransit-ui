@@ -9,12 +9,21 @@ moment                = require 'moment'
 Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
 
-
 moment.locale('fi')
 
 class DepartureListContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+
+  componentDidMount: ->
+    @context.getStore('TimeStore').addChangeListener @onChange
+
+  componentWillUnmount: ->
+    @context.getStore('TimeStore').removeChangeListener @onChange
+
+  onChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
 
   mergeDepartures: (departures) ->
     Array.prototype.concat.apply([], departures).sort (a, b) ->
@@ -29,16 +38,25 @@ class DepartureListContainer extends React.Component
         pattern: pattern.pattern
         trip: stoptime.trip
 
+  now: =>
+    @context.getStore('TimeStore').getCurrentTime()
+
   getDepartures: (rowClasses) =>
     departureObjs = []
-    currentTime = new Date().getTime() / 1000
-    currentDate = new Date().setHours(0, 0, 0, 0) / 1000
-    for departure, i in @mergeDepartures(@asDepartures(@props.stoptimes)).filter((departure) -> currentTime < departure.stoptime).slice 0, @props.limit
-      if departure.stoptime > currentDate + 86400 # TODO: test for DST change dates
+
+    currentTime = @now().unix()
+    currentDate = @now().startOf('day').unix()
+    tomorrow = @now().add(1, 'day').startOf('day').unix()
+    departures = @mergeDepartures(@asDepartures(@props.stoptimes))
+      .filter((departure) -> currentTime < departure.stoptime)
+      .slice 0, @props.limit
+
+    for departure, i in departures
+      if departure.stoptime >= tomorrow
         departureObjs.push <div key={moment(departure.stoptime * 1000).format('DDMMYYYY')} className="date-row border-bottom">
           {moment(departure.stoptime * 1000).format('dddd D.M.YYYY')}
         </div>
-        currentDate = new Date().setHours(24, 0, 0, 0) / 1000 #TODO: this should be changed, now always sets tomorrow
+        currentDate = tomorrow
       id = "#{departure.pattern.code}:#{departure.stoptime}"
 
       validAt = (alert) =>

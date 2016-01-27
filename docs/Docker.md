@@ -21,7 +21,7 @@ On Mac:
 - open `http://[DOCKER_HOST]:8080`
 
 On Windows:
-- ??
+- open `http://localhost:8080`
 
 ## Running in production
 You must use following additional variables:

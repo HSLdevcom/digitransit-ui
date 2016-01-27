@@ -32,11 +32,14 @@ class StopCardContainer extends React.Component
       distance={@props.distance}
       favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop.gtfsId)}
       addFavouriteStop={@addFavouriteStop}>
-      <DepartureListContainer rowClasses="no-padding no-margin" stoptimes={@props.stop.stoptimes} limit={@props.departures}/>
+      <DepartureListContainer
+        rowClasses="no-padding no-margin"
+        stoptimes={@props.stop.stoptimes}
+        limit={@props.departures}/>
     </StopCard>
 
 
 module.exports = Relay.createContainer StopCardContainer,
   fragments: queries.StopCardContainerFragments
   initialVariables:
-    date: moment().format("YYYYMMDD") # TODO check this, what date should be used?
+    date: null
