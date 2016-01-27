@@ -10,7 +10,7 @@ class OffcanvasMenu extends React.Component
       <header className="offcanvas-section">
         <LangSelect/>
         <p style={'fontSize': '20px', 'backgroundColor': '#888888', 'padding': '20px'}>
-          <a href="https://www.webropolsurveys.com/S/3BE1415777B02A7D.par"><FormattedMessage id="inquiry" defaultMessage="Participate on inquiry"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
+          <a onClick={@props.openFeedback} ><FormattedMessage id="inquiry" defaultMessage="Participate on inquiry"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
         </p>
         <p className="offcanvas-lead">
           <FormattedMessage id="off-canvas-info" defaultMessage="By loggin in to this service you can restore your favourites and use them on all of your devices"/>

@@ -5,6 +5,7 @@ OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
 NotImplemented        = require '../util/not-implemented'
 LeftNav               = require 'material-ui/lib/left-nav'
+FeedbackActions       = require '../../action/feedback-action'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 
 intl = require 'react-intl'
@@ -12,6 +13,7 @@ intl = require 'react-intl'
 class IndexNavigation extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
     piwik: React.PropTypes.object
     history: React.PropTypes.object.isRequired
@@ -75,7 +77,7 @@ class IndexNavigation extends React.Component
       if newState
         @context.history.pushState
           offcanvasVisible: newState
-        , @context.location.pathname
+        , @context.location.pathname + if window.location.search?.indexOf('mock') > -1 then "?mock" else ""
       else
         @context.history.goBack()
 
@@ -89,12 +91,19 @@ class IndexNavigation extends React.Component
     @context.piwik?.trackEvent "Modal", "Disruption", if @state.disruptionVisible then "close" else "open"
     @setState disruptionVisible: !@state.disruptionVisible
 
+  openFeedback: () =>
+    if window? and window.location.search?.indexOf('mock') > -1
+      @context.executeAction FeedbackActions.openFeedbackModal
+      @toggleOffcanvas()
+    else
+      window.location.href = "https://www.webropolsurveys.com/S/3BE1415777B02A7D.par"
+
   render: ->
     <div className={@props.className}>
       <NotImplemented/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
       <LeftNav className="offcanvas" disableSwipeToOpen=true ref="leftNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
-        <OffcanvasMenu/>
+        <OffcanvasMenu openFeedback={@openFeedback}/>
       </LeftNav>
       <div className="grid-frame fullscreen">
         <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} subnavigationText={@state.text}/>
