@@ -10,6 +10,7 @@ FavouritesPanel       = require '../favourites/favourites-panel'
 NearestRoutesContainer = require './nearest-routes-container'
 NearestStopsContainer = require './nearest-stops-container'
 {supportsHistory}     = require 'history/lib/DOMUtils'
+Feedback              = require '../../util/feedback'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -39,6 +40,11 @@ class FrontPagePanel extends React.Component
   onChange: =>
     @forceUpdate()
 
+  onReturnToFrontPage: ->
+    if Feedback.shouldDisplayPopup()
+      console.log("!!display popup!!")
+      Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(), "a", "b", "c")
+
   getSelectedPanel: =>
     if typeof window != 'undefined' and supportsHistory()
       @context.location.state?.selectedPanel
@@ -48,6 +54,7 @@ class FrontPagePanel extends React.Component
   selectPanel: (selection) =>
     oldSelection = @getSelectedPanel()
     if selection == oldSelection # clicks again to close
+      @onReturnToFrontPage()
       newSelection = null
     else
       newSelection = selection
