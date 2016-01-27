@@ -74,12 +74,10 @@ getPolyfills = (userAgent) ->
 
 
 processFeedback = (req, res) ->
-
   if req.headers.dnt == 1
     return
 
   visitCount = req.cookies.vc | 0
-  console.log 'visitCount is ', visitCount, new Date(), req.url
   res.cookie 'vc', visitCount + 1
 
 getScripts = (req) ->
