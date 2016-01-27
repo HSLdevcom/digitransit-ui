@@ -57,6 +57,7 @@ class DepartureListContainer extends React.Component
           {moment(departure.stoptime * 1000).format('dddd D.M.YYYY')}
         </div>
         currentDate = tomorrow
+        tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix()
       id = "#{departure.pattern.code}:#{departure.stoptime}"
 
       validAt = (alert) =>
