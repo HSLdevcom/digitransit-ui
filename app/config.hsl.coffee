@@ -49,6 +49,8 @@ module.exports =
     maxShownDistance: 5000
   map:
     useRetinaTiles: true
+  autoSuggest:
+    locationAware: false
   showCityBikes: true
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15
