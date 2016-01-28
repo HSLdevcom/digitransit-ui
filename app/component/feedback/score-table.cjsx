@@ -43,7 +43,7 @@ ScoreTable.propTypes =
   highestScore: React.PropTypes.number.isRequired
   handleClick: React.PropTypes.func.isRequired
   showLabels: React.PropTypes.bool
-  lowEndLabel: React.PropTypes.string
-  highEndLabel: React.PropTypes.string
+  lowEndLabel: React.PropTypes.object
+  highEndLabel: React.PropTypes.object
 
 module.exports = ScoreTable

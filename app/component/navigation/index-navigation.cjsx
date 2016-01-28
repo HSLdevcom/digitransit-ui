@@ -92,11 +92,8 @@ class IndexNavigation extends React.Component
     @setState disruptionVisible: !@state.disruptionVisible
 
   openFeedback: () =>
-    if window? and window.location.search?.indexOf('mock') > -1
-      @context.executeAction FeedbackActions.openFeedbackModal
-      @toggleOffcanvas()
-    else
-      window.location.href = "https://www.webropolsurveys.com/S/3BE1415777B02A7D.par"
+    @context.executeAction FeedbackActions.openFeedbackModal
+    @toggleOffcanvas()
 
   render: ->
     <div className={@props.className}>
