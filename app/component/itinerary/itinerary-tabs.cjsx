@@ -13,7 +13,7 @@ config        = require '../../config'
 
 intl = require 'react-intl'
 
-ticketInformation = if config.hideTicketInformation then null else <TicketInformation/>
+ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
 
 class ItineraryTabs extends React.Component
   @contextTypes:
