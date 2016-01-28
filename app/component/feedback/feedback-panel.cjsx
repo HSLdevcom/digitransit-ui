@@ -79,6 +79,11 @@ class FeedbackPanel extends React.Component
 
     isModalOpen = @context.getStore('FeedbackStore').isModalOpen()
 
+    lowEndLabel = <FormattedMessage id='very-unlikely'
+                      defaultMessage='very unlikely' />
+    highEndLabel = <FormattedMessage id='very-likely'
+                      defaultMessage="very-likely" />
+
     if @state.postFirstQuestion
 
       supplementaryQuestions =
@@ -94,8 +99,8 @@ class FeedbackPanel extends React.Component
           highestScore=10
           handleClick={@answerSecondQuestion}
           selectedScore={if @state.useThisMoreLikely != 'undefined' then @state.useThisMoreLikely else undefined}
-          lowEndLabel={"Erittäin epätodennäköistä"}
-          highEndLabel={"Erittäin todennäköistä"}
+          lowEndLabel={lowEndLabel}
+          highEndLabel={highEndLabel}
           showLabels={true}/>
 
 
@@ -144,8 +149,8 @@ class FeedbackPanel extends React.Component
             highestScore=10
             handleClick={@answerFirstQuestion}
             selectedScore={if @state.selectedNPS != 'undefined' then @state.selectedNPS else undefined}
-            lowEndLabel={"Erittäin epätodennäköistä"}
-            highEndLabel={"Erittäin todennäköistä"}
+            lowEndLabel={lowEndLabel}
+            highEndLabel={highEndLabel}
             showLabels={true}/>
 
           {supplementaryQuestions}
