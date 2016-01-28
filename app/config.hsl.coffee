@@ -63,3 +63,5 @@ module.exports =
   socialMedia:
     title: "Uusi Reittiopas"
     description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
+  #Ticket information feature toggle
+  showTicketInformation: true
