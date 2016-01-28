@@ -16,6 +16,7 @@ module.exports =
     API_URL: "#{API_URL}"
     OTP: "#{API_URL}/otp/routers/finland/"
     MAP: "#{API_URL}/hsl-map/"
+    STOP_MAP: "#{API_URL}/finland-stop-map/"
     MQTT: "ws://213.138.147.225:1883"
     ALERTS: "#{API_URL}/hsl-alert/"
     FONT: "http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700"
@@ -23,7 +24,7 @@ module.exports =
     PELIAS: "#{API_URL}/pelias/v1/autocomplete"
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
   APP_PATH: "#{APP_PATH}"
-  title: "Digitransit"
+  title: "Matka.fi"
   searchParams: {}
   nearbyRoutes:
     radius: 10000

@@ -1,0 +1,60 @@
+$score-column-border-color: #E1E0E0;
+$score-column-border-radius: 5px;
+
+$selected-score-font-color: $white;
+$not-selected-score-font-color: #82959E;
+
+$selected-score-background-color: #666666;
+$not-selected-score-background-color: $white;
+
+.score-table__column {
+  background: $not-selected-score-background-color;
+  float: left;
+  height: 32px;
+  line-height: 32px;
+  vertical-align: middle;
+  text-align: center;
+  font-family: $font-family;
+  font-size: $font-size-small;
+  border-top: solid 1px $score-column-border-color;
+  border-bottom: solid 1px $score-column-border-color;
+  border-right: solid 1px $score-column-border-color;
+  color: $not-selected-score-font-color;
+}
+
+.score-table__column:active {
+  background: $selected-score-background-color;
+  color: $selected-score-font-color;
+}
+
+.feedback-content-container {
+
+  .score-table__column:first-child {
+    border-left: solid 1px $score-column-border-color;
+    border-top-left-radius: $score-column-border-radius;
+    border-bottom-left-radius: $score-column-border-radius;
+
+  }
+
+  .score-table__column:last-child {
+    border-top-right-radius: $score-column-border-radius;
+    border-bottom-right-radius: $score-column-border-radius;
+
+  }
+
+  .selected-score {
+    background: $selected-score-background-color;
+    color: $selected-score-font-color;
+  }
+
+  .score-table__label-container{
+    font-size: 11px;
+    margin-top: 3px;
+    color: $gray;
+    height: 16px;
+    max-width: 62.5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+}

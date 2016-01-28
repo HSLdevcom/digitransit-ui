@@ -1,5 +1,6 @@
-Raven = require 'raven-js'
+Raven              = if window? then require 'raven-js' else null
 React              = require 'react'
+Helmet             = require 'react-helmet'
 SummaryNavigation  = require '../component/navigation/summary-navigation'
 ItinerarySummary   = require '../component/itinerary/itinerary-summary'
 ArrowLink          = require '../component/util/arrow-link'
@@ -7,6 +8,7 @@ Map                = require '../component/map/map'
 ItinerarySearchActions = require '../action/itinerary-search-action'
 EndpointActions    = require '../action/endpoint-actions.coffee'
 SummaryRow         = require '../component/summary/summary-row'
+NoRoutePopup       = require '../component/summary/no-route-popup'
 SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
 ItineraryLine      = require '../component/map/itinerary-line'
 sortBy             = require 'lodash/collection/sortBy'
@@ -22,6 +24,7 @@ class SummaryPage extends React.Component
     executeAction: React.PropTypes.func.isRequired
     history: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
+    intl: intl.intlShape.isRequired
 
   @loadAction: (params) ->
     [
@@ -40,17 +43,18 @@ class SummaryPage extends React.Component
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
-    @context.getStore("TimeStore").addChangeListener @onTimeChange
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
 
   componentWillUnmount: ->
     @context.getStore('ItinerarySearchStore').removeChangeListener @onChange
-    @context.getStore("TimeStore").removeChangeListener @onTimeChange
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   onChange: =>
     @forceUpdate()
 
-  onTimeChange: =>
-    @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+  onTimeChange: (e) =>
+    if e.selectedTime
+      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
 
   getActiveIndex: =>
     @context.location.state?.summaryPageSelected or @state?.summaryPageSelected or 0
@@ -70,6 +74,7 @@ class SummaryPage extends React.Component
     activeIndex = @getActiveIndex()
 
     data = @context.getStore('ItinerarySearchStore').getData()
+    currentTime = @context.getStore('TimeStore').getCurrentTime()
     plan = data.plan
     if plan
       summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"
@@ -82,7 +87,9 @@ class SummaryPage extends React.Component
         rows.push <SummaryRow key={i}
                               hash={i}
                               params={@props.params}
-                              data={data} passive={passive}
+                              data={data}
+                              passive={passive}
+                              currentTime={currentTime}
                               onSelect={@onSelectActive}/>
         leafletObjs.push <ItineraryLine key={i}
                                         hash={i}
@@ -90,19 +97,28 @@ class SummaryPage extends React.Component
                                         showFromToMarkers={i == 0}
                                         passive={passive}/>
     else if data.error
-      rows = <FormattedMessage
+      rows = [
+        <FormattedMessage
           id='route-not-possible'
           defaultMessage="Unfortunately your route is not possible. Technical error: '{error}'"
           values={
             error: data.error.msg
-          }/>
+          }/>,
+        <NoRoutePopup />]
       Raven.captureMessage("OTP returned an error when requesting a plan", {extra: data})
 
 
     # Draw active last
     leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
 
+    meta =
+      title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestion"}
+      meta: [
+        {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-summary-page.description', defaultMessage: "Route suggestion"}}
+      ]
+
     <SummaryNavigation className="fullscreen">
+      <Helmet {...meta} />
       <Map ref="map"
            className="summaryMap"
            leafletObjs={leafletObjs}

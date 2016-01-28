@@ -14,8 +14,9 @@ module.exports =
   CONFIG: "#{CONFIG}"
   URL:
     API_URL: "#{API_URL}"
-    OTP: "#{API_URL}/otp/routers/finland/"
     MAP: "#{API_URL}/hsl-map/"
+    OTP: "#{API_URL}/otp/routers/hsl/"
+    STOP_MAP: "#{API_URL}/hsl-stop-map/"
     MQTT: "ws://213.138.147.225:1883"
     ALERTS: "#{API_URL}/hsl-alert/"
     FONT: "http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700"
@@ -23,7 +24,7 @@ module.exports =
     PELIAS: "#{API_URL}/pelias/v1/search"
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
   APP_PATH: "#{APP_PATH}"
-  title: "Digitransit (HSL)"
+  title: "Reittiopas.fi"
   preferredAgency: "HSL"
   searchParams:
     "boundary.rect.min_lat": 59.9

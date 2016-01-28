@@ -1,7 +1,7 @@
-Relay                  = require 'react-relay'
-StopCardListContainer  = require '../stop-cards/nearest-stop-card-list-container'
-queries                = require '../../queries'
-React                  = require 'react'
+Relay   = require 'react-relay'
+NearestStopCardListContainer  = require '../stop-cards/nearest-stop-card-list-container'
+queries = require '../../queries'
+React   = require 'react'
 
 class NearestStopsContainer extends React.Component
 
@@ -18,6 +18,12 @@ class NearestStopsContainer extends React.Component
     lat: React.PropTypes.number.isRequired
     lon: React.PropTypes.number.isRequired
 
+  shouldComponentUpdate: (nextProps, nextState) =>
+    ## rerender only when location changes
+    if nextProps.lat == @props.lat && nextProps.lon == @props.lon
+      return false
+    true
+
   componentDidMount: ->
     @context.getStore('TimeStore').addChangeListener @onChange
     @setState({"useSpinner": false})
@@ -25,19 +31,20 @@ class NearestStopsContainer extends React.Component
   componentWillUnmount: ->
     @context.getStore('TimeStore').removeChangeListener @onChange
 
-  onChange: =>
-    @forceUpdate()
+  onChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
 
   render: =>
     <Relay.RootContainer
-      Component={StopCardListContainer}
+      Component={NearestStopCardListContainer}
       forceFetch={true}
       route={new queries.StopListContainerRoute(
         lat: @props.lat
         lon: @props.lon
+        date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
       )}
       renderLoading={=> if(@state.useSpinner == true) then <div className="spinner-loader"/> else undefined}
-      }
     />
 
 

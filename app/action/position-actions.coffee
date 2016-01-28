@@ -37,10 +37,10 @@ runReverseGeocodingAction = (actionContext, lat, lon, done) ->
 
 debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading: true})
 
-broadcastCurrentLocation = (actionContext, pos) ->
-  if pos
-    @position = pos
+setCurrentLocation = (pos) =>
+  @position = pos
 
+broadcastCurrentLocation = (actionContext) =>
   if @position
     actionContext.dispatch "GeolocationFound", @position
 
@@ -57,28 +57,43 @@ startLocationWatch = (actionContext, payload, done) ->
   # Set timeout
   timeoutId = window.setTimeout(( -> actionContext.dispatch "GeolocationWatchTimeout"), 10000)
 
+  ##re define function to retrieve position updates (geolocation.js/mock)
   window.retrieveGeolocation = (position) ->
-    if window.digitransitPosition
-      window.digitransitPosition = undefined
+
+    if window.position.pos != null
+      window.position.pos = null
     if timeoutId
       window.clearTimeout(timeoutId)
       timeoutId = undefined
-    broadcastCurrentLocation actionContext,
+    setCurrentLocation
       lat: position.coords.latitude
       lon: position.coords.longitude
       heading: position.coords.heading
 
+    broadcastCurrentLocation actionContext
+
     debouncedRunReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
 
-  if window.digiTransitPosition
-    window.retrieveGeolocation window.digiTransitPosition
+  ##re define function to retrieve position errors (geolocation.js)
+  window.retrieveError = (error) ->
+    if error
+      if error.code == 1
+        actionContext.dispatch "GeolocationDenied"
+      else if error.code == 2
+        actionContext.dispatch "GeolocationNotSupported"
+      else if error.code == 3
+        actionContext.dispatch "GeolocationTimeout"
+      window.position.error = null
 
+  if window.position.error != null
+    window.retrieveError window.position.error
+    window.position.error = null
+
+  if window.position.pos != null
+    window.retrieveGeolocation window.position.pos
+    window.position.pos = null
   done()
 
-stopLocationWatch = (actionContext, payload, done) ->
-  geolocator(actionContext).geolocation.clearWatch actionContext.getStore("PositionStore").getWatchId()
-  actionContext.dispatch "GeolocationWatchStopped"
-  done()
 
 removeLocation = (actionContext) ->
   actionContext.dispatch "GeolocationRemoved"
@@ -96,4 +111,3 @@ module.exports =
   'manuallySetPosition': manuallySetPosition
   'reverseGeocodeAddress': reverseGeocodeAddress
   'startLocationWatch': startLocationWatch
-  'stopLocationWatch': stopLocationWatch

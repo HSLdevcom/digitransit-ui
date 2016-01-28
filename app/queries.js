@@ -6,14 +6,14 @@ var TerminalQueries = {
       station(id: $terminalId)
     }
   `,
-};
+}
 
 class TerminalRoute extends Relay.Route {
-  static queries = TerminalQueries
+  static queries = TerminalQueries;
   static paramDefinitions = {
     terminalId: {required: true},
-  }
-  static routeName = 'TerminalRoute'
+  };
+  static routeName = 'TerminalRoute';
 }
 
 var TerminalMarkerPopupFragments = {
@@ -43,18 +43,18 @@ var StopQueries = {
       stop(id: $stopId)
     }
   `,
-};
+}
 
 class TripRoute extends Relay.Route {
   static queries = {
     pattern: () => Relay.QL`query {
         trip(id: $id)
     }`,
-  }
+  };
   static paramDefinitions = {
     id: {required: true},
-  }
-  static routeName = "TripRoute"
+  };
+  static routeName = "TripRoute";
 }
 
 var TripPatternFragments = {
@@ -65,7 +65,7 @@ var TripPatternFragments = {
       }
     }
   `,
-};
+}
 
 var RouteQueries = {
   pattern: () => Relay.QL`
@@ -73,7 +73,7 @@ var RouteQueries = {
       pattern(id: $routeId)
     }
   `,
-};
+}
 
 class RouteListContainerRoute extends Relay.Route {
   static queries = {
@@ -87,12 +87,12 @@ class RouteListContainerRoute extends Relay.Route {
         }
       }
     `,
-  }
+  };
   static paramDefinitions = {
     lat: {required: true},
     lon: {required: true},
-  }
-  static routeName = 'RouteListContainerRoute'
+  };
+  static routeName = 'RouteListContainerRoute';
 }
 
 var RouteListContainerFragments = {
@@ -130,7 +130,7 @@ var RouteListContainerFragments = {
       }
     }
   `,
-};
+}
 
 var TripQueries = {
   trip: () => Relay.QL`
@@ -138,26 +138,31 @@ var TripQueries = {
       trip(id: $tripId)
     }
   `,
-};
+}
 
 class StopRoute extends Relay.Route {
-  static queries = StopQueries
+  static queries = StopQueries;
   static paramDefinitions = {
     stopId: {required: true},
-  }
-  static routeName = 'StopRoute'
+    date: {required: true},
+  };
+  static routeName = 'StopRoute';
 }
 
 
 var RoutePageFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
+      route {
+        shortName
+        longName
+      }
       ${require('./component/route/route-header-container').getFragment('pattern')}
       ${require('./component/route/route-map-container').getFragment('pattern')}
       ${require('./component/route/route-stop-list-container').getFragment('pattern')}
     }
   `,
-};
+}
 
 var RouteHeaderFragments = {
   pattern: () => Relay.QL`
@@ -178,7 +183,7 @@ var RouteHeaderFragments = {
       }
     }
   `,
-};
+}
 
 var RouteStopListFragments = {
   pattern: () => Relay.QL`
@@ -196,7 +201,7 @@ var RouteStopListFragments = {
       }
     }
   `,
-};
+}
 
 var RouteMapFragments = {
   pattern: () => Relay.QL`
@@ -212,7 +217,7 @@ var RouteMapFragments = {
       ${require('./component/map/route/route-line').getFragment('pattern')}
     }
   `,
-};
+}
 
 var RouteLineFragments = {
   pattern: () => Relay.QL`
@@ -233,7 +238,7 @@ var RouteLineFragments = {
       }
     }
   `,
-};
+}
 
 class StopListContainerRoute extends Relay.Route {
   static queries = {
@@ -243,27 +248,29 @@ class StopListContainerRoute extends Relay.Route {
           ${Component.getFragment('stops', {
             lat: variables.lat,
             lon: variables.lon,
+            date: variables.date,
           })}
         }
       }
     `,
-  }
+  };
   static paramDefinitions = {
     lat: {required: true},
     lon: {required: true},
-  }
-  static routeName = 'StopListContainerRoute'
+    date: {required: true},
+  };
+  static routeName = 'StopListContainerRoute';
 }
 
-var NearStopListContainerFragments = {
-  stops: () => Relay.QL`
+var NearestStopListContainerFragments = {
+  stops: ({date}) => Relay.QL`
     fragment on QueryType {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
         edges{
           node {
             stop {
               gtfsId
-              ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
+              ${require('./component/stop-cards/stop-card-container').getFragment('stop', {date})}
             }
             distance
           }
@@ -274,7 +281,7 @@ var NearStopListContainerFragments = {
       }
     }
   `,
-};
+}
 
 class FavouriteStopListContainerRoute extends Relay.Route {
   static queries = {
@@ -282,25 +289,27 @@ class FavouriteStopListContainerRoute extends Relay.Route {
       query {
         stops(ids: $ids) {
           ${Component.getFragment('stops', {
-          ids: variables.ids,
+            ids: variables.ids,
+            date: variables.date,
         })}
       }
     }`,
-  }
+  };
   static paramDefinitions = {
     ids: {required: true},
-  }
-  static routeName = 'FavouriteStopListContainerRoute'
+    date: {required: true},
+  };
+  static routeName = 'FavouriteStopListContainerRoute';
 }
 
 var FavouriteStopListContainerFragments = {
-  stops: () => Relay.QL`
+  stops: ({date}) => Relay.QL`
     fragment on Stop @relay(plural:true){
       gtfsId
-      ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
+      ${require('./component/stop-cards/stop-card-container').getFragment('stop', {date})}
     }
   `,
-};
+}
 
 var StopCardContainerFragments = {
   stop: () => Relay.QL`
@@ -311,13 +320,15 @@ var StopCardContainerFragments = {
       }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }`
-};
+}
 
 var StopPageFragments = {
   stop: () =>  Relay.QL`
     fragment on Stop {
       lat
       lon
+      name
+      code
       routes {
         gtfsId
         shortName
@@ -331,7 +342,7 @@ var StopPageFragments = {
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
-};
+}
 
 var StopMapPageFragments = {
   stop: () =>  Relay.QL`
@@ -341,7 +352,7 @@ var StopMapPageFragments = {
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
-};
+}
 
 class StopMarkerLayerRoute extends Relay.Route {
   static queries = {
@@ -357,14 +368,14 @@ class StopMarkerLayerRoute extends Relay.Route {
         }
       }
     `,
-  }
+  };
   static paramDefinitions = {
     minLat: {required: true},
     minLon: {required: true},
     maxLat: {required: true},
     maxLon: {required: true},
-  }
-  static routeName = 'StopMarkerLayerRoute'
+  };
+  static routeName = 'StopMarkerLayerRoute';
 }
 
 var StopMarkerLayerFragments = {
@@ -397,13 +408,13 @@ var StopMarkerLayerFragments = {
 }
 
 var StopMarkerPopupFragments = {
-  stop: () => Relay.QL`
+  stop: ({date}) => Relay.QL`
     fragment on Stop{
       gtfsId
       lat
       lon
       name
-      ${require('./component/stop-cards/stop-card-container').getFragment('stop')}
+      ${require('./component/stop-cards/stop-card-container').getFragment('stop', {date})}
     }
   `,
 }
@@ -417,7 +428,7 @@ var StopCardHeaderFragments = {
       desc
     }
   `,
-};
+}
 
 var DepartureListFragments = {
   stoptimes: () => Relay.QL`
@@ -460,6 +471,10 @@ var TripPageFragments = {
     fragment on Trip {
       pattern {
         code
+        route {
+          shortName
+          longName
+        }
         ${require('./component/route/route-header-container').getFragment('pattern')}
         ${require('./component/route/route-map-container').getFragment('pattern')}
       }
@@ -471,6 +486,7 @@ var TripPageFragments = {
     }
   `,
 }
+
 var TripStopListFragments = {
   trip: () => Relay.QL`
     fragment on Trip {
@@ -491,7 +507,7 @@ var TripStopListFragments = {
       }
     }
   `,
-};
+}
 
 class FuzzyTripRoute extends Relay.Route {
   static queries = {
@@ -507,14 +523,14 @@ class FuzzyTripRoute extends Relay.Route {
         }
       }
     `,
-  }
+  };
   static paramDefinitions = {
     route: {required: true},
     direction: {required: true},
     time: {required: true},
     date: {required: true},
-  }
-  static routeName = 'FuzzyTripRoute'
+  };
+  static routeName = 'FuzzyTripRoute';
 }
 
 var TripLinkFragments = {
@@ -559,11 +575,11 @@ class FavouriteRouteRowRoute extends Relay.Route {
             ids: variables.ids
         })}
       }}`,
-  }
+  };
   static paramDefinitions = {
     ids: {required: true},
-  }
-  static routeName = 'FavouriteRouteRowRoute'
+  };
+  static routeName = 'FavouriteRouteRowRoute';
 }
 
 var FavouriteRouteRowFragments = {
@@ -578,7 +594,7 @@ var FavouriteRouteRowFragments = {
         type
       }
    `,
-};
+}
 
 class DisruptionInfoRoute extends Relay.Route {
   static queries = {
@@ -587,8 +603,8 @@ class DisruptionInfoRoute extends Relay.Route {
       viewer
     }
    `,
-  }
-  static routeName = 'DisruptionInfoRoute'
+  };
+  static routeName = 'DisruptionInfoRoute';
 }
 
 var DisruptionListContainerFragments = {
@@ -613,7 +629,7 @@ var DisruptionListContainerFragments = {
     }
   }
   `,
-};
+}
 
 var DisruptionInfoButtonFragments = {
   alerts: () => Relay.QL`
@@ -623,7 +639,7 @@ var DisruptionInfoButtonFragments = {
     }
   }
   `,
-};
+}
 
 module.exports = {
   StopQueries: StopQueries,
@@ -644,7 +660,7 @@ module.exports = {
   RouteLineFragments: RouteLineFragments,
   TripStopListFragments: TripStopListFragments,
   StopListContainerRoute: StopListContainerRoute,
-  NearStopListContainerFragments: NearStopListContainerFragments,
+  NearestStopListContainerFragments: NearestStopListContainerFragments,
   FavouriteRouteRowRoute:FavouriteRouteRowRoute,
   FavouriteRouteRowFragments:FavouriteRouteRowFragments,
   FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,

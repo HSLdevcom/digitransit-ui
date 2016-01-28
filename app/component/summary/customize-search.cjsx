@@ -138,7 +138,7 @@ class CustomizeSearch extends React.Component
       <section className="offcanvas-section">
         <Slider
           headerText={@context.intl.formatMessage(
-            {id: 'transfer-margin', defaultMessage: "Transfer margin"})}
+            {id: 'transfers-margin', defaultMessage: "Transfer margin"})}
           defaultValue={@context.getStore('ItinerarySearchStore').getMinTransferTime()}
           onSliderChange={(e) => @context.executeAction(ItinerarySearchAction.setMinTransferTime, e.target.value)}
           min={60}

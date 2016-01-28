@@ -9,7 +9,7 @@ moment            = require 'moment'
 STOP_COUNT = 5
 DEPARTURES_COUNT = 5
 
-class NearStopCardListContainer extends React.Component
+class NearestStopCardListContainer extends React.Component
   addStops: =>
     if !@props.stops.stopsByRadius.pageInfo.hasNextPage
       radius = @props.relay.variables.radius + 2000
@@ -26,6 +26,7 @@ class NearStopCardListContainer extends React.Component
                                         stop={edge.node.stop}
                                         distance={edge.node.distance}
                                         departures=DEPARTURES_COUNT
+                                        date={@props.relay.variables.date}
                                         className="padding-small"/>
     stopCards
 
@@ -34,13 +35,13 @@ class NearStopCardListContainer extends React.Component
       {@getStopCards()}
     </StopCardList>
 
-module.exports = Relay.createContainer(NearStopCardListContainer,
-  fragments: queries.NearStopListContainerFragments
+module.exports = Relay.createContainer(NearestStopCardListContainer,
+  fragments: queries.NearestStopListContainerFragments
   initialVariables:
     lat: null
     lon: null
     radius: 2000
     numberOfStops: STOP_COUNT
     agency: config.preferredAgency
-    date: moment().format("YYYYMMDD")
+    date: null
 )

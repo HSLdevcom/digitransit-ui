@@ -21,11 +21,18 @@ class NearestRoutesContainer extends React.Component
     @context.getStore('TimeStore').addChangeListener @onChange
     @setState({"useSpinner": false})
 
+  shouldComponentUpdate: (nextProps, nextState) =>
+    ## rerender only when location changes
+    if nextProps.lat == @props.lat && nextProps.lon == @props.lon
+      return false
+    true
+
   componentWillUnmount: ->
     @context.getStore('TimeStore').removeChangeListener @onChange
 
-  onChange: =>
-    @forceUpdate()
+  onChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
 
   render: =>
     <Relay.RootContainer

@@ -1,5 +1,6 @@
 React                  = require 'react'
 Relay                  = require 'react-relay'
+Helmet                 = require 'react-helmet'
 queries                = require '../queries'
 DefaultNavigation      = require '../component/navigation/default-navigation'
 Tabs                   = require 'react-simpletabs'
@@ -11,12 +12,13 @@ RealTimeClient         = require '../action/real-time-client-action'
 FormattedMessage       = require('react-intl').FormattedMessage
 NotImplementedAction   = require '../action/not-implemented-action'
 NotFound               = require './404.cjsx'
-
+intl                   = require 'react-intl'
 
 class RoutePage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    intl: intl.intlShape.isRequired
 
    @propTypes:
      pattern: React.PropTypes.node.isRequired
@@ -55,8 +57,19 @@ class RoutePage extends React.Component
     if @props.pattern == null
       <NotFound/>
     else
+      params =
+        route_short_name: @props.pattern.route.shortName
+        route_long_name: @props.pattern.route.longName
+
+      meta =
+        title: @context.intl.formatMessage {id: 'route-page.title', defaultMessage: 'Route {route_short_name}'}, params
+        meta: [
+          {name: 'description', content: @context.intl.formatMessage {id: 'route-page.description', defaultMessage: 'Route {route_short_name} - {route_long_name}'}, params}
+        ]
+
       <DefaultNavigation className="fullscreen">
-       <RouteHeaderContainer pattern={@props.pattern}/>
+        <Helmet {...meta} />
+        <RouteHeaderContainer pattern={@props.pattern}/>
         <Tabs className="route-tabs" onBeforeChange={@before}>
           <Tabs.Panel title={<FormattedMessage id='stops' defaultMessage='Stops' />}>
             <RouteListHeader/>

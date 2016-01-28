@@ -2,8 +2,6 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
-RouteListContainer    = require '../route/route-list-container'
-StopCardListContainer = require '../stop-cards/nearest-stop-card-list-container'
 ModeFilter            = require '../route/mode-filter'
 NoPositionPanel       = require './no-position-panel'
 Icon                  = require '../icon/icon.cjsx'
@@ -12,6 +10,7 @@ FavouritesPanel       = require '../favourites/favourites-panel'
 NearestRoutesContainer = require './nearest-routes-container'
 NearestStopsContainer = require './nearest-stops-container'
 {supportsHistory}     = require 'history/lib/DOMUtils'
+Feedback              = require '../../util/feedback'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -25,13 +24,26 @@ class FrontPagePanel extends React.Component
     location: React.PropTypes.object.isRequired
 
   componentDidMount: ->
+    @context.getStore('PositionStore').addChangeListener @onGeolocationChange
     @context.getStore('EndpointStore').addChangeListener @onChange
 
   componentWillUnmount: ->
+    @context.getStore('PositionStore').removeChangeListener @onGeolocationChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
+
+  onGeolocationChange: (status) =>
+    #We want to rerender only if position status changes,
+    #not if position changes
+    if status.statusChanged
+      @forceUpdate()
 
   onChange: =>
     @forceUpdate()
+
+  onReturnToFrontPage: ->
+    if Feedback.shouldDisplayPopup()
+      console.log("!!display popup!!")
+      Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(), "a", "b", "c")
 
   getSelectedPanel: =>
     if typeof window != 'undefined' and supportsHistory()
@@ -42,6 +54,7 @@ class FrontPagePanel extends React.Component
   selectPanel: (selection) =>
     oldSelection = @getSelectedPanel()
     if selection == oldSelection # clicks again to close
+      @onReturnToFrontPage()
       newSelection = null
     else
       newSelection = selection

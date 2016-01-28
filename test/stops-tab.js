@@ -12,11 +12,11 @@ suite('Stop tab', function () {
       });
 
       it('should open', function (browser) {
-        browser.expect.element('.frontpage-panel-wrapper').to.be.visible;
+        browser.expect.element('.frontpage-panel-wrapper').to.be.visible.before(browser.ELEMENT_VISIBLE_TIMEOUT);
       });
 
       it('should contain stop card', function (browser) {
-        browser.expect.element('.cards').to.be.present;
+        browser.expect.element('.cards .card:first-child .h4').to.be.present.before(browser.ELEMENT_VISIBLE_TIMEOUT);
         browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
       });
 
@@ -25,12 +25,8 @@ suite('Stop tab', function () {
           browser.setCurrentPosition(60.1661419, 24.9373367, 0, done);
         });
 
-        it('should not update stop tab yet', function (browser) {
-          browser.expect.element('.cards').to.be.present;
-          browser.expect.element('.cards .card:first-child .h4').text.to.contain('MÄKELÄNRINNE');
-        });
 
-        describe('but when stop tab is reopened', function () {
+        describe('and the tab is reopened', function () {
           before(function (browser, done) {
             browser.stopsTab.click(function () {
               browser.stopsTab.click(done);

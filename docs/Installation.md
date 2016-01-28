@@ -2,7 +2,7 @@
 - [Run application in Docker](Docker.md).
 
 ## Install requirements
-- Install Node.js
+- Install Node.js version 5 or newer
   (if you are on Debian, the distribution version is likely too old -
   in case of problems try https://deb.nodesource.com)
 - `sudo npm install -g npm@3`
@@ -29,6 +29,9 @@
 - `npm run start`
 - open: http://localhost:8080
 
+Note: on Windows, add "win-" prefix to the run commands above. For example: `npm run win-build`.
+The same applies to other npm run commands below.
+
 ## Analyse webpack bundle
 - run: `webpack -p --json > digitransit.json`
 - Upload `digitransit.json` to `http://webpack.github.io/analyse/`
@@ -39,6 +42,7 @@ Or you can also use this:
 ## Configure Git Hooks
 You should configure git pre-commit hook to run tests and lint. That can be done like so:
 - `ln -s ../../hooks/pre-commit.sh .git/hooks/pre-commit`
+- `ln -s ../../hooks/pre-push.sh .git/hooks/pre-push`
 
 ## Configuration application
 Digitransit ui can be configured in multiple ways. You can

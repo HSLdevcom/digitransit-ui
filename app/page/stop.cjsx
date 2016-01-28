@@ -1,5 +1,6 @@
 React              = require 'react'
 Relay              = require 'react-relay'
+Helmet             = require 'react-helmet'
 queries            = require '../queries'
 DefaultNavigation  = require '../component/navigation/default-navigation'
 Map                = require '../component/map/map'
@@ -9,22 +10,35 @@ FavouriteStopsAction = require '../action/favourite-stops-action'
 Link               = require 'react-router/lib/Link'
 Icon               = require '../component/icon/icon'
 moment             = require 'moment'
+intl               = require 'react-intl'
 
-class Page extends React.Component
+class StopPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
     history: React.PropTypes.object.isRequired
+    intl: intl.intlShape.isRequired
+
+  componentWillMount: ->
+    @props.relay.setVariables
+      date: @context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD')
 
   componentDidMount: ->
     @context.getStore('FavouriteStopsStore').addChangeListener @onChange
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
 
   componentWillUnmount: ->
     @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   onChange: (id) =>
     if !id or id == @props.params.stopId
       @forceUpdate()
+
+  onTimeChange: (e) =>
+    if e.currentTime
+      date = @context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD')
+      @props.relay.setVariables({date: date}, () => @forceUpdate())
 
   toggleFullscreenMap: =>
     @context.history.pushState null, "/pysakit/#{@props.params.stopId}/kartta"
@@ -35,7 +49,18 @@ class Page extends React.Component
       e.stopPropagation()
       @context.executeAction FavouriteStopsAction.addFavouriteStop, @props.params.stopId
 
+    params =
+        stop_name: @props.stop.name
+        stop_code: @props.stop.code
+
+    meta =
+      title: @context.intl.formatMessage {id: 'stop-page.title', defaultMessage: 'Stop {stop_name} - {stop_code}'}, params
+      meta: [
+        {name: 'description', content: @context.intl.formatMessage {id: 'stop-page.description', defaultMessage: 'Stop {stop_name} - {stop_code}'}, params}
+      ]
+
     <DefaultNavigation className="fullscreen stop">
+      <Helmet {...meta} />
       <StopCardHeader stop={@props.stop}
                       favourite={favourite}
                       addFavouriteStop={addFavouriteStop}
@@ -66,8 +91,8 @@ class Page extends React.Component
     </DefaultNavigation>
 
 
-module.exports = Relay.createContainer(Page,
+module.exports = Relay.createContainer(StopPage,
   fragments: queries.StopPageFragments,
   initialVariables:
-    date: moment().format("YYYYMMDD")
+    date: moment().format('YYYYMMDD') # will be reset later from TimeStore
 )

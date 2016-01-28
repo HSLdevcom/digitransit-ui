@@ -18,6 +18,7 @@
 @import '../app/component/route/route';
 @import '../app/component/trip/trip';
 @import '../app/component/summary/customize-search';
+@import '../app/component/summary/no-route-popup';
 @import '../app/component/summary/summary-row';
 @import '../app/component/disruption/disruption';
 @import '../app/component/departure/departure';
@@ -26,6 +27,8 @@
 @import '../app/component/util/not-implemented';
 @import '../app/component/city-bike/city-bike';
 @import '../app/component/map/stop/terminal-marker';
+@import '../app/component/feedback/feedback-panel';
+@import '../app/component/feedback/score-table';
 
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/forms';
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/top-bar';

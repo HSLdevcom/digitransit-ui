@@ -3,11 +3,11 @@ polyUtil = require 'polyline-encoded'
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
-create_wait_leg = (start_time, duration, point, placename) ->
+createWaitLeg = (startTime, duration, point, placename) ->
   leg =
     # OTP returns start and end times in milliseconds, but durations in seconds
     duration: duration / 1000
-    endTime: start_time + duration
+    endTime: startTime + duration
     from:
       lat: point[0]
       lon: point[1]
@@ -17,13 +17,13 @@ create_wait_leg = (start_time, duration, point, placename) ->
     mode: "WAIT"
     routeType: null # non-transit
     route: ""
-    startTime: start_time
+    startTime: startTime
   leg.to = leg.from
   return leg
 
-add_wait_legs = (data) ->
+addWaitLegs = (data) ->
   for itinerary in data.plan?.itineraries or []
-    new_legs = []
+    newLegs = []
     time = itinerary.startTime # tracks when next leg should start
 
     # Read wait threshold from config and change it to milliseconds
@@ -37,21 +37,21 @@ add_wait_legs = (data) ->
         if leg.mode == 'WALK'
           leg.mode = 'CITYBIKE_WALK'
 
-      wait_time = leg.startTime - time
+      waitTime = leg.startTime - time
       # If there's enough unaccounted time before a leg, add a wait leg
-      if wait_time > waitThreshold
-        new_legs.push(
-          create_wait_leg(time,
-                          wait_time,
+      if waitTime > waitThreshold
+        newLegs.push(
+          createWaitLeg(time,
+                          waitTime,
                           polyUtil.decode(leg.legGeometry.points)[0],
                           leg.from.name))
 
       time = leg.endTime  # next wait leg should start when this transit leg ends
 
       # Then add original leg
-      new_legs.push leg
+      newLegs.push leg
 
-    itinerary.legs = new_legs
+    itinerary.legs = newLegs
 
 itinerarySearchRequest = (actionContext, options, done) ->
   itinerarySearchStore = actionContext.getStore('ItinerarySearchStore')
@@ -62,10 +62,10 @@ itinerarySearchRequest = (actionContext, options, done) ->
   else
     options = itinerarySearchStore.getOptions()
   actionContext.dispatch "ItinerarySearchStarted"
-  time = actionContext.getStore("TimeStore").getTime()
+  time = actionContext.getStore("TimeStore").getSelectedTime()
   arriveBy = actionContext.getStore("TimeStore").getArriveBy()
-  if actionContext.getStore("TimeStore").status == "UNSET"
-    actionContext.dispatch "SetCurrentTime", time
+  unless actionContext.getStore("TimeStore").isSelectedTimeSet()
+    actionContext.dispatch "SetSelectedTime", time
   params =
     fromPlace: options.params.from
     toPlace: options.params.to
@@ -89,7 +89,7 @@ itinerarySearchRequest = (actionContext, options, done) ->
     params.maxWalkDistance = config.maxBikingDistance
 
   xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
-    add_wait_legs(data)
+    addWaitLegs(data)
     actionContext.dispatch "ItineraryFound", data
     done()
   , (err) ->
