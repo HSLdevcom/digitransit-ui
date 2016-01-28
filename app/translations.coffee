@@ -113,6 +113,8 @@ translations =
     'how-to-rate-service': 'Kuinka arvioisit palvelua?'
     'char-left': 'merkkiä'
     'send': 'Lähetä'
+    'very-likely': 'Erittäin todennäköistä'
+    'very-unlikely': 'Erittäin epätodennäköistä'
 
   'sv':
     'searching-position': 'Letar efter position'

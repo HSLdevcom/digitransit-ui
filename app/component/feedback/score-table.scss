@@ -2,9 +2,9 @@ $score-column-border-color: #E1E0E0;
 $score-column-border-radius: 5px;
 
 $selected-score-font-color: $white;
-$not-selected-score-font-color: #82959E;
+$not-selected-score-font-color: $gray-blue;
 
-$selected-score-background-color: #666666;
+$selected-score-background-color: $dark-gray;
 $not-selected-score-background-color: $white;
 
 .score-table__column {

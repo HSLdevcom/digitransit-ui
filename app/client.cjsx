@@ -19,6 +19,7 @@ piwik             = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, con
 PiwikProvider     = require './component/util/piwik-provider'
 dehydratedState   = window.state # Sent from the server
 Feedback          = require './util/feedback'
+FeedbackActions   = require './action/feedback-action'
 
 if process.env.NODE_ENV == 'development'
   require "../sass/themes/#{config.CONFIG}/main.scss"
@@ -60,8 +61,7 @@ app.rehydrate dehydratedState, (err, context) ->
               newHref = @history.createHref(@state.location)
               if @href != undefined && newHref == "/" && @href != newHref
                 if Feedback.shouldDisplayPopup()
-                  console.log("!!display popup!!")
-                  Feedback.recordResult(piwik, context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf(), "a", "b", "c")
+                  context.executeAction FeedbackActions.openFeedbackModal
               @href = newHref
               piwik.setCustomUrl(@history.createHref(@state.location))
               piwik.trackPageView()

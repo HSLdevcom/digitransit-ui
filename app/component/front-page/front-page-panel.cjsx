@@ -11,6 +11,7 @@ NearestRoutesContainer = require './nearest-routes-container'
 NearestStopsContainer = require './nearest-stops-container'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 Feedback              = require '../../util/feedback'
+FeedbackActions       = require '../../action/feedback-action'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -22,6 +23,7 @@ class FrontPagePanel extends React.Component
     piwik: React.PropTypes.object
     history: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
+    executeAction: React.PropTypes.func.isRequired
 
   componentDidMount: ->
     @context.getStore('PositionStore').addChangeListener @onGeolocationChange
@@ -42,8 +44,7 @@ class FrontPagePanel extends React.Component
 
   onReturnToFrontPage: ->
     if Feedback.shouldDisplayPopup()
-      console.log("!!display popup!!")
-      Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(), "a", "b", "c")
+      @context.executeAction FeedbackActions.openFeedbackModal
 
   getSelectedPanel: =>
     if typeof window != 'undefined' and supportsHistory()
