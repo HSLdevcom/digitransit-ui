@@ -49,8 +49,8 @@ module.exports =
     maxShownDistance: 5000
   map:
     useRetinaTiles: true
-  # Let Pelias suggest based on current user location
-  locationAwareSuggestions: false
+  autoSuggest:
+    locationAware: false
   showCityBikes: true
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15
