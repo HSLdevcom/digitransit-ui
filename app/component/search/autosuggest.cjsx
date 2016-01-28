@@ -62,7 +62,7 @@ class Autosuggest extends React.Component
   getSuggestions: (input, callback) =>
     geolocation = @context.getStore('PositionStore').getLocationState()
     if config.autoSuggest.locationAware && geolocation.hasLocation
-      opts = Object.assign(text: input, config.searchParams, "focus.point.lat":geolocation.lat,"focus.point.lon":geolocation.lon)
+      opts = Object.assign(text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon)
     else
       opts = Object.assign(text: input, config.searchParams)
 
