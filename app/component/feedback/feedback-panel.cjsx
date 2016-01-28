@@ -47,6 +47,7 @@ class FeedbackPanel extends React.Component
 
   closeModal: =>
     @context.executeAction FeedbackActions.closeFeedbackModal
+    Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf())
     @setState
       selectedNPS: undefined
       useThisMoreLikely: undefined
