@@ -7,10 +7,10 @@ geolocator = (actionContext) ->
 
 reverseGeocodeAddress = (actionContext, location, done) ->
 
-  xhrPromise.getJson(config.URL.PELIAS_REVERSE_GEOCODER +
-      "?point.lat=" + location.lat +
-      "&point.lon=" + location.lon +
-      "&size=1"
+  xhrPromise.getJson(config.URL.PELIAS_REVERSE_GEOCODER,
+      "point.lat": location.lat
+      "point.lon": location.lon
+      size: 1
   ).then (data) ->
     if data.features? && data.features.length > 0
       match = data.features[0].properties
