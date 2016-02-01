@@ -34,7 +34,7 @@ class PositionMarker extends React.Component
     @forceUpdate()
 
   render: ->
-    if @context.getStore('PositionStore').getLocationState().hasLocation
+    if @getLocation()
       <Marker
         map={@props.map}
         zIndexOffset=5
