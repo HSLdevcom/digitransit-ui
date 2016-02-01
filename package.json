@@ -33,6 +33,10 @@
   "browser": {
     "./app/config.coffee": "./app/config.client.coffee"
   },
+  "engineStrict": true,
+  "engines": {
+	"node": ">=5.0"
+  },
   "dependencies": {
     "babel": "6.3.26",
     "babel-core": "6.4.0",
