@@ -16,17 +16,26 @@ cx                 = require 'classnames'
 
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
 
-class ItineraryTabs extends React.Component
-  @contextTypes:
+ItineraryTabs = React.createClass
+  contextTypes:
     intl: intl.intlShape.isRequired
 
-  toggleFullscreenMap: =>
-    @setState ("fullscreen": !@state?.fullscreen)
+  getInitialState: ->
+    r=
+      "fullscreen": false
+      "lat": @props.itinerary.legs[0].from.lat
+      "lon": @props.itinerary.legs[0].from.lon
 
-  render: =>
+    console.log("initial state:", r);
+    r
+
+  toggleFullscreenMap: ->
+    @setState ("fullscreen": !@state.fullscreen)
+
+  render: ->
     numberOfLegs = @props.itinerary.legs.length
-    if @state?.fullscreen == true
-      <Map className={cx "fs-map", "fullsreen"} ref="map" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+    if @state.fullscreen == true
+      <Map className={cx "fs-map", "fullsreen"} ref="map2" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
         <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
           <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
         </div>
@@ -34,6 +43,7 @@ class ItineraryTabs extends React.Component
     else
       legs = []
       @props.itinerary.legs.forEach (leg, j) ->
+        console.log("leg:", leg);
         if leg.transitLeg
           legs.push <TransitLeg key={j} index={j} leg={leg}/>
         else
@@ -47,7 +57,7 @@ class ItineraryTabs extends React.Component
             onTouchStart={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
             >
-            <Map ref="map" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+            <Map ref="map" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
               <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
                 <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
               </div>
