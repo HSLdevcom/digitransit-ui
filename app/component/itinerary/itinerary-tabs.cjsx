@@ -32,6 +32,12 @@ class ItineraryTabs extends React.Component
     leafletObj = <ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
 
     <div>
+          <div
+            onTouchStart={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
+            >
+            <Map ref="map" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to} padding={[0, 0]}/>
+          </div>
       <Tabs className="itinerary-tabs">
         <Tabs.Panel className="fullscreen">
           <div>
@@ -43,12 +49,6 @@ class ItineraryTabs extends React.Component
           </div>
         </Tabs.Panel>
         <Tabs.Panel>
-          <div
-            onTouchStart={(e) => e.stopPropagation()}
-            onMouseDown={(e) => e.stopPropagation()}
-            >
-            <Map ref="map" className="fullscreen" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to} padding={[0, 0]}/>
-          </div>
         </Tabs.Panel>
       </Tabs>
     </div>
