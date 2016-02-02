@@ -1,17 +1,16 @@
-React  = require 'react'
-Tabs   = require 'react-simpletabs'
-
+React              = require 'react'
+Tabs               = require 'react-simpletabs'
 TransitLeg         = require './transit-leg'
 WalkLeg            = require './walk-leg'
 EndLeg             = require './end-leg'
 TicketInformation  = require './ticket-information'
+RouteInformation   = require './route-information'
 ItinerarySummary   = require './itinerary-summary'
 Map                = require '../map/map'
 ItineraryLine      = require '../map/itinerary-line'
-TimeFrame = require './time-frame'
-config        = require '../../config'
-
-intl = require 'react-intl'
+TimeFrame          = require './time-frame'
+config             = require '../../config'
+intl               = require 'react-intl'
 
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
 
@@ -45,6 +44,7 @@ class ItineraryTabs extends React.Component
               <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
             </ItinerarySummary>
             {legs}
+            <RouteInformation/>
             {ticketInformation}
           </div>
         </Tabs.Panel>
