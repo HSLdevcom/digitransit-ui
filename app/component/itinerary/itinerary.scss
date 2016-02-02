@@ -5,10 +5,9 @@
 $itinerary-summary-height: 2.5em;
 $itinerary-bottom-navigation-height: 2em;
 $itinerary-tabs-height: 3em;
-$itinerary-navigate-icon-size: 50px;
 
 .itinerary-tabs {
-  height: calc(100% - #{$itinerary-bottom-navigation-height} - 40px);
+  height: calc(100% - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height});
   .tabs-navigation ul li a {
     line-height: 1;
   }
@@ -16,7 +15,7 @@ $itinerary-navigate-icon-size: 50px;
     height: 100%;
     padding-bottom: $itinerary-bottom-navigation-height;
     > div > div {
-      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$itinerary-tabs-height} - #{$itinerary-summary-height} - 40px);
+      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$itinerary-tabs-height} - #{$itinerary-summary-height} - #{$top-navigation-height});
       overflow-y: auto;
       background: $white;
     }
