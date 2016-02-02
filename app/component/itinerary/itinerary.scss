@@ -38,6 +38,12 @@ $itinerary-tab-switch-height: 28px;
   }
 }
 
+div.fs-map  {
+  height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height}) ;
+  div.leaflet-container {
+    height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height}) ;
+  }
+}
 
 .tabs-navigation {
   height: 0px;

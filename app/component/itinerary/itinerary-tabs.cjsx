@@ -12,6 +12,7 @@ TimeFrame          = require './time-frame'
 config             = require '../../config'
 intl               = require 'react-intl'
 Icon               = require '../icon/icon'
+cx                 = require 'classnames'
 
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
 
@@ -19,47 +20,53 @@ class ItineraryTabs extends React.Component
   @contextTypes:
     intl: intl.intlShape.isRequired
 
-  toggleFullscreenMap: ->
-    setState fullscreen: !fullscreen
+  toggleFullscreenMap: =>
+    @setState ("fullscreen": !@state?.fullscreen)
 
-  render: ->
+  render: =>
     numberOfLegs = @props.itinerary.legs.length
-
-    legs = []
-    @props.itinerary.legs.forEach (leg, j) ->
-      if leg.transitLeg
-        legs.push <TransitLeg key={j} index={j} leg={leg}/>
-      else
-        legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs}/>
-    legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
-
-    leafletObj = <ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
-
-    <div>
-        <div
-          onTouchStart={(e) => e.stopPropagation()}
-          onMouseDown={(e) => e.stopPropagation()}
-          >
-          <Map ref="map" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
-            <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
-              <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
-            </div>
-          </Map>
+    if @state?.fullscreen == true
+      <Map className={cx "fs-map", "fullsreen"} ref="map" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+        <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
+          <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
         </div>
-      <Tabs className="itinerary-tabs">
-        <Tabs.Panel className="fullscreen">
-          <div>
-            <ItinerarySummary itinerary={@props.itinerary}>
-              <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
-            </ItinerarySummary>
-            {legs}
-            <RouteInformation/>
-            {ticketInformation}
+      </Map>
+    else
+      legs = []
+      @props.itinerary.legs.forEach (leg, j) ->
+        if leg.transitLeg
+          legs.push <TransitLeg key={j} index={j} leg={leg}/>
+        else
+          legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs}/>
+      legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
+
+      leafletObj = null#<ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
+
+      <div>
+          <div
+            onTouchStart={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
+            >
+            <Map ref="map" leafletObjs={leafletObj} fitBounds={true} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+              <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
+                <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
+              </div>
+            </Map>
           </div>
-        </Tabs.Panel>
-        <Tabs.Panel>
-        </Tabs.Panel>
-      </Tabs>
-    </div>
+        <Tabs className="itinerary-tabs">
+          <Tabs.Panel className="fullscreen">
+            <div>
+              <ItinerarySummary itinerary={@props.itinerary}>
+                <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
+              </ItinerarySummary>
+              {legs}
+              <RouteInformation/>
+              {ticketInformation}
+            </div>
+          </Tabs.Panel>
+          <Tabs.Panel>
+          </Tabs.Panel>
+        </Tabs>
+      </div>
 
 module.exports = ItineraryTabs
