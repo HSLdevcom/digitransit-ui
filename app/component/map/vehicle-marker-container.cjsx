@@ -22,12 +22,14 @@ class VehicleMarkerContainer extends React.Component
     executeAction: React.PropTypes.func.isRequired
     history: React.PropTypes.object.isRequired
 
-  @vehicleIcons: if !isBrowser then null else
-    bus: L.divIcon(html: Icon.asString('icon-icon_bus-live'), className: 'vehicle-icon bus', iconSize: [20, 20], iconAnchor: [10, 10])
-    tram: L.divIcon(html: Icon.asString('icon-icon_tram-live'), className: 'vehicle-icon tram', iconSize: [20, 20], iconAnchor: [10, 10])
-    rail: L.divIcon(html: Icon.asString('icon-icon_rail-live'), className: 'vehicle-icon rail', iconSize: [20, 20], iconAnchor: [10, 10])
-    subway: L.divIcon(html: Icon.asString('icon-icon_subway-live'), className: 'vehicle-icon subway', iconSize: [20, 20], iconAnchor: [10, 10])
-    ferry: L.divIcon(html: Icon.asString('icon-icon_ferry-live'), className: 'vehicle-icon ferry', iconSize: [20, 20], iconAnchor: [10, 10])
+  getVehicleIcon: (mode, heading) =>
+    if !isBrowser then return null
+    switch mode
+      when "bus" then L.divIcon(html: Icon.asString('icon-icon_bus-live'), className: 'vehicle-icon bus', iconSize: [20, 20], iconAnchor: [10, 10])
+      when "tram" then L.divIcon(html: Icon.asStringWithTail('icon-icon_tram-live', '', undefined, heading), className: 'vehicle-icon tram', iconSize: [20, 20], iconAnchor: [10, 10])
+      when "rail" then L.divIcon(html: Icon.asString('icon-icon_rail-live'), className: 'vehicle-icon rail', iconSize: [20, 20], iconAnchor: [10, 10])
+      when "subway" then L.divIcon(html: Icon.asString('icon-icon_subway-live'), className: 'vehicle-icon subway', iconSize: [20, 20], iconAnchor: [10, 10])
+      when "ferry" then L.divIcon(html: Icon.asString('icon-icon_ferry-live'), className: 'vehicle-icon ferry', iconSize: [20, 20], iconAnchor: [10, 10])
 
   constructor: () ->
     @vehicles = {}
@@ -50,7 +52,7 @@ class VehicleMarkerContainer extends React.Component
     message = @context.getStore('RealTimeInformationStore').getVehicle(id)
     @updateVehicle(id, message)
 
-  updateVehicle: (id, message) ->
+  updateVehicle: (id, message) =>
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = {"height": 150}
 
@@ -70,7 +72,8 @@ class VehicleMarkerContainer extends React.Component
       <Marker map={@props.map}
               key={id}
               position={lat: message.lat, lng: message.long}
-              icon={VehicleMarkerContainer.vehicleIcons[message.mode]}>
+              icon={@getVehicleIcon(message.mode, message.heading)}>
+        <span>{message.heading}</span>
         <DynamicPopup options=popupOptions>
           {popup}
         </DynamicPopup>

@@ -34,6 +34,7 @@ parseMessage = (topic, message, actionContext) ->
     timestamp: parsedMessage.tsi
     lat: parsedMessage.lat
     long: parsedMessage.long
+    heading: parsedMessage.hdg
   actionContext.dispatch "RealTimeClientMessage",
     id: id
     message: messageContents
