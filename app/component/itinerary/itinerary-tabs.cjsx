@@ -32,24 +32,17 @@ class ItineraryTabs extends React.Component
     leafletObj = <ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
 
     <div>
-      <ItinerarySummary itinerary={@props.itinerary}>
-        <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
-      </ItinerarySummary>
       <Tabs className="itinerary-tabs">
-        <Tabs.Panel
-          title={@context.intl.formatMessage(
-            {id: 'instructions', defaultMessage: "Instructions"})}
-          className="fullscreen">
+        <Tabs.Panel className="fullscreen">
           <div>
-            {ticketInformation}
+            <ItinerarySummary itinerary={@props.itinerary}>
+              <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
+            </ItinerarySummary>
             {legs}
+            {ticketInformation}
           </div>
         </Tabs.Panel>
-        <Tabs.Panel
-          title={@context.intl.formatMessage({
-            id: 'map',
-            defaultMessage: "Map"
-          })}>
+        <Tabs.Panel>
           <div
             onTouchStart={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
