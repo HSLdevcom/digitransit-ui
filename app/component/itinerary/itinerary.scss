@@ -8,9 +8,6 @@ $itinerary-tabs-height: 3em;
 
 .itinerary-tabs {
   height: calc(100% - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height});
-  .tabs-navigation ul li a {
-    line-height: 1;
-  }
   article.tab-panel {
     height: 100%;
     padding-bottom: $itinerary-bottom-navigation-height;
@@ -20,6 +17,11 @@ $itinerary-tabs-height: 3em;
       background: $white;
     }
   }
+}
+
+.tabs-navigation {
+  height: 0px;
+  padding: 0;
 }
 
 .itinerary-summary {
