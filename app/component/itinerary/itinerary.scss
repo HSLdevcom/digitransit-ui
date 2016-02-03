@@ -185,10 +185,13 @@ div.fs-map  {
 
 .row.itinerary-route-information {
   text-align: center;
-  left: 1em;
-  right: 1em;
+  left: 2em;
+  right: 2em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   border-top: solid 1px $light-gray;
   border-bottom: solid 1px $light-gray;
+  width: calc(100% - 2em);
   div {
     border-right: solid 1px $light-gray;
 

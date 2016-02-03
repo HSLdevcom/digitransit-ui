@@ -6,7 +6,6 @@ Icon               = require '../icon/icon'
 class TicketInformation extends React.Component
 
   render: ->
-
     <div className="itinerary-route-information row">
       <div className="small-6 columns">
         <FormattedMessage id='weather-at-destination'
