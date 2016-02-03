@@ -15,7 +15,7 @@ class WalkLeg extends React.Component
         </div>
         <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
       </div>
-      <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
+      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         {if @props.index == 0
           <div>
             <FormattedMessage id="start-journey-place"

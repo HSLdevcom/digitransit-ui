@@ -34,7 +34,7 @@ class TransitLeg extends React.Component
           />
         </div>
       </Link>
-      <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
+      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
         {if @props.index == 0
           <div>
             <FormattedMessage id='start-journey-stop'

@@ -21,16 +21,18 @@ ItineraryTabs = React.createClass
     intl: intl.intlShape.isRequired
 
   getInitialState: ->
-    r=
-      "fullscreen": false
-      "lat": @props.itinerary.legs[0].from.lat
-      "lon": @props.itinerary.legs[0].from.lon
-
-    console.log("initial state:", r);
-    r
+    "fullscreen": false
+    "lat": @props.itinerary.legs[0].from.lat
+    "lon": @props.itinerary.legs[0].from.lon
 
   toggleFullscreenMap: ->
     @setState ("fullscreen": !@state.fullscreen)
+
+  focusMap: (leg) ->
+    @setState (
+      "lat": leg.from.lat
+      "lon": leg.from.lon
+    )
 
   render: ->
     numberOfLegs = @props.itinerary.legs.length
@@ -49,12 +51,12 @@ ItineraryTabs = React.createClass
 
     else
       legs = []
-      @props.itinerary.legs.forEach (leg, j) ->
-        console.log("leg:", leg);
+      @props.itinerary.legs.forEach (leg, j) =>
+        focus=()=>@focusMap(leg)
         if leg.transitLeg
-          legs.push <TransitLeg key={j} index={j} leg={leg}/>
+          legs.push <TransitLeg key={j} index={j} leg={leg} focusAction={focus}/>
         else
-          legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs}/>
+          legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
       legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
 
 
