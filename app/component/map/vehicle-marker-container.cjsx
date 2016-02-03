@@ -35,9 +35,9 @@ class VehicleMarkerContainer extends React.Component
       when "ferry" then L.divIcon(html: tailIcon + Icon.asString('icon-icon_ferry-live'), className: 'vehicle-icon ferry', iconSize: [20, 20], iconAnchor: [10, 10])
 
   getTailIcon: (mode, heading) =>
-    return """<svg viewBox="0 0 40 40" className="#{mode}" style="position: absolute; top: -20; left: -20; fill: currentColor;" width="60px" height="60px">
+    return """<span><svg viewBox="0 0 40 40" className="#{mode}" style="position: absolute; top: -20px; left: -20px; fill: currentColor;" width="60px" height="60px">
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_vehicle-live-shadow" transform="rotate(#{heading} 20 20)"/>
-    </svg>"""
+    </svg></span>"""
 
   constructor: () ->
     @vehicles = {}
