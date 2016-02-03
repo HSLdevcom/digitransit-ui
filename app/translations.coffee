@@ -115,7 +115,8 @@ translations =
     'send': 'Lähetä'
     'very-likely': 'Erittäin todennäköistä'
     'very-unlikely': 'Erittäin epätodennäköistä'
-
+    'weather-at-destination': 'Sää määränpäässä'
+    'trip-co2-emissions': 'Reitin CO2 päästöt'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -210,5 +211,7 @@ translations =
     'show-departures': 'Visa avgångar'
     'no-route-msg': 'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.'
     'close': 'Stäng'
+    'weather-at-destination': 'Vädret på destinationen'
+    'trip-co2-emissions': 'Längs CO2-utsläpp'
 
 module.exports = translations
