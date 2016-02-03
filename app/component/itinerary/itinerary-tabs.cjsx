@@ -34,8 +34,9 @@ ItineraryTabs = React.createClass
 
   render: ->
     numberOfLegs = @props.itinerary.legs.length
+    leafletObj = <ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
     if @state.fullscreen == true
-      <Map className={cx "fs-map", "fullsreen"} ref="map2" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+      <Map className={cx "fs-map"} ref="map2" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
         <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
           <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
         </div>
@@ -50,7 +51,6 @@ ItineraryTabs = React.createClass
           legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs}/>
       legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
 
-      leafletObj = null#<ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
 
       <div>
           <div
