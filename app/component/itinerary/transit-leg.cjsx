@@ -42,7 +42,7 @@ class TransitLeg extends React.Component
           </div>
         else
           false}
-        <div>{@props.leg.from.name}</div>
+        <div>{@props.leg.from.name} <span className="itinerary-stop-code">{@props.leg.from.stopCode}</span></div>
         <div>{if @props.leg.headsign
           <FormattedMessage
             id='route-with-headsign'

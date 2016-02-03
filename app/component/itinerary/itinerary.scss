@@ -201,6 +201,13 @@ div.fs-map  {
   }
 }
 
+span.itinerary-stop-code {
+  border: solid 1px $light-gray;
+  border-radius: 2px;
+  padding: 1px 4px;
+  font-size: 70%;
+}
+
 .row.itinerary-bottom-navigation {
   position: fixed;
   bottom: 0;
@@ -337,7 +344,7 @@ div.slick-slider {
     display: block;
     text-align: center;
     padding: 0;
-    margin-bottom: -10px;
+    margin-bottom: 0px;
     width: 100%;
     li {
         position: relative;
