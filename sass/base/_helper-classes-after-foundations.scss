@@ -1,0 +1,19 @@
+/*
+  Helper Classes
+  These classes may be used through out the application on any DOM-element
+  Foundation css is loaded before this
+*/
+
+@media #{$small-up} {
+  // https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/
+  .momentum-scroll {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media #{$large-up} {
+  .momentum-scroll {
+    overflow-y: auto;
+  }
+}
