@@ -2,7 +2,7 @@ React = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Link                  = require 'react-router/lib/Link'
-Icon                  = require '../icon/icon'
+IconWithTail          = require '../icon/icon-with-tail'
 cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
 FormattedMessage      = require('react-intl').FormattedMessage
@@ -11,7 +11,7 @@ class TripLink extends React.Component
 
   render: ->
     icon =
-      <Icon
+      <IconWithTail
         className={cx @props.routeType, 'large-icon'}
         img={'icon-icon_' + @props.routeType + '-live'}
       />

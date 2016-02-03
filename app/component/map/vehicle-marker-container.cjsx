@@ -8,6 +8,7 @@ Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 L             = if isBrowser then require 'leaflet' else null
 RealTimeInformationAction = require '../../action/real-time-client-action'
 Icon          = require '../icon/icon'
+cx            = require 'classnames'
 
 popupOptions =
   offset: [106, 3]
@@ -23,13 +24,20 @@ class VehicleMarkerContainer extends React.Component
     history: React.PropTypes.object.isRequired
 
   getVehicleIcon: (mode, heading) =>
+    tailIcon = if heading? then @getTailIcon(mode, heading) else ""
+
     if !isBrowser then return null
     switch mode
-      when "bus" then L.divIcon(html: Icon.asString('icon-icon_bus-live'), className: 'vehicle-icon bus', iconSize: [20, 20], iconAnchor: [10, 10])
-      when "tram" then L.divIcon(html: Icon.asStringWithTail('icon-icon_tram-live', '', undefined, heading), className: 'vehicle-icon tram', iconSize: [20, 20], iconAnchor: [10, 10])
-      when "rail" then L.divIcon(html: Icon.asString('icon-icon_rail-live'), className: 'vehicle-icon rail', iconSize: [20, 20], iconAnchor: [10, 10])
-      when "subway" then L.divIcon(html: Icon.asString('icon-icon_subway-live'), className: 'vehicle-icon subway', iconSize: [20, 20], iconAnchor: [10, 10])
-      when "ferry" then L.divIcon(html: Icon.asString('icon-icon_ferry-live'), className: 'vehicle-icon ferry', iconSize: [20, 20], iconAnchor: [10, 10])
+      when "bus" then L.divIcon(html: tailIcon + Icon.asString('icon-icon_bus-live'), className: 'vehicle-icon bus', iconSize: [20, 20], iconAnchor: [10, 10])
+      when "tram" then L.divIcon(html: tailIcon + Icon.asString('icon-icon_tram-live'), className: 'vehicle-icon tram', iconSize: [20, 20], iconAnchor: [10, 10])
+      when "rail" then L.divIcon(html: tailIcon + Icon.asString('icon-icon_rail-live'), className: 'vehicle-icon rail', iconSize: [20, 20], iconAnchor: [10, 10])
+      when "subway" then L.divIcon(html: tailIcon + Icon.asString('icon-icon_subway-live'), className: 'vehicle-icon subway', iconSize: [20, 20], iconAnchor: [10, 10])
+      when "ferry" then L.divIcon(html: tailIcon + Icon.asString('icon-icon_ferry-live'), className: 'vehicle-icon ferry', iconSize: [20, 20], iconAnchor: [10, 10])
+
+  getTailIcon: (mode, heading) =>
+    return """<svg viewBox="0 0 40 40" className="#{mode}" style="position: absolute; top: -20; left: -20; fill: currentColor;" width="60px" height="60px">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_vehicle-live-shadow" transform="rotate(#{heading} 20 20)"/>
+    </svg>"""
 
   constructor: () ->
     @vehicles = {}
