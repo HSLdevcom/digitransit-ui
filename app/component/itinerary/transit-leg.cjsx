@@ -9,6 +9,13 @@ FormattedMessage = intl.FormattedMessage
 
 class TransitLeg extends React.Component
 
+  stopCode: (leg) ->
+    console.log(leg);
+    if leg.from.stopCode != undefined
+      <span className="itinerary-stop-code">{leg.from.stopCode}</span>
+    else
+      undefined
+
   render: ->
     originalTime = if @props.leg.realTime and @props.leg.departureDelay >= config.itinerary.delayThreshold then [
       <br/>,
@@ -42,7 +49,7 @@ class TransitLeg extends React.Component
           </div>
         else
           false}
-        <div>{@props.leg.from.name} <span className="itinerary-stop-code">{@props.leg.from.stopCode}</span></div>
+        <div>{@props.leg.from.name} {@stopCode(@props.leg)}</div>
         <div>{if @props.leg.headsign
           <FormattedMessage
             id='route-with-headsign'
