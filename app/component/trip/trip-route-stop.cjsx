@@ -1,6 +1,6 @@
 React           = require 'react'
 Link            = require 'react-router/lib/Link'
-Icon            = require '../icon/icon'
+IconWithTail    = require '../icon/icon-with-tail'
 moment          = require 'moment'
 cx              = require 'classnames'
 WalkDistance    = require '../itinerary/walk-distance'
@@ -18,7 +18,7 @@ class TripRouteStop extends React.Component
   render: ->
     vehicles = []
     if @props.vehicle
-      vehicles.push <Icon id="now"
+      vehicles.push <IconWithTail id="now"
                           key={@props.vehicle.id}
                           className={cx @props.mode, 'large-icon'}
                           img={"icon-icon_#{@props.mode}-live"}

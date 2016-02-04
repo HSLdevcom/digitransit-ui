@@ -104,6 +104,18 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
     min-height: 1px;
     .route-now-content {
       padding-top: 10px;
+
+      & svg {
+        position: absolute;
+        z-index: 1;
+        &.tail {
+          left: -7px;
+          top: -17px;
+          z-index: 0;
+          width: 50px;
+          height: 50px;
+        }
+      }
     }
   }
 }
@@ -146,6 +158,14 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
     top: -40px;
     right: -22px;
     z-index: 1;
+    &.tail {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top: -57px;
+      right: -39px;
+      z-index: 0;
+    }
   }
 }
 
