@@ -452,6 +452,7 @@ var DepartureListFragments = {
         headsign
       }
       stoptimes {
+        realtimeState
         realtimeDeparture
         realtime
         serviceDay
