@@ -42,7 +42,7 @@ ItineraryTabs = React.createClass
         onTouchStart={(e) => e.stopPropagation()}
         onMouseDown={(e) => e.stopPropagation()}
         >
-        <Map className={cx "fs-map"} ref="map2" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+        <Map className="fullscreen" ref="map2" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
             <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
               <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
             </div>
