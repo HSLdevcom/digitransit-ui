@@ -74,7 +74,7 @@ class SummaryPage extends React.Component
     activeIndex = @getActiveIndex()
 
     data = @context.getStore('ItinerarySearchStore').getData()
-    currentTime = @context.getStore('TimeStore').getCurrentTime()
+    currentTime = @context.getStore('TimeStore').getCurrentTime().valueOf()
     plan = data.plan
     if plan
       summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"

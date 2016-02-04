@@ -227,9 +227,11 @@ div.route-tabs {
     background: white;
     height: calc(100% - 1.2em - 8px);
     > div {
+      @extend .momentum-scroll;
       height: 100%;
       overflow: auto;
     }
+
   }
   height: calc(100% - #{$route-header-height} - 14px);
 }
