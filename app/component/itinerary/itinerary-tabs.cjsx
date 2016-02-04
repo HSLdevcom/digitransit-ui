@@ -38,7 +38,7 @@ ItineraryTabs = React.createClass
     numberOfLegs = @props.itinerary.legs.length
     leafletObj = <ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
     if @state.fullscreen == true
-      <div style={"height":"100%"}
+      <div style={"height": "100%"}
         onTouchStart={(e) => e.stopPropagation()}
         onMouseDown={(e) => e.stopPropagation()}
         >
@@ -52,7 +52,7 @@ ItineraryTabs = React.createClass
     else
       legs = []
       @props.itinerary.legs.forEach (leg, j) =>
-        focus=()=>@focusMap(leg)
+        focus = () => @focusMap(leg)
         if leg.transitLeg
           legs.push <TransitLeg key={j} index={j} leg={leg} focusAction={focus}/>
         else

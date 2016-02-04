@@ -10,7 +10,6 @@ FormattedMessage = intl.FormattedMessage
 class TransitLeg extends React.Component
 
   stopCode: (leg) ->
-    console.log(leg);
     if leg.from.stopCode != undefined
       <span className="itinerary-stop-code">{leg.from.stopCode}</span>
     else
