@@ -1,11 +1,14 @@
 React       = require 'react'
 timeUtils   = require '../../util/time-utils'
 cx          = require 'classnames'
+Icon        = require '../icon/icon'
 ComponentUsageExample = require '../documentation/component-usage-example'
 Example = require '../documentation/example-data'
 
 DepartureTime = (props) ->
+  canceled = <Icon img={'icon-icon_caution'} className={'icon cancelation-info'} /> if props.canceled
   <span style={props.style} className={cx "time", "realtime": props.realtime}>
+    {canceled}
     {timeUtils.renderDepartureStoptime props.departureTime, props.realtime, props.currentTime}
   </span>
 
