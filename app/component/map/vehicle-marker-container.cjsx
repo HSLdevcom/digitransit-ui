@@ -8,7 +8,6 @@ Marker        = if isBrowser then require 'react-leaflet/lib/Marker' else null
 L             = if isBrowser then require 'leaflet' else null
 RealTimeInformationAction = require '../../action/real-time-client-action'
 Icon          = require '../icon/icon'
-cx            = require 'classnames'
 
 popupOptions =
   offset: [106, 3]
