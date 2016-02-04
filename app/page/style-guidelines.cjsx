@@ -1,5 +1,6 @@
 React              = require 'react'
 Icon               = require '../component/icon/icon'
+IconWithTail       = require '../component/icon/icon-with-tail'
 Link               = require('react-router/lib/Link').Link
 # React Components
 ComponentDocumentation = require '../component/documentation/component-documentation'
@@ -331,6 +332,11 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=CityBikePopup />
     </div>
 
+  getIconComponents: ->
+    <div>
+      <ComponentDocumentation component=IconWithTail />
+    </div>
+
   render: ->
     <div className="container column">
       <h1>UI Elements</h1>
@@ -369,6 +375,7 @@ class StyleGuidelinesPage extends React.Component
 
       {@getDepartureMolecules()}
       {@getCardComponents()}
+      {@getIconComponents()}
 
       <p></p>
     </div>

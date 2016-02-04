@@ -1,5 +1,6 @@
 React = require 'react'
 cx = require 'classnames'
+ComponentUsageExample = require '../documentation/component-usage-example'
 
 IconWithTail = (props) ->
   <span>
@@ -13,6 +14,21 @@ IconWithTail = (props) ->
 
 IconWithTail.displayName = "IconWithTail"
 
-IconWithTail.description = "Shows an icon from the SVG sprite and adds 'tail' to north"
+IconWithTail.description =
+  <div>
+    <p>Shows an icon from the SVG sprite and adds 'tail' to north.</p>
+    <p>Note! At the moment you will have to move tail using css.</p>
+    <ComponentUsageExample description="">
+      <IconWithTail
+        className='bus'
+        img={'icon-icon_bus-live'}
+      />
+    </ComponentUsageExample>
+  </div>
+
+IconWithTail.propTypes =
+  id: React.PropTypes.string
+  className: React.PropTypes.string
+  img: React.PropTypes.string.isRequired
 
 module.exports = IconWithTail
