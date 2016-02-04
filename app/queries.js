@@ -454,6 +454,7 @@ var DepartureListFragments = {
       stoptimes {
         realtimeState
         realtimeDeparture
+        scheduledDeparture
         realtime
         serviceDay
         stop {

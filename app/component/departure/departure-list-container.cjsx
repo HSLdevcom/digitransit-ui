@@ -34,7 +34,7 @@ class DepartureListContainer extends React.Component
       pattern.stoptimes.map (stoptime) ->
         stop: stoptime.stop
         canceled: stoptime.realtimeState == 'CANCELED' or (window.mock && stoptime.realtimeDeparture % 40 == 0)
-        stoptime: stoptime.serviceDay + stoptime.realtimeDeparture
+        stoptime: stoptime.serviceDay + (if stoptime.realtimeState == 'CANCELED' then stoptime.scheduledDeparture else stoptime.realtimeDeparture)
         realtime: stoptime.realtime
         pattern: pattern.pattern
         trip: stoptime.trip
