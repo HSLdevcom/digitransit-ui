@@ -1,7 +1,7 @@
-React = require 'react'
+React  = require 'react'
 moment = require 'moment'
-
-intl = require('react-intl')
+Icon   = require '../icon/icon'
+intl   = require('react-intl')
 FormattedMessage = intl.FormattedMessage
 
 class EndLeg extends React.Component
@@ -14,8 +14,11 @@ class EndLeg extends React.Component
         </div>
       </div>
       <div className="small-10 columns itinerary-instruction-column to">
+        <div>
+          <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to"/>
+        </div>
         <div><FormattedMessage id='end-journey'
-                               defaultMessage='End journey at' /></div>
+                defaultMessage='End journey at' /></div>
         <div>{@props.to}</div>
       </div>
     </div>

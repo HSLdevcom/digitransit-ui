@@ -198,7 +198,7 @@ ul.offcanvas-list {
 .content {
   background-color: $content-background-color;
   position: relative;
-  height: calc(100% - 40px);
+  height: calc(100% - #{$top-navigation-height});
 }
 
 /* Subnavigation */
