@@ -53,7 +53,7 @@ class RouteStopListContainer extends React.Component
     stopObjs
 
   render: ->
-    <div className={cx "route-stop-list", @props.className}>
+    <div className={cx "route-stop-list momentum-scroll", @props.className}>
       {@getStops()}
     </div>
 
