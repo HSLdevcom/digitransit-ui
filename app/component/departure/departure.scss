@@ -33,8 +33,9 @@
 
 .time {
   font-weight: $font-weight-bold;
-  width: 3em;
-  margin-right: 1em;
+  width: 4.2em;
+  margin-right: 0.5em;
+  padding-right: 0.5em;
   text-align: right;
 }
 .vehicle-number {
@@ -66,4 +67,38 @@
 
 .leaflet-map-pane .departure svg {
     z-index: 0;
+}
+
+.cancelation-info {
+    width: 12px;
+    height: 12px;
+    stroke: $white;
+    color: $cancelation-red;
+    margin: 0 0.5em;
+}
+
+.canceled {
+    .time {
+        position: relative;
+        display: inline-block;
+        color: $cancelation-black;
+        background-color: $cancelation-background;
+        border-radius: $border-radius;
+        &::before,
+        &::after {
+            content: '';
+            width: 2em;
+            position: absolute;
+            left: 1.75em;
+            top: 50%;
+            opacity: 0.5;
+            border-bottom: 1px solid $cancelation-red;
+        }
+        &::before {
+            transform: skewY(-30deg);
+        }
+        &::after {
+            transform: skewY(30deg);
+        }
+    }
 }

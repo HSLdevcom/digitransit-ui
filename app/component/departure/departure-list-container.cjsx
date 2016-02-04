@@ -33,6 +33,7 @@ class DepartureListContainer extends React.Component
     stoptimes.map (pattern) ->
       pattern.stoptimes.map (stoptime) ->
         stop: stoptime.stop
+        canceled: stoptime.realtimeState == 'CANCELED' or (window.mock && stoptime.realtimeDeparture % 40 == 0)
         stoptime: stoptime.serviceDay + stoptime.realtimeDeparture
         realtime: stoptime.realtime
         pattern: pattern.pattern
@@ -67,16 +68,17 @@ class DepartureListContainer extends React.Component
 
       classes =
         disruption: (filter departure.pattern.alerts, validAt).length > 0
+        canceled: departure.canceled
 
       if rowClasses
         classes[rowClasses] = true
 
       if @props.routeLinks
         departureObjs.push <Link to="/linjat/#{departure.pattern.code}" key={id}>
-          <Departure departure={departure} showStop={@props.showStops} currentTime={currentTime} className={cx classes}/>
+          <Departure departure={departure} showStop={@props.showStops} currentTime={currentTime} className={cx classes} canceled={departure.canceled} />
         </Link>
       else
-        departureObjs.push <Departure key={id} departure={departure} showStop={@props.showStops} currentTime={currentTime} className={cx classes} />
+        departureObjs.push <Departure key={id} departure={departure} showStop={@props.showStops} currentTime={currentTime} className={cx classes} canceled={departure.canceled} />
 
     departureObjs
 

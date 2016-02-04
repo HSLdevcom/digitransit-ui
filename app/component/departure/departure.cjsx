@@ -20,7 +20,8 @@ Departure = (props) ->
     <DepartureTime
       departureTime={props.departure.stoptime}
       realtime={props.departure.realtime}
-      currentTime={props.currentTime} />
+      currentTime={props.currentTime}
+      canceled={props.canceled} />
     <RouteNumber
       mode={mode}
       realtime={props.departure.realtime}
