@@ -56,8 +56,10 @@ $itinerary-tab-switch-height: 28px;
   font-size: 10pt;
   padding: 0.5em 1em;
   height: $itinerary-summary-height;
+  border-top: solid 1px $light-gray;
   border-bottom: solid 1px $light-gray;
   background: rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .itinerary-icon {
