@@ -41,8 +41,10 @@ $itinerary-tab-switch-height: 28px;
 }
 
 @media #{$large-up} {
-  article.tab-panel > div > div {
-    height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$large-map-height}) ;
+  .itinerary-tabs {
+    article.tab-panel > div > div {
+      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$large-map-height}) ;
+    }
   }
 }
 
