@@ -131,7 +131,7 @@ class FeedbackPanel extends React.Component
         bodyClassName={if @state.postFirstQuestion then "feedback-modal__body--post-first-question" else "feedback-modal__body"}
         autoScrollBodyContent={true}
         modal={true}
-        overlayStyle={background: 'none'}
+        overlayStyle={background: 'rgba(0, 0, 0, 0.541176)'}
         open={isModalOpen}
       >
         <div className="right cursor-pointer feedback-close-container" onClick={@closeModal}>
