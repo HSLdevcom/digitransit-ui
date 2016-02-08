@@ -38,16 +38,23 @@ class RouteListContainer extends React.Component
         break
     return limitedBuckets
 
+  filterEligibleDepartures: (departures) =>
+    mode = @context.getStore('ModeStore').getMode()
+    filtered = []
+    for departure in departures
+      unless departure.pattern.route.type not in mode or departure.stoptimes[0]?.pickupType == "NONE"
+        filtered.push departure
+    filtered
+
   getDepartures: =>
     departureBuckets = []
     seenDepartures = {}
-    mode = @context.getStore('ModeStore').getMode()
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
       d = edge.node.distance // config.nearbyRoutes.bucketSize
-      for departure in stop.stoptimes
+      for departure in @filterEligibleDepartures stop.stoptimes
         seenKey = departure.pattern.route.gtfsId + ":" + departure.pattern.headsign
-        unless seenDepartures[seenKey] or departure.pattern.route.type not in mode or departure.stoptimes[0]?.pickupType == "NONE"
+        unless seenDepartures[seenKey]
           bucket = departureBuckets[d] or []
           bucket.push departure
           departureBuckets[d] = bucket
