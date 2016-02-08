@@ -64,20 +64,19 @@ class SVGTile
         x: e.offsetX * 16
         y: e.offsetY * 16
 
-      [nearest, dist] = @features.reduce (previous, current) ->
-        g = current.loadGeometry()[0][0]
+      nearest = @features.filter (stop) ->
+        g = stop.loadGeometry()[0][0]
         dist = Math.sqrt((point.x - g.x) ** 2 + (point.y - g.y) ** 2)
-        if dist < previous[1]
-          [current, dist]
-        else
-          previous
-      , [null, Infinity]
+        if dist < 300 then true else false
 
-      if dist < 300 #?
-        L.DomEvent.stopPropagation e
-        @onStopClicked nearest.toGeoJSON @coords.x, @coords.y, @coords.z
-      else
+      if nearest.length == 0
         @onStopClicked false
+      else if nearest.length == 1
+        L.DomEvent.stopPropagation e
+        @onStopClicked nearest[0].toGeoJSON @coords.x, @coords.y, @coords.z
+      else
+        L.DomEvent.stopPropagation e
+        L.popup().setLatLng(@map.mouseEventToLatLng e).setContent(nearest.map((s) -> s.properties.gtfsId).join " ").openOn(@map)
 
 
 # Alternative implementation to SVGTile
