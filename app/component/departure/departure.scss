@@ -84,6 +84,10 @@
         color: $cancelation-black;
         background-color: $cancelation-background;
         border-radius: $border-radius;
+        margin-top: -0.25em;
+        margin-bottom: -0.25em;
+        padding-top: 0.25em;
+        padding-bottom: 0.25em;
         &::before,
         &::after {
             content: '';
@@ -101,4 +105,11 @@
             transform: skewY(30deg);
         }
     }
+}
+
+.card .canceled .time {
+    margin-top: inherit;
+    margin-bottom: inherit;
+    padding-top: inherit;
+    padding-bottom: inherit;
 }
