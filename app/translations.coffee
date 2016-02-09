@@ -130,6 +130,7 @@ translations =
     'location-examples': "esim. Koti, Työ, Koulu,..."
     'save': "Tallenna"
     'address': 'Osoite'
+    'wait-message': 'Odota {estimatedMinutes} minuuttia {stopPlace}'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -230,5 +231,8 @@ translations =
     'close': 'Stäng'
     'weather-at-destination': 'Vädret på destinationen'
     'trip-co2-emissions': 'Längs CO2-utsläpp'
+    'wait-message': 'Vänta i {estimatedMinutes} minuter vid {stopPlace}'
+  'no':
+    'wait-message': 'Vent i {estimatedMinutes} minutter på {stopPlace}'
 
 module.exports = translations
