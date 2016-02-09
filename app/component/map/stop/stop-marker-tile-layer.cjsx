@@ -10,6 +10,7 @@ omit          = require 'lodash/object/omit'
 getSelector   = require '../../../util/get-selector'
 Popup         = require '../dynamic-popup'
 StopMarkerPopup = require './stop-marker-popup'
+StopMarkerSelectPopup = require './stop-marker-select-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 
@@ -73,10 +74,11 @@ class SVGTile
         @onStopClicked false
       else if nearest.length == 1
         L.DomEvent.stopPropagation e
-        @onStopClicked nearest[0].toGeoJSON @coords.x, @coords.y, @coords.z
+        coords = nearest[0].toGeoJSON(@coords.x, @coords.y, @coords.z).geometry.coordinates
+        @onStopClicked nearest, L.latLng [coords[1], coords[0]]
       else
         L.DomEvent.stopPropagation e
-        L.popup().setLatLng(@map.mouseEventToLatLng e).setContent(nearest.map((s) -> s.properties.gtfsId).join " ").openOn(@map)
+        @onStopClicked nearest, @map.mouseEventToLatLng e
 
 
 # Alternative implementation to SVGTile
@@ -126,10 +128,12 @@ class StopMarkerTileLayer extends BaseTileLayer
 
   createTile: (coords, done) =>
     tile = new SVGTile(coords, done, @props.map)
-    tile.onStopClicked = (stop) =>
+    tile.onStopClicked = (stops, coords) =>
       if @props.disableMapTracking
         @props.disableMapTracking()
-      @setState openPopup: stop
+      @setState
+        stops: stops
+        coords: coords
     tile.el
 
   componentWillMount: () ->
@@ -147,10 +151,15 @@ class StopMarkerTileLayer extends BaseTileLayer
       history: React.PropTypes.object.isRequired
       route: React.PropTypes.object.isRequired
 
+    StopMarkerSelectPopupWithContext = provideContext StopMarkerSelectPopup,
+      intl: intl.intlShape.isRequired
+      history: React.PropTypes.object.isRequired
+      route: React.PropTypes.object.isRequired
+
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = {"height": 150}
 
-    if @state?.openPopup
+    if @state?.stops.length == 1
       <Popup options={
         offset: [106, 3]
         closeButton: false
@@ -158,16 +167,29 @@ class StopMarkerTileLayer extends BaseTileLayer
         minWidth: 250
         autoPanPaddingTopLeft: [5, 125]
         className: "popup"}
-        latlng={L.latLng [@state.openPopup.geometry.coordinates[1], @state.openPopup.geometry.coordinates[0]]}
+        latlng={@state.coords}
         ref="popup">
         <Relay.RootContainer
           Component={StopMarkerPopup}
           route={new queries.StopRoute(
-            stopId: @state.openPopup.properties.gtfsId
+            stopId: @state.stops[0].properties.gtfsId
             date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
           )}
           renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
           renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}/>
+      </Popup>
+    else if @state?.stops.length > 1
+      <Popup options={
+        offset: [106, 3]
+        closeButton: false
+        maxWidth: 250
+        minWidth: 250
+        maxHeight: 220
+        autoPanPaddingTopLeft: [5, 125]
+        className: "popup"}
+        latlng={@state.coords}
+        ref="popup">
+        <StopMarkerSelectPopupWithContext options={@state.stops} context={@context}/>
       </Popup>
     else
       null
