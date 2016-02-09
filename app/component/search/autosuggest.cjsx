@@ -3,7 +3,7 @@ ReactAutosuggest = require 'react-autosuggest'
 Icon           = require '../icon/icon'
 XhrPromise     = require '../../util/xhr-promise.coffee'
 config         = require '../../config'
-sortBy         = require 'lodash/collection/sortBy'
+sortBy         = require 'lodash/sortBy'
 L              = if window? then require 'leaflet' else null
 
 AUTOSUGGEST_ID = 'autosuggest'

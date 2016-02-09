@@ -4,7 +4,7 @@ queries          = require '../../queries'
 moment           = require 'moment'
 DisruptionRow    = require './disruption-row'
 {FormattedMessage, intlShape} = require('react-intl')
-find             = require 'lodash/collection/find'
+find             = require 'lodash/find'
 
 class DisruptionListContainer extends React.Component
   @contextTypes:

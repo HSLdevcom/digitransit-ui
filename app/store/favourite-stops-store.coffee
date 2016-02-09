@@ -1,5 +1,5 @@
 Store    = require 'fluxible/addons/BaseStore'
-includes = require 'lodash/collection/includes'
+includes = require 'lodash/includes'
 storage = require './local-storage'
 
 STORAGE_KEY = "favouriteStops"
