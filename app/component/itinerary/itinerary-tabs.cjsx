@@ -77,10 +77,11 @@ ItineraryTabs = React.createClass
               <ItinerarySummary itinerary={@props.itinerary}>
                 <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
               </ItinerarySummary>
-              <br/>
-              {legs}
-              <RouteInformation/>
-              {ticketInformation}
+              <div className="itinerary-main">
+                {legs}
+                <RouteInformation/>
+                {ticketInformation}
+              </div>
             </div>
           </Tabs.Panel>
           <Tabs.Panel>

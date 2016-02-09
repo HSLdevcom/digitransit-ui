@@ -14,7 +14,6 @@ $itinerary-tab-switch-height: 28px;
 //    padding-bottom: calc(2*#{$itinerary-bottom-navigation-height});
     > div > div {
       overflow-y: auto;
-      background: $white;
     }
   }
   .tabs-navigation {
@@ -52,6 +51,11 @@ $itinerary-tab-switch-height: 28px;
   height:100%;
 }
 
+.itinerary-main {
+  padding-top: 20px;
+  background: $white;
+}
+
 .itinerary-summary {
   color: $gray;
   font-weight: $font-weight-light;
@@ -60,7 +64,7 @@ $itinerary-tab-switch-height: 28px;
   height: $itinerary-summary-height;
   border-top: solid 1px $light-gray;
   border-bottom: solid 1px $light-gray;
-  background: rgba(0, 0, 0, 0.1);
+  background: transparent;
 }
 
 .itinerary-icon {
