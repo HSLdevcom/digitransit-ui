@@ -5,6 +5,7 @@ XhrPromise     = require '../../util/xhr-promise.coffee'
 config         = require '../../config'
 sortBy         = require 'lodash/collection/sortBy'
 L              = if window? then require 'leaflet' else null
+SuggestionItem = require './suggestion-item'
 
 AUTOSUGGEST_ID = 'autosuggest'
 
@@ -20,44 +21,6 @@ class Autosuggest extends React.Component
     onEmpty: React.PropTypes.func.isRequired
     id: React.PropTypes.string.isRequired
     focus: React.PropTypes.func.isRequired
-
-  getNumberIfNotZero: (number) ->
-    if number and not (number is "0") then " #{number}" else ""
-
-  getLocality: (suggestion) ->
-    if suggestion.locality
-      suggestion.locality
-    else ""
-
-  getName: (suggestion) ->
-    switch suggestion.layer
-      when 'address'
-        "#{suggestion.street}#{@getNumberIfNotZero suggestion.housenumber}, #{@getLocality suggestion}"
-      when 'locality'
-        "#{suggestion.name}, #{@getLocality suggestion}"
-      when 'neighbourhood'
-        "#{suggestion.name}, #{@getLocality suggestion}"
-      when 'venue'
-        "#{suggestion.name}, #{@getLocality suggestion}"
-      else
-        "#{suggestion.label}"
-
-  getIcon: (layer) ->
-    switch layer
-      when 'address'
-        <Icon img="icon-icon_place"/>
-      when 'stop'
-        <Icon img="icon-icon_bus-stop"/>
-      when 'locality'
-        <Icon img="icon-icon_city"/>
-      when 'station'
-        <Icon img="icon-icon_station"/>
-      when 'localadmin'
-        <Icon img="icon-icon_city"/>
-      when 'neighbourhood'
-        <Icon img="icon-icon_city"/>
-      else
-        <Icon img="icon-icon_place"/>
 
   getSuggestions: (input, callback) =>
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -75,13 +38,6 @@ class Autosuggest extends React.Component
             config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
           )
       callback null, features
-
-  renderSuggestions: (suggestion, input) =>
-    displayText = @getName suggestion.properties
-    return <span id={displayText}>
-        {@getIcon suggestion.properties.layer}
-        {displayText}
-      </span>
 
   componentDidMount: =>
     if (@refs.input.refs.input.value == "" and !L.Browser.touch)
@@ -114,7 +70,7 @@ class Autosuggest extends React.Component
       <ReactAutosuggest
         ref="input"
         suggestions={@getSuggestions}
-        suggestionRenderer={@renderSuggestions}
+        suggestionRenderer={(item)-><SuggestionItem item={item}/>}
         suggestionValue={@suggestionValue}
         defaultValue={@props.value}
         showWhen={(input) =>
