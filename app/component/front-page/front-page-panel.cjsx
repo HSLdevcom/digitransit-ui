@@ -8,7 +8,6 @@ Icon                  = require '../icon/icon.cjsx'
 cx                    = require 'classnames'
 FavouritesPanel       = require '../favourites/favourites-panel'
 NearestRoutesContainer = require './nearest-routes-container'
-NearestStopsContainer = require './nearest-stops-container'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 Feedback              = require '../../util/feedback'
 FeedbackActions       = require '../../action/feedback-action'
@@ -80,17 +79,13 @@ class FrontPagePanel extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
 
     if origin?.lat
-      stopsPanel = <NearestStopsContainer lat={origin.lat} lon={origin.lon}/>
       routesPanel = <NearestRoutesContainer lat={origin.lat} lon={origin.lon}/>
     else if (location.status == PositionStore.STATUS_FOUND_LOCATION or
              location.status == PositionStore.STATUS_FOUND_ADDRESS)
-      stopsPanel = <NearestStopsContainer lat={location.lat} lon={location.lon}/>
       routesPanel = <NearestRoutesContainer lat={location.lat} lon={location.lon}/>
     else if location.status == PositionStore.STATUS_SEARCHING_LOCATION
-      stopsPanel = <div className="spinner-loader"/>
       routesPanel = <div className="spinner-loader"/>
     else
-      stopsPanel = <NoPositionPanel/>
       routesPanel = <NoPositionPanel/>
 
     favouritesPanel = <FavouritesPanel/>
@@ -104,7 +99,6 @@ class FrontPagePanel extends React.Component
                   <div className="row">
                     <h3>
                       <ModeFilter id="nearby-routes-mode"/>
-                      <FormattedMessage id='nearby-routes' defaultMessage='Nearby routes'/>
                     </h3>
                   </div>
 
@@ -117,51 +111,31 @@ class FrontPagePanel extends React.Component
     else if @getSelectedPanel() == 2
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel">
-                  <div className="row">
-                    <h3><FormattedMessage id='nearby-stops' defaultMessage='Nearby stops'/></h3>
-                  </div>
-                  <div className="scrollable momentum-scroll">
-                    {stopsPanel}
-                  </div>
-                </div>
-              </div>
-      tabClasses[2] = selectedClass
-    else if @getSelectedPanel() == 3
-      panel = <div className="frontpage-panel-wrapper">
-                <div className="frontpage-panel">
                   <div className="scrollable momentum-scroll">
                     {favouritesPanel}
                   </div>
                 </div>
               </div>
-      tabClasses[3] = selectedClass
+      tabClasses[2] = selectedClass
 
     <div className="frontpage-panel-container no-select">
       {panel}
       <ul className='tabs-row tabs-arrow-up cursor-pointer'>
-        <li className={cx (tabClasses[1]), 'small-4', 'h4', 'hover', 'nearby-routes'}
+        <li className={cx (tabClasses[1]), 'small-6', 'h4', 'hover', 'nearby-routes'}
             onClick={=>
-              @context.piwik?.trackEvent "Front page tabs", "Routes", if @state?.selectedPanel == 1 then "close" else "open"
+              @context.piwik?.trackEvent "Front page tabs", "Nearby", if @state?.selectedPanel == 1 then "close" else "open"
               @selectPanel(1)
             }>
           <Icon className="prefix-icon" img="icon-icon_bus-withoutBox"/>
-          <FormattedMessage id='routes' defaultMessage="Routes" />
+          <FormattedMessage id='near-you' defaultMessage="Near you" />
         </li>
-        <li className={cx (tabClasses[2]), 'small-4', 'h4', 'hover', 'nearby-stops'}
+        <li className={cx (tabClasses[2]), 'small-6', 'h4', 'hover', 'favourites'}
             onClick={=>
-              @context.piwik?.trackEvent "Front page tabs", "Stops", if @state?.selectedPanel == 2 then "close" else "open"
+              @context.piwik?.trackEvent "Front page tabs", "Favourites", if @state?.selectedPanel == 2 then "close" else "open"
               @selectPanel(2)
             }>
-          <Icon className="prefix-icon" img="icon-icon_bus-stop"/>
-          <FormattedMessage id='stops' defaultMessage="Stops" />
-        </li>
-        <li className={cx (tabClasses[3]), 'small-4', 'h4', 'hover', 'favourites'}
-            onClick={=>
-              @context.piwik?.trackEvent "Front page tabs", "Favourites", if @state?.selectedPanel == 3 then "close" else "open"
-              @selectPanel(3)
-            }>
           <Icon className="prefix-icon" img="icon-icon_star"/>
-          <FormattedMessage id='favourites' defaultMessage="Favourites" />
+          <FormattedMessage id='your-favourites' defaultMessage="Your favourites" />
         </li>
       </ul>
     </div>
