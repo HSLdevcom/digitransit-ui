@@ -1,19 +1,29 @@
 React                 = require 'react'
 FavouriteLocation     = require './favourite-location'
 Icon                  = require '../icon/icon'
+ComponentUsageExample = require '../documentation/component-usage-example'
+
 
 
 class FavouriteLocationsContainer extends React.Component
 
-  getFavouriteLocationIcon: ->
-    <Icon img={'icon-icon_place'}/>
+  @description:
+    <div>
+      <p>Renders a container with favourite locations</p>
+      <ComponentUsageExample description="">
+        <FavouriteLocationsContainer/>
+      </ComponentUsageExample>
+    </div>
+
+  getFavouriteLocationIconId: ->
+    'icon-icon_place'
 
   render: ->
     <div className="row">
       <div className="small-4 columns favourite-location-container--first">
         <FavouriteLocation
           locationName={"Koti"}
-          favouriteLocationIcon={@getFavouriteLocationIcon()}
+          favouriteLocationIconId={@getFavouriteLocationIconId()}
           arrivalTime={"14:33"}
           departureTime={"2 min"}
           empty={false}
@@ -22,7 +32,7 @@ class FavouriteLocationsContainer extends React.Component
       <div className="small-4 columns favourite-location-container">
         <FavouriteLocation
           locationName={"Työ"}
-          favouriteLocationIcon={@getFavouriteLocationIcon()}
+          favouriteLocationIconId={@getFavouriteLocationIconId()}
           arrivalTime={"14:38"}
           departureTime={"3 min"}
           empty={false}
@@ -31,7 +41,7 @@ class FavouriteLocationsContainer extends React.Component
       <div className="small-4 columns favourite-location-container--last">
         <FavouriteLocation
           locationName={"Mummola"}
-          favouriteLocationIcon={@getFavouriteLocationIcon()}
+          favouriteLocationIconId={@getFavouriteLocationIconId()}
           arrivalTime={"15:38"}
           departureTime={"15 min"}
           empty={false}

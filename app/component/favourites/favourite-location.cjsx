@@ -4,8 +4,9 @@ Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
 {FormattedMessage}    = require('react-intl')
+Example = require '../documentation/example-data'
 
-FavouriteLocation = (props) ->
+FavouriteLocation = (props) =>
 
   if props.empty
     #TODO: add empty layout, DT-669
@@ -21,7 +22,7 @@ FavouriteLocation = (props) ->
       >
         <div className="favourite-location-header">{props.locationName}</div>
         <div className="favourite-location-arrival">
-          <span className="favourite-location-icon">{props.favouriteLocationIcon}</span>
+          <span className="favourite-location-icon"><Icon img={props.favouriteLocationIconId}/></span>
           <span className="favourite-location-arrival-time">{props.arrivalTime}</span>
         </div>
         <div className="favourite-location-departure">
@@ -33,14 +34,17 @@ FavouriteLocation = (props) ->
       </NotImplementedLink>
     </div>
 
-
-FavouriteLocation.displayName = "FavouriteLocation"
-
 FavouriteLocation.description =
   <div>
     <p>Renders a favourite location component</p>
     <ComponentUsageExample description="">
-      <FavouriteLocation empty={true}/>
+      <FavouriteLocation
+        locationName={Example.favouriteLocation.locationName}
+        favouriteLocationIconId={'icon-icon_place'}
+        arrivalTime={Example.favouriteLocation.arrivalTime}
+        departureTime={Example.favouriteLocation.departureTime}
+        empty={Example.favouriteLocation.empty}
+        realtime={Example.favouriteLocation.realtime}/>
     </ComponentUsageExample>
   </div>
 
@@ -50,10 +54,12 @@ FavouriteLocation.propTypes =
   clickFavorite: React.PropTypes.func
   className: React.PropTypes.string
   locationName: React.PropTypes.string
-  favouriteLocationIcon: React.PropTypes.object
+  favouriteLocationIconId: React.PropTypes.string
   arrivalTime: React.PropTypes.string
   departureTime: React.PropTypes.string
   realtime: React.PropTypes.bool
+
+FavouriteLocation.displayName = "FavouriteLocation"
 
 
 module.exports = FavouriteLocation
