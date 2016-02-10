@@ -8,7 +8,6 @@ routeCompare          = require '../../../util/route-compare'
 class StopMarkerSelectPopup extends React.Component
   render: ->
     options = @props.options.map (option) ->
-      console.log option
       patternData = JSON.parse(option.properties.patterns).sort(routeCompare)
 
       patterns = []
@@ -53,7 +52,6 @@ class StopMarkerSelectPopup extends React.Component
           </div>
         </Link>
       </div>
-
 
     <div className="card">
       <h3 className="padding-normal">Valitse pysäkki</h3>
