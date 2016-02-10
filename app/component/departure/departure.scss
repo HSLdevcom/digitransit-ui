@@ -35,7 +35,7 @@
 
 .time {
   font-weight: $font-weight-bold;
-  width: 4.2em;
+  width: 4.25em;
   margin-right: 0.5em;
   padding-right: 0.5em;
   text-align: right;
@@ -45,8 +45,26 @@
   padding: 0 5px;
   vertical-align: top;
 }
-.destination {
-  max-width: 70%;
+.departure > div, .departure > span {
+    vertical-align: middle;
+}
+
+.route-destination {
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  width: calc(100% - 10.75em);
+  height: 1.2em;
+}
+
+.route-destination::before {
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  content: '';
+  width: 2em;
+  height: 100%;
+  position: absolute;
+  right:0;
+  top: 0;
 }
 
 // route-number component
