@@ -8,7 +8,7 @@ TerminalMarkerPopup = require './terminal-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
-Circle        = if isBrowser then require 'react-leaflet/lib/Circle'
+Circle        = if isBrowser then require('react-leaflet/lib/Circle').default
 L             = if window? then require 'leaflet' else null
 
 
