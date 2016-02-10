@@ -58,9 +58,9 @@
 }
 
 .icon.realtime-icon {
-  position: absolute !important;
-  margin-top: -0.1em;
-  margin-left: -0.35em;
+  position: relative;
+  top: -10px;
+  left: 2px;
   height: 0.5em;
   width: 0.5em;
 }
