@@ -78,6 +78,9 @@ class Map extends React.Component
           >
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
+            tileSize={config.map.tileSize or 256}
+            zoomOffset={config.map.zoomOffset or 0}
+            updateWhenIdle={false}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
             size={if config.map?.useRetinaTiles and L.Browser.retina then "@2x" else  ""}/>
           {stops}
