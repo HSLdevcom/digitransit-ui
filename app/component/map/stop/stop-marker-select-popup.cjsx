@@ -47,7 +47,7 @@ class StopMarkerSelectPopup extends React.Component
               />
             </svg>
           </div>
-          <div className="left padding-vertical-normal" style={width: 200}>
+          <div className="left padding-vertical-normal" style={width: "calc(100% - 40px)"}>
             <span className="h4 no-margin">{option.properties.name} ›</span>
             {patterns}
           </div>
