@@ -1,0 +1,50 @@
+.favourite-location-content {
+  background: $white;
+  text-align: center;
+  border-radius: $border-radius;
+  border: 1px solid $medium-gray;
+  cursor: pointer;
+  max-width: 320px;
+  .favourite-location-header {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    color: $gray-blue;
+    font-size: 13px;
+  }
+  .favourite-location-icon {
+    color: $gray-blue;
+    vertical-align: middle;
+  }
+  .favourite-location-departure-icon {
+    color: $gray-blue;
+  }
+  .favourite-location-departure-time {
+    vertical-align: top;
+    font-size: 13px;
+  }
+  .favourite-location-departure-time--realtime {
+    @extend .favourite-location-departure-time;
+    color: $realtime-color;
+  }
+  .favourite-location-arrival-time {
+    vertical-align: top;
+    color: $black;
+  }
+}
+
+.favourite-location-container {
+  padding-right: 7px !important;
+  padding-left: 7px !important;
+}
+
+.favourite-location-container--first {
+  @extend .favourite-location-container;
+  padding-left: 15px !important;
+  padding-right: 0px !important;
+}
+
+.favourite-location-container--last {
+  @extend .favourite-location-container;
+  padding-left: 0px !important;
+  padding-right: 15px !important;
+}

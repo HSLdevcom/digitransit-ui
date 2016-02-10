@@ -5,10 +5,13 @@ $tab-min-width: 100px;
 
 .frontpage-panel-wrapper {
   position: absolute;
-  top: 60px;
+  top: 6px;
+  left: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 56px);
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
   z-index: 802;
-  width: 100%;
-  height: calc(100% - 110px);
   overflow: hidden;
   background-color: $background-color;
 
