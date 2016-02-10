@@ -28,16 +28,6 @@ class RouteListContainer extends React.Component
   onModeChange: =>
     @forceUpdate()
 
-  limitBuckets: (departureBuckets, count) =>
-    limitedBuckets = []
-    count = 0
-    for d, departures of departureBuckets
-      limitedBuckets.push [d, departures]
-      count += departures.length
-      if count > STOP_COUNT
-        break
-    return limitedBuckets
-
   filterEligibleDepartures: (departures) =>
     mode = @context.getStore('ModeStore').getMode()
     filtered = []
@@ -47,44 +37,35 @@ class RouteListContainer extends React.Component
     filtered
 
   getDepartures: =>
-    departureBuckets = []
+    departures = []
     seenDepartures = {}
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
-      d = edge.node.distance // config.nearbyRoutes.bucketSize
       for departure in @filterEligibleDepartures stop.stoptimes
-        seenKey = departure.pattern.route.gtfsId + ":" + departure.pattern.headsign
-        unless seenDepartures[seenKey]
-          bucket = departureBuckets[d] or []
-          bucket.push departure
-          departureBuckets[d] = bucket
-          seenDepartures[seenKey] = true
-    @limitBuckets departureBuckets, STOP_COUNT
+        departures.push
+          distance: edge.node.distance
+          pattern: departure.pattern
+          stop: stop
+          seenKey: departure.pattern.route.gtfsId + ":" + departure.pattern.headsign + ":"
+          stoptimes: departure.stoptimes
+          departure: departure
+
+    uniqueDepartures = []
+    for departure in departures
+      if seenDepartures[departure.seenKey]
+      else
+        uniqueDepartures.push departure
+        seenDepartures[departure.seenKey] = true
+
+    uniqueDepartures
 
   render: =>
     bucketSize = config.nearbyRoutes.bucketSize
-    departureBuckets = @getDepartures()
-    departureLists = []
-    for [d, departures] in departureBuckets
-      distance = d * bucketSize
-      if distance == 0
-        distanceLabel = <FormattedMessage
-          id='distance-under'
-          defaultMessage="Distance under {distance} m"
-          values={
-            distance: bucketSize
-          }/>
-      else
-        distanceLabel = <FormattedMessage
-          id='distance-between'
-          defaultMessage="Distance {distance1} m — {distance2} m"
-          values={
-            distance1: distance
-            distance2: distance + bucketSize
-          }/>
+    departures = @getDepartures()
+    departures = departures.map (d) => d.departure
 
-      departureLists.push <div key={"h" + d} className="departure-list-header padding-vertical-small">
-        {distanceLabel}
+    <div>
+      <div className="departure-list-header padding-vertical-small">
         <span className="right">
           <FormattedMessage
             id='stop-number'
@@ -92,14 +73,12 @@ class RouteListContainer extends React.Component
         </span>
       </div>
 
-      if departures
-        departureLists.push <DepartureListContainer
-          key={d}
+      <DepartureListContainer
           rowClasses="padding-normal underline"
           routeLinks={true}
           stoptimes={departures}
           showStops={true}/>
-    <div>{departureLists}</div>
+    </div>
 
 module.exports = Relay.createContainer(RouteListContainer,
   fragments: queries.RouteListContainerFragments
