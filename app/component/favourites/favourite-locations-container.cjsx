@@ -44,7 +44,7 @@ class FavouriteLocationsContainer extends React.Component
           favouriteLocationIconId={@getFavouriteLocationIconId()}
           arrivalTime={"15:38"}
           departureTime={"15 min"}
-          empty={false}
+          empty={true}
           realtime={true}/>
       </div>
     </div>

@@ -116,6 +116,7 @@ translations =
     'very-unlikely': 'Erittäin epätodennäköistä'
     'weather-at-destination': 'Sää määränpäässä'
     'trip-co2-emissions': 'Reitin CO2 päästöt'
+    'add-location': 'Lisää paikka'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'

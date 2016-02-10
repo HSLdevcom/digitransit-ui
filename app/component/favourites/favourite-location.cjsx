@@ -9,9 +9,15 @@ Example = require '../documentation/example-data'
 FavouriteLocation = (props) =>
 
   if props.empty
-    #TODO: add empty layout, DT-669
-    <div className={cx "favourite-location-content", props.className}>
-      "testi"
+    <div className={cx "new-favourite-button-content", props.className}>
+      <NotImplementedLink
+        nonTextLink={true}
+        name={<FormattedMessage id='your-favourites' defaultMessage='Favourites'/>}
+        className="no-decoration"
+      >
+        <Icon img="icon-icon_plus" className="add-new-favourite-icon"/>
+        <p className="add-location-text"><FormattedMessage id='add-location' defaultMessage='Add location'/></p>
+      </NotImplementedLink>
     </div>
   else
     <div className={cx "favourite-location-content", props.className} onClick={props.clickFavourite}>

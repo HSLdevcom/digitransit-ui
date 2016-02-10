@@ -32,6 +32,30 @@
   }
 }
 
+.new-favourite-button-content {
+  min-height: 76px;
+  text-align: center;
+  background: $background-color;
+  border-radius: $border-radius;
+  border: 1px solid $medium-gray;
+  cursor: pointer;
+  max-width: 320px;
+
+  .add-new-favourite-icon {
+    color: $gray-blue;
+    margin-top: 23px;
+  }
+
+  .add-location-text {
+    font-weight: normal;
+    color: $gray-blue;
+    font-size: 13px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+}
+
 .favourite-location-container {
   padding-right: 7px !important;
   padding-left: 7px !important;
