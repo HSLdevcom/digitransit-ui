@@ -2,7 +2,7 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 RouteHeader           = require './route-header'
-without               = require 'lodash/array/without'
+without               = require 'lodash/without'
 FavouriteRoutesActions = require '../../action/favourite-routes-action'
 
 class RouteHeaderContainer extends React.Component

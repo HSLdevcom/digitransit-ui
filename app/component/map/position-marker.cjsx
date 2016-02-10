@@ -1,6 +1,6 @@
 React         = require 'react'
 isBrowser     = window?
-Marker        = if isBrowser then require 'react-leaflet/lib/Marker'
+Marker        = if isBrowser then require('react-leaflet/lib/Marker').default
 L             = if isBrowser then require 'leaflet'
 Icon          = require '../icon/icon'
 

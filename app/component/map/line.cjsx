@@ -1,6 +1,6 @@
 isBrowser          = window?
 React              = require 'react'
-Polyline           = if isBrowser then require 'react-leaflet/lib/Polyline' else null
+Polyline           = if isBrowser then require('react-leaflet/lib/Polyline').default else null
 cx                 = require 'classnames'
 
 

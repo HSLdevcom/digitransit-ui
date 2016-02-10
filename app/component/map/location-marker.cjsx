@@ -1,7 +1,7 @@
 isBrowser = window?
 React  = require 'react'
 L      = if isBrowser then require 'leaflet' else null
-Marker = if isBrowser then require 'react-leaflet/lib/Marker' else null
+Marker = if isBrowser then require('react-leaflet/lib/Marker').default else null
 Icon   = require '../icon/icon'
 
 class LocationMarker extends React.Component

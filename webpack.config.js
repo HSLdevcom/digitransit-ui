@@ -93,7 +93,7 @@ module.exports = {
       'history/lib/useBasename',
       'history/lib/useQueries',
       'fluxible-addons-react/FluxibleComponent',
-      'lodash/lang/isEqual',
+      'lodash/isEqual',
       'react-tap-event-plugin',
       'react-router',
       'fluxible'
