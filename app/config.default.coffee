@@ -44,6 +44,8 @@ module.exports =
     maxShownDistance: 5000
   map:
     useRetinaTiles: true
+    tileSize: 512
+    zoomOffset: -1
   autoSuggest:
     sortOrder: locality: 1, address: 2, stop: 3
     sortOthers: 4
