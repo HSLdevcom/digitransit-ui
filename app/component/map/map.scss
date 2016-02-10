@@ -168,6 +168,7 @@ div.leaflet-marker-icon.vehicle-icon {
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
     padding: 0;
+    margin-bottom: 5px;
   }
   .leaflet-popup-content {
     margin: 0;
@@ -201,7 +202,7 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 
   .leaflet-popup-tip-container {
-    margin: -5px 0px;
+    margin: -6px 0px;
     .leaflet-popup-tip  {
       border: 1px solid $gray;
       background: $background-color;
