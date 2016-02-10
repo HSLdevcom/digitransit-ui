@@ -129,9 +129,6 @@ class FrontPagePanel extends React.Component
     else if @getSelectedPanel() == 3
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel">
-                  <div className="row">
-                    <h3><FormattedMessage id='favourites' defaultMessage='Favourites'/></h3>
-                  </div>
                   <div className="scrollable momentum-scroll">
                     {favouritesPanel}
                   </div>
