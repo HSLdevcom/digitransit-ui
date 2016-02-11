@@ -19,12 +19,12 @@ getIcon = (layer, iconClass) ->
     "neighbourdood": "icon-icon_city"
 
   defaultIcon = "icon-icon_place"
-  <Icon img={layerIcon[layer]||defaultIcon} className={iconClass||""}/>
+  <Icon img={layerIcon[layer] || defaultIcon} className={iconClass || ""}/>
 
 SuggestionItem = (props) ->
   displayText = SuggestionItem.getName props.item.properties
   <span id={displayText}>
-    <span className={props.spanClass||""}>
+    <span className={props.spanClass || ""}>
       {getIcon props.item.properties.layer, props.iconClass}
     </span>
     {displayText}
@@ -32,16 +32,15 @@ SuggestionItem = (props) ->
 
 SuggestionItem.getName =  (suggestion) ->
   switch suggestion.layer
-   when 'address'
-     "#{suggestion.street}#{getNumberIfNotZero suggestion.housenumber}, #{getLocality suggestion}"
-   when 'locality'
-     "#{suggestion.name}, #{getLocality suggestion}"
-   when 'neighbourhood'
-     "#{suggestion.name}, #{getLocality suggestion}"
-   when 'venue'
-     "#{suggestion.name}, #{getLocality suggestion}"
-   else
-     "#{suggestion.label}"
+    when 'address'
+      "#{suggestion.street}#{getNumberIfNotZero suggestion.housenumber}, #{getLocality suggestion}"
+    when 'locality'
+      "#{suggestion.name}, #{getLocality suggestion}"
+    when 'neighbourhood'
+      "#{suggestion.name}, #{getLocality suggestion}"
+    when 'venue'
+      "#{suggestion.name}, #{getLocality suggestion}"
+    else
+      "#{suggestion.label}"
 
 module.exports = SuggestionItem
-
