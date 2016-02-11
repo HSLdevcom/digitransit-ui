@@ -2,7 +2,7 @@ React             = require 'react'
 EndpointActions   = require '../../action/endpoint-actions'
 ReactAutowhatever = (require 'react-autowhatever').default
 config            = require '../../config'
-sortBy            = require 'lodash/collection/sortBy'
+{sortBy}          = require 'lodash/collection'
 XhrPromise        = require '../../util/xhr-promise.coffee'
 SuggestionItem    = require './suggestion-item'
 
