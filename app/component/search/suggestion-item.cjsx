@@ -9,42 +9,39 @@ getLocality = (suggestion) ->
     suggestion.locality
   else ""
 
-getName =  (suggestion) ->
-  switch suggestion.layer
-    when 'address'
-      "#{suggestion.street}#{getNumberIfNotZero suggestion.housenumber}, #{getLocality suggestion}"
-    when 'locality'
-      "#{suggestion.name}, #{getLocality suggestion}"
-    when 'neighbourhood'
-      "#{suggestion.name}, #{getLocality suggestion}"
-    when 'venue'
-      "#{suggestion.name}, #{getLocality suggestion}"
-    else
-      "#{suggestion.label}"
+getIcon = (layer, iconClass) ->
+  layerIcon =
+    "address": "icon-icon_place"
+    "stop": "icon-icon_bus-stop"
+    "locality": "icon-icon_city"
+    "station": "icon-icon_station"
+    "localadmin": "icon-icon_city"
+    "neighbourdood": "icon-icon_city"
 
-getIcon = (layer) ->
-  switch layer
-    when 'address'
-      <Icon img="icon-icon_place"/>
-    when 'stop'
-      <Icon img="icon-icon_bus-stop"/>
-    when 'locality'
-      <Icon img="icon-icon_city"/>
-    when 'station'
-      <Icon img="icon-icon_station"/>
-    when 'localadmin'
-      <Icon img="icon-icon_city"/>
-    when 'neighbourhood'
-      <Icon img="icon-icon_city"/>
-    else
-      <Icon img="icon-icon_place"/>
+  defaultIcon = "icon-icon_place"
+  <Icon img={layerIcon[layer]||defaultIcon} className={iconClass||""}/>
 
 SuggestionItem = (props) ->
-  displayText = getName props.item.properties
+  displayText = SuggestionItem.getName props.item.properties
   <span id={displayText}>
-    {getIcon props.item.properties.layer}
+    <span className={props.spanClass||""}>
+      {getIcon props.item.properties.layer, props.iconClass}
+    </span>
     {displayText}
   </span>
+
+SuggestionItem.getName =  (suggestion) ->
+  switch suggestion.layer
+   when 'address'
+     "#{suggestion.street}#{getNumberIfNotZero suggestion.housenumber}, #{getLocality suggestion}"
+   when 'locality'
+     "#{suggestion.name}, #{getLocality suggestion}"
+   when 'neighbourhood'
+     "#{suggestion.name}, #{getLocality suggestion}"
+   when 'venue'
+     "#{suggestion.name}, #{getLocality suggestion}"
+   else
+     "#{suggestion.label}"
 
 module.exports = SuggestionItem
 
