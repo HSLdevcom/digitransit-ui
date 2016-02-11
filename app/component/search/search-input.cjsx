@@ -16,8 +16,8 @@ class SearchInput extends React.Component
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
 
-  constructor: (props)->
-    super(props);
+  constructor: (props) ->
+    super(props)
     @state = "value": props.initialValue
 
   handleUpdateInputNow: (event) =>

@@ -21,7 +21,7 @@ class SearchModal extends React.Component
 
   onSearchChange: (a) =>
     position = @context.getStore('SearchStore').getPosition()
-    @setState("value": position?.address||"")
+    @setState("value": position?.address || "")
 
   closeModal: () =>
     @context.executeAction SearchActions.closeSearch

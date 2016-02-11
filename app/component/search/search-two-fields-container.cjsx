@@ -110,8 +110,8 @@ class SearchTwoFieldsContainer extends React.Component
       <SearchField
         endpoint={destination}
         geolocation={geolocation}
-        onClick={(e)->
-          e.preventDefault();
+        onClick={(e) =>
+          e.preventDefault()
           @context.executeAction SearchActions.openDestinationSearch, destination
         }
         enableInputMode={() => @context.executeAction EndpointActions.enableDestinationInputMode}
