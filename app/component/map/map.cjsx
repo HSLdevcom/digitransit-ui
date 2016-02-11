@@ -7,8 +7,8 @@ LocationMarker = require './location-marker'
 StopMarkerContainer = if isBrowser then require './stop/stop-marker-tile-layer' else null
 CityBikeMarkerContainer = require './city-bike/city-bike-marker-container'
 #VehicleMarkerContainer = require './vehicle-marker-container'
-LeafletMap    = if isBrowser then require 'react-leaflet/lib/Map' else null
-TileLayer     = if isBrowser then require 'react-leaflet/lib/TileLayer' else null
+LeafletMap    = if isBrowser then require('react-leaflet/lib/Map').default else null
+TileLayer     = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
 L             = if isBrowser then require 'leaflet' else null
 config        = require '../../config'
 PositionMarker = require './position-marker'
@@ -78,6 +78,9 @@ class Map extends React.Component
           >
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
+            tileSize={config.map.tileSize or 256}
+            zoomOffset={config.map.zoomOffset or 0}
+            updateWhenIdle={false}
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
             size={if config.map?.useRetinaTiles and L.Browser.retina then "@2x" else  ""}/>
           {stops}

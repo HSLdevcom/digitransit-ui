@@ -8,6 +8,7 @@ Example = require '../documentation/example-data'
 DepartureTime = (props) ->
   canceled = <Icon img={'icon-icon_caution'} className={'icon cancelation-info'} /> if props.canceled
   <span style={props.style} className={cx "time", "realtime": props.realtime}>
+    {if props.realtime then <Icon img="icon-icon_realtime" className="realtime-icon realtime"/>}
     {canceled}
     {timeUtils.renderDepartureStoptime props.departureTime, props.realtime, props.currentTime}
   </span>

@@ -1,6 +1,6 @@
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
-debounce   = require 'lodash/function/debounce'
+debounce   = require 'lodash/debounce'
 
 geolocator = (actionContext) ->
   actionContext.getStore('ServiceStore').geolocator()
