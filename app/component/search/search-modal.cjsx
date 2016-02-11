@@ -3,7 +3,7 @@ MaterialModal    = require 'material-ui/lib/dialog'
 Icon             = require '../icon/icon'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
-SearchInput2     = require './search-input'
+SearchInput      = require './search-input'
 SearchActions    = require '../../action/search-actions'
 SearchActions    = require '../../action/search-actions'
 
@@ -20,7 +20,8 @@ class SearchModal extends React.Component
     @context.getStore('SearchStore').removeChangeListener @onSearchChange
 
   onSearchChange: (a) =>
-    @setState("render": "now") #or forceupdate?
+    position = @context.getStore('SearchStore').getPosition()
+    @setState("value": position?.address||"")
 
   closeModal: () =>
     @context.executeAction SearchActions.closeSearch
@@ -38,8 +39,8 @@ class SearchModal extends React.Component
         <Icon img={'icon-icon_arrow-left'} />
       </div>
       <div className="search-form">
-      <SearchInput2
-        value = {@props.value}
+      <SearchInput
+        initialValue = {@state?.value}
         onSuggestionSelected = {(name, item) =>
           setLocationAction = @context.getStore('SearchStore').getAction()
           @context.executeAction setLocationAction,

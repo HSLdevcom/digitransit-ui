@@ -1,12 +1,12 @@
-React = require 'react'
+React            = require 'react'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
 PositionActions  = require '../../action/position-actions.coffee'
-{locationToOTP} = require '../../util/otp-strings'
-SearchTwoFields = require './search-two-fields'
+SearchActions    = require '../../action/search-actions.coffee'
+{locationToOTP}  = require '../../util/otp-strings'
+SearchTwoFields  = require './search-two-fields'
 {getRoutePath}   = require '../../util/path'
-SearchField     = require './search-field'
-
-intl = require 'react-intl'
+SearchField      = require './search-field'
+intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class SearchTwoFieldsContainer extends React.Component
@@ -110,11 +110,15 @@ class SearchTwoFieldsContainer extends React.Component
       <SearchField
         endpoint={destination}
         geolocation={geolocation}
-        setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
+        onClick={(e)->
+          e.preventDefault();
+          @context.executeAction SearchActions.openDestinationSearch, destination
+        }
         enableInputMode={() => @context.executeAction EndpointActions.enableDestinationInputMode}
         disableInputMode={() => @context.executeAction EndpointActions.disableDestinationInputMode}
         onEmpty={() =>
           @pushNonSearchState()
+          @context.executeAction EndpointActions.clearDestination}
           @context.executeAction EndpointActions.clearDestination}
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'destination'

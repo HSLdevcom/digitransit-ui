@@ -12,10 +12,13 @@ class SearchInput extends React.Component
 #    onSuggestionSelect: React.PropTypes.func.isRequired
 #    items: React.PropTypes.array.isRequired
 
-
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
+
+  constructor: (props)->
+    super(props);
+    @state = "value": props.initialValue
 
   handleUpdateInputNow: (event) =>
     input = event.target.value
@@ -62,6 +65,7 @@ class SearchInput extends React.Component
         "id": "autosuggest-input"
         "value": @state?.value || ""
         "onChange": @handleUpdateInputNow
+        "autofocus": true
       }
     />
 

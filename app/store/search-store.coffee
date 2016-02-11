@@ -4,6 +4,7 @@ class SearchStore extends Store
   @storeName: 'SearchStore'
 
   @action = undefined
+  @position = undefined
 
   constructor: (dispatcher) ->
     super(dispatcher)
@@ -15,14 +16,19 @@ class SearchStore extends Store
   getAction: () ->
     @action
 
+  getPosition: () ->
+    @position
+
   openSearch: (props) ->
     @modalOpen = true
     @action = props.action
+    @position = props.position
     @emitChange(props)
 
   closeSearch: () ->
     @modalOpen = false
     @action = undefined
+    @position = undefined
     @emitChange()
 
   @handlers:

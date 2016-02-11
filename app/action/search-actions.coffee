@@ -4,8 +4,11 @@ module.exports =
   'openOriginSearch': (actionContext) ->
     actionContext.dispatch "OpenSearch",
     "action": endpointActions.setOrigin
-  'openDestinationSearch': (actionContext) ->
+
+  'openDestinationSearch': (actionContext, position) ->
     actionContext.dispatch "OpenSearch",
-    "action": endpointActions.setDestination
+      "action": endpointActions.setDestination
+      "position": position
+
   'closeSearch': (actionContext) ->
     actionContext.dispatch "CloseSearch"
