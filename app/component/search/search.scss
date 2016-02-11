@@ -204,3 +204,86 @@ $search-form-location-icon-size: 18px;
 .address-box .geolocation-bar-location-icon svg.icon {
   fill: $hilight-color;
 }
+
+div.search-modal {
+  height: auto !important;
+  overflow: auto;
+  width: 100% !important;
+  max-width: none !important;
+  position: absolute !important;
+  bottom: 0px;
+  transform: none !important;
+  div{
+    div {
+      transition: none !important;
+    }
+  }
+}
+
+.search-modal-content {
+  height: auto !important;
+  overflow: auto;
+  width: 100% !important;
+  max-width: none !important;
+  position: absolute !important;
+  bottom: 0px;
+  transform: none !important;
+  top: 0px;
+}
+
+.search-modal-content > :first-child {
+  background: #EEF1F3 !important;
+  width: 100%;
+  height: 100%;
+}
+
+.search-modal-body {
+  max-height: 100% !important;
+  padding-top: 0px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  padding-bottom: 8px !important;
+  background: #EEF1F3 !important;
+  padding-bottom: 0px !important;
+
+  input[type="text"].react-autosuggest__input {
+    border: 1px solid #888;
+    border-radius: 4px;
+    font-size: 1.2em;
+    padding: 0.1em;
+    outline: 0;
+    appearance: none;
+  }
+
+}
+
+
+div#search-panel-close-tab {
+  width: 10%;
+}
+
+
+.react-autosuggest__suggestion--focused {
+  background: $gray;
+}
+
+.react-autowhatever__item {
+  padding:0.1em;
+}
+
+.autosuggestIcon {
+  color: $gray;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+#react-whatever-suggest {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  list-style-type: none;
+  background: $white;
+  border: 1px solid $white;
+  border-radius: 4px;
+  padding: 4px;
+  z-index:1000;
+}
