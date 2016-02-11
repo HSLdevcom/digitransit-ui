@@ -21,10 +21,8 @@ FakeSearchBar = (props) ->
 
 FakeSearchBar.propTypes =
   onClick: React.PropTypes.func.isRequired
-  onRemove: React.PropTypes.func.isRequired
   value: React.PropTypes.string.isRequired
   placeholder: React.PropTypes.string.isRequired
-  id: React.PropTypes.string.isRequired
 
 FakeSearchBar.displayName = "FakeSearchBar"
 
