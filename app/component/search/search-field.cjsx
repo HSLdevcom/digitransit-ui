@@ -1,9 +1,9 @@
 React           = require 'react'
 EndpointActions = require '../../action/endpoint-actions'
-Autosuggest     = require './autosuggest'
 GeolocationBar  = require './geolocation-bar'
 NavigateOrInput = require './navigate-or-input'
 PositionActions = require '../../action/position-actions'
+FakeSearchBar   = require './fake-search-bar'
 
 class SearchField extends React.Component
 
@@ -27,7 +27,7 @@ class SearchField extends React.Component
 
 
   getGeolocationBar: =>
-    <GeolocationBar
+    <GeolocationBar onClick={@props.onClick}
       geolocation={@props.geolocation}
       removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
       locateUser={() => @context.executeAction PositionActions.findLocation}
@@ -38,24 +38,19 @@ class SearchField extends React.Component
 
     if @props.endpoint?.useCurrentPosition
       return @getGeolocationBar()
-
     if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !@props.endpoint.userSetPosition
       hidden1 = false
     else
       hidden1 = true
 
-    <div>
-      <Autosuggest
+    <div onClick={@props.onClick} className="search-form" style={"paddingTop": "0"}>
+      <FakeSearchBar
+        onClick={@props.onClick}
         ref="autosuggest"
-        key={@props.endpoint.address}
-        onSelectionAction={@props.onSelectAction}
         placeholder={@props.autosuggestPlaceholder}
         value={@props.endpoint?.address}
         id={@props.id + "-autosuggest"}
         disableInput={@props.disableInputMode}
-        onEmpty= {@props.onEmpty}
-        focus={@props.focus}
-        visibility={if hidden1 then  "visible" else "hidden"}
       />
       <NavigateOrInput
         setToCurrent={@props.setToCurrent}
