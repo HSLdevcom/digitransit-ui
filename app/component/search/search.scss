@@ -135,6 +135,43 @@ $search-form-location-icon-size: 18px;
     }
 }
 
+.search-form .address-input {
+  background-color: transparent;
+  border-radius: $form-input-border-radius;
+  border: 0px;
+  height: $search-form-input-overlay-height;
+  padding-left: 5px;
+  padding-right: 3px;
+  line-height: 23px;
+
+  .icon {
+    fill: $gray;
+    vertical-align: sub;
+    width: 1em;
+    height: 1em;
+    margin-right: 5px;
+  }
+}
+
+.search-form .address-placeholder {
+  color: $gray;
+  background-color: transparent;
+  border-radius: $form-input-border-radius;
+  border: 0px;
+  height: $search-form-input-overlay-height;
+  padding-left: 5px;
+  padding-right: 3px;
+  line-height: 23px;
+
+  .icon {
+    fill: $gray;
+    vertical-align: sub;
+    width: 1em;
+    height: 1em;
+    margin-right: 5px;
+  }
+}
+
 
 .search-form .react-autosuggest__suggestions {
   background-color: $search-result-background-color;
