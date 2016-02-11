@@ -89,7 +89,10 @@ class SearchTwoFieldsContainer extends React.Component
       <SearchField
         endpoint={origin}
         geolocation={geolocation}
-        setToCurrent={() => @context.executeAction EndpointActions.setOriginToCurrent}
+        onClick={(e) =>
+          e.preventDefault()
+          @context.executeAction SearchActions.openOriginSearch, origin
+        }
         enableInputMode={() => @context.executeAction EndpointActions.enableOriginInputMode}
         disableInputMode={() => @context.executeAction EndpointActions.disableOriginInputMode}
         onEmpty={() =>

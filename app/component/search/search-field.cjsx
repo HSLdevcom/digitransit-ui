@@ -46,11 +46,8 @@ class SearchField extends React.Component
     <div onClick={@props.onClick} className="search-form" style={"paddingTop": "0"}>
       <FakeSearchBar
         onClick={@props.onClick}
-        ref="autosuggest"
         placeholder={@props.autosuggestPlaceholder}
         value={@props.endpoint?.address}
-        id={@props.id + "-autosuggest"}
-        disableInput={@props.disableInputMode}
       />
       <NavigateOrInput
         setToCurrent={@props.setToCurrent}
