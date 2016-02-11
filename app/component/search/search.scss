@@ -19,8 +19,8 @@ $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
 $search-form-location-icon-size: 18px;
 
-.search-form .icon {
-  fill: $search-form-icon-color;
+.search-form .button-icon {
+  color: $search-form-icon-color;
   vertical-align: middle;
 }
 
@@ -194,7 +194,7 @@ $search-form-location-icon-size: 18px;
   margin-bottom: 8px;
 }
 
-.search-form .react-autosuggest__suggestion--focused {
+.search-form .react-autowhatever__item--focused {
   color: $search-result-text-highlight-color;
   font-weight: $search-result-text-highlight-font-weight;
   background-color: $search-result-text-highlight-background-color;
