@@ -47,7 +47,12 @@ class Map extends React.Component
       positionMarker = <PositionMarker/>
 
       if @props.showStops
-        stops = <StopMarkerContainer hilightedStops={@props.hilightedStops} disableMapTracking={@props.disableMapTracking}/>
+        stops = <StopMarkerContainer
+          hilightedStops={@props.hilightedStops}
+          disableMapTracking={@props.disableMapTracking}
+          tileSize={config.map.tileSize or 256}
+          zoomOffset={config.map.zoomOffset or 0}
+          updateWhenIdle={false}/>
         cityBikes = if config.showCityBikes then <CityBikeMarkerContainer/> else null
 
       vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
