@@ -117,6 +117,7 @@ translations =
     'weather-at-destination': 'Sää määränpäässä'
     'trip-co2-emissions': 'Reitin CO2 päästöt'
     'add-location': 'Lisää paikka'
+    'add-location-to-favourites': 'Lisää sinulle tärkeä paikka Suosikkisi- välilehdelle'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'

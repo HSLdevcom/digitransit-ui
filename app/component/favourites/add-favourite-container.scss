@@ -9,4 +9,24 @@
     height: 1em;
     font-size: 14px;
   }
+  .add-favourite-container__header {
+    margin-top: 38px;
+    max-width: 420px;
+  }
+
+  @media (min-width: 490px) {
+    .add-favourite-container__header-text {
+      padding-top: 4px;
+    }
+  }
+  .add-favourite-star {
+    padding-left: 0px !important;
+  }
+  .add-favourite-star__icon {
+    height: 24px;
+    width: 24px;
+    fill: $favourite-color;
+    vertical-align: middle;
+  }
+
 }
