@@ -80,11 +80,6 @@ class TransitLeg extends React.Component
               =1 {one minute}
               other {# minutes}})' />
         </div>
-        <div><FormattedMessage
-          id='alight'
-          defaultMessage='Alight at stop'/>
-        </div>
-        <div>{@props.leg.to.name}</div>
       </div>
     </div>
 
