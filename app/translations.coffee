@@ -278,6 +278,10 @@ translations =
                              =1 {en holdeplass}
                              other {# holdeplasser}
                             } ({duration})'
+    'num-stops-flight': '{stops, plural,
+                            =1 {En mellomlanding}
+                            other {# mellomlandinger}
+                           }'
     'alight': 'Gå av ved {toName}'
     'start-journey-place': 'Start fra'
     'walk-to-destination': 'Gå til destinasjon'
@@ -387,6 +391,6 @@ translations =
     'CABLE_CAR': 'kabeltrikk'
     'GONDOLA': 'gondolbane'
     'FUNICULAR': 'taubane'
-    'transit-from-to': 'Ta {transitMode} fra {fromName} til {toName}'
+    'transit-from-to': 'Ta {transitMode} fra {fromName} til {toName} ({duration})'
 
 module.exports = translations
