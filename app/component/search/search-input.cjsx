@@ -18,17 +18,17 @@ class SearchInput extends React.Component
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
-         @setState "focusedItemIndex": eventProps.itemIndex
-         event.preventDefault()
+      @setState "focusedItemIndex": eventProps.itemIndex
+      event.preventDefault()
 
   handleOnKeyDown: (event, eventProps) =>
-    if event.keyCode==13
+    if event.keyCode == 13 #enter selects current
       @currentItemSelected()
       event.preventDefault()
 
-    if event.keyCode==27 #esc
+    if event.keyCode == 27 #esc clears
       return @handleUpdateInputNow(target:
-        value:"")
+        value: "")
       event.preventDefault()
 
     if (typeof eventProps.newFocusedItemIndex != 'undefined')
@@ -38,7 +38,7 @@ class SearchInput extends React.Component
   handleOnMouseDown: (event, eventProps) =>
     console.log(eventProps)
     if typeof eventProps.itemIndex != 'undefined'
-      @setState "focusedItemIndex": eventProps.itemIndex,()=>@currentItemSelected()
+      @setState "focusedItemIndex": eventProps.itemIndex, () => @currentItemSelected()
       event.preventDefault()
 
   handleUpdateInputNow: (event) =>
@@ -66,10 +66,10 @@ class SearchInput extends React.Component
         @setState "suggestions": features
 
   currentItemSelected: () =>
-    if(@state.focusedItemIndex>-1 and @state.suggestions.length>0)
-        item = @state.suggestions[@state.focusedItemIndex]
-        name = SuggestionItem.getName(item.properties)
-        @props.onSuggestionSelected(name, item)
+    if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
+      item = @state.suggestions[@state.focusedItemIndex]
+      name = SuggestionItem.getName(item.properties)
+      @props.onSuggestionSelected(name, item)
     else
       console.log("could not select:", @state.focusedItemIndex, @state.focusedItemIndex )
 
