@@ -86,6 +86,10 @@ class SearchTwoFieldsContainer extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
+    focusInput = () =>
+      @refs.modal?.refs.searchInput?.refs.autowhatever?.refs.input?.focus()
+
+
     from =
       <SearchField
         endpoint={origin}
@@ -93,6 +97,7 @@ class SearchTwoFieldsContainer extends React.Component
         onClick={(e) =>
           e.preventDefault()
           @context.executeAction SearchActions.openOriginSearch, origin
+          focusInput()
         }
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'origin'
@@ -112,7 +117,7 @@ class SearchTwoFieldsContainer extends React.Component
         onClick={(e) =>
           e.preventDefault()
           @context.executeAction SearchActions.openDestinationSearch, destination
-          @refs.modal?.refs.searchInput?.refs.autowhatever?.refs.input?.focus()
+          focusInput()
         }
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'destination'
