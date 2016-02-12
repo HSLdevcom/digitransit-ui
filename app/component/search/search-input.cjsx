@@ -46,7 +46,6 @@ class SearchInput extends React.Component
     if event.keyCode == 27 #esc clears
       return @handleUpdateInputNow(target:
         value: "")
-      @blur()
       event.preventDefault()
 
     if (typeof eventProps.newFocusedItemIndex != 'undefined')
