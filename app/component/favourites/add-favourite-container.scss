@@ -21,7 +21,15 @@
   }
   .add-favourite-star {
     padding-left: 0px !important;
+    padding-top: 4px !important;
   }
+
+  @media (min-width: 380px) {
+    .add-favourite-star {
+      padding-top: 0px !important;
+    }
+  }
+
   .add-favourite-star__icon {
     height: 24px;
     width: 24px;
