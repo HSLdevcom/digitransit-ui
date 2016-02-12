@@ -44,6 +44,8 @@ class ModeStore extends Store
     @data.subwayState
   getFerryState: ->
     @data.ferryState
+  getAirplaneState: ->
+    @data.airplaneState
   getCitybikeState: ->
     @data.citybikeState
 
