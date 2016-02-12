@@ -24,35 +24,42 @@ class ModeFilter extends React.Component
         onBtnClick={() => @context.executeAction ModeSelectedAction.toggleBusState}
         state={store.getBusState()}
         checkedClass="bus"
-        className="columns small-3 first-btn"
+        className="columns small-2 first-btn"
       />
       <ToggleButton
         icon="tram-withoutBox"
         onBtnClick={() => @context.executeAction ModeSelectedAction.toggleTramState}
         state={store.getTramState()}
         checkedClass="tram"
-        className="columns small-3"
+        className="columns small-2"
       />
       <ToggleButton
         icon="rail-withoutBox"
         onBtnClick={() => @context.executeAction ModeSelectedAction.toggleRailState}
         state={store.getRailState()}
         checkedClass="rail"
-        className="columns small-3"
+        className="columns small-2"
       />
       <ToggleButton
         icon="subway-withoutBox"
         onBtnClick={() => @context.executeAction ModeSelectedAction.toggleSubwayState}
         state={store.getSubwayState()}
         checkedClass="subway"
-        className="columns small-3"
+        className="columns small-2"
+      />
+      <ToggleButton
+        icon="ferry-withoutBox"
+        onBtnClick={() => @context.executeAction ModeSelectedAction.toggleFerryState}
+        state={store.getFerryState()}
+        checkedClass="ferry"
+        className="columns small-2"
       />
       <ToggleButton
         icon="airplane-withoutBox"
         onBtnClick={() => @context.executeAction ModeSelectedAction.toggleAirplaneState}
         state={store.getAirplaneState()}
         checkedClass="air"
-        className="columns small-3 last-btn"
+        className="columns small-2 last-btn"
       />
     </div>
 
