@@ -32,8 +32,8 @@ class SVGTile
         return
       res.arrayBuffer().then (buf) =>
         vt = new VectorTile(new Protobuf(buf))
-        @features = [0..vt.layers.geojsonLayer?.length - 1]
-          .map((i) -> vt.layers.geojsonLayer.feature i)
+        @features = [0..vt.layers.stops?.length - 1]
+          .map((i) -> vt.layers.stops.feature i)
           .filter((feature) -> feature.properties.type)
         for i in @features
           @addFeature i
