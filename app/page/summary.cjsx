@@ -15,7 +15,6 @@ sortBy             = require 'lodash/sortBy'
 {otpToLocation, locationToCoords} = require '../util/otp-strings'
 {supportsHistory}  = require 'history/lib/DOMUtils'
 intl               = require 'react-intl'
-SearchModal        = require '../component/search/search-modal'
 
 FormattedMessage = intl.FormattedMessage
 
@@ -132,7 +131,6 @@ class SummaryPage extends React.Component
         {summary}
       </Map>
       <div>{rows}</div>
-      <SearchModal/>
     </SummaryNavigation>
 
 module.exports = SummaryPage

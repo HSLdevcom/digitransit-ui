@@ -8,6 +8,7 @@ SearchTwoFields  = require './search-two-fields'
 SearchField      = require './search-field'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
+SearchModal      = require './search-modal'
 
 class SearchTwoFieldsContainer extends React.Component
 
@@ -93,11 +94,6 @@ class SearchTwoFieldsContainer extends React.Component
           e.preventDefault()
           @context.executeAction SearchActions.openOriginSearch, origin
         }
-        enableInputMode={() => @context.executeAction EndpointActions.enableOriginInputMode}
-        disableInputMode={() => @context.executeAction EndpointActions.disableOriginInputMode}
-        onEmpty={() =>
-          @pushNonSearchState()
-          @context.executeAction EndpointActions.clearOrigin}
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'origin'
           defaultMessage: 'From where? - address or stop')}
@@ -116,13 +112,8 @@ class SearchTwoFieldsContainer extends React.Component
         onClick={(e) =>
           e.preventDefault()
           @context.executeAction SearchActions.openDestinationSearch, destination
+          @refs.modal?.refs.searchInput?.refs.autowhatever?.refs.input?.focus()
         }
-        enableInputMode={() => @context.executeAction EndpointActions.enableDestinationInputMode}
-        disableInputMode={() => @context.executeAction EndpointActions.disableDestinationInputMode}
-        onEmpty={() =>
-          @pushNonSearchState()
-          @context.executeAction EndpointActions.clearDestination}
-          @context.executeAction EndpointActions.clearDestination}
         autosuggestPlaceholder={@context.intl.formatMessage(
           id: 'destination'
           defaultMessage: 'Where to? - address or stop')}
@@ -135,6 +126,9 @@ class SearchTwoFieldsContainer extends React.Component
 
       />
 
-    <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
+    <div>
+      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
+      <SearchModal ref="modal" initialPosition={destination}/>
+    </div>
 
 module.exports = SearchTwoFieldsContainer

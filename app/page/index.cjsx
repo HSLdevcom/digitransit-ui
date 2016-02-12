@@ -8,7 +8,6 @@ Icon               = require '../component/icon/icon'
 Link               = require 'react-router/lib/Link'
 MapWithTracking    = require '../component/map/map-with-tracking'
 FeedbackPanel      = require '../component/feedback/feedback-panel.cjsx'
-SearchModal        = require '../component/search/search-modal'
 
 class Page extends React.Component
   @contextTypes:
@@ -26,7 +25,6 @@ class Page extends React.Component
       </MapWithTracking>
       <FrontPagePanel/>
       <FeedbackPanel/>
-      <SearchModal/>
     </IndexNavigation>
 
 module.exports = Page

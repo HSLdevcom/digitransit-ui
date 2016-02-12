@@ -1,5 +1,5 @@
-React = require 'react'
-Icon = require '../icon/icon'
+React       = require 'react'
+Icon        = require '../icon/icon'
 
 SearchTwoFields = (props) ->
   <div className="search-form">

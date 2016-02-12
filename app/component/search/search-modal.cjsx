@@ -5,7 +5,6 @@ intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 SearchInput      = require './search-input'
 SearchActions    = require '../../action/search-actions'
-SearchActions    = require '../../action/search-actions'
 
 class SearchModal extends React.Component
 
@@ -26,20 +25,23 @@ class SearchModal extends React.Component
   closeModal: () =>
     @context.executeAction SearchActions.closeSearch
 
-  render: ->
-    <MaterialModal
-      className="search-modal"
-      contentClassName="search-modal-content"
-      bodyClassName="search-modal-body"
-      autoScrollBodyContent={true}
-      modal={true}
-      open={@context.getStore('SearchStore').isModalOpen()}
-    >
-      <div className="small-1 columns left cursor-pointer" onClick={@closeModal}>
+  render: =>
+    style = {}
+
+    if @context.getStore('SearchStore').isModalOpen() == false
+      style.height = "0"
+    else
+      style.height = "100vh"
+
+    <div style={style}
+      className="search-modal">
+      <div className="row left cursor-pointer padding-normal" onClick={@closeModal}>
         <Icon img={'icon-icon_arrow-left'} />
       </div>
-      <div className="search-form">
+      <div className="row search-dialog">
+      <div className="small-12 medium-6 medium-offset-3 columns">
       <SearchInput
+        ref="searchInput"
         initialValue = {@state?.value}
         onSuggestionSelected = {(name, item) =>
           setLocationAction = @context.getStore('SearchStore').getAction()
@@ -51,6 +53,7 @@ class SearchModal extends React.Component
           @closeModal()
       }/>
       </div>
-    </MaterialModal>
+      </div>
+    </div>
 
 module.exports = SearchModal

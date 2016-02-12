@@ -3,7 +3,6 @@ Icon = require '../icon/icon'
 {FormattedMessage} = require 'react-intl'
 cx = require 'classnames'
 
-
 inputOrPlaceholder = (value, placeholder) ->
   if value != undefined and value != null and value != ""
     <div className="address-input no-select">
@@ -21,6 +20,7 @@ FakeSearchBar = (props) ->
 
 FakeSearchBar.propTypes =
   onClick: React.PropTypes.func.isRequired
+  onOpen: React.PropTypes.func
   value: React.PropTypes.string.isRequired
   placeholder: React.PropTypes.string.isRequired
 

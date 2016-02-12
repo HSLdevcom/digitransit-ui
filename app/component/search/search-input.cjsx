@@ -8,27 +8,45 @@ SuggestionItem    = require './suggestion-item'
 
 class SearchInput extends React.Component
 
+  constructor: (props) ->
+    @state =
+      focusedItemIndex: 0
+
+  componentWillMount: =>
+    @context.getStore('SearchStore').addChangeListener @onSearchChange
+
+  componentWillUnmount: =>
+    @context.getStore('SearchStore').removeChangeListener @onSearchChange
+
+  onSearchChange: =>
+    @handleUpdateInputNow(target:
+      value: @context.getStore('SearchStore').getPosition().address)
+
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
-
-  constructor: (props) ->
-    super(props)
-    @state = value: props.initialValue, focusedItemIndex: 0
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
       @setState "focusedItemIndex": eventProps.itemIndex
       event.preventDefault()
 
+  blur: () ->
+    @handleUpdateInputNow(target:
+      value: "")
+    #hide safari keyboard
+    @refs.autowhatever.refs.input.blur()
+
   handleOnKeyDown: (event, eventProps) =>
     if event.keyCode == 13 #enter selects current
       @currentItemSelected()
+      @blur()
       event.preventDefault()
 
     if event.keyCode == 27 #esc clears
       return @handleUpdateInputNow(target:
         value: "")
+      @blur()
       event.preventDefault()
 
     if (typeof eventProps.newFocusedItemIndex != 'undefined')
@@ -36,9 +54,9 @@ class SearchInput extends React.Component
       event.preventDefault()
 
   handleOnMouseDown: (event, eventProps) =>
-    console.log(eventProps)
     if typeof eventProps.itemIndex != 'undefined'
       @setState "focusedItemIndex": eventProps.itemIndex, () => @currentItemSelected()
+      @blur()
       event.preventDefault()
 
   handleUpdateInputNow: (event) =>
@@ -70,12 +88,10 @@ class SearchInput extends React.Component
       item = @state.suggestions[@state.focusedItemIndex]
       name = SuggestionItem.getName(item.properties)
       @props.onSuggestionSelected(name, item)
-    else
-      console.log("could not select:", @state.focusedItemIndex, @state.focusedItemIndex )
 
   render: =>
     <ReactAutowhatever
-      ref = "foo"
+      ref = "autowhatever"
       className={@props.className}
       id="suggest"
       items={@state?.suggestions || []}

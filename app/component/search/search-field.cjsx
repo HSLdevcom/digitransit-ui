@@ -15,16 +15,11 @@ class SearchField extends React.Component
   @propTypes:
     endpoint: React.PropTypes.object.isRequired
     geolocation: React.PropTypes.object.isRequired
-    setToCurrent: React.PropTypes.func.isRequired
-    enableInputMode: React.PropTypes.func.isRequired
-    disableInputMode: React.PropTypes.func.isRequired
     onSelectAction: React.PropTypes.func.isRequired
     autosuggestPlaceholder: React.PropTypes.string.isRequired
     navigateOrInputPlaceHolder: React.PropTypes.string.isRequired
     id: React.PropTypes.string.isRequired
     focus: React.PropTypes.func.isRequired
-    onEmpty: React.PropTypes.func.isRequired
-
 
   getGeolocationBar: =>
     <GeolocationBar onClick={@props.onClick}
@@ -43,7 +38,9 @@ class SearchField extends React.Component
     else
       hidden1 = true
 
-    <div onClick={@props.onClick} className="search-form" style={"paddingTop": "0"}>
+    <div onClick={(e) =>
+      @props.onClick(e)
+      } className="search-form" style={"paddingTop": "0"}>
       <FakeSearchBar
         onClick={@props.onClick}
         placeholder={@props.autosuggestPlaceholder}
