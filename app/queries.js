@@ -101,11 +101,9 @@ var RouteListContainerFragments = {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
         edges {
           node {
+            distance
             stop {
               gtfsId
-              name
-              code
-              desc
               stoptimes: stoptimesForPatterns(numberOfDepartures:1) {
                 pattern {
                   headsign
@@ -117,10 +115,9 @@ var RouteListContainerFragments = {
                 stoptimes {
                   pickupType
                 }
-                ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
               }
             }
-            distance
+            ${require('./component/stop/stop-at-distance-list-container').getFragment('stopAtDistance')}
           }
         }
         pageInfo {
@@ -430,6 +427,46 @@ var StopCardHeaderFragments = {
   `,
 }
 
+var StopAtDistanceListContainerFragments = {
+  stopAtDistance: () => Relay.QL`
+  fragment on stopAtDistance {
+    distance
+    stop {
+      stoptimes: stoptimesForPatterns(numberOfDepartures:2) {
+        pattern {
+          alerts {
+            effectiveStartDate
+            effectiveEndDate
+            trip {
+            gtfsId
+            }
+          }
+          route {
+            gtfsId
+            shortName
+            longName
+            type
+            color
+          }
+          code
+          headsign
+        }
+        stoptimes {
+          realtimeState
+          realtimeDeparture
+          scheduledDeparture
+          realtime
+          serviceDay
+          trip {
+            gtfsId
+          }
+        }
+      }
+    }
+  }
+  `,
+}
+
 var DepartureListFragments = {
   stoptimes: () => Relay.QL`
     fragment on StoptimesInPattern @relay(plural:true) {
@@ -674,6 +711,7 @@ module.exports = {
   StopMarkerPopupFragments: StopMarkerPopupFragments,
   StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
+  StopAtDistanceListContainerFragments: StopAtDistanceListContainerFragments,
   DepartureListFragments: DepartureListFragments,
   TripPageFragments: TripPageFragments,
   FuzzyTripRoute: FuzzyTripRoute,

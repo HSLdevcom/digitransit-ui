@@ -4,7 +4,7 @@ React      = require 'react'
 Relay      = require 'react-relay'
 queries    = require '../../queries'
 RouteStop  = require './route-stop'
-DepartureListContainer = require '../departure/departure-list-container2'
+StopAtDistanceListContainer = require '../stop/stop-at-distance-list-container'
 Link       = require 'react-router/lib/Link'
 sortBy     = require 'lodash/sortBy'
 config     = require '../../config'
@@ -32,37 +32,50 @@ class RouteListContainer extends React.Component
     mode = @context.getStore('ModeStore').getMode()
     filtered = []
     for departure in departures
-      unless departure.pattern.route.type not in mode or departure.stoptimes[0]?.pickupType == "NONE"
+      unless departure.stop.pattern.route.type not in mode or departure.stop.stoptimes[0]?.pickupType == "NONE"
         filtered.push departure
     filtered
 
   getDepartures: =>
+    mode = @context.getStore('ModeStore').getMode()
+    console.log mode
     departures = []
     seenDepartures = {}
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
-      for departure in @filterEligibleDepartures stop.stoptimes
-        departures.push
-          distance: edge.node.distance
-          pattern: departure.pattern
-          stop: stop
-          seenKey: departure.pattern.route.gtfsId + ":" + departure.pattern.headsign + ":"
-          stoptimes: departure.stoptimes
-          departure: departure
+      #for departure in @filterEligibleDepartures stop.stoptimes
+      departures.push edge.node
 
-    uniqueDepartures = []
-    for departure in departures
-      if seenDepartures[departure.seenKey]
-      else
-        uniqueDepartures.push departure
-        seenDepartures[departure.seenKey] = true
+    for stopAtDistance in departures
+      keepStoptimes = []
+      l = stopAtDistance.stop.stoptimes.length
+      for stoptime in stopAtDistance.stop.stoptimes
+        seenKey =  stoptime.pattern.route.gtfsId + ":" + stoptime.pattern.headsign
+        isSeen = true #seenDepartures[seenKey]
+        isModeIncluded = stoptime.pattern.route.type in mode
+        isPickup = stoptime.stoptimes[0]?.pickupType != "NONE"
+        if seenKey.indexOf('HSL:1001:Käpylä') != -1
+          console.log seenKey + ' ' + isSeen + ' ' + isModeIncluded + ' ' + isPickup
+        if !isSeen and isModeIncluded and isPickup
+          keepStoptimes.push stoptime
+          seenDepartures[seenKey] = true
+      stopAtDistance.stop.stoptimes = keepStoptimes
+      #console.log stopAtDistance.stop.stoptimes.length + ' < ' + l
 
-    uniqueDepartures
+    departures
 
   render: =>
     bucketSize = config.nearbyRoutes.bucketSize
     departures = @getDepartures()
-    departures = departures.map (d) => d.departure
+    components = []
+
+    for stopAtDistance in departures
+      components.push <StopAtDistanceListContainer
+        key={stopAtDistance.stop.gtfsId + ":" + stopAtDistance.distance}
+        rowClasses="padding-normal underline"
+        routeLinks={true}
+        stopAtDistance={stopAtDistance}
+        showStops={true}/>
 
     <div>
       <div className="departure-list-header padding-vertical-small">
@@ -73,11 +86,7 @@ class RouteListContainer extends React.Component
         </span>
       </div>
 
-      <DepartureListContainer
-          rowClasses="padding-normal underline"
-          routeLinks={true}
-          stoptimes={departures}
-          showStops={true}/>
+      {components}
     </div>
 
 module.exports = Relay.createContainer(RouteListContainer,

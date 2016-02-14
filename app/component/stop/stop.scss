@@ -8,3 +8,41 @@
 div.stop > .content {
   height: calc(100% - 91px);
 }
+
+.stop-departure-row  {
+  background: $white;
+  line-height: $line-height-normal;
+  position: relative;
+  overflow-y: visible;
+  white-space: nowrap;
+  margin: 0;
+
+  color: $black;
+  font-family: $font-family-narrow;
+  font-size: $font-size-normal;
+
+  .vehicle-number {
+    width: 2.5em;
+  }
+  .distance {
+    color: $gray;
+    text-align: right;
+    margin-right: 0.5em;
+  }
+  .icon {
+    font-size: 9pt;
+  }
+  .stop-reference {
+    width: 3em;
+    display: inline-block;
+    text-align: right;
+  }
+  .route-destination {
+    width: calc(100% - 12.5em);
+  }
+
+  & > div,
+  & > span {
+    vertical-align: middle;
+  }
+}
