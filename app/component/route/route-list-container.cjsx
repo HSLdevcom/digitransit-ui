@@ -4,7 +4,9 @@ React      = require 'react'
 Relay      = require 'react-relay'
 queries    = require '../../queries'
 RouteStop  = require './route-stop'
-StopAtDistanceListContainer = require '../stop/stop-at-distance-list-container'
+RouteNumber           = require '../departure/route-number'
+RouteDestination      = require '../departure/route-destination'
+DepartureTime         = require '../departure/departure-time'
 Link       = require 'react-router/lib/Link'
 sortBy     = require 'lodash/sortBy'
 config     = require '../../config'
@@ -21,9 +23,11 @@ class RouteListContainer extends React.Component
 
   componentDidMount: ->
     @context.getStore('ModeStore').addChangeListener @onModeChange
+    @context.getStore('TimeStore').addChangeListener @onChange
 
   componentWillUnmount: ->
     @context.getStore('ModeStore').removeChangeListener @onModeChange
+    @context.getStore('TimeStore').removeChangeListener @onChange
 
   onModeChange: =>
     @forceUpdate()
@@ -51,7 +55,7 @@ class RouteListContainer extends React.Component
       l = stopAtDistance.stop.stoptimes.length
       for stoptime in stopAtDistance.stop.stoptimes
         seenKey =  stoptime.pattern.route.gtfsId + ":" + stoptime.pattern.headsign
-        isSeen = true #seenDepartures[seenKey]
+        isSeen = seenDepartures[seenKey]
         isModeIncluded = stoptime.pattern.route.type in mode
         isPickup = stoptime.stoptimes[0]?.pickupType != "NONE"
         if seenKey.indexOf('HSL:1001:Käpylä') != -1
@@ -64,18 +68,41 @@ class RouteListContainer extends React.Component
 
     departures
 
+  now: =>
+    @context.getStore('TimeStore').getCurrentTime()
+    
   render: =>
     bucketSize = config.nearbyRoutes.bucketSize
     departures = @getDepartures()
-    components = []
+    stoptimeObjs = []
+
+    currentTime = @now().unix()
 
     for stopAtDistance in departures
-      components.push <StopAtDistanceListContainer
-        key={stopAtDistance.stop.gtfsId + ":" + stopAtDistance.distance}
-        rowClasses="padding-normal underline"
-        routeLinks={true}
-        stopAtDistance={stopAtDistance}
-        showStops={true}/>
+      for stoptime in stopAtDistance.stop.stoptimes
+        departureTimes = []
+        for departure in stoptime.stoptimes
+          canceled =  departure.realtimeState == 'CANCELED' or (window.mock && departure.realtimeDeparture % 40 == 0)
+          departureTimes.push <DepartureTime
+            key={Math.random()}
+            departureTime={departure.serviceDay + departure.realtimeDeparture}
+            realtime={departure.realtime}
+            currentTime={currentTime}
+            canceled={canceled} />
+
+        stoptimeObjs.push <Link to="/linjat/#{stoptime.pattern.code}" key={stoptime.pattern.code}>
+          <div className="stop-departure-row padding-normal border-bottom">
+            <span className="distance">{(stopAtDistance.distance // 10) * 10 + "m"}</span>
+            <RouteNumber
+              mode={stoptime.pattern.route.type}
+              realtime={false}
+              text={stoptime.pattern.route.shortName} />
+            <RouteDestination
+              mode={stoptime.pattern.route.type}
+              destination={stoptime.pattern.headsign or stoptime.pattern.route.longName} />
+            {departureTimes}
+          </div>
+        </Link>
 
     <div>
       <div className="departure-list-header padding-vertical-small">
@@ -86,7 +113,7 @@ class RouteListContainer extends React.Component
         </span>
       </div>
 
-      {components}
+      {stoptimeObjs}
     </div>
 
 module.exports = Relay.createContainer(RouteListContainer,

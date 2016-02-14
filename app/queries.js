@@ -104,20 +104,38 @@ var RouteListContainerFragments = {
             distance
             stop {
               gtfsId
-              stoptimes: stoptimesForPatterns(numberOfDepartures:1) {
+              stoptimes: stoptimesForPatterns(numberOfDepartures:2) {
                 pattern {
+                  alerts {
+                    effectiveStartDate
+                    effectiveEndDate
+                    trip {
+                      gtfsId
+                    }
+                  }
+                  code
                   headsign
                   route {
                     gtfsId
+                    shortName
+                    longName
                     type
+                    color
                   }
                 }
                 stoptimes {
                   pickupType
+                  realtimeState
+                  realtimeDeparture
+                  scheduledDeparture
+                  realtime
+                  serviceDay
+                  trip {
+                    gtfsId
+                  }
                 }
               }
             }
-            ${require('./component/stop/stop-at-distance-list-container').getFragment('stopAtDistance')}
           }
         }
         pageInfo {
