@@ -255,11 +255,10 @@ div.search-modal {
   input[type="text"].react-autowhatever__input {
     border: 1px solid $gray;
     border-radius: 4px;
-    font-size: 1.2em;
-    padding: 10px 2px 10px 2px;
+    height: $search-form-input-height;
+    padding: 10px;
     outline: 0;
     appearance: none;
-    height: 1.8em;
   }
 
 }
