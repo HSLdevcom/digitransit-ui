@@ -6,7 +6,7 @@ SearchTwoFields = (props) ->
     <div className="row upper-search-form">
       <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
         <div className="row collapse postfix-radius">
-          <div className="small-11 columns">
+          <div className="small-11 columns" >
             {props.from}
           </div>
           <div className="small-1 columns">

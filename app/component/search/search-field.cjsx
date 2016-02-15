@@ -22,12 +22,16 @@ class SearchField extends React.Component
     focus: React.PropTypes.func.isRequired
 
   getGeolocationBar: =>
-    <GeolocationBar onClick={@props.onClick}
-      geolocation={@props.geolocation}
-      removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
-      locateUser={() => @context.executeAction PositionActions.findLocation}
-      id={@props.id + "-geolocationbar"}
-    />
+    <div id={@props.id} onClick={(e) =>
+      @props.onClick(e)
+      }>
+      <GeolocationBar
+        geolocation={@props.geolocation}
+        removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
+        locateUser={() => @context.executeAction PositionActions.findLocation}
+        id={@props.id + "-geolocationbar"}
+      />
+    </div>
 
   render: =>
 
@@ -38,13 +42,14 @@ class SearchField extends React.Component
     else
       hidden1 = true
 
-    <div onClick={(e) =>
+    <div id={@props.id} onClick={(e) =>
       @props.onClick(e)
-      } className="search-form" style={"paddingTop": "0"}>
+      }>
       <FakeSearchBar
         onClick={@props.onClick}
         placeholder={@props.autosuggestPlaceholder}
         value={@props.endpoint?.address}
+        id={@props.id + "-fake-search-bar"}
       />
       <NavigateOrInput
         setToCurrent={@props.setToCurrent}
@@ -54,7 +59,7 @@ class SearchField extends React.Component
           @refs.autosuggest.focusInput()
         }
         placeholder={@props.autosuggestPlaceholder}
-        id={@props.id + "-placeholder"}
+        id={@props.id + "-navigate-or-input"}
         text={@props.navigateOrInputPlaceHolder}
         visibility={if hidden1 then "hidden" else "visible"}
       />
