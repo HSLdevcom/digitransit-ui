@@ -80,8 +80,8 @@ class SearchInput extends React.Component
           (feature) ->
             config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
         )
-        @setState "suggestions": features
-
+        @setState "suggestions": features, focusedItemIndex: 0
+        
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
       item = @state.suggestions[@state.focusedItemIndex]
