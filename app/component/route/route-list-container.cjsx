@@ -3,10 +3,7 @@
 React      = require 'react'
 Relay      = require 'react-relay'
 queries    = require '../../queries'
-RouteStop  = require './route-stop'
-RouteNumber      = require '../departure/route-number'
-RouteDestination = require '../departure/route-destination'
-DepartureTime    = require '../departure/departure-time'
+NextDeparturesList    = require '../departure/next-departures-list'
 Link       = require 'react-router/lib/Link'
 sortBy     = require 'lodash/sortBy'
 config     = require '../../config'
@@ -32,13 +29,15 @@ class RouteListContainer extends React.Component
   onModeChange: =>
     @forceUpdate()
 
-  getDepartures: =>
+  getNextDepartures: =>
     mode = @context.getStore('ModeStore').getMode()
     departures = []
     seenDepartures = {}
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
       departures.push edge.node
+
+    nextDepartures = []
 
     for stopAtDistance in departures
       keepStoptimes = []
@@ -50,57 +49,17 @@ class RouteListContainer extends React.Component
         if !isSeen and isModeIncluded and isPickup
           keepStoptimes.push stoptime
           seenDepartures[seenKey] = true
-      stopAtDistance.stop.stoptimes = keepStoptimes
+      nextDepartures.push
+        distance: stopAtDistance.distance
+        stoptimes: keepStoptimes
 
-    departures
+    nextDepartures
 
   now: =>
     @context.getStore('TimeStore').getCurrentTime()
 
   render: =>
-    bucketSize = config.nearbyRoutes.bucketSize
-    departures = @getDepartures()
-    stoptimeObjs = []
-
-    currentTime = @now().unix()
-
-    for stopAtDistance in departures
-      for stoptime in stopAtDistance.stop.stoptimes
-        departureTimes = []
-        for departure in stoptime.stoptimes
-          canceled =  departure.realtimeState == 'CANCELED' or (window.mock && departure.realtimeDeparture % 40 == 0)
-          departureTimes.push <DepartureTime
-            key={Math.random()}
-            departureTime={departure.serviceDay + departure.realtimeDeparture}
-            realtime={departure.realtime}
-            currentTime={currentTime}
-            canceled={canceled} />
-
-        stoptimeObjs.push <Link to="/linjat/#{stoptime.pattern.code}" key={stoptime.pattern.code}>
-          <div className="stop-departure-row padding-normal border-bottom">
-            <span className="distance">{(stopAtDistance.distance // 10) * 10 + "m"}</span>
-            <RouteNumber
-              mode={stoptime.pattern.route.type}
-              realtime={false}
-              text={stoptime.pattern.route.shortName} />
-            <RouteDestination
-              mode={stoptime.pattern.route.type}
-              destination={stoptime.pattern.headsign or stoptime.pattern.route.longName} />
-            {departureTimes}
-          </div>
-        </Link>
-
-    <div>
-      <div className="departure-list-header padding-vertical-small">
-        <span className="right">
-          <FormattedMessage
-            id='stop-number'
-            defaultMessage="Stop number"/>
-        </span>
-      </div>
-
-      {stoptimeObjs}
-    </div>
+    <NextDeparturesList departures={@getNextDepartures()} currentTime={@now().unix()} />
 
 module.exports = Relay.createContainer(RouteListContainer,
   fragments: queries.RouteListContainerFragments
