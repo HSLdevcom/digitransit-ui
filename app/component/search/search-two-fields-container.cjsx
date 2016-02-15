@@ -117,7 +117,7 @@ class SearchTwoFieldsContainer extends React.Component
           @pushNonSearchState()
           @context.executeAction EndpointActions.clearDestination}
         autosuggestPlaceholder={@context.intl.formatMessage(
-          id: 'destination'
+          id: 'destination-placeholder'
           defaultMessage: 'Where to? - address or stop')}
         navigateOrInputPlaceHolder={@context.intl.formatMessage(
           id: 'give-destination'
