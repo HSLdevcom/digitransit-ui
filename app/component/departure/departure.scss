@@ -137,3 +137,34 @@
   padding-top: inherit;
   padding-bottom: inherit;
 }
+
+.next-departures-list-header {
+  color: $gray;
+  font-family: $font-family-narrow;
+  font-size: $font-size-normal;
+  white-space: nowrap;
+  margin: 0;
+
+  & > span {
+      display: inline-block;
+  }
+  .distance-header {
+    width: 3em;
+    margin-right: 0.5em;
+    text-align: right;
+  }
+  .route-number-header {
+    width: 3em;
+  }
+  .route-destination-header {
+    width: calc(100% - 14.5em);
+  }
+  .time-header {
+    font-weight: inherit;
+    text-align: right;
+    width: 4rem;
+    margin-right: 0.5em;
+    padding-right: 0.5em;
+    text-align: right;
+ }
+}
