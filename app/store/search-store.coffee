@@ -27,7 +27,6 @@ class SearchStore extends Store
     @modalOpen = true
     @action = props.action
     @position = props.position
-    console.log("setting placeholder", props.placeholder)
     @placeholder = props.placeholder
     @emitChange(props)
 
