@@ -118,6 +118,12 @@ translations =
     'trip-co2-emissions': 'Reitin CO2 päästöt'
     'add-location': 'Lisää paikka'
     'add-location-to-favourites': 'Lisää sinulle tärkeä paikka Suosikkisi- välilehdelle'
+    'specify-location': 'Määritä sijainti'
+    'give-name-to-location': "Anna paikalle kuvaava nimi"
+    'pick-icon': 'Valitse kuvake'
+    'address-or-stop': 'Osoite tai pysäkki'
+    'location-examples': "esim. Koti, Työ, Koulu,..."
+    'save': "Tallenna"
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
