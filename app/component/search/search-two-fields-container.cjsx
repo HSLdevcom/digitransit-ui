@@ -89,6 +89,13 @@ class SearchTwoFieldsContainer extends React.Component
     focusInput = () =>
       @refs.modal?.refs.searchInput?.refs.autowhatever?.refs.input?.focus()
 
+    originPlaceholder = @context.intl.formatMessage(
+      id: 'origin'
+      defaultMessage: 'From where? - address or stop')
+
+    destinationPlaceholder = @context.intl.formatMessage(
+      id: 'destination'
+      defaultMessage: 'Where to? - address or stop')
 
     from =
       <SearchField
@@ -96,12 +103,12 @@ class SearchTwoFieldsContainer extends React.Component
         geolocation={geolocation}
         onClick={(e) =>
           e.preventDefault()
-          @context.executeAction SearchActions.openOriginSearch, origin
+          @context.executeAction SearchActions.openOriginSearch,
+            position: origin
+            placeholder: originPlaceholder
           focusInput()
         }
-        autosuggestPlaceholder={@context.intl.formatMessage(
-          id: 'origin'
-          defaultMessage: 'From where? - address or stop')}
+        autosuggestPlaceholder={originPlaceholder}
         navigateOrInputPlaceHolder={@context.intl.formatMessage(
           id: 'give-origin'
           defaultMessage: 'Type origin')}
@@ -116,12 +123,12 @@ class SearchTwoFieldsContainer extends React.Component
         geolocation={geolocation}
         onClick={(e) =>
           e.preventDefault()
-          @context.executeAction SearchActions.openDestinationSearch, destination
+          @context.executeAction SearchActions.openDestinationSearch,
+            position: destination
+            placeholder: destinationPlaceholder
           focusInput()
         }
-        autosuggestPlaceholder={@context.intl.formatMessage(
-          id: 'destination'
-          defaultMessage: 'Where to? - address or stop')}
+        autosuggestPlaceholder={destinationPlaceholder}
         navigateOrInputPlaceHolder={@context.intl.formatMessage(
           id: 'give-destination'
           defaultMessage: 'Type destination')}

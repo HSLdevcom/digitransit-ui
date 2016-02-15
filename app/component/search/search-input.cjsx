@@ -22,6 +22,7 @@ class SearchInput extends React.Component
     @handleUpdateInputNow(target:
       value: @context.getStore('SearchStore').getPosition().address)
 
+
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
@@ -81,7 +82,7 @@ class SearchInput extends React.Component
             config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
         )
         @setState "suggestions": features, focusedItemIndex: 0
-        
+
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
       item = @state.suggestions[@state.focusedItemIndex]
@@ -107,6 +108,7 @@ class SearchInput extends React.Component
         "onChange": @handleUpdateInputNow
         "onKeyDown": @handleOnKeyDown
         "autofocus": true
+        "placeholder": @context.getStore('SearchStore').getPlaceholder()
       }
       itemProps={
         "onMouseEnter": @handleOnMouseEnter

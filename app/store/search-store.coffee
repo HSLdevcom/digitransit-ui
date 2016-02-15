@@ -5,6 +5,7 @@ class SearchStore extends Store
 
   @action = undefined
   @position = undefined
+  @placeholder = undefined
 
   constructor: (dispatcher) ->
     super(dispatcher)
@@ -16,6 +17,9 @@ class SearchStore extends Store
   getAction: () ->
     @action
 
+  getPlaceholder: () ->
+    @placeholder
+
   getPosition: () ->
     @position
 
@@ -23,12 +27,15 @@ class SearchStore extends Store
     @modalOpen = true
     @action = props.action
     @position = props.position
+    console.log("setting placeholder", props.placeholder)
+    @placeholder = props.placeholder
     @emitChange(props)
 
   closeSearch: () ->
     @modalOpen = false
     @action = undefined
     @position = undefined
+    @placeholder = undefined
     @emitChange()
 
   @handlers:

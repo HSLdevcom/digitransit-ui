@@ -53,6 +53,7 @@ class SearchField extends React.Component
           ## safari...
           @refs.autosuggest.focusInput()
         }
+        placeholder={@props.autosuggestPlaceholder}
         id={@props.id + "-placeholder"}
         text={@props.navigateOrInputPlaceHolder}
         visibility={if hidden1 then "hidden" else "visible"}
