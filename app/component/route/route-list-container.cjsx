@@ -38,12 +38,10 @@ class RouteListContainer extends React.Component
     seenDepartures = {}
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
-      #for departure in @filterEligibleDepartures stop.stoptimes
       departures.push edge.node
 
     for stopAtDistance in departures
       keepStoptimes = []
-      l = stopAtDistance.stop.stoptimes.length
       for stoptime in stopAtDistance.stop.stoptimes
         seenKey =  stoptime.pattern.route.gtfsId + ":" + stoptime.pattern.headsign
         isSeen = seenDepartures[seenKey]
