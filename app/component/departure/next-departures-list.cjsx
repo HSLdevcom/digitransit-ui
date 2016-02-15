@@ -1,6 +1,7 @@
 React      = require 'react'
 Relay      = require 'react-relay'
 queries    = require '../../queries'
+Distance         = require './distance'
 RouteNumber      = require './route-number'
 RouteDestination = require './route-destination'
 DepartureTime    = require './departure-time'
@@ -28,7 +29,7 @@ NextDeparturesList = (props) ->
 
       departureObjs.push <Link to="/linjat/#{stoptime.pattern.code}" key={stoptime.pattern.code}>
         <div className="stop-departure-row padding-normal border-bottom">
-          <span className="distance">{(departure.distance // 10) * 10 + "m"}</span>
+          <Distance distance={departure.distance}/>
           <RouteNumber
             mode={stoptime.pattern.route.type}
             realtime={false}

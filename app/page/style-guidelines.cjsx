@@ -9,6 +9,7 @@ RouteNumber        = require '../component/departure/route-number'
 RouteDestination   = require '../component/departure/route-destination'
 DepartureTime      = require '../component/departure/departure-time'
 StopReference      = require '../component/stop/stop-reference'
+Distance           = require '../component/departure/distance'
 NotImplemented     = require '../component/util/not-implemented'
 NotImplementedLink = require '../component/util/not-implemented-link'
 
@@ -320,6 +321,7 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=RouteNumber />
       <ComponentDocumentation component=RouteDestination />
       <ComponentDocumentation component=StopReference />
+      <ComponentDocumentation component=Distance />
       <ComponentDocumentation component=NotImplementedLink />
       <ComponentDocumentation component=NotImplemented />
     </div>
