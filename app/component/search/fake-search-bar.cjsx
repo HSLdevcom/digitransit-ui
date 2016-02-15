@@ -14,12 +14,11 @@ inputOrPlaceholder = (value, placeholder) ->
     </div>
 
 FakeSearchBar = (props) ->
-  <div className="input-placeholder" onClick={props.onClick}>
+  <div className="input-placeholder">
     {inputOrPlaceholder(props.value, props.placeholder)}
   </div>
 
 FakeSearchBar.propTypes =
-  onClick: React.PropTypes.func.isRequired
   value: React.PropTypes.string
   placeholder: React.PropTypes.string.isRequired
 
