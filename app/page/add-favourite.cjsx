@@ -9,7 +9,7 @@ class AddFavouritePage extends React.Component
     history: React.PropTypes.object.isRequired
 
   render: ->
-    <AddFavouriteContainer className="fullscreen"/>
+    <AddFavouriteContainer />
 
 
 module.exports = AddFavouritePage
