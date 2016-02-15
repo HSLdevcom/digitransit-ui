@@ -38,7 +38,7 @@ class SearchModal extends React.Component
       <div className="row left cursor-pointer padding-normal" onClick={@closeModal}>
         <Icon img={'icon-icon_arrow-left'} />
       </div>
-      <div className="row search-dialog">
+      <div className="row">
       <div className="small-12 medium-6 medium-offset-3 columns">
       <SearchInput
         ref="searchInput"

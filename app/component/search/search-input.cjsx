@@ -37,6 +37,7 @@ class SearchInput extends React.Component
     @refs.autowhatever.refs.input.blur()
 
   handleOnKeyDown: (event, eventProps) =>
+
     if event.keyCode == 13 #enter selects current
       @currentItemSelected()
       @blur()
@@ -49,6 +50,7 @@ class SearchInput extends React.Component
 
     if (typeof eventProps.newFocusedItemIndex != 'undefined')
       @setState "focusedItemIndex": eventProps.newFocusedItemIndex
+      document.getElementById("react-autowhatever-suggest--item-" + eventProps.newFocusedItemIndex).scrollIntoView();
       event.preventDefault()
 
   handleOnMouseDown: (event, eventProps) =>
@@ -97,7 +99,7 @@ class SearchInput extends React.Component
       id="suggest"
       items={@state?.suggestions || []}
       renderItem={(item) ->
-        <SuggestionItem item={item} spanClass="autosuggestIcon"/>}
+        <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
       getSuggestionValue={(suggestion) ->
         SuggestionItem.getName(suggestion.properties)
       }

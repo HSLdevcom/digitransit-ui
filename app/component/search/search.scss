@@ -190,6 +190,16 @@ $search-form-location-icon-size: 18px;
   position: relative;
 }
 
+ul#react-whatever-suggest {
+  max-height: 9em;
+ overflow-y: auto;
+
+ li {
+   padding: 10px;
+ }
+
+}
+
 .search-form .react-autosuggest {
   margin-bottom: 8px;
 }
