@@ -10,7 +10,6 @@ class SearchField extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
-    history: React.PropTypes.object.isRequired
 
   @propTypes:
     endpoint: React.PropTypes.object.isRequired
@@ -52,12 +51,6 @@ class SearchField extends React.Component
         id={@props.id + "-fake-search-bar"}
       />
       <NavigateOrInput
-        setToCurrent={@props.setToCurrent}
-        enableInput={() =>
-          @props.enableInputMode()
-          ## safari...
-          @refs.autosuggest.focusInput()
-        }
         placeholder={@props.autosuggestPlaceholder}
         id={@props.id + "-navigate-or-input"}
         text={@props.navigateOrInputPlaceHolder}
