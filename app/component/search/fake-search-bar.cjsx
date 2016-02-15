@@ -20,8 +20,7 @@ FakeSearchBar = (props) ->
 
 FakeSearchBar.propTypes =
   onClick: React.PropTypes.func.isRequired
-  onOpen: React.PropTypes.func
-  value: React.PropTypes.string.isRequired
+  value: React.PropTypes.string
   placeholder: React.PropTypes.string.isRequired
 
 FakeSearchBar.displayName = "FakeSearchBar"
