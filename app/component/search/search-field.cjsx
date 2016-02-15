@@ -14,11 +14,9 @@ class SearchField extends React.Component
   @propTypes:
     endpoint: React.PropTypes.object.isRequired
     geolocation: React.PropTypes.object.isRequired
-    onSelectAction: React.PropTypes.func.isRequired
     autosuggestPlaceholder: React.PropTypes.string.isRequired
     navigateOrInputPlaceHolder: React.PropTypes.string.isRequired
     id: React.PropTypes.string.isRequired
-    focus: React.PropTypes.func.isRequired
 
   getGeolocationBar: =>
     <div id={@props.id} onClick={(e) =>
