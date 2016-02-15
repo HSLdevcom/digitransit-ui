@@ -204,6 +204,10 @@ ul#react-whatever-suggest {
   margin-bottom: 8px;
 }
 
+.react-autowhatever__item {
+  font-weight: $search-result-text-highlight-font-weight;
+}
+
 .react-autowhatever__item--focused {
   color: $search-result-text-highlight-color;
   font-weight: $search-result-text-highlight-font-weight;
