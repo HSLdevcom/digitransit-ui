@@ -40,6 +40,7 @@
   padding-right: 0.5em;
   text-align: right;
 }
+
 .vehicle-number {
   font-weight: $font-weight-bold;
   padding: 0 5px;
@@ -57,9 +58,12 @@
   height: 1.2em;
 }
 
+.popup .route-destination {
+  width: calc(100% - 7.5em);
+}
+
 .distance {
   display: inline-block;
-  width: 2em;
 }
 
 .route-destination::before {
@@ -74,6 +78,7 @@
 
 // route-number component
 .route-number {
+  width: 3em;
   vertical-align: top;
   position: relative;
   display: inline-block;
