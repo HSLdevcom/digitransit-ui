@@ -7,7 +7,7 @@ $not-selected-score-font-color: $gray-blue;
 $selected-score-background-color: $dark-gray;
 $not-selected-score-background-color: $white;
 
-.score-table__column {
+.score-table-column {
   background: $not-selected-score-background-color;
   float: left;
   height: 32px;
@@ -22,21 +22,21 @@ $not-selected-score-background-color: $white;
   color: $not-selected-score-font-color;
 }
 
-.score-table__column:active {
+.score-table-column:active {
   background: $selected-score-background-color;
   color: $selected-score-font-color;
 }
 
 .feedback-content-container {
 
-  .score-table__column:first-child {
+  .score-table-column:first-child {
     border-left: solid 1px $score-column-border-color;
     border-top-left-radius: $score-column-border-radius;
     border-bottom-left-radius: $score-column-border-radius;
 
   }
 
-  .score-table__column:last-child {
+  .score-table-column:last-child {
     border-top-right-radius: $score-column-border-radius;
     border-bottom-right-radius: $score-column-border-radius;
 
@@ -45,16 +45,6 @@ $not-selected-score-background-color: $white;
   .selected-score {
     background: $selected-score-background-color;
     color: $selected-score-font-color;
-  }
-
-  .score-table__label-container{
-    font-size: 11px;
-    margin-top: 3px;
-    color: $gray;
-    height: 16px;
-    max-width: 62.5rem;
-    margin-left: auto;
-    margin-right: auto;
   }
 
 }
