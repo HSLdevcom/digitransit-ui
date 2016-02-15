@@ -102,34 +102,28 @@
     margin: 0 0.5em;
 }
 
-.canceled {
-    .time {
-        position: relative;
-        display: inline-block;
-        color: $cancelation-black;
-        background-color: $cancelation-background;
-        border-radius: $border-radius;
-        margin-top: -0.25em;
-        margin-bottom: -0.25em;
-        padding-top: 0.25em;
-        padding-bottom: 0.25em;
-        &::before,
-        &::after {
-            content: '';
-            width: 2em;
-            position: absolute;
-            left: 1.75em;
-            top: 50%;
-            opacity: 0.5;
-            border-bottom: 1px solid $cancelation-red;
-        }
-        &::before {
-            transform: skewY(-30deg);
-        }
-        &::after {
-            transform: skewY(30deg);
-        }
-    }
+.canceled .time, .time.canceled {
+  position: relative;
+  display: inline-block;
+  color: $cancelation-black;
+  background-color: $cancelation-background;
+  border-radius: $border-radius;
+  &::before,
+  &::after {
+    content: '';
+    width: 2em;
+    position: absolute;
+    left: 1.75em;
+    top: 50%;
+    opacity: 0.5;
+    border-bottom: 1px solid $cancelation-red;
+  }
+  &::before {
+    transform: skewY(-30deg);
+  }
+  &::after {
+    transform: skewY(30deg);
+  }
 }
 
 .card .canceled .time {
