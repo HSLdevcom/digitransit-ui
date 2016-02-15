@@ -32,6 +32,7 @@ NavigateOrInput = (props) ->
 NavigateOrInput.propTypes =
   text: React.PropTypes.string.isRequired
   id: React.PropTypes.string.isRequired
+  visibility: React.PropTypes.string.isRequired
 
 NavigateOrInput.displayName = "NavigateOrInput"
 

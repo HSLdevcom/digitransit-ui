@@ -19,9 +19,9 @@ class SearchInput extends React.Component
     @context.getStore('SearchStore').removeChangeListener @onSearchChange
 
   onSearchChange: =>
-    @handleUpdateInputNow(target:
-      value: @context.getStore('SearchStore').getPosition().address)
-
+    if @context.getStore('SearchStore').getPosition() != undefined
+      @handleUpdateInputNow(target:
+        value: @context.getStore('SearchStore').getPosition().address)
 
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
@@ -33,8 +33,6 @@ class SearchInput extends React.Component
       event.preventDefault()
 
   blur: () ->
-    @handleUpdateInputNow(target:
-      value: "")
     #hide safari keyboard
     @refs.autowhatever.refs.input.blur()
 
@@ -73,18 +71,22 @@ class SearchInput extends React.Component
     else
       opts = Object.assign(text: input, config.searchParams)
 
-    XhrPromise.getJson(config.URL.PELIAS, opts).then (res) =>
-      features = res.features
+    if input != undefined and input != null && input.trim() != ""
+      XhrPromise.getJson(config.URL.PELIAS, opts).then (res) =>
+        features = res.features
 
-      if config.autoSuggest?
-        features = sortBy(features,
-          (feature) ->
-            config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
-        )
-        @setState "suggestions": features, focusedItemIndex: 0
+        if config.autoSuggest?
+          features = sortBy(features,
+            (feature) ->
+              config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
+          )
+          @setState "suggestions": features, focusedItemIndex: 0
+    else
+      @setState "suggestions": [], focusedItemIndex: 0
 
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
+
       item = @state.suggestions[@state.focusedItemIndex]
       name = SuggestionItem.getName(item.properties)
       @props.onSuggestionSelected(name, item)
