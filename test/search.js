@@ -3,7 +3,7 @@ var SLEEP_TIME = 1000;
 
 suite('Search', function () {
 
-  describe.only('When Origin is manually set to "Kamppi"', function () {
+  describe('When Origin is manually set to "Kamppi"', function () {
 
     before(function (browser, done) {
       browser.setCurrentPosition(60.2, 24.95, 0, done);
