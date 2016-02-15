@@ -58,8 +58,8 @@
 }
 
 .distance {
-    display: inline-block;
-    width: 2em;
+  display: inline-block;
+  width: 2em;
 }
 
 .route-destination::before {
@@ -91,15 +91,15 @@
 }
 
 .leaflet-map-pane .departure svg {
-    z-index: 0;
+  z-index: 0;
 }
 
 .cancelation-info {
-    width: 12px;
-    height: 12px;
-    stroke: $white;
-    color: $cancelation-red;
-    margin: 0 0.5em;
+  width: 12px;
+  height: 12px;
+  stroke: $white;
+  color: $cancelation-red;
+  margin: 0 0.5em;
 }
 
 .canceled .time, .time.canceled {
@@ -127,8 +127,8 @@
 }
 
 .card .canceled .time {
-    margin-top: inherit;
-    margin-bottom: inherit;
-    padding-top: inherit;
-    padding-bottom: inherit;
+  margin-top: inherit;
+  margin-bottom: inherit;
+  padding-top: inherit;
+  padding-bottom: inherit;
 }
