@@ -4,9 +4,9 @@ React      = require 'react'
 Relay      = require 'react-relay'
 queries    = require '../../queries'
 RouteStop  = require './route-stop'
-RouteNumber           = require '../departure/route-number'
-RouteDestination      = require '../departure/route-destination'
-DepartureTime         = require '../departure/departure-time'
+RouteNumber      = require '../departure/route-number'
+RouteDestination = require '../departure/route-destination'
+DepartureTime    = require '../departure/departure-time'
 Link       = require 'react-router/lib/Link'
 sortBy     = require 'lodash/sortBy'
 config     = require '../../config'
@@ -32,17 +32,8 @@ class RouteListContainer extends React.Component
   onModeChange: =>
     @forceUpdate()
 
-  filterEligibleDepartures: (departures) =>
-    mode = @context.getStore('ModeStore').getMode()
-    filtered = []
-    for departure in departures
-      unless departure.stop.pattern.route.type not in mode or departure.stop.stoptimes[0]?.pickupType == "NONE"
-        filtered.push departure
-    filtered
-
   getDepartures: =>
     mode = @context.getStore('ModeStore').getMode()
-    console.log mode
     departures = []
     seenDepartures = {}
     for edge in @props.stops.stopsByRadius.edges
@@ -58,13 +49,10 @@ class RouteListContainer extends React.Component
         isSeen = seenDepartures[seenKey]
         isModeIncluded = stoptime.pattern.route.type in mode
         isPickup = stoptime.stoptimes[0]?.pickupType != "NONE"
-        if seenKey.indexOf('HSL:1001:Käpylä') != -1
-          console.log seenKey + ' ' + isSeen + ' ' + isModeIncluded + ' ' + isPickup
         if !isSeen and isModeIncluded and isPickup
           keepStoptimes.push stoptime
           seenDepartures[seenKey] = true
       stopAtDistance.stop.stoptimes = keepStoptimes
-      #console.log stopAtDistance.stop.stoptimes.length + ' < ' + l
 
     departures
 
