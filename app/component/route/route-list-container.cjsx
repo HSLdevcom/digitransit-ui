@@ -58,7 +58,7 @@ class RouteListContainer extends React.Component
 
   now: =>
     @context.getStore('TimeStore').getCurrentTime()
-    
+
   render: =>
     bucketSize = config.nearbyRoutes.bucketSize
     departures = @getDepartures()
