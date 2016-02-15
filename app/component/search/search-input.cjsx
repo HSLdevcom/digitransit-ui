@@ -86,7 +86,6 @@ class SearchInput extends React.Component
 
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
-
       item = @state.suggestions[@state.focusedItemIndex]
       name = SuggestionItem.getName(item.properties)
       @props.onSuggestionSelected(name, item)
@@ -109,7 +108,6 @@ class SearchInput extends React.Component
         "value": @state?.value || ""
         "onChange": @handleUpdateInputNow
         "onKeyDown": @handleOnKeyDown
-        "autofocus": true
         "placeholder": @context.getStore('SearchStore').getPlaceholder()
       }
       itemProps={
