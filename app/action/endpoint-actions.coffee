@@ -1,22 +1,13 @@
-setOrigin = (actionContext, location, done) ->
-  actionContext.dispatch "setOrigin",
-    lat: location.lat
-    lon: location.lon
-    address: location.address
-  done()
+setEndpoint = (actionContext, {target, endpoint}) ->
+  actionContext.dispatch "setEndpoint",
+    target: target
+    value:
+      lat: endpoint.lat
+      lon: endpoint.lon
+      address: endpoint.address
 
-setDestination = (actionContext, location, done) ->
-  actionContext.dispatch "setDestination",
-    lat: location.lat
-    lon: location.lon
-    address: location.address
-  done()
-
-setOriginToCurrent = (actionContext) ->
-  actionContext.dispatch "setOriginToCurrent"
-
-setDestinationToCurrent = (actionContext) ->
-  actionContext.dispatch "setDestinationToCurrent"
+setUseCurrent = (actionContext, target) ->
+  actionContext.dispatch "useCurrentPosition", target
 
 swapOriginDestination = (actionContext) ->
   actionContext.dispatch "swapOriginDestination"
@@ -43,15 +34,9 @@ enableDestinationInputMode = (actionContext) ->
   actionContext.dispatch "enableDestinationInputMode"
 
 module.exports =
-  'setOrigin': setOrigin
-  'setDestination': setDestination
-  'setOriginToCurrent': setOriginToCurrent
-  'setDestinationToCurrent': setDestinationToCurrent
+  'setEndpoint': setEndpoint
+  'setUseCurrent': setUseCurrent
   'swapOriginDestination': swapOriginDestination
   'clearOrigin': clearOrigin
   'clearDestination': clearDestination
   'clearGeolocation': clearGeolocation
-  'disableOriginInputMode': disableOriginInputMode
-  'enableOriginInputMode': enableOriginInputMode
-  'enableDestinationInputMode': enableDestinationInputMode
-  'disableDestinationInputMode': disableDestinationInputMode

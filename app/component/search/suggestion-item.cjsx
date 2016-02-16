@@ -1,5 +1,6 @@
 React = require 'react'
 Icon = require '../icon/icon'
+{FormattedMessage} = require 'react-intl'
 
 getNumberIfNotZero = (number) ->
   if number and not (number is "0") then " #{number}" else ""
@@ -17,6 +18,7 @@ getIcon = (layer, iconClass) ->
     "station": "icon-icon_station"
     "localadmin": "icon-icon_city"
     "neighbourdood": "icon-icon_city"
+    "currentPosition": "icon-icon_position"
 
   defaultIcon = "icon-icon_place"
   <Icon img={layerIcon[layer] || defaultIcon} className={iconClass || ""}/>
@@ -31,7 +33,7 @@ SuggestionItem = (props) ->
   </span>
 
 SuggestionItem.getName =  (suggestion) ->
-  switch suggestion.layer
+  name = switch suggestion.layer
     when 'address'
       "#{suggestion.street}#{getNumberIfNotZero suggestion.housenumber}, #{getLocality suggestion}"
     when 'locality'
@@ -40,7 +42,14 @@ SuggestionItem.getName =  (suggestion) ->
       "#{suggestion.name}, #{getLocality suggestion}"
     when 'venue'
       "#{suggestion.name}, #{getLocality suggestion}"
-    else
-      "#{suggestion.label}"
+
+  if name == undefined
+    if suggestion.labelId != undefined
+      name = <FormattedMessage id="own-position" defaultMessage='Your current location' />
+
+  if name == undefined
+    name = suggestion.label
+
+  name
 
 module.exports = SuggestionItem

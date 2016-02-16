@@ -5,6 +5,7 @@ intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 SearchInput      = require './search-input'
 SearchActions    = require '../../action/search-actions'
+EndpointActions  = require '../../action/endpoint-actions'
 
 class SearchModal extends React.Component
 
@@ -46,11 +47,17 @@ class SearchModal extends React.Component
         ref="searchInput"
         initialValue = {@state?.value}
         onSuggestionSelected = {(name, item) =>
-          setLocationAction = @context.getStore('SearchStore').getAction()
-          @context.executeAction setLocationAction,
-            lat: item.geometry.coordinates[1]
-            lon: item.geometry.coordinates[0]
-            address: name
+          actionTarget = @context.getStore('SearchStore').getActionTarget()
+
+          if item.type == 'CurrentLocation'
+            @context.executeAction EndpointActions.setUseCurrent, actionTarget
+          else
+            @context.executeAction EndpointActions.setEndpoint,
+              "target": actionTarget,
+              "endpoint":
+                lat: item.geometry.coordinates[1]
+                lon: item.geometry.coordinates[0]
+                address: name
 
           @closeModal()
       }/>

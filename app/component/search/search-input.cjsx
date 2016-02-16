@@ -1,5 +1,4 @@
 React             = require 'react'
-EndpointActions   = require '../../action/endpoint-actions'
 ReactAutowhatever = (require 'react-autowhatever').default
 SuggestionItem    = require './suggestion-item'
 
@@ -26,7 +25,8 @@ class SearchInput extends React.Component
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
-      @setState "focusedItemIndex": eventProps.itemIndex
+      if eventProps.itemIndex != @state.focusedItemIndex
+        @setState "focusedItemIndex": eventProps.itemIndex
       event.preventDefault()
 
   blur: () ->

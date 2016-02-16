@@ -1,15 +1,13 @@
-endpointActions = require './endpoint-actions'
-
 module.exports =
   'openOriginSearch': (actionContext, params) ->
     actionContext.dispatch "OpenSearch",
-      "action": endpointActions.setOrigin
+      "actionTarget": "origin"
       "position": params.position
       "placeholder": params.placeholder
 
   'openDestinationSearch': (actionContext, params) ->
     actionContext.dispatch "OpenSearch",
-      "action": endpointActions.setDestination
+      "actionTarget": "destination"
       "position": params.position
       "placeholder": params.placeholder
 

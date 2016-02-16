@@ -3,13 +3,19 @@ localStorage  = require './local-storage'
 config        = require '../config'
 XhrPromise    = require '../util/xhr-promise'
 {sortBy}      = require 'lodash/collection'
+{FormattedMessage} = require 'react-intl'
 
 class SearchStore extends Store
   @storeName: 'SearchStore'
 
-  @action = undefined
+  @actionTarget = undefined
   @position = undefined
   @placeholder = undefined
+
+  currentLocation = () ->
+    return type: "CurrentLocation", properties:
+      labelId: "own-position"
+      layer: "currentPosition"
 
   constructor: (dispatcher) ->
     super(dispatcher)
@@ -18,14 +24,15 @@ class SearchStore extends Store
   isModalOpen: () ->
     @modalOpen
 
-  getAction: () ->
-    @action
+  getActionTarget: () ->
+    @actionTarget
 
   getPlaceholder: () ->
     @placeholder
 
   getPosition: () ->
     @position
+
 
   getSuggestions: (input, geoLocation, cb) ->
     if input != undefined and input != null && input.trim() != ""
@@ -40,22 +47,24 @@ class SearchStore extends Store
         if config.autoSuggest?
           features = sortBy(features,
             (feature) ->
-              config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
+              config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOthers
           )
+
           cb(features)
     else
-      cb([])
+      #empty search, add default content
+      cb([currentLocation()])
 
   openSearch: (props) ->
     @modalOpen = true
-    @action = props.action
+    @actionTarget = props.actionTarget
     @position = props.position
     @placeholder = props.placeholder
     @emitChange(props)
 
   closeSearch: () ->
     @modalOpen = false
-    @action = undefined
+    @actionTarget = undefined
     @position = undefined
     @placeholder = undefined
     @emitChange()
