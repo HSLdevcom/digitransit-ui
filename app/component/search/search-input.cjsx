@@ -86,7 +86,7 @@ class SearchInput extends React.Component
           @setState "suggestions": features, focusedItemIndex: 0
     else
       @setState "suggestions": [], focusedItemIndex: 0,
-      () ->  document.getElementById("react-autowhatever-suggest--item-0").scrollIntoView();
+      () ->  document.getElementById("react-autowhatever-suggest--item-0").scrollIntoView()
 
 
   currentItemSelected: () =>
