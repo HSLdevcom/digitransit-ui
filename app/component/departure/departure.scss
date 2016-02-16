@@ -188,9 +188,11 @@
   font-size: $font-size-normal;
   white-space: nowrap;
   margin: 0;
+  line-height: 1em;
 
   & > span {
     display: inline-block;
+    vertical-align: top;
     & > span {
       font-size: $font-size-small;
     }
