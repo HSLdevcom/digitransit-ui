@@ -2,12 +2,14 @@ React                 = require 'react'
 FavouriteLocation     = require './favourite-location'
 Icon                  = require '../icon/icon'
 ComponentUsageExample = require '../documentation/component-usage-example'
+EndpointActions       = require '../../action/endpoint-actions'
 
 
 class FavouriteLocationsContainer extends React.Component
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
 
   @description:
     <div>
@@ -17,8 +19,13 @@ class FavouriteLocationsContainer extends React.Component
       </ComponentUsageExample>
     </div>
 
-  getFavouriteLocationIconId: ->
-    'icon-icon_place'
+  setDestination: (locationName, lat, lon) =>
+    location =
+      lat: lat
+      lon: lon
+      address: locationName
+
+    @context.executeAction EndpointActions.setDestination, location
 
   render: ->
 
@@ -35,6 +42,7 @@ class FavouriteLocationsContainer extends React.Component
           empty={false}
           lat={favourites[index].lat}
           lon={favourites[index].lon}
+          clickFavourite={@setDestination}
         />
 
     <div className="row">

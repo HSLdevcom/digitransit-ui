@@ -17,12 +17,9 @@ FavouriteLocation = (props) =>
       </Link>
     </div>
   else
-    <div className={cx "favourite-location-content", props.className} onClick={props.clickFavourite}>
-      <NotImplementedLink
-        nonTextLink={true}
-        name={<FormattedMessage id='your-favourites' defaultMessage='Favourites'/>}
-        className="no-decoration"
-      >
+    <div
+      className={cx "favourite-location-content", props.className}
+      onClick={props.clickFavourite.bind this, props.locationName, props.lat, props.lon}>
         <div className="favourite-location-header">{props.locationName}</div>
         <div className="favourite-location-arrival">
           <span className="favourite-location-icon"><Icon img={props.favouriteLocationIconId}/></span>
@@ -34,7 +31,6 @@ FavouriteLocation = (props) =>
             {props.departureTime}
           </span>
         </div>
-      </NotImplementedLink>
     </div>
 
 FavouriteLocation.description =
