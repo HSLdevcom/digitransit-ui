@@ -8,6 +8,7 @@ Icon                  = require '../icon/icon.cjsx'
 cx                    = require 'classnames'
 FavouritesPanel       = require '../favourites/favourites-panel'
 NearestRoutesContainer = require './nearest-routes-container'
+NextDeparturesListHeader = require '../departure/next-departures-list-header'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 Feedback              = require '../../util/feedback'
 FeedbackActions       = require '../../action/feedback-action'
@@ -101,6 +102,8 @@ class FrontPagePanel extends React.Component
                       <ModeFilter id="nearby-routes-mode"/>
                     </h3>
                   </div>
+
+                  <NextDeparturesListHeader />
 
                   <div className="scrollable momentum-scroll" id="scrollable-routes">
                     {routesPanel}
