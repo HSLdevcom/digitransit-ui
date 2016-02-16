@@ -67,11 +67,11 @@ class AddFavouriteContainer extends React.Component
   getFavouriteIconIds: ->
     [
       'icon-icon_place'
-      'icon-icon_place'
-      'icon-icon_place'
-      'icon-icon_place'
-      'icon-icon_place'
-      'icon-icon_place'
+      'icon-icon_home'
+      'icon-icon_work'
+      'icon-icon_sport'
+      'icon-icon_school'
+      'icon-icon_shopping'
     ]
 
   notImplemented: =>
