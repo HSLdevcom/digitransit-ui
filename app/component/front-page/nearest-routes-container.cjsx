@@ -1,7 +1,7 @@
-Relay                 = require 'react-relay'
-RouteListContainer    = require '../route/route-list-container'
-queries               = require '../../queries'
-React                 = require 'react'
+Relay   = require 'react-relay'
+NearbyRouteListContainer = require '../route/nearby-route-list-container'
+queries = require '../../queries'
+React   = require 'react'
 
 class NearestRoutesContainer extends React.Component
 
@@ -36,9 +36,9 @@ class NearestRoutesContainer extends React.Component
 
   render: =>
     <Relay.RootContainer
-      Component={RouteListContainer}
+      Component={NearbyRouteListContainer}
       forceFetch={true}
-      route={new queries.RouteListContainerRoute(
+      route={new queries.NearbyRouteListContainerRoute(
         lat: @props.lat
         lon: @props.lon
       )}

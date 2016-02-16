@@ -75,7 +75,7 @@ var RouteQueries = {
   `,
 }
 
-class RouteListContainerRoute extends Relay.Route {
+class NearbyRouteListContainerRoute extends Relay.Route {
   static queries = {
     stops: (Component, variables) => Relay.QL`
       query {
@@ -92,10 +92,10 @@ class RouteListContainerRoute extends Relay.Route {
     lat: {required: true},
     lon: {required: true},
   };
-  static routeName = 'RouteListContainerRoute';
+  static routeName = 'NearbyRouteListContainerRoute';
 }
 
-var RouteListContainerFragments = {
+var NearbyRouteListContainerFragments = {
   stops: () => Relay.QL`
     fragment on QueryType {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
@@ -706,8 +706,8 @@ module.exports = {
   TripRoute: TripRoute,
   TripPatternFragments: TripPatternFragments,
   RouteQueries: RouteQueries,
-  RouteListContainerRoute: RouteListContainerRoute,
-  RouteListContainerFragments: RouteListContainerFragments,
+  NearbyRouteListContainerRoute: NearbyRouteListContainerRoute,
+  NearbyRouteListContainerFragments: NearbyRouteListContainerFragments,
   TripQueries: TripQueries,
   StopRoute: StopRoute,
   RoutePageFragments: RoutePageFragments,
