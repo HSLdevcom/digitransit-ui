@@ -1,26 +1,29 @@
-React                 = require 'react'
-Icon                  = require '../icon/icon'
-cx                    = require 'classnames'
-Link                  = require 'react-router/lib/Link'
-NotImplementedAction = require('../../action/not-implemented-action')
-NotImplemented        = require '../util/not-implemented'
-FavouriteIconTable    = require './favourite-icon-table'
+React                     = require 'react'
+Icon                      = require '../icon/icon'
+cx                        = require 'classnames'
+Link                      = require 'react-router/lib/Link'
+NotImplementedAction      = require('../../action/not-implemented-action')
+NotImplemented            = require '../util/not-implemented'
+FavouriteIconTable        = require './favourite-icon-table'
+FavouriteLocationActions  = require '../../action/favourite-location-action'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class AddFavouriteContainer extends React.Component
 
+  @contextTypes:
+    intl: intl.intlShape.isRequired
+    executeAction: React.PropTypes.func.isRequired
+    history: React.PropTypes.object.isRequired
 
   constructor: ->
     super
     @state =
       selectedIconIndex: undefined
-      locationCoordinates: undefined
+      lat: undefined
+      lon: undefined
       locationName: undefined
-
-  @contextTypes:
-    intl: intl.intlShape.isRequired
 
   selectIcon: (index, value) =>
     @setState
@@ -31,21 +34,33 @@ class AddFavouriteContainer extends React.Component
     @setState
       locationName: input
 
+  serializeLocation: =>
+    return {
+      selectedIconId: @getFavouriteIconIds()[@state.selectedIconIndex]
+      lat: @state.lat
+      lon: @state.lon
+      locationName: @state.locationName
+    }
+
   setCoordinates: (event) =>
+    #TODO: switch to real values after new search component is done
     input = event.target.value
     @setState
-      locationCoordinates: input
+      lat: 60.192059
+      lon: 24.945831
 
   save: =>
-    #TODO save favourite location to localstorage
-    @notImplemented()
-    return
+    if @canSave()
+      @context.executeAction FavouriteLocationActions.addFavouriteLocation, @serializeLocation()
+      @context.history.pushState null, "/"
 
   canSave: =>
     return @state.selectedIconIndex != undefined and
       @state.selectedIconIndex != '' and
-      @state.locationCoordinates != undefined and
-      @state.locationCoordinates != '' and
+      @state.lat != undefined and
+      @state.lat != '' and
+      @state.lon != undefined and
+      @state.lon != '' and
       @state.locationName != undefined and
       @state.locationName != ''
 

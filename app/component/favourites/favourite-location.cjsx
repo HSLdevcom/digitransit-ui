@@ -4,20 +4,17 @@ Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
 {FormattedMessage}    = require('react-intl')
-Example = require '../documentation/example-data'
+Example               = require '../documentation/example-data'
+Link                  = require 'react-router/lib/Link'
 
 FavouriteLocation = (props) =>
 
   if props.empty
     <div className={cx "new-favourite-button-content", props.className}>
-      <NotImplementedLink
-        nonTextLink={true}
-        name={<FormattedMessage id='your-favourites' defaultMessage='Favourites'/>}
-        className="no-decoration"
-      >
+      <Link to="/addfavourite" className="cursor-pointer no-decoration">
         <Icon img="icon-icon_plus" className="add-new-favourite-icon"/>
         <p className="add-location-text"><FormattedMessage id='add-location' defaultMessage='Add location'/></p>
-      </NotImplementedLink>
+      </Link>
     </div>
   else
     <div className={cx "favourite-location-content", props.className} onClick={props.clickFavourite}>
@@ -31,7 +28,7 @@ FavouriteLocation = (props) =>
           <span className="favourite-location-icon"><Icon img={props.favouriteLocationIconId}/></span>
           <span className="favourite-location-arrival-time">{props.arrivalTime}</span>
         </div>
-        <div className="favourite-location-departure">
+        <div className="favourite-location-departure hidden">
           <Icon img="icon-icon_walk" className="favourite-location-departure-icon"/>
           <span className={"favourite-location-departure-time" + if props.realtime then "--realtime" else ""}>
             {props.departureTime}
