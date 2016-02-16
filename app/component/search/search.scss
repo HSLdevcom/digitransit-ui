@@ -192,7 +192,8 @@ $search-form-location-icon-size: 18px;
 
 ul#react-whatever-suggest {
   max-height: 9em;
- overflow-y: auto;
+  overflow-y: auto;
+  margin-top: 10px;
 
  li {
    padding: 10px;

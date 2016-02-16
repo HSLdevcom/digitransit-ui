@@ -49,8 +49,9 @@ class SearchInput extends React.Component
       event.preventDefault()
 
     if (typeof eventProps.newFocusedItemIndex != 'undefined')
-      @setState "focusedItemIndex": eventProps.newFocusedItemIndex
-      document.getElementById("react-autowhatever-suggest--item-" + eventProps.newFocusedItemIndex).scrollIntoView();
+      @setState "focusedItemIndex": eventProps.newFocusedItemIndex,
+        () -> document.getElementById("react-autowhatever-suggest--item-" + eventProps.newFocusedItemIndex)?.scrollIntoView(false)
+
       event.preventDefault()
 
   handleOnMouseDown: (event, eventProps) =>
@@ -84,7 +85,9 @@ class SearchInput extends React.Component
           )
           @setState "suggestions": features, focusedItemIndex: 0
     else
-      @setState "suggestions": [], focusedItemIndex: 0
+      @setState "suggestions": [], focusedItemIndex: 0,
+      () ->  document.getElementById("react-autowhatever-suggest--item-0").scrollIntoView();
+
 
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
