@@ -28,7 +28,7 @@ NextDeparturesList = (props) ->
           canceled={canceled} />
 
       departureObjs.push <Link to="/linjat/#{stoptime.pattern.code}" key={stoptime.pattern.code}>
-        <div className="next-departure-row padding-normal border-bottom">
+        <div className="next-departure-row padding-vertical-normal border-bottom">
           <Distance distance={departure.distance}/>
           <RouteNumber
             mode={stoptime.pattern.route.type}
