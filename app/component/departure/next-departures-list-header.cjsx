@@ -5,6 +5,16 @@ FormattedMessage = intl.FormattedMessage
 
 NextDeparturesListHeader = (props) ->
     <div className="next-departures-list-header padding-vertical-small border-top">
+      <span className="time-header">
+        <FormattedMessage
+          id='leaves'
+          defaultMessage="Leaves"/>
+      </span>
+      <span className="time-header">
+        <FormattedMessage
+          id='next'
+          defaultMessage="Next"/>
+      </span>
       <span className="distance-header">
         <FormattedMessage
           id='to-stop'
@@ -19,16 +29,6 @@ NextDeparturesListHeader = (props) ->
         <FormattedMessage
           id='destination'
           defaultMessage="Destination"/>
-      </span>
-      <span className="time-header">
-        <FormattedMessage
-          id='leaves'
-          defaultMessage="Leaves"/>
-      </span>
-      <span className="time-header">
-        <FormattedMessage
-          id='next'
-          defaultMessage="Next"/>
       </span>
     </div>
 

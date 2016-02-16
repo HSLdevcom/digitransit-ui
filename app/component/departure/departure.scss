@@ -19,6 +19,9 @@
     display: inline-block;
     text-align: right;
   }
+  .route-destination {
+    padding-left: 0.5em;
+  }
 }
 
 .route-detail-text {
@@ -35,7 +38,7 @@
 
 .time {
   font-weight: $font-weight-bold;
-  width: 4em;
+  width: 3.5em;
   margin-right: 0.5em;
   padding-right: 0.5em;
   text-align: right;
@@ -151,8 +154,8 @@
   font-family: $font-family-narrow;
   font-size: $font-size-normal;
 
-  .vehicle-number {
-    width: 2.5em;
+  .route-number {
+    width: 3.5em;
   }
   .distance {
     width: 3em;
@@ -170,6 +173,7 @@
   }
   .route-destination {
     width: calc(100% - 14.5em);
+    padding-left: 0.5em;
   }
 
   & > div,
@@ -187,9 +191,6 @@
 
   & > span {
     display: inline-block;
-    & > span {
-      font-size: $font-size-small;
-    }
   }
   .distance-header {
     width: 3em;
@@ -197,17 +198,18 @@
     text-align: right;
   }
   .route-number-header {
-    width: 3em;
+    width: 3.5em;
   }
   .route-destination-header {
-    width: calc(100% - 14.5em);
+    padding-left: 0.5em;
   }
   .time-header {
+    float: right;
     font-weight: inherit;
     text-align: right;
-    width: 4em;
+    width: 3.5em;
     margin-right: 0.5em;
     padding-right: 0.5em;
     text-align: right;
- }
+  }
 }

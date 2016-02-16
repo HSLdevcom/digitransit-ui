@@ -7,8 +7,7 @@ Example = require '../documentation/example-data'
 RouteDestination = (props) ->
   mode = props.mode.toLowerCase()
   <span className={cx "route-destination", props.className} >
-    <Icon className={mode} img='icon-icon_arrow-right'/>
-    <span className="destination">{"\u00a0" + props.destination}</span>
+    <span className="destination">{props.destination}</span>
   </span>
 
 RouteDestination.description =
