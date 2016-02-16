@@ -35,8 +35,10 @@ class SearchModal extends React.Component
 
     <div style={style}
       className="search-modal">
-      <div className="row left cursor-pointer padding-normal" onClick={@closeModal}>
-        <Icon img={'icon-icon_arrow-left'} />
+      <div className="row cursor-pointer padding-none" onClick={@closeModal}>
+        <div className="small-12 medium-6 medium-offset-3 columns">
+          <Icon img={'icon-icon_arrow-left'} />
+        </div>
       </div>
       <div className="row">
       <div className="small-12 medium-6 medium-offset-3 columns">
