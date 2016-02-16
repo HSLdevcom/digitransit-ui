@@ -35,7 +35,7 @@
   },
   "engineStrict": true,
   "engines": {
-	  "node": ">=5.0",
+    "node": ">=5.0",
     "npm": ">=3.0"
   },
   "dependencies": {
@@ -71,7 +71,7 @@
     "raven": "0.10.0",
     "raven-js": "2.1.0",
     "react": "0.14.7",
-    "react-autosuggest": "2.2.5",
+    "react-autowhatever": "3.0.0",
     "react-cookie": "^0.4.3",
     "react-dom": "0.14.7",
     "react-helmet": "2.3.1",
