@@ -191,6 +191,9 @@
 
   & > span {
     display: inline-block;
+    & > span {
+      font-size: $font-size-small;
+    }
   }
   .distance-header {
     width: 3em;
