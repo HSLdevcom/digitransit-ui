@@ -1,9 +1,6 @@
 React             = require 'react'
 EndpointActions   = require '../../action/endpoint-actions'
 ReactAutowhatever = (require 'react-autowhatever').default
-config            = require '../../config'
-{sortBy}          = require 'lodash/collection'
-XhrPromise        = require '../../util/xhr-promise.coffee'
 SuggestionItem    = require './suggestion-item'
 
 class SearchInput extends React.Component
@@ -67,29 +64,11 @@ class SearchInput extends React.Component
       return
 
     @setState "value": input
-
-    geolocation = @context.getStore('PositionStore').getLocationState()
-    if config.autoSuggest.locationAware && geolocation.hasLocation
-      opts = Object.assign(text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon)
-    else
-      opts = Object.assign(text: input, config.searchParams)
-
-    if input != undefined and input != null && input.trim() != ""
-      XhrPromise.getJson(config.URL.PELIAS, opts).then (res) =>
-        features = res.features
-
-        if config.autoSuggest?
-          features = sortBy(features,
-            (feature) ->
-              config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
-          )
-          @setState "suggestions": features, focusedItemIndex: 0
-          () ->  if features.length > 0
-            document.getElementById("react-autowhatever-suggest--item-0").scrollIntoView()
-
-    else
-      @setState "suggestions": [], focusedItemIndex: 0
-
+    geoLocation = @context.getStore('PositionStore').getLocationState()
+    @context.getStore('SearchStore').getSuggestions input, geoLocation, (suggestions) =>
+      @setState "suggestions": suggestions, focusedItemIndex: 0,
+        () =>  if suggestions.length > 0
+          document.getElementById("react-autowhatever-suggest--item-0").scrollIntoView()
 
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
