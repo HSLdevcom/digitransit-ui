@@ -25,8 +25,6 @@ class SearchField extends React.Component
       }>
       <GeolocationBar
         geolocation={@props.geolocation}
-        removePosition={() => @context.executeAction EndpointActions.clearGeolocation}
-        locateUser={() => @context.executeAction PositionActions.findLocation}
         id={@props.id + "-geolocationbar"}
       />
     </div>
