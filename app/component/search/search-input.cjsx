@@ -84,9 +84,11 @@ class SearchInput extends React.Component
               config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
           )
           @setState "suggestions": features, focusedItemIndex: 0
+          () ->  if features.length > 0
+            document.getElementById("react-autowhatever-suggest--item-0").scrollIntoView()
+
     else
-      @setState "suggestions": [], focusedItemIndex: 0,
-      () ->  document.getElementById("react-autowhatever-suggest--item-0").scrollIntoView()
+      @setState "suggestions": [], focusedItemIndex: 0
 
 
   currentItemSelected: () =>
