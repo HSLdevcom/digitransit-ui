@@ -643,7 +643,39 @@ var FavouriteRouteListContainerFragments = {
     routes: () => Relay.QL`
       fragment on Route @relay(plural:true) {
         patterns {
-            code
+          stops {
+            stoptimes: stoptimesForPatterns (numberOfDepartures:2) {
+              pattern {
+                alerts {
+                  effectiveStartDate
+                  effectiveEndDate
+                  trip {
+                    gtfsId
+                  }
+                }
+                code
+                headsign
+                route {
+                  gtfsId
+                  shortName
+                  longName
+                  type
+                  color
+                }
+              }
+              stoptimes {
+                pickupType
+              realtimeState
+                realtimeDeparture
+                scheduledDeparture
+                realtime
+                serviceDay
+                trip {
+                  gtfsId
+                }
+              }
+            }
+          }
         }
         gtfsId
         shortName
