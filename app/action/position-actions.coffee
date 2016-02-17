@@ -94,20 +94,11 @@ startLocationWatch = (actionContext, payload, done) ->
     window.position.pos = null
   done()
 
-
 removeLocation = (actionContext) ->
   actionContext.dispatch "GeolocationRemoved"
-
-manuallySetPosition = (actionContext, location, done) ->
-  actionContext.dispatch "ManuallySetPosition",
-    lat: location.lat
-    lon: location.lon
-    address: location.address
-  done()
 
 module.exports =
   'findLocation': findLocation
   'removeLocation': removeLocation
-  'manuallySetPosition': manuallySetPosition
   'reverseGeocodeAddress': reverseGeocodeAddress
   'startLocationWatch': startLocationWatch
