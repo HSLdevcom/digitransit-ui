@@ -43,14 +43,14 @@ class SearchStore extends Store
 
   addCurrentPositionIfEmpty = (features) =>
     if features.length == 0
-      features.push(currentLocation());
+      features.push currentLocation()
     features
 
   getPeliasDataOrEmptyArray = (input) ->
     deferred = q.defer()
     if input == undefined or input == null or input.trim() == ""
-      deferred.resolve([]);
-      return deferred.promise;
+      deferred.resolve []
+      return deferred.promise
 
     if config.autoSuggest.locationAware && geolocation.hasLocation
       opts = Object.assign(text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon)
@@ -58,7 +58,7 @@ class SearchStore extends Store
       opts = Object.assign(text: input, config.searchParams)
 
     XhrPromise.getJson(config.URL.PELIAS, opts).then (res) ->
-      deferred.resolve(res.features)
+      deferred.resolve res.features
 
     deferred.promise
 
@@ -67,7 +67,7 @@ class SearchStore extends Store
     .then sort
     .then addCurrentPositionIfEmpty
     .then (suggestions) ->
-      cb(suggestions);
+      cb(suggestions)
 
   openSearch: (props) ->
     @modalOpen = true

@@ -30,13 +30,13 @@ class EndpointStore extends Store
 
   setOriginToCurrent: () ->
     if @destination.useCurrentPosition == true
-      @clearDestination();
+      @clearDestination()
     @origin = @getUseCurrent(@origin, true)
     @emitChange("set-origin")
 
   setDestinationToCurrent: () ->
     if @origin.useCurrentPosition == true
-      @clearOrigin();
+      @clearOrigin()
     @destination = @getUseCurrent(@destination, true)
     @emitChange()
 
