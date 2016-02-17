@@ -17,24 +17,26 @@ class EndpointStore extends Store
     @origin.useCurrentPosition || @destination.useCurrentPosition
 
   clearOrigin: () =>
-    if @origin?.userSetPosition && @origin.address?.length > 0
-      @origin = @getUseCurrent(null, false)
-      @emitChange("set-origin")
+    @origin = @getUseCurrent(null, false)
+    @emitChange("set-origin")
 
   clearDestination: () =>
-    if @destination?.userSetPosition && @destination.address?.length > 0
-      @destination = @getUseCurrent(null, false)
-      @emitChange()
+    @destination = @getUseCurrent(null, false)
+    @emitChange()
 
   swapEndpoints: () ->
     [@destination, @origin] = [@origin, @destination]
     @emitChange()
 
   setOriginToCurrent: () ->
+    if @destination.useCurrentPosition == true
+      @clearDestination();
     @origin = @getUseCurrent(@origin, true)
     @emitChange("set-origin")
 
   setDestinationToCurrent: () ->
+    if @origin.useCurrentPosition == true
+      @clearOrigin();
     @destination = @getUseCurrent(@destination, true)
     @emitChange()
 
