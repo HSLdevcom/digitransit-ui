@@ -124,6 +124,7 @@ translations =
     'address-or-stop': 'Osoite tai pysäkki'
     'location-examples': "esim. Koti, Työ, Koulu,..."
     'save': "Tallenna"
+    'address': 'Osoite'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
