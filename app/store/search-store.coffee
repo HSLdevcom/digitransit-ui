@@ -4,6 +4,7 @@ config        = require '../config'
 XhrPromise    = require '../util/xhr-promise'
 {sortBy}      = require 'lodash/collection'
 {FormattedMessage} = require 'react-intl'
+q             = require 'q'
 
 class SearchStore extends Store
   @storeName: 'SearchStore'
@@ -33,27 +34,40 @@ class SearchStore extends Store
   getPosition: () ->
     @position
 
+  sort = (features) ->
+    sortBy(features,
+      (feature) ->
+        console.log(feature)
+        config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOthers
+    )
 
-  getSuggestions: (input, geoLocation, cb) ->
-    if input != undefined and input != null && input.trim() != ""
-      if config.autoSuggest.locationAware && geolocation.hasLocation
-        opts = Object.assign(text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon)
-      else
-        opts = Object.assign(text: input, config.searchParams)
+  addCurrentPositionIfEmpty = (features) =>
+    if features.length == 0
+      features.push(currentLocation());
+    features
 
-      XhrPromise.getJson(config.URL.PELIAS, opts).then (res) =>
-        features = res.features
+  getPeliasDataOrEmptyArray = (input) ->
+    deferred = q.defer()
+    if input == undefined or input == null or input.trim() == ""
+      deferred.resolve([]);
+      return deferred.promise;
 
-        if config.autoSuggest?
-          features = sortBy(features,
-            (feature) ->
-              config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOthers
-          )
-
-          cb(features)
+    if config.autoSuggest.locationAware && geolocation.hasLocation
+      opts = Object.assign(text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon)
     else
-      #empty search, add default content
-      cb([currentLocation()])
+      opts = Object.assign(text: input, config.searchParams)
+
+    XhrPromise.getJson(config.URL.PELIAS, opts).then (res) ->
+      deferred.resolve(res.features)
+
+    deferred.promise
+
+  getSuggestions: (input, geoLocation, cb) =>
+    getPeliasDataOrEmptyArray(input)
+    .then sort
+    .then addCurrentPositionIfEmpty
+    .then (suggestions) ->
+      cb(suggestions);
 
   openSearch: (props) ->
     @modalOpen = true
