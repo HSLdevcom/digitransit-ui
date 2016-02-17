@@ -623,7 +623,7 @@ var RouteMarkerPopupFragments = {
   `,
 }
 
-class FavouriteRouteRowRoute extends Relay.Route {
+class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
       routes: (Component, variables) => Relay.QL`
         query {
@@ -639,7 +639,7 @@ class FavouriteRouteRowRoute extends Relay.Route {
   static routeName = 'FavouriteRouteRowRoute';
 }
 
-var FavouriteRouteRowFragments = {
+var FavouriteRouteListContainerFragments = {
     routes: () => Relay.QL`
       fragment on Route @relay(plural:true) {
         patterns {
@@ -718,8 +718,8 @@ module.exports = {
   TripStopListFragments: TripStopListFragments,
   StopListContainerRoute: StopListContainerRoute,
   NearestStopListContainerFragments: NearestStopListContainerFragments,
-  FavouriteRouteRowRoute:FavouriteRouteRowRoute,
-  FavouriteRouteRowFragments:FavouriteRouteRowFragments,
+  FavouriteRouteListContainerRoute:FavouriteRouteListContainerRoute,
+  FavouriteRouteListContainerFragments:FavouriteRouteListContainerFragments,
   FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,
   StopCardContainerFragments: StopCardContainerFragments,
   FavouriteStopListContainerRoute: FavouriteStopListContainerRoute,

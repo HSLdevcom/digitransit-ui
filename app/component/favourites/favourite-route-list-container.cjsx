@@ -24,7 +24,7 @@ class FavouriteRouteListContainer extends React.Component
 
 
 module.exports = Relay.createContainer(FavouriteRouteListContainer,
-  fragments: queries.FavouriteRouteRowFragments
+  fragments: queries.FavouriteRouteListContainerFragments
   initialVariables:
     ids: null
 )
