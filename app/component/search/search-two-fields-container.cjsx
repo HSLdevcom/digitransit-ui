@@ -1,13 +1,14 @@
-React = require 'react'
+React            = require 'react'
 EndpointActions  = require '../../action/endpoint-actions.coffee'
 PositionActions  = require '../../action/position-actions.coffee'
-{locationToOTP} = require '../../util/otp-strings'
-SearchTwoFields = require './search-two-fields'
+SearchActions    = require '../../action/search-actions.coffee'
+{locationToOTP}  = require '../../util/otp-strings'
+SearchTwoFields  = require './search-two-fields'
 {getRoutePath}   = require '../../util/path'
-SearchField     = require './search-field'
-
-intl = require 'react-intl'
+SearchField      = require './search-field'
+intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
+SearchModal      = require './search-modal'
 
 class SearchTwoFieldsContainer extends React.Component
 
@@ -85,49 +86,56 @@ class SearchTwoFieldsContainer extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
+    focusInput = () =>
+      @refs.modal?.refs.searchInput?.refs.autowhatever?.refs.input?.focus()
+
+    originPlaceholder = @context.intl.formatMessage(
+      id: 'origin'
+      defaultMessage: 'From where? - address or stop')
+
+    destinationPlaceholder = @context.intl.formatMessage(
+      id: 'destination'
+      defaultMessage: 'Where to? - address or stop')
+
     from =
       <SearchField
         endpoint={origin}
         geolocation={geolocation}
-        setToCurrent={() => @context.executeAction EndpointActions.setOriginToCurrent}
-        enableInputMode={() => @context.executeAction EndpointActions.enableOriginInputMode}
-        disableInputMode={() => @context.executeAction EndpointActions.disableOriginInputMode}
-        onEmpty={() =>
-          @pushNonSearchState()
-          @context.executeAction EndpointActions.clearOrigin}
-        autosuggestPlaceholder={@context.intl.formatMessage(
-          id: 'origin'
-          defaultMessage: 'From where? - address or stop')}
+        onClick={(e) =>
+          e.preventDefault()
+          @context.executeAction SearchActions.openOriginSearch,
+            position: origin
+            placeholder: originPlaceholder
+          focusInput()
+        }
+        autosuggestPlaceholder={originPlaceholder}
         navigateOrInputPlaceHolder={@context.intl.formatMessage(
           id: 'give-origin'
           defaultMessage: 'Type origin')}
         id='origin'
-        onSelectAction={EndpointActions.setOrigin}
-        focus={@context.getStore('EndpointStore').isOriginFocus}
       />
 
     to =
       <SearchField
         endpoint={destination}
         geolocation={geolocation}
-        setToCurrent={() => @context.executeAction EndpointActions.setDestinationToCurrent}
-        enableInputMode={() => @context.executeAction EndpointActions.enableDestinationInputMode}
-        disableInputMode={() => @context.executeAction EndpointActions.disableDestinationInputMode}
-        onEmpty={() =>
-          @pushNonSearchState()
-          @context.executeAction EndpointActions.clearDestination}
-        autosuggestPlaceholder={@context.intl.formatMessage(
-          id: 'destination'
-          defaultMessage: 'Where to? - address or stop')}
+        onClick={(e) =>
+          e.preventDefault()
+          @context.executeAction SearchActions.openDestinationSearch,
+            position: destination
+            placeholder: destinationPlaceholder
+          focusInput()
+        }
+        autosuggestPlaceholder={destinationPlaceholder}
         navigateOrInputPlaceHolder={@context.intl.formatMessage(
           id: 'give-destination'
           defaultMessage: 'Type destination')}
         id='destination'
-        onSelectAction={EndpointActions.setDestination}
-        focus={@context.getStore('EndpointStore').isDestinationFocus}
-
       />
 
-    <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
+    <div>
+      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
+      <SearchModal ref="modal" initialPosition={destination}/>
+    </div>
 
 module.exports = SearchTwoFieldsContainer

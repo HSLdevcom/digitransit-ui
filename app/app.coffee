@@ -17,5 +17,6 @@ app.registerStore require './store/not-implemented-store'
 app.registerStore require './store/city-bike-store'
 app.registerStore require './store/feedback-store'
 app.registerStore require './store/favourite-location-store'
+app.registerStore require './store/search-store'
 
 module.exports = app

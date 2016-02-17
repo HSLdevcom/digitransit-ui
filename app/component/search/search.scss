@@ -19,8 +19,8 @@ $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
 $search-form-location-icon-size: 18px;
 
-.search-form .icon {
-  fill: $search-form-icon-color;
+.search-form .button-icon {
+  color: $search-form-icon-color;
   vertical-align: middle;
 }
 
@@ -65,7 +65,6 @@ $search-form-location-icon-size: 18px;
 }
 
 .search-form input, .search-form input:focus {
-  margin-bottom: 0px;
   height: $search-form-input-height;
   border-top-left-radius: $search-form-border-radius;
   border-bottom-left-radius: $search-form-border-radius;
@@ -136,6 +135,43 @@ $search-form-location-icon-size: 18px;
     }
 }
 
+.search-form .address-input {
+  background-color: transparent;
+  border-radius: $form-input-border-radius;
+  border: 0px;
+  height: $search-form-input-overlay-height;
+  padding-left: 5px;
+  padding-right: 3px;
+  line-height: 23px;
+
+  .icon {
+    fill: $gray;
+    vertical-align: sub;
+    width: 1em;
+    height: 1em;
+    margin-right: 5px;
+  }
+}
+
+.search-form .address-placeholder {
+  color: $gray;
+  background-color: transparent;
+  border-radius: $form-input-border-radius;
+  border: 0px;
+  height: $search-form-input-overlay-height;
+  padding-left: 5px;
+  padding-right: 3px;
+  line-height: 23px;
+
+  .icon {
+    fill: $gray;
+    vertical-align: sub;
+    width: 1em;
+    height: 1em;
+    margin-right: 5px;
+  }
+}
+
 
 .search-form .react-autosuggest__suggestions {
   background-color: $search-result-background-color;
@@ -154,11 +190,26 @@ $search-form-location-icon-size: 18px;
   position: relative;
 }
 
+ul#react-whatever-suggest {
+  max-height: 9em;
+  overflow-y: auto;
+  margin-top: 10px;
+
+ li {
+   padding: 10px;
+ }
+
+}
+
 .search-form .react-autosuggest {
   margin-bottom: 8px;
 }
 
-.search-form .react-autosuggest__suggestion--focused {
+.react-autowhatever__item {
+  font-weight: $search-result-text-highlight-font-weight;
+}
+
+.react-autowhatever__item--focused {
   color: $search-result-text-highlight-color;
   font-weight: $search-result-text-highlight-font-weight;
   background-color: $search-result-text-highlight-background-color;
@@ -203,4 +254,51 @@ $search-form-location-icon-size: 18px;
 
 .address-box .geolocation-bar-location-icon svg.icon {
   fill: $hilight-color;
+}
+
+div.search-modal {
+  z-index:10000;
+  background:#EEF1F3;
+  height: auto;
+  overflow: auto;
+  width: 100%;
+  height:0;
+  max-width: none;
+  position: fixed;
+  top: 0px;
+
+  input[type="text"].react-autowhatever__input {
+    border: 1px solid $gray;
+    border-radius: 4px;
+    height: $search-form-input-height;
+    padding: 10px;
+    outline: 0;
+    appearance: none;
+  }
+
+}
+
+div#search-panel-close-tab {
+  width: 10%;
+}
+
+.react-autowhatever__item {
+  padding:0.1em;
+}
+
+.autosuggestIcon {
+  color: $gray;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+#react-whatever-suggest {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  list-style-type: none;
+  background: $white;
+  border: 1px solid $white;
+  border-radius: 4px;
+  padding: 4px;
+  z-index:1000;
 }
