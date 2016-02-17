@@ -46,7 +46,7 @@ class SearchStore extends Store
       features.push currentLocation()
     features
 
-  getPeliasDataOrEmptyArray = (input) ->
+  getPeliasDataOrEmptyArray = (input, geolocation) ->
     deferred = q.defer()
     if input == undefined or input == null or input.trim() == ""
       deferred.resolve []
@@ -63,7 +63,7 @@ class SearchStore extends Store
     deferred.promise
 
   getSuggestions: (input, geoLocation, cb) =>
-    getPeliasDataOrEmptyArray(input)
+    getPeliasDataOrEmptyArray(input, geoLocation)
     .then sort
     .then addCurrentPositionIfEmpty
     .then (suggestions) ->
