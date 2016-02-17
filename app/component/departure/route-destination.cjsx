@@ -12,7 +12,7 @@ RouteDestination = (props) ->
 
 RouteDestination.description =
   <div>
-    <p>Display arrow with mode color and the destination of the route (headsign)</p>
+    <p>Display the destination of the route (headsign)</p>
     <ComponentUsageExample>
       <RouteDestination mode={Example.realtimeDeparture.pattern.route.type} destination={Example.realtimeDeparture.pattern.headsign or Example.realtimeDeparture.pattern.route.longName}/>
     </ComponentUsageExample>
