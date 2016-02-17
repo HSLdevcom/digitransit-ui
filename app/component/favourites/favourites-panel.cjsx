@@ -3,6 +3,7 @@ Relay   = require 'react-relay'
 queries = require '../../queries'
 FavouriteRouteListContainer = require './favourite-route-list-container'
 FavouriteLocationsContainer = require './favourite-locations-container'
+NoFavouritesPanel  = require './no-favourites-panel'
 
 class FavouritesPanel extends React.Component
 
@@ -42,7 +43,7 @@ class FavouritesPanel extends React.Component
         renderLoading={=> <div className="spinner-loader"/>}
       />
     else
-      favouriteRoutes = <div>TODO NO FAVOURITES</div>
+      favouriteRoutes = <NoFavouritesPanel/>
 
     <div>
       <div className="row favourite-locations-container">

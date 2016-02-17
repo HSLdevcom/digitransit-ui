@@ -3,6 +3,8 @@ Relay              = require 'react-relay'
 queries            = require '../../queries'
 NextDeparturesList = require '../departure/next-departures-list'
 config             = require '../../config'
+sortBy             = require 'lodash/sortBy'
+NoPositionPanel    = require '../front-page/no-position-panel'
 
 class FavouriteRouteListContainer extends React.Component
 
@@ -22,38 +24,50 @@ class FavouriteRouteListContainer extends React.Component
     if e.currentTime
       @forceUpdate()
 
-  getNextDepartures: =>
+  toRadians: (x) ->
+    x * Math.PI / 180
+
+  haversine: (lat1, lon1, lat2, lon2) ->
+    R = 6371000 # metres
+    φ1 = @toRadians(lat1)
+    φ2 = @toRadians(lat2)
+    Δφ = @toRadians(lat2 - lat1)
+    Δλ = @toRadians(lon2 - lon1)
+    a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ/2) * Math.sin(Δλ/2)
+    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    d = R * c
+    d
+
+  getNextDepartures: (lat, lon) =>
     nextDepartures = []
     seenDepartures = {}
-    console.log 'routes'
-    console.log @props.routes
     for route in @props.routes
-      console.log 'patterns'
-      console.log route.patterns
       for pattern in route.patterns
-        console.log 'stops'
-        console.log pattern.stops
+        closestDistance = false
         for stop in pattern.stops
-          closestStop = stop
+          dx = stop.lon - lon
+          dy = stop.lat - lat
+          distance = @haversine(lat, lon, stop.lat, stop.lon)
+          if not closestDistance or distance < closestDistance
+            closestStop = stop
+            closestDistance = distance
 
-        console.log 'closest stop'
-        console.log closestStop
         keepStoptimes = []
         for stoptime in closestStop.stoptimes
-          console.log 'stoptimes'
-          console.log stoptime.stoptimes
           seenKey =  stoptime.pattern.route.gtfsId + ":" + stoptime.pattern.headsign
           isSeen = seenDepartures[seenKey]
-          isFavourite = stoptime.pattern.route.gtfsId == route.gtfsId
-          isPickup = stoptime.stoptimes[0]?.pickupType != "NONE"
+          isFavourite = stoptime.pattern.route.gtfsId == route.gtfsId and stoptime.pattern.headsign == pattern.headsign
+          isPickup = true #stoptime.stoptimes[0]?.pickupType != "NONE"
           if !isSeen and isFavourite and isPickup
             keepStoptimes.push stoptime
             seenDepartures[seenKey] = true
         nextDepartures.push
-          distance: 0
+          distance: closestDistance
           stoptimes: keepStoptimes
 
-    console.log nextDepartures
+    nextDepartures = sortBy nextDepartures, 'distance'
 
     nextDepartures
 
@@ -61,8 +75,22 @@ class FavouriteRouteListContainer extends React.Component
     @context.getStore('TimeStore').getCurrentTime()
 
   render: =>
-    <NextDeparturesList departures={@getNextDepartures()} currentTime={@now().unix()}/>
+    PositionStore = @context.getStore 'PositionStore'
+    location = PositionStore.getLocationState()
+    origin = @context.getStore('EndpointStore').getOrigin()
 
+    if origin?.lat
+      routesPanel = <NextDeparturesList departures={@getNextDepartures(origin.lat, origin.lon)} currentTime={@now().unix()}/>
+
+    else if (location.status == PositionStore.STATUS_FOUND_LOCATION or
+             location.status == PositionStore.STATUS_FOUND_ADDRESS)
+      routesPanel = <NextDeparturesList departures={@getNextDepartures(location.lat, location.lon)} currentTime={@now().unix()}/>
+    else if location.status == PositionStore.STATUS_SEARCHING_LOCATION
+      routesPanel = <div className="spinner-loader"/>
+    else
+      routesPanel = <NoPositionPanel/>
+
+    routesPanel
 
 module.exports = Relay.createContainer(FavouriteRouteListContainer,
   fragments: queries.FavouriteRouteListContainerFragments

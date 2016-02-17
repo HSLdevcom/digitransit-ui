@@ -643,7 +643,10 @@ var FavouriteRouteListContainerFragments = {
     routes: () => Relay.QL`
       fragment on Route @relay(plural:true) {
         patterns {
+          headsign
           stops {
+            lat
+            lon
             stoptimes: stoptimesForPatterns (numberOfDepartures:2) {
               pattern {
                 alerts {
