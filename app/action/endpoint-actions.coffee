@@ -9,8 +9,8 @@ setEndpoint = (actionContext, {target, endpoint}) ->
 setUseCurrent = (actionContext, target) ->
   actionContext.dispatch "useCurrentPosition", target
 
-swapOriginDestination = (actionContext) ->
-  actionContext.dispatch "swapOriginDestination"
+swapEndpoints = (actionContext) ->
+  actionContext.dispatch "swapEndpoints"
 
 clearOrigin = (actionContext) ->
   actionContext.dispatch "clearOrigin"
@@ -21,22 +21,10 @@ clearDestination = (actionContext) ->
 clearGeolocation = (actionContext) ->
   actionContext.dispatch "clearGeolocation"
 
-disableOriginInputMode = (actionContext) ->
-  actionContext.dispatch "disableOriginInputMode"
-
-enableOriginInputMode = (actionContext) ->
-  actionContext.dispatch "enableOriginInputMode"
-
-disableDestinationInputMode = (actionContext) ->
-  actionContext.dispatch "disableDestinationInputMode"
-
-enableDestinationInputMode = (actionContext) ->
-  actionContext.dispatch "enableDestinationInputMode"
-
 module.exports =
   'setEndpoint': setEndpoint
   'setUseCurrent': setUseCurrent
-  'swapOriginDestination': swapOriginDestination
+  'swapEndpoints': swapEndpoints
   'clearOrigin': clearOrigin
   'clearDestination': clearDestination
   'clearGeolocation': clearGeolocation

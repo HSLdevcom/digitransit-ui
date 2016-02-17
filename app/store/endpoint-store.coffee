@@ -26,7 +26,7 @@ class EndpointStore extends Store
       @destination = @getUseCurrent(null, false)
       @emitChange()
 
-  swapOriginDestination: () ->
+  swapEndpoints: () ->
     [@destination, @origin] = [@origin, @destination]
     @emitChange()
 
@@ -99,7 +99,7 @@ class EndpointStore extends Store
   @handlers:
     "setEndpoint": "setEndpoint"
     "useCurrentPosition": "useCurrentPosition"
-    "swapOriginDestination": "swapOriginDestination"
+    "swapEndpoints": "swapEndpoints"
     "clearOrigin": "clearOrigin"
     "clearDestination": "clearDestination"
     "GeolocationNotSupported": 'clearGeolocation'
