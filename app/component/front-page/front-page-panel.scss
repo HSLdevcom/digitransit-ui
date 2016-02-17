@@ -83,3 +83,7 @@ $tab-min-width: 100px;
 .tabs-navigation ul li a.selected:hover {
   color: $tab-selected-color;
 }
+
+.scroll-extra-padding-bottom > div {
+  padding-bottom: 5em;
+}
