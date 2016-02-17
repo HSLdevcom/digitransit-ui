@@ -7,13 +7,13 @@ NextDeparturesListHeader = (props) ->
   <div className="next-departures-list-header padding-vertical-small border-top">
     <span className="time-header">
       <FormattedMessage
-        id='leaves'
-        defaultMessage="Leaves"/>
+        id='next'
+        defaultMessage="Next"/>
     </span>
     <span className="time-header">
       <FormattedMessage
-        id='next'
-        defaultMessage="Next"/>
+        id='leaves'
+        defaultMessage="Leaves"/>
     </span>
     <span className="distance-header">
       <FormattedMessage
