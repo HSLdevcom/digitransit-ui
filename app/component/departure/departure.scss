@@ -11,6 +11,10 @@
   .vehicle-number {
     width: 2.5em;
   }
+
+  & .route-number {
+    width: 2.5em;
+  }
   .icon {
     font-size: 9pt;
   }
@@ -38,7 +42,7 @@
 
 .time {
   font-weight: $font-weight-bold;
-  width: 3.5em;
+  width: 4em;
   margin-right: 0.5em;
   padding-right: 0.5em;
   text-align: right;
@@ -155,7 +159,7 @@
   font-size: $font-size-normal;
 
   .route-number {
-    width: 3.5em;
+    width: 2.5em;
   }
   .distance {
     width: 3em;
@@ -172,7 +176,7 @@
     text-align: right;
   }
   .route-destination {
-    width: calc(100% - 14.5em);
+    width: calc(100% - 15em);
     padding-left: 0.5em;
   }
 
@@ -203,7 +207,7 @@
     text-align: right;
   }
   .route-number-header {
-    width: 3.5em;
+    width: 2.5em;
   }
   .route-destination-header {
     padding-left: 0.5em;
@@ -212,7 +216,7 @@
     float: right;
     font-weight: inherit;
     text-align: right;
-    width: 3.5em;
+    width: 4em;
     margin-right: 0.5em;
     padding-right: 0.5em;
     text-align: right;
