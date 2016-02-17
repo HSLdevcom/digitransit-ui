@@ -19,11 +19,15 @@ class NearbyRouteListContainer extends React.Component
 
   componentDidMount: ->
     @context.getStore('ModeStore').addChangeListener @onModeChange
-    @context.getStore('TimeStore').addChangeListener @onChange
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
 
   componentWillUnmount: ->
     @context.getStore('ModeStore').removeChangeListener @onModeChange
-    @context.getStore('TimeStore').removeChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
+
+  onTimeChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
 
   onModeChange: =>
     @forceUpdate()
