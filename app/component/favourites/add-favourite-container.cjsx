@@ -6,6 +6,8 @@ NotImplementedAction      = require('../../action/not-implemented-action')
 NotImplemented            = require '../util/not-implemented'
 FavouriteIconTable        = require './favourite-icon-table'
 FavouriteLocationActions  = require '../../action/favourite-location-action'
+SearchField               = require '../search/search-field'
+SearchActions             = require '../../action/search-actions.coffee'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -15,6 +17,7 @@ class AddFavouriteContainer extends React.Component
   @contextTypes:
     intl: intl.intlShape.isRequired
     executeAction: React.PropTypes.func.isRequired
+    getStore: React.PropTypes.func.isRequired
     history: React.PropTypes.object.isRequired
 
   constructor: ->
@@ -42,12 +45,11 @@ class AddFavouriteContainer extends React.Component
       locationName: @state.locationName
     }
 
-  setCoordinates: (event) =>
-    #TODO: switch to real values after new search component is done
-    input = event.target.value
+  setCoordinates: (actionContext, location) =>
     @setState
-      lat: 60.192059
-      lon: 24.945831
+      lat: location.lat
+      lon: location.lon
+      address: location.address
 
   save: =>
     if @canSave()
@@ -79,6 +81,16 @@ class AddFavouriteContainer extends React.Component
     return false
 
   render: ->
+
+    geolocation = @context.getStore('PositionStore').getLocationState()
+
+    destinationPlaceholder = @context.intl.formatMessage(
+      id: 'address'
+      defaultMessage: 'Address')
+
+    focusInput = () =>
+      @refs.modal?.refs.searchInput?.refs.autowhatever?.refs.input?.focus()
+
     <div className={cx @props.className, "add-favourite-container"}>
       <NotImplemented/>
       <Link to="/" className="right cursor-pointer">
@@ -94,20 +106,32 @@ class AddFavouriteContainer extends React.Component
               <h3><FormattedMessage id="add-location-to-favourites" defaultMessage="Add a location to your favourites tab"/></h3>
             </div>
           </header>
-          <div className="add-favourite-container__search">
+          <div className="add-favourite-container__search search-form">
             <h4><FormattedMessage id="specify-location" defaultMessage="Specify the location"/></h4>
-            <div className="add-favourite-container__input-placeholder">
-              <input
-                placeholder={@context.intl.formatMessage(
-                  id: 'address-or-stop'
-                  defaultMessage: 'Address or stop')}
-                onChange={@setCoordinates}/>
-            </div>
+            <SearchField
+              endpoint={@state}
+              geolocation={geolocation}
+              onClick={(e) =>
+                e.preventDefault()
+                @context.executeAction SearchActions.openSearchWithCallback,
+                  callback: @setCoordinates
+                  position: {@state}
+                  placeholder: destinationPlaceholder
+                focusInput()
+              }
+              autosuggestPlaceholder={destinationPlaceholder}
+              navigateOrInputPlaceHolder={@context.intl.formatMessage(
+                id: 'address'
+                defaultMessage: 'Address')}
+              id='destination'
+              className='add-favourite-container__input-placeholder'
+            />
           </div>
           <div className="add-favourite-container__give-name">
             <h4><FormattedMessage id="give-name-to-location" defaultMessage="Name the location"/></h4>
             <div className="add-favourite-container__input-placeholder">
               <input
+                className="add-favourite-container__input"
                 placeholder={@context.intl.formatMessage(
                   id: 'location-examples'
                   defaultMessage: 'e.g. Home, Work, Scool,...')}

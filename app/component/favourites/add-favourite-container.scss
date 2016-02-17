@@ -16,6 +16,10 @@ $add-favourite-input-overlay-height: 27px;
     max-width: 500px;
     padding: 0px;
 
+    .add-favourite-container__search {
+      padding-top: 0px !important;
+    }
+
     h4 {
       margin-bottom: 7px;
       margin-top: 20px;
@@ -56,7 +60,11 @@ $add-favourite-input-overlay-height: 27px;
       line-height: $add-favourite-input-overlay-height;
       border-radius: $border-radius;
       border: 1px solid #e1e0e0;
-      input {
+      .add-favourite-container__input {
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
         border: none;
         width: 100%;
         padding-left: 7px;

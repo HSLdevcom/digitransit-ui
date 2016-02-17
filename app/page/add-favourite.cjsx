@@ -1,5 +1,6 @@
-React              = require 'react'
+React                 = require 'react'
 AddFavouriteContainer = require '../component/favourites/add-favourite-container'
+SearchModal           = require '../component/search/search-modal'
 
 
 class AddFavouritePage extends React.Component
@@ -9,7 +10,12 @@ class AddFavouritePage extends React.Component
     history: React.PropTypes.object.isRequired
 
   render: ->
-    <AddFavouriteContainer />
+    destination = @context.getStore('EndpointStore').getDestination()
+
+    <div>
+      <AddFavouriteContainer />
+      <SearchModal ref="modal" initialPosition={destination}/>
+    </div>
 
 
 module.exports = AddFavouritePage
