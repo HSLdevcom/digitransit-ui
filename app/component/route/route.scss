@@ -256,21 +256,25 @@ div.route-tabs {
   height: calc(100% - #{$route-header-height} - 14px);
 }
 
-.nearby-routes {
-  overflow: hidden;
-  .transport {
-    margin: 0.1em 0;
-  }
-  .mode-filter {
-    margin-bottom: 1em;
-  }
-  .underline {
-      border-bottom: 1px solid $light-gray;
-  }
-}
-
 .mode-filter {
-  width: 160px;
-  float: right;
-}
+  width: 100%;
+  padding-top: 12px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 65px;
 
+  &.btn-bar .btn {
+    border-right: 1px solid white;
+
+    & .icon-holder {
+      padding-top: 7px;
+      padding-bottom: 3px;
+
+      & .icon {
+        height: 24px;
+        width: 24px;
+      }
+    }
+  }
+}
