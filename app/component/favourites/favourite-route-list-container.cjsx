@@ -1,9 +1,8 @@
-React                 = require 'react'
-Relay                 = require 'react-relay'
-queries               = require '../../queries'
-FavouriteRouteRow     = require './favourite-route-row'
-MasonryComponent      = require '../util/masonry-component'
-config                = require '../../config'
+React              = require 'react'
+Relay              = require 'react-relay'
+queries            = require '../../queries'
+NextDeparturesList = require '../departure/next-departures-list'
+config             = require '../../config'
 
 class FavouriteRouteListContainer extends React.Component
 
@@ -11,17 +10,15 @@ class FavouriteRouteListContainer extends React.Component
     routes: React.PropTypes.array
 
 
-  getRoutes: =>
-    routes = []
+  getDepartures: =>
+    departures = []
     for route in @props.routes
-      routes.push <FavouriteRouteRow key={route.patterns[0].code} route={route}></FavouriteRouteRow>
-    routes
+      departures.push route
+    departures
 
   render: =>
     <div className="row">
-      <MasonryComponent ref="cards-masonry">
-        {@getRoutes()}
-      </MasonryComponent>
+        <NextDeparturesList departures={@getDepartures()} />
     </div>
 
 

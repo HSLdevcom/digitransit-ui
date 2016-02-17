@@ -105,7 +105,7 @@ class FrontPagePanel extends React.Component
 
                   <NextDeparturesListHeader />
 
-                  <div className="scrollable momentum-scroll" id="scrollable-routes">
+                  <div className="scrollable momentum-scroll scroll-extra-padding-bottom" id="scrollable-routes">
                     {routesPanel}
                   </div>
                 </div>
