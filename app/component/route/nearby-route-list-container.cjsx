@@ -11,7 +11,7 @@ intl       = require 'react-intl'
 
 FormattedMessage = intl.FormattedMessage
 
-STOP_COUNT = 15
+STOP_COUNT = 20
 
 class NearbyRouteListContainer extends React.Component
   @contextTypes:
