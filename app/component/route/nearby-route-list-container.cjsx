@@ -55,6 +55,8 @@ class NearbyRouteListContainer extends React.Component
             stoptime.stoptimes[0]?.realtimeDeparture
           else
             stoptime.stoptimes[0]?.scheduledDeparture
+        #TODO: This should be handled as a graphQl query parameter
+        # stoptimesForPatterns(numberOfDepartures: 2, timeRange: 7200)
         isCloseInTime = firstTime and firstTime - currentTime < 7200
         if !isSeen and isModeIncluded and isPickup and isCloseInTime
           keepStoptimes.push stoptime
