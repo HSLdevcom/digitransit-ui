@@ -114,9 +114,7 @@ class FrontPagePanel extends React.Component
     else if @getSelectedPanel() == 2
       panel = <div className="frontpage-panel-wrapper">
                 <div className="frontpage-panel">
-                  <div className="scrollable momentum-scroll">
-                    {favouritesPanel}
-                  </div>
+                  {favouritesPanel}
                 </div>
               </div>
       tabClasses[2] = selectedClass

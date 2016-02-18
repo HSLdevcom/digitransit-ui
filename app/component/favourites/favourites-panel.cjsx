@@ -3,7 +3,8 @@ Relay   = require 'react-relay'
 queries = require '../../queries'
 FavouriteRouteListContainer = require './favourite-route-list-container'
 FavouriteLocationsContainer = require './favourite-locations-container'
-NoFavouritesPanel  = require './no-favourites-panel'
+NextDeparturesListHeader    = require '../departure/next-departures-list-header'
+NoFavouritesPanel           = require './no-favourites-panel'
 
 class FavouritesPanel extends React.Component
 
@@ -50,7 +51,10 @@ class FavouritesPanel extends React.Component
         <FavouriteLocationsContainer/>
       </div>
       <div className="row">
-        {favouriteRoutes}
+        <NextDeparturesListHeader />
+        <div className="scrollable momentum-scroll no-padding">
+          {favouriteRoutes}
+        </div>
       </div>
     </div>
 
