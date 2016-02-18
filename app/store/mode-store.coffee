@@ -87,11 +87,11 @@ class ModeStore extends Store
     @data = data
 
   @handlers:
-    "ToggleBusState": 'toggleBusState'
-    "ToggleTramState": 'toggleTramState'
-    "ToggleRailState": 'toggleRailState'
-    "ToggleSubwayState": 'toggleSubwayState'
-    "ToggleFerryState": 'toggleFerryState'
-    "ToggleCitybikeState": 'toggleCitybikeState'
+    "ToggleNearbyRouteBusState": 'toggleBusState'
+    "ToggleNearbyRouteTramState": 'toggleTramState'
+    "ToggleNearbyRouteRailState": 'toggleRailState'
+    "ToggleNearbyRouteSubwayState": 'toggleSubwayState'
+    "ToggleNearbyRouteFerryState": 'toggleFerryState'
+    "ToggleNearbyRouteCitybikeState": 'toggleCitybikeState'
 
 module.exports = ModeStore
