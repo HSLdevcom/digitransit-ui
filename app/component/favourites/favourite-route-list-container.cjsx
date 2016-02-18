@@ -4,6 +4,7 @@ queries            = require '../../queries'
 NextDeparturesList = require '../departure/next-departures-list'
 config             = require '../../config'
 NoPositionPanel    = require '../front-page/no-position-panel'
+util               = require '../../util/geo-utils'
 
 class FavouriteRouteListContainer extends React.Component
 
@@ -23,38 +24,15 @@ class FavouriteRouteListContainer extends React.Component
     if e.currentTime
       @forceUpdate()
 
-  toRadians: (x) ->
-    x * Math.PI / 180
-
-  haversine: (lat1, lon1, lat2, lon2) ->
-    R = 6371000 # metres
-    φ1 = @toRadians(lat1)
-    φ2 = @toRadians(lat2)
-    Δφ = @toRadians(lat2 - lat1)
-    Δλ = @toRadians(lon2 - lon1)
-    a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-        Math.cos(φ1) * Math.cos(φ2) *
-        Math.sin(Δλ/2) * Math.sin(Δλ/2)
-    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
-    d = R * c
-    d
-
   getNextDepartures: (lat, lon) =>
     nextDepartures = []
     seenDepartures = {}
     for route in @props.routes
       for pattern in route.patterns
-        closestDistance = Number.MAX_VALUE
-        for stop in pattern.stops
-          dx = stop.lon - lon
-          dy = stop.lat - lat
-          distance = @haversine(lat, lon, stop.lat, stop.lon)
-          if not closestDistance or distance < closestDistance
-            closestStop = stop
-            closestDistance = distance
+        closest = util.getDistanceToNearestStop lat, lon, pattern.stops
 
         keepStoptimes = []
-        for stoptime in closestStop.stoptimes
+        for stoptime in closest.stop.stoptimes
           seenKey =  stoptime.pattern.route.gtfsId + ":" + stoptime.pattern.headsign
           isSeen = seenDepartures[seenKey]
           isFavourite = stoptime.pattern.route.gtfsId == route.gtfsId and stoptime.pattern.headsign == pattern.headsign
@@ -64,7 +42,7 @@ class FavouriteRouteListContainer extends React.Component
             seenDepartures[seenKey] = true
 
         nextDepartures.push
-          distance: closestDistance
+          distance: closest.distance
           stoptimes: keepStoptimes
 
     nextDepartures
