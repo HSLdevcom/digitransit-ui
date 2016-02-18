@@ -2,8 +2,6 @@ React                     = require 'react'
 Icon                      = require '../icon/icon'
 cx                        = require 'classnames'
 Link                      = require 'react-router/lib/Link'
-NotImplementedAction      = require('../../action/not-implemented-action')
-NotImplemented            = require '../util/not-implemented'
 FavouriteIconTable        = require './favourite-icon-table'
 FavouriteLocationActions  = require '../../action/favourite-location-action'
 SearchField               = require '../search/search-field'
@@ -24,29 +22,20 @@ class AddFavouriteContainer extends React.Component
   constructor: ->
     super
     @state =
-      selectedIconIndex: undefined
+      selectedIconId: undefined
       lat: undefined
       lon: undefined
       locationName: undefined
       address: undefined
 
-  selectIcon: (index, value) =>
+  selectIcon: (id) =>
     @setState
-      selectedIconIndex: index
+      selectedIconId: id
 
   specifyName: (event) =>
     input = event.target.value
     @setState
       locationName: input
-
-  serializeLocation: =>
-    return {
-      selectedIconId: @getFavouriteIconIds()[@state.selectedIconIndex]
-      lat: @state.lat
-      lon: @state.lon
-      locationName: @state.locationName
-      address: @state.address
-    }
 
   setCoordinatesAndAddress: (actionContext, location) =>
     @setState
@@ -56,12 +45,12 @@ class AddFavouriteContainer extends React.Component
 
   save: =>
     if @canSave()
-      @context.executeAction FavouriteLocationActions.addFavouriteLocation, @serializeLocation()
+      @context.executeAction FavouriteLocationActions.addFavouriteLocation, @state
       @context.history.pushState null, "/"
 
   canSave: =>
-    return @state.selectedIconIndex != undefined and
-      @state.selectedIconIndex != '' and
+    return @state.selectedIconId != undefined and
+      @state.selectedIconId != '' and
       @state.lat != undefined and
       @state.lat != '' and
       @state.lon != undefined and
@@ -79,10 +68,6 @@ class AddFavouriteContainer extends React.Component
       'icon-icon_shopping'
     ]
 
-  notImplemented: =>
-    context.executeAction NotImplementedAction.click, {name: <FormattedMessage id='your-favourites' defaultMessage='Favourites'/>}
-    return false
-
   render: ->
 
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -96,7 +81,6 @@ class AddFavouriteContainer extends React.Component
 
     <div>
       <div className={cx @props.className, "add-favourite-container"}>
-        <NotImplemented/>
         <Link to="/" className="right cursor-pointer">
           <Icon id="add-favourite-close-icon" img={'icon-icon_close'}/>
         </Link>
@@ -145,7 +129,7 @@ class AddFavouriteContainer extends React.Component
             <div className="add-favourite-container__pick-icon">
               <h4><FormattedMessage id="pick-icon" defaultMessage="Select an icon"/></h4>
               <FavouriteIconTable
-                selectedIconIndex={if @state.selectedIconIndex != 'undefined' or null then @state.selectedIconIndex else undefined}
+                selectedIconId={if @state.selectedIconId != 'undefined' or null then @state.selectedIconId else undefined}
                 favouriteIconIds={@getFavouriteIconIds()}
                 handleClick={@selectIcon}/>
             </div>

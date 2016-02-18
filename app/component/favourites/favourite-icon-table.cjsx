@@ -10,9 +10,9 @@ FavouriteIconTable = (props) ->
   columns = props.favouriteIconIds.map (value, index) =>
     <div
       key={index}
-      className={cx "favourite-icon-table-column", {"selected-icon": index == props.selectedIconIndex}}
+      className={cx "favourite-icon-table-column", {"selected-icon": value == props.selectedIconId}}
       style=columnWidth
-      onClick={props.handleClick.bind this, index, value}>
+      onClick={props.handleClick.bind this, value}>
       <Icon img={value}/>
     </div>
 
