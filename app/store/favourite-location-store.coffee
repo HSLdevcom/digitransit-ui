@@ -25,11 +25,6 @@ class FavouriteLocationStore extends Store
     @locations.push location
     storage.setItem(STORAGE_KEY, @locations)
 
-  getFavouriteLocation: (location) ->
-    if typeof location isnt 'object'
-      throw new Error("location is not a object:" + JSON.stringify location)
-    @emitChange(location)
-
 
   @handlers:
     "AddFavouriteLocation": "addFavouriteLocation"
