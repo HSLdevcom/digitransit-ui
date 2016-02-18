@@ -2,7 +2,7 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
-ModeFilter            = require '../route/mode-filter'
+ModeFilterContainer   = require '../route/mode-filter-container'
 NoPositionPanel       = require './no-position-panel'
 Icon                  = require '../icon/icon.cjsx'
 cx                    = require 'classnames'
@@ -99,7 +99,7 @@ class FrontPagePanel extends React.Component
                 <div className="frontpage-panel nearby-routes">
                   <div className="row">
                     <div className="medium-offset-3 medium-6 small-12 column">
-                      <ModeFilter id="nearby-routes-mode"/>
+                      <ModeFilterContainer id="nearby-routes-mode"/>
                     </div>
                   </div>
                   <NextDeparturesListHeader />
