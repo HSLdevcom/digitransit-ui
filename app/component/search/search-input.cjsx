@@ -50,7 +50,7 @@ class SearchInput extends React.Component
 
     if event.keyCode == 27 #esc clears
       if @state.value == ""
-         @context.executeAction SearchActions.closeSearch
+        @context.executeAction SearchActions.closeSearch
       else return @handleUpdateInputNow(target:
         value: "")
       event.preventDefault()
