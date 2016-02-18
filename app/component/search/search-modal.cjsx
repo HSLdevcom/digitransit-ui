@@ -28,11 +28,10 @@ class SearchModal extends React.Component
 
   render: =>
     style = {}
-
     if @context.getStore('SearchStore').isModalOpen() == false
-      style.height = "0"
+      style.left = "-400%"
     else
-      style.height = "100vh"
+      style.right = "0px"
 
     <div style={style}
       className="search-modal">

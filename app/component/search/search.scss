@@ -259,10 +259,9 @@ ul#react-whatever-suggest {
 div.search-modal {
   z-index:10000;
   background:#EEF1F3;
-  height: auto;
   overflow: auto;
   width: 100%;
-  height:0;
+  height:100%;
   max-width: none;
   position: fixed;
   top: 0px;
