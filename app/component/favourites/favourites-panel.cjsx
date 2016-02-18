@@ -50,11 +50,9 @@ class FavouritesPanel extends React.Component
       <div className="row favourite-locations-container">
         <FavouriteLocationsContainer/>
       </div>
-      <div className="row">
-        <NextDeparturesListHeader />
-        <div className="scrollable momentum-scroll no-padding">
-          {favouriteRoutes}
-        </div>
+      <NextDeparturesListHeader />
+      <div className="scrollable momentum-scroll no-padding">
+        {favouriteRoutes}
       </div>
     </div>
 
