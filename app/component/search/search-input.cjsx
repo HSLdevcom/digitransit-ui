@@ -1,12 +1,17 @@
 React             = require 'react'
 ReactAutowhatever = (require 'react-autowhatever').default
 SuggestionItem    = require './suggestion-item'
+SearchActions     = require '../../action/search-actions'
 
 class SearchInput extends React.Component
 
   constructor: (props) ->
     @state =
       focusedItemIndex: 0
+
+  @contextTypes:
+    executeAction: React.PropTypes.func.isRequired
+    getStore: React.PropTypes.func.isRequired
 
   componentWillMount: =>
     @context.getStore('SearchStore').addChangeListener @onSearchChange
@@ -18,10 +23,6 @@ class SearchInput extends React.Component
     if @context.getStore('SearchStore').getPosition() != undefined
       @handleUpdateInputNow(target:
         value: @context.getStore('SearchStore').getPosition().address)
-
-  @contextTypes:
-    executeAction: React.PropTypes.func.isRequired
-    getStore: React.PropTypes.func.isRequired
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
@@ -73,7 +74,14 @@ class SearchInput extends React.Component
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
       item = @state.suggestions[@state.focusedItemIndex]
-      name = SuggestionItem.getName(item.properties)
+      name = SuggestionItem.getName item.properties
+      save = () ->
+        @context.executeAction SearchActions.saveSearch,
+          "address": name
+          "lat": item.lat
+          "lon": item.lon
+      setTimeout save, 0
+
       @props.onSuggestionSelected(name, item)
 
   render: =>
