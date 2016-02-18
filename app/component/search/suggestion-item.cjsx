@@ -1,15 +1,9 @@
-React = require 'react'
-Icon = require '../icon/icon'
-cx = require 'classnames'
+React          = require 'react'
+Icon           = require '../icon/icon'
+cx             = require 'classnames'
+SuggestionUtil = require '../../util/suggestion-utils'
 {FormattedMessage} = require 'react-intl'
 
-getNumberIfNotZero = (number) ->
-  if number and not (number is "0") then " #{number}" else ""
-
-getLocality = (suggestion) ->
-  if suggestion.locality
-    suggestion.locality
-  else ""
 
 getIcon = (layer, iconClass) ->
   layerIcon =
@@ -33,24 +27,10 @@ SuggestionItem = (props) ->
     {displayText}
   </span>
 
-SuggestionItem.getName =  (suggestion) ->
-  name = switch suggestion.layer
-    when 'address'
-      "#{suggestion.street}#{getNumberIfNotZero suggestion.housenumber}, #{getLocality suggestion}"
-    when 'locality'
-      "#{suggestion.name}, #{getLocality suggestion}"
-    when 'neighbourhood'
-      "#{suggestion.name}, #{getLocality suggestion}"
-    when 'venue'
-      "#{suggestion.name}, #{getLocality suggestion}"
-
-  if name == undefined
-    if suggestion.labelId != undefined
-      name = <FormattedMessage id="own-position" defaultMessage='Your current location' />
-
-  if name == undefined
-    name = suggestion.label
-
-  name
+SuggestionItem.getName =  (props) ->
+  lbl = SuggestionUtil.getLabel(props)
+  if lbl == undefined
+    lbl = <FormattedMessage id='own-position' defaultMessage='Your current location' /> #todo fix
+  lbl
 
 module.exports = SuggestionItem

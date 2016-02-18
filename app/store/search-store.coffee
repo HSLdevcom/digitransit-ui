@@ -3,10 +3,12 @@ localStorage       = require './local-storage'
 config             = require '../config'
 XhrPromise         = require '../util/xhr-promise'
 {orderBy, sortBy}  = require 'lodash/collection'
+{uniqWith}         = require 'lodash/array'
 {assign}           = require 'lodash/object'
 {takeRight}        = require 'lodash/array'
 {FormattedMessage} = require 'react-intl'
 q                  = require 'q'
+SuggestionUtils    = require '../util/suggestion-utils'
 
 class SearchStore extends Store
   @storeName: 'SearchStore'
@@ -43,8 +45,8 @@ class SearchStore extends Store
     )
 
   uniq = (features) ->
-    # TODO we need to get unique to get rid of
-    features
+    uniqWith features, (feat1, feat2) ->
+      return SuggestionUtils.getLabel(feat1.properties) == SuggestionUtils.getLabel(feat2.properties) # or perhaps coords instead?
 
   addCurrentPositionIfEmpty = (features) ->
     if features.length == 0
@@ -75,7 +77,7 @@ class SearchStore extends Store
 
   getPeliasDataOrEmptyArray = (input, geolocation) ->
     deferred = q.defer()
-    if input == undefined or input == null or input.trim() == ""
+    if input == undefined or input == null or input.trim().length < 3
       deferred.resolve []
       return deferred.promise
 
