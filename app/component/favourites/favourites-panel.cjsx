@@ -46,12 +46,12 @@ class FavouritesPanel extends React.Component
     else
       favouriteRoutes = <NoFavouritesPanel/>
 
-    <div>
+    <div className="frontpage-panel">
       <div className="row favourite-locations-container">
         <FavouriteLocationsContainer/>
       </div>
       <NextDeparturesListHeader />
-      <div className="scrollable momentum-scroll no-padding">
+      <div className="scrollable momentum-scroll scroll-extra-padding-bottom">
         {favouriteRoutes}
       </div>
     </div>
