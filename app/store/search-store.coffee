@@ -82,6 +82,9 @@ class SearchStore extends Store
 
     deferred.promise
 
+  # Usually we don't do async stuff in stores nor do we make XHR request.
+  # However, in this case it better to keep all this logic in one place
+  # And make all data fetching here
   getSuggestions: (input, geoLocation, cb) =>
     getPeliasDataOrEmptyArray(input, geoLocation)
     .then sort
