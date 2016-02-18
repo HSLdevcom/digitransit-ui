@@ -255,3 +255,20 @@ div.route-tabs {
   }
   height: calc(100% - #{$route-header-height} - 14px);
 }
+
+
+.nearby-routes .mode-filter {
+  &.btn-bar .btn {
+    border-right: 1px solid white;
+
+    & .icon-holder {
+      padding-top: 7px;
+      padding-bottom: 3px;
+
+      & .icon {
+        height: 24px;
+        width: 24px;
+      }
+    }
+  }
+}
