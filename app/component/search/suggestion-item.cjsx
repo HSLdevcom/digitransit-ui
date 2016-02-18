@@ -1,5 +1,6 @@
 React = require 'react'
 Icon = require '../icon/icon'
+cx = require 'classnames'
 {FormattedMessage} = require 'react-intl'
 
 getNumberIfNotZero = (number) ->
@@ -25,7 +26,7 @@ getIcon = (layer, iconClass) ->
 
 SuggestionItem = (props) ->
   displayText = SuggestionItem.getName props.item.properties
-  <span id={displayText}>
+  <span id={displayText} className={cx "search-result", props.item.type}>
     <span className={props.spanClass || ""}>
       {getIcon props.item.properties.layer, props.iconClass}
     </span>

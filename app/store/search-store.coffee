@@ -6,7 +6,6 @@ XhrPromise         = require '../util/xhr-promise'
 {assign}           = require 'lodash/object'
 {takeRight}        = require 'lodash/array'
 {FormattedMessage} = require 'react-intl'
-
 q                  = require 'q'
 
 class SearchStore extends Store
@@ -43,20 +42,28 @@ class SearchStore extends Store
         config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOthers
     )
 
+  uniq = (features) ->
+    # TODO we need to get unique to get rid of
+    features
+
   addCurrentPositionIfEmpty = (features) ->
     if features.length == 0
       features.push currentLocation()
     features
 
-  addOldSearchesIfEmpty = (features) ->
-    if (features.filter (feature) -> feature.type != 'CurrentLocation').length == 0
-      features = features.concat (takeRight(getSearches(), 10).map (item) ->
-        type: "OldSearch"
-        properties:
-          label: item.address
-        geometry: item.geometry)
+  addOldSearches = (features, input) ->
+    if input?.length >= 0
+      matchingOldSearches = getSearches().filter (search) -> search.address.toLowerCase().indexOf(input.toLowerCase()) > -1
+    else
+      matchingOldSearches = getSearches()
 
-    features
+    results = takeRight(matchingOldSearches, 10).map (item) ->
+      type: "OldSearch"
+      properties:
+        label: item.address
+        layer: 'oldSearch'
+      geometry: item.geometry
+    features.concat results
 
   getSearches = () ->
     saved = localStorage.getItem "saved-searches"
@@ -87,9 +94,11 @@ class SearchStore extends Store
   # And make all data fetching here
   getSuggestions: (input, geoLocation, cb) =>
     getPeliasDataOrEmptyArray(input, geoLocation)
-    .then sort
     .then addCurrentPositionIfEmpty
-    .then addOldSearchesIfEmpty
+    .then (suggestions) ->
+      addOldSearches(suggestions, input)
+    .then sort
+    .then uniq
     .then (suggestions) ->
       cb(suggestions)
     .catch (e) ->
