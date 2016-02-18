@@ -28,6 +28,7 @@ class AddFavouriteContainer extends React.Component
       lat: undefined
       lon: undefined
       locationName: undefined
+      address: undefined
 
   selectIcon: (index, value) =>
     @setState
@@ -44,9 +45,10 @@ class AddFavouriteContainer extends React.Component
       lat: @state.lat
       lon: @state.lon
       locationName: @state.locationName
+      address: @state.address
     }
 
-  setCoordinates: (actionContext, location) =>
+  setCoordinatesAndAddress: (actionContext, location) =>
     @setState
       lat: location.lat
       lon: location.lon
@@ -116,7 +118,7 @@ class AddFavouriteContainer extends React.Component
                 onClick={(e) =>
                   e.preventDefault()
                   @context.executeAction SearchActions.openSearchWithCallback,
-                    callback: @setCoordinates
+                    callback: @setCoordinatesAndAddress
                     position: {"address":@state.address}
                     placeholder: destinationPlaceholder
                   focusInput()
