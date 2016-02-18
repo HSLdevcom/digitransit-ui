@@ -2,7 +2,8 @@ Store         = require 'fluxible/addons/BaseStore'
 localStorage  = require './local-storage'
 config        = require '../config'
 XhrPromise    = require '../util/xhr-promise'
-{sortBy}      = require 'lodash/collection'
+{orderBy, sortBy}     = require 'lodash/collection'
+{assign}      = require 'lodash/object'
 {FormattedMessage} = require 'react-intl'
 q             = require 'q'
 
@@ -53,9 +54,9 @@ class SearchStore extends Store
       return deferred.promise
 
     if config.autoSuggest.locationAware && geolocation.hasLocation
-      opts = Object.assign(text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon)
+      opts = assign text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon
     else
-      opts = Object.assign(text: input, config.searchParams)
+      opts = assign text: input, config.searchParams
 
     XhrPromise.getJson(config.URL.PELIAS, opts).then (res) ->
       deferred.resolve res.features
@@ -83,8 +84,39 @@ class SearchStore extends Store
     @placeholder = undefined
     @emitChange()
 
+  # storage (sorted by count desc):
+  # [
+  #  {
+  #   "address": "Espoo, Espoo",
+  #   "coordinates" :[]
+  #   "count": 1
+  #  }
+  # ]
+  #
+  # destination
+  # {
+  #  "address": "Espoo, Espoo",
+  #  coordinates :[]
+  # }
+  saveSearch: (destination) ->
+    searches = localStorage.getItem "saved-searches"
+    if searches == null
+      searches = []
+    else searches = JSON.parse(searches)
+
+    found = searches.filter (storedDestination) ->
+      storedDestination.address == destination.address
+
+    switch found.length
+      when 0 then searches.push assign count:1, destination
+      when 1 then found[0].count = found[0].count+1
+      else console.error "too many matches", found
+
+    localStorage.setItem "saved-searches", orderBy searches, "count", "desc"
+
   @handlers:
     "OpenSearch": 'openSearch'
     "CloseSearch": 'closeSearch'
+    "SaveSearch": 'saveSearch'
 
 module.exports = SearchStore
