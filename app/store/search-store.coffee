@@ -50,11 +50,11 @@ class SearchStore extends Store
 
   addOldSearchesIfEmpty = (features) ->
     if (features.filter (feature) -> feature.type != 'CurrentLocation').length == 0
-      features = features.concat takeRight(getSearches(), 10).map (item) ->
+      features = features.concat (takeRight(getSearches(), 10).map (item) ->
         type: "OldSearch"
         properties:
           label: item.address
-        geometry: item.geometry
+        geometry: item.geometry)
 
     features
 
