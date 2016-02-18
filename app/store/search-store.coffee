@@ -89,6 +89,8 @@ class SearchStore extends Store
     .then addOldSearchesIfEmpty
     .then (suggestions) ->
       cb(suggestions)
+    .catch (e) ->
+      console.error("error occurred", e)
 
   openSearch: (props) ->
     @modalOpen = true
