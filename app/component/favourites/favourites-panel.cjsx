@@ -1,5 +1,10 @@
-React                           = require 'react'
-FavouriteLocationsContainer     = require './favourite-locations-container'
+React   = require 'react'
+Relay   = require 'react-relay'
+queries = require '../../queries'
+FavouriteRouteListContainer = require './favourite-route-list-container'
+FavouriteLocationsContainer = require './favourite-locations-container'
+NextDeparturesListHeader    = require '../departure/next-departures-list-header'
+NoFavouritesPanel           = require './no-favourites-panel'
 
 class FavouritesPanel extends React.Component
 
@@ -25,9 +30,27 @@ class FavouritesPanel extends React.Component
       @forceUpdate()
 
   render: ->
+    routes = @context.getStore('FavouriteRoutesStore').getRoutes()
+    if routes.length > 0
+      favouriteRoutes = <Relay.RootContainer
+        Component={FavouriteRouteListContainer}
+        forceFetch={true}
+        route={new queries.FavouriteRouteListContainerRoute(
+          ids: routes
+        )}
+        renderLoading={=> <div className="spinner-loader"/>}
+      />
+    else
+      favouriteRoutes = <NoFavouritesPanel/>
 
-    <div>
-      <FavouriteLocationsContainer/>
+    <div className="frontpage-panel">
+      <div className="row favourite-locations-container">
+        <FavouriteLocationsContainer/>
+      </div>
+      <NextDeparturesListHeader />
+      <div className="scrollable momentum-scroll scroll-extra-padding-bottom">
+        {favouriteRoutes}
+      </div>
     </div>
 
 module.exports = FavouritesPanel

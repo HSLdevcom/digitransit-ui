@@ -2,6 +2,7 @@ React                 = require 'react'
 Icon                  = require '../icon/icon'
 Slider                = require '../util/slider'
 ToggleButton          = require '../util/toggle-button'
+ModeFilter            = require '../util/mode-filter'
 ItinerarySearchAction = require '../../action/itinerary-search-action'
 Select                = require '../util/select'
 
@@ -33,50 +34,7 @@ class CustomizeSearch extends React.Component
   render: ->
     <div className="customize-search">
       <section className="offcanvas-section">
-        <div className="row btn-bar">
-          <ToggleButton
-            icon="bus-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleBusState}
-            state={@context.getStore('ItinerarySearchStore').getBusState()}
-            checkedClass="bus"
-            className="mode-icon first-btn"
-          />
-          <ToggleButton
-            icon="tram-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleTramState}
-            state={@context.getStore('ItinerarySearchStore').getTramState()}
-            checkedClass="tram"
-            className="mode-icon"
-          />
-          <ToggleButton
-            icon="rail-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleRailState}
-            state={@context.getStore('ItinerarySearchStore').getRailState()}
-            checkedClass="rail"
-            className="mode-icon"
-          />
-          <ToggleButton
-            icon="subway-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleSubwayState}
-            state={@context.getStore('ItinerarySearchStore').getSubwayState()}
-            checkedClass="subway"
-            className="mode-icon"
-          />
-          <ToggleButton
-            icon="ferry-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleFerryState}
-            state={@context.getStore('ItinerarySearchStore').getFerryState()}
-            checkedClass="ferry"
-            className="mode-icon"
-          />
-          <ToggleButton
-            icon="citybike-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleCitybikeState}
-            state={@context.getStore('ItinerarySearchStore').getCitybikeState()}
-            checkedClass="citybike"
-            className="mode-icon last-btn"
-          />
-        </div>
+        <ModeFilter store={@context.getStore('ItinerarySearchStore')} action={ItinerarySearchAction} buttonClass="mode-icon"/>
       </section>
 
       <section className="offcanvas-section">

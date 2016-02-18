@@ -45,7 +45,7 @@ class FavouriteLocationsContainer extends React.Component
           clickFavourite={@setDestination}
         />
 
-    <div className="row">
+    <div>
       <div className="small-4 columns favourite-location-container--first">
         {columns[0]}
       </div>

@@ -11,7 +11,7 @@ intl       = require 'react-intl'
 
 FormattedMessage = intl.FormattedMessage
 
-STOP_COUNT = 30
+STOP_COUNT = 20
 
 class NearbyRouteListContainer extends React.Component
   @contextTypes:
@@ -36,6 +36,7 @@ class NearbyRouteListContainer extends React.Component
     mode = @context.getStore('ModeStore').getMode()
     departures = []
     seenDepartures = {}
+    currentTime = @now().unix()
     for edge in @props.stops.stopsByRadius.edges
       stop = edge.node.stop
       departures.push edge.node
@@ -49,7 +50,15 @@ class NearbyRouteListContainer extends React.Component
         isSeen = seenDepartures[seenKey]
         isModeIncluded = stoptime.pattern.route.type in mode
         isPickup = stoptime.stoptimes[0]?.pickupType != "NONE"
-        if !isSeen and isModeIncluded and isPickup
+        firstTime = stoptime.stoptimes[0]?.serviceDay +
+          if stoptime.stoptimes[0]?.realtime
+            stoptime.stoptimes[0]?.realtimeDeparture
+          else
+            stoptime.stoptimes[0]?.scheduledDeparture
+        #TODO: This should be handled as a graphQl query parameter
+        # stoptimesForPatterns(numberOfDepartures: 2, timeRange: 7200)
+        isCloseInTime = firstTime and firstTime - currentTime < 7200
+        if !isSeen and isModeIncluded and isPickup and isCloseInTime
           keepStoptimes.push stoptime
           seenDepartures[seenKey] = true
       nextDepartures.push

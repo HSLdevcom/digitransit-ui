@@ -1,7 +1,7 @@
+React   = require 'react'
 Relay   = require 'react-relay'
 NearbyRouteListContainer = require '../route/nearby-route-list-container'
 queries = require '../../queries'
-React   = require 'react'
 
 class NearestRoutesContainer extends React.Component
 

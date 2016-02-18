@@ -2,31 +2,31 @@ config     = require '../config'
 
 module.exports =
   toggleBusState: (actionContext)  ->
-    actionContext.dispatch "ToggleBusState",
+    actionContext.dispatch "ToggleNearbyRouteBusState",
       null,
       null
 
   toggleTramState: (actionContext)  ->
-    actionContext.dispatch "ToggleTramState",
+    actionContext.dispatch "ToggleNearbyRouteTramState",
       null,
       null
 
   toggleRailState: (actionContext)  ->
-    actionContext.dispatch "ToggleRailState",
+    actionContext.dispatch "ToggleNearbyRouteRailState",
       null,
       null
 
   toggleSubwayState: (actionContext)  ->
-    actionContext.dispatch "ToggleSubwayState",
+    actionContext.dispatch "ToggleNearbyRouteSubwayState",
       null,
       null
 
   toggleFerryState: (actionContext)  ->
-    actionContext.dispatch "ToggleFerryState",
+    actionContext.dispatch "ToggleNearbyRouteFerryState",
       null,
       null
 
   toggleCitybikeState: (actionContext)  ->
-    actionContext.dispatch "ToggleCitybikeState",
+    actionContext.dispatch "ToggleNearbyRouteCitybikeState",
       null,
       null

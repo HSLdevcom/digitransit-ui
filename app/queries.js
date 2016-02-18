@@ -623,7 +623,7 @@ var RouteMarkerPopupFragments = {
   `,
 }
 
-class FavouriteRouteRowRoute extends Relay.Route {
+class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
       routes: (Component, variables) => Relay.QL`
         query {
@@ -639,11 +639,46 @@ class FavouriteRouteRowRoute extends Relay.Route {
   static routeName = 'FavouriteRouteRowRoute';
 }
 
-var FavouriteRouteRowFragments = {
+var FavouriteRouteListContainerFragments = {
     routes: () => Relay.QL`
       fragment on Route @relay(plural:true) {
         patterns {
-            code
+          headsign
+          stops {
+            lat
+            lon
+            stoptimes: stoptimesForPatterns (numberOfDepartures:2) {
+              pattern {
+                alerts {
+                  effectiveStartDate
+                  effectiveEndDate
+                  trip {
+                    gtfsId
+                  }
+                }
+                code
+                headsign
+                route {
+                  gtfsId
+                  shortName
+                  longName
+                  type
+                  color
+                }
+              }
+              stoptimes {
+                pickupType
+              realtimeState
+                realtimeDeparture
+                scheduledDeparture
+                realtime
+                serviceDay
+                trip {
+                  gtfsId
+                }
+              }
+            }
+          }
         }
         gtfsId
         shortName
@@ -718,8 +753,8 @@ module.exports = {
   TripStopListFragments: TripStopListFragments,
   StopListContainerRoute: StopListContainerRoute,
   NearestStopListContainerFragments: NearestStopListContainerFragments,
-  FavouriteRouteRowRoute:FavouriteRouteRowRoute,
-  FavouriteRouteRowFragments:FavouriteRouteRowFragments,
+  FavouriteRouteListContainerRoute:FavouriteRouteListContainerRoute,
+  FavouriteRouteListContainerFragments:FavouriteRouteListContainerFragments,
   FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,
   StopCardContainerFragments: StopCardContainerFragments,
   FavouriteStopListContainerRoute: FavouriteStopListContainerRoute,
