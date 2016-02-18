@@ -3,7 +3,6 @@ Relay              = require 'react-relay'
 queries            = require '../../queries'
 NextDeparturesList = require '../departure/next-departures-list'
 config             = require '../../config'
-sortBy             = require 'lodash/sortBy'
 NoPositionPanel    = require '../front-page/no-position-panel'
 
 class FavouriteRouteListContainer extends React.Component
@@ -45,7 +44,7 @@ class FavouriteRouteListContainer extends React.Component
     seenDepartures = {}
     for route in @props.routes
       for pattern in route.patterns
-        closestDistance = false
+        closestDistance = Number.MAX_VALUE
         for stop in pattern.stops
           dx = stop.lon - lon
           dy = stop.lat - lat
@@ -63,11 +62,10 @@ class FavouriteRouteListContainer extends React.Component
           if !isSeen and isFavourite and isPickup
             keepStoptimes.push stoptime
             seenDepartures[seenKey] = true
+
         nextDepartures.push
           distance: closestDistance
           stoptimes: keepStoptimes
-
-    nextDepartures = sortBy nextDepartures, 'distance'
 
     nextDepartures
 
