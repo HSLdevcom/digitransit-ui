@@ -94,10 +94,10 @@
 .padding-vertical-small {
   padding: 0.45em 0;
 }
-.padding-vertical-normal  {
+.padding-vertical-normal {
   padding: 0.7em 0;
 }
-.padding-horizontal  {
+.padding-horizontal {
   padding: 0 1em;
 }
 .no-padding  {
@@ -147,6 +147,9 @@ body .large {
 }
 .border-bottom  {
   border-bottom: 1px solid $light-gray;
+}
+.border-top  {
+  border-top: 1px solid $light-gray;
 }
 .border-dashed  {
   border: 1px dashed $light-gray;

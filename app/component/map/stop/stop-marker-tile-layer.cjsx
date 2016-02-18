@@ -15,21 +15,25 @@ provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 
 class SVGTile
-  constructor: (@coords, done, @map) ->
+  constructor: (@coords, done, @props) ->
+    @extent = 4096
+    @tileSize = (@props.tileSize or 256)
+    @ratio = @extent / @tileSize
+
     @el = L.SVG.create 'svg'
     @el.setAttribute "class", "leaflet-tile"
-    @el.setAttribute "viewBox", "0 0 4096 4096"
+    @el.setAttribute "viewBox", "0 0 #{@tileSize} #{@tileSize}"
     @el.addEventListener "click", @onMapClick
-    if @coords.z < 14
+    if @coords.z < config.stopsMinZoom
       return
-    fetch("#{config.URL.STOP_MAP}#{@coords.z}/#{@coords.x}/#{@coords.y}.pbf").then (res) =>
+    fetch("#{config.URL.STOP_MAP}#{@coords.z + (@props.zoomOffset or 0)}/#{@coords.x}/#{@coords.y}.pbf").then (res) =>
       if res.status != 200
         done null, @el
         return
       res.arrayBuffer().then (buf) =>
         vt = new VectorTile(new Protobuf(buf))
-        @features = [0..vt.layers.geojsonLayer?.length - 1]
-          .map((i) -> vt.layers.geojsonLayer.feature i)
+        @features = [0..vt.layers.stops?.length - 1]
+          .map((i) -> vt.layers.stops.feature i)
           .filter((feature) -> feature.properties.type)
         for i in @features
           @addFeature i
@@ -39,82 +43,46 @@ class SVGTile
   addFeature: (feature) =>
     stop = L.SVG.create 'circle'
     geom = feature.loadGeometry()
-    stop.setAttribute "cx", geom[0][0].x
-    stop.setAttribute "cy", geom[0][0].y
+    stop.setAttribute "cx", geom[0][0].x / @ratio
+    stop.setAttribute "cy", geom[0][0].y / @ratio
     unless @coords.z <= config.stopsSmallMaxZoom
       halo = L.SVG.create 'circle'
       stop.setAttribute "class", feature.properties.type?.toLowerCase() + " stop cursor-pointer"
-      stop.setAttribute "r", 72
-      stop.setAttribute "stroke-width", 64
+      stop.setAttribute "r", 4.5
+      stop.setAttribute "stroke-width", 4
       halo.setAttribute "class", "stop-halo cursor-pointer"
-      halo.setAttribute "cx", geom[0][0].x
-      halo.setAttribute "cy", geom[0][0].y
-      halo.setAttribute "r", 128
-      halo.setAttribute "stroke-width", 24
+      halo.setAttribute "cx", geom[0][0].x / @ratio
+      halo.setAttribute "cy", geom[0][0].y / @ratio
+      halo.setAttribute "r", 8
+      halo.setAttribute "stroke-width", 1.5
       @el.appendChild halo
     else
       stop.setAttribute "class", feature.properties.type?.toLowerCase() + " stop-small cursor-pointer"
-      stop.setAttribute "r", 48
-      stop.setAttribute "stroke-width", 16
+      stop.setAttribute "r", 3
+      stop.setAttribute "stroke-width", 1
     @el.appendChild stop
 
   onMapClick: (e) =>
     if @features
 
       point =
-        x: e.offsetX * 16
-        y: e.offsetY * 16
+        x: e.offsetX
+        y: e.offsetY
 
-      nearest = @features.filter (stop) ->
+      nearest = @features.filter (stop) =>
         g = stop.loadGeometry()[0][0]
-        dist = Math.sqrt((point.x - g.x) ** 2 + (point.y - g.y) ** 2)
-        if dist < 300 then true else false
+        dist = Math.sqrt((point.x - (g.x / @ratio)) ** 2 + (point.y - (g.y / @ratio)) ** 2)
+        if dist < 17 then true else false
 
       if nearest.length == 0
         @onStopClicked false
       else if nearest.length == 1
         L.DomEvent.stopPropagation e
-        coords = nearest[0].toGeoJSON(@coords.x, @coords.y, @coords.z).geometry.coordinates
+        coords = nearest[0].toGeoJSON(@coords.x, @coords.y, @coords.z + (@props.zoomOffset or 0)).geometry.coordinates
         @onStopClicked nearest, L.latLng [coords[1], coords[0]]
       else
         L.DomEvent.stopPropagation e
-        @onStopClicked nearest, @map.mouseEventToLatLng e
-
-
-# Alternative implementation to SVGTile
-# class CanvasTile
-#   constructor: (@coords, done, @map) ->
-#     @el = document.createElement 'canvas'
-#     @el.setAttribute "class", "leaflet-tile"
-#     @el.setAttribute "height", "512"
-#     @el.setAttribute "width", "512"
-#     if @coords.z < 14 or !@el.getContext
-#       return
-#     fetch("http://172.30.1.194:8001/#{@coords.z}/#{@coords.x}/#{@coords.y}.pbf").then (res) =>
-#       if res.status != 200
-#         done(null, @el)
-#         return
-#       res.arrayBuffer().then (buf) =>
-#         vt = new VectorTile(new Protobuf(buf))
-#         if vt.layers.geojsonLayer
-#           for i in [0..vt.layers.geojsonLayer.length - 1]
-#             @addFeature vt.layers.geojsonLayer.feature i
-#         done(null, @el)
-#       , (err) -> console.log err
-#
-#   addFeature: (feature) =>
-#     unless feature.properties.type
-#       return
-#     geom = feature.loadGeometry()
-#     ctx = @el.getContext '2d'
-#     ctx.beginPath()
-#     ctx.fillStyle = getSelector(".#{feature.properties.type?.toLowerCase()}").style.color
-#     ctx.arc geom[0][0].x / 8, geom[0][0].y / 8, 100 / 8, 0, Math.PI * 2
-#     ctx.fill()
-#     ctx.beginPath()
-#     ctx.fillStyle = '#fff'
-#     ctx.arc geom[0][0].x / 8, geom[0][0].y / 8, 50 / 8, 0, Math.PI * 2
-#     ctx.fill()
+        @onStopClicked nearest, @props.map.mouseEventToLatLng e
 
 
 class StopMarkerTileLayer extends BaseTileLayer
@@ -127,7 +95,7 @@ class StopMarkerTileLayer extends BaseTileLayer
     route: React.PropTypes.object.isRequired
 
   createTile: (coords, done) =>
-    tile = new SVGTile(coords, done, @props.map)
+    tile = new SVGTile(coords, done, @props)
     tile.onStopClicked = (stops, coords) =>
       if @props.disableMapTracking
         @props.disableMapTracking()
