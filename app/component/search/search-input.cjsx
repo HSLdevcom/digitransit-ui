@@ -75,11 +75,13 @@ class SearchInput extends React.Component
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
       item = @state.suggestions[@state.focusedItemIndex]
       name = SuggestionItem.getName item.properties
-      save = () ->
-        @context.executeAction SearchActions.saveSearch,
-          "address": name
-          "geometry": item.geometry
-      setTimeout save, 0
+
+      if item.type != "CurrentLocation"
+        save = () ->
+          @context.executeAction SearchActions.saveSearch,
+            "address": name
+            "geometry": item.geometry
+        setTimeout save, 0
 
       @props.onSuggestionSelected(name, item)
 
