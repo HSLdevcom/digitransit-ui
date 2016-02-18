@@ -2,12 +2,19 @@ React             = require 'react'
 ReactAutowhatever = (require 'react-autowhatever').default
 SuggestionItem    = require './suggestion-item'
 SearchActions     = require '../../action/search-actions'
+isBrowser         = window?
+L                 = if isBrowser then require 'leaflet' else null
 
 class SearchInput extends React.Component
 
   constructor: (props) ->
     @state =
       focusedItemIndex: 0
+
+  focusItem = (i) ->
+    if L.Browser.touch
+      return
+    document.getElementById("react-autowhatever-suggest--item-" + i)?.scrollIntoView(false)
 
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
@@ -48,7 +55,7 @@ class SearchInput extends React.Component
 
     if (typeof eventProps.newFocusedItemIndex != 'undefined')
       @setState "focusedItemIndex": eventProps.newFocusedItemIndex,
-        () -> document.getElementById("react-autowhatever-suggest--item-" + eventProps.newFocusedItemIndex)?.scrollIntoView(false)
+        () -> focusItem(eventProps.newFocusedItemIndex)
 
       event.preventDefault()
 
@@ -68,8 +75,7 @@ class SearchInput extends React.Component
     geoLocation = @context.getStore('PositionStore').getLocationState()
     @context.getStore('SearchStore').getSuggestions input, geoLocation, (suggestions) =>
       @setState "suggestions": suggestions, focusedItemIndex: 0,
-        () =>  if suggestions.length > 0
-          document.getElementById("react-autowhatever-suggest--item-0").scrollIntoView()
+        () => focusItem(0)
 
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
