@@ -8,6 +8,7 @@ DepartureTime    = require './departure-time'
 Link       = require 'react-router/lib/Link'
 config     = require '../../config'
 moment     = require 'moment'
+sortBy     = require 'lodash/sortBy'
 intl       = require 'react-intl'
 
 FormattedMessage = intl.FormattedMessage
@@ -15,6 +16,24 @@ FormattedMessage = intl.FormattedMessage
 NextDeparturesList = (props) ->
   departureObjs = []
   for departure in props.departures
+    distance = departure.distance
+    roundedDistance =
+      if distance < 1000
+        (distance - distance % 10) / 1000
+      else
+        (distance - distance % 100) / 1000
+    departure.roundedDistance = roundedDistance
+
+    firstTime = departure.stoptimes[0]?.stoptimes[0]
+    departure.stoptime = firstTime?.serviceDay +
+      if firstTime?.realtime
+        firstTime.realtimeDeparture
+      else
+        firstTime?.scheduledDeparture
+
+  sortedDepartures = sortBy props.departures, ['roundedDistance', 'stoptime']
+
+  for departure in sortedDepartures
     for stoptime in departure.stoptimes
       departureTimes = []
       for departureTime in stoptime.stoptimes

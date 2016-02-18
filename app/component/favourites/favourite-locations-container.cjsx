@@ -19,7 +19,7 @@ class FavouriteLocationsContainer extends React.Component
     'icon-icon_place'
 
   render: ->
-    <div className="row">
+    <div>
       <div className="small-4 columns favourite-location-container--first">
         <FavouriteLocation
           locationName={"Koti"}
