@@ -58,7 +58,7 @@ class EndpointStore extends Store
     if isEqual nextOrigin, @origin
       return
 
-    @origin=nextOrigin
+    @origin = nextOrigin
     @emitChange("set-origin")
 
   setDestination: (location) ->
@@ -72,7 +72,7 @@ class EndpointStore extends Store
     if isEqual nextDestination, @destination
       return
 
-    @destination=nextDestination
+    @destination = nextDestination
     @emitChange()
 
   getOrigin: () ->

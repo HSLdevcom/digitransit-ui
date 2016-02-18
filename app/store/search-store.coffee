@@ -1,11 +1,13 @@
-Store         = require 'fluxible/addons/BaseStore'
-localStorage  = require './local-storage'
-config        = require '../config'
-XhrPromise    = require '../util/xhr-promise'
-{orderBy, sortBy}     = require 'lodash/collection'
-{assign}      = require 'lodash/object'
+Store              = require 'fluxible/addons/BaseStore'
+localStorage       = require './local-storage'
+config             = require '../config'
+XhrPromise         = require '../util/xhr-promise'
+{orderBy, sortBy}  = require 'lodash/collection'
+{assign}           = require 'lodash/object'
+{takeRight}        = require 'lodash/array'
 {FormattedMessage} = require 'react-intl'
-q             = require 'q'
+
+q                  = require 'q'
 
 class SearchStore extends Store
   @storeName: 'SearchStore'
@@ -23,29 +25,46 @@ class SearchStore extends Store
     super(dispatcher)
     @modalOpen = false
 
-  isModalOpen: () ->
+  isModalOpen: () =>
     @modalOpen
 
-  getActionTarget: () ->
+  getActionTarget: () =>
     @actionTarget
 
-  getPlaceholder: () ->
+  getPlaceholder: () =>
     @placeholder
 
-  getPosition: () ->
+  getPosition: () =>
     @position
 
   sort = (features) ->
     sortBy(features,
       (feature) ->
-        console.log(feature)
         config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOthers
     )
 
-  addCurrentPositionIfEmpty = (features) =>
+  addCurrentPositionIfEmpty = (features) ->
     if features.length == 0
       features.push currentLocation()
     features
+
+  addOldSearchesIfEmpty = (features) ->
+    if (features.filter (feature) -> feature.type != 'CurrentLocation').length == 0
+      features = features.concat takeRight(getSearches(), 10).map (item) ->
+        type: "OldSearch"
+        properties:
+          label: item.address
+        geometry: item.geometry
+
+    features
+
+  getSearches = () ->
+    saved = localStorage.getItem "saved-searches"
+    if saved == null
+      saved = []
+    else
+      saved = JSON.parse(saved)
+    saved
 
   getPeliasDataOrEmptyArray = (input, geolocation) ->
     deferred = q.defer()
@@ -67,6 +86,7 @@ class SearchStore extends Store
     getPeliasDataOrEmptyArray(input, geoLocation)
     .then sort
     .then addCurrentPositionIfEmpty
+    .then addOldSearchesIfEmpty
     .then (suggestions) ->
       cb(suggestions)
 
@@ -99,17 +119,14 @@ class SearchStore extends Store
   #  coordinates :[]
   # }
   saveSearch: (destination) ->
-    searches = localStorage.getItem "saved-searches"
-    if searches == null
-      searches = []
-    else searches = JSON.parse(searches)
+    searches = getSearches()
 
     found = searches.filter (storedDestination) ->
       storedDestination.address == destination.address
 
     switch found.length
-      when 0 then searches.push assign count:1, destination
-      when 1 then found[0].count = found[0].count+1
+      when 0 then searches.push assign count: 1, destination
+      when 1 then found[0].count = found[0].count + 1
       else console.error "too many matches", found
 
     localStorage.setItem "saved-searches", orderBy searches, "count", "desc"

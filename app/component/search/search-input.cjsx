@@ -78,8 +78,7 @@ class SearchInput extends React.Component
       save = () ->
         @context.executeAction SearchActions.saveSearch,
           "address": name
-          "lat": item.lat
-          "lon": item.lon
+          "geometry": item.geometry
       setTimeout save, 0
 
       @props.onSuggestionSelected(name, item)
