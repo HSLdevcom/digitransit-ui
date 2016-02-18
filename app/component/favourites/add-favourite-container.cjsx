@@ -97,13 +97,13 @@ class AddFavouriteContainer extends React.Component
             <div className="add-favourite-container__search search-form">
               <h4><FormattedMessage id="specify-location" defaultMessage="Specify the location"/></h4>
               <SearchField
-                endpoint={{"address":@state.address}}
+                endpoint={{"address": @state.address}}
                 geolocation={geolocation}
                 onClick={(e) =>
                   e.preventDefault()
                   @context.executeAction SearchActions.openSearchWithCallback,
                     callback: @setCoordinatesAndAddress
-                    position: {"address":@state.address}
+                    position: {"address": @state.address}
                     placeholder: destinationPlaceholder
                   focusInput()
                 }
