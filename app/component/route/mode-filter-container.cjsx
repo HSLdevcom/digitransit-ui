@@ -7,7 +7,6 @@ class ModeFilterContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
 
   render: ->
-    action = ModeSelectedAction
     <ModeFilter store={@context.getStore('ModeStore')} action={ModeSelectedAction} buttonClass="columns small-2"/>
 
 module.exports = ModeFilterContainer
