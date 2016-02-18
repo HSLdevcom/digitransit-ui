@@ -14,21 +14,14 @@ class BottomNavigation extends React.Component
 
   render: ->
     <div className="itinerary-bottom-navigation row">
-      <div className="small-4 columns">
+      <div className="small-6 columns">
         <Icon img={'icon-icon_share'}/><FormattedMessage id='share'
                                                          defaultMessage='Share' />
       </div>
-      <div className="small-4 columns">
+      <div className="small-6 columns noborder">
         <Icon img={'icon-icon_print'}/><FormattedMessage id='print'
                                                          defaultMessage='Print' />
       </div>
-      <div className="small-4 columns navigate">
-        <a href="#" onClick={@navigate}>
-          <Icon img={'icon-icon_arrow-right'} className="itinerary-bottom-navigation__icon right-arrow-blue-background"/>
-          <FormattedMessage id='navigate' defaultMessage='Navigate' />
-        </a>
-      </div>
     </div>
-
 
 module.exports = BottomNavigation

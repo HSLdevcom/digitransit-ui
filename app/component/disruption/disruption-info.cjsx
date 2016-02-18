@@ -14,7 +14,7 @@ class DisruptionInfo extends React.Component
     toggleDisruptionInfo: React.PropTypes.func
 
   render: ->
-    if typeof window != 'undefined'
+    if typeof window != 'undefined' and @props.open
       <Modal open={@props.open} title={<FormattedMessage id="disruption-info" defaultMessage="Disruption Info"/>} toggleVisibility={@props.toggleDisruptionInfo}>
         <Relay.RootContainer
           Component={DisruptionListContainer}

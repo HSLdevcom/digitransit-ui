@@ -44,9 +44,13 @@ module.exports =
     maxShownDistance: 5000
   map:
     useRetinaTiles: true
+    tileSize: 512
+    zoomOffset: -1
   autoSuggest:
     sortOrder: locality: 1, address: 2, stop: 3
     sortOthers: 4
+    # Let Pelias suggest based on current user location
+    locationAware: false
   showCityBikes: false
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15
@@ -59,3 +63,5 @@ module.exports =
   socialMedia:
     title: "Uusi Matka.fi"
     description: "Liikenneviraston Matka.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
+  #Ticket information feature toggle
+  showTicketInformation: false

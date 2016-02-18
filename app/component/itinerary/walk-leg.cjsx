@@ -1,8 +1,8 @@
-React = require 'react'
+React        = require 'react'
 RouteNumber  = require '../departure/route-number'
-moment = require 'moment'
-
-intl = require 'react-intl'
+moment       = require 'moment'
+Icon         = require '../icon/icon'
+intl         = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class WalkLeg extends React.Component
@@ -15,12 +15,15 @@ class WalkLeg extends React.Component
         </div>
         <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
       </div>
-      <div className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
+      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         {if @props.index == 0
+          <div><div>
+            <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from"/>
+          </div>
           <div>
             <FormattedMessage id="start-journey-place"
-                              defaultMessage='Start journey from' />
-          </div>
+              defaultMessage='Start journey from' />
+          </div></div>
         else
           false }
         <div>{@props.leg.from.name}</div>

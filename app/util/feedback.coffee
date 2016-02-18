@@ -12,13 +12,19 @@ shouldDisplayPopup = (time) ->
   false
 
 # time (currentTime) in ms
-recordResult = (piwik, time, a1, a2, a3) ->
+recordResult = (piwik, time, nps, prefer_new, feedback) ->
   reactCookie.save 'fid', time, 'path': '/'
-  if a1 then piwik.setCustomVariable 1, 'nps', a1, 'visit'
-  if a2 then piwik.setCustomVariable 2, 'prefer_new', a2, 'visit'
-  if a3 then piwik.setCustomVariable 3, 'feedback', a3, 'visit'
-  if a1 or a2 or a3
-    piwik.trackEvent "Feedback"
+  if nps != undefined
+    piwik.setCustomVariable 1, 'nps', nps, 'visit'
+    piwik.trackEvent "Feedback", "Set", "nps", nps
+  if prefer_new != undefined
+    piwik.setCustomVariable 2, 'prefer_new', prefer_new, 'visit'
+    piwik.trackEvent "Feedback", "Set", "prefer_new", prefer_new
+  if feedback
+    piwik.setCustomVariable 3, 'feedback', feedback, 'visit'
+    piwik.trackEvent "Feedback", "Set", "feedback", feedback
+  if nps != undefined or prefer_new != undefined or feedback != undefined
+    piwik.trackEvent "Feedback", "Close"
 
 module.exports =
   shouldDisplayPopup: shouldDisplayPopup

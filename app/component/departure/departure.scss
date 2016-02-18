@@ -11,11 +11,20 @@
   .vehicle-number {
     width: 2.5em;
   }
+
+  & .route-number {
+    width: 2.5em;
+  }
   .icon {
     font-size: 9pt;
   }
   .stop-reference {
-      float: right;
+    width: 3em;
+    display: inline-block;
+    text-align: right;
+  }
+  .route-destination {
+    padding-left: 0.5em;
   }
 }
 
@@ -33,21 +42,50 @@
 
 .time {
   font-weight: $font-weight-bold;
-  width: 3em;
-  margin-right: 1em;
+  width: 4em;
+  margin-right: 0.5em;
+  padding-right: 0.5em;
   text-align: right;
 }
+
 .vehicle-number {
   font-weight: $font-weight-bold;
   padding: 0 5px;
   vertical-align: top;
 }
-.destination {
-  max-width: 70%;
+.departure > div, .departure > span {
+    vertical-align: middle;
+}
+
+.route-destination {
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  width: calc(100% - 9.5em);
+  height: 1.2em;
+}
+
+.popup .route-destination {
+  width: calc(100% - 7.5em);
+}
+
+.distance {
+  display: inline-block;
+}
+
+.route-destination::before {
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  content: '';
+  width: 2em;
+  height: 100%;
+  position: absolute;
+  right:0;
+  top: 0;
 }
 
 // route-number component
 .route-number {
+  width: 3em;
   vertical-align: top;
   position: relative;
   display: inline-block;
@@ -57,13 +95,130 @@
 }
 
 .icon.realtime-icon {
-  position: absolute !important;
-  margin-top: -0.1em;
-  margin-left: -0.35em;
+  position: relative;
+  top: -10px;
+  left: 2px;
   height: 0.5em;
   width: 0.5em;
 }
 
 .leaflet-map-pane .departure svg {
-    z-index: 0;
+  z-index: 0;
+}
+
+.cancelation-info {
+  width: 12px;
+  height: 12px;
+  stroke: $white;
+  color: $cancelation-red;
+  margin: 0 0.5em;
+}
+
+.canceled .time, .time.canceled {
+  position: relative;
+  display: inline-block;
+  color: $cancelation-black;
+  background-color: $cancelation-background;
+  border-radius: $border-radius;
+  &::before,
+  &::after {
+    content: '';
+    width: 2em;
+    position: absolute;
+    left: 1.75em;
+    top: 50%;
+    opacity: 0.5;
+    border-bottom: 1px solid $cancelation-red;
+  }
+  &::before {
+    transform: skewY(-30deg);
+  }
+  &::after {
+    transform: skewY(30deg);
+  }
+}
+
+.card .canceled .time {
+  margin-top: inherit;
+  margin-bottom: inherit;
+  padding-top: inherit;
+  padding-bottom: inherit;
+}
+
+.next-departure-row  {
+  background: $white;
+  line-height: $line-height-normal;
+  position: relative;
+  overflow-y: visible;
+  white-space: nowrap;
+  margin: 0;
+  padding-left: 0;
+
+  color: $black;
+  font-family: $font-family-narrow;
+  font-size: $font-size-normal;
+
+  .route-number {
+    width: 2.5em;
+  }
+  .distance {
+    width: 3em;
+    color: $gray;
+    text-align: right;
+    margin-right: 0.5em;
+  }
+  .icon {
+    font-size: 9pt;
+  }
+  .stop-reference {
+    width: 3em;
+    display: inline-block;
+    text-align: right;
+  }
+  .route-destination {
+    width: calc(100% - 15em);
+    padding-left: 0.5em;
+  }
+
+  & > div,
+  & > span {
+    vertical-align: middle;
+  }
+}
+
+.next-departures-list-header {
+  color: $gray;
+  font-family: $font-family-narrow;
+  font-size: $font-size-normal;
+  white-space: nowrap;
+  margin: 0;
+  line-height: 1em;
+
+  & > span {
+    display: inline-block;
+    vertical-align: top;
+    & > span {
+      font-size: $font-size-small;
+    }
+  }
+  .distance-header {
+    width: 3em;
+    margin-right: 0.5em;
+    text-align: right;
+  }
+  .route-number-header {
+    width: 2.5em;
+  }
+  .route-destination-header {
+    padding-left: 0.5em;
+  }
+  .time-header {
+    float: right;
+    font-weight: inherit;
+    text-align: right;
+    width: 4em;
+    margin-right: 0.5em;
+    padding-right: 0.5em;
+    text-align: right;
+  }
 }

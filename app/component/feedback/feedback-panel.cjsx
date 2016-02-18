@@ -4,6 +4,7 @@ Icon                  = require '../icon/icon.cjsx'
 ScoreTable            = require './score-table'
 TextAreaWithCounter   = require './text-area-with-counter'
 FeedbackActions       = require '../../action/feedback-action'
+Feedback              = require '../../util/feedback'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -46,6 +47,7 @@ class FeedbackPanel extends React.Component
 
   closeModal: =>
     @context.executeAction FeedbackActions.closeFeedbackModal
+    Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf())
     @setState
       selectedNPS: undefined
       useThisMoreLikely: undefined
@@ -57,7 +59,7 @@ class FeedbackPanel extends React.Component
     @setState
       postFirstQuestion: true
       selectedNPS: answer
-    #TODO: send first answer to PIWIK
+    Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(), answer)
 
   answerSecondQuestion: (answer) =>
     @setState
@@ -70,13 +72,17 @@ class FeedbackPanel extends React.Component
       charLeft: FEEDBACK_OPEN_AREA_MAX_CHARS - input.length
 
   sendAll: =>
-    #TODO: send all values to PIWIK
+    Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(), @state.selectedNPS, @state.useThisMoreLikely, @state.openText)
     @closeModal()
-    return
 
   render: ->
 
     isModalOpen = @context.getStore('FeedbackStore').isModalOpen()
+
+    lowEndLabel = <FormattedMessage id='very-unlikely'
+                      defaultMessage='very unlikely' />
+    highEndLabel = <FormattedMessage id='very-likely'
+                      defaultMessage="very-likely" />
 
     if @state.postFirstQuestion
 
@@ -93,8 +99,8 @@ class FeedbackPanel extends React.Component
           highestScore=10
           handleClick={@answerSecondQuestion}
           selectedScore={if @state.useThisMoreLikely != 'undefined' then @state.useThisMoreLikely else undefined}
-          lowEndLabel={"Erittäin epätodennäköistä"}
-          highEndLabel={"Erittäin todennäköistä"}
+          lowEndLabel={lowEndLabel}
+          highEndLabel={highEndLabel}
           showLabels={true}/>
 
 
@@ -125,7 +131,7 @@ class FeedbackPanel extends React.Component
         bodyClassName={if @state.postFirstQuestion then "feedback-modal__body--post-first-question" else "feedback-modal__body"}
         autoScrollBodyContent={true}
         modal={true}
-        overlayStyle={background: 'none'}
+        overlayStyle={background: 'rgba(0, 0, 0, 0.541176)'}
         open={isModalOpen}
       >
         <div className="right cursor-pointer feedback-close-container" onClick={@closeModal}>
@@ -143,8 +149,8 @@ class FeedbackPanel extends React.Component
             highestScore=10
             handleClick={@answerFirstQuestion}
             selectedScore={if @state.selectedNPS != 'undefined' then @state.selectedNPS else undefined}
-            lowEndLabel={"Erittäin epätodennäköistä"}
-            highEndLabel={"Erittäin todennäköistä"}
+            lowEndLabel={lowEndLabel}
+            highEndLabel={highEndLabel}
             showLabels={true}/>
 
           {supplementaryQuestions}

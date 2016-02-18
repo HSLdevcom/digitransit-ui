@@ -42,8 +42,18 @@ station =
   x: 24.939603788199364
   y: 60.1626075196532
 
+favouriteLocation =
+  locationName: "Työ"
+  favouriteLocationIconId: "icon-icon_place"
+  arrivalTime: "14:38"
+  departureTime: "3 min"
+  empty: false
+  realtime: true
+
+
 module.exports =
   realtimeDeparture: realtimeDeparture
   departure: departure
   currentTime: currentTime
   station: station
+  favouriteLocation: favouriteLocation

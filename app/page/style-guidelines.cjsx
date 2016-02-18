@@ -1,5 +1,6 @@
 React              = require 'react'
 Icon               = require '../component/icon/icon'
+IconWithTail       = require '../component/icon/icon-with-tail'
 Link               = require('react-router/lib/Link').Link
 # React Components
 ComponentDocumentation = require '../component/documentation/component-documentation'
@@ -8,6 +9,7 @@ RouteNumber        = require '../component/departure/route-number'
 RouteDestination   = require '../component/departure/route-destination'
 DepartureTime      = require '../component/departure/departure-time'
 StopReference      = require '../component/stop/stop-reference'
+Distance           = require '../component/departure/distance'
 NotImplemented     = require '../component/util/not-implemented'
 NotImplementedLink = require '../component/util/not-implemented-link'
 
@@ -18,6 +20,9 @@ CityBikeContent    = require '../component/city-bike/city-bike-content'
 CityBikeAvailability = require '../component/city-bike/city-bike-availability'
 CityBikeUse          = require '../component/city-bike/city-bike-use'
 CityBikePopup       = require '../component/map/city-bike/city-bike-popup'
+FavouriteLocationsContainer = require '../component/favourites/favourite-locations-container'
+FavouriteLocation           = require '../component/favourites/favourite-location'
+
 
 class StyleGuidelinesPage extends React.Component
   getColors: ->
@@ -316,6 +321,7 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=RouteNumber />
       <ComponentDocumentation component=RouteDestination />
       <ComponentDocumentation component=StopReference />
+      <ComponentDocumentation component=Distance />
       <ComponentDocumentation component=NotImplementedLink />
       <ComponentDocumentation component=NotImplemented />
     </div>
@@ -329,6 +335,13 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=CityBikeAvailability />
       <ComponentDocumentation component=CityBikeUse />
       <ComponentDocumentation component=CityBikePopup />
+      <ComponentDocumentation component=FavouriteLocationsContainer />
+      <ComponentDocumentation component=FavouriteLocation />
+    </div>
+
+  getIconComponents: ->
+    <div>
+      <ComponentDocumentation component=IconWithTail />
     </div>
 
   render: ->
@@ -369,6 +382,7 @@ class StyleGuidelinesPage extends React.Component
 
       {@getDepartureMolecules()}
       {@getCardComponents()}
+      {@getIconComponents()}
 
       <p></p>
     </div>

@@ -75,7 +75,7 @@ var RouteQueries = {
   `,
 }
 
-class RouteListContainerRoute extends Relay.Route {
+class NearbyRouteListContainerRoute extends Relay.Route {
   static queries = {
     stops: (Component, variables) => Relay.QL`
       query {
@@ -92,35 +92,50 @@ class RouteListContainerRoute extends Relay.Route {
     lat: {required: true},
     lon: {required: true},
   };
-  static routeName = 'RouteListContainerRoute';
+  static routeName = 'NearbyRouteListContainerRoute';
 }
 
-var RouteListContainerFragments = {
+var NearbyRouteListContainerFragments = {
   stops: () => Relay.QL`
     fragment on QueryType {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
         edges {
           node {
+            distance
             stop {
               gtfsId
-              name
-              code
-              desc
-              stoptimes: stoptimesForPatterns(numberOfDepartures:1) {
+              stoptimes: stoptimesForPatterns(numberOfDepartures:2) {
                 pattern {
+                  alerts {
+                    effectiveStartDate
+                    effectiveEndDate
+                    trip {
+                      gtfsId
+                    }
+                  }
+                  code
                   headsign
                   route {
                     gtfsId
+                    shortName
+                    longName
                     type
+                    color
                   }
                 }
                 stoptimes {
                   pickupType
+                  realtimeState
+                  realtimeDeparture
+                  scheduledDeparture
+                  realtime
+                  serviceDay
+                  trip {
+                    gtfsId
+                  }
                 }
-                ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
               }
             }
-            distance
           }
         }
         pageInfo {
@@ -430,6 +445,46 @@ var StopCardHeaderFragments = {
   `,
 }
 
+var StopAtDistanceListContainerFragments = {
+  stopAtDistance: () => Relay.QL`
+  fragment on stopAtDistance {
+    distance
+    stop {
+      stoptimes: stoptimesForPatterns(numberOfDepartures:2) {
+        pattern {
+          alerts {
+            effectiveStartDate
+            effectiveEndDate
+            trip {
+            gtfsId
+            }
+          }
+          route {
+            gtfsId
+            shortName
+            longName
+            type
+            color
+          }
+          code
+          headsign
+        }
+        stoptimes {
+          realtimeState
+          realtimeDeparture
+          scheduledDeparture
+          realtime
+          serviceDay
+          trip {
+            gtfsId
+          }
+        }
+      }
+    }
+  }
+  `,
+}
+
 var DepartureListFragments = {
   stoptimes: () => Relay.QL`
     fragment on StoptimesInPattern @relay(plural:true) {
@@ -452,7 +507,9 @@ var DepartureListFragments = {
         headsign
       }
       stoptimes {
+        realtimeState
         realtimeDeparture
+        scheduledDeparture
         realtime
         serviceDay
         stop {
@@ -649,8 +706,8 @@ module.exports = {
   TripRoute: TripRoute,
   TripPatternFragments: TripPatternFragments,
   RouteQueries: RouteQueries,
-  RouteListContainerRoute: RouteListContainerRoute,
-  RouteListContainerFragments: RouteListContainerFragments,
+  NearbyRouteListContainerRoute: NearbyRouteListContainerRoute,
+  NearbyRouteListContainerFragments: NearbyRouteListContainerFragments,
   TripQueries: TripQueries,
   StopRoute: StopRoute,
   RoutePageFragments: RoutePageFragments,
@@ -672,6 +729,7 @@ module.exports = {
   StopMarkerPopupFragments: StopMarkerPopupFragments,
   StopMapPageFragments: StopMapPageFragments,
   StopCardHeaderFragments: StopCardHeaderFragments,
+  StopAtDistanceListContainerFragments: StopAtDistanceListContainerFragments,
   DepartureListFragments: DepartureListFragments,
   TripPageFragments: TripPageFragments,
   FuzzyTripRoute: FuzzyTripRoute,

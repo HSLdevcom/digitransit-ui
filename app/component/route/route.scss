@@ -104,6 +104,18 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
     min-height: 1px;
     .route-now-content {
       padding-top: 10px;
+
+      & svg {
+        position: absolute;
+        z-index: 1;
+        &.tail {
+          left: -7px;
+          top: -17px;
+          z-index: 0;
+          width: 50px;
+          height: 50px;
+        }
+      }
     }
   }
 }
@@ -146,6 +158,14 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
     top: -40px;
     right: -22px;
     z-index: 1;
+    &.tail {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top: -57px;
+      right: -39px;
+      z-index: 0;
+    }
   }
 }
 
@@ -227,9 +247,11 @@ div.route-tabs {
     background: white;
     height: calc(100% - 1.2em - 8px);
     > div {
+      @extend .momentum-scroll;
       height: 100%;
       overflow: auto;
     }
+
   }
   height: calc(100% - #{$route-header-height} - 14px);
 }
@@ -251,3 +273,4 @@ div.route-tabs {
   width: 240px;
   float: right;
 }
+

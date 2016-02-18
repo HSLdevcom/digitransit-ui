@@ -5,10 +5,10 @@ $tab-min-width: 100px;
 
 .frontpage-panel-wrapper {
   position: absolute;
-  top: 60px;
+  top: 52px;
   z-index: 802;
   width: 100%;
-  height: calc(100% - 110px);
+  height: calc(100% - 102px);
   overflow: hidden;
   background-color: $background-color;
 
@@ -82,4 +82,8 @@ $tab-min-width: 100px;
 .tabs-navigation ul li.is-active a,
 .tabs-navigation ul li a.selected:hover {
   color: $tab-selected-color;
+}
+
+.scroll-extra-padding-bottom > div {
+  padding-bottom: 5em;
 }

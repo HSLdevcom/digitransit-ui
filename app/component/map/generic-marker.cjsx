@@ -1,7 +1,7 @@
 config = require('../../config')
 React         = require 'react'
 isBrowser     = window?
-Marker        = if isBrowser then require 'react-leaflet/lib/Marker'
+Marker        = if isBrowser then require('react-leaflet/lib/Marker').default
 Popup         = if isBrowser then require './dynamic-popup'
 L             = if isBrowser then require 'leaflet'
 provideContext = require 'fluxible-addons-react/provideContext'

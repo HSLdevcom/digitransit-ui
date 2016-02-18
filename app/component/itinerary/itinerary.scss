@@ -5,22 +5,55 @@
 $itinerary-summary-height: 2.5em;
 $itinerary-bottom-navigation-height: 2em;
 $itinerary-tabs-height: 3em;
-$itinerary-navigate-icon-size: 50px;
+$itinerary-tab-switch-height: 28px;
 
 .itinerary-tabs {
-  height: calc(100% - #{$itinerary-bottom-navigation-height} - 40px);
-  .tabs-navigation ul li a {
-    line-height: 1;
-  }
+  height: calc(100% - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height});
   article.tab-panel {
     height: 100%;
-    padding-bottom: $itinerary-bottom-navigation-height;
+//    padding-bottom: calc(2*#{$itinerary-bottom-navigation-height});
     > div > div {
-      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$itinerary-tabs-height} - #{$itinerary-summary-height} - 40px);
       overflow-y: auto;
-      background: $white;
     }
   }
+  .tabs-navigation {
+    height: 0px;
+    padding: 0;
+  }
+}
+
+// hacketihack, instead of all this we should have more generic measures for pages somewhere else...
+@media #{$small-only} {
+  .itinerary-tabs {
+    article.tab-panel > div > div {
+      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$small-map-height});
+    }
+  }
+}
+
+@media #{$medium-only} {
+  .itinerary-tabs {
+    article.tab-panel > div > div {
+     height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$medium-map-height}) ;
+    }
+  }
+}
+
+@media #{$large-up} {
+  .itinerary-tabs {
+    article.tab-panel > div > div {
+      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$large-map-height}) ;
+    }
+  }
+}
+
+.slick-track {
+  height:100%;
+}
+
+.itinerary-main {
+  padding-top: 20px;
+  background: $white;
 }
 
 .itinerary-summary {
@@ -29,7 +62,17 @@ $itinerary-navigate-icon-size: 50px;
   font-size: 10pt;
   padding: 0.5em 1em;
   height: $itinerary-summary-height;
+  border-top: solid 1px $light-gray;
   border-bottom: solid 1px $light-gray;
+  background: transparent;
+}
+
+.itinerary-icon {
+  position: absolute;
+  margin-left: -22px;
+  margin-top: 2px;
+  fill: currentColor;
+  z-index: 800;
 }
 
 .duration {
@@ -61,25 +104,36 @@ $itinerary-navigate-icon-size: 50px;
   font-size: 10pt;
   margin: 0.5em;
   padding: 0.3em 0.5em;
-  border: solid 1px $light-gray;
-  border-radius: $border-radius;
-  .itinerary-ticket-information-price {
-    color: $black;
-  }
-  .itinerary-ticket-information-buy {
-    font-weight: $font-weight-normal;
+  border: 0px;
+  text-align: center;
+  .itinerary-ticket-information-class {
+    text-transform: uppercase;
+    text-align: center;
     color: white;
-    float: right;
-    background: linear-gradient(#{$light-gray}, #{$gray});
+    font-weight: 400;
+    background: $gray;
     vertical-align: middle;
     border-radius: 1.5em;
     margin-top: 0.25em;
-    padding: 0.5em 1.5em;
+    padding: 0.1em 0.5em;
+    display: inline;
+    margin-left: 10px;
+  }
+  .itinerary-ticket-information-buy {
+    color: white;
+    font-weight: $font-weight-bold;
+    background: linear-gradient(#80D016, #45AA0D);
+    vertical-align: middle;
+    border-radius: 2em;
+    margin-top: 0.5em;
+    padding: 1em 1.5em;
+    width: 100%;
   }
 
   .itinerary-ticket-information-buy a {
     text-decoration: none;
     color: white;
+    align: center;
   }
 }
 
@@ -118,6 +172,9 @@ $itinerary-navigate-icon-size: 50px;
     left: 0;
     top: -2px;
   }
+  .itinerary-instruction-column.to::before {
+    content: "";
+  }
   .itinerary-instruction-column:not(.to)::after {
     content: "";
     position: absolute;
@@ -130,6 +187,7 @@ $itinerary-navigate-icon-size: 50px;
     border-left-style: dotted;
   }
   .itinerary-instruction-column {
+    cursor: pointer;
     font-size: 10pt;
     font-weight: $font-weight-light;
     padding-left: 1.5em;
@@ -141,6 +199,31 @@ $itinerary-navigate-icon-size: 50px;
       font-weight: $font-weight-normal;
     }
   }
+}
+
+.row.itinerary-route-information {
+  text-align: center;
+  left: 2em;
+  right: 2em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: solid 1px $light-gray;
+  border-bottom: solid 1px $light-gray;
+  width: calc(100% - 2em);
+  div {
+    border-right: solid 1px $light-gray;
+
+    &.noborder {
+      border-right: none;
+    }
+  }
+}
+
+span.itinerary-stop-code {
+  border: solid 1px $light-gray;
+  border-radius: 2px;
+  padding: 1px 4px;
+  font-size: 70%;
 }
 
 .row.itinerary-bottom-navigation {
@@ -158,7 +241,7 @@ $itinerary-navigate-icon-size: 50px;
   div {
     border-right: solid 1px $light-gray;
     text-align: center;
-    &.navigate {
+    &.noborder {
       border-right: none;
       color: $action-color;
       a {
@@ -167,15 +250,6 @@ $itinerary-navigate-icon-size: 50px;
       }
     }
   }
-}
-
-.itinerary-bottom-navigation__icon {
-  font-size: $itinerary-navigate-icon-size/2;
-  padding: $itinerary-navigate-icon-size/4;
-  height: $itinerary-navigate-icon-size;
-  width: $itinerary-navigate-icon-size;
-  position: absolute;
-  bottom: 20px;
 }
 
 /* Slick */
@@ -288,7 +362,7 @@ div.slick-slider {
     display: block;
     text-align: center;
     padding: 0;
-    margin-bottom: -10px;
+    margin-bottom: 0px;
     width: 100%;
     li {
         position: relative;

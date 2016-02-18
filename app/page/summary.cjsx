@@ -11,7 +11,7 @@ SummaryRow         = require '../component/summary/summary-row'
 NoRoutePopup       = require '../component/summary/no-route-popup'
 SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
 ItineraryLine      = require '../component/map/itinerary-line'
-sortBy             = require 'lodash/collection/sortBy'
+sortBy             = require 'lodash/sortBy'
 {otpToLocation, locationToCoords} = require '../util/otp-strings'
 {supportsHistory}  = require 'history/lib/DOMUtils'
 intl               = require 'react-intl'
@@ -74,7 +74,7 @@ class SummaryPage extends React.Component
     activeIndex = @getActiveIndex()
 
     data = @context.getStore('ItinerarySearchStore').getData()
-    currentTime = @context.getStore('TimeStore').getCurrentTime()
+    currentTime = @context.getStore('TimeStore').getCurrentTime().valueOf()
     plan = data.plan
     if plan
       summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"

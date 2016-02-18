@@ -7,4 +7,5 @@ class LoadingPage extends React.Component
       <div className="spinner-loader"/>
     </DefaultNavigation>
 
+
 module.exports = LoadingPage

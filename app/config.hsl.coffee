@@ -49,6 +49,13 @@ module.exports =
     maxShownDistance: 5000
   map:
     useRetinaTiles: true
+    tileSize: 512
+    zoomOffset: -1
+  autoSuggest:
+    sortOrder: neighbourhood: 1, locality: 2, address: 3, venue: 4, stop: 5
+    sortOthers: 6
+    # Let Pelias suggest based on current user location
+    locationAware: false
   showCityBikes: true
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15
@@ -61,3 +68,5 @@ module.exports =
   socialMedia:
     title: "Uusi Reittiopas"
     description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
+  #Ticket information feature toggle
+  showTicketInformation: true

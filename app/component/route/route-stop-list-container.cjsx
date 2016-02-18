@@ -7,7 +7,7 @@ Relay                 = require 'react-relay'
 queries               = require '../../queries'
 RouteStop             = require './route-stop'
 GtfsUtils             = require '../../util/gtfs'
-groupBy               = require 'lodash/collection/groupBy'
+groupBy               = require 'lodash/groupBy'
 cx                    = require 'classnames'
 geoUtils              = require '../../util/geo-utils'
 config                = require '../../config'
@@ -53,7 +53,7 @@ class RouteStopListContainer extends React.Component
     stopObjs
 
   render: ->
-    <div className={cx "route-stop-list", @props.className}>
+    <div className={cx "route-stop-list momentum-scroll", @props.className}>
       {@getStops()}
     </div>
 

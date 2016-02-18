@@ -6,7 +6,7 @@ isBrowser     = window?
 config        = require '../../../config'
 StopMarker    = require './stop-marker'
 TerminalMarker = require './terminal-marker'
-uniq          = require 'lodash/array/uniq'
+uniq          = require 'lodash/uniq'
 
 
 class StopMarkerLayer extends React.Component

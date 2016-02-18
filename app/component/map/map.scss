@@ -168,6 +168,7 @@ div.leaflet-marker-icon.vehicle-icon {
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
     padding: 0;
+    margin-bottom: 5px;
   }
   .leaflet-popup-content {
     margin: 0;
@@ -242,6 +243,21 @@ div.stop-name-marker {
   stroke-opacity: 1;
   fill: #fff;
   fill-opacity: 1;
+}
+
+/* BEWARE! This is an ugly hack.
+ * It so happens that firefox will not allow SVG clicks to bubble to DOM if pointer-events: none is not set.
+ * If we set pointer-events: none for all browsers, then we lose "pointer cursor" for all browsers.
+ * This css selector targets only firefox: https://css-tricks.com/snippets/css/css-hacks-targeting-firefox/
+ */
+@-moz-document url-prefix() {
+  .map .stop {
+    pointer-events: none;
+  }
+
+  .map .stop-halo {
+    pointer-events: none;
+  }
 }
 
 .map .thin .stop, .map .thin .stop-small {
