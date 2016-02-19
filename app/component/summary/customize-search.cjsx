@@ -4,6 +4,7 @@ Slider                = require '../util/slider'
 ToggleButton          = require '../util/toggle-button'
 ItinerarySearchAction = require '../../action/itinerary-search-action'
 Select                = require '../util/select'
+config                = require '../../config'
 
 intl = require 'react-intl'
 
@@ -34,55 +35,68 @@ class CustomizeSearch extends React.Component
     <div className="customize-search">
       <section className="offcanvas-section">
         <div className="row btn-bar">
-          <ToggleButton
-            icon="bus-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleBusState}
-            state={@context.getStore('ItinerarySearchStore').getBusState()}
-            checkedClass="bus"
-            className="mode-icon first-btn"
-          />
-          <ToggleButton
-            icon="tram-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleTramState}
-            state={@context.getStore('ItinerarySearchStore').getTramState()}
-            checkedClass="tram"
-            className="mode-icon"
-          />
-          <ToggleButton
-            icon="rail-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleRailState}
-            state={@context.getStore('ItinerarySearchStore').getRailState()}
-            checkedClass="rail"
-            className="mode-icon"
-          />
-          <ToggleButton
-            icon="subway-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleSubwayState}
-            state={@context.getStore('ItinerarySearchStore').getSubwayState()}
-            checkedClass="subway"
-            className="mode-icon"
-          />
-          <ToggleButton
-            icon="ferry-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleFerryState}
-            state={@context.getStore('ItinerarySearchStore').getFerryState()}
-            checkedClass="ferry"
-            className="mode-icon"
-          />
-          <ToggleButton
-            icon="airplane-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleAirplaneState}
-            state={@context.getStore('ItinerarySearchStore').getAirplaneState()}
-            checkedClass="air"
-            className="mode-icon"
-          />
-          <ToggleButton
-            icon="citybike-withoutBox"
-            onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleCitybikeState}
-            state={@context.getStore('ItinerarySearchStore').getCitybikeState()}
-            checkedClass="citybike"
-            className="mode-icon last-btn"
-          />
+          {if config.transportModes.bus.availableForSelection
+            <ToggleButton
+              icon="bus-withoutBox"
+              onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleBusState}
+              state={@context.getStore('ItinerarySearchStore').getBusState()}
+              checkedClass="bus"
+              className="mode-icon first-btn"
+            />}
+
+          {if config.transportModes.tram.availableForSelection
+            <ToggleButton
+              icon="tram-withoutBox"
+              onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleTramState}
+              state={@context.getStore('ItinerarySearchStore').getTramState()}
+              checkedClass="tram"
+              className="mode-icon"
+            />}
+
+          {if config.transportModes.rail.availableForSelection
+            <ToggleButton
+              icon="rail-withoutBox"
+              onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleRailState}
+              state={@context.getStore('ItinerarySearchStore').getRailState()}
+              checkedClass="rail"
+              className="mode-icon"
+            />}
+
+          {if config.transportModes.subway.availableForSelection
+            <ToggleButton
+              icon="subway-withoutBox"
+              onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleSubwayState}
+              state={@context.getStore('ItinerarySearchStore').getSubwayState()}
+              checkedClass="subway"
+              className="mode-icon"
+            />}
+
+          {if config.transportModes.ferry.availableForSelection
+            <ToggleButton
+              icon="ferry-withoutBox"
+              onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleFerryState}
+              state={@context.getStore('ItinerarySearchStore').getFerryState()}
+              checkedClass="ferry"
+              className="mode-icon"
+            />}
+
+          {if config.transportModes.airplane.availableForSelection
+            <ToggleButton
+              icon="airplane-withoutBox"
+              onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleAirplaneState}
+              state={@context.getStore('ItinerarySearchStore').getAirplaneState()}
+              checkedClass="air"
+              className="mode-icon"
+              />}
+
+          {if config.transportModes.citybike.availableForSelection
+            <ToggleButton
+              icon="citybike-withoutBox"
+              onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleCitybikeState}
+              state={@context.getStore('ItinerarySearchStore').getCitybikeState()}
+              checkedClass="citybike"
+              className="mode-icon last-btn"
+              />}
         </div>
       </section>
 
