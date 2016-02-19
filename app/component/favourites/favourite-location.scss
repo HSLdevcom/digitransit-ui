@@ -1,4 +1,5 @@
 .favourite-location-content {
+  height: 94px;
   background: $white;
   text-align: center;
   border-radius: $border-radius;
@@ -33,7 +34,7 @@
 }
 
 .new-favourite-button-content {
-  min-height: 76px;
+  height: 94px;
   text-align: center;
   background: $background-color;
   border-radius: $border-radius;
@@ -57,8 +58,8 @@
 }
 
 .favourite-locations-container {
-  padding-top: 0.5em;
-  padding-bottom: 1em;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
 }
 
 .favourite-location-container {
