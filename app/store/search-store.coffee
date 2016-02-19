@@ -16,6 +16,7 @@ class SearchStore extends Store
   @actionTarget = undefined
   @position = undefined
   @placeholder = undefined
+  @action = undefined
 
   currentLocation = () ->
     return type: "CurrentLocation", properties:
@@ -31,6 +32,9 @@ class SearchStore extends Store
 
   getActionTarget: () =>
     @actionTarget
+
+  getAction: () =>
+    @action
 
   getPlaceholder: () =>
     @placeholder
@@ -111,6 +115,7 @@ class SearchStore extends Store
     @actionTarget = props.actionTarget
     @position = props.position
     @placeholder = props.placeholder
+    @action = props.action
     @emitChange(props)
 
   closeSearch: () ->
@@ -118,6 +123,7 @@ class SearchStore extends Store
     @actionTarget = undefined
     @position = undefined
     @placeholder = undefined
+    @action = undefined
     @emitChange()
 
   # storage (sorted by count desc):
