@@ -26,7 +26,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction ModeSelectedAction.toggleBusState}
           state={store.getBusState()}
           checkedClass="bus"
-          className="small-2 first-btn"
+          className="small-2"
         />}
 
       {if config.transportModes.tram.availableForSelection

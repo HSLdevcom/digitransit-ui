@@ -41,7 +41,7 @@ class CustomizeSearch extends React.Component
               onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleBusState}
               state={@context.getStore('ItinerarySearchStore').getBusState()}
               checkedClass="bus"
-              className="mode-icon first-btn"
+              className="mode-icon"
             />}
 
           {if config.transportModes.tram.availableForSelection
@@ -95,7 +95,7 @@ class CustomizeSearch extends React.Component
               onBtnClick={() => @context.executeAction ItinerarySearchAction.toggleCitybikeState}
               state={@context.getStore('ItinerarySearchStore').getCitybikeState()}
               checkedClass="citybike"
-              className="mode-icon last-btn"
+              className="mode-icon"
               />}
         </div>
       </section>
