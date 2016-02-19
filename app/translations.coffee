@@ -58,7 +58,7 @@ translations =
     'right-now': 'Juuri nyt'
     'minutes': 'min'
     'timetable': 'Aikataulu'
-    'no-favourites': 'Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä.'
+    'no-favourites': 'Voit lisätä linjoja suosikeiksi käyttöliittymästä löytyvillä "tähti-painikkeilla". Lisäyksen jälkeen näet tässä listan lähimmistä suosikkilinjoistasi.'
     'distance-under': 'Etäisyys alle {distance} m'
     'distance-between': 'Etäisyys {distance1} m — {distance2} m'
     'tickets': 'Matkaliput'
