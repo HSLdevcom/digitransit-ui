@@ -3,9 +3,9 @@ $route-list-header-height: 26px;
 
 $route-header-favourite-icon-stroke-color: $light-gray;
 $route-header-favourite-icon-fill-color: $background-color;
-$route-header-favourite-icon-hover-fill-color: $favourite-color;
+$route-header-favourite-icon-hover-stroke-color: $white;
 $route-header-favourite-icon-selected-fill-color: $favourite-color;
-$route-header-favourite-icon-selected-hover-fill-color: $background-color;
+$route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 /* table headers */
 .route-list-header {
@@ -228,7 +228,7 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
     }
 
     .icon.favourite:hover {
-      fill: $route-header-favourite-icon-hover-fill-color;
+      stroke: $route-header-favourite-icon-hover-stroke-color;
     }
 
     .icon.favourite.selected {
@@ -236,7 +236,7 @@ $route-header-favourite-icon-selected-hover-fill-color: $background-color;
     }
 
     .icon.favourite.selected:hover {
-      fill: $route-header-favourite-icon-selected-hover-fill-color;
+      stroke: $route-header-favourite-icon-selected-hover-stroke-color;
     }
   }
 }
