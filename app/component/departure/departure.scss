@@ -13,7 +13,7 @@
   }
 
   & .route-number {
-    width: 2.5em;
+    width: 3em;
   }
   .icon {
     font-size: 9pt;
@@ -85,7 +85,7 @@
 
 // route-number component
 .route-number {
-  width: 3em;
+  width: 3.5em;
   vertical-align: top;
   position: relative;
   display: inline-block;
@@ -159,7 +159,7 @@
   font-size: $font-size-normal;
 
   .route-number {
-    width: 2.5em;
+    width: 3.5em;
   }
   .distance {
     width: 3em;
@@ -176,7 +176,7 @@
     text-align: right;
   }
   .route-destination {
-    width: calc(100% - 15em);
+    width: calc(100% - 16em);
     padding-left: 0.5em;
   }
 
@@ -207,7 +207,7 @@
     text-align: right;
   }
   .route-number-header {
-    width: 2.5em;
+    width: 3.5em;
   }
   .route-destination-header {
     padding-left: 0.5em;
