@@ -195,10 +195,17 @@ ul#react-whatever-suggest {
   overflow-y: auto;
   margin-top: 10px;
 
- li {
-   padding: 10px;
- }
+  li {
+    & .search-result {
+      display: block;
+      height: 2.1em;
+      line-height: 2.1em;
+    }
 
+    & .oldSearch {
+      /* TODO add somehow border */
+    }
+  }
 }
 
 .search-form .react-autosuggest {
@@ -259,10 +266,9 @@ ul#react-whatever-suggest {
 div.search-modal {
   z-index:10000;
   background:#EEF1F3;
-  height: auto;
   overflow: auto;
   width: 100%;
-  height:0;
+  height:100%;
   max-width: none;
   position: fixed;
   top: 0px;
@@ -301,4 +307,19 @@ div#search-panel-close-tab {
   border-radius: 4px;
   padding: 4px;
   z-index:1000;
+}
+
+.search-header {
+  height: 45px;
+  line-height: 45px;
+  color: $gray;
+}
+
+.search-header-separator {
+  border-left: 1px solid $light-gray;
+  margin-left: 11px;
+  height: 23px;
+  display: inline-block;
+  position: relative;
+  bottom: -4px;
 }

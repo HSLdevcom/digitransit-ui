@@ -57,13 +57,6 @@ class PositionStore extends Store
   hasStatusChanged: (hasLocation) =>
     return hasLocation != @getLocationState().hasLocation
 
-  storeLocationAndAddress: (location) ->
-    @lat = location.lat
-    @lon = location.lon
-    @address = location.address
-    @status = @STATUS_FOUND_ADDRESS
-    @emitChange()
-
   getLocationState: () ->
     lat: @lat
     lon: @lon
@@ -94,7 +87,6 @@ class PositionStore extends Store
     "GeolocationNotSupported": 'geolocationNotSupported'
     "GeolocationDenied": 'geolocationDenied'
     "GeolocationTimeout": 'geolocationTimeout'
-    "ManuallySetPosition": 'storeLocationAndAddress'
     "AddressFound": 'storeAddress'
     "GeolocationWatchStarted": 'storeWatchId'
     "GeolocationWatchStopped": 'clearWatchId'

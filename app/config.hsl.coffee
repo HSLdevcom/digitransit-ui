@@ -52,8 +52,8 @@ module.exports =
     tileSize: 512
     zoomOffset: -1
   autoSuggest:
-    sortOrder: neighbourhood: 1, locality: 2, address: 3, venue: 4, stop: 5
-    sortOthers: 6
+    sortOrder: currentPosition: 1, oldSearch: 2, neighbourhood: 3, locality: 4, address: 5, venue: 6, stop: 7
+    sortOthers: 8
     # Let Pelias suggest based on current user location
     locationAware: false
   showCityBikes: true
