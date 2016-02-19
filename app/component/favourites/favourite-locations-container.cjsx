@@ -25,7 +25,7 @@ class FavouriteLocationsContainer extends React.Component
       lon: lon
       address: locationName
 
-    @context.executeAction EndpointActions.setDestination, location
+    @context.executeAction EndpointActions.setEndpoint, {target: "destination", endpoint: location}
 
   render: ->
 

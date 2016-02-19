@@ -44,7 +44,7 @@ class SearchTwoFieldsContainer extends React.Component
     if @context.getStore('EndpointStore').getOrigin().useCurrentPosition and @context.getStore('PositionStore').getLocationState().isLocationingInProgress
       return
 
-    @context.executeAction EndpointActions.swapOriginDestination
+    @context.executeAction EndpointActions.swapEndpoints
 
   pushNonSearchState: () =>
     if location.pathname != "/"

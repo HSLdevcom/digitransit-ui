@@ -28,8 +28,12 @@ class SummaryPage extends React.Component
 
   @loadAction: (params) ->
     [
-      [EndpointActions.setOrigin, otpToLocation(params.from)],
-      [EndpointActions.setDestination, otpToLocation(params.to)]
+      [EndpointActions.setEndpoint,
+        target: "origin",
+        endpoint: otpToLocation(params.from)],
+      [EndpointActions.setEndpoint,
+        target: "destination",
+        endpoint: otpToLocation(params.to)]
     ]
 
   componentWillMount: ->

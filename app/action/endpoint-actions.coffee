@@ -1,25 +1,16 @@
-setOrigin = (actionContext, location, done) ->
-  actionContext.dispatch "setOrigin",
-    lat: location.lat
-    lon: location.lon
-    address: location.address
-  done()
+setEndpoint = (actionContext, {target, endpoint}) ->
+  actionContext.dispatch "setEndpoint",
+    target: target
+    value:
+      lat: endpoint.lat
+      lon: endpoint.lon
+      address: endpoint.address
 
-setDestination = (actionContext, location, done) ->
-  actionContext.dispatch "setDestination",
-    lat: location.lat
-    lon: location.lon
-    address: location.address
-  done()
+setUseCurrent = (actionContext, target) ->
+  actionContext.dispatch "useCurrentPosition", target
 
-setOriginToCurrent = (actionContext) ->
-  actionContext.dispatch "setOriginToCurrent"
-
-setDestinationToCurrent = (actionContext) ->
-  actionContext.dispatch "setDestinationToCurrent"
-
-swapOriginDestination = (actionContext) ->
-  actionContext.dispatch "swapOriginDestination"
+swapEndpoints = (actionContext) ->
+  actionContext.dispatch "swapEndpoints"
 
 clearOrigin = (actionContext) ->
   actionContext.dispatch "clearOrigin"
@@ -30,28 +21,10 @@ clearDestination = (actionContext) ->
 clearGeolocation = (actionContext) ->
   actionContext.dispatch "clearGeolocation"
 
-disableOriginInputMode = (actionContext) ->
-  actionContext.dispatch "disableOriginInputMode"
-
-enableOriginInputMode = (actionContext) ->
-  actionContext.dispatch "enableOriginInputMode"
-
-disableDestinationInputMode = (actionContext) ->
-  actionContext.dispatch "disableDestinationInputMode"
-
-enableDestinationInputMode = (actionContext) ->
-  actionContext.dispatch "enableDestinationInputMode"
-
 module.exports =
-  'setOrigin': setOrigin
-  'setDestination': setDestination
-  'setOriginToCurrent': setOriginToCurrent
-  'setDestinationToCurrent': setDestinationToCurrent
-  'swapOriginDestination': swapOriginDestination
+  'setEndpoint': setEndpoint
+  'setUseCurrent': setUseCurrent
+  'swapEndpoints': swapEndpoints
   'clearOrigin': clearOrigin
   'clearDestination': clearDestination
   'clearGeolocation': clearGeolocation
-  'disableOriginInputMode': disableOriginInputMode
-  'enableOriginInputMode': enableOriginInputMode
-  'enableDestinationInputMode': enableDestinationInputMode
-  'disableDestinationInputMode': disableDestinationInputMode
