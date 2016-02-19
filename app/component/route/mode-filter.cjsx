@@ -26,7 +26,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction ModeSelectedAction.toggleBusState}
           state={store.getBusState()}
           checkedClass="bus"
-          className="columns small-2 first-btn"
+          className="small-2 first-btn"
         />}
 
       {if config.transportModes.tram.availableForSelection
@@ -35,7 +35,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction ModeSelectedAction.toggleTramState}
           state={store.getTramState()}
           checkedClass="tram"
-          className="columns small-2"
+          className="small-2"
         />}
 
       {if config.transportModes.rail.availableForSelection
@@ -44,7 +44,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction ModeSelectedAction.toggleRailState}
           state={store.getRailState()}
           checkedClass="rail"
-          className="columns small-2"
+          className="small-2"
         />}
 
       {if config.transportModes.subway.availableForSelection
@@ -53,7 +53,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction ModeSelectedAction.toggleSubwayState}
           state={store.getSubwayState()}
           checkedClass="subway"
-          className="columns small-2"
+          className="small-2"
         />}
 
       {if config.transportModes.ferry.availableForSelection
@@ -62,7 +62,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction ModeSelectedAction.toggleFerryState}
           state={store.getFerryState()}
           checkedClass="ferry"
-          className="columns small-2"
+          className="small-2"
         />}
 
       {if config.transportModes.airplane.availableForSelection
@@ -71,7 +71,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction ModeSelectedAction.toggleAirplaneState}
           state={store.getAirplaneState()}
           checkedClass="air"
-          className="columns small-2"
+          className="small-2"
         />}
     </div>
 
