@@ -15,6 +15,7 @@ TripMapPage   = require './page/trip-map'
 LoadingPage   = require './page/loading'
 Error404      = require './page/404'
 StyleGuidelinesPage = require './page/style-guidelines'
+AddFavouritePage    = require './page/add-favourite'
 
 # Queries
 queries = require './queries'
@@ -39,6 +40,7 @@ routes =
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={Error404}/>
     <Route path="styleguidelines" name="styleGuidelines" component={StyleGuidelinesPage}/>
+    <Route path="lisaa-suosikki" name="addFavourite" component={AddFavouritePage}/>
   </Route>
 
 module.exports = routes

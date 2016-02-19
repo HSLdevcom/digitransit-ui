@@ -15,6 +15,7 @@ class SearchField extends React.Component
     navigateOrInputPlaceHolder: React.PropTypes.string.isRequired
     id: React.PropTypes.string.isRequired
     onClick: React.PropTypes.func.isRequired
+    className: React.PropTypes.string
 
   getGeolocationBar: =>
     <div id={@props.id} onClick={(e) =>
@@ -39,6 +40,7 @@ class SearchField extends React.Component
       @props.onClick(e)
       }>
       <FakeSearchBar
+        className={@props.className}
         onClick={@props.onClick}
         placeholder={@props.autosuggestPlaceholder}
         value={@props.endpoint?.address}

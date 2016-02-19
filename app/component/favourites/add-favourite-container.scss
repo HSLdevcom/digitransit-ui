@@ -1,0 +1,107 @@
+$add-favourite-input-height: 35px;
+$add-favourite-input-overlay-height: 27px;
+
+.add-favourite-container {
+  padding-top: 12px;
+  padding-left: 17px;
+  padding-right: 17px;
+  #add-favourite-close-icon {
+    fill: $gray;
+    width: 1em;
+    height: 1em;
+    font-size: 14px;
+  }
+
+  .add-favourite-container__content {
+    max-width: 500px;
+    padding: 0px;
+
+    .add-favourite-container__search {
+      padding-top: 0px;
+    }
+
+    h4 {
+      margin-bottom: 7px;
+      margin-top: 20px;
+    }
+
+    .add-favourite-container__header {
+      margin-top: 38px;
+      padding-bottom: 10px;
+    }
+
+    .add-favourite-star {
+      padding-left: 0px;
+      padding-top: 4px;
+    }
+
+    @media (min-width: 380px) {
+      .add-favourite-star {
+        padding-top: 0px;
+      }
+    }
+
+    .add-favourite-star__icon {
+      height: 24px;
+      width: 24px;
+      fill: $favourite-color;
+      vertical-align: middle;
+    }
+
+    @media (min-width: 490px) {
+      .add-favourite-container__header-text {
+        padding-top: 4px;
+      }
+    }
+
+    .add-favourite-container__input-placeholder {
+      @include form-element();
+      height: $add-favourite-input-height;
+      line-height: $add-favourite-input-overlay-height;
+      border-radius: $border-radius;
+      border: 1px solid #e1e0e0;
+      .add-favourite-container__input {
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        border: none;
+        width: 100%;
+        padding-left: 7px;
+        &:focus {
+          border: none;
+          outline: none;
+        }
+      }
+    }
+
+    .add-favourite-container__save-button {
+      font-weight: $font-weight-normal;
+      color: white;
+      background: linear-gradient(#{#069DD8}, #{#0057B9});
+      vertical-align: middle;
+      border-radius: 1.5em;
+      padding: 0.5em 1.5em;
+      text-align: center;
+      max-width: 500px;
+      margin-top: 25px;
+      margin-bottom: 18px;
+      margin-left: auto;
+      margin-right: auto;
+
+      &:active {
+        background: linear-gradient(#{#0057B9}, #{#069DD8});
+      }
+
+    }
+
+    .add-favourite-container__save-button--disabled {
+      @extend .add-favourite-container__save-button;
+      background: $medium-gray;
+      &:active {
+        background: $medium-gray;
+      }
+    }
+
+  }
+}

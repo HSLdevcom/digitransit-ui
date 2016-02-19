@@ -47,6 +47,13 @@ class SearchModal extends React.Component
         ref="searchInput"
         initialValue = {@state?.value}
         onSuggestionSelected = {(name, item) =>
+          action = @context.getStore('SearchStore').getAction()
+
+          if action != undefined
+            action(name, item)
+            @closeModal()
+            return
+
           actionTarget = @context.getStore('SearchStore').getActionTarget()
 
           if item.type == 'CurrentLocation'

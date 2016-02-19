@@ -1,4 +1,5 @@
 .favourite-location-content {
+  height: 94px;
   background: $white;
   text-align: center;
   border-radius: $border-radius;
@@ -32,9 +33,33 @@
   }
 }
 
+.new-favourite-button-content {
+  height: 94px;
+  text-align: center;
+  background: $background-color;
+  border-radius: $border-radius;
+  border: 1px solid $medium-gray;
+  cursor: pointer;
+  max-width: 320px;
+
+  .add-new-favourite-icon {
+    color: $gray-blue;
+    margin-top: 23px;
+  }
+
+  .add-location-text {
+    font-weight: normal;
+    color: $gray-blue;
+    font-size: 13px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+}
+
 .favourite-locations-container {
-  padding-top: 0.5em;
-  padding-bottom: 1em;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
 }
 
 .favourite-location-container {

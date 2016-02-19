@@ -8,9 +8,6 @@ NoFavouritesPanel           = require './no-favourites-panel'
 
 class FavouritesPanel extends React.Component
 
-  constructor: ->
-    super
-
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired

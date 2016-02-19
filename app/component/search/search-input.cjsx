@@ -84,7 +84,11 @@ class SearchInput extends React.Component
       item = @state.suggestions[@state.focusedItemIndex]
       name = SuggestionItem.getName item.properties
 
-      if item.type != "CurrentLocation"
+      if item.type == "CurrentLocation"
+        state = @context.getStore('PositionStore').getLocationState()
+        item.geometry = coordinates: [state.lon, state.lat]
+        name = "Nykyinen sijainti"
+      else
         save = () ->
           @context.executeAction SearchActions.saveSearch,
             "address": name

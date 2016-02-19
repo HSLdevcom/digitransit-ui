@@ -1,0 +1,46 @@
+$favourite-icon-column-border-color: #E1E0E0;
+$favourite-icon-border-radius: 5px;
+
+$selected-icon-font-color: $white;
+$not-selected-icon-font-color: $gray-blue;
+
+$selected-icon-background-color: $dark-gray;
+$not-selected-icon-background-color: $white;
+
+.favourite-icon-table-column {
+  background: $not-selected-icon-background-color;
+  float: left;
+  height: 40px;
+  line-height: 45px;
+  vertical-align: middle;
+  text-align: center;
+  font-family: $font-family;
+  font-size: 17px;
+  border-top: solid 1px $favourite-icon-column-border-color;
+  border-bottom: solid 1px $favourite-icon-column-border-color;
+  border-right: solid 1px $favourite-icon-column-border-color;
+  color: $not-selected-icon-font-color;
+}
+
+.favourite-icon-table-column:active {
+  background: $selected-icon-background-color;
+  color: $selected-icon-font-color;
+}
+
+.favourite-icon-table-column:first-child {
+  border-left: solid 1px $favourite-icon-column-border-color;
+  border-top-left-radius: $favourite-icon-border-radius;
+  border-bottom-left-radius: $favourite-icon-border-radius;
+
+}
+
+.favourite-icon-table-column:last-child {
+  border-top-right-radius: $favourite-icon-border-radius;
+  border-bottom-right-radius: $favourite-icon-border-radius;
+
+}
+
+.selected-icon {
+  background: $selected-icon-background-color;
+  color: $selected-icon-font-color;
+}
