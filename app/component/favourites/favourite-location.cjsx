@@ -10,7 +10,7 @@ Link                  = require 'react-router/lib/Link'
 FavouriteLocation = (props) =>
 
   if props.empty
-    <Link to="/addfavourite" className="cursor-pointer no-decoration">
+    <Link to="/lisaa-suosikki" className="cursor-pointer no-decoration">
       <div className={cx "new-favourite-button-content", props.className}>
           <Icon img="icon-icon_plus" className="add-new-favourite-icon"/>
           <p className="add-location-text"><FormattedMessage id='add-location' defaultMessage='Add location'/></p>

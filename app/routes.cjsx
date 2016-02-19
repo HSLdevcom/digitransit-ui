@@ -40,7 +40,7 @@ routes =
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage}/>
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={Error404}/>
     <Route path="styleguidelines" name="styleGuidelines" component={StyleGuidelinesPage}/>
-    <Route path="addfavourite" name="addFavourite" component={AddFavouritePage}/>
+    <Route path="lisaa-suosikki" name="addFavourite" component={AddFavouritePage}/>
   </Route>
 
 module.exports = routes
