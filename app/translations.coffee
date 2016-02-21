@@ -58,7 +58,7 @@ translations =
     'right-now': 'Juuri nyt'
     'minutes': 'min'
     'timetable': 'Aikataulu'
-    'no-favourites': 'Et ole vielä tallentanut yhtään suosikkia, joten emme voi näyttää niitä.'
+    'no-favourites': 'Voit lisätä linjoja suosikeiksi käyttöliittymästä löytyvillä "tähti-painikkeilla". Lisäyksen jälkeen näet tässä listan lähimmistä suosikkilinjoistasi.'
     'distance-under': 'Etäisyys alle {distance} m'
     'distance-between': 'Etäisyys {distance1} m — {distance2} m'
     'tickets': 'Matkaliput'
@@ -121,6 +121,15 @@ translations =
     'very-unlikely': 'Erittäin epätodennäköistä'
     'weather-at-destination': 'Sää määränpäässä'
     'trip-co2-emissions': 'Reitin CO2 päästöt'
+    'add-location': 'Lisää paikka'
+    'add-location-to-favourites': 'Lisää sinulle tärkeä paikka Suosikkisi- välilehdelle'
+    'specify-location': 'Määritä sijainti'
+    'give-name-to-location': "Anna paikalle kuvaava nimi"
+    'pick-icon': 'Valitse kuvake'
+    'address-or-stop': 'Osoite tai pysäkki'
+    'location-examples': "esim. Koti, Työ, Koulu,..."
+    'save': "Tallenna"
+    'address': 'Osoite'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'

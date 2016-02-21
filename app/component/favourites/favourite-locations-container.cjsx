@@ -2,10 +2,14 @@ React                 = require 'react'
 FavouriteLocation     = require './favourite-location'
 Icon                  = require '../icon/icon'
 ComponentUsageExample = require '../documentation/component-usage-example'
-
+EndpointActions       = require '../../action/endpoint-actions'
 
 
 class FavouriteLocationsContainer extends React.Component
+
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
 
   @description:
     <div>
@@ -15,37 +19,41 @@ class FavouriteLocationsContainer extends React.Component
       </ComponentUsageExample>
     </div>
 
-  getFavouriteLocationIconId: ->
-    'icon-icon_place'
+  setDestination: (locationName, lat, lon) =>
+    location =
+      lat: lat
+      lon: lon
+      address: locationName
+
+    @context.executeAction EndpointActions.setEndpoint, {target: "destination", endpoint: location}
 
   render: ->
-    <div className="row">
-      <div className="small-4 columns favourite-location-container--first">
+
+    favourites = @context.getStore('FavouriteLocationStore').getLocations()
+
+    columns = [0 ... 3].map (value, index) =>
+      if typeof favourites[index] == 'undefined'
         <FavouriteLocation
-          locationName={"Koti"}
-          favouriteLocationIconId={@getFavouriteLocationIconId()}
-          arrivalTime={"14:33"}
-          departureTime={"2 min"}
+          empty={true}/>
+      else
+        <FavouriteLocation
+          locationName={favourites[index].locationName}
+          favouriteLocationIconId={favourites[index].selectedIconId}
           empty={false}
-          realtime={false}/>
+          lat={favourites[index].lat}
+          lon={favourites[index].lon}
+          clickFavourite={@setDestination}
+        />
+
+    <div>
+      <div className="small-4 columns favourite-location-container--first">
+        {columns[0]}
       </div>
       <div className="small-4 columns favourite-location-container">
-        <FavouriteLocation
-          locationName={"Työ"}
-          favouriteLocationIconId={@getFavouriteLocationIconId()}
-          arrivalTime={"14:38"}
-          departureTime={"3 min"}
-          empty={false}
-          realtime={true}/>
+        {columns[1]}
       </div>
       <div className="small-4 columns favourite-location-container--last">
-        <FavouriteLocation
-          locationName={"Mummola"}
-          favouriteLocationIconId={@getFavouriteLocationIconId()}
-          arrivalTime={"15:38"}
-          departureTime={"15 min"}
-          empty={false}
-          realtime={true}/>
+        {columns[2]}
       </div>
     </div>
 

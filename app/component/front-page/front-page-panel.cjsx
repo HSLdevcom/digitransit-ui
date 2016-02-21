@@ -2,10 +2,11 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
-ModeFilter            = require '../route/mode-filter'
+ModeFilterContainer   = require '../route/mode-filter-container'
 NoPositionPanel       = require './no-position-panel'
 Icon                  = require '../icon/icon.cjsx'
 cx                    = require 'classnames'
+ReactCSSTransitionGroup = require 'react-addons-css-transition-group'
 FavouritesPanel       = require '../favourites/favourites-panel'
 NearestRoutesContainer = require './nearest-routes-container'
 NextDeparturesListHeader = require '../departure/next-departures-list-header'
@@ -95,16 +96,14 @@ class FrontPagePanel extends React.Component
     selectedClass =
       selected: true
     if @getSelectedPanel() == 1
-      panel = <div className="frontpage-panel-wrapper">
+      panel = <div className="frontpage-panel-wrapper" key="panel">
                 <div className="frontpage-panel nearby-routes">
                   <div className="row">
-                    <h3>
-                      <ModeFilter id="nearby-routes-mode"/>
-                    </h3>
+                    <div className="medium-offset-3 medium-6 small-12 column">
+                      <ModeFilterContainer id="nearby-routes-mode"/>
+                    </div>
                   </div>
-
                   <NextDeparturesListHeader />
-
                   <div className="scrollable momentum-scroll scroll-extra-padding-bottom" id="scrollable-routes">
                     {routesPanel}
                   </div>
@@ -112,17 +111,19 @@ class FrontPagePanel extends React.Component
               </div>
       tabClasses[1] = selectedClass
     else if @getSelectedPanel() == 2
-      panel = <div className="frontpage-panel-wrapper">
-                <div className="frontpage-panel">
-                  <div className="scrollable momentum-scroll">
-                    {favouritesPanel}
-                  </div>
-                </div>
+      panel = <div className="frontpage-panel-wrapper" key="panel">
+                {favouritesPanel}
               </div>
       tabClasses[2] = selectedClass
 
     <div className="frontpage-panel-container no-select">
-      {panel}
+      <ReactCSSTransitionGroup
+        transitionName="frontpage-panel-wrapper"
+        transitionEnterTimeout={300}
+        transitionLeaveTimeout={300}
+      >
+        {panel}
+      </ReactCSSTransitionGroup>
       <ul className='tabs-row tabs-arrow-up cursor-pointer'>
         <li className={cx (tabClasses[1]), 'small-6', 'h4', 'hover', 'nearby-routes'}
             onClick={=>

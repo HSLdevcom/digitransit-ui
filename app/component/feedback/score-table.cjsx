@@ -1,32 +1,27 @@
 React = require 'react'
 cx    = require 'classnames'
 ComponentUsageExample = require '../documentation/component-usage-example'
+GenericTable = require '../util/table/generic-table'
 
 ScoreTable = (props) ->
-
-  if props.showLabels
-    lowEndLabel = <span className="left">{props.lowEndLabel}</span>
-    highEndLabel = <span className="right">{props.highEndLabel}</span>
 
   columnWidth = {width: (100.0 / (props.highestScore - props.lowestScore + 1)) + "%"}
   columns = [props.lowestScore ... props.highestScore + 1].map (_, i) =>
     <div
       key={i}
-      className={cx "score-table__column", {"selected-score": i == props.selectedScore}}
+      className={cx "score-table-column", {"selected-score": i == props.selectedScore}}
       style=columnWidth
       onClick={props.handleClick.bind this, i}>
       {i}
     </div>
 
-  <div className="score-table">
-    <div className="row">
-      {columns}
-    </div>
-    <div className="score-table__label-container">
-      {lowEndLabel}
-      {highEndLabel}
-    </div>
-  </div>
+  <GenericTable
+    showLabels={props.showLabels}
+    lowEndLabel={props.lowEndLabel}
+    highEndLabel={props.highEndLabel}
+  >
+    {columns}
+  </GenericTable>
 
 ScoreTable.displayName = "ScoreTable"
 

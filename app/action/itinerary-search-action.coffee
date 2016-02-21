@@ -103,32 +103,32 @@ module.exports =
   'itinerarySearchRequest': itinerarySearchRequest
 
   toggleBusState: (actionContext)  ->
-    actionContext.dispatch "ToggleBusState",
+    actionContext.dispatch "ToggleItineraryBusState",
       null,
       actionContext.executeAction itinerarySearchRequest
 
   toggleTramState: (actionContext)  ->
-    actionContext.dispatch "ToggleTramState",
+    actionContext.dispatch "ToggleItineraryTramState",
       null,
       actionContext.executeAction itinerarySearchRequest
 
   toggleRailState: (actionContext)  ->
-    actionContext.dispatch "ToggleRailState",
+    actionContext.dispatch "ToggleItineraryRailState",
       null,
       actionContext.executeAction itinerarySearchRequest
 
   toggleSubwayState: (actionContext)  ->
-    actionContext.dispatch "ToggleSubwayState",
+    actionContext.dispatch "ToggleItinerarySubwayState",
       null,
       actionContext.executeAction itinerarySearchRequest
 
   toggleFerryState: (actionContext)  ->
-    actionContext.dispatch "ToggleFerryState",
+    actionContext.dispatch "ToggleItineraryFerryState",
       null,
       actionContext.executeAction itinerarySearchRequest
 
   toggleCitybikeState: (actionContext)  ->
-    actionContext.dispatch "ToggleCitybikeState",
+    actionContext.dispatch "ToggleItineraryCitybikeState",
       null,
       actionContext.executeAction itinerarySearchRequest
 
@@ -138,17 +138,17 @@ module.exports =
       actionContext.executeAction itinerarySearchRequest
 
   toggleWalkState: (actionContext)  ->
-    actionContext.dispatch "ToggleWalkState",
+    actionContext.dispatch "ToggleItineraryWalkState",
       null,
       actionContext.executeAction itinerarySearchRequest
 
   toggleBicycleState: (actionContext)  ->
-    actionContext.dispatch "ToggleBicycleState",
+    actionContext.dispatch "ToggleItineraryBicycleState",
       null,
       actionContext.executeAction itinerarySearchRequest
 
   toggleCarState: (actionContext)  ->
-    actionContext.dispatch "ToggleCarState",
+    actionContext.dispatch "ToggleItineraryCarState",
       null,
       actionContext.executeAction itinerarySearchRequest
 

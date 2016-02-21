@@ -14,15 +14,36 @@ $tab-min-width: 100px;
 
   .frontpage-panel {
     height: 100%;
-    padding: 15px 0;
-    h3  {
-      padding: 10px;
-    }
+    padding-bottom: 15px;
   }
-  .tabs-row {
-    position: fixed;
-    bottom: 0;
-  }
+}
+
+.frontpage-panel-container .tabs-row {
+  position: fixed;
+  z-index: 803;
+  bottom: 0;
+}
+
+.frontpage-panel-wrapper-enter {
+  top: 100%;
+  height: 0;
+}
+
+.frontpage-panel-wrapper-enter.frontpage-panel-wrapper-enter-active {
+  top: 52px;
+  height: calc(100% - 52px);
+  transition: top 300ms, height 300ms;
+}
+
+.frontpage-panel-wrapper-leave {
+  top: 52px;
+  height: calc(100% - 52px);
+}
+
+.frontpage-panel-wrapper-leave.frontpage-panel-wrapper-leave-active {
+  top: 100%;
+  height: 0;
+  transition: top 300ms, height 300ms;
 }
 
 .front-page {

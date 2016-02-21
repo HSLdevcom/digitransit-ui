@@ -1,16 +1,24 @@
 React             = require 'react'
-EndpointActions   = require '../../action/endpoint-actions'
 ReactAutowhatever = (require 'react-autowhatever').default
-config            = require '../../config'
-{sortBy}          = require 'lodash/collection'
-XhrPromise        = require '../../util/xhr-promise.coffee'
 SuggestionItem    = require './suggestion-item'
+SearchActions     = require '../../action/search-actions'
+isBrowser         = window?
+L                 = if isBrowser then require 'leaflet' else null
 
 class SearchInput extends React.Component
 
   constructor: (props) ->
     @state =
       focusedItemIndex: 0
+
+  focusItem = (i) ->
+    if L.Browser.touch
+      return
+    document.getElementById("react-autowhatever-suggest--item-" + i)?.scrollIntoView(false)
+
+  @contextTypes:
+    executeAction: React.PropTypes.func.isRequired
+    getStore: React.PropTypes.func.isRequired
 
   componentWillMount: =>
     @context.getStore('SearchStore').addChangeListener @onSearchChange
@@ -23,13 +31,10 @@ class SearchInput extends React.Component
       @handleUpdateInputNow(target:
         value: @context.getStore('SearchStore').getPosition().address)
 
-  @contextTypes:
-    executeAction: React.PropTypes.func.isRequired
-    getStore: React.PropTypes.func.isRequired
-
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
-      @setState "focusedItemIndex": eventProps.itemIndex
+      if eventProps.itemIndex != @state.focusedItemIndex
+        @setState "focusedItemIndex": eventProps.itemIndex
       event.preventDefault()
 
   blur: () ->
@@ -44,13 +49,15 @@ class SearchInput extends React.Component
       event.preventDefault()
 
     if event.keyCode == 27 #esc clears
-      return @handleUpdateInputNow(target:
+      if @state.value == ""
+        @context.executeAction SearchActions.closeSearch
+      else return @handleUpdateInputNow(target:
         value: "")
       event.preventDefault()
 
     if (typeof eventProps.newFocusedItemIndex != 'undefined')
       @setState "focusedItemIndex": eventProps.newFocusedItemIndex,
-        () -> document.getElementById("react-autowhatever-suggest--item-" + eventProps.newFocusedItemIndex)?.scrollIntoView(false)
+        () -> focusItem(eventProps.newFocusedItemIndex)
 
       event.preventDefault()
 
@@ -67,34 +74,27 @@ class SearchInput extends React.Component
       return
 
     @setState "value": input
-
-    geolocation = @context.getStore('PositionStore').getLocationState()
-    if config.autoSuggest.locationAware && geolocation.hasLocation
-      opts = Object.assign(text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon)
-    else
-      opts = Object.assign(text: input, config.searchParams)
-
-    if input != undefined and input != null && input.trim() != ""
-      XhrPromise.getJson(config.URL.PELIAS, opts).then (res) =>
-        features = res.features
-
-        if config.autoSuggest?
-          features = sortBy(features,
-            (feature) ->
-              config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOther
-          )
-          @setState "suggestions": features, focusedItemIndex: 0
-          () ->  if features.length > 0
-            document.getElementById("react-autowhatever-suggest--item-0").scrollIntoView()
-
-    else
-      @setState "suggestions": [], focusedItemIndex: 0
-
+    geoLocation = @context.getStore('PositionStore').getLocationState()
+    @context.getStore('SearchStore').getSuggestions input, geoLocation, (suggestions) =>
+      @setState "suggestions": suggestions, focusedItemIndex: 0,
+        () => focusItem(0)
 
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
       item = @state.suggestions[@state.focusedItemIndex]
-      name = SuggestionItem.getName(item.properties)
+      name = SuggestionItem.getName item.properties
+
+      if item.type == "CurrentLocation"
+        state = @context.getStore('PositionStore').getLocationState()
+        item.geometry = coordinates: [state.lon, state.lat]
+        name = "Nykyinen sijainti"
+      else
+        save = () ->
+          @context.executeAction SearchActions.saveSearch,
+            "address": name
+            "geometry": item.geometry
+        setTimeout save, 0
+
       @props.onSuggestionSelected(name, item)
 
   render: =>
