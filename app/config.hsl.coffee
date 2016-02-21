@@ -90,7 +90,7 @@ module.exports =
       defaultValue: false
     airplane:
       availableForSelection: false
-      defaultValue: true
-    ferry:
-      availableForSelection: false
       defaultValue: false
+    ferry:
+      availableForSelection: true
+      defaultValue: true

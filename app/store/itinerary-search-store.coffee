@@ -1,4 +1,5 @@
 Store = require 'fluxible/addons/BaseStore'
+config  = require '../config'
 
 STORAGE_KEY = "currentItinerary"
 
@@ -29,13 +30,13 @@ class ItinerarySearchStore extends Store
     ]
     @selectedTicketOption = "0"
     @selectedAccessibilityOption = "0"
-    @busState = true
-    @tramState = true
-    @railState = true
-    @subwayState = true
-    @ferryState = true
-    @airplaneState = true
-    @citybikeState = false
+    @busState = config.transportModes.bus.defaultValue
+    @tramState = config.transportModes.tram.defaultValue
+    @railState = config.transportModes.rail.defaultValue
+    @subwayState = config.transportModes.subway.defaultValue
+    @ferryState = config.transportModes.ferry.defaultValue
+    @airplaneState = config.transportModes.airplane.defaultValue
+    @citybikeState = config.transportModes.citybike.defaultValue
     # These three are mutually exclusive
     @walkState = true
     @bicycleState = false

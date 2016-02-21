@@ -1,5 +1,6 @@
 Store   = require 'fluxible/addons/BaseStore'
 storage = require './local-storage'
+config  = require '../config'
 
 STORAGE_KEY = "mode"
 
@@ -10,13 +11,13 @@ class ModeStore extends Store
     super(dispatcher)
     localData = storage.getItem STORAGE_KEY
     @data = if localData then JSON.parse(localData) else
-      busState: true
-      tramState: true
-      railState: true
-      subwayState: true
-      ferryState: true
-      airplaneState: true
-      citybikeState: false
+      busState: config.transportModes.bus.defaultValue
+      tramState: config.transportModes.tram.defaultValue
+      railState: config.transportModes.rail.defaultValue
+      subwayState: config.transportModes.subway.defaultValue
+      ferryState: config.transportModes.ferry.defaultValue
+      airplaneState: config.transportModes.airplane.defaultValue
+      citybikeState: config.transportModes.citybike.defaultValue
 
   getData: ->
     @data
