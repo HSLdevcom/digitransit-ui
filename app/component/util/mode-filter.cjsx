@@ -23,7 +23,7 @@ class ModeFilter extends React.Component
     store = @props.store
     action = @props.action
     <div className="btn-bar mode-filter no-select">
-      {if config.transportModes.tram.availableForSelection
+      {if config.transportModes.bus.availableForSelection
         <ToggleButton
           icon="bus-withoutBox"
           onBtnClick={() => @context.executeAction action.toggleBusState}
