@@ -256,10 +256,6 @@ div.route-tabs {
   height: calc(100% - #{$route-header-height} - 14px);
 }
 
-.mode-filter {
-  width: 240px;
-  float: right;
-}
 
 .nearby-routes .mode-filter {
   &.btn-bar .btn {
