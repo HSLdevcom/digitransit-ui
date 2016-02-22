@@ -161,7 +161,7 @@ $btn-heigth: 17px;
   background-color: $btn-inactive-background-color;
   text-align: center;
   background-color: #575757;
-  float:left;
+  display: inline-block;
   cursor: pointer;
 
   &:hover {
@@ -266,4 +266,5 @@ $btn-heigth: 17px;
   padding-left: 5px;
   padding-right: 5px;
   height: 65px;
+  text-align: center;
 }
