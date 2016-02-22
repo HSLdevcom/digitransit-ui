@@ -61,18 +61,18 @@
 }
 
 .favourite-location-container {
-  padding-right: 7px !important;
-  padding-left: 7px !important;
+  padding-right: 7px;
+  padding-left: 7px;
 }
 
 .favourite-location-container--first {
   @extend .favourite-location-container;
-  padding-left: 15px !important;
-  padding-right: 0px !important;
+  padding-left: 15px;
+  padding-right: 0px;
 }
 
 .favourite-location-container--last {
   @extend .favourite-location-container;
-  padding-left: 0px !important;
-  padding-right: 15px !important;
+  padding-left: 0px;
+  padding-right: 15px;
 }
