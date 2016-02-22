@@ -1,11 +1,15 @@
-.favourite-location-content {
+.favourite-button-shared {
   height: 94px;
-  background: $white;
   text-align: center;
   border-radius: $border-radius;
   border: 1px solid $medium-gray;
   cursor: pointer;
   max-width: 320px;
+}
+
+.favourite-location-content {
+  @extend .favourite-button-shared;
+  background: $white;
   .favourite-location-header {
     padding-top: 3px;
     padding-bottom: 3px;
@@ -34,13 +38,8 @@
 }
 
 .new-favourite-button-content {
-  height: 94px;
-  text-align: center;
+  @extend .favourite-button-shared;
   background: $background-color;
-  border-radius: $border-radius;
-  border: 1px solid $medium-gray;
-  cursor: pointer;
-  max-width: 320px;
 
   .add-new-favourite-icon {
     color: $gray-blue;
@@ -54,7 +53,6 @@
     margin-top: 0px;
     margin-bottom: 0px;
   }
-
 }
 
 .favourite-locations-container {
