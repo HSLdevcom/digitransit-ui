@@ -70,6 +70,11 @@ class Map extends React.Component
           onLeafletDragstart: @props.disableMapTracking
           onLeafletZoomend: @props.disableMapTracking
 
+      if (@props.unFocus)
+        leafletEvents =
+          onLeafletDragstart: @props.unFocus
+          onLeafletZoomend: @props.unFocus
+
       map =
         <LeafletMap
           ref='map'

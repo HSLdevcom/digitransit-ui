@@ -28,6 +28,11 @@ ItineraryTabs = React.createClass
   toggleFullscreenMap: ->
     @setState ("fullscreen": !@state.fullscreen)
 
+  unFocus: ->
+    @setState
+      lat: undefined
+      lon: undefined
+
   focusMap: (leg) ->
     @setState (
       "lat": leg.from.lat
@@ -42,7 +47,18 @@ ItineraryTabs = React.createClass
         onTouchStart={(e) => e.stopPropagation()}
         onMouseDown={(e) => e.stopPropagation()}
         >
-        <Map className="fullscreen" ref="map2" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+        <Map
+          className="fullscreen"
+          ref="map2"
+          leafletObjs={leafletObj}
+          lat={@state.lat}
+          lon={@state.lon}
+          zoom="16"
+          fitBounds={false}
+          from={@props.itinerary.legs[0].from}
+          to={@props.itinerary.legs[numberOfLegs - 1].to}
+          unFocus={if @state.lat then @unFocus}
+          >
             <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
               <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
             </div>
@@ -59,13 +75,21 @@ ItineraryTabs = React.createClass
           legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
       legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
 
-
       <div>
           <div
             onTouchStart={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
-            >
-            <Map ref="map" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+          >
+            <Map
+              ref="map"
+              leafletObjs={leafletObj}
+              lat={@state.lat}
+              lon={@state.lon}
+              zoom="16"
+              fitBounds={false}
+              from={@props.itinerary.legs[0].from}
+              to={@props.itinerary.legs[numberOfLegs - 1].to}
+              unFocus={if @state.lat then @unFocus}>
               <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
                 <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
               </div>
