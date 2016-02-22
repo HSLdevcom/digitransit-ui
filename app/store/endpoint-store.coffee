@@ -1,5 +1,4 @@
-Store     = require 'fluxible/addons/BaseStore'
-{isEqual} = require 'lodash/lang'
+Store = require 'fluxible/addons/BaseStore'
 
 class EndpointStore extends Store
   # Store the user selections for the origin and destination.
@@ -49,30 +48,21 @@ class EndpointStore extends Store
     address: null
 
   setOrigin: (location) ->
-    nextOrigin =
+    @origin =
       userSetPosition: true
       useCurrentPosition: false
       lat: location.lat
       lon: location.lon
       address: location.address
-    if isEqual nextOrigin, @origin
-      return
-
-    @origin = nextOrigin
     @emitChange("set-origin")
 
   setDestination: (location) ->
-    nextDestination =
+    @destination =
       userSetPosition: true
       useCurrentPosition: false
       lat: location.lat
       lon: location.lon
       address: location.address
-
-    if isEqual nextDestination, @destination
-      return
-
-    @destination = nextDestination
     @emitChange()
 
   getOrigin: () ->
