@@ -245,10 +245,16 @@ translations =
     'own-position': 'Min posisjon'
     'no-position': 'Ingen posisjon'
     'origin': 'Fra'
+    'to-stop': 'Til holdeplass'
+    'line': 'linje'
+    'leaves': "Går"
+    'next': "Neste"
     'destination': 'Til'
-    'nearest': 'Nærmeste'
+    'destination-placeholder': 'Hvor vil du reise?'
+    'nearest': 'Forrige'
     'previous': 'Tidligere'
-    'favourites': 'Favoritter'
+    'your-favourites': 'Dine favoritter'
+    'near-you': 'Nær deg'
     'show-more': 'Vis flere'
     'now': 'Nå'
     'later': 'Senere'
@@ -264,10 +270,6 @@ translations =
                              =1 {en holdeplass}
                              other {# holdeplasser}
                             } ({duration})'
-    'num-stops-flight': '{stops, plural,
-                            =1 {En mellomlanding}
-                            other {# mellomlandinger}
-                           }'
     'alight': 'Gå av ved {toName}'
     'start-journey-place': 'Start fra'
     'walk-to-destination': 'Gå til destinasjon'
@@ -345,27 +347,18 @@ translations =
     'how-to-rate-service': 'Hvordan vil du rangere tjenesten?'
     'char-left': 'slett'
     'send': 'Send'
-    'walk-from-to': 'Gå {estimatedTime} fra {fromName} til {toName}'
-    'walk-from-to-same-dest': 'Gå {estimatedTime} på {fromName}'
-    'RAIL': 'tog'
-    'SUBWAY': 'T-bane'
-    'BUS': 'buss'
-    'AIRPLANE': 'fly'
-    'WALK': 'gå'
-    'BICYCLE': 'sykkel'
-    'CAR': 'bil'
-    'TRAM': 'trikk'
-    'BUS': 'buss'
-    'FERRY': 'ferge'
-    'CABLE_CAR': 'kabeltrikk'
-    'GONDOLA': 'gondolbane'
-    'FUNICULAR': 'taubane'
-    'transit-from-to': 'Ta {transitMode} fra {fromName} til {toName} ({duration})'
-    'wait-message': 'Vent {estimatedTime}'
-    'airport-check-in': 'Bagasje kan sjekkes inn hos {agency}'
-    'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate'
-    'airport-collect-luggage': 'Hent eventuell bagasje'
-    'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
-    'approx-meters': '{approxDistance} meter'
+    'very-likely': 'Svært sannsynlig'
+    'very-unlikely': 'Lite sannsynlig'
+    'weather-at-destination': 'Været på destinasjonen'
+    'trip-co2-emissions': 'Reisens CO2-utslipp'
+    'add-location': 'Legg til sted'
+    'add-location-to-favourites': 'Legg til sted i favoritter'
+    'specify-location': 'Angi sted'
+    'give-name-to-location': "Skriv inn et beskrivende navn på stedet"
+    'pick-icon': 'Velg et ikon'
+    'address-or-stop': 'Adresse eller stoppested'
+    'location-examples': "f.eks hjemme, arbeid, skole ..."
+    'save': "Lagre"
+    'address': 'Adresse'
 
 module.exports = translations
