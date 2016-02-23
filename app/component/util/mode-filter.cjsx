@@ -19,9 +19,19 @@ class ModeFilter extends React.Component
   onModeChange: =>
     @forceUpdate()
 
+  calcWidth: =>
+    numberOfModes = 0
+    for key of config.transportModes
+      if config.transportModes[key].availableForSelection
+        numberOfModes++
+    100/numberOfModes
+
   render: =>
     store = @props.store
     action = @props.action
+    widthPercentage = @calcWidth()
+    style = { width: "#{widthPercentage}%"}
+
     <div className="btn-bar mode-filter no-select">
       {if config.transportModes.bus.availableForSelection
         <ToggleButton
@@ -29,6 +39,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction action.toggleBusState}
           state={store.getBusState()}
           checkedClass="bus"
+          style={style}
           className={@props.buttonClass}
         />}
 
@@ -38,6 +49,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction action.toggleTramState}
           state={store.getTramState()}
           checkedClass="tram"
+          style={style}
           className={@props.buttonClass}
         />}
 
@@ -47,6 +59,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction action.toggleRailState}
           state={store.getRailState()}
           checkedClass="rail"
+          style={style}
           className={@props.buttonClass}
         />}
 
@@ -56,6 +69,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction action.toggleSubwayState}
           state={store.getSubwayState()}
           checkedClass="subway"
+          style={style}
           className={@props.buttonClass}
         />}
 
@@ -65,6 +79,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction action.toggleFerryState}
           state={store.getFerryState()}
           checkedClass="ferry"
+          style={style}
           className={@props.buttonClass}
         />}
 
@@ -74,6 +89,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction action.toggleCitybikeState}
           state={store.getCitybikeState()}
           checkedClass="citybike"
+          style={style}
           className={@props.buttonClass}
         />}
 
@@ -83,6 +99,7 @@ class ModeFilter extends React.Component
           onBtnClick={() => @context.executeAction ModeSelectedAction.toggleAirplaneState}
           state={store.getAirplaneState()}
           checkedClass="air"
+          style={style}
           className={@props.buttonClass}
         />}
     </div>

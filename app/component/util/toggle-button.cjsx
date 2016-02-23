@@ -19,7 +19,7 @@ class ToggleButton extends React.Component
 
     if @props.icon
       iconTag = <div className="icon-holder"><Icon img={'icon-icon_' + @props.icon} className="" /></div>
-    <div className={cx 'cursor-pointer', classes, @props.className} onClick={@props.onBtnClick}>
+    <div className={cx 'cursor-pointer', classes, @props.className} onClick={@props.onBtnClick} style={@props.style}>
       {iconTag}
       <div>
         {@props.children}
