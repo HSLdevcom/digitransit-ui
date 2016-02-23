@@ -24,13 +24,13 @@ class ModeFilter extends React.Component
     for key of config.transportModes
       if config.transportModes[key].availableForSelection
         numberOfModes++
-    100/numberOfModes
+    100 / numberOfModes
 
   render: =>
     store = @props.store
     action = @props.action
     widthPercentage = @calcWidth()
-    style = { width: "#{widthPercentage}%"}
+    style = {width: "#{widthPercentage}%"}
 
     <div className="btn-bar mode-filter no-select">
       {if config.transportModes.bus.availableForSelection
