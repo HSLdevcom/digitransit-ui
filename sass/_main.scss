@@ -30,7 +30,6 @@
 @import '../app/component/feedback/feedback-panel';
 @import '../app/component/feedback/score-table';
 @import '../app/component/util/table/generic-table';
-@import '../app/component/favourites/favourite-location';
 @import '../app/component/favourites/favourite-icon-table';
 
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/forms';
@@ -44,3 +43,4 @@
 // so they have to be loaded afterwards
 @import '../app/component/search/search';
 @import '../app/component/favourites/add-favourite-container';
+@import '../app/component/favourites/favourite-location';

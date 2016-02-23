@@ -43,6 +43,7 @@ FavouriteLocation.description =
         arrivalTime={Example.favouriteLocation.arrivalTime}
         departureTime={Example.favouriteLocation.departureTime}
         empty={Example.favouriteLocation.empty}
+        clickFavourite={() -> return}
         realtime={Example.favouriteLocation.realtime}/>
     </ComponentUsageExample>
   </div>
