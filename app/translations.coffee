@@ -130,6 +130,7 @@ translations =
     'location-examples': "esim. Koti, Työ, Koulu,..."
     'save': "Tallenna"
     'address': 'Osoite'
+    'wait-message': 'Odota {estimatedMinutes} minuuttia paikassa {stopPlace}'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -230,6 +231,7 @@ translations =
     'close': 'Stäng'
     'weather-at-destination': 'Vädret på destinationen'
     'trip-co2-emissions': 'Längs CO2-utsläpp'
+    'wait-message': 'Vänta i {estimatedMinutes} minuter vid {stopPlace}'
   'no':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -360,5 +362,6 @@ translations =
     'location-examples': "f.eks hjemme, arbeid, skole ..."
     'save': "Lagre"
     'address': 'Adresse'
+    'wait-message': 'Vänta i {estimatedMinutes} minuter vid {stopPlace}'
 
 module.exports = translations

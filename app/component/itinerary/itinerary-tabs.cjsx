@@ -2,6 +2,7 @@ React              = require 'react'
 Tabs               = require 'react-simpletabs'
 TransitLeg         = require './transit-leg'
 WalkLeg            = require './walk-leg'
+WaitLeg            = require './wait-leg'
 EndLeg             = require './end-leg'
 TicketInformation  = require './ticket-information'
 RouteInformation   = require './route-information'
@@ -55,6 +56,8 @@ ItineraryTabs = React.createClass
         focus = () => @focusMap(leg)
         if leg.transitLeg
           legs.push <TransitLeg key={j} index={j} leg={leg} focusAction={focus}/>
+        else if leg.mode == 'WAIT'
+          legs.push <WaitLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
         else
           legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
       legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
