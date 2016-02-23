@@ -61,9 +61,11 @@ class NearbyRouteListContainer extends React.Component
         if !isSeen and isModeIncluded and isPickup and isCloseInTime
           keepStoptimes.push stoptime
           seenDepartures[seenKey] = true
-      nextDepartures.push
-        distance: stopAtDistance.distance
-        stoptimes: keepStoptimes
+
+      for stoptime in keepStoptimes
+        nextDepartures.push
+          distance: stopAtDistance.distance
+          stoptime: stoptime
 
     nextDepartures
 

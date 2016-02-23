@@ -41,9 +41,10 @@ class FavouriteRouteListContainer extends React.Component
             keepStoptimes.push stoptime
             seenDepartures[seenKey] = true
 
-        nextDepartures.push
-          distance: closest.distance
-          stoptimes: keepStoptimes
+        for stoptime in keepStoptimes
+          nextDepartures.push
+            distance: closest.distance
+            stoptime: stoptime
 
     nextDepartures
 
