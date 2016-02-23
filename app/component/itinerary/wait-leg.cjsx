@@ -20,11 +20,12 @@ class WaitLeg extends React.Component
             <FormattedMessage
               id='wait-message'
               values={{
-                  stopPlace: @props.leg.to.name
-                  estimatedMinutes: Math.round(@props.leg.duration / 60)}}
+                stopPlace: @props.leg.to.name
+                estimatedMinutes: Math.round(@props.leg.duration / 60)}}
               defaultMessage='Wait for {estimatedMinutes} minutes at {stopPlace}' />
         </div>
       </div>
     </div>
+
 
 module.exports = WaitLeg
