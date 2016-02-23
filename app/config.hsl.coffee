@@ -72,3 +72,27 @@ module.exports =
     description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
   #Ticket information feature toggle
   showTicketInformation: true
+  # Control what transport modes that should be possible to select in the UI
+  # and whether the transport mode is used in trip planning by default.
+  transportModes:
+    bus:
+      availableForSelection: true
+      defaultValue: true
+    tram:
+      availableForSelection: true
+      defaultValue: true
+    rail:
+      availableForSelection: true
+      defaultValue: true
+    subway:
+      availableForSelection: true
+      defaultValue: true
+    citybike:
+      availableForSelection: true
+      defaultValue: false
+    airplane:
+      availableForSelection: false
+      defaultValue: false
+    ferry:
+      availableForSelection: true
+      defaultValue: true

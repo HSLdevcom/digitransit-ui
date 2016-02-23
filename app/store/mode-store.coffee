@@ -1,5 +1,6 @@
 Store   = require 'fluxible/addons/BaseStore'
 storage = require './local-storage'
+config  = require '../config'
 
 STORAGE_KEY = "mode"
 
@@ -10,12 +11,13 @@ class ModeStore extends Store
     super(dispatcher)
     localData = storage.getItem STORAGE_KEY
     @data = if localData then JSON.parse(localData) else
-      busState: true
-      tramState: true
-      railState: true
-      subwayState: true
-      ferryState: true
-      citybikeState: false
+      busState: config.transportModes.bus.defaultValue
+      tramState: config.transportModes.tram.defaultValue
+      railState: config.transportModes.rail.defaultValue
+      subwayState: config.transportModes.subway.defaultValue
+      ferryState: config.transportModes.ferry.defaultValue
+      airplaneState: config.transportModes.airplane.defaultValue
+      citybikeState: config.transportModes.citybike.defaultValue
 
   getData: ->
     @data
@@ -27,8 +29,8 @@ class ModeStore extends Store
     if @getRailState() then mode.push "RAIL"
     if @getSubwayState() then mode.push "SUBWAY"
     if @getFerryState() then mode.push "FERRY"
+    if @getAirplaneState() then mode.push "AIRPLANE"
     if @getCitybikeState() then mode.push "BICYCLE_RENT"
-    mode.push "AIRPLANE"
     return mode
 
   getModeString: =>
@@ -44,6 +46,8 @@ class ModeStore extends Store
     @data.subwayState
   getFerryState: ->
     @data.ferryState
+  getAirplaneState: ->
+    @data.airplaneState
   getCitybikeState: ->
     @data.citybikeState
 
@@ -65,6 +69,10 @@ class ModeStore extends Store
     @emitChange()
   toggleFerryState: ->
     @data.ferryState = !@data.ferryState
+    @storeMode()
+    @emitChange()
+  toggleAirplaneState: ->
+    @data.airplaneState = !@data.airplaneState
     @storeMode()
     @emitChange()
   toggleCitybikeState: ->
@@ -93,5 +101,6 @@ class ModeStore extends Store
     "ToggleNearbyRouteSubwayState": 'toggleSubwayState'
     "ToggleNearbyRouteFerryState": 'toggleFerryState'
     "ToggleNearbyRouteCitybikeState": 'toggleCitybikeState'
+    'ToggleNearbyRouteAirplaneState': 'toggleAirplaneState'
 
 module.exports = ModeStore
