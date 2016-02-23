@@ -42,6 +42,7 @@ ItineraryTabs = React.createClass
   render: ->
     numberOfLegs = @props.itinerary.legs.length
     leafletObj = <ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
+
     if @state.fullscreen == true
       <div style={"height": "100%"}
         onTouchStart={(e) => e.stopPropagation()}
@@ -57,7 +58,7 @@ ItineraryTabs = React.createClass
           fitBounds={false}
           from={@props.itinerary.legs[0].from}
           to={@props.itinerary.legs[numberOfLegs - 1].to}
-          unFocus={if @state.lat then @unFocus}
+          leafletEvents={if @state.lat then onLeafletDragstart: @unFocus, onLeafletZoomend: @unFocus}
           >
             <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
               <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
@@ -89,7 +90,7 @@ ItineraryTabs = React.createClass
               fitBounds={false}
               from={@props.itinerary.legs[0].from}
               to={@props.itinerary.legs[numberOfLegs - 1].to}
-              unFocus={if @state.lat then @unFocus}>
+              leafletEvents={if @state.lat then onLeafletDragstart: @unFocus, onLeafletZoomend: @unFocus}>
               <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
                 <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
               </div>
