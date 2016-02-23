@@ -17,12 +17,12 @@ class WaitLeg extends React.Component
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         <div>
-            <FormattedMessage
-              id='wait-message'
-              values={{
-                  stopPlace: @props.leg.to.name
-                  estimatedMinutes: Math.round(@props.leg.duration / 60)}}
-              defaultMessage='Wait for {estimatedMinutes} minutes at {stopPlace}' />
+          <FormattedMessage
+            id='wait-message'
+            values={{
+              stopPlace: @props.leg.to.name
+              estimatedMinutes: Math.round(@props.leg.duration / 60)}}
+            defaultMessage='Wait for {estimatedMinutes} minutes at {stopPlace}' />
         </div>
       </div>
     </div>

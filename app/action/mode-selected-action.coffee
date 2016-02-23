@@ -26,6 +26,11 @@ module.exports =
       null,
       null
 
+  toggleAirplaneState: (actionContext)  ->
+    actionContext.dispatch "ToggleNearbyRouteAirplaneState",
+      null,
+      null
+
   toggleCitybikeState: (actionContext)  ->
     actionContext.dispatch "ToggleNearbyRouteCitybikeState",
       null,
