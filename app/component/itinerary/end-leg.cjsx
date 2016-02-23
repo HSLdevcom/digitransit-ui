@@ -13,7 +13,7 @@ class EndLeg extends React.Component
           {moment(@props.endTime).format('HH:mm')}
         </div>
       </div>
-      <div className="small-10 columns itinerary-instruction-column to">
+      <div onClick={@props.focusAction} className="small-10 columns itinerary-instruction-column to">
         <div>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to"/>
         </div>

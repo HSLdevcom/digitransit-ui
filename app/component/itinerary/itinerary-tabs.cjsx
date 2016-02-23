@@ -29,10 +29,10 @@ ItineraryTabs = React.createClass
   toggleFullscreenMap: ->
     @setState ("fullscreen": !@state.fullscreen)
 
-  focusMap: (leg) ->
+  focusMap: (lat, lon) ->
     @setState (
-      "lat": leg.from.lat
-      "lon": leg.from.lon
+      "lat": lat
+      "lon": lon
     )
 
   render: ->
@@ -53,16 +53,19 @@ ItineraryTabs = React.createClass
     else
       legs = []
       @props.itinerary.legs.forEach (leg, j) =>
-        focus = () => @focusMap(leg)
+        focus = () => @focusMap(leg.from.lat, leg.from.lon)
         if leg.transitLeg
           legs.push <TransitLeg key={j} index={j} leg={leg} focusAction={focus}/>
         else if leg.mode == 'WAIT'
           legs.push <WaitLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
         else
           legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
-      legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
-
-
+      legs.push <EndLeg
+                  key={numberOfLegs}
+                  index={numberOfLegs}
+                  endTime={@props.itinerary.endTime}
+                  to={@props.itinerary.legs[numberOfLegs - 1].to.name}
+                  focusAction={() => @focusMap(@props.itinerary.legs[numberOfLegs - 1].to.lat, @props.itinerary.legs[numberOfLegs - 1].to.lon)}/>
       <div>
           <div
             onTouchStart={(e) => e.stopPropagation()}
