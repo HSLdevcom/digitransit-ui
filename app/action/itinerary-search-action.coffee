@@ -132,6 +132,11 @@ module.exports =
       null,
       actionContext.executeAction itinerarySearchRequest
 
+  toggleAirplaneState: (actionContext)  ->
+    actionContext.dispatch "ToggleItineraryAirplaneState",
+      null,
+      actionContext.executeAction itinerarySearchRequest
+
   toggleWalkState: (actionContext)  ->
     actionContext.dispatch "ToggleItineraryWalkState",
       null,

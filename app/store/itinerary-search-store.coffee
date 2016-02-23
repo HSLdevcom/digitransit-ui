@@ -1,4 +1,5 @@
 Store = require 'fluxible/addons/BaseStore'
+config  = require '../config'
 
 STORAGE_KEY = "currentItinerary"
 
@@ -29,12 +30,13 @@ class ItinerarySearchStore extends Store
     ]
     @selectedTicketOption = "0"
     @selectedAccessibilityOption = "0"
-    @busState = true
-    @tramState = true
-    @railState = true
-    @subwayState = true
-    @ferryState = true
-    @citybikeState = false
+    @busState = config.transportModes.bus.defaultValue
+    @tramState = config.transportModes.tram.defaultValue
+    @railState = config.transportModes.rail.defaultValue
+    @subwayState = config.transportModes.subway.defaultValue
+    @ferryState = config.transportModes.ferry.defaultValue
+    @airplaneState = config.transportModes.airplane.defaultValue
+    @citybikeState = config.transportModes.citybike.defaultValue
     # These three are mutually exclusive
     @walkState = true
     @bicycleState = false
@@ -61,8 +63,8 @@ class ItinerarySearchStore extends Store
     if @getRailState() then mode.push "RAIL"
     if @getSubwayState() then mode.push "SUBWAY"
     if @getFerryState() then mode.push "FERRY"
+    if @getAirplaneState() then mode.push "AIRPLANE"
     if @getCitybikeState() then mode.push "BICYCLE_RENT"
-    if mode.length then mode.push "AIRPLANE"
     if @getWalkState() then mode.push "WALK"
     if @getBicycleState() then mode.push "BICYCLE"
     if @getCarState() then mode.push "CAR"
@@ -89,6 +91,8 @@ class ItinerarySearchStore extends Store
     @subwayState
   getFerryState: ->
     @ferryState
+  getAirplaneState: ->
+    @airplaneState
   getCitybikeState: ->
     @citybikeState
   getWalkState: ->
@@ -124,6 +128,9 @@ class ItinerarySearchStore extends Store
     @emitChange()
   toggleFerryState: ->
     @ferryState = !@ferryState
+    @emitChange()
+  toggleAirplaneState: ->
+    @airplaneState = !@airplaneState
     @emitChange()
   toggleCitybikeState: ->
     @citybikeState = !@citybikeState
@@ -209,6 +216,7 @@ class ItinerarySearchStore extends Store
     "ToggleItineraryWalkState": 'toggleWalkState'
     "ToggleItineraryBicycleState": 'toggleBicycleState'
     "ToggleItineraryCarState": 'toggleCarState'
+    "ToggleItineraryAirplaneState": 'toggleAirplaneState'
     "UpdateFromToPlaces": 'updateFromToPlaces'
     "SetWalkReluctance": "setWalkReluctance"
     "SetWalkBoardCost": "setWalkBoardCost"

@@ -5,6 +5,7 @@ ToggleButton          = require '../util/toggle-button'
 ModeFilter            = require '../util/mode-filter'
 ItinerarySearchAction = require '../../action/itinerary-search-action'
 Select                = require '../util/select'
+config                = require '../../config'
 
 intl = require 'react-intl'
 
