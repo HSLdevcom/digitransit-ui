@@ -133,7 +133,7 @@ module.exports =
       actionContext.executeAction itinerarySearchRequest
 
   toggleAirplaneState: (actionContext)  ->
-    actionContext.dispatch "ToggleAirplaneState",
+    actionContext.dispatch "ToggleItineraryAirplaneState",
       null,
       actionContext.executeAction itinerarySearchRequest
 

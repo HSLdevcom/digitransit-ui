@@ -96,7 +96,7 @@ class ModeFilter extends React.Component
       {if config.transportModes.airplane.availableForSelection
         <ToggleButton
           icon="airplane-withoutBox"
-          onBtnClick={() => @context.executeAction ModeSelectedAction.toggleAirplaneState}
+          onBtnClick={() => @context.executeAction action.toggleAirplaneState}
           state={store.getAirplaneState()}
           checkedClass="air"
           style={style}

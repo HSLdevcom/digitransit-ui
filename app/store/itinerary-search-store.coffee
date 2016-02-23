@@ -216,6 +216,7 @@ class ItinerarySearchStore extends Store
     "ToggleItineraryWalkState": 'toggleWalkState'
     "ToggleItineraryBicycleState": 'toggleBicycleState'
     "ToggleItineraryCarState": 'toggleCarState'
+    "ToggleItineraryAirplaneState": 'toggleAirplaneState'
     "UpdateFromToPlaces": 'updateFromToPlaces'
     "SetWalkReluctance": "setWalkReluctance"
     "SetWalkBoardCost": "setWalkBoardCost"
