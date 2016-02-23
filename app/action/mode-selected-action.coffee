@@ -27,7 +27,7 @@ module.exports =
       null
 
   toggleAirplaneState: (actionContext)  ->
-    actionContext.dispatch "ToggleAirplaneState",
+    actionContext.dispatch "ToggleNearbyRouteAirplaneState",
       null,
       null
 

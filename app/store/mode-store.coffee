@@ -101,5 +101,6 @@ class ModeStore extends Store
     "ToggleNearbyRouteSubwayState": 'toggleSubwayState'
     "ToggleNearbyRouteFerryState": 'toggleFerryState'
     "ToggleNearbyRouteCitybikeState": 'toggleCitybikeState'
+    'ToggleNearbyRouteAirplaneState': 'toggleAirplaneState'
 
 module.exports = ModeStore
