@@ -76,10 +76,10 @@ ItineraryTabs = React.createClass
           </div>
         <Tabs className="itinerary-tabs">
           <Tabs.Panel className="fullscreen">
-            <div className="momentum-scroll">
-              <ItinerarySummary itinerary={@props.itinerary}>
-                <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
-              </ItinerarySummary>
+            <ItinerarySummary itinerary={@props.itinerary}>
+              <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
+            </ItinerarySummary>
+            <div className="momentum-scroll itinerary-tabs__scroll">
               <div className="itinerary-main">
                 {legs}
                 <RouteInformation/>
