@@ -73,15 +73,17 @@ function getPluginsConfig(env) {
   }
 }
 
-module.exports = {
-  devtool: (process.env.NODE_ENV === "development") ? 'eval' : 'source-map', // This is not as dirty as it looks. It just generates source maps without being crazy slow.
-  debug: (process.env.NODE_ENV === "development") ? true : false,
-  cache: true,
-  entry: (process.env.NODE_ENV === "development") ? [
-    'webpack-dev-server/client?http://localhost:' + port,
-    'webpack/hot/dev-server',
-    './app/client'
-  ] : {
+function getDevelopmentEntry() {
+  var entry = [
+      'webpack-dev-server/client?http://localhost:' + port,
+      'webpack/hot/dev-server',
+      './app/client'
+    ];
+  return entry;
+}
+
+function getEntry() {
+  var entry = {
     main: './app/client',
     common: [ // These come from all imports in client.cjsx
       'react',
@@ -99,9 +101,26 @@ module.exports = {
       'fluxible'
     ],
     leaflet: ['leaflet'],
-    default_theme: ['./sass/themes/default/main.scss'],
-    hsl_theme: ['./sass/themes/hsl/main.scss']
-  },
+    default_theme: ['./sass/themes/default/main.scss']
+  };
+
+  var configName = process.env.CONFIG;
+  if(configName) {
+      console.log("Detected config name: "+configName);
+      var entryName = configName+'_theme';
+      var entryPath = './sass/themes/'+configName+'/main.scss';
+      console.log("Adding entry with key '"+entryName+"', path '"+entryPath+"'");
+      entry[entryName] = [entryPath];
+  }
+
+  return entry;
+}
+
+module.exports = {
+  devtool: (process.env.NODE_ENV === "development") ? 'eval' : 'source-map', // This is not as dirty as it looks. It just generates source maps without being crazy slow.
+  debug: (process.env.NODE_ENV === "development") ? true : false,
+  cache: true,
+  entry: (process.env.NODE_ENV === "development") ? getDevelopmentEntry() : getEntry(),
   output: {
     path: path.join(__dirname, "_static"),
     filename: (process.env.NODE_ENV === "development") ? 'js/bundle.js': 'js/[name].[chunkhash].js',
