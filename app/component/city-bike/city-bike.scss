@@ -4,6 +4,7 @@ $citybike-not-available-color: $light-gray;
 .city-bike-medium-size {
   font-size: 20px;
   border: 1px solid white;
+  border-radius: $border-radius;
 }
 
 .city-bike-availability-container {
