@@ -55,8 +55,6 @@ getPolyfills = (userAgent) ->
     # https://digitransit.atlassian.net/browse/DT-445
     userAgent = ''
 
-
-
   features =
     'matchMedia': flags: ['gated']
     'fetch': flags: ['gated']
@@ -123,7 +121,8 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
     content={getContent(context, renderProps, locale)}
     polyfill={polyfills}
     state={'window.state=' + serialize(application.dehydrate(context)) + ';'}
-    locale={'window.locale="' + locale + '"'}
+    windowLocale={'window.locale="' + locale + '"'}
+    locale={locale}
     scripts={getScripts(req)}
     fonts={fonts}
     config={'window.config=' + JSON.stringify(config)}

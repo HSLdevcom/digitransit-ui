@@ -5,8 +5,8 @@ config = require './config'
 class Application extends React.Component
   render: ->
     head = Helmet.rewind()
-
-    <html lang="fi">
+    #TODO: Needs refresh in order to work
+    <html lang={@props.locale}>
     <head>
       {head?.title.toComponent()}
       {head?.meta.toComponent()}
@@ -21,7 +21,7 @@ class Application extends React.Component
         <script dangerouslySetInnerHTML={ __html: @props.polyfill }/>
         <script dangerouslySetInnerHTML={ __html: @props.state }/>
         <script dangerouslySetInnerHTML={ __html: @props.config }/>
-        <script dangerouslySetInnerHTML={ __html: @props.locale }/>
+        <script dangerouslySetInnerHTML={ __html: @props.windowLocale }/>
         {@props.scripts}
       </body>
     </html>
