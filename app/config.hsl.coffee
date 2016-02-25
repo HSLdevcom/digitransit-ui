@@ -37,6 +37,7 @@ module.exports =
   maxWalkDistance: 2500
   maxBikingDistance: 10000
   availableLanguages: ['fi', 'sv', 'en', 'nb']
+  defaultLanguage: 'en'
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180
