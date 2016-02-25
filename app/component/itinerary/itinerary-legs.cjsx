@@ -25,9 +25,6 @@ ItineraryLegs = React.createClass
                 to={@props.itinerary.legs[numberOfLegs - 1].to.name}
                 focusAction={() => @props.focusMap(@props.itinerary.legs[numberOfLegs - 1].to.lat, @props.itinerary.legs[numberOfLegs - 1].to.lon)}/>
 
-
-    legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
-
     <div>{legs}</div>
 
 
