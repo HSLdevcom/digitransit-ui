@@ -36,8 +36,8 @@ Raven?.setUserContext piwik: piwik.getVisitorId()
 require('react-tap-event-plugin')()
 
 # English data added as default
-addLocaleData require "react-intl/lib/locale-data/fi"
-addLocaleData require "react-intl/lib/locale-data/sv"
+for language in config.availableLanguages
+  addLocaleData require "react-intl/lib/locale-data/"+language
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->

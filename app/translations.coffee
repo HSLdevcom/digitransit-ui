@@ -232,7 +232,7 @@ translations =
     'weather-at-destination': 'Vädret på destinationen'
     'trip-co2-emissions': 'Längs CO2-utsläpp'
     'wait-message': 'Vänta i {estimatedMinutes} minuter vid {stopPlace}'
-  'no':
+  'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
     'route-page.title': "Rute {route_short_name}"

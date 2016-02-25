@@ -36,7 +36,7 @@ module.exports =
     bucketSize: 100
   maxWalkDistance: 2500
   maxBikingDistance: 10000
-  availableLanguages: ['fi', 'sv', 'en']
+  availableLanguages: ['fi', 'sv', 'en', 'nb']
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180

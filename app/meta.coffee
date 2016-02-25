@@ -7,7 +7,7 @@ meta =
   title: config.title
   meta: [
     {'http-equiv': 'x-ua-compatible', content: 'ie=edge'}
-    {'http-equiv': 'Content-Language', content: 'fi'}
+    {'http-equiv': 'Content-Language', content: 'fi'} #TODO Use the selected language
     {name: 'charset', content: 'utf-8'}
     {name: 'description', content: 'Löydä joukkoliikennetarjonta lähelle ja kauas.'}
     {name: 'keywords', content: 'reitti,reitit,opas,reittiopas,joukkoliikenne'}

@@ -69,6 +69,10 @@ getPolyfills = (userAgent) ->
       'Object.assign': flags: ['gated']
       'Array.prototype.find': flags: ['gated']
       'es5': flags: ['gated']
+
+    for language in config.availableLanguages
+      features['Intl.~locale.'+language] = flags: ['always', 'gated']
+
     minify: true
     unknown: 'polyfill'
 
@@ -130,7 +134,7 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
 module.exports = (req, res, next) ->
   # pass in `req.url` and the router will immediately match
   processFeedback req, res
-  locale = req.cookies.lang or req.acceptsLanguages(['fi', 'sv', 'en']) or 'en'
+  locale = req.cookies.lang or req.acceptsLanguages(config.availableLanguages) or config.defaultLanguage
   context = application.createContext()
   #required by material-ui
   global.navigator = userAgent: req.headers['user-agent']

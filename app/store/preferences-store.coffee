@@ -1,8 +1,8 @@
-Store             = require 'fluxible/addons/BaseStore'
-storage           = require './local-storage'
+Store       = require 'fluxible/addons/BaseStore'
+storage     = require './local-storage'
+config      = require '../config'
+STORAGE_KEY = "userPreferences"
 
-STORAGE_KEY       = "userPreferences"
-ALLOWED_LANGUAGES = ['fi', 'sv', 'en']
 
 class PreferencesStore extends Store
   @storeName: 'PreferencesStore'
@@ -12,10 +12,11 @@ class PreferencesStore extends Store
     @preferences = @loadPreferences()
 
   getLanguage: ->
-    @preferences.language || 'en'
+    @preferences.language || config.defaultLanguage
 
   setLanguage: (language) ->
-    if language not in ALLOWED_LANGUAGES
+    console.log config.availableLanguages
+    if language not in config.availableLanguages
       return
 
     @preferences.language = language
@@ -31,9 +32,9 @@ class PreferencesStore extends Store
       if preferences?
         JSON.parse(preferences)
       else
-        language: if window.locale then window.locale else 'en'
+        language: if window.locale then window.locale else config.defaultLanguage
     else
-      language: 'en'
+      language: config.defaultLanguage
 
   storePreferences: () ->
     storage.setItem(STORAGE_KEY, @preferences)
