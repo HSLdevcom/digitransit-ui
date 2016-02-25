@@ -28,4 +28,5 @@ class WaitLeg extends React.Component
       </div>
     </div>
 
+
 module.exports = WaitLeg
