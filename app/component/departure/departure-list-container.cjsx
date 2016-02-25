@@ -5,11 +5,9 @@ queries               = require '../../queries'
 Departure             = require './departure'
 difference            = require 'lodash/difference'
 filter                = require 'lodash/filter'
-moment                = require 'moment'
+moment                = require '../../util/moment-configured.js'
 Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
-
-moment.locale('fi')
 
 class DepartureListContainer extends React.Component
   @contextTypes:

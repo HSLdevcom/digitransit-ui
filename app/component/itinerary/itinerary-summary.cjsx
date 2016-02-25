@@ -1,5 +1,5 @@
 React = require 'react'
-moment = require 'moment'
+moment = require '../../util/moment-configured.js'
 cx = require 'classnames'
 Duration = require './duration'
 WalkDistance = require "./walk-distance"

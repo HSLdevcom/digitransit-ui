@@ -6,7 +6,7 @@ queries    = require '../../queries'
 NextDeparturesList    = require '../departure/next-departures-list'
 Link       = require 'react-router/lib/Link'
 config     = require '../../config'
-moment     = require 'moment'
+moment     = require '../../util/moment-configured.js'
 intl       = require 'react-intl'
 
 FormattedMessage = intl.FormattedMessage

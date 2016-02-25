@@ -1,7 +1,7 @@
 React           = require 'react'
 Link            = require 'react-router/lib/Link'
 IconWithTail    = require '../icon/icon-with-tail'
-moment          = require 'moment'
+moment          = require '../../util/moment-configured.js'
 cx              = require 'classnames'
 WalkDistance    = require '../itinerary/walk-distance'
 

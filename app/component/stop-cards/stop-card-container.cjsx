@@ -4,7 +4,7 @@ queries               = require '../../queries'
 DepartureListContainer = require '../departure/departure-list-container'
 StopCard              = require './stop-card'
 FavouriteStopsActions = require '../../action/favourite-stops-action'
-moment                = require 'moment'
+moment                = require '../../util/moment-configured.js'
 
 class StopCardContainer extends React.Component
   @contextTypes:

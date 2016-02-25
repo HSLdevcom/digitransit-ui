@@ -1,5 +1,5 @@
 React              = require 'react'
-moment             = require 'moment'
+moment             = require '../../util/moment-configured.js'
 timeUtils          = require '../../util/time-utils'
 Link               = require 'react-router/lib/Link'
 RouteNumber        = require '../departure/route-number'

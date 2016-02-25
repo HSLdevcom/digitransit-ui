@@ -96,3 +96,11 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  moment:
+    locale: "fi"
+    relativeTimeThreshold:
+      seconds: 55
+      minutes: 59
+      hours: 23
+      days: 26
+      months: 11

@@ -6,7 +6,7 @@ groupBy                 = require 'lodash/groupBy'
 cx                      = require 'classnames'
 TripRouteStop           = require './trip-route-stop'
 isEmpty                 = require 'lodash/isEmpty'
-moment                  = require 'moment'
+moment                  = require '../../util/moment-configured.js'
 geoUtils                = require '../../util/geo-utils'
 config                  = require '../../config'
 
