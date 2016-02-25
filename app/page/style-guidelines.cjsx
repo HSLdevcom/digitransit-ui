@@ -233,6 +233,8 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_route</span><br />
         <Icon img="icon-icon_search"/>
         <span className="code">icon-icon_search</span><br />
+        <Icon img="icon-icon_search-plus"/>
+        <span className="code">icon-icon_search-plus</span><br />
         <Icon img="icon-icon_share"/>
         <span className="code">icon-icon_share</span><br />
         <Icon img="icon-icon_star"/>

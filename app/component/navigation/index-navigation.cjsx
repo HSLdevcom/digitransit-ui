@@ -37,7 +37,7 @@ class IndexNavigation extends React.Component
     if @state.subNavigationVisible
       @setState
         subNavigationVisible: false
-        text: unless @context.getStore("TimeStore").isSelectedStatusSet()
+        text: unless @context.getStore("TimeStore").isSelectedTimeSet()
           @context.intl.formatMessage
             id: 'now'
             defaultMessage: "Now"

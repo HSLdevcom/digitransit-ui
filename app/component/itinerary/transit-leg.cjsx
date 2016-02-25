@@ -3,6 +3,7 @@ RouteNumber  = require '../departure/route-number'
 Link         = require 'react-router/lib/Link'
 moment       = require 'moment'
 config       = require '../../config'
+Icon         = require '../icon/icon'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -45,6 +46,7 @@ class TransitLeg extends React.Component
           <div>
             <FormattedMessage id='start-journey-stop'
                               defaultMessage='Start journey from stop' />
+            <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
           </div>
         else
           false}
@@ -62,6 +64,7 @@ class TransitLeg extends React.Component
             values={{
               route: @props.leg.route}}
               defaultMessage="Route {route}" />}
+          <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div>
           <FormattedMessage

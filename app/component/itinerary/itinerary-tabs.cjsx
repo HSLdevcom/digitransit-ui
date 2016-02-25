@@ -29,21 +29,37 @@ ItineraryTabs = React.createClass
   toggleFullscreenMap: ->
     @setState ("fullscreen": !@state.fullscreen)
 
-  focusMap: (leg) ->
-    @setState (
-      "lat": leg.from.lat
-      "lon": leg.from.lon
-    )
+  focusMap: (lat, lon) ->
+    @setState
+      "lat": lat
+      "lon": lon
+
+  unFocus: ->
+    @setState
+      lat: undefined
+      lon: undefined
 
   render: ->
     numberOfLegs = @props.itinerary.legs.length
     leafletObj = <ItineraryLine key="line" legs={@props.itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>
+
     if @state.fullscreen == true
       <div style={"height": "100%"}
         onTouchStart={(e) => e.stopPropagation()}
         onMouseDown={(e) => e.stopPropagation()}
         >
-        <Map className="fullscreen" ref="map2" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+        <Map
+          className="fullscreen"
+          ref="map2"
+          leafletObjs={leafletObj}
+          lat={@state.lat}
+          lon={@state.lon}
+          zoom="16"
+          fitBounds={false}
+          from={@props.itinerary.legs[0].from}
+          to={@props.itinerary.legs[numberOfLegs - 1].to}
+          leafletEvents={if @state.lat then onLeafletDragstart: @unFocus, onLeafletZoomend: @unFocus}
+          >
             <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
               <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
             </div>
@@ -55,8 +71,17 @@ ItineraryTabs = React.createClass
           <div
             onTouchStart={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
-            >
-            <Map ref="map" leafletObjs={leafletObj} lat={@state.lat} lon={@state.lon} zoom="16" fitBounds={false} from={@props.itinerary.legs[0].from} to={@props.itinerary.legs[numberOfLegs - 1].to}>
+          >
+            <Map
+              ref="map"
+              leafletObjs={leafletObj}
+              lat={@state.lat}
+              lon={@state.lon}
+              zoom="16"
+              fitBounds={false}
+              from={@props.itinerary.legs[0].from}
+              to={@props.itinerary.legs[numberOfLegs - 1].to}
+              leafletEvents={if @state.lat then onLeafletDragstart: @unFocus, onLeafletZoomend: @unFocus}>
               <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
                 <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
               </div>
@@ -64,10 +89,10 @@ ItineraryTabs = React.createClass
           </div>
         <Tabs className="itinerary-tabs">
           <Tabs.Panel className="fullscreen">
-            <div className="momentum-scroll">
-              <ItinerarySummary itinerary={@props.itinerary}>
-                <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
-              </ItinerarySummary>
+            <ItinerarySummary itinerary={@props.itinerary}>
+              <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
+            </ItinerarySummary>
+            <div className="momentum-scroll itinerary-tabs__scroll">
               <div className="itinerary-main">
                 <ItineraryLegs itinerary={@props.itinerary} focusMap={@focusMap}/>
                 <RouteInformation/>

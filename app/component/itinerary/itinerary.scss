@@ -6,13 +6,15 @@ $itinerary-summary-height: 2.5em;
 $itinerary-bottom-navigation-height: 2em;
 $itinerary-tabs-height: 3em;
 $itinerary-tab-switch-height: 28px;
+$summary-bar-height: 33px;
+$itinerary-route-max-width: 500px;
 
 .itinerary-tabs {
   height: calc(100% - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height});
   article.tab-panel {
     height: 100%;
 //    padding-bottom: calc(2*#{$itinerary-bottom-navigation-height});
-    > div > div {
+    .itinerary-tabs__scroll {
       overflow-y: auto;
     }
   }
@@ -25,24 +27,24 @@ $itinerary-tab-switch-height: 28px;
 // hacketihack, instead of all this we should have more generic measures for pages somewhere else...
 @media #{$small-only} {
   .itinerary-tabs {
-    article.tab-panel > div > div {
-      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$small-map-height});
+    .itinerary-tabs__scroll {
+      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$small-map-height} - #{$summary-bar-height});
     }
   }
 }
 
 @media #{$medium-only} {
   .itinerary-tabs {
-    article.tab-panel > div > div {
-     height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$medium-map-height}) ;
+    .itinerary-tabs__scroll {
+     height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$medium-map-height} - #{$summary-bar-height}) ;
     }
   }
 }
 
 @media #{$large-up} {
   .itinerary-tabs {
-    article.tab-panel > div > div {
-      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$large-map-height}) ;
+    .itinerary-tabs__scroll {
+      height: calc(100vh - #{$itinerary-bottom-navigation-height} - #{$top-navigation-height} - #{$itinerary-tab-switch-height} - #{$large-map-height} - #{$summary-bar-height}) ;
     }
   }
 }
@@ -73,6 +75,18 @@ $itinerary-tab-switch-height: 28px;
   margin-top: 2px;
   fill: currentColor;
   z-index: 800;
+}
+
+.itinerary-search-icon {
+  position: absolute;
+  right: 15px;
+  top: 0px;
+  color: $medium-gray;
+}
+
+.itinerary-wait-message {
+  display: block;
+  width: 90%;
 }
 
 .duration {
@@ -142,6 +156,7 @@ $itinerary-tab-switch-height: 28px;
   margin-bottom: 0.5em;
   line-height: 1.1;
   color: $medium-gray;
+  max-width: $itinerary-route-max-width;
   .itinerary-time-column {
     font-family: $font-family-narrow;
     font-weight: $font-weight-bold;
@@ -211,6 +226,7 @@ $itinerary-tab-switch-height: 28px;
   border-top: solid 1px $light-gray;
   border-bottom: solid 1px $light-gray;
   width: calc(100% - 2em);
+  max-width: $itinerary-route-max-width;
   div {
     border-right: solid 1px $light-gray;
 

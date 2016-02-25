@@ -26,6 +26,7 @@ class Map extends React.Component
     to: React.PropTypes.object
     padding: React.PropTypes.number
     zoom: React.PropTypes.number
+    leafletEvents: React.PropTypes.object
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -65,11 +66,6 @@ class Map extends React.Component
 
       zoom = if not @props.fitBounds and @props.zoom then @props.zoom
 
-      if (@props.disableMapTracking and !@props.fitBounds)
-        leafletEvents =
-          onLeafletDragstart: @props.disableMapTracking
-          onLeafletZoomend: @props.disableMapTracking
-
       map =
         <LeafletMap
           ref='map'
@@ -79,7 +75,7 @@ class Map extends React.Component
           attributionControl=false
           bounds={if @props.fitBounds then [@props.from, @props.to]}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
-          {... leafletEvents}
+          {... @props.leafletEvents}
           >
           <TileLayer
             url={config.URL.MAP + "{z}/{x}/{y}{size}.png"}
