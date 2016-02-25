@@ -55,27 +55,26 @@ getPolyfills = (userAgent) ->
     # https://digitransit.atlassian.net/browse/DT-445
     userAgent = ''
 
+
+
+  features =
+    'matchMedia': flags: ['gated']
+    'fetch': flags: ['gated']
+    'Promise': flags: ['gated']
+    'String.prototype.repeat': flags: ['gated']
+    'Intl': flags: ['always', 'gated']
+    'Object.assign': flags: ['gated']
+    'Array.prototype.find': flags: ['gated']
+    'es5': flags: ['gated']
+
+  for language in config.availableLanguages
+    features['Intl.~locale.'+language] = flags: ['always', 'gated']
+
   polyfillService.getPolyfillString
     uaString: userAgent
-    features:
-      'matchMedia': flags: ['gated']
-      'fetch': flags: ['gated']
-      'Promise': flags: ['gated']
-      'String.prototype.repeat': flags: ['gated']
-      'Intl': flags: ['always', 'gated']
-      'Intl.~locale.en': flags: ['always', 'gated']
-      'Intl.~locale.fi': flags: ['always', 'gated']
-      'Intl.~locale.sv': flags: ['always', 'gated']
-      'Object.assign': flags: ['gated']
-      'Array.prototype.find': flags: ['gated']
-      'es5': flags: ['gated']
-
-    for language in config.availableLanguages
-      features['Intl.~locale.'+language] = flags: ['always', 'gated']
-
+    features: features
     minify: true
     unknown: 'polyfill'
-
 
 processFeedback = (req, res) ->
   if req.headers.dnt == 1
