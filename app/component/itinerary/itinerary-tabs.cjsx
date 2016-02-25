@@ -14,6 +14,7 @@ config             = require '../../config'
 intl               = require 'react-intl'
 Icon               = require '../icon/icon'
 cx                 = require 'classnames'
+ItineraryLegs      = require './itinerary-legs'
 
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
 
