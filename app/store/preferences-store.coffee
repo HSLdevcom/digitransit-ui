@@ -15,8 +15,8 @@ class PreferencesStore extends Store
     @preferences.language || config.defaultLanguage
 
   setLanguage: (language) ->
-    console.log config.availableLanguages
     if language not in config.availableLanguages
+      console.error  "Could not set language " + language + " as it is not configured as availableLanguage"
       return
 
     @preferences.language = language
