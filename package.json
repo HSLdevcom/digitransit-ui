@@ -82,6 +82,7 @@
     "react-router-relay": "0.8.0",
     "react-simpletabs": "0.7.0",
     "react-slick": "0.10.0",
+    "react-swipeable-views": "^0.4.2",
     "react-tap-event-plugin": "0.2.2",
     "serialize-javascript": "1.1.2",
     "slick-carousel": "1.5.9",
