@@ -14,7 +14,7 @@ config             = require '../../config'
 intl               = require 'react-intl'
 Icon               = require '../icon/icon'
 cx                 = require 'classnames'
-
+ItineraryLegs      = require './itinerary-legs-resolver'
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
 
 ItineraryTabs = React.createClass
@@ -51,18 +51,6 @@ ItineraryTabs = React.createClass
       </div>
 
     else
-      legs = []
-      @props.itinerary.legs.forEach (leg, j) =>
-        focus = () => @focusMap(leg)
-        if leg.transitLeg
-          legs.push <TransitLeg key={j} index={j} leg={leg} focusAction={focus}/>
-        else if leg.mode == 'WAIT'
-          legs.push <WaitLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
-        else
-          legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
-      legs.push <EndLeg key={numberOfLegs}  index={numberOfLegs} endTime={@props.itinerary.endTime} to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
-
-
       <div>
           <div
             onTouchStart={(e) => e.stopPropagation()}
@@ -81,7 +69,7 @@ ItineraryTabs = React.createClass
                 <TimeFrame startTime={@props.itinerary.startTime} endTime={@props.itinerary.endTime} className="timeframe--itinerary-summary"/>
               </ItinerarySummary>
               <div className="itinerary-main">
-                {legs}
+                <ItineraryLegs itinerary={@props.itinerary} focusMap={@focusMap}/>
                 <RouteInformation/>
                 {ticketInformation}
               </div>
