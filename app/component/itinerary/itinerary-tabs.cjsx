@@ -14,7 +14,7 @@ config             = require '../../config'
 intl               = require 'react-intl'
 Icon               = require '../icon/icon'
 cx                 = require 'classnames'
-ItineraryLegs      = require './itinerary-legs'
+ItineraryLegs      = require './'+config.itinerary.legsComponent+'.cjsx'
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
 
 ItineraryTabs = React.createClass
