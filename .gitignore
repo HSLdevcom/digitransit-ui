@@ -25,3 +25,11 @@ app/config.*.coffee
 static/svg-sprite.*.svg
 !static/svg-sprite.hsl.svg
 !static/svg-sprite.default.svg
+
+static/manifest.*.json
+!static/manifest.hsl.json
+!static/manifest.default.json
+
+static/browserconfig.*.xml
+!static/browserconfig.hsl.xml
+!static/browserconfig.default.xml
