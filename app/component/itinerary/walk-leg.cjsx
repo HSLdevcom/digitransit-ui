@@ -8,6 +8,10 @@ FormattedMessage = intl.FormattedMessage
 class WalkLeg extends React.Component
 
   render: ->
+
+    magnifyingClass =
+
+
     <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
@@ -17,16 +21,19 @@ class WalkLeg extends React.Component
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         {if @props.index == 0
-          <div><div>
-            <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from"/>
-          </div>
           <div>
-            <FormattedMessage id="start-journey-place"
-              defaultMessage='Start journey from' />
-          </div></div>
+            <div>
+              <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from"/>
+            </div>
+            <div>
+              <FormattedMessage id="start-journey-place"
+                defaultMessage='Start journey from' />
+              <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
+            </div>
+          </div>
         else
           false }
-        <div>{@props.leg.from.name}</div>
+        <div>{@props.leg.from.name} {if @props.index != 0 then <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>}</div>
         <div>{if @props.legs == @props.index + 1
           <FormattedMessage
             id="walk-to-destination"

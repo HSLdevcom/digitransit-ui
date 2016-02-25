@@ -1,8 +1,8 @@
-React = require 'react'
-RouteNumber  = require '../departure/route-number'
-moment = require 'moment'
-
-intl = require 'react-intl'
+React            = require 'react'
+RouteNumber      = require '../departure/route-number'
+moment           = require 'moment'
+Icon             = require '../icon/icon'
+intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class WaitLeg extends React.Component
@@ -16,13 +16,14 @@ class WaitLeg extends React.Component
         <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
-        <div>
+        <div className='itinerary-wait-message'>
           <FormattedMessage
             id='wait-message'
             values={{
               stopPlace: @props.leg.to.name
               estimatedMinutes: Math.round(@props.leg.duration / 60)}}
             defaultMessage='Wait for {estimatedMinutes} minutes at {stopPlace}' />
+          <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
       </div>
     </div>
