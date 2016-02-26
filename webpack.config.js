@@ -38,6 +38,9 @@ function getLoadersConfig(env) {
 }
 
 function getPluginsConfig(env) {
+  if(!config.availableLanguages) {
+    throw "availableLanguages needs to be configured in the config file";
+  }
   var languageExpression = new RegExp("/" + config.availableLanguages.join('|') + "/");
 
   if (env === "development") {
