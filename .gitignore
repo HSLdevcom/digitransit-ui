@@ -21,6 +21,9 @@ app/config.*.coffee
 !app/config.default.coffee
 !app/config.hsl.coffee
 
+static/img/*icons
+!static/img/hsl-icons
+!static/img/default-icons
 
 static/svg-sprite.*.svg
 !static/svg-sprite.hsl.svg
