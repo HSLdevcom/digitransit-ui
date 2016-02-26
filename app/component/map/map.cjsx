@@ -74,6 +74,7 @@ class Map extends React.Component
           zoomControl={false}
           attributionControl=false
           bounds={if @props.fitBounds then [@props.from, @props.to]}
+          {... @props.leafletOptions}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
           {... @props.leafletEvents}
           >
