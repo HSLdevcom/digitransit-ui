@@ -5,7 +5,7 @@ queries               = require '../../queries'
 Departure             = require './departure'
 difference            = require 'lodash/difference'
 filter                = require 'lodash/filter'
-moment                = require '../../util/moment-configured.js'
+moment                = require 'moment'
 Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
 

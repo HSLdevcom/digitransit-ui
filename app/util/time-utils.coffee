@@ -1,4 +1,4 @@
-moment = require './moment-configured.js'
+moment = require 'moment'
 
 # converts the given parameter into a string in format HHmm
 # Input: time - seconds since midnight

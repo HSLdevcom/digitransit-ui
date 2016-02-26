@@ -1,6 +1,6 @@
 React       = require 'react'
 TimeActions = require '../../action/time-action'
-moment      = require '../../util/moment-configured.js'
+moment      = require 'moment'
 {FormattedMessage, intlShape} = require('react-intl')
 
 

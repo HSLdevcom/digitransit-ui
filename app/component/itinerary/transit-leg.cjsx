@@ -1,7 +1,7 @@
 React        = require 'react'
 RouteNumber  = require '../departure/route-number'
 Link         = require 'react-router/lib/Link'
-moment       = require '../../util/moment-configured.js'
+moment       = require 'moment'
 config       = require '../../config'
 Icon         = require '../icon/icon'
 

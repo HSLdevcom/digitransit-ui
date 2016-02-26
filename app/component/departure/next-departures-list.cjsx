@@ -7,7 +7,7 @@ RouteDestination = require './route-destination'
 DepartureTime    = require './departure-time'
 Link       = require 'react-router/lib/Link'
 config     = require '../../config'
-moment     = require '../../util/moment-configured.js'
+moment     = require 'moment'
 sortBy     = require 'lodash/sortBy'
 intl       = require 'react-intl'
 

@@ -1,5 +1,5 @@
 Store = require 'fluxible/addons/BaseStore'
-moment = require '../util/moment-configured.js'
+moment = require 'moment'
 
 class TimeStore extends Store
   # Stores the user-selected time centrally for the application

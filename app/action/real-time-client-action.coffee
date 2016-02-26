@@ -1,5 +1,5 @@
 config = require '../config'
-moment = require '../util/moment-configured.js'
+moment = require 'moment'
 xhrPromise = require '../util/xhr-promise'
 
 # getTopic

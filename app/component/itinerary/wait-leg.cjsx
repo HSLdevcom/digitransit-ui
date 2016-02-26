@@ -1,6 +1,6 @@
 React            = require 'react'
 RouteNumber      = require '../departure/route-number'
-moment           = require '../../util/moment-configured.js'
+moment           = require 'moment'
 Icon             = require '../icon/icon'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage

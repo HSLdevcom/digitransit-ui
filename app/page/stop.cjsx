@@ -9,7 +9,7 @@ StopCardHeader     = require '../component/stop-cards/stop-card-header'
 FavouriteStopsAction = require '../action/favourite-stops-action'
 Link               = require 'react-router/lib/Link'
 Icon               = require '../component/icon/icon'
-moment             = require '../util/moment-configured.js'
+moment             = require 'moment'
 intl               = require 'react-intl'
 
 class StopPage extends React.Component
