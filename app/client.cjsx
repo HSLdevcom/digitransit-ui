@@ -37,7 +37,7 @@ require('react-tap-event-plugin')()
 
 # English data added as default
 for language in config.availableLanguages
-  addLocaleData require "react-intl/lib/locale-data/"+language
+  addLocaleData require "react-intl/lib/locale-data/" + language
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->

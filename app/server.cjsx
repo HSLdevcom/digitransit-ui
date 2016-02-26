@@ -66,7 +66,7 @@ getPolyfills = (userAgent) ->
     'es5': flags: ['gated']
 
   for language in config.availableLanguages
-    features['Intl.~locale.'+language] = flags: ['always', 'gated']
+    features['Intl.~locale.' + language] = flags: ['always', 'gated']
 
   polyfillService.getPolyfillString
     uaString: userAgent
