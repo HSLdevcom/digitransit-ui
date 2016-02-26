@@ -101,14 +101,15 @@ function getEntry() {
       'fluxible'
     ],
     leaflet: ['leaflet'],
-    default_theme: ['./sass/themes/default/main.scss']
+    default_theme: ['./sass/themes/default/main.scss'],
+    hsl_theme: ['./sass/themes/hsl/main.scss']
   };
 
-  var configName = process.env.CONFIG;
-  if(configName) {
-      console.log("Detected config name: "+configName);
-      var entryName = configName+'_theme';
-      var entryPath = './sass/themes/'+configName+'/main.scss';
+  var themeName = process.env.ADDITIONAL_THEME_NAME;
+  if(themeName) {
+      console.log("Detected env ADDITIONAL_THEME_NAME: "+themeName);
+      var entryName = themeName+'_theme';
+      var entryPath = './sass/themes/'+themeName+'/main.scss';
       console.log("Adding entry with key '"+entryName+"', path '"+entryPath+"'");
       entry[entryName] = [entryPath];
   }
