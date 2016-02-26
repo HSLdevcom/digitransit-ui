@@ -4,13 +4,19 @@ Relay         = require 'react-relay'
 queries       = require '../../queries'
 Icon          = require '../icon/icon'
 LocationMarker = require './location-marker'
-StopMarkerContainer = if isBrowser then require './stop/stop-marker-tile-layer' else null
+config        = require '../../config'
+
+StopMarkerContainer = if isBrowser and config.URL.STOP_MAP
+                        require './stop/stop-marker-tile-layer'
+                      else if !config.URL.STOP_MAP
+                        require './stop/stop-marker-container'
+                      else null
+
 CityBikeMarkerContainer = require './city-bike/city-bike-marker-container'
 #VehicleMarkerContainer = require './vehicle-marker-container'
 LeafletMap    = if isBrowser then require('react-leaflet/lib/Map').default else null
 TileLayer     = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
 L             = if isBrowser then require 'leaflet' else null
-config        = require '../../config'
 PositionMarker = require './position-marker'
 PlaceMarker = require './place-marker'
 
