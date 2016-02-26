@@ -99,7 +99,6 @@ module.exports =
       availableForSelection: true
       defaultValue: true
   moment:
-    locale: "fi"
     relativeTimeThreshold:
       seconds: 55
       minutes: 59
