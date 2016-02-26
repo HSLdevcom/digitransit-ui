@@ -17,7 +17,7 @@
     "test-browserstack": "./test/script/run-ui-tests.sh browserstack",
     "test-acceptance": "./acceptance-tests/script/run-acceptance-tests.sh",
     "lint": "node_modules/.bin/coffeelint -f coffeelint.json --ext=cjsx,coffee app",
-    "build": "NODE_ENV=production webpack -p --progress --color",
+    "build": "NODE_ENV=production webpack -p --progress --color --display-error-details",
     "win-build": "set NODE_ENV=production&& webpack -p --progress --color",
     "start": "NODE_ENV=production node server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js"
