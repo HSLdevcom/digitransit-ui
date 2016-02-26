@@ -33,6 +33,7 @@ class Map extends React.Component
     padding: React.PropTypes.number
     zoom: React.PropTypes.number
     leafletEvents: React.PropTypes.object
+    leafletOptions: React.PropTypes.object
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
