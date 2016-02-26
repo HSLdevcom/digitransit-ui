@@ -4,6 +4,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var csswring = require('csswring');
 var StatsPlugin = require('stats-webpack-plugin');
+var fs = require("fs");
 
 var port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -100,21 +101,23 @@ function getEntry() {
       'react-router',
       'fluxible'
     ],
-    leaflet: ['leaflet'],
-    default_theme: ['./sass/themes/default/main.scss'],
-    hsl_theme: ['./sass/themes/hsl/main.scss']
+    leaflet: ['leaflet']
   };
 
-  var themeName = process.env.ADDITIONAL_THEME_NAME;
-  if(themeName) {
-      console.log("Detected env ADDITIONAL_THEME_NAME: "+themeName);
-      var entryName = themeName+'_theme';
-      var entryPath = './sass/themes/'+themeName+'/main.scss';
-      console.log("Adding entry with key '"+entryName+"', path '"+entryPath+"'");
-      entry[entryName] = [entryPath];
+  var directories = getDirectories("./sass/themes");
+  for(var i in directories) {
+    var theme = directories[i];
+    var entryPath = './sass/themes/'+theme+'/main.scss';
+    entry[theme+'_theme'] = [entryPath];
   }
 
   return entry;
+}
+
+function getDirectories(srcDirectory) {
+  return fs.readdirSync(srcDirectory).filter(function(file) {
+    return fs.statSync(path.join(srcDirectory, file)).isDirectory();
+  });
 }
 
 module.exports = {
