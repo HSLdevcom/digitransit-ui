@@ -12,7 +12,7 @@ class IndexTopNavigation extends React.Component
       </div>
       <DisruptionInfoButtonContainer toggleDisruptionInfo={@props.toggleDisruptionInfo}/>
 
-      {if config.offcanvasMenu.show
+      {if config.leftMenu.show
         <div onClick={@props.toggleOffcanvas} className="icon-holder cursor-pointer left-off-canvas-toggle">
           <Icon img={'icon-icon_menu'} className="icon" />
         </div>}
