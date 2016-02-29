@@ -115,6 +115,7 @@ translations =
     'how-to-rate-service': 'Kuinka arvioisit palvelua?'
     'char-left': 'merkkiä'
     'send': 'Lähetä'
+    'walk-from-to': "Kävele {estimatedTime} paikasta {fromName} paikkaan {toName}"
     'very-likely': 'Erittäin todennäköistä'
     'very-unlikely': 'Erittäin epätodennäköistä'
     'weather-at-destination': 'Sää määränpäässä'
