@@ -232,6 +232,9 @@ translations =
     'weather-at-destination': 'Vädret på destinationen'
     'trip-co2-emissions': 'Längs CO2-utsläpp'
     'wait-message': 'Vänta i {estimatedMinutes} minuter vid {stopPlace}'
+    'airport-check-in': 'Bagage kan checkas in på {agency}'
+    'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate'
+    'airport-collect-luggage': 'Samla ditt bagage om någon'
   'no':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -362,6 +365,9 @@ translations =
     'location-examples': "f.eks hjemme, arbeid, skole ..."
     'save': "Lagre"
     'address': 'Adresse'
-    'wait-message': 'Vänta i {estimatedMinutes} minuter vid {stopPlace}'
+    'wait-message': 'Vent i {estimatedMinutes} minutter'
+    'airport-check-in': 'Bagasje kan sjekkes inn hos {agency}'
+    'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate'
+    'airport-collect-luggage': 'Hent eventuell bagasje'
 
 module.exports = translations
