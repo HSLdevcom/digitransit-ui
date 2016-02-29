@@ -14,7 +14,7 @@ config             = require '../../config'
 intl               = require 'react-intl'
 Icon               = require '../icon/icon'
 cx                 = require 'classnames'
-ItineraryLegs      = require './' + config.itinerary.legsComponent + '.cjsx'
+
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
 
 ItineraryTabs = React.createClass
@@ -67,6 +67,23 @@ ItineraryTabs = React.createClass
       </div>
 
     else
+      legs = []
+      @props.itinerary.legs.forEach (leg, j) =>
+        focus = () => @focusMap(leg.from.lat, leg.from.lon)
+        if leg.transitLeg
+          legs.push <TransitLeg key={j} index={j} leg={leg} focusAction={focus}/>
+        else if leg.mode == 'WAIT'
+          legs.push <WaitLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
+        else
+          legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
+
+      legs.push <EndLeg
+                  key={numberOfLegs}
+                  index={numberOfLegs}
+                  endTime={@props.itinerary.endTime}
+                  to={@props.itinerary.legs[numberOfLegs - 1].to.name}
+                  focusAction={() => @focusMap(@props.itinerary.legs[numberOfLegs - 1].to.lat, @props.itinerary.legs[numberOfLegs - 1].to.lon)}/>
+
       <div>
           <div
             onTouchStart={(e) => e.stopPropagation()}
@@ -94,7 +111,7 @@ ItineraryTabs = React.createClass
             </ItinerarySummary>
             <div className="momentum-scroll itinerary-tabs__scroll">
               <div className="itinerary-main">
-                <ItineraryLegs itinerary={@props.itinerary} focusMap={@focusMap}/>
+                {legs}
                 <RouteInformation/>
                 {ticketInformation}
               </div>
