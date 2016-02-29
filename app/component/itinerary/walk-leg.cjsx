@@ -21,15 +21,11 @@ class WalkLeg extends React.Component
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         <div>
             <FormattedMessage
-              id={if(@props.leg.from.name == @props.leg.to.name)
-                    'walk-from-to-same-dest'
-                  else
-                    'walk-from-to'
-                  }
+              id={if(@props.leg.from.name == @props.leg.to.name) then 'walk-from-to-same-dest' else 'walk-from-to'}
               values={{
-                  fromName: <b>{@props.leg.from.name}</b>
-                  toName: <b>{@props.leg.to.name}</b>
-                  estimatedTime: <b>{estimatedTime}</b>}}
+                fromName: <b>{@props.leg.from.name}</b>
+                toName: <b>{@props.leg.to.name}</b>
+                estimatedTime: <b>{estimatedTime}</b>}}
               defaultMessage='Walk for {estimatedTime} from {fromName} to {toName}' />
               {if @props.index != 0 then <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>}
         </div>

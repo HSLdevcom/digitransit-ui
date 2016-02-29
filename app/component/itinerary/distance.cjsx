@@ -9,7 +9,7 @@ class Distance extends React.Component
   render: ->
 
     if @props.distance > 0
-      approxDistance = Math.round(@props.distance/50)*50
+      approxDistance = Math.round(@props.distance / 50) * 50
       if approxDistance > 50
         <FormattedMessage
           id='approx-meters'
