@@ -9,9 +9,6 @@ FormattedMessage = intl.FormattedMessage
 class WalkLeg extends React.Component
 
   render: ->
-
-    magnifyingClass =
-
     estimatedTime = moment.duration(@props.leg.duration, "seconds").humanize()
 
     <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
