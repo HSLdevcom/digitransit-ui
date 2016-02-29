@@ -345,6 +345,7 @@ translations =
     'send': 'Send'
     'walk-from-to': 'Gå {estimatedTime} fra {fromName} til {toName}'
     'walk-from-to-same-dest': 'Gå {estimatedTime} på {fromName}'
+    'approx-meters': '{approxDistance} meter'
     'very-likely': 'Svært sannsynlig'
     'very-unlikely': 'Lite sannsynlig'
     'weather-at-destination': 'Været på destinasjonen'
