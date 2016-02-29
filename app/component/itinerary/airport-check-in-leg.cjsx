@@ -19,7 +19,7 @@ class AirportCheckInLeg extends React.Component
         <div><FormattedMessage
             id='airport-check-in'
             values={{
-                agency: @props.leg.nextLeg.agencyName}}
+              agency: @props.leg.nextLeg.agencyName}}
             defaultMessage='Optionally check in your luggage with {agency}' />
         </div>
         <div><FormattedMessage
@@ -28,5 +28,6 @@ class AirportCheckInLeg extends React.Component
         </div>
       </div>
     </div>
+
 
 module.exports = AirportCheckInLeg
