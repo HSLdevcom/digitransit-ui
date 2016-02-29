@@ -24,7 +24,7 @@ class AirportCheckInLeg extends React.Component
         </div>
         <div><FormattedMessage
             id='airport-security-check-go-to-gate'
-            defaultMessage='Walk through the security check' />
+            defaultMessage='Walk through the security check and go to gate' />
         </div>
       </div>
     </div>
