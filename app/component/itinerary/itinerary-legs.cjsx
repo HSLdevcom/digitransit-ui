@@ -10,7 +10,7 @@ ItineraryLegs = React.createClass
 
     legs = []
     @props.itinerary.legs.forEach (leg, j) =>
-      focus = () => @focusMap(leg.from.lat, leg.from.lon)
+      focus = () => @props.focusMap(leg.from.lat, leg.from.lon)
       if leg.transitLeg
         legs.push <TransitLeg key={j} index={j} leg={leg} focusAction={focus}/>
       else if leg.mode == 'WAIT'
