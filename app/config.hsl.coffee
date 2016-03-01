@@ -96,3 +96,16 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  customizeSearch:
+    walkReluctance:
+      available: true
+    walkBoardCost:
+      available: true
+    transferMargin:
+      available: true
+    walkingSpeed:
+      available: true
+    ticketOptions:
+      available: true
+    accessibility:
+      available: true
