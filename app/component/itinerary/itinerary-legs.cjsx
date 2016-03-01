@@ -2,6 +2,8 @@ React              = require 'react'
 TransitLeg         = require './transit-leg'
 WalkLeg            = require './walk-leg'
 WaitLeg            = require './wait-leg'
+BicycleLeg         = require './bicycle-leg'
+
 EndLeg             = require './end-leg'
 AirportCheckInLeg  = require './airport-check-in-leg'
 AirportCollectLuggageLeg  = require './airport-collect-luggage-leg'
@@ -21,6 +23,8 @@ ItineraryLegs = React.createClass
         legs.push <AirportCollectLuggageLeg key={j} index={j} leg={leg} focusAction={focus}/>
       else if leg.mode == 'WAIT'
         legs.push <WaitLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
+      else if leg.rentedBike || leg.mode == 'BICYCLE' || leg.mode == 'CITYBIKE' || leg.mode == 'CITYBIKE_WALK'
+        legs.push <BicycleLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
       else
         legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
 
