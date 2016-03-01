@@ -23,8 +23,8 @@ class BicycleLeg extends React.Component
             values={{
               fromName: <b>{@props.leg.from.name}</b>
               toName: <b>{@props.leg.to.name}</b>
-              estimatedMinutes: <b>{Math.round(@props.leg.duration / 60)}</b>}}
-            defaultMessage='Cycle for about {estimatedMinutes} minutes from {fromName} to {toName}' />
+              estimatedTime: <b>{moment.duration(@props.leg.duration, 'seconds').humanize()}</b>}}
+            defaultMessage='Cycle for about {estimatedTime} from {fromName} to {toName}' />
         </div>
       </div>
     </div>
