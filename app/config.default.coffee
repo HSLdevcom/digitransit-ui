@@ -25,6 +25,10 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Matka.fi"
+  contactName:
+    sv: ""
+    fi: ""
+    default: ""
   searchParams: {}
   nearbyRoutes:
     radius: 10000

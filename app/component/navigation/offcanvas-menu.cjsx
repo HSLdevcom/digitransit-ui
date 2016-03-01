@@ -1,11 +1,18 @@
 React      = require 'react'
 Icon       = require '../icon/icon'
+config     = require '../../config'
 LangSelect = require './lang-select'
 FormattedMessage = require('react-intl').FormattedMessage
 NotImplementedLink = require '../util/not-implemented-link'
 class OffcanvasMenu extends React.Component
 
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
   render: ->
+    currentLanguage = @context.getStore('PreferencesStore').getLanguage()
+    contactName = if config.contactName[currentLanguage] then config.contactName[currentLanguage] else config.contactName.default
+
     <div className="left-off-canvas">
       <header className="offcanvas-section">
         <LangSelect/>
@@ -21,7 +28,10 @@ class OffcanvasMenu extends React.Component
           </div>
           <div className="inline-block">
             <p>
-              <NotImplementedLink name={<FormattedMessage id="create-account" defaultMessage="Create account"/>}> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink>
+              <NotImplementedLink
+                name={@getCreateAccountInformation(contactName)}>
+                &nbsp;<Icon img={'icon-icon_arrow-right'} className="small"/>
+              </NotImplementedLink>
             </p>
             <p>
               <NotImplementedLink name={<FormattedMessage id="login" defaultMessage="Login"/>}> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink>
@@ -37,10 +47,27 @@ class OffcanvasMenu extends React.Component
           <li><NotImplementedLink name={<FormattedMessage id="stops" defaultMessage="Stops"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
           <li><NotImplementedLink name={<FormattedMessage id="settings" defaultMessage="Settings"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
           <li><NotImplementedLink name={<FormattedMessage id="terms-of-use" defaultMessage ="Terms of Use"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
-          <li><NotImplementedLink name={<FormattedMessage id="hsl-contact-information" defaultMessage="HSL Contact Information"/>}> <Icon img={'icon-icon_arrow-right'} className="medium"/></NotImplementedLink></li>
+          <li>
+            <NotImplementedLink name={@getContactInformation(contactName)}>
+              &nbsp;<Icon img={'icon-icon_arrow-right'} className="medium"/>
+            </NotImplementedLink>
+          </li>
         </ul>
       </section>
     </div>
 
+  getCreateAccountInformation: (contactName) =>
+    <FormattedMessage
+      id="create-account"
+      values={{
+        contactName: contactName}}
+      defaultMessage="Create {contactName} account"/>
+
+  getContactInformation: (contactName) =>
+    <FormattedMessage
+      id="contact-information"
+      values={{
+        contactName: contactName}}
+      defaultMessage="{contactName} Contact Information"/>
 
 module.exports = OffcanvasMenu

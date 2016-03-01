@@ -25,6 +25,10 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Reittiopas.fi"
+  contactName:
+    sv: "HSR"
+    fi: "HSL"
+    default: "HSL"
   preferredAgency: "HSL"
   searchParams:
     "boundary.rect.min_lat": 59.9
