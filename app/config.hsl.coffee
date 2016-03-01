@@ -36,11 +36,14 @@ module.exports =
     bucketSize: 100
   maxWalkDistance: 2500
   maxBikingDistance: 10000
+  leftMenu:
+    show: true
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180
     # Wait time to show "wait leg"? e.g. 180 means over 3 minutes are shown as wait time. Measured in seconds.
     waitThreshold: 180
+    showEndLegDestination: true
   initialLocation:
     zoom: 11
     lat: 60.17332
@@ -96,3 +99,16 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  customizeSearch:
+    walkReluctance:
+      available: true
+    walkBoardCost:
+      available: true
+    transferMargin:
+      available: true
+    walkingSpeed:
+      available: true
+    ticketOptions:
+      available: true
+    accessibility:
+      available: true
