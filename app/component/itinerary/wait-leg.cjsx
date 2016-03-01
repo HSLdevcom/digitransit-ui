@@ -20,8 +20,8 @@ class WaitLeg extends React.Component
           <FormattedMessage
             id='wait-message'
             values={{
-                stopPlace: <b>{@props.leg.to.name}</b>
-                estimatedTime: <b>{moment.duration(@props.leg.duration, 'seconds').humanize()}</b>}}
+              stopPlace: <b>{@props.leg.to.name}</b>
+              estimatedTime: <b>{moment.duration(@props.leg.duration, 'seconds').humanize()}</b>}}
             defaultMessage='Wait for {estimatedTime} minutes at {stopPlace}' />
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
