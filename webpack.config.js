@@ -4,6 +4,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var csswring = require('csswring');
 var StatsPlugin = require('stats-webpack-plugin');
+var fs = require("fs");
 
 require('coffee-script/register');
 var config = require('./app/config')
@@ -81,15 +82,17 @@ function getPluginsConfig(env) {
   }
 }
 
-module.exports = {
-  devtool: (process.env.NODE_ENV === "development") ? 'eval' : 'source-map', // This is not as dirty as it looks. It just generates source maps without being crazy slow.
-  debug: (process.env.NODE_ENV === "development") ? true : false,
-  cache: true,
-  entry: (process.env.NODE_ENV === "development") ? [
-    'webpack-dev-server/client?http://localhost:' + port,
-    'webpack/hot/dev-server',
-    './app/client'
-  ] : {
+function getDevelopmentEntry() {
+  var entry = [
+      'webpack-dev-server/client?http://localhost:' + port,
+      'webpack/hot/dev-server',
+      './app/client'
+    ];
+  return entry;
+}
+
+function getEntry() {
+  var entry = {
     main: './app/client',
     common: [ // These come from all imports in client.cjsx
       'react',
@@ -106,10 +109,30 @@ module.exports = {
       'react-router',
       'fluxible'
     ],
-    leaflet: ['leaflet'],
-    default_theme: ['./sass/themes/default/main.scss'],
-    hsl_theme: ['./sass/themes/hsl/main.scss']
-  },
+    leaflet: ['leaflet']
+  };
+
+  var directories = getDirectories("./sass/themes");
+  for(var i in directories) {
+    var theme = directories[i];
+    var entryPath = './sass/themes/'+theme+'/main.scss';
+    entry[theme+'_theme'] = [entryPath];
+  }
+
+  return entry;
+}
+
+function getDirectories(srcDirectory) {
+  return fs.readdirSync(srcDirectory).filter(function(file) {
+    return fs.statSync(path.join(srcDirectory, file)).isDirectory();
+  });
+}
+
+module.exports = {
+  devtool: (process.env.NODE_ENV === "development") ? 'eval' : 'source-map', // This is not as dirty as it looks. It just generates source maps without being crazy slow.
+  debug: (process.env.NODE_ENV === "development") ? true : false,
+  cache: true,
+  entry: (process.env.NODE_ENV === "development") ? getDevelopmentEntry() : getEntry(),
   output: {
     path: path.join(__dirname, "_static"),
     filename: (process.env.NODE_ENV === "development") ? 'js/bundle.js': 'js/[name].[chunkhash].js',
