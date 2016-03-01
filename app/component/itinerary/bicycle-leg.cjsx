@@ -18,13 +18,13 @@ class BicycleLeg extends React.Component
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         <div>
-            <FormattedMessage
-              id='cycle-from-to'
-              values={{
-                  fromName: <b>{@props.leg.from.name}</b>
-                  toName: <b>{@props.leg.to.name}</b>
-                  estimatedMinutes: <b>{Math.round(@props.leg.duration / 60)}</b>}}
-              defaultMessage='Cycle for about {estimatedMinutes} minutes from {fromName} to {toName}' />
+          <FormattedMessage
+            id='cycle-from-to'
+            values={{
+              fromName: <b>{@props.leg.from.name}</b>
+              toName: <b>{@props.leg.to.name}</b>
+              estimatedMinutes: <b>{Math.round(@props.leg.duration / 60)}</b>}}
+            defaultMessage='Cycle for about {estimatedMinutes} minutes from {fromName} to {toName}' />
         </div>
       </div>
     </div>
