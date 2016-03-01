@@ -53,6 +53,20 @@ addWaitLegs = (data) ->
 
     itinerary.legs = newLegs
 
+alterLegsForAirportSupport = (data) ->
+  for itinerary in data.plan?.itineraries or []
+    for leg, index in itinerary.legs
+      if index + 1 < itinerary.legs.length
+        nextLeg = itinerary.legs[index + 1]
+        if leg.mode == 'WAIT' and nextLeg.mode == 'AIRPLANE'
+          leg.nextLeg = itinerary.legs[index + 1]
+          leg.type = "CHECK-IN"
+      if index - 1 > 0
+        previousLegMode = itinerary.legs[index - 1]
+        previousLeg = itinerary.legs[index - 1]
+        if leg.mode == 'WAIT' and previousLeg.mode == 'AIRPLANE'
+          leg.type = "LUGGAGE-COLLECT"
+
 itinerarySearchRequest = (actionContext, options, done) ->
   itinerarySearchStore = actionContext.getStore('ItinerarySearchStore')
   if options?.params
@@ -87,9 +101,9 @@ itinerarySearchRequest = (actionContext, options, done) ->
     params.maxWalkDistance = config.maxWalkDistance
   else
     params.maxWalkDistance = config.maxBikingDistance
-
   xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
     addWaitLegs(data)
+    alterLegsForAirportSupport(data)
     actionContext.dispatch "ItineraryFound", data
     done()
   , (err) ->
