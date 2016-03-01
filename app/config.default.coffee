@@ -31,6 +31,8 @@ module.exports =
     bucketSize: 1000
   maxWalkDistance: 10000
   maxBikingDistance: 40000
+  leftMenu:
+    show: true
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180
