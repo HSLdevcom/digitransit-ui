@@ -3,6 +3,7 @@ ComponentUsageExample = require '../documentation/component-usage-example'
 Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
+DepartureTime         = require '../departure/departure-time'
 {FormattedMessage}    = require('react-intl')
 Example               = require '../documentation/example-data'
 Link                  = require 'react-router/lib/Link'
@@ -23,13 +24,13 @@ FavouriteLocation = (props) =>
         <div className="favourite-location-header">{props.locationName}</div>
         <div className="favourite-location-arrival">
           <span className="favourite-location-icon"><Icon img={props.favouriteLocationIconId}/></span>
-          <span className="favourite-location-arrival-time">{props.arrivalTime}</span>
-        </div>
-        <div className="favourite-location-departure hidden">
-          <Icon img="icon-icon_walk" className="favourite-location-departure-icon"/>
-          <span className={"favourite-location-departure-time" + if props.realtime then "--realtime" else ""}>
-            {props.departureTime}
+          <span className="favourite-location-arrival-time">
+            <DepartureTime departureTime={props.arrivalTime} realtime={props.realtime} currentTime={props.currentTime}/>
           </span>
+        </div>
+        <div className="favourite-location-departure">
+          <Icon img="icon-icon_walk" className="favourite-location-departure-icon"/>
+          <DepartureTime departureTime={props.departureTime} realtime={props.realtime} currentTime={props.currentTime}/>
         </div>
     </div>
 
