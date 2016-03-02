@@ -13,7 +13,7 @@ class OffcanvasMenu extends React.Component
           <a onClick={@props.openFeedback} ><FormattedMessage id="inquiry" defaultMessage="Participate on inquiry"/> <Icon img={'icon-icon_arrow-right'} className="small"/></a>
         </p>
         <p className="offcanvas-lead">
-          <FormattedMessage id="off-canvas-info" defaultMessage="By loggin in to this service you can restore your favourites and use them on all of your devices"/>
+          <FormattedMessage id="off-canvas-info" defaultMessage="By logging in to this service you can restore your favourites and use them on all of your devices"/>
         </p>
         <div className="offcanvas-login">
           <div className="inline-block">
