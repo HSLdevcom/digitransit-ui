@@ -24,7 +24,7 @@ class OffcanvasMenu extends React.Component
               <NotImplementedLink name={<FormattedMessage id="create-account" defaultMessage="Create account"/>}> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink>
             </p>
             <p>
-              <NotImplementedLink name={<FormattedMessage id="login" defaultMessage="Login"/>}> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink>
+              <NotImplementedLink name={<FormattedMessage id="login" defaultMessage="Log in"/>}> <Icon img={'icon-icon_arrow-right'} className="small"/></NotImplementedLink>
             </p>
           </div>
         </div>
