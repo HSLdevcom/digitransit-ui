@@ -7,7 +7,7 @@ Example = require '../documentation/example-data'
 
 DepartureTime = (props) ->
   canceled = <Icon img={'icon-icon_caution'} className={'icon cancelation-info'} /> if props.canceled
-  <span style={props.style} className={cx "time", "realtime": props.realtime, "canceled": props.canceled}>
+  <span style={props.style} className={cx "time", "realtime": props.realtime, "canceled": props.canceled, props.className}>
     {if props.realtime and not props.canceled then <Icon img="icon-icon_realtime" className="realtime-icon realtime"/>}
     {canceled}
     {timeUtils.renderDepartureStoptime props.departureTime, props.realtime, props.currentTime}
@@ -30,6 +30,7 @@ DepartureTime.propTypes =
   realtime: React.PropTypes.bool
   currentTime: React.PropTypes.number.isRequired
   style: React.PropTypes.object
+  className: React.PropTypes.string
 
 DepartureTime.displayName = "DepartureTime"
 

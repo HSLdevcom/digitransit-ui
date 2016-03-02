@@ -24,9 +24,9 @@ FavouriteLocation = (props) =>
     else
       arrivalTime = <div className="favourite-location-content-placeholder">--:--</div>
     if props.departureTime and timeIsNotPast
-      departureTime = <DepartureTime departureTime={props.departureTime} realtime={props.realtime} currentTime={props.currentTime}/>
+      departureTime = <DepartureTime departureTime={props.departureTime} realtime={props.realtime} currentTime={props.currentTime} className="time--small"/>
     else
-      departureTime = <div className="favourite-location-content-placeholder">--:--</div>
+      departureTime = <div className="favourite-location-content-placeholder time--small">--:--</div>
     <div
       className={cx "favourite-location-content", props.className}
       onClick={props.clickFavourite.bind this, props.locationName, props.lat, props.lon}>
