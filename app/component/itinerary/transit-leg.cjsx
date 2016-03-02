@@ -9,6 +9,8 @@ intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class TransitLeg extends React.Component
+  @contextTypes:
+    intl: intl.intlShape.isRequired
 
   stopCode: (leg) ->
     if leg.from.stopCode != undefined
@@ -46,7 +48,7 @@ class TransitLeg extends React.Component
           <FormattedMessage
             id='transit-from-to'
             values={{
-              transitMode: @context.intl.formatMessage({id: @props.leg.mode, defaultMessage: @props.leg.mode})
+              transitMode: @context.intl.formatMessage({id: @props.leg.mode.toLowerCase(), defaultMessage: @props.leg.mode.toLowerCase()})
               fromName: <b>{@props.leg.from.name}</b>
               toName: <b>{@props.leg.to.name}</b>
               duration: moment.duration(@props.leg.duration, 'seconds').humanize()}}
