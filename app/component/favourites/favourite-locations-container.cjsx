@@ -44,7 +44,6 @@ class FavouriteLocationsContainer extends React.Component
     @context.getStore('TimeStore').getCurrentTime()
 
   render: ->
-
     favourites = @context.getStore('FavouriteLocationStore').getLocations()
     PositionStore = @context.getStore 'PositionStore'
     location = PositionStore.getLocationState()
@@ -63,13 +62,11 @@ class FavouriteLocationsContainer extends React.Component
     columns = [0 ... 3].map (value, index) =>
       favourite = favourites[index]
       if typeof favourite == 'undefined'
-        <FavouriteLocation
-          empty={true}/>
+        <FavouriteLocation />
       else
         favouriteLocation = <FavouriteLocation
           locationName={favourite.locationName}
           favouriteLocationIconId={favourite.selectedIconId}
-          empty={false}
           lat={favourite.lat}
           lon={favourite.lon}
           clickFavourite={@setDestination}

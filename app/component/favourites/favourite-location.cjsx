@@ -10,7 +10,7 @@ Link                  = require 'react-router/lib/Link'
 
 FavouriteLocation = (props) =>
 
-  if props.empty
+  if not props.locationName
     <Link to="/lisaa-suosikki" className="cursor-pointer no-decoration">
       <div className={cx "new-favourite-button-content", props.className}>
           <Icon img="icon-icon_plus" className="add-new-favourite-icon"/>
@@ -43,14 +43,12 @@ FavouriteLocation.description =
         favouriteLocationIconId={'icon-icon_place'}
         arrivalTime={Example.favouriteLocation.arrivalTime}
         departureTime={Example.favouriteLocation.departureTime}
-        empty={Example.favouriteLocation.empty}
         clickFavourite={() -> return}
         realtime={Example.favouriteLocation.realtime}/>
     </ComponentUsageExample>
   </div>
 
 FavouriteLocation.propTypes =
-  empty: React.PropTypes.bool.isRequired
   addFavourite: React.PropTypes.func
   clickFavorite: React.PropTypes.func
   className: React.PropTypes.string

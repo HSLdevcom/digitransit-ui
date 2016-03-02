@@ -16,7 +16,6 @@ class FavouriteLocationContainer extends React.Component
     <FavouriteLocation
       locationName={@props.favourite.locationName}
       favouriteLocationIconId={@props.favourite.selectedIconId}
-      empty={false}
       lat={@props.favourite.lat}
       lon={@props.favourite.lon}
       clickFavourite={@props.onClickFavourite}

@@ -47,7 +47,6 @@ favouriteLocation =
   favouriteLocationIconId: "icon-icon_place"
   arrivalTime: "14:38"
   departureTime: "3 min"
-  empty: false
   realtime: true
 
 
