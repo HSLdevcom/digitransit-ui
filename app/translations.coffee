@@ -42,7 +42,6 @@ translations =
                             } ({minutes, plural,
                                =1 {yksi minuutti}
                                other {# minuutia}})'
-    'alight': 'Nouse kyydistä pysäkillä'
     'start-journey-place': 'Aloita matka paikasta'
     'walk-to-destination': 'Kävele määränpäähän'
     'walk-to-stop': 'Kävele pysäkille'
@@ -165,7 +164,6 @@ translations =
                             } ({minutes, plural,
                                =1 {en minut}
                                other {# minuter}})'
-    'alight': 'Stig av vid hållplatsen'
     'start-journey-place': 'Utgå från'
     'walk-to-destination': 'Gå till destination'
     'walk-to-stop': 'Gå till hållplatsen'
@@ -282,7 +280,6 @@ translations =
                             =1 {En mellomlanding}
                             other {# mellomlandinger}
                            }'
-    'alight': 'Gå av ved {toName}'
     'start-journey-place': 'Start fra'
     'walk-to-destination': 'Gå til destinasjon'
     'walk-to-stop': 'Gå til holdeplassen'
