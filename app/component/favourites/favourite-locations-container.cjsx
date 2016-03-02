@@ -61,16 +61,17 @@ class FavouriteLocationsContainer extends React.Component
       # no position
 
     columns = [0 ... 3].map (value, index) =>
-      if typeof favourites[index] == 'undefined'
+      favourite = favourites[index]
+      if typeof favourite == 'undefined'
         <FavouriteLocation
           empty={true}/>
       else
         favouriteLocation = <FavouriteLocation
-          locationName={favourites[index].locationName}
-          favouriteLocationIconId={favourites[index].selectedIconId}
+          locationName={favourite.locationName}
+          favouriteLocationIconId={favourite.selectedIconId}
           empty={false}
-          lat={favourites[index].lat}
-          lon={favourites[index].lon}
+          lat={favourite.lat}
+          lon={favourite.lon}
           clickFavourite={@setDestination}
         />
         if position
@@ -80,14 +81,14 @@ class FavouriteLocationsContainer extends React.Component
             route={new queries.FavouriteLocationContainerRoute(
               fromLat: position.lat
               fromLon: position.lon
-              toLat: favourites[index].lat
-              toLon: favourites[index].lon
+              toLat: favourite.lat
+              toLon: favourite.lon
               numItineraries: 1
             )}
             renderLoading={=> favouriteLocation}
             renderFetched={(data) =>
               <FavouriteLocationContainer
-                favourite={favourites[index]}
+                favourite={favourite}
                 onClickFavourite={@setDestination}
                 currentTime={@now().unix()}
                 {...data}
