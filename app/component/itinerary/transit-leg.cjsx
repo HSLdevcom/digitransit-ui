@@ -73,8 +73,7 @@ class TransitLeg extends React.Component
           <FormattedMessage
             id='num-stops-flight'
             values={{
-              stops: @props.leg.intermediateStops.length
-              minutes: Math.round(@props.leg.duration / 60)}}
+              stops: @props.leg.intermediateStops.length}}
             defaultMessage='{
               stops, plural,
               =1 {one stop}
