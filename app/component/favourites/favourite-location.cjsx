@@ -18,6 +18,10 @@ FavouriteLocation = (props) =>
       </div>
     </Link>
   else
+    if props.arrivalTime
+      arrivalTime = <DepartureTime departureTime={props.arrivalTime} realtime={props.realtime} currentTime={props.currentTime}/>
+    if props.departureTime
+      departureTime = <DepartureTime departureTime={props.departureTime} realtime={props.realtime} currentTime={props.currentTime}/>
     <div
       className={cx "favourite-location-content", props.className}
       onClick={props.clickFavourite.bind this, props.locationName, props.lat, props.lon}>
@@ -25,12 +29,12 @@ FavouriteLocation = (props) =>
         <div className="favourite-location-arrival">
           <span className="favourite-location-icon"><Icon img={props.favouriteLocationIconId}/></span>
           <span className="favourite-location-arrival-time">
-            <DepartureTime departureTime={props.arrivalTime} realtime={props.realtime} currentTime={props.currentTime}/>
+            {arrivalTime}
           </span>
         </div>
         <div className="favourite-location-departure">
           <Icon img="icon-icon_walk" className="favourite-location-departure-icon"/>
-          <DepartureTime departureTime={props.departureTime} realtime={props.realtime} currentTime={props.currentTime}/>
+          {departureTime}
         </div>
     </div>
 
@@ -54,8 +58,9 @@ FavouriteLocation.propTypes =
   className: React.PropTypes.string
   locationName: React.PropTypes.string
   favouriteLocationIconId: React.PropTypes.string
-  arrivalTime: React.PropTypes.string
-  departureTime: React.PropTypes.string
+  arrivalTime: React.PropTypes.number
+  departureTime: React.PropTypes.number
+  currentTime: React.PropTypes.number
   realtime: React.PropTypes.bool
 
 FavouriteLocation.displayName = "FavouriteLocation"
