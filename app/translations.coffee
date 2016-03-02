@@ -373,8 +373,6 @@ translations =
     'airport-check-in': 'Bagasje kan sjekkes inn hos {agency}'
     'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate'
     'airport-collect-luggage': 'Hent eventuell bagasje'
-    'walk-from-to': 'Gå {estimatedMinutes} minutter fra {fromName} til {toName}'
-    'walk-from-to-same-dest': 'Gå {estimatedMinutes} minutter i {fromName}'
     'rail': 'tog'
     'subway': 'T-bane'
     'bus': 'buss'
