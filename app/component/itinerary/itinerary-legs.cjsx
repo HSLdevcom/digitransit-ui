@@ -3,7 +3,6 @@ TransitLeg         = require './transit-leg'
 WalkLeg            = require './walk-leg'
 WaitLeg            = require './wait-leg'
 BicycleLeg         = require './bicycle-leg'
-
 EndLeg             = require './end-leg'
 AirportCheckInLeg  = require './airport-check-in-leg'
 AirportCollectLuggageLeg  = require './airport-collect-luggage-leg'
