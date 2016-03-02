@@ -76,7 +76,8 @@ $add-favourite-input-overlay-height: 27px;
     }
 
     .add-favourite-container__save-button {
-      font-weight: $font-weight-normal;
+      font-family: $font-family;
+      font-weight: $font-weight-medium;
       color: white;
       background: linear-gradient(#{#069DD8}, #{#0057B9});
       vertical-align: middle;

@@ -90,13 +90,15 @@ class StyleGuidelinesPage extends React.Component
   getFonts: ->
     return (
       <section>
+        <p>Theme typeface Gotham doesn't have all symbols in one file, so both A and B variants must be specified. Also the weight must be specified every time the family is, and vice versa, because the weights of one font can be unsuitable for the other and therefore shouldn't be cross inherited when the parent element's font-family is not the same.</p>
         <span className="code">$font-family</span>
-        <p style={{fontWeight: '300 '}}>Primary font narrow - Weight 300: "Nunito, Arial, Georgia, Serif"<span className="code">$font-weight-light</span></p>
-        <p style={{fontWeight: '400 '}}>Primary font normal - Weight 400: "Nunito, Arial, Georgia, Serif"<span className="code">$font-weight-normal</span></p>
-        <p style={{fontWeight: '600 '}}>Primary font bold   - Weight 600: "Nunito, Arial, Georgia, Serif"<span className="code">$font-weight-bold</span></p>
+        <p style={{fontWeight: '400 '}}>Primary font: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif<span className="code">$font-weight-book</span></p>
+        <p style={{fontWeight: '500 '}}>Primary font: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif<span className="code">$font-weight-medium</span></p>
+        <p style={{fontWeight: '700 '}}>Primary font: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif<span className="code">$font-weight-bold</span></p>
+
         <span className="code">$font-family-narrow</span>
-        <p style={fontFamily: 'Open Sans Condensed', fontWeight: '400'}>Secondary font: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif<span className="code">$font-weight-normal</span></p>
-        <p style={fontFamily: 'Open Sans Condensed', fontWeight: '600'}>Secondary font: 'Open Sans Condensed', 'Arial Condensed', Arial, Georgia, Serif<span className="code">$font-weight-bold</span></p>
+        <p style={fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"', fontWeight: '400'}>Secondary font: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif<span className="code">$font-narrow-weight-book</span></p>
+        <p style={fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"', fontWeight: '700'}>Secondary font: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif<span className="code">$font-narrow-weight-bold</span></p>
       </section>
     )
 

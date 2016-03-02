@@ -12,6 +12,7 @@ class Application extends React.Component
       {head?.meta.toComponent()}
       {head?.link.toComponent()}
       <style dangerouslySetInnerHTML={ __html: @props.fonts }/>
+      <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/6364294/6653152/css/fonts.css" />
       <script dangerouslySetInnerHTML={ __html: @props.geolocationStarter }/>
       {@props.css}
     </head>

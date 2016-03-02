@@ -26,10 +26,10 @@
   }
 
   .feedback-question {
-    font-family: $body-font-family;
+    font-family: $font-family;
+    font-weight: $font-weight-medium;
     font-size: $font-size-normal;
     color: $black;
-    font-weight: 300;
     line-height: 1.2;
     margin-top: 0px;
     clear: both;
@@ -46,7 +46,8 @@
   }
 
   .send-feedback-button {
-    font-weight: $font-weight-normal;
+    font-family: $font-family;
+    font-weight: $font-weight-medium;
     color: white;
     background: linear-gradient(#{#069DD8}, #{#0057B9});
     vertical-align: middle;

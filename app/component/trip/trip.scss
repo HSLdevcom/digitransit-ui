@@ -48,9 +48,10 @@ $trip-large-map-height: 300px;
 .route-header.trip-header {
   height:$trip-route-header-height;
   .route-header-direction {
+    font-family: $font-family;
+    font-weight: $font-weight-medium;
     font-size: $font-size-small;
     color: $dark-color;
-    font-weight: $font-weight-normal;
   }
 }
 
