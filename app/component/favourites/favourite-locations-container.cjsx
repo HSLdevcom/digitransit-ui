@@ -1,4 +1,7 @@
 React                 = require 'react'
+Relay                 = require 'react-relay'
+queries               = require '../../queries'
+FavouriteLocationContainer = require './favourite-location-container'
 FavouriteLocation     = require './favourite-location'
 Icon                  = require '../icon/icon'
 ComponentUsageExample = require '../documentation/component-usage-example'
@@ -27,16 +30,42 @@ class FavouriteLocationsContainer extends React.Component
 
     @context.executeAction EndpointActions.setEndpoint, {target: "destination", endpoint: location}
 
+  componentDidMount: ->
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
+
+  componentWillUnmount: ->
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
+
+  onTimeChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
+
+  now: =>
+    @context.getStore('TimeStore').getCurrentTime()
+
   render: ->
 
     favourites = @context.getStore('FavouriteLocationStore').getLocations()
+    PositionStore = @context.getStore 'PositionStore'
+    location = PositionStore.getLocationState()
+    origin = @context.getStore('EndpointStore').getOrigin()
+
+    if origin?.lat
+      position = origin
+    else if (location.status == PositionStore.STATUS_FOUND_LOCATION or
+             location.status == PositionStore.STATUS_FOUND_ADDRESS)
+      position = location
+    else if location.status == PositionStore.STATUS_SEARCHING_LOCATION
+      # spinner
+    else
+      # no position
 
     columns = [0 ... 3].map (value, index) =>
       if typeof favourites[index] == 'undefined'
         <FavouriteLocation
           empty={true}/>
       else
-        <FavouriteLocation
+        favouriteLocation = <FavouriteLocation
           locationName={favourites[index].locationName}
           favouriteLocationIconId={favourites[index].selectedIconId}
           empty={false}
@@ -44,6 +73,28 @@ class FavouriteLocationsContainer extends React.Component
           lon={favourites[index].lon}
           clickFavourite={@setDestination}
         />
+        if position
+          <Relay.RootContainer
+            Component={FavouriteLocationContainer}
+            forceFetch={true}
+            route={new queries.FavouriteLocationContainerRoute(
+              fromLat: position.lat
+              fromLon: position.lon
+              toLat: favourites[index].lat
+              toLon: favourites[index].lon
+              numItineraries: 1
+            )}
+            renderLoading={=> favouriteLocation}
+            renderFetched={(data) =>
+              <FavouriteLocationContainer
+                favourite={favourites[index]}
+                onClickFavourite={@setDestination}
+                currentTime={@now().unix()}
+                {...data}
+              />
+            }
+          />
+        else favouriteLocation
 
     <div>
       <div className="small-4 columns favourite-location-container--first">

@@ -733,6 +733,43 @@ var DisruptionInfoButtonFragments = {
   `,
 }
 
+class FavouriteLocationContainerRoute extends Relay.Route {
+  static queries = {
+    plan: (Component, variables) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('plan', {
+          fromLat: variables.fromLat,
+          fromLon: variables.fromLon,
+          toLat: variables.toLat,
+          toLon: variables.toLon,
+          numItineraries: variables.numItineraries,
+        })}
+      }
+    }`,
+  };
+  static paramDefinitions = {
+    fromLat: {required: true},
+    fromLon: {required: true},
+    toLat: {required: true},
+    toLon: {required: true},
+  };
+  static routeName = "FavouriteLocationsContainerRoute";
+}
+
+var FavouriteLocationContainerFragments = {
+  plan: () => Relay.QL`
+    fragment on QueryType {
+      plan(fromLat: $fromLat, fromLon: $fromLon, toLat: $toLat, toLon: $toLon, numItineraries: $numItineraries) {
+        itineraries {
+          startTime
+          endTime
+        }
+      }
+    }
+  `,
+}
+
 module.exports = {
   StopQueries: StopQueries,
   TerminalRoute: TerminalRoute,
@@ -773,4 +810,6 @@ module.exports = {
   DisruptionInfoRoute: DisruptionInfoRoute,
   DisruptionListContainerFragments: DisruptionListContainerFragments,
   DisruptionInfoButtonFragments: DisruptionInfoButtonFragments,
+  FavouriteLocationContainerRoute: FavouriteLocationContainerRoute,
+  FavouriteLocationContainerFragments: FavouriteLocationContainerFragments
 };
