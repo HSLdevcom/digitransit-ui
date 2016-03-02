@@ -13,6 +13,9 @@ class FavouriteLocationContainer extends React.Component
   render: =>
     plan = @props.plan.plan
     itinerary = plan.itineraries[0]
+    if itinerary.legs
+      transitLegs = itinerary.legs.filter((leg) => leg.transitLeg)
+      firstTransitLegIsRealtime = transitLegs.length > 0 and transitLegs[0].realTime
     <FavouriteLocation
       locationName={@props.favourite.locationName}
       favouriteLocationIconId={@props.favourite.selectedIconId}
@@ -21,7 +24,7 @@ class FavouriteLocationContainer extends React.Component
       clickFavourite={@props.onClickFavourite}
       departureTime={itinerary.startTime / 1000}
       arrivalTime={itinerary.endTime / 1000}
-      realtime={false}
+      realtime={firstTransitLegIsRealtime}
       currentTime={@props.currentTime}
     />
 

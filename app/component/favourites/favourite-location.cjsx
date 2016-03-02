@@ -20,7 +20,7 @@ FavouriteLocation = (props) =>
   else
     timeIsNotPast = props.currentTime < props.departureTime
     if props.arrivalTime and timeIsNotPast
-      arrivalTime = <DepartureTime departureTime={props.arrivalTime} realtime={props.realtime} currentTime={props.currentTime}/>
+      arrivalTime = <DepartureTime departureTime={props.arrivalTime} realtime={false} currentTime={props.currentTime}/>
     else
       arrivalTime = <div className="favourite-location-content-placeholder">--:--</div>
     if props.departureTime and timeIsNotPast

@@ -764,6 +764,10 @@ var FavouriteLocationContainerFragments = {
         itineraries {
           startTime
           endTime
+          legs {
+            realTime
+            transitLeg
+          }
         }
       }
     }

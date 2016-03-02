@@ -14,7 +14,7 @@
     padding-top: 3px;
     padding-bottom: 3px;
     color: $gray-blue;
-    font-size: 13px;
+    font-size: 12px;
   }
   .time--small {
     font-size: $font-size-small;
@@ -28,7 +28,7 @@
   }
   .favourite-location-departure-time {
     vertical-align: top;
-    font-size: 13px;
+    font-size: 12px;
   }
   .favourite-location-departure-time--realtime {
     @extend .favourite-location-departure-time;
@@ -52,7 +52,7 @@
   .add-location-text {
     font-weight: normal;
     color: $gray-blue;
-    font-size: 13px;
+    font-size: 12px;
     margin-top: 0px;
     margin-bottom: 0px;
   }
