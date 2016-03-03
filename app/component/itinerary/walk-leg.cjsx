@@ -27,7 +27,7 @@ class WalkLeg extends React.Component
                 toName: <b>{@props.leg.to.name}</b>
                 estimatedTime: <b>{estimatedTime}</b>}}
               defaultMessage='Walk for {estimatedTime} from {fromName} to {toName}' />
-              {if @props.index != 0 then <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>}
+              <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div>
           <Distance distance={@props.leg.distance}/>
