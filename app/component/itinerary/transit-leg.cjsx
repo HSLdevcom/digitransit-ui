@@ -64,11 +64,11 @@ class TransitLeg extends React.Component
                 headsign: @props.leg.headsign}}
                 defaultMessage="Route: towards {headsign}" />
           else
-           <FormattedMessage
-            id='route-without-headsign'
-            values={{
-              route: @props.leg.route}}
-              defaultMessage="Route {route}" />}
+            <FormattedMessage
+              id='route-without-headsign'
+              values={{
+                route: @props.leg.route}}
+                defaultMessage="Route {route}" />}
 
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
