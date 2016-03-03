@@ -33,6 +33,7 @@ class Map extends React.Component
     padding: React.PropTypes.number
     zoom: React.PropTypes.number
     leafletEvents: React.PropTypes.object
+    leafletOptions: React.PropTypes.object
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -85,6 +86,7 @@ class Map extends React.Component
           zoomControl={false}
           attributionControl={false}
           bounds={if @props.fitBounds then [@props.from, @props.to]}
+          {... @props.leafletOptions}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
           {... @props.leafletEvents}
           >
