@@ -31,8 +31,8 @@ translations =
     'instructions': 'Ohjeet'
     'map': 'Kartta'
     'start-journey-stop': 'Aloita matka pysäkiltä'
-    'route-with-headsign': "Linja {route} suuntaan {headsign}"
-    'route-without-headsign': "Linja {route}"
+    'route-with-headsign': 'Reitti suuntaan {headsign}'
+    'route-without-headsign': 'Linja {route}'
     'end-journey': 'Lopeta matka paikassa'
     'buy-ticket': 'Osta lippu'
     'required-ticket': 'Reitillä tarvittava lippu'
@@ -129,10 +129,23 @@ translations =
     'location-examples': "esim. Koti, Työ, Koulu,..."
     'save': "Tallenna"
     'address': 'Osoite'
-    'wait-message': 'Odota {estimatedTime} paikassa {stopPlace}'
+    'wait-message': 'Odota paikassa {stopPlace}'
     'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä'
     'airport-security-check-go-to-gate': 'Kävele turvatarkastuksen läpi lähtöportille'
     'airport-collect-luggage': 'Nouda matkatavarat'
+    'rail': 'juna'
+    'subway': 'metro'
+    'bus': 'bussi'
+    'airplane': 'lento'
+    'walk': 'kävele'
+    'bicycle': 'pyörä'
+    'car': 'auto'
+    'tram': 'raitiovaunu'
+    'ferry': 'lautta'
+    'cable_car': 'kondooli'
+    'gondola': 'kondooli'
+    'funicular': 'juna'
+    'transit-from-to': 'Ota {transitMode} {fromName} - {toName}'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
