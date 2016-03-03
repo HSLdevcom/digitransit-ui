@@ -41,7 +41,7 @@ translations =
                              other {# pysäkkiä}
                             } ({minutes, plural,
                                =1 {yksi minuutti}
-                               other {# minuutia}})'
+                               other {# minuuttia}})'
     'start-journey-place': 'Aloita matka paikasta'
     'walk-to-destination': 'Kävele määränpäähän'
     'walk-to-stop': 'Kävele pysäkille'
