@@ -1,15 +1,15 @@
 
 .departure-list .date-row {
+  @include font-bold;
   font-size: 10pt;
   text-transform: capitalize;
   color: $gray;
   background-color: $white;
   padding-left: 1em;
-  font-weight:  $font-weight-bold;
+
   .missing-routes {
-    font-family: $font-family;
+    @include font-book;
     font-size: 13px;
-    font-weight: $font-weight-light;
     margin: 0.5em 0 0;
     padding: 0;
     width: 100%;

@@ -181,9 +181,8 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 
   .bottom {
-    font-family: $body-font-family;
+    @include font-medium;
     font-size: 13px;
-    font-weight: $font-weight-normal;
     line-height: $line-height-normal;
     color: $gray;
     margin: 0px auto 0px;
@@ -223,9 +222,8 @@ div.leaflet-marker-icon.vehicle-icon {
 }
 
 div.stop-name-marker {
-  font-family: $font-family;
+  @include font-medium;
   font-size: 8.5pt;
-  font-weight: $font-weight-bold;
   text-shadow: 0 0 0 $white, 1px 0 0 $white, 0 1px 0 $white, -1px 0 0 $white, 0 -1px 0 $white, 0 0 0.2em $white;
   text-transform: uppercase;
   color: $gray;

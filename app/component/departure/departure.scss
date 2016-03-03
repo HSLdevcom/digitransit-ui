@@ -30,7 +30,7 @@
 
 .route-detail-text {
   color: $black;
-  font-family: $font-family-narrow;
+  @include font-narrow-book;
   font-size: $font-size-normal;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .time {
-  font-weight: $font-weight-bold;
+  @include font-narrow-medium;
   width: 4em;
   margin-right: 0.5em;
   padding-right: 0.5em;
@@ -49,7 +49,7 @@
 }
 
 .vehicle-number {
-  font-weight: $font-weight-bold;
+  @include font-narrow-medium;
   padding: 0 5px;
   vertical-align: top;
 }
@@ -155,7 +155,7 @@
   padding-left: 0;
 
   color: $black;
-  font-family: $font-family-narrow;
+  @include font-narrow-book;
   font-size: $font-size-normal;
 
   .route-number {
@@ -188,7 +188,7 @@
 
 .next-departures-list-header {
   color: $gray;
-  font-family: $font-family-narrow;
+  @include font-narrow-book;
   font-size: $font-size-normal;
   white-space: nowrap;
   margin: 0;

@@ -1,4 +1,10 @@
+/* Set Foundation base font to theme font
+   (without this Foundation overrides body */
+$body-font-family: $font-family;
+$body-font-weight: $font-weight-medium;
+
 /* Base styles */
+@import 'base/helper-mixins';
 @import 'base/base';
 @import 'base/form';
 @import 'base/helper-classes';

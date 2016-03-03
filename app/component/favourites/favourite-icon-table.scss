@@ -14,7 +14,7 @@ $not-selected-icon-background-color: $white;
   line-height: 45px;
   vertical-align: middle;
   text-align: center;
-  font-family: $font-family;
+  @include font-medium;
   font-size: 17px;
   border-top: solid 1px $favourite-icon-column-border-color;
   border-bottom: solid 1px $favourite-icon-column-border-color;

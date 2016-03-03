@@ -60,7 +60,7 @@ $itinerary-route-max-width: 500px;
 
 .itinerary-summary {
   color: $gray;
-  font-weight: $font-weight-light;
+  font-weight: $font-weight-book;
   font-size: 10pt;
   padding: 0.5em 1em;
   height: $itinerary-summary-height;
@@ -106,7 +106,7 @@ $itinerary-route-max-width: 500px;
 
   .walk-distance,
   .duration {
-    font-family: $font-family-narrow;
+    @include font-narrow-book;
     font-size: $font-size-normal;
     display: inline-block;
   }
@@ -114,7 +114,7 @@ $itinerary-route-max-width: 500px;
 
 .itinerary-ticket-information {
   color: $gray;
-  font-weight: $font-weight-light;
+  font-weight: $font-weight-book;
   font-size: 10pt;
   margin: 0.5em;
   padding: 0.3em 0.5em;
@@ -124,7 +124,7 @@ $itinerary-route-max-width: 500px;
     text-transform: uppercase;
     text-align: center;
     color: white;
-    font-weight: 400;
+    font-weight: $font-weight-book;
     background: $gray;
     vertical-align: middle;
     border-radius: 1.5em;
@@ -158,8 +158,7 @@ $itinerary-route-max-width: 500px;
   color: $medium-gray;
   max-width: $itinerary-route-max-width;
   .itinerary-time-column {
-    font-family: $font-family-narrow;
-    font-weight: $font-weight-bold;
+    @include font-narrow-medium;
     font-size: 10pt;
     text-align: center;
     color: $black;
@@ -203,8 +202,8 @@ $itinerary-route-max-width: 500px;
   }
   .itinerary-instruction-column {
     cursor: pointer;
+    @include font-book;
     font-size: 10pt;
-    font-weight: $font-weight-light;
     padding-left: 1.5em;
     min-height: 4em;
     div {
@@ -212,7 +211,7 @@ $itinerary-route-max-width: 500px;
     }
     div:nth-child(1) {
       color: $black;
-      font-weight: $font-weight-normal;
+      font-weight: $font-weight-medium;
     }
   }
 }
@@ -276,6 +275,8 @@ span.itinerary-stop-code {
 // Default Variables
 
 $slick-font-family: $font-family;
+$slick-font-weight: $font-weight-medium;
+$slick-letter-spacing: $letter-spacing;
 $slick-arrow-color: $gray;
 $slick-dots-height: 20px;
 $slick-dot-color: $gray;
@@ -336,6 +337,8 @@ div.slick-slider {
 
 .slick-prev:before, .slick-next:before {
     font-family: $slick-font-family;
+    font-weight: $slick-font-weight;
+    letter-spacing: $slick-letter-spacing;
     font-size: 20px;
     line-height: 1;
     color: $slick-arrow-color;
@@ -418,6 +421,8 @@ div.slick-slider {
                 width: 20px;
                 height: 20px;
                 font-family: $slick-font-family;
+                font-weight: $slick-font-weight;
+                letter-spacing: $slick-letter-spacing;
                 font-size: $slick-dot-size;
                 line-height: 20px;
                 text-align: center;
