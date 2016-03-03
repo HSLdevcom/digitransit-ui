@@ -146,6 +146,7 @@ translations =
     'gondola': 'kondooli'
     'funicular': 'juna'
     'transit-from-to': 'Ota {transitMode} {fromName} - {toName}'
+    'cycle-from-to': 'Pyöräile {fromName} - {toName}'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -400,5 +401,6 @@ translations =
     'gondola': 'gondolbane'
     'funicular': 'taubane'
     'transit-from-to': 'Ta {transitMode} fra {fromName} til {toName} ({duration})'
+    'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
 
 module.exports = translations
