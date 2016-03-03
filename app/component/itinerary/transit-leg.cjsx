@@ -55,18 +55,21 @@ class TransitLeg extends React.Component
             }}
             defaultMessage='Take the {transitMode} from {fromName} to {toName} ({duration})' />
         </div>
-        <div>{if @props.leg.headsign && @props.leg.headsign != @props.leg.to.name
-          <FormattedMessage
-            id='route-with-headsign'
-            values={{
-              headsign: @props.leg.headsign}}
-              defaultMessage="Route: towards {headsign}" />
-         else
+        <div>
+          {@stopCode(@props.leg)}
+          {if @props.leg.headsign && @props.leg.headsign != @props.leg.to.name
+            <FormattedMessage
+              id='route-with-headsign'
+              values={{
+                headsign: @props.leg.headsign}}
+                defaultMessage="Route: towards {headsign}" />
+          else
            <FormattedMessage
             id='route-without-headsign'
             values={{
               route: @props.leg.route}}
               defaultMessage="Route {route}" />}
+
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div>{if @props.leg.intermediateStops.length > 0 && @props.leg.mode == 'AIRPLANE'
