@@ -86,7 +86,7 @@ class GenericMarker extends React.Component
             interactive={false}
             icon={L.divIcon
               html: "<div>#{@props.name}</div>"
-              className: 'popup stop-name-marker'
+              className: 'popup'
               iconSize: [150, 0]
               iconAnchor: [-8, 7]}
     />
