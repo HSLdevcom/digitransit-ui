@@ -99,7 +99,7 @@ class StyleGuidelinesPage extends React.Component
 
         <span className="code">$font-family-narrow</span>
         <p style={fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"', fontWeight: '400'}>Secondary font: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif<span className="code">@include font-narrow-book</span></p>
-        <p style={fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"', fontWeight: '700'}>Secondary font: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif<span className="code">@include font-narrow-bold</span></p>
+        <p style={fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"', fontWeight: '500'}>Secondary font: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif<span className="code">@include font-narrow-medium</span></p>
       </section>
     )
 

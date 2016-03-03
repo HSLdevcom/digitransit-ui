@@ -41,7 +41,7 @@
 }
 
 .time {
-  @include font-narrow-bold;
+  @include font-narrow-medium;
   width: 4em;
   margin-right: 0.5em;
   padding-right: 0.5em;
@@ -49,7 +49,7 @@
 }
 
 .vehicle-number {
-  @include font-narrow-bold;
+  @include font-narrow-medium;
   padding: 0 5px;
   vertical-align: top;
 }

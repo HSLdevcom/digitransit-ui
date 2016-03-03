@@ -25,8 +25,8 @@
   letter-spacing: $narrow-letter-spacing;
 }
 
-@mixin font-narrow-bold {
+@mixin font-narrow-medium {
   font-family: $font-family-narrow;
-  font-weight: $font-narrow-weight-bold;
+  font-weight: $font-narrow-weight-medium;
   letter-spacing: $narrow-letter-spacing;
 }

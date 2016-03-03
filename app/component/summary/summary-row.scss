@@ -39,7 +39,7 @@
       }
     }
     .vehicle-number {
-      @include font-narrow-bold;
+      @include font-narrow-medium;
     }
     .icon.realtime-icon.realtime {
       margin-top: -0.2em;
@@ -54,7 +54,7 @@
     white-space: nowrap;
     color: black;
     .time {
-      @include font-narrow-bold;
+      @include font-narrow-medium;
       overflow: hidden;
       position: absolute;
       &:last-of-type {

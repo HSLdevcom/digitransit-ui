@@ -137,8 +137,7 @@ $border-radius-rounded: 30px;
   }
   .line, .time {
     padding: 0;
-    font-family: $font-family-narrow;
-    font-weight: $font-narrow-weight-bold;
+    @include font-narrow-medium;
   }
 }
 

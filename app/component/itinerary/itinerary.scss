@@ -158,7 +158,7 @@ $itinerary-route-max-width: 500px;
   color: $medium-gray;
   max-width: $itinerary-route-max-width;
   .itinerary-time-column {
-    @include font-narrow-bold;
+    @include font-narrow-medium;
     font-size: 10pt;
     text-align: center;
     color: $black;

@@ -10,7 +10,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 /* table headers */
 .route-list-header {
   border-bottom: solid 1px #eef1f3;
-  @include font-narrow-bold;
+  @include font-narrow-medium;
   line-height: $line-height-normal;
   height: $route-list-header-height;
   overflow: hidden;
@@ -45,7 +45,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 // stop list
 .route-stop-list {
-  @include font-narrow-bold;
+  @include font-narrow-medium;
   .route-stop-name  {
     height: 38px;
     // vertical line

@@ -34,8 +34,7 @@ a {
 /* HEADINGS */
 h1,
 .h1 {
-  font-family: $font-family-narrow;
-  font-weight: $font-narrow-weight-bold;
+  @include font-narrow-medium;
   font-size: $font-size-xlarge;
   padding: 0.4em 0 0.2em;
   margin: 0;
@@ -98,8 +97,7 @@ h1 a {
 .route-list {
   padding: 0em 1em 0.25em;
   div {
-    font-family: $font-family-narrow;
-    font-weight: $font-narrow-weight-bold;
+    @include font-narrow-medium;
     font-size: 12pt;
     line-height: $line-height-normal;
   }
