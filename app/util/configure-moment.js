@@ -6,6 +6,9 @@ var moment = require('moment');
 // and with the relative time thresholds used when humanizing times
 var configureMoment = function(language) {
   moment.locale(language);
+  if(language != "en") {
+    require('moment/locale/' + language + '');
+  }
 
   moment.relativeTimeThreshold('s', config.moment.relativeTimeThreshold.seconds);
   moment.relativeTimeThreshold('m', config.moment.relativeTimeThreshold.minutes);

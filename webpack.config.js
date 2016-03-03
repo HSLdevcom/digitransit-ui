@@ -42,12 +42,12 @@ function getPluginsConfig(env) {
   if(!config.availableLanguages) {
     throw "availableLanguages needs to be configured in the config file";
   }
-  var languageExpression = new RegExp("/" + config.availableLanguages.join('|') + "/");
+  var languageExpression = new RegExp("^./(" + config.availableLanguages.join('|') + ")$");
 
   if (env === "development") {
     return([
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, languageExpression),
+      new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, languageExpression),
       new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify("development")}}),
       new webpack.NoErrorsPlugin()
     ])
