@@ -123,7 +123,7 @@ class StyleGuidelinesPage extends React.Component
       <a href="#">This is a link</a><span className="code">{"<a>"}</span>
       <p>Paragraph: normal text looks like this<span className="code">{"<p>"}</span></p>
       <span>span style</span><span className="code">{"<span>"}</span>
-      <p className="bold">this text is bold<span className="code">.bold or {"<b>"}</span></p>
+      <p className="bold">this text is bold (should be avoided, set the complete font with mixins instead)<span className="code">.bold or {"<b>"}</span></p>
     </section>
 
   getIcons: ->
