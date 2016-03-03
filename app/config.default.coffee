@@ -26,9 +26,9 @@ module.exports =
   APP_PATH: "#{APP_PATH}"
   title: "Matka.fi"
   contactName:
-    sv: ""
-    fi: ""
-    default: ""
+    sv: "Livin"
+    fi: "Livin"
+    default: "FTA's"
   searchParams: {}
   nearbyRoutes:
     radius: 10000
