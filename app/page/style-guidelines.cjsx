@@ -91,14 +91,15 @@ class StyleGuidelinesPage extends React.Component
     return (
       <section>
         <p>Theme typeface Gotham doesn't have all symbols in one file, so both A and B variants must be specified. Also the weight must be specified every time the family is, and vice versa, because the weights of one font can be unsuitable for the other and therefore shouldn't be cross inherited when the parent element's font-family is not the same.</p>
+        <p>Easiest way to get all the relevant CSS properties correctly is to include an SCSS helper mixin.</p>
         <span className="code">$font-family</span>
-        <p style={{fontWeight: '400 '}}>Primary font: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif<span className="code">$font-weight-book</span></p>
-        <p style={{fontWeight: '500 '}}>Primary font: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif<span className="code">$font-weight-medium</span></p>
-        <p style={{fontWeight: '700 '}}>Primary font: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif<span className="code">$font-weight-bold</span></p>
+        <p style={{fontWeight: '400 '}}>Primary font: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif<span className="code">@include font-book</span></p>
+        <p style={{fontWeight: '500 '}}>Primary font: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif<span className="code">@include font-medium</span></p>
+        <p style={{fontWeight: '700 '}}>Primary font: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif<span className="code">@include font-bold</span></p>
 
         <span className="code">$font-family-narrow</span>
-        <p style={fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"', fontWeight: '400'}>Secondary font: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif<span className="code">$font-narrow-weight-book</span></p>
-        <p style={fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"', fontWeight: '700'}>Secondary font: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif<span className="code">$font-narrow-weight-bold</span></p>
+        <p style={fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"', fontWeight: '400'}>Secondary font: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif<span className="code">@include font-narrow-book</span></p>
+        <p style={fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"', fontWeight: '700'}>Secondary font: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif<span className="code">@include font-narrow-bold</span></p>
       </section>
     )
 

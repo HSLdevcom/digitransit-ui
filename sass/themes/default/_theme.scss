@@ -47,14 +47,15 @@ $viewpoint-marker-color: $title-color;
 
 /* Fonts */
 $font-family: Lato, Arial, Georgia, Serif;
-$font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
-
 $font-weight-book: 300;
 $font-weight-medium: 400;
 $font-weight-bold: 700;
+$letter-spacing: 0;
 
+$font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
 $font-narrow-weight-book: 400;
 $font-narrow-weight-bold: 700;
+$narrow-letter-spacing: 0;
 
 $line-height-normal: 1.2;
 
@@ -63,8 +64,6 @@ $font-size-small: 13px;
 $font-size-normal: 16px;
 $font-size-large: 24px;
 $font-size-xlarge: 32px;
-
-$letter-spacing: 0;
 
 /* Application base colors */
 $background-color: #eef1f3;

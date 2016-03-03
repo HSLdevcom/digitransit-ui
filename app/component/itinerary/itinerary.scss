@@ -106,8 +106,7 @@ $itinerary-route-max-width: 500px;
 
   .walk-distance,
   .duration {
-    font-family: $font-family-narrow;
-    font-weight: $font-narrow-weight-book;
+    @include font-narrow-book;
     font-size: $font-size-normal;
     display: inline-block;
   }
@@ -159,8 +158,7 @@ $itinerary-route-max-width: 500px;
   color: $medium-gray;
   max-width: $itinerary-route-max-width;
   .itinerary-time-column {
-    font-family: $font-family-narrow;
-    font-weight: $font-narrow-weight-bold;
+    @include font-narrow-bold;
     font-size: 10pt;
     text-align: center;
     color: $black;
@@ -204,8 +202,7 @@ $itinerary-route-max-width: 500px;
   }
   .itinerary-instruction-column {
     cursor: pointer;
-    font-family: $font-family;
-    font-weight: $font-weight-book;
+    @include font-book;
     font-size: 10pt;
     padding-left: 1.5em;
     min-height: 4em;
@@ -277,6 +274,7 @@ span.itinerary-stop-code {
 
 $slick-font-family: $font-family;
 $slick-font-weight: $font-weight-medium;
+$slick-letter-spacing: $letter-spacing;
 $slick-arrow-color: $gray;
 $slick-dots-height: 20px;
 $slick-dot-color: $gray;
@@ -338,6 +336,7 @@ div.slick-slider {
 .slick-prev:before, .slick-next:before {
     font-family: $slick-font-family;
     font-weight: $slick-font-weight;
+    letter-spacing: $slick-letter-spacing;
     font-size: 20px;
     line-height: 1;
     color: $slick-arrow-color;
@@ -421,6 +420,7 @@ div.slick-slider {
                 height: 20px;
                 font-family: $slick-font-family;
                 font-weight: $slick-font-weight;
+                letter-spacing: $slick-letter-spacing;
                 font-size: $slick-dot-size;
                 line-height: 20px;
                 text-align: center;

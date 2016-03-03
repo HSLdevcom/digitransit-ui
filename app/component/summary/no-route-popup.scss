@@ -9,15 +9,13 @@
   align-items: center;
 
   p {
-    font-family: $font-family;
-    font-weight: $font-weight-medium;
+    @include font-medium;
     font-size: $font-size-normal;
     text-align: center;
   }
 
   a {
-    font-family: $font-family;
-    font-weight: $font-weight-bold;
+    @include font-book;
     text-decoration: none;
     text-transform: uppercase;
   }

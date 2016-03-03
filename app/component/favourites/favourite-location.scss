@@ -47,8 +47,7 @@
   }
 
   .add-location-text {
-    font-family: $font-family;
-    font-weight: $font-weight-medium;
+    @include font-medium;
     color: $gray-blue;
     font-size: 13px;
     margin-top: 0px;

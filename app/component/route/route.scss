@@ -10,8 +10,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 /* table headers */
 .route-list-header {
   border-bottom: solid 1px #eef1f3;
-  font-family: $font-family-narrow;
-  font-weight: $font-narrow-weight-bold;
+  @include font-narrow-bold;
   line-height: $line-height-normal;
   height: $route-list-header-height;
   overflow: hidden;
@@ -26,8 +25,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 .departure-list-header {
   border-bottom: 1px solid $light-gray;
-  font-family: $font-family;
-  font-weight: $font-weight-bold;
+  @include font-bold;
   font-size: $font-size-small;
   line-height: $line-height-normal;
   height: $route-list-header-height;
@@ -47,8 +45,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 // stop list
 .route-stop-list {
-  font-family: $font-family-narrow;
-  font-weight: $font-narrow-weight-bold;
+  @include font-narrow-bold;
   .route-stop-name  {
     height: 38px;
     // vertical line
@@ -138,15 +135,13 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   color: $gray;
 }
 .route-stop-address {
-  font-family: $font-family-narrow;
-  font-weight: $font-weight-book;
+  @include font-narrow-book;
   font-size: $font-size-normal;
   color: $gray;
 }
 
 .nearest-route-stop {
-  font-family: $font-family-narrow;
-  font-weight: $font-weight-book;
+  @include font-narrow-book;
   color: $gray;
 }
 
@@ -178,8 +173,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
   border-bottom: solid 1px $light-gray;
   h1 {
-    font-family: $font-family-narrow;
-    font-weight: $font-narrow-weight-book;
+    @include font-narrow-book;
     font-size: 24pt;
     padding: 0.4em 0 0.2em;
     margin: 0;
@@ -194,8 +188,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   .route-header-name {
     margin: 0;
     color: $gray;
-    font-family: $font-family;
-    font-weight: $font-weight-book;
+    @include font-book;
     font-size: 10pt;
   }
   .route-header-direction {
