@@ -4,6 +4,7 @@
             "name": "QueryType"
         },
         "mutationType": null,
+        "subscriptionType": null,
         "types": [
             {
                 "kind": "OBJECT",
@@ -592,6 +593,85 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "plan",
+                        "description": "Gets plan of a route",
+                        "args": [
+                            {
+                                "name": "fromLat",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Float",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "fromLon",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Float",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "toLat",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Float",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "toLon",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Float",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "numItineraries",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": "3"
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Plan",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -658,6 +738,11 @@
                     {
                         "kind": "OBJECT",
                         "name": "Alert",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "Plan",
                         "ofType": null
                     }
                 ]
@@ -1559,9 +1644,17 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "Float",
+                                    "ofType": null
+                                }
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -2397,6 +2490,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "realtimeState",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "ENUM",
+                            "name": "RealtimeState",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "pickupType",
                         "description": null,
                         "args": [],
@@ -2415,18 +2520,6 @@
                         "type": {
                             "kind": "ENUM",
                             "name": "PickupDropoffType",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "realtimeState",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "ENUM",
-                            "name": "RealtimeState",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -2474,41 +2567,6 @@
             },
             {
                 "kind": "ENUM",
-                "name": "PickupDropoffType",
-                "description": null,
-                "fields": null,
-                "inputFields": null,
-                "interfaces": null,
-                "enumValues": [
-                    {
-                        "name": "SCHEDULED",
-                        "description": "Regularly scheduled pickup / drop off.",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "NONE",
-                        "description": "No pickup / drop off available.",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "CALL_AGENCY",
-                        "description": "Must phone agency to arrange pickup / drop off.",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "COORDINATE_WITH_DRIVER",
-                        "description": "Must coordinate with driver to arrange pickup / drop off.",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "possibleTypes": null
-            },
-            {
-                "kind": "ENUM",
                 "name": "RealtimeState",
                 "description": null,
                 "fields": null,
@@ -2542,6 +2600,41 @@
                     {
                         "name": "MODIFIED",
                         "description": "The trip information has been updated and resulted in a different trip pattern compared to the trip pattern of the scheduled trip.",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "possibleTypes": null
+            },
+            {
+                "kind": "ENUM",
+                "name": "PickupDropoffType",
+                "description": null,
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": [
+                    {
+                        "name": "SCHEDULED",
+                        "description": "Regularly scheduled pickup / drop off.",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "NONE",
+                        "description": "No pickup / drop off available.",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "CALL_AGENCY",
+                        "description": "Must phone agency to arrange pickup / drop off.",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "COORDINATE_WITH_DRIVER",
+                        "description": "Must coordinate with driver to arrange pickup / drop off.",
                         "isDeprecated": false,
                         "deprecationReason": null
                     }
@@ -2861,9 +2954,13 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "OBJECT",
-                            "name": "PageInfo",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "PageInfo",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -2982,8 +3079,639 @@
             },
             {
                 "kind": "OBJECT",
+                "name": "Plan",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "ID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "date",
+                        "description": "The time and date of travel",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "from",
+                        "description": "The origin",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Place",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "to",
+                        "description": "The destination",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Place",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "itineraries",
+                        "description": "A list of possible itineraries",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "Itinerary",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [
+                    {
+                        "kind": "INTERFACE",
+                        "name": "Node",
+                        "ofType": null
+                    }
+                ],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "Place",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "name",
+                        "description": "For transit stops, the name of the stop. For points of interest, the name of the POI.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "vertexType",
+                        "description": "Type of vertex. (Normal, Bike sharing station, Bike P+R, Transit stop) Mostly used for better localization of bike sharing and P+R station names",
+                        "args": [],
+                        "type": {
+                            "kind": "ENUM",
+                            "name": "VertexType",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "lat",
+                        "description": "The latitude of the place.",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Float",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "lon",
+                        "description": "The longitude of the place.",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Float",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "stop",
+                        "description": "The stop related to the place.",
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Stop",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "ENUM",
+                "name": "VertexType",
+                "description": null,
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": [
+                    {
+                        "name": "NORMAL",
+                        "description": "NORMAL",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "TRANSIT",
+                        "description": "TRANSIT",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "BIKEPARK",
+                        "description": "BIKEPARK",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "BIKESHARE",
+                        "description": "BIKESHARE",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "Itinerary",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "startTime",
+                        "description": "Time that the trip departs.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "endTime",
+                        "description": "Time that the trip arrives.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "duration",
+                        "description": "Duration of the trip on this itinerary, in seconds.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "waitingTime",
+                        "description": "How much time is spent waiting for transit to arrive, in seconds.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "walkTime",
+                        "description": "How much time is spent walking, in seconds.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "walkDistance",
+                        "description": "How far the user has to walk, in meters.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "legs",
+                        "description": "A list of Legs. Each Leg is either a walking (cycling, car) portion of the trip, or a transit trip on a particular vehicle. So a trip where the use walks to the Q train, transfers to the 6, then walks to their destination, has four legs.",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "Leg",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "Leg",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "startTime",
+                        "description": "The date and time this leg begins.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "endTime",
+                        "description": "The date and time this leg ends.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "mode",
+                        "description": "The mode (e.g., Walk) used when traversing this leg.",
+                        "args": [],
+                        "type": {
+                            "kind": "ENUM",
+                            "name": "Mode",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "duration",
+                        "description": "The leg's duration in seconds",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "legGeometry",
+                        "description": "The leg's geometry.",
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "LegGeometry",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "agency",
+                        "description": "For transit legs, the transit agency that operates the service used for this leg. For non-transit legs, null.",
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Agency",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "realTime",
+                        "description": "Whether there is real-time data about this Leg",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "distance",
+                        "description": "The distance traveled while traversing the leg in meters.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "transitLeg",
+                        "description": "Whether this leg is a transit leg or not.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "from",
+                        "description": "The Place where the leg originates.",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Place",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "to",
+                        "description": "The Place where the leg ends.",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Place",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "route",
+                        "description": "For transit legs, the route. For non-transit legs, null.",
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Route",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "trip",
+                        "description": "For transit legs, the trip. For non-transit legs, null.",
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Trip",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "ENUM",
+                "name": "Mode",
+                "description": null,
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": [
+                    {
+                        "name": "AIRPLANE",
+                        "description": "AIRPLANE",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "BICYCLE",
+                        "description": "BICYCLE",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "BUS",
+                        "description": "BUS",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "BUSISH",
+                        "description": "BUSISH",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "CABLE_CAR",
+                        "description": "CABLE_CAR",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "CAR",
+                        "description": "CAR",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "FERRY",
+                        "description": "FERRY",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "FUNICULAR",
+                        "description": "FUNICULAR",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "GONDOLA",
+                        "description": "GONDOLA",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "LEG_SWITCH",
+                        "description": "LEG_SWITCH",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "RAIL",
+                        "description": "RAIL",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "SUBWAY",
+                        "description": "SUBWAY",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "TRAINISH",
+                        "description": "TRAINISH",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "TRAM",
+                        "description": "TRAM",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "TRANSIT",
+                        "description": "TRANSIT",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "WALK",
+                        "description": "WALK",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "LegGeometry",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "length",
+                        "description": "The number of points in the string",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Int",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "points",
+                        "description": "The encoded points of the polyline.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
                 "name": "__Schema",
-                "description": "A GraphQL Introspection defines the capabilities of a GraphQL server. It exposes all available types and directives on 'the server, as well as the entry points for query and  'mutation operations.",
+                "description": "A GraphQL Introspection defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, the entry points for query, mutation, and subscription operations.",
                 "fields": [
                     {
                         "name": "types",
@@ -3055,6 +3783,18 @@
                                     }
                                 }
                             }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "subscriptionType",
+                        "description": "'If this server support subscription, the type that subscription operations will be rooted at.",
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "__Type",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
