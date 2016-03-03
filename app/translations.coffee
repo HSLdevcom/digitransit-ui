@@ -43,8 +43,6 @@ translations =
                                =1 {yksi minuutti}
                                other {# minuuttia}})'
     'start-journey-place': 'Aloita matka paikasta'
-    'walk-to-destination': 'Kävele määränpäähän'
-    'walk-to-stop': 'Kävele pysäkille'
     'share': 'Jaa ohje'
     'print': 'Tulosta'
     'navigate': 'Navigoi'
@@ -116,6 +114,7 @@ translations =
     'how-to-rate-service': 'Kuinka arvioisit palvelua?'
     'char-left': 'merkkiä'
     'send': 'Lähetä'
+    'walk-from-to': "Kävele {estimatedTime} paikasta {fromName} paikkaan {toName}"
     'very-likely': 'Erittäin todennäköistä'
     'very-unlikely': 'Erittäin epätodennäköistä'
     'weather-at-destination': 'Sää määränpäässä'
@@ -178,8 +177,6 @@ translations =
                                =1 {en minut}
                                other {# minuter}})'
     'start-journey-place': 'Utgå från'
-    'walk-to-destination': 'Gå till destination'
-    'walk-to-stop': 'Gå till hållplatsen'
     'share': 'Dela resan'
     'print': 'Skriv ut'
     'navigate': 'Navigera'
@@ -296,8 +293,6 @@ translations =
                             other {# mellomlandinger}
                            }'
     'start-journey-place': 'Start fra'
-    'walk-to-destination': 'Gå til destinasjon'
-    'walk-to-stop': 'Gå til holdeplassen'
     'share': 'Del reisen'
     'print': 'Skriv ut'
     'navigate': 'Naviger'
@@ -371,6 +366,9 @@ translations =
     'how-to-rate-service': 'Hvordan vil du rangere tjenesten?'
     'char-left': 'slett'
     'send': 'Send'
+    'walk-from-to': 'Gå {estimatedTime} fra {fromName} til {toName}'
+    'walk-from-to-same-dest': 'Gå {estimatedTime} på {fromName}'
+    'approx-meters': '{approxDistance} meter'
     'very-likely': 'Svært sannsynlig'
     'very-unlikely': 'Lite sannsynlig'
     'weather-at-destination': 'Været på destinasjonen'
