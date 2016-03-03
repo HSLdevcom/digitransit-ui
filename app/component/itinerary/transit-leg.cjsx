@@ -9,6 +9,8 @@ intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class TransitLeg extends React.Component
+  @contextTypes:
+    intl: intl.intlShape.isRequired
 
   stopCode: (leg) ->
     if leg.from.stopCode != undefined
@@ -41,23 +43,24 @@ class TransitLeg extends React.Component
           />
         </div>
       </Link>
-      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
-        {if @props.index == 0
-          <div>
-            <FormattedMessage id='start-journey-stop'
-                              defaultMessage='Start journey from stop' />
-            <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
-          </div>
-        else
-          false}
-        <div>{@props.leg.from.name} {@stopCode(@props.leg)}</div>
-        <div>{if @props.leg.headsign
+      <div onClick={@props.focusAction}  className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
+        <div>
+          <FormattedMessage
+            id='transit-from-to'
+            values={{
+              transitMode: @context.intl.formatMessage({id: @props.leg.mode.toLowerCase(), defaultMessage: @props.leg.mode.toLowerCase()})
+              fromName: <b>{@props.leg.from.name}</b>
+              toName: <b>{@props.leg.to.name}</b>
+              duration: moment.duration(@props.leg.duration, 'seconds').humanize()}}
+            }}
+            defaultMessage='Take the {transitMode} from {fromName} to {toName} ({duration})' />
+        </div>
+        <div>{if @props.leg.headsign && @props.leg.headsign != @props.leg.to.name
           <FormattedMessage
             id='route-with-headsign'
             values={{
-              route: @props.leg.route
               headsign: @props.leg.headsign}}
-              defaultMessage="Route {route} towards {headsign}" />
+              defaultMessage="Route: towards {headsign}" />
          else
            <FormattedMessage
             id='route-without-headsign'
@@ -66,29 +69,17 @@ class TransitLeg extends React.Component
               defaultMessage="Route {route}" />}
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
-        <div>
+        <div>{if @props.leg.intermediateStops.length > 0 && @props.leg.mode == 'AIRPLANE'
           <FormattedMessage
-            id='num-stops'
+            id='num-stops-flight'
             values={{
-              stops: @props.leg.intermediateStops.length
-              minutes: Math.round(@props.leg.duration / 60)}}
+              stops: @props.leg.intermediateStops.length}}
             defaultMessage='{
               stops, plural,
               =1 {one stop}
               other {# stops}
-              } ({minutes, plural,
-              =1 {one minute}
-              other {# minutes}})' />
+              }' />}
         </div>
-        <div>
-          {if @props.leg.mode != 'AIRPLANE'
-            <FormattedMessage
-              id='alight'
-              values={{
-                toName: <b>{@props.leg.to.name}</b>
-                }}
-              defaultMessage='Alight at stop {toName}'/>}
-         </div>
       </div>
     </div>
 
