@@ -13,7 +13,7 @@ ItineraryLegs      = require './itinerary-legs'
 
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
 
-class ItineraryTabs extends React.Component
+class ItineraryTab extends React.Component
 
   constructor: ->
     super
@@ -51,4 +51,4 @@ class ItineraryTabs extends React.Component
       </div>
     </div>
 
-module.exports = ItineraryTabs
+module.exports = ItineraryTab

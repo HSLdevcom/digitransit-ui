@@ -2,7 +2,7 @@ React              = require 'react'
 Helmet             = require 'react-helmet'
 DefaultNavigation  = require '../component/navigation/default-navigation'
 BottomNavigation   = require '../component/itinerary/bottom-navigation'
-ItineraryTabs      = require '../component/itinerary/itinerary-tabs'
+ItineraryTab       = require '../component/itinerary/itinerary-tab'
 intl               = require 'react-intl'
 SwipeableViews     = require('react-swipeable-views').default
 ItineraryLine      = require '../component/map/itinerary-line'
@@ -55,7 +55,7 @@ class ItineraryPage extends React.Component
         to = locationToOTP(destination)
       setTimeout(() =>
         @context.history.replaceState(null, getRoutePath(from, to) + "/" + index)
-        itineraryTabState = @refs["itineraryTabs" + index].getState()
+        itineraryTabState = @refs["itineraryTab" + index].getState()
         @focusMap(itineraryTabState.lat, itineraryTabState.lon)
       , 100)
 
@@ -63,8 +63,8 @@ class ItineraryPage extends React.Component
     slides = []
     for itinerary, i in itineraries
       slides.push <div className={"itinerary-slide-container"} key={i}>
-                    <ItineraryTabs
-                    ref={"itineraryTabs" + i}
+                    <ItineraryTab
+                    ref={"itineraryTab" + i}
                     focus={@focusMap}
                     itinerary={itinerary}
                     index={i}/>
@@ -142,7 +142,7 @@ class ItineraryPage extends React.Component
           </SwipeableViews>
           <div className="itinerary-tabs-container">
             <Tabs
-              onChange={() => return}
+              onChange={@switchSlide}
               value={parseInt(@props.params.hash)}
               tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", width: "60px", marginLeft: "auto", marginRight: "auto"}}
               inkBarStyle={{display: "none"}}
