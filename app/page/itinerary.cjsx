@@ -125,7 +125,8 @@ class ItineraryPage extends React.Component
               lat={if @state.lat then @state.lat else itineraries[parseInt(@props.params.hash)].legs[0].from.lat}
               lon={if @state.lon then @state.lon else itineraries[parseInt(@props.params.hash)].legs[0].from.lon}
               zoom=16
-              fitBounds={false}>
+              fitBounds={false}
+              leafletOptions={dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false}>
               <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
                 <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
               </div>
