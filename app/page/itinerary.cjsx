@@ -62,12 +62,12 @@ class ItineraryPage extends React.Component
   getSlides: (itineraries) =>
     slides = []
     for itinerary, i in itineraries
-      slides.push <div
-                  className={"itinerary-slide-container"}
-                  key={i}><ItineraryTabs ref={"itineraryTabs" + i}
-                  focus={@focusMap}
-                  itinerary={itinerary}
-                  index={i}/>
+      slides.push <div className={"itinerary-slide-container"} key={i}>
+                    <ItineraryTabs
+                    ref={"itineraryTabs" + i}
+                    focus={@focusMap}
+                    itinerary={itinerary}
+                    index={i}/>
                   </div>
     slides
 
