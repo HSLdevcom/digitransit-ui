@@ -16,7 +16,7 @@ class WaitLeg extends React.Component
         <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
-        <div className='itinerary-wait-message'>
+        <div className='itinerary-leg-first-row'>
           <FormattedMessage
             id='wait-message'
             values={{
