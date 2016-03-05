@@ -92,6 +92,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
+    "babel-eslint": "^5.0.0",
     "babel-loader": "^6.2.2",
     "babel-plugin-dev-expression": "^0.1.0",
     "chance": "^0.8.0",
@@ -100,6 +101,9 @@
     "coffeelint": "^1.14.2",
     "css-loader": "^0.23.1",
     "csswring": "^4.2.1",
+    "eslint": "^2.3.0",
+    "eslint-config-airbnb": "^6.0.2",
+    "eslint-plugin-react": "^4.2.0",
     "exports-loader": "^0.6.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
