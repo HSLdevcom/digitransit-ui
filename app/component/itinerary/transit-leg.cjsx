@@ -44,7 +44,7 @@ class TransitLeg extends React.Component
         </div>
       </Link>
       <div onClick={@props.focusAction}  className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
-        <div>
+        <div className="itinerary-leg-first-row">
           <FormattedMessage
             id='transit-from-to'
             values={{

@@ -16,7 +16,7 @@ class AirportCheckInLeg extends React.Component
         <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
-        <div><FormattedMessage
+        <div className="itinerary-leg-first-row"><FormattedMessage
             id='airport-check-in'
             values={{
               agency: @props.leg.nextLeg.agencyName}}
