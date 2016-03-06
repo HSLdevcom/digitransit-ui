@@ -127,6 +127,7 @@ class ItineraryPage extends React.Component
               zoom=16
               fitBounds={false}
               leafletOptions={dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false}>
+              <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
               <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
                 <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
               </div>
