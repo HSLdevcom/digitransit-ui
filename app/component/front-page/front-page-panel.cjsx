@@ -13,7 +13,7 @@ NextDeparturesListHeader = require '../departure/next-departures-list-header'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 Feedback              = require '../../util/feedback'
 FeedbackActions       = require '../../action/feedback-action'
-
+moment                = require 'moment'
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
@@ -44,7 +44,7 @@ class FrontPagePanel extends React.Component
     @forceUpdate()
 
   onReturnToFrontPage: ->
-    if Feedback.shouldDisplayPopup()
+    if Feedback.shouldDisplayPopup(moment().valueOf())
       @context.executeAction FeedbackActions.openFeedbackModal
 
   getSelectedPanel: =>

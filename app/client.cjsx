@@ -20,6 +20,7 @@ PiwikProvider     = require './component/util/piwik-provider'
 dehydratedState   = window.state # Sent from the server
 Feedback          = require './util/feedback'
 FeedbackActions   = require './action/feedback-action'
+moment            = require 'moment'
 
 if process.env.NODE_ENV == 'development'
   require "../sass/themes/#{config.CONFIG}/main.scss"
@@ -60,7 +61,7 @@ app.rehydrate dehydratedState, (err, context) ->
               # track "getting back to home"
               newHref = @history.createHref(@state.location)
               if @href != undefined && newHref == "/" && @href != newHref
-                if Feedback.shouldDisplayPopup()
+                if Feedback.shouldDisplayPopup(moment().valueOf())
                   context.executeAction FeedbackActions.openFeedbackModal
               @href = newHref
               piwik.setCustomUrl(@history.createHref(@state.location))
