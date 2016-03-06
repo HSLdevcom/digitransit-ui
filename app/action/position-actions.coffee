@@ -5,7 +5,7 @@ debounce   = require 'lodash/debounce'
 geolocator = (actionContext) ->
   actionContext.getStore('ServiceStore').geolocator()
 
-module.exports.reverseGeocodeAddress = (actionContext, location, done) ->
+module.exports.reverseGeocodeAddress = reverseGeocodeAddress = (actionContext, location, done) ->
 
   xhrPromise.getJson(config.URL.PELIAS_REVERSE_GEOCODER,
       "point.lat": location.lat

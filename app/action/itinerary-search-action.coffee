@@ -66,7 +66,7 @@ alterLegsForAirportSupport = (data) ->
         if leg.mode == 'WAIT' and previousLeg.mode == 'AIRPLANE'
           leg.type = "LUGGAGE-COLLECT"
 
-module.exports.itinerarySearchRequest = (actionContext, options, done) ->
+module.exports.itinerarySearchRequest = itinerarySearchRequest = (actionContext, options, done) ->
   itinerarySearchStore = actionContext.getStore('ItinerarySearchStore')
   if options?.params
     actionContext.dispatch "UpdateFromToPlaces",
