@@ -14,7 +14,7 @@ fs.readFile(
               file.toString()
             )
           )
-        ), {
+        ).code, {
           plugins: ['transform-react-createelement-to-jsx', 'syntax-class-properties'],
         }
       ).code
