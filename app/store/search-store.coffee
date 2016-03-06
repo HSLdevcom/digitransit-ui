@@ -135,7 +135,7 @@ class SearchStore extends Store
       storedDestination.address == destination.address
 
     switch found.length
-      when 0 then searches.push assign count: 1, destination
+      when 0 then searches.push Object.assign count: 1, destination
       when 1 then found[0].count = found[0].count + 1
       else console.error "too many matches", found
 
