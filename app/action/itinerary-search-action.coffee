@@ -1,4 +1,3 @@
-last = require 'lodash/last'
 polyUtil = require 'polyline-encoded'
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
