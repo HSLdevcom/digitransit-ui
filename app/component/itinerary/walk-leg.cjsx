@@ -20,6 +20,9 @@ class WalkLeg extends React.Component
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         <div className="itinerary-leg-first-row">
+            {if @props.index == 0
+              <div><Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from"/></div>
+            }
             <FormattedMessage
               id={if(@props.leg.from.name == @props.leg.to.name) then 'walk-from-to-same-dest' else 'walk-from-to'}
               values={{
