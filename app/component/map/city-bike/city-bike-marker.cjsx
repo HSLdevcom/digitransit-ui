@@ -33,7 +33,6 @@ class CityBikeMarker extends React.Component
 
   @propTypes:
     station: React.PropTypes.object.isRequired
-    key: React.PropTypes.string
     map: React.PropTypes.object.isRequired
 
   @contextTypes:
