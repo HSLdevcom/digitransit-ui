@@ -13,10 +13,6 @@ class Page extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    history: React.PropTypes.object.isRequired
-
-  toggleFullscreenMap: =>
-    @context.history.pushState null, "/kartta"
 
   render: ->
     <IndexNavigation className="front-page fullscreen">

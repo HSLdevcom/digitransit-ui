@@ -29,14 +29,14 @@ class StopMarker extends React.Component
     #Needed for passing context to dynamic popup, maybe should be done in there?
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
     route: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
   getStopMarker: ->
     StopMarkerPopupWithContext = provideContext StopMarkerPopup,
       intl: intl.intlShape.isRequired
-      history: React.PropTypes.object.isRequired
+      router: React.PropTypes.object.isRequired
       route: React.PropTypes.object.isRequired
 
     #TODO: cjsx doesn't like objects withing nested elements

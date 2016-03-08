@@ -6,8 +6,7 @@ Relay             = require 'react-relay'
 ReactRouterRelay  = require 'react-router-relay'
 {addLocaleData}   = require 'react-intl'
 createHistory     = require 'history/lib/createBrowserHistory'
-useBasename       = require 'history/lib/useBasename'
-useQueries        = require 'history/lib/useQueries'
+useRouterHistory  = require 'react-router/lib/useRouterHistory'
 FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
 isEqual           = require 'lodash/isEqual'
 config            = require './config'
@@ -54,16 +53,16 @@ app.rehydrate dehydratedState, (err, context) ->
       <PiwikProvider piwik={piwik}>
         <StoreListeningIntlProvider translations={translations}>
           <ReactRouterRelay.RelayRouter
-            history={useBasename(useQueries(createHistory))(basename: config.APP_PATH)}
+            history={useRouterHistory(createHistory)(basename: config.APP_PATH)}
             children={app.getComponent()}
             onUpdate={() ->
               # track "getting back to home"
-              newHref = @history.createHref(@state.location)
+              newHref = @props.history.createHref(@state.location)
               if @href != undefined && newHref == "/" && @href != newHref
                 if Feedback.shouldDisplayPopup(context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf())
                   context.executeAction FeedbackActions.openFeedbackModal
               @href = newHref
-              piwik.setCustomUrl(@history.createHref(@state.location))
+              piwik.setCustomUrl(@props.history.createHref(@state.location))
               piwik.trackPageView()
             }
           />

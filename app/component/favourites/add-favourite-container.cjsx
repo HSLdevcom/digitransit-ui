@@ -17,7 +17,7 @@ class AddFavouriteContainer extends React.Component
     intl: intl.intlShape.isRequired
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
 
   constructor: ->
     super
@@ -46,7 +46,7 @@ class AddFavouriteContainer extends React.Component
   save: =>
     if @canSave()
       @context.executeAction FavouriteLocationActions.addFavouriteLocation, @state
-      @context.history.pushState null, "/"
+      @context.router.replace "/"
 
   canSave: =>
     return @state.selectedIconId != undefined and
