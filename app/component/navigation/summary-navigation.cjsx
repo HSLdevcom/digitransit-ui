@@ -23,7 +23,7 @@ class SummaryNavigation extends React.Component
     @context.piwik?.trackEvent "Offcanvas", "Customize Search", if newState then "close" else "open"
     if supportsHistory()
       if newState
-        @context.router.pushState
+        @context.router.push
           state: customizeSearchOffcanvas: newState
           pathname: @context.location.pathname
       else
