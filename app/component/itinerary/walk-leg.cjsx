@@ -23,17 +23,18 @@ class WalkLeg extends React.Component
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         <div className="itinerary-leg-first-row">
-            <FormattedMessage
-              id={if(@props.leg.from.name == @props.leg.to.name) then 'walk-from-to-same-dest' else 'walk-from-to'}
-              values={{
-                fromName: <b>{@props.leg.from.name}</b>
-                toName: <b>{@props.leg.to.name}</b>
-                estimatedTime: <b>{estimatedTime}</b>}}
-              defaultMessage='Walk for {estimatedTime} from {fromName} to {toName}' />
-              <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
+            <div>{@props.leg.from.name}</div>
+            <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
-        <div>
-          <Distance distance={@props.leg.distance}/>
+        <div className="itinerary-leg-distance">
+          <div>
+            <FormattedMessage
+              id={'walk-distance-to-' + if @props.walkToDestination then 'dest' else 'stop'}
+              values={{
+                distance: distance
+                duration: "(" + duration + ")"}}
+              defaultMessage={'Walk {distance} ({duration}) to ' + if @props.walkToDestination then 'destination' else 'stop'} />
+          </div>
         </div>
       </div>
     </div>

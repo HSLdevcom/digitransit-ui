@@ -64,11 +64,6 @@ $itinerary-route-max-width: 500px;
   color: $medium-gray;
 }
 
-.itinerary-leg-first-row {
-  display: block;
-  width: 90%;
-}
-
 .duration {
   font-weight: $font-weight-bold;
 }
@@ -187,12 +182,18 @@ $itinerary-route-max-width: 500px;
     font-size: 10pt;
     padding-left: 1.5em;
     min-height: 4em;
-    div {
-      color: $gray;
-    }
-    div:nth-child(1) {
+
+    .itinerary-leg-first-row {
+      display: block;
+      width: 90%;
       color: $black;
-      font-weight: $font-weight-medium;
+      @include font-medium;
+    }
+
+    .itinerary-leg-distance {
+      margin-top: 12px;
+      @include font-book;
+      color: $gray;
     }
   }
 }
