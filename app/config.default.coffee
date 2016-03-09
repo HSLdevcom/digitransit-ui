@@ -31,7 +31,7 @@ module.exports =
     bucketSize: 1000
   maxWalkDistance: 10000
   maxBikingDistance: 40000
-  availableLanguages: ['fi', 'sv', 'en', 'nb']
+  availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
   leftMenu:
     show: true
