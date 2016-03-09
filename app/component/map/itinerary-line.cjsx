@@ -88,7 +88,7 @@ class ItineraryLine extends React.Component
                               renderText={leg.transitLeg and @props.showTransferLabels}/>
         else if mode == "citybike" and leg.from.stopId
           cityBikeStore = @context.getStore "CityBikeStore"
-          underscoredId = leg.from.stopId.replace(":","_")
+          underscoredId = leg.from.stopId.replace(":", "_")
           station = cityBikeStore.getStation(underscoredId)
 
           if station
