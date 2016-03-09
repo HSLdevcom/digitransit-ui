@@ -7,7 +7,6 @@ var StatsPlugin = require('stats-webpack-plugin');
 var fs = require("fs");
 
 require('coffee-script/register');
-var config = require('./app/config')
 
 var port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -38,11 +37,29 @@ function getLoadersConfig(env) {
   }
 }
 
+function getAllPossibleLanguages() {
+  var srcDirectory = "app";
+  return fs.readdirSync(srcDirectory)
+    .filter(function(file) {
+      if(/^config\.\w+\.coffee$/.test(file)) return file;
+    })
+    .filter(function(file) {
+      if(!/^config\.client\.coffee$/.test(file)) return file;
+    })
+    .map(function(file) {
+      var config = require("./"+srcDirectory+"/"+file);
+      return config.availableLanguages;
+    })
+    .reduce(function(languages, languages2) {
+      return languages.concat(languages2);
+    })
+    .filter(function(language, position, languages) {
+      return languages.indexOf(language) == position;
+    });
+}
+
 function getPluginsConfig(env) {
-  if(!config.availableLanguages) {
-    throw "availableLanguages needs to be configured in the config file";
-  }
-  var languageExpression = new RegExp("^./(" + config.availableLanguages.join('|') + ")$");
+  var languageExpression = new RegExp("^./(" + getAllPossibleLanguages().join('|') + ")$");
 
   if (env === "development") {
     return([
