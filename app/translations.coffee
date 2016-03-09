@@ -115,6 +115,8 @@ translations =
     'char-left': 'merkkiä'
     'send': 'Lähetä'
     'walk-from-to': "Kävele {fromName} - {toName}"
+    'walk-distance-to-stop': 'Kävele {distance} {duration} pysäkille'
+    'walk-distance-to-dest': 'Kävele {distance} {duration} määränpäähän'
     'approx-meters': '{approxDistance} m'
     'very-likely': 'Erittäin todennäköistä'
     'very-unlikely': 'Erittäin epätodennäköistä'
