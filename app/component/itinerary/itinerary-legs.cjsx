@@ -25,7 +25,13 @@ class ItineraryLegs extends React.Component
       else if leg.rentedBike || leg.mode == 'BICYCLE' || leg.mode == 'CITYBIKE' || leg.mode == 'CITYBIKE_WALK'
         legs.push <BicycleLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
       else
-        legs.push <WalkLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
+        legs.push <WalkLeg
+                    key={j}
+                    index={j}
+                    leg={leg}
+                    legs={numberOfLegs}
+                    walkToDestination={if parseInt(j) == numberOfLegs - 1 then true else false}
+                    focusAction={focus}/>
 
     legs.push <EndLeg
               key={numberOfLegs}
