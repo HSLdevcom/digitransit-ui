@@ -113,6 +113,9 @@
 .dashed-underline {
   border-bottom: 1px dashed $dark-color;
 }
+
+/* TODO Remove this - setting only the font-weight can give wrong combinations,
+        as main and secondary families have different weights for bold. */
 .bold {
   font-weight: $font-weight-bold;
 }

@@ -18,7 +18,7 @@ class EndLeg extends React.Component
         <div>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to"/>
         </div>
-        <div>
+        <div className="itinerary-leg-first-row">
           <FormattedMessage
             id='end-journey'
             defaultMessage='End journey at' />

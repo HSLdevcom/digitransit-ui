@@ -60,7 +60,7 @@ app.rehydrate dehydratedState, (err, context) ->
               # track "getting back to home"
               newHref = @history.createHref(@state.location)
               if @href != undefined && newHref == "/" && @href != newHref
-                if Feedback.shouldDisplayPopup()
+                if Feedback.shouldDisplayPopup(context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf())
                   context.executeAction FeedbackActions.openFeedbackModal
               @href = newHref
               piwik.setCustomUrl(@history.createHref(@state.location))

@@ -1,7 +1,7 @@
 // StopReference component
 
 .stop-reference {
-  font-weight: $font-weight-bold;
+  @include font-bold;
 }
 
 

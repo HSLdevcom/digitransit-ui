@@ -80,8 +80,8 @@ $tab-min-width: 100px;
    right:50%;
    border-right: 1px solid $tab-separator-color;
    min-width: $tab-min-width;
+   @include font-medium;
    font-size: 9pt;
-   font-weight: 700;
 }
 
 .tabs-navigation li:last-child {

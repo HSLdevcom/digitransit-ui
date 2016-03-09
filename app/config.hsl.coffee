@@ -19,12 +19,16 @@ module.exports =
     STOP_MAP: "#{API_URL}/hsl-stop-map/"
     MQTT: "ws://213.138.147.225:1883"
     ALERTS: "#{API_URL}/hsl-alert/"
-    FONT: "http://fonts.googleapis.com/css?family=Nunito:300,400,700%7COpen+Sans+Condensed:300,700"
+    FONT: "https://cloud.typography.com/6364294/6653152/css/fonts.css"
     REALTIME: "#{API_URL}/navigator-server"
     PELIAS: "#{API_URL}/pelias/v1/search"
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Reittiopas.fi"
+  contactName:
+    sv: "HSR"
+    fi: "HSL"
+    default: "HSL"
   preferredAgency: "HSL"
   searchParams:
     "boundary.rect.min_lat": 59.9
@@ -60,7 +64,7 @@ module.exports =
     sortOrder: currentPosition: 1, oldSearch: 2, neighbourhood: 3, locality: 4, address: 5, venue: 6, stop: 7
     sortOthers: 8
     # Let Pelias suggest based on current user location
-    locationAware: false
+    locationAware: true
   showCityBikes: true
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15

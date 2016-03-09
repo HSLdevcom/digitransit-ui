@@ -8,7 +8,7 @@ $gray-blue-light: rgb(182, 193, 199);
 $light-gray: #ddd;
 $medium-gray: #ccc;
 $dark-gray: #575757;
-$gray: #999;
+$gray: #888;
 
 /* Palette */
 $hsl-alert: #dc0451;
@@ -47,15 +47,15 @@ $viewpoint-marker-color: $title-color;
 
 /* Fonts */
 $font-family: Lato, Arial, Georgia, Serif;
-$font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
-
-$body-font-family: $font-family;
-$link-color: $gray-blue;
-$realtime-color: #46b32a;
-
-$font-weight-light: 300;
-$font-weight-normal: 400;
+$font-weight-book: 300;
+$font-weight-medium: 400;
 $font-weight-bold: 700;
+$letter-spacing: 0;
+
+$font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
+$font-narrow-weight-book: 400;
+$font-narrow-weight-medium: 500;
+$narrow-letter-spacing: 0;
 
 $line-height-normal: 1.2;
 
@@ -68,6 +68,9 @@ $font-size-xlarge: 32px;
 /* Application base colors */
 $background-color: #eef1f3;
 $dark-color: $gray;
+
+$link-color: $gray-blue;
+$realtime-color: #46b32a;
 
 /* Vehicle colors */
 $airplane-color: $livi-airplane-blue;

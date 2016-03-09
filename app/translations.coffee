@@ -31,8 +31,8 @@ translations =
     'instructions': 'Ohjeet'
     'map': 'Kartta'
     'start-journey-stop': 'Aloita matka pysäkiltä'
-    'route-with-headsign': "Linja {route} suuntaan {headsign}"
-    'route-without-headsign': "Linja {route}"
+    'route-with-headsign': 'Reitti suuntaan {headsign}'
+    'route-without-headsign': 'Linja {route}'
     'end-journey': 'Lopeta matka paikassa'
     'buy-ticket': 'Osta lippu'
     'required-ticket': 'Reitillä tarvittava lippu'
@@ -41,11 +41,8 @@ translations =
                              other {# pysäkkiä}
                             } ({minutes, plural,
                                =1 {yksi minuutti}
-                               other {# minuutia}})'
-    'alight': 'Nouse kyydistä pysäkillä ({toName})'
+                               other {# minuuttia}})'
     'start-journey-place': 'Aloita matka paikasta'
-    'walk-to-destination': 'Kävele määränpäähän'
-    'walk-to-stop': 'Kävele pysäkille'
     'share': 'Jaa ohje'
     'print': 'Tulosta'
     'navigate': 'Navigoi'
@@ -64,8 +61,8 @@ translations =
     'tickets': 'Matkaliput'
     'settings': 'Asetukset'
     'terms-of-use': 'Käyttöehdot'
-    'hsl-contact-information': 'HSL:n yhteystiedot'
-    'create-account': 'Luo HSL tunnus'
+    'contact-information': '{contactName}:n yhteystiedot'
+    'create-account': 'Luo {contactName} tunnus'
     'login': 'Kirjaudu sisään'
     'off-canvas-info': 'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi'
     'cause': 'syy'
@@ -117,6 +114,8 @@ translations =
     'how-to-rate-service': 'Kuinka arvioisit palvelua?'
     'char-left': 'merkkiä'
     'send': 'Lähetä'
+    'walk-from-to': "Kävele {fromName} - {toName}"
+    'approx-meters': '{approxDistance} m'
     'very-likely': 'Erittäin todennäköistä'
     'very-unlikely': 'Erittäin epätodennäköistä'
     'weather-at-destination': 'Sää määränpäässä'
@@ -130,10 +129,24 @@ translations =
     'location-examples': "esim. Koti, Työ, Koulu,..."
     'save': "Tallenna"
     'address': 'Osoite'
-    'wait-message': 'Odota {estimatedMinutes} minuuttia paikassa {stopPlace}'
+    'wait-message': 'Odota paikassa {stopPlace}'
     'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä'
     'airport-security-check-go-to-gate': 'Kävele turvatarkastuksen läpi lähtöportille'
     'airport-collect-luggage': 'Nouda matkatavarat'
+    'rail': 'juna'
+    'subway': 'metro'
+    'bus': 'bussi'
+    'airplane': 'lento'
+    'walk': 'kävele'
+    'bicycle': 'pyörä'
+    'car': 'auto'
+    'tram': 'raitiovaunu'
+    'ferry': 'lautta'
+    'cable_car': 'kondooli'
+    'gondola': 'kondooli'
+    'funicular': 'juna'
+    'transit-from-to': 'Ota {transitMode} {fromName} - {toName}'
+    'cycle-from-to': 'Pyöräile {fromName} - {toName}'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -165,10 +178,7 @@ translations =
                             } ({minutes, plural,
                                =1 {en minut}
                                other {# minuter}})'
-    'alight': 'Stig av vid hållplatsen {toName}'
     'start-journey-place': 'Utgå från'
-    'walk-to-destination': 'Gå till destination'
-    'walk-to-stop': 'Gå till hållplatsen'
     'share': 'Dela resan'
     'print': 'Skriv ut'
     'navigate': 'Navigera'
@@ -187,8 +197,8 @@ translations =
     'tickets': 'Biljetter'
     'settings': 'Inställningar'
     'terms-of-use': 'Användarvillkor'
-    'hsl-contact-information': 'HRT Kontaktuppgifter'
-    'create-account': 'Skapa HRT-konto'
+    'contact-information': '{contactName} Kontaktuppgifter'
+    'create-account': 'Skapa {contactName}-konto'
     'login': 'Logga in'
     'off-canvas-info': 'Genom att logga in du kan återhämta ditt favoriter och du kan använda dem i andra av dina anordning'
     'cause': 'Orsak'
@@ -234,7 +244,7 @@ translations =
     'close': 'Stäng'
     'weather-at-destination': 'Vädret på destinationen'
     'trip-co2-emissions': 'Längs CO2-utsläpp'
-    'wait-message': 'Vänta i {estimatedMinutes} minuter vid {stopPlace}'
+    'wait-message': 'Vänta i {estimatedTime} vid {stopPlace}'
     'airport-check-in': 'Bagage kan checkas in på {agency}'
     'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate'
     'airport-collect-luggage': 'Samla ditt bagage om någon'
@@ -278,10 +288,11 @@ translations =
                              =1 {en holdeplass}
                              other {# holdeplasser}
                             } ({duration})'
-    'alight': 'Gå av ved {toName}'
+    'num-stops-flight': '{stops, plural,
+                            =1 {En mellomlanding}
+                            other {# mellomlandinger}
+                           }'
     'start-journey-place': 'Start fra'
-    'walk-to-destination': 'Gå til destinasjon'
-    'walk-to-stop': 'Gå til holdeplassen'
     'share': 'Del reisen'
     'print': 'Skriv ut'
     'navigate': 'Naviger'
@@ -302,8 +313,8 @@ translations =
     'tickets': 'Billetter'
     'settings': 'Innstillinger'
     'terms-of-use': 'Brukervilkår'
-    'hsl-contact-information': 'Rutebanken kontaktinformasjon'
-    'create-account': 'Lag Rutebanken-konto'
+    'contact-information': '{contactName} kontaktinformasjon'
+    'create-account': 'Lag {contactName}-konto'
     'login': 'Logg inn'
     'off-canvas-info': 'Ved å logge inn kan du finne tilbake til dine favoritter på andre enheter'
     'cause': 'Årsak'
@@ -355,6 +366,9 @@ translations =
     'how-to-rate-service': 'Hvordan vil du rangere tjenesten?'
     'char-left': 'slett'
     'send': 'Send'
+    'walk-from-to': 'Gå {estimatedTime} fra {fromName} til {toName}'
+    'walk-from-to-same-dest': 'Gå {estimatedTime} på {fromName}'
+    'approx-meters': '{approxDistance} meter'
     'very-likely': 'Svært sannsynlig'
     'very-unlikely': 'Lite sannsynlig'
     'weather-at-destination': 'Været på destinasjonen'
@@ -368,9 +382,23 @@ translations =
     'location-examples': "f.eks hjemme, arbeid, skole ..."
     'save': "Lagre"
     'address': 'Adresse'
-    'wait-message': 'Vent i {estimatedMinutes} minutter'
+    'wait-message': 'Vent i {estimatedTime} ved {stopPlace}'
     'airport-check-in': 'Bagasje kan sjekkes inn hos {agency}'
     'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate'
     'airport-collect-luggage': 'Hent eventuell bagasje'
+    'rail': 'tog'
+    'subway': 'T-bane'
+    'bus': 'buss'
+    'airplane': 'fly'
+    'walk': 'gå'
+    'bicycle': 'sykkel'
+    'car': 'bil'
+    'tram': 'trikk'
+    'ferry': 'ferge'
+    'cable_car': 'kabeltrikk'
+    'gondola': 'gondolbane'
+    'funicular': 'taubane'
+    'transit-from-to': 'Ta {transitMode} fra {fromName} til {toName} ({duration})'
+    'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
 
 module.exports = translations

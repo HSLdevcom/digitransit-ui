@@ -33,13 +33,19 @@ class Map extends React.Component
     padding: React.PropTypes.number
     zoom: React.PropTypes.number
     leafletEvents: React.PropTypes.object
+    leafletOptions: React.PropTypes.object
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
   componentDidMount: =>
-    L.control.attribution(position: 'bottomleft', prefix: false).addTo @refs.map.getLeafletElement()
+    #TODO: need to use prefix, as for some reason attributions aren't updated when layer is added
+    #TODO: also react-leaflet is not compatible with leaflet 1.0, so we can't use attributionControl which works correctly
+    L.control.attribution(
+      position: 'bottomleft'
+      prefix: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
+    ).addTo @refs.map.getLeafletElement()
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
 
@@ -78,8 +84,9 @@ class Map extends React.Component
           center={center}
           zoom={zoom}
           zoomControl={false}
-          attributionControl=false
+          attributionControl={false}
           bounds={if @props.fitBounds then [@props.from, @props.to]}
+          {... @props.leafletOptions}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
           {... @props.leafletEvents}
           >
@@ -88,15 +95,14 @@ class Map extends React.Component
             tileSize={config.map.tileSize or 256}
             zoomOffset={config.map.zoomOffset or 0}
             updateWhenIdle={false}
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
             size={if config.map?.useRetinaTiles and L.Browser.retina then "@2x" else  ""}/>
           {stops}
           {vehicles}
           {fromMarker}
           {positionMarker}
           {placeMarker}
-          {@props.leafletObjs}
           {cityBikes}
+          {@props.leafletObjs}
         </LeafletMap>
 
 

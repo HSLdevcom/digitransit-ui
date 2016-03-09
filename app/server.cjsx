@@ -42,12 +42,6 @@ if process.env.NODE_ENV != 'development'
     <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName[config.CONFIG + '_theme'][1]}/>
   ]
 
-# Cache fonts from google, so that we don't need an additional roud trip to fetch font definitions
-fonts = ''
-fetch(config.URL.FONT).then (res) ->
-  res.text().then (text) ->
-    fonts = text
-
 getPolyfills = (userAgent) ->
   if !userAgent or /(LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
     # Do not trust Samsung, LG
@@ -124,7 +118,8 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
     windowLocale={'window.locale="' + locale + '"'}
     locale={locale}
     scripts={getScripts(req)}
-    fonts={fonts}
+    fonts={config.URL.FONT}
+
     config={'window.config=' + JSON.stringify(config)}
     geolocationStarter={geolocationStarter}
   />

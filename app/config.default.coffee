@@ -25,6 +25,10 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Matka.fi"
+  contactName:
+    sv: "Livin"
+    fi: "Livin"
+    default: "FTA's"
   searchParams: {}
   nearbyRoutes:
     radius: 10000
@@ -55,7 +59,7 @@ module.exports =
     sortOrder: currentPosition: 1, oldSearch: 2, locality: 3, address: 4, stop: 5
     sortOthers: 6
     # Let Pelias suggest based on current user location
-    locationAware: false
+    locationAware: true
   showCityBikes: false
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15

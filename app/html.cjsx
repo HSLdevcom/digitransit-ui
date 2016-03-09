@@ -11,7 +11,7 @@ class Application extends React.Component
       {head?.title.toComponent()}
       {head?.meta.toComponent()}
       {head?.link.toComponent()}
-      <style dangerouslySetInnerHTML={ __html: @props.fonts }/>
+      <link rel="stylesheet" type="text/css" href={ @props.fonts } />
       <script dangerouslySetInnerHTML={ __html: @props.geolocationStarter }/>
       {@props.css}
     </head>
