@@ -39,7 +39,7 @@ runReverseGeocodingAction = (actionContext, lat, lon, done) ->
 debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading: true})
 
 setCurrentLocation = (pos) =>
-  if inside([pos.lat, pos.lon], config.areaPolygon)
+  if inside([pos.lon, pos.lat], config.areaPolygon)
     @position = pos
   else
     @position =
