@@ -111,3 +111,6 @@ module.exports =
       available: true
     accessibility:
       available: true
+  # TODO Put bounds for the country, not HSL
+  areaPolygon: [[59.9, 24.3], [59.9, 25.5], [60.45, 25.5], [60.45, 24.3]]
+  defaultPosition: [60.317429, 24.9690395]

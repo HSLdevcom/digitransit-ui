@@ -116,3 +116,6 @@ module.exports =
       available: true
     accessibility:
       available: true
+  # TODO Better bounds, not just four points
+  areaPolygon: [[59.9, 24.3], [59.9, 25.5], [60.45, 25.5], [60.45, 24.3]]
+  defaultPosition: [60.1710688, 24.9414841]
