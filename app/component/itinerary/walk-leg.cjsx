@@ -5,11 +5,14 @@ Icon         = require '../icon/icon'
 intl         = require 'react-intl'
 Distance     = require './distance'
 FormattedMessage = intl.FormattedMessage
+geoUtils         = require '../../util/geo-utils'
+timeUtils    = require '../../util/time-utils'
 
 class WalkLeg extends React.Component
 
   render: ->
-    estimatedTime = moment.duration(@props.leg.duration, "seconds").humanize()
+    distance = geoUtils.displayDistance parseInt(@props.leg.distance)
+    duration = timeUtils.durationToString(@props.leg.duration * 1000)
 
     <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
