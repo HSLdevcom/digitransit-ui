@@ -72,9 +72,21 @@ class ItineraryLine extends React.Component
                                 mode={mode}
                                 thin=true />
 
-        # Draw a more noticiable marker for the first stop
-        # (where user changes vehicles/modes)
-        if mode != "citybike"
+        if leg.from.bikeShareId
+          cityBikeStore = @context.getStore "CityBikeStore"
+          station = cityBikeStore.getStation(leg.from.bikeShareId)
+          
+          if station
+            objs.push <CityBikeMarker
+              map={@props.map}
+                key={leg.from.bikeShareId}
+                station={station}
+              />
+          else
+            console.error "Could not load bicycle station from id " + leg.from.bikeShareId
+        else
+          # Draw a more noticiable marker for the first stop
+          # (where user changes vehicles/modes)
           objs.push <StopMarker map={@props.map}
                               key={i + "," + leg.mode + "marker"}
                               stop={
@@ -86,17 +98,6 @@ class ItineraryLine extends React.Component
                               }
                               mode={mode}
                               renderText={leg.transitLeg and @props.showTransferLabels}/>
-        else if mode == "citybike" and leg.from.stopId
-          cityBikeStore = @context.getStore "CityBikeStore"
-          underscoredId = leg.from.stopId.replace(":", "_")
-          station = cityBikeStore.getStation(underscoredId)
-
-          if station
-            objs.push <CityBikeMarker
-              map={@props.map}
-                key={leg.from.stopId}
-                station={station}
-              />
 
     <div style={{display: "none"}}>{objs}</div>
 
