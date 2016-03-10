@@ -45,18 +45,9 @@ class TransitLeg extends React.Component
       </Link>
       <div onClick={@props.focusAction}  className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
         <div className="itinerary-leg-first-row">
-          <FormattedMessage
-            id='transit-from-to'
-            values={{
-              transitMode: @context.intl.formatMessage({id: @props.leg.mode.toLowerCase(), defaultMessage: @props.leg.mode.toLowerCase()})
-              fromName: <b>{@props.leg.from.name}</b>
-              toName: <b>{@props.leg.to.name}</b>
-              duration: moment.duration(@props.leg.duration, 'seconds').humanize()}}
-            }}
-            defaultMessage='Take the {transitMode} from {fromName} to {toName} ({duration})' />
+          <div>{@props.leg.from.name} {@props.children}</div>
         </div>
         <div>
-          {@stopCode(@props.leg)}
           {if @props.leg.headsign && @props.leg.headsign != @props.leg.to.name
             <FormattedMessage
               id='route-with-headsign'
