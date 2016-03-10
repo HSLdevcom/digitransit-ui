@@ -21,7 +21,11 @@ class WaitLeg extends React.Component
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         <div className='itinerary-leg-first-row'>
-          <div>{@props.leg.to.name} {@props.children}</div>
+          <div>
+            {@props.leg.to.name}
+            {@props.children}
+            {if @props.leg.from.stopCode then <Icon img={'icon-icon_arrow-collapse--right'} className={'itinerary-leg-first-row__arrow'}/>}
+          </div>
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div className="itinerary-leg-action">

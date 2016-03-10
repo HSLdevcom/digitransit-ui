@@ -189,6 +189,12 @@ $itinerary-route-max-width: 500px;
       width: 90%;
       color: $black;
       @include font-medium;
+
+      .itinerary-leg-first-row__arrow {
+        @include font-medium;
+        font-size: 6px;
+      }
+
     }
 
     .itinerary-leg-action {

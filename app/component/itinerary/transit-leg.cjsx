@@ -45,22 +45,11 @@ class TransitLeg extends React.Component
       </Link>
       <div onClick={@props.focusAction}  className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
         <div className="itinerary-leg-first-row">
-          <div>{@props.leg.from.name} {@props.children}</div>
-        </div>
-        <div>
-          {if @props.leg.headsign && @props.leg.headsign != @props.leg.to.name
-            <FormattedMessage
-              id='route-with-headsign'
-              values={{
-                headsign: @props.leg.headsign}}
-                defaultMessage="Route: towards {headsign}" />
-          else
-            <FormattedMessage
-              id='route-without-headsign'
-              values={{
-                route: @props.leg.route}}
-                defaultMessage="Route {route}" />}
-
+          <div>
+            {@props.leg.from.name}
+            {@props.children}
+            <Icon img={'icon-icon_arrow-collapse--right'} className={'itinerary-leg-first-row__arrow'}/>
+          </div>
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div>{if @props.leg.intermediateStops.length > 0 && @props.leg.mode == 'AIRPLANE'
