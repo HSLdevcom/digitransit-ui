@@ -60,17 +60,21 @@ function getAllPossibleLanguages() {
 
 function getPluginsConfig(env) {
   var languageExpression = new RegExp("^./(" + getAllPossibleLanguages().join('|') + ")$");
+  var momentExpression = /moment[\\\/]locale$/;
+  var reactIntlExpression = /react-intl[\/\\]lib[\/\\]locale\-data$/;
 
   if (env === "development") {
     return([
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, languageExpression),
+      new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
+      new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
       new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify("development")}}),
       new webpack.NoErrorsPlugin()
     ])
   } else {
     return([
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, languageExpression),
+      new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
+      new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
       new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify("production")}}),
       new webpack.PrefetchPlugin('react'),
       new webpack.PrefetchPlugin('react-router'),
