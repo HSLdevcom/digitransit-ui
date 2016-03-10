@@ -132,6 +132,7 @@ translations =
     'save': "Tallenna"
     'address': 'Osoite'
     'wait-message': 'Odota paikassa {stopPlace}'
+    'wait-amount-of-time': 'Odota {duration}'
     'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä'
     'airport-security-check-go-to-gate': 'Kävele turvatarkastuksen läpi lähtöportille'
     'airport-collect-luggage': 'Nouda matkatavarat'
