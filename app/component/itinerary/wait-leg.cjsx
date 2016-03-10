@@ -4,10 +4,14 @@ moment           = require 'moment'
 Icon             = require '../icon/icon'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
+timeUtils        = require '../../util/time-utils'
 
 class WaitLeg extends React.Component
 
   render: ->
+
+    duration = timeUtils.durationToString(@props.leg.duration * 1000)
+
     <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
