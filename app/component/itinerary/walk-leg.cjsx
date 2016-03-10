@@ -23,8 +23,11 @@ class WalkLeg extends React.Component
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         <div className="itinerary-leg-first-row">
-            <div>{@props.leg.from.name}</div>
-            <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
+          {if @props.index == 0
+            <div><Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from"/></div>
+          }
+          <div>{@props.leg.from.name}</div>
+          <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div className="itinerary-leg-distance">
           <div>
