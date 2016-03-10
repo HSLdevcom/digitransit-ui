@@ -22,8 +22,14 @@ class WaitLeg extends React.Component
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
         <div className='itinerary-leg-first-row'>
           <div>{@props.leg.to.name} {@props.children}</div>
-
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
+        </div>
+        <div className="itinerary-leg-action">
+          <FormattedMessage
+            id={'wait-amount-of-time'}
+            values={{
+              duration: "(" + duration + ")"}}
+            defaultMessage={'Wait {duration}'} />
         </div>
       </div>
     </div>
