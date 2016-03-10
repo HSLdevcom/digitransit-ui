@@ -17,7 +17,7 @@ class DisruptionListContainer extends React.Component
       startTime = moment(alert.effectiveStartDate * 1000)
       endTime = moment(alert.effectiveEndDate * 1000)
       cause = 'because'#alert.cause
-      description = find(alert.alertDescriptionTextTranslations, 'language', @context.intl.locale)?.text
+      description = find(alert.alertDescriptionTextTranslations, ['language', @context.intl.locale])?.text
       routes = [alert.route]
       alerts.push <DisruptionRow key={id} description={description} startTime={startTime} endTime={endTime} cause={cause} routes={routes}/>
 
