@@ -3,7 +3,7 @@ polyUtil = require 'polyline-encoded'
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 
-createWaitLeg = (startTime, duration, point, placename) ->
+createWaitLeg = (startTime, duration, point, placename, stopCode) ->
   leg =
     # OTP returns start and end times in milliseconds, but durations in seconds
     duration: duration / 1000
@@ -12,6 +12,7 @@ createWaitLeg = (startTime, duration, point, placename) ->
       lat: point[0]
       lon: point[1]
       name: placename
+      stopCode: stopCode
     intermediateStops: []
     legGeometry: {points: polyUtil.encode([point])}
     mode: "WAIT"
@@ -44,7 +45,8 @@ addWaitLegs = (data) ->
           createWaitLeg(time,
                           waitTime,
                           polyUtil.decode(leg.legGeometry.points)[0],
-                          leg.from.name))
+                          leg.from.name,
+                          leg.from.stopCode))
 
       time = leg.endTime  # next wait leg should start when this transit leg ends
 
