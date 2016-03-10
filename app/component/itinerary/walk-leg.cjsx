@@ -35,7 +35,7 @@ class WalkLeg extends React.Component
             values={{
               distance: distance
               duration: "(" + duration + ")"}}
-            defaultMessage={'Walk {distance} ({duration}) to ' + if @props.walkToDestination then 'destination' else 'stop'} />
+            defaultMessage={'Walk {distance} {duration} to ' + if @props.walkToDestination then 'destination' else 'stop'} />
         </div>
       </div>
     </div>
