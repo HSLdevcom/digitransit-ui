@@ -31,7 +31,6 @@ class ItineraryLegs extends React.Component
       else if leg.type == "LUGGAGE-COLLECT"
         legs.push <AirportCollectLuggageLeg key={j} index={j} leg={leg} focusAction={focus}/>
       else if leg.mode == 'WAIT'
-        console.log("leg was: " + leg)
         legs.push <WaitLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}>
           {@stopCode leg.from.stopCode}
         </WaitLeg>
