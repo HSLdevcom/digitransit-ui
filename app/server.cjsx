@@ -115,7 +115,6 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
     content={getContent(context, renderProps, locale)}
     polyfill={polyfills}
     state={'window.state=' + serialize(application.dehydrate(context)) + ';'}
-    windowLocale={'window.locale="' + locale + '"'}
     locale={locale}
     scripts={getScripts(req)}
     fonts={config.URL.FONT}

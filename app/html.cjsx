@@ -21,7 +21,7 @@ class Application extends React.Component
         <script dangerouslySetInnerHTML={ __html: @props.polyfill }/>
         <script dangerouslySetInnerHTML={ __html: @props.state }/>
         <script dangerouslySetInnerHTML={ __html: @props.config }/>
-        <script dangerouslySetInnerHTML={ __html: @props.windowLocale }/>
+        <script dangerouslySetInnerHTML={ __html: "window.locale=\"#{@props.locale}\"" }/>
         {@props.scripts}
       </body>
     </html>
