@@ -29,15 +29,13 @@ class WalkLeg extends React.Component
           <div>{@props.leg.from.name} {@props.children}</div>
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
-        <div className="itinerary-leg-distance">
-          <div>
-            <FormattedMessage
-              id={'walk-distance-to-' + if @props.walkToDestination then 'dest' else 'stop'}
-              values={{
-                distance: distance
-                duration: "(" + duration + ")"}}
-              defaultMessage={'Walk {distance} ({duration}) to ' + if @props.walkToDestination then 'destination' else 'stop'} />
-          </div>
+        <div className="itinerary-leg-action">
+          <FormattedMessage
+            id={'walk-distance-to-' + if @props.walkToDestination then 'dest' else 'stop'}
+            values={{
+              distance: distance
+              duration: "(" + duration + ")"}}
+            defaultMessage={'Walk {distance} ({duration}) to ' + if @props.walkToDestination then 'destination' else 'stop'} />
         </div>
       </div>
     </div>
