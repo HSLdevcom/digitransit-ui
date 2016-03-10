@@ -26,7 +26,7 @@ class WalkLeg extends React.Component
           {if @props.index == 0
             <div><Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from"/></div>
           }
-          <div>{@props.leg.from.name}</div>
+          <div>{@props.leg.from.name} {@props.children}</div>
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div className="itinerary-leg-distance">
