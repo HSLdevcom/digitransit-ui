@@ -4,7 +4,6 @@ React             = require 'react'
 ReactDOM          = require 'react-dom'
 Relay             = require 'react-relay'
 ReactRouterRelay  = require 'react-router-relay'
-{addLocaleData}   = require 'react-intl'
 createHistory     = require 'history/lib/createBrowserHistory'
 useBasename       = require 'history/lib/useBasename'
 useQueries        = require 'history/lib/useQueries'
@@ -34,10 +33,6 @@ Raven?.setUserContext piwik: piwik.getVisitorId()
 
 #Material-ui uses touch tap events
 require('react-tap-event-plugin')()
-
-# English data added as default
-for language in config.availableLanguages
-  addLocaleData require "react-intl/lib/locale-data/" + language
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
