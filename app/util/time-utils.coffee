@@ -21,9 +21,9 @@ durationToString = (duration) ->
   duration = moment.duration(duration)
 
   if duration.asHours() >= 1
-    durationText = "#{duration.hours() + duration.days()*24}h #{duration.minutes()}min"
+    durationText = "#{duration.hours() + duration.days()*24} h #{duration.minutes()} min"
   else
-    durationText = "#{duration.minutes()}min"
+    durationText = "#{duration.minutes()} min"
 
   return durationText
 
