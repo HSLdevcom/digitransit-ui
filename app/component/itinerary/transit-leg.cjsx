@@ -53,7 +53,7 @@ class TransitLeg extends React.Component
           </div>
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
-        <div className="itinerary-leg-action--transit">
+        <div className='itinerary-transit-leg-route'>
           <div className={'capitalize'}>
             <FormattedMessage
               id={@props.leg.mode.toLowerCase()}
@@ -69,6 +69,12 @@ class TransitLeg extends React.Component
               duration: timeUtils.durationToString(@props.leg.duration * 1000)
               }}
             defaultMessage={'{number} stops ({duration})'}/>
+        </div>
+        <div className="itinerary-leg-action">
+          <FormattedMessage
+            id={'get-off-at-stop'}
+            defaultMessage={'Get off at stop'}
+          />
         </div>
         <div>{if @props.leg.intermediateStops.length > 0 && @props.leg.mode == 'AIRPLANE'
           <FormattedMessage
