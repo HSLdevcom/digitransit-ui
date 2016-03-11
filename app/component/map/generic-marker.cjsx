@@ -68,10 +68,10 @@ class GenericMarker extends React.Component
               @props.selected,
               @props.map.getZoom())}>
        <Popup options={
-         offset: [106, 3]
+         offset: config.map.genericMarker.popup.offset
          closeButton: false
-         maxWidth: 250
-         minWidth: 250
+         maxWidth: config.map.genericMarker.popup.maxWidth
+         minWidth: config.map.genericMarker.popup.minWidth
          className: "popup"}>
          {@props.children}
        </Popup>
