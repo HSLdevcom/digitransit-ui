@@ -24,8 +24,6 @@ class EndLeg extends React.Component
             defaultMessage='End journey at' />
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
-        {if config.itinerary.showEndLegDestination
-          <div>{@props.to}</div>}
       </div>
     </div>
 
