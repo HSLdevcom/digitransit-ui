@@ -52,6 +52,14 @@ class TransitLeg extends React.Component
           </div>
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
+        <div className="itinerary-leg-action--transit">
+          <div className={'capitalize'}>
+            <FormattedMessage
+              id={@props.leg.mode.toLowerCase()}
+              defaultMessage={@props.leg.mode.toLowerCase()}
+            /> {@props.leg.route}
+          </div>
+        </div>
         <div>{if @props.leg.intermediateStops.length > 0 && @props.leg.mode == 'AIRPLANE'
           <FormattedMessage
             id='num-stops-flight'

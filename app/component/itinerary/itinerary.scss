@@ -202,6 +202,12 @@ $itinerary-route-max-width: 500px;
       @include font-book;
       color: $gray;
     }
+
+    .itinerary-leg-action--transit {
+      @extend .itinerary-leg-action;
+      margin-top: 1px;
+    }
+
   }
 }
 
