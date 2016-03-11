@@ -1,6 +1,6 @@
 React                 = require 'react'
 MaterialModal         = require 'material-ui/lib/dialog'
-Icon                  = require '../icon/icon.cjsx'
+Icon                  = require '../icon/icon'
 ScoreTable            = require './score-table'
 TextAreaWithCounter   = require './text-area-with-counter'
 FeedbackActions       = require '../../action/feedback-action'

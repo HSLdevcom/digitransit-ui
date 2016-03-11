@@ -20,10 +20,10 @@ renderDepartureStoptime = (time, realtime, currentTime) ->
 durationToString = (duration) ->
   duration = moment.duration(duration)
 
-  if duration.hours() >= 1
-    durationText = "#{duration.hours()}h #{duration.minutes()}min"
+  if duration.asHours() >= 1
+    durationText = "#{duration.hours() + duration.days() * 24}h #{duration.minutes()}min"
   else
-    durationText = "#{duration.minutes()} min"
+    durationText = "#{duration.minutes()}min"
 
   return durationText
 

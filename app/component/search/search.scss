@@ -1,14 +1,15 @@
 /* Calculate some extra width for typeahead results*/
 $search-result-width: grid-calc($total-columns+1, $total-columns) + 1;
 $search-result-background-color: $white;
+$search-result-text-font-family: $font-family;
+$search-result-text-font-weight: $font-weight-book;
+$search-result-text-letter-spacing: $letter-spacing;
 $search-result-text-color: $black;
-$search-result-text-font-weight: 300;
 $search-result-text-highlight-color: $black;
-$search-result-text-highlight-font-weight: 300;
+$search-result-text-highlight-font-weight: $font-weight-book;
 $search-result-text-highlight-background-color: $background-color;
 $search-result-border-radius: $border-radius;
 $search-result-max-height: 130px;
-$search-result-font-family: $font-family;
 $search-result-icon-color: $gray;
 $search-form-icon-color: $white;
 $search-form-border-radius: $border-radius;
@@ -57,7 +58,7 @@ $search-form-location-icon-size: 18px;
 }
 
 .search-form .location .address {
-  font-weight: 300;
+  @include font-book;
 }
 
 .search-form {
@@ -123,7 +124,7 @@ $search-form-location-icon-size: 18px;
     height: $search-form-input-overlay-height;
     padding-left: 5px;
     padding-right: 3px;
-    font-weight: $font-weight-light;
+    @include font-book;
     line-height: 23px;
 
     .icon {
@@ -176,9 +177,10 @@ $search-form-location-icon-size: 18px;
 .search-form .react-autosuggest__suggestions {
   background-color: $search-result-background-color;
   color: $search-result-text-color;
+  font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
+  letter-spacing: $search-result-text-letter-spacing;
   width: $search-result-width;
-  font-family: $search-result-font-family;
   border-radius: $search-result-border-radius;
   list-style-type: none;
   padding: 5px;
@@ -213,12 +215,16 @@ ul#react-whatever-suggest {
 }
 
 .react-autowhatever__item {
-  font-weight: $search-result-text-highlight-font-weight;
+  font-family: $search-result-text-font-family;
+  font-weight: $search-result-text-font-weight;
+  letter-spacing: $search-result-text-letter-spacing;
 }
 
 .react-autowhatever__item--focused {
   color: $search-result-text-highlight-color;
-  font-weight: $search-result-text-highlight-font-weight;
+  font-family: $search-result-text-font-family;
+  font-weight: $search-result-text-font-weight;
+  letter-spacing: $search-result-text-letter-spacing;
   background-color: $search-result-text-highlight-background-color;
 }
 

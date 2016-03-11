@@ -2,17 +2,17 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../../queries'
 RouteHeader           = require '../../route/route-header'
-Icon                  = require '../../icon/icon.cjsx'
+Icon                  = require '../../icon/icon'
 Link                  = require 'react-router/lib/Link'
 FavouriteRoutesActions = require '../../../action/favourite-routes-action'
 
 
 class RouteMarkerPopup extends React.Component
   @childContextTypes:
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
 
   getChildContext: () ->
-    history: @props.context.history
+    router: @props.context.router
 
   componentDidMount: ->
     @props.context.getStore('FavouriteRoutesStore').addChangeListener @onChange

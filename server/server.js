@@ -1,6 +1,6 @@
 /********** Polyfills (for node) **********/
 require('node-cjsx').transform();
-require("babel-register")({presets: ['es2015', 'react'], plugins: ['transform-class-properties', './build/babelRelayPlugin']});
+require("babel-register");
 
 global.fetch = require('node-fetch');
 global.self = {fetch: global.fetch};

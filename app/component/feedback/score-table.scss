@@ -14,7 +14,7 @@ $not-selected-score-background-color: $white;
   line-height: 32px;
   vertical-align: middle;
   text-align: center;
-  font-family: $font-family;
+  @include font-medium;
   font-size: $font-size-small;
   border-top: solid 1px $score-column-border-color;
   border-bottom: solid 1px $score-column-border-color;

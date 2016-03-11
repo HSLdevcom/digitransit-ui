@@ -6,10 +6,8 @@ ReactDOM = require('react-dom/server')
 
 ### Route and history management ###
 match = require('react-router/lib/match')
-RoutingContext = require('react-router/lib/RoutingContext')
-createHistory = require('history/lib/createMemoryHistory')
-useQueries = require('history/lib/useQueries')
-useBasename = require('history/lib/useBasename')
+RouterContext = require('react-router/lib/RouterContext')
+createHistory = require('react-router/lib/createMemoryHistory')
 
 ### Fluxible ###
 FluxibleComponent = require('fluxible-addons-react/FluxibleComponent')
@@ -41,12 +39,6 @@ if process.env.NODE_ENV != 'development'
     <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName.main[1]}/>
     <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName[config.CONFIG + '_theme'][1]}/>
   ]
-
-# Cache fonts from google, so that we don't need an additional roud trip to fetch font definitions
-fonts = ''
-fetch(config.URL.FONT).then (res) ->
-  res.text().then (text) ->
-    fonts = text
 
 getPolyfills = (userAgent) ->
   if !userAgent or /(LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
@@ -102,13 +94,7 @@ getContent = (context, renderProps, locale) ->
   ReactDOM.renderToString(
     <FluxibleComponent context={context.getComponentContext()}>
       <IntlProvider locale={locale} messages={translations[locale]}>
-        <RoutingContext
-          history={renderProps.history}
-          createElement={React.createElement}
-          location={renderProps.location}
-          routes={renderProps.routes}
-          params={renderProps.params}
-          components={renderProps.components} />
+        <RouterContext {...renderProps}/>
       </IntlProvider>
     </FluxibleComponent>
   )
@@ -122,7 +108,8 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
     state={'window.state=' + serialize(application.dehydrate(context)) + ';'}
     locale={'window.locale="' + locale + '"'}
     scripts={getScripts(req)}
-    fonts={fonts}
+    fonts={config.URL.FONT}
+
     config={'window.config=' + JSON.stringify(config)}
     geolocationStarter={geolocationStarter}
   />
@@ -134,7 +121,7 @@ module.exports = (req, res, next) ->
   context = application.createContext()
   #required by material-ui
   global.navigator = userAgent: req.headers['user-agent']
-  location = useBasename(useQueries(createHistory))(basename: config.APP_PATH).createLocation(req.url)
+  location = createHistory(basename: config.APP_PATH).createLocation(req.url)
 
   match {routes: context.getComponent(), location: location}
   , (error, redirectLocation, renderProps) ->

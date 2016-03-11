@@ -17,14 +17,16 @@ $offcanvas-profile-icon-size: 60px;
 $offcanvas-profile-icon-color: $white;
 $offcanvas-lead-text-color: $gray;
 $offcanvas-lead-text-font-family: $font-family;
+$offcanvas-lead-text-font-weight: $font-weight-book;
+$offcanvas-lead-text-letter-spacing: $letter-spacing;
 $offcanvas-lead-text-font-size: 15px;
-$offcanvas-link-color: $white;
 $offcanvas-login-text-font-family: $font-family;
+$offcanvas-login-text-font-weight: $font-weight-book;
+$offcanvas-login-text-letter-spacing: $letter-spacing;
 $offcanvas-login-text-font-size: 14px;
 $offcanvas-login-arrow-icon-size: 14px;
-$offcanvas-link-text-font-family: $font-family;
+$offcanvas-link-color: $white;
 $offcanvas-link-text-font-size: 15px;
-$offcanvas-link-arrow-icon-size: 30px;
 
 /* Content */
 $content-background-color: $background-color;
@@ -186,11 +188,15 @@ ul.offcanvas-list {
 .offcanvas-lead {
   color: $offcanvas-lead-text-color;
   font-family: $offcanvas-lead-text-font-family;
+  font-weight: $offcanvas-lead-text-font-weight;
+  letter-spacing: $offcanvas-lead-text-letter-spacing;
   font-size: $offcanvas-lead-text-font-size;
 }
 
 .offcanvas-login {
   font-family: $offcanvas-login-text-font-family;
+  font-weight: $offcanvas-login-text-font-weight;
+  letter-spacing: $offcanvas-lead-text-letter-spacing;
   font-size: $offcanvas-login-text-font-size;
 }
 
@@ -226,7 +232,6 @@ ul.offcanvas-list {
   color: $top-navigation-sub-color;
   font-size: $top-navigation-sub-font-size;
   width: 100%;
-  position: fixed;
   top: $top-navigation-height;
   text-align: left;
   z-index: 900;
@@ -264,28 +269,6 @@ ul.offcanvas-list {
   }
 }
 
-.toggle-positioning-container {
-  position: absolute;
-  z-index: 802;
-  bottom: 15px;
-  left: 12px;
-  background-color: $background-color;
-  padding: 6px;
-  border-radius: $border-radius;
-  line-height: 0.5;
-  box-shadow:0 0 1px #000000;
-}
-
-.icon-mapMarker-toggle-positioning-online {
-  color: $hilight-color;
-  font-size: 24px;
-}
-
-.icon-mapMarker-toggle-positioning-offline {
-  color: $gray-blue;
-  font-size: 24px;
-}
-
 .date {
   width: 5em;
 }
@@ -304,7 +287,7 @@ ul.offcanvas-list {
     margin-right: 5px;
 
     &.time {
-      width: 1.9em;
+      width: auto;
 
       &.hour {
         border-top-left-radius: $border-radius;
@@ -324,7 +307,7 @@ ul.offcanvas-list {
   }
 
   .timeseparator {
-    font-weight: $font-weight-bold;
+    @include font-medium;
   }
 }
 

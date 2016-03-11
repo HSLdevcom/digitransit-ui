@@ -4,7 +4,7 @@ queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
 ModeFilterContainer   = require '../route/mode-filter-container'
 NoPositionPanel       = require './no-position-panel'
-Icon                  = require '../icon/icon.cjsx'
+Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
 ReactCSSTransitionGroup = require 'react-addons-css-transition-group'
 FavouritesPanel       = require '../favourites/favourites-panel'
@@ -13,7 +13,6 @@ NextDeparturesListHeader = require '../departure/next-departures-list-header'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 Feedback              = require '../../util/feedback'
 FeedbackActions       = require '../../action/feedback-action'
-
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
@@ -22,7 +21,7 @@ class FrontPagePanel extends React.Component
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
     piwik: React.PropTypes.object
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
     executeAction: React.PropTypes.func.isRequired
 
@@ -44,7 +43,7 @@ class FrontPagePanel extends React.Component
     @forceUpdate()
 
   onReturnToFrontPage: ->
-    if Feedback.shouldDisplayPopup()
+    if Feedback.shouldDisplayPopup(@context.getStore('TimeStore').getCurrentTime().valueOf())
       @context.executeAction FeedbackActions.openFeedbackModal
 
   getSelectedPanel: =>
@@ -64,13 +63,13 @@ class FrontPagePanel extends React.Component
     if supportsHistory()
       tabOpensOrCloses = oldSelection == null or typeof oldSelection == 'undefined' or newSelection == null
       if tabOpensOrCloses
-        @context.history.pushState
-          selectedPanel: newSelection
-        , @context.location.pathname
+        @context.router.push
+          state: selectedPanel: newSelection
+          pathname: @context.location.pathname
       else
-        @context.history.replaceState
-          selectedPanel: newSelection
-        , @context.location.pathname
+        @context.router.replace
+          state: selectedPanel: newSelection
+          pathname: @context.location.pathname
     else
       @setState
         selectedPanel: newSelection
