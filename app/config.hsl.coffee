@@ -59,7 +59,9 @@ module.exports =
     sortOthers: 8
     # Let Pelias suggest based on current user location
     locationAware: false
-  showCityBikes: true
+  cityBike:
+    showCityBikes: false
+    showBikesAvailable: false
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15
   # Highest level when stops and terminals are still rendered as small markers
