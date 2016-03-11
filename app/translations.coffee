@@ -150,6 +150,7 @@ translations =
     'funicular': 'juna'
     'transit-from-to': 'Ota {transitMode} {fromName} - {toName}'
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
+    'get-off-at-stop': 'Nouse kyydistä pysäkillä'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
