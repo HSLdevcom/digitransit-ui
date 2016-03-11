@@ -5,7 +5,7 @@ Link                      = require 'react-router/lib/Link'
 FavouriteIconTable        = require './favourite-icon-table'
 FavouriteLocationActions  = require '../../action/favourite-location-action'
 SearchField               = require '../search/search-field'
-SearchActions             = require '../../action/search-actions.coffee'
+SearchActions             = require '../../action/search-actions'
 SearchModal               = require '../search/search-modal'
 
 intl = require 'react-intl'
@@ -17,7 +17,7 @@ class AddFavouriteContainer extends React.Component
     intl: intl.intlShape.isRequired
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
 
   constructor: ->
     super
@@ -46,7 +46,7 @@ class AddFavouriteContainer extends React.Component
   save: =>
     if @canSave()
       @context.executeAction FavouriteLocationActions.addFavouriteLocation, @state
-      @context.history.pushState null, "/"
+      @context.router.replace "/"
 
   canSave: =>
     return @state.selectedIconId != undefined and

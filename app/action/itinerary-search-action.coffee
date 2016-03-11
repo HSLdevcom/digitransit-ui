@@ -1,4 +1,3 @@
-last = require 'lodash/last'
 polyUtil = require 'polyline-encoded'
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
@@ -67,7 +66,7 @@ alterLegsForAirportSupport = (data) ->
         if leg.mode == 'WAIT' and previousLeg.mode == 'AIRPLANE'
           leg.type = "LUGGAGE-COLLECT"
 
-itinerarySearchRequest = (actionContext, options, done) ->
+module.exports.itinerarySearchRequest = itinerarySearchRequest = (actionContext, options, done) ->
   itinerarySearchStore = actionContext.getStore('ItinerarySearchStore')
   if options?.params
     actionContext.dispatch "UpdateFromToPlaces",
@@ -113,86 +112,82 @@ itinerarySearchRequest = (actionContext, options, done) ->
   )
 
 
-module.exports =
-  'itinerarySearchRequest': itinerarySearchRequest
+module.exports.toggleBusState = (actionContext)  ->
+  actionContext.dispatch "ToggleItineraryBusState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleBusState: (actionContext)  ->
-    actionContext.dispatch "ToggleItineraryBusState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.toggleTramState = (actionContext)  ->
+  actionContext.dispatch "ToggleItineraryTramState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleTramState: (actionContext)  ->
-    actionContext.dispatch "ToggleItineraryTramState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.toggleRailState = (actionContext)  ->
+  actionContext.dispatch "ToggleItineraryRailState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleRailState: (actionContext)  ->
-    actionContext.dispatch "ToggleItineraryRailState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.toggleSubwayState = (actionContext)  ->
+  actionContext.dispatch "ToggleItinerarySubwayState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleSubwayState: (actionContext)  ->
-    actionContext.dispatch "ToggleItinerarySubwayState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.toggleFerryState = (actionContext)  ->
+  actionContext.dispatch "ToggleItineraryFerryState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleFerryState: (actionContext)  ->
-    actionContext.dispatch "ToggleItineraryFerryState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.toggleCitybikeState = (actionContext)  ->
+  actionContext.dispatch "ToggleItineraryCitybikeState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleCitybikeState: (actionContext)  ->
-    actionContext.dispatch "ToggleItineraryCitybikeState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.toggleAirplaneState = (actionContext)  ->
+  actionContext.dispatch "ToggleItineraryAirplaneState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleAirplaneState: (actionContext)  ->
-    actionContext.dispatch "ToggleItineraryAirplaneState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.toggleWalkState = (actionContext)  ->
+  actionContext.dispatch "ToggleItineraryWalkState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleWalkState: (actionContext)  ->
-    actionContext.dispatch "ToggleItineraryWalkState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.toggleBicycleState = (actionContext)  ->
+  actionContext.dispatch "ToggleItineraryBicycleState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleBicycleState: (actionContext)  ->
-    actionContext.dispatch "ToggleItineraryBicycleState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.toggleCarState = (actionContext)  ->
+  actionContext.dispatch "ToggleItineraryCarState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
 
-  toggleCarState: (actionContext)  ->
-    actionContext.dispatch "ToggleItineraryCarState",
-      null,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.setWalkReluctance = (actionContext, value) ->
+  actionContext.dispatch "SetWalkReluctance",
+    value,
+    actionContext.executeAction itinerarySearchRequest
 
+module.exports.setWalkBoardCost = (actionContext, value) ->
+  actionContext.dispatch "SetWalkBoardCost",
+    value,
+    actionContext.executeAction itinerarySearchRequest
 
-  setWalkReluctance: (actionContext, value) ->
-    actionContext.dispatch "SetWalkReluctance",
-      value,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.setMinTransferTime = (actionContext, value) ->
+  actionContext.dispatch "SetMinTransferTime",
+    value,
+    actionContext.executeAction itinerarySearchRequest
 
-  setWalkBoardCost: (actionContext, value) ->
-    actionContext.dispatch "SetWalkBoardCost",
-      value,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.setWalkSpeed = (actionContext, value) ->
+  actionContext.dispatch "SetWalkSpeed",
+    value,
+    actionContext.executeAction itinerarySearchRequest
 
-  setMinTransferTime: (actionContext, value) ->
-    actionContext.dispatch "SetMinTransferTime",
-      value,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.setTicketOption = (actionContext, value) ->
+  actionContext.dispatch "SetTicketOption",
+    value,
+    actionContext.executeAction itinerarySearchRequest
 
-  setWalkSpeed: (actionContext, value) ->
-    actionContext.dispatch "SetWalkSpeed",
-      value,
-      actionContext.executeAction itinerarySearchRequest
-
-  setTicketOption: (actionContext, value) ->
-    actionContext.dispatch "SetTicketOption",
-      value,
-      actionContext.executeAction itinerarySearchRequest
-
-  setAccessibilityOption: (actionContext, value) ->
-    actionContext.dispatch "SetAccessibilityOption",
-      value,
-      actionContext.executeAction itinerarySearchRequest
+module.exports.setAccessibilityOption = (actionContext, value) ->
+  actionContext.dispatch "SetAccessibilityOption",
+    value,
+    actionContext.executeAction itinerarySearchRequest

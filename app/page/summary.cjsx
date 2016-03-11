@@ -6,7 +6,7 @@ ItinerarySummary   = require '../component/itinerary/itinerary-summary'
 ArrowLink          = require '../component/util/arrow-link'
 Map                = require '../component/map/map'
 ItinerarySearchActions = require '../action/itinerary-search-action'
-EndpointActions    = require '../action/endpoint-actions.coffee'
+EndpointActions    = require '../action/endpoint-actions'
 SummaryRow         = require '../component/summary/summary-row'
 NoRoutePopup       = require '../component/summary/no-route-popup'
 SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
@@ -22,7 +22,7 @@ class SummaryPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
@@ -65,9 +65,11 @@ class SummaryPage extends React.Component
 
   onSelectActive: (index) =>
     if @getActiveIndex() == index # second click navigates
-      @context.history.pushState null, "#{@context.location.pathname}/#{index}"
+      @context.router.push "#{@context.location.pathname}/#{index}"
     else if supportsHistory()
-      @context.history.replaceState summaryPageSelected: index, @context.location.pathname
+      @context.router.replace
+        state: summaryPageSelected: index
+        pathname: @context.location.pathname
     else
       @setState summaryPageSelected: index
       @forceReload()
