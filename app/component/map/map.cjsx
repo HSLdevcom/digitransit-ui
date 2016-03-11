@@ -66,7 +66,7 @@ class Map extends React.Component
           tileSize={config.map.tileSize or 256}
           zoomOffset={config.map.zoomOffset or 0}
           updateWhenIdle={false}/>
-        cityBikes = if config.showCityBikes then <CityBikeMarkerContainer/> else null
+        cityBikes = if config.cityBike.showCityBikes then <CityBikeMarkerContainer/> else null
 
       vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
 

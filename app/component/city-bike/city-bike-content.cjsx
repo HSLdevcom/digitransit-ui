@@ -1,4 +1,5 @@
 React                 = require 'react'
+config                = require '../../config'
 CityBikeAvailability  = require './city-bike-availability'
 CityBikeUse           = require './city-bike-use'
 ComponentUsageExample = require '../documentation/component-usage-example'
@@ -13,7 +14,7 @@ CityBikeContent = (props) ->
     # In production we could use props.station.bikesAvailable
     <div className="city-bike-container">
       <CityBikeAvailability
-        bikesAvailable={props.station.bikesAvailable}
+        bikesAvailable={if config.cityBike.showBikesAvailable then props.station.bikesAvailable else 0}
         totalSpaces={props.station.bikesAvailable + props.station.spacesAvailable}/>
       <CityBikeUse/>
     </div>
