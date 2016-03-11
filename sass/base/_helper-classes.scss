@@ -128,6 +128,9 @@
 .uppercase  {
   text-transform: uppercase;
 }
+.capitalize {
+  text-transform: capitalize;
+}
 .hover  {
   &:hover {
     opacity:0.8;
