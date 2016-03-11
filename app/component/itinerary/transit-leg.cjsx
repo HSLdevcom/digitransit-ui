@@ -73,7 +73,7 @@ class TransitLeg extends React.Component
         <div className="itinerary-leg-action">
           <FormattedMessage
             id={'get-off-at-stop'}
-            defaultMessage={'Get off at stop'}
+            defaultMessage={'Alight at stop'}
           />
         </div>
         <div>{if @props.leg.intermediateStops.length > 0 && @props.leg.mode == 'AIRPLANE'
