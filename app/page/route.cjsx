@@ -11,7 +11,7 @@ RouteMapContainer      = require '../component/route/route-map-container'
 RealTimeClient         = require '../action/real-time-client-action'
 FormattedMessage       = require('react-intl').FormattedMessage
 NotImplementedAction   = require '../action/not-implemented-action'
-NotFound               = require './404.cjsx'
+NotFound               = require './404'
 intl                   = require 'react-intl'
 
 class RoutePage extends React.Component

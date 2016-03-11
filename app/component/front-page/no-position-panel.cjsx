@@ -1,6 +1,6 @@
 React          = require 'react'
-PositionActions  = require '../../action/position-actions.coffee'
-Icon           = require '../icon/icon.cjsx'
+PositionActions  = require '../../action/position-actions'
+Icon           = require '../icon/icon'
 {FormattedMessage} = require('react-intl')
 
 

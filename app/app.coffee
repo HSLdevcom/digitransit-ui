@@ -1,7 +1,7 @@
 Fluxible = require 'fluxible'
 
 app = new Fluxible(
-  component: require './routes.cjsx')
+  component: require './routes')
 
 app.registerStore require './store/service-store'
 app.registerStore require './store/favourite-routes-store'
