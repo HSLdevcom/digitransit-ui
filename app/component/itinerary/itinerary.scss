@@ -202,8 +202,8 @@ $itinerary-route-max-width: 500px;
       color: $gray;
     }
 
-    .itinerary-leg-action--transit {
-      @extend .itinerary-leg-action;
+    .itinerary-transit-leg-route {
+      @extend .itinerary-leg-text-gray;
       margin-top: 1px;
     }
 
