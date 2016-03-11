@@ -151,6 +151,7 @@ translations =
     'transit-from-to': 'Ota {transitMode} {fromName} - {toName}'
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
     'get-off-at-stop': 'Nouse kyydistä pysäkillä'
+    'number-of-intermediate-stops': '{number} pysäkkiä ({duration})'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
