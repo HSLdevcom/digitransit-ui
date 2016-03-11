@@ -4,6 +4,7 @@ Link         = require 'react-router/lib/Link'
 moment       = require 'moment'
 config       = require '../../config'
 Icon         = require '../icon/icon'
+timeUtils    = require '../../util/time-utils'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -59,6 +60,15 @@ class TransitLeg extends React.Component
               defaultMessage={@props.leg.mode.toLowerCase()}
             /> {@props.leg.route}
           </div>
+        </div>
+        <div className='itinerary-leg-intermediate-stops'>
+          <FormattedMessage
+            id={'number-of-intermediate-stops'}
+            values= {{
+              number: @props.leg.intermediateStops.length.toString()
+              duration: timeUtils.durationToString(@props.leg.duration * 1000)
+              }}
+            defaultMessage={'{number} stops ({duration})'}/>
         </div>
         <div>{if @props.leg.intermediateStops.length > 0 && @props.leg.mode == 'AIRPLANE'
           <FormattedMessage
