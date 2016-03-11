@@ -211,6 +211,14 @@ $itinerary-route-max-width: 500px;
       margin-top: 12px;
       @extend .itinerary-leg-text-gray;
     }
+
+    .itinerary-leg-intermediate-stops {
+      margin-top: 12px;
+      padding-bottom: 10px;
+      @extend .itinerary-leg-text-gray
+
+    }
+
   }
 }
 
