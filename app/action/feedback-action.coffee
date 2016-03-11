@@ -1,10 +1,5 @@
-
-openFeedbackModal = (actionContext) =>
+module.exports.openFeedbackModal = (actionContext) =>
   actionContext.dispatch "OpenFeedbackModal"
 
-closeFeedbackModal = (actionContext) =>
+module.exports.closeFeedbackModal = (actionContext) =>
   actionContext.dispatch "CloseFeedbackModal"
-
-module.exports =
-  'openFeedbackModal': openFeedbackModal
-  'closeFeedbackModal': closeFeedbackModal

@@ -39,41 +39,40 @@ parseMessage = (topic, message, actionContext) ->
     id: id
     message: messageContents
 
-module.exports =
-  startRealTimeClient: (actionContext, options, done) ->
-    #Fetch initial data
-    if !Array.isArray(options)
-      options = [options]
-    topics = (getTopic(option) for option in options)
-    for topic in topics
-      xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then (data) ->
-        parseMessage(resTopic, message, actionContext) for resTopic, message of data
-    require.ensure ['mqtt'], ->
-      mqtt = require 'mqtt'
-      client = mqtt.connect config.URL.MQTT
-      client.on 'connect', =>
-        client.subscribe topics
-      client.on 'message', (topic, message) -> parseMessage(topic, message, actionContext)
-      actionContext.dispatch "RealTimeClientStarted",
-        client: client
-        topics: topics
-      done()
-    , 'mqtt'
-
-  updateTopic: (actionContext, options, done) ->
-    options.client.unsubscribe(options.oldTopics)
-    if !Array.isArray(options.newTopic)
-      options.newTopic = [options.newTopic]
-    newTopics = (getTopic(option) for option in options.newTopic)
-    options.client.subscribe(newTopics)
-    actionContext.dispatch "RealTimeClientTopicChanged", newTopics
-    # Do the loading of initial data after clearing the vehicles object
-    for topic in newTopics
-      xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then (data) ->
-        parseMessage(resTopic, message, actionContext) for resTopic, message of data
+module.exports.startRealTimeClient = (actionContext, options, done) ->
+  #Fetch initial data
+  if !Array.isArray(options)
+    options = [options]
+  topics = (getTopic(option) for option in options)
+  for topic in topics
+    xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then (data) ->
+      parseMessage(resTopic, message, actionContext) for resTopic, message of data
+  require.ensure ['mqtt'], ->
+    mqtt = require 'mqtt'
+    client = mqtt.connect config.URL.MQTT
+    client.on 'connect', =>
+      client.subscribe topics
+    client.on 'message', (topic, message) -> parseMessage(topic, message, actionContext)
+    actionContext.dispatch "RealTimeClientStarted",
+      client: client
+      topics: topics
     done()
+  , 'mqtt'
 
-  stopRealTimeClient: (actionContext, client, done) ->
-    client.end()
-    actionContext.dispatch "RealTimeClientStopped"
-    done()
+module.exports.updateTopic = (actionContext, options, done) ->
+  options.client.unsubscribe(options.oldTopics)
+  if !Array.isArray(options.newTopic)
+    options.newTopic = [options.newTopic]
+  newTopics = (getTopic(option) for option in options.newTopic)
+  options.client.subscribe(newTopics)
+  actionContext.dispatch "RealTimeClientTopicChanged", newTopics
+  # Do the loading of initial data after clearing the vehicles object
+  for topic in newTopics
+    xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then (data) ->
+      parseMessage(resTopic, message, actionContext) for resTopic, message of data
+  done()
+
+module.exports.stopRealTimeClient = (actionContext, client, done) ->
+  client.end()
+  actionContext.dispatch "RealTimeClientStopped"
+  done()
