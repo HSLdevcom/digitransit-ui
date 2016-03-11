@@ -15,7 +15,7 @@ class SearchTwoFieldsContainer extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
   componentWillMount: =>
@@ -49,7 +49,7 @@ class SearchTwoFieldsContainer extends React.Component
   pushNonSearchState: () =>
     if location.pathname != "/"
       setTimeout(() =>
-        @context.history.pushState(null, "/")
+        @context.router.push "/"
       , 0)
 
   routeIfPossible: =>
@@ -78,7 +78,7 @@ class SearchTwoFieldsContainer extends React.Component
       # Then we can transition. We must do this in next
       # event loop in order to get blur finished.
       setTimeout(() =>
-        @context.history.pushState(null, getRoutePath(from, to))
+        @context.router.push getRoutePath(from, to)
       , 0)
 
   render: =>

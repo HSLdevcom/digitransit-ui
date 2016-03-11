@@ -16,7 +16,7 @@ class StopPage extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
   componentWillMount: ->
@@ -41,7 +41,7 @@ class StopPage extends React.Component
       @props.relay.setVariables({date: date}, () => @forceUpdate())
 
   toggleFullscreenMap: =>
-    @context.history.pushState null, "/pysakit/#{@props.params.stopId}/kartta"
+    @context.router.push "/pysakit/#{@props.params.stopId}/kartta"
 
   render: ->
     favourite = @context.getStore('FavouriteStopsStore').isFavourite(@props.params.stopId)

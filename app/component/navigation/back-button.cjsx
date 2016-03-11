@@ -4,7 +4,7 @@ Icon                  = require '../icon/icon'
 
 class BackButton extends React.Component
   @contextTypes:
-    history: React.PropTypes.object
+    router: React.PropTypes.object
 
   # TODO
   # Transition back in next event loop
@@ -15,9 +15,9 @@ class BackButton extends React.Component
   goBack: =>
     setTimeout(() =>
       if window.history.length > 1
-        @context.history.goBack()
+        @context.router.goBack()
       else
-        @context.history.pushState null, "/"
+        @context.router.push "/"
     , 0)
 
   render: ->

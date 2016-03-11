@@ -20,7 +20,7 @@ class VehicleMarkerContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
 
   getVehicleIcon: (mode, heading) =>
     tailIcon = if heading? then @getTailIcon(mode, heading) else ""
