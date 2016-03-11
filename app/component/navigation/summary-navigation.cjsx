@@ -9,7 +9,7 @@ LeftNav                     = require 'material-ui/lib/left-nav'
 class SummaryNavigation extends React.Component
   @contextTypes:
     piwik: React.PropTypes.object
-    history: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
 
   toggleCustomizeSearchOffcanvas: =>
@@ -23,11 +23,11 @@ class SummaryNavigation extends React.Component
     @context.piwik?.trackEvent "Offcanvas", "Customize Search", if newState then "close" else "open"
     if supportsHistory()
       if newState
-        @context.history.pushState
-          customizeSearchOffcanvas: newState
-        , @context.location.pathname
+        @context.router.push
+          state: customizeSearchOffcanvas: newState
+          pathname: @context.location.pathname
       else
-        @context.history.goBack()
+        @context.router.goBack()
 
   getOffcanvasState: =>
     if typeof window != 'undefined' and supportsHistory()
