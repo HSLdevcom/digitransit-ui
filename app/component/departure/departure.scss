@@ -42,7 +42,7 @@
 
 .time {
   @include font-narrow-medium;
-  width: 4em;
+  width: auto;
   margin-right: 0.5em;
   padding-right: 0.5em;
   text-align: right;
