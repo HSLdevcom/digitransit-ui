@@ -33,6 +33,18 @@ Raven?.setUserContext piwik: piwik.getVisitorId()
 #Material-ui uses touch tap events
 require('react-tap-event-plugin')()
 
+history = useRouterHistory(createHistory)(basename: config.APP_PATH)
+
+track = () ->
+  # track "getting back to home"
+  newHref = @props.history.createHref(@state.location)
+  if @href != undefined && newHref == "/" && @href != newHref
+    if Feedback.shouldDisplayPopup(context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf())
+      context.executeAction FeedbackActions.openFeedbackModal
+  @href = newHref
+  piwik.setCustomUrl(@props.history.createHref(@state.location))
+  piwik.trackPageView()
+
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
   if err
@@ -48,18 +60,9 @@ app.rehydrate dehydratedState, (err, context) ->
       <PiwikProvider piwik={piwik}>
         <StoreListeningIntlProvider translations={translations}>
           <ReactRouterRelay.RelayRouter
-            history={useRouterHistory(createHistory)(basename: config.APP_PATH)}
+            history={history}
             children={app.getComponent()}
-            onUpdate={() ->
-              # track "getting back to home"
-              newHref = @props.history.createHref(@state.location)
-              if @href != undefined && newHref == "/" && @href != newHref
-                if Feedback.shouldDisplayPopup(context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf())
-                  context.executeAction FeedbackActions.openFeedbackModal
-              @href = newHref
-              piwik.setCustomUrl(@props.history.createHref(@state.location))
-              piwik.trackPageView()
-            }
+            onUpdate={track}
           />
         </StoreListeningIntlProvider>
       </PiwikProvider>
