@@ -13,10 +13,10 @@ import config from './config';
 import StoreListeningIntlProvider from './util/store-listening-intl-provider';
 import app from './app';
 import translations from './translations';
-import PositionActions from './action/position-actions';
+import { startLocationWatch } from './action/position-actions';
+import { openFeedbackModal } from './action/feedback-action';
 import PiwikProvider from './component/util/piwik-provider';
 import Feedback from './util/feedback';
-import FeedbackActions from './action/feedback-action';
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
 const dehydratedState = window.state;
@@ -49,7 +49,7 @@ function track() {
 
   if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
     if (Feedback.shouldDisplayPopup(context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf())) {
-      context.executeAction(FeedbackActions.openFeedbackModal);
+      context.executeAction(openFeedbackModal);
     }
   }
 
@@ -80,6 +80,6 @@ app.rehydrate(dehydratedState, (err, context) => {
   if (window !== null) {
     // start positioning
     piwik.enableLinkTracking();
-    context.executeAction(PositionActions.startLocationWatch);
+    context.executeAction(startLocationWatch);
   }
 });
