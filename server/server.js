@@ -1,3 +1,5 @@
+'use strict';
+
 /* ********* Polyfills (for node) **********/
 require('node-cjsx').transform();
 
@@ -5,23 +7,25 @@ global.fetch = require('node-fetch');
 global.self = {fetch: global.fetch};
 
 
-var config = require('../app/config');
+const config = require('../app/config');
+let raven;
+
 if (process.env.NODE_ENV === 'production') {
-  var raven = require('raven');
+  raven = require('raven');
 }
 
 /* ********* Server **********/
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 /* ********* Global **********/
-var port = config.PORT || 8080;
-var app = express();
+const port = config.PORT || 8080;
+const app = express();
 
 /* Setup functions */
 function setUpStaticFolders() {
-  var staticFolder = process.cwd() + '/_static';
+  const staticFolder = process.cwd() + '/_static';
   // Sert cache for 1 week
   app.use(config.APP_PATH, express.static(staticFolder, {maxAge: 604800000}));
 }
@@ -43,7 +47,7 @@ function setupRaven() {
 }
 
 function setupErrorHandling() {
-  if (process.env.NODE_ENV == 'production') {
+  if (process.env.NODE_ENV === 'production') {
     app.use(raven.middleware.express.errorHandler(process.env.SENTRY_SECRET_DSN));
   }
 
@@ -55,9 +59,9 @@ function setUpRoutes() {
 }
 
 function startServer() {
-  var server = app.listen(port, function() {
+  const server = app.listen(port, () =>
     console.log('Digitransit-ui available on port %d', server.address().port)
-  });
+  );
 }
 
 /* ********* Init **********/
