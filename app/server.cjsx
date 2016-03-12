@@ -1,5 +1,9 @@
 fs = require('fs')
 
+require('babel-core/register')(
+  ignore: /node_modules\/(?!history|react-router)/
+)
+
 ### React ###
 React = require('react')
 ReactDOM = require('react-dom/server')
