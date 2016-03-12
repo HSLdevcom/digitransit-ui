@@ -1,10 +1,10 @@
 React        = require 'react'
-RouteNumber  = require '../departure/route-number'
+RouteNumber  = require '../../departure/route-number'
 Link         = require 'react-router/lib/Link'
 moment       = require 'moment'
-config       = require '../../config'
-Icon         = require '../icon/icon'
-timeUtils    = require '../../util/time-utils'
+config       = require '../../../config'
+Icon         = require '../../icon/icon'
+timeUtils    = require '../../../util/time-utils'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage

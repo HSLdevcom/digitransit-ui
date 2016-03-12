@@ -1,15 +1,17 @@
-React            = require 'react'
-RouteNumber      = require '../departure/route-number'
-moment           = require 'moment'
-Icon             = require '../icon/icon'
-intl             = require 'react-intl'
+React        = require 'react'
+RouteNumber  = require '../../departure/route-number'
+moment       = require 'moment'
+Icon         = require '../../icon/icon'
+intl         = require 'react-intl'
+Distance     = require '../distance'
 FormattedMessage = intl.FormattedMessage
-timeUtils        = require '../../util/time-utils'
+geoUtils         = require '../../../util/geo-utils'
+timeUtils    = require '../../../util/time-utils'
 
-class WaitLeg extends React.Component
+class WalkLeg extends React.Component
 
   render: ->
-
+    distance = geoUtils.displayDistance parseInt(@props.leg.distance)
     duration = timeUtils.durationToString(@props.leg.duration * 1000)
 
     <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
@@ -20,9 +22,12 @@ class WaitLeg extends React.Component
         <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
-        <div className='itinerary-leg-first-row'>
+        <div className="itinerary-leg-first-row">
+          {if @props.index == 0
+            <div><Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from"/></div>
+          }
           <div>
-            {@props.leg.to.name}
+            {@props.leg.from.name}
             {@props.children}
             {if @props.leg.from.stopCode then <Icon img={'icon-icon_arrow-collapse--right'} className={'itinerary-leg-first-row__arrow'}/>}
           </div>
@@ -30,13 +35,14 @@ class WaitLeg extends React.Component
         </div>
         <div className="itinerary-leg-action">
           <FormattedMessage
-            id={'wait-amount-of-time'}
+            id={'walk-distance-to-' + if @props.walkToDestination then 'dest' else 'stop'}
             values={{
+              distance: distance
               duration: "(" + duration + ")"}}
-            defaultMessage={'Wait {duration}'} />
+            defaultMessage={'Walk {distance} {duration} to ' + if @props.walkToDestination then 'destination' else 'stop'} />
         </div>
       </div>
     </div>
 
 
-module.exports = WaitLeg
+module.exports = WalkLeg

@@ -6,7 +6,7 @@ BicycleLeg         = require './bicycle-leg'
 EndLeg             = require './end-leg'
 AirportCheckInLeg  = require './airport-check-in-leg'
 AirportCollectLuggageLeg  = require './airport-collect-luggage-leg'
-StopCode                  = require './stop-code'
+StopCode                  = require '../stop-code'
 
 class ItineraryLegs extends React.Component
 
