@@ -2,6 +2,6 @@
 config = require '../config'
 
 if process.env.NODE_ENV == 'production'
-  Raven = require 'raven-js'
-  Raven.addPlugin require 'raven-js/plugins/console.js'
-  Raven.config(config.SENTRY_DSN).install()
+  window.Raven = require 'raven-js'
+  window.Raven.addPlugin require 'raven-js/plugins/console.js'
+  window.Raven.config(config.SENTRY_DSN).install()
