@@ -13,12 +13,6 @@ class TransitLeg extends React.Component
   @contextTypes:
     intl: intl.intlShape.isRequired
 
-  stopCode: (leg) ->
-    if leg.from.stopCode != undefined
-      <span className="itinerary-stop-code">{leg.from.stopCode}</span>
-    else
-      undefined
-
   render: ->
     originalTime = if @props.leg.realTime and @props.leg.departureDelay >= config.itinerary.delayThreshold then [
       <br/>,
