@@ -26,7 +26,7 @@ application = require('./app')
 config = require('./config')
 meta = require('./meta')
 translations = require('./translations')
-ApplicationHtml = require('./html')
+ApplicationHtml = require('./html').default
 
 # Look up paths for various asset files
 appRoot = process.cwd() + '/'
