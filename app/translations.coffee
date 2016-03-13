@@ -152,6 +152,12 @@ translations =
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
     'get-off-at-stop': 'Nouse kyydistä pysäkillä'
     'number-of-intermediate-stops': '{number} pysäkkiä ({duration})'
+    'bus-with-route-number': 'Bussi {routeNumber}'
+    'tram-with-route-number': 'Raitiovaunu {routeNumber}'
+    'train-with-route-number': 'Juna {routeNumber}'
+    'subway-with-route-number': 'Metro {routeNumber}'
+    'ferry-with-route-number': 'Lautta {routeNumber}'
+    'airplane-with-route-number': 'Lento {routeNumber}'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
