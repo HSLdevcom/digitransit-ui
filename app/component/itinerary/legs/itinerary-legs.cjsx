@@ -7,6 +7,13 @@ EndLeg             = require './end-leg'
 AirportCheckInLeg  = require './airport-check-in-leg'
 AirportCollectLuggageLeg  = require './airport-collect-luggage-leg'
 StopCode                  = require '../stop-code'
+BusLeg                    = require './bus-leg'
+AirplaneLeg               = require './airplane-leg'
+SubwayLeg                 = require './subway-leg'
+TramLeg                   = require './tram-leg'
+RailLeg                   = require './rail-leg'
+FerryLeg                  = require './ferry-leg'
+
 
 class ItineraryLegs extends React.Component
 
@@ -22,10 +29,18 @@ class ItineraryLegs extends React.Component
     legs = []
     @props.itinerary.legs.forEach (leg, j) =>
       focus = () => @props.focusMap(leg.from.lat, leg.from.lon)
-      if leg.transitLeg
-        legs.push <TransitLeg key={j} index={j} leg={leg} focusAction={focus}>
-          {@stopCode leg.from.stopCode}
-        </TransitLeg>
+      if leg.mode == 'BUS'
+        legs.push <BusLeg key={j} index={j} leg={leg} focusAction={focus} />
+      else if leg.mode == 'TRAM'
+        legs.push <TramLeg key={j} index={j} leg={leg} focusAction={focus} />
+      else if leg.mode == 'FERRY'
+        legs.push <FerryLeg key={j} index={j} leg={leg} focusAction={focus} />
+      else if leg.mode == 'RAIL'
+        legs.push <RailLeg key={j} index={j} leg={leg} focusAction={focus} />
+      else if leg.mode == 'SUBWAY'
+        legs.push <SubwayLeg key={j} index={j} leg={leg} focusAction={focus} />
+      else if leg.mode == 'AIRPLANE'
+        legs.push <AirplaneLeg key={j} index={j} leg={leg} focusAction={focus} />
       else if leg.type == "CHECK-IN"
         legs.push <AirportCheckInLeg key={j} index={j} leg={leg} focusAction={focus}/>
       else if leg.type == "LUGGAGE-COLLECT"

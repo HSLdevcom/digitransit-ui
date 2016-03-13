@@ -5,6 +5,7 @@ moment       = require 'moment'
 config       = require '../../../config'
 Icon         = require '../../icon/icon'
 timeUtils    = require '../../../util/time-utils'
+StopCode     = require '../stop-code'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -12,6 +13,12 @@ FormattedMessage = intl.FormattedMessage
 class TransitLeg extends React.Component
   @contextTypes:
     intl: intl.intlShape.isRequired
+
+  stopCode: (stopCode) ->
+    if stopCode
+      <StopCode code={stopCode}/>
+    else
+      undefined
 
   render: ->
     originalTime = if @props.leg.realTime and @props.leg.departureDelay >= config.itinerary.delayThreshold then [
@@ -31,29 +38,24 @@ class TransitLeg extends React.Component
             {originalTime}
           </div>
           <RouteNumber
-            mode={@props.leg.mode.toLowerCase()}
+            mode={@props.mode.toLowerCase()}
             text={@props.leg.routeShortName}
             realtime={@props.leg.realTime}
             vertical={true}
           />
         </div>
       </Link>
-      <div onClick={@props.focusAction}  className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
+      <div onClick={@props.focusAction}  className={"small-10 columns itinerary-instruction-column " + @props.mode.toLowerCase() + if @props.index == 0 then " from" else ""}>
         <div className="itinerary-leg-first-row">
           <div>
             {@props.leg.from.name}
-            {@props.children}
+            {@stopCode @props.leg.from.stopCode}
             <Icon img={'icon-icon_arrow-collapse--right'} className={'itinerary-leg-first-row__arrow'}/>
           </div>
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div className='itinerary-transit-leg-route'>
-          <div className={'capitalize'}>
-            <FormattedMessage
-              id={@props.leg.mode.toLowerCase()}
-              defaultMessage={@props.leg.mode.toLowerCase()}
-            /> {@props.leg.route}
-          </div>
+          {@props.children}
         </div>
         <div className='itinerary-leg-intermediate-stops'>
           <FormattedMessage
