@@ -70,11 +70,11 @@ class TransitLeg extends React.Component
             defaultMessage={'Alight at stop'}
           />
         </div>
-        <div>{if @props.leg.intermediateStops.length > 0 && @props.leg.mode == 'AIRPLANE'
+        <div>{if @props.leg.intermediateStops.length.toString() > 0 && @props.mode == 'AIRPLANE'
           <FormattedMessage
             id='num-stops-flight'
             values={{
-              stops: @props.leg.intermediateStops.length}}
+              stops: @props.leg.intermediateStops.length.toString()}}
             defaultMessage='{
               stops, plural,
               =1 {one stop}
