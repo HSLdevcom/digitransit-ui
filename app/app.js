@@ -1,24 +1,38 @@
 import Fluxible from 'fluxible';
 import routes from './routes';
+import ServiceStore from './store/service-store';
+import FavouriteRoutesStore from './store/favourite-routes-store';
+import FavouriteStopsStore from './store/favourite-stops-store';
+import EndpointStore from './store/endpoint-store';
+import ItinerarySearchStore from './store/itinerary-search-store';
+import PositionStore from './store/position-store';
+import RealTimeInformationStore from './store/real-time-information-store';
+import TimeStore from './store/time-store';
+import PreferencesStore from './store/preferences-store';
+import ModeStore from './store/mode-store';
+import NotImplementedStore from './store/not-implemented-store';
+import CityBikeStore from './store/city-bike-store';
+import FeedbackStore from './store/feedback-store';
+import FavouriteLocationStore from './store/favourite-location-store';
+import SearchStore from './store/search-store';
 
 const app = new Fluxible({
   component: routes,
 });
 
-app.registerStore(require('./store/service-store'));
-app.registerStore(require('./store/favourite-routes-store'));
-app.registerStore(require('./store/favourite-stops-store'));
-app.registerStore(require('./store/endpoint-store'));
-app.registerStore(require('./store/itinerary-search-store'));
-app.registerStore(require('./store/position-store'));
-app.registerStore(require('./store/real-time-information-store'));
-app.registerStore(require('./store/time-store'));
-app.registerStore(require('./store/preferences-store'));
-app.registerStore(require('./store/mode-store'));
-app.registerStore(require('./store/not-implemented-store'));
-app.registerStore(require('./store/city-bike-store'));
-app.registerStore(require('./store/feedback-store'));
-app.registerStore(require('./store/favourite-location-store'));
-app.registerStore(require('./store/search-store'));
-
+app.registerStore(ServiceStore);
+app.registerStore(FavouriteRoutesStore);
+app.registerStore(FavouriteStopsStore);
+app.registerStore(EndpointStore);
+app.registerStore(ItinerarySearchStore);
+app.registerStore(PositionStore);
+app.registerStore(RealTimeInformationStore);
+app.registerStore(TimeStore);
+app.registerStore(PreferencesStore);
+app.registerStore(ModeStore);
+app.registerStore(NotImplementedStore);
+app.registerStore(CityBikeStore);
+app.registerStore(FeedbackStore);
+app.registerStore(FavouriteLocationStore);
+app.registerStore(SearchStore);
 export default app;
