@@ -124,7 +124,10 @@ translations =
     'airport-collect-luggage': 'Nouda matkatavarat'
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
     'get-off-at-stop': 'Nouse kyydistä pysäkillä'
-    'number-of-intermediate-stops': '{number} pysäkkiä ({duration})'
+    'number-of-intermediate-stops':'{number, plural,
+      =0 {Ei pysähdyksiä}
+      other {# pysäkkiä}
+    } ({duration})'
     'bus-with-route-number': 'Bussi {routeNumber}'
     'tram-with-route-number': 'Raitiovaunu {routeNumber}'
     'train-with-route-number': 'Juna {routeNumber}'
@@ -220,7 +223,10 @@ translations =
     'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate'
     'airport-collect-luggage': 'Samla ditt bagage om någon'
     'get-off-at-stop': 'TODO'
-    'number-of-intermediate-stops': '{number} hållplatser ({duration})'
+    'number-of-intermediate-stops':'{number, plural,
+      =0 {Ingen hållplatser}
+      other {# hållplatser}
+    } ({duration})'
     'bus-with-route-number': 'Bussen {routeNumber}'
     'tram-with-route-number': 'Spårvagnen {routeNumber}'
     'train-with-route-number': 'Tågen {routeNumber}'
@@ -355,7 +361,10 @@ translations =
     'airport-collect-luggage': 'Hent eventuell bagasje'
     'walk': 'gå'
     'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
-    'number-of-intermediate-stops': '{number} TODO ({duration})'
+    'number-of-intermediate-stops':'{number, plural,
+      =0 {Ingen hållplatser}
+      other {# hållplatser}
+    } ({duration})'
     'bus-with-route-number': 'TODO {routeNumber}'
     'tram-with-route-number': 'TODO {routeNumber}'
     'train-with-route-number': 'TODO {routeNumber}'
