@@ -253,6 +253,8 @@ translations =
     'subway-with-route-number': 'Tunnelbanan {routeNumber}'
     'ferry-with-route-number': 'Färjan {routeNumber}'
     'airplane-with-route-number': 'Flyget {routeNumber}'
+    'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
+    'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -403,5 +405,7 @@ translations =
     'subway-with-route-number': 'TODO {routeNumber}'
     'ferry-with-route-number': 'TODO {routeNumber}'
     'airplane-with-route-number': 'TODO {routeNumber}'
+    'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
+    'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
 
 module.exports = translations
