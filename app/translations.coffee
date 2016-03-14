@@ -30,10 +30,6 @@ translations =
     'later': 'Myöhemmin'
     'instructions': 'Ohjeet'
     'map': 'Kartta'
-    'start-journey-stop': 'Aloita matka pysäkiltä'
-    'route-with-headsign': 'Reitti suuntaan {headsign}'
-    'route-without-headsign': 'Linja {route}'
-    'end-journey': 'Lopeta matka paikassa'
     'buy-ticket': 'Osta lippu'
     'required-ticket': 'Reitillä tarvittava lippu'
     'num-stops': '{stops, plural,
@@ -42,7 +38,6 @@ translations =
                             } ({minutes, plural,
                                =1 {yksi minuutti}
                                other {# minuuttia}})'
-    'start-journey-place': 'Aloita matka paikasta'
     'share': 'Jaa ohje'
     'print': 'Tulosta'
     'navigate': 'Navigoi'
@@ -114,7 +109,6 @@ translations =
     'how-to-rate-service': 'Kuinka arvioisit palvelua?'
     'char-left': 'merkkiä'
     'send': 'Lähetä'
-    'walk-from-to': "Kävele {fromName} - {toName}"
     'walk-distance-to-stop': 'Kävele {distance} {duration} pysäkille'
     'walk-distance-to-dest': 'Kävele {distance} {duration} määränpäähän'
     'approx-meters': '{approxDistance} m'
@@ -131,7 +125,6 @@ translations =
     'location-examples': "esim. Koti, Työ, Koulu,..."
     'save': "Tallenna"
     'address': 'Osoite'
-    'wait-message': 'Odota paikassa {stopPlace}'
     'wait-amount-of-time': 'Odota {duration}'
     'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä'
     'airport-security-check-go-to-gate': 'Kävele turvatarkastuksen läpi lähtöportille'
@@ -148,7 +141,6 @@ translations =
     'cable_car': 'kondooli'
     'gondola': 'kondooli'
     'funicular': 'juna'
-    'transit-from-to': 'Ota {transitMode} {fromName} - {toName}'
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
     'get-off-at-stop': 'Nouse kyydistä pysäkillä'
     'number-of-intermediate-stops': '{number} pysäkkiä ({duration})'
@@ -178,10 +170,6 @@ translations =
     'later': 'Senare'
     'instructions': 'Instruktioner'
     'map': 'Karta'
-    'start-journey-stop': 'Utgå från hållplatsen'
-    'route-with-headsign': "Linje {route} i riktning mot {headsign}"
-    'route-without-headsign': "Linje {route}"
-    'end-journey': 'Avsluta resan vid'
     'required-ticket': 'Biljett för resan'
     'num-stops': '{stops, plural,
                              =1 {en hållplats}
@@ -189,7 +177,6 @@ translations =
                             } ({minutes, plural,
                                =1 {en minut}
                                other {# minuter}})'
-    'start-journey-place': 'Utgå från'
     'share': 'Dela resan'
     'print': 'Skriv ut'
     'navigate': 'Navigera'
@@ -255,7 +242,6 @@ translations =
     'close': 'Stäng'
     'weather-at-destination': 'Vädret på destinationen'
     'trip-co2-emissions': 'Längs CO2-utsläpp'
-    'wait-message': 'Vänta i {estimatedTime} vid {stopPlace}'
     'airport-check-in': 'Bagage kan checkas in på {agency}'
     'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate'
     'airport-collect-luggage': 'Samla ditt bagage om någon'
@@ -297,10 +283,6 @@ translations =
     'later': 'Senere'
     'instructions': 'Instruksjoner'
     'map': 'Kart'
-    'start-journey-stop': 'Start fra holdeplassen'
-    'route-with-headsign': "Mot {headsign}"
-    'route-without-headsign': "Rute: {route}"
-    'end-journey': 'Du er fremme'
     'buy-ticket': 'Kjøp billett'
     'required-ticket': 'Billett før påstigning'
     'num-stops': '{stops, plural,
@@ -311,7 +293,6 @@ translations =
                             =1 {En mellomlanding}
                             other {# mellomlandinger}
                            }'
-    'start-journey-place': 'Start fra'
     'share': 'Del reisen'
     'print': 'Skriv ut'
     'navigate': 'Naviger'
@@ -385,8 +366,6 @@ translations =
     'how-to-rate-service': 'Hvordan vil du rangere tjenesten?'
     'char-left': 'slett'
     'send': 'Send'
-    'walk-from-to': 'Gå {estimatedTime} fra {fromName} til {toName}'
-    'walk-from-to-same-dest': 'Gå {estimatedTime} på {fromName}'
     'approx-meters': '{approxDistance} meter'
     'very-likely': 'Svært sannsynlig'
     'very-unlikely': 'Lite sannsynlig'
@@ -401,7 +380,6 @@ translations =
     'location-examples': "f.eks hjemme, arbeid, skole ..."
     'save': "Lagre"
     'address': 'Adresse'
-    'wait-message': 'Vent i {estimatedTime} ved {stopPlace}'
     'airport-check-in': 'Bagasje kan sjekkes inn hos {agency}'
     'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate'
     'airport-collect-luggage': 'Hent eventuell bagasje'
@@ -417,7 +395,6 @@ translations =
     'cable_car': 'kabeltrikk'
     'gondola': 'gondolbane'
     'funicular': 'taubane'
-    'transit-from-to': 'Ta {transitMode} fra {fromName} til {toName} ({duration})'
     'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
     'number-of-intermediate-stops': '{number} TODO ({duration})'
     'bus-with-route-number': 'TODO {routeNumber}'
