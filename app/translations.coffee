@@ -229,6 +229,9 @@ translations =
     'airplane-with-route-number': 'Flyget {routeNumber}'
     'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
     'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
+    'wait-amount-of-time': 'Vänta {duration}'
+    'cycle-from-to': 'TODO {fromName} - {toName}'
+    'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -361,5 +364,7 @@ translations =
     'airplane-with-route-number': 'TODO {routeNumber}'
     'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
     'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
+    'wait-amount-of-time': 'TODO {duration}'
+    'get-off-at-stop': 'TODO'
 
 module.exports = translations
