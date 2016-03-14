@@ -259,6 +259,14 @@ translations =
     'airport-check-in': 'Bagage kan checkas in på {agency}'
     'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate'
     'airport-collect-luggage': 'Samla ditt bagage om någon'
+    'get-off-at-stop': 'TODO'
+    'number-of-intermediate-stops': '{number} hållplatser ({duration})'
+    'bus-with-route-number': 'Bussen {routeNumber}'
+    'tram-with-route-number': 'Spårvagnen {routeNumber}'
+    'train-with-route-number': 'Tågen {routeNumber}'
+    'subway-with-route-number': 'Tunnelbanan {routeNumber}'
+    'ferry-with-route-number': 'Färjan {routeNumber}'
+    'airplane-with-route-number': 'Flyget {routeNumber}'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -411,5 +419,12 @@ translations =
     'funicular': 'taubane'
     'transit-from-to': 'Ta {transitMode} fra {fromName} til {toName} ({duration})'
     'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
+    'number-of-intermediate-stops': '{number} TODO ({duration})'
+    'bus-with-route-number': 'TODO {routeNumber}'
+    'tram-with-route-number': 'TODO {routeNumber}'
+    'train-with-route-number': 'TODO {routeNumber}'
+    'subway-with-route-number': 'TODO {routeNumber}'
+    'ferry-with-route-number': 'TODO {routeNumber}'
+    'airplane-with-route-number': 'TODO {routeNumber}'
 
 module.exports = translations
