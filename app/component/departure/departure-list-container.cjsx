@@ -9,8 +9,6 @@ moment                = require 'moment'
 Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
 
-moment.locale('fi')
-
 class DepartureListContainer extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired

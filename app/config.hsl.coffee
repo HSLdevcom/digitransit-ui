@@ -40,6 +40,8 @@ module.exports =
     bucketSize: 100
   maxWalkDistance: 2500
   maxBikingDistance: 10000
+  availableLanguages: ['fi', 'sv', 'en']
+  defaultLanguage: 'en'
   leftMenu:
     show: true
   itinerary:
@@ -102,6 +104,13 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  moment:
+    relativeTimeThreshold:
+      seconds: 55
+      minutes: 59
+      hours: 23
+      days: 26
+      months: 11
   customizeSearch:
     walkReluctance:
       available: true

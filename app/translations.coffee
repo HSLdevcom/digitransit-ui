@@ -259,9 +259,7 @@ translations =
     'airport-check-in': 'Bagage kan checkas in på {agency}'
     'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate'
     'airport-collect-luggage': 'Samla ditt bagage om någon'
-    'bus': 'bussilla'
-    'transit-from-to': 'Matkusta {transitMode} pysäkiltä {fromName} pysäkille {toName} ({duration})'
-  'no':
+  'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
     'route-page.title': "Rute {route_short_name}"

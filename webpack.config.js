@@ -6,6 +6,8 @@ var csswring = require('csswring');
 var StatsPlugin = require('stats-webpack-plugin');
 var fs = require("fs");
 
+require('coffee-script/register');
+
 var port = process.env.HOT_LOAD_PORT || 9000;
 
 
@@ -35,17 +37,44 @@ function getLoadersConfig(env) {
   }
 }
 
+function getAllPossibleLanguages() {
+  var srcDirectory = "app";
+  return fs.readdirSync(srcDirectory)
+    .filter(function(file) {
+      if(/^config\.\w+\.coffee$/.test(file)) return file;
+    })
+    .filter(function(file) {
+      if(!/^config\.client\.coffee$/.test(file)) return file;
+    })
+    .map(function(file) {
+      var config = require("./"+srcDirectory+"/"+file);
+      return config.availableLanguages;
+    })
+    .reduce(function(languages, languages2) {
+      return languages.concat(languages2);
+    })
+    .filter(function(language, position, languages) {
+      return languages.indexOf(language) == position;
+    });
+}
+
 function getPluginsConfig(env) {
+  var languageExpression = new RegExp("^./(" + getAllPossibleLanguages().join('|') + ")$");
+  var momentExpression = /moment[\\\/]locale$/;
+  var reactIntlExpression = /react-intl[\/\\]lib[\/\\]locale\-data$/;
+
   if (env === "development") {
     return([
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /fi|sv|en\-gb/),
+      new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
+      new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
       new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify("development")}}),
       new webpack.NoErrorsPlugin()
     ])
   } else {
     return([
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|sv|en\-gb/),
+      new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
+      new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
       new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify("production")}}),
       new webpack.PrefetchPlugin('react'),
       new webpack.PrefetchPlugin('react-router'),

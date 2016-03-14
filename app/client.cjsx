@@ -4,7 +4,6 @@ React             = require 'react'
 ReactDOM          = require 'react-dom'
 Relay             = require 'react-relay'
 ReactRouterRelay  = require 'react-router-relay'
-{addLocaleData}   = require 'react-intl'
 createHistory     = require 'history/lib/createBrowserHistory'
 useRouterHistory  = require 'react-router/lib/useRouterHistory'
 FluxibleComponent = require 'fluxible-addons-react/FluxibleComponent'
@@ -33,10 +32,6 @@ Raven?.setUserContext piwik: piwik.getVisitorId()
 
 #Material-ui uses touch tap events
 require('react-tap-event-plugin')()
-
-# English data added as default
-addLocaleData require "react-intl/lib/locale-data/fi"
-addLocaleData require "react-intl/lib/locale-data/sv"
 
 # Run application
 app.rehydrate dehydratedState, (err, context) ->
