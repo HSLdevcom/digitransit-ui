@@ -5,6 +5,8 @@ Link               = require 'react-router/lib/Link'
 RouteNumber        = require '../departure/route-number'
 DepartureTime      = require '../departure/departure-time'
 cx                 = require 'classnames'
+Icon  = require '../icon/icon'
+
 
 class SummaryRow extends React.Component
   render: -> # TODO: divide into separate components/functions
@@ -17,6 +19,9 @@ class SummaryRow extends React.Component
     legTimes = []
     MIN_SIZE = "3.7em"
     for leg, i in data.legs
+
+
+
       isLastLeg = i == data.legs.length - 1
       isFirstLeg = i == 0
       legStart = moment(leg.startTime)
@@ -44,7 +49,7 @@ class SummaryRow extends React.Component
         text = " M"
       else if leg.mode == 'WAIT'
         # Use waittime in minutes
-        text = " #{Math.round(leg.duration / 60)}min"
+        #text = " #{Math.round(leg.duration / 60)}min"
       else if leg.transitLeg and leg.route.length < 6
         text = " #{leg.route}"
       else if leg.transitLeg and leg.route.length >= 6
@@ -54,9 +59,9 @@ class SummaryRow extends React.Component
         # that option will mostly show garbage for user
         text = ""
       else
-        m = Math.ceil(leg.distance / 10) * 10
-        km = (leg.distance / 1000).toFixed(1)
-        text = if m < 1000 then "#{m}m" else "#{km}km"
+        #m = Math.ceil(leg.distance / 10) * 10
+        #km = (leg.distance / 1000).toFixed(1)
+        #text = if m < 1000 then "#{m}m" else "#{km}km"
 
       legClasses =
         "#{leg.mode.toLowerCase()}": !isFirstLeg
@@ -64,27 +69,29 @@ class SummaryRow extends React.Component
         start: isFirstLeg
         end: isLastLeg
 
-      legs.push <span key={i + 'a'}
-        style={styleLine}
-        className={cx "line", leg.mode.toLowerCase()}>
-        <span key={i + 'b'} className={cx "summary-circle", legClasses}></span>
-        <RouteNumber mode={leg.mode.toLowerCase()} text={text} realtime={leg.realTime}/>
-      </span>
+      if leg.transitLeg
+        legs.push <span key={i + 'a'}
+          className={cx "line", leg.mode.toLowerCase()}>
+          <Icon className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()}/>
 
-      unless isLastLeg and not isEnoughRoomForLastLegStartTime
-        legTimes.push <DepartureTime
-          key={i + "depTime"}
-          departureTime={leg.startTime / 1000}
-          realtime={leg.realTime}
-          currentTime={currentTime}
-          style={styleTime} />
 
-      if isLastLeg
-        legTimes.push <DepartureTime
-          key="arrivalTime"
-          departureTime={leg.endTime / 1000}
-          realtime={leg.realTime}
-          currentTime={currentTime} />
+        </span>
+
+
+      #unless isLastLeg and not isEnoughRoomForLastLegStartTime
+    #    legTimes.push <DepartureTime
+  #        key={i + "depTime"}
+  #        departureTime={leg.startTime / 1000}
+  #        realtime={leg.realTime}
+  #        currentTime={currentTime}
+  #        style={styleTime} />
+#
+#      if isLastLeg
+#        legTimes.push <DepartureTime
+#          key="arrivalTime"
+#          departureTime={leg.endTime / 1000}
+#          realtime={leg.realTime}
+#          currentTime={currentTime} />
 
     durationText = timeUtils.durationToString(duration)
 

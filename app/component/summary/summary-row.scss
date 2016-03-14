@@ -14,14 +14,32 @@
   }
 
   & .itinerary-legs {
-    position: relative;
+    //position: relative;
     width: 100%;
     padding-bottom: 2em;
     white-space: nowrap;
+
+
     .line {
-      position: absolute;
-      border-bottom: 3px solid;
       white-space: nowrap;
+
+      padding: 1em;
+      margin: 10px auto;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+
+      &:after {
+        content:"";
+        position: absolute;
+        z-index: -1;
+        right: 1px;
+        left: 0;
+        top: 0%;
+        border-bottom: 7px solid;
+        border-radius: 3.5px;
+      }
+
       &.walk {
         border-bottom-style: dotted;
       }
@@ -37,6 +55,12 @@
       &.bicycle_walk {
         border-bottom-style: dotted;
       }
+
+      .icon {
+        width: 3em;
+        height: 3em;
+      }
+
     }
     .vehicle-number {
       @include font-narrow-medium;
