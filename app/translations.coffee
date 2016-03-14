@@ -30,23 +30,11 @@ translations =
     'later': 'Myöhemmin'
     'instructions': 'Ohjeet'
     'map': 'Kartta'
-    'start-journey-stop': 'Aloita matka pysäkiltä'
-    'route-with-headsign': 'Reitti suuntaan {headsign}'
-    'route-without-headsign': 'Linja {route}'
-    'end-journey': 'Lopeta matka paikassa'
     'buy-ticket': 'Osta lippu'
     'required-ticket': 'Reitillä tarvittava lippu'
-    'num-stops': '{stops, plural,
-                             =1 {yksi pysäkki}
-                             other {# pysäkkiä}
-                            } ({minutes, plural,
-                               =1 {yksi minuutti}
-                               other {# minuuttia}})'
-    'start-journey-place': 'Aloita matka paikasta'
     'share': 'Jaa ohje'
     'print': 'Tulosta'
     'navigate': 'Navigoi'
-    'minutes': 'minuuttia'
     'routes': 'Linjat'
     'time': 'Aika'
     'stop': 'Pysäkki'
@@ -114,7 +102,8 @@ translations =
     'how-to-rate-service': 'Kuinka arvioisit palvelua?'
     'char-left': 'merkkiä'
     'send': 'Lähetä'
-    'walk-from-to': "Kävele {fromName} - {toName}"
+    'walk-distance-to-stop': 'Kävele {distance} {duration} pysäkille'
+    'walk-distance-to-dest': 'Kävele {distance} {duration} määränpäähän'
     'approx-meters': '{approxDistance} m'
     'very-likely': 'Erittäin todennäköistä'
     'very-unlikely': 'Erittäin epätodennäköistä'
@@ -129,24 +118,22 @@ translations =
     'location-examples': "esim. Koti, Työ, Koulu,..."
     'save': "Tallenna"
     'address': 'Osoite'
-    'wait-message': 'Odota paikassa {stopPlace}'
+    'wait-amount-of-time': 'Odota {duration}'
     'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä'
     'airport-security-check-go-to-gate': 'Kävele turvatarkastuksen läpi lähtöportille'
     'airport-collect-luggage': 'Nouda matkatavarat'
-    'rail': 'juna'
-    'subway': 'metro'
-    'bus': 'bussi'
-    'airplane': 'lento'
-    'walk': 'kävele'
-    'bicycle': 'pyörä'
-    'car': 'auto'
-    'tram': 'raitiovaunu'
-    'ferry': 'lautta'
-    'cable_car': 'kondooli'
-    'gondola': 'kondooli'
-    'funicular': 'juna'
-    'transit-from-to': 'Ota {transitMode} {fromName} - {toName}'
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
+    'get-off-at-stop': 'Nouse kyydistä pysäkillä'
+    'number-of-intermediate-stops':'{number, plural,
+      =0 {Ei pysähdyksiä}
+      other {# pysäkkiä}
+    } ({duration})'
+    'bus-with-route-number': 'Bussi {routeNumber}'
+    'tram-with-route-number': 'Raitiovaunu {routeNumber}'
+    'train-with-route-number': 'Juna {routeNumber}'
+    'subway-with-route-number': 'Metro {routeNumber}'
+    'ferry-with-route-number': 'Lautta {routeNumber}'
+    'airplane-with-route-number': 'Lento {routeNumber}'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -167,22 +154,10 @@ translations =
     'later': 'Senare'
     'instructions': 'Instruktioner'
     'map': 'Karta'
-    'start-journey-stop': 'Utgå från hållplatsen'
-    'route-with-headsign': "Linje {route} i riktning mot {headsign}"
-    'route-without-headsign': "Linje {route}"
-    'end-journey': 'Avsluta resan vid'
     'required-ticket': 'Biljett för resan'
-    'num-stops': '{stops, plural,
-                             =1 {en hållplats}
-                             other {# hållplatser}
-                            } ({minutes, plural,
-                               =1 {en minut}
-                               other {# minuter}})'
-    'start-journey-place': 'Utgå från'
     'share': 'Dela resan'
     'print': 'Skriv ut'
     'navigate': 'Navigera'
-    'minutes': 'minuter'
     'routes': 'Linjer'
     'time': 'Tid'
     'stop': 'Hållplats'
@@ -244,10 +219,25 @@ translations =
     'close': 'Stäng'
     'weather-at-destination': 'Vädret på destinationen'
     'trip-co2-emissions': 'Längs CO2-utsläpp'
-    'wait-message': 'Vänta i {estimatedTime} vid {stopPlace}'
     'airport-check-in': 'Bagage kan checkas in på {agency}'
     'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate'
     'airport-collect-luggage': 'Samla ditt bagage om någon'
+    'get-off-at-stop': 'TODO'
+    'number-of-intermediate-stops':'{number, plural,
+      =0 {Ingen hållplatser}
+      other {# hållplatser}
+    } ({duration})'
+    'bus-with-route-number': 'Bussen {routeNumber}'
+    'tram-with-route-number': 'Spårvagnen {routeNumber}'
+    'train-with-route-number': 'Tågen {routeNumber}'
+    'subway-with-route-number': 'Tunnelbanan {routeNumber}'
+    'ferry-with-route-number': 'Färjan {routeNumber}'
+    'airplane-with-route-number': 'Flyget {routeNumber}'
+    'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
+    'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
+    'wait-amount-of-time': 'Vänta {duration}'
+    'cycle-from-to': 'TODO {fromName} - {toName}'
+    'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -278,25 +268,11 @@ translations =
     'later': 'Senere'
     'instructions': 'Instruksjoner'
     'map': 'Kart'
-    'start-journey-stop': 'Start fra holdeplassen'
-    'route-with-headsign': "Mot {headsign}"
-    'route-without-headsign': "Rute: {route}"
-    'end-journey': 'Du er fremme'
     'buy-ticket': 'Kjøp billett'
     'required-ticket': 'Billett før påstigning'
-    'num-stops': '{stops, plural,
-                             =1 {en holdeplass}
-                             other {# holdeplasser}
-                            } ({duration})'
-    'num-stops-flight': '{stops, plural,
-                            =1 {En mellomlanding}
-                            other {# mellomlandinger}
-                           }'
-    'start-journey-place': 'Start fra'
     'share': 'Del reisen'
     'print': 'Skriv ut'
     'navigate': 'Naviger'
-    'minutes': 'minutter'
     'nearby-stops': 'Holdeplasser i nærheten'
     'nearby-routes': 'Ruter i nærheten'
     'routes': 'Ruter'
@@ -366,8 +342,6 @@ translations =
     'how-to-rate-service': 'Hvordan vil du rangere tjenesten?'
     'char-left': 'slett'
     'send': 'Send'
-    'walk-from-to': 'Gå {estimatedTime} fra {fromName} til {toName}'
-    'walk-from-to-same-dest': 'Gå {estimatedTime} på {fromName}'
     'approx-meters': '{approxDistance} meter'
     'very-likely': 'Svært sannsynlig'
     'very-unlikely': 'Lite sannsynlig'
@@ -382,23 +356,24 @@ translations =
     'location-examples': "f.eks hjemme, arbeid, skole ..."
     'save': "Lagre"
     'address': 'Adresse'
-    'wait-message': 'Vent i {estimatedTime} ved {stopPlace}'
     'airport-check-in': 'Bagasje kan sjekkes inn hos {agency}'
     'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate'
     'airport-collect-luggage': 'Hent eventuell bagasje'
-    'rail': 'tog'
-    'subway': 'T-bane'
-    'bus': 'buss'
-    'airplane': 'fly'
     'walk': 'gå'
-    'bicycle': 'sykkel'
-    'car': 'bil'
-    'tram': 'trikk'
-    'ferry': 'ferge'
-    'cable_car': 'kabeltrikk'
-    'gondola': 'gondolbane'
-    'funicular': 'taubane'
-    'transit-from-to': 'Ta {transitMode} fra {fromName} til {toName} ({duration})'
     'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
+    'number-of-intermediate-stops':'{number, plural,
+      =0 {Ingen hållplatser}
+      other {# hållplatser}
+    } ({duration})'
+    'bus-with-route-number': 'TODO {routeNumber}'
+    'tram-with-route-number': 'TODO {routeNumber}'
+    'train-with-route-number': 'TODO {routeNumber}'
+    'subway-with-route-number': 'TODO {routeNumber}'
+    'ferry-with-route-number': 'TODO {routeNumber}'
+    'airplane-with-route-number': 'TODO {routeNumber}'
+    'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
+    'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
+    'wait-amount-of-time': 'TODO {duration}'
+    'get-off-at-stop': 'TODO'
 
 module.exports = translations

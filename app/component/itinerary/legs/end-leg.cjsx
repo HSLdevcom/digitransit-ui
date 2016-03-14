@@ -1,7 +1,7 @@
 React  = require 'react'
 moment = require 'moment'
-config = require '../../config'
-Icon   = require '../icon/icon'
+config = require '../../../config'
+Icon   = require '../../icon/icon'
 intl   = require('react-intl')
 FormattedMessage = intl.FormattedMessage
 
@@ -19,13 +19,9 @@ class EndLeg extends React.Component
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to"/>
         </div>
         <div className="itinerary-leg-first-row">
-          <FormattedMessage
-            id='end-journey'
-            defaultMessage='End journey at' />
+          {@props.to}
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
-        {if config.itinerary.showEndLegDestination
-          <div>{@props.to}</div>}
       </div>
     </div>
 

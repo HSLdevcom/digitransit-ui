@@ -65,11 +65,6 @@ $itinerary-route-max-width: 500px;
   color: $medium-gray;
 }
 
-.itinerary-leg-first-row {
-  display: block;
-  width: 90%;
-}
-
 .duration {
   font-weight: $font-weight-bold;
 }
@@ -188,13 +183,42 @@ $itinerary-route-max-width: 500px;
     font-size: 10pt;
     padding-left: 1.5em;
     min-height: 4em;
-    div {
+
+    .itinerary-leg-first-row {
+      display: block;
+      width: 90%;
+      color: $black;
+      @include font-medium;
+
+      .itinerary-leg-first-row__arrow {
+        @include font-medium;
+        font-size: 6px;
+      }
+
+    }
+
+    .itinerary-leg-text-gray {
+      @include font-book;
       color: $gray;
     }
-    div:nth-child(1) {
-      color: $black;
-      font-weight: $font-weight-medium;
+
+    .itinerary-transit-leg-route {
+      @extend .itinerary-leg-text-gray;
+      margin-top: 1px;
     }
+
+    .itinerary-leg-action {
+      margin-top: 12px;
+      @extend .itinerary-leg-text-gray;
+    }
+
+    .itinerary-leg-intermediate-stops {
+      margin-top: 12px;
+      padding-bottom: 10px;
+      @extend .itinerary-leg-text-gray
+
+    }
+
   }
 }
 
@@ -222,7 +246,8 @@ span.itinerary-stop-code {
   border: solid 1px $light-gray;
   border-radius: 2px;
   padding: 1px 4px;
-  margin-right: 5px;
+  margin-right: 2px;
+  margin-left: 3px;
   font-size: 70%;
 }
 

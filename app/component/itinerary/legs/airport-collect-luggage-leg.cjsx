@@ -1,8 +1,8 @@
 React = require 'react'
 intl = require 'react-intl'
 moment = require 'moment'
-RouteNumber = require '../departure/route-number'
-Icon = require '../icon/icon'
+RouteNumber = require '../../departure/route-number'
+Icon = require '../../icon/icon'
 
 FormattedMessage = intl.FormattedMessage
 

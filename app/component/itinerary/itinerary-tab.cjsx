@@ -1,14 +1,14 @@
 React              = require 'react'
-TransitLeg         = require './transit-leg'
-WalkLeg            = require './walk-leg'
-WaitLeg            = require './wait-leg'
-EndLeg             = require './end-leg'
+TransitLeg         = require './legs/transit-leg'
+WalkLeg            = require './legs/walk-leg'
+WaitLeg            = require './legs/wait-leg'
+EndLeg             = require './legs/end-leg'
 TicketInformation  = require './ticket-information'
 RouteInformation   = require './route-information'
 ItinerarySummary   = require './itinerary-summary'
 TimeFrame          = require './time-frame'
 config             = require '../../config'
-ItineraryLegs      = require './itinerary-legs'
+ItineraryLegs      = require './legs/itinerary-legs'
 
 
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
