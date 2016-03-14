@@ -5,8 +5,9 @@ isBrowser          = window?
 StopMarker         = require './stop/stop-marker'
 LocationMarker     = require './location-marker'
 Line               = require './line'
-TripLine               = require './trip-line'
+TripLine           = require './trip-line'
 polyUtil           = require 'polyline-encoded'
+CityBikeMarker     = require './city-bike/city-bike-marker'
 
 class ItineraryLine extends React.Component
   @contextTypes:
@@ -71,9 +72,22 @@ class ItineraryLine extends React.Component
                                 mode={mode}
                                 thin=true />
 
-        # Draw a more noticiable marker for the first stop
-        # (where user changes vehicles/modes)
-        objs.push <StopMarker map={@props.map}
+        if leg.from.bikeShareId
+          cityBikeStore = @context.getStore "CityBikeStore"
+          station = cityBikeStore.getStation(leg.from.bikeShareId)
+
+          if station
+            objs.push <CityBikeMarker
+              map={@props.map}
+                key={leg.from.bikeShareId}
+                station={station}
+              />
+          else
+            console.error "Could not load bicycle station from id " + leg.from.bikeShareId
+        else
+          # Draw a more noticiable marker for the first stop
+          # (where user changes vehicles/modes)
+          objs.push <StopMarker map={@props.map}
                               key={i + "," + leg.mode + "marker"}
                               stop={
                                 lat: leg.from.lat

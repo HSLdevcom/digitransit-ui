@@ -10,6 +10,13 @@ class CityBikeStore extends Store
   getData: ->
     @data
 
+  getStation: (id) ->
+    for i of @data.stations
+      station = @data.stations[i]
+      if station.id == id
+        return station
+    return
+
   storeCityBikeStationSearch: (data) ->
     @data = data
     @emitChange()
