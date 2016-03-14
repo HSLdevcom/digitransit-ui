@@ -32,16 +32,9 @@ translations =
     'map': 'Kartta'
     'buy-ticket': 'Osta lippu'
     'required-ticket': 'Reitillä tarvittava lippu'
-    'num-stops': '{stops, plural,
-                             =1 {yksi pysäkki}
-                             other {# pysäkkiä}
-                            } ({minutes, plural,
-                               =1 {yksi minuutti}
-                               other {# minuuttia}})'
     'share': 'Jaa ohje'
     'print': 'Tulosta'
     'navigate': 'Navigoi'
-    'minutes': 'minuuttia'
     'routes': 'Linjat'
     'time': 'Aika'
     'stop': 'Pysäkki'
@@ -129,18 +122,6 @@ translations =
     'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä'
     'airport-security-check-go-to-gate': 'Kävele turvatarkastuksen läpi lähtöportille'
     'airport-collect-luggage': 'Nouda matkatavarat'
-    'rail': 'juna'
-    'subway': 'metro'
-    'bus': 'bussi'
-    'airplane': 'lento'
-    'walk': 'kävele'
-    'bicycle': 'pyörä'
-    'car': 'auto'
-    'tram': 'raitiovaunu'
-    'ferry': 'lautta'
-    'cable_car': 'kondooli'
-    'gondola': 'kondooli'
-    'funicular': 'juna'
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
     'get-off-at-stop': 'Nouse kyydistä pysäkillä'
     'number-of-intermediate-stops': '{number} pysäkkiä ({duration})'
@@ -171,16 +152,9 @@ translations =
     'instructions': 'Instruktioner'
     'map': 'Karta'
     'required-ticket': 'Biljett för resan'
-    'num-stops': '{stops, plural,
-                             =1 {en hållplats}
-                             other {# hållplatser}
-                            } ({minutes, plural,
-                               =1 {en minut}
-                               other {# minuter}})'
     'share': 'Dela resan'
     'print': 'Skriv ut'
     'navigate': 'Navigera'
-    'minutes': 'minuter'
     'routes': 'Linjer'
     'time': 'Tid'
     'stop': 'Hållplats'
@@ -287,18 +261,9 @@ translations =
     'map': 'Kart'
     'buy-ticket': 'Kjøp billett'
     'required-ticket': 'Billett før påstigning'
-    'num-stops': '{stops, plural,
-                             =1 {en holdeplass}
-                             other {# holdeplasser}
-                            } ({duration})'
-    'num-stops-flight': '{stops, plural,
-                            =1 {En mellomlanding}
-                            other {# mellomlandinger}
-                           }'
     'share': 'Del reisen'
     'print': 'Skriv ut'
     'navigate': 'Naviger'
-    'minutes': 'minutter'
     'nearby-stops': 'Holdeplasser i nærheten'
     'nearby-routes': 'Ruter i nærheten'
     'routes': 'Ruter'
@@ -385,18 +350,7 @@ translations =
     'airport-check-in': 'Bagasje kan sjekkes inn hos {agency}'
     'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate'
     'airport-collect-luggage': 'Hent eventuell bagasje'
-    'rail': 'tog'
-    'subway': 'T-bane'
-    'bus': 'buss'
-    'airplane': 'fly'
     'walk': 'gå'
-    'bicycle': 'sykkel'
-    'car': 'bil'
-    'tram': 'trikk'
-    'ferry': 'ferge'
-    'cable_car': 'kabeltrikk'
-    'gondola': 'gondolbane'
-    'funicular': 'taubane'
     'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
     'number-of-intermediate-stops': '{number} TODO ({duration})'
     'bus-with-route-number': 'TODO {routeNumber}'
