@@ -15,6 +15,7 @@ class SummaryRow extends React.Component
     startTime = moment(data.startTime)
     endTime = moment(data.endTime)
     duration = endTime.diff(startTime)
+    walkDistance = 0
     legs = []
     legTimes = []
     MIN_SIZE = "3.7em"
@@ -102,10 +103,22 @@ class SummaryRow extends React.Component
     ]
 
     <div className={cx classes} onClick={() => @props.onSelect(@props.hash)}>
-      <div classname="itinerary-duration">{moment.duration(duration).humanize()}</div>
+      <div className="itinerary-duration-and-distance">
+        <div className="itinerary-duration">
+          {moment.duration(duration).humanize()}
+        </div>
+        <div className="itinerary-walking-distance">
+          {Math.round(data.walkDistance)} m
+        </div>
+      </div>
+      <div className="itinerary-start-time">
+        {startTime.format("HH:mm")}
+      </div>
       <div className="itinerary-legs">{legs}</div>
-      <div className="itinerary-leg-times">{legTimes}</div>
-      <br/>
+      <div className="itinerary-end-time">
+        {endTime.format("HH:mm")}
+      </div>
+
     </div>
 
 

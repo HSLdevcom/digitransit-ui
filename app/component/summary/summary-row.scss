@@ -5,7 +5,6 @@
   padding-bottom: 0.2em;
   overflow: hidden;
   font-size: 10pt;
-  color: $gray;
   background-color: $white;
   border-bottom: 1px solid $light-gray;
 
@@ -15,16 +14,31 @@
     background-color: $background-color;
   }
 
-  & .itinerary-duration {
-    width: 300px;
+  & .itinerary-duration-and-distance {
+    white-space: nowrap;
     display: inline-block;
+    width: 5em;
+  }
+
+  & .itinerary-duration {
+    font-weight: 700;
+  }
+
+  & .itinerary-distance {
+    font-color: $gray;
+  }
+
+  & .itinerary-start-time {
+    font-weight: 700;
+    padding-right: 0.5em;
+  }
+
+  & .itinerary-end-time {
+    padding-left: 0.5em;
   }
 
   & .itinerary-legs {
     //position: relative;
-
-
-
     width: 200px;
     display: flex;
 
