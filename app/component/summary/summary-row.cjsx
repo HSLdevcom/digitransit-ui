@@ -70,12 +70,12 @@ class SummaryRow extends React.Component
         end: isLastLeg
 
       if leg.transitLeg
-        legs.push <span key={i + 'a'}
+        legs.push <div key={i + 'a'}
           className={cx "line", leg.mode.toLowerCase()}>
           <Icon className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()}/>
 
 
-        </span>
+        </div>
 
 
       #unless isLastLeg and not isEnoughRoomForLastLegStartTime

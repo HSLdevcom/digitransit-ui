@@ -15,16 +15,21 @@
 
   & .itinerary-legs {
     //position: relative;
-    width: 100%;
+
+
+
+    width: 200px;
+    display: flex;
+
     padding-bottom: 2em;
     white-space: nowrap;
 
 
     .line {
       white-space: nowrap;
-
-      padding: 1em;
-      margin: 10px auto;
+      width: 40%;
+      padding: 2px;
+      //margin: 10px auto;
       position: relative;
       z-index: 1;
       text-align: center;
@@ -35,9 +40,13 @@
         z-index: -1;
         right: 1px;
         left: 0;
-        top: 0%;
-        border-bottom: 7px solid;
-        border-radius: 3.5px;
+        top: 43%;
+        border-bottom: 3.5px solid;
+        border-radius: 1.75px;
+      }
+
+      &:last-child {
+        width: 100%;
       }
 
       &.walk {
@@ -57,8 +66,9 @@
       }
 
       .icon {
-        width: 3em;
-        height: 3em;
+        width: 1.5em;
+        height: 1.5em;
+        float: left;
       }
 
     }
