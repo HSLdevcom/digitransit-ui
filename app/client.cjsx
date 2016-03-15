@@ -18,6 +18,7 @@ PiwikProvider     = require './component/util/piwik-provider'
 dehydratedState   = window.state # Sent from the server
 Feedback          = require './util/feedback'
 FeedbackActions   = require './action/feedback-action'
+buildInfo = require './build-info'
 
 if process.env.NODE_ENV == 'development'
   require "../sass/themes/#{config.CONFIG}/main.scss"
@@ -73,6 +74,9 @@ app.rehydrate dehydratedState, (err, context) ->
 
     # Send perf data after React has compared real and shadow DOMs
     # and started positioning
+    piwik.setCustomVariable 4, 'commit_id', buildInfo.COMMIT_ID, 'visit'
+    piwik.setCustomVariable 5, 'build_time', buildInfo.BUILD_TIME, 'visit'
+
     timing = performance.timing
 
     # See https://www.w3.org/TR/navigation-timing/#sec-navigation-timing-interface
