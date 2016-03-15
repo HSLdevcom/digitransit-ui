@@ -102,6 +102,7 @@ class SummaryRow extends React.Component
     ]
 
     <div className={cx classes} onClick={() => @props.onSelect(@props.hash)}>
+      <div classname="itinerary-duration">{moment.duration(duration).humanize()}</div>
       <div className="itinerary-legs">{legs}</div>
       <div className="itinerary-leg-times">{legTimes}</div>
       <br/>

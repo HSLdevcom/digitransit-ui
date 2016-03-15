@@ -9,8 +9,15 @@
   background-color: $white;
   border-bottom: 1px solid $light-gray;
 
+  display: flex;
+
   &.passive {
     background-color: $background-color;
+  }
+
+  & .itinerary-duration {
+    width: 300px;
+    display: inline-block;
   }
 
   & .itinerary-legs {
