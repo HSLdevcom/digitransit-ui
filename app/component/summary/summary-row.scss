@@ -17,7 +17,7 @@
   & .itinerary-duration-and-distance {
     white-space: nowrap;
     display: inline-block;
-    width: 5em;
+    margin-right: 1em;
   }
 
   & .itinerary-duration {
@@ -66,8 +66,16 @@
         border-radius: 1.75px;
       }
 
-      &:last-child {
+      &:first-child:nth-last-child(1) {
         width: 100%;
+      }
+
+      &:first-child:nth-last-child(2) ~ .line {
+        width: 50%;
+      }
+
+      &:first-child:nth-last-child(2) {
+        width: 50%;
       }
 
       &.walk {
