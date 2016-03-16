@@ -124,7 +124,7 @@ translations =
     'airport-collect-luggage': 'Nouda matkatavarat'
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
     'get-off-at-stop': 'Nouse kyydistä pysäkillä'
-    'number-of-intermediate-stops':'{number, plural,
+    'number-of-intermediate-stops': '{number, plural,
       =0 {Ei pysähdyksiä}
       other {# pysäkkiä}
     } ({duration})'
@@ -223,7 +223,7 @@ translations =
     'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate'
     'airport-collect-luggage': 'Samla ditt bagage om någon'
     'get-off-at-stop': 'TODO'
-    'number-of-intermediate-stops':'{number, plural,
+    'number-of-intermediate-stops': '{number, plural,
       =0 {Ingen hållplatser}
       other {# hållplatser}
     } ({duration})'
@@ -361,7 +361,7 @@ translations =
     'airport-collect-luggage': 'Hent eventuell bagasje'
     'walk': 'gå'
     'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
-    'number-of-intermediate-stops':'{number, plural,
+    'number-of-intermediate-stops': '{number, plural,
       =0 {Ingen hållplatser}
       other {# hållplatser}
     } ({duration})'
