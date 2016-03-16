@@ -1,6 +1,7 @@
 React              = require 'react'
 moment             = require 'moment'
 timeUtils          = require '../../util/time-utils'
+geoUtils           = require '../../util/geo-utils'
 Link               = require 'react-router/lib/Link'
 RouteNumber        = require '../departure/route-number'
 DepartureTime      = require '../departure/departure-time'
@@ -108,7 +109,7 @@ class SummaryRow extends React.Component
           {moment.duration(duration).humanize()}
         </div>
         <div className="itinerary-walking-distance">
-          {Math.round(data.walkDistance)} m
+          {geoUtils.displayDistance(data.walkDistance)}
         </div>
       </div>
       <div className="itinerary-start-time">
