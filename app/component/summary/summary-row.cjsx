@@ -109,6 +109,7 @@ class SummaryRow extends React.Component
           {moment.duration(duration).humanize()}
         </div>
         <div className="itinerary-walking-distance">
+          <Icon img={'icon-icon_walk'}/>
           {geoUtils.displayDistance(data.walkDistance)}
         </div>
       </div>
