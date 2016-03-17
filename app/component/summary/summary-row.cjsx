@@ -21,30 +21,10 @@ class SummaryRow extends React.Component
     legTimes = []
     MIN_SIZE = "3.7em"
     for leg, i in data.legs
-
-
-
       isLastLeg = i == data.legs.length - 1
       isFirstLeg = i == 0
       legStart = moment(leg.startTime)
       legEnd = moment(leg.endTime)
-      position = ((legStart - startTime) / duration)
-      width = (((legEnd - startTime) / duration)) - position
-
-      # TODO
-      # This is a quick hack to determine whether we have enough room to show
-      # last leg's start time or not. As you can imagine, this is not bulletproof
-      # And does not work responsively. However, it is probably better that just
-      # always hiding last leg's start time
-      # This should probably be done using Matchmedia API
-      isEnoughRoomForLastLegStartTime = width > 0.3
-
-      styleLine =
-        left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
-        width: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{width}) + #{MIN_SIZE} - 2px)"
-
-      styleTime =
-        left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
 
       # Use either vehicle number or walking distance as text
       if leg.transitLeg and leg.mode.toLowerCase() == 'subway'
@@ -75,25 +55,7 @@ class SummaryRow extends React.Component
         legs.push <div key={i + 'a'}
           className={cx "line", leg.mode.toLowerCase()}>
           <Icon className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()}/>
-
-
         </div>
-
-
-      #unless isLastLeg and not isEnoughRoomForLastLegStartTime
-    #    legTimes.push <DepartureTime
-  #        key={i + "depTime"}
-  #        departureTime={leg.startTime / 1000}
-  #        realtime={leg.realTime}
-  #        currentTime={currentTime}
-  #        style={styleTime} />
-#
-#      if isLastLeg
-#        legTimes.push <DepartureTime
-#          key="arrivalTime"
-#          departureTime={leg.endTime / 1000}
-#          realtime={leg.realTime}
-#          currentTime={currentTime} />
 
     durationText = timeUtils.durationToString(duration)
 
