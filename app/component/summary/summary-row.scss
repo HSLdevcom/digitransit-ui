@@ -4,15 +4,24 @@
   padding-top: 0.8em;
   padding-bottom: 0.2em;
   overflow: hidden;
-  font-size: 10pt;
+  font-size: 12pt;
   background-color: $white;
   border-bottom: 1px solid $light-gray;
 
   border-left: 0.3em $action-color solid;
   display: flex;
 
+  .action svg {
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    color: $action-color;
+    width: 1.2em;
+    height: 3em;
+    margin-left: 1em;
+  }
+
   &.passive {
-    border-left: 0;
+    border-left-color: $background-color;
     background-color: $background-color;
   }
 
@@ -20,9 +29,11 @@
     white-space: nowrap;
     display: inline-block;
     margin-right: 1em;
+    width: 5em;
   }
 
   & .itinerary-duration {
+    margin-right: 1em;
     font-weight: 700;
   }
 
@@ -64,8 +75,8 @@
         right: 1px;
         left: 0;
         top: 43%;
-        border-bottom: 3.5px solid;
-        border-radius: 1.75px;
+        border-bottom: 4px solid;
+        border-radius: 2px;
       }
 
       &:first-child:nth-last-child(1) {
@@ -97,8 +108,8 @@
       }
 
       .icon {
-        width: 1.5em;
-        height: 1.5em;
+        width: 1.75em;
+        height: 1.75em;
         float: left;
       }
 

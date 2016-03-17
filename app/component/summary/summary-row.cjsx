@@ -82,6 +82,9 @@ class SummaryRow extends React.Component
       <div className="itinerary-end-time">
         {endTime.format("HH:mm")}
       </div>
+      <div className="action">
+        <Icon img={'icon-icon_arrow-dropdown'} transform={'rotate(45)'}/>
+      </div>
 
     </div>
 
