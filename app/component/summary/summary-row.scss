@@ -8,9 +8,11 @@
   background-color: $white;
   border-bottom: 1px solid $light-gray;
 
+  border-left: 0.3em $action-color solid;
   display: flex;
 
   &.passive {
+    border-left: 0;
     background-color: $background-color;
   }
 
