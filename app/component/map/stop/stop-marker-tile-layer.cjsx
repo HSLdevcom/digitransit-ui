@@ -7,6 +7,8 @@ Protobuf      = require 'pbf'
 L             = require 'leaflet'
 BaseTileLayer = require('react-leaflet/lib/BaseTileLayer').default
 omit          = require 'lodash/omit'
+memoize       = require 'lodash/memoize'
+glfun         = require 'mapbox-gl-function'
 getSelector   = require '../../../util/get-selector'
 Popup         = require '../dynamic-popup'
 StopMarkerPopup = require './stop-marker-popup'
@@ -84,6 +86,97 @@ class SVGTile
         L.DomEvent.stopPropagation e
         @onStopClicked nearest, @props.map.mouseEventToLatLng e
 
+# Alternative implementation to SVGTile
+class CanvasTile
+  constructor: (@coords, done, @props) ->
+    @extent = 4096
+    @tileSize = (@props.tileSize or 256) * (window?.devicePixelRatio or 1)
+    @scaleratio = (window?.devicePixelRatio or 1)
+    @ratio = @extent / @tileSize
+
+    @el = document.createElement 'canvas'
+    @el.setAttribute "class", "leaflet-tile"
+    @el.setAttribute "height", @tileSize
+    @el.setAttribute "width", @tileSize
+    @el.addEventListener "click", @onMapClick
+
+    if @coords.z < 14 or !@el.getContext
+      return
+    fetch("#{config.URL.STOP_MAP}#{@coords.z + (@props.zoomOffset or 0)}/#{@coords.x}/#{@coords.y}.pbf").then (res) =>
+      if res.status != 200
+        done null, @el
+        return
+      res.arrayBuffer().then (buf) =>
+        vt = new VectorTile(new Protobuf(buf))
+        @features = [0..vt.layers.stops?.length - 1]
+          .map((i) -> vt.layers.stops.feature i)
+          .filter((feature) -> feature.properties.type)
+        for i in @features
+          @addFeature i
+        done null, @el
+      , (err) -> console.log err
+
+  @getCaseRadius: memoize glfun
+    type: 'exponential'
+    base: 1.15
+    domain: [11.9, 12, 22]
+    range: [0, 1.5, 26]
+
+  @getStopRadius: memoize glfun
+    type: 'exponential'
+    base: 1.15
+    domain: [11.9, 12, 22]
+    range: [0, 1, 24]
+
+  @getHubRadius: memoize glfun
+    type: 'exponential'
+    base: 1.15
+    domain: [14, 14.1, 22]
+    range: [0, 1.5, 12]
+
+  addFeature: (feature) =>
+    geom = feature.loadGeometry()
+    ctx = @el.getContext '2d'
+    caseRadius = CanvasTile.getCaseRadius $zoom: @coords.z
+    stopRadius = CanvasTile.getStopRadius $zoom: @coords.z
+    hubRadius = CanvasTile.getHubRadius $zoom: @coords.z
+    if caseRadius > 0
+      ctx.beginPath()
+      ctx.fillStyle = '#fff' #getSelector(".#{feature.properties.type?.toLowerCase()}").style.color
+      ctx.arc geom[0][0].x / @ratio, geom[0][0].y / @ratio, caseRadius * @scaleratio, 0, Math.PI * 2
+      ctx.fill()
+      ctx.beginPath()
+      ctx.fillStyle = '#0088ce'
+      ctx.arc geom[0][0].x / @ratio, geom[0][0].y / @ratio, stopRadius * @scaleratio, 0, Math.PI * 2
+      ctx.fill()
+      if hubRadius > 0
+        ctx.beginPath()
+        ctx.fillStyle = '#fff' #getSelector(".#{feature.properties.type?.toLowerCase()}").style.color
+        ctx.arc geom[0][0].x / @ratio, geom[0][0].y / @ratio, hubRadius * @scaleratio, 0, Math.PI * 2
+        ctx.fill()
+
+
+  onMapClick: (e) =>
+    if @features
+
+      point =
+        x: e.offsetX
+        y: e.offsetY
+
+      nearest = @features.filter (stop) =>
+        g = stop.loadGeometry()[0][0]
+        dist = Math.sqrt((point.x - (g.x / @ratio)) ** 2 + (point.y - (g.y / @ratio)) ** 2)
+        if dist < 17 then true else false
+
+      if nearest.length == 0
+        @onStopClicked false
+      else if nearest.length == 1
+        L.DomEvent.stopPropagation e
+        coords = nearest[0].toGeoJSON(@coords.x, @coords.y, @coords.z + (@props.zoomOffset or 0)).geometry.coordinates
+        @onStopClicked nearest, L.latLng [coords[1], coords[0]]
+      else
+        L.DomEvent.stopPropagation e
+        @onStopClicked nearest, @props.map.mouseEventToLatLng e
 
 class StopMarkerTileLayer extends BaseTileLayer
   @contextTypes:
@@ -95,7 +188,7 @@ class StopMarkerTileLayer extends BaseTileLayer
     route: React.PropTypes.object.isRequired
 
   createTile: (coords, done) =>
-    tile = new SVGTile(coords, done, @props)
+    tile = new CanvasTile(coords, done, @props)
     tile.onStopClicked = (stops, coords) =>
       if @props.disableMapTracking
         @props.disableMapTracking()
