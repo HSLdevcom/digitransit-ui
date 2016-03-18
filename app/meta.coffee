@@ -12,7 +12,7 @@ getMetadata = (lang) ->
       {name: 'charset', content: 'utf-8'}
       {name: 'description', content: 'Löydä joukkoliikennetarjonta lähelle ja kauas.'}
       {name: 'keywords', content: 'reitti,reitit,opas,reittiopas,joukkoliikenne'}
-      {name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui'}
+      {name: 'viewport', content: 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no, minimal-ui'}
       {name: 'mobile-web-app-capable', content: 'yes'}
       {name: 'apple-mobile-web-app-capable', content: 'yes'}
       {name: 'msapplication-config', content: "#{root}/browserconfig.#{configPath}.xml"}
