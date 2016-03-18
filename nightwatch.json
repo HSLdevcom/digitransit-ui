@@ -1,23 +1,15 @@
 {
-  "src_folders": ["test/"],
-  "output_folder": "test_output",
+  "src_folders": ["tests"],
+  "output_folder" : "reports",
 
   "selenium": {
     "start_process": false,
     "log_path": "",
-    "host": "127.0.0.1",
+    "host": "selenium-hub:4444",
     "port": 4444,
     "cli_args": {
       "webdriver.chrome.driver": "",
       "webdriver.ie.driver": ""
-    }
-  },
-
-  "test_runner": {
-    "type": "mocha",
-    "options": {
-      "reporter": "list",
-      "exitOnFailure": true
     }
   },
 
@@ -26,12 +18,12 @@
       "launch_url": "http://test.rutebanken.org",
       "selenium_port": 4444,
       "selenium_host": "localhost",
-      "silent": true,
+      "silent": false,
       "screenshots": {
-        "enabled": true,
+        "enabled": false,
         "on_failure": true,
         "on_error": true,
-        "path": "test_output/screenshots/"
+        "path": "reports/screenshots/"
       },
       "desiredCapabilities": {
         "browserName": "firefox",
