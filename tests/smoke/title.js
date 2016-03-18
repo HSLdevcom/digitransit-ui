@@ -1,7 +1,7 @@
 module.exports = {
   'title' : function (browser) {
     browser
-      .url('http://test.rutebanken.org')
+      .url(browser.launch_url)
       .assert.title("Rutebanken");
   }
 };
