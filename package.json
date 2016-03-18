@@ -1,0 +1,19 @@
+{
+  "name": "digitransit-ui-nightwatch",
+  "version": "0.0.1",
+  "description": "Runs browser tests specific for rutebanken",
+  "licence": "MIT",
+  "keywords": "rutebanken, nightwatch",
+  "scripts": {
+    "test": "./node_modules/nightwatch/bin/nightwatch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/rutebanken/digitransit-ui-nightwatch.git"
+  },
+  "author": "Cristoffer Solem <cristoffer.solem@gmail.com>",
+  "homepage": "https://bitbucket.org/rutebanken/digitransit-ui-nightwatch#readme",
+  "dependencies": {
+    "nightwatch": "^0.8.18"
+  }
+}
