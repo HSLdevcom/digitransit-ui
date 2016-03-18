@@ -12,8 +12,6 @@
   display: flex;
 
   .action svg {
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
     color: $action-color;
     width: 1.2em;
     height: 3em;

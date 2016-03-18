@@ -83,9 +83,8 @@ class SummaryRow extends React.Component
         {endTime.format("HH:mm")}
       </div>
       <div className="action">
-        <Icon img={'icon-icon_arrow-dropdown'} transform={'rotate(45)'}/>
+        <Icon img={'icon-icon_arrow-collapse--right'}/>
       </div>
-
     </div>
 
 
