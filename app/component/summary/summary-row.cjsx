@@ -55,6 +55,7 @@ class SummaryRow extends React.Component
         legs.push <div key={i + 'a'}
           className={cx "line", leg.mode.toLowerCase()}>
           <Icon className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()}/>
+          {text}
         </div>
 
     durationText = timeUtils.durationToString(duration)
@@ -82,7 +83,7 @@ class SummaryRow extends React.Component
       <div className="itinerary-end-time">
         {endTime.format("HH:mm")}
       </div>
-      <div className="action">
+      <div className="action-arrow">
         <Icon img={'icon-icon_arrow-collapse--right'}/>
       </div>
     </div>
