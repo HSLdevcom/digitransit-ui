@@ -5,7 +5,7 @@
   "selenium": {
     "start_process": false,
     "log_path": "",
-    "host": "selenium-hub:4444",
+    "host": "selenium-hub:4443",
     "port": 4444,
     "cli_args": {
       "webdriver.chrome.driver": "",
@@ -16,7 +16,7 @@
   "test_settings": {
     "default": {
       "launch_url": "http://test.rutebanken.org",
-      "selenium_port": 4444,
+      "selenium_port": 4443,
       "selenium_host": "localhost",
       "silent": false,
       "screenshots": {
