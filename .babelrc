@@ -4,5 +4,7 @@
     "transform-class-properties",
     "./build/babelRelayPlugin"
   ],
-  "ignore": "node_modules"
+  "ignore": [
+    "app/util/piwik.js"
+  ]
 }
