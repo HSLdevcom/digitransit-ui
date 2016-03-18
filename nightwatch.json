@@ -8,6 +8,10 @@
       "selenium_port": 4444,
       "selenium_host": "selenium-hub",
       "silent": false,
+      "globals": {
+        "itinerarySearchTimeout": 21000,
+        "elementVisibleTimeout": 10000
+      },
       "screenshots": {
         "enabled": false,
         "on_failure": true,
