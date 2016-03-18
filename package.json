@@ -92,6 +92,7 @@
     "babel-eslint": "^5.0.0",
     "babel-loader": "^6.2.2",
     "babel-plugin-dev-expression": "^0.1.0",
+    "babel-preset-es2015-native-modules": "^6.6.0",
     "chance": "^1.0.1",
     "cjsx-loader": "^2.1.0",
     "coffee-loader": "^0.7.2",
