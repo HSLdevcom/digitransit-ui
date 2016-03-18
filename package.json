@@ -5,7 +5,7 @@
   "licence": "MIT",
   "keywords": "rutebanken, nightwatch",
   "scripts": {
-    "test": "./node_modules/nightwatch/bin/nightwatch"
+    "test": "./node_modules/nightwatch/bin/nightwatch --verbose"
   },
   "repository": {
     "type": "git",
