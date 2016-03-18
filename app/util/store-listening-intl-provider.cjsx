@@ -1,6 +1,5 @@
 React             = require 'react'
-IntlProvider      = require('react-intl').IntlProvider
-{addLocaleData}   = require 'react-intl'
+{IntlProvider, addLocaleData} = require 'react-intl'
 
 
 class StoreListeningIntlProvider extends React.Component

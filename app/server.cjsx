@@ -1,5 +1,9 @@
 fs = require('fs')
 
+require('babel-core/register')(
+  ignore: /node_modules\/(?!history|react-router)/
+)
+
 ### React ###
 React = require('react')
 ReactDOM = require('react-dom/server')
@@ -18,11 +22,11 @@ serialize = require('serialize-javascript')
 polyfillService = require 'polyfill-service'
 
 ### Application ###
-application = require('./app')
+application = require('./app').default
 config = require('./config')
 meta = require('./meta')
 translations = require('./translations')
-ApplicationHtml = require('./html')
+ApplicationHtml = require('./html').default
 
 # Look up paths for various asset files
 appRoot = process.cwd() + '/'
