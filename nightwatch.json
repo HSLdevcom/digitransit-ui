@@ -5,8 +5,8 @@
   "test_settings": {
     "default": {
       "launch_url": "http://test.rutebanken.org",
-      "selenium_port": 4443,
-      "selenium_host": "selenium-hub:4443",
+      "selenium_port": 4444,
+      "selenium_host": "selenium-hub",
       "silent": false,
       "screenshots": {
         "enabled": false,
