@@ -425,7 +425,7 @@ translations =
     'tickets': 'Titres de transport'
     'settings': 'Paramètres'
     'terms-of-use': 'CGU'
-    'contact-information': 'Contact : {contactName}:n'
+    'contact-information': 'Contacter {contactName}'
     'create-account': 'Créer un identifiant {contactName}'
     'login': 'Se connecter'
     'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessible depuis d\'autres appareils'
