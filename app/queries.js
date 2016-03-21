@@ -743,20 +743,16 @@ export class FavouriteLocationContainerRoute extends Relay.Route {
     query {
       viewer {
         ${Component.getFragment('plan', {
-          fromLat: variables.fromLat,
-          fromLon: variables.fromLon,
-          toLat: variables.toLat,
-          toLon: variables.toLon,
+          from: variables.from,
+          to: variables.to,
           numItineraries: variables.numItineraries,
         })}
       }
     }`,
   };
   static paramDefinitions = {
-    fromLat: {required: true},
-    fromLon: {required: true},
-    toLat: {required: true},
-    toLon: {required: true},
+    from: {required: true},
+    to: {required: true},
   };
   static routeName = "FavouriteLocationsContainerRoute";
 }
@@ -764,7 +760,7 @@ export class FavouriteLocationContainerRoute extends Relay.Route {
 var FavouriteLocationContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(fromLat: $fromLat, fromLon: $fromLon, toLat: $toLat, toLon: $toLon, numItineraries: $numItineraries) {
+      plan(from: $from, to: $to, numItineraries: $numItineraries) {
         itineraries {
           startTime
           endTime
