@@ -735,4 +735,89 @@ export const DisruptionInfoButtonFragments = {
     }
   }
   `,
-};
+}
+
+export class FavouriteLocationContainerRoute extends Relay.Route {
+  static queries = {
+    plan: (Component, variables) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('plan', {
+          fromLat: variables.fromLat,
+          fromLon: variables.fromLon,
+          toLat: variables.toLat,
+          toLon: variables.toLon,
+          numItineraries: variables.numItineraries,
+        })}
+      }
+    }`,
+  };
+  static paramDefinitions = {
+    fromLat: {required: true},
+    fromLon: {required: true},
+    toLat: {required: true},
+    toLon: {required: true},
+  };
+  static routeName = "FavouriteLocationsContainerRoute";
+}
+
+var FavouriteLocationContainerFragments = {
+  plan: () => Relay.QL`
+    fragment on QueryType {
+      plan(fromLat: $fromLat, fromLon: $fromLon, toLat: $toLat, toLon: $toLon, numItineraries: $numItineraries) {
+        itineraries {
+          startTime
+          endTime
+          legs {
+            realTime
+            transitLeg
+          }
+        }
+      }
+    }
+  `,
+}
+
+module.exports = {
+  StopQueries: StopQueries,
+  TerminalRoute: TerminalRoute,
+  TerminalQueries: TerminalQueries,
+  TerminalMarkerPopupFragments: TerminalMarkerPopupFragments,
+  TripRoute: TripRoute,
+  TripPatternFragments: TripPatternFragments,
+  RouteQueries: RouteQueries,
+  NearbyRouteListContainerRoute: NearbyRouteListContainerRoute,
+  NearbyRouteListContainerFragments: NearbyRouteListContainerFragments,
+  TripQueries: TripQueries,
+  StopRoute: StopRoute,
+  RoutePageFragments: RoutePageFragments,
+  RouteHeaderFragments: RouteHeaderFragments,
+  RouteStopListFragments: RouteStopListFragments,
+  RouteMapFragments: RouteMapFragments,
+  RouteLineFragments: RouteLineFragments,
+  TripStopListFragments: TripStopListFragments,
+  StopListContainerRoute: StopListContainerRoute,
+  NearestStopListContainerFragments: NearestStopListContainerFragments,
+  FavouriteRouteListContainerRoute:FavouriteRouteListContainerRoute,
+  FavouriteRouteListContainerFragments:FavouriteRouteListContainerFragments,
+  FavouriteStopListContainerFragments: FavouriteStopListContainerFragments,
+  StopCardContainerFragments: StopCardContainerFragments,
+  FavouriteStopListContainerRoute: FavouriteStopListContainerRoute,
+  StopPageFragments: StopPageFragments,
+  StopMarkerLayerRoute: StopMarkerLayerRoute,
+  StopMarkerLayerFragments: StopMarkerLayerFragments,
+  StopMarkerPopupFragments: StopMarkerPopupFragments,
+  StopMapPageFragments: StopMapPageFragments,
+  StopCardHeaderFragments: StopCardHeaderFragments,
+  StopAtDistanceListContainerFragments: StopAtDistanceListContainerFragments,
+  DepartureListFragments: DepartureListFragments,
+  TripPageFragments: TripPageFragments,
+  FuzzyTripRoute: FuzzyTripRoute,
+  TripLinkFragments: TripLinkFragments,
+  RouteMarkerPopupFragments: RouteMarkerPopupFragments,
+  DisruptionInfoRoute: DisruptionInfoRoute,
+  DisruptionListContainerFragments: DisruptionListContainerFragments,
+  DisruptionInfoButtonFragments: DisruptionInfoButtonFragments,
+  FavouriteLocationContainerRoute: FavouriteLocationContainerRoute,
+  FavouriteLocationContainerFragments: FavouriteLocationContainerFragments
+}
