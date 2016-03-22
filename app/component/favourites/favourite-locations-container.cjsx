@@ -82,7 +82,6 @@ class FavouriteLocationsContainer extends React.Component
               to:
                 lat: favourite.lat
                 lon: favourite.lon
-              numItineraries: 1
             )}
             renderLoading={=> favouriteLocation}
             renderFetched={(data) =>
