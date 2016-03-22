@@ -68,9 +68,9 @@ module.exports =
     sortOrder: currentPosition: 1, oldSearch: 2, neighbourhood: 3, locality: 4, address: 5, venue: 6, stop: 7
     sortOthers: 8
     # Let Pelias suggest based on current user location
-    locationAware: false
+    locationAware: true
   cityBike:
-    showCityBikes: false
+    showCityBikes: true
     showBikesAvailable: false
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15
