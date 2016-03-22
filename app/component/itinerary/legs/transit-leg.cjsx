@@ -61,12 +61,12 @@ class TransitLeg extends React.Component
           <FormattedMessage
             id={'number-of-intermediate-stops'}
             values= {{
-              number: @props.leg.intermediateStops.length.toString()
+              number: @props.leg.intermediateStops.length
               duration: timeUtils.durationToString(@props.leg.duration * 1000)
               }}
             defaultMessage={'{number, plural,
               =0 {No intermediate stops}
-              other {# stops}
+              other {{number} stops}
             } ({duration})'}/>
         </div>
         <div className="itinerary-leg-action">
