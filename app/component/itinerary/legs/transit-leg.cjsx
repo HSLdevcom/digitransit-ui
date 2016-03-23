@@ -69,12 +69,6 @@ class TransitLeg extends React.Component
               other {{number} stops}
             } ({duration})'}/>
         </div>
-        <div className="itinerary-leg-action">
-          <FormattedMessage
-            id={'get-off-at-stop'}
-            defaultMessage={'Alight at stop'}
-          />
-        </div>
       </div>
     </div>
 
