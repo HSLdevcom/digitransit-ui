@@ -745,7 +745,6 @@ export class FavouriteLocationContainerRoute extends Relay.Route {
         ${Component.getFragment('plan', {
           from: variables.from,
           to: variables.to,
-          numItineraries: variables.numItineraries,
         })}
       }
     }`,
@@ -760,7 +759,7 @@ export class FavouriteLocationContainerRoute extends Relay.Route {
 var FavouriteLocationContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(from: $from, to: $to, numItineraries: $numItineraries) {
+      plan(from: $from, to: $to, numItineraries: $numItineraries, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed) {
         itineraries {
           startTime
           endTime
