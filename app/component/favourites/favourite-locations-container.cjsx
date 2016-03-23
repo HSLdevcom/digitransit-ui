@@ -76,11 +76,12 @@ class FavouriteLocationsContainer extends React.Component
             Component={FavouriteLocationContainer}
             forceFetch={true}
             route={new queries.FavouriteLocationContainerRoute(
-              fromLat: position.lat
-              fromLon: position.lon
-              toLat: favourite.lat
-              toLon: favourite.lon
-              numItineraries: 1
+              from:
+                lat: position.lat
+                lon: position.lon
+              to:
+                lat: favourite.lat
+                lon: favourite.lon
             )}
             renderLoading={=> favouriteLocation}
             renderFetched={(data) =>

@@ -123,7 +123,6 @@ translations =
     'airport-security-check-go-to-gate': 'Kävele turvatarkastuksen läpi lähtöportille'
     'airport-collect-luggage': 'Nouda matkatavarat'
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
-    'get-off-at-stop': 'Nouse kyydistä pysäkillä'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ei pysähdyksiä}
       other {{number} pysäkkiä}
@@ -222,7 +221,6 @@ translations =
     'airport-check-in': 'Bagage kan checkas in på {agency}'
     'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate'
     'airport-collect-luggage': 'Samla ditt bagage om någon'
-    'get-off-at-stop': 'TODO'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ingen hållplatser}
       other {{number} hållplatser}
@@ -374,7 +372,6 @@ translations =
     'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
     'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
     'wait-amount-of-time': 'TODO {duration}'
-    'get-off-at-stop': 'TODO'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -499,7 +496,6 @@ translations =
     'airport-security-check-go-to-gate': 'Franchissez les contrôles de sécurité et rendez-vous à la porte d\'embarquement'
     'airport-collect-luggage': 'Récupérez vos bagages'
     'cycle-from-to': 'Pédalez de {fromName} à {toName}'
-    'get-off-at-stop': 'Levez-vous et descendez à l\'arrêt'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Sans arrêt}
       =1 {# arrêt}

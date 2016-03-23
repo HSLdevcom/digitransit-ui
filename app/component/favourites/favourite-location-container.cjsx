@@ -31,8 +31,10 @@ class FavouriteLocationContainer extends React.Component
 module.exports = Relay.createContainer FavouriteLocationContainer,
   fragments: queries.FavouriteLocationContainerFragments
   initialVariables:
-    fromLat: null
-    fromLon: null
-    toLat: null
-    toLon: null
+    from: null
+    to: null
     numItineraries: 1
+    walkReluctance: 2.0001
+    walkBoardCost: 600
+    minTransferTime: 180
+    walkSpeed: 1.2
