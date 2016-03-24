@@ -5,7 +5,7 @@ SummaryNavigation  = require '../component/navigation/summary-navigation'
 ItinerarySummary   = require '../component/itinerary/itinerary-summary'
 ArrowLink          = require '../component/util/arrow-link'
 Map                = require '../component/map/map'
-ItinerarySearchActions = require '../action/itinerary-search-action'
+ItinerarySearchAction = require '../action/itinerary-search-action'
 EndpointActions    = require '../action/endpoint-actions'
 SummaryRow         = require '../component/summary/summary-row'
 NoRoutePopup       = require '../component/summary/no-route-popup'
@@ -39,11 +39,11 @@ class SummaryPage extends React.Component
   componentWillMount: ->
     props = @context.getStore('ItinerarySearchStore').getOptions()
     if props.params.from != @props.params.from or props.params.to != @props.params.to
-      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+      @context.executeAction ItinerarySearchAction.itinerarySearchRequest, @props
 
   componentWillUpdate: (props) ->
     if props.params.from != @props.params.from or props.params.to != @props.params.to
-      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, props
+      @context.executeAction ItinerarySearchAction.itinerarySearchRequest, props
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
@@ -58,7 +58,7 @@ class SummaryPage extends React.Component
 
   onTimeChange: (e) =>
     if e.selectedTime
-      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+      @context.executeAction ItinerarySearchAction.itinerarySearchRequest, @props
 
   getActiveIndex: =>
     @context.location.state?.summaryPageSelected or @state?.summaryPageSelected or 0
