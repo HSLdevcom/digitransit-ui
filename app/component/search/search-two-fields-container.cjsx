@@ -100,7 +100,6 @@ class SearchTwoFieldsContainer extends React.Component
     from =
       <SearchField
         endpoint={origin}
-        geolocation={geolocation}
         onClick={(e) =>
           e.preventDefault()
           @context.executeAction SearchActions.openOriginSearch,
@@ -115,7 +114,6 @@ class SearchTwoFieldsContainer extends React.Component
     to =
       <SearchField
         endpoint={destination}
-        geolocation={geolocation}
         onClick={(e) =>
           e.preventDefault()
           @context.executeAction SearchActions.openDestinationSearch,
