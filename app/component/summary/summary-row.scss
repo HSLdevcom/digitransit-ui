@@ -1,8 +1,8 @@
 .itinerary-summary-row {
   padding-left: 0.5em;
   padding-right: 0.5em;
-  padding-top: 0.8em;
-  padding-bottom: 0.2em;
+  padding-top: 0.4em;
+  padding-bottom: 0;
   overflow: hidden;
   font-size: 12pt;
   background-color: $white;
@@ -32,7 +32,7 @@
 
   & .itinerary-duration {
     margin-right: 1em;
-    font-weight: 700;
+    font-weight: 600;
   }
 
   & .itinerary-walking-distance {
@@ -40,7 +40,7 @@
   }
 
   & .itinerary-start-time {
-    font-weight: 700;
+    font-weight: 600;
     padding-right: 0.5em;
   }
 
@@ -53,7 +53,6 @@
     width: 200px;
     display: flex;
 
-    padding-bottom: 2em;
     white-space: nowrap;
 
 
@@ -114,6 +113,7 @@
     }
     .vehicle-number {
       @include font-narrow-medium;
+      color: $gray;
       clear: left;
       float: left;
       padding: 0;
