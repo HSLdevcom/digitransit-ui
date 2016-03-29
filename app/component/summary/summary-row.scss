@@ -32,6 +32,7 @@
 
   & .itinerary-duration {
     margin-right: 1em;
+    line-height: 2;
     font-weight: 600;
   }
 
@@ -42,10 +43,12 @@
   & .itinerary-start-time {
     font-weight: 600;
     padding-right: 0.5em;
+    line-height: 2;
   }
 
   & .itinerary-end-time {
     padding-left: 0.5em;
+    line-height: 2;
   }
 
   & .itinerary-legs {
@@ -87,7 +90,7 @@
       &:first-child:nth-last-child(2) {
         width: 50%;
       }
-      
+
       .icon {
         width: 1.75em;
         height: 1.75em;
