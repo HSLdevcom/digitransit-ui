@@ -123,103 +123,8 @@
       }
     }
   }
-
-  & .itinerary-leg-times {
-    position: relative;
-    width: 100%;
-    margin-bottom: 0;
-    white-space: nowrap;
-    color: black;
-    .time {
-      @include font-narrow-medium;
-      overflow: hidden;
-      position: absolute;
-      &:last-of-type {
-          position: relative;
-          float: right;
-          margin-right: 0;
-      }
-    }
-  }
 }
 
-.summary-circle::before {
-  width:15px;
-  height:15px;
-  position: absolute;
-  bottom: -1px;
-  left: -11px;
-}
-
-/* NOTE!
- * You might notice this type of color magic below '#{rgba($to-color, 0.9999999)}'
- * 1. 'hash{}' is Sass interpolation that is needed in order for it to do variable substitution
- * 2. rgba-function is needed to convert hex color to rgba because '#' in hex color is illegal character in css url-function
- * 3. For some reason alpha 1.0 keeps color in hex value, so therefore 0.9999999
- * 4. This hack is needed to get Firefox working. Please, don't break this :)
- */
-
-.summary-circle.bus::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.tram::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($tram-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.subway::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($metro-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.rail::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($rail-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.ferry::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($ferry-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.citybike::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($citybike-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.walk::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($walk-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.bicycle::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($bicycle-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.wait::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($wait-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.start::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='white' stroke-width='2' fill='#{rgba($from-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
-}
-
-.summary-circle.start.passive::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($from-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
-}
-
-.summary-circle.end::after {
-  width:15px;
-  height:15px;
-  position: absolute;
-  bottom: -1px;
-  right: 5px;
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='white' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
-}
-
-.summary-circle.end.passive::after {
-  width:15px;
-  height:15px;
-  position: absolute;
-  bottom: -1px;
-  right: 5px;
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
-}
 
 
 
@@ -256,10 +161,6 @@
     outline: none;
   }
 
-}
-
-.remove-padding {
-  padding:0 !important;
 }
 
 /*
