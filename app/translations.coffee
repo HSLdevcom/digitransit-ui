@@ -125,7 +125,7 @@ translations =
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ei pysähdyksiä}
-      other {# pysäkkiä}
+      other {{number} pysäkkiä}
     } ({duration})'
     'bus-with-route-number': 'Bussi {routeNumber}'
     'tram-with-route-number': 'Raitiovaunu {routeNumber}'
@@ -223,7 +223,7 @@ translations =
     'airport-collect-luggage': 'Samla ditt bagage om någon'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ingen hållplatser}
-      other {# hållplatser}
+      other {{number} hållplatser}
     } ({duration})'
     'bus-with-route-number': 'Bussen {routeNumber}'
     'tram-with-route-number': 'Spårvagnen {routeNumber}'
@@ -361,7 +361,7 @@ translations =
     'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ingen hållplatser}
-      other {# hållplatser}
+      other {{number} hållplatser}
     } ({duration})'
     'bus-with-route-number': 'TODO {routeNumber}'
     'tram-with-route-number': 'TODO {routeNumber}'
@@ -499,7 +499,7 @@ translations =
     'number-of-intermediate-stops': '{number, plural,
       =0 {Sans arrêt}
       =1 {# arrêt}
-      other {# arrêts}
+      other {{number} arrêts}
     } ({duration})'
     'bus-with-route-number': 'Bus {routeNumber}'
     'tram-with-route-number': 'Tramway {routeNumber}'
