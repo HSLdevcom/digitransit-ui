@@ -13,7 +13,6 @@ Icon  = require '../icon/icon'
 class SummaryRow extends React.Component
 
   render: -> # TODO: divide into separate components/functions
-    console.log(legTextUtil)
     data = @props.data
     currentTime = @props.currentTime
     startTime = moment(data.startTime)

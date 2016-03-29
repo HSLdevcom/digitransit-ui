@@ -10,7 +10,7 @@ var getLegText = function(leg) {
   }
   else if (leg.transitLeg && leg.route.length < MAX_ROUTE_LENGTH) {
     // Some route values are too long. Other routes are simply just a number.
-    return " #{leg.route}";
+    return " " + leg.route;
   }
   else {
     return "";
