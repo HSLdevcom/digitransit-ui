@@ -9,7 +9,9 @@ RouteNumber = (props) ->
   <span className={cx "route-number", props.className, {'vertical': props.vertical}} >
     <Icon className={mode} img={'icon-icon_' + mode} />
     {if props.vertical then <br/>}
-    <span className={"vehicle-number " + mode}>{props.text}</span>
+    <div className={"vehicle-number " + mode}>
+      <span>{props.text}</span>
+    </div>
   </span>
 
 RouteNumber.description =

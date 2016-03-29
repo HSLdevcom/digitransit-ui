@@ -109,19 +109,18 @@
         height: 1.75em;
         float: left;
       }
-
     }
+
     .vehicle-number {
-      @include font-narrow-medium;
       color: $gray;
       clear: left;
       float: left;
       padding: 0;
       width: 1.75em;
-    }
-    .icon.realtime-icon.realtime {
-      margin-top: -0.2em;
-      margin-left: -0.37em;
+      
+      span {
+        font-size: 12px;
+      }
     }
   }
 
