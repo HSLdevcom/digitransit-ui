@@ -287,6 +287,15 @@ div#search-panel-close-tab {
   height: 45px;
   line-height: 45px;
   color: $gray-blue;
+
+  .search-header__category-text {
+    color: $gray-blue;
+    font-size: 11px;
+    margin-left: 12px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
 }
 
 .search-header-separator {

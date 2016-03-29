@@ -39,6 +39,8 @@ class SearchModal extends React.Component
         <div className="small-12 medium-6 medium-offset-3 columns cursor-pointer search-header" onClick={@closeModal}>
           <Icon img={'icon-icon_arrow-left'} />
           <span className="search-header-separator"/>
+          <span className="search-header__category-text h4"><FormattedMessage id='origin' defaultMessage='Origin'/></span>
+          <span className="search-header__category-text h4"><FormattedMessage id='destination' defaultMessage='Destination'/></span>
         </div>
       </div>
       <div className="row">
