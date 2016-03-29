@@ -116,6 +116,9 @@ class SummaryPage extends React.Component
 
     # Draw active last
     leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
+    from = locationToCoords(otpToLocation(@props.params.from))
+    to = locationToCoords(otpToLocation(@props.params.to))
+
 
     meta =
       title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestion"}
@@ -129,8 +132,8 @@ class SummaryPage extends React.Component
            className="summaryMap"
            leafletObjs={leafletObjs}
            fitBounds={true}
-           from={locationToCoords(otpToLocation(@props.params.from))}
-           to={locationToCoords(otpToLocation(@props.params.to))}
+           from={from}
+           to={to}
            padding={[0, 110]}>
         <SearchTwoFieldsContainer/>
         {toItinerary}
