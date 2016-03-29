@@ -60,6 +60,11 @@
 
     white-space: nowrap;
 
+    .line.walk {
+      &:after {
+        left: 2em;
+      }
+    }
 
     .line {
       white-space: nowrap;
