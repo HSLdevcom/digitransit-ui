@@ -72,7 +72,7 @@
         z-index: -1;
         right: 1px;
         left: 0;
-        top: 43%;
+        top: 0.875em;
         border-bottom: 4px solid;
         border-radius: 2px;
       }
@@ -114,6 +114,10 @@
     }
     .vehicle-number {
       @include font-narrow-medium;
+      clear: left;
+      float: left;
+      padding: 0;
+      width: 1.75em;
     }
     .icon.realtime-icon.realtime {
       margin-top: -0.2em;

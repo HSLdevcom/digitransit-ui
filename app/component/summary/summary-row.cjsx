@@ -20,11 +20,11 @@ class SummaryRow extends React.Component
 
     for leg, i in data.legs
       if leg.transitLeg
-        legs.push <div key={i + 'a'}
-          className={cx "line", leg.mode.toLowerCase()}>
-          <Icon className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()}/>
-          {legTextUtil.getLegText(leg)}
-        </div>
+        legs.push <RouteNumber
+                    mode={leg.mode}
+                    text={legTextUtil.getLegText(leg)}
+                    vertical={true}
+                    className={cx "line", leg.mode.toLowerCase()} />
 
     durationText = timeUtils.durationToString(duration)
 
