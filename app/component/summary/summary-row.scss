@@ -87,23 +87,7 @@
       &:first-child:nth-last-child(2) {
         width: 50%;
       }
-
-      &.walk {
-        border-bottom-style: dotted;
-      }
-      &.citybike {
-        border-bottom-style: dashed;
-      }
-      &.citybike_walk {
-        border-bottom-style: dotted;
-      }
-      &.bicycle {
-        border-bottom-style: dashed;
-      }
-      &.bicycle_walk {
-        border-bottom-style: dotted;
-      }
-
+      
       .icon {
         width: 1.75em;
         height: 1.75em;
@@ -124,9 +108,6 @@
     }
   }
 }
-
-
-
 
 /*
   Customize Search
