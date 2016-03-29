@@ -90,11 +90,11 @@ class SearchTwoFieldsContainer extends React.Component
       @refs.modal?.refs.searchInput?.refs.autowhatever?.refs.input?.focus()
 
     originPlaceholder = @context.intl.formatMessage(
-      id: 'origin'
+      id: 'origin-placeholder'
       defaultMessage: 'From where? - address or stop')
 
     destinationPlaceholder = @context.intl.formatMessage(
-      id: 'destination'
+      id: 'destination-placeholder'
       defaultMessage: 'Where to? - address or stop')
 
     from =
