@@ -1,5 +1,6 @@
 React              = require 'react'
 moment             = require 'moment'
+legTextUtil        = require '../../util/leg-text-util'
 timeUtils          = require '../../util/time-utils'
 geoUtils           = require '../../util/geo-utils'
 Link               = require 'react-router/lib/Link'
@@ -11,18 +12,8 @@ Icon  = require '../icon/icon'
 
 class SummaryRow extends React.Component
 
-  legText: (leg) =>
-    # Use either vehicle number or walking distance as text
-    if leg.transitLeg and leg.mode.toLowerCase() == 'subway'
-      # TODO: Translate this.
-      text = " M"
-    else if leg.transitLeg and leg.route.length < 6
-      # Some route values are too long. Other routes are simply just a number.
-      text = " #{leg.route}"
-    else
-      text = ""
-
   render: -> # TODO: divide into separate components/functions
+    console.log(legTextUtil)
     data = @props.data
     currentTime = @props.currentTime
     startTime = moment(data.startTime)
@@ -38,13 +29,11 @@ class SummaryRow extends React.Component
       legStart = moment(leg.startTime)
       legEnd = moment(leg.endTime)
 
-      text = @legText(leg)
-
       if leg.transitLeg
         legs.push <div key={i + 'a'}
           className={cx "line", leg.mode.toLowerCase()}>
           <Icon className={leg.mode.toLowerCase()} img={'icon-icon_' + leg.mode.toLowerCase()}/>
-          {text}
+          {legTextUtil.getLegText(leg)}
         </div>
 
     durationText = timeUtils.durationToString(duration)
