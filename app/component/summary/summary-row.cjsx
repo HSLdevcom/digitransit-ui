@@ -7,27 +7,18 @@ Link               = require 'react-router/lib/Link'
 RouteNumber        = require '../departure/route-number'
 DepartureTime      = require '../departure/departure-time'
 cx                 = require 'classnames'
-Icon  = require '../icon/icon'
-
+Icon               = require '../icon/icon'
 
 class SummaryRow extends React.Component
 
   render: -> # TODO: divide into separate components/functions
     data = @props.data
-    currentTime = @props.currentTime
     startTime = moment(data.startTime)
     endTime = moment(data.endTime)
     duration = endTime.diff(startTime)
-    walkDistance = 0
     legs = []
-    legTimes = []
-    MIN_SIZE = "3.7em"
-    for leg, i in data.legs
-      isLastLeg = i == data.legs.length - 1
-      isFirstLeg = i == 0
-      legStart = moment(leg.startTime)
-      legEnd = moment(leg.endTime)
 
+    for leg, i in data.legs
       if leg.transitLeg
         legs.push <div key={i + 'a'}
           className={cx "line", leg.mode.toLowerCase()}>
@@ -37,13 +28,13 @@ class SummaryRow extends React.Component
 
     durationText = timeUtils.durationToString(duration)
 
-    classes = [
+    classes = cx [
       "itinerary-summary-row"
       "cursor-pointer"
       passive: @props.passive
     ]
 
-    <div className={cx classes} onClick={() => @props.onSelect(@props.hash)}>
+    <div className={classes} onClick={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-duration-and-distance">
         <div className="itinerary-duration">
           {moment.duration(duration).humanize()}
