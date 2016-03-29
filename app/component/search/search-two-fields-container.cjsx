@@ -109,9 +109,6 @@ class SearchTwoFieldsContainer extends React.Component
           focusInput()
         }
         autosuggestPlaceholder={originPlaceholder}
-        navigateOrInputPlaceHolder={@context.intl.formatMessage(
-          id: 'give-origin'
-          defaultMessage: 'Type origin')}
         id='origin'
       />
 
@@ -127,9 +124,6 @@ class SearchTwoFieldsContainer extends React.Component
           focusInput()
         }
         autosuggestPlaceholder={destinationPlaceholder}
-        navigateOrInputPlaceHolder={@context.intl.formatMessage(
-          id: 'give-destination'
-          defaultMessage: 'Type destination')}
         id='destination'
       />
 

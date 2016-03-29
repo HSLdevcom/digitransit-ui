@@ -25,26 +25,6 @@ $search-form-location-icon-size: 18px;
   vertical-align: middle;
 }
 
-.search-form {
-  .navigate-or-input-messages {
-    color: $gray-blue;
-    border-bottom: 1px dotted;
-    border-color: $gray-blue;
-    margin-left: 5px;
-    margin-right: 5px;
-    cursor: pointer;
-  }
-  .navigate-or-input--or {
-    color: $gray;
-  }
-  .navigate-or-input-icon--offline {
-    fill: $gray-blue;
-    font-size: $search-form-location-icon-size;
-    margin-left: 5px;
-    cursor: pointer;
-  }
-}
-
 .abs-top {
   position:absolute;
   top: 0px;
@@ -255,10 +235,6 @@ ul#react-whatever-suggest {
 
 .search-form-map-overlay {
   z-index: 802;
-}
-
-.navigate-or-input {
-  background-color: $search-form-input-overlay-background-color;
 }
 
 .geolocation-bar-location-icon {

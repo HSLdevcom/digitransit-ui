@@ -108,9 +108,6 @@ class AddFavouriteContainer extends React.Component
                   focusInput()
                 }
                 autosuggestPlaceholder={destinationPlaceholder}
-                navigateOrInputPlaceHolder={@context.intl.formatMessage(
-                  id: 'address'
-                  defaultMessage: 'Address')}
                 id='destination'
                 className='add-favourite-container__input-placeholder'
               />
