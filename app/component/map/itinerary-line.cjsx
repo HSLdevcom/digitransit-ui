@@ -33,7 +33,11 @@ class ItineraryLine extends React.Component
 
     unless @props.passive
       itineraryStops = Array::concat.apply [], @props.legs.map (leg) ->
-        leg.intermediateStops.concat [leg.from, leg.to]
+        fromTo = [leg.from, leg.to]
+        if leg.intermediateStops
+          leg.intermediateStops.concat fromTo
+        else
+          fromTo
 
     for leg, i in @props.legs
       if leg.mode == "WAIT"  # No sense trying to render a non-moving leg
