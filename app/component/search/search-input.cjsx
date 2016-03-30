@@ -26,10 +26,14 @@ class SearchInput extends React.Component
   componentWillUnmount: =>
     @context.getStore('SearchStore').removeChangeListener @onSearchChange
 
-  onSearchChange: =>
-    if @context.getStore('SearchStore').getPosition() != undefined
+  onSearchChange: (props) =>
+    #set initial value
+    if props.init == true && @context.getStore('SearchStore').getPosition() != undefined
       @handleUpdateInputNow(target:
         value: @context.getStore('SearchStore').getPosition().address)
+    else #suggestions updated
+      @setState "suggestions": @context.getStore('SearchStore').getSuggestions(), focusedItemIndex: 0,
+        () => focusItem(0)
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
@@ -74,10 +78,7 @@ class SearchInput extends React.Component
       return
 
     @setState "value": input
-    geoLocation = @context.getStore('PositionStore').getLocationState()
-    @context.getStore('SearchStore').getSuggestions input, geoLocation, (suggestions) =>
-      @setState "suggestions": suggestions, focusedItemIndex: 0,
-        () => focusItem(0)
+    @context.executeAction SearchActions.executeSearch, event.target.value
 
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
