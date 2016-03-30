@@ -60,8 +60,8 @@ module.exports =
         maxWidth: 250
         minWidth: 250
   autoSuggest:
-    sortOrder: currentPosition: 1, favourite: 2, oldSearch: 3
-    sortOthers: 4
+    sortOrder: currentPosition: 1, favourite: 2, oldSearch: 3, locality: 4, address: 5, stop: 6
+    sortOthers: 7
     # Let Pelias suggest based on current user location
     locationAware: true
   cityBike:
