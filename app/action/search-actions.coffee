@@ -112,7 +112,7 @@ directGeocode = (actionContext, input) ->
     console.error("error occurred", e)
 
 geocode =
-  debounce(directGeocode, 400)
+  debounce(directGeocode, 300)
 
 #used by the modal
 module.exports.executeSearch = (actionContext, input) ->
