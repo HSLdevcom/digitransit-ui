@@ -3,9 +3,9 @@ config           = require '../config'
 debounce         = require 'lodash/debounce'
 sortBy           = require 'lodash/sortBy'
 uniqWith         = require 'lodash/uniqWith'
+orderBy          = require 'lodash/orderBy'
 takeRight        = require 'lodash/takeRight'
 SuggestionUtils  = require '../util/suggestion-utils'
-
 
 processResults = (actionContext, result) ->
   actionContext.dispatch 'SuggestionsResult',
@@ -73,7 +73,7 @@ addOldSearches = (oldSearches, features, input) ->
   features.concat results
 
 addFavouriteLocations = (favourites, features, input) ->
-  matchingFavourites = filterMatchingToInput(favourites, input)
+  matchingFavourites = orderBy(filterMatchingToInput(favourites, input), (f) => f.locationName)
   results = matchingFavourites.map (item) ->
     type: "Favourite"
     properties:
