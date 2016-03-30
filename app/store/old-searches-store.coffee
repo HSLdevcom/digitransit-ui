@@ -22,9 +22,7 @@ class OldSearchesStore extends Store
   #  coordinates :[]
   # }
   saveSearch: (destination) ->
-    searches = getSearches()
-
-    found = searches.filter (storedDestination) ->
+    found = getOldSearches().filter (storedDestination) ->
       storedDestination.address == destination.address
 
     switch found.length
@@ -35,7 +33,7 @@ class OldSearchesStore extends Store
     localStorage.setItem "saved-searches", orderBy searches, "count", "desc"
     @emitChange(feature)
 
-  getOldSearches:  () ->
+  getOldSearches: () ->
     saved = localStorage.getItem "saved-searches"
     if saved == null
       saved = []
