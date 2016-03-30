@@ -136,10 +136,10 @@ class SummaryPage extends React.Component
         {toItinerary}
         {summary}
       </Map>
-      { if rows.length == 0
-          <div className="spinner-loader"/>
-        else
-          <div>{rows}</div>}
+      {if rows.length == 0
+        <div className="spinner-loader"/>
+      else
+        <div>{rows}</div>}
 
     </SummaryNavigation>
 
