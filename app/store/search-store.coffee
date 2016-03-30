@@ -1,12 +1,12 @@
-Store              = require 'fluxible/addons/BaseStore'
-localStorage       = require './local-storage'
-config             = require '../config'
-XhrPromise         = require '../util/xhr-promise'
-orderBy            = require 'lodash/orderBy'
-sortBy             = require 'lodash/sortBy'
-uniqWith          = require 'lodash/uniqWith'
-takeRight          = require 'lodash/takeRight'
-SuggestionUtils    = require '../util/suggestion-utils'
+Store            = require 'fluxible/addons/BaseStore'
+storage          = require './local-storage'
+config           = require '../config'
+XhrPromise       = require '../util/xhr-promise'
+orderBy          = require 'lodash/orderBy'
+sortBy           = require 'lodash/sortBy'
+uniqWith         = require 'lodash/uniqWith'
+takeRight        = require 'lodash/takeRight'
+SuggestionUtils  = require '../util/suggestion-utils'
 
 currentLocation =
   type: "CurrentLocation", properties:
@@ -21,17 +21,22 @@ uniq = (features) ->
   uniqWith features, (feat1, feat2) ->
     SuggestionUtils.getLabel(feat1.properties) == SuggestionUtils.getLabel(feat2.properties) # or perhaps coords instead?
 
+# Filters given list and returns only elements that match with given input
+filterMatchingToInput = (list, input) ->
+  if input?.length >= 0
+    return list.filter (item) ->
+      item.address?.toLowerCase().indexOf(input.toLowerCase()) > -1 ||
+      item.locationName?.toLowerCase().indexOf(input.toLowerCase()) > -1
+  else
+    return list
+
 addCurrentPositionIfEmpty = (features) ->
   if features.length == 0
     features.push currentLocation
   features
 
 addOldSearches = (features, input) ->
-  if input?.length >= 0
-    matchingOldSearches = getSearches().filter (search) -> search.address.toLowerCase().indexOf(input.toLowerCase()) > -1
-  else
-    matchingOldSearches = getSearches()
-
+  matchingOldSearches = filterMatchingToInput(storage.getSearchStorage(), input)
   results = takeRight(matchingOldSearches, 10).map (item) ->
     type: "OldSearch"
     properties:
@@ -40,13 +45,18 @@ addOldSearches = (features, input) ->
     geometry: item.geometry
   features.concat results
 
-getSearches = () ->
-  saved = localStorage.getItem "saved-searches"
-  if saved == null
-    saved = []
-  else
-    saved = JSON.parse(saved)
-  saved
+addFavourites = (features, input) ->
+  matchingFavourites = filterMatchingToInput(storage.getFavouriteLocationsStorage(), input)
+  results = matchingFavourites.map (item) ->
+    type: "Favourite"
+    properties:
+      label: item.locationName
+      layer: 'favourite'
+    geometry:
+      type: "Point"
+      coordinates: [item.lon, item.lat]
+
+  features.concat results
 
 getPeliasDataOrEmptyArray = (input, geolocation) ->
   if input == undefined or input == null or input.trim().length < 3
@@ -91,6 +101,7 @@ class SearchStore extends Store
   getSuggestions: (input, geoLocation, cb) =>
     getPeliasDataOrEmptyArray(input, geoLocation)
     .then addCurrentPositionIfEmpty
+    .then (suggestions) -> addFavourites(suggestions, input)
     .then (suggestions) -> addOldSearches(suggestions, input)
     .then sort
     .then uniq
@@ -129,7 +140,7 @@ class SearchStore extends Store
   #  coordinates :[]
   # }
   saveSearch: (destination) ->
-    searches = getSearches()
+    searches = storage.getSearchStorage()
 
     found = searches.filter (storedDestination) ->
       storedDestination.address == destination.address
@@ -139,7 +150,7 @@ class SearchStore extends Store
       when 1 then found[0].count = found[0].count + 1
       else console.error "too many matches", found
 
-    localStorage.setItem "saved-searches", orderBy searches, "count", "desc"
+    storage.setSearchStorage orderBy searches, "count", "desc"
 
   @handlers:
     "OpenSearch": 'openSearch'
