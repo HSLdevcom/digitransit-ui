@@ -21,5 +21,4 @@ class FavouriteLocationStore extends Store
     "AddFavouriteLocation": "addFavouriteLocation"
     "GetFavouriteLocation": "getFavouriteLocation"
 
-
 module.exports = FavouriteLocationStore

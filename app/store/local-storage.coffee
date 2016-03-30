@@ -50,8 +50,8 @@ module.exports =
   setPreferencesStorage: (data) ->
     @setItem("userPreferences", data)
 
-  getSearchStorage: () ->
+  getOldSearchesStorage: () ->
     @getItemAsJson("saved-searches")
 
-  setSearchStorage: (data) ->
+  setOldSearchesStorage: (data) ->
     @setItem("saved-searches", data)

@@ -15,6 +15,7 @@ import CityBikeStore from './store/city-bike-store';
 import FeedbackStore from './store/feedback-store';
 import FavouriteLocationStore from './store/favourite-location-store';
 import SearchStore from './store/search-store';
+import OldSearchesStore from './store/old-searches-store';
 
 const app = new Fluxible({
   component: routes,
@@ -23,6 +24,7 @@ const app = new Fluxible({
 app.registerStore(ServiceStore);
 app.registerStore(FavouriteRoutesStore);
 app.registerStore(FavouriteStopsStore);
+app.registerStore(FavouriteLocationStore);
 app.registerStore(EndpointStore);
 app.registerStore(ItinerarySearchStore);
 app.registerStore(PositionStore);
@@ -33,6 +35,6 @@ app.registerStore(ModeStore);
 app.registerStore(NotImplementedStore);
 app.registerStore(CityBikeStore);
 app.registerStore(FeedbackStore);
-app.registerStore(FavouriteLocationStore);
 app.registerStore(SearchStore);
+app.registerStore(OldSearchesStore);
 export default app;
