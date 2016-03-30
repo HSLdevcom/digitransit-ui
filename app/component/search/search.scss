@@ -208,8 +208,9 @@ ul#react-whatever-suggest {
       /* TODO add somehow border */
     }
 
-    & .Favourite {
-      
+    & .Favourite svg.icon {
+      stroke: $favourite-color;
+      fill: $favourite-color;
     }
   }
 }
