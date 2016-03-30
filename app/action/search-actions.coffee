@@ -1,5 +1,6 @@
 XhrPromise       = require '../util/xhr-promise'
 config           = require '../config'
+debounce         = require 'lodash/debounce'
 orderBy          = require 'lodash/orderBy'
 sortBy           = require 'lodash/sortBy'
 uniqWith         = require 'lodash/uniqWith'
@@ -79,7 +80,7 @@ getPeliasDataOrEmptyArray = (input, geolocation) ->
 
   return XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> res.features
 
-geocode = (actionContext, input) ->
+directGeocode = (actionContext, input) ->
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
   oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
   getPeliasDataOrEmptyArray(input, geoLocation)
@@ -92,7 +93,8 @@ geocode = (actionContext, input) ->
   .catch (e) ->
     console.error("error occurred", e)
 
-
+geocode =
+  debounce(directGeocode, 400)
 
 #used by the modal
 module.exports.executeSearch = (actionContext, input) ->
