@@ -33,7 +33,7 @@ getMetadata = (lang) ->
       {name: 'twitter:image', content: "#{root}/img/#{configPath}-icons/social-share.png"}
     ]
     link: [
-      {rel: 'apple-touch-startup-image', content: "#{root}/img/#{configPath}-icons/ios-splash-screen.png"}
+      {rel: 'apple-touch-startup-image', href: "#{root}/img/#{configPath}-icons/ios-splash-screen.png"}
       {rel: 'apple-touch-icon', sizes: '57x57', href: "#{root}/img/#{configPath}-icons/apple-icon-57x57.png"}
       {rel: 'apple-touch-icon', sizes: '60x60', href: "#{root}/img/#{configPath}-icons/apple-icon-60x60.png"}
       {rel: 'apple-touch-icon', sizes: '72x72', href: "#{root}/img/#{configPath}-icons/apple-icon-72x72.png"}

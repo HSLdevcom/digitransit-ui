@@ -1,14 +1,14 @@
 import Relay from 'react-relay';
 
-var TerminalQueries = {
+export const TerminalQueries = {
   terminal: () => Relay.QL`
     query  {
       station(id: $terminalId)
     }
   `,
-}
+};
 
-class TerminalRoute extends Relay.Route {
+export class TerminalRoute extends Relay.Route {
   static queries = TerminalQueries;
   static paramDefinitions = {
     terminalId: {required: true},
@@ -16,7 +16,7 @@ class TerminalRoute extends Relay.Route {
   static routeName = 'TerminalRoute';
 }
 
-var TerminalMarkerPopupFragments = {
+export const TerminalMarkerPopupFragments = {
   terminal: () => Relay.QL`
     fragment on Stop{
       gtfsId
@@ -35,17 +35,17 @@ var TerminalMarkerPopupFragments = {
       }
     }
   `,
-}
+};
 
-var StopQueries = {
+export const StopQueries = {
   stop: () => Relay.QL`
     query  {
       stop(id: $stopId)
     }
   `,
-}
+};
 
-class TripRoute extends Relay.Route {
+export class TripRoute extends Relay.Route {
   static queries = {
     pattern: () => Relay.QL`query {
         trip(id: $id)
@@ -54,10 +54,10 @@ class TripRoute extends Relay.Route {
   static paramDefinitions = {
     id: {required: true},
   };
-  static routeName = "TripRoute";
+  static routeName = 'TripRoute';
 }
 
-var TripPatternFragments = {
+export const TripPatternFragments = {
   pattern: () => Relay.QL`
     fragment on Trip {
       pattern {
@@ -65,17 +65,17 @@ var TripPatternFragments = {
       }
     }
   `,
-}
+};
 
-var RouteQueries = {
+export const RouteQueries = {
   pattern: () => Relay.QL`
     query {
       pattern(id: $routeId)
     }
   `,
-}
+};
 
-class NearbyRouteListContainerRoute extends Relay.Route {
+export class NearbyRouteListContainerRoute extends Relay.Route {
   static queries = {
     stops: (Component, variables) => Relay.QL`
       query {
@@ -95,7 +95,7 @@ class NearbyRouteListContainerRoute extends Relay.Route {
   static routeName = 'NearbyRouteListContainerRoute';
 }
 
-var NearbyRouteListContainerFragments = {
+export const NearbyRouteListContainerFragments = {
   stops: () => Relay.QL`
     fragment on QueryType {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
@@ -145,17 +145,17 @@ var NearbyRouteListContainerFragments = {
       }
     }
   `,
-}
+};
 
-var TripQueries = {
+export const TripQueries = {
   trip: () => Relay.QL`
     query {
       trip(id: $tripId)
     }
   `,
-}
+};
 
-class StopRoute extends Relay.Route {
+export class StopRoute extends Relay.Route {
   static queries = StopQueries;
   static paramDefinitions = {
     stopId: {required: true},
@@ -165,7 +165,7 @@ class StopRoute extends Relay.Route {
 }
 
 
-var RoutePageFragments = {
+export const RoutePageFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
       route {
@@ -177,9 +177,9 @@ var RoutePageFragments = {
       ${require('./component/route/route-stop-list-container').getFragment('pattern')}
     }
   `,
-}
+};
 
-var RouteHeaderFragments = {
+export const RouteHeaderFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
       code
@@ -198,9 +198,9 @@ var RouteHeaderFragments = {
       }
     }
   `,
-}
+};
 
-var RouteStopListFragments = {
+export const RouteStopListFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
       route {
@@ -216,9 +216,9 @@ var RouteStopListFragments = {
       }
     }
   `,
-}
+};
 
-var RouteMapFragments = {
+export const RouteMapFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
       code
@@ -232,9 +232,9 @@ var RouteMapFragments = {
       ${require('./component/map/route/route-line').getFragment('pattern')}
     }
   `,
-}
+};
 
-var RouteLineFragments = {
+export const RouteLineFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
       geometry {
@@ -253,9 +253,9 @@ var RouteLineFragments = {
       }
     }
   `,
-}
+};
 
-class StopListContainerRoute extends Relay.Route {
+export class StopListContainerRoute extends Relay.Route {
   static queries = {
     stops: (Component, variables) => Relay.QL`
       query {
@@ -277,7 +277,7 @@ class StopListContainerRoute extends Relay.Route {
   static routeName = 'StopListContainerRoute';
 }
 
-var NearestStopListContainerFragments = {
+export const NearestStopListContainerFragments = {
   stops: ({date}) => Relay.QL`
     fragment on QueryType {
       stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
@@ -296,19 +296,20 @@ var NearestStopListContainerFragments = {
       }
     }
   `,
-}
+};
 
-class FavouriteStopListContainerRoute extends Relay.Route {
+export class FavouriteStopListContainerRoute extends Relay.Route {
   static queries = {
-      stops: (Component, variables) => Relay.QL`
+    stops: (Component, variables) => Relay.QL`
       query {
         stops(ids: $ids) {
           ${Component.getFragment('stops', {
             ids: variables.ids,
             date: variables.date,
-        })}
+          })}
+        }
       }
-    }`,
+    `,
   };
   static paramDefinitions = {
     ids: {required: true},
@@ -317,16 +318,16 @@ class FavouriteStopListContainerRoute extends Relay.Route {
   static routeName = 'FavouriteStopListContainerRoute';
 }
 
-var FavouriteStopListContainerFragments = {
+export const FavouriteStopListContainerFragments = {
   stops: ({date}) => Relay.QL`
     fragment on Stop @relay(plural:true){
       gtfsId
       ${require('./component/stop-cards/stop-card-container').getFragment('stop', {date})}
     }
   `,
-}
+};
 
-var StopCardContainerFragments = {
+export const StopCardContainerFragments = {
   stop: () => Relay.QL`
     fragment on Stop{
       gtfsId
@@ -334,11 +335,12 @@ var StopCardContainerFragments = {
         ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
       }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-    }`
-}
+    }
+  `,
+};
 
-var StopPageFragments = {
-  stop: () =>  Relay.QL`
+export const StopPageFragments = {
+  stop: () => Relay.QL`
     fragment on Stop {
       lat
       lon
@@ -357,19 +359,19 @@ var StopPageFragments = {
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
-}
+};
 
-var StopMapPageFragments = {
-  stop: () =>  Relay.QL`
+export const StopMapPageFragments = {
+  stop: () => Relay.QL`
     fragment on Stop {
       lat
       lon
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
   `,
-}
+};
 
-class StopMarkerLayerRoute extends Relay.Route {
+export class StopMarkerLayerRoute extends Relay.Route {
   static queries = {
     stopsInRectangle: (Component, variables) => Relay.QL`
       query {
@@ -393,7 +395,7 @@ class StopMarkerLayerRoute extends Relay.Route {
   static routeName = 'StopMarkerLayerRoute';
 }
 
-var StopMarkerLayerFragments = {
+export const StopMarkerLayerFragments = {
   stopsInRectangle: (variables) => Relay.QL`
     fragment on QueryType {
       stopsByBbox(minLat: $minLat, minLon: $minLon, maxLat: $maxLat, maxLon: $maxLon, agency: $agency) {
@@ -420,9 +422,9 @@ var StopMarkerLayerFragments = {
       }
     }
   `,
-}
+};
 
-var StopMarkerPopupFragments = {
+export const StopMarkerPopupFragments = {
   stop: ({date}) => Relay.QL`
     fragment on Stop{
       gtfsId
@@ -432,9 +434,9 @@ var StopMarkerPopupFragments = {
       ${require('./component/stop-cards/stop-card-container').getFragment('stop', {date})}
     }
   `,
-}
+};
 
-var StopCardHeaderFragments = {
+export const StopCardHeaderFragments = {
   stop: () => Relay.QL`
     fragment on Stop {
       gtfsId
@@ -443,9 +445,9 @@ var StopCardHeaderFragments = {
       desc
     }
   `,
-}
+};
 
-var StopAtDistanceListContainerFragments = {
+export const StopAtDistanceListContainerFragments = {
   stopAtDistance: () => Relay.QL`
   fragment on stopAtDistance {
     distance
@@ -483,9 +485,9 @@ var StopAtDistanceListContainerFragments = {
     }
   }
   `,
-}
+};
 
-var DepartureListFragments = {
+export const DepartureListFragments = {
   stoptimes: () => Relay.QL`
     fragment on StoptimesInPattern @relay(plural:true) {
       pattern {
@@ -521,9 +523,9 @@ var DepartureListFragments = {
       }
     }
   `,
-}
+};
 
-var TripPageFragments = {
+export const TripPageFragments = {
   trip: () => Relay.QL`
     fragment on Trip {
       pattern {
@@ -542,9 +544,9 @@ var TripPageFragments = {
       ${require('./component/trip/trip-stop-list-container').getFragment('trip')}
     }
   `,
-}
+};
 
-var TripStopListFragments = {
+export const TripStopListFragments = {
   trip: () => Relay.QL`
     fragment on Trip {
       route {
@@ -564,9 +566,9 @@ var TripStopListFragments = {
       }
     }
   `,
-}
+};
 
-class FuzzyTripRoute extends Relay.Route {
+export class FuzzyTripRoute extends Relay.Route {
   static queries = {
     trip: (Component, variables) => Relay.QL`
       query {
@@ -590,7 +592,7 @@ class FuzzyTripRoute extends Relay.Route {
   static routeName = 'FuzzyTripRoute';
 }
 
-var TripLinkFragments = {
+export const TripLinkFragments = {
   trip: () => Relay.QL`
     fragment on QueryType {
       trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
@@ -598,9 +600,9 @@ var TripLinkFragments = {
       }
     }
   `,
-}
+};
 
-var RouteMarkerPopupFragments = {
+export const RouteMarkerPopupFragments = {
   trip: () => Relay.QL`
     fragment on QueryType {
       fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
@@ -621,17 +623,19 @@ var RouteMarkerPopupFragments = {
       }
     }
   `,
-}
+};
 
-class FavouriteRouteListContainerRoute extends Relay.Route {
+export class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
-      routes: (Component, variables) => Relay.QL`
-        query {
-          routes (ids:$ids) {
-            ${Component.getFragment('routes', {
-            ids: variables.ids
-        })}
-      }}`,
+    routes: (Component, variables) => Relay.QL`
+      query {
+        routes (ids:$ids) {
+          ${Component.getFragment('routes', {
+            ids: variables.ids,
+          }
+        )
+      }
+    }}`,
   };
   static paramDefinitions = {
     ids: {required: true},
@@ -639,56 +643,56 @@ class FavouriteRouteListContainerRoute extends Relay.Route {
   static routeName = 'FavouriteRouteRowRoute';
 }
 
-var FavouriteRouteListContainerFragments = {
-    routes: () => Relay.QL`
-      fragment on Route @relay(plural:true) {
-        patterns {
-          headsign
-          stops {
-            lat
-            lon
-            stoptimes: stoptimesForPatterns (numberOfDepartures:2) {
-              pattern {
-                alerts {
-                  effectiveStartDate
-                  effectiveEndDate
-                  trip {
-                    gtfsId
-                  }
-                }
-                code
-                headsign
-                route {
-                  gtfsId
-                  shortName
-                  longName
-                  type
-                  color
-                }
-              }
-              stoptimes {
-                pickupType
-              realtimeState
-                realtimeDeparture
-                scheduledDeparture
-                realtime
-                serviceDay
+export const FavouriteRouteListContainerFragments = {
+  routes: () => Relay.QL`
+    fragment on Route @relay(plural:true) {
+      patterns {
+        headsign
+        stops {
+          lat
+          lon
+          stoptimes: stoptimesForPatterns (numberOfDepartures:2) {
+            pattern {
+              alerts {
+                effectiveStartDate
+                effectiveEndDate
                 trip {
                   gtfsId
                 }
               }
+              code
+              headsign
+              route {
+                gtfsId
+                shortName
+                longName
+                type
+                color
+              }
+            }
+            stoptimes {
+              pickupType
+              realtimeState
+              realtimeDeparture
+              scheduledDeparture
+              realtime
+              serviceDay
+              trip {
+                gtfsId
+              }
             }
           }
         }
-        gtfsId
-        shortName
-        longName
-        type
       }
-   `,
-}
+      gtfsId
+      shortName
+      longName
+      type
+    }
+ `,
+};
 
-class DisruptionInfoRoute extends Relay.Route {
+export class DisruptionInfoRoute extends Relay.Route {
   static queries = {
     alerts: () => Relay.QL`
     query {
@@ -699,7 +703,7 @@ class DisruptionInfoRoute extends Relay.Route {
   static routeName = 'DisruptionInfoRoute';
 }
 
-var DisruptionListContainerFragments = {
+export const DisruptionListContainerFragments = {
   alerts: () => Relay.QL`
   fragment on QueryType {
     alerts {
@@ -721,15 +725,51 @@ var DisruptionListContainerFragments = {
     }
   }
   `,
-}
+};
 
-var DisruptionInfoButtonFragments = {
+export const DisruptionInfoButtonFragments = {
   alerts: () => Relay.QL`
   fragment on QueryType {
     alerts {
       id
     }
   }
+  `,
+}
+
+export class FavouriteLocationContainerRoute extends Relay.Route {
+  static queries = {
+    plan: (Component, variables) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('plan', {
+          from: variables.from,
+          to: variables.to,
+        })}
+      }
+    }`,
+  };
+  static paramDefinitions = {
+    from: {required: true},
+    to: {required: true},
+  };
+  static routeName = "FavouriteLocationsContainerRoute";
+}
+
+var FavouriteLocationContainerFragments = {
+  plan: () => Relay.QL`
+    fragment on QueryType {
+      plan(from: $from, to: $to, numItineraries: $numItineraries, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed) {
+        itineraries {
+          startTime
+          endTime
+          legs {
+            realTime
+            transitLeg
+          }
+        }
+      }
+    }
   `,
 }
 
@@ -773,4 +813,6 @@ module.exports = {
   DisruptionInfoRoute: DisruptionInfoRoute,
   DisruptionListContainerFragments: DisruptionListContainerFragments,
   DisruptionInfoButtonFragments: DisruptionInfoButtonFragments,
-};
+  FavouriteLocationContainerRoute: FavouriteLocationContainerRoute,
+  FavouriteLocationContainerFragments: FavouriteLocationContainerFragments
+}
