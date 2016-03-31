@@ -1,10 +1,10 @@
 .itinerary-summary-row {
-  padding-left: 1em;
-  padding-right: 0.5em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
   padding-top: 0.4em;
   padding-bottom: 0;
   overflow: hidden;
-  font-size: 12pt;
+  font-size: 11pt;
   background-color: $white;
   border-bottom: 1px solid $light-gray;
 
@@ -15,7 +15,7 @@
     color: $action-color;
     width: 1.2em;
     height: 3em;
-    margin-left: 1em;
+    margin-left: 0.3em;
   }
 
   &.passive {
@@ -26,12 +26,10 @@
   & .itinerary-duration-and-distance {
     white-space: nowrap;
     display: inline-block;
-    margin-right: 1em;
-    width: 5em;
+    min-width: 5em;
   }
 
   & .itinerary-duration {
-    margin-right: 1em;
     line-height: 2;
     font-weight: 600;
   }
@@ -42,22 +40,21 @@
 
   & .itinerary-start-time {
     font-weight: 600;
-    padding-right: 0.5em;
+    margin-left: 0.3em;
     line-height: 2;
-    width: 4em;
+    min-width: 3em;
   }
 
   & .itinerary-end-time {
-    padding-left: 0.5em;
+    margin-left: 0.3em;
     line-height: 2;
     width: 4em;
   }
 
   & .itinerary-legs {
-    //position: relative;
-    width: 200px;
+    min-width: 140px;
     display: flex;
-
+    margin-left: 0.3em;
     white-space: nowrap;
 
     .line.walk {
@@ -69,7 +66,6 @@
     .line {
       white-space: nowrap;
       width: 40%;
-      padding: 2px;
       //margin: 10px auto;
       position: relative;
       z-index: 1;
@@ -99,9 +95,14 @@
         width: 50%;
       }
 
+      &:first-child .icon {
+        margin-left: 3px;
+      }
+
       .icon {
-        width: 1.75em;
-        height: 1.75em;
+        margin-top: 0.25em;
+        width: 1.5em;
+        height: 1.5em;
         float: left;
       }
     }
