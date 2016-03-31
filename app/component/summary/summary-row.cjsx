@@ -39,8 +39,6 @@ class SummaryRow extends React.Component
       styleTime =
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
 
-      console.log leg.mode
-
       # Use either vehicle number or walking distance as text
       if leg.transitLeg and leg.mode.toLowerCase() == 'subway'
         text = " M"
