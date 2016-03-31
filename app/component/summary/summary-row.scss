@@ -1,4 +1,5 @@
 .itinerary-summary-row {
+  height: 50px;
   padding-left: 0.3em;
   padding-right: 0.3em;
   padding-top: 0.4em;
@@ -7,7 +8,6 @@
   font-size: 11pt;
   background-color: $white;
   border-bottom: 1px solid $light-gray;
-
   border-left: 0.3em $action-color solid;
   display: flex;
 
@@ -30,7 +30,6 @@
   }
 
   & .itinerary-duration {
-    line-height: 2;
     font-weight: 600;
   }
 
@@ -52,7 +51,7 @@
   }
 
   & .itinerary-legs {
-    min-width: 140px;
+    width: 100%;
     display: flex;
     margin-left: 0.3em;
     white-space: nowrap;
@@ -101,8 +100,8 @@
 
       .icon {
         margin-top: 0.25em;
-        width: 1.5em;
-        height: 1.5em;
+        width: 20px;
+        height: 20px;
         float: left;
       }
     }
@@ -112,10 +111,10 @@
       clear: left;
       float: left;
       padding: 0;
-      width: 1.75em;
+      width: 20px;
 
       span {
-        font-size: 14px;
+        font-size: 11px;
       }
     }
   }
