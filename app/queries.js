@@ -781,6 +781,18 @@ export class SummaryPlanContainerRoute extends Relay.Route {
         ${Component.getFragment('plan', {
           from: variables.from,
           to: variables.to,
+          walkReluctance: variables.walkReluctance,
+          modes: variables.modes,
+          date: variables.date,
+          time: variables.time,
+          walkBoardCost: variables.walkBoardCost,
+          walkSpeed: variables.walkSpeed,
+          minTransferTime: variables.minTransferTime,
+          numItineraries: variables.numItineraries,
+          currentTime: variables.currentTime,
+          selectedTime: variables.selectedTime,
+          maxWalkDistance: variables.maxWalkDistance,
+          wheelchair: variables.wheelchair
         })}
       }
     }`,
@@ -795,26 +807,26 @@ export class SummaryPlanContainerRoute extends Relay.Route {
 var SummaryPlanContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(from: $from, to: $to, numItineraries: $numItineraries, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, showIntermediateStops: true) {
+      plan(from: $from, to: $to, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, showIntermediateStops: true, wheelchair: $wheelchair) {
         itineraries {
           walkDistance
           duration
 
-      legs {
-        mode
-        from {
-          lat
-          lon
-        }
-        to {
-          lat
-          lon
-        }
-        legGeometry {
-          length
-          points
-        }
-      }
+          legs {
+            mode
+            from {
+              lat
+              lon
+            }
+            to {
+              lat
+              lon
+            }
+            legGeometry {
+              length
+              points
+            }
+          }
 
           ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}
         }

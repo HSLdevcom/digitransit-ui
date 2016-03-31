@@ -8,16 +8,48 @@ SummaryNavigation    = require '../component/navigation/summary-navigation'
 NoRoutePopup         = require '../component/summary/no-route-popup'
 {otpToLocation, locationToCoords} = require '../util/otp-strings'
 intl               = require 'react-intl'
+config             = require '../config'
 
 FormattedMessage = intl.FormattedMessage
 
 class SummaryPage extends React.Component
   @contextTypes:
+    getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
+
+  componentDidMount: ->
+    @context.getStore('ItinerarySearchStore').addChangeListener @onChange
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
+
+  componentWillUnmount: ->
+    @context.getStore('ItinerarySearchStore').removeChangeListener @onChange
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
+
+  onChange: =>
+    @forceUpdate()
+
+  onTimeChange: (e) =>
+    if e.selectedTime
+      @forceUpdate()
 
   render: ->
     from = locationToCoords(otpToLocation(@props.params.from))
     to = locationToCoords(otpToLocation(@props.params.to))
+
+    store = @context.getStore('ItinerarySearchStore')
+    modes = store.getMode()
+    walkReluctance = store.getWalkReluctance()
+    walkBoardCost = store.getWalkBoardCost()
+    minTransferTime = store.getMinTransferTime()
+    walkSpeed = store.getWalkSpeed()
+    wheelchair = store.isWheelchair()
+    if store.getMode().indexOf('BICYCLE') == -1
+      maxWalkDistance = config.maxWalkDistance
+    else
+      maxWalkDistance = config.maxBikingDistance
+
+    arriveBy = @context.getStore('TimeStore').getArriveBy()
+    selectedTime = @context.getStore('TimeStore').getSelectedTime()
 
     plan = <Relay.RootContainer
       Component={SummaryPlanContainer}
@@ -28,6 +60,17 @@ class SummaryPage extends React.Component
         to:
           lat: to[0]
           lon: to[1]
+        numItineraries: 3
+        modes: modes
+        date: selectedTime.format("YYYY-MM-DD")
+        time: selectedTime.format("HH:mm:ss")
+        walkReluctance: walkReluctance+0.000099
+        walkBoardCost: walkBoardCost
+        minTransferTime: minTransferTime
+        walkSpeed: walkSpeed+0.000099
+        maxWalkDistance: maxWalkDistance
+        wheelchair: wheelchair
+        arriveBy: arriveBy
       )}
       renderFailure={(error) =>
         Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
@@ -35,7 +78,7 @@ class SummaryPage extends React.Component
           <FormattedMessage
             id='route-not-possible'
             defaultMessage="Unfortunately your route is not possible. Technical error: '{error}'"
-            values={error: error.msg}/>
+            values={error: error.message}/>
            <NoRoutePopup />
         </div>
       }
