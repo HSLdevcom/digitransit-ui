@@ -599,6 +599,26 @@
                         "description": "Gets plan of a route",
                         "args": [
                             {
+                                "name": "date",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "time",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
                                 "name": "from",
                                 "description": "The start location",
                                 "type": {
