@@ -66,25 +66,15 @@ class SearchModal extends React.Component
                 ref="searchInput"
                 initialValue = {@context.getStore('SearchStore').getOriginPosition()?.address || ""}
                 onSuggestionSelected = {(name, item) =>
-                  action = @context.getStore('SearchStore').getAction()
-
-                  if action != undefined
-                    action(name, item)
-                    @closeModal()
-                    return
-
-                  actionTarget = @context.getStore('SearchStore').getActionTarget()
-
                   if item.type == 'CurrentLocation'
-                    @context.executeAction EndpointActions.setUseCurrent, actionTarget
+                    @context.executeAction EndpointActions.setUseCurrent, "origin"
                   else
                     @context.executeAction EndpointActions.setEndpoint,
-                      "target": actionTarget,
+                      "target": "origin",
                       "endpoint":
                         lat: item.geometry.coordinates[1]
                         lon: item.geometry.coordinates[0]
                         address: name
-
                   @closeModal()
               }/>
             </Tab>
@@ -103,25 +93,15 @@ class SearchModal extends React.Component
                 ref="searchInput"
                 initialValue = {@context.getStore('SearchStore').getDestinationPosition()?.address || ""}
                 onSuggestionSelected = {(name, item) =>
-                  action = @context.getStore('SearchStore').getAction()
-
-                  if action != undefined
-                    action(name, item)
-                    @closeModal()
-                    return
-
-                  actionTarget = @context.getStore('SearchStore').getActionTarget()
-
                   if item.type == 'CurrentLocation'
-                    @context.executeAction EndpointActions.setUseCurrent, actionTarget
+                    @context.executeAction EndpointActions.setUseCurrent, 'destination'
                   else
                     @context.executeAction EndpointActions.setEndpoint,
-                      "target": actionTarget,
+                      "target": "destination",
                       "endpoint":
                         lat: item.geometry.coordinates[1]
                         lon: item.geometry.coordinates[0]
                         address: name
-
                   @closeModal()
               }/>
             </Tab>
