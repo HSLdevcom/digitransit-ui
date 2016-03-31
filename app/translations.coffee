@@ -125,7 +125,7 @@ translations =
     'cycle-from-to': 'Pyöräile {fromName} - {toName}'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ei pysähdyksiä}
-      other {# pysäkkiä}
+      other {{number} pysäkkiä}
     } ({duration})'
     'bus-with-route-number': 'Bussi {routeNumber}'
     'tram-with-route-number': 'Raitiovaunu {routeNumber}'
@@ -223,7 +223,7 @@ translations =
     'airport-collect-luggage': 'Samla ditt bagage om någon'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ingen hållplatser}
-      other {# hållplatser}
+      other {{number} hållplatser}
     } ({duration})'
     'bus-with-route-number': 'Bussen {routeNumber}'
     'tram-with-route-number': 'Spårvagnen {routeNumber}'
@@ -360,18 +360,18 @@ translations =
     'walk': 'gå'
     'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
     'number-of-intermediate-stops': '{number, plural,
-      =0 {Ingen hållplatser}
-      other {# hållplatser}
+      =0 {Ingen stopp}
+      other {{number} stopp}
     } ({duration})'
-    'bus-with-route-number': 'TODO {routeNumber}'
-    'tram-with-route-number': 'TODO {routeNumber}'
-    'train-with-route-number': 'TODO {routeNumber}'
-    'subway-with-route-number': 'TODO {routeNumber}'
-    'ferry-with-route-number': 'TODO {routeNumber}'
-    'airplane-with-route-number': 'TODO {routeNumber}'
-    'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
-    'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
-    'wait-amount-of-time': 'TODO {duration}'
+    'bus-with-route-number': 'Buss {routeNumber}'
+    'tram-with-route-number': 'Trikk {routeNumber}'
+    'train-with-route-number': 'Tog {routeNumber}'
+    'subway-with-route-number': 'T-bane {routeNumber}'
+    'ferry-with-route-number': 'Ferge {routeNumber}'
+    'airplane-with-route-number': 'Fly {routeNumber}'
+    'walk-distance-to-stop': 'Gå {distance} {duration}'
+    'walk-distance-to-dest': 'Gå {distance} {duration}'
+    'wait-amount-of-time': 'Vent {duration}'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -499,7 +499,7 @@ translations =
     'number-of-intermediate-stops': '{number, plural,
       =0 {Sans arrêt}
       =1 {# arrêt}
-      other {# arrêts}
+      other {{number} arrêts}
     } ({duration})'
     'bus-with-route-number': 'Bus {routeNumber}'
     'tram-with-route-number': 'Tramway {routeNumber}'
