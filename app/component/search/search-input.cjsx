@@ -27,9 +27,9 @@ class SearchInput extends React.Component
     @context.getStore('SearchStore').removeChangeListener @onSearchChange
 
   onSearchChange: =>
-    if @context.getStore('SearchStore').getPosition() != undefined
+    if @context.getStore('SearchStore').getOriginPosition() != undefined
       @handleUpdateInputNow(target:
-        value: @context.getStore('SearchStore').getPosition().address)
+        value: @context.getStore('SearchStore').getOriginPosition().address)
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
