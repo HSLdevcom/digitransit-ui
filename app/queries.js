@@ -789,8 +789,6 @@ export class SummaryPlanContainerRoute extends Relay.Route {
           walkSpeed: variables.walkSpeed,
           minTransferTime: variables.minTransferTime,
           numItineraries: variables.numItineraries,
-          currentTime: variables.currentTime,
-          selectedTime: variables.selectedTime,
           maxWalkDistance: variables.maxWalkDistance,
           wheelchair: variables.wheelchair
         })}
