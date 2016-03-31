@@ -66,7 +66,8 @@ class SearchStore extends Store
     super(dispatcher)
     @modalOpen = false
     @actionTarget = undefined
-    @position = undefined
+    @originPosition = undefined
+    @destinationPosition = undefined
     @placeholder = undefined
     @action = undefined
 
@@ -86,8 +87,11 @@ class SearchStore extends Store
   getPlaceholder: () =>
     @placeholder
 
-  getPosition: () =>
-    @position
+  getOriginPosition: () =>
+    @originPosition
+
+  getDestinationPosition: () =>
+    @destinationPosition
 
   # Usually we don't do async stuff in stores nor do we make XHR request.
   # However, in this case it better to keep all this logic in one place
@@ -105,15 +109,19 @@ class SearchStore extends Store
   openSearch: (props) ->
     @modalOpen = true
     @actionTarget = props.actionTarget
-    @position = props.position
     @placeholder = props.placeholder
     @action = props.action
+    if props.actionTarget == 'origin'
+      @originPosition = props.position
+    if props.actionTarget == 'destination'
+      @destinationPosition = props.position
     @emitChange(props)
 
   closeSearch: () ->
     @modalOpen = false
     @actionTarget = undefined
-    @position = undefined
+    @originPosition = undefined
+    @destinationPosition = undefined
     @placeholder = undefined
     @action = undefined
     @emitChange()
