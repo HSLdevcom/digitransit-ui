@@ -16,6 +16,9 @@ module.exports.openSearchWithCallback = (actionContext, params) ->
     'position': params.position
     'placeholder': params.placeholder
 
+module.exports.changeActionTarget = (actionContext, actionTarget) ->
+  actionContext.dispatch 'ChangeActionTarget', actionTarget
+
 module.exports.saveSearch = (actionContext, endpoint) ->
   actionContext.dispatch 'SaveSearch', endpoint
 
