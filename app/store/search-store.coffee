@@ -76,6 +76,10 @@ class SearchStore extends Store
   getActionTarget: () =>
     @actionTarget
 
+  setActionTarget: (actionTarget) =>
+    @actionTarget = actionTarget
+    @emitChange()
+
   getAction: () =>
     @action
 
@@ -145,5 +149,6 @@ class SearchStore extends Store
     "OpenSearch": 'openSearch'
     "CloseSearch": 'closeSearch'
     "SaveSearch": 'saveSearch'
+    "ChangeActionTarget": 'setActionTarget'
 
 module.exports = SearchStore
