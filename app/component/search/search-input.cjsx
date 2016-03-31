@@ -106,9 +106,6 @@ class SearchInput extends React.Component
       items={@state?.suggestions || []}
       renderItem={(item) ->
         <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
-      getSuggestionValue={(suggestion) ->
-        SuggestionItem.getName(suggestion.properties)
-      }
       onSuggestionSelected={@currentItemSelected}
       focusedItemIndex={@state.focusedItemIndex}
       inputProps={
