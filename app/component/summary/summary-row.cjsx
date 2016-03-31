@@ -39,15 +39,17 @@ class SummaryRow extends React.Component
       styleTime =
         left: "calc(((100% - (#{data.legs.length} * #{MIN_SIZE})) * #{position}) + (#{i} * #{MIN_SIZE}))"
 
+      console.log leg.mode
+
       # Use either vehicle number or walking distance as text
       if leg.transitLeg and leg.mode.toLowerCase() == 'subway'
         text = " M"
       else if leg.mode == 'WAIT'
         # Use waittime in minutes
         text = " #{Math.round(leg.duration / 60)}min"
-      else if leg.transitLeg and leg.route.length < 6
-        text = " #{leg.route}"
-      else if leg.transitLeg and leg.route.length >= 6
+      else if leg.transitLeg and leg.route and leg.route.shortName.length < 6
+        text = " #{leg.route.shortName}"
+      else if leg.transitLeg and (!leg.route or leg.route.shortName.length >= 6)
         # This is somewhat dirty approach. Question is: what can we show when
         # Leg's description is so long that it does not fit to screen?
         # By enabling overflow: 'hidden' above we can kind of fix this, but also

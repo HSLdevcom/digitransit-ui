@@ -773,6 +773,77 @@ var FavouriteLocationContainerFragments = {
   `,
 }
 
+export class SummaryPlanContainerRoute extends Relay.Route {
+  static queries = {
+    plan: (Component, variables) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('plan', {
+          from: variables.from,
+          to: variables.to,
+        })}
+      }
+    }`,
+  };
+  static paramDefinitions = {
+    from: {required: true},
+    to: {required: true},
+  };
+  static routeName = "PlanListContainerRoute";
+}
+
+var SummaryPlanContainerFragments = {
+  plan: () => Relay.QL`
+    fragment on QueryType {
+      plan(from: $from, to: $to, numItineraries: $numItineraries, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, showIntermediateStops: true) {
+        itineraries {
+          walkDistance
+          duration
+
+      legs {
+        mode
+        from {
+          lat
+          lon
+        }
+        to {
+          lat
+          lon
+        }
+        legGeometry {
+          length
+          points
+        }
+      }
+
+          ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}
+        }
+      }
+    }
+  `,
+}
+
+var ItinerarySummaryListContainerFragments = {
+  itineraries: () => Relay.QL`
+    fragment on Itinerary @relay(plural:true){
+      startTime
+      endTime
+      legs {
+        realTime
+        transitLeg
+        startTime
+        endTime
+        mode
+        distance
+        duration
+        route {
+          shortName
+        }
+      }
+    }
+  `,
+}
+
 module.exports = {
   StopQueries: StopQueries,
   TerminalRoute: TerminalRoute,
@@ -814,5 +885,8 @@ module.exports = {
   DisruptionListContainerFragments: DisruptionListContainerFragments,
   DisruptionInfoButtonFragments: DisruptionInfoButtonFragments,
   FavouriteLocationContainerRoute: FavouriteLocationContainerRoute,
-  FavouriteLocationContainerFragments: FavouriteLocationContainerFragments
+  FavouriteLocationContainerFragments: FavouriteLocationContainerFragments,
+  SummaryPlanContainerRoute: SummaryPlanContainerRoute,
+  SummaryPlanContainerFragments: SummaryPlanContainerFragments,
+  ItinerarySummaryListContainerFragments: ItinerarySummaryListContainerFragments
 }
