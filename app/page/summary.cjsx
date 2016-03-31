@@ -75,10 +75,6 @@ class SummaryPage extends React.Component
       renderFailure={(error) =>
         Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
         <div>
-          <FormattedMessage
-            id='route-not-possible'
-            defaultMessage="Unfortunately your route is not possible. Technical error: '{error}'"
-            values={error: error.message}/>
            <NoRoutePopup />
         </div>
       }
