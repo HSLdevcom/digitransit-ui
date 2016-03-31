@@ -28,9 +28,9 @@ class SearchInput extends React.Component
 
   onSearchChange: (props) =>
     #set initial value
-    if props.init == true && @context.getStore('SearchStore').getOriginPosition() != undefined
+    if props.init == true && @context.getStore('SearchStore').getDestinationPosition() != undefined
       @handleUpdateInputNow(target:
-        value: @context.getStore('SearchStore').getOriginPosition().address)
+        value: @context.getStore('SearchStore').getDestinationPosition().address)
     else #suggestions updated
       @setState "suggestions": @context.getStore('SearchStore').getSuggestions(), focusedItemIndex: 0,
         () => focusItem(0)
