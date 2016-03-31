@@ -64,7 +64,6 @@ class SearchStore extends Store
   @handlers:
     "OpenSearch": 'openSearch'
     "CloseSearch": 'closeSearch'
-    "SaveSearch": 'saveSearch'
     "ChangeActionTarget": 'setActionTarget'
     "SuggestionsResult": 'saveSuggestionsResult'
 
