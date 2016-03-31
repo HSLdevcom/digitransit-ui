@@ -4,7 +4,7 @@ debounce         = require 'lodash/debounce'
 sortBy           = require 'lodash/sortBy'
 uniqWith         = require 'lodash/uniqWith'
 orderBy          = require 'lodash/orderBy'
-takeRight        = require 'lodash/takeRight'
+take             = require 'lodash/take'
 SuggestionUtils  = require '../util/suggestion-utils'
 
 processResults = (actionContext, result) ->
@@ -64,7 +64,7 @@ currentLocation =
 
 addOldSearches = (oldSearches, features, input) ->
   matchingOldSearches = filterMatchingToInput(oldSearches, input)
-  results = takeRight(matchingOldSearches, 10).map (item) ->
+  results = take(matchingOldSearches, 10).map (item) ->
     type: "OldSearch"
     properties:
       label: item.address
