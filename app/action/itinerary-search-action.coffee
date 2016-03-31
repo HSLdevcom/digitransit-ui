@@ -102,16 +102,16 @@ module.exports.itinerarySearchRequest = itinerarySearchRequest = (actionContext,
     params.maxWalkDistance = config.maxWalkDistance
   else
     params.maxWalkDistance = config.maxBikingDistance
-  xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
-    addWaitLegs(data)
-    alterLegsForAirportSupport(data)
-    actionContext.dispatch "ItineraryFound", data
-    done()
-  , (err) ->
-    console.error("Failed to perform itinerary search!")
-    console.error(err)
-    done()
-  )
+  # xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
+  #   addWaitLegs(data)
+  #   alterLegsForAirportSupport(data)
+  #   actionContext.dispatch "ItineraryFound", data
+  #   done()
+  # , (err) ->
+  #   console.error("Failed to perform itinerary search!")
+  #   console.error(err)
+  #   done()
+  # )
 
 
 module.exports.toggleBusState = (actionContext)  ->
