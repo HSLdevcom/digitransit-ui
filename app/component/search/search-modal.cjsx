@@ -64,7 +64,7 @@ class SearchModal extends React.Component
             >
               <SearchInput
                 ref="searchInput"
-                initialValue = {@context.getStore('SearchStore').getOriginPosition()?.address || ""}
+                initialValue = {@context.getStore('EndpointStore').getOrigin()?.address || ""}
                 onSuggestionSelected = {(name, item) =>
                   if item.type == 'CurrentLocation'
                     @context.executeAction EndpointActions.setUseCurrent, "origin"
@@ -91,7 +91,7 @@ class SearchModal extends React.Component
             >
               <SearchInput
                 ref="searchInput"
-                initialValue = {@context.getStore('SearchStore').getDestinationPosition()?.address || ""}
+                initialValue = {@context.getStore('EndpointStore').getDestination()?.address || ""}
                 onSuggestionSelected = {(name, item) =>
                   if item.type == 'CurrentLocation'
                     @context.executeAction EndpointActions.setUseCurrent, 'destination'
