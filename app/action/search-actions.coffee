@@ -36,7 +36,6 @@ module.exports.saveSearch = (actionContext, endpoint) ->
 module.exports.closeSearch = (actionContext) ->
   actionContext.dispatch 'CloseSearch'
 
-
 sort = (features) ->
   sortBy features, (feature) ->
     config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOthers
@@ -69,7 +68,8 @@ addOldSearches = (oldSearches, features, input) ->
     geometry: item.geometry
   features.concat results
 
-getPeliasDataOrEmptyArray = (input, geolocation) ->
+#query geocoder
+getGeocodingResult = (input, geolocation) ->
   if input == undefined or input == null or input.trim().length < 3
     return Promise.resolve []
 
@@ -80,10 +80,10 @@ getPeliasDataOrEmptyArray = (input, geolocation) ->
 
   return XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> res.features
 
-directGeocode = (actionContext, input) ->
+executeSearch = (actionContext, query) ->
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
   oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
-  getPeliasDataOrEmptyArray(input, geoLocation)
+  getGeocodingResult(input, geoLocation)
   .then addCurrentPositionIfEmpty
   .then (suggestions) -> addOldSearches(oldSearches, suggestions, input)
   .then sort
@@ -93,9 +93,10 @@ directGeocode = (actionContext, input) ->
   .catch (e) ->
     console.error("error occurred", e)
 
-geocode =
-  debounce(directGeocode, 400)
+search =
+  debounce(executeSearch, 400)
 
 #used by the modal
-module.exports.executeSearch = (actionContext, input) ->
-  geocode(actionContext, input)
+module.exports.executeSearch = (actionContext, opts) ->
+  search(actionContext, opts)
+
