@@ -158,19 +158,19 @@ class ItinerarySearchStore extends Store
     @emitChange()
 
   setWalkReluctance: (value) ->
-    @walkReluctance = value
+    @walkReluctance = parseFloat(value)
     @emitChange()
 
   setWalkBoardCost: (value) ->
-    @walkBoardCost = value
+    @walkBoardCost = parseFloat(value)
     @emitChange()
 
   setMinTransferTime: (value) ->
-    @minTransferTime = value
+    @minTransferTime = parseFloat(value)
     @emitChange()
 
   setWalkSpeed: (value) ->
-    @walkSpeed = value
+    @walkSpeed = parseFloat(value)
     @emitChange()
 
   setTicketOption: (value) ->
