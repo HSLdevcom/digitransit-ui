@@ -1,12 +1,11 @@
 XhrPromise       = require '../util/xhr-promise'
 config           = require '../config'
 debounce         = require 'lodash/debounce'
-orderBy          = require 'lodash/orderBy'
 sortBy           = require 'lodash/sortBy'
 uniqWith         = require 'lodash/uniqWith'
-takeRight        = require 'lodash/takeRight'
+orderBy          = require 'lodash/orderBy'
+take             = require 'lodash/take'
 SuggestionUtils  = require '../util/suggestion-utils'
-
 
 processResults = (actionContext, result) ->
   actionContext.dispatch 'SuggestionsResult',
@@ -49,18 +48,23 @@ addCurrentPositionIfEmpty = (features) ->
     features.push currentLocation
   features
 
+# Filters given list and returns only elements that match with given input
+filterMatchingToInput = (list, input) ->
+  if input?.length >= 0
+    return list.filter (item) ->
+      item.address?.toLowerCase().indexOf(input.toLowerCase()) > -1 ||
+      item.locationName?.toLowerCase().indexOf(input.toLowerCase()) > -1
+  else
+    return list
+
 currentLocation =
   type: "CurrentLocation", properties:
     labelId: "own-position"
     layer: "currentPosition"
 
 addOldSearches = (oldSearches, features, input) ->
-  if input?.length >= 0
-    matchingOldSearches = oldSearches.filter (search) -> search.address.toLowerCase().indexOf(input.toLowerCase()) > -1
-  else
-    matchingOldSearches = oldSearches
-
-  results = takeRight(matchingOldSearches, 10).map (item) ->
+  matchingOldSearches = filterMatchingToInput(oldSearches, input)
+  results = take(matchingOldSearches, 10).map (item) ->
     type: "OldSearch"
     properties:
       label: item.address
@@ -68,7 +72,19 @@ addOldSearches = (oldSearches, features, input) ->
     geometry: item.geometry
   features.concat results
 
-#query geocoder
+addFavouriteLocations = (favourites, features, input) ->
+  matchingFavourites = orderBy(filterMatchingToInput(favourites, input), (f) => f.locationName)
+  results = matchingFavourites.map (item) ->
+    type: "Favourite"
+    properties:
+      label: item.locationName
+      layer: 'favourite'
+    geometry:
+      type: "Point"
+      coordinates: [item.lon, item.lat]
+
+  features.concat results
+
 getGeocodingResult = (input, geolocation) ->
   if input == undefined or input == null or input.trim().length < 3
     return Promise.resolve []
@@ -80,11 +96,13 @@ getGeocodingResult = (input, geolocation) ->
 
   return XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> res.features
 
-executeSearch = (actionContext, query) ->
+executeSearch = (actionContext, input) ->
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
+  favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
   oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
   getGeocodingResult(input, geoLocation)
   .then addCurrentPositionIfEmpty
+  .then (suggestions) -> addFavouriteLocations(favouriteLocations, suggestions, input)
   .then (suggestions) -> addOldSearches(oldSearches, suggestions, input)
   .then sort
   .then uniq
@@ -94,9 +112,9 @@ executeSearch = (actionContext, query) ->
     console.error("error occurred", e)
 
 search =
-  debounce(executeSearch, 400)
+  debounce(executeSearch, 300)
 
 #used by the modal
-module.exports.executeSearch = (actionContext, opts) ->
-  search(actionContext, opts)
+module.exports.executeSearch = (actionContext, input) ->
+  search(actionContext, input)
 
