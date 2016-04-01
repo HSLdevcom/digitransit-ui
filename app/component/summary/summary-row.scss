@@ -1,6 +1,6 @@
 .itinerary-summary-row {
   height: 50px;
-  padding-left: 0.3em;
+  padding-left: 0.8em;
   padding-right: 0.3em;
   padding-top: 0.4em;
   padding-bottom: 0;
@@ -16,6 +16,15 @@
     width: 1.2em;
     height: 3em;
     margin-left: 0.3em;
+  }
+
+  &.passive {
+    border-left-color: $background-color;
+    background-color: $background-color;
+
+    .vehicle-number {
+      color: $gray;
+    }
   }
 
   &.passive {
@@ -92,14 +101,14 @@
     }
 
     .vehicle-number {
-      color: $gray;
       clear: left;
       float: left;
       padding: 0;
       width: 20px;
+      margin-left: 3px;
 
       span {
-        font-size: 10px;
+        font-size: 12px;
       }
     }
   }
