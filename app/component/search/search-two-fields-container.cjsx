@@ -127,7 +127,7 @@ class SearchTwoFieldsContainer extends React.Component
 
     <div>
       <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
-      <SearchModal ref="modal"/>
+      <SearchModal ref="modal" initOpenId={"destination"}/>
     </div>
 
 module.exports = SearchTwoFieldsContainer

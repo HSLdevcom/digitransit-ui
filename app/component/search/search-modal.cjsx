@@ -11,6 +11,9 @@ Tab              = require 'material-ui/lib/tabs/tab'
 
 class SearchModal extends React.Component
 
+  constructor: (props) ->
+    @state =
+      selectedTab: props.initOpenId
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
@@ -29,7 +32,8 @@ class SearchModal extends React.Component
     @context.executeAction SearchActions.closeSearch
 
   onTabChange: (tab) =>
-    @context.executeAction SearchActions.changeActionTarget, tab.props.value
+    @setState
+      selectedTab: tab.props.value
 
   render: =>
     style = {}
@@ -49,7 +53,7 @@ class SearchModal extends React.Component
           <Tabs
             inkBarStyle={{display: "none"}}
             tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", marginLeft: "28px", width: "calc(100% - 28px)"}}
-            value={@context.getStore('SearchStore').getActionTarget()}
+            value={@state.selectedTab}
           >
             <Tab
               className="search-header__button"
@@ -57,7 +61,7 @@ class SearchModal extends React.Component
               value={"origin"}
               onActive={@onTabChange}
               style={{
-                color: if @context.getStore('SearchStore').getActionTarget() == "origin" then "#333" else "#7f929c",
+                color: if @state.selectedTab == "origin" then "#333" else "#7f929c",
                 fontSize: "11px",
                 fontFamily: "Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif",
                 fontWeight: "700"}}
@@ -84,7 +88,7 @@ class SearchModal extends React.Component
               value={"destination"}
               onActive={@onTabChange}
               style={{
-                color: if @context.getStore('SearchStore').getActionTarget() == "destination" then "#333" else "#7f929c",
+                color: if @state.selectedTab == "destination" then "#333" else "#7f929c",
                 fontSize: "11px",
                 fontFamily: "Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif",
                 fontWeight: "700"}}
