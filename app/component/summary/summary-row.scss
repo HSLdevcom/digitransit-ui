@@ -64,7 +64,7 @@
 
     .line {
       white-space: nowrap;
-      width: 40%;
+      width: 100%;
       //margin: 10px auto;
       position: relative;
       z-index: 1;
@@ -80,18 +80,6 @@
 
         border: 2px solid;
         border-radius: 2px;
-      }
-
-      &:first-child:nth-last-child(1) {
-        width: 100%;
-      }
-
-      &:first-child:nth-last-child(2) ~ .line {
-        width: 50%;
-      }
-
-      &:first-child:nth-last-child(2) {
-        width: 50%;
       }
 
       .icon {
