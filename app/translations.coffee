@@ -263,6 +263,8 @@ translations =
     'near-you': 'Nær deg'
     'show-more': 'Vis flere'
     'now': 'Nå'
+    'hour-short': 't'
+    'minute-short': 'min'
     'later': 'Senere'
     'instructions': 'Instruksjoner'
     'map': 'Kart'
