@@ -33,8 +33,8 @@ class SummaryPage extends React.Component
       @forceUpdate()
 
   render: ->
-    from = locationToCoords(otpToLocation(@props.params.from))
-    to = locationToCoords(otpToLocation(@props.params.to))
+    from = otpToLocation(@props.params.from)
+    to = otpToLocation(@props.params.to)
 
     store = @context.getStore('ItinerarySearchStore')
     modes = store.getMode()
@@ -54,12 +54,10 @@ class SummaryPage extends React.Component
     plan = <Relay.RootContainer
       Component={SummaryPlanContainer}
       route={new queries.SummaryPlanContainerRoute(
-        from:
-          lat: from[0]
-          lon: from[1]
-        to:
-          lat: to[0]
-          lon: to[1]
+        fromPlace: @props.params.from
+        toPlace: @props.params.to
+        from: from
+        to: to
         numItineraries: 3
         modes: modes
         date: selectedTime.format("YYYY-MM-DD")

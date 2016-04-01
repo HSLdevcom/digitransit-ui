@@ -779,8 +779,8 @@ export class SummaryPlanContainerRoute extends Relay.Route {
     query {
       viewer {
         ${Component.getFragment('plan', {
-          from: variables.from,
-          to: variables.to,
+          fromPlace: variables.fromPlace,
+          toPlace: variables.toPlace,
           walkReluctance: variables.walkReluctance,
           modes: variables.modes,
           date: variables.date,
@@ -796,8 +796,6 @@ export class SummaryPlanContainerRoute extends Relay.Route {
     }`,
   };
   static paramDefinitions = {
-    from: {required: true},
-    to: {required: true},
   };
   static routeName = "PlanListContainerRoute";
 }
@@ -805,7 +803,7 @@ export class SummaryPlanContainerRoute extends Relay.Route {
 var SummaryPlanContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(from: $from, to: $to, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, showIntermediateStops: true, wheelchair: $wheelchair) {
+      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, showIntermediateStops: true, wheelchair: $wheelchair) {
         itineraries {
           walkDistance
           duration
@@ -815,10 +813,16 @@ var SummaryPlanContainerFragments = {
             from {
               lat
               lon
+              stop {
+                code
+              }
             }
             to {
               lat
               lon
+              stop {
+                code
+              }
             }
             legGeometry {
               length
@@ -848,6 +852,55 @@ var ItinerarySummaryListContainerFragments = {
         duration
         route {
           shortName
+        }
+      }
+    }
+  `,
+}
+
+var ItineraryPlanContainerFragments = {
+  plan: () => Relay.QL`
+    fragment on QueryType {
+      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, showIntermediateStops: true, wheelchair: $wheelchair) {
+        itineraries {
+          walkDistance
+          duration
+          startTime
+          endTime
+
+          legs {
+            mode
+            from {
+              lat
+              lon
+              name
+              stop {
+                code
+              }
+            }
+            to {
+              lat
+              lon
+              name
+              stop {
+                code
+              }
+            }
+            legGeometry {
+              length
+              points
+            }
+            realTime
+            transitLeg
+            startTime
+            endTime
+            mode
+            distance
+            duration
+            route {
+              shortName
+            }
+          }
         }
       }
     }
@@ -898,5 +951,6 @@ module.exports = {
   FavouriteLocationContainerFragments: FavouriteLocationContainerFragments,
   SummaryPlanContainerRoute: SummaryPlanContainerRoute,
   SummaryPlanContainerFragments: SummaryPlanContainerFragments,
-  ItinerarySummaryListContainerFragments: ItinerarySummaryListContainerFragments
+  ItinerarySummaryListContainerFragments: ItinerarySummaryListContainerFragments,
+  ItineraryPlanContainerFragments: ItineraryPlanContainerFragments
 }

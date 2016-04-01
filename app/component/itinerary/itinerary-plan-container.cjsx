@@ -158,10 +158,12 @@ class ItineraryPlanContainer extends React.Component
         </div>
 
 module.exports = Relay.createContainer ItineraryPlanContainer,
-  fragments: queries.SummaryPlanContainerFragments
+  fragments: queries.ItineraryPlanContainerFragments
   initialVariables:
     from: null
     to: null
+    fromPlace: null
+    toPlace: null
     numItineraries: 3
     modes: "BUS,TRAM,RAIL,SUBWAY,FERRY,WALK"
     date: moment().format("YYYY-MM-DD")

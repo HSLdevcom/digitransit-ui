@@ -26,8 +26,8 @@ class ItineraryPage extends React.Component
 
   render: =>
     console.log @props
-    from = locationToCoords(otpToLocation(@props.params.from))
-    to = locationToCoords(otpToLocation(@props.params.to))
+    from = otpToLocation(@props.params.from)
+    to = otpToLocation(@props.params.to)
 
     store = @context.getStore('ItinerarySearchStore')
     modes = store.getMode()
@@ -47,12 +47,8 @@ class ItineraryPage extends React.Component
     plan = <Relay.RootContainer
       Component={ItineraryPlanContainer}
       route={new queries.SummaryPlanContainerRoute(
-        from:
-          lat: from[0]
-          lon: from[1]
-        to:
-          lat: to[0]
-          lon: to[1]
+        fromPlace: @props.params.from
+        toPlace: @props.params.to
         numItineraries: 3
         modes: modes
         date: selectedTime.format("YYYY-MM-DD")
