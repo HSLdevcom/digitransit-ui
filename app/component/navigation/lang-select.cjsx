@@ -30,7 +30,7 @@ class LangSelect extends React.Component
     #currentLanguage = 'sv'
     currentLanguage = UserPreferencesStore.getLanguage()
     <div key="foo" className="lang-select row">
-      {config.availableLanguages.map (lang) => <span key={lang} className="lang"><a className={"selected" if currentLanguage is lang} onClick={@selectLanguage(lang)} href="#">{lang}</a></span>}
+      {config.availableLanguages.map (lang) => <div key={lang} className="small-4 lang"><a className={"selected" if currentLanguage is lang} onClick={@selectLanguage(lang)} href="#">{lang}</a></div>}
     </div>
 
 
