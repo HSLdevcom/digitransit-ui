@@ -2,7 +2,7 @@
   height: 50px;
   padding-left: 0.8em;
   padding-right: 0.3em;
-  padding-top: 0.4em;
+  padding-top: 0.25em;
   padding-bottom: 0;
   overflow: hidden;
   font-size: 10pt;
@@ -10,13 +10,7 @@
   border-bottom: 1px solid $light-gray;
   border-left: 0.3em $action-color solid;
   display: flex;
-
-  .action-arrow svg {
-    color: $action-color;
-    width: 1.2em;
-    height: 3em;
-    margin-left: 0.3em;
-  }
+  $distance-gray: #999999;
 
   &.passive {
     border-left-color: $background-color;
@@ -36,6 +30,7 @@
     white-space: nowrap;
     display: inline-block;
     min-width: 5em;
+    padding-top: 4px;
   }
 
   & .itinerary-duration {
@@ -43,26 +38,27 @@
   }
 
   & .itinerary-walking-distance {
-    color: $gray;
+    color: $distance-gray;
+    font-size: 12px;
+    padding-top: 1px;
   }
 
   & .itinerary-start-time {
     font-weight: 600;
     margin-left: 0.3em;
-    line-height: 2;
-    min-width: 3em;
+    margin-top: 4px;
   }
 
   & .itinerary-end-time {
     margin-left: 0.3em;
-    line-height: 2;
+    margin-top: 4px;
     width: 4em;
   }
 
   & .itinerary-legs {
     width: 100%;
     display: flex;
-    margin-left: 0.3em;
+    margin-left: 0.6em;
     white-space: nowrap;
 
     .line.walk {
@@ -111,6 +107,13 @@
         font-size: 12px;
       }
     }
+  }
+
+  .action-arrow svg {
+    color: $action-color;
+    width: 1.2em;
+    height: 3em;
+    margin-left: 1em;
   }
 }
 
