@@ -78,7 +78,7 @@ class SummaryPlanContainer extends React.Component
         <ItinerarySummaryListContainer itineraries={plan.itineraries} currentTime={currentTime} onSelect={@onSelectActive} activeIndex={activeIndex} />
       </div>
     else
-      <div><h1>FAIL</h1></div>
+      <div></div>
 
 module.exports = Relay.createContainer SummaryPlanContainer,
   fragments: queries.SummaryPlanContainerFragments
