@@ -622,13 +622,9 @@
                                 "name": "from",
                                 "description": "The start location",
                                 "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "InputCoordinates",
-                                        "ofType": null
-                                    }
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "InputCoordinates",
+                                    "ofType": null
                                 },
                                 "defaultValue": null
                             },
@@ -636,13 +632,29 @@
                                 "name": "to",
                                 "description": "The end location",
                                 "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "InputCoordinates",
-                                        "ofType": null
-                                    }
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "InputCoordinates",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "fromPlace",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "toPlace",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
                                 },
                                 "defaultValue": null
                             },
