@@ -7,8 +7,6 @@ class SearchStore extends Store
     super(dispatcher)
     @modalOpen = false
     @actionTarget = undefined
-    @originPosition = undefined
-    @destinationPosition = undefined
     @placeholder = undefined
     @action = undefined
 
@@ -28,12 +26,6 @@ class SearchStore extends Store
   getPlaceholder: () =>
     @placeholder
 
-  getOriginPosition: () =>
-    @originPosition
-
-  getDestinationPosition: () =>
-    @destinationPosition
-
   saveSuggestionsResult: (suggestions) ->
     @suggestions = suggestions
     @emitChange()
@@ -46,17 +38,11 @@ class SearchStore extends Store
     @actionTarget = props.actionTarget
     @placeholder = props.placeholder
     @action = props.action
-    if props.actionTarget == 'origin'
-      @originPosition = props.position
-    if props.actionTarget == 'destination'
-      @destinationPosition = props.position
     @emitChange init: true
 
   closeSearch: () ->
     @modalOpen = false
     @actionTarget = undefined
-    @originPosition = undefined
-    @destinationPosition = undefined
     @placeholder = undefined
     @action = undefined
     @emitChange()

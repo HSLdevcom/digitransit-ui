@@ -14,19 +14,16 @@ processResults = (actionContext, result) ->
 module.exports.openOriginSearch = (actionContext, params) ->
   actionContext.dispatch 'OpenSearch',
     'actionTarget': 'origin'
-    'position': params.position
     'placeholder': params.placeholder
 
 module.exports.openDestinationSearch = (actionContext, params) ->
   actionContext.dispatch 'OpenSearch',
     'actionTarget': 'destination'
-    'position': params.position
     'placeholder': params.placeholder
 
 module.exports.openSearchWithCallback = (actionContext, params) ->
   actionContext.dispatch 'OpenSearch',
     'action': params.callback
-    'position': params.position
     'placeholder': params.placeholder
 
 module.exports.changeActionTarget = (actionContext, actionTarget) ->
