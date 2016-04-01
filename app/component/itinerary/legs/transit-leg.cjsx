@@ -61,7 +61,7 @@ class TransitLeg extends React.Component
           <FormattedMessage
             id={'number-of-intermediate-stops'}
             values= {{
-              number: @props.leg.intermediateStops.length
+              number: @props.leg.intermediateStops?.length or 0
               duration: timeUtils.durationToString(@props.leg.duration * 1000)
               }}
             defaultMessage={'{number, plural,
