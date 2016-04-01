@@ -42,7 +42,7 @@ class SummaryRow extends React.Component
     <div className={classes} onClick={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-duration-and-distance">
         <div className="itinerary-duration">
-          {moment.duration(duration).humanize()}
+          {timeUtils.durationToString(moment.duration(duration))}
         </div>
         <div className="itinerary-walking-distance">
           <Icon img={'icon-icon_walk'} viewBox={"6 0 40 40"}/>
