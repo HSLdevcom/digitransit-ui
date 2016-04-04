@@ -799,16 +799,6 @@
                                 "defaultValue": null
                             },
                             {
-                                "name": "showIntermediateStops",
-                                "description": "Whether the planner should return intermediate stops lists for transit legs.",
-                                "type": {
-                                    "kind": "SCALAR",
-                                    "name": "Boolean",
-                                    "ofType": null
-                                },
-                                "defaultValue": null
-                            },
-                            {
                                 "name": "intermediatePlaces",
                                 "description": "An ordered list of intermediate locations to be visited.",
                                 "type": {
@@ -3897,6 +3887,22 @@
                             "kind": "OBJECT",
                             "name": "Trip",
                             "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "intermediateStops",
+                        "description": "For transit legs, intermediate stops between the Place where the leg originates and the Place where the leg ends. For non-transit legs, null.",
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stop",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
