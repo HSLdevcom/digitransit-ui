@@ -24,10 +24,12 @@ class TimeNavigationButtons extends React.Component
 
 
   render: ->
-    <div className="itinerary-later-earlier">
-      <button onClick={@setEarlierSelectedTime}>Earlier</button>
-      <button onClick={@setSelectedTimeToNow}>Now</button>
-      <button onClick={@setLaterSelectedTime}>Later</button>
-    </div>
+    if @props.show
+      <div className="time-navigation-buttons">
+        <button onClick={@setEarlierSelectedTime}>Earlier</button>
+        <button onClick={@setSelectedTimeToNow}>Now</button>
+        <button onClick={@setLaterSelectedTime}>Later</button>
+      </div>
+    else null
 
 module.exports = TimeNavigationButtons

@@ -140,7 +140,7 @@ class SummaryPage extends React.Component
         {summary}
       </Map>
       <div>{rows}</div>
-      <TimeNavigationButtons />
+      <TimeNavigationButtons show={plan}/>
     </SummaryNavigation>
 
 module.exports = SummaryPage
