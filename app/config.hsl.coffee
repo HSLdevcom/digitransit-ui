@@ -40,7 +40,7 @@ module.exports =
     bucketSize: 100
   maxWalkDistance: 2500
   maxBikingDistance: 10000
-  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb']
+  availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
   leftMenu:
     show: true
@@ -65,8 +65,8 @@ module.exports =
         maxWidth: 250
         minWidth: 250
   autoSuggest:
-    sortOrder: currentPosition: 1, oldSearch: 2, neighbourhood: 3, locality: 4, address: 5, venue: 6, stop: 7
-    sortOthers: 8
+    sortOrder: currentPosition: 1, favourite: 2, oldSearch: 3, neighbourhood: 4, locality: 5, address: 6, venue: 7, stop: 8
+    sortOthers: 9
     # Let Pelias suggest based on current user location
     locationAware: true
   cityBike:

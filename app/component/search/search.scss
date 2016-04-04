@@ -204,8 +204,13 @@ ul#react-whatever-suggest {
       line-height: 2.1em;
     }
 
-    & .oldSearch {
+    & .OldSearch {
       /* TODO add somehow border */
+    }
+
+    & .Favourite svg.icon {
+      stroke: $favourite-color;
+      fill: $favourite-color;
     }
   }
 }

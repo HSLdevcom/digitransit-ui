@@ -7,6 +7,7 @@ SuggestionUtil = require '../../util/suggestion-utils'
 
 getIcon = (layer, iconClass) ->
   layerIcon =
+    "favourite": "icon-icon_star"
     "address": "icon-icon_place"
     "stop": "icon-icon_bus-stop"
     "locality": "icon-icon_city"
