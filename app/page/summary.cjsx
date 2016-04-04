@@ -76,10 +76,14 @@ class SummaryPage extends React.Component
       @forceReload()
 
   setEarlierSelectedTime: () =>
-    console.log "earlier summary requested"
+    selectedTime = @context.getStore('TimeStore').getSelectedTime()
+    earlier = selectedTime.subtract(config.summary.earlierSelectedTimeMinutes, 'minutes')
+    @context.executeAction TimeActions.setSelectedTime, earlier
 
   setLaterSelectedTime: () =>
-    console.log "laterSummary requested"
+    selectedTime = @context.getStore('TimeStore').getSelectedTime()
+    later = selectedTime.add(config.summary.laterSelectedTimeMinutes, 'minutes')
+    @context.executeAction TimeActions.setSelectedTime, later
 
   setSelectedTimeToNow: () =>
     @context.executeAction TimeActions.unsetSelectedTime
