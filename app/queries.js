@@ -803,7 +803,7 @@ export class SummaryPlanContainerRoute extends Relay.Route {
 var SummaryPlanContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, showIntermediateStops: true, wheelchair: $wheelchair) {
+      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, wheelchair: $wheelchair) {
         itineraries {
           walkDistance
           duration
@@ -827,6 +827,9 @@ var SummaryPlanContainerFragments = {
             legGeometry {
               length
               points
+            }
+            intermediateStops {
+              gtfsId
             }
           }
 
@@ -861,7 +864,7 @@ var ItinerarySummaryListContainerFragments = {
 var ItineraryPlanContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, showIntermediateStops: true, wheelchair: $wheelchair) {
+      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, wheelchair: $wheelchair) {
         itineraries {
           walkDistance
           duration
@@ -889,6 +892,9 @@ var ItineraryPlanContainerFragments = {
             legGeometry {
               length
               points
+            }
+            intermediateStops {
+              gtfsId
             }
             realTime
             transitLeg
