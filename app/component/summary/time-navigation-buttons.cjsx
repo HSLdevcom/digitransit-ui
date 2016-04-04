@@ -26,9 +26,15 @@ class TimeNavigationButtons extends React.Component
   render: ->
     if @props.show
       <div className="time-navigation-buttons">
-        <button onClick={@setEarlierSelectedTime}>Earlier</button>
-        <button onClick={@setSelectedTimeToNow}>Now</button>
-        <button onClick={@setLaterSelectedTime}>Later</button>
+        <button className="standalone-btn" onClick={@setEarlierSelectedTime}>
+          <FormattedMessage id='earlier' defaultMessage='Earlier' />
+        </button>
+        <button className="standalone-btn" onClick={@setSelectedTimeToNow}>
+          <FormattedMessage id='now' defaultMessage='Now' />
+        </button>
+        <button className="standalone-btn" onClick={@setLaterSelectedTime}>
+          <FormattedMessage id='later' defaultMessage='Later' />
+        </button>
       </div>
     else null
 
