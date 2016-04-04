@@ -6,11 +6,11 @@ ItinerarySummary   = require '../component/itinerary/itinerary-summary'
 ArrowLink          = require '../component/util/arrow-link'
 Map                = require '../component/map/map'
 ItinerarySearchActions = require '../action/itinerary-search-action'
-TimeActions        = require '../action/time-action'
 EndpointActions    = require '../action/endpoint-actions'
 SummaryRow         = require '../component/summary/summary-row'
 NoRoutePopup       = require '../component/summary/no-route-popup'
 SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
+TimeNavigationButtons = require '../component/summary/time-navigation-buttons'
 ItineraryLine      = require '../component/map/itinerary-line'
 sortBy             = require 'lodash/sortBy'
 {otpToLocation, locationToCoords} = require '../util/otp-strings'
@@ -74,19 +74,6 @@ class SummaryPage extends React.Component
     else
       @setState summaryPageSelected: index
       @forceReload()
-
-  setEarlierSelectedTime: () =>
-    selectedTime = @context.getStore('TimeStore').getSelectedTime()
-    earlier = selectedTime.subtract(config.summary.earlierSelectedTimeMinutes, 'minutes')
-    @context.executeAction TimeActions.setSelectedTime, earlier
-
-  setLaterSelectedTime: () =>
-    selectedTime = @context.getStore('TimeStore').getSelectedTime()
-    later = selectedTime.add(config.summary.laterSelectedTimeMinutes, 'minutes')
-    @context.executeAction TimeActions.setSelectedTime, later
-
-  setSelectedTimeToNow: () =>
-    @context.executeAction TimeActions.unsetSelectedTime
 
 
 
@@ -153,11 +140,7 @@ class SummaryPage extends React.Component
         {summary}
       </Map>
       <div>{rows}</div>
-      <div class="itinerary-later-earlier">
-        <button onClick={@setEarlierSelectedTime}>Earlier</button>
-        <button onClick={@setSelectedTimeToNow}>Now</button>
-        <button onClick={@setLaterSelectedTime}>Later</button>
-      </div>
+      <TimeNavigationButtons />
     </SummaryNavigation>
 
 module.exports = SummaryPage
