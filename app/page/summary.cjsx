@@ -6,6 +6,7 @@ ItinerarySummary   = require '../component/itinerary/itinerary-summary'
 ArrowLink          = require '../component/util/arrow-link'
 Map                = require '../component/map/map'
 ItinerarySearchActions = require '../action/itinerary-search-action'
+TimeActions        = require '../action/time-action'
 EndpointActions    = require '../action/endpoint-actions'
 SummaryRow         = require '../component/summary/summary-row'
 NoRoutePopup       = require '../component/summary/no-route-popup'
@@ -74,6 +75,17 @@ class SummaryPage extends React.Component
       @setState summaryPageSelected: index
       @forceReload()
 
+  earlierSummary: () =>
+    console.log "earlier summary requested"
+
+  laterSummary: () =>
+    console.log "laterSummary requested"
+
+  currentSummary: () =>
+    @context.executeAction TimeActions.unsetSelectedTime
+
+
+
   render: ->
     rows = []
     leafletObjs = []
@@ -137,6 +149,11 @@ class SummaryPage extends React.Component
         {summary}
       </Map>
       <div>{rows}</div>
+      <div class="itinerary-later-earlier">
+        <button onClick={@earlierSummary}>Earlier</button>
+        <button onClick={@currentSummary}>Now</button>
+        <button onClick={@laterSummary}>Later</button>
+      </div>
     </SummaryNavigation>
 
 module.exports = SummaryPage
