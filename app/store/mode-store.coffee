@@ -8,7 +8,7 @@ class ModeStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     localData = storage.getModeStorage()
-    @data = if typeof localData.busState != undefined then localData else
+    @data = if typeof localData.busState != "undefined" then localData else
       busState: config.transportModes.bus.defaultValue
       tramState: config.transportModes.tram.defaultValue
       railState: config.transportModes.rail.defaultValue
