@@ -75,13 +75,13 @@ class SummaryPage extends React.Component
       @setState summaryPageSelected: index
       @forceReload()
 
-  earlierSummary: () =>
+  setEarlierSelectedTime: () =>
     console.log "earlier summary requested"
 
-  laterSummary: () =>
+  setLaterSelectedTime: () =>
     console.log "laterSummary requested"
 
-  currentSummary: () =>
+  setSelectedTimeToNow: () =>
     @context.executeAction TimeActions.unsetSelectedTime
 
 
@@ -150,9 +150,9 @@ class SummaryPage extends React.Component
       </Map>
       <div>{rows}</div>
       <div class="itinerary-later-earlier">
-        <button onClick={@earlierSummary}>Earlier</button>
-        <button onClick={@currentSummary}>Now</button>
-        <button onClick={@laterSummary}>Later</button>
+        <button onClick={@setEarlierSelectedTime}>Earlier</button>
+        <button onClick={@setSelectedTimeToNow}>Now</button>
+        <button onClick={@setLaterSelectedTime}>Later</button>
       </div>
     </SummaryNavigation>
 
