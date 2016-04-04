@@ -140,7 +140,7 @@ class SummaryPage extends React.Component
         {summary}
       </Map>
       <div>{rows}</div>
-      <TimeNavigationButtons show={plan}/>
+      <TimeNavigationButtons show={if plan then true else false} />
     </SummaryNavigation>
 
 module.exports = SummaryPage
