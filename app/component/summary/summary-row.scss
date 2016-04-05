@@ -1,16 +1,19 @@
 .itinerary-summary-row {
   height: 50px;
-  padding-left: 0.8em;
-  padding-right: 0.5em;
-  padding-top: 0.25em;
+  padding-left: 10px;
+  padding-right: 15px;
+  padding-top: 3px;
   padding-bottom: 0;
   overflow: hidden;
-  font-size: 10pt;
   background-color: $white;
   border-bottom: 1px solid $light-gray;
   border-left: 0.3em $action-color solid;
   display: flex;
+  user-select: none;
   $distance-gray: #999999;
+  font-size: $font-size-normal;
+  font-weight: $font-weight-medium;
+  @include font-narrow-book;
 
   &.passive {
     border-left-color: $background-color;
@@ -27,38 +30,38 @@
   }
 
   & .itinerary-duration-and-distance {
-    white-space: nowrap;
-    display: inline-block;
-    min-width: 5em;
-    padding-top: 4px;
+    width: 130px;
+    margin-top: 4px;
   }
 
   & .itinerary-duration {
-    font-weight: 600;
+    white-space: nowrap;
   }
 
   & .itinerary-walking-distance {
+    margin-top: -4px;
     color: $distance-gray;
-    font-size: 12px;
-    padding-top: 1px;
+    font-weight: $font-weight-book;
+    font-size: $font-size-smallish;
   }
 
   & .itinerary-start-time {
-    font-weight: 600;
-    margin-left: 0.3em;
+    text-align: right;
+    padding-right: 10px;
+    width: 65px;
     margin-top: 4px;
   }
 
   & .itinerary-end-time {
-    margin-left: 0.3em;
+    padding-left: 8px;
+    padding-right: 10px;
+    width: 45px;
     margin-top: 4px;
-    width: 4em;
   }
 
   & .itinerary-legs {
     width: 100%;
     display: flex;
-    margin-left: 0.6em;
     white-space: nowrap;
 
     .line.walk {
@@ -70,7 +73,6 @@
     .line {
       white-space: nowrap;
       width: 100%;
-      //margin: 10px auto;
       position: relative;
       z-index: 1;
       text-align: center;
@@ -102,18 +104,22 @@
       padding: 0;
       width: 20px;
       margin-left: 3px;
+      margin-top:-2px;
 
       span {
-        font-size: 12px;
+        font-weight: $font-weight-book;
+        font-size: $font-size-smallish;
       }
     }
   }
 
-  .action-arrow svg {
-    color: $action-color;
-    width: 1.2em;
-    height: 3em;
-    margin-left: 1em;
+  .action-arrow {
+    line-height: 50px;
+    padding-left: 10px;
+
+    & svg {
+      color: $action-color;
+    }
   }
 }
 
