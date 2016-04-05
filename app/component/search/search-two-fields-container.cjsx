@@ -110,6 +110,15 @@ class SearchTwoFieldsContainer extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
+    originSearchTabLabel = @context.intl.formatMessage(
+      id: 'origin'
+      defaultMessage: 'ORIGIN'
+    )
+
+    destinationSearchTabLabel = @context.intl.formatMessage(
+      id: 'destination'
+      defaultMessage: 'DESTINATION'
+    )
 
     originPlaceholder = @context.intl.formatMessage(
       id: 'origin-placeholder'
@@ -154,7 +163,7 @@ class SearchTwoFieldsContainer extends React.Component
         closeModal={@closeModal}>
         <Tab
           className="search-header__button"
-          label="Lähtöpaikka"
+          label={originSearchTabLabel}
           ref="searchTab"
           value={"origin"}
           onActive={@onTabChange}
@@ -182,7 +191,7 @@ class SearchTwoFieldsContainer extends React.Component
         </Tab>
         <Tab
           className="search-header__button"
-          label="Määränpää"
+          label={destinationSearchTabLabel}
           value={"destination"}
           ref="searchTab"
           onActive={@onTabChange}
