@@ -22,7 +22,6 @@ class TimeNavigationButtons extends React.Component
   setSelectedTimeToNow: =>
     @context.executeAction TimeAction.unsetSelectedTime
 
-
   render: ->
     if @props.show
       <div className="time-navigation-buttons">

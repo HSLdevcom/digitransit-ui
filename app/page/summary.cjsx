@@ -75,8 +75,6 @@ class SummaryPage extends React.Component
       @setState summaryPageSelected: index
       @forceReload()
 
-
-
   render: ->
     rows = []
     leafletObjs = []
