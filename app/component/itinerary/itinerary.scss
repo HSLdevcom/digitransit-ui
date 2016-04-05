@@ -74,20 +74,6 @@ $itinerary-route-max-width: 500px;
   padding-right: 10px;
 }
 
-.itinerary-summary--onmap-black {
-  border-radius: $border-radius;
-  color: $white;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 802;
-
-  .walk-distance,
-  .duration {
-    @include font-narrow-book;
-    font-size: $font-size-normal;
-    display: inline-block;
-  }
-}
-
 .itinerary-ticket-information {
   color: $gray;
   font-weight: $font-weight-book;

@@ -8,6 +8,7 @@ RouteNumber        = require '../departure/route-number'
 DepartureTime      = require '../departure/departure-time'
 cx                 = require 'classnames'
 Icon               = require '../icon/icon'
+RelativeDuration  = require '../duration/relative-duration'
 
 class SummaryRow extends React.Component
 
@@ -31,8 +32,6 @@ class SummaryRow extends React.Component
                     vertical={true}
                     className={cx "line", leg.mode.toLowerCase()} />
 
-    durationText = timeUtils.durationToString(duration)
-
     classes = cx [
       "itinerary-summary-row"
       "cursor-pointer"
@@ -42,7 +41,7 @@ class SummaryRow extends React.Component
     <div className={classes} onClick={() => @props.onSelect(@props.hash)}>
       <div className="itinerary-duration-and-distance">
         <div className="itinerary-duration">
-          {moment.duration(duration).humanize()}
+          <RelativeDuration duration={duration} />
         </div>
         <div className="itinerary-walking-distance">
           <Icon img={'icon-icon_walk'} viewBox={"6 0 40 40"}/>
