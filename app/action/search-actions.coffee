@@ -11,23 +11,10 @@ processResults = (actionContext, result) ->
   actionContext.dispatch 'SuggestionsResult',
     result
 
-module.exports.openOriginSearch = (actionContext, params) ->
-  actionContext.dispatch 'OpenSearch',
-    'actionTarget': 'origin'
-    'placeholder': params.placeholder
-
-module.exports.openDestinationSearch = (actionContext, params) ->
-  actionContext.dispatch 'OpenSearch',
-    'actionTarget': 'destination'
-    'placeholder': params.placeholder
-
 module.exports.openSearchWithCallback = (actionContext, params) ->
   actionContext.dispatch 'OpenSearch',
     'action': params.callback
     'placeholder': params.placeholder
-
-module.exports.changeActionTarget = (actionContext, actionTarget) ->
-  actionContext.dispatch 'ChangeActionTarget', actionTarget
 
 module.exports.saveSearch = (actionContext, endpoint) ->
   actionContext.dispatch 'SaveSearch', endpoint
