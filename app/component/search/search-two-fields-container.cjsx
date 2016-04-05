@@ -9,6 +9,7 @@ SearchField      = require './search-field'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 SearchModal      = require './search-modal'
+config           = require '../../config'
 
 class SearchTwoFieldsContainer extends React.Component
 
@@ -134,7 +135,7 @@ class SearchTwoFieldsContainer extends React.Component
       />
 
     <div>
-      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
+      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible} showSearchButton={config.search.showSearchButton}/>
       <SearchModal ref="modal" initialPosition={destination}/>
     </div>
 

@@ -173,6 +173,9 @@ $search-form-location-icon-size: 18px;
   }
 }
 
+.no-search-button .input-placeholder {
+  border-radius: $border-radius;
+}
 
 .search-form .react-autosuggest__suggestions {
   background-color: $search-result-background-color;
