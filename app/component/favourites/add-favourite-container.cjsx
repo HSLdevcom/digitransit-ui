@@ -7,6 +7,8 @@ FavouriteLocationActions  = require '../../action/favourite-location-action'
 SearchField               = require '../search/search-field'
 SearchActions             = require '../../action/search-actions'
 SearchModal               = require '../search/search-modal'
+SearchInput               = require '../search/search-input'
+Tab                       = require 'material-ui/lib/tabs/tab'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -27,6 +29,7 @@ class AddFavouriteContainer extends React.Component
       lon: undefined
       locationName: undefined
       address: undefined
+      searchModalIsOpen: false
 
   selectIcon: (id) =>
     @setState
@@ -68,6 +71,13 @@ class AddFavouriteContainer extends React.Component
       'icon-icon_shopping'
     ]
 
+  focusInput: () =>
+    @refs["searchInputfavourite"]?.refs.autowhatever?.refs.input?.focus()
+
+  closeSearchModal: () =>
+    @setState
+      searchModalIsOpen: false
+
   render: ->
 
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -75,9 +85,6 @@ class AddFavouriteContainer extends React.Component
     destinationPlaceholder = @context.intl.formatMessage(
       id: 'address'
       defaultMessage: 'Address')
-
-    focusInput = () =>
-      @refs.modal?.refs.searchInput?.refs.autowhatever?.refs.input?.focus()
 
     <div>
       <div className={cx @props.className, "add-favourite-container"}>
@@ -100,12 +107,10 @@ class AddFavouriteContainer extends React.Component
                 endpoint={"address": @state?.address || ""}
                 onClick={(e) =>
                   e.preventDefault()
-                  @context.executeAction SearchActions.openSearchWithCallback,
-                    callback: @setCoordinatesAndAddress
-                    position: {"address": @state?.address || ""}
-                    placeholder: destinationPlaceholder
-                  focusInput()
-                }
+                  @setState
+                    searchModalIsOpen: true
+                  @context.executeAction SearchActions.executeSearch, ""
+                  @focusInput()}
                 autosuggestPlaceholder={destinationPlaceholder}
                 id='destination'
                 className='add-favourite-container__input-placeholder'
@@ -140,7 +145,31 @@ class AddFavouriteContainer extends React.Component
           </div>
         </row>
       </div>
-      <SearchModal ref="modal"/>
+      <SearchModal
+        ref="modal"
+        modalIsOpen={@state.searchModalIsOpen}
+        selectedTab={"favourite-place"}
+        closeModal={@closeSearchModal}>
+        <Tab
+          className="search-header__button"
+          label="Suosikkikohde"
+          ref="searchTab"
+          value={"favourite-place"}
+          style={{
+            color: "#333",
+            fontSize: "11px",
+            fontFamily: "Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif",
+            fontWeight: "700"}}>
+          <SearchInput
+            ref="searchInputfavourite"
+            id="search-favourite"
+            initialValue = {""}
+            onSuggestionSelected = {(name, item) =>
+              @setCoordinatesAndAddress(name, item)
+              @closeSearchModal()
+          }/>
+        </Tab>
+      </SearchModal>
     </div>
 
 
