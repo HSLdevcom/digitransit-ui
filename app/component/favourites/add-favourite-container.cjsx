@@ -86,6 +86,11 @@ class AddFavouriteContainer extends React.Component
       id: 'address'
       defaultMessage: 'Address')
 
+    searchTabLabel = @context.intl.formatMessage(
+      id: 'origin'
+      defaultMessage: 'ORIGIN'
+    )
+
     <div>
       <div className={cx @props.className, "add-favourite-container"}>
         <Link to="/" className="right cursor-pointer">
@@ -152,7 +157,7 @@ class AddFavouriteContainer extends React.Component
         closeModal={@closeSearchModal}>
         <Tab
           className="search-header__button"
-          label="Suosikkikohde"
+          label={searchTabLabel}
           ref="searchTab"
           value={"favourite-place"}
           style={{
