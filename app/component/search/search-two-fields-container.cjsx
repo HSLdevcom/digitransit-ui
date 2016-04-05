@@ -162,10 +162,7 @@ class SearchTwoFieldsContainer extends React.Component
             color: if @state.selectedTab == "origin" then "#333" else "#7f929c",
             fontSize: "11px",
             fontFamily: "Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif",
-            fontWeight: "700",
-            transform: "none",
-            transitionProperty: "none",
-            transitionDuration: "0.0s"}}>
+            fontWeight: "700"}}>
           <SearchInput
             ref="searchInputorigin"
             id="search-origin"
@@ -193,10 +190,7 @@ class SearchTwoFieldsContainer extends React.Component
             color: if @state.selectedTab == "destination" then "#333" else "#7f929c",
             fontSize: "11px",
             fontFamily: "Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif",
-            fontWeight: "700",
-            transform: "none",
-            transitionProperty: "none",
-            transitionDuration: "0.0s"}}>
+            fontWeight: "700"}}>
           <SearchInput
             ref="searchInputdestination"
             initialValue = {@context.getStore('EndpointStore').getDestination()?.address || ""}
