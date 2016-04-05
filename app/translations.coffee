@@ -134,6 +134,7 @@ translations =
     'subway-with-route-number': 'Metro {routeNumber}'
     'ferry-with-route-number': 'Lautta {routeNumber}'
     'airplane-with-route-number': 'Lento {routeNumber}'
+    'favourite-target': 'Suosikkikohde'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -238,6 +239,7 @@ translations =
     'wait-amount-of-time': 'Vänta {duration}'
     'cycle-from-to': 'TODO {fromName} - {toName}'
     'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
+    'favourite-target': 'Favoritdestination'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -375,6 +377,7 @@ translations =
     'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
     'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
     'wait-amount-of-time': 'TODO {duration}'
+    'favourite-target': 'TODO'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -511,5 +514,6 @@ translations =
     'subway-with-route-number': 'Metro {routeNumber}'
     'ferry-with-route-number': 'Bâteau {routeNumber}'
     'airplane-with-route-number': 'Avion {routeNumber}'
+    'favourite-target': 'TODO'
 
 module.exports = translations
