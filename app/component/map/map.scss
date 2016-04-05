@@ -20,7 +20,7 @@ div.map {
 }
 
 div.map.summaryMap {
-  height: 62%;
+  height: calc(100% - 14.5em);
   min-height: 200px;
 }
 
