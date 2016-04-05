@@ -1,12 +1,19 @@
 .time-navigation-buttons {
 
   display: flex;
-  margin: 0.5em 0 0.25em 0;
+  margin: 0.5em 0.8em 0.25em 0.8em;
 
   & button {
     width: 100%;
     height: 2.2em;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+    margin-right: 0.4em;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
