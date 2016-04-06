@@ -246,6 +246,7 @@ class SearchTwoFieldsContainer extends React.Component
             id={"search"}
             onSuggestionSelected = {(name, item) =>
               console.log("suggestion selected", name, item)
+              if item.properties.link then @context.router.push item.properties.link
               @closeModal()
           }/>
         </Tab>
