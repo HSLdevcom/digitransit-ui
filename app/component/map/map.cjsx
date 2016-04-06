@@ -20,6 +20,8 @@ L             = if isBrowser then require 'leaflet' else null
 PositionMarker = require './position-marker'
 PlaceMarker = require './place-marker'
 
+{startMeasuring, stopMeasuring} = require '../../util/jankmeter'
+
 if isBrowser
   require 'leaflet/dist/leaflet.css'
 
@@ -38,6 +40,7 @@ class Map extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    piwik: React.PropTypes.object
 
   componentDidMount: =>
     #TODO: need to use prefix, as for some reason attributions aren't updated when layer is added
@@ -48,6 +51,21 @@ class Map extends React.Component
     ).addTo @refs.map.getLeafletElement()
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
+
+  startMeasuring: =>
+    startMeasuring()
+
+  stopMeasuring: =>
+    results = stopMeasuring()
+
+    # The leaflet event seems to fire at load without the start event
+    if !results
+      return
+
+    # Piwik doesn't show event values, if they are too long, so we must round... >_<
+    @context.piwik?.trackEvent('perf', 'map-drag', 'min', Math.round(results.min))
+    @context.piwik?.trackEvent('perf', 'map-drag', 'max', Math.round(results.max))
+    @context.piwik?.trackEvent('perf', 'map-drag', 'avg', Math.round(results.avg))
 
   render: =>
     if isBrowser
@@ -85,6 +103,12 @@ class Map extends React.Component
           zoom={zoom}
           zoomControl={false}
           attributionControl={false}
+          onLeafletMousedown={@startMeasuring}
+          onLeafletDragstart={@startMeasuring}
+          onLeafletZoomstart={@startMeasuring}
+          onLeafletMoveend={@stopMeasuring}
+          onLeafletDragend={@stopMeasuring}
+          onLeafletZoomend={@stopMeasuring}
           bounds={if @props.fitBounds then [@props.from, @props.to]}
           {... @props.leafletOptions}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}

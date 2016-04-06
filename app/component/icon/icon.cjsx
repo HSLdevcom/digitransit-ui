@@ -2,8 +2,9 @@ React = require 'react'
 cx = require 'classnames'
 
 Icon = (props) ->
+  viewBox = if props.viewBox then props.viewBox else "0 0 40 40"
   <span>
-    <svg id={props.id} viewBox="0 0 40 40" className={cx "icon", props.className}>
+    <svg id={props.id} viewBox={viewBox} className={cx "icon", props.className}>
       <use xlinkHref="##{props.img}"/>
     </svg>
   </span>
