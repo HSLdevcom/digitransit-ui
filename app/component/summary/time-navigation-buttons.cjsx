@@ -33,7 +33,7 @@ class TimeNavigationButtons extends React.Component
     @context.executeAction TimeAction.setDepartureTime, latestDepartureTime
 
   setSelectedTimeToNow: =>
-    @context.executeAction TimeAction.unsetSelectedTime
+    @context.executeAction TimeAction.setSelectedTime, moment()
 
   render: ->
     if @props.plan
