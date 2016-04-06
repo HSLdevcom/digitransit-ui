@@ -103,7 +103,7 @@ getStopsdataPromise = (input) ->
         coordinates: [item.lon, item.lat]
 
 getRouteDataPromise = (input) ->
-  queryGraphQL("{routes(name:\"" + input + "\") {patterns {code} gtfsId shortName type longName}}", undefined, (d) ->
+  queryGraphQL("{routes(name:\"" + input + "\") {patterns {code} shortName type longName}}", undefined, (d) ->
     "type": "routes", data:d.data.routes)
   .then (res) ->
     console.log("data before map", res)
@@ -111,7 +111,7 @@ getRouteDataPromise = (input) ->
       type: "Route"
       properties:
         label: item.longName  + " (" + item.shortName + ")"
-        layer: 'route'
+        layer: 'route-' + item.type
         link: '/linjat/' + item.patterns[0].code
       geometry:
         coordinates = [item.lat, item.lon]
@@ -165,12 +165,12 @@ executeSearch = (actionContext, params) ->
   {input, type} = params
   console.log "search q:", input, type
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
-  favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
-  oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
   referenceLocation = if geoLocation.hasLocation then {lon: geoLocation.lon, lat: geoLocation.lat} else console.log("no location, what's the reference?")
 
   #endpoint
   if type == 'endpoint'
+    favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
+    oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
     console.log "endpointsearch"
     Promise.all([getGeocodingResult(input, geoLocation), getGraphResults(input, params.type)])
     .then (result) ->
@@ -187,6 +187,8 @@ executeSearch = (actionContext, params) ->
 
   else
     console.log("common search")
+    favouriteRoutes = actionContext.getStore("FavouriteRoutesStore").getRoutes()
+    # todo fetch data
     getGraphResults(input, type)
     .then uniq
     .then (suggestions) ->
