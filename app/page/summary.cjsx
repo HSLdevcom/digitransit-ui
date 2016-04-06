@@ -9,17 +9,20 @@ NoRoutePopup         = require '../component/summary/no-route-popup'
 {otpToLocation, locationToCoords} = require '../util/otp-strings'
 intl               = require 'react-intl'
 config             = require '../config'
+ItinerarySearchAction = require '../action/itinerary-search-action'
 
 FormattedMessage = intl.FormattedMessage
 
 class SummaryPage extends React.Component
   @contextTypes:
+    executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
     @context.getStore('TimeStore').addChangeListener @onTimeChange
+    @context.executeAction ItinerarySearchAction.itinerarySearchRequest, @props
 
   componentWillUnmount: ->
     @context.getStore('ItinerarySearchStore').removeChangeListener @onChange
