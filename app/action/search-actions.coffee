@@ -110,7 +110,7 @@ getRouteDataPromise = (input) ->
     res.data.map (item) ->
       type: "Route"
       properties:
-        label: item.longName  + " (" + item.shortName + ")"
+        label: item.shortName + " " + item.longName
         layer: 'route-' + item.type
         link: '/linjat/' + item.patterns[0].code
       geometry:
