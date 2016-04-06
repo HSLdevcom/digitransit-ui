@@ -16,29 +16,27 @@ class SearchModal extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
   render: =>
-    style = {}
-    if @props.modalIsOpen == false
-      style.left = "-400%"
-    else
-      style.right = "0px"
+    if @props.modalIsOpen
 
-    <div style={style}
-      className="search-modal">
-      <div className="row">
-        <div className="small-12 medium-6 medium-offset-3 columns cursor-pointer search-header">
-          <span className="search-header__back-arrow" onClick={@props.closeModal}>
-            <Icon img={'icon-icon_arrow-left'}/>
-            <span className="search-header-separator"/>
-          </span>
-          <Tabs
-            inkBarStyle={{display: "none"}}
-            tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", marginLeft: "28px", width: "calc(100% - 28px)"}}
-            value={@props.selectedTab}
-          >
-          {@props.children}
-          </Tabs>
+      <div
+        className="search-modal">
+        <div className="row">
+          <div className="small-12 medium-6 medium-offset-3 columns cursor-pointer search-header">
+            <span className="search-header__back-arrow" onClick={@props.closeModal}>
+              <Icon img={'icon-icon_arrow-left'}/>
+              <span className="search-header-separator"/>
+            </span>
+            <Tabs
+              inkBarStyle={{display: "none"}}
+              tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", marginLeft: "28px", width: "calc(100% - 28px)"}}
+              value={@props.selectedTab}
+            >
+            {@props.children}
+            </Tabs>
+          </div>
         </div>
       </div>
-    </div>
+    else
+      return false
 
 module.exports = SearchModal
