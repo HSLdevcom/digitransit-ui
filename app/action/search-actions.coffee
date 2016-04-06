@@ -119,11 +119,17 @@ sortByDistance = (stops, reference) ->
   stops
 
 endpointGTFSSearch = (input, reference) ->
+  if input == undefined or input == null or input.trim().length < 2
+    return Promise.resolve []
+
   getStopsdataPromise(input).then((input) ->
     console.log("gtfs search:", input)
     input)
 
 commonGTFSSearch = (input, reference) ->
+  if input == undefined or input == null or input.trim().length < 2
+    return Promise.resolve []
+
   isNumber = input.match(/^\d+$/) != null
 
   if isNumber
@@ -142,11 +148,7 @@ commonGTFSSearch = (input, reference) ->
 
 #query gtfs data
 getGraphResults = (input, type, reference) ->
-  if input == undefined or input == null or input.trim().length < 2
-    return Promise.resolve []
-
-  isEndpoint = type == 'endpoint' # else "common search"
-  #spec is at https://digitransit.atlassian.net/browse/DT-812
+  isEndpoint = type == 'endpoint'
 
   if isEndpoint
     endpointGTFSSearch input, reference
@@ -154,25 +156,38 @@ getGraphResults = (input, type, reference) ->
     commonGTFSSearch input, reference
 
 executeSearch = (actionContext, params) ->
+  processResults(actionContext, [])
   {input, type} = params
-  console.log "search q:", input
+  console.log "search q:", input, type
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
   favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
   oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
   referenceLocation = if geoLocation.hasLocation then {lon: geoLocation.lon, lat: geoLocation.lat} else console.log("no location, what's the reference?")
 
-  Promise.all([getGeocodingResult(input, geoLocation), getGraphResults(input, params.type)])
-  .then (result) ->
-    result[0].concat(result[1])
-  .then addCurrentPositionIfEmpty
-  .then (suggestions) -> addFavouriteLocations(favouriteLocations, suggestions, input)
-  .then (suggestions) -> addOldSearches(oldSearches, suggestions, input)
-  .then sort
-  .then uniq
-  .then (suggestions) ->
-    processResults actionContext, suggestions
-  .catch (e) ->
-    console.error("error occurred", e)
+  #endpoint
+  if type == 'endpoint'
+    console.log "endpointsearch"
+    Promise.all([getGeocodingResult(input, geoLocation), getGraphResults(input, params.type)])
+    .then (result) ->
+      result[0].concat(result[1])
+    .then addCurrentPositionIfEmpty
+    .then (suggestions) -> addFavouriteLocations(favouriteLocations, suggestions, input)
+    .then (suggestions) -> addOldSearches(oldSearches, suggestions, input)
+    .then sort
+    .then uniq
+    .then (suggestions) ->
+      processResults actionContext, suggestions
+    .catch (e) ->
+      console.error("error occurred", e)
+
+  else
+    console.log("common search")
+    getGraphResults(input, type)
+    .then uniq
+    .then (suggestions) ->
+      processResults actionContext, suggestions
+    .catch (e) ->
+      console.error("error occurred", e)
 
 search =
   debounce(executeSearch, 300)

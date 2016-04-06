@@ -58,9 +58,11 @@ class SearchTwoFieldsContainer extends React.Component
       selectedTab: tab.props.value
       () =>
         if tab.props.value == "origin"
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getOrigin()?.address || ""
+          @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getOrigin()?.address || "", type: "endpoint"}
         if tab.props.value == "destination"
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""
+          @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}
+        if tab.props.value == "search"
+          @context.executeAction SearchActions.executeSearch, {input: ""}
     setTimeout((() => @focusInput(tab.props.value)), 0) #try to focus, does not work on ios
 
   pushNonSearchState: () =>
@@ -120,6 +122,11 @@ class SearchTwoFieldsContainer extends React.Component
       defaultMessage: 'DESTINATION'
     )
 
+    searchTabLabel = @context.intl.formatMessage(
+      id: 'search'
+      defaultMessage: 'SEARCH'
+    )
+
     originPlaceholder = @context.intl.formatMessage(
       id: 'origin-placeholder'
       defaultMessage: 'From where? - address or stop')
@@ -136,7 +143,7 @@ class SearchTwoFieldsContainer extends React.Component
           @setState
             selectedTab: "origin"
             modalIsOpen: true
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getOrigin()?.address || ""
+          @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getOrigin()?.address || "", type: "endpoint"}
           @focusInput("origin")}
         autosuggestPlaceholder={originPlaceholder}
         id='origin'
@@ -150,7 +157,7 @@ class SearchTwoFieldsContainer extends React.Component
           @setState
             selectedTab: "destination"
             modalIsOpen: true
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""
+          @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}
           @focusInput("destination")}
         autosuggestPlaceholder={destinationPlaceholder}
         id='destination'
@@ -177,6 +184,7 @@ class SearchTwoFieldsContainer extends React.Component
           <SearchInput
             ref="searchInputorigin"
             id="search-origin"
+            type="endpoint"
             initialValue = {@context.getStore('EndpointStore').getOrigin()?.address || ""}
             onSuggestionSelected = {(name, item) =>
               if item.type == 'CurrentLocation'
@@ -206,6 +214,7 @@ class SearchTwoFieldsContainer extends React.Component
             ref="searchInputdestination"
             initialValue = {@context.getStore('EndpointStore').getDestination()?.address || ""}
             id={"search-destination"}
+            type="endpoint"
             onSuggestionSelected = {(name, item) =>
               if item.type == 'CurrentLocation'
                 @context.executeAction EndpointActions.setUseCurrent, 'destination'
@@ -216,6 +225,27 @@ class SearchTwoFieldsContainer extends React.Component
                     lat: item.geometry.coordinates[1]
                     lon: item.geometry.coordinates[0]
                     address: name
+              @closeModal()
+          }/>
+        </Tab>
+        <Tab
+          className="search-header__button"
+          label={searchTabLabel}
+          value={"search"}
+          ref="searchTab"
+          type="search"
+          onActive={@onTabChange}
+          style={{
+            color: if @state.selectedTab == "search" then "#333" else "#7f929c",
+            fontSize: "11px",
+            fontFamily: "Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif",
+            fontWeight: "700"}}>
+          <SearchInput
+            ref="searchInputdestination"
+            initialValue = ""}
+            id={"search"}
+            onSuggestionSelected = {(name, item) =>
+              console.log("suggestion selected", name, item)
               @closeModal()
           }/>
         </Tab>
