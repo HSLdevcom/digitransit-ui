@@ -49,7 +49,7 @@ class TransitLeg extends React.Component
         <div className="itinerary-leg-first-row">
           <div>
             {@props.leg.from.name}
-            {@stopCode @props.leg.from.stop.code}
+            {@stopCode @props.leg.from.stop?.code}
             <Icon img={'icon-icon_arrow-collapse--right'} className={'itinerary-leg-first-row__arrow'}/>
           </div>
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>

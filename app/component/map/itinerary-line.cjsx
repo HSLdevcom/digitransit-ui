@@ -69,10 +69,10 @@ class ItineraryLine extends React.Component
                                   lat: stop.lat
                                   lon: stop.lon
                                   name: stop.name
-                                  gtfsId: stop.stopId
-                                  code: stop.stopCode
+                                  gtfsId: stop.gtfsId
+                                  code: stop.code
                                 }
-                                key="intermediate-#{stop.stopId}"
+                                key="intermediate-#{stop.gtfsId}"
                                 mode={mode}
                                 thin=true />
 
@@ -97,8 +97,8 @@ class ItineraryLine extends React.Component
                                 lat: leg.from.lat
                                 lon: leg.from.lon
                                 name: leg.from.name
-                                gtfsId: leg.from.stopId
-                                code: leg.from.stopCode
+                                gtfsId: leg.from.stop?.gtfsId
+                                code: leg.from.stop?.code
                               }
                               mode={mode}
                               renderText={leg.transitLeg and @props.showTransferLabels}/>
