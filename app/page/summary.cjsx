@@ -1,15 +1,15 @@
-Raven              = if window? then require 'raven-js' else null
-React              = require 'react'
-Relay              = require 'react-relay'
-queries            = require '../queries'
-Helmet             = require 'react-helmet'
-SummaryPlanContainer = require '../component/summary/summary-plan-container'
-SummaryNavigation    = require '../component/navigation/summary-navigation'
-NoRoutePopup         = require '../component/summary/no-route-popup'
-{otpToLocation, locationToCoords} = require '../util/otp-strings'
-intl               = require 'react-intl'
-config             = require '../config'
+Raven           = if window? then require 'raven-js' else null
+React           = require 'react'
+Relay           = require 'react-relay'
+queries         = require '../queries'
+Helmet          = require 'react-helmet'
+SummaryPlanContainer  = require '../component/summary/summary-plan-container'
+SummaryNavigation     = require '../component/navigation/summary-navigation'
+NoRoutePopup          = require '../component/summary/no-route-popup'
 ItinerarySearchAction = require '../action/itinerary-search-action'
+{otpToLocation} = require '../util/otp-strings'
+intl            = require 'react-intl'
+config          = require '../config'
 
 FormattedMessage = intl.FormattedMessage
 
