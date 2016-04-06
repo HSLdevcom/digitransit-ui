@@ -65,12 +65,6 @@ class SearchTwoFieldsContainer extends React.Component
           @context.executeAction SearchActions.executeSearch, {input: ""}
     setTimeout((() => @focusInput(tab.props.value)), 0) #try to focus, does not work on ios
 
-  pushNonSearchState: () =>
-    if location.pathname != "/"
-      setTimeout(() =>
-        @context.router.push "/"
-      , 0)
-
   closeModal: () =>
     @setState
       modalIsOpen: false
