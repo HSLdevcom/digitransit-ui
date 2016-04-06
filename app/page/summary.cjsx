@@ -51,6 +51,9 @@ class SummaryPage extends React.Component
     arriveBy = @context.getStore('TimeStore').getArriveBy()
     selectedTime = @context.getStore('TimeStore').getSelectedTime()
 
+    preferredAgencies = config.preferredAgency or ""
+    disableRemainingWeightHeuristic = store.getCitybikeState()
+
     plan = <Relay.RootContainer
       Component={SummaryPlanContainer}
       route={new queries.SummaryPlanContainerRoute(
@@ -68,7 +71,10 @@ class SummaryPage extends React.Component
         walkSpeed: walkSpeed+0.000099
         maxWalkDistance: maxWalkDistance
         wheelchair: wheelchair
+        preferred:
+          agencies: preferredAgencies
         arriveBy: arriveBy
+        disableRemainingWeightHeuristic: disableRemainingWeightHeuristic
       )}
       renderFailure={(error) =>
         Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})

@@ -44,6 +44,9 @@ class ItineraryPage extends React.Component
     arriveBy = @context.getStore('TimeStore').getArriveBy()
     selectedTime = @context.getStore('TimeStore').getSelectedTime()
 
+    preferredAgencies = config.preferredAgency or ""
+    disableRemainingWeightHeuristic = store.getCitybikeState()
+
     plan = <Relay.RootContainer
       Component={ItineraryPlanContainer}
       route={new queries.SummaryPlanContainerRoute(
@@ -59,7 +62,10 @@ class ItineraryPage extends React.Component
         walkSpeed: walkSpeed+0.000099
         maxWalkDistance: maxWalkDistance
         wheelchair: wheelchair
+        preferred:
+          agencies: preferredAgencies
         arriveBy: arriveBy
+        disableRemainingWeightHeuristic: disableRemainingWeightHeuristic
         hash: @props.params.hash
       )}
       renderFailure={(error) =>

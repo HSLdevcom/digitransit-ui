@@ -20,6 +20,7 @@ Icon                  = require '../icon/icon'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 sortBy                = require 'lodash/sortBy'
 moment                = require 'moment'
+config                = require '../../config'
 
 class ItineraryPlanContainer extends React.Component
 
@@ -173,3 +174,7 @@ module.exports = Relay.createContainer ItineraryPlanContainer,
     minTransferTime: 180
     walkSpeed: 1.2
     wheelchair: false
+    preferred:
+      agencies: config.preferredAgency or ""
+    arriveBy: true
+    disableRemainingWeightHeuristic: false
