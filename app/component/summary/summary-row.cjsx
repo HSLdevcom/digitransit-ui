@@ -27,6 +27,7 @@ class SummaryRow extends React.Component
     for leg, i in data.legs
       if leg.transitLeg or noTransitLegs
         legs.push <RouteNumber
+                    key={i}
                     mode={leg.mode}
                     text={legTextUtil.getLegText(leg)}
                     vertical={true}
