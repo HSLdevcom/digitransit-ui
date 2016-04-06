@@ -24,8 +24,11 @@ class SummaryRow extends React.Component
       if data.legs[i].transitLeg
         noTransitLegs = false
 
+    realTimeAvailable = false
+
     for leg, i in data.legs
       if leg.transitLeg or noTransitLegs
+        if leg.realTime then realTimeAvailable = true
         legs.push <RouteNumber
                     mode={leg.mode}
                     text={legTextUtil.getLegText(leg)}
@@ -48,7 +51,7 @@ class SummaryRow extends React.Component
           {geoUtils.displayDistance(data.walkDistance)}
         </div>
       </div>
-      <div className="itinerary-start-time">
+      <div className={cx "itinerary-start-time", if realTimeAvailable then "realtime-available"}>
         {startTime.format("HH:mm")}
       </div>
       <div className="itinerary-legs">{legs}</div>
