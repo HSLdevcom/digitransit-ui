@@ -28,6 +28,9 @@ meta = require('./meta')
 translations = require('./translations')
 ApplicationHtml = require('./html').default
 
+port = process.env.HOT_LOAD_PORT || 9000;
+
+
 # Look up paths for various asset files
 appRoot = process.cwd() + '/'
 if process.env.NODE_ENV != 'development'
@@ -81,7 +84,7 @@ processFeedback = (req, res) ->
 getScripts = (req) ->
   if process.env.NODE_ENV == 'development'
     host = req.headers['host']?.split(':')[0] or 'localhost'
-    <script async src={"//#{host}:9000/js/bundle.js"}/>
+    <script async src={"//#{host}:#{port}/js/bundle.js"}/>
   else
     [
       <script dangerouslySetInnerHTML={ __html: manifest }/>,
