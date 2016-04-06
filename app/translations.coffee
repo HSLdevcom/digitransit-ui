@@ -135,6 +135,7 @@ translations =
     'ferry-with-route-number': 'Lautta {routeNumber}'
     'airplane-with-route-number': 'Lento {routeNumber}'
     'favourite-target': 'Suosikkikohde'
+    'search': 'Haku'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -240,7 +241,8 @@ translations =
     'cycle-from-to': 'TODO {fromName} - {toName}'
     'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
     'favourite-target': 'Favoritdestination'
-  'nb':
+    'search': 'Sök'
+'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
     'route-page.title': "Rute {route_short_name}"
@@ -379,7 +381,8 @@ translations =
     'walk-distance-to-stop': 'Gå {distance} {duration}'
     'walk-distance-to-dest': 'Gå {distance} {duration}'
     'wait-amount-of-time': 'Vent {duration}'
-  'fr':
+    'search': 'TODO SEARCH'
+'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
     'route-page.title': "Ligne {route_short_name}"
@@ -516,5 +519,6 @@ translations =
     'ferry-with-route-number': 'Bâteau {routeNumber}'
     'airplane-with-route-number': 'Avion {routeNumber}'
     'favourite-target': 'TODO'
+    'search': 'TODO SEARCH'
 
 module.exports = translations
