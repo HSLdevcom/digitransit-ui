@@ -55,10 +55,10 @@ class ItineraryPage extends React.Component
         modes: modes
         date: selectedTime.format("YYYY-MM-DD")
         time: selectedTime.format("HH:mm:ss")
-        walkReluctance: walkReluctance+0.000099
+        walkReluctance: walkReluctance + 0.000099
         walkBoardCost: walkBoardCost
         minTransferTime: minTransferTime
-        walkSpeed: walkSpeed+0.000099
+        walkSpeed: walkSpeed + 0.000099
         maxWalkDistance: maxWalkDistance
         wheelchair: wheelchair
         preferred:
