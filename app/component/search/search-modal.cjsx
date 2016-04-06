@@ -27,8 +27,8 @@ class SearchModal extends React.Component
               <span className="search-header-separator"/>
             </span>
             <Tabs
+              className={"search-header__tabs-root"}
               inkBarStyle={{display: "none"}}
-              tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", marginLeft: "28px", width: "calc(100% - 28px)"}}
               value={@props.selectedTab}
             >
             {@props.children}

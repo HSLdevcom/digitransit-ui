@@ -318,6 +318,15 @@ div#search-panel-close-tab {
     letter-spacing: -0.025em;
   }
 
+  .search-header__tabs-root {
+      > div:first-child {
+      background-color: $background-color !important;
+      line-height: 18px !important;
+      margin-left: 28px !important;
+      width: calc(100% - 28px) !important;
+    }
+  }
+
 }
 
 .search-header-separator {
