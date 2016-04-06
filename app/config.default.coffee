@@ -44,11 +44,6 @@ module.exports =
     delayThreshold: 180
     # Wait time to show "wait leg"? e.g. 180 means over 3 minutes are shown as wait time. Measured in seconds.
     waitThreshold: 180
-  summary:
-    # The number of minutes to add when choosing a later time
-    laterSelectedTimeMinutes: 15
-    # The number of minutes to subtract when choosing an earlier time
-    earlierSelectedTimeMinutes: 15
   initialLocation:
     zoom: 11
     lat: 60.17332
