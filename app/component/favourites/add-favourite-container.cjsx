@@ -157,15 +157,10 @@ class AddFavouriteContainer extends React.Component
         selectedTab={"favourite-place"}
         closeModal={@closeSearchModal}>
         <Tab
-          className="search-header__button"
-          label={searchTabLabel}
-          ref="searchTab"
-          value={"favourite-place"}
-          style={{
-            color: "#333",
-            fontSize: "11px",
-            fontFamily: "Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif",
-            fontWeight: "700"}}>
+        className="search-header__button--selected"
+        label={searchTabLabel}
+        ref="searchTab"
+        value={"favourite-place"}>
           <SearchInput
             ref="searchInputfavourite"
             id="search-favourite"
