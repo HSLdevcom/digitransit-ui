@@ -242,6 +242,14 @@ ul#react-whatever-suggest {
   z-index: 802;
 }
 
+.geolocation-bar-location-icon {
+  font-size: $search-form-location-icon-size;
+}
+
+.address-box .geolocation-bar-location-icon svg.icon {
+  fill: $hilight-color;
+}
+
 div.search-modal {
   z-index:10000;
   background:#EEF1F3;

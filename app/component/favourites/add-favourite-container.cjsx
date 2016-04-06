@@ -110,6 +110,7 @@ class AddFavouriteContainer extends React.Component
               <h4><FormattedMessage id="specify-location" defaultMessage="Specify the location"/></h4>
               <SearchField
                 endpoint={"address": @state?.address || ""}
+                geolocation={geolocation}
                 onClick={(e) =>
                   e.preventDefault()
                   @setState
