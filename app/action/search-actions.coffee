@@ -6,6 +6,7 @@ uniqWith         = require 'lodash/uniqWith'
 orderBy          = require 'lodash/orderBy'
 take             = require 'lodash/take'
 SuggestionUtils  = require '../util/suggestion-utils'
+geoUtils         = require '../util/geo-utils'
 
 processResults = (actionContext, result) ->
   actionContext.dispatch 'SuggestionsResult',
@@ -96,11 +97,86 @@ getGeocodingResult = (input, geolocation) ->
 
   return XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> res.features
 
-executeSearch = (actionContext, input) ->
+
+queryGraphQL = (q, opts, converter) ->
+  payload = JSON.stringify (query:q, variables:null)
+  return XhrPromise.postJson(config.URL.OTP + "index/graphql", opts, payload).then (res) -> converter(res)
+
+getStopsdataPromise = (input) ->
+  queryGraphQL("{stops(name:\"" + input + "\") {lat,lon,name}}", undefined, (d) ->
+    "type": "stops", data:d.data.stops)
+  .then (res) ->
+    res.data.map (item) ->
+      type: "Stop"
+      properties:
+        label: item.name
+        layer: 'stop'
+      geometry:
+        coordinates: [item.lon, item.lat]
+
+getRouteDataPromise = (input) ->
+  queryGraphQL("{routes(name:\"" + input + "\") {shortName type longName}}", undefined, (d) ->
+    "type": "routes", data:d.data.routes)
+  .then (res) ->
+    console.log("data before map", res)
+    res.data.map (item) ->
+      type: "Route"
+      properties:
+        label: item.longName  + " (" + item.shortName + ")"
+        layer: 'route'
+        link: '/foo/bar'
+      geometry:
+        coordinates = [item.lat, item.lon]
+
+sortByDistance = (stops, reference) ->
+  stops
+
+endpointGTFSSearch = (input, reference) ->
+  getStopsdataPromise(input).then((input) ->
+    console.log("gtfs search:", input)
+    input)
+
+commonGTFSSearch = (input, reference) ->
+  isNumber = input.match(/^\d+$/) != null
+
+  if isNumber
+    lnLen = input.match(/^\d+$/).length
+    if lnLen <= 3
+      #   4 = linjat alkaen 4*
+      #  40 = linjat alkaen 40*
+      # 404 = linjat alkaen 404*
+      getRouteDataPromise input
+    else
+     #pysäkkihaku
+      getStopsdataPromise input
+  else
+    #pysäkki + linjahaku jos pidempi kuin 2 merkkiä
+    getStopsdataPromise input
+
+#query gtfs data
+getGraphResults = (input, type, reference) ->
+  if input == undefined or input == null or input.trim().length < 2
+    return Promise.resolve []
+
+  isEndpoint = type == 'endpoint' # else "common search"
+  #spec is at https://digitransit.atlassian.net/browse/DT-812
+
+  if isEndpoint
+    endpointGTFSSearch input, reference
+  else
+    commonGTFSSearch input, reference
+
+executeSearch = (actionContext, params) ->
+  {input, type} = params
+  console.log "search q:", input
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
   favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
   oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
-  getGeocodingResult(input, geoLocation)
+  referenceLocation = if geoLocation.hasLocation then {lon: geoLocation.lon, lat: geoLocation.lat} else console.log("no location, what's the reference?")
+
+  Promise.all([getGeocodingResult(input, geoLocation), getGraphResults(input, params.type)])
+  .then (result) ->
+    result[0].concat(result[1])
   .then addCurrentPositionIfEmpty
   .then (suggestions) -> addFavouriteLocations(favouriteLocations, suggestions, input)
   .then (suggestions) -> addOldSearches(oldSearches, suggestions, input)
@@ -114,7 +190,6 @@ executeSearch = (actionContext, input) ->
 search =
   debounce(executeSearch, 300)
 
-#used by the modal
 module.exports.executeSearch = (actionContext, input) ->
   search(actionContext, input)
 

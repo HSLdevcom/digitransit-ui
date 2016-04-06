@@ -78,7 +78,7 @@ class SearchInput extends React.Component
       return
 
     @setState "value": input
-    @context.executeAction SearchActions.executeSearch, event.target.value
+    @context.executeAction SearchActions.executeSearch, input: event.target.value, type: "endpoint"
 
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
