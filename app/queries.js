@@ -846,6 +846,7 @@ var SummaryPlanContainerFragments = {
 var ItinerarySummaryListContainerFragments = {
   itineraries: () => Relay.QL`
     fragment on Itinerary @relay(plural:true){
+      walkDistance
       startTime
       endTime
       legs {
