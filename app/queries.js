@@ -790,7 +790,10 @@ export class SummaryPlanContainerRoute extends Relay.Route {
           minTransferTime: variables.minTransferTime,
           numItineraries: variables.numItineraries,
           maxWalkDistance: variables.maxWalkDistance,
-          wheelchair: variables.wheelchair
+          wheelchair: variables.wheelchair,
+          preferred: variables.preferred,
+          arriveBy: variables.arriveBy,
+          disableRemainingWeightHeuristic: variables.disableRemainingWeightHeuristic
         })}
       }
     }`,
@@ -803,7 +806,7 @@ export class SummaryPlanContainerRoute extends Relay.Route {
 var SummaryPlanContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, wheelchair: $wheelchair) {
+      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, wheelchair: $wheelchair, disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic, arriveBy: $arriveBy, preferred: $preferred) {
         itineraries {
           walkDistance
           duration
@@ -864,7 +867,7 @@ var ItinerarySummaryListContainerFragments = {
 var ItineraryPlanContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, wheelchair: $wheelchair) {
+      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, wheelchair: $wheelchair, disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic, arriveBy: $arriveBy, preferred: $preferred) {
         itineraries {
           walkDistance
           duration
@@ -878,6 +881,7 @@ var ItineraryPlanContainerFragments = {
               lon
               name
               stop {
+                gtfsId
                 code
               }
             }
@@ -886,6 +890,7 @@ var ItineraryPlanContainerFragments = {
               lon
               name
               stop {
+                gtfsId
                 code
               }
             }
@@ -895,6 +900,10 @@ var ItineraryPlanContainerFragments = {
             }
             intermediateStops {
               gtfsId
+              lat
+              lon
+              name
+              code
             }
             realTime
             transitLeg
@@ -907,6 +916,7 @@ var ItineraryPlanContainerFragments = {
               shortName
             }
           }
+          ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}
         }
       }
     }
