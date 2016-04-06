@@ -40,15 +40,15 @@ getDistanceToNearestStop = (lat, lon, stops) ->
 
 displayDistance = (meters) ->
   if meters < 100
-    Math.round(meters / 10) * 10.toString() + " m" #round to nearest 10m
+    Math.round(meters / 10) * 10 + " m" #round to nearest 10m
   else if 100 < meters < 1000
-    Math.round(meters / 50) * 50.toString() + " m" #round to nearest 50m
+    Math.round(meters / 50) * 50 + " m" #round to nearest 50m
   else if 1000 < meters < 10000
-    (Math.round(meters / 100) * 100) / 1000.toString() + " km" #round to nearest 100m
+    (Math.round(meters / 100) * 100) / 1000 + " km" #round to nearest 100m
   else if 10000 < meters < 100000
-    Math.round(meters / 1000).toString() + " km" #round to nearest km
+    Math.round(meters / 1000) + " km" #round to nearest km
   else if 100000 < meters
-    Math.round(meters / 10000) * 10.toString() + " km" #round to nearest 10km
+    Math.round(meters / 10000) * 10 + " km" #round to nearest 10km
 
 
 getDistanceToFurthestStop = (coordinates, stops) ->
