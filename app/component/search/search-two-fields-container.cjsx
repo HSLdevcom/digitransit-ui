@@ -136,8 +136,9 @@ class SearchTwoFieldsContainer extends React.Component
           @setState
             selectedTab: "origin"
             modalIsOpen: true
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getOrigin()?.address || ""
-          @focusInput("origin")}
+            () =>
+              @focusInput("origin")
+          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getOrigin()?.address || ""}
         autosuggestPlaceholder={originPlaceholder}
         id='origin'
       />
@@ -150,8 +151,9 @@ class SearchTwoFieldsContainer extends React.Component
           @setState
             selectedTab: "destination"
             modalIsOpen: true
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""
-          @focusInput("destination")}
+            () =>
+              @focusInput("destination")
+          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""}
         autosuggestPlaceholder={destinationPlaceholder}
         id='destination'
       />
