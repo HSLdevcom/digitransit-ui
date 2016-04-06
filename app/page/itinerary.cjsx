@@ -25,7 +25,6 @@ class ItineraryPage extends React.Component
     router: React.PropTypes.object.isRequired
 
   render: =>
-    console.log @props
     from = otpToLocation(@props.params.from)
     to = otpToLocation(@props.params.to)
 
