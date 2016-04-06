@@ -98,17 +98,18 @@ getStopsdataPromise = (input) ->
       properties:
         label: item.name
         layer: 'stop'
-        link: '/stops/' + item.gtfsId
+        link: '/pysakit/' + item.gtfsId
       geometry:
         coordinates: [item.lon, item.lat]
 
 getRouteDataPromise = (input) ->
-  queryGraphQL("{routes(name:\"" + input + "\") {patterns {code} shortName type longName}}", undefined, (d) ->
+  queryGraphQL("{routes(name:\"" + input + "\") {patterns {code} agency {name} shortName type longName}}", undefined, (d) ->
     "type": "routes", data:d.data.routes)
   .then (res) ->
     console.log("data before map", res)
     res.data.map (item) ->
       type: "Route"
+      agency: item.agency
       properties:
         label: item.shortName + " " + item.longName
         layer: 'route-' + item.type
@@ -116,7 +117,7 @@ getRouteDataPromise = (input) ->
       geometry:
         coordinates = [item.lat, item.lon]
   .then (suggestions) ->
-    sortBy(suggestions, (i) -> i.properties.label)
+    sortBy(suggestions, (item) -> ['item.agency.name', 'item.properties.label'])
 
 sortByDistance = (stops, reference) ->
   stops
