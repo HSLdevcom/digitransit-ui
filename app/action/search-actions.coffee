@@ -90,7 +90,7 @@ queryGraphQL = (q, opts, converter) ->
   return XhrPromise.postJson(config.URL.OTP + "index/graphql", opts, payload).then (res) -> converter(res)
 
 getStopsdataPromise = (input) ->
-  queryGraphQL("{stops(name:\"" + input + "\") {lat,lon,name}}", undefined, (d) ->
+  queryGraphQL("{stops(name:\"" + input + "\") {gtfsId lat lon name}}", undefined, (d) ->
     "type": "stops", data:d.data.stops)
   .then (res) ->
     res.data.map (item) ->
@@ -98,11 +98,12 @@ getStopsdataPromise = (input) ->
       properties:
         label: item.name
         layer: 'stop'
+        link: '/stops/' + item.gtfsId
       geometry:
         coordinates: [item.lon, item.lat]
 
 getRouteDataPromise = (input) ->
-  queryGraphQL("{routes(name:\"" + input + "\") {shortName type longName}}", undefined, (d) ->
+  queryGraphQL("{routes(name:\"" + input + "\") {patterns {code} gtfsId shortName type longName}}", undefined, (d) ->
     "type": "routes", data:d.data.routes)
   .then (res) ->
     console.log("data before map", res)
@@ -111,9 +112,11 @@ getRouteDataPromise = (input) ->
       properties:
         label: item.longName  + " (" + item.shortName + ")"
         layer: 'route'
-        link: '/foo/bar'
+        link: '/linjat/' + item.patterns[0].code
       geometry:
         coordinates = [item.lat, item.lon]
+  .then (suggestions) ->
+    sortBy(suggestions, (i) -> i.properties.label)
 
 sortByDistance = (stops, reference) ->
   stops
@@ -144,7 +147,9 @@ commonGTFSSearch = (input, reference) ->
       getStopsdataPromise input
   else
     #pysäkki + linjahaku jos pidempi kuin 2 merkkiä
-    getStopsdataPromise input
+    Promise.all([getStopsdataPromise(input), getRouteDataPromise(input)])
+      .then (results) ->
+        results[0].concat(results[1])
 
 #query gtfs data
 getGraphResults = (input, type, reference) ->
