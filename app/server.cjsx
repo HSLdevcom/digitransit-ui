@@ -28,7 +28,7 @@ meta = require('./meta')
 translations = require('./translations')
 ApplicationHtml = require('./html').default
 
-port = process.env.HOT_LOAD_PORT || 9000;
+port = process.env.HOT_LOAD_PORT || 9000
 
 
 # Look up paths for various asset files
