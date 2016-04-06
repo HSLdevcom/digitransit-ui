@@ -1,150 +1,127 @@
 .itinerary-summary-row {
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  padding-top: 0.8em;
-  padding-bottom: 0.2em;
+  height: 50px;
+  padding-left: 10px;
+  padding-right: 15px;
+  padding-top: 3px;
+  padding-bottom: 0;
   overflow: hidden;
-  font-size: 10pt;
-  color: $gray;
   background-color: $white;
   border-bottom: 1px solid $light-gray;
+  border-left: 0.3em $action-color solid;
+  display: flex;
+  user-select: none;
+  $distance-gray: #999999;
+  font-size: $font-size-normal;
+  font-weight: $font-weight-medium;
+  @include font-narrow-book;
 
   &.passive {
+    border-left-color: $background-color;
+    background-color: $background-color;
+
+    .vehicle-number {
+      color: $gray;
+    }
+  }
+
+  &.passive {
+    border-left-color: $background-color;
     background-color: $background-color;
   }
 
+  & .itinerary-duration-and-distance {
+    width: 150px;
+    margin-top: 4px;
+  }
+
+  & .itinerary-duration {
+    white-space: nowrap;
+  }
+
+  & .itinerary-walking-distance {
+    margin-top: -4px;
+    color: $distance-gray;
+    font-weight: $font-weight-book;
+    font-size: $font-size-smallish;
+  }
+
+  & .itinerary-start-time {
+    text-align: right;
+    padding-right: 10px;
+    width: 75px;
+    margin-top: 4px;
+  }
+
+  & .itinerary-end-time {
+    padding-left: 8px;
+    padding-right: 20px;
+    width: 60px;
+    margin-top: 4px;
+  }
+
   & .itinerary-legs {
-    position: relative;
     width: 100%;
-    padding-bottom: 2em;
+    display: flex;
     white-space: nowrap;
+
+    .line.walk {
+      &:after {
+        left: 2em;
+      }
+    }
+
     .line {
-      position: absolute;
-      border-bottom: 3px solid;
       white-space: nowrap;
-      &.walk {
-        border-bottom-style: dotted;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+
+      &:after {
+        content:"";
+        position: absolute;
+        z-index: -1;
+        right: 1px;
+        left: 0;
+        top: 0.875em;
+
+        border: 2px solid;
+        border-radius: 2px;
       }
-      &.citybike {
-        border-bottom-style: dashed;
-      }
-      &.citybike_walk {
-        border-bottom-style: dotted;
-      }
-      &.bicycle {
-        border-bottom-style: dashed;
-      }
-      &.bicycle_walk {
-        border-bottom-style: dotted;
+
+      .icon {
+        margin-top: 0.25em;
+        margin-left: 3px;
+        width: 20px;
+        height: 20px;
+        float: left;
       }
     }
+
     .vehicle-number {
-      @include font-narrow-medium;
-    }
-    .icon.realtime-icon.realtime {
-      margin-top: -0.2em;
-      margin-left: -0.37em;
-    }
-  }
+      clear: left;
+      float: left;
+      padding: 0;
+      width: 20px;
+      margin-left: 3px;
+      margin-top:-2px;
 
-  & .itinerary-leg-times {
-    position: relative;
-    width: 100%;
-    margin-bottom: 0;
-    white-space: nowrap;
-    color: black;
-    .time {
-      @include font-narrow-medium;
-      overflow: hidden;
-      position: absolute;
-      &:last-of-type {
-          position: relative;
-          float: right;
-          margin-right: 0;
+      span {
+        font-weight: $font-weight-book;
+        font-size: $font-size-smallish;
       }
     }
   }
+
+  .action-arrow {
+    line-height: 50px;
+    padding-left: 10px;
+
+    & svg {
+      color: $action-color;
+    }
+  }
 }
-
-.summary-circle::before {
-  width:15px;
-  height:15px;
-  position: absolute;
-  bottom: -1px;
-  left: -11px;
-}
-
-/* NOTE!
- * You might notice this type of color magic below '#{rgba($to-color, 0.9999999)}'
- * 1. 'hash{}' is Sass interpolation that is needed in order for it to do variable substitution
- * 2. rgba-function is needed to convert hex color to rgba because '#' in hex color is illegal character in css url-function
- * 3. For some reason alpha 1.0 keeps color in hex value, so therefore 0.9999999
- * 4. This hack is needed to get Firefox working. Please, don't break this :)
- */
-
-.summary-circle.bus::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.tram::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($tram-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.subway::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($metro-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.rail::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($rail-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.ferry::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($ferry-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.citybike::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($citybike-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.walk::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($walk-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.bicycle::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($bicycle-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.wait::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='3' stroke='#{rgba($wait-color, 0.9999999)}' fill='white' cx='15' cy='15' r='3'/></svg>");
-}
-
-.summary-circle.start::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke='white' stroke-width='2' fill='#{rgba($from-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
-}
-
-.summary-circle.start.passive::before {
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($from-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
-}
-
-.summary-circle.end::after {
-  width:15px;
-  height:15px;
-  position: absolute;
-  bottom: -1px;
-  right: 5px;
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='white' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
-}
-
-.summary-circle.end.passive::after {
-  width:15px;
-  height:15px;
-  position: absolute;
-  bottom: -1px;
-  right: 5px;
-  content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle stroke-width='2' stroke='#{rgba($background-color, 0.9999999)}' fill='#{rgba($to-color, 0.9999999)}' cx='15' cy='15' r='4'/></svg>");
-}
-
-
 
 /*
   Customize Search
@@ -181,23 +158,9 @@
 
 }
 
-.remove-padding {
-  padding:0 !important;
-}
-
-/*
-  Duration and link components
-*/
-
-.itinerary-summary--summary-row {
-  position: absolute;
-  bottom: 6px;
-  right: 12px;
-}
-
 .arrow-link--summary-row {
   position: absolute;
   z-index: 803;
-  bottom: 33px;
+  bottom: 10px;
   right: 12px;
 }

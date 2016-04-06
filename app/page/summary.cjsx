@@ -84,9 +84,6 @@ class SummaryPage extends React.Component
     currentTime = @context.getStore('TimeStore').getCurrentTime().valueOf()
     plan = data.plan
     if plan
-      summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"
-                                  itinerary={plan.itineraries[@getActiveIndex()]}
-                                  />
       toItinerary = <ArrowLink to="#{@context.location.pathname}/#{@getActiveIndex()}"
                                className="arrow-link--summary-row right-arrow-blue-background"/>
       for data, i in plan.itineraries
@@ -135,7 +132,6 @@ class SummaryPage extends React.Component
            padding={[0, 110]}>
         <SearchTwoFieldsContainer/>
         {toItinerary}
-        {summary}
       </Map>
       <div>{rows}</div>
       <TimeNavigationButtons show={if plan then true else false} />
