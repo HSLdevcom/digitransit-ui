@@ -316,6 +316,15 @@ div#search-panel-close-tab {
   .search-header__button {
     margin-bottom: 0;
     letter-spacing: -0.025em;
+    font-size: 11px !important;
+    font-weight: $font-weight-medium !important;
+    font-family: $font-family !important;
+    color: $gray-blue !important;
+  }
+
+  .search-header__button--selected {
+    @extend .search-header__button;
+    color: $black !important;
   }
 
   .search-header__tabs-root {
