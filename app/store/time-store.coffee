@@ -19,6 +19,7 @@ class TimeStore extends Store
     @setSelectedTimeToNow()
 
   setSelectedTimeToNow: ->
+    @arriveBy = false
     @selectedTime = @currentTime
     @status = "UNSET"
     @emitChange
@@ -52,6 +53,13 @@ class TimeStore extends Store
     @emitChange
       selectedTime: @selectedTime
 
+  setArrivalTime: (arrivalTime) ->
+    @arriveBy = true
+    @setSelectedTime arrivalTime
+
+  setDepartureTime: (departureTime) ->
+    @arriveBy = false
+    @setSelectedTime departureTime
 
   getSelectedTime: ->
     @selectedTime.clone()
@@ -66,5 +74,7 @@ class TimeStore extends Store
     'SetSelectedTime': 'setSelectedTime'
     'UnsetSelectedTime': 'setSelectedTimeToNow'
     'SetArriveBy': 'setArriveBy'
+    'SetArrivalTime': 'setArrivalTime'
+    'SetDepartureTime': 'setDepartureTime'
 
 module.exports = TimeStore

@@ -1,5 +1,6 @@
 React = require 'react'
 TimeAction = require '../../action/time-action'
+moment = require 'moment'
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
@@ -10,20 +11,32 @@ class TimeNavigationButtons extends React.Component
     intl: intl.intlShape.isRequired
 
   setEarlierSelectedTime: =>
-    selectedTime = @context.getStore('TimeStore').getSelectedTime()
-    earlier = selectedTime.subtract(config.summary.earlierSelectedTimeMinutes, 'minutes')
-    @context.executeAction TimeAction.setSelectedTime, earlier
+    earliestArrivalTime = null
+    for itinerary, i in @props.plan.itineraries
+      endTime = moment itinerary.endTime
+      if earliestArrivalTime == null
+        earliestArrivalTime = endTime
+      else if endTime.isBefore earliestArrivalTime
+        earliestArrivalTime = endTime
+    earliestArrivalTime.subtract 1, 'minutes'
+    @context.executeAction TimeAction.setArrivalTime, earliestArrivalTime
 
   setLaterSelectedTime: =>
-    selectedTime = @context.getStore('TimeStore').getSelectedTime()
-    later = selectedTime.add(config.summary.laterSelectedTimeMinutes, 'minutes')
-    @context.executeAction TimeAction.setSelectedTime, later
+    latestDepartureTime = null
+    for itinerary, i in @props.plan.itineraries
+      startTime = moment itinerary.startTime
+      if latestDepartureTime == null
+        latestDepartureTime = startTime
+      else if startTime.isAfter latestDepartureTime
+        latestDepartureTime = startTime
+    latestDepartureTime.add 1, 'minutes'
+    @context.executeAction TimeAction.setDepartureTime, latestDepartureTime
 
   setSelectedTimeToNow: =>
     @context.executeAction TimeAction.unsetSelectedTime
 
   render: ->
-    if @props.show
+    if @props.plan
       <div className="time-navigation-buttons">
         <button className="standalone-btn" onClick={@setEarlierSelectedTime}>
           <FormattedMessage id='earlier' defaultMessage='Earlier' />

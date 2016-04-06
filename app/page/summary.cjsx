@@ -134,7 +134,7 @@ class SummaryPage extends React.Component
         {toItinerary}
       </Map>
       <div>{rows}</div>
-      <TimeNavigationButtons show={if plan then true else false} />
+      <TimeNavigationButtons plan={plan} />
     </SummaryNavigation>
 
 module.exports = SummaryPage
