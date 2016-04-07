@@ -59,7 +59,7 @@ class StopMarker extends React.Component
           stopId: @props.stop.gtfsId
           date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
         )}
-        renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
+        renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
         renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}
       />
     </GenericMarker>
