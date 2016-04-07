@@ -8,6 +8,7 @@ SearchActions    = require '../../action/search-actions'
 EndpointActions  = require '../../action/endpoint-actions'
 Tabs             = require 'material-ui/lib/tabs/tabs'
 Tab              = require 'material-ui/lib/tabs/tab'
+config           = require '../../config'
 
 class SearchModal extends React.Component
 
@@ -28,7 +29,7 @@ class SearchModal extends React.Component
             </span>
             <Tabs
               className={"search-header__tabs-root"}
-              inkBarStyle={{display: "none"}}
+              inkBarStyle={{backgroundColor: config.colors.primary, bottom: "auto", top: -43}}
               value={@props.selectedTab}
             >
             {@props.children}

@@ -322,24 +322,28 @@ div#search-panel-close-tab {
     font-family: $font-family !important;
     color: $gray-blue !important;
     height: $search-header-height !important;
-    border-top: solid 3px $background-color !important
   }
 
   .search-header__button--selected {
     @extend .search-header__button;
     color: $black !important;
-    border-top: solid 3px $action-color !important;
+  }
+
+  .search-header-width-fix {
+    margin-left: 28px !important;
+    width: calc(100% - 28px) !important;
   }
 
   .search-header__tabs-root {
       > div:first-child {
       background-color: $background-color !important;
       line-height: 18px !important;
-      margin-left: 28px !important;
-      width: calc(100% - 28px) !important;
+      @extend .search-header-width-fix;
+    }
+    > div:nth-child(2) { //hack, modify tabs in material ui to fix
+      @extend .search-header-width-fix;
     }
   }
-
 }
 
 .search-header-separator {
