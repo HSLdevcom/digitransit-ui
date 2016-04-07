@@ -72,7 +72,7 @@ class AddFavouriteContainer extends React.Component
     ]
 
   focusInput: () =>
-    @refs["searchInputfavourite"]?.refs.autowhatever?.refs.input?.focus()
+    @refs.searchInputfavourite?.refs.autowhatever?.refs.input?.focus()
 
   closeSearchModal: () =>
     @setState
