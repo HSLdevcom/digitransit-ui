@@ -316,6 +316,24 @@ div#search-panel-close-tab {
   .search-header__button {
     margin-bottom: 0;
     letter-spacing: -0.025em;
+    font-size: 11px !important;
+    font-weight: $font-weight-medium !important;
+    font-family: $font-family !important;
+    color: $gray-blue !important;
+  }
+
+  .search-header__button--selected {
+    @extend .search-header__button;
+    color: $black !important;
+  }
+
+  .search-header__tabs-root {
+      > div:first-child {
+      background-color: $background-color !important;
+      line-height: 18px !important;
+      margin-left: 28px !important;
+      width: calc(100% - 28px) !important;
+    }
   }
 
 }
