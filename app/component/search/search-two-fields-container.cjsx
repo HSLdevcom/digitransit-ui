@@ -58,9 +58,9 @@ class SearchTwoFieldsContainer extends React.Component
       selectedTab: tab.props.value
       () =>
         if tab.props.value == "origin"
-          @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getOrigin()?.address || "", type: "endpoint"}
+          @context.executeAction SearchActions.executeEndpointSearch, @context.getStore('EndpointStore').getOrigin()?.address || ""
         if tab.props.value == "destination"
-          @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}
+          @context.executeAction SearchActions.executeEndpointSearch, @context.getStore('EndpointStore').getDestination()?.address || ""
         if tab.props.value == "search"
           @context.executeAction SearchActions.executeSearch, {input: ""}
     setTimeout((() => @focusInput(tab.props.value)), 0) #try to focus, does not work on ios
@@ -139,7 +139,7 @@ class SearchTwoFieldsContainer extends React.Component
             modalIsOpen: true
             () =>
               @focusInput("origin")
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getOrigin()?.address || ""}
+          @context.executeAction SearchActions.executeEndpointSearch, @context.getStore('EndpointStore').getOrigin()?.address || ""}
         autosuggestPlaceholder={originPlaceholder}
         id='origin'
       />
@@ -154,7 +154,7 @@ class SearchTwoFieldsContainer extends React.Component
             modalIsOpen: true
             () =>
               @focusInput("destination")
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""}
+          @context.executeAction SearchActions.executeEndpointSearch, @context.getStore('EndpointStore').getDestination()?.address || ""}
         autosuggestPlaceholder={destinationPlaceholder}
         id='destination'
       />
