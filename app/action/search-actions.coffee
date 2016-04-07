@@ -120,17 +120,13 @@ mapStops = (res) ->
   else
     []
 
-
-sortByDistance = (stops, reference) ->
-  stops
-
 getEndpointGTFSResult = (input, reference) ->
-  if input == undefined or input == null or input.trim().length < 2
+  if input == undefined or input == null or input.trim().length < 3
     return Promise.resolve []
 
-  getStopsdataPromise(input).then((input) ->
-    console.log("gtfs search:", input)
-    input)
+  queryGraphQL('{' + 'stops(name:"' + input + '") {gtfsId lat lon name}' + '}').then (response) ->
+    mapStops(response?.data?.stops)
+
 
 getCommonGTFSResult = (input, reference, favourites) ->
   searches = []
@@ -156,7 +152,6 @@ getCommonGTFSResult = (input, reference, favourites) ->
 
   if searches.length > 0
      suggestions = []
-     console.log('{' + searches.join(' ') + '}');
      return queryGraphQL('{' + searches.join(' ') + '}').then (response) ->
        suggestions = suggestions.concat sortBy(mapRoutes(response?.data?.favouriteRoutes), (item) -> ['item.agency.name', 'item.properties.label'])
        suggestions = suggestions.concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['item.agency.name', 'item.properties.label'])
@@ -168,7 +163,6 @@ getCommonGTFSResult = (input, reference, favourites) ->
 executeSearch = (actionContext, params) ->
   processResults(actionContext, [])
   {input, type} = params
-  console.log "search q:", input, type
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
   referenceLocation = if geoLocation.hasLocation then {lon: geoLocation.lon, lat: geoLocation.lat} else console.log("no location, what's the reference?")
 
@@ -176,7 +170,6 @@ executeSearch = (actionContext, params) ->
   if type == 'endpoint'
     favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
     oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
-    console.log "endpointsearch"
     Promise.all([getGeocodingResult(input, geoLocation), getEndpointGTFSResult (input)])
     .then (result) ->
       result[0].concat(result[1])
@@ -191,7 +184,6 @@ executeSearch = (actionContext, params) ->
       console.error("error occurred", e)
 
   else
-    console.log("common search")
     favouriteRoutes = actionContext.getStore("FavouriteRoutesStore").getRoutes()
     getCommonGTFSResult(input, referenceLocation, favouriteRoutes)
     .then uniq
