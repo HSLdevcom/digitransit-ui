@@ -58,8 +58,10 @@ class FrontPagePanel extends React.Component
     if selection == oldSelection # clicks again to close
       @onReturnToFrontPage()
       newSelection = null
+      @props.frontPageOpen(false)
     else
       newSelection = selection
+      @props.frontPageOpen(true)
 
     if supportsHistory()
       tabOpensOrCloses = oldSelection == null or typeof oldSelection == 'undefined' or newSelection == null

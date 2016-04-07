@@ -8,18 +8,35 @@ Icon               = require '../component/icon/icon'
 Link               = require 'react-router/lib/Link'
 MapWithTracking    = require '../component/map/map-with-tracking'
 FeedbackPanel      = require '../component/feedback/feedback-panel'
+config             = require '../config'
 
 class Page extends React.Component
+  constructor: ->
+    super
+    @state =
+      frontPageOpen: false
+
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
+  shouldComponentUpdate: (nextProps, nextState) ->
+    #return @state.frontPageOpen != nextState.frontPageOpen
+    return true
+
+  frontPageOpen: (open) =>
+    console.log "frontpage open? #{open}"
+    @setState
+      frontPageOpen: open
+
   render: ->
+    console.log "render index Page"
     <IndexNavigation className="front-page fullscreen">
-      <MapWithTracking>
-        <SearchTwoFieldsContainer/>
-      </MapWithTracking>
-      <FrontPagePanel/>
+      {if !@state.frontPageOpen
+        <MapWithTracking>
+          <SearchTwoFieldsContainer/>
+          </MapWithTracking>}
+      <FrontPagePanel frontPageOpen={@frontPageOpen} />
       <FeedbackPanel/>
     </IndexNavigation>
 
