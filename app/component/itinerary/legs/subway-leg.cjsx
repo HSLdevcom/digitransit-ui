@@ -17,7 +17,7 @@ class SubwayLeg extends React.Component
       <FormattedMessage
         id={"subway-with-route-number"}
         values={{
-          routeNumber: @props.leg.route
+          routeNumber: @props.leg.route?.shortName
           }}
         defaultMessage={"Subway {routeNumber}"}/>
     </TransitLeg>
