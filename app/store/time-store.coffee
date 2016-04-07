@@ -52,7 +52,6 @@ class TimeStore extends Store
     @emitChange
       selectedTime: @selectedTime
 
-
   getSelectedTime: ->
     @selectedTime.clone()
 

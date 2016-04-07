@@ -39,7 +39,7 @@ class TransitLeg extends React.Component
           </div>
           <RouteNumber
             mode={@props.mode.toLowerCase()}
-            text={@props.leg.routeShortName}
+            text={@props.leg.route?.shortName}
             realtime={@props.leg.realTime}
             vertical={true}
           />
@@ -49,7 +49,7 @@ class TransitLeg extends React.Component
         <div className="itinerary-leg-first-row">
           <div>
             {@props.leg.from.name}
-            {@stopCode @props.leg.from.stopCode}
+            {@stopCode @props.leg.from.stop?.code}
             <Icon img={'icon-icon_arrow-collapse--right'} className={'itinerary-leg-first-row__arrow'}/>
           </div>
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
@@ -61,7 +61,7 @@ class TransitLeg extends React.Component
           <FormattedMessage
             id={'number-of-intermediate-stops'}
             values= {{
-              number: @props.leg.intermediateStops.length
+              number: @props.leg.intermediateStops?.length or 0
               duration: timeUtils.durationToString(@props.leg.duration * 1000)
               }}
             defaultMessage={'{number, plural,
