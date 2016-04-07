@@ -168,15 +168,34 @@ executeSearch = (actionContext, params) ->
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
   referenceLocation = if geoLocation.hasLocation then {lon: geoLocation.lon, lat: geoLocation.lat} else console.log("no location, what's the reference?")
 
-  console.log("common search")
-  favouriteRoutes = actionContext.getStore("FavouriteRoutesStore").getRoutes()
-  # todo fetch data
-  getGraphResults(input, type)
-  .then uniq
-  .then (suggestions) ->
-    processResults actionContext, suggestions
-  .catch (e) ->
-    console.error("error occurred", e)
+  #endpoint
+  if type == 'endpoint'
+    favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
+    oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
+    console.log "endpointsearch"
+    Promise.all([getGeocodingResult(input, geoLocation), getGraphResults(input, params.type)])
+    .then (result) ->
+      result[0].concat(result[1])
+    .then addCurrentPositionIfEmpty
+    .then (suggestions) -> addFavouriteLocations(favouriteLocations, suggestions, input)
+    .then (suggestions) -> addOldSearches(oldSearches, suggestions, input)
+    .then sort
+    .then uniq
+    .then (suggestions) ->
+      processResults actionContext, suggestions
+    .catch (e) ->
+      console.error("error occurred", e)
+
+  else
+    console.log("common search")
+    favouriteRoutes = actionContext.getStore("FavouriteRoutesStore").getRoutes()
+    # todo fetch data
+    getGraphResults(input, type)
+    .then uniq
+    .then (suggestions) ->
+      processResults actionContext, suggestions
+    .catch (e) ->
+      console.error("error occurred", e)
 
 search =
   debounce(executeSearch, 300)
@@ -184,19 +203,3 @@ search =
 module.exports.executeSearch = (actionContext, input) ->
   search(actionContext, input)
 
-module.exports.executeEndpointSearch = (actionContext, input) ->
-  favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
-  oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
-  console.log "endpointsearch"
-  Promise.all([getGeocodingResult(input, geoLocation), getGraphResults(input, "endpoint")])
-  .then (result) ->
-    result[0].concat(result[1])
-  .then addCurrentPositionIfEmpty
-  .then (suggestions) -> addFavouriteLocations(favouriteLocations, suggestions, input)
-  .then (suggestions) -> addOldSearches(oldSearches, suggestions, input)
-  .then sort
-  .then uniq
-  .then (suggestions) ->
-    processResults actionContext, suggestions
-  .catch (e) ->
-    console.error("error occurred", e)
