@@ -4,6 +4,7 @@ queries               = require '../../queries'
 ItinerarySummaryListContainer = require './itinerary-summary-list-container'
 SearchTwoFieldsContainer      = require '../search/search-two-fields-container'
 SummaryRow            = require './summary-row'
+TimeNavigationButtons = require './time-navigation-buttons'
 ItinerarySummary      = require '../itinerary/itinerary-summary'
 ArrowLink             = require '../util/arrow-link'
 Map                   = require '../map/map'
@@ -73,6 +74,7 @@ class SummaryPlanContainer extends React.Component
           {toItinerary}
         </Map>
         <ItinerarySummaryListContainer itineraries={plan.itineraries} currentTime={currentTime} onSelect={@onSelectActive} activeIndex={activeIndex} />
+        <TimeNavigationButtons plan={plan} />
       </div>
     else
       <div></div>
@@ -97,5 +99,3 @@ module.exports = Relay.createContainer SummaryPlanContainer,
       agencies: config.preferredAgency or ""
     arriveBy: true
     disableRemainingWeightHeuristic: false
-
-    
