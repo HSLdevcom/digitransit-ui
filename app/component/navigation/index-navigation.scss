@@ -31,21 +31,6 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
-/* Subnavigation */
-$top-navigation-height: 40px;
-$top-navigation-sub-background-color: $secondary-color;
-$top-navigation-sub-input-background-color: $primary-color;
-$top-navigation-sub-color: $secondary-font-color;
-$top-navigation-sub-height: 40px;
-$top-navigation-sub-font-size: 13px;
-$top-navigation-switch-background-color: $secondary-color;
-$top-navigation-switch-background-color-active: $secondary-color;
-$top-navigation-switch-color: $secondary-font-color;
-$top-navigation-switch-height: 20px;
-$top-navigation-switch-font-size: 9pt;
-$top-navigation-switch-width: 70px;
-$top-navigation-switch-border-radius: 30px;
-
 .fixed {
   z-index: 1003 !important; // Needed for leaflet
 }
@@ -54,8 +39,8 @@ nav.top-bar {
   text-align: center;
 
   .icon-holder {
-    height: $top-navigation-height;
-    width: $top-navigation-height;
+    height: $topbar-height;
+    width: $topbar-height;
     position: absolute;
     top: 0;
 
@@ -67,18 +52,6 @@ nav.top-bar {
     }
     &.right-off-canvas-toggle {
       right: 0;
-    }
-    &.sub-navigation-switch {
-      width: $top-navigation-switch-width;
-      padding: 0;
-      right: 10px;
-
-      &:focus button {
-        outline: 0;
-      }
-      &:active button {
-        background-color: $top-navigation-switch-background-color-active;
-      }
     }
 
     .icon.disruption-info {
@@ -204,66 +177,15 @@ ul.offcanvas-list {
 .content {
   background-color: $content-background-color;
   position: relative;
-  height: calc(100% - #{$top-navigation-height});
-}
-
-/* Subnavigation */
-.top-bar .sub-navigation-switch button {
-  position: relative;
-  right: 0;
-  top: 0;
-  margin: 0;
-  padding: 0;
-
-  height: $top-navigation-switch-height;
-  width: $top-navigation-switch-width;
-  border-radius: $top-navigation-switch-border-radius;
-
-  color: $top-navigation-switch-color;
-  background-color: $top-navigation-switch-background-color;
-  font-size: $top-navigation-switch-font-size;
-  text-transform: uppercase;
-  vertical-align: middle;
-}
-
-.sub-navigation {
-  background-color: $top-navigation-sub-background-color;
-  height: $top-navigation-sub-height;
-  color: $top-navigation-sub-color;
-  font-size: $top-navigation-sub-font-size;
-  width: 100%;
-  top: $top-navigation-height;
-  text-align: left;
-  z-index: 900;
-  line-height: $top-navigation-sub-height;
-
-  .arrow-up {
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid $top-navigation-sub-background-color;
-    right: 35px;
-    position: fixed;
-    margin-top: -8px;
-  }
-
-  select {
-    background-color: $top-navigation-sub-input-background-color;
-    color: $top-navigation-sub-color;
-    &:focus, &:hover {
-      background-color: $top-navigation-sub-input-background-color;
-      outline: none;
-    }
-  }
+  height: calc(100% - #{$topbar-height});
 }
 
 .top-bar > .time-selectors {
   select {
-    background-color: $top-navigation-sub-background-color;
-    color: $top-navigation-sub-color;
+    background-color: $secondary-color;
+    color: $secondary-font-color;
     &:focus, &:hover {
-      background-color: $top-navigation-sub-background-color;
+      background-color: $secondary-color;
       outline: none;
     }
   }
