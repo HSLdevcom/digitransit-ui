@@ -19,6 +19,7 @@ $search-form-input-overlay-height: 27px;
 $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
 $search-form-location-icon-size: 18px;
+$search-header-height: 45px;
 
 .search-form .button-icon {
   color: $search-form-icon-color;
@@ -297,8 +298,8 @@ div#search-panel-close-tab {
 }
 
 .search-header {
-  height: 45px;
-  line-height: 45px;
+  height: $search-header-height;
+  line-height: $search-header-height;
 
   .search-header__category-text {
     color: $gray-blue;
@@ -320,11 +321,13 @@ div#search-panel-close-tab {
     font-weight: $font-weight-bold !important;
     font-family: $font-family !important;
     color: $gray-blue !important;
+    height: $search-header-height !important;
   }
 
   .search-header__button--selected {
     @extend .search-header__button;
     color: $black !important;
+    border-top: solid 3px $action-color !important;
   }
 
   .search-header__tabs-root {
