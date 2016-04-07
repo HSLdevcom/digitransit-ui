@@ -76,42 +76,12 @@ module.exports.itinerarySearchRequest = itinerarySearchRequest = (actionContext,
       from: options.params.from
   else
     options = itinerarySearchStore.getOptions()
-  actionContext.dispatch "ItinerarySearchStarted"
+  #actionContext.dispatch "ItinerarySearchStarted"
   time = actionContext.getStore("TimeStore").getSelectedTime()
   arriveBy = actionContext.getStore("TimeStore").getArriveBy()
   unless actionContext.getStore("TimeStore").isSelectedTimeSet()
     actionContext.dispatch "SetSelectedTime", time
-  params =
-    fromPlace: options.params.from
-    toPlace: options.params.to
-    preferredAgencies: config.preferredAgency or ""
-    showIntermediateStops: true
-    arriveBy: arriveBy
-    date: time.format("YYYY-MM-DD")
-    time: time.format("HH:mm:ss")
-    mode: itinerarySearchStore.getMode()
-    walkReluctance: itinerarySearchStore.getWalkReluctance()
-    walkBoardCost: itinerarySearchStore.getWalkBoardCost()
-    minTransferTime: itinerarySearchStore.getMinTransferTime()
-    walkSpeed: itinerarySearchStore.getWalkSpeed()
-    wheelchair: itinerarySearchStore.isWheelchair()
-    # TODO: remove ugly hack when fixed in OTP
-    disableRemainingWeightHeuristic: itinerarySearchStore.getCitybikeState()
-
-  if itinerarySearchStore.getMode().indexOf('BICYCLE') == -1
-    params.maxWalkDistance = config.maxWalkDistance
-  else
-    params.maxWalkDistance = config.maxBikingDistance
-  xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
-    addWaitLegs(data)
-    alterLegsForAirportSupport(data)
-    actionContext.dispatch "ItineraryFound", data
-    done()
-  , (err) ->
-    console.error("Failed to perform itinerary search!")
-    console.error(err)
-    done()
-  )
+  #actionContext.dispatch "ItineraryFound", data
 
 
 module.exports.toggleBusState = (actionContext)  ->
