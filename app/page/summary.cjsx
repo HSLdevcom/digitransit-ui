@@ -35,27 +35,37 @@ class SummaryPage extends React.Component
     if e.selectedTime
       @forceUpdate()
 
+  updateItinerarySearch: (store) =>
+    modes: store.getMode()
+    walkReluctance: store.getWalkReluctance()
+    walkBoardCost: store.getWalkBoardCost()
+    minTransferTime: store.getMinTransferTime()
+    walkSpeed: store.getWalkSpeed()
+    wheelchair: store.isWheelchair()
+    maxWalkDistance:
+      if store.getMode().indexOf('BICYCLE') == -1
+        config.maxWalkDistance
+      else
+        config.maxBikingDistance
+    disableRemainingWeightHeuristic: store.getCitybikeState()
+
+  updateTime: (store) =>
+    selectedTime: store.getSelectedTime()
+    arriveBy: store.getArriveBy()
+
   render: ->
+    # dependencies from config
+    preferredAgencies = config.preferredAgency or ""
+
+    # dependencies from route params
     from = otpToLocation(@props.params.from)
     to = otpToLocation(@props.params.to)
 
-    store = @context.getStore('ItinerarySearchStore')
-    modes = store.getMode()
-    walkReluctance = store.getWalkReluctance()
-    walkBoardCost = store.getWalkBoardCost()
-    minTransferTime = store.getMinTransferTime()
-    walkSpeed = store.getWalkSpeed()
-    wheelchair = store.isWheelchair()
-    if store.getMode().indexOf('BICYCLE') == -1
-      maxWalkDistance = config.maxWalkDistance
-    else
-      maxWalkDistance = config.maxBikingDistance
+    # dependencies from itinerary search store
+    search = @updateItinerarySearch(@context.getStore('ItinerarySearchStore'))
 
-    arriveBy = @context.getStore('TimeStore').getArriveBy()
-    selectedTime = @context.getStore('TimeStore').getSelectedTime()
-
-    preferredAgencies = config.preferredAgency or ""
-    disableRemainingWeightHeuristic = store.getCitybikeState()
+    # dependencies from time store
+    time = @updateTime(@context.getStore('TimeStore'))
 
     plan = <Relay.RootContainer
       Component={SummaryPlanContainer}
@@ -65,19 +75,19 @@ class SummaryPage extends React.Component
         from: from
         to: to
         numItineraries: 3
-        modes: modes
-        date: selectedTime.format("YYYY-MM-DD")
-        time: selectedTime.format("HH:mm:ss")
-        walkReluctance: walkReluctance + 0.000099
-        walkBoardCost: walkBoardCost
-        minTransferTime: minTransferTime
-        walkSpeed: walkSpeed + 0.000099
-        maxWalkDistance: maxWalkDistance
-        wheelchair: wheelchair
+        modes: search.modes
+        date: time.selectedTime.format("YYYY-MM-DD")
+        time: time.selectedTime.format("HH:mm:ss")
+        walkReluctance: search.walkReluctance + 0.000099
+        walkBoardCost: search.walkBoardCost
+        minTransferTime: search.minTransferTime
+        walkSpeed: search.walkSpeed + 0.000099
+        maxWalkDistance: search.maxWalkDistance
+        wheelchair: search.wheelchair
         preferred:
-          agencies: preferredAgencies
-        arriveBy: arriveBy
-        disableRemainingWeightHeuristic: disableRemainingWeightHeuristic
+          agencies: search.preferredAgencies
+        arriveBy: time.arriveBy
+        disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic
       )}
       renderFailure={(error) =>
         Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
@@ -98,5 +108,6 @@ class SummaryPage extends React.Component
       <Helmet {...meta} />
       {plan}
     </SummaryNavigation>
+
 
 module.exports = SummaryPage
