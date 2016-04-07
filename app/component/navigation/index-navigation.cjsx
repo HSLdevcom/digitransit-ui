@@ -1,6 +1,5 @@
 React                 = require 'react'
 IndexTopNavigation    = require './index-top-navigation'
-IndexSubNavigation    = require './index-sub-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
 NotImplemented        = require '../util/not-implemented'
@@ -22,47 +21,7 @@ class IndexNavigation extends React.Component
   constructor: ->
     super
     @state =
-      subNavigationVisible: false
       disruptionVisible: false
-      text: unless @context.getStore("TimeStore").isSelectedTimeSet()
-        @context.intl.formatMessage
-          id: 'now'
-          defaultMessage: "Now"
-      else
-        @context.intl.formatMessage
-          id: 'later'
-          defaultMessage: "Later"
-
-  toggleSubnavigation: =>
-    if @state.subNavigationVisible
-      @setState
-        subNavigationVisible: false
-        text: unless @context.getStore("TimeStore").isSelectedTimeSet()
-          @context.intl.formatMessage
-            id: 'now'
-            defaultMessage: "Now"
-        else
-          @context.intl.formatMessage
-            id: 'later'
-            defaultMessage: "Later"
-
-      # TODO, how about this?
-      el = @refs.content.getDOMNode()
-      if (el.classList)
-        el.classList.remove("sub-navigation-push")
-      else
-        el.className = el.className.replace(new RegExp('(^|\\b)sub-navigation-push(\\b|$)', 'gi'), ' ')
-    else
-      @setState
-        subNavigationVisible: true
-        text: @context.intl.formatMessage(
-          id: 'time'
-          defaultMessage: "Time")
-      el = @refs.content.getDOMNode()
-      if el.classList
-        el.classList.add "sub-navigation-push"
-      else
-        el.className += " sub-navigation-push"
 
   toggleOffcanvas: =>
     @internalSetOffcanvas !@getOffcanvasState()
@@ -103,8 +62,7 @@ class IndexNavigation extends React.Component
         <OffcanvasMenu openFeedback={@openFeedback}/>
       </LeftNav>
       <div className="grid-frame fullscreen">
-        <IndexTopNavigation toggleSubnavigation={@toggleSubnavigation} toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo} subnavigationText={@state.text}/>
-        <IndexSubNavigation visible={@state.subNavigationVisible}/>
+        <IndexTopNavigation toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo}/>
         <section ref="content" className="content fullscreen">
           {@props.children}
         </section>
