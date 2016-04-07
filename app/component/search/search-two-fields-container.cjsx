@@ -61,7 +61,7 @@ class SearchTwoFieldsContainer extends React.Component
           @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getOrigin()?.address || ""
         if tab.props.value == "destination"
           @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""
-    setTimeout((() => @focusInput(tab.props.value)), 0) #try to focus, does not work on ios
+        setTimeout((() => @focusInput(tab.props.value)), 0) #try to focus, does not work on ios
 
   pushNonSearchState: () =>
     if location.pathname != "/"
