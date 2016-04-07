@@ -45,7 +45,7 @@ module.exports =
   leftMenu:
     show: true
   frontPagePanel:
-    # Hide map if showing front page panel
+    # Hide map and use full height if showing front page panel
     useFullPage: true
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
