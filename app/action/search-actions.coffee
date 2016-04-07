@@ -85,29 +85,15 @@ getGeocodingResult = (input, geolocation) ->
   return XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> res.features
 
 
-queryGraphQL = (q, opts, converter) ->
-  payload = JSON.stringify (query:q, variables:null)
-  return XhrPromise.postJson(config.URL.OTP + "index/graphql", opts, payload).then (res) -> converter(res)
+queryGraphQL = (q, opts) ->
+  payload = JSON.stringify (query: q, variables: null)
+  return XhrPromise.postJson(config.URL.OTP + "index/graphql", opts, payload)
 
-getStopsdataPromise = (input) ->
-  queryGraphQL("{stops(name:\"" + input + "\") {gtfsId lat lon name}}", undefined, (d) ->
-    "type": "stops", data:d.data.stops)
-  .then (res) ->
-    res.data.map (item) ->
-      type: "Stop"
-      properties:
-        label: item.name
-        layer: 'stop'
-        link: '/pysakit/' + item.gtfsId
-      geometry:
-        coordinates: [item.lon, item.lat]
-
-getRouteDataPromise = (input) ->
-  queryGraphQL("{routes(name:\"" + input + "\") {patterns {code} agency {name} shortName type longName}}", undefined, (d) ->
-    "type": "routes", data:d.data.routes)
-  .then (res) ->
+mapRoutes = (res) ->
+  console.log("mapping routes", res)
+  if res
     console.log("data before map", res)
-    res.data.map (item) ->
+    res.map (item) ->
       type: "Route"
       agency: item.agency
       properties:
@@ -115,9 +101,26 @@ getRouteDataPromise = (input) ->
         layer: 'route-' + item.type
         link: '/linjat/' + item.patterns[0].code
       geometry:
-        coordinates = [item.lat, item.lon]
-  .then (suggestions) ->
-    sortBy(suggestions, (item) -> ['item.agency.name', 'item.properties.label'])
+        coordinates:
+          [item.lat, item.lon]
+  else
+    []
+
+mapStops = (res) ->
+  console.log("mapping stops", res)
+  if res
+    res.map (item) ->
+      type: "Stop"
+      properties:
+        label: item.name
+        layer: 'stop'
+        link: '/pysakit/' + item.gtfsId
+      geometry:
+        coordinates:
+          [item.lon, item.lat]
+  else
+    []
+
 
 sortByDistance = (stops, reference) ->
   stops
@@ -131,32 +134,40 @@ endpointGTFSSearch = (input, reference) ->
     input)
 
 commonGTFSSearch = (input, reference) ->
-  if input == undefined or input == null or input.trim().length < 2
-    return Promise.resolve []
 
-  isNumber = input.match(/^\d+$/) != null
+  searches = []
 
-  if isNumber
-    lnLen = input.match(/^\d+$/).length
-    if lnLen <= 3
-      #   4 = linjat alkaen 4*
-      #  40 = linjat alkaen 40*
-      # 404 = linjat alkaen 404*
-      getRouteDataPromise input
+  if input != undefined &&  input != null and input.trim().length > 0
+    doRouteSearch = doStopSearch = false
+
+    #dumb quess on what the user is trying to do
+    isNumber = input.match(/^\d+$/) != null
+    if isNumber
+      lnLen = input.match(/^\d+$/).length
+      if lnLen <= 3
+        doRouteSearch = true
+      else
+        doStopSearch = true
     else
-     #pysäkkihaku
-      getStopsdataPromise input
+      doRouteSearch = doStopSearch = true
+
+  if doRouteSearch then searches.push 'routes(name:"' + input + '") {patterns {code} agency {name} shortName type longName}'
+  if doStopSearch then searches.push 'stops(name:"' + input + '") {gtfsId lat lon name}'
+
+  if searches.length > 0
+     suggestions = []
+     return queryGraphQL('{' + searches.join(' ') + '}').then (response) ->
+       console.log("data from graphql", response)
+       suggestions = suggestions.concat sortBy(mapRoutes(response.data.routes), (item) -> ['item.agency.name', 'item.properties.label'])
+       suggestions = suggestions.concat mapStops(response.data.stops)
+       console.log "returning sugggestions", suggestions
+       suggestions
   else
-    #pysäkki + linjahaku jos pidempi kuin 2 merkkiä
-    Promise.all([getStopsdataPromise(input), getRouteDataPromise(input)])
-      .then (results) ->
-        results[0].concat(results[1])
+    Promise.resolve []
 
 #query gtfs data
 getGraphResults = (input, type, reference) ->
-  isEndpoint = type == 'endpoint'
-
-  if isEndpoint
+  if type == 'endpoint'
     endpointGTFSSearch input, reference
   else
     commonGTFSSearch input, reference
@@ -190,7 +201,7 @@ executeSearch = (actionContext, params) ->
     console.log("common search")
     favouriteRoutes = actionContext.getStore("FavouriteRoutesStore").getRoutes()
     # todo fetch data
-    getGraphResults(input, type)
+    getGraphResults(input, type, favouriteRoutes)
     .then uniq
     .then (suggestions) ->
       processResults actionContext, suggestions
