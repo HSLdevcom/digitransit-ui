@@ -58,10 +58,10 @@ class FrontPagePanel extends React.Component
     if selection == oldSelection # clicks again to close
       @onReturnToFrontPage()
       newSelection = null
-      @props.frontPageOpen(false)
+      @props.frontPagePanelOpen(false)
     else
       newSelection = selection
-      @props.frontPageOpen(true)
+      @props.frontPagePanelOpen(true)
 
     if supportsHistory()
       tabOpensOrCloses = oldSelection == null or typeof oldSelection == 'undefined' or newSelection == null
@@ -112,8 +112,11 @@ class FrontPagePanel extends React.Component
     tabClasses = []
     selectedClass =
       selected: true
+
+    wrapperClasses = cx @props.className, "frontpage-panel-wrapper"
+
     if @getSelectedPanel() == 1
-      panel = <div className="frontpage-panel-wrapper" key="panel">
+      panel = <div className={wrapperClasses} key="panel">
                 <div className="frontpage-panel nearby-routes">
                   <div className="row">
                     <div className="medium-offset-3 medium-6 small-12 column">
@@ -133,7 +136,7 @@ class FrontPagePanel extends React.Component
               </div>
       tabClasses[1] = selectedClass
     else if @getSelectedPanel() == 2
-      panel = <div className="frontpage-panel-wrapper" key="panel">
+      panel = <div className={wrapperClasses} key="panel">
                 {favouritesPanel}
               </div>
       tabClasses[2] = selectedClass

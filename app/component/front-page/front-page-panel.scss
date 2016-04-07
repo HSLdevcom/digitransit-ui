@@ -18,6 +18,11 @@ $tab-min-width: 100px;
   }
 }
 
+.use-full-page {
+  top: 0;
+  height: 100%;
+}
+
 .frontpage-panel-container .tabs-row {
   position: fixed;
   z-index: 803;

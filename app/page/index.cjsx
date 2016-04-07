@@ -14,29 +14,30 @@ class Page extends React.Component
   constructor: ->
     super
     @state =
-      frontPageOpen: false
+      frontPagePanelOpen: false
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-
   shouldComponentUpdate: (nextProps, nextState) ->
     true
 
-  frontPageOpen: (open) =>
-    console.log "frontpage open? #{open}"
+  frontPagePanelOpen: (open) =>
+    console.log "frontPagePanelOpen open? #{open}"
     @setState
-      frontPageOpen: open
+      frontPagePanelOpen: open
 
   render: ->
     console.log "render index Page"
+    hideMap = @state.frontPagePanelOpen and config.frontPagePanel.useFullPage
+
     <IndexNavigation className="front-page fullscreen">
-      {if !@state.frontPageOpen or !config.frontPagePanel.useFullPage
+      {if !hideMap
         <MapWithTracking>
           <SearchTwoFieldsContainer/>
           </MapWithTracking>}
-      <FrontPagePanel frontPageOpen={@frontPageOpen} />
+      <FrontPagePanel frontPagePanelOpen={@frontPagePanelOpen} className={if config.frontPagePanel.useFullPage then "use-full-page"} />
       <FeedbackPanel/>
     </IndexNavigation>
 
