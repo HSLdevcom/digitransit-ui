@@ -90,13 +90,13 @@ queryGraphQL = (q, opts) ->
   return XhrPromise.postJson(config.URL.OTP + "index/graphql", opts, payload)
 
 mapRoutes = (res) ->
-  console.log("mapping routes", res)
   if res
-    console.log("data before map", res)
     res.map (item) ->
       type: "Route"
       agency: item.agency
       properties:
+        shortName: item.shortName
+        longName: item.longName
         label: item.shortName + " " + item.longName
         layer: 'route-' + item.type
         link: '/linjat/' + item.patterns[0].code
@@ -107,7 +107,6 @@ mapRoutes = (res) ->
     []
 
 mapStops = (res) ->
-  console.log("mapping stops", res)
   if res
     res.map (item) ->
       type: "Stop"
@@ -125,7 +124,7 @@ mapStops = (res) ->
 sortByDistance = (stops, reference) ->
   stops
 
-endpointGTFSSearch = (input, reference) ->
+getEndpointGTFSResult = (input, reference) ->
   if input == undefined or input == null or input.trim().length < 2
     return Promise.resolve []
 
@@ -133,9 +132,10 @@ endpointGTFSSearch = (input, reference) ->
     console.log("gtfs search:", input)
     input)
 
-commonGTFSSearch = (input, reference) ->
-
+getCommonGTFSResult = (input, reference, favourites) ->
   searches = []
+  fav = favourites.map (f)->'"' + f + '"'
+  searches.push('favouriteRoutes:routes(ids:[' + fav.join(',') + ']) {patterns {code} agency {name} shortName type longName}')
 
   if input != undefined &&  input != null and input.trim().length > 0
     doRouteSearch = doStopSearch = false
@@ -146,8 +146,8 @@ commonGTFSSearch = (input, reference) ->
       lnLen = input.match(/^\d+$/).length
       if lnLen <= 3
         doRouteSearch = true
-      else
-        doStopSearch = true
+
+      doStopSearch = true
     else
       doRouteSearch = doStopSearch = true
 
@@ -156,21 +156,14 @@ commonGTFSSearch = (input, reference) ->
 
   if searches.length > 0
      suggestions = []
+     console.log('{' + searches.join(' ') + '}');
      return queryGraphQL('{' + searches.join(' ') + '}').then (response) ->
-       console.log("data from graphql", response)
-       suggestions = suggestions.concat sortBy(mapRoutes(response.data.routes), (item) -> ['item.agency.name', 'item.properties.label'])
-       suggestions = suggestions.concat mapStops(response.data.stops)
-       console.log "returning sugggestions", suggestions
+       suggestions = suggestions.concat sortBy(mapRoutes(response?.data?.favouriteRoutes), (item) -> ['item.agency.name', 'item.properties.label'])
+       suggestions = suggestions.concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['item.agency.name', 'item.properties.label'])
+       suggestions = suggestions.concat mapStops(response?.data?.stops)
        suggestions
   else
     Promise.resolve []
-
-#query gtfs data
-getGraphResults = (input, type, reference) ->
-  if type == 'endpoint'
-    endpointGTFSSearch input, reference
-  else
-    commonGTFSSearch input, reference
 
 executeSearch = (actionContext, params) ->
   processResults(actionContext, [])
@@ -184,7 +177,7 @@ executeSearch = (actionContext, params) ->
     favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
     oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
     console.log "endpointsearch"
-    Promise.all([getGeocodingResult(input, geoLocation), getGraphResults(input, params.type)])
+    Promise.all([getGeocodingResult(input, geoLocation), getEndpointGTFSResult (input)])
     .then (result) ->
       result[0].concat(result[1])
     .then addCurrentPositionIfEmpty
@@ -200,8 +193,7 @@ executeSearch = (actionContext, params) ->
   else
     console.log("common search")
     favouriteRoutes = actionContext.getStore("FavouriteRoutesStore").getRoutes()
-    # todo fetch data
-    getGraphResults(input, type, favouriteRoutes)
+    getCommonGTFSResult(input, referenceLocation, favouriteRoutes)
     .then uniq
     .then (suggestions) ->
       processResults actionContext, suggestions
