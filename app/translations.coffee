@@ -504,7 +504,7 @@ translations =
     'cycle-from-to': 'Pédalez de {fromName} à {toName}'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Sans arrêt}
-      =1 {# arrêt}
+      =1 {{number} arrêt}
       other {{number} arrêts}
     } ({duration})'
     'bus-with-route-number': 'Bus {routeNumber}'
