@@ -37,7 +37,7 @@ filterMatchingToInput = (list, input, fields) ->
   if input?.length >= 0
     return list.filter (item) ->
       test = fields.map (pName) -> get(item, pName)
-        .join('').toLowerCase();
+        .join('').toLowerCase()
       console.log("matching", test, input, item)
       test.indexOf(input.toLowerCase()) > -1
   else
@@ -49,7 +49,7 @@ currentLocation =
     layer: "currentPosition"
 
 addOldSearches = (oldSearches, features, input) ->
-  matchingOldSearches = filterMatchingToInput(oldSearches, input, ["address","locationName"])
+  matchingOldSearches = filterMatchingToInput(oldSearches, input, ["address", "locationName"])
   results = take(matchingOldSearches, 10).map (item) ->
     type: "OldSearch"
     properties:
@@ -59,7 +59,7 @@ addOldSearches = (oldSearches, features, input) ->
   features.concat results
 
 addFavouriteLocations = (favourites, features, input) ->
-  matchingFavourites = orderBy(filterMatchingToInput(favourites, input, ["address","locationName"]), (f) => f.locationName, )
+  matchingFavourites = orderBy(filterMatchingToInput(favourites, input, ["address", "locationName"]), (f) => f.locationName, )
   results = matchingFavourites.map (item) ->
     type: "Favourite"
     properties:
