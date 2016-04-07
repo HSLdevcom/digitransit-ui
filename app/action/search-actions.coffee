@@ -92,8 +92,6 @@ mapRoutes = (res) ->
       type: "Route"
       agency: item.agency
       properties:
-        shortName: item.shortName
-        longName: item.longName
         label: item.shortName + " " + item.longName
         layer: 'route-' + item.type
         link: '/linjat/' + item.patterns[0].code
@@ -140,7 +138,8 @@ getCommonGTFSResult = (input, reference, favourites) ->
       if lnLen <= 3
         doRouteSearch = true
 
-      doStopSearch = true
+      if lnLen == 4
+        doStopSearch = true
     else
       doRouteSearch = doStopSearch = true
 
@@ -150,9 +149,9 @@ getCommonGTFSResult = (input, reference, favourites) ->
   if searches.length > 0
     suggestions = []
     return queryGraphQL('{' + searches.join(' ') + '}').then (response) ->
-      [].concat sortBy(mapRoutes(response?.data?.favouriteRoutes), (item) -> ['item.agency.name', 'item.properties.label'])
+      [].concat sortBy(mapRoutes(response?.data?.favouriteRoutes), (item) -> ['agency.name', 'properties.label'])
       .concat mapStops(response?.data?.stops)
-      .concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['item.agency.name', 'item.properties.label'])
+      .concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['agency.name', 'properties.label'])
   else
     Promise.resolve []
 
