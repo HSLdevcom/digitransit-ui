@@ -38,7 +38,6 @@ filterMatchingToInput = (list, input, fields) ->
     return list.filter (item) ->
       test = fields.map (pName) -> get(item, pName)
         .join('').toLowerCase()
-      console.log("matching", test, input, item)
       test.indexOf(input.toLowerCase()) > -1
   else
     return list
@@ -152,8 +151,8 @@ getCommonGTFSResult = (input, reference, favourites) ->
     suggestions = []
     return queryGraphQL('{' + searches.join(' ') + '}').then (response) ->
       [].concat sortBy(mapRoutes(response?.data?.favouriteRoutes), (item) -> ['item.agency.name', 'item.properties.label'])
-      .concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['item.agency.name', 'item.properties.label'])
       .concat mapStops(response?.data?.stops)
+      .concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['item.agency.name', 'item.properties.label'])
   else
     Promise.resolve []
 
