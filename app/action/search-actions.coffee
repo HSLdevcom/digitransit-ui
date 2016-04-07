@@ -5,6 +5,7 @@ sortBy           = require 'lodash/sortBy'
 uniqWith         = require 'lodash/uniqWith'
 orderBy          = require 'lodash/orderBy'
 take             = require 'lodash/take'
+get              = require 'lodash/get'
 SuggestionUtils  = require '../util/suggestion-utils'
 geoUtils         = require '../util/geo-utils'
 
@@ -32,11 +33,13 @@ addCurrentPositionIfEmpty = (features) ->
   features
 
 # Filters given list and returns only elements that match with given input
-filterMatchingToInput = (list, input) ->
+filterMatchingToInput = (list, input, fields) ->
   if input?.length >= 0
     return list.filter (item) ->
-      item.address?.toLowerCase().indexOf(input.toLowerCase()) > -1 ||
-      item.locationName?.toLowerCase().indexOf(input.toLowerCase()) > -1
+      test = fields.map (pName) -> get(item, pName)
+        .join('').toLowerCase();
+      console.log("matching", test, input, item)
+      test.indexOf(input.toLowerCase()) > -1
   else
     return list
 
@@ -46,7 +49,7 @@ currentLocation =
     layer: "currentPosition"
 
 addOldSearches = (oldSearches, features, input) ->
-  matchingOldSearches = filterMatchingToInput(oldSearches, input)
+  matchingOldSearches = filterMatchingToInput(oldSearches, input, ["address","locationName"])
   results = take(matchingOldSearches, 10).map (item) ->
     type: "OldSearch"
     properties:
@@ -56,7 +59,7 @@ addOldSearches = (oldSearches, features, input) ->
   features.concat results
 
 addFavouriteLocations = (favourites, features, input) ->
-  matchingFavourites = orderBy(filterMatchingToInput(favourites, input), (f) => f.locationName)
+  matchingFavourites = orderBy(filterMatchingToInput(favourites, input, ["address","locationName"]), (f) => f.locationName, )
   results = matchingFavourites.map (item) ->
     type: "Favourite"
     properties:
@@ -181,6 +184,8 @@ executeSearch = (actionContext, params) ->
     favouriteRoutes = actionContext.getStore("FavouriteRoutesStore").getRoutes()
     getCommonGTFSResult(input, referenceLocation, favouriteRoutes)
     .then uniq
+    .then (suggestions) ->
+      filterMatchingToInput(suggestions, input, ["properties.label"])
     .then (suggestions) ->
       processResults actionContext, suggestions
     .catch (e) ->
