@@ -39,7 +39,7 @@ class TransitLeg extends React.Component
           </div>
           <RouteNumber
             mode={@props.mode.toLowerCase()}
-            text={@props.leg.route.shortName}
+            text={@props.leg.route?.shortName}
             realtime={@props.leg.realTime}
             vertical={true}
           />
