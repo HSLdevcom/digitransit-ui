@@ -111,7 +111,6 @@ class SearchInput extends React.Component
         "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
         "onChange": @handleUpdateInputNow
         "onKeyDown": @handleOnKeyDown
-        "placeholder": @context.getStore('SearchStore').getPlaceholder()
       }
       itemProps={
         "onMouseEnter": @handleOnMouseEnter

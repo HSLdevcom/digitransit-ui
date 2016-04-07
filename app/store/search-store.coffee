@@ -5,10 +5,6 @@ class SearchStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @placeholder = undefined
-
-  getPlaceholder: () =>
-    @placeholder
 
   saveSuggestionsResult: (suggestions) ->
     @suggestions = suggestions

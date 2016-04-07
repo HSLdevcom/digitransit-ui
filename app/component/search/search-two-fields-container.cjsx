@@ -63,7 +63,7 @@ class SearchTwoFieldsContainer extends React.Component
           @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}
         if tab.props.value == "search"
           @context.executeAction SearchActions.executeSearch, {input: ""}
-    setTimeout((() => @focusInput(tab.props.value)), 0) #try to focus, does not work on ios
+        setTimeout((() => @focusInput(tab.props.value)), 0) #try to focus, does not work on ios
 
   closeModal: () =>
     @setState

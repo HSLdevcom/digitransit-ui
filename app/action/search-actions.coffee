@@ -12,11 +12,6 @@ processResults = (actionContext, result) ->
   actionContext.dispatch 'SuggestionsResult',
     result
 
-module.exports.openSearchWithCallback = (actionContext, params) ->
-  actionContext.dispatch 'OpenSearch',
-    'action': params.callback
-    'placeholder': params.placeholder
-
 module.exports.saveSearch = (actionContext, endpoint) ->
   actionContext.dispatch 'SaveSearch', endpoint
 

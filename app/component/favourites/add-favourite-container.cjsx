@@ -72,7 +72,7 @@ class AddFavouriteContainer extends React.Component
     ]
 
   focusInput: () =>
-    @refs["searchInputfavourite"]?.refs.autowhatever?.refs.input?.focus()
+    @refs.searchInputfavourite?.refs.autowhatever?.refs.input?.focus()
 
   closeSearchModal: () =>
     @setState
@@ -115,8 +115,9 @@ class AddFavouriteContainer extends React.Component
                   e.preventDefault()
                   @setState
                     searchModalIsOpen: true
-                  @context.executeAction SearchActions.executeSearch, ""
-                  @focusInput()}
+                    () =>
+                      @focusInput()
+                  @context.executeAction SearchActions.executeSearch, ""}
                 autosuggestPlaceholder={destinationPlaceholder}
                 id='destination'
                 className='add-favourite-container__input-placeholder'
