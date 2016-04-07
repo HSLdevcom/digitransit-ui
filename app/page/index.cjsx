@@ -20,9 +20,9 @@ class Page extends React.Component
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
 
+
   shouldComponentUpdate: (nextProps, nextState) ->
-    #return @state.frontPageOpen != nextState.frontPageOpen
-    return true
+    true
 
   frontPageOpen: (open) =>
     console.log "frontpage open? #{open}"
@@ -32,7 +32,7 @@ class Page extends React.Component
   render: ->
     console.log "render index Page"
     <IndexNavigation className="front-page fullscreen">
-      {if !@state.frontPageOpen
+      {if !@state.frontPageOpen or !config.frontPagePanel.useFullPage
         <MapWithTracking>
           <SearchTwoFieldsContainer/>
           </MapWithTracking>}
