@@ -599,16 +599,32 @@
                         "description": "Gets plan of a route",
                         "args": [
                             {
+                                "name": "date",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "time",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
                                 "name": "from",
                                 "description": "The start location",
                                 "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "InputCoordinates",
-                                        "ofType": null
-                                    }
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "InputCoordinates",
+                                    "ofType": null
                                 },
                                 "defaultValue": null
                             },
@@ -616,13 +632,29 @@
                                 "name": "to",
                                 "description": "The end location",
                                 "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "InputCoordinates",
-                                        "ofType": null
-                                    }
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "InputCoordinates",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "fromPlace",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "toPlace",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
                                 },
                                 "defaultValue": null
                             },
@@ -759,16 +791,6 @@
                             {
                                 "name": "arriveBy",
                                 "description": "Whether the trip should depart at dateTime (false, the default), or arrive at dateTime.",
-                                "type": {
-                                    "kind": "SCALAR",
-                                    "name": "Boolean",
-                                    "ofType": null
-                                },
-                                "defaultValue": null
-                            },
-                            {
-                                "name": "showIntermediateStops",
-                                "description": "Whether the planner should return intermediate stops lists for transit legs.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Boolean",
@@ -3865,6 +3887,22 @@
                             "kind": "OBJECT",
                             "name": "Trip",
                             "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "intermediateStops",
+                        "description": "For transit legs, intermediate stops between the Place where the leg originates and the Place where the leg ends. For non-transit legs, null.",
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stop",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null

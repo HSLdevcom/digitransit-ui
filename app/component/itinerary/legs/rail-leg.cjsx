@@ -17,7 +17,7 @@ class RailLeg extends React.Component
       <FormattedMessage
         id={"train-with-route-number"}
         values={{
-          routeNumber: @props.leg.route
+          routeNumber: @props.leg.route?.shortName
           }}
         defaultMessage={"Train {routeNumber}"}/>
     </TransitLeg>
