@@ -125,7 +125,7 @@ getEndpointGTFSResult = (input, reference) ->
 
 getCommonGTFSResult = (input, reference, favourites) ->
   searches = []
-  fav = favourites.map(f) -> '"' + f + '"'
+  fav = favourites.map (f) -> '"' + f + '"'
   searches.push('favouriteRoutes:routes(ids:[' + fav.join(',') + ']) {patterns {code} agency {name} shortName type longName}')
 
   if input != undefined &&  input != null and input.trim().length > 0
