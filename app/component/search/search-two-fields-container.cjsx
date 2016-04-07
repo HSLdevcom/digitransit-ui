@@ -214,7 +214,7 @@ class SearchTwoFieldsContainer extends React.Component
           }/>
         </Tab>
         <Tab
-          className="search-header__button"
+          className={"search-header__button" + if @state.selectedTab == "search" then "--selected" else ""}
           label={searchTabLabel}
           value={"search"}
           ref="searchTab"
