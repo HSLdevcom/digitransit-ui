@@ -130,7 +130,7 @@ getEndpointGTFSResult = (input, reference) ->
 
 getCommonGTFSResult = (input, reference, favourites) ->
   searches = []
-  fav = favourites.map (f)->'"' + f + '"'
+  fav = favourites.map(f) -> '"' + f + '"'
   searches.push('favouriteRoutes:routes(ids:[' + fav.join(',') + ']) {patterns {code} agency {name} shortName type longName}')
 
   if input != undefined &&  input != null and input.trim().length > 0
@@ -151,12 +151,11 @@ getCommonGTFSResult = (input, reference, favourites) ->
   if doStopSearch then searches.push 'stops(name:"' + input + '") {gtfsId lat lon name}'
 
   if searches.length > 0
-     suggestions = []
-     return queryGraphQL('{' + searches.join(' ') + '}').then (response) ->
-       suggestions = suggestions.concat sortBy(mapRoutes(response?.data?.favouriteRoutes), (item) -> ['item.agency.name', 'item.properties.label'])
-       suggestions = suggestions.concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['item.agency.name', 'item.properties.label'])
-       suggestions = suggestions.concat mapStops(response?.data?.stops)
-       suggestions
+    suggestions = []
+    return queryGraphQL('{' + searches.join(' ') + '}').then (response) ->
+      [].concat sortBy(mapRoutes(response?.data?.favouriteRoutes), (item) -> ['item.agency.name', 'item.properties.label'])
+      .concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['item.agency.name', 'item.properties.label'])
+      .concat mapStops(response?.data?.stops)
   else
     Promise.resolve []
 
@@ -197,4 +196,3 @@ search =
 
 module.exports.executeSearch = (actionContext, input) ->
   search(actionContext, input)
-

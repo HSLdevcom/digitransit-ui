@@ -242,7 +242,7 @@ translations =
     'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
     'favourite-target': 'Favoritdestination'
     'search': 'Sök'
-'nb':
+  'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
     'route-page.title': "Rute {route_short_name}"
@@ -382,7 +382,7 @@ translations =
     'walk-distance-to-dest': 'Gå {distance} {duration}'
     'wait-amount-of-time': 'Vent {duration}'
     'search': 'TODO SEARCH'
-'fr':
+  'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
     'route-page.title': "Ligne {route_short_name}"
