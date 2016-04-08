@@ -29,10 +29,6 @@ class SearchField extends React.Component
 
     if @props.endpoint?.useCurrentPosition
       return @getGeolocationBar()
-    if !@context.getStore('EndpointStore').isCurrentPositionInUse() && !@props.endpoint.userSetPosition
-      hidden1 = false
-    else
-      hidden1 = true
 
     <div id={@props.id} onClick={(e) =>
       @props.onClick(e)
