@@ -16,6 +16,25 @@ $tab-min-width: 100px;
     height: 100%;
     padding-bottom: 15px;
   }
+
+  .panel-top {
+    display: flex;
+    margin: 1em 1em 0 1em;
+
+    .panel-heading {
+      display: inline-block;
+      h2 {
+        margin: 0;
+        color: $tab-color;
+        text-transform: uppercase;
+      }
+    }
+    .cursor-pointer {
+      margin-left: auto;
+      color: $tab-color;
+      display: inline-block;
+    }
+  }
 }
 
 .frontpage-panel-container .tabs-row {

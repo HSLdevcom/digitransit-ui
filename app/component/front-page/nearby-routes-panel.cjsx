@@ -46,21 +46,19 @@ class NearbyRoutesPanel extends React.Component
     else
       routesPanel = <NoPositionPanel/>
 
-    <div className="frontpage-panel-wrapper" key="panel">
-      <div className="frontpage-panel nearby-routes">
-        <div className="row">
-          <div className="medium-offset-3 medium-6 small-12 column">
-            <ModeFilterContainer id="nearby-routes-mode"/>
-          </div>
+    <div className="frontpage-panel nearby-routes">
+      <div className="row">
+        <div className="medium-offset-3 medium-6 small-12 column">
+          <ModeFilterContainer id="nearby-routes-mode"/>
         </div>
-        <NextDeparturesListHeader />
-        <div
-          className="scrollable momentum-scroll scroll-extra-padding-bottom"
-          id="scrollable-routes"
-          onTouchStart={@startMeasuring}
-          onTouchEnd={@stopMeasuring} >
-          {routesPanel}
-        </div>
+      </div>
+      <NextDeparturesListHeader />
+      <div
+        className="scrollable momentum-scroll scroll-extra-padding-bottom"
+        id="scrollable-routes"
+        onTouchStart={@startMeasuring}
+        onTouchEnd={@stopMeasuring} >
+        {routesPanel}
       </div>
     </div>
 

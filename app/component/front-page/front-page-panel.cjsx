@@ -55,6 +55,10 @@ class FrontPagePanel extends React.Component
       @setState
         selectedPanel: newSelection
 
+  closePanel: =>
+    console.log "lcose"
+    @selectPanel @getSelectedPanel() #nice one
+
   startMeasuring: ->
     startMeasuring()
 
@@ -76,19 +80,30 @@ class FrontPagePanel extends React.Component
       selected: true
     if @getSelectedPanel() == 1
       panel = <NearbyRoutesPanel />
+      heading = <FormattedMessage id='near-you' defaultMessage='Near you'/>
       tabClasses[1] = selectedClass
     else if @getSelectedPanel() == 2
-      panel = <div className="frontpage-panel-wrapper" key="panel">
-                <FavouritesPanel/>
-              </div>
+      panel = <FavouritesPanel />
+      heading = <FormattedMessage id='your-favourites' defaultMessage='Your favourites'/>
       tabClasses[2] = selectedClass
+
+    top = <div className="panel-top">
+            <div className="panel-heading"><h2>{heading}</h2></div>
+            <div className="cursor-pointer" onClick={@closePanel}>
+              <Icon id="feedback-close-icon" img={'icon-icon_close'} />
+            </div>
+          </div>
 
     <div className="frontpage-panel-container no-select">
       <ReactCSSTransitionGroup
         transitionName="frontpage-panel-wrapper"
         transitionEnterTimeout={300}
         transitionLeaveTimeout={300} >
-        {panel}
+        {if panel
+          <div className="frontpage-panel-wrapper" key="panel">
+            {top}
+            {panel}
+          </div>}
       </ReactCSSTransitionGroup>
 
       <ul className='tabs-row tabs-arrow-up cursor-pointer'>
