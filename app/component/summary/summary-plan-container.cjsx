@@ -6,7 +6,6 @@ SearchTwoFieldsContainer      = require '../search/search-two-fields-container'
 SummaryRow            = require './summary-row'
 TimeNavigationButtons = require './time-navigation-buttons'
 ItinerarySummary      = require '../itinerary/itinerary-summary'
-ArrowLink             = require '../util/arrow-link'
 Map                   = require '../map/map'
 ItineraryLine         = require '../map/itinerary-line'
 Icon                  = require '../icon/icon'
@@ -43,9 +42,6 @@ class SummaryPlanContainer extends React.Component
     if @props.plan.plan
       plan = @props.plan.plan
       currentTime = @context.getStore('TimeStore').getCurrentTime().valueOf()
-      toItinerary = <ArrowLink to="#{@context.location.pathname}/#{@getActiveIndex()}"
-        className="arrow-link--summary-row right-arrow-blue-background"
-      />
       from = [@props.from.lat, @props.from.lon]
       to = [@props.to.lat, @props.to.lon]
 
@@ -71,7 +67,6 @@ class SummaryPlanContainer extends React.Component
           to={to}
           padding={[0, 110]}>
           <SearchTwoFieldsContainer/>
-          {toItinerary}
         </Map>
         <ItinerarySummaryListContainer itineraries={plan.itineraries} currentTime={currentTime} onSelect={@onSelectActive} activeIndex={activeIndex} />
         <TimeNavigationButtons plan={plan} />
