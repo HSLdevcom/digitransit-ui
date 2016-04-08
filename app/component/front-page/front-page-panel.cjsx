@@ -56,8 +56,7 @@ class FrontPagePanel extends React.Component
         selectedPanel: newSelection
 
   closePanel: =>
-    console.log "lcose"
-    @selectPanel @getSelectedPanel() #nice one
+    @selectPanel @getSelectedPanel()
 
   startMeasuring: ->
     startMeasuring()
