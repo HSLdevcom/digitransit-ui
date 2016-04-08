@@ -106,7 +106,6 @@ class SearchTwoFieldsContainer extends React.Component
       , 0)
 
   render: =>
-    geolocation = @context.getStore('PositionStore').getLocationState()
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
@@ -129,7 +128,6 @@ class SearchTwoFieldsContainer extends React.Component
     from =
       <SearchField
         endpoint={origin}
-        geolocation={geolocation}
         onClick={(e) =>
           @setState
             selectedTab: "origin"
@@ -144,7 +142,6 @@ class SearchTwoFieldsContainer extends React.Component
     to =
       <SearchField
         endpoint={destination}
-        geolocation={geolocation}
         onClick={(e) =>
           @setState
             selectedTab: "destination"
