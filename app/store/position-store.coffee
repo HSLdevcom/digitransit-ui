@@ -42,7 +42,7 @@ class PositionStore extends Store
     @emitChange()
 
   storeLocation: (location) ->
-    statusChanged = @hasStatusChanged(true)
+    statusChanged = @hasStatusChanged(location, true)
     @lat = location.lat
     @lon = location.lon
     @heading = if location.heading then location.heading else @heading
@@ -54,8 +54,13 @@ class PositionStore extends Store
     @status = @STATUS_FOUND_ADDRESS
     @emitChange()
 
-  hasStatusChanged: (hasLocation) =>
-    return hasLocation != @getLocationState().hasLocation
+  hasStatusChanged: (location, hasLocation) =>
+    currentLocationState = @getLocationState()
+    return (
+      location.lon != currentLocationState.lon or
+      location.lat != currentLocationState.lat or
+      hasLocation != currentLocationState.hasLocation
+    )
 
   getLocationState: () ->
     lat: @lat
