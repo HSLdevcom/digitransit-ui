@@ -221,7 +221,7 @@ class SearchTwoFieldsContainer extends React.Component
           type="search"
           onActive={@onTabChange}>
           <SearchInput
-            ref="searchInputdestination"
+            ref="searchInputsearch"
             initialValue = ""}
             id={"search"}
             onSuggestionSelected = {(name, item) =>
