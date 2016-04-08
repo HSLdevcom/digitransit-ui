@@ -62,8 +62,8 @@ $search-header-height: 45px;
 }
 
 .search-form .upper-search-form input, .search-form .upper-search-form .input-placeholder {
-  border-top-right-radius: $search-form-border-radius;
-  border-bottom-right-radius: $search-form-border-radius;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .search-form .postfix {
