@@ -134,7 +134,7 @@ getCommonGTFSResult = (input, reference, favourites) ->
     #dumb quess on what the user is trying to do
     isNumber = input.match(/^\d+$/) != null
     if isNumber
-      lnLen = input.match(/^\d+$/).length
+      lnLen = input.match(/^\d+$/)[0].length
       if lnLen <= 3
         doRouteSearch = true
 
