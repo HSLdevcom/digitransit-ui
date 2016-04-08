@@ -159,7 +159,7 @@ searchRoutesAndStops = (input, reference, favourites) ->
       .concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['agency.name', 'properties.label'])
       .concat sortBy(getStops(response?.data?.stops), (item) ->
         stopPos = geoUtils.getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
-        Math.round(stopPos.distanceTo(refLatLng) / 50000))
+        Math.round(stopPos.distanceTo(refLatLng) / 50000)) #50km buckets
 
   else
     Promise.resolve []
