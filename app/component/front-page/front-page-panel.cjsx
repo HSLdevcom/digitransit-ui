@@ -89,8 +89,8 @@ class FrontPagePanel extends React.Component
 
     top = <div className="panel-top">
             <div className="panel-heading"><h2>{heading}</h2></div>
-            <div className="cursor-pointer" onClick={@closePanel}>
-              <Icon id="feedback-close-icon" img={'icon-icon_close'} />
+            <div className="close-icon" onClick={@closePanel}>
+              <Icon img={'icon-icon_close'} />
             </div>
           </div>
 
