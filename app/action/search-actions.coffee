@@ -115,7 +115,7 @@ getStops = (res) ->
   else
     []
 
-getEndpointGTFSResult = (input, reference) ->
+searchStops = (input, reference) ->
   if input == undefined or input == null or input.trim().length < 3
     return Promise.resolve []
 
@@ -123,7 +123,7 @@ getEndpointGTFSResult = (input, reference) ->
     getStops(response?.data?.stops)
 
 
-getCommonGTFSResult = (input, reference, favourites) ->
+searchRoutesAndStops = (input, reference, favourites) ->
   searches = []
   fav = favourites.map (f) -> '"' + f + '"'
   searches.push('favouriteRoutes:routes(ids:[' + fav.join(',') + ']) {patterns {code} agency {name} shortName type longName}')
@@ -174,7 +174,7 @@ executeSearch = (actionContext, params) ->
   if type == 'endpoint'
     favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
     oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches("endpoint")
-    Promise.all([getGeocodingResult(input, geoLocation), getEndpointGTFSResult (input)])
+    Promise.all([getGeocodingResult(input, geoLocation), searchStops (input)])
     .then (result) ->
       result[0].concat(result[1])
     .then addCurrentPositionIfEmpty
@@ -189,7 +189,7 @@ executeSearch = (actionContext, params) ->
 
   else
     favouriteRoutes = actionContext.getStore("FavouriteRoutesStore").getRoutes()
-    getCommonGTFSResult(input, referenceLocation, favouriteRoutes)
+    searchRoutesAndStops(input, referenceLocation, favouriteRoutes)
     .then uniq
     .then (suggestions) ->
       filterMatchingToInput(suggestions, input, ["properties.label"])
