@@ -173,7 +173,7 @@ executeSearch = (actionContext, params) ->
   #endpoint
   if type == 'endpoint'
     favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
-    oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches()
+    oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches("endpoint")
     Promise.all([getGeocodingResult(input, geoLocation), getEndpointGTFSResult (input)])
     .then (result) ->
       result[0].concat(result[1])
