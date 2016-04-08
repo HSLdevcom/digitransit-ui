@@ -28,7 +28,6 @@ class NearbyRoutesPanel extends React.Component
       @forceUpdate()
 
   onChange: =>
-    console.log "forceupdate nearby routes panel"
     @forceUpdate()
 
   render: ->
