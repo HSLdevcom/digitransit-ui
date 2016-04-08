@@ -112,7 +112,7 @@ class SearchTwoFieldsContainer extends React.Component
 
     originSearchTabLabel = @context.intl.formatMessage(
       id: 'origin'
-      defaultMessage: 'origin'
+      defaultMessage: 'Origin'
     )
 
     destinationSearchTabLabel = @context.intl.formatMessage(
