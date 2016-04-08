@@ -5,10 +5,10 @@ $tab-min-width: 100px;
 
 .frontpage-panel-wrapper {
   position: absolute;
-  top: 150px;
+  top: 0;
+  height: 100%;
   z-index: 802;
   width: 100%;
-  height: calc(100% - 194px);
   overflow: hidden;
   background-color: $background-color;
 
@@ -16,11 +16,6 @@ $tab-min-width: 100px;
     height: 100%;
     padding-bottom: 15px;
   }
-}
-
-.use-full-page {
-  top: 0;
-  height: 100%;
 }
 
 .frontpage-panel-container .tabs-row {
