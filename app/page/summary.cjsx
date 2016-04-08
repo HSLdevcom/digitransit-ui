@@ -10,7 +10,7 @@ ItinerarySearchAction = require '../action/itinerary-search-action'
 {otpToLocation} = require '../util/otp-strings'
 intl            = require 'react-intl'
 config          = require '../config'
-deepEqual       = require 'deep-equal'
+isEqual         = require 'lodash/isEqual'
 
 FormattedMessage = intl.FormattedMessage
 
@@ -30,7 +30,7 @@ class SummaryPage extends React.Component
     @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   shouldComponentUpdate: (newProps, newState) =>
-    not (deepEqual @props, newProps and deepEqual @state, newState)
+    not (isEqual @props, newProps and isEqual @state, newState)
 
   onChange: =>
     @setState
