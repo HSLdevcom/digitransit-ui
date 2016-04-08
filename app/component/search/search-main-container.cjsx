@@ -12,7 +12,7 @@ SearchModal      = require './search-modal'
 SearchInput      = require './search-input'
 Tab              = require 'material-ui/lib/tabs/tab'
 
-class SearchTwoFieldsContainer extends React.Component
+class SearchMainContainer extends React.Component
 
   constructor: () ->
     @state =
@@ -125,23 +125,8 @@ class SearchTwoFieldsContainer extends React.Component
       id: 'destination-placeholder'
       defaultMessage: 'Where to? - address or stop'
 
-    from =
-      <SearchField
-        endpoint={origin}
-        onClick={(e) =>
-          @setState
-            selectedTab: "origin"
-            modalIsOpen: true
-            () =>
-              @focusInput("origin")
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getOrigin()?.address || ""}
-        autosuggestPlaceholder={originPlaceholder}
-        id='origin'
-      />
-
     to =
       <SearchField
-        endpoint={destination}
         onClick={(e) =>
           @setState
             selectedTab: "destination"
@@ -154,7 +139,7 @@ class SearchTwoFieldsContainer extends React.Component
       />
 
     <div>
-      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
+      <SearchTwoFields searchField={to}/>
       <SearchModal
         ref="modal"
         selectedTab={@state.selectedTab}
@@ -209,4 +194,4 @@ class SearchTwoFieldsContainer extends React.Component
       </SearchModal>
     </div>
 
-module.exports = SearchTwoFieldsContainer
+module.exports = SearchMainContainer

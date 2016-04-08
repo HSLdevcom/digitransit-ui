@@ -2,7 +2,7 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 ItinerarySummaryListContainer = require './itinerary-summary-list-container'
-SearchTwoFieldsContainer      = require '../search/search-two-fields-container'
+SearchMainContainer      = require '../search/search-main-container'
 SummaryRow            = require './summary-row'
 TimeNavigationButtons = require './time-navigation-buttons'
 ItinerarySummary      = require '../itinerary/itinerary-summary'
@@ -66,7 +66,7 @@ class SummaryPlanContainer extends React.Component
           from={from}
           to={to}
           padding={[0, 110]}>
-          <SearchTwoFieldsContainer/>
+          <SearchMainContainer/>
         </Map>
         <ItinerarySummaryListContainer itineraries={plan.itineraries} currentTime={currentTime} onSelect={@onSelectActive} activeIndex={activeIndex} />
         <TimeNavigationButtons plan={plan} />
