@@ -13,15 +13,15 @@ class NearbyRoutesPanel extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
   componentDidMount: ->
-    @context.getStore('PositionStore').addChangeListener @onGeolocationChange
+    @context.getStore('PositionStore').addChangeListener @onPositionStatusChange
     @context.getStore('EndpointStore').addChangeListener @onChange
 
   componentWillUnmount: ->
-    @context.getStore('PositionStore').removeChangeListener @onGeolocationChange
+    @context.getStore('PositionStore').removeChangeListener @onPositionStatusChange
     @context.getStore('EndpointStore').removeChangeListener @onChange
 
 
-  onGeolocationChange: (status) =>
+  onPositionStatusChange: (status) =>
     #We want to rerender only if position status changes,
     #not if position changes
     if status.statusChanged
