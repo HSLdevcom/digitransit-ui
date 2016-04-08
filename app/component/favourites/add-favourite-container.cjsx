@@ -84,11 +84,11 @@ class AddFavouriteContainer extends React.Component
 
     destinationPlaceholder = @context.intl.formatMessage(
       id: 'address'
-      defaultMessage: 'Address')
+      defaultMessage: 'address')
 
     searchTabLabel = @context.intl.formatMessage(
       id: 'favourite-target'
-      defaultMessage: 'FAVOURITE PLACE'
+      defaultMessage: 'favourite place'
     )
 
     <div>
