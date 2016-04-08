@@ -101,7 +101,7 @@ mapRoutes = (res) ->
   else
     []
 
-mapStops = (res) ->
+getStops = (res) ->
   if res
     res.map (item) ->
       type: "Stop"
@@ -120,7 +120,7 @@ getEndpointGTFSResult = (input, reference) ->
     return Promise.resolve []
 
   queryGraphQL('{' + 'stops(name:"' + input + '") {gtfsId lat lon name}' + '}').then (response) ->
-    mapStops(response?.data?.stops)
+    getStops(response?.data?.stops)
 
 
 getCommonGTFSResult = (input, reference, favourites) ->
@@ -157,7 +157,7 @@ getCommonGTFSResult = (input, reference, favourites) ->
         favourite
       [].concat sortBy(favouriteRoutes, (item) -> ['agency.name', 'properties.label'])
       .concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['agency.name', 'properties.label'])
-      .concat sortBy(mapStops(response?.data?.stops), (item) ->
+      .concat sortBy(getStops(response?.data?.stops), (item) ->
         stopPos = geoUtils.getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
         Math.round(stopPos.distanceTo(refLatLng) / 50000))
 
