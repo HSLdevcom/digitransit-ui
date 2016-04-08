@@ -14,7 +14,8 @@ translations =
     'searching-position': 'Paikannetaan...'
     'own-position': 'Nykyinen sijaintisi'
     'no-position': 'Ei sijaintia'
-    'origin': 'Mistä? - osoite tai pysäkki'
+    'origin-placeholder': 'Mistä? - osoite tai pysäkki'
+    'origin': 'Lähtöpaikka'
     'to-stop': 'Pysäkille'
     'line': 'Linja'
     'leaves': 'Lähtee'
@@ -134,11 +135,13 @@ translations =
     'subway-with-route-number': 'Metro {routeNumber}'
     'ferry-with-route-number': 'Lautta {routeNumber}'
     'airplane-with-route-number': 'Lento {routeNumber}'
+    'favourite-target': 'Suosikkikohde'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
     'no-position': 'Ingen position'
     'origin': 'Från'
+    'origin-placeholder': 'Från'
     'to-stop': 'Till hållplats'
     'line': 'Linje'
     'leaves': 'Avgår'
@@ -238,6 +241,7 @@ translations =
     'wait-amount-of-time': 'Vänta {duration}'
     'cycle-from-to': 'TODO {fromName} - {toName}'
     'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
+    'favourite-target': 'Favoritdestination'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -253,6 +257,7 @@ translations =
     'own-position': 'Min posisjon'
     'no-position': 'Ingen posisjon'
     'origin': 'Fra'
+    'origin-placeholder': 'Fra'
     'to-stop': 'Til holdeplass'
     'line': 'linje'
     'leaves': "Går"
@@ -392,7 +397,8 @@ translations =
     'searching-position': 'Localisation en cours...'
     'own-position': 'Position actuelle'
     'no-position': 'Aucune position'
-    'origin': 'Lieu, adresse ou arrêt'
+    'origin': 'Lieu'
+    'origin-placeholder': 'Lieu, adresse ou arrêt'
     'to-stop': 'Arrêt'
     'line': 'Ligne'
     'leaves': 'Départ'
@@ -513,5 +519,6 @@ translations =
     'subway-with-route-number': 'Metro {routeNumber}'
     'ferry-with-route-number': 'Bâteau {routeNumber}'
     'airplane-with-route-number': 'Avion {routeNumber}'
+    'favourite-target': 'TODO'
 
 module.exports = translations

@@ -27,13 +27,8 @@ class SearchInput extends React.Component
     @context.getStore('SearchStore').removeChangeListener @onSearchChange
 
   onSearchChange: (props) =>
-    #set initial value
-    if props.init == true && @context.getStore('SearchStore').getPosition() != undefined
-      @handleUpdateInputNow(target:
-        value: @context.getStore('SearchStore').getPosition().address)
-    else #suggestions updated
-      @setState "suggestions": @context.getStore('SearchStore').getSuggestions(), focusedItemIndex: 0,
-        () => focusItem(0)
+    @setState "suggestions": @context.getStore('SearchStore').getSuggestions(), focusedItemIndex: 0,
+      () => focusItem(0)
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
@@ -98,6 +93,9 @@ class SearchInput extends React.Component
 
       @props.onSuggestionSelected(name, item)
 
+      @setState
+        value: name
+
   render: =>
     <ReactAutowhatever
       ref = "autowhatever"
@@ -106,17 +104,13 @@ class SearchInput extends React.Component
       items={@state?.suggestions || []}
       renderItem={(item) ->
         <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
-      getSuggestionValue={(suggestion) ->
-        SuggestionItem.getName(suggestion.properties)
-      }
       onSuggestionSelected={@currentItemSelected}
       focusedItemIndex={@state.focusedItemIndex}
       inputProps={
-        "id": "autosuggest-input"
-        "value": @state?.value || ""
+        "id": @props.id
+        "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
         "onChange": @handleUpdateInputNow
         "onKeyDown": @handleOnKeyDown
-        "placeholder": @context.getStore('SearchStore').getPlaceholder()
       }
       itemProps={
         "onMouseEnter": @handleOnMouseEnter
