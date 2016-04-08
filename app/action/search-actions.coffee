@@ -150,7 +150,12 @@ getCommonGTFSResult = (input, reference, favourites) ->
     suggestions = []
     refLatLng = geoUtils.getLatLng(reference.lat, reference.lon)
     return queryGraphQL('{' + searches.join(' ') + '}').then (response) ->
-      [].concat sortBy(mapRoutes(response?.data?.favouriteRoutes), (item) -> ['agency.name', 'properties.label'])
+
+      favouriteRoutes = mapRoutes(response?.data?.favouriteRoutes).map (favourite) ->
+        favourite.properties.layer = 'favourite'
+        favourite.type= "Favourite"
+        favourite
+      [].concat sortBy(favouriteRoutes, (item) -> ['agency.name', 'properties.label'])
       .concat sortBy(mapStops(response?.data?.stops), (item) ->
         stopPos = geoUtils.getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
         Math.round(stopPos.distanceTo(refLatLng) / 50000))
