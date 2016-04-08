@@ -153,7 +153,7 @@ getCommonGTFSResult = (input, reference, favourites) ->
       [].concat sortBy(mapRoutes(response?.data?.favouriteRoutes), (item) -> ['agency.name', 'properties.label'])
       .concat sortBy(mapStops(response?.data?.stops), (item) ->
         stopPos = geoUtils.getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
-        Math.round(stopPos.distanceTo(refLatLng)/50000))
+        Math.round(stopPos.distanceTo(refLatLng) / 50000))
       .concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['agency.name', 'properties.label'])
 
   else
