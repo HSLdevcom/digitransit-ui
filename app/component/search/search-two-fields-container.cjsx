@@ -106,28 +106,25 @@ class SearchTwoFieldsContainer extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
-    originSearchTabLabel = @context.intl.formatMessage(
+    originSearchTabLabel = @context.intl.formatMessage
       id: 'origin'
-      defaultMessage: 'ORIGIN'
-    )
+      defaultMessage: 'Origin'
 
-    destinationSearchTabLabel = @context.intl.formatMessage(
+    destinationSearchTabLabel = @context.intl.formatMessage
       id: 'destination'
-      defaultMessage: 'DESTINATION'
-    )
+      defaultMessage: 'destination'
 
-    searchTabLabel = @context.intl.formatMessage(
+    searchTabLabel = @context.intl.formatMessage
       id: 'search'
       defaultMessage: 'SEARCH'
-    )
 
-    originPlaceholder = @context.intl.formatMessage(
+    originPlaceholder = @context.intl.formatMessage
       id: 'origin-placeholder'
-      defaultMessage: 'From where? - address or stop')
+      defaultMessage: 'From where? - address or stop'
 
-    destinationPlaceholder = @context.intl.formatMessage(
+    destinationPlaceholder = @context.intl.formatMessage
       id: 'destination-placeholder'
-      defaultMessage: 'Where to? - address or stop')
+      defaultMessage: 'Where to? - address or stop'
 
     from =
       <SearchField
