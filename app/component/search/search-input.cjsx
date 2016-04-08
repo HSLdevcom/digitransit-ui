@@ -20,6 +20,9 @@ class SearchInput extends React.Component
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
 
+  @propTypes:
+    type: React.PropTypes.string.isRequired
+
   componentWillMount: =>
     @context.getStore('SearchStore').addChangeListener @onSearchChange
 
@@ -85,10 +88,11 @@ class SearchInput extends React.Component
         item.geometry = coordinates: [state.lon, state.lat]
         name = "Nykyinen sijainti"
       else
-        save = () ->
+        save = () =>
           @context.executeAction SearchActions.saveSearch,
             "address": name
             "geometry": item.geometry
+            "type": @props.type
         setTimeout save, 0
 
       @props.onSuggestionSelected(name, item)

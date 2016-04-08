@@ -62,7 +62,7 @@ class SearchTwoFieldsContainer extends React.Component
         if tab.props.value == "destination"
           @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}
         if tab.props.value == "search"
-          @context.executeAction SearchActions.executeSearch, {input: ""}
+          @context.executeAction SearchActions.executeSearch, {input: "", type: "search"}
         setTimeout((() => @focusInput(tab.props.value)), 0) #try to focus, does not work on ios
 
   closeModal: () =>
@@ -176,6 +176,7 @@ class SearchTwoFieldsContainer extends React.Component
               ref="searchInputorigin"
               id="search-origin"
               initialValue = {@context.getStore('EndpointStore').getOrigin()?.address || ""}
+              type="endpoint"
               onSuggestionSelected = {(name, item) =>
                 if item.type == 'CurrentLocation'
                   @context.executeAction EndpointActions.setUseCurrent, "origin"
@@ -218,14 +219,13 @@ class SearchTwoFieldsContainer extends React.Component
           label={searchTabLabel}
           value={"search"}
           ref="searchTab"
-          type="search"
           onActive={@onTabChange}>
           <SearchInput
             ref="searchInputsearch"
             initialValue = ""}
             id={"search"}
+            type="search"
             onSuggestionSelected = {(name, item) =>
-              console.log("suggestion selected", name, item)
               if item.properties.link then @context.router.push item.properties.link
               @closeModal()
           }/>
