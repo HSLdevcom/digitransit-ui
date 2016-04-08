@@ -7,10 +7,10 @@ class SearchField extends React.Component
     getStore: React.PropTypes.func.isRequired
 
   @propTypes:
-    endpoint: React.PropTypes.object.isRequired
     autosuggestPlaceholder: React.PropTypes.string.isRequired
     id: React.PropTypes.string.isRequired
     onClick: React.PropTypes.func.isRequired
+    endpoint: React.PropTypes.object
     className: React.PropTypes.string
 
   render: =>
