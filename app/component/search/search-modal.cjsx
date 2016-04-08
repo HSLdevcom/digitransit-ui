@@ -17,8 +17,9 @@ class SearchModal extends React.Component
     executeAction: React.PropTypes.func.isRequired
 
   render: =>
-    if @props.modalIsOpen
-
+    if !@props.modalIsOpen
+      return false
+    else
       <div
         className="search-modal">
         <div className="row">
@@ -37,7 +38,5 @@ class SearchModal extends React.Component
           </div>
         </div>
       </div>
-    else
-      return false
 
 module.exports = SearchModal
