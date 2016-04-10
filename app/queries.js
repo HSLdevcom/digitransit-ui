@@ -908,6 +908,9 @@ var ItineraryPlanContainerFragments = {
             }
             realTime
             transitLeg
+            trip {
+              tripHeadsign
+            }
             startTime
             endTime
             mode

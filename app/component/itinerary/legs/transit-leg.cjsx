@@ -55,7 +55,7 @@ class TransitLeg extends React.Component
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div className='itinerary-transit-leg-route'>
-          {@props.children}
+          {@props.children} {@props.trip.tripHeadsign}
         </div>
         <div className='itinerary-leg-intermediate-stops'>
           <FormattedMessage
