@@ -1,18 +1,19 @@
-React              = require 'react'
-TransitLeg         = require './transit-leg'
-WalkLeg            = require './walk-leg'
-WaitLeg            = require './wait-leg'
-BicycleLeg         = require './bicycle-leg'
-EndLeg             = require './end-leg'
-AirportCheckInLeg  = require './airport-check-in-leg'
-AirportCollectLuggageLeg  = require './airport-collect-luggage-leg'
-StopCode                  = require '../stop-code'
-BusLeg                    = require './bus-leg'
-AirplaneLeg               = require './airplane-leg'
-SubwayLeg                 = require './subway-leg'
-TramLeg                   = require './tram-leg'
-RailLeg                   = require './rail-leg'
-FerryLeg                  = require './ferry-leg'
+React       = require 'react'
+TransitLeg  = require './transit-leg'
+WalkLeg     = require './walk-leg'
+WaitLeg     = require './wait-leg'
+BicycleLeg  = require './bicycle-leg'
+EndLeg      = require './end-leg'
+AirportCheckInLeg        = require './airport-check-in-leg'
+AirportCollectLuggageLeg = require './airport-collect-luggage-leg'
+StopCode    = require '../stop-code'
+BusLeg      = require './bus-leg'
+AirplaneLeg = require './airplane-leg'
+SubwayLeg   = require './subway-leg'
+TramLeg     = require './tram-leg'
+RailLeg     = require './rail-leg'
+FerryLeg    = require './ferry-leg'
+config      = require '../../../config'
 
 
 class ItineraryLegs extends React.Component
@@ -25,6 +26,7 @@ class ItineraryLegs extends React.Component
 
   render: =>
     numberOfLegs = @props.itinerary.legs.length
+    waitThreshold = config.itinerary.waitThreshold * 1000
 
     legs = []
     @props.itinerary.legs.forEach (leg, j) =>
@@ -58,6 +60,12 @@ class ItineraryLegs extends React.Component
                     focusAction={focus}>
           {@stopCode leg.from.stop?.code}
         </WalkLeg>
+
+      waitTime = nextLeg.startTime - leg.endTime if nextLeg
+      if waitTime > waitThreshold and nextLeg?.mode != 'AIRPLANE' and leg.mode != 'AIRPLANE'
+        legs.push <WaitLeg key={j + 'w'} leg={leg} legs={numberOfLegs} startTime={leg.endTime} waitTime={waitTime} focusAction={focus}>
+          {@stopCode leg.from.stop?.code}
+        </WaitLeg>
 
     legs.push <EndLeg
               key={numberOfLegs}
