@@ -12,7 +12,7 @@ class AirportCollectLuggageLeg extends React.Component
     <div style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(@props.leg.startTime).format('HH:mm')}
+          {moment(@props.leg.endTime).format('HH:mm')}
         </div>
         <RouteNumber mode={'wait'} vertical={true}/>
       </div>

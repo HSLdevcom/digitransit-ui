@@ -28,6 +28,8 @@ class ItineraryLegs extends React.Component
 
     legs = []
     @props.itinerary.legs.forEach (leg, j) =>
+      nextLeg = @props.itinerary.legs[j + 1] if j + 1 < @props.itinerary.legs.length
+      previousLeg = @props.itinerary.legs[j - 1] if j > 0
       focus = () => @props.focusMap(leg.from.lat, leg.from.lon)
       if leg.mode == 'BUS'
         legs.push <BusLeg key={j} index={j} leg={leg} focusAction={focus} />
@@ -40,13 +42,10 @@ class ItineraryLegs extends React.Component
       else if leg.mode == 'SUBWAY'
         legs.push <SubwayLeg key={j} index={j} leg={leg} focusAction={focus} />
       else if leg.mode == 'AIRPLANE'
-        legs.push <AirportCheckInLeg key={j + 'ci'} leg={leg} focusAction={focus}/>
+        startTime = previousLeg?.endTime or leg.startTime
+        legs.push <AirportCheckInLeg key={j + 'ci'} leg={leg} startTime={startTime} focusAction={focus}/>
         legs.push <AirplaneLeg key={j} index={j} leg={leg} focusAction={focus} />
         legs.push <AirportCollectLuggageLeg key={j + 'cl'} leg={leg} focusAction={focus}/>
-      else if leg.mode == 'WAIT'
-        legs.push <WaitLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}>
-          {@stopCode leg.from.stop?.code}
-        </WaitLeg>
       else if leg.rentedBike || leg.mode == 'BICYCLE' || leg.mode == 'CITYBIKE' || leg.mode == 'CITYBIKE_WALK'
         legs.push <BicycleLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
       else
