@@ -59,6 +59,8 @@ module.exports =
         offset: [106, 3]
         maxWidth: 250
         minWidth: 250
+  stopCard:
+    showCardHeaderDescription: true
   autoSuggest:
     sortOrder: currentPosition: 1, favourite: 2, oldSearch: 3, locality: 4, address: 5, stop: 6
     sortOthers: 7

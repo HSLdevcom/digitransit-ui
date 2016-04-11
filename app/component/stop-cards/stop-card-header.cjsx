@@ -6,6 +6,7 @@ Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
 CardHeader            = require '../card/card-header'
+config                = require '../../config'
 
 class StopCardHeader extends React.Component
 
@@ -18,12 +19,13 @@ class StopCardHeader extends React.Component
 
   getDescription: ->
     description = ""
-    if @props.stop.desc
-      description += @props.stop.desc + " // "
-    if @props.stop.code
-      description += @props.stop.code + " // "
-    if @props.distance
-      description += Math.round(@props.distance) + " m"
+    if config.stopCard.showCardHeaderDescription
+      if @props.stop.desc
+        description += @props.stop.desc + " // "
+      if @props.stop.code
+        description += @props.stop.code + " // "
+      if @props.distance
+        description += Math.round(@props.distance) + " m"
     description
 
   render: ->
