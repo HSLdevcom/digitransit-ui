@@ -5,12 +5,12 @@ SearchActions    = require '../../action/search-actions'
 {locationToOTP}  = require '../../util/otp-strings'
 SearchWithButton = require './search-with-button'
 {getRoutePath}   = require '../../util/path'
-SearchField      = require './search-field'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 SearchModal      = require './search-modal'
 SearchInput      = require './search-input'
 Tab              = require 'material-ui/lib/tabs/tab'
+FakeSearchBar    = require './fake-search-bar'
 
 class SearchMainContainer extends React.Component
 
@@ -134,7 +134,7 @@ class SearchMainContainer extends React.Component
       defaultMessage: 'Where to? - address or stop'
 
     searchField =
-      <SearchField
+      <FakeSearchBar
         onClick={@clickSearch}
         autosuggestPlaceholder={destinationPlaceholder}
         id='destination'

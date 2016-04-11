@@ -1,6 +1,4 @@
 React = require 'react'
-Icon = require '../icon/icon'
-{FormattedMessage} = require 'react-intl'
 cx = require 'classnames'
 
 inputOrPlaceholder = (value, placeholder) ->
@@ -14,8 +12,10 @@ inputOrPlaceholder = (value, placeholder) ->
     </div>
 
 FakeSearchBar = (props) ->
-  <div className={cx "input-placeholder", props.className}>
-    {inputOrPlaceholder(props.value, props.placeholder)}
+  <div id={props.id} onClick={props.onClick}>
+    <div className={cx "input-placeholder", props.className}>
+      {inputOrPlaceholder(props.endpoint?.address, props.autosuggestPlaceholder)}
+    </div>
   </div>
 
 FakeSearchBar.propTypes =
