@@ -24,13 +24,16 @@ class SummaryPage extends React.Component
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
     @context.getStore('TimeStore').addChangeListener @onTimeChange
     @context.executeAction ItinerarySearchAction.itinerarySearchRequest, @props
+    @setState
+      search: @updateItinerarySearch @context.getStore('ItinerarySearchStore')
+      time: @updateTime @context.getStore('TimeStore')
 
   componentWillUnmount: ->
     @context.getStore('ItinerarySearchStore').removeChangeListener @onChange
     @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   shouldComponentUpdate: (newProps, newState) =>
-    not (isEqual @props, newProps and isEqual @state, newState)
+    not (@state and isEqual @props, newProps and isEqual @state, newState)
 
   onChange: =>
     @setState
