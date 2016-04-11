@@ -813,6 +813,9 @@ var SummaryPlanContainerFragments = {
 
           legs {
             mode
+            agency {
+              name
+            }
             from {
               lat
               lon
@@ -880,6 +883,9 @@ var ItineraryPlanContainerFragments = {
 
           legs {
             mode
+            agency {
+              name
+            }
             from {
               lat
               lon
