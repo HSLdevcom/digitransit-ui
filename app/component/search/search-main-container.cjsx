@@ -141,7 +141,7 @@ class SearchMainContainer extends React.Component
       />
 
     <div>
-      <SearchWithButton searchField={searchField}/>
+      <SearchWithButton searchField={searchField} onClick={@clickSearch}/>
       <SearchModal
         ref="modal"
         selectedTab={@state.selectedTab}

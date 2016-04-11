@@ -9,7 +9,7 @@ SearchWithButton = (props) ->
           <div className="small-11 columns" >
             {props.searchField}
           </div>
-          <div className="small-1 columns">
+          <div className="small-1 columns" onClick={props.onClick}>
             <span className="postfix search cursor-pointer button-icon">
               <Icon img={'icon-icon_search'}/>
             </span>
