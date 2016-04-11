@@ -48,7 +48,7 @@ class ItineraryLegs extends React.Component
         legs.push <AirportCheckInLeg key={j + 'ci'} leg={leg} startTime={startTime} focusAction={focus}/>
         legs.push <AirplaneLeg key={j} index={j} leg={leg} focusAction={focus} />
         legs.push <AirportCollectLuggageLeg key={j + 'cl'} leg={leg} focusAction={focus}/>
-      else if leg.rentedBike || leg.mode == 'BICYCLE' || leg.mode == 'CITYBIKE' || leg.mode == 'CITYBIKE_WALK'
+      else if leg.rentedBike || leg.mode == 'BICYCLE'
         legs.push <BicycleLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
       else
         legs.push <WalkLeg

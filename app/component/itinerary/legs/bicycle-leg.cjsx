@@ -10,14 +10,22 @@ FormattedRelative = intl.FormattedRelative
 class BicycleLeg extends React.Component
 
   render: ->
+    mode = @props.leg.mode
+    console.log @props
+    if @props.leg.rentedBike == true
+      if @props.leg.mode == 'BICYCLE'
+        mode = 'CITYBIKE'
+      if @props.leg.mode == 'WALK'
+        mode = 'CITYBIKE_WALK'
+
     <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(@props.leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
+        <RouteNumber mode={mode.toLowerCase()} vertical={true}/>
       </div>
-      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
+      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + mode.toLowerCase()}>
         <div className="itinerary-leg-first-row">
           <FormattedMessage
             id='cycle-from-to'

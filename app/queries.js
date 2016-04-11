@@ -917,6 +917,7 @@ var ItineraryPlanContainerFragments = {
             }
             realTime
             transitLeg
+            rentedBike
             startTime
             endTime
             mode
