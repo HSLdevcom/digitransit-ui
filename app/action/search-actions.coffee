@@ -104,15 +104,21 @@ mapRoutes = (res) ->
 getStops = (res) ->
   if res
     res.map (item) ->
-      type: "Stop"
-      properties:
-        code: item.code
-        label: item.name
-        layer: 'stop'
-        link: '/pysakit/' + item.gtfsId
-      geometry:
-        coordinates:
-          [item.lon, item.lat]
+      stop =
+        type: "Stop"
+        properties:
+          code: item.code
+          label: item.name
+          layer: 'stop'
+          link: '/pysakit/' + item.gtfsId
+        geometry:
+          coordinates:
+            [item.lon, item.lat]
+
+      if item.code
+        stop.properties.label = stop.properties.label + ", " + item.code
+
+      stop
   else
     []
 
@@ -122,7 +128,6 @@ searchStops = (input, reference) ->
 
   queryGraphQL('{' + 'stops(name:"' + input + '") {gtfsId lat lon name code}' + '}').then (response) ->
     getStops(response?.data?.stops)
-
 
 searchRoutesAndStops = (input, reference, favourites) ->
   searches = []
