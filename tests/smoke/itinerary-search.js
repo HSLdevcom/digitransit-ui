@@ -4,20 +4,19 @@ module.exports = {
       browser
         .url(browser.launch_url)
 
-        //TODO: separate methods for setting destination and origin
-        .waitForElementVisible('.address-box', browser.globals.elementVisibleTimeout)
-        .click('.address-box')
+        .waitForElementVisible('#origin', browser.globals.elementVisibleTimeout)
+        .click('#origin')
         .pause(100)
-        .setValue('#autosuggest-input', "Hausmanns gate, Oslo")
+        .setValue('#search-origin', "Hausmanns gate, Oslo")
         .pause(1000) //wait for suggestions
-        .setValue('#autosuggest-input', browser.Keys.ENTER)
+        .setValue('#search-origin', browser.Keys.ENTER)
         .pause(100) //wait for dialog to vanish
         .waitForElementVisible('#destination', browser.globals.elementVisibleTimeout)
         .click("#destination")
         .pause(100)
-        .setValue('#autosuggest-input', "Malerhaugveien 28, Oslo")
+        .setValue('#search-destination', "Malerhaugveien 28, Oslo")
         .pause(1000) //wait for suggestions
-        .setValue('#autosuggest-input', browser.Keys.ENTER)
+        .setValue('#search-destination', browser.Keys.ENTER)
         .pause(100) //wait for dialog to vanish
         .waitForElementVisible(".itinerary-summary-row", browser.globals.itinerarySearchTimeout)
         .end();
