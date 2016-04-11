@@ -3,7 +3,7 @@ EndpointActions  = require '../../action/endpoint-actions'
 PositionActions  = require '../../action/position-actions'
 SearchActions    = require '../../action/search-actions'
 {locationToOTP}  = require '../../util/otp-strings'
-SearchTwoFields  = require './search-two-fields'
+SearchWithButton = require './search-with-button'
 {getRoutePath}   = require '../../util/path'
 SearchField      = require './search-field'
 intl             = require 'react-intl'
@@ -125,7 +125,7 @@ class SearchMainContainer extends React.Component
       id: 'destination-placeholder'
       defaultMessage: 'Where to? - address or stop'
 
-    to =
+    searchField =
       <SearchField
         onClick={(e) =>
           @setState
@@ -139,7 +139,7 @@ class SearchMainContainer extends React.Component
       />
 
     <div>
-      <SearchTwoFields searchField={to}/>
+      <SearchWithButton searchField={searchField}/>
       <SearchModal
         ref="modal"
         selectedTab={@state.selectedTab}

@@ -1,7 +1,7 @@
 React       = require 'react'
 Icon        = require '../icon/icon'
 
-SearchTwoFields = (props) ->
+SearchWithButton = (props) ->
   <div className="search-form">
     <div className="row upper-search-form">
       <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
@@ -19,14 +19,14 @@ SearchTwoFields = (props) ->
     </div>
   </div>
 
-SearchTwoFields.propTypes =
+SearchWithButton.propTypes =
   from: React.PropTypes.node.isRequired
   to: React.PropTypes.node.isRequired
   onSwitch: React.PropTypes.func.isRequired
   routeIfPossible: React.PropTypes.func.isRequired
 
-SearchTwoFields.description = "Search boxes for to and from values that can be used over a map"
+SearchWithButton.description = "Centered search field with search icon button"
 
-SearchTwoFields.displayName = "SearchTwoFields"
+SearchWithButton.displayName = "SearchWithButton"
 
-module.exports = SearchTwoFields
+module.exports = SearchWithButton
