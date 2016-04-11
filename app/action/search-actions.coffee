@@ -36,8 +36,8 @@ addCurrentPositionIfEmpty = (features) ->
 filterMatchingToInput = (list, input, fields) ->
   if input?.length >= 0
     return list.filter (item) ->
-      test = fields.map (pName) -> get(item, pName)
-        .join('').toLowerCase()
+      parts = fields.map (pName) -> get(item, pName)
+      test = parts.join(' ').toLowerCase()
       test.indexOf(input.toLowerCase()) > -1
   else
     return list
@@ -106,6 +106,7 @@ getStops = (res) ->
     res.map (item) ->
       type: "Stop"
       properties:
+        code: item.code
         label: item.name
         layer: 'stop'
         link: '/pysakit/' + item.gtfsId
@@ -119,7 +120,7 @@ searchStops = (input, reference) ->
   if input == undefined or input == null or input.trim().length < 3
     return Promise.resolve []
 
-  queryGraphQL('{' + 'stops(name:"' + input + '") {gtfsId lat lon name}' + '}').then (response) ->
+  queryGraphQL('{' + 'stops(name:"' + input + '") {gtfsId lat lon name code}' + '}').then (response) ->
     getStops(response?.data?.stops)
 
 
@@ -144,7 +145,7 @@ searchRoutesAndStops = (input, reference, favourites) ->
       doRouteSearch = doStopSearch = true
 
   if doRouteSearch then searches.push 'routes(name:"' + input + '") {patterns {code} agency {name} shortName type longName}'
-  if doStopSearch then searches.push 'stops(name:"' + input + '") {gtfsId lat lon name}'
+  if doStopSearch then searches.push 'stops(name:"' + input + '") {gtfsId lat lon name code}'
 
   if searches.length > 0
     suggestions = []
@@ -192,7 +193,7 @@ executeSearch = (actionContext, params) ->
     searchRoutesAndStops(input, referenceLocation, favouriteRoutes)
     .then uniq
     .then (suggestions) ->
-      filterMatchingToInput(suggestions, input, ["properties.label"])
+      filterMatchingToInput(suggestions, input, ["properties.label","properties.code"])
     .then (suggestions) ->
       processResults actionContext, suggestions
     .catch (e) ->
