@@ -105,6 +105,14 @@ class SearchMainContainer extends React.Component
         @context.router.push getRoutePath(from, to)
       , 0)
 
+  clickSearch: =>
+    @setState
+      selectedTab: "destination"
+      modalIsOpen: true
+      () =>
+        @focusInput("destination")
+    @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""
+
   render: =>
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
@@ -127,13 +135,7 @@ class SearchMainContainer extends React.Component
 
     searchField =
       <SearchField
-        onClick={(e) =>
-          @setState
-            selectedTab: "destination"
-            modalIsOpen: true
-            () =>
-              @focusInput("destination")
-          @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""}
+        onClick={@clickSearch}
         autosuggestPlaceholder={destinationPlaceholder}
         id='destination'
       />
