@@ -20,10 +20,8 @@ SearchWithButton = (props) ->
   </div>
 
 SearchWithButton.propTypes =
-  from: React.PropTypes.node.isRequired
-  to: React.PropTypes.node.isRequired
-  onSwitch: React.PropTypes.func.isRequired
-  routeIfPossible: React.PropTypes.func.isRequired
+  searchField: React.PropTypes.object.isRequired
+  onClick: React.PropTypes.func.isRequired
 
 SearchWithButton.description = "Centered search field with search icon button"
 

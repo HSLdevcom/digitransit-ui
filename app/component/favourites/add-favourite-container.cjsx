@@ -115,7 +115,7 @@ class AddFavouriteContainer extends React.Component
                     () =>
                       @focusInput()
                   @context.executeAction SearchActions.executeSearch, ""}
-                autosuggestPlaceholder={destinationPlaceholder}
+                placeholder={destinationPlaceholder}
                 id='destination'
                 className='add-favourite-container__input-placeholder'
               />

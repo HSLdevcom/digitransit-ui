@@ -136,7 +136,7 @@ class SearchMainContainer extends React.Component
     searchField =
       <FakeSearchBar
         onClick={@clickSearch}
-        autosuggestPlaceholder={destinationPlaceholder}
+        placeholder={destinationPlaceholder}
         id='destination'
       />
 
