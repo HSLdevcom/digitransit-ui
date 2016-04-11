@@ -7,14 +7,17 @@ getStartTime = (time) ->
   mins = ('0' + (time / 60 % 60)).slice(-2)
   return hours + mins
 
-renderDepartureStoptime = (time, realtime, currentTime) ->
-  if time < currentTime # In the past
-    moment(time * 1000).format "HH:mm"
-  else if time > currentTime + 1200 # far away
-    moment(time * 1000).format "HH:mm"
-  else
-    moment(time * 1000).diff(currentTime * 1000, 'm') + "min"
+renderDepartureStoptime = (time, realtime, currentTime, translatedNow) ->
+  departureTime = moment(time * 1000)
 
+  if time < currentTime # In the past
+    departureTime.format "HH:mm"
+  else if time > currentTime + 1200 # far away
+    departureTime.format "HH:mm"
+  else if moment(currentTime * 1000).diff(departureTime, 'minutes') == 0
+    "now"
+  else
+    departureTime.diff(currentTime * 1000, 'm') + "min"
 # renders trip duration to string
 # input: time duration - milliseconds
 durationToString = (duration) ->
