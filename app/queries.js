@@ -834,6 +834,9 @@ var SummaryPlanContainerFragments = {
             intermediateStops {
               gtfsId
             }
+            trip {
+              gtfsId
+            }
           }
 
           ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}
@@ -915,6 +918,9 @@ var ItineraryPlanContainerFragments = {
             duration
             route {
               shortName
+            }
+            trip {
+              gtfsId
             }
           }
           ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}
