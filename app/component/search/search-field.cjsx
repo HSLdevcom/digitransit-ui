@@ -19,7 +19,6 @@ class SearchField extends React.Component
       }>
       <FakeSearchBar
         className={@props.className}
-        onClick={@props.onClick}
         placeholder={@props.autosuggestPlaceholder}
         value={@props.endpoint?.address}
         id={@props.id + "-fake-search-bar"}
