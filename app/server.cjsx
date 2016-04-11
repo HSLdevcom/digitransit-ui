@@ -1,5 +1,9 @@
 fs = require('fs')
 
+require('babel-core/register')(
+  ignore: /node_modules\/(?!history|react-router)/
+)
+
 ### React ###
 React = require('react')
 ReactDOM = require('react-dom/server')
@@ -18,11 +22,14 @@ serialize = require('serialize-javascript')
 polyfillService = require 'polyfill-service'
 
 ### Application ###
-application = require('./app')
+application = require('./app').default
 config = require('./config')
 meta = require('./meta')
 translations = require('./translations')
-ApplicationHtml = require('./html')
+ApplicationHtml = require('./html').default
+
+port = process.env.HOT_LOAD_PORT || 9000
+
 
 # Look up paths for various asset files
 appRoot = process.cwd() + '/'
@@ -52,6 +59,7 @@ getPolyfills = (userAgent) ->
     'fetch': flags: ['gated']
     'Promise': flags: ['gated']
     'String.prototype.repeat': flags: ['gated']
+    'String.prototype.endsWith': flags: ['gated']
     'Intl': flags: ['always', 'gated']
     'Object.assign': flags: ['gated']
     'Array.prototype.find': flags: ['gated']
@@ -76,7 +84,7 @@ processFeedback = (req, res) ->
 getScripts = (req) ->
   if process.env.NODE_ENV == 'development'
     host = req.headers['host']?.split(':')[0] or 'localhost'
-    <script async src={"//#{host}:9000/js/bundle.js"}/>
+    <script async src={"//#{host}:#{port}/js/bundle.js"}/>
   else
     [
       <script dangerouslySetInnerHTML={ __html: manifest }/>,

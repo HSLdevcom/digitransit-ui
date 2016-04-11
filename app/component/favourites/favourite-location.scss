@@ -14,8 +14,11 @@
     padding-top: 3px;
     padding-bottom: 3px;
     color: $gray-blue;
-    font-size: 13px;
+    font-size: 12px;
   }
+  .time--small {
+    font-size: $font-size-small;
+   }
   .favourite-location-icon {
     color: $gray-blue;
     vertical-align: middle;
@@ -25,7 +28,7 @@
   }
   .favourite-location-departure-time {
     vertical-align: top;
-    font-size: 13px;
+    font-size: 12px;
   }
   .favourite-location-departure-time--realtime {
     @extend .favourite-location-departure-time;
@@ -49,7 +52,7 @@
   .add-location-text {
     @include font-medium;
     color: $gray-blue;
-    font-size: 13px;
+    font-size: 12px;
     margin-top: 0px;
     margin-bottom: 0px;
   }
@@ -75,4 +78,16 @@
   @extend .favourite-location-container;
   padding-left: 0px;
   padding-right: 15px;
+}
+
+
+.favourite-location-content-placeholder {
+  margin-left: 1em;
+  margin-right: 1em;
+  display: inline-block;
+  width: 2.5em;
+  line-height: 1em;
+  color: #eee;
+  background-color: #eee;
+  border-radius: 1px;
 }

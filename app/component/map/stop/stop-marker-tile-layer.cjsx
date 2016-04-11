@@ -236,7 +236,7 @@ class StopMarkerTileLayer extends BaseTileLayer
             stopId: @state.stops[0].properties.gtfsId
             date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
           )}
-          renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
+          renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
           renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}/>
       </Popup>
     else if @state?.stops.length > 1

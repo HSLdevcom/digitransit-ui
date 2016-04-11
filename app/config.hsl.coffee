@@ -65,11 +65,13 @@ module.exports =
         maxWidth: 250
         minWidth: 250
   autoSuggest:
-    sortOrder: currentPosition: 1, oldSearch: 2, neighbourhood: 3, locality: 4, address: 5, venue: 6, stop: 7
-    sortOthers: 8
+    sortOrder: currentPosition: 1, favourite: 2, oldSearch: 3, neighbourhood: 4, locality: 5, address: 6, venue: 7, stop: 8
+    sortOthers: 9
     # Let Pelias suggest based on current user location
     locationAware: true
-  showCityBikes: true
+  cityBike:
+    showCityBikes: true
+    showBikesAvailable: false
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15
   # Highest level when stops and terminals are still rendered as small markers
@@ -130,3 +132,5 @@ module.exports =
       available: true
     accessibility:
       available: true
+  areaPolygon: [[ 24.2647, 60.178 ], [ 24.3097, 60.2537 ], [ 24.3903, 60.3058 ], [ 24.4683, 60.3123 ], [ 24.4918, 60.3438 ], [ 24.5685, 60.3371 ], [ 24.6128, 60.3755 ], [ 24.739, 60.3642 ], [ 24.8046, 60.4071 ], [ 24.8684, 60.4192 ], [ 24.9694, 60.3508 ], [ 24.9992, 60.3524 ], [ 24.9865, 60.3732 ], [ 25.0452, 60.391 ], [ 25.0411, 60.4251 ], [ 25.1126, 60.4522 ], [ 25.162, 60.5238 ], [ 25.2438, 60.5168 ], [ 25.3261, 60.4666 ], [ 25.444, 60.3445 ], [ 25.5622, 60.2691 ], [ 25.4213, 60.1613 ], [ 25.3479, 59.9218 ], [ 24.94, 59.904 ], [ 24.5041, 59.801 ], [ 24.2785, 59.7737 ], [ 24.246, 59.791 ], [ 24.2367, 59.9579 ], [ 24.2579, 60.017 ], [ 24.3257, 60.0729 ], [ 24.2647, 60.178 ]]
+  defaultPosition: [60.1710688, 24.9414841]

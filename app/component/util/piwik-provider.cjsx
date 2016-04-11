@@ -1,4 +1,4 @@
-React                 = require 'react'
+React = require 'react'
 
 class PiwikProvider extends React.Component
   @childContextTypes:

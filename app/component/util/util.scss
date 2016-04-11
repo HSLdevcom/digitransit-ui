@@ -1,6 +1,3 @@
-
-$arrow-link-size: 50px;
-
 /*
   SLIDER
 */
@@ -244,19 +241,6 @@ $btn-heigth: 17px;
 .last-btn {
   border-top-right-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
-}
-
-/*
-  ARROW LINK
-*/
-
-.icon.right-arrow-blue-background {
-  padding: 13px;
-  height: $arrow-link-size;
-  width: $arrow-link-size;
-  border-radius: 30px;
-  color: white;
-  background: $action-color;
 }
 
 .mode-filter {

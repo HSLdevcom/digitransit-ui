@@ -1,6 +1,7 @@
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 debounce   = require 'lodash/debounce'
+inside     = require 'point-in-polygon'
 
 geolocator = (actionContext) ->
   actionContext.getStore('ServiceStore').geolocator()
@@ -38,7 +39,13 @@ runReverseGeocodingAction = (actionContext, lat, lon, done) ->
 debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading: true})
 
 setCurrentLocation = (pos) =>
-  @position = pos
+  if inside([pos.lon, pos.lat], config.areaPolygon)
+    @position = pos
+  else
+    @position =
+      lat: config.defaultPosition[0]
+      lon: config.defaultPosition[1]
+      heading: pos.heading
 
 broadcastCurrentLocation = (actionContext) =>
   if @position

@@ -19,30 +19,11 @@ $search-form-input-overlay-height: 27px;
 $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
 $search-form-location-icon-size: 18px;
+$search-header-height: 45px;
 
 .search-form .button-icon {
   color: $search-form-icon-color;
   vertical-align: middle;
-}
-
-.search-form {
-  .navigate-or-input-messages {
-    color: $gray-blue;
-    border-bottom: 1px dotted;
-    border-color: $gray-blue;
-    margin-left: 5px;
-    margin-right: 5px;
-    cursor: pointer;
-  }
-  .navigate-or-input--or {
-    color: $gray;
-  }
-  .navigate-or-input-icon--offline {
-    fill: $gray-blue;
-    font-size: $search-form-location-icon-size;
-    margin-left: 5px;
-    cursor: pointer;
-  }
 }
 
 .abs-top {
@@ -204,8 +185,13 @@ ul#react-whatever-suggest {
       line-height: 2.1em;
     }
 
-    & .oldSearch {
+    & .OldSearch {
       /* TODO add somehow border */
+    }
+
+    & .Favourite svg.icon {
+      stroke: $favourite-color;
+      fill: $favourite-color;
     }
   }
 }
@@ -255,10 +241,6 @@ ul#react-whatever-suggest {
 
 .search-form-map-overlay {
   z-index: 802;
-}
-
-.navigate-or-input {
-  background-color: $search-form-input-overlay-background-color;
 }
 
 .geolocation-bar-location-icon {
@@ -316,9 +298,52 @@ div#search-panel-close-tab {
 }
 
 .search-header {
-  height: 45px;
-  line-height: 45px;
-  color: $gray;
+  height: $search-header-height;
+  line-height: $search-header-height;
+
+  .search-header__category-text {
+    color: $gray-blue;
+    font-size: 11px;
+    margin-left: 12px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .search-header__back-arrow {
+    position: absolute;
+    color: $gray-blue;
+  }
+
+  .search-header__button {
+    margin-bottom: 0;
+    letter-spacing: -0.025em;
+    font-size: 11px !important;
+    font-weight: $font-weight-bold !important;
+    font-family: $font-family !important;
+    color: $gray-blue !important;
+    height: $search-header-height !important;
+  }
+
+  .search-header__button--selected {
+    @extend .search-header__button;
+    color: $black !important;
+  }
+
+  .search-header-width-fix {
+    margin-left: 28px !important;
+    width: calc(100% - 28px) !important;
+  }
+
+  .search-header__tabs-root {
+      > div:first-child {
+      background-color: $background-color !important;
+      line-height: 18px !important;
+      @extend .search-header-width-fix;
+    }
+    > div:nth-child(2) { //hack, modify tabs in material ui to fix
+      @extend .search-header-width-fix;
+    }
+  }
 }
 
 .search-header-separator {

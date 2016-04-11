@@ -1,5 +1,4 @@
 React = require 'react'
-
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 FormattedRelative = intl.FormattedRelative
@@ -7,7 +6,6 @@ FormattedRelative = intl.FormattedRelative
 class Distance extends React.Component
 
   render: ->
-
     if @props.distance > 0
       approxDistance = Math.round(@props.distance / 50) * 50
       if approxDistance > 50
@@ -20,5 +18,6 @@ class Distance extends React.Component
         return null
     else
       return null
+
 
 module.exports = Distance

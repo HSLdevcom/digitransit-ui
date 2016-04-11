@@ -15,6 +15,7 @@ Feedback              = require '../../util/feedback'
 FeedbackActions       = require '../../action/feedback-action'
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
+{startMeasuring, stopMeasuring} = require '../../util/jankmeter'
 
 class FrontPagePanel extends React.Component
   @contextTypes:
@@ -74,6 +75,21 @@ class FrontPagePanel extends React.Component
       @setState
         selectedPanel: newSelection
 
+  startMeasuring: ->
+    startMeasuring()
+
+  stopMeasuring: =>
+    results = stopMeasuring()
+    if !results
+      return
+    # Piwik doesn't show event values, if they are too long, so we must round... >_<
+    @context.piwik?.trackEvent('perf', 'nearby-panel-drag', 'min',
+                               Math.round(results.min))
+    @context.piwik?.trackEvent('perf', 'nearby-panel-drag', 'max',
+                               Math.round(results.max))
+    @context.piwik?.trackEvent('perf', 'nearby-panel-drag', 'avg',
+                               Math.round(results.avg))
+
   render: ->
     PositionStore = @context.getStore 'PositionStore'
     location = PositionStore.getLocationState()
@@ -103,7 +119,12 @@ class FrontPagePanel extends React.Component
                     </div>
                   </div>
                   <NextDeparturesListHeader />
-                  <div className="scrollable momentum-scroll scroll-extra-padding-bottom" id="scrollable-routes">
+                  <div
+                    className="scrollable momentum-scroll scroll-extra-padding-bottom"
+                    id="scrollable-routes"
+                    onTouchStart={@startMeasuring}
+                    onTouchEnd={@stopMeasuring}
+                    >
                     {routesPanel}
                   </div>
                 </div>
