@@ -38,7 +38,7 @@ module.exports =
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb']
   defaultLanguage: 'en'
   leftMenu:
-    # Wether to show the left menu toggle button at all
+    # Whether to show the left menu toggle button at all
     show: true
     showInquiry: true
     showLoginCreateAccount: true
