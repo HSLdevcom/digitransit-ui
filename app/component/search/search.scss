@@ -179,6 +179,10 @@ ul#react-whatever-suggest {
   margin-top: 10px;
 
   li {
+
+    white-space: nowrap;
+    overflow: hidden;
+
     & .search-result {
       display: block;
       height: 2.1em;
@@ -354,5 +358,3 @@ div#search-panel-close-tab {
   position: relative;
   bottom: -4px;
 }
-
-
