@@ -22,18 +22,6 @@ class SearchTwoFieldsContainer extends React.Component
     router: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
-  componentWillMount: =>
-    @context.getStore('PositionStore').addChangeListener @onGeolocationChange
-
-  componentWillUnmount: =>
-    @context.getStore('PositionStore').removeChangeListener @onGeolocationChange
-
-  onGeolocationChange: (statusChanged) =>
-    #We want to rerender only if position status changes,
-    #not if position changes
-    if statusChanged
-      @forceUpdate()
-
   onSwitch: (e) =>
     e.preventDefault()
     if @context.getStore('EndpointStore').getOrigin().useCurrentPosition and @context.getStore('PositionStore').getLocationState().isLocationingInProgress
