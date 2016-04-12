@@ -92,12 +92,20 @@ class SearchMainContainer extends React.Component
       , 0)
 
   clickSearch: =>
+
+    geolocation = @context.getStore('PositionStore').getLocationState()
+    origin = @context.getStore('EndpointStore').getOrigin()
+
     @setState
-      selectedTab: "destination"
+      selectedTab: if origin.lat or origin.useCurrentPosition and geolocation.hasLocation then "destination" else "origin"
       modalIsOpen: true
       () =>
-        @focusInput("destination")
-    @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""
+        @focusInput if origin.lat or origin.useCurrentPosition and geolocation.hasLocation then "destination" else "origin"
+
+    if origin.lat or origin.useCurrentPosition and geolocation.hasLocation
+      @context.executeAction SearchActions.executeSearch, @context.getStore('EndpointStore').getDestination()?.address || ""
+    else
+      @context.executeAction SearchActions.executeSearch, ""
 
   render: =>
     origin = @context.getStore('EndpointStore').getOrigin()
