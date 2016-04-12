@@ -174,11 +174,16 @@ $search-header-height: 45px;
 }
 
 ul#react-whatever-suggest {
+  @extend .momentum-scroll;
   max-height: 9em;
   overflow-y: auto;
   margin-top: 10px;
 
   li {
+
+    white-space: nowrap;
+    overflow: hidden;
+
     & .search-result {
       display: block;
       height: 2.1em;
@@ -281,7 +286,7 @@ div#search-panel-close-tab {
 }
 
 .autosuggestIcon {
-  color: $gray;
+  color: $medium-gray;
   padding-left: 10px;
   padding-right: 10px;
 }
