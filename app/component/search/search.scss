@@ -60,7 +60,7 @@ $search-header-height: 45px;
   box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
   .icon {
     font-size: 15px;
-    margin-top: -4px;
+    margin-top: 10px;
   }
 }
 
@@ -118,7 +118,7 @@ $search-header-height: 45px;
   height: $search-form-input-overlay-height;
   padding-left: 5px;
   padding-right: 3px;
-  line-height: 23px;
+  line-height: $search-form-input-overlay-height;
 
   .icon {
     fill: $gray;
