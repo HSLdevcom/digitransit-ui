@@ -46,13 +46,6 @@ class SearchMainContainer extends React.Component
     @forceUpdate()
     @routeIfPossible() #TODO: this should not be done here
 
-  onSwitch: (e) =>
-    e.preventDefault()
-    if @context.getStore('EndpointStore').getOrigin().useCurrentPosition and @context.getStore('PositionStore').getLocationState().isLocationingInProgress
-      return
-
-    @context.executeAction EndpointActions.swapEndpoints
-
   onTabChange: (tab) =>
     @setState
       selectedTab: tab.props.value
