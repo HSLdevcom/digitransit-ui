@@ -112,10 +112,6 @@ class SearchMainContainer extends React.Component
       id: 'destination'
       defaultMessage: 'destination'
 
-    originPlaceholder = @context.intl.formatMessage
-      id: 'origin-placeholder'
-      defaultMessage: 'From where? - address or stop'
-
     destinationPlaceholder = @context.intl.formatMessage
       id: 'destination-placeholder'
       defaultMessage: 'Where to? - address or stop'
