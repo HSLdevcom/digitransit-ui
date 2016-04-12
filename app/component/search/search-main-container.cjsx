@@ -119,7 +119,6 @@ class SearchMainContainer extends React.Component
       <FakeSearchBar
         onClick={@clickSearch}
         placeholder={destinationPlaceholder}
-        id='destination'
       />
 
     <div>
