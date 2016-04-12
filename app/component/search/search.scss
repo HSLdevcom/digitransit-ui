@@ -43,11 +43,6 @@ $search-header-height: 45px;
   transition: none;
 }
 
-.search-form > :not(.upper-search-form) > div input {
-  /* These two will disable right border radius for Firefox f*/
-  border-top-right-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-}
 
 .search-form .upper-search-form input, .search-form .upper-search-form .input-placeholder {
   border-top-right-radius: 0px;
