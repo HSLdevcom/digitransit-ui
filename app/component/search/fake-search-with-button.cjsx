@@ -2,18 +2,16 @@ React       = require 'react'
 Icon        = require '../icon/icon'
 
 FakeSearchWithButton = (props) ->
-  <div className="search-form">
-    <div className="row upper-search-form">
-      <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
-        <div className="row collapse postfix-radius">
-          <div className="small-11 columns" >
-            {props.fakeSearchBar}
-          </div>
-          <div className="small-1 columns" onClick={props.onClick}>
-            <span className="postfix search cursor-pointer button-icon">
-              <Icon img={'icon-icon_search'}/>
-            </span>
-          </div>
+  <div className="row search-form search-form--with-button">
+    <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
+      <div className="row collapse postfix-radius">
+        <div className="small-11 columns" >
+          {props.fakeSearchBar}
+        </div>
+        <div className="small-1 columns" onClick={props.onClick}>
+          <span className="postfix search cursor-pointer button-icon">
+            <Icon img={'icon-icon_search'}/>
+          </span>
         </div>
       </div>
     </div>

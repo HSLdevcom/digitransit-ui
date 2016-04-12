@@ -34,6 +34,13 @@ $search-header-height: 45px;
   padding-top: 10px;
 }
 
+.search-form--with-button {
+  .input-placeholder {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+
 .search-form input, .search-form input:focus {
   height: $search-form-input-height;
   border-top-left-radius: $search-form-border-radius;
@@ -41,12 +48,6 @@ $search-header-height: 45px;
   padding-left: 15px;
   box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
   transition: none;
-}
-
-
-.search-form .upper-search-form input, .search-form .upper-search-form .input-placeholder {
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
 }
 
 .search-form .postfix {
