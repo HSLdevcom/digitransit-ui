@@ -1,5 +1,3 @@
-{locationToOTP}   = require '../util/otp-strings'
-{getRoutePath}    = require '../util/path'
 ininerarySearchActions = require './itinerary-search-action'
 
 storeEndpoint = (actionContext, {target, endpoint}, done) ->
