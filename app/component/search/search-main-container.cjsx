@@ -1,6 +1,5 @@
 React            = require 'react'
 EndpointActions  = require '../../action/endpoint-actions'
-PositionActions  = require '../../action/position-actions'
 SearchActions    = require '../../action/search-actions'
 {locationToOTP}  = require '../../util/otp-strings'
 FakeSearchWithButton = require './fake-search-with-button'
