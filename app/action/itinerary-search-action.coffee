@@ -1,6 +1,8 @@
 polyUtil = require 'polyline-encoded'
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
+{locationToOTP}   = require '../util/otp-strings'
+{getRoutePath}     = require '../util/path'
 
 createWaitLeg = (startTime, duration, point, placename, stopCode) ->
   leg =
