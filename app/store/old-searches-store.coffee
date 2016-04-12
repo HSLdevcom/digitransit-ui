@@ -8,6 +8,10 @@ class OldSearchesStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
+    #migrate old searches
+    storage.setOldSearchesStorage @getOldSearches().map (item) ->
+      item.type = item.type || "endpoint"
+      item
 
   # storage (sorted by count desc):
   # [
@@ -15,18 +19,15 @@ class OldSearchesStore extends Store
   #   "address": "Espoo, Espoo",
   #   "coordinates" :[]
   #   "count": 1
+  #   "type": "endpoint" or "search"
   #  }
   # ]
-  #
-  # destination
-  # {
-  #  "address": "Espoo, Espoo",
-  #  coordinates :[]
-  # }
   saveSearch: (destination) ->
     searches = @getOldSearches()
-    found = searches.filter (storedDestination) ->
-      storedDestination.address == destination.address
+    found = searches.filter (storedSearch) ->
+      storedSearch.type == destination.type
+    .filter (storedSearch) ->
+      storedSearch.address == destination.address
 
     switch found.length
       when 0 then searches.push Object.assign count: 1, destination
@@ -34,10 +35,12 @@ class OldSearchesStore extends Store
       else console.error "too many matches", found
 
     storage.setOldSearchesStorage orderBy searches, "count", "desc"
+
+    searches = @getOldSearches()
     @emitChange(destination)
 
-  getOldSearches: () ->
-    storage.getOldSearchesStorage()
+  getOldSearches: (type) ->
+    storage.getOldSearchesStorage().filter (item) -> if type then item.type == type else true
 
   @handlers:
     "SaveSearch": 'saveSearch'
