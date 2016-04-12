@@ -14,7 +14,7 @@ import { startLocationWatch } from './action/position-actions';
 import { openFeedbackModal } from './action/feedback-action';
 import PiwikProvider from './component/util/piwik-provider';
 import Feedback from './util/feedback';
-
+import history from './history'
 import buildInfo from './build-info'
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
@@ -59,7 +59,7 @@ app.rehydrate(dehydratedState, (err, context) => {
     throw err;
   }
 
-  import history from './history'
+
   window.context = context;
 
   ReactDOM.render(

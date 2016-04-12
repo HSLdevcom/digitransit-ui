@@ -1,6 +1,5 @@
 React            = require 'react'
 EndpointActions  = require '../../action/endpoint-actions'
-PositionActions  = require '../../action/position-actions'
 SearchActions    = require '../../action/search-actions'
 SearchTwoFields  = require './search-two-fields'
 SearchField      = require './search-field'
