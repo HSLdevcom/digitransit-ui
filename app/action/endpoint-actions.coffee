@@ -1,5 +1,6 @@
 {locationToOTP}   = require '../util/otp-strings'
 {getRoutePath}    = require '../util/path'
+ininerarySearchActions = require './itinerary-search-action'
 
 storeEndpoint = (actionContext, {target, endpoint}, done) ->
 
@@ -16,7 +17,7 @@ module.exports.setEndpoint = (actionContext, payload) =>
   actionContext.executeAction(storeEndpoint, payload, (e) =>
     if e
       console.error "Could not store endpoint: ", e
-    else actionContext.executeAction(@route, undefined, (e) =>
+    else actionContext.executeAction(ininerarySearchActions.route, undefined, (e) =>
       if e
         console.error "Could not route:", e
     )
@@ -37,29 +38,3 @@ module.exports.clearDestination = (actionContext) ->
 module.exports.clearGeolocation = (actionContext) ->
   actionContext.dispatch "clearGeolocation"
 
-module.exports.route = (actionContext, payload, done) ->
-
-  geolocation = actionContext.getStore('PositionStore').getLocationState()
-  origin = actionContext.getStore('EndpointStore').getOrigin()
-  destination = actionContext.getStore('EndpointStore').getDestination()
-
-  if (origin.lat or origin.useCurrentPosition and geolocation.hasLocation) and (destination.lat or destination.useCurrentPosition and geolocation.hasLocation)
-    # TODO: currently address gets overwritten by reverse from geolocation
-    # Swap the position of the two arguments to get "Oma sijainti"
-    geo_string = locationToOTP Object.assign({address: "Oma sijainti"}, geolocation)
-
-    if origin.useCurrentPosition
-      from = geo_string
-    else
-      from = locationToOTP(origin)
-
-    if destination.useCurrentPosition
-      to = geo_string
-    else
-      to = locationToOTP(destination)
-
-    # https://github.com/reactjs/react-router/blob/master/docs/guides/NavigatingOutsideOfComponents.md, but we have custom history
-    history  = require '../history'
-    history.push pathname: getRoutePath(from, to)
-
-  done()
