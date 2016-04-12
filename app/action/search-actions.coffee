@@ -174,7 +174,12 @@ executeSearch = (actionContext, params) ->
   processResults(actionContext, [])
   {input, type} = params
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
-  referenceLocation = if geoLocation.hasLocation then {lon: geoLocation.lon, lat: geoLocation.lat} else console.log("no location, what's the reference?")
+  origin = actionContext.getStore('EndpointStore').getOrigin()
+
+  if origin.lat
+    referenceLocation = {lon: origin.lon, lat: origin.lat}
+  else
+    referenceLocation = if geoLocation.hasLocation then {lon: geoLocation.lon, lat: geoLocation.lat} else {lon: config.initialLocation.lon, lat: config.initialLocation.lat}
 
   #endpoint
   if type == 'endpoint'
