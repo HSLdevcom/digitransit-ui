@@ -3,7 +3,7 @@ EndpointActions  = require '../../action/endpoint-actions'
 PositionActions  = require '../../action/position-actions'
 SearchActions    = require '../../action/search-actions'
 {locationToOTP}  = require '../../util/otp-strings'
-SearchWithButton = require './search-with-button'
+FakeSearchWithButton = require './fake-search-with-button'
 {getRoutePath}   = require '../../util/path'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -133,7 +133,7 @@ class SearchMainContainer extends React.Component
       id: 'destination-placeholder'
       defaultMessage: 'Where to? - address or stop'
 
-    searchField =
+    fakeSearchBar =
       <FakeSearchBar
         onClick={@clickSearch}
         placeholder={destinationPlaceholder}
@@ -141,7 +141,7 @@ class SearchMainContainer extends React.Component
       />
 
     <div>
-      <SearchWithButton searchField={searchField} onClick={@clickSearch}/>
+      <FakeSearchWithButton fakeSearchBar={fakeSearchBar} onClick={@clickSearch}/>
       <SearchModal
         ref="modal"
         selectedTab={@state.selectedTab}

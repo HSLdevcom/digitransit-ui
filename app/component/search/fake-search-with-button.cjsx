@@ -1,13 +1,13 @@
 React       = require 'react'
 Icon        = require '../icon/icon'
 
-SearchWithButton = (props) ->
+FakeSearchWithButton = (props) ->
   <div className="search-form">
     <div className="row upper-search-form">
       <div className="small-12 medium-6 medium-offset-3 columns search-form-map-overlay">
         <div className="row collapse postfix-radius">
           <div className="small-11 columns" >
-            {props.searchField}
+            {props.fakeSearchBar}
           </div>
           <div className="small-1 columns" onClick={props.onClick}>
             <span className="postfix search cursor-pointer button-icon">
@@ -19,12 +19,12 @@ SearchWithButton = (props) ->
     </div>
   </div>
 
-SearchWithButton.propTypes =
+FakeSearchWithButton.propTypes =
   searchField: React.PropTypes.object.isRequired
   onClick: React.PropTypes.func.isRequired
 
-SearchWithButton.description = "Centered search field with search icon button"
+FakeSearchWithButton.description = "Centered fake search field with search icon button"
 
-SearchWithButton.displayName = "SearchWithButton"
+FakeSearchWithButton.displayName = "FakeSearchWithButton"
 
-module.exports = SearchWithButton
+module.exports = FakeSearchWithButton
