@@ -4,11 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import { RelayRouter } from 'react-router-relay';
-import { createHistory } from 'history';
-import { useRouterHistory } from 'react-router';
 import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
 import tapEventPlugin from 'react-tap-event-plugin';
-
 import config from './config';
 import StoreListeningIntlProvider from './util/store-listening-intl-provider';
 import app from './app';
@@ -41,10 +38,6 @@ if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
 // Material-ui uses touch tap events
 tapEventPlugin();
 
-const history = useRouterHistory(createHistory)({
-  basename: config.APP_PATH,
-});
-
 function track() {
   // track "getting back to home"
   const newHref = this.props.history.createHref(this.state.location);
@@ -66,6 +59,7 @@ app.rehydrate(dehydratedState, (err, context) => {
     throw err;
   }
 
+  import history from './history'
   window.context = context;
 
   ReactDOM.render(
