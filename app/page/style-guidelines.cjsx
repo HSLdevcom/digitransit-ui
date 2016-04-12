@@ -342,7 +342,6 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=CityBikeAvailability />
       <ComponentDocumentation component=CityBikeUse />
       <ComponentDocumentation component=CityBikePopup />
-      <ComponentDocumentation component=FavouriteLocationsContainer />
       <ComponentDocumentation component=FavouriteLocation />
     </div>
 
