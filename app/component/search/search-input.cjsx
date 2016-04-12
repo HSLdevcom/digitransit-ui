@@ -69,6 +69,9 @@ class SearchInput extends React.Component
       @blur()
       event.preventDefault()
 
+  handleOnTouchStart: (event, eventProps) =>
+    @blur()
+
   handleUpdateInputNow: (event) =>
     input = event.target.value
 
@@ -115,11 +118,13 @@ class SearchInput extends React.Component
         "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
         "onChange": @handleUpdateInputNow
         "onKeyDown": @handleOnKeyDown
+        "onTouchStart": @handleOnTouchStart
       }
       itemProps={
         "onMouseEnter": @handleOnMouseEnter
         "onMouseDown": @handleOnMouseDown
         "onMouseTouch": @handleOnMouseDown
+        "onTouchStart": @handleOnTouchStart
       }
     />
 

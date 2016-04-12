@@ -178,6 +178,7 @@ ul#react-whatever-suggest {
   max-height: 9em;
   overflow-y: auto;
   margin-top: 10px;
+  max-height: calc(100% - #{$search-form-input-height} - #{$search-header-height});
 
   li {
 
@@ -305,6 +306,7 @@ div#search-panel-close-tab {
 .search-header {
   height: $search-header-height;
   line-height: $search-header-height;
+  height: 100%;
 
   .search-header__category-text {
     color: $gray-blue;
@@ -348,6 +350,17 @@ div#search-panel-close-tab {
     > div:nth-child(2) { //hack, modify tabs in material ui to fix
       @extend .search-header-width-fix;
     }
+    > div:nth-child(3) {
+      height: 100%;
+      > div {
+        height: 100%;
+        > div{
+          height: 95%;
+        }
+      }
+    }
+    overflow-y: hidden;
+    height:100%
   }
 }
 
