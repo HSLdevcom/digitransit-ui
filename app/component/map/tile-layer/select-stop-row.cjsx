@@ -22,7 +22,7 @@ SelectStopRow = ({patterns, gtfsId, type, name}) ->
       </div>)
 
 
-  <div className="no-margin" key={gtfsId}>
+  <div className="no-margin">
     <hr className="no-margin"/>
     <Link className="no-margin" to="/pysakit/#{gtfsId}">
       <div className="left padding-vertical-normal" style={width: 40}>
