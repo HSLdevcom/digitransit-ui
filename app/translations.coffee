@@ -401,7 +401,7 @@ translations =
     'searching-position': 'Localisation en cours...'
     'own-position': 'Position actuelle'
     'no-position': 'Aucune position'
-    'origin': 'Lieu'
+    'origin': 'Départ'
     'origin-placeholder': 'Lieu, adresse ou arrêt'
     'to-stop': 'Arrêt'
     'line': 'Ligne'
@@ -523,7 +523,7 @@ translations =
     'subway-with-route-number': 'Metro {routeNumber}'
     'ferry-with-route-number': 'Bâteau {routeNumber}'
     'airplane-with-route-number': 'Avion {routeNumber}'
-    'favourite-target': 'TODO'
-    'search': 'TODO SEARCH'
+    'favourite-target': 'Destination favorite'
+    'search': 'Recherche'
 
 module.exports = translations
