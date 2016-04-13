@@ -127,6 +127,7 @@ class SearchMainContainer extends React.Component
       <FakeSearchBar
         onClick={@clickSearch}
         placeholder={destinationPlaceholder}
+        id="front-page-search-bar"
       />
 
     <div>
@@ -141,6 +142,7 @@ class SearchMainContainer extends React.Component
           label={originSearchTabLabel}
           ref="searchTab"
           value={"origin"}
+          id={"origin"}
           onActive={@onTabChange}>
             <SearchInput
               ref="searchInputorigin"
@@ -163,6 +165,7 @@ class SearchMainContainer extends React.Component
           className={"search-header__button" + if @state.selectedTab == "destination" then "--selected" else ""}
           label={destinationSearchTabLabel}
           value={"destination"}
+          id={"destination"}
           ref="searchTab"
           onActive={@onTabChange}>
           <SearchInput

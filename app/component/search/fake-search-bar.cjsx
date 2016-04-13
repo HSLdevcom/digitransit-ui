@@ -12,7 +12,7 @@ inputOrPlaceholder = (value, placeholder) ->
     </div>
 
 FakeSearchBar = (props) ->
-  <div onClick={props.onClick}>
+  <div id={props.id} onClick={props.onClick}>
     <div className={cx "input-placeholder", props.className}>
       {inputOrPlaceholder(props.endpoint?.address, props.placeholder)}
     </div>

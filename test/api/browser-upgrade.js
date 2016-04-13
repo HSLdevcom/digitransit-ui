@@ -72,32 +72,53 @@ module.exports = function (browser) {
     }
   }
 
+  browser.fakeSearch = {
+
+    openSearch: function() {
+      browser.expect.element('#front-page-search-bar').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.click('#front-page-search-bar');
+    }
+
+  }
+
   //origin functions
   browser.origin = {
 
-    openSearch: function() {
+    selectOrigin: function () {
       browser.expect.element('#origin').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
       browser.click('#origin');
     },
 
     enterText: function type(text) {
-      browser.expect.element('#autosuggest-input').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.expect.element('#search-origin').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
       browser.pause(100);
-      browser.setValue('#autosuggest-input', text);
+      browser.setValue('#search-origin', text);
       browser.pause(1000); //wait for suggestions
-      browser.setValue('#autosuggest-input', browser.Keys.ENTER);
+      browser.setValue('#search-origin', browser.Keys.ENTER);
       browser.pause(100); //wait for dialog to vanish
       }
   }
   //destination functions
   browser.destination = {
+
+    selectDestination: function() {
+      browser.expect.element('#destination').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.click('#destination');
+    },
+
     openSearch: function() {
       browser.expect.element('#destination').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
       browser.click('#destination');
     },
 
-    enterText: browser.origin.enterText,
-
+    enterText: function type(text) {
+      browser.expect.element('#search-destination').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.pause(100);
+      browser.setValue('#search-destination', text);
+      browser.pause(1000); //wait for suggestions
+      browser.setValue('#search-destination', browser.Keys.ENTER);
+      browser.pause(100); //wait for dialog to vanish
+      }
 
   }
 
