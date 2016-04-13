@@ -293,7 +293,7 @@ translations =
     'right-now': 'Nå'
     'minutes': 'min'
     'timetable': 'Tidtabeller'
-    'no-favourites': 'Du har ikke lagret noen favoritter enda'
+    'no-favourites': 'Du kan legge til favoritter ved å trykke på stjerneknapper forskjellige steder i reiseplanleggeren'
     'distance-under': 'Avstand mindre enn {distance} m'
     'distance-between': 'Avstand {distance1} m — {distance2} m'
     'tickets': 'Billetter'
@@ -384,7 +384,8 @@ translations =
     'walk-distance-to-stop': 'Gå {distance} {duration}'
     'walk-distance-to-dest': 'Gå {distance} {duration}'
     'wait-amount-of-time': 'Vent {duration}'
-    'search': 'TODO SEARCH'
+    'favourite-target': 'Favorittdestinasjon'
+    'search': 'Søk'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
