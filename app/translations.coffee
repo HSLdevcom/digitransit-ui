@@ -260,7 +260,7 @@ translations =
     'no-position': 'Ingen posisjon'
     'origin': 'Fra'
     'origin-placeholder': 'Fra'
-    'to-stop': 'Til holdeplass'
+    'to-stop': 'Avstand'
     'line': 'linje'
     'leaves': "Går"
     'next': "Neste"
