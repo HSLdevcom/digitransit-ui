@@ -20,18 +20,26 @@ class SummaryRow extends React.Component
     legs = []
 
     noTransitLegs = true
-    for i of data.legs
-      if data.legs[i].transitLeg
+    for leg, i in data.legs
+      if leg.transitLeg or leg.rentedBike
         noTransitLegs = false
 
+    lastLegRented = false
     for leg, i in data.legs
-      if leg.transitLeg or noTransitLegs
+      if leg.rentedBike && lastLegRented # No sense rendering two citybikes when walking with bike in between
+        continue
+      lastLegRented = leg.rentedBike
+
+      if leg.transitLeg or leg.rentedBike or noTransitLegs
+        mode = leg.mode
+        if leg.rentedBike
+          mode = "CITYBIKE"
         legs.push <RouteNumber
                     key={i}
-                    mode={leg.mode}
+                    mode={mode}
                     text={legTextUtil.getLegText(leg)}
                     vertical={true}
-                    className={cx "line", leg.mode.toLowerCase()} />
+                    className={cx "line", mode.toLowerCase()} />
 
     classes = cx [
       "itinerary-summary-row"

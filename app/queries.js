@@ -863,6 +863,7 @@ var ItinerarySummaryListContainerFragments = {
         mode
         distance
         duration
+        rentedBike
         route {
           shortName
         }
