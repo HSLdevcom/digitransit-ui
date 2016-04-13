@@ -159,7 +159,7 @@ searchRoutesAndStops = (input, reference, favourites) ->
 
       favouriteRoutes = mapRoutes(response?.data?.favouriteRoutes).map (favourite) ->
         favourite.properties.layer = 'favourite'
-        favourite.type= "Favourite"
+        favourite.type = "Favourite"
         favourite
       [].concat sortBy(favouriteRoutes, (item) -> ['agency.name', 'properties.label'])
       .concat sortBy(mapRoutes(response?.data?.routes), (item) -> ['agency.name', 'properties.label'])
