@@ -441,7 +441,7 @@ translations =
     'contact-information': 'Contacter {contactName}'
     'create-account': 'Créer un identifiant {contactName}'
     'login': 'Se connecter'
-    'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessible depuis d\'autres appareils'
+    'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessibles depuis d\'autres appareils'
     'cause': 'Cause'
     'disruption-info': 'Informations sur les perturbations'
     'disruption-info-no-alerts': 'Perturbations en cours'
