@@ -54,6 +54,7 @@ module.exports =
     useRetinaTiles: true
     tileSize: 512
     zoomOffset: -1
+    useVectorTiles: true
     genericMarker:
       popup:
         offset: [106, 3]

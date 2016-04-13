@@ -1,0 +1,90 @@
+React         = require 'react'
+Relay         = require 'react-relay'
+queries       = require '../../../queries'
+Popup         = require '../dynamic-popup'
+intl          = require 'react-intl'
+BaseTileLayer = require('react-leaflet/lib/BaseTileLayer').default
+omit          = require 'lodash/omit'
+provideContext = require 'fluxible-addons-react/provideContext'
+StopMarkerPopup = require '../stop/stop-marker-popup'
+MarkerSelectPopup = require './marker-select-popup'
+
+
+TileContainer = require './tile-container'
+
+class TileLayerContainer extends BaseTileLayer
+  @contextTypes:
+    #Needed for passing context to dynamic popup, maybe should be done in there?
+    getStore: React.PropTypes.func.isRequired
+    executeAction: React.PropTypes.func.isRequired
+    intl: intl.intlShape.isRequired
+    router: React.PropTypes.object.isRequired
+    route: React.PropTypes.object.isRequired
+
+  createTile: (coords, done) =>
+    tile = new TileContainer(coords, done, @props)
+    tile.onStopClicked = (stops, coords) =>
+      if @props.disableMapTracking
+        @props.disableMapTracking()
+      @setState
+        stops: stops
+        coords: coords
+    tile.el
+
+  componentDidMount: () ->
+    props = omit @props, 'map'
+    @leafletElement = new L.GridLayer(props)
+    @leafletElement.createTile = @createTile
+    super
+
+  componentDidUpdate: ->
+    @refs.popup?._leafletElement.openOn(@props.map)
+
+  render: () ->
+    StopMarkerPopupWithContext = provideContext StopMarkerPopup,
+      intl: intl.intlShape.isRequired
+      router: React.PropTypes.object.isRequired
+      route: React.PropTypes.object.isRequired
+
+    MarkerSelectPopupWithContext = provideContext MarkerSelectPopup,
+      intl: intl.intlShape.isRequired
+      router: React.PropTypes.object.isRequired
+      route: React.PropTypes.object.isRequired
+
+    #TODO: cjsx doesn't like objects withing nested elements
+    loadingPopupStyle = height: 150
+
+    popupOptions =
+      offset: [106, 3]
+      closeButton: false
+      maxWidth: 250
+      minWidth: 250
+      autoPanPaddingTopLeft: [5, 125]
+      className: "popup"
+
+    if @state?.stops.length == 1
+      <Popup
+        options={popupOptions}
+        latlng={@state.coords}
+        ref="popup">
+        <Relay.RootContainer
+          Component={StopMarkerPopup}
+          route={new queries.StopRoute(
+            stopId: @state.stops[0].properties.gtfsId
+            date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
+          )}
+          renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
+          renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}/>
+      </Popup>
+    else if @state?.stops.length > 1
+      <Popup
+        options={Object.assign {}, popupOptions, maxHeight: 220}
+        latlng={@state.coords}
+        ref="popup">
+        <MarkerSelectPopupWithContext options={@state.stops} context={@context}/>
+      </Popup>
+    else
+      null
+
+
+module.exports = TileLayerContainer
