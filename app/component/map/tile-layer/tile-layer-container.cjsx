@@ -63,19 +63,29 @@ class TileLayerContainer extends BaseTileLayer
       className: "popup"
 
     if @state?.stops.length == 1
-      <Popup
-        options={popupOptions}
-        latlng={@state.coords}
-        ref="popup">
-        <Relay.RootContainer
-          Component={StopMarkerPopup}
-          route={new queries.StopRoute(
-            stopId: @state.stops[0].properties.gtfsId
-            date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
-          )}
-          renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
-          renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}/>
-      </Popup>
+      if @state.stops[0].layer == "stop"
+        <Popup
+          options={popupOptions}
+          latlng={@state.coords}
+          ref="popup">
+          <Relay.RootContainer
+            Component={StopMarkerPopup}
+            route={new queries.StopRoute(
+              stopId: @state.stops[0].feature.properties.gtfsId
+              date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
+            )}
+            renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
+            renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}/>
+        </Popup>
+      else
+        <Popup
+          options={popupOptions}
+          latlng={@state.coords}
+          ref="popup">
+          <div>
+            Todo
+          </div>
+        </Popup>
     else if @state?.stops.length > 1
       <Popup
         options={Object.assign {}, popupOptions, maxHeight: 220}

@@ -28,6 +28,7 @@ getColor = memoize (mode) -> getSelector(".#{mode?.toLowerCase()}")?.style.color
 
 class Stops
   constructor: (@tile) ->
+    @name = "stop"
     @promise = fetch("#{config.URL.STOP_MAP}#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
       if res.status != 200
         return

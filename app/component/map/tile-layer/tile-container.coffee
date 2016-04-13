@@ -1,12 +1,12 @@
-
-scaleratio = window?.devicePixelRatio or 1
+flatten = require 'lodash/flatten'
 
 class Tile
   constructor: (@coords, done, @props) ->
     @extent = 4096
-    @scaleratio = scaleratio
-    @tileSize = (@props.tileSize or 256) * scaleratio
+    @scaleratio = window?.devicePixelRatio or 1
+    @tileSize = (@props.tileSize or 256) * @scaleratio
     @ratio = @extent / @tileSize
+    @eventratio = @ratio * @scaleratio
     @el = @createElement()
 
     if @coords.z < 14 or !@el.getContext
@@ -32,16 +32,20 @@ class Tile
         x: e.offsetX
         y: e.offsetY
 
-      nearest = @features.filter (stop) =>
-        g = stop.loadGeometry()[0][0]
-        dist = Math.sqrt((point.x - (g.x / @ratio)) ** 2 + (point.y - (g.y / @ratio)) ** 2)
+      features = flatten @layers.map (layer) -> layer.features.map (feature) ->
+        layer: layer.name
+        feature: feature
+
+      nearest = features.filter (feature) =>
+        g = feature.feature.loadGeometry()[0][0]
+        dist = Math.sqrt((point.x - (g.x / @eventratio)) ** 2 + (point.y - (g.y / @eventratio)) ** 2)
         if dist < 17 then true else false
 
       if nearest.length == 0
         @onStopClicked false
       else if nearest.length == 1
         L.DomEvent.stopPropagation e
-        coords = nearest[0].toGeoJSON(@coords.x, @coords.y, @coords.z + (@props.zoomOffset or 0)).geometry.coordinates
+        coords = nearest[0].feature.toGeoJSON(@coords.x, @coords.y, @coords.z + (@props.zoomOffset or 0)).geometry.coordinates
         @onStopClicked nearest, L.latLng [coords[1], coords[0]]
       else
         L.DomEvent.stopPropagation e

@@ -85,7 +85,11 @@ class Map extends React.Component
           layers.push Stops
           if config.cityBike.showCityBikes
             layers.push CityBikes
-        tileLayer = <TileLayerContainer layers={layers}/>
+        tileLayer = <TileLayerContainer
+          layers={layers}
+          tileSize={config.map.tileSize or 256}
+          zoomOffset={config.map.zoomOffset or 0}
+          />
 
       else
         if @props.showStops
