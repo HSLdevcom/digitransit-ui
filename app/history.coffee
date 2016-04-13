@@ -1,4 +1,3 @@
-useRouterHistory     = require 'react-router'
 {createHistory}    = require 'history'
 {useRouterHistory} = require 'react-router'
 config               = require './config'
