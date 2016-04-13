@@ -2,13 +2,15 @@ $tab-color: $gray-blue;
 $tab-selected-color: $black;
 $tab-separator-color: $light-gray;
 $tab-min-width: 100px;
+$close-color: #79919D;
+$heading-color: #858585;
 
 .frontpage-panel-wrapper {
   position: absolute;
-  top: 52px;
-  z-index: 802;
+  top: 0;
+  height: calc(100% - 48px);
+  z-index: 1000;
   width: 100%;
-  height: calc(100% - 102px);
   overflow: hidden;
   background-color: $background-color;
 
@@ -16,11 +18,32 @@ $tab-min-width: 100px;
     height: 100%;
     padding-bottom: 15px;
   }
+
+  .panel-top {
+    display: flex;
+    margin: 0.5em 1em 0 1em;
+
+    .panel-heading {
+      display: inline-block;
+      h2 {
+        margin: 0;
+        color: $heading-color;
+        text-transform: uppercase;
+        font-size: 18px;
+      }
+    }
+    .close-icon {
+      margin-left: auto;
+      color: $close-color;
+      display: inline-block;
+      line-height: 2;
+    }
+  }
 }
 
 .frontpage-panel-container .tabs-row {
   position: fixed;
-  z-index: 803;
+  z-index: 1001;
   bottom: 0;
 }
 

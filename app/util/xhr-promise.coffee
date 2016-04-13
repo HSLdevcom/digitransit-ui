@@ -25,7 +25,20 @@ class XhrPromise
     ).then (res) ->
       res.json()
 
-  # Return Promise for array of url json get requests
+  # Return Promise for post request
+  postJson: (url, params, payload) ->
+    fetch((encodeURI(url) + if params then ((if url.search(/\?/) == -1 then "?" else "&") + serialize params) else ""),
+      timeout: 10000
+      method: 'POST'
+      body: payload
+      headers:
+        "Accept": "application/json"
+        "Content-Type": "application/json"
+    ).then (res) ->
+      res.json()
+
+
+# Return Promise for array of url json get requests
   getJsons: (urls) =>
     promises = urls.map (url) =>
       @getJson(url)
