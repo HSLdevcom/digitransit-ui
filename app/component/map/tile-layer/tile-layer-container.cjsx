@@ -8,7 +8,7 @@ omit          = require 'lodash/omit'
 provideContext = require 'fluxible-addons-react/provideContext'
 StopMarkerPopup = require '../stop/stop-marker-popup'
 MarkerSelectPopup = require './marker-select-popup'
-
+CityBikePopup = require '../city-bike/city-bike-popup'
 
 TileContainer = require './tile-container'
 
@@ -51,6 +51,12 @@ class TileLayerContainer extends BaseTileLayer
       router: React.PropTypes.object.isRequired
       route: React.PropTypes.object.isRequired
 
+    CityBikePopupWithContext = provideContext CityBikePopup,
+      intl: intl.intlShape.isRequired
+      router: React.PropTypes.object.isRequired
+      route: React.PropTypes.object.isRequired
+      getStore: React.PropTypes.func.isRequired
+
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = height: 150
 
@@ -82,9 +88,7 @@ class TileLayerContainer extends BaseTileLayer
           options={popupOptions}
           latlng={@state.coords}
           ref="popup">
-          <div>
-            Todo
-          </div>
+          <CityBikePopupWithContext station={@state.stops[0].feature.properties} context={@context}/>
         </Popup>
     else if @state?.stops.length > 1
       <Popup
