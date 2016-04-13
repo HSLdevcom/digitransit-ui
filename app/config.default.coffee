@@ -17,6 +17,7 @@ module.exports =
     OTP: "#{API_URL}/otp/routers/finland/"
     MAP: "#{API_URL}/hsl-map/"
     STOP_MAP: "#{API_URL}/finland-stop-map/"
+    CITYBIKE_MAP: "#{API_URL}/hsl-citybike-map/"
     MQTT: "ws://213.138.147.225:1883"
     ALERTS: "#{API_URL}/hsl-alert/"
     FONT: "http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700"

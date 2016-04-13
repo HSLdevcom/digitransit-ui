@@ -17,6 +17,7 @@ module.exports =
     MAP: "#{API_URL}/hsl-map/"
     OTP: "#{API_URL}/otp/routers/hsl/"
     STOP_MAP: "#{API_URL}/hsl-stop-map/"
+    CITYBIKE_MAP: "#{API_URL}/hsl-citybike-map/"
     MQTT: "ws://213.138.147.225:1883"
     ALERTS: "#{API_URL}/hsl-alert/"
     FONT: "https://cloud.typography.com/6364294/6653152/css/fonts.css"

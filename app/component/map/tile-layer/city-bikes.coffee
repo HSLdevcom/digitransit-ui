@@ -27,7 +27,7 @@ citybikeImage.src = "data:image/svg+xml;base64,#{btoa(citybikeImageText)}"
 class CityBikes
   constructor: (@tile) ->
     @name = "citybike"
-    @promise = fetch("http://localhost:8001/hsl-citybike-map/#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
+    @promise = fetch("#{config.URL.CITYBIKE_MAP}#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
       if res.status != 200
         return
       res.arrayBuffer().then (buf) =>
