@@ -385,7 +385,7 @@ translations =
     'walk-distance-to-dest': 'Gå {distance} {duration}'
     'wait-amount-of-time': 'Vent {duration}'
     'favourite-target': 'Favorittdestinasjon'
-    'search': 'Søk'
+    'search': 'Sanntid'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
