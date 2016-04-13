@@ -34,13 +34,6 @@ $search-header-height: 45px;
   padding-top: 10px;
 }
 
-.search-form--with-button {
-  .input-placeholder {
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-  }
-}
-
 .search-form input, .search-form input:focus {
   height: $search-form-input-height;
   border-top-left-radius: $search-form-border-radius;
@@ -145,11 +138,17 @@ $search-header-height: 45px;
 }
 
 ul#react-whatever-suggest {
+  @extend .momentum-scroll;
   max-height: 9em;
   overflow-y: auto;
   margin-top: 10px;
+  max-height: calc(100% - #{$search-form-input-height} - #{$search-header-height});
 
   li {
+
+    white-space: nowrap;
+    overflow: hidden;
+
     & .search-result {
       display: block;
       height: 2.1em;
@@ -233,7 +232,7 @@ div.search-modal {
 }
 
 .autosuggestIcon {
-  color: $gray;
+  color: $medium-gray;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -252,6 +251,7 @@ div.search-modal {
 .search-header {
   height: $search-header-height;
   line-height: $search-header-height;
+  height: 100%;
 
   .search-header__category-text {
     color: $gray-blue;
@@ -295,6 +295,17 @@ div.search-modal {
     > div:nth-child(2) { //hack, modify tabs in material ui to fix
       @extend .search-header-width-fix;
     }
+    > div:nth-child(3) {
+      height: 100%;
+      > div {
+        height: 100%;
+        > div{
+          height: 95%;
+        }
+      }
+    }
+    overflow-y: hidden;
+    height:100%
   }
 }
 

@@ -19,6 +19,9 @@ getTopicsForPlan = (plan) ->
     route: leg.routeId.split(":")[1]
     # direction is not yet returned in plan endpoint
 
+getLatLng = (lat, lon) ->
+  new L.LatLng(lat, lon)
+
 getDistanceToNearestStop = (lat, lon, stops) ->
   myPos = new L.LatLng(lat, lon)
 
@@ -66,3 +69,4 @@ module.exports =
   getDistanceToNearestStop: getDistanceToNearestStop
   getDistanceToFurthestStop: getDistanceToFurthestStop
   displayDistance: displayDistance
+  getLatLng: getLatLng
