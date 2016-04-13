@@ -28,7 +28,7 @@ getColor = memoize (mode) -> getSelector(".#{mode?.toLowerCase()}")?.style.color
 
 class Stops
   constructor: (@tile) ->
-    fetch("#{config.URL.STOP_MAP}#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
+    @promise = fetch("#{config.URL.STOP_MAP}#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
       if res.status != 200
         return
       res.arrayBuffer().then (buf) =>
@@ -38,6 +38,7 @@ class Stops
           .filter((feature) -> feature.properties.type)
         for i in @features
           @addFeature i
+        return
       , (err) -> console.log err
 
   addFeature: (feature) =>

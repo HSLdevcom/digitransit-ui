@@ -26,7 +26,7 @@ citybikeImage.src = "data:image/svg+xml;base64,#{btoa(citybikeImageText)}"
 
 class CityBikes
   constructor: (@tile) ->
-    fetch("http://172.30.1.239:8001/hsl-citybike-map/#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
+    @promise = fetch("http://172.30.1.239:8001/hsl-citybike-map/#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
       if res.status != 200
         return
       res.arrayBuffer().then (buf) =>
@@ -35,6 +35,7 @@ class CityBikes
           .map((i) -> vt.layers.stations.feature i)
         for i in @features
           @addFeature i
+        return
       , (err) -> console.log err
 
   addFeature: (feature) =>

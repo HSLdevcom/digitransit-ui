@@ -14,7 +14,8 @@ class Tile
     @ctx = @el.getContext '2d'
     @layers = @props.layers.map (Layer) =>
       new Layer(this)
-    done(null, @el)
+    Promise.all(@layers.map (layer) -> layer.promise).then () =>
+      done(null, @el)
 
   createElement: () =>
     el = document.createElement 'canvas'
