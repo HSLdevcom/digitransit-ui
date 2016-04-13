@@ -25,7 +25,8 @@ class AirportCheckInLeg extends React.Component
             defaultMessage='Optionally check in your luggage with {agency}' />
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
-        <div><FormattedMessage
+        <div className="itinerary-leg-intermediate-stops">
+          <FormattedMessage
             id='airport-security-check-go-to-gate'
             defaultMessage='Walk through the security check and go to gate' />
         </div>

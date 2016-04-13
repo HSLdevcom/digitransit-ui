@@ -36,7 +36,7 @@ class BicycleLeg extends React.Component
             defaultMessage='Cycle for about {estimatedTime} from {fromName} to {toName}' />
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
-        <div>
+        <div className='itinerary-leg-intermediate-stops'>
           <Distance distance={@props.leg.distance}/>
         </div>
       </div>
