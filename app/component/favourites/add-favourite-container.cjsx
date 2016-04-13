@@ -117,7 +117,7 @@ class AddFavouriteContainer extends React.Component
                     searchModalIsOpen: true
                     () =>
                       @focusInput()
-                  @context.executeAction SearchActions.executeSearch, ""}
+                  @context.executeAction SearchActions.executeSearch, {type: "endpoint", input: ""}}
                 autosuggestPlaceholder={destinationPlaceholder}
                 id='destination'
                 className='add-favourite-container__input-placeholder'
@@ -166,6 +166,7 @@ class AddFavouriteContainer extends React.Component
             ref="searchInputfavourite"
             id="search-favourite"
             initialValue = {""}
+            type="endpoint"
             onSuggestionSelected = {(name, item) =>
               @setCoordinatesAndAddress(name, item)
               @closeSearchModal()
