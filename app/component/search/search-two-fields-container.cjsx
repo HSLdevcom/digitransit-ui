@@ -1,10 +1,7 @@
 React            = require 'react'
 EndpointActions  = require '../../action/endpoint-actions'
-PositionActions  = require '../../action/position-actions'
 SearchActions    = require '../../action/search-actions'
-{locationToOTP}  = require '../../util/otp-strings'
 SearchTwoFields  = require './search-two-fields'
-{getRoutePath}   = require '../../util/path'
 SearchField      = require './search-field'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -24,27 +21,6 @@ class SearchTwoFieldsContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
     router: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
-
-  componentWillMount: =>
-    @context.getStore('EndpointStore').addChangeListener @onEndpointChange
-    @context.getStore('PositionStore').addChangeListener @onGeolocationChange
-
-  componentWillUnmount: =>
-    @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
-    @context.getStore('PositionStore').removeChangeListener @onGeolocationChange
-
-  onGeolocationChange: (statusChanged) =>
-    #We want to rerender only if position status changes,
-    #not if position changes
-    if statusChanged
-      if @context.getStore('PositionStore').getLocationState().status == 'found-address'
-        @routeIfPossible() #TODO: this should not be done here
-      else
-        @forceUpdate()
-
-  onEndpointChange: () =>
-    @forceUpdate()
-    @routeIfPossible() #TODO: this should not be done here
 
   onSwitch: (e) =>
     e.preventDefault()
@@ -71,35 +47,6 @@ class SearchTwoFieldsContainer extends React.Component
 
   focusInput: (value) =>
     @refs["searchInput" + value]?.refs.autowhatever?.refs.input?.focus()
-
-  routeIfPossible: =>
-    geolocation = @context.getStore('PositionStore').getLocationState()
-    origin = @context.getStore('EndpointStore').getOrigin()
-    destination = @context.getStore('EndpointStore').getDestination()
-
-    if ((origin.lat or origin.useCurrentPosition and geolocation.hasLocation) and
-        (destination.lat or destination.useCurrentPosition and geolocation.hasLocation))
-
-      # TODO: currently address gets overwritten by reverse from geolocation
-      # Swap the position of the two arguments to get "Oma sijainti"
-      geo_string = locationToOTP(
-        Object.assign({address: "Oma sijainti"}, geolocation))
-
-      if origin.useCurrentPosition
-        from = geo_string
-      else
-        from = locationToOTP(origin)
-
-      if destination.useCurrentPosition
-        to = geo_string
-      else
-        to = locationToOTP(destination)
-
-      # Then we can transition. We must do this in next
-      # event loop in order to get blur finished.
-      setTimeout(() =>
-        @context.router.push getRoutePath(from, to)
-      , 0)
 
   render: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -157,7 +104,7 @@ class SearchTwoFieldsContainer extends React.Component
       />
 
     <div>
-      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} routeIfPossible={@routeIfPossible}/>
+      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch}/>
       <SearchModal
         ref="modal"
         selectedTab={@state.selectedTab}

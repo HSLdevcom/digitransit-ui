@@ -70,14 +70,14 @@ addFavouriteLocations = (favourites, features, input) ->
 
   features.concat results
 
-getGeocodingResult = (input, geolocation) ->
+getGeocodingResult = (input, geolocation, language) ->
   if input == undefined or input == null or input.trim().length < 3
     return Promise.resolve []
 
   if config.autoSuggest.locationAware && geolocation.hasLocation
-    opts = Object.assign text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon
+    opts = Object.assign text: input, config.searchParams, "focus.point.lat": geolocation.lat, "focus.point.lon": geolocation.lon, lang: language
   else
-    opts = Object.assign text: input, config.searchParams
+    opts = Object.assign text: input, config.searchParams, lang: language
 
   return XhrPromise.getJson(config.URL.PELIAS, opts).then (res) -> res.features
 
@@ -174,6 +174,7 @@ executeSearch = (actionContext, params) ->
   processResults(actionContext, [])
   {input, type} = params
   geoLocation = actionContext.getStore('PositionStore').getLocationState()
+  language = actionContext.getStore('PreferencesStore').getLanguage()
   origin = actionContext.getStore('EndpointStore').getOrigin()
 
   if origin.lat
@@ -185,7 +186,7 @@ executeSearch = (actionContext, params) ->
   if type == 'endpoint'
     favouriteLocations = actionContext.getStore("FavouriteLocationStore").getLocations()
     oldSearches = actionContext.getStore("OldSearchesStore").getOldSearches("endpoint")
-    Promise.all([getGeocodingResult(input, geoLocation), searchStops (input)])
+    Promise.all([getGeocodingResult(input, geoLocation, language), searchStops (input)])
     .then (result) ->
       result[0].concat(result[1])
     .then addCurrentPositionIfEmpty
@@ -203,7 +204,7 @@ executeSearch = (actionContext, params) ->
     searchRoutesAndStops(input, referenceLocation, favouriteRoutes)
     .then uniq
     .then (suggestions) ->
-      take(filterMatchingToInput(suggestions, input, ["properties.label","properties.code"]), 20)
+      take(filterMatchingToInput(suggestions, input, ["properties.label", "properties.code"]), 20)
     .then (suggestions) ->
       processResults actionContext, suggestions
     .catch (e) ->
