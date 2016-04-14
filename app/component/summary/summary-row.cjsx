@@ -51,7 +51,7 @@ class SummaryRow extends React.Component
           {geoUtils.displayDistance(data.walkDistance)}
         </div>
       </div>
-      <div className={cx "itinerary-start-time", if realTimeAvailable then "realtime-available"}>
+      <div className={cx "itinerary-start-time", "realtime-available": realTimeAvailable}>
         {startTime.format("HH:mm")}
       </div>
       <div className="itinerary-legs">{legs}</div>
