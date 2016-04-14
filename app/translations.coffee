@@ -415,7 +415,7 @@ translations =
     'near-you': 'Proche de vous'
     'show-more': 'Afficher plus'
     'now': 'Maintenant'
-    'arriving-soon': 'lmm'
+    'arriving-soon': 'Imm'
     'later': 'Plus tard'
     'instructions': 'Instructions'
     'map': 'Carte'
