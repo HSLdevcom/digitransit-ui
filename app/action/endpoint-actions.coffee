@@ -23,6 +23,10 @@ module.exports.setEndpoint = (actionContext, payload) =>
 
 module.exports.setUseCurrent = (actionContext, target) ->
   actionContext.dispatch "useCurrentPosition", target
+  actionContext.executeAction(itinerarySearchActions.route, undefined, (e) =>
+    if e
+      console.error "Could not route:", e
+  )
 
 module.exports.swapEndpoints = (actionContext) ->
   actionContext.dispatch "swapEndpoints"
