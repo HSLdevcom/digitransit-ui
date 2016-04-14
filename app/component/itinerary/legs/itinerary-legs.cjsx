@@ -13,6 +13,7 @@ SubwayLeg   = require './subway-leg'
 TramLeg     = require './tram-leg'
 RailLeg     = require './rail-leg'
 FerryLeg    = require './ferry-leg'
+CarLeg      = require './car-leg'
 config      = require '../../../config'
 
 
@@ -90,6 +91,14 @@ class ItineraryLegs extends React.Component
         legs.push <AirportCollectLuggageLeg key={j + 'cl'} leg={leg} focusAction={focus}/>
       else if leg.rentedBike || leg.mode == 'BICYCLE'
         legs.push <BicycleLeg key={j} index={j} leg={leg} focusAction={focus}/>
+      else if leg.mode == 'CAR'
+        legs.push <CarLeg
+          key={j}
+          index={j}
+          leg={leg}
+          focusAction={focus}>
+          {@stopCode leg.from.stop?.code}
+        </CarLeg>
       else
         legs.push <WalkLeg
           key={j}
