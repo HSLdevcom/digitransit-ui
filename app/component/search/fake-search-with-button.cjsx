@@ -10,7 +10,7 @@ FakeSearchWithButton = (props) ->
         </div>
         <div className="small-1 columns" onClick={props.onClick}>
           <span className="postfix search cursor-pointer button-icon">
-            <Icon img={'icon-icon_search'}/>
+            <Icon img='icon-icon_search'/>
           </span>
         </div>
       </div>

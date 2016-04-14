@@ -92,11 +92,11 @@ class AddFavouriteContainer extends React.Component
     <div>
       <div className={cx @props.className, "add-favourite-container"}>
         <Link to="/" className="right cursor-pointer">
-          <Icon id="add-favourite-close-icon" img={'icon-icon_close'}/>
+          <Icon id="add-favourite-close-icon" img='icon-icon_close'/>
         </Link>
         <row>
           <div className="add-favourite-container__content small-12 medium-8 large-6 small-centered columns">
-            <header className={"add-favourite-container__header row"}>
+            <header className="add-favourite-container__header row">
               <div className="cursor-pointer add-favourite-star small-1 columns">
                 <Icon className={cx "add-favourite-star__icon", "selected"} img="icon-icon_star"/>
               </div>
@@ -152,17 +152,17 @@ class AddFavouriteContainer extends React.Component
       <SearchModal
         ref="modal"
         modalIsOpen={@state.searchModalIsOpen}
-        selectedTab={"favourite-place"}
+        selectedTab="favourite-place"
         closeModal={@closeSearchModal}>
         <Tab
         className="search-header__button--selected"
         label={searchTabLabel}
         ref="searchTab"
-        value={"favourite-place"}>
+        value="favourite-place">
           <SearchInput
             ref="searchInputfavourite"
             id="search-favourite"
-            initialValue = {""}
+            initialValue = ""
             type="endpoint"
             onSuggestionSelected = {(name, item) =>
               @setCoordinatesAndAddress(name, item)

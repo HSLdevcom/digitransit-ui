@@ -95,8 +95,8 @@ class SearchMainContainer extends React.Component
           className={"search-header__button" + if @state.selectedTab == "origin" then "--selected" else ""}
           label={originSearchTabLabel}
           ref="searchTab"
-          value={"origin"}
-          id={"origin"}
+          value="origin"
+          id="origin"
           onActive={@onTabChange}>
             <SearchInput
               ref="searchInputorigin"
@@ -119,14 +119,14 @@ class SearchMainContainer extends React.Component
         <Tab
           className={"search-header__button" + if @state.selectedTab == "destination" then "--selected" else ""}
           label={destinationSearchTabLabel}
-          value={"destination"}
-          id={"destination"}
+          value="destination"
+          id="destination"
           ref="searchTab"
           onActive={@onTabChange}>
           <SearchInput
             ref="searchInputdestination"
             initialValue = {@context.getStore('EndpointStore').getDestination()?.address || ""}
-            id={"search-destination"}
+            id="search-destination"
             type="endpoint"
             onSuggestionSelected = {(name, item) =>
               if item.type == 'CurrentLocation'
@@ -144,13 +144,13 @@ class SearchMainContainer extends React.Component
         <Tab
           className={"search-header__button" + if @state.selectedTab == "search" then "--selected" else ""}
           label={searchTabLabel}
-          value={"search"}
+          value="search"
           ref="searchTab"
           onActive={@onTabChange}>
           <SearchInput
             ref="searchInputsearch"
             initialValue = ""
-            id={"search"}
+            id="search"
             type="search"
             onSuggestionSelected = {(name, item) =>
               if item.properties.link then @context.router.push item.properties.link
