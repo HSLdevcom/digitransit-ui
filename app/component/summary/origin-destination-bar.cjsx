@@ -4,6 +4,7 @@ SearchModal               = require '../search/search-modal'
 SearchInput               = require '../search/search-input'
 Tab                       = require 'material-ui/lib/tabs/tab'
 {intlShape}               = require 'react-intl'
+Icon = require '../icon/icon'
 
 class OriginDestinationBar extends React.Component
 
@@ -37,7 +38,7 @@ class OriginDestinationBar extends React.Component
   render: ->
     <div className="origin-destination-bar">
       <span className="field-link" onClick={() => @setState(tabOpen: "origin")}>{@state.origin}</span>
-      <span className="switch" onClick={() => @context.executeAction EndpointActions.swapEndpoints}>{'\u21c4'}</span>
+      <span className="switch" onClick={() => @context.executeAction EndpointActions.swapEndpoints}><Icon img="icon-icon_direction-b"/></span>
       <span className="field-link" onClick={() => @setState(tabOpen: "destination")}>{@state.destination}</span>
       <SearchModal
         ref="modal"

@@ -10,15 +10,24 @@
     color: white;
     border-bottom: 1px dotted $gray-blue-light;
     display: inline-block;
-    width: 45%;
+    width: 43%;
     height: 20px;
     white-space: nowrap;
     overflow: hidden;
   }
 
   .switch {
-    width: 10%;
+    color: white;
+    height: 20px;
+    width: 14%;
     display: inline-block;
     text-align: center;
+
+    .icon {
+      height: 1.6em;
+      width: 1.6em;
+    }
   }
+
+
 }
