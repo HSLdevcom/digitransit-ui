@@ -20,7 +20,7 @@ DepartureTime = (props, context) ->
     if departureTime.isBefore(currentTime) or departureTime.isAfter(currentTime.clone().add(20, 'minutes'))
       departureTime.format "HH:mm"
     else if currentTime.diff(departureTime, 'minutes') == 0
-      <FormattedMessage id="now" defaultMessage="now"/>
+      <FormattedMessage id='arriving-soon' defaultMessage='Now'/>
     else
       minuteShort = context.intl.formatMessage {id: 'minute-short', defaultMessage: "min"}
       departureTime.diff(currentTime, 'minutes') + " #{minuteShort}"}
