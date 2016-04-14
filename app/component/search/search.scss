@@ -142,7 +142,7 @@ ul#react-whatever-suggest {
   max-height: 9em;
   overflow-y: auto;
   margin-top: 10px;
-  max-height: calc(100% - #{$search-form-input-height} - #{$search-header-height});
+  max-height: calc(100% - 20px);
 
   li {
 
@@ -296,16 +296,15 @@ div.search-modal {
       @extend .search-header-width-fix;
     }
     > div:nth-child(3) {
-      height: 100%;
+      height: calc(100% - #{$search-form-input-height});
       > div {
-        height: 100%;
+        height: 95%;
         > div{
-          height: 95%;
+          height: 100%;
         }
       }
     }
-    overflow-y: hidden;
-    height:100%
+    height: calc(100% - 30px)
   }
 }
 

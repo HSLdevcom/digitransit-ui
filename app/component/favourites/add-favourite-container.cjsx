@@ -108,14 +108,15 @@ class AddFavouriteContainer extends React.Component
               <h4><FormattedMessage id="specify-location" defaultMessage="Specify the location"/></h4>
               <FakeSearchBar
                 endpoint={"address": @state?.address || ""}
+                placeholder={destinationPlaceholder}
                 onClick={(e) =>
                   e.preventDefault()
                   @setState
                     searchModalIsOpen: true
                     () =>
                       @focusInput()
-                  @context.executeAction SearchActions.executeSearch, ""}
-                placeholder={destinationPlaceholder}
+                  @context.executeAction SearchActions.executeSearch, {type: "endpoint", input: ""}}
+                id='destination'
                 className='add-favourite-container__input-placeholder'
               />
             </div>
@@ -162,6 +163,7 @@ class AddFavouriteContainer extends React.Component
             ref="searchInputfavourite"
             id="search-favourite"
             initialValue = {""}
+            type="endpoint"
             onSuggestionSelected = {(name, item) =>
               @setCoordinatesAndAddress(name, item)
               @closeSearchModal()

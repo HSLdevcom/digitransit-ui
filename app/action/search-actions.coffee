@@ -203,7 +203,7 @@ executeSearch = (actionContext, params) ->
     searchRoutesAndStops(input, referenceLocation, favouriteRoutes)
     .then uniq
     .then (suggestions) ->
-      take(filterMatchingToInput(suggestions, input, ["properties.label","properties.code"]), 20)
+      take(filterMatchingToInput(suggestions, input, ["properties.label", "properties.code"]), 20)
     .then (suggestions) ->
       processResults actionContext, suggestions
     .catch (e) ->
