@@ -341,7 +341,7 @@ translations =
     'citybike-register-required': 'Bysykkelregistrering påkreves'
     'use-citybike': 'Bruk bysykkel'
     'citybike': 'Bysykkel'
-    'inquiry': 'Send forespørsel'
+    'inquiry': 'Send tilbakemelding'
     'platform-num': 'Plattform {platformCode}'
     'departures': 'Avganger'
     'show-departures': 'Vis avganger'
