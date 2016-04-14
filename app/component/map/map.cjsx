@@ -17,8 +17,8 @@ if isBrowser and config.map.useVectorTiles
   CityBikes          = require './tile-layer/city-bikes'
 
 else
-  StopMarkerContainer = if isBrowser then require './stop/stop-marker-container'
-  CityBikeMarkerContainer = if isBrowser then require './city-bike/city-bike-marker-container'
+  StopMarkerContainer = if isBrowser then require './non-tile-layer/stop-marker-container'
+  CityBikeMarkerContainer = if isBrowser then require './non-tile-layer/city-bike-marker-container'
 
 #VehicleMarkerContainer = require './vehicle-marker-container'
 

@@ -2,12 +2,12 @@ React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../../queries'
 isBrowser          = window?
-StopMarker         = require './stop/stop-marker'
+StopMarker         = require './non-tile-layer/stop-marker'
 LocationMarker     = require './location-marker'
 Line               = require './line'
 TripLine           = require './trip-line'
 polyUtil           = require 'polyline-encoded'
-CityBikeMarker     = require './city-bike/city-bike-marker'
+CityBikeMarker     = require './non-tile-layer/city-bike-marker'
 
 class ItineraryLine extends React.Component
   @contextTypes:

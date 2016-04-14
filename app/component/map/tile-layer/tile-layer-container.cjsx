@@ -6,9 +6,9 @@ intl          = require 'react-intl'
 BaseTileLayer = require('react-leaflet/lib/BaseTileLayer').default
 omit          = require 'lodash/omit'
 provideContext = require 'fluxible-addons-react/provideContext'
-StopMarkerPopup = require '../stop/stop-marker-popup'
+StopMarkerPopup = require '../popups/stop-marker-popup'
 MarkerSelectPopup = require './marker-select-popup'
-CityBikePopup = require '../city-bike/city-bike-popup'
+CityBikePopup = require '../popups/city-bike-popup'
 
 TileContainer = require './tile-container'
 
