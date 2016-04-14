@@ -43,7 +43,11 @@ module.exports =
   availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
   leftMenu:
+    # Whether to show the left menu toggle button at all
     show: true
+    showInquiry: true
+    showLoginCreateAccount: true
+    showOffCanvasList: true
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180

@@ -29,6 +29,7 @@ translations =
     'near-you': 'Lähelläsi'
     'show-more': 'Näytä lisää'
     'now': 'Nyt'
+    'arriving-soon': 'Nyt'
     'later': 'Myöhemmin'
     'instructions': 'Ohjeet'
     'map': 'Kartta'
@@ -136,6 +137,7 @@ translations =
     'ferry-with-route-number': 'Lautta {routeNumber}'
     'airplane-with-route-number': 'Lento {routeNumber}'
     'favourite-target': 'Suosikkikohde'
+    'search': 'Haku'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -155,6 +157,7 @@ translations =
     'near-you': 'När dig'
     'show-more': 'Visa fler'
     'now': 'Nu'
+    'arriving-soon': 'Nu'
     'later': 'Senare'
     'instructions': 'Instruktioner'
     'map': 'Karta'
@@ -242,6 +245,7 @@ translations =
     'cycle-from-to': 'TODO {fromName} - {toName}'
     'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
     'favourite-target': 'Favoritdestination'
+    'search': 'Sök'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -258,7 +262,7 @@ translations =
     'no-position': 'Ingen posisjon'
     'origin': 'Fra'
     'origin-placeholder': 'Fra'
-    'to-stop': 'Til holdeplass'
+    'to-stop': 'Avstand'
     'line': 'linje'
     'leaves': "Går"
     'next': "Neste"
@@ -271,6 +275,7 @@ translations =
     'near-you': 'Nær deg'
     'show-more': 'Vis flere'
     'now': 'Nå'
+    'arriving-soon': "Nå"
     'hour-short': 't'
     'minute-short': 'min'
     'later': 'Senere'
@@ -291,7 +296,7 @@ translations =
     'right-now': 'Nå'
     'minutes': 'min'
     'timetable': 'Tidtabeller'
-    'no-favourites': 'Du har ikke lagret noen favoritter enda'
+    'no-favourites': 'Du kan legge til favoritter ved å trykke på stjerneknapper forskjellige steder i reiseplanleggeren'
     'distance-under': 'Avstand mindre enn {distance} m'
     'distance-between': 'Avstand {distance1} m — {distance2} m'
     'tickets': 'Billetter'
@@ -339,7 +344,7 @@ translations =
     'citybike-register-required': 'Bysykkelregistrering påkreves'
     'use-citybike': 'Bruk bysykkel'
     'citybike': 'Bysykkel'
-    'inquiry': 'Send forespørsel'
+    'inquiry': 'Send tilbakemelding'
     'platform-num': 'Plattform {platformCode}'
     'departures': 'Avganger'
     'show-departures': 'Vis avganger'
@@ -382,6 +387,8 @@ translations =
     'walk-distance-to-stop': 'Gå {distance} {duration}'
     'walk-distance-to-dest': 'Gå {distance} {duration}'
     'wait-amount-of-time': 'Vent {duration}'
+    'favourite-target': 'Favorittdestinasjon'
+    'search': 'Sanntid'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -397,7 +404,7 @@ translations =
     'searching-position': 'Localisation en cours...'
     'own-position': 'Position actuelle'
     'no-position': 'Aucune position'
-    'origin': 'Lieu'
+    'origin': 'Départ'
     'origin-placeholder': 'Lieu, adresse ou arrêt'
     'to-stop': 'Arrêt'
     'line': 'Ligne'
@@ -412,6 +419,7 @@ translations =
     'near-you': 'Proche de vous'
     'show-more': 'Afficher plus'
     'now': 'Maintenant'
+    'arriving-soon': 'Imm.'
     'later': 'Plus tard'
     'instructions': 'Instructions'
     'map': 'Carte'
@@ -437,7 +445,7 @@ translations =
     'contact-information': 'Contacter {contactName}'
     'create-account': 'Créer un identifiant {contactName}'
     'login': 'Se connecter'
-    'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessible depuis d\'autres appareils'
+    'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessibles depuis d\'autres appareils'
     'cause': 'Cause'
     'disruption-info': 'Informations sur les perturbations'
     'disruption-info-no-alerts': 'Perturbations en cours'
@@ -519,6 +527,7 @@ translations =
     'subway-with-route-number': 'Metro {routeNumber}'
     'ferry-with-route-number': 'Bâteau {routeNumber}'
     'airplane-with-route-number': 'Avion {routeNumber}'
-    'favourite-target': 'TODO'
+    'favourite-target': 'Destination favorite'
+    'search': 'Recherche'
 
 module.exports = translations

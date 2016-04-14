@@ -2,14 +2,11 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 Tabs                  = require 'react-simpletabs'
-ModeFilterContainer   = require '../route/mode-filter-container'
-NoPositionPanel       = require './no-position-panel'
 Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
 ReactCSSTransitionGroup = require 'react-addons-css-transition-group'
 FavouritesPanel       = require '../favourites/favourites-panel'
-NearestRoutesContainer = require './nearest-routes-container'
-NextDeparturesListHeader = require '../departure/next-departures-list-header'
+NearbyRoutesPanel     = require './nearby-routes-panel'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 Feedback              = require '../../util/feedback'
 FeedbackActions       = require '../../action/feedback-action'
@@ -25,23 +22,6 @@ class FrontPagePanel extends React.Component
     router: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
     executeAction: React.PropTypes.func.isRequired
-
-  componentDidMount: ->
-    @context.getStore('PositionStore').addChangeListener @onGeolocationChange
-    @context.getStore('EndpointStore').addChangeListener @onChange
-
-  componentWillUnmount: ->
-    @context.getStore('PositionStore').removeChangeListener @onGeolocationChange
-    @context.getStore('EndpointStore').removeChangeListener @onChange
-
-  onGeolocationChange: (status) =>
-    #We want to rerender only if position status changes,
-    #not if position changes
-    if status.statusChanged
-      @forceUpdate()
-
-  onChange: =>
-    @forceUpdate()
 
   onReturnToFrontPage: ->
     if Feedback.shouldDisplayPopup(@context.getStore('TimeStore').getCurrentTime().valueOf())
@@ -75,6 +55,9 @@ class FrontPagePanel extends React.Component
       @setState
         selectedPanel: newSelection
 
+  closePanel: =>
+    @selectPanel @getSelectedPanel()
+
   startMeasuring: ->
     startMeasuring()
 
@@ -91,59 +74,37 @@ class FrontPagePanel extends React.Component
                                Math.round(results.avg))
 
   render: ->
-    PositionStore = @context.getStore 'PositionStore'
-    location = PositionStore.getLocationState()
-    origin = @context.getStore('EndpointStore').getOrigin()
-
-    if origin?.lat
-      routesPanel = <NearestRoutesContainer lat={origin.lat} lon={origin.lon}/>
-    else if (location.status == PositionStore.STATUS_FOUND_LOCATION or
-             location.status == PositionStore.STATUS_FOUND_ADDRESS)
-      routesPanel = <NearestRoutesContainer lat={location.lat} lon={location.lon}/>
-    else if location.status == PositionStore.STATUS_SEARCHING_LOCATION
-      routesPanel = <div className="spinner-loader"/>
-    else
-      routesPanel = <NoPositionPanel/>
-
-    favouritesPanel = <FavouritesPanel/>
-
     tabClasses = []
     selectedClass =
       selected: true
     if @getSelectedPanel() == 1
-      panel = <div className="frontpage-panel-wrapper" key="panel">
-                <div className="frontpage-panel nearby-routes">
-                  <div className="row">
-                    <div className="medium-offset-3 medium-6 small-12 column">
-                      <ModeFilterContainer id="nearby-routes-mode"/>
-                    </div>
-                  </div>
-                  <NextDeparturesListHeader />
-                  <div
-                    className="scrollable momentum-scroll scroll-extra-padding-bottom"
-                    id="scrollable-routes"
-                    onTouchStart={@startMeasuring}
-                    onTouchEnd={@stopMeasuring}
-                    >
-                    {routesPanel}
-                  </div>
-                </div>
-              </div>
+      panel = <NearbyRoutesPanel />
+      heading = <FormattedMessage id='near-you' defaultMessage='Near you'/>
       tabClasses[1] = selectedClass
     else if @getSelectedPanel() == 2
-      panel = <div className="frontpage-panel-wrapper" key="panel">
-                {favouritesPanel}
-              </div>
+      panel = <FavouritesPanel />
+      heading = <FormattedMessage id='your-favourites' defaultMessage='Your favourites'/>
       tabClasses[2] = selectedClass
+
+    top = <div className="panel-top">
+            <div className="panel-heading"><h2>{heading}</h2></div>
+            <div className="close-icon" onClick={@closePanel}>
+              <Icon img={'icon-icon_close'} />
+            </div>
+          </div>
 
     <div className="frontpage-panel-container no-select">
       <ReactCSSTransitionGroup
         transitionName="frontpage-panel-wrapper"
         transitionEnterTimeout={300}
-        transitionLeaveTimeout={300}
-      >
-        {panel}
+        transitionLeaveTimeout={300} >
+        {if panel
+          <div className="frontpage-panel-wrapper" key="panel">
+            {top}
+            {panel}
+          </div>}
       </ReactCSSTransitionGroup>
+
       <ul className='tabs-row tabs-arrow-up cursor-pointer'>
         <li className={cx (tabClasses[1]), 'small-6', 'h4', 'hover', 'nearby-routes'}
             onClick={=>
