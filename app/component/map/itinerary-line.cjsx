@@ -39,14 +39,18 @@ class ItineraryLine extends React.Component
         else
           fromTo
 
+    usingOwnBicycle = @props.legs[0]?.mode == 'BICYCLE' and not @props.legs[0]?.rentedBike
 
     for leg, i in @props.legs
       if leg.mode == "WAIT"  # No sense trying to render a non-moving leg
         continue
 
-      mode = leg.mode.toLowerCase()
+      mode = leg.mode
       if leg.rentedBike
         mode = "CITYBIKE"
+      if usingOwnBicycle and leg.mode == 'WALK'
+        mode = "BICYCLE_WALK"
+
       modePlusClass = mode + if @props.passive then " passive" else "" # TODO remove mixing of mode and passive concerns
 
       objs.push <Line map={@props.map}

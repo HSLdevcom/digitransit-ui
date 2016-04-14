@@ -36,7 +36,7 @@ class ItineraryLegs extends React.Component
     waitThreshold = config.itinerary.waitThreshold * 1000
 
     legs = []
-    usingOwnBicycle = @props.itinerary.legs[0]?.mode == 'BICYCLE' && !@props.itinerary.legs[0]?.rentedBike
+    usingOwnBicycle = @props.itinerary.legs[0]?.mode == 'BICYCLE' and not @props.itinerary.legs[0]?.rentedBike
 
     compressedLegs = []
 
