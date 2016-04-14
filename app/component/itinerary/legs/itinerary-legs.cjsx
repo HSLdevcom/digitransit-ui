@@ -24,14 +24,54 @@ class ItineraryLegs extends React.Component
     else
       undefined
 
+  continueWithBicycle: (leg1, leg2) =>
+    (leg1?.mode == 'BICYCLE' or leg1?.mode == 'WALK') and
+    (leg2?.mode == 'BICYCLE' or leg2?.mode == 'WALK')
+
+  continueWithRentedBicycle: (leg1, leg2) =>
+    leg1?.rentedBike and leg2?.rentedBike
+
   render: =>
-    numberOfLegs = @props.itinerary.legs.length
     waitThreshold = config.itinerary.waitThreshold * 1000
 
     legs = []
-    @props.itinerary.legs.forEach (leg, j) =>
-      nextLeg = @props.itinerary.legs[j + 1] if j + 1 < @props.itinerary.legs.length
-      previousLeg = @props.itinerary.legs[j - 1] if j > 0
+    usingOwnBicycle = @props.itinerary.legs[0]?.mode == 'BICYCLE' && !@props.itinerary.legs[0]?.rentedBike
+
+    compressedLegs = []
+
+    j = 0
+    while j < @props.itinerary.legs.length
+      leg = @props.itinerary.legs[j]
+      k = j + 1
+      while k < @props.itinerary.legs.length
+        nextLeg = @props.itinerary.legs[k]
+        if usingOwnBicycle and @continueWithBicycle(leg, nextLeg)
+          leg.duration += nextLeg.duration
+          leg.distance += nextLeg.distance
+          leg.to = nextLeg.to
+          leg.endTime = nextLeg.endTime
+          leg.mode = 'BICYCLE'
+          j = ++k
+          continue
+        if leg.rentedBike and @continueWithRentedBicycle(leg, nextLeg)
+          leg.duration += nextLeg.duration
+          leg.distance += nextLeg.distance
+          leg.to = nextLeg.to
+          leg.endTime += nextLeg.endTime
+          leg.mode = 'CITYBIKE'
+          j = ++k
+          continue
+        break
+
+      j = k
+      compressedLegs.push leg
+
+    numberOfLegs = compressedLegs.length
+
+    for leg, j in compressedLegs
+      nextLeg = compressedLegs[j + 1] if j + 1 < compressedLegs.length
+      previousLeg = compressedLegs[j - 1] if j > 0
+
       focus = () => @props.focusMap(leg.from.lat, leg.from.lon)
       if leg.mode == 'BUS'
         legs.push <BusLeg key={j} index={j} leg={leg} focusAction={focus} />
@@ -49,20 +89,19 @@ class ItineraryLegs extends React.Component
         legs.push <AirplaneLeg key={j} index={j} leg={leg} focusAction={focus} />
         legs.push <AirportCollectLuggageLeg key={j + 'cl'} leg={leg} focusAction={focus}/>
       else if leg.rentedBike || leg.mode == 'BICYCLE'
-        legs.push <BicycleLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
+        legs.push <BicycleLeg key={j} index={j} leg={leg} focusAction={focus}/>
       else
         legs.push <WalkLeg
-                    key={j}
-                    index={j}
-                    leg={leg}
-                    legs={numberOfLegs}
-                    focusAction={focus}>
+          key={j}
+          index={j}
+          leg={leg}
+          focusAction={focus}>
           {@stopCode leg.from.stop?.code}
         </WalkLeg>
 
       waitTime = nextLeg.startTime - leg.endTime if nextLeg
       if waitTime > waitThreshold and nextLeg?.mode != 'AIRPLANE' and leg.mode != 'AIRPLANE'
-        legs.push <WaitLeg key={j + 'w'} leg={leg} legs={numberOfLegs} startTime={leg.endTime} waitTime={waitTime} focusAction={focus}>
+        legs.push <WaitLeg key={j + 'w'} leg={leg} startTime={leg.endTime} waitTime={waitTime} focusAction={focus}>
           {@stopCode leg.from.stop?.code}
         </WaitLeg>
 
@@ -70,8 +109,8 @@ class ItineraryLegs extends React.Component
               key={numberOfLegs}
               index={numberOfLegs}
               endTime={@props.itinerary.endTime}
-              focusAction={() => @props.focusMap(@props.itinerary.legs[numberOfLegs - 1].to.lat, @props.itinerary.legs[numberOfLegs - 1].to.lon)}
-              to={@props.itinerary.legs[numberOfLegs - 1].to.name}/>
+              focusAction={() => @props.focusMap(compressedLegs[numberOfLegs - 1].to.lat, compressedLegs[numberOfLegs - 1].to.lon)}
+              to={compressedLegs[numberOfLegs - 1].to.name}/>
     <div>{legs}</div>
 
 
