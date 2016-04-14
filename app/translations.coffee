@@ -126,6 +126,7 @@ translations =
     'airport-collect-luggage': 'Nouda matkatavarat'
     'rent-cycle-at': 'Vuokraa pyörä asemalta {station}'
     'cycle-distance-duration': 'Pyöräile {distance} ({duration})'
+    'cyclewalk-distance-duration': 'Taluta pyörää {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ei pysähdyksiä}
       other {{number} pysäkkiä}
@@ -243,6 +244,7 @@ translations =
     'wait-amount-of-time': 'Vänta {duration}'
     'rent-cycle-at': 'TODO {station}'
     'cycle-distance-duration': 'Cyckla {distance} ({duration})'
+    'cyclewalk-distance-duration': 'TODO {distance} ({duration})'
     'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
     'favourite-target': 'Favoritdestination'
     'search': 'Sök'
@@ -374,6 +376,7 @@ translations =
     'walk': 'gå'
     'rent-cycle-at': 'TODO {station}'
     'cycle-distance-duration': 'Sykle {distance} ({duration})'
+    'cyclewalk-distance-duration': 'TODO {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ingen stopp}
       other {{number} stopp}
@@ -516,6 +519,7 @@ translations =
     'airport-collect-luggage': 'Récupérez vos bagages'
     'rent-cycle-at': 'TODO {station}'
     'cycle-distance-duration': 'Pédalez {distance} ({duration})'
+    'cyclewalk-distance-duration': 'TODO {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Sans arrêt}
       =1 {{number} arrêt}

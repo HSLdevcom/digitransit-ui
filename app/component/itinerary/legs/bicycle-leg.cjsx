@@ -19,6 +19,23 @@ class BicycleLeg extends React.Component
 
     legDescription = <span>{@props.leg.from.name}</span>
 
+    if @props.leg.mode == 'WALK' or @props.leg.mode == 'BICYCLE_WALK'
+      stopsDescription = <FormattedMessage
+        id='cyclewalk-distance-duration'
+        values={{
+          distance: distance
+          duration: duration
+        }}
+        defaultMessage='Walk the bike {distance} ({duration})' />
+    else
+      stopsDescription = <FormattedMessage
+        id='cycle-distance-duration'
+        values={{
+          distance: distance
+          duration: duration
+        }}
+        defaultMessage='Cycle {distance} ({duration})' />
+
     if @props.leg.rentedBike == true
       legDescription = <FormattedMessage id='rent-cycle-at'
         values={{
@@ -37,7 +54,7 @@ class BicycleLeg extends React.Component
         <div className="itinerary-time-column-time">
           {moment(@props.leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={mode.toLowerCase()} vertical={true}/>
+        <RouteNumber mode={mode} vertical={true}/>
       </div>
       <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + mode.toLowerCase()}>
         <div className="itinerary-leg-first-row">
@@ -45,13 +62,7 @@ class BicycleLeg extends React.Component
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
         <div className='itinerary-leg-intermediate-stops'>
-          <FormattedMessage
-            id='cycle-distance-duration'
-            values={{
-              distance: distance
-              duration: duration
-            }}
-            defaultMessage='Cycle {distance} ({duration})' />
+          {stopsDescription}
         </div>
       </div>
     </div>
