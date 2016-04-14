@@ -1,6 +1,7 @@
 React       = require 'react'
 Icon        = require '../icon/icon'
 cx          = require 'classnames'
+ItinerarySearchActions = require '../../action/itinerary-search-action'
 
 SearchTwoFields = (props) ->
   <div className="search-form">
@@ -26,7 +27,7 @@ SearchTwoFields = (props) ->
           </div>
           <div className="small-1 columns">
             {if props.showSearchButton
-              <span className="postfix search cursor-pointer button-icon" onClick={props.routeIfPossible}>
+              <span className="postfix search cursor-pointer button-icon" onClick={() -> @context.executeAction ItinerarySearchActions.route}>
                 <Icon img={'icon-icon_search'}/>
               </span>}
           </div>
@@ -39,7 +40,6 @@ SearchTwoFields.propTypes =
   from: React.PropTypes.node.isRequired
   to: React.PropTypes.node.isRequired
   onSwitch: React.PropTypes.func.isRequired
-  routeIfPossible: React.PropTypes.func.isRequired
 
 SearchTwoFields.description = "Search boxes for to and from values that can be used over a map"
 

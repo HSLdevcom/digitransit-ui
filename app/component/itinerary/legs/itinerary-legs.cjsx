@@ -47,7 +47,7 @@ class ItineraryLegs extends React.Component
         legs.push <AirportCollectLuggageLeg key={j} index={j} leg={leg} focusAction={focus}/>
       else if leg.mode == 'WAIT'
         legs.push <WaitLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}>
-          {@stopCode leg.from.stopCode}
+          {@stopCode leg.from.stop?.code}
         </WaitLeg>
       else if leg.rentedBike || leg.mode == 'BICYCLE' || leg.mode == 'CITYBIKE' || leg.mode == 'CITYBIKE_WALK'
         legs.push <BicycleLeg key={j} index={j} leg={leg} legs={numberOfLegs} focusAction={focus}/>
@@ -59,7 +59,7 @@ class ItineraryLegs extends React.Component
                     legs={numberOfLegs}
                     walkToDestination={if parseInt(j) == numberOfLegs - 1 then true else false}
                     focusAction={focus}>
-          {@stopCode leg.from.stopCode}
+          {@stopCode leg.from.stop?.code}
         </WalkLeg>
 
     legs.push <EndLeg

@@ -138,6 +138,8 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_airplane-withoutBox</span><br />
         <Icon img="icon-icon_arrow-collapse"/>
         <span className="code">icon-icon_arrow-collapse</span><br />
+        <Icon img="icon-icon_arrow-collapse--right"/>
+        <span className="code">icon-icon_arrow-collapse--right</span><br />
         <Icon img="icon-icon_arrow-down"/>
         <span className="code">icon-icon_arrow-down</span><br />
         <Icon img="icon-icon_arrow-dropdown"/>
@@ -340,7 +342,6 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=CityBikeAvailability />
       <ComponentDocumentation component=CityBikeUse />
       <ComponentDocumentation component=CityBikePopup />
-      <ComponentDocumentation component=FavouriteLocationsContainer />
       <ComponentDocumentation component=FavouriteLocation />
     </div>
 

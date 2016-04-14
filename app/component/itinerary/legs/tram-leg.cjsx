@@ -17,7 +17,7 @@ class TramLeg extends React.Component
       <FormattedMessage
         id={"tram-with-route-number"}
         values={{
-          routeNumber: @props.leg.route
+          routeNumber: @props.leg.route?.shortName
           }}
         defaultMessage={"Tram {routeNumber}"}/>
     </TransitLeg>

@@ -26,4 +26,5 @@ class AirportCollectLuggageLeg extends React.Component
       </div>
     </div>
 
+
 module.exports = AirportCollectLuggageLeg

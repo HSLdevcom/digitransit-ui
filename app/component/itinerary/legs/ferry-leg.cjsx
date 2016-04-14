@@ -17,7 +17,7 @@ class FerryLeg extends React.Component
       <FormattedMessage
         id={"ferry-with-route-number"}
         values={{
-          routeNumber: @props.leg.route
+          routeNumber: @props.leg.route?.shortName
           }}
         defaultMessage={"Ferry {routeNumber}"}/>
     </TransitLeg>

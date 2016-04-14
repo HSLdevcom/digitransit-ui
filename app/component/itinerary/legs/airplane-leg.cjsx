@@ -17,7 +17,7 @@ class AirplaneLeg extends React.Component
       <FormattedMessage
         id={"airplane-with-route-number"}
         values={{
-          routeNumber: @props.leg.route
+          routeNumber: @props.leg.route?.shortName
           }}
         defaultMessage={"Flight {routeNumber}"}/>
     </TransitLeg>
