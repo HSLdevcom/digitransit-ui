@@ -1,4 +1,5 @@
 React = require 'react'
+Icon = require '../icon/icon'
 
 class OriginDestinationBar extends React.Component
 
@@ -25,7 +26,7 @@ class OriginDestinationBar extends React.Component
   render: ->
     <div className="origin-destination-bar">
       <span className="field-link">{@state.origin}</span>
-      <span className="switch">{'\u21c4'}</span>
+      <span className="switch"><Icon img="icon-icon_direction-b"/></span>
       <span className="field-link">{@state.destination}</span>
     </div>
 
