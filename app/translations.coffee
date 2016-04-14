@@ -123,7 +123,8 @@ translations =
     'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä'
     'airport-security-check-go-to-gate': 'Kävele turvatarkastuksen läpi lähtöportille'
     'airport-collect-luggage': 'Nouda matkatavarat'
-    'cycle-from-to': 'Pyöräile {fromName} - {toName}'
+    'rent-cycle-at': 'Vuokraa pyörä asemalta {station}'
+    'cycle-distance-duration': 'Pyöräile {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ei pysähdyksiä}
       other {{number} pysäkkiä}
@@ -238,7 +239,8 @@ translations =
     'airplane-with-route-number': 'Flyget {routeNumber}'
     'walk-distance-duration': 'Gå {distance} ({duration})'
     'wait-amount-of-time': 'Vänta {duration}'
-    'cycle-from-to': 'TODO {fromName} - {toName}'
+    'rent-cycle-at': 'TODO {station}'
+    'cycle-distance-duration': 'Cyckla {distance} ({duration})'
     'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
     'favourite-target': 'Favoritdestination'
     'search': 'Sök'
@@ -368,7 +370,8 @@ translations =
     'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate'
     'airport-collect-luggage': 'Hent eventuell bagasje'
     'walk': 'gå'
-    'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
+    'rent-cycle-at': 'TODO {station}'
+    'cycle-distance-duration': 'Sykle {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ingen stopp}
       other {{number} stopp}
@@ -507,7 +510,8 @@ translations =
     'airport-check-in': 'Enregistrez-vous au guichet {agency}'
     'airport-security-check-go-to-gate': 'Franchissez les contrôles de sécurité et rendez-vous à la porte d\'embarquement'
     'airport-collect-luggage': 'Récupérez vos bagages'
-    'cycle-from-to': 'Pédalez de {fromName} à {toName}'
+    'rent-cycle-at': 'TODO {station}'
+    'cycle-distance-duration': 'Pédalez {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Sans arrêt}
       =1 {{number} arrêt}
