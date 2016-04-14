@@ -19,10 +19,15 @@ class SummaryRow extends React.Component
     duration = endTime.diff(startTime)
     legs = []
 
+    realTimeAvailable = false
+
     noTransitLegs = true
+
     for leg, i in data.legs
       if leg.transitLeg or leg.rentedBike
+        if noTransitLegs and leg.realTime then realTimeAvailable = true
         noTransitLegs = false
+        break
 
     lastLegRented = false
     for leg, i in data.legs
@@ -57,7 +62,7 @@ class SummaryRow extends React.Component
           {geoUtils.displayDistance(data.walkDistance)}
         </div>
       </div>
-      <div className="itinerary-start-time">
+      <div className={cx "itinerary-start-time", "realtime-available": realTimeAvailable}>
         {startTime.format("HH:mm")}
       </div>
       <div className="itinerary-legs">{legs}</div>
