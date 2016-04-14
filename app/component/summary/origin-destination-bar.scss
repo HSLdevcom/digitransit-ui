@@ -2,32 +2,38 @@
   background-color: $primary-color;
   height: 40px;
   width: 100%;
-  @include font-narrow-book;
-  font-size: $font-size-smallish;
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+
+  .field-link, .switch {
+    @include font-narrow-book;
+    font-size: $font-size-smallish;
+    cursor: pointer;
+    color: $primary-font-color;
+    display: inline-block;
+    margin: 0 auto;
+  }
 
   .field-link {
-    color: $primary-font-color;
+    height: 23px;
     border-bottom: 1px dotted $gray-blue-light;
-    display: inline-block;
     width: 43%;
-    height: 20px;
     white-space: nowrap;
     overflow: hidden;
   }
 
   .switch {
-    color: $primary-font-color;
-    height: 20px;
     width: 14%;
-    display: inline-block;
     text-align: center;
 
     .icon {
-      height: 1.6em;
       width: 1.6em;
+      height: 1.6em;
+      margin-top: -10px;
+      position: relative;
+      top: 5px;
     }
   }
-
 
 }
