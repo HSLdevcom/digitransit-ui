@@ -7,7 +7,7 @@
   padding: 10px;
 
   .field-link {
-    color: white;
+    color: $primary-font-color;
     border-bottom: 1px dotted $gray-blue-light;
     display: inline-block;
     width: 43%;
@@ -17,7 +17,7 @@
   }
 
   .switch {
-    color: white;
+    color: $primary-font-color;
     height: 20px;
     width: 14%;
     display: inline-block;
