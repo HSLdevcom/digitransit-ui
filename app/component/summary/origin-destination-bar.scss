@@ -2,12 +2,12 @@
   background-color: $primary-color;
   height: 40px;
   width: 100%;
-  color: white;
   @include font-narrow-book;
   font-size: $font-size-smallish;
   padding: 10px;
 
   .field-link {
+    color: white;
     border-bottom: 1px dotted $gray-blue-light;
     display: inline-block;
     width: 45%;

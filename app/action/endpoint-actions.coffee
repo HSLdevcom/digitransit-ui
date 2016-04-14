@@ -1,6 +1,6 @@
 itinerarySearchActions = require './itinerary-search-action'
 
-storeEndpoint = (actionContext, {target, endpoint}, done) ->
+module.exports.storeEndpoint = storeEndpoint = (actionContext, {target, endpoint}, done) ->
 
   actionContext.dispatch "setEndpoint",
     {target: target
