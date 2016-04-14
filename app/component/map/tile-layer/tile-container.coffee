@@ -32,11 +32,12 @@ class Tile
         x: e.offsetX
         y: e.offsetY
 
-      features = flatten @layers.map (layer) -> layer.features.map (feature) ->
+      features = flatten @layers.map (layer) -> layer.features?.map (feature) ->
         layer: layer.name
         feature: feature
 
       nearest = features.filter (feature) =>
+        return false if !feature
         g = feature.feature.loadGeometry()[0][0]
         dist = Math.sqrt((point.x - (g.x / @eventratio)) ** 2 + (point.y - (g.y / @eventratio)) ** 2)
         if dist < 17 then true else false
