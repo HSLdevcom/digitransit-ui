@@ -57,6 +57,13 @@ $search-header-height: 45px;
 
 ul#react-whatever-suggest {
   @extend .momentum-scroll;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  list-style-type: none;
+  background: $white;
+  border: 1px solid $white;
+  border-radius: 4px;
+  padding: 4px;
+  z-index:1000;
   max-height: 9em;
   overflow-y: auto;
   margin-top: 10px;
@@ -111,6 +118,13 @@ ul#react-whatever-suggest {
     margin-right: 4px;
     fill: $search-result-icon-color;
   }
+
+  .autosuggestIcon {
+    color: $medium-gray;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
 }
 
 .search-form-map-overlay {
