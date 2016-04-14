@@ -10,6 +10,7 @@ ItinerarySearchAction = require '../action/itinerary-search-action'
 {otpToLocation} = require '../util/otp-strings'
 intl            = require 'react-intl'
 config          = require '../config'
+EndpointActions = require '../action/endpoint-actions'
 
 FormattedMessage = intl.FormattedMessage
 
@@ -18,6 +19,16 @@ class SummaryPage extends React.Component
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
+
+  @loadAction: (params) ->
+    [
+      [EndpointActions.storeEndpoint,
+        target: "origin",
+        endpoint: otpToLocation(params.from)],
+      [EndpointActions.storeEndpoint,
+        target: "destination",
+        endpoint: otpToLocation(params.to)]
+    ]
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
