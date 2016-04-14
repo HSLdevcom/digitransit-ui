@@ -19,16 +19,18 @@ class SummaryRow extends React.Component
     duration = endTime.diff(startTime)
     legs = []
 
-    noTransitLegs = true
-    for i of data.legs
-      if data.legs[i].transitLeg
-        noTransitLegs = false
-
     realTimeAvailable = false
+
+    noTransitLegs = true
+
+    for leg, i in data.legs
+      if leg.transitLeg
+        if noTransitLegs and leg.realTime then realTimeAvailable = true
+        noTransitLegs = false
+        break
 
     for leg, i in data.legs
       if leg.transitLeg or noTransitLegs
-        if leg.realTime then realTimeAvailable = true
         legs.push <RouteNumber
                     mode={leg.mode}
                     text={legTextUtil.getLegText(leg)}
