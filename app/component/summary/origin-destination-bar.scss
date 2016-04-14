@@ -1,0 +1,24 @@
+.origin-destination-bar {
+  background-color: $primary-color;
+  height: 40px;
+  width: 100%;
+  color: white;
+  @include font-narrow-book;
+  font-size: $font-size-smallish;
+  padding: 10px;
+
+  .field-link {
+    border-bottom: 1px dotted $gray-blue-light;
+    display: inline-block;
+    width: 45%;
+    height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .switch {
+    width: 10%;
+    display: inline-block;
+    text-align: center;
+  }
+}
