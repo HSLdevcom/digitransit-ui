@@ -9,9 +9,12 @@ geolocator = (actionContext) ->
 
 module.exports.reverseGeocodeAddress = reverseGeocodeAddress = (actionContext, location, done) ->
 
+  language = actionContext.getStore('PreferencesStore').getLanguage()
+
   xhrPromise.getJson(config.URL.PELIAS_REVERSE_GEOCODER,
       "point.lat": location.lat
       "point.lon": location.lon
+      lang: language
       size: 1
   ).then (data) ->
     if data.features? && data.features.length > 0
