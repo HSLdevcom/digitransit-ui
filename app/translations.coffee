@@ -401,7 +401,7 @@ translations =
     'searching-position': 'Localisation en cours...'
     'own-position': 'Position actuelle'
     'no-position': 'Aucune position'
-    'origin': 'Lieu'
+    'origin': 'Départ'
     'origin-placeholder': 'Lieu, adresse ou arrêt'
     'to-stop': 'Arrêt'
     'line': 'Ligne'
@@ -441,7 +441,7 @@ translations =
     'contact-information': 'Contacter {contactName}'
     'create-account': 'Créer un identifiant {contactName}'
     'login': 'Se connecter'
-    'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessible depuis d\'autres appareils'
+    'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessibles depuis d\'autres appareils'
     'cause': 'Cause'
     'disruption-info': 'Informations sur les perturbations'
     'disruption-info-no-alerts': 'Perturbations en cours'
@@ -523,7 +523,7 @@ translations =
     'subway-with-route-number': 'Metro {routeNumber}'
     'ferry-with-route-number': 'Bâteau {routeNumber}'
     'airplane-with-route-number': 'Avion {routeNumber}'
-    'favourite-target': 'TODO'
-    'search': 'TODO SEARCH'
+    'favourite-target': 'Destination favorite'
+    'search': 'Recherche'
 
 module.exports = translations
