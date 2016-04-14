@@ -35,11 +35,11 @@ class WalkLeg extends React.Component
         </div>
         <div className="itinerary-leg-action">
           <FormattedMessage
-            id={'walk-distance-to-' + if @props.walkToDestination then 'dest' else 'stop'}
+            id={'walk-distance-duration'}
             values={{
               distance: distance
-              duration: "(" + duration + ")"}}
-            defaultMessage={'Walk {distance} {duration} to ' + if @props.walkToDestination then 'destination' else 'stop'} />
+              duration: duration}}
+            defaultMessage={'Walk {distance} ({duration})}'} />
         </div>
       </div>
     </div>

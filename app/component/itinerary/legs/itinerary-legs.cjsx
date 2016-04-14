@@ -56,7 +56,6 @@ class ItineraryLegs extends React.Component
                     index={j}
                     leg={leg}
                     legs={numberOfLegs}
-                    walkToDestination={if parseInt(j) == numberOfLegs - 1 then true else false}
                     focusAction={focus}>
           {@stopCode leg.from.stop?.code}
         </WalkLeg>
