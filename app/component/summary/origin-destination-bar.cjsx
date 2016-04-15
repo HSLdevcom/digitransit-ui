@@ -37,9 +37,15 @@ class OriginDestinationBar extends React.Component
 
   render: ->
     <div className="origin-destination-bar">
-      <span className="field-link" onClick={() => @setState(tabOpen: "origin")}>{@state.origin}</span>
-      <span className="switch" onClick={() => @context.executeAction EndpointActions.swapEndpoints}><Icon img="icon-icon_direction-b"/></span>
-      <span className="field-link" onClick={() => @setState(tabOpen: "destination")}>{@state.destination}</span>
+      <div className="field-link" onClick={() => @setState(tabOpen: "origin")}>
+        <span>{@state.origin}</span>
+      </div>
+      <div className="switch" onClick={() => @context.executeAction EndpointActions.swapEndpoints}>
+        <span><Icon img="icon-icon_direction-b"/></span>
+      </div>
+      <div className="field-link" onClick={() => @setState(tabOpen: "destination")}>
+        <span>{@state.destination}</span>
+      </div>
       <SearchModal
         ref="modal"
         selectedTab="tab"
