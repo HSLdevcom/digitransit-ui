@@ -101,7 +101,11 @@ class SummaryPage extends React.Component
         )}
         renderFailure={(error) =>
           Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
-          <div>
+          <div className="summary">
+            <SummaryPlanContainer
+              from={from}
+              to={to}
+            />
             <NoRoutePopup />
           </div>
         }
