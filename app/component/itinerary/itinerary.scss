@@ -163,6 +163,9 @@ $itinerary-route-max-width: 500px;
   .itinerary-instruction-column.walk:not(.to)::after{
     border-left-style: dotted;
   }
+  .itinerary-instruction-column.bicycle_walk:not(.to)::after{
+    border-left-style: dotted;
+  }
   .itinerary-instruction-column {
     cursor: pointer;
     @include font-book;

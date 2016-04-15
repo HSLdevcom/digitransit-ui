@@ -27,7 +27,7 @@ class TimeSelectors extends React.Component
       moment("#{hour}:#{minute} #{date}", "H:m YYYY-MM-DD")
 
   setArriveBy: =>
-    @context.executeAction TimeActions.setArriveBy, @refs.arriveBy.getDOMNode().value
+    @context.executeAction TimeActions.setArriveBy, @refs.arriveBy.getDOMNode().value == 'true'
 
   getHours: ->
     <option key={hour} value={hour}>{hour}</option> for hour in [0..23]
