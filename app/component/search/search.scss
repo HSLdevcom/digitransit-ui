@@ -320,6 +320,7 @@ div#search-panel-close-tab {
     position: absolute;
     color: $gray-blue;
     width: 30px;
+    user-select: none;
   }
 
   .search-header__button {
