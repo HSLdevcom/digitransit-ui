@@ -21,7 +21,7 @@ translations =
     'leaves': 'Lähtee'
     'next': 'Seuraava'
     'destination': 'Määränpää'
-    'destination-placeholder': 'Minne? - osoite tai pysäkki'
+    'destination-placeholder': 'Määränpää, linja tai pysäkki'
     'nearest': 'Lähimmät'
     'previous': 'Edelliset'
     'earlier': 'Aiemmin'
