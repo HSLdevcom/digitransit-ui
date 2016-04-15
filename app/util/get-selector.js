@@ -1,10 +1,16 @@
-module.exports = function (selector) {
-  selector = selector.toLowerCase()
-  for(i in document.styleSheets) {
-    try { document.styleSheets[i].cssRules.length; } catch(err) { continue; }
-    for(j in document.styleSheets[i].cssRules) {
-      if(document.styleSheets[i].cssRules[j].selectorText==selector) return document.styleSheets[i].cssRules[j];
+module.exports = (mode) => {
+  const selector = mode.toLowerCase();
+  for (const index in document.styleSheets) {
+    try {
+      document.styleSheets[index].cssRules.length;
+    } catch (err) {
+      continue;
+    }
+    for (const index2 in document.styleSheets[index].cssRules) {
+      if (document.styleSheets[index].cssRules[index2].selectorText === selector) {
+        return document.styleSheets[index].cssRules[index2];
+      }
     }
   }
   return false;
-}
+};

@@ -140,6 +140,8 @@ translations =
     'airplane-with-route-number': 'Lento {routeNumber}'
     'favourite-target': 'Suosikkikohde'
     'search': 'Haku'
+    'in-addition': 'Lisäksi'
+    'choose-stop': 'Valitse pysäkki'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -250,6 +252,8 @@ translations =
     'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
     'favourite-target': 'Favoritdestination'
     'search': 'Sök'
+    'in-addition': 'Även'
+    'choose-stop': 'Välj hållplats'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -395,6 +399,8 @@ translations =
     'wait-amount-of-time': 'Vent {duration}'
     'favourite-target': 'Favorittdestinasjon'
     'search': 'Sanntid'
+    'in-addition': 'TODO'
+    'choose-stop': 'TODO'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -537,5 +543,7 @@ translations =
     'airplane-with-route-number': 'Avion {routeNumber}'
     'favourite-target': 'Destination favorite'
     'search': 'Recherche'
+    'in-addition': 'TODO'
+    'choose-stop': 'TODO'
 
 module.exports = translations
