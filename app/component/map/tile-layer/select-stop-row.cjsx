@@ -4,8 +4,16 @@ Link                  = require 'react-router/lib/Link'
 {FormattedMessage}    = require 'react-intl'
 RouteDestination      = require '../../departure/route-destination'
 routeCompare          = require '../../../util/route-compare'
+{intlShape, FormattedMessage} = require 'react-intl'
 
-SelectStopRow = ({patterns, gtfsId, type, name}) ->
+getName = (p) ->
+  if p.shortName
+    <span key={p.shortName} style={padding: "0 2px"} className={p.type.toLowerCase() + " vehicle-number"}>
+      {p.shortName}
+    </span>
+  else null
+
+SelectStopRow = ({patterns, gtfsId, type, name}, {intl}) ->
   patternData = JSON.parse(patterns).sort(routeCompare)
 
   patterns = []
@@ -18,7 +26,8 @@ SelectStopRow = ({patterns, gtfsId, type, name}) ->
   if patternData.length > 1
     patterns.push(
       <div key="second" className="route-detail-text">
-        Lisäksi{patternData[1..].map((p) -> if p.shortName then <span key={p.shortName} style={padding: "0 2px"} className={p.type.toLowerCase() + " vehicle-number"}>{p.shortName}</span> else null)}
+        <FormattedMessage id='in-addition' defaultMessage='In addition' />
+        {patternData[1..].map getName}
       </div>)
 
 
@@ -50,5 +59,8 @@ SelectStopRow = ({patterns, gtfsId, type, name}) ->
       </div>
     </Link>
   </div>
+
+SelectStopRow.contextTypes =
+  intl: intlShape.isRequired
 
 module.exports = SelectStopRow
