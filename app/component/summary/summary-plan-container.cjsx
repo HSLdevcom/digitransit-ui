@@ -96,7 +96,6 @@ class SummaryPlanContainer extends React.Component
           <SearchTwoFieldsContainer/>
         </Map>
         <ItinerarySummaryListContainer itineraries={[]} currentTime={currentTime} onSelect={nop} activeIndex={0} />
-        <TimeNavigationButtons plan={plan} />
       </div>
 
 module.exports = Relay.createContainer SummaryPlanContainer,
