@@ -25,11 +25,11 @@ class SearchModal extends React.Component
         <div className="row fullscreen">
           <div className="small-12 medium-6 medium-offset-3 columns cursor-pointer search-header">
             <span className="search-header__back-arrow" onClick={@props.closeModal}>
-              <Icon img={'icon-icon_arrow-left'}/>
+              <Icon img='icon-icon_arrow-left'/>
               <span className="search-header-separator"/>
             </span>
             <Tabs
-              className={"search-header__tabs-root"}
+              className="search-header__tabs-root"
               inkBarStyle={{backgroundColor: config.colors.primary, bottom: "auto", top: -43}}
               value={@props.selectedTab}
             >
