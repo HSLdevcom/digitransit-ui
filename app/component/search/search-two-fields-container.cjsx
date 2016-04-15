@@ -11,7 +11,6 @@ SearchInput      = require './search-input'
 Tab              = require 'material-ui/lib/tabs/tab'
 
 class SearchTwoFieldsContainer extends React.Component
-
   constructor: () ->
     @state =
       selectedTab: "destination"
