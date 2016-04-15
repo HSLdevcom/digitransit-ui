@@ -154,6 +154,9 @@ $search-header-height: 45px;
   }
 }
 
+.no-search-button .input-placeholder {
+  border-radius: $border-radius;
+}
 
 .search-form .react-autosuggest__suggestions {
   background-color: $search-result-background-color;

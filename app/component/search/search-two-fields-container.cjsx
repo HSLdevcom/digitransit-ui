@@ -6,11 +6,11 @@ SearchField      = require './search-field'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 SearchModal      = require './search-modal'
+config           = require '../../config'
 SearchInput      = require './search-input'
 Tab              = require 'material-ui/lib/tabs/tab'
 
 class SearchTwoFieldsContainer extends React.Component
-
   constructor: () ->
     @state =
       selectedTab: "destination"
@@ -104,7 +104,7 @@ class SearchTwoFieldsContainer extends React.Component
       />
 
     <div>
-      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch}/>
+      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch} showSearchButton={config.search.showSearchButton}/>
       <SearchModal
         ref="modal"
         selectedTab={@state.selectedTab}
