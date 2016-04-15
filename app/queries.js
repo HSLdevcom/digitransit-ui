@@ -813,6 +813,9 @@ var SummaryPlanContainerFragments = {
 
           legs {
             mode
+            agency {
+              name
+            }
             from {
               lat
               lon
@@ -832,6 +835,9 @@ var SummaryPlanContainerFragments = {
               points
             }
             intermediateStops {
+              gtfsId
+            }
+            trip {
               gtfsId
             }
           }
@@ -857,6 +863,7 @@ var ItinerarySummaryListContainerFragments = {
         mode
         distance
         duration
+        rentedBike
         route {
           shortName
         }
@@ -877,6 +884,9 @@ var ItineraryPlanContainerFragments = {
 
           legs {
             mode
+            agency {
+              name
+            }
             from {
               lat
               lon
@@ -908,6 +918,7 @@ var ItineraryPlanContainerFragments = {
             }
             realTime
             transitLeg
+            rentedBike
             startTime
             endTime
             mode
@@ -915,6 +926,9 @@ var ItineraryPlanContainerFragments = {
             duration
             route {
               shortName
+            }
+            trip {
+              gtfsId
             }
           }
           ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}

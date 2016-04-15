@@ -9,17 +9,16 @@ timeUtils        = require '../../../util/time-utils'
 class WaitLeg extends React.Component
 
   render: ->
-
     duration = timeUtils.durationToString(@props.leg.duration * 1000)
 
-    <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
+    <div style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(@props.leg.startTime).format('HH:mm')}
+          {moment(@props.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
+        <RouteNumber mode={'wait'} vertical={true}/>
       </div>
-      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
+      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column wait"}>
         <div className='itinerary-leg-first-row'>
           <div>
             {@props.leg.to.name}
@@ -32,7 +31,7 @@ class WaitLeg extends React.Component
           <FormattedMessage
             id={'wait-amount-of-time'}
             values={{
-              duration: "(" + duration + ")"}}
+              duration: "(" + timeUtils.durationToString(@props.waitTime) + ")"}}
             defaultMessage={'Wait {duration}'} />
         </div>
       </div>
