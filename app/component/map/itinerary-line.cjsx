@@ -51,7 +51,7 @@ class ItineraryLine extends React.Component
       if usingOwnBicycle and leg.mode == 'WALK'
         mode = "BICYCLE_WALK"
 
-      modePlusClass = mode + if @props.passive then " passive" else "" # TODO remove mixing of mode and passive concerns
+      modePlusClass = mode.toLowerCase() + if @props.passive then " passive" else "" # TODO remove mixing of mode and passive concerns
 
       objs.push <Line map={@props.map}
                       key={"#{@props.hash}_#{i}"}
@@ -109,7 +109,7 @@ class ItineraryLine extends React.Component
                                 gtfsId: leg.from.stop?.gtfsId
                                 code: leg.from.stop?.code
                               }
-                              mode={mode}
+                              mode={mode.toLowerCase()}
                               renderText={leg.transitLeg and @props.showTransferLabels}/>
 
     <div style={{display: "none"}}>{objs}</div>
