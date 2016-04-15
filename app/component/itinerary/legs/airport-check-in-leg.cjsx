@@ -9,23 +9,24 @@ FormattedMessage = intl.FormattedMessage
 class AirportCheckInLeg extends React.Component
 
   render: ->
-    <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
+    <div style={{width: "100%"}} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(@props.leg.startTime).format('HH:mm')}
+          {moment(@props.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={@props.leg.mode.toLowerCase()} vertical={true}/>
+        <RouteNumber mode={'wait'} vertical={true}/>
       </div>
-      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column " + @props.leg.mode.toLowerCase()}>
+      <div onClick={@props.focusAction} className={"small-10 columns itinerary-instruction-column wait"}>
         <div className="itinerary-leg-first-row">
           <FormattedMessage
             id='airport-check-in'
             values={{
-              agency: @props.leg.nextLeg.agencyName}}
+              agency: @props.leg.agency?.name}}
             defaultMessage='Optionally check in your luggage with {agency}' />
           <Icon img={'icon-icon_search-plus'} className={'itinerary-search-icon'}/>
         </div>
-        <div><FormattedMessage
+        <div className="itinerary-leg-intermediate-stops">
+          <FormattedMessage
             id='airport-security-check-go-to-gate'
             defaultMessage='Walk through the security check and go to gate' />
         </div>

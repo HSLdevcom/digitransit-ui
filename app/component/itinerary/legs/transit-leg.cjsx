@@ -29,7 +29,7 @@ class TransitLeg extends React.Component
     ] else false
 
     <div key={@props.index} style={{width: "100%"}} className="row itinerary-row">
-      <Link to="/lahdot/#{@props.leg.tripId}">
+      <Link to="/lahdot/#{@props.leg.trip.gtfsId}">
         <div className="small-2 columns itinerary-time-column">
           <div className="itinerary-time-column-time">
             <span className={if @props.leg.realTime then "realtime" else ""}>
