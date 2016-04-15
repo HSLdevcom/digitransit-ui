@@ -1,6 +1,6 @@
 itinerarySearchActions = require './itinerary-search-action'
 
-storeEndpoint = (actionContext, {target, endpoint}, done) ->
+module.exports.storeEndpoint = storeEndpoint = (actionContext, {target, endpoint}, done) ->
 
   actionContext.dispatch "setEndpoint",
     {target: target
@@ -30,6 +30,10 @@ module.exports.setUseCurrent = (actionContext, target) ->
 
 module.exports.swapEndpoints = (actionContext) ->
   actionContext.dispatch "swapEndpoints"
+  actionContext.executeAction(itinerarySearchActions.route, undefined, (e) =>
+    if e
+      console.error "Could not route:", e
+  )
 
 module.exports.clearOrigin = (actionContext) ->
   actionContext.dispatch "clearOrigin"

@@ -2,12 +2,12 @@ React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../../queries'
 isBrowser          = window?
-StopMarker         = require './stop/stop-marker'
+StopMarker         = require './non-tile-layer/stop-marker'
 LocationMarker     = require './location-marker'
 Line               = require './line'
 TripLine           = require './trip-line'
 polyUtil           = require 'polyline-encoded'
-CityBikeMarker     = require './city-bike/city-bike-marker'
+CityBikeMarker     = require './non-tile-layer/city-bike-marker'
 
 class ItineraryLine extends React.Component
   @contextTypes:
@@ -39,15 +39,24 @@ class ItineraryLine extends React.Component
         else
           fromTo
 
+    usingOwnBicycle = @props.legs[0]?.mode == 'BICYCLE' and not @props.legs[0]?.rentedBike
+
     for leg, i in @props.legs
       if leg.mode == "WAIT"  # No sense trying to render a non-moving leg
         continue
-      mode = leg.mode.toLowerCase() + if @props.passive then " passive" else ""
+
+      mode = leg.mode
+      if leg.rentedBike
+        mode = "CITYBIKE"
+      if usingOwnBicycle and leg.mode == 'WALK'
+        mode = "BICYCLE_WALK"
+
+      modePlusClass = mode.toLowerCase() + if @props.passive then " passive" else "" # TODO remove mixing of mode and passive concerns
 
       objs.push <Line map={@props.map}
                       key={"#{@props.hash}_#{i}"}
                       geometry={polyUtil.decode leg.legGeometry.points}
-                      mode={leg.mode.toLowerCase()}
+                      mode={mode.toLowerCase()}
                       passive={@props.passive}/>
 
       unless @props.passive
@@ -73,7 +82,7 @@ class ItineraryLine extends React.Component
                                   code: stop.code
                                 }
                                 key="intermediate-#{stop.gtfsId}"
-                                mode={mode}
+                                mode={modePlusClass}
                                 thin=true />
 
         if leg.from.bikeShareId
@@ -100,7 +109,7 @@ class ItineraryLine extends React.Component
                                 gtfsId: leg.from.stop?.gtfsId
                                 code: leg.from.stop?.code
                               }
-                              mode={mode}
+                              mode={mode.toLowerCase()}
                               renderText={leg.transitLeg and @props.showTransferLabels}/>
 
     <div style={{display: "none"}}>{objs}</div>

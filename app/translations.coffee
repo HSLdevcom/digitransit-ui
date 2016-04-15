@@ -21,7 +21,7 @@ translations =
     'leaves': 'Lähtee'
     'next': 'Seuraava'
     'destination': 'Määränpää'
-    'destination-placeholder': 'Minne? - osoite tai pysäkki'
+    'destination-placeholder': 'Määränpää, linja tai pysäkki'
     'nearest': 'Lähimmät'
     'previous': 'Edelliset'
     'earlier': 'Aiemmin'
@@ -105,8 +105,8 @@ translations =
     'how-to-rate-service': 'Kuinka arvioisit palvelua?'
     'char-left': 'merkkiä'
     'send': 'Lähetä'
-    'walk-distance-to-stop': 'Kävele {distance} {duration} pysäkille'
-    'walk-distance-to-dest': 'Kävele {distance} {duration} määränpäähän'
+    'walk-distance-duration': 'Kävele {distance} ({duration})'
+    'car-distance-duration': 'Aja {distance} ({duration})'
     'approx-meters': '{approxDistance} m'
     'very-likely': 'Erittäin todennäköistä'
     'very-unlikely': 'Erittäin epätodennäköistä'
@@ -125,7 +125,9 @@ translations =
     'airport-check-in': 'Tee lähtöselvitys lentoyhtiön {agency} tiskillä'
     'airport-security-check-go-to-gate': 'Kävele turvatarkastuksen läpi lähtöportille'
     'airport-collect-luggage': 'Nouda matkatavarat'
-    'cycle-from-to': 'Pyöräile {fromName} - {toName}'
+    'rent-cycle-at': 'Vuokraa pyörä asemalta {station}'
+    'cycle-distance-duration': 'Pyöräile {distance} ({duration})'
+    'cyclewalk-distance-duration': 'Taluta pyörää {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ei pysähdyksiä}
       other {{number} pysäkkiä}
@@ -138,6 +140,8 @@ translations =
     'airplane-with-route-number': 'Lento {routeNumber}'
     'favourite-target': 'Suosikkikohde'
     'search': 'Haku'
+    'in-addition': 'Lisäksi'
+    'choose-stop': 'Valitse pysäkki'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
@@ -233,19 +237,23 @@ translations =
       =0 {Ingen hållplatser}
       other {{number} hållplatser}
     } ({duration})'
-    'bus-with-route-number': 'Bussen {routeNumber} {headSign}'
-    'tram-with-route-number': 'Spårvagnen {routeNumber} {headSign}'
-    'train-with-route-number': 'Tågen {routeNumber} {headSign}'
-    'subway-with-route-number': 'Tunnelbanan {routeNumber} {headSign}'
-    'ferry-with-route-number': 'Färjan {routeNumber} {headSign}'
-    'airplane-with-route-number': 'Flyget {routeNumber}'
-    'walk-distance-to-stop': 'TODO {distance} {duration} TODO'
-    'walk-distance-to-dest': 'TODO {distance} {duration} TODO'
+    'bus-with-route-number': 'Buss {routeNumber} {headSign}'
+    'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}'
+    'train-with-route-number': 'Tåg {routeNumber} {headSign}'
+    'subway-with-route-number': 'Tunnelbana {routeNumber} {headSign}'
+    'ferry-with-route-number': 'Färja {routeNumber} {headSign}'
+    'airplane-with-route-number': 'Flyg {routeNumber}'
+    'walk-distance-duration': 'Gå {distance} ({duration})'
+    'car-distance-duration': 'Kör {distance} ({duration})'
     'wait-amount-of-time': 'Vänta {duration}'
-    'cycle-from-to': 'TODO {fromName} - {toName}'
+    'rent-cycle-at': 'Hyr cykel från stationen {station}'
+    'cycle-distance-duration': 'Cyckla {distance} ({duration})'
+    'cyclewalk-distance-duration': 'Led cykeln {distance} ({duration})'
     'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera det här företaget till en vän eller kollega?'
     'favourite-target': 'Favoritdestination'
     'search': 'Sök'
+    'in-addition': 'Även'
+    'choose-stop': 'Välj hållplats'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -373,7 +381,9 @@ translations =
     'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate'
     'airport-collect-luggage': 'Hent eventuell bagasje'
     'walk': 'gå'
-    'cycle-from-to': 'Sykle i {estimatedTime} fra {fromName} til {toName}'
+    'rent-cycle-at': 'TODO {station}'
+    'cycle-distance-duration': 'Sykle {distance} ({duration})'
+    'cyclewalk-distance-duration': 'TODO {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Ingen stopp}
       other {{number} stopp}
@@ -384,11 +394,13 @@ translations =
     'subway-with-route-number': 'T-bane {routeNumber} {headSign}'
     'ferry-with-route-number': 'Ferge {routeNumber} {headSign}'
     'airplane-with-route-number': 'Fly {routeNumber}'
-    'walk-distance-to-stop': 'Gå {distance} {duration}'
-    'walk-distance-to-dest': 'Gå {distance} {duration}'
+    'walk-distance-duration': 'Gå {distance} ({duration})'
+    'car-distance-duration': 'TODO {distance} ({duration})'
     'wait-amount-of-time': 'Vent {duration}'
     'favourite-target': 'Favorittdestinasjon'
     'search': 'Sanntid'
+    'in-addition': 'TODO'
+    'choose-stop': 'TODO'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -495,17 +507,17 @@ translations =
     'how-to-rate-service': 'Comment noteriez-vous ce service ?'
     'char-left': 'marquer'
     'send': 'Envoyer'
-    'walk-distance-to-stop': 'Marcher {distance} {duration} jusqu\'à l\'arrêt'
-    'walk-distance-to-dest': 'Marcher {distance} {duration} jusqu\'à destination'
+    'walk-distance-duration': 'Marcher {distance} ({duration})'
+    'car-distance-duration': 'Conduire {distance} ({duration})'
     'approx-meters': '{approxDistance} m'
     'very-likely': 'Très probable'
     'very-unlikely': 'Très improbable'
     'weather-at-destination': 'Météo à destination'
     'trip-co2-emissions': 'Émissions de CO2'
     'add-location': 'Ajouter un endroit'
-    'add-location-to-favourites': 'Ajoutez vos lieux importants à l\'onglet favoris'
+    'add-location-to-favourites': 'Ajouter vos lieux importants à l\'onglet favoris'
     'specify-location': 'Indiquer un endroit'
-    'give-name-to-location': "Donnez un nom à cet endroit"
+    'give-name-to-location': "Donner un nom à cet endroit"
     'pick-icon': 'Sélectionner une icône'
     'address-or-stop': 'Adresse ou arrêt'
     'location-examples': "Gare de Lyon, Longjumeau, Rue du Bac, Châtelet,..."
@@ -514,8 +526,10 @@ translations =
     'wait-amount-of-time': 'Attendre {duration}'
     'airport-check-in': 'Enregistrez-vous au guichet {agency}'
     'airport-security-check-go-to-gate': 'Franchissez les contrôles de sécurité et rendez-vous à la porte d\'embarquement'
-    'airport-collect-luggage': 'Récupérez vos bagages'
-    'cycle-from-to': 'Pédalez de {fromName} à {toName}'
+    'airport-collect-luggage': 'Récupérer vos bagages'
+    'rent-cycle-at': 'Décrocher un vélo à la station {station}'
+    'cycle-distance-duration': 'Pédalez {distance} ({duration})'
+    'cyclewalk-distance-duration': 'Avancez pied à terre sur {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Sans arrêt}
       =1 {{number} arrêt}
@@ -529,5 +543,7 @@ translations =
     'airplane-with-route-number': 'Avion {routeNumber}'
     'favourite-target': 'Destination favorite'
     'search': 'Recherche'
+    'in-addition': 'En plus'
+    'choose-stop': 'Merci de choisir la ligne'
 
 module.exports = translations

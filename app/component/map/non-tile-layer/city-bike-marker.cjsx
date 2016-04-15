@@ -1,6 +1,6 @@
 React         = require 'react'
 isBrowser     = window?
-CityBikePopup = require './city-bike-popup'
+CityBikePopup = require '../popups/city-bike-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 Icon          = require '../../icon/icon'

@@ -1,0 +1,47 @@
+.origin-destination-bar {
+  background-color: $primary-color;
+  height: 40px;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+
+  .field-link, .switch {
+    @include font-narrow-book;
+    font-size: $font-size-smallish;
+    cursor: pointer;
+    color: $primary-font-color;
+    display: inline-block;
+    margin: 0 auto;
+  }
+
+  .field-link {
+    width: 43%;
+    vertical-align: top;
+
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      border-bottom: 1px dotted $gray-blue-light;
+      height: 23px;
+      line-height: 23px;
+      width: 100%;
+    }
+
+  }
+
+  .switch {
+    width: 14%;
+    text-align: center;
+
+    .icon {
+      width: 1.6em;
+      height: 1.6em;
+      margin-top: -10px;
+      position: relative;
+      top: 5px;
+    }
+  }
+
+}

@@ -8,7 +8,7 @@ FormattedMessage = intl.FormattedMessage
 geoUtils         = require '../../../util/geo-utils'
 timeUtils    = require '../../../util/time-utils'
 
-class WalkLeg extends React.Component
+class CarLeg extends React.Component
 
   render: ->
     distance = geoUtils.displayDistance parseInt(@props.leg.distance)
@@ -35,14 +35,14 @@ class WalkLeg extends React.Component
         </div>
         <div className="itinerary-leg-action">
           <FormattedMessage
-            id={'walk-distance-duration'}
+            id={'car-distance-duration'}
             values={{
               distance: distance
               duration: duration}}
-            defaultMessage={'Walk {distance} ({duration})}'} />
+            defaultMessage={'Drive {distance} ({duration})}'} />
         </div>
       </div>
     </div>
 
 
-module.exports = WalkLeg
+module.exports = CarLeg

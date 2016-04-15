@@ -20,13 +20,13 @@ div.map {
 }
 
 div.map.summaryMap {
-  height: calc(100% - 12.5em);
-  min-height: 200px;
+  height: calc(100% - 12.5em - 40px);
+  min-height: 100px;
 }
 
 div.map.summaryMap div.leaflet-container {
   height: 100%;
-  min-height: 200px;
+  min-height: 100px;
 }
 .below-map  {
   overflow: auto;
@@ -82,9 +82,6 @@ div.map.summaryMap div.leaflet-container {
 div.leaflet-container {
   position: absolute;
   width: 100%;
-}
-
-div.leaflet-container {
   background: rgb(230, 229, 217);
 }
 

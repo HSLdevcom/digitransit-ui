@@ -68,7 +68,7 @@
     display: flex;
     white-space: nowrap;
 
-    .line.walk {
+    .line.walk, .line.bicycle, .line.car {
       &:after {
         left: 2em;
       }
