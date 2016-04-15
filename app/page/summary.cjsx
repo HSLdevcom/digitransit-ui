@@ -10,6 +10,7 @@ ItinerarySearchAction = require '../action/itinerary-search-action'
 {otpToLocation} = require '../util/otp-strings'
 intl            = require 'react-intl'
 config          = require '../config'
+isEqual         = require 'lodash/isEqual'
 
 FormattedMessage = intl.FormattedMessage
 
@@ -23,17 +24,25 @@ class SummaryPage extends React.Component
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
     @context.getStore('TimeStore').addChangeListener @onTimeChange
     @context.executeAction ItinerarySearchAction.itinerarySearchRequest, @props
+    @setState
+      search: @updateItinerarySearch @context.getStore('ItinerarySearchStore')
+      time: @updateTime @context.getStore('TimeStore')
 
   componentWillUnmount: ->
     @context.getStore('ItinerarySearchStore').removeChangeListener @onChange
     @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
+  shouldComponentUpdate: (newProps, newState) =>
+    not (@state and isEqual @props, newProps and isEqual @state, newState)
+
   onChange: =>
-    @forceUpdate()
+    @setState
+      search: @updateItinerarySearch @context.getStore('ItinerarySearchStore')
 
   onTimeChange: (e) =>
     if e.selectedTime
-      @forceUpdate()
+      @setState
+        time: @updateTime @context.getStore('TimeStore')
 
   updateItinerarySearch: (store) =>
     modes: store.getMode()
@@ -62,41 +71,44 @@ class SummaryPage extends React.Component
     to = otpToLocation(@props.params.to)
 
     # dependencies from itinerary search store
-    search = @updateItinerarySearch(@context.getStore('ItinerarySearchStore'))
+    search = @state?.search
 
     # dependencies from time store
-    time = @updateTime(@context.getStore('TimeStore'))
+    time = @state?.time
 
-    plan = <Relay.RootContainer
-      Component={SummaryPlanContainer}
-      route={new queries.SummaryPlanContainerRoute(
-        fromPlace: @props.params.from
-        toPlace: @props.params.to
-        from: from
-        to: to
-        numItineraries: 3
-        modes: search.modes
-        date: time.selectedTime.format("YYYY-MM-DD")
-        time: time.selectedTime.format("HH:mm:ss")
-        walkReluctance: search.walkReluctance + 0.000099
-        walkBoardCost: search.walkBoardCost
-        minTransferTime: search.minTransferTime
-        walkSpeed: search.walkSpeed + 0.000099
-        maxWalkDistance: search.maxWalkDistance
-        wheelchair: search.wheelchair
-        preferred:
-          agencies: search.preferredAgencies
-        arriveBy: time.arriveBy
-        disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic
-      )}
-      renderFailure={(error) =>
-        Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
-        <div>
-           <NoRoutePopup />
-        </div>
-      }
-      renderLoading={=> <div className="spinner-loader"/>}
-    />
+    if search and time
+      plan = <Relay.RootContainer
+        Component={SummaryPlanContainer}
+        route={new queries.SummaryPlanContainerRoute(
+          fromPlace: @props.params.from
+          toPlace: @props.params.to
+          from: from
+          to: to
+          numItineraries: 3
+          modes: search.modes
+          date: time.selectedTime.format("YYYY-MM-DD")
+          time: time.selectedTime.format("HH:mm:ss")
+          walkReluctance: search.walkReluctance + 0.000099
+          walkBoardCost: search.walkBoardCost
+          minTransferTime: search.minTransferTime
+          walkSpeed: search.walkSpeed + 0.000099
+          maxWalkDistance: search.maxWalkDistance
+          wheelchair: search.wheelchair
+          preferred:
+            agencies: search.preferredAgencies
+          arriveBy: time.arriveBy
+          disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic
+        )}
+        renderFailure={(error) =>
+          Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
+          <div>
+            <NoRoutePopup />
+          </div>
+        }
+        renderLoading={=> <div className="spinner-loader"/>}
+      />
+    else
+      plan = <div className="spinner-loader"/>
 
     meta =
       title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestion"}
