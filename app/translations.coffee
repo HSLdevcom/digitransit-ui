@@ -476,7 +476,7 @@ translations =
     'run': 'Rapide'
     'zones': 'Zones'
     'accessibility': 'Accessibilité'
-    'no-position-no-stops': 'Votre localisation est inconnue, il est donc impossible de vous proposer les arrêts à proximité.'
+    'no-position-no-stops': 'Localisation inconnue, impossible de proposer les arrêts à proximité.'
     'geolocate-yourself': 'Se géolocaliser'
     'or': 'ou'
     'give-position': 'Indiquer votre position ou un lieu dans le champ de recherche.'
@@ -524,12 +524,12 @@ translations =
     'save': "Enregistrer"
     'address': 'Adresse'
     'wait-amount-of-time': 'Attendre {duration}'
-    'airport-check-in': 'Enregistrez-vous au guichet {agency}'
-    'airport-security-check-go-to-gate': 'Franchissez les contrôles de sécurité et rendez-vous à la porte d\'embarquement'
+    'airport-check-in': 'S'enregistrer au guichet {agency}'
+    'airport-security-check-go-to-gate': 'Franchir les contrôles de sécurité et se rendre à la porte d\'embarquement'
     'airport-collect-luggage': 'Récupérer vos bagages'
     'rent-cycle-at': 'Décrocher un vélo à la station {station}'
-    'cycle-distance-duration': 'Pédalez {distance} ({duration})'
-    'cyclewalk-distance-duration': 'Avancez pied à terre sur {distance} ({duration})'
+    'cycle-distance-duration': 'Pédaler {distance} ({duration})'
+    'cyclewalk-distance-duration': 'Avancer pied à terre sur {distance} ({duration})'
     'number-of-intermediate-stops': '{number, plural,
       =0 {Sans arrêt}
       =1 {{number} arrêt}
