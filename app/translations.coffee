@@ -524,7 +524,7 @@ translations =
     'save': "Enregistrer"
     'address': 'Adresse'
     'wait-amount-of-time': 'Attendre {duration}'
-    'airport-check-in': 'S'enregistrer au guichet {agency}'
+    'airport-check-in': 'S\'enregistrer au guichet {agency}'
     'airport-security-check-go-to-gate': 'Franchir les contrôles de sécurité et se rendre à la porte d\'embarquement'
     'airport-collect-luggage': 'Récupérer vos bagages'
     'rent-cycle-at': 'Décrocher un vélo à la station {station}'
