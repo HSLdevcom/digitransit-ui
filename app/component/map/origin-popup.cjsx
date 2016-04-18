@@ -56,10 +56,6 @@ class OriginPopup extends React.Component
         position: [coordinates.lat, coordinates.lon],
         @display
 
-  getContent = () ->
-    <div onClick={() ->
-      @context.executeAction SearchActions.openDialog, "origin"}><span className="sub-header-h4 strong uppercase">Hello!</span><br/>{@state.msg}</div>
-
   render: ->
     msg = @context.intl.formatMessage
       id: 'origin'
@@ -67,15 +63,14 @@ class OriginPopup extends React.Component
 
     <Popup context={@context} ref="popup" latlng={@state.position}
       options={
-        offset: [0,0]
+        offset: [0, 0]
         closeButton: false
         maxWidth: config.map.genericMarker.popup.maxWidth
         className: @props.className}>
-        <div onClick={() ->
+        <div onClick={() =>
           @context.executeAction SearchActions.openDialog, "origin"}>
-          <span className="sub-header-h4 strong uppercase">{msg}</span><br/>{@state.msg}
+          <span className="h4 bold uppercase">{msg}</span><br/>{@state.msg}
         </div>
     </Popup>
 
 module.exports = OriginPopup
-
