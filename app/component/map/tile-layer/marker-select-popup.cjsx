@@ -17,5 +17,6 @@ MarkerSelectPopup = ({options}, {intl}) ->
     {rows}
   </div>
 
+MarkerSelectPopup.displayName = "MarkerSelectPopup"
 
 module.exports = MarkerSelectPopup
