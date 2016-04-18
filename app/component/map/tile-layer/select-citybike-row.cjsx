@@ -24,4 +24,6 @@ SelectCitybikeRow = ({name, stationId}) ->
     </NotImplementedLink>
   </div>
 
+SelectCitybikeRow.displayName = "SelectCitybikeRow"
+
 module.exports = SelectCitybikeRow
