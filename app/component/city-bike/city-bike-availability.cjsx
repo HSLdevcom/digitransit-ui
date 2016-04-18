@@ -17,7 +17,7 @@ CityBikeAvailability = (props) ->
   <div className="city-bike-availability-container">
     <p className="sub-header-h4 bike-availability-header">
       <FormattedMessage id='bike-availability' defaultMessage='Bikes available' />
-      {"\u00a0"}({props.bikesAvailable}/{props.totalSpaces})
+      {"\u00a0"}({if isNaN props.bikesAvailable then 0 else props.bikesAvailable}/{if isNaN props.totalSpaces then 0 else props.totalSpaces})
     </p>
     <div className="row">
       {rows}
@@ -30,7 +30,7 @@ CityBikeAvailability.description =
   <div>
     <p>Renders information about citybike availability</p>
     <ComponentUsageExample description="">
-      <CityBikeAvailability bikesAvailable="1" totalSpaces="2"/>
+      <CityBikeAvailability bikesAvailable={1} totalSpaces={3}/>
     </ComponentUsageExample>
   </div>
 
