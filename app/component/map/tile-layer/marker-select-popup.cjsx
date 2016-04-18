@@ -17,7 +17,5 @@ MarkerSelectPopup = ({options}, {intl}) ->
     {rows}
   </div>
 
-SelectStopRow.contextTypes =
-  intl: intlShape.isRequired
 
 module.exports = MarkerSelectPopup
