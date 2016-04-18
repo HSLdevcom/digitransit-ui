@@ -31,7 +31,7 @@ class CityBikePopup extends React.Component
 
   render: ->
     locationString = if @props.context.getStore then @props.context.getStore('PositionStore').getLocationString() else ""
-    routePath = getRoutePath(locationString , @props.station.name + '::' + @props.station.y + ',' + @props.station.x)
+    routePath = getRoutePath(locationString , @props.station.name + '::' + @props.coords.lat + ',' + @props.coords.lng)
     <div className="card">
       <CityBikeCard
         className={"padding-small"}
