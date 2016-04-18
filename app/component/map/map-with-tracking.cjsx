@@ -103,6 +103,7 @@ class MapWithTracking extends React.Component
       lon={lon}
       zoom={zoom}
       leafletEvents={onLeafletDragstart: @disableMapTracking, onLeafletZoomend: @disableMapTracking}
+      disableMapTracking={@disableMapTracking}
     >
       {@props.children}
       <ToggleMapTracking

@@ -39,7 +39,7 @@ class WalkLeg extends React.Component
             values={{
               distance: distance
               duration: duration}}
-            defaultMessage={'Walk {distance} ({duration})}'} />
+            defaultMessage={"Walk {distance} ({duration})"} />
         </div>
       </div>
     </div>

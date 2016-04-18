@@ -6,12 +6,13 @@ Tab                       = require 'material-ui/lib/tabs/tab'
 {intlShape}               = require 'react-intl'
 Icon = require '../icon/icon'
 
+
 class OriginDestinationBar extends React.Component
 
   constructor: ->
     @state =
-      origin: ""
-      destination: ""
+      origin: undefined
+      destination: undefined
       tabOpen: false
 
   @contextTypes:
@@ -28,18 +29,37 @@ class OriginDestinationBar extends React.Component
 
   onEndpointChange: () =>
     @setState
-      origin: @context.getStore('EndpointStore').getOrigin().address
-      destination: @context.getStore('EndpointStore').getDestination().address
+      origin: @context.getStore('EndpointStore').getOrigin()
+      destination: @context.getStore('EndpointStore').getDestination()
 
   closeModal: () =>
     @setState
       tabOpen: false
 
   render: ->
+    ownPosition = @context.intl.formatMessage
+      id: 'own-position'
+      defaultMessage: 'Your current location'
+
+    initialValue =
+      if @state[@state.tabOpen]
+        if @state[@state.tabOpen].useCurrentPosition
+          ownPosition
+        else
+          @state[@state.tabOpen].address
+      else
+        ""
+
     <div className="origin-destination-bar">
-      <span className="field-link" onClick={() => @setState(tabOpen: "origin")}>{@state.origin}</span>
-      <span className="switch" onClick={() => @context.executeAction EndpointActions.swapEndpoints}><Icon img="icon-icon_direction-b"/></span>
-      <span className="field-link" onClick={() => @setState(tabOpen: "destination")}>{@state.destination}</span>
+      <div className="field-link" onClick={() => @setState(tabOpen: "origin")}>
+        <span>{if @state.origin.useCurrentPosition then ownPosition else @state.origin.address}</span>
+      </div>
+      <div className="switch" onClick={() => @context.executeAction EndpointActions.swapEndpoints}>
+        <span><Icon img="icon-icon_direction-b"/></span>
+      </div>
+      <div className="field-link" onClick={() => @setState(tabOpen: "destination")}>
+        <span>{if @state.destination.useCurrentPosition then ownPosition else @state.destination.address}</span>
+      </div>
       <SearchModal
         ref="modal"
         selectedTab="tab"
@@ -53,7 +73,7 @@ class OriginDestinationBar extends React.Component
           ref="searchTab"
           value="tab">
           <SearchInput
-            initialValue = {@state[@state.tabOpen]}
+            initialValue = {initialValue}
             type="endpoint"
             onSuggestionSelected = {(name, item) =>
               if item.type == 'CurrentLocation'
