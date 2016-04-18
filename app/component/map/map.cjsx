@@ -5,6 +5,7 @@ queries       = require '../../queries'
 Icon          = require '../icon/icon'
 LocationMarker = require './location-marker'
 config        = require '../../config'
+OriginPopup   = require './origin-popup'
 
 StopMarkerContainer = if isBrowser and config.URL.STOP_MAP
                         require './stop/stop-marker-tile-layer'
@@ -127,9 +128,8 @@ class Map extends React.Component
           {placeMarker}
           {cityBikes}
           {@props.leafletObjs}
+          <OriginPopup />
         </LeafletMap>
-
-
     <div className={"map " + if @props.className then @props.className else ""}>
       {map}
       <div className="background-gradient"></div>
