@@ -63,4 +63,6 @@ SelectStopRow = ({patterns, gtfsId, type, name}, {intl}) ->
 SelectStopRow.contextTypes =
   intl: intlShape.isRequired
 
+SelectStopRow.displayName = "SelectStopRow"
+
 module.exports = SelectStopRow
