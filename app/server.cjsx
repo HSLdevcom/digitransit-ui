@@ -18,7 +18,7 @@ FluxibleComponent = require('fluxible-addons-react/FluxibleComponent')
 serialize = require('serialize-javascript')
 
 ### Other libraries ###
-{IntlProvider} = require('react-intl')
+{IntlProvider} = require 'react-intl'
 polyfillService = require 'polyfill-service'
 getMuiTheme = require('material-ui/styles/getMuiTheme').default
 MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
