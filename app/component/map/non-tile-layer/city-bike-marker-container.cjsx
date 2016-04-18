@@ -48,6 +48,7 @@ class CityBikeMarkerContainer extends React.Component
       stations.push <CityBikeMarker
         key={station.id}
         map={@props.map}
+        layerContainer={@props.layerContainer}
         station={station}
       />
     stations

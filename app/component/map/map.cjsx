@@ -116,12 +116,12 @@ class Map extends React.Component
           zoom={zoom}
           zoomControl={false}
           attributionControl={false}
-          onLeafletMousedown={@startMeasuring}
-          onLeafletDragstart={@startMeasuring}
-          onLeafletZoomstart={@startMeasuring}
-          onLeafletMoveend={@stopMeasuring}
-          onLeafletDragend={@stopMeasuring}
-          onLeafletZoomend={@stopMeasuring}
+          onMousedown={@startMeasuring}
+          onDragstart={@startMeasuring}
+          onZoomstart={@startMeasuring}
+          onMoveend={@stopMeasuring}
+          onDragend={@stopMeasuring}
+          onZoomend={@stopMeasuring}
           bounds={if @props.fitBounds then [@props.from, @props.to]}
           {... @props.leafletOptions}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}

@@ -22,11 +22,13 @@ class ItineraryLine extends React.Component
 
     if @props.showFromToMarkers
       if @context.getStore('EndpointStore').getOrigin().useCurrentPosition
-        objs.push <LocationMarker map=@props.map
+        objs.push <LocationMarker map={@props.map}
+                                  layerContainer={@props.layerContainer}
                                   key="from"
                                   position={@props.legs[0].from}
                                   className='from' />
-      objs.push <LocationMarker map=@props.map
+      objs.push <LocationMarker map={@props.map}
+                                layerContainer={@props.layerContainer}
                                 key="to"
                                 position={@props.legs[@props.legs.length - 1].to}
                                 className='to' />
@@ -54,6 +56,7 @@ class ItineraryLine extends React.Component
       modePlusClass = mode.toLowerCase() + if @props.passive then " passive" else "" # TODO remove mixing of mode and passive concerns
 
       objs.push <Line map={@props.map}
+                      layerContainer={@props.layerContainer}
                       key={"#{@props.hash}_#{i}"}
                       geometry={polyUtil.decode leg.legGeometry.points}
                       mode={mode.toLowerCase()}
@@ -67,13 +70,14 @@ class ItineraryLine extends React.Component
             route={new queries.TripRoute(id: leg.tripId)}
             renderLoading={() -> false}
             renderFetched={(data) =>
-              <TripLine {... data} map={@props.map} filteredStops={itineraryStops}/>
+              <TripLine {... data} map={@props.map} layerContainer={@props.layerContainer} filteredStops={itineraryStops}/>
             } />
 
         leg.intermediateStops?.forEach (stop) =>
           # Put subdued markers on intermediate stops
           # (actually all stops, but we draw over them next)
           objs.push <StopMarker map={@props.map}
+                                layerContainer={@props.layerContainer}
                                 stop={
                                   lat: stop.lat
                                   lon: stop.lon
@@ -92,25 +96,27 @@ class ItineraryLine extends React.Component
           if station
             objs.push <CityBikeMarker
               map={@props.map}
-                key={leg.from.bikeShareId}
-                station={station}
-              />
+              layerContainer={@props.layerContainer}
+              key={leg.from.bikeShareId}
+              station={station}
+            />
           else
             console.error "Could not load bicycle station from id " + leg.from.bikeShareId
         else
           # Draw a more noticiable marker for the first stop
           # (where user changes vehicles/modes)
           objs.push <StopMarker map={@props.map}
-                              key={i + "," + leg.mode + "marker"}
-                              stop={
-                                lat: leg.from.lat
-                                lon: leg.from.lon
-                                name: leg.from.name
-                                gtfsId: leg.from.stop?.gtfsId
-                                code: leg.from.stop?.code
-                              }
-                              mode={mode.toLowerCase()}
-                              renderText={leg.transitLeg and @props.showTransferLabels}/>
+                                layerContainer={@props.layerContainer}
+                                key={i + "," + leg.mode + "marker"}
+                                stop={
+                                  lat: leg.from.lat
+                                  lon: leg.from.lon
+                                  name: leg.from.name
+                                  gtfsId: leg.from.stop?.gtfsId
+                                  code: leg.from.stop?.code
+                                }
+                                mode={mode.toLowerCase()}
+                                renderText={leg.transitLeg and @props.showTransferLabels}/>
 
     <div style={{display: "none"}}>{objs}</div>
 

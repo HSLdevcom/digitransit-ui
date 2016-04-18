@@ -98,7 +98,7 @@ class TileLayerContainer extends BaseTileLayer
         <MarkerSelectPopupWithContext options={@state.stops} context={@context}/>
       </Popup>
     else
-      null
+      <div style={display: 'none'}/>
 
 
 module.exports = TileLayerContainer

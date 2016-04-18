@@ -2,7 +2,7 @@ React = require 'react'
 EndpointActions = require '../../action/endpoint-actions'
 SearchModal               = require '../search/search-modal'
 SearchInput               = require '../search/search-input'
-Tab                       = require 'material-ui/lib/tabs/tab'
+Tab                       = require('material-ui/tabs/tab').default
 {intlShape}               = require 'react-intl'
 Icon = require '../icon/icon'
 

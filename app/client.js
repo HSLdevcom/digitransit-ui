@@ -16,6 +16,8 @@ import PiwikProvider from './component/util/piwik-provider';
 import Feedback from './util/feedback';
 import history from './history'
 import buildInfo from './build-info'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
 const dehydratedState = window.state;
@@ -52,42 +54,6 @@ function track() {
   piwik.setCustomUrl(this.props.history.createHref(this.state.location));
   piwik.trackPageView();
 }
-
-// Run application
-app.rehydrate(dehydratedState, (err, context) => {
-  if (err) {
-    throw err;
-  }
-
-
-  window.context = context;
-
-  ReactDOM.render(
-    <FluxibleComponent context={context.getComponentContext()}>
-      <PiwikProvider piwik={piwik}>
-        <StoreListeningIntlProvider translations={translations}>
-          <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
-        </StoreListeningIntlProvider>
-      </PiwikProvider>
-    </FluxibleComponent>
-    , document.getElementById('app')
-    , trackReactPerformance
-  );
-
-  if (window !== null) {
-    //start positioning
-    piwik.enableLinkTracking()
-    context.executeAction(startLocationWatch)
-
-    // Send perf data after React has compared real and shadow DOMs
-    // and started positioning
-    piwik.setCustomVariable(4, 'commit_id', buildInfo.COMMIT_ID, 'visit')
-    piwik.setCustomVariable(5, 'build_time', buildInfo.BUILD_TIME, 'visit')
-
-    // Track performance after some time has passed
-    setTimeout(() => trackDomPerformance(), 5000)
-  }
-});
 
 function isPerfomanceSupported() {
   if (typeof window == "undefined" || typeof performance == "undefined" || performance.timing == null) {
@@ -139,3 +105,41 @@ function trackDomPerformance() {
   // we need the Resource Timing API (http://caniuse.com/#feat=resource-timing)
   // to get more detailed data.
 }
+
+// Run application
+app.rehydrate(dehydratedState, (err, context) => {
+  if (err) {
+    throw err;
+  }
+
+
+  window.context = context;
+
+  ReactDOM.render(
+    <FluxibleComponent context={context.getComponentContext()}>
+      <PiwikProvider piwik={piwik}>
+        <StoreListeningIntlProvider translations={translations}>
+          <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
+            <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
+          </MuiThemeProvider>
+        </StoreListeningIntlProvider>
+      </PiwikProvider>
+    </FluxibleComponent>
+    , document.getElementById('app')
+    , trackReactPerformance
+  );
+
+  if (window !== null) {
+    // start positioning
+    piwik.enableLinkTracking();
+    context.executeAction(startLocationWatch);
+
+    // Send perf data after React has compared real and shadow DOMs
+    // and started positioning
+    piwik.setCustomVariable(4, 'commit_id', buildInfo.COMMIT_ID, 'visit');
+    piwik.setCustomVariable(5, 'build_time', buildInfo.BUILD_TIME, 'visit');
+
+    // Track performance after some time has passed
+    setTimeout(() => trackDomPerformance(), 5000);
+  }
+});

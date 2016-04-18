@@ -3,7 +3,7 @@ Icon                        = require '../icon/icon'
 CustomizeSearch             = require '../summary/customize-search'
 BackButton                  = require './back-button'
 TimeSelectors               = require './time-selectors'
-LeftNav                     = require 'material-ui/lib/left-nav'
+Drawer                      = require('material-ui/drawer').default
 {supportsHistory}           = require 'history/lib/DOMUtils'
 
 class SummaryNavigation extends React.Component
@@ -41,9 +41,9 @@ class SummaryNavigation extends React.Component
 
   render: ->
     <div className="fullscreen">
-      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
+      <Drawer className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
         <CustomizeSearch/>
-      </LeftNav>
+      </Drawer>
 
       <div className="fullscreen grid-frame">
         <nav className="top-bar">
