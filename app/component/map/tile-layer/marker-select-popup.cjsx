@@ -3,8 +3,9 @@ SelectStopRow         = require './select-stop-row'
 SelectCitybikeRow     = require './select-citybike-row'
 {intlShape, FormattedMessage} = require 'react-intl'
 
-MarkerSelectPopup = ({options}, {intl}) ->
-  rows = options.map (option) ->
+MarkerSelectPopup = (props) ->
+
+  rows = props.options.map (option, index) ->
     if option.layer == "stop"
       <SelectStopRow key={option.feature.properties.gtfsId} {...option.feature.properties}/>
     else if option.layer == "citybike"
