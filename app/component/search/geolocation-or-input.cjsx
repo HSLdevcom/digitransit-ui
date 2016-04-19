@@ -33,7 +33,7 @@ class GeolocationOrInput extends React.Component
 
     console.log("props @render:", @state.geolocation, @props)
 
-    child = if @state.geolocation == false then <div id="clear-input" onClick={() => console.log("clear")}><Icon img='icon-icon_close'/></div>
+    child = if @state.geolocation == false then null
     else <GeolocationBar geolocation={hasLocation: true} onClick={() => @setState geolocation: false}/>
 
     <SearchInput {...@props} initialValue={getInitialValue(@props)}>

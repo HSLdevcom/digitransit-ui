@@ -2,8 +2,8 @@ React             = require 'react'
 ReactAutowhatever = (require 'react-autowhatever').default
 SuggestionItem    = require './suggestion-item'
 SearchActions     = require '../../action/search-actions'
-isBrowser         = window?
 Icon              = require '../icon/icon'
+isBrowser         = window?
 L                 = if isBrowser then require 'leaflet' else null
 
 class SearchInput extends React.Component
@@ -26,7 +26,7 @@ class SearchInput extends React.Component
     onSuggestionSelected: React.PropTypes.func.isRequired
     className: React.PropTypes.string
     id: React.PropTypes.string
-    initialValue: React.PropTypes.func.isRequired
+    initialValue: React.PropTypes.string.isRequired
 
   componentWillMount: =>
     @context.getStore('SearchStore').addChangeListener @onSearchChange
@@ -109,7 +109,7 @@ class SearchInput extends React.Component
         value: name
 
   render: =>
-    <div>
+    <div className="fullScreen">
       <ReactAutowhatever
         ref = "autowhatever"
         className={@props.className}
@@ -134,6 +134,7 @@ class SearchInput extends React.Component
         }
       />
       <div id="clear-input" onClick={() => @handleUpdateInputNow(target: value: "")}><Icon img='icon-icon_close'/></div>
+      {@props.children}
     </div>
 
 module.exports = SearchInput
