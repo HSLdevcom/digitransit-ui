@@ -13,13 +13,13 @@ getLocationMessage = (geolocation) ->
     <FormattedMessage id="no-position" defaultMessage='No position' />
 
 GeolocationBar = (props) ->
-  <div className="input-placeholder" onClick={props.onClick}>
-    <div className="address-box">
-      <span className={cx 'inline-block', 'geolocation-bar-location-icon'}>
+  <div className="geolocation input-placeholder" onClick={props.onClick}>
+    <div className="geolocation-selected">
+      <span className='geolocation-bar-location-icon'>
         <Icon img={'icon-icon_position'}/>
       </span>
       {getLocationMessage props.geolocation}
-      <span className="inline-block right cursor-pointer">
+      <span className="close-icon right cursor-pointer">
         <Icon img={'icon-icon_close'} />
       </span>
     </div>
@@ -27,7 +27,7 @@ GeolocationBar = (props) ->
 
 GeolocationBar.propTypes =
   geolocation: React.PropTypes.object.isRequired
-  onClick: React.PropTypes.function.isRequired
+  onClick: React.PropTypes.func.isRequired
 
 GeolocationBar.displayName = "GeolocationBar"
 

@@ -132,11 +132,13 @@ ul#react-whatever-suggest {
 }
 
 .geolocation-bar-location-icon {
-  font-size: $search-form-location-icon-size;
+  height:16px;
+  margin-right: 10px;
 }
 
-.address-box .geolocation-bar-location-icon svg.icon {
+.geolocation-bar-location-icon svg.icon {
   fill: $hilight-color;
+  padding-top: 2px;
 }
 
 div.search-modal {
@@ -225,8 +227,19 @@ div.search-modal {
 #clear-input {
   position: absolute;
   top: -3px;
-  right: 6px;
-  color: $light-gray
+  right: 8px;
+  color: $gray
+}
+
+.geolocation {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 4px;
+  height: 30px;
+  line-height: normal;
 }
 
 .search-header-separator {
@@ -236,4 +249,15 @@ div.search-modal {
   display: inline-block;
   position: relative;
   bottom: -4px;
+}
+
+.geolocation-selected {
+  background-color: $background-color;
+  padding: 4px;
+  border-radius: 2px;
+}
+
+.close-icon {
+  padding-top: 2px;
+  color: $gray;
 }
