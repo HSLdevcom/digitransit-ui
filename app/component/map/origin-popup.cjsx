@@ -36,7 +36,7 @@ class OriginPopup extends React.Component
     if typeof @toref != "undefined"
       clearTimeout @toref
 
-    @toref = setTimeout close,  5000
+    @toref = setTimeout close,  5000   #close popup after 5 sec
 
   showCurrentPosition: () =>
     coordinates = @context.getStore('PositionStore').getLocationState()
@@ -78,7 +78,7 @@ class OriginPopup extends React.Component
           offset: [0, 0]
           closeButton: false
           maxWidth: config.map.genericMarker.popup.maxWidth
-          className: @props.className}>
+          className: "origin-popup"}>
           <div onClick={() =>
             @context.executeAction SearchActions.openDialog, "origin"}>
             <span className="h4 bold uppercase">{msg}</span><br/>{@state.msg}
