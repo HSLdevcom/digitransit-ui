@@ -11,6 +11,7 @@ class OriginPopup extends React.Component
     @toref = undefined
     @state =
       position: undefined
+      yOffset:0
 
 
   @contextTypes:
@@ -47,6 +48,7 @@ class OriginPopup extends React.Component
 
       @setState
         msg: msg
+        yOffset: 0
         position: [coordinates.lat, coordinates.lon],
         () =>
           @display()
@@ -56,6 +58,7 @@ class OriginPopup extends React.Component
       origin = @context.getStore('EndpointStore').getOrigin()
       if origin != undefined
         @setState
+          yOffset: -15
           msg: origin.address
           position: origin,
           @display
@@ -75,7 +78,7 @@ class OriginPopup extends React.Component
 
       <Popup context={@context} ref="popup" latlng={@state.position}
         options={
-          offset: [0, 0]
+          offset: [50, @state.yOffset]
           closeButton: false
           maxWidth: config.map.genericMarker.popup.maxWidth
           className: "origin-popup"}>
