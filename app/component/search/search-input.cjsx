@@ -23,6 +23,10 @@ class SearchInput extends React.Component
 
   @propTypes:
     type: React.PropTypes.string.isRequired
+    onSuggestionSelected: React.PropTypes.func.isRequired
+    className: React.PropTypes.string
+    id: React.PropTypes.string
+    initialValue: React.PropTypes.func.isRequired
 
   componentWillMount: =>
     @context.getStore('SearchStore').addChangeListener @onSearchChange
