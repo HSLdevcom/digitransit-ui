@@ -11,8 +11,7 @@ class EndpointStore extends Store
     @originFocusRequired = false
     @destinationFocusRequired = false
     @origin = @getUseCurrent(@origin, true)
-    setTimeout () => @emitChange("origin-use-current"),
-    500
+    @emitChange("origin-use-current")
     @destination = @getUseCurrent(@destination, false)
 
   isCurrentPositionInUse: () ->
