@@ -221,6 +221,14 @@ div.search-modal {
   }
 }
 
+
+#clear-input {
+  position: absolute;
+  top: -3px;
+  right: 6px;
+  color: $light-gray
+}
+
 .search-header-separator {
   border-left: 1px solid $light-gray;
   margin-left: 11px;

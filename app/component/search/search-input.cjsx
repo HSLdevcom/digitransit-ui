@@ -3,6 +3,7 @@ ReactAutowhatever = (require 'react-autowhatever').default
 SuggestionItem    = require './suggestion-item'
 SearchActions     = require '../../action/search-actions'
 isBrowser         = window?
+Icon              = require '../icon/icon'
 L                 = if isBrowser then require 'leaflet' else null
 
 class SearchInput extends React.Component
@@ -104,28 +105,31 @@ class SearchInput extends React.Component
         value: name
 
   render: =>
-    <ReactAutowhatever
-      ref = "autowhatever"
-      className={@props.className}
-      id="suggest"
-      items={@state?.suggestions || []}
-      renderItem={(item) ->
-        <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
-      onSuggestionSelected={@currentItemSelected}
-      focusedItemIndex={@state.focusedItemIndex}
-      inputProps={
-        "id": @props.id
-        "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
-        "onChange": @handleUpdateInputNow
-        "onKeyDown": @handleOnKeyDown
-        "onTouchStart": @handleOnTouchStart
-      }
-      itemProps={
-        "onMouseEnter": @handleOnMouseEnter
-        "onMouseDown": @handleOnMouseDown
-        "onMouseTouch": @handleOnMouseDown
-        "onTouchStart": @handleOnTouchStart
-      }
-    />
+    <div>
+      <ReactAutowhatever
+        ref = "autowhatever"
+        className={@props.className}
+        id="suggest"
+        items={@state?.suggestions || []}
+        renderItem={(item) ->
+          <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
+        onSuggestionSelected={@currentItemSelected}
+        focusedItemIndex={@state.focusedItemIndex}
+        inputProps={
+          "id": @props.id
+          "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
+          "onChange": @handleUpdateInputNow
+          "onKeyDown": @handleOnKeyDown
+          "onTouchStart": @handleOnTouchStart
+        }
+        itemProps={
+          "onMouseEnter": @handleOnMouseEnter
+          "onMouseDown": @handleOnMouseDown
+          "onMouseTouch": @handleOnMouseDown
+          "onTouchStart": @handleOnTouchStart
+        }
+      />
+      <div id="clear-input" onClick={()=>@handleUpdateInputNow(target: value: "")}><Icon img='icon-icon_close'/></div>
+    </div>
 
 module.exports = SearchInput
