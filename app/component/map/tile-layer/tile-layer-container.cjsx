@@ -116,7 +116,7 @@ class TileLayerContainer extends BaseTileLayer
           options={popupOptions}
           latlng={@state.coords}
           ref="popup">
-          <CityBikePopupWithContext station={@state.stops[@state.citybikeRowSelectedIndex].feature.properties} context={@context}/>
+          <CityBikePopupWithContext station={@state.stops[@state.citybikeRowSelectedIndex].feature.properties} coords={@state.coords} context={@context}/>
         </Popup>
       else
         <Popup
