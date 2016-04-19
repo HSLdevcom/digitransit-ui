@@ -237,6 +237,7 @@ div.origin-popup {
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
     padding: 0;
+    width: 140px;
     border: 1px solid $gray
   }
 
