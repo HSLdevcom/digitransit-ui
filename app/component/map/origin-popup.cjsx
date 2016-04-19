@@ -8,8 +8,10 @@ class OriginPopup extends React.Component
 
   constructor: ->
     super
+    @toref = undefined
     @state =
-      position: []
+      position: undefined
+
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -17,34 +19,26 @@ class OriginPopup extends React.Component
     intl: intl.intlShape.isRequired
 
   componentDidMount: =>
-    @context.getStore('PositionStore').addChangeListener @onPositionChange
     @context.getStore('EndpointStore').addChangeListener @onEndpointChange
+    @context.getStore('PositionStore').addChangeListener @onPositionChange
 
   componentWillUnmount: =>
-    @context.getStore('PositionStore').removeChangeListener @onPositionChange
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
+    @context.getStore('PositionStore').removeChangeListener @onPositionChange
 
   display: () =>
     @props.map.openPopup(@refs.popup._leafletElement)
     close = () =>
-      if @toref
+      if typeof @toref != "undefined"
         @toref = undefined
       @props.map.closePopup()
 
-    if (@toref)
-      clearTimeout @toRef
+    if typeof @toref != "undefined"
+      clearTimeout @toref
+
     @toref = setTimeout close,  5000
 
-  onEndpointChange: (endPointChange) =>
-    if endPointChange in ['set-origin']
-      origin = @context.getStore('EndpointStore').getOrigin()
-      @setState
-        msg: origin.address
-        position: origin,
-        @display
-
-
-  onPositionChange: (status) =>
+  showCurrentPosition: () =>
     coordinates = @context.getStore('PositionStore').getLocationState()
     if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
       msg = @context.intl.formatMessage
@@ -54,23 +48,43 @@ class OriginPopup extends React.Component
       @setState
         msg: msg
         position: [coordinates.lat, coordinates.lon],
-        @display
+        () =>
+          @display()
 
-  render: ->
-    msg = @context.intl.formatMessage
-      id: 'origin'
-      defaultMessage: 'Origin'
+  onEndpointChange: (endPointChange) =>
+    if endPointChange in ['set-origin']
+      origin = @context.getStore('EndpointStore').getOrigin()
+      if origin != undefined
+        @setState
+          msg: origin.address
+          position: origin,
+          @display
+    else if endPointChange in ['origin-use-current']
+      @showCurrentPosition()
 
-    <Popup context={@context} ref="popup" latlng={@state.position}
-      options={
-        offset: [0, 0]
-        closeButton: false
-        maxWidth: config.map.genericMarker.popup.maxWidth
-        className: @props.className}>
-        <div onClick={() =>
-          @context.executeAction SearchActions.openDialog, "origin"}>
-          <span className="h4 bold uppercase">{msg}</span><br/>{@state.msg}
-        </div>
-    </Popup>
+
+  onPositionChange: () =>
+    if not @state.position  #current position not shown yet
+      @showCurrentPosition()
+
+  render: =>
+    if typeof @state?.position != "undefined"
+      msg = @context.intl.formatMessage
+        id: 'origin'
+        defaultMessage: 'Origin'
+
+      <Popup context={@context} ref="popup" latlng={@state.position}
+        options={
+          offset: [0, 0]
+          closeButton: false
+          maxWidth: config.map.genericMarker.popup.maxWidth
+          className: @props.className}>
+          <div onClick={() =>
+            @context.executeAction SearchActions.openDialog, "origin"}>
+            <span className="h4 bold uppercase">{msg}</span><br/>{@state.msg}
+          </div>
+      </Popup>
+    else
+      <div/>
 
 module.exports = OriginPopup
