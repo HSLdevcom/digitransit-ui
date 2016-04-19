@@ -123,7 +123,7 @@ class TileLayerContainer extends BaseTileLayer
           options={Object.assign {}, popupOptions, maxHeight: 220}
           latlng={@state.coords}
           ref="popup">
-          <MarkerSelectPopupWithContext selectCitybikeRow={@selectCitybikeRow} options={@state.stops} map={@props.map} context={@context}/>
+          <MarkerSelectPopupWithContext selectCitybikeRow={@selectCitybikeRow} options={@state.stops} context={@context}/>
         </Popup>
     else
       null

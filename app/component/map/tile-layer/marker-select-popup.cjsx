@@ -12,7 +12,6 @@ MarkerSelectPopup = (props) ->
       <SelectCitybikeRow
         key={option.feature.properties.stationId}
         {...option.feature.properties}
-        map={props.map}
         selectCitybikeRow={() => props.selectCitybikeRow index}/>
 
   <div className="card">
