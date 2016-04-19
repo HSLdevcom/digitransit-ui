@@ -7,7 +7,6 @@ class GeolocationOrInput extends React.Component
 
   constructor: (props) ->
     super
-    console.log("endpoint:", props.endpoint)
     @state = {geolocation: false}
 
   setStateFromEndpoint: (endpoint) =>
@@ -22,17 +21,10 @@ class GeolocationOrInput extends React.Component
       props.initialValue
 
   componentWillMount: =>
-    console.log("component will mount props:", @props)
     if typeof @props.endpoint != "undefined"
       @setStateFromEndpoint @props.endpoint
 
-  componentWillReceiveProps: (newProps) =>
-    console.log("new props are being received:", newProps)
-
   render: =>
-
-    console.log("props @render:", @state.geolocation, @props)
-
     child = if @state.geolocation == false then null
     else <GeolocationBar geolocation={hasLocation: true} onClick={() => @setState geolocation: false}/>
 
