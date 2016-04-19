@@ -11,7 +11,7 @@ class OriginPopup extends React.Component
     @toref = undefined
     @state =
       position: undefined
-      yOffset:0
+      yOffset: 0
 
 
   @contextTypes:
