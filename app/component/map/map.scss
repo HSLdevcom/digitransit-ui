@@ -232,6 +232,24 @@ div.leaflet-marker-icon.vehicle-icon {
     }
   }
 }
+
+div.origin-popup {
+  .leaflet-popup-content-wrapper {
+    border-radius: $border-radius;
+    padding: 0;
+    border: 1px solid $gray
+  }
+
+  .leaflet-popup-tip-container {
+    position: relative;
+    bottom: 1px;
+    margin: 0px 0px;
+    .leaflet-popup-tip {
+      border: 1px solid $gray;
+    }
+  }
+}
+
 .route-header {
   .route-header-trip {
     position: absolute;
