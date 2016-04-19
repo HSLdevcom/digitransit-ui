@@ -214,9 +214,13 @@ div.search-modal {
       height: calc(100% - #{$search-form-input-height});
       > div {
         height: 95%;
-        > div{
+        > div {
           height: 100%;
+          > div {
+            height: 100%;
+          }
         }
+
       }
     }
     height: calc(100% - 30px)

@@ -109,7 +109,7 @@ class SearchInput extends React.Component
         value: name
 
   render: =>
-    <div className="fullScreen">
+    <div className="fullscreen">
       <ReactAutowhatever
         ref = "autowhatever"
         className={@props.className}
