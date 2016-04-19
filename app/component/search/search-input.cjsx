@@ -129,7 +129,7 @@ class SearchInput extends React.Component
           "onTouchStart": @handleOnTouchStart
         }
       />
-      <div id="clear-input" onClick={()=>@handleUpdateInputNow(target: value: "")}><Icon img='icon-icon_close'/></div>
+      <div id="clear-input" onClick={() => @handleUpdateInputNow(target: value: "")}><Icon img='icon-icon_close'/></div>
     </div>
 
 module.exports = SearchInput
