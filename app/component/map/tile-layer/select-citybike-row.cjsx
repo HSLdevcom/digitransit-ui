@@ -15,7 +15,7 @@ SelectCitybikeRow = (props) ->
         <Icon img={'icon-icon_citybike'}/>
       </div>
       <div className="left padding-vertical-normal" style={width: "calc(100% - 40px)"}>
-        <span className="h4 no-margin">{props.name} ›</span>
+        <span className="h4 no-margin link-color">{props.name} ›</span>
       </div>
     </div>
   </div>
