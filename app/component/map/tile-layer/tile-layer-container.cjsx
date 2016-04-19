@@ -21,6 +21,13 @@ class TileLayerContainer extends BaseTileLayer
     router: React.PropTypes.object.isRequired
     route: React.PropTypes.object.isRequired
 
+  constructor: ->
+    super
+    @state =
+      citybikeRowSelectedIndex: undefined
+      stops: undefined
+      coords: undefined
+
   createTile: (coords, done) =>
     tile = new TileContainer(coords, done, @props)
     tile.onStopClicked = (stops, coords) =>
@@ -39,6 +46,19 @@ class TileLayerContainer extends BaseTileLayer
 
   componentDidUpdate: ->
     @refs.popup?._leafletElement.openOn(@props.map)
+
+  selectCitybikeRow: (index) =>
+    @setState
+      citybikeRowSelectedIndex: index
+      () =>
+        @setState
+          citybikeRowSelectedIndex: undefined
+
+  shouldComponentUpdate: (nextProps, nextState) ->
+    if nextState.citybikeRowSelectedIndex == undefined and @state.citybikeRowSelectedIndex != undefined
+      false
+    else
+      true
 
   render: () ->
     StopMarkerPopupWithContext = provideContext StopMarkerPopup,
@@ -68,7 +88,7 @@ class TileLayerContainer extends BaseTileLayer
       autoPanPaddingTopLeft: [5, 125]
       className: "popup"
 
-    if @state?.stops.length == 1
+    if @state?.stops?.length == 1
       if @state.stops[0].layer == "stop"
         <Popup
           options={popupOptions}
@@ -90,13 +110,21 @@ class TileLayerContainer extends BaseTileLayer
           ref="popup">
           <CityBikePopupWithContext station={@state.stops[0].feature.properties} context={@context}/>
         </Popup>
-    else if @state?.stops.length > 1
-      <Popup
-        options={Object.assign {}, popupOptions, maxHeight: 220}
-        latlng={@state.coords}
-        ref="popup">
-        <MarkerSelectPopupWithContext options={@state.stops} context={@context}/>
-      </Popup>
+    else if @state?.stops?.length > 1
+      if @state?.citybikeRowSelectedIndex != undefined
+        <Popup
+          options={popupOptions}
+          latlng={@state.coords}
+          ref="popup">
+          <CityBikePopupWithContext station={@state.stops[@state.citybikeRowSelectedIndex].feature.properties} context={@context}/>
+        </Popup>
+      else
+        <Popup
+          options={Object.assign {}, popupOptions, maxHeight: 220}
+          latlng={@state.coords}
+          ref="popup">
+          <MarkerSelectPopupWithContext selectCitybikeRow={@selectCitybikeRow} options={@state.stops} map={@props.map} context={@context}/>
+        </Popup>
     else
       null
 
