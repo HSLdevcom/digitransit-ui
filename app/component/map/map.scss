@@ -234,6 +234,7 @@ div.leaflet-marker-icon.vehicle-icon {
 }
 
 div.origin-popup {
+  cursor: pointer;
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
     padding: 0;
