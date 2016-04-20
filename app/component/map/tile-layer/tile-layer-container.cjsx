@@ -46,7 +46,7 @@ class TileLayerContainer extends BaseTileLayer
   componentDidUpdate: ->
     @refs.popup?._leafletElement.openOn(@props.map)
 
-  selectCitybikeRow: (option) =>
+  selectRow: (option) =>
     @setState
       selectableTargets: [option]
 
@@ -105,7 +105,7 @@ class TileLayerContainer extends BaseTileLayer
         options={Object.assign {}, popupOptions, maxHeight: 220}
         latlng={@state.coords}
         ref="popup">
-        <MarkerSelectPopupWithContext selectCitybikeRow={@selectCitybikeRow} options={@state.selectableTargets} context={@context}/>
+        <MarkerSelectPopupWithContext selectRow={@selectRow} options={@state.selectableTargets} context={@context}/>
       </Popup>
     else
       null

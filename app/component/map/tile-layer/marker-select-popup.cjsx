@@ -7,12 +7,15 @@ MarkerSelectPopup = (props) ->
 
   rows = props.options.map (option, index) ->
     if option.layer == "stop"
-      <SelectStopRow key={option.feature.properties.gtfsId} {...option.feature.properties}/>
+      <SelectStopRow
+        key={option.feature.properties.gtfsId}
+        {...option.feature.properties}
+        selectRow={() => props.selectRow option}/>
     else if option.layer == "citybike"
       <SelectCitybikeRow
         key={option.feature.properties.stationId}
         {...option.feature.properties}
-        selectCitybikeRow={() => props.selectCitybikeRow option}/>
+        selectRow={() => props.selectRow option}/>
 
   <div className="card">
     <h3 className="padding-normal">
