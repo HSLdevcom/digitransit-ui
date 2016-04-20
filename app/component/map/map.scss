@@ -239,7 +239,13 @@ div.origin-popup {
     border-radius: $border-radius;
     padding: 0;
     width: 140px;
-    border: 1px solid $gray
+    border: 1px solid $gray;
+    overflow: hidden;
+  }
+
+  .origin-popup-name {
+    height: 1.3em;
+    width:200px;
   }
 
   .leaflet-popup-tip-container {
@@ -250,6 +256,15 @@ div.origin-popup {
       border: 1px solid $gray;
     }
   }
+}
+
+.shade-to-white {
+  background-image: linear-gradient(to left, white, rgba(255, 255, 255, 0));
+  width: 2em;
+  height: 2em;
+  position: absolute;
+  right: 1px;
+  top: 2em;
 }
 
 .route-header {

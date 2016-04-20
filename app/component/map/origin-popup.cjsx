@@ -83,7 +83,11 @@ class OriginPopup extends React.Component
           className: "origin-popup"}>
           <div onClick={() =>
             @context.executeAction SearchActions.openDialog, "origin"}>
-            <span className="h4 bold uppercase">{msg}</span><br/>{@state.msg}
+            <div className="h4 bold uppercase">{msg}</div>
+            <div>
+              <div className="origin-popup-name">{@state.msg}</div>
+              <div className="shade-to-white"></div>
+            </div>
           </div>
       </Popup>
     else
