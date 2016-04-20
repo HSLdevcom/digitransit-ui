@@ -109,6 +109,7 @@ class SearchInput extends React.Component
         value: name
 
   render: =>
+    inputValue = if @state.value?.length >= 0 then @state?.value else @props.initialValue
     <div className="fullscreen">
       <ReactAutowhatever
         ref = "autowhatever"
@@ -121,7 +122,7 @@ class SearchInput extends React.Component
         focusedItemIndex={@state.focusedItemIndex}
         inputProps={
           "id": @props.id
-          "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
+          "value": inputValue
           "onChange": @handleUpdateInputNow
           "onKeyDown": @handleOnKeyDown
           "onTouchStart": @handleOnTouchStart
@@ -133,7 +134,7 @@ class SearchInput extends React.Component
           "onTouchStart": @handleOnTouchStart
         }
       />
-      <div id="clear-input" onClick={() => @handleUpdateInputNow(target: value: "")}><Icon img='icon-icon_close'/></div>
+      {if inputValue.length > 0 then <div id="clear-input" onClick={() => @handleUpdateInputNow(target: value: "")}><Icon img='icon-icon_close'/></div>}
       {@props.children}
     </div>
 
