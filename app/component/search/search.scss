@@ -235,15 +235,14 @@ div.search-modal {
   .geolocation-selected {
     background-color: $background-color;
     padding: 4px;
-    padding-top: 5px;
-    padding-bottom: 2px;
+    padding-bottom: 1px;
     border-radius: 2px;
     vertical-align: text-top;
     @include font-book
     > span:nth-child(1) {  //icon
       vertical-align: middle;
       margin-right: 10px;
-      margin-left: 2px;
+      margin-left: 1px;
       color: $hilight-color;
     }
     > span:nth-child(2) {  //text
@@ -256,16 +255,19 @@ div.search-modal {
 
   .close-icon {
     color: $gray;
+    > span {
+      > svg {
+        width: 14px;
+      }
+    }
   }
 
   .geolocation {
     position: absolute;
     top: 0px;
     width: 100%;
-    padding-left: 4px;
-    padding-right: 4px;
-    padding-top: 4px;
-    height: 30px;
+    padding: 5px;
+    height: 27px;
     line-height: normal;
   }
 }
