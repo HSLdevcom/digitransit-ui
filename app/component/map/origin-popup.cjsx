@@ -13,7 +13,6 @@ class OriginPopup extends React.Component
       position: undefined
       yOffset: 0
 
-
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
