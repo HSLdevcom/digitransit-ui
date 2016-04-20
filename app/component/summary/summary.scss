@@ -8,26 +8,41 @@
 
 .time-selectors {
   background-color: $secondary-color;
-  input, select {
+
+  input[type="date"], input[type="time"], select {
+    border-radius: $border-radius;
+    padding: 0px;
+    margin: 5px;
+    height: 25px;
+    display: inline-block;
     background-color: $secondary-color;
     color: $secondary-font-color;
+
     &:focus, &:hover {
       background-color: $secondary-color;
       outline: none;
     }
   }
+
+  .date {
+    text-align: center;
+    width: 7em;
+  }
+
+  .time {
+    text-align: left;
+    width: 4em;
+  }
+
+  .arrive {
+    width: 8em;
+    appearance: none;
+  }
 }
 
-.date {
-  width: 5em;
-}
-
-.arrive {
-  width: 8em;
-}
-
+/*
 .time-selectors {
-  input, select {
+  input {
     appearance: none;
     border-radius: $border-radius;
     padding-top: 0px;
@@ -60,4 +75,4 @@
     @include font-medium;
   }
 }
-
+*/
