@@ -12,7 +12,7 @@ MarkerSelectPopup = (props) ->
       <SelectCitybikeRow
         key={option.feature.properties.stationId}
         {...option.feature.properties}
-        selectCitybikeRow={() => props.selectCitybikeRow index}/>
+        selectCitybikeRow={() => props.selectCitybikeRow option}/>
 
   <div className="card">
     <h3 className="padding-normal">
