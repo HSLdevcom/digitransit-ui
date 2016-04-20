@@ -7,7 +7,8 @@
 }
 
 .time-selectors {
-  select {
+  background-color: $secondary-color;
+  input, select {
     background-color: $secondary-color;
     color: $secondary-font-color;
     &:focus, &:hover {
@@ -26,7 +27,7 @@
 }
 
 .time-selectors {
-  select {
+  input, select {
     appearance: none;
     border-radius: $border-radius;
     padding-top: 0px;
