@@ -15,9 +15,7 @@ getLocationMessage = (geolocation) ->
 GeolocationBar = (props) ->
   <div className="geolocation input-placeholder" onClick={props.onClick}>
     <div className="geolocation-selected">
-      <span className='geolocation-bar-location-icon'>
-        <Icon img={'icon-icon_position'}/>
-      </span>
+      <Icon img={'icon-icon_position'}/>
       {getLocationMessage props.geolocation}
       <span className="close-icon right cursor-pointer">
         <Icon img={'icon-icon_close'} />

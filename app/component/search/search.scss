@@ -132,8 +132,8 @@ ul#react-whatever-suggest {
 }
 
 .geolocation-bar-location-icon {
-  height:16px;
-  margin-right: 10px;
+  //height:16px;
+//  margin-right: 10px;
 }
 
 .geolocation-bar-location-icon svg.icon {
@@ -235,11 +235,21 @@ div.search-modal {
   .geolocation-selected {
     background-color: $background-color;
     padding: 4px;
+    padding-top: 5px;
+    padding-bottom: 2px;
     border-radius: 2px;
+
+    vertical-align: middle;    > span:nth-child(1) {  //icon
+      vertical-align: middle;
+      margin-right: 10px;
+      color: $hilight-color;
+    }
+    > span:nth-child(2) {  //text
+      vertical-align: top;
+    }
   }
 
   .close-icon {
-    padding-top: 2px;
     color: $gray;
   }
 
