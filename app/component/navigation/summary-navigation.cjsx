@@ -2,7 +2,6 @@ React                       = require 'react'
 Icon                        = require '../icon/icon'
 CustomizeSearch             = require '../summary/customize-search'
 BackButton                  = require './back-button'
-TimeSelectors               = require './time-selectors'
 LeftNav                     = require 'material-ui/lib/left-nav'
 {supportsHistory}           = require 'history/lib/DOMUtils'
 
@@ -48,7 +47,6 @@ class SummaryNavigation extends React.Component
       <div className="fullscreen grid-frame">
         <nav className="top-bar">
           <BackButton/>
-          <TimeSelectors/>
           <div onClick={@toggleCustomizeSearchOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
             <Icon img={'icon-icon_ellipsis'}/>
           </div>
