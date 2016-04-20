@@ -18,8 +18,9 @@ class RailLeg extends React.Component
         id={"train-with-route-number"}
         values={{
           routeNumber: @props.leg.route?.shortName
+          headSign: @props.leg.trip?.tripHeadsign
           }}
-        defaultMessage={"Train {routeNumber}"}/>
+        defaultMessage={"Train {routeNumber} {headSign}"}/>
     </TransitLeg>
 
 

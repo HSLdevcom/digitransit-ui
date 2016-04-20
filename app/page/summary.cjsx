@@ -10,6 +10,7 @@ ItinerarySearchAction = require '../action/itinerary-search-action'
 {otpToLocation} = require '../util/otp-strings'
 intl            = require 'react-intl'
 config          = require '../config'
+EndpointActions = require '../action/endpoint-actions'
 isEqual         = require 'lodash/isEqual'
 
 FormattedMessage = intl.FormattedMessage
@@ -19,6 +20,16 @@ class SummaryPage extends React.Component
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
+
+  @loadAction: (params) ->
+    [
+      [EndpointActions.storeEndpoint,
+        target: "origin",
+        endpoint: otpToLocation(params.from)],
+      [EndpointActions.storeEndpoint,
+        target: "destination",
+        endpoint: otpToLocation(params.to)]
+    ]
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
@@ -101,7 +112,11 @@ class SummaryPage extends React.Component
         )}
         renderFailure={(error) =>
           Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
-          <div>
+          <div className="summary">
+            <SummaryPlanContainer
+              from={from}
+              to={to}
+            />
             <NoRoutePopup />
           </div>
         }

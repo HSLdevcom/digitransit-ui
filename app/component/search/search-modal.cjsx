@@ -29,7 +29,7 @@ class SearchModal extends React.Component
               <span className="search-header-separator"/>
             </div>
             <Tabs
-              className={"search-header__tabs-root"}
+              className="search-header__tabs-root"
               inkBarStyle={{backgroundColor: config.colors.primary, bottom: "auto", top: -43}}
               value={@props.selectedTab}
             >

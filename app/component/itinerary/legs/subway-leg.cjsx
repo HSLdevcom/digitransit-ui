@@ -18,8 +18,9 @@ class SubwayLeg extends React.Component
         id={"subway-with-route-number"}
         values={{
           routeNumber: @props.leg.route?.shortName
+          headSign: @props.leg.trip?.tripHeadsign
           }}
-        defaultMessage={"Subway {routeNumber}"}/>
+        defaultMessage={"Subway {routeNumber} {headSign}"}/>
     </TransitLeg>
 
 

@@ -18,8 +18,9 @@ class FerryLeg extends React.Component
         id={"ferry-with-route-number"}
         values={{
           routeNumber: @props.leg.route?.shortName
+          headSign: @props.leg.trip?.tripHeadsign
           }}
-        defaultMessage={"Ferry {routeNumber}"}/>
+        defaultMessage={"Ferry {routeNumber} {headSign}"}/>
     </TransitLeg>
 
 

@@ -7,6 +7,7 @@ intl              = require 'react-intl'
 config            = require '../config'
 ItineraryPlanContainer = require '../component/itinerary/itinerary-plan-container'
 queries           = require '../queries'
+EndpointActions   = require '../action/endpoint-actions'
 isEqual           = require 'lodash/isEqual'
 
 class ItineraryPage extends React.Component
@@ -14,6 +15,16 @@ class ItineraryPage extends React.Component
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
     router: React.PropTypes.object.isRequired
+
+  @loadAction: (params) ->
+    [
+      [EndpointActions.storeEndpoint,
+        target: "origin",
+        endpoint: otpToLocation(params.from)],
+      [EndpointActions.storeEndpoint,
+        target: "destination",
+        endpoint: otpToLocation(params.to)]
+    ]
 
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange

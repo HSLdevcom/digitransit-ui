@@ -1,15 +1,15 @@
 React            = require 'react'
 EndpointActions  = require '../../action/endpoint-actions'
 SearchActions    = require '../../action/search-actions'
-SearchTwoFields  = require './search-two-fields'
-SearchField      = require './search-field'
+FakeSearchWithButton = require './fake-search-with-button'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 SearchModal      = require './search-modal'
 SearchInput      = require './search-input'
 Tab              = require 'material-ui/lib/tabs/tab'
+FakeSearchBar    = require './fake-search-bar'
 
-class SearchTwoFieldsContainer extends React.Component
+class SearchMainContainer extends React.Component
 
   constructor: () ->
     @state =
@@ -21,13 +21,6 @@ class SearchTwoFieldsContainer extends React.Component
     getStore: React.PropTypes.func.isRequired
     router: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
-
-  onSwitch: (e) =>
-    e.preventDefault()
-    if @context.getStore('EndpointStore').getOrigin().useCurrentPosition and @context.getStore('PositionStore').getLocationState().isLocationingInProgress
-      return
-
-    @context.executeAction EndpointActions.swapEndpoints
 
   onTabChange: (tab) =>
     @setState
@@ -48,8 +41,23 @@ class SearchTwoFieldsContainer extends React.Component
   focusInput: (value) =>
     @refs["searchInput" + value]?.refs.autowhatever?.refs.input?.focus()
 
-  render: =>
+  clickSearch: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
+    origin = @context.getStore('EndpointStore').getOrigin()
+
+    @setState
+      selectedTab: if origin.lat or origin.useCurrentPosition and geolocation.hasLocation then "destination" else "origin"
+      modalIsOpen: true
+      () =>
+        @focusInput if origin.lat or origin.useCurrentPosition and geolocation.hasLocation then "destination" else "origin"
+
+    if origin.lat or origin.useCurrentPosition and geolocation.hasLocation
+      @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}
+    else
+      @context.executeAction SearchActions.executeSearch, {input: "", type: "endpoint"}
+
+
+  render: =>
     origin = @context.getStore('EndpointStore').getOrigin()
     destination = @context.getStore('EndpointStore').getDestination()
 
@@ -65,46 +73,19 @@ class SearchTwoFieldsContainer extends React.Component
       id: 'search'
       defaultMessage: 'SEARCH'
 
-    originPlaceholder = @context.intl.formatMessage
-      id: 'origin-placeholder'
-      defaultMessage: 'From where? - address or stop'
-
     destinationPlaceholder = @context.intl.formatMessage
       id: 'destination-placeholder'
       defaultMessage: 'Where to? - address or stop'
 
-    from =
-      <SearchField
-        endpoint={origin}
-        geolocation={geolocation}
-        onClick={(e) =>
-          @setState
-            selectedTab: "origin"
-            modalIsOpen: true
-            () =>
-              @focusInput("origin")
-          @context.executeAction SearchActions.executeSearch, {"input": @context.getStore('EndpointStore').getOrigin()?.address || "", type: "endpoint"}}
-        autosuggestPlaceholder={originPlaceholder}
-        id='origin'
-      />
-
-    to =
-      <SearchField
-        endpoint={destination}
-        geolocation={geolocation}
-        onClick={(e) =>
-          @setState
-            selectedTab: "destination"
-            modalIsOpen: true
-            () =>
-              @focusInput("destination")
-          @context.executeAction SearchActions.executeSearch, {"input": @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}}
-        autosuggestPlaceholder={destinationPlaceholder}
-        id='destination'
+    fakeSearchBar =
+      <FakeSearchBar
+        onClick={@clickSearch}
+        placeholder={destinationPlaceholder}
+        id="front-page-search-bar"
       />
 
     <div>
-      <SearchTwoFields from={from} to={to} onSwitch={@onSwitch}/>
+      <FakeSearchWithButton fakeSearchBar={fakeSearchBar} onClick={@clickSearch}/>
       <SearchModal
         ref="modal"
         selectedTab={@state.selectedTab}
@@ -114,7 +95,8 @@ class SearchTwoFieldsContainer extends React.Component
           className={"search-header__button" + if @state.selectedTab == "origin" then "--selected" else ""}
           label={originSearchTabLabel}
           ref="searchTab"
-          value={"origin"}
+          value="origin"
+          id="origin"
           onActive={@onTabChange}>
             <SearchInput
               ref="searchInputorigin"
@@ -137,13 +119,14 @@ class SearchTwoFieldsContainer extends React.Component
         <Tab
           className={"search-header__button" + if @state.selectedTab == "destination" then "--selected" else ""}
           label={destinationSearchTabLabel}
-          value={"destination"}
+          value="destination"
+          id="destination"
           ref="searchTab"
           onActive={@onTabChange}>
           <SearchInput
             ref="searchInputdestination"
             initialValue = {@context.getStore('EndpointStore').getDestination()?.address || ""}
-            id={"search-destination"}
+            id="search-destination"
             type="endpoint"
             onSuggestionSelected = {(name, item) =>
               if item.type == 'CurrentLocation'
@@ -161,13 +144,13 @@ class SearchTwoFieldsContainer extends React.Component
         <Tab
           className={"search-header__button" + if @state.selectedTab == "search" then "--selected" else ""}
           label={searchTabLabel}
-          value={"search"}
+          value="search"
           ref="searchTab"
           onActive={@onTabChange}>
           <SearchInput
             ref="searchInputsearch"
-            initialValue = ""}
-            id={"search"}
+            initialValue = ""
+            id="search"
             type="search"
             onSuggestionSelected = {(name, item) =>
               if item.properties.link then @context.router.push item.properties.link
@@ -177,4 +160,4 @@ class SearchTwoFieldsContainer extends React.Component
       </SearchModal>
     </div>
 
-module.exports = SearchTwoFieldsContainer
+module.exports = SearchMainContainer
