@@ -1,10 +1,7 @@
 React                 = require 'react'
-Icon                  = require '../../icon/icon'
-Link                  = require 'react-router/lib/Link'
 {FormattedMessage}    = require 'react-intl'
 RouteDestination      = require '../../departure/route-destination'
 routeCompare          = require '../../../util/route-compare'
-{intlShape, FormattedMessage} = require 'react-intl'
 
 getName = (p) ->
   if p.shortName
@@ -59,9 +56,6 @@ SelectStopRow = (props) ->
       </div>
     </div>
   </div>
-
-SelectStopRow.contextTypes =
-  intl: intlShape.isRequired
 
 SelectStopRow.displayName = "SelectStopRow"
 

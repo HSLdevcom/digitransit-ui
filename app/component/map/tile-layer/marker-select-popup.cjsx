@@ -1,7 +1,7 @@
 React                 = require 'react'
 SelectStopRow         = require './select-stop-row'
 SelectCitybikeRow     = require './select-citybike-row'
-{intlShape, FormattedMessage} = require 'react-intl'
+{FormattedMessage} = require 'react-intl'
 
 MarkerSelectPopup = (props) ->
 

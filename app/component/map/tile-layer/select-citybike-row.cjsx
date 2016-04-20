@@ -1,10 +1,6 @@
 React                 = require 'react'
 Icon                  = require '../../icon/icon'
-NotImplementedLink    = require '../../util/not-implemented-link'
 {FormattedMessage}    = require 'react-intl'
-RouteDestination      = require '../../departure/route-destination'
-routeCompare          = require '../../../util/route-compare'
-Icon                  = require '../../icon/icon'
 
 
 SelectCitybikeRow = (props) ->
