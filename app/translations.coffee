@@ -8,8 +8,8 @@ translations =
     'itinerary-page.description': "Reitti"
     'trip-page.title': "Linja {route_short_name}"
     'trip-page.description': "Linja {route_short_name} - {route_long_name}"
-    'itinerary-summary-page.title': "Reittiehdotus"
-    'itinerary-summary-page.description': "Reittiehdotus"
+    'itinerary-summary-page.title': "Reittiehdotukset"
+    'itinerary-summary-page.description': "Reittiehdotukset"
     'description': 'Löydä joukkoliikennetarjonta lähelle ja kauas.'
     'searching-position': 'Paikannetaan...'
     'own-position': 'Nykyinen sijaintisi'
@@ -259,12 +259,12 @@ translations =
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
     'route-page.title': "Rute {route_short_name}"
     'route-page.description': "Rute {route_short_name} - {route_long_name}"
-    'itinerary-page.title': "Reisebeskrivelse"
-    'itinerary-page.description': "Reisebeskrivelse"
+    'itinerary-page.title': "Reisebeskrivelser"
+    'itinerary-page.description': "Reisebeskrivelser"
     'trip-page.title': "Linje {route_short_name}"
     'trip-page.description': "Linje {route_short_name} - {route_long_name}"
-    'itinerary-summary-page.title': "Anbefalt rute"
-    'itinerary-summary-page.description': "Anbefalt rute"
+    'itinerary-summary-page.title': "Anbefalt ruter"
+    'itinerary-summary-page.description': "Anbefalt ruter"
     'searching-position': 'Leter etter posisjon'
     'own-position': 'Min posisjon'
     'no-position': 'Ingen posisjon'
