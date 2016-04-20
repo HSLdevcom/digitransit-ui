@@ -216,7 +216,7 @@ div.search-modal {
         height: 95%;
         > div {
           height: 100%;
-          > div {
+          > div:nth-child(1) {
             height: 100%;
           }
         }
@@ -225,25 +225,34 @@ div.search-modal {
     }
     height: calc(100% - 30px)
   }
-}
+  #clear-input {
+    position: absolute;
+    top: -3px;
+    right: 8px;
+    color: $gray
+  }
 
+  .geolocation-selected {
+    background-color: $background-color;
+    padding: 4px;
+    border-radius: 2px;
+  }
 
-#clear-input {
-  position: absolute;
-  top: -3px;
-  right: 8px;
-  color: $gray
-}
+  .close-icon {
+    padding-top: 2px;
+    color: $gray;
+  }
 
-.geolocation {
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-top: 4px;
-  height: 30px;
-  line-height: normal;
+  .geolocation {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
+    height: 30px;
+    line-height: normal;
+  }
 }
 
 .search-header-separator {
@@ -255,13 +264,3 @@ div.search-modal {
   bottom: -4px;
 }
 
-.geolocation-selected {
-  background-color: $background-color;
-  padding: 4px;
-  border-radius: 2px;
-}
-
-.close-icon {
-  padding-top: 2px;
-  color: $gray;
-}
