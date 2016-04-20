@@ -121,7 +121,7 @@ ul#react-whatever-suggest {
 
   .autosuggestIcon {
     color: $medium-gray;
-    padding-left: 10px;
+    padding-left: 3px;
     padding-right: 10px;
   }
 
@@ -238,14 +238,19 @@ div.search-modal {
     padding-top: 5px;
     padding-bottom: 2px;
     border-radius: 2px;
-
-    vertical-align: middle;    > span:nth-child(1) {  //icon
+    vertical-align: text-top;
+    @include font-book
+    > span:nth-child(1) {  //icon
       vertical-align: middle;
       margin-right: 10px;
+      margin-left: 2px;
       color: $hilight-color;
     }
     > span:nth-child(2) {  //text
       vertical-align: top;
+    }
+    > span:nth-child(3) {  //close
+      vertical-align: middle;
     }
   }
 
