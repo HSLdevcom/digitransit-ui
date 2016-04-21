@@ -32,7 +32,7 @@ class StopMarkerPopup extends React.Component
         stop={@props.stop}
         departures={5}
         date={@props.relay.variables.date}
-        className="padding-small"/>
+        className="padding-small cursor-pointer"/>
       <MarkerPopupBottom routeHere={routePath}>
         <Link to="/pysakit/#{@props.stop.gtfsId}"><Icon img={'icon-icon_time'}/><FormattedMessage id='show-departures' defaultMessage='Show departures' /></Link><br/>
       </MarkerPopupBottom>
