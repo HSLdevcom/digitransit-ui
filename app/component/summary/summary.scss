@@ -8,15 +8,25 @@
 
 .time-selectors {
   background-color: $secondary-color;
+  height: 40px;
+  vertical-align: middle !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  padding-top: 7px !important;
 
-  input[type="date"], input[type="time"], select {
-    border-radius: $border-radius;
-    padding: 0px;
-    margin: 5px;
-    height: 25px;
+  input[type="date"], input[type="time"], input[type="text"], select {
+    vertical-align: middle !important;
+    height: 18px !important;
+    padding: 0 !important;
+    margin: 0 !important;
     display: inline-block;
-    background-color: $secondary-color;
+    background-image: none;
+    background-color: #833;
+    box-shadow: none;
     color: $secondary-font-color;
+    border: none;
+    border-bottom: 1px dotted $gray-blue-light;
+    border-radius: 0;
 
     &:focus, &:hover {
       background-color: $secondary-color;
@@ -25,18 +35,34 @@
   }
 
   .date {
-    text-align: center;
     width: 7em;
+    text-align: left;
+    vertical-align: middle !important;
+    height: 18px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: #383 !important;
   }
 
   .time {
+    width: 5em;
     text-align: left;
-    width: 4em;
+    vertical-align: middle !important;
+    height: 18px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: #383 !important;
+    appearance: none !important;
   }
 
   .arrive {
     width: 8em;
-    appearance: none;
+    appearance: none !important;
+    text-align: left;
+    vertical-align: middle !important;
+    height: 18px !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 }
 
