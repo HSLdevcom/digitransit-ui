@@ -51,7 +51,7 @@ SelectStopRow = (props) ->
         </svg>
       </div>
       <div className="left padding-vertical-normal" style={width: "calc(100% - 40px)"}>
-        <span className="h4 no-margin">{props.name} ›</span>
+        <span className="h4 no-margin link-color">{props.name} ›</span>
         {patterns}
       </div>
     </div>
