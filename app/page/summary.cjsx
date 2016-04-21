@@ -1,121 +1,129 @@
-Raven              = if window? then require 'raven-js' else null
-React              = require 'react'
-Helmet             = require 'react-helmet'
-SummaryNavigation  = require '../component/navigation/summary-navigation'
-ItinerarySummary   = require '../component/itinerary/itinerary-summary'
-ArrowLink          = require '../component/util/arrow-link'
-Map                = require '../component/map/map'
-ItinerarySearchActions = require '../action/itinerary-search-action'
-EndpointActions    = require '../action/endpoint-actions'
-SummaryRow         = require '../component/summary/summary-row'
-NoRoutePopup       = require '../component/summary/no-route-popup'
-SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
-ItineraryLine      = require '../component/map/itinerary-line'
-sortBy             = require 'lodash/sortBy'
-{otpToLocation, locationToCoords} = require '../util/otp-strings'
-{supportsHistory}  = require 'history/lib/DOMUtils'
-intl               = require 'react-intl'
+Raven           = if window? then require 'raven-js' else null
+React           = require 'react'
+Relay           = require 'react-relay'
+queries         = require '../queries'
+Helmet          = require 'react-helmet'
+SummaryPlanContainer  = require '../component/summary/summary-plan-container'
+SummaryNavigation     = require '../component/navigation/summary-navigation'
+NoRoutePopup          = require '../component/summary/no-route-popup'
+ItinerarySearchAction = require '../action/itinerary-search-action'
+{otpToLocation} = require '../util/otp-strings'
+intl            = require 'react-intl'
+config          = require '../config'
+EndpointActions = require '../action/endpoint-actions'
+isEqual         = require 'lodash/isEqual'
 
 FormattedMessage = intl.FormattedMessage
 
 class SummaryPage extends React.Component
   @contextTypes:
-    getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-    router: React.PropTypes.object.isRequired
-    location: React.PropTypes.object.isRequired
+    getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
 
   @loadAction: (params) ->
     [
-      [EndpointActions.setEndpoint,
+      [EndpointActions.storeEndpoint,
         target: "origin",
         endpoint: otpToLocation(params.from)],
-      [EndpointActions.setEndpoint,
+      [EndpointActions.storeEndpoint,
         target: "destination",
         endpoint: otpToLocation(params.to)]
     ]
 
-  componentWillMount: ->
-    props = @context.getStore('ItinerarySearchStore').getOptions()
-    if props.params.from != @props.params.from or props.params.to != @props.params.to
-      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
-
-  componentWillUpdate: (props) ->
-    if props.params.from != @props.params.from or props.params.to != @props.params.to
-      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, props
-
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
     @context.getStore('TimeStore').addChangeListener @onTimeChange
+    @context.executeAction ItinerarySearchAction.itinerarySearchRequest, @props
+    @setState
+      search: @updateItinerarySearch @context.getStore('ItinerarySearchStore')
+      time: @updateTime @context.getStore('TimeStore')
 
   componentWillUnmount: ->
     @context.getStore('ItinerarySearchStore').removeChangeListener @onChange
     @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
+  shouldComponentUpdate: (newProps, newState) =>
+    not (@state and isEqual @props, newProps and isEqual @state, newState)
+
   onChange: =>
-    @forceUpdate()
+    @setState
+      search: @updateItinerarySearch @context.getStore('ItinerarySearchStore')
 
   onTimeChange: (e) =>
     if e.selectedTime
-      @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
+      @setState
+        time: @updateTime @context.getStore('TimeStore')
 
-  getActiveIndex: =>
-    @context.location.state?.summaryPageSelected or @state?.summaryPageSelected or 0
+  updateItinerarySearch: (store) =>
+    modes: store.getMode()
+    walkReluctance: store.getWalkReluctance()
+    walkBoardCost: store.getWalkBoardCost()
+    minTransferTime: store.getMinTransferTime()
+    walkSpeed: store.getWalkSpeed()
+    wheelchair: store.isWheelchair()
+    maxWalkDistance:
+      if store.getMode().indexOf('BICYCLE') == -1
+        config.maxWalkDistance
+      else
+        config.maxBikingDistance
+    disableRemainingWeightHeuristic: store.getCitybikeState()
 
-  onSelectActive: (index) =>
-    if @getActiveIndex() == index # second click navigates
-      @context.router.push "#{@context.location.pathname}/#{index}"
-    else if supportsHistory()
-      @context.router.replace
-        state: summaryPageSelected: index
-        pathname: @context.location.pathname
-    else
-      @setState summaryPageSelected: index
-      @forceReload()
+  updateTime: (store) =>
+    selectedTime: store.getSelectedTime()
+    arriveBy: store.getArriveBy()
 
   render: ->
-    rows = []
-    leafletObjs = []
-    activeIndex = @getActiveIndex()
+    # dependencies from config
+    preferredAgencies = config.preferredAgency or ""
 
-    data = @context.getStore('ItinerarySearchStore').getData()
-    currentTime = @context.getStore('TimeStore').getCurrentTime().valueOf()
-    plan = data.plan
-    if plan
-      summary = <ItinerarySummary className="itinerary-summary--summary-row itinerary-summary--onmap-black"
-                                  itinerary={plan.itineraries[@getActiveIndex()]}
-                                  />
-      toItinerary = <ArrowLink to="#{@context.location.pathname}/#{@getActiveIndex()}"
-                               className="arrow-link--summary-row right-arrow-blue-background"/>
-      for data, i in plan.itineraries
-        passive = i != activeIndex
-        rows.push <SummaryRow key={i}
-                              hash={i}
-                              params={@props.params}
-                              data={data}
-                              passive={passive}
-                              currentTime={currentTime}
-                              onSelect={@onSelectActive}/>
-        leafletObjs.push <ItineraryLine key={i}
-                                        hash={i}
-                                        legs={data.legs}
-                                        showFromToMarkers={i == 0}
-                                        passive={passive}/>
-    else if data.error
-      rows = [
-        <FormattedMessage
-          id='route-not-possible'
-          defaultMessage="Unfortunately your route is not possible. Technical error: '{error}'"
-          values={
-            error: data.error.msg
-          }/>,
-        <NoRoutePopup />]
-      Raven.captureMessage("OTP returned an error when requesting a plan", {extra: data})
+    # dependencies from route params
+    from = otpToLocation(@props.params.from)
+    to = otpToLocation(@props.params.to)
 
+    # dependencies from itinerary search store
+    search = @state?.search
 
-    # Draw active last
-    leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
+    # dependencies from time store
+    time = @state?.time
+
+    if search and time
+      plan = <Relay.RootContainer
+        Component={SummaryPlanContainer}
+        route={new queries.SummaryPlanContainerRoute(
+          fromPlace: @props.params.from
+          toPlace: @props.params.to
+          from: from
+          to: to
+          numItineraries: 3
+          modes: search.modes
+          date: time.selectedTime.format("YYYY-MM-DD")
+          time: time.selectedTime.format("HH:mm:ss")
+          walkReluctance: search.walkReluctance + 0.000099
+          walkBoardCost: search.walkBoardCost
+          minTransferTime: search.minTransferTime
+          walkSpeed: search.walkSpeed + 0.000099
+          maxWalkDistance: search.maxWalkDistance
+          wheelchair: search.wheelchair
+          preferred:
+            agencies: search.preferredAgencies
+          arriveBy: time.arriveBy
+          disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic
+        )}
+        renderFailure={(error) =>
+          Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
+          <div className="summary">
+            <SummaryPlanContainer
+              from={from}
+              to={to}
+            />
+            <NoRoutePopup />
+          </div>
+        }
+        renderLoading={=> <div className="spinner-loader"/>}
+      />
+    else
+      plan = <div className="spinner-loader"/>
 
     meta =
       title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestion"}
@@ -125,18 +133,8 @@ class SummaryPage extends React.Component
 
     <SummaryNavigation className="fullscreen">
       <Helmet {...meta} />
-      <Map ref="map"
-           className="summaryMap"
-           leafletObjs={leafletObjs}
-           fitBounds={true}
-           from={locationToCoords(otpToLocation(@props.params.from))}
-           to={locationToCoords(otpToLocation(@props.params.to))}
-           padding={[0, 110]}>
-        <SearchTwoFieldsContainer/>
-        {toItinerary}
-        {summary}
-      </Map>
-      <div>{rows}</div>
+      {plan}
     </SummaryNavigation>
+
 
 module.exports = SummaryPage

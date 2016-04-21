@@ -19,7 +19,7 @@ CityBikeCard       = require '../component/city-bike/city-bike-card'
 CityBikeContent    = require '../component/city-bike/city-bike-content'
 CityBikeAvailability = require '../component/city-bike/city-bike-availability'
 CityBikeUse          = require '../component/city-bike/city-bike-use'
-CityBikePopup       = require '../component/map/city-bike/city-bike-popup'
+CityBikePopup       = require '../component/map/popups/city-bike-popup'
 FavouriteLocationsContainer = require '../component/favourites/favourite-locations-container'
 FavouriteLocation           = require '../component/favourites/favourite-location'
 
@@ -138,6 +138,8 @@ class StyleGuidelinesPage extends React.Component
         <span className="code">icon-icon_airplane-withoutBox</span><br />
         <Icon img="icon-icon_arrow-collapse"/>
         <span className="code">icon-icon_arrow-collapse</span><br />
+        <Icon img="icon-icon_arrow-collapse--right"/>
+        <span className="code">icon-icon_arrow-collapse--right</span><br />
         <Icon img="icon-icon_arrow-down"/>
         <span className="code">icon-icon_arrow-down</span><br />
         <Icon img="icon-icon_arrow-dropdown"/>
@@ -340,7 +342,6 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=CityBikeAvailability />
       <ComponentDocumentation component=CityBikeUse />
       <ComponentDocumentation component=CityBikePopup />
-      <ComponentDocumentation component=FavouriteLocationsContainer />
       <ComponentDocumentation component=FavouriteLocation />
     </div>
 

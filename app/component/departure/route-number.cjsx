@@ -7,7 +7,7 @@ Example               = require '../documentation/example-data'
 RouteNumber = (props) ->
   mode = props.mode.toLowerCase()
   <span className={cx "route-number", props.className, {'vertical': props.vertical}} >
-    <Icon className={mode} img={'icon-icon_' + mode}/>
+    <Icon className={mode} img={'icon-icon_' + mode} />
     {if props.vertical then <br/>}
     <span className={"vehicle-number " + mode}>{props.text}</span>
   </span>

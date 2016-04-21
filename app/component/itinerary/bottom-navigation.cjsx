@@ -1,6 +1,5 @@
 React = require 'react'
 Icon  = require '../icon/icon'
-ArrowLink = require '../util/arrow-link'
 NotImplementedAction   = require '../../action/not-implemented-action'
 
 

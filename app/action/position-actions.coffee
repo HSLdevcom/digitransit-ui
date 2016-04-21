@@ -2,15 +2,19 @@ xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
 debounce   = require 'lodash/debounce'
 inside     = require 'point-in-polygon'
+itinerarySearchActions = require './itinerary-search-action'
 
 geolocator = (actionContext) ->
   actionContext.getStore('ServiceStore').geolocator()
 
 module.exports.reverseGeocodeAddress = reverseGeocodeAddress = (actionContext, location, done) ->
 
+  language = actionContext.getStore('PreferencesStore').getLanguage()
+
   xhrPromise.getJson(config.URL.PELIAS_REVERSE_GEOCODER,
       "point.lat": location.lat
       "point.lon": location.lon
+      lang: language
       size: 1
   ).then (data) ->
     if data.features? && data.features.length > 0
@@ -39,6 +43,7 @@ runReverseGeocodingAction = (actionContext, lat, lon, done) ->
 debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading: true})
 
 setCurrentLocation = (pos) =>
+  isFirst =  pos && @position == undefined
   if inside([pos.lon, pos.lat], config.areaPolygon)
     @position = pos
   else
@@ -46,6 +51,7 @@ setCurrentLocation = (pos) =>
       lat: config.defaultPosition[0]
       lon: config.defaultPosition[1]
       heading: pos.heading
+  isFirst
 
 broadcastCurrentLocation = (actionContext) =>
   if @position
@@ -72,12 +78,17 @@ module.exports.startLocationWatch = (actionContext, payload, done) ->
     if timeoutId
       window.clearTimeout(timeoutId)
       timeoutId = undefined
-    setCurrentLocation
+    isFirst = setCurrentLocation
       lat: position.coords.latitude
       lon: position.coords.longitude
       heading: position.coords.heading
 
     broadcastCurrentLocation actionContext
+    if(isFirst)
+      actionContext.executeAction(itinerarySearchActions.route, undefined, (e) =>
+        if e
+          console.error "Could not route:", e
+      )
 
     debouncedRunReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
 

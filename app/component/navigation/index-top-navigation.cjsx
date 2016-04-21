@@ -7,9 +7,6 @@ DisruptionInfoButtonContainer = require '../disruption/disruption-info-button-co
 class IndexTopNavigation extends React.Component
   render: ->
     <TopNavigation>
-      <div onClick={@props.toggleSubnavigation} className="icon-holder cursor-pointer sub-navigation-switch">
-        <button>{@props.subnavigationText}</button>
-      </div>
       <DisruptionInfoButtonContainer toggleDisruptionInfo={@props.toggleDisruptionInfo}/>
 
       {if config.leftMenu.show

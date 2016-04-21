@@ -773,6 +773,172 @@ var FavouriteLocationContainerFragments = {
   `,
 }
 
+export class SummaryPlanContainerRoute extends Relay.Route {
+  static queries = {
+    plan: (Component, variables) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('plan', {
+          fromPlace: variables.fromPlace,
+          toPlace: variables.toPlace,
+          walkReluctance: variables.walkReluctance,
+          modes: variables.modes,
+          date: variables.date,
+          time: variables.time,
+          walkBoardCost: variables.walkBoardCost,
+          walkSpeed: variables.walkSpeed,
+          minTransferTime: variables.minTransferTime,
+          numItineraries: variables.numItineraries,
+          maxWalkDistance: variables.maxWalkDistance,
+          wheelchair: variables.wheelchair,
+          preferred: variables.preferred,
+          arriveBy: variables.arriveBy,
+          disableRemainingWeightHeuristic: variables.disableRemainingWeightHeuristic
+        })}
+      }
+    }`,
+  };
+  static paramDefinitions = {
+  };
+  static routeName = "PlanListContainerRoute";
+}
+
+var SummaryPlanContainerFragments = {
+  plan: () => Relay.QL`
+    fragment on QueryType {
+      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, wheelchair: $wheelchair, disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic, arriveBy: $arriveBy, preferred: $preferred) {
+        itineraries {
+          walkDistance
+          duration
+
+          legs {
+            mode
+            agency {
+              name
+            }
+            from {
+              lat
+              lon
+              stop {
+                code
+              }
+            }
+            to {
+              lat
+              lon
+              stop {
+                code
+              }
+            }
+            legGeometry {
+              length
+              points
+            }
+            intermediateStops {
+              gtfsId
+            }
+            trip {
+              gtfsId
+            }
+          }
+
+          ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}
+        }
+      }
+    }
+  `,
+}
+
+var ItinerarySummaryListContainerFragments = {
+  itineraries: () => Relay.QL`
+    fragment on Itinerary @relay(plural:true){
+      walkDistance
+      startTime
+      endTime
+      legs {
+        realTime
+        transitLeg
+        startTime
+        endTime
+        mode
+        distance
+        duration
+        rentedBike
+        route {
+          shortName
+        }
+      }
+    }
+  `,
+}
+
+var ItineraryPlanContainerFragments = {
+  plan: () => Relay.QL`
+    fragment on QueryType {
+      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, wheelchair: $wheelchair, disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic, arriveBy: $arriveBy, preferred: $preferred) {
+        itineraries {
+          walkDistance
+          duration
+          startTime
+          endTime
+
+          legs {
+            mode
+            agency {
+              name
+            }
+            from {
+              lat
+              lon
+              name
+              stop {
+                gtfsId
+                code
+              }
+            }
+            to {
+              lat
+              lon
+              name
+              stop {
+                gtfsId
+                code
+              }
+            }
+            legGeometry {
+              length
+              points
+            }
+            intermediateStops {
+              gtfsId
+              lat
+              lon
+              name
+              code
+            }
+            realTime
+            transitLeg
+            rentedBike
+            startTime
+            endTime
+            mode
+            distance
+            duration
+            route {
+              shortName
+            }
+            trip {
+              gtfsId
+              tripHeadsign
+            }
+          }
+          ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}
+        }
+      }
+    }
+  `,
+}
+
 module.exports = {
   StopQueries: StopQueries,
   TerminalRoute: TerminalRoute,
@@ -814,5 +980,9 @@ module.exports = {
   DisruptionListContainerFragments: DisruptionListContainerFragments,
   DisruptionInfoButtonFragments: DisruptionInfoButtonFragments,
   FavouriteLocationContainerRoute: FavouriteLocationContainerRoute,
-  FavouriteLocationContainerFragments: FavouriteLocationContainerFragments
+  FavouriteLocationContainerFragments: FavouriteLocationContainerFragments,
+  SummaryPlanContainerRoute: SummaryPlanContainerRoute,
+  SummaryPlanContainerFragments: SummaryPlanContainerFragments,
+  ItinerarySummaryListContainerFragments: ItinerarySummaryListContainerFragments,
+  ItineraryPlanContainerFragments: ItineraryPlanContainerFragments
 }

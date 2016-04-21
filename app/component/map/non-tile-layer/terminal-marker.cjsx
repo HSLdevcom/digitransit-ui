@@ -4,7 +4,7 @@ queries       = require '../../../queries'
 geoUtils      = require '../../../util/geo-utils'
 isBrowser     = window?
 Icon          = require '../../icon/icon'
-TerminalMarkerPopup = require './terminal-marker-popup'
+TerminalMarkerPopup = require '../popups/terminal-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
@@ -47,7 +47,7 @@ class TerminalMarker extends React.Component
       <Relay.RootContainer
         Component={TerminalMarkerPopup}
         route={new queries.TerminalRoute(terminalId: @props.terminal.gtfsId)}
-        renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
+        renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
         renderFetched={(data) => <TerminalMarkerPopupWithContext {... data} context={@context}/>}
       />
     </GenericMarker>

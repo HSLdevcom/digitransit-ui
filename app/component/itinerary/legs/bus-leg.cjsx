@@ -17,9 +17,10 @@ class BusLeg extends React.Component
       <FormattedMessage
         id={"bus-with-route-number"}
         values={{
-          routeNumber: @props.leg.route
+          routeNumber: @props.leg.route?.shortName
+          headSign: @props.leg.trip?.tripHeadsign
           }}
-        defaultMessage={"Bus {routeNumber}"}/>
+        defaultMessage={"Bus {routeNumber} {headSign}"}/>
     </TransitLeg>
 
 

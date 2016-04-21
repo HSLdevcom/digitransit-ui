@@ -3,7 +3,7 @@ Relay              = require 'react-relay'
 queries            = require '../queries'
 IndexNavigation    = require '../component/navigation/index-navigation'
 FrontPagePanel     = require '../component/front-page/front-page-panel'
-SearchTwoFieldsContainer = require '../component/search/search-two-fields-container'
+SearchMainContainer = require '../component/search/search-main-container'
 Icon               = require '../component/icon/icon'
 Link               = require 'react-router/lib/Link'
 MapWithTracking    = require '../component/map/map-with-tracking'
@@ -17,7 +17,7 @@ class Page extends React.Component
   render: ->
     <IndexNavigation className="front-page fullscreen">
       <MapWithTracking>
-        <SearchTwoFieldsContainer/>
+        <SearchMainContainer/>
       </MapWithTracking>
       <FrontPagePanel/>
       <FeedbackPanel/>

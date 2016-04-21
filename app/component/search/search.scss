@@ -19,246 +19,116 @@ $search-form-input-overlay-height: 27px;
 $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
 $search-form-location-icon-size: 18px;
-
-.search-form .button-icon {
-  color: $search-form-icon-color;
-  vertical-align: middle;
-}
-
-.search-form {
-  .navigate-or-input-messages {
-    color: $gray-blue;
-    border-bottom: 1px dotted;
-    border-color: $gray-blue;
-    margin-left: 5px;
-    margin-right: 5px;
-    cursor: pointer;
-  }
-  .navigate-or-input--or {
-    color: $gray;
-  }
-  .navigate-or-input-icon--offline {
-    fill: $gray-blue;
-    font-size: $search-form-location-icon-size;
-    margin-left: 5px;
-    cursor: pointer;
-  }
-}
-
-.abs-top {
-  position:absolute;
-  top: 0px;
-}
-
-.hidden {
-  visibility:hidden;
-}
-.search-form .location .dashed {
-  border-bottom: 1px dashed $search-form-icon-color;
-}
-
-.search-form .location .address {
-  @include font-book;
-}
+$search-header-height: 45px;
 
 .search-form {
   padding-top: 10px;
-}
 
-.search-form input, .search-form input:focus {
-  height: $search-form-input-height;
-  border-top-left-radius: $search-form-border-radius;
-  border-bottom-left-radius: $search-form-border-radius;
-  padding-left: 15px;
-  box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
-  transition: none;
-}
-
-.search-form > :not(.upper-search-form) > div input {
-  /* These two will disable right border radius for Firefox f*/
-  border-top-right-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-}
-
-.search-form .upper-search-form input, .search-form .upper-search-form .input-placeholder {
-  border-top-right-radius: $search-form-border-radius;
-  border-bottom-right-radius: $search-form-border-radius;
-}
-
-.search-form .postfix {
-  height: $search-form-input-height;
-  line-height: $search-form-input-height;
-  box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
-  .icon {
-    font-size: 15px;
-    margin-top: -4px;
-  }
-}
-
-.search-form .switch-from-to {
-  height: $search-form-input-height;
-  line-height: $search-form-input-height;
-  border-radius: $border-radius;
-  background-color: rgba($dark-gray, 0.6);
-  display: block;
-  margin-left: 0.3em;
-  font-size: 17px;
-  .icon {
-    margin-top: -4px;
-  }
-}
-
-.search-form .input-placeholder {
-    @include form-element();
+ .postfix {
     height: $search-form-input-height;
-    line-height: $search-form-input-overlay-height;
-    border-top-left-radius: $input-border-radius;
-    border-bottom-left-radius: $input-border-radius;
-    box-shadow: 2px 4px 5px rgba(0,0,0,0.2);
-}
+    line-height: $search-form-input-height;
+    box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
+    .icon {
+      font-size: 15px;
+      margin-top: 10px;
+    }
+  }
 
-.search-form .address-box {
-    background-color: $search-form-input-overlay-background-color;
+  .input-placeholder {
+      @include form-element();
+      height: $search-form-input-height;
+      line-height: $search-form-input-overlay-height;
+      border-top-left-radius: $input-border-radius;
+      border-bottom-left-radius: $input-border-radius;
+      box-shadow: 2px 4px 5px rgba(0,0,0,0.2);
+  }
+
+  .address-placeholder {
+    color: $gray;
+    background-color: transparent;
     border-radius: $form-input-border-radius;
-    border: 1px solid $search-form-input-overlay-border-color;
+    border: 0px;
     height: $search-form-input-overlay-height;
     padding-left: 5px;
     padding-right: 3px;
-    @include font-book;
-    line-height: 23px;
-
-    .icon {
-      fill: $gray;
-      vertical-align: sub;
-      width: 1em;
-      height: 1em;
-      margin-right: 5px;
-    }
-}
-
-.search-form .address-input {
-  background-color: transparent;
-  border-radius: $form-input-border-radius;
-  border: 0px;
-  height: $search-form-input-overlay-height;
-  padding-left: 5px;
-  padding-right: 3px;
-  line-height: 23px;
-
-  .icon {
-    fill: $gray;
-    vertical-align: sub;
-    width: 1em;
-    height: 1em;
-    margin-right: 5px;
+    line-height: $search-form-input-overlay-height;
   }
-}
-
-.search-form .address-placeholder {
-  color: $gray;
-  background-color: transparent;
-  border-radius: $form-input-border-radius;
-  border: 0px;
-  height: $search-form-input-overlay-height;
-  padding-left: 5px;
-  padding-right: 3px;
-  line-height: 23px;
-
-  .icon {
-    fill: $gray;
-    vertical-align: sub;
-    width: 1em;
-    height: 1em;
-    margin-right: 5px;
-  }
-}
-
-
-.search-form .react-autosuggest__suggestions {
-  background-color: $search-result-background-color;
-  color: $search-result-text-color;
-  font-family: $search-result-text-font-family;
-  font-weight: $search-result-text-font-weight;
-  letter-spacing: $search-result-text-letter-spacing;
-  width: $search-result-width;
-  border-radius: $search-result-border-radius;
-  list-style-type: none;
-  padding: 5px;
-  margin: 5px 0 0 0;
-  max-height: $search-result-max-height;
-  overflow: auto;
-  box-shadow: 0px 1px 10px gray;
-  z-index: 1100;
-  position: relative;
 }
 
 ul#react-whatever-suggest {
+  @extend .momentum-scroll;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  list-style-type: none;
+  background: $white;
+  border: 1px solid $white;
+  border-radius: 4px;
+  padding: 4px;
+  z-index:1000;
   max-height: 9em;
   overflow-y: auto;
   margin-top: 10px;
+  max-height: calc(100% - 20px);
 
   li {
+
+    white-space: nowrap;
+    overflow: hidden;
+
     & .search-result {
       display: block;
       height: 2.1em;
       line-height: 2.1em;
     }
 
-    & .oldSearch {
+    & .OldSearch {
       /* TODO add somehow border */
     }
+
+    & .Favourite svg.icon {
+      stroke: $favourite-color;
+      fill: $favourite-color;
+    }
   }
-}
 
-.search-form .react-autosuggest {
-  margin-bottom: 8px;
-}
+  .react-autowhatever__item {
+    font-family: $search-result-text-font-family;
+    font-weight: $search-result-text-font-weight;
+    letter-spacing: $search-result-text-letter-spacing;
+    padding:0.1em;
+  }
 
-.react-autowhatever__item {
-  font-family: $search-result-text-font-family;
-  font-weight: $search-result-text-font-weight;
-  letter-spacing: $search-result-text-letter-spacing;
-}
+  .react-autowhatever__item--focused {
+    color: $search-result-text-highlight-color;
+    font-family: $search-result-text-font-family;
+    font-weight: $search-result-text-font-weight;
+    letter-spacing: $search-result-text-letter-spacing;
+    background-color: $search-result-text-highlight-background-color;
+  }
 
-.react-autowhatever__item--focused {
-  color: $search-result-text-highlight-color;
-  font-family: $search-result-text-font-family;
-  font-weight: $search-result-text-font-weight;
-  letter-spacing: $search-result-text-letter-spacing;
-  background-color: $search-result-text-highlight-background-color;
-}
+  .react-autosuggest__suggestion {
+    padding: 0px 0 5px 0;
+    margin: 0;
+    cursor: pointer;
+    height: 1.9em;
+    overflow-x: hidden;
+    white-space: nowrap;
+  }
 
-.search-form .react-autosuggest__suggestion {
-  padding: 0px 0 5px 0;
-  margin: 0;
-  cursor: pointer;
-  height: 1.9em;
-  overflow-x: hidden;
-  white-space: nowrap;
-}
+  .react-autosuggest__suggestion .icon {
+    margin-right: 4px;
+    fill: $search-result-icon-color;
+  }
 
-.search-form .react-autosuggest__suggestion .icon {
-  margin-right: 4px;
-  fill: $search-result-icon-color;
-}
+  .autosuggestIcon {
+    color: $medium-gray;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
-.search-form .arrow-down {
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-top: 12px solid rgba(0,0,0,$search-form-transparency);
-  position: absolute;
-  left: 47%;
-  z-index: 1;
 }
 
 .search-form-map-overlay {
   z-index: 802;
-}
-
-.navigate-or-input {
-  background-color: $search-form-input-overlay-background-color;
 }
 
 .geolocation-bar-location-icon {
@@ -278,6 +148,7 @@ div.search-modal {
   max-width: none;
   position: fixed;
   top: 0px;
+  left: 0px;
 
   input[type="text"].react-autowhatever__input {
     border: 1px solid $gray;
@@ -290,35 +161,66 @@ div.search-modal {
 
 }
 
-div#search-panel-close-tab {
-  width: 10%;
-}
-
-.react-autowhatever__item {
-  padding:0.1em;
-}
-
-.autosuggestIcon {
-  color: $gray;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-
-#react-whatever-suggest {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  list-style-type: none;
-  background: $white;
-  border: 1px solid $white;
-  border-radius: 4px;
-  padding: 4px;
-  z-index:1000;
-}
-
 .search-header {
-  height: 45px;
-  line-height: 45px;
-  color: $gray;
+  height: $search-header-height;
+  line-height: $search-header-height;
+  height: 100%;
+
+  .search-header__category-text {
+    color: $gray-blue;
+    font-size: 11px;
+    margin-left: 12px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .search-header__back-arrow {
+    position: absolute;
+    color: $gray-blue;
+    width: 30px;
+    user-select: none;
+  }
+
+  .search-header__button {
+    margin-bottom: 0;
+    letter-spacing: -0.025em;
+    font-size: 11px !important;
+    font-weight: $font-weight-bold !important;
+    font-family: $font-family !important;
+    color: $gray-blue !important;
+    height: $search-header-height !important;
+  }
+
+  .search-header__button--selected {
+    @extend .search-header__button;
+    color: $black !important;
+  }
+
+  .search-header-width-fix {
+    margin-left: 30px !important;
+    width: calc(100% - 30px) !important;
+  }
+
+  .search-header__tabs-root {
+      > div:first-child {
+      background-color: $background-color !important;
+      line-height: 18px !important;
+      @extend .search-header-width-fix;
+    }
+    > div:nth-child(2) { //hack, modify tabs in material ui to fix
+      @extend .search-header-width-fix;
+    }
+    > div:nth-child(3) {
+      height: calc(100% - #{$search-form-input-height});
+      > div {
+        height: 95%;
+        > div{
+          height: 100%;
+        }
+      }
+    }
+    height: calc(100% - 30px)
+  }
 }
 
 .search-header-separator {

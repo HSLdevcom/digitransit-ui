@@ -1,6 +1,8 @@
 polyUtil = require 'polyline-encoded'
 xhrPromise = require '../util/xhr-promise'
 config     = require '../config'
+{locationToOTP}   = require '../util/otp-strings'
+{getRoutePath}     = require '../util/path'
 
 createWaitLeg = (startTime, duration, point, placename, stopCode) ->
   leg =
@@ -76,42 +78,12 @@ module.exports.itinerarySearchRequest = itinerarySearchRequest = (actionContext,
       from: options.params.from
   else
     options = itinerarySearchStore.getOptions()
-  actionContext.dispatch "ItinerarySearchStarted"
+  #actionContext.dispatch "ItinerarySearchStarted"
   time = actionContext.getStore("TimeStore").getSelectedTime()
   arriveBy = actionContext.getStore("TimeStore").getArriveBy()
   unless actionContext.getStore("TimeStore").isSelectedTimeSet()
     actionContext.dispatch "SetSelectedTime", time
-  params =
-    fromPlace: options.params.from
-    toPlace: options.params.to
-    preferredAgencies: config.preferredAgency or ""
-    showIntermediateStops: true
-    arriveBy: arriveBy
-    date: time.format("YYYY-MM-DD")
-    time: time.format("HH:mm:ss")
-    mode: itinerarySearchStore.getMode()
-    walkReluctance: itinerarySearchStore.getWalkReluctance()
-    walkBoardCost: itinerarySearchStore.getWalkBoardCost()
-    minTransferTime: itinerarySearchStore.getMinTransferTime()
-    walkSpeed: itinerarySearchStore.getWalkSpeed()
-    wheelchair: itinerarySearchStore.isWheelchair()
-    # TODO: remove ugly hack when fixed in OTP
-    disableRemainingWeightHeuristic: itinerarySearchStore.getCitybikeState()
-
-  if itinerarySearchStore.getMode().indexOf('BICYCLE') == -1
-    params.maxWalkDistance = config.maxWalkDistance
-  else
-    params.maxWalkDistance = config.maxBikingDistance
-  xhrPromise.getJson(config.URL.OTP + "plan", params).then((data) ->
-    addWaitLegs(data)
-    alterLegsForAirportSupport(data)
-    actionContext.dispatch "ItineraryFound", data
-    done()
-  , (err) ->
-    console.error("Failed to perform itinerary search!")
-    console.error(err)
-    done()
-  )
+  #actionContext.dispatch "ItineraryFound", data
 
 
 module.exports.toggleBusState = (actionContext)  ->
@@ -193,3 +165,31 @@ module.exports.setAccessibilityOption = (actionContext, value) ->
   actionContext.dispatch "SetAccessibilityOption",
     value,
     actionContext.executeAction itinerarySearchRequest
+
+#do routing (if possible)
+module.exports.route = (actionContext, payload, done) ->
+
+  geolocation = actionContext.getStore('PositionStore').getLocationState()
+  origin = actionContext.getStore('EndpointStore').getOrigin()
+  destination = actionContext.getStore('EndpointStore').getDestination()
+
+  if (origin.lat or origin.useCurrentPosition and geolocation.hasLocation) and (destination.lat or destination.useCurrentPosition and geolocation.hasLocation)
+# TODO: currently address gets overwritten by reverse from geolocation
+# Swap the position of the two arguments to get "Oma sijainti"
+    geo_string = locationToOTP Object.assign({address: "Oma sijainti"}, geolocation)
+
+    if origin.useCurrentPosition
+      from = geo_string
+    else
+      from = locationToOTP(origin)
+
+    if destination.useCurrentPosition
+      to = geo_string
+    else
+      to = locationToOTP(destination)
+
+    # https://github.com/reactjs/react-router/blob/master/docs/guides/NavigatingOutsideOfComponents.md, but we have custom history
+    history  = require '../history'
+    history.push pathname: getRoutePath(from, to)
+
+  done()

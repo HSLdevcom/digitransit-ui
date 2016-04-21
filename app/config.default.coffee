@@ -1,5 +1,5 @@
 CONFIG = process.env.CONFIG or 'default'
-API_URL = process.env.API_URL or 'http://dev.digitransit.fi'
+API_URL = process.env.API_URL or 'http://dev.api.digitransit.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
@@ -17,6 +17,7 @@ module.exports =
     OTP: "#{API_URL}/routing/v1/routers/finland/"
     MAP: "#{API_URL}/map/v1/hsl-map/"
     STOP_MAP: "#{API_URL}/map/v1/finland-stop-map/"
+    CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "ws://213.138.147.225:1883"
     ALERTS: "#{API_URL}/realtime/v1/service-alerts/"
     FONT: "http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700"
@@ -38,7 +39,11 @@ module.exports =
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb']
   defaultLanguage: 'en'
   leftMenu:
+    # Whether to show the left menu toggle button at all
     show: true
+    showInquiry: true
+    showLoginCreateAccount: true
+    showOffCanvasList: true
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180
@@ -54,14 +59,13 @@ module.exports =
     useRetinaTiles: true
     tileSize: 512
     zoomOffset: -1
+    useVectorTiles: true
     genericMarker:
       popup:
         offset: [106, 3]
         maxWidth: 250
         minWidth: 250
   autoSuggest:
-    sortOrder: currentPosition: 1, oldSearch: 2, locality: 3, address: 4, stop: 5
-    sortOthers: 6
     # Let Pelias suggest based on current user location
     locationAware: true
   cityBike:

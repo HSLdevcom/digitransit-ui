@@ -5,20 +5,24 @@ queries       = require '../../queries'
 Icon          = require '../icon/icon'
 LocationMarker = require './location-marker'
 config        = require '../../config'
-
-StopMarkerContainer = if isBrowser and config.URL.STOP_MAP
-                        require './stop/stop-marker-tile-layer'
-                      else if !config.URL.STOP_MAP
-                        require './stop/stop-marker-container'
-                      else null
-
-CityBikeMarkerContainer = require './city-bike/city-bike-marker-container'
-#VehicleMarkerContainer = require './vehicle-marker-container'
 LeafletMap    = if isBrowser then require('react-leaflet/lib/Map').default else null
 TileLayer     = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
 L             = if isBrowser then require 'leaflet' else null
 PositionMarker = require './position-marker'
 PlaceMarker = require './place-marker'
+
+if isBrowser and config.map.useVectorTiles
+  TileLayerContainer = require './tile-layer/tile-layer-container'
+  Stops              = require './tile-layer/stops'
+  CityBikes          = require './tile-layer/city-bikes'
+
+else
+  StopMarkerContainer = if isBrowser then require './non-tile-layer/stop-marker-container'
+  CityBikeMarkerContainer = if isBrowser then require './non-tile-layer/city-bike-marker-container'
+
+#VehicleMarkerContainer = require './vehicle-marker-container'
+
+{startMeasuring, stopMeasuring} = require '../../util/jankmeter'
 
 if isBrowser
   require 'leaflet/dist/leaflet.css'
@@ -38,6 +42,7 @@ class Map extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    piwik: React.PropTypes.object
 
   componentDidMount: =>
     #TODO: need to use prefix, as for some reason attributions aren't updated when layer is added
@@ -49,6 +54,21 @@ class Map extends React.Component
     if not @props.disableZoom or L.Browser.touch
       L.control.zoom(position: 'topleft').addTo @refs.map.getLeafletElement()
 
+  startMeasuring: =>
+    startMeasuring()
+
+  stopMeasuring: =>
+    results = stopMeasuring()
+
+    # The leaflet event seems to fire at load without the start event
+    if !results
+      return
+
+    # Piwik doesn't show event values, if they are too long, so we must round... >_<
+    @context.piwik?.trackEvent('perf', 'map-drag', 'min', Math.round(results.min))
+    @context.piwik?.trackEvent('perf', 'map-drag', 'max', Math.round(results.max))
+    @context.piwik?.trackEvent('perf', 'map-drag', 'avg', Math.round(results.avg))
+
   render: =>
     if isBrowser
       origin = @context.getStore('EndpointStore').getOrigin()
@@ -59,16 +79,27 @@ class Map extends React.Component
 
       positionMarker = <PositionMarker/>
 
-      if @props.showStops
-        stops = <StopMarkerContainer
-          hilightedStops={@props.hilightedStops}
-          disableMapTracking={@props.disableMapTracking}
+      if config.map.useVectorTiles
+        layers = []
+        if @props.showStops
+          layers.push Stops
+          if config.cityBike.showCityBikes
+            layers.push CityBikes
+        tileLayer = <TileLayerContainer
+          layers={layers}
           tileSize={config.map.tileSize or 256}
           zoomOffset={config.map.zoomOffset or 0}
-          updateWhenIdle={false}/>
-        cityBikes = if config.cityBike.showCityBikes then <CityBikeMarkerContainer/> else null
+          />
 
-      vehicles = ""#if @props.showVehicles then <VehicleMarkerContainer/> else ""
+      else
+        if @props.showStops
+          stops = <StopMarkerContainer
+            hilightedStops={@props.hilightedStops}
+            disableMapTracking={@props.disableMapTracking}
+            updateWhenIdle={false}/>
+          cityBikes = if config.cityBike.showCityBikes then <CityBikeMarkerContainer/> else null
+
+      vehicles = null #if @props.showVehicles then <VehicleMarkerContainer/> else ""
 
       center =
         if @props.fitBounds
@@ -85,6 +116,12 @@ class Map extends React.Component
           zoom={zoom}
           zoomControl={false}
           attributionControl={false}
+          onLeafletMousedown={@startMeasuring}
+          onLeafletDragstart={@startMeasuring}
+          onLeafletZoomstart={@startMeasuring}
+          onLeafletMoveend={@stopMeasuring}
+          onLeafletDragend={@stopMeasuring}
+          onLeafletZoomend={@stopMeasuring}
           bounds={if @props.fitBounds then [@props.from, @props.to]}
           {... @props.leafletOptions}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
@@ -96,6 +133,7 @@ class Map extends React.Component
             zoomOffset={config.map.zoomOffset or 0}
             updateWhenIdle={false}
             size={if config.map?.useRetinaTiles and L.Browser.retina then "@2x" else  ""}/>
+          {tileLayer}
           {stops}
           {vehicles}
           {fromMarker}

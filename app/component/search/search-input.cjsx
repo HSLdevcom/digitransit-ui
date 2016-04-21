@@ -20,16 +20,18 @@ class SearchInput extends React.Component
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
 
+  @propTypes:
+    type: React.PropTypes.string.isRequired
+
   componentWillMount: =>
     @context.getStore('SearchStore').addChangeListener @onSearchChange
 
   componentWillUnmount: =>
     @context.getStore('SearchStore').removeChangeListener @onSearchChange
 
-  onSearchChange: =>
-    if @context.getStore('SearchStore').getPosition() != undefined
-      @handleUpdateInputNow(target:
-        value: @context.getStore('SearchStore').getPosition().address)
+  onSearchChange: (props) =>
+    @setState "suggestions": @context.getStore('SearchStore').getSuggestions(), focusedItemIndex: 0,
+      () => focusItem(0)
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
@@ -67,6 +69,9 @@ class SearchInput extends React.Component
       @blur()
       event.preventDefault()
 
+  handleOnTouchStart: (event, eventProps) =>
+    @blur()
+
   handleUpdateInputNow: (event) =>
     input = event.target.value
 
@@ -74,10 +79,7 @@ class SearchInput extends React.Component
       return
 
     @setState "value": input
-    geoLocation = @context.getStore('PositionStore').getLocationState()
-    @context.getStore('SearchStore').getSuggestions input, geoLocation, (suggestions) =>
-      @setState "suggestions": suggestions, focusedItemIndex: 0,
-        () => focusItem(0)
+    @context.executeAction SearchActions.executeSearch, input: event.target.value, type: @props.type
 
   currentItemSelected: () =>
     if(@state.focusedItemIndex >= 0 and @state.suggestions.length > 0)
@@ -89,13 +91,17 @@ class SearchInput extends React.Component
         item.geometry = coordinates: [state.lon, state.lat]
         name = "Nykyinen sijainti"
       else
-        save = () ->
+        save = () =>
           @context.executeAction SearchActions.saveSearch,
             "address": name
             "geometry": item.geometry
+            "type": @props.type
         setTimeout save, 0
 
       @props.onSuggestionSelected(name, item)
+
+      @setState
+        value: name
 
   render: =>
     <ReactAutowhatever
@@ -105,22 +111,20 @@ class SearchInput extends React.Component
       items={@state?.suggestions || []}
       renderItem={(item) ->
         <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
-      getSuggestionValue={(suggestion) ->
-        SuggestionItem.getName(suggestion.properties)
-      }
       onSuggestionSelected={@currentItemSelected}
       focusedItemIndex={@state.focusedItemIndex}
       inputProps={
-        "id": "autosuggest-input"
-        "value": @state?.value || ""
+        "id": @props.id
+        "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
         "onChange": @handleUpdateInputNow
         "onKeyDown": @handleOnKeyDown
-        "placeholder": @context.getStore('SearchStore').getPlaceholder()
+        "onTouchStart": @handleOnTouchStart
       }
       itemProps={
         "onMouseEnter": @handleOnMouseEnter
         "onMouseDown": @handleOnMouseDown
         "onMouseTouch": @handleOnMouseDown
+        "onTouchStart": @handleOnTouchStart
       }
     />
 

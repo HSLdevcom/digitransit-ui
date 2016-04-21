@@ -1,6 +1,6 @@
 React         = require 'react'
 isBrowser     = window?
-CityBikePopup = require './city-bike-popup'
+CityBikePopup = require '../popups/city-bike-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 Icon          = require '../../icon/icon'
@@ -59,7 +59,7 @@ class CityBikeMarker extends React.Component
       map={@props.map}
       id={@props.station.id}
     >
-      <CityBikePopupWithContext context={@context} station={@props.station}/>
+      <CityBikePopupWithContext context={@context} coords={lat: @props.station.y, lng: @props.station.x} station={@props.station}/>
     </GenericMarker>
 
   render: ->

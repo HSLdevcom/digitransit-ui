@@ -2,7 +2,7 @@ React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../../queries'
 isBrowser     = window?
-StopMarkerPopup = require './stop-marker-popup'
+StopMarkerPopup = require '../popups/stop-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
@@ -59,7 +59,7 @@ class StopMarker extends React.Component
           stopId: @props.stop.gtfsId
           date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
         )}
-        renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader small"/></div>}
+        renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
         renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}
       />
     </GenericMarker>
