@@ -9,16 +9,16 @@
 .time-selectors {
   background-color: $secondary-color;
   height: 40px;
-  vertical-align: middle !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  padding-top: 7px !important;
+  padding: 0 10px;
+  padding-top: 5px;
+  margin: 0;
 
   input[type="date"], input[type="time"], input[type="text"], select {
-    vertical-align: middle !important;
-    height: 18px !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    vertical-align: middle;
+    height: 18px;
+    padding: 0;
+    margin: 0;
+    margin-right: 5px;
     display: inline-block;
     background-image: none;
     background-color: #833;
@@ -37,32 +37,17 @@
   .date {
     width: 7em;
     text-align: left;
-    vertical-align: middle !important;
-    height: 18px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    background-color: #383 !important;
   }
 
   .time {
     width: 5em;
     text-align: left;
-    vertical-align: middle !important;
-    height: 18px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    background-color: #383 !important;
-    appearance: none !important;
   }
 
   .arrive {
     width: 8em;
-    appearance: none !important;
+    appearance: none;
     text-align: left;
-    vertical-align: middle !important;
-    height: 18px !important;
-    padding: 0 !important;
-    margin: 0 !important;
   }
 }
 
