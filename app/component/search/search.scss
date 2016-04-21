@@ -225,12 +225,7 @@ div.search-modal {
     }
     height: calc(100% - 30px)
   }
-  #clear-input {
-    position: absolute;
-    top: -3px;
-    right: 8px;
-    color: $gray
-  }
+
 
   .geolocation-selected {
     background-color: $background-color;
@@ -260,6 +255,13 @@ div.search-modal {
         width: 14px;
       }
     }
+  }
+
+  .clear-icon {
+    position: absolute;
+    top: -3px;
+    right: 9px;
+    @extend .close-icon;
   }
 
   .geolocation {

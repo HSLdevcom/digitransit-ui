@@ -134,7 +134,7 @@ class SearchInput extends React.Component
           "onTouchStart": @handleOnTouchStart
         }
       />
-      {if inputValue.length > 0 then <div id="clear-input" onClick={() => @handleUpdateInputNow(target: value: "")}><Icon img='icon-icon_close'/></div>}
+      {if inputValue.length > 0 then <div className="clear-icon" onClick={() => @handleUpdateInputNow(target: value: "")}><Icon img='icon-icon_close'/></div>}
       {@props.children}
     </div>
 
