@@ -1,5 +1,5 @@
 CONFIG = process.env.CONFIG or 'default'
-API_URL = process.env.API_URL or 'http://dev.digitransit.fi:8080'
+API_URL = process.env.API_URL or 'http://dev.digitransit.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
@@ -22,7 +22,7 @@ module.exports =
     ALERTS: "#{API_URL}/realtime/service-alerts/v1"
     FONT: "http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700"
     REALTIME: "#{API_URL}/realtime/vehicle-positions/v1"
-    PELIAS: "#{API_URL}/geocoding/v1/autocomplete"
+    PELIAS: "#{API_URL}/geocoding/v1/search"
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Matka.fi"
