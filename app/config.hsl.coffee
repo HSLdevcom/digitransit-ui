@@ -76,6 +76,10 @@ module.exports =
   cityBike:
     showCityBikes: true
     showBikesAvailable: false
+    useUrl:
+      fi: "https://www.hsl.fi/citybike"
+      sv: "https://www.hsl.fi/sv/citybike"
+      en: "https://www.hsl.fi/en/citybike"
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15
   # Highest level when stops and terminals are still rendered as small markers

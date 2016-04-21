@@ -11,6 +11,9 @@ ComponentUsageExample = require '../../documentation/component-usage-example'
 
 class CityBikePopup extends React.Component
 
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
+
   @description:
     <div>
       <p>Renders a citybike popup.</p>
@@ -38,7 +41,7 @@ class CityBikePopup extends React.Component
       <CityBikeCard
         className={"padding-small"}
         station={@props.station}>
-        <CityBikeContent station={@props.station}/>
+        <CityBikeContent lang={@context.getStore('PreferencesStore').getLanguage()} station={@props.station}/>
       </CityBikeCard>
       <MarkerPopupBottom routeHere={routePath}>
         <NotImplementedLink nonTextLink={true} name={<FormattedMessage id='extra-info' defaultMessage='More info' />}>
