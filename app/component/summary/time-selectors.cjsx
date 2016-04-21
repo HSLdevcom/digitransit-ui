@@ -20,11 +20,10 @@ class TimeSelectors extends React.Component
     @forceUpdate()
 
   changeTime: =>
-    hour = @refs.hour.getDOMNode().value
-    minute = @refs.minute.getDOMNode().value
+    time = @refs.time.getDOMNode().value
     date = @refs.date.getDOMNode().value
     @context.executeAction TimeActions.setSelectedTime,
-      moment("#{hour}:#{minute} #{date}", "H:m YYYY-MM-DD")
+      moment("#{time} #{date}", "H:m YYYY-MM-DD")
 
   setArriveBy: =>
     @context.executeAction TimeActions.setArriveBy, @refs.arriveBy.getDOMNode().value == 'true'
@@ -59,8 +58,8 @@ class TimeSelectors extends React.Component
         <option value="true">
           {@context.intl.formatMessage({id: "arriving-at", defaultMessage: "Arriving at"})}</option>
       </select>
-      <input type="date" className="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}/>
-      <input type="time" className="time" value={time.format('HH:mm')} onChange={@changeTime}/>
+      <input type="text" ref="date" className="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}/>
+      <input type="time" ref="time" className="time" value={time.format('HH:mm')} onChange={@changeTime}/>
     </div>
 
 module.exports = TimeSelectors
