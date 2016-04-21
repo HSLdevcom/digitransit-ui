@@ -1,5 +1,5 @@
 CONFIG = process.env.CONFIG or 'default'
-API_URL = process.env.API_URL or 'http://dev.api.digitransit.fi'
+API_URL = process.env.API_URL or 'http://dev.digitransit.fi:8080'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
@@ -19,9 +19,9 @@ module.exports =
     STOP_MAP: "#{API_URL}/map/v1/finland-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "ws://213.138.147.225:1883"
-    ALERTS: "#{API_URL}/realtime/v1/service-alerts/"
+    ALERTS: "#{API_URL}/realtime/service-alerts/v1"
     FONT: "http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700"
-    REALTIME: "#{API_URL}/realtime/v1/vehicle-positions/"
+    REALTIME: "#{API_URL}/realtime/vehicle-positions/v1"
     PELIAS: "#{API_URL}/geocoding/v1/autocomplete"
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
