@@ -30,7 +30,7 @@ SelectStopRow = (props) ->
 
   <div className="no-margin">
     <hr className="no-margin"/>
-    <div className="no-margin" onClick={props.selectRow}>
+    <div className="no-margin cursor-pointer" onClick={props.selectRow}>
       <div className="left padding-vertical-normal" style={width: 40}>
         <svg
           xmlns="http://www.w3.org/svg/2000"
