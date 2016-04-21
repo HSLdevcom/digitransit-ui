@@ -241,6 +241,21 @@ div.origin-popup {
     width: 140px;
     border: 1px solid $gray;
     overflow: hidden;
+    .leaflet-popup-content {
+      margin:8px;
+      svg.right-arrow {
+          height:9px;
+      }
+    }
+  }
+
+  .shade-to-white {
+    background-image: linear-gradient(to left, white, rgba(255, 255, 255, 0));
+    width: 2em;
+    height: 1.5em;
+    position: absolute;
+    right: 1px;
+    top: 2em;
   }
 
   .origin-popup-name {
@@ -258,14 +273,6 @@ div.origin-popup {
   }
 }
 
-.shade-to-white {
-  background-image: linear-gradient(to left, white, rgba(255, 255, 255, 0));
-  width: 2em;
-  height: 2em;
-  position: absolute;
-  right: 1px;
-  top: 2em;
-}
 
 .route-header {
   .route-header-trip {

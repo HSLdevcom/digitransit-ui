@@ -3,6 +3,7 @@ isBrowser        = window?
 Popup            = if isBrowser then require './dynamic-popup'
 SearchActions    = require '../../action/search-actions'
 intl             = require 'react-intl'
+Icon          = require '../icon/icon'
 
 class OriginPopup extends React.Component
 
@@ -83,7 +84,7 @@ class OriginPopup extends React.Component
           className: "origin-popup"}>
           <div onClick={() =>
             @context.executeAction SearchActions.openDialog, "origin"}>
-            <div className="h4 bold uppercase">{msg}</div>
+            <div className="h4 bold uppercase">{msg}<Icon className="right-arrow" img={'icon-icon_arrow-collapse--right'}/></div>
             <div>
               <div className="origin-popup-name">{@state.msg}</div>
               <div className="shade-to-white"></div>
