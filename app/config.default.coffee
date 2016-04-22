@@ -14,16 +14,16 @@ module.exports =
   CONFIG: "#{CONFIG}"
   URL:
     API_URL: "#{API_URL}"
-    OTP: "#{API_URL}/otp/routers/finland/"
-    MAP: "#{API_URL}/hsl-map/"
-    STOP_MAP: "#{API_URL}/finland-stop-map/"
-    CITYBIKE_MAP: "#{API_URL}/hsl-citybike-map/"
+    OTP: "#{API_URL}/routing/v1/routers/finland/"
+    MAP: "#{API_URL}/map/v1/hsl-map/"
+    STOP_MAP: "#{API_URL}/map/v1/finland-stop-map/"
+    CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "ws://213.138.147.225:1883"
-    ALERTS: "#{API_URL}/hsl-alert/"
+    ALERTS: "#{API_URL}/realtime/service-alerts/v1"
     FONT: "http://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700"
-    REALTIME: "#{API_URL}/navigator-server"
-    PELIAS: "#{API_URL}/pelias/v1/autocomplete"
-    PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
+    REALTIME: "#{API_URL}/realtime/vehicle-positions/v1"
+    PELIAS: "#{API_URL}/geocoding/v1/search"
+    PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Matka.fi"
   contactName:
@@ -66,8 +66,6 @@ module.exports =
         maxWidth: 250
         minWidth: 250
   autoSuggest:
-    sortOrder: currentPosition: 1, favourite: 2, oldSearch: 3, locality: 4, address: 5, stop: 6
-    sortOthers: 7
     # Let Pelias suggest based on current user location
     locationAware: true
   cityBike:

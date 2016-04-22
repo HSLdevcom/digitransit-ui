@@ -177,6 +177,8 @@ div.search-modal {
   .search-header__back-arrow {
     position: absolute;
     color: $gray-blue;
+    width: 30px;
+    user-select: none;
   }
 
   .search-header__button {
@@ -195,8 +197,8 @@ div.search-modal {
   }
 
   .search-header-width-fix {
-    margin-left: 28px !important;
-    width: calc(100% - 28px) !important;
+    margin-left: 30px !important;
+    width: calc(100% - 30px) !important;
   }
 
   .search-header__tabs-root {

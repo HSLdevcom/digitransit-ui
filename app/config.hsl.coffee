@@ -1,5 +1,5 @@
 CONFIG = process.env.CONFIG or 'hsl'
-API_URL = process.env.API_URL or 'http://dev.reittiopas.fi'
+API_URL = process.env.API_URL or 'http://dev.digitransit.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
@@ -14,16 +14,16 @@ module.exports =
   CONFIG: "#{CONFIG}"
   URL:
     API_URL: "#{API_URL}"
-    MAP: "#{API_URL}/hsl-map/"
-    OTP: "#{API_URL}/otp/routers/hsl/"
-    STOP_MAP: "#{API_URL}/hsl-stop-map/"
-    CITYBIKE_MAP: "#{API_URL}/hsl-citybike-map/"
+    OTP: "#{API_URL}/routing/v1/routers/hsl/"
+    MAP: "#{API_URL}/map/v1/hsl-map/"
+    STOP_MAP: "#{API_URL}/map/v1/hsl-stop-map/"
+    CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "ws://213.138.147.225:1883"
-    ALERTS: "#{API_URL}/hsl-alert/"
+    ALERTS: "#{API_URL}/realtime/service-alerts/v1"
     FONT: "https://cloud.typography.com/6364294/6653152/css/fonts.css"
-    REALTIME: "#{API_URL}/navigator-server"
-    PELIAS: "#{API_URL}/pelias/v1/search"
-    PELIAS_REVERSE_GEOCODER: "#{API_URL}/pelias/v1/reverse"
+    REALTIME: "#{API_URL}/realtime/vehicle-positions/v1"
+    PELIAS: "#{API_URL}/geocoding/v1/search"
+    PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Reittiopas.fi"
   contactName:
@@ -71,8 +71,6 @@ module.exports =
         maxWidth: 250
         minWidth: 250
   autoSuggest:
-    sortOrder: currentPosition: 1, favourite: 2, oldSearch: 3, neighbourhood: 4, locality: 5, address: 6, venue: 7, stop: 8
-    sortOthers: 9
     # Let Pelias suggest based on current user location
     locationAware: true
   cityBike:
