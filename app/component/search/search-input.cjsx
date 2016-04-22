@@ -1,6 +1,7 @@
 React             = require 'react'
 ReactAutowhatever = (require 'react-autowhatever').default
 SuggestionItem    = require './suggestion-item'
+CurrentPositionItem = require './current-position-suggestion-item'
 SearchActions     = require '../../action/search-actions'
 isBrowser         = window?
 L                 = if isBrowser then require 'leaflet' else null
@@ -111,7 +112,10 @@ class SearchInput extends React.Component
       id="suggest"
       items={@state?.suggestions || []}
       renderItem={(item) ->
-        <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
+        if item.properties.layer == "currentPosition"
+          <CurrentPositionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>
+        else
+          <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
       onSuggestionSelected={@currentItemSelected}
       focusedItemIndex={@state.focusedItemIndex}
       inputProps={
