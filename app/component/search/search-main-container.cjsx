@@ -6,7 +6,7 @@ intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 SearchModal      = require './search-modal'
 SearchInput      = require './search-input'
-Tab              = require('material-ui/tabs/tab').default
+Tab              = require('material-ui/Tabs/Tab').default
 FakeSearchBar    = require './fake-search-bar'
 
 class SearchMainContainer extends React.Component

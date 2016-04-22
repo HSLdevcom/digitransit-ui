@@ -1,5 +1,5 @@
 React                 = require 'react'
-MaterialModal         = require('material-ui/dialog').default
+MaterialModal         = require('material-ui/Dialog').default
 Icon                  = require '../icon/icon'
 ScoreTable            = require './score-table'
 TextAreaWithCounter   = require './text-area-with-counter'
