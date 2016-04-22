@@ -29,12 +29,6 @@ class TimeSelectors extends React.Component
   setArriveBy: =>
     @context.executeAction TimeActions.setArriveBy, @refs.arriveBy.getDOMNode().value == 'true'
 
-  getHours: ->
-    <option key={hour} value={hour}>{hour}</option> for hour in [0..23]
-
-  getMinutes: ->
-    <option key={minute} value={minute}>{minute}</option> for minute in [0..59]
-
   getDates: ->
     dates = []
     date = @context.getStore("TimeStore").getCurrentTime()
