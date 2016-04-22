@@ -55,9 +55,9 @@ class TimeSelectors extends React.Component
     <div className="time-selectors">
       <select className="arrive" ref="arriveBy" value={arriveBy} onChange={@setArriveBy}>
         <option value="false">
-          {@context.intl.formatMessage({id: "leaving-at", defaultMessage: "Leaves"})}</option>
+          {@context.intl.formatMessage({id: "leaving-at", defaultMessage: "Leaving at"})}</option>
         <option value="true">
-          {@context.intl.formatMessage({id: "arriving-at", defaultMessage: "Arrives"})}</option>
+          {@context.intl.formatMessage({id: "arriving-at", defaultMessage: "Arriving at"})}</option>
       </select>
       <select className="date" ref="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}>
         {@getDates()}
