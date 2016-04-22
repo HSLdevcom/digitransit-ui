@@ -8,7 +8,7 @@ function getLegText(leg) {
     // TODO: Translate these characters.
     return 'M';
   } else if (leg.transitLeg && leg.route.shortName &&
-    leg.route.shortName.length < MAX_ROUTE_LENGTH) {
+               leg.route.shortName.length < MAX_ROUTE_LENGTH) {
     // Some route values are too long. Other routes are simply just a number.
     return leg.route.shortName;
   }

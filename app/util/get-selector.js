@@ -1,6 +1,7 @@
 module.exports = (mode) => {
   const selector = mode.toLowerCase();
   for (const index in document.styleSheets) {
+    // Use hasOwnProperty from the {} to make sure styleSheets hasn't overridden it
     if ({}.hasOwnProperty.call(document.styleSheets, index)) {
       try {
         for (const index2 in document.styleSheets[index].cssRules) {
