@@ -27,10 +27,13 @@
     border: none;
     border-bottom: 1px dotted $gray-blue-light;
     border-radius: 0;
+    appearance: none;
 
     &:focus, &:hover {
+      border-color: $gray-blue-light;
       background-color: $secondary-color;
       outline: none;
+      box-shadow: none;
     }
   }
 
@@ -46,9 +49,8 @@
 
   .arrive {
     width: 6em;
-    appearance: none;
     text-align: left;
-  }
+ }
 }
 
 /*
