@@ -1,10 +1,11 @@
+/* eslint no-param-reassign: "off", no-console: "off", strict: "off" */
 'use strict';
 
 /* ********* Polyfills (for node) **********/
 require('node-cjsx').transform();
 
 global.fetch = require('node-fetch');
-global.self = {fetch: global.fetch};
+global.self = { fetch: global.fetch };
 
 
 const config = require('../app/config');
@@ -25,9 +26,9 @@ const app = express();
 
 /* Setup functions */
 function setUpStaticFolders() {
-  const staticFolder = process.cwd() + '/_static';
+  const staticFolder = `${process.cwd()}/_static`;
   // Sert cache for 1 week
-  app.use(config.APP_PATH, express.static(staticFolder, {maxAge: 604800000}));
+  app.use(config.APP_PATH, express.static(staticFolder, { maxAge: 604800000 }));
 }
 
 function setUpMiddleware() {
