@@ -2,6 +2,7 @@ React       = require 'react'
 TimeActions = require '../../action/time-action'
 moment      = require 'moment'
 {FormattedMessage, intlShape} = require('react-intl')
+debounce    = require 'lodash/debounce'
 
 
 class TimeSelectors extends React.Component
@@ -61,7 +62,7 @@ class TimeSelectors extends React.Component
       <select className="date" ref="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}>
         {@getDates()}
       </select>
-      <input type="time" ref="time" className="time" value={time.format('HH:mm')} onChange={@changeTime}/>
+      <input type="time" ref="time" className="time" defaultValue={time.format('HH:mm')} onChange={debounce @changeTime, 500}/>
     </div>
 
 module.exports = TimeSelectors
