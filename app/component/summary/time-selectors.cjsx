@@ -58,7 +58,9 @@ class TimeSelectors extends React.Component
         <option value="true">
           {@context.intl.formatMessage({id: "arriving-at", defaultMessage: "Arrives"})}</option>
       </select>
-      <input type="text" ref="date" className="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}/>
+      <select className="date" ref="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}>
+        {@getDates()}
+      </select>
       <input type="time" ref="time" className="time" value={time.format('HH:mm')} onChange={@changeTime}/>
     </div>
 
