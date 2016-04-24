@@ -3,7 +3,7 @@ IndexTopNavigation    = require './index-top-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
 NotImplemented        = require '../util/not-implemented'
-Drawer                = require('material-ui/drawer').default
+Drawer                = require('material-ui/Drawer').default
 FeedbackActions       = require '../../action/feedback-action'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 

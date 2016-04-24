@@ -3,7 +3,7 @@ Icon                        = require '../icon/icon'
 CustomizeSearch             = require '../summary/customize-search'
 BackButton                  = require './back-button'
 TimeSelectors               = require './time-selectors'
-Drawer                      = require('material-ui/drawer').default
+Drawer                      = require('material-ui/Drawer').default
 {supportsHistory}           = require 'history/lib/DOMUtils'
 
 class SummaryNavigation extends React.Component

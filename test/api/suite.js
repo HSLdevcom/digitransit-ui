@@ -1,4 +1,5 @@
-var upgrade = require('./browser-upgrade.js');
+/* eslint prefer-arrow-callback: "off" */
+require('./browser-upgrade.js');
 
 function suite(name, fn) {
   describe(name, function () {
@@ -8,15 +9,15 @@ function suite(name, fn) {
       require('./browser-upgrade.js')(browser);
       browser.init(done);
     });
-    
+
     after(function (browser, done) {
       browser.finish(done);
     });
 
-    fn();    
+    fn();
   });
 }
 
 module.exports = {
-  'suite': suite
+  suite,
 };
