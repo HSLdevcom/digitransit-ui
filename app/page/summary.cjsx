@@ -112,7 +112,11 @@ class SummaryPage extends React.Component
         )}
         renderFailure={(error) =>
           Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
-          <div>
+          <div className="summary">
+            <SummaryPlanContainer
+              from={from}
+              to={to}
+            />
             <NoRoutePopup />
           </div>
         }
@@ -122,9 +126,9 @@ class SummaryPage extends React.Component
       plan = <div className="spinner-loader"/>
 
     meta =
-      title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestion"}
+      title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestions"}
       meta: [
-        {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-summary-page.description', defaultMessage: "Route suggestion"}}
+        {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-summary-page.description', defaultMessage: "Route suggestions"}}
       ]
 
     <SummaryNavigation className="fullscreen">

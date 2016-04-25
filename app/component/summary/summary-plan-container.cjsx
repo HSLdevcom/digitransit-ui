@@ -6,6 +6,7 @@ SearchMainContainer      = require '../search/search-main-container'
 SummaryRow            = require './summary-row'
 TimeNavigationButtons = require './time-navigation-buttons'
 ItinerarySummary      = require '../itinerary/itinerary-summary'
+LocationMarker        = require '../map/location-marker'
 Map                   = require '../map/map'
 ItineraryLine         = require '../map/itinerary-line'
 Icon                  = require '../icon/icon'
@@ -13,7 +14,6 @@ Icon                  = require '../icon/icon'
 sortBy                = require 'lodash/sortBy'
 moment                = require 'moment'
 config                = require '../../config'
-OriginDestinationBar  = require './origin-destination-bar'
 
 class SummaryPlanContainer extends React.Component
 
@@ -40,11 +40,12 @@ class SummaryPlanContainer extends React.Component
   render: =>
     leafletObjs = []
     summaries = []
-    if @props.plan.plan
+    from = [@props.from.lat, @props.from.lon]
+    to = [@props.to.lat, @props.to.lon]
+
+    if @props.plan and @props.plan.plan
       plan = @props.plan.plan
       currentTime = @context.getStore('TimeStore').getCurrentTime().valueOf()
-      from = [@props.from.lat, @props.from.lon]
-      to = [@props.to.lat, @props.to.lon]
 
       activeIndex = @getActiveIndex()
 
@@ -60,7 +61,6 @@ class SummaryPlanContainer extends React.Component
       leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
 
       <div className="summary">
-        <OriginDestinationBar/>
         <Map ref="map"
           className="summaryMap"
           leafletObjs={leafletObjs}
@@ -72,7 +72,29 @@ class SummaryPlanContainer extends React.Component
         <TimeNavigationButtons plan={plan} />
       </div>
     else
-      <div></div>
+      nop = -> false
+      leafletObjs.push <LocationMarker
+        key="from"
+        position={from}
+        className='from'
+      />
+      leafletObjs.push <LocationMarker
+        key="to"
+        position={to}
+        className='to'
+      />
+      <div className="summary">
+        <Map ref="map"
+          className="summaryMap"
+          leafletObjs={leafletObjs}
+          fitBounds={true}
+          from={from}
+          to={to}
+          padding={[0, 110]}>
+          <SearchTwoFieldsContainer/>
+        </Map>
+        <ItinerarySummaryListContainer itineraries={[]} currentTime={currentTime} onSelect={nop} activeIndex={0} />
+      </div>
 
 module.exports = Relay.createContainer SummaryPlanContainer,
   fragments: queries.ItineraryPlanContainerFragments
