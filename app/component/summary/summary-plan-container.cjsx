@@ -110,6 +110,7 @@ module.exports = Relay.createContainer SummaryPlanContainer,
     minTransferTime: 180
     walkSpeed: 1.2
     wheelchair: false
+    maxWalkDistance: config.maxWalkDistance + 0.1
     preferred:
       agencies: config.preferredAgency or ""
     arriveBy: true
