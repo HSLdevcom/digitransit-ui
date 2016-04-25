@@ -14,7 +14,6 @@ Icon                  = require '../icon/icon'
 sortBy                = require 'lodash/sortBy'
 moment                = require 'moment'
 config                = require '../../config'
-OriginDestinationBar  = require './origin-destination-bar'
 
 class SummaryPlanContainer extends React.Component
 
@@ -62,7 +61,6 @@ class SummaryPlanContainer extends React.Component
       leafletObjs = sortBy(leafletObjs, (i) => i.props.passive == false)
 
       <div className="summary">
-        <OriginDestinationBar/>
         <Map ref="map"
           className="summaryMap"
           leafletObjs={leafletObjs}

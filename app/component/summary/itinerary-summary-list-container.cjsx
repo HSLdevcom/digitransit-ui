@@ -32,7 +32,7 @@ class ItinerarySummaryListContainer extends React.Component
         <FormattedMessage
           id={'no-route-msg'}
           defaultMessage="Unfortunately no route was found between the locations you gave. Please change origin and/or destination address."
-         />
+        />
       </div>
 
 
