@@ -126,9 +126,9 @@ class SummaryPage extends React.Component
       plan = <div className="spinner-loader"/>
 
     meta =
-      title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestion"}
+      title: @context.intl.formatMessage {id: 'itinerary-summary-page.title', defaultMessage: "Route suggestions"}
       meta: [
-        {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-summary-page.description', defaultMessage: "Route suggestion"}}
+        {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-summary-page.description', defaultMessage: "Route suggestions"}}
       ]
 
     <SummaryNavigation className="fullscreen">

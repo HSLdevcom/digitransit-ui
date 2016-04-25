@@ -180,59 +180,6 @@ ul.offcanvas-list {
   height: calc(100% - #{$topbar-height});
 }
 
-.top-bar > .time-selectors {
-  select {
-    background-color: $secondary-color;
-    color: $secondary-font-color;
-    &:focus, &:hover {
-      background-color: $secondary-color;
-      outline: none;
-    }
-  }
-}
-
-.date {
-  width: 5em;
-}
-
-.arrive {
-  width: 8em;
-}
-.time-selectors {
-  select {
-    appearance: none;
-    border-radius: $border-radius;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    height: 25px;
-    display: inline-block !important;
-    margin-right: 5px;
-
-    &.time {
-      width: auto;
-
-      &.hour {
-        border-top-left-radius: $border-radius;
-        border-bottom-left-radius: $border-radius;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        margin-right: 0px;
-      }
-      &.minute {
-        border-top-left-radius: 0 !important;
-        border-bottom-left-radius: 0 !important;
-        border-top-right-radius: $border-radius;
-        border-bottom-right-radius: $border-radius;
-        margin-left: 0;
-      }
-    }
-  }
-
-  .timeseparator {
-    @include font-medium;
-  }
-}
-
 .offcanvas > div {
   z-index:2000 !important;
 }

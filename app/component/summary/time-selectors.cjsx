@@ -2,6 +2,7 @@ React       = require 'react'
 TimeActions = require '../../action/time-action'
 moment      = require 'moment'
 {FormattedMessage, intlShape} = require('react-intl')
+debounce    = require 'lodash/debounce'
 
 
 class TimeSelectors extends React.Component
@@ -20,20 +21,13 @@ class TimeSelectors extends React.Component
     @forceUpdate()
 
   changeTime: =>
-    hour = @refs.hour.getDOMNode().value
-    minute = @refs.minute.getDOMNode().value
+    time = @refs.time.getDOMNode().value
     date = @refs.date.getDOMNode().value
     @context.executeAction TimeActions.setSelectedTime,
-      moment("#{hour}:#{minute} #{date}", "H:m YYYY-MM-DD")
+      moment("#{time} #{date}", "H:m YYYY-MM-DD")
 
   setArriveBy: =>
     @context.executeAction TimeActions.setArriveBy, @refs.arriveBy.getDOMNode().value == 'true'
-
-  getHours: ->
-    <option key={hour} value={hour}>{hour}</option> for hour in [0..23]
-
-  getMinutes: ->
-    <option key={minute} value={minute}>{minute}</option> for minute in [0..59]
 
   getDates: ->
     dates = []
@@ -53,22 +47,16 @@ class TimeSelectors extends React.Component
     arriveBy = @context.getStore('TimeStore').getArriveBy()
 
     <div className="time-selectors">
-      <select ref="hour" className="time hour hide-dropdown" value={time.format('H')} onChange={@changeTime}>
-        {@getHours()}
-      </select>
-      <span className="timeseparator">:</span>
-      <select ref="minute" className="time minute hide-dropdown" value={time.format('m')} onChange={@changeTime}>
-        {@getMinutes()}
-      </select>
-      <select className="date" ref="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}>
-        {@getDates()}
-      </select>
       <select className="arrive" ref="arriveBy" value={arriveBy} onChange={@setArriveBy}>
         <option value="false">
           {@context.intl.formatMessage({id: "leaving-at", defaultMessage: "Leaving at"})}</option>
         <option value="true">
           {@context.intl.formatMessage({id: "arriving-at", defaultMessage: "Arriving at"})}</option>
       </select>
+      <select className="date" ref="date" value={time.format('YYYY-MM-DD')} onChange={@changeTime}>
+        {@getDates()}
+      </select>
+      <input type="time" ref="time" className="time" defaultValue={time.format('HH:mm')} onChange={debounce @changeTime, 500}/>
     </div>
 
 module.exports = TimeSelectors

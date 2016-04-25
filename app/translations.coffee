@@ -8,8 +8,8 @@ translations =
     'itinerary-page.description': "Reitti"
     'trip-page.title': "Linja {route_short_name}"
     'trip-page.description': "Linja {route_short_name} - {route_long_name}"
-    'itinerary-summary-page.title': "Reittiehdotus"
-    'itinerary-summary-page.description': "Reittiehdotus"
+    'itinerary-summary-page.title': "Reittiehdotukset"
+    'itinerary-summary-page.description': "Reittiehdotukset"
     'description': 'Löydä joukkoliikennetarjonta lähelle ja kauas.'
     'searching-position': 'Paikannetaan...'
     'own-position': 'Nykyinen sijaintisi'
@@ -59,8 +59,8 @@ translations =
     'cause': 'syy'
     'disruption-info': 'Poikkeusinfo'
     'disruption-info-no-alerts': 'Ei poikkeustiedotteita.'
-    'leaving-at': 'Lähtöaika'
-    'arriving-at': 'Saapumisaika'
+    'leaving-at': 'Lähtee'
+    'arriving-at': 'Saapuu'
     'route-here': 'Reititä tänne'
     'walking': 'Kävely'
     'prefer-walking': 'Suosi kävelyä'
@@ -190,8 +190,8 @@ translations =
     'cause': 'Orsak'
     'disruption-info': 'Undantagsinfo'
     'disruption-info-no-alerts': 'Inga undantagsmeddelanden.'
-    'leaving-at': 'Avgångstid'
-    'arriving-at': 'Ankomsttid'
+    'leaving-at': 'Avgår'
+    'arriving-at': 'Anländer'
     'route-here': 'Sök rut hit'
     'walking': 'Gång'
     'prefer-walking': 'Undvik gående'
@@ -259,12 +259,12 @@ translations =
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
     'route-page.title': "Rute {route_short_name}"
     'route-page.description': "Rute {route_short_name} - {route_long_name}"
-    'itinerary-page.title': "Reisebeskrivelse"
-    'itinerary-page.description': "Reisebeskrivelse"
+    'itinerary-page.title': "Reisebeskrivelser"
+    'itinerary-page.description': "Reisebeskrivelser"
     'trip-page.title': "Linje {route_short_name}"
     'trip-page.description': "Linje {route_short_name} - {route_long_name}"
-    'itinerary-summary-page.title': "Anbefalt rute"
-    'itinerary-summary-page.description': "Anbefalt rute"
+    'itinerary-summary-page.title': "Anbefalt ruter"
+    'itinerary-summary-page.description': "Anbefalt ruter"
     'searching-position': 'Leter etter posisjon'
     'own-position': 'Min posisjon'
     'no-position': 'Ingen posisjon'
@@ -317,8 +317,8 @@ translations =
     'cause': 'Årsak'
     'disruption-info': 'Avviksmelding'
     'disruption-info-no-alerts': 'Ingen avviksmeldinger.'
-    'leaving-at': 'Avgangstid'
-    'arriving-at': 'Ankomsttid'
+    'leaving-at': 'Avgar'
+    'arriving-at': 'Anländer'
     'route-here': 'Finn rute hit'
     'walking': 'Gange'
     'prefer-walking': 'Foretrekk gange'
