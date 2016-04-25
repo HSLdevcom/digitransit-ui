@@ -1,6 +1,6 @@
 CONFIG = process.env.CONFIG or 'default'
-API_URL = process.env.API_URL or 'http://dev.api.digitransit.fi'
-MAP_URL = 'http://{s}.dev.api.digitransit.fi'
+API_URL = process.env.API_URL or 'http://dev-api.digitransit.fi'
+MAP_URL = process.env.MAP_URL or 'http://{s}-dev-api.digitransit.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
