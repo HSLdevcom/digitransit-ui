@@ -44,7 +44,7 @@ class SummaryNavigation extends React.Component
 
   render: ->
     <div className="fullscreen">
-      <Drawer className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
+      <Drawer className="offcanvas" disableSwipeToOpen=true openSecondary=true docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
         <CustomizeSearch/>
       </Drawer>
 
@@ -62,7 +62,7 @@ class SummaryNavigation extends React.Component
             <Icon img={'icon-icon_ellipsis'}/>
           </div>
         </nav>
-        <section ref="content" className="content">
+        <section className="content">
           <OriginDestinationBar/>
           <TimeSelectors/>
           {@props.children}
