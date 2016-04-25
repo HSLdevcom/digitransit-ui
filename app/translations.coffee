@@ -12,7 +12,9 @@ translations =
     'itinerary-summary-page.description': "Reittiehdotus"
     'description': 'Löydä joukkoliikennetarjonta lähelle ja kauas.'
     'searching-position': 'Paikannetaan...'
+    'search-position': 'Paikanna'
     'own-position': 'Nykyinen sijaintisi'
+    'use-own-position': 'Käytä nykyistä sijaintia'
     'no-position': 'Ei sijaintia'
     'origin-placeholder': 'Mistä? - osoite tai pysäkki'
     'origin': 'Lähtöpaikka'
@@ -145,6 +147,8 @@ translations =
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
+    'use-own-position': 'use-own-position'
+    'search-position': 'search-position'
     'no-position': 'Ingen position'
     'origin': 'Från'
     'origin-placeholder': 'Från'
@@ -266,7 +270,9 @@ translations =
     'itinerary-summary-page.title': "Anbefalt rute"
     'itinerary-summary-page.description': "Anbefalt rute"
     'searching-position': 'Leter etter posisjon'
+    'search-position': 'search-position'
     'own-position': 'Min posisjon'
+    'use-own-position': 'use-own-position'
     'no-position': 'Ingen posisjon'
     'origin': 'Fra'
     'origin-placeholder': 'Fra'
@@ -415,6 +421,8 @@ translations =
     'description': 'Rapprochez-vous de votre réseau de transport et voyagez'
     'searching-position': 'Localisation en cours...'
     'own-position': 'Position actuelle'
+    'use-own-position': 'use-own-position'
+    'search-position': 'search-position'
     'no-position': 'Aucune position'
     'origin': 'Départ'
     'origin-placeholder': 'Lieu, adresse ou arrêt'
