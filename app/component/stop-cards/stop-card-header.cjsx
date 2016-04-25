@@ -19,13 +19,12 @@ class StopCardHeader extends React.Component
 
   getDescription: ->
     description = ""
-    if config.stopCard.showCardHeaderDescription
-      if @props.stop.desc
-        description += @props.stop.desc + " // "
-      if @props.stop.code
-        description += @props.stop.code + " // "
-      if @props.distance
-        description += Math.round(@props.distance) + " m"
+    if config.stopCard.header.showDescription and @props.stop.desc
+      description += @props.stop.desc + " // "
+    if config.stopCard.header.showStopCode and @props.stop.code
+      description += @props.stop.code + " // "
+    if config.stopCard.header.showDistance and @props.distance
+      description += Math.round(@props.distance) + " m"
     description
 
   render: ->

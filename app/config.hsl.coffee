@@ -65,7 +65,10 @@ module.exports =
         maxWidth: 250
         minWidth: 250
   stopCard:
-    showCardHeaderDescription: true
+    header:
+      showDescription: true
+      showStopCode: true
+      showDistance: true
   autoSuggest:
     sortOrder: currentPosition: 1, favourite: 2, oldSearch: 3, neighbourhood: 4, locality: 5, address: 6, venue: 7, stop: 8
     sortOthers: 9
