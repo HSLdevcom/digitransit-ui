@@ -22,11 +22,15 @@ module.exports.setEndpoint = (actionContext, payload) =>
   )
 
 module.exports.setUseCurrent = (actionContext, target) ->
+  havePosition =  actionContext.getStore('PositionStore').getLocationState().lat > 0
+
   actionContext.dispatch "useCurrentPosition", target
-  actionContext.executeAction(itinerarySearchActions.route, undefined, (e) =>
-    if e
-      console.error "Could not route:", e
-  )
+  if havePosition
+    actionContext.executeAction itinerarySearchActions.route
+  else
+    #"splash screen"
+    history  = require '../history'
+    history.push pathname: '/splash'  ## redirect to "splash"
 
 module.exports.swapEndpoints = (actionContext) ->
   actionContext.dispatch "swapEndpoints"
