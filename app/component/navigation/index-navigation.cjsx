@@ -3,7 +3,7 @@ IndexTopNavigation    = require './index-top-navigation'
 OffcanvasMenu         = require './offcanvas-menu'
 DisruptionInfo        = require '../disruption/disruption-info'
 NotImplemented        = require '../util/not-implemented'
-LeftNav               = require 'material-ui/lib/left-nav'
+Drawer                = require('material-ui/Drawer').default
 FeedbackActions       = require '../../action/feedback-action'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 
@@ -58,9 +58,9 @@ class IndexNavigation extends React.Component
     <div className={@props.className}>
       <NotImplemented/>
       <DisruptionInfo open={@state.disruptionVisible} toggleDisruptionInfo={@toggleDisruptionInfo} />
-      <LeftNav className="offcanvas" disableSwipeToOpen=true ref="leftNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
+      <Drawer className="offcanvas" disableSwipeToOpen=true ref="leftNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
         <OffcanvasMenu openFeedback={@openFeedback}/>
-      </LeftNav>
+      </Drawer>
       <div className="grid-frame fullscreen">
         <IndexTopNavigation toggleOffcanvas={@toggleOffcanvas} toggleDisruptionInfo={@toggleDisruptionInfo}/>
         <section ref="content" className="content fullscreen">

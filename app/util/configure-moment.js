@@ -1,13 +1,13 @@
-var config = require('../config')
+import config from '../config';
 
-var moment = require('moment');
+import moment from 'moment';
 
 // Configure moment with the selected language
 // and with the relative time thresholds used when humanizing times
-var configureMoment = function(language) {
+function configureMoment(language) {
   moment.locale(language);
-  if(language != "en") {
-    require('moment/locale/' + language + '');
+  if (language !== 'en') {
+    require(`moment/locale/${language}`);
   }
 
   moment.relativeTimeThreshold('s', config.moment.relativeTimeThreshold.seconds);

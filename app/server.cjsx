@@ -18,8 +18,10 @@ FluxibleComponent = require('fluxible-addons-react/FluxibleComponent')
 serialize = require('serialize-javascript')
 
 ### Other libraries ###
-{IntlProvider} = require('react-intl')
+{IntlProvider} = require 'react-intl'
 polyfillService = require 'polyfill-service'
+getMuiTheme = require('material-ui/styles/getMuiTheme').default
+MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default
 
 ### Application ###
 application = require('./app').default
@@ -94,7 +96,7 @@ getScripts = (req) ->
       <script src={config.APP_PATH + '/' + stats.assetsByChunkName.main[0]}/>
     ]
 
-getContent = (context, renderProps, locale) ->
+getContent = (context, renderProps, locale, userAgent) ->
   # Ugly way to see if this is a Relay RootComponent
   # until Relay gets server rendering capabilities
   if renderProps.components.some(((i) -> i instanceof Object and i.hasFragment))
@@ -104,7 +106,9 @@ getContent = (context, renderProps, locale) ->
   ReactDOM.renderToString(
     <FluxibleComponent context={context.getComponentContext()}>
       <IntlProvider locale={locale} messages={translations[locale]}>
-        <RouterContext {...renderProps}/>
+        <MuiThemeProvider muiTheme={getMuiTheme {}, userAgent: userAgent}>
+          <RouterContext {...renderProps}/>
+        </MuiThemeProvider>
       </IntlProvider>
     </FluxibleComponent>
   )
@@ -113,7 +117,11 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
   ReactDOM.renderToStaticMarkup <ApplicationHtml
     css={if process.env.NODE_ENV == 'development' then false else css}
     svgSprite={svgSprite}
-    content={getContent(context, renderProps, locale)}
+    content={
+      ""
+      #TODO: temporarely disable server-side rendering in order to fix issue with having different content from the server, which breaks leaflet integration
+      #getContent(context, renderProps, locale, req.headers['user-agent'])
+    }
     polyfill={polyfills}
     state={'window.state=' + serialize(application.dehydrate(context)) + ';'}
     locale={locale}

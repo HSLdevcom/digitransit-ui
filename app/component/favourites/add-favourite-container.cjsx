@@ -8,7 +8,7 @@ FakeSearchBar             = require '../search/fake-search-bar'
 SearchActions             = require '../../action/search-actions'
 SearchModal               = require '../search/search-modal'
 SearchInput               = require '../search/search-input'
-Tab                       = require 'material-ui/lib/tabs/tab'
+Tab                       = require('material-ui/Tabs/Tab').default
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage

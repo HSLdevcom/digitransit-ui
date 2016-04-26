@@ -48,6 +48,7 @@ class StopMarkerLayer extends React.Component
         stops.push <TerminalMarker
                           key={stop.parentStation.gtfsId}
                           map={@props.map}
+                          layerContainer={@props.layerContainer}
                           terminal={stop.parentStation}
                           selected={selected}
                           mode={modeClass}
@@ -55,6 +56,7 @@ class StopMarkerLayer extends React.Component
       else
         stops.push <StopMarker key={stop.gtfsId}
                                map={@props.map}
+                               layerContainer={@props.layerContainer}
                                stop={stop}
                                selected={selected}
                                mode={modeClass}

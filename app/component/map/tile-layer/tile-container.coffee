@@ -6,7 +6,6 @@ class Tile
     @scaleratio = window?.devicePixelRatio or 1
     @tileSize = (@props.tileSize or 256) * @scaleratio
     @ratio = @extent / @tileSize
-    @eventratio = @ratio * @scaleratio
     @el = @createElement()
 
     if @coords.z < 14 or !@el.getContext
@@ -22,15 +21,12 @@ class Tile
     el.setAttribute "class", "leaflet-tile"
     el.setAttribute "height", @tileSize
     el.setAttribute "width", @tileSize
-    el.addEventListener "click", @onMapClick
+    el.onMapClick = @onMapClick
     el
 
-  onMapClick: (e) =>
+  onMapClick: (e, point) =>
     if @layers
-
-      point =
-        x: e.offsetX
-        y: e.offsetY
+      localPoint = [(point[0] * @scaleratio) % @tileSize, (point[1] * @scaleratio) % @tileSize]
 
       features = flatten @layers.map (layer) -> layer.features?.map (feature) ->
         layer: layer.name
@@ -39,8 +35,8 @@ class Tile
       nearest = features.filter (feature) =>
         return false if !feature
         g = feature.feature.loadGeometry()[0][0]
-        dist = Math.sqrt((point.x - (g.x / @eventratio)) ** 2 + (point.y - (g.y / @eventratio)) ** 2)
-        if dist < 17 then true else false
+        dist = Math.sqrt((localPoint[0] - (g.x / @ratio)) ** 2 + (localPoint[1] - (g.y / @ratio)) ** 2)
+        if dist < (17 * @scaleratio) then true else false
 
       if nearest.length == 0
         @onSelectableTargetClicked false
@@ -50,7 +46,7 @@ class Tile
         @onSelectableTargetClicked nearest, L.latLng [coords[1], coords[0]]
       else
         L.DomEvent.stopPropagation e
-        @onSelectableTargetClicked nearest, @props.map.mouseEventToLatLng e
+        @onSelectableTargetClicked nearest, e.latlng
 
 
 module.exports = Tile
