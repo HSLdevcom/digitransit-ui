@@ -45,7 +45,9 @@ class Splash extends React.Component
       <SearchMainContainer/>
       <FrontPagePanel/>
       Paikannetaan yadda yadda!
-      <div onClick={() -> @context.executeAction PositionActions.disablePendingPosition}>Skip positioning</div>
+      <div onClick={() ->
+        @context.executeAction EndpointActions.setOriginToDefault
+      }>Skip positioning</div>
       <div onClick={() => @setState(tabOpen: "origin")}>Kirjoita lähtöpaikka</div>
 
     </IndexNavigation>
@@ -96,6 +98,7 @@ class Splash extends React.Component
                     lat: item.geometry.coordinates[1]
                     lon: item.geometry.coordinates[0]
                     address: name
+                @context.executeAction EndpointActions.displayOriginPopup
               @closeModal()
           }/>
       </Tab>
