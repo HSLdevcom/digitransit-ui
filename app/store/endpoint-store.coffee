@@ -8,8 +8,6 @@ class EndpointStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @originFocusRequired = false
-    @destinationFocusRequired = false
     @origin = @getUseCurrent(@origin, true)
     @destination = @getUseCurrent(@destination, false)
 
@@ -47,6 +45,7 @@ class EndpointStore extends Store
     lon: null
     address: null
 
+  # location: {address: 'Rautatioeasema, Helsinki', lat: 60.1710688, lon:24.9414841}
   setOrigin: (location) ->
     @origin =
       userSetPosition: true
