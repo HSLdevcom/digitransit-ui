@@ -70,6 +70,11 @@ module.exports =
         offset: [106, 3]
         maxWidth: 250
         minWidth: 250
+  stopCard:
+    header:
+      showDescription: true
+      showStopCode: true
+      showDistance: true
   autoSuggest:
     # Let Pelias suggest based on current user location
     locationAware: true
