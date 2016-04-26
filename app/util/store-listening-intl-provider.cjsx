@@ -19,7 +19,7 @@ class StoreListeningIntlProvider extends React.Component
   render: ->
     children = @props.children
     language = @context.getStore('PreferencesStore').getLanguage()
-    addLocaleData require "react-intl/lib/locale-data/" + language
+    addLocaleData require "react-intl/locale-data/" + language
     <IntlProvider messages={@props.translations[language]} locale={language}>
       {children}
     </IntlProvider>

@@ -2,7 +2,6 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 ItinerarySummaryListContainer = require './itinerary-summary-list-container'
-SearchMainContainer      = require '../search/search-main-container'
 SummaryRow            = require './summary-row'
 TimeNavigationButtons = require './time-navigation-buttons'
 ItinerarySummary      = require '../itinerary/itinerary-summary'
@@ -91,7 +90,6 @@ class SummaryPlanContainer extends React.Component
           from={from}
           to={to}
           padding={[0, 110]}>
-          <SearchTwoFieldsContainer/>
         </Map>
         <ItinerarySummaryListContainer itineraries={[]} currentTime={currentTime} onSelect={nop} activeIndex={0} />
       </div>
@@ -112,6 +110,7 @@ module.exports = Relay.createContainer SummaryPlanContainer,
     minTransferTime: 180
     walkSpeed: 1.2
     wheelchair: false
+    maxWalkDistance: config.maxWalkDistance + 0.1
     preferred:
       agencies: config.preferredAgency or ""
     arriveBy: true

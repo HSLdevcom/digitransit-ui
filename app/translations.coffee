@@ -142,6 +142,8 @@ translations =
     'search': 'Haku'
     'in-addition': 'Lisäksi'
     'choose-stop': 'Valitse pysäkki'
+    'hour-short': 'h'
+    'minute-short': 'min'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'

@@ -37,6 +37,7 @@ class PositionMarker extends React.Component
     if @getLocation()
       <Marker
         map={@props.map}
+        layerContainer={@props.layerContainer}
         zIndexOffset=5
         position={@getLocation().coordinates}
         icon={PositionMarker.currentLocationIcon}/>

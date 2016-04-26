@@ -1,3 +1,4 @@
+/* eslint no-console: "off", strict: "off" */
 'use strict';
 
 // This little dev server is basically a wrapped express server that
@@ -9,7 +10,7 @@ const config = require('../webpack.config');
 const port = process.env.HOT_LOAD_PORT || 9000;
 
 new WebpackDevServer(webpack(config), {
-  contentBase: 'http://localhost:' + port,
+  contentBase: `http://localhost:${port}`,
   publicPath: config.output.publicPath,
   noInfo: true,
   hot: true,
@@ -18,5 +19,5 @@ new WebpackDevServer(webpack(config), {
     console.log(err);
   }
 
-  console.log('Hot load server listening at localhost:' + port);
+  console.log(`Hot load server listening at localhost:${port}`);
 });
