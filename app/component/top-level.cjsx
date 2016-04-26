@@ -39,6 +39,7 @@ class TopLevel extends React.Component
 
     #if origin = current position and no position
     displaySplash = endpointStore.getOrigin().useCurrentPosition and not positionStore.getLocationState().hasLocation
+    state = if positionStore.getLocationState().status == 'no-location' then 'load' else 'positioning'
 
     language = preferencesStore.getLanguage()
     configureMoment(language)
@@ -46,7 +47,7 @@ class TopLevel extends React.Component
     metadata = meta language
     <div className="fullscreen">
       <Helmet {...metadata}/>
-      {if displaySplash  then <Splash/> else @props.children}
+      {if displaySplash  then <Splash state={state}/> else @props.children}
     </div>
 
 
