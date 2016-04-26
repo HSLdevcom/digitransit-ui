@@ -2,9 +2,12 @@ React                       = require 'react'
 Icon                        = require '../icon/icon'
 CustomizeSearch             = require '../summary/customize-search'
 BackButton                  = require './back-button'
-TimeSelectors               = require './time-selectors'
 LeftNav                     = require 'material-ui/lib/left-nav'
+Link                        = require 'react-router/lib/Link'
+FormattedMessage            = require('react-intl').FormattedMessage
 {supportsHistory}           = require 'history/lib/DOMUtils'
+OriginDestinationBar        = require '../summary/origin-destination-bar'
+TimeSelectors               = require '../summary/time-selectors'
 
 class SummaryNavigation extends React.Component
   @contextTypes:
@@ -48,12 +51,20 @@ class SummaryNavigation extends React.Component
       <div className="fullscreen grid-frame">
         <nav className="top-bar">
           <BackButton/>
-          <TimeSelectors/>
+          <section className="title">
+            <Link to="/">
+              <span className="title">
+                <FormattedMessage id={'itinerary-summary-page.description'} defaultMessage={"Route suggestions"}/>
+              </span>
+            </Link>
+          </section>
           <div onClick={@toggleCustomizeSearchOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
             <Icon img={'icon-icon_ellipsis'}/>
           </div>
         </nav>
         <section ref="content" className="content">
+          <OriginDestinationBar/>
+          <TimeSelectors/>
           {@props.children}
         </section>
       </div>

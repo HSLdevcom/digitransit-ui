@@ -133,7 +133,7 @@ ul#react-whatever-suggest {
 
   .autosuggestIcon {
     color: $medium-gray;
-    padding-left: 10px;
+    padding-left: 3px;
     padding-right: 10px;
   }
 
@@ -144,11 +144,13 @@ ul#react-whatever-suggest {
 }
 
 .geolocation-bar-location-icon {
-  font-size: $search-form-location-icon-size;
+  //height:16px;
+//  margin-right: 10px;
 }
 
-.address-box .geolocation-bar-location-icon svg.icon {
+.geolocation-bar-location-icon svg.icon {
   fill: $hilight-color;
+  padding-top: 2px;
 }
 
 div.search-modal {
@@ -226,12 +228,64 @@ div.search-modal {
       height: calc(100% - #{$search-form-input-height});
       > div {
         height: 95%;
-        > div{
+        > div {
           height: 100%;
+          > div:nth-child(1) {
+            height: 100%;
+          }
         }
+
       }
     }
     height: calc(100% - 30px)
+  }
+
+
+  .geolocation-selected {
+    background-color: $background-color;
+    padding: 4px;
+    padding-bottom: 1px;
+    border-radius: 2px;
+    vertical-align: text-top;
+    @include font-book
+    > span:nth-child(1) {  //icon
+      vertical-align: middle;
+      margin-right: 10px;
+      margin-left: 1px;
+      color: $hilight-color;
+    }
+    > span:nth-child(2) {  //text
+      vertical-align: top;
+    }
+    > span:nth-child(3) {  //close
+      vertical-align: middle;
+    }
+  }
+
+  .close-icon {
+    color: $gray;
+    > span {
+      > svg {
+        width: 14px;
+      }
+    }
+  }
+
+  .clear-icon {
+    position: absolute;
+    top: -3px;
+    right: 0px;
+    width: 25px;
+    @extend .close-icon;
+  }
+
+  .geolocation {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    padding: 5px;
+    height: 27px;
+    line-height: normal;
   }
 }
 

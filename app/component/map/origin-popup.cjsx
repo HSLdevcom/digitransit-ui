@@ -74,7 +74,7 @@ class OriginPopup extends React.Component
     if typeof @state?.position != "undefined"
       msg = @context.intl.formatMessage
         id: 'origin'
-        defaultMessage: 'Origin'
+        defaultMessage: 'From'
 
       <Popup context={@context} ref="popup" latlng={@state.position}
         options={

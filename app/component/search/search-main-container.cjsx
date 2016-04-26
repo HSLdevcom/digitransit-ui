@@ -5,9 +5,9 @@ FakeSearchWithButton = require './fake-search-with-button'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 SearchModal      = require './search-modal'
-SearchInput      = require './search-input'
 Tab              = require 'material-ui/lib/tabs/tab'
 FakeSearchBar    = require './fake-search-bar'
+GeolocationOrInput = require './geolocation-or-input'
 
 class SearchMainContainer extends React.Component
 
@@ -50,12 +50,13 @@ class SearchMainContainer extends React.Component
       modalIsOpen: false
 
   focusInput: (value) =>
-    @refs["searchInput" + value]?.refs.autowhatever?.refs.input?.focus()
+    @refs["searchInput" + value]?.refs.searchInput.refs.autowhatever?.refs.input?.focus()
 
   openDialog: (tab, cb) =>
     @setState
       selectedTab: tab
       modalIsOpen: true
+      () -> if(cb) then cb()
 
   clickSearch: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
@@ -112,10 +113,10 @@ class SearchMainContainer extends React.Component
           value="origin"
           id="origin"
           onActive={@onTabChange}>
-            <SearchInput
+            <GeolocationOrInput
               ref="searchInputorigin"
               id="search-origin"
-              initialValue = {@context.getStore('EndpointStore').getOrigin()?.address || ""}
+              endpoint = {@context.getStore('EndpointStore').getOrigin()}
               type="endpoint"
               onSuggestionSelected = {(name, item) =>
                 if item.type == 'CurrentLocation'
@@ -137,9 +138,9 @@ class SearchMainContainer extends React.Component
           id="destination"
           ref="searchTab"
           onActive={@onTabChange}>
-          <SearchInput
+          <GeolocationOrInput
             ref="searchInputdestination"
-            initialValue = {@context.getStore('EndpointStore').getDestination()?.address || ""}
+            endpoint = @context.getStore('EndpointStore').getDestination()
             id="search-destination"
             type="endpoint"
             onSuggestionSelected = {(name, item) =>
@@ -161,7 +162,7 @@ class SearchMainContainer extends React.Component
           value="search"
           ref="searchTab"
           onActive={@onTabChange}>
-          <SearchInput
+          <GeolocationOrInput
             ref="searchInputsearch"
             initialValue = ""
             id="search"

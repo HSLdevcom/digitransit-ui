@@ -8,8 +8,8 @@ translations =
     'itinerary-page.description': "Reitti"
     'trip-page.title': "Linja {route_short_name}"
     'trip-page.description': "Linja {route_short_name} - {route_long_name}"
-    'itinerary-summary-page.title': "Reittiehdotus"
-    'itinerary-summary-page.description': "Reittiehdotus"
+    'itinerary-summary-page.title': "Reittiehdotukset"
+    'itinerary-summary-page.description': "Reittiehdotukset"
     'description': 'Löydä joukkoliikennetarjonta lähelle ja kauas.'
     'searching-position': 'Paikannetaan...'
     'search-position': 'Paikanna'
@@ -61,8 +61,8 @@ translations =
     'cause': 'syy'
     'disruption-info': 'Poikkeusinfo'
     'disruption-info-no-alerts': 'Ei poikkeustiedotteita.'
-    'leaving-at': 'Lähtöaika'
-    'arriving-at': 'Saapumisaika'
+    'leaving-at': 'Lähtee'
+    'arriving-at': 'Saapuu'
     'route-here': 'Reititä tänne'
     'walking': 'Kävely'
     'prefer-walking': 'Suosi kävelyä'
@@ -194,8 +194,8 @@ translations =
     'cause': 'Orsak'
     'disruption-info': 'Undantagsinfo'
     'disruption-info-no-alerts': 'Inga undantagsmeddelanden.'
-    'leaving-at': 'Avgångstid'
-    'arriving-at': 'Ankomsttid'
+    'leaving-at': 'Avgår'
+    'arriving-at': 'Anländer'
     'route-here': 'Sök rut hit'
     'walking': 'Gång'
     'prefer-walking': 'Undvik gående'
@@ -224,8 +224,11 @@ translations =
     'route-not-possible': 'Tyvärr din rutt är inte möjligt. Tekniskt fel: "{error}"'
     'realtime-matching': 'Realtidsintegration'
     'locate': 'Lokalisera'
-    'extra-info': 'mer info'
+    'extra-info': 'Mer info'
     'bike-availability': 'Cyklar finns'
+    'citybike-register-required': 'Användning av en stadscykel kräver registrering'
+    'use-citybike': 'Ta i bruk'
+    'citybike': 'Stadscykel'
     'inquiry': 'Delta på förfrågan'
     'platform-num': 'Plattform {platformCode}'
     'departures': 'Avgångar'
@@ -263,12 +266,12 @@ translations =
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
     'route-page.title': "Rute {route_short_name}"
     'route-page.description': "Rute {route_short_name} - {route_long_name}"
-    'itinerary-page.title': "Reisebeskrivelse"
-    'itinerary-page.description': "Reisebeskrivelse"
+    'itinerary-page.title': "Reisebeskrivelser"
+    'itinerary-page.description': "Reisebeskrivelser"
     'trip-page.title': "Linje {route_short_name}"
     'trip-page.description': "Linje {route_short_name} - {route_long_name}"
-    'itinerary-summary-page.title': "Anbefalt rute"
-    'itinerary-summary-page.description': "Anbefalt rute"
+    'itinerary-summary-page.title': "Anbefalt ruter"
+    'itinerary-summary-page.description': "Anbefalt ruter"
     'searching-position': 'Leter etter posisjon'
     'search-position': 'search-position'
     'own-position': 'Min posisjon'
@@ -323,8 +326,8 @@ translations =
     'cause': 'Årsak'
     'disruption-info': 'Avviksmelding'
     'disruption-info-no-alerts': 'Ingen avviksmeldinger.'
-    'leaving-at': 'Avgangstid'
-    'arriving-at': 'Ankomsttid'
+    'leaving-at': 'Avgar'
+    'arriving-at': 'Anländer'
     'route-here': 'Finn rute hit'
     'walking': 'Gange'
     'prefer-walking': 'Foretrekk gange'
@@ -353,7 +356,7 @@ translations =
     'route-not-possible': 'Dessverre kan vi ikke finne et reiseforslag til deg. Teknisk feil: "{error}"'
     'realtime-matching': 'Sanntidsmatching'
     'locate': 'Der jeg er'
-    'extra-info': 'mer info'
+    'extra-info': 'Mer info'
     'bike-availability': 'Sykler finnes'
     'citybike-register-required': 'Bysykkelregistrering påkreves'
     'use-citybike': 'Bruk bysykkel'
