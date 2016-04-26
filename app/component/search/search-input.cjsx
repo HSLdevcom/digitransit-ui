@@ -2,6 +2,7 @@ React             = require 'react'
 ReactAutowhatever = (require 'react-autowhatever').default
 SuggestionItem    = require './suggestion-item'
 SearchActions     = require '../../action/search-actions'
+Icon              = require '../icon/icon'
 isBrowser         = window?
 L                 = if isBrowser then require 'leaflet' else null
 
@@ -22,6 +23,10 @@ class SearchInput extends React.Component
 
   @propTypes:
     type: React.PropTypes.string.isRequired
+    onSuggestionSelected: React.PropTypes.func.isRequired
+    className: React.PropTypes.string
+    id: React.PropTypes.string
+    initialValue: React.PropTypes.string.isRequired
 
   componentWillMount: =>
     @context.getStore('SearchStore').addChangeListener @onSearchChange
@@ -29,9 +34,10 @@ class SearchInput extends React.Component
   componentWillUnmount: =>
     @context.getStore('SearchStore').removeChangeListener @onSearchChange
 
-  onSearchChange: (props) =>
-    @setState "suggestions": @context.getStore('SearchStore').getSuggestions(), focusedItemIndex: 0,
-      () => focusItem(0)
+  onSearchChange: (payload) =>
+    if payload.action == "suggestions"
+      @setState "suggestions": payload.data, focusedItemIndex: 0,
+        () => focusItem(0)
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
@@ -104,28 +110,33 @@ class SearchInput extends React.Component
         value: name
 
   render: =>
-    <ReactAutowhatever
-      ref = "autowhatever"
-      className={@props.className}
-      id="suggest"
-      items={@state?.suggestions || []}
-      renderItem={(item) ->
-        <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
-      onSuggestionSelected={@currentItemSelected}
-      focusedItemIndex={@state.focusedItemIndex}
-      inputProps={
-        "id": @props.id
-        "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
-        "onChange": @handleUpdateInputNow
-        "onKeyDown": @handleOnKeyDown
-        "onTouchStart": @handleOnTouchStart
-      }
-      itemProps={
-        "onMouseEnter": @handleOnMouseEnter
-        "onMouseDown": @handleOnMouseDown
-        "onMouseTouch": @handleOnMouseDown
-        "onTouchStart": @handleOnTouchStart
-      }
-    />
+    inputValue = if @state.value?.length >= 0 then @state?.value else @props.initialValue
+    <div className="fullscreen">
+      <ReactAutowhatever
+        ref = "autowhatever"
+        className={@props.className}
+        id="suggest"
+        items={@state?.suggestions || []}
+        renderItem={(item) ->
+          <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
+        onSuggestionSelected={@currentItemSelected}
+        focusedItemIndex={@state.focusedItemIndex}
+        inputProps={
+          "id": @props.id
+          "value": inputValue
+          "onChange": @handleUpdateInputNow
+          "onKeyDown": @handleOnKeyDown
+          "onTouchStart": @handleOnTouchStart
+        }
+        itemProps={
+          "onMouseEnter": @handleOnMouseEnter
+          "onMouseDown": @handleOnMouseDown
+          "onMouseTouch": @handleOnMouseDown
+          "onTouchStart": @handleOnTouchStart
+        }
+      />
+      {if inputValue.length > 0 then <div className="clear-icon" onClick={() => @handleUpdateInputNow(target: value: "")}><Icon img='icon-icon_close'/></div>}
+      {@props.children}
+    </div>
 
 module.exports = SearchInput

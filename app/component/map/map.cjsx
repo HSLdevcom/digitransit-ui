@@ -5,6 +5,7 @@ queries       = require '../../queries'
 Icon          = require '../icon/icon'
 LocationMarker = require './location-marker'
 config        = require '../../config'
+OriginPopup   = require './origin-popup'
 LeafletMap    = if isBrowser then require('react-leaflet/lib/Map').default else null
 TileLayer     = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
 L             = if isBrowser then require 'leaflet' else null
@@ -38,6 +39,7 @@ class Map extends React.Component
     zoom: React.PropTypes.number
     leafletEvents: React.PropTypes.object
     leafletOptions: React.PropTypes.object
+    displayOriginPopup: React.PropTypes.bool
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -78,6 +80,8 @@ class Map extends React.Component
         placeMarker = <PlaceMarker position={origin}/>
 
       positionMarker = <PositionMarker/>
+
+      originPopup = if @props.displayOriginPopup then <OriginPopup/> else null
 
       if config.map.useVectorTiles
         layers = []
@@ -141,9 +145,8 @@ class Map extends React.Component
           {placeMarker}
           {cityBikes}
           {@props.leafletObjs}
+          {originPopup}
         </LeafletMap>
-
-
     <div className={"map " + if @props.className then @props.className else ""}>
       {map}
       <div className="background-gradient"></div>

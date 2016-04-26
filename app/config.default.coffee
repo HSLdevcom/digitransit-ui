@@ -1,5 +1,6 @@
 CONFIG = process.env.CONFIG or 'default'
-API_URL = process.env.API_URL or 'http://dev.digitransit.fi'
+API_URL = process.env.API_URL or 'http://api.digitransit.fi'
+MAP_URL = process.env.MAP_URL or 'http://api.digitransit.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
@@ -15,7 +16,7 @@ module.exports =
   URL:
     API_URL: "#{API_URL}"
     OTP: "#{API_URL}/routing/v1/routers/finland/"
-    MAP: "#{API_URL}/map/v1/hsl-map/"
+    MAP: "#{MAP_URL}/map/v1/hsl-map/"
     STOP_MAP: "#{API_URL}/map/v1/finland-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "ws://213.138.147.225:1883"
@@ -65,6 +66,11 @@ module.exports =
         offset: [106, 3]
         maxWidth: 250
         minWidth: 250
+  stopCard:
+    header:
+      showDescription: true
+      showStopCode: true
+      showDistance: true
   autoSuggest:
     # Let Pelias suggest based on current user location
     locationAware: true
