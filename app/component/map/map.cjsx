@@ -71,13 +71,7 @@ class Map extends React.Component
 
   render: =>
     if isBrowser
-      origin = @context.getStore('EndpointStore').getOrigin()
-
-      if origin?.lat
-        fromMarker = <LocationMarker position={origin} className="from"/>
-        placeMarker = <PlaceMarker position={origin}/>
-
-      positionMarker = <PositionMarker/>
+      leafletObjs = @props.leafletObjs or []
 
       if config.map.useVectorTiles
         layers = []
@@ -85,7 +79,8 @@ class Map extends React.Component
           layers.push Stops
           if config.cityBike.showCityBikes
             layers.push CityBikes
-        tileLayer = <TileLayerContainer
+        leafletObjs.push <TileLayerContainer
+          key='tileLayer'
           layers={layers}
           tileSize={config.map.tileSize or 256}
           zoomOffset={config.map.zoomOffset or 0}
@@ -93,13 +88,24 @@ class Map extends React.Component
 
       else
         if @props.showStops
-          stops = <StopMarkerContainer
+          leafletObjs.push <StopMarkerContainer
+            key='stops'
             hilightedStops={@props.hilightedStops}
             disableMapTracking={@props.disableMapTracking}
             updateWhenIdle={false}/>
-          cityBikes = if config.cityBike.showCityBikes then <CityBikeMarkerContainer/> else null
+          if config.cityBike.showCityBikes
+            leafletObjs.push <CityBikeMarkerContainer key="cityBikes"/>
 
-      vehicles = null #if @props.showVehicles then <VehicleMarkerContainer/> else ""
+      # vehicles = null #if @props.showVehicles then <VehicleMarkerContainer/> else ""
+
+      origin = @context.getStore('EndpointStore').getOrigin()
+
+      if origin?.lat
+        #TODO: Why have two markers?
+        leafletObjs.push <LocationMarker position={origin} className="from" key='from'/>
+        leafletObjs.push <PlaceMarker position={origin} key='from2'/>
+
+      leafletObjs.push <PositionMarker key='position'/>
 
       center =
         if @props.fitBounds
@@ -133,14 +139,7 @@ class Map extends React.Component
             zoomOffset={config.map.zoomOffset or 0}
             updateWhenIdle={false}
             size={if config.map?.useRetinaTiles and L.Browser.retina then "@2x" else  ""}/>
-          {tileLayer}
-          {stops}
-          {vehicles}
-          {fromMarker}
-          {positionMarker}
-          {placeMarker}
-          {cityBikes}
-          {@props.leafletObjs}
+          {leafletObjs}
         </LeafletMap>
 
 
