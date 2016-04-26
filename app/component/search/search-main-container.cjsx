@@ -50,12 +50,13 @@ class SearchMainContainer extends React.Component
       modalIsOpen: false
 
   focusInput: (value) =>
-    @refs["searchInput" + value]?.refs.autowhatever?.refs.input?.focus()
+    @refs["searchInput" + value]?.refs.searchInput.refs.autowhatever?.refs.input?.focus()
 
   openDialog: (tab, cb) =>
     @setState
       selectedTab: tab
       modalIsOpen: true
+      () -> if(cb) then cb()
 
   clickSearch: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
