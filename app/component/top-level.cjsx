@@ -20,12 +20,10 @@ class TopLevel extends React.Component
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
 
   onPositionChange: (status) =>
-    console.log("status updated", status)
     if status?.statusChanged
       @forceUpdate()
 
   onEndpointChange: (status) =>
-    console.log("endpoint changed", status)
     if status == 'set-origin'
       @forceUpdate()
 
