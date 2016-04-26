@@ -102,6 +102,7 @@ class MapWithTracking extends React.Component
       lat={lat}
       lon={lon}
       zoom={zoom}
+      displayOriginPopup={true}
       leafletEvents={onLeafletDragstart: @disableMapTracking, onLeafletZoomend: @disableMapTracking}
       disableMapTracking={@disableMapTracking}
     >

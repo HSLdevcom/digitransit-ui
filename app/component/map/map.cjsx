@@ -39,6 +39,7 @@ class Map extends React.Component
     zoom: React.PropTypes.number
     leafletEvents: React.PropTypes.object
     leafletOptions: React.PropTypes.object
+    displayOriginPopup: React.PropTypes.bool
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -79,6 +80,8 @@ class Map extends React.Component
         placeMarker = <PlaceMarker position={origin}/>
 
       positionMarker = <PositionMarker/>
+
+      originPopup = if @props.displayOriginPopup then <OriginPopup/> else null
 
       if config.map.useVectorTiles
         layers = []
@@ -142,7 +145,7 @@ class Map extends React.Component
           {placeMarker}
           {cityBikes}
           {@props.leafletObjs}
-          <OriginPopup />
+          {originPopup}
         </LeafletMap>
     <div className={"map " + if @props.className then @props.className else ""}>
       {map}
