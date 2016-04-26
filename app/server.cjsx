@@ -117,7 +117,11 @@ getHtml = (context, renderProps, locale, polyfills, req) ->
   ReactDOM.renderToStaticMarkup <ApplicationHtml
     css={if process.env.NODE_ENV == 'development' then false else css}
     svgSprite={svgSprite}
-    content={getContent(context, renderProps, locale, req.headers['user-agent'])}
+    content={
+      ""
+      #TODO: temporarely disable server-side rendering in order to fix issue with having different content from the server, which breaks leaflet integration
+      #getContent(context, renderProps, locale, req.headers['user-agent'])
+    }
     polyfill={polyfills}
     state={'window.state=' + serialize(application.dehydrate(context)) + ';'}
     locale={locale}
