@@ -1,4 +1,6 @@
 itinerarySearchActions = require './itinerary-search-action'
+positionActions = require './position-actions'
+config = require '../config'
 
 module.exports.storeEndpoint = storeEndpoint = (actionContext, {target, endpoint}, done) ->
 
@@ -11,6 +13,7 @@ module.exports.storeEndpoint = storeEndpoint = (actionContext, {target, endpoint
   done()
 
 #sets endpoint and tries to do routing
+#payload = {target: 'destination', endpoint:{address: 'Rautatioeasema, Helsinki', lat: 60.1710688, lon:24.9414841}}
 module.exports.setEndpoint = (actionContext, payload) =>
   actionContext.executeAction(storeEndpoint, payload, (e) =>
     if e
@@ -21,12 +24,12 @@ module.exports.setEndpoint = (actionContext, payload) =>
     )
   )
 
-module.exports.setUseCurrent = (actionContext, target) ->
+module.exports.setUseCurrent = (actionContext, target) =>
   actionContext.dispatch "useCurrentPosition", target
-  actionContext.executeAction(itinerarySearchActions.route, undefined, (e) =>
-    if e
-      console.error "Could not route:", e
-  )
+
+  positionStore = @context.getStore('PositionStore')
+
+  actionContext.executeAction itinerarySearchActions.route
 
 module.exports.swapEndpoints = (actionContext) ->
   actionContext.dispatch "swapEndpoints"
@@ -43,3 +46,6 @@ module.exports.clearDestination = (actionContext) ->
 
 module.exports.clearGeolocation = (actionContext) ->
   actionContext.dispatch "clearGeolocation"
+
+module.exports.setOriginToDefault = (actionContext) =>
+  actionContext.executeAction @setEndpoint, {target: "origin", endpoint: config.defaultEndpoint}
