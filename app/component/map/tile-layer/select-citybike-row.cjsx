@@ -6,7 +6,7 @@ Icon                  = require '../../icon/icon'
 SelectCitybikeRow = (props) ->
   <div className="no-margin">
     <hr className="no-margin"/>
-    <div onClick={props.selectRow}>
+    <div className="cursor-pointer" onClick={props.selectRow}>
       <div className="left padding-vertical-small" style={width: 40, fontSize: "2em", paddingLeft: 8}>
         <Icon img={'icon-icon_citybike'}/>
       </div>

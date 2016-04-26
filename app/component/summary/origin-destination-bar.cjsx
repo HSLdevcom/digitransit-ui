@@ -1,11 +1,10 @@
-React = require 'react'
-EndpointActions = require '../../action/endpoint-actions'
-SearchModal               = require '../search/search-modal'
-SearchInput               = require '../search/search-input'
-Tab                       = require 'material-ui/lib/tabs/tab'
-{intlShape}               = require 'react-intl'
-Icon = require '../icon/icon'
-
+React               = require 'react'
+EndpointActions     = require '../../action/endpoint-actions'
+SearchModal         = require '../search/search-modal'
+GeolocationOrInput  = require '../search/geolocation-or-input'
+Tab                 = require 'material-ui/lib/tabs/tab'
+{intlShape}         = require 'react-intl'
+Icon                = require '../icon/icon'
 
 class OriginDestinationBar extends React.Component
 
@@ -72,9 +71,10 @@ class OriginDestinationBar extends React.Component
             defaultMessage: @state.tabOpen}
           ref="searchTab"
           value="tab">
-          <SearchInput
+          <GeolocationOrInput
             initialValue = {initialValue}
             type="endpoint"
+            endpoint={@state[@state.tabOpen]}
             onSuggestionSelected = {(name, item) =>
               if item.type == 'CurrentLocation'
                 @context.executeAction EndpointActions.setUseCurrent, @state.tabOpen

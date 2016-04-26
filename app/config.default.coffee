@@ -66,12 +66,25 @@ module.exports =
         offset: [106, 3]
         maxWidth: 250
         minWidth: 250
+  stopCard:
+    header:
+      showDescription: true
+      showStopCode: true
+      showDistance: true
   autoSuggest:
     # Let Pelias suggest based on current user location
     locationAware: true
   cityBike:
     showCityBikes: true
     showBikesAvailable: false
+    useUrl:
+      fi: "https://www.hsl.fi/citybike"
+      sv: "https://www.hsl.fi/sv/citybike"
+      en: "https://www.hsl.fi/en/citybike"
+    infoUrl:
+      fi: "https://www.hsl.fi/kaupunkipyörät"
+      sv: "https://www.hsl.fi/sv/stadscyklar"
+      en: "https://www.hsl.fi/en/citybikes"
   # Lowest level when stop or terminal markers are rendered at all
   stopsMinZoom: 15
   # Highest level when stops and terminals are still rendered as small markers

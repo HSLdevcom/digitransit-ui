@@ -20,7 +20,7 @@ div.map {
 }
 
 div.map.summaryMap {
-  height: calc(100% - 12.5em - 40px);
+  height: calc(100% - 12.5em - 80px);
   min-height: 100px;
 }
 
@@ -232,6 +232,48 @@ div.leaflet-marker-icon.vehicle-icon {
     }
   }
 }
+
+div.origin-popup {
+  cursor: pointer;
+  .leaflet-popup-content-wrapper {
+    border-radius: $border-radius;
+    padding: 0;
+    width: 140px;
+    border: 1px solid $gray;
+    overflow: hidden;
+    .leaflet-popup-content {
+      margin:8px;
+      svg.right-arrow {
+          height:9px;
+      }
+    }
+  }
+
+  .shade-to-white {
+    background-image: linear-gradient(to left, white, rgba(255, 255, 255, 0));
+    width: 2em;
+    height: 1.5em;
+    position: absolute;
+    right: 1px;
+    top: 2em;
+  }
+
+  .origin-popup-name {
+    height: 1.3em;
+    width:200px;
+  }
+
+  .leaflet-popup-tip-container {
+    position: relative;
+    bottom: 1px;
+    margin: 0px 0px;
+    .leaflet-popup-tip {
+      border: 1px solid $gray;
+    }
+  }
+}
+
+
 .route-header {
   .route-header-trip {
     position: absolute;

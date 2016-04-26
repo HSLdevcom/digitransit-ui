@@ -5,3 +5,50 @@
 .summary-no-route-found {
     margin: 1em;
 }
+
+.time-selectors {
+  background-color: $secondary-color;
+  height: 40px;
+  padding: 0 10px;
+  padding-top: 5px;
+  margin: 0;
+
+  input[type="date"], input[type="time"], input[type="text"], select {
+    vertical-align: middle;
+    height: 18px;
+    padding: 0;
+    margin: 0;
+    margin-right: 5px;
+    display: inline-block;
+    background-image: none;
+    background-color: $secondary-color;
+    box-shadow: none;
+    color: $secondary-font-color;
+    border: none;
+    border-bottom: 1px dotted $gray-blue-light;
+    border-radius: 0;
+    appearance: none;
+
+    &:focus, &:hover {
+      border-color: $gray-blue-light;
+      background-color: $secondary-color;
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .date {
+    width: 6em;
+    text-align: left;
+  }
+
+  .time {
+    width: 5em;
+    text-align: left;
+  }
+
+  .arrive {
+    width: 6em;
+    text-align: left;
+ }
+}

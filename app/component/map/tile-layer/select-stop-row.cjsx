@@ -30,7 +30,7 @@ SelectStopRow = (props) ->
 
   <div className="no-margin">
     <hr className="no-margin"/>
-    <div className="no-margin" onClick={props.selectRow}>
+    <div className="no-margin cursor-pointer" onClick={props.selectRow}>
       <div className="left padding-vertical-normal" style={width: 40}>
         <svg
           xmlns="http://www.w3.org/svg/2000"
@@ -51,7 +51,7 @@ SelectStopRow = (props) ->
         </svg>
       </div>
       <div className="left padding-vertical-normal" style={width: "calc(100% - 40px)"}>
-        <span className="h4 no-margin">{props.name} ›</span>
+        <span className="h4 no-margin link-color">{props.name} ›</span>
         {patterns}
       </div>
     </div>

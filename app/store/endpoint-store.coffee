@@ -11,6 +11,7 @@ class EndpointStore extends Store
     @originFocusRequired = false
     @destinationFocusRequired = false
     @origin = @getUseCurrent(@origin, true)
+    @emitChange("origin-use-current")
     @destination = @getUseCurrent(@destination, false)
 
   isCurrentPositionInUse: () ->
@@ -97,6 +98,7 @@ class EndpointStore extends Store
       @setDestinationToCurrent()
     else
       @setOriginToCurrent()
+      @emitChange("origin-use-current")
 
   @handlers:
     "setEndpoint": "setEndpoint"

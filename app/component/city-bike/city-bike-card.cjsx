@@ -39,14 +39,9 @@ class CityBikeCard extends React.Component
   render: ->
     if !@props.station || !@props.children || @props.children.length == 0
       return false
-
-    <NotImplementedLink
-      nonTextLink={true}
-      name={<FormattedMessage id='citybike' defaultMessage='Citybike'/>}
-      className="no-decoration"
-    >
+    <div>
       {@getContent()}
-    </NotImplementedLink>
+    </div>
 
 
 module.exports = CityBikeCard
