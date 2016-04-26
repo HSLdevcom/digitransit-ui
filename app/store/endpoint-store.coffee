@@ -92,12 +92,21 @@ class EndpointStore extends Store
     else
       @setOrigin value
 
+  displayOriginPopup: () ->
+    @pendingPopup = true
+    @emitChange("display-popup")
+
   useCurrentPosition: (target) ->
     if "destination" == target
       @setDestinationToCurrent()
     else
       @setOriginToCurrent()
       @emitChange("origin-use-current")
+
+  isPendingPopup: () =>
+    r = @pendingPopup
+    @pendingPopup = false
+    r
 
   @handlers:
     "setEndpoint": "setEndpoint"
@@ -109,6 +118,6 @@ class EndpointStore extends Store
     "GeolocationDenied": 'clearGeolocation'
     "GeolocationTimeout": 'clearGeolocation'
     "clearGeolocation": "clearGeolocation"
-    "isCurrentPositionInUse": "isCurrentPositionInUse"
+    "DisplayOriginPopup": "displayOriginPopup"
 
 module.exports = EndpointStore
