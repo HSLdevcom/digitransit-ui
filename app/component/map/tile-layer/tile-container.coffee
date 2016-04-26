@@ -1,6 +1,8 @@
 flatten = require 'lodash/flatten'
 config  = require '../../../config'
 
+markersMinZoom = Math.min(config.cityBike.cityBikeMinZoom, config.stopsMinZoom)
+
 class Tile
   constructor: (@coords, done, @props) ->
     @extent = 4096
@@ -8,6 +10,8 @@ class Tile
     @tileSize = (@props.tileSize or 256) * @scaleratio
     @ratio = @extent / @tileSize
     @el = @createElement()
+    if @coords.z < markersMinZoom or !@el.getContext
+      return
     @ctx = @el.getContext '2d'
 
     @layers = @props.layers.filter (Layer) =>
