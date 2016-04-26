@@ -2,12 +2,7 @@ React            = require 'react'
 MaterialModal    = require('material-ui/Dialog').default
 Icon             = require '../icon/icon'
 intl             = require 'react-intl'
-FormattedMessage = intl.FormattedMessage
-SearchInput      = require './search-input'
-SearchActions    = require '../../action/search-actions'
-EndpointActions  = require '../../action/endpoint-actions'
 Tabs             = require('material-ui/Tabs/Tabs').default
-Tab              = require('material-ui/Tabs/Tab').default
 config           = require '../../config'
 
 class SearchModal extends React.Component

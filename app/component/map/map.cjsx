@@ -5,6 +5,7 @@ queries       = require '../../queries'
 Icon          = require '../icon/icon'
 LocationMarker = require './location-marker'
 config        = require '../../config'
+OriginPopup   = require './origin-popup'
 LeafletMap    = if isBrowser then require('react-leaflet/lib/Map').default else null
 TileLayer     = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
 L             = if isBrowser then require 'leaflet' else null
@@ -38,6 +39,7 @@ class Map extends React.Component
     zoom: React.PropTypes.number
     leafletEvents: React.PropTypes.object
     leafletOptions: React.PropTypes.object
+    displayOriginPopup: React.PropTypes.bool
 
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
@@ -105,6 +107,10 @@ class Map extends React.Component
         leafletObjs.push <LocationMarker position={origin} className="from" key='from'/>
         leafletObjs.push <PlaceMarker position={origin} key='from2'/>
 
+      if @props.displayOriginPopup
+        leafletObjs.push <OriginPopup key='origin'/>
+
+
       leafletObjs.push <PositionMarker key='position'/>
 
       center =
@@ -122,12 +128,6 @@ class Map extends React.Component
           zoom={zoom}
           zoomControl={false}
           attributionControl={false}
-          onMousedown={@startMeasuring}
-          onDragstart={@startMeasuring}
-          onZoomstart={@startMeasuring}
-          onMoveend={@stopMeasuring}
-          onDragend={@stopMeasuring}
-          onZoomend={@stopMeasuring}
           bounds={if @props.fitBounds then [@props.from, @props.to]}
           {... @props.leafletOptions}
           boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
@@ -141,8 +141,6 @@ class Map extends React.Component
             size={if config.map?.useRetinaTiles and L.Browser.retina then "@2x" else  ""}/>
           {leafletObjs}
         </LeafletMap>
-
-
     <div className={"map " + if @props.className then @props.className else ""}>
       {map}
       <div className="background-gradient"></div>

@@ -210,3 +210,6 @@ search =
 
 module.exports.executeSearch = (actionContext, input) ->
   search(actionContext, input)
+
+module.exports.openDialog = (actionContext, tab) ->
+  actionContext.dispatch 'OpenDialog', tab
