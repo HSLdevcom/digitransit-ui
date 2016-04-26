@@ -54,6 +54,6 @@ class CityBikeMarkerContainer extends React.Component
     stations
 
   render: ->
-    <div>{if @props.map.getZoom() >= config.stopsMinZoom then @getStations() else ""}</div>
+    <div>{if @props.map.getZoom() >= config.cityBike.cityBikeMinZoom then @getStations() else ""}</div>
 
 module.exports = CityBikeMarkerContainer

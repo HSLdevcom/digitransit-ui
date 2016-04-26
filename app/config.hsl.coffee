@@ -90,11 +90,11 @@ module.exports =
       fi: "https://www.hsl.fi/kaupunkipyörät"
       sv: "https://www.hsl.fi/sv/stadscyklar"
       en: "https://www.hsl.fi/en/citybikes"
-  # Lowest level when stop or terminal markers are rendered at all
-  stopsMinZoom: 15
+    cityBikeMinZoom: 13
+  # Lowest level for stops and terminals are rendered
+  stopsMinZoom: 14
   # Highest level when stops and terminals are still rendered as small markers
-  stopsSmallMaxZoom: 15
-
+  stopsSmallMaxZoom: 14
   # Highest level when terminals are still rendered instead of individual stops
   terminalStopsMaxZoom: 17
   colors:
