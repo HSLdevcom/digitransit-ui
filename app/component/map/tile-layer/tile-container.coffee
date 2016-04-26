@@ -9,9 +9,6 @@ class Tile
     @ratio = @extent / @tileSize
     @eventratio = @ratio * @scaleratio
     @el = @createElement()
-
-    if @coords.z < config.markersMinZoom or !@el.getContext
-      return
     @ctx = @el.getContext '2d'
 
     @layers = @props.layers.filter (Layer) =>
