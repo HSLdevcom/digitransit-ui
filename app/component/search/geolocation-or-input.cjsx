@@ -28,7 +28,7 @@ class GeolocationOrInput extends React.Component
     child = if @state.geolocation == false then null
     else <GeolocationBar geolocation={hasLocation: true} onClick={() => @setState geolocation: false}/>
 
-    <SearchInput {...@props} initialValue={getInitialValue(@props)}>
+    <SearchInput ref="searchInput" {...@props} initialValue={getInitialValue(@props)}>
       {child}
     </SearchInput>
 

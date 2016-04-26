@@ -22,6 +22,17 @@ class SearchMainContainer extends React.Component
     router: React.PropTypes.object.isRequired
     intl: intl.intlShape.isRequired
 
+  componentWillMount: =>
+    @context.getStore('SearchStore').addChangeListener @onSearchChange
+
+  componentWillUnmount: =>
+    @context.getStore('SearchStore').removeChangeListener @onSearchChange
+
+
+  onSearchChange: (payload) =>
+    if payload.action == "open"
+      @openDialog payload.data
+
   onTabChange: (tab) =>
     @setState
       selectedTab: tab.props.value
@@ -39,17 +50,21 @@ class SearchMainContainer extends React.Component
       modalIsOpen: false
 
   focusInput: (value) =>
-    @refs["searchInput" + value]?.refs.autowhatever?.refs.input?.focus()
+    @refs["searchInput" + value]?.refs.searchInput.refs.autowhatever?.refs.input?.focus()
+
+  openDialog: (tab, cb) =>
+    @setState
+      selectedTab: tab
+      modalIsOpen: true
+      () -> if(cb) then cb()
 
   clickSearch: =>
     geolocation = @context.getStore('PositionStore').getLocationState()
     origin = @context.getStore('EndpointStore').getOrigin()
 
-    @setState
-      selectedTab: if origin.lat or origin.useCurrentPosition and geolocation.hasLocation then "destination" else "origin"
-      modalIsOpen: true
-      () =>
-        @focusInput if origin.lat or origin.useCurrentPosition and geolocation.hasLocation then "destination" else "origin"
+    tab = if origin.lat or origin.useCurrentPosition and geolocation.hasLocation then "destination" else "origin"
+    @openDialog tab, () =>
+      @focusInput if origin.lat or origin.useCurrentPosition and geolocation.hasLocation then "destination" else "origin"
 
     if origin.lat or origin.useCurrentPosition and geolocation.hasLocation
       @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}

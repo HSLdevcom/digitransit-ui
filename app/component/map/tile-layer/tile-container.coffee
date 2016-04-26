@@ -43,14 +43,14 @@ class Tile
         if dist < 17 then true else false
 
       if nearest.length == 0
-        @onStopClicked false
+        @onSelectableTargetClicked false
       else if nearest.length == 1
         L.DomEvent.stopPropagation e
         coords = nearest[0].feature.toGeoJSON(@coords.x, @coords.y, @coords.z + (@props.zoomOffset or 0)).geometry.coordinates
-        @onStopClicked nearest, L.latLng [coords[1], coords[0]]
+        @onSelectableTargetClicked nearest, L.latLng [coords[1], coords[0]]
       else
         L.DomEvent.stopPropagation e
-        @onStopClicked nearest, @props.map.mouseEventToLatLng e
+        @onSelectableTargetClicked nearest, @props.map.mouseEventToLatLng e
 
 
 module.exports = Tile

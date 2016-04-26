@@ -21,13 +21,19 @@ class TileLayerContainer extends BaseTileLayer
     router: React.PropTypes.object.isRequired
     route: React.PropTypes.object.isRequired
 
+  constructor: ->
+    super
+    @state =
+      stops: undefined
+      coords: undefined
+
   createTile: (coords, done) =>
     tile = new TileContainer(coords, done, @props)
-    tile.onStopClicked = (stops, coords) =>
+    tile.onSelectableTargetClicked = (selectableTargets, coords) =>
       if @props.disableMapTracking
         @props.disableMapTracking()
       @setState
-        stops: stops
+        selectableTargets: selectableTargets
         coords: coords
     tile.el
 
@@ -39,6 +45,10 @@ class TileLayerContainer extends BaseTileLayer
 
   componentDidUpdate: ->
     @refs.popup?._leafletElement.openOn(@props.map)
+
+  selectRow: (option) =>
+    @setState
+      selectableTargets: [option]
 
   render: () ->
     StopMarkerPopupWithContext = provideContext StopMarkerPopup,
@@ -68,8 +78,8 @@ class TileLayerContainer extends BaseTileLayer
       autoPanPaddingTopLeft: [5, 125]
       className: "popup"
 
-    if @state?.stops.length == 1
-      if @state.stops[0].layer == "stop"
+    if @state?.selectableTargets?.length == 1
+      if @state.selectableTargets[0].layer == "stop"
         <Popup
           options={popupOptions}
           latlng={@state.coords}
@@ -77,7 +87,7 @@ class TileLayerContainer extends BaseTileLayer
           <Relay.RootContainer
             Component={StopMarkerPopup}
             route={new queries.StopRoute(
-              stopId: @state.stops[0].feature.properties.gtfsId
+              stopId: @state.selectableTargets[0].feature.properties.gtfsId
               date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
             )}
             renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
@@ -88,14 +98,14 @@ class TileLayerContainer extends BaseTileLayer
           options={popupOptions}
           latlng={@state.coords}
           ref="popup">
-          <CityBikePopupWithContext station={@state.stops[0].feature.properties} coords={@state.coords} context={@context}/>
+          <CityBikePopupWithContext station={@state.selectableTargets[0].feature.properties} coords={@state.coords} context={@context}/>
         </Popup>
-    else if @state?.stops.length > 1
+    else if @state?.selectableTargets?.length > 1
       <Popup
         options={Object.assign {}, popupOptions, maxHeight: 220}
         latlng={@state.coords}
         ref="popup">
-        <MarkerSelectPopupWithContext options={@state.stops} context={@context}/>
+        <MarkerSelectPopupWithContext selectRow={@selectRow} options={@state.selectableTargets} context={@context}/>
       </Popup>
     else
       null

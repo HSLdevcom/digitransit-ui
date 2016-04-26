@@ -12,7 +12,7 @@ CardHeader = (props) ->
       <Icon className={cx "favourite", selected: props.favourite} img="icon-icon_star"/>
     </span>
     {props.children}
-    <span className={props.headingStyle || "h4"}>{props.name} ›</span>
+    <span className={props.headingStyle || "h4 link-color"}>{props.name} ›</span>
     <p className="sub-header-h4">{props.description}</p>
   </div>
 
