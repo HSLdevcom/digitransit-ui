@@ -1,4 +1,5 @@
 flatten = require 'lodash/flatten'
+config  = require '../../../config'
 
 class Tile
   constructor: (@coords, done, @props) ->
@@ -9,10 +10,18 @@ class Tile
     @eventratio = @ratio * @scaleratio
     @el = @createElement()
 
-    if @coords.z < 14 or !@el.getContext
+    if @coords.z < config.markersMinZoom or !@el.getContext
       return
     @ctx = @el.getContext '2d'
-    @layers = @props.layers.map (Layer) =>
+
+    @layers = @props.layers.filter (Layer) =>
+      if Layer.name == "Stops" && @coords.z >= config.stopsMinZoom
+        true
+      else if Layer.name == "CityBikes" && @coords.z >= config.cityBike.cityBikeMinZoom
+        true
+      else
+        false
+    .map (Layer) =>
       new Layer(this)
     Promise.all(@layers.map (layer) -> layer.promise).then () =>
       done(null, @el)
