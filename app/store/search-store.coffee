@@ -8,12 +8,16 @@ class SearchStore extends Store
 
   saveSuggestionsResult: (suggestions) ->
     @suggestions = suggestions
-    @emitChange()
+    @emitChange({action: "suggestions", data: suggestions})
+
+  openDialog: (tab) ->
+    @emitChange({action: "open", data: tab})
 
   getSuggestions: () ->
     return @suggestions
 
   @handlers:
     "SuggestionsResult": 'saveSuggestionsResult'
+    "OpenDialog": 'openDialog'
 
 module.exports = SearchStore

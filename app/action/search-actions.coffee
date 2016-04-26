@@ -19,10 +19,6 @@ module.exports.saveSearch = (actionContext, endpoint) ->
 module.exports.closeSearch = (actionContext) ->
   actionContext.dispatch 'CloseSearch'
 
-sort = (features) ->
-  sortBy features, (feature) ->
-    config.autoSuggest.sortOrder[feature.properties.layer] || config.autoSuggest.sortOthers
-
 uniq = (features) ->
   uniqWith features, (feat1, feat2) ->
     SuggestionUtils.getLabel(feat1.properties) == SuggestionUtils.getLabel(feat2.properties) # or perhaps coords instead?
@@ -192,7 +188,6 @@ executeSearch = (actionContext, params) ->
     .then addCurrentPositionIfEmpty
     .then (suggestions) -> addFavouriteLocations(favouriteLocations, suggestions, input)
     .then (suggestions) -> addOldSearches(oldSearches, suggestions, input)
-    .then sort
     .then uniq
     .then (suggestions) ->
       processResults actionContext, suggestions
@@ -215,3 +210,6 @@ search =
 
 module.exports.executeSearch = (actionContext, input) ->
   search(actionContext, input)
+
+module.exports.openDialog = (actionContext, tab) ->
+  actionContext.dispatch 'OpenDialog', tab

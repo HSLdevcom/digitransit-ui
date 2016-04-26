@@ -1,10 +1,7 @@
 React                 = require 'react'
-Icon                  = require '../../icon/icon'
-Link                  = require 'react-router/lib/Link'
 {FormattedMessage}    = require 'react-intl'
 RouteDestination      = require '../../departure/route-destination'
 routeCompare          = require '../../../util/route-compare'
-{intlShape, FormattedMessage} = require 'react-intl'
 
 getName = (p) ->
   if p.shortName
@@ -13,8 +10,8 @@ getName = (p) ->
     </span>
   else null
 
-SelectStopRow = ({patterns, gtfsId, type, name}, {intl}) ->
-  patternData = JSON.parse(patterns).sort(routeCompare)
+SelectStopRow = (props) ->
+  patternData = JSON.parse(props.patterns).sort(routeCompare)
 
   patterns = []
   patterns.push(
@@ -33,7 +30,7 @@ SelectStopRow = ({patterns, gtfsId, type, name}, {intl}) ->
 
   <div className="no-margin">
     <hr className="no-margin"/>
-    <Link className="no-margin" to="/pysakit/#{gtfsId}">
+    <div className="no-margin cursor-pointer" onClick={props.selectRow}>
       <div className="left padding-vertical-normal" style={width: 40}>
         <svg
           xmlns="http://www.w3.org/svg/2000"
@@ -41,7 +38,7 @@ SelectStopRow = ({patterns, gtfsId, type, name}, {intl}) ->
           width="30"
           height="30"
           style={position: "relative", left: 5}
-          className={type.toLowerCase() + " left"}
+          className={props.type.toLowerCase() + " left"}
         >
           <circle
             r="7"
@@ -54,13 +51,12 @@ SelectStopRow = ({patterns, gtfsId, type, name}, {intl}) ->
         </svg>
       </div>
       <div className="left padding-vertical-normal" style={width: "calc(100% - 40px)"}>
-        <span className="h4 no-margin">{name} ›</span>
+        <span className="h4 no-margin link-color">{props.name} ›</span>
         {patterns}
       </div>
-    </Link>
+    </div>
   </div>
 
-SelectStopRow.contextTypes =
-  intl: intlShape.isRequired
+SelectStopRow.displayName = "SelectStopRow"
 
 module.exports = SelectStopRow

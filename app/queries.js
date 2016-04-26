@@ -929,6 +929,7 @@ var ItineraryPlanContainerFragments = {
             }
             trip {
               gtfsId
+              tripHeadsign
             }
           }
           ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}

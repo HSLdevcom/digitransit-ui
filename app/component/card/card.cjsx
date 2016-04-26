@@ -22,7 +22,7 @@ class Card extends React.Component
 
   render: ->
 
-    <div className={cx "card", "cursor-pointer", @props.className}>
+    <div className={cx "card", @props.className}>
       {@props.children}
     </div>
 

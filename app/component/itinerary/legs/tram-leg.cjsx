@@ -18,8 +18,9 @@ class TramLeg extends React.Component
         id={"tram-with-route-number"}
         values={{
           routeNumber: @props.leg.route?.shortName
+          headSign: @props.leg.trip?.tripHeadsign
           }}
-        defaultMessage={"Tram {routeNumber}"}/>
+        defaultMessage={"Tram {routeNumber} {headSign}"}/>
     </TransitLeg>
 
 

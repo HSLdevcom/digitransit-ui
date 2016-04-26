@@ -8,8 +8,12 @@ CityBikeCard          = require '../../city-bike/city-bike-card'
 Example               = require '../../documentation/example-data'
 ComponentUsageExample = require '../../documentation/component-usage-example'
 {getRoutePath}        = require '../../../util/path'
+config                = require '../../../config'
 
 class CityBikePopup extends React.Component
+
+  @contextTypes:
+    getStore: React.PropTypes.func.isRequired
 
   @description:
     <div>
@@ -38,12 +42,12 @@ class CityBikePopup extends React.Component
       <CityBikeCard
         className={"padding-small"}
         station={@props.station}>
-        <CityBikeContent station={@props.station}/>
+        <CityBikeContent lang={@context.getStore('PreferencesStore').getLanguage()} station={@props.station}/>
       </CityBikeCard>
       <MarkerPopupBottom routeHere={routePath}>
-        <NotImplementedLink nonTextLink={true} name={<FormattedMessage id='extra-info' defaultMessage='More info' />}>
-          <Icon img={'icon-icon_info'}/> Lisätietoa<br/>
-        </NotImplementedLink>
+        <a href={config.cityBike.infoUrl[@context.getStore('PreferencesStore').getLanguage()]}>
+          <Icon img={'icon-icon_info'}/> <FormattedMessage id='extra-info' defaultMessage='More info' /><br/>
+        </a>
       </MarkerPopupBottom>
     </div>
 

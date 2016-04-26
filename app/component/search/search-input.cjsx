@@ -34,9 +34,10 @@ class SearchInput extends React.Component
   componentWillUnmount: =>
     @context.getStore('SearchStore').removeChangeListener @onSearchChange
 
-  onSearchChange: (props) =>
-    @setState "suggestions": @context.getStore('SearchStore').getSuggestions(), focusedItemIndex: 0,
-      () => focusItem(0)
+  onSearchChange: (payload) =>
+    if payload.action == "suggestions"
+      @setState "suggestions": payload.data, focusedItemIndex: 0,
+        () => focusItem(0)
 
   handleOnMouseEnter: (event, eventProps) =>
     if typeof eventProps.itemIndex != 'undefined'
