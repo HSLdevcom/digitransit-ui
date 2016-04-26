@@ -24,9 +24,7 @@ class TileLayerContainer extends BaseTileLayer
 
   constructor: (props) ->
     super
-    scaleratio = window?.devicePixelRatio or 1
-    tileSize = (props.tileSize or 256) * scaleratio
-    @merc = new SphericalMercator({size: tileSize})
+    @merc = new SphericalMercator({size: (props.tileSize or 256)})
     @state =
       stops: undefined
       coords: undefined

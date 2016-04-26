@@ -6,7 +6,6 @@ class Tile
     @scaleratio = window?.devicePixelRatio or 1
     @tileSize = (@props.tileSize or 256) * @scaleratio
     @ratio = @extent / @tileSize
-    @eventratio = @ratio * @scaleratio
     @el = @createElement()
 
     if @coords.z < 14 or !@el.getContext
@@ -27,7 +26,7 @@ class Tile
 
   onMapClick: (e, point) =>
     if @layers
-      localPoint = [point[0] % @tileSize, point[1] % @tileSize]
+      localPoint = [(point[0] * @scaleratio) % @tileSize, (point[1] * @scaleratio) % @tileSize]
 
       features = flatten @layers.map (layer) -> layer.features?.map (feature) ->
         layer: layer.name
@@ -36,8 +35,8 @@ class Tile
       nearest = features.filter (feature) =>
         return false if !feature
         g = feature.feature.loadGeometry()[0][0]
-        dist = Math.sqrt((localPoint[0] - (g.x / @eventratio)) ** 2 + (localPoint[1] - (g.y / @eventratio)) ** 2)
-        if dist < 17 then true else false
+        dist = Math.sqrt((localPoint[0] - (g.x / @ratio)) ** 2 + (localPoint[1] - (g.y / @ratio)) ** 2)
+        if dist < (17 * @scaleratio) then true else false
 
       if nearest.length == 0
         @onSelectableTargetClicked false
