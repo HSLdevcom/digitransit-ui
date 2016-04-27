@@ -15,5 +15,5 @@ echo -e "module.exports =\n  COMMIT_ID: \""`git rev-parse HEAD`"\"\n  BUILD_TIME
 docker build --tag="$ORG/$DOCKER_IMAGE:$DOCKER_TAG" .
 docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_AUTH
 docker push $ORG/$DOCKER_IMAGE:$DOCKER_TAG
-docker tag $ORG/$DOCKER_IMAGE:$DOCKER_TAG $ORG/$DOCKER_IMAGE:latest
+docker tag -f $ORG/$DOCKER_IMAGE:$DOCKER_TAG $ORG/$DOCKER_IMAGE:latest
 docker push $ORG/$DOCKER_IMAGE:latest
