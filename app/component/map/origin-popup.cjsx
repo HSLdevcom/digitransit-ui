@@ -84,7 +84,7 @@ class OriginPopup extends React.Component
           className: "origin-popup"}>
           <div onClick={() =>
             @context.executeAction SearchActions.openDialog, "origin"}>
-            <div className="h4 bold uppercase">{msg}<Icon className="right-arrow" img={'icon-icon_arrow-collapse--right'}/></div>
+            <div className="origin-popup">{msg}<Icon className="right-arrow" img={'icon-icon_arrow-collapse--right'}/></div>
             <div>
               <div className="origin-popup-name">{@state.msg}</div>
               <div className="shade-to-white"></div>
