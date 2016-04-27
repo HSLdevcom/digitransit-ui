@@ -35,6 +35,16 @@ class OriginDestinationBar extends React.Component
     @setState
       tabOpen: false
 
+  # TODO: This is pretty much copy pasted from search-main-container.
+  #       Perhaps some kind of higher level component is needed?
+  openSearch: (tab) =>
+    @setState
+      tabOpen: tab
+      () ->
+        setTimeout(
+          (() => @refs["searchInput"]?.refs.searchInput.refs.autowhatever?.refs.input?.focus()),
+          0) #try to focus, does not work on ios
+
   render: ->
     ownPosition = @context.intl.formatMessage
       id: 'own-position'
@@ -50,13 +60,13 @@ class OriginDestinationBar extends React.Component
         ""
 
     <div className="origin-destination-bar">
-      <div className="field-link" onClick={() => @setState(tabOpen: "origin")}>
+      <div className="field-link" onClick={() => @openSearch("origin")}>
         <span>{if @state.origin.useCurrentPosition then ownPosition else @state.origin.address}</span>
       </div>
       <div className="switch" onClick={() => @context.executeAction EndpointActions.swapEndpoints}>
         <span><Icon img="icon-icon_direction-b"/></span>
       </div>
-      <div className="field-link" onClick={() => @setState(tabOpen: "destination")}>
+      <div className="field-link" onClick={() => @openSearch("destination")}>
         <span>{if @state.destination.useCurrentPosition then ownPosition else @state.destination.address}</span>
       </div>
       <SearchModal
@@ -72,6 +82,7 @@ class OriginDestinationBar extends React.Component
           ref="searchTab"
           value="tab">
           <GeolocationOrInput
+            ref="searchInput"
             initialValue = {initialValue}
             type="endpoint"
             endpoint={@state[@state.tabOpen]}
