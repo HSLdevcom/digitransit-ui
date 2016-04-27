@@ -44,6 +44,7 @@ class CityBikes
       (geom[0][0].x / @tile.ratio) - citybikeImageSize / 2,
       (geom[0][0].y / @tile.ratio) - citybikeImageSize / 2
 
-CityBikes.getName = () -> "citybike"
+  @getName = () -> "citybike"
+
 
 module.exports = CityBikes

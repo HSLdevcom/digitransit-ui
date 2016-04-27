@@ -61,6 +61,7 @@ class Stops
         @tile.ctx.arc geom[0][0].x / @tile.ratio, geom[0][0].y / @tile.ratio, hubRadius * @tile.scaleratio, 0, Math.PI * 2
         @tile.ctx.fill()
 
-Stops.getName = () -> "stop"
+  @getName = () -> "stop"
+
 
 module.exports = Stops
