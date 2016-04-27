@@ -48,21 +48,19 @@ class Splash extends React.Component
           <div className="spinner-loader"/>
         </div>
         <div className="bottom">
-          { if @props?.state == "load"
-              <h2><FormattedMessage id='loading' defaultMessage='Loading...' /></h2>
-            else
-              <div><h2><FormattedMessage id='searching-position' defaultMessage='Searching position...' /></h2>
-                <FormattedMessage id="or" defaultMessage="Or"/><br/>
-                <span className="cursor-pointer" onClick={() =>
-                  @setState
-                    tabOpen: "search"
-                    searchModalIsOpen: true}>
-                  <FormattedMessage id="give-origin"  defaultMessage="Give origin"/><br/><br/>
-                </span>
-                <span className="cursor-pointer" onClick={() ->
-                  @context.executeAction EndpointActions.setOriginToDefault
-                }><FormattedMessage id='skip-positioning' defaultMessage='Skip' /></span>
-              </div>
+          { if @props?.state == "load" then <h2><FormattedMessage id='loading' defaultMessage='Loading...' /></h2>else
+            <div><h2><FormattedMessage id='searching-position' defaultMessage='Searching position...' /></h2>
+              <FormattedMessage id="or" defaultMessage="Or"/><br/>
+              <span className="cursor-pointer" onClick={() =>
+                @setState
+                  tabOpen: "search"
+                  searchModalIsOpen: true}>
+                <FormattedMessage id="give-origin"  defaultMessage="Give origin"/><br/><br/>
+              </span>
+              <span className="cursor-pointer" onClick={() =>
+                @context.executeAction EndpointActions.setOriginToDefault
+              }><FormattedMessage id='skip-positioning' defaultMessage='Skip' /></span>
+            </div>
           }
         </div>
         <SearchModal

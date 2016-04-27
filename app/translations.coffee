@@ -410,7 +410,7 @@ translations =
     'choose-stop': 'TODO'
     'loading': 'loading'
     'skip-positioning': 'skip-positioning'
-'fr':
+  'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
     'route-page.title': "Ligne {route_short_name}"

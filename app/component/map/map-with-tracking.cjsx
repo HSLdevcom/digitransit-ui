@@ -68,7 +68,7 @@ class MapWithTracking extends React.Component
 
   onPositionChange: (status) =>
     if @state.mapTracking
-        @forceUpdate()
+      @forceUpdate()
 
   render: =>
 
