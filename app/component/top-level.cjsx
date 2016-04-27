@@ -2,7 +2,7 @@ React  = require 'react'
 Helmet = require 'react-helmet'
 meta   = require('../meta')
 configureMoment = require '../util/configure-moment'
-Splash = require '../page/splash.cjsx'
+Splash = require '../component/splash/splash.cjsx'
 
 class TopLevel extends React.Component
   @contextTypes:

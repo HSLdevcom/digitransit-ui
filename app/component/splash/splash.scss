@@ -1,0 +1,26 @@
+.splash {
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  z-index: 10000;
+  background-color: rgba(90,90,90,0.7);
+  line-height: 2em;
+
+  h2 {
+    color: $primary-font-color;
+    line-height: 0em;
+  }
+
+  > .top {
+    height:40%;
+  }
+  > .mid {
+    height: 80px;
+    display: block;
+  }
+  > .bottom {
+    color: $primary-font-color;
+    text-align: center;
+    height: calc (60% - 80);
+  }
+}
