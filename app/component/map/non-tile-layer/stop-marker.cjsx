@@ -48,6 +48,7 @@ class StopMarker extends React.Component
       icons={smallIconSvg: smallIconSvg, iconSvg: iconSvg, selectedIconSvg: selectedIconSvg}
       iconSizes={smallIconSvg: [8, 8], iconSvg: [18, 18], selectedIconSvg: [28, 28]}
       map={@props.map}
+      layerContainer={@props.layerContainer}
       id={@props.stop.gtfsId}
       renderName={@props.renderName}
       selected={@props.selected}

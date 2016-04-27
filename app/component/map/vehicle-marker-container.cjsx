@@ -77,6 +77,7 @@ class VehicleMarkerContainer extends React.Component
 
     @vehicles[id] =
       <Marker map={@props.map}
+              layerContainer={@props.layerContainer}
               key={id}
               position={lat: message.lat, lng: message.long}
               icon={@getVehicleIcon(message.mode, message.heading)}>

@@ -29,6 +29,7 @@ class Line extends React.Component
 
     objs = []
     objs.push <Polyline map={@props.map}
+                        layerContainer={@props.layerContainer}
                         key="halo"
                         ref="halo"
                         positions={@props.geometry}
@@ -36,6 +37,7 @@ class Line extends React.Component
                         weight={if @props.thin then 4 else 5}
                         interactive={false} />
     objs.push <Polyline map={@props.map}
+                        layerContainer={@props.layerContainer}
                         key="line"
                         ref="line"
                         positions={@props.geometry}

@@ -8,6 +8,7 @@ class LocationMarker extends React.Component
   render: ->
     <Marker
       map={@props.map}
+      layerContainer={@props.layerContainer}
       zIndexOffset=10
       position={@props.position}
       icon={L.divIcon(

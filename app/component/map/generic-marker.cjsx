@@ -62,6 +62,7 @@ class GenericMarker extends React.Component
 
   getMarker: ->
     <Marker map={@props.map}
+            layerContainer={@props.layerContainer}
             position={lat: @props.position.lat, lng: @props.position.lon}
             icon={@getIcon(
               @props.mode + (if @props.thin then " thin" else ""),
@@ -81,6 +82,7 @@ class GenericMarker extends React.Component
     unless @props.renderName
       return false
     <Marker map={@props.map}
+            layerContainer={@props.layerContainer}
             key={@props.name + "_text"}
             position={lat: @props.position.lat, lng: @props.position.lon}
             interactive={false}

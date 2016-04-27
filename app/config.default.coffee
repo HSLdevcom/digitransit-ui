@@ -1,5 +1,6 @@
 CONFIG = process.env.CONFIG or 'default'
-API_URL = process.env.API_URL or 'http://dev.digitransit.fi'
+API_URL = process.env.API_URL or 'http://api.digitransit.fi'
+MAP_URL = process.env.MAP_URL or 'http://api.digitransit.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
@@ -15,7 +16,7 @@ module.exports =
   URL:
     API_URL: "#{API_URL}"
     OTP: "#{API_URL}/routing/v1/routers/finland/"
-    MAP: "#{API_URL}/map/v1/hsl-map/"
+    MAP: "#{MAP_URL}/map/v1/hsl-map/"
     STOP_MAP: "#{API_URL}/map/v1/finland-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "ws://213.138.147.225:1883"
@@ -84,10 +85,11 @@ module.exports =
       fi: "https://www.hsl.fi/kaupunkipyörät"
       sv: "https://www.hsl.fi/sv/stadscyklar"
       en: "https://www.hsl.fi/en/citybikes"
-  # Lowest level when stop or terminal markers are rendered at all
-  stopsMinZoom: 15
+    cityBikeMinZoom: 14
+  # Lowest level for stops and terminals are rendered
+  stopsMinZoom: 14
   # Highest level when stops and terminals are still rendered as small markers
-  stopsSmallMaxZoom: 15
+  stopsSmallMaxZoom: 14
   # Highest level when terminals are still rendered instead of individual stops
   terminalStopsMaxZoom: 17
   colors:

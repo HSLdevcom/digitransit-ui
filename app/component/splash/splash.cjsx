@@ -9,7 +9,7 @@ PositionActions     = require '../../action/position-actions'
 EndpointActions     = require '../../action/endpoint-actions'
 SearchModal         = require '../search/search-modal'
 SearchInput         = require '../search/search-input'
-Tab                 = require 'material-ui/lib/tabs/tab'
+Tab                 = require('material-ui/Tabs/Tab').default
 {intlShape}         = require 'react-intl'
 FormattedMessage    = require('react-intl').FormattedMessage
 

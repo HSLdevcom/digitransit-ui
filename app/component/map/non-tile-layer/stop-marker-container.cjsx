@@ -31,6 +31,7 @@ class StopMarkerContainer extends React.Component
           {... data}
           hilightedStops={@props.hilightedStops}
           map={@props.map}
+          layerContainer={@props.layerContainer}
           minLat={minLat}
           minLon={minLon}
           maxLat={maxLat}

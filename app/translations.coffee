@@ -144,6 +144,8 @@ translations =
     'choose-stop': 'Valitse pysäkki'
     'loading': 'Ladataan...'
     'skip-positioning': 'Ohita'
+    'hour-short': 'h'
+    'minute-short': 'min'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'

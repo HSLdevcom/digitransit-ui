@@ -10,8 +10,8 @@ Icon               = require '../component/icon/icon'
 Map                = require '../component/map/map'
 {getRoutePath}     = require '../util/path'
 {locationToOTP}    = require '../util/otp-strings'
-Tabs               = require 'material-ui/lib/tabs/tabs'
-Tab                = require 'material-ui/lib/tabs/tab'
+Tabs               = require('material-ui/Tabs/Tabs').default
+Tab                = require('material-ui/Tabs/Tab').default
 
 class ItineraryPage extends React.Component
   @contextTypes:

@@ -57,6 +57,7 @@ class CityBikeMarker extends React.Component
       icons={smallIconSvg: smallIconSvg, iconSvg: @getCityBikeMediumIcon()}
       iconSizes={smallIconSvg: [8, 8], iconSvg: [20, 20]}
       map={@props.map}
+      layerContainer={@props.layerContainer}
       id={@props.station.id}
     >
       <CityBikePopupWithContext context={@context} coords={lat: @props.station.y, lng: @props.station.x} station={@props.station}/>

@@ -2,7 +2,7 @@ React                       = require 'react'
 Icon                        = require '../icon/icon'
 CustomizeSearch             = require '../summary/customize-search'
 BackButton                  = require './back-button'
-LeftNav                     = require 'material-ui/lib/left-nav'
+Drawer                      = require('material-ui/Drawer').default
 Link                        = require 'react-router/lib/Link'
 FormattedMessage            = require('react-intl').FormattedMessage
 {supportsHistory}           = require 'history/lib/DOMUtils'
@@ -44,9 +44,9 @@ class SummaryNavigation extends React.Component
 
   render: ->
     <div className="fullscreen">
-      <LeftNav className="offcanvas" disableSwipeToOpen=true openRight=true ref="rightNav" docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
+      <Drawer className="offcanvas" disableSwipeToOpen=true openSecondary=true docked={false} open={@getOffcanvasState()} onRequestChange={@onRequestChange}>
         <CustomizeSearch/>
-      </LeftNav>
+      </Drawer>
 
       <div className="fullscreen grid-frame">
         <nav className="top-bar">
@@ -62,7 +62,7 @@ class SummaryNavigation extends React.Component
             <Icon img={'icon-icon_ellipsis'}/>
           </div>
         </nav>
-        <section ref="content" className="content">
+        <section className="content">
           <OriginDestinationBar/>
           <TimeSelectors/>
           {@props.children}
