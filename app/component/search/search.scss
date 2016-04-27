@@ -204,26 +204,13 @@ div.search-modal {
   }
 
   .search-header__tabs-root {
-      > div:first-child {
+    > div:first-child {
       background-color: $background-color !important;
       line-height: 18px !important;
       @extend .search-header-width-fix;
     }
     > div:nth-child(2) { //hack, modify tabs in material ui to fix
       @extend .search-header-width-fix;
-    }
-    > div:nth-child(3) {
-      height: calc(100% - #{$search-form-input-height});
-      > div {
-        height: 95%;
-        > div {
-          height: 100%;
-          > div:nth-child(1) {
-            height: 100%;
-          }
-        }
-
-      }
     }
     height: calc(100% - 30px)
   }
