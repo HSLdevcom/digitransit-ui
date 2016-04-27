@@ -25,7 +25,7 @@ suite('Search', () => {
       browser.expect.element('#search-origin').to.be.visible
         .before(browser.ELEMENT_VISIBLE_TIMEOUT);
       browser.expect.element('#search-origin').value.to
-        .contain('Kamppi (Kauposa) 0, Helsinki');
+        .contain('Kamppi, long distance traffic, Helsinki');
     });
 
     it('Destination should be set to kamppi when kamppi is entered to destination,' +
