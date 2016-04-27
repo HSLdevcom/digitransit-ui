@@ -7,6 +7,8 @@
 }
 
 .time-selectors {
+  @include font-book;
+
   background-color: $secondary-color;
   height: 40px;
   padding: 0 10px;
@@ -43,7 +45,8 @@
   }
 
   .time {
-    width: 5em;
+    @include font-book;
+    width: 8em;
     text-align: left;
   }
 
