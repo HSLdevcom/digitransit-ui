@@ -45,6 +45,11 @@ class MapWithTracking extends React.Component
     @context.getStore('PositionStore').removeChangeListener @onPositionChange
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
 
+  componentDidMount: =>
+    if @state.useZoomedIn
+      @setState useZoomedIn: false
+
+
   disableMapTracking: =>
     if @state.mapTracking
       @setState
@@ -83,7 +88,6 @@ class MapWithTracking extends React.Component
 
     if @state.useZoomedIn
       zoom = 16
-      @setState useZoomedIn: false
 
     <Map
       className="fullscreen"
