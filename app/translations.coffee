@@ -261,7 +261,7 @@ translations =
     'search': 'Sök'
     'in-addition': 'Även'
     'choose-stop': 'Välj hållplats'
-    'loading': 'loading'
+    'loading': 'Laddar'
     'skip-positioning': 'skip-positioning'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
