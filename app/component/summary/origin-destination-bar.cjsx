@@ -50,13 +50,13 @@ class OriginDestinationBar extends React.Component
         ""
 
     <div className="origin-destination-bar">
-      <div className="field-link" onClick={() => @setState(tabOpen: "origin")}>
+      <div className="field-link dotted-link" onClick={() => @setState(tabOpen: "origin")}>
         <span>{if @state.origin.useCurrentPosition then ownPosition else @state.origin.address}</span>
       </div>
       <div className="switch" onClick={() => @context.executeAction EndpointActions.swapEndpoints}>
         <span><Icon img="icon-icon_direction-b"/></span>
       </div>
-      <div className="field-link" onClick={() => @setState(tabOpen: "destination")}>
+      <div className="field-link dotted-link" onClick={() => @setState(tabOpen: "destination")}>
         <span>{if @state.destination.useCurrentPosition then ownPosition else @state.destination.address}</span>
       </div>
       <SearchModal
