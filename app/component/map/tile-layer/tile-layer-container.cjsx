@@ -9,6 +9,7 @@ provideContext = require 'fluxible-addons-react/provideContext'
 StopMarkerPopup = require '../popups/stop-marker-popup'
 MarkerSelectPopup = require './marker-select-popup'
 CityBikePopup = require '../popups/city-bike-popup'
+SphericalMercator = require 'sphericalmercator'
 
 TileContainer = require './tile-container'
 
@@ -21,8 +22,9 @@ class TileLayerContainer extends BaseTileLayer
     router: React.PropTypes.object.isRequired
     route: React.PropTypes.object.isRequired
 
-  constructor: ->
+  constructor: (props) ->
     super
+    @merc = new SphericalMercator({size: (props.tileSize or 256)})
     @state =
       stops: undefined
       coords: undefined
@@ -38,9 +40,15 @@ class TileLayerContainer extends BaseTileLayer
     tile.el
 
   componentDidMount: () ->
-    props = omit @props, 'map'
-    @leafletElement = new L.GridLayer(props)
-    @leafletElement.createTile = @createTile
+    Layer = L.GridLayer.extend({createTile: @createTile})
+    @leafletElement = new Layer(omit @props, 'map')
+    # Propagate events from map to this layer
+    @props.map.addEventParent @leafletElement
+    @leafletElement.on 'click', (e) =>
+      Object.keys(@leafletElement._tiles)
+        .filter((key) =>  @leafletElement._tiles[key].active)
+        .filter((key) => @leafletElement._keyToBounds(key).contains(e.latlng))
+        .forEach((key) => @leafletElement._tiles[key].el.onMapClick(e, @merc.px([e.latlng.lng, e.latlng.lat], Number(key.split(':')[2]) + @props.zoomOffset )))
     super
 
   componentDidUpdate: ->
@@ -80,7 +88,7 @@ class TileLayerContainer extends BaseTileLayer
 
     if @state?.selectableTargets?.length == 1
       if @state.selectableTargets[0].layer == "stop"
-        <Popup
+        popup = <Popup
           options={popupOptions}
           latlng={@state.coords}
           ref="popup">
@@ -94,21 +102,25 @@ class TileLayerContainer extends BaseTileLayer
             renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}/>
         </Popup>
       else
-        <Popup
+        popup = <Popup
           options={popupOptions}
           latlng={@state.coords}
           ref="popup">
           <CityBikePopupWithContext station={@state.selectableTargets[0].feature.properties} coords={@state.coords} context={@context}/>
         </Popup>
     else if @state?.selectableTargets?.length > 1
-      <Popup
+      popup = <Popup
         options={Object.assign {}, popupOptions, maxHeight: 220}
         latlng={@state.coords}
         ref="popup">
         <MarkerSelectPopupWithContext selectRow={@selectRow} options={@state.selectableTargets} context={@context}/>
       </Popup>
     else
-      null
+      popup = false
+
+    <div style={display: 'none'}>
+      {popup}
+    </div>
 
 
 module.exports = TileLayerContainer

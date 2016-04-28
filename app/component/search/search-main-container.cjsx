@@ -5,7 +5,7 @@ FakeSearchWithButton = require './fake-search-with-button'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 SearchModal      = require './search-modal'
-Tab              = require 'material-ui/lib/tabs/tab'
+Tab              = require('material-ui/Tabs/Tab').default
 FakeSearchBar    = require './fake-search-bar'
 GeolocationOrInput = require './geolocation-or-input'
 

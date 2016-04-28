@@ -234,6 +234,11 @@ div.leaflet-marker-icon.vehicle-icon {
 }
 
 div.origin-popup {
+  @include font-bold;
+  text-transform: uppercase;
+  color: $gray-blue;
+  font-size: 11px;
+
   cursor: pointer;
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
@@ -247,6 +252,12 @@ div.origin-popup {
           height:9px;
       }
     }
+  }
+  .origin-popup-name {
+      @include font-book;
+      text-transform: none;
+      color: $black;
+      font-size: 13px;
   }
 
   .shade-to-white {

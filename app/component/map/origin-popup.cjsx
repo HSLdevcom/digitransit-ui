@@ -22,6 +22,8 @@ class OriginPopup extends React.Component
   componentDidMount: =>
     @context.getStore('EndpointStore').addChangeListener @onEndpointChange
     @context.getStore('PositionStore').addChangeListener @onPositionChange
+    if @context.getStore('EndpointStore').isPendingPopup()
+      @showEndpoint()
 
   componentWillUnmount: =>
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
@@ -50,18 +52,21 @@ class OriginPopup extends React.Component
         msg: msg
         yOffset: 0
         position: [coordinates.lat, coordinates.lon],
-        () =>
-          @display()
+        @display
+
+  showEndpoint: () =>
+    origin = @context.getStore('EndpointStore').getOrigin()
+    if origin != undefined
+      @setState
+        yOffset: -15
+        msg: origin.address
+        position: origin,
+        @display
+
 
   onEndpointChange: (endPointChange) =>
     if endPointChange in ['set-origin']
-      origin = @context.getStore('EndpointStore').getOrigin()
-      if origin != undefined
-        @setState
-          yOffset: -15
-          msg: origin.address
-          position: origin,
-          @display
+      @showEndpoint()
     else if endPointChange in ['origin-use-current']
       @showCurrentPosition()
 
@@ -84,7 +89,7 @@ class OriginPopup extends React.Component
           className: "origin-popup"}>
           <div onClick={() =>
             @context.executeAction SearchActions.openDialog, "origin"}>
-            <div className="h4 bold uppercase">{msg}<Icon className="right-arrow" img={'icon-icon_arrow-collapse--right'}/></div>
+            <div className="origin-popup">{msg}<Icon className="right-arrow" img={'icon-icon_arrow-collapse--right'}/></div>
             <div>
               <div className="origin-popup-name">{@state.msg}</div>
               <div className="shade-to-white"></div>

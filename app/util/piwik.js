@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*!
  * Piwik - free/libre analytics platform
  *

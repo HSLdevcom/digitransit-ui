@@ -196,3 +196,7 @@ $border-radius-rounded: 30px;
     height: 24px;
     color: $gray-blue;
 }
+
+.dotted-link {
+  border-bottom: 2px dotted rgba(255,255,255,0.5);
+}

@@ -103,7 +103,7 @@ class SummaryPage extends React.Component
           walkBoardCost: search.walkBoardCost
           minTransferTime: search.minTransferTime
           walkSpeed: search.walkSpeed + 0.000099
-          maxWalkDistance: search.maxWalkDistance
+          maxWalkDistance: search.maxWalkDistance + 0.1
           wheelchair: search.wheelchair
           preferred:
             agencies: search.preferredAgencies

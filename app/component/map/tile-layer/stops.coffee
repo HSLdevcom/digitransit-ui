@@ -28,7 +28,6 @@ getColor = memoize (mode) -> getSelector(".#{mode?.toLowerCase()}")?.style.color
 
 class Stops
   constructor: (@tile) ->
-    @name = "stop"
     @promise = fetch("#{config.URL.STOP_MAP}#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
       if res.status != 200
         return
@@ -61,6 +60,8 @@ class Stops
         @tile.ctx.fillStyle = '#fff'
         @tile.ctx.arc geom[0][0].x / @tile.ratio, geom[0][0].y / @tile.ratio, hubRadius * @tile.scaleratio, 0, Math.PI * 2
         @tile.ctx.fill()
+
+  @getName = () -> "stop"
 
 
 module.exports = Stops

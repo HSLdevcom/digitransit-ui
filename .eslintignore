@@ -1,0 +1,6 @@
+**/*{.,-}min.js
+node_modules
+_static
+static
+build
+webpack.config.js
