@@ -2,20 +2,30 @@ React               = require 'react'
 Tab                 = require('material-ui/Tabs/Tab').default
 GeolocationOrInput  = require "./geolocation-or-input"
 EndpointActions     = require '../../action/endpoint-actions'
+SearchActions       = require '../../action/search-actions'
 SearchModal         = require './search-modal'
 {intlShape}         = require 'react-intl'
 
 class OneTabSearchModal extends React.Component
 
   @contextTypes:
+    getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
     intl: intlShape.isRequired
+
 
   componentDidUpdate: (prevProps, prevState) ->
     if @props.modalIsOpen
       setTimeout(
         (() => @refs.geolocationOrInput?.refs.searchInput.refs.autowhatever?.refs.input?.focus()),
         0) #try to focus, does not work on ios
+
+      if !@props.endpoint
+        @context.executeAction SearchActions.executeSearch, {input: "", type: "endpoint"}
+      else if @props.endpoint.target == 'origin'
+        @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getOrigin()?.address || "", type: "endpoint"}
+      else if @props.endpoint.target == 'destination'
+        @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}
 
   render: ->
 
