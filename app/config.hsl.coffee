@@ -81,7 +81,6 @@ module.exports =
     locationAware: true
   cityBike:
     showCityBikes: true
-    showBikesAvailable: false
     useUrl:
       fi: "https://www.hsl.fi/citybike"
       sv: "https://www.hsl.fi/sv/citybike"
