@@ -51,15 +51,15 @@ class Splash extends React.Component
         </div>
         <div className="bottom">
           { if @props?.state == "load" then <h2><FormattedMessage id='loading' defaultMessage='Loading...' /></h2>else
-            <div><h2><FormattedMessage id='searching-position' defaultMessage='Searching position...' /></h2>
+            <div><h2 className="state"><FormattedMessage id='searching-position' defaultMessage='Searching position...' /></h2>
               <FormattedMessage id="or" defaultMessage="Or"/><br/>
-              <span className="cursor-pointer" onClick={() =>
+              <span className="cursor-pointer dotted-link medium" onClick={() =>
                 @setState
                   tabOpen: "search"
                   searchModalIsOpen: true}>
                 <FormattedMessage id="give-origin"  defaultMessage="Give origin"/><br/><br/>
               </span>
-              <span className="cursor-pointer" onClick={() =>
+              <span className="cursor-pointer dotted-link medium" onClick={() =>
                 @context.executeAction EndpointActions.setOriginToDefault
               }><FormattedMessage id='skip-positioning' defaultMessage='Skip' /></span>
             </div>

@@ -2,11 +2,13 @@
   position: absolute;
   width: 100%;
   top: 40px;
-  background-color: rgba(0,0,0,0.64);
+  background-color: rgba(0,0,0,0.5);
   line-height: 2em;
   height: calc(100% - 40px);
+  @include font-book
 
-  h2 {
+  h2.state {
+    @include font-medium
     color: $primary-font-color;
     line-height: 0em;
   }
@@ -22,6 +24,9 @@
     color: $primary-font-color;
     text-align: center;
     height: calc(65% - 100px - 40px);
+    .medium {
+      @include font-medium
+    }
   }
 }
 
