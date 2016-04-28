@@ -262,7 +262,7 @@ translations =
     'in-addition': 'Även'
     'choose-stop': 'Välj hållplats'
     'loading': 'Laddar'
-    'skip-positioning': 'skip-positioning'
+    'skip-positioning': 'Hoppa över'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
