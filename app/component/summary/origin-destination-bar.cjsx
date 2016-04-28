@@ -67,7 +67,6 @@ class OriginDestinationBar extends React.Component
         <span>{if @state.destination.useCurrentPosition then ownPosition else @state.destination.address}</span>
       </div>
       <OneTabSearchModal
-        ref="oneTabModal"
         modalIsOpen={@state.tabOpen}
         closeModal={@closeModal}
         tabLabel={@state.tabOpen or "origin"}
