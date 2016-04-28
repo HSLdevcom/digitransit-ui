@@ -38,11 +38,13 @@ class Splash extends React.Component
 
     <div className="fullscreen">
       <IndexNavigation className="fullscreen">
-        <SearchMainContainer/>
-        <FrontPagePanel/>
+        <div className="fullscreen splash-map">
+          <SearchMainContainer/>
+          <FrontPagePanel/>
+        </div>
       </IndexNavigation>
 
-      <div className="fullscreen splash">
+      <div className="splash">
         <div className="top"/>
         <div className="mid">
           <div className="spinner-loader"/>
