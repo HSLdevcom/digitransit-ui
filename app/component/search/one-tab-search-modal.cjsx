@@ -26,7 +26,7 @@ class OneTabSearchModal extends React.Component
         ref="searchTab"
         value="tab">
         <GeolocationOrInput
-          ref="searchInput"
+          ref="geolocationOrInput"
           initialValue={@props.initialValue}
           type="endpoint"
           endpoint={@props.endpoint}

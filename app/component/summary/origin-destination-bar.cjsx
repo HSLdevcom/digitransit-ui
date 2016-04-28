@@ -43,7 +43,7 @@ class OriginDestinationBar extends React.Component
       tabOpen: tab
       () ->
         setTimeout(
-          (() => @refs.oneTabModal?.refs.searchInput?.refs.searchInput.refs.autowhatever?.refs.input?.focus()),
+          (() => @refs.oneTabModal?.refs.geolocationOrInput?.refs.searchInput.refs.autowhatever?.refs.input?.focus()),
           0) #try to focus, does not work on ios
 
   render: ->
