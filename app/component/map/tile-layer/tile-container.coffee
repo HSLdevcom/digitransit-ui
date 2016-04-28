@@ -39,7 +39,7 @@ class Tile
       localPoint = [(point[0] * @scaleratio) % @tileSize, (point[1] * @scaleratio) % @tileSize]
 
       features = flatten @layers.map (layer) -> layer.features?.map (feature) ->
-        layer: layer.getName()
+        layer: layer.constructor.getName()
         feature: feature
 
       nearest = features.filter (feature) =>
