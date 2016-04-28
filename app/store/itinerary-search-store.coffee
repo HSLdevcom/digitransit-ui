@@ -135,6 +135,9 @@ class ItinerarySearchStore extends Store
   toggleCitybikeState: ->
     @citybikeState = !@citybikeState
     @emitChange()
+  forceCitybikeState: ->
+    @citybikeState = true
+    @emitChange()
   toggleWalkState: ->
     @clearRadioButtons()
     @walkState = !@walkState
@@ -213,6 +216,7 @@ class ItinerarySearchStore extends Store
     "ToggleItinerarySubwayState": 'toggleSubwayState'
     "ToggleItineraryFerryState": 'toggleFerryState'
     "ToggleItineraryCitybikeState": 'toggleCitybikeState'
+    "ForceItineraryCitybikeState": 'forceCitybikeState'
     "ToggleItineraryWalkState": 'toggleWalkState'
     "ToggleItineraryBicycleState": 'toggleBicycleState'
     "ToggleItineraryCarState": 'toggleCarState'

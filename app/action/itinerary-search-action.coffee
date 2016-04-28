@@ -116,6 +116,11 @@ module.exports.toggleCitybikeState = (actionContext)  ->
     null,
     actionContext.executeAction itinerarySearchRequest
 
+module.exports.forceCitybikeState = (actionContext)  ->
+  actionContext.dispatch "ForceItineraryCitybikeState",
+    null,
+    actionContext.executeAction itinerarySearchRequest
+
 module.exports.toggleAirplaneState = (actionContext)  ->
   actionContext.dispatch "ToggleItineraryAirplaneState",
     null,
