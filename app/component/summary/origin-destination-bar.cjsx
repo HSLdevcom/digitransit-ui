@@ -5,7 +5,7 @@ GeolocationOrInput  = require '../search/geolocation-or-input'
 Tab                 = require('material-ui/Tabs/Tab').default
 {intlShape}         = require 'react-intl'
 Icon                = require '../icon/icon'
-OneTabSearchModal   = require '../search/one-tab-modal'
+OneTabSearchModal   = require '../search/one-tab-search-modal'
 
 class OriginDestinationBar extends React.Component
 
