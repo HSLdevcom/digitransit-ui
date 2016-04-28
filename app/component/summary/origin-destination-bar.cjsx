@@ -5,6 +5,7 @@ GeolocationOrInput  = require '../search/geolocation-or-input'
 Tab                 = require('material-ui/Tabs/Tab').default
 {intlShape}         = require 'react-intl'
 Icon                = require '../icon/icon'
+OneTabSearchModal   = require '../search/one-tab-modal'
 
 class OriginDestinationBar extends React.Component
 
@@ -42,7 +43,7 @@ class OriginDestinationBar extends React.Component
       tabOpen: tab
       () ->
         setTimeout(
-          (() => @refs["searchInput"]?.refs.searchInput.refs.autowhatever?.refs.input?.focus()),
+          (() => @refs.oneTabModal?.refs.searchInput?.refs.searchInput.refs.autowhatever?.refs.input?.focus()),
           0) #try to focus, does not work on ios
 
   render: ->
@@ -69,37 +70,14 @@ class OriginDestinationBar extends React.Component
       <div className="field-link" onClick={() => @openSearch("destination")}>
         <span>{if @state.destination.useCurrentPosition then ownPosition else @state.destination.address}</span>
       </div>
-      <SearchModal
-        ref="modal"
-        selectedTab="tab"
-        modalIsOpen={@state.tabOpen}
-        closeModal={@closeModal}>
-        <Tab
-          className="search-header__button--selected"
-          label={@context.intl.formatMessage
-            id: @state.tabOpen or "origin"
-            defaultMessage: @state.tabOpen}
-          ref="searchTab"
-          value="tab">
-          <GeolocationOrInput
-            ref="searchInput"
-            initialValue = {initialValue}
-            type="endpoint"
-            endpoint={@state[@state.tabOpen]}
-            onSuggestionSelected = {(name, item) =>
-              if item.type == 'CurrentLocation'
-                @context.executeAction EndpointActions.setUseCurrent, @state.tabOpen
-              else
-                @context.executeAction EndpointActions.setEndpoint,
-                  "target": @state.tabOpen,
-                  "endpoint":
-                    lat: item.geometry.coordinates[1]
-                    lon: item.geometry.coordinates[0]
-                    address: name
-              @closeModal()
-          }/>
-      </Tab>
-      </SearchModal>
+      <OneTabSearchModal
+        ref="oneTabModal"
+        tabOpen={@state.tabOpen}
+        closeModal={@closeModal}
+        tabLabel={@state.tabOpen or "origin"}
+        initialValue={initialValue}
+        endpoint={if @state[@state.tabOpen] != undefined then Object.assign(@state[@state.tabOpen], {target: @state.tabOpen}) else undefined}
+      />
     </div>
 
 module.exports = OriginDestinationBar
