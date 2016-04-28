@@ -90,7 +90,9 @@ module.exports.startLocationWatch = (actionContext, payload, done) ->
   ##re define function to retrieve position errors (geolocation.js)
   window.retrieveError = (error) ->
     if error
-      actionContext.executeAction EndpointActions.setOriginToDefault
+      #on error, when origin is not set  we set origin to default
+      if not actionContext.getStore('EndpointStore').getOrigin().userSetPosition
+        actionContext.executeAction EndpointActions.setOriginToDefault
       if error.code == 1
         actionContext.dispatch "GeolocationDenied"
       else if error.code == 2
