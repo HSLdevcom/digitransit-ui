@@ -100,7 +100,8 @@ class ItineraryPlanContainer extends React.Component
       return <div></div>
     itineraries = plan.itineraries
 
-    leafletObj = <ItineraryLine key={"line" + @props.hash} legs={itineraries[parseInt(@props.hash)].legs} showFromToMarkers={true} showTransferLabels={true}/>
+    leafletObjs = [
+      <ItineraryLine key={"line" + @props.hash} legs={itineraries[parseInt(@props.hash)].legs} showFromToMarkers={true} showTransferLabels={true}/>]
 
     if @state.fullscreen
       content =
@@ -108,7 +109,7 @@ class ItineraryPlanContainer extends React.Component
           <Map
             ref="map2"
             className="fullscreen"
-            leafletObjs={leafletObj}
+            leafletObjs={leafletObjs}
             lat={if @state.lat then @state.lat else itineraries[parseInt(@props.hash)].legs[0].from.lat}
             lon={if @state.lon then @state.lon else itineraries[parseInt(@props.hash)].legs[0].from.lon}
             zoom=16
@@ -125,7 +126,7 @@ class ItineraryPlanContainer extends React.Component
           <div onTouchStart={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
             <Map
               ref="map"
-              leafletObjs={leafletObj}
+              leafletObjs={leafletObjs}
               lat={if @state.lat then @state.lat else itineraries[parseInt(@props.hash)].legs[0].from.lat}
               lon={if @state.lon then @state.lon else itineraries[parseInt(@props.hash)].legs[0].from.lon}
               zoom=16
@@ -173,6 +174,7 @@ module.exports = Relay.createContainer ItineraryPlanContainer,
     minTransferTime: 180
     walkSpeed: 1.2
     wheelchair: false
+    maxWalkDistance: config.maxWalkDistance + 0.1
     preferred:
       agencies: config.preferredAgency or ""
     arriveBy: true

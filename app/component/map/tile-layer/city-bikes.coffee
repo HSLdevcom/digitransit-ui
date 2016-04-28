@@ -26,7 +26,6 @@ citybikeImage.src = "data:image/svg+xml;base64,#{btoa(citybikeImageText)}"
 
 class CityBikes
   constructor: (@tile) ->
-    @name = "citybike"
     @promise = fetch("#{config.URL.CITYBIKE_MAP}#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
       if res.status != 200
         return
@@ -44,6 +43,8 @@ class CityBikes
     @tile.ctx.drawImage citybikeImage,
       (geom[0][0].x / @tile.ratio) - citybikeImageSize / 2,
       (geom[0][0].y / @tile.ratio) - citybikeImageSize / 2
+
+  @getName = () -> "citybike"
 
 
 module.exports = CityBikes

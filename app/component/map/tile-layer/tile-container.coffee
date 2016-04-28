@@ -15,9 +15,9 @@ class Tile
     @ctx = @el.getContext '2d'
 
     @layers = @props.layers.filter (Layer) =>
-      if Layer.name == "Stops" && @coords.z >= config.stopsMinZoom
+      if Layer.getName() == "stop" && @coords.z >= config.stopsMinZoom
         true
-      else if Layer.name == "CityBikes" && @coords.z >= config.cityBike.cityBikeMinZoom
+      else if Layer.getName() == "citybike" && @coords.z >= config.cityBike.cityBikeMinZoom
         true
       else
         false
@@ -39,7 +39,7 @@ class Tile
       localPoint = [(point[0] * @scaleratio) % @tileSize, (point[1] * @scaleratio) % @tileSize]
 
       features = flatten @layers.map (layer) -> layer.features?.map (feature) ->
-        layer: layer.name
+        layer: layer.constructor.getName()
         feature: feature
 
       nearest = features.filter (feature) =>
