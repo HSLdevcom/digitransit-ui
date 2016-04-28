@@ -11,12 +11,18 @@ class OneTabSearchModal extends React.Component
     executeAction: React.PropTypes.func.isRequired
     intl: intlShape.isRequired
 
+  componentDidUpdate: (prevProps, prevState) ->
+    if @props.modalIsOpen
+      setTimeout(
+        (() => @refs.geolocationOrInput?.refs.searchInput.refs.autowhatever?.refs.input?.focus()),
+        0) #try to focus, does not work on ios
+
   render: ->
 
     <SearchModal
       ref="modal"
       selectedTab="tab"
-      modalIsOpen={@props.tabOpen}
+      modalIsOpen={@props.modalIsOpen}
       closeModal={@props.closeModal}>
       <Tab
         className="search-header__button--selected"

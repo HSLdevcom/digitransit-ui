@@ -41,10 +41,6 @@ class OriginDestinationBar extends React.Component
   openSearch: (tab) =>
     @setState
       tabOpen: tab
-      () ->
-        setTimeout(
-          (() => @refs.oneTabModal?.refs.geolocationOrInput?.refs.searchInput.refs.autowhatever?.refs.input?.focus()),
-          0) #try to focus, does not work on ios
 
   render: ->
     ownPosition = @context.intl.formatMessage
@@ -72,7 +68,7 @@ class OriginDestinationBar extends React.Component
       </div>
       <OneTabSearchModal
         ref="oneTabModal"
-        tabOpen={@state.tabOpen}
+        modalIsOpen={@state.tabOpen}
         closeModal={@closeModal}
         tabLabel={@state.tabOpen or "origin"}
         initialValue={initialValue}
