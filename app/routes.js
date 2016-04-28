@@ -20,8 +20,6 @@ import SplashOrComponent from './component/splash/splash-or-component';
 import TopLevel from './component/top-level';
 import { StopQueries, TripQueries, RouteQueries } from './queries';
 
-let IndexOrSplash = ()=><SplashOrComponent><IndexPage/></SplashOrComponent>
-
 const routes = (
   <Route path="/" name="app" component={TopLevel}>
     <IndexRoute component={()=><SplashOrComponent><IndexPage/></SplashOrComponent>} />
