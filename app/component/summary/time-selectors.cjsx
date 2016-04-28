@@ -21,13 +21,13 @@ class TimeSelectors extends React.Component
     @forceUpdate()
 
   changeTime: =>
-    time = @refs.time.getDOMNode().value
-    date = @refs.date.getDOMNode().value
+    time = @refs.time.value
+    date = @refs.date.value
     @context.executeAction TimeActions.setSelectedTime,
       moment("#{time} #{date}", "H:m YYYY-MM-DD")
 
   setArriveBy: =>
-    @context.executeAction TimeActions.setArriveBy, @refs.arriveBy.getDOMNode().value == 'true'
+    @context.executeAction TimeActions.setArriveBy, @refs.arriveBy.value == 'true'
 
   getDates: ->
     dates = []
