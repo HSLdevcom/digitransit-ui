@@ -1,5 +1,4 @@
 itinerarySearchActions = require './itinerary-search-action'
-positionActions = require './position-actions'
 config = require '../config'
 
 module.exports.storeEndpoint = storeEndpoint = (actionContext, {target, endpoint}, done) ->
@@ -26,9 +25,6 @@ module.exports.setEndpoint = (actionContext, payload) =>
 
 module.exports.setUseCurrent = (actionContext, target) =>
   actionContext.dispatch "useCurrentPosition", target
-
-  positionStore = @context.getStore('PositionStore')
-
   actionContext.executeAction itinerarySearchActions.route
 
 module.exports.swapEndpoints = (actionContext) ->
