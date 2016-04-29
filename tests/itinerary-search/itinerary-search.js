@@ -1,15 +1,19 @@
 'use strict'
 
-var searchHelper = require("../../helpers/search-helper");
-
 module.exports = {
-    'Show itinerary instructions if suggestion chosen' : function (browser) {
+    'Show instructions if suggestion is chosen' : function (browser) {
       var browser = browser.url(browser.launch_url);
-      searchHelper.setOrigin(browser, "Hausmanns gate");
-      searchHelper.setDestination(browser, "Malerhaugveien 28, Oslo");
-      searchHelper.waitForItineraryRow(browser);
-      searchHelper.chooseFirstItinerarySuggestion(browser);
-      browser.waitForElementVisible(".itinerary-instruction-column", browser.globals.itinerarySearchTimeout);
+
+      var searchFields = browser.page.searchFields();
+      searchFields.itinerarySearch("Hausmanns gate", "Malerhaugveien 28, Oslo");
+
+      var itinerarySummary = browser.page.itinerarySummary();
+      itinerarySummary.waitForFirstItineraryRow();
+      itinerarySummary.chooseFirstItinerarySuggestion();
+
+      var itineraryInstructions = browser.page.itineraryInstructions();
+      itineraryInstructions.waitForFirstItineraryInstructionColumn();
+      itineraryInstructions.chooseFirstItinerarySuggestion(browser);
       browser.end();
     }
 }
