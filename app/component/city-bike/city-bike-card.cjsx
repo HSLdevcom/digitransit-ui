@@ -31,7 +31,7 @@ class CityBikeCard extends React.Component
     <Card className={@props.className}>
       <CardHeader
         name={@props.station.name}
-        description={@props.station.name}
+        description={@props.station.stationId}
       />
       {@props.children}
     </Card>
