@@ -13,7 +13,8 @@ module.exports = {
 
       var itineraryInstructions = browser.page.itineraryInstructions();
       itineraryInstructions.waitForFirstItineraryInstructionColumn();
-      itineraryInstructions.chooseFirstItinerarySuggestion(browser);
+      itineraryInstructions.verifyOrigin("Hausmanns gate, Oslo");
+      itineraryInstructions.verifyDestination("Malerhaugveien 28, Oslo");
       browser.end();
     }
 }
