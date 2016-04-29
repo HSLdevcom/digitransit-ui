@@ -7,7 +7,7 @@
       "launch_url": "http://test.rutebanken.org",
       "selenium_port": 4444,
       "selenium_host": "selenium-hub",
-      "silent": false,
+      "silent": true,
       "globals": {
         "itinerarySearchTimeout": 21000,
         "elementVisibleTimeout": 10000
