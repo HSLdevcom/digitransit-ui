@@ -432,8 +432,8 @@ translations =
     'description': 'Rapprochez-vous de votre réseau de transport et voyagez'
     'searching-position': 'Localisation en cours...'
     'own-position': 'Position actuelle'
-    'use-own-position': 'use-own-position'
-    'search-position': 'search-position'
+    'use-own-position': 'Utiliser la position actuelle'
+    'search-position': 'Rechercher la position'
     'no-position': 'Aucune position'
     'origin': 'Départ'
     'origin-placeholder': 'Lieu, adresse ou arrêt'
@@ -564,7 +564,7 @@ translations =
     'search': 'Recherche'
     'in-addition': 'En plus'
     'choose-stop': 'Merci de choisir la ligne'
-    'loading': 'loading'
-    'skip-positioning': 'skip-positioning'
+    'loading': 'Chargement'
+    'skip-positioning': 'Ignorer le positionnement'
 
 module.exports = translations
