@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = {
-    'Show instructions if suggestion is chosen' : function (browser) {
+    'Origin and destination exists in instructions if suggestion is chosen' : function (browser) {
       var browser = browser.url(browser.launch_url);
 
       var searchFields = browser.page.searchFields();
