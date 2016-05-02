@@ -1,4 +1,6 @@
 React                 = require 'react'
+Relay                 = require 'react-relay'
+queries               = require '../../../queries'
 Icon                  = require '../../icon/icon'
 MarkerPopupBottom     = require '../marker-popup-bottom'
 NotImplementedLink    = require '../../util/not-implemented-link'
@@ -21,8 +23,7 @@ class CityBikePopup extends React.Component
       <ComponentUsageExample description="">
         <CityBikePopup
           context={"context object here"}
-          station={Example.station}
-          coords={lat: 60.16409266204025, lng: 24.92256984114647}>
+          station={Example.station}>
           Im content of a citybike card
         </CityBikePopup>
       </ComponentUsageExample>
@@ -33,11 +34,10 @@ class CityBikePopup extends React.Component
   @propTypes:
     station: React.PropTypes.object.isRequired
     context: React.PropTypes.object.isRequired
-    coords: React.PropTypes.object.isRequired
 
   render: ->
     locationString = if @props.context.getStore then @props.context.getStore('PositionStore').getLocationString() else ""
-    routePath = getRoutePath(locationString , @props.station.name + '::' + @props.coords.lat + ',' + @props.coords.lng)
+    routePath = getRoutePath(locationString, @props.station.name + '::' + @props.station.lat + ',' + @props.station.lon)
     <div className="card">
       <CityBikeCard
         className={"padding-small"}
@@ -52,4 +52,5 @@ class CityBikePopup extends React.Component
     </div>
 
 
-module.exports = CityBikePopup
+module.exports = Relay.createContainer CityBikePopup,
+  fragments: queries.CityBikePopupFragments

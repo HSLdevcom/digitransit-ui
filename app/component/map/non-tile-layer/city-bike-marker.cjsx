@@ -1,4 +1,6 @@
 React         = require 'react'
+Relay         = require 'react-relay'
+queries       = require '../../../queries'
 isBrowser     = window?
 CityBikePopup = require '../popups/city-bike-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
@@ -47,10 +49,13 @@ class CityBikeMarker extends React.Component
     Icon.asString 'icon-icon_citybike', 'city-bike-medium-size'
 
   getCityBikeMarker: ->
+    loadingPopupStyle = height: 150
+
     CityBikePopupWithContext = provideContext CityBikePopup,
       intl: intl.intlShape.isRequired
       router: React.PropTypes.object.isRequired
       route: React.PropTypes.object.isRequired
+
     <GenericMarker
       position={lat: @props.station.y, lon: @props.station.x}
       mode="citybike"
@@ -60,7 +65,14 @@ class CityBikeMarker extends React.Component
       layerContainer={@props.layerContainer}
       id={@props.station.id}
     >
-      <CityBikePopupWithContext context={@context} coords={lat: @props.station.y, lng: @props.station.x} station={@props.station}/>
+      <Relay.RootContainer
+        Component={CityBikePopup}
+        route={new queries.CityBikeRoute(
+          stationId: @props.station.id
+        )}
+        renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
+        renderFetched={(data) => <CityBikePopupWithContext {... data} context={@context}/>}
+      />
     </GenericMarker>
 
   render: ->
