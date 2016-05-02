@@ -42,7 +42,6 @@ class OneTabSearchModal extends React.Component
       <Tab
         className="search-header__button--selected"
         label={searchTabLabel}
-        ref="searchTab"
         value="tab">
         <GeolocationOrInput
           ref="geolocationOrInput"
