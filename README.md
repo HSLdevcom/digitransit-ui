@@ -14,3 +14,14 @@ Add a selenium-hub to localhost mapping in /etc/hosts if you dont want to change
 + Download `selenium-server-standalone-x.yz.0.jar` from  http://www.seleniumhq.org/download/
 + Start it: `java -jar selenium-server-standalone-2.53.0.jar`
 + Change `selenium_host` to `localhost` in `nightwatch.json`
+
+## Install nightwatch as command
+```npm install nightwatch -g```
+
+## Run certain tags
+```nightwatch --tag smoke```
+
+```nightwatch --tag citybike```
+
+## Run certain test files
+```nightwatch --test tests/itinerary-search/itinerary-search.js```
