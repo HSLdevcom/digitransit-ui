@@ -14,9 +14,10 @@ class Page extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    location: React.PropTypes.object.isRequired
 
   componentDidMount: ->
-    if window.location.search?.indexOf('citybikes') > -1
+    if @context.location.search?.indexOf('citybikes') > -1
       @context.executeAction ItinerarySearchAction.forceCitybikeState
 
   render: ->
