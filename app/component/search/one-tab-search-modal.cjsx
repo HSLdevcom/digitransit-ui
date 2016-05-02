@@ -22,9 +22,9 @@ class OneTabSearchModal extends React.Component
 
       if !@props.endpoint
         @context.executeAction SearchActions.executeSearch, {input: "", type: "endpoint"}
-      else if @props.endpoint.target == 'origin'
+      else if @props.target == 'origin'
         @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getOrigin()?.address || "", type: "endpoint"}
-      else if @props.endpoint.target == 'destination'
+      else if @props.target == 'destination'
         @context.executeAction SearchActions.executeSearch, {input: @context.getStore('EndpointStore').getDestination()?.address || "", type: "endpoint"}
 
   render: ->
@@ -48,17 +48,17 @@ class OneTabSearchModal extends React.Component
           endpoint={@props.endpoint}
           onSuggestionSelected = {
             if @props.customOnSuggestionSelected then @props.customOnSuggestionSelected else
-            (name, item) =>
-              if item.type == 'CurrentLocation'
-                @context.executeAction EndpointActions.setUseCurrent, @props.endpoint.target
-              else
-                @context.executeAction EndpointActions.setEndpoint,
-                  "target": @props.endpoint.target,
-                  "endpoint":
-                    lat: item.geometry.coordinates[1]
-                    lon: item.geometry.coordinates[0]
-                    address: name
-              @props.closeModal()
+              (name, item) =>
+                if item.type == 'CurrentLocation'
+                  @context.executeAction EndpointActions.setUseCurrent, @props.target
+                else
+                  @context.executeAction EndpointActions.setEndpoint,
+                    "target": @props.target,
+                    "endpoint":
+                      lat: item.geometry.coordinates[1]
+                      lon: item.geometry.coordinates[0]
+                      address: name
+                @props.closeModal()
         }/>
     </Tab>
     </SearchModal>

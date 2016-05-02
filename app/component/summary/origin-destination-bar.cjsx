@@ -71,7 +71,8 @@ class OriginDestinationBar extends React.Component
         closeModal={@closeModal}
         tabLabel={@state.tabOpen or "origin"}
         initialValue={initialValue}
-        endpoint={if @state[@state.tabOpen] != undefined then Object.assign(@state[@state.tabOpen], {target: @state.tabOpen}) else undefined}
+        endpoint={@state[@state.tabOpen]}
+        target={@state.tabOpen}
       />
     </div>
 
