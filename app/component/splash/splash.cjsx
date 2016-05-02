@@ -57,7 +57,7 @@ class Splash extends React.Component
                 @setState
                   tabOpen: "origin"
                   searchModalIsOpen: true}>
-                <FormattedMessage id="give-origin"  defaultMessage="Give origin"/><br/><br/>
+                <FormattedMessage id="give-origin"  defaultMessage="Type in your origin"/><br/><br/>
               </span>
               <span className="cursor-pointer dotted-link medium" onClick={() =>
                 @context.executeAction EndpointActions.setOriginToDefault
