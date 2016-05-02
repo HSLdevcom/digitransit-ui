@@ -1,8 +1,8 @@
 { "rootUrl": "http://localhost:8080",
   "screenshotsDir": "./test/visual-images/",
-  "windowSize": "600x1024",
   "browsers": {
     "PhantomJS": {
+      "windowSize": "600x1024",
       "desiredCapabilities": {
         "browserName": "phantomjs"
       }
