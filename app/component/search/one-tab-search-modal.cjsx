@@ -29,6 +29,11 @@ class OneTabSearchModal extends React.Component
 
   render: ->
 
+    searchTabLabel = if @props.customTabLabel then @props.customTabLabel else
+      @context.intl.formatMessage
+        id: @props.target or "origin"
+        defaultMessage: @props.target or "origin"
+
     <SearchModal
       ref="modal"
       selectedTab="tab"
@@ -36,9 +41,7 @@ class OneTabSearchModal extends React.Component
       closeModal={@props.closeModal}>
       <Tab
         className="search-header__button--selected"
-        label={@context.intl.formatMessage
-          id: @props.tabLabel
-          defaultMessage: @props.tabLabel}
+        label={searchTabLabel}
         ref="searchTab"
         value="tab">
         <GeolocationOrInput

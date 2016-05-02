@@ -69,7 +69,6 @@ class OriginDestinationBar extends React.Component
       <OneTabSearchModal
         modalIsOpen={@state.tabOpen}
         closeModal={@closeModal}
-        tabLabel={@state.tabOpen or "origin"}
         initialValue={initialValue}
         endpoint={@state[@state.tabOpen]}
         target={@state.tabOpen}
