@@ -35,7 +35,6 @@ class OneTabSearchModal extends React.Component
         defaultMessage: @props.target or "origin"
 
     <SearchModal
-      ref="modal"
       selectedTab="tab"
       modalIsOpen={@props.modalIsOpen}
       closeModal={@props.closeModal}>

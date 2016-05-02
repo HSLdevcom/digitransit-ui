@@ -102,7 +102,6 @@ class SearchMainContainer extends React.Component
     <div>
       <FakeSearchWithButton fakeSearchBar={fakeSearchBar} onClick={@clickSearch}/>
       <SearchModal
-        ref="modal"
         selectedTab={@state.selectedTab}
         modalIsOpen={@state.modalIsOpen}
         closeModal={@closeModal}>
