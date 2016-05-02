@@ -1,10 +1,11 @@
 .splash {
+  z-index:1100;
   position: absolute;
   width: 100%;
   top: 40px;
-  background-color: rgba(0,0,0,0.5);
   line-height: 2em;
   height: calc(100% - 40px);
+  user-select: none;
   @include font-book
 
   h2.state {
@@ -14,16 +15,15 @@
   }
 
   > .top {
-    height:35%;
+    height:30%;
   }
   > .mid {
-    height: 100px;
-    display: block;
+    height: 140px;
   }
   > .bottom {
     color: $primary-font-color;
     text-align: center;
-    height: calc(65% - 100px - 40px);
+    height: calc(70% - 140px - 40px);
     .medium {
       @include font-medium
     }
@@ -34,5 +34,6 @@
   background-image: url('/img/map.9.opti.png');
   background-attachment: fixed;
   background-position: center;
-  filter: blur(5px);
+  background-size: cover;
+  filter: blur(5px) brightness(50%);
 }

@@ -527,6 +527,35 @@ export const DepartureListFragments = {
   `,
 };
 
+export const CityBikeQueries = {
+  station: () => Relay.QL`
+    query {
+      bikeRentalStation(id: $stationId)
+    }
+  `,
+};
+
+export class CityBikeRoute extends Relay.Route {
+  static queries = CityBikeQueries;
+  static paramDefinitions = {
+    stationId: { required: true },
+  };
+  static routeName = 'CityBikeRoute';
+}
+
+export const CityBikePopupFragments = {
+  station: () => Relay.QL`
+    fragment on BikeRentalStation {
+      stationId
+      name
+      lat
+      lon
+      bikesAvailable
+      spacesAvailable
+    }
+  `,
+};
+
 export const TripPageFragments = {
   trip: () => Relay.QL`
     fragment on Trip {

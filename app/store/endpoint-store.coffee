@@ -104,9 +104,9 @@ class EndpointStore extends Store
       @emitChange("origin-use-current")
 
   isPendingPopup: () =>
-    r = @pendingPopup
+    previous = @pendingPopup
     @pendingPopup = false
-    r
+    previous
 
   @handlers:
     "setEndpoint": "setEndpoint"

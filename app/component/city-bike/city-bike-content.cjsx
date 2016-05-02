@@ -14,7 +14,7 @@ CityBikeContent = (props) ->
     # In production we could use props.station.bikesAvailable
     <div className="city-bike-container">
       <CityBikeAvailability
-        bikesAvailable={if config.cityBike.showBikesAvailable then props.station.bikesAvailable else 0}
+        bikesAvailable={props.station.bikesAvailable}
         totalSpaces={props.station.bikesAvailable + props.station.spacesAvailable}/>
       <CityBikeUse lang={props.lang}/>
     </div>

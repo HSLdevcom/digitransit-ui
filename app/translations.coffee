@@ -265,8 +265,8 @@ translations =
     'search': 'Sök'
     'in-addition': 'Även'
     'choose-stop': 'Välj hållplats'
-    'loading': 'loading'
-    'skip-positioning': 'skip-positioning'
+    'loading': 'Laddar'
+    'skip-positioning': 'Hoppa över'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -480,8 +480,8 @@ translations =
     'cause': 'Cause'
     'disruption-info': 'Informations sur les perturbations'
     'disruption-info-no-alerts': 'Perturbations en cours'
-    'leaving-at': 'Part à'
-    'arriving-at': 'Arrive à'
+    'leaving-at': 'Départ'
+    'arriving-at': 'Arrivée'
     'route-here': 'En direction de'
     'walking': 'Marcher'
     'prefer-walking': 'Préférer la marche'

@@ -55,7 +55,7 @@ class Splash extends React.Component
               <FormattedMessage id="or" defaultMessage="Or"/><br/>
               <span className="cursor-pointer dotted-link medium" onClick={() =>
                 @setState
-                  tabOpen: "search"
+                  tabOpen: "origin"
                   searchModalIsOpen: true}>
                 <FormattedMessage id="give-origin"  defaultMessage="Give origin"/><br/><br/>
               </span>
@@ -74,7 +74,7 @@ class Splash extends React.Component
           label={@context.intl.formatMessage
             id: @state.tabOpen or "origin"
             defaultMessage: @state.tabOpen}
-          ref="searchTab"
+          ref="originTab"
           value="tab"
           >
             <SearchInput
