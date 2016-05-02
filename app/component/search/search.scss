@@ -119,6 +119,18 @@ ul#react-whatever-suggest {
     fill: $search-result-icon-color;
   }
 
+  .havePosition {
+    color: $hilight-color;
+  }
+
+  .noPosition {
+    color: $medium-gray;
+  }
+
+  .search-position {
+    color: $primary-color;
+  }
+
   .autosuggestIcon {
     color: $medium-gray;
     padding-left: 3px;
