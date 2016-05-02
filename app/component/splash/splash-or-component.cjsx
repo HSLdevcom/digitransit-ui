@@ -1,5 +1,5 @@
 React  = require 'react'
-Splash = require './splash.cjsx'
+Splash = require './splash'
 
 class SplashOrComponent extends React.Component
   @contextTypes:
