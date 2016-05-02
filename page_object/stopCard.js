@@ -6,6 +6,10 @@ var commands = {
   },
   waitForDepartureVisible: function() {
     return this.waitForElementVisible("@departure", this.api.globals.itinerarySearchTimeout);
+  },
+  expectCardHeader: function(expected) {
+    this.waitForElementVisible("@cardHeader", this.api.globals.itinerarySearchTimeout);
+    return this.assert.containsText("@cardHeader", expected);
   }
 }
 
@@ -14,6 +18,9 @@ module.exports = {
   elements: {
     departure: {
       selector: ".departure .route-detail-text"
+    },
+    cardHeader: {
+      selector: ".card-header > span.h3"
     }
   }
 }

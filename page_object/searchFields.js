@@ -29,6 +29,18 @@ var searchCommands = {
   itinerarySearch: function(origin, destination) {
     this.setOrigin(origin);
     this.setDestination(destination);
+  },
+  setSearch: function(search) {
+    var timeout = this.api.globals.elementVisibleTimeout;
+    this.waitForElementVisible('@frontPageSearchBar', timeout)
+      .click('@frontPageSearchBar')
+      .waitForElementVisible('@search', timeout)
+      .click('@search')
+      .waitForElementVisible('@searchInput', timeout)
+      .setValue('@searchInput', search);
+
+    this.api.pause(1000);
+    return this.setValue('@searchInput', this.api.Keys.ENTER);
   }
 };
 
@@ -52,6 +64,12 @@ module.exports = {
     },
     firstSuggestedItem: {
       selector: "#react-autowhatever-suggest--item-0"
+    },
+    search: {
+      selector: "[tabindex=\"2\"]"
+    },
+    searchInput: {
+      selector: "#search"
     }
   }
 };
