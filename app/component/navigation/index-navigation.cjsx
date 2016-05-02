@@ -36,7 +36,7 @@ class IndexNavigation extends React.Component
       if newState
         @context.router.push
           state: offcanvasVisible: newState
-          pathname: @context.location.pathname + if window.location.search?.indexOf('mock') > -1 then "?mock" else ""
+          pathname: @context.location.pathname + if @context.location.search?.indexOf('mock') > -1 then "?mock" else ""
       else
         @context.router.goBack()
 
