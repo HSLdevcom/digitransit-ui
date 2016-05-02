@@ -13,6 +13,14 @@ class OneTabSearchModal extends React.Component
     executeAction: React.PropTypes.func.isRequired
     intl: intlShape.isRequired
 
+  @propTypes:
+    modalIsOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]).isRequired
+    closeModal: React.PropTypes.func.isRequired
+    initialValue: React.PropTypes.string.isRequired
+    endpoint: React.PropTypes.object
+    target: React.PropTypes.oneOfType [React.PropTypes.bool, React.PropTypes.string]
+    customTabLabel: React.PropTypes.string
+    customOnSuggestionSelected: React.PropTypes.func
 
   componentDidUpdate: (prevProps, prevState) ->
     if @props.modalIsOpen
