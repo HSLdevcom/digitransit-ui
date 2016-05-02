@@ -3,6 +3,7 @@ config     = require '../config'
 debounce   = require 'lodash/debounce'
 inside     = require 'point-in-polygon'
 itinerarySearchActions = require './itinerary-search-action'
+EndpointActions = require './endpoint-actions'
 
 geolocator = (actionContext) ->
   actionContext.getStore('ServiceStore').geolocator()
@@ -42,15 +43,12 @@ runReverseGeocodingAction = (actionContext, lat, lon, done) ->
 
 debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading: true})
 
-setCurrentLocation = (pos) =>
+setCurrentLocation = (actionContext, pos) =>
   isFirst =  pos && @position == undefined
   if inside([pos.lon, pos.lat], config.areaPolygon)
     @position = pos
   else
-    @position =
-      lat: config.defaultPosition[0]
-      lon: config.defaultPosition[1]
-      heading: pos.heading
+    actionContext.executeAction EndpointActions.setOriginToDefault
   isFirst
 
 broadcastCurrentLocation = (actionContext) =>
@@ -78,30 +76,29 @@ module.exports.startLocationWatch = (actionContext, payload, done) ->
     if timeoutId
       window.clearTimeout(timeoutId)
       timeoutId = undefined
-    isFirst = setCurrentLocation
+    isFirst = setCurrentLocation actionContext,
       lat: position.coords.latitude
       lon: position.coords.longitude
       heading: position.coords.heading
 
     broadcastCurrentLocation actionContext
     if(isFirst)
-      actionContext.executeAction(itinerarySearchActions.route, undefined, (e) =>
-        if e
-          console.error "Could not route:", e
-      )
+      actionContext.executeAction itinerarySearchActions.route
 
     debouncedRunReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
 
   ##re define function to retrieve position errors (geolocation.js)
   window.retrieveError = (error) ->
     if error
+      #on error, when origin is not set  we set origin to default
+      if not actionContext.getStore('EndpointStore').getOrigin().userSetPosition
+        actionContext.executeAction EndpointActions.setOriginToDefault
       if error.code == 1
         actionContext.dispatch "GeolocationDenied"
       else if error.code == 2
         actionContext.dispatch "GeolocationNotSupported"
       else if error.code == 3
         actionContext.dispatch "GeolocationTimeout"
-      window.position.error = null
 
   if window.position.error != null
     window.retrieveError window.position.error
@@ -110,6 +107,7 @@ module.exports.startLocationWatch = (actionContext, payload, done) ->
   if window.position.pos != null
     window.retrieveGeolocation window.position.pos
     window.position.pos = null
+
   done()
 
 module.exports.removeLocation = (actionContext) ->

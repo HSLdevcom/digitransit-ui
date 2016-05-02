@@ -12,7 +12,9 @@ translations =
     'itinerary-summary-page.description': "Reittiehdotukset"
     'description': 'Löydä joukkoliikennetarjonta lähelle ja kauas.'
     'searching-position': 'Paikannetaan...'
+    'search-position': 'Paikanna'
     'own-position': 'Nykyinen sijaintisi'
+    'use-own-position': 'Käytä nykyistä sijaintia'
     'no-position': 'Ei sijaintia'
     'origin-placeholder': 'Mistä? - osoite tai pysäkki'
     'origin': 'Lähtöpaikka'
@@ -142,11 +144,15 @@ translations =
     'search': 'Haku'
     'in-addition': 'Lisäksi'
     'choose-stop': 'Valitse pysäkki'
+    'loading': 'Ladataan...'
+    'skip-positioning': 'Ohita'
     'hour-short': 'h'
     'minute-short': 'min'
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
+    'use-own-position': 'Använd egen position'
+    'search-position': 'Leta position'
     'no-position': 'Ingen position'
     'origin': 'Från'
     'origin-placeholder': 'Från'
@@ -259,6 +265,8 @@ translations =
     'search': 'Sök'
     'in-addition': 'Även'
     'choose-stop': 'Välj hållplats'
+    'loading': 'Laddar'
+    'skip-positioning': 'Hoppa över'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -271,7 +279,9 @@ translations =
     'itinerary-summary-page.title': "Anbefalt ruter"
     'itinerary-summary-page.description': "Anbefalt ruter"
     'searching-position': 'Leter etter posisjon'
+    'search-position': 'search-position'
     'own-position': 'Min posisjon'
+    'use-own-position': 'use-own-position'
     'no-position': 'Ingen posisjon'
     'origin': 'Fra'
     'origin-placeholder': 'Fra'
@@ -406,6 +416,8 @@ translations =
     'search': 'Sanntid'
     'in-addition': 'TODO'
     'choose-stop': 'TODO'
+    'loading': 'loading'
+    'skip-positioning': 'skip-positioning'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -420,6 +432,8 @@ translations =
     'description': 'Rapprochez-vous de votre réseau de transport et voyagez'
     'searching-position': 'Localisation en cours...'
     'own-position': 'Position actuelle'
+    'use-own-position': 'use-own-position'
+    'search-position': 'search-position'
     'no-position': 'Aucune position'
     'origin': 'Départ'
     'origin-placeholder': 'Lieu, adresse ou arrêt'
@@ -466,8 +480,8 @@ translations =
     'cause': 'Cause'
     'disruption-info': 'Informations sur les perturbations'
     'disruption-info-no-alerts': 'Perturbations en cours'
-    'leaving-at': 'Part à'
-    'arriving-at': 'Arrive à'
+    'leaving-at': 'Départ'
+    'arriving-at': 'Arrivée'
     'route-here': 'En direction de'
     'walking': 'Marcher'
     'prefer-walking': 'Préférer la marche'
@@ -550,5 +564,7 @@ translations =
     'search': 'Recherche'
     'in-addition': 'En plus'
     'choose-stop': 'Merci de choisir la ligne'
+    'loading': 'loading'
+    'skip-positioning': 'skip-positioning'
 
 module.exports = translations

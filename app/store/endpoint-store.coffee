@@ -8,8 +8,6 @@ class EndpointStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
-    @originFocusRequired = false
-    @destinationFocusRequired = false
     @origin = @getUseCurrent(@origin, true)
     @emitChange("origin-use-current")
     @destination = @getUseCurrent(@destination, false)
@@ -48,6 +46,7 @@ class EndpointStore extends Store
     lon: null
     address: null
 
+  # location: {address: 'Rautatioeasema, Helsinki', lat: 60.1710688, lon:24.9414841}
   setOrigin: (location) ->
     @origin =
       userSetPosition: true
@@ -93,12 +92,21 @@ class EndpointStore extends Store
     else
       @setOrigin value
 
+  displayOriginPopup: () ->
+    @pendingPopup = true
+    @emitChange("display-popup")
+
   useCurrentPosition: (target) ->
     if "destination" == target
       @setDestinationToCurrent()
     else
       @setOriginToCurrent()
       @emitChange("origin-use-current")
+
+  isPendingPopup: () =>
+    previous = @pendingPopup
+    @pendingPopup = false
+    previous
 
   @handlers:
     "setEndpoint": "setEndpoint"
@@ -110,6 +118,6 @@ class EndpointStore extends Store
     "GeolocationDenied": 'clearGeolocation'
     "GeolocationTimeout": 'clearGeolocation'
     "clearGeolocation": "clearGeolocation"
-    "isCurrentPositionInUse": "isCurrentPositionInUse"
+    "DisplayOriginPopup": "displayOriginPopup"
 
 module.exports = EndpointStore
