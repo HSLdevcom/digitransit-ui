@@ -151,8 +151,8 @@ translations =
   'sv':
     'searching-position': 'Letar efter position'
     'own-position': 'Egen position'
-    'use-own-position': 'use-own-position'
-    'search-position': 'search-position'
+    'use-own-position': 'Använd egen position'
+    'search-position': 'Leta position'
     'no-position': 'Ingen position'
     'origin': 'Från'
     'origin-placeholder': 'Från'
