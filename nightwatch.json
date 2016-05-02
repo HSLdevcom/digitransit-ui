@@ -1,13 +1,13 @@
 {
   "src_folders": ["tests"],
   "output_folder" : "reports",
-
+  "page_objects_path": "page_object",
   "test_settings": {
     "default": {
       "launch_url": "http://test.rutebanken.org",
       "selenium_port": 4444,
       "selenium_host": "selenium-hub",
-      "silent": false,
+      "silent": true,
       "globals": {
         "itinerarySearchTimeout": 21000,
         "elementVisibleTimeout": 10000
