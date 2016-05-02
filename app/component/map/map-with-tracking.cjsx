@@ -5,7 +5,6 @@ ComponentUsageExample = require '../documentation/component-usage-example'
 Example               = require '../documentation/example-data'
 Map                   = require './map'
 ToggleMapTracking     = require '../navigation/toggle-map-tracking'
-config                = require '../../config'
 
 class MapWithTracking extends React.Component
   @contextTypes:
@@ -23,14 +22,20 @@ class MapWithTracking extends React.Component
 
   constructor: ->
     super
-    #Check if we have a position already
-    locationState = @context.getStore('PositionStore').getLocationState()
-    @state = if locationState.hasLocation
-      mapTracking: true
-      useZoomedIn: true
+    if @context.getStore('EndpointStore').getOrigin().useCurrentPosition
+      #Check if we have a position already
+      locationState = @context.getStore('PositionStore').getLocationState()
+      @state = if locationState.hasLocation
+        mapTracking: true
+        useZoomedIn: true
+      else
+        @state = {}
+
     else
-      useConfig: true
-      mapTracking: false
+      @state =
+        useOrigin: true
+        mapTracking: false
+        useZoomedIn: true
 
   componentWillMount: =>
     @context.getStore('PositionStore').addChangeListener @onPositionChange
@@ -40,18 +45,21 @@ class MapWithTracking extends React.Component
     @context.getStore('PositionStore').removeChangeListener @onPositionChange
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
 
+  componentDidMount: =>
+    if @state.useZoomedIn
+      @setState useZoomedIn: false
+
+
   disableMapTracking: =>
     if @state.mapTracking
       @setState
         mapTracking: false
-        useConfig: false
         useZoomedIn: false
 
   enableMapTracking: =>
     if !@state.mapTracking
       @setState
         mapTracking: true
-        useConfig: false
         useZoomedIn: false
         useOrigin: false
 
@@ -62,20 +70,8 @@ class MapWithTracking extends React.Component
         mapTracking: false
 
   onPositionChange: (status) =>
-    locationState = @context.getStore('PositionStore').getLocationState()
-
-    if locationState.hasLocation
-      if status.statusChanged
-        @setState
-          useConfig: false
-          useZoomedIn: true
-          initLocationFound: true
-          () => @setState
-            useZoomedIn: false
-            mapTracking: true #start map track because position was found
-            initLocationFound: false
-      else if @state.mapTracking
-        @forceUpdate()
+    if @state.mapTracking
+      @forceUpdate()
 
   render: =>
 
@@ -84,10 +80,7 @@ class MapWithTracking extends React.Component
     if @state.mapTracking and locationState.hasLocation or @state.initLocationFound
       lat = locationState.lat
       lon = locationState.lon
-    else if @state.useConfig
-      zoom = config.initialLocation.zoom
-      lat = config.initialLocation.lat
-      lon = config.initialLocation.lon
+
     else if @state.useOrigin
       origin = @context.getStore('EndpointStore').getOrigin()
       lat = origin.lat

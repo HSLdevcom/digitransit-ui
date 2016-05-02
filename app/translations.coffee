@@ -142,6 +142,8 @@ translations =
     'search': 'Haku'
     'in-addition': 'Lisäksi'
     'choose-stop': 'Valitse pysäkki'
+    'loading': 'Ladataan...'
+    'skip-positioning': 'Ohita'
     'hour-short': 'h'
     'minute-short': 'min'
   'sv':
@@ -259,6 +261,8 @@ translations =
     'search': 'Sök'
     'in-addition': 'Även'
     'choose-stop': 'Välj hållplats'
+    'loading': 'Laddar'
+    'skip-positioning': 'Hoppa över'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -406,6 +410,8 @@ translations =
     'search': 'Sanntid'
     'in-addition': 'TODO'
     'choose-stop': 'TODO'
+    'loading': 'loading'
+    'skip-positioning': 'skip-positioning'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -550,5 +556,7 @@ translations =
     'search': 'Recherche'
     'in-addition': 'En plus'
     'choose-stop': 'Merci de choisir la ligne'
+    'loading': 'loading'
+    'skip-positioning': 'skip-positioning'
 
 module.exports = translations

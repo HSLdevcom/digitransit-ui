@@ -1,0 +1,39 @@
+.splash {
+  z-index:1100;
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  line-height: 2em;
+  height: calc(100% - 40px);
+  user-select: none;
+  @include font-book
+
+  h2.state {
+    @include font-medium
+    color: $primary-font-color;
+    line-height: 0em;
+  }
+
+  > .top {
+    height:30%;
+  }
+  > .mid {
+    height: 140px;
+  }
+  > .bottom {
+    color: $primary-font-color;
+    text-align: center;
+    height: calc(70% - 140px - 40px);
+    .medium {
+      @include font-medium
+    }
+  }
+}
+
+.splash-map {
+  background-image: url('/img/map.9.opti.png');
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  filter: blur(5px) brightness(50%);
+}
