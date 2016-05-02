@@ -72,9 +72,6 @@ class AddFavouriteContainer extends React.Component
       'icon-icon_shopping'
     ]
 
-  focusInput: () =>
-    @refs.searchInputfavourite?.refs.autowhatever?.refs.input?.focus()
-
   closeSearchModal: () =>
     @setState
       searchModalIsOpen: false
