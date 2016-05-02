@@ -25,7 +25,7 @@ uniq = (features) ->
 
 addCurrentPositionIfEmpty = (features) ->
   if features.length == 0
-    features.push currentLocation =
+    features.push
       type: "CurrentLocation", properties:
         labelId: "own-position"
         layer: "currentPosition"
