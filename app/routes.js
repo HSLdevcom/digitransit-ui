@@ -22,7 +22,9 @@ import { StopQueries, TripQueries, RouteQueries } from './queries';
 
 const routes = (
   <Route path="/" name="app" component={TopLevel}>
-    <IndexRoute component={()=><SplashOrComponent><IndexPage/></SplashOrComponent>} />
+    <IndexRoute
+      component={() => <SplashOrComponent><IndexPage /></SplashOrComponent>}
+    />
     <Route
       path="pysakit"
       name="stopList"
