@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = {
-    tags: ['stops', 'map'],
+    tags: ['stops', 'map', 'skip'],
     'Click any bus stop place marker in map and show its departures' : function (browser) {
       var browser = browser.url(browser.launch_url);
 
