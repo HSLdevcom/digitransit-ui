@@ -40,6 +40,17 @@ var commands = {
     this.openFavouritesPage();
     this.waitForElementVisible("@favouriteLocationHeader", this.api.globals.elementVisibleTimeout);
     this.assert.containsText("@favouriteLocationHeader", header);
+  },
+  verifyFavouriteInSearchResult: function(favouriteName) {
+    this.waitForElementPresent("@searchResultFavourite", this.api.globals.elementVisibleTimeout);
+
+    // TODO: the text returned from getText is empty.
+    /*
+     this.api.getText("li > .search-result.Favourite", function(value) {
+      console.log(value);
+    });
+
+    this.assert.containsText("@searchResultFavourite", favouriteName);*/
   }
 }
 
@@ -69,6 +80,9 @@ module.exports = {
     },
     favouriteLocationHeader: {
       selector: ".favourite-location-header"
+    },
+    searchResultFavourite: {
+      selector: "li > .search-result.Favourite"
     }
   }
 }

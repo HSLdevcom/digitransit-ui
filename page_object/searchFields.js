@@ -3,32 +3,31 @@
 var searchCommands = {
   setOrigin: function(origin) {
     var timeout = this.api.globals.elementVisibleTimeout;
-    this.waitForElementVisible('@frontPageSearchBar', timeout)
+    return this.waitForElementVisible('@frontPageSearchBar', timeout)
       .click('@frontPageSearchBar')
       .waitForElementVisible('@origin', timeout)
       .click('@origin')
       .waitForElementVisible('@searchOrigin', timeout)
       .setValue('@searchOrigin', origin);
-
-    this.api.pause(1000);
-    return this.waitForElementVisible('@firstSuggestedItem', timeout)
-      .setValue('@searchOrigin', this.api.Keys.ENTER);
   },
   setDestination: function(destination) {
     var timeout = this.api.globals.elementVisibleTimeout;
-    this.waitForElementVisible('@frontPageSearchBar', timeout)
+    return this.waitForElementVisible('@frontPageSearchBar', timeout)
       .click('@frontPageSearchBar')
       .waitForElementVisible('@destination', timeout)
       .click('@destination')
       .waitForElementVisible('@searchDestination', timeout)
       .setValue('@searchDestination', destination);
-
-    this.api.pause(1000);
-    return this.setValue('@searchDestination', this.api.Keys.ENTER);
   },
   itinerarySearch: function(origin, destination) {
     this.setOrigin(origin);
+    this.api.pause(1000);
+    this.waitForElementVisible('@firstSuggestedItem', timeout)
+        .setValue('@searchOrigin', this.api.Keys.ENTER);
+
     this.setDestination(destination);
+    this.api.pause(1000);
+    return this.setValue('@searchDestination', this.api.Keys.ENTER);
   },
   setSearch: function(search) {
     var timeout = this.api.globals.elementVisibleTimeout;
