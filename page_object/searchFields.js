@@ -10,6 +10,10 @@ var searchCommands = {
       .waitForElementVisible('@searchOrigin', timeout)
       .setValue('@searchOrigin', origin);
   },
+  enterKeyOrigin: function() {
+    this.api.pause(1000);
+    return this.setValue('@searchOrigin', this.api.Keys.ENTER);
+  },
   setDestination: function(destination) {
     var timeout = this.api.globals.elementVisibleTimeout;
     return this.waitForElementVisible('@frontPageSearchBar', timeout)
@@ -19,15 +23,15 @@ var searchCommands = {
       .waitForElementVisible('@searchDestination', timeout)
       .setValue('@searchDestination', destination);
   },
-  itinerarySearch: function(origin, destination) {
-    this.setOrigin(origin);
-    this.api.pause(1000);
-    this.waitForElementVisible('@firstSuggestedItem', timeout)
-        .setValue('@searchOrigin', this.api.Keys.ENTER);
-
-    this.setDestination(destination);
+  enterKeyDestination: function() {
     this.api.pause(1000);
     return this.setValue('@searchDestination', this.api.Keys.ENTER);
+  },
+  itinerarySearch: function(origin, destination) {
+    return this.setOrigin(origin)
+      .enterKeyOrigin()
+      .setDestination(destination)
+      .enterKeyDestination();
   },
   setSearch: function(search) {
     var timeout = this.api.globals.elementVisibleTimeout;
