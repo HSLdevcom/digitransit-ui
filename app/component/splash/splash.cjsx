@@ -91,7 +91,6 @@ class Splash extends React.Component
                         lat: item.geometry.coordinates[1]
                         lon: item.geometry.coordinates[0]
                         address: name
-                  @context.executeAction EndpointActions.displayOriginPopup
                   @closeModal()
               }
             />
