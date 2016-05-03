@@ -28,10 +28,10 @@ $citybike-not-available-color: $light-gray;
 
   .row {
     .available-few {
-      background: #FC7C08;
+      background: $slider-warning-color;
     }
     .available-more {
-      background: #55B511;
+      background: $slider-ok-color;
     }
     .city-bike-column:first-child {
       padding-left: 0;
