@@ -4,13 +4,10 @@ IndexNavigation     = require '../navigation/index-navigation'
 FrontPagePanel      = require '../front-page/front-page-panel'
 Icon                = require '../icon/icon'
 Link                = require 'react-router/lib/Link'
-PositionActions     = require '../../action/position-actions'
 EndpointActions     = require '../../action/endpoint-actions'
-SearchModal         = require '../search/search-modal'
-SearchInput         = require '../search/search-input'
-Tab                 = require('material-ui/Tabs/Tab').default
 {intlShape}         = require 'react-intl'
 FormattedMessage    = require('react-intl').FormattedMessage
+OneTabSearchModal   = require '../search/one-tab-search-modal'
 FakeSearchBar       = require '../search/fake-search-bar'
 FakeSearchWithButton = require '../search/fake-search-with-button'
 
@@ -22,13 +19,11 @@ class Splash extends React.Component
 
   constructor: -> #modal
     @state =
-      origin: undefined
-      destination: undefined
-      tabOpen: false
+      searchModalIsOpen: false
 
   closeModal: () =>
     @setState
-      tabOpen: false
+      searchModalIsOpen: false
 
   render: ->
     ownPosition = @context.intl.formatMessage
@@ -66,7 +61,6 @@ class Splash extends React.Component
               <FormattedMessage id="or" defaultMessage="Or"/><br/>
               <span className="cursor-pointer dotted-link medium" onClick={() =>
                 @setState
-                  tabOpen: "origin"
                   searchModalIsOpen: true}>
                 <FormattedMessage id="give-origin"  defaultMessage="Type in your origin"/><br/><br/>
               </span>
@@ -76,37 +70,12 @@ class Splash extends React.Component
             </div>
           }
         </div>
-        <SearchModal
-          ref="modal"
-          selectedTab="tab"
-          modalIsOpen={@state.tabOpen}
-          closeModal={@closeModal}>
-          <Tab className="search-header__button--selected"
-          label={@context.intl.formatMessage
-            id: @state.tabOpen or "origin"
-            defaultMessage: @state.tabOpen}
-          ref="originTab"
-          value="tab"
-          >
-            <SearchInput
-              initialValue = {initialValue}
-              type="endpoint"
-              onSuggestionSelected = {
-                (name, item) =>
-                  if item.type == 'CurrentLocation'
-                    @context.executeAction EndpointActions.setUseCurrent, @state.tabOpen
-                  else
-                    @context.executeAction EndpointActions.setEndpoint,
-                      "target": @state.tabOpen,
-                      "endpoint":
-                        lat: item.geometry.coordinates[1]
-                        lon: item.geometry.coordinates[0]
-                        address: name
-                  @closeModal()
-              }
-            />
-          </Tab>
-        </SearchModal>
+        <OneTabSearchModal
+          modalIsOpen={@state.searchModalIsOpen}
+          closeModal={@closeModal}
+          initialValue=""
+          target={"origin"}
+        />
       </div>
     </div>
 
