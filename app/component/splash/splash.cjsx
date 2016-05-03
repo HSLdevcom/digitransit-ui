@@ -2,7 +2,6 @@ React               = require 'react'
 Relay               = require 'react-relay'
 IndexNavigation     = require '../navigation/index-navigation'
 FrontPagePanel      = require '../front-page/front-page-panel'
-SearchMainContainer = require '../search/search-main-container'
 Icon                = require '../icon/icon'
 Link                = require 'react-router/lib/Link'
 PositionActions     = require '../../action/position-actions'
@@ -12,6 +11,8 @@ SearchInput         = require '../search/search-input'
 Tab                 = require('material-ui/Tabs/Tab').default
 {intlShape}         = require 'react-intl'
 FormattedMessage    = require('react-intl').FormattedMessage
+FakeSearchBar       = require '../search/fake-search-bar'
+FakeSearchWithButton = require '../search/fake-search-with-button'
 
 class Splash extends React.Component
   @contextTypes:
@@ -36,10 +37,20 @@ class Splash extends React.Component
 
     initialValue = ""
 
+    destinationPlaceholder = @context.intl.formatMessage
+      id: 'destination-placeholder'
+      defaultMessage: 'Where to? - address or stop'
+
+    fakeSearchBar =
+      <FakeSearchBar
+        placeholder={destinationPlaceholder}
+        id="front-page-search-bar"
+      />
+
     <div className="fullscreen">
       <IndexNavigation className="fullscreen">
         <div className="fullscreen splash-map">
-          <SearchMainContainer/>
+          <FakeSearchWithButton fakeSearchBar={fakeSearchBar}/>
           <FrontPagePanel/>
         </div>
       </IndexNavigation>
