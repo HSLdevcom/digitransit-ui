@@ -14,19 +14,24 @@ $citybike-not-available-color: $light-gray;
     margin-bottom: 6px !important;
   }
 
+  .separate {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
   .city-bike-column {
     height: 8px;
     background: $citybike-not-available-color;
     background-clip: content-box;
-    padding-left: 1px;
-    padding-right: 1px;
     float: left;
   }
 
   .row {
-    .available {
-      background: $citybike-color;
-      background-clip: content-box;
+    .available-few {
+      background: $slider-warning-color;
+    }
+    .available-more {
+      background: $slider-ok-color;
     }
     .city-bike-column:first-child {
       padding-left: 0;
