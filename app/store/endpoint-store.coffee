@@ -54,6 +54,7 @@ class EndpointStore extends Store
       lat: location.lat
       lon: location.lon
       address: location.address
+    @pendingPopup = true
     @emitChange("set-origin")
 
   setDestination: (location) ->
@@ -92,10 +93,6 @@ class EndpointStore extends Store
     else
       @setOrigin value
 
-  displayOriginPopup: () ->
-    @pendingPopup = true
-    @emitChange("display-popup")
-
   useCurrentPosition: (target) ->
     if "destination" == target
       @setDestinationToCurrent()
@@ -118,6 +115,5 @@ class EndpointStore extends Store
     "GeolocationDenied": 'clearGeolocation'
     "GeolocationTimeout": 'clearGeolocation'
     "clearGeolocation": "clearGeolocation"
-    "DisplayOriginPopup": "displayOriginPopup"
 
 module.exports = EndpointStore
