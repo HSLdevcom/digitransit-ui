@@ -1,8 +1,5 @@
 React               = require 'react'
 EndpointActions     = require '../../action/endpoint-actions'
-SearchModal         = require '../search/search-modal'
-GeolocationOrInput  = require '../search/geolocation-or-input'
-Tab                 = require('material-ui/Tabs/Tab').default
 {intlShape}         = require 'react-intl'
 Icon                = require '../icon/icon'
 OneTabSearchModal   = require '../search/one-tab-search-modal'
@@ -36,8 +33,6 @@ class OriginDestinationBar extends React.Component
     @setState
       tabOpen: false
 
-  # TODO: This is pretty much copy pasted from search-main-container.
-  #       Perhaps some kind of higher level component is needed?
   openSearch: (tab) =>
     @setState
       tabOpen: tab

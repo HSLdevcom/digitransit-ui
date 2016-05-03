@@ -6,9 +6,6 @@ FavouriteIconTable        = require './favourite-icon-table'
 FavouriteLocationActions  = require '../../action/favourite-location-action'
 FakeSearchBar             = require '../search/fake-search-bar'
 SearchActions             = require '../../action/search-actions'
-SearchModal               = require '../search/search-modal'
-SearchInput               = require '../search/search-input'
-Tab                       = require('material-ui/Tabs/Tab').default
 OneTabSearchModal         = require '../search/one-tab-search-modal'
 
 intl = require 'react-intl'
