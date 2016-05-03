@@ -62,7 +62,7 @@ getPolyfills = (userAgent) ->
     'Promise': flags: ['gated']
     'String.prototype.repeat': flags: ['gated']
     'String.prototype.endsWith': flags: ['gated']
-    'String.prototype.startsWith': flags: ['gated']
+    'String.prototype.startsWith': flags: ['always', 'gated']
     'Intl': flags: ['always', 'gated']
     'Object.assign': flags: ['gated']
     'Array.prototype.find': flags: ['gated']
