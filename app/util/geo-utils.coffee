@@ -62,6 +62,15 @@ getDistanceToFurthestStop = (coordinates, stops) ->
     if current.distance > previous.distance then current else previous
   , stop: null, distance: 0
 
+boundWithMinimumArea = (p1, p2) ->
+  bounds = [[p1[0], p1[1]], [p2[0], p2[1]]]
+  bounds[0][1] -= 0.001
+  bounds[1][1] += 0.001
+  bounds[0][0] -= 0.001
+  bounds[1][0] += 0.001
+  bounds
+
+
 
 module.exports =
   getBearing: getBearing
@@ -70,3 +79,4 @@ module.exports =
   getDistanceToFurthestStop: getDistanceToFurthestStop
   displayDistance: displayDistance
   getLatLng: getLatLng
+  boundWithMinimumArea: boundWithMinimumArea
