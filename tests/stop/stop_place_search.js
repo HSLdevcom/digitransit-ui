@@ -2,17 +2,17 @@
 
 module.exports = {
     tags: ['stops', 'search'],
-    'Search for Tanangerhallen and verify that the title is correct' : function (browser) {
-      var browser = browser.url(browser.launch_url);
+    'Search for Tanangerhallen and verify that the title is correct': function(browser) {
+        var browser = browser.url(browser.launch_url);
 
-      var searchFields = browser.page.searchFields();
-      searchFields.setSearch("Tanangerhallen");
+        var searchFields = browser.page.searchFields();
+        searchFields.setSearch("Tanangerhallen");
 
-      var stopCard = browser.page.stopCard();
+        var stopCard = browser.page.stopCard();
 
-      stopCard.expectCardHeader("Tanangerhallen");
+        stopCard.expectCardHeader("Tanangerhallen");
 
-      // stopCard.waitForDepartureVisible();
-      browser.end();
+        // stopCard.waitForDepartureVisible();
+        browser.end();
     }
 };

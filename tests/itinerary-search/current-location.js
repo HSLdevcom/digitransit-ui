@@ -7,8 +7,8 @@ module.exports = {
             .setGeolocation(59.896442, 10.554464);
 
         browser.page.searchFields()
-              .setDestination("Bryn stasjon")
-              .enterKeyDestination();
+            .setDestination("Bryn stasjon")
+            .enterKeyDestination();
 
         browser.page.itinerarySummary()
             .waitForFirstItineraryRow();
