@@ -25,21 +25,10 @@
                 "acceptSslCerts": true
             }
         },
+        "beta": {
+            "launch_url": "https://beta.rutebanken.org"
+        },
         "phantomjs": {
-            "launch_url": "http://test.rutebanken.org",
-            "selenium_port": 4444,
-            "selenium_host": "selenium-hub",
-            "silent": true,
-            "globals": {
-                "itinerarySearchTimeout": 21000,
-                "elementVisibleTimeout": 10000
-            },
-            "screenshots": {
-                "enabled": false,
-                "on_failure": true,
-                "on_error": true,
-                "path": "reports/screenshots/"
-            },
             "desiredCapabilities": {
                 "browserName": "phantomjs",
                 "javascriptEnabled": true,

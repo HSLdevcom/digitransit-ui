@@ -5,7 +5,8 @@
   "licence": "MIT",
   "keywords": "rutebanken, nightwatch",
   "scripts": {
-    "test": "./node_modules/nightwatch/bin/nightwatch --skiptags skip"
+    "test": "./node_modules/nightwatch/bin/nightwatch --skiptags skip",
+    "beta": "./node_modules/nightwatch/bin/nightwatch --skiptags skip --env beta"
   },
   "repository": {
     "type": "git",
