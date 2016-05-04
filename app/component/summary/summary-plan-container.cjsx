@@ -88,8 +88,7 @@ class SummaryPlanContainer extends React.Component
           leafletObjs={leafletObjs}
           fitBounds={true}
           from={from}
-          to={to}
-          padding={[0, 110]}>
+          to={to}>
         </Map>
         <ItinerarySummaryListContainer itineraries={[]} currentTime={currentTime} onSelect={nop} activeIndex={0} />
       </div>
