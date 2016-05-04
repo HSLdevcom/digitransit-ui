@@ -19,7 +19,7 @@ module.exports =
     MAP: "#{MAP_URL}/map/v1/hsl-map/"
     STOP_MAP: "#{API_URL}/map/v1/hsl-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
-    MQTT: "ws://213.138.147.225:1883"
+    MQTT: "wss://dev.hsl.fi/mqtt-proxy"
     ALERTS: "#{API_URL}/realtime/service-alerts/v1"
     FONT: "https://cloud.typography.com/6364294/6653152/css/fonts.css"
     REALTIME: "#{API_URL}/realtime/vehicle-positions/v1"

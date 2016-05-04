@@ -45,7 +45,4 @@ module.exports.clearGeolocation = (actionContext) ->
 
 module.exports.setOriginToDefault = (actionContext) =>
   actionContext.executeAction @setEndpoint, {target: "origin", endpoint: config.defaultEndpoint}
-  actionContext.dispatch "DisplayOriginPopup"
-
-module.exports.displayOriginPopup = (actionContext) =>
-  actionContext.dispatch "DisplayOriginPopup"
+  

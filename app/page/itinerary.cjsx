@@ -9,6 +9,7 @@ ItineraryPlanContainer = require '../component/itinerary/itinerary-plan-containe
 queries           = require '../queries'
 EndpointActions   = require '../action/endpoint-actions'
 isEqual           = require 'lodash/isEqual'
+NoRoutePopup      = require '../component/summary/no-route-popup'
 
 class ItineraryPage extends React.Component
   @contextTypes:
