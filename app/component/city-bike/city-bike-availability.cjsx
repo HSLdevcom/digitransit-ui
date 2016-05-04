@@ -2,11 +2,11 @@ React                 = require 'react'
 cx                    = require 'classnames'
 {FormattedMessage}    = require('react-intl')
 ComponentUsageExample = require '../documentation/component-usage-example'
-
+config                = require '../../config'
 
 CityBikeAvailability = (props) ->
   availablepct =  (100 * props.bikesAvailable / props.totalSpaces)
-  availableClass = if availablepct == 0 then "available-none" else if props.bikesAvailable < 4 then "available-few" else "available-more"
+  availableClass = if availablepct == 0 then "available-none" else if props.bikesAvailable <= config.cityBike.fewAvailableCount then "available-few" else "available-more"
   totalClass = if availablepct == 100 then "available-more" else "available-none"
   separator = if availablepct > 0 and availablepct < 100 then "separate"
 

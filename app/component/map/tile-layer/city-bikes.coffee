@@ -2,6 +2,7 @@
 Protobuf      = require 'pbf'
 Relay         = require 'react-relay'
 queries       = require '../../../queries'
+config        = require '../../../config'
 
 scaleratio = (window?.devicePixelRatio or 1)
 citybikeImageSize = 18 * scaleratio
@@ -66,7 +67,7 @@ class CityBikes
             (geom[0][0].x / @tile.ratio) - notInUseImageSize / 2,
             (geom[0][0].y / @tile.ratio) - notInUseImageSize / 2
           return
-        else if result.bikesAvailable > 3
+        else if result.bikesAvailable > config.cityBike.fewAvailableCount
           image = manyAvailableImage
         else if result.bikesAvailable > 0
           image = fewAvailableImage
