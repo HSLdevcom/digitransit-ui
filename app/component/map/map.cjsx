@@ -1,16 +1,16 @@
-isBrowser     = window?
-React         = require 'react'
-Relay         = require 'react-relay'
-queries       = require '../../queries'
-Icon          = require '../icon/icon'
+isBrowser      = window?
+React          = require 'react'
+Relay          = require 'react-relay'
+queries        =  require '../../queries'
+Icon           = require '../icon/icon'
 LocationMarker = require './location-marker'
-config        = require '../../config'
-OriginPopup   = require './origin-popup'
-LeafletMap    = if isBrowser then require('react-leaflet/lib/Map').default else null
-TileLayer     = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
-L             = if isBrowser then require 'leaflet' else null
+config         = require '../../config'
+OriginPopup    = require './origin-popup'
+LeafletMap     = if isBrowser then require('react-leaflet/lib/Map').default else null
+TileLayer      = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
+L              = if isBrowser then require 'leaflet' else null
 PositionMarker = require './position-marker'
-PlaceMarker = require './place-marker'
+PlaceMarker    = require './place-marker'
 
 if isBrowser and config.map.useVectorTiles
   TileLayerContainer = require './tile-layer/tile-layer-container'
