@@ -1,6 +1,7 @@
 exports.command = function(latitude, longitude, callback) {
-    this.execute(function() {
-        window.mock.geolocation.setCurrentPosition(59.896442, 10.554464);
-    });
+    this.execute(function(latitude2, longitude2) {
+        // Requires usnig digitransit-ui with the following in the URL: ?mock
+        window.mock.geolocation.setCurrentPosition(latitude2, longitude2);
+    }, [latitude, longitude]);
     return this;
-};
+}
