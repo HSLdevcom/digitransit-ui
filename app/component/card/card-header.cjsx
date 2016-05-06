@@ -5,11 +5,14 @@ cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
 ComponentUsageExample = require '../documentation/component-usage-example'
 
+Favourite = ({addFavourite, favourite}) ->
+  <span className="cursor-pointer favourite-icon right" onClick={addFavourite}>
+    <Icon className={cx "favourite", selected: favourite} img="icon-icon_star"/>
+  </span>
+
 CardHeader = (props) ->
   <div className={cx "card-header", props.className}>
-    <span className="cursor-pointer favourite-icon right" onClick={props.addFavourite}>
-      <Icon className={cx "favourite", selected: props.favourite} img="icon-icon_star"/>
-    </span>
+    {Favourite props if props.addFavourite}
     {props.children}
     <span className={props.headingStyle || "h4 link-color"}>{props.name} ›</span>
     <p className="sub-header-h4">{props.description}</p>
@@ -25,11 +28,11 @@ CardHeader.description =
   </div>
 
 CardHeader.propTypes =
-  addFavourite: React.PropTypes.func.isRequired
+  addFavourite: React.PropTypes.func
   className: React.PropTypes.string
-  favourite: React.PropTypes.bool.isRequired
+  favourite: React.PropTypes.bool
   headingStyle: React.PropTypes.string
-  name: React.PropTypes.string.isRequired.isRequired
+  name: React.PropTypes.string.isRequired
   description: React.PropTypes.string.isRequired
 
 CardHeader.displayName = "CardHeader"
