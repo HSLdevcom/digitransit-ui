@@ -19,7 +19,7 @@ FakeSearchWithButton = (props) ->
 
 FakeSearchWithButton.propTypes =
   fakeSearchBar: React.PropTypes.object.isRequired
-  onClick: React.PropTypes.func.isRequired
+  onClick: React.PropTypes.func
 
 FakeSearchWithButton.description = "Centered fake search field with search icon button"
 

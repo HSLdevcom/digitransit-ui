@@ -1,6 +1,7 @@
 React             = require 'react'
 ReactAutowhatever = (require 'react-autowhatever').default
 SuggestionItem    = require './suggestion-item'
+CurrentPositionItem = require './current-position-suggestion-item'
 SearchActions     = require '../../action/search-actions'
 Icon              = require '../icon/icon'
 isBrowser         = window?
@@ -118,12 +119,15 @@ class SearchInput extends React.Component
         id="suggest"
         items={@state?.suggestions || []}
         renderItem={(item) ->
-          <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
+          if item.properties.layer == "currentPosition"
+            <CurrentPositionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>
+          else
+            <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>}
         onSuggestionSelected={@currentItemSelected}
         focusedItemIndex={@state.focusedItemIndex}
         inputProps={
           "id": @props.id
-          "value": inputValue
+          "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
           "onChange": @handleUpdateInputNow
           "onKeyDown": @handleOnKeyDown
           "onTouchStart": @handleOnTouchStart

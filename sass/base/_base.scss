@@ -26,6 +26,8 @@ p {
   font-weight: $font-weight-book;
   font-size: $font-size-normal;
   color: $black;
+  /* Remove Android FontBoosting */
+  max-height: 999999px;
 }
 a {
   color: $link-color;

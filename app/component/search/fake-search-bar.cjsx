@@ -19,10 +19,10 @@ FakeSearchBar = (props) ->
   </div>
 
 FakeSearchBar.propTypes =
-  onClick: React.PropTypes.func.isRequired
   placeholder: React.PropTypes.string.isRequired
   className: React.PropTypes.string
   value: React.PropTypes.string
+  onClick: React.PropTypes.func
 
 FakeSearchBar.displayName = "FakeSearchBar"
 

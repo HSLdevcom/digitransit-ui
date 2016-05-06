@@ -102,14 +102,12 @@ class SearchMainContainer extends React.Component
     <div>
       <FakeSearchWithButton fakeSearchBar={fakeSearchBar} onClick={@clickSearch}/>
       <SearchModal
-        ref="modal"
         selectedTab={@state.selectedTab}
         modalIsOpen={@state.modalIsOpen}
         closeModal={@closeModal}>
         <Tab
           className={"search-header__button" + if @state.selectedTab == "origin" then "--selected" else ""}
           label={originSearchTabLabel}
-          ref="searchTab"
           value="origin"
           id="origin"
           onActive={@onTabChange}>
@@ -136,7 +134,6 @@ class SearchMainContainer extends React.Component
           label={destinationSearchTabLabel}
           value="destination"
           id="destination"
-          ref="searchTab"
           onActive={@onTabChange}>
           <GeolocationOrInput
             ref="searchInputdestination"
@@ -160,7 +157,6 @@ class SearchMainContainer extends React.Component
           className={"search-header__button" + if @state.selectedTab == "search" then "--selected" else ""}
           label={searchTabLabel}
           value="search"
-          ref="searchTab"
           onActive={@onTabChange}>
           <GeolocationOrInput
             ref="searchInputsearch"

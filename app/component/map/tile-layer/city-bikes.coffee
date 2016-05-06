@@ -1,27 +1,40 @@
 {VectorTile}  = require 'vector-tile'
 Protobuf      = require 'pbf'
+Relay         = require 'react-relay'
+queries       = require '../../../queries'
+config        = require '../../../config'
 
 scaleratio = (window?.devicePixelRatio or 1)
 citybikeImageSize = 18 * scaleratio
+availabilityImageSize = 8 * scaleratio
+notInUseImageSize = 14 * scaleratio
 
 # TODO: IE doesn't support innerHTML for svg elements, so icon has to be duplicated
 citybikeImageText = """
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="#{citybikeImageSize}" height="#{citybikeImageSize}">
-    <path fill="rgb(251, 184, 0)" class="path1 fill-color12" d="M0.043 126.755c0-69.114 57.594-126.709 126.709-126.709h767.931c71.676 0 129.27 57.594 129.27 126.709v767.931c0 71.672-57.594 129.27-129.27 129.27h-767.928c-69.114 0-126.709-57.594-126.709-129.27v-767.931z"></path>
-    <path fill="rgb(255, 255, 255)" class="path2 fill-color14" d="M618.11 553.786c3.811-15.075 10.816-29.583 19.143-42.512l24.522 28.56c-2.323 4.573-5.101 10.35-6.419 13.951h-37.245z"></path>
-    <path fill="rgb(255, 255, 255)" class="path3 fill-color14" d="M257.817 750.129c-3.533 0-7.077-0.119-10.628-0.368-41.352-2.789-79.157-21.523-106.479-52.764-27.278-31.208-40.774-71.181-37.946-112.562 5.458-81.184 73.442-144.793 154.716-144.793 3.522 0 7.084 0.108 10.646 0.329 7.861 0.545 15.7 1.687 23.33 3.374l-13.308 33.463c-4.129-0.715-8.287-1.199-12.445-1.467-2.749-0.21-5.509-0.289-8.226-0.289-62.706 0-115.17 49.090-119.408 111.778-2.175 31.913 8.208 62.767 29.305 86.899 21.057 24.113 50.254 38.571 82.195 40.706 2.778 0.21 5.556 0.318 8.316 0.318 62.684 0 115.102-49.101 119.317-111.807 2.005-29.662-6.221-57.833-24.54-81.075l14.905-37.043c2.175 2.222 4.942 5.585 6.987 7.948 27.271 31.208 40.774 71.199 37.967 112.562-5.48 81.213-73.424 144.793-154.705 144.793z"></path>
-    <path fill="rgb(255, 255, 255)" class="path4 fill-color14" d="M761.656 611.698l-219.207 0.061 13.189-35.417h170.81l-105.626-138.063 16.722-37.729 138.767 182.789c5.914 7.742 4.425 18.836-3.305 24.789-2.063 1.579-4.624 2.619-7.749 3.175l-3.038 0.455-0.564-0.061z"></path>
-    <path fill="rgb(255, 255, 255)" class="path5 fill-color14" d="M305.307 394.85c-6.669 14.678-9.548 24.204-27.556 23.022-8.594-0.574-14.378-0.842-22.358-1.976-14.685-2.113-21.473-9.327-30.327-22.448-8.663-12.882-26.415-39.694-38.831-59.809-4.862-7.879-2.142-16.99 9.27-16.99h143.669c-5.437 13.807-27.18 63.493-33.867 78.2z"></path>
-    <path fill="rgb(255, 255, 255)" class="path6 fill-color14" d="M542.421 612.959h-40.926c-23.080 0-29.623-17.672-33.116-27.17-8.453-22.766-23.369-63.291-32.527-90.681-24.767-74.067-40.496-74.067-64.303-74.067-10.935 0-19.797-8.88-19.797-19.825 0-10.935 8.861-19.807 19.797-19.807 46.135 0 73.146 15.133 101.894 101.128 8.97 26.841 23.727 66.914 31.707 88.416 0.336 0.892 0.614 1.676 0.853 2.363h36.418c10.924 0 19.807 8.883 19.807 19.825 0 10.946-8.88 19.818-19.807 19.818z"></path>
-    <path fill="rgb(255, 255, 255)" class="path7 fill-color14" d="M535.994 611.759l-1.478-2.164-0.108 2.056h-0.448c-6.817 0-12.196-2.959-15.411-7.868l-0.249-1.687 12.087-38.751 100.742-225.579h-32.686c-16.036 0-29.077-13.038-29.077-29.077l-0.029-2.005h148.77v2.005c0 16.036-13.059 29.077-29.106 29.077h-19.074l-107.905 241.434-12.326 31.288-1.857 1.272h-11.845z"></path>
-    <path fill="rgb(255, 255, 255)" class="path8 fill-color14" d="M352.754 427.417c-2.373 0-4.783-0.466-7.095-1.438-9.349-3.93-13.735-14.688-9.815-24.023l49.119-116.846c2.879-6.806 9.537-11.235 16.921-11.235h47.851c10.14 0 18.348 8.208 18.348 18.337 0 10.14-8.208 18.359-18.348 18.359h-35.666l-44.398 105.604c-2.948 7.015-9.754 11.242-16.917 11.242z"></path>
-    <path fill="rgb(255, 255, 255)" class="path9 fill-color14" d="M901.782 518.705c0.376 0.665 2.102 3.782 2.46 4.436 11.571 22.239 17.586 47.107 17.354 72.868-0.686 84.876-70.296 153.922-155.153 153.922h-1.358c-41.468-0.336-80.331-16.791-109.405-46.363-18.637-18.962-32.162-42.404-39.069-67.778l37.093-0.029c5.816 16.563 14.688 30.226 27.209 42.989 22.448 22.813 52.435 35.515 84.449 35.804h1.051c65.506 0 119.231-53.328 119.794-118.851 0.159-19.508-4.295-38.354-12.922-55.264l28.495-21.733z"></path>
-    <path fill="rgb(255, 255, 255)" class="path10 fill-color14" d="M709.225 445.653l84.655 110.506c0 0 99.85-72.142 105.276-76.133 9.378-6.925 7.861-15.946-0.802-21.722-14.32-9.537-43.029-30.952-115.636-30.952-51.236 0.004-73.493 18.301-73.493 18.301z"></path>
-    <path fill="rgb(255, 255, 255)" class="path11 fill-color14" d="M262.437 607.702c-6.846 0-12.969-3.829-15.946-10.003-2.063-4.216-2.352-9.038-0.802-13.496 1.557-4.465 4.772-8.078 9.049-10.133 16.173-7.828 19.2-14.457 29.362-41.32 7.323-19.471 41.699-104.286 56.384-140.505l0.853-2.095 3.244-0.715 24.511 23.022 0.477 2.222c-16.78 41.439-45.897 113.472-52.374 130.603-10.577 27.964-17.575 46.392-47.067 60.643-2.442 1.192-5.032 1.777-7.691 1.777z"></path>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.46 283.46" width="#{citybikeImageSize}" height="#{citybikeImageSize}">
+    <path fill="#FCBC19" d="M0 35C0 16 16 0 35 0h212.7c19.8 0 35.7 16 35.7 35v212.7c0 19.8-16 35.7-35.7 35.7H35c-19 0-35-16-35-35.7V35z"/>
+    <g fill="#FFF">
+      <path d="M182.6 129.3L192 154c3.8 10 10 19.4 14.6 24.7 5 5.8 11.7-.2 7.5-5.5-4.5-5.8-9.6-14.4-13.2-23.5l-17-45.2h13.7l7.5 19c1 2.7 2.7 3.8 5 3.8h18.5c2.7 0 4.4-1.3 5-3.5l9.4-27c2-6.2-5.4-9-7.8-3.6-7.4 16.2-22.4 14-28 7.5-2.2-2.6-3.7-4-6.6-4h-19.8v-.3c4.2-6.3 5.4-8.5 6.4-13.3 1-4.6 0-9-2.7-12.2-3-3.6-7.3-5.8-12.6-5.7-7.5.2-13.2 6-14 6.8-1.7 2-1.6 5 .4 6.8 2 1.8 4.8 1.6 6.8-.3 1-1 4-3.7 6.8-3.8 2.4 0 3.7 1 4.4 1.8 1 1 2 3.4 1.3 5.5-.4 1.5-.8 3-4 8-2.6 3-4 6-2.8 9l8 21c-15 10-26.2 24.5-30.4 43.3-3-1.5-6.3-2-10.2-1.6l-2.4.3-26-68c2.4-.6 5.2-1.2 8.7-1.4l2.8-.2c3 0 5-2 5-4.5 0-2.7-2-5-5.4-5H89c-3.6 0-5.8 1.2-5.8 3.8C83 92 90.3 97 97.2 97c1.2 0 2.3-.2 3.4-.4l9 23.8-9 13.8c-9.4-7-20.5-10.6-31.8-10.6-13 0-25.3 4.7-34 12l-2.5 2.3c-2.6 2.5-1.8 7 1.8 7.7.4 0 2.3.6 2.6.7C50.2 149.7 63 158 73.4 169c-2.8 2-4.6 5-4.6 8.2 0 5.7 3.8 9.7 10.2 10.4l57.8 6.2c11 1 19.7-3.6 20.6-17l.3-3c1-17 10-33.6 25-44.5zm-68.7 2l12 31.3-35.4 3.4 23.3-34.6z"/>
+      <path d="M77.7 208.6c-17.7 0-32-14.2-32-32 0-5.4 1.4-11 4.7-16.3-2.6-1.7-6-3.3-8.8-4.4-3.8 6-5.8 13.6-5.8 20.7 0 23 19 41.7 42 41.7 14.7 0 28-7.8 35.3-19.8l-11.6-1.3c-5.3 7-14 11.3-23.7 11.3zM211 135c-2.6 0-5 .3-7.3.7l3.6 9.3c1-.2 2.4-.2 3.7-.2 17.5 0 32 14.4 32 32s-14.5 31.8-32 31.8c-17.7 0-32-14.2-32-32 0-7.2 2.6-13.8 6.6-19.2l-4-10.4c-7.6 7.6-12.4 18.2-12.4 29.7 0 23 18.8 41.7 41.8 41.7 23 0 41.7-18.6 41.7-41.7 0-23-18.6-41.6-41.7-41.6z"/>
+    </g>
   </svg>"""
+
+
+manyAvailableText = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="#{availabilityImageSize}" height="#{availabilityImageSize}"><circle fill="#64BE14" cx="12" cy="12" r="12"/><path opacity=".1" d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2m0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"/><path fill="#FFF" d="M10.6 16.5l-4.2-4.2L7.8 11l2.8 2.7L17 7.3l1.4 1.5"/></svg>"""
+fewAvailableText = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="#{availabilityImageSize}" height="#{availabilityImageSize}"><circle fill="#FF9000" cx="12" cy="12" r="12"/><path opacity=".1" d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2m0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"/><path fill="#FFF" d="M14 14H8v-2h4V5h2"/></svg>"""
+noneAvailableText = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="#{availabilityImageSize}" height="#{availabilityImageSize}"><circle fill="#DC0451" cx="12" cy="12" r="12"/><path opacity=".1" d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2m0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"/><path fill="#FFF" d="M6.8 15.8l9-9L17 8.3l-9 9z"/><path fill="#FFF" d="M6.8 8.2l1.4-1.4 9 9-1.5 1.4z"/></svg>"""
+notInUseText = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="#{notInUseImageSize}" height="#{notInUseImageSize}"><path fill="#DC0451" d="M1.565 24c-.4 0-.8-.153-1.107-.46-.61-.61-.61-1.6 0-2.212L21.328.458c.61-.61 1.602-.61 2.213 0 .612.61.612 1.602 0 2.213L2.67 23.54c-.304.307-.704.46-1.105.46z"/><path fill="#DC0451" d="M22.435 24c-.4 0-.8-.153-1.107-.46L.458 2.673C-.15 2.062-.15 1.07.46.46c.612-.612 1.603-.612 2.214 0l20.87 20.87c.61.61.61 1.6 0 2.212-.306.305-.707.458-1.107.458z"/></svg>"""
 
 citybikeImage = new Image(citybikeImageSize, citybikeImageSize)
 citybikeImage.src = "data:image/svg+xml;base64,#{btoa(citybikeImageText)}"
+manyAvailableImage = new Image(availabilityImageSize, availabilityImageSize)
+manyAvailableImage.src = "data:image/svg+xml;base64,#{btoa(manyAvailableText)}"
+fewAvailableImage = new Image(availabilityImageSize, availabilityImageSize)
+fewAvailableImage.src = "data:image/svg+xml;base64,#{btoa(fewAvailableText)}"
+noneAvailableImage = new Image(availabilityImageSize, availabilityImageSize)
+noneAvailableImage.src = "data:image/svg+xml;base64,#{btoa(noneAvailableText)}"
+notInUseImage = new Image(notInUseImageSize, notInUseImageSize)
+notInUseImage.src = "data:image/svg+xml;base64,#{btoa(notInUseText)}"
 
 
 class CityBikes
@@ -43,6 +56,26 @@ class CityBikes
     @tile.ctx.drawImage citybikeImage,
       (geom[0][0].x / @tile.ratio) - citybikeImageSize / 2,
       (geom[0][0].y / @tile.ratio) - citybikeImageSize / 2
+    query = Relay.createQuery queries.CityBikeStatusQuery, id: feature.properties.id
+    Relay.Store.primeCache
+      query: query
+    , (readyState) =>
+      if readyState.done
+        result = Relay.Store.readQuery(query)[0]
+        if result.bikesAvailable == 0 and result.spacesAvailable == 0
+          @tile.ctx.drawImage notInUseImage,
+            (geom[0][0].x / @tile.ratio) - notInUseImageSize / 2,
+            (geom[0][0].y / @tile.ratio) - notInUseImageSize / 2
+          return
+        else if result.bikesAvailable > config.cityBike.fewAvailableCount
+          image = manyAvailableImage
+        else if result.bikesAvailable > 0
+          image = fewAvailableImage
+        else
+          image = noneAvailableImage
+        @tile.ctx.drawImage image,
+          (geom[0][0].x / @tile.ratio) - citybikeImageSize / 2 - availabilityImageSize / 2 + 2 * scaleratio,
+          (geom[0][0].y / @tile.ratio) - citybikeImageSize / 2 - availabilityImageSize / 2 + 2 * scaleratio
 
   @getName = () -> "citybike"
 

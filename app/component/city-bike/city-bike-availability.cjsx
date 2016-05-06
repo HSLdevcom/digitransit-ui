@@ -2,17 +2,18 @@ React                 = require 'react'
 cx                    = require 'classnames'
 {FormattedMessage}    = require('react-intl')
 ComponentUsageExample = require '../documentation/component-usage-example'
-
+config                = require '../../config'
 
 CityBikeAvailability = (props) ->
+  availablepct =  (100 * props.bikesAvailable / props.totalSpaces)
+  availableClass = if availablepct == 0 then "available-none" else if props.bikesAvailable <= config.cityBike.fewAvailableCount then "available-few" else "available-more"
+  totalClass = if availablepct == 100 then "available-more" else "available-none"
+  separator = if availablepct > 0 and availablepct < 100 then "separate"
 
-  columnWidth = {width: (100.0 / props.totalSpaces) + "%"}
-  rows = [0 ... props.totalSpaces].map (_, i) ->
-    <div
-      key={i}
-      className={cx "city-bike-column", {available: i < props.bikesAvailable}}
-      style=columnWidth
-    />
+
+  #leave room for rounded ends
+  if availablepct < 5 then availablepct = 5
+  if availablepct > 95 then availablepct = 95
 
   <div className="city-bike-availability-container">
     <p className="sub-header-h4 bike-availability-header">
@@ -20,7 +21,8 @@ CityBikeAvailability = (props) ->
       {"\u00a0"}({if isNaN props.bikesAvailable then 0 else props.bikesAvailable}/{if isNaN props.totalSpaces then 0 else props.totalSpaces})
     </p>
     <div className="row">
-      {rows}
+      <div className={cx("city-bike-column", availableClass, separator)} style={"width": availablepct + "%" }></div>
+      <div className={cx("city-bike-column", totalClass, separator)} style={"width": (100 - availablepct) + "%" }></div>
     </div>
   </div>
 
