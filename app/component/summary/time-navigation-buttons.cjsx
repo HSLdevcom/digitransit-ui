@@ -6,7 +6,6 @@ FormattedMessage = intl.FormattedMessage
 
 class TimeNavigationButtons extends React.Component
   @contextTypes:
-    getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
 

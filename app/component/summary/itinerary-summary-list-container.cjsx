@@ -7,11 +7,6 @@ Icon                  = require '../icon/icon'
 FormattedMessage      = require('react-intl').FormattedMessage
 
 class ItinerarySummaryListContainer extends React.Component
-
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
-
   render: =>
     summaries = []
     if @props.itineraries and @props.itineraries.length > 0

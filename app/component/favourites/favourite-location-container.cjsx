@@ -5,11 +5,6 @@ FavouriteLocation     = require './favourite-location'
 Icon                  = require '../icon/icon'
 
 class FavouriteLocationContainer extends React.Component
-
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
-
   render: =>
     plan = @props.plan.plan
     itinerary = plan.itineraries[0]

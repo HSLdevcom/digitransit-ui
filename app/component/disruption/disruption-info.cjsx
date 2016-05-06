@@ -6,9 +6,6 @@ DisruptionListContainer = require './disruption-list-container'
 FormattedMessage        = require('react-intl').FormattedMessage
 
 class DisruptionInfo extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-
   @propTypes:
     open: React.PropTypes.bool
     toggleDisruptionInfo: React.PropTypes.func

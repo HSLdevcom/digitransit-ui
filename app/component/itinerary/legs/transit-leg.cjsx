@@ -11,9 +11,6 @@ intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 
 class TransitLeg extends React.Component
-  @contextTypes:
-    intl: intl.intlShape.isRequired
-
   stopCode: (stopCode) ->
     if stopCode
       <StopCode code={stopCode}/>
