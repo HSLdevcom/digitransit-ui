@@ -89,6 +89,7 @@
     "react-simpletabs": "0.7.0",
     "react-swipeable-views": "0.5.2",
     "react-tap-event-plugin": "1.0.0",
+    "recompose": "^0.17.0",
     "serialize-javascript": "1.2.0",
     "slick-carousel": "1.5.9",
     "sphericalmercator": "^1.0.5",
