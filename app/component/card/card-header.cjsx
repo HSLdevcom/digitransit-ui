@@ -6,7 +6,6 @@ NotImplementedLink    = require '../util/not-implemented-link'
 ComponentUsageExample = require '../documentation/component-usage-example'
 
 CardHeader = (props) ->
-
   <div className={cx "card-header", props.className}>
     <span className="cursor-pointer favourite-icon right" onClick={props.addFavourite}>
       <Icon className={cx "favourite", selected: props.favourite} img="icon-icon_star"/>
@@ -26,11 +25,11 @@ CardHeader.description =
   </div>
 
 CardHeader.propTypes =
-  addFavourite: React.PropTypes.func
+  addFavourite: React.PropTypes.func.isRequired
   className: React.PropTypes.string
-  favourite: React.PropTypes.bool
+  favourite: React.PropTypes.bool.isRequired
   headingStyle: React.PropTypes.string
-  name: React.PropTypes.string.isRequired
+  name: React.PropTypes.string.isRequired.isRequired
   description: React.PropTypes.string.isRequired
 
 CardHeader.displayName = "CardHeader"
