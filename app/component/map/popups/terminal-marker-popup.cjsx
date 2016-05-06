@@ -10,12 +10,10 @@ NotImplementedLink = require '../../util/not-implemented-link'
 moment             = require 'moment'
 sortBy = require 'lodash/sortBy'
 naturalSort = require 'javascript-natural-sort'
-{getRoutePath}        = require '../../../util/path'
 
 class TerminalMarkerPopup extends React.Component
 
   render: ->
-    routePath = getRoutePath(@props.context.getStore('PositionStore').getLocationString(), @props.terminal.name + "::" + @props.terminal.lat + "," + @props.terminal.lon)
     stops = @props.terminal.stops.slice().sort((a, b) -> naturalSort(a.platformCode, b.platformCode)).map (stop, i) ->
       mode = stop.routes[0].type.toLowerCase()
       <Link to="/pysakit/#{stop.gtfsId}" key={stop.gtfsId} className="no-decoration">
@@ -46,10 +44,11 @@ class TerminalMarkerPopup extends React.Component
       <div className="terminal-platforms">
         {stops}
       </div>
-      <MarkerPopupBottom
-        routeHere={routePath}>
-        <Icon img={'icon-icon_time'}/> <NotImplementedLink name={<FormattedMessage id='departures' defaultMessage='Departures' />}/><br/>
-      </MarkerPopupBottom>
+      <MarkerPopupBottom location={{
+        address: @props.terminal.name
+        lat: @props.terminal.lat
+        lon: @props.terminal.lon
+      }}/>
     </div>
 
 
