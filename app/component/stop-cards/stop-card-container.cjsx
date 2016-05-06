@@ -5,21 +5,11 @@ DepartureListContainer = require '../departure/departure-list-container'
 StopCard              = require './stop-card'
 FavouriteStopsActions = require '../../action/favourite-stops-action'
 moment                = require 'moment'
+connectToStores = require 'fluxible-addons-react/connectToStores'
 
 class StopCardContainer extends React.Component
   @contextTypes:
-    getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
-
-  componentDidMount: ->
-    @context.getStore('FavouriteStopsStore').addChangeListener @onChange
-
-  componentWillUnmount: ->
-    @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
-
-  onChange: (id) =>
-    if !id or id == @props.stop.gtfsId
-      @forceUpdate()
 
   addFavouriteStop: (e) =>
     e.preventDefault()
@@ -30,7 +20,7 @@ class StopCardContainer extends React.Component
       className={@props.className}
       stop={@props.stop}
       distance={@props.distance}
-      favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop.gtfsId)}
+      favourite={@props.favourite}
       addFavouriteStop={@addFavouriteStop}>
       <DepartureListContainer
         rowClasses="no-padding no-margin"
@@ -38,8 +28,10 @@ class StopCardContainer extends React.Component
         limit={@props.departures}/>
     </StopCard>
 
+StopCardContainerWithFavourite = connectToStores StopCardContainer, ['FavouriteStopsStore'], (context, props) ->
+  favourite: context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId)
 
-module.exports = Relay.createContainer StopCardContainer,
+module.exports = Relay.createContainer StopCardContainerWithFavourite,
   fragments: queries.StopCardContainerFragments
   initialVariables:
     date: null
