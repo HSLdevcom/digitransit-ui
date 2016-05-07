@@ -4,6 +4,7 @@ queries               = require '../../queries'
 RouteHeader           = require './route-header'
 without               = require 'lodash/without'
 FavouriteRoutesActions = require '../../action/favourite-routes-action'
+connectToStores = require 'fluxible-addons-react/connectToStores'
 
 class RouteHeaderContainer extends React.Component
   @contextTypes:

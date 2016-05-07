@@ -5,7 +5,7 @@ RouteHeader           = require '../../route/route-header'
 Icon                  = require '../../icon/icon'
 Link                  = require 'react-router/lib/Link'
 FavouriteRoutesActions = require '../../../action/favourite-routes-action'
-
+connectToStores = require 'fluxible-addons-react/connectToStores'
 
 class RouteMarkerPopup extends React.Component
   @childContextTypes:
