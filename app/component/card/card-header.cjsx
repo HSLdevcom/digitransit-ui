@@ -10,12 +10,12 @@ Favourite = ({addFavourite, favourite}) ->
     <Icon className={cx "favourite", selected: favourite} img="icon-icon_star"/>
   </span>
 
-CardHeader = (props) ->
-  <div className={cx "card-header", props.className}>
-    {Favourite props if props.addFavourite}
-    {props.children}
-    <span className={props.headingStyle || "h4 link-color"}>{props.name} ›</span>
-    <p className="sub-header-h4">{props.description}</p>
+CardHeader = ({className, favourite, addFavourite, children, headingStyle, name, description}) ->
+  <div className={cx "card-header", className}>
+    {<Favourite addFavourite={addFavourite} favovourite={favourite}/> if addFavourite}
+    {children}
+    <span className={headingStyle || "h4 link-color"}>{name} ›</span>
+    <p className="sub-header-h4">{description}</p>
   </div>
 
 CardHeader.description =
