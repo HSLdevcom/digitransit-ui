@@ -25,8 +25,8 @@ MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStor
     else
       origin
 
-  enableMapTracking = () -> props.dispatch 'enable'
-  disableMapTracking = () -> props.dispatch 'disable'
+  enableMapTracking = () -> if !mapTracking then props.dispatch 'enable'
+  disableMapTracking = () -> if mapTracking then props.dispatch 'disable'
 
   children = React.Children.toArray(props.children)
   children.push(
