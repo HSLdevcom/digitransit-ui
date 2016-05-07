@@ -5,24 +5,12 @@ NextDeparturesList = require '../departure/next-departures-list'
 config             = require '../../config'
 NoPositionPanel    = require '../front-page/no-position-panel'
 util               = require '../../util/geo-utils'
+connectToStores    = require 'fluxible-addons-react/connectToStores'
+
 
 class FavouriteRouteListContainer extends React.Component
-
   @propTypes:
     routes: React.PropTypes.array
-
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-
-  componentDidMount: ->
-    @context.getStore('TimeStore').addChangeListener @onTimeChange
-
-  componentWillUnmount: ->
-    @context.getStore('TimeStore').removeChangeListener @onTimeChange
-
-  onTimeChange: (e) =>
-    if e.currentTime
-      @forceUpdate()
 
   getNextDepartures: (lat, lon) =>
     nextDepartures = []
@@ -48,28 +36,32 @@ class FavouriteRouteListContainer extends React.Component
 
     nextDepartures
 
-  now: =>
-    @context.getStore('TimeStore').getCurrentTime()
-
   render: =>
-    PositionStore = @context.getStore 'PositionStore'
-    location = PositionStore.getLocationState()
-    origin = @context.getStore('EndpointStore').getOrigin()
-
-    if origin?.lat
-      routesPanel = <NextDeparturesList departures={@getNextDepartures(origin.lat, origin.lon)} currentTime={@now().unix()}/>
-
-    else if (location.status == PositionStore.STATUS_FOUND_LOCATION or
-             location.status == PositionStore.STATUS_FOUND_ADDRESS)
-      routesPanel = <NextDeparturesList departures={@getNextDepartures(location.lat, location.lon)} currentTime={@now().unix()}/>
-    else if location.status == PositionStore.STATUS_SEARCHING_LOCATION
-      routesPanel = <div className="spinner-loader"/>
+    if @props.location
+      <NextDeparturesList departures={@getNextDepartures(@props.location.lat, @props.location.lon)} currentTime={@props.currentTime.unix()}/>
+    else if @props.searching
+      <div className="spinner-loader"/>
     else
-      routesPanel = <NoPositionPanel/>
+      <NoPositionPanel/>
 
-    routesPanel
 
-module.exports = Relay.createContainer(FavouriteRouteListContainer,
+FavouriteRouteListContainerWithTime = connectToStores FavouriteRouteListContainer, ['TimeStore'], (context, props) ->
+  PositionStore = context.getStore('PositionStore')
+  position = PositionStore.getLocationState()
+  origin = context.getStore('EndpointStore').getOrigin()
+
+  currentTime: context.getStore('TimeStore').getCurrentTime()
+  searching: position.status == PositionStore.STATUS_SEARCHING_LOCATION
+  location:
+    if origin.useCurrentPosition
+      if position.hasLocation
+        position
+      else
+        false
+    else
+      origin
+
+module.exports = Relay.createContainer(FavouriteRouteListContainerWithTime,
   fragments: queries.FavouriteRouteListContainerFragments
   initialVariables:
     ids: null
