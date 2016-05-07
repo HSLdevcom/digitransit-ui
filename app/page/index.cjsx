@@ -21,7 +21,7 @@ class Page extends React.Component
 
   render: ->
     <IndexNavigation className="front-page fullscreen">
-      <MapWithTracking>
+      <MapWithTracking showStops={true}>
         <SearchMainContainer/>
       </MapWithTracking>
       <FrontPagePanel/>

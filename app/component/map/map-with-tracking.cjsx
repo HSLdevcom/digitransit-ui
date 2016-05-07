@@ -1,109 +1,57 @@
 React                 = require 'react'
-timeUtils             = require '../../util/time-utils'
-cx                    = require 'classnames'
 ComponentUsageExample = require '../documentation/component-usage-example'
-Example               = require '../documentation/example-data'
 Map                   = require './map'
 ToggleMapTracking     = require '../navigation/toggle-map-tracking'
+connectToStores       = require 'fluxible-addons-react/connectToStores'
+withReducer           = require('recompose/withReducer').default
+pure                  = require('recompose/pure').default
 
-class MapWithTracking extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
+mapStateReducer = (state, action) ->
+  switch action
+    when "enable" then {initialZoom: false, mapTracking: true}
+    when "disable" then {initialZoom: false, mapTracking: false}
+    else state
 
-  @description:
-    <div>
-      <p>Renders a map with map-tracking functionality</p>
-      <ComponentUsageExample description="">
-        <MapWithTracking/>
-      </ComponentUsageExample>
-    </div>
+withMapStateTracking = withReducer 'mapTracking', 'dispatch', mapStateReducer, {initialZoom: true, mapTracking: true}
 
-  @displayName: "MapWithTracking"
-
-  constructor: ->
-    super
-    if @context.getStore('EndpointStore').getOrigin().useCurrentPosition
-      #Check if we have a position already
-      locationState = @context.getStore('PositionStore').getLocationState()
-      @state = if locationState.hasLocation
-        mapTracking: true
-        useZoomedIn: true
-      else
-        @state = {}
-
+MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStore', 'EndpointStore'], (context, props) ->
+  mapTracking = props.mapTracking.mapTracking
+  PositionStore = context.getStore('PositionStore')
+  position = PositionStore.getLocationState()
+  origin = context.getStore('EndpointStore').getOrigin()
+  location =
+    if origin.useCurrentPosition
+      if position.hasLocation then position else false
     else
-      @state =
-        useOrigin: true
-        mapTracking: false
-        useZoomedIn: true
+      origin
 
-  componentWillMount: =>
-    @context.getStore('PositionStore').addChangeListener @onPositionChange
-    @context.getStore('EndpointStore').addChangeListener @onEndpointChange
+  enableMapTracking = () -> props.dispatch 'enable'
+  disableMapTracking = () -> props.dispatch 'disable'
 
-  componentWillUnmount: =>
-    @context.getStore('PositionStore').removeChangeListener @onPositionChange
-    @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
+  children = React.Children.toArray(props.children)
+  children.push(
+    <ToggleMapTracking
+      key="toggleMapTracking"
+      handleClick={if mapTracking then disableMapTracking else enableMapTracking}
+      className={"icon-mapMarker-toggle-positioning-" + if mapTracking then "online" else "offline"}
+    />)
 
-  componentDidMount: =>
-    if @state.useZoomedIn
-      @setState useZoomedIn: false
+  lat: if mapTracking and location then location.lat
+  lon: if mapTracking and location then location.lon
+  zoom: if props.mapTracking.initialZoom then 16
+  showStops: props.showStops
+  className: "fullscreen"
+  displayOriginPopup: true
+  leafletEvents: {onDragstart: disableMapTracking, onZoomend: disableMapTracking}
+  disableMapTracking: disableMapTracking
+  children: children
 
-
-  disableMapTracking: =>
-    if @state.mapTracking
-      @setState
-        mapTracking: false
-        useZoomedIn: false
-
-  enableMapTracking: =>
-    if !@state.mapTracking
-      @setState
-        mapTracking: true
-        useZoomedIn: false
-        useOrigin: false
-
-  onEndpointChange: (endPointChange) =>
-    if endPointChange in ['set-origin']
-      @setState
-        useOrigin: true
-        mapTracking: false
-
-  onPositionChange: (status) =>
-    if @state.mapTracking
-      @forceUpdate()
-
-  render: =>
-
-    locationState = @context.getStore('PositionStore').getLocationState()
-
-    if @state.mapTracking and locationState.hasLocation or @state.initLocationFound
-      lat = locationState.lat
-      lon = locationState.lon
-
-    else if @state.useOrigin
-      origin = @context.getStore('EndpointStore').getOrigin()
-      lat = origin.lat
-      lon = origin.lon
-
-    if @state.useZoomedIn
-      zoom = 16
-
-    <Map
-      className="fullscreen"
-      showStops={true}
-      lat={lat}
-      lon={lon}
-      zoom={zoom}
-      leafletEvents={onDragstart: @disableMapTracking, onZoomend: @disableMapTracking}
-      displayOriginPopup={true}
-      disableMapTracking={@disableMapTracking}
-    >
-      {@props.children}
-      <ToggleMapTracking
-        handleClick={if @state.mapTracking then @disableMapTracking else @enableMapTracking}
-        className={"icon-mapMarker-toggle-positioning-" + if @state.mapTracking then "online" else "offline"}
-      />
-    </Map>
+MapWithTracking.description =
+  <div>
+    <p>Renders a map with map-tracking functionality</p>
+    <ComponentUsageExample description="">
+      <MapWithTracking/>
+    </ComponentUsageExample>
+  </div>
 
 module.exports = MapWithTracking
