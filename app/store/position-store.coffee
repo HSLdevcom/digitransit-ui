@@ -83,7 +83,6 @@ class PositionStore extends Store
   @handlers:
     "GeolocationSearch": 'geolocationSearch'
     "GeolocationFound": 'storeLocation'
-    "GeolocationRemoved": 'removeLocation'
     "GeolocationNotSupported": 'geolocationNotSupported'
     "GeolocationDenied": 'geolocationDenied'
     "GeolocationTimeout": 'geolocationTimeout'
