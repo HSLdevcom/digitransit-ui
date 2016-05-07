@@ -2,48 +2,46 @@ React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../../queries'
 NextDeparturesList = require '../departure/next-departures-list'
-config             = require '../../config'
 NoPositionPanel    = require '../front-page/no-position-panel'
-util               = require '../../util/geo-utils'
+{getDistanceToNearestStop} = require '../../util/geo-utils'
 connectToStores    = require 'fluxible-addons-react/connectToStores'
 
+getNextDepartures = (routes, lat, lon) ->
+  nextDepartures = []
+  seenDepartures = {}
+  for route in routes
+    for pattern in route.patterns
+      closest = getDistanceToNearestStop lat, lon, pattern.stops
 
-class FavouriteRouteListContainer extends React.Component
-  @propTypes:
-    routes: React.PropTypes.array
+      keepStoptimes = []
+      for stoptime in closest.stop.stoptimes
+        seenKey =  stoptime.pattern.route.gtfsId + ":" + stoptime.pattern.headsign
+        isSeen = seenDepartures[seenKey]
+        isFavourite = stoptime.pattern.route.gtfsId == route.gtfsId and stoptime.pattern.headsign == pattern.headsign
+        if !isSeen and isFavourite
+          keepStoptimes.push stoptime
+          seenDepartures[seenKey] = true
 
-  getNextDepartures: (lat, lon) =>
-    nextDepartures = []
-    seenDepartures = {}
-    for route in @props.routes
-      for pattern in route.patterns
-        closest = util.getDistanceToNearestStop lat, lon, pattern.stops
+      for stoptime in keepStoptimes
+        nextDepartures.push
+          distance: closest.distance
+          stoptime: stoptime
 
-        keepStoptimes = []
-        for stoptime in closest.stop.stoptimes
-          seenKey =  stoptime.pattern.route.gtfsId + ":" + stoptime.pattern.headsign
-          isSeen = seenDepartures[seenKey]
-          isFavourite = stoptime.pattern.route.gtfsId == route.gtfsId and stoptime.pattern.headsign == pattern.headsign
-          isPickup = true #stoptime.stoptimes[0]?.pickupType != "NONE"
-          if !isSeen and isFavourite and isPickup
-            keepStoptimes.push stoptime
-            seenDepartures[seenKey] = true
+  nextDepartures
 
-        for stoptime in keepStoptimes
-          nextDepartures.push
-            distance: closest.distance
-            stoptime: stoptime
+FavouriteRouteListContainer = ({location, currentTime, searching, routes}) ->
+  if location
+    <NextDeparturesList departures={getNextDepartures(routes, location.lat, location.lon)} currentTime={currentTime.unix()}/>
+  else if searching
+    <div className="spinner-loader"/>
+  else
+    <NoPositionPanel/>
 
-    nextDepartures
-
-  render: =>
-    if @props.location
-      <NextDeparturesList departures={@getNextDepartures(@props.location.lat, @props.location.lon)} currentTime={@props.currentTime.unix()}/>
-    else if @props.searching
-      <div className="spinner-loader"/>
-    else
-      <NoPositionPanel/>
-
+FavouriteRouteListContainer.propTypes =
+  routes: React.PropTypes.array
+  currentTime: React.PropTypes.object
+  searching: React.PropTypes.bool
+  location: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.bool]).isRequired
 
 FavouriteRouteListContainerWithTime = connectToStores FavouriteRouteListContainer, ['TimeStore'], (context, props) ->
   PositionStore = context.getStore('PositionStore')
@@ -54,10 +52,7 @@ FavouriteRouteListContainerWithTime = connectToStores FavouriteRouteListContaine
   searching: position.status == PositionStore.STATUS_SEARCHING_LOCATION
   location:
     if origin.useCurrentPosition
-      if position.hasLocation
-        position
-      else
-        false
+      if position.hasLocation then position else false
     else
       origin
 
