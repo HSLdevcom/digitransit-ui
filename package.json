@@ -91,7 +91,6 @@
     "react-tap-event-plugin": "1.0.0",
     "recompose": "^0.17.0",
     "serialize-javascript": "1.2.0",
-    "slick-carousel": "1.5.9",
     "sphericalmercator": "^1.0.5",
     "vector-tile": "1.2.0",
     "zurb-foundation-5": "5.4.7"
