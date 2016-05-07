@@ -62,7 +62,7 @@ class PositionStore extends Store
     lon: @lon
     address: @address
     status: @status
-    hasLocation: @status == @STATUS_FOUND_ADDRESS or @status == @STATUS_FOUND_LOCATION
+    hasLocation: (@status == @STATUS_FOUND_ADDRESS or @status == @STATUS_FOUND_LOCATION) and (@lat != 0 or @lon != 0)
     # Locationing is in progress when browser is:
     #   searching address or
     #   reverse geocoding is in progress
