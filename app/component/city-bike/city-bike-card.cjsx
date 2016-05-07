@@ -27,20 +27,17 @@ class CityBikeCard extends React.Component
     station: React.PropTypes.object.isRequired
     className: React.PropTypes.string
 
-  getContent: =>
-    <Card className={@props.className}>
-      <CardHeader
-        name={@props.station.name}
-        description={@props.station.stationId}
-      />
-      {@props.children}
-    </Card>
-
   render: ->
     if !@props.station || !@props.children || @props.children.length == 0
       return false
     <div>
-      {@getContent()}
+      <Card className={@props.className}>
+        <CardHeader
+          name={@props.station.name}
+          description={@props.station.stationId}
+        />
+        {@props.children}
+      </Card>
     </div>
 
 
