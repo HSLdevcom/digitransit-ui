@@ -33,7 +33,7 @@ class RouteHeaderContainer extends React.Component
       addFavouriteRoute={@addFavouriteRoute}>
     </RouteHeader>
 
-RouteHeaderContainerWithFavourite = connectToStores RouteMarkerPopup, ['FavouriteRoutesStore'], (context, props) ->
+RouteHeaderContainerWithFavourite = connectToStores RouteHeaderContainer, ['FavouriteRoutesStore'], (context, props) ->
   favourite: context.getStore('FavouriteRoutesStore').isFavourite(props.pattern.route.gtfsId)
 
 
