@@ -12,7 +12,7 @@ Favourite = ({addFavourite, favourite}) ->
 
 CardHeader = ({className, favourite, addFavourite, children, headingStyle, name, description}) ->
   <div className={cx "card-header", className}>
-    {<Favourite addFavourite={addFavourite} favovourite={favourite}/> if addFavourite}
+    {<Favourite addFavourite={addFavourite} favourite={favourite}/> if addFavourite}
     {children}
     <span className={headingStyle || "h4 link-color"}>{name} ›</span>
     <p className="sub-header-h4">{description}</p>
