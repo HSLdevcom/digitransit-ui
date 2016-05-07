@@ -44,13 +44,13 @@ Application.propTypes = {
   fonts: React.PropTypes.string,
   geolocationStarter: React.PropTypes.string,
   svgSprite: React.PropTypes.string,
-  css: React.PropTypes.string,
+  css: React.PropTypes.node,
   content: React.PropTypes.string,
   polyfill: React.PropTypes.string,
   state: React.PropTypes.string,
   config: React.PropTypes.string,
   locale: React.PropTypes.string,
-  scripts: React.PropTypes.string,
+  scripts: React.PropTypes.node,
 };
 
 export default Application;
