@@ -38,9 +38,6 @@ class RouteMapContainer extends React.Component
           </Link>
         </div>
 
-  onChange: ->
-    @forceUpdate()
-
   render: ->
     stops = @props.pattern.stops
 
