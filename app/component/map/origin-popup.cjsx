@@ -43,7 +43,7 @@ class OriginPopup extends React.Component
 
   showCurrentPosition: () =>
     coordinates = @context.getStore('PositionStore').getLocationState()
-    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
+    if coordinates.hasLocation
       msg = @context.intl.formatMessage
         id: 'own-position'
         defaultMessage: 'Your current position'

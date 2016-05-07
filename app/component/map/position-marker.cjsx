@@ -27,6 +27,6 @@ PositionMarker = pure ({coordinates, map, layerContainer}) ->
 module.exports = connectToStores PositionMarker, ['PositionStore'], (context, props) ->
   coordinates = context.getStore('PositionStore').getLocationState()
   coordinates:
-    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
+    if coordinates.hasLocation
       [coordinates.lat, coordinates.lon]
     else false
