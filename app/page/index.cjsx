@@ -1,7 +1,7 @@
 React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../queries'
-IndexNavigation    = require '../component/navigation/index-navigation'
+IndexNavigation    = require('../component/navigation/index-navigation').default
 FrontPagePanel     = require '../component/front-page/front-page-panel'
 SearchMainContainer = require '../component/search/search-main-container'
 Icon               = require '../component/icon/icon'

@@ -1,6 +1,6 @@
 React               = require 'react'
 Relay               = require 'react-relay'
-IndexNavigation     = require '../navigation/index-navigation'
+IndexNavigation     = require('../navigation/index-navigation').default
 FrontPagePanel      = require '../front-page/front-page-panel'
 EndpointActions     = require '../../action/endpoint-actions'
 {intlShape}         = require 'react-intl'
