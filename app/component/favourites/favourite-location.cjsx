@@ -42,8 +42,9 @@ FavouriteLocation = (props) =>
           </span>
         </div>
         <div className="favourite-location-departure">
-          <Icon img="icon-icon_walk" className="favourite-location-departure-icon"/>
           {departureTime}
+          <Icon img={'icon-icon_arrow-right'} className="small"/>
+          <Icon img="icon-icon_walk" className="favourite-location-departure-icon"/>
           {firstTransitLeg}
         </div>
     </div>
