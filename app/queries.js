@@ -1,4 +1,4 @@
-/* eslint max-len:0 */
+/* eslint max-len:0 global-require: 0*/
 
 import Relay from 'react-relay';
 

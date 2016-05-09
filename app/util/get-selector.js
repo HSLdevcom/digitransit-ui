@@ -1,3 +1,5 @@
+/* eslint no-restricted-syntax: 0 */
+
 module.exports = (mode) => {
   const selector = mode.toLowerCase();
   for (const index in document.styleSheets) {
