@@ -17,16 +17,33 @@
     font-size: 12px;
   }
   .time {
-      padding-left: 0.5em;
-      padding-right: 0;
-      width: auto;
+    padding-left: 0.5em;
+    padding-right: 0;
+    width: auto;
   }
   .time--small {
     font-size: $font-size-small;
-   }
+  }
   .favourite-location-icon {
     color: $gray-blue;
     vertical-align: middle;
+  }
+  .favourite-location-departure {
+    vertical-align: middle;
+    & > span {
+      vertical-align: middle;
+    }
+    .favourite-location-arrow {
+      font-size: $font-size-xsmall;
+      color: $gray;
+    }
+    .route-number {
+      display: inline-block;
+      font-size: $font-size-small;
+      & > span:first-of-type {
+        vertical-align: middle;
+      }
+    }
   }
   .favourite-location-departure-icon {
     color: $gray-blue;
