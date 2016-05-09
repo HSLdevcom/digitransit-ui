@@ -16,6 +16,11 @@
     color: $gray-blue;
     font-size: 12px;
   }
+  .time {
+      padding-left: 0.5em;
+      padding-right: 0;
+      width: auto;
+  }
   .time--small {
     font-size: $font-size-small;
    }
