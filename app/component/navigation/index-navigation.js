@@ -1,14 +1,11 @@
 import React from 'react';
 import IndexTopNavigation from './index-top-navigation';
 import OffcanvasMenu from './offcanvas-menu';
-import DisruptionInfo from '../disruption/disruption-info';
 import NotImplemented from '../util/not-implemented';
 import Drawer from 'material-ui/Drawer';
 import FeedbackActions from '../../action/feedback-action';
 
 import { supportsHistory } from 'history/lib/DOMUtils';
-
-import intl from 'react-intl';
 
 class IndexNavigation extends React.Component {
   static propTypes = {
@@ -17,21 +14,11 @@ class IndexNavigation extends React.Component {
   };
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    intl: intl.intlShape.isRequired,
     piwik: React.PropTypes.object,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
   };
-
-  constructor(...args) {
-    super(...args);
-
-    this.state = {
-      disruptionVisible: false,
-    };
-  }
 
   onRequestChange = (newState) => this.internalSetOffcanvas(newState);
 
@@ -66,16 +53,6 @@ class IndexNavigation extends React.Component {
     }
   }
 
-  toggleDisruptionInfo = () => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'Modal',
-        'Disruption',
-        this.state.disruptionVisible ? 'close' : 'open');
-    }
-    this.setState({ disruptionVisible: !this.state.disruptionVisible });
-  }
-
   openFeedback = () => {
     this.context.executeAction(FeedbackActions.openFeedbackModal);
     this.toggleOffcanvas();
@@ -85,10 +62,6 @@ class IndexNavigation extends React.Component {
     return (
       <div className={this.props.className}>
         <NotImplemented />
-        <DisruptionInfo
-          open={this.state.disruptionVisible}
-          toggleDisruptionInfo={this.toggleDisruptionInfo}
-        />
         <Drawer
           className="offcanvas"
           disableSwipeToOpen
@@ -102,7 +75,6 @@ class IndexNavigation extends React.Component {
         <div className="grid-frame fullscreen">
           <IndexTopNavigation
             toggleOffcanvas={this.toggleOffcanvas}
-            toggleDisruptionInfo={this.toggleDisruptionInfo}
           />
           <section ref="content" className="content fullscreen">{this.props.children}</section>
         </div>
