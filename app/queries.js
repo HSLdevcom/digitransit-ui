@@ -535,14 +535,6 @@ export const CityBikeQueries = {
   `,
 };
 
-export const CityBikeStatusQuery = Relay.QL`
-query Test{
-  bikeRentalStation(id: $id) {
-    bikesAvailable
-    spacesAvailable
-  }
-}`;
-
 export class CityBikeRoute extends Relay.Route {
   static queries = CityBikeQueries;
   static paramDefinitions = {
@@ -805,6 +797,10 @@ export const FavouriteLocationContainerFragments = {
           legs {
             realTime
             transitLeg
+            mode
+            route {
+              shortName
+            }
           }
         }
       }

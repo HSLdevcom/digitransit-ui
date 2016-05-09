@@ -4,6 +4,7 @@ Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
 DepartureTime         = require '../departure/departure-time'
+RouteNumber           = require '../departure/route-number'
 {FormattedMessage}    = require('react-intl')
 Example               = require '../documentation/example-data'
 Link                  = require 'react-router/lib/Link'
@@ -24,9 +25,12 @@ FavouriteLocation = (props) =>
     else
       arrivalTime = <div className="favourite-location-content-placeholder">--:--</div>
     if props.departureTime and timeIsNotPast
-      departureTime = <DepartureTime departureTime={props.departureTime} realtime={props.realtime} currentTime={props.currentTime} className="time--small"/>
+      departureTime = <DepartureTime departureTime={props.departureTime} realtime={props.firstTransitLeg?.realTime} currentTime={props.currentTime} className="time--small"/>
     else
       departureTime = <div className="favourite-location-content-placeholder time--small">--:--</div>
+
+    if props.firstTransitLeg?.route
+      firstTransitLeg = <RouteNumber mode={props.firstTransitLeg.mode} realtime={props.firstTransitLeg.realTime} text={props.firstTransitLeg.route?.shortName}/>
     <div
       className={cx "favourite-location-content", props.className}
       onClick={props.clickFavourite.bind this, props.locationName, props.lat, props.lon}>
@@ -40,20 +44,23 @@ FavouriteLocation = (props) =>
         <div className="favourite-location-departure">
           <Icon img="icon-icon_walk" className="favourite-location-departure-icon"/>
           {departureTime}
+          {firstTransitLeg}
         </div>
     </div>
 
 FavouriteLocation.description =
   <div>
     <p>Renders a favourite location component</p>
-    <ComponentUsageExample description="">
+    <ComponentUsageExample description="first leg is with a bus">
       <FavouriteLocation
+        clickFavourite={() -> return}
         locationName={Example.favouriteLocation.locationName}
         favouriteLocationIconId={'icon-icon_place'}
         arrivalTime={Example.favouriteLocation.arrivalTime}
         departureTime={Example.favouriteLocation.departureTime}
-        clickFavourite={() -> return}
-        realtime={Example.favouriteLocation.realtime}/>
+        currentTime={Example.favouriteLocation.currentTime}
+        firstTransitLeg={Example.favouriteLocation.firstTransitLeg}
+        />
     </ComponentUsageExample>
   </div>
 
@@ -66,7 +73,7 @@ FavouriteLocation.propTypes =
   arrivalTime: React.PropTypes.number
   departureTime: React.PropTypes.number
   currentTime: React.PropTypes.number
-  realtime: React.PropTypes.bool
+  firstTransitLeg: React.PropTypes.object
 
 FavouriteLocation.displayName = "FavouriteLocation"
 
