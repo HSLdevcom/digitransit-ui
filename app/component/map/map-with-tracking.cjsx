@@ -7,26 +7,36 @@ withReducer           = require('recompose/withReducer').default
 pure                  = require('recompose/pure').default
 
 mapStateReducer = (state, action) ->
-  switch action
-    when "enable" then {initialZoom: false, mapTracking: true}
-    when "disable" then {initialZoom: false, mapTracking: false}
+  switch action.type
+    when "enable" then Object.assign {}, state, {initialZoom: false, mapTracking: true, focusOnOrigin: false}
+    when "disable" then Object.assign {}, state, {initialZoom: false, mapTracking: false, focusOnOrigin: false}
+    when "useOrigin" then Object.assign {}, state, {initialZoom: false, mapTracking: false, focusOnOrigin: true, previousOrigin: action.origin}
     else state
 
-withMapStateTracking = withReducer 'mapTracking', 'dispatch', mapStateReducer, {initialZoom: true, mapTracking: true}
+withMapStateTracking = withReducer 'mapState', 'dispatch', mapStateReducer, (props) ->
+  initialZoom: true
+  mapTracking: true
+  focusOnOrigin: false
+
 
 MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStore', 'EndpointStore'], (context, props) ->
-  mapTracking = props.mapTracking.mapTracking
+  mapTracking = props.mapState.mapTracking
   PositionStore = context.getStore('PositionStore')
   position = PositionStore.getLocationState()
   origin = context.getStore('EndpointStore').getOrigin()
   location =
-    if origin.useCurrentPosition
-      if position.hasLocation then position else false
-    else
+    if props.mapState.focusOnOrigin and !origin.useCurrentPosition
       origin
+    else if mapTracking and position.hasLocation
+      position
+    else
+      false
 
-  enableMapTracking = () -> if !mapTracking then props.dispatch 'enable'
-  disableMapTracking = () -> if mapTracking then props.dispatch 'disable'
+  if origin != props.mapState.previousOrigin
+    setImmediate props.dispatch, {type: 'useOrigin', origin: origin}
+
+  enableMapTracking = () -> if !mapTracking then props.dispatch type: 'enable'
+  disableMapTracking = () -> if mapTracking then props.dispatch type: 'disable'
 
   children = React.Children.toArray(props.children)
   children.push(
@@ -36,14 +46,17 @@ MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStor
       className={"icon-mapMarker-toggle-positioning-" + if mapTracking then "online" else "offline"}
     />)
 
-  lat: if mapTracking and location then location.lat
-  lon: if mapTracking and location then location.lon
-  zoom: if props.mapTracking.initialZoom then 16
+  lat: if location then location.lat
+  lon: if location then location.lon
+  zoom: if props.mapState.initialZoom then 16
   className: "fullscreen"
   displayOriginPopup: true
   leafletEvents: {onDragstart: disableMapTracking, onZoomend: disableMapTracking}
   disableMapTracking: disableMapTracking
   children: children
+
+MapWithTracking.contextTypes =
+  getStore: React.PropTypes.func.isRequired
 
 MapWithTracking.description =
   <div>
