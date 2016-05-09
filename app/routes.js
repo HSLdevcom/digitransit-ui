@@ -15,7 +15,7 @@ import LoadingPage from './page/loading';
 import Error404 from './page/404';
 import StyleGuidelinesPage from './page/style-guidelines';
 import AddFavouritePage from './page/add-favourite';
-import SplashOrComponent from './component/splash/splash-or-component';
+import splashOrComponent from './component/splash/splash-or-component';
 
 import TopLevel from './component/top-level';
 import { StopQueries, TripQueries, RouteQueries } from './queries';
@@ -23,7 +23,7 @@ import { StopQueries, TripQueries, RouteQueries } from './queries';
 const routes = (
   <Route path="/" name="app" component={TopLevel}>
     <IndexRoute
-      component={() => <SplashOrComponent><IndexPage /></SplashOrComponent>}
+      component={splashOrComponent(IndexPage)}
     />
     <Route
       path="pysakit"
