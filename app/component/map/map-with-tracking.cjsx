@@ -39,7 +39,6 @@ MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStor
   lat: if mapTracking and location then location.lat
   lon: if mapTracking and location then location.lon
   zoom: if props.mapTracking.initialZoom then 16
-  showStops: props.showStops
   className: "fullscreen"
   displayOriginPopup: true
   leafletEvents: {onDragstart: disableMapTracking, onZoomend: disableMapTracking}

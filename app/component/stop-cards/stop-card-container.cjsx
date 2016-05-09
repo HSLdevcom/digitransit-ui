@@ -7,16 +7,15 @@ FavouriteStopsActions = require '../../action/favourite-stops-action'
 connectToStores = require 'fluxible-addons-react/connectToStores'
 
 StopCardContainer = connectToStores StopCard, ['FavouriteStopsStore'], (context, props) ->
-  Object.assign {}, props,
-    favourite: context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId)
-    addFavouriteStop: (e) ->
-      e.preventDefault()
-      context.executeAction FavouriteStopsActions.addFavouriteStop, props.stop.gtfsId
-    children:
-      <DepartureListContainer
-        rowClasses="no-padding no-margin"
-        stoptimes={props.stop.stoptimes}
-        limit={props.departures}/>
+  favourite: context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId)
+  addFavouriteStop: (e) ->
+    e.preventDefault()
+    context.executeAction FavouriteStopsActions.addFavouriteStop, props.stop.gtfsId
+  children:
+    <DepartureListContainer
+      rowClasses="no-padding no-margin"
+      stoptimes={props.stop.stoptimes}
+      limit={props.departures}/>
 
 StopCardContainer.contextTypes =
   executeAction: React.PropTypes.func.isRequired
