@@ -1,15 +1,13 @@
 import React from 'react';
 import config from '../../config';
 import Icon from '../icon/icon';
-import DisruptionInfoContainer from '../disruption/disruption-info-container';
 import OffcanvasMenu from './offcanvas-menu';
-import NotImplemented from '../util/not-implemented';
 import Drawer from 'material-ui/Drawer';
 import FeedbackActions from '../../action/feedback-action';
 
 import { supportsHistory } from 'history/lib/DOMUtils';
 
-class IndexNavigation extends React.Component {
+class OffcanvasMenuContainer extends React.Component {
   static propTypes = {
     className: React.PropTypes.string.isRequired,
     children: React.PropTypes.node.isRequired,
@@ -22,14 +20,20 @@ class IndexNavigation extends React.Component {
     location: React.PropTypes.object.isRequired,
   };
 
+  constructor(props, context) {
+    super(props, context);
+    this.state = { offcanvasVisible: false };
+  }
+
   onRequestChange = (newState) => this.internalSetOffcanvas(newState);
 
   getOffcanvasState = () => {
-    if (typeof window !== 'undefined' && supportsHistory()) {
-      return (this.context.location != null && this.context.location.state != null ?
-                this.context.location.state.offcanvasVisible : false);
+    if (typeof window !== 'undefined' && supportsHistory() &&
+          this.context.location.state != null &&
+          this.context.location.state.offcanvasVisible != null) {
+      return this.context.location.state.offcanvasVisible;
     }
-    return this.state != null ? this.state.offcanvasVisible : void 0;
+    return this.state.offcanvasVisible;
   }
 
   toggleOffcanvas = () => this.internalSetOffcanvas(!this.getOffcanvasState());
@@ -63,31 +67,27 @@ class IndexNavigation extends React.Component {
   render() {
     return (
       <div className={this.props.className}>
-        <NotImplemented />
         <Drawer
           className="offcanvas"
           disableSwipeToOpen
           ref="leftNav"
           docked={false}
           open={this.getOffcanvasState()}
+          openSecondary
           onRequestChange={this.onRequestChange}
         >
           <OffcanvasMenu openFeedback={this.openFeedback} />
         </Drawer>
-        <div className="grid-frame fullscreen">
-          <DisruptionInfoContainer />
-          {config.leftMenu.show ?
-            <div
-              onClick={this.toggleOffcanvas}
-              className="icon-holder cursor-pointer left-off-canvas-toggle"
-            >
-              <Icon img={'icon-icon_menu'} className="icon" />
-            </div> :
-            null}
-          <section ref="content" className="content fullscreen">{this.props.children}</section>
-        </div>
+        {config.leftMenu.show ?
+          <div
+            onClick={this.toggleOffcanvas}
+            className="icon-holder cursor-pointer main-menu-toggle"
+          >
+            <Icon img={'icon-icon_menu'} className="icon" />
+          </div> :
+          null}
       </div>);
   }
 }
 
-export default IndexNavigation;
+export default OffcanvasMenuContainer;

@@ -1,7 +1,7 @@
 React                  = require 'react'
 Relay                  = require 'react-relay'
 queries                = require '../queries'
-DefaultNavigation      = require '../component/navigation/default-navigation'
+DefaultNavigation      = require('../component/navigation/default-navigation').default
 RouteHeaderContainer   = require '../component/route/route-header-container'
 RouteListHeader        = require '../component/route/route-list-header'
 TripStopListContainer  = require '../component/trip/trip-stop-list-container'

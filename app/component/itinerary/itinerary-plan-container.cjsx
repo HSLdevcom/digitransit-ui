@@ -1,8 +1,6 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
-DefaultNavigation  = require '../navigation/default-navigation'
-BottomNavigation   = require '../itinerary/bottom-navigation'
 ItineraryTab       = require '../itinerary/itinerary-tab'
 intl               = require 'react-intl'
 SwipeableViews     = require('react-swipeable-views').default

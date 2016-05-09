@@ -1,6 +1,6 @@
 React              = require 'react'
 Helmet             = require 'react-helmet'
-DefaultNavigation  = require '../component/navigation/default-navigation'
+DefaultNavigation  = require('../component/navigation/default-navigation').default
 BottomNavigation   = require '../component/itinerary/bottom-navigation'
 ItineraryTab       = require '../component/itinerary/itinerary-tab'
 intl               = require 'react-intl'

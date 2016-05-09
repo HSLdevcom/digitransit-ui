@@ -1,7 +1,7 @@
 React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../queries'
-IndexNavigation    = require('../component/navigation/index-navigation').default
+DefaultNavigation    = require('../component/navigation/default-navigation').default
 FrontPagePanel     = require '../component/front-page/front-page-panel'
 SearchMainContainer = require '../component/search/search-main-container'
 Icon               = require '../component/icon/icon'
@@ -21,12 +21,15 @@ class Page extends React.Component
       @context.executeAction ItinerarySearchAction.forceCitybikeState
 
   render: ->
-    <IndexNavigation className="front-page fullscreen">
+    <DefaultNavigation
+      className="front-page fullscreen"
+      disableBackButton
+      showDisruptionInfo>
       <MapWithTracking>
         <SearchMainContainer/>
       </MapWithTracking>
       <FrontPagePanel/>
       <FeedbackPanel/>
-    </IndexNavigation>
+    </DefaultNavigation>
 
 module.exports = Page
