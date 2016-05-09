@@ -67,7 +67,7 @@ FavouriteLocation.description =
 
 FavouriteLocation.propTypes =
   addFavourite: React.PropTypes.func
-  clickFavorite: React.PropTypes.func
+  clickFavourite: React.PropTypes.func
   className: React.PropTypes.string
   locationName: React.PropTypes.string
   favouriteLocationIconId: React.PropTypes.string
