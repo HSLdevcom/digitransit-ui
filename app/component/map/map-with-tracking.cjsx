@@ -32,7 +32,7 @@ MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStor
     else
       false
 
-  if origin != props.mapState.previousOrigin
+  if !origin.useCurrentPosition and origin != props.mapState.previousOrigin
     setImmediate props.dispatch, {type: 'useOrigin', origin: origin}
 
   enableMapTracking = () -> if !mapTracking then props.dispatch type: 'enable'
