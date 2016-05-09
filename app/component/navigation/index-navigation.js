@@ -1,5 +1,7 @@
 import React from 'react';
-import IndexTopNavigation from './index-top-navigation';
+import config from '../../config';
+import Icon from '../icon/icon';
+import DisruptionInfoContainer from '../disruption/disruption-info-container';
 import OffcanvasMenu from './offcanvas-menu';
 import NotImplemented from '../util/not-implemented';
 import Drawer from 'material-ui/Drawer';
@@ -73,9 +75,15 @@ class IndexNavigation extends React.Component {
           <OffcanvasMenu openFeedback={this.openFeedback} />
         </Drawer>
         <div className="grid-frame fullscreen">
-          <IndexTopNavigation
-            toggleOffcanvas={this.toggleOffcanvas}
-          />
+          <DisruptionInfoContainer />
+          {config.leftMenu.show ?
+            <div
+              onClick={this.toggleOffcanvas}
+              className="icon-holder cursor-pointer left-off-canvas-toggle"
+            >
+              <Icon img={'icon-icon_menu'} className="icon" />
+            </div> :
+            null}
           <section ref="content" className="content fullscreen">{this.props.children}</section>
         </div>
       </div>);
