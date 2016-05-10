@@ -30,7 +30,7 @@ FavouriteLocation = (props) =>
       departureTime = <div className="favourite-location-content-placeholder time--small">--:--</div>
 
     if props.firstTransitLeg?.route
-      firstTransitLeg = <RouteNumber mode={props.firstTransitLeg.mode} realtime={props.firstTransitLeg.realTime} text={props.firstTransitLeg.route?.shortName}/>
+      firstTransitLeg = <RouteNumber mode={props.firstTransitLeg.mode} realtime={props.firstTransitLeg.realTime} text={props.firstTransitLeg.route.shortName}/>
     <div
       className={cx "favourite-location-content", props.className}
       onClick={props.clickFavourite.bind this, props.locationName, props.lat, props.lon}>
