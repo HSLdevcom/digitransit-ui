@@ -4,12 +4,13 @@
   border: 1px solid $medium-gray;
   cursor: pointer;
   max-width: 320px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  height: 86.5px;
 }
 
 .favourite-location-content {
   @extend .favourite-button-shared;
-  padding-top: 8px;
-  padding-bottom: 8px;
   background: $white;
   .favourite-location-header {
     color: $gray-blue;
@@ -65,9 +66,13 @@
   @extend .favourite-button-shared;
   background: $background-color;
 
+  & > span {
+    display: inline-block;
+    margin-top: 14px;
+  }
+
   .add-new-favourite-icon {
     color: $gray-blue;
-    margin-top: 23px;
   }
 
   .add-location-text {
