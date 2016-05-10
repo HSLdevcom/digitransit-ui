@@ -1,5 +1,5 @@
-/* eslint prefer-arrow-callback: "off", no-console: "off",
-          no-param-reassign: "off", strict: "off", prefer-template: "off" */
+/* eslint prefer-arrow-callback: 0, no-console: 0,
+          no-param-reassign: 0, strict: 0, prefer-template: 0 */
 'use strict';
 
 module.exports = function (browser) {

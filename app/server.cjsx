@@ -68,6 +68,7 @@ getPolyfills = (userAgent) ->
     'Array.prototype.find': flags: ['gated']
     'es5': flags: ['gated']
     'atob': flags: ['gated']
+    'setImmediate': flags: ['gated']
 
   for language in config.availableLanguages
     features['Intl.~locale.' + language] = flags: ['always', 'gated']

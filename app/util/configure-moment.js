@@ -7,7 +7,7 @@ import moment from 'moment';
 function configureMoment(language) {
   moment.locale(language);
   if (language !== 'en') {
-    require(`moment/locale/${language}`);
+    require(`moment/locale/${language}`); // eslint-disable-line global-require
   }
 
   moment.relativeTimeThreshold('s', config.moment.relativeTimeThreshold.seconds);

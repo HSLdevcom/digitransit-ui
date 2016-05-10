@@ -7,4 +7,3 @@ module.exports = connectToStores IntlProvider, ['PreferencesStore'], (context, p
 
   locale: language
   messages: props.translations[language]
-  children: props.children

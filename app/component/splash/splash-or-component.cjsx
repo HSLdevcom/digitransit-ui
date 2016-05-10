@@ -3,10 +3,10 @@ Splash = require './splash'
 pure   = require('recompose/pure').default
 connectToStores = require 'fluxible-addons-react/connectToStores'
 
-SplashOrComponent = pure ({displaySplash, state, children}) ->
-  if displaySplash then <Splash state={state}/> else children
+SplashOrComponent = (Component) -> pure ({displaySplash, state}) ->
+  if displaySplash then <Splash state={state}/> else <Component/>
 
-module.exports = connectToStores SplashOrComponent, ['PositionStore', 'EndpointStore'], (context, props) ->
+module.exports = (component) -> connectToStores SplashOrComponent(component), ['PositionStore', 'EndpointStore'], (context, props) ->
   locationState = context.getStore('PositionStore').getLocationState()
   useCurrentPosition = context.getStore('EndpointStore').getOrigin().useCurrentPosition
 
