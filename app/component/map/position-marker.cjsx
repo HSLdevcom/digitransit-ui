@@ -33,12 +33,10 @@ PositionMarker = shouldUpdate(shouldMove) ({coordinates, map, layerContainer, ch
         context={context}
         map={map}
         layerContainer={layerContainer}
-        position={coordinates}
-        options={
-          offset: [50, 0]
-          closeButton: false
-          maxWidth: config.map.genericMarker.popup.maxWidth
-          className: "origin-popup"}>
+        offset={[50, 0]}
+        closeButton={false}
+        maxWidth={config.map.genericMarker.popup.maxWidth}
+        className="origin-popup">
           <div onClick={() =>
             context.executeAction SearchActions.openDialog, "origin"}>
             <div className="origin-popup">A<Icon className="right-arrow" img={'icon-icon_arrow-collapse--right'}/></div>
