@@ -1,6 +1,6 @@
 React            = require 'react'
 isBrowser        = window?
-Popup            = if isBrowser then require './dynamic-popup'
+Popup            = if isBrowser then require('./dynamic-popup').default
 SearchActions    = require '../../action/search-actions'
 intl             = require 'react-intl'
 Icon          = require '../icon/icon'
@@ -72,7 +72,11 @@ class OriginPopup extends React.Component
         id: 'origin'
         defaultMessage: 'From'
 
-      <Popup context={@context} ref="popup" latlng={@state.position}
+      <Popup
+        context={@context}
+        ref="popup"
+        map={@props.map}
+        layerContainer={@props.layerContainer}
         options={
           offset: [50, @state.yOffset]
           closeButton: false

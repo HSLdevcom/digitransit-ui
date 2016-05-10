@@ -108,11 +108,10 @@ class Map extends React.Component
         leafletObjs.push <LocationMarker position={origin} className="from" key='from'/>
         leafletObjs.push <PlaceMarker position={origin} key='from2'/>
 
-      if @props.displayOriginPopup
-        leafletObjs.push <OriginPopup key='origin'/>
-
-
-      leafletObjs.push <PositionMarker key='position'/>
+      leafletObjs.push(
+        <PositionMarker key='position'>
+          {if @props.displayOriginPopup then <OriginPopup key='origin'/>}
+        </PositionMarker>)
 
       center =
         if not @props.fitBounds and @props.lat and @props.lon

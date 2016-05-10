@@ -4,7 +4,9 @@ Marker        = if isBrowser then require('react-leaflet/lib/Marker').default
 L             = if isBrowser then require 'leaflet'
 Icon          = require '../icon/icon'
 connectToStores = require 'fluxible-addons-react/connectToStores'
-pure          = require('recompose/pure').default
+shouldUpdate  = require('recompose/shouldUpdate').default
+Popup            = if isBrowser then require('./dynamic-popup').default
+
 
 currentLocationIcon =
   if isBrowser then L.divIcon
@@ -13,14 +15,40 @@ currentLocationIcon =
     iconSize: [40, 40]
   else null
 
-PositionMarker = pure ({coordinates, map, layerContainer}) ->
+shouldMove = (props, newProps) ->
+  oldPos = new L.LatLng(props.coordinates[0], props.coordinates[1])
+  newPos = new L.LatLng(newProps.coordinates[0], newProps.coordinates[1])
+  newPos.distanceTo(oldPos) > 10
+
+PositionMarker = shouldUpdate(shouldMove) ({coordinates, map, layerContainer, children}, context) ->
   if coordinates
     <Marker
       map={map}
       layerContainer={layerContainer}
       zIndexOffset=5
       position={coordinates}
-      icon={currentLocationIcon}/>
+      icon={currentLocationIcon}
+    >
+      <Popup
+        context={context}
+        map={map}
+        layerContainer={layerContainer}
+        position={coordinates}
+        options={
+          offset: [50, 0]
+          closeButton: false
+          maxWidth: config.map.genericMarker.popup.maxWidth
+          className: "origin-popup"}>
+          <div onClick={() =>
+            context.executeAction SearchActions.openDialog, "origin"}>
+            <div className="origin-popup">A<Icon className="right-arrow" img={'icon-icon_arrow-collapse--right'}/></div>
+            <div>
+              <div className="origin-popup-name">B</div>
+              <div className="shade-to-white"></div>
+            </div>
+          </div>
+      </Popup>
+    </Marker>
   else
     null
 
