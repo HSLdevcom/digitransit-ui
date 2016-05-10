@@ -15,12 +15,8 @@ currentLocationIcon =
     iconSize: [40, 40]
   else null
 
-shouldMove = (props, newProps) ->
-  oldPos = new L.LatLng(props.coordinates[0], props.coordinates[1])
-  newPos = new L.LatLng(newProps.coordinates[0], newProps.coordinates[1])
-  newPos.distanceTo(oldPos) > 10
 
-PositionMarker = shouldUpdate(shouldMove) ({coordinates, map, layerContainer, children}, context) ->
+PositionMarker = ({coordinates, map, layerContainer, children}, context) ->
   if coordinates
     <Marker
       map={map}
