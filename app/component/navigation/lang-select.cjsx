@@ -2,36 +2,30 @@ React   = require 'react'
 intl    = require('react-intl')
 config  = require('../../config')
 UserPreferencesActions = require('../../action/user-preferences-actions')
-
+connectToStores       = require 'fluxible-addons-react/connectToStores'
 
 PREFERENCES_STORE_NAME = 'PreferencesStore'
-class LangSelect extends React.Component
 
-  @contextTypes:
-    executeAction: React.PropTypes.func.isRequired
-    getStore: React.PropTypes.func.isRequired
+selectLanguage = (executeAction, lang) -> -> executeAction UserPreferencesActions.setLanguage, lang
 
-  componentDidMount: ->
-    @context.getStore(PREFERENCES_STORE_NAME).addChangeListener @onChange
+Language = ({lang, currentLanguage}, {executeAction}) ->
+  <div className="small-4 lang">
+    <a
+      className={"selected" if currentLanguage is lang}
+      onClick={selectLanguage(executeAction, lang)}
+      href="#"
+    >
+      {lang}
+    </a>
+  </div>
 
-  componentWillUnmount: ->
-    @context.getStore(PREFERENCES_STORE_NAME).removeChangeListener @onChange
+Language.contextTypes =
+  executeAction: React.PropTypes.func.isRequired
 
-  onChange: (lang) =>
-    @forceUpdate()
+LangSelect = ({currentLanguage}) ->
+  <div key="foo" className="lang-select row">
+    {config.availableLanguages.map (lang) => <Language lang={lang} currentLanguage={currentLanguage} key={lang}/>}
+  </div>
 
-  selectLanguage: (lang) ->
-    () =>
-      @context.executeAction UserPreferencesActions.setLanguage, lang
-
-
-  render: ->
-    UserPreferencesStore = @context.getStore PREFERENCES_STORE_NAME
-    #currentLanguage = 'sv'
-    currentLanguage = UserPreferencesStore.getLanguage()
-    <div key="foo" className="lang-select row">
-      {config.availableLanguages.map (lang) => <div key={lang} className="small-4 lang"><a className={"selected" if currentLanguage is lang} onClick={@selectLanguage(lang)} href="#">{lang}</a></div>}
-    </div>
-
-
-module.exports = LangSelect
+module.exports = connectToStores LangSelect, [PREFERENCES_STORE_NAME], (context, props) ->
+  currentLanguage: context.getStore(PREFERENCES_STORE_NAME).getLanguage()

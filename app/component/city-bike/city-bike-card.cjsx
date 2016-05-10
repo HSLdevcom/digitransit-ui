@@ -7,41 +7,35 @@ Example               = require '../documentation/example-data'
 ComponentUsageExample = require '../documentation/component-usage-example'
 Card                  = require '../card/card'
 
-class CityBikeCard extends React.Component
-
-  @description:
-    <div>
-      <p>Renders a citybike card with header and child props as content</p>
-      <ComponentUsageExample description="">
-        <CityBikeCard
-          className={"padding-small"}
-          station={Example.station}>
-          Im content of the citybike card
-        </CityBikeCard>
-      </ComponentUsageExample>
-    </div>
-
-  @displayName: "CityBikeCard"
-
-  @propTypes:
-    station: React.PropTypes.object.isRequired
-    className: React.PropTypes.string
-
-  getContent: =>
-    <Card className={@props.className}>
+CityBikeCard = ({station, children, className}) ->
+  if !station || !children || children.length == 0
+    return false
+  <div>
+    <Card className={className}>
       <CardHeader
-        name={@props.station.name}
-        description={@props.station.stationId}
+        name={station.name}
+        description={station.stationId}
       />
-      {@props.children}
+      {children}
     </Card>
+  </div>
 
-  render: ->
-    if !@props.station || !@props.children || @props.children.length == 0
-      return false
-    <div>
-      {@getContent()}
-    </div>
+CityBikeCard.description =
+  <div>
+    <p>Renders a citybike card with header and child props as content</p>
+    <ComponentUsageExample description="">
+      <CityBikeCard
+        className={"padding-small"}
+        station={Example.station}>
+        Im content of the citybike card
+      </CityBikeCard>
+    </ComponentUsageExample>
+  </div>
 
+CityBikeCard.displayName = "CityBikeCard"
+
+CityBikeCard.propTypes =
+  station: React.PropTypes.object.isRequired
+  className: React.PropTypes.string
 
 module.exports = CityBikeCard

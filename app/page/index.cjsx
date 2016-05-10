@@ -12,7 +12,6 @@ ItinerarySearchAction = require '../action/itinerary-search-action'
 
 class Page extends React.Component
   @contextTypes:
-    getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
     location: React.PropTypes.object.isRequired
 
@@ -22,7 +21,7 @@ class Page extends React.Component
 
   render: ->
     <IndexNavigation className="front-page fullscreen">
-      <MapWithTracking>
+      <MapWithTracking showStops={true}>
         <SearchMainContainer/>
       </MapWithTracking>
       <FrontPagePanel/>

@@ -23,11 +23,11 @@ const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PI
 const dehydratedState = window.state;
 
 if (process.env.NODE_ENV === 'development') {
-  require(`../sass/themes/${config.CONFIG}/main.scss`);
+  require(`../sass/themes/${config.CONFIG}/main.scss`); // eslint-disable-line global-require
 }
 
 import debug from 'debug';
-window._debug = debug; // Allow _debug.enable('*') in browser console
+window.debug = debug; // Allow _debug.enable('*') in browser console
 
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer(`${config.URL.OTP}index/graphql`)

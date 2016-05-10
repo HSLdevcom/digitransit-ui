@@ -4,18 +4,19 @@ class NotImplementedStore extends Store
 
   @storeName: 'NotImplementedStore'
 
-  constructor: (dispatcher) ->
-    super(dispatcher)
-    @feature = {}
-
-  click: (feature) =>
+  open: (feature) =>
     @feature = feature
     @emitChange(feature)
 
+  close: () =>
+    @feature = null
+    @emitChange()
+
   getName: =>
-    @feature.name
+    @feature
 
   @handlers:
-    "click": "click"
+    "openNotImplemented": "open"
+    "closeNotImplemented": "close"
 
 module.exports = NotImplementedStore

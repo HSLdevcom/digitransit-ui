@@ -3,27 +3,24 @@ cx                    = require 'classnames'
 Example               = require '../documentation/example-data'
 ComponentUsageExample = require '../documentation/component-usage-example'
 
-class Card extends React.Component
+Card = ({className, children}) ->
+  <div className={cx "card", className}>
+    {children}
+  </div>
 
-  @description:
-    <div>
-      <p>Renders a card container</p>
-      <ComponentUsageExample description="">
-        <Card className={"padding-small"}>
-          content of a card
-        </Card>
-      </ComponentUsageExample>
-    </div>
+Card.description =
+  <div>
+    <p>Renders a card container</p>
+    <ComponentUsageExample description="">
+      <Card className={"padding-small"}>
+        content of a card
+      </Card>
+    </ComponentUsageExample>
+  </div>
 
-  @displayName: "Card"
+Card.displayName = "Card"
 
-  @propTypes:
-    className: React.PropTypes.string
-
-  render: ->
-
-    <div className={cx "card", @props.className}>
-      {@props.children}
-    </div>
+Card.propTypes =
+  className: React.PropTypes.string
 
 module.exports = Card

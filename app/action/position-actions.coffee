@@ -109,6 +109,3 @@ module.exports.startLocationWatch = (actionContext, payload, done) ->
     window.position.pos = null
 
   done()
-
-module.exports.removeLocation = (actionContext) ->
-  actionContext.dispatch "GeolocationRemoved"

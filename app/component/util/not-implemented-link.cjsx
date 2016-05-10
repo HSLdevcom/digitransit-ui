@@ -29,7 +29,7 @@ class NotImplementedLink extends React.Component
     className: React.PropTypes.string
 
   notImplemented: =>
-    context.executeAction NotImplementedAction.click, {name: @props.name}
+    context.executeAction NotImplementedAction.click, @props.name
     return false
 
   render: ->

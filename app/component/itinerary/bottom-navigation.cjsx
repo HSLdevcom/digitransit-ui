@@ -8,7 +8,7 @@ FormattedMessage = intl.FormattedMessage
 
 class BottomNavigation extends React.Component
   navigate: ->
-    @context.executeAction NotImplementedAction.click, name: <FormattedMessage id='navigate' defaultMessage='Navigate' />
+    @context.executeAction NotImplementedAction.click, <FormattedMessage id='navigate' defaultMessage='Navigate' />
     false
 
   render: ->
@@ -22,5 +22,6 @@ class BottomNavigation extends React.Component
                                                          defaultMessage='Print' />
       </div>
     </div>
+
 
 module.exports = BottomNavigation

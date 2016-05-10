@@ -16,7 +16,6 @@ class AddFavouriteContainer extends React.Component
   @contextTypes:
     intl: intl.intlShape.isRequired
     executeAction: React.PropTypes.func.isRequired
-    getStore: React.PropTypes.func.isRequired
     router: React.PropTypes.object.isRequired
 
   constructor: ->
