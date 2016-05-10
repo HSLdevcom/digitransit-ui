@@ -1,7 +1,7 @@
 React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../../queries'
-Popup         = require '../dynamic-popup'
+Popup         = require('../dynamic-popup').default
 intl          = require 'react-intl'
 BaseTileLayer = require('react-leaflet/lib/BaseTileLayer').default
 omit          = require 'lodash/omit'
@@ -52,7 +52,7 @@ class TileLayerContainer extends BaseTileLayer
     super
 
   componentDidUpdate: ->
-    @refs.popup?._leafletElement.openOn(@props.map)
+    @refs.popup?.leafletElement.openOn(@props.map)
 
   selectRow: (option) =>
     @setState
@@ -78,51 +78,53 @@ class TileLayerContainer extends BaseTileLayer
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = height: 150
 
-    popupOptions =
-      offset: [106, 3]
-      closeButton: false
-      maxWidth: 250
-      minWidth: 250
-      autoPanPaddingTopLeft: [5, 125]
-      className: "popup"
-
     if @state?.selectableTargets?.length == 1
       if @state.selectableTargets[0].layer == "stop"
-        popup = <Popup
-          options={popupOptions}
-          latlng={@state.coords}
-          ref="popup">
-          <Relay.RootContainer
-            Component={StopMarkerPopup}
-            route={new queries.StopRoute(
-              stopId: @state.selectableTargets[0].feature.properties.gtfsId
-              date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
-            )}
-            renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
-            renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}/>
-        </Popup>
+        contents = <Relay.RootContainer
+          Component={StopMarkerPopup}
+          route={new queries.StopRoute(
+            stopId: @state.selectableTargets[0].feature.properties.gtfsId
+            date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
+          )}
+          renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
+          renderFetched={(data) => <StopMarkerPopupWithContext {... data} context={@context}/>}
+        />
       else
-        popup = <Popup
-          options={popupOptions}
-          latlng={@state.coords}
-          ref="popup">
-          <Relay.RootContainer
-            Component={CityBikePopup}
-            route={new queries.CityBikeRoute(
-              stationId: @state.selectableTargets[0].feature.properties.id
-            )}
-            renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
-            renderFetched={(data) => <CityBikePopupWithContext {... data} context={@context}/>}/>
-        </Popup>
+        contents = <Relay.RootContainer
+          Component={CityBikePopup}
+          route={new queries.CityBikeRoute(
+            stationId: @state.selectableTargets[0].feature.properties.id
+          )}
+          renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
+          renderFetched={(data) => <CityBikePopupWithContext {... data} context={@context}/>}/>
+      popup = <Popup
+        map={@props.map}
+        layerContainer={@props.layerContainer}
+        offset={[106, 3]}
+        closeButton={false}
+        maxWidth={250}
+        minWidth={250}
+        autoPanPaddingTopLeft={[5, 125]}
+        className="popup"
+        position={@state.coords}
+        ref="popup">
+        {contents}
+      </Popup>
     else if @state?.selectableTargets?.length > 1
       popup = <Popup
-        options={Object.assign {}, popupOptions, maxHeight: 220}
-        latlng={@state.coords}
+        map={@props.map}
+        layerContainer={@props.layerContainer}
+        offset={[106, 3]}
+        closeButton={false}
+        maxWidth={250}
+        minWidth={250}
+        autoPanPaddingTopLeft={[5, 125]}
+        className="popup"
+        maxHeight={220}
+        position={@state.coords}
         ref="popup">
         <MarkerSelectPopupWithContext selectRow={@selectRow} options={@state.selectableTargets} context={@context}/>
       </Popup>
-    else
-      popup = false
 
     <div style={display: 'none'}>
       {popup}
