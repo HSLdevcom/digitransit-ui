@@ -11,13 +11,13 @@ mapStateReducer = (state, action) ->
     when "enable" then Object.assign {}, state, {initialZoom: false, mapTracking: true, focusOnOrigin: false}
     when "disable" then Object.assign {}, state, {initialZoom: false, mapTracking: false, focusOnOrigin: false}
     when "useOrigin" then Object.assign {}, state, {initialZoom: false, mapTracking: false, focusOnOrigin: true, previousOrigin: action.origin}
+    when "usePosition" then Object.assign {}, state, {initialZoom: false, mapTracking: true, focusOnOrigin: false, previousOrigin: action.origin}
     else state
 
 withMapStateTracking = withReducer 'mapState', 'dispatch', mapStateReducer, (props) ->
   initialZoom: true
   mapTracking: true
   focusOnOrigin: false
-
 
 MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStore', 'EndpointStore'], (context, props) ->
   mapTracking = props.mapState.mapTracking
@@ -34,6 +34,8 @@ MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStor
 
   if !origin.useCurrentPosition and origin != props.mapState.previousOrigin
     setImmediate props.dispatch, {type: 'useOrigin', origin: origin}
+  else if origin.useCurrentPosition and props.mapState.previousOrigin and origin != props.mapState.previousOrigin
+    setImmediate props.dispatch, {type: 'usePosition', origin: origin}
 
   enableMapTracking = () -> if !mapTracking then props.dispatch type: 'enable'
   disableMapTracking = () -> if mapTracking then props.dispatch type: 'disable'
