@@ -4,7 +4,7 @@ Map                   = require './map'
 ToggleMapTracking     = require '../navigation/toggle-map-tracking'
 connectToStores       = require 'fluxible-addons-react/connectToStores'
 withReducer           = require('recompose/withReducer').default
-pure                  = require('recompose/pure').default
+onlyUpdateForKeys     = require('recompose/onlyUpdateForKeys').default
 
 mapStateReducer = (state, action) ->
   switch action.type
@@ -19,7 +19,9 @@ withMapStateTracking = withReducer 'mapState', 'dispatch', mapStateReducer, (pro
   mapTracking: true
   focusOnOrigin: false
 
-MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStore', 'EndpointStore'], (context, props) ->
+onlyUpdateCoordChanges = onlyUpdateForKeys(['lat', 'lon', 'zoom', 'mapTracking'])
+
+MapWithTracking = withMapStateTracking connectToStores onlyUpdateCoordChanges(Map), ['PositionStore', 'EndpointStore'], (context, props) ->
   mapTracking = props.mapState.mapTracking
   PositionStore = context.getStore('PositionStore')
   position = PositionStore.getLocationState()
@@ -51,6 +53,7 @@ MapWithTracking = withMapStateTracking connectToStores pure(Map), ['PositionStor
   lat: if location then location.lat
   lon: if location then location.lon
   zoom: if props.mapState.initialZoom then 16
+  mapTracking: mapTracking
   className: "fullscreen"
   displayOriginPopup: true
   leafletEvents: {onDragstart: disableMapTracking, onZoomend: disableMapTracking}
