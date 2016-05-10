@@ -1,12 +1,12 @@
 React         = require 'react'
 isBrowser     = window?
 Marker        = if isBrowser then require('react-leaflet/lib/Marker').default
-Popup         = if isBrowser then require('./dynamic-popup').default
+OriginPopup   = require './origin-popup'
 L             = if isBrowser then require 'leaflet'
 Icon          = require '../icon/icon'
 connectToStores = require 'fluxible-addons-react/connectToStores'
-shouldUpdate  = require('recompose/shouldUpdate').default
-SearchActions = require '../../action/search-actions'
+pure  = require('recompose/pure').default
+{intlShape} = require('react-intl')
 
 
 currentLocationIcon =
@@ -17,8 +17,21 @@ currentLocationIcon =
   else null
 
 
-PositionMarker = ({coordinates, map, layerContainer, children}, context) ->
+PositionMarker = ({coordinates, map, layerContainer, useCurrentPosition}, {intl}) ->
   if coordinates
+    if useCurrentPosition
+      popup =
+        <OriginPopup
+          header={intl.formatMessage {id: 'origin', defaultMessage: 'From'}}
+          text={intl.formatMessage  {id: 'own-position', defaultMessage: 'Your current position'}}
+        />
+    else #Use this to set the text when the origin is not the position
+      popup =
+        <OriginPopup
+          header={intl.formatMessage {id: 'origin', defaultMessage: 'From'}}
+          text={intl.formatMessage  {id: 'own-position', defaultMessage: 'Your current position'}}
+        />
+
     <Marker
       map={map}
       layerContainer={layerContainer}
@@ -26,31 +39,17 @@ PositionMarker = ({coordinates, map, layerContainer, children}, context) ->
       position={coordinates}
       icon={currentLocationIcon}
     >
-      <Popup
-        context={context}
-        ref={(popup) -> console.log popup}
-        map={map}
-        layerContainer={layerContainer}
-        offset={[50, 0]}
-        closeButton={false}
-        maxWidth={config.map.genericMarker.popup.maxWidth}
-        className="origin-popup">
-          <div onClick={() =>
-            context.executeAction SearchActions.openDialog, "origin"}>
-            <div className="origin-popup">A<Icon className="right-arrow" img={'icon-icon_arrow-collapse--right'}/></div>
-            <div>
-              <div className="origin-popup-name">B</div>
-              <div className="shade-to-white"></div>
-            </div>
-          </div>
-      </Popup>
+      {popup}
     </Marker>
   else
     null
 
-module.exports = connectToStores PositionMarker, ['PositionStore', 'EndpointStore'], (context, props) ->
+PositionMarker.contextTypes =
+  intl: intlShape.isRequired
+
+module.exports = connectToStores pure(PositionMarker), ['PositionStore', 'EndpointStore'], (context, props) ->
   coordinates = context.getStore('PositionStore').getLocationState()
-  useCurrentPosition: @context.getStore('EndpointStore').getOrigin().useCurrentPosition
+  useCurrentPosition: context.getStore('EndpointStore').getOrigin().useCurrentPosition
   coordinates:
     if coordinates.hasLocation
       [coordinates.lat, coordinates.lon]
