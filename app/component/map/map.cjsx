@@ -105,14 +105,13 @@ class Map extends React.Component
       origin = @context.getStore('EndpointStore').getOrigin()
 
       if origin?.lat
-        #TODO: Why have two markers?
-        leafletObjs.push <LocationMarker position={origin} className="from" key='from'/>
-        leafletObjs.push <PlaceMarker position={origin} key='from2'/>
+        leafletObjs.push(
+          <PlaceMarker position={origin} key='from' displayOriginPopup={@props.displayOriginPopup}/>
+        )
 
       leafletObjs.push(
-        <PositionMarker key='position'>
-          {if @props.displayOriginPopup then <OriginPopup key='origin'/>}
-        </PositionMarker>)
+        <PositionMarker key='position' displayOriginPopup={@props.displayOriginPopup}/>
+      )
 
       center =
         if not @props.fitBounds and @props.lat and @props.lon

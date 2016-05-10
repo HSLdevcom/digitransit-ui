@@ -17,20 +17,25 @@ currentLocationIcon =
   else null
 
 
-PositionMarker = ({coordinates, map, layerContainer, useCurrentPosition}, {intl}) ->
+PositionMarker = ({coordinates, map, layerContainer, useCurrentPosition, displayOriginPopup}, {intl}) ->
   if coordinates
-    if useCurrentPosition
-      popup =
-        <OriginPopup
-          header={intl.formatMessage {id: 'origin', defaultMessage: 'From'}}
-          text={intl.formatMessage  {id: 'own-position', defaultMessage: 'Your current position'}}
-        />
-    else #Use this to set the text when the origin is not the position
-      popup =
-        <OriginPopup
-          header={intl.formatMessage {id: 'origin', defaultMessage: 'From'}}
-          text={intl.formatMessage  {id: 'own-position', defaultMessage: 'Your current position'}}
-        />
+    if displayOriginPopup
+      if useCurrentPosition
+        popup =
+          <OriginPopup
+            shouldOpen={true}
+            header={intl.formatMessage {id: 'origin', defaultMessage: 'From'}}
+            text={intl.formatMessage  {id: 'own-position', defaultMessage: 'Your current position'}}
+            yOffset={0}
+          />
+      else #Use this to set the text when the origin is not the position
+        popup =
+          <OriginPopup
+            shouldOpen={false}
+            header={intl.formatMessage {id: 'origin', defaultMessage: 'From'}}
+            text={intl.formatMessage  {id: 'own-position', defaultMessage: 'Your current position'}}
+            yOffset={0}
+          />
 
     <Marker
       map={map}

@@ -12,7 +12,8 @@ class OriginPopup extends React.Component
     intl: intl.intlShape.isRequired
 
   componentDidMount: =>
-    setImmediate @display
+    if @props.shouldOpen
+      setImmediate @display
 
   display: () =>
     @props.popupContainer.openPopup()
@@ -21,7 +22,7 @@ class OriginPopup extends React.Component
     origin = @context.getStore('EndpointStore').getOrigin()
     if origin != undefined
       @setState
-        yOffset: -15
+
         msg: origin.address
         position: origin,
         @display
@@ -33,7 +34,7 @@ class OriginPopup extends React.Component
       map={@props.map}
       layerContainer={@props.layerContainer}
       popupContainer={@props.popupContainer}
-      offset={[50, 0]}
+      offset={[50, @props.yOffset]}
       closeButton={false}
       maxWidth={config.map.genericMarker.popup.maxWidth}
       className="origin-popup">
