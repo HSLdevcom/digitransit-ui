@@ -1,11 +1,12 @@
 React         = require 'react'
 isBrowser     = window?
 Marker        = if isBrowser then require('react-leaflet/lib/Marker').default
+Popup         = if isBrowser then require('./dynamic-popup').default
 L             = if isBrowser then require 'leaflet'
 Icon          = require '../icon/icon'
 connectToStores = require 'fluxible-addons-react/connectToStores'
 shouldUpdate  = require('recompose/shouldUpdate').default
-Popup            = if isBrowser then require('./dynamic-popup').default
+SearchActions = require '../../action/search-actions'
 
 
 currentLocationIcon =
@@ -27,6 +28,7 @@ PositionMarker = ({coordinates, map, layerContainer, children}, context) ->
     >
       <Popup
         context={context}
+        ref={(popup) -> console.log popup}
         map={map}
         layerContainer={layerContainer}
         offset={[50, 0]}
@@ -46,8 +48,9 @@ PositionMarker = ({coordinates, map, layerContainer, children}, context) ->
   else
     null
 
-module.exports = connectToStores PositionMarker, ['PositionStore'], (context, props) ->
+module.exports = connectToStores PositionMarker, ['PositionStore', 'EndpointStore'], (context, props) ->
   coordinates = context.getStore('PositionStore').getLocationState()
+  useCurrentPosition: @context.getStore('EndpointStore').getOrigin().useCurrentPosition
   coordinates:
     if coordinates.hasLocation
       [coordinates.lat, coordinates.lon]
