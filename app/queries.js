@@ -16,7 +16,7 @@ export class TerminalRoute extends Relay.Route {
     terminalId: { required: true },
   };
   static routeName = 'TerminalRoute';
-}
+l}
 
 export const TerminalMarkerPopupFragments = {
   terminal: () => Relay.QL`
@@ -534,6 +534,14 @@ export const CityBikeQueries = {
     }
   `,
 };
+
+export const CityBikeStatusQuery = Relay.QL`
+query Test{
+  bikeRentalStation(id: $id) {
+    bikesAvailable
+    spacesAvailable
+  }
+}`;
 
 export class CityBikeRoute extends Relay.Route {
   static queries = CityBikeQueries;
