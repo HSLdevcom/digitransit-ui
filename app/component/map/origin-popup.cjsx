@@ -18,15 +18,6 @@ class OriginPopup extends React.Component
   display: () =>
     @props.popupContainer.openPopup()
 
-  showEndpoint: () =>
-    origin = @context.getStore('EndpointStore').getOrigin()
-    if origin != undefined
-      @setState
-
-        msg: origin.address
-        position: origin,
-        @display
-
   render: =>
     <Popup
       context={@context}
