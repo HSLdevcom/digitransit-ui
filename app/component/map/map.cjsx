@@ -87,6 +87,7 @@ class Map extends React.Component
           layers={layers}
           tileSize={config.map.tileSize or 256}
           zoomOffset={config.map.zoomOffset or 0}
+          disableMapTracking={@props.disableMapTracking}
           />
 
       else
