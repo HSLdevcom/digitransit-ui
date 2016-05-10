@@ -1,3 +1,5 @@
+$font-size-supersmall: 10px;
+
 .favourite-button-shared {
   text-align: center;
   border-radius: $border-radius;
@@ -6,7 +8,6 @@
   max-width: 320px;
   padding-top: 8px;
   padding-bottom: 8px;
-  height: 86.5px;
 }
 
 .favourite-location-content {
@@ -17,14 +18,23 @@
     font-size: 12px;
   }
   .time {
-    padding-left: 0.5em;
-    padding-right: 0;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    margin-right: 0;
     width: auto;
   }
   .time--small {
-    font-size: $font-size-small;
+    padding: 0;
+    padding-right: 0.25em;
+    margin: 0;
+    font-size: $font-size-supersmall;
+  }
+  .vehicle-number {
+    padding: 0;
+    padding-left: 0.25em;
   }
   .favourite-location-icon {
+    padding-left: 0.25em;
     color: $gray-blue;
     vertical-align: middle;
   }
@@ -34,18 +44,21 @@
       vertical-align: middle;
     }
     .favourite-location-arrow {
-      font-size: $font-size-xsmall;
+      font-size: $font-size-supersmall;
       color: $gray;
     }
     .route-number {
+      width: auto;
       display: inline-block;
-      font-size: $font-size-small;
+      font-size: $font-size-supersmall;
       & > span:first-of-type {
         vertical-align: middle;
       }
     }
   }
   .favourite-location-departure-icon {
+    width: 0.8em;
+    height: 0.8em;
     color: $gray-blue;
   }
   .favourite-location-departure-time {
@@ -57,6 +70,7 @@
     color: $realtime-color;
   }
   .favourite-location-arrival-time {
+    margin: 0;
     vertical-align: top;
     color: $black;
   }
@@ -65,14 +79,11 @@
 .new-favourite-button-content {
   @extend .favourite-button-shared;
   background: $background-color;
-
-  & > span {
-    display: inline-block;
-    margin-top: 14px;
-  }
+  height: 85.25px;
 
   .add-new-favourite-icon {
     color: $gray-blue;
+    margin-top: 14px;
   }
 
   .add-location-text {
@@ -108,12 +119,16 @@
 
 
 .favourite-location-content-placeholder {
-  margin-left: 1em;
-  margin-right: 1em;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
   display: inline-block;
   width: 2.5em;
   line-height: 1em;
   color: #eee;
   background-color: #eee;
   border-radius: 1px;
+  &.time--small {
+    padding: 0;
+    margin-right: 0.5em;
+  }
 }

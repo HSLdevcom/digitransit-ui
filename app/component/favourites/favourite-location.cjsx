@@ -36,15 +36,21 @@ FavouriteLocation = (props) =>
       onClick={props.clickFavourite.bind this, props.locationName, props.lat, props.lon}>
         <div className="favourite-location-header">{props.locationName}</div>
         <div className="favourite-location-arrival">
-          <span className="favourite-location-icon"><Icon img={props.favouriteLocationIconId}/></span>
-          <span className="favourite-location-arrival-time">
-            {arrivalTime}
-          </span>
+          <nobr>
+            <span className="favourite-location-icon">
+              <Icon img={props.favouriteLocationIconId}/>
+            </span>
+            <span className="favourite-location-arrival-time">
+              {arrivalTime}
+            </span>
+          </nobr>
         </div>
         <div className="favourite-location-departure">
           {departureTime}
-          <Icon img="icon-icon_arrow-right" className="favourite-location-arrow"/>
-          <Icon img="icon-icon_walk" className="favourite-location-departure-icon"/>
+          <nobr>
+            <Icon img="icon-icon_arrow-right" className="favourite-location-arrow"/>
+            <Icon img="icon-icon_walk" className="favourite-location-departure-icon"/>
+          </nobr>
           {firstTransitLeg}
         </div>
     </div>
