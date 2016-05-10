@@ -131,6 +131,7 @@ class Map extends React.Component
           zoomControl={false}
           attributionControl={false}
           bounds={if @props.fitBounds then bounds}
+          animate={true}
           {... @props.leafletOptions}
           boundsOptions={boundsOptions}
           {... @props.leafletEvents}
