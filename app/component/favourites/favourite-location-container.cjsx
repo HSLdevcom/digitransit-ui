@@ -13,13 +13,7 @@ class FavouriteLocationContainer extends React.Component
   render: =>
     plan = @props.plan.plan
     itinerary = plan.itineraries[0]
-    if itinerary.legs
-      transitLegs = itinerary.legs.filter((leg) => leg.transitLeg)
-      if transitLegs.length > 0
-        firstTransitLeg =
-          realTime: transitLegs[0].realTime
-          mode: transitLegs[0].mode
-          route: transitLegs[0].route
+    firstTransitLeg = itinerary.legs?.filter((leg) => leg.transitLeg)[0]
     <FavouriteLocation
       locationName={@props.favourite.locationName}
       favouriteLocationIconId={@props.favourite.selectedIconId}
