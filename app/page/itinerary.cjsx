@@ -118,13 +118,14 @@ class ItineraryPage extends React.Component
     else
       plan = <div className="spinner-loader"/>
 
+    title = @context.intl.formatMessage {id: 'itinerary-page.title', defaultMessage: "Route"}
     meta =
-      title: @context.intl.formatMessage {id: 'itinerary-page.title', defaultMessage: "Route"}
+      title: title
       meta: [
         {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-page.description', defaultMessage: "Route"}}
       ]
 
-    <DefaultNavigation className="fullscreen">
+    <DefaultNavigation className="fullscreen" title={title}>
       <Helmet {...meta} />
       {plan}
     </DefaultNavigation>

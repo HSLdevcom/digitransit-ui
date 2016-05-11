@@ -85,15 +85,16 @@ class ItineraryPage extends React.Component
     tabs
 
   render: =>
+    title = @context.intl.formatMessage {id: 'itinerary-page.title', defaultMessage: "Route"}
     plan = @context.getStore('ItinerarySearchStore').getData().plan
     unless plan
-      return <DefaultNavigation className="fullscreen"/>
+      return <DefaultNavigation className="fullscreen" title={title} />
     itineraries = plan.itineraries
 
     leafletObj = <ItineraryLine key={"line" + @props.params.hash} legs={itineraries[parseInt(@props.params.hash)].legs} showFromToMarkers={true} showTransferLabels={true}/>
 
     meta =
-      title: @context.intl.formatMessage {id: 'itinerary-page.title', defaultMessage: "Route"}
+      title: title
       meta: [
         {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-page.description', defaultMessage: "Route"}}
       ]

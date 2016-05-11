@@ -53,13 +53,14 @@ class StopPage extends React.Component
         stop_name: @props.stop.name
         stop_code: @props.stop.code
 
+    title = @context.intl.formatMessage {id: 'stop-page.title', defaultMessage: 'Stop {stop_name} - {stop_code}'}, params
     meta =
-      title: @context.intl.formatMessage {id: 'stop-page.title', defaultMessage: 'Stop {stop_name} - {stop_code}'}, params
+      title: title
       meta: [
         {name: 'description', content: @context.intl.formatMessage {id: 'stop-page.description', defaultMessage: 'Stop {stop_name} - {stop_code}'}, params}
       ]
 
-    <DefaultNavigation className="fullscreen stop">
+    <DefaultNavigation className="fullscreen stop" title={title}>
       <Helmet {...meta} />
       <StopCardHeader stop={@props.stop}
                       favourite={favourite}
