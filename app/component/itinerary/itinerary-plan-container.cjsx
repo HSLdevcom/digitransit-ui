@@ -45,29 +45,9 @@ class ItineraryPlanContainer extends React.Component
     @setState ("fullscreen": !@state.fullscreen)
 
   switchSlide: (index) =>
-    geolocation = @context.getStore('PositionStore').getLocationState()
-    origin = @context.getStore('EndpointStore').getOrigin()
-    destination = @context.getStore('EndpointStore').getDestination()
-
-    if ((origin.lat or origin.useCurrentPosition and geolocation.hasLocation) and
-        (destination.lat or destination.useCurrentPosition and geolocation.hasLocation))
-      geo_string = locationToOTP(
-        Object.assign({address: "Oma sijainti"}, geolocation))
-
-      if origin.useCurrentPosition
-        from = geo_string
-      else
-        from = locationToOTP(origin)
-
-      if destination.useCurrentPosition
-        to = geo_string
-      else
-        to = locationToOTP(destination)
-      setTimeout(() =>
-        @context.router.replace getRoutePath(from, to) + "/" + index
-        itineraryTabState = @refs["itineraryTab" + index].getState()
-        @focusMap(itineraryTabState.lat, itineraryTabState.lon)
-      , 100)
+    @context.router.replace getRoutePath(@props.fromPlace, @props.toPlace) + "/" + index
+    itineraryTabState = @refs["itineraryTab" + index].state
+    @focusMap(itineraryTabState.lat, itineraryTabState.lon)
 
   getSlides: (itineraries) =>
     slides = []
@@ -143,7 +123,7 @@ class ItineraryPlanContainer extends React.Component
             className="itinerary-swipe-views-root"
             slideStyle={{height: "100%"}}
             containerStyle={{height: "100%"}}
-            onChangeIndex={@switchSlide}>
+            onChangeIndex={() => setTimeout @switchSlide, 100}>
             {@getSlides(itineraries)}
           </SwipeableViews>
           <div className="itinerary-tabs-container">
