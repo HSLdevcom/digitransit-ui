@@ -43,8 +43,8 @@ class PositionStore extends Store
 
   storeLocation: (location) ->
     statusChanged = @hasStatusChanged(true)
-    @lat = location.lat
-    @lon = location.lon
+    @lat = if @lat != 0 then (@lat + location.lat) / 2 else location.lat
+    @lon = if @lon != 0 then (@lon + location.lon) / 2 else location.lon
     @heading = if location.heading then location.heading else @heading
     @status = @STATUS_FOUND_LOCATION
     @emitChange(statusChanged: statusChanged)
@@ -62,7 +62,7 @@ class PositionStore extends Store
     lon: @lon
     address: @address
     status: @status
-    hasLocation: @status == @STATUS_FOUND_ADDRESS or @status == @STATUS_FOUND_LOCATION
+    hasLocation: (@status == @STATUS_FOUND_ADDRESS or @status == @STATUS_FOUND_LOCATION) and (@lat != 0 or @lon != 0)
     # Locationing is in progress when browser is:
     #   searching address or
     #   reverse geocoding is in progress
@@ -83,7 +83,6 @@ class PositionStore extends Store
   @handlers:
     "GeolocationSearch": 'geolocationSearch'
     "GeolocationFound": 'storeLocation'
-    "GeolocationRemoved": 'removeLocation'
     "GeolocationNotSupported": 'geolocationNotSupported'
     "GeolocationDenied": 'geolocationDenied'
     "GeolocationTimeout": 'geolocationTimeout'

@@ -5,52 +5,32 @@ FavouriteRouteListContainer = require './favourite-route-list-container'
 FavouriteLocationsContainer = require './favourite-locations-container'
 NextDeparturesListHeader    = require '../departure/next-departures-list-header'
 NoFavouritesPanel           = require './no-favourites-panel'
+connectToStores             = require 'fluxible-addons-react/connectToStores'
 
-class FavouritesPanel extends React.Component
+FavouriteRoutes = ({routes}) ->
+  if routes.length > 0
+    <Relay.RootContainer
+      Component={FavouriteRouteListContainer}
+      forceFetch={true}
+      route={new queries.FavouriteRouteListContainerRoute(
+        ids: routes
+      )}
+      renderLoading={=> <div className="spinner-loader"/>}
+    />
+  else
+    <NoFavouritesPanel/>
 
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
-
-  componentDidMount: ->
-    @context.getStore('FavouriteRoutesStore').addChangeListener @onChange
-    @context.getStore('FavouriteStopsStore').addChangeListener @onChange
-    @context.getStore('TimeStore').addChangeListener @onTimeChange
-
-  componentWillUnmount: ->
-    @context.getStore('FavouriteRoutesStore').removeChangeListener @onChange
-    @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
-    @context.getStore('TimeStore').removeChangeListener @onTimeChange
-
-  onChange: (id) =>
-    @forceUpdate()
-
-  onTimeChange: (e) =>
-    if e.currentTime
-      @forceUpdate()
-
-  render: ->
-    routes = @context.getStore('FavouriteRoutesStore').getRoutes()
-    if routes.length > 0
-      favouriteRoutes = <Relay.RootContainer
-        Component={FavouriteRouteListContainer}
-        forceFetch={true}
-        route={new queries.FavouriteRouteListContainerRoute(
-          ids: routes
-        )}
-        renderLoading={=> <div className="spinner-loader"/>}
-      />
-    else
-      favouriteRoutes = <NoFavouritesPanel/>
-
-    <div className="frontpage-panel">
-      <div className="row favourite-locations-container">
-        <FavouriteLocationsContainer/>
-      </div>
-      <NextDeparturesListHeader />
-      <div className="scrollable momentum-scroll scroll-extra-padding-bottom">
-        {favouriteRoutes}
-      </div>
+FavouritesPanel = ({routes}) ->
+  <div className="frontpage-panel">
+    <div className="row favourite-locations-container">
+      <FavouriteLocationsContainer/>
     </div>
+    <NextDeparturesListHeader />
+    <div className="scrollable momentum-scroll scroll-extra-padding-bottom">
+      <FavouriteRoutes routes={routes}/>
+    </div>
+  </div>
 
-module.exports = FavouritesPanel
+# TODO: Make sure these keep updating from the time store, possibly lift depending to time store here
+module.exports = connectToStores FavouritesPanel, ['FavouriteRoutesStore'], (context, props) ->
+  routes: context.getStore('FavouriteRoutesStore').getRoutes()

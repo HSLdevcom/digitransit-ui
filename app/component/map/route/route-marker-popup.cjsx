@@ -5,7 +5,7 @@ RouteHeader           = require '../../route/route-header'
 Icon                  = require '../../icon/icon'
 Link                  = require 'react-router/lib/Link'
 FavouriteRoutesActions = require '../../../action/favourite-routes-action'
-
+connectToStores = require 'fluxible-addons-react/connectToStores'
 
 class RouteMarkerPopup extends React.Component
   @childContextTypes:
@@ -13,16 +13,6 @@ class RouteMarkerPopup extends React.Component
 
   getChildContext: () ->
     router: @props.context.router
-
-  componentDidMount: ->
-    @props.context.getStore('FavouriteRoutesStore').addChangeListener @onChange
-
-  componentWillUnmount: ->
-    @props.context.getStore('FavouriteRoutesStore').addChangeListener @onChange
-
-  onChange: (id) =>
-    if !id or id == @props.trip.route.gtfsId
-      @forceUpdate()
 
   addFavouriteRoute: (e) =>
     e.stopPropagation()
@@ -34,7 +24,7 @@ class RouteMarkerPopup extends React.Component
         route={@props.trip.route}
         pattern={@props.trip.fuzzyTrip.pattern}
         trip={@props.message.tripStartTime}
-        favourite={@props.context.getStore('FavouriteRoutesStore').isFavourite(@props.trip.route.gtfsId)}
+        favourite={@props.favourite}
         addFavouriteRoute={@addFavouriteRoute}/>
       <div className="bottom location">
         <Link to="/lahdot/#{@props.trip.fuzzyTrip.gtfsId}">
@@ -46,7 +36,10 @@ class RouteMarkerPopup extends React.Component
       </div>
     </div>
 
-module.exports = Relay.createContainer(RouteMarkerPopup,
+RouteMarkerPopupWithFavourite = connectToStores RouteMarkerPopup, ['FavouriteRoutesStore'], (context, props) ->
+  favourite: context.getStore('FavouriteRoutesStore').isFavourite(props.trip.route.gtfsId)
+
+module.exports = Relay.createContainer(RouteMarkerPopupWithFavourite,
   fragments: queries.RouteMarkerPopupFragments
   initialVariables:
     route: null

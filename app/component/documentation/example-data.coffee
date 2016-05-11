@@ -45,9 +45,16 @@ station =
 favouriteLocation =
   locationName: "Työ"
   favouriteLocationIconId: "icon-icon_place"
-  arrivalTime: "14:38"
-  departureTime: "3 min"
+  arrivalTime: 1444175199
+  departureTime: 1444165199
   realtime: true
+  currentTime: 1444165100
+  firstTransitLeg:
+    realTime: true
+    mode: "BUS"
+    route:
+      shortName: "123"
+    
 
 
 module.exports =

@@ -106,7 +106,13 @@ class TileLayerContainer extends BaseTileLayer
           options={popupOptions}
           latlng={@state.coords}
           ref="popup">
-          <CityBikePopupWithContext station={@state.selectableTargets[0].feature.properties} coords={@state.coords} context={@context}/>
+          <Relay.RootContainer
+            Component={CityBikePopup}
+            route={new queries.CityBikeRoute(
+              stationId: @state.selectableTargets[0].feature.properties.id
+            )}
+            renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
+            renderFetched={(data) => <CityBikePopupWithContext {... data} context={@context}/>}/>
         </Popup>
     else if @state?.selectableTargets?.length > 1
       popup = <Popup

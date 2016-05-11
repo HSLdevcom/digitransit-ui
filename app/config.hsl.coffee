@@ -1,6 +1,6 @@
 CONFIG = process.env.CONFIG or 'hsl'
-API_URL = process.env.API_URL or 'http://api.digitransit.fi'
-MAP_URL = process.env.MAP_URL or 'http://api.digitransit.fi'
+API_URL = process.env.API_URL or 'https://dev-api.digitransit.fi'
+MAP_URL = process.env.MAP_URL or 'https://{s}-dev-api.digitransit.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
@@ -19,7 +19,7 @@ module.exports =
     MAP: "#{MAP_URL}/map/v1/hsl-map/"
     STOP_MAP: "#{API_URL}/map/v1/hsl-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
-    MQTT: "ws://213.138.147.225:1883"
+    MQTT: "wss://dev.hsl.fi/mqtt-proxy"
     ALERTS: "#{API_URL}/realtime/service-alerts/v1"
     FONT: "https://cloud.typography.com/6364294/6653152/css/fonts.css"
     REALTIME: "#{API_URL}/realtime/vehicle-positions/v1"
@@ -81,7 +81,6 @@ module.exports =
     locationAware: true
   cityBike:
     showCityBikes: true
-    showBikesAvailable: false
     useUrl:
       fi: "https://www.hsl.fi/citybike"
       sv: "https://www.hsl.fi/sv/citybike"
@@ -91,6 +90,7 @@ module.exports =
       sv: "https://www.hsl.fi/sv/stadscyklar"
       en: "https://www.hsl.fi/en/citybikes"
     cityBikeMinZoom: 13
+    fewAvailableCount: 3
   # Lowest level for stops and terminals are rendered
   stopsMinZoom: 14
   # Highest level when stops and terminals are still rendered as small markers
@@ -104,7 +104,7 @@ module.exports =
   socialMedia:
     title: "Uusi Reittiopas"
     description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
-  #Ticket information feature toggle
+  # Ticket information feature toggle
   showTicketInformation: true
   # Control what transport modes that should be possible to select in the UI
   # and whether the transport mode is used in trip planning by default.
@@ -151,4 +151,8 @@ module.exports =
     accessibility:
       available: true
   areaPolygon: [[ 24.2647, 60.178 ], [ 24.3097, 60.2537 ], [ 24.3903, 60.3058 ], [ 24.4683, 60.3123 ], [ 24.4918, 60.3438 ], [ 24.5685, 60.3371 ], [ 24.6128, 60.3755 ], [ 24.739, 60.3642 ], [ 24.8046, 60.4071 ], [ 24.8684, 60.4192 ], [ 24.9694, 60.3508 ], [ 24.9992, 60.3524 ], [ 24.9865, 60.3732 ], [ 25.0452, 60.391 ], [ 25.0411, 60.4251 ], [ 25.1126, 60.4522 ], [ 25.162, 60.5238 ], [ 25.2438, 60.5168 ], [ 25.3261, 60.4666 ], [ 25.444, 60.3445 ], [ 25.5622, 60.2691 ], [ 25.4213, 60.1613 ], [ 25.3479, 59.9218 ], [ 24.94, 59.904 ], [ 24.5041, 59.801 ], [ 24.2785, 59.7737 ], [ 24.246, 59.791 ], [ 24.2367, 59.9579 ], [ 24.2579, 60.017 ], [ 24.3257, 60.0729 ], [ 24.2647, 60.178 ]]
-  defaultPosition: [60.1710688, 24.9414841]
+  # Default origin endpoint to use when user is outside of area
+  defaultEndpoint:
+    address: "Rautatieasema, Helsinki"
+    lat: 60.1710688
+    lon: 24.9414841

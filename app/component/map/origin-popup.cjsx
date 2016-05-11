@@ -22,6 +22,8 @@ class OriginPopup extends React.Component
   componentDidMount: =>
     @context.getStore('EndpointStore').addChangeListener @onEndpointChange
     @context.getStore('PositionStore').addChangeListener @onPositionChange
+    if @context.getStore('EndpointStore').isPendingPopup()
+      @showEndpoint()
 
   componentWillUnmount: =>
     @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
@@ -29,19 +31,10 @@ class OriginPopup extends React.Component
 
   display: () =>
     @props.map.openPopup(@refs.popup._leafletElement)
-    close = () =>
-      if typeof @toref != "undefined"
-        @toref = undefined
-      @props.map.closePopup()
-
-    if typeof @toref != "undefined"
-      clearTimeout @toref
-
-    @toref = setTimeout close,  5000   #close popup after 5 sec
 
   showCurrentPosition: () =>
     coordinates = @context.getStore('PositionStore').getLocationState()
-    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
+    if coordinates.hasLocation
       msg = @context.intl.formatMessage
         id: 'own-position'
         defaultMessage: 'Your current position'
@@ -50,18 +43,21 @@ class OriginPopup extends React.Component
         msg: msg
         yOffset: 0
         position: [coordinates.lat, coordinates.lon],
-        () =>
-          @display()
+        @display
+
+  showEndpoint: () =>
+    origin = @context.getStore('EndpointStore').getOrigin()
+    if origin != undefined
+      @setState
+        yOffset: -15
+        msg: origin.address
+        position: origin,
+        @display
+
 
   onEndpointChange: (endPointChange) =>
     if endPointChange in ['set-origin']
-      origin = @context.getStore('EndpointStore').getOrigin()
-      if origin != undefined
-        @setState
-          yOffset: -15
-          msg: origin.address
-          position: origin,
-          @display
+      @showEndpoint()
     else if endPointChange in ['origin-use-current']
       @showCurrentPosition()
 

@@ -25,7 +25,10 @@ uniq = (features) ->
 
 addCurrentPositionIfEmpty = (features) ->
   if features.length == 0
-    features.push currentLocation
+    features.push
+      type: "CurrentLocation", properties:
+        labelId: "own-position"
+        layer: "currentPosition"
   features
 
 # Filters given list and returns only elements that match with given input
@@ -37,11 +40,6 @@ filterMatchingToInput = (list, input, fields) ->
       test.indexOf(input.toLowerCase()) > -1
   else
     return list
-
-currentLocation =
-  type: "CurrentLocation", properties:
-    labelId: "own-position"
-    layer: "currentPosition"
 
 addOldSearches = (oldSearches, features, input) ->
   matchingOldSearches = filterMatchingToInput(oldSearches, input, ["address", "locationName"])

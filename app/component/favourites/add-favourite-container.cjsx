@@ -6,9 +6,7 @@ FavouriteIconTable        = require './favourite-icon-table'
 FavouriteLocationActions  = require '../../action/favourite-location-action'
 FakeSearchBar             = require '../search/fake-search-bar'
 SearchActions             = require '../../action/search-actions'
-SearchModal               = require '../search/search-modal'
-SearchInput               = require '../search/search-input'
-Tab                       = require('material-ui/Tabs/Tab').default
+OneTabSearchModal         = require '../search/one-tab-search-modal'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
@@ -18,7 +16,6 @@ class AddFavouriteContainer extends React.Component
   @contextTypes:
     intl: intl.intlShape.isRequired
     executeAction: React.PropTypes.func.isRequired
-    getStore: React.PropTypes.func.isRequired
     router: React.PropTypes.object.isRequired
 
   constructor: ->
@@ -71,9 +68,6 @@ class AddFavouriteContainer extends React.Component
       'icon-icon_shopping'
     ]
 
-  focusInput: () =>
-    @refs.searchInputfavourite?.refs.autowhatever?.refs.input?.focus()
-
   closeSearchModal: () =>
     @setState
       searchModalIsOpen: false
@@ -113,9 +107,7 @@ class AddFavouriteContainer extends React.Component
                   e.preventDefault()
                   @setState
                     searchModalIsOpen: true
-                    () =>
-                      @focusInput()
-                  @context.executeAction SearchActions.executeSearch, {type: "endpoint", input: ""}}
+                }
                 id='destination'
                 className='add-favourite-container__input-placeholder'
               />
@@ -149,27 +141,16 @@ class AddFavouriteContainer extends React.Component
           </div>
         </row>
       </div>
-      <SearchModal
-        ref="modal"
+      <OneTabSearchModal
         modalIsOpen={@state.searchModalIsOpen}
-        selectedTab="favourite-place"
-        closeModal={@closeSearchModal}>
-        <Tab
-        className="search-header__button--selected"
-        label={searchTabLabel}
-        ref="searchTab"
-        value="favourite-place">
-          <SearchInput
-            ref="searchInputfavourite"
-            id="search-favourite"
-            initialValue = ""
-            type="endpoint"
-            onSuggestionSelected = {(name, item) =>
-              @setCoordinatesAndAddress(name, item)
-              @closeSearchModal()
-          }/>
-        </Tab>
-      </SearchModal>
+        closeModal={@closeSearchModal}
+        customTabLabel={searchTabLabel}
+        initialValue=""
+        customOnSuggestionSelected={(name, item) =>
+          @setCoordinatesAndAddress(name, item)
+          @closeSearchModal()
+        }
+      />
     </div>
 
 

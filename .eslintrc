@@ -1,6 +1,9 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "rules": {
+    "import/no-unresolved": 0
+  },
   "env": {
     "browser": true,
     "mocha": true,

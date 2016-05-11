@@ -8,45 +8,30 @@ filter                = require 'lodash/filter'
 moment                = require 'moment'
 Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
+connectToStores       = require 'fluxible-addons-react/connectToStores'
+
+mergeDepartures = (departures) ->
+  Array.prototype.concat.apply([], departures).sort (a, b) ->
+    return a.stoptime - b.stoptime
+
+asDepartures = (stoptimes) ->
+  stoptimes.map (pattern) ->
+    pattern.stoptimes.map (stoptime) ->
+      stop: stoptime.stop
+      canceled: stoptime.realtimeState == 'CANCELED' or (window.mock && stoptime.realtimeDeparture % 40 == 0)
+      stoptime: stoptime.serviceDay + (if stoptime.realtimeState == 'CANCELED' then stoptime.scheduledDeparture else stoptime.realtimeDeparture)
+      realtime: stoptime.realtime
+      pattern: pattern.pattern
+      trip: stoptime.trip
 
 class DepartureListContainer extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-
-  componentDidMount: ->
-    @context.getStore('TimeStore').addChangeListener @onChange
-
-  componentWillUnmount: ->
-    @context.getStore('TimeStore').removeChangeListener @onChange
-
-  onChange: (e) =>
-    if e.currentTime
-      @forceUpdate()
-
-  mergeDepartures: (departures) ->
-    Array.prototype.concat.apply([], departures).sort (a, b) ->
-      return a.stoptime - b.stoptime
-
-  asDepartures: (stoptimes) ->
-    stoptimes.map (pattern) ->
-      pattern.stoptimes.map (stoptime) ->
-        stop: stoptime.stop
-        canceled: stoptime.realtimeState == 'CANCELED' or (window.mock && stoptime.realtimeDeparture % 40 == 0)
-        stoptime: stoptime.serviceDay + (if stoptime.realtimeState == 'CANCELED' then stoptime.scheduledDeparture else stoptime.realtimeDeparture)
-        realtime: stoptime.realtime
-        pattern: pattern.pattern
-        trip: stoptime.trip
-
-  now: =>
-    @context.getStore('TimeStore').getCurrentTime()
-
   getDepartures: (rowClasses) =>
     departureObjs = []
 
-    currentTime = @now().unix()
-    currentDate = @now().startOf('day').unix()
-    tomorrow = @now().add(1, 'day').startOf('day').unix()
-    departures = @mergeDepartures(@asDepartures(@props.stoptimes))
+    currentTime = @props.currentTime.unix()
+    currentDate = @props.currentTime.clone().startOf('day').unix()
+    tomorrow = @props.currentTime.clone().add(1, 'day').startOf('day').unix()
+    departures = mergeDepartures(asDepartures(@props.stoptimes))
       .filter((departure) -> currentTime < departure.stoptime)
       .slice 0, @props.limit
 
@@ -86,5 +71,8 @@ class DepartureListContainer extends React.Component
       {@getDepartures(@props.rowClasses)}
     </div>
 
-module.exports = Relay.createContainer DepartureListContainer,
+DepartureListContainerWithTime = connectToStores DepartureListContainer, ['TimeStore'], (context, props) ->
+  currentTime: context.getStore('TimeStore').getCurrentTime()
+
+module.exports = Relay.createContainer DepartureListContainerWithTime,
   fragments: queries.DepartureListFragments

@@ -1,4 +1,4 @@
-/* eslint no-param-reassign: "off", no-console: "off", strict: "off" */
+/* eslint no-param-reassign: 0, no-console: 0, strict: 0, global-require: 0 */
 'use strict';
 
 /* ********* Polyfills (for node) **********/

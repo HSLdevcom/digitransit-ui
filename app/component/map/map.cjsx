@@ -1,16 +1,17 @@
-isBrowser     = window?
-React         = require 'react'
-Relay         = require 'react-relay'
-queries       = require '../../queries'
-Icon          = require '../icon/icon'
+isBrowser      = window?
+React          = require 'react'
+Relay          = require 'react-relay'
+queries        =  require '../../queries'
+Icon           = require '../icon/icon'
 LocationMarker = require './location-marker'
-config        = require '../../config'
-OriginPopup   = require './origin-popup'
-LeafletMap    = if isBrowser then require('react-leaflet/lib/Map').default else null
-TileLayer     = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
-L             = if isBrowser then require 'leaflet' else null
+config         = require '../../config'
+OriginPopup    = require './origin-popup'
+LeafletMap     = if isBrowser then require('react-leaflet/lib/Map').default else null
+TileLayer      = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
+L              = if isBrowser then require 'leaflet' else null
 PositionMarker = require './position-marker'
-PlaceMarker = require './place-marker'
+PlaceMarker    = require './place-marker'
+{boundWithMinimumArea} = require '../../util/geo-utils'
 
 if isBrowser and config.map.useVectorTiles
   TileLayerContainer = require './tile-layer/tile-layer-container'
@@ -86,6 +87,7 @@ class Map extends React.Component
           layers={layers}
           tileSize={config.map.tileSize or 256}
           zoomOffset={config.map.zoomOffset or 0}
+          disableMapTracking={@props.disableMapTracking}
           />
 
       else
@@ -114,12 +116,12 @@ class Map extends React.Component
       leafletObjs.push <PositionMarker key='position'/>
 
       center =
-        if @props.fitBounds
-          undefined #fitBounds is used instead
-        else if @props.lat and @props.lon
+        if not @props.fitBounds and @props.lat and @props.lon
           [@props.lat, @props.lon]
 
-      zoom = if not @props.fitBounds and @props.zoom then @props.zoom
+      zoom = @props.zoom
+      bounds = boundWithMinimumArea @props.from, @props.to
+      boundsOptions = if @props.padding then paddingTopLeft: @props.padding
 
       map =
         <LeafletMap
@@ -128,9 +130,10 @@ class Map extends React.Component
           zoom={zoom}
           zoomControl={false}
           attributionControl={false}
-          bounds={if @props.fitBounds then [@props.from, @props.to]}
+          bounds={if @props.fitBounds then bounds}
+          animate={true}
           {... @props.leafletOptions}
-          boundsOptions={if @props.fitBounds then paddingTopLeft: @props.padding}
+          boundsOptions={boundsOptions}
           {... @props.leafletEvents}
           >
           <TileLayer

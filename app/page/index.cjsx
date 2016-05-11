@@ -8,15 +8,20 @@ Icon               = require '../component/icon/icon'
 Link               = require 'react-router/lib/Link'
 MapWithTracking    = require '../component/map/map-with-tracking'
 FeedbackPanel      = require '../component/feedback/feedback-panel'
+ItinerarySearchAction = require '../action/itinerary-search-action'
 
 class Page extends React.Component
   @contextTypes:
-    getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    location: React.PropTypes.object.isRequired
+
+  componentDidMount: ->
+    if @context.location.search?.indexOf('citybikes') > -1
+      @context.executeAction ItinerarySearchAction.forceCitybikeState
 
   render: ->
     <IndexNavigation className="front-page fullscreen">
-      <MapWithTracking>
+      <MapWithTracking showStops={true}>
         <SearchMainContainer/>
       </MapWithTracking>
       <FrontPagePanel/>

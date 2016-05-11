@@ -2,8 +2,6 @@ React          = require 'react'
 Icon           = require '../icon/icon'
 cx             = require 'classnames'
 SuggestionUtil = require '../../util/suggestion-utils'
-{FormattedMessage} = require 'react-intl'
-
 
 getIcon = (layer, iconClass) ->
   layerIcon =
@@ -14,7 +12,6 @@ getIcon = (layer, iconClass) ->
     "station": "icon-icon_station"
     "localadmin": "icon-icon_city"
     "neighbourdood": "icon-icon_city"
-    "currentPosition": "icon-icon_position"
     "route-BUS": "icon-icon_bus-withoutBox"
     "route-TRAM": "icon-icon_tram-withoutBox"
     "route-RAIL": "icon-icon_rail-withoutBox"
@@ -32,9 +29,6 @@ SuggestionItem = (props) ->
   </span>
 
 SuggestionItem.getName =  (props) ->
-  lbl = SuggestionUtil.getLabel(props)
-  if lbl == undefined
-    lbl = <FormattedMessage id='own-position' defaultMessage='Your current location' /> #todo fix
-  lbl
+  SuggestionUtil.getLabel(props)
 
 module.exports = SuggestionItem

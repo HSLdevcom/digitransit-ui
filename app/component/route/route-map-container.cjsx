@@ -38,9 +38,6 @@ class RouteMapContainer extends React.Component
           </Link>
         </div>
 
-  onChange: ->
-    @forceUpdate()
-
   render: ->
     stops = @props.pattern.stops
 
@@ -53,8 +50,8 @@ class RouteMapContainer extends React.Component
       className={@props.className}
       leafletObjs={leafletObj}
       fitBounds={true}
-      from={stops[0]}
-      to={stops[stops.length - 1]}>
+      from={[stops[0].lat, stops[0].lon]}
+      to={[stops[stops.length - 1].lat, stops[stops.length - 1].lon]}>
 
       {@getFullScreenToggle()}
     </Map>
