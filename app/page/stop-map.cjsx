@@ -1,7 +1,7 @@
 React                = require 'react'
 Relay                = require 'react-relay'
 queries              = require '../queries'
-DefaultNavigation    = require('../component/navigation/default-navigation').default
+DefaultNavigation    = require('../component/navigation/DefaultNavigation').default
 Icon                 = require '../component/icon/icon'
 Map                  = require '../component/map/map'
 Link                 = require 'react-router/lib/Link'

@@ -1,6 +1,6 @@
 React             = require 'react'
 Config            = require '../config'
-DefaultNavigation = require('../component/navigation/default-navigation').default
+DefaultNavigation = require('../component/navigation/DefaultNavigation').default
 
 class LoadingPage extends React.Component
   render: ->

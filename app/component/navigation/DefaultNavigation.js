@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
 import BackButton from './back-button';
-import DisruptionInfoContainer from '../disruption/disruption-info-container';
+import DisruptionInfoContainer from '../disruption/DisruptionInfoContainer';
 import NotImplemented from '../util/not-implemented';
-import OffcanvasMenuContainer from './offcanvas-menu-container';
+import OffcanvasMenuContainer from './OffcanvasMenuContainer';
 
 class DefaultNavigation extends React.Component {
   static propTypes = {

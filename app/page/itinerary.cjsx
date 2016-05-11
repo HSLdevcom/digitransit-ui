@@ -1,7 +1,7 @@
 React             = require 'react'
 Relay             = require 'react-relay'
 Helmet            = require 'react-helmet'
-DefaultNavigation = require('../component/navigation/default-navigation').default
+DefaultNavigation = require('../component/navigation/DefaultNavigation').default
 intl              = require 'react-intl'
 {otpToLocation}   = require '../util/otp-strings'
 config            = require '../config'

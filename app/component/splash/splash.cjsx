@@ -1,7 +1,7 @@
 React               = require 'react'
 Relay               = require 'react-relay'
 Config              = require '../../config'
-DefaultNavigation   = require('../navigation/default-navigation').default
+DefaultNavigation   = require('../navigation/DefaultNavigation').default
 FrontPagePanel      = require '../front-page/front-page-panel'
 EndpointActions     = require '../../action/endpoint-actions'
 {intlShape}         = require 'react-intl'
