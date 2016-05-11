@@ -1,4 +1,4 @@
-/* eslint prefer-arrow-callback: "off" */
+/* eslint prefer-arrow-callback: 0 */
 require('./browser-upgrade.js');
 
 function suite(name, fn) {
@@ -6,7 +6,7 @@ function suite(name, fn) {
     this.timeout(120000);
 
     before(function (browser, done) {
-      require('./browser-upgrade.js')(browser);
+      require('./browser-upgrade.js')(browser); // eslint-disable-line global-require
       browser.init(done);
     });
 

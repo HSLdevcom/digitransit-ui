@@ -6,11 +6,6 @@ Tabs             = require('material-ui/Tabs/Tabs').default
 config           = require '../../config'
 
 class SearchModal extends React.Component
-
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
-
   render: =>
     if !@props.modalIsOpen
       return false

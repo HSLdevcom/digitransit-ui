@@ -1,37 +1,15 @@
 React  = require 'react'
 Splash = require './splash'
+pure   = require('recompose/pure').default
+connectToStores = require 'fluxible-addons-react/connectToStores'
 
-class SplashOrComponent extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
+SplashOrComponent = (Component) -> pure ({displaySplash, state}) ->
+  if displaySplash then <Splash state={state}/> else <Component/>
 
-  componentDidMount: ->
-    @context.getStore('PositionStore').addChangeListener @onPositionChange
-    @context.getStore('EndpointStore').addChangeListener @onEndpointChange
+module.exports = (component) -> connectToStores SplashOrComponent(component), ['PositionStore', 'EndpointStore'], (context, props) ->
+  locationState = context.getStore('PositionStore').getLocationState()
+  useCurrentPosition = context.getStore('EndpointStore').getOrigin().useCurrentPosition
 
-  componentWillUnmount: ->
-    @context.getStore('PositionStore').removeChangeListener @onPositionChange
-    @context.getStore('EndpointStore').removeChangeListener @onEndpointChange
-
-  onPositionChange: (status) =>
-    if status?.statusChanged
-      @forceUpdate()
-
-  onEndpointChange: (status) =>
-    if status == 'set-origin'
-      @forceUpdate()
-
-  render: ->
-    positionStore = @context.getStore('PositionStore')
-    endpointStore = @context.getStore('EndpointStore')
-
-    #if origin = current position and no position
-    displaySplash = endpointStore.getOrigin().useCurrentPosition and not positionStore.getLocationState().hasLocation
-    state = if positionStore.getLocationState().status == 'no-location' then 'load' else 'positioning'
-
-    <div className="fullscreen">
-      {if displaySplash  then <Splash state={state}/> else @props.children}
-    </div>
-
-
-module.exports = SplashOrComponent
+  #if origin = current position and no position
+  displaySplash: useCurrentPosition and not locationState.hasLocation
+  state: if locationState.status == 'no-location' then 'load' else 'positioning'

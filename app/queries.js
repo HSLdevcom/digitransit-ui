@@ -1,4 +1,4 @@
-/* eslint max-len:0 */
+/* eslint max-len:0 global-require: 0*/
 
 import Relay from 'react-relay';
 
@@ -16,7 +16,7 @@ export class TerminalRoute extends Relay.Route {
     terminalId: { required: true },
   };
   static routeName = 'TerminalRoute';
-}
+l}
 
 export const TerminalMarkerPopupFragments = {
   terminal: () => Relay.QL`
@@ -805,6 +805,10 @@ export const FavouriteLocationContainerFragments = {
           legs {
             realTime
             transitLeg
+            mode
+            route {
+              shortName
+            }
           }
         }
       }

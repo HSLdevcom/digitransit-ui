@@ -4,40 +4,22 @@ queries               = require '../../queries'
 DepartureListContainer = require '../departure/departure-list-container'
 StopCard              = require './stop-card'
 FavouriteStopsActions = require '../../action/favourite-stops-action'
-moment                = require 'moment'
+connectToStores = require 'fluxible-addons-react/connectToStores'
 
-class StopCardContainer extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
-
-  componentDidMount: ->
-    @context.getStore('FavouriteStopsStore').addChangeListener @onChange
-
-  componentWillUnmount: ->
-    @context.getStore('FavouriteStopsStore').removeChangeListener @onChange
-
-  onChange: (id) =>
-    if !id or id == @props.stop.gtfsId
-      @forceUpdate()
-
-  addFavouriteStop: (e) =>
+StopCardContainer = connectToStores StopCard, ['FavouriteStopsStore'], (context, props) ->
+  favourite: context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId)
+  addFavouriteStop: (e) ->
     e.preventDefault()
-    @context.executeAction FavouriteStopsActions.addFavouriteStop, @props.stop.gtfsId
+    context.executeAction FavouriteStopsActions.addFavouriteStop, props.stop.gtfsId
+  children:
+    <DepartureListContainer
+      rowClasses="no-padding no-margin"
+      stoptimes={props.stop.stoptimes}
+      limit={props.departures}/>
 
-  render: =>
-    <StopCard
-      className={@props.className}
-      stop={@props.stop}
-      distance={@props.distance}
-      favourite={@context.getStore('FavouriteStopsStore').isFavourite(@props.stop.gtfsId)}
-      addFavouriteStop={@addFavouriteStop}>
-      <DepartureListContainer
-        rowClasses="no-padding no-margin"
-        stoptimes={@props.stop.stoptimes}
-        limit={@props.departures}/>
-    </StopCard>
-
+StopCardContainer.contextTypes =
+  executeAction: React.PropTypes.func.isRequired
+  getStore: React.PropTypes.func.isRequired
 
 module.exports = Relay.createContainer StopCardContainer,
   fragments: queries.StopCardContainerFragments

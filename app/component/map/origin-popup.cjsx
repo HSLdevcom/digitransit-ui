@@ -31,19 +31,10 @@ class OriginPopup extends React.Component
 
   display: () =>
     @props.map.openPopup(@refs.popup._leafletElement)
-    close = () =>
-      if typeof @toref != "undefined"
-        @toref = undefined
-      @props.map.closePopup()
-
-    if typeof @toref != "undefined"
-      clearTimeout @toref
-
-    @toref = setTimeout close,  5000   #close popup after 5 sec
 
   showCurrentPosition: () =>
     coordinates = @context.getStore('PositionStore').getLocationState()
-    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
+    if coordinates.hasLocation
       msg = @context.intl.formatMessage
         id: 'own-position'
         defaultMessage: 'Your current position'

@@ -3,45 +3,30 @@ isBrowser     = window?
 Marker        = if isBrowser then require('react-leaflet/lib/Marker').default
 L             = if isBrowser then require 'leaflet'
 Icon          = require '../icon/icon'
+connectToStores = require 'fluxible-addons-react/connectToStores'
+pure          = require('recompose/pure').default
 
+currentLocationIcon =
+  if isBrowser then L.divIcon
+    html: Icon.asString 'icon-icon_mapMarker-location-animated'
+    className: 'current-location-marker'
+    iconSize: [40, 40]
+  else null
 
-class PositionMarker extends React.Component
-  @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
+PositionMarker = pure ({coordinates, map, layerContainer}) ->
+  if coordinates
+    <Marker
+      map={map}
+      layerContainer={layerContainer}
+      zIndexOffset=5
+      position={coordinates}
+      icon={currentLocationIcon}/>
+  else
+    null
 
-  @currentLocationIcon:
-    if isBrowser
-      L.divIcon
-        html: Icon.asString 'icon-icon_mapMarker-location-animated'
-        className: 'current-location-marker'
-        iconSize: [40, 40]
-    else
-      null
-
-  getLocation: ->
-    coordinates = @context.getStore('PositionStore').getLocationState()
-    if coordinates and (coordinates.lat != 0 || coordinates.lon != 0)
-      coordinates: [coordinates.lat, coordinates.lon]
-
-  componentDidMount: ->
-    @context.getStore('PositionStore').addChangeListener @onPositionChange
-
-  componentWillUnmount: ->
-    @context.getStore('PositionStore').removeChangeListener @onPositionChange
-
-  onPositionChange: =>
-    @forceUpdate()
-
-  render: ->
-    if @getLocation()
-      <Marker
-        map={@props.map}
-        layerContainer={@props.layerContainer}
-        zIndexOffset=5
-        position={@getLocation().coordinates}
-        icon={PositionMarker.currentLocationIcon}/>
-    else
-      return null
-
-module.exports = PositionMarker
+module.exports = connectToStores PositionMarker, ['PositionStore'], (context, props) ->
+  coordinates = context.getStore('PositionStore').getLocationState()
+  coordinates:
+    if coordinates.hasLocation
+      [coordinates.lat, coordinates.lon]
+    else false

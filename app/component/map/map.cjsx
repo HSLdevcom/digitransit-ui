@@ -87,6 +87,7 @@ class Map extends React.Component
           layers={layers}
           tileSize={config.map.tileSize or 256}
           zoomOffset={config.map.zoomOffset or 0}
+          disableMapTracking={@props.disableMapTracking}
           />
 
       else
@@ -130,6 +131,7 @@ class Map extends React.Component
           zoomControl={false}
           attributionControl={false}
           bounds={if @props.fitBounds then bounds}
+          animate={true}
           {... @props.leafletOptions}
           boundsOptions={boundsOptions}
           {... @props.leafletEvents}

@@ -1,4 +1,4 @@
-/* eslint no-console: "off", strict: "off" */
+/* eslint no-console: 0, strict: 0 */
 'use strict';
 
 // This little dev server is basically a wrapped express server that

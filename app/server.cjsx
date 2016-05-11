@@ -39,9 +39,9 @@ if process.env.NODE_ENV != 'development'
   stats = require('../stats.json')
   manifest = fs.readFileSync(appRoot + "_static/" + stats.assetsByChunkName.manifest[0])
 
-svgSprite = fs.readFileSync(appRoot + "static/svg-sprite.#{config.CONFIG}.svg")
+svgSprite = fs.readFileSync(appRoot + "static/svg-sprite.#{config.CONFIG}.svg").toString()
 
-geolocationStarter = fs.readFileSync(appRoot + "static/geolocation.js")
+geolocationStarter = fs.readFileSync(appRoot + "static/geolocation.js").toString()
 
 if process.env.NODE_ENV != 'development'
   css = [
@@ -68,6 +68,7 @@ getPolyfills = (userAgent) ->
     'Array.prototype.find': flags: ['gated']
     'es5': flags: ['gated']
     'atob': flags: ['gated']
+    'setImmediate': flags: ['gated']
 
   for language in config.availableLanguages
     features['Intl.~locale.' + language] = flags: ['always', 'gated']
