@@ -24,10 +24,7 @@ config                = require '../../config'
 class ItineraryPlanContainer extends React.Component
 
   @contextTypes:
-    getStore: React.PropTypes.func.isRequired
-    executeAction: React.PropTypes.func.isRequired
     router: React.PropTypes.object.isRequired
-    location: React.PropTypes.object.isRequired
 
   constructor: ->
     super
