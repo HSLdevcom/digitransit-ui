@@ -16,9 +16,7 @@ class DefaultNavigation extends React.Component {
 
   render() {
     return (
-      <div
-        className={this.props.className}
-      >
+      <div className={this.props.className} >
         <NotImplemented />
         <nav className="top-bar">
           {!this.props.disableBackButton ? <BackButton /> : null}
@@ -29,7 +27,7 @@ class DefaultNavigation extends React.Component {
             </Link>
           </section>
           <OffcanvasMenuContainer />
-    </nav>
+        </nav>
         <section ref="content" className="content">
           {this.props.children}
         </section>
