@@ -8,6 +8,9 @@ Marker        = if isBrowser then require('react-leaflet/lib/Marker').default el
 L             = if isBrowser then require 'leaflet' else null
 RealTimeInformationAction = require '../../action/real-time-client-action'
 Icon          = require '../icon/icon'
+provideContext = require 'fluxible-addons-react/provideContext'
+{intlShape}   = require 'react-intl'
+
 
 popupOptions =
   offset: [106, 3]
@@ -63,6 +66,10 @@ class VehicleMarkerContainer extends React.Component
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = {"height": 150}
 
+    RouteMarkerPopupWithContext = provideContext RouteMarkerPopup,
+      intl: intlShape.isRequired
+      router: React.PropTypes.object.isRequired
+
     popup = <Relay.RootContainer
       Component={RouteMarkerPopup}
       route={new queries.FuzzyTripRoute(
@@ -72,7 +79,7 @@ class VehicleMarkerContainer extends React.Component
         time: message.tripStartTime.substring(0, 2) * 60 * 60 + message.tripStartTime.substring(2, 4) * 60)}
       renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
       renderFetched={(data) =>
-        <RouteMarkerPopup {... data} message={message} context={@context}/>
+        <RouteMarkerPopupWithContext {... data} message={message} context={@context}/>
       }/>
 
     @vehicles[id] =

@@ -31,7 +31,7 @@ RouteNumber.description =
 RouteNumber.propTypes =
   mode: React.PropTypes.string.isRequired
   realtime: React.PropTypes.bool
-  text: React.PropTypes.string
+  text: React.PropTypes.node
   vertical: React.PropTypes.bool
 
 RouteNumber.displayName = "RouteNumber"
