@@ -47,7 +47,8 @@ class ItineraryPlanContainer extends React.Component
   switchSlide: (index) =>
     @context.router.replace getRoutePath(@props.fromPlace, @props.toPlace) + "/" + index
     itineraryTabState = @refs["itineraryTab" + index].state
-    @focusMap(itineraryTabState.lat, itineraryTabState.lon)
+    if itineraryTabState
+      @focusMap(itineraryTabState.lat, itineraryTabState.lon)
 
   getSlides: (itineraries) =>
     slides = []
