@@ -2,7 +2,7 @@ React                  = require 'react'
 Relay                  = require 'react-relay'
 Helmet                 = require 'react-helmet'
 queries                = require '../queries'
-DefaultNavigation      = require '../component/navigation/default-navigation'
+DefaultNavigation      = require('../component/navigation/DefaultNavigation').default
 RouteHeaderContainer   = require '../component/route/route-header-container'
 TripListHeader         = require '../component/trip/trip-list-header'
 TripStopListContainer  = require '../component/trip/trip-stop-list-container'
@@ -53,13 +53,14 @@ class TripPage extends React.Component
       route_short_name: @props.trip.pattern.route.shortName
       route_long_name: @props.trip.pattern.route.longName
 
+    title = @context.intl.formatMessage {id: 'trip-page.title', defaultMessage: 'Route {route_short_name}'}, params
     meta =
-      title: @context.intl.formatMessage {id: 'trip-page.title', defaultMessage: 'Route {route_short_name}'}, params
+      title: title
       meta: [
         {name: 'description', content: @context.intl.formatMessage {id: 'trip-page.description', defaultMessage: 'Route {route_short_name} - {route_long_name}'}, params}
       ]
 
-    <DefaultNavigation className="fullscreen trip">
+    <DefaultNavigation className="fullscreen trip" title={title}>
       <Helmet {...meta} />
       <RouteHeaderContainer className="trip-header" pattern={@props.trip.pattern} trip={tripStartTime}/>
       <RouteMapContainer className="map-small" pattern={@props.trip.pattern} trip={tripStartTime} tripId={@props.trip.gtfsId}/>

@@ -13,7 +13,7 @@ class OffcanvasMenu extends React.Component
     currentLanguage = @context.getStore('PreferencesStore').getLanguage()
     contactName = if config.contactName[currentLanguage] then config.contactName[currentLanguage] else config.contactName.default
 
-    <div className="left-off-canvas">
+    <div className="main-menu">
       <header className="offcanvas-section">
         <LangSelect/>
         {if config.leftMenu.showInquiry

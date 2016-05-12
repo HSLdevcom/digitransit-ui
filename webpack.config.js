@@ -63,6 +63,17 @@ function getAllPossibleLanguages() {
     .filter((language, position, languages) => languages.indexOf(language) === position);
 }
 
+function getSourceMapPlugin(testPattern,prefix) {
+  return new webpack.SourceMapDevToolPlugin({
+    test: testPattern,
+    filename: '[file].map',
+    append: '\n//# sourceMappingURL=' + prefix + '[url]',
+    module: true,
+    columns: true,
+    lineToLine: true
+  })
+}
+
 function getPluginsConfig(env) {
   const languageExpression = new RegExp('^./(' + getAllPossibleLanguages().join('|') + ')$');
   const momentExpression = /moment[\\\/]locale$/;
@@ -86,6 +97,8 @@ function getPluginsConfig(env) {
     new webpack.PrefetchPlugin('fluxible'),
     new webpack.PrefetchPlugin('leaflet'),
     new webpack.HashedModuleIdsPlugin(),
+    getSourceMapPlugin(/\.(js)($|\?)/i,'/js/'),
+    getSourceMapPlugin(/\.(css)($|\?)/i,'/css/'),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['common', 'leaflet', 'manifest'],
     }),
@@ -153,7 +166,7 @@ function getEntry() {
 }
 
 module.exports = {
-  devtool: (process.env.NODE_ENV === 'development') ? 'eval' : 'source-map', // This is not as dirty as it looks. It just generates source maps without being crazy slow.
+  devtool: (process.env.NODE_ENV === 'development') ? 'eval' : false, // prod mode sourcemaps are hand defined in plugins.
   debug: (process.env.NODE_ENV === 'development') ? true : false,
   cache: true,
   entry: (process.env.NODE_ENV === 'development') ? getDevelopmentEntry() : getEntry(),

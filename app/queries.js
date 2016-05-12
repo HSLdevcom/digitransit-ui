@@ -805,6 +805,10 @@ export const FavouriteLocationContainerFragments = {
           legs {
             realTime
             transitLeg
+            mode
+            route {
+              shortName
+            }
           }
         }
       }
