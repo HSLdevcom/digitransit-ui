@@ -43,9 +43,9 @@ class ItineraryPlanContainer extends React.Component
 
   switchSlide: (index) =>
     @context.router.replace getRoutePath(@props.fromPlace, @props.toPlace) + "/" + index
-    itineraryTabState = @refs["itineraryTab" + index].state
-    if itineraryTabState
-      @focusMap(itineraryTabState.lat, itineraryTabState.lon)
+    itineraryTab = @refs["itineraryTab" + index]
+    if itineraryTab and itineraryTab.state
+      @focusMap(itineraryTab.state.lat, itineraryTab.state.lon)
 
   getSlides: (itineraries) =>
     slides = []
@@ -121,7 +121,7 @@ class ItineraryPlanContainer extends React.Component
             className="itinerary-swipe-views-root"
             slideStyle={{height: "100%"}}
             containerStyle={{height: "100%"}}
-            onChangeIndex={() => setTimeout @switchSlide, 100}>
+            onChangeIndex={(index) => @switchSlide(index, true)}>
             {@getSlides(itineraries)}
           </SwipeableViews>
           <div className="itinerary-tabs-container">
