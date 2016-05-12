@@ -20,6 +20,9 @@ const DepartureTime = (props, context) => {
 
   let shownTime;
   const departureTime = moment(props.departureTime * 1000);
+  if (props.useUTC) {
+    departureTime.utc();
+  }
   const currentTime = moment(props.currentTime * 1000);
   if (departureTime.isBefore(currentTime) ||
       departureTime.isAfter(currentTime.clone().add(20, 'minutes'))) {
@@ -56,6 +59,7 @@ DepartureTime.description = (
       Display time in correct format. Displays minutes for 20 minutes,
       otherwise in HH:mm format.
       Also, it takes into account if the time is realtime.
+      The prop useUTC forces rendering in UTC, not local TZ, for testing.
     </p>
     <ComponentUsageExample
       description="real time"
@@ -64,6 +68,7 @@ DepartureTime.description = (
         departureTime={Example.realtimeDeparture.stoptime}
         realtime={Example.realtimeDeparture.realtime}
         currentTime={Example.currentTime}
+        useUTC
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="not real time" >
@@ -71,17 +76,19 @@ DepartureTime.description = (
         departureTime={Example.departure.stoptime}
         realtime={Example.departure.realtime}
         currentTime={Example.currentTime}
+        useUTC
       />
     </ComponentUsageExample>
   </div>);
 
 DepartureTime.propTypes = {
-  departureTime: React.PropTypes.number.isRequired,
-  realtime: React.PropTypes.bool,
+  className: React.PropTypes.string,
   canceled: React.PropTypes.bool,
   currentTime: React.PropTypes.number.isRequired,
+  departureTime: React.PropTypes.number.isRequired,
+  realtime: React.PropTypes.bool,
   style: React.PropTypes.object,
-  className: React.PropTypes.string,
+  useUTC: React.PropTypes.bool,
 };
 
 DepartureTime.displayName = 'DepartureTime';
