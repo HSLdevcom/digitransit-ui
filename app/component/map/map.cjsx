@@ -118,6 +118,8 @@ class Map extends React.Component
       center =
         if not @props.fitBounds and @props.lat and @props.lon
           [@props.lat, @props.lon]
+        else
+          [config.defaultEndpoint.lat, config.defaultEndpoint.lon]
 
       zoom = @props.zoom
       bounds = boundWithMinimumArea @props.from, @props.to
