@@ -19,11 +19,6 @@ gemini.suite('components', function(parent) {
   });
 
   gemini.suite('DepartureTime', function(component) {
-    gemini.suite('realtime', function(suite) {
-      suite.setCaptureElements('#DepartureTime .component-example:nth-of-type(1) .component')
-      .ignoreElements('.realtime-icon')
-      .capture('normal')
-    });
     gemini.suite('normal', function(suite) {
       suite.setCaptureElements('#DepartureTime .component-example:nth-of-type(2) .component')
       .capture('normal')
@@ -33,11 +28,6 @@ gemini.suite('components', function(parent) {
   gemini.suite('RouteNumber', function(component) {
     gemini.suite('normal', function(suite) {
       suite.setCaptureElements('#RouteNumber .component-example:nth-of-type(1) .component')
-      .capture('normal')
-    });
-    gemini.suite('realtime', function(suite) {
-      suite.setCaptureElements('#RouteNumber .component-example:nth-of-type(2) .component')
-      .ignoreElements('.realtime-icon')
       .capture('normal')
     });
     gemini.suite('vertical', function(suite) {

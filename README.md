@@ -31,6 +31,8 @@ Digitransit-ui is tested to work on Firefox 29-, Chrome 45-, IE 9-, iOS 6- and S
 
 Acceptance tests are written in `.feature` files in Gherkin syntax under [accceptance-tests folder](acceptance-tests/). Currently acceptance tests are not automatically run.
 
+Visual tests are run with Gemini. The images must be created using same browser on same platform to eliminate font rendering issues. We use BrowserStack for that too.
+
 More information about [testing](docs/Tests.md).
 
 ## Documentation

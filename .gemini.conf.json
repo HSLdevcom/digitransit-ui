@@ -1,10 +1,16 @@
 { "rootUrl": "http://localhost:8080",
   "screenshotsDir": "./test/visual-images/",
+  "system": {
+    "plugins": { "browserstack": {} }
+  },
   "browsers": {
-    "PhantomJS": {
+    "chrome43": {
       "windowSize": "600x1024",
       "desiredCapabilities": {
-        "browserName": "phantomjs"
+        "os": "OS X",
+        "os_version": "El Capitan",
+        "browserName": "chrome",
+        "version": "43"
       }
     }
   }
