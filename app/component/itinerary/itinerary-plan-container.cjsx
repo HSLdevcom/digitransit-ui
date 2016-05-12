@@ -79,6 +79,7 @@ class ItineraryPlanContainer extends React.Component
       index = parseInt(@props.hash) or 0
       itinerary = itineraries[index]
 
+    if itinerary and itinerary.legs
       leafletObjs = [
         <ItineraryLine key={"line" + @props.hash} legs={itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>]
 
