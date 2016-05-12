@@ -20,6 +20,7 @@ Icon                  = require '../icon/icon'
 sortBy                = require 'lodash/sortBy'
 moment                = require 'moment'
 config                = require '../../config'
+FormattedMessage      = require('react-intl').FormattedMessage
 
 class ItineraryPlanContainer extends React.Component
 
@@ -137,7 +138,12 @@ class ItineraryPlanContainer extends React.Component
             </div>
           </div>
     else
-      <div></div>
+      <div className="itinerary-no-route-found">
+        <FormattedMessage
+          id={'no-route-msg'}
+          defaultMessage="Unfortunately no route was found between the locations you gave. Please change origin and/or destination address."
+        />
+      </div>
 
 module.exports = Relay.createContainer ItineraryPlanContainer,
   fragments: queries.ItineraryPlanContainerFragments
