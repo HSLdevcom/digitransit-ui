@@ -4,10 +4,9 @@ import Icon from '../icon/icon';
 import ComponentUsageExample from '../documentation/component-usage-example';
 import Example from '../documentation/example-data';
 import moment from 'moment';
-import intl from 'react-intl';
-const { FormattedMessage } = intl;
+import { intlShape, FormattedMessage } from 'react-intl';
 
-const DepartureTime = (props, context) => {
+function DepartureTime(props, context) {
   let realtime;
   if (props.realtime && !props.canceled) {
     realtime = <Icon img="icon-icon_realtime" className="realtime-icon realtime" />;
@@ -47,10 +46,10 @@ const DepartureTime = (props, context) => {
       {canceled}
       {shownTime}
     </span>);
-};
+}
 
 DepartureTime.contextTypes = {
-  intl: intl.intlShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 DepartureTime.description = (
@@ -91,5 +90,4 @@ DepartureTime.propTypes = {
   useUTC: React.PropTypes.bool,
 };
 
-DepartureTime.displayName = 'DepartureTime';
 export default DepartureTime;

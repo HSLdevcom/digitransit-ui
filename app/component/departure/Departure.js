@@ -7,7 +7,7 @@ import StopReference from '../stop/stop-reference';
 import ComponentUsageExample from '../documentation/component-usage-example';
 import Example from '../documentation/example-data';
 
-const Departure = (props) => {
+function Departure(props) {
   const mode = props.departure.pattern.route.type.toLowerCase();
 
   let stopReference = <span />;
@@ -36,7 +36,7 @@ const Departure = (props) => {
       />
       {stopReference}
     </p>);
-};
+}
 
 Departure.description = (
   <div>
@@ -82,5 +82,4 @@ Departure.propTypes = {
   useUTC: React.PropTypes.bool,
 };
 
-Departure.displayName = 'Departure';
 export default Departure;
