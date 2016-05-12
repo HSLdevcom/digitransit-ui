@@ -1,7 +1,7 @@
 React             = require 'react'
 Relay             = require 'react-relay'
 Helmet            = require 'react-helmet'
-DefaultNavigation = require '../component/navigation/default-navigation'
+DefaultNavigation = require('../component/navigation/DefaultNavigation').default
 intl              = require 'react-intl'
 {otpToLocation}   = require '../util/otp-strings'
 config            = require '../config'
@@ -118,13 +118,14 @@ class ItineraryPage extends React.Component
     else
       plan = <div className="spinner-loader"/>
 
+    title = @context.intl.formatMessage {id: 'itinerary-page.title', defaultMessage: "Route"}
     meta =
-      title: @context.intl.formatMessage {id: 'itinerary-page.title', defaultMessage: "Route"}
+      title: title
       meta: [
         {name: 'description', content: @context.intl.formatMessage {id: 'itinerary-page.description', defaultMessage: "Route"}}
       ]
 
-    <DefaultNavigation className="fullscreen">
+    <DefaultNavigation className="fullscreen" title={title}>
       <Helmet {...meta} />
       {plan}
     </DefaultNavigation>

@@ -2,7 +2,7 @@ React                  = require 'react'
 Relay                  = require 'react-relay'
 Helmet                 = require 'react-helmet'
 queries                = require '../queries'
-DefaultNavigation      = require '../component/navigation/default-navigation'
+DefaultNavigation      = require('../component/navigation/DefaultNavigation').default
 Tabs                   = require 'react-simpletabs'
 RouteListHeader        = require '../component/route/route-list-header'
 RouteHeaderContainer   = require '../component/route/route-header-container'
@@ -61,13 +61,14 @@ class RoutePage extends React.Component
         route_short_name: @props.pattern.route.shortName
         route_long_name: @props.pattern.route.longName
 
+      title = @context.intl.formatMessage {id: 'route-page.title', defaultMessage: 'Route {route_short_name}'}, params
       meta =
-        title: @context.intl.formatMessage {id: 'route-page.title', defaultMessage: 'Route {route_short_name}'}, params
+        title: title
         meta: [
           {name: 'description', content: @context.intl.formatMessage {id: 'route-page.description', defaultMessage: 'Route {route_short_name} - {route_long_name}'}, params}
         ]
 
-      <DefaultNavigation className="fullscreen">
+      <DefaultNavigation className="fullscreen" title={title}>
         <Helmet {...meta} />
         <RouteHeaderContainer pattern={@props.pattern}/>
         <Tabs className="route-tabs" onBeforeChange={@before}>

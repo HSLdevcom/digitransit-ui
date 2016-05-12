@@ -1,10 +1,8 @@
 React             = require 'react'
 Relay             = require 'react-relay'
 queries           = require '../../queries'
-DefaultNavigation = require '../navigation/default-navigation'
-BottomNavigation  = require '../itinerary/bottom-navigation'
 ItineraryTab      = require '../itinerary/itinerary-tab'
-intl              = require 'react-intl'
+{FormattedMessage} = require 'react-intl'
 SwipeableViews    = require('react-swipeable-views').default
 ItineraryLine     = require '../map/itinerary-line'
 Icon              = require '../icon/icon'
@@ -20,7 +18,6 @@ Icon              = require '../icon/icon'
 sortBy            = require 'lodash/sortBy'
 moment            = require 'moment'
 config            = require '../../config'
-FormattedMessage  = require('react-intl').FormattedMessage
 
 class ItineraryPlanContainer extends React.Component
 
