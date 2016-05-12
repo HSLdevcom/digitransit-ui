@@ -66,8 +66,8 @@ function getAllPossibleLanguages() {
 function getSourceMapPlugin(testPattern,prefix) {
   return new webpack.SourceMapDevToolPlugin({
     test: testPattern,
-    filename: "[file].map",
-    append: "\n//# sourceMappingURL=" + prefix + "[url]",
+    filename: '[file].map',
+    append: '\n//# sourceMappingURL=' + prefix + '[url]',
     module: true,
     columns: true,
     lineToLine: true
