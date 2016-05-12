@@ -8,11 +8,6 @@ import FeedbackActions from '../../action/feedback-action';
 import { supportsHistory } from 'history/lib/DOMUtils';
 
 class OffcanvasMenuContainer extends React.Component {
-  static propTypes = {
-    className: React.PropTypes.string.isRequired,
-    children: React.PropTypes.node.isRequired,
-  };
-
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
     piwik: React.PropTypes.object,
@@ -70,7 +65,7 @@ class OffcanvasMenuContainer extends React.Component {
 
   render() {
     return (
-      <div className={this.props.className}>
+      <div>
         <Drawer
           className="offcanvas"
           disableSwipeToOpen
