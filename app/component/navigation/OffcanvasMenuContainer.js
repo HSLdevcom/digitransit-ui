@@ -28,11 +28,15 @@ class OffcanvasMenuContainer extends React.Component {
   onRequestChange = (newState) => this.internalSetOffcanvas(newState);
 
   getOffcanvasState = () => {
-    if (typeof window !== 'undefined' && supportsHistory() &&
-          this.context.location.state != null &&
+    if (typeof window !== 'undefined' && supportsHistory()) {
+      if (this.context.location.state != null &&
           this.context.location.state.offcanvasVisible != null) {
-      return this.context.location.state.offcanvasVisible;
+        return this.context.location.state.offcanvasVisible;
+      }
+      // If the state is missing or doesn't have offcanvasVisible, it's not set
+      return false;
     }
+    // Use state only if we can't use the state in history API
     return this.state.offcanvasVisible;
   }
 
