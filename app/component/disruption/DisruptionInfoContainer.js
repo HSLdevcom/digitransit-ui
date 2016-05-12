@@ -1,12 +1,11 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import DisruptionInfo from '../disruption/disruption-info';
 import DisruptionInfoButtonContainer from '../disruption/disruption-info-button-container';
 
 
-class DisruptionInfoContainer extends React.Component {
+class DisruptionInfoContainer extends Component {
   static contextTypes = {
-    piwik: React.PropTypes.object,
-    location: React.PropTypes.object.isRequired,
+    piwik: PropTypes.object,
   };
 
   constructor(...args) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import config from '../../config';
 import Icon from '../icon/icon';
 import OffcanvasMenu from './offcanvas-menu';
@@ -7,12 +7,12 @@ import FeedbackActions from '../../action/feedback-action';
 
 import { supportsHistory } from 'history/lib/DOMUtils';
 
-class OffcanvasMenuContainer extends React.Component {
+class OffcanvasMenuContainer extends Component {
   static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
-    piwik: React.PropTypes.object,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    piwik: PropTypes.object,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   };
 
   constructor(props, context) {

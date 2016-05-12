@@ -1,17 +1,17 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import Link from 'react-router/lib/Link';
 import BackButton from './back-button';
 import DisruptionInfoContainer from '../disruption/DisruptionInfoContainer';
 import NotImplemented from '../util/not-implemented';
 import OffcanvasMenuContainer from './OffcanvasMenuContainer';
 
-class DefaultNavigation extends React.Component {
+class DefaultNavigation extends Component {
   static propTypes = {
-    className: React.PropTypes.string.isRequired,
-    children: React.PropTypes.node.isRequired,
-    disableBackButton: React.PropTypes.bool,
-    showDisruptionInfo: React.PropTypes.bool,
-    title: React.PropTypes.string.isRequired,
+    className: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    disableBackButton: PropTypes.bool,
+    showDisruptionInfo: PropTypes.bool,
+    title: PropTypes.string.isRequired,
   };
 
   render() {
