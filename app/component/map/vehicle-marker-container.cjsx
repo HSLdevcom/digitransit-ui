@@ -2,19 +2,12 @@ React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../queries'
 isBrowser     = window?
-DynamicPopup  = if isBrowser then require('./dynamic-popup').default
+Popup  = if isBrowser then require('./dynamic-popup').default
 RouteMarkerPopup = require './route/route-marker-popup'
 Marker        = if isBrowser then require('react-leaflet/lib/Marker').default else null
 L             = if isBrowser then require 'leaflet' else null
 RealTimeInformationAction = require '../../action/real-time-client-action'
 Icon          = require '../icon/icon'
-
-popupOptions =
-  offset: [106, 3]
-  closeButton: false
-  maxWidth: 250
-  minWidth: 250
-  className: "popup"
 
 class VehicleMarkerContainer extends React.Component
   @contextTypes:
@@ -82,9 +75,14 @@ class VehicleMarkerContainer extends React.Component
               position={lat: message.lat, lng: message.long}
               icon={@getVehicleIcon(message.mode, message.heading)}>
         <span>{message.heading}</span>
-        <DynamicPopup options=popupOptions>
+        <Popup
+          offset={[106, 3]}
+          closeButton={false}
+          maxWidth={250}
+          minWidth={250}
+          className="popup">
           {popup}
-        </DynamicPopup>
+        </Popup>
       </Marker>
     @forceUpdate()
 
