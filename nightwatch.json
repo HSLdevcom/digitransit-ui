@@ -14,7 +14,7 @@
                 "elementVisibleTimeout": 10000
             },
             "screenshots": {
-                "enabled": false,
+                "enabled": true,
                 "on_failure": true,
                 "on_error": true,
                 "path": "reports/screenshots/"
