@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
 import BackButton from './back-button';
 import DisruptionInfoContainer from '../disruption/DisruptionInfoContainer';
