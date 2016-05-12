@@ -77,9 +77,11 @@ class ItineraryPlanContainer extends React.Component
     unless plan
       return <div></div>
     itineraries = plan.itineraries
+    index = if @props.hash then parseInt(@props.hash) else 0
+    itinerary = itineraries[index]
 
     leafletObjs = [
-      <ItineraryLine key={"line" + @props.hash} legs={itineraries[parseInt(@props.hash)].legs} showFromToMarkers={true} showTransferLabels={true}/>]
+      <ItineraryLine key={"line" + @props.hash} legs={itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>]
 
     if @state.fullscreen
       content =
@@ -88,8 +90,8 @@ class ItineraryPlanContainer extends React.Component
             ref="map2"
             className="fullscreen"
             leafletObjs={leafletObjs}
-            lat={if @state.lat then @state.lat else itineraries[parseInt(@props.hash)].legs[0].from.lat}
-            lon={if @state.lon then @state.lon else itineraries[parseInt(@props.hash)].legs[0].from.lon}
+            lat={if @state.lat then @state.lat else itinerary.legs[0].from.lat}
+            lon={if @state.lon then @state.lon else itinerary.legs[0].from.lon}
             zoom=16
             fitBounds={false}>
             <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
@@ -105,8 +107,8 @@ class ItineraryPlanContainer extends React.Component
             <Map
               ref="map"
               leafletObjs={leafletObjs}
-              lat={if @state.lat then @state.lat else itineraries[parseInt(@props.hash)].legs[0].from.lat}
-              lon={if @state.lon then @state.lon else itineraries[parseInt(@props.hash)].legs[0].from.lon}
+              lat={if @state.lat then @state.lat else itinerary.legs[0].from.lat}
+              lon={if @state.lon then @state.lon else itinerary.legs[0].from.lon}
               zoom=16
               fitBounds={false}
               leafletOptions={dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false}>
@@ -117,7 +119,7 @@ class ItineraryPlanContainer extends React.Component
             </Map>
           </div>
           <SwipeableViews
-            index={parseInt(@props.hash)}
+            index={index}
             className="itinerary-swipe-views-root"
             slideStyle={{height: "100%"}}
             containerStyle={{height: "100%"}}
@@ -127,11 +129,11 @@ class ItineraryPlanContainer extends React.Component
           <div className="itinerary-tabs-container">
             <Tabs
               onChange={@switchSlide}
-              value={parseInt(@props.hash)}
+              value={index}
               tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", width: "60px", marginLeft: "auto", marginRight: "auto"}}
               inkBarStyle={{display: "none"}}
             >
-              {@getTabs(itineraries, parseInt(@props.hash))}
+              {@getTabs(itineraries, index)}
             </Tabs>
           </div>
         </div>
