@@ -73,70 +73,70 @@ class ItineraryPlanContainer extends React.Component
     tabs
 
   render: =>
-    unless @props.plan and @props.plan.plan then return <div></div>
+    if @props.plan and @props.plan.plan
+      plan = @props.plan.plan
+      itineraries = plan.itineraries
+      index = parseInt(@props.hash) or 0
+      itinerary = itineraries[index]
 
-    plan = @props.plan.plan
-    itineraries = plan.itineraries
-    index = parseInt(@props.hash) or 0
-    itinerary = itineraries[index]
+      leafletObjs = [
+        <ItineraryLine key={"line" + @props.hash} legs={itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>]
 
-    leafletObjs = [
-      <ItineraryLine key={"line" + @props.hash} legs={itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>]
-
-    if @state.fullscreen
-      content =
-        <div style={"height": "100%"} onTouchStart={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
-          <Map
-            ref="map2"
-            className="fullscreen"
-            leafletObjs={leafletObjs}
-            lat={if @state.lat then @state.lat else itinerary.legs[0].from.lat}
-            lon={if @state.lon then @state.lon else itinerary.legs[0].from.lon}
-            zoom=16
-            fitBounds={false}>
-            <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
-              <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
-            </div>
-          </Map>
-        </div>
-
-    else
-      content =
-        <div style={height: "100%"}>
-          <div onTouchStart={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
+      if @state.fullscreen
+        content =
+          <div style={"height": "100%"} onTouchStart={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
             <Map
-              ref="map"
+              ref="map2"
+              className="fullscreen"
               leafletObjs={leafletObjs}
               lat={if @state.lat then @state.lat else itinerary.legs[0].from.lat}
               lon={if @state.lon then @state.lon else itinerary.legs[0].from.lon}
               zoom=16
-              fitBounds={false}
-              leafletOptions={dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false}>
-              <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
+              fitBounds={false}>
               <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
                 <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
               </div>
             </Map>
           </div>
-          <SwipeableViews
-            index={index}
-            className="itinerary-swipe-views-root"
-            slideStyle={{height: "100%"}}
-            containerStyle={{height: "100%"}}
-            onChangeIndex={(index) => setTimeout @switchSlide, 150, index}>
-            {@getSlides(itineraries)}
-          </SwipeableViews>
-          <div className="itinerary-tabs-container">
-            <Tabs
-              onChange={@switchSlide}
-              value={index}
-              tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", width: "60px", marginLeft: "auto", marginRight: "auto"}}
-              inkBarStyle={{display: "none"}}
-            >
-              {@getTabs(itineraries, index)}
-            </Tabs>
+
+      else
+        content =
+          <div style={height: "100%"}>
+            <div onTouchStart={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
+              <Map
+                ref="map"
+                leafletObjs={leafletObjs}
+                lat={if @state.lat then @state.lat else itinerary.legs[0].from.lat}
+                lon={if @state.lon then @state.lon else itinerary.legs[0].from.lon}
+                zoom=16
+                fitBounds={false}
+                leafletOptions={dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false}>
+                <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
+                <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
+                  <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
+                </div>
+              </Map>
+            </div>
+            <SwipeableViews
+              index={index}
+              className="itinerary-swipe-views-root"
+              slideStyle={{height: "100%"}}
+              containerStyle={{height: "100%"}}
+              onChangeIndex={(index) => setTimeout @switchSlide, 150, index}>
+              {@getSlides(itineraries)}
+            </SwipeableViews>
+            <div className="itinerary-tabs-container">
+              <Tabs
+                onChange={@switchSlide}
+                value={index}
+                tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", width: "60px", marginLeft: "auto", marginRight: "auto"}}
+                inkBarStyle={{display: "none"}}>
+                {@getTabs(itineraries, index)}
+              </Tabs>
+            </div>
           </div>
-        </div>
+    else
+      <div></div>
 
 module.exports = Relay.createContainer ItineraryPlanContainer,
   fragments: queries.ItineraryPlanContainerFragments
