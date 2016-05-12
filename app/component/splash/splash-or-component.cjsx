@@ -8,8 +8,10 @@ SplashOrComponent = (Component) -> pure ({displaySplash, state}) ->
 
 module.exports = (component) -> connectToStores SplashOrComponent(component), ['PositionStore', 'EndpointStore'], (context, props) ->
   locationState = context.getStore('PositionStore').getLocationState()
-  useCurrentPosition = context.getStore('EndpointStore').getOrigin().useCurrentPosition
+  origin = context.getStore('EndpointStore').getOrigin()
+  useCurrentPosition = origin.useCurrentPosition
 
   #if origin = current position and no position
-  displaySplash: useCurrentPosition and not locationState.hasLocation
+  displaySplash: (useCurrentPosition and not locationState.hasLocation) or
+    (!useCurrentPosition and (!origin.lat or !origin.lon))
   state: if locationState.status == 'no-location' then 'load' else 'positioning'
