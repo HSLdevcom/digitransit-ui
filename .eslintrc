@@ -7,7 +7,7 @@
   },
   "extends": "airbnb",
   "rules": {
-    "eqeqeq": ["error", "allow-null"],
+    "eqeqeq": [2, "allow-null"],
     "import/no-unresolved": 0
   },
   "env": {
