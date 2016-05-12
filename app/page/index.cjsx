@@ -1,13 +1,14 @@
-React              = require 'react'
-Relay              = require 'react-relay'
-queries            = require '../queries'
-IndexNavigation    = require '../component/navigation/index-navigation'
-FrontPagePanel     = require '../component/front-page/front-page-panel'
+React               = require 'react'
+Relay               = require 'react-relay'
+queries             = require '../queries'
+Config              = require '../config'
+DefaultNavigation   = require('../component/navigation/DefaultNavigation').default
+FrontPagePanel      = require '../component/front-page/front-page-panel'
 SearchMainContainer = require '../component/search/search-main-container'
-Icon               = require '../component/icon/icon'
-Link               = require 'react-router/lib/Link'
-MapWithTracking    = require '../component/map/map-with-tracking'
-FeedbackPanel      = require '../component/feedback/feedback-panel'
+Icon                = require '../component/icon/icon'
+Link                = require 'react-router/lib/Link'
+MapWithTracking     = require '../component/map/map-with-tracking'
+FeedbackPanel       = require '../component/feedback/feedback-panel'
 ItinerarySearchAction = require '../action/itinerary-search-action'
 
 class Page extends React.Component
@@ -20,12 +21,16 @@ class Page extends React.Component
       @context.executeAction ItinerarySearchAction.forceCitybikeState
 
   render: ->
-    <IndexNavigation className="front-page fullscreen">
+    <DefaultNavigation
+      className="front-page fullscreen"
+      disableBackButton
+      showDisruptionInfo
+      title={Config.title}>
       <MapWithTracking showStops={true}>
         <SearchMainContainer/>
       </MapWithTracking>
       <FrontPagePanel/>
       <FeedbackPanel/>
-    </IndexNavigation>
+    </DefaultNavigation>
 
 module.exports = Page

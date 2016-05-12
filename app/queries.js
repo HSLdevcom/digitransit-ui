@@ -16,7 +16,7 @@ export class TerminalRoute extends Relay.Route {
     terminalId: { required: true },
   };
   static routeName = 'TerminalRoute';
-l}
+}
 
 export const TerminalMarkerPopupFragments = {
   terminal: () => Relay.QL`

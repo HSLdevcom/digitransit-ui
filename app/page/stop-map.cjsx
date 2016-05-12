@@ -1,17 +1,20 @@
-React              = require 'react'
-Relay              = require 'react-relay'
-queries            = require '../queries'
-DefaultNavigation  = require '../component/navigation/default-navigation'
-Icon               = require '../component/icon/icon'
-Map                = require '../component/map/map'
-Link               = require 'react-router/lib/Link'
-StopCardHeader     = require '../component/stop-cards/stop-card-header'
+React                = require 'react'
+Relay                = require 'react-relay'
+queries              = require '../queries'
+DefaultNavigation    = require('../component/navigation/DefaultNavigation').default
+Icon                 = require '../component/icon/icon'
+Map                  = require '../component/map/map'
+Link                 = require 'react-router/lib/Link'
+StopCardHeader       = require '../component/stop-cards/stop-card-header'
 FavouriteStopsAction = require '../action/favourite-stops-action'
+intl                 = require 'react-intl'
+FormattedMessage     = intl.FormattedMessage
 
 class Page extends React.Component
   @contextTypes:
     getStore: React.PropTypes.func.isRequired
     executeAction: React.PropTypes.func.isRequired
+    intl: intl.intlShape.isRequired
 
   render: ->
     favourite = @context.getStore('FavouriteStopsStore').isFavourite(@props.params.stopId)
@@ -19,7 +22,9 @@ class Page extends React.Component
       e.stopPropagation()
       @context.executeAction FavouriteStopsAction.addFavouriteStop, @props.params.stopId
 
-    <DefaultNavigation className="fullscreen stop">
+    <DefaultNavigation
+      className="fullscreen stop"
+      title={@context.intl.formatMessage {id: 'stop-map.title', defaultMessage: "Stop"}}>
       <StopCardHeader stop={@props.stop} favourite={favourite} addFavouriteStop={addFavouriteStop} headingStyle="h3" className="stop-page" infoIcon={true}/>
       <Map lat={@props.stop.lat}
            lon={@props.stop.lon}

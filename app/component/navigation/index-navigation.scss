@@ -44,11 +44,11 @@ nav.top-bar {
     position: absolute;
     top: 0;
 
-    &.back {  // Appears on other than main pages, instead of "the hamburger"
+    &.back {  // Appears on non-front pages
       left: 0.5em;
     }
     &.disruption-info {
-      left: 2.5em;
+      left: 0.5em;
     }
     &.right-off-canvas-toggle {
       right: 0;
@@ -104,7 +104,11 @@ nav.top-bar {
   }
 }
 
-.left-off-canvas {
+.main-menu-toggle {
+  right: 0;
+}
+
+.main-menu {
   padding: 0;
   background: #333;
   padding-top: 20px;

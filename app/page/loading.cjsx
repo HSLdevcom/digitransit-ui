@@ -1,9 +1,10 @@
-React                  = require 'react'
-DefaultNavigation      = require '../component/navigation/default-navigation'
+React             = require 'react'
+Config            = require '../config'
+DefaultNavigation = require('../component/navigation/DefaultNavigation').default
 
 class LoadingPage extends React.Component
   render: ->
-    <DefaultNavigation className="fullscreen">
+    <DefaultNavigation className="fullscreen" title={Config.title}>
       <div className="spinner-loader"/>
     </DefaultNavigation>
 

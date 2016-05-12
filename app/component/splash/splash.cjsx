@@ -1,6 +1,7 @@
 React               = require 'react'
 Relay               = require 'react-relay'
-IndexNavigation     = require '../navigation/index-navigation'
+Config              = require '../../config'
+DefaultNavigation   = require('../navigation/DefaultNavigation').default
 FrontPagePanel      = require '../front-page/front-page-panel'
 EndpointActions     = require '../../action/endpoint-actions'
 {intlShape}         = require 'react-intl'
@@ -41,12 +42,15 @@ class Splash extends React.Component
       />
 
     <div className="fullscreen">
-      <IndexNavigation className="fullscreen">
+      <DefaultNavigation
+        className="fullscreen"
+        disableBackButton
+        title={Config.title}>
         <div className="fullscreen splash-map">
           <FakeSearchWithButton fakeSearchBar={fakeSearchBar}/>
           <FrontPagePanel/>
         </div>
-      </IndexNavigation>
+      </DefaultNavigation>
 
       <div className="splash">
         <div className="top"/>
