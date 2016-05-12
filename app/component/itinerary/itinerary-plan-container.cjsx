@@ -73,11 +73,11 @@ class ItineraryPlanContainer extends React.Component
     tabs
 
   render: =>
+    unless @props.plan and @props.plan.plan then return <div></div>
+
     plan = @props.plan.plan
-    unless plan
-      return <div></div>
     itineraries = plan.itineraries
-    index = if @props.hash then parseInt(@props.hash) else 0
+    index = parseInt(@props.hash) or 0
     itinerary = itineraries[index]
 
     leafletObjs = [
