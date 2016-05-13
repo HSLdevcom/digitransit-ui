@@ -15,7 +15,7 @@ export default class Popup extends MapComponent {
 
   componentWillMount() {
     super.componentWillMount();
-    const { children: _children, map: _map, popupContainer, ...props } = this.props;
+    const { popupContainer, ...props } = this.props;
 
     this.leafletElement = popup(props, popupContainer);
     this.leafletElement.on('add', ::this.renderPopupContent);
@@ -29,8 +29,7 @@ export default class Popup extends MapComponent {
     if (popupContainer) {
       // Attach to container component
       popupContainer.bindPopup(el);
-    }
-    else {
+    } else {
       // Attach to a Map
       if (position) {
         el.setLatLng(position);
@@ -67,8 +66,7 @@ export default class Popup extends MapComponent {
       this.leafletElement._updateLayout();
       this.leafletElement._updatePosition();
       this.leafletElement._adjustPan();
-    }
-    else {
+    } else {
       this.removePopupContent();
     }
   }
