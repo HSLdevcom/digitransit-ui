@@ -1,0 +1,10 @@
+.itinerary-feedback {
+  margin: 1em;
+  display: flex;
+  .option {
+    display: inline-block;
+    margin-right: 1em;
+    margin-left: 1em;
+    cursor: pointer;
+  }
+}

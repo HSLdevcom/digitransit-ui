@@ -8,6 +8,7 @@ ItinerarySummary      = require '../itinerary/itinerary-summary'
 LocationMarker        = require '../map/location-marker'
 Map                   = require '../map/map'
 ItineraryLine         = require '../map/itinerary-line'
+ItineraryFeedback     = require '../itinerary-feedback/itinerary-feedback'
 Icon                  = require '../icon/icon'
 {supportsHistory}     = require 'history/lib/DOMUtils'
 sortBy                = require 'lodash/sortBy'
@@ -68,6 +69,7 @@ class SummaryPlanContainer extends React.Component
           to={to}>
         </Map>
         <ItinerarySummaryListContainer itineraries={plan.itineraries} currentTime={currentTime} onSelect={@onSelectActive} activeIndex={activeIndex} />
+        <ItineraryFeedback />
         <TimeNavigationButtons plan={plan} />
       </div>
     else
