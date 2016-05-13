@@ -61,7 +61,7 @@ module.exports = {
             selector: ".address-placeholder "
         },
         searchFavourite: {
-            selector: "#search-favourite"
+            selector: "input[type='text']"
         },
         nameInput: {
             selector: ".add-favourite-container__give-name input"
