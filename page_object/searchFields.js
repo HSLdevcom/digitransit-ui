@@ -13,6 +13,20 @@ var searchCommands = {
 
         return this;
     },
+    useCurrentLocationInOrigin: function(origin) {
+        var timeout = this.api.globals.elementVisibleTimeout;
+        this.waitForElementVisible('@frontPageSearchBar', timeout)
+            .click('@frontPageSearchBar')
+            .waitForElementVisible('@origin', timeout)
+            .click('@origin');
+        this.waitForElementVisible('@searchOrigin', timeout)
+            .clearValue('@searchOrigin')
+            .setValue('@searchOrigin', this.api.Keys.SPACE)
+            .waitForElementVisible("@searchResultCurrentLocation", timeout)
+            .click("@searchResultCurrentLocation");
+
+        return this;
+    },
     enterKeyOrigin: function() {
         this.api.pause(1000);
         return this.setValue('@searchOrigin', this.api.Keys.ENTER);
@@ -76,6 +90,9 @@ module.exports = {
         },
         searchInput: {
             selector: "#search"
+        },
+        searchResultCurrentLocation: {
+          selector: ".search-result.CurrentLocation"
         }
     }
 };
