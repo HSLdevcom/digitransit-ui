@@ -16,6 +16,7 @@ class PlaceMarker extends React.Component
         <OriginPopup
           shouldOpen={true}
           header={@context.intl.formatMessage {id: 'origin', defaultMessage: 'From'}}
+          popupContainer={@props.popupContainer}
           text={@props.position.address}
           yOffset={-15}
         />
@@ -29,9 +30,7 @@ class PlaceMarker extends React.Component
         icon={L.divIcon(
           html: Icon.asString 'icon-icon_mapMarker-point'
           className: 'place halo'
-          iconAnchor: [12, 24])}>
-        {popup}
-      </Marker>
+          iconAnchor: [12, 24])}/>
       <Marker
         map={@props.map}
         layerContainer={@props.layerContainer}
@@ -40,7 +39,9 @@ class PlaceMarker extends React.Component
         icon={L.divIcon(
           html: Icon.asString 'icon-icon_place'
           className: 'place'
-          iconAnchor: [12, 24])}/>
+          iconAnchor: [12, 24])}>
+        {popup}
+      </Marker>
     </div>
 
 module.exports = PlaceMarker
