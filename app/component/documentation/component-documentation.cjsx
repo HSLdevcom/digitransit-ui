@@ -13,7 +13,7 @@ class ComponentDocumentation extends React.Component
     component: React.PropTypes.func.isRequired
 
   render: ->
-    <div className="card padding-normal">
+    <div className="card padding-normal" id={@props.component.displayName || @props.component.name}>
       <h2>{@props.component.displayName || @props.component.name}</h2>
       <p>{@props.component.description}</p>
       <p>Props:</p>

@@ -1,25 +1,23 @@
-React                 = require 'react'
-Relay                 = require 'react-relay'
-queries               = require '../../queries'
-DefaultNavigation  = require '../navigation/default-navigation'
-BottomNavigation   = require '../itinerary/bottom-navigation'
-ItineraryTab       = require '../itinerary/itinerary-tab'
-intl               = require 'react-intl'
-SwipeableViews     = require('react-swipeable-views').default
-ItineraryLine      = require '../map/itinerary-line'
-Icon               = require '../icon/icon'
-{getRoutePath}     = require '../../util/path'
-{locationToOTP}    = require '../../util/otp-strings'
-Tabs               = require('material-ui/Tabs/Tabs').default
-Tab                = require('material-ui/Tabs/Tab').default
-ItinerarySummary      = require '../itinerary/itinerary-summary'
-Map                   = require '../map/map'
-ItineraryLine         = require '../map/itinerary-line'
-Icon                  = require '../icon/icon'
-{supportsHistory}     = require 'history/lib/DOMUtils'
-sortBy                = require 'lodash/sortBy'
-moment                = require 'moment'
-config                = require '../../config'
+React             = require 'react'
+Relay             = require 'react-relay'
+queries           = require '../../queries'
+ItineraryTab      = require '../itinerary/itinerary-tab'
+{FormattedMessage} = require 'react-intl'
+SwipeableViews    = require('react-swipeable-views').default
+ItineraryLine     = require '../map/itinerary-line'
+Icon              = require '../icon/icon'
+{getRoutePath}    = require '../../util/path'
+{locationToOTP}   = require '../../util/otp-strings'
+Tabs              = require('material-ui/Tabs/Tabs').default
+Tab               = require('material-ui/Tabs/Tab').default
+ItinerarySummary  = require '../itinerary/itinerary-summary'
+Map               = require '../map/map'
+ItineraryLine     = require '../map/itinerary-line'
+Icon              = require '../icon/icon'
+{supportsHistory} = require 'history/lib/DOMUtils'
+sortBy            = require 'lodash/sortBy'
+moment            = require 'moment'
+config            = require '../../config'
 
 class ItineraryPlanContainer extends React.Component
 
@@ -73,68 +71,76 @@ class ItineraryPlanContainer extends React.Component
     tabs
 
   render: =>
-    plan = @props.plan.plan
-    unless plan
-      return <div></div>
-    itineraries = plan.itineraries
+    if @props.plan and @props.plan.plan
+      plan = @props.plan.plan
+      itineraries = plan.itineraries
+      index = parseInt(@props.hash) or 0
+      itinerary = itineraries[index]
 
-    leafletObjs = [
-      <ItineraryLine key={"line" + @props.hash} legs={itineraries[parseInt(@props.hash)].legs} showFromToMarkers={true} showTransferLabels={true}/>]
+    if itinerary and itinerary.legs
+      leafletObjs = [
+        <ItineraryLine key={"line" + @props.hash} legs={itinerary.legs} showFromToMarkers={true} showTransferLabels={true}/>]
 
-    if @state.fullscreen
-      content =
-        <div style={"height": "100%"} onTouchStart={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
-          <Map
-            ref="map2"
-            className="fullscreen"
-            leafletObjs={leafletObjs}
-            lat={if @state.lat then @state.lat else itineraries[parseInt(@props.hash)].legs[0].from.lat}
-            lon={if @state.lon then @state.lon else itineraries[parseInt(@props.hash)].legs[0].from.lon}
-            zoom=16
-            fitBounds={false}>
-            <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
-              <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
-            </div>
-          </Map>
-        </div>
-
-    else
-      content =
-        <div style={height: "100%"}>
-          <div onTouchStart={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
+      if @state.fullscreen
+        content =
+          <div style={"height": "100%"} onTouchStart={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
             <Map
-              ref="map"
+              ref="map2"
+              className="fullscreen"
               leafletObjs={leafletObjs}
-              lat={if @state.lat then @state.lat else itineraries[parseInt(@props.hash)].legs[0].from.lat}
-              lon={if @state.lon then @state.lon else itineraries[parseInt(@props.hash)].legs[0].from.lon}
+              lat={if @state.lat then @state.lat else itinerary.legs[0].from.lat}
+              lon={if @state.lon then @state.lon else itinerary.legs[0].from.lon}
               zoom=16
-              fitBounds={false}
-              leafletOptions={dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false}>
-              <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
+              fitBounds={false}>
               <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
                 <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
               </div>
             </Map>
           </div>
-          <SwipeableViews
-            index={parseInt(@props.hash)}
-            className="itinerary-swipe-views-root"
-            slideStyle={{height: "100%"}}
-            containerStyle={{height: "100%"}}
-            onChangeIndex={(index) => setTimeout @switchSlide, 150, index}>
-            {@getSlides(itineraries)}
-          </SwipeableViews>
-          <div className="itinerary-tabs-container">
-            <Tabs
-              onChange={@switchSlide}
-              value={parseInt(@props.hash)}
-              tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", width: "60px", marginLeft: "auto", marginRight: "auto"}}
-              inkBarStyle={{display: "none"}}
-            >
-              {@getTabs(itineraries, parseInt(@props.hash))}
-            </Tabs>
+
+      else
+        content =
+          <div style={height: "100%"}>
+            <div onTouchStart={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
+              <Map
+                ref="map"
+                leafletObjs={leafletObjs}
+                lat={if @state.lat then @state.lat else itinerary.legs[0].from.lat}
+                lon={if @state.lon then @state.lon else itinerary.legs[0].from.lon}
+                zoom=16
+                fitBounds={false}
+                leafletOptions={dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false}>
+                <div className="map-click-prevent-overlay" onClick={@toggleFullscreenMap}/>
+                <div className="fullscreen-toggle" onClick={@toggleFullscreenMap}>
+                  <Icon img={'icon-icon_maximize'} className="cursor-pointer" />
+                </div>
+              </Map>
+            </div>
+            <SwipeableViews
+              index={index}
+              className="itinerary-swipe-views-root"
+              slideStyle={{height: "100%"}}
+              containerStyle={{height: "100%"}}
+              onChangeIndex={(index) => setTimeout @switchSlide, 150, index}>
+              {@getSlides(itineraries)}
+            </SwipeableViews>
+            <div className="itinerary-tabs-container">
+              <Tabs
+                onChange={@switchSlide}
+                value={index}
+                tabItemContainerStyle={{backgroundColor: "#eef1f3", lineHeight: "18px", width: "60px", marginLeft: "auto", marginRight: "auto"}}
+                inkBarStyle={{display: "none"}}>
+                {@getTabs(itineraries, index)}
+              </Tabs>
+            </div>
           </div>
-        </div>
+    else
+      <div className="itinerary-no-route-found">
+        <FormattedMessage
+          id={'no-route-msg'}
+          defaultMessage="Unfortunately no route was found between the locations you gave. Please change origin and/or destination address."
+        />
+      </div>
 
 module.exports = Relay.createContainer ItineraryPlanContainer,
   fragments: queries.ItineraryPlanContainerFragments

@@ -4,10 +4,10 @@ IconWithTail       = require '../component/icon/icon-with-tail'
 Link               = require('react-router/lib/Link').Link
 # React Components
 ComponentDocumentation = require '../component/documentation/component-documentation'
-Departure          = require '../component/departure/departure'
+Departure          = require('../component/departure/Departure').default
 RouteNumber        = require '../component/departure/route-number'
 RouteDestination   = require '../component/departure/route-destination'
-DepartureTime      = require '../component/departure/departure-time'
+DepartureTime      = require('../component/departure/DepartureTime').default
 StopReference      = require '../component/stop/stop-reference'
 Distance           = require '../component/departure/distance'
 NotImplemented     = require '../component/util/not-implemented'

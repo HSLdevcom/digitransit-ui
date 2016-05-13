@@ -79,3 +79,11 @@ window.mock.geolocation.demo();
 
 ## Running acceptance tests
 - run: npm run test-acceptance
+
+# Visual tests
+
+- run: BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual
+
+If things change, you need to update the images
+
+- run: BS_USERNAME=user BS_ACCESS_KEY=key ./node_modules/.bin/gemini update test/visual/

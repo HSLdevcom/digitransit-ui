@@ -3,4 +3,5 @@ node_modules
 _static
 static
 build
+gemini-report
 webpack.config.js
