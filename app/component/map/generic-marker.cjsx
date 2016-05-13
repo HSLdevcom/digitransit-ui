@@ -2,7 +2,7 @@ config = require('../../config')
 React         = require 'react'
 isBrowser     = window?
 Marker        = if isBrowser then require('react-leaflet/lib/Marker').default
-Popup         = if isBrowser then require './dynamic-popup'
+Popup         = if isBrowser then require('./dynamic-popup').default
 L             = if isBrowser then require 'leaflet'
 provideContext = require 'fluxible-addons-react/provideContext'
 ComponentUsageExample = require '../documentation/component-usage-example'
@@ -68,12 +68,12 @@ class GenericMarker extends React.Component
               @props.mode + (if @props.thin then " thin" else ""),
               @props.selected,
               @props.map.getZoom())}>
-       <Popup options={
-         offset: config.map.genericMarker.popup.offset
-         closeButton: false
-         maxWidth: config.map.genericMarker.popup.maxWidth
-         minWidth: config.map.genericMarker.popup.minWidth
-         className: "popup"}>
+       <Popup
+         offset={config.map.genericMarker.popup.offset}
+         closeButton={false}
+         maxWidth={config.map.genericMarker.popup.maxWidth}
+         minWidth={config.map.genericMarker.popup.minWidth}
+         className="popup">
          {@props.children}
        </Popup>
     </Marker>
