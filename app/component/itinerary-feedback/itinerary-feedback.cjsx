@@ -18,11 +18,7 @@ class ItineraryFeedback extends React.Component
     piwik: React.PropTypes.object
 
   rate: (rating) =>
-    console.log "rated #{rating}"
-
-    # Feedback.recordResult(@context.piwik, @context.getStore('TimeStore').getCurrentTime().valueOf(), @state.selectedNPS, @state.useThisMoreLikely, @state.openText)
-    @context.piwik.setCustomVariable 4, 'itineraryFeedback', rating, 'summary'
-
+    @context.piwik.trackEvent "Feedback", "Itinerary", "Rating", rating
     @state.voted = true
 
   render: ->
