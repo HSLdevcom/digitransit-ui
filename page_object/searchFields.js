@@ -3,12 +3,15 @@
 var searchCommands = {
     setOrigin: function(origin) {
         var timeout = this.api.globals.elementVisibleTimeout;
-        return this.waitForElementVisible('@frontPageSearchBar', timeout)
+        this.waitForElementVisible('@frontPageSearchBar', timeout)
             .click('@frontPageSearchBar')
             .waitForElementVisible('@origin', timeout)
             .click('@origin')
             .waitForElementVisible('@searchOrigin', timeout)
+            .clearValue('@searchOrigin')
             .setValue('@searchOrigin', origin);
+
+        return this;
     },
     enterKeyOrigin: function() {
         this.api.pause(1000);
