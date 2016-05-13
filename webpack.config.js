@@ -23,7 +23,7 @@ function getLoadersConfig(env) {
         loader: 'babel',
         exclude: /node_modules/,
         query: {
-          'presets': ['es2015-native-modules', 'react'],
+          'presets': ['es2015-native-modules', 'react', 'stage-0'],
           'plugins': [
             'transform-class-properties',
             path.join(__dirname, 'build/babelRelayPlugin'),
