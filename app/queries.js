@@ -862,6 +862,10 @@ export const SummaryPlanContainerFragments = {
             from {
               lat
               lon
+              vertexType
+              bikeRentalStation {
+                stationId
+              }
               stop {
                 code
               }
@@ -869,6 +873,10 @@ export const SummaryPlanContainerFragments = {
             to {
               lat
               lon
+              vertexType
+              bikeRentalStation {
+                stationId
+              }
               stop {
                 code
               }
@@ -934,6 +942,10 @@ export const ItineraryPlanContainerFragments = {
               lat
               lon
               name
+              vertexType
+              bikeRentalStation {
+                stationId
+              }
               stop {
                 gtfsId
                 code
@@ -943,6 +955,10 @@ export const ItineraryPlanContainerFragments = {
               lat
               lon
               name
+              vertexType
+              bikeRentalStation {
+                stationId
+              }
               stop {
                 gtfsId
                 code
