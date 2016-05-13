@@ -89,20 +89,18 @@ class ItineraryLine extends React.Component
                                 mode={modePlusClass}
                                 thin=true />
 
-        if leg.from.bikeShareId
-          cityBikeStore = @context.getStore "CityBikeStore"
-          station = cityBikeStore.getStation(leg.from.bikeShareId)
-
-          if station
-            objs.push <CityBikeMarker
-              map={@props.map}
-              layerContainer={@props.layerContainer}
-              key={leg.from.bikeShareId}
-              station={station}
-            />
-          else
-            console.error "Could not load bicycle station from id " + leg.from.bikeShareId
-        else
+        if leg.from.vertexType == "BIKESHARE"
+          objs.push <CityBikeMarker
+            map={@props.map}
+            layerContainer={@props.layerContainer}
+            key={leg.from.bikeRentalStation.stationId}
+            station={{
+              x: leg.from.lon
+              y: leg.from.lat
+              id: leg.from.bikeRentalStation.stationId
+            }}
+          />
+        else if leg.from.vertexType == "TRANSIT"
           # Draw a more noticiable marker for the first stop
           # (where user changes vehicles/modes)
           objs.push <StopMarker map={@props.map}
@@ -112,8 +110,8 @@ class ItineraryLine extends React.Component
                                   lat: leg.from.lat
                                   lon: leg.from.lon
                                   name: leg.from.name
-                                  gtfsId: leg.from.stop?.gtfsId
-                                  code: leg.from.stop?.code
+                                  gtfsId: leg.from.stop.gtfsId
+                                  code: leg.from.stop.code
                                 }
                                 mode={mode.toLowerCase()}
                                 renderText={leg.transitLeg and @props.showTransferLabels}/>
