@@ -36,8 +36,10 @@ MapWithTracking = withMapStateTracking connectToStores onlyUpdateCoordChanges(Ma
 
   if !origin.useCurrentPosition and origin != props.mapState.previousOrigin
     setImmediate props.dispatch, {type: 'useOrigin', origin: origin}
+    location = origin
   else if origin.useCurrentPosition and props.mapState.previousOrigin and origin != props.mapState.previousOrigin
     setImmediate props.dispatch, {type: 'usePosition', origin: origin}
+    location = position
 
   enableMapTracking = () -> if !mapTracking then props.dispatch type: 'enable'
   disableMapTracking = () -> if mapTracking then props.dispatch type: 'disable'

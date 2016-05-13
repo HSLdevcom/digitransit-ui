@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import DisruptionInfo from '../disruption/disruption-info';
 import DisruptionInfoButtonContainer from '../disruption/disruption-info-button-container';
 

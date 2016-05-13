@@ -281,3 +281,7 @@ span.itinerary-stop-code {
   @extend .itinerary-tab-root;
   opacity: 0.75;
 }
+
+.itinerary-no-route-found {
+    margin: 1em;
+}

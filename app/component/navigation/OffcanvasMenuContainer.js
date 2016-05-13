@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import config from '../../config';
 import Icon from '../icon/icon';
 import OffcanvasMenu from './offcanvas-menu';

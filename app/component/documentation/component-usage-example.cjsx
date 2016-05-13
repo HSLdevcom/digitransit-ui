@@ -30,7 +30,7 @@ class ComponentUsageExample extends React.Component
       <span className="code">
         {"<#{child.type.displayName || child.type.name} #{@getPropStrings child.props}/>"}
       </span>
-      <div className="border-dashed">{child}</div>
+      <div className="component border-dashed">{child}</div>
     </div>
 
   render: ->

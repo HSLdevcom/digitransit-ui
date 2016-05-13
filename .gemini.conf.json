@@ -1,0 +1,17 @@
+{ "rootUrl": "http://localhost:8080",
+  "screenshotsDir": "./test/visual-images/",
+  "system": {
+    "plugins": { "browserstack": {} }
+  },
+  "browsers": {
+    "chrome43": {
+      "windowSize": "600x1024",
+      "desiredCapabilities": {
+        "os": "OS X",
+        "os_version": "El Capitan",
+        "browserName": "chrome",
+        "version": "43"
+      }
+    }
+  }
+}
