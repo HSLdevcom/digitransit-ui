@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: "off" */
+
 import { Children, PropTypes } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { Map, popup } from 'leaflet';
