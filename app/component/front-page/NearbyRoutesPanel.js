@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import ModeFilterContainer from '../route/mode-filter-container';
-import NearestRoutesContainer from './nearest-routes-container';
+import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from '../departure/next-departures-list-header';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-function NearbyRoutesPanel({ location }) {
+function NearbyRoutesPanel({ location, currentTime }) {
   return (
     <div className="frontpage-panel nearby-routes">
       <div className="row">
@@ -17,23 +17,30 @@ function NearbyRoutesPanel({ location }) {
         className="scrollable momentum-scroll scroll-extra-padding-bottom"
         id="scrollable-routes"
       >
-        <NearestRoutesContainer lat={location.lat} lon={location.lon} />
+        <NearestRoutesContainer
+          lat={location.lat}
+          lon={location.lon}
+          currentTime={currentTime}
+        />
       </div>
-    </div>);
+    </div>
+  );
 }
 
 NearbyRoutesPanel.propTypes = {
   location: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
-  }),
+  }).isRequired,
+  currentTime: PropTypes.number.isRequired,
 };
 
-export default connectToStores(NearbyRoutesPanel, ['EndpointStore'], (context) => {
+export default connectToStores(NearbyRoutesPanel, ['EndpointStore', 'TimeStore'], (context) => {
   const position = context.getStore('PositionStore').getLocationState();
   const origin = context.getStore('EndpointStore').getOrigin();
 
   return {
     location: origin.useCurrentPosition ? position : origin,
+    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
   };
 });

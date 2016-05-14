@@ -77,26 +77,6 @@ export const RouteQueries = {
   `,
 };
 
-export class NearbyRouteListContainerRoute extends Relay.Route {
-  static queries = {
-    stops: (Component, variables) => Relay.QL`
-      query {
-        viewer {
-          ${Component.getFragment('stops', {
-            lat: variables.lat,
-            lon: variables.lon,
-          })}
-        }
-      }
-    `,
-  };
-  static paramDefinitions = {
-    lat: { required: true },
-    lon: { required: true },
-  };
-  static routeName = 'NearbyRouteListContainerRoute';
-}
-
 export const NearbyRouteListContainerFragments = {
   stops: () => Relay.QL`
     fragment on QueryType {
