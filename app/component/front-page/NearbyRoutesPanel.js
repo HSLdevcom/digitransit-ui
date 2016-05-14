@@ -4,7 +4,7 @@ import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from '../departure/next-departures-list-header';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-function NearbyRoutesPanel({ location, currentTime }) {
+function NearbyRoutesPanel({ location, currentTime, modes}) {
   return (
     <div className="frontpage-panel nearby-routes">
       <div className="row">
@@ -21,6 +21,7 @@ function NearbyRoutesPanel({ location, currentTime }) {
           lat={location.lat}
           lon={location.lon}
           currentTime={currentTime}
+          modes={modes}
         />
       </div>
     </div>
@@ -33,14 +34,20 @@ NearbyRoutesPanel.propTypes = {
     lon: PropTypes.number.isRequired,
   }).isRequired,
   currentTime: PropTypes.number.isRequired,
+  modes: PropTypes.array.isRequired,
 };
 
-export default connectToStores(NearbyRoutesPanel, ['EndpointStore', 'TimeStore'], (context) => {
-  const position = context.getStore('PositionStore').getLocationState();
-  const origin = context.getStore('EndpointStore').getOrigin();
+export default connectToStores(
+  NearbyRoutesPanel,
+  ['EndpointStore', 'TimeStore', 'ModeStore'],
+  (context) => {
+    const position = context.getStore('PositionStore').getLocationState();
+    const origin = context.getStore('EndpointStore').getOrigin();
 
-  return {
-    location: origin.useCurrentPosition ? position : origin,
-    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
-  };
-});
+    return {
+      location: origin.useCurrentPosition ? position : origin,
+      currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+      modes: context.getStore('ModeStore').getMode(),
+    };
+  }
+);

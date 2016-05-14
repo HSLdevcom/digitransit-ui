@@ -77,58 +77,6 @@ export const RouteQueries = {
   `,
 };
 
-export const NearbyRouteListContainerFragments = {
-  stops: () => Relay.QL`
-    fragment on QueryType {
-      stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
-        edges {
-          node {
-            distance
-            stop {
-              gtfsId
-              stoptimes: stoptimesForPatterns(numberOfDepartures:2) {
-                pattern {
-                  alerts {
-                    effectiveStartDate
-                    effectiveEndDate
-                    trip {
-                      gtfsId
-                    }
-                  }
-                  code
-                  headsign
-                  route {
-                    gtfsId
-                    shortName
-                    longName
-                    type
-                    color
-                  }
-                }
-                stoptimes {
-                  pickupType
-                  realtimeState
-                  realtimeDeparture
-                  scheduledDeparture
-                  realtime
-                  serviceDay
-                  trip {
-                    gtfsId
-                  }
-                }
-              }
-            }
-          }
-        }
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-      }
-    }
-  `,
-};
-
 export const TripQueries = {
   trip: () => Relay.QL`
     query {

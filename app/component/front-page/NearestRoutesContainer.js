@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Relay, { Route } from 'react-relay';
-import NearbyRouteListContainer from '../route/nearby-route-list-container';
+import NearbyRouteListContainer from '../route/NearbyRouteListContainer';
 
 class NearbyRouteListContainerRoute extends Route {
   static queries = {
@@ -25,6 +25,7 @@ export default class NearestRoutesContainer extends Component {
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
     currentTime: PropTypes.number.isRequired,
+    modes: PropTypes.array.isRequired,
   };
 
   constructor() {
@@ -37,10 +38,11 @@ export default class NearestRoutesContainer extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return !(
-      nextProps.lat === this.props.lat &&
-      nextProps.lon === this.props.lon &&
-      nextProps.currentTime === this.props.currentTime
+    return (
+      nextProps.lat !== this.props.lat ||
+      nextProps.lon !== this.props.lon ||
+      nextProps.currentTime !== this.props.currentTime ||
+      nextProps.modes !== this.props.modes
     );
   }
 
@@ -51,7 +53,7 @@ export default class NearestRoutesContainer extends Component {
         route={new NearbyRouteListContainerRoute({
           lat: this.props.lat,
           lon: this.props.lon,
-          currentTime: this.props.currentTime,
+          currentTime: this.props.currentTime.toString(),
         })}
         renderLoading={() => {
           if (this.useSpinner === true) {
@@ -59,6 +61,9 @@ export default class NearestRoutesContainer extends Component {
           }
           return undefined;
         }}
+        renderFetched={data =>
+          <NearbyRouteListContainer {...data} modes={this.props.modes} />
+        }
       />
     );
   }
