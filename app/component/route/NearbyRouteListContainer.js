@@ -1,70 +1,50 @@
-import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import NextDeparturesList from '../departure/next-departures-list';
 import config from '../../config';
 import mapProps from 'recompose/mapProps';
 const STOP_COUNT = 20;
 
-class NearbyRouteListContainer extends React.Component {
-  static propTypes = {
-    stops: PropTypes.object.isRequired, // TODO: improve validation
-    currentTime: PropTypes.string.isRequired,
-    modes: PropTypes.array.isRequired,
-  }
+function getNextDepartures(props) {
+  const seenDepartures = {};
 
-  static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-  };
+  const stops = props.stops.stopsByRadius.edges.map(edge => edge.node);
 
-  getNextDepartures() {
-    const seenDepartures = {};
+  const nextDepartures = [];
 
-    const stops = this.props.stops.stopsByRadius.edges.map(edge => edge.node);
+  for (const stopAtDistance of stops) {
+    const keepStoptimes = [];
 
-    const nextDepartures = [];
+    if (stopAtDistance.stop.stoptimes == null) { continue; }
 
-    for (const stopAtDistance of stops) {
-      const keepStoptimes = [];
+    for (const pattern of stopAtDistance.stop.stoptimes) {
+      if (pattern.stoptimes.length === 0) { continue; }
 
-      if (stopAtDistance.stop.stoptimes == null) {
-        continue;
-      }
+      const seenKey = `${pattern.pattern.route.gtfsId}:${pattern.pattern.headsign}`;
+      const isSeen = seenDepartures[seenKey];
+      const isModeIncluded = props.modes.includes(pattern.pattern.route.type);
+      const isPickup = pattern.stoptimes[0].pickupType !== 'NONE';
 
-      for (const pattern of stopAtDistance.stop.stoptimes) {
-        if (pattern.stoptimes.length === 0) {
-          continue;
-        }
-
-        const seenKey = `${pattern.pattern.route.gtfsId}:${pattern.pattern.headsign}`;
-        const isSeen = seenDepartures[seenKey];
-        const isModeIncluded = this.props.modes.includes(pattern.pattern.route.type);
-        const isPickup = pattern.stoptimes[0].pickupType !== 'NONE';
-
-        if (!isSeen && isModeIncluded && isPickup) {
-          keepStoptimes.push(pattern);
-          seenDepartures[seenKey] = true;
-        }
-      }
-
-      for (const stoptime of keepStoptimes) {
-        nextDepartures.push({
-          distance: stopAtDistance.distance,
-          stoptime,
-        });
+      if (!isSeen && isModeIncluded && isPickup) {
+        keepStoptimes.push(pattern);
+        seenDepartures[seenKey] = true;
       }
     }
 
-    return nextDepartures;
+    for (const stoptime of keepStoptimes) {
+      nextDepartures.push({
+        distance: stopAtDistance.distance,
+        stoptime,
+      });
+    }
   }
 
-  render() {
-    return (
-      <NextDeparturesList
-        departures={this.getNextDepartures()}
-        currentTime={parseInt(this.props.currentTime, 10)}
-      />);
-  }
+  return nextDepartures;
 }
+
+const NearbyRouteListContainer = mapProps(props =>({
+  departures: getNextDepartures(props),
+  currentTime: parseInt(props.currentTime, 10),
+}))(NextDeparturesList);
 
 export default Relay.createContainer(NearbyRouteListContainer, {
   fragments: {
