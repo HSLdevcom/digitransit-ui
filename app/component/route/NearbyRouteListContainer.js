@@ -41,7 +41,7 @@ function getNextDepartures(props) {
   return nextDepartures;
 }
 
-const NearbyRouteListContainer = mapProps(props =>({
+const NearbyRouteListContainer = mapProps(props => ({
   departures: getNextDepartures(props),
   currentTime: parseInt(props.currentTime, 10),
 }))(NextDeparturesList);

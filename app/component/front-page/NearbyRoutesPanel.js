@@ -4,7 +4,7 @@ import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from '../departure/next-departures-list-header';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-function NearbyRoutesPanel({ location, currentTime, modes}) {
+function NearbyRoutesPanel({ location, currentTime, modes }) {
   return (
     <div className="frontpage-panel nearby-routes">
       <div className="row">
