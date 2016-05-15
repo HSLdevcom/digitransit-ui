@@ -96,18 +96,13 @@ export const relayFragment = Relay.QL`
         shortName
         longName
         type
-        color
       }
     }
     stoptimes {
-      pickupType
       realtimeState
       realtimeDeparture
       scheduledDeparture
       realtime
       serviceDay
-      trip {
-        gtfsId
-      }
     }
   }`;
