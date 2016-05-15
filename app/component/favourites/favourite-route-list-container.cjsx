@@ -1,7 +1,7 @@
 React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../../queries'
-NextDeparturesList = require '../departure/next-departures-list'
+NextDeparturesList = require('../departure/NextDeparturesList').default
 NoPositionPanel    = require '../front-page/no-position-panel'
 {getDistanceToNearestStop} = require '../../util/geo-utils'
 connectToStores    = require 'fluxible-addons-react/connectToStores'
