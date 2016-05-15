@@ -608,55 +608,6 @@ export class FavouriteRouteListContainerRoute extends Relay.Route {
   static routeName = 'FavouriteRouteRowRoute';
 }
 
-export const FavouriteRouteListContainerFragments = {
-  routes: () => Relay.QL`
-    fragment on Route @relay(plural:true) {
-      patterns {
-        headsign
-        stops {
-          lat
-          lon
-          stoptimes: stoptimesForPatterns (numberOfDepartures:2) {
-            pattern {
-              alerts {
-                effectiveStartDate
-                effectiveEndDate
-                trip {
-                  gtfsId
-                }
-              }
-              code
-              headsign
-              route {
-                gtfsId
-                shortName
-                longName
-                type
-                color
-              }
-            }
-            stoptimes {
-              pickupType
-              realtimeState
-              realtimeDeparture
-              scheduledDeparture
-              realtime
-              serviceDay
-              trip {
-                gtfsId
-              }
-            }
-          }
-        }
-      }
-      gtfsId
-      shortName
-      longName
-      type
-    }
- `,
-};
-
 export class DisruptionInfoRoute extends Relay.Route {
   static queries = {
     alerts: () => Relay.QL`

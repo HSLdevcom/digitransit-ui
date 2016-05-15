@@ -1,7 +1,7 @@
 React   = require 'react'
 Relay   = require 'react-relay'
 queries = require '../../queries'
-FavouriteRouteListContainer = require './favourite-route-list-container'
+FavouriteRouteListContainer = require('./FavouriteRouteListContainer').default
 FavouriteLocationsContainer = require './favourite-locations-container'
 NextDeparturesListHeader    = require '../departure/next-departures-list-header'
 NoFavouritesPanel           = require './no-favourites-panel'
