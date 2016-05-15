@@ -7,6 +7,9 @@ import DepartureTime from './DepartureTime';
 import Link from 'react-router/lib/Link';
 import sortBy from 'lodash/sortBy';
 
+
+// TODO: Alerts aren't showing properly
+// Need to implement logic as per DepartureListContainer
 function NextDeparturesList(props) {
   const departureObjs = [];
 
@@ -86,13 +89,6 @@ export default NextDeparturesList;
 export const relayFragment = Relay.QL`
   fragment on StoptimesInPattern{
     pattern {
-      alerts {
-        effectiveStartDate
-        effectiveEndDate
-        trip {
-          gtfsId
-        }
-      }
       code
       headsign
       route {
