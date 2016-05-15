@@ -1,31 +1,32 @@
 import Relay from 'react-relay';
-import NextDeparturesList from '../departure/next-departures-list';
+import NextDeparturesList, {
+   relayFragment as NextDeparturesListRelayFragment,
+} from '../departure/NextDeparturesList';
 import config from '../../config';
 import mapProps from 'recompose/mapProps';
 const STOP_COUNT = 20;
 
 function getNextDepartures(props) {
   const seenDepartures = {};
-
-  const stops = props.stops.stopsByRadius.edges.map(edge => edge.node);
-
+  const nodes = props.stops.stopsByRadius.edges.map(edge => edge.node);
   const nextDepartures = [];
 
-  for (const stopAtDistance of stops) {
+  for (const stopAtDistance of nodes) {
     const keepStoptimes = [];
 
-    if (stopAtDistance.stop.stoptimes == null) { continue; }
+    if (stopAtDistance.stop.stoptimesForPatterns == null) { continue; }
 
-    for (const pattern of stopAtDistance.stop.stoptimes) {
-      if (pattern.stoptimes.length === 0) { continue; }
+    for (const patternAndStoptimes of stopAtDistance.stop.stoptimesForPatterns) {
+      if (patternAndStoptimes.stoptimes.length === 0) { continue; }
+      const pattern = patternAndStoptimes.pattern;
 
-      const seenKey = `${pattern.pattern.route.gtfsId}:${pattern.pattern.headsign}`;
+      const seenKey = `${pattern.route.gtfsId}:${pattern.headsign}`;
       const isSeen = seenDepartures[seenKey];
-      const isModeIncluded = props.modes.includes(pattern.pattern.route.type);
-      const isPickup = pattern.stoptimes[0].pickupType !== 'NONE';
+      const isModeIncluded = props.modes.includes(pattern.route.type);
+      const isPickup = patternAndStoptimes.stoptimes[0].pickupType !== 'NONE';
 
       if (!isSeen && isModeIncluded && isPickup) {
-        keepStoptimes.push(pattern);
+        keepStoptimes.push(patternAndStoptimes);
         seenDepartures[seenKey] = true;
       }
     }
@@ -61,41 +62,15 @@ export default Relay.createContainer(NearbyRouteListContainer, {
             node {
               distance
               stop {
-                gtfsId
-                stoptimes: stoptimesForPatterns(
-                  numberOfDepartures:2,
-                  startTime: $currentTime,
-                  timeRange: 7200
+                stoptimesForPatterns(
+                  numberOfDepartures:2, startTime: $currentTime, timeRange: 7200
                 ) {
+                  ${NextDeparturesListRelayFragment}
                   pattern {
-                    alerts {
-                      effectiveStartDate
-                      effectiveEndDate
-                      trip {
-                        gtfsId
-                      }
-                    }
-                    code
                     headsign
-                    route {
-                      gtfsId
-                      shortName
-                      longName
-                      type
-                      color
-                    }
+                    route { gtfsId, type }
                   }
-                  stoptimes {
-                    pickupType
-                    realtimeState
-                    realtimeDeparture
-                    scheduledDeparture
-                    realtime
-                    serviceDay
-                    trip {
-                      gtfsId
-                    }
-                  }
+                  stoptimes { pickupType }
                 }
               }
             }
