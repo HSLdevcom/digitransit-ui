@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import config from '../../config';
 import Icon from '../icon/icon';
-import OffcanvasMenu from './offcanvas-menu';
+import OffcanvasMenu from './OffcanvasMenu'
 import Drawer from 'material-ui/Drawer';
 import FeedbackActions from '../../action/feedback-action';
 
