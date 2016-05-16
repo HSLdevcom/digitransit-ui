@@ -1,3 +1,5 @@
+/* eslint quote-props: 0, max-len: 0 */
+
 export const realtimeDeparture = {
   stop: {
     code: '4611',
