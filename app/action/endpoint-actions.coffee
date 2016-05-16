@@ -16,10 +16,10 @@ module.exports.storeEndpoint = storeEndpoint = (actionContext, {target, endpoint
 module.exports.setEndpoint = (actionContext, payload) =>
   actionContext.executeAction(storeEndpoint, payload, (e) =>
     if e
-      console.error "Could not store endpoint: ", e
+      console.error e
     else actionContext.executeAction(itinerarySearchActions.route, undefined, (e) =>
       if e
-        console.error "Could not route:", e
+        console.error e
     )
   )
 
@@ -31,7 +31,7 @@ module.exports.swapEndpoints = (actionContext) ->
   actionContext.dispatch "swapEndpoints"
   actionContext.executeAction(itinerarySearchActions.route, undefined, (e) =>
     if e
-      console.error "Could not route:", e
+      console.error e
   )
 
 module.exports.clearOrigin = (actionContext) ->
@@ -45,4 +45,3 @@ module.exports.clearGeolocation = (actionContext) ->
 
 module.exports.setOriginToDefault = (actionContext) =>
   actionContext.executeAction @setEndpoint, {target: "origin", endpoint: config.defaultEndpoint}
-  
