@@ -30,6 +30,8 @@ export default class NearestRoutesContainer extends Component {
 
   constructor() {
     super();
+    // useSpinner is used to only render the spinner on initial render.
+    // After the initial render it is changed to false and data will be updated silently.
     this.useSpinner = true;
   }
 
