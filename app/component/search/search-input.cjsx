@@ -12,6 +12,7 @@ class SearchInput extends React.Component
   constructor: (props) ->
     @state =
       focusedItemIndex: 0
+      suggestions: []
 
   focusItem = (i) ->
     if L.Browser.touch
@@ -36,8 +37,8 @@ class SearchInput extends React.Component
     @context.getStore('SearchStore').removeChangeListener @onSearchChange
 
   onSearchChange: (payload) =>
-    if payload.action == "suggestions"
-      @setState "suggestions": payload.data, focusedItemIndex: 0,
+    if payload.action == "suggestions" && Array.isArray payload.data
+      @setState suggestions: payload.data, focusedItemIndex: 0,
         () => focusItem(0)
 
   handleOnMouseEnter: (event, eventProps) =>
@@ -82,7 +83,7 @@ class SearchInput extends React.Component
   handleUpdateInputNow: (event) =>
     input = event.target.value
 
-    if input == @state?.value
+    if input == @state.value
       return
 
     @setState "value": input
@@ -111,13 +112,13 @@ class SearchInput extends React.Component
         value: name
 
   render: =>
-    inputValue = if @state.value?.length >= 0 then @state?.value else @props.initialValue
+    inputValue = if @state.value?.length >= 0 then @state.value else @props.initialValue
     <div className="fullscreen">
       <ReactAutowhatever
         ref = "autowhatever"
         className={@props.className}
         id="suggest"
-        items={@state?.suggestions || []}
+        items={@state.suggestions}
         renderItem={(item) ->
           if item.properties.layer == "currentPosition"
             <CurrentPositionItem ref={item.name} item={item} spanClass="autosuggestIcon"/>
@@ -127,7 +128,7 @@ class SearchInput extends React.Component
         focusedItemIndex={@state.focusedItemIndex}
         inputProps={
           "id": @props.id
-          "value": if @state.value?.length >= 0 then @state?.value else @props.initialValue
+          "value": if @state.value?.length >= 0 then @state.value else @props.initialValue
           "onChange": @handleUpdateInputNow
           "onKeyDown": @handleOnKeyDown
           "onTouchStart": @handleOnTouchStart
