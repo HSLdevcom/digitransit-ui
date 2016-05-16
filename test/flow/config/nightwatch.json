@@ -1,10 +1,10 @@
 {
-  "src_folders": ["test/"],
+  "src_folders": ["test/flow/"],
   "output_folder": "test_output",
 
   "selenium": {
     "start_process": true,
-    "server_path": "test/binaries/selenium-server-standalone-2.53.0.jar",
+    "server_path": "test/flow/binaries/selenium-server-standalone-2.53.0.jar",
     "log_path": "",
     "host": "127.0.0.1",
     "port": 4444,
