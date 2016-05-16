@@ -29,12 +29,12 @@ else
 fi
 
 NIGHTWATCH_BINARY="./node_modules/nightwatch/bin/nightwatch"
-BROWSERSTACK_LOCAL_BINARY="./test/binaries/BrowserStackLocal"
-SELENIUM_BINARY="./test/binaries/selenium-server-standalone-2.53.0.jar"
+BROWSERSTACK_LOCAL_BINARY="./test/flow/binaries/BrowserStackLocal"
+SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.53.0.jar"
 
 # checks for dependencies and downloads them if needed
 function checkDependencies {
-  mkdir -p ./test/binaries
+  mkdir -p ./test/flow/binaries
   if [ ! -f $SELENIUM_BINARY ]; then
     echo "Downloading Selenium..."
     curl -o $SELENIUM_BINARY $SELENIUM_URL
@@ -66,7 +66,7 @@ if [ "$1" == "local" ]; then
   # Wait for the server to start
   sleep 10
   # Then run tests
-  $NIGHTWATCH_BINARY -c ./test/config/nightwatch.json
+  $NIGHTWATCH_BINARY -c ./test/flow/config/nightwatch.json
   TESTSTATUS=$?
 
   # Kill Node
@@ -95,7 +95,7 @@ elif [ "$1" == "browserstack" ]; then
   # Wait for the server to start
   sleep 10
   # Then run tests
-  env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/config/nightwatch.json -e bs-fx,bs-chrome,bs-iphone,bs-ie
+  env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/config/nightwatch.json -e bs-fx,bs-chrome,bs-iphone,bs-ie
   TESTSTATUS=$?
   # Kill Node and Browserstack tunnel
   if [ "$START_SERVER" == "1" ]; then
