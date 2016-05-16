@@ -38,20 +38,21 @@ function setLaterSelectedTime(executeAction, plan) {
 const setSelectedTimeToNow = (executeAction) =>
   () => executeAction(TimeAction.setDepartureTime, moment());
 
-export default function TimeNavigationButtons({plan}, {executeAction}) {
+export default function TimeNavigationButtons({ plan }, { executeAction }) {
   if (plan == null) { return null; }
   return (
     <div className="time-navigation-buttons">
       <button className="standalone-btn" onClick={setEarlierSelectedTime(executeAction, plan)}>
-      <FormattedMessage id="earlier" defaultMessage="Earlier" />
-    </button>
-    <button className="standalone-btn" onClick={setSelectedTimeToNow(executeAction)}>
-      <FormattedMessage id="now" defaultMessage="Now" />
-    </button>
-    <button className="standalone-btn" onClick={setLaterSelectedTime(executeAction, plan)}>
-      <FormattedMessage id="later" defaultMessage="Later" />
-    </button>
-  </div>);
+        <FormattedMessage id="earlier" defaultMessage="Earlier" />
+      </button>
+      <button className="standalone-btn" onClick={setSelectedTimeToNow(executeAction)}>
+        <FormattedMessage id="now" defaultMessage="Now" />
+      </button>
+      <button className="standalone-btn" onClick={setLaterSelectedTime(executeAction, plan)}>
+        <FormattedMessage id="later" defaultMessage="Later" />
+      </button>
+    </div>
+  );
 }
 
 TimeNavigationButtons.propTypes = {
