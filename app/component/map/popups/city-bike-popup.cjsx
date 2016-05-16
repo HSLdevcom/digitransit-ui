@@ -7,7 +7,7 @@ NotImplementedLink    = require '../../util/not-implemented-link'
 {FormattedMessage}    = require('react-intl')
 CityBikeContent       = require '../../city-bike/city-bike-content'
 CityBikeCard          = require '../../city-bike/city-bike-card'
-Example               = require '../../documentation/example-data'
+Example               = require '../../documentation/ExampleData'
 ComponentUsageExample = require '../../documentation/component-usage-example'
 config                = require '../../../config'
 

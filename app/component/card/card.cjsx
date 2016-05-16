@@ -1,6 +1,6 @@
 React                 = require 'react'
 cx                    = require 'classnames'
-Example               = require '../documentation/example-data'
+Example               = require '../documentation/ExampleData'
 ComponentUsageExample = require '../documentation/component-usage-example'
 
 Card = ({className, children}) ->

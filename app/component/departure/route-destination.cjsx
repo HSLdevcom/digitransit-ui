@@ -2,7 +2,7 @@ React       = require 'react'
 Icon        = require '../icon/icon'
 cx          = require 'classnames'
 ComponentUsageExample = require '../documentation/component-usage-example'
-Example = require '../documentation/example-data'
+Example = require '../documentation/ExampleData'
 
 RouteDestination = (props) ->
   mode = props.mode.toLowerCase()

@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import TimeAction from '../../action/time-action';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
+import ComponentUsageExample from '../documentation/component-usage-example';
+import { plan as exapmplePlan } from '../documentation/ExampleData';
+
 
 function setEarlierSelectedTime(executeAction, plan) {
   const earliestArrivalTime = plan.itineraries.reduce((previous, current) => {
@@ -57,10 +60,12 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
 
 TimeNavigationButtons.propTypes = {
   plan: PropTypes.shape({
-    itineraries: PropTypes.arrayOf({
-      endTime: PropTypes.number.isRequired,
-      startTime: PropTypes.number.isRequired,
-    }).isRequired,
+    itineraries: PropTypes.arrayOf(
+      PropTypes.shape({
+        endTime: PropTypes.number.isRequired,
+        startTime: PropTypes.number.isRequired,
+      }).isRequired
+    ).isRequired,
   }).isRequired,
 };
 
@@ -68,3 +73,14 @@ TimeNavigationButtons.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
 };
+
+TimeNavigationButtons.description = (
+  <div>
+    <p>
+      Shows buttons for changing the itinerary search time to show previous or next deaprtures or
+      reset the time.
+    </p>
+    <ComponentUsageExample>
+      <TimeNavigationButtons plan={exapmplePlan}/>
+    </ComponentUsageExample>
+  </div>);

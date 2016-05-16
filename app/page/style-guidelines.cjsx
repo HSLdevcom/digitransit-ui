@@ -23,6 +23,7 @@ CityBikePopup       = require '../component/map/popups/city-bike-popup'
 FavouriteLocationsContainer = require '../component/favourites/favourite-locations-container'
 FavouriteLocation           = require '../component/favourites/favourite-location'
 
+TimeNavigationButtons = require('../component/summary/TimeNavigationButtons').default
 
 class StyleGuidelinesPage extends React.Component
   getColors: ->
@@ -351,6 +352,11 @@ class StyleGuidelinesPage extends React.Component
       <ComponentDocumentation component=IconWithTail />
     </div>
 
+  getSummaryComponents: ->
+    <div>
+      <ComponentDocumentation component=TimeNavigationButtons />
+    </div>
+
   render: ->
     <div className="container column">
       <h1>UI Elements</h1>
@@ -390,6 +396,7 @@ class StyleGuidelinesPage extends React.Component
       {@getDepartureMolecules()}
       {@getCardComponents()}
       {@getIconComponents()}
+      {@getSummaryComponents()}
 
       <p></p>
     </div>

@@ -3,7 +3,7 @@ Link                  = require 'react-router/lib/Link'
 NotImplementedLink    = require '../util/not-implemented-link'
 {FormattedMessage}    = require('react-intl')
 CardHeader            = require '../card/card-header'
-Example               = require '../documentation/example-data'
+Example               = require '../documentation/ExampleData'
 ComponentUsageExample = require '../documentation/component-usage-example'
 Card                  = require '../card/card'
 
