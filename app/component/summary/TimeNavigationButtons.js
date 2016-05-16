@@ -3,7 +3,7 @@ import TimeAction from '../../action/time-action';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import ComponentUsageExample from '../documentation/component-usage-example';
-import { plan as exapmplePlan } from '../documentation/ExampleData';
+import { plan as examplePlan } from '../documentation/ExampleData';
 
 
 function setEarlierSelectedTime(executeAction, plan) {
@@ -81,6 +81,6 @@ TimeNavigationButtons.description = (
       reset the time.
     </p>
     <ComponentUsageExample>
-      <TimeNavigationButtons plan={exapmplePlan}/>
+      <TimeNavigationButtons plan={examplePlan} />
     </ComponentUsageExample>
   </div>);
