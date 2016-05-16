@@ -59,6 +59,9 @@ class VehicleMarkerContainer extends React.Component
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = {"height": 150}
 
+    routeDate = if message.operatingDay.indexOf('-') == -1 then message.operatingDay
+    else
+      message.operatingDay.substring(0,4) + message.operatingDay.substring(5,7) + message.operatingDay.substring(8,10);
     RouteMarkerPopupWithContext = provideContext RouteMarkerPopup,
       intl: intlShape.isRequired
       router: React.PropTypes.object.isRequired
@@ -68,7 +71,7 @@ class VehicleMarkerContainer extends React.Component
       route={new queries.FuzzyTripRoute(
         route: message.route
         direction: message.direction
-        date: message.operatingDay
+        date: routeDate
         time: message.tripStartTime.substring(0, 2) * 60 * 60 + message.tripStartTime.substring(2, 4) * 60)}
       renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
       renderFetched={(data) =>
