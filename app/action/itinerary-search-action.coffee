@@ -203,4 +203,3 @@ module.exports.reset = (actionContext)  ->
   actionContext.dispatch "Reset",
     null,
     actionContext.executeAction itinerarySearchRequest
-
