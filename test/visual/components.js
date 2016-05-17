@@ -72,4 +72,10 @@ gemini.suite('components', (parent) => {
       );
     });
   });
+
+  gemini.suite('TimeSelectors', (component) => {
+    component.setCaptureElements(
+      '#TimeSelectors .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
 });
