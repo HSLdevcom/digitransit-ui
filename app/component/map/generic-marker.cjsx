@@ -21,7 +21,7 @@ class GenericMarker extends React.Component
           iconSizes={smallIconSvg: [8, 8], iconSvg: [20, 20]}
           map={"leaflet map object"}
           id={"marker id here"}
-        >
+        />
       </ComponentUsageExample>
     </div>
 
