@@ -1,6 +1,6 @@
 React            = require 'react'
 EndpointActions  = require '../../action/endpoint-actions'
-SearchActions    = require '../../action/search-actions'
+SearchActions    = require '../../action/SearchActions'
 FakeSearchWithButton = require './fake-search-with-button'
 intl             = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
