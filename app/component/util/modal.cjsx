@@ -28,7 +28,7 @@ class Modal extends React.Component
       'column': true
 
 
-    overlayStyle = {}
+    overlayStyle = {'zIndex': 3000}
     if (!@props.overlay)
       overlayStyle.background = 'transparent'
 
