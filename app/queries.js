@@ -1,5 +1,3 @@
-/* eslint max-len:0 global-require: 0*/
-
 import Relay from 'react-relay';
 
 export const TerminalQueries = {
@@ -73,78 +71,6 @@ export const RouteQueries = {
   pattern: () => Relay.QL`
     query {
       pattern(id: $routeId)
-    }
-  `,
-};
-
-export class NearbyRouteListContainerRoute extends Relay.Route {
-  static queries = {
-    stops: (Component, variables) => Relay.QL`
-      query {
-        viewer {
-          ${Component.getFragment('stops', {
-            lat: variables.lat,
-            lon: variables.lon,
-          })}
-        }
-      }
-    `,
-  };
-  static paramDefinitions = {
-    lat: { required: true },
-    lon: { required: true },
-  };
-  static routeName = 'NearbyRouteListContainerRoute';
-}
-
-export const NearbyRouteListContainerFragments = {
-  stops: () => Relay.QL`
-    fragment on QueryType {
-      stopsByRadius(lat: $lat, lon: $lon, radius: $radius, agency: $agency, first: $numberOfStops) {
-        edges {
-          node {
-            distance
-            stop {
-              gtfsId
-              stoptimes: stoptimesForPatterns(numberOfDepartures:2) {
-                pattern {
-                  alerts {
-                    effectiveStartDate
-                    effectiveEndDate
-                    trip {
-                      gtfsId
-                    }
-                  }
-                  code
-                  headsign
-                  route {
-                    gtfsId
-                    shortName
-                    longName
-                    type
-                    color
-                  }
-                }
-                stoptimes {
-                  pickupType
-                  realtimeState
-                  realtimeDeparture
-                  scheduledDeparture
-                  realtime
-                  serviceDay
-                  trip {
-                    gtfsId
-                  }
-                }
-              }
-            }
-          }
-        }
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-      }
     }
   `,
 };
@@ -681,55 +607,6 @@ export class FavouriteRouteListContainerRoute extends Relay.Route {
   };
   static routeName = 'FavouriteRouteRowRoute';
 }
-
-export const FavouriteRouteListContainerFragments = {
-  routes: () => Relay.QL`
-    fragment on Route @relay(plural:true) {
-      patterns {
-        headsign
-        stops {
-          lat
-          lon
-          stoptimes: stoptimesForPatterns (numberOfDepartures:2) {
-            pattern {
-              alerts {
-                effectiveStartDate
-                effectiveEndDate
-                trip {
-                  gtfsId
-                }
-              }
-              code
-              headsign
-              route {
-                gtfsId
-                shortName
-                longName
-                type
-                color
-              }
-            }
-            stoptimes {
-              pickupType
-              realtimeState
-              realtimeDeparture
-              scheduledDeparture
-              realtime
-              serviceDay
-              trip {
-                gtfsId
-              }
-            }
-          }
-        }
-      }
-      gtfsId
-      shortName
-      longName
-      type
-    }
- `,
-};
 
 export class DisruptionInfoRoute extends Relay.Route {
   static queries = {
