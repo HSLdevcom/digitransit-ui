@@ -70,7 +70,7 @@ const routes = (
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage} />
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage} />
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={Error404} />
-    <Route path="styleguidelines" name="styleGuidelines" component={StyleGuidelines} />
+    <Route path="styleguide" name="styleGuidelines" component={StyleGuidelines} />
     <Route path="lisaa-suosikki" name="addFavourite" component={AddFavouritePage} />
   </Route>
 );
