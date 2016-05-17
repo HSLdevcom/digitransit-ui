@@ -1,5 +1,5 @@
 React                = require 'react'
-Modal                = require './modal'
+Modal                = require('./Modal').default
 NotImplementedAction = require('../../action/not-implemented-action')
 FormattedMessage     = require('react-intl').FormattedMessage
 Icon  = require '../icon/icon'

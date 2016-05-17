@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Modal from '../util/modal';
+import Modal from '../util/Modal';
 import { DisruptionInfoRoute } from '../../queries';
 import { close } from '../../action/DisruptionInfoAction';
 import DisruptionListContainer from './disruption-list-container';
