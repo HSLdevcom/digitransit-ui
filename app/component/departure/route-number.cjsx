@@ -1,7 +1,7 @@
 React = require 'react'
 cx    = require 'classnames'
 Icon  = require '../icon/icon'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 Example               = require '../documentation/ExampleData'
 
 RouteNumber = (props) ->

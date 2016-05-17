@@ -1,7 +1,7 @@
 /* global gemini */
 
 gemini.suite('components', (parent) => {
-  parent.setUrl('/styleguidelines');
+  parent.setUrl('/styleguide');
 
   gemini.suite('Departure', () => {
     gemini.suite('normal', (suite) => {

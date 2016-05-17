@@ -3,7 +3,7 @@ Icon                  = require '../icon/icon'
 Link                  = require 'react-router/lib/Link'
 cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 
 Favourite = ({addFavourite, favourite}) ->
   <span className="cursor-pointer favourite-icon right" onClick={addFavourite}>
