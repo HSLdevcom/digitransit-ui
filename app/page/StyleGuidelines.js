@@ -18,7 +18,9 @@ import CityBikeAvailability from '../component/city-bike/city-bike-availability'
 import CityBikeUse from '../component/city-bike/city-bike-use';
 import CityBikePopup from '../component/map/popups/city-bike-popup';
 import FavouriteLocation from '../component/favourites/favourite-location';
+import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
+import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
   getColors() {
@@ -205,9 +207,15 @@ class StyleGuidelinesPage extends React.Component {
       <section>Import:
         <p className="code">Icon = require '../icon/icon'</p>
         <br />
-        <div className="medium-4 column">
-          {[].slice.call(document.getElementsByTagName('symbol')).map(symbol =>
-            this.getIcon(symbol.id)
+        <div
+          style={{
+            columnWidth: '20em',
+            columnGap: '2em',
+            columnCount: 4,
+          }}
+        >
+          {sortBy([].slice.call(document.getElementsByTagName('symbol')), symbol => symbol.id)
+            .map(symbol => this.getIcon(symbol.id)
           )}
         </div>
         <div>
@@ -337,7 +345,12 @@ class StyleGuidelinesPage extends React.Component {
   }
 
   getSummaryComponents() {
-    return <div><ComponentDocumentation component={TimeNavigationButtons} /></div>;
+    return (
+      <div>
+        <ComponentDocumentation component={TimeNavigationButtons} />
+        <ComponentDocumentation component={TimeSelectors} />
+      </div>
+    );
   }
 
   render() {
