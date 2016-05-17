@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
-import ComponentUsageExample from '../documentation/component-usage-example';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 export default function TimeSelectors(
   { arriveBy, time, dates, setArriveBy, changeTime }, { intl }

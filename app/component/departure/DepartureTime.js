@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import Icon from '../icon/icon';
-import ComponentUsageExample from '../documentation/component-usage-example';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import {

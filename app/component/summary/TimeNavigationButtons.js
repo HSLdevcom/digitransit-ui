@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import TimeAction from '../../action/time-action';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
-import ComponentUsageExample from '../documentation/component-usage-example';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { plan as examplePlan } from '../documentation/ExampleData';
 
 

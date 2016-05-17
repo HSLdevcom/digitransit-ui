@@ -4,7 +4,7 @@ import RouteNumber from './route-number';
 import RouteDestination from './route-destination';
 import DepartureTime from './DepartureTime';
 import StopReference from '../stop/stop-reference';
-import ComponentUsageExample from '../documentation/component-usage-example';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
