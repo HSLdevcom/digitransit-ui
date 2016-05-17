@@ -59,7 +59,7 @@ TimeSelectors.description = (
         time={moment('2016-05-18 09:30')}
         setArriveBy={() => {}}
         changeTime={() => {}}
-        dates={<option value={'2016-05-18'} key={'2016-05-18'} >Today</option>}
+        dates={[<option value={'2016-05-18'} key={'2016-05-18'} >Today</option>]}
       />
     </ComponentUsageExample>
   </div>);
