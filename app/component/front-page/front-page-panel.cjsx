@@ -9,7 +9,7 @@ FavouritesPanel       = require '../favourites/favourites-panel'
 NearbyRoutesPanel     = require('./NearbyRoutesPanel').default
 {supportsHistory}     = require 'history/lib/DOMUtils'
 Feedback              = require '../../util/feedback'
-FeedbackActions       = require '../../action/feedback-action'
+FeedbackAction        = require '../../action/feedback-action'
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 {startMeasuring, stopMeasuring} = require '../../util/jankmeter'
@@ -25,7 +25,7 @@ class FrontPagePanel extends React.Component
 
   onReturnToFrontPage: ->
     if Feedback.shouldDisplayPopup(@context.getStore('TimeStore').getCurrentTime().valueOf())
-      @context.executeAction FeedbackActions.openFeedbackModal
+      @context.executeAction FeedbackAction.openFeedbackModal
 
   getSelectedPanel: =>
     if typeof window != 'undefined' and supportsHistory()
