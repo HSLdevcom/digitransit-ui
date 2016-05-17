@@ -15,8 +15,11 @@ parseMessage = (topic, message, actionContext) ->
   [_, _, _, mode, id, line, dir, headsign, start_time, next_stop, geohash...] = topic.split '/'
   if message instanceof Uint8Array
     parsedMessage = JSON.parse(message).VP
+    # fix oday format
+    parsedMessage.oday = parsedMessage.oday.replace(/-/g, "")
   else
     parsedMessage = message.VP
+
   messageContents =
     id: id
     route: "HSL:" + line

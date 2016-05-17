@@ -10,7 +10,7 @@ test/credentials.json
 *.iml
 *~
 test_output
-test/binaries
+test/flow/binaries
 selenium-debug.log
 gemini-report
 sass/themes/*
