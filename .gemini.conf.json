@@ -4,13 +4,13 @@
     "plugins": { "browserstack": {} }
   },
   "browsers": {
-    "chrome43": {
+    "chrome50": {
       "windowSize": "600x1024",
       "desiredCapabilities": {
         "os": "OS X",
         "os_version": "El Capitan",
         "browserName": "chrome",
-        "version": "43"
+        "version": "50"
       }
     }
   }

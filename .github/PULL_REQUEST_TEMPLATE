@@ -2,7 +2,9 @@ The PR is done - it:
 
 - [ ] follows the style and naming rules (passes `npm run lint`)
 - [ ] doesn't break anything (passes `npm run test-local` and `npm run test-browserstack`)
-- [ ] includes changed designs (`BS_USERNAME=user BS_ACCESS_KEY=key ./node_modules/.bin/gemini update test/visual/`) and doesn't break any other designs (passes `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual`)
+- [ ] design is as expected. NOTE! visuals are compared using HSL theme (`CONFIG=hsl npm run dev`).
+-- If no design changes: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual` passes
+-- If design changes: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual-update` to generate new images
 - [ ] any changed files are transformed to ES6
 - [ ] all changed components
 
