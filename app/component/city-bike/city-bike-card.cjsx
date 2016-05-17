@@ -4,7 +4,7 @@ NotImplementedLink    = require '../util/not-implemented-link'
 {FormattedMessage}    = require('react-intl')
 CardHeader            = require '../card/card-header'
 Example               = require '../documentation/ExampleData'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 Card                  = require '../card/card'
 
 CityBikeCard = ({station, children, className}) ->

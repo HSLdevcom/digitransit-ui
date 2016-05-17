@@ -1,5 +1,5 @@
 React                 = require 'react'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
