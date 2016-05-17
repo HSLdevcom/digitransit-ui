@@ -29,8 +29,6 @@ Digitransit-ui is tested to work on Firefox 29-, Chrome 45-, IE 9-, iOS 6- and S
 - Continuous Integration: [https://snap-ci.com/HSLdevcom/digitransit-ui/](https://snap-ci.com/HSLdevcom/digitransit-ui/)
 - BrowserStack (not public): [BrowserStack](http://www.browserstack.com/)
 
-Acceptance tests are written in `.feature` files in Gherkin syntax under [accceptance-tests folder](acceptance-tests/). Currently acceptance tests are not automatically run.
-
 Visual tests are run with Gemini. The images must be created using same browser on same platform to eliminate font rendering issues. We use BrowserStack for that too.
 
 More information about [testing](docs/Tests.md).
@@ -41,6 +39,6 @@ More information about [testing](docs/Tests.md).
 * [Positioning](docs/Position.md)
 * [Locations](docs/Location.md)
 * [Run in Docker](docs/Docker.md)
-* [Style guide](http://matka.hsl.fi/digitransit-ui/styleguidelines)
+* [Style guide](http://beta.digitransit.fi/styleguidelines)
 * [Installation](docs/Installation.md)
 * [Tests](docs/Tests.md)
