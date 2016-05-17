@@ -7,7 +7,7 @@ provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 Icon          = require '../../icon/icon'
 GenericMarker = require '../generic-marker'
-Example               = require '../../documentation/example-data'
+Example               = require '../../documentation/ExampleData'
 ComponentUsageExample = require '../../documentation/component-usage-example'
 
 

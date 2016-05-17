@@ -2,8 +2,8 @@ React                 = require 'react'
 config                = require '../../config'
 CityBikeAvailability  = require './city-bike-availability'
 CityBikeUse           = require './city-bike-use'
-ComponentUsageExample = require '../documentation/component-usage-example'
-Example = require '../documentation/example-data'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
+Example = require '../documentation/ExampleData'
 
 
 CityBikeContent = ({station, lang}) ->

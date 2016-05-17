@@ -3,8 +3,8 @@ Link                  = require 'react-router/lib/Link'
 NotImplementedLink    = require '../util/not-implemented-link'
 {FormattedMessage}    = require('react-intl')
 CardHeader            = require '../card/card-header'
-Example               = require '../documentation/example-data'
-ComponentUsageExample = require '../documentation/component-usage-example'
+Example               = require '../documentation/ExampleData'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 Card                  = require '../card/card'
 
 CityBikeCard = ({station, children, className}) ->

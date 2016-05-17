@@ -5,7 +5,7 @@ Marker        = if isBrowser then require('react-leaflet/lib/Marker').default
 Popup         = if isBrowser then require('./dynamic-popup').default
 L             = if isBrowser then require 'leaflet'
 provideContext = require 'fluxible-addons-react/provideContext'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 
 
 class GenericMarker extends React.Component
