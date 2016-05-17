@@ -44,12 +44,10 @@ runReverseGeocodingAction = (actionContext, lat, lon, done) ->
 debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {leading: true})
 
 setCurrentLocation = (actionContext, pos) =>
-  isFirst =  pos && @position == undefined
   if inside([pos.lon, pos.lat], config.areaPolygon)
     @position = pos
   else
     actionContext.executeAction EndpointActions.setOriginToDefault
-  isFirst
 
 broadcastCurrentLocation = (actionContext) =>
   if @position
@@ -76,14 +74,12 @@ module.exports.startLocationWatch = (actionContext, payload, done) ->
     if timeoutId
       window.clearTimeout(timeoutId)
       timeoutId = undefined
-    isFirst = setCurrentLocation actionContext,
+    setCurrentLocation actionContext,
       lat: position.coords.latitude
       lon: position.coords.longitude
       heading: position.coords.heading
 
     broadcastCurrentLocation actionContext
-    if(isFirst)
-      actionContext.executeAction itinerarySearchActions.route
 
     debouncedRunReverseGeocodingAction actionContext, position.coords.latitude, position.coords.longitude, done
 
