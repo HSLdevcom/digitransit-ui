@@ -1,10 +1,15 @@
 import React from 'react';
 import cx from 'classnames';
 import Icon from '../icon/icon';
-import ComponentUsageExample from '../documentation/component-usage-example';
-import Example from '../documentation/example-data';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
+import {
+  currentTime as exampleCurrentTime,
+  departure as exampleDeparture,
+  realtimeDeparture as exampleRealtimeDeparture,
+} from '../documentation/ExampleData';
+
 
 function DepartureTime(props, context) {
   let realtime;
@@ -64,17 +69,17 @@ DepartureTime.description = (
       description="real time"
     >
       <DepartureTime
-        departureTime={Example.realtimeDeparture.stoptime}
-        realtime={Example.realtimeDeparture.realtime}
-        currentTime={Example.currentTime}
+        departureTime={exampleRealtimeDeparture.stoptime}
+        realtime={exampleRealtimeDeparture.realtime}
+        currentTime={exampleCurrentTime}
         useUTC
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="not real time" >
       <DepartureTime
-        departureTime={Example.departure.stoptime}
-        realtime={Example.departure.realtime}
-        currentTime={Example.currentTime}
+        departureTime={exampleDeparture.stoptime}
+        realtime={exampleDeparture.realtime}
+        currentTime={exampleCurrentTime}
         useUTC
       />
     </ComponentUsageExample>

@@ -1,7 +1,7 @@
 React = require 'react'
 cx    = require 'classnames'
-ComponentUsageExample = require '../documentation/component-usage-example'
-Example = require '../documentation/example-data'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
+Example = require '../documentation/ExampleData'
 
 StopReference = (props) ->
   mode = props.mode.toLowerCase()

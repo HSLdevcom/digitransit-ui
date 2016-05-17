@@ -7,7 +7,7 @@ Link                        = require 'react-router/lib/Link'
 FormattedMessage            = require('react-intl').FormattedMessage
 {supportsHistory}           = require 'history/lib/DOMUtils'
 OriginDestinationBar        = require '../summary/origin-destination-bar'
-TimeSelectors               = require '../summary/time-selectors'
+TimeSelectorContainer       = require('../summary/TimeSelectorContainer').default
 
 class SummaryNavigation extends React.Component
   @contextTypes:
@@ -64,7 +64,7 @@ class SummaryNavigation extends React.Component
         </nav>
         <section className="content">
           <OriginDestinationBar/>
-          <TimeSelectors/>
+          <TimeSelectorContainer/>
           {@props.children}
         </section>
       </div>
