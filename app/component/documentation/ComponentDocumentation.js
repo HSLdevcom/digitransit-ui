@@ -25,7 +25,7 @@ export default function ComponentDocumentation({ component, children }) {
 }
 
 ComponentDocumentation.propTypes = {
-  component: PropTypes.shapeOf({
+  component: PropTypes.shape({
     displayName: PropTypes.string.isRequired,
     description: PropTypes.node.isRequired,
     propTypes: PropTypes.object,
