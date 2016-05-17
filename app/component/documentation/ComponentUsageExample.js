@@ -47,7 +47,7 @@ export default function ComponentUsageExample({ description, children }) {
   let wrappedDescription = '';
 
   if (description) {
-    wrappedDescription = <div>{description}</div>;
+    wrappedDescription = <p>{description}</p>;
   }
 
   return (
