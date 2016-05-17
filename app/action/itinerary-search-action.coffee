@@ -198,3 +198,9 @@ module.exports.route = (actionContext, payload, done) ->
     history.push pathname: getRoutePath(from, to)
 
   done()
+
+module.exports.reset = (actionContext)  ->
+  actionContext.dispatch "Reset",
+    null,
+    actionContext.executeAction itinerarySearchRequest
+
