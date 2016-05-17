@@ -18,17 +18,20 @@ export default function ComponentDocumentation({ component, children }) {
       <h2>{component.displayName || component.name}</h2>
       <div>{component.description}</div>
       <p>Props:</p>
-      <ul>{Object.keys(component.propTypes).map(key => <li>{key}</li>)}</ul>
+      <ul>{Object.keys(component.propTypes || {}).map(key => <li key={key}>{key}</li>)}</ul>
       {children}
     </div>
   );
 }
 
 ComponentDocumentation.propTypes = {
-  component: PropTypes.shape({
-    displayName: PropTypes.string.isRequired,
-    description: PropTypes.node.isRequired,
-    propTypes: PropTypes.object,
-  }).isRequired,
+  component: PropTypes.oneOfType([
+    PropTypes.shape({
+      displayName: PropTypes.string.isRequired,
+      description: PropTypes.node.isRequired,
+      propTypes: PropTypes.object,
+    }).isRequired,
+    PropTypes.func.isRequired,
+  ]),
   children: PropTypes.node,
 };
