@@ -55,10 +55,10 @@ export const currentTime = new Date().getTime() / 1000;
 export const station = {
   bikesAvailable: 1,
   spacesAvailable: 1,
-  id: 'Fredrikinkatu_27[24.940-60.163]',
+  stationId: 'A07',
   name: 'Fredrikinkatu 27',
-  x: 24.939603788199364,
-  y: 60.1626075196532,
+  lon: 24.939603788199364,
+  lat: 60.1626075196532,
 };
 
 export const favouriteLocation = {
