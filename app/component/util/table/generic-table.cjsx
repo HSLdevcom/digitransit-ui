@@ -1,6 +1,6 @@
 React = require 'react'
 cx    = require 'classnames'
-ComponentUsageExample = require '../../documentation/ComponentUsageExample'
+ComponentUsageExample = require('../../documentation/ComponentUsageExample').default
 
 GenericTable = (props) ->
 

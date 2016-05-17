@@ -8,7 +8,7 @@ intl          = require 'react-intl'
 Icon          = require '../../icon/icon'
 GenericMarker = require '../generic-marker'
 Example               = require '../../documentation/ExampleData'
-ComponentUsageExample = require '../../documentation/ComponentUsageExample'
+ComponentUsageExample = require('../../documentation/ComponentUsageExample').default
 
 
 # Small icon for zoom levels <= 15

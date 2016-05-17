@@ -2,7 +2,7 @@ config = require('../../../config')
 React = require 'react'
 CityBikeActions = require '../../../action/city-bike-actions'
 CityBikeMarker = require './city-bike-marker'
-ComponentUsageExample = require '../../documentation/ComponentUsageExample'
+ComponentUsageExample = require('../../documentation/ComponentUsageExample').default
 
 class CityBikeMarkerContainer extends React.Component
 
