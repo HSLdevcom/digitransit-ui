@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-
+import toPairs from 'lodash/toPairs';
 /*
   Renders the components given as children. In addition a string represenation
   of the given components and its props are given.
@@ -13,7 +13,7 @@ import React, { PropTypes } from 'react';
 
 
 function getPropStrings(props) {
-  return Object.entries(props).map(([key, value]) => {
+  return toPairs(props).map(([key, value]) => {
     switch (typeof value) {
       case 'string':
         if (key !== 'children') {
@@ -21,7 +21,7 @@ function getPropStrings(props) {
         }
         return '';
       case 'object':
-        return `${key}={${Object.entries(value).map(([innerKey, innerValue]) =>
+        return `${key}={${toPairs(value).map(([innerKey, innerValue]) =>
           `${innerKey}:${innerValue}`
         ).join(', ')}}`;
       default:
@@ -47,7 +47,7 @@ export default function ComponentUsageExample({ description, children }) {
   let wrappedDescription = '';
 
   if (description) {
-    wrappedDescription = <div>{this.props.description}</div>;
+    wrappedDescription = <div>{description}</div>;
   }
 
   return (
