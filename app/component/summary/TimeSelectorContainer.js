@@ -18,6 +18,7 @@ class TimeSelectorContainer extends React.Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.changeTime = this.changeTime.bind(this);
+    this.changeDate = this.changeDate.bind(this);
     this.setArriveBy = this.setArriveBy.bind(this);
     this.state = {
       time: context.getStore('TimeStore').getSelectedTime(),
@@ -41,8 +42,8 @@ class TimeSelectorContainer extends React.Component {
     return this.setState({ time: selectedTime });
   }
 
-  setArriveBy() {
-    return this.context.executeAction(TimeActions.setArriveBy, this.refs.arriveBy.value === 'true');
+  setArriveBy(event) {
+    return this.context.executeAction(TimeActions.setArriveBy, event.target.value === 'true');
   }
 
   getDates() {
@@ -72,10 +73,26 @@ class TimeSelectorContainer extends React.Component {
     return dates;
   }
 
-  changeTime() {
-    const time = this.refs.time.value;
-    const date = this.refs.date.value;
-    this.setState({ time: moment(`${time} ${date}`, 'H:m YYYY-MM-DD') },
+  changeTime(event) {
+    this.setState(
+      {
+        time: moment(
+          `${event.target.value} ${this.state.time.format('YYYY-MM-DD')}`,
+          'H:m YYYY-MM-DD'
+        ),
+      },
+      this.dispatchChangedtime
+    );
+  }
+
+  changeDate(event) {
+    this.setState(
+      {
+        time: moment(
+          `${this.state.time.format('H:m')} ${event.target.value}`,
+          'H:m YYYY-MM-DD'
+        ),
+      },
       this.dispatchChangedtime
     );
   }
@@ -88,6 +105,7 @@ class TimeSelectorContainer extends React.Component {
         time={this.state.time}
         setArriveBy={this.setArriveBy}
         changeTime={this.changeTime}
+        changeDate={this.changeDate}
         dates={this.getDates()}
       />
     );
