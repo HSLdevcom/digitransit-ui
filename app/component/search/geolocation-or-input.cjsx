@@ -1,6 +1,6 @@
 React          = require 'react'
 GeolocationBar = require './geolocation-bar'
-SearchInput    = require './search-input'
+SearchInput    = require('./SearchInput').default
 Icon           = require '../icon/icon'
 
 class GeolocationOrInput extends React.Component
