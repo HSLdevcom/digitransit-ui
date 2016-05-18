@@ -7,7 +7,7 @@ FormattedMessage = intl.FormattedMessage
 SearchModal      = require './search-modal'
 Tab              = require('material-ui/Tabs/Tab').default
 FakeSearchBar    = require './fake-search-bar'
-GeolocationOrInput = require './geolocation-or-input'
+GeolocationOrInput = require('./GeolocationOrInput').default
 
 class SearchMainContainer extends React.Component
 
