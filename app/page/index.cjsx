@@ -7,7 +7,7 @@ FrontPagePanel      = require '../component/front-page/front-page-panel'
 SearchMainContainer = require '../component/search/search-main-container'
 Icon                = require '../component/icon/icon'
 Link                = require 'react-router/lib/Link'
-MapWithTracking     = require '../component/map/map-with-tracking'
+MapWithTracking     = require('../component/map/MapWithTracking').default
 FeedbackPanel       = require '../component/feedback/feedback-panel'
 ItinerarySearchAction = require '../action/itinerary-search-action'
 
