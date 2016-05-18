@@ -121,6 +121,7 @@ export function startLocationWatch(actionContext, payload, done) {
         return actionContext.dispatch('GeolocationTimeout');
       }
     }
+    return null;
   };
 
   if (window.position.error !== null) {
@@ -132,6 +133,5 @@ export function startLocationWatch(actionContext, payload, done) {
     window.retrieveGeolocation(window.position.pos);
     window.position.pos = null;
   }
-
   done();
 }
