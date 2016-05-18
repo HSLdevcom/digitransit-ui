@@ -9,31 +9,35 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 function mapStateReducer(state, action) {
   switch (action.type) {
     case 'enable':
-      return Object.assign({}, state, {
+      return {
+        ...state,
         initialZoom: false,
         mapTracking: true,
         focusOnOrigin: false,
-      });
+      };
     case 'disable':
-      return Object.assign({}, state, {
+      return {
+        ...state,
         initialZoom: false,
         mapTracking: false,
         focusOnOrigin: false,
-      });
+      };
     case 'useOrigin':
-      return Object.assign({}, state, {
+      return {
+        ...state,
         initialZoom: false,
         mapTracking: false,
         focusOnOrigin: true,
         previousOrigin: action.origin,
-      });
+      };
     case 'usePosition':
-      return Object.assign({}, state, {
+      return {
+        ...state,
         initialZoom: false,
         mapTracking: true,
         focusOnOrigin: false,
         previousOrigin: action.origin,
-      });
+      };
     default:
       return state;
   }
