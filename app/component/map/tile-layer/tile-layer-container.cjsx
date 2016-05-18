@@ -10,6 +10,7 @@ StopMarkerPopup = require '../popups/stop-marker-popup'
 MarkerSelectPopup = require './marker-select-popup'
 CityBikePopup = require '../popups/city-bike-popup'
 SphericalMercator = require 'sphericalmercator'
+lodash_filter     = require 'lodash/filter'
 
 TileContainer = require './tile-container'
 
@@ -41,6 +42,11 @@ class TileLayerContainer extends BaseTileLayer
 
   onTimeChange: (e) =>
     if e.currentTime
+      activeTiles = lodash_filter @leafletElement._tiles, (tile) =>
+        tile.active
+      activeTiles.forEach (tile) =>
+        tile.el.layers.forEach (layer) =>
+          layer.onTimeChange() if layer.onTimeChange
       @forceUpdate()
 
   componentDidMount: () =>

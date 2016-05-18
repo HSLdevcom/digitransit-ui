@@ -98,6 +98,10 @@ class CityBikes
     geom = feature.loadGeometry()
     @drawCityBikeBaseIcon geom
     @fetchAndDrawStatus feature, geom
+
+  onTimeChange: () =>
+    @fetchWithAction(@drawCityBikeStatus)
+
   drawCityBikeStatus: (feature) =>
     geom = feature.loadGeometry()
     @fetchAndDrawStatus feature, geom
