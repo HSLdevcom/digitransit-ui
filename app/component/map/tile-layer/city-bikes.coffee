@@ -36,10 +36,14 @@ noneAvailableImage.src = "data:image/svg+xml;base64,#{btoa(noneAvailableText)}"
 notInUseImage = new Image(notInUseImageSize, notInUseImageSize)
 notInUseImage.src = "data:image/svg+xml;base64,#{btoa(notInUseText)}"
 
+timeOfLastFetch = {}
 
 class CityBikes
   constructor: (@tile) ->
-    @promise = fetch("#{config.URL.CITYBIKE_MAP}#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
+    @promise = @fetchWithAction(@addFeature)
+
+  fetchWithAction: (actionFn) =>
+    fetch("#{config.URL.CITYBIKE_MAP}#{@tile.coords.z + (@tile.props.zoomOffset or 0)}/#{@tile.coords.x}/#{@tile.coords.y}.pbf").then (res) =>
       if res.status != 200
         return
       res.arrayBuffer().then (buf) =>
@@ -47,20 +51,24 @@ class CityBikes
         @features = [0..vt.layers.stations?.length - 1]
           .map((i) -> vt.layers.stations.feature i)
         for i in @features
-          @addFeature i
+          actionFn i
         return
       , (err) -> console.log err
 
-  addFeature: (feature) =>
-    geom = feature.loadGeometry()
+  drawCityBikeBaseIcon: (geom) =>
     @tile.ctx.drawImage citybikeImage,
       (geom[0][0].x / @tile.ratio) - citybikeImageSize / 2,
       (geom[0][0].y / @tile.ratio) - citybikeImageSize / 2
+
+  fetchAndDrawStatus: (feature, geom) =>
     query = Relay.createQuery queries.CityBikeStatusQuery, id: feature.properties.id
-    Relay.Store.primeCache
-      query: query
-    , (readyState) =>
+
+    lastFetch = timeOfLastFetch[feature.properties.id]
+    currentTime = new Date().getTime()
+
+    callback = (readyState) =>
       if readyState.done
+        timeOfLastFetch[feature.properties.id] = new Date().getTime()
         result = Relay.Store.readQuery(query)[0]
         if result.bikesAvailable == 0 and result.spacesAvailable == 0
           @tile.ctx.drawImage notInUseImage,
@@ -76,6 +84,23 @@ class CityBikes
         @tile.ctx.drawImage image,
           (geom[0][0].x / @tile.ratio) - citybikeImageSize / 2 - availabilityImageSize / 2 + 2 * scaleratio,
           (geom[0][0].y / @tile.ratio) - citybikeImageSize / 2 - availabilityImageSize / 2 + 2 * scaleratio
+
+    if lastFetch and currentTime - lastFetch <= 30000
+      Relay.Store.primeCache
+        query: query
+      , callback
+    else
+      Relay.Store.forceFetch
+        query: query
+      , callback
+
+  addFeature: (feature) =>
+    geom = feature.loadGeometry()
+    @drawCityBikeBaseIcon geom
+    @fetchAndDrawStatus feature, geom
+  drawCityBikeStatus: (feature) =>
+    geom = feature.loadGeometry()
+    @fetchAndDrawStatus feature, geom
 
   @getName = () -> "citybike"
 
