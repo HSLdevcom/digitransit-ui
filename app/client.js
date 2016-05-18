@@ -122,13 +122,14 @@ function trackDomPerformance() {
   // to get more detailed data.
 }
 
+// Add plugins
+app.plug(piwikPlugin);
+
 // Run application
 app.rehydrate(window.state, (err, context) => {
   if (err) {
     throw err;
   }
-
-  context.plug(piwikPlugin);
 
   window.context = context;
 
