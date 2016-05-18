@@ -37,14 +37,36 @@ suite('Search', () => {
        }
     );
 
-    it('Route search should be run when both source and destination are set',
-       (browser) => {
-         browser.url('/');
-         setOrigin(browser, 'kamppi');
-         setDestination(browser, 'sampsantie 40');
-         browser.expect.element('.itinerary-summary-row').to.be.visible
-           .before(browser.ELEMENT_VISIBLE_TIMEOUT);
-       }
-    );
+    describe('After route search', () => {
+      before((browser, done) => {
+        browser.url('/');
+        setOrigin(browser, 'kamppi');
+        setDestination(browser, 'sampsantie 40');
+        browser.pause(4000);
+        done();
+      });
+
+      it('Route search should be run when both source and destination are set', (browser) => {
+        browser.pause(4000);
+        browser.expect.element('.itinerary-summary-row').to.be.visible
+          .before(browser.ELEMENT_VISIBLE_TIMEOUT);
+      });
+
+      describe('When returning to front-page and changing origin', () => {
+        before((browser, done) => {
+          browser.pause(4000);
+          browser.url('/');
+          browser.pause(4000);
+          setOrigin(browser, 'aurinkolahti');
+          browser.pause(4000);
+          done();
+        });
+
+        it('Search is not done because destination is cleared', (browser) => {
+          browser.pause(50000);
+          browser.expect.element('.itinerary-summary-row').to.not.be.visible.after(browser.ELEMENT_VISIBLE_TIMEOUT);
+        });
+      });
+    });
   });
 });
