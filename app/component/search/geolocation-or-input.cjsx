@@ -1,6 +1,6 @@
 React          = require 'react'
 GeolocationBar = require './geolocation-bar'
-SearchInput    = require('./SearchInput').default
+SearchInputContainer    = require('./SearchInputContainer').default
 Icon           = require '../icon/icon'
 
 class GeolocationOrInput extends React.Component
@@ -28,9 +28,9 @@ class GeolocationOrInput extends React.Component
     child = if @state.geolocation == false then null
     else <GeolocationBar geolocation={hasLocation: true} onClick={() => @setState geolocation: false}/>
 
-    <SearchInput ref="searchInput" {...@props} initialValue={getInitialValue(@props)}>
+    <SearchInputContainer ref="searchInput" {...@props} initialValue={getInitialValue(@props)}>
       {child}
-    </SearchInput>
+    </SearchInputContainer>
 
   displayName = "GeolocationOrInput"
 

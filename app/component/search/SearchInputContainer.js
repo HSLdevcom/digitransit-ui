@@ -7,7 +7,7 @@ import Icon from '../icon/icon';
 
 const L = typeof window !== 'undefined' ? require('leaflet') : null;
 
-export default class SearchInput extends Component {
+export default class SearchInputContainer extends Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
