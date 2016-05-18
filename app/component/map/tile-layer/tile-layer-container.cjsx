@@ -39,7 +39,12 @@ class TileLayerContainer extends BaseTileLayer
         coords: coords
     tile.el
 
-  componentDidMount: () ->
+  onTimeChange: (e) =>
+    if e.currentTime
+      @forceUpdate()
+
+  componentDidMount: () =>
+    @context.getStore('TimeStore').addChangeListener @onTimeChange
     Layer = L.GridLayer.extend({createTile: @createTile})
     @leafletElement = new Layer(omit @props, 'map')
     # Propagate events from map to this layer
@@ -50,6 +55,9 @@ class TileLayerContainer extends BaseTileLayer
         .filter((key) => @leafletElement._keyToBounds(key).contains(e.latlng))
         .forEach((key) => @leafletElement._tiles[key].el.onMapClick(e, @merc.px([e.latlng.lng, e.latlng.lat], Number(key.split(':')[2]) + @props.zoomOffset )))
     super
+
+  componentWillUnmount: ->
+    @context.getStore('TimeStore').removeChangeListener @onTimeChange
 
   componentDidUpdate: ->
     @refs.popup?.leafletElement.openOn(@props.map)
@@ -92,6 +100,7 @@ class TileLayerContainer extends BaseTileLayer
       else
         contents = <Relay.RootContainer
           Component={CityBikePopup}
+          forceFetch={true}
           route={new queries.CityBikeRoute(
             stationId: @state.selectableTargets[0].feature.properties.id
           )}
