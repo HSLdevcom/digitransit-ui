@@ -17,17 +17,23 @@ function MainMenu(props) {
 
   return (
     <div className="main-menu">
+      <a onClick={props.toggleVisibility} className="close-button cursor-pointer">
+        <Icon img="icon-icon_close" className="medium" />
+      </a>
       <header className="offcanvas-section">
         <LangSelect />
         {config.mainMenu.showInquiry ? inquiry : void 0}
       </header>
-      {config.mainMenu.showDisruptions ? <DisruptionInfoButtonContainer /> : void 0}
+      <div className="offcanvas-section">
+        {config.mainMenu.showDisruptions ? <DisruptionInfoButtonContainer /> : void 0}
+      </div>
     </div>);
 }
 
 MainMenu.propTypes = {
   openFeedback: PropTypes.func.isRequired,
   showDisruptionInfo: PropTypes.bool,
+  toggleVisibility: PropTypes.func.isRequired,
 };
 
 MainMenu.contextTypes = {

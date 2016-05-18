@@ -12,17 +12,15 @@ class DisruptionInfoButton extends React.Component {
 
   render() {
     if (!config.disruption || config.disruption.showInfoButton) {
-      const disruptionClass = this.props.alerts.alerts.length > 0 ? 'active' : 'inactive';
       return (
         <div
-          className={`icon-holder cursor-pointer disruption-info ${disruptionClass}`}
+          className={'cursor-pointer disruption-info'}
           onClick={this.props.toggleDisruptionInfo}
         >
           <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
-          <Icon
-            img={'icon-icon_caution'}
-            className={'icon'}
-          />
+          {this.props.alerts.alerts.length > 0 ?
+            <Icon img={'icon-icon_caution'} className={'disruption-info'} /> :
+            void 0}
         </div>
       );
     }

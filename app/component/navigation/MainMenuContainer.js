@@ -82,6 +82,7 @@ class MainMenuContainer extends Component {
           <MainMenu
             openFeedback={this.openFeedback}
             showDisruptionInfo={this.props.showDisruptionInfo}
+            toggleVisibility={this.toggleOffcanvas}
           />
         </Drawer>
         {config.mainMenu.show ?

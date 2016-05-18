@@ -9,7 +9,7 @@ PREFERENCES_STORE_NAME = 'PreferencesStore'
 selectLanguage = (executeAction, lang) -> -> executeAction UserPreferencesActions.setLanguage, lang
 
 Language = ({lang, currentLanguage}, {executeAction}) ->
-  <div className="small-4 lang">
+  <div className="lang">
     <a
       className={"selected" if currentLanguage is lang}
       onClick={selectLanguage(executeAction, lang)}

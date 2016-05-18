@@ -9,8 +9,6 @@ $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 /* top bar icons */
 $top-navigation-icon-color: $primary-font-color;
 $top-navigation-title-color: $title-color;
-$top-navigation-disruption-info-active-color: $disruption-color;
-$top-navigation-disruption-info-inactive-color: $disruption-passive-color;
 
 /* offcanvas */
 $offcanvas-profile-icon-size: 60px;
@@ -47,20 +45,8 @@ nav.top-bar {
     &.back {  // Appears on non-front pages
       left: 0.5em;
     }
-    &.disruption-info {
-      left: 0.5em;
-    }
-    &.right-off-canvas-toggle {
+    &.right-offcanvas-toggle {
       right: 0;
-    }
-
-    .icon.disruption-info {
-      &.inactive {
-        fill: $top-navigation-disruption-info-inactive-color;
-      }
-      &.active {
-        fill: $top-navigation-disruption-info-active-color;
-      }
     }
   }
 
@@ -80,10 +66,6 @@ nav.top-bar {
       text-decoration: none;
     }
   }
-}
-
-.off-canvas ~ div.grid-frame {
-  background: transparent;
 }
 
 .lang-select {
@@ -110,18 +92,16 @@ nav.top-bar {
 
 .main-menu {
   padding: 0;
-  background: #333;
-  padding-top: 20px;
+  background: $black;
   color: $offcanvas-link-color;
   height:100%;
   overflow-y: auto;
+  text-align: left;
+  @include font-medium
 
   i.icon-profile {
     font-size: $offcanvas-profile-icon-size;
     color: $offcanvas-profile-icon-color;
-  }
-  .offcanvas-login i.icon-arrow-right {
-    font-size: $offcanvas-login-arrow-icon-size;
   }
   a {
     color: $offcanvas-link-color;
@@ -135,46 +115,19 @@ nav.top-bar {
     }
 
     &.medium {
-      width: 12px;
-      height: 12px;
+      width: 16px;
+      height: 16px;
     }
-
-    &.large {
-      width: 36px;
-      height: 36px;
-    }
+  }
+  .close-button {
+    padding: 5px 20px;
+    float: right;
   }
 }
 
 .offcanvas-section {
   padding: 5px 20px;
-}
-
-ul.offcanvas-list {
-  list-style: none;
-  padding-left: 10px;
-  li {
-    border-bottom: 1px solid #262626;
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    font-size: $offcanvas-link-text-font-size;
-  }
-}
-
-.offcanvas-lead {
-  color: $offcanvas-lead-text-color;
-  font-family: $offcanvas-lead-text-font-family;
-  font-weight: $offcanvas-lead-text-font-weight;
-  letter-spacing: $offcanvas-lead-text-letter-spacing;
-  font-size: $offcanvas-lead-text-font-size;
-}
-
-.offcanvas-login {
-  font-family: $offcanvas-login-text-font-family;
-  font-weight: $offcanvas-login-text-font-weight;
-  letter-spacing: $offcanvas-lead-text-letter-spacing;
-  font-size: $offcanvas-login-text-font-size;
+  border-top: 1px solid #292929;
 }
 
 /* content */
