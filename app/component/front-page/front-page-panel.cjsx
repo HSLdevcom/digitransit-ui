@@ -26,10 +26,10 @@ class FrontPagePanel extends React.Component
     location: React.PropTypes.object.isRequired
     executeAction: React.PropTypes.func.isRequired
 
-  componentDidMount: =>
-    @context.executeAction EndpointActions.clearDestination
-    @context.executeAction TimeAction.unsetSelectedTime
-    @context.executeAction ItinerarySearchAction.reset
+  #componentDidMount: =>
+    #@context.executeAction EndpointActions.clearDestination
+    #@context.executeAction TimeAction.unsetSelectedTime
+    #@context.executeAction ItinerarySearchAction.reset
 
   onReturnToFrontPage: ->
     if Feedback.shouldDisplayPopup(@context.getStore('TimeStore').getCurrentTime().valueOf())
