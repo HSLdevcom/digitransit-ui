@@ -1,5 +1,6 @@
 flatten = require 'lodash/flatten'
 config  = require '../../../config'
+omit    = require 'lodash/omit'
 
 markersMinZoom = Math.min(config.cityBike.cityBikeMinZoom, config.stopsMinZoom)
 
@@ -13,7 +14,6 @@ class Tile
     if @coords.z < markersMinZoom or !@el.getContext
       return
     @ctx = @el.getContext '2d'
-
     @layers = @props.layers.filter (Layer) =>
       if Layer.getName() == "stop" && @coords.z >= config.stopsMinZoom
         true
@@ -23,6 +23,8 @@ class Tile
         false
     .map (Layer) =>
       new Layer(this)
+    @el.layers = @layers.map (layer) =>
+      omit layer, 'tile'
     Promise.all(@layers.map (layer) -> layer.promise).then () =>
       done(null, @el)
 
