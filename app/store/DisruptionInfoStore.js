@@ -15,12 +15,12 @@ class DisruptionInfoStore extends Store {
 
   open = () => {
     this.isOpen = true;
-    return this.emitChange();
+    this.emitChange();
   }
 
   close = () => {
     this.isOpen = false;
-    return this.emitChange();
+    this.emitChange();
   }
 }
 

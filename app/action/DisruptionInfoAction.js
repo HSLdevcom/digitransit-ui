@@ -5,11 +5,11 @@ function sendPiwik(context, status) {
 }
 
 export function open(actionContext) {
+  actionContext.dispatch('openDisruptionInfo');
   sendPiwik(actionContext, 'open');
-  return actionContext.dispatch('openDisruptionInfo');
 }
 
 export function close(actionContext) {
+  actionContext.dispatch('closeDisruptionInfo');
   sendPiwik(actionContext, 'close');
-  return actionContext.dispatch('closeDisruptionInfo');
 }

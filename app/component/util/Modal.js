@@ -8,15 +8,10 @@ class Modal extends React.Component {
     children: React.PropTypes.node,
     open: React.PropTypes.bool,
     title: React.PropTypes.node,
-    toggleVisibility: React.PropTypes.func,
+    toggleVisibility: React.PropTypes.func.isRequired,
   };
 
-  constructor(...args) {
-    super(...args);
-    this.stopClickPropagation = this.stopClickPropagation.bind(this);
-  }
-
-  stopClickPropagation(e) {
+  stopClickPropagation = (e) => {
     if (this.props.allowClicks !== true) {
       e.preventDefault();
       e.stopPropagation();

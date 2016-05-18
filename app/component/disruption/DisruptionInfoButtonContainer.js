@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { DisruptionInfoRoute } from '../../queries';
+import DisruptionInfoRoute from './DisruptionInfoRoute';
 import { open } from '../../action/DisruptionInfoAction';
 import DisruptionInfoButton from './DisruptionInfoButton';
 
