@@ -64,7 +64,7 @@ export default class SearchInputContainer extends Component {
   }
 
   handleOnMouseEnter = (event, eventProps) => {
-    if (typeof eventProps.itemIndex !== 'undefined') {
+    if (eventProps.itemIndex != null) {
       if (eventProps.itemIndex !== this.state.focusedItemIndex) {
         this.setState({
           focusedItemIndex: eventProps.itemIndex,
@@ -104,7 +104,7 @@ export default class SearchInputContainer extends Component {
       event.preventDefault();
     }
 
-    if (typeof eventProps.newFocusedItemIndex !== 'undefined') {
+    if (eventProps.newFocusedItemIndex != null {
       this.setState({
         focusedItemIndex: eventProps.newFocusedItemIndex,
       }, () => this.focusItem(eventProps.newFocusedItemIndex));
@@ -114,7 +114,7 @@ export default class SearchInputContainer extends Component {
   }
 
   handleOnMouseDown(event, eventProps) {
-    if (typeof eventProps.itemIndex !== 'undefined') {
+    if (eventProps.itemIndex != null {
       this.setState({
         focusedItemIndex: eventProps.itemIndex,
       }, this.currentItemSelected);
