@@ -5,7 +5,7 @@ import { DisruptionInfoRoute } from '../../queries';
 import { close } from '../../action/DisruptionInfoAction';
 import DisruptionListContainer from './disruption-list-container';
 import { FormattedMessage } from 'react-intl';
-import ComponentUsageExample from '../documentation/component-usage-example';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 function DisruptionInfo(props, context) {
@@ -39,7 +39,9 @@ DisruptionInfo.contextTypes = {
 DisruptionInfo.description = (
   <div>
     <p>
-      Lorem Ipsum
+      Modal that shows all available disruption info.
+      Activated via DisruptionInfoAction, used by DisruptionInfoButton.
+      <strong>Deprecated:</strong> Will be removed in short future in favor of announcements page.
     </p>
     <ComponentUsageExample>
       <DisruptionInfo />
