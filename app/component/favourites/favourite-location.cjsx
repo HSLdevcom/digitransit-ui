@@ -1,12 +1,12 @@
 React                 = require 'react'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 Icon                  = require '../icon/icon'
 cx                    = require 'classnames'
 NotImplementedLink    = require '../util/not-implemented-link'
 DepartureTime         = require('../departure/DepartureTime').default
 RouteNumber           = require '../departure/route-number'
 {FormattedMessage}    = require('react-intl')
-Example               = require '../documentation/example-data'
+Example               = require '../documentation/ExampleData'
 Link                  = require 'react-router/lib/Link'
 
 FavouriteLocation = (props) =>

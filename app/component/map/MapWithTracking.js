@@ -1,5 +1,5 @@
 import React from 'react';
-import ComponentUsageExample from '../documentation/component-usage-example';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import Map from './map';
 import ToggleMapTracking from '../navigation/toggle-map-tracking';
 import connectToStores from 'fluxible-addons-react/connectToStores';

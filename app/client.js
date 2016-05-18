@@ -12,7 +12,6 @@ import app from './app';
 import translations from './translations';
 import { startLocationWatch } from './action/position-actions';
 import { openFeedbackModal } from './action/feedback-action';
-import PiwikProvider from './component/util/piwik-provider';
 import Feedback from './util/feedback';
 import history from './history';
 import buildInfo from './build-info';
@@ -20,7 +19,21 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
-const dehydratedState = window.state;
+const piwikPlugin = {
+  name: 'PiwikPlugin',
+  plugContext: () => ({
+    plugComponentContext: (componentContext) => {
+      componentContext.piwik = piwik; // eslint-disable-line no-param-reassign
+    },
+    plugActionContext: (actionContext) => {
+      actionContext.piwik = piwik; // eslint-disable-line no-param-reassign
+    },
+    plugStoreContext: (storeContext) => {
+      storeContext.piwik = piwik; // eslint-disable-line no-param-reassign
+    },
+  }),
+};
+
 
 if (process.env.NODE_ENV === 'development') {
   require(`../sass/themes/${config.CONFIG}/main.scss`); // eslint-disable-line global-require
@@ -109,24 +122,24 @@ function trackDomPerformance() {
   // to get more detailed data.
 }
 
+// Add plugins
+app.plug(piwikPlugin);
+
 // Run application
-app.rehydrate(dehydratedState, (err, context) => {
+app.rehydrate(window.state, (err, context) => {
   if (err) {
     throw err;
   }
-
 
   window.context = context;
 
   ReactDOM.render(
     <FluxibleComponent context={context.getComponentContext()}>
-      <PiwikProvider piwik={piwik}>
-        <StoreListeningIntlProvider translations={translations}>
-          <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
-            <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
-          </MuiThemeProvider>
-        </StoreListeningIntlProvider>
-      </PiwikProvider>
+      <StoreListeningIntlProvider translations={translations}>
+        <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
+          <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
+        </MuiThemeProvider>
+      </StoreListeningIntlProvider>
     </FluxibleComponent>
     , document.getElementById('app')
     , trackReactPerformance

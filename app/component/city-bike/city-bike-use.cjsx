@@ -1,6 +1,6 @@
 React                 = require 'react'
 {FormattedMessage}    = require('react-intl')
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 config                = require '../../config'
 
 CityBikeUse = ({lang}) ->
