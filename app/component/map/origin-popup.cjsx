@@ -1,7 +1,7 @@
 React            = require 'react'
 isBrowser        = window?
 Popup            = if isBrowser then require('./dynamic-popup').default
-SearchActions    = require '../../action/search-actions'
+SearchActions    = require '../../action/SearchActions'
 intl             = require 'react-intl'
 Icon          = require '../icon/icon'
 
