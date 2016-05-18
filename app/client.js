@@ -10,7 +10,7 @@ import config from './config';
 import StoreListeningIntlProvider from './util/store-listening-intl-provider';
 import app from './app';
 import translations from './translations';
-import { startLocationWatch } from './action/position-actions';
+import { startLocationWatch } from './action/PositionActions';
 import { openFeedbackModal } from './action/feedback-action';
 import Feedback from './util/feedback';
 import history from './history';
