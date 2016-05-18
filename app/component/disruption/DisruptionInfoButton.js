@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../icon/icon';
-import { DisruptionInfoButtonFragments } from '../../queries';
 import config from '../../config';
 
 class DisruptionInfoButton extends React.Component {
@@ -32,5 +31,13 @@ class DisruptionInfoButton extends React.Component {
 }
 
 export default Relay.createContainer(DisruptionInfoButton, {
-  fragments: DisruptionInfoButtonFragments,
+  fragments: {
+    alerts: () => Relay.QL`
+    fragment on QueryType {
+      alerts {
+        id
+      }
+    }
+    `,
+  },
 });

@@ -643,16 +643,6 @@ export const DisruptionListContainerFragments = {
   `,
 };
 
-export const DisruptionInfoButtonFragments = {
-  alerts: () => Relay.QL`
-  fragment on QueryType {
-    alerts {
-      id
-    }
-  }
-  `,
-};
-
 export class FavouriteLocationContainerRoute extends Relay.Route {
   static queries = {
     plan: (Component, variables) => Relay.QL`
