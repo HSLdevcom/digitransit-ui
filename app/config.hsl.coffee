@@ -44,9 +44,10 @@ module.exports =
   maxBikingDistance: 10000
   availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
-  leftMenu:
+  mainMenu:
     # Whether to show the left menu toggle button at all
     show: true
+    showDisruptions: true
     showInquiry: true
     showLoginCreateAccount: true
     showOffCanvasList: true

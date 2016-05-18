@@ -3,7 +3,7 @@ import Link from 'react-router/lib/Link';
 import BackButton from './back-button';
 import NotImplemented from '../util/not-implemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
-import OffcanvasMenuContainer from './OffcanvasMenuContainer';
+import MainMenuContainer from './MainMenuContainer';
 
 
 // Cannot be stateless, because it contains refs
@@ -28,7 +28,7 @@ class DefaultNavigation extends Component {
               <span className="title">{this.props.title}</span>
             </Link>
           </section>
-          <OffcanvasMenuContainer showDisruptionInfo={this.props.showDisruptionInfo} />
+          <MainMenuContainer />
         </nav>
         <section ref="content" className="content">
           {this.props.children}

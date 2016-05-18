@@ -6,7 +6,7 @@ import DisruptionInfoButtonContainer from '../disruption/DisruptionInfoButtonCon
 import Icon from '../icon/icon';
 import LangSelect from './lang-select';
 
-function OffcanvasMenu(props) {
+function MainMenu(props) {
   const inquiry = (
     <p style={{ fontSize: '20px', backgroundColor: '#888888', padding: '20px' }} >
       <a onClick={props.openFeedback}>
@@ -19,20 +19,20 @@ function OffcanvasMenu(props) {
     <div className="main-menu">
       <header className="offcanvas-section">
         <LangSelect />
-        {config.leftMenu.showInquiry ? inquiry : void 0}
+        {config.mainMenu.showInquiry ? inquiry : void 0}
       </header>
-      {props.showDisruptionInfo ? <DisruptionInfoButtonContainer /> : null}
+      {config.mainMenu.showDisruptions ? <DisruptionInfoButtonContainer /> : void 0}
     </div>);
 }
 
-OffcanvasMenu.propTypes = {
+MainMenu.propTypes = {
   openFeedback: PropTypes.func.isRequired,
   showDisruptionInfo: PropTypes.bool,
 };
 
-OffcanvasMenu.contextTypes = {
+MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
 };
 
 
-export default OffcanvasMenu;
+export default MainMenu;
