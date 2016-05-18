@@ -31,10 +31,6 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
-.fixed {
-  z-index: 1003 !important; // Needed for leaflet
-}
-
 nav.top-bar {
   text-align: center;
 
