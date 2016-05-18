@@ -608,17 +608,6 @@ export class FavouriteRouteListContainerRoute extends Relay.Route {
   static routeName = 'FavouriteRouteRowRoute';
 }
 
-export class DisruptionInfoRoute extends Relay.Route {
-  static queries = {
-    alerts: () => Relay.QL`
-    query {
-      viewer
-    }
-   `,
-  };
-  static routeName = 'DisruptionInfoRoute';
-}
-
 export const DisruptionListContainerFragments = {
   alerts: () => Relay.QL`
   fragment on QueryType {
@@ -638,16 +627,6 @@ export const DisruptionListContainerFragments = {
         shortName
         type
       }
-    }
-  }
-  `,
-};
-
-export const DisruptionInfoButtonFragments = {
-  alerts: () => Relay.QL`
-  fragment on QueryType {
-    alerts {
-      id
     }
   }
   `,
