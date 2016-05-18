@@ -1,7 +1,7 @@
 React                = require 'react'
 NotImplementedAction = require('../../action/not-implemented-action')
 FormattedMessage     = require('react-intl').FormattedMessage
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 class NotImplementedLink extends React.Component
 
   @description:

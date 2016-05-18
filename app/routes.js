@@ -13,7 +13,7 @@ import TripPage from './page/trip';
 import TripMapPage from './page/trip-map';
 import LoadingPage from './page/loading';
 import Error404 from './page/404';
-import StyleGuidelinesPage from './page/style-guidelines';
+import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/add-favourite';
 import splashOrComponent from './component/splash/splash-or-component';
 
@@ -70,7 +70,7 @@ const routes = (
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage} />
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage} />
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={Error404} />
-    <Route path="styleguidelines" name="styleGuidelines" component={StyleGuidelinesPage} />
+    <Route path="styleguide" name="styleGuidelines" component={StyleGuidelines} />
     <Route path="lisaa-suosikki" name="addFavourite" component={AddFavouritePage} />
   </Route>
 );

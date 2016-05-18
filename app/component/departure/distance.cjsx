@@ -1,5 +1,5 @@
 React = require 'react'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 
 Distance = (props) ->
   if props.distance

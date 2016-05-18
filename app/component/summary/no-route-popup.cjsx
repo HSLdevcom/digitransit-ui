@@ -2,7 +2,7 @@ React                = require 'react'
 Modal                = require('../util/Modal').default
 FormattedMessage     = require('react-intl').FormattedMessage
 Icon  = require '../icon/icon'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 
 class NoRoutePopup extends React.Component
 

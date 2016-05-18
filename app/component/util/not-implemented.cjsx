@@ -3,7 +3,7 @@ Modal                = require('./Modal').default
 NotImplementedAction = require('../../action/not-implemented-action')
 FormattedMessage     = require('react-intl').FormattedMessage
 Icon  = require '../icon/icon'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 connectToStores       = require 'fluxible-addons-react/connectToStores'
 
 NotImplemented = ({name}, {executeAction}) ->

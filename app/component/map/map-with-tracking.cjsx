@@ -1,5 +1,5 @@
 React                 = require 'react'
-ComponentUsageExample = require '../documentation/component-usage-example'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 Map                   = require './map'
 ToggleMapTracking     = require '../navigation/toggle-map-tracking'
 connectToStores       = require 'fluxible-addons-react/connectToStores'
