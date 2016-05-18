@@ -83,7 +83,7 @@ export function startLocationWatch(actionContext, payload, done) {
   let timeoutId = window.setTimeout(() => actionContext.dispatch('GeolocationWatchTimeout'), 10000);
 
   window.retrieveGeolocation = (position) => {
-    if (window.position.pos !== null) {
+    if (window.position.pos != null) {
       window.position.pos = null;
     }
 
@@ -124,12 +124,12 @@ export function startLocationWatch(actionContext, payload, done) {
     return null;
   };
 
-  if (window.position.error !== null) {
+  if (window.position.error != null) {
     window.retrieveError(window.position.error);
     window.position.error = null;
   }
 
-  if (window.position.pos !== null) {
+  if (window.position.pos != null) {
     window.retrieveGeolocation(window.position.pos);
     window.position.pos = null;
   }
