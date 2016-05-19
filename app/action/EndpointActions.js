@@ -19,10 +19,11 @@ export function setEndpoint(actionContext, payload) {
     if (e) {
       return console.error('Could not store endpoint: ', e);
     }
-    return actionContext.executeAction(itinerarySearchActions.route, undefined, e => {
-      if (e) {
-        return console.error('Could not route:', e);
+    return actionContext.executeAction(itinerarySearchActions.route, undefined, e2 => {
+      if (e2) {
+        return console.error('Could not route:', e2);
       }
+      return undefined;
     });
   });
 }
@@ -39,6 +40,7 @@ export function swapEndpoints(actionContext) {
     if (e) {
       return console.error('Could not route:', e);
     }
+    return undefined;
   });
 }
 
