@@ -10,7 +10,7 @@ ItinerarySearchAction = require '../action/itinerary-search-action'
 {otpToLocation} = require '../util/otp-strings'
 intl            = require 'react-intl'
 config          = require '../config'
-EndpointActions = require '../action/endpoint-actions'
+EndpointActions = require('../action/EndpointActions')
 isEqual         = require 'lodash/isEqual'
 
 FormattedMessage = intl.FormattedMessage

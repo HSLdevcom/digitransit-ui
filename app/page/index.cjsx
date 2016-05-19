@@ -9,7 +9,7 @@ Icon                = require '../component/icon/icon'
 Link                = require 'react-router/lib/Link'
 MapWithTracking     = require('../component/map/MapWithTracking').default
 FeedbackPanel       = require '../component/feedback/feedback-panel'
-EndpointActions       = require '../action/endpoint-actions'
+EndpointActions       = require('../action/EndpointActions')
 TimeAction            = require '../action/time-action'
 ItinerarySearchAction = require '../action/itinerary-search-action'
 

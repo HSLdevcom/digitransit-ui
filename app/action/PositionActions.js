@@ -2,7 +2,7 @@ import xhrPromise from '../util/xhr-promise';
 import config from '../config';
 import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
-import EndpointActions from './endpoint-actions';
+import EndpointActions from './EndpointActions';
 
 function geolocator(actionContext) {
   actionContext.getStore('ServiceStore').geolocator();
