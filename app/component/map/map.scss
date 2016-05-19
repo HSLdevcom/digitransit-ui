@@ -83,8 +83,7 @@ div.leaflet-container {
   position: absolute;
   width: 100%;
   background: rgb(230, 229, 217);
-  font-family: $font-family;
-  font-weight: $font-weight-map-container;
+  @include font-map-container;
 }
 
 div.current-location-marker > span > svg.icon {
