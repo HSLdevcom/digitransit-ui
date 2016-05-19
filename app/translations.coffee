@@ -319,7 +319,7 @@ translations =
     'stops': 'Holdeplasser'
     'stop-number': 'Holdeplassnummer'
     'right-now': 'Nå'
-    'minutes': 'min'
+    'minutes': 'm'
     'timetable': 'Tidtabeller'
     'no-favourites': 'Du kan legge til favoritter ved å trykke på stjerneknapper forskjellige steder i reiseplanleggeren'
     'distance-under': 'Avstand mindre enn {distance} m'
