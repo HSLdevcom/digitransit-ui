@@ -54,6 +54,6 @@ var commands = {
 module.exports = {
     commands: [commands],
     elements: {
-        canvasToggle: ".right-off-canvas-toggle"
+        canvasToggle: ".right-offcanvas-toggle"
     }
 };
