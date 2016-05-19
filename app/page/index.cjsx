@@ -18,7 +18,7 @@ class Page extends React.Component
     executeAction: React.PropTypes.func.isRequired
     location: React.PropTypes.object.isRequired
 
-  @loadAction: (params) ->
+  componentWillMount: =>
     @context.executeAction EndpointActions.clearDestination
     @context.executeAction TimeAction.unsetSelectedTime
     @context.executeAction ItinerarySearchAction.reset
