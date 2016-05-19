@@ -1,5 +1,4 @@
 React                = require 'react'
-Modal                = require './modal'
 NotImplementedAction = require('../../action/not-implemented-action')
 FormattedMessage     = require('react-intl').FormattedMessage
 ComponentUsageExample = require('../documentation/ComponentUsageExample').default

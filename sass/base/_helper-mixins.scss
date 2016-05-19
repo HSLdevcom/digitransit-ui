@@ -19,6 +19,12 @@
   letter-spacing: $letter-spacing;
 }
 
+@mixin font-map-container {
+  font-family: $font-family;
+  font-weight: $font-weight-map-container;
+  letter-spacing: $letter-spacing;
+}
+
 @mixin font-narrow-book {
   font-family: $font-family-narrow;
   font-weight: $font-narrow-weight-book;

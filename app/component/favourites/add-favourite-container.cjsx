@@ -5,7 +5,6 @@ Link                      = require 'react-router/lib/Link'
 FavouriteIconTable        = require './favourite-icon-table'
 FavouriteLocationActions  = require '../../action/favourite-location-action'
 FakeSearchBar             = require '../search/fake-search-bar'
-SearchActions             = require '../../action/search-actions'
 OneTabSearchModal         = require '../search/one-tab-search-modal'
 
 intl = require 'react-intl'

@@ -17,3 +17,9 @@
     overflow-y: auto;
   }
 }
+
+@media #{$small-only} {
+  #app .modal  {
+    width: 90%;
+  }
+}
