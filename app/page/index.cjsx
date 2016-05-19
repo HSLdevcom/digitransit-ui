@@ -18,7 +18,7 @@ class Page extends React.Component
     executeAction: React.PropTypes.func.isRequired
     location: React.PropTypes.object.isRequired
 
-  resetToCleanState
+  resetToCleanState: =>
     # we want to reset to a clean state
     # when the user navigates to the front page
     @context.executeAction EndpointActions.clearDestination
