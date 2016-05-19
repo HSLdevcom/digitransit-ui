@@ -10,7 +10,7 @@ Link                = require 'react-router/lib/Link'
 MapWithTracking     = require('../component/map/MapWithTracking').default
 FeedbackPanel       = require '../component/feedback/feedback-panel'
 EndpointActions       = require('../action/EndpointActions')
-TimeAction            = require '../action/time-action'
+TimeActions           = require('../action/TimeActions')
 ItinerarySearchAction = require '../action/itinerary-search-action'
 
 class Page extends React.Component
@@ -22,7 +22,7 @@ class Page extends React.Component
     # we want to reset to a clean state
     # when the user navigates to the front page
     @context.executeAction EndpointActions.clearDestination
-    @context.executeAction TimeAction.unsetSelectedTime
+    @context.executeAction TimeActions.unsetSelectedTime
     @context.executeAction ItinerarySearchAction.reset
 
   componentWillMount: =>
