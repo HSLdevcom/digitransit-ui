@@ -416,7 +416,7 @@ translations =
     'car-distance-duration': 'TODO {distance} ({duration})'
     'wait-amount-of-time': 'Vent {duration}'
     'favourite-target': 'Favorittdestinasjon'
-    'search': 'Sanntid'
+    'search': 'Avganger'
     'in-addition': 'TODO'
     'choose-stop': 'TODO'
     'loading': 'loading'
