@@ -42,29 +42,33 @@ suite('Search', () => {
         browser.url('/');
         setOrigin(browser, 'kamppi');
         setDestination(browser, 'sampsantie 40');
-        browser.pause(4000);
         done();
       });
 
       it('Route search should be run when both source and destination are set', (browser) => {
-        browser.pause(4000);
         browser.expect.element('.itinerary-summary-row').to.be.visible
           .before(browser.ELEMENT_VISIBLE_TIMEOUT);
       });
 
       describe('When returning to front-page and changing origin', () => {
         before((browser, done) => {
-          browser.pause(4000);
-          browser.url('/');
-          browser.pause(4000);
-          setOrigin(browser, 'aurinkolahti');
-          browser.pause(4000);
-          done();
+          browser.back.click(() => {
+            browser.origin.popup.click(() => {
+              browser.origin.clear(() => {
+                browser.setValue('#search-origin', 'aurinkolahti');
+                browser.expect.element('#react-autowhatever-suggest--item-0').text.to.contain('Aurinkolahti, Helsinki').before(browser.ELEMENT_VISIBLE_TIMEOUT);
+                browser.click('#react-autowhatever-suggest--item-0');
+                browser.pause(500, done); // wait for dialog to vanish and possible changes to occur
+              });
+            });
+          });
         });
 
         it('Search is not done because destination is cleared', (browser) => {
-          browser.pause(50000);
-          browser.expect.element('.itinerary-summary-row').to.not.be.visible.after(browser.ELEMENT_VISIBLE_TIMEOUT);
+          browser.getTitle((title) => {
+            console.log(title);
+          });
+          browser.assert.title("Reittiopas.fi");
         });
       });
     });
