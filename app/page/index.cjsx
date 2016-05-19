@@ -9,9 +9,9 @@ Icon                = require '../component/icon/icon'
 Link                = require 'react-router/lib/Link'
 MapWithTracking     = require('../component/map/MapWithTracking').default
 FeedbackPanel       = require '../component/feedback/feedback-panel'
-EndpointActions       = require('../action/EndpointActions')
-TimeActions           = require('../action/TimeActions')
-ItinerarySearchAction = require '../action/itinerary-search-action'
+EndpointActions        = require('../action/EndpointActions')
+TimeActions            = require('../action/TimeActions')
+ItinerarySearchActions = require('../action/ItinerarySearchActions')
 
 class Page extends React.Component
   @contextTypes:
@@ -23,14 +23,14 @@ class Page extends React.Component
     # when the user navigates to the front page
     @context.executeAction EndpointActions.clearDestination
     @context.executeAction TimeActions.unsetSelectedTime
-    @context.executeAction ItinerarySearchAction.reset
+    @context.executeAction ItinerarySearchActions.reset
 
   componentWillMount: =>
     @resetToCleanState()
 
   componentDidMount: ->
     if @context.location.search?.indexOf('citybikes') > -1
-      @context.executeAction ItinerarySearchAction.forceCitybikeState
+      @context.executeAction ItinerarySearchActions.forceCitybikeState
 
   render: ->
     <DefaultNavigation

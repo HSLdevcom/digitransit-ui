@@ -1,4 +1,4 @@
-import itinerarySearchActions from './itinerary-search-action';
+import { route } from './ItinerarySearchActions';
 import config from '../config';
 
 export function storeEndpoint(actionContext, { target, endpoint }, done) {
@@ -19,7 +19,7 @@ export function setEndpoint(actionContext, payload) {
     if (e) {
       return console.error('Could not store endpoint: ', e);
     }
-    return actionContext.executeAction(itinerarySearchActions.route, undefined, e2 => {
+    return actionContext.executeAction(route, undefined, e2 => {
       if (e2) {
         return console.error('Could not route:', e2);
       }
@@ -30,13 +30,13 @@ export function setEndpoint(actionContext, payload) {
 
 export function setUseCurrent(actionContext, target) {
   actionContext.dispatch('useCurrentPosition', target);
-  return actionContext.executeAction(itinerarySearchActions.route);
+  return actionContext.executeAction(route);
 }
 
 export function swapEndpoints(actionContext) {
   actionContext.dispatch('swapEndpoints');
 
-  return actionContext.executeAction(itinerarySearchActions.route, undefined, e => {
+  return actionContext.executeAction(route, undefined, e => {
     if (e) {
       return console.error('Could not route:', e);
     }
