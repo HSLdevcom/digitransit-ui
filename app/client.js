@@ -1,4 +1,4 @@
-import './util/raven';
+import Raven from './util/raven';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -19,21 +19,28 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
+
+const addPiwik = (context) => { context.piwik = piwik; }; // eslint-disable-line no-param-reassign
+
 const piwikPlugin = {
   name: 'PiwikPlugin',
   plugContext: () => ({
-    plugComponentContext: (componentContext) => {
-      componentContext.piwik = piwik; // eslint-disable-line no-param-reassign
-    },
-    plugActionContext: (actionContext) => {
-      actionContext.piwik = piwik; // eslint-disable-line no-param-reassign
-    },
-    plugStoreContext: (storeContext) => {
-      storeContext.piwik = piwik; // eslint-disable-line no-param-reassign
-    },
+    plugComponentContext: addPiwik,
+    plugActionContext: addPiwik,
+    plugStoreContext: addPiwik,
   }),
 };
 
+const addRaven = (context) => { context.raven = Raven; }; // eslint-disable-line no-param-reassign
+
+const ravenPlugin = {
+  name: 'RavenPlugin',
+  plugContext: () => ({
+    plugComponentContext: addRaven,
+    plugActionContext: addRaven,
+    plugStoreContext: addRaven,
+  }),
+};
 
 if (process.env.NODE_ENV === 'development') {
   require(`../sass/themes/${config.CONFIG}/main.scss`); // eslint-disable-line global-require
@@ -124,6 +131,7 @@ function trackDomPerformance() {
 
 // Add plugins
 app.plug(piwikPlugin);
+app.plug(ravenPlugin);
 
 // Run application
 app.rehydrate(window.state, (err, context) => {
