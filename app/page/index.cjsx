@@ -26,7 +26,7 @@ class Page extends React.Component
     @context.executeAction ItinerarySearchAction.reset
 
   componentWillMount: =>
-    @resetToCleanState
+    @resetToCleanState()
 
   componentDidMount: ->
     if @context.location.search?.indexOf('citybikes') > -1
