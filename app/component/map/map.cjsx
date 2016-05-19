@@ -15,7 +15,7 @@ PlaceMarker    = require './place-marker'
 
 if isBrowser and config.map.useVectorTiles
   TileLayerContainer = require './tile-layer/tile-layer-container'
-  Stops              = require './tile-layer/stops'
+  Stops              = require('./tile-layer/Stops').default
   CityBikes          = require('./tile-layer/CityBikes').default
 
 else
