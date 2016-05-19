@@ -103,11 +103,13 @@ module.exports = function (browser) {
     },
     enterText(text) {
       browser.expect.element('#search-origin').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.pause(1000);
-      browser.setValue('#search-origin', text);
-      browser.pause(1000); // wait for suggestions
-      browser.setValue('#search-origin', browser.Keys.ENTER);
-      browser.pause(100); // wait for dialog to vanish
+      browser.setValue('#search-origin', text, () => {
+        browser.pause(1000, () => {
+          browser.setValue('#search-origin', browser.Keys.ENTER, () => {
+            browser.pause(100);
+          });
+        });
+      });
     },
   };
 
@@ -121,12 +123,13 @@ module.exports = function (browser) {
       browser.click('#destination');
     },
     enterText(text) {
-      browser.expect.element('#search-destination').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.pause(100);
-      browser.setValue('#search-destination', text);
-      browser.pause(1000); // wait for suggestions
-      browser.setValue('#search-destination', browser.Keys.ENTER);
-      browser.pause(100); // wait for dialog to vanish
+      browser.setValue('#search-destination', text, () => {
+        browser.pause(1000, () => {
+          browser.setValue('#search-destination', browser.Keys.ENTER, () => {
+            browser.pause(100);
+          });
+        });
+      });
     },
   };
 };
