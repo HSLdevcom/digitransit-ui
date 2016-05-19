@@ -65,6 +65,12 @@ module.exports = function (browser) {
     });
   };
 
+  browser.back = {};
+  browser.back.click = (done) => {
+    browser.expect.element('.cursor-pointer.back').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+    browser.click('.cursor-pointer.back', done);
+  };
+
   browser.map = {
     click(done) {
       browser.click('div.map', done);
@@ -80,15 +86,24 @@ module.exports = function (browser) {
   };
 
   browser.origin = {
+    popup: {
+      click(done) {
+        browser.expect.element('.origin-popup').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+        browser.click('.origin-popup', done);
+      }
+    },
+    clear(done) {
+      browser.expect.element('.clear-icon').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.click('.clear-icon', done);
+    },
     selectOrigin() {
       browser.expect.element('#origin')
         .to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
       browser.click('#origin');
     },
     enterText(text) {
-      browser.expect.element('#search-origin')
-        .to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.pause(100);
+      browser.expect.element('#search-origin').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.pause(1000);
       browser.setValue('#search-origin', text);
       browser.pause(1000); // wait for suggestions
       browser.setValue('#search-origin', browser.Keys.ENTER);
