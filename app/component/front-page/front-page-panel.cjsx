@@ -10,9 +10,6 @@ NearbyRoutesPanel     = require('./NearbyRoutesPanel').default
 {supportsHistory}     = require 'history/lib/DOMUtils'
 Feedback              = require '../../util/feedback'
 FeedbackAction        = require '../../action/feedback-action'
-EndpointActions       = require '../../action/endpoint-actions'
-TimeAction            = require '../../action/time-action'
-ItinerarySearchAction = require '../../action/itinerary-search-action'
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 {startMeasuring, stopMeasuring} = require '../../util/jankmeter'
@@ -25,11 +22,6 @@ class FrontPagePanel extends React.Component
     router: React.PropTypes.object.isRequired
     location: React.PropTypes.object.isRequired
     executeAction: React.PropTypes.func.isRequired
-
-  #componentDidMount: =>
-    #@context.executeAction EndpointActions.clearDestination
-    #@context.executeAction TimeAction.unsetSelectedTime
-    #@context.executeAction ItinerarySearchAction.reset
 
   onReturnToFrontPage: ->
     if Feedback.shouldDisplayPopup(@context.getStore('TimeStore').getCurrentTime().valueOf())

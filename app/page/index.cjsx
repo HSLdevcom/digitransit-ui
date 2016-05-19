@@ -9,12 +9,19 @@ Icon                = require '../component/icon/icon'
 Link                = require 'react-router/lib/Link'
 MapWithTracking     = require '../component/map/map-with-tracking'
 FeedbackPanel       = require '../component/feedback/feedback-panel'
+EndpointActions       = require '../action/endpoint-actions'
+TimeAction            = require '../action/time-action'
 ItinerarySearchAction = require '../action/itinerary-search-action'
 
 class Page extends React.Component
   @contextTypes:
     executeAction: React.PropTypes.func.isRequired
     location: React.PropTypes.object.isRequired
+
+  @loadAction: (params) ->
+    @context.executeAction EndpointActions.clearDestination
+    @context.executeAction TimeAction.unsetSelectedTime
+    @context.executeAction ItinerarySearchAction.reset
 
   componentDidMount: ->
     if @context.location.search?.indexOf('citybikes') > -1
