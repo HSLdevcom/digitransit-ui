@@ -18,10 +18,15 @@ class Page extends React.Component
     executeAction: React.PropTypes.func.isRequired
     location: React.PropTypes.object.isRequired
 
-  componentWillMount: =>
+  resetToCleanState
+    # we want to reset to a clean state
+    # when the user navigates to the front page
     @context.executeAction EndpointActions.clearDestination
     @context.executeAction TimeAction.unsetSelectedTime
     @context.executeAction ItinerarySearchAction.reset
+
+  componentWillMount: =>
+    @resetToCleanState
 
   componentDidMount: ->
     if @context.location.search?.indexOf('citybikes') > -1
