@@ -1,0 +1,138 @@
+/* foundation override */
+$menu-slide: "transform 200ms ease";
+$topbar-bg: $primary-color;
+$topbar-height: 40px;
+$offcanvas-background: #333333;
+$offcanvas-background-hover: scale-color($gray, $lightness: -30%);
+$offcanvas-background-active: scale-color($gray, $lightness: -30%);
+
+/* top bar icons */
+$top-navigation-icon-color: $primary-font-color;
+$top-navigation-title-color: $title-color;
+
+/* offcanvas */
+$offcanvas-profile-icon-size: 60px;
+$offcanvas-profile-icon-color: $white;
+$offcanvas-lead-text-color: $gray;
+$offcanvas-lead-text-font-family: $font-family;
+$offcanvas-lead-text-font-weight: $font-weight-book;
+$offcanvas-lead-text-letter-spacing: $letter-spacing;
+$offcanvas-lead-text-font-size: 15px;
+$offcanvas-login-text-font-family: $font-family;
+$offcanvas-login-text-font-weight: $font-weight-book;
+$offcanvas-login-text-letter-spacing: $letter-spacing;
+$offcanvas-login-text-font-size: 14px;
+$offcanvas-login-arrow-icon-size: 14px;
+$offcanvas-link-color: $white;
+$offcanvas-link-text-font-size: 15px;
+
+/* Content */
+$content-background-color: $background-color;
+
+nav.top-bar {
+  text-align: center;
+
+  .icon-holder {
+    height: $topbar-height;
+    width: $topbar-height;
+    position: absolute;
+    top: 0;
+
+    &.back {  // Appears on non-front pages
+      left: 0.5em;
+    }
+    &.right-offcanvas-toggle {
+      right: 0;
+    }
+  }
+
+  .icon {
+    fill: $top-navigation-icon-color;
+    font-size: 13pt;
+    height: 1.2em;
+    width: 1.2em;
+    vertical-align: middle;
+  }
+
+  .title {
+    text-align: center;
+    color: $top-navigation-title-color;
+
+    a {
+      text-decoration: none;
+    }
+  }
+}
+
+.lang-select {
+  list-style: none;
+  border-bottom: 1px solid #262626;
+  padding: 2px 5px 2px 5px;
+  margin: 0;
+  .lang {
+    display: inline-block;
+    text-transform: uppercase;
+    a {
+      padding: 2px 10px 2px 10px;
+    }
+    a.selected {
+      border-radius: 3px;
+      background-color: rgba($white, 0.15);
+    }
+  }
+}
+
+.main-menu-toggle {
+  right: 0;
+}
+
+.main-menu {
+  padding: 0;
+  background: $black;
+  color: $offcanvas-link-color;
+  height:100%;
+  overflow-y: auto;
+  text-align: left;
+  @include font-medium
+
+  i.icon-profile {
+    font-size: $offcanvas-profile-icon-size;
+    color: $offcanvas-profile-icon-color;
+  }
+  a {
+    color: $offcanvas-link-color;
+    text-decoration: none;
+  }
+  .icon{
+    fill: $offcanvas-link-color;
+    &.small {
+      width: 10px;
+      height: 10px;
+    }
+
+    &.medium {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .close-button {
+    padding: 5px 20px;
+    float: right;
+  }
+}
+
+.offcanvas-section {
+  padding: 5px 20px;
+  border-top: 1px solid #292929;
+}
+
+/* content */
+.content {
+  background-color: $content-background-color;
+  position: relative;
+  height: calc(100% - #{$topbar-height});
+}
+
+.offcanvas > div {
+  z-index:2000 !important;
+}

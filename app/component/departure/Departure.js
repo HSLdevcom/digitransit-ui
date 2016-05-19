@@ -4,8 +4,12 @@ import RouteNumber from './route-number';
 import RouteDestination from './route-destination';
 import DepartureTime from './DepartureTime';
 import StopReference from '../stop/stop-reference';
-import ComponentUsageExample from '../documentation/component-usage-example';
-import Example from '../documentation/example-data';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import {
+  currentTime as exampleCurrentTime,
+  departure as exampleDeparture,
+  realtimeDeparture as exampleRealtimeDeparture,
+} from '../documentation/ExampleData';
 
 function Departure(props) {
   const mode = props.departure.pattern.route.type.toLowerCase();
@@ -45,8 +49,8 @@ Departure.description = (
     </p>
     <ComponentUsageExample>
       <Departure
-        departure={Example.realtimeDeparture}
-        currentTime={Example.currentTime}
+        departure={exampleRealtimeDeparture}
+        currentTime={exampleCurrentTime}
         useUTC
       />
     </ComponentUsageExample>
@@ -54,8 +58,8 @@ Departure.description = (
       description="adding padding classes"
     >
       <Departure
-        departure={Example.departure}
-        currentTime={Example.currentTime}
+        departure={exampleDeparture}
+        currentTime={exampleCurrentTime}
         className="padding-normal padding-bottom"
         useUTC
       />
@@ -64,8 +68,8 @@ Departure.description = (
       description="with stop number"
     >
       <Departure
-        departure={Example.departure}
-        currentTime={Example.currentTime}
+        departure={exampleDeparture}
+        currentTime={exampleCurrentTime}
         className="padding-normal padding-bottom"
         showStop
         useUTC

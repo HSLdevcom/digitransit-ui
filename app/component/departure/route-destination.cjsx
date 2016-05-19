@@ -1,8 +1,8 @@
 React       = require 'react'
 Icon        = require '../icon/icon'
 cx          = require 'classnames'
-ComponentUsageExample = require '../documentation/component-usage-example'
-Example = require '../documentation/example-data'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
+Example = require '../documentation/ExampleData'
 
 RouteDestination = (props) ->
   mode = props.mode.toLowerCase()

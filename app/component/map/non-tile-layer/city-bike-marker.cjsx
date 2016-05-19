@@ -7,8 +7,8 @@ provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 Icon          = require '../../icon/icon'
 GenericMarker = require '../generic-marker'
-Example               = require '../../documentation/example-data'
-ComponentUsageExample = require '../../documentation/component-usage-example'
+Example               = require '../../documentation/ExampleData'
+ComponentUsageExample = require('../../documentation/ComponentUsageExample').default
 
 
 # Small icon for zoom levels <= 15

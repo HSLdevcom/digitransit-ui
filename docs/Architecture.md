@@ -8,6 +8,9 @@ Digitransit-ui is a React based web application. The following bullet point desc
  - React + JSX
  - Airbnb styleguide for ES6 and React
 
+## Additions to Airbnb style guide
+ - Use object property spread instead of Object.assign when creating new objects: *not* Object.assign({}, {state}, {a: 1, b: 2}), but *instead* {...state, a:1, b: 2}
+
 ## Components
   - Three types of components
   - Views

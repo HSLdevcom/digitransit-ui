@@ -5,6 +5,7 @@ node_modules
 filesizes.html
 stats.json
 test/credentials.json
+test/binaries
 *.swp
 .idea
 *.iml

@@ -7,7 +7,7 @@ Link                        = require 'react-router/lib/Link'
 FormattedMessage            = require('react-intl').FormattedMessage
 {supportsHistory}           = require 'history/lib/DOMUtils'
 OriginDestinationBar        = require '../summary/origin-destination-bar'
-TimeSelectors               = require '../summary/time-selectors'
+TimeSelectorContainer       = require('../summary/TimeSelectorContainer').default
 
 class SummaryNavigation extends React.Component
   @contextTypes:
@@ -58,13 +58,13 @@ class SummaryNavigation extends React.Component
               </span>
             </Link>
           </section>
-          <div onClick={@toggleCustomizeSearchOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
+          <div onClick={@toggleCustomizeSearchOffcanvas} className="icon-holder cursor-pointer right-offcanvas-toggle">
             <Icon img={'icon-icon_ellipsis'}/>
           </div>
         </nav>
         <section className="content">
           <OriginDestinationBar/>
-          <TimeSelectors/>
+          <TimeSelectorContainer/>
           {@props.children}
         </section>
       </div>

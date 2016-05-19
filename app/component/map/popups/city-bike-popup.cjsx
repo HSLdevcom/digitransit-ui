@@ -7,8 +7,8 @@ NotImplementedLink    = require '../../util/not-implemented-link'
 {FormattedMessage}    = require('react-intl')
 CityBikeContent       = require '../../city-bike/city-bike-content'
 CityBikeCard          = require '../../city-bike/city-bike-card'
-Example               = require '../../documentation/example-data'
-ComponentUsageExample = require '../../documentation/component-usage-example'
+Example               = require '../../documentation/ExampleData'
+ComponentUsageExample = require('../../documentation/ComponentUsageExample').default
 config                = require '../../../config'
 
 class CityBikePopup extends React.Component
