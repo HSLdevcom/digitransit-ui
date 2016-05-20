@@ -16,6 +16,7 @@ export function reverseGeocodeAddress(actionContext, location, done) {
     'point.lon': location.lon,
     lang: language,
     size: 1,
+    layers: 'address',
   }).then((data) => {
     let match;
 
@@ -23,9 +24,8 @@ export function reverseGeocodeAddress(actionContext, location, done) {
       match = data.features[0].properties;
 
       actionContext.dispatch('AddressFound', {
-        address: match.street,
-        number: match.housenumber,
-        city: match.locality,
+        address: match.name,
+        city: match.localadmin || match.locality,
       });
     }
 
