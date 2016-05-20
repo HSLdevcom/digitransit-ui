@@ -131,6 +131,8 @@ nav.top-bar {
   background-color: $content-background-color;
   position: relative;
   height: calc(100% - #{$topbar-height});
+  display: flex;
+  flex-direction: column;
 }
 
 .offcanvas > div {
