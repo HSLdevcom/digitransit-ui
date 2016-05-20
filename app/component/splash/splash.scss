@@ -11,7 +11,7 @@
 
   h2.state {
     @include font-medium
-    color: $primary-font-color;
+    color: $white;
     line-height: 0em;
   }
 
@@ -22,7 +22,7 @@
     height: 140px;
   }
   > .bottom {
-    color: $primary-font-color;
+    color: $white;
     text-align: center;
     height: calc(70% - 140px - 40px);
     .medium {
