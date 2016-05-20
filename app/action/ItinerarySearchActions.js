@@ -1,6 +1,7 @@
 import { locationToOTP } from '../util/otp-strings';
 import { getRoutePath } from '../util/path';
-import { history } from '../history';
+import { supportsHistory } from 'history/lib/DOMUtils';
+import history from '../history';
 
 export function itinerarySearchRequest(actionContext, options) {
   if (options != null ? options.params : void 0) {
@@ -147,7 +148,7 @@ export function route(actionContext, payload, done) {
       to = locationToOTP(destination);
     }
 
-    if (history) {
+    if (supportsHistory()) {
       history.push({
         pathname: getRoutePath(from, to),
       });
