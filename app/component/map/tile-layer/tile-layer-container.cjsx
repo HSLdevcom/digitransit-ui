@@ -12,7 +12,7 @@ CityBikePopup = require '../popups/city-bike-popup'
 SphericalMercator = require 'sphericalmercator'
 lodash_filter     = require 'lodash/filter'
 
-TileContainer = require './tile-container'
+TileContainer = require('./TileContainer').default
 
 class TileLayerContainer extends BaseTileLayer
   @contextTypes:
