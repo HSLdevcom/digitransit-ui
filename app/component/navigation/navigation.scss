@@ -30,6 +30,7 @@ $offcanvas-link-text-font-size: 15px;
 $content-background-color: $background-color;
 
 nav.top-bar {
+  z-index: 1000;
   text-align: center;
 
   .icon-holder {
