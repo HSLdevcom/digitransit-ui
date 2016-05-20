@@ -129,10 +129,8 @@ export function route(actionContext, payload, done) {
   const origin = actionContext.getStore('EndpointStore').getOrigin();
   const destination = actionContext.getStore('EndpointStore').getDestination();
 
-  if ((origin.lat || origin.useCurrentPosition) &&
-      geolocation.hasLocation &&
-      (destination.lat || destination.useCurrentPosition) &&
-      geolocation.hasLocation) {
+  if ((origin.lat || (origin.useCurrentPosition && geolocation.hasLocation)) &&
+      (destination.lat || (destination.useCurrentPosition && geolocation.hasLocation))) {
     geoString = locationToOTP(Object.assign({
       address: 'Oma sijainti',
     }, geolocation));
