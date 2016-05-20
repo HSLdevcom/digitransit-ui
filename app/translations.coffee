@@ -302,7 +302,7 @@ translations =
     'now': 'Nå'
     'arriving-soon': "Nå"
     'hour-short': 't'
-    'minute-short': 'min'
+    'minute-short': 'm'
     'later': 'Senere'
     'instructions': 'Instruksjoner'
     'map': 'Kart'
@@ -319,7 +319,7 @@ translations =
     'stops': 'Holdeplasser'
     'stop-number': 'Holdeplassnummer'
     'right-now': 'Nå'
-    'minutes': 'm'
+    'minutes': 'min'
     'timetable': 'Tidtabeller'
     'no-favourites': 'Du kan legge til favoritter ved å trykke på stjerneknapper forskjellige steder i reiseplanleggeren'
     'distance-under': 'Avstand mindre enn {distance} m'
