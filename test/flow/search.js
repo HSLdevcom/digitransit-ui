@@ -58,9 +58,6 @@ suite('Search', () => {
         });
 
         it('Search is not done because destination is cleared', (browser) => {
-          browser.getTitle((title) => {
-            console.log(title);
-          });
           browser.assert.title('Reittiopas.fi');
         });
       });
