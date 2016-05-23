@@ -15,13 +15,13 @@ function reverseGeocodeAddress(actionContext, location, done) {
     'point.lon': location.lon,
     lang: language,
     size: 1,
+    layers: 'address',
   }).then((data) => {
     if (data.features != null && data.features.length > 0) {
       const match = data.features[0].properties;
       actionContext.dispatch('AddressFound', {
-        address: match.street,
-        number: match.housenumber,
-        city: match.locality,
+        address: match.name,
+        city: match.localadmin || match.locality,
       });
     }
     done();
@@ -70,7 +70,7 @@ export function startLocationWatch(actionContext, payload, done) {
 
   actionContext.dispatch('GeolocationSearch');
 
-  window.retrieveGeolocation = function retrieveGeolocation(pos) {
+  window.retrieveGeolocation = function retrieveGeolocation(pos, disableDebounce) {
     setCurrentLocation(actionContext, {
       lat: pos.coords.latitude,
       lon: pos.coords.longitude,
@@ -79,8 +79,12 @@ export function startLocationWatch(actionContext, payload, done) {
 
     broadcastCurrentLocation(actionContext);
 
-    return debouncedRunReverseGeocodingAction(
-      actionContext, pos.coords.latitude, pos.coords.longitude, done);
+    if (disableDebounce) {
+      runReverseGeocodingAction(actionContext, pos.coords.latitude, pos.coords.longitude, done);
+    } else {
+      debouncedRunReverseGeocodingAction(
+        actionContext, pos.coords.latitude, pos.coords.longitude, done);
+    }
   };
 
   window.retrieveGeolocationError = function retrieveGeolocationError(error) {

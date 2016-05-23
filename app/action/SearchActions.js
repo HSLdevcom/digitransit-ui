@@ -6,7 +6,8 @@ import uniqWith from 'lodash/uniqWith';
 import orderBy from 'lodash/orderBy';
 import take from 'lodash/take';
 import get from 'lodash/get';
-import SuggestionUtils from '../util/suggestion-utils';
+import flatten from 'lodash/flatten';
+import { getLabel } from '../util/suggestionUtils';
 import geoUtils from '../util/geo-utils';
 
 function processResults(actionContext, result) {
@@ -23,22 +24,22 @@ export function closeSearch(actionContext) {
 
 const uniq = features =>
   uniqWith(features, (feat1, feat2) =>
-    SuggestionUtils.getLabel(feat1.properties) === SuggestionUtils.getLabel(feat2.properties)
+    getLabel(feat1.properties) === getLabel(feat2.properties)
   );
 
-function addCurrentPositionIfEmpty(features) {
-  if (features.length === 0) {
-    features.push({
+function addCurrentPositionIfEmpty(input) {
+  if (typeof input !== 'string' || input.length === 0) {
+    return Promise.resolve([{
       type: 'CurrentLocation',
       properties: { labelId: 'own-position', layer: 'currentPosition' },
-    });
+    }]);
   }
 
-  return features;
+  return Promise.resolve([]);
 }
 
 function filterMatchingToInput(list, input, fields) {
-  if ((typeof input === 'string' ? input.length : 0) >= 0) {
+  if ((typeof input === 'string' ? input.length : 0) > 0) {
     return list.filter(item => {
       const parts = fields.map(pName => get(item, pName));
 
@@ -50,23 +51,21 @@ function filterMatchingToInput(list, input, fields) {
   return list;
 }
 
-function addOldSearches(oldSearches, features, input) {
+function addOldSearches(oldSearches, input) {
   const matchingOldSearches =
     filterMatchingToInput(oldSearches, input, ['address', 'locationName']);
 
-  const results = take(matchingOldSearches, 10).map(item =>
+  return Promise.resolve(take(matchingOldSearches, 10).map(item =>
     ({
       type: 'OldSearch',
       properties: { label: item.address, layer: 'oldSearch' },
       geometry: item.geometry,
     })
-  );
-
-  return features.concat(results);
+  ));
 }
 
-function addFavouriteLocations(favourites, features, input) {
-  const results =
+function addFavouriteLocations(favourites, input) {
+  return Promise.resolve(
     orderBy(
       filterMatchingToInput(favourites, input, ['address', 'locationName']),
       feature => feature.locationName
@@ -76,9 +75,7 @@ function addFavouriteLocations(favourites, features, input) {
         properties: { label: item.locationName, layer: 'favourite' },
         geometry: { type: 'Point', coordinates: [item.lon, item.lat] },
       })
-  );
-
-  return features.concat(results);
+  ));
 }
 
 function getGeocodingResult(input, geolocation, language) {
@@ -256,15 +253,14 @@ function executeSearchInternal(actionContext, { input, type }) {
     const favouriteLocations = actionContext.getStore('FavouriteLocationStore').getLocations();
     const oldSearches = actionContext.getStore('OldSearchesStore').getOldSearches('endpoint');
 
-    // TODO: Make old searches and favourites come on top
     return Promise.all([
+      addCurrentPositionIfEmpty(input),
+      addFavouriteLocations(favouriteLocations, input),
+      addOldSearches(oldSearches, input),
       getGeocodingResult(input, position, language),
       searchStops(input),
     ])
-    .then(result => result[0].concat(result[1]))
-    .then(addCurrentPositionIfEmpty)
-    .then(suggestions => addFavouriteLocations(favouriteLocations, suggestions, input))
-    .then(suggestions => addOldSearches(oldSearches, suggestions, input))
+    .then(flatten)
     .then(uniq)
     .then(suggestions => processResults(actionContext, suggestions))
     .catch(err => console.error(err)); // eslint-disable-line no-console

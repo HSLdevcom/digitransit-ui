@@ -16,7 +16,7 @@ module.exports = function (browser) {
 
   browser.setCurrentPosition = function setCurrentPosition(lat, lon, heading, done) {
     browser.execute(function (lat2, lon2, heading2) {
-      window.mock.geolocation.setCurrentPosition(lat2, lon2, heading2);
+      window.mock.geolocation.setCurrentPosition(lat2, lon2, heading2, true);
     }, [lat, lon, heading], function () {
       done();
     });
