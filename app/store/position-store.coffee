@@ -50,7 +50,7 @@ class PositionStore extends Store
     @emitChange(statusChanged: statusChanged)
 
   storeAddress: (location) ->
-    @address = "#{location.address} #{location.number}, #{location.city}"
+    @address = "#{location.address}, #{location.city}"
     @status = @STATUS_FOUND_ADDRESS
     @emitChange()
 
