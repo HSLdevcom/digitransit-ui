@@ -42,7 +42,7 @@
           }
           window.retrieveGeolocationError(error);
         }
-        , {enableHighAccuracy: true, timeout: 10000, maximumAge: 60000});
+        , {enableHighAccuracy: true, timeout: 60000, maximumAge: 60000});
     }
   }, 1)
 })();
