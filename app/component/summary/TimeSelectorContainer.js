@@ -24,8 +24,11 @@ class TimeSelectorContainer extends Component {
     this.context.getStore('TimeStore').removeChangeListener(this.onChange);
   }
 
-  onChange = ({ selectedTime, currentTime }) =>
-    this.setState({ time: selectedTime || currentTime });
+  onChange = ({ selectedTime }) => {
+    if (selectedTime) {
+      this.setState({ time: selectedTime });
+    }
+  };
 
   setArriveBy = ({ target }) =>
     this.context.executeAction(TimeActions.setArriveBy, target.value === 'true');
