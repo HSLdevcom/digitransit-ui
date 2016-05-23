@@ -37,14 +37,41 @@ suite('Search', () => {
        }
     );
 
-    it('Route search should be run when both source and destination are set',
-       (browser) => {
-         browser.url('/');
-         setOrigin(browser, 'kamppi');
-         setDestination(browser, 'sampsantie 40');
-         browser.expect.element('.itinerary-summary-row').to.be.visible
-           .before(browser.ELEMENT_VISIBLE_TIMEOUT);
-       }
-    );
+    describe('After route search', () => {
+      before((browser, done) => {
+        browser.url('/');
+        setOrigin(browser, 'kamppi');
+        setDestination(browser, 'sampsantie 40');
+        done();
+      });
+
+      it('Route search should be run when both source and destination are set', (browser) => {
+        browser.expect.element('.itinerary-summary-row').to.be.visible
+          .before(browser.ELEMENT_VISIBLE_TIMEOUT);
+      });
+
+      describe('When returning to front-page and changing origin', () => {
+        before((browser, done) => {
+          browser.back.click(() => {
+            browser.origin.popup.click(() => {
+              browser.origin.clear(() => {
+                browser.setValue('#search-origin', 'aurinkolahti');
+                browser.expect.element('#react-autowhatever-suggest--item-0').text.to.
+                  contain('Aurinkolahti, Helsinki').before(browser.ELEMENT_VISIBLE_TIMEOUT);
+                browser.click('#react-autowhatever-suggest--item-0');
+                browser.pause(500, done); // wait for dialog to vanish and possible changes to occur
+              });
+            });
+          });
+        });
+
+        it('Search is not done because destination is cleared', (browser) => {
+          browser.getTitle((title) => {
+            console.log(title);
+          });
+          browser.assert.title('Reittiopas.fi');
+        });
+      });
+    });
   });
 });

@@ -1,5 +1,5 @@
 React               = require 'react'
-EndpointActions     = require '../../action/endpoint-actions'
+EndpointActions     = require('../../action/EndpointActions')
 {intlShape}         = require 'react-intl'
 Icon                = require '../icon/icon'
 OneTabSearchModal   = require '../search/one-tab-search-modal'

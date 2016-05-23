@@ -1,7 +1,7 @@
 React               = require 'react'
 Tab                 = require('material-ui/Tabs/Tab').default
 GeolocationOrInput  = require('./GeolocationOrInput').default
-EndpointActions     = require '../../action/endpoint-actions'
+EndpointActions     = require('../../action/EndpointActions')
 SearchActions       = require '../../action/SearchActions'
 SearchModal         = require './search-modal'
 {intlShape}         = require 'react-intl'

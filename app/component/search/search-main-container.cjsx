@@ -1,5 +1,5 @@
 React            = require 'react'
-EndpointActions  = require '../../action/endpoint-actions'
+EndpointActions  = require('../../action/EndpointActions')
 SearchActions    = require '../../action/SearchActions'
 FakeSearchWithButton = require './fake-search-with-button'
 intl             = require 'react-intl'
