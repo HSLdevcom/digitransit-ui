@@ -1,6 +1,6 @@
-React          = require 'react'
-{findLocation}  = require '../../action/PositionActions'
-Icon           = require '../icon/icon'
+React              = require 'react'
+{findLocation}     = require '../../action/PositionActions'
+Icon               = require '../icon/icon'
 {FormattedMessage} = require('react-intl')
 
 
