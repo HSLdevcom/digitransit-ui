@@ -2,7 +2,6 @@ import xhrPromise from '../util/xhr-promise';
 import config from '../config';
 import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
-import itinerarySearchActions from './itinerary-search-action';
 import EndpointActions from './endpoint-actions';
 
 
@@ -58,15 +57,11 @@ const debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 6
 });
 
 const setCurrentLocation = (actionContext, pos) => {
-  const isFirst = pos && position === undefined;
-
   if (inside([pos.lon, pos.lat], config.areaPolygon)) {
     position = pos;
   } else {
     actionContext.executeAction(EndpointActions.setOriginToDefault);
   }
-
-  return isFirst;
 };
 
 export function startLocationWatch(actionContext, payload, done) {
@@ -78,17 +73,13 @@ export function startLocationWatch(actionContext, payload, done) {
   actionContext.dispatch('GeolocationSearch');
 
   window.retrieveGeolocation = function retrieveGeolocation(pos) {
-    const isFirst = setCurrentLocation(actionContext, {
+    setCurrentLocation(actionContext, {
       lat: pos.coords.latitude,
       lon: pos.coords.longitude,
       heading: pos.coords.heading,
     });
 
     broadcastCurrentLocation(actionContext);
-
-    if (isFirst) {
-      actionContext.executeAction(itinerarySearchActions.route);
-    }
 
     return debouncedRunReverseGeocodingAction(
       actionContext, pos.coords.latitude, pos.coords.longitude, done);
