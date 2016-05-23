@@ -4,7 +4,6 @@ import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
 import EndpointActions from './endpoint-actions';
 
-
 const geolocator = (actionContext) => actionContext.getStore('ServiceStore').geolocator();
 let position;
 
@@ -35,7 +34,6 @@ function broadcastCurrentLocation(actionContext) {
   }
 }
 
-export { reverseGeocodeAddress };
 export function findLocation(actionContext, payload, done) {
   if (!geolocator(actionContext).geolocation) {
     actionContext.dispatch('GeolocationNotSupported');
