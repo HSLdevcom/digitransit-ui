@@ -14,7 +14,7 @@ PlaceMarker    = require './place-marker'
 {boundWithMinimumArea} = require '../../util/geo-utils'
 
 if isBrowser and config.map.useVectorTiles
-  TileLayerContainer = require './tile-layer/tile-layer-container'
+  TileLayerContainer = require('./tile-layer/TileLayerContainer').default
   Stops              = require('./tile-layer/Stops').default
   CityBikes          = require('./tile-layer/CityBikes').default
 
