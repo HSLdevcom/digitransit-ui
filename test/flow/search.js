@@ -56,7 +56,8 @@ suite('Search', () => {
             browser.origin.popup.click(() => {
               browser.origin.clear(() => {
                 browser.setValue('#search-origin', 'aurinkolahti');
-                browser.expect.element('#react-autowhatever-suggest--item-0').text.to.contain('Aurinkolahti, Helsinki').before(browser.ELEMENT_VISIBLE_TIMEOUT);
+                browser.expect.element('#react-autowhatever-suggest--item-0').text.to.
+                  contain('Aurinkolahti, Helsinki').before(browser.ELEMENT_VISIBLE_TIMEOUT);
                 browser.click('#react-autowhatever-suggest--item-0');
                 browser.pause(500, done); // wait for dialog to vanish and possible changes to occur
               });
@@ -68,7 +69,7 @@ suite('Search', () => {
           browser.getTitle((title) => {
             console.log(title);
           });
-          browser.assert.title("Reittiopas.fi");
+          browser.assert.title('Reittiopas.fi');
         });
       });
     });

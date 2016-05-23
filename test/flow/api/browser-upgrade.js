@@ -90,7 +90,7 @@ module.exports = function (browser) {
       click(done) {
         browser.expect.element('.origin-popup').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
         browser.click('.origin-popup', done);
-      }
+      },
     },
     clear(done) {
       browser.expect.element('.clear-icon').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
