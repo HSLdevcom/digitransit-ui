@@ -18,28 +18,30 @@ import buildInfo from './build-info';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+function plugContext(f) {
+  return () => { // eslint-disable-line arrow-body-style
+    return {
+      plugComponentContext: f,
+      plugActionContext: f,
+      plugStoreContext: f,
+    };
+  };
+}
+
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
 
 const addPiwik = (context) => { context.piwik = piwik; }; // eslint-disable-line no-param-reassign
 
 const piwikPlugin = {
   name: 'PiwikPlugin',
-  plugContext: () => ({
-    plugComponentContext: addPiwik,
-    plugActionContext: addPiwik,
-    plugStoreContext: addPiwik,
-  }),
+  plugContext: plugContext(addPiwik),
 };
 
 const addRaven = (context) => { context.raven = Raven; }; // eslint-disable-line no-param-reassign
 
 const ravenPlugin = {
   name: 'RavenPlugin',
-  plugContext: () => ({
-    plugComponentContext: addRaven,
-    plugActionContext: addRaven,
-    plugStoreContext: addRaven,
-  }),
+  plugContext: plugContext(addRaven),
 };
 
 if (process.env.NODE_ENV === 'development') {
