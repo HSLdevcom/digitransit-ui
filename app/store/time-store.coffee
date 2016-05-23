@@ -46,7 +46,7 @@ class TimeStore extends Store
   setCurrentTime: (data) ->
     @currentTime = data
     @emitChange
-      currentTime: @selectedTime
+      currentTime: @currentTime
 
   setArriveBy: (arriveBy) ->
     @arriveBy = arriveBy
