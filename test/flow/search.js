@@ -83,7 +83,7 @@ suite('Search', () => {
     });
 
     it('Should have the geocoded address (not poi) as origin', (browser) => {
-      browser.expect.element('div.itinerary-leg-first-row > div:nth-child(2)')
+      browser.expect.element('div.itinerary-leg-first-row')
         .text.to.contain('Kampinkuja 2');
     });
   });
