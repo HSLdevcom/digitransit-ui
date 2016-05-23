@@ -1,5 +1,4 @@
 (function() {
-
   var startTime = new Date().getTime();
 
   var quietTimeoutSeconds = 20;
@@ -37,6 +36,10 @@
           }
           window.retrieveGeolocation(position);
         }, function handleError(error) {
+          if (timeout != null) {
+            clearTimeout(timeout);
+            timeout = null;
+          }
           window.retrieveGeolocationError(error);
         }
         , {enableHighAccuracy: true, timeout: 10000, maximumAge: 60000});
