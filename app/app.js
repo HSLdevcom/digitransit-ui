@@ -16,7 +16,7 @@ import PreferencesStore from './store/preferences-store';
 import RealTimeInformationStore from './store/real-time-information-store';
 import SearchStore from './store/search-store';
 import ServiceStore from './store/service-store';
-import TimeStore from './store/time-store';
+import TimeStore from './store/TimeStore';
 
 const app = new Fluxible({
   component: routes,
