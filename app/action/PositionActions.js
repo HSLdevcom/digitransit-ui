@@ -70,7 +70,7 @@ export function startLocationWatch(actionContext, payload, done) {
 
   actionContext.dispatch('GeolocationSearch');
 
-  window.retrieveGeolocation = function retrieveGeolocation(pos) {
+  window.retrieveGeolocation = function retrieveGeolocation(pos, disableDebounce) {
     setCurrentLocation(actionContext, {
       lat: pos.coords.latitude,
       lon: pos.coords.longitude,
@@ -79,8 +79,12 @@ export function startLocationWatch(actionContext, payload, done) {
 
     broadcastCurrentLocation(actionContext);
 
-    return debouncedRunReverseGeocodingAction(
-      actionContext, pos.coords.latitude, pos.coords.longitude, done);
+    if (disableDebounce) {
+      runReverseGeocodingAction(actionContext, pos.coords.latitude, pos.coords.longitude, done);
+    } else {
+      debouncedRunReverseGeocodingAction(
+        actionContext, pos.coords.latitude, pos.coords.longitude, done);
+    }
   };
 
   window.retrieveGeolocationError = function retrieveGeolocationError(error) {
