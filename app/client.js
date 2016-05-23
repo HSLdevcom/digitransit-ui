@@ -1,4 +1,4 @@
-import Raven from './util/raven';
+import Raven from './util/Raven';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
