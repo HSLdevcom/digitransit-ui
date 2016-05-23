@@ -1,18 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import config from '../../config';
 import Icon from '../icon/icon';
-import OffcanvasMenu from './offcanvas-menu';
+import MainMenu from './MainMenu';
 import Drawer from 'material-ui/Drawer';
 import FeedbackActions from '../../action/feedback-action';
 
 import { supportsHistory } from 'history/lib/DOMUtils';
 
-class OffcanvasMenuContainer extends Component {
+class MainMenuContainer extends Component {
+  static propTypes = {
+    showDisruptionInfo: PropTypes.bool,
+  };
+
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     piwik: PropTypes.object,
     router: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
   };
 
   constructor(props, context) {
@@ -75,9 +79,13 @@ class OffcanvasMenuContainer extends Component {
           openSecondary
           onRequestChange={this.onRequestChange}
         >
-          <OffcanvasMenu openFeedback={this.openFeedback} />
+          <MainMenu
+            openFeedback={this.openFeedback}
+            showDisruptionInfo={this.props.showDisruptionInfo}
+            toggleVisibility={this.toggleOffcanvas}
+          />
         </Drawer>
-        {config.leftMenu.show ?
+        {config.mainMenu.show ?
           <div
             onClick={this.toggleOffcanvas}
             className="icon-holder cursor-pointer main-menu-toggle"
@@ -89,4 +97,4 @@ class OffcanvasMenuContainer extends Component {
   }
 }
 
-export default OffcanvasMenuContainer;
+export default MainMenuContainer;

@@ -104,7 +104,7 @@ export default class SearchInputContainer extends Component {
       event.preventDefault();
     }
 
-    if (eventProps.newFocusedItemIndex != null {
+    if (eventProps.newFocusedItemIndex != null) {
       this.setState({
         focusedItemIndex: eventProps.newFocusedItemIndex,
       }, () => this.focusItem(eventProps.newFocusedItemIndex));
@@ -114,7 +114,7 @@ export default class SearchInputContainer extends Component {
   }
 
   handleOnMouseDown(event, eventProps) {
-    if (eventProps.itemIndex != null {
+    if (eventProps.itemIndex != null) {
       this.setState({
         focusedItemIndex: eventProps.itemIndex,
       }, this.currentItemSelected);

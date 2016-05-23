@@ -58,7 +58,7 @@ class SummaryNavigation extends React.Component
               </span>
             </Link>
           </section>
-          <div onClick={@toggleCustomizeSearchOffcanvas} className="icon-holder cursor-pointer right-off-canvas-toggle">
+          <div onClick={@toggleCustomizeSearchOffcanvas} className="icon-holder cursor-pointer right-offcanvas-toggle">
             <Icon img={'icon-icon_ellipsis'}/>
           </div>
         </nav>
