@@ -5,7 +5,7 @@ FavouriteLocationContainer = require './favourite-location-container'
 FavouriteLocation     = require './favourite-location'
 Icon                  = require '../icon/icon'
 ComponentUsageExample = require('../documentation/ComponentUsageExample').default
-EndpointActions       = require '../../action/endpoint-actions'
+EndpointActions       = require('../../action/EndpointActions')
 connectToStores       = require 'fluxible-addons-react/connectToStores'
 
 

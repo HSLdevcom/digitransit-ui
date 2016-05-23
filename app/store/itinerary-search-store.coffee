@@ -8,6 +8,9 @@ class ItinerarySearchStore extends Store
 
   constructor: (dispatcher) ->
     super(dispatcher)
+    @reset()
+
+  reset: =>
     localData = window?.sessionStorage?.getItem STORAGE_KEY
     @data = if localData then JSON.parse(localData) else {}
     @fromPlace = ""
@@ -228,5 +231,6 @@ class ItinerarySearchStore extends Store
     "SetWalkSpeed": "setWalkSpeed"
     "SetTicketOption": "setTicketOption"
     "SetAccessibilityOption": "setAccessibilityOption"
+    "Reset": "reset"
 
 module.exports = ItinerarySearchStore

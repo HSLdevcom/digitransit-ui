@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import TimeActions from '../../action/time-action';
+import TimeActions from '../../action/TimeActions';
 import moment from 'moment';
 import TimeSelectors from './TimeSelectors';
 

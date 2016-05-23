@@ -11,6 +11,7 @@ test/binaries
 *.iml
 *~
 test_output
+test/binaries
 test/flow/binaries
 selenium-debug.log
 gemini-report
