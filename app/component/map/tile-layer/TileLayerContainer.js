@@ -171,9 +171,8 @@ class TileLayerContainer extends BaseTileLayer {
             renderFetched={data =>
               (
               <StopMarkerPopupWithContext
-                {...React.__spread( // eslint-disable-line no-underscore-dangle
-                  {}, data, { context: this.context }
-                )}
+                {...data}
+                context={this.context}
               />
               )
             }
@@ -195,9 +194,8 @@ class TileLayerContainer extends BaseTileLayer {
             renderFetched={data =>
               (
               <CityBikePopupWithContext
-                {...React.__spread( // eslint-disable-line no-underscore-dangle
-                  {}, data, { context: this.context }
-                )}
+                {...data}
+                context={this.context}
               />
               )
           }
