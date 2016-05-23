@@ -1,6 +1,6 @@
 import React from 'react';
 import SelectStopRow from './select-stop-row';
-import SelectCitybikeRow from './select-citybike-row';
+import SelectCitybikeRow from './SelectCitybikeRow';
 
 import { FormattedMessage } from 'react-intl';
 
