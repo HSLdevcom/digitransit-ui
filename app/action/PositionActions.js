@@ -57,11 +57,10 @@ function runReverseGeocodingAction(actionContext, lat, lon, done) {
 }
 
 
-function debouncedRunReverseGeocodingAction() {
+const debouncedRunReverseGeocodingAction =
   debounce(runReverseGeocodingAction, 60000, {
     leading: true,
   });
-}
 
 function setCurrentLocation(actionContext, pos) {
   if (inside([pos.lon, pos.lat], config.areaPolygon)) {
