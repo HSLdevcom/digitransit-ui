@@ -11,8 +11,8 @@ config             = require '../../config'
 ItineraryLegs      = require './legs/itinerary-legs'
 
 
-ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
-routeInformation = if config.showRouteInformation then <RouteInformation/> else null
+ticketInformation = if config.showTicketInformation then <TicketInformation/>
+routeInformation = if config.showRouteInformation then <RouteInformation/>
 
 class ItineraryTab extends React.Component
 
