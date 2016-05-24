@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import TimeActions from '../../action/TimeActions';
+import { setArrivalTime, setDepartureTime } from '../../action/TimeActions';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
@@ -19,7 +19,7 @@ function setEarlierSelectedTime(executeAction, plan) {
   }, null);
 
   earliestArrivalTime.subtract(1, 'minutes');
-  return () => executeAction(TimeActions.setArrivalTime, earliestArrivalTime);
+  return () => executeAction(setArrivalTime, earliestArrivalTime);
 }
 
 function setLaterSelectedTime(executeAction, plan) {
@@ -35,11 +35,11 @@ function setLaterSelectedTime(executeAction, plan) {
   }, null);
 
   latestDepartureTime.add(1, 'minutes');
-  return () => executeAction(TimeActions.setDepartureTime, latestDepartureTime);
+  return () => executeAction(setDepartureTime, latestDepartureTime);
 }
 
 const setSelectedTimeToNow = (executeAction) =>
-  () => executeAction(TimeActions.setDepartureTime, moment());
+  () => executeAction(setDepartureTime, moment());
 
 export default function TimeNavigationButtons({ plan }, { executeAction }) {
   if (plan == null) { return null; }

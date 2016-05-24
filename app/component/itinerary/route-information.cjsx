@@ -3,7 +3,7 @@ NotImplementedLink = require '../util/not-implemented-link'
 Icon               = require '../icon/icon'
 {FormattedMessage} = require('react-intl')
 
-class TicketInformation extends React.Component
+class RouteInformation extends React.Component
   render: ->
     <div className="itinerary-route-information row">
       <div className="small-6 columns">
@@ -17,4 +17,4 @@ class TicketInformation extends React.Component
     </div>
 
 
-module.exports = TicketInformation
+module.exports = RouteInformation

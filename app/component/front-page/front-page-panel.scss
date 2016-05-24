@@ -128,6 +128,6 @@ $heading-color: #858585;
   color: $tab-selected-color;
 }
 
-.scroll-extra-padding-bottom > div {
+.scroll-extra-padding-bottom > div:not(.spinner-loader) {
   padding-bottom: 5em;
 }
