@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import RouteDestination from '../../departure/route-destination';
 import routeCompare from '../../../util/route-compare';
+import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
 
 function getName(p) {
@@ -104,6 +105,20 @@ function SelectStopRow(props) {
 }
 
 SelectStopRow.displayName = 'SelectStopRow';
+
+SelectStopRow.description = (
+  <div>
+    <p>Renders a select stop row</p>
+    <ComponentUsageExample description="">
+      <SelectStopRow
+        name={'DIAKONIAPUISTO'}
+        selectRow={() => console.log('test')}
+        type={'BUS'}
+        patterns={'[{"headsign":"Kuninkaanmäki","type":"BUS","shortName":"518"}]'}
+      />
+    </ComponentUsageExample>
+  </div>
+);
 
 SelectStopRow.propTypes = {
   type: React.PropTypes.string.isRequired,
