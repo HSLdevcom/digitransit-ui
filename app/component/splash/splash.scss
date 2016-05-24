@@ -1,4 +1,5 @@
 .splash {
+  background-color: rgba(32, 32, 32, 0.5);
   z-index:1100;
   position: absolute;
   width: 100%;
@@ -10,7 +11,7 @@
 
   h2.state {
     @include font-medium
-    color: $primary-font-color;
+    color: $white;
     line-height: 0em;
   }
 
@@ -21,7 +22,7 @@
     height: 140px;
   }
   > .bottom {
-    color: $primary-font-color;
+    color: $white;
     text-align: center;
     height: calc(70% - 140px - 40px);
     .medium {
@@ -32,8 +33,7 @@
 
 .splash-map {
   background-image: url('/img/map.9.opti.png');
-  background-attachment: fixed;
   background-position: center;
   background-size: cover;
-  filter: blur(5px) brightness(50%);
+  filter: blur(5px);
 }

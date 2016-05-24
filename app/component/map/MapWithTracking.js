@@ -123,7 +123,7 @@ const MapWithTracking =
         return {
           lat: location ? location.lat : null,
           lon: location ? location.lon : null,
-          zoom: props.mapState.initialZoom ? 16 : null,
+          zoom: props.mapState.initialZoom ? 16 : void 0,
           mapTracking,
           position,
           className: 'fullscreen',

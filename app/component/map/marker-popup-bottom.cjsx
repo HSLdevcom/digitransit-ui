@@ -1,7 +1,7 @@
 React              = require 'react'
 Icon               = require '../icon/icon'
 {FormattedMessage} = require('react-intl')
-EndpointActions    = require '../../action/endpoint-actions'
+EndpointActions    = require('../../action/EndpointActions')
 
 MarkerPopupBottom = ({location}, {executeAction}) ->
   routeFrom = () ->

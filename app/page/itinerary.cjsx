@@ -7,7 +7,7 @@ intl              = require 'react-intl'
 config            = require '../config'
 ItineraryPlanContainer = require '../component/itinerary/itinerary-plan-container'
 queries           = require '../queries'
-EndpointActions   = require '../action/endpoint-actions'
+EndpointActions   = require('../action/EndpointActions')
 isEqual           = require 'lodash/isEqual'
 NoRoutePopup      = require '../component/summary/no-route-popup'
 
