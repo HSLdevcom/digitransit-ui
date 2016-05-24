@@ -6,8 +6,8 @@ import TimeFrame from './time-frame';
 import config from '../../config';
 import ItineraryLegs from './legs/itinerary-legs';
 
-const ticketInformation = (() => config.showTicketInformation && <TicketInformation />)();
-const routeInformation = (() => config.showRouteInformation && <RouteInformation />)();
+const ticketInformation = config.showTicketInformation && <TicketInformation />;
+const routeInformation = config.showRouteInformation && <RouteInformation />;
 
 class ItineraryTab extends React.Component {
   static propTypes = {
