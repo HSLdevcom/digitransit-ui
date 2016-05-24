@@ -2,13 +2,12 @@ import xhrPromise from '../util/xhr-promise';
 import config from '../config';
 import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
-import EndpointActions from './endpoint-actions';
+import EndpointActions from './EndpointActions';
 
-function geolocator(actionContext) {
-  actionContext.getStore('ServiceStore').geolocator();
-}
+const geolocator = (actionContext) => actionContext.getStore('ServiceStore').geolocator();
+let position;
 
-export function reverseGeocodeAddress(actionContext, location, done) {
+function reverseGeocodeAddress(actionContext, location, done) {
   const language = actionContext.getStore('PreferencesStore').getLanguage();
 
   return xhrPromise.getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
@@ -16,122 +15,114 @@ export function reverseGeocodeAddress(actionContext, location, done) {
     'point.lon': location.lon,
     lang: language,
     size: 1,
+    layers: 'address',
   }).then((data) => {
-    let match;
-
     if (data.features != null && data.features.length > 0) {
-      match = data.features[0].properties;
-
+      const match = data.features[0].properties;
       actionContext.dispatch('AddressFound', {
-        address: match.street,
-        number: match.housenumber,
-        city: match.locality,
+        address: match.name,
+        city: match.localadmin || match.locality,
       });
     }
-
-    return done();
+    done();
   });
 }
 
 function broadcastCurrentLocation(actionContext) {
-  if (window.position) {
-    actionContext.dispatch('GeolocationFound', window.position);
+  if (position) {
+    actionContext.dispatch('GeolocationFound', position);
   }
 }
 
 export function findLocation(actionContext, payload, done) {
   if (!geolocator(actionContext).geolocation) {
     actionContext.dispatch('GeolocationNotSupported');
-    return done();
+    done();
   }
 
   broadcastCurrentLocation(actionContext);
-  return done();
+  done();
 }
 
-function runReverseGeocodingAction(actionContext, lat, lon, done) {
+const runReverseGeocodingAction = (actionContext, lat, lon, done) =>
   actionContext.executeAction(reverseGeocodeAddress, {
     lat,
     lon,
   }, done);
-}
 
+const debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 60000, {
+  leading: true,
+});
 
-function debouncedRunReverseGeocodingAction() {
-  debounce(runReverseGeocodingAction, 60000, {
-    leading: true,
-  });
-}
-
-function setCurrentLocation(actionContext, pos) {
+const setCurrentLocation = (actionContext, pos) => {
   if (inside([pos.lon, pos.lat], config.areaPolygon)) {
-    window.position = pos;
+    position = pos;
   } else {
     actionContext.executeAction(EndpointActions.setOriginToDefault);
   }
-}
+};
 
 export function startLocationWatch(actionContext, payload, done) {
-  if (geolocator(actionContext) && !geolocator(actionContext).geolocation) {
+  if (!geolocator(actionContext).geolocation) {
     actionContext.dispatch('GeolocationNotSupported');
     done();
-    return;
   }
 
   actionContext.dispatch('GeolocationSearch');
 
-  let timeoutId = window.setTimeout(() => actionContext.dispatch('GeolocationWatchTimeout'), 10000);
-
-  window.retrieveGeolocation = (position) => {
-    if (window.position.pos != null) {
-      window.position.pos = null;
-    }
-
-    if (timeoutId) {
-      window.clearTimeout(timeoutId);
-      timeoutId = undefined;
-    }
-
+  window.retrieveGeolocation = function retrieveGeolocation(pos, disableDebounce) {
     setCurrentLocation(actionContext, {
-      lat: position.coords.latitude,
-      lon: position.coords.longitude,
-      heading: position.coords.heading,
+      lat: pos.coords.latitude,
+      lon: pos.coords.longitude,
+      heading: pos.coords.heading,
     });
 
     broadcastCurrentLocation(actionContext);
-    debouncedRunReverseGeocodingAction(
-      actionContext,
-      position.coords.latitude,
-      position.coords.longitude,
-      done
-    );
+
+    if (disableDebounce) {
+      runReverseGeocodingAction(actionContext, pos.coords.latitude, pos.coords.longitude, done);
+    } else {
+      debouncedRunReverseGeocodingAction(
+        actionContext, pos.coords.latitude, pos.coords.longitude, done);
+    }
   };
 
-  window.retrieveError = (error) => {
+  window.retrieveGeolocationError = function retrieveGeolocationError(error) {
     if (error) {
-      if (!actionContext.getStore('EndpointStore').getOrigin().userSetPosition) {
+      actionContext.piwik.trackEvent('geolocation', `status_${error.code}`, error.message);
+      if (error.code < 10 && !actionContext.getStore('EndpointStore').getOrigin().userSetPosition) {
         actionContext.executeAction(EndpointActions.setOriginToDefault);
       }
-
       if (error.code === 1) {
-        return actionContext.dispatch('GeolocationDenied');
+        actionContext.dispatch('GeolocationDenied');
       } else if (error.code === 2) {
-        return actionContext.dispatch('GeolocationNotSupported');
+        actionContext.dispatch('GeolocationNotSupported');
       } else if (error.code === 3) {
-        return actionContext.dispatch('GeolocationTimeout');
+        actionContext.dispatch('GeolocationTimeout');
+      } else if (error.code === 100001) {
+        actionContext.dispatch('GeolocationWatchTimeout');
       }
     }
-    return null;
   };
 
-  if (window.position.error != null) {
-    window.retrieveError(window.position.error);
+  window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
+    actionContext.piwik.trackEvent('geolocation', 'status_OK', 'OK', timing);
+  };
+
+  if (window.position.error !== null) {
+    window.retrieveGeolocationError(window.position.error);
     window.position.error = null;
   }
 
-  if (window.position.pos != null) {
+  if (window.position.pos !== null) {
     window.retrieveGeolocation(window.position.pos);
     window.position.pos = null;
   }
+
+  if (window.position.timing !== null) {
+    window.retrieveGeolocationTiming(window.position.timing);
+    window.position.timing = null;
+  }
+
   done();
 }

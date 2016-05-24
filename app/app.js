@@ -11,12 +11,12 @@ import ItinerarySearchStore from './store/itinerary-search-store';
 import ModeStore from './store/mode-store';
 import NotImplementedStore from './store/not-implemented-store';
 import OldSearchesStore from './store/old-searches-store';
-import PositionStore from './store/position-store';
+import PositionStore from './store/PositionStore';
 import PreferencesStore from './store/preferences-store';
 import RealTimeInformationStore from './store/real-time-information-store';
 import SearchStore from './store/search-store';
 import ServiceStore from './store/service-store';
-import TimeStore from './store/time-store';
+import TimeStore from './store/TimeStore';
 
 const app = new Fluxible({
   component: routes,

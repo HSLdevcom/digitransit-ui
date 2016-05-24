@@ -1,7 +1,7 @@
 React          = require 'react'
 Icon           = require '../icon/icon'
 cx             = require 'classnames'
-SuggestionUtil = require '../../util/suggestion-utils'
+SuggestionUtil = require '../../util/suggestionUtils'
 
 getIcon = (layer, iconClass) ->
   layerIcon =
