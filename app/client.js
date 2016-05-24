@@ -18,15 +18,11 @@ import buildInfo from './build-info';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-function plugContext(f) {
-  return () => { // eslint-disable-line arrow-body-style
-    return {
-      plugComponentContext: f,
-      plugActionContext: f,
-      plugStoreContext: f,
-    };
-  };
-}
+const plugContext = (f) => () => ({
+  plugComponentContext: f,
+  plugActionContext: f,
+  plugStoreContext: f,
+});
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
 
