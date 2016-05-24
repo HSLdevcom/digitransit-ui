@@ -1,7 +1,7 @@
 React             = require 'react'
 Relay             = require 'react-relay'
 queries           = require '../../queries'
-ItineraryTab      = require '../itinerary/itinerary-tab'
+ItineraryTab      = require('../itinerary/ItineraryTab').default
 {FormattedMessage} = require 'react-intl'
 SwipeableViews    = require('react-swipeable-views').default
 ItineraryLine     = require '../map/itinerary-line'
