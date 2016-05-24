@@ -37,6 +37,14 @@ export const TerminalMarkerPopupFragments = {
   `,
 };
 
+export const StopQueries = {
+  stop: () => Relay.QL`
+    query  {
+      stop(id: $stopId)
+    }
+  `,
+};
+
 export class TripRoute extends Relay.Route {
   static queries = {
     pattern: () => Relay.QL`query {
