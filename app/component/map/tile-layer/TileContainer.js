@@ -40,9 +40,6 @@ class TileContainer {
     Promise.all(this.layers.map(layer => layer.promise)).then(() =>
       done(null, this.el)
     );
-
-    this.createElement = this.createElement.bind(this);
-    this.onMapClick = this.onMapClick.bind(this);
   }
 
   createElement = () => {
