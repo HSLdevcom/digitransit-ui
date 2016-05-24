@@ -225,12 +225,16 @@ $btn-heigth: 17px;
 }
 
 .standalone-btn {
+  background-color: $standalone-btn-color;
   padding: 6px 15px;
   border-radius: 20px;
   .icon-holder  {
     padding: 0;
     margin: 0;
     margin-bottom: -4px;
+  }
+  &:hover {
+    background-color: $standalone-btn-hover-color;
   }
 }
 
