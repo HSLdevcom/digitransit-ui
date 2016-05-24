@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import TimeActions from '../../action/TimeActions';
+import { setArriveBy, setSelectedTime } from '../../action/TimeActions';
 import moment from 'moment';
 import TimeSelectors from './TimeSelectors';
 
@@ -31,7 +31,7 @@ class TimeSelectorContainer extends Component {
   };
 
   setArriveBy = ({ target }) =>
-    this.context.executeAction(TimeActions.setArriveBy, target.value === 'true');
+    this.context.executeAction(setArriveBy, target.value === 'true');
 
   getDates() {
     const dates = [];
@@ -62,7 +62,7 @@ class TimeSelectorContainer extends Component {
 
   dispatchChangedtime = debounce(
     () => this.context.executeAction(
-      TimeActions.setSelectedTime,
+      setSelectedTime,
       this.state.time,
     ), 500);
 
