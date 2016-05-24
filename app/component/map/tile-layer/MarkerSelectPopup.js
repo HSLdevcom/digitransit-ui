@@ -1,6 +1,8 @@
 import React from 'react';
 import SelectStopRow from './SelectStopRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
+import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import { options as options } from '../../documentation/ExampleData';
 
 import { FormattedMessage } from 'react-intl';
 
@@ -37,6 +39,18 @@ function MarkerSelectPopup(props) {
 }
 
 MarkerSelectPopup.displayName = 'MarkerSelectPopup';
+
+MarkerSelectPopup.description = (
+  <div>
+    <p>Renders a marker select popup</p>
+    <ComponentUsageExample description="">
+      <MarkerSelectPopup
+        options={options}
+        selectRow={() => console.log('test')}
+      />
+    </ComponentUsageExample>
+  </div>
+);
 
 MarkerSelectPopup.propTypes = {
   options: React.PropTypes.array.isRequired,
