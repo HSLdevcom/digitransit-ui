@@ -12,6 +12,7 @@ ItineraryLegs      = require './legs/itinerary-legs'
 
 
 ticketInformation = if config.showTicketInformation then <TicketInformation/> else null
+routeInformation = if config.showRouteInformation then <RouteInformation/> else null
 
 class ItineraryTab extends React.Component
 
@@ -45,7 +46,7 @@ class ItineraryTab extends React.Component
       <div className="momentum-scroll itinerary-tabs__scroll">
         <div className="itinerary-main">
           <ItineraryLegs itinerary={@props.itinerary} focusMap={@handleFocus}/>
-          <RouteInformation/>
+          {routeInformation}
           {ticketInformation}
         </div>
       </div>
