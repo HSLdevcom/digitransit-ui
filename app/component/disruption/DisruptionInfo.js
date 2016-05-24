@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Modal from '../util/Modal';
-import DisruptionInfoRoute from './DisruptionInfoRoute';
+import DisruptionInfoRoute from '../../relay-route/DisruptionInfoRoute';
 import { close } from '../../action/DisruptionInfoAction';
 import DisruptionListContainer from './disruption-list-container';
 import { FormattedMessage } from 'react-intl';

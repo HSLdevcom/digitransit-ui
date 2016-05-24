@@ -1,6 +1,6 @@
 React         = require 'react'
 Relay         = require 'react-relay'
-StopRoute     = require('../tile-layer/StopRoute').default
+StopRoute     = require('../../../relay-route/StopRoute').default
 isBrowser     = window?
 StopMarkerPopup = require '../popups/stop-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'

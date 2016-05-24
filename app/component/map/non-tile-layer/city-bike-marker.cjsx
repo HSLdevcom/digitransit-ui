@@ -8,7 +8,7 @@ Icon          = require '../../icon/icon'
 GenericMarker = require '../generic-marker'
 Example               = require '../../documentation/ExampleData'
 ComponentUsageExample = require('../../documentation/ComponentUsageExample').default
-CityBikeRoute         = require('../tile-layer/CityBikeRoute').default
+CityBikeRoute         = require('../../../relay-route/CityBikeRoute').default
 
 
 # Small icon for zoom levels <= 15
