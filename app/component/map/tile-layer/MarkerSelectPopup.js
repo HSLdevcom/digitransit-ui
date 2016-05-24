@@ -1,6 +1,6 @@
 import React from 'react';
 import SelectStopRow from './SelectStopRow';
-import SelectCitybikeRow from './SelectCitybikeRow';
+import SelectCityBikeRow from './SelectCityBikeRow';
 
 import { FormattedMessage } from 'react-intl';
 
@@ -16,7 +16,7 @@ function MarkerSelectPopup(props) {
       );
     } else if (option.layer === 'citybike') {
       return (
-        <SelectCitybikeRow
+        <SelectCityBikeRow
           {...option.feature.properties}
           key={option.feature.properties.stationId}
           selectRow={() => props.selectRow(option)}

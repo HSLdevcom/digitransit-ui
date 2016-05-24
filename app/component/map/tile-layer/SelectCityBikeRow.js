@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../../icon/icon';
 
-function SelectCitybikeRow(props) {
+function SelectCityBikeRow(props) {
   return (
     <div className="no-margin">
       <hr className="no-margin" />
@@ -20,11 +20,11 @@ function SelectCitybikeRow(props) {
   );
 }
 
-SelectCitybikeRow.displayName = 'SelectCitybikeRow';
+SelectCityBikeRow.displayName = 'SelectCityBikeRow';
 
-SelectCitybikeRow.propTypes = {
+SelectCityBikeRow.propTypes = {
   selectRow: React.PropTypes.func.isRequired,
   name: React.PropTypes.string.isRequired,
 };
 
-export default SelectCitybikeRow;
+export default SelectCityBikeRow;
