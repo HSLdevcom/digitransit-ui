@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from '../../icon/icon';
+import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
 function SelectCityBikeRow(props) {
   return (
@@ -21,6 +22,15 @@ function SelectCityBikeRow(props) {
 }
 
 SelectCityBikeRow.displayName = 'SelectCityBikeRow';
+
+SelectCityBikeRow.description = (
+  <div>
+    <p>Renders a select citybike row</p>
+    <ComponentUsageExample description="">
+      <SelectCityBikeRow name={'LINNANMÄKI'} selectRow={() => console.log('test')} />
+    </ComponentUsageExample>
+  </div>
+  );
 
 SelectCityBikeRow.propTypes = {
   selectRow: React.PropTypes.func.isRequired,
