@@ -32,7 +32,7 @@ class TimeStore extends Store {
       this.updateSelectedTime();
     }
 
-    return setTimeout(this.updateCurrentTime, this.TWICE_PER_MINUTE);
+    return setTimeout(this.updateCurrentTime, TimeStore.TWICE_PER_MINUTE);
   }
 
   updateSelectedTime() {
