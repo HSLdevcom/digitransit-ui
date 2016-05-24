@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectStopRow from './select-stop-row';
+import SelectStopRow from './SelectStopRow';
 import SelectCitybikeRow from './SelectCitybikeRow';
 
 import { FormattedMessage } from 'react-intl';
@@ -39,7 +39,7 @@ function MarkerSelectPopup(props) {
 MarkerSelectPopup.displayName = 'MarkerSelectPopup';
 
 MarkerSelectPopup.propTypes = {
-  options: React.PropTypes.object.isRequired,
+  options: React.PropTypes.array.isRequired,
   selectRow: React.PropTypes.func.isRequired,
 };
 
