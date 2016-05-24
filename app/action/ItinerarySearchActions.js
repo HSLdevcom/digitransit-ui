@@ -159,7 +159,5 @@ export function route(actionContext, payload, done) {
 }
 
 export function reset(actionContext) {
-  return actionContext.dispatch('Reset',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
+  return actionContext.dispatch('Reset');
 }
