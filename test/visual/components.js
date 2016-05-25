@@ -78,4 +78,10 @@ gemini.suite('components', (parent) => {
       '#TimeSelectors .component-example:nth-of-type(1) .component')
     .capture('normal');
   });
+
+  gemini.suite('MarkerSelectPopup', (component) => {
+    component.setCaptureElements(
+      '#MarkerSelectPopup .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
 });
