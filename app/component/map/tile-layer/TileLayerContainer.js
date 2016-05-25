@@ -228,6 +228,7 @@ class TileLayerContainer extends BaseTileLayer {
             maxWidth={250}
             autoPanPaddingTopLeft={[5, 125]}
             className="popup"
+            maxHeight={220}
             position={this.state.coords}
             ref="popup"
           >
