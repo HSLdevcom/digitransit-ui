@@ -221,9 +221,10 @@ class ItineraryPlanContainer extends React.Component {
         <div className="itinerary-no-route-found">
           <FormattedMessage
             id="no-route-msg"
-            defaultMessage="
+            defaultMessage={`
               Unfortunately no route was found between the locations you gave.
-              Please change origin and/or destination address."
+              Please change origin and/or destination address.
+            `}
           />
         </div>);
     }
