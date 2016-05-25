@@ -90,4 +90,10 @@ gemini.suite('components', (parent) => {
       '#SelectStopRow .component-example:nth-of-type(1) .component')
     .capture('normal');
   });
+
+  gemini.suite('SelectCityBikeRow', (component) => {
+    component.setCaptureElements(
+      '#SelectCityBikeRow .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
 });
