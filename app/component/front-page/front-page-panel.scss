@@ -131,3 +131,9 @@ $heading-color: #858585;
 .scroll-extra-padding-bottom > div {
   padding-bottom: 5em;
 }
+
+li.favourites.selected {
+  svg.favourites-icon {
+    color: $favourite-color;
+  }
+}
