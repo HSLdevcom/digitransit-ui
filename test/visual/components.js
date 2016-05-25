@@ -84,4 +84,10 @@ gemini.suite('components', (parent) => {
       '#MarkerSelectPopup .component-example:nth-of-type(1) .component')
     .capture('normal');
   });
+
+  gemini.suite('SelectStopRow', (component) => {
+    component.setCaptureElements(
+      '#SelectStopRow .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
 });
