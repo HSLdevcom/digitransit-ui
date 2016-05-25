@@ -32,7 +32,6 @@ class ItineraryPlanContainer extends React.Component {
     this.switchSlide = this.switchSlide.bind(this);
     this.getSlides = this.getSlides.bind(this);
     this.getTabs = this.getTabs.bind(this);
-    this.render = this.render.bind(this);
   }
 
   getSlides(itineraries) {
