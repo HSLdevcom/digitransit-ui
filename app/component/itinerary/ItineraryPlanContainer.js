@@ -33,46 +33,34 @@ class ItineraryPlanContainer extends React.Component {
   }
 
   getSlides(itineraries) {
-    const slides = [];
-
-    for (let [i, itinerary] of itineraries.entries()) {
-      slides.push(
-        <div className="itinerary-slide-container" key={i}>
-          <ItineraryTab
-            ref={`itineraryTab${i}`}
-            focus={this.focusMap}
-            itinerary={itinerary}
-            index={i}
-          />
-        </div>);
-    }
-
-    return slides;
+    return itineraries.map((itinerary, i) => (
+      <div className="itinerary-slide-container" key={i}>
+        <ItineraryTab
+          ref={`itineraryTab${i}`}
+          focus={this.focusMap}
+          itinerary={itinerary}
+          index={i}
+        />
+      </div>
+    ));
   }
 
   getTabs(itineraries, selectedIndex) {
-    const tabs = [];
-
-    for (let i of itineraries.entries()) {
-      const color = i === selectedIndex ? '#007ac9' : '#ddd';
-
-      tabs.push(
-        <Tab
-          selected={i === selectedIndex}
-          key={i}
-          label="•"
-          value={i}
-          className={i === selectedIndex ? 'itinerary-tab-root--selected' : 'itinerary-tab-root'}
-          style={{
-            height: '18px',
-            color,
-            fontSize: '34px',
-            padding: '0px',
-          }}
-        />);
-    }
-
-    return tabs;
+    return itineraries.map((itinerary, i) => (
+      <Tab
+        selected={i === selectedIndex}
+        key={i}
+        label="•"
+        value={i}
+        className={i === selectedIndex ? 'itinerary-tab-root--selected' : 'itinerary-tab-root'}
+        style={{
+          height: '18px',
+          color: i === selectedIndex ? '#007ac9' : '#ddd',
+          fontSize: '34px',
+          padding: '0px',
+        }}
+      />
+    ));
   }
 
   toggleFullscreenMap() {
