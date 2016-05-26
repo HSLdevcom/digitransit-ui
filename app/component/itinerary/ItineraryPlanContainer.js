@@ -30,8 +30,6 @@ class ItineraryPlanContainer extends React.Component {
     this.focusMap = this.focusMap.bind(this);
     this.toggleFullscreenMap = this.toggleFullscreenMap.bind(this);
     this.switchSlide = this.switchSlide.bind(this);
-    this.getSlides = this.getSlides.bind(this);
-    this.getTabs = this.getTabs.bind(this);
   }
 
   getSlides(itineraries) {
