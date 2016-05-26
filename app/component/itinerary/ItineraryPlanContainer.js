@@ -229,7 +229,7 @@ class ItineraryPlanContainer extends React.Component {
   }
 }
 
-const ItineraryPlanContainerFragments = {
+export const ItineraryPlanContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
       plan(
