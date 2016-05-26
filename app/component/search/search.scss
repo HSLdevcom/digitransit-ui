@@ -160,7 +160,7 @@ div.search-modal {
   width: 100%;
   max-width: none;
   position: absolute;
-  top: -40px;
+  top: 0px;
   left: 0px;
   bottom: 0px;
 
@@ -176,7 +176,14 @@ div.search-modal {
 
 div.map {
   .search-modal {
+    top: -40px;
     bottom: -50px;
+  }
+}
+
+div.origin-destination-bar {
+  .search-modal {
+    top: -40px;
   }
 }
 
