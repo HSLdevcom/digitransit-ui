@@ -18,19 +18,11 @@ class ItineraryPlanContainer extends React.Component {
     router: React.PropTypes.object.isRequired,
   };
 
-  constructor() {
-    super();
-
-    this.state = {
-      lat: undefined,
-      lon: undefined,
-      fullscreen: false,
-    };
-
-    this.focusMap = this.focusMap.bind(this);
-    this.toggleFullscreenMap = this.toggleFullscreenMap.bind(this);
-    this.switchSlide = this.switchSlide.bind(this);
-  }
+  state = {
+    lat: undefined,
+    lon: undefined,
+    fullscreen: false,
+  };
 
   getSlides(itineraries) {
     return itineraries.map((itinerary, i) => (
@@ -63,20 +55,11 @@ class ItineraryPlanContainer extends React.Component {
     ));
   }
 
-  toggleFullscreenMap() {
-    this.setState({
-      fullscreen: !this.state.fullscreen,
-    });
-  }
+  toggleFullscreenMap = () => this.setState({ fullscreen: !this.state.fullscreen });
 
-  focusMap(lat, lon) {
-    this.setState({
-      lat,
-      lon,
-    });
-  }
+  focusMap = (lat, lon) => this.setState({ lat, lon })
 
-  switchSlide(index) {
+  switchSlide = (index) => {
     this.context.router.replace(
       `${getRoutePath(this.props.fromPlace, this.props.toPlace)}/${index}`);
     const itineraryTab = this.refs[`itineraryTab${index}`];
