@@ -70,129 +70,123 @@ class ItineraryPlanContainer extends React.Component {
   }
 
   render() {
-    let leafletObjs;
-    let itinerary;
-    let index;
-    let itineraries;
-    let plan;
+    const index = parseInt(this.props.hash, 10) || 0;
 
-    if (this.props.plan && this.props.plan.plan) {
-      plan = this.props.plan.plan;
-      itineraries = plan.itineraries;
-      index = parseInt(this.props.hash, 10) || 0;
-      itinerary = itineraries[index];
+    if (!this.props.plan || !this.props.plan.plan || !this.props.plan.plan.itineraries[index]) {
+      return (
+        <div className="itinerary-no-route-found">
+          <FormattedMessage
+            id="no-route-msg"
+            defaultMessage={`
+              Unfortunately no route was found between the locations you gave.
+              Please change origin and/or destination address.
+            `}
+          />
+        </div>
+      );
     }
 
-    if (itinerary && itinerary.legs) {
-      leafletObjs = [
-        <ItineraryLine
-          key={`line${this.props.hash}`}
-          legs={itinerary.legs}
-          showFromToMarkers
-          showTransferLabels
-        />];
+    const itineraries = this.props.plan.plan.itineraries;
+    const itinerary = itineraries[index];
 
-      if (this.state.fullscreen) {
-        return (
-          <div
-            style={{ height: '100%' }}
-            onTouchStart={e => e.stopPropagation()}
-            onMouseDown={e => e.stopPropagation()}
-          >
-            <Map
-              ref="map2"
-              className="fullscreen"
-              leafletObjs={leafletObjs}
-              lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
-              lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
-              zoom={16}
-              fitBounds={false}
-            >
-              <div
-                className="fullscreen-toggle"
-                onClick={this.toggleFullscreenMap}
-              >
-                <Icon
-                  img="icon-icon_maximize"
-                  className="cursor-pointer"
-                />
-              </div>
-            </Map>
-          </div>);
-      }
+    const leafletObjs = [
+      <ItineraryLine
+        key={`line${this.props.hash}`}
+        legs={itinerary.legs}
+        showFromToMarkers
+        showTransferLabels
+      />];
+
+    if (this.state.fullscreen) {
       return (
-        <div className="itinerary-container-content">
-          <div
-            onTouchStart={e => e.stopPropagation()}
-            onMouseDown={e => e.stopPropagation()}
+        <div
+          style={{ height: '100%' }}
+          onTouchStart={e => e.stopPropagation()}
+          onMouseDown={e => e.stopPropagation()}
+        >
+          <Map
+            className="fullscreen"
+            leafletObjs={leafletObjs}
+            lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
+            lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
+            zoom={16}
+            fitBounds={false}
           >
-            <Map
-              ref="map"
-              leafletObjs={leafletObjs}
-              lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
-              lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
-              zoom={16}
-              fitBounds={false}
-              leafletOptions={{
-                dragging: false,
-                touchZoom: false,
-                scrollWheelZoom: false,
-                doubleClickZoom: false,
-                boxZoom: false,
-              }}
+            <div
+              className="fullscreen-toggle"
+              onClick={this.toggleFullscreenMap}
             >
-              <div
-                className="map-click-prevent-overlay"
-                onClick={this.toggleFullscreenMap}
+              <Icon
+                img="icon-icon_maximize"
+                className="cursor-pointer"
               />
-              <div
-                className="fullscreen-toggle"
-                onClick={this.toggleFullscreenMap}
-              >
-                <Icon
-                  img="icon-icon_maximize"
-                  className="cursor-pointer"
-                />
-              </div>
-            </Map>
-          </div>
-          <SwipeableViews
-            index={index}
-            className="itinerary-swipe-views-root"
-            slideStyle={{ height: '100%' }}
-            containerStyle={{ height: '100%' }}
-            onChangeIndex={(idx) => setTimeout(this.switchSlide, 150, idx)}
-          >
-            {this.getSlides(itineraries)}
-          </SwipeableViews>
-          <div className="itinerary-tabs-container">
-            <Tabs
-              onChange={this.switchSlide}
-              value={index}
-              tabItemContainerStyle={{
-                backgroundColor: '#eef1f3',
-                lineHeight: '18px',
-                width: '60px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-              inkBarStyle={{ display: 'none' }}
-            >
-              {this.getTabs(itineraries, index)}
-            </Tabs>
-          </div>
-        </div>);
+            </div>
+          </Map>
+        </div>
+      );
     }
     return (
-      <div className="itinerary-no-route-found">
-        <FormattedMessage
-          id="no-route-msg"
-          defaultMessage={`
-            Unfortunately no route was found between the locations you gave.
-            Please change origin and/or destination address.
-          `}
-        />
-      </div>);
+      <div className="itinerary-container-content">
+        <div
+          onTouchStart={e => e.stopPropagation()}
+          onMouseDown={e => e.stopPropagation()}
+        >
+          <Map
+            leafletObjs={leafletObjs}
+            lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
+            lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
+            zoom={16}
+            fitBounds={false}
+            leafletOptions={{
+              dragging: false,
+              touchZoom: false,
+              scrollWheelZoom: false,
+              doubleClickZoom: false,
+              boxZoom: false,
+            }}
+          >
+            <div
+              className="map-click-prevent-overlay"
+              onClick={this.toggleFullscreenMap}
+            />
+            <div
+              className="fullscreen-toggle"
+              onClick={this.toggleFullscreenMap}
+            >
+              <Icon
+                img="icon-icon_maximize"
+                className="cursor-pointer"
+              />
+            </div>
+          </Map>
+        </div>
+        <SwipeableViews
+          index={index}
+          className="itinerary-swipe-views-root"
+          slideStyle={{ height: '100%' }}
+          containerStyle={{ height: '100%' }}
+          onChangeIndex={(idx) => setTimeout(this.switchSlide, 150, idx)}
+        >
+          {this.getSlides(itineraries)}
+        </SwipeableViews>
+        <div className="itinerary-tabs-container">
+          <Tabs
+            onChange={this.switchSlide}
+            value={index}
+            tabItemContainerStyle={{
+              backgroundColor: '#eef1f3',
+              lineHeight: '18px',
+              width: '60px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+            inkBarStyle={{ display: 'none' }}
+          >
+            {this.getTabs(itineraries, index)}
+          </Tabs>
+        </div>
+      </div>
+    );
   }
 }
 
