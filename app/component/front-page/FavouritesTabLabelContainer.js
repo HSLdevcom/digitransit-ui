@@ -5,11 +5,10 @@ import mapProps from 'recompose/mapProps';
 import some from 'lodash/some';
 import flatten from 'lodash/flatten';
 import RoutesRoute from '../../routes/RoutesRoute';
-import TabLabel from './TabLabel';
+import TabLabel from './FavouritesTabLabel';
 
 const hasDisruption = (routes) =>
   some(flatten(routes.map(route => route.alerts.length > 0)));
-    // .map(pattern => pattern.alerts.length > 0));
 
 const alertReducer = mapProps(({ routes, classes, ...rest }) => ({
   hasDisruption: hasDisruption(routes),
