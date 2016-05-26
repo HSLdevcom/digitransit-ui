@@ -6,7 +6,9 @@
   "keywords": "rutebanken, nightwatch",
   "scripts": {
     "test": "./node_modules/nightwatch/bin/nightwatch --skiptags skip",
-    "beta": "./node_modules/nightwatch/bin/nightwatch --skiptags skip --env beta"
+    "test-smoke": "./node_modules/nightwatch/bin/nightwatch --tag smoke",
+    "beta": "./node_modules/nightwatch/bin/nightwatch --skiptags skip --env beta",
+    "beta-smoke": "./node_modules/nightwatch/bin/nightwatch --tag smoke --env beta"
   },
   "repository": {
     "type": "git",
