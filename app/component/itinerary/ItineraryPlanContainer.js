@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import ItineraryTab from '../itinerary/itineraryTab';
+import ItineraryTab from '../itinerary/ItineraryTab';
 import { FormattedMessage } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
 import ItineraryLine from '../map/itinerary-line';
