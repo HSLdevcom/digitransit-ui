@@ -71,7 +71,6 @@ class ItineraryPlanContainer extends React.Component {
 
   render() {
     let leafletObjs;
-    let content;
     let itinerary;
     let index;
     let itineraries;
@@ -94,7 +93,7 @@ class ItineraryPlanContainer extends React.Component {
         />];
 
       if (this.state.fullscreen) {
-        content = (
+        return (
           <div
             style={{ height: '100%' }}
             onTouchStart={e => e.stopPropagation()}
@@ -120,83 +119,80 @@ class ItineraryPlanContainer extends React.Component {
               </div>
             </Map>
           </div>);
-      } else {
-        content = (
-          <div className="itinerary-container-content">
-            <div
-              onTouchStart={e => e.stopPropagation()}
-              onMouseDown={e => e.stopPropagation()}
-            >
-              <Map
-                ref="map"
-                leafletObjs={leafletObjs}
-                lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
-                lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
-                zoom={16}
-                fitBounds={false}
-                leafletOptions={{
-                  dragging: false,
-                  touchZoom: false,
-                  scrollWheelZoom: false,
-                  doubleClickZoom: false,
-                  boxZoom: false,
-                }}
-              >
-                <div
-                  className="map-click-prevent-overlay"
-                  onClick={this.toggleFullscreenMap}
-                />
-                <div
-                  className="fullscreen-toggle"
-                  onClick={this.toggleFullscreenMap}
-                >
-                  <Icon
-                    img="icon-icon_maximize"
-                    className="cursor-pointer"
-                  />
-                </div>
-              </Map>
-            </div>
-            <SwipeableViews
-              index={index}
-              className="itinerary-swipe-views-root"
-              slideStyle={{ height: '100%' }}
-              containerStyle={{ height: '100%' }}
-              onChangeIndex={(idx) => setTimeout(this.switchSlide, 150, idx)}
-            >
-              {this.getSlides(itineraries)}
-            </SwipeableViews>
-            <div className="itinerary-tabs-container">
-              <Tabs
-                onChange={this.switchSlide}
-                value={index}
-                tabItemContainerStyle={{
-                  backgroundColor: '#eef1f3',
-                  lineHeight: '18px',
-                  width: '60px',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                }}
-                inkBarStyle={{ display: 'none' }}
-              >
-                {this.getTabs(itineraries, index)}
-              </Tabs>
-            </div>
-          </div>);
       }
-    } else {
       return (
-        <div className="itinerary-no-route-found">
-          <FormattedMessage
-            id="no-route-msg"
-            defaultMessage={`
-              Unfortunately no route was found between the locations you gave.
-              Please change origin and/or destination address.
-            `}
-          />
+        <div className="itinerary-container-content">
+          <div
+            onTouchStart={e => e.stopPropagation()}
+            onMouseDown={e => e.stopPropagation()}
+          >
+            <Map
+              ref="map"
+              leafletObjs={leafletObjs}
+              lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
+              lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
+              zoom={16}
+              fitBounds={false}
+              leafletOptions={{
+                dragging: false,
+                touchZoom: false,
+                scrollWheelZoom: false,
+                doubleClickZoom: false,
+                boxZoom: false,
+              }}
+            >
+              <div
+                className="map-click-prevent-overlay"
+                onClick={this.toggleFullscreenMap}
+              />
+              <div
+                className="fullscreen-toggle"
+                onClick={this.toggleFullscreenMap}
+              >
+                <Icon
+                  img="icon-icon_maximize"
+                  className="cursor-pointer"
+                />
+              </div>
+            </Map>
+          </div>
+          <SwipeableViews
+            index={index}
+            className="itinerary-swipe-views-root"
+            slideStyle={{ height: '100%' }}
+            containerStyle={{ height: '100%' }}
+            onChangeIndex={(idx) => setTimeout(this.switchSlide, 150, idx)}
+          >
+            {this.getSlides(itineraries)}
+          </SwipeableViews>
+          <div className="itinerary-tabs-container">
+            <Tabs
+              onChange={this.switchSlide}
+              value={index}
+              tabItemContainerStyle={{
+                backgroundColor: '#eef1f3',
+                lineHeight: '18px',
+                width: '60px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+              inkBarStyle={{ display: 'none' }}
+            >
+              {this.getTabs(itineraries, index)}
+            </Tabs>
+          </div>
         </div>);
     }
-    return content;
+    return (
+      <div className="itinerary-no-route-found">
+        <FormattedMessage
+          id="no-route-msg"
+          defaultMessage={`
+            Unfortunately no route was found between the locations you gave.
+            Please change origin and/or destination address.
+          `}
+        />
+      </div>);
   }
 }
 
