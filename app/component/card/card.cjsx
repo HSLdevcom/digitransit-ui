@@ -1,7 +1,7 @@
 React                 = require 'react'
 cx                    = require 'classnames'
-Example               = require '../documentation/example-data'
-ComponentUsageExample = require '../documentation/component-usage-example'
+Example               = require '../documentation/ExampleData'
+ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 
 Card = ({className, children}) ->
   <div className={cx "card", className}>

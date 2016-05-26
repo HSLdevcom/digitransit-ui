@@ -5,12 +5,13 @@ node_modules
 filesizes.html
 stats.json
 test/credentials.json
+test/binaries
 *.swp
 .idea
 *.iml
 *~
 test_output
-test/binaries
+test/flow/binaries
 selenium-debug.log
 gemini-report
 sass/themes/*

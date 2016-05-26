@@ -5,7 +5,7 @@ const introspectionQuery = require('graphql/utilities/introspectionQuery').intro
 const fetch = require('node-fetch');
 const outputFilename = 'schema.json';
 
-fetch((process.env.SERVER_ROOT || 'http://matka.hsl.fi') + '/otp/routers/default/index/graphql', {
+fetch((process.env.SERVER_ROOT || 'https://dev-api.digitransit.fi/routing/v1') + '/routers/default/index/graphql', {
   method: 'post',
   headers: {
     'Accept': 'application/json',
@@ -14,9 +14,10 @@ fetch((process.env.SERVER_ROOT || 'http://matka.hsl.fi') + '/otp/routers/default
   body: JSON.stringify({
     query: introspectionQuery,
   }),
-}).then((response) => {
+}).then(response => {
+  console.log(response.headers)
   return response.json();
-}).then((json) => {
+}).then(json => {
   fs.writeFile(outputFilename, JSON.stringify(json.data, null, 4), (err) => {
     if (err) {
       console.log(err);
@@ -24,4 +25,6 @@ fetch((process.env.SERVER_ROOT || 'http://matka.hsl.fi') + '/otp/routers/default
       console.log('JSON saved to ' + outputFilename);
     }
   });
+}).catch(err => {
+  console.log(err);
 });
