@@ -6,7 +6,7 @@ Run tests: ```npm test```
 
 When running locally, you need a local selenium running or use selenium from one of our environments.
 
-# Run only smoke tests
+## Run only smoke tests
 ```npm run test-smoke```
 
 ## Run against beta environment
