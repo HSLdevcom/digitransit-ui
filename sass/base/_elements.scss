@@ -184,7 +184,7 @@ $border-radius-rounded: 30px;
 
 .smallscreen-toggle {
   @extend .fullscreen-toggle;
-  position: fixed;
+  bottom: -1px;
 }
 
 

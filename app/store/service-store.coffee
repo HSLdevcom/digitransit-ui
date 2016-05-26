@@ -14,8 +14,8 @@ class ServiceStore extends Store
   geolocator: ->
     geolocation: @mock?.geolocation or navigator.geolocation
 
-  notify: () ->
-    window.retrieveGeolocation(window.mock.data.position)
+  notify: (disableDebounce) ->
+    window.retrieveGeolocation(window.mock.data.position, disableDebounce)
 
   makeMockGeolocation: ->
     follow = false
@@ -59,11 +59,11 @@ class ServiceStore extends Store
       window.mock.data.position.coords.longitude += dlon
       window.mock.data.position.coords.heading = heading if heading
       @notify()
-    setCurrentPosition: (lat, lon, heading) =>
+    setCurrentPosition: (lat, lon, heading, disableDebounce) =>
       window.mock.data.position.coords.latitude = lat
       window.mock.data.position.coords.longitude = lon
       window.mock.data.position.coords.heading = heading if heading
-      @notify()
+      @notify(disableDebounce)
 
   @handlers:
     'geolocator': 'geolocator'

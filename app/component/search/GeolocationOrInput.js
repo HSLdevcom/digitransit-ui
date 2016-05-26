@@ -16,7 +16,7 @@ export default class GeolocationOrInput extends Component {
   };
 
   componentWillMount() {
-    if (typeof this.props.endpoint != null) {
+    if (this.props.endpoint != null) {
       this.setStateFromEndpoint(this.props.endpoint);
     }
   }
@@ -25,7 +25,7 @@ export default class GeolocationOrInput extends Component {
     (useCurrentPosition ? this.setState({ geolocation: useCurrentPosition }) : null)
 
   getInitialValue = () =>
-    (typeof this.props.endpoint != null ?
+    (this.props.endpoint != null ?
       this.props.endpoint.address || '' : this.props.initialValue)
 
   render() {

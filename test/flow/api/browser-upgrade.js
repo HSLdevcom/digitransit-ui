@@ -16,7 +16,7 @@ module.exports = function (browser) {
 
   browser.setCurrentPosition = function setCurrentPosition(lat, lon, heading, done) {
     browser.execute(function (lat2, lon2, heading2) {
-      window.mock.geolocation.setCurrentPosition(lat2, lon2, heading2);
+      window.mock.geolocation.setCurrentPosition(lat2, lon2, heading2, true);
     }, [lat, lon, heading], function () {
       done();
     });
@@ -65,6 +65,12 @@ module.exports = function (browser) {
     });
   };
 
+  browser.back = {};
+  browser.back.click = (done) => {
+    browser.expect.element('.cursor-pointer.back').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+    browser.click('.cursor-pointer.back', done);
+  };
+
   browser.map = {
     click(done) {
       browser.click('div.map', done);
@@ -80,19 +86,30 @@ module.exports = function (browser) {
   };
 
   browser.origin = {
+    popup: {
+      click(done) {
+        browser.expect.element('.origin-popup').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+        browser.click('.origin-popup', done);
+      },
+    },
+    clear(done) {
+      browser.expect.element('.clear-icon').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.click('.clear-icon', done);
+    },
     selectOrigin() {
       browser.expect.element('#origin')
         .to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
       browser.click('#origin');
     },
     enterText(text) {
-      browser.expect.element('#search-origin')
-        .to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.pause(100);
-      browser.setValue('#search-origin', text);
-      browser.pause(1000); // wait for suggestions
-      browser.setValue('#search-origin', browser.Keys.ENTER);
-      browser.pause(100); // wait for dialog to vanish
+      browser.expect.element('#search-origin').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
+      browser.setValue('#search-origin', text, () => {
+        browser.pause(1000, () => {
+          browser.setValue('#search-origin', browser.Keys.ENTER, () => {
+            browser.pause(100);
+          });
+        });
+      });
     },
   };
 
@@ -106,12 +123,13 @@ module.exports = function (browser) {
       browser.click('#destination');
     },
     enterText(text) {
-      browser.expect.element('#search-destination').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.pause(100);
-      browser.setValue('#search-destination', text);
-      browser.pause(1000); // wait for suggestions
-      browser.setValue('#search-destination', browser.Keys.ENTER);
-      browser.pause(100); // wait for dialog to vanish
+      browser.setValue('#search-destination', text, () => {
+        browser.pause(1000, () => {
+          browser.setValue('#search-destination', browser.Keys.ENTER, () => {
+            browser.pause(100);
+          });
+        });
+      });
     },
   };
 };
