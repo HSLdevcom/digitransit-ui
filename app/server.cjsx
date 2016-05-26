@@ -67,7 +67,6 @@ getPolyfills = (userAgent) ->
     'Object.assign': flags: ['gated']
     'Array.prototype.find': flags: ['gated']
     'Array.from': flags: ['gated']
-    'Object.keys': flags: ['gated']
     'es5': flags: ['gated']
     'atob': flags: ['gated']
     'setImmediate': flags: ['gated']
