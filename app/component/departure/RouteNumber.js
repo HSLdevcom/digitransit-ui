@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import Icon from '../icon/icon';
+import IconWithAlert from '../icon/IconWithAlert';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from '../documentation/ExampleData';
 
@@ -9,10 +10,16 @@ function RouteNumber(props) {
 
   return (
     <span className={cx('route-number', props.className, { vertical: props.vertical })}>
-      <Icon
-        className={mode}
-        img={`icon-icon_${mode}`}
-      />
+      {props.hasDisruption ?
+        <IconWithAlert
+          className={mode}
+          img={`icon-icon_${mode}`}
+        /> :
+        <Icon
+          className={mode}
+          img={`icon-icon_${mode}`}
+        />
+      }
       {props.vertical ? <br /> : null}
       <span className={`vehicle-number ${mode}`}>
         {props.text}
@@ -51,6 +58,7 @@ RouteNumber.propTypes = {
   text: React.PropTypes.node,
   vertical: React.PropTypes.bool,
   className: React.PropTypes.string,
+  hasDisruption: React.PropTypes.bool,
 };
 
 RouteNumber.displayName = 'RouteNumber';

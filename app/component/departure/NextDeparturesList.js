@@ -65,6 +65,7 @@ function NextDeparturesList(props) {
           <RouteNumber
             mode={stoptime.pattern.route.type}
             text={stoptime.pattern.route.shortName}
+            hasDisruption={departure.hasDisruption}
           />
           <RouteDestination
             mode={stoptime.pattern.route.type}

@@ -14,6 +14,11 @@ const getNextDepartures = (routes, lat, lon) => {
   const seenDepartures = {};
 
   for (const route of routes) {
+    let hasDisruption = false;
+    if (route.alerts.length > 0) {
+      hasDisruption = true;
+    }
+
     for (const pattern of route.patterns) {
       const closest = getDistanceToNearestStop(lat, lon, pattern.stops);
       const keepStoptimes = [];
@@ -35,6 +40,7 @@ const getNextDepartures = (routes, lat, lon) => {
         nextDepartures.push({
           distance: closest.distance,
           stoptime,
+          hasDisruption,
         });
       }
     }
@@ -88,6 +94,9 @@ export default Relay.createContainer(FavouriteRouteListContainerWithTime, {
   fragments: {
     routes: () => Relay.QL`
       fragment on Route @relay(plural:true) {
+        alerts {
+          id
+        }
         patterns {
           headsign
           stops {
