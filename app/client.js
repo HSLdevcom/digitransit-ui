@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import { RelayRouter } from 'react-router-relay';
-import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
+import provideContext from 'fluxible-addons-react/provideContext';
 import tapEventPlugin from 'react-tap-event-plugin';
 import config from './config';
 import StoreListeningIntlProvider from './util/store-listening-intl-provider';
@@ -139,14 +139,17 @@ app.rehydrate(window.state, (err, context) => {
 
   window.context = context;
 
+  const ContextProvider = provideContext(StoreListeningIntlProvider, {
+    piwik: React.PropTypes.object,
+    raven: React.PropTypes.object,
+  });
+
   ReactDOM.render(
-    <FluxibleComponent context={context.getComponentContext()}>
-      <StoreListeningIntlProvider translations={translations}>
-        <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
-          <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
-        </MuiThemeProvider>
-      </StoreListeningIntlProvider>
-    </FluxibleComponent>
+    <ContextProvider translations={translations} context={context.getComponentContext()}>
+      <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
+        <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
+      </MuiThemeProvider>
+    </ContextProvider>
     , document.getElementById('app')
     , trackReactPerformance
   );
