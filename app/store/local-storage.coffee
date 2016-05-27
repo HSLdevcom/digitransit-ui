@@ -14,7 +14,7 @@ module.exports =
 
   getItemAsJson: (i) ->
     item = @getItem(i)
-    if (item == null) then item = "[]"
+    if (item == null or item == undefined) then item = "[]"
     JSON.parse(item)
 
   removeItem: (k) ->
