@@ -10,6 +10,10 @@ if (process.env.NODE_ENV === 'production') {
   Raven.config(config.SENTRY_DSN, {
     release: buildInfo.COMMIT_ID,
   }).install();
+} else {
+  Raven = {
+    captureMessage: console.error, // eslint-disable-line no-console
+  };
 }
 
 export default Raven;
