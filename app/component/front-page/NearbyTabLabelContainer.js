@@ -5,7 +5,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
 import flatten from 'lodash/flatten';
 import config from '../../config';
-import TabLabel from './NearbyTabLabel';
+import NearbyTabLabel from './NearbyTabLabel';
 import StopListRoute from '../../routes/StopListRoute';
 
 const STOP_COUNT = 20;
@@ -16,13 +16,12 @@ const hasDisruption = (stops) =>
       route.alerts.length > 0))));
 
 
-const alertReducer = mapProps(({ stops, classes, ...rest }) => ({
+const alertReducer = mapProps(({ stops, ...rest }) => ({
   hasDisruption: hasDisruption(stops),
-  classes,
   ...rest,
 }));
 
-const NearbyTabLabel = Relay.createContainer(alertReducer(TabLabel), {
+const NearbyTabLabelRelayConnector = Relay.createContainer(alertReducer(NearbyTabLabel), {
   fragments: {
     stops: () => Relay.QL`
     fragment on QueryType {
@@ -64,9 +63,9 @@ function NearbyTabLabelContainer(props) {
   if (typeof window !== 'undefined') {
     return (
       <Relay.RootContainer
-        Component={NearbyTabLabel}
+        Component={NearbyTabLabelRelayConnector}
         renderFetched={(data) =>
-          <NearbyTabLabel {...data} {...props} />
+          <NearbyTabLabelRelayConnector {...data} {...props} />
         }
         route={new StopListRoute({
           lat: props.location.lat,
@@ -74,7 +73,7 @@ function NearbyTabLabelContainer(props) {
           date: props.currentTime,
         })}
         renderLoading={() =>
-          <TabLabel {...props} />
+          <NearbyTabLabel {...props} />
         }
       />);
   }

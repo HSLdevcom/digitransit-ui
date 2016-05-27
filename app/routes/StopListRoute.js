@@ -1,6 +1,6 @@
 import Relay from 'react-relay';
 
-export default class StopListContainerRoute extends Relay.Route {
+export default class StopListRoute extends Relay.Route {
   static queries = {
     stops: (Component, variables) => Relay.QL`
       query {
@@ -19,5 +19,5 @@ export default class StopListContainerRoute extends Relay.Route {
     lon: { required: true },
     date: { required: true },
   };
-  static routeName = 'StopListContainerRoute';
+  static routeName = 'StopListRoute';
 }

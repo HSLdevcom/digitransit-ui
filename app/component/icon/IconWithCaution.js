@@ -2,19 +2,17 @@ import React from 'react';
 import cx from 'classnames';
 
 const IconWithCaution = props => (
-  <span>
-    <svg id={props.id} viewBox="0 0 40 40" className={cx('icon', props.className)}>
-      <use
-        xlinkHref={`#${props.img}`}
-      />
-      <use
-        xlinkHref="#icon-icon_caution"
-        transform="scale(0.6,0.6)"
-        y="30"
-        style={{ color: 'red' }}
-      />
-    </svg>
-  </span>
+  <svg id={props.id} viewBox="0 0 40 40" className={cx('icon', props.className)}>
+    <use
+      xlinkHref={`#${props.img}`}
+    />
+    <use
+      xlinkHref="#icon-icon_caution"
+      transform="scale(0.6,0.6)"
+      y="30"
+      style={{ color: 'red' }}
+    />
+  </svg>
 );
 
 IconWithCaution.displayName = 'IconWithCaution';

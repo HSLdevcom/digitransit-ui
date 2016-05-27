@@ -15,5 +15,5 @@ export default class RoutesRoute extends Relay.Route {
   static paramDefinitions = {
     ids: { required: true },
   };
-  static routeName = 'FavouriteRouteRowRoute';
+  static routeName = 'RoutesRoute';
 }

@@ -5,18 +5,17 @@ import mapProps from 'recompose/mapProps';
 import some from 'lodash/some';
 import flatten from 'lodash/flatten';
 import RoutesRoute from '../../routes/RoutesRoute';
-import TabLabel from './FavouritesTabLabel';
+import FavouritesTabLabel from './FavouritesTabLabel';
 
 const hasDisruption = (routes) =>
   some(flatten(routes.map(route => route.alerts.length > 0)));
 
-const alertReducer = mapProps(({ routes, classes, ...rest }) => ({
+const alertReducer = mapProps(({ routes, ...rest }) => ({
   hasDisruption: hasDisruption(routes),
-  classes,
   ...rest,
 }));
 
-const FavouritesTabLabel = Relay.createContainer(alertReducer(TabLabel), {
+const FavouritesTabLabelRelayConnector = Relay.createContainer(alertReducer(FavouritesTabLabel), {
   fragments: {
     routes: () => Relay.QL`
     fragment on Route @relay(plural:true) {
@@ -32,15 +31,15 @@ function FavouritesTabLabelContainer({ routes, ...rest }) {
   if (typeof window !== 'undefined') {
     return (
       <Relay.RootContainer
-        Component={FavouritesTabLabel}
+        Component={FavouritesTabLabelRelayConnector}
         route={new RoutesRoute({
           ids: routes,
         })}
         renderFetched={(data) =>
-          <FavouritesTabLabel {...data} {...rest} />
+          <FavouritesTabLabelRelayConnector {...data} {...rest} />
         }
         renderLoading={() =>
-          <TabLabel {...rest} />
+          <FavouritesTabLabel {...rest} />
         }
       />);
   }
