@@ -2,7 +2,7 @@ isBrowser          = window?
 React              = require 'react'
 Polyline           = if isBrowser then require('react-leaflet/lib/Polyline').default else null
 cx                 = require 'classnames'
-
+config             = require '../../config'
 
 class Line extends React.Component
   componentDidMount: () =>
@@ -28,13 +28,16 @@ class Line extends React.Component
     # updating className does not work currently :(
 
     objs = []
+    haloWeight = if @props.thin then config.map.line.halo.thinWeight else config.map.line.halo.weight
+    legWeight = if @props.thin then config.map.line.leg.thinWeight else config.map.line.leg.weight
+
     objs.push <Polyline map={@props.map}
                         layerContainer={@props.layerContainer}
                         key="halo"
                         ref="halo"
                         positions={@props.geometry}
                         className={"leg-halo #{className}"}
-                        weight={if @props.thin then 4 else 5}
+                        weight={haloWeight}
                         interactive={false} />
     objs.push <Polyline map={@props.map}
                         layerContainer={@props.layerContainer}
@@ -43,7 +46,7 @@ class Line extends React.Component
                         positions={@props.geometry}
                         className="leg #{className}"
                         color={if @props.passive then "#c2c2c2" else "currentColor"}
-                        weight={if @props.thin then 2 else 3}
+                        weight={legWeight}
                         interactive={false} />
 
     <div style={{display: "none"}}>{objs}</div>

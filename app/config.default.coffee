@@ -67,6 +67,13 @@ module.exports =
         offset: [106, 3]
         maxWidth: 250
         minWidth: 250
+  line:
+    halo:
+      weight: 5
+      thinWeight: 4
+    leg:
+      weight: 3
+      thinWeight: 2
   stopCard:
     header:
       showDescription: true
@@ -103,6 +110,7 @@ module.exports =
     description: "Liikenneviraston Matka.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
   # Ticket information feature toggle
   showTicketInformation: false
+  showRouteInformation: false
   # Control what transport modes that should be possible to select in the UI
   # and whether the transport mode is used in trip planning by default.
   transportModes:

@@ -32,6 +32,7 @@ $content-background-color: $background-color;
 nav.top-bar {
   z-index: 1000;
   text-align: center;
+  overflow: visible; // Show drawer menu
 
   .icon-holder {
     height: $topbar-height;

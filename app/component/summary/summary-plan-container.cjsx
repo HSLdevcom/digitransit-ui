@@ -1,6 +1,5 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
-queries               = require '../../queries'
 ItinerarySummaryListContainer = require './itinerary-summary-list-container'
 SummaryRow            = require './summary-row'
 TimeNavigationButtons = require('./TimeNavigationButtons').default
@@ -13,6 +12,7 @@ Icon                  = require '../icon/icon'
 sortBy                = require 'lodash/sortBy'
 moment                = require 'moment'
 config                = require '../../config'
+{ItineraryPlanContainerFragments} = require('../itinerary/ItineraryPlanContainer')
 
 class SummaryPlanContainer extends React.Component
 
@@ -94,7 +94,7 @@ class SummaryPlanContainer extends React.Component
       </div>
 
 module.exports = Relay.createContainer SummaryPlanContainer,
-  fragments: queries.ItineraryPlanContainerFragments
+  fragments: ItineraryPlanContainerFragments
   initialVariables:
     from: null
     to: null
