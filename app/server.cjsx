@@ -117,6 +117,8 @@ getContent = (context, renderProps, locale, userAgent) ->
   )
 
 getHtml = (context, renderProps, locale, polyfills, req) ->
+  # Render content in order to create required meta-tags using react-hemet
+  getContent(context, renderProps, locale, req.headers['user-agent'])
   ReactDOM.renderToStaticMarkup <ApplicationHtml
     css={if process.env.NODE_ENV == 'development' then false else css}
     svgSprite={svgSprite}
