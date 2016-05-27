@@ -8,6 +8,7 @@ import { intlShape } from 'react-intl';
 import debounce from 'lodash/debounce';
 
 class TimeSelectorContainer extends Component {
+
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -49,13 +50,13 @@ class TimeSelectorContainer extends Component {
       </option>
     );
 
-    Array.from(Array(28).keys()).forEach(() =>
+    for (let i = 0; i < 28; i++) {
       dates.push(
         <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>
           {date.format('dd D.M')}
         </option>
-      )
-    );
+      );
+    }
 
     return dates;
   }

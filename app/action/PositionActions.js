@@ -2,7 +2,7 @@ import xhrPromise from '../util/xhr-promise';
 import config from '../config';
 import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
-import EndpointActions from './EndpointActions';
+import { setOriginToDefault } from './EndpointActions';
 
 const geolocator = (actionContext) => actionContext.getStore('ServiceStore').geolocator();
 let position;
@@ -58,7 +58,7 @@ const setCurrentLocation = (actionContext, pos) => {
   if (inside([pos.lon, pos.lat], config.areaPolygon)) {
     position = pos;
   } else {
-    actionContext.executeAction(EndpointActions.setOriginToDefault);
+    actionContext.executeAction(setOriginToDefault);
   }
 };
 
@@ -91,7 +91,7 @@ export function startLocationWatch(actionContext, payload, done) {
     if (error) {
       actionContext.piwik.trackEvent('geolocation', `status_${error.code}`, error.message);
       if (error.code < 10 && !actionContext.getStore('EndpointStore').getOrigin().userSetPosition) {
-        actionContext.executeAction(EndpointActions.setOriginToDefault);
+        actionContext.executeAction(setOriginToDefault);
       }
       if (error.code === 1) {
         actionContext.dispatch('GeolocationDenied');

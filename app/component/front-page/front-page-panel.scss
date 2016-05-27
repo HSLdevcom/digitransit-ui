@@ -42,8 +42,9 @@ $heading-color: #858585;
 }
 
 .frontpage-panel-container .tabs-row {
-  position: fixed;
   z-index: 1001;
+  position: absolute;
+  width: 100%;
   bottom: 0;
 }
 
@@ -130,4 +131,10 @@ $heading-color: #858585;
 
 .scroll-extra-padding-bottom > div:not(.spinner-loader) {
   padding-bottom: 5em;
+}
+
+li.favourites.selected {
+  svg.favourites-icon {
+    color: $favourite-color;
+  }
 }

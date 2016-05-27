@@ -158,11 +158,11 @@ div.search-modal {
   background:#EEF1F3;
   overflow: auto;
   width: 100%;
-  height:100%;
   max-width: none;
-  position: fixed;
+  position: absolute;
   top: 0px;
   left: 0px;
+  bottom: 0px;
 
   input[type="text"].react-autowhatever__input {
     border: 1px solid $gray;
@@ -172,7 +172,19 @@ div.search-modal {
     outline: 0;
     appearance: none;
   }
+}
 
+div.map {
+  .search-modal {
+    top: -40px;
+    bottom: -50px;
+  }
+}
+
+div.origin-destination-bar {
+  .search-modal {
+    top: -40px;
+  }
 }
 
 .search-header {
