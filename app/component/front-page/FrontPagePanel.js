@@ -4,6 +4,8 @@ import cx from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import FavouritesPanel from '../favourites/favourites-panel';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
+import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
+import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
 import { supportsHistory } from 'history/lib/DOMUtils';
 
@@ -162,14 +164,14 @@ export default class FrontPagePanel extends React.Component {
         {this.getSelectedPanel() ? content : undefined}
         </ReactCSSTransitionGroup>
         <ul className="tabs-row tabs-arrow-up cursor-pointer">
-          <li className={cx(tabClasses, nearbyClasses)} onClick={clickNearby}>
-            <Icon className="prefix-icon" img="icon-icon_bus-withoutBox" />
-            <FormattedMessage id="near-you" defaultMessage="Near you" />
-          </li>
-          <li className={cx(tabClasses, favouritesClasses)} onClick={clickFavourites}>
-            <Icon className="prefix-icon" img="icon-icon_star" />
-            <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />
-          </li>
+          <NearbyTabLabelContainer
+            classes={cx(tabClasses, nearbyClasses)}
+            onClick={clickNearby}
+          />
+          <FavouritesTabLabelContainer
+            classes={cx(tabClasses, favouritesClasses)}
+            onClick={clickFavourites}
+          />
         </ul>
       </div>
     );
