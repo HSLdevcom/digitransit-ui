@@ -19,7 +19,7 @@
     "test-local": "./test/flow/script/run-ui-tests.sh local",
     "test-browserstack": "./test/flow/script/run-ui-tests.sh browserstack",
     "test-acceptance": "./acceptance-tests/script/run-acceptance-tests.sh",
-    "test-visual": "./node_modules/.bin/gemini test test/visual/",
+    "test-visual": "./node_modules/.bin/gemini --reporter flat --reporter html test test/visual/",
     "test-visual-update": "./node_modules/.bin/gemini update test/visual/",
     "coffee-lint": "./node_modules/.bin/coffeelint -f coffeelint.json --ext=cjsx,coffee app",
     "es-lint": "./node_modules/.bin/eslint .",
