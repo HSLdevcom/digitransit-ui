@@ -95,7 +95,8 @@ function getGeocodingResult(input, geolocation, language) {
     opts = Object.assign({ text: input }, config.searchParams, { lang: language });
   }
 
-  return XhrPromise.getJson(config.URL.PELIAS, opts).then(res => res.features);
+  return XhrPromise.getJson(config.URL.PELIAS, opts)
+    .then(res => orderBy(res.features, feature => feature.properties.confidence, 'desc'));
 }
 
 function queryGraphQL(query, opts) {
