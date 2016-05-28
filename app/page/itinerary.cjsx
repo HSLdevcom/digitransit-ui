@@ -16,6 +16,7 @@ class ItineraryPage extends React.Component
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
     router: React.PropTypes.object.isRequired
+    raven: React.PropTypes.object.isRequired
 
   @loadAction: (params) ->
     [
@@ -108,7 +109,7 @@ class ItineraryPage extends React.Component
           hash: @props.params.hash
         )}
         renderFailure={(error) =>
-          Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
+          @context.raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
           <div>
             <NoRoutePopup />
           </div>
