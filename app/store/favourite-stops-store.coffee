@@ -1,6 +1,6 @@
 Store    = require 'fluxible/addons/BaseStore'
 includes = require 'lodash/includes'
-storage = require './local-storage'
+storage = require './localStorage'
 
 class FavouriteStopsStore extends Store
   @storeName: 'FavouriteStopsStore'
