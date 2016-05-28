@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import Icon from '../icon/icon';
-import IconWithCaution from '../icon/IconWithCaution';
+import IconWithBigCaution from '../icon/IconWithBigCaution';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from '../documentation/ExampleData';
 
@@ -11,7 +11,7 @@ function RouteNumber(props) {
   return (
     <span className={cx('route-number', props.className, { vertical: props.vertical })}>
       {props.hasDisruption ?
-        <IconWithCaution
+        <IconWithBigCaution
           className={mode}
           img={`icon-icon_${mode}`}
         /> :
