@@ -57,19 +57,20 @@ getPolyfills = (userAgent) ->
     userAgent = ''
 
   features =
-    'matchMedia': flags: ['gated']
-    'fetch': flags: ['gated']
-    'Promise': flags: ['gated']
-    'String.prototype.repeat': flags: ['gated']
-    'String.prototype.endsWith': flags: ['gated']
-    'String.prototype.startsWith': flags: ['gated']
-    'Intl': flags: ['always', 'gated']
-    'Object.assign': flags: ['gated']
-    'Array.prototype.find': flags: ['gated']
     'Array.from': flags: ['gated']
-    'es5': flags: ['gated']
+    'Array.prototype.find': flags: ['gated']
+    'Array.prototype.includes': flags: ['gated']
     'atob': flags: ['gated']
+    'es5': flags: ['gated']
+    'fetch': flags: ['gated']
+    'Intl': flags: ['always', 'gated']
+    'matchMedia': flags: ['gated']
+    'Object.assign': flags: ['gated']
+    'Promise': flags: ['gated']
     'setImmediate': flags: ['gated']
+    'String.prototype.endsWith': flags: ['gated']
+    'String.prototype.repeat': flags: ['gated']
+    'String.prototype.startsWith': flags: ['gated']
 
   for language in config.availableLanguages
     features['Intl.~locale.' + language] = flags: ['always', 'gated']
