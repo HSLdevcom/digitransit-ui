@@ -9,8 +9,9 @@ You need Node.
 
 ## Installation
 - `npm install`
+- `npm rebuild node-sass`
 
-## :warning: What if 'npm install' fails?
+### :warning: What if 'npm install' fails?
 - Ensure you have npm3 installed: `sudo npm install -g npm@3`
 - Clear npm cache: `npm cache clean`
 - remove node_modules: `rm -rf node_modules`
