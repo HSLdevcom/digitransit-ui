@@ -60,6 +60,8 @@
       },
       "desiredCapabilities": {
         "browserName": "firefox",
+        "os": "WINDOWS",
+        "os_version": "10",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
@@ -76,6 +78,8 @@
       },
       "desiredCapabilities": {
         "browserName": "chrome",
+        "os": "WINDOWS",
+        "os_version": "10",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
@@ -94,7 +98,7 @@
         "browserName": "internet explorer",
         "browser": "IE",
         "os": "WINDOWS",
-        "os_version": "8",
+        "os_version": "10",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
