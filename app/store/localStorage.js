@@ -23,7 +23,7 @@ function getItem(key) {
 function getItemAsJson(key) {
   let item = getItem(key);
 
-  if (item != null) {
+  if (item == null) {
     item = '[]';
   }
 
