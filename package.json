@@ -18,7 +18,6 @@
     "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development node server/hotLoadServer.js",
     "test-local": "./test/flow/script/run-ui-tests.sh local",
     "test-browserstack": "./test/flow/script/run-ui-tests.sh browserstack",
-    "test-acceptance": "./acceptance-tests/script/run-acceptance-tests.sh",
     "test-visual": "gemini --reporter flat --reporter html test test/visual/",
     "test-visual-update": "gemini update test/visual/",
     "coffee-lint": "coffeelint -f coffeelint.json --ext=cjsx,coffee app",

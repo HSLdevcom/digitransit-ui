@@ -51,14 +51,15 @@ suite('Search', () => {
                 browser.expect.element('#react-autowhatever-suggest--item-0').text.to.
                   contain('Aurinkolahti, Helsinki').before(browser.ELEMENT_VISIBLE_TIMEOUT);
                 browser.click('#react-autowhatever-suggest--item-0');
-                browser.pause(500, done); // wait for dialog to vanish and possible changes to occur
+                done();
               });
             });
           });
         });
 
         it('Search is not done because destination is cleared', (browser) => {
-          browser.assert.title('Reittiopas.fi');
+          // wait for dialog to vanish and possible changes to occur
+          browser.pause(500, () => browser.assert.title('Reittiopas.fi'));
         });
       });
     });
