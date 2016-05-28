@@ -1,5 +1,5 @@
 Store       = require 'fluxible/addons/BaseStore'
-storage     = require './local-storage'
+storage     = require './localStorage'
 config      = require '../config'
 
 class PreferencesStore extends Store
