@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import TimeActions from '../../action/time-action';
+import { setArriveBy, setSelectedTime } from '../../action/TimeActions';
 import moment from 'moment';
 import TimeSelectors from './TimeSelectors';
 
@@ -8,6 +8,7 @@ import { intlShape } from 'react-intl';
 import debounce from 'lodash/debounce';
 
 class TimeSelectorContainer extends Component {
+
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -24,11 +25,14 @@ class TimeSelectorContainer extends Component {
     this.context.getStore('TimeStore').removeChangeListener(this.onChange);
   }
 
-  onChange = ({ selectedTime, currentTime }) =>
-    this.setState({ time: selectedTime || currentTime });
+  onChange = ({ selectedTime }) => {
+    if (selectedTime) {
+      this.setState({ time: selectedTime });
+    }
+  };
 
   setArriveBy = ({ target }) =>
-    this.context.executeAction(TimeActions.setArriveBy, target.value === 'true');
+    this.context.executeAction(setArriveBy, target.value === 'true');
 
   getDates() {
     const dates = [];
@@ -46,20 +50,20 @@ class TimeSelectorContainer extends Component {
       </option>
     );
 
-    Array.from(Array(28).keys()).forEach(() =>
+    for (let i = 0; i < 28; i++) {
       dates.push(
         <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>
           {date.format('dd D.M')}
         </option>
-      )
-    );
+      );
+    }
 
     return dates;
   }
 
   dispatchChangedtime = debounce(
     () => this.context.executeAction(
-      TimeActions.setSelectedTime,
+      setSelectedTime,
       this.state.time,
     ), 500);
 

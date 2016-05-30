@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 // React pages
-import IndexPage from './page/index';
+import IndexPage from './page/IndexPage';
 import ItineraryPage from './page/itinerary';
 import RoutePage from './page/route';
 import StopMapPage from './page/stop-map';

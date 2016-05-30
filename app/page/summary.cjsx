@@ -3,14 +3,14 @@ React           = require 'react'
 Relay           = require 'react-relay'
 queries         = require '../queries'
 Helmet          = require 'react-helmet'
-SummaryPlanContainer  = require '../component/summary/summary-plan-container'
-SummaryNavigation     = require '../component/navigation/summary-navigation'
-NoRoutePopup          = require '../component/summary/no-route-popup'
-ItinerarySearchAction = require '../action/itinerary-search-action'
+SummaryPlanContainer   = require '../component/summary/summary-plan-container'
+SummaryNavigation      = require '../component/navigation/summary-navigation'
+NoRoutePopup           = require '../component/summary/no-route-popup'
+ItinerarySearchActions = require('../action/ItinerarySearchActions')
 {otpToLocation} = require '../util/otp-strings'
 intl            = require 'react-intl'
 config          = require '../config'
-EndpointActions = require '../action/endpoint-actions'
+EndpointActions = require('../action/EndpointActions')
 isEqual         = require 'lodash/isEqual'
 
 FormattedMessage = intl.FormattedMessage
@@ -34,7 +34,7 @@ class SummaryPage extends React.Component
   componentDidMount: ->
     @context.getStore('ItinerarySearchStore').addChangeListener @onChange
     @context.getStore('TimeStore').addChangeListener @onTimeChange
-    @context.executeAction ItinerarySearchAction.itinerarySearchRequest, @props
+    @context.executeAction ItinerarySearchActions.itinerarySearchRequest, @props
     @setState
       search: @updateItinerarySearch @context.getStore('ItinerarySearchStore')
       time: @updateTime @context.getStore('TimeStore')
