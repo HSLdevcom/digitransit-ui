@@ -39,7 +39,7 @@ getStringOrArrayElement = (arrayOrString, index) ->
     arrayOrString
   else
     console.log arrayOrString
-    throw new Error("Not array or string: "+arrayOrString)
+    throw new Error("Not array or string: " + arrayOrString)
 
 # Look up paths for various asset files
 appRoot = process.cwd() + '/'
