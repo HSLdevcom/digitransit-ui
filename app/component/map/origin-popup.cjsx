@@ -28,6 +28,7 @@ class OriginPopup extends React.Component
       offset={[50, @props.yOffset]}
       closeButton={false}
       maxWidth={config.map.genericMarker.popup.maxWidth}
+      autoPan={false}
       className="origin-popup">
         <div onClick={() =>
           @context.executeAction SearchActions.openDialog, "origin"}>
