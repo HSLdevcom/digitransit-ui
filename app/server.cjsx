@@ -45,11 +45,7 @@ getStringOrArrayElement = (arrayOrString, index) ->
 appRoot = process.cwd() + '/'
 if process.env.NODE_ENV != 'development'
   stats = require('../stats.json')
-
   manifestFile = getStringOrArrayElement(stats.assetsByChunkName.manifest, 0)
-  console.log manifestFile
-
-
   manifest = fs.readFileSync(appRoot + "_static/" + manifestFile)
 
 svgSprite = fs.readFileSync(appRoot + "static/svg-sprite.#{config.CONFIG}.svg").toString()
