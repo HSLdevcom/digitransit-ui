@@ -1,4 +1,3 @@
-moment = require 'moment-timezone'
 config = require '../config'
 
 # converts the given parameter into a string in format HHmm
@@ -20,11 +19,6 @@ durationToString = (duration) ->
 
   return durationText
 
-# returns moment in configured service local tz
-getLocalMoment = (moment) ->
-  moment.tz(config.timezone)  # TODO if not available use local?
-
 module.exports =
   getStartTime: getStartTime
   durationToString: durationToString
-  getLocalMoment: getLocalMoment
