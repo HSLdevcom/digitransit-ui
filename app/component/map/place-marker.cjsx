@@ -2,7 +2,7 @@ isBrowser = window?
 React  = require 'react'
 L      = if isBrowser then require 'leaflet' else null
 Marker = if isBrowser then require('react-leaflet/lib/Marker').default else null
-OriginPopup   = require './origin-popup'
+OriginPopup = require('./OriginPopup').default
 Icon   = require '../icon/icon'
 {intlShape} = require 'react-intl'
 

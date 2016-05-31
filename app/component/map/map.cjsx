@@ -5,7 +5,6 @@ queries        =  require '../../queries'
 Icon           = require '../icon/icon'
 LocationMarker = require './location-marker'
 config         = require '../../config'
-OriginPopup    = require './origin-popup'
 LeafletMap     = if isBrowser then require('react-leaflet/lib/Map').default else null
 TileLayer      = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
 L              = if isBrowser then require 'leaflet' else null
