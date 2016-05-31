@@ -251,7 +251,7 @@ class ItineraryLegs extends React.Component {
 }
 
 ItineraryLegs.propTypes = {
-  itinerary: React.PropTypes.obj,
+  itinerary: React.PropTypes.object,
   focusMap: React.PropTypes.func,
 };
 
