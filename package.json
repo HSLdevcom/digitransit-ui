@@ -67,6 +67,7 @@
     "mapbox-gl-function": "^2.1.0",
     "material-ui": "0.15.0",
     "moment": "2.13.0",
+    "moment-timezone": "0.5.4",
     "mqtt": "1.10.0",
     "node-cjsx": "1.0.0",
     "node-fetch": "1.5.2",
