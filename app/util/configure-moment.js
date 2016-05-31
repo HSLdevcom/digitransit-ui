@@ -6,6 +6,11 @@ import moment from 'moment';
 // and with the relative time thresholds used when humanizing times
 function configureMoment(language) {
   moment.locale(language);
+
+  if (config.timezone) {
+    moment.tz.setDefault(config.timezone);
+  }
+
   if (language !== 'en') {
     require(`moment/locale/${language}`); // eslint-disable-line global-require
   }
