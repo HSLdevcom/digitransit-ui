@@ -83,16 +83,6 @@ export const TripQueries = {
   `,
 };
 
-export class StopRoute extends Relay.Route {
-  static queries = StopQueries;
-  static paramDefinitions = {
-    stopId: { required: true },
-    date: { required: true },
-  };
-  static routeName = 'StopRoute';
-}
-
-
 export const RoutePageFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
@@ -453,14 +443,6 @@ export const DepartureListFragments = {
   `,
 };
 
-export const CityBikeQueries = {
-  station: () => Relay.QL`
-    query {
-      bikeRentalStation(id: $stationId)
-    }
-  `,
-};
-
 export const CityBikeStatusQuery = Relay.QL`
 query Test{
   bikeRentalStation(id: $id) {
@@ -468,14 +450,6 @@ query Test{
     spacesAvailable
   }
 }`;
-
-export class CityBikeRoute extends Relay.Route {
-  static queries = CityBikeQueries;
-  static paramDefinitions = {
-    stationId: { required: true },
-  };
-  static routeName = 'CityBikeRoute';
-}
 
 export const CityBikePopupFragments = {
   station: () => Relay.QL`
