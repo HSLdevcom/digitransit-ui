@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import Distance from './distance';
-import RouteNumber from './route-number';
+import RouteNumber from './RouteNumber';
 import RouteDestination from './route-destination';
 import DepartureTime from './DepartureTime';
 import Link from 'react-router/lib/Link';
@@ -65,6 +65,7 @@ function NextDeparturesList(props) {
           <RouteNumber
             mode={stoptime.pattern.route.type}
             text={stoptime.pattern.route.shortName}
+            hasDisruption={departure.hasDisruption}
           />
           <RouteDestination
             mode={stoptime.pattern.route.type}

@@ -1,10 +1,10 @@
-import './util/raven';
+import Raven from './util/Raven';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import { RelayRouter } from 'react-router-relay';
-import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
+import provideContext from 'fluxible-addons-react/provideContext';
 import tapEventPlugin from 'react-tap-event-plugin';
 import config from './config';
 import StoreListeningIntlProvider from './util/store-listening-intl-provider';
@@ -18,22 +18,27 @@ import buildInfo from './build-info';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+const plugContext = (f) => () => ({
+  plugComponentContext: f,
+  plugActionContext: f,
+  plugStoreContext: f,
+});
+
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
+
+const addPiwik = (context) => { context.piwik = piwik; }; // eslint-disable-line no-param-reassign
+
 const piwikPlugin = {
   name: 'PiwikPlugin',
-  plugContext: () => ({
-    plugComponentContext: (componentContext) => {
-      componentContext.piwik = piwik; // eslint-disable-line no-param-reassign
-    },
-    plugActionContext: (actionContext) => {
-      actionContext.piwik = piwik; // eslint-disable-line no-param-reassign
-    },
-    plugStoreContext: (storeContext) => {
-      storeContext.piwik = piwik; // eslint-disable-line no-param-reassign
-    },
-  }),
+  plugContext: plugContext(addPiwik),
 };
 
+const addRaven = (context) => { context.raven = Raven; }; // eslint-disable-line no-param-reassign
+
+const ravenPlugin = {
+  name: 'RavenPlugin',
+  plugContext: plugContext(addRaven),
+};
 
 if (process.env.NODE_ENV === 'development') {
   require(`../sass/themes/${config.CONFIG}/main.scss`); // eslint-disable-line global-require
@@ -124,6 +129,7 @@ function trackDomPerformance() {
 
 // Add plugins
 app.plug(piwikPlugin);
+app.plug(ravenPlugin);
 
 // Run application
 app.rehydrate(window.state, (err, context) => {
@@ -133,14 +139,17 @@ app.rehydrate(window.state, (err, context) => {
 
   window.context = context;
 
+  const ContextProvider = provideContext(StoreListeningIntlProvider, {
+    piwik: React.PropTypes.object,
+    raven: React.PropTypes.object,
+  });
+
   ReactDOM.render(
-    <FluxibleComponent context={context.getComponentContext()}>
-      <StoreListeningIntlProvider translations={translations}>
-        <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
-          <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
-        </MuiThemeProvider>
-      </StoreListeningIntlProvider>
-    </FluxibleComponent>
+    <ContextProvider translations={translations} context={context.getComponentContext()}>
+      <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
+        <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
+      </MuiThemeProvider>
+    </ContextProvider>
     , document.getElementById('app')
     , trackReactPerformance
   );
