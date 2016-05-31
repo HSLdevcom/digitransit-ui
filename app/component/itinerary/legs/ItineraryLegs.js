@@ -88,10 +88,7 @@ class ItineraryLegs extends React.Component {
 
     const numberOfLegs = compressedLegs.length;
 
-    const focus = (leg, isWait = false) => () => this.props.focusMap(
-        isWait ? leg.to.lat : leg.from.lat,
-        isWait ? leg.to.lon : leg.from.lon
-      );
+    const focus = (position) => () => this.props.focusMap(position.lat, position.lon);
 
     for (let [j, leg] of compressedLegs.entries()) {
       if (j + 1 < compressedLegs.length) {
@@ -108,7 +105,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           />);
       } else if (leg.mode === 'TRAM') {
         legs.push(
@@ -116,7 +113,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           />);
       } else if (leg.mode === 'FERRY') {
         legs.push(
@@ -124,7 +121,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           />);
       } else if (leg.mode === 'RAIL') {
         legs.push(
@@ -132,7 +129,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           />);
       } else if (leg.mode === 'SUBWAY') {
         legs.push(
@@ -140,7 +137,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           />);
       } else if (leg.mode === 'AIRPLANE') {
         startTime = (previousLeg != null ? previousLeg.endTime : void 0) || leg.startTime;
@@ -150,7 +147,7 @@ class ItineraryLegs extends React.Component {
             key={`${j}ci`}
             leg={leg}
             startTime={startTime}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           />);
 
         legs.push(
@@ -158,14 +155,14 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           />);
 
         legs.push(
           <AirportCollectLuggageLeg
             key={`${j}cl`}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           />);
       } else if (leg.rentedBike || leg.mode === 'BICYCLE' || leg.mode === 'BICYCLE_WALK') {
         legs.push(
@@ -173,7 +170,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           />);
       } else if (leg.mode === 'CAR') {
         legs.push(
@@ -181,7 +178,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           >
             {this.stopCode(leg.from.stop)}
           </CarLeg>);
@@ -191,7 +188,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg)}
+            focusAction={focus(leg.from)}
           >
             {this.stopCode(leg.from.stop)}
           </WalkLeg>);
@@ -209,7 +206,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             startTime={leg.endTime}
             waitTime={waitTime}
-            focusAction={focus(leg, true)}
+            focusAction={focus(leg.to)}
           >
             {this.stopCode(leg.from.stop)}
           </WaitLeg>);
@@ -221,11 +218,7 @@ class ItineraryLegs extends React.Component {
         key={numberOfLegs}
         index={numberOfLegs}
         endTime={this.props.itinerary.endTime}
-        focusAction={
-          () => this.props.focusMap(
-            compressedLegs[numberOfLegs - 1].to.lat,
-            compressedLegs[numberOfLegs - 1].to.lon
-          )}
+        focusAction={focus(compressedLegs[numberOfLegs - 1].to)}
         to={compressedLegs[numberOfLegs - 1].to.name}
       />);
 
