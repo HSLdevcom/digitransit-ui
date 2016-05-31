@@ -23,11 +23,8 @@ class ItineraryLegs extends React.Component {
     this.compressNextPossibleLegs = this.compressNextPossibleLegs.bind(this);
   }
 
-  stopCode(stopCode) {
-    if (stopCode) {
-      return <StopCode code={stopCode} />;
-    }
-    return undefined;
+  stopCode(stop) {
+    return stop && stop.code && <StopCode code={stop.code} />;
   }
 
   continueWithBicycle(leg1, leg2) {
@@ -203,7 +200,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             focusAction={focus(leg)}
           >
-            {this.stopCode(leg.from.stop != null ? leg.from.stop.code : null)}
+            {this.stopCode(leg.from.stop)}
           </CarLeg>);
       } else {
         legs.push(
@@ -213,7 +210,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             focusAction={focus(leg)}
           >
-            {this.stopCode(leg.from.stop != null ? leg.from.stop.code : null)}
+            {this.stopCode(leg.from.stop)}
           </WalkLeg>);
       }
 
@@ -231,7 +228,7 @@ class ItineraryLegs extends React.Component {
             waitTime={waitTime}
             focusAction={focus(leg, true)}
           >
-            {this.stopCode(leg.from.stop != null ? leg.from.stop.code : null)}
+            {this.stopCode(leg.from.stop)}
           </WaitLeg>);
       }
     }
