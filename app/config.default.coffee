@@ -39,6 +39,7 @@ module.exports =
   maxBikingDistance: 40000
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb']
   defaultLanguage: 'en'
+  timezone: 'Europe/Helsinki'
   mainMenu:
     # Whether to show the left menu toggle button at all
     show: true
@@ -67,13 +68,13 @@ module.exports =
         offset: [106, 3]
         maxWidth: 250
         minWidth: 250
-  line:
-    halo:
-      weight: 5
-      thinWeight: 4
-    leg:
-      weight: 3
-      thinWeight: 2
+    line:
+      halo:
+        weight: 5
+        thinWeight: 4
+      leg:
+        weight: 3
+        thinWeight: 2
   stopCard:
     header:
       showDescription: true

@@ -1,5 +1,5 @@
 Store   = require 'fluxible/addons/BaseStore'
-storage = require './local-storage'
+storage = require './localStorage'
 orderBy = require 'lodash/orderBy'
 
 class OldSearchesStore extends Store

@@ -14,10 +14,7 @@ const getNextDepartures = (routes, lat, lon) => {
   const seenDepartures = {};
 
   for (const route of routes) {
-    let hasDisruption = false;
-    if (route.alerts.length > 0) {
-      hasDisruption = true;
-    }
+    const hasDisruption = route.alerts.length > 0;
 
     for (const pattern of route.patterns) {
       const closest = getDistanceToNearestStop(lat, lon, pattern.stops);
