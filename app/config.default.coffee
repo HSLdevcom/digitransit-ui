@@ -67,6 +67,13 @@ module.exports =
         offset: [106, 3]
         maxWidth: 250
         minWidth: 250
+    line:
+      halo:
+        weight: 5
+        thinWeight: 4
+      leg:
+        weight: 3
+        thinWeight: 2
   stopCard:
     header:
       showDescription: true
