@@ -52,22 +52,20 @@ class Stops {
         return res.arrayBuffer().then(buf => {
           const vt = new VectorTile(new Protobuf(buf));
 
-          this.features = (() => {
-            const results = [];
+          this.features = [];
 
-            if (vt.layers.stops !== undefined) {
-              for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
-                results.push(i);
+          if (vt.layers.stops != null) {
+            for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
+              const feature = vt.layers.stops.feature(i);
+              if (feature.properties.type) {
+                this.features.push(feature);
               }
             }
-            return results;
-          })().map(i => vt.layers.stops.feature(i)).filter(feature => feature.properties.type);
+          }
 
           for (const i of this.features) {
             this.addFeature(i);
           }
-
-          return;
         }, err => console.log(err));
       });
   }
@@ -75,17 +73,11 @@ class Stops {
   addFeature = (feature) => {
     const geom = feature.loadGeometry();
 
-    const caseRadius = getCaseRadius({
-      $zoom: this.tile.coords.z,
-    });
+    const caseRadius = getCaseRadius({ $zoom: this.tile.coords.z });
 
-    const stopRadius = getStopRadius({
-      $zoom: this.tile.coords.z,
-    });
+    const stopRadius = getStopRadius({ $zoom: this.tile.coords.z });
 
-    const hubRadius = getHubRadius({
-      $zoom: this.tile.coords.z,
-    });
+    const hubRadius = getHubRadius({ $zoom: this.tile.coords.z });
 
     if (caseRadius > 0) {
       this.tile.ctx.beginPath();
@@ -119,10 +111,9 @@ class Stops {
           hubRadius * this.tile.scaleratio, 0, Math.PI * 2
         );
 
-        return this.tile.ctx.fill();
+        this.tile.ctx.fill();
       }
     }
-    return null;
   }
 
   static getName = () => 'stop';

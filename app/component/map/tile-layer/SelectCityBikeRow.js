@@ -29,7 +29,7 @@ SelectCityBikeRow.description = (
   <div>
     <p>Renders a select citybike row</p>
     <ComponentUsageExample description="">
-      <SelectCityBikeRow name={'LINNANMÄKI'} selectRow={() => console.log('test')} />
+      <SelectCityBikeRow name={'LINNANMÄKI'} selectRow={() => {}} />
     </ComponentUsageExample>
   </div>
   );

@@ -46,7 +46,7 @@ MarkerSelectPopup.description = (
     <ComponentUsageExample description="">
       <MarkerSelectPopup
         options={options}
-        selectRow={() => console.log('test')}
+        selectRow={() => {}}
       />
     </ComponentUsageExample>
   </div>

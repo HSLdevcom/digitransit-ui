@@ -24,22 +24,17 @@ class TileContainer {
     this.layers = this.props.layers.filter(Layer => {
       if (Layer.getName() === 'stop' && this.coords.z >= config.stopsMinZoom) {
         return true;
-      } else
-      if (Layer.getName() === 'citybike' && this.coords.z >= config.cityBike.cityBikeMinZoom) {
+      } else if (
+        Layer.getName() === 'citybike' && this.coords.z >= config.cityBike.cityBikeMinZoom
+      ) {
         return true;
       }
       return false;
-    }).map(Layer =>
-      new Layer(this)
-    );
+    }).map(Layer => new Layer(this));
 
-    this.el.layers = this.layers.map(layer =>
-      omit(layer, 'tile')
-    );
+    this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
 
-    Promise.all(this.layers.map(layer => layer.promise)).then(() =>
-      done(null, this.el)
-    );
+    Promise.all(this.layers.map(layer => layer.promise)).then(() => done(null, this.el));
   }
 
   createElement = () => {
@@ -71,9 +66,7 @@ class TileContainer {
       ));
 
       nearest = features.filter(feature => {
-        if (!feature) {
-          return false;
-        }
+        if (!feature) { return false; }
 
         const g = feature.feature.loadGeometry()[0][0];
 

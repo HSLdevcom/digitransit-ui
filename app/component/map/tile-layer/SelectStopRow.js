@@ -1,21 +1,22 @@
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
+import uniqBy from 'lodash/uniqBy';
 
 import RouteDestination from '../../departure/route-destination';
 import routeCompare from '../../../util/route-compare';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
 
-function getName(p) {
-  if (p.shortName) {
+function getName(pattern) {
+  if (pattern.shortName) {
     return (
       <span
-        key={p.shortName}
+        key={pattern.shortName}
         style={{ padding: '0 2px' }}
-        className={`${p.type.toLowerCase()} vehicle-number`}
+        className={`${pattern.type.toLowerCase()} vehicle-number`}
       >
-        {p.shortName}
+        {pattern.shortName}
       </span>
     );
   }
@@ -27,50 +28,29 @@ function SelectStopRow(props) {
   const patterns = [];
 
   patterns.push(
-    <div
-      key="first"
-      className="route-detail-text"
-    >
-      <span
-        className={`${patternData[0].type.toLowerCase()} vehicle-number no-padding`}
-      >
+    <div key="first" className="route-detail-text" >
+      <span className={`${patternData[0].type.toLowerCase()} vehicle-number no-padding`} >
         {patternData[0].shortName}
-      </span> {}
-      <RouteDestination
-        mode={patternData[0].type}
-        destination={patternData[0].headsign}
-      />
+      </span>
+      {'\u00a0'}
+      <RouteDestination mode={patternData[0].type} destination={patternData[0].headsign} />
     </div>
   );
 
   if (patternData.length > 1) {
     patterns.push(
-      <div
-        key="second"
-        className="route-detail-text"
-      >
-        <FormattedMessage
-          id="in-addition"
-          defaultMessage="In addition"
-        />
-        {patternData.slice(1).map(getName)}
+      <div key="second" className="route-detail-text">
+        <FormattedMessage id="in-addition" defaultMessage="In addition" />
+        {uniqBy(patternData.slice(1), pattern => pattern.shortName).map(getName)}
       </div>
     );
   }
 
   return (
-    <div
-      className="no-margin"
-    >
-      <hr
-        className="no-margin"
-      />
-      <div
-        className="no-margin cursor-pointer" onClick={props.selectRow}
-      >
-        <div
-          className="left padding-vertical-normal" style={{ width: 40 }}
-        >
+    <div className="no-margin">
+      <hr className="no-margin" />
+      <div className="no-margin cursor-pointer" onClick={props.selectRow}>
+        <div className="left padding-vertical-normal" style={{ width: 40 }}>
           <svg
             xmlns="http://www.w3.org/svg/2000"
             viewBox="0 0 30 30"
@@ -89,12 +69,8 @@ function SelectStopRow(props) {
             />
           </svg>
         </div>
-        <div
-          className="left padding-vertical-normal" style={{ width: 'calc(100% - 40px)' }}
-        >
-          <span
-            className="h4 no-margin link-color"
-          >
+        <div className="left padding-vertical-normal" style={{ width: 'calc(100% - 40px)' }}>
+          <span className="h4 no-margin link-color" >
             {props.name} ›
           </span>
           {patterns}
@@ -114,7 +90,7 @@ SelectStopRow.description = (
     <ComponentUsageExample description="">
       <SelectStopRow
         name={'DIAKONIAPUISTO'}
-        selectRow={() => console.log('test')}
+        selectRow={() => {}}
         type={'BUS'}
         patterns={'[{"headsign":"Kuninkaanmäki","type":"BUS","shortName":"518"}]'}
       />
