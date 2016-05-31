@@ -20,7 +20,6 @@ class ItineraryLegs extends React.Component {
     super();
     this.continueWithBicycle = this.continueWithBicycle.bind(this);
     this.continueWithRentedBicycle = this.continueWithRentedBicycle.bind(this);
-    this.compressNextPossibleLegs = this.compressNextPossibleLegs.bind(this);
   }
 
   stopCode(stop) {
@@ -38,22 +37,6 @@ class ItineraryLegs extends React.Component {
     return (
       (leg1 != null && leg1.rentedBike) && (leg2 != null && leg2.rentedBike)
     );
-  }
-
-  compressNextPossibleLegs(leg, legs, pred) {
-    return (() => {
-      let newLeg;
-      for (const nextLeg of legs) {
-        if (pred) {
-          newLeg.duration += nextLeg.duration;
-          newLeg.distance += nextLeg.distance;
-          newLeg.to = nextLeg.to;
-          newLeg.endTime = nextLeg.endTime;
-        } else {
-          break;
-        }
-      }
-    })();
   }
 
   render() {
