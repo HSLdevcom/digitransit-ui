@@ -108,7 +108,10 @@ class ItineraryLegs extends React.Component {
 
     const numberOfLegs = compressedLegs.length;
 
-    const focus = leg => () => this.props.focusMap(leg.from.lat, leg.from.lon);
+    const focus = (leg, isWait = false) => () => this.props.focusMap(
+        isWait ? leg.to.lat : leg.from.lat,
+        isWait ? leg.to.lon : leg.from.lon
+      );
 
     for (let [j, leg] of compressedLegs.entries()) {
       if (j + 1 < compressedLegs.length) {
@@ -226,7 +229,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             startTime={leg.endTime}
             waitTime={waitTime}
-            focusAction={focus(leg)}
+            focusAction={focus(leg, true)}
           >
             {this.stopCode(leg.from.stop != null ? leg.from.stop.code : null)}
           </WaitLeg>);
