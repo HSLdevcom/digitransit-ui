@@ -39,7 +39,7 @@ class TripRouteStop extends React.Component
         <div className={"columns small-7 route-stop-name " + @props.mode}>
           {@props.stop.name}{"\u00a0"}
           {if @props.distance then <WalkDistance className="nearest-route-stop"
-                                                 icon="icon_location_with_user"
+                                                 icon="icon_location-with-user"
                                                  walkDistance={@props.distance}/>}
           <br/>
           <span className="route-stop-address">
