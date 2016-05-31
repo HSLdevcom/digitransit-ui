@@ -73,15 +73,13 @@ class CityBikes {
   }
 
   fetchAndDrawStatus = (feature, geom) => {
-    /* eslint-disable graphql/template-strings */
     const query = Relay.createQuery(Relay.QL`
-    query Test{
+    query Test($id: String!){
       bikeRentalStation(id: $id) {
         bikesAvailable
         spacesAvailable
       }
     }`, { id: feature.properties.id });
-    /* eslint-enable graphql/template-strings */
 
     const lastFetch = timeOfLastFetch[feature.properties.id];
     const currentTime = new Date().getTime();
