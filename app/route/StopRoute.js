@@ -1,15 +1,13 @@
 import Relay from 'react-relay';
 
 export default class StopRoute extends Relay.Route {
-/* eslint-disable graphql/template-strings */
   static queries = {
     stop: () => Relay.QL`
-      query {
+      query ($stopId: String!){
         stop(id: $stopId)
       }
     `,
   };
-/* eslint-enable graphql/template-strings */
   static paramDefinitions = {
     stopId: { required: true },
     date: { required: true },
