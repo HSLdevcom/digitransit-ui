@@ -10,7 +10,6 @@ export default class StopRoute extends Relay.Route {
   };
   static paramDefinitions = {
     stopId: { required: true },
-    date: { required: true },
   };
   static routeName = 'StopRoute';
 }
