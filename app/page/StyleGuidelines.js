@@ -3,7 +3,7 @@ import Icon from '../component/icon/icon';
 import IconWithTail from '../component/icon/icon-with-tail';
 import ComponentDocumentation from '../component/documentation/ComponentDocumentation';
 import Departure from '../component/departure/Departure';
-import RouteNumber from '../component/departure/route-number';
+import RouteNumber from '../component/departure/RouteNumber';
 import RouteDestination from '../component/departure/route-destination';
 import DepartureTime from '../component/departure/DepartureTime';
 import StopReference from '../component/stop/stop-reference';

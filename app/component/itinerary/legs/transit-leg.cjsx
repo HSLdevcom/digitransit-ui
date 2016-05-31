@@ -1,5 +1,5 @@
 React        = require 'react'
-RouteNumber  = require '../../departure/route-number'
+RouteNumber  = require('../../departure/RouteNumber').default
 Link         = require 'react-router/lib/Link'
 moment       = require 'moment'
 config       = require '../../../config'

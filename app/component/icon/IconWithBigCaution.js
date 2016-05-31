@@ -1,26 +1,28 @@
 import React from 'react';
 import cx from 'classnames';
 
-const IconWithCaution = props => (
+const IconWithBigCaution = props => (
   <svg id={props.id} viewBox="0 0 40 40" className={cx('icon', props.className)}>
     <use
+      transform="scale(0.9,0.9)"
+      x="5"
       xlinkHref={`#${props.img}`}
     />
     <use
       xlinkHref="#icon-icon_caution"
-      transform="scale(0.6,0.6)"
-      y="30"
+      transform="scale(0.7,0.7)"
+      y="20"
       style={{ color: 'red', fill: 'red' }}
     />
   </svg>
 );
 
-IconWithCaution.displayName = 'IconWithCaution';
+IconWithBigCaution.displayName = 'IconWithCaution';
 
-IconWithCaution.propTypes = {
+IconWithBigCaution.propTypes = {
   id: React.PropTypes.string,
   className: React.PropTypes.string,
   img: React.PropTypes.string.isRequired,
 };
 
-export default IconWithCaution;
+export default IconWithBigCaution;
