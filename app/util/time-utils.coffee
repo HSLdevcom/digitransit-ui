@@ -1,3 +1,5 @@
+moment = require 'moment'		
+
 # converts the given parameter into a string in format HHmm
 # Input: time - seconds since midnight
 getStartTime = (time) ->
