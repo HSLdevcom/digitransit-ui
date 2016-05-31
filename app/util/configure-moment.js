@@ -1,6 +1,6 @@
 import config from '../config';
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 // Configure moment with the selected language
 // and with the relative time thresholds used when humanizing times
