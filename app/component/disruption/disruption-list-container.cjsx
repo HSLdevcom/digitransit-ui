@@ -11,7 +11,7 @@ class DisruptionListContainer extends React.Component
     intl: intlShape
 
   render: ->
-    if @props.alerts.alerts.length == 0
+    if not @props.alerts?.alerts or @props.alerts.alerts.length == 0
       return <FormattedMessage id="disruption-info-no-alerts" defaultMessage="No disruption info."/>
 
     alerts = @props.alerts.alerts.map (alert) =>
