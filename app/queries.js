@@ -640,6 +640,11 @@ export class FavouriteLocationContainerRoute extends Relay.Route {
         ${Component.getFragment('plan', {
           from: variables.from,
           to: variables.to,
+          maxWalkDistance: variables.maxWalkDistance,
+          wheelchair: variables.wheelchair,
+          preferred: variables.preferred,
+          arriveBy: variables.arriveBy,
+          disableRemainingWeightHeuristic: variables.disableRemainingWeightHeuristic,
         })}
       }
     }`,
@@ -654,7 +659,7 @@ export class FavouriteLocationContainerRoute extends Relay.Route {
 export const FavouriteLocationContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(from: $from, to: $to, numItineraries: $numItineraries, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed) {
+      plan(from: $from, to: $to, numItineraries: $numItineraries, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, maxWalkDistance: $maxWalkDistance, wheelchair: $wheelchair, disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic, arriveBy: $arriveBy, preferred: $preferred) {
         itineraries {
           startTime
           endTime

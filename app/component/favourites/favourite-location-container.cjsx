@@ -3,6 +3,7 @@ Relay                 = require 'react-relay'
 queries               = require '../../queries'
 FavouriteLocation     = require './favourite-location'
 Icon                  = require '../icon/icon'
+config                = require '../../config'
 
 class FavouriteLocationContainer extends React.Component
   render: =>
@@ -31,3 +32,9 @@ module.exports = Relay.createContainer FavouriteLocationContainer,
     walkBoardCost: 600
     minTransferTime: 180
     walkSpeed: 1.2
+    wheelchair: false
+    maxWalkDistance: config.maxWalkDistance + 0.1
+    preferred:
+      agencies: config.preferredAgency or ""
+    arriveBy: false
+    disableRemainingWeightHeuristic: false
