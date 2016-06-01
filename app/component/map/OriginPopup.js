@@ -3,8 +3,8 @@ import config from '../../config';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
-const Popup = () => (isBrowser ?
-  require('./dynamic-popup') : null); // eslint-disable-line global-require
+const Popup = isBrowser ?
+  require('./Popup').default : null; // eslint-disable-line global-require
 
 import SearchActions from '../../action/SearchActions';
 import intl from 'react-intl';
@@ -19,12 +19,12 @@ class OriginPopup extends React.Component {
 
   static propTypes = {
     shouldOpen: React.PropTypes.bool,
-    popupContainer: React.PropTypes.object.isRequired,
-    layerContainer: React.PropTypes.object.isRequired,
+    popupContainer: React.PropTypes.object, // TODO: These should be required
+    layerContainer: React.PropTypes.object,
     yOffset: React.PropTypes.number.isRequired,
     text: React.PropTypes.string.isRequired,
-    header: React.PropTypes.object.isRequired,
-    map: React.PropTypes.object.isRequired,
+    header: React.PropTypes.string.isRequired,
+    map: React.PropTypes.object,
   };
 
   componentDidMount() {

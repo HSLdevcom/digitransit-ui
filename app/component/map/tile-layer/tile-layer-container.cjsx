@@ -1,7 +1,7 @@
 React         = require 'react'
 Relay         = require 'react-relay'
 queries       = require '../../../queries'
-Popup         = require('../dynamic-popup').default
+Popup         = require('../Popup').default
 intl          = require 'react-intl'
 BaseTileLayer = require('react-leaflet/lib/BaseTileLayer').default
 omit          = require 'lodash/omit'
