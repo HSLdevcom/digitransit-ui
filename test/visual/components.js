@@ -68,7 +68,7 @@ gemini.suite('components', (parent) => {
       .capture('normal');
     });
     gemini.suite('realtime', (suite) => {
-      suite.setCaptureElements('#TripRouteStop .component-example:nth-of-type(3) .component')
+      suite.setCaptureElements('#TripRouteStop .component-example:nth-of-type(2) .component')
       .capture('normal');
     });
   });
