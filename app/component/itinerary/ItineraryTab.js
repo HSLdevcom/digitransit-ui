@@ -4,7 +4,7 @@ import RouteInformation from './RouteInformation';
 import ItinerarySummary from './itinerary-summary';
 import TimeFrame from './time-frame';
 import config from '../../config';
-import ItineraryLegs from './legs/itinerary-legs';
+import ItineraryLegs from './legs/ItineraryLegs';
 
 const ticketInformation = config.showTicketInformation && <TicketInformation />;
 const routeInformation = config.showRouteInformation && <RouteInformation />;

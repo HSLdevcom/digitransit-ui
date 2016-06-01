@@ -79,6 +79,31 @@ export const favouriteLocation = {
   },
 };
 
+export const options = [
+  {
+    feature: {
+      properties: {
+        gtfsId: 'HSL:1301453',
+        type: 'TRAM',
+        name: 'Laajalahden aukio',
+        patterns: '[{"headsign":"Töölö","type":"TRAM","shortName":"4"}]',
+      },
+    },
+    layer: 'stop',
+  },
+  {
+    feature: {
+      properties: {
+        gtfsId: 'HSL:1301452',
+        type: 'TRAM',
+        name: 'Laajalahden aukio',
+        patterns: '[{"headsign":"Munkkiniemi","type":"TRAM","shortName":"4T"}]',
+      },
+    },
+    layer: 'stop',
+  },
+];
+
 export const plan = {
   'itineraries': [{
     'walkDistance': 465.2611547749316,

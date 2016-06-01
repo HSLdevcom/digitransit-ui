@@ -1,6 +1,6 @@
 import Relay from 'react-relay';
 
-export default class DisruptionInfoRoute extends Relay.Route {
+export default class ViewerRoute extends Relay.Route {
   static queries = {
     alerts: () => Relay.QL`
       query {
@@ -8,5 +8,5 @@ export default class DisruptionInfoRoute extends Relay.Route {
       }
    `,
   };
-  static routeName = 'DisruptionInfoRoute';
+  static routeName = 'ViewerRoute';
 }

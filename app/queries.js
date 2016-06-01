@@ -83,16 +83,6 @@ export const TripQueries = {
   `,
 };
 
-export class StopRoute extends Relay.Route {
-  static queries = StopQueries;
-  static paramDefinitions = {
-    stopId: { required: true },
-    date: { required: true },
-  };
-  static routeName = 'StopRoute';
-}
-
-
 export const RoutePageFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
@@ -453,14 +443,6 @@ export const DepartureListFragments = {
   `,
 };
 
-export const CityBikeQueries = {
-  station: () => Relay.QL`
-    query {
-      bikeRentalStation(id: $stationId)
-    }
-  `,
-};
-
 export const CityBikeStatusQuery = Relay.QL`
 query Test{
   bikeRentalStation(id: $id) {
@@ -468,14 +450,6 @@ query Test{
     spacesAvailable
   }
 }`;
-
-export class CityBikeRoute extends Relay.Route {
-  static queries = CityBikeQueries;
-  static paramDefinitions = {
-    stationId: { required: true },
-  };
-  static routeName = 'CityBikeRoute';
-}
 
 export const CityBikePopupFragments = {
   station: () => Relay.QL`
@@ -640,6 +614,11 @@ export class FavouriteLocationContainerRoute extends Relay.Route {
         ${Component.getFragment('plan', {
           from: variables.from,
           to: variables.to,
+          maxWalkDistance: variables.maxWalkDistance,
+          wheelchair: variables.wheelchair,
+          preferred: variables.preferred,
+          arriveBy: variables.arriveBy,
+          disableRemainingWeightHeuristic: variables.disableRemainingWeightHeuristic,
         })}
       }
     }`,
@@ -654,7 +633,7 @@ export class FavouriteLocationContainerRoute extends Relay.Route {
 export const FavouriteLocationContainerFragments = {
   plan: () => Relay.QL`
     fragment on QueryType {
-      plan(from: $from, to: $to, numItineraries: $numItineraries, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed) {
+      plan(from: $from, to: $to, numItineraries: $numItineraries, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, maxWalkDistance: $maxWalkDistance, wheelchair: $wheelchair, disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic, arriveBy: $arriveBy, preferred: $preferred) {
         itineraries {
           startTime
           endTime

@@ -4,7 +4,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import mapProps from 'recompose/mapProps';
 import some from 'lodash/some';
 import flatten from 'lodash/flatten';
-import RoutesRoute from '../../routes/RoutesRoute';
+import RoutesRoute from '../../route/RoutesRoute';
 import FavouritesTabLabel from './FavouritesTabLabel';
 
 const hasDisruption = (routes) =>
