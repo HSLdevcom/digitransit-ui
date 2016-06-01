@@ -6,7 +6,7 @@ const isBrowser = typeof window !== 'undefined' && window !== null;
 const Popup = isBrowser ?
   require('./Popup').default : null; // eslint-disable-line global-require
 
-import SearchActions from '../../action/SearchActions';
+import { openDialog } from '../../action/SearchActions';
 import intl from 'react-intl';
 import Icon from '../icon/icon';
 
@@ -47,7 +47,7 @@ class OriginPopup extends React.Component {
         autoPan={false}
         className="origin-popup"
       >
-        <div onClick={() => this.context.executeAction(SearchActions.openDialog, 'origin')}>
+        <div onClick={() => this.context.executeAction(openDialog, 'origin')}>
           <div className="origin-popup">
             {this.props.header}
             <Icon className="right-arrow" img="icon-icon_arrow-collapse--right" />
