@@ -48,12 +48,11 @@ class SummaryPlanContainer extends React.Component {
       });
     } else {
       this.setState({ summaryPageSelected: index });
-      this.forceReload();
     }
   }
 
   getActiveIndex() {
-    const state = this.context.location.state ? this.context.location.state : this.state;
+    const state = this.context.location.state ? this.context.location.state : this.state || {};
     return state.summaryPageSelected != null ? state.summaryPageSelected : 0;
   }
 
@@ -63,7 +62,7 @@ class SummaryPlanContainer extends React.Component {
     const to = [this.props.to.lat, this.props.to.lon];
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
 
-    if (this.props.plan && this.props.plan.plan) {
+    if (this.props.plan && this.props.plan.plan && this.props.plan.plan.itineraries.length > 0) {
       const plan = this.props.plan.plan;
       const activeIndex = this.getActiveIndex();
 
