@@ -21,10 +21,10 @@ export default class ItineraryFeedback extends React.Component {
   }
 
   sendFeedback() {
-    //this.context.piwik.getPac.push('setCustomDimension', 1, this.state.feedbackText);
+    // this.context.piwik.getPac.push('setCustomDimension', 1, this.state.feedbackText);
     this.context.piwik.setCustomVariable(3, 'feedback', this.state.feedbackText, 'page');
-    this.context.piwik.trackEvent("Feedback", "Itinerary", "Feedback", "submitted");
-    this.setState({submitted: true});
+    this.context.piwik.trackEvent('Feedback', 'Itinerary', 'Feedback', 'submitted');
+    this.setState({ submitted: true });
   }
 
   handleChange(event) {
@@ -33,20 +33,22 @@ export default class ItineraryFeedback extends React.Component {
 
   render() {
     return (
-      <div className='itinerary-feedback'>
-          <div className={cx('form', {'submitted': this.state.submitted})}>
-            <input
-              type="text"
-              value={this.state.value}
-              onChange={this.handleChange} />
-            <input
-              type="button"
-              value="Send tilbakemelding"
-              onClick={this.sendFeedback} />
-          </div>
-          <div className={cx('done', {'submitted': this.state.submitted})}>
-            Takk!
-          </div>
+      <div className="itinerary-feedback">
+        <div className={cx('form', { submitted: this.state.submitted })}>
+          <input
+            type="text"
+            value={this.state.value}
+            onChange={this.handleChange}
+          />
+          <input
+            type="button"
+            value="Send tilbakemelding"
+            onClick={this.sendFeedback}
+          />
+        </div>
+        <div className={cx('done', { submitted: this.state.submitted })}>
+          Takk!
+        </div>
       </div>
     );
   }
