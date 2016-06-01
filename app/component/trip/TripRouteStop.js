@@ -36,18 +36,14 @@ class TripRouteStop extends React.Component {
         />);
     }
 
-    const stopPassed = {
-      passed: !this.props.stopPassed,
-    };
-
     return (
-      <div className={cx('route-stop row', stopPassed)}>
+      <div className={cx('route-stop row', { passed: this.props.stopPassed })}>
         <div className="columns small-3 route-stop-time">
           {this.renderTime(this.props.realtimeDeparture)}
           <div className="route-stop-now-icon">{vehicles}</div>
         </div>
         <Link to={`/pysakit/${this.props.stop.gtfsId}`}>
-          <div className={`columns small-7 route-stop-name ${this.props.mode}`}>
+          <div className={`columns small-7 route-stop-name ${this.props.mode.toLowerCase()}`}>
             {this.props.stop.name}{"\u00a0"}
             {this.props.distance ?
               <WalkDistance
@@ -89,7 +85,7 @@ TripRouteStop.description = (
         stop={exampleDeparture.stop}
         mode={exampleDeparture.pattern.route.type}
         vehicle={null}
-        stopPassed={{ passed: true }}
+        stopPassed
         realtime={exampleDeparture.realtime}
         distance={321}
         realtimeDeparture={null}
@@ -102,7 +98,7 @@ TripRouteStop.description = (
         stop={exampleRealtimeDeparture.stop}
         mode={exampleRealtimeDeparture.pattern.route.type}
         vehicle={exampleVehicle}
-        stopPassed={{ passed: false }}
+        stopPassed={false}
         realtime={exampleRealtimeDeparture.realtime}
         distance={231}
         realtimeDeparture={exampleRealtimeDeparture.realtimeDeparture}
