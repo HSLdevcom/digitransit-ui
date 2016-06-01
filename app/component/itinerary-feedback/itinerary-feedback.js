@@ -41,7 +41,7 @@ export default class ItineraryFeedback extends React.Component {
               onChange={this.handleChange} />
             <input
               type="button"
-              value="Send"
+              value="Send tilbakemelding"
               onClick={this.sendFeedback} />
           </div>
           <div className={cx('done', {'submitted': this.state.submitted})}>
