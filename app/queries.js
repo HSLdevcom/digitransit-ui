@@ -93,6 +93,7 @@ export const RoutePageFragments = {
       ${require('./component/route/route-header-container').getFragment('pattern')}
       ${require('./component/route/route-map-container').getFragment('pattern')}
       ${require('./component/route/route-stop-list-container').getFragment('pattern')}
+      ${require('./component/route/RouteScheduleContainer').default.getFragment('pattern')}
     }
   `,
 };

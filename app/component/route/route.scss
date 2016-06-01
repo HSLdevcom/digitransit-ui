@@ -239,6 +239,50 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   }
 }
 
+// Schedule list
+.trip-column {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.trip-separator {
+  position: relative;
+}
+
+.trip-separator:after {
+  content: "";
+  width: 100%;
+  position: absolute;
+  top: 11px;
+  left: 0;
+  border-top: 1px solid $light-gray;
+  z-index: 0;
+}
+
+.trip-from, .trip-to {
+  background: #fff;
+  width: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.trip-from {
+  transform: translateX(-50%);
+}
+
+.trip-to {
+  transform: translateX(50%);
+}
+
+.route-schedule-select-caret {
+  margin: 0 auto;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid $primary-color;
+}
+
 // Tabs
 div.route-tabs {
   .tab-panel {
