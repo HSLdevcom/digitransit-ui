@@ -95,7 +95,7 @@ elif [ "$1" == "browserstack" ]; then
   # Wait for the server to start
   sleep 10
   # Then run tests
-  env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/config/nightwatch.json -e bs-fx,bs-chrome,bs-ie
+  env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/config/nightwatch.json -e bs-fx,bs-chrome
   TESTSTATUS=$?
   # Kill Node and Browserstack tunnel
   if [ "$START_SERVER" == "1" ]; then
