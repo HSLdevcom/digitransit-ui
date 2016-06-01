@@ -1,19 +1,22 @@
 .itinerary-feedback {
   margin: 1em;
-  display: flex;
   .form {
-    display: inline-block;
     margin-right: 1em;
     margin-left: 1em;
     cursor: pointer;
-  }
-  .form.submitted {
-    display: none;
+
+    &.submitted {
+      display: none;
+    }
+    input {
+      display: inline;
+      width: 30%;
+    }
   }
   .done {
     display: none;
-  }
-  .done.submitted {
-    display: inline-block;
+    &.submitted {
+      display: inline-block;
+    }
   }
 }
