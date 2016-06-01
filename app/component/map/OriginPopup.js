@@ -3,11 +3,8 @@ import config from '../../config';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
-const Popup = () => {
-  if (isBrowser) {
-    return require('./dynamic-popup'); // eslint-disable global-require
-  }
-};
+const Popup = () => (isBrowser ?
+  require('./dynamic-popup') : null); // eslint-disable-line global-require
 
 import SearchActions from '../../action/SearchActions';
 import intl from 'react-intl';
@@ -30,20 +27,11 @@ class OriginPopup extends React.Component {
     map: React.PropTypes.object.isRequired,
   };
 
-  constructor(args) {
-    super(...args);
-    this.componentDidMount = this.componentDidMount.bind(this);
-    this.display = this.display.bind(this);
-    this.render = this.render.bind(this);
-  }
-
   componentDidMount() {
     return this.props.shouldOpen && setImmediate(this.display);
   }
 
-  display() {
-    return this.props.popupContainer.openPopup();
-  }
+  display = () => this.props.popupContainer.openPopup();
 
   render() {
     return (
