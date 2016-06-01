@@ -20,6 +20,7 @@ import CityBikePopup from '../component/map/popups/city-bike-popup';
 import FavouriteLocation from '../component/favourites/favourite-location';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
+import TripRouteStop from '../component/trip/TripRouteStop';
 import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
@@ -339,6 +340,7 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={CityBikeUse} />
         <ComponentDocumentation component={CityBikePopup} />
         <ComponentDocumentation component={FavouriteLocation} />
+        <ComponentDocumentation component={TripRouteStop} />
       </div>
     );
   }

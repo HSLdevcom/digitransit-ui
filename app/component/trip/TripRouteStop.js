@@ -1,9 +1,16 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
 import IconWithTail from '../icon/icon-with-tail';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import moment from 'moment';
 import cx from 'classnames';
 import WalkDistance from '../itinerary/walk-distance';
+import {
+  currentTime as exampleCurrentTime,
+  departure as exampleDeparture,
+  realtimeDeparture as exampleRealtimeDeparture,
+  vehicle as exampleVehicle,
+} from '../documentation/ExampleData';
 
 class TripRouteStop extends React.Component {
   static contextTypes = {
@@ -69,5 +76,39 @@ TripRouteStop.propTypes = {
   stop: React.PropTypes.object,
   distance: React.PropTypes.number,
 };
+
+TripRouteStop.description = (
+  <div>
+    <p>
+      Renders a row intended to for use in a trip route stop list.
+      The row contains the information of a single stop along a certain route.
+    </p>
+    <ComponentUsageExample description="Not realtime, no vehicle info:">
+      <TripRouteStop
+        key={exampleDeparture.stop.gtfsId}
+        stop={exampleDeparture.stop}
+        mode={exampleDeparture.pattern.route.type}
+        vehicle={null}
+        stopPassed={{ passed: true }}
+        realtime={exampleDeparture.realtime}
+        distance={321}
+        realtimeDeparture={null}
+        currentTimeFromMidnight={exampleCurrentTime}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Realtime with vehicle info:">
+      <TripRouteStop
+        key={exampleRealtimeDeparture.stop.gtfsId}
+        stop={exampleRealtimeDeparture.stop}
+        mode={exampleRealtimeDeparture.pattern.route.type}
+        vehicle={exampleVehicle}
+        stopPassed={{ passed: false }}
+        realtime={exampleRealtimeDeparture.realtime}
+        distance={231}
+        realtimeDeparture={exampleRealtimeDeparture.realtimeDeparture}
+        currentTimeFromMidnight={exampleCurrentTime}
+      />
+    </ComponentUsageExample>
+  </div>);
 
 export default TripRouteStop;
