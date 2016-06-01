@@ -4,6 +4,7 @@ export const realtimeDeparture = {
   stop: {
     code: '4611',
     gtfsId: 'HSL:1541157',
+    name: 'Kaivonkatsojanpuisto',
     desc: 'Kaivonkatsojantie',
   },
 
@@ -30,7 +31,10 @@ export const realtimeDeparture = {
 
 export const departure = {
   stop: {
+
     code: '1007',
+    name: 'Kellosilta',
+    desc: 'Ratamestarinkatu 9',
     gtfsId: 'JOLI:1007',
   },
 
