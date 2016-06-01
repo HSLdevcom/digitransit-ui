@@ -6,7 +6,8 @@ StopMarkerPopup = require '../popups/stop-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
 intl          = require 'react-intl'
 GenericMarker = require '../generic-marker'
-
+Icon          = require '../../icon/icon'
+ReactDomServer = require 'react-dom/server'
 
 iconSvg = """<svg viewBox="0 0 18 18">
     <circle key="halo" class="stop-halo" cx="9" cy="9" r="8" stroke-width="1"/>
@@ -41,11 +42,19 @@ class StopMarker extends React.Component
 
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = {"height": 150}
+    console.log @props.mode
+    iconId = "icon-icon_#{@props.mode}"
+    iconSmall = ReactDomServer.renderToString(<Icon viewBox="0 0 8 8" img={iconId} />)
+    icon = ReactDomServer.renderToString(<Icon viewBox="0 0 18 18" img={iconId} />)
+    iconSelected = ReactDomServer.renderToString(<Icon viewBox="0 0 28 28" img={iconId} />)
+
+
+    console.log icon
 
     <GenericMarker
       position={lat: @props.stop.lat, lon: @props.stop.lon}
       mode={@props.mode}
-      icons={smallIconSvg: smallIconSvg, iconSvg: iconSvg, selectedIconSvg: selectedIconSvg}
+      icons={smallIconSvg: iconSmall, iconSvg: icon, selectedIconSvg: iconSelected}
       iconSizes={smallIconSvg: [8, 8], iconSvg: [18, 18], selectedIconSvg: [28, 28]}
       map={@props.map}
       layerContainer={@props.layerContainer}
