@@ -21,7 +21,9 @@ export default class ItineraryFeedback extends React.Component {
   }
 
   sendFeedback() {
-    // this.context.piwik.trackEvent("Feedback", "Itinerary", "Feedback", this.state.feedbackText);
+    //this.context.piwik.getPac.push('setCustomDimension', 1, this.state.feedbackText);
+    this.context.piwik.setCustomVariable(3, 'feedback', this.state.feedbackText, 'page');
+    this.context.piwik.trackEvent("Feedback", "Itinerary", "Feedback", "submitted");
     this.setState({submitted: true});
   }
 
