@@ -1,7 +1,7 @@
 React         = require 'react'
 isBrowser     = window?
 Marker        = if isBrowser then require('react-leaflet/lib/Marker').default
-OriginPopup   = require './origin-popup'
+OriginPopup   = require('./OriginPopup').default
 L             = if isBrowser then require 'leaflet'
 Icon          = require '../icon/icon'
 connectToStores = require 'fluxible-addons-react/connectToStores'
