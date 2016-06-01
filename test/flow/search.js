@@ -68,7 +68,7 @@ suite('Search', () => {
   describe('When position is geocoded to Lidl Kamppi', () => {
     before((browser, done) => {
       browser.url('/?mock');
-      browser.setCurrentPosition(60.168201, 24.93079, 0, done);
+      browser.setCurrentPosition(60.168201, 24.93079, 0, () => browser.pause(500, done));
     });
 
     it('Should automatically route after position is set', (browser) => {
