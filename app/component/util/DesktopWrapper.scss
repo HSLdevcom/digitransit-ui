@@ -10,10 +10,11 @@
   justify-content: center;
   height: 100%;
   align-items: center;
+  max-width: 959;
 }
 
 .desktop-wrapper--left-bar {
-  flex: 1;
+  flex: 1 0 auto;
   max-width: 570px;
   padding-right: 110px;
   padding-left: 50px;
@@ -49,7 +50,7 @@
 }
 
 .desktop-wrapper--child-content {
-  flex: 1;
+  flex: 1 0 auto;
   height: 100%;
   max-height: 663px;
   max-width: 384px;
