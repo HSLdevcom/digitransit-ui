@@ -32,12 +32,21 @@ ApplicationHtml = require('./html').default
 
 port = process.env.HOT_LOAD_PORT || 9000
 
+getStringOrArrayElement = (arrayOrString, index) ->
+  if Array.isArray(arrayOrString)
+    arrayOrString[index]
+  else if typeof arrayOrString is 'string'
+    arrayOrString
+  else
+    console.log arrayOrString
+    throw new Error("Not array or string: " + arrayOrString)
 
 # Look up paths for various asset files
 appRoot = process.cwd() + '/'
 if process.env.NODE_ENV != 'development'
   stats = require('../stats.json')
-  manifest = fs.readFileSync(appRoot + "_static/" + stats.assetsByChunkName.manifest[0])
+  manifestFile = getStringOrArrayElement(stats.assetsByChunkName.manifest, 0)
+  manifest = fs.readFileSync(appRoot + "_static/" + manifestFile)
 
 svgSprite = fs.readFileSync(appRoot + "static/svg-sprite.#{config.CONFIG}.svg").toString()
 
@@ -45,9 +54,11 @@ geolocationStarter = fs.readFileSync(appRoot + "static/geolocation.js").toString
 
 if process.env.NODE_ENV != 'development'
   css = [
-    <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName.main[1]}/>
-    <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + stats.assetsByChunkName[config.CONFIG + '_theme'][1]}/>
+    <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + getStringOrArrayElement(stats.assetsByChunkName.main, 1)}/>
+    <link rel="stylesheet" type="text/css" href={config.APP_PATH + '/' + getStringOrArrayElement(stats.assetsByChunkName[config.CONFIG + '_theme'], 1)}/>
   ]
+
+
 
 getPolyfills = (userAgent) ->
   if !userAgent or /(LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
@@ -95,9 +106,9 @@ getScripts = (req) ->
   else
     [
       <script dangerouslySetInnerHTML={ __html: manifest }/>,
-      <script src={config.APP_PATH + '/' + stats.assetsByChunkName.common[0]}/>,
-      <script src={config.APP_PATH + '/' + stats.assetsByChunkName.leaflet[0]}/>,
-      <script src={config.APP_PATH + '/' + stats.assetsByChunkName.main[0]}/>
+      <script src={config.APP_PATH + '/' + getStringOrArrayElement(stats.assetsByChunkName.common, 0)}/>,
+      <script src={config.APP_PATH + '/' + getStringOrArrayElement(stats.assetsByChunkName.leaflet, 0)}/>,
+      <script src={config.APP_PATH + '/' + getStringOrArrayElement(stats.assetsByChunkName.main, 0)}/>
     ]
 
 getContent = (context, renderProps, locale, userAgent) ->

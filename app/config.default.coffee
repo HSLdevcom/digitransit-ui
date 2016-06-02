@@ -39,6 +39,7 @@ module.exports =
   maxBikingDistance: 40000
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb']
   defaultLanguage: 'en'
+  timezone: 'Europe/Helsinki'
   mainMenu:
     # Whether to show the left menu toggle button at all
     show: true

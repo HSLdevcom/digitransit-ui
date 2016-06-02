@@ -4,7 +4,7 @@ groupBy               = require 'lodash/groupBy'
 uniq                  = require 'lodash/uniq'
 routeCompare          = require '../../util/route-compare'
 cx                    = require 'classnames'
-RouteNumber           = require '../departure/route-number'
+RouteNumber           = require('../departure/RouteNumber').default
 
 class RouteList extends React.Component
   render: ->
