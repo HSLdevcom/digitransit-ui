@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import StopRoute from '../../../route/StopRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
-import Popup from '../dynamic-popup';
+import Popup from '../Popup';
 import intl from 'react-intl';
 import BaseTileLayer from 'react-leaflet/lib/BaseTileLayer';
 import omit from 'lodash/omit';
