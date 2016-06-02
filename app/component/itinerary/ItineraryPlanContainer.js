@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import ItineraryTab from '../itinerary/ItineraryTab';
 import { FormattedMessage } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
-import ItineraryLine from '../map/itinerary-line';
+import ItineraryLine from '../map/ItineraryLine';
 import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
 import Tabs from 'material-ui/Tabs/Tabs';
