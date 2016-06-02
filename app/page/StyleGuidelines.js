@@ -20,13 +20,10 @@ import CityBikePopup from '../component/map/popups/city-bike-popup';
 import FavouriteLocation from '../component/favourites/favourite-location';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
-<<<<<<< HEAD
 import TripRouteStop from '../component/trip/TripRouteStop';
-=======
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
->>>>>>> master
 import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
