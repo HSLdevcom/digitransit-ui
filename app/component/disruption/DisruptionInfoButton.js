@@ -18,7 +18,7 @@ class DisruptionInfoButton extends React.Component {
           onClick={this.props.toggleDisruptionInfo}
         >
           <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
-          {this.props.alerts.alerts.length > 0 ?
+          {this.props.alerts && this.props.alerts.alerts && this.props.alerts.alerts.length > 0 ?
             <Icon img={'icon-icon_caution'} className={'disruption-info'} /> :
             void 0}
         </div>

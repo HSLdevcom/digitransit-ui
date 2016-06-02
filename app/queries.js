@@ -582,30 +582,6 @@ export class FavouriteRouteListContainerRoute extends Relay.Route {
   static routeName = 'FavouriteRouteRowRoute';
 }
 
-export const DisruptionListContainerFragments = {
-  alerts: () => Relay.QL`
-  fragment on QueryType {
-    alerts {
-      id
-      alertHeaderTextTranslations {
-        text
-        language
-      }
-      alertDescriptionTextTranslations {
-        text
-        language
-      }
-      effectiveStartDate
-      effectiveEndDate
-      route {
-        shortName
-        type
-      }
-    }
-  }
-  `,
-};
-
 export class FavouriteLocationContainerRoute extends Relay.Route {
   static queries = {
     plan: (Component, variables) => Relay.QL`

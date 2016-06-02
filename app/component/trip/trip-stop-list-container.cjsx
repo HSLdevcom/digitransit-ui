@@ -4,7 +4,7 @@ queries                 = require '../../queries'
 GtfsUtils               = require '../../util/gtfs'
 groupBy                 = require 'lodash/groupBy'
 cx                      = require 'classnames'
-TripRouteStop           = require './trip-route-stop'
+TripRouteStop           = require('./TripRouteStop').default
 isEmpty                 = require 'lodash/isEmpty'
 moment                  = require 'moment'
 geoUtils                = require '../../util/geo-utils'
@@ -36,17 +36,17 @@ class TripStopListContainer extends React.Component
 
     currentTime = @context.getStore('TimeStore').getCurrentTime()
     currentTimeFromMidnight = currentTime.clone().diff(currentTime.clone().startOf('day'), 'seconds')
-    stopPassed = false
+    stopPassed = true
 
     @props.trip.stoptimes.map (stoptime, index) ->
       nextStop = "HSL:" + vehicle.next_stop
       if nextStop == stoptime.stop.gtfsId
-        stopPassed = true
+        stopPassed = false
       else if vehicle.stop_index == index
         # tram: next_stop is undefined
-        stopPassed = true
+        stopPassed = false
       else if (stoptime.realtimeDeparture > currentTimeFromMidnight && isEmpty(vehicle))
-        stopPassed = true
+        stopPassed = false
 
       <TripRouteStop
         key={stoptime.stop.gtfsId}
