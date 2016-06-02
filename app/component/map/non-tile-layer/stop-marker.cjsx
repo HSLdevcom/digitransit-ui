@@ -47,14 +47,14 @@ class StopMarker extends React.Component
 
     if config.map.useModeIconsInNonTileLayer
       iconId = "icon-icon_#{@props.mode}"
-      iconSmall = ReactDomServer.renderToString(<Icon viewBox="0 0 8 8" img={iconId} />)
-      icon = ReactDomServer.renderToString(<Icon viewBox="0 0 18 18" img={iconId} />)
-      iconSelected = ReactDomServer.renderToString(<Icon viewBox="0 0 28 28" img={iconId} />)
+      iconSmall = ReactDomServer.renderToString(<Icon viewBox="0 0 8 8" img={iconId} className="stop-marker"/>)
+      icon = ReactDomServer.renderToString(<Icon viewBox="0 0 18 18" img={iconId} className="stop-marker"/>)
+      iconSelected = ReactDomServer.renderToString(<Icon viewBox="0 0 28 28" img={iconId} className="stop-marker"/>)
     else
       iconSmall = smallIconSvg
       icon = iconSvg
       iconSelected = selectedIconSvg
-    
+
     <GenericMarker
       position={lat: @props.stop.lat, lon: @props.stop.lon}
       mode={@props.mode}
