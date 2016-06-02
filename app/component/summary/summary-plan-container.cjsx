@@ -69,7 +69,6 @@ class SummaryPlanContainer extends React.Component
           to={to}>
         </Map>
         <ItinerarySummaryListContainer itineraries={plan.itineraries} currentTime={currentTime} onSelect={@onSelectActive} activeIndex={activeIndex} />
-        <ItineraryFeedback />
         <TimeNavigationButtons plan={plan} />
       </div>
     else

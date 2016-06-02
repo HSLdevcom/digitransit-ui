@@ -4,7 +4,7 @@ import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { plan as examplePlan } from '../documentation/ExampleData';
-
+import ItineraryFeedback from '../itinerary-feedback/itinerary-feedback'
 
 function setEarlierSelectedTime(executeAction, plan) {
   const earliestArrivalTime = plan.itineraries.reduce((previous, current) => {
@@ -45,6 +45,7 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
   if (plan == null) { return null; }
   return (
     <div className="time-navigation-buttons">
+      <ItineraryFeedback />
       <button className="standalone-btn" onClick={setEarlierSelectedTime(executeAction, plan)}>
         <FormattedMessage id="earlier" defaultMessage="Earlier" />
       </button>
