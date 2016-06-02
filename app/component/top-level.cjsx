@@ -1,6 +1,6 @@
 React  = require 'react'
 Helmet = require 'react-helmet'
-meta   = require('../meta')
+meta   = require('../meta').default
 configureMoment = require '../util/configure-moment'
 
 class TopLevel extends React.Component
