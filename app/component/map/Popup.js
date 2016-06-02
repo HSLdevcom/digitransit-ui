@@ -38,6 +38,7 @@ export default class Popup extends MapComponent {
       }
       el.openOn(map);
     }
+    el.options.autoPan = false;
   }
 
   componentDidUpdate(prevProps) {
