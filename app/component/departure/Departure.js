@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import RouteNumber from './route-number';
+import RouteNumber from './RouteNumber';
 import RouteDestination from './route-destination';
 import DepartureTime from './DepartureTime';
 import StopReference from '../stop/stop-reference';

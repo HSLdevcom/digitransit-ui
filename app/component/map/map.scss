@@ -32,40 +32,14 @@ div.map.summaryMap div.leaflet-container {
   overflow: auto;
 }
 
-@media #{$small-only} {
-  div.map, div.map div.leaflet-container {
-    height: $small-map-height;
-  }
-  div.background-gradient {
-    height: $small-map-height;
-  }
-  div.below-map {
-    height: calc(100% - #{$small-map-height});
-  }
+div.map, div.map div.leaflet-container {
+  height: $small-map-height;
 }
-
-@media #{$medium-only} {
-  div.map, div.map div.leaflet-container {
-    height: $medium-map-height;
-  }
-  div.background-gradient {
-    height: $medium-map-height * 0.5;
-  }
-  div.below-map {
-    height: calc(100% - #{$medium-map-height});
-  }
+div.background-gradient {
+  height: $small-map-height;
 }
-
-@media #{$large-up} {
-  div.map, div.map div.leaflet-container {
-    height: $large-map-height;
-  }
-  div.background-gradient {
-    height: $large-map-height * 0.3;
-  }
-  div.below-map {
-    height: calc(100% - #{$large-map-height});
-  }
+div.below-map {
+  height: calc(100% - #{$small-map-height});
 }
 
 /* Hide top container for small screens.
@@ -73,10 +47,8 @@ div.map.summaryMap div.leaflet-container {
  * Leaflet top bar icons are always in a way of something.
  * Note that only checking if we are on mobile device using Leaflet.Browser.touch is not enough.
  */
-@media #{$small-only} {
-  div.leaflet-control-container div.leaflet-top {
-    display: none;
-  }
+div.leaflet-control-container div.leaflet-top {
+  display: none;
 }
 
 div.leaflet-container {

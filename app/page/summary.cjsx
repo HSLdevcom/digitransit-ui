@@ -1,9 +1,8 @@
-Raven           = if window? then require 'raven-js' else null
 React           = require 'react'
 Relay           = require 'react-relay'
 queries         = require '../queries'
 Helmet          = require 'react-helmet'
-SummaryPlanContainer   = require '../component/summary/summary-plan-container'
+SummaryPlanContainer   = require('../component/summary/SummaryPlanContainer').default
 SummaryNavigation      = require '../component/navigation/summary-navigation'
 NoRoutePopup           = require '../component/summary/no-route-popup'
 ItinerarySearchActions = require('../action/ItinerarySearchActions')
@@ -20,6 +19,7 @@ class SummaryPage extends React.Component
     executeAction: React.PropTypes.func.isRequired
     getStore: React.PropTypes.func.isRequired
     intl: intl.intlShape.isRequired
+    raven: React.PropTypes.object.isRequired
 
   @loadAction: (params) ->
     [
@@ -111,7 +111,7 @@ class SummaryPage extends React.Component
           disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic
         )}
         renderFailure={(error) =>
-          Raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
+          @context.raven.captureMessage("OTP returned an error when requesting a plan", {extra: error})
           <div className="summary">
             <SummaryPlanContainer
               from={from}

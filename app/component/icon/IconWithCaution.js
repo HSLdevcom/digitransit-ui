@@ -10,7 +10,7 @@ const IconWithCaution = props => (
       xlinkHref="#icon-icon_caution"
       transform="scale(0.6,0.6)"
       y="30"
-      style={{ color: 'red' }}
+      style={{ color: 'red', fill: 'red' }}
     />
   </svg>
 );

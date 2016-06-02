@@ -1,11 +1,16 @@
 import config from '../config';
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 // Configure moment with the selected language
 // and with the relative time thresholds used when humanizing times
 function configureMoment(language) {
   moment.locale(language);
+
+  if (config.timezone) {
+    moment.tz.setDefault(config.timezone);
+  }
+
   if (language !== 'en') {
     require(`moment/locale/${language}`); // eslint-disable-line global-require
   }
