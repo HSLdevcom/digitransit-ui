@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import DisruptionInfoRoute from './DisruptionInfoRoute';
+import ViewerRoute from '../../route/ViewerRoute';
 import { open } from '../../action/DisruptionInfoAction';
 import DisruptionInfoButton from './DisruptionInfoButton';
 
@@ -10,7 +10,7 @@ function DisruptionInfoButtonContainer() {
       <Relay.RootContainer
         Component={DisruptionInfoButton}
         forceFetch
-        route={new DisruptionInfoRoute()}
+        route={new ViewerRoute()}
         renderFetched={(data) => (
           <DisruptionInfoButton
             {...data}
