@@ -21,12 +21,11 @@ class ItineraryLine extends React.Component
     objs = []
 
     if @props.showFromToMarkers
-      if @context.getStore('EndpointStore').getOrigin().useCurrentPosition
-        objs.push <LocationMarker map={@props.map}
-                                  layerContainer={@props.layerContainer}
-                                  key="from"
-                                  position={@props.legs[0].from}
-                                  className='from' />
+      objs.push <LocationMarker map={@props.map}
+                                layerContainer={@props.layerContainer}
+                                key="from"
+                                position={@props.legs[0].from}
+                                className='from' />
       objs.push <LocationMarker map={@props.map}
                                 layerContainer={@props.layerContainer}
                                 key="to"
