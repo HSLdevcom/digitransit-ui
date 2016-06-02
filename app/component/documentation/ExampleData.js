@@ -3,10 +3,14 @@
 export const realtimeDeparture = {
   stop: {
     code: '4611',
+    gtfsId: 'HSL:1541157',
+    name: 'Kaivonkatsojanpuisto',
+    desc: 'Kaivonkatsojantie',
   },
 
   stoptime: 1444165199,
   realtime: true,
+  realtimeDeparture: 49140,
 
   pattern: {
     __dataID__: 'UGF0dGVybjpIU0w6NDYxMToxOjAx',
@@ -27,7 +31,11 @@ export const realtimeDeparture = {
 
 export const departure = {
   stop: {
+
     code: '1007',
+    name: 'Kellosilta',
+    desc: 'Ratamestarinkatu 9',
+    gtfsId: 'JOLI:1007',
   },
 
   stoptime: 1444185960,
@@ -48,6 +56,20 @@ export const departure = {
     code: 'HSL:1007B:0:02',
     headsign: 'Pasila',
   },
+};
+
+export const vehicle = {
+  id: '7afa423b',
+  route: 'HSL:4611',
+  direction: 1,
+  tripStartTime: '1323',
+  operatingDay: '20160601',
+  mode: 'bus',
+  delay: 44,
+  next_stop: '1401152',
+  timestamp: 1464777425,
+  lat: 60.28675,
+  long: 25.00535,
 };
 
 export const currentTime = new Date().getTime() / 1000;

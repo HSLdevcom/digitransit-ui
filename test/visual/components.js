@@ -62,6 +62,17 @@ gemini.suite('components', (parent) => {
     });
   });
 
+  gemini.suite('TripRouteStop', () => {
+    gemini.suite('non-realtime', (suite) => {
+      suite.setCaptureElements('#TripRouteStop .component-example:nth-of-type(1) .component')
+      .capture('normal');
+    });
+    gemini.suite('realtime', (suite) => {
+      suite.setCaptureElements('#TripRouteStop .component-example:nth-of-type(2) .component')
+      .capture('normal');
+    });
+  });
+
   gemini.suite('TimeNavigationButtons', (component) => {
     component.setCaptureElements(
       '#TimeNavigationButtons .component-example:nth-of-type(1) .component')
