@@ -1,5 +1,5 @@
 React        = require 'react'
-RouteNumber  = require '../../departure/route-number'
+RouteNumber  = require('../../departure/RouteNumber').default
 moment       = require 'moment'
 Icon         = require '../../icon/icon'
 intl         = require 'react-intl'

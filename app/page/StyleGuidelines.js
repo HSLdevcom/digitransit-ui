@@ -3,7 +3,7 @@ import Icon from '../component/icon/icon';
 import IconWithTail from '../component/icon/icon-with-tail';
 import ComponentDocumentation from '../component/documentation/ComponentDocumentation';
 import Departure from '../component/departure/Departure';
-import RouteNumber from '../component/departure/route-number';
+import RouteNumber from '../component/departure/RouteNumber';
 import RouteDestination from '../component/departure/route-destination';
 import DepartureTime from '../component/departure/DepartureTime';
 import StopReference from '../component/stop/stop-reference';
@@ -20,6 +20,10 @@ import CityBikePopup from '../component/map/popups/city-bike-popup';
 import FavouriteLocation from '../component/favourites/favourite-location';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
+import TripRouteStop from '../component/trip/TripRouteStop';
+import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
+import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
+import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
 import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
@@ -337,6 +341,7 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={CityBikeUse} />
         <ComponentDocumentation component={CityBikePopup} />
         <ComponentDocumentation component={FavouriteLocation} />
+        <ComponentDocumentation component={TripRouteStop} />
       </div>
     );
   }
@@ -350,6 +355,16 @@ class StyleGuidelinesPage extends React.Component {
       <div>
         <ComponentDocumentation component={TimeNavigationButtons} />
         <ComponentDocumentation component={TimeSelectors} />
+      </div>
+    );
+  }
+
+  getTileLayerComponents() {
+    return (
+      <div>
+        <ComponentDocumentation component={MarkerSelectPopup} />
+        <ComponentDocumentation component={SelectCityBikeRow} />
+        <ComponentDocumentation component={SelectStopRow} />
       </div>
     );
   }
@@ -386,6 +401,7 @@ class StyleGuidelinesPage extends React.Component {
         {this.getCardComponents()}
         {this.getIconComponents()}
         {this.getSummaryComponents()}
+        {this.getTileLayerComponents()}
       </div>
     );
   }

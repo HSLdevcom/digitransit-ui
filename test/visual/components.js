@@ -62,6 +62,17 @@ gemini.suite('components', (parent) => {
     });
   });
 
+  gemini.suite('TripRouteStop', () => {
+    gemini.suite('non-realtime', (suite) => {
+      suite.setCaptureElements('#TripRouteStop .component-example:nth-of-type(1) .component')
+      .capture('normal');
+    });
+    gemini.suite('realtime', (suite) => {
+      suite.setCaptureElements('#TripRouteStop .component-example:nth-of-type(2) .component')
+      .capture('normal');
+    });
+  });
+
   gemini.suite('TimeNavigationButtons', (component) => {
     component.setCaptureElements(
       '#TimeNavigationButtons .component-example:nth-of-type(1) .component')
@@ -76,6 +87,24 @@ gemini.suite('components', (parent) => {
   gemini.suite('TimeSelectors', (component) => {
     component.setCaptureElements(
       '#TimeSelectors .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
+
+  gemini.suite('MarkerSelectPopup', (component) => {
+    component.setCaptureElements(
+      '#MarkerSelectPopup .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
+
+  gemini.suite('SelectStopRow', (component) => {
+    component.setCaptureElements(
+      '#SelectStopRow .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
+
+  gemini.suite('SelectCityBikeRow', (component) => {
+    component.setCaptureElements(
+      '#SelectCityBikeRow .component-example:nth-of-type(1) .component')
     .capture('normal');
   });
 });

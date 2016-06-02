@@ -35,6 +35,7 @@ function getNextDepartures(props) {
       nextDepartures.push({
         distance: stopAtDistance.distance,
         stoptime,
+        hasDisruption: stoptime.pattern.route.alerts.length > 0,
       });
     }
   }
@@ -68,7 +69,13 @@ export default Relay.createContainer(NearbyRouteListContainer, {
                   ${NextDeparturesListRelayFragment}
                   pattern {
                     headsign
-                    route { gtfsId, type }
+                    route {
+                      gtfsId,
+                      type,
+                      alerts {
+                        id
+                      }
+                    }
                   }
                   stoptimes { pickupType }
                 }

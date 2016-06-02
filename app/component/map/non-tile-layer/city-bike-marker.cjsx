@@ -1,6 +1,5 @@
 React         = require 'react'
 Relay         = require 'react-relay'
-queries       = require '../../../queries'
 isBrowser     = window?
 CityBikePopup = require '../popups/city-bike-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
@@ -9,6 +8,7 @@ Icon          = require '../../icon/icon'
 GenericMarker = require '../generic-marker'
 Example               = require '../../documentation/ExampleData'
 ComponentUsageExample = require('../../documentation/ComponentUsageExample').default
+CityBikeRoute         = require('../../../route/CityBikeRoute').default
 
 
 # Small icon for zoom levels <= 15
@@ -67,7 +67,7 @@ class CityBikeMarker extends React.Component
     >
       <Relay.RootContainer
         Component={CityBikePopup}
-        route={new queries.CityBikeRoute(
+        route={new CityBikeRoute(
           stationId: @props.station.id
         )}
         renderLoading={() => <div className="card" style=loadingPopupStyle><div className="spinner-loader"/></div>}
