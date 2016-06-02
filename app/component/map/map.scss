@@ -313,6 +313,11 @@ div.origin-popup {
   fill-opacity: 1;
 }
 
+.map .icon.stop-marker {
+  width: auto;
+  height: auto;
+}
+
 /* BEWARE! This is an ugly hack.
  * It so happens that firefox will not allow SVG clicks to bubble to DOM if pointer-events: none is not set.
  * If we set pointer-events: none for all browsers, then we lose "pointer cursor" for all browsers.
