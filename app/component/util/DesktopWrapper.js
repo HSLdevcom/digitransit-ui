@@ -2,7 +2,9 @@ import React from 'react';
 import dimensions from 'react-dimensions';
 
 function DesktopWrapper({ children, containerWidth }) {
-  if (containerWidth < 980) {
+  if (containerWidth < 980 ||
+    (typeof window !== 'undefined' && window.location.pathname === '/styleguide')
+  ) {
     return children;
   }
   return (

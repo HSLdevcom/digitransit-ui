@@ -2,6 +2,7 @@
 .desktop-wrapper {
   background-color: #333;
   @include font-book;
+  overflow: hidden;
 }
 
 .desktop-wrapper--content {
