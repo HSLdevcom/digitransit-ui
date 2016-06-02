@@ -7,22 +7,8 @@ $itinerary-route-max-width: 500px;
 
 // hacketihack, instead of all this we should have more generic measures for pages somewhere else...
 
-@media #{$small-only} {
-  .itinerary-swipe-views-root {
-    height: calc(100% - #{$small-map-height} - #{$itinerary-bottom-navigation-height} - 18px);
-  }
-}
-
-@media #{$medium-only} {
-  .itinerary-swipe-views-root {
-    height: calc(100% - #{$medium-map-height} - #{$itinerary-bottom-navigation-height} - 18px);
-  }
-}
-
-@media #{$large-up} {
-  .itinerary-swipe-views-root {
-    height: calc(100% - #{$large-map-height} - #{$itinerary-bottom-navigation-height} - 18px);
-  }
+.itinerary-swipe-views-root {
+  height: calc(100% - #{$small-map-height} - #{$itinerary-bottom-navigation-height} - 18px);
 }
 
 .itinerary-tabs__scroll {
