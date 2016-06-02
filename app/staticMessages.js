@@ -2,8 +2,6 @@
 const staticMessages = [
   {
     id: 1,
-    timestamp: '20160601T0000',
-    priority: 2,
     content: {
       fi: { title: 'Tämä on Reittioppaan kehitysversio',
             content: 'Kuulut eliittiin! Käytät Reittioppaan kehitysversiota. Nauti uusista ominaisuuksista ja lähetä meille palautetta. Päivitämme palvelua jatkuvasti. Valmista on luvassa loppuvuodesta 2016. Lisätietoa projektista löydät osoitteesta digitransit.fi' },

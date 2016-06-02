@@ -23,14 +23,8 @@ class MessageStore extends Store {
 
   /* Message format:
    * { id: id,
-   *   timestamp: 20160101T1200,
-   *   priority: 1,
    *   content: { fi: "foo", sv: "bar" }
    * }
-   *
-   * Lower priority is more important.
-   * Unread messages are sorted first by importance first, and then by timestamp.
-   * Read messages are sorted by time.
    */
   // TODO: Generate message id if missing
   addMessage = (msg) => {
