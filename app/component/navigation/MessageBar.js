@@ -32,7 +32,7 @@ class MessageBar extends Component {
 
   getTabContent = () => (
     this.unreadMessages().map((el, i) => (
-      <div key={i}>
+      <div key={i} onClick={this.maximize}>
         <h2>{el.content[this.props.lang].title}</h2>
         {el.content[this.props.lang].content}
       </div>
@@ -55,6 +55,13 @@ class MessageBar extends Component {
       />
     ))
   );
+
+  maximize = () => {
+    this.setState({
+      ...this.state,
+      maximized: true,
+    });
+  };
 
   unreadMessages = () => this.props.messages.filter((el) => el.read === false);
 
