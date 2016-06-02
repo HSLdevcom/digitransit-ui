@@ -5,46 +5,20 @@ $trip-large-map-height: 300px;
 
 
 .trip {
-  // Small map
-  @media #{$small-only} {
-    .map.map-small, .map.map-small div.leaflet-container {
-      height: $trip-small-map-height;
-    }
-    div.background-gradient {
-      height: $trip-small-map-height * 0.7;
-    }
-    .map.map-small:not(.fullscreen) div.leaflet-container div.leaflet-control-container div div.leaflet-control-attribution {
-      display: none;
-    }
-    div.below-map {
-      height: calc(100% - #{$trip-small-map-height} - #{$trip-route-header-height} - #{$route-list-header-height});
-    }
+  .map.map-small, .map.map-small div.leaflet-container {
+    height: $trip-small-map-height;
   }
-
-  @media #{$medium-only} {
-    .map.map-small, .map.map-small div.leaflet-container {
-      height: $trip-medium-map-height;
-    }
-    div.background-gradient {
-      height: $trip-medium-map-height * 0.5;
-    }
-    div.below-map {
-      height: calc(100% - #{$trip-medium-map-height} - #{$trip-route-header-height} - #{$route-list-header-height});
-    }
+  div.background-gradient {
+    height: $trip-small-map-height * 0.7;
   }
-
-  @media #{$large-up} {
-    .map.map-small, .map.map-small div.leaflet-container {
-      height: $trip-large-map-height;
-    }
-    div.background-gradient {
-      height: $trip-large-map-height * 0.3;
-    }
-    div.below-map {
-      height: calc(100% - #{$trip-large-map-height} - #{$trip-route-header-height} - #{$route-list-header-height});
-    }
+  .map.map-small:not(.fullscreen) div.leaflet-container div.leaflet-control-container div div.leaflet-control-attribution {
+    display: none;
+  }
+  div.below-map {
+    height: calc(100% - #{$trip-small-map-height} - #{$trip-route-header-height} - #{$route-list-header-height});
   }
 }
+
 .route-header.trip-header {
   height:$trip-route-header-height;
   .route-header-direction {
