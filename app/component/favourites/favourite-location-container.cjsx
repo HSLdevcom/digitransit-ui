@@ -1,7 +1,7 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
-FavouriteLocation     = require './favourite-location'
+FavouriteLocation     = require('./FavouriteLocation').default
 Icon                  = require '../icon/icon'
 config                = require '../../config'
 
