@@ -88,6 +88,8 @@
 }
 .fullscreen {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .padding-small  {
   padding: 0.45em 1em;

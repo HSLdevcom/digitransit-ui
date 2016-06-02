@@ -171,6 +171,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   margin: 0 15px;
   line-height: 1;
   height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
+  flex-shrink: 0;
   border-bottom: solid 1px $light-gray;
   h1 {
     @include font-narrow-book;
@@ -241,10 +242,28 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 // Tabs
 div.route-tabs {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  .tabs-navigation {
+    flex-shrink: 0;
+  }
+
   .tab-panel {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+
     background: white;
     height: calc(100% - 1.2em - 8px);
     > div {
+      flex-grow: 1;
+
+      display: flex;
+      flex-direction: column;
       @extend .momentum-scroll;
       height: 100%;
       overflow: auto;

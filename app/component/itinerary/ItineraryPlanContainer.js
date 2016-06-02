@@ -100,7 +100,12 @@ class ItineraryPlanContainer extends React.Component {
     if (this.state.fullscreen) {
       return (
         <div
-          style={{ height: '100%' }}
+          style={{
+            height: '100%',
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
           onTouchStart={e => e.stopPropagation()}
           onMouseDown={e => e.stopPropagation()}
         >
