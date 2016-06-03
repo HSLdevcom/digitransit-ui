@@ -75,6 +75,7 @@ function getPolyfills(userAgent) {
     'String.prototype.repeat': { flags: ['gated'] },
     'String.prototype.startsWith': { flags: ['gated'] },
     Symbol: { flags: ['gated'] },
+    requestAnimationFrame: { flags: ['gated'] },
   };
 
   for (const language of config.availableLanguages) {
