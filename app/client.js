@@ -17,6 +17,7 @@ import history from './history';
 import buildInfo from './build-info';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import DesktopWrapper from './component/util/DesktopWrapper';
 
 const plugContext = (f) => () => ({
   plugComponentContext: f,
@@ -26,14 +27,14 @@ const plugContext = (f) => () => ({
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
 
-const addPiwik = (context) => { context.piwik = piwik; }; // eslint-disable-line no-param-reassign
+const addPiwik = (context) => (context.piwik = piwik); // eslint-disable-line no-param-reassign
 
 const piwikPlugin = {
   name: 'PiwikPlugin',
   plugContext: plugContext(addPiwik),
 };
 
-const addRaven = (context) => { context.raven = Raven; }; // eslint-disable-line no-param-reassign
+const addRaven = (context) => (context.raven = Raven); // eslint-disable-line no-param-reassign
 
 const ravenPlugin = {
   name: 'RavenPlugin',
@@ -147,7 +148,9 @@ app.rehydrate(window.state, (err, context) => {
   ReactDOM.render(
     <ContextProvider translations={translations} context={context.getComponentContext()}>
       <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
-        <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
+        <DesktopWrapper>
+          <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
+        </DesktopWrapper>
       </MuiThemeProvider>
     </ContextProvider>
     , document.getElementById('app')

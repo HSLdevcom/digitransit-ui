@@ -82,13 +82,13 @@ class AddFavouriteContainer extends React.Component
       defaultMessage: 'Favourite place'
     )
 
-    <div>
+    <div className="fullscreen">
       <div className={cx @props.className, "add-favourite-container"}>
         <Link to="/" className="right cursor-pointer">
           <Icon id="add-favourite-close-icon" img='icon-icon_close'/>
         </Link>
         <row>
-          <div className="add-favourite-container__content small-12 medium-8 large-6 small-centered columns">
+          <div className="add-favourite-container__content small-12 small-centered columns">
             <header className="add-favourite-container__header row">
               <div className="cursor-pointer add-favourite-star small-1 columns">
                 <Icon className={cx "add-favourite-star__icon", "selected"} img="icon-icon_star"/>

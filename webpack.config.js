@@ -188,8 +188,8 @@ module.exports = {
     loaders: getLoadersConfig(process.env.NODE_ENV),
   },
   postcss: (process.env.NODE_ENV === 'development') ?
-    [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] })] :
-    [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] }), csswring],
+    [ autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] })] :
+    [ autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] }), csswring],
   node: {
     net: 'empty',
     tls: 'empty',
