@@ -60,11 +60,12 @@ function getPolyfills(userAgent) {
   }
 
   const features = {
-    'Array.from': { flags: ['gated'] },
     'Array.prototype.find': { flags: ['gated'] },
     'Array.prototype.includes': { flags: ['gated'] },
     atob: { flags: ['gated'] },
+    default: { flags: ['gated'] },
     es5: { flags: ['gated'] },
+    es6: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
     Intl: { flags: ['always', 'gated'] },
     matchMedia: { flags: ['gated'] },
