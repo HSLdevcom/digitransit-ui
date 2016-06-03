@@ -4,7 +4,7 @@ import ItinerarySummaryListContainer from './itinerary-summary-list-container';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import LocationMarker from '../map/location-marker';
 import Map from '../map/map';
-import ItineraryLine from '../map/itinerary-line';
+import ItineraryLine from '../map/ItineraryLine';
 
 import { supportsHistory } from 'history/lib/DOMUtils';
 

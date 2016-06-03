@@ -13,7 +13,7 @@ class SearchModal extends React.Component
       <div
         className="search-modal">
         <div className="row fullscreen">
-          <div className="small-12 medium-6 medium-offset-3 columns cursor-pointer search-header">
+          <div className="small-12 columns cursor-pointer search-header">
             <div className="search-header__back-arrow" onClick={@props.closeModal}>
               <Icon img='icon-icon_arrow-left'/>
               <span className="search-header-separator"/>
