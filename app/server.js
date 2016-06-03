@@ -24,6 +24,15 @@ import ApplicationHtml from './html';
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
+function getStringOrArrayElement(arrayOrString, index) {
+  if (Array.isArray(arrayOrString)) {
+    return arrayOrString[index];
+  } else if (typeof arrayOrString === 'string') {
+    return arrayOrString;
+  }
+  throw new Error(`Not array or string: ${arrayOrString}`);
+}
+
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
@@ -36,17 +45,20 @@ let css;
 
 if (process.env.NODE_ENV !== 'development') {
   stats = require('../stats.json'); // eslint-disable-line global-require
-  manifest = fs.readFileSync(`${appRoot}_static/${stats.assetsByChunkName.manifest[0]}`);
+  const manifestFile = getStringOrArrayElement(stats.assetsByChunkName.manifest, 0);
+  manifest = fs.readFileSync(`${appRoot}_static/${manifestFile}`);
   css = [
     <link
       rel="stylesheet"
       type="text/css"
-      href={`${config.APP_PATH}/${stats.assetsByChunkName.main[1]}`}
+      href={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 1)}`}
     />,
     <link
       rel="stylesheet"
       type="text/css"
-      href={`${config.APP_PATH}/${stats.assetsByChunkName[`${config.CONFIG}_theme`][1]}`}
+      href={`${config.APP_PATH}/${
+        getStringOrArrayElement(stats.assetsByChunkName[`${config.CONFIG}_theme`], 1)
+      }`}
     />,
   ];
 }
@@ -111,9 +123,15 @@ function getScripts(req) {
   }
   return [
     <script dangerouslySetInnerHTML={{ __html: manifest }} />,
-    <script src={`${config.APP_PATH}/${stats.assetsByChunkName.common[0]}`} />,
-    <script src={`${config.APP_PATH}/${stats.assetsByChunkName.leaflet[0]}`} />,
-    <script src={`${config.APP_PATH}/${stats.assetsByChunkName.main[0]}`} />,
+    <script
+      src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.common, 0)}`}
+    />,
+    <script
+      src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.leaflet, 0)}`}
+    />,
+    <script
+      src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 0)}`}
+    />,
   ];
 }
 
