@@ -1,7 +1,7 @@
 import React from 'react';
 import intl from 'react-intl';
 import cx from 'classnames';
-import Icon from '../icon/icon'
+// import Icon from '../icon/icon';
 
 export default class ItineraryFeedback extends React.Component {
   static contextTypes = {
@@ -35,11 +35,6 @@ export default class ItineraryFeedback extends React.Component {
   render() {
     return (
       <div className="itinerary-feedback">
-        <div>
-          <button className="standalone-btn">
-            <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back" />
-          </button>
-        </div>
         <div className={cx('form', { submitted: this.state.submitted })}>
           <input
             type="text"
