@@ -105,6 +105,7 @@
     "babel-plugin-dev-expression": "^0.2.1",
     "babel-plugin-transform-react-createelement-to-jsx": "^1.0.1",
     "babel-preset-es2015-native-modules": "^6.6.0",
+    "babel-preset-es2015-webpack-loose": "^6.3.14",
     "chance": "^1.0.3",
     "cjsx-loader": "^3.0.0",
     "coffee-loader": "^0.7.2",

@@ -23,7 +23,7 @@ function getLoadersConfig(env) {
         loader: 'babel',
         exclude: /node_modules/,
         query: {
-          'presets': ['es2015-loose', 'react', 'stage-0'],
+          'presets': ['es2015-webpack-loose', 'react', 'stage-0'],
           'plugins': [
             'transform-class-properties',
             path.join(__dirname, 'build/babelRelayPlugin'),
@@ -43,7 +43,7 @@ function getLoadersConfig(env) {
       loader: 'babel',
       exclude: /node_modules/,
       query: {
-        'presets': ['es2015-native-modules', 'react'],
+        'presets': ['es2015-webpack-loose', 'react'],
         'plugins': [
           'transform-class-properties',
           path.join(__dirname, 'build/babelRelayPlugin'),
