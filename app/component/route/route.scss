@@ -13,6 +13,8 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   @include font-narrow-medium;
   line-height: $line-height-normal;
   height: $route-list-header-height;
+  flex-shrink: 0;
+
   overflow: hidden;
   div {
     color: $black;

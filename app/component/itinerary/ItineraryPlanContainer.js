@@ -168,8 +168,8 @@ class ItineraryPlanContainer extends React.Component {
         <SwipeableViews
           index={index}
           className="itinerary-swipe-views-root"
-          slideStyle={{ height: '100%' }}
-          containerStyle={{ height: '100%' }}
+          slideStyle={{ minHeight: '100%' }}
+          containerStyle={{ minHeight: '100%' }}
           onChangeIndex={(idx) => setTimeout(this.switchSlide, 150, idx)}
         >
           {this.getSlides(itineraries)}
