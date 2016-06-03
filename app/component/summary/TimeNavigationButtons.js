@@ -54,8 +54,12 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
         className="standalone-btn itinerary-feedback-btn"
         onClick={triggerItineraryFeedback()}
       >
+        <Icon img="icon-icon_speach-bubble" />
       </button>
-      <button className="standalone-btn" onClick={setEarlierSelectedTime(executeAction, plan)}>
+      <button
+        className="standalone-btn time-navigation-earlier-btn"
+        onClick={setEarlierSelectedTime(executeAction, plan)}
+      >
         <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back" />
         <FormattedMessage id="earlier" defaultMessage="Earlier" />
       </button>
@@ -65,7 +69,10 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
       >
         <FormattedMessage id="now" defaultMessage="Now" />
       </button>
-      <button className="standalone-btn" onClick={setLaterSelectedTime(executeAction, plan)}>
+      <button
+        className="standalone-btn time-navigation-later-btn"
+        onClick={setLaterSelectedTime(executeAction, plan)}
+      >
         <FormattedMessage id="later" defaultMessage="Later" />
         <Icon img={'icon-icon_arrow-right'} className="cursor-pointer back" />
       </button>
