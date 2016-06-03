@@ -72,23 +72,16 @@ function getPolyfills(userAgent) {
   }
 
   const features = {
-    'Array.prototype.find': { flags: ['gated'] },
     'Array.prototype.includes': { flags: ['gated'] },
-    atob: { flags: ['gated'] },
     default: { flags: ['gated'] },
     es5: { flags: ['gated'] },
     es6: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
     Intl: { flags: ['always', 'gated'] },
     matchMedia: { flags: ['gated'] },
-    'Object.assign': { flags: ['gated'] },
-    Promise: { flags: ['gated'] },
     setImmediate: { flags: ['gated'] },
-    'String.prototype.endsWith': { flags: ['gated'] },
-    'String.prototype.repeat': { flags: ['gated'] },
-    'String.prototype.startsWith': { flags: ['gated'] },
     Symbol: { flags: ['gated'] },
-    requestAnimationFrame: { flags: ['gated'] },
+    'Symbol.iterator': { flags: ['gated'] },
   };
 
   for (const language of config.availableLanguages) {
