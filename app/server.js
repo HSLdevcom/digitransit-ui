@@ -77,7 +77,7 @@ function getPolyfills(userAgent) {
     es5: { flags: ['gated'] },
     es6: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
-    Intl: { flags: ['always', 'gated'] },
+    Intl: { flags: ['gated'] },
     matchMedia: { flags: ['gated'] },
     setImmediate: { flags: ['gated'] },
     Symbol: { flags: ['gated'] },
@@ -86,7 +86,7 @@ function getPolyfills(userAgent) {
 
   for (const language of config.availableLanguages) {
     features[`Intl.~locale.${language}`] = {
-      flags: ['always', 'gated'],
+      flags: ['gated'],
     };
   }
 

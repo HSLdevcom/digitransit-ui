@@ -77,13 +77,15 @@ function getSourceMapPlugin(testPattern,prefix) {
 function getPluginsConfig(env) {
   const languageExpression = new RegExp('^./(' + getAllPossibleLanguages().join('|') + ')$');
   const momentExpression = /moment[\\\/]locale$/;
-  const reactIntlExpression = /react-intl[\/\\]lib[\/\\]locale\-data$/;
+  const reactIntlExpression = /react-intl[\/\\]locale\-data$/;
+  const intlExpression = /intl[\/\\]locale\-data[\/\\]jsonp$/;
 
   if (env === 'development') {
     return ([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
       new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
+      new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
       new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('development')}}),
       new webpack.NoErrorsPlugin(),
     ]);
@@ -91,6 +93,7 @@ function getPluginsConfig(env) {
   return ([
     new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
+    new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
     new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('production')}}),
     new webpack.PrefetchPlugin('react'),
     new webpack.PrefetchPlugin('react-router'),

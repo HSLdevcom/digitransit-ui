@@ -133,7 +133,7 @@ app.plug(piwikPlugin);
 app.plug(ravenPlugin);
 
 // Run application
-app.rehydrate(window.state, (err, context) => {
+const callback = () => app.rehydrate(window.state, (err, context) => {
   if (err) {
     throw err;
   }
@@ -171,3 +171,12 @@ app.rehydrate(window.state, (err, context) => {
     setTimeout(() => trackDomPerformance(), 5000);
   }
 });
+
+if (typeof window.Intl !== 'undefined') {
+  callback();
+} else {
+  require.ensure(['intl'], (require) => {
+    require('intl');
+    callback();
+  });
+}
