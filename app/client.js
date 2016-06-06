@@ -133,7 +133,7 @@ app.plug(piwikPlugin);
 app.plug(ravenPlugin);
 
 // Run application
-app.rehydrate(window.state, (err, context) => {
+const callback = () => app.rehydrate(window.state, (err, context) => {
   if (err) {
     throw err;
   }
@@ -171,3 +171,17 @@ app.rehydrate(window.state, (err, context) => {
     setTimeout(() => trackDomPerformance(), 5000);
   }
 });
+
+// Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service
+if (typeof window.Intl !== 'undefined') {
+  callback();
+} else {
+  const modules = [System.import('intl')];
+
+  for (const language of config.availableLanguages) {
+    // eslint-disable-next-line prefer-template
+    modules.push(System.import('intl/locale-data/jsonp/' + language));
+  }
+
+  Promise.all(modules).then(callback);
+}
