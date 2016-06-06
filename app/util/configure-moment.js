@@ -12,7 +12,8 @@ function configureMoment(language) {
   }
 
   if (language !== 'en') {
-    require(`moment/locale/${language}`); // eslint-disable-line global-require
+    // eslint-disable-next-line global-require, prefer-template
+    require('moment/locale/' + language);
   }
 
   moment.relativeTimeThreshold('s', config.moment.relativeTimeThreshold.seconds);
