@@ -72,7 +72,7 @@ function getSourceMapPlugin(testPattern,prefix) {
     append: '\n//# sourceMappingURL=' + prefix + '[url]',
     module: true,
     columns: true,
-    lineToLine: true
+    lineToLine: false
   })
 }
 
@@ -111,6 +111,7 @@ function getPluginsConfig(env) {
     new webpack.optimize.OccurrenceOrderPlugin(true),
     // new webpack.optimize.DedupePlugin(), // TODO:crashes weirdly
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
       compress: {
         warnings: false,
       },

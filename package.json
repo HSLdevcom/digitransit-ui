@@ -23,8 +23,8 @@
     "coffee-lint": "coffeelint -f coffeelint.json --ext=cjsx,coffee app",
     "es-lint": "eslint .",
     "lint": "npm run coffee-lint && npm run es-lint",
-    "build": "NODE_ENV=production webpack -p --progress --color --display-error-details",
-    "win-build": "set NODE_ENV=production&& webpack -p --progress --color",
+    "build": "NODE_ENV=production webpack --progress --color --display-error-details",
+    "win-build": "set NODE_ENV=production&& webpack --progress --color",
     "start": "NODE_ENV=production node server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js"
   },
@@ -143,7 +143,7 @@
     "sigmund": "^1.0.1",
     "stats-webpack-plugin": "^0.3.1",
     "style-loader": "^0.13.1",
-    "webpack": "^2.1.0-beta.7",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^2.1.0-beta.12",
+    "webpack-dev-server": "^2.1.0-beta.0"
   }
 }
