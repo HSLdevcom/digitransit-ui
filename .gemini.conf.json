@@ -14,7 +14,8 @@
         "os_version": "El Capitan",
         "browserName": "chrome",
         "version": "50",
-        "locationContextEnabled": false
+        "locationContextEnabled": false,
+        "screenshotMode": "fullpage"
       }
     }
   }
