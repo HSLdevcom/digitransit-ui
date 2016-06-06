@@ -23,7 +23,8 @@ function getLoadersConfig(env) {
         loader: 'babel',
         exclude: /node_modules/,
         query: {
-          'presets': ['es2015-native-modules', 'react', 'stage-0'],
+          // loose is needed by older Androids < 4.3 and IE10
+          'presets': ['es2015-webpack-loose', 'react', 'stage-0'],
           'plugins': [
             'transform-class-properties',
             path.join(__dirname, 'build/babelRelayPlugin'),
@@ -43,7 +44,8 @@ function getLoadersConfig(env) {
       loader: 'babel',
       exclude: /node_modules/,
       query: {
-        'presets': ['es2015-native-modules', 'react'],
+          // loose is needed by older Androids < 4.3 and IE10
+        'presets': ['es2015-webpack-loose', 'react'],
         'plugins': [
           'transform-class-properties',
           path.join(__dirname, 'build/babelRelayPlugin'),
@@ -77,13 +79,15 @@ function getSourceMapPlugin(testPattern,prefix) {
 function getPluginsConfig(env) {
   const languageExpression = new RegExp('^./(' + getAllPossibleLanguages().join('|') + ')$');
   const momentExpression = /moment[\\\/]locale$/;
-  const reactIntlExpression = /react-intl[\/\\]lib[\/\\]locale\-data$/;
+  const reactIntlExpression = /react-intl[\/\\]locale\-data$/;
+  const intlExpression = /intl[\/\\]locale\-data[\/\\]jsonp$/;
 
   if (env === 'development') {
     return ([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
       new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
+      new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
       new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('development')}}),
       new webpack.NoErrorsPlugin(),
     ]);
@@ -91,6 +95,7 @@ function getPluginsConfig(env) {
   return ([
     new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
+    new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
     new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('production')}}),
     new webpack.PrefetchPlugin('react'),
     new webpack.PrefetchPlugin('react-router'),
