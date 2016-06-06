@@ -16,7 +16,7 @@ class ItineraryTab extends React.Component {
   };
 
   constructor(args) {
-    super(...args);
+    super(args);
 
     this.state = {
       fullscreen: false,

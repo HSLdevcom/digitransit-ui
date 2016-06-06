@@ -6,8 +6,8 @@ class DisruptionInfoStore extends Store {
     closeDisruptionInfo: 'close',
   };
 
-  constructor(...args) {
-    super(...args);
+  constructor(args) {
+    super(args);
     this.isOpen = false;
   }
 

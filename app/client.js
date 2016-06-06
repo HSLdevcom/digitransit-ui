@@ -65,7 +65,12 @@ function track() {
 
   if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
     if (Feedback.shouldDisplayPopup(
-      context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf())
+      context
+        .getComponentContext()
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .valueOf()
+      )
     ) {
       context.executeAction(openFeedbackModal);
     }

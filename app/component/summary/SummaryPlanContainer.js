@@ -60,12 +60,13 @@ class SummaryPlanContainer extends React.Component {
     const from = [this.props.from.lat, this.props.from.lon];
     const to = [this.props.to.lat, this.props.to.lon];
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
+    let leafletObjs = [];
 
     if (this.props.plan && this.props.plan.plan && this.props.plan.plan.itineraries.length > 0) {
       const plan = this.props.plan.plan;
       const activeIndex = this.getActiveIndex();
 
-      let leafletObjs = plan.itineraries.map((itinerary, i) => (
+      leafletObjs = plan.itineraries.map((itinerary, i) => (
         <ItineraryLine
           key={i}
           hash={i}
