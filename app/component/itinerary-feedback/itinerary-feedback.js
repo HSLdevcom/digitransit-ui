@@ -1,6 +1,7 @@
 import React from 'react';
 import intl from 'react-intl';
 import cx from 'classnames';
+import Icon from '../icon/icon';
 // import Icon from '../icon/icon';
 
 export default class ItineraryFeedback extends React.Component {
@@ -32,25 +33,33 @@ export default class ItineraryFeedback extends React.Component {
     this.state.feedbackText = event.target.value;
   }
 
+  /* <div className="itinerary-feedback">
+    <div className={cx('form', { submitted: this.state.submitted })}>
+      <input
+        type="text"
+        value={this.state.value}
+        onChange={this.handleChange}
+      />
+      <input
+        type="button"
+        value="Send tilbakemelding"
+        onClick={this.sendFeedback}
+      />
+    </div>
+    <div className={cx('done', { submitted: this.state.submitted })}>
+      Takk!
+    </div>
+  </div>*/
+
   render() {
     return (
-      <div className="itinerary-feedback">
-        <div className={cx('form', { submitted: this.state.submitted })}>
-          <input
-            type="text"
-            value={this.state.value}
-            onChange={this.handleChange}
-          />
-          <input
-            type="button"
-            value="Send tilbakemelding"
-            onClick={this.sendFeedback}
-          />
-        </div>
-        <div className={cx('done', { submitted: this.state.submitted })}>
-          Takk!
-        </div>
-      </div>
+      <span className="itinerary-feedback-container">
+        <button
+          className="standalone-btn itinerary-feedback-btn"
+        >
+          <Icon img="icon-icon_speach-bubble" />
+        </button>
+      </span>
     );
   }
 }

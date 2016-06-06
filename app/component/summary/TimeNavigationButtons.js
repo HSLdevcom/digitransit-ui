@@ -4,7 +4,7 @@ import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { plan as examplePlan } from '../documentation/ExampleData';
-// import ItineraryFeedback from '../itinerary-feedback/itinerary-feedback';
+import ItineraryFeedback from '../itinerary-feedback/itinerary-feedback';
 import Icon from '../icon/icon';
 
 function setEarlierSelectedTime(executeAction, plan) {
@@ -39,10 +39,6 @@ function setLaterSelectedTime(executeAction, plan) {
   return () => executeAction(setDepartureTime, latestDepartureTime);
 }
 
-function triggerItineraryFeedback() {
-
-}
-
 const setSelectedTimeToNow = (executeAction) =>
   () => executeAction(setDepartureTime, moment());
 
@@ -50,12 +46,7 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
   if (plan == null) { return null; }
   return (
     <div className="time-navigation-buttons">
-      <button
-        className="standalone-btn itinerary-feedback-btn"
-        onClick={triggerItineraryFeedback()}
-      >
-        <Icon img="icon-icon_speach-bubble" />
-      </button>
+      <ItineraryFeedback />
       <button
         className="standalone-btn time-navigation-earlier-btn"
         onClick={setEarlierSelectedTime(executeAction, plan)}
