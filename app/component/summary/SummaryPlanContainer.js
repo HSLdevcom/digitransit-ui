@@ -57,7 +57,6 @@ class SummaryPlanContainer extends React.Component {
   }
 
   render() {
-    let leafletObjs = [];
     const from = [this.props.from.lat, this.props.from.lon];
     const to = [this.props.to.lat, this.props.to.lon];
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
@@ -66,19 +65,15 @@ class SummaryPlanContainer extends React.Component {
       const plan = this.props.plan.plan;
       const activeIndex = this.getActiveIndex();
 
-      for (const [i, itinerary] of plan.itineraries.entries()) {
-        const passive = i !== activeIndex;
-
-        leafletObjs.push(
-          <ItineraryLine
-            key={i}
-            hash={i}
-            legs={itinerary.legs}
-            showFromToMarkers={i === 0}
-            passive={passive}
-          />
-        );
-      }
+      let leafletObjs = plan.itineraries.map((itinerary, i) => (
+        <ItineraryLine
+          key={i}
+          hash={i}
+          legs={itinerary.legs}
+          showFromToMarkers={i === 0}
+          passive={i !== activeIndex}
+        />
+      ));
 
       leafletObjs = sortBy(leafletObjs, i => i.props.passive === false);
 
