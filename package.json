@@ -143,7 +143,7 @@
     "sigmund": "^1.0.1",
     "stats-webpack-plugin": "^0.3.1",
     "style-loader": "^0.13.1",
-    "webpack": "^2.1.0-beta.7",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^2.1.0-beta.12",
+    "webpack-dev-server": "^2.1.0-beta.0"
   }
 }
