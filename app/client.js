@@ -172,11 +172,16 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   }
 });
 
+// Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service
 if (typeof window.Intl !== 'undefined') {
   callback();
 } else {
-  require.ensure(['intl'], (require) => {
-    require('intl');
-    callback();
-  });
+  const modules = [System.import('intl')];
+
+  for (const language of config.availableLanguages) {
+    // eslint-disable-next-line prefer-template
+    modules.push(System.import('intl/locale-data/jsonp/' + language));
+  }
+
+  Promise.all(modules).then(callback);
 }
