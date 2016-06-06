@@ -72,6 +72,12 @@ class TimeSelectorContainer extends Component {
     this.dispatchChangedtime
   );
 
+  changeTimeMui = (e, date) => this.setState(
+    { time: moment(`${date.getHours()}:${date.getMinutes()} ${this.state.time.format('YYYY-MM-DD')}`
+    , 'H:m YYYY-MM-DD') },
+    this.dispatchChangedtime
+  );
+
   changeDate = ({ target }) => this.setState(
     { time: moment(`${this.state.time.format('H:m')} ${target.value}`, 'H:m YYYY-MM-DD') },
     this.dispatchChangedtime
@@ -85,6 +91,7 @@ class TimeSelectorContainer extends Component {
         time={this.state.time}
         setArriveBy={this.setArriveBy}
         changeTime={this.changeTime}
+        changeTimeMui={this.changeTimeMui}
         changeDate={this.changeDate}
         dates={this.getDates()}
       />
