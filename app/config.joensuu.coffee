@@ -159,7 +159,8 @@ module.exports =
       available: true
     accessibility:
       available: true
-  areaPolygon: [[29.70, 62.60],[29.80, 62.60],[29.80, 62.70],[29.70, 62.70]]
+  # http://www.darrinward.com/lat-long/?id=2003445
+  areaPolygon: [[29.2154, 62.2692],[29.2154, 62.9964],[31.0931, 62.9964],[31.0931,62.2692]]
   # Default origin endpoint to use when user is outside of area
   defaultEndpoint:
     address: "Keskusta, Joensuu"
