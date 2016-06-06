@@ -8,6 +8,7 @@
   "browsers": {
     "chrome50": {
       "windowSize": "600x1024",
+      "retry": 3,
       "desiredCapabilities": {
         "os": "OS X",
         "os_version": "El Capitan",
