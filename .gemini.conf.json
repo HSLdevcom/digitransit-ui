@@ -13,7 +13,8 @@
         "os": "OS X",
         "os_version": "El Capitan",
         "browserName": "chrome",
-        "version": "50"
+        "version": "50",
+        "locationContextEnabled": false
       }
     }
   }
