@@ -23,6 +23,7 @@ function getLoadersConfig(env) {
         loader: 'babel',
         exclude: /node_modules/,
         query: {
+          // loose is needed by older Androids < 4.3 and IE10
           'presets': ['es2015-webpack-loose', 'react', 'stage-0'],
           'plugins': [
             'transform-class-properties',
@@ -43,6 +44,7 @@ function getLoadersConfig(env) {
       loader: 'babel',
       exclude: /node_modules/,
       query: {
+          // loose is needed by older Androids < 4.3 and IE10
         'presets': ['es2015-webpack-loose', 'react'],
         'plugins': [
           'transform-class-properties',
