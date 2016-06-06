@@ -24,10 +24,13 @@ function getLoadersConfig(env) {
         exclude: /node_modules/,
         query: {
           // loose is needed by older Androids < 4.3 and IE10
-          'presets': ['es2015-webpack-loose', 'react', 'stage-0'],
+          'presets': ['es2015-webpack-loose', 'react', 'stage-2'],
           'plugins': [
             'transform-class-properties',
             path.join(__dirname, 'build/babelRelayPlugin'),
+          ],
+          ignore: [
+            'app/util/piwik.js',
           ],
         },
       },
@@ -44,11 +47,14 @@ function getLoadersConfig(env) {
       loader: 'babel',
       exclude: /node_modules/,
       query: {
-          // loose is needed by older Androids < 4.3 and IE10
-        'presets': ['es2015-webpack-loose', 'react'],
+        // loose is needed by older Androids < 4.3 and IE10
+        'presets': ['es2015-webpack-loose', 'react', 'stage-2'],
         'plugins': [
           'transform-class-properties',
           path.join(__dirname, 'build/babelRelayPlugin'),
+        ],
+        ignore: [
+          'app/util/piwik.js',
         ],
       },
     },
