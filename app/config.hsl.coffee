@@ -1,6 +1,6 @@
 CONFIG = process.env.CONFIG or 'hsl'
-API_URL = process.env.API_URL or 'https://dev-api.digitransit.fi'
-MAP_URL = process.env.MAP_URL or 'https://{s}-dev-api.digitransit.fi'
+API_URL = process.env.API_URL or 'https://api.digitransit.fi'
+MAP_URL = process.env.MAP_URL or 'https://{s}-api.digitransit.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''

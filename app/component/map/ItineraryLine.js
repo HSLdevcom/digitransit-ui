@@ -59,9 +59,9 @@ class ItineraryLine extends React.Component {
       && !(this.props.legs[0].rentedBike)
     );
 
-    for (const [i, leg] of this.props.legs.entries()) {
+    this.props.legs.forEach((leg, i) => {
       if (leg.mode === 'WAIT') {
-        continue;
+        return;
       }
 
       let { mode } = leg;
@@ -156,7 +156,7 @@ class ItineraryLine extends React.Component {
             />);
         }
       }
-    }
+    });
 
     return (<div style={{ display: 'none' }}>{objs}</div>);
   }

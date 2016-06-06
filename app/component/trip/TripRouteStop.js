@@ -18,8 +18,11 @@ class TripRouteStop extends React.Component {
   };
 
   renderTime(realtimeDeparture) {
-    const departureTime = this.context.getStore('TimeStore')
-      .getCurrentTime().startOf('day').second(realtimeDeparture);
+    const departureTime = this.context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .startOf('day')
+      .second(realtimeDeparture);
     return moment(departureTime).format('HH:mm');
   }
 
