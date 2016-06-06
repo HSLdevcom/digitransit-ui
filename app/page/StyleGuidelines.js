@@ -207,7 +207,7 @@ class StyleGuidelinesPage extends React.Component {
   }
 
   getIcons() {
-    if (typeof document === 'undefined'){
+    if (typeof document === 'undefined') {
       return null;
     }
     return (
