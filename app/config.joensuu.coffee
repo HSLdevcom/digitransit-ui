@@ -32,10 +32,10 @@ module.exports =
     fi: ""
     default: ""
   searchParams:
-    "boundary.rect.min_lat": 62.04
-    "boundary.rect.max_lat": 62.96
-    "boundary.rect.min_lon": 30.73
-    "boundary.rect.max_lon": 30.81
+    "boundary.rect.min_lat": 62
+    "boundary.rect.max_lat": 63.2
+    "boundary.rect.min_lon": 28.7
+    "boundary.rect.max_lon": 30.8
   nearbyRoutes:
     radius: 2000
     bucketSize: 100
