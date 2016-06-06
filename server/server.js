@@ -3,6 +3,7 @@
 
 /* ********* Polyfills (for node) **********/
 require('node-cjsx').transform();
+require('babel-core/register')();
 
 global.fetch = require('node-fetch');
 global.self = { fetch: global.fetch };
@@ -56,7 +57,7 @@ function setupErrorHandling() {
 }
 
 function setUpRoutes() {
-  app.use(require('../app/server'));
+  app.use(require('../app/server').default);
 }
 
 function startServer() {

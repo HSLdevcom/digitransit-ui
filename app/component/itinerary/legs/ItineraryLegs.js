@@ -90,7 +90,7 @@ class ItineraryLegs extends React.Component {
 
     const focus = (position) => () => this.props.focusMap(position.lat, position.lon);
 
-    for (let [j, leg] of compressedLegs.entries()) {
+    compressedLegs.forEach((leg, j) => {
       if (j + 1 < compressedLegs.length) {
         nextLeg = compressedLegs[j + 1];
       }
@@ -211,7 +211,7 @@ class ItineraryLegs extends React.Component {
             {this.stopCode(leg.from.stop)}
           </WaitLeg>);
       }
-    }
+    });
 
     legs.push(
       <EndLeg

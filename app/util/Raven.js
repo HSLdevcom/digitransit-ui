@@ -1,19 +1,21 @@
 import config from '../config';
 import buildInfo from '../build-info';
 
-let Raven;
+function getRaven() {
+  if (process.env.NODE_ENV === 'production') {
+    /* eslint-disable global-require */
+    const Raven = require('raven-js');
+    Raven.addPlugin(require('raven-js/plugins/console.js'));
+    /* eslint-enable global-require */
 
-if (process.env.NODE_ENV === 'production') {
-  Raven = require('raven-js'); // eslint-disable-line global-require
-  Raven.addPlugin(require('raven-js/plugins/console.js'));  // eslint-disable-line global-require
-
-  Raven.config(config.SENTRY_DSN, {
-    release: buildInfo.COMMIT_ID,
-  }).install();
-} else {
-  Raven = {
+    Raven.config(config.SENTRY_DSN, {
+      release: buildInfo.COMMIT_ID,
+    }).install();
+    return Raven;
+  }
+  return {
     captureMessage: console.error, // eslint-disable-line no-console
   };
 }
 
-export default Raven;
+export default getRaven();
