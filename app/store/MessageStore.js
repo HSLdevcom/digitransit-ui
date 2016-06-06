@@ -4,7 +4,8 @@ import staticMessages from '../staticMessages.js';
 
 // Save to local storage as an array of key, value pairs
 function saveMapToStorage(msgMap) {
-  return setMessagesStorage([...msgMap]);
+  // Spread (...) operator is broken for Map and Set with babel set to loose
+  return setMessagesStorage(Array.from(msgMap.entries()));
 }
 
 class MessageStore extends Store {
