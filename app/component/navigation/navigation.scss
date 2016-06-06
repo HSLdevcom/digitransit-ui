@@ -45,6 +45,7 @@ nav.top-bar {
     width: $topbar-height;
     position: absolute;
     top: 0;
+    z-index: 1160;
 
     &.back {  // Appears on non-front pages
       left: 0.5em;
