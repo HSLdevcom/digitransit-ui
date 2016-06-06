@@ -11,8 +11,6 @@ import sortBy from 'lodash/sortBy';
 // TODO: Alerts aren't showing properly
 // Need to implement logic as per DepartureListContainer
 function NextDeparturesList(props) {
-  const departureObjs = [];
-
   const departures = props.departures.map(originalDeparture => {
     const distance = originalDeparture.distance;
 
@@ -35,18 +33,15 @@ function NextDeparturesList(props) {
     return departure;
   });
 
-  const sortedDepartures = sortBy(departures, ['roundedDistance', 'sorttime']);
-
-  for (const departure of sortedDepartures) {
+  const departureObjs = sortBy(departures, ['roundedDistance', 'sorttime']).map((departure) => {
     const stoptime = departure.stoptime;
-    const departureTimes = [];
 
-    for (const departureTime of stoptime.stoptimes) {
+    const departureTimes = stoptime.stoptimes.map((departureTime) => {
       const canceled = departureTime.realtimeState === 'CANCELED';
       const key = `${stoptime.pattern.route.gtfsId}:${stoptime.pattern.headsign}:
         ${departureTime.realtimeDeparture}`;
 
-      departureTimes.push(
+      return (
         <DepartureTime
           key={key}
           departureTime={departureTime.serviceDay + departureTime.realtimeDeparture}
@@ -55,10 +50,10 @@ function NextDeparturesList(props) {
           canceled={canceled}
         />
       );
-    }
+    });
 
     // TODO: Should this be its own view component?
-    departureObjs.push(
+    return (
       <Link to={`/linjat/${stoptime.pattern.code}`} key={stoptime.pattern.code}>
         <div className="next-departure-row padding-vertical-normal border-bottom">
           <Distance distance={departure.distance} />
@@ -75,7 +70,7 @@ function NextDeparturesList(props) {
         </div>
       </Link>
     );
-  }
+  });
 
   return <div>{departureObjs}</div>;
 }
