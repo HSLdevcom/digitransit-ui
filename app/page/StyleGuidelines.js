@@ -208,6 +208,8 @@ class StyleGuidelinesPage extends React.Component {
 
   getIcons() {
     if (typeof document === 'undefined') return void 0;
+      return null;		
+    }
     return (
       <section>Import:
         <p className="code">Icon = require '../icon/icon'</p>
