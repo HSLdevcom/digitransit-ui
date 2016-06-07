@@ -1,6 +1,6 @@
 React         = require 'react'
 Relay         = require 'react-relay'
-queries       = require '../../../queries'
+StopRoute     = require('../../../route/StopRoute').default
 isBrowser     = window?
 StopMarkerPopup = require '../popups/stop-marker-popup'
 provideContext = require 'fluxible-addons-react/provideContext'
@@ -56,7 +56,7 @@ class StopMarker extends React.Component
     >
       <Relay.RootContainer
         Component={StopMarkerPopup}
-        route={new queries.StopRoute(
+        route={new StopRoute(
           stopId: @props.stop.gtfsId
           date: @context.getStore('TimeStore').getCurrentTime().format("YYYYMMDD")
         )}

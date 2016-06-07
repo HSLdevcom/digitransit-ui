@@ -1,6 +1,6 @@
 config = require('../../../config')
 React = require 'react'
-CityBikeActions = require '../../../action/city-bike-actions'
+{cityBikeSearchRequest} = require '../../../action/city-bike-actions'
 CityBikeMarker = require './city-bike-marker'
 ComponentUsageExample = require('../../documentation/ComponentUsageExample').default
 
@@ -23,7 +23,7 @@ class CityBikeMarkerContainer extends React.Component
 
   componentWillMount: ->
     data = @context.getStore('CityBikeStore').getData()
-    @context.executeAction CityBikeActions.cityBikeSearchRequest if not data?.stations?
+    @context.executeAction cityBikeSearchRequest if not data?.stations?
     @context.getStore('CityBikeStore').addChangeListener @onCityBikeChange
 
   componentDidMount: ->

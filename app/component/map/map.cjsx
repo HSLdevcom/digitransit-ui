@@ -5,7 +5,6 @@ queries        =  require '../../queries'
 Icon           = require '../icon/icon'
 LocationMarker = require './location-marker'
 config         = require '../../config'
-OriginPopup    = require './origin-popup'
 LeafletMap     = if isBrowser then require('react-leaflet/lib/Map').default else null
 TileLayer      = if isBrowser then require('react-leaflet/lib/TileLayer').default else null
 L              = if isBrowser then require 'leaflet' else null
@@ -14,9 +13,9 @@ PlaceMarker    = require './place-marker'
 {boundWithMinimumArea} = require '../../util/geo-utils'
 
 if isBrowser and config.map.useVectorTiles
-  TileLayerContainer = require './tile-layer/tile-layer-container'
-  Stops              = require './tile-layer/stops'
-  CityBikes          = require './tile-layer/city-bikes'
+  TileLayerContainer = require('./tile-layer/TileLayerContainer').default
+  Stops              = require('./tile-layer/Stops').default
+  CityBikes          = require('./tile-layer/CityBikes').default
 
 else
   StopMarkerContainer = if isBrowser then require './non-tile-layer/stop-marker-container'

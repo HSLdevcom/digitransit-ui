@@ -2,11 +2,12 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 FavouriteLocationContainer = require './favourite-location-container'
-FavouriteLocation     = require './favourite-location'
+FavouriteLocation     = require('./FavouriteLocation').default
 Icon                  = require '../icon/icon'
 ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 EndpointActions       = require('../../action/EndpointActions')
 connectToStores       = require 'fluxible-addons-react/connectToStores'
+config                = require '../../config'
 
 
 class FavouriteLocationsContainer extends React.Component
@@ -52,6 +53,12 @@ class FavouriteLocationsContainer extends React.Component
             to:
               lat: favourite.lat
               lon: favourite.lon
+            maxWalkDistance: config.maxWalkDistance + 0.1
+            wheelchair: false
+            preferred:
+              agencies: config.preferredAgency or ""
+            arriveBy: false
+            disableRemainingWeightHeuristic: false
           )}
           renderLoading={=> favouriteLocation}
           renderFetched={(data) =>
