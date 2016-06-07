@@ -37,10 +37,10 @@ module.exports =
     "boundary.rect.min_lon": 28.7
     "boundary.rect.max_lon": 30.8
   nearbyRoutes:
-    radius: 2000
-    bucketSize: 100
-  maxWalkDistance: 2500
-  maxBikingDistance: 10000
+    radius: 10000
+    bucketSize: 1000
+    maxWalkDistance: 10000
+    maxBikingDistance: 40000
   availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
   timezone: 'Europe/Helsinki'
