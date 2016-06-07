@@ -14,7 +14,7 @@ export default class ItineraryFeedback extends React.Component {
   constructor(args) {
     super(...args);
     this.state = {
-      feedbackFormOpen: true,
+      feedbackFormOpen: false,
       feedbackText: '',
     };
     this.updateText = this.updateText.bind(this);
