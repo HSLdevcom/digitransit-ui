@@ -3,7 +3,7 @@
 /* General palette */
 $white: #ffffff;
 $black: #333;
-$gray-blue: #7f929c;
+$gray-blue: #78909c;
 $gray-blue-light: rgb(182, 193, 199);
 $light-gray: #ddd;
 $medium-gray: #ccc;
@@ -41,7 +41,7 @@ $cancelation-background: #fbe0ea;
 $disruption-color: $cancelation-red;
 
 $standalone-btn-color: $primary-color;
-$standalone-btn-hover-color: $secondary-color;
+$standalone-btn-hover-color: $gray-blue-light;
 
 /* Markers */
 $viewpoint-marker-color: $title-color;

@@ -20,8 +20,8 @@ export default class Popup extends MapComponent {
     const { popupContainer, ...props } = this.props;
 
     this.leafletElement = popup(props, popupContainer);
-    this.leafletElement.on('add', ::this.renderPopupContent);
-    this.leafletElement.on('remove', ::this.removePopupContent);
+    this.leafletElement.on('add', this.renderPopupContent.bind(this));
+    this.leafletElement.on('remove', this.removePopupContent.bind(this));
   }
 
   componentDidMount() {
@@ -38,6 +38,7 @@ export default class Popup extends MapComponent {
       }
       el.openOn(map);
     }
+    el.options.autoPan = false;
   }
 
   componentDidUpdate(prevProps) {

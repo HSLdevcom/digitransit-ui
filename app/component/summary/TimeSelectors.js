@@ -2,9 +2,11 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { intlShape } from 'react-intl';
+import supportsInputType from '../../util/supportsInputType';
+import TimePicker from 'material-ui/TimePicker';
 
 export default function TimeSelectors(
-  { arriveBy, time, dates, setArriveBy, changeTime, changeDate }, { intl }
+  { arriveBy, time, dates, setArriveBy, changeTime, changeTimeMui, changeDate }, { intl }
 ) {
   return (
     <div className="time-selectors">
@@ -29,12 +31,23 @@ export default function TimeSelectors(
       >
         {dates}
       </select>
-      <input
-        type="time"
-        className="time"
-        value={time.format('HH:mm')}
-        onChange={changeTime}
-      />
+      {supportsInputType('time') ?
+        <input
+          type="time"
+          className="time"
+          value={time.format('HH:mm')}
+          onChange={changeTime}
+        /> :
+        <TimePicker
+          format="24hr"
+          className="time"
+          defaultTime={time.toDate()}
+          value={time.toDate()}
+          onChange={changeTimeMui}
+          style={{
+            display: 'inline-block',
+          }}
+        />}
     </div>
   );
 }
@@ -44,6 +57,7 @@ TimeSelectors.propTypes = {
   time: PropTypes.instanceOf(moment).isRequired,
   setArriveBy: PropTypes.func.isRequired,
   changeTime: PropTypes.func.isRequired,
+  changeTimeMui: PropTypes.func.isRequired,
   changeDate: PropTypes.func.isRequired,
   dates: PropTypes.arrayOf(PropTypes.element).isRequired,
 };

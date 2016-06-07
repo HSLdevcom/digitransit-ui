@@ -11,13 +11,12 @@ function getNextDepartures(props) {
   const nodes = props.stops.stopsByRadius.edges.map(edge => edge.node);
   const nextDepartures = [];
 
-  for (const stopAtDistance of nodes) {
+  nodes.forEach((stopAtDistance) => {
     const keepStoptimes = [];
+    if (stopAtDistance.stop.stoptimesForPatterns == null) { return; }
 
-    if (stopAtDistance.stop.stoptimesForPatterns == null) { continue; }
-
-    for (const patternAndStoptimes of stopAtDistance.stop.stoptimesForPatterns) {
-      if (patternAndStoptimes.stoptimes.length === 0) { continue; }
+    stopAtDistance.stop.stoptimesForPatterns.forEach((patternAndStoptimes) => {
+      if (patternAndStoptimes.stoptimes.length === 0) { return; }
       const pattern = patternAndStoptimes.pattern;
 
       const seenKey = `${pattern.route.gtfsId}:${pattern.headsign}`;
@@ -29,16 +28,16 @@ function getNextDepartures(props) {
         keepStoptimes.push(patternAndStoptimes);
         seenDepartures[seenKey] = true;
       }
-    }
+    });
 
-    for (const stoptime of keepStoptimes) {
+    keepStoptimes.forEach((stoptime) => {
       nextDepartures.push({
         distance: stopAtDistance.distance,
         stoptime,
         hasDisruption: stoptime.pattern.route.alerts.length > 0,
       });
-    }
-  }
+    });
+  });
 
   return nextDepartures;
 }
