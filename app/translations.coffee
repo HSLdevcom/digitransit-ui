@@ -421,6 +421,9 @@ translations =
     'choose-stop': 'Velg stopp'
     'loading': 'loading'
     'skip-positioning': 'skip-positioning'
+    'itinerary-feedback-message': "Fant du ikke det du lette etter?"
+    'itinerary-feedback-placeholder': "Beskrivelse (valgfritt)"
+    'itinerary-feedback-button': "Send tilbakemelding"
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
