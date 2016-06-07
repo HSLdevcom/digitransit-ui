@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { intlShape } from 'react-intl';
-import supportsType from '../util/inputTypeCheck';
+import supportsInputType from '../../util/supportsInputType';
 import TimePicker from 'material-ui/TimePicker';
 
 export default function TimeSelectors(
@@ -31,7 +31,7 @@ export default function TimeSelectors(
       >
         {dates}
       </select>
-      {supportsType('time') ?
+      {supportsInputType('time') ?
         <input
           type="time"
           className="time"
