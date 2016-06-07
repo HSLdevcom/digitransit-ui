@@ -54,7 +54,7 @@ class Modal extends React.Component {
             </div>
           </div>
           <div className="modal-wrapper">
-            <div className="modal-content">
+            <div className="modal-content momentum-scroll">
               {this.props.children}
             </div>
           </div>
