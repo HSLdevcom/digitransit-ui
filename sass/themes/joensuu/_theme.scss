@@ -1,0 +1,98 @@
+/* default theme */
+
+/* General palette */
+$white: #ffffff;
+$black: #333;
+$gray-blue: #7f929c;
+$gray-blue-light: rgb(182, 193, 199);
+$light-gray: #ddd;
+$medium-gray: #ccc;
+$dark-gray: #575757;
+$gray: #888;
+
+/* Palette */
+$hsl-alert: #dc0451;
+
+$livi-bus-blue: rgb(0, 136, 206);
+$livi-logo-blue: rgb(61, 183, 228);
+$livi-airplane-blue: rgb(0, 70, 173);
+$livi-ferry-blue: rgb(53, 181, 179);
+$livi-rail-purple: rgb(175, 141, 188);
+$livi-subway-orange: rgb(237, 140, 0);
+$livi-tram-green: rgb(106, 137, 37);
+$livi-gold: rgb(233, 171, 0);
+$hsl-tram-green: #00985f;
+$hsl-metro-orange: #ff6319;
+$hsl-rail-red: #8c4799;
+$vr-rail-green: rgb(100, 190, 20);
+
+
+$primary-color: $white;
+$primary-font-color: $gray;
+$secondary-color: #eef1f3;
+$secondary-font-color: $gray-blue;
+$title-color: $livi-logo-blue;
+$favourite-color: $livi-gold;
+$hilight-color: $livi-logo-blue;
+$action-color: $livi-logo-blue;
+$cancelation-red: #dc0451;
+$cancelation-black: #666;
+$cancelation-background: #fbe0ea;
+$disruption-color: $cancelation-red;
+
+$standalone-btn-color: $primary-color;
+$standalone-btn-hover-color: $gray-blue-light;
+
+/* Markers */
+$viewpoint-marker-color: $title-color;
+
+/* Fonts */
+$font-family: Lato, Arial, Georgia, Serif;
+$font-weight-book: 300;
+$font-weight-medium: 400;
+$font-weight-bold: 700;
+$font-weight-map-container: $font-weight-book;
+$letter-spacing: 0;
+
+$font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
+$font-narrow-weight-book: 400;
+$font-narrow-weight-medium: 500;
+$narrow-letter-spacing: 0;
+
+$line-height-normal: 1.2;
+
+$font-size-xsmall: 12px;
+$font-size-small: 13px;
+$font-size-smallish: 14px;
+$font-size-normal: 16px;
+$font-size-large: 24px;
+$font-size-xlarge: 32px;
+
+/* Application base colors */
+$background-color: #eef1f3;
+$dark-color: $gray;
+
+$link-color: $gray-blue;
+$realtime-color: #46b32a;
+
+/* Vehicle colors */
+$airplane-color: $livi-airplane-blue;
+$bus-color: $livi-bus-blue;
+$tram-color: $livi-tram-green;
+$metro-color: $livi-subway-orange;
+$rail-color: $livi-rail-purple;
+$ferry-color: $livi-ferry-blue;
+$citybike-color: #FBB800;
+$from-color: #64be14;
+$to-color: #f092cd;
+$walk-color: #6ba3af;
+$wait-color: #979797;
+$bicycle-color: #64be14;
+$car-color: #333;
+
+/* Borders */
+$border-radius: 3px;
+
+/* Slider colors */
+$slider-warning-color: #FC7C08;
+$slider-ok-color: #55B511;
