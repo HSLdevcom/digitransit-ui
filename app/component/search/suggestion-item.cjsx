@@ -20,10 +20,16 @@ getIcon = (layer, iconClass) ->
   <Icon img={layerIcon[layer] || defaultIcon} className={iconClass || ""}/>
 
 SuggestionItem = (props) ->
+
+  if props.item.properties.mode
+    icon = <Icon img={"icon-icon_#{props.item.properties.mode}"} />
+  else
+    icon = getIcon props.item.properties.layer, props.item.iconClass
+
   displayText = SuggestionItem.getName props.item.properties
   <span className={cx "search-result", props.item.type}>
     <span className={props.spanClass || ""}>
-      {getIcon props.item.properties.layer, props.item.iconClass}
+      {icon}
     </span>
     {displayText}
   </span>

@@ -11,6 +11,7 @@ import { getLabel } from '../util/suggestionUtils';
 import geoUtils from '../util/geo-utils';
 
 function processResults(actionContext, result) {
+  console.log(result);
   actionContext.dispatch('SuggestionsResult', result);
 }
 
@@ -127,12 +128,19 @@ function mapRoutes(res) {
 function getStops(res) {
   if (res) {
     return res.map(item => {
+
+      const mode = item.routes
+              && item.routes.length > 0
+              ? item.routes[0].type.toLowerCase()
+              : null;
+
       const stop = {
         type: 'Stop',
 
         properties: {
           code: item.code,
           label: item.name,
+          mode,
           layer: 'stop',
           link: `/pysakit/${item.gtfsId}`,
         },
@@ -157,7 +165,7 @@ function searchStops(input) {
     return Promise.resolve([]);
   }
 
-  return queryGraphQL(`{stops(name:"${input}") {gtfsId lat lon name code}}`)
+  return queryGraphQL(`{stops(name:"${input}") {gtfsId lat lon name code routes{type}}}`)
     .then(response =>
       getStops(response != null && response.data != null ? response.data.stops : void 0)
     );
