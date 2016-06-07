@@ -45,6 +45,7 @@ module.exports =
   availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
   timezone: 'Europe/Helsinki'
+  enableDesktopWrapper: true
   mainMenu:
     # Whether to show the left menu toggle button at all
     show: true
