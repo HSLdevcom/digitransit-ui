@@ -11,7 +11,6 @@ import { getLabel } from '../util/suggestionUtils';
 import geoUtils from '../util/geo-utils';
 
 function processResults(actionContext, result) {
-  console.log(result);
   actionContext.dispatch('SuggestionsResult', result);
 }
 
@@ -128,7 +127,6 @@ function mapRoutes(res) {
 function getStops(res) {
   if (res) {
     return res.map(item => {
-
       const mode = item.routes
               && item.routes.length > 0
               ? item.routes[0].type.toLowerCase()
@@ -266,8 +264,8 @@ function executeSearchInternal(actionContext, { input, type }) {
       addCurrentPositionIfEmpty(input),
       addFavouriteLocations(favouriteLocations, input),
       addOldSearches(oldSearches, input),
-      getGeocodingResult(input, position, language),
       searchStops(input),
+      getGeocodingResult(input, position, language),
     ])
     .then(flatten)
     .then(uniq)
