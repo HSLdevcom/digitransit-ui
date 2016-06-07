@@ -1,4 +1,4 @@
-function supportsType(inputType) {
+export default function supportsInputType(inputType) {
   if (typeof document !== 'undefined') {
     const input = document.createElement('input');
     input.setAttribute('type', inputType);
@@ -34,5 +34,3 @@ function supportsType(inputType) {
   }
   return true;
 }
-
-module.exports = supportsType;
