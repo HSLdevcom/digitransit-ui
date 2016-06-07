@@ -1,9 +1,11 @@
 import React from 'react';
 import dimensions from 'react-dimensions';
+import config from '../../config';
 
 function DesktopWrapper({ children, containerWidth }) {
-  if (containerWidth < 980 ||
-    (typeof window !== 'undefined' && window.location.pathname === '/styleguide')
+  if (containerWidth < 980
+    || !config.enableDesktopWrapper
+    || (typeof window !== 'undefined' && window.location.pathname === '/styleguide')
   ) {
     return children;
   }
