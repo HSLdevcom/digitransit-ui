@@ -57,7 +57,7 @@ const debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 6
 const setCurrentLocation = (actionContext, pos) => {
   if (inside([pos.lon, pos.lat], config.areaPolygon)) {
     position = pos;
-  } else {
+  } else if (!actionContext.getStore('EndpointStore').getOrigin().userSetPosition) {
     actionContext.executeAction(setOriginToDefault);
   }
 };
@@ -90,17 +90,23 @@ export function startLocationWatch(actionContext, payload, done) {
   window.retrieveGeolocationError = function retrieveGeolocationError(error) {
     if (error) {
       actionContext.piwik.trackEvent('geolocation', `status_${error.code}`, error.message);
-      if (error.code < 10 && !actionContext.getStore('EndpointStore').getOrigin().userSetPosition) {
-        actionContext.executeAction(setOriginToDefault);
-      }
-      if (error.code === 1) {
-        actionContext.dispatch('GeolocationDenied');
-      } else if (error.code === 2) {
-        actionContext.dispatch('GeolocationNotSupported');
-      } else if (error.code === 3) {
-        actionContext.dispatch('GeolocationTimeout');
-      } else if (error.code === 100001) {
-        actionContext.dispatch('GeolocationWatchTimeout');
+      if (
+        !(actionContext.getStore('EndpointStore').getOrigin().userSetPosition ||
+          actionContext.getStore('PositionStore').getLocationState().hasLocation)
+      ) {
+        if (error.code < 10) {
+          actionContext.executeAction(setOriginToDefault).then(() => {
+            if (error.code === 1) {
+              actionContext.dispatch('GeolocationDenied');
+            } else if (error.code === 2) {
+              actionContext.dispatch('GeolocationNotSupported');
+            } else if (error.code === 3) {
+              actionContext.dispatch('GeolocationTimeout');
+            }
+          });
+        } else if (error.code === 100001) {
+          actionContext.dispatch('GeolocationWatchTimeout');
+        }
       }
     }
   };

@@ -33,10 +33,10 @@ module.exports =
     fi: ""
     default: ""
   searchParams:
-    "boundary.rect.min_lat": 62
-    "boundary.rect.max_lat": 63.2
-    "boundary.rect.min_lon": 28.7
-    "boundary.rect.max_lon": 30.8
+    "boundary.rect.min_lat": 61.6
+    "boundary.rect.max_lat": 63.6
+    "boundary.rect.min_lon": 27.1
+    "boundary.rect.max_lon": 31.0
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000
@@ -45,6 +45,7 @@ module.exports =
   availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
   timezone: 'Europe/Helsinki'
+  enableDesktopWrapper: true
   mainMenu:
     # Whether to show the left menu toggle button at all
     show: true
@@ -140,6 +141,7 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  showModeFilter: false
   moment:
     relativeTimeThreshold:
       seconds: 55
