@@ -27,16 +27,17 @@ function DesktopWrapper({ children, containerWidth }) {
             Reittiopas<sup>BETA</sup>
           </h2>
           <h1>Kokeile uutta Reittiopasta!</h1>
-          Reittiopas uudistuu pian ja tuo mukanaan liudan kauan kaivattuja parannuksia
+          Reittiopas uudistuu pian. Uusi Reittiopas tuo mukanaan liudan kauan
+          kaivattuja parannuksia:
           <ul>
-            <li>Reaaliaikatiedot</li>
-            <li>Parannettu kartta</li>
+            <li>Reaaliaikatiedot kaikista liikennevälineistä</li>
+            <li>Entistä parempi kartta</li>
             <li>Ennakoiva haku</li>
-            <li>Joku neljäs kohta</li>
+            <li>Näet lähialueesi lähdöt helposti</li>
           </ul>
           Uusi Reittiopas on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki
-          toimimaan erinomaisesti myös tietokoneella. Tässä vaiheessa voit tutustua vain
-          mobiilioptimoituun versioon.
+          toimimaan erinomaisesti myös tietokoneella. Voit tutustua jo nyt mobiilioptimoituun
+          versioon. Valmista on loppuvuodesta 2016.
           {/* <p>Anna palautetta</p> */}
         </div>
         <div className="desktop-wrapper--child-content">

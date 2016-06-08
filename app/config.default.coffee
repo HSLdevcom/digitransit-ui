@@ -140,6 +140,7 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  showModeFilter: true
   moment:
     relativeTimeThreshold:
       seconds: 55
