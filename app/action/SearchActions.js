@@ -58,7 +58,10 @@ function addOldSearches(oldSearches, input) {
   return Promise.resolve(take(matchingOldSearches, 10).map(item =>
     ({
       type: 'OldSearch',
-      properties: { label: item.address, layer: 'oldSearch' },
+      properties: {
+        label: item.address,
+        layer: 'oldSearch',
+        mode: item.properties ? item.properties.mode : null },
       geometry: item.geometry,
     })
   ));

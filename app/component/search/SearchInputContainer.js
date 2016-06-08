@@ -167,6 +167,9 @@ export default class SearchInputContainer extends Component {
         save = () => this.context.executeAction(saveSearch, {
           address: name,
           geometry: item.geometry,
+          properties: {
+            mode: item.properties.mode,
+          },
           type: this.props.type,
         });
 
