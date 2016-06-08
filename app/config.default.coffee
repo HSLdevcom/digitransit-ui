@@ -40,6 +40,7 @@ module.exports =
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb']
   defaultLanguage: 'en'
   timezone: 'Europe/Helsinki'
+  enableDesktopWrapper: true
   mainMenu:
     # Whether to show the left menu toggle button at all
     show: true
@@ -137,6 +138,7 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  showModeFilter: true
   moment:
     relativeTimeThreshold:
       seconds: 55
