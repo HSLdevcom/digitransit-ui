@@ -90,7 +90,10 @@ export function startLocationWatch(actionContext, payload, done) {
   window.retrieveGeolocationError = function retrieveGeolocationError(error) {
     if (error) {
       actionContext.piwik.trackEvent('geolocation', `status_${error.code}`, error.message);
-      if (error.code < 10 && !actionContext.getStore('EndpointStore').getOrigin().userSetPosition) {
+      if (error.code < 10 && (
+        !actionContext.getStore('EndpointStore').getOrigin().userSetPosition ||
+        !actionContext.getStore('PositionStore').getLocationState().hasLocation)
+      ) {
         actionContext.executeAction(setOriginToDefault);
       }
       if (error.code === 1) {
