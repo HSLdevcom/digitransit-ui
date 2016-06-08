@@ -112,8 +112,8 @@ module.exports =
   disruption:
     showInfoButton: true
   socialMedia:
-    title: "Uusi Reittiopas"
-    description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
+    title: "Uusi Reittiopas - Joensuu"
+    description: "Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi."
   # Ticket information feature toggle
   showTicketInformation: false
   showRouteInformation: false
