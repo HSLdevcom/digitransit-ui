@@ -79,8 +79,9 @@ class GenericMarker extends React.Component
     </Marker>
 
   getNameMarker: ->
-    unless @props.renderName
+    unless @props.renderName and @props.map.getZoom() >= config.genericMarker.nameMarkerMinZoom
       return false
+
     <Marker map={@props.map}
             layerContainer={@props.layerContainer}
             key={@props.name + "_text"}

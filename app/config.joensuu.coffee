@@ -69,6 +69,8 @@ module.exports =
     zoomOffset: -1
     useVectorTiles: false
     genericMarker:
+      # Do not render name markers at zoom levels below this value
+      nameMarkerMinZoom: 18
       popup:
         offset: [106, 3]
         maxWidth: 250
