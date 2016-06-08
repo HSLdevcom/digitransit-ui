@@ -111,9 +111,6 @@ class EndpointStore extends Store
     "swapEndpoints": "swapEndpoints"
     "clearOrigin": "clearOrigin"
     "clearDestination": "clearDestination"
-    "GeolocationNotSupported": 'clearGeolocation'
-    "GeolocationDenied": 'clearGeolocation'
-    "GeolocationTimeout": 'clearGeolocation'
     "clearGeolocation": "clearGeolocation"
 
 module.exports = EndpointStore

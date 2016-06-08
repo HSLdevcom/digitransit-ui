@@ -209,7 +209,7 @@ div.leaflet-marker-icon.vehicle-icon {
 div.origin-popup {
   @include font-bold;
   text-transform: uppercase;
-  color: $gray-blue;
+  color: $link-color;
   font-size: 11px;
 
   cursor: pointer;

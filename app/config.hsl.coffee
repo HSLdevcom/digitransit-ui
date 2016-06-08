@@ -1,5 +1,5 @@
 CONFIG = process.env.CONFIG or 'hsl'
-API_URL = process.env.API_URL or 'https://api.digitransit.fi'
+API_URL = process.env.API_URL or 'https://dev-api.digitransit.fi'
 MAP_URL = process.env.MAP_URL or 'https://{s}-api.digitransit.fi'
 APP_PATH = process.env.APP_CONTEXT or ''
 PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
@@ -27,6 +27,7 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Reittiopas.fi"
+  useNavigationLogo: false
   contactName:
     sv: "HSR"
     fi: "HSL"
@@ -141,6 +142,7 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  showModeFilter: true
   moment:
     relativeTimeThreshold:
       seconds: 55
