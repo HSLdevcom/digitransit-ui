@@ -27,6 +27,7 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Matka.fi"
+  useNavigationLogo: false
   contactName:
     sv: "Livin"
     fi: "Livin"
@@ -40,6 +41,7 @@ module.exports =
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb']
   defaultLanguage: 'en'
   timezone: 'Europe/Helsinki'
+  enableDesktopWrapper: true
   mainMenu:
     # Whether to show the left menu toggle button at all
     show: true
@@ -136,6 +138,7 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  showModeFilter: true
   moment:
     relativeTimeThreshold:
       seconds: 55

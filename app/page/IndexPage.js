@@ -16,7 +16,7 @@ class IndexPage extends React.Component {
   };
 
   constructor(args) {
-    super(...args);
+    super(args);
     this.resetToCleanState = this.resetToCleanState.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
   }
@@ -46,6 +46,7 @@ class IndexPage extends React.Component {
         disableBackButton
         showDisruptionInfo
         title={Config.title}
+        showLogo={Config.useNavigationLogo}
       >
         <MapWithTracking showStops>
           <SearchMainContainer />

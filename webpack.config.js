@@ -23,10 +23,14 @@ function getLoadersConfig(env) {
         loader: 'babel',
         exclude: /node_modules/,
         query: {
-          'presets': ['es2015-native-modules', 'react', 'stage-0'],
+          // loose is needed by older Androids < 4.3 and IE10
+          'presets': ['es2015-webpack-loose', 'react', 'stage-2'],
           'plugins': [
             'transform-class-properties',
             path.join(__dirname, 'build/babelRelayPlugin'),
+          ],
+          ignore: [
+            'app/util/piwik.js',
           ],
         },
       },
@@ -43,10 +47,14 @@ function getLoadersConfig(env) {
       loader: 'babel',
       exclude: /node_modules/,
       query: {
-        'presets': ['es2015-native-modules', 'react'],
+        // loose is needed by older Androids < 4.3 and IE10
+        'presets': ['es2015-webpack-loose', 'react', 'stage-2'],
         'plugins': [
           'transform-class-properties',
           path.join(__dirname, 'build/babelRelayPlugin'),
+        ],
+        ignore: [
+          'app/util/piwik.js',
         ],
       },
     },
@@ -70,20 +78,22 @@ function getSourceMapPlugin(testPattern,prefix) {
     append: '\n//# sourceMappingURL=' + prefix + '[url]',
     module: true,
     columns: true,
-    lineToLine: true
+    lineToLine: false
   })
 }
 
 function getPluginsConfig(env) {
   const languageExpression = new RegExp('^./(' + getAllPossibleLanguages().join('|') + ')$');
   const momentExpression = /moment[\\\/]locale$/;
-  const reactIntlExpression = /react-intl[\/\\]lib[\/\\]locale\-data$/;
+  const reactIntlExpression = /react-intl[\/\\]locale\-data$/;
+  const intlExpression = /intl[\/\\]locale\-data[\/\\]jsonp$/;
 
   if (env === 'development') {
     return ([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
       new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
+      new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
       new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('development')}}),
       new webpack.NoErrorsPlugin(),
     ]);
@@ -91,6 +101,7 @@ function getPluginsConfig(env) {
   return ([
     new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
+    new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
     new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('production')}}),
     new webpack.PrefetchPlugin('react'),
     new webpack.PrefetchPlugin('react-router'),
@@ -106,6 +117,7 @@ function getPluginsConfig(env) {
     new webpack.optimize.OccurrenceOrderPlugin(true),
     // new webpack.optimize.DedupePlugin(), // TODO:crashes weirdly
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
       compress: {
         warnings: false,
       },
@@ -188,8 +200,8 @@ module.exports = {
     loaders: getLoadersConfig(process.env.NODE_ENV),
   },
   postcss: (process.env.NODE_ENV === 'development') ?
-    [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] })] :
-    [ autoprefixer({ browsers: ['last 2 version', '> 1%', 'IE 9'] }), csswring],
+    [ autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] })] :
+    [ autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] }), csswring],
   node: {
     net: 'empty',
     tls: 'empty',

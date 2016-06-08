@@ -27,7 +27,7 @@ export default class FrontPagePanel extends React.Component {
   };
 
   constructor(args) {
-    super(...args);
+    super(args);
     this.getSelectedPanel = this.getSelectedPanel.bind(this);
     this.selectPanel = this.selectPanel.bind(this);
     this.closePanel = this.closePanel.bind(this);

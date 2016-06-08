@@ -17,9 +17,10 @@ import CityBikeContent from '../component/city-bike/city-bike-content';
 import CityBikeAvailability from '../component/city-bike/city-bike-availability';
 import CityBikeUse from '../component/city-bike/city-bike-use';
 import CityBikePopup from '../component/map/popups/city-bike-popup';
-import FavouriteLocation from '../component/favourites/favourite-location';
+import FavouriteLocation from '../component/favourites/FavouriteLocation';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
+import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
@@ -206,6 +207,9 @@ class StyleGuidelinesPage extends React.Component {
   }
 
   getIcons() {
+    if (typeof document === 'undefined') {
+      return null;
+    }
     return (
       <section>Import:
         <p className="code">Icon = require '../icon/icon'</p>
@@ -339,6 +343,7 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={CityBikeUse} />
         <ComponentDocumentation component={CityBikePopup} />
         <ComponentDocumentation component={FavouriteLocation} />
+        <ComponentDocumentation component={TripRouteStop} />
       </div>
     );
   }

@@ -10,7 +10,7 @@ function MainMenu(props) {
   const inquiry = (
     <p style={{ fontSize: '20px', backgroundColor: '#888888', padding: '20px' }} >
       <a onClick={props.openFeedback}>
-        <FormattedMessage id="inquiry" defaultMessage="Participate on inquiry" />
+        <FormattedMessage id="inquiry" defaultMessage="Give feedback" />
         <Icon img="icon-icon_arrow-right" className="small" />
       </a>
     </p>);
