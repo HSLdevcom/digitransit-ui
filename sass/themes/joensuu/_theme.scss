@@ -26,14 +26,19 @@ $hsl-metro-orange: #ff6319;
 $hsl-rail-red: #8c4799;
 $vr-rail-green: rgb(100, 190, 20);
 
+$joensuu-purple: #5c4696;
+$joensuu-blue:  #009fe3;
+$joensuu-orange: #ff7200;
+$joensuu-green: #64be14;
 
-$primary-color: $white;
-$primary-font-color: $gray;
+
+$primary-color: $joensuu-purple;
+$primary-font-color: $white;
 $secondary-color: #eef1f3;
 $secondary-font-color: $gray-blue;
-$title-color: $livi-logo-blue;
+$title-color: $white;
 $favourite-color: $livi-gold;
-$hilight-color: $livi-logo-blue;
+$hilight-color: $joensuu-orange;
 $action-color: $livi-logo-blue;
 $cancelation-red: #dc0451;
 $cancelation-black: #666;
@@ -44,7 +49,7 @@ $standalone-btn-color: $primary-color;
 $standalone-btn-hover-color: $gray-blue-light;
 
 /* Markers */
-$viewpoint-marker-color: $title-color;
+$viewpoint-marker-color: $joensuu-orange;
 
 /* Fonts */
 $font-family: Lato, Arial, Georgia, Serif;
@@ -89,6 +94,8 @@ $walk-color: #6ba3af;
 $wait-color: #979797;
 $bicycle-color: #64be14;
 $car-color: #333;
+
+$nav-logo: url('/img/jojo-logo.png');
 
 /* Borders */
 $border-radius: 3px;

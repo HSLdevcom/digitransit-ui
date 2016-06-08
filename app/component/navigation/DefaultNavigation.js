@@ -4,7 +4,7 @@ import BackButton from './back-button';
 import NotImplemented from '../util/not-implemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
-
+import config from '../../config';
 
 // Cannot be stateless, because it contains refs
 class DefaultNavigation extends Component {
@@ -25,7 +25,10 @@ class DefaultNavigation extends Component {
           {!this.props.disableBackButton ? <BackButton /> : null}
           <section className="title">
             <Link to="/">
-              <span className="title">{this.props.title}</span>
+              {config.useNavigationLogo ?
+                <div className="logo" /> :
+                <span className="title">{this.props.title}</span>
+              }
             </Link>
           </section>
           <MainMenuContainer />

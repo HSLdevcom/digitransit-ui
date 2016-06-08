@@ -27,6 +27,7 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "joensuu.digitransit.fi"
+  useNavigationLogo: true
   contactName:
     sv: ""
     fi: ""
