@@ -27,9 +27,9 @@ $hsl-rail-red: #8c4799;
 $vr-rail-green: rgb(100, 190, 20);
 
 $joensuu-purple: #5c4696;
-$joensuu-blue:  #009fe3;
+$joensuu-bus-blue:  #009fe3;
 $joensuu-orange: #ff7200;
-$joensuu-green: #64be14;
+$joensuu-rail-green: #64be14;
 
 
 $primary-color: $joensuu-purple;
@@ -82,10 +82,10 @@ $realtime-color: #46b32a;
 
 /* Vehicle colors */
 $airplane-color: $livi-airplane-blue;
-$bus-color: $livi-bus-blue;
+$bus-color: $joensuu-bus-blue;
 $tram-color: $livi-tram-green;
 $metro-color: $livi-subway-orange;
-$rail-color: $livi-rail-purple;
+$rail-color: $joensuu-rail-green;
 $ferry-color: $livi-ferry-blue;
 $citybike-color: #FBB800;
 $from-color: #64be14;
