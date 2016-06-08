@@ -27,6 +27,7 @@ $hsl-rail-red: #8c4799;
 $vr-rail-green: rgb(100, 190, 20);
 
 $joensuu-purple: #5c4696;
+$joensuu-dark-purple: #4e3c80;
 $joensuu-bus-blue:  #009fe3;
 $joensuu-orange: #ff7200;
 $joensuu-rail-green: #64be14;
@@ -34,8 +35,8 @@ $joensuu-rail-green: #64be14;
 
 $primary-color: $joensuu-purple;
 $primary-font-color: $white;
-$secondary-color: #eef1f3;
-$secondary-font-color: $gray-blue;
+$secondary-color: $joensuu-dark-purple;
+$secondary-font-color: $white;
 $title-color: $white;
 $favourite-color: $livi-gold;
 $hilight-color: $joensuu-orange;
@@ -77,7 +78,7 @@ $font-size-xlarge: 32px;
 $background-color: #eef1f3;
 $dark-color: $gray;
 
-$link-color: $gray-blue;
+$link-color: $joensuu-purple;
 $realtime-color: #46b32a;
 
 /* Vehicle colors */
