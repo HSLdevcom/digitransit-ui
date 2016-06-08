@@ -2,6 +2,7 @@ import React from 'react';
 import Icon from '../icon/icon';
 import cx from 'classnames';
 import { getLabel } from '../../util/suggestionUtils';
+import config from '../../config';
 
 function getIcon(layer, iconClass) {
   const layerIcon = new Map([
@@ -22,7 +23,7 @@ function getIcon(layer, iconClass) {
 
 function SuggestionItem(props) {
   let icon;
-  if (props.item.properties.mode) {
+  if (props.item.properties.mode && config.search.suggestions.useTransportIcons) {
     icon = <Icon img={`icon-icon_${props.item.properties.mode}`} />;
   } else {
     icon = getIcon(props.item.properties.layer, props.item.iconClass);
