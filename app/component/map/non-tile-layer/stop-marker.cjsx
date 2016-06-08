@@ -45,7 +45,7 @@ class StopMarker extends React.Component
     loadingPopupStyle = {"height": 150}
 
 
-    if config.map.useModeIconsInNonTileLayer
+    if config.map.useModeIconsInNonTileLayer && !@props.disableModeIcons
       iconId = "icon-icon_#{@props.mode}"
       iconSmall = ReactDomServer.renderToString(<Icon viewBox="0 0 8 8" img={iconId} className="stop-marker"/>)
       icon = ReactDomServer.renderToString(<Icon viewBox="0 0 18 18" img={iconId} className="stop-marker"/>)
