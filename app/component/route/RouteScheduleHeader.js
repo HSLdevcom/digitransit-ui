@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Select from '../util/select';
+import RouteScheduleStopSelect from './RouteScheduleStopSelect';
 
 function RouteScheduleHeader(props) {
   const options = props.stops.map((stop, index) => {
@@ -13,22 +13,20 @@ function RouteScheduleHeader(props) {
   const toOptions = options.slice(props.from + 1);
 
   return (
-    <div className="route-schedule row padding-vertical-small">
-      <div className="columns small-6 route-schedule-first">
-        <Select
+    <div className="route-schedule-header row padding-vertical-normal">
+      <div className="columns small-6">
+        <RouteScheduleStopSelect
           onSelectChange={props.onFromSelectChange}
           selected={props.from}
           options={fromOptions}
         />
-        <div className="route-schedule-select-caret"></div>
       </div>
-      <div className="columns small-6 route-schedule-first">
-        <Select
+      <div className="columns small-6">
+        <RouteScheduleStopSelect
           onSelectChange={props.onToSelectChange}
           selected={props.to}
           options={toOptions}
         />
-        <div className="route-schedule-select-caret"></div>
       </div>
     </div>);
 }

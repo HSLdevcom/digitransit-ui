@@ -1,36 +1,47 @@
 import React, { Component, PropTypes } from 'react';
 import Relay from 'react-relay';
+import TimeStore from '../../store/TimeStore';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
+import RouteScheduleDateSelect from './RouteScheduleDateSelect';
 import moment from 'moment';
-import { keyBy, sortBy, uniqBy } from 'lodash';
+import { keyBy, sortBy } from 'lodash';
 
+const DATE_FORMAT = 'YYYYMMDD';
 
-class RouteScheduleContainer extends Component {
+class RouteScheduleContainerClass extends Component {
   static propTypes = {
     pattern: PropTypes.object.isRequired,
+    relay: PropTypes.object.isRequired,
+  };
+
+  static contextTypes = {
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   constructor(props) {
-    super();
+    super(props);
     this.initState(props, false);
     this.onFromSelectChange = this.onFromSelectChange.bind(this);
     this.onToSelectChange = this.onToSelectChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
+    // @TODO How do we distinguish between Route change and just the date change?
     this.initState(nextProps, true);
   }
 
   onFromSelectChange(event) {
     const from = Number(event.target.value);
     const to = this.state.to > from ? this.state.to : from + 1;
-    this.setState(Object.assign({}, this.state, { from, to }));
+    this.setState({ ... this.state, from, to });
   }
 
   onToSelectChange(event) {
     const to = Number(event.target.value);
-    this.setState(Object.assign({}, this.state, { to }));
+    this.setState({ ... this.state, to });
   }
 
   getTrips(from, to) {
@@ -49,39 +60,51 @@ class RouteScheduleContainer extends Component {
   }
 
   initState(props, isUpdate) {
+    const { currentDate } = props;
     const { stops } = props.pattern;
-    // Transform trips for now, until GraphQL endpoint is updated.
-    const trips = this.transformTrips(props.pattern.trips, stops);
+    const trips = this.transformTrips(props.pattern.tripsForDate, stops);
     const from = 0;
     const to = stops.length - 1;
-    const state = { stops, trips, from, to };
+
     if (isUpdate) {
+      const state = { ... this.state, stops, trips };
       this.setState(state);
     } else {
+      const state = { stops, trips, from, to, date: currentDate };
       this.state = state;
     }
   }
 
   transformTrips(trips, stops) {
     let transformedTrips = trips.map((trip) => {
-      const newTrip = Object.assign({}, trip);
+      const newTrip = { ... trip };
       newTrip.stoptimes = keyBy(trip.stoptimes, 'stop.id');
       return newTrip;
     });
-    transformedTrips = uniqBy(transformedTrips,
-      trip => trip.stoptimes[stops[0].id].scheduledDeparture);
     transformedTrips = sortBy(transformedTrips,
       trip => trip.stoptimes[stops[0].id].scheduledDeparture);
     return transformedTrips;
   }
 
-  formatTime(timestamp) {
-    return moment(timestamp * 1000).format('HH:mm');
-  }
+  formatTime = (timestamp) => moment(timestamp * 1000).format('HH:mm');
+
+  changeDate = ({ target }) => {
+    const date = moment(target.value, DATE_FORMAT);
+    // Increments the number of stories being rendered by 10.
+    this.props.relay.setVariables({
+      serviceDay: date.format(DATE_FORMAT),
+    });
+    this.setState({ ... this.state, date });
+  };
 
   render() {
     return (
       <div>
+        <RouteScheduleDateSelect
+          date={this.state.date}
+          dateFormat={DATE_FORMAT}
+          onDateChange={this.changeDate}
+        />
         <RouteScheduleHeader
           stops={this.state.stops}
           from={this.state.from}
@@ -96,6 +119,10 @@ class RouteScheduleContainer extends Component {
   }
 }
 
+const relayInitialVariables = {
+  serviceDay: '20160606', // @TODO How do we get the current date here?
+};
+
 export const relayFragment = {
   pattern: () => Relay.QL`
     fragment on Pattern {
@@ -103,7 +130,7 @@ export const relayFragment = {
         id
         name
       }
-      trips {
+      tripsForDate(serviceDay: $serviceDay) {
         id
         serviceId
         stoptimes {
@@ -118,5 +145,14 @@ export const relayFragment = {
   `,
 };
 
-export default Relay.createContainer(RouteScheduleContainer, { fragments: relayFragment });
+const RouteScheduleContainer = connectToStores(RouteScheduleContainerClass, [TimeStore],
+  (context) => ({
+    currentDate: context.getStore(TimeStore).getCurrentTime(),
+  })
+);
+
+export default Relay.createContainer(RouteScheduleContainer, {
+  initialVariables: relayInitialVariables,
+  fragments: relayFragment,
+});
 
