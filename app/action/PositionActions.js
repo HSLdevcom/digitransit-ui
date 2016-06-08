@@ -57,7 +57,7 @@ const debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 6
 const setCurrentLocation = (actionContext, pos) => {
   if (inside([pos.lon, pos.lat], config.areaPolygon)) {
     position = pos;
-  } else {
+  } else if (!actionContext.getStore('EndpointStore').getOrigin().userSetPosition) {
     actionContext.executeAction(setOriginToDefault);
   }
 };
