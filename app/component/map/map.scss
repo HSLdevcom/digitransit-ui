@@ -199,6 +199,7 @@ div.leaflet-marker-icon.vehicle-icon {
 
   .leaflet-popup-tip-container {
     margin: -6px 0px;
+    top: 1px;
     .leaflet-popup-tip  {
       border: 1px solid $gray;
       background: $background-color;
