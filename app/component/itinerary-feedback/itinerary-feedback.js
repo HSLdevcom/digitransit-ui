@@ -46,7 +46,7 @@ export default class ItineraryFeedback extends React.Component {
               { active: this.state.feedbackFormOpen })}
           onClick={this.toggleFeedbackForm}
         >
-          <Icon img="icon-icon_speach-bubble" />
+          <Icon img="icon-icon_speech-bubble" />
         </button>
         <div
           className={
