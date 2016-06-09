@@ -150,6 +150,9 @@ translations =
     'skip-positioning': 'Ohita'
     'hour-short': 'h'
     'minute-short': 'min'
+    'itinerary-feedback-message': "Etkö löytänyt mitä etsit?"
+    'itinerary-feedback-placeholder': "Kuvaus (valinnainen)"
+    'itinerary-feedback-button': "Lähetä palautetta"
   'sv':
     'searching-position': 'Söker position'
     'own-position': 'Min position'
@@ -270,6 +273,9 @@ translations =
     'choose-stop': 'Välj hållplats'
     'loading': 'Laddar'
     'skip-positioning': 'Hoppa över'
+    'itinerary-feedback-message': "Hittade du inte vad du sökte?"
+    'itinerary-feedback-placeholder': "Beskrivning (valfri)"
+    'itinerary-feedback-button': "Skicka feedback"
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
