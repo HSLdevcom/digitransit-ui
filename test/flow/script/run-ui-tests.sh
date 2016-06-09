@@ -16,15 +16,23 @@ if [ -z "$BROWSERSTACK_BUILD" ]; then
 fi
 
 PLATFORM=`uname`
-ARCHITECTURE=`arch`
-if [ $PLATFORM == 'Darwin' ]; then
-  SELENIUM_URL=http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
+
+if command -v arch > /dev/null 2>&1
+then
+  ARCHITECTURE=`arch`
+  echo "Detected architecture $ARCHITECTURE"
+else
+  echo "Command 'arch' does not exist. Setting empty value."
+  ARCHITECTURE=''
+fi
+
+SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
+
+if [[ $PLATFORM == 'Darwin' ]]; then
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-darwin-x64.zip"
-elif [ $ARCHITECTURE == 'i686' ]; then
-  SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
+elif [[ $ARCHITECTURE == 'i686' ]]; then
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-ia32.zip"
 else
-  SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
 fi
 
@@ -34,6 +42,7 @@ SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.53.0.jar"
 
 # checks for dependencies and downloads them if needed
 function checkDependencies {
+  echo "Checking dependencies"
   mkdir -p ./test/flow/binaries
   if [ ! -f $SELENIUM_BINARY ]; then
     echo "Downloading Selenium..."
@@ -61,15 +70,17 @@ killtree() {
 checkDependencies
 
 if [ "$1" == "local" ]; then
+  echo "Staring digitransit-ui server"
   CONFIG=hsl PORT=8000 npm run dev-nowatch &
   NODE_PID=$!
-  # Wait for the server to start
+  echo "Wait for the server to start"
   sleep 10
-  # Then run tests
+
+  echo "Run tests"
   $NIGHTWATCH_BINARY -c ./test/flow/config/nightwatch.json
   TESTSTATUS=$?
 
-  # Kill Node
+  echo "Kill node with pid: $NODE_PID"
   killtree $NODE_PID
   exit $TESTSTATUS
 elif [ "$1" == "browserstack" ]; then
