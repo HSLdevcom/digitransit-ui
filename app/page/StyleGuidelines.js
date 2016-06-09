@@ -10,7 +10,7 @@ import StopReference from '../component/stop/stop-reference';
 import Distance from '../component/departure/distance';
 import NotImplemented from '../component/util/not-implemented';
 import NotImplementedLink from '../component/util/not-implemented-link';
-import CardHeader from '../component/card/card-header';
+import CardHeader from '../component/card/CardHeader';
 import Card from '../component/card/card';
 import CityBikeCard from '../component/city-bike/city-bike-card';
 import CityBikeContent from '../component/city-bike/city-bike-content';
