@@ -70,18 +70,26 @@ killtree() {
 checkDependencies
 
 if [ "$1" == "local" ]; then
-  echo "Staring digitransit-ui server"
-  CONFIG=hsl PORT=8000 npm run dev-nowatch &
-  NODE_PID=$!
-  echo "Wait for the server to start"
-  sleep 10
+  if [ "$2" == "noserver" ]; then
+    echo "Not starting local server."
+    START_SERVER=0
+  else
+    echo "Starting local server."
+    START_SERVER=1
+    npm run build; CONFIG=hsl PORT=8000 npm run dev-nowatch &
+    NODE_PID=$!
+    echo "Wait for the server to start"
+    sleep 10
+  fi
 
   echo "Run tests"
   $NIGHTWATCH_BINARY -c ./test/flow/config/nightwatch.json
   TESTSTATUS=$?
 
-  echo "Kill node with pid: $NODE_PID"
-  killtree $NODE_PID
+  if [ "$START_SERVER" == "1" ]; then
+    echo "Kill node with pid: $NODE_PID"
+    killtree $NODE_PID
+  fi
   exit $TESTSTATUS
 elif [ "$1" == "browserstack" ]; then
   if [ "$#" -lt 3 ]; then
