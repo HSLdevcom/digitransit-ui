@@ -27,6 +27,7 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "Reittiopas.fi"
+  useNavigationLogo: false
   contactName:
     sv: "HSR"
     fi: "HSL"
@@ -73,6 +74,8 @@ module.exports =
     zoomOffset: -1
     useVectorTiles: true
     genericMarker:
+      # Do not render name markers at zoom levels below this value
+      nameMarkerMinZoom: 18
       popup:
         offset: [106, 3]
         maxWidth: 250

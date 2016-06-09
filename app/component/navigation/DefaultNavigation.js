@@ -5,7 +5,6 @@ import NotImplemented from '../util/not-implemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 
-
 // Cannot be stateless, because it contains refs
 class DefaultNavigation extends Component {
   static propTypes = {
@@ -14,6 +13,7 @@ class DefaultNavigation extends Component {
     disableBackButton: PropTypes.bool,
     showDisruptionInfo: PropTypes.bool,
     title: PropTypes.string.isRequired,
+    showLogo: PropTypes.bool,
   };
 
   render() {
@@ -25,7 +25,10 @@ class DefaultNavigation extends Component {
           {!this.props.disableBackButton ? <BackButton /> : null}
           <section className="title">
             <Link to="/">
-              <span className="title">{this.props.title}</span>
+              {this.props.showLogo ?
+                <div className="logo" /> :
+                <span className="title">{this.props.title}</span>
+              }
             </Link>
           </section>
           <MainMenuContainer />

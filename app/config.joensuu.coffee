@@ -17,7 +17,7 @@ module.exports =
     API_URL: "#{API_URL}"
     OTP: "#{API_URL}/routing/v1/routers/waltti/"
     MAP: "#{MAP_URL}/map/v1/hsl-map/"
-    STOP_MAP: "#{API_URL}/map/v1/hsl-stop-map/"
+    STOP_MAP: "#{API_URL}/map/v1/waltti-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "wss://dev.hsl.fi/mqtt-proxy"
     ALERTS: "#{API_URL}/realtime/service-alerts/v1"
@@ -27,6 +27,7 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "joensuu.digitransit.fi"
+  useNavigationLogo: true
   contactName:
     sv: ""
     fi: ""
@@ -70,8 +71,10 @@ module.exports =
     useRetinaTiles: true
     tileSize: 512
     zoomOffset: -1
-    useVectorTiles: false
+    useVectorTiles: true
     genericMarker:
+      # Do not render name markers at zoom levels below this value
+      nameMarkerMinZoom: 18
       popup:
         offset: [106, 3]
         maxWidth: 250
@@ -114,8 +117,8 @@ module.exports =
   disruption:
     showInfoButton: true
   socialMedia:
-    title: "Uusi Reittiopas"
-    description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
+    title: "Uusi Reittiopas - Joensuu"
+    description: "Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi."
   # Ticket information feature toggle
   showTicketInformation: false
   showRouteInformation: false
