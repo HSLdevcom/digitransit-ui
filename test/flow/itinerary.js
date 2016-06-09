@@ -15,7 +15,7 @@ suite('Itinerary', () => {
         .expect.element('.itinerary-summary-row').to.be.visible
         .before(browser.ELEMENT_VISIBLE_TIMEOUT)
     );
-      
+
     it('navigates to itinerary page when clocked', (browser) =>
       browser
         .click('div.action-arrow')

@@ -64,7 +64,7 @@ module.exports = function (browser) {
   browser.stopsTab.click = () =>
     browser
       .waitForElementVisible('.tabs-row .nearby-stops', ELEMENT_VISIBLE_TIMEOUT)
-      .click('.tabs-row .nearby-stops')
+      .click('.tabs-row .nearby-stops');
 
   browser.back = {};
   browser.back.click = () =>
@@ -79,7 +79,7 @@ module.exports = function (browser) {
   };
 
   browser.fakeSearch = {};
-  browser.fakeSearch.openSearch = () => 
+  browser.fakeSearch.openSearch = () =>
     browser
       .waitForElementVisible('#front-page-search-bar', ELEMENT_VISIBLE_TIMEOUT)
       .click('#front-page-search-bar');
@@ -89,46 +89,39 @@ module.exports = function (browser) {
       click: () =>
         browser
           .waitForElementVisible('.origin-popup', ELEMENT_VISIBLE_TIMEOUT)
-          .click('.origin-popup')
-      ,
+          .click('.origin-popup'),
     },
     clear: () =>
       browser
         .waitForElementVisible('.clear-icon', ELEMENT_VISIBLE_TIMEOUT)
-        .click('.clear-icon')
-    ,
+        .click('.clear-icon'),
     selectOrigin: () =>
       browser
         .waitForElementVisible('#origin', ELEMENT_VISIBLE_TIMEOUT)
-        .click('#origin')
-    ,
+        .click('#origin'),
     enterText: (text) =>
       browser
         .waitForElementVisible('#search-origin', ELEMENT_VISIBLE_TIMEOUT)
         .setValue('#search-origin', text)
         .pause(1000)
         .setValue('#search-origin', browser.Keys.ENTER)
-        .pause(100)
-    ,
+        .pause(100),
   };
 
   browser.destination = {
     selectDestination: () =>
       browser
         .waitForElementVisible('#destination', ELEMENT_VISIBLE_TIMEOUT)
-        .click('#destination')
-    ,
+        .click('#destination'),
     openSearch: () =>
       browser
         .waitForElementVisible('#destination', ELEMENT_VISIBLE_TIMEOUT)
-        .click('#destination')
-    ,
+        .click('#destination'),
     enterText: (text) =>
       browser
         .setValue('#search-destination', text)
         .pause(1000)
         .setValue('#search-destination', browser.Keys.ENTER)
-        .pause(100)
-    ,
+        .pause(100),
   };
 };

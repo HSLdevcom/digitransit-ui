@@ -1,15 +1,15 @@
 const suite = require('./api/suite.js').suite;
 
 
-const setOrigin = (browser, src) => 
+const setOrigin = (browser, src) =>
   browser.fakeSearch.openSearch()
     .origin.selectOrigin()
-    .origin.enterText(src)
+    .origin.enterText(src);
 
 const setDestination = (browser, src) =>
   browser.fakeSearch.openSearch()
     .destination.selectDestination()
-    .destination.enterText(src)
+    .destination.enterText(src);
 
 suite('Search', () => {
   describe('When Origin is manually set to other than Kamppi', () => {
@@ -17,22 +17,23 @@ suite('Search', () => {
       browser.setCurrentPosition(60.2, 24.95, 0, done);
     });
 
-    it('Should show show origin popup after source is entered', (browser) =>
+    it('Should show show origin popup after origin is entered', (browser) =>
       setOrigin(browser, 'kamppi')
         .fakeSearch.openSearch()
-        .origin.selectOrigin().expect.element('#search-origin').to.be.visible.before(browser.ELEMENT_VISIBLE_TIMEOUT)
+        .origin.selectOrigin().expect.element('#search-origin')
+        .to.be.visible.before(browser.ELEMENT_VISIBLE_TIMEOUT)
     );
 
-    it('Source should be set to kamppi when kamppi is entered to source', (browser) => {
+    it('Source should be set to kamppi when it is selected as origin', (browser) => {
       browser
         .expect.element('#search-origin').value
-        .to.contain('Kamppi, long distance traffic, Helsinki')
+        .to.contain('Kamppi, long distance traffic, Helsinki');
     });
 
     describe('After route search', () => {
       before((browser, done) => {
-        browser.url('/')
-        setOrigin(browser, 'kamppi')
+        browser.url('/');
+        setOrigin(browser, 'kamppi');
         setDestination(browser, 'sampsantie 40');
         done();
       });
@@ -59,7 +60,7 @@ suite('Search', () => {
       browser.url('/?mock')
         .pause(500)
         .setCurrentPosition(60.168201, 24.93079, 0)
-        .pause(500, done)
+        .pause(500, done);
     });
 
     it('Should automatically route after position is set', (browser) => {
