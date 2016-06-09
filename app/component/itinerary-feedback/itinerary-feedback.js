@@ -17,22 +17,19 @@ export default class ItineraryFeedback extends React.Component {
       feedbackFormOpen: false,
       feedbackText: '',
     };
-    this.updateText = this.updateText.bind(this);
-    this.sendFeedback = this.sendFeedback.bind(this);
-    this.toggleFeedbackForm = this.toggleFeedbackForm.bind(this);
   }
 
-  sendFeedback() {
+  sendFeedback = () => {
     this.context.piwik.setCustomVariable(3, 'feedback', this.state.feedbackText, 'page');
     this.context.piwik.trackEvent('Feedback', 'Itinerary', 'Feedback', 'submitted');
     this.setState({ feedbackText: '', feedbackFormOpen: false });
   }
 
-  updateText(event) {
+  updateText = (event) => {
     this.setState({ feedbackText: event.target.value });
   }
 
-  toggleFeedbackForm() {
+  toggleFeedbackForm = () => {
     this.setState({ feedbackFormOpen: !this.state.feedbackFormOpen });
   }
 
