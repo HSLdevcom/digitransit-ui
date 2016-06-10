@@ -8,14 +8,14 @@ suite('Itinerary', () => {
       , done
     );
   });
-  
+
   describe('When we go to summary page', () => {
     it('finds a route', (browser) =>
       browser
         .expect.element('.itinerary-summary-row').to.be.visible
         .before(browser.ELEMENT_VISIBLE_TIMEOUT)
     );
-  
+
     it('navigates to itinerary page when clocked', (browser) =>
       browser
         .click('div.action-arrow')
