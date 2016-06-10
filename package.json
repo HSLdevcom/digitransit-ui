@@ -12,10 +12,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/rutebanken/digitransit-ui-nightwatch.git"
+    "url": "git@github.com:rutebanken/digitransit-ui-nightwatch.git"
   },
   "author": "Cristoffer Solem <cristoffer.solem@gmail.com>",
-  "homepage": "https://bitbucket.org/rutebanken/digitransit-ui-nightwatch#readme",
+  "homepage": "https://github.com/rutebanken/digitransit-ui-nightwatch",
   "dependencies": {
     "nightwatch": "^0.8.18"
   }
