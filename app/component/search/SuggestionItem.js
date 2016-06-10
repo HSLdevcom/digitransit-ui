@@ -24,7 +24,11 @@ function getIcon(layer, iconClass) {
 function SuggestionItem(props) {
   let icon;
   if (props.item.properties.mode && config.search.suggestions.useTransportIcons) {
-    icon = <Icon img={`icon-icon_${props.item.properties.mode}`} />;
+    icon =
+      (<Icon
+        img={`icon-icon_${props.item.properties.mode}`}
+        className={props.item.properties.mode}
+      />);
   } else {
     icon = getIcon(props.item.properties.layer, props.item.iconClass);
   }
