@@ -116,6 +116,7 @@ function mapRoutes(res) {
         properties: {
           label: `${item.shortName} ${item.longName}`,
           layer: `route-${item.type}`,
+          mode: item.type.toLowerCase(),
           link: `/linjat/${item.patterns[0].code}`,
         },
         geometry: {
@@ -217,7 +218,7 @@ function searchRoutesAndStops(input, reference, favourites) {
   }
 
   if (doStopSearch) {
-    searches.push(`stops(name:"${input}") {gtfsId lat lon name code}`);
+    searches.push(`stops(name:"${input}") {gtfsId lat lon name code routes{type}}`);
   }
 
   if (searches.length > 0) {
@@ -233,7 +234,6 @@ function searchRoutesAndStops(input, reference, favourites) {
           type: 'Favourite',
         })
       );
-
       return ([]
         .concat(sortBy(favouriteRoutes, () => ['agency.name', 'properties.label']))
         .concat(sortBy(mapRoutes(response.data.routes), () => ['agency.name', 'properties.label']))
