@@ -17,7 +17,7 @@ suite('Search', () => {
       browser.setCurrentPosition(60.2, 24.95, 0, done);
     });
 
-    it('Should show show origin popup after origin is entered', (browser) =>
+    it('Should show origin popup after origin is entered', (browser) =>
       setOrigin(browser, 'kamppi')
         .fakeSearch.openSearch()
         .origin.selectOrigin().expect.element('#search-origin')
