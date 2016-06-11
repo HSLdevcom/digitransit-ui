@@ -58,6 +58,9 @@ module.exports =
     delayThreshold: 180
     # Wait time to show "wait leg"? e.g. 180 means over 3 minutes are shown as wait time. Measured in seconds.
     waitThreshold: 180
+    enableFeedback: false
+    timeNavigation:
+      enableButtonArrows: false
   initialLocation:
     zoom: 11
     lat: 62.6024263
@@ -70,6 +73,8 @@ module.exports =
     zoomOffset: -1
     useVectorTiles: true
     genericMarker:
+      # Do not render name markers at zoom levels below this value
+      nameMarkerMinZoom: 18
       popup:
         offset: [106, 3]
         maxWidth: 250
@@ -169,3 +174,18 @@ module.exports =
     address: "Keskusta, Joensuu"
     lat: 62.6024263
     lon: 29.7569847
+  desktopWrapperText: '''<h2>
+                        Reittiopas<sup>BETA</sup>
+                      </h2>
+                      <h1>Kokeile uutta Reittiopasta!</h1>
+                      Reittiopas uudistuu pian. Uusi Reittiopas tuo mukanaan liudan kauan
+                      kaivattuja parannuksia:
+                      <ul>
+                        <li>Reaaliaikatiedot kaikista liikennevälineistä</li>
+                        <li>Entistä parempi kartta</li>
+                        <li>Ennakoiva haku</li>
+                        <li>Näet lähialueesi lähdöt helposti</li>
+                      </ul>
+                      Uusi Reittiopas on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki
+                      toimimaan erinomaisesti myös tietokoneella. Voit tutustua jo nyt mobiilioptimoituun
+                      versioon. Valmista on loppuvuodesta 2016.'''
