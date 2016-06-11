@@ -9,7 +9,7 @@ function RouteScheduleStopSelect(props) {
 
   return (
     <div className="route-schedule-stop-select">
-      <Icon img="icon-icon_arrow-dropdown"/>
+      <Icon img="icon-icon_arrow-dropdown" />
       <select onChange={props.onSelectChange} value={props.selected}>
         {options}
       </select>
