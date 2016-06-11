@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Relay from 'react-relay';
-import TimeStore from '../../store/TimeStore';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import RouteScheduleDateSelect from './RouteScheduleDateSelect';
@@ -9,8 +7,9 @@ import moment from 'moment';
 import { keyBy, sortBy } from 'lodash';
 
 const DATE_FORMAT = 'YYYYMMDD';
+const CURRENT_DATE = moment().format(DATE_FORMAT);
 
-class RouteScheduleContainerClass extends Component {
+class RouteScheduleContainer extends Component {
   static propTypes = {
     pattern: PropTypes.object.isRequired,
     relay: PropTypes.object.isRequired,
@@ -60,7 +59,6 @@ class RouteScheduleContainerClass extends Component {
   }
 
   initState(props, isUpdate) {
-    const { currentDate } = props;
     const { stops } = props.pattern;
     const trips = this.transformTrips(props.pattern.tripsForDate, stops);
     const from = 0;
@@ -70,7 +68,7 @@ class RouteScheduleContainerClass extends Component {
       const state = { ... this.state, stops, trips };
       this.setState(state);
     } else {
-      const state = { stops, trips, from, to, date: currentDate };
+      const state = { stops, trips, from, to, date: moment(CURRENT_DATE, DATE_FORMAT) };
       this.state = state;
     }
   }
@@ -120,7 +118,7 @@ class RouteScheduleContainerClass extends Component {
 }
 
 const relayInitialVariables = {
-  serviceDay: '20160606', // @TODO How do we get the current date here?
+  serviceDay: CURRENT_DATE,
 };
 
 export const relayFragment = {
@@ -144,12 +142,6 @@ export const relayFragment = {
     }
   `,
 };
-
-const RouteScheduleContainer = connectToStores(RouteScheduleContainerClass, [TimeStore],
-  (context) => ({
-    currentDate: context.getStore(TimeStore).getCurrentTime(),
-  })
-);
 
 export default Relay.createContainer(RouteScheduleContainer, {
   initialVariables: relayInitialVariables,
