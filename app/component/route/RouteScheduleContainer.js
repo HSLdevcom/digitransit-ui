@@ -99,7 +99,8 @@ class RouteScheduleContainer extends Component {
     return (
       <div>
         <RouteScheduleDateSelect
-          date={this.state.date}
+          startDate={CURRENT_DATE}
+          selectedDate={this.state.date.format(DATE_FORMAT)}
           dateFormat={DATE_FORMAT}
           onDateChange={this.changeDate}
         />

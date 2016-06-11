@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import Icon from '../icon/icon';
+import moment from 'moment';
 import { intlShape } from 'react-intl';
 
 function RouteScheduleTripRow(props, context) {
   const dates = [];
-  const date = context.getStore('TimeStore').getCurrentTime();
+  const date = moment(props.startDate, props.dateFormat);
 
   dates.push(
     <option value={date.format(props.dateFormat)} key={date.format(props.dateFormat)} >
@@ -30,7 +31,7 @@ function RouteScheduleTripRow(props, context) {
     <div className="route-schedule-date">
       <Icon img="icon-icon_time" />
       <select
-        value={props.date.format(props.dateFormat)}
+        value={props.selectedDate}
         onChange={props.onDateChange}
       >
         {dates}
@@ -38,13 +39,13 @@ function RouteScheduleTripRow(props, context) {
     </div>);
 }
 RouteScheduleTripRow.propTypes = {
-  date: PropTypes.object.isRequired,
+  startDate: PropTypes.string.isRequired,
+  selectedDate: PropTypes.string.isRequired,
   dateFormat: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
 };
 RouteScheduleTripRow.contextTypes = {
   intl: intlShape.isRequired,
-  getStore: PropTypes.func.isRequired,
 };
 
 export default RouteScheduleTripRow;
