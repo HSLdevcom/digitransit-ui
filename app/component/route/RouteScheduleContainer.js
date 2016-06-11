@@ -22,14 +22,19 @@ class RouteScheduleContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.initState(props, false);
+    this.initState(props, true);
     this.onFromSelectChange = this.onFromSelectChange.bind(this);
     this.onToSelectChange = this.onToSelectChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    // @TODO How do we distinguish between Route change and just the date change?
-    this.initState(nextProps, true);
+    // If route has not changed, only update trips.
+    if (nextProps.relay.route.params.routeId === this.props.relay.route.params.routeId) {
+      const trips = this.transformTrips(nextProps.pattern.tripsForDate, this.state.stops);
+      this.setState({ ... this.state, trips });
+    } else {
+      this.initState(nextProps, false);
+    }
   }
 
   onFromSelectChange(event) {
@@ -58,18 +63,16 @@ class RouteScheduleContainer extends Component {
     });
   }
 
-  initState(props, isUpdate) {
+  initState(props, isInitialState) {
     const { stops } = props.pattern;
     const trips = this.transformTrips(props.pattern.tripsForDate, stops);
     const from = 0;
     const to = stops.length - 1;
 
-    if (isUpdate) {
-      const state = { ... this.state, stops, trips };
-      this.setState(state);
+    if (!isInitialState) {
+      this.setState({ stops, trips, from, to, date: this.state.date });
     } else {
-      const state = { stops, trips, from, to, date: moment(CURRENT_DATE, DATE_FORMAT) };
-      this.state = state;
+      this.state = { stops, trips, from, to, date: moment(CURRENT_DATE, DATE_FORMAT) };
     }
   }
 
@@ -88,8 +91,10 @@ class RouteScheduleContainer extends Component {
 
   changeDate = ({ target }) => {
     const date = moment(target.value, DATE_FORMAT);
-    // Increments the number of stories being rendered by 10.
-    this.props.relay.setVariables({
+    // @TODO Could we avoid force fetching here?
+    // Using setVariable would not return tripsForDate when the route changed,
+    // but the new route had already been fetched.
+    this.props.relay.forceFetch({
       serviceDay: date.format(DATE_FORMAT),
     });
     this.setState({ ... this.state, date });
