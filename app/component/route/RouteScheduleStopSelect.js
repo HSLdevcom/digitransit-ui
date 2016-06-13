@@ -1,5 +1,9 @@
 import React, { PropTypes } from 'react';
 import Icon from '../icon/icon';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import {
+  routeScheduleStopSelectOptions as exampleOptions,
+} from '../documentation/ExampleData';
 
 function RouteScheduleStopSelect(props) {
   const options = props.options.map((option) =>
@@ -23,5 +27,19 @@ RouteScheduleStopSelect.propTypes = {
   options: PropTypes.array.isRequired,
   onSelectChange: PropTypes.func.isRequired,
 };
+
+RouteScheduleStopSelect.description = (
+  <div>
+    <p>
+      Display a route schedule stop select using react components
+    </p>
+    <ComponentUsageExample>
+      <RouteScheduleStopSelect
+        selected={1}
+        options={exampleOptions}
+        onSelectChange={(event) => event.target.value}
+      />
+    </ComponentUsageExample>
+  </div>);
 
 export default RouteScheduleStopSelect;

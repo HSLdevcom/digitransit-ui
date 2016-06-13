@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import Icon from '../icon/icon';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 function RouteScheduleDateSelect(props, context) {
   const dates = [];
@@ -47,5 +48,20 @@ RouteScheduleDateSelect.propTypes = {
 RouteScheduleDateSelect.contextTypes = {
   intl: intlShape.isRequired,
 };
+
+RouteScheduleDateSelect.description = (
+  <div>
+    <p>
+      Display a route schedule date select using react components
+    </p>
+    <ComponentUsageExample>
+      <RouteScheduleDateSelect
+        startDate={'19700101'}
+        selectedDate={'19700101'}
+        dateFormat={'YYYYMMDD'}
+        onDateChange={(event) => event.target.value}
+      />
+    </ComponentUsageExample>
+  </div>);
 
 export default RouteScheduleDateSelect;

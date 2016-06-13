@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 function RouteScheduleTripRow(props) {
   return (
@@ -14,5 +15,19 @@ RouteScheduleTripRow.propTypes = {
   departureTime: PropTypes.string.isRequired,
   arrivalTime: PropTypes.string.isRequired,
 };
+
+RouteScheduleTripRow.description = (
+  <div>
+    <p>
+      Display a route schedule row using react components
+    </p>
+    <ComponentUsageExample>
+      <RouteScheduleTripRow
+        departureTime={'08:12'}
+        arrivalTime={'08:12'}
+      />
+    </ComponentUsageExample>
+  </div>);
+
 
 export default RouteScheduleTripRow;
