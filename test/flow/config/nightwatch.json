@@ -97,8 +97,9 @@
       "desiredCapabilities": {
         "browserName": "internet explorer",
         "browser": "IE",
+        "browser_version": "11",
         "os": "WINDOWS",
-        "os_version": "10",
+        "os_version": "8.1",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
