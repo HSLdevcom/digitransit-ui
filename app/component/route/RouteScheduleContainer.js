@@ -5,6 +5,7 @@ import RouteScheduleTripRow from './RouteScheduleTripRow';
 import RouteScheduleDateSelect from './RouteScheduleDateSelect';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { intlShape } from 'react-intl';
 import { keyBy, sortBy } from 'lodash';
 
 const DATE_FORMAT = 'YYYYMMDD';
@@ -14,6 +15,10 @@ class RouteScheduleContainer extends Component {
     pattern: PropTypes.object.isRequired,
     relay: PropTypes.object.isRequired,
     serviceDay: PropTypes.string.isRequired,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
   };
 
   constructor(props) {
@@ -48,7 +53,12 @@ class RouteScheduleContainer extends Component {
     if (trips == null) {
       return <div className="spinner-loader" />;
     } else if (trips.length === 0) {
-      return <div>No trips available for this day</div>;
+      return (
+        <div className="text-center">
+          {this.context.intl.formatMessage(
+            { id: 'no-trips-found', defaultMessage: 'No trips available for this day.' }
+          )}
+        </div>);
     }
     return trips.map((trip) => {
       const departureTime = this.formatTime(trip.stoptimes[stops[from].id].scheduledDeparture);
