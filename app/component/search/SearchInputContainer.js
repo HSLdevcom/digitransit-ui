@@ -81,7 +81,7 @@ export default class SearchInputContainer extends Component {
   }
 
   handleOnKeyDown = (event, eventProps) => {
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 && this.state.suggestions.length > 0) {
       // enter selects current
       this.currentItemSelected();
       this.blur();
