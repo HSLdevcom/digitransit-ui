@@ -241,21 +241,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 }
 
 // Schedule list
-.route-schedule-header {
-  select {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 2px 33px 2px 10px;
-    background-color: #fff;
-    font-size: 9pt;
-    color: #333;
-    height: 30px;
-    line-height: 24px;
-    font-weight: 500;
-  }
-
-}
-
 .route-schedule-content-wrapper {
   height: 100%;
 }
@@ -269,6 +254,18 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 }
 
 .route-schedule-stop-select {
+  select {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 2px 33px 2px 10px;
+    background-color: #fff;
+    font-size: 9pt;
+    color: #333;
+    height: 30px;
+    line-height: 24px;
+    font-weight: 500;
+  }
+
   position: relative;
 
   .icon {
@@ -294,6 +291,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .trip-column {
   width: 50%;
   margin: 0 auto;
+  line-height: 1.5;
 }
 
 .trip-separator {
@@ -304,7 +302,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   content: "";
   width: 100%;
   position: absolute;
-  top: 11px;
+  top: 10px;
   left: 0;
   border-top: 1px solid $light-gray;
   z-index: 0;
