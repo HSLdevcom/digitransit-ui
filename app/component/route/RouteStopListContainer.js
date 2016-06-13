@@ -2,58 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import RouteStop from './route-stop';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import cx from 'classnames';
-import geoUtils from '../../util/geo-utils';
+import { getDistanceToNearestStop } from '../../util/geo-utils';
 import config from '../../config';
 
 class RouteStopListContainer extends React.Component {
-  static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
+  static propTypes = {
+    pattern: React.PropTypes.object.isRequired,
+    className: React.PropTypes.string,
+    vehicles: React.PropTypes.object,
+    locationState: React.PropTypes.object.isRequired,
   };
 
-  constructor(...args) {
-    super(...args);
-    this.getNearestStopDistance = this.getNearestStopDistance.bind(this);
-    this.onRealTimeChange = this.onRealTimeChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.context.getStore('RealTimeInformationStore').addChangeListener(this.onRealTimeChange);
-  }
-
-  componentWillUnmount() {
-    this.context.getStore('RealTimeInformationStore').removeChangeListener(this.onRealTimeChange);
-  }
-
-  onRealTimeChange() {
-    this.forceUpdate();
-  }
-
-  getNearestStopDistance(stops) {
-    const state = this.context.getStore('PositionStore').getLocationState();
-
-    if (state.hasLocation === true) {
-      return geoUtils.getDistanceToNearestStop(state.lat, state.lon, stops);
-    }
-    return null;
-  }
-
   getStops() {
-    const nearest = this.getNearestStopDistance(this.props.pattern.stops);
+    const state = this.props.locationState;
+    const stops = this.props.pattern.stops;
+    const nearest = state.hasLocation === true ?
+      getDistanceToNearestStop(state.lat, state.lon, stops) : null;
     const mode = this.props.pattern.route.type.toLowerCase();
-    const { vehicles } = this.context.getStore('RealTimeInformationStore');
 
-    const vehicleStops = groupBy(vehicles, vehicle => `HSL:${vehicle.next_stop}`);
+    const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
 
-    const stopObjs = [];
-
-    this.props.pattern.stops.forEach((stop) => {
+    return stops.map((stop) => {
       const isNearest = (
         (nearest != null && nearest.distance < config.nearestStopDistance.maxShownDistance) ?
         nearest.stop.gtfsId : void 0) === stop.gtfsId;
 
-      stopObjs.push(
+      return (
         <RouteStop
           key={stop.gtfsId}
           stop={stop}
@@ -63,10 +40,9 @@ class RouteStopListContainer extends React.Component {
           ref={(stopRow) =>
             (stopRow != null && isNearest ?
               ReactDOM.findDOMNode(stopRow).scrollIntoView(false) : void 0)}
-        />);
+        />
+      );
     });
-
-    return stopObjs;
   }
 
   render() {
@@ -77,27 +53,32 @@ class RouteStopListContainer extends React.Component {
   }
 }
 
-RouteStopListContainer.propTypes = {
-  pattern: React.PropTypes.object,
-  className: React.PropTypes.string,
-};
-
-export default Relay.createContainer(RouteStopListContainer, {
-  fragments: {
-    pattern: () => Relay.QL`
-      fragment on Pattern {
-        route {
-          type
+export default Relay.createContainer(
+  connectToStores(
+    RouteStopListContainer,
+    ['RealTimeInformationStore', 'PositionStore'],
+    ({ getStore }) => ({
+      vehicles: getStore('RealTimeInformationStore').vehicles,
+      locationState: getStore('PositionStore').getLocationState(),
+    })
+  ),
+  {
+    fragments: {
+      pattern: () => Relay.QL`
+        fragment on Pattern {
+          route {
+            type
+          }
+          stops {
+            gtfsId
+            lat
+            lon
+            name
+            desc
+            code
+          }
         }
-        stops {
-          gtfsId
-          lat
-          lon
-          name
-          desc
-          code
-        }
-      }
-    `,
-  },
-});
+      `,
+    },
+  }
+);
