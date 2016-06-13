@@ -20,10 +20,6 @@ class RouteStopListContainer extends React.Component {
 
   componentDidMount() {
     this.context.getStore('RealTimeInformationStore').addChangeListener(this.onRealTimeChange);
-
-    if (this.refs.nearestStop) {
-      ReactDOM.findDOMNode(this.refs.nearestStop).scrollIntoView(false);
-    }
   }
 
   componentWillUnmount() {
@@ -53,7 +49,9 @@ class RouteStopListContainer extends React.Component {
     const stopObjs = [];
 
     this.props.pattern.stops.forEach((stop) => {
-      const isNearest = (nearest != null ? nearest.stop.gtfsId : void 0) === stop.gtfsId;
+      const isNearest = (
+        (nearest != null && nearest.distance < config.nearestStopDistance.maxShownDistance) ?
+        nearest.stop.gtfsId : void 0) === stop.gtfsId;
 
       stopObjs.push(
         <RouteStop
@@ -61,12 +59,10 @@ class RouteStopListContainer extends React.Component {
           stop={stop}
           mode={mode}
           vehicles={vehicleStops[stop.gtfsId]}
-          distance={
-            (isNearest && nearest.distance < config.nearestStopDistance.maxShownDistance) ?
-            nearest.distance : null}
-          ref={
-            (isNearest && nearest.distance < config.nearestStopDistance.maxShownDistance) ?
-            'nearestStop' : null}
+          distance={isNearest ? nearest.distance : null}
+          ref={(stopRow) =>
+            (stopRow != null && isNearest ?
+              ReactDOM.findDOMNode(stopRow).scrollIntoView(false) : void 0)}
         />);
     });
 
