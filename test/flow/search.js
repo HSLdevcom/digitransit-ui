@@ -44,7 +44,10 @@ suite('Search', () => {
       });
 
       it('should go back to front page when clicking back', (browser) => {
-        browser.back.click().pause(500).assert.title('Reittiopas.fi');
+        browser
+          .back()
+          .pause(500)
+          .assert.title('Reittiopas.fi');
       });
 
       it('should not search again when changig origin', (browser) => {

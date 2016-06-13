@@ -66,12 +66,6 @@ module.exports = function (browser) {
       .waitForElementVisible('.tabs-row .nearby-stops', ELEMENT_VISIBLE_TIMEOUT)
       .click('.tabs-row .nearby-stops');
 
-  browser.back = {};
-  browser.back.click = () =>
-    browser
-      .waitForElementVisible('.cursor-pointer.back', ELEMENT_VISIBLE_TIMEOUT)
-      .click('.cursor-pointer.back');
-
   browser.map = {
     click: () =>
       browser.click('div.map')
