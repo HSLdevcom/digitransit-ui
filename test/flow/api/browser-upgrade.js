@@ -75,8 +75,8 @@ module.exports = function (browser) {
     popup: {
       click: () =>
         browser
-          .waitForElementVisible('.origin-popup', ELEMENT_VISIBLE_TIMEOUT)
-          .click('.origin-popup'),
+          .waitForElementVisible('.origin-popup-name', ELEMENT_VISIBLE_TIMEOUT)
+          .click('.origin-popup-name'),
     },
     clear: () =>
       browser
