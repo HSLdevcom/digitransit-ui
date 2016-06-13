@@ -313,9 +313,17 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   transform: translateX(50%);
 }
 
+.route-schedule-date-wrapper {
+  height: 42px;
+}
+
 .route-schedule-date {
   @include font-book;
 
+  position: fixed;
+  height: 42px;
+  width: 100%;
+  z-index: 10;
   background-color: #eef1f3;
   padding: 8px 15px 10px;
   margin: 0;
@@ -338,6 +346,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     font-weight: 500;
     padding: 0;
     text-transform: uppercase;
+    background-image: none;
     width: 5em;
     text-align: left;
 
