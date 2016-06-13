@@ -118,4 +118,14 @@ module.exports = function (browser) {
         .setValue('#search-destination', browser.Keys.ENTER)
         .pause(100),
   };
+
+  browser.setOrigin = (src) =>
+    browser.fakeSearch.openSearch()
+      .origin.selectOrigin()
+      .origin.enterText(src);
+
+  browser.setDestination = (src) =>
+    browser.fakeSearch.openSearch()
+      .destination.selectDestination()
+      .destination.enterText(src);
 };

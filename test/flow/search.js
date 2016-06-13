@@ -1,16 +1,5 @@
 const suite = require('./api/suite.js').suite;
 
-
-const setOrigin = (browser, src) =>
-  browser.fakeSearch.openSearch()
-    .origin.selectOrigin()
-    .origin.enterText(src);
-
-const setDestination = (browser, src) =>
-  browser.fakeSearch.openSearch()
-    .destination.selectDestination()
-    .destination.enterText(src);
-
 suite('Search', () => {
   describe('When Origin is manually set to other than Kamppi', () => {
     before((browser, done) => {
@@ -18,7 +7,7 @@ suite('Search', () => {
     });
 
     it('Should show origin popup after origin is entered', (browser) =>
-      setOrigin(browser, 'kamppi')
+      browser.setOrigin('kamppi')
         .fakeSearch.openSearch()
         .origin.selectOrigin().expect.element('#search-origin')
         .to.be.visible.before(browser.ELEMENT_VISIBLE_TIMEOUT)
@@ -32,10 +21,10 @@ suite('Search', () => {
 
     describe('After route search', () => {
       before((browser, done) => {
-        browser.url('/');
-        setOrigin(browser, 'kamppi');
-        setDestination(browser, 'sampsantie 40');
-        done();
+        browser.url('/')
+          .setOrigin('kamppi')
+          .setDestination('sampsantie 40')
+          .pause(100, done);
       });
 
       it('Route search should be run when both source and destination are set', (browser) => {
@@ -51,7 +40,9 @@ suite('Search', () => {
       });
 
       it('should not search again when changig origin', (browser) => {
-        setOrigin(browser, 'aurinkolahti')
+        browser
+          .origin.popup.click()
+          .origin.enterText('aurinkolahti')
           // wait for dialog to vanish and possible changes to occur
           .pause(500).assert.title('Reittiopas.fi');
       });
@@ -67,8 +58,8 @@ suite('Search', () => {
     });
 
     it('Should automatically route after position is set', (browser) => {
-      setDestination(browser, 'Aurinkolahti');
-      browser.expect.element('.itinerary-summary-row').to.be.visible
+      browser.setDestination('Aurinkolahti')
+        .expect.element('.itinerary-summary-row').to.be.visible
         .before(browser.ELEMENT_VISIBLE_TIMEOUT);
     });
 
