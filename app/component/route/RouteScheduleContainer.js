@@ -89,22 +89,24 @@ class RouteScheduleContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div className="route-schedule-content-wrapper">
         <RouteScheduleDateSelect
           startDate={this.props.serviceDay}
           selectedDate={this.props.relay.variables.serviceDay}
           dateFormat={DATE_FORMAT}
           onDateChange={this.changeDate}
         />
-        <RouteScheduleHeader
-          stops={this.props.pattern.stops}
-          from={this.state.from}
-          to={this.state.to}
-          onFromSelectChange={this.onFromSelectChange}
-          onToSelectChange={this.onToSelectChange}
-        />
-        <div className="route-schedule-list momentum-scroll">
-          {this.getTrips(this.state.from, this.state.to)}
+        <div className="route-schedule-list-wrapper momentum-scroll">
+          <RouteScheduleHeader
+            stops={this.props.pattern.stops}
+            from={this.state.from}
+            to={this.state.to}
+            onFromSelectChange={this.onFromSelectChange}
+            onToSelectChange={this.onToSelectChange}
+          />
+          <div className="route-schedule-list">
+            {this.getTrips(this.state.from, this.state.to)}
+          </div>
         </div>
       </div>);
   }

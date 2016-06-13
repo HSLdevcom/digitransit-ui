@@ -1,5 +1,6 @@
 $route-header-height: 115px;
 $route-list-header-height: 26px;
+$route-schedule-date-height: 42px;
 
 $route-header-favourite-icon-stroke-color: $light-gray;
 $route-header-favourite-icon-fill-color: $background-color;
@@ -255,6 +256,18 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 }
 
+.route-schedule-content-wrapper {
+  height: 100%;
+}
+
+.route-schedule-list-wrapper {
+  height: calc(100% - #{$route-schedule-date-height});
+}
+
+.route-schedule-list {
+  padding-bottom: 0.7em;
+}
+
 .route-schedule-stop-select {
   position: relative;
 
@@ -313,17 +326,10 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   transform: translateX(50%);
 }
 
-.route-schedule-date-wrapper {
-  height: 42px;
-}
-
 .route-schedule-date {
   @include font-book;
 
-  position: fixed;
-  height: 42px;
-  width: 100%;
-  z-index: 10;
+  height: $route-schedule-date-height;
   background-color: #eef1f3;
   padding: 8px 15px 10px;
   margin: 0;
