@@ -54,7 +54,8 @@ suite('Search', () => {
       browser.url('/?mock')
         .pause(500)
         .setCurrentPosition(60.168201, 24.93079, 0)
-        .pause(500, done);
+        // Wait for reverse geocoding
+        .pause(2000, done);
     });
 
     it('Should automatically route after position is set', (browser) => {
