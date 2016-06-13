@@ -67,7 +67,10 @@ function getPolyfills(userAgent) {
   // Do not trust Samsung, LG
   // see https://digitransit.atlassian.net/browse/DT-360
   // https://digitransit.atlassian.net/browse/DT-445
-  if (!userAgent || /(LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)) {
+  // Also https://github.com/Financial-Times/polyfill-service/issues/727
+  if (!userAgent ||
+    /(IEMobile|LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
+  ) {
     userAgent = ''; // eslint-disable-line no-param-reassign
   }
 

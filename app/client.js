@@ -42,7 +42,8 @@ const ravenPlugin = {
 };
 
 if (process.env.NODE_ENV === 'development') {
-  require(`../sass/themes/${config.CONFIG}/main.scss`); // eslint-disable-line global-require
+  // eslint-disable-next-line global-require, prefer-template
+  require('../sass/themes/' + config.CONFIG + '/main.scss');
 }
 
 import debug from 'debug';
@@ -65,7 +66,12 @@ function track() {
 
   if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
     if (Feedback.shouldDisplayPopup(
-      context.getComponentContext().getStore('TimeStore').getCurrentTime().valueOf())
+      context
+        .getComponentContext()
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .valueOf()
+      )
     ) {
       context.executeAction(openFeedbackModal);
     }

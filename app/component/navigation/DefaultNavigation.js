@@ -14,6 +14,7 @@ class DefaultNavigation extends Component {
     disableBackButton: PropTypes.bool,
     showDisruptionInfo: PropTypes.bool,
     title: PropTypes.string.isRequired,
+    showLogo: PropTypes.bool,
   };
 
   render() {
@@ -25,7 +26,10 @@ class DefaultNavigation extends Component {
           {!this.props.disableBackButton ? <BackButton /> : null}
           <section className="title">
             <Link to="/">
-              <span className="title">{this.props.title}</span>
+              {this.props.showLogo ?
+                <div className="logo" /> :
+                <span className="title">{this.props.title}</span>
+              }
             </Link>
           </section>
           <MainMenuContainer />
