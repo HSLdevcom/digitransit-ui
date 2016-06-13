@@ -18,10 +18,17 @@ class RouteScheduleContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.initState(props);
+    this.initState(props, true);
     props.relay.setVariables({ serviceDay: props.serviceDay });
     this.onFromSelectChange = this.onFromSelectChange.bind(this);
     this.onToSelectChange = this.onToSelectChange.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // If route has changed, reset state.
+    if (nextProps.relay.route.params.routeId !== this.props.relay.route.params.routeId) {
+      this.initState(nextProps, false);
+    }
   }
 
   onFromSelectChange(event) {
@@ -56,12 +63,16 @@ class RouteScheduleContainer extends Component {
     });
   }
 
-  initState(props) {
-    const { stops } = props.pattern;
+  initState(props, isInitialState) {
     const from = 0;
-    const to = stops.length - 1;
+    const to = props.pattern.stops.length - 1;
+    const state = { from, to };
 
-    this.state = { from, to };
+    if (isInitialState) {
+      this.state = state;
+    } else {
+      this.setState(state);
+    }
   }
 
   transformTrips(trips, stops) {
