@@ -4,7 +4,6 @@
 
 module.exports = function (browser) {
   if (browser.ELEMENT_VISIBLE_TIMEOUT) return;
-  const GLOBAL_TIMEOUT_MS = 180000;
   const ELEMENT_VISIBLE_TIMEOUT = 10000;
   browser.ELEMENT_VISIBLE_TIMEOUT = ELEMENT_VISIBLE_TIMEOUT;
 
@@ -46,15 +45,9 @@ module.exports = function (browser) {
     console.log(`snap_commit_short=${process.env.SNAP_COMMIT_SHORT}`);
     console.log(`launchUrl=${launchUrl || 'default'}`);
 
-    browser.timeouts('script', GLOBAL_TIMEOUT_MS, () => {
-      browser.timeouts('implicit', GLOBAL_TIMEOUT_MS, () => {
-        browser.timeouts('page load', GLOBAL_TIMEOUT_MS, () => {
-          browser.url(launchUrl, () => {
-            console.log('session id=' + browser.sessionId);
-            done();
-          });
-        });
-      });
+    browser.url(launchUrl, () => {
+      console.log('session id=' + browser.sessionId);
+      done();
     });
   };
 
