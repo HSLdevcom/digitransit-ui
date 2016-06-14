@@ -6,6 +6,7 @@ PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
 SENTRY_DSN = process.env.SENTRY_DSN or ''
 PORT = process.env.PORT or 8080
+APP_DESCRIPTION = "Liikenneviraston Matka.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
 
 module.exports =
   PIWIK_ADDRESS: "#{PIWIK_ADDRESS}"
@@ -118,7 +119,14 @@ module.exports =
     showInfoButton: true
   socialMedia:
     title: "Uusi Matka.fi"
-    description: "Liikenneviraston Matka.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
+    description: APP_DESCRIPTION
+    locale: "fi_FI"
+    twitter:
+      site: '@hsldevcom'
+  meta:
+    description: APP_DESCRIPTION
+    keywords: "reitti,reitit,opas,reittiopas,joukkoliikenne"
+
   # Ticket information feature toggle
   showTicketInformation: false
   showRouteInformation: false
