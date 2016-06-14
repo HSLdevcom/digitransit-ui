@@ -10,13 +10,12 @@ selectLanguage = (executeAction, lang) -> -> executeAction UserPreferencesAction
 
 Language = ({lang, currentLanguage}, {executeAction}) ->
   <div className="lang">
-    <a
+    <span
       className={"selected" if currentLanguage is lang}
       onClick={selectLanguage(executeAction, lang)}
-      href="#"
     >
       {lang}
-    </a>
+    </span>
   </div>
 
 Language.contextTypes =

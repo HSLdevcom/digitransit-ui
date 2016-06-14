@@ -9,17 +9,17 @@ import LangSelect from './lang-select';
 function MainMenu(props) {
   const inquiry = (
     <p style={{ fontSize: '20px', backgroundColor: '#888888', padding: '20px' }} >
-      <a onClick={props.openFeedback}>
+      <span onClick={props.openFeedback}>
         <FormattedMessage id="inquiry" defaultMessage="Give feedback" />
         <Icon img="icon-icon_arrow-right" className="small" />
-      </a>
+      </span>
     </p>);
 
   return (
-    <div className="main-menu">
-      <a onClick={props.toggleVisibility} className="close-button cursor-pointer">
+    <div className="main-menu no-select">
+      <div onClick={props.toggleVisibility} className="close-button cursor-pointer">
         <Icon img="icon-icon_close" className="medium" />
-      </a>
+      </div>
       <header className="offcanvas-section">
         <LangSelect />
         {config.mainMenu.showInquiry ? inquiry : void 0}
