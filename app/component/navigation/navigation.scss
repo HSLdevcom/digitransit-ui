@@ -83,6 +83,7 @@ nav.top-bar {
     display: inline-block;
     text-transform: uppercase;
     span {
+      cursor: pointer;
       padding: 2px 10px 2px 10px;
     }
     span.selected {
