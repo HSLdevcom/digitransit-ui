@@ -1,7 +1,7 @@
 React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../../queries'
-Map                = require '../map/map'
+Map                = require('../map/Map').default
 RouteLine          = require '../map/route/route-line'
 GtfsUtils          = require '../../util/gtfs'
 VehicleMarkerContainer = require '../map/vehicle-marker-container'

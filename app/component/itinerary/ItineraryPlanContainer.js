@@ -8,7 +8,7 @@ import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
-import Map from '../map/map';
+import Map from '../map/Map';
 import moment from 'moment';
 import config from '../../config';
 import ItinerarySummaryListContainer from '../summary/itinerary-summary-list-container';
