@@ -4,7 +4,6 @@
 
 module.exports = function (browser) {
   if (browser.ELEMENT_VISIBLE_TIMEOUT) return;
-  const GLOBAL_TIMEOUT_MS = 180000;
   const ELEMENT_VISIBLE_TIMEOUT = 10000;
   browser.ELEMENT_VISIBLE_TIMEOUT = ELEMENT_VISIBLE_TIMEOUT;
 
@@ -15,10 +14,12 @@ module.exports = function (browser) {
   };
 
   browser.setCurrentPosition = function setCurrentPosition(lat, lon, heading, done) {
-    browser.execute(function (lat2, lon2, heading2) {
+    return browser.execute(function (lat2, lon2, heading2) {
       window.mock.geolocation.setCurrentPosition(lat2, lon2, heading2, true);
     }, [lat, lon, heading], function () {
-      done();
+      if (done) {
+        done();
+      }
     });
   };
 
@@ -29,7 +30,7 @@ module.exports = function (browser) {
         launchUrl = browser.launch_url + urlArg;
       }
       launchUrl = `${launchUrl}?mock`;
-      ex(launchUrl, done);
+      return ex(launchUrl, done);
     };
   }(browser.url));
 
@@ -44,92 +45,80 @@ module.exports = function (browser) {
     console.log(`snap_commit_short=${process.env.SNAP_COMMIT_SHORT}`);
     console.log(`launchUrl=${launchUrl || 'default'}`);
 
-    browser.timeouts('script', GLOBAL_TIMEOUT_MS, () => {
-      browser.timeouts('implicit', GLOBAL_TIMEOUT_MS, () => {
-        browser.timeouts('page load', GLOBAL_TIMEOUT_MS, () => {
-          browser.url(launchUrl, () => {
-            console.log('session id=' + browser.sessionId);
-            done();
-          });
-        });
-      });
+    browser.url(launchUrl, () => {
+      console.log('session id=' + browser.sessionId);
+      done();
     });
   };
 
   browser.expect.map = () => browser.expect.element('div.leaflet-map-pane');
 
   browser.stopsTab = {};
-  browser.stopsTab.click = (done) => {
-    browser.click('.tabs-row .nearby-stops', () => {
-      done();
-    });
-  };
-
-  browser.back = {};
-  browser.back.click = (done) => {
-    browser.expect.element('.cursor-pointer.back').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
-    browser.click('.cursor-pointer.back', done);
-  };
+  browser.stopsTab.click = () =>
+    browser
+      .waitForElementVisible('.tabs-row .nearby-stops', ELEMENT_VISIBLE_TIMEOUT)
+      .click('.tabs-row .nearby-stops');
 
   browser.map = {
-    click(done) {
-      browser.click('div.map', done);
-    },
+    click: () =>
+      browser.click('div.map')
+    ,
   };
 
-  browser.fakeSearch = {
-    openSearch() {
-      browser.expect.element('#front-page-search-bar')
-        .to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.click('#front-page-search-bar');
-    },
-  };
+  browser.fakeSearch = {};
+  browser.fakeSearch.openSearch = () =>
+    browser
+      .waitForElementVisible('#front-page-search-bar', ELEMENT_VISIBLE_TIMEOUT)
+      .click('#front-page-search-bar');
 
   browser.origin = {
     popup: {
-      click(done) {
-        browser.expect.element('.origin-popup').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
-        browser.click('.origin-popup', done);
-      },
+      click: () =>
+        browser
+          .waitForElementVisible('.origin-popup-name', ELEMENT_VISIBLE_TIMEOUT)
+          .click('.origin-popup-name'),
     },
-    clear(done) {
-      browser.expect.element('.clear-icon').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.click('.clear-icon', done);
-    },
-    selectOrigin() {
-      browser.expect.element('#origin')
-        .to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.click('#origin');
-    },
-    enterText(text) {
-      browser.expect.element('#search-origin').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.setValue('#search-origin', text, () => {
-        browser.pause(1000, () => {
-          browser.setValue('#search-origin', browser.Keys.ENTER, () => {
-            browser.pause(100);
-          });
-        });
-      });
-    },
+    clear: () =>
+      browser
+        .waitForElementVisible('.clear-icon', ELEMENT_VISIBLE_TIMEOUT)
+        .click('.clear-icon'),
+    selectOrigin: () =>
+      browser
+        .waitForElementVisible('#origin', ELEMENT_VISIBLE_TIMEOUT)
+        .click('#origin'),
+    enterText: (text) =>
+      browser
+        .waitForElementVisible('#search-origin', ELEMENT_VISIBLE_TIMEOUT)
+        .setValue('#search-origin', text)
+        .pause(1000)
+        .setValue('#search-origin', browser.Keys.ENTER)
+        .pause(100),
   };
 
   browser.destination = {
-    selectDestination() {
-      browser.expect.element('#destination').to.be.enabled.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.click('#destination');
-    },
-    openSearch() {
-      browser.expect.element('#destination').to.be.visible.before(ELEMENT_VISIBLE_TIMEOUT);
-      browser.click('#destination');
-    },
-    enterText(text) {
-      browser.setValue('#search-destination', text, () => {
-        browser.pause(1000, () => {
-          browser.setValue('#search-destination', browser.Keys.ENTER, () => {
-            browser.pause(100);
-          });
-        });
-      });
-    },
+    selectDestination: () =>
+      browser
+        .waitForElementVisible('#destination', ELEMENT_VISIBLE_TIMEOUT)
+        .click('#destination'),
+    openSearch: () =>
+      browser
+        .waitForElementVisible('#destination', ELEMENT_VISIBLE_TIMEOUT)
+        .click('#destination'),
+    enterText: (text) =>
+      browser
+        .setValue('#search-destination', text)
+        .pause(1000)
+        .setValue('#search-destination', browser.Keys.ENTER)
+        .pause(100),
   };
+
+  browser.setOrigin = (src) =>
+    browser.fakeSearch.openSearch()
+      .origin.selectOrigin()
+      .origin.enterText(src);
+
+  browser.setDestination = (src) =>
+    browser.fakeSearch.openSearch()
+      .destination.selectDestination()
+      .destination.enterText(src);
 };

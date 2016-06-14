@@ -1,9 +1,9 @@
 reactCookie   = if window? then require 'react-cookie' else null
-
+config = require '../config'
 #call when "user returns to frontpage"
 # time (currentTime) in ms
 shouldDisplayPopup = (time) ->
-  if window?
+  if window? and config.feedback.enable
     visitCount = reactCookie.load('vc')
     if visitCount > 1
       feedbackInteractionDate = reactCookie.load('fid')

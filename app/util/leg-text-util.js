@@ -4,7 +4,7 @@
 const MAX_ROUTE_LENGTH = 6;
 
 function getLegText(leg) {
-  if (leg.transitLeg && leg.mode.toLowerCase() === 'subway') {
+  if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
     // TODO: Translate these characters.
     return 'M';
   } else if (leg.transitLeg && leg.route.shortName &&
