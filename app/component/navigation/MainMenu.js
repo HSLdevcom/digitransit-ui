@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import config from '../../config';
 import DisruptionInfoButtonContainer from '../disruption/DisruptionInfoButtonContainer';
 import Icon from '../icon/icon';
-import LangSelect from './lang-select';
+import LangSelect from './LangSelect';
 
 function MainMenu(props) {
   const inquiry = (
