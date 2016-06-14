@@ -46,7 +46,7 @@ class ItineraryPlanContainer extends React.Component {
         value={i}
         className={i === selectedIndex ? 'itinerary-tab-root--selected' : 'itinerary-tab-root'}
         style={{
-          height: '18px',
+          height: 'auto',
           color: i === selectedIndex ? '#007ac9' : '#ddd',
           fontSize: '34px',
           padding: '0px',

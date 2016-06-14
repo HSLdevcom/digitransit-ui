@@ -16,6 +16,7 @@ class TileContainer {
     this.el = this.createElement();
 
     if (this.coords.z < markersMinZoom || !this.el.getContext) {
+      setTimeout(() => done(null, this.el), 0);
       return;
     }
 

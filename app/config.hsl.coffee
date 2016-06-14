@@ -6,6 +6,7 @@ PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
 SENTRY_DSN = process.env.SENTRY_DSN or ''
 PORT = process.env.PORT or 8080
+APP_DESCRIPTION = "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
 
 module.exports =
   PIWIK_ADDRESS: "#{PIWIK_ADDRESS}"
@@ -109,9 +110,10 @@ module.exports =
       sv: "https://www.hsl.fi/sv/stadscyklar"
       en: "https://www.hsl.fi/en/citybikes"
     cityBikeMinZoom: 13
+    cityBikeSmallIconZoom: 14
     fewAvailableCount: 3
   # Lowest level for stops and terminals are rendered
-  stopsMinZoom: 14
+  stopsMinZoom: 13
   # Highest level when stops and terminals are still rendered as small markers
   stopsSmallMaxZoom: 14
   # Highest level when terminals are still rendered instead of individual stops
@@ -122,7 +124,13 @@ module.exports =
     showInfoButton: true
   socialMedia:
     title: "Uusi Reittiopas"
-    description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
+    description: APP_DESCRIPTION
+    locale: "fi_FI"
+    twitter:
+      site: '@hsldevcom'
+  meta:
+    description: APP_DESCRIPTION
+    keywords: "reitti,reitit,opas,reittiopas,joukkoliikenne"
   # Ticket information feature toggle
   showTicketInformation: true
   showRouteInformation: false
