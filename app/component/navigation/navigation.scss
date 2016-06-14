@@ -114,6 +114,12 @@ nav.top-bar {
     color: $offcanvas-link-color;
     text-decoration: none;
   }
+
+  span {
+    cursor: pointer;
+    color: $offcanvas-link-color;
+    text-decoration: none;
+  }
   .icon{
     fill: $offcanvas-link-color;
     &.small {
