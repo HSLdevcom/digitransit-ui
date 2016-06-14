@@ -6,6 +6,7 @@ PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
 SENTRY_DSN = process.env.SENTRY_DSN or ''
 PORT = process.env.PORT or 8080
+APP_DESCRIPTION = "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
 
 module.exports =
   PIWIK_ADDRESS: "#{PIWIK_ADDRESS}"
@@ -54,6 +55,9 @@ module.exports =
     showInquiry: true
     showLoginCreateAccount: true
     showOffCanvasList: true
+  feedback:
+    # Whether to allow the feedback popup
+    enable: true
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180
@@ -119,7 +123,13 @@ module.exports =
     showInfoButton: true
   socialMedia:
     title: "Uusi Reittiopas"
-    description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
+    description: APP_DESCRIPTION
+    locale: "fi_FI"
+    twitter:
+      site: '@hsldevcom'
+  meta:
+    description: APP_DESCRIPTION
+    keywords: "reitti,reitit,opas,reittiopas,joukkoliikenne"
   # Ticket information feature toggle
   showTicketInformation: true
   showRouteInformation: false
