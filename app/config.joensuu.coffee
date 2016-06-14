@@ -122,13 +122,13 @@ module.exports =
     showInfoButton: true
   socialMedia:
     title: "Uusi Reittiopas - Joensuu"
-    description: "#{APP_DESCRIPTION}"
+    description: APP_DESCRIPTION
     locale: "fi_FI"
     twitter:
       site: '@hsldevcom'
-    meta:
-      description: "#{APP_DESCRIPTION}"
-      keywords: "reitti,reitit,opas,reittiopas,joukkoliikenne"
+  meta:
+    description: APP_DESCRIPTION
+    keywords: "reitti,reitit,opas,reittiopas,joukkoliikenne"
   # Ticket information feature toggle
   showTicketInformation: false
   showRouteInformation: false
