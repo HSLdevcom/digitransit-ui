@@ -5,6 +5,7 @@ import RouteScheduleTripRow from './RouteScheduleTripRow';
 import RouteScheduleDateSelect from './RouteScheduleDateSelect';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { intlShape } from 'react-intl';
 import { keyBy, sortBy } from 'lodash';
 
 const DATE_FORMAT = 'YYYYMMDD';
@@ -16,12 +17,23 @@ class RouteScheduleContainer extends Component {
     serviceDay: PropTypes.string.isRequired,
   };
 
+  static contextTypes = {
+    intl: intlShape.isRequired,
+  };
+
   constructor(props) {
     super(props);
-    this.initState(props);
+    this.initState(props, true);
     props.relay.setVariables({ serviceDay: props.serviceDay });
     this.onFromSelectChange = this.onFromSelectChange.bind(this);
     this.onToSelectChange = this.onToSelectChange.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // If route has changed, reset state.
+    if (nextProps.relay.route.params.routeId !== this.props.relay.route.params.routeId) {
+      this.initState(nextProps, false);
+    }
   }
 
   onFromSelectChange(event) {
@@ -41,7 +53,12 @@ class RouteScheduleContainer extends Component {
     if (trips == null) {
       return <div className="spinner-loader" />;
     } else if (trips.length === 0) {
-      return <div>No trips available for this day</div>;
+      return (
+        <div className="text-center">
+          {this.context.intl.formatMessage(
+            { id: 'no-trips-found', defaultMessage: 'No trips available for this day.' }
+          )}
+        </div>);
     }
     return trips.map((trip) => {
       const departureTime = this.formatTime(trip.stoptimes[stops[from].id].scheduledDeparture);
@@ -56,12 +73,16 @@ class RouteScheduleContainer extends Component {
     });
   }
 
-  initState(props) {
-    const { stops } = props.pattern;
+  initState(props, isInitialState) {
     const from = 0;
-    const to = stops.length - 1;
+    const to = props.pattern.stops.length - 1;
+    const state = { from, to };
 
-    this.state = { from, to };
+    if (isInitialState) {
+      this.state = state;
+    } else {
+      this.setState(state);
+    }
   }
 
   transformTrips(trips, stops) {
@@ -89,22 +110,24 @@ class RouteScheduleContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div className="route-schedule-content-wrapper">
         <RouteScheduleDateSelect
           startDate={this.props.serviceDay}
           selectedDate={this.props.relay.variables.serviceDay}
           dateFormat={DATE_FORMAT}
           onDateChange={this.changeDate}
         />
-        <RouteScheduleHeader
-          stops={this.props.pattern.stops}
-          from={this.state.from}
-          to={this.state.to}
-          onFromSelectChange={this.onFromSelectChange}
-          onToSelectChange={this.onToSelectChange}
-        />
-        <div className="route-schedule-list momentum-scroll">
-          {this.getTrips(this.state.from, this.state.to)}
+        <div className="route-schedule-list-wrapper momentum-scroll">
+          <RouteScheduleHeader
+            stops={this.props.pattern.stops}
+            from={this.state.from}
+            to={this.state.to}
+            onFromSelectChange={this.onFromSelectChange}
+            onToSelectChange={this.onToSelectChange}
+          />
+          <div className="route-schedule-list">
+            {this.getTrips(this.state.from, this.state.to)}
+          </div>
         </div>
       </div>);
   }

@@ -53,6 +53,9 @@ module.exports =
     showInquiry: true
     showLoginCreateAccount: true
     showOffCanvasList: true
+  feedback:
+    # Whether to allow the feedback popup
+    enable: true
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180

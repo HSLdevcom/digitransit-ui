@@ -92,8 +92,8 @@ export const RoutePageFragments = {
       }
       ${require('./component/route/route-header-container').getFragment('pattern')}
       ${require('./component/route/route-map-container').getFragment('pattern')}
-      ${require('./component/route/route-stop-list-container').getFragment('pattern')}
       ${require('./component/route/RouteScheduleContainer').default.getFragment('pattern')}
+      ${require('./component/route/RouteStopListContainer').default.getFragment('pattern')}
     }
   `,
 };
@@ -114,24 +114,6 @@ export const RouteHeaderFragments = {
       }
       stops {
         name
-      }
-    }
-  `,
-};
-
-export const RouteStopListFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      route {
-        type
-      }
-      stops {
-        gtfsId
-        lat
-        lon
-        name
-        desc
-        code
       }
     }
   `,

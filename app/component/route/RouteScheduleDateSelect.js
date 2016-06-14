@@ -2,8 +2,9 @@ import React, { PropTypes } from 'react';
 import Icon from '../icon/icon';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-function RouteScheduleTripRow(props, context) {
+function RouteScheduleDateSelect(props, context) {
   const dates = [];
   const date = moment(props.startDate, props.dateFormat);
 
@@ -38,14 +39,29 @@ function RouteScheduleTripRow(props, context) {
       </select>
     </div>);
 }
-RouteScheduleTripRow.propTypes = {
+RouteScheduleDateSelect.propTypes = {
   startDate: PropTypes.string.isRequired,
   selectedDate: PropTypes.string.isRequired,
   dateFormat: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
 };
-RouteScheduleTripRow.contextTypes = {
+RouteScheduleDateSelect.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default RouteScheduleTripRow;
+RouteScheduleDateSelect.description = (
+  <div>
+    <p>
+      Display a route schedule date select using react components
+    </p>
+    <ComponentUsageExample>
+      <RouteScheduleDateSelect
+        startDate={'19700101'}
+        selectedDate={'19700101'}
+        dateFormat={'YYYYMMDD'}
+        onDateChange={(event) => event.target.value}
+      />
+    </ComponentUsageExample>
+  </div>);
+
+export default RouteScheduleDateSelect;

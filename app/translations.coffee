@@ -153,6 +153,7 @@ translations =
     'itinerary-feedback-message': "Etkö löytänyt mitä etsit?"
     'itinerary-feedback-placeholder': "Kuvaus (valinnainen)"
     'itinerary-feedback-button': "Lähetä palautetta"
+    'no-trips-found': 'Valitulle päivälle ei löydy matkoja.'
   'sv':
     'searching-position': 'Söker position'
     'own-position': 'Min position'
