@@ -22,7 +22,7 @@ class PreferencesStore extends Store
     if document
       document.cookie = "lang=" + language
 
-    @emitChange(language)
+    @emitChange(lang: language)
 
   loadPreferences: ->
     if window?
