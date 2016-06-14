@@ -24,7 +24,7 @@ export default class SearchInputContainer extends Component {
 
   constructor(props) {
     super(props);
-
+    this.initialValue = props.initialValue != null ? props.initialValue : '';
     this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
     this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
     this.handleOnTouchStart = this.handleOnTouchStart.bind(this);
@@ -81,7 +81,7 @@ export default class SearchInputContainer extends Component {
   }
 
   handleOnKeyDown = (event, eventProps) => {
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 && this.state.suggestions.length > 0) {
       // enter selects current
       this.currentItemSelected();
       this.blur();
@@ -151,7 +151,8 @@ export default class SearchInputContainer extends Component {
     let name;
     let item;
 
-    if (this.state.focusedItemIndex >= 0 && this.state.suggestions.length > 0) {
+    if (this.state.focusedItemIndex >= 0 && this.state.suggestions != null
+      && this.state.suggestions.length > 0) {
       item = this.state.suggestions[this.state.focusedItemIndex];
       name = SuggestionItem.getName(item.properties);
 
@@ -182,8 +183,8 @@ export default class SearchInputContainer extends Component {
   }
 
   render() {
-    const inputValue = typeof this.state.value === 'string' && this.state.value.length >= 0 ?
-      this.state.value : this.props.initialValue;
+    const inputValue = this.state.value != null && typeof this.state.value === 'string'
+      && this.state.value.length >= 0 ? this.state.value : this.initialValue;
 
     return (
       <div className="fullscreen">

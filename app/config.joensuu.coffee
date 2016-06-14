@@ -6,6 +6,7 @@ PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
 SENTRY_DSN = process.env.SENTRY_DSN or ''
 PORT = process.env.PORT or 8080
+APP_DESCRIPTION = "Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi."
 
 module.exports =
   PIWIK_ADDRESS: "#{PIWIK_ADDRESS}"
@@ -17,7 +18,7 @@ module.exports =
     API_URL: "#{API_URL}"
     OTP: "#{API_URL}/routing/v1/routers/waltti/"
     MAP: "#{MAP_URL}/map/v1/hsl-map/"
-    STOP_MAP: "#{API_URL}/map/v1/hsl-stop-map/"
+    STOP_MAP: "#{API_URL}/map/v1/waltti-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "wss://dev.hsl.fi/mqtt-proxy"
     ALERTS: "#{API_URL}/realtime/service-alerts/v1"
@@ -27,15 +28,16 @@ module.exports =
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
   title: "joensuu.digitransit.fi"
+  useNavigationLogo: true
   contactName:
     sv: ""
     fi: ""
     default: ""
   searchParams:
-    "boundary.rect.min_lat": 62
-    "boundary.rect.max_lat": 63.2
-    "boundary.rect.min_lon": 28.7
-    "boundary.rect.max_lon": 30.8
+    "boundary.rect.min_lat": 61.6
+    "boundary.rect.max_lat": 63.6
+    "boundary.rect.min_lon": 27.1
+    "boundary.rect.max_lon": 31.0
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000
@@ -44,6 +46,7 @@ module.exports =
   availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
   timezone: 'Europe/Helsinki'
+  enableDesktopWrapper: true
   mainMenu:
     # Whether to show the left menu toggle button at all
     show: true
@@ -51,11 +54,17 @@ module.exports =
     showInquiry: true
     showLoginCreateAccount: true
     showOffCanvasList: true
+  feedback:
+    # Whether to allow the feedback popup
+    enable: true
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180
     # Wait time to show "wait leg"? e.g. 180 means over 3 minutes are shown as wait time. Measured in seconds.
     waitThreshold: 180
+    enableFeedback: false
+    timeNavigation:
+      enableButtonArrows: false
   initialLocation:
     zoom: 11
     lat: 62.6024263
@@ -66,8 +75,10 @@ module.exports =
     useRetinaTiles: true
     tileSize: 512
     zoomOffset: -1
-    useVectorTiles: false
+    useVectorTiles: true
     genericMarker:
+      # Do not render name markers at zoom levels below this value
+      nameMarkerMinZoom: 18
       popup:
         offset: [106, 3]
         maxWidth: 250
@@ -110,8 +121,14 @@ module.exports =
   disruption:
     showInfoButton: true
   socialMedia:
-    title: "Uusi Reittiopas"
-    description: "HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi."
+    title: "Uusi Reittiopas - Joensuu"
+    description: APP_DESCRIPTION
+    locale: "fi_FI"
+    twitter:
+      site: '@hsldevcom'
+  meta:
+    description: APP_DESCRIPTION
+    keywords: "reitti,reitit,opas,reittiopas,joukkoliikenne"
   # Ticket information feature toggle
   showTicketInformation: false
   showRouteInformation: false
@@ -139,6 +156,7 @@ module.exports =
     ferry:
       availableForSelection: true
       defaultValue: true
+  showModeFilter: false
   moment:
     relativeTimeThreshold:
       seconds: 55
@@ -166,3 +184,18 @@ module.exports =
     address: "Keskusta, Joensuu"
     lat: 62.6024263
     lon: 29.7569847
+  desktopWrapperText: '''<h2>
+                        Reittiopas<sup>BETA</sup>
+                      </h2>
+                      <h1>Kokeile uutta Reittiopasta!</h1>
+                      Reittiopas uudistuu pian. Uusi Reittiopas tuo mukanaan liudan kauan
+                      kaivattuja parannuksia:
+                      <ul>
+                        <li>Reaaliaikatiedot kaikista liikennevälineistä</li>
+                        <li>Entistä parempi kartta</li>
+                        <li>Ennakoiva haku</li>
+                        <li>Näet lähialueesi lähdöt helposti</li>
+                      </ul>
+                      Uusi Reittiopas on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki
+                      toimimaan erinomaisesti myös tietokoneella. Voit tutustua jo nyt mobiilioptimoituun
+                      versioon. Valmista on loppuvuodesta 2016.'''

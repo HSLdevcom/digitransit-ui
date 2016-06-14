@@ -76,8 +76,8 @@ gemini.suite('components', (parent) => {
   gemini.suite('TimeNavigationButtons', (component) => {
     component.setCaptureElements(
       '#TimeNavigationButtons .component-example:nth-of-type(1) .component')
-    .capture('normal')
-    .capture('hovered', (actions) => {
+    .capture('normal', { tolerance: 5 }, () => {})
+    .capture('hovered', { tolerance: 5 }, (actions) => {
       actions.mouseMove(
         '#TimeNavigationButtons .component-example:nth-of-type(1) .component button:first-of-type'
       );

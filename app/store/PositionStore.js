@@ -21,28 +21,28 @@ export default class PositionStore extends Store {
     this.lon = 0;
     this.heading = null;
     this.address = '';
-    this.status = this.STATUS_NO_LOCATION;
+    this.status = PositionStore.STATUS_NO_LOCATION;
     this.emitChange();
   }
 
   geolocationSearch() {
-    this.status = this.STATUS_SEARCHING_LOCATION;
+    this.status = PositionStore.STATUS_SEARCHING_LOCATION;
     this.address = '';
     this.emitChange();
   }
 
   geolocationNotSupported() {
-    this.status = this.STATUS_GEOLOCATION_NOT_SUPPORTED;
+    this.status = PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED;
     this.emitChange();
   }
 
   geolocationDenied() {
-    this.status = this.STATUS_GEOLOCATION_DENIED;
+    this.status = PositionStore.STATUS_GEOLOCATION_DENIED;
     this.emitChange();
   }
 
   geolocationTimeout() {
-    this.status = this.STATUS_GEOLOCATION_TIMEOUT;
+    this.status = PositionStore.STATUS_GEOLOCATION_TIMEOUT;
     this.emitChange();
   }
 
@@ -52,7 +52,7 @@ export default class PositionStore extends Store {
     this.lat = this.lat !== 0 ? (this.lat + location.lat) / 2 : location.lat;
     this.lon = this.lon !== 0 ? (this.lon + location.lon) / 2 : location.lon;
     this.heading = location.heading ? location.heading : this.heading;
-    this.status = this.STATUS_FOUND_LOCATION;
+    this.status = PositionStore.STATUS_FOUND_LOCATION;
 
     this.emitChange({
       statusChanged,
@@ -61,7 +61,7 @@ export default class PositionStore extends Store {
 
   storeAddress(location) {
     this.address = `${location.address}, ${location.city}`;
-    this.status = this.STATUS_FOUND_ADDRESS;
+    this.status = PositionStore.STATUS_FOUND_ADDRESS;
     this.emitChange();
   }
 
@@ -74,12 +74,13 @@ export default class PositionStore extends Store {
       address: this.address,
       status: this.status,
       hasLocation:
-        (this.status === this.STATUS_FOUND_ADDRESS || this.status === this.STATUS_FOUND_LOCATION) &&
+        (this.status === PositionStore.STATUS_FOUND_ADDRESS ||
+          this.status === PositionStore.STATUS_FOUND_LOCATION) &&
         (this.lat !== 0 || this.lon !== 0),
       // Locationing is in progress when browser is:
       //   searching address or
       //   reverse geocoding is in progress
-      isLocationingInProgress: this.status === this.STATUS_SEARCHING_LOCATION,
+      isLocationingInProgress: this.status === PositionStore.STATUS_SEARCHING_LOCATION,
     };
   }
 

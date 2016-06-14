@@ -1,17 +1,20 @@
 import React, { PropTypes } from 'react';
-import ModeFilterContainer from '../route/mode-filter-container';
+import ModeFilterContainer from '../route/ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from '../departure/next-departures-list-header';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import config from '../../config';
 
 function NearbyRoutesPanel({ location, currentTime, modes }) {
   return (
     <div className="frontpage-panel nearby-routes">
-      <div className="row">
-        <div className="small-12 column">
-          <ModeFilterContainer id="nearby-routes-mode" />
-        </div>
-      </div>
+      {config.showModeFilter ?
+        <div className="row">
+          <div className="small-12 column">
+            <ModeFilterContainer id="nearby-routes-mode" />
+          </div>
+        </div> : null
+    }
       <NextDeparturesListHeader />
       <div
         className="scrollable momentum-scroll scroll-extra-padding-bottom"

@@ -46,6 +46,7 @@ class IndexPage extends React.Component {
         disableBackButton
         showDisruptionInfo
         title={Config.title}
+        showLogo={Config.useNavigationLogo}
       >
         <MapWithTracking showStops>
           <SearchMainContainer />

@@ -62,8 +62,16 @@ nav.top-bar {
 
     a {
       text-decoration: none;
+      div.logo {
+        background-image: $nav-logo;
+        background-size: contain;
+        height: $topbar-height;
+        max-width: 170px;
+      }
     }
   }
+
+
 }
 
 .lang-select {

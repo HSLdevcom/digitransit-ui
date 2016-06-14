@@ -1,9 +1,10 @@
 {
- "name": "Digitransit",
+ "name": "Joensuu Digitransit",
  "short_name": "Digitransit",
  "display": "standalone",
- "background_color": "#ffffff",
- "theme_color": "#ffffff",
+ "background_color": "#5c4696",
+ "theme_color": "#5c4696",
+ "start_url": "https:\/\/joensuu.digitransit.fi",
  "lang": "fi-FI",
  "icons": [
   {
