@@ -82,10 +82,11 @@ nav.top-bar {
   .lang {
     display: inline-block;
     text-transform: uppercase;
-    a {
+    span {
+      cursor: pointer;
       padding: 2px 10px 2px 10px;
     }
-    a.selected {
+    span.selected {
       border-radius: 3px;
       background-color: rgba($white, 0.15);
     }
@@ -110,6 +111,12 @@ nav.top-bar {
     color: $offcanvas-profile-icon-color;
   }
   a {
+    color: $offcanvas-link-color;
+    text-decoration: none;
+  }
+
+  span {
+    cursor: pointer;
     color: $offcanvas-link-color;
     text-decoration: none;
   }
