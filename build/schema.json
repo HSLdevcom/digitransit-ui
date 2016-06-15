@@ -1728,6 +1728,37 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "tripsForDate",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "serviceDay",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "Trip",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "stops",
                         "description": null,
                         "args": [],
