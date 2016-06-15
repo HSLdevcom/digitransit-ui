@@ -60,11 +60,10 @@ $itinerary-route-max-width: 500px;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: 10pt;
-  margin: 0.5em;
-  margin-bottom: 0px;
-  padding: 0.3em 0.5em;
+  margin: 0 auto;
+  padding: 0 1.3em 1em 1.3em;
   border: 0px;
-  text-align: center;
+  max-width: 500px;
   .itinerary-ticket-information-class {
     text-transform: uppercase;
     text-align: center;
@@ -79,20 +78,12 @@ $itinerary-route-max-width: 500px;
     margin-left: 10px;
   }
   .itinerary-ticket-information-buy {
-    color: white;
     font-weight: $font-weight-bold;
-    background: linear-gradient(#80D016, #45AA0D);
-    vertical-align: middle;
-    border-radius: 2em;
     margin-top: 0.5em;
-    padding: 1em 1.5em;
-    width: 100%;
-  }
-
-  .itinerary-ticket-information-buy a {
-    text-decoration: none;
-    color: white;
-    align: center;
+    a {
+      color: $primary-color;
+      text-decoration: none;
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import TicketInformation from './ticket-information';
+import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './itinerary-summary';
 import TimeFrame from './time-frame';
@@ -65,8 +65,8 @@ class ItineraryTab extends React.Component {
               itinerary={this.props.itinerary}
               focusMap={this.handleFocus}
             />
-            {routeInformation}
             {ticketInformation}
+            {routeInformation}
           </div>
         </div>
       </div>
