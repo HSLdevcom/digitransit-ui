@@ -107,4 +107,28 @@ gemini.suite('components', (parent) => {
       '#SelectCityBikeRow .component-example:nth-of-type(1) .component')
     .capture('normal');
   });
+
+  gemini.suite('RouteScheduleDateSelect', (component) => {
+    component.setCaptureElements(
+      '#RouteScheduleDateSelect .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
+
+  gemini.suite('RouteScheduleHeader', (component) => {
+    component.setCaptureElements(
+      '#RouteScheduleHeader .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
+
+  gemini.suite('RouteScheduleStopSelect', (component) => {
+    component.setCaptureElements(
+      '#RouteScheduleStopSelect .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
+
+  gemini.suite('RouteScheduleTripRow', (component) => {
+    component.setCaptureElements(
+      '#RouteScheduleTripRow .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
 });
