@@ -7,8 +7,11 @@ module.exports = (mode) => {
     if ({}.hasOwnProperty.call(document.styleSheets, index)) {
       try {
         for (const index2 in document.styleSheets[index].cssRules) {
-          if (document.styleSheets[index].cssRules[index2].selectorText === selector) {
-            return document.styleSheets[index].cssRules[index2];
+          if ({}.hasOwnProperty.call(document.styleSheets[index].cssRules, index2)) {
+            const ref = document.styleSheets[index].cssRules[index2].selectorText;
+            if (ref && ref.split(',').indexOf(selector) > -1) {
+              return document.styleSheets[index].cssRules[index2];
+            }
           }
         }
       } catch (err) {
