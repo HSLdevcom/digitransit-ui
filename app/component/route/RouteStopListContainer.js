@@ -16,6 +16,12 @@ class RouteStopListContainer extends React.Component {
     locationState: React.PropTypes.object.isRequired,
   };
 
+  componentDidMount() {
+    if (this.refs.nearestStop) {
+      ReactDOM.findDOMNode(this.refs.nearestStop).scrollIntoView(false);
+    }
+  }
+
   getStops() {
     const state = this.props.locationState;
     const stops = this.props.pattern.stops;
@@ -37,9 +43,7 @@ class RouteStopListContainer extends React.Component {
           mode={mode}
           vehicles={vehicleStops[stop.gtfsId]}
           distance={isNearest ? nearest.distance : null}
-          ref={(stopRow) =>
-            (stopRow != null && isNearest ?
-              ReactDOM.findDOMNode(stopRow).scrollIntoView(false) : void 0)}
+          ref={isNearest ? 'nearestStop' : null}
         />
       );
     });
