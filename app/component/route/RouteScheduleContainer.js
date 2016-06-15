@@ -117,7 +117,7 @@ class RouteScheduleContainer extends Component {
           dateFormat={DATE_FORMAT}
           onDateChange={this.changeDate}
         />
-        <div className="route-schedule-list-wrapper momentum-scroll">
+        <div className="route-schedule-list-wrapper">
           <RouteScheduleHeader
             stops={this.props.pattern.stops}
             from={this.state.from}
@@ -125,7 +125,7 @@ class RouteScheduleContainer extends Component {
             onFromSelectChange={this.onFromSelectChange}
             onToSelectChange={this.onToSelectChange}
           />
-          <div className="route-schedule-list">
+          <div className="route-schedule-list momentum-scroll">
             {this.getTrips(this.state.from, this.state.to)}
           </div>
         </div>

@@ -243,14 +243,19 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 // Schedule list
 .route-schedule-content-wrapper {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .route-schedule-list-wrapper {
-  height: calc(100% - #{$route-schedule-date-height});
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .route-schedule-list {
   padding-bottom: 0.7em;
+  flex: 1
 }
 
 .route-schedule-stop-select {
