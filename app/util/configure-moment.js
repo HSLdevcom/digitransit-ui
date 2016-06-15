@@ -7,7 +7,7 @@ import moment from 'moment-timezone/moment-timezone';
 function configureMoment(language) {
   moment.locale(language);
 
-  if (config.timezone) {
+  if (config.timezoneData) {
     moment.tz.add(config.timezoneData);
     moment.tz.setDefault(config.timezoneData.split('|')[0]);
   }
