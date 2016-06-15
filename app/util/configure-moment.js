@@ -9,7 +9,7 @@ function configureMoment(language) {
 
   if (config.timezone) {
     moment.tz.add(config.timezoneData);
-    moment.tz.setDefault(config.timezone);
+    moment.tz.setDefault(config.timezoneData.split('|')[0]);
   }
 
   if (language !== 'en') {
