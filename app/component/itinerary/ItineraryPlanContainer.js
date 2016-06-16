@@ -12,10 +12,12 @@ import Map from '../map/map';
 import moment from 'moment';
 import config from '../../config';
 import ItinerarySummaryListContainer from '../summary/itinerary-summary-list-container';
+import { supportsHistory } from 'history/lib/DOMUtils';
 
 class ItineraryPlanContainer extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
   };
 
   state = {
@@ -55,7 +57,29 @@ class ItineraryPlanContainer extends React.Component {
     ));
   }
 
-  toggleFullscreenMap = () => this.setState({ fullscreen: !this.state.fullscreen });
+  getFullscreen = () => {
+    if (typeof window !== 'undefined' && supportsHistory()) {
+      const state = this.context.location.state;
+      return state && state.fullscreen;
+    }
+
+    return this.state && this.state.fullscreen;
+  };
+
+  toggleFullscreenMap = () => {
+    if (supportsHistory()) {
+      if (this.context.location.state && this.context.location.state.fullscreen) {
+        return this.context.router.goBack();
+      }
+      return this.context.router.push({
+        state: {
+          fullscreen: true,
+        },
+        pathname: this.context.location.pathname,
+      });
+    }
+    return this.setState({ fullscreen: !this.state.fullscreen });
+  };
 
   focusMap = (lat, lon) => this.setState({ lat, lon })
 
@@ -97,7 +121,7 @@ class ItineraryPlanContainer extends React.Component {
         showTransferLabels
       />];
 
-    if (this.state.fullscreen) {
+    if (this.getFullscreen()) {
       return (
         <div
           style={{ height: '100%' }}
