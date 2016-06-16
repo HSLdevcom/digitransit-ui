@@ -53,6 +53,25 @@ export default function SummaryRow(props) {
     }
   }
 
+  let firstLegStartTime = null;
+
+  if (!noTransitLegs) {
+    let firstDeparture = false;
+    if (data.legs[1] != null && !(data.legs[1].rentedBike || data.legs[0].transitLeg)) {
+      firstDeparture = data.legs[1].startTime;
+    }
+    if (data.legs[0].transitLeg && !data.legs[0].rentedBike) {
+      firstDeparture = data.legs[0].startTime;
+    }
+    if (firstDeparture) {
+      firstLegStartTime = (
+        <div className="itinerary-first-leg-start-time">
+          {moment(firstDeparture).format('HH:mm')}
+        </div>);
+    }
+  }
+
+
   const classes = cx(['itinerary-summary-row', 'cursor-pointer', {
     passive: props.passive,
   }]);
@@ -73,6 +92,7 @@ export default function SummaryRow(props) {
       </div>
       <div className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}>
         {startTime.format('HH:mm')}
+        {firstLegStartTime}
       </div>
       <div className="itinerary-legs">
         {legs}
