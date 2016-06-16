@@ -6,7 +6,8 @@ import RouteScheduleDateSelect from './RouteScheduleDateSelect';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
-import { keyBy, sortBy } from 'lodash';
+import keyBy from 'lodash/keyBy';
+import sortBy from 'lodash/sortBy';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
