@@ -7,9 +7,9 @@ import cx from 'classnames';
 import Icon from '../icon/icon';
 import RelativeDuration from '../duration/relative-duration';
 
-export default function SummaryRow() {
+export default function SummaryRow(props) {
   let mode;
-  const { data } = this.props;
+  const data = props.data;
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
@@ -17,12 +17,11 @@ export default function SummaryRow() {
   let realTimeAvailable = false;
   let noTransitLegs = true;
 
-  for (const leg of data.legs.entries()) {
+  for (const leg of data.legs) {
     if (leg.transitLeg || leg.rentedBike) {
       if (noTransitLegs && leg.realTime) {
         realTimeAvailable = true;
       }
-
       noTransitLegs = false;
       break;
     }
@@ -38,7 +37,7 @@ export default function SummaryRow() {
     lastLegRented = leg.rentedBike;
 
     if (leg.transitLeg || leg.rentedBike || noTransitLegs) {
-      ({ mode } = leg);
+      mode = leg.mode;
 
       if (leg.rentedBike) {
         mode = 'CITYBIKE';
@@ -55,13 +54,13 @@ export default function SummaryRow() {
   }
 
   const classes = cx(['itinerary-summary-row', 'cursor-pointer', {
-    passive: this.props.passive,
+    passive: props.passive,
   }]);
 
   return (
     <div
       className={classes}
-      onClick={() => this.props.onSelect(this.props.hash)}
+      onClick={() => props.onSelect(props.hash)}
     >
       <div className="itinerary-duration-and-distance">
         <div className="itinerary-duration">
@@ -92,5 +91,5 @@ SummaryRow.propTypes = {
   data: React.PropTypes.object.isRequired,
   passive: React.PropTypes.bool.isRequired,
   onSelect: React.PropTypes.func.isRequired,
-  hash: React.PropTypes.string.isRequired,
+  hash: React.PropTypes.number.isRequired,
 };
