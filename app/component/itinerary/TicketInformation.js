@@ -1,7 +1,6 @@
 import React from 'react';
-import NotImplementedLink from '../util/not-implemented-link';
-import Icon from '../icon/icon';
 import { FormattedMessage } from 'react-intl';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 export default function TicketInformation() {
   return (
@@ -21,3 +20,11 @@ export default function TicketInformation() {
     </div>
   );
 }
+
+TicketInformation.description = (
+  <div>
+    <p>Information about the required ticket for the itinerary.</p>
+    <ComponentUsageExample>
+      <TicketInformation />
+    </ComponentUsageExample>
+  </div>);

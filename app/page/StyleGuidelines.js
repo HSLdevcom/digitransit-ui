@@ -24,6 +24,7 @@ import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
+import TicketInformation from '../component/itinerary/TicketInformation';
 import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
@@ -361,6 +362,14 @@ class StyleGuidelinesPage extends React.Component {
     );
   }
 
+  getItineraryComponents() {
+    return (
+      <div>
+        <ComponentDocumentation component={TicketInformation} />
+      </div>
+    );
+  }
+
   getTileLayerComponents() {
     return (
       <div>
@@ -403,6 +412,7 @@ class StyleGuidelinesPage extends React.Component {
         {this.getCardComponents()}
         {this.getIconComponents()}
         {this.getSummaryComponents()}
+        {this.getItineraryComponents()}
         {this.getTileLayerComponents()}
       </div>
     );
