@@ -100,7 +100,7 @@ class RouteScheduleContainer extends Component {
     return transformedTrips;
   }
 
-  formatTime = (timestamp) => moment(timestamp * 1000).format('HH:mm');
+  formatTime = (timestamp) => moment.utc(timestamp * 1000).format('HH:mm');
 
   changeDate = ({ target }) => {
     // TODO: add setState and a callback that resets the laoding state in oreder to get a spinner.
