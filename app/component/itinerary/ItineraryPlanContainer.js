@@ -8,7 +8,7 @@ import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
-import Map from '../map/map';
+import Map from '../map/Map';
 import moment from 'moment';
 import config from '../../config';
 import ItinerarySummaryListContainer from '../summary/itinerary-summary-list-container';
@@ -124,7 +124,12 @@ class ItineraryPlanContainer extends React.Component {
     if (this.getFullscreen()) {
       return (
         <div
-          style={{ height: '100%' }}
+          style={{
+            height: '100%',
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
           onTouchStart={e => e.stopPropagation()}
           onMouseDown={e => e.stopPropagation()}
         >
@@ -187,8 +192,8 @@ class ItineraryPlanContainer extends React.Component {
         <SwipeableViews
           index={index}
           className="itinerary-swipe-views-root"
-          slideStyle={{ height: '100%' }}
-          containerStyle={{ height: '100%' }}
+          slideStyle={{ minHeight: '100%' }}
+          containerStyle={{ minHeight: '100%' }}
           onChangeIndex={(idx) => setTimeout(this.switchSlide, 150, idx)}
         >
           {this.getSlides(itineraries)}
