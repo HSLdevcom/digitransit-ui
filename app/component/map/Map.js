@@ -1,5 +1,6 @@
 const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
+import elementResizeDetectorMaker from 'element-resize-detector';
 import config from '../../config';
 
 import PositionMarker from './position-marker';
@@ -76,6 +77,18 @@ class Map extends React.Component {
       L.control.zoom({ position: 'topleft' }).
         addTo(this.refs.map.getLeafletElement());
     }
+
+    this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
+    /* eslint-disable no-underscore-dangle */
+    this.erd.listenTo(this.refs.map.getLeafletElement()._container, this.resizeMap);
+  }
+
+  componentWillUnmount = () => {
+    this.erd.removeListener(this.refs.map.getLeafletElement()._container, this.resizeMap);
+  }
+
+  resizeMap = () => {
+    this.refs.map.getLeafletElement().invalidateSize();
   }
 
   startMeasuring = () => (
