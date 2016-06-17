@@ -81,7 +81,7 @@ class TileContainer {
       });
 
       if (nearest.length === 0) {
-        return this.onSelectableTargetClicked(false);
+        return this.onSelectableTargetClicked([], e.latlng);
       } else if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
         coords = nearest[0].feature.toGeoJSON(this.coords.x, this.coords.y, this.coords.z +

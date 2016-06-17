@@ -10,6 +10,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/city-bike-popup';
+import LocationPopup from '../popups/LocationPopup';
 import SphericalMercator from 'sphericalmercator';
 import lodashFilter from 'lodash/filter';
 import TileContainer from './TileContainer';
@@ -32,6 +33,11 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+});
+
+const LocationPopupWithContext = provideContext(LocationPopup, {
+  intl: intl.intlShape.isRequired,
+  router: React.PropTypes.object.isRequired,
 });
 
 class TileLayerContainer extends BaseTileLayer {
@@ -58,6 +64,11 @@ class TileLayerContainer extends BaseTileLayer {
     tile.onSelectableTargetClicked = (selectableTargets, coords) => {
       if (this.props.disableMapTracking) {
         this.props.disableMapTracking();
+      }
+
+      if (Array.isArray(this.state.selectableTargets) && selectableTargets.length === 0) {
+        this.setState({ selectableTargets: false });
+        return;
       }
 
       this.setState({
@@ -96,6 +107,7 @@ class TileLayerContainer extends BaseTileLayer {
     this.props.map.addEventParent(this.leafletElement);
 
     /* eslint-disable no-underscore-dangle */
+    // TODO: This causes a memory leak. We should also use this.leafletElement.off
     this.leafletElement.on('click', e => {
       Object.keys(this.leafletElement._tiles)
         .filter(key => this.leafletElement._tiles[key].active)
@@ -203,7 +215,31 @@ class TileLayerContainer extends BaseTileLayer {
               context={this.context}
             />
           </Popup>
-          );
+        );
+      } else if (this.state.selectableTargets.length === 0) {
+        popup = (
+          <Popup
+            map={this.props.map}
+            layerContainer={this.props.layerContainer}
+            key={this.state.coords.toString()}
+            offset={[106, 3]}
+            closeButton={false}
+            minWidth={250}
+            maxWidth={250}
+            autoPanPaddingTopLeft={[5, 125]}
+            className="popup"
+            maxHeight={220}
+            position={this.state.coords}
+            ref="popup"
+          >
+            <LocationPopupWithContext
+              name={""} // TODO: fill in name from reverse geocoding, possibly in a container.
+              lat={this.state.coords.lat}
+              lon={this.state.coords.lng}
+              context={this.context}
+            />
+          </Popup>
+        );
       }
     }
 
