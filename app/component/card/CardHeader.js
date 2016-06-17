@@ -2,14 +2,7 @@ import React from 'react';
 import Icon from '../icon/icon';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-
-const Favourite = ({
-  addFavourite,
-  favourite,
-}) => (
-  <span className="cursor-pointer favourite-icon right" onClick={addFavourite}>
-    <Icon className={cx('favourite', { selected: favourite })} img="icon-icon_star" />
-  </span>);
+import Favourite from '../favourites/Favourite';
 
 const CardHeader = ({
   className,
