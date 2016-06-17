@@ -87,6 +87,7 @@ module.exports =
       leg:
         weight: 3
         thinWeight: 2
+    useModeIconsInNonTileLayer: false
   stopCard:
     header:
       showDescription: true
