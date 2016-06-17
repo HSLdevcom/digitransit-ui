@@ -2,6 +2,7 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
+import reject from 'lodash/reject';
 
 import RouteDestination from '../../departure/route-destination';
 import routeCompare from '../../../util/route-compare';
@@ -38,12 +39,14 @@ function SelectStopRow(props) {
   );
 
   if (patternData.length > 1) {
-    patterns.push(
-      <div key="second" className="route-detail-text">
-        <FormattedMessage id="in-addition" defaultMessage="In addition" />
-        {uniqBy(patternData.slice(1), pattern => pattern.shortName).map(getName)}
-      </div>
-    );
+    const otherPatterns = reject(patternData, ['shortName', patternData[0].shortName]);
+    if (otherPatterns.length > 0) {
+      patterns.push(
+        <div key="second" className="route-detail-text">
+          <FormattedMessage id="in-addition" defaultMessage="In addition" />
+          {uniqBy(otherPatterns, pattern => pattern.shortName).map(getName)}
+        </div>);
+    }
   }
 
   return (
