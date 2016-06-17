@@ -2,6 +2,7 @@ import React from 'react';
 import Icon from '../icon/icon';
 import Link from 'react-router/lib/Link';
 import RouteNumber from '../departure/RouteNumber';
+import Favourite from '../favourites/Favourite';
 import cx from 'classnames';
 
 export default function RouteHeader(props) {
@@ -42,9 +43,7 @@ export default function RouteHeader(props) {
         {props.pattern ? ` ${props.pattern.headsign}` : ' '}
         {reverse}
       </div>
-      <span className="cursor-pointer favourite-icon" onClick={props.addFavouriteRoute}>
-        <Icon className={`favourite${props.favourite ? ' selected' : ''}`} img="icon-icon_star" />
-      </span>
+      <Favourite addFavourite={props.addFavouriteRoute} favourite={props.favourite} />
     </div>);
 }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import Icon from '../icon/icon';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import Favourite from '../favourites/Favourite';
