@@ -2,7 +2,7 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
-import filter from 'lodash/filter';
+import reject from 'lodash/reject';
 
 import RouteDestination from '../../departure/route-destination';
 import routeCompare from '../../../util/route-compare';
@@ -39,9 +39,7 @@ function SelectStopRow(props) {
   );
 
   if (patternData.length > 1) {
-    const otherPatterns = filter(
-      patternData.slice(1),
-      pattern => pattern.shortName !== patternData[0].shortName);
+    const otherPatterns = reject(patternData, ['shortName', patternData[0].shortName]);
     if (otherPatterns.length > 0) {
       patterns.push(
         <div key="second" className="route-detail-text">
