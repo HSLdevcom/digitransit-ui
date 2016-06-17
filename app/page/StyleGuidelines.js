@@ -24,6 +24,7 @@ import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
+import Favourite from '../component/favourites/Favourite';
 import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
@@ -328,6 +329,7 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={Distance} />
         <ComponentDocumentation component={NotImplementedLink} />
         <ComponentDocumentation component={NotImplemented} />
+        <ComponentDocumentation component={Favourite} />
       </div>
     );
   }

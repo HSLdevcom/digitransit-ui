@@ -73,6 +73,17 @@ gemini.suite('components', (parent) => {
     });
   });
 
+  gemini.suite('Favourite', () => {
+    gemini.suite('favourite', (suite) => {
+      suite.setCaptureElements('#Favourite .component-example:nth-of-type(1) .component')
+      .capture('normal');
+    });
+    gemini.suite('not-favourite', (suite) => {
+      suite.setCaptureElements('#Favourite .component-example:nth-of-type(2) .component')
+      .capture('normal');
+    });
+  });
+
   gemini.suite('TimeNavigationButtons', (component) => {
     component.setCaptureElements(
       '#TimeNavigationButtons .component-example:nth-of-type(1) .component')

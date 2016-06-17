@@ -39,11 +39,6 @@ CardHeader.description = (
     </ComponentUsageExample>
   </div>);
 
-Favourite.propTypes = {
-  addFavourite: React.PropTypes.func,
-  favourite: React.PropTypes.bool,
-};
-
 CardHeader.propTypes = {
   addFavourite: React.PropTypes.func,
   className: React.PropTypes.string,
