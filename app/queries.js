@@ -233,7 +233,7 @@ export const StopCardContainerFragments = {
     fragment on Stop{
       gtfsId
       stoptimes: stoptimesForServiceDate(date: $date) {
-        ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
+        ${require('./component/departure/DepartureListContainer').default.getFragment('stoptimes')}
       }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
@@ -255,7 +255,7 @@ export const StopPageFragments = {
         color
       }
       stoptimes: stoptimesForServiceDate(date: $date) {
-        ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
+        ${require('./component/departure/DepartureListContainer').default.getFragment('stoptimes')}
       }
       ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
     }
@@ -385,44 +385,6 @@ export const StopAtDistanceListContainerFragments = {
       }
     }
   }
-  `,
-};
-
-export const DepartureListFragments = {
-  stoptimes: () => Relay.QL`
-    fragment on StoptimesInPattern @relay(plural:true) {
-      pattern {
-        alerts {
-          effectiveStartDate
-          effectiveEndDate
-          trip {
-            gtfsId
-          }
-        }
-        route {
-          gtfsId
-          shortName
-          longName
-          type
-          color
-        }
-        code
-        headsign
-      }
-      stoptimes {
-        realtimeState
-        realtimeDeparture
-        scheduledDeparture
-        realtime
-        serviceDay
-        stop {
-          code
-        }
-        trip {
-          gtfsId
-        }
-      }
-    }
   `,
 };
 
