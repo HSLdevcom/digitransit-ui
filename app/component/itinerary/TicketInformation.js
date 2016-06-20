@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import { plan as examplePlan } from '../documentation/ExampleData';
 
 export default function TicketInformation({ fares }) {
   let currency;
@@ -43,6 +44,6 @@ TicketInformation.description = (
   <div>
     <p>Information about the required ticket for the itinerary.</p>
     <ComponentUsageExample>
-      <TicketInformation />
+      <TicketInformation fares={examplePlan.itineraries[0].fares} />
     </ComponentUsageExample>
   </div>);
