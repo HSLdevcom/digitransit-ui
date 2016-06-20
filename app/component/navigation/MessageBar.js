@@ -63,7 +63,18 @@ class MessageBar extends Component {
     });
   };
 
-  unreadMessages = () => this.props.messages.filter((el) => el.read === false);
+  unreadMessages = () => this.props.messages.filter((el) => {
+    if (el.read === true) {
+      return false;
+    }
+    if (el.content[this.props.lang] != null) {
+      return true;
+    }
+    /* eslint-disable no-console */
+    console.error(`Message ${el.id} doesn't have translation for ${this.props.lang}`);
+    /* eslint-enable no-console */
+    return false;
+  });
 
   /* Find the id of nth unread (we don't show read messages) and mark it as read */
   markRead = (value) => {
