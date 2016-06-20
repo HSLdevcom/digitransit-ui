@@ -640,60 +640,6 @@ export class SummaryPlanContainerRoute extends Relay.Route {
   static routeName = 'PlanListContainerRoute';
 }
 
-export const SummaryPlanContainerFragments = {
-  plan: () => Relay.QL`
-    fragment on QueryType {
-      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, maxWalkDistance: $maxWalkDistance, wheelchair: $wheelchair, disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic, arriveBy: $arriveBy, preferred: $preferred) {
-        itineraries {
-          walkDistance
-          duration
-
-          legs {
-            mode
-            agency {
-              name
-            }
-            from {
-              lat
-              lon
-              vertexType
-              bikeRentalStation {
-                stationId
-              }
-              stop {
-                code
-              }
-            }
-            to {
-              lat
-              lon
-              vertexType
-              bikeRentalStation {
-                stationId
-              }
-              stop {
-                code
-              }
-            }
-            legGeometry {
-              length
-              points
-            }
-            intermediateStops {
-              gtfsId
-            }
-            trip {
-              gtfsId
-            }
-          }
-
-          ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}
-        }
-      }
-    }
-  `,
-};
-
 export const ItinerarySummaryListContainerFragments = {
   itineraries: () => Relay.QL`
     fragment on Itinerary @relay(plural:true){
