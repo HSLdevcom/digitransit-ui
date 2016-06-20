@@ -34,6 +34,9 @@ module.exports =
     fi: "Livin"
     default: "FTA's"
   searchParams: {}
+  search:
+    suggestions:
+      useTransportIcons: false
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000

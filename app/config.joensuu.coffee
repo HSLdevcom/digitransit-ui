@@ -38,6 +38,9 @@ module.exports =
     "boundary.rect.max_lat": 63.6
     "boundary.rect.min_lon": 27.1
     "boundary.rect.max_lon": 31.0
+  search:
+    suggestions:
+      useTransportIcons: false
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000
