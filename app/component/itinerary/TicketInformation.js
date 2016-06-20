@@ -36,7 +36,7 @@ export default function TicketInformation({ fares }) {
 }
 
 TicketInformation.propTypes = {
-  fares: React.PropTypes.array.required,
+  fares: React.PropTypes.array,
 };
 
 TicketInformation.description = (
