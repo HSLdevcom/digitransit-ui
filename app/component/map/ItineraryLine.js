@@ -112,6 +112,7 @@ class ItineraryLine extends React.Component {
               <StopMarker
                 map={this.props.map}
                 layerContainer={this.props.layerContainer}
+                disableModeIcons
                 stop={{
                   lat: stop.lat,
                   lon: stop.lon,
@@ -144,6 +145,7 @@ class ItineraryLine extends React.Component {
               map={this.props.map}
               layerContainer={this.props.layerContainer}
               key={`${i},${leg.mode}marker`}
+              disableModeIcons
               stop={{
                 lat: leg.from.lat,
                 lon: leg.from.lon,

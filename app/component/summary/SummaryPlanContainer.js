@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import ItinerarySummaryListContainer from './itinerary-summary-list-container';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import LocationMarker from '../map/location-marker';
-import Map from '../map/map';
+import Map from '../map/Map';
 import ItineraryLine from '../map/ItineraryLine';
 
 import { supportsHistory } from 'history/lib/DOMUtils';

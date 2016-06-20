@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactAutowhatever from 'react-autowhatever';
-import SuggestionItem from './suggestion-item';
+import { getLabel } from '../../util/suggestionUtils';
+import SuggestionItem from './SuggestionItem';
 import CurrentPositionItem from './current-position-suggestion-item';
 import { executeSearch, saveSearch, closeSearch } from '../../action/SearchActions';
 import Icon from '../icon/icon';
@@ -154,7 +155,7 @@ export default class SearchInputContainer extends Component {
     if (this.state.focusedItemIndex >= 0 && this.state.suggestions != null
       && this.state.suggestions.length > 0) {
       item = this.state.suggestions[this.state.focusedItemIndex];
-      name = SuggestionItem.getName(item.properties);
+      name = getLabel(item.properties);
 
       if (item.type === 'CurrentLocation') {
         state = this.context.getStore('PositionStore').getLocationState();
@@ -168,6 +169,9 @@ export default class SearchInputContainer extends Component {
         save = () => this.context.executeAction(saveSearch, {
           address: name,
           geometry: item.geometry,
+          properties: {
+            mode: item.properties.mode,
+          },
           type: this.props.type,
         });
 

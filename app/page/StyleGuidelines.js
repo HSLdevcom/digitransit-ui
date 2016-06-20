@@ -24,7 +24,14 @@ import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
+<<<<<<< HEAD
 import TicketInformation from '../component/itinerary/TicketInformation';
+=======
+import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect';
+import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
+import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
+import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
+>>>>>>> master
 import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
@@ -380,6 +387,17 @@ class StyleGuidelinesPage extends React.Component {
     );
   }
 
+  getScheduleComponents() {
+    return (
+      <div>
+        <ComponentDocumentation component={RouteScheduleDateSelect} />
+        <ComponentDocumentation component={RouteScheduleHeader} />
+        <ComponentDocumentation component={RouteScheduleStopSelect} />
+        <ComponentDocumentation component={RouteScheduleTripRow} />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="container column">
@@ -414,6 +432,7 @@ class StyleGuidelinesPage extends React.Component {
         {this.getSummaryComponents()}
         {this.getItineraryComponents()}
         {this.getTileLayerComponents()}
+        {this.getScheduleComponents()}
       </div>
     );
   }

@@ -38,6 +38,9 @@ module.exports =
     "boundary.rect.max_lat": 63.6
     "boundary.rect.min_lon": 27.1
     "boundary.rect.max_lon": 31.0
+  search:
+    suggestions:
+      useTransportIcons: false
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000
@@ -45,7 +48,8 @@ module.exports =
   maxBikingDistance: 40000
   availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
-  timezone: 'Europe/Helsinki'
+  # This timezone data will expire on 31.12.2020
+  timezoneData: "Europe/Helsinki|EET EEST|-20 -30|01010101010101010101010|1BWp0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|35e5"
   enableDesktopWrapper: true
   mainMenu:
     # Whether to show the left menu toggle button at all
@@ -90,6 +94,7 @@ module.exports =
       leg:
         weight: 3
         thinWeight: 2
+    useModeIconsInNonTileLayer: false
   stopCard:
     header:
       showDescription: true

@@ -527,3 +527,17 @@ export const plan = {
     }],
   }],
 };
+
+export const routeScheduleStopSelectOptions = [
+  { displayName: 'Kaisaniemenpuisto', value: 1 },
+  { displayName: 'Hakaniemi', value: 2 },
+  { displayName: 'Haapaniemi', value: 3 },
+  { displayName: 'Sörnäinen(M)', value: 4 },
+];
+
+export const routeScheduleHeaderStops = [
+  { name: 'Kaisaniemenpuisto' },
+  { name: 'Hakaniemi' },
+  { name: 'Haapaniemi' },
+  { name: 'Sörnäinen(M)' },
+];
