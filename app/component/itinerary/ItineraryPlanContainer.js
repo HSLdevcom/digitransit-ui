@@ -215,7 +215,11 @@ export const ItineraryPlanContainerFragments = {
           duration
           startTime
           endTime
-
+          fares {
+            type
+            currency
+            cents
+          }
           legs {
             mode
             agency {
