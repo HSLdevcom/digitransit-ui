@@ -41,6 +41,7 @@ if (isBrowser) {
 
 class Map extends React.Component {
   static propTypes = {
+    bounds: React.PropTypes.array,
     center: React.PropTypes.bool,
     className: React.PropTypes.string,
     children: React.PropTypes.node,
@@ -48,7 +49,6 @@ class Map extends React.Component {
     disableZoom: React.PropTypes.bool,
     displayOriginPopup: React.PropTypes.bool,
     fitBounds: React.PropTypes.bool,
-    from: React.PropTypes.array,
     hilightedStops: React.PropTypes.array,
     lat: React.PropTypes.number,
     lon: React.PropTypes.number,
@@ -57,7 +57,6 @@ class Map extends React.Component {
     leafletOptions: React.PropTypes.object,
     padding: React.PropTypes.array,
     showStops: React.PropTypes.bool,
-    to: React.PropTypes.array,
     zoom: React.PropTypes.number,
   };
 
@@ -108,7 +107,6 @@ class Map extends React.Component {
   render = () => {
     let map;
     let boundsOptions;
-    let bounds;
     let zoom;
     let origin;
     let layers;
@@ -172,7 +170,6 @@ class Map extends React.Component {
       })();
 
       ({ zoom } = this.props);
-      bounds = boundWithMinimumArea(this.props.from, this.props.to);
 
       boundsOptions = (() => {
         if (this.props.padding) {
@@ -191,7 +188,7 @@ class Map extends React.Component {
             zoom,
             zoomControl: false,
             attributionControl: false,
-            bounds: (this.props.fitBounds ? bounds : void 0),
+            bounds: (this.props.fitBounds ? boundWithMinimumArea(this.props.bounds) : void 0),
             animate: true,
             ...this.props.leafletOptions,
             boundsOptions,

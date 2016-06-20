@@ -57,9 +57,7 @@ class RouteMapContainer extends React.Component {
   );
 
   render() {
-    const { stops } = this.props.pattern;
-
-    const leafletObj = [
+    const leafletObjs = [
       <RouteLine key="line" pattern={this.props.pattern} />,
       <VehicleMarkerContainer
         key="vehicles"
@@ -70,10 +68,9 @@ class RouteMapContainer extends React.Component {
     return (
       <Map
         className={this.props.className}
-        leafletObjs={leafletObj}
+        leafletObjs={leafletObjs}
         fitBounds
-        from={[stops[0].lat, stops[0].lon]}
-        to={[stops[stops.length - 1].lat, stops[stops.length - 1].lon]}
+        bounds={this.props.pattern.geometry.map((p) => [p.lat, p.lon])}
       >
         {this.getFullScreenToggle()}
       </Map>);
@@ -84,6 +81,10 @@ export const RouteMapFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
       code
+      geometry {
+        lat
+        lon
+      }
       stops {
         lat
         lon
