@@ -13,17 +13,25 @@ import RoutePatternSelect from '../component/route/RoutePatternSelect';
 import RealTimeClient from '../action/real-time-client-action';
 import intl, { FormattedMessage } from 'react-intl';
 import NotFound from './404';
+import { supportsHistory } from 'history/lib/DOMUtils';
 
 class RoutePage extends React.Component {
+
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intl.intlShape.isRequired,
+    router: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {
     pattern: React.PropTypes.node.isRequired,
   };
+
+  constructor() {
+    super();
+    this.selectRoutePattern.bind(this);
+  }
 
   componentDidMount() {
     const route = this.props.params.routeId.split(':');
@@ -70,6 +78,14 @@ class RoutePage extends React.Component {
     }
   }
 
+  selectRoutePattern = (e) => {
+    if (supportsHistory()) {
+      this.context.router.push({
+        pathname: `/linjat/${e.target.value}`,
+      });
+    }
+  }
+
   render() {
     let title;
     if (this.props.pattern == null) {
@@ -113,6 +129,7 @@ class RoutePage extends React.Component {
           >
             <RoutePatternSelect
               pattern={this.props.pattern}
+              onSelectChange={this.selectRoutePattern}
             />
             <RouteListHeader />
             <RouteStopListContainer pattern={this.props.pattern} />
