@@ -477,7 +477,7 @@ translations =
     'time': 'Heure'
     'stop': 'Arrêt'
     'stops': 'Arrêts'
-    'stop-number': 'nombre d\'arrêts'
+    'stop-number': 'Identifiant d\'arrêt'
     'right-now': 'Immédiatement'
     'minutes': 'min'
     'timetable': 'Fiche horaire'
@@ -492,6 +492,7 @@ translations =
     'login': 'Se connecter'
     'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessibles depuis d\'autres appareils'
     'cause': 'Cause'
+    'disruptions': 'Perturbations'
     'disruption-info': 'Informations sur les perturbations'
     'disruption-info-no-alerts': 'Perturbations en cours'
     'leaving-at': 'Départ'
@@ -581,5 +582,11 @@ translations =
     'choose-stop': 'Merci de choisir la ligne'
     'loading': 'Chargement'
     'skip-positioning': 'Ignorer le positionnement'
+    'hour-short': 'h'
+    'minute-short': 'min'
+    'itinerary-feedback-message': "Avez-vous trouvé ce que vous cherchiez ?"
+    'itinerary-feedback-placeholder': "Description (optionnel)"
+    'itinerary-feedback-button': "Envoyez votre avis"
+    'no-trips-found': 'Il n\'y a pas de trajet possible au jour choisi.'
 
 module.exports = translations
