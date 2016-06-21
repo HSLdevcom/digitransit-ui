@@ -33,10 +33,11 @@ class RouteHeaderContainer extends React.Component {
 
   render() {
     let reverseId;
-    const patterns = this.props.pattern.route.patterns.map(pattern => pattern.code);
-    const reverseIds = without(patterns, this.props.pattern.code);
 
-    if (reverseIds.length === 1) {
+    const patterns = this.props.pattern.route.patterns.map(pattern => pattern.code);
+
+    const reverseIds = without(patterns, this.props.pattern.code);
+    if (reverseIds.length >= 1) {
       reverseId = reverseIds[0];
     }
 
