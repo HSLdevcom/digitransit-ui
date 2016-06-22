@@ -142,7 +142,7 @@ class RoutePage extends React.Component {
           <Tabs.Panel
             title={
               <div>
-                <Icon img="icon-icon_time" />
+                <Icon img="icon-icon_schedule" />
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
               </div>}
           >
