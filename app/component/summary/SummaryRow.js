@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import legTextUtil from '../../util/leg-text-util';
-import geoUtils from '../../util/geo-utils';
+import { displayDistance } from '../../util/geo-utils';
 import RouteNumber from '../departure/RouteNumber';
 import cx from 'classnames';
 import Icon from '../icon/icon';
@@ -87,7 +87,7 @@ export default function SummaryRow(props) {
         </div>
         <div className="itinerary-walking-distance">
           <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-          {geoUtils.displayDistance(data.walkDistance)}
+          {displayDistance(data.walkDistance)}
         </div>
       </div>
       <div className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}>
