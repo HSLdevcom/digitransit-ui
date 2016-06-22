@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
 import reject from 'lodash/reject';
 
-import RouteDestination from '../../departure/route-destination';
+import RouteDestination from '../../departure/RouteDestination';
 import routeCompare from '../../../util/route-compare';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 

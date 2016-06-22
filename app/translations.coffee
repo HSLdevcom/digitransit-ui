@@ -154,6 +154,7 @@ translations =
     'itinerary-feedback-placeholder': "Kuvaus (valinnainen)"
     'itinerary-feedback-button': "Lähetä palautetta"
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.'
+    'route-destination-arrives': 'Saapuu / Päätepysäkki'
   'sv':
     'searching-position': 'Söker position'
     'own-position': 'Min position'

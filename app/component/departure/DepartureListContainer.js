@@ -14,20 +14,28 @@ const mergeDepartures = departures =>
 const asDepartures = stoptimes =>
   stoptimes.map(pattern =>
     pattern.stoptimes.map(stoptime => {
+      const routeStops = stoptime.trip.route.stops;
+      const isArrival = (routeStops[routeStops.length - 1].gtfsId === stoptime.stop.gtfsId);
       const canceled = stoptime.realtimeState === 'CANCELED' ||
         window.mock && stoptime.realtimeDeparture % 40 === 0;
-      const stoptimeTime = stoptime.serviceDay +
-        (stoptime.realtimeState === 'CANCELED'
-          ? stoptime.scheduledDeparture
-          : stoptime.realtimeDeparture);
+      const arrivalTime = stoptime.serviceDay +
+        (canceled
+          ? stoptime.realtimeArrival
+          : stoptime.scheduledArrival);
+      const departureTime = stoptime.serviceDay +
+        (canceled
+          ? stoptime.realtimeDeparture
+          : stoptime.scheduledDeparture);
+      const stoptimeTime = isArrival ? arrivalTime : departureTime;
 
       return {
         canceled,
-        stop: stoptime.stop,
+        isArrival,
         stoptime: stoptimeTime,
+        stop: stoptime.stop,
         realtime: stoptime.realtime,
         pattern: pattern.pattern,
-        trip: stoptime.trip,
+        trip: { gtfsId: stoptime.trip.gtfsId },
       };
     })
   );
@@ -76,7 +84,6 @@ class DepartureListContainer extends Component {
 
     const departures = mergeDepartures(asDepartures(this.props.stoptimes))
       .filter(departure => currentTime < departure.stoptime).slice(0, this.props.limit);
-
     for (let departure of departures) {
       if (departure.stoptime >= tomorrow) {
         departureObjs.push(
@@ -120,6 +127,7 @@ class DepartureListContainer extends Component {
               currentTime={currentTime}
               className={cx(classes)}
               canceled={departure.canceled}
+              isArrival={departure.isArrival}
             />
           </Link>);
       } else {
@@ -131,6 +139,7 @@ class DepartureListContainer extends Component {
             currentTime={currentTime}
             className={cx(classes)}
             canceled={departure.canceled}
+            isArrival={departure.isArrival}
           />);
       }
     }
@@ -178,13 +187,21 @@ export const relayFragment = {
         realtimeState
         realtimeDeparture
         scheduledDeparture
+        realtimeArrival
+        scheduledArrival
         realtime
         serviceDay
         stop {
           code
+          gtfsId
         }
         trip {
           gtfsId
+          route {
+          stops {
+            gtfsId
+          }
+        }
         }
       }
     }

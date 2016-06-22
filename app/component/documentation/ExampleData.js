@@ -30,8 +30,8 @@ export const realtimeDeparture = {
 };
 
 export const departure = {
+  isArrival: false,
   stop: {
-
     code: '1007',
     name: 'Kellosilta',
     desc: 'Ratamestarinkatu 9',
@@ -43,7 +43,7 @@ export const departure = {
 
   pattern: {
     __dataID__: 'UGF0dGVybjpIU0w6MTAwN0I6MDowMg==',
-
+    alerts: [],
     route: {
       __dataID__: 'Um91dGU6SFNMOjEwMDdC',
       gtfsId: 'HSL:1007B',
@@ -55,6 +55,10 @@ export const departure = {
 
     code: 'HSL:1007B:0:02',
     headsign: 'Pasila',
+  },
+
+  trip: {
+    gtfsId: 'HSL:1006T_20160613_La_1_2136',
   },
 };
 
