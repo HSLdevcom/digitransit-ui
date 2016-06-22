@@ -34,6 +34,10 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
   getStore: React.PropTypes.func.isRequired,
 });
 
+// TODO eslint doesn't know that TileLayerContainer is a react component,
+//      because it doesn't inherit it directly. This will force the detection
+//      once eslint-plugin-react has a new release (https://github.com/yannickcr/eslint-plugin-react/pull/513)
+/** @extends React.Component */
 class TileLayerContainer extends BaseTileLayer {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,

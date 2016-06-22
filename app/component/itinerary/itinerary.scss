@@ -9,18 +9,51 @@ $itinerary-route-max-width: 500px;
 
 .itinerary-swipe-views-root {
   height: calc(100% - #{$small-map-height} - #{$itinerary-bottom-navigation-height} - 18px);
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    flex-grow: 1;
+  }
+
+  > div > div {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .itinerary-tabs__scroll {
   height: calc(100% - #{$itinerary-tab-switch-height});
-}
+  flex-grow: 1;
 
-.itinerary-main {
-  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
   background: $white;
 }
 
+.itinerary-main {
+  height: 100%;
+  flex-grow: 1;
+  padding-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  div {
+    flex-grow: 1;
+  }
+
+  div.itinerary-ticket-information {
+    flex-grow: 0;
+  }
+}
+
 .itinerary-summary {
+  flex-grow: 0;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: 10pt;
@@ -60,39 +93,23 @@ $itinerary-route-max-width: 500px;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: 10pt;
-  margin: 0.5em;
-  margin-bottom: 0px;
-  padding: 0.3em 0.5em;
+  margin: 0 auto;
+  padding: 0 1.3em 1em 1.3em;
   border: 0px;
-  text-align: center;
+  max-width: 500px;
   .itinerary-ticket-information-class {
-    text-transform: uppercase;
-    text-align: center;
-    color: white;
-    font-weight: $font-weight-book;
-    background: $gray;
-    vertical-align: middle;
-    border-radius: 1.5em;
-    margin-top: 0.25em;
-    padding: 0.1em 0.5em;
+    font-weight: $font-weight-bold;
+    color: $black;
     display: inline;
-    margin-left: 10px;
+    margin-left: 0.3em;
   }
   .itinerary-ticket-information-buy {
-    color: white;
     font-weight: $font-weight-bold;
-    background: linear-gradient(#80D016, #45AA0D);
-    vertical-align: middle;
-    border-radius: 2em;
     margin-top: 0.5em;
-    padding: 1em 1.5em;
-    width: 100%;
-  }
-
-  .itinerary-ticket-information-buy a {
-    text-decoration: none;
-    color: white;
-    align: center;
+    a {
+      color: $primary-color;
+      text-decoration: none;
+    }
   }
 }
 
@@ -224,6 +241,8 @@ span.itinerary-stop-code {
 
 div.itinerary-container-content {
   height: 100%;
+  flex-grow: 1;
+
   display: flex;
   flex-direction: column;
 }
@@ -254,6 +273,10 @@ div.itinerary-container-content {
 
 .itinerary-slide-container {
   height: 100%;
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .itinerary-tabs-container {

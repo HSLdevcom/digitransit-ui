@@ -34,6 +34,9 @@ module.exports =
     fi: "Livin"
     default: "FTA's"
   searchParams: {}
+  search:
+    suggestions:
+      useTransportIcons: false
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000
@@ -87,6 +90,7 @@ module.exports =
       leg:
         weight: 3
         thinWeight: 2
+    useModeIconsInNonTileLayer: false
   stopCard:
     header:
       showDescription: true

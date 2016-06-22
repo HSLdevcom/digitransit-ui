@@ -60,6 +60,14 @@ export function setFavouriteRoutesStorage(data) {
   setItem('favouriteRoutes', data);
 }
 
+export function getMessagesStorage() {
+  return getItemAsJson('messages');
+}
+
+export function setMessagesStorage(data) {
+  setItem('messages', data);
+}
+
 export function getModeStorage() {
   return getItemAsJson('mode');
 }
