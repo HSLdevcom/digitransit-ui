@@ -3,6 +3,8 @@
 Digitransit-ui is a mobile friendly User interface built to work with Digitransit platform
 
 ## Demo
+
+[![Join the chat at https://gitter.im/HSLdevcom/digitransit-ui](https://badges.gitter.im/HSLdevcom/digitransit-ui.svg)](https://gitter.im/HSLdevcom/digitransit-ui?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![Demo](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/demo.gif)
 
 ## Licensing
