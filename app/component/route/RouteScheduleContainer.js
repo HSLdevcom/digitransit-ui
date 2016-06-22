@@ -62,8 +62,10 @@ class RouteScheduleContainer extends Component {
         </div>);
     }
     return trips.map((trip) => {
-      const departureTime = this.formatTime(trip.stoptimes[stops[from].id].scheduledDeparture);
-      const arrivalTime = this.formatTime(trip.stoptimes[stops[to].id].scheduledArrival);
+      const fromSt = trip.stoptimes[stops[from].id];
+      const toSt = trip.stoptimes[stops[to].id];
+      const departureTime = this.formatTime(fromSt.serviceDay + fromSt.scheduledDeparture);
+      const arrivalTime = this.formatTime(toSt.serviceDay + toSt.scheduledArrival);
 
       return (
         <RouteScheduleTripRow
@@ -151,6 +153,7 @@ export const relayFragment = {
         stoptimes {
           scheduledArrival
           scheduledDeparture
+          serviceDay
           stop {
             id
           }
