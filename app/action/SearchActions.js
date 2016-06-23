@@ -8,7 +8,7 @@ import take from 'lodash/take';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import { getLabel } from '../util/suggestionUtils';
-import geoUtils from '../util/geo-utils';
+import { getLatLng } from '../util/geo-utils';
 
 function processResults(actionContext, result) {
   actionContext.dispatch('SuggestionsResult', result);
@@ -222,7 +222,7 @@ function searchRoutesAndStops(input, reference, favourites) {
   }
 
   if (searches.length > 0) {
-    refLatLng = geoUtils.getLatLng(reference.lat, reference.lon);
+    refLatLng = getLatLng(reference.lat, reference.lon);
 
     return queryGraphQL(`{${searches.join(' ')}}`).then(response => {
       if (response == null || response.data == null) {
@@ -239,7 +239,7 @@ function searchRoutesAndStops(input, reference, favourites) {
         .concat(sortBy(mapRoutes(response.data.routes), () => ['agency.name', 'properties.label']))
         .concat(sortBy(getStops(response.data.stops || []), (item) =>
           Math.round(
-            geoUtils.getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
+            getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
             .distanceTo(refLatLng) / 50000)
         )));
     });
