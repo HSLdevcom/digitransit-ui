@@ -1,4 +1,4 @@
-$route-header-height: 115px;
+$route-header-height: 65px;
 $route-list-header-height: 26px;
 $route-schedule-date-height: 42px;
 
@@ -173,14 +173,14 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-header {
   margin: 0 15px;
   line-height: 1;
-  height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
   flex-shrink: 0;
   border-bottom: solid 1px $light-gray;
+  height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
   h1 {
     @include font-narrow-book;
     font-size: 24pt;
     padding: 0.4em 0 0.2em;
-    margin: 0;
+    margin-top: 6px;
     svg {
       height: 0.8em;
       width: 0.8em;
@@ -377,6 +377,41 @@ div.route-tabs {
 
   .tabs-navigation {
     flex-shrink: 0;
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    width: initial;
+    min-width: 240px;
+    max-width: 300px;
+    padding: 0;
+
+    .icon {
+      display: block;
+      width: 16px;
+      height: 16px;
+      margin: 5px auto;
+    }
+
+    .tabs-menu-item {
+      padding: 9px 0;
+      border: none;
+    }
+
+    li a {
+      border-right: 1px solid $light-gray;
+    }
+    li:last-child a{
+      border-right: none;
+    }
+
+    .tabs-menu-item.is-active {
+      border-bottom: 2px solid $primary-color ;
+    }
+
+    ul li {
+      font-size: 7pt;
+      min-width: 60px;
+    }
   }
 
   .tab-panel {
@@ -415,5 +450,27 @@ div.route-tabs {
         width: 24px;
       }
     }
+  }
+}
+
+.route-pattern-select {
+  padding: 10px;
+  background-color: #eef1f3;
+  position: relative;
+
+  select {
+    padding: 10px;
+    height: 40px;
+    border-radius: $border-radius;
+    border: 1px solid $light-gray;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  .icon {
+    color: $gray-blue;
+    position: absolute;
+    right: 25px;
+    top: 24px;
+    pointer-events: none;
   }
 }

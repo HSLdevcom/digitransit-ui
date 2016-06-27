@@ -1,7 +1,7 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../../queries'
-RouteHeader           = require '../../route/route-header'
+RouteHeader           = require('../../route/RouteHeader').default
 Icon                  = require '../../icon/icon'
 Link                  = require 'react-router/lib/Link'
 FavouriteRoutesActions = require '../../../action/favourite-routes-action'
