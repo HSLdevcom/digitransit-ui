@@ -7,7 +7,7 @@ import RouteListHeader from '../component/route/route-list-header';
 import Icon from '../component/icon/icon';
 import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
 import RouteStopListContainer from '../component/route/RouteStopListContainer';
-import RouteMapContainer from '../component/route/route-map-container';
+import RouteMapContainer from '../component/route/RouteMapContainer';
 import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
 import RoutePatternSelect from '../component/route/RoutePatternSelect';
 import RealTimeClient from '../action/real-time-client-action';
