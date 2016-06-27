@@ -9,6 +9,7 @@ export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
     >
       <div className="icon-holder">
         <Icon img="icon-icon_menu" />
+        {hasChanges ? <Icon img="icon-icon_caution" className="super-icon" /> : null}
       </div>
     </div>
   );

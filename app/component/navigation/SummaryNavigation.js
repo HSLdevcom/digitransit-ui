@@ -101,6 +101,7 @@ class SummaryNavigation extends React.Component {
               <TimeSelectorContainer />
               <RightOffcanvasToggle
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
+                hasChanges={!this.props.hasDefaultPreferences}
               />
             </div>
             {this.props.children}
@@ -112,6 +113,7 @@ class SummaryNavigation extends React.Component {
 
 SummaryNavigation.propTypes = {
   children: React.PropTypes.node.isRequired,
+  hasDefaultPreferences: React.PropTypes.bool.isRequired,
 };
 
 export default SummaryNavigation;
