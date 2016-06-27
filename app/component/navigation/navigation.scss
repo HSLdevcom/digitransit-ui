@@ -50,9 +50,6 @@ nav.top-bar {
     &.back {  // Appears on non-front pages
       left: 0.5em;
     }
-    &.right-offcanvas-toggle {
-      right: 0;
-    }
   }
 
   .icon {
@@ -196,4 +193,10 @@ nav.top-bar .message-bar .icon.close {
   fill: $gray;
   height: 15px;
   width: 15px;
+}
+
+.time-selector-settings-row {
+  background-color: $secondary-color;
+  display: flex;
+  justify-content: space-between;
 }
