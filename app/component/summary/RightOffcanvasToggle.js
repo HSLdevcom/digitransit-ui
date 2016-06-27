@@ -9,7 +9,7 @@ export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
       className="cursor-pointer right-offcanvas-toggle"
     >
       <div className="icon-holder">
-        <Icon img="icon-icon_menu" />
+        <Icon img="icon-icon_ellipsis" />
         {hasChanges ? <Icon img="icon-icon_caution" className="super-icon" /> : null}
       </div>
     </div>
