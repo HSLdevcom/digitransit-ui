@@ -20,6 +20,7 @@ import CityBikePopup from '../component/map/popups/city-bike-popup';
 import FavouriteLocation from '../component/favourites/FavouriteLocation';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
+import RightOffcanvasToggle from '../component/summary/RightOffcanvasToggle';
 import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
@@ -362,6 +363,7 @@ class StyleGuidelinesPage extends React.Component {
       <div>
         <ComponentDocumentation component={TimeNavigationButtons} />
         <ComponentDocumentation component={TimeSelectors} />
+        <ComponentDocumentation component={RightOffcanvasToggle} />
       </div>
     );
   }
