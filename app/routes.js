@@ -5,7 +5,7 @@ import { Route, IndexRoute } from 'react-router';
 // React pages
 import IndexPage from './page/IndexPage';
 import ItineraryPage from './page/itinerary';
-import RoutePage from './page/Route';
+import RoutePage from './page/RoutePage';
 import StopMapPage from './page/stop-map';
 import StopPage from './page/stop';
 import SummaryPage from './page/summary';
