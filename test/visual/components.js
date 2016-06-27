@@ -159,6 +159,12 @@ gemini.suite('components', (parent) => {
     .capture('normal');
   });
 
+  gemini.suite('TicketInformation', (component) => {
+    component.setCaptureElements(
+        '#TicketInformation .component-example:nth-of-type(1) .component')
+      .capture('normal');
+  });
+
   gemini.suite('RouteScheduleDateSelect', (component) => {
     component.setCaptureElements(
       '#RouteScheduleDateSelect .component-example:nth-of-type(1) .component')

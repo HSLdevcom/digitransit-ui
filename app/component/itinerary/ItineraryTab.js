@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react';
-import TicketInformation from './ticket-information';
+import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './itinerary-summary';
 import TimeFrame from './time-frame';
 import config from '../../config';
 import ItineraryLegs from './legs/ItineraryLegs';
 
-const ticketInformation = config.showTicketInformation && <TicketInformation />;
 const routeInformation = config.showRouteInformation && <RouteInformation />;
 
 class ItineraryTab extends React.Component {
@@ -65,8 +64,9 @@ class ItineraryTab extends React.Component {
               itinerary={this.props.itinerary}
               focusMap={this.handleFocus}
             />
+            {config.showTicketInformation &&
+              <TicketInformation fares={this.props.itinerary.fares} />}
             {routeInformation}
-            {ticketInformation}
           </div>
         </div>
       </div>

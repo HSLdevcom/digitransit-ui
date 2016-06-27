@@ -132,6 +132,11 @@ export const plan = {
     'duration': 731,
     'startTime': 1463406749000,
     'endTime': 1463407480000,
+    'fares': [{
+      'type': 'regular',
+      'cents': 320,
+      'currency': 'EUR',
+    }],
     'legs': [{
       'mode': 'WALK',
       'agency': null,
