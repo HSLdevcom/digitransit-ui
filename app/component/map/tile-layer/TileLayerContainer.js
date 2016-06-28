@@ -82,7 +82,7 @@ class TileLayerContainer extends BaseTileLayer {
       /* eslint-enable no-underscore-dangle */
 
       activeTiles.forEach(tile => {
-        tile.el.layers.forEach(layer => {
+        tile.el.layers && tile.el.layers.forEach(layer => {
           if (layer.onTimeChange) {
             layer.onTimeChange();
           }
