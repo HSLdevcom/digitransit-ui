@@ -31,6 +31,10 @@ class Line extends React.Component
     haloWeight = if @props.thin then config.map.line.halo.thinWeight else config.map.line.halo.weight
     legWeight = if @props.thin then config.map.line.leg.thinWeight else config.map.line.leg.weight
 
+    if @props.passive
+      haloWeight = 0.5 * haloWeight
+      legWeight = 0.5 * legWeight
+
     objs.push <Polyline map={@props.map}
                         layerContainer={@props.layerContainer}
                         key="halo"
@@ -45,7 +49,7 @@ class Line extends React.Component
                         ref="line"
                         positions={@props.geometry}
                         className="leg #{className}"
-                        color={if @props.passive then "#c2c2c2" else "currentColor"}
+                        color={if @props.passive then "#758993" else "currentColor"}
                         weight={legWeight}
                         interactive={false} />
 
