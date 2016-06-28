@@ -119,6 +119,7 @@ class ItineraryPlanContainer extends React.Component {
         legs={itinerary.legs}
         showFromToMarkers
         showTransferLabels
+        showIntermediateStops
       />];
 
     if (this.getFullscreen()) {

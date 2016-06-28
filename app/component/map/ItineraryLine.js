@@ -106,7 +106,7 @@ class ItineraryLine extends React.Component {
             />);
         }
 
-        if (leg.intermediateStops != null) {
+        if (this.props.showIntermediateStops && leg.intermediateStops != null) {
           leg.intermediateStops.forEach(stop =>
             objs.push(
               <StopMarker
@@ -172,6 +172,7 @@ ItineraryLine.propTypes = {
   passive: React.PropTypes.bool,
   hash: React.PropTypes.number,
   showTransferLabels: React.PropTypes.bool,
+  showIntermediateStops: React.PropTypes.bool,
 };
 
 export default ItineraryLine;
