@@ -25,7 +25,7 @@
     "lint": "npm run coffee-lint && npm run es-lint",
     "build": "NODE_ENV=production webpack --progress --color --display-error-details",
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
-    "start": "NODE_ENV=production node server/server",
+    "start": "NODE_ENV=production node --harmony server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js"
   },
   "main": "server.js",
