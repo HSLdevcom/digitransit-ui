@@ -477,8 +477,46 @@ div.route-tabs {
 
 .route-alerts-list {
 
-  .no-alerts-message {
-    text-align: center;
-    margin-top: 50px;
+  .route-alert-row {
+    border-bottom: 1px solid $light-gray;
+    display: flex;
+    padding: 0.8em 0;
+
+    .route-number {
+      padding: 0.2em 0.8em;
+      vertical-align: center;
+
+      .icon {
+        width: 1.5em;
+        height: 1.5em;
+        margin-bottom: -0.2em;
+      }
+    }
+
+    .route-alert-duration {
+      color: $gray;
+      font-size: 11px;
+    }
+
+    .route-alert-body {
+      color: $gray;
+      font-size: $font-size-small;
+      font-weight: 200;
+    }
+
+    &.expired {
+      color: $gray;
+      .icon {
+        fill: $gray !important;
+      }
+      .route-alert-header {
+        color: $gray;
+      }
+    }
   }
+}
+
+.no-alerts-message {
+  text-align: center;
+  margin-top: 50px;
 }

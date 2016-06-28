@@ -7,37 +7,37 @@ export default function RouteAlertsRow({
   description,
   startTime,
   endTime,
-  active,
   routeMode,
   routeLine,
+  day,
+  active,
 }) {
-  const activeClass = active ? 'active' : '';
-
   return (
-    <div className={cx('route-alert-row', activeClass)}>
-      <RouteNumber mode={routeMode} text={routeLine} />
+    <div className={cx('route-alert-row', { expired: !active })}>
+      <RouteNumber mode={routeMode} text={routeLine} vertical />
       <div className="route-alert-contents">
-        <span className="route-alert-duration">
-          {`${startTime} - ${endTime}`}
-        </span>
-        <span className="route-alert-header">
-          {header}
-        </span>
-        <span className="route-alert-body">
+        <div className="route-alert-duration sub-header-h4">
+          {day}{` ${startTime.format('HH:mm')} - ${endTime.format('HH:mm')}`}
+        </div>
+        <div className={cx('route-alert-header', routeMode)}>
+          {header || routeLine}
+        </div>
+        <div className="route-alert-body">
           {description}
-        </span>
+        </div>
       </div>
     </div>
   );
 }
 
 RouteAlertsRow.propTypes = {
-  key: React.PropTypes.string.isRequired,
   header: React.PropTypes.string.isRequired,
   description: React.PropTypes.string.isRequired,
   startTime: React.PropTypes.object.isRequired,
   endTime: React.PropTypes.object.isRequired,
-  active: React.PropTypes.bool.isRequired,
+  currentTime: React.PropTypes.number.isRequired,
   routeMode: React.PropTypes.string.isRequired,
   routeLine: React.PropTypes.string.isRequired,
+  day: React.PropTypes.string.isRequired,
+  active: React.PropTypes.bool.isRequired,
 };
