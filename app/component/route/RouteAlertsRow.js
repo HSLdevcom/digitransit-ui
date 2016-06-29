@@ -24,10 +24,6 @@ export default function RouteAlertsRow({
         <div className="route-alert-duration">
           {day} {timePrefix} {`${startTime} - ${endTime}`}
         </div>
-        {header ?
-          <div className={cx('route-alert-header', routeMode)}>
-            {header}
-          </div> : null}
         <div className={cx('route-alert-header', routeMode)}>
           {header}
         </div>
@@ -59,6 +55,7 @@ RouteAlertsRow.description = (
       description="Currently active disruption"
     >
       <RouteAlertsRow
+        header={'Raitiolinja 2 - Myöhästyy'}
         description={exampleRouteAlert.alertDescriptionTextTranslations[0].text}
         startTime={'11:32'}
         endTime={'12:20'}
@@ -70,6 +67,7 @@ RouteAlertsRow.description = (
     </ComponentUsageExample>
     <ComponentUsageExample description="Past disruption" >
       <RouteAlertsRow
+        header={'Raitiolinja 2 - Myöhästyy'}
         description={exampleRouteAlert.alertDescriptionTextTranslations[0].text}
         startTime={'11:32'}
         endTime={'12:20'}
