@@ -480,16 +480,23 @@ div.route-tabs {
   .route-alert-row {
     border-bottom: 1px solid $light-gray;
     display: flex;
-    padding: 0.8em 0;
+    padding: 0.8em 0.8em 0 0;
+
+    .route-alert-contents {
+      vertical-align: bottom;
+    }
 
     .route-number {
       padding: 0.2em 0.8em;
-      vertical-align: center;
 
       .icon {
         width: 1.5em;
         height: 1.5em;
         margin-bottom: -0.2em;
+      }
+      .vehicle-number {
+        margin-top: -0.3em;
+        font-size: $font-size-xsmall;
       }
     }
 
@@ -505,15 +512,25 @@ div.route-tabs {
     }
 
     &.expired {
-      color: $gray;
-      .icon {
-        fill: $gray !important;
+      .route-number {
+        .icon {
+          fill: $gray;
+        }
+        .vehicle-number {
+          color: $gray;
+        }
       }
       .route-alert-header {
         color: $gray;
       }
     }
   }
+}
+
+// This allows us to set the primary color of icons dynamically,
+// keep an eye out for side-effects!
+.path2 {
+  fill: inherit !important;
 }
 
 .no-alerts-message {
