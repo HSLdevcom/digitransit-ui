@@ -7,7 +7,7 @@ import FavouriteLocationStore from './store/favourite-location-store';
 import FavouriteRoutesStore from './store/favourite-routes-store';
 import FavouriteStopsStore from './store/favourite-stops-store';
 import FeedbackStore from './store/feedback-store';
-import ItinerarySearchStore from './store/itinerary-search-store';
+import ItinerarySearchStore from './store/ItinerarySearchStore';
 import MessageStore from './store/MessageStore';
 import ModeStore from './store/mode-store';
 import NotImplementedStore from './store/not-implemented-store';

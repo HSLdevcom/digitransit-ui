@@ -8,7 +8,7 @@ import ItineraryPage from './page/itinerary';
 import RoutePage from './page/RoutePage';
 import StopMapPage from './page/stop-map';
 import StopPage from './page/stop';
-import SummaryPage from './page/summary';
+import SummaryPage from './page/SummaryPage';
 import TripPage from './page/trip';
 import TripMapPage from './page/trip-map';
 import LoadingPage from './page/loading';

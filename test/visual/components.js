@@ -141,6 +141,17 @@ gemini.suite('components', (parent) => {
     .capture('normal');
   });
 
+  gemini.suite('RightOffcanvasToggle', () => {
+    gemini.suite('default', (suite) => {
+      suite.setCaptureElements('#RightOffcanvasToggle .component-example:nth-of-type(1) .component')
+      .capture('normal');
+    });
+    gemini.suite('adjusted', (suite) => {
+      suite.setCaptureElements('#RightOffcanvasToggle .component-example:nth-of-type(2) .component')
+      .capture('normal');
+    });
+  });
+
   gemini.suite('MarkerSelectPopup', (component) => {
     component.setCaptureElements(
       '#MarkerSelectPopup .component-example:nth-of-type(1) .component')
