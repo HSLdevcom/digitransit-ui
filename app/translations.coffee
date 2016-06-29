@@ -86,6 +86,7 @@ translations =
     'give-destination': 'Kirjoita määränpää'
     'select-position': 'Valitse sijaintisi edellisistä hauistasi'
     'page-not-found': 'Voe rähmä! Sivuu ei löytyny'
+    'yesterday': 'Eilen'
     'today': 'Tänään'
     'tomorrow': 'Huomenna'
     'not-implemented': '{name} -toiminnallisuus on vielä kesken'
@@ -154,6 +155,7 @@ translations =
     'itinerary-feedback-placeholder': "Kuvaus (valinnainen)"
     'itinerary-feedback-button': "Lähetä palautetta"
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.'
+    'time-at': 'klo'
   'sv':
     'searching-position': 'Söker position'
     'own-position': 'Min position'
@@ -229,6 +231,7 @@ translations =
     'give-destination': 'Skriv in din destination'
     'select-position': 'Välj din position bland tidigare sökningar'
     'page-not-found': 'Sidan kunde inte hittas ੨( ･᷄ ︵･᷅ )ｼ'
+    'yesterday': 'Igår'
     'today': 'Idag'
     'tomorrow': 'Imorgon'
     'not-implemented': '{name} - funktionen är inte implementerad'
@@ -278,6 +281,7 @@ translations =
     'itinerary-feedback-message': "Hittade du inte vad du sökte?"
     'itinerary-feedback-placeholder': "Beskrivning (valfri)"
     'itinerary-feedback-button': "Skicka feedback"
+    'time-at': 'kl.'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -366,6 +370,7 @@ translations =
     'give-destination': 'skriv hvor du vil reise'
     'select-position': 'Velg din posisjon basert på tidligere søk'
     'page-not-found': 'Siden kunne ikke finnes ੨( ･᷄ ︵･᷅ )ｼ'
+    'yesterday': 'I går'
     'today': 'I dag'
     'tomorrow': 'I morgen'
     'not-implemented': '{name} - funksjonen er ikke implementert'
@@ -432,6 +437,7 @@ translations =
     'itinerary-feedback-message': "Fant du ikke det du lette etter?"
     'itinerary-feedback-placeholder': "Beskrivelse (valgfritt)"
     'itinerary-feedback-button': "Send tilbakemelding"
+    'time-at': 'kl.'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"

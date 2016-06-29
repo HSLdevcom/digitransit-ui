@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 import RouteNumber from '../departure/RouteNumber';
 
 export default function RouteAlertsRow({
@@ -12,12 +13,14 @@ export default function RouteAlertsRow({
   day,
   active,
 }) {
+  const timePrefix = <FormattedMessage id="time-at" defaultMessage="at" />;
+
   return (
     <div className={cx('route-alert-row', { expired: !active })}>
       <RouteNumber mode={routeMode} text={routeLine} vertical />
       <div className="route-alert-contents">
         <div className="route-alert-duration sub-header-h4">
-          {day}{` ${startTime.format('HH:mm')} - ${endTime.format('HH:mm')}`}
+          {`${day} ${timePrefix} ${startTime.format('HH:mm')} - ${endTime.format('HH:mm')}`}
         </div>
         <div className={cx('route-alert-header', routeMode)}>
           {header || routeLine}
