@@ -480,14 +480,15 @@ div.route-tabs {
   .route-alert-row {
     border-bottom: 1px solid $light-gray;
     display: flex;
-    padding: 0.8em 0.8em 0 0;
+    padding: 0.8em 0.8em 0.8em 0.8em;
 
     .route-alert-contents {
       vertical-align: bottom;
     }
 
     .route-number {
-      padding: 0.2em 0.8em;
+      padding-top: 0.2em;
+      padding-right: 0.8em;
 
       .icon {
         width: 1.5em;
@@ -503,6 +504,8 @@ div.route-tabs {
     .route-alert-duration {
       color: $gray;
       font-size: 11px;
+      margin-bottom: 0.2em;
+      font-weight: 200;
     }
 
     .route-alert-body {

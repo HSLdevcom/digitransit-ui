@@ -21,7 +21,7 @@ export default function RouteAlertsRow({
     <div className={cx('route-alert-row', { expired })}>
       <RouteNumber mode={routeMode} text={routeLine} vertical />
       <div className="route-alert-contents">
-        <div className="route-alert-duration sub-header-h4">
+        <div className="route-alert-duration">
           {day} {timePrefix} {`${startTime} - ${endTime}`}
         </div>
         {header ?
