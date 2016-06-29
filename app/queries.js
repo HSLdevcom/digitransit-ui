@@ -83,21 +83,6 @@ export const TripQueries = {
   `,
 };
 
-export const RoutePageFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      route {
-        shortName
-        longName
-      }
-      ${require('./component/route/route-header-container').getFragment('pattern')}
-      ${require('./component/route/RouteMapContainer').default.getFragment('pattern')}
-      ${require('./component/route/RouteScheduleContainer').default.getFragment('pattern')}
-      ${require('./component/route/RouteStopListContainer').default.getFragment('pattern')}
-    }
-  `,
-};
-
 export const RouteHeaderFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
@@ -440,7 +425,7 @@ export const TripPageFragments = {
           shortName
           longName
         }
-        ${require('./component/route/route-header-container').getFragment('pattern')}
+        ${require('./component/route/RouteHeaderContainer').default.getFragment('pattern')}
         ${require('./component/route/RouteMapContainer').default.getFragment('pattern')}
       }
       stoptimes {
