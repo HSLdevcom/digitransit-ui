@@ -29,6 +29,8 @@ import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect'
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
+import RouteAlertsRow from '../component/route/RouteAlertsRow';
+
 import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
@@ -395,6 +397,14 @@ class StyleGuidelinesPage extends React.Component {
     );
   }
 
+  getRouteAlertsComponents() {
+    return (
+      <div className="route-alerts-list">
+        <ComponentDocumentation component={RouteAlertsRow} />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="container column">
@@ -430,6 +440,7 @@ class StyleGuidelinesPage extends React.Component {
         {this.getItineraryComponents()}
         {this.getTileLayerComponents()}
         {this.getScheduleComponents()}
+        {this.getRouteAlertsComponents()}
       </div>
     );
   }

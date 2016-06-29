@@ -2,6 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import RouteNumber from '../departure/RouteNumber';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import { routeAlert as exampleRouteAlert } from '../documentation/ExampleData';
 
 export default function RouteAlertsRow({
   header,
@@ -11,19 +13,23 @@ export default function RouteAlertsRow({
   routeMode,
   routeLine,
   day,
-  active,
+  expired,
 }) {
   const timePrefix = <FormattedMessage id="time-at" defaultMessage="at" />;
 
   return (
-    <div className={cx('route-alert-row', { expired: !active })}>
+    <div className={cx('route-alert-row', { expired })}>
       <RouteNumber mode={routeMode} text={routeLine} vertical />
       <div className="route-alert-contents">
         <div className="route-alert-duration sub-header-h4">
-          {`${day} ${timePrefix} ${startTime.format('HH:mm')} - ${endTime.format('HH:mm')}`}
+          {day} {timePrefix} {`${startTime} - ${endTime}`}
         </div>
+        {header ?
+          <div className={cx('route-alert-header', routeMode)}>
+            {header}
+          </div> : null}
         <div className={cx('route-alert-header', routeMode)}>
-          {header || routeLine}
+          {header}
         </div>
         <div className="route-alert-body">
           {description}
@@ -34,13 +40,43 @@ export default function RouteAlertsRow({
 }
 
 RouteAlertsRow.propTypes = {
-  header: React.PropTypes.string.isRequired,
+  header: React.PropTypes.string,
   description: React.PropTypes.string.isRequired,
-  startTime: React.PropTypes.object.isRequired,
-  endTime: React.PropTypes.object.isRequired,
-  currentTime: React.PropTypes.number.isRequired,
+  startTime: React.PropTypes.string.isRequired,
+  endTime: React.PropTypes.string.isRequired,
   routeMode: React.PropTypes.string.isRequired,
   routeLine: React.PropTypes.string.isRequired,
   day: React.PropTypes.string.isRequired,
-  active: React.PropTypes.bool.isRequired,
+  expired: React.PropTypes.bool.isRequired,
 };
+
+RouteAlertsRow.description = (
+  <div>
+    <p>
+      Display a disruption alert for a specific route.
+    </p>
+    <ComponentUsageExample
+      description="Currently active disruption"
+    >
+      <RouteAlertsRow
+        description={exampleRouteAlert.alertDescriptionTextTranslations[0].text}
+        startTime={'11:32'}
+        endTime={'12:20'}
+        routeMode={'tram'}
+        routeLine={'2'}
+        day={'Today'}
+        expired={false}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Past disruption" >
+      <RouteAlertsRow
+        description={exampleRouteAlert.alertDescriptionTextTranslations[0].text}
+        startTime={'11:32'}
+        endTime={'12:20'}
+        routeMode={'tram'}
+        routeLine={'2'}
+        day={'Yesterday'}
+        expired
+      />
+    </ComponentUsageExample>
+  </div>);

@@ -565,3 +565,25 @@ export const routePatterns = {
     },
   },
 };
+
+export const routeAlert = {
+  id: 'QWxlcnQ6NTAwMjcgSFNMIDEwMDIgdHJ1ZSAwICBudWxsICAgbnVsbCA=',
+  alertHeaderTextTranslations: [],
+  alertDescriptionTextTranslations: [
+    {
+      text: 'Raitiolinjat: 2 Kaivopuiston suuntaan  ja 3 Nordenskiöldinkadun suuntaan , myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. Arvioitu kesto: 14:29 - 15:20.',
+      language: 'fi',
+    },
+    {
+      text: 'Spårvägslinjerna: 2 mot Brunnsparken  och 3 mot Nordenskiöldgatan , försenas. Orsak: tekniska problem. Plats: Kauppatori, Hakaniemi. Beräknad tid: 14:29 - 15:20.',
+      language: 'sv',
+    },
+    {
+      text: 'Trams: 2 to Kaivopuisto  and 3 to Nordenskiöldinkatu , will be delayed. Cause: technical problems. Location: Kauppatori, Hakaniemi. Estimated time: 14:29 - 15:20.',
+      language: 'en',
+    },
+  ],
+  effectiveStartDate: 1467113525,
+  effectiveEndDate: 1467116400,
+
+};
