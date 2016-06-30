@@ -12,7 +12,7 @@ import config from '../../../config';
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
 /* eslint-disable max-len */
-const iconSvg = '<svg viewBox="0 0 18 18">n  <circle key="halo" class\"stop-halo" cx="9" cy="9" r="8" stroke-width="1"/>n  <circle key="stop" class="stop" cx="9" cy="9" r="4.5" stroke-width="4"/>n</svg>';
+const iconSvg = '<svg viewBox="0 0 18 18">n  <circle key="halo" class"stop-halo" cx="9" cy="9" r="8" stroke-width="1"/>n  <circle key="stop" class="stop" cx="9" cy="9" r="4.5" stroke-width="4"/>n</svg>';
 const selectedIconSvg = '<svg viewBox="0 0 28 28">n  <circle key="halo" class="stop-halo" cx="14" cy="14" r="13" stroke-width="1"/>n  <circle key="stop" class="stop" cx="14" cy="14" r="8" stroke-width="7"/>n</svg>';
 const transferIconSvg = '<svg viewBox="0 0 28 28">n  <circle key="halo" class="stop-halo" cx="14" cy="14" r="13" stroke-width="1"/>n  <circle key="stop" class="stop" cx="14" cy="14" r="8" stroke-width="7"/>n</svg>';
 const smallIconSvg = '<svg viewBox="0 0 8 8">n  <circle class="stop-small" cx="4" cy="4" r="3" stroke-width="1"/>n</svg>';
