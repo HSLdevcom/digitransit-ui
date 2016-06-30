@@ -79,9 +79,8 @@ class TileLayerContainer extends BaseTileLayer {
     if (e.currentTime) {
       /* eslint-disable no-underscore-dangle */
       activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
-      /* eslint-enable no-underscore-dangle */
-
       activeTiles.forEach(tile => {
+        /* eslint-disable no-unused-expressions */
         tile.el.layers && tile.el.layers.forEach(layer => {
           if (layer.onTimeChange) {
             layer.onTimeChange();
