@@ -47,7 +47,7 @@ export default class LegMarker extends React.Component {
         }}
         interactive={false}
         icon={L.divIcon({
-          html: `<div>${this.props.leg.name}</div>`,
+          html: `<div>${this.props.leg.name || ''}</div>`,
           className: `legmarker ${this.props.mode}`,
           iconSize: [1, 1],
         })}
