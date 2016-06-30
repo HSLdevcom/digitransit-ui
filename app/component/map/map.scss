@@ -328,6 +328,7 @@ div.origin-popup {
      font-size: $font-size-xsmall;
      padding: 0 2px;
      text-align: center;
+     flex-shrink: 0; /* work around iOS bug with flex sizes */
    }
 }
 
