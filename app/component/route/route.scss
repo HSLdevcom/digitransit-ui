@@ -485,9 +485,11 @@ div.route-tabs {
     .icon.caution {
       fill: $cancelation-red;
       position: absolute;
-      margin-left: -2.7em;
+      margin-left: -2.9em;
       margin-top: 1.1em;
       height: 0.8em;
+      stroke: $white;
+      stroke-width: 12;
     }
 
     .route-alert-contents {
@@ -523,15 +525,10 @@ div.route-tabs {
     }
 
     &.expired {
-      .route-number {
-        .icon {
-          fill: $gray;
-        }
-        .vehicle-number {
-          color: $gray;
-        }
+      .icon {
+        fill: $gray;
       }
-      .route-alert-header {
+      .route-alert-header, .vehicle-number {
         color: $gray;
       }
     }
@@ -542,6 +539,9 @@ div.route-tabs {
 // keep an eye out for side-effects!
 .path2 {
   fill: inherit !important;
+}
+path {
+  stroke-width: inherit;
 }
 
 .no-alerts-message {
