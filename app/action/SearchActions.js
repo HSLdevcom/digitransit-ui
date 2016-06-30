@@ -169,7 +169,7 @@ function searchStops(input) {
 
   return queryGraphQL(`{stops(name:"${input}") {gtfsId lat lon name code routes{type}}}`)
     .then(response =>
-      getStops(response != null && response.data != null ? response.data.stops : void 0)
+      getStops(response && response.data && response.data.stops)
     );
 }
 

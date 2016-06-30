@@ -8,6 +8,7 @@ module.exports = {
   'extends': 'airbnb',
   'rules': {
     'eqeqeq': ['error', 'allow-null'],
+    'no-void': 'error',
     'import/no-unresolved': 'off',
     'graphql/template-strings': ['error', {
       'env': 'relay',

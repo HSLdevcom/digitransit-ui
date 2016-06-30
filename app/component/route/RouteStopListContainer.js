@@ -33,8 +33,9 @@ class RouteStopListContainer extends React.Component {
 
     return stops.map((stop) => {
       const isNearest = (
-        (nearest != null && nearest.distance < config.nearestStopDistance.maxShownDistance) ?
-        nearest.stop.gtfsId : void 0) === stop.gtfsId;
+        nearest && nearest.distance < config.nearestStopDistance.maxShownDistance &&
+          nearest.stop.gtfsId
+      ) === stop.gtfsId;
 
       return (
         <RouteStop
