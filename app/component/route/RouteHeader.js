@@ -13,11 +13,6 @@ export default function RouteHeader(props) {
       {props.trip.substring(0, 2)}:{props.trip.substring(2, 4)} →
     </span>) : '';
 
-  const headerText = props.trip ? '' :
-    (<div className="route-header-name">
-      {props.route.longName}
-    </div>);
-
   const routeLineText = ` ${props.route.shortName || ''}`;
 
   const routeLine = props.trip ?
@@ -36,7 +31,6 @@ export default function RouteHeader(props) {
         <RouteNumber mode={mode} text={routeLine} />
         {trip}
       </h1>
-      {headerText}
       <div className="route-header-direction">
         {props.pattern ? `${props.pattern.stops[0].name} ` : ' '}
         <Icon className={mode} img="icon-icon_arrow-right" />
