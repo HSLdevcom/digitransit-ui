@@ -1,4 +1,4 @@
-/* eslint quote-props: 0, max-len: 0 */
+/* eslint-disable quote-props, max-len */
 
 export const realtimeDeparture = {
   stop: {
