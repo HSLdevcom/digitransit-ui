@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import RouteNumber from '../departure/RouteNumber';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { routeAlert as exampleRouteAlert } from '../documentation/ExampleData';
+import Icon from '../icon/icon';
 
 export default function RouteAlertsRow({
   header,
@@ -20,6 +21,7 @@ export default function RouteAlertsRow({
   return (
     <div className={cx('route-alert-row', { expired })}>
       <RouteNumber mode={routeMode} text={routeLine} vertical />
+      <Icon img="icon-icon_caution" className="caution" />
       <div className="route-alert-contents">
         <div className="route-alert-duration">
           {day} {timePrefix} {`${startTime} - ${endTime}`}
