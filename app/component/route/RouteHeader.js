@@ -1,8 +1,6 @@
 import React from 'react';
-import Icon from '../icon/icon';
 import Link from 'react-router/lib/Link';
 import RouteNumber from '../departure/RouteNumber';
-import Favourite from '../favourites/Favourite';
 import cx from 'classnames';
 
 export default function RouteHeader(props) {
@@ -20,24 +18,12 @@ export default function RouteHeader(props) {
       {routeLineText}
     </Link>) : routeLineText;
 
-  const reverse = (props.reverseId && !props.trip) ?
-    (<Link to={`/linjat/${props.reverseId}`}>
-      <Icon className={`route-header-direction-switch ${mode}`} img="icon-icon_direction-b" />
-    </Link>) : null;
-
   return (
     <div className={cx('route-header', props.className)}>
       <h1 className={mode}>
         <RouteNumber mode={mode} text={routeLine} />
         {trip}
       </h1>
-      <div className="route-header-direction">
-        {props.pattern ? `${props.pattern.stops[0].name} ` : ' '}
-        <Icon className={mode} img="icon-icon_arrow-right" />
-        {props.pattern ? ` ${props.pattern.headsign}` : ' '}
-        {reverse}
-      </div>
-      <Favourite addFavourite={props.addFavouriteRoute} favourite={props.favourite} />
     </div>);
 }
 
