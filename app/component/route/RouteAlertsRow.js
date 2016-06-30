@@ -3,7 +3,6 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import RouteNumber from '../departure/RouteNumber';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import { routeAlert as exampleRouteAlert } from '../documentation/ExampleData';
 import Icon from '../icon/icon';
 
 export default function RouteAlertsRow({
@@ -16,15 +15,21 @@ export default function RouteAlertsRow({
   day,
   expired,
 }) {
-  const timePrefix = <FormattedMessage id="time-at" defaultMessage="at" />;
-
   return (
     <div className={cx('route-alert-row', { expired })}>
       <RouteNumber mode={routeMode} text={routeLine} vertical />
       <Icon img="icon-icon_caution" className="caution" />
       <div className="route-alert-contents">
         <div className="route-alert-duration">
-          {day} {timePrefix} {`${startTime} - ${endTime}`}
+          <FormattedMessage
+            id="alert.duration"
+            defaultMessage="{day} {startTime} – {endTime}"
+            values={{
+              day,
+              startTime,
+              endTime,
+            }}
+          />
         </div>
         <div className={cx('route-alert-header', routeMode)}>
           {header}
@@ -58,7 +63,9 @@ RouteAlertsRow.description = (
     >
       <RouteAlertsRow
         header={'Raitiolinja 2 - Myöhästyy'}
-        description={exampleRouteAlert.alertDescriptionTextTranslations[0].text}
+        description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
+          'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
+          'Arvioitu kesto: 14:29 - 15:20.'}
         startTime={'11:32'}
         endTime={'12:20'}
         routeMode={'tram'}
@@ -70,7 +77,9 @@ RouteAlertsRow.description = (
     <ComponentUsageExample description="Past disruption" >
       <RouteAlertsRow
         header={'Raitiolinja 2 - Myöhästyy'}
-        description={exampleRouteAlert.alertDescriptionTextTranslations[0].text}
+        description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
+          'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
+          'Arvioitu kesto: 14:29 - 15:20.'}
         startTime={'11:32'}
         endTime={'12:20'}
         routeMode={'tram'}

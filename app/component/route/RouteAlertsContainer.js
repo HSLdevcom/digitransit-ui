@@ -13,16 +13,38 @@ const getAlerts = (route, currentTime, intl) => {
   const routeLine = route.shortName;
 
   return route.alerts.map(alert => {
-    const { id } = alert;
-    const header = find(alert.alertHeaderTextTranslations,
-                               ['language', intl.locale]);
-    const description = find(alert.alertDescriptionTextTranslations,
-                               ['language', intl.locale]);
-    const startTime = moment(alert.effectiveStartDate * 1000);
-    const endTime = moment(alert.effectiveEndDate * 1000);
-    const alertDate = endTime.format('DD.MM.YYYY');
-    const expired = endTime < currentTime;
+    // Try to find the alert in user's language, or failing in English, or failing in any language
+    // TODO: This should be a util function that we use everywhere
+    // TODO: We should match to all languages user's browser lists as acceptable
+    let header = find(alert.alertHeaderTextTranslations,
+                      ['language', intl.locale]);
+    if (!header) {
+      header = find(alert.alertHeaderTextTranslations,
+                    ['language', 'en']);
+    }
+    if (!header) {
+      header = alert.alertHeaderTextTranslations[0];
+    }
+    if (header) {
+      header = header.text;
+    }
 
+    // Unfortunately nothing in GTFS-RT specifies that if there's one string in a language then
+    // all other strings would also be available in the same language...
+    let description = find(alert.alertDescriptionTextTranslations,
+                      ['language', intl.locale]);
+    if (!description) {
+      description = find(alert.alertDescriptionTextTranslations,
+                    ['language', 'en']);
+    }
+    if (!description) {
+      description = alert.alertDescriptionTextTranslations[0];
+    }
+    if (description) {
+      description = description.text;
+    }
+
+    let endTime = moment(alert.effectiveEndDate * 1000);
     let day;
     switch (currentTime.diff(endTime, 'days')) {
       case 0:
@@ -32,20 +54,26 @@ const getAlerts = (route, currentTime, intl) => {
         day = <FormattedMessage id="yesterday" defaultMessage="Yesterday" />;
         break;
       default:
-        day = alertDate;
+        day = intl.formatDate(endTime);
     }
+    endTime = intl.formatTime(endTime);
+    const startTime = intl.formatTime(moment(alert.effectiveStartDate * 1000));
+    const expired = endTime < currentTime;
+
 
     return (
       <RouteAlertsRow
-        key={id}
-        startTime={startTime.format('HH:mm')}
-        endTime={endTime.format('HH:mm')}
-        header={header ? header.text : null}
-        description={description ? description.text : null}
-        day={day}
-        routeMode={routeMode}
-        routeLine={routeLine}
-        expired={expired}
+        key={alert.id}
+        {...{
+          routeMode,
+          routeLine,
+          header,
+          description,
+          day,
+          endTime,
+          startTime,
+          expired,
+        }}
       />);
   });
 };

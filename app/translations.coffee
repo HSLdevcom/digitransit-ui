@@ -59,7 +59,7 @@ translations =
     'login': 'Kirjaudu sisään'
     'off-canvas-info': 'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi'
     'cause': 'syy'
-    'disruptions': 'Häiriöitä'
+    'disruptions': 'Häiriöt'
     'disruption-info': 'Poikkeusinfo'
     'disruption-info-no-alerts': 'Ei poikkeustiedotteita.'
     'leaving-at': 'Lähtee'
@@ -155,7 +155,7 @@ translations =
     'itinerary-feedback-placeholder': "Kuvaus (valinnainen)"
     'itinerary-feedback-button': "Lähetä palautetta"
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.'
-    'time-at': 'klo'
+    'alert.duration': "{day} klo {startTime} – {endTime}"
   'sv':
     'searching-position': 'Söker position'
     'own-position': 'Min position'
@@ -205,6 +205,7 @@ translations =
     'login': 'Logga in'
     'off-canvas-info': 'Genom att logga in sparas dina favoriter och kan användas på dina andra enheter.'
     'cause': 'Orsak'
+    'disruptions': 'Störningar'
     'disruption-info': 'Undantagsinfo'
     'disruption-info-no-alerts': 'Inga undantagsmeddelanden.'
     'leaving-at': 'Avgår'
@@ -281,7 +282,7 @@ translations =
     'itinerary-feedback-message': "Hittade du inte vad du sökte?"
     'itinerary-feedback-placeholder': "Beskrivning (valfri)"
     'itinerary-feedback-button': "Skicka feedback"
-    'time-at': 'kl.'
+    'alert.duration': "{day} kl. {startTime} – {endTime}"
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -437,7 +438,7 @@ translations =
     'itinerary-feedback-message': "Fant du ikke det du lette etter?"
     'itinerary-feedback-placeholder': "Beskrivelse (valgfritt)"
     'itinerary-feedback-button': "Send tilbakemelding"
-    'time-at': 'kl.'
+    'alert.duration': "{day} kl. {startTime} – {endTime}"
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
