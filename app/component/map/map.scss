@@ -316,6 +316,21 @@ div.origin-popup {
   fill-opacity: $stop-thin-opacity;
 }
 
+.map .legmarker {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   & > div {
+     background-color: $white;
+     border-width: 1px;
+     border-style: solid;
+     border-radius: $border-radius;
+     font-size: $font-size-xsmall;
+     padding: 0 2px;
+     text-align: center;
+   }
+}
+
 .map .leg-halo {
   stroke: #fff;
   stroke-opacity: 1;

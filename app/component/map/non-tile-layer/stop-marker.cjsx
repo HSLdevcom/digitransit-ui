@@ -21,6 +21,12 @@ selectedIconSvg = """<svg viewBox="0 0 28 28">
     <circle key="stop" class="stop" cx="14" cy="14" r="8" stroke-width="7"/>
   </svg>"""
 
+# Transfer stop icon
+transferIconSvg = """<svg viewBox="0 0 28 28">
+    <circle key="halo" class="stop-halo" cx="14" cy="14" r="13" stroke-width="1"/>
+    <circle key="stop" class="stop" cx="14" cy="14" r="8" stroke-width="7"/>
+  </svg>"""
+
 # Small icon for zoom levels <= 15
 smallIconSvg = """<svg viewBox="0 0 8 8">
     <circle class="stop-small" cx="4" cy="4" r="3" stroke-width="1"/>
@@ -44,8 +50,23 @@ class StopMarker extends React.Component
     #TODO: cjsx doesn't like objects withing nested elements
     loadingPopupStyle = {"height": 150}
 
+    iconSizes = {
+      smallIconSvg: [8, 8],
+      iconSvg: [18, 18],
+      selectedIconSvg: [28, 28]
+    }
 
-    if config.map.useModeIconsInNonTileLayer && !@props.disableModeIcons
+    if @props.stop.transfer
+      iconSmall = transferIconSvg
+      icon = transferIconSvg
+      iconSelected = transferIconSvg
+      size = [18, 18]
+      iconSizes = {
+        smallIconSvg: size,
+        iconSvg: size,
+        selectedIconSvg: size
+      }
+    else if config.map.useModeIconsInNonTileLayer && !@props.disableModeIcons
       iconId = "icon-icon_#{@props.mode}"
       iconSmall = ReactDomServer.renderToString(<Icon viewBox="0 0 8 8" img={iconId} className="stop-marker"/>)
       icon = ReactDomServer.renderToString(<Icon viewBox="0 0 18 18" img={iconId} className="stop-marker"/>)
@@ -59,7 +80,7 @@ class StopMarker extends React.Component
       position={lat: @props.stop.lat, lon: @props.stop.lon}
       mode={@props.mode}
       icons={smallIconSvg: iconSmall, iconSvg: icon, selectedIconSvg: iconSelected}
-      iconSizes={smallIconSvg: [8, 8], iconSvg: [18, 18], selectedIconSvg: [28, 28]}
+      iconSizes={iconSizes}
       map={@props.map}
       layerContainer={@props.layerContainer}
       id={@props.stop.gtfsId}
