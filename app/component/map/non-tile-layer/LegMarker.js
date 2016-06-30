@@ -9,7 +9,14 @@ const L = isBrowser && require('leaflet');
 
 /* eslint-enable global-require */
 
-class LegMarker extends React.Component {
+export default class LegMarker extends React.Component {
+  static propTypes = {
+    map: React.PropTypes.object.isRequired,
+    layerContainer: React.PropTypes.object.isRequired,
+    leg: React.PropTypes.object.isRequired,
+    mode: React.PropTypes.string.isRequired,
+  };
+
   constructor(args) {
     super(...args);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
@@ -66,11 +73,3 @@ class LegMarker extends React.Component {
   }
 }
 
-LegMarker.propTypes = {
-  map: React.PropTypes.object.isRequired,
-  layerContainer: React.PropTypes.object.isRequired,
-  leg: React.PropTypes.object.isRequired,
-  mode: React.PropTypes.string.isRequired,
-};
-
-export default LegMarker;
