@@ -229,7 +229,8 @@ class ItineraryLine extends React.Component {
               }}
               mode={mode.toLowerCase()}
               renderText={leg.transitLeg && this.props.showTransferLabels}
-            />);
+            />
+          );
         }
       }
     });
