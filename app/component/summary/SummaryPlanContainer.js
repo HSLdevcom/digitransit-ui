@@ -58,6 +58,8 @@ class SummaryPlanContainer extends React.Component {
   render() {
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
     const plan = this.props.plan.plan;
+    const from = this.props.from;
+    const to = this.props.to;
     const activeIndex = this.getActiveIndex();
 
     const leafletObjs = sortBy(
@@ -75,7 +77,7 @@ class SummaryPlanContainer extends React.Component {
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
-    const bounds = [].concat(...
+    const bounds = [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...
       plan.itineraries.map((itinerary) => (
         [].concat(...
           itinerary.legs.map((leg) => polyUtil.decode(leg.legGeometry.points)))))
