@@ -6,8 +6,9 @@ DefaultNavigation      = require('../component/navigation/DefaultNavigation').de
 Tabs                   = require 'react-simpletabs'
 RouteListHeader        = require '../component/route/route-list-header'
 RouteHeaderContainer   = require '../component/route/route-header-container'
-RouteStopListContainer = require '../component/route/route-stop-list-container'
-RouteMapContainer      = require '../component/route/route-map-container'
+RouteStopListContainer = require('../component/route/RouteStopListContainer').default
+RouteMapContainer      = require('../component/route/RouteMapContainer').default
+RouteScheduleContainer = require('../component/route/RouteScheduleContainer').default
 RealTimeClient         = require '../action/real-time-client-action'
 FormattedMessage       = require('react-intl').FormattedMessage
 NotImplementedAction   = require '../action/not-implemented-action'
@@ -48,11 +49,6 @@ class RoutePage extends React.Component
       if route[0].toLowerCase() == 'hsl'
         @context.executeAction RealTimeClient.startRealTimeClient, {route: route[1], direction: route[2]}
 
-  before: (i) =>
-    if i == 3 #tab 3==timetable selected
-      @context.executeAction NotImplementedAction.click, <FormattedMessage id='timetable' defaultMessage='Timetable' />
-      false
-
   render: ->
     if @props.pattern == null
       <NotFound/>
@@ -71,7 +67,7 @@ class RoutePage extends React.Component
       <DefaultNavigation className="fullscreen" title={title}>
         <Helmet {...meta} />
         <RouteHeaderContainer pattern={@props.pattern}/>
-        <Tabs className="route-tabs" onBeforeChange={@before}>
+        <Tabs className="route-tabs">
           <Tabs.Panel title={<FormattedMessage id='stops' defaultMessage='Stops' />}>
             <RouteListHeader/>
             <RouteStopListContainer pattern={@props.pattern}/>
@@ -80,7 +76,7 @@ class RoutePage extends React.Component
             <RouteMapContainer pattern={@props.pattern} className="fullscreen"/>
           </Tabs.Panel>
           <Tabs.Panel title={<FormattedMessage id='timetable' defaultMessage='Timetable' />}>
-            <div>Aikataulut tähän</div>
+            <RouteScheduleContainer pattern={@props.pattern} />
           </Tabs.Panel>
         </Tabs>
       </DefaultNavigation>

@@ -24,10 +24,10 @@ export default function getMetadata(lang) {
       content: 'utf-8',
     }, {
       name: 'description',
-      content: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
+      content: config.meta.description,
     }, {
       name: 'keywords',
-      content: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
+      content: config.meta.keywords,
     }, {
       name: 'viewport',
       content: 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no, minimal-ui', // eslint-disable-line max-len
@@ -69,13 +69,13 @@ export default function getMetadata(lang) {
       content: `${root}/img/${configPath}-icons/social-share.png`,
     }, {
       property: 'og:locale',
-      content: 'fi_FI',
+      content: config.socialMedia.locale,
     }, {
       name: 'twitter:card',
       content: 'summary_large_image',
     }, {
       name: 'twitter:site',
-      content: '@hsldevcom',
+      content: config.socialMedia.twitter.site,
     }, {
       name: 'twitter:title',
       content: config.socialMedia.title,

@@ -8,14 +8,16 @@ import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
-import Map from '../map/map';
+import Map from '../map/Map';
 import moment from 'moment';
 import config from '../../config';
 import ItinerarySummaryListContainer from '../summary/itinerary-summary-list-container';
+import { supportsHistory } from 'history/lib/DOMUtils';
 
 class ItineraryPlanContainer extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
   };
 
   state = {
@@ -46,7 +48,7 @@ class ItineraryPlanContainer extends React.Component {
         value={i}
         className={i === selectedIndex ? 'itinerary-tab-root--selected' : 'itinerary-tab-root'}
         style={{
-          height: '18px',
+          height: 'auto',
           color: i === selectedIndex ? '#007ac9' : '#ddd',
           fontSize: '34px',
           padding: '0px',
@@ -55,7 +57,29 @@ class ItineraryPlanContainer extends React.Component {
     ));
   }
 
-  toggleFullscreenMap = () => this.setState({ fullscreen: !this.state.fullscreen });
+  getFullscreen = () => {
+    if (typeof window !== 'undefined' && supportsHistory()) {
+      const state = this.context.location.state;
+      return state && state.fullscreen;
+    }
+
+    return this.state && this.state.fullscreen;
+  };
+
+  toggleFullscreenMap = () => {
+    if (supportsHistory()) {
+      if (this.context.location.state && this.context.location.state.fullscreen) {
+        return this.context.router.goBack();
+      }
+      return this.context.router.push({
+        state: {
+          fullscreen: true,
+        },
+        pathname: this.context.location.pathname,
+      });
+    }
+    return this.setState({ fullscreen: !this.state.fullscreen });
+  };
 
   focusMap = (lat, lon) => this.setState({ lat, lon })
 
@@ -97,10 +121,15 @@ class ItineraryPlanContainer extends React.Component {
         showTransferLabels
       />];
 
-    if (this.state.fullscreen) {
+    if (this.getFullscreen()) {
       return (
         <div
-          style={{ height: '100%' }}
+          style={{
+            height: '100%',
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
           onTouchStart={e => e.stopPropagation()}
           onMouseDown={e => e.stopPropagation()}
         >
@@ -163,8 +192,8 @@ class ItineraryPlanContainer extends React.Component {
         <SwipeableViews
           index={index}
           className="itinerary-swipe-views-root"
-          slideStyle={{ height: '100%' }}
-          containerStyle={{ height: '100%' }}
+          slideStyle={{ minHeight: '100%' }}
+          containerStyle={{ minHeight: '100%' }}
           onChangeIndex={(idx) => setTimeout(this.switchSlide, 150, idx)}
         >
           {this.getSlides(itineraries)}
@@ -215,7 +244,11 @@ export const ItineraryPlanContainerFragments = {
           duration
           startTime
           endTime
-
+          fares {
+            type
+            currency
+            cents
+          }
           legs {
             mode
             agency {

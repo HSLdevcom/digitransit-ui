@@ -1,6 +1,6 @@
 import React from 'react';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Map from './map';
+import Map from './Map';
 import ToggleMapTracking from '../navigation/toggle-map-tracking';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withReducer from 'recompose/withReducer';
@@ -51,18 +51,19 @@ const withMapStateTracking = withReducer('mapState', 'dispatch', mapStateReducer
   })
 );
 
-const onlyUpdateCoordChanges = onlyUpdateForKeys(['lat', 'lon', 'zoom', 'mapTracking']);
+const onlyUpdateCoordChanges = onlyUpdateForKeys(['lat', 'lon', 'zoom', 'mapTracking', 'lang']);
 
 const MapWithTracking =
   withMapStateTracking(
     connectToStores(
       onlyUpdateCoordChanges(Map),
-      ['PositionStore', 'EndpointStore'],
+      ['PositionStore', 'EndpointStore', 'PreferencesStore'],
       (context, props) => {
         const { mapTracking } = props.mapState;
         const PositionStore = context.getStore('PositionStore');
         const position = PositionStore.getLocationState();
         const origin = context.getStore('EndpointStore').getOrigin();
+        const language = context.getStore('PreferencesStore').getLanguage();
 
         let location = (() => {
           if (props.mapState.focusOnOrigin && !origin.useCurrentPosition) {
@@ -124,6 +125,8 @@ const MapWithTracking =
           lat: location ? location.lat : null,
           lon: location ? location.lon : null,
           zoom: props.mapState.initialZoom ? 16 : void 0,
+          lang: language, // passing this prop just because we want map to
+                          // update on lang changes, lang is not used
           mapTracking,
           position,
           className: 'fullscreen',

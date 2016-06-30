@@ -13,7 +13,7 @@ Our main issue tracking is handled in [https://digitransit.atlassian.net](https:
 However, we also monitor this repository's issues and import them to Jira. You can create issues in GitHub.
 
 ## Demos
-* [beta.reittiopas.fi - Helsinki city area demo](https://beta.reitiopas.fi/)
+* [beta.reittiopas.fi - Helsinki city area demo](https://beta.reittiopas.fi/)
 * [beta.digitransit.fi - National demo](http://beta.digitransit.fi/)
 
 ## Dependencies
@@ -35,6 +35,6 @@ More information about [testing](docs/Tests.md).
 * [Positioning](docs/Position.md)
 * [Locations](docs/Location.md)
 * [Run in Docker](docs/Docker.md)
-* [Style guide](http://beta.digitransit.fi/styleguidelines)
+* [Style guide](http://beta.digitransit.fi/styleguide)
 * [Installation](docs/Installation.md)
 * [Tests](docs/Tests.md)

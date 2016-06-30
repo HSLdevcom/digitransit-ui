@@ -6,6 +6,7 @@ PIWIK_ADDRESS = process.env.PIWIK_ADDRESS or ''
 PIWIK_ID = process.env.PIWIK_ID or ''
 SENTRY_DSN = process.env.SENTRY_DSN or ''
 PORT = process.env.PORT or 8080
+APP_DESCRIPTION = "Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi."
 
 module.exports =
   PIWIK_ADDRESS: "#{PIWIK_ADDRESS}"
@@ -37,6 +38,9 @@ module.exports =
     "boundary.rect.max_lat": 63.6
     "boundary.rect.min_lon": 27.1
     "boundary.rect.max_lon": 31.0
+  search:
+    suggestions:
+      useTransportIcons: false
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000
@@ -44,7 +48,8 @@ module.exports =
   maxBikingDistance: 40000
   availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
-  timezone: 'Europe/Helsinki'
+  # This timezone data will expire on 31.12.2020
+  timezoneData: "Europe/Helsinki|EET EEST|-20 -30|01010101010101010101010|1BWp0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|35e5"
   enableDesktopWrapper: true
   mainMenu:
     # Whether to show the left menu toggle button at all
@@ -53,11 +58,17 @@ module.exports =
     showInquiry: true
     showLoginCreateAccount: true
     showOffCanvasList: true
+  feedback:
+    # Whether to allow the feedback popup
+    enable: true
   itinerary:
     # How long vehicle should be late in order to mark it delayed. Measured in seconds.
     delayThreshold: 180
     # Wait time to show "wait leg"? e.g. 180 means over 3 minutes are shown as wait time. Measured in seconds.
     waitThreshold: 180
+    enableFeedback: false
+    timeNavigation:
+      enableButtonArrows: false
   initialLocation:
     zoom: 11
     lat: 62.6024263
@@ -70,6 +81,8 @@ module.exports =
     zoomOffset: -1
     useVectorTiles: true
     genericMarker:
+      # Do not render name markers at zoom levels below this value
+      nameMarkerMinZoom: 18
       popup:
         offset: [106, 3]
         maxWidth: 250
@@ -81,6 +94,7 @@ module.exports =
       leg:
         weight: 3
         thinWeight: 2
+    useModeIconsInNonTileLayer: false
   stopCard:
     header:
       showDescription: true
@@ -113,7 +127,13 @@ module.exports =
     showInfoButton: true
   socialMedia:
     title: "Uusi Reittiopas - Joensuu"
-    description: "Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi."
+    description: APP_DESCRIPTION
+    locale: "fi_FI"
+    twitter:
+      site: '@hsldevcom'
+  meta:
+    description: APP_DESCRIPTION
+    keywords: "reitti,reitit,opas,reittiopas,joukkoliikenne"
   # Ticket information feature toggle
   showTicketInformation: false
   showRouteInformation: false
@@ -169,3 +189,18 @@ module.exports =
     address: "Keskusta, Joensuu"
     lat: 62.6024263
     lon: 29.7569847
+  desktopWrapperText: '''<h2>
+                        Reittiopas<sup>BETA</sup>
+                      </h2>
+                      <h1>Kokeile uutta Reittiopasta!</h1>
+                      Reittiopas uudistuu pian. Uusi Reittiopas tuo mukanaan liudan kauan
+                      kaivattuja parannuksia:
+                      <ul>
+                        <li>Reaaliaikatiedot kaikista liikennevälineistä</li>
+                        <li>Entistä parempi kartta</li>
+                        <li>Ennakoiva haku</li>
+                        <li>Näet lähialueesi lähdöt helposti</li>
+                      </ul>
+                      Uusi Reittiopas on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki
+                      toimimaan erinomaisesti myös tietokoneella. Voit tutustua jo nyt mobiilioptimoituun
+                      versioon. Valmista on loppuvuodesta 2016.'''

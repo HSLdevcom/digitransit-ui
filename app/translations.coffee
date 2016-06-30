@@ -35,7 +35,7 @@ translations =
     'later': 'Myöhemmin'
     'instructions': 'Ohjeet'
     'map': 'Kartta'
-    'buy-ticket': 'Osta lippu'
+    'buy-ticket': 'Näin ostat lipun (HSL.fi)'
     'required-ticket': 'Reitillä tarvittava lippu'
     'share': 'Jaa ohje'
     'print': 'Tulosta'
@@ -150,6 +150,10 @@ translations =
     'skip-positioning': 'Ohita'
     'hour-short': 'h'
     'minute-short': 'min'
+    'itinerary-feedback-message': "Etkö löytänyt mitä etsit?"
+    'itinerary-feedback-placeholder': "Kuvaus (valinnainen)"
+    'itinerary-feedback-button': "Lähetä palautetta"
+    'no-trips-found': 'Valitulle päivälle ei löydy matkoja.'
   'sv':
     'searching-position': 'Söker position'
     'own-position': 'Min position'
@@ -175,6 +179,7 @@ translations =
     'later': 'Senare'
     'instructions': 'Instruktioner'
     'map': 'Karta'
+    'buy-ticket': 'Såhär köper du biljetten (HSL.fi)'
     'required-ticket': 'Biljett för resan'
     'share': 'Dela resan'
     'print': 'Skriv ut'
@@ -270,6 +275,9 @@ translations =
     'choose-stop': 'Välj hållplats'
     'loading': 'Laddar'
     'skip-positioning': 'Hoppa över'
+    'itinerary-feedback-message': "Hittade du inte vad du sökte?"
+    'itinerary-feedback-placeholder': "Beskrivning (valfri)"
+    'itinerary-feedback-button': "Skicka feedback"
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -421,6 +429,9 @@ translations =
     'choose-stop': 'Velg stopp'
     'loading': 'loading'
     'skip-positioning': 'skip-positioning'
+    'itinerary-feedback-message': "Fant du ikke det du lette etter?"
+    'itinerary-feedback-placeholder': "Beskrivelse (valgfritt)"
+    'itinerary-feedback-button': "Send tilbakemelding"
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -466,7 +477,7 @@ translations =
     'time': 'Heure'
     'stop': 'Arrêt'
     'stops': 'Arrêts'
-    'stop-number': 'nombre d\'arrêts'
+    'stop-number': 'Identifiant d\'arrêt'
     'right-now': 'Immédiatement'
     'minutes': 'min'
     'timetable': 'Fiche horaire'
@@ -481,6 +492,7 @@ translations =
     'login': 'Se connecter'
     'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessibles depuis d\'autres appareils'
     'cause': 'Cause'
+    'disruptions': 'Perturbations'
     'disruption-info': 'Informations sur les perturbations'
     'disruption-info-no-alerts': 'Perturbations en cours'
     'leaving-at': 'Départ'
@@ -570,5 +582,11 @@ translations =
     'choose-stop': 'Merci de choisir la ligne'
     'loading': 'Chargement'
     'skip-positioning': 'Ignorer le positionnement'
+    'hour-short': 'h'
+    'minute-short': 'min'
+    'itinerary-feedback-message': "Avez-vous trouvé ce que vous cherchiez ?"
+    'itinerary-feedback-placeholder': "Description (optionnel)"
+    'itinerary-feedback-button': "Envoyez votre avis"
+    'no-trips-found': 'Il n\'y a pas de trajet possible au jour choisi.'
 
 module.exports = translations

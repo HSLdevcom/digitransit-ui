@@ -1,12 +1,11 @@
 /* foundation override */
 $menu-slide: "transform 200ms ease";
-$topbar-bg: $primary-color;
-$topbar-height: 40px;
 $offcanvas-background: #333333;
 $offcanvas-background-hover: scale-color($gray, $lightness: -30%);
 $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 
-/* top bar icons */
+/* top bar */
+$topbar-height: 40px;
 $top-navigation-icon-color: $primary-font-color;
 $top-navigation-title-color: $title-color;
 
@@ -29,7 +28,14 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
+.navigation {
+  display: flex;
+  flex-direction: column;
+}
+
 nav.top-bar {
+  line-height: $topbar-height;
+  background: $primary-color;
   z-index: 1150;
   text-align: center;
   overflow: visible; // Show drawer menu
@@ -39,12 +45,10 @@ nav.top-bar {
     width: $topbar-height;
     position: absolute;
     top: 0;
+    z-index: 1160;
 
     &.back {  // Appears on non-front pages
       left: 0.5em;
-    }
-    &.right-offcanvas-toggle {
-      right: 0;
     }
   }
 
@@ -82,10 +86,11 @@ nav.top-bar {
   .lang {
     display: inline-block;
     text-transform: uppercase;
-    a {
+    span {
+      cursor: pointer;
       padding: 2px 10px 2px 10px;
     }
-    a.selected {
+    span.selected {
       border-radius: 3px;
       background-color: rgba($white, 0.15);
     }
@@ -110,6 +115,12 @@ nav.top-bar {
     color: $offcanvas-profile-icon-color;
   }
   a {
+    color: $offcanvas-link-color;
+    text-decoration: none;
+  }
+
+  span {
+    cursor: pointer;
     color: $offcanvas-link-color;
     text-decoration: none;
   }
@@ -139,10 +150,54 @@ nav.top-bar {
 /* content */
 .content {
   background-color: $content-background-color;
-  position: relative;
-  height: calc(100% - #{$topbar-height});
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - #{$topbar-height});
 }
 
 .offcanvas > div {
   z-index:2000 !important;
+}
+
+.message-bar {
+  @include font-book;
+  font-size: 13px;
+  line-height: 14px;
+  background: $white;
+  color: $gray;
+  text-align: left;
+
+  h2 {
+    @include font-medium;
+    font-size: 13px;
+    color: $primary-color;
+    margin: 0;
+  }
+}
+
+// Need more specific selector to override
+nav.top-bar .message-bar .icon {
+  margin: 10px;
+}
+
+nav.top-bar .message-bar .icon.info {
+  float: left;
+  fill: $primary-color;
+  height: 35px;
+  width: 35px;
+}
+
+nav.top-bar .message-bar .icon.close {
+  float: right;
+  fill: $gray;
+  height: 15px;
+  width: 15px;
+}
+
+.time-selector-settings-row {
+  background-color: $secondary-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

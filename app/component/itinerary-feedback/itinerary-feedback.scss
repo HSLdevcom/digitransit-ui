@@ -1,0 +1,52 @@
+.itinerary-feedback-container {
+  width: 30%;
+
+  & .itinerary-feedback-btn {
+    width: 100%;
+    height: 50px;
+    & svg {
+      margin-top: 3px;
+      width: 22px;
+      height: 22px;
+    }
+    &.active {
+      background-color: $background-color;
+    }
+  }
+
+  .form-container {
+    display: none;
+    &.open {
+      display: block;
+      width: 100%;
+      height: 180px;
+      z-index: 800;
+      position: absolute;
+      bottom: 50px;
+      background-color: $background-color;
+    }
+    & .form {
+      width: 90%;
+      margin: 0 auto;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-weight: $font-narrow-weight-book;
+      .form-message {
+        margin-bottom: 5px;
+      }
+      .standalone-btn {
+        background-color: $hilight-color;
+        color: $primary-font-color;
+        font-size: $font-size-normal;
+        display: inline;
+        height: 38px;
+        width: 50%;
+        margin-top: 5px;
+      }
+      .feedback-text {
+        resize: none;
+        padding: 8px 9px 8px 9px;
+      }
+    }
+  }
+}

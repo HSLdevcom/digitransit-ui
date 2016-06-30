@@ -1,6 +1,6 @@
 { "rootUrl": "http://localhost:8080",
   "screenshotsDir": "./test/visual-images/",
-  "httpTimeout": 10000,
+  "httpTimeout": 25000,
   "sessionRequestTimeout": 120000,
   "system": {
     "plugins": { "browserstack": {} }

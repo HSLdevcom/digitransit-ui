@@ -1,5 +1,6 @@
-$route-header-height: 115px;
+$route-header-height: 65px;
 $route-list-header-height: 26px;
+$route-schedule-date-height: 42px;
 
 $route-header-favourite-icon-stroke-color: $light-gray;
 $route-header-favourite-icon-fill-color: $background-color;
@@ -13,6 +14,8 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   @include font-narrow-medium;
   line-height: $line-height-normal;
   height: $route-list-header-height;
+  flex-shrink: 0;
+
   overflow: hidden;
   div {
     color: $black;
@@ -170,13 +173,14 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-header {
   margin: 0 15px;
   line-height: 1;
-  height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
+  flex-shrink: 0;
   border-bottom: solid 1px $light-gray;
+  height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
   h1 {
     @include font-narrow-book;
     font-size: 24pt;
     padding: 0.4em 0 0.2em;
-    margin: 0;
+    margin-top: 6px;
     svg {
       height: 0.8em;
       width: 0.8em;
@@ -239,12 +243,190 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   }
 }
 
+// Schedule list
+.route-schedule-content-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-schedule-list-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-schedule-list {
+  padding-bottom: 0.7em;
+  flex: 1
+}
+
+.route-schedule-stop-select {
+  select {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 2px 33px 2px 10px;
+    background-color: #fff;
+    font-size: 9pt;
+    color: #333;
+    height: 30px;
+    line-height: 24px;
+    font-weight: 500;
+  }
+
+  position: relative;
+
+  .icon {
+    width: 13px;
+    height: 16px;
+    color: $gray-blue;
+    position: absolute;
+    right: 11px;
+    top: 7px;
+    pointer-events: none;
+  }
+
+  .caret {
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid $primary-color;
+  }
+}
+
+.trip-column {
+  width: 50%;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.trip-separator {
+  position: relative;
+}
+
+.trip-separator:after {
+  content: "";
+  width: 100%;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  border-top: 1px solid $light-gray;
+  z-index: 0;
+}
+
+.trip-from, .trip-to {
+  background: #fff;
+  width: 50px;
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+}
+
+.trip-from {
+  transform: translateX(-50%);
+}
+
+.trip-to {
+  transform: translateX(50%);
+}
+
+.route-schedule-date {
+  @include font-book;
+
+  height: $route-schedule-date-height;
+  background-color: #eef1f3;
+  padding: 8px 15px 10px;
+  margin: 0;
+
+  .icon {
+    margin-right: 7px;
+    width: 18px;
+    height: 18px;
+    color: $gray-blue;
+    vertical-align: middle;
+  }
+
+  select {
+    font-size: 9pt;
+    line-height: 18px;
+    height: 19px;
+    background-color: #eef1f3;
+    color: #80939d;
+    border-bottom: 1px dotted #80939d !important;
+    font-weight: 500;
+    padding: 0;
+    text-transform: uppercase;
+    background-image: none;
+    width: 7em;
+    text-align: left;
+
+    option {
+      padding: 4px;
+    }
+  }
+}
+
 // Tabs
 div.route-tabs {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  .tabs-navigation {
+    flex-shrink: 0;
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    width: initial;
+    min-width: 240px;
+    max-width: 300px;
+    padding: 0;
+
+    .icon {
+      display: block;
+      width: 16px;
+      height: 16px;
+      margin: 5px auto;
+    }
+
+    .tabs-menu-item {
+      padding: 9px 0;
+      border: none;
+    }
+
+    li a {
+      border-right: 1px solid $light-gray;
+    }
+    li:last-child a{
+      border-right: none;
+    }
+
+    .tabs-menu-item.is-active {
+      border-bottom: 2px solid $primary-color ;
+    }
+
+    ul li {
+      font-size: 7pt;
+      min-width: 60px;
+    }
+  }
+
   .tab-panel {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+
     background: white;
     height: calc(100% - 1.2em - 8px);
     > div {
+      flex-grow: 1;
+
+      display: flex;
+      flex-direction: column;
       @extend .momentum-scroll;
       height: 100%;
       overflow: auto;
@@ -268,5 +450,27 @@ div.route-tabs {
         width: 24px;
       }
     }
+  }
+}
+
+.route-pattern-select {
+  padding: 10px;
+  background-color: #eef1f3;
+  position: relative;
+
+  select {
+    padding: 10px;
+    height: 40px;
+    border-radius: $border-radius;
+    border: 1px solid $light-gray;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  .icon {
+    color: $gray-blue;
+    position: absolute;
+    right: 25px;
+    top: 24px;
+    pointer-events: none;
   }
 }

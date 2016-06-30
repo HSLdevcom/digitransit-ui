@@ -1,17 +1,16 @@
 import React from 'react';
 import Relay from 'react-relay';
-import ItinerarySummaryListContainer from './itinerary-summary-list-container';
-import TimeNavigationButtons from './TimeNavigationButtons';
-import LocationMarker from '../map/location-marker';
-import Map from '../map/map';
-import ItineraryLine from '../map/ItineraryLine';
 
+import polyUtil from 'polyline-encoded';
 import { supportsHistory } from 'history/lib/DOMUtils';
-
 import sortBy from 'lodash/sortBy';
 import moment from 'moment';
-import config from '../../config';
 
+import config from '../../config';
+import ItinerarySummaryListContainer from './itinerary-summary-list-container';
+import TimeNavigationButtons from './TimeNavigationButtons';
+import Map from '../map/Map';
+import ItineraryLine from '../map/ItineraryLine';
 import { ItineraryPlanContainerFragments } from '../itinerary/ItineraryPlanContainer';
 
 class SummaryPlanContainer extends React.Component {
@@ -57,16 +56,14 @@ class SummaryPlanContainer extends React.Component {
   }
 
   render() {
-    const from = [this.props.from.lat, this.props.from.lon];
-    const to = [this.props.to.lat, this.props.to.lon];
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
-    let leafletObjs = [];
+    const plan = this.props.plan.plan;
+    const from = this.props.from;
+    const to = this.props.to;
+    const activeIndex = this.getActiveIndex();
 
-    if (this.props.plan && this.props.plan.plan && this.props.plan.plan.itineraries.length > 0) {
-      const plan = this.props.plan.plan;
-      const activeIndex = this.getActiveIndex();
-
-      leafletObjs = plan.itineraries.map((itinerary, i) => (
+    const leafletObjs = sortBy(
+      plan.itineraries.map((itinerary, i) => (
         <ItineraryLine
           key={i}
           hash={i}
@@ -74,33 +71,17 @@ class SummaryPlanContainer extends React.Component {
           showFromToMarkers={i === 0}
           passive={i !== activeIndex}
         />
-      ));
+      )),
+      // Make sure active line isn't rendered over
+      i => i.props.passive === false);
 
-      leafletObjs = sortBy(leafletObjs, i => i.props.passive === false);
-
-      return (
-        <div className="summary">
-          <Map
-            ref="map"
-            className="summaryMap"
-            leafletObjs={leafletObjs}
-            fitBounds
-            from={from}
-            to={to}
-          />
-          <ItinerarySummaryListContainer
-            itineraries={plan.itineraries}
-            currentTime={currentTime}
-            onSelect={this.onSelectActive}
-            activeIndex={activeIndex}
-          />
-          <TimeNavigationButtons plan={plan} />
-        </div>
-      );
-    }
-
-    leafletObjs.push(<LocationMarker key="from" position={from} className="from" />);
-    leafletObjs.push(<LocationMarker key="to" position={to} className="to" />);
+    // Decode all legs of all itineraries into latlong arrays,
+    // and concatenate into one big latlong array
+    const bounds = [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...
+      plan.itineraries.map((itinerary) => (
+        [].concat(...
+          itinerary.legs.map((leg) => polyUtil.decode(leg.legGeometry.points)))))
+    );
 
     return (
       <div className="summary">
@@ -109,15 +90,15 @@ class SummaryPlanContainer extends React.Component {
           className="summaryMap"
           leafletObjs={leafletObjs}
           fitBounds
-          from={from}
-          to={to}
+          bounds={bounds}
         />
         <ItinerarySummaryListContainer
-          itineraries={[]}
+          itineraries={plan.itineraries}
           currentTime={currentTime}
-          onSelect={() => {}}
-          activeIndex={0}
+          onSelect={this.onSelectActive}
+          activeIndex={activeIndex}
         />
+        <TimeNavigationButtons plan={plan} />
       </div>
     );
   }

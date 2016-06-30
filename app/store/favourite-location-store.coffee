@@ -19,6 +19,5 @@ class FavouriteLocationStore extends Store
 
   @handlers:
     "AddFavouriteLocation": "addFavouriteLocation"
-    "GetFavouriteLocation": "getFavouriteLocation"
 
 module.exports = FavouriteLocationStore

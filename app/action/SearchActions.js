@@ -8,7 +8,7 @@ import take from 'lodash/take';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import { getLabel } from '../util/suggestionUtils';
-import geoUtils from '../util/geo-utils';
+import { getLatLng } from '../util/geo-utils';
 
 function processResults(actionContext, result) {
   actionContext.dispatch('SuggestionsResult', result);
@@ -58,7 +58,10 @@ function addOldSearches(oldSearches, input) {
   return Promise.resolve(take(matchingOldSearches, 10).map(item =>
     ({
       type: 'OldSearch',
-      properties: { label: item.address, layer: 'oldSearch' },
+      properties: {
+        label: item.address,
+        layer: 'oldSearch',
+        mode: item.properties ? item.properties.mode : null },
       geometry: item.geometry,
     })
   ));
@@ -113,6 +116,7 @@ function mapRoutes(res) {
         properties: {
           label: `${item.shortName} ${item.longName}`,
           layer: `route-${item.type}`,
+          mode: item.type.toLowerCase(),
           link: `/linjat/${item.patterns[0].code}`,
         },
         geometry: {
@@ -127,12 +131,18 @@ function mapRoutes(res) {
 function getStops(res) {
   if (res) {
     return res.map(item => {
+      const mode = item.routes
+              && item.routes.length > 0
+              ? item.routes[0].type.toLowerCase()
+              : null;
+
       const stop = {
         type: 'Stop',
 
         properties: {
           code: item.code,
           label: item.name,
+          mode,
           layer: 'stop',
           link: `/pysakit/${item.gtfsId}`,
         },
@@ -157,7 +167,7 @@ function searchStops(input) {
     return Promise.resolve([]);
   }
 
-  return queryGraphQL(`{stops(name:"${input}") {gtfsId lat lon name code}}`)
+  return queryGraphQL(`{stops(name:"${input}") {gtfsId lat lon name code routes{type}}}`)
     .then(response =>
       getStops(response != null && response.data != null ? response.data.stops : void 0)
     );
@@ -208,11 +218,11 @@ function searchRoutesAndStops(input, reference, favourites) {
   }
 
   if (doStopSearch) {
-    searches.push(`stops(name:"${input}") {gtfsId lat lon name code}`);
+    searches.push(`stops(name:"${input}") {gtfsId lat lon name code routes{type}}`);
   }
 
   if (searches.length > 0) {
-    refLatLng = geoUtils.getLatLng(reference.lat, reference.lon);
+    refLatLng = getLatLng(reference.lat, reference.lon);
 
     return queryGraphQL(`{${searches.join(' ')}}`).then(response => {
       if (response == null || response.data == null) {
@@ -224,13 +234,12 @@ function searchRoutesAndStops(input, reference, favourites) {
           type: 'Favourite',
         })
       );
-
       return ([]
         .concat(sortBy(favouriteRoutes, () => ['agency.name', 'properties.label']))
         .concat(sortBy(mapRoutes(response.data.routes), () => ['agency.name', 'properties.label']))
         .concat(sortBy(getStops(response.data.stops || []), (item) =>
           Math.round(
-            geoUtils.getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
+            getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
             .distanceTo(refLatLng) / 50000)
         )));
     });
@@ -258,8 +267,8 @@ function executeSearchInternal(actionContext, { input, type }) {
       addCurrentPositionIfEmpty(input),
       addFavouriteLocations(favouriteLocations, input),
       addOldSearches(oldSearches, input),
-      getGeocodingResult(input, position, language),
       searchStops(input),
+      getGeocodingResult(input, position, language),
     ])
     .then(flatten)
     .then(uniq)

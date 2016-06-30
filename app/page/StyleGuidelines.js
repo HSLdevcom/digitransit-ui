@@ -20,11 +20,17 @@ import CityBikePopup from '../component/map/popups/city-bike-popup';
 import FavouriteLocation from '../component/favourites/FavouriteLocation';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
+import RightOffcanvasToggle from '../component/summary/RightOffcanvasToggle';
 import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
 import Favourite from '../component/favourites/Favourite';
+import TicketInformation from '../component/itinerary/TicketInformation';
+import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect';
+import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
+import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
+import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
 import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
@@ -359,6 +365,15 @@ class StyleGuidelinesPage extends React.Component {
       <div>
         <ComponentDocumentation component={TimeNavigationButtons} />
         <ComponentDocumentation component={TimeSelectors} />
+        <ComponentDocumentation component={RightOffcanvasToggle} />
+      </div>
+    );
+  }
+
+  getItineraryComponents() {
+    return (
+      <div>
+        <ComponentDocumentation component={TicketInformation} />
       </div>
     );
   }
@@ -369,6 +384,17 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={MarkerSelectPopup} />
         <ComponentDocumentation component={SelectCityBikeRow} />
         <ComponentDocumentation component={SelectStopRow} />
+      </div>
+    );
+  }
+
+  getScheduleComponents() {
+    return (
+      <div>
+        <ComponentDocumentation component={RouteScheduleDateSelect} />
+        <ComponentDocumentation component={RouteScheduleHeader} />
+        <ComponentDocumentation component={RouteScheduleStopSelect} />
+        <ComponentDocumentation component={RouteScheduleTripRow} />
       </div>
     );
   }
@@ -405,7 +431,9 @@ class StyleGuidelinesPage extends React.Component {
         {this.getCardComponents()}
         {this.getIconComponents()}
         {this.getSummaryComponents()}
+        {this.getItineraryComponents()}
         {this.getTileLayerComponents()}
+        {this.getScheduleComponents()}
       </div>
     );
   }

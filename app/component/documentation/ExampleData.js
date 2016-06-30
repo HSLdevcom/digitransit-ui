@@ -132,6 +132,11 @@ export const plan = {
     'duration': 731,
     'startTime': 1463406749000,
     'endTime': 1463407480000,
+    'fares': [{
+      'type': 'regular',
+      'cents': 320,
+      'currency': 'EUR',
+    }],
     'legs': [{
       'mode': 'WALK',
       'agency': null,
@@ -521,4 +526,42 @@ export const plan = {
       'trip': null,
     }],
   }],
+};
+
+export const routeScheduleStopSelectOptions = [
+  { displayName: 'Kaisaniemenpuisto', value: 1 },
+  { displayName: 'Hakaniemi', value: 2 },
+  { displayName: 'Haapaniemi', value: 3 },
+  { displayName: 'Sörnäinen(M)', value: 4 },
+];
+
+export const routeScheduleHeaderStops = [
+  { name: 'Kaisaniemenpuisto' },
+  { name: 'Hakaniemi' },
+  { name: 'Haapaniemi' },
+  { name: 'Sörnäinen(M)' },
+];
+
+export const routePatterns = {
+  pattern: {
+    code: 'HSL:1007A:1:03',
+    headsign: 'Senaatintori',
+    id: 'UGF0dGVybjpIU0w6MTAwN0E6MTowMw==',
+    route: {
+      gtfsId: 'HSL:1007A',
+      id: 'Um91dGU6SFNMOjEwMDdB',
+      longName: 'Senaatintori-Töölö-Pasila-Senaatintori',
+      patterns: [
+        { code: 'HSL:1007A:0:03', headsign: 'Pasila' },
+        { code: 'HSL:1007A:0:02', headsign: 'Pasila' },
+        { code: 'HSL:1007A:0:01', headsign: 'Pasila' },
+        { code: 'HSL:1007A:1:04', headsign: 'Sturenkatu' },
+        { code: 'HSL:1007A:1:03', headsign: 'Senaatintori' },
+        { code: 'HSL:1007A:1:02', headsign: 'Senaatintori' },
+        { code: 'HSL:1007A:1:01', headsign: 'Rautatieasema' },
+      ],
+      shortName: '7A',
+      type: 'TRAM',
+    },
+  },
 };

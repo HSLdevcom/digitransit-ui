@@ -1,5 +1,8 @@
 .summary {
     height: calc(100% - 80px);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .summary-no-route-found {
@@ -10,17 +13,14 @@
   @include font-book;
 
   background-color: $secondary-color;
-  height: 40px;
   padding: 0 10px;
-  padding-top: 5px;
-  margin: 0;
 
   input[type="date"], input[type="time"], input[type="text"], select {
     vertical-align: middle;
     height: 19px !important;
     padding: 0;
     margin: 0;
-    margin-right: 5px;
+    margin-right: 7px;
     display: inline-block;
     background-image: none;
     background-color: $secondary-color;
@@ -40,13 +40,13 @@
   }
 
   .date {
-    width: 6em;
+    width: auto;
     text-align: left;
   }
 
   .time {
     @include font-book;
-    width: 8em !important;
+    width: auto !important;
     text-align: left;
     font-family: $font-family !important;
     input {
@@ -55,7 +55,34 @@
   }
 
   .arrive {
-    width: 6em;
+    width: auto;
     text-align: left;
  }
+}
+
+.right-offcanvas-toggle {
+  margin: 5px 0;
+  background-color: #333;
+  border-radius: 5px 0 0 5px;
+  width: 36px;
+  height: 32px;
+  text-align: center;
+
+  .icon-holder {
+    margin-top: 7px;
+    vertical-align: middle;
+    position: relative;
+
+    .icon {
+      fill: $white;
+    }
+
+    .super-icon {
+      fill: $hilight-color;
+      position: absolute;
+      right: 4px;
+      top: -2px;
+      height: 12px;
+    }
+  }
 }

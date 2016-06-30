@@ -80,9 +80,9 @@ class FeedbackPanel extends React.Component
     isModalOpen = @context.getStore('FeedbackStore').isModalOpen()
 
     lowEndLabel = <FormattedMessage id='very-unlikely'
-                      defaultMessage='very unlikely' />
+                      defaultMessage='Very unlikely' />
     highEndLabel = <FormattedMessage id='very-likely'
-                      defaultMessage="very-likely" />
+                      defaultMessage="Very likely" />
 
     if @state.postFirstQuestion
 
