@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import queries from '../../queries';
 const isBrowser = typeof window !== 'undefined' && window !== null;
 import StopMarker from './non-tile-layer/stop-marker';
-import LegMarker from './non-tile-layer/leg-marker';
+import LegMarker from './non-tile-layer/LegMarker';
 import LocationMarker from './location-marker';
 import Line from './line';
 import TripLine from './trip-line';
