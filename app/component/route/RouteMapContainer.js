@@ -6,7 +6,7 @@ import Icon from '../icon/icon';
 import Map from '../map/Map';
 import RouteLine from '../map/route/route-line';
 import VehicleMarkerContainer from '../map/vehicle-marker-container';
-import StopCardHeader from '../stop-cards/stop-card-header';
+import StopCardHeader from '../stop-cards/StopCardHeader';
 
 
 class RouteMapContainer extends React.Component {
