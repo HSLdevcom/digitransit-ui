@@ -15,7 +15,7 @@
     "dev": "PID=$$; trap 'pkill -QUIT -P $PID > /dev/null' EXIT; NODE_ENV=development nodemon -e js,jsx,cjsx,css,scss,html,coffee --watch ./app/ server/server.js -x \"node --harmony\" & NODE_ENV=development forever -f start server/hotLoadServer.js",
     "dev-win-hsl": "cd win-launch-scripts&& hsl-win-launch-script.bat",
     "dev-win-national": "cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
-    "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development node server/hotLoadServer.js",
+    "dev-nowatch": "NODE_ENV=development node --harmony server/server.js & NODE_ENV=development node --harmony server/hotLoadServer.js",
     "test-local": "./test/flow/script/run-ui-tests.sh local",
     "test-browserstack": "./test/flow/script/run-ui-tests.sh browserstack",
     "test-visual": "gemini --reporter flat --reporter html test test/visual/",
@@ -26,7 +26,7 @@
     "build": "NODE_ENV=production webpack --progress --color --display-error-details",
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
     "start": "NODE_ENV=production node --harmony server/server",
-    "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js"
+    "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node --harmony server/server.js"
   },
   "main": "server.js",
   "repository": {
