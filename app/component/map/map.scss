@@ -321,14 +321,15 @@ div.origin-popup {
    align-items: center;
    justify-content: center;
    & > div {
+     @include font-narrow-medium;
      background-color: $white;
-     border-width: 1px;
+     border-width: 2px;
      border-style: solid;
      border-radius: $border-radius;
-     font-size: $font-size-xsmall;
      padding: 0 2px;
      text-align: center;
      flex-shrink: 0; /* work around iOS bug with flex sizes */
+     flex-basis: 18px; /* can't use min-width due to browser flex bugs */
    }
 }
 
