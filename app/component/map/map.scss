@@ -329,7 +329,6 @@ div.origin-popup {
      padding: 0 2px;
      text-align: center;
      flex-shrink: 0; /* work around iOS bug with flex sizes */
-     flex-basis: 18px; /* can't use min-width due to browser flex bugs */
    }
 }
 
