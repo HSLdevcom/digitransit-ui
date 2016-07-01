@@ -24,12 +24,10 @@
 
     &.from-link span:first-child::before {
         content: "A";
-        margin-left: -18px;
     }
 
     &.to-link span:first-child::before {
         content: "B";
-        margin-left: -17px;
     }
 
     span:first-child {
@@ -38,6 +36,7 @@
       &::before {
         position: absolute;
         margin-top: 2px;
+        margin-left: -17px;
         z-index: 900;
         font-size: 11px;
       }

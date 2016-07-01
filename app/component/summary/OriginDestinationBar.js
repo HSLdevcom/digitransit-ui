@@ -1,5 +1,5 @@
 import React from 'react';
-import EndpointActions from '../../action/EndpointActions';
+import { swapEndpoints } from '../../action/EndpointActions';
 
 import { intlShape } from 'react-intl';
 
@@ -32,28 +32,28 @@ class OriginDestinationBar extends React.Component {
 
   componentWillMount() {
     this.onEndpointChange();
-    return this.context.getStore('EndpointStore').addChangeListener(this.onEndpointChange);
+    this.context.getStore('EndpointStore').addChangeListener(this.onEndpointChange);
   }
 
   componentWillUnmount() {
-    return this.context.getStore('EndpointStore').removeChangeListener(this.onEndpointChange);
+    this.context.getStore('EndpointStore').removeChangeListener(this.onEndpointChange);
   }
 
   onEndpointChange() {
-    return this.setState({
+    this.setState({
       origin: this.context.getStore('EndpointStore').getOrigin(),
       destination: this.context.getStore('EndpointStore').getDestination(),
     });
   }
 
   closeModal() {
-    return this.setState({
+    this.setState({
       tabOpen: false,
     });
   }
 
   openSearch(tab) {
-    return this.setState({
+    this.setState({
       tabOpen: tab,
     });
   }
@@ -64,14 +64,13 @@ class OriginDestinationBar extends React.Component {
       defaultMessage: 'Your current location',
     });
 
-    const initialValue = (() => {
-      if (this.state[this.state.tabOpen]) {
-        return this.state[this.state.tabOpen].useCurrentPosition ?
-          ownPosition :
-          this.state[this.state.tabOpen].address;
-      }
-      return '';
-    })();
+    let initialValue = '';
+
+    if (this.state[this.state.tabOpen]) {
+      initialValue = this.state[this.state.tabOpen].useCurrentPosition ?
+        ownPosition :
+        this.state[this.state.tabOpen].address;
+    }
 
     return (
       <div className="origin-destination-bar">
@@ -84,7 +83,7 @@ class OriginDestinationBar extends React.Component {
         </div>
         <div
           className="switch"
-          onClick={() => this.context.executeAction(EndpointActions.swapEndpoints)}
+          onClick={() => this.context.executeAction(swapEndpoints)}
         >
           <span>
             <Icon img="icon-icon_direction-b" />
