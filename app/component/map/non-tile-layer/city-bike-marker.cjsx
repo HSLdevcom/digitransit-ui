@@ -56,11 +56,19 @@ class CityBikeMarker extends React.Component
       router: React.PropTypes.object.isRequired
       route: React.PropTypes.object.isRequired
 
+    iconSmall = smallIconSvg
+    iconSmallSize = [8, 8]
+    iconMedium = @getCityBikeMediumIcon()
+    iconMediumSize = [20, 20]
+    if @props.transit # always show big
+      iconSmall = iconMedium
+      iconSmallSize = [20, 20]
+
     <GenericMarker
       position={lat: @props.station.y, lon: @props.station.x}
       mode="citybike"
-      icons={smallIconSvg: smallIconSvg, iconSvg: @getCityBikeMediumIcon()}
-      iconSizes={smallIconSvg: [8, 8], iconSvg: [20, 20]}
+      icons={smallIconSvg: iconSmall, iconSvg: iconMedium}
+      iconSizes={smallIconSvg: iconSmallSize, iconSvg: iconMediumSize}
       map={@props.map}
       layerContainer={@props.layerContainer}
       id={@props.station.id}

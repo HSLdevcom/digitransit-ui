@@ -4,7 +4,7 @@ Relay         = require 'react-relay'
 queries       = require '../../../queries'
 isBrowser     = window?
 config        = require '../../../config'
-StopMarker    = require './stop-marker'
+StopMarker    = require('./StopMarker').default
 TerminalMarker = require './terminal-marker'
 uniq          = require 'lodash/uniq'
 

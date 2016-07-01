@@ -2,7 +2,7 @@ React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../../../queries'
 isBrowser          = window?
-StopMarker         = require '../non-tile-layer/stop-marker'
+StopMarker         = require('../non-tile-layer/StopMarker').default
 LocationMarker     = require '../location-marker'
 Line               = require '../line'
 

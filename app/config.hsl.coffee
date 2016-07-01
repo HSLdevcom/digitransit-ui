@@ -90,10 +90,10 @@ module.exports =
         minWidth: 250
     line:
       halo:
-        weight: 5
+        weight: 7
         thinWeight: 4
       leg:
-        weight: 3
+        weight: 5
         thinWeight: 2
     useModeIconsInNonTileLayer: false
   stopCard:
