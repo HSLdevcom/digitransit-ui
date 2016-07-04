@@ -4,7 +4,7 @@ import { FuzzyTripRoute } from '../../queries';
 import Link from 'react-router/lib/Link';
 import TripLink from '../trip/trip-link';
 import WalkDistance from '../itinerary/walk-distance';
-
+import StopCode from '../itinerary/StopCode';
 
 class RouteStop extends React.Component {
   // this component is based on React.component because we need ref to this component
@@ -34,7 +34,7 @@ class RouteStop extends React.Component {
       <div className="route-stop row">
         <div className="columns small-3 route-stop-now">{vehicles}</div>
         <Link to={`/pysakit/${props.stop.gtfsId}`}>
-          <div className={`columns small-6 route-stop-name ${props.mode}`}>
+          <div className={`columns small-5 route-stop-name ${props.mode}`}>
             {props.stop.name}&nbsp;
             {props.distance &&
               <WalkDistance
@@ -44,10 +44,12 @@ class RouteStop extends React.Component {
               />
             }
             <br />
+            <StopCode code={props.stop.code} />
             <span className="route-stop-address">{props.stop.desc}</span>
           </div>
-          <div className="columns small-2 route-stop-code">{props.stop.code}</div>
-          <div className="columns small-1 route-stop-mins">{props.stop.minutes}</div>
+
+          <div className="columns small-2 route-stop-leaves">{props.stop.minutes}</div>
+          <div className="columns small-2 route-stop-next">{props.stop.minutes}</div>
         </Link>
       </div>);
   }
