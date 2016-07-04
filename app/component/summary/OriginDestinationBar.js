@@ -62,12 +62,11 @@ class OriginDestinationBar extends React.Component {
       defaultMessage: 'Your current location',
     });
 
-    let initialValue = '';
 
+    let initialValue = '';
     if (this.state[this.state.tabOpen]) {
       initialValue = this.state[this.state.tabOpen].useCurrentPosition ?
-        ownPosition :
-        this.state[this.state.tabOpen].address;
+        ownPosition : this.state[this.state.tabOpen].address;
     }
 
     return (
@@ -75,8 +74,7 @@ class OriginDestinationBar extends React.Component {
         <div className="field-link from-link" onClick={() => this.openSearch('origin')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
           <span className="dotted-link">
-            {this.state.origin.useCurrentPosition ?
-              ownPosition : this.state.origin.address}
+            {this.state.origin.useCurrentPosition ? ownPosition : this.state.origin.address}
           </span>
         </div>
         <div
