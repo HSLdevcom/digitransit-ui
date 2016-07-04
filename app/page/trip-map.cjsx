@@ -3,7 +3,6 @@ Relay                  = require 'react-relay'
 queries                = require '../queries'
 DefaultNavigation      = require('../component/navigation/DefaultNavigation').default
 RouteHeaderContainer   = require('../component/route/RouteHeaderContainer').default
-RouteListHeader        = require '../component/route/route-list-header'
 TripStopListContainer  = require '../component/trip/trip-stop-list-container'
 RouteMapContainer      = require('../component/route/RouteMapContainer').default
 RealTimeClient         = require '../action/real-time-client-action'

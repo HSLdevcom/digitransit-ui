@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import Helmet from 'react-helmet';
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Tabs from 'react-simpletabs';
-import RouteListHeader from '../component/route/route-list-header';
+import RouteListHeader from '../component/route/RouteListHeader';
 import Icon from '../component/icon/icon';
 import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
 import RouteStopListContainer from '../component/route/RouteStopListContainer';
