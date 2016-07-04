@@ -23,8 +23,6 @@ class OriginDestinationBar extends React.Component {
       tabOpen: false,
     };
 
-    this.componentWillMount = this.componentWillMount.bind(this);
-    this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this.onEndpointChange = this.onEndpointChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openSearch = this.openSearch.bind(this);
