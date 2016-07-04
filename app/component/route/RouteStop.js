@@ -7,6 +7,8 @@ import WalkDistance from '../itinerary/walk-distance';
 
 
 class RouteStop extends React.Component {
+  // this component is based on React.component because we need ref to this component
+  // TODO make this functional again
 
   doRender(props) {
     const vehicles = props.vehicles && props.vehicles.map((vehicle) =>
@@ -49,7 +51,7 @@ class RouteStop extends React.Component {
         </Link>
       </div>);
   }
-  render() { // nonfunctional because we need to ref to this component
+  render() {
     return this.doRender(this.props);
   }
 }
