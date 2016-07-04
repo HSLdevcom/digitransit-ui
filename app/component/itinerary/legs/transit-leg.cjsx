@@ -5,7 +5,7 @@ moment       = require 'moment'
 config       = require '../../../config'
 Icon         = require '../../icon/icon'
 timeUtils    = require '../../../util/time-utils'
-StopCode     = require '../stop-code'
+StopCode     = require '../StopCode'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage

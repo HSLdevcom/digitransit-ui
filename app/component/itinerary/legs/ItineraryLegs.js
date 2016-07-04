@@ -5,7 +5,7 @@ import BicycleLeg from './bicycle-leg';
 import EndLeg from './end-leg';
 import AirportCheckInLeg from './airport-check-in-leg';
 import AirportCollectLuggageLeg from './airport-collect-luggage-leg';
-import StopCode from '../stop-code';
+import StopCode from '../StopCode';
 import BusLeg from './bus-leg';
 import AirplaneLeg from './airplane-leg';
 import SubwayLeg from './subway-leg';
