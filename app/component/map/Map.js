@@ -106,7 +106,6 @@ class Map extends React.Component {
 
   render = () => {
     let map;
-    let boundsOptions;
     let zoom;
     let origin;
     let layers;
@@ -150,7 +149,7 @@ class Map extends React.Component {
 
       origin = this.context.getStore('EndpointStore').getOrigin();
 
-      if (origin != null ? origin.lat : void 0) {
+      if (origin && origin.lat) {
         leafletObjs.push(
           <PlaceMarker
             position={origin}
@@ -162,23 +161,14 @@ class Map extends React.Component {
       leafletObjs.push(
         <PositionMarker key="position" displayOriginPopup={this.props.displayOriginPopup} />);
 
-      const center = (() => {
-        if (!this.props.fitBounds && this.props.lat && this.props.lon) {
-          return [this.props.lat, this.props.lon];
-        }
-        return void 0;
-      })();
+      const center = !this.props.fitBounds && this.props.lat && this.props.lon &&
+        [this.props.lat, this.props.lon] || null;
 
       ({ zoom } = this.props);
 
-      boundsOptions = (() => {
-        if (this.props.padding) {
-          return {
-            paddingTopLeft: this.props.padding,
-          };
-        }
-        return void 0;
-      })();
+      const boundsOptions = this.props.padding && {
+        paddingTopLeft: this.props.padding,
+      };
 
       map = (
         <LeafletMap
@@ -188,7 +178,7 @@ class Map extends React.Component {
             zoom,
             zoomControl: false,
             attributionControl: false,
-            bounds: (this.props.fitBounds ? boundWithMinimumArea(this.props.bounds) : void 0),
+            bounds: this.props.fitBounds && boundWithMinimumArea(this.props.bounds) || undefined,
             animate: true,
             ...this.props.leafletOptions,
             boundsOptions,

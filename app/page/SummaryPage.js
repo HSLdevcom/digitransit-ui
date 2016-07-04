@@ -103,8 +103,8 @@ export default class SummaryPage extends React.Component {
     let plan;
     const from = otpToLocation(this.props.params.from);
     const to = otpToLocation(this.props.params.to);
-    const search = this.state ? this.state.search : void 0;
-    const time = this.state ? this.state.time : void 0;
+    const search = this.state && this.state.search;
+    const time = this.state && this.state.time;
 
     if (search && time) {
       plan = (

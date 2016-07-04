@@ -14,10 +14,8 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    return window.localStorage.getItem(key);
-  }
-  return void 0;
+  return typeof window !== 'undefined' && window.localStorage &&
+    window.localStorage.getItem(key) || null;
 }
 
 function getItemAsJson(key) {
