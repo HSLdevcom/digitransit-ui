@@ -9,11 +9,11 @@ const RouteListHeader = () =>
     <div className="columns small-5 route-stop-name">
       <FormattedMessage id="stop" defaultMessage="Stop" />
     </div>
-    <div className="columns small-3 route-stop-code">
-      <FormattedMessage id="stop-number" defaultMessage="Stop number" />
+    <div className="columns small-2 route-stop-mins">
+      <FormattedMessage id="leaves" defaultMessage="Leaves" />
     </div>
-    <div className="columns small-1 route-stop-mins">
-      <FormattedMessage id="minutes" defaultMessage="Min" />
+    <div className="columns small-2 route-stop-mins">
+      <FormattedMessage id="next" defaultMessage="Next" />
     </div>
   </div>);
 export default RouteListHeader;

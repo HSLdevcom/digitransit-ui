@@ -18,7 +18,8 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
   overflow: hidden;
   div {
-    color: $black;
+    @include font-narrow-book;
+    color: $gray;
     font-size: $font-size-small;
   }
   &.route-stop {
