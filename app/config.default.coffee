@@ -27,7 +27,7 @@ module.exports =
     PELIAS: "#{API_URL}/geocoding/v1/search"
     PELIAS_REVERSE_GEOCODER: "#{API_URL}/geocoding/v1/reverse"
   APP_PATH: "#{APP_PATH}"
-  title: "Matka.fi"
+  title: "beta.matka.fi"
   useNavigationLogo: false
   contactName:
     sv: "Livin"
@@ -238,15 +238,18 @@ module.exports =
                         </svg>
                         Matka.fi<sup>BETA</sup>
                       </h2>
-                      <h1>Kokeile uutta reittiopasta!</h1>
-                      Reittiopas uudistuu pian. Uusi reittiopas tuo mukanaan liudan kauan
-                      kaivattuja parannuksia:
-                      <ul>
-                        <li>Reaaliaikatiedot kaikista liikennevälineistä</li>
-                        <li>Entistä parempi kartta</li>
-                        <li>Ennakoiva haku</li>
-                        <li>Näet lähialueesi lähdöt helposti</li>
-                      </ul>
-                      Uusi reittiopas on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki
+                      <h1>Kokeile uudistuvaa Matka.fi-palvelua!</h1>
+                      <p>
+                      Uusi palvelu on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki
                       toimimaan erinomaisesti myös tietokoneella. Voit tutustua jo nyt mobiilioptimoituun
-                      versioon. Valmista on loppuvuodesta 2016.'''
+                      versioon. Valmista on loppuvuodesta 2016.
+                      </p>
+                      <p>
+                      Uusia ominaisuuksia muun muassa:
+                      </p>
+                      <ul>
+                        <li>Lähialueen lähdöt</li>
+                        <li>Omat suosikit</li>
+                        <li>Parempi kartta</li>
+                        <li>Reaaliaikatietoa, jos saatavilla</li>
+                      </ul>'''
