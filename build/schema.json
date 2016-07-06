@@ -2221,6 +2221,63 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "stopTimesForPattern",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "id",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "startTime",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Long",
+                                    "ofType": null
+                                },
+                                "defaultValue": "0"
+                            },
+                            {
+                                "name": "timeRange",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": "86400"
+                            },
+                            {
+                                "name": "numberOfDepartures",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": "2"
+                            }
+                        ],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stoptime",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "gtfsId",
                         "description": null,
                         "args": [],
@@ -2631,6 +2688,16 @@
             },
             {
                 "kind": "SCALAR",
+                "name": "Long",
+                "description": "Long type",
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "SCALAR",
                 "name": "Float",
                 "description": "Built-in Float",
                 "fields": null,
@@ -2886,6 +2953,22 @@
                 "name": "Stoptime",
                 "description": null,
                 "fields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "ID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
                     {
                         "name": "stop",
                         "description": null,
@@ -3144,16 +3227,6 @@
                         "deprecationReason": null
                     }
                 ],
-                "possibleTypes": null
-            },
-            {
-                "kind": "SCALAR",
-                "name": "Long",
-                "description": "Long type",
-                "fields": null,
-                "inputFields": null,
-                "interfaces": null,
-                "enumValues": null,
                 "possibleTypes": null
             },
             {
