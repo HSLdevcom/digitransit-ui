@@ -68,6 +68,9 @@ export default Relay.createContainer(
     })
   ),
   {
+    initialVariables: {
+      routeId: null,
+    },
     fragments: {
       pattern: () => Relay.QL`
         fragment on Pattern {
@@ -75,6 +78,9 @@ export default Relay.createContainer(
             type
           }
           stops {
+            stopTimesForPattern(id: $routeId) {
+              realtime
+            }
             gtfsId
             lat
             lon

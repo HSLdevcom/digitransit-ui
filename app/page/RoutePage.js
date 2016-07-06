@@ -25,7 +25,7 @@ class RoutePage extends React.Component {
   };
 
   static propTypes = {
-    pattern: React.PropTypes.node.isRequired,
+    pattern: React.PropTypes.object.isRequired,
   };
 
   constructor() {
@@ -132,7 +132,10 @@ class RoutePage extends React.Component {
               onSelectChange={this.selectRoutePattern}
             />
             <RouteListHeader />
-            <RouteStopListContainer pattern={this.props.pattern} />
+            <RouteStopListContainer
+              pattern={this.props.pattern}
+              routeId={this.props.relay.variables.routeId}
+            />
           </Tabs.Panel>
           {/* <Tabs.Panel
             title={<FormattedMessage id="map" defaultMessage="Map" />} className="fullscreen"
@@ -168,11 +171,17 @@ class RoutePage extends React.Component {
 
 RoutePage.propTypes = {
   params: React.PropTypes.object.isRequired,
+  relay: React.PropTypes.object.isRequired,
 };
 
 export default Relay.createContainer(RoutePage, {
+  initialVariables: {
+    routeId: null,
+  },
+
   fragments: {
-    pattern: () => Relay.QL`
+    pattern: ({ routeId }) =>
+      Relay.QL`
       fragment on Pattern {
         code
         headsign
@@ -190,7 +199,7 @@ export default Relay.createContainer(RoutePage, {
         ${RouteHeaderContainer.getFragment('pattern')}
         ${RouteMapContainer.getFragment('pattern')}
         ${RouteScheduleContainer.getFragment('pattern')}
-        ${RouteStopListContainer.getFragment('pattern')}
+        ${RouteStopListContainer.getFragment('pattern', { routeId })}
       }
     `,
   },
