@@ -96,3 +96,23 @@ DepartureTime.propTypes = {
 };
 
 export default DepartureTime;
+
+const mapStopTime = (stoptime, pattern) => (
+  ({
+    stop: stoptime.stop,
+    canceled: stoptime.realtimeState === 'CANCELED' ||
+      window.mock && stoptime.realtimeDeparture % 40 === 0,
+    departureTime: stoptime.serviceDay +
+      (stoptime.realtimeState === 'CANCELED' ? stoptime.scheduledDeparture :
+        stoptime.realtimeDeparture),
+    realtime: stoptime.realtime,
+    pattern: pattern && pattern.pattern,
+    trip: stoptime.trip,
+  })
+);
+
+const fromStopTime = (stoptime, currentTime) => (
+  <DepartureTime currentTime={currentTime} {...mapStopTime(stoptime)} />
+);
+
+export { mapStopTime, fromStopTime };
