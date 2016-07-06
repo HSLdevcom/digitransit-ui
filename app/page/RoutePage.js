@@ -22,6 +22,7 @@ class RoutePage extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     intl: intl.intlShape.isRequired,
     router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -30,7 +31,9 @@ class RoutePage extends React.Component {
 
   constructor() {
     super();
+    this.state = { fullscreenMap: false };
     this.selectRoutePattern.bind(this);
+    this.toggleFullscreenMap.bind(this);
   }
 
   componentDidMount() {
@@ -86,33 +89,67 @@ class RoutePage extends React.Component {
     }
   }
 
+  isMapFullscreen = () => {
+    if (typeof window !== 'undefined' && supportsHistory()) {
+      const state = this.context.location.state;
+      return state && state.fullscreenMap;
+    }
+
+    return this.state && this.state.fullscreenMap;
+  };
+
+  toggleFullscreenMap = () => {
+    if (supportsHistory()) {
+      if (this.context.location.state && this.context.location.state.fullscreenMap) {
+        this.context.router.goBack();
+      }
+      this.context.router.push({
+        state: {
+          fullscreenMap: true,
+        },
+        pathname: this.context.location.pathname,
+      });
+    }
+    this.setState({ fullscreenMap: !this.state.fullscreenMap });
+  };
+
   render() {
-    let title;
     if (this.props.pattern == null) {
       return <NotFound />;
     }
+
     const params = {
       route_short_name: this.props.pattern.route.shortName,
       route_long_name: this.props.pattern.route.longName,
     };
 
-    title = this.context.intl.formatMessage({
+    const title = this.context.intl.formatMessage({
       id: 'route-page.title',
       defaultMessage: 'Route {route_short_name}',
     }, params);
 
     const meta = {
       title,
-
       meta: [{
         name: 'description',
-
         content: this.context.intl.formatMessage({
           id: 'route-page.description',
           defaultMessage: 'Route {route_short_name} - {route_long_name}',
         }, params),
       }],
     };
+
+    if (this.isMapFullscreen()) {
+      return (
+        <DefaultNavigation className="fullscreen" title={title}>
+          <Helmet {...meta} />
+          <RouteMapContainer
+            pattern={this.props.pattern}
+            toggleFullscreenMap={this.toggleFullscreenMap}
+            className="fullscreen"
+          />
+        </DefaultNavigation>);
+    }
 
     return (
       <DefaultNavigation className="fullscreen" title={title}>
@@ -131,14 +168,13 @@ class RoutePage extends React.Component {
               pattern={this.props.pattern}
               onSelectChange={this.selectRoutePattern}
             />
+            <RouteMapContainer
+              pattern={this.props.pattern}
+              toggleFullscreenMap={this.toggleFullscreenMap}
+            />
             <RouteListHeader />
             <RouteStopListContainer pattern={this.props.pattern} />
           </Tabs.Panel>
-          {/* <Tabs.Panel
-            title={<FormattedMessage id="map" defaultMessage="Map" />} className="fullscreen"
-          >
-            <RouteMapContainer pattern={this.props.pattern} className="fullscreen" />
-          </Tabs.Panel>*/}
           <Tabs.Panel
             title={
               <div>
