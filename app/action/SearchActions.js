@@ -9,6 +9,7 @@ import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import { getLabel } from '../util/suggestionUtils';
 import { getLatLng } from '../util/geo-utils';
+import routeCompare from '../util/route-compare';
 
 function processResults(actionContext, result) {
   actionContext.dispatch('SuggestionsResult', result);
@@ -117,6 +118,8 @@ function mapRoutes(res) {
           label: `${item.shortName} ${item.longName}`,
           layer: `route-${item.type}`,
           mode: item.type.toLowerCase(),
+          shortName: item.shortName,
+          longName: item.longName,
           link: `/linjat/${item.patterns[0].code}`,
         },
         geometry: {
@@ -126,6 +129,11 @@ function mapRoutes(res) {
     );
   }
   return [];
+}
+
+function compareRoutes(x, y) {
+  return x.agency.name.localeCompare(y.agency.name) ||
+    routeCompare(x.properties, y.properties);
 }
 
 function getStops(res) {
@@ -235,8 +243,8 @@ function searchRoutesAndStops(input, reference, favourites) {
         })
       );
       return ([]
-        .concat(sortBy(favouriteRoutes, () => ['agency.name', 'properties.label']))
-        .concat(sortBy(mapRoutes(response.data.routes), () => ['agency.name', 'properties.label']))
+        .concat(favouriteRoutes.sort(compareRoutes))
+        .concat(uniq(mapRoutes(response.data.routes)).sort(compareRoutes))
         .concat(sortBy(getStops(response.data.stops || []), (item) =>
           Math.round(
             getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
