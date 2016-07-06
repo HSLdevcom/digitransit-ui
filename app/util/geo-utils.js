@@ -63,11 +63,11 @@ export function displayDistance(meters) {
   /* eslint-disable yoda */
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`;
-  } else if (100 < meters < 1000) {
+  } else if (meters < 1000) {
     return `${Math.round(meters / 50) * 50} m`;
-  } else if (1000 < meters < 10000) {
+  } else if (meters < 10000) {
     return `${Math.round(meters / 100) * 100 / 1000} km`;
-  } else if (10000 < meters < 100000) {
+  } else if (meters < 100000) {
     return `${Math.round(meters / 1000)} km`;
   }
   return `${Math.round(meters / 10000) * 10} km`;
