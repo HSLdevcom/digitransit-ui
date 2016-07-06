@@ -167,11 +167,12 @@ nav.top-bar {
   background: $white;
   color: $gray;
   text-align: left;
+  cursor: pointer;
 
   h2 {
     @include font-medium;
     font-size: 13px;
-    color: $primary-color;
+    color: $title-color;
     margin: 0;
   }
 }
