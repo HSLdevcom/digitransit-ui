@@ -97,6 +97,14 @@ DepartureTime.propTypes = {
 
 export default DepartureTime;
 
+
+/**
+ * maps stoptime to data structure required by DepartureTime. This is copied
+ * from departure-list-container.
+ *
+ *  @param stoptime stoptime from graphql
+ *  @param pattern pattern from graphql
+ */
 const mapStopTime = (stoptime, pattern) => (
   ({
     stop: stoptime.stop,
@@ -111,6 +119,11 @@ const mapStopTime = (stoptime, pattern) => (
   })
 );
 
+/**
+ * maps stoptime to DepartureTime component
+ *  @param stoptime stoptime from graphql
+ *  @param currentTime
+ */
 const fromStopTime = (stoptime, currentTime) => (
   <DepartureTime currentTime={currentTime} {...mapStopTime(stoptime)} />
 );
