@@ -5,10 +5,10 @@ import Link from 'react-router/lib/Link';
 import TripLink from '../trip/trip-link';
 import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
+import { fromStopTime } from '../departure/DepartureTime';
 
 class RouteStop extends React.Component {
   // this component is based on React.component because we need ref to this component
-  // TODO make this functional again
 
   doRender(props) {
     const vehicles = props.vehicles && props.vehicles.map((vehicle) =>
@@ -30,6 +30,21 @@ class RouteStop extends React.Component {
         }
       />)) || [];
 
+    const departures = (stop) => {
+      if (stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0) {
+        return (
+          <div>
+          {stop.stopTimesForPattern.map((stopTime) => (
+            <div className="columns small-2 route-stop-leaves">
+              {fromStopTime(stopTime, props.currentTime)}
+            </div>
+            ))}
+          </div>
+        );
+      }
+      return undefined;
+    };
+
     return (
       <div className="route-stop row">
         <div className="columns small-3 route-stop-now">{vehicles}</div>
@@ -47,9 +62,7 @@ class RouteStop extends React.Component {
             <StopCode code={props.stop.code} />
             <span className="route-stop-address">{props.stop.desc}</span>
           </div>
-
-          <div className="columns small-2 route-stop-leaves">{props.stop.minutes}</div>
-          <div className="columns small-2 route-stop-next">{props.stop.minutes}</div>
+          {departures(props.stop)}
         </Link>
       </div>);
   }
@@ -63,6 +76,7 @@ RouteStop.propTypes = {
   stop: React.PropTypes.object,
   mode: React.PropTypes.string,
   distance: React.PropTypes.number,
+  currentTime: React.PropTypes.object.isRequired,
 };
 
 export default RouteStop;
