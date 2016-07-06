@@ -8,7 +8,6 @@ $itinerary-route-max-width: 500px;
 // hacketihack, instead of all this we should have more generic measures for pages somewhere else...
 
 .itinerary-swipe-views-root {
-  height: calc(100% - #{$small-map-height} - #{$itinerary-bottom-navigation-height} - 18px);
   flex-grow: 1;
 
   display: flex;
@@ -27,9 +26,7 @@ $itinerary-route-max-width: 500px;
 }
 
 .itinerary-tabs__scroll {
-  height: calc(100% - #{$itinerary-tab-switch-height});
   flex-grow: 1;
-
   display: flex;
   flex-direction: column;
   background: $white;
