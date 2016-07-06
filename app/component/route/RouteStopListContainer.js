@@ -14,6 +14,7 @@ class RouteStopListContainer extends React.Component {
     className: React.PropTypes.string,
     vehicles: React.PropTypes.object,
     locationState: React.PropTypes.object.isRequired,
+    currentTime: React.PropTypes.number.isRequired,
   };
 
   componentDidMount() {
@@ -45,6 +46,7 @@ class RouteStopListContainer extends React.Component {
           vehicles={vehicleStops[stop.gtfsId]}
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? 'nearestStop' : null}
+          currentTime={this.props.currentTime.unix()}
         />
       );
     });
@@ -61,10 +63,11 @@ class RouteStopListContainer extends React.Component {
 export default Relay.createContainer(
   connectToStores(
     RouteStopListContainer,
-    ['RealTimeInformationStore', 'PositionStore'],
+    ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
       locationState: getStore('PositionStore').getLocationState(),
+      currentTime: getStore('TimeStore').getCurrentTime(),
     })
   ),
   {
@@ -80,6 +83,10 @@ export default Relay.createContainer(
           stops {
             stopTimesForPattern(id: $routeId) {
               realtime
+              realtimeState
+              realtimeDeparture
+              serviceDay
+              scheduledDeparture
             }
             gtfsId
             lat
