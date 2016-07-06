@@ -24,7 +24,9 @@ function RouteMapContainer(props) {
     >
       {props.children}
       <div className="fullscreen-toggle" onClick={props.toggleFullscreenMap} >
-        <Icon img="icon-icon_maximize" className="cursor-pointer" />
+        {props.className === 'fullscreen' ?
+          <Icon img="icon-icon_minimize" className="cursor-pointer" /> :
+          <Icon img="icon-icon_maximize" className="cursor-pointer" />}
       </div>
     </Map>);
 }
