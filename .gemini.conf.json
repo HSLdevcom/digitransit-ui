@@ -2,6 +2,7 @@
   "screenshotsDir": "./test/visual-images/",
   "httpTimeout": 25000,
   "sessionRequestTimeout": 120000,
+  "sessionsPerBrowser": 5,
   "system": {
     "plugins": { "browserstack": {} }
   },
