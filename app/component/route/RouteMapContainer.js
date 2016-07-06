@@ -22,6 +22,7 @@ function RouteMapContainer(props) {
       fitBounds
       bounds={props.pattern.geometry.map((p) => [p.lat, p.lon])}
     >
+      {props.children}
       <div className="fullscreen-toggle" onClick={props.toggleFullscreenMap} >
         <Icon img="icon-icon_maximize" className="cursor-pointer" />
       </div>
@@ -39,6 +40,7 @@ RouteMapContainer.propTypes = {
   tripId: React.PropTypes.string,
   toggleFullscreenMap: React.PropTypes.func.isRequired,
   pattern: React.PropTypes.object.isRequired,
+  children: React.PropTypes.node,
 };
 
 export const RouteMapFragments = {
