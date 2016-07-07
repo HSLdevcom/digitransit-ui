@@ -25,7 +25,7 @@ function MainMenu(props) {
         {config.mainMenu.showInquiry && inquiry}
       </header>
       <div className="offcanvas-section">
-        {config.mainMenu.showDisruptions && <DisruptionInfoButtonContainer />}
+        {config.mainMenu.showDisruptions && props.showDisruptionInfo && <DisruptionInfoButtonContainer />}
       </div>
     </div>);
 }
