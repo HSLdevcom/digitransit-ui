@@ -525,21 +525,19 @@ div.route-tabs {
     }
 
     &.expired {
-      .icon {
-        fill: $gray;
+      filter: grayscale(1);
+
+      .route-number {
+        filter: brightness(1.5);
       }
-      .route-alert-header, .vehicle-number {
-        color: $gray;
+
+      .caution {
+        filter: contrast(0.6) brightness(1.5);
       }
     }
   }
 }
 
-// This allows us to set the primary color of icons dynamically,
-// keep an eye out for side-effects!
-.path2 {
-  fill: inherit !important;
-}
 path {
   stroke-width: inherit;
 }
