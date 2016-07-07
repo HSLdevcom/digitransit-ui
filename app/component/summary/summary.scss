@@ -44,7 +44,6 @@
   .time {
     @include font-book;
     height: 19px !important;
-    max-width: 6em;
     text-align: left;
     font-family: $font-family !important;
     input {
@@ -53,6 +52,10 @@
     hr {
       display: none;
     }
+  }
+
+  .time-mui {
+    max-width: 5em;
   }
 
   .arrive {
