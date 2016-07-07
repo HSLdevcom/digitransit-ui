@@ -478,3 +478,75 @@ div.route-tabs {
     pointer-events: none;
   }
 }
+
+.route-alerts-list {
+
+  .route-alert-row {
+    border-bottom: 1px solid $light-gray;
+    display: flex;
+    padding: 0.8em 0.8em 0.8em 0.8em;
+
+    .icon.caution {
+      fill: $cancelation-red;
+      position: absolute;
+      margin-left: -2.9em;
+      margin-top: 1.1em;
+      height: 0.8em;
+      stroke: $white;
+      stroke-width: 12;
+    }
+
+    .route-alert-contents {
+      vertical-align: bottom;
+    }
+
+    .route-number {
+      padding-top: 0.2em;
+      padding-right: 0.8em;
+
+      .icon {
+        width: 1.5em;
+        height: 1.5em;
+        margin-bottom: -0.2em;
+      }
+      .vehicle-number {
+        margin-top: -0.3em;
+        font-size: $font-size-xsmall;
+      }
+    }
+
+    .route-alert-duration {
+      color: $gray;
+      font-size: 11px;
+      margin-bottom: 0.2em;
+      font-weight: 200;
+    }
+
+    .route-alert-body {
+      color: $gray;
+      font-size: $font-size-small;
+      font-weight: 200;
+    }
+
+    &.expired {
+      filter: grayscale(1);
+
+      .route-number {
+        filter: brightness(1.5);
+      }
+
+      .caution {
+        filter: contrast(0.6) brightness(1.5);
+      }
+    }
+  }
+}
+
+path {
+  stroke-width: inherit;
+}
+
+.no-alerts-message {
+  text-align: center;
+  margin-top: 50px;
+}

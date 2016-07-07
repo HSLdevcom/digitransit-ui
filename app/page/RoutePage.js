@@ -9,6 +9,7 @@ import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
 import RouteStopListContainer from '../component/route/RouteStopListContainer';
 import RouteMapContainer from '../component/route/RouteMapContainer';
 import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
+import RouteAlertsContainer from '../component/route/RouteAlertsContainer';
 import RoutePatternSelect from '../component/route/RoutePatternSelect';
 import RealTimeClient from '../action/real-time-client-action';
 import intl, { FormattedMessage } from 'react-intl';
@@ -158,7 +159,7 @@ class RoutePage extends React.Component {
                 <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
               </div>}
           >
-            TODO
+            <RouteAlertsContainer route={this.props.pattern.route} />
           </Tabs.Panel>
         </Tabs>
       </DefaultNavigation>
@@ -186,6 +187,7 @@ export default Relay.createContainer(RoutePage, {
               name
             }
           }
+          ${RouteAlertsContainer.getFragment('route')}
         }
         ${RouteHeaderContainer.getFragment('pattern')}
         ${RouteMapContainer.getFragment('pattern')}
