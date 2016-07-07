@@ -10,7 +10,7 @@ import StopReference from '../component/stop/stop-reference';
 import Distance from '../component/departure/distance';
 import NotImplemented from '../component/util/not-implemented';
 import NotImplementedLink from '../component/util/not-implemented-link';
-import CardHeader from '../component/card/card-header';
+import CardHeader from '../component/card/CardHeader';
 import Card from '../component/card/card';
 import CityBikeCard from '../component/city-bike/city-bike-card';
 import CityBikeContent from '../component/city-bike/city-bike-content';
@@ -25,6 +25,7 @@ import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
+import Favourite from '../component/favourites/Favourite';
 import TicketInformation from '../component/itinerary/TicketInformation';
 import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect';
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
@@ -334,6 +335,7 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={Distance} />
         <ComponentDocumentation component={NotImplementedLink} />
         <ComponentDocumentation component={NotImplemented} />
+        <ComponentDocumentation component={Favourite} />
       </div>
     );
   }

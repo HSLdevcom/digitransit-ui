@@ -1,5 +1,5 @@
 React                 = require 'react'
-StopCardHeader        = require './stop-card-header'
+StopCardHeader        = require('./StopCardHeader').default
 Link                  = require 'react-router/lib/Link'
 Card                  = require '../card/card'
 
