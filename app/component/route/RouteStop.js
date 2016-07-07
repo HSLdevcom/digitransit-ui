@@ -35,7 +35,7 @@ class RouteStop extends React.Component {
         return (
           <div>
           {stop.stopTimesForPattern.map((stopTime) => (
-            <div className="columns small-2 route-stop-mins">
+            <div className="columns small-2 route-stop-time">
               {fromStopTime(stopTime, props.currentTime)}
             </div>
             ))}

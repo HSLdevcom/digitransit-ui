@@ -9,10 +9,10 @@ const RouteListHeader = () =>
     <div className="columns small-5 route-stop-name">
       <FormattedMessage id="stop" defaultMessage="Stop" />
     </div>
-    <div className="columns small-2 route-stop-mins">
+    <div className="columns small-2 route-stop-time">
       <FormattedMessage id="leaves" defaultMessage="Leaves" />
     </div>
-    <div className="columns small-2 route-stop-mins">
+    <div className="columns small-2 route-stop-time">
       <FormattedMessage id="next" defaultMessage="Next" />
     </div>
   </div>);
