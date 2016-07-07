@@ -87,16 +87,16 @@ class RoutePage extends React.Component {
   }
 
   render() {
-    let title;
     if (this.props.pattern == null) {
       return <NotFound />;
     }
+
     const params = {
       route_short_name: this.props.pattern.route.shortName,
       route_long_name: this.props.pattern.route.longName,
     };
 
-    title = this.context.intl.formatMessage({
+    const title = this.context.intl.formatMessage({
       id: 'route-page.title',
       defaultMessage: 'Route {route_short_name}',
     }, params);
