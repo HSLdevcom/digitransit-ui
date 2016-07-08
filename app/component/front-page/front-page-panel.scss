@@ -9,7 +9,7 @@ $heading-color: #858585;
   position: absolute;
   top: 0;
   height: calc(100% - 48px);
-  z-index: 1000;
+  z-index: 1200;
   width: 100%;
   overflow: hidden;
   background-color: $background-color;
@@ -42,10 +42,8 @@ $heading-color: #858585;
 }
 
 .frontpage-panel-container .tabs-row {
-  z-index: 1001;
-  position: absolute;
+  z-index: 1201;
   width: 100%;
-  bottom: 0;
 }
 
 .frontpage-panel-wrapper-enter {

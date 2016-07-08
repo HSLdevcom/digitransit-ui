@@ -2,7 +2,7 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 ItinerarySummary      = require '../itinerary/itinerary-summary'
-SummaryRow            = require './summary-row'
+SummaryRow            = require('./SummaryRow').default
 Icon                  = require '../icon/icon'
 FormattedMessage      = require('react-intl').FormattedMessage
 

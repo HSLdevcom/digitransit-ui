@@ -83,21 +83,6 @@ export const TripQueries = {
   `,
 };
 
-export const RoutePageFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      route {
-        shortName
-        longName
-      }
-      ${require('./component/route/route-header-container').getFragment('pattern')}
-      ${require('./component/route/route-map-container').getFragment('pattern')}
-      ${require('./component/route/RouteScheduleContainer').default.getFragment('pattern')}
-      ${require('./component/route/RouteStopListContainer').default.getFragment('pattern')}
-    }
-  `,
-};
-
 export const RouteHeaderFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
@@ -119,22 +104,6 @@ export const RouteHeaderFragments = {
   `,
 };
 
-export const RouteMapFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      code
-      stops {
-        lat
-        lon
-        name
-        gtfsId
-        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-      }
-      ${require('./component/map/route/route-line').getFragment('pattern')}
-    }
-  `,
-};
-
 export const RouteLineFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
@@ -150,7 +119,7 @@ export const RouteLineFragments = {
         lon
         name
         gtfsId
-        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+        ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
       }
     }
   `,
@@ -235,7 +204,7 @@ export const StopCardContainerFragments = {
       stoptimes: stoptimesForServiceDate(date: $date) {
         ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
       }
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
     }
   `,
 };
@@ -257,7 +226,7 @@ export const StopPageFragments = {
       stoptimes: stoptimesForServiceDate(date: $date) {
         ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
       }
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
     }
   `,
 };
@@ -267,7 +236,7 @@ export const StopMapPageFragments = {
     fragment on Stop {
       lat
       lon
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
     }
   `,
 };
@@ -333,17 +302,6 @@ export const StopMarkerPopupFragments = {
       lon
       name
       ${require('./component/stop-cards/stop-card-container').getFragment('stop', { date })}
-    }
-  `,
-};
-
-export const StopCardHeaderFragments = {
-  stop: () => Relay.QL`
-    fragment on Stop {
-      gtfsId
-      name
-      code
-      desc
     }
   `,
 };
@@ -456,8 +414,8 @@ export const TripPageFragments = {
           shortName
           longName
         }
-        ${require('./component/route/route-header-container').getFragment('pattern')}
-        ${require('./component/route/route-map-container').getFragment('pattern')}
+        ${require('./component/route/RouteHeaderContainer').default.getFragment('pattern')}
+        ${require('./component/route/RouteMapContainer').default.getFragment('pattern')}
       }
       stoptimes {
         scheduledDeparture
@@ -639,60 +597,6 @@ export class SummaryPlanContainerRoute extends Relay.Route {
   };
   static routeName = 'PlanListContainerRoute';
 }
-
-export const SummaryPlanContainerFragments = {
-  plan: () => Relay.QL`
-    fragment on QueryType {
-      plan(fromPlace: $fromPlace, toPlace: $toPlace, numItineraries: $numItineraries, modes: $modes, date: $date, time: $time, walkReluctance: $walkReluctance, walkBoardCost: $walkBoardCost, minTransferTime: $minTransferTime, walkSpeed: $walkSpeed, maxWalkDistance: $maxWalkDistance, wheelchair: $wheelchair, disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic, arriveBy: $arriveBy, preferred: $preferred) {
-        itineraries {
-          walkDistance
-          duration
-
-          legs {
-            mode
-            agency {
-              name
-            }
-            from {
-              lat
-              lon
-              vertexType
-              bikeRentalStation {
-                stationId
-              }
-              stop {
-                code
-              }
-            }
-            to {
-              lat
-              lon
-              vertexType
-              bikeRentalStation {
-                stationId
-              }
-              stop {
-                code
-              }
-            }
-            legGeometry {
-              length
-              points
-            }
-            intermediateStops {
-              gtfsId
-            }
-            trip {
-              gtfsId
-            }
-          }
-
-          ${require('./component/summary/itinerary-summary-list-container').getFragment('itineraries')}
-        }
-      }
-    }
-  `,
-};
 
 export const ItinerarySummaryListContainerFragments = {
   itineraries: () => Relay.QL`

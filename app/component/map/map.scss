@@ -5,6 +5,12 @@ $stop-thin-opacity: 0.2;
 
 div.map {
   position: relative;
+  flex-grow: 1;
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+
   .leaflet-container .leaflet-control-attribution {
     background: rgba(255, 255, 255, 0.4);
     color: $dark-gray
@@ -14,20 +20,6 @@ div.map {
   }
 }
 
-
-.map.fullscreen, .map.fullscreen .leaflet-container {
-  height: 100%;
-}
-
-div.map.summaryMap {
-  height: calc(100% - 12.5em);
-  min-height: 100px;
-}
-
-div.map.summaryMap div.leaflet-container {
-  height: 100%;
-  min-height: 100px;
-}
 .below-map  {
   overflow: auto;
 }
@@ -52,7 +44,7 @@ div.leaflet-control-container div.leaflet-top {
 }
 
 div.leaflet-container {
-  position: absolute;
+  flex-grow: 1;
   width: 100%;
   background: rgb(230, 229, 217);
   @include font-map-container;
@@ -199,6 +191,7 @@ div.leaflet-marker-icon.vehicle-icon {
 
   .leaflet-popup-tip-container {
     margin: -6px 0px;
+    top: 1px;
     .leaflet-popup-tip  {
       border: 1px solid $gray;
       background: $background-color;
@@ -324,6 +317,22 @@ div.origin-popup {
   fill-opacity: $stop-thin-opacity;
 }
 
+.map .legmarker {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   & > div {
+     @include font-narrow-medium;
+     background-color: $white;
+     border-width: 2px;
+     border-style: solid;
+     border-radius: $border-radius;
+     padding: 0 2px;
+     text-align: center;
+     flex-shrink: 0; /* work around iOS bug with flex sizes */
+   }
+}
+
 .map .leg-halo {
   stroke: #fff;
   stroke-opacity: 1;
@@ -369,6 +378,7 @@ div.background-gradient {
 
 div.map-click-prevent-overlay {
   position: absolute;
+  top: 0;
   height: 100%;
   width: 100%;
   z-index: 801;

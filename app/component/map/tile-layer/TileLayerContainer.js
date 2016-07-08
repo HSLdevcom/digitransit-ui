@@ -40,6 +40,10 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
   router: React.PropTypes.object.isRequired,
 });
 
+// TODO eslint doesn't know that TileLayerContainer is a react component,
+//      because it doesn't inherit it directly. This will force the detection
+//      once eslint-plugin-react has a new release (https://github.com/yannickcr/eslint-plugin-react/pull/513)
+/** @extends React.Component */
 class TileLayerContainer extends BaseTileLayer {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
@@ -81,10 +85,9 @@ class TileLayerContainer extends BaseTileLayer {
     if (e.currentTime) {
       /* eslint-disable no-underscore-dangle */
       activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
-      /* eslint-enable no-underscore-dangle */
-
       activeTiles.forEach(tile => {
-        tile.el.layers.forEach(layer => {
+        /* eslint-disable no-unused-expressions */
+        tile.el.layers && tile.el.layers.forEach(layer => {
           if (layer.onTimeChange) {
             layer.onTimeChange();
           }

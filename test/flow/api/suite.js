@@ -1,4 +1,4 @@
-/* eslint prefer-arrow-callback: 0 */
+/* eslint-disable prefer-arrow-callback */
 require('./browser-upgrade.js');
 
 function suite(name, fn) {

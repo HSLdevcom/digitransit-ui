@@ -1,4 +1,4 @@
-/* eslint no-restricted-syntax: 0 */
+/* eslint-disable no-restricted-syntax */
 
 module.exports = (mode) => {
   const selector = mode.toLowerCase();

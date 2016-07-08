@@ -1,7 +1,7 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
-RouteHeader           = require './route-header'
+RouteHeader           = require('./RouteHeader').default
 without               = require 'lodash/without'
 FavouriteRoutesActions = require '../../action/favourite-routes-action'
 connectToStores = require 'fluxible-addons-react/connectToStores'
