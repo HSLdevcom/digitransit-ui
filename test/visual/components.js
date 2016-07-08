@@ -127,7 +127,8 @@ gemini.suite('components', (parent) => {
       suite.setCaptureElements('#Favourite .component-example:nth-of-type(2) .component')
       .capture('normal');
     });
-    
+  });
+
   gemini.suite('IconWithTail', (component) => {
     component.setCaptureElements(
       '#IconWithTail .component-example:nth-of-type(1) .component')
