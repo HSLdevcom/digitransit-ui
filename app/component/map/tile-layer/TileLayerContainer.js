@@ -62,13 +62,8 @@ class TileLayerContainer extends BaseTileLayer {
     const tile = new TileContainer(tileCoords, done, this.props);
 
     tile.onSelectableTargetClicked = (selectableTargets, coords) => {
-      if (this.props.disableMapTracking) {
-        this.props.disableMapTracking();
-      }
-
-      if (Array.isArray(this.state.selectableTargets) && selectableTargets.length === 0) {
-        this.setState({ selectableTargets: false });
-        return;
+      if (selectableTargets && this.props.disableMapTracking) {
+        this.props.disableMapTracking(); // disable now that popup opens
       }
 
       this.setState({
@@ -108,7 +103,7 @@ class TileLayerContainer extends BaseTileLayer {
 
     /* eslint-disable no-underscore-dangle */
     // TODO: This causes a memory leak. We should also use this.leafletElement.off
-    this.leafletElement.on('click', e => {
+    this.leafletElement.on('click contextmenu', e => {
       Object.keys(this.leafletElement._tiles)
         .filter(key => this.leafletElement._tiles[key].active)
         .filter(key => this.leafletElement._keyToBounds(key).contains(e.latlng))
