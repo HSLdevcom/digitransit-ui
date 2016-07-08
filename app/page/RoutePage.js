@@ -13,7 +13,6 @@ import RoutePatternSelect from '../component/route/RoutePatternSelect';
 import RealTimeClient from '../action/real-time-client-action';
 import intl, { FormattedMessage } from 'react-intl';
 import NotFound from './404';
-import { supportsHistory } from 'history/lib/DOMUtils';
 
 class RoutePage extends React.Component {
 
@@ -31,7 +30,6 @@ class RoutePage extends React.Component {
 
   constructor() {
     super();
-    this.state = { fullscreenMap: false };
     this.selectRoutePattern.bind(this);
     this.toggleFullscreenMap.bind(this);
   }
@@ -82,35 +80,29 @@ class RoutePage extends React.Component {
   }
 
   selectRoutePattern = (e) => {
-    if (supportsHistory()) {
-      this.context.router.push({
-        pathname: `/linjat/${e.target.value}`,
-      });
-    }
+    this.context.router.push({
+      pathname: `/linjat/${e.target.value}`,
+    });
   }
 
   isMapFullscreen = () => {
-    if (typeof window !== 'undefined' && supportsHistory()) {
+    if (typeof window !== 'undefined') {
       const state = this.context.location.state;
       return state && state.fullscreenMap;
     }
-
-    return this.state && this.state.fullscreenMap;
+    return false;
   };
 
   toggleFullscreenMap = () => {
-    if (supportsHistory()) {
-      if (this.context.location.state && this.context.location.state.fullscreenMap) {
-        this.context.router.goBack();
-      }
-      this.context.router.push({
-        state: {
-          fullscreenMap: true,
-        },
-        pathname: this.context.location.pathname,
-      });
+    if (this.context.location.state && this.context.location.state.fullscreenMap) {
+      this.context.router.goBack();
     }
-    this.setState({ fullscreenMap: !this.state.fullscreenMap });
+    this.context.router.push({
+      state: {
+        fullscreenMap: true,
+      },
+      pathname: this.context.location.pathname,
+    });
   };
 
   render() {
