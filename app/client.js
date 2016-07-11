@@ -158,6 +158,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
         <DesktopWrapper>
           <Router
             history={history}
+            environment={Relay.Store}
             render={applyRouterMiddleware(useRelay)}
             children={app.getComponent()}
             onUpdate={track}
