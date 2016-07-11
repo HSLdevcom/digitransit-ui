@@ -45,18 +45,6 @@ export const StopQueries = {
   `,
 };
 
-export class TripRoute extends Relay.Route {
-  static queries = {
-    pattern: () => Relay.QL`query {
-        trip(id: $id)
-    }`,
-  };
-  static paramDefinitions = {
-    id: { required: true },
-  };
-  static routeName = 'TripRoute';
-}
-
 export const TripPatternFragments = {
   pattern: () => Relay.QL`
     fragment on Trip {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import queries from '../../queries';
+import TripRoute from '../../route/TripRoute';
 const isBrowser = typeof window !== 'undefined' && window !== null;
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
@@ -139,7 +139,7 @@ class ItineraryLine extends React.Component {
             <Relay.RootContainer
               Component={TripLine}
               key={leg.tripId}
-              route={new queries.TripRoute({
+              route={new TripRoute({
                 id: leg.tripId,
               })}
               renderLoading={() => false}
