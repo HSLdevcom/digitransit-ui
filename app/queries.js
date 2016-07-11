@@ -416,28 +416,6 @@ export const CityBikePopupFragments = {
   `,
 };
 
-export const TripStopListFragments = {
-  trip: () => Relay.QL`
-    fragment on Trip {
-      route {
-        type
-      }
-      stoptimes        {
-        stop{
-          gtfsId
-          name
-          desc
-          code
-          lat
-          lon
-        }
-        realtimeDeparture
-        realtime
-      }
-    }
-  `,
-};
-
 export class FuzzyTripRoute extends Relay.Route {
   static queries = {
     trip: (Component, variables) => Relay.QL`

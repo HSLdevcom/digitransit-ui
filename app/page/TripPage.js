@@ -1,14 +1,18 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Helmet from 'react-helmet';
+import Tabs from 'react-simpletabs';
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
-import TripListHeader from '../component/trip/trip-list-header';
-import TripStopListContainer from '../component/trip/trip-stop-list-container';
+import TripListHeader from '../component/trip/TripListHeader';
+import TripStopListContainer from '../component/trip/TripStopListContainer';
 import RouteMapContainer from '../component/route/RouteMapContainer';
+import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
 import RealTimeClient from '../action/real-time-client-action';
+import RoutePatternSelect from '../component/route/RoutePatternSelect';
 import timeUtils from '../util/time-utils';
-import intl from 'react-intl';
+import intl, { FormattedMessage } from 'react-intl';
+import Icon from '../component/icon/icon';
 
 class TripPage extends React.Component {
   static contextTypes = {
@@ -109,14 +113,44 @@ class TripPage extends React.Component {
           pattern={this.props.trip.pattern}
           trip={tripStartTime}
         />
-        <RouteMapContainer
-          className="map-small"
-          pattern={this.props.trip.pattern}
-          trip={tripStartTime}
-          tripId={this.props.trip.gtfsId}
-        />
-        <TripListHeader />
-        <TripStopListContainer className="below-map" trip={this.props.trip} />
+        <Tabs className="route-tabs">
+          <Tabs.Panel
+            title={
+              <div>
+                <Icon img="icon-icon_bus-stop" />
+                <FormattedMessage id="stops" defaultMessage="Stops" />
+              </div>
+            }
+          >
+            <RoutePatternSelect
+              pattern={this.props.trip.pattern}
+              onSelectChange={this.selectRoutePattern}
+            />
+            <TripListHeader />
+            <TripStopListContainer className="below-map" trip={this.props.trip} />
+          </Tabs.Panel>
+          <Tabs.Panel
+            title={
+              <div>
+                <Icon img="icon-icon_schedule" />
+                <FormattedMessage id="timetable" defaultMessage="Timetable" />
+              </div>}
+          >
+            <RoutePatternSelect
+              pattern={this.props.trip.pattern}
+            />
+            <RouteScheduleContainer pattern={this.props.trip.pattern} />
+          </Tabs.Panel>
+          <Tabs.Panel
+            title={
+              <div>
+                <Icon img="icon-icon_caution" />
+                <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
+              </div>}
+          >
+            TODO
+          </Tabs.Panel>
+        </Tabs>
       </DefaultNavigation>);
   }
 }
@@ -130,6 +164,13 @@ export default Relay.createContainer(TripPage, {
           route {
             shortName
             longName
+            patterns {
+              code
+              headsign
+              stops {
+                name
+              }
+            }
           }
           ${RouteHeaderContainer.getFragment('pattern')}
           ${RouteMapContainer.getFragment('pattern')}
