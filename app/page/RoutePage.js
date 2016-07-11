@@ -12,7 +12,7 @@ import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
 import RouteAlertsContainer from '../component/route/RouteAlertsContainer';
 import RoutePatternSelect from '../component/route/RoutePatternSelect';
 import RealTimeClient from '../action/real-time-client-action';
-import intl, { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import NotFound from './404';
 
 class RoutePage extends React.Component {
@@ -20,7 +20,7 @@ class RoutePage extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
   };

@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import provideContext from 'fluxible-addons-react/provideContext';
-import intl from 'react-intl';
+import { intlShape } from 'react-intl';
 import GenericMarker from '../generic-marker';
 import Icon from '../../icon/icon';
 import ReactDomServer from 'react-dom/server';
@@ -24,7 +24,7 @@ class StopMarker extends React.Component {
     layerContainer: React.PropTypes.object.isRequired,
     stop: React.PropTypes.object.isRequired,
     mode: React.PropTypes.string.isRequired,
-    renderName: React.PropTypes.string.isRequired,
+    renderName: React.PropTypes.bool,
     disableModeIcons: React.PropTypes.bool,
     selected: React.PropTypes.bool,
   };
@@ -34,7 +34,7 @@ class StopMarker extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     router: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   getStopMarker() {
@@ -45,7 +45,7 @@ class StopMarker extends React.Component {
     let iconSmall;
 
     const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
-      intl: intl.intlShape.isRequired,
+      intl: intlShape.isRequired,
       router: React.PropTypes.object.isRequired,
       route: React.PropTypes.object.isRequired,
     });

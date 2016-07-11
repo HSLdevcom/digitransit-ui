@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import StopRoute from '../../../route/StopRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
 import Popup from '../Popup';
-import intl from 'react-intl';
+import { intlShape } from 'react-intl';
 import BaseTileLayer from 'react-leaflet/lib/BaseTileLayer';
 import omit from 'lodash/omit';
 import provideContext from 'fluxible-addons-react/provideContext';
@@ -16,19 +16,19 @@ import TileContainer from './TileContainer';
 import L from 'leaflet';
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
-  intl: intl.intlShape.isRequired,
+  intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
-  intl: intl.intlShape.isRequired,
+  intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
-  intl: intl.intlShape.isRequired,
+  intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
@@ -42,7 +42,7 @@ class TileLayerContainer extends BaseTileLayer {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
     router: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
   };
@@ -51,40 +51,6 @@ class TileLayerContainer extends BaseTileLayer {
     stops: undefined,
     coords: undefined,
   };
-
-  createTile = (tileCoords, done) => {
-    const tile = new TileContainer(tileCoords, done, this.props);
-
-    tile.onSelectableTargetClicked = (selectableTargets, coords) => {
-      if (this.props.disableMapTracking) {
-        this.props.disableMapTracking();
-      }
-
-      this.setState({
-        selectableTargets,
-        coords,
-      });
-    };
-
-    return tile.el;
-  }
-
-  onTimeChange = (e) => {
-    let activeTiles;
-
-    if (e.currentTime) {
-      /* eslint-disable no-underscore-dangle */
-      activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
-      activeTiles.forEach(tile => {
-        /* eslint-disable no-unused-expressions */
-        tile.el.layers && tile.el.layers.forEach(layer => {
-          if (layer.onTimeChange) {
-            layer.onTimeChange();
-          }
-        });
-      });
-    }
-  }
 
   merc = new SphericalMercator({
     size: this.props.tileSize || 256,
@@ -114,14 +80,48 @@ class TileLayerContainer extends BaseTileLayer {
     super.componentDidMount(...this.props);
   }
 
-  componentWillUnmount() {
-    this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
-  }
-
   componentDidUpdate() {
     if (this.refs.popup != null) {
       this.refs.popup.leafletElement.openOn(this.props.map);
     }
+  }
+
+  componentWillUnmount() {
+    this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
+  }
+
+  onTimeChange = (e) => {
+    let activeTiles;
+
+    if (e.currentTime) {
+      /* eslint-disable no-underscore-dangle */
+      activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
+      activeTiles.forEach(tile => {
+        /* eslint-disable no-unused-expressions */
+        tile.el.layers && tile.el.layers.forEach(layer => {
+          if (layer.onTimeChange) {
+            layer.onTimeChange();
+          }
+        });
+      });
+    }
+  }
+
+  createTile = (tileCoords, done) => {
+    const tile = new TileContainer(tileCoords, done, this.props);
+
+    tile.onSelectableTargetClicked = (selectableTargets, coords) => {
+      if (this.props.disableMapTracking) {
+        this.props.disableMapTracking();
+      }
+
+      this.setState({
+        selectableTargets,
+        coords,
+      });
+    };
+
+    return tile.el;
   }
 
   selectRow = (option) => this.setState({ selectableTargets: [option] })

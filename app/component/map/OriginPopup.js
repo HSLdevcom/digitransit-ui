@@ -7,14 +7,14 @@ const Popup = isBrowser ?
   require('./Popup').default : null; // eslint-disable-line global-require
 
 import { openDialog } from '../../action/SearchActions';
-import intl from 'react-intl';
+import { intlShape } from 'react-intl';
 import Icon from '../icon/icon';
 
 class OriginPopup extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
