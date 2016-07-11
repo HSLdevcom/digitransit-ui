@@ -45,11 +45,11 @@
     "npm": ">=3.0"
   },
   "dependencies": {
-    "babel-core": "6.8.0",
-    "babel-plugin-transform-class-properties": "6.9.1",
-    "babel-preset-modern-node": "2.1.0",
-    "babel-preset-react": "6.5.0",
-    "babel-preset-stage-2": "6.5.0",
+    "babel-core": "6.10.4",
+    "babel-plugin-transform-class-properties": "6.10.2",
+    "babel-preset-modern-node": "2.2.1",
+    "babel-preset-react": "6.11.1",
+    "babel-preset-stage-2": "6.11.0",
     "babel-relay-plugin": "0.9.1",
     "body-parser": "1.15.1",
     "classnames": "2.2.5",
@@ -103,7 +103,7 @@
   },
   "devDependencies": {
     "autoprefixer": "6.3.6",
-    "babel-eslint": "6.0.4",
+    "babel-eslint": "6.1.2",
     "babel-loader": "6.2.4",
     "babel-plugin-dev-expression": "0.2.1",
     "babel-plugin-transform-react-createelement-to-jsx": "1.0.1",
