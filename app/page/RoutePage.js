@@ -11,7 +11,7 @@ import RouteMapContainer from '../component/route/RouteMapContainer';
 import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
 import RouteAlertsContainer from '../component/route/RouteAlertsContainer';
 import RoutePatternSelect from '../component/route/RoutePatternSelect';
-import RealTimeClient from '../action/real-time-client-action';
+import RealTimeClient from '../action/realTimeClientAction';
 import { FormattedMessage, intlShape } from 'react-intl';
 import NotFound from './404';
 
