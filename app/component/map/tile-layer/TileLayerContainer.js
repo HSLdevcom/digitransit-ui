@@ -47,10 +47,6 @@ class TileLayerContainer extends BaseTileLayer {
     route: React.PropTypes.object.isRequired,
   };
 
-  merc = new SphericalMercator({
-    size: this.props.tileSize || 256,
-  });
-
   state = {
     stops: undefined,
     coords: undefined,
@@ -89,6 +85,10 @@ class TileLayerContainer extends BaseTileLayer {
       });
     }
   }
+
+  merc = new SphericalMercator({
+    size: this.props.tileSize || 256,
+  });
 
   componentDidMount() {
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
