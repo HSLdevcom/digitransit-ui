@@ -16,7 +16,7 @@ parseMessage = (topic, message, actionContext) ->
   if message instanceof Uint8Array
     parsedMessage = JSON.parse(message).VP
     # fix oday format
-    parsedMessage.oday = parsedMessage.oday.replace(/-/g, "")
+    parsedMessage.oday = parsedMessage.oday && parsedMessage.oday.replace(/-/g, "")
   else
     parsedMessage = message.VP
 
@@ -26,7 +26,7 @@ parseMessage = (topic, message, actionContext) ->
     direction: parseInt(dir) - 1
     tripStartTime: start_time
     operatingDay:
-      if parsedMessage.oday != "XXX"
+      if parsedMessage.oday and parsedMessage.oday != "XXX"
         parsedMessage.oday
       else
         moment().format("YYYYMMDD")

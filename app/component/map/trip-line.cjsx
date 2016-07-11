@@ -5,9 +5,7 @@ RouteLine          = require './route/route-line'
 
 class TripLine extends React.Component
   render: ->
-    <RouteLine map={@props.map}
-               layerContainer={@props.layerContainer}
-               pattern={@props.pattern?.pattern or null}
+    <RouteLine pattern={@props.pattern?.pattern or null}
                thin=true
                filteredStops={@props.filteredStops} />
 

@@ -20,8 +20,6 @@ const smallIconSvg = '<svg viewBox="0 0 8 8">n  <circle class="stop-small" cx="4
 
 class StopMarker extends React.Component {
   static propTypes = {
-    map: React.PropTypes.object.isRequired,
-    layerContainer: React.PropTypes.object.isRequired,
     stop: React.PropTypes.object.isRequired,
     mode: React.PropTypes.string.isRequired,
     renderName: React.PropTypes.bool,
@@ -101,8 +99,6 @@ class StopMarker extends React.Component {
           selectedIconSvg: iconSelected,
         }}
         iconSizes={iconSizes}
-        map={this.props.map}
-        layerContainer={this.props.layerContainer}
         id={this.props.stop.gtfsId}
         renderName={this.props.renderName}
         selected={this.props.selected}

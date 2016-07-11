@@ -17,7 +17,7 @@ currentLocationIcon =
   else null
 
 
-PositionMarker = ({coordinates, map, layerContainer, useCurrentPosition, displayOriginPopup}, {intl}) ->
+PositionMarker = ({coordinates, useCurrentPosition, displayOriginPopup}, {intl}) ->
   if coordinates
     if displayOriginPopup
       if useCurrentPosition
@@ -38,8 +38,6 @@ PositionMarker = ({coordinates, map, layerContainer, useCurrentPosition, display
           />
 
     <Marker
-      map={map}
-      layerContainer={layerContainer}
       zIndexOffset=5
       position={coordinates}
       icon={currentLocationIcon}

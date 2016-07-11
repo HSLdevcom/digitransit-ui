@@ -12,12 +12,12 @@ class Line extends React.Component
       # So we send the thin line layers (Leaflet calls every polyline its
       # own layer) to bottom. Note that all polylines do render inside the
       # same SVG, so CSS z-index can't be used.
-      @refs.line.getLeafletElement().bringToBack()
-      @refs.halo.getLeafletElement().bringToBack()
+      @refs.line.leafletElement.bringToBack()
+      @refs.halo.leafletElement.bringToBack()
 
   componentDidUpdate: () =>
     unless @props.passive and @props.thin
-      @refs.line.getLeafletElement().bringToFront()
+      @refs.line.leafletElement.bringToFront()
 
   render: ->
     className = cx [@props.mode,
@@ -35,17 +35,13 @@ class Line extends React.Component
       haloWeight = 0.5 * haloWeight
       legWeight = 0.5 * legWeight
 
-    objs.push <Polyline map={@props.map}
-                        layerContainer={@props.layerContainer}
-                        key="halo"
+    objs.push <Polyline key="halo"
                         ref="halo"
                         positions={@props.geometry}
                         className={"leg-halo #{className}"}
                         weight={haloWeight}
                         interactive={false} />
-    objs.push <Polyline map={@props.map}
-                        layerContainer={@props.layerContainer}
-                        key="line"
+    objs.push <Polyline key="line"
                         ref="line"
                         positions={@props.geometry}
                         className="leg #{className}"

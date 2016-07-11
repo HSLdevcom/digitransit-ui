@@ -16,17 +16,18 @@ class StopMarkerLayer extends React.Component
     executeAction: React.PropTypes.func.isRequired
     router: React.PropTypes.object.isRequired
     route: React.PropTypes.object.isRequired
+    map: React.PropTypes.object.isRequired
 
   componentDidMount: ->
-    @props.map.on 'moveend', @onMapMove
+    @context.map.on 'moveend', @onMapMove
     @onMapMove()
 
   componentWillUnmount: ->
-    @props.map.off 'moveend', @onMapMove
+    @context.map.off 'moveend', @onMapMove
 
   onMapMove: =>
-    if @props.map.getZoom() >= config.stopsMinZoom
-      bounds = @props.map.getBounds()
+    if @context.map.getZoom() >= config.stopsMinZoom
+      bounds = @context.map.getBounds()
       @props.relay.setVariables
         minLat: bounds.getSouth()
         minLon: bounds.getWest()
@@ -44,19 +45,15 @@ class StopMarkerLayer extends React.Component
       modeClass = stop.routes[0].type.toLowerCase()
       selected = @props.hilightedStops and stop.gtfsId in @props.hilightedStops
 
-      if stop.parentStation and @props.map.getZoom() <= config.terminalStopsMaxZoom
+      if stop.parentStation and @context.map.getZoom() <= config.terminalStopsMaxZoom
         stops.push <TerminalMarker
                           key={stop.parentStation.gtfsId}
-                          map={@props.map}
-                          layerContainer={@props.layerContainer}
                           terminal={stop.parentStation}
                           selected={selected}
                           mode={modeClass}
                           renderName={false} />
       else
         stops.push <StopMarker key={stop.gtfsId}
-                               map={@props.map}
-                               layerContainer={@props.layerContainer}
                                stop={stop}
                                selected={selected}
                                mode={modeClass}
@@ -68,7 +65,7 @@ class StopMarkerLayer extends React.Component
     return uniq(stops, 'key')
 
   render: ->
-    <div>{if @props.map.getZoom() >= config.stopsMinZoom then @getStops() else ""}</div>
+    <div>{if @context.map.getZoom() >= config.stopsMinZoom then @getStops() else ""}</div>
 
 module.exports = Relay.createContainer(StopMarkerLayer,
   fragments: queries.StopMarkerLayerFragments

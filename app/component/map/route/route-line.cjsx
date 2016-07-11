@@ -20,20 +20,14 @@ class RouteLine extends React.Component
     unless @props.thin
       # We are drawing a background line under an itinerary line,
       # so we don't want many markers cluttering the map
-      objs.push <LocationMarker map={@props.map}
-                                layerContainer={@props.layerContainer}
-                                key="from"
+      objs.push <LocationMarker key="from"
                                 position={@props.pattern.stops[0]}
                                 className='from' />
-      objs.push <LocationMarker map={@props.map}
-                                layerContainer={@props.layerContainer}
-                                key="to"
+      objs.push <LocationMarker key="to"
                                 position={@props.pattern.stops[@props.pattern.stops.length - 1]}
                                 className='to' />
 
-    line = <Line map={@props.map}
-                 layerContainer={@props.layerContainer}
-                 key="line"
+    line = <Line key="line"
                  geometry={@props.pattern.geometry or @props.pattern.stops}
                  mode={modeClass}
                  thin={@props.thin} />
@@ -44,9 +38,7 @@ class RouteLine extends React.Component
       if stop.gtfsId in filteredIds
         return
 
-      <StopMarker map={@props.map}
-                  layerContainer={@props.layerContainer}
-                  stop={stop}
+      <StopMarker stop={stop}
                   key={stop.gtfsId}
                   mode={modeClass + if @props.thin then " thin" else ""}
                   thin={@props.thin} />

@@ -38,8 +38,6 @@ class TerminalMarker extends React.Component
       mode={@props.mode}
       icons={smallIconSvg: TerminalMarker.terminalIcon, iconSvg: TerminalMarker.terminalIcon}
       iconSizes={smallIconSvg: [24, 24], iconSvg: [24, 24]}
-      map={@props.map}
-      layerContainer={@props.layerContainer}
       id={@props.terminal.gtfsId}
       renderName={@props.renderName}
       selected={@props.selected}
@@ -58,8 +56,6 @@ class TerminalMarker extends React.Component
       return ""
     <div>
       <Circle
-        map={@props.map}
-        layerContainer={@props.layerContainer}
         center={lat: @props.terminal.lat, lng: @props.terminal.lon}
         radius={geoUtils.getDistanceToFurthestStop(new L.LatLng(@props.terminal.lat, @props.terminal.lon), @props.terminal.stops).distance}
         fillOpacity=0.05

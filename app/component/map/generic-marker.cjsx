@@ -27,12 +27,14 @@ class GenericMarker extends React.Component
 
   @displayName: "GenericMarker"
 
+  @contextTypes:
+    map: React.PropTypes.object.isRequired
+
   @propTypes:
     position: React.PropTypes.object.isRequired
     mode: React.PropTypes.string.isRequired
     icons: React.PropTypes.object.isRequired
     iconSizes: React.PropTypes.object.isRequired
-    map: React.PropTypes.object.isRequired
     id: React.PropTypes.string
     renderName: React.PropTypes.bool
     selected: React.PropTypes.bool
@@ -49,10 +51,10 @@ class GenericMarker extends React.Component
       className: mode + ' cursor-pointer'
 
   componentDidMount: ->
-    @props.map.on 'zoomend', @onMapMove
+    @context.map.on 'zoomend', @onMapMove
 
   componentWillUnmount: ->
-    @props.map.off 'zoomend', @onMapMove
+    @context.map.off 'zoomend', @onMapMove
 
   onMapMove: =>
     @forceUpdate()
@@ -61,13 +63,11 @@ class GenericMarker extends React.Component
     return nextProps.id != @props.id
 
   getMarker: ->
-    <Marker map={@props.map}
-            layerContainer={@props.layerContainer}
-            position={lat: @props.position.lat, lng: @props.position.lon}
+    <Marker position={lat: @props.position.lat, lng: @props.position.lon}
             icon={@getIcon(
               @props.mode + (if @props.thin then " thin" else ""),
               @props.selected,
-              @props.map.getZoom())}>
+              @context.map.getZoom())}>
        <Popup
          offset={config.map.genericMarker.popup.offset}
          closeButton={false}
@@ -79,11 +79,9 @@ class GenericMarker extends React.Component
     </Marker>
 
   getNameMarker: ->
-    unless @props.renderName and @props.map.getZoom() >= config.map.genericMarker.nameMarkerMinZoom
+    unless @props.renderName and @context.map.getZoom() >= config.map.genericMarker.nameMarkerMinZoom
       return false
-    <Marker map={@props.map}
-            layerContainer={@props.layerContainer}
-            key={@props.name + "_text"}
+    <Marker key={@props.name + "_text"}
             position={lat: @props.position.lat, lng: @props.position.lon}
             interactive={false}
             icon={L.divIcon

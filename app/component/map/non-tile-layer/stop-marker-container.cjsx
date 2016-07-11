@@ -5,14 +5,18 @@ queries       = require '../../../queries'
 StopMarkerLayer = require './stop-marker-layer'
 
 class StopMarkerContainer extends React.Component
+  @contextTypes = {
+    map: React.PropTypes.object.isRequired
+  }
+
   render: ->
-    if @props.map.getZoom() < config.stopsMinZoom
+    if @context.map.getZoom() < config.stopsMinZoom
       minLat = 0.1
       minLon = 0.1
       maxLat = 0.1
       maxLon = 0.1
     else
-      bounds = @props.map.getBounds()
+      bounds = @context.map.getBounds()
       minLat = bounds.getSouth()
       minLon = bounds.getWest()
       maxLat = bounds.getNorth()
@@ -30,8 +34,6 @@ class StopMarkerContainer extends React.Component
         <StopMarkerLayer
           {... data}
           hilightedStops={@props.hilightedStops}
-          map={@props.map}
-          layerContainer={@props.layerContainer}
           minLat={minLat}
           minLon={minLon}
           maxLat={maxLat}

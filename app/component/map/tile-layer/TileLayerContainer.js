@@ -43,6 +43,7 @@ class TileLayerContainer extends BaseTileLayer {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    map: React.PropTypes.object.isRequired,
     router: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
   };
@@ -62,7 +63,7 @@ class TileLayerContainer extends BaseTileLayer {
     const Layer = L.GridLayer.extend({ createTile: this.createTile });
 
     this.leafletElement = new Layer(omit(this.props, 'map'));
-    this.props.map.addEventParent(this.leafletElement);
+    this.context.map.addEventParent(this.leafletElement);
 
     /* eslint-disable no-underscore-dangle */
     this.leafletElement.on('click', e => {
@@ -82,7 +83,7 @@ class TileLayerContainer extends BaseTileLayer {
 
   componentDidUpdate() {
     if (this.refs.popup != null) {
-      this.refs.popup.leafletElement.openOn(this.props.map);
+      this.refs.popup.leafletElement.openOn(this.context.map);
     }
   }
 
@@ -169,9 +170,7 @@ class TileLayerContainer extends BaseTileLayer {
         }
         popup = (
           <Popup
-            map={this.props.map}
-            layerContainer={this.props.layerContainer}
-            key={id}
+            ey={id}
             offset={[106, 3]}
             closeButton={false}
             minWidth={250}
@@ -187,8 +186,6 @@ class TileLayerContainer extends BaseTileLayer {
       } else if (this.state.selectableTargets.length > 1) {
         popup = (
           <Popup
-            map={this.props.map}
-            layerContainer={this.props.layerContainer}
             key={this.state.coords.toString()}
             offset={[106, 3]}
             closeButton={false}

@@ -23,8 +23,6 @@ class PlaceMarker extends React.Component
 
     <div>
       <Marker
-        map={@props.map}
-        layerContainer={@props.layerContainer}
         zIndexOffset=10
         position={@props.position}
         icon={L.divIcon(
@@ -32,8 +30,6 @@ class PlaceMarker extends React.Component
           className: 'place halo'
           iconAnchor: [12, 24])}/>
       <Marker
-        map={@props.map}
-        layerContainer={@props.layerContainer}
         zIndexOffset=10
         position={@props.position}
         icon={L.divIcon(

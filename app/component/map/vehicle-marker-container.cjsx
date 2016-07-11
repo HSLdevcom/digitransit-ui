@@ -76,12 +76,9 @@ class VehicleMarkerContainer extends React.Component
       }/>
 
     @vehicles[id] =
-      <Marker map={@props.map}
-              layerContainer={@props.layerContainer}
-              key={id}
+      <Marker key={id}
               position={lat: message.lat, lng: message.long}
               icon={@getVehicleIcon(message.mode, message.heading)}>
-        <span>{message.heading}</span>
         <Popup
           offset={[106, 3]}
           closeButton={false}

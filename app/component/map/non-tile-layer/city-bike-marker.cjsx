@@ -69,8 +69,6 @@ class CityBikeMarker extends React.Component
       mode="citybike"
       icons={smallIconSvg: iconSmall, iconSvg: iconMedium}
       iconSizes={smallIconSvg: iconSmallSize, iconSvg: iconMediumSize}
-      map={@props.map}
-      layerContainer={@props.layerContainer}
       id={@props.station.id}
     >
       <Relay.RootContainer
