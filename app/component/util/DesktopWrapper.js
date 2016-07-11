@@ -1,4 +1,5 @@
 import React from 'react';
+import { toClass } from 'recompose';
 import dimensions from 'react-dimensions';
 import config from '../../config';
 
@@ -56,4 +57,4 @@ DesktopWrapper.propTypes = {
   containerWidth: React.PropTypes.number.isRequired,
 };
 
-export default dimensions()(DesktopWrapper);
+export default dimensions()(toClass(DesktopWrapper));
