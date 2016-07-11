@@ -137,11 +137,6 @@ class RoutePage extends React.Component {
               routeId={this.props.relay.variables.routeId}
             />
           </Tabs.Panel>
-          {/* <Tabs.Panel
-            title={<FormattedMessage id="map" defaultMessage="Map" />} className="fullscreen"
-          >
-            <RouteMapContainer pattern={this.props.pattern} className="fullscreen" />
-          </Tabs.Panel>*/}
           <Tabs.Panel
             title={
               <div>
