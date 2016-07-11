@@ -1,6 +1,5 @@
 React                  = require 'react'
 Relay                  = require 'react-relay'
-queries                = require '../queries'
 DefaultNavigation      = require('../component/navigation/DefaultNavigation').default
 RouteHeaderContainer   = require('../component/route/RouteHeaderContainer').default
 TripStopListContainer  = require '../component/trip/trip-stop-list-container'
@@ -8,6 +7,7 @@ RouteMapContainer      = require('../component/route/RouteMapContainer').default
 RealTimeClient         = require '../action/real-time-client-action'
 timeUtils              = require '../util/time-utils'
 intl               = require 'react-intl'
+TripPage               = require('./TripPage').default
 
 
 class TripMapPage extends React.Component
@@ -42,4 +42,4 @@ class TripMapPage extends React.Component
       <RouteMapContainer className="fullscreen" pattern={@props.trip.pattern} trip={tripStarTtime} tripId={@props.trip.gtfsId} fullscreen={true}/>
     </DefaultNavigation>
 
-module.exports = Relay.createContainer(TripMapPage, fragments: queries.TripPageFragments)
+module.exports = Relay.createContainer(TripMapPage, fragments: TripPage.getFragment("trip"))

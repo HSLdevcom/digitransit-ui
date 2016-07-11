@@ -9,7 +9,7 @@ import RoutePage from './page/RoutePage';
 import StopMapPage from './page/stop-map';
 import StopPage from './page/stop';
 import SummaryPage from './page/SummaryPage';
-import TripPage from './page/trip';
+import TripPage from './page/TripPage';
 import TripMapPage from './page/trip-map';
 import LoadingPage from './page/loading';
 import Error404 from './page/404';

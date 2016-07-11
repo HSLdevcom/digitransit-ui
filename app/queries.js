@@ -416,27 +416,6 @@ export const CityBikePopupFragments = {
   `,
 };
 
-export const TripPageFragments = {
-  trip: () => Relay.QL`
-    fragment on Trip {
-      pattern {
-        code
-        route {
-          shortName
-          longName
-        }
-        ${require('./component/route/RouteHeaderContainer').default.getFragment('pattern')}
-        ${require('./component/route/RouteMapContainer').default.getFragment('pattern')}
-      }
-      stoptimes {
-        scheduledDeparture
-      }
-      gtfsId
-      ${require('./component/trip/trip-stop-list-container').getFragment('trip')}
-    }
-  `,
-};
-
 export const TripStopListFragments = {
   trip: () => Relay.QL`
     fragment on Trip {
