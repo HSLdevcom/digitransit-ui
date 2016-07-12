@@ -27,6 +27,7 @@ function DepartureTime(props, context) {
   if (props.useUTC) {
     departureTime.utc();
   }
+
   const currentTime = moment(props.currentTime * 1000);
   if (departureTime.isBefore(currentTime) ||
       departureTime.isAfter(currentTime.clone().add(20, 'minutes'))) {
@@ -106,17 +107,18 @@ export default DepartureTime;
  *  @param pattern pattern from graphql
  */
 const mapStopTime = (stoptime, pattern) => (
-  ({
+  {
     stop: stoptime.stop,
-    canceled: stoptime.realtimeState === 'CANCELED' ||
-      window.mock && stoptime.realtimeDeparture % 40 === 0,
+    canceled: stoptime.realtimeState === 'CANCELED'
+      || window.mock && stoptime.realtimeDeparture % 40 === 0,
     departureTime: stoptime.serviceDay +
-      (stoptime.realtimeState === 'CANCELED' ? stoptime.scheduledDeparture :
-        stoptime.realtimeDeparture),
-    realtime: stoptime.realtime,
+      ((stoptime.realtimeState === 'CANCELED' || stoptime.realtimeDeparture === -1)
+        ? stoptime.scheduledDeparture
+        : stoptime.realtimeDeparture),
+    realtime: stoptime.realtimeDeparture !== -1 && stoptime.realtime,
     pattern: pattern && pattern.pattern,
     trip: stoptime.trip,
-  })
+  }
 );
 
 /**
