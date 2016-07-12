@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import Icon from '../icon/icon';
 import Map from '../map/Map';
 import RouteLine from '../map/route/RouteLine';
-import VehicleMarkerContainer from '../map/vehicle-marker-container';
+import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeader from '../stop-cards/StopCardHeader';
 
 function RouteMapContainer(props) {
@@ -13,7 +13,8 @@ function RouteMapContainer(props) {
       key="vehicles"
       pattern={props.pattern.code}
       trip={props.trip}
-    />];
+    />,
+  ];
 
   return (
     <Map
