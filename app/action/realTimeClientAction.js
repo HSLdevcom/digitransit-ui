@@ -73,7 +73,7 @@ export function startRealTimeClient(actionContext, originalOptions, done) {
 export function updateTopic(actionContext, options, done) {
   options.client.unsubscribe(options.oldTopics);
 
-  const newTopics = !Array.isArray(options.newTopic) ? getTopic(options.newTopic) :
+  const newTopics = !Array.isArray(options.newTopic) ? [getTopic(options.newTopic)] :
     options.newTopic.map(topic => getTopic(topic));
 
   options.client.subscribe(newTopics);
