@@ -2,9 +2,10 @@ import React from 'react';
 import Link from 'react-router/lib/Link';
 import IconWithTail from '../icon/icon-with-tail';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import moment from 'moment';
 import cx from 'classnames';
 import WalkDistance from '../itinerary/walk-distance';
+import StopCode from '../itinerary/StopCode';
+import { fromStopTime } from '../departure/DepartureTime';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
@@ -13,20 +14,23 @@ import {
 } from '../documentation/ExampleData';
 
 class TripRouteStop extends React.Component {
-  static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-  };
-
-  renderTime(realtimeDeparture) {
-    const departureTime = this.context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .startOf('day')
-      .second(realtimeDeparture);
-    return moment(departureTime).format('HH:mm');
-  }
-
   render() {
+    const departures = (stop) => {
+      if (stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0) {
+        console.log('stoptimes', stop.stopTimesForPattern);
+        return (
+          <div>
+          {stop.stopTimesForPattern.map((stopTime) => (
+            <div className="columns small-2 route-stop-time">
+              {fromStopTime(stopTime, this.props.currentTime)}
+            </div>
+            ))}
+          </div>
+        );
+      }
+      return undefined;
+    };
+
     const vehicles = [];
 
     if (this.props.vehicle) {
@@ -42,26 +46,23 @@ class TripRouteStop extends React.Component {
     return (
       <div className={cx('route-stop row', { passed: this.props.stopPassed })}>
         <div className="columns small-3 route-stop-time">
-          {this.renderTime(this.props.realtimeDeparture)}
           <div className="route-stop-now-icon">{vehicles}</div>
         </div>
         <Link to={`/pysakit/${this.props.stop.gtfsId}`}>
-          <div className={`columns small-7 route-stop-name ${this.props.mode.toLowerCase()}`}>
-            {this.props.stop.name}{"\u00a0"}
-            {this.props.distance ?
+          <div className={`columns small-7 route-stop-name ${this.props.mode}`}>
+            {this.props.stop.name}&nbsp;
+            {this.props.distance &&
               <WalkDistance
                 className="nearest-route-stop"
                 icon="icon_location-with-user"
                 walkDistance={this.props.distance}
-              /> : null}
+              />
+            }
             <br />
-            <span className="route-stop-address">
-              {this.props.stop.desc}
-            </span>
+            <StopCode code={this.props.stop.code} />
+            <span className="route-stop-address">{this.props.stop.desc}</span>
           </div>
-          <div className="columns small-2 route-stop-code">
-            {this.props.stop.code}
-          </div>
+          {departures({ stopTimesForPattern: [this.props.stoptime] })}
         </Link>
       </div>);
   }
@@ -74,6 +75,8 @@ TripRouteStop.propTypes = {
   realtimeDeparture: React.PropTypes.number,
   stop: React.PropTypes.object,
   distance: React.PropTypes.number,
+  stoptime: React.PropTypes.object.required,
+  currentTime: React.PropTypes.number.required,
 };
 
 TripRouteStop.description = (
