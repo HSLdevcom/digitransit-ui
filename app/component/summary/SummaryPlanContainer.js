@@ -87,7 +87,7 @@ class SummaryPlanContainer extends React.Component {
       <div className="summary">
         <Map
           ref="map"
-          className="summaryMap"
+          className="summary-map"
           leafletObjs={leafletObjs}
           fitBounds
           bounds={bounds}

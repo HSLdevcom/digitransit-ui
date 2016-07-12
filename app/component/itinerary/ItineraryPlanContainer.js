@@ -156,40 +156,39 @@ class ItineraryPlanContainer extends React.Component {
       );
     }
     return (
-      <div className="itinerary-container-content">
-        <div
-          onTouchStart={e => e.stopPropagation()}
-          onMouseDown={e => e.stopPropagation()}
+      <div className="itinerary-container-content"
+        onTouchStart={e => e.stopPropagation()}
+        onMouseDown={e => e.stopPropagation()}
+      >
+        <Map
+          className="small"
+          leafletObjs={leafletObjs}
+          lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
+          lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
+          zoom={16}
+          fitBounds={false}
+          leafletOptions={{
+            dragging: false,
+            touchZoom: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            boxZoom: false,
+          }}
         >
-          <Map
-            leafletObjs={leafletObjs}
-            lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
-            lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
-            zoom={16}
-            fitBounds={false}
-            leafletOptions={{
-              dragging: false,
-              touchZoom: false,
-              scrollWheelZoom: false,
-              doubleClickZoom: false,
-              boxZoom: false,
-            }}
+          <div
+            className="map-click-prevent-overlay"
+            onClick={this.toggleFullscreenMap}
+          />
+          <div
+            className="fullscreen-toggle"
+            onClick={this.toggleFullscreenMap}
           >
-            <div
-              className="map-click-prevent-overlay"
-              onClick={this.toggleFullscreenMap}
+            <Icon
+              img="icon-icon_maximize"
+              className="cursor-pointer"
             />
-            <div
-              className="fullscreen-toggle"
-              onClick={this.toggleFullscreenMap}
-            >
-              <Icon
-                img="icon-icon_maximize"
-                className="cursor-pointer"
-              />
-            </div>
-          </Map>
-        </div>
+          </div>
+        </Map>
         <SwipeableViews
           index={index}
           className="itinerary-swipe-views-root"

@@ -1,40 +1,35 @@
 @charset "UTF-8";
 
+$topbar-height: 40px;
 $itinerary-summary-height: 2.5em;
 $itinerary-bottom-navigation-height: 30px;
-$itinerary-tab-switch-height: 34px;
+$itinerary-tab-switch-height: 48px;
 $itinerary-route-max-width: 500px;
 
 // hacketihack, instead of all this we should have more generic measures for pages somewhere else...
 
 .itinerary-swipe-views-root {
   flex-grow: 1;
-
   display: flex;
   flex-direction: column;
-
-  > div {
+  max-height: calc(100% - #{$small-map-height} - #{$itinerary-tab-switch-height});
+  & > div {
     flex-grow: 1;
-  }
-
-  > div > div {
-    flex-grow: 1;
-
-    display: flex;
-    flex-direction: column;
   }
 }
 
+.map.small {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
 .itinerary-tabs__scroll {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
   background: $white;
+  flex-grow: 1;
 }
 
 .itinerary-main {
   height: 100%;
-  flex-grow: 1;
   padding-top: 20px;
 
   display: flex;
@@ -237,11 +232,10 @@ span.itinerary-stop-code {
 }
 
 div.itinerary-container-content {
-  height: 100%;
-  flex-grow: 1;
-
   display: flex;
   flex-direction: column;
+  position: absolute;
+  width: 100%;
 }
 
 .row.itinerary-bottom-navigation {
@@ -270,16 +264,15 @@ div.itinerary-container-content {
 
 .itinerary-slide-container {
   height: 100%;
-  flex-grow: 1;
-
-  display: flex;
-  flex-direction: column;
 }
 
 .itinerary-tabs-container {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: $itinerary-tab-switch-height;
 }
 
 .itinerary-tab-root {
@@ -294,4 +287,10 @@ div.itinerary-container-content {
 
 .itinerary-no-route-found {
     margin: 1em;
+}
+
+.itinerary-tab {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
