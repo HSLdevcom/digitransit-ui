@@ -5,49 +5,33 @@ import TripRouteStop from './TripRouteStop';
 import isEmpty from 'lodash/isEmpty';
 import { getDistanceToNearestStop } from '../../util/geo-utils';
 import config from '../../config';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 class TripStopListContainer extends React.Component {
-
-  static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-  };
 
   static propTypes = {
     trip: React.PropTypes.object.isRequired,
     className: React.PropTypes.string.isRequired,
-  }
-
-  componentDidMount() {
-    return this.context.getStore('RealTimeInformationStore')
-      .addChangeListener(this.onRealTimeChange);
-  }
-
-  componentWillUnmount() {
-    return this.context.getStore('RealTimeInformationStore')
-      .removeChangeListener(this.onRealTimeChange);
-  }
-
-  onRealTimeChange = () => {
-    this.forceUpdate();
+    vehicles: React.PropTypes.object,
+    locationState: React.PropTypes.object.isRequired,
+    currentTime: React.PropTypes.object.isRequired,
   }
 
   getNearestStopDistance = (stops) => {
-    const state = this.context.getStore('PositionStore').getLocationState();
-    return state.hasLocation === true ?
-      getDistanceToNearestStop(state.lat, state.lon, stops) : null;
+    this.props.locationState.hasLocation === true ?
+      getDistanceToNearestStop(this.props.locationState.lat, this.props.locationState.lon, stops) : null;
   }
 
   getStops() {
-    const nearest = this.getNearestStopDistance(this.props.trip.stoptimes
+    const nearest = this.getNearestStopDistance(this.props.trip.stoptimesForDate
       .map(stoptime => stoptime.stop));
     const mode = this.props.trip.route.type.toLowerCase();
-    const { vehicles } = this.context.getStore('RealTimeInformationStore');
-    const vehicle = !isEmpty(vehicles) && vehicles[Object.keys(vehicles)[0]];
-    const currentTime = this.context.getStore('TimeStore').getCurrentTime();
-    const currentTimeFromMidnight = currentTime.diff(currentTime.startOf('day'), 'seconds');
+    // const { vehicles } = this.context.getStore('RealTimeInformationStore');
+    const vehicle = !isEmpty(this.props.vehicles) && this.props.vehicles[Object.keys(this.props.vehicles)[0]];
+    const currentTimeFromMidnight = this.props.currentTime.diff(this.props.currentTime.startOf('day'), 'seconds');
     let stopPassed = true;
 
-    return this.props.trip.stoptimes.map((stoptime, index) => {
+    return this.props.trip.stoptimesForDate.map((stoptime, index) => {
       const nextStop = `HSL:${vehicle.next_stop}`;
 
       if (nextStop === stoptime.stop.gtfsId) {
@@ -60,6 +44,7 @@ class TripStopListContainer extends React.Component {
 
       return (<TripRouteStop
         key={stoptime.stop.gtfsId}
+        stoptime={stoptime}
         stop={stoptime.stop}
         mode={mode}
         vehicle={nextStop === stoptime.stop.gtfsId && vehicle || null}
@@ -71,6 +56,7 @@ class TripStopListContainer extends React.Component {
           && nearest.distance < config.nearestStopDistance.maxShownDistance
           && nearest.distance
           }
+        currentTime={this.props.currentTime.unix()}
         realtimeDeparture={stoptime.realtimeDeparture}
         currentTimeFromMidnight={currentTimeFromMidnight}
       />);
@@ -82,14 +68,25 @@ class TripStopListContainer extends React.Component {
   }
 }
 
-export default Relay.createContainer(TripStopListContainer, {
-  fragments: {
-    trip: () => Relay.QL`
+export default Relay.createContainer(
+  connectToStores(
+    TripStopListContainer,
+    ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
+    ({ getStore }) => ({
+      vehicles: getStore('RealTimeInformationStore').vehicles,
+      locationState: getStore('PositionStore').getLocationState(),
+      currentTime: getStore('TimeStore').getCurrentTime(),
+    })
+  ),
+
+  {
+    fragments: {
+      trip: () => Relay.QL`
       fragment on Trip {
         route {
           type
         }
-        stoptimes        {
+        stoptimesForDate {
           stop{
             gtfsId
             name
@@ -100,8 +97,11 @@ export default Relay.createContainer(TripStopListContainer, {
           }
           realtimeDeparture
           realtime
+          scheduledDeparture
+          serviceDay
+          realtimeState
         }
       }
     `,
-  },
-});
+    },
+  });
