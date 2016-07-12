@@ -36,7 +36,7 @@ if (isBrowser) {
   Stops = require('./tile-layer/Stops').default;
 
   StopMarkerContainer = require('./non-tile-layer/stop-marker-container');
-  CityBikeMarkerContainer = require('./non-tile-layer/city-bike-marker-container');
+  CityBikeMarkerContainer = require('./non-tile-layer/CityBikeMarkerContainer').default;
 }
 
 class Map extends React.Component {
