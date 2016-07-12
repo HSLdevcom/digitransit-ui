@@ -49,7 +49,7 @@ export const TripPatternFragments = {
   pattern: () => Relay.QL`
     fragment on Trip {
       pattern {
-        ${require('./component/map/route/route-line').getFragment('pattern')}
+        ${require('./component/map/route/RouteLine').default.getFragment('pattern')}
       }
     }
   `,
@@ -87,27 +87,6 @@ export const RouteHeaderFragments = {
       }
       stops {
         name
-      }
-    }
-  `,
-};
-
-export const RouteLineFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      geometry {
-        lat
-        lon
-      }
-      route {
-        type
-      }
-      stops {
-        lat
-        lon
-        name
-        gtfsId
-        ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
       }
     }
   `,

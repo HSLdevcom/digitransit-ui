@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import Icon from '../icon/icon';
 import Map from '../map/Map';
-import RouteLine from '../map/route/route-line';
+import RouteLine from '../map/route/RouteLine';
 import VehicleMarkerContainer from '../map/vehicle-marker-container';
 import StopCardHeader from '../stop-cards/StopCardHeader';
 

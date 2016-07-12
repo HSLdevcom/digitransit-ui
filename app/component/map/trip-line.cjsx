@@ -1,7 +1,7 @@
 React              = require 'react'
 Relay              = require 'react-relay'
 queries            = require '../../queries'
-RouteLine          = require './route/route-line'
+RouteLine          = require('./route/RouteLine').default
 
 class TripLine extends React.Component
   render: ->
