@@ -45,16 +45,6 @@ export const StopQueries = {
   `,
 };
 
-export const TripPatternFragments = {
-  pattern: () => Relay.QL`
-    fragment on Trip {
-      pattern {
-        ${require('./component/map/route/RouteLine').default.getFragment('pattern')}
-      }
-    }
-  `,
-};
-
 export const RouteQueries = {
   pattern: () => Relay.QL`
     query {
