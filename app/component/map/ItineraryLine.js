@@ -8,7 +8,7 @@ import LocationMarker from './LocationMarker';
 import Line from './Line';
 import TripLine from './TripLine';
 import polyUtil from 'polyline-encoded';
-import CityBikeMarker from './non-tile-layer/city-bike-marker';
+import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 
 function getLengthOf(geometry) {
   let d = 0;

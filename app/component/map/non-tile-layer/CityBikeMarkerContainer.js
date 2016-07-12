@@ -3,7 +3,7 @@ import React from 'react';
 
 import { cityBikeSearchRequest } from '../../../action/city-bike-actions';
 
-import CityBikeMarker from './city-bike-marker';
+import CityBikeMarker from './CityBikeMarker';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
 class CityBikeMarkerContainer extends React.Component {
