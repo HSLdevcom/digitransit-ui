@@ -3,7 +3,7 @@ import React from 'react';
 import elementResizeDetectorMaker from 'element-resize-detector';
 import config from '../../config';
 
-import PositionMarker from './position-marker';
+import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
