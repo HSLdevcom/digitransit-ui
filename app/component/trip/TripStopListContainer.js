@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import { getDistanceToNearestStop } from '../../util/geo-utils';
 import config from '../../config';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import groupBy from 'lodash/groupBy';
 
 class TripStopListContainer extends React.Component {
 
@@ -27,6 +28,11 @@ class TripStopListContainer extends React.Component {
       .map(stoptime => stoptime.stop));
     const mode = this.props.trip.route.type.toLowerCase();
     // const { vehicles } = this.context.getStore('RealTimeInformationStore');
+
+    const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
+
+    console.log('vehicleStops', vehicleStops);
+
     const vehicle = !isEmpty(this.props.vehicles) && this.props.vehicles[Object.keys(this.props.vehicles)[0]];
     const currentTimeFromMidnight = this.props.currentTime.diff(this.props.currentTime.startOf('day'), 'seconds');
     let stopPassed = true;
@@ -47,7 +53,7 @@ class TripStopListContainer extends React.Component {
         stoptime={stoptime}
         stop={stoptime.stop}
         mode={mode}
-        vehicle={nextStop === stoptime.stop.gtfsId && vehicle || null}
+        vehicles={vehicleStops[stoptime.stop.gtfsId]}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
         distance={nearest != null
@@ -59,6 +65,7 @@ class TripStopListContainer extends React.Component {
         currentTime={this.props.currentTime.unix()}
         realtimeDeparture={stoptime.realtimeDeparture}
         currentTimeFromMidnight={currentTimeFromMidnight}
+        pattern={this.props.trip.pattern.code}
       />);
     });
   }
@@ -85,6 +92,9 @@ export default Relay.createContainer(
       fragment on Trip {
         route {
           type
+        }
+        pattern {
+          code
         }
         stoptimesForDate {
           stop{

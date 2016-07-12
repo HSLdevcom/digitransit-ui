@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import IconWithTail from '../icon/icon-with-tail';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import cx from 'classnames';
 import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
+import PatternLink from './PatternLink';
 import { fromStopTime } from '../departure/DepartureTime';
 import {
   currentTime as exampleCurrentTime,
@@ -15,9 +15,9 @@ import {
 
 class TripRouteStop extends React.Component {
   render() {
+    // function copied from RouteStop
     const departures = (stop) => {
       if (stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0) {
-        console.log('stoptimes', stop.stopTimesForPattern);
         return (
           <div>
           {stop.stopTimesForPattern.map((stopTime) => (
@@ -31,17 +31,27 @@ class TripRouteStop extends React.Component {
       return undefined;
     };
 
-    const vehicles = [];
+    // const vehicles = [];
+    //
+    // if (this.props.vehicle) {
+    //   vehicles.push(
+    //     <IconWithTail
+    //       id="now"
+    //       key={this.props.vehicle.id}
+    //       className={cx(this.props.mode, 'large-icon')}
+    //       img={`icon-icon_${this.props.mode}-live`}
+    //     />);
+    // }
 
-    if (this.props.vehicle) {
-      vehicles.push(
-        <IconWithTail
-          id="now"
-          key={this.props.vehicle.id}
-          className={cx(this.props.mode, 'large-icon')}
-          img={`icon-icon_${this.props.mode}-live`}
-        />);
-    }
+    console.log('vehicles for stop:', this.props.vehicles);
+    console.log('patern:', this.props.pattern);
+    const vehicles = this.props.vehicles && this.props.vehicles.map((vehicle) =>
+      (<PatternLink
+        routeType={vehicle.mode}
+        pattern={this.props.pattern}
+
+      />)
+    ) || [];
 
     return (
       <div className={cx('route-stop row', { passed: this.props.stopPassed })}>
@@ -69,7 +79,7 @@ class TripRouteStop extends React.Component {
 }
 
 TripRouteStop.propTypes = {
-  vehicle: React.PropTypes.object,
+  vehicles: React.PropTypes.array.required,
   mode: React.PropTypes.string,
   stopPassed: React.PropTypes.bool,
   realtimeDeparture: React.PropTypes.number,
@@ -77,6 +87,7 @@ TripRouteStop.propTypes = {
   distance: React.PropTypes.number,
   stoptime: React.PropTypes.object.required,
   currentTime: React.PropTypes.number.required,
+  pattern: React.PropTypes.string,
 };
 
 TripRouteStop.description = (
