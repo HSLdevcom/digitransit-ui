@@ -181,6 +181,7 @@ class RoutePage extends React.Component {
           >
             <RoutePatternSelect
               pattern={this.props.pattern}
+              onSelectChange={this.selectRoutePattern}
             />
             <RouteScheduleContainer pattern={this.props.pattern} />
           </Tabs.Panel>

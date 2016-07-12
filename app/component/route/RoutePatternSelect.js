@@ -21,7 +21,7 @@ export default function RoutePatternSelect(props) {
 
 RoutePatternSelect.propTypes = {
   pattern: React.PropTypes.object.isRequired,
-  onSelectChange: React.PropTypes.func,
+  onSelectChange: React.PropTypes.func.isRequired,
 };
 
 RoutePatternSelect.description = (
