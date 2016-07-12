@@ -38,7 +38,7 @@ RouteMapContainer.contextTypes = {
 
 RouteMapContainer.propTypes = {
   className: React.PropTypes.string,
-  trip: React.PropTypes.object,
+  trip: React.PropTypes.string,
   tripId: React.PropTypes.string,
   toggleFullscreenMap: React.PropTypes.func.isRequired,
   pattern: React.PropTypes.object.isRequired,

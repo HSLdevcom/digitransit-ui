@@ -29,7 +29,7 @@ export default function RouteHeader(props) {
 
 RouteHeader.propTypes = {
   route: React.PropTypes.object.isRequired,
-  trip: React.PropTypes.object,
+  trip: React.PropTypes.string,
   pattern: React.PropTypes.object.isRequired,
   reverseId: React.PropTypes.string,
   className: React.PropTypes.string,
