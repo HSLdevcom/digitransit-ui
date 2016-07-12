@@ -3,7 +3,7 @@ Relay              = require 'react-relay'
 queries            = require '../../../queries'
 isBrowser          = window?
 StopMarker         = require('../non-tile-layer/StopMarker').default
-LocationMarker     = require '../location-marker'
+LocationMarker     = require('../LocationMarker').default
 Line               = require('../Line').default
 
 class RouteLine extends React.Component

@@ -4,7 +4,7 @@ import TripRoute from '../../route/TripRoute';
 const isBrowser = typeof window !== 'undefined' && window !== null;
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
-import LocationMarker from './location-marker';
+import LocationMarker from './LocationMarker';
 import Line from './Line';
 import TripLine from './trip-line';
 import polyUtil from 'polyline-encoded';
