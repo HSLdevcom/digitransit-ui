@@ -7,12 +7,12 @@ let Polyline;
 
 /* eslint-disable global-require */
 if (isBrowser) {
-  Polyline = require('react-leaflet/lib/Polyline');
+  Polyline = require('react-leaflet/lib/Polyline').default;
 }
 /* eslint-enable global-require */
 
 export default class Line extends React.Component {
-  propTypes = {
+  static propTypes = {
     thin: React.PropTypes.bool,
     passive: React.PropTypes.bool,
     mode: React.PropTypes.string.isRequired,
