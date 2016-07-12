@@ -55,8 +55,8 @@ export function startRealTimeClient(actionContext, originalOptions, done) {
   // Fetch initial data
   for (const topic of topics) {
     xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then(data => {
-      for (const [resTopic, message] of Object.entries(data)) {
-        parseMessage(resTopic, message, actionContext);
+      for (const resTopic of Object.keys(data)) {
+        parseMessage(resTopic, data[resTopic], actionContext);
       }
     });
   }
@@ -82,8 +82,8 @@ export function updateTopic(actionContext, options, done) {
   // Do the loading of initial data after clearing the vehicles object
   for (const topic of newTopics) {
     xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then(data => {
-      for (const [resTopic, message] of Object.entries(data)) {
-        parseMessage(resTopic, message, actionContext);
+      for (const resTopic of Object.keys(data)) {
+        parseMessage(resTopic, data[resTopic], actionContext);
       }
     });
   }
