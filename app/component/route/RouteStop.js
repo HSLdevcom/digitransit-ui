@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { FuzzyTripRoute } from '../../queries';
+import FuzzyTripRoute from './FuzzyTripRoute';
 import Link from 'react-router/lib/Link';
 import TripLink from '../trip/TripLink';
 import WalkDistance from '../itinerary/walk-distance';
