@@ -14,7 +14,7 @@ class RouteStopListContainer extends React.Component {
     className: React.PropTypes.string,
     vehicles: React.PropTypes.object,
     locationState: React.PropTypes.object.isRequired,
-    currentTime: React.PropTypes.number.isRequired,
+    currentTime: React.PropTypes.object.isRequired,
   };
 
   componentDidMount() {
