@@ -2,6 +2,9 @@ import config from '../config';
 import moment from 'moment';
 import xhrPromise from '../util/xhr-promise';
 
+// getTopic
+// Returns MQTT topic to be subscribed
+// Input: options - route, direction, tripStartTime are used to generate the topic
 function getTopic(options) {
   const route = options.route ? options.route : '+';
 
@@ -18,6 +21,7 @@ function parseMessage(topic, message, actionContext) {
 
   if (message instanceof Uint8Array) {
     parsedMessage = JSON.parse(message).VP;
+    // fix oday format
     parsedMessage.oday = parsedMessage.oday && parsedMessage.oday.replace(/-/g, '');
   } else {
     parsedMessage = message.VP;
@@ -48,6 +52,7 @@ export function startRealTimeClient(actionContext, originalOptions, done) {
 
   const topics = options.map(option => getTopic(option));
 
+  // Fetch initial data
   for (const topic of topics) {
     xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then(data => {
       for (const [resTopic, message] of Object.entries(data)) {
@@ -74,6 +79,7 @@ export function updateTopic(actionContext, options, done) {
   options.client.subscribe(newTopics);
   actionContext.dispatch('RealTimeClientTopicChanged', newTopics);
 
+  // Do the loading of initial data after clearing the vehicles object
   for (const topic of newTopics) {
     xhrPromise.getJson(config.URL.REALTIME + topic.replace('#', '')).then(data => {
       for (const [resTopic, message] of Object.entries(data)) {
