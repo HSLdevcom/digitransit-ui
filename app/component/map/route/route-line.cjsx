@@ -4,7 +4,7 @@ queries            = require '../../../queries'
 isBrowser          = window?
 StopMarker         = require('../non-tile-layer/StopMarker').default
 LocationMarker     = require '../location-marker'
-Line               = require '../line'
+Line               = require('../Line').default
 
 class RouteLine extends React.Component
   render: ->

@@ -5,7 +5,7 @@ const isBrowser = typeof window !== 'undefined' && window !== null;
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
 import LocationMarker from './location-marker';
-import Line from './line';
+import Line from './Line';
 import TripLine from './trip-line';
 import polyUtil from 'polyline-encoded';
 import CityBikeMarker from './non-tile-layer/city-bike-marker';
