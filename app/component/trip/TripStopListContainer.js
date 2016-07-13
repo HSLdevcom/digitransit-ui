@@ -32,12 +32,12 @@ class TripStopListContainer extends React.Component {
 
     const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
 
-    const currentTimeFromMidnight = this.props.currentTime.diff(
-      this.props.currentTime.startOf('day'), 'seconds');
+    const currentTimeFromMidnight = this.props.currentTime.clone().diff(
+      this.props.currentTime.clone().startOf('day'), 'seconds');
 
     const tripStartTime = this.props.trip.stoptimesForDate[0].scheduledDeparture;
     const tripStartHHmm = this.props.currentTime.clone()
-      .subtract(this.props.currentTime.startOf('day'), 'seconds')
+      .subtract(this.props.currentTime.clone().startOf('day'), 'seconds')
       .add(tripStartTime, 'seconds')
       .format('HHmm');
     const vehiclesWithCorrectStartTime = Object.keys(this.props.vehicles)
