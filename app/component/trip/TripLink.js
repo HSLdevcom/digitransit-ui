@@ -28,8 +28,8 @@ function TripLink(props) {
 }
 
 TripLink.propTypes = {
-  trip: React.PropTypes.object.required,
-  routeType: React.PropTypes.string.required,
+  trip: React.PropTypes.object.isRequired,
+  routeType: React.PropTypes.string.isRequired,
 };
 
 export default Relay.createContainer(TripLink, {
