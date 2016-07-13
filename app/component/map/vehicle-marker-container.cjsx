@@ -1,6 +1,6 @@
 React         = require 'react'
 Relay         = require 'react-relay'
-queries       = require '../../queries'
+FuzzyTripRoute = require('../route/FuzzyTripRoute').default
 isBrowser     = window?
 Popup  = if isBrowser then require('./Popup').default
 RouteMarkerPopup = require './route/route-marker-popup'
@@ -65,7 +65,7 @@ class VehicleMarkerContainer extends React.Component
 
     popup = <Relay.RootContainer
       Component={RouteMarkerPopup}
-      route={new queries.FuzzyTripRoute(
+      route={new FuzzyTripRoute(
         route: message.route
         direction: message.direction
         date: message.operatingDay
