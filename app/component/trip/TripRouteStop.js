@@ -30,11 +30,12 @@ class TripRouteStop extends React.Component {
       }
       return undefined;
     };
-    const vehicles = this.props.vehicles && this.props.vehicles.map((vehicle) =>
-      (<PatternLink
+
+    const vehicles = this.props.vehicles && this.props.vehicles.map(
+      (vehicle) => (<PatternLink
         routeType={vehicle.mode}
         pattern={this.props.pattern}
-
+        selected={this.props.selectedVehicle.id === vehicle.id}
       />)
     ) || [];
 
@@ -71,6 +72,7 @@ TripRouteStop.propTypes = {
   stoptime: React.PropTypes.object.isRequired,
   currentTime: React.PropTypes.number.isRequired,
   pattern: React.PropTypes.string,
+  selectedVehicle: React.PropTypes.object.isRequired,
 };
 
 TripRouteStop.description = (

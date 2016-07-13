@@ -17,6 +17,9 @@ $trip-large-map-height: 300px;
   div.below-map {
     height: calc(100% - #{$trip-small-map-height} - #{$trip-route-header-height} - #{$route-list-header-height});
   }
+  .large {
+    font-size: 48px;  //icon
+  }
 }
 
 .route-header.trip-header {

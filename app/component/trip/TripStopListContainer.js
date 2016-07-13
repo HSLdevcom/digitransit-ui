@@ -36,14 +36,14 @@ class TripStopListContainer extends React.Component {
       this.props.currentTime.clone().startOf('day'), 'seconds');
 
     const tripStartTime = this.props.trip.stoptimesForDate[0].scheduledDeparture;
-    const tripStartHHmm = this.props.currentTime.clone()
-      .subtract(this.props.currentTime.clone().startOf('day'), 'seconds')
+    const tripStartHHmm = this.props.currentTime.clone().startOf('day')
       .add(tripStartTime, 'seconds')
       .format('HHmm');
     const vehiclesWithCorrectStartTime = Object.keys(this.props.vehicles)
       .map((key) => (this.props.vehicles[key]))
       .filter((vehicle) => (vehicle.tripStartTime === tripStartHHmm));
 
+    // selected vehicle
     const vehicle = (vehiclesWithCorrectStartTime.length > 0) && vehiclesWithCorrectStartTime[0];
 
     let stopPassed = true;
@@ -65,6 +65,7 @@ class TripStopListContainer extends React.Component {
         stop={stoptime.stop}
         mode={mode}
         vehicles={vehicleStops[stoptime.stop.gtfsId]}
+        selectedVehicle={vehicle}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
         distance={nearest != null
