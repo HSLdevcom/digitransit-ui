@@ -2,9 +2,6 @@ import React from 'react';
 import Link from 'react-router/lib/Link';
 import IconWithTail from '../icon/icon-with-tail';
 import cx from 'classnames';
-import NotImplementedLink from '../util/not-implemented-link';
-import { FormattedMessage } from 'react-intl';
-
 
 function PatternLink(props) {
   const icon = (<IconWithTail
@@ -12,18 +9,10 @@ function PatternLink(props) {
     img={`icon-icon_${props.routeType}-live`}
   />);
 
-  if (props.pattern) {
-    return (<Link
-      to={props.pattern && `/linjat/${props.pattern}`}
-      className="route-now-content"
-    >{icon}</Link>);
-  }
-
-  return (<NotImplementedLink
-    nonTextLink
+  return (<Link
+    to={props.pattern && `/linjat/${props.pattern}`}
     className="route-now-content"
-    name={<FormattedMessage id="realtime-matching" defaultMessage="Realtime matching" />}
-  >{icon}</NotImplementedLink>);
+  >{icon}</Link>);
 }
 
 PatternLink.propTypes = {
