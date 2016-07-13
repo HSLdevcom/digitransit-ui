@@ -18,10 +18,11 @@ class TripStopListContainer extends React.Component {
     currentTime: React.PropTypes.object.isRequired,
   }
 
-  getNearestStopDistance = (stops) => {
-    this.props.locationState.hasLocation === true ?
-      getDistanceToNearestStop(this.props.locationState.lat, this.props.locationState.lon, stops) : null;
-  }
+  getNearestStopDistance = (stops) => (
+    this.props.locationState.hasLocation === true
+      ? getDistanceToNearestStop(this.props.locationState.lat, this.props.locationState.lon, stops)
+      : null
+  )
 
   getStops() {
     const nearest = this.getNearestStopDistance(this.props.trip.stoptimesForDate
@@ -31,10 +32,20 @@ class TripStopListContainer extends React.Component {
 
     const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
 
-    console.log('vehicleStops', vehicleStops);
+    const currentTimeFromMidnight = this.props.currentTime.diff(
+      this.props.currentTime.startOf('day'), 'seconds');
 
-    const vehicle = !isEmpty(this.props.vehicles) && this.props.vehicles[Object.keys(this.props.vehicles)[0]];
-    const currentTimeFromMidnight = this.props.currentTime.diff(this.props.currentTime.startOf('day'), 'seconds');
+    const tripStartTime = this.props.trip.stoptimesForDate[0].scheduledDeparture;
+    const tripStartHHmm = this.props.currentTime.clone()
+      .subtract(this.props.currentTime.startOf('day'), 'seconds')
+      .add(tripStartTime, 'seconds')
+      .format('HHmm');
+    const vehiclesWithCorrectStartTime = Object.keys(this.props.vehicles)
+      .map((key) => (this.props.vehicles[key]))
+      .filter((vehicle) => (vehicle.tripStartTime === tripStartHHmm));
+
+    const vehicle = (vehiclesWithCorrectStartTime.length > 0) && vehiclesWithCorrectStartTime[0];
+
     let stopPassed = true;
 
     return this.props.trip.stoptimesForDate.map((stoptime, index) => {
@@ -85,7 +96,6 @@ export default Relay.createContainer(
       currentTime: getStore('TimeStore').getCurrentTime(),
     })
   ),
-
   {
     fragments: {
       trip: () => Relay.QL`
