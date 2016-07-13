@@ -40,9 +40,7 @@ class TripRouteStop extends React.Component {
 
     return (
       <div className={cx('route-stop row', { passed: this.props.stopPassed })}>
-        <div className="columns small-3 route-stop-time">
-          <div className="route-stop-now-icon">{vehicles}</div>
-        </div>
+        <div className="columns small-3 route-stop-now">{vehicles}</div>
         <Link to={`/pysakit/${this.props.stop.gtfsId}`}>
           <div className={`columns small-7 route-stop-name ${this.props.mode}`}>
             {this.props.stop.name}&nbsp;
