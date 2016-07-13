@@ -30,21 +30,6 @@ class TripRouteStop extends React.Component {
       }
       return undefined;
     };
-
-    // const vehicles = [];
-    //
-    // if (this.props.vehicle) {
-    //   vehicles.push(
-    //     <IconWithTail
-    //       id="now"
-    //       key={this.props.vehicle.id}
-    //       className={cx(this.props.mode, 'large-icon')}
-    //       img={`icon-icon_${this.props.mode}-live`}
-    //     />);
-    // }
-
-    console.log('vehicles for stop:', this.props.vehicles);
-    console.log('patern:', this.props.pattern);
     const vehicles = this.props.vehicles && this.props.vehicles.map((vehicle) =>
       (<PatternLink
         routeType={vehicle.mode}
