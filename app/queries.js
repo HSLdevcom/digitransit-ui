@@ -198,59 +198,6 @@ export const StopMapPageFragments = {
   `,
 };
 
-export class StopMarkerLayerRoute extends Relay.Route {
-  static queries = {
-    stopsInRectangle: (Component, variables) => Relay.QL`
-      query {
-        viewer {
-          ${Component.getFragment('stopsInRectangle', {
-            minLat: variables.minLat,
-            minLon: variables.minLon,
-            maxLat: variables.maxLat,
-            maxLon: variables.maxLon,
-          })}
-        }
-      }
-    `,
-  };
-  static paramDefinitions = {
-    minLat: { required: true },
-    minLon: { required: true },
-    maxLat: { required: true },
-    maxLon: { required: true },
-  };
-  static routeName = 'StopMarkerLayerRoute';
-}
-
-export const StopMarkerLayerFragments = {
-  stopsInRectangle: () => Relay.QL`
-    fragment on QueryType {
-      stopsByBbox(minLat: $minLat, minLon: $minLon, maxLat: $maxLat, maxLon: $maxLon, agency: $agency) {
-        lat
-        lon
-        gtfsId
-        name
-        locationType
-        platformCode
-        parentStation {
-          gtfsId
-          name
-          lat
-          lon
-          stops {
-            gtfsId
-            lat
-            lon
-          }
-        }
-        routes {
-          type
-        }
-      }
-    }
-  `,
-};
-
 export const StopMarkerPopupFragments = {
   stop: ({ date }) => Relay.QL`
     fragment on Stop{

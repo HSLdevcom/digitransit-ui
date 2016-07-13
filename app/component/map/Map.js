@@ -35,7 +35,7 @@ if (isBrowser) {
   CityBikes = require('./tile-layer/CityBikes').default;
   Stops = require('./tile-layer/Stops').default;
 
-  StopMarkerContainer = require('./non-tile-layer/stop-marker-container');
+  StopMarkerContainer = require('./non-tile-layer/StopMarkerContainer').default;
   CityBikeMarkerContainer = require('./non-tile-layer/CityBikeMarkerContainer').default;
 }
 
