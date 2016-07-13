@@ -64,14 +64,14 @@ class TripRouteStop extends React.Component {
 }
 
 TripRouteStop.propTypes = {
-  vehicles: React.PropTypes.array.required,
+  vehicles: React.PropTypes.array.isRequired,
   mode: React.PropTypes.string,
   stopPassed: React.PropTypes.bool,
   realtimeDeparture: React.PropTypes.number,
   stop: React.PropTypes.object,
   distance: React.PropTypes.number,
-  stoptime: React.PropTypes.object.required,
-  currentTime: React.PropTypes.number.required,
+  stoptime: React.PropTypes.object.isRequired,
+  currentTime: React.PropTypes.number.isRequired,
   pattern: React.PropTypes.string,
 };
 

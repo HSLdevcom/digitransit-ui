@@ -1,5 +1,4 @@
 import React from 'react';
-import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import IconWithTail from '../icon/icon-with-tail';
 import cx from 'classnames';
@@ -28,25 +27,8 @@ function PatternLink(props) {
 }
 
 PatternLink.propTypes = {
-  trip: React.PropTypes.object.required,
-  routeType: React.PropTypes.string.required,
-  pttern: React.PropTypes.string.required,
+  routeType: React.PropTypes.string.isRequired,
+  pattern: React.PropTypes.string.isRequired,
 };
 
-export default Relay.createContainer(PatternLink, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on QueryType {
-        trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
-          gtfsId
-        }
-      }
-    `,
-  },
-  initialVariables: {
-    route: null,
-    direction: null,
-    date: null,
-    time: null,
-  },
-});
+export default PatternLink;
