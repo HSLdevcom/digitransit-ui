@@ -76,7 +76,7 @@ function NearbyTabLabelContainer(props) {
         }
       />);
   }
-  return <div />;
+  return <NearbyTabLabel {...props} />;
 }
 
 NearbyTabLabelContainer.propTypes = {
