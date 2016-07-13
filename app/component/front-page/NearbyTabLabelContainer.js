@@ -55,7 +55,6 @@ const NearbyTabLabelRelayConnector = Relay.createContainer(alertReducer(NearbyTa
     radius: config.nearbyRoutes.radius,
     numberOfStops: STOP_COUNT,
     agency: config.preferredAgency,
-    currentTime: '0',
   },
 });
 
