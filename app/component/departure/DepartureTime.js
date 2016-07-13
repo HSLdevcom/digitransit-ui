@@ -12,10 +12,6 @@ import {
 
 
 function DepartureTime(props, context) {
-  let realtime;
-  if (props.realtime && !props.canceled) {
-    realtime = <Icon img="icon-icon_realtime" className="realtime-icon realtime" />;
-  }
 
   let canceled;
   if (props.canceled) {
@@ -39,11 +35,15 @@ function DepartureTime(props, context) {
       ${context.intl.formatMessage({ id: 'minute-short', defaultMessage: 'min' })}`;
   }
 
+  let realtime;
+  if (props.realtime && !props.canceled && departureTime.isAfter(currentTime)) {
+    realtime = <Icon img="icon-icon_realtime" className="realtime-icon realtime" />;
+  }
   return (
     <span
       style={props.style}
       className={cx('time', {
-        realtime: props.realtime,
+        realtime: departureTime.isAfter(currentTime) && props.realtime,
         canceled: props.canceled,
       },
       props.className)}
