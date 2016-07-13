@@ -119,7 +119,7 @@ export const RouteLineFragments = {
         lon
         name
         gtfsId
-        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+        ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
       }
     }
   `,
@@ -204,7 +204,7 @@ export const StopCardContainerFragments = {
       stoptimes: stoptimesForServiceDate(date: $date) {
         ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
       }
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
     }
   `,
 };
@@ -226,7 +226,7 @@ export const StopPageFragments = {
       stoptimes: stoptimesForServiceDate(date: $date) {
         ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
       }
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
     }
   `,
 };
@@ -236,7 +236,7 @@ export const StopMapPageFragments = {
     fragment on Stop {
       lat
       lon
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
     }
   `,
 };
@@ -302,17 +302,6 @@ export const StopMarkerPopupFragments = {
       lon
       name
       ${require('./component/stop-cards/stop-card-container').getFragment('stop', { date })}
-    }
-  `,
-};
-
-export const StopCardHeaderFragments = {
-  stop: () => Relay.QL`
-    fragment on Stop {
-      gtfsId
-      name
-      code
-      desc
     }
   `,
 };
