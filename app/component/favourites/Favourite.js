@@ -4,7 +4,7 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import cx from 'classnames';
 
 const Favourite = ({ addFavourite, favourite }) => (
-  <span className="cursor-pointer favourite-icon right" onClick={addFavourite}>
+  <span className="cursor-pointer favourite-icon" onClick={addFavourite}>
     <Icon className={cx('favourite', { selected: favourite })} img="icon-icon_star" />
   </span>);
 
