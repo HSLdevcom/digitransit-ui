@@ -29,13 +29,9 @@ class TripPage extends React.Component {
     const route = this.props.trip.pattern.code.split(':');
 
     if (route[0].toLowerCase() === 'hsl') {
-      const tripStartTime = timeUtils.getStartTime(
-        this.props.trip.stoptimes[0].scheduledDeparture);
-
       this.context.executeAction(RealTimeClient.startRealTimeClient, {
         route: route[1],
         direction: route[2],
-        tripStartTime,
       });
     }
   }
