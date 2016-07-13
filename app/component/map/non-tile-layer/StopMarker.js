@@ -18,6 +18,12 @@ const transferIconSvg = '<svg viewBox="0 0 28 28">n  <circle key="halo" class="s
 const smallIconSvg = '<svg viewBox="0 0 8 8">n  <circle class="stop-small" cx="4" cy="4" r="3" stroke-width="1"/>n</svg>';
 /* eslint-enable max-len */
 
+const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired,
+  route: React.PropTypes.object.isRequired,
+});
+
 class StopMarker extends React.Component {
   static propTypes = {
     stop: React.PropTypes.object.isRequired,
@@ -41,12 +47,6 @@ class StopMarker extends React.Component {
     let iconSelected;
     let icon;
     let iconSmall;
-
-    const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
-      intl: intlShape.isRequired,
-      router: React.PropTypes.object.isRequired,
-      route: React.PropTypes.object.isRequired,
-    });
 
     const loadingPopupStyle = {
       height: 150,

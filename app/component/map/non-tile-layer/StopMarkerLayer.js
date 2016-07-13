@@ -2,7 +2,7 @@ import config from '../../../config';
 import React from 'react';
 import Relay from 'react-relay';
 import StopMarker from './StopMarker';
-import TerminalMarker from './terminal-marker';
+import TerminalMarker from './TerminalMarker';
 import uniq from 'lodash/uniq';
 
 class StopMarkerLayer extends React.Component {

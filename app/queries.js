@@ -1,21 +1,5 @@
 import Relay from 'react-relay';
 
-export const TerminalQueries = {
-  terminal: () => Relay.QL`
-    query  {
-      station(id: $terminalId)
-    }
-  `,
-};
-
-export class TerminalRoute extends Relay.Route {
-  static queries = TerminalQueries;
-  static paramDefinitions = {
-    terminalId: { required: true },
-  };
-  static routeName = 'TerminalRoute';
-}
-
 export const TerminalMarkerPopupFragments = {
   terminal: () => Relay.QL`
     fragment on Stop{

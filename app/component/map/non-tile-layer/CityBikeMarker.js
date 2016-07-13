@@ -37,7 +37,6 @@ class CityBikeMarker extends React.Component {
 
   static propTypes = {
     station: React.PropTypes.object.isRequired,
-    map: React.PropTypes.object.isRequired,
     transit: React.PropTypes.bool,
   };
 
