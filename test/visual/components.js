@@ -77,13 +77,13 @@ gemini.suite('components', (parent) => {
   gemini.suite('CityBikeCard', (component) => {
     component.setCaptureElements(
       '#CityBikeCard .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('CityBikeContent', (component) => {
     component.setCaptureElements(
       '#CityBikeContent .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('CityBikeAvailability', (component) => {
@@ -95,7 +95,7 @@ gemini.suite('components', (parent) => {
   gemini.suite('CityBikeUse', (component) => {
     component.setCaptureElements(
       '#CityBikeUse .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('FavouriteLocation', (component) => {
@@ -132,7 +132,7 @@ gemini.suite('components', (parent) => {
   gemini.suite('IconWithTail', (component) => {
     component.setCaptureElements(
       '#IconWithTail .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('TimeNavigationButtons', (component) => {
