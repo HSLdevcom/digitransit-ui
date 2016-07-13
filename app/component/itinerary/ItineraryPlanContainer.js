@@ -121,53 +121,54 @@ class ItineraryPlanContainer extends React.Component {
         showTransferLabels
         showIntermediateStops
       />];
+    const overlay = this.getFullscreen() ? undefined : (
+      <div
+        className="map-click-prevent-overlay"
+        onClick={this.toggleFullscreenMap}
+      />);
 
-    if (this.getFullscreen()) {
-      return (
-        <div
-          style={{
-            height: '100%',
-            flexGrow: 1,
-            display: 'flex',
-            flexDirection: 'column',
+    const swipe = this.getFullscreen() ? undefined : (
+      <SwipeableViews
+        index={index}
+        className="itinerary-swipe-views-root"
+        slideStyle={{ minHeight: '100%' }}
+        containerStyle={{ minHeight: '100%' }}
+        onChangeIndex={(idx) => setTimeout(this.switchSlide, 500, idx)}
+      >
+        {this.getSlides(itineraries)}
+      </SwipeableViews>);
+    const tabs = this.getFullscreen() ? undefined : (
+      <div className="itinerary-tabs-container">
+        <Tabs
+          onChange={this.switchSlide}
+          value={index}
+          tabItemContainerStyle={{
+            backgroundColor: '#eef1f3',
+            lineHeight: '18px',
+            width: '60px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
           }}
-          onTouchStart={e => e.stopPropagation()}
-          onMouseDown={e => e.stopPropagation()}
+          inkBarStyle={{ display: 'none' }}
         >
-          <Map
-            className="fullscreen"
-            leafletObjs={leafletObjs}
-            lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
-            lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
-            zoom={16}
-            fitBounds={false}
-          >
-            <div
-              className="fullscreen-toggle"
-              onClick={this.toggleFullscreenMap}
-            >
-              <Icon
-                img="icon-icon_maximize"
-                className="cursor-pointer"
-              />
-            </div>
-          </Map>
-        </div>
-      );
-    }
+          {this.getTabs(itineraries, index)}
+        </Tabs>
+      </div>);
+
     return (
-      <div className="itinerary-container-content"
+      <div
+        className="itinerary-container-content"
         onTouchStart={e => e.stopPropagation()}
         onMouseDown={e => e.stopPropagation()}
       >
         <Map
-          className="small"
+          className={this.getFullscreen() ? 'full' : 'small'}
           leafletObjs={leafletObjs}
           lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
           lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
           zoom={16}
           fitBounds={false}
-          leafletOptions={{
+          leafletOptions={this.getFullscreen() ? {} : {
             dragging: false,
             touchZoom: false,
             scrollWheelZoom: false,
@@ -175,10 +176,7 @@ class ItineraryPlanContainer extends React.Component {
             boxZoom: false,
           }}
         >
-          <div
-            className="map-click-prevent-overlay"
-            onClick={this.toggleFullscreenMap}
-          />
+          {overlay}
           <div
             className="fullscreen-toggle"
             onClick={this.toggleFullscreenMap}
@@ -189,31 +187,8 @@ class ItineraryPlanContainer extends React.Component {
             />
           </div>
         </Map>
-        <SwipeableViews
-          index={index}
-          className="itinerary-swipe-views-root"
-          slideStyle={{ minHeight: '100%' }}
-          containerStyle={{ minHeight: '100%' }}
-          onChangeIndex={(idx) => setTimeout(this.switchSlide, 500, idx)}
-        >
-          {this.getSlides(itineraries)}
-        </SwipeableViews>
-        <div className="itinerary-tabs-container">
-          <Tabs
-            onChange={this.switchSlide}
-            value={index}
-            tabItemContainerStyle={{
-              backgroundColor: '#eef1f3',
-              lineHeight: '18px',
-              width: '60px',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-            inkBarStyle={{ display: 'none' }}
-          >
-            {this.getTabs(itineraries, index)}
-          </Tabs>
-        </div>
+        {swipe}
+        {tabs}
       </div>
     );
   }

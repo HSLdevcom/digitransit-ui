@@ -27,6 +27,10 @@ div.map {
 div.map.small {
   height: $small-map-height;
 }
+div.map.full {
+  height: 100%;
+  flex-grow: 1;
+}
 div.background-gradient {
   height: $small-map-height;
 }
