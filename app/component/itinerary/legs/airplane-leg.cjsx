@@ -1,6 +1,6 @@
 React = require 'react'
 timeUtils    = require '../../../util/time-utils'
-TransitLeg   = require './transit-leg'
+TransitLeg   = require './TransitLeg'
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage
 

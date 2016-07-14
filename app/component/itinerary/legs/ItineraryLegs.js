@@ -9,7 +9,7 @@ import StopCode from '../StopCode';
 import BusLeg from './bus-leg';
 import AirplaneLeg from './airplane-leg';
 import SubwayLeg from './subway-leg';
-import TramLeg from './tram-leg';
+import TramLeg from './TramLeg';
 import RailLeg from './rail-leg';
 import FerryLeg from './ferry-leg';
 import CarLeg from './car-leg';
