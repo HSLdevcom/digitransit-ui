@@ -40,7 +40,7 @@ export default function TimeSelectors(
         /> :
         <TimePicker
           format="24hr"
-          className="time"
+          className="time time-mui"
           defaultTime={time.toDate()}
           value={time.toDate()}
           onChange={changeTimeMui}
