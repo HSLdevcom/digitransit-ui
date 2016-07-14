@@ -6,8 +6,7 @@ import config from '../../../config';
 import Icon from '../../icon/icon';
 import { durationToString } from '../../../util/time-utils';
 import StopCode from '../StopCode';
-import intl from 'react-intl';
-const { FormattedMessage } = intl;
+import { FormattedMessage } from 'react-intl';
 
 class TransitLeg extends React.Component {
   stopCode(stopCode) {
@@ -72,7 +71,8 @@ class TransitLeg extends React.Component {
                 && this.props.leg.intermediateStops.length) || 0,
               duration: durationToString(this.props.leg.duration * 1000),
             }}
-            defaultMessage="{number, plural, =0 {No intermediate stops} other {{number} stops} } ({duration})"
+            defaultMessage="{number, plural, =0 {No intermediate stops}
+              other {{number} stops} } ({duration})"
           />
         </div>
       </div>
