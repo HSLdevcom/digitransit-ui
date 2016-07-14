@@ -3,6 +3,7 @@
 import { Children, PropTypes } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { popup } from 'leaflet';
+import omit from 'lodash/omit';
 
 import latlngType from 'react-leaflet/lib/types/latlng';
 import mapType from 'react-leaflet/lib/types/map';
@@ -21,7 +22,7 @@ export default class Popup extends MapComponent {
 
   componentWillMount() {
     super.componentWillMount();
-    const { children: _children, ...props } = this.props;
+    const props = omit(this.props, 'children');
 
     this.leafletElement = popup(props, this.context.popupContainer);
     this.leafletElement.on('add', this.renderPopupContent.bind(this));

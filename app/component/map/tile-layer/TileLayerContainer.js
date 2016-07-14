@@ -39,6 +39,12 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
 //      once eslint-plugin-react has a new release (https://github.com/yannickcr/eslint-plugin-react/pull/513)
 /** @extends React.Component */
 class TileLayerContainer extends BaseTileLayer {
+  static propTypes = {
+    tileSize: React.PropTypes.number,
+    zoomOffset: React.PropTypes.number,
+    disableMapTracking: React.PropTypes.func,
+  }
+
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
@@ -52,10 +58,6 @@ class TileLayerContainer extends BaseTileLayer {
     stops: undefined,
     coords: undefined,
   };
-
-  merc = new SphericalMercator({
-    size: this.props.tileSize || 256,
-  });
 
   componentDidMount() {
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
@@ -107,6 +109,10 @@ class TileLayerContainer extends BaseTileLayer {
       });
     }
   }
+
+  merc = new SphericalMercator({
+    size: this.props.tileSize || 256,
+  });
 
   createTile = (tileCoords, done) => {
     const tile = new TileContainer(tileCoords, done, this.props);
