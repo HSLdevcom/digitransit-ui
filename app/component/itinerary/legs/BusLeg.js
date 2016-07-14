@@ -3,26 +3,27 @@ import TransitLeg from './TransitLeg';
 import intl from 'react-intl';
 const { FormattedMessage } = intl;
 
-const TramLeg = ({ leg, focusAction, index }) => (
+const BusLeg = ({ leg, focusAction, index }) => (
   <TransitLeg
-    mode="TRAM"
+    mode="BUS"
     leg={leg}
     focusAction={focusAction}
     index={index}
   >
     <FormattedMessage
-      id="tram-with-route-number"
+      id="bus-with-route-number"
       values={{
         routeNumber: leg.route && leg.route.shortName,
         headSign: leg.trip && leg.trip.tripHeadsign,
-      }} defaultMessage="Tram {routeNumber} {headSign}"
-    /></TransitLeg>
-  );
+      }} defaultMessage="Bus {routeNumber} {headSign}"
+    />
+  </TransitLeg>
+);
 
-TramLeg.propTypes = {
+BusLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
 };
 
-export default TramLeg;
+export default BusLeg;

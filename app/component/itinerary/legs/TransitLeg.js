@@ -82,11 +82,11 @@ class TransitLeg extends React.Component {
 
 TransitLeg.propTypes = {
   leg: PropTypes.object.isRequired,
-  'leg.realTime': PropTypes.bool.isRequired,
-  index: PropTypes.object.isRequired,
+  'leg.realTime': PropTypes.bool,
+  index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
-  children: PropTypes.array.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 
