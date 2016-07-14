@@ -30,21 +30,6 @@ class RouteStop extends React.Component {
         }
       />)) || [];
 
-    const departures = (stop) => {
-      if (stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0) {
-        return (
-          <div>
-          {stop.stopTimesForPattern.map((stopTime) => (
-            <div className="columns small-2 route-stop-mins">
-              {fromStopTime(stopTime, props.currentTime)}
-            </div>
-            ))}
-          </div>
-        );
-      }
-      return undefined;
-    };
-
     return (
       <div className="route-stop row">
         <div className="columns small-3 route-stop-now">{vehicles}</div>
@@ -62,7 +47,15 @@ class RouteStop extends React.Component {
             <StopCode code={props.stop.code} />
             <span className="route-stop-address">{props.stop.desc}</span>
           </div>
-          {departures(props.stop)}
+          {(
+            props.stop.stopTimesForPattern && props.stop.stopTimesForPattern.length > 0 &&
+            (<div>
+                {props.stop.stopTimesForPattern.map((stopTime) => (
+                  <div className="columns small-2 route-stop-mins">
+                    {fromStopTime(stopTime, props.currentTime)}
+                  </div>
+                  ))}
+            </div>))}
         </Link>
       </div>);
   }
