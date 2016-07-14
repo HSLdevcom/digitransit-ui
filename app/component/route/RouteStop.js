@@ -7,11 +7,8 @@ import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
 import { fromStopTime } from '../departure/DepartureTime';
 
-class RouteStop extends React.Component {
-  // this component is based on React.component because we need ref to this component
-
-  doRender(props) {
-    const vehicles = props.vehicles && props.vehicles.map((vehicle) =>
+const RouteStop = (props) => {
+  const vehicles = props.vehicles && props.vehicles.map((vehicle) =>
       (<Relay.RootContainer
         key={vehicle.id}
         Component={TripLink}
@@ -30,39 +27,35 @@ class RouteStop extends React.Component {
         }
       />)) || [];
 
-    return (
-      <div className="route-stop row">
-        <div className="columns small-3 route-stop-now">{vehicles}</div>
-        <Link to={`/pysakit/${props.stop.gtfsId}`}>
-          <div className={`columns small-5 route-stop-name ${props.mode}`}>
-            {props.stop.name}&nbsp;
-            {props.distance &&
-              <WalkDistance
-                className="nearest-route-stop"
-                icon="icon_location-with-user"
-                walkDistance={props.distance}
-              />
-            }
-            <br />
-            <StopCode code={props.stop.code} />
-            <span className="route-stop-address">{props.stop.desc}</span>
-          </div>
-          {(
-            props.stop.stopTimesForPattern && props.stop.stopTimesForPattern.length > 0 &&
-            (<div>
-                {props.stop.stopTimesForPattern.map((stopTime) => (
-                  <div className="columns small-2 route-stop-mins">
-                    {fromStopTime(stopTime, props.currentTime)}
-                  </div>
-                  ))}
-            </div>))}
-        </Link>
-      </div>);
-  }
-  render() {
-    return this.doRender(this.props);
-  }
-}
+  return (
+    <div className="route-stop row">
+      <div className="columns small-3 route-stop-now">{vehicles}</div>
+      <Link to={`/pysakit/${props.stop.gtfsId}`}>
+        <div className={`columns small-5 route-stop-name ${props.mode}`}>
+          {props.stop.name}&nbsp;
+          {props.distance &&
+            <WalkDistance
+              className="nearest-route-stop"
+              icon="icon_location-with-user"
+              walkDistance={props.distance}
+            />
+          }
+          <br />
+          <StopCode code={props.stop.code} />
+          <span className="route-stop-address">{props.stop.desc}</span>
+        </div>
+        {(
+          props.stop.stopTimesForPattern && props.stop.stopTimesForPattern.length > 0 &&
+          (<div>
+              {props.stop.stopTimesForPattern.map((stopTime) => (
+                <div className="columns small-2 route-stop-mins">
+                  {fromStopTime(stopTime, props.currentTime)}
+                </div>
+                ))}
+          </div>))}
+      </Link>
+    </div>);
+};
 
 RouteStop.propTypes = {
   vehicles: React.PropTypes.array,
