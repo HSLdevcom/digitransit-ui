@@ -1,6 +1,8 @@
 import React from 'react';
 
-const StopCode = props => <span className="itinerary-stop-code">{props.code}</span>;
+
+// TODO see if this can be combined with stop-reference?
+const StopCode = ({ code }) => <span className="itinerary-stop-code">{code}</span>;
 
 StopCode.displayName = 'StopCode';
 StopCode.propTypes = {
