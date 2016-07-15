@@ -72,7 +72,7 @@ export const vehicle = {
   long: 25.00535,
 };
 
-export const currentTime = new Date().getTime() / 1000;
+export const currentTime = new Date(1464778000).getTime() / 1000;
 
 export const station = {
   bikesAvailable: 1,
