@@ -8,7 +8,7 @@ import AirportCollectLuggageLeg from './airport-collect-luggage-leg';
 import StopCode from '../StopCode';
 import BusLeg from './BusLeg';
 import AirplaneLeg from './airplane-leg';
-import SubwayLeg from './subway-leg';
+import SubwayLeg from './SubwayLeg';
 import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './ferry-leg';
