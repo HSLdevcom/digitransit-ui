@@ -13,54 +13,42 @@ import {
   vehicle as exampleVehicle,
 } from '../documentation/ExampleData';
 
-class TripRouteStop extends React.Component {
-  render() {
-    // function copied from RouteStop
-    const departures = (stop) => {
-      if (stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0) {
-        return (
-          <div>
-          {stop.stopTimesForPattern.map((stopTime) => (
-            <div className="columns small-2 route-stop-time">
-              {fromStopTime(stopTime, this.props.currentTime)}
-            </div>
-            ))}
-          </div>
-        );
-      }
-      return undefined;
-    };
-
-    const vehicles = this.props.vehicles && this.props.vehicles.map(
+const TripRouteStop = (props) => {
+  const vehicles = props.vehicles && props.vehicles.map(
       (vehicle) => (<PatternLink
         routeType={vehicle.mode}
-        pattern={this.props.pattern}
-        selected={this.props.selectedVehicle.id === vehicle.id}
+        pattern={props.pattern}
+        selected={props.selectedVehicle.id === vehicle.id}
       />)
     ) || [];
 
-    return (
-      <div className={cx('route-stop row', { passed: this.props.stopPassed })}>
-        <div className="columns small-3 route-stop-now">{vehicles}</div>
-        <Link to={`/pysakit/${this.props.stop.gtfsId}`}>
-          <div className={`columns small-7 route-stop-name ${this.props.mode}`}>
-            {this.props.stop.name}&nbsp;
-            {this.props.distance &&
-              <WalkDistance
-                className="nearest-route-stop"
-                icon="icon_location-with-user"
-                walkDistance={this.props.distance}
-              />
-            }
-            <br />
-            <StopCode code={this.props.stop.code} />
-            <span className="route-stop-address">{this.props.stop.desc}</span>
-          </div>
-          {departures({ stopTimesForPattern: [this.props.stoptime] })}
-        </Link>
-      </div>);
-  }
-}
+  return (
+    <div className={cx('route-stop row', { passed: props.stopPassed })}>
+      <div className="columns small-3 route-stop-now">{vehicles}</div>
+      <Link to={`/pysakit/${props.stop.gtfsId}`}>
+        <div className={`columns small-7 route-stop-name ${props.mode}`}>
+          {props.stop.name}&nbsp;
+          {props.distance &&
+            <WalkDistance
+              className="nearest-route-stop"
+              icon="icon_location-with-user"
+              walkDistance={props.distance}
+            />
+          }
+          <br />
+          <StopCode code={props.stop.code} />
+          <span className="route-stop-address">{props.stop.desc}</span>
+        </div>
+        {(
+          props.stoptime &&
+          (<div>
+            <div className="columns small-2 route-stop-time">
+              {fromStopTime(props.stoptime, props.currentTime)}
+            </div>
+          </div>))}
+      </Link>
+    </div>);
+};
 
 TripRouteStop.propTypes = {
   vehicles: React.PropTypes.array.isRequired,
