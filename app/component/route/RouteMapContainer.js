@@ -2,8 +2,8 @@ import React from 'react';
 import Relay from 'react-relay';
 import Icon from '../icon/icon';
 import Map from '../map/Map';
-import RouteLine from '../map/route/route-line';
-import VehicleMarkerContainer from '../map/vehicle-marker-container';
+import RouteLine from '../map/route/RouteLine';
+import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeader from '../stop-cards/StopCardHeader';
 
 function RouteMapContainer(props) {
@@ -13,7 +13,8 @@ function RouteMapContainer(props) {
       key="vehicles"
       pattern={props.pattern.code}
       trip={props.trip}
-    />];
+    />,
+  ];
 
   return (
     <Map
@@ -38,7 +39,7 @@ RouteMapContainer.contextTypes = {
 
 RouteMapContainer.propTypes = {
   className: React.PropTypes.string,
-  trip: React.PropTypes.object,
+  trip: React.PropTypes.string,
   tripId: React.PropTypes.string,
   toggleFullscreenMap: React.PropTypes.func.isRequired,
   pattern: React.PropTypes.object.isRequired,

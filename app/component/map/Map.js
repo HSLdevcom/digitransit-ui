@@ -3,8 +3,8 @@ import React from 'react';
 import elementResizeDetectorMaker from 'element-resize-detector';
 import config from '../../config';
 
-import PositionMarker from './position-marker';
-import PlaceMarker from './place-marker';
+import PositionMarker from './PositionMarker';
+import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
 
@@ -35,8 +35,8 @@ if (isBrowser) {
   CityBikes = require('./tile-layer/CityBikes').default;
   Stops = require('./tile-layer/Stops').default;
 
-  StopMarkerContainer = require('./non-tile-layer/stop-marker-container');
-  CityBikeMarkerContainer = require('./non-tile-layer/city-bike-marker-container');
+  StopMarkerContainer = require('./non-tile-layer/StopMarkerContainer').default;
+  CityBikeMarkerContainer = require('./non-tile-layer/CityBikeMarkerContainer').default;
 }
 
 class Map extends React.Component {
@@ -70,24 +70,24 @@ class Map extends React.Component {
     L.control.attribution({
       position: 'bottomleft',
       prefix: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-    }).addTo(this.refs.map.getLeafletElement());
+    }).addTo(this.refs.map.leafletElement);
 
     if (!this.props.disableZoom || L.Browser.touch) {
       L.control.zoom({ position: 'topleft' }).
-        addTo(this.refs.map.getLeafletElement());
+        addTo(this.refs.map.leafletElement);
     }
 
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
     /* eslint-disable no-underscore-dangle */
-    this.erd.listenTo(this.refs.map.getLeafletElement()._container, this.resizeMap);
+    this.erd.listenTo(this.refs.map.leafletElement._container, this.resizeMap);
   }
 
   componentWillUnmount = () => {
-    this.erd.removeListener(this.refs.map.getLeafletElement()._container, this.resizeMap);
+    this.erd.removeListener(this.refs.map.leafletElement._container, this.resizeMap);
   }
 
   resizeMap = () => {
-    this.refs.map.getLeafletElement().invalidateSize();
+    this.refs.map.leafletElement.invalidateSize();
   }
 
   startMeasuring = () => (

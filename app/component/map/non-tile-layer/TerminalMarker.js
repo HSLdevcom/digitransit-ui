@@ -1,0 +1,114 @@
+const isBrowser = typeof window !== 'undefined' && window !== null;
+import React from 'react';
+import Relay from 'react-relay';
+import { getDistanceToFurthestStop } from '../../../util/geo-utils';
+import Icon from '../../icon/icon';
+import TerminalMarkerPopup from '../popups/terminal-marker-popup';
+import provideContext from 'fluxible-addons-react/provideContext';
+import { intlShape } from 'react-intl';
+import GenericMarker from '../GenericMarker';
+import TerminalRoute from '../../../route/TerminalRoute';
+
+let Circle;
+let L;
+
+/* eslint-disable global-require */
+if (isBrowser) {
+  Circle = require('react-leaflet/lib/Circle').default;
+  L = require('leaflet');
+}
+/* eslint-enable global-require */
+
+const TerminalMarkerPopupWithContext = provideContext(TerminalMarkerPopup, {
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired,
+  route: React.PropTypes.object.isRequired,
+});
+
+class TerminalMarker extends React.Component {
+  static contextTypes = {
+    getStore: React.PropTypes.func.isRequired,
+    executeAction: React.PropTypes.func.isRequired,
+    router: React.PropTypes.object.isRequired,
+    route: React.PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
+  };
+
+  static propTypes = {
+    terminal: React.PropTypes.shape({
+      lat: React.PropTypes.number.isRequired,
+      lon: React.PropTypes.number.isRequired,
+      gtfsId: React.PropTypes.string.isRequired,
+      name: React.PropTypes.string.isRequired,
+      stops: React.PropTypes.array,
+    }).isRequired,
+    mode: React.PropTypes.string.isRequired,
+    selected: React.PropTypes.bool,
+    renderName: React.PropTypes.string,
+  }
+
+  static terminalIcon = Icon.asString('icon-icon_mapMarker-station', 'terminal-medium-size');
+
+  getTerminalMarker() {
+    return (
+      <GenericMarker
+        position={{
+          lat: this.props.terminal.lat,
+          lon: this.props.terminal.lon,
+        }}
+        mode={this.props.mode} icons={{
+          smallIconSvg: TerminalMarker.terminalIcon,
+          iconSvg: TerminalMarker.terminalIcon,
+        }}
+        iconSizes={{
+          smallIconSvg: [24, 24],
+          iconSvg: [24, 24],
+        }}
+        id={this.props.terminal.gtfsId}
+        renderName={this.props.renderName}
+        selected={this.props.selected}
+        name={this.props.terminal.name}
+      >
+        <Relay.RootContainer
+          Component={TerminalMarkerPopup}
+          route={new TerminalRoute({
+            terminalId: this.props.terminal.gtfsId,
+          })}
+          renderLoading={() => (
+            <div className="card" style={{ height: 150 }}><div className="spinner-loader" /></div>
+          )}
+          renderFetched={data => (
+            <TerminalMarkerPopupWithContext {...data} context={this.context} />
+          )}
+        />
+      </GenericMarker>
+    );
+  }
+
+  render() {
+    if (!isBrowser) {
+      return '';
+    }
+
+    return (
+      <div>
+        <Circle
+          center={{ lat: this.props.terminal.lat, lng: this.props.terminal.lon }}
+          radius={getDistanceToFurthestStop(
+            new L.LatLng(this.props.terminal.lat, this.props.terminal.lon),
+            this.props.terminal.stops
+          ).distance}
+          fillOpacity={0.05}
+          weight={1}
+          opacity={0.3}
+          className={this.props.mode}
+          fillColor="currentColor"
+          color="currentColor"
+        />
+        {this.getTerminalMarker()}
+      </div>
+    );
+  }
+}
+
+export default TerminalMarker;
