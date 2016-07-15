@@ -35,6 +35,7 @@ nav.top-bar {
   line-height: $topbar-height;
   background: $primary-color;
   z-index: 1150;
+  position: relative;
   text-align: center;
   overflow: visible; // Show drawer menu
 
@@ -153,7 +154,7 @@ nav.top-bar {
   & > .itinerary-container-content {
     min-height: calc(100% - #{$topbar-height});
     max-height: calc(100% - #{$topbar-height});
-  }  
+  }
 }
 
 .offcanvas > div {
