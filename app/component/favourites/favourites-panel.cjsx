@@ -26,7 +26,7 @@ FavouritesPanel = ({routes}) ->
       <FavouriteLocationsContainer/>
     </div>
     <NextDeparturesListHeader />
-    <div className="scrollable momentum-scroll scroll-extra-padding-bottom">
+    <div className="scrollable momentum-scroll">
       <FavouriteRoutes routes={routes}/>
     </div>
   </div>
