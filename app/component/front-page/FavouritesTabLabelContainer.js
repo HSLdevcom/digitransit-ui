@@ -30,17 +30,15 @@ const FavouritesTabLabelRelayConnector = Relay.createContainer(alertReducer(Favo
 function FavouritesTabLabelContainer({ routes, ...rest }) {
   if (typeof window !== 'undefined') {
     return (
-      <Relay.RootContainer
-        Component={FavouritesTabLabelRelayConnector}
-        route={new RoutesRoute({
-          ids: routes,
-        })}
-        renderFetched={(data) =>
-          <FavouritesTabLabelRelayConnector {...data} {...rest} />
-        }
-        renderLoading={() =>
+      <Relay.Renderer
+        Container={FavouritesTabLabelRelayConnector}
+        queryConfig={new RoutesRoute({ ids: routes })}
+        environment={Relay.Store}
+        render={({ done, props }) => (done ? (
+          <FavouritesTabLabelRelayConnector {...props} {...rest} />
+        ) : (
           <FavouritesTabLabel {...rest} />
-        }
+        ))}
       />);
   }
   return <div />;

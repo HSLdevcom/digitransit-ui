@@ -10,9 +10,11 @@ const L = isBrowser && require('leaflet');
 /* eslint-enable global-require */
 
 export default class LegMarker extends React.Component {
-  static propTypes = {
+  static contextTypes = {
     map: React.PropTypes.object.isRequired,
-    layerContainer: React.PropTypes.object.isRequired,
+  }
+
+  static propTypes = {
     leg: React.PropTypes.object.isRequired,
     mode: React.PropTypes.string.isRequired,
   };
@@ -24,11 +26,11 @@ export default class LegMarker extends React.Component {
   }
 
   componentDidMount() {
-    this.props.map.on('zoomend', this.onMapZoom);
+    this.context.map.on('zoomend', this.onMapZoom);
   }
 
   componentWillUnmount() {
-    this.props.map.off('zoomend', this.onMapZoom);
+    this.context.map.off('zoomend', this.onMapZoom);
   }
 
   onMapZoom() {
@@ -38,8 +40,6 @@ export default class LegMarker extends React.Component {
   getLegMarker() {
     return (
       <Marker
-        map={this.props.map}
-        layerContainer={this.props.layerContainer}
         key={`${this.props.leg.name}_text`}
         position={{
           lat: this.props.leg.lat,
@@ -74,8 +74,8 @@ export default class LegMarker extends React.Component {
       return '';
     }
 
-    const p1 = this.props.map.latLngToLayerPoint(this.props.leg.from);
-    const p2 = this.props.map.latLngToLayerPoint(this.props.leg.to);
+    const p1 = this.context.map.latLngToLayerPoint(this.props.leg.from);
+    const p2 = this.context.map.latLngToLayerPoint(this.props.leg.to);
     const distance = p1.distanceTo(p2);
     const minDistanceToShow = 64;
 
@@ -86,4 +86,3 @@ export default class LegMarker extends React.Component {
     );
   }
 }
-

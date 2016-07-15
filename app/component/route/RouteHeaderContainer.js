@@ -14,7 +14,7 @@ class RouteHeaderContainer extends React.Component {
   static propTypes = {
     pattern: React.PropTypes.object.isRequired,
     className: React.PropTypes.string,
-    trip: React.PropTypes.object,
+    trip: React.PropTypes.string,
     favourite: React.PropTypes.bool,
   };
 

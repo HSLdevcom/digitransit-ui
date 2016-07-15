@@ -1,9 +1,9 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
-queries               = require '../../queries'
 Link                  = require 'react-router/lib/Link'
 TripLink              = require '../trip/trip-link'
 WalkDistance          = require '../itinerary/walk-distance'
+FuzzyTripRoute        = require('../../route/FuzzyTripRoute').default
 
 class RouteStop extends React.Component
 
@@ -13,7 +13,7 @@ class RouteStop extends React.Component
       for vehicle in @props.vehicles
         vehicles.push <Relay.RootContainer key={vehicle.id}
           Component={TripLink}
-          route={new queries.FuzzyTripRoute(
+          route={new FuzzyTripRoute(
             route: vehicle.route
             direction: vehicle.direction
             date: vehicle.operatingDay
