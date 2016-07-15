@@ -48,7 +48,7 @@ const RouteStop = (props) => {
           props.stop.stopTimesForPattern && props.stop.stopTimesForPattern.length > 0 &&
           (<div>
               {props.stop.stopTimesForPattern.map((stopTime) => (
-                <div className="columns small-2 route-stop-mins">
+                <div className="columns small-2 route-stop-time">
                   {fromStopTime(stopTime, props.currentTime)}
                 </div>
                 ))}
