@@ -2,19 +2,6 @@
           no-param-reassign, strict, prefer-template */
 'use strict';
 
-const http = require('http');
-
-const agent = new http.Agent({
-  keepAlive: true,
-  keepAliveMsecs: 30 * 1000,
-});
-
-const httpRequest = http.request;
-http.request = function request(options, callback) {
-  options.agent = agent;
-  return httpRequest(options, callback);
-};
-
 module.exports = function (browser) {
   if (browser.ELEMENT_VISIBLE_TIMEOUT) return;
   const ELEMENT_VISIBLE_TIMEOUT = 10000;
@@ -103,8 +90,7 @@ module.exports = function (browser) {
       browser
         .waitForElementVisible('#search-origin', ELEMENT_VISIBLE_TIMEOUT)
         .setValue('#search-origin', text)
-        .pause(2000)
-        .waitForElementVisible('#react-autowhatever-suggest--item-0', ELEMENT_VISIBLE_TIMEOUT)
+        .pause(3000)
         .setValue('#search-origin', browser.Keys.ENTER)
         .pause(100),
   };
@@ -121,8 +107,7 @@ module.exports = function (browser) {
     enterText: (text) =>
       browser
         .setValue('#search-destination', text)
-        .pause(2000)
-        .waitForElementVisible('#react-autowhatever-suggest--item-0', ELEMENT_VISIBLE_TIMEOUT)
+        .pause(3000)
         .setValue('#search-destination', browser.Keys.ENTER)
         .pause(100),
   };
