@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { FuzzyTripRoute } from '../../queries';
+import FuzzyTripRoute from '../../route/FuzzyTripRoute';
 import Link from 'react-router/lib/Link';
 import TripLink from '../trip/trip-link';
 import WalkDistance from '../itinerary/walk-distance';
@@ -48,7 +48,7 @@ const RouteStop = (props) => {
           props.stop.stopTimesForPattern && props.stop.stopTimesForPattern.length > 0 &&
           (<div>
               {props.stop.stopTimesForPattern.map((stopTime) => (
-                <div className="columns small-2 route-stop-time">
+                <div key={stopTime.scheduledDeparture} className="columns small-2 route-stop-time">
                   {fromStopTime(stopTime, props.currentTime)}
                 </div>
                 ))}
@@ -62,7 +62,7 @@ RouteStop.propTypes = {
   stop: React.PropTypes.object,
   mode: React.PropTypes.string,
   distance: React.PropTypes.number,
-  currentTime: React.PropTypes.object.isRequired,
+  currentTime: React.PropTypes.number.isRequired,
 };
 
 export default RouteStop;
