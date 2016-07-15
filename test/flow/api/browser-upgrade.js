@@ -91,6 +91,7 @@ module.exports = function (browser) {
         .waitForElementVisible('#search-origin', ELEMENT_VISIBLE_TIMEOUT)
         .setValue('#search-origin', text)
         .pause(2000)
+        .waitForElementVisible('#react-autowhatever-suggest--item-0', ELEMENT_VISIBLE_TIMEOUT)
         .setValue('#search-origin', browser.Keys.ENTER)
         .pause(100),
   };
@@ -107,7 +108,8 @@ module.exports = function (browser) {
     enterText: (text) =>
       browser
         .setValue('#search-destination', text)
-        .pause(1000)
+        .pause(2000)
+        .waitForElementVisible('#react-autowhatever-suggest--item-0', ELEMENT_VISIBLE_TIMEOUT)
         .setValue('#search-destination', browser.Keys.ENTER)
         .pause(100),
   };
