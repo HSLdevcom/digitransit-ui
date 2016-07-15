@@ -1,14 +1,14 @@
 import React from 'react';
 import Relay from 'react-relay';
-import queries from '../../queries';
+import TripRoute from '../../route/TripRoute';
 const isBrowser = typeof window !== 'undefined' && window !== null;
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
-import LocationMarker from './location-marker';
-import Line from './line';
-import TripLine from './trip-line';
+import LocationMarker from './LocationMarker';
+import Line from './Line';
+import TripLine from './TripLine';
 import polyUtil from 'polyline-encoded';
-import CityBikeMarker from './non-tile-layer/city-bike-marker';
+import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 
 function getLengthOf(geometry) {
   let d = 0;
@@ -68,16 +68,12 @@ class ItineraryLine extends React.Component {
     if (this.props.showFromToMarkers) {
       objs.push(
         <LocationMarker
-          map={this.props.map}
-          layerContainer={this.props.layerContainer}
           key="from"
           position={this.props.legs[0].from}
           className="from"
         />);
 
       objs.push(<LocationMarker
-        map={this.props.map}
-        layerContainer={this.props.layerContainer}
         key="to"
         position={this.props.legs[this.props.legs.length - 1].to}
         className="to"
@@ -125,8 +121,6 @@ class ItineraryLine extends React.Component {
 
       objs.push(
         <Line
-          map={this.props.map}
-          layerContainer={this.props.layerContainer}
           key={`${this.props.hash}_${i}`}
           geometry={geometry}
           mode={mode.toLowerCase()}
@@ -139,17 +133,11 @@ class ItineraryLine extends React.Component {
             <Relay.RootContainer
               Component={TripLine}
               key={leg.tripId}
-              route={new queries.TripRoute({
+              route={new TripRoute({
                 id: leg.tripId,
               })}
               renderLoading={() => false}
-              renderFetched={data =>
-                (<TripLine
-                  {...data}
-                  map={this.props.map}
-                  layerContainer={this.props.layerContainer}
-                  filteredStops={itineraryStops}
-                />)}
+              renderFetched={data => <TripLine {...data} filteredStops={itineraryStops} />}
             />);
         }
 
@@ -157,8 +145,6 @@ class ItineraryLine extends React.Component {
           leg.intermediateStops.forEach(stop =>
             objs.push(
               <StopMarker
-                map={this.props.map}
-                layerContainer={this.props.layerContainer}
                 disableModeIcons
                 stop={{
                   lat: stop.lat,
@@ -177,8 +163,6 @@ class ItineraryLine extends React.Component {
         if (leg.from.vertexType === 'BIKESHARE') {
           objs.push(
             <CityBikeMarker
-              map={this.props.map}
-              layerContainer={this.props.layerContainer}
               key={leg.from.bikeRentalStation.stationId}
               transit
               station={{
@@ -195,8 +179,6 @@ class ItineraryLine extends React.Component {
             }
             objs.push(
               <LegMarker
-                map={this.props.map}
-                layerContainer={this.props.layerContainer}
                 key={`${i},${leg.mode}legmarker`}
                 disableModeIcons
                 renderName
@@ -215,8 +197,6 @@ class ItineraryLine extends React.Component {
           }
           objs.push(
             <StopMarker
-              map={this.props.map}
-              layerContainer={this.props.layerContainer}
               key={`${i},${leg.mode}marker,from`}
               disableModeIcons
               stop={{
@@ -241,9 +221,7 @@ class ItineraryLine extends React.Component {
 
 ItineraryLine.propTypes = {
   showFromToMarkers: React.PropTypes.bool,
-  map: React.PropTypes.object,
   legs: React.PropTypes.array,
-  layerContainer: React.PropTypes.object,
   passive: React.PropTypes.bool,
   hash: React.PropTypes.number,
   showTransferLabels: React.PropTypes.bool,

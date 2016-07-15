@@ -8,17 +8,18 @@ import TripListHeader from '../component/trip/TripListHeader';
 import TripStopListContainer from '../component/trip/TripStopListContainer';
 import RouteMapContainer from '../component/route/RouteMapContainer';
 import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
-import RealTimeClient from '../action/real-time-client-action';
+import { stopRealTimeClient, updateTopic, startRealTimeClient }
+  from '../action/realTimeClientAction';
 import RoutePatternSelect from '../component/route/RoutePatternSelect';
 import timeUtils from '../util/time-utils';
-import intl, { FormattedMessage } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from '../component/icon/icon';
 
 class TripPage extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
@@ -29,7 +30,7 @@ class TripPage extends React.Component {
     const route = this.props.trip.pattern.code.split(':');
 
     if (route[0].toLowerCase() === 'hsl') {
-      this.context.executeAction(RealTimeClient.startRealTimeClient, {
+      this.context.executeAction(startRealTimeClient, {
         route: route[1],
         direction: route[2],
       });
@@ -45,7 +46,7 @@ class TripPage extends React.Component {
       if (route[0].toLowerCase() === 'hsl') {
         tripStartTime = timeUtils.getStartTime(newProps.trip.stoptimes[0].scheduledDeparture);
 
-        this.context.executeAction(RealTimeClient.updateTopic, {
+        this.context.executeAction(updateTopic, {
           client,
           oldTopics: this.context.getStore('RealTimeInformationStore').getSubscriptions(),
 
@@ -61,7 +62,7 @@ class TripPage extends React.Component {
     } else if (route[0].toLowerCase() === 'hsl') {
       tripStartTime = timeUtils.getStartTime(newProps.trip.stoptimes[0].scheduledDeparture);
 
-      this.context.executeAction(RealTimeClient.startRealTimeClient, {
+      this.context.executeAction(startRealTimeClient, {
         route: route[1],
         direction: route[2],
         tripStartTime,
@@ -73,7 +74,7 @@ class TripPage extends React.Component {
     const { client } = this.context.getStore('RealTimeInformationStore');
 
     if (client) {
-      this.context.executeAction(RealTimeClient.stopRealTimeClient, client);
+      this.context.executeAction(stopRealTimeClient, client);
     }
   }
 
