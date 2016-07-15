@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import TransitLeg from './TransitLeg';
-import intl from 'react-intl';
-const { FormattedMessage } = intl;
+import { FormattedMessage } from 'react-intl';
 
 const BusLeg = ({ leg, focusAction, index }) => (
   <TransitLeg

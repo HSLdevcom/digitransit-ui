@@ -10,7 +10,7 @@ import BusLeg from './BusLeg';
 import AirplaneLeg from './airplane-leg';
 import SubwayLeg from './subway-leg';
 import TramLeg from './TramLeg';
-import RailLeg from './rail-leg';
+import RailLeg from './RailLeg';
 import FerryLeg from './ferry-leg';
 import CarLeg from './car-leg';
 import config from '../../../config';
