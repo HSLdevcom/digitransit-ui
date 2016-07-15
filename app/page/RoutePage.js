@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import Helmet from 'react-helmet';
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Tabs from 'react-simpletabs';
-import RouteListHeader from '../component/route/route-list-header';
+import RouteListHeader from '../component/route/RouteListHeader';
 import Icon from '../component/icon/icon';
 import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
 import RouteStopListContainer from '../component/route/RouteStopListContainer';
@@ -27,7 +27,7 @@ class RoutePage extends React.Component {
   };
 
   static propTypes = {
-    pattern: React.PropTypes.node.isRequired,
+    pattern: React.PropTypes.object.isRequired,
   };
 
   constructor() {
@@ -170,7 +170,10 @@ class RoutePage extends React.Component {
               <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} />
             </RouteMapContainer>
             <RouteListHeader />
-            <RouteStopListContainer pattern={this.props.pattern} />
+            <RouteStopListContainer
+              pattern={this.props.pattern}
+              routeId={this.props.relay.variables.routeId}
+            />
           </Tabs.Panel>
           <Tabs.Panel
             title={
@@ -202,11 +205,17 @@ class RoutePage extends React.Component {
 
 RoutePage.propTypes = {
   params: React.PropTypes.object.isRequired,
+  relay: React.PropTypes.object.isRequired,
 };
 
 export default Relay.createContainer(RoutePage, {
+  initialVariables: {
+    routeId: null,
+  },
+
   fragments: {
-    pattern: () => Relay.QL`
+    pattern: ({ routeId }) =>
+      Relay.QL`
       fragment on Pattern {
         code
         headsign
@@ -225,7 +234,7 @@ export default Relay.createContainer(RoutePage, {
         ${RouteHeaderContainer.getFragment('pattern')}
         ${RouteMapContainer.getFragment('pattern')}
         ${RouteScheduleContainer.getFragment('pattern')}
-        ${RouteStopListContainer.getFragment('pattern')}
+        ${RouteStopListContainer.getFragment('pattern', { routeId })}
       }
     `,
   },
