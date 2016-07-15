@@ -11,8 +11,9 @@ import RouteMapContainer from '../component/route/RouteMapContainer';
 import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
 import RouteAlertsContainer from '../component/route/RouteAlertsContainer';
 import RoutePatternSelect from '../component/route/RoutePatternSelect';
-import RealTimeClient from '../action/real-time-client-action';
-import intl, { FormattedMessage } from 'react-intl';
+import { startRealTimeClient, updateTopic, stopRealTimeClient }
+  from '../action/realTimeClientAction';
+import { FormattedMessage, intlShape } from 'react-intl';
 import NotFound from './404';
 
 class RoutePage extends React.Component {
@@ -20,7 +21,7 @@ class RoutePage extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
   };
@@ -39,7 +40,7 @@ class RoutePage extends React.Component {
     const route = this.props.params.routeId.split(':');
 
     if (route[0].toLowerCase() === 'hsl') {
-      this.context.executeAction(RealTimeClient.startRealTimeClient, {
+      this.context.executeAction(startRealTimeClient, {
         route: route[1],
         direction: route[2],
       });
@@ -52,7 +53,7 @@ class RoutePage extends React.Component {
 
     if (client) {
       if (route[0].toLowerCase() === 'hsl') {
-        this.context.executeAction(RealTimeClient.updateTopic, {
+        this.context.executeAction(updateTopic, {
           client,
           oldTopics: this.context.getStore('RealTimeInformationStore').getSubscriptions(),
 
@@ -65,7 +66,7 @@ class RoutePage extends React.Component {
         this.componentWillUnmount();
       }
     } else if (route[0].toLowerCase() === 'hsl') {
-      this.context.executeAction(RealTimeClient.startRealTimeClient, {
+      this.context.executeAction(startRealTimeClient, {
         route: route[1],
         direction: route[2],
       });
@@ -76,7 +77,7 @@ class RoutePage extends React.Component {
     const { client } = this.context.getStore('RealTimeInformationStore');
 
     if (client) {
-      this.context.executeAction(RealTimeClient.stopRealTimeClient, client);
+      this.context.executeAction(stopRealTimeClient, client);
     }
   }
 
@@ -180,6 +181,7 @@ class RoutePage extends React.Component {
           >
             <RoutePatternSelect
               pattern={this.props.pattern}
+              onSelectChange={this.selectRoutePattern}
             />
             <RouteScheduleContainer pattern={this.props.pattern} />
           </Tabs.Panel>

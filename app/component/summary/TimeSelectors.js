@@ -77,6 +77,7 @@ TimeSelectors.description = (
         time={moment('2016-05-18 09:30')}
         setArriveBy={() => {}}
         changeTime={() => {}}
+        changeTimeMui={() => {}}
         changeDate={() => {}}
         dates={[<option value={'2016-05-18'} key={'2016-05-18'} >Today</option>]}
       />

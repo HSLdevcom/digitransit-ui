@@ -6,7 +6,7 @@ RouteHeaderContainer   = require('../component/route/RouteHeaderContainer').defa
 RouteListHeader        = require '../component/route/route-list-header'
 TripStopListContainer  = require '../component/trip/trip-stop-list-container'
 RouteMapContainer      = require('../component/route/RouteMapContainer').default
-RealTimeClient         = require '../action/real-time-client-action'
+RealTimeClient         = require '../action/realTimeClientAction'
 timeUtils              = require '../util/time-utils'
 intl               = require 'react-intl'
 
