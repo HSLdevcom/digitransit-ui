@@ -10,9 +10,7 @@ import {
   realtimeDeparture as exampleRealtimeDeparture,
 } from '../documentation/ExampleData';
 
-
 function DepartureTime(props, context) {
-
   let canceled;
   if (props.canceled) {
     canceled = <Icon img="icon-icon_caution" className="icon cancelation-info" />;
@@ -106,7 +104,8 @@ export default DepartureTime;
  *  @param stoptime stoptime from graphql
  *  @param pattern pattern from graphql
  */
-const mapStopTime = (stoptime, pattern) => (
+
+export const mapStopTime = (stoptime, pattern) => (
   {
     stop: stoptime.stop,
     canceled: stoptime.realtimeState === 'CANCELED'
@@ -126,8 +125,6 @@ const mapStopTime = (stoptime, pattern) => (
  *  @param stoptime stoptime from graphql
  *  @param currentTime
  */
-const fromStopTime = (stoptime, currentTime) => (
+export const fromStopTime = (stoptime, currentTime) => (
   <DepartureTime currentTime={currentTime} {...mapStopTime(stoptime)} />
 );
-
-export { mapStopTime, fromStopTime };

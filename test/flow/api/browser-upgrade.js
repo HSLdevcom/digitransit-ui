@@ -90,7 +90,7 @@ module.exports = function (browser) {
       browser
         .waitForElementVisible('#search-origin', ELEMENT_VISIBLE_TIMEOUT)
         .setValue('#search-origin', text)
-        .pause(1000)
+        .pause(2000)
         .setValue('#search-origin', browser.Keys.ENTER)
         .pause(100),
   };
