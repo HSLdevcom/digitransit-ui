@@ -7,11 +7,11 @@ import AirportCheckInLeg from './airport-check-in-leg';
 import AirportCollectLuggageLeg from './airport-collect-luggage-leg';
 import StopCode from '../StopCode';
 import BusLeg from './BusLeg';
-import AirplaneLeg from './airplane-leg';
+import AirplaneLeg from './AirplaneLeg';
 import SubwayLeg from './SubwayLeg';
 import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
-import FerryLeg from './ferry-leg';
+import FerryLeg from './FerryLeg';
 import CarLeg from './car-leg';
 import config from '../../../config';
 
