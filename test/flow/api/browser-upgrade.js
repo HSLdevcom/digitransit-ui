@@ -2,6 +2,19 @@
           no-param-reassign, strict, prefer-template */
 'use strict';
 
+const http = require('http');
+
+const agent = new http.Agent({
+  keepAlive: true,
+  keepAliveMsecs: 30 * 1000,
+});
+
+const httpRequest = http.request;
+http.request = function request(options, callback) {
+  options.agent = agent;
+  return httpRequest(options, callback);
+};
+
 module.exports = function (browser) {
   if (browser.ELEMENT_VISIBLE_TIMEOUT) return;
   const ELEMENT_VISIBLE_TIMEOUT = 10000;
