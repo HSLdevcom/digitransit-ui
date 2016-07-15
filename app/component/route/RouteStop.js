@@ -46,13 +46,11 @@ const RouteStop = (props) => {
         </div>
         {(
           props.stop.stopTimesForPattern && props.stop.stopTimesForPattern.length > 0 &&
-          (<div>
-              {props.stop.stopTimesForPattern.map((stopTime) => (
-                <div key={stopTime.scheduledDeparture} className="columns small-2 route-stop-time">
-                  {fromStopTime(stopTime, props.currentTime)}
-                </div>
-                ))}
-          </div>))}
+          props.stop.stopTimesForPattern.map((stopTime) => (
+            <div key={stopTime.scheduledDeparture} className="columns small-2 route-stop-time">
+              {fromStopTime(stopTime, props.currentTime)}
+            </div>
+          )))}
       </Link>
     </div>);
 };
