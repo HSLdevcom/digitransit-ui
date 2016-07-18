@@ -24,11 +24,8 @@ export const getHubRadius = memoize(glfun({
 }));
 
 export const getColor = memoize((mode) => {
-  if (typeof mode === 'undefined' || mode == null) {
-    return undefined;
-  }
-  const ref = getSelector(`.${mode.toLowerCase()}`);
-  return ref != null ? ref.style.color : void 0;
+  const cssRule = mode && getSelector(`.${mode.toLowerCase()}`);
+  return cssRule && cssRule.style.color;
 });
 
 export function drawRoundIcon(tile, geom, type) {

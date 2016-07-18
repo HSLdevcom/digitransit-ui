@@ -7,40 +7,35 @@ const Popup = isBrowser ?
   require('./Popup').default : null; // eslint-disable-line global-require
 
 import { openDialog } from '../../action/SearchActions';
-import intl from 'react-intl';
+import { intlShape } from 'react-intl';
 import Icon from '../icon/icon';
 
 class OriginPopup extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
+    popupContainer: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {
     shouldOpen: React.PropTypes.bool,
-    popupContainer: React.PropTypes.object, // TODO: These should be required
-    layerContainer: React.PropTypes.object,
     yOffset: React.PropTypes.number.isRequired,
     text: React.PropTypes.string.isRequired,
     header: React.PropTypes.string.isRequired,
-    map: React.PropTypes.object,
   };
 
   componentDidMount() {
     return this.props.shouldOpen && setImmediate(this.display);
   }
 
-  display = () => this.props.popupContainer.openPopup();
+  display = () => this.context.popupContainer.openPopup();
 
   render() {
     return (
       <Popup
         context={this.context}
         ref="popup"
-        map={this.props.map}
-        layerContainer={this.props.layerContainer}
-        popupContainer={this.props.popupContainer}
         offset={[50, this.props.yOffset]}
         closeButton={false}
         maxWidth={config.map.genericMarker.popup.maxWidth}

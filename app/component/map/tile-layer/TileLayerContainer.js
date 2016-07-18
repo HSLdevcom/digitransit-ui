@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import StopRoute from '../../../route/StopRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
 import Popup from '../Popup';
-import intl from 'react-intl';
+import { intlShape } from 'react-intl';
 import BaseTileLayer from 'react-leaflet/lib/BaseTileLayer';
 import omit from 'lodash/omit';
 import provideContext from 'fluxible-addons-react/provideContext';
@@ -16,19 +16,19 @@ import TileContainer from './TileContainer';
 import L from 'leaflet';
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
-  intl: intl.intlShape.isRequired,
+  intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
-  intl: intl.intlShape.isRequired,
+  intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
-  intl: intl.intlShape.isRequired,
+  intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
@@ -39,57 +39,25 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
 //      once eslint-plugin-react has a new release (https://github.com/yannickcr/eslint-plugin-react/pull/513)
 /** @extends React.Component */
 class TileLayerContainer extends BaseTileLayer {
+  static propTypes = {
+    tileSize: React.PropTypes.number,
+    zoomOffset: React.PropTypes.number,
+    disableMapTracking: React.PropTypes.func,
+  }
+
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
+    map: React.PropTypes.object.isRequired,
     router: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
   };
-
-  merc = new SphericalMercator({
-    size: this.props.tileSize || 256,
-  });
 
   state = {
     stops: undefined,
     coords: undefined,
   };
-
-  createTile = (tileCoords, done) => {
-    const tile = new TileContainer(tileCoords, done, this.props);
-
-    tile.onSelectableTargetClicked = (selectableTargets, coords) => {
-      if (this.props.disableMapTracking) {
-        this.props.disableMapTracking();
-      }
-
-      this.setState({
-        selectableTargets,
-        coords,
-      });
-    };
-
-    return tile.el;
-  }
-
-  onTimeChange = (e) => {
-    let activeTiles;
-
-    if (e.currentTime) {
-      /* eslint-disable no-underscore-dangle */
-      activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
-      /* eslint-enable no-underscore-dangle */
-
-      activeTiles.forEach(tile => {
-        tile.el.layers.forEach(layer => {
-          if (layer.onTimeChange) {
-            layer.onTimeChange();
-          }
-        });
-      });
-    }
-  }
 
   componentDidMount() {
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
@@ -97,7 +65,7 @@ class TileLayerContainer extends BaseTileLayer {
     const Layer = L.GridLayer.extend({ createTile: this.createTile });
 
     this.leafletElement = new Layer(omit(this.props, 'map'));
-    this.props.map.addEventParent(this.leafletElement);
+    this.context.map.addEventParent(this.leafletElement);
 
     /* eslint-disable no-underscore-dangle */
     this.leafletElement.on('click', e => {
@@ -115,14 +83,52 @@ class TileLayerContainer extends BaseTileLayer {
     super.componentDidMount(...this.props);
   }
 
+  componentDidUpdate() {
+    if (this.refs.popup != null) {
+      this.refs.popup.leafletElement.openOn(this.context.map);
+    }
+  }
+
   componentWillUnmount() {
     this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
   }
 
-  componentDidUpdate() {
-    if (this.refs.popup != null) {
-      this.refs.popup.leafletElement.openOn(this.props.map);
+  onTimeChange = (e) => {
+    let activeTiles;
+
+    if (e.currentTime) {
+      /* eslint-disable no-underscore-dangle */
+      activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
+      activeTiles.forEach(tile => {
+        /* eslint-disable no-unused-expressions */
+        tile.el.layers && tile.el.layers.forEach(layer => {
+          if (layer.onTimeChange) {
+            layer.onTimeChange();
+          }
+        });
+      });
     }
+  }
+
+  merc = new SphericalMercator({
+    size: this.props.tileSize || 256,
+  });
+
+  createTile = (tileCoords, done) => {
+    const tile = new TileContainer(tileCoords, done, this.props);
+
+    tile.onSelectableTargetClicked = (selectableTargets, coords) => {
+      if (this.props.disableMapTracking) {
+        this.props.disableMapTracking();
+      }
+
+      this.setState({
+        selectableTargets,
+        coords,
+      });
+    };
+
+    return tile.el;
   }
 
   selectRow = (option) => this.setState({ selectableTargets: [option] })
@@ -170,9 +176,7 @@ class TileLayerContainer extends BaseTileLayer {
         }
         popup = (
           <Popup
-            map={this.props.map}
-            layerContainer={this.props.layerContainer}
-            key={id}
+            ey={id}
             offset={[106, 3]}
             closeButton={false}
             minWidth={250}
@@ -188,8 +192,6 @@ class TileLayerContainer extends BaseTileLayer {
       } else if (this.state.selectableTargets.length > 1) {
         popup = (
           <Popup
-            map={this.props.map}
-            layerContainer={this.props.layerContainer}
             key={this.state.coords.toString()}
             offset={[106, 3]}
             closeButton={false}

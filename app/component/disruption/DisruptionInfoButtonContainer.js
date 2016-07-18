@@ -7,16 +7,17 @@ import DisruptionInfoButton from './DisruptionInfoButton';
 function DisruptionInfoButtonContainer() {
   if (typeof window !== 'undefined') {
     return (
-      <Relay.RootContainer
-        Component={DisruptionInfoButton}
+      <Relay.Renderer
+        Container={DisruptionInfoButton}
         forceFetch
-        route={new ViewerRoute()}
-        renderFetched={(data) => (
+        queryConfig={new ViewerRoute()}
+        environment={Relay.Store}
+        render={({ done, props }) => (done ? (
           <DisruptionInfoButton
-            {...data}
+            {...props}
             toggleDisruptionInfo={() => context.executeAction(open)}
-          />)
-        }
+          />) : undefined
+        )}
       />);
   }
   return <div />;

@@ -191,6 +191,7 @@ div.leaflet-marker-icon.vehicle-icon {
 
   .leaflet-popup-tip-container {
     margin: -6px 0px;
+    top: 1px;
     .leaflet-popup-tip  {
       border: 1px solid $gray;
       background: $background-color;
@@ -314,6 +315,22 @@ div.origin-popup {
 .map .thin .stop-small {
   stroke-opacity: $stop-thin-opacity;
   fill-opacity: $stop-thin-opacity;
+}
+
+.map .legmarker {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   & > div {
+     @include font-narrow-medium;
+     background-color: $white;
+     border-width: 2px;
+     border-style: solid;
+     border-radius: $border-radius;
+     padding: 0 2px;
+     text-align: center;
+     flex-shrink: 0; /* work around iOS bug with flex sizes */
+   }
 }
 
 .map .leg-halo {

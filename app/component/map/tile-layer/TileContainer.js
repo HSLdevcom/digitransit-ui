@@ -10,7 +10,7 @@ class TileContainer {
     this.coords = coords;
     this.props = props;
     this.extent = 4096;
-    this.scaleratio = (typeof window !== 'undefined' ? window.devicePixelRatio : void 0) || 1;
+    this.scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
     this.tileSize = (this.props.tileSize || 256) * this.scaleratio;
     this.ratio = this.extent / this.tileSize;
     this.el = this.createElement();
@@ -58,13 +58,12 @@ class TileContainer {
                     point[1] * this.scaleratio % this.tileSize];
 
       features = flatten(this.layers.map(layer => (
-        layer.features != null ? layer.features.map(feature =>
+        layer.features && layer.features.map(feature =>
           ({
             layer: layer.constructor.getName(),
             feature,
           })
-        ) : void 0)
-      ));
+      ))));
 
       nearest = features.filter(feature => {
         if (!feature) { return false; }

@@ -35,6 +35,6 @@ More information about [testing](docs/Tests.md).
 * [Positioning](docs/Position.md)
 * [Locations](docs/Location.md)
 * [Run in Docker](docs/Docker.md)
-* [Style guide](http://beta.digitransit.fi/styleguidelines)
+* [Style guide](http://beta.digitransit.fi/styleguide)
 * [Installation](docs/Installation.md)
 * [Tests](docs/Tests.md)

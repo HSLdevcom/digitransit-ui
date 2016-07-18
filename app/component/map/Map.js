@@ -3,8 +3,8 @@ import React from 'react';
 import elementResizeDetectorMaker from 'element-resize-detector';
 import config from '../../config';
 
-import PositionMarker from './position-marker';
-import PlaceMarker from './place-marker';
+import PositionMarker from './PositionMarker';
+import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
 
@@ -35,12 +35,13 @@ if (isBrowser) {
   CityBikes = require('./tile-layer/CityBikes').default;
   Stops = require('./tile-layer/Stops').default;
 
-  StopMarkerContainer = require('./non-tile-layer/stop-marker-container');
-  CityBikeMarkerContainer = require('./non-tile-layer/city-bike-marker-container');
+  StopMarkerContainer = require('./non-tile-layer/StopMarkerContainer').default;
+  CityBikeMarkerContainer = require('./non-tile-layer/CityBikeMarkerContainer').default;
 }
 
 class Map extends React.Component {
   static propTypes = {
+    bounds: React.PropTypes.array,
     center: React.PropTypes.bool,
     className: React.PropTypes.string,
     children: React.PropTypes.node,
@@ -48,7 +49,6 @@ class Map extends React.Component {
     disableZoom: React.PropTypes.bool,
     displayOriginPopup: React.PropTypes.bool,
     fitBounds: React.PropTypes.bool,
-    from: React.PropTypes.array,
     hilightedStops: React.PropTypes.array,
     lat: React.PropTypes.number,
     lon: React.PropTypes.number,
@@ -57,7 +57,6 @@ class Map extends React.Component {
     leafletOptions: React.PropTypes.object,
     padding: React.PropTypes.array,
     showStops: React.PropTypes.bool,
-    to: React.PropTypes.array,
     zoom: React.PropTypes.number,
   };
 
@@ -71,24 +70,24 @@ class Map extends React.Component {
     L.control.attribution({
       position: 'bottomleft',
       prefix: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-    }).addTo(this.refs.map.getLeafletElement());
+    }).addTo(this.refs.map.leafletElement);
 
     if (!this.props.disableZoom || L.Browser.touch) {
       L.control.zoom({ position: 'topleft' }).
-        addTo(this.refs.map.getLeafletElement());
+        addTo(this.refs.map.leafletElement);
     }
 
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
     /* eslint-disable no-underscore-dangle */
-    this.erd.listenTo(this.refs.map.getLeafletElement()._container, this.resizeMap);
+    this.erd.listenTo(this.refs.map.leafletElement._container, this.resizeMap);
   }
 
   componentWillUnmount = () => {
-    this.erd.removeListener(this.refs.map.getLeafletElement()._container, this.resizeMap);
+    this.erd.removeListener(this.refs.map.leafletElement._container, this.resizeMap);
   }
 
   resizeMap = () => {
-    this.refs.map.getLeafletElement().invalidateSize();
+    this.refs.map.leafletElement.invalidateSize();
   }
 
   startMeasuring = () => (
@@ -107,8 +106,6 @@ class Map extends React.Component {
 
   render = () => {
     let map;
-    let boundsOptions;
-    let bounds;
     let zoom;
     let origin;
     let layers;
@@ -152,7 +149,7 @@ class Map extends React.Component {
 
       origin = this.context.getStore('EndpointStore').getOrigin();
 
-      if (origin != null ? origin.lat : void 0) {
+      if (origin && origin.lat) {
         leafletObjs.push(
           <PlaceMarker
             position={origin}
@@ -164,24 +161,14 @@ class Map extends React.Component {
       leafletObjs.push(
         <PositionMarker key="position" displayOriginPopup={this.props.displayOriginPopup} />);
 
-      const center = (() => {
-        if (!this.props.fitBounds && this.props.lat && this.props.lon) {
-          return [this.props.lat, this.props.lon];
-        }
-        return void 0;
-      })();
+      const center = !this.props.fitBounds && this.props.lat && this.props.lon &&
+        [this.props.lat, this.props.lon] || null;
 
       ({ zoom } = this.props);
-      bounds = boundWithMinimumArea(this.props.from, this.props.to);
 
-      boundsOptions = (() => {
-        if (this.props.padding) {
-          return {
-            paddingTopLeft: this.props.padding,
-          };
-        }
-        return void 0;
-      })();
+      const boundsOptions = this.props.padding && {
+        paddingTopLeft: this.props.padding,
+      };
 
       map = (
         <LeafletMap
@@ -191,7 +178,7 @@ class Map extends React.Component {
             zoom,
             zoomControl: false,
             attributionControl: false,
-            bounds: (this.props.fitBounds ? bounds : void 0),
+            bounds: this.props.fitBounds && boundWithMinimumArea(this.props.bounds) || undefined,
             animate: true,
             ...this.props.leafletOptions,
             boundsOptions,

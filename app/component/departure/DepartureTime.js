@@ -96,3 +96,34 @@ DepartureTime.propTypes = {
 };
 
 export default DepartureTime;
+
+
+/**
+ * maps stoptime to data structure required by DepartureTime. This is copied
+ * from departure-list-container.
+ *
+ *  @param stoptime stoptime from graphql
+ *  @param pattern pattern from graphql
+ */
+export const mapStopTime = (stoptime, pattern) => (
+  ({
+    stop: stoptime.stop,
+    canceled: stoptime.realtimeState === 'CANCELED' ||
+      window.mock && stoptime.realtimeDeparture % 40 === 0,
+    departureTime: stoptime.serviceDay +
+      (stoptime.realtimeState === 'CANCELED' ? stoptime.scheduledDeparture :
+        stoptime.realtimeDeparture),
+    realtime: stoptime.realtime,
+    pattern: pattern && pattern.pattern,
+    trip: stoptime.trip,
+  })
+);
+
+/**
+ * maps stoptime to DepartureTime component
+ *  @param stoptime stoptime from graphql
+ *  @param currentTime
+ */
+export const fromStopTime = (stoptime, currentTime) => (
+  <DepartureTime currentTime={currentTime} {...mapStopTime(stoptime)} />
+);

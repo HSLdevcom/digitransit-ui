@@ -55,7 +55,6 @@ function SelectStopRow(props) {
       <div className="no-margin cursor-pointer" onClick={props.selectRow}>
         <div className="left padding-vertical-normal" style={{ width: 40 }}>
           <svg
-            xmlns="http://www.w3.org/svg/2000"
             viewBox="0 0 30 30"
             width="30"
             height="30"

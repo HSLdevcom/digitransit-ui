@@ -1,5 +1,5 @@
-/* eslint prefer-arrow-callback: 0, no-console: 0,
-          no-param-reassign: 0, strict: 0, prefer-template: 0 */
+/* eslint-disable prefer-arrow-callback, no-console,
+          no-param-reassign, strict, prefer-template */
 'use strict';
 
 module.exports = function (browser) {
@@ -90,7 +90,7 @@ module.exports = function (browser) {
       browser
         .waitForElementVisible('#search-origin', ELEMENT_VISIBLE_TIMEOUT)
         .setValue('#search-origin', text)
-        .pause(1000)
+        .pause(3000)
         .setValue('#search-origin', browser.Keys.ENTER)
         .pause(100),
   };
@@ -107,7 +107,7 @@ module.exports = function (browser) {
     enterText: (text) =>
       browser
         .setValue('#search-destination', text)
-        .pause(1000)
+        .pause(3000)
         .setValue('#search-destination', browser.Keys.ENTER)
         .pause(100),
   };

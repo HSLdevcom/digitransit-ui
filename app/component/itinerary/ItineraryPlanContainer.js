@@ -119,6 +119,7 @@ class ItineraryPlanContainer extends React.Component {
         legs={itinerary.legs}
         showFromToMarkers
         showTransferLabels
+        showIntermediateStops
       />];
 
     if (this.getFullscreen()) {
@@ -194,7 +195,7 @@ class ItineraryPlanContainer extends React.Component {
           className="itinerary-swipe-views-root"
           slideStyle={{ minHeight: '100%' }}
           containerStyle={{ minHeight: '100%' }}
-          onChangeIndex={(idx) => setTimeout(this.switchSlide, 150, idx)}
+          onChangeIndex={(idx) => setTimeout(this.switchSlide, 500, idx)}
         >
           {this.getSlides(itineraries)}
         </SwipeableViews>
@@ -244,7 +245,11 @@ export const ItineraryPlanContainerFragments = {
           duration
           startTime
           endTime
-
+          fares {
+            type
+            currency
+            cents
+          }
           legs {
             mode
             agency {

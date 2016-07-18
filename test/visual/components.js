@@ -77,13 +77,13 @@ gemini.suite('components', (parent) => {
   gemini.suite('CityBikeCard', (component) => {
     component.setCaptureElements(
       '#CityBikeCard .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('CityBikeContent', (component) => {
     component.setCaptureElements(
       '#CityBikeContent .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('CityBikeAvailability', (component) => {
@@ -95,7 +95,7 @@ gemini.suite('components', (parent) => {
   gemini.suite('CityBikeUse', (component) => {
     component.setCaptureElements(
       '#CityBikeUse .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('FavouriteLocation', (component) => {
@@ -118,10 +118,21 @@ gemini.suite('components', (parent) => {
     });
   });
 
+  gemini.suite('Favourite', () => {
+    gemini.suite('favourite', (suite) => {
+      suite.setCaptureElements('#Favourite .component-example:nth-of-type(1) .component')
+      .capture('normal');
+    });
+    gemini.suite('not-favourite', (suite) => {
+      suite.setCaptureElements('#Favourite .component-example:nth-of-type(2) .component')
+      .capture('normal');
+    });
+  });
+
   gemini.suite('IconWithTail', (component) => {
     component.setCaptureElements(
       '#IconWithTail .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('TimeNavigationButtons', (component) => {
@@ -141,6 +152,17 @@ gemini.suite('components', (parent) => {
     .capture('normal');
   });
 
+  gemini.suite('RightOffcanvasToggle', () => {
+    gemini.suite('default', (suite) => {
+      suite.setCaptureElements('#RightOffcanvasToggle .component-example:nth-of-type(1) .component')
+      .capture('normal');
+    });
+    gemini.suite('adjusted', (suite) => {
+      suite.setCaptureElements('#RightOffcanvasToggle .component-example:nth-of-type(2) .component')
+      .capture('normal');
+    });
+  });
+
   gemini.suite('MarkerSelectPopup', (component) => {
     component.setCaptureElements(
       '#MarkerSelectPopup .component-example:nth-of-type(1) .component')
@@ -157,6 +179,12 @@ gemini.suite('components', (parent) => {
     component.setCaptureElements(
       '#SelectCityBikeRow .component-example:nth-of-type(1) .component')
     .capture('normal');
+  });
+
+  gemini.suite('TicketInformation', (component) => {
+    component.setCaptureElements(
+        '#TicketInformation .component-example:nth-of-type(1) .component')
+      .capture('normal');
   });
 
   gemini.suite('RouteScheduleDateSelect', (component) => {
