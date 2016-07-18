@@ -165,7 +165,7 @@ class RoutePage extends React.Component {
             <RouteMapContainer
               pattern={this.props.pattern}
               toggleFullscreenMap={this.toggleFullscreenMap}
-              className="routeMap"
+              className="routeMap small"
             >
               <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} />
             </RouteMapContainer>
