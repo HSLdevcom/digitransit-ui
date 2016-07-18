@@ -3,7 +3,7 @@ require('./browser-upgrade.js');
 
 function suite(name, fn) {
   describe(name, function () {
-    this.timeout(120000);
+    this.timeout(180000);
 
     before(function (browser, done) {
       require('./browser-upgrade.js')(browser); // eslint-disable-line global-require
