@@ -1,4 +1,4 @@
-/* eslint no-unused-expressions: 0, prefer-arrow-callback: 0 */
+/* eslint-disable no-unused-expressions, prefer-arrow-callback */
 // The test framework abuses property getters
 const suite = require('./api/suite.js').suite;
 

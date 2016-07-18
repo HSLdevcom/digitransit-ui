@@ -1,21 +1,5 @@
 import Relay from 'react-relay';
 
-export const TerminalQueries = {
-  terminal: () => Relay.QL`
-    query  {
-      station(id: $terminalId)
-    }
-  `,
-};
-
-export class TerminalRoute extends Relay.Route {
-  static queries = TerminalQueries;
-  static paramDefinitions = {
-    terminalId: { required: true },
-  };
-  static routeName = 'TerminalRoute';
-}
-
 export const TerminalMarkerPopupFragments = {
   terminal: () => Relay.QL`
     fragment on Stop{
@@ -45,28 +29,6 @@ export const StopQueries = {
   `,
 };
 
-export class TripRoute extends Relay.Route {
-  static queries = {
-    pattern: () => Relay.QL`query {
-        trip(id: $id)
-    }`,
-  };
-  static paramDefinitions = {
-    id: { required: true },
-  };
-  static routeName = 'TripRoute';
-}
-
-export const TripPatternFragments = {
-  pattern: () => Relay.QL`
-    fragment on Trip {
-      pattern {
-        ${require('./component/map/route/route-line').getFragment('pattern')}
-      }
-    }
-  `,
-};
-
 export const RouteQueries = {
   pattern: () => Relay.QL`
     query {
@@ -79,21 +41,6 @@ export const TripQueries = {
   trip: () => Relay.QL`
     query {
       trip(id: $tripId)
-    }
-  `,
-};
-
-export const RoutePageFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      route {
-        shortName
-        longName
-      }
-      ${require('./component/route/route-header-container').getFragment('pattern')}
-      ${require('./component/route/RouteMapContainer').default.getFragment('pattern')}
-      ${require('./component/route/RouteScheduleContainer').default.getFragment('pattern')}
-      ${require('./component/route/RouteStopListContainer').default.getFragment('pattern')}
     }
   `,
 };
@@ -114,27 +61,6 @@ export const RouteHeaderFragments = {
       }
       stops {
         name
-      }
-    }
-  `,
-};
-
-export const RouteLineFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      geometry {
-        lat
-        lon
-      }
-      route {
-        type
-      }
-      stops {
-        lat
-        lon
-        name
-        gtfsId
-        ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
       }
     }
   `,
@@ -219,7 +145,7 @@ export const StopCardContainerFragments = {
       stoptimes: stoptimesForServiceDate(date: $date) {
         ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
       }
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
     }
   `,
 };
@@ -241,7 +167,7 @@ export const StopPageFragments = {
       stoptimes: stoptimesForServiceDate(date: $date) {
         ${require('./component/departure/departure-list-container').getFragment('stoptimes')}
       }
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
+      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
     }
   `,
 };
@@ -251,60 +177,7 @@ export const StopMapPageFragments = {
     fragment on Stop {
       lat
       lon
-      ${require('./component/stop-cards/stop-card-header').getFragment('stop')}
-    }
-  `,
-};
-
-export class StopMarkerLayerRoute extends Relay.Route {
-  static queries = {
-    stopsInRectangle: (Component, variables) => Relay.QL`
-      query {
-        viewer {
-          ${Component.getFragment('stopsInRectangle', {
-            minLat: variables.minLat,
-            minLon: variables.minLon,
-            maxLat: variables.maxLat,
-            maxLon: variables.maxLon,
-          })}
-        }
-      }
-    `,
-  };
-  static paramDefinitions = {
-    minLat: { required: true },
-    minLon: { required: true },
-    maxLat: { required: true },
-    maxLon: { required: true },
-  };
-  static routeName = 'StopMarkerLayerRoute';
-}
-
-export const StopMarkerLayerFragments = {
-  stopsInRectangle: () => Relay.QL`
-    fragment on QueryType {
-      stopsByBbox(minLat: $minLat, minLon: $minLon, maxLat: $maxLat, maxLon: $maxLon, agency: $agency) {
-        lat
-        lon
-        gtfsId
-        name
-        locationType
-        platformCode
-        parentStation {
-          gtfsId
-          name
-          lat
-          lon
-          stops {
-            gtfsId
-            lat
-            lon
-          }
-        }
-        routes {
-          type
-        }
-      }
+      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
     }
   `,
 };
@@ -317,17 +190,6 @@ export const StopMarkerPopupFragments = {
       lon
       name
       ${require('./component/stop-cards/stop-card-container').getFragment('stop', { date })}
-    }
-  `,
-};
-
-export const StopCardHeaderFragments = {
-  stop: () => Relay.QL`
-    fragment on Stop {
-      gtfsId
-      name
-      code
-      desc
     }
   `,
 };
@@ -440,7 +302,7 @@ export const TripPageFragments = {
           shortName
           longName
         }
-        ${require('./component/route/route-header-container').getFragment('pattern')}
+        ${require('./component/route/RouteHeaderContainer').default.getFragment('pattern')}
         ${require('./component/route/RouteMapContainer').default.getFragment('pattern')}
       }
       stoptimes {
@@ -473,30 +335,6 @@ export const TripStopListFragments = {
     }
   `,
 };
-
-export class FuzzyTripRoute extends Relay.Route {
-  static queries = {
-    trip: (Component, variables) => Relay.QL`
-      query {
-        viewer {
-          ${Component.getFragment('trip', {
-            route: variables.route,
-            direction: variables.direction,
-            date: variables.date,
-            time: variables.time,
-          })}
-        }
-      }
-    `,
-  };
-  static paramDefinitions = {
-    route: { required: true },
-    direction: { required: true },
-    time: { required: true },
-    date: { required: true },
-  };
-  static routeName = 'FuzzyTripRoute';
-}
 
 export const TripLinkFragments = {
   trip: () => Relay.QL`

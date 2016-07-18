@@ -22,10 +22,11 @@ function MainMenu(props) {
       </div>
       <header className="offcanvas-section">
         <LangSelect />
-        {config.mainMenu.showInquiry ? inquiry : void 0}
+        {config.mainMenu.showInquiry && inquiry}
       </header>
       <div className="offcanvas-section">
-        {config.mainMenu.showDisruptions ? <DisruptionInfoButtonContainer /> : void 0}
+        {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
+          <DisruptionInfoButtonContainer />}
       </div>
     </div>);
 }

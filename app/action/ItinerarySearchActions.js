@@ -4,7 +4,7 @@ import { supportsHistory } from 'history/lib/DOMUtils';
 import history from '../history';
 
 export function itinerarySearchRequest(actionContext, options) {
-  if (options != null ? options.params : void 0) {
+  if (options && options.params) {
     actionContext.dispatch('UpdateFromToPlaces', {
       to: options.params.to,
       from: options.params.from,

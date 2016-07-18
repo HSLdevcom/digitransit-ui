@@ -1,6 +1,6 @@
-$route-header-height: 115px;
+$route-header-height: 65px;
 $route-list-header-height: 26px;
-$route-schedule-date-height: 42px;
+$route-schedule-date-height: 36px;
 
 $route-header-favourite-icon-stroke-color: $light-gray;
 $route-header-favourite-icon-fill-color: $background-color;
@@ -18,7 +18,8 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
   overflow: hidden;
   div {
-    color: $black;
+    @include font-narrow-book;
+    color: $gray;
     font-size: $font-size-small;
   }
   &.route-stop {
@@ -123,8 +124,13 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .columns.route-stop-time {
   text-align: right;
   color: $dark-color;
-  padding-right: 36px;
+  padding-left: 0;
   padding-top: 1px;
+  .time {
+    margin-right: 0;
+    padding-right: 0;
+    width: 3em;
+  }
 }
 .route-stop-name {
   margin-left: -1em;
@@ -141,6 +147,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   @include font-narrow-book;
   font-size: $font-size-normal;
   color: $gray;
+  white-space: nowrap;
 }
 
 .nearest-route-stop {
@@ -173,18 +180,13 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-header {
   margin: 0 15px;
   line-height: 1;
-  height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
   flex-shrink: 0;
   border-bottom: solid 1px $light-gray;
+  height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
   h1 {
     @include font-narrow-book;
     font-size: 24pt;
     padding: 0.4em 0 0.2em;
-    margin: 0;
-    svg {
-      height: 0.8em;
-      width: 0.8em;
-    }
     .vehicle-number {
       padding-left: 0.25em;
     }
@@ -254,6 +256,10 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   flex: 1;
   display: flex;
   flex-direction: column;
+
+  .route-schedule-header {
+    min-height: 52px;
+  }
 }
 
 .route-schedule-list {
@@ -335,9 +341,9 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-schedule-date {
   @include font-book;
 
-  height: $route-schedule-date-height;
+  min-height: $route-schedule-date-height;
   background-color: #eef1f3;
-  padding: 8px 15px 10px;
+  padding: 0 15px;
   margin: 0;
 
   .icon {
@@ -370,13 +376,46 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 // Tabs
 div.route-tabs {
-  flex-grow: 1;
-
   display: flex;
   flex-direction: column;
 
   .tabs-navigation {
     flex-shrink: 0;
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    width: initial;
+    min-width: 240px;
+    max-width: 300px;
+    padding: 0;
+
+    .icon {
+      display: block;
+      width: 16px;
+      height: 16px;
+      margin: 5px auto;
+    }
+
+    .tabs-menu-item {
+      padding: 9px 0;
+      border: none;
+    }
+
+    li a {
+      border-right: 1px solid $light-gray;
+    }
+    li:last-child a{
+      border-right: none;
+    }
+
+    .tabs-menu-item.is-active {
+      border-bottom: 2px solid $primary-color ;
+    }
+
+    ul li {
+      font-size: 7pt;
+      min-width: 60px;
+    }
   }
 
   .tab-panel {
@@ -398,7 +437,7 @@ div.route-tabs {
     }
 
   }
-  height: calc(100% - #{$route-header-height} - 14px);
+  height: calc(100% - #{$route-header-height});
 }
 
 
@@ -416,4 +455,98 @@ div.route-tabs {
       }
     }
   }
+}
+
+.route-pattern-select {
+  padding: 10px;
+  background-color: #eef1f3;
+  position: relative;
+  min-height: 60px;
+
+  select {
+    padding: 10px;
+    height: 40px;
+    border-radius: $border-radius;
+    border: 1px solid $light-gray;
+    font-weight: bold;
+  }
+  .icon {
+    color: $gray-blue;
+    position: absolute;
+    right: 25px;
+    top: 24px;
+    pointer-events: none;
+  }
+}
+
+.route-alerts-list {
+
+  .route-alert-row {
+    border-bottom: 1px solid $light-gray;
+    display: flex;
+    padding: 0.8em 0.8em 0.8em 0.8em;
+
+    .icon.caution {
+      fill: $cancelation-red;
+      position: absolute;
+      margin-left: -2.9em;
+      margin-top: 1.1em;
+      height: 0.8em;
+      stroke: $white;
+      stroke-width: 12;
+    }
+
+    .route-alert-contents {
+      vertical-align: bottom;
+    }
+
+    .route-number {
+      padding-top: 0.2em;
+      padding-right: 0.8em;
+
+      .icon {
+        width: 1.5em;
+        height: 1.5em;
+        margin-bottom: -0.2em;
+      }
+      .vehicle-number {
+        margin-top: -0.3em;
+        font-size: $font-size-xsmall;
+      }
+    }
+
+    .route-alert-duration {
+      color: $gray;
+      font-size: 11px;
+      margin-bottom: 0.2em;
+      font-weight: 200;
+    }
+
+    .route-alert-body {
+      color: $gray;
+      font-size: $font-size-small;
+      font-weight: 200;
+    }
+
+    &.expired {
+      filter: grayscale(1);
+
+      .route-number {
+        filter: brightness(1.5);
+      }
+
+      .caution {
+        filter: contrast(0.6) brightness(1.5);
+      }
+    }
+  }
+}
+
+#icon-icon_caution path {
+  stroke-width: inherit;
+}
+
+.no-alerts-message {
+  text-align: center;
+  margin-top: 50px;
 }

@@ -10,7 +10,7 @@ import StopReference from '../component/stop/stop-reference';
 import Distance from '../component/departure/distance';
 import NotImplemented from '../component/util/not-implemented';
 import NotImplementedLink from '../component/util/not-implemented-link';
-import CardHeader from '../component/card/card-header';
+import CardHeader from '../component/card/CardHeader';
 import Card from '../component/card/card';
 import CityBikeCard from '../component/city-bike/city-bike-card';
 import CityBikeContent from '../component/city-bike/city-bike-content';
@@ -20,15 +20,19 @@ import CityBikePopup from '../component/map/popups/city-bike-popup';
 import FavouriteLocation from '../component/favourites/FavouriteLocation';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
+import RightOffcanvasToggle from '../component/summary/RightOffcanvasToggle';
 import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
+import Favourite from '../component/favourites/Favourite';
 import TicketInformation from '../component/itinerary/TicketInformation';
 import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect';
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
+import RouteAlertsRow from '../component/route/RouteAlertsRow';
+
 import sortBy from 'lodash/sortBy';
 
 class StyleGuidelinesPage extends React.Component {
@@ -333,6 +337,7 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={Distance} />
         <ComponentDocumentation component={NotImplementedLink} />
         <ComponentDocumentation component={NotImplemented} />
+        <ComponentDocumentation component={Favourite} />
       </div>
     );
   }
@@ -362,6 +367,7 @@ class StyleGuidelinesPage extends React.Component {
       <div>
         <ComponentDocumentation component={TimeNavigationButtons} />
         <ComponentDocumentation component={TimeSelectors} />
+        <ComponentDocumentation component={RightOffcanvasToggle} />
       </div>
     );
   }
@@ -391,6 +397,14 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={RouteScheduleHeader} />
         <ComponentDocumentation component={RouteScheduleStopSelect} />
         <ComponentDocumentation component={RouteScheduleTripRow} />
+      </div>
+    );
+  }
+
+  getRouteAlertsComponents() {
+    return (
+      <div className="route-alerts-list">
+        <ComponentDocumentation component={RouteAlertsRow} />
       </div>
     );
   }
@@ -430,6 +444,7 @@ class StyleGuidelinesPage extends React.Component {
         {this.getItineraryComponents()}
         {this.getTileLayerComponents()}
         {this.getScheduleComponents()}
+        {this.getRouteAlertsComponents()}
       </div>
     );
   }

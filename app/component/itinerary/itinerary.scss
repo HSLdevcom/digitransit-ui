@@ -1,54 +1,53 @@
 @charset "UTF-8";
 
-$itinerary-summary-height: 2.5em;
+$topbar-height: 40px;
+$itinerary-summary-height: 40px;
 $itinerary-bottom-navigation-height: 30px;
-$itinerary-tab-switch-height: 34px;
+$itinerary-tab-switch-height: 48px;
 $itinerary-route-max-width: 500px;
 
 // hacketihack, instead of all this we should have more generic measures for pages somewhere else...
 
 .itinerary-swipe-views-root {
-  height: calc(100% - #{$small-map-height} - #{$itinerary-bottom-navigation-height} - 18px);
   flex-grow: 1;
-
   display: flex;
   flex-direction: column;
-
-  > div {
+  min-height: 300px; // TODO: This is required in IE due to ???
+  max-height: calc(100% - #{$small-map-height} - #{$itinerary-tab-switch-height});
+  & > div {
     flex-grow: 1;
   }
+}
 
-  > div > div {
-    flex-grow: 1;
-
-    display: flex;
-    flex-direction: column;
-  }
+.map.small {
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .itinerary-tabs__scroll {
-  height: calc(100% - #{$itinerary-tab-switch-height});
+  background: $white;
   flex-grow: 1;
-
   display: flex;
   flex-direction: column;
-  background: $white;
 }
 
 .itinerary-main {
-  height: 100%;
-  flex-grow: 1;
+  width: 100%;
+  min-height: 100%;
   padding-top: 20px;
 
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
 
   div {
     flex-grow: 1;
+    flex-shrink: 0;
   }
 
   div.itinerary-ticket-information {
     flex-grow: 0;
+    flex-shrink: 0;
   }
 }
 
@@ -57,7 +56,7 @@ $itinerary-route-max-width: 500px;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: 10pt;
-  padding: 0.5em 1em;
+  padding: 10px;
   height: $itinerary-summary-height;
   border-top: solid 1px $light-gray;
   border-bottom: solid 1px $light-gray;
@@ -230,7 +229,7 @@ $itinerary-route-max-width: 500px;
 }
 
 span.itinerary-stop-code {
-  color: $black;
+  color: $gray;
   border: solid 1px $light-gray;
   border-radius: 2px;
   padding: 1px 4px;
@@ -240,11 +239,10 @@ span.itinerary-stop-code {
 }
 
 div.itinerary-container-content {
-  height: 100%;
-  flex-grow: 1;
-
   display: flex;
   flex-direction: column;
+  position: absolute;
+  width: 100%;
 }
 
 .row.itinerary-bottom-navigation {
@@ -273,16 +271,19 @@ div.itinerary-container-content {
 
 .itinerary-slide-container {
   height: 100%;
-  flex-grow: 1;
-
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
+  min-height: 100%;
+  position: absolute;
+  width: 100%;
 }
 
 .itinerary-tabs-container {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: $itinerary-tab-switch-height;
 }
 
 .itinerary-tab-root {
@@ -297,4 +298,11 @@ div.itinerary-container-content {
 
 .itinerary-no-route-found {
     margin: 1em;
+}
+
+.itinerary-tab {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  max-height: 100%;
 }

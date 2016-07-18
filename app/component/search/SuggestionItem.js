@@ -15,7 +15,10 @@ function getIcon(layer, iconClass) {
     ['neighbourdood', 'icon-icon_city'],
     ['route-BUS', 'icon-icon_bus-withoutBox'],
     ['route-TRAM', 'icon-icon_tram-withoutBox'],
-    ['route-RAIL', 'icon-icon_rail-withoutBox']]);
+    ['route-RAIL', 'icon-icon_rail-withoutBox'],
+    ['route-SUBWAY', 'icon-icon_subway-withoutBox'],
+    ['route-FERRY', 'icon-icon_ferry-withoutBox'],
+    ['route-AIRPLANE', 'icon-icon_airplane-withoutBox']]);
 
   const defaultIcon = 'icon-icon_place';
   return <Icon img={layerIcon.get(layer) || defaultIcon} className={iconClass || ''} />;

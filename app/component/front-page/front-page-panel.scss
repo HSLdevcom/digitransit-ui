@@ -9,14 +9,15 @@ $heading-color: #858585;
   position: absolute;
   top: 0;
   height: calc(100% - 48px);
-  z-index: 1000;
+  z-index: 1200;
   width: 100%;
   overflow: hidden;
   background-color: $background-color;
 
   .frontpage-panel {
-    height: 100%;
-    padding-bottom: 15px;
+    height: calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
   }
 
   .panel-top {
@@ -42,8 +43,9 @@ $heading-color: #858585;
 }
 
 .frontpage-panel-container .tabs-row {
-  z-index: 1001;
+  z-index: 1201;
   width: 100%;
+  position: relative;
 }
 
 .frontpage-panel-wrapper-enter {
@@ -125,10 +127,6 @@ $heading-color: #858585;
 .tabs-navigation ul li.is-active a,
 .tabs-navigation ul li a.selected:hover {
   color: $tab-selected-color;
-}
-
-.scroll-extra-padding-bottom > div:not(.spinner-loader) {
-  padding-bottom: 5em;
 }
 
 li.favourites.selected {

@@ -8,7 +8,8 @@ import take from 'lodash/take';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import { getLabel } from '../util/suggestionUtils';
-import geoUtils from '../util/geo-utils';
+import { getLatLng } from '../util/geo-utils';
+import routeCompare from '../util/route-compare';
 
 function processResults(actionContext, result) {
   actionContext.dispatch('SuggestionsResult', result);
@@ -117,6 +118,8 @@ function mapRoutes(res) {
           label: `${item.shortName} ${item.longName}`,
           layer: `route-${item.type}`,
           mode: item.type.toLowerCase(),
+          shortName: item.shortName,
+          longName: item.longName,
           link: `/linjat/${item.patterns[0].code}`,
         },
         geometry: {
@@ -126,6 +129,11 @@ function mapRoutes(res) {
     );
   }
   return [];
+}
+
+function compareRoutes(x, y) {
+  return x.agency.name.localeCompare(y.agency.name) ||
+    routeCompare(x.properties, y.properties);
 }
 
 function getStops(res) {
@@ -169,7 +177,7 @@ function searchStops(input) {
 
   return queryGraphQL(`{stops(name:"${input}") {gtfsId lat lon name code routes{type}}}`)
     .then(response =>
-      getStops(response != null && response.data != null ? response.data.stops : void 0)
+      getStops(response && response.data && response.data.stops)
     );
 }
 
@@ -222,7 +230,7 @@ function searchRoutesAndStops(input, reference, favourites) {
   }
 
   if (searches.length > 0) {
-    refLatLng = geoUtils.getLatLng(reference.lat, reference.lon);
+    refLatLng = getLatLng(reference.lat, reference.lon);
 
     return queryGraphQL(`{${searches.join(' ')}}`).then(response => {
       if (response == null || response.data == null) {
@@ -235,11 +243,11 @@ function searchRoutesAndStops(input, reference, favourites) {
         })
       );
       return ([]
-        .concat(sortBy(favouriteRoutes, () => ['agency.name', 'properties.label']))
-        .concat(sortBy(mapRoutes(response.data.routes), () => ['agency.name', 'properties.label']))
+        .concat(favouriteRoutes.sort(compareRoutes))
+        .concat(uniq(mapRoutes(response.data.routes)).sort(compareRoutes))
         .concat(sortBy(getStops(response.data.stops || []), (item) =>
           Math.round(
-            geoUtils.getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
+            getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
             .distanceTo(refLatLng) / 50000)
         )));
     });

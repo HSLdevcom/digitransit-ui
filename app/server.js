@@ -115,7 +115,7 @@ function processFeedback(req, res) {
 function getScripts(req) {
   if (process.env.NODE_ENV === 'development') {
     const host =
-      (req.headers.host != null ? req.headers.host.split(':')[0] : void 0) || 'localhost';
+      req.headers.host && req.headers.host.split(':')[0] || 'localhost';
 
     return <script async src={`//${host}:${port}/js/bundle.js`} />;
   }

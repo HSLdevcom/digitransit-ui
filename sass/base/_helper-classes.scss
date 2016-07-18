@@ -83,16 +83,11 @@
 // parent DOM-element requires overflow:hidden; height: x;
 .scrollable {
   overflow: auto;
-  height: 100%;
-  padding-bottom: 20px;
+  flex: 1;
 }
 .fullscreen {
   position: relative;
   height: 100%;
-  flex-grow: 1;
-
-  display: flex;
-  flex-direction: column;
 }
 .padding-small  {
   padding: 0.45em 1em;

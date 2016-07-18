@@ -1,4 +1,4 @@
-/* eslint quote-props: 0, max-len: 0 */
+/* eslint-disable quote-props, max-len */
 
 export const realtimeDeparture = {
   stop: {
@@ -541,3 +541,27 @@ export const routeScheduleHeaderStops = [
   { name: 'Haapaniemi' },
   { name: 'Sörnäinen(M)' },
 ];
+
+export const routePatterns = {
+  pattern: {
+    code: 'HSL:1007A:1:03',
+    headsign: 'Senaatintori',
+    id: 'UGF0dGVybjpIU0w6MTAwN0E6MTowMw==',
+    route: {
+      gtfsId: 'HSL:1007A',
+      id: 'Um91dGU6SFNMOjEwMDdB',
+      longName: 'Senaatintori-Töölö-Pasila-Senaatintori',
+      patterns: [
+        { code: 'HSL:1007A:0:03', headsign: 'Pasila' },
+        { code: 'HSL:1007A:0:02', headsign: 'Pasila' },
+        { code: 'HSL:1007A:0:01', headsign: 'Pasila' },
+        { code: 'HSL:1007A:1:04', headsign: 'Sturenkatu' },
+        { code: 'HSL:1007A:1:03', headsign: 'Senaatintori' },
+        { code: 'HSL:1007A:1:02', headsign: 'Senaatintori' },
+        { code: 'HSL:1007A:1:01', headsign: 'Rautatieasema' },
+      ],
+      shortName: '7A',
+      type: 'TRAM',
+    },
+  },
+};

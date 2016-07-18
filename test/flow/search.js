@@ -1,23 +1,20 @@
 const suite = require('./api/suite.js').suite;
 
-suite('Search', () => {
-  describe('When Origin is manually set to other than Kamppi', () => {
+suite('Search: ', () => {
+  describe('When geolocation is faked to other than Kamppi,', () => {
     before((browser, done) => {
       browser.setCurrentPosition(60.2, 24.95, 0, done);
     });
 
-    it('Should show origin popup after origin is entered', (browser) =>
+    it('searching for Kamppi and pressing enter should show "Kamppi" as origin ' +
+       'when going back to search again',
+       (browser) =>
       browser.setOrigin('kamppi')
         .fakeSearch.openSearch()
-        .origin.selectOrigin().expect.element('#search-origin')
-        .to.be.visible.before(browser.ELEMENT_VISIBLE_TIMEOUT)
-    );
-
-    it('Source should be set to kamppi when it is selected as origin', (browser) => {
-      browser
+        .origin.selectOrigin()
         .expect.element('#search-origin').value
-        .to.contain('Kamppi, long distance traffic, Helsinki');
-    });
+        .to.contain('Kamppi')
+    );
 
     describe('After route search', () => {
       before((browser, done) => {

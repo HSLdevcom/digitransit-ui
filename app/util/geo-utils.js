@@ -1,3 +1,4 @@
+import unzip from 'lodash/unzip';
 /* eslint-disable global-require */
 const L = (typeof window !== 'undefined' && window !== null) ? require('leaflet') : null;
 /* eslint-enable global-require */
@@ -62,29 +63,28 @@ export function displayDistance(meters) {
   /* eslint-disable yoda */
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`;
-  } else if (100 < meters < 1000) {
+  } else if (meters < 1000) {
     return `${Math.round(meters / 50) * 50} m`;
-  } else if (1000 < meters < 10000) {
+  } else if (meters < 10000) {
     return `${Math.round(meters / 100) * 100 / 1000} km`;
-  } else if (10000 < meters < 100000) {
+  } else if (meters < 100000) {
     return `${Math.round(meters / 1000)} km`;
   }
   return `${Math.round(meters / 10000) * 10} km`;
   /* eslint-enable yoda */
 }
 
-// Return a bounding box of latlon array of length 2 around an polyline given as latlon array
+// Return the bounding box of a latlon array of length > 0
+// If the box is smaller than 0.002x0.002, add padding
 export function boundWithMinimumArea(points) {
-  let minlat = points[0][0];
-  let minlon = points[0][1];
-  let maxlat = points[0][0];
-  let maxlon = points[0][1];
-  points.forEach((p) => {
-    minlat = Math.min(p[0], minlat);
-    minlon = Math.min(p[1], minlon);
-    maxlat = Math.max(p[0], maxlat);
-    maxlon = Math.max(p[1], maxlon);
-  });
-  return [[minlat - 0.001, minlon - 0.001],
-          [maxlat + 0.001, maxlon + 0.001]];
+  if (!points || !points[0]) { return null; }
+  const [lats, lons] = unzip(points);
+  const minlat = Math.min(...lats);
+  const minlon = Math.min(...lons);
+  const maxlat = Math.max(...lats);
+  const maxlon = Math.max(...lons);
+  const missingHeight = Math.max(0, 0.002 - (maxlat - minlat));
+  const missingWidth = Math.max(0, 0.002 - (maxlon - minlon));
+  return [[minlat - missingHeight / 2, minlon - missingWidth / 2],
+          [maxlat + missingHeight / 2, maxlon + missingWidth / 2]];
 }

@@ -34,6 +34,7 @@ class RouteScheduleContainer extends Component {
     // If route has changed, reset state.
     if (nextProps.relay.route.params.routeId !== this.props.relay.route.params.routeId) {
       this.initState(nextProps, false);
+      nextProps.relay.setVariables({ serviceDay: nextProps.serviceDay });
     }
   }
 

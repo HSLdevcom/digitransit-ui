@@ -3,7 +3,8 @@ import Raven from './util/Raven';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
-import { RelayRouter } from 'react-router-relay';
+import useRelay from 'react-router-relay';
+import { Router, applyRouterMiddleware } from 'react-router';
 import provideContext from 'fluxible-addons-react/provideContext';
 import tapEventPlugin from 'react-tap-event-plugin';
 import config from './config';
@@ -26,6 +27,10 @@ const plugContext = (f) => () => ({
 });
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
+
+if (!config.PIWIK_ADDRESS || config.PIWIK_ID == null) {
+  piwik.trackEvent = () => {};
+}
 
 const addPiwik = (context) => (context.piwik = piwik); // eslint-disable-line no-param-reassign
 
@@ -155,7 +160,13 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     <ContextProvider translations={translations} context={context.getComponentContext()}>
       <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
         <DesktopWrapper>
-          <RelayRouter history={history} children={app.getComponent()} onUpdate={track} />
+          <Router
+            history={history}
+            environment={Relay.Store}
+            render={applyRouterMiddleware(useRelay)}
+            children={app.getComponent()}
+            onUpdate={track}
+          />
         </DesktopWrapper>
       </MuiThemeProvider>
     </ContextProvider>
