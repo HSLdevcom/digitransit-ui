@@ -79,16 +79,19 @@ class TileContainer {
         return false;
       });
 
-      if (nearest.length === 0) {
-        return this.onSelectableTargetClicked(false);
+      if (nearest.length === 0 && e.type === 'click') {
+        return this.onSelectableTargetClicked(false, e.latlng); // close any open menu
+      } else if (nearest.length === 0 && e.type === 'contextmenu') {
+        return this.onSelectableTargetClicked([], e.latlng); // open menu for no stop
       } else if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
         coords = nearest[0].feature.toGeoJSON(this.coords.x, this.coords.y, this.coords.z +
           (this.props.zoomOffset || 0)).geometry.coordinates;
+        // open menu for single stop
         return this.onSelectableTargetClicked(nearest, L.latLng([coords[1], coords[0]]));
       }
       L.DomEvent.stopPropagation(e);
-      return this.onSelectableTargetClicked(nearest, e.latlng);
+      return this.onSelectableTargetClicked(nearest, e.latlng); // open menu for a list of stops
     }
     return false;
   }

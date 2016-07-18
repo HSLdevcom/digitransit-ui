@@ -10,6 +10,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/city-bike-popup';
+import LocationPopup from '../popups/LocationPopup';
 import SphericalMercator from 'sphericalmercator';
 import lodashFilter from 'lodash/filter';
 import TileContainer from './TileContainer';
@@ -32,6 +33,11 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+});
+
+const LocationPopupWithContext = provideContext(LocationPopup, {
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired,
 });
 
 // TODO eslint doesn't know that TileLayerContainer is a react component,
@@ -67,19 +73,7 @@ class TileLayerContainer extends BaseTileLayer {
     this.leafletElement = new Layer(omit(this.props, 'map'));
     this.context.map.addEventParent(this.leafletElement);
 
-    /* eslint-disable no-underscore-dangle */
-    this.leafletElement.on('click', e => {
-      Object.keys(this.leafletElement._tiles)
-        .filter(key => this.leafletElement._tiles[key].active)
-        .filter(key => this.leafletElement._keyToBounds(key).contains(e.latlng))
-        .forEach(key => this.leafletElement._tiles[key].el.onMapClick(
-          e,
-          this.merc.px([e.latlng.lng, e.latlng.lat],
-          Number(key.split(':')[2]) + this.props.zoomOffset)
-        )
-      );
-    });
-    /* eslint-enable no-underscore-dangle */
+    this.leafletElement.on('click contextmenu', this.onClick);
     super.componentDidMount(...this.props);
   }
 
@@ -91,6 +85,7 @@ class TileLayerContainer extends BaseTileLayer {
 
   componentWillUnmount() {
     this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
+    this.leafletElement.off('click contextmenu', this.onClick);
   }
 
   onTimeChange = (e) => {
@@ -99,6 +94,7 @@ class TileLayerContainer extends BaseTileLayer {
     if (e.currentTime) {
       /* eslint-disable no-underscore-dangle */
       activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
+      /* eslint-enable no-underscore-dangle */
       activeTiles.forEach(tile => {
         /* eslint-disable no-unused-expressions */
         tile.el.layers && tile.el.layers.forEach(layer => {
@@ -106,8 +102,23 @@ class TileLayerContainer extends BaseTileLayer {
             layer.onTimeChange();
           }
         });
+        /* eslint-enable no-unused-expressions */
       });
     }
+  }
+
+  onClick = e => {
+    /* eslint-disable no-underscore-dangle */
+    Object.keys(this.leafletElement._tiles)
+      .filter(key => this.leafletElement._tiles[key].active)
+      .filter(key => this.leafletElement._keyToBounds(key).contains(e.latlng))
+      .forEach(key => this.leafletElement._tiles[key].el.onMapClick(
+        e,
+        this.merc.px([e.latlng.lng, e.latlng.lat],
+        Number(key.split(':')[2]) + this.props.zoomOffset)
+      )
+    );
+    /* eslint-enable no-underscore-dangle */
   }
 
   merc = new SphericalMercator({
@@ -118,8 +129,8 @@ class TileLayerContainer extends BaseTileLayer {
     const tile = new TileContainer(tileCoords, done, this.props);
 
     tile.onSelectableTargetClicked = (selectableTargets, coords) => {
-      if (this.props.disableMapTracking) {
-        this.props.disableMapTracking();
+      if (selectableTargets && this.props.disableMapTracking) {
+        this.props.disableMapTracking(); // disable now that popup opens
       }
 
       this.setState({
@@ -209,7 +220,29 @@ class TileLayerContainer extends BaseTileLayer {
               context={this.context}
             />
           </Popup>
-          );
+        );
+      } else if (this.state.selectableTargets.length === 0) {
+        popup = (
+          <Popup
+            key={this.state.coords.toString()}
+            offset={[106, 3]}
+            closeButton={false}
+            minWidth={250}
+            maxWidth={250}
+            autoPanPaddingTopLeft={[5, 125]}
+            className="popup"
+            maxHeight={220}
+            position={this.state.coords}
+            ref="popup"
+          >
+            <LocationPopupWithContext
+              name={""} // TODO: fill in name from reverse geocoding, possibly in a container.
+              lat={this.state.coords.lat}
+              lon={this.state.coords.lng}
+              context={this.context}
+            />
+          </Popup>
+        );
       }
     }
 
