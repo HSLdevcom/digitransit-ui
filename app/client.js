@@ -28,6 +28,10 @@ const plugContext = (f) => () => ({
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
 
+if (!config.PIWIK_ADDRESS || config.PIWIK_ID == null) {
+  piwik.trackEvent = () => {};
+}
+
 const addPiwik = (context) => (context.piwik = piwik); // eslint-disable-line no-param-reassign
 
 const piwikPlugin = {

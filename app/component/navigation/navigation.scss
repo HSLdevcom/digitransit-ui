@@ -29,14 +29,13 @@ $offcanvas-link-text-font-size: 15px;
 $content-background-color: $background-color;
 
 .navigation {
-  display: flex;
-  flex-direction: column;
 }
 
 nav.top-bar {
   line-height: $topbar-height;
   background: $primary-color;
   z-index: 1150;
+  position: relative;
   text-align: center;
   overflow: visible; // Show drawer menu
 
@@ -150,10 +149,12 @@ nav.top-bar {
 /* content */
 .content {
   background-color: $content-background-color;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
+  height: calc(100% - #{$topbar-height});
   max-height: calc(100% - #{$topbar-height});
+  & > .itinerary-container-content {
+    min-height: calc(100% - #{$topbar-height});
+    max-height: calc(100% - #{$topbar-height});
+  }
 }
 
 .offcanvas > div {
@@ -196,9 +197,14 @@ nav.top-bar .message-bar .icon.close {
   width: 15px;
 }
 
+.origin-destination-bar {
+  height: 40px;
+}
+
 .time-selector-settings-row {
   background-color: $secondary-color;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 40px;
 }

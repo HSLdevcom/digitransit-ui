@@ -50,7 +50,7 @@ class ItineraryTab extends React.Component {
 
   render() {
     return (
-      <div className="fullscreen">
+      <div className="itinerary-tab">
         <ItinerarySummary itinerary={this.props.itinerary}>
           <TimeFrame
             startTime={this.props.itinerary.startTime}
