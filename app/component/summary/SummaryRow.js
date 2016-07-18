@@ -29,9 +29,9 @@ export default function SummaryRow(props) {
 
   let lastLegRented = false;
 
-  for (const [i, leg] of data.legs.entries()) {
+  data.legs.forEach((leg, i) => {
     if (leg.rentedBike && lastLegRented) {
-      continue;
+      return;
     }
 
     lastLegRented = leg.rentedBike;
@@ -49,9 +49,10 @@ export default function SummaryRow(props) {
           mode={mode}
           text={legTextUtil.getLegText(leg)}
           vertical className={cx('line', mode.toLowerCase())}
-        />);
+        />
+      );
     }
-  }
+  });
 
   let firstLegStartTime = null;
 

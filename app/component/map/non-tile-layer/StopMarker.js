@@ -3,8 +3,8 @@ import Relay from 'react-relay';
 import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import provideContext from 'fluxible-addons-react/provideContext';
-import intl from 'react-intl';
-import GenericMarker from '../generic-marker';
+import { intlShape } from 'react-intl';
+import GenericMarker from '../GenericMarker';
 import Icon from '../../icon/icon';
 import ReactDomServer from 'react-dom/server';
 import config from '../../../config';
@@ -18,13 +18,17 @@ const transferIconSvg = '<svg viewBox="0 0 28 28">n  <circle key="halo" class="s
 const smallIconSvg = '<svg viewBox="0 0 8 8">n  <circle class="stop-small" cx="4" cy="4" r="3" stroke-width="1"/>n</svg>';
 /* eslint-enable max-len */
 
+const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired,
+  route: React.PropTypes.object.isRequired,
+});
+
 class StopMarker extends React.Component {
   static propTypes = {
-    map: React.PropTypes.object.isRequired,
-    layerContainer: React.PropTypes.object.isRequired,
     stop: React.PropTypes.object.isRequired,
     mode: React.PropTypes.string.isRequired,
-    renderName: React.PropTypes.string.isRequired,
+    renderName: React.PropTypes.bool,
     disableModeIcons: React.PropTypes.bool,
     selected: React.PropTypes.bool,
   };
@@ -34,7 +38,7 @@ class StopMarker extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     router: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   getStopMarker() {
@@ -43,12 +47,6 @@ class StopMarker extends React.Component {
     let iconSelected;
     let icon;
     let iconSmall;
-
-    const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
-      intl: intl.intlShape.isRequired,
-      router: React.PropTypes.object.isRequired,
-      route: React.PropTypes.object.isRequired,
-    });
 
     const loadingPopupStyle = {
       height: 150,
@@ -101,8 +99,6 @@ class StopMarker extends React.Component {
           selectedIconSvg: iconSelected,
         }}
         iconSizes={iconSizes}
-        map={this.props.map}
-        layerContainer={this.props.layerContainer}
         id={this.props.stop.gtfsId}
         renderName={this.props.renderName}
         selected={this.props.selected}

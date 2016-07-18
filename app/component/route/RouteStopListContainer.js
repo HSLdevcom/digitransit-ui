@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
-import RouteStop from './route-stop';
+import toClass from 'recompose/toClass';
+import RouteStop from './RouteStop';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import cx from 'classnames';
 import { getDistanceToNearestStop } from '../../util/geo-utils';
 import config from '../../config';
+
+const RouteStopClass = toClass(RouteStop);
 
 class RouteStopListContainer extends React.Component {
   static propTypes = {
@@ -14,6 +17,7 @@ class RouteStopListContainer extends React.Component {
     className: React.PropTypes.string,
     vehicles: React.PropTypes.object,
     locationState: React.PropTypes.object.isRequired,
+    currentTime: React.PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -38,13 +42,14 @@ class RouteStopListContainer extends React.Component {
       ) === stop.gtfsId;
 
       return (
-        <RouteStop
+        <RouteStopClass
           key={stop.gtfsId}
           stop={stop}
           mode={mode}
           vehicles={vehicleStops[stop.gtfsId]}
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? 'nearestStop' : null}
+          currentTime={this.props.currentTime.unix()}
         />
       );
     });
@@ -61,13 +66,17 @@ class RouteStopListContainer extends React.Component {
 export default Relay.createContainer(
   connectToStores(
     RouteStopListContainer,
-    ['RealTimeInformationStore', 'PositionStore'],
+    ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
       locationState: getStore('PositionStore').getLocationState(),
+      currentTime: getStore('TimeStore').getCurrentTime(),
     })
   ),
   {
+    initialVariables: {
+      routeId: null,
+    },
     fragments: {
       pattern: () => Relay.QL`
         fragment on Pattern {
@@ -75,6 +84,13 @@ export default Relay.createContainer(
             type
           }
           stops {
+            stopTimesForPattern(id: $routeId) {
+              realtime
+              realtimeState
+              realtimeDeparture
+              serviceDay
+              scheduledDeparture
+            }
             gtfsId
             lat
             lon

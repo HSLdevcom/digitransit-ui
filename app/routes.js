@@ -35,14 +35,14 @@ const routes = (
       name="stop"
       component={StopPage}
       queries={StopQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <StopPage {...props} /> : <LoadingPage />)}
     />
     <Route
       path="pysakit/:stopId/kartta"
       name="stopMap"
       component={StopMapPage}
       queries={StopQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <StopMapPage {...props} /> : <LoadingPage />)}
     />
     <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404} />
     <Route path="linjat" name="routeList" component={Error404} />
@@ -51,21 +51,21 @@ const routes = (
       name="route"
       component={RoutePage}
       queries={RouteQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <RoutePage {...props} /> : <LoadingPage />)}
     />
     <Route
       path="lahdot/:tripId"
       name="trip"
       component={TripPage}
       queries={TripQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <TripPage {...props} /> : <LoadingPage />)}
     />
     <Route
       path="lahdot/:tripId/kartta"
       name="tripMap"
       component={TripMapPage}
       queries={TripQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <TripMapPage {...props} /> : <LoadingPage />)}
     />
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage} />
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage} />
