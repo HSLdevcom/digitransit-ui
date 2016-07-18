@@ -94,8 +94,8 @@ class SummaryNavigation extends React.Component {
         >
           <CustomizeSearch />
         </Drawer>
-        <div className="fullscreen grid-frame">
-          <section className="content">
+        <div className="summary-content grid-frame">
+          <section>
             <OriginDestinationBar />
             <div className="time-selector-settings-row">
               <TimeSelectorContainer />

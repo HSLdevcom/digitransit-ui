@@ -2,7 +2,6 @@
     height: calc(100% - 80px);
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
 }
 
 .summary-no-route-found {
@@ -12,6 +11,8 @@
 .time-selectors {
   @include font-book;
 
+  height: 32px;
+  margin: 4px 0;
   background-color: $secondary-color;
   padding: 0 10px;
 
@@ -65,7 +66,7 @@
 }
 
 .right-offcanvas-toggle {
-  margin: 5px 0;
+  margin: 4px 0;
   background-color: #333;
   border-radius: 5px 0 0 5px;
   width: 36px;
@@ -88,5 +89,16 @@
       top: -2px;
       height: 12px;
     }
+  }
+}
+
+.summary-list-container {
+  width: 100%;
+}
+
+.summary-content {
+  height: 100%;
+  > section {
+    height: 100%;
   }
 }

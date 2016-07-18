@@ -4,7 +4,7 @@
 
 module.exports = function (browser) {
   if (browser.ELEMENT_VISIBLE_TIMEOUT) return;
-  const ELEMENT_VISIBLE_TIMEOUT = 10000;
+  const ELEMENT_VISIBLE_TIMEOUT = 15000;
   browser.ELEMENT_VISIBLE_TIMEOUT = ELEMENT_VISIBLE_TIMEOUT;
 
   browser.finish = function finish(done) {
