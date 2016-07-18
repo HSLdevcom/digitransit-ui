@@ -12,6 +12,7 @@ $itinerary-route-max-width: 500px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  min-height: 300px; // TODO: This is required in IE due to ???
   max-height: calc(100% - #{$small-map-height} - #{$itinerary-tab-switch-height});
   & > div {
     flex-grow: 1;
