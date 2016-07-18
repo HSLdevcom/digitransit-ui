@@ -63,8 +63,10 @@ class RouteScheduleContainer extends Component {
         </div>);
     }
     return trips.map((trip) => {
-      const departureTime = this.formatTime(trip.stoptimes[stops[from].id].scheduledDeparture);
-      const arrivalTime = this.formatTime(trip.stoptimes[stops[to].id].scheduledArrival);
+      const fromSt = trip.stoptimes[stops[from].id];
+      const toSt = trip.stoptimes[stops[to].id];
+      const departureTime = this.formatTime(fromSt.serviceDay + fromSt.scheduledDeparture);
+      const arrivalTime = this.formatTime(toSt.serviceDay + toSt.scheduledArrival);
 
       return (
         <RouteScheduleTripRow
@@ -101,7 +103,7 @@ class RouteScheduleContainer extends Component {
     return transformedTrips;
   }
 
-  formatTime = (timestamp) => moment(timestamp * 1000).format('HH:mm');
+  formatTime = (timestamp) => moment.utc(timestamp * 1000).format('HH:mm');
 
   changeDate = ({ target }) => {
     // TODO: add setState and a callback that resets the laoding state in oreder to get a spinner.
@@ -152,6 +154,7 @@ export const relayFragment = {
         stoptimes {
           scheduledArrival
           scheduledDeparture
+          serviceDay
           stop {
             id
           }
