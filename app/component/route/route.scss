@@ -187,7 +187,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     @include font-narrow-book;
     font-size: 24pt;
     padding: 0.4em 0 0.2em;
-    margin-top: 6px;
     .vehicle-number {
       padding-left: 0.25em;
     }
@@ -377,8 +376,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 // Tabs
 div.route-tabs {
-  flex-grow: 1;
-
   display: flex;
   flex-direction: column;
 
@@ -440,7 +437,7 @@ div.route-tabs {
     }
 
   }
-  height: calc(100% - #{$route-header-height} - 14px);
+  height: calc(100% - #{$route-header-height});
 }
 
 

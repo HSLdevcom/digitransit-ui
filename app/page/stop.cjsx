@@ -68,7 +68,8 @@ class StopPage extends React.Component
                       className="stop-page header"
                       headingStyle="h3"
                       infoIcon={true}/>
-        <Map lat={@props.stop.lat}
+        <Map className="small"
+             lat={@props.stop.lat}
              lon={@props.stop.lon}
              zoom={16}
              showStops=true

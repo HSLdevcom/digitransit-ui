@@ -8,10 +8,6 @@ import FeedbackActions from '../../action/feedback-action';
 import { supportsHistory } from 'history/lib/DOMUtils';
 
 class MainMenuContainer extends Component {
-  static propTypes = {
-    showDisruptionInfo: PropTypes.bool,
-  };
-
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
@@ -81,8 +77,8 @@ class MainMenuContainer extends Component {
         >
           <MainMenu
             openFeedback={this.openFeedback}
-            showDisruptionInfo={this.props.showDisruptionInfo}
             toggleVisibility={this.toggleOffcanvas}
+            showDisruptionInfo={this.getOffcanvasState()}
           />
         </Drawer>
         {config.mainMenu.show ?
