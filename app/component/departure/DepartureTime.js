@@ -109,7 +109,7 @@ export const mapStopTime = (stoptime, pattern) => (
   {
     stop: stoptime.stop,
     canceled: stoptime.realtimeState === 'CANCELED'
-      || window.mock && stoptime.realtimeDeparture % 40 === 0,
+      || (typeof window !== 'undefined' && window.mock && stoptime.realtimeDeparture % 40 === 0),
     departureTime: stoptime.serviceDay +
       ((stoptime.realtimeState === 'CANCELED' || stoptime.realtimeDeparture === -1)
         ? stoptime.scheduledDeparture
