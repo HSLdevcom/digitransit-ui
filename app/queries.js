@@ -21,30 +21,6 @@ export const TerminalMarkerPopupFragments = {
   `,
 };
 
-export const StopQueries = {
-  stop: () => Relay.QL`
-    query  {
-      stop(id: $stopId)
-    }
-  `,
-};
-
-export const RouteQueries = {
-  pattern: () => Relay.QL`
-    query {
-      pattern(id: $routeId)
-    }
-  `,
-};
-
-export const TripQueries = {
-  trip: () => Relay.QL`
-    query {
-      trip(id: $tripId)
-    }
-  `,
-};
-
 export const RouteHeaderFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
@@ -251,59 +227,6 @@ export const CityBikePopupFragments = {
       lon
       bikesAvailable
       spacesAvailable
-    }
-  `,
-};
-
-export const TripPageFragments = {
-  trip: () => Relay.QL`
-    fragment on Trip {
-      pattern {
-        code
-        route {
-          shortName
-          longName
-        }
-        ${require('./component/route/RouteHeaderContainer').default.getFragment('pattern')}
-        ${require('./component/route/RouteMapContainer').default.getFragment('pattern')}
-      }
-      stoptimes {
-        scheduledDeparture
-      }
-      gtfsId
-      ${require('./component/trip/trip-stop-list-container').getFragment('trip')}
-    }
-  `,
-};
-
-export const TripStopListFragments = {
-  trip: () => Relay.QL`
-    fragment on Trip {
-      route {
-        type
-      }
-      stoptimes        {
-        stop{
-          gtfsId
-          name
-          desc
-          code
-          lat
-          lon
-        }
-        realtimeDeparture
-        realtime
-      }
-    }
-  `,
-};
-
-export const TripLinkFragments = {
-  trip: () => Relay.QL`
-    fragment on QueryType {
-      trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
-        gtfsId
-      }
     }
   `,
 };

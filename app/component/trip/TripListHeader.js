@@ -6,14 +6,12 @@ const RouteListHeader = () =>
     <div className="columns small-3 route-stop-now">
       <FormattedMessage id="right-now" defaultMessage="Right now" />
     </div>
-    <div className="columns small-5 route-stop-name">
+    <div className="columns small-7 route-stop-name">
       <FormattedMessage id="stop" defaultMessage="Stop" />
     </div>
     <div className="columns small-2 route-stop-time">
       <FormattedMessage id="leaves" defaultMessage="Leaves" />
     </div>
-    <div className="columns small-2 route-stop-time">
-      <FormattedMessage id="next" defaultMessage="Next" />
-    </div>
+
   </div>);
 export default RouteListHeader;

@@ -56,8 +56,11 @@ PositionMarker.contextTypes = {
 };
 
 PositionMarker.propTypes = {
-  coordinates: React.PropTypes.arrayOf(React.PropTypes.number),
-  displayOriginPopup: React.PropTypes.bool.isRequired,
+  coordinates: React.PropTypes.oneOfType([
+    React.PropTypes.arrayOf(React.PropTypes.number),
+    React.PropTypes.oneOf([false]),
+  ]),
+  displayOriginPopup: React.PropTypes.bool,
   useCurrentPosition: React.PropTypes.bool.isRequired,
 };
 

@@ -1,10 +1,11 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import IconWithTail from '../icon/icon-with-tail';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import moment from 'moment';
 import cx from 'classnames';
 import WalkDistance from '../itinerary/walk-distance';
+import StopCode from '../itinerary/StopCode';
+import PatternLink from './PatternLink';
+import { fromStopTime } from '../departure/DepartureTime';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
@@ -12,68 +13,61 @@ import {
   vehicle as exampleVehicle,
 } from '../documentation/ExampleData';
 
-class TripRouteStop extends React.Component {
-  static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-  };
+const TripRouteStop = (props) => {
+  const vehicles = props.vehicles && props.vehicles.map(
+      (vehicle) => (<PatternLink
+        key={vehicle.id}
+        routeType={vehicle.mode}
+        pattern={props.pattern}
+        selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
+      />)
+    ) || [];
 
-  renderTime(realtimeDeparture) {
-    const departureTime = this.context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .startOf('day')
-      .second(realtimeDeparture);
-    return moment(departureTime).format('HH:mm');
-  }
-
-  render() {
-    const vehicles = [];
-
-    if (this.props.vehicle) {
-      vehicles.push(
-        <IconWithTail
-          id="now"
-          key={this.props.vehicle.id}
-          className={cx(this.props.mode, 'large-icon')}
-          img={`icon-icon_${this.props.mode}-live`}
-        />);
-    }
-
-    return (
-      <div className={cx('route-stop row', { passed: this.props.stopPassed })}>
-        <div className="columns small-3 route-stop-time">
-          {this.renderTime(this.props.realtimeDeparture)}
-          <div className="route-stop-now-icon">{vehicles}</div>
+  return (
+    <div className={cx('route-stop row', { passed: props.stopPassed })}>
+      <div className="columns small-3 route-stop-now">{vehicles}</div>
+      <Link to={`/pysakit/${props.stop.gtfsId}`}>
+        <div className={`columns small-7 route-stop-name ${props.mode}`}>
+          {props.stop.name}&nbsp;
+          {props.distance &&
+            <WalkDistance
+              className="nearest-route-stop"
+              icon="icon_location-with-user"
+              walkDistance={props.distance}
+            />
+          }
+          <br />
+          <StopCode code={props.stop.code} />
+          <span className="route-stop-address">{props.stop.desc}</span>
         </div>
-        <Link to={`/pysakit/${this.props.stop.gtfsId}`}>
-          <div className={`columns small-7 route-stop-name ${this.props.mode.toLowerCase()}`}>
-            {this.props.stop.name}{"\u00a0"}
-            {this.props.distance ?
-              <WalkDistance
-                className="nearest-route-stop"
-                icon="icon_location-with-user"
-                walkDistance={this.props.distance}
-              /> : null}
-            <br />
-            <span className="route-stop-address">
-              {this.props.stop.desc}
-            </span>
-          </div>
-          <div className="columns small-2 route-stop-code">
-            {this.props.stop.code}
-          </div>
-        </Link>
-      </div>);
-  }
-}
+        {(
+          props.stoptime &&
+          (<div>
+            <div className="columns small-2 route-stop-time">
+              {fromStopTime(props.stoptime, props.currentTime)}
+            </div>
+          </div>))}
+      </Link>
+    </div>);
+};
 
 TripRouteStop.propTypes = {
-  vehicle: React.PropTypes.object,
-  mode: React.PropTypes.string,
+  vehicles: React.PropTypes.array,
+  mode: React.PropTypes.string.isRequired,
   stopPassed: React.PropTypes.bool,
   realtimeDeparture: React.PropTypes.number,
-  stop: React.PropTypes.object,
-  distance: React.PropTypes.number,
+  stop: React.PropTypes.object.isRequired,
+  distance: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.oneOf([false]),
+  ]).isRequired,
+  stoptime: React.PropTypes.object.isRequired,
+  currentTime: React.PropTypes.number.isRequired,
+  pattern: React.PropTypes.string.isRequired,
+  selectedVehicle: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.oneOf([false]),
+  ]).isRequired,
 };
 
 TripRouteStop.description = (
@@ -87,12 +81,15 @@ TripRouteStop.description = (
         key={exampleDeparture.stop.gtfsId}
         stop={exampleDeparture.stop}
         mode={exampleDeparture.pattern.route.type}
-        vehicle={null}
+        pattern={exampleDeparture.pattern.code}
+        vehicles={null}
         stopPassed
         realtime={exampleDeparture.realtime}
         distance={321}
         realtimeDeparture={null}
-        currentTimeFromMidnight={exampleCurrentTime}
+        stoptime={exampleDeparture}
+        currentTime={exampleCurrentTime}
+        selectedVehicle={false}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="Realtime with vehicle info:">
@@ -100,12 +97,15 @@ TripRouteStop.description = (
         key={exampleRealtimeDeparture.stop.gtfsId}
         stop={exampleRealtimeDeparture.stop}
         mode={exampleRealtimeDeparture.pattern.route.type}
-        vehicle={exampleVehicle}
+        pattern={exampleDeparture.pattern.code}
+        vehicles={[exampleVehicle]}
         stopPassed={false}
         realtime={exampleRealtimeDeparture.realtime}
         distance={231}
         realtimeDeparture={exampleRealtimeDeparture.realtimeDeparture}
-        currentTimeFromMidnight={exampleCurrentTime}
+        stoptime={exampleRealtimeDeparture}
+        currentTime={exampleCurrentTime}
+        selectedVehicle={exampleVehicle}
       />
     </ComponentUsageExample>
   </div>);

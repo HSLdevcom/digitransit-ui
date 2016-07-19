@@ -10,13 +10,7 @@ import {
   realtimeDeparture as exampleRealtimeDeparture,
 } from '../documentation/ExampleData';
 
-
 function DepartureTime(props, context) {
-  let realtime;
-  if (props.realtime && !props.canceled) {
-    realtime = <Icon img="icon-icon_realtime" className="realtime-icon realtime" />;
-  }
-
   let canceled;
   if (props.canceled) {
     canceled = <Icon img="icon-icon_caution" className="icon cancelation-info" />;
@@ -27,6 +21,7 @@ function DepartureTime(props, context) {
   if (props.useUTC) {
     departureTime.utc();
   }
+
   const currentTime = moment(props.currentTime * 1000);
   if (departureTime.isBefore(currentTime) ||
       departureTime.isAfter(currentTime.clone().add(20, 'minutes'))) {
@@ -38,11 +33,15 @@ function DepartureTime(props, context) {
       ${context.intl.formatMessage({ id: 'minute-short', defaultMessage: 'min' })}`;
   }
 
+  let realtime;
+  if (props.realtime && !props.canceled && departureTime.isAfter(currentTime)) {
+    realtime = <Icon img="icon-icon_realtime" className="realtime-icon realtime" />;
+  }
   return (
     <span
       style={props.style}
       className={cx('time', {
-        realtime: props.realtime,
+        realtime: departureTime.isAfter(currentTime) && props.realtime,
         canceled: props.canceled,
       },
       props.className)}
@@ -105,18 +104,20 @@ export default DepartureTime;
  *  @param stoptime stoptime from graphql
  *  @param pattern pattern from graphql
  */
+
 export const mapStopTime = (stoptime, pattern) => (
-  ({
+  {
     stop: stoptime.stop,
-    canceled: stoptime.realtimeState === 'CANCELED' ||
-      window.mock && stoptime.realtimeDeparture % 40 === 0,
+    canceled: stoptime.realtimeState === 'CANCELED'
+      || (typeof window !== 'undefined' && window.mock && stoptime.realtimeDeparture % 40 === 0),
     departureTime: stoptime.serviceDay +
-      (stoptime.realtimeState === 'CANCELED' ? stoptime.scheduledDeparture :
-        stoptime.realtimeDeparture),
-    realtime: stoptime.realtime,
+      ((stoptime.realtimeState === 'CANCELED' || stoptime.realtimeDeparture === -1)
+        ? stoptime.scheduledDeparture
+        : stoptime.realtimeDeparture),
+    realtime: stoptime.realtimeDeparture !== -1 && stoptime.realtime,
     pattern: pattern && pattern.pattern,
     trip: stoptime.trip,
-  })
+  }
 );
 
 /**

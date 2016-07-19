@@ -1,30 +1,11 @@
-$trip-route-header-height: 90px;
-$trip-small-map-height: 100px;
-$trip-medium-map-height: 200px;
-$trip-large-map-height: 300px;
-
-
-.trip {
-  .map.map-small, .map.map-small div.leaflet-container {
-    height: $trip-small-map-height;
-  }
-  div.background-gradient {
-    height: $trip-small-map-height * 0.7;
-  }
-  .map.map-small:not(.fullscreen) div.leaflet-container div.leaflet-control-container div div.leaflet-control-attribution {
-    display: none;
-  }
-  div.below-map {
-    height: calc(100% - #{$trip-small-map-height} - #{$trip-route-header-height} - #{$route-list-header-height});
-  }
-}
-
-.route-header.trip-header {
-  height:$trip-route-header-height;
-  .route-header-direction {
-    @include font-medium;
-    font-size: $font-size-small;
-    color: $dark-color;
+.route-stop div .route-now-content .large {
+  font-size: 48px;  //icon
+  &.tail {
+    left: -35px;
+    top: -45px;
+    z-index: 0;
+    width: 140px;
+    height: 140px;
   }
 }
 
@@ -40,11 +21,5 @@ $trip-large-map-height: 300px;
     &.citybike::after  {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($dark-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
     }
-  }
-}
-
-.trip-map {
-  .map.fullscreen {
-    height: calc(100% - #{$trip-route-header-height});
   }
 }
