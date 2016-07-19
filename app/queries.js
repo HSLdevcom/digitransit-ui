@@ -21,30 +21,6 @@ export const TerminalMarkerPopupFragments = {
   `,
 };
 
-export const StopQueries = {
-  stop: () => Relay.QL`
-    query  {
-      stop(id: $stopId)
-    }
-  `,
-};
-
-export const RouteQueries = {
-  pattern: () => Relay.QL`
-    query {
-      pattern(id: $routeId)
-    }
-  `,
-};
-
-export const TripQueries = {
-  trip: () => Relay.QL`
-    query {
-      trip(id: $tripId)
-    }
-  `,
-};
-
 export const RouteHeaderFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {

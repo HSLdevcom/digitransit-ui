@@ -7,7 +7,6 @@ import StopCode from '../itinerary/StopCode';
 import PatternLink from './PatternLink';
 import { fromStopTime } from '../departure/DepartureTime';
 import {
-  currentTime as exampleCurrentTime,
   departure as exampleDeparture,
   realtimeDeparture as exampleRealtimeDeparture,
   vehicle as exampleVehicle,
@@ -79,7 +78,6 @@ TripRouteStop.description = (
         realtime={exampleDeparture.realtime}
         distance={321}
         realtimeDeparture={null}
-        currentTimeFromMidnight={exampleCurrentTime}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="Realtime with vehicle info:">
@@ -92,7 +90,6 @@ TripRouteStop.description = (
         realtime={exampleRealtimeDeparture.realtime}
         distance={231}
         realtimeDeparture={exampleRealtimeDeparture.realtimeDeparture}
-        currentTimeFromMidnight={exampleCurrentTime}
       />
     </ComponentUsageExample>
   </div>);

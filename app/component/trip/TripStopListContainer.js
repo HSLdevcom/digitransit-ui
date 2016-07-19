@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import cx from 'classnames';
 import TripRouteStop from './TripRouteStop';
 import isEmpty from 'lodash/isEmpty';
+import moment from 'moment';
 import { getDistanceToNearestStop } from '../../util/geo-utils';
 import config from '../../config';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -27,35 +28,31 @@ class TripStopListContainer extends React.Component {
   getStops() {
     const nearest = this.getNearestStopDistance(this.props.trip.stoptimesForDate
       .map(stoptime => stoptime.stop));
+
     const mode = this.props.trip.route.type.toLowerCase();
-    // const { vehicles } = this.context.getStore('RealTimeInformationStore');
-
     const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
-
-    const currentTimeFromMidnight = this.props.currentTime.clone().diff(
-      this.props.currentTime.clone().startOf('day'), 'seconds');
-
-    const tripStartTime = this.props.trip.stoptimesForDate[0].scheduledDeparture;
-    const tripStartHHmm = this.props.currentTime.clone().startOf('day')
-      .add(tripStartTime, 'seconds')
-      .format('HHmm');
+    const tripStartTime = this.props.trip.stoptimesForDate[0].serviceDay +
+      this.props.trip.stoptimesForDate[0].scheduledDeparture;
+    const tripStartHHmm = moment(tripStartTime * 1000).format('HHmm');
     const vehiclesWithCorrectStartTime = Object.keys(this.props.vehicles)
       .map((key) => (this.props.vehicles[key]))
       .filter((vehicle) => (vehicle.tripStartTime === tripStartHHmm));
 
     // selected vehicle
     const vehicle = (vehiclesWithCorrectStartTime.length > 0) && vehiclesWithCorrectStartTime[0];
+    const nextStop = vehicle && `HSL:${vehicle.next_stop}`;
 
     let stopPassed = true;
 
     return this.props.trip.stoptimesForDate.map((stoptime, index) => {
-      const nextStop = `HSL:${vehicle.next_stop}`;
-
       if (nextStop === stoptime.stop.gtfsId) {
         stopPassed = false;
       } else if (vehicle.stop_index === index) {
         stopPassed = false;
-      } else if (stoptime.realtimeDeparture > currentTimeFromMidnight && isEmpty(vehicle)) {
+      } else if (
+        stoptime.realtimeDeparture + stoptime.serviceDay > this.props.currentTime &&
+        isEmpty(vehicle)
+      ) {
         stopPassed = false;
       }
 
@@ -76,7 +73,6 @@ class TripStopListContainer extends React.Component {
           }
         currentTime={this.props.currentTime.unix()}
         realtimeDeparture={stoptime.realtimeDeparture}
-        currentTimeFromMidnight={currentTimeFromMidnight}
         pattern={this.props.trip.pattern.code}
       />);
     });
