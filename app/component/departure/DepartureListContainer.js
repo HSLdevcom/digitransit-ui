@@ -14,8 +14,7 @@ const mergeDepartures = departures =>
 const asDepartures = stoptimes =>
   stoptimes.map(pattern =>
     pattern.stoptimes.map(stoptime => {
-      const routeStops = stoptime.trip.route.stops;
-      const isArrival = (routeStops[routeStops.length - 1].gtfsId === stoptime.stop.gtfsId);
+      const isArrival = stoptime.pickupType === 'NONE';
       const canceled = stoptime.realtimeState === 'CANCELED' ||
         window.mock && stoptime.realtimeDeparture % 40 === 0;
       const arrivalTime = stoptime.serviceDay +
@@ -104,9 +103,9 @@ class DepartureListContainer extends Component {
       const id = `${departure.pattern.code} : ${departure.stoptime}`;
 
       const validAt = alert =>
-      alert.effectiveStartDate <= departure.stoptime &&
-      departure.stoptime <= alert.effectiveEndDate &&
-      (get(alert.trip.gtfsId) === get(departure.trip.gtfsId));
+        alert.effectiveStartDate <= departure.stoptime &&
+        departure.stoptime <= alert.effectiveEndDate &&
+        get(alert.trip.gtfsId) === get(departure.trip.gtfsId);
 
 
       const classes = {
@@ -191,17 +190,12 @@ export const relayFragment = {
         scheduledArrival
         realtime
         serviceDay
+        pickupType
         stop {
           code
-          gtfsId
         }
         trip {
           gtfsId
-          route {
-          stops {
-            gtfsId
-          }
-        }
         }
       }
     }
