@@ -124,6 +124,7 @@ gemini.suite('components', (parent) => {
     });
     gemini.suite('realtime', (suite) => {
       suite.setCaptureElements('#TripRouteStop .component-example:nth-of-type(2) .component')
+      .ignoreElements('#TripRouteStop .component-example:nth-of-type(2) .component .time.realtime')
       .capture('normal');
     });
   });
