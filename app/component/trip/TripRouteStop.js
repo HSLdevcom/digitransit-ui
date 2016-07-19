@@ -7,6 +7,7 @@ import StopCode from '../itinerary/StopCode';
 import PatternLink from './PatternLink';
 import { fromStopTime } from '../departure/DepartureTime';
 import {
+  currentTime as exampleCurrentTime,
   departure as exampleDeparture,
   realtimeDeparture as exampleRealtimeDeparture,
   vehicle as exampleVehicle,
@@ -15,9 +16,10 @@ import {
 const TripRouteStop = (props) => {
   const vehicles = props.vehicles && props.vehicles.map(
       (vehicle) => (<PatternLink
+        key={vehicle.id}
         routeType={vehicle.mode}
         pattern={props.pattern}
-        selected={props.selectedVehicle.id === vehicle.id}
+        selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
       />)
     ) || [];
 
@@ -50,16 +52,22 @@ const TripRouteStop = (props) => {
 };
 
 TripRouteStop.propTypes = {
-  vehicles: React.PropTypes.array.isRequired,
-  mode: React.PropTypes.string,
+  vehicles: React.PropTypes.array,
+  mode: React.PropTypes.string.isRequired,
   stopPassed: React.PropTypes.bool,
   realtimeDeparture: React.PropTypes.number,
-  stop: React.PropTypes.object,
-  distance: React.PropTypes.number,
+  stop: React.PropTypes.object.isRequired,
+  distance: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.oneOf([false]),
+  ]).isRequired,
   stoptime: React.PropTypes.object.isRequired,
   currentTime: React.PropTypes.number.isRequired,
   pattern: React.PropTypes.string,
-  selectedVehicle: React.PropTypes.object.isRequired,
+  selectedVehicle: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.oneOf([false]),
+  ]).isRequired,
 };
 
 TripRouteStop.description = (
@@ -73,11 +81,14 @@ TripRouteStop.description = (
         key={exampleDeparture.stop.gtfsId}
         stop={exampleDeparture.stop}
         mode={exampleDeparture.pattern.route.type}
-        vehicle={null}
+        vehicles={null}
         stopPassed
         realtime={exampleDeparture.realtime}
         distance={321}
         realtimeDeparture={null}
+        stoptime={exampleDeparture}
+        currentTime={exampleCurrentTime}
+        selectedVehicle={false}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="Realtime with vehicle info:">
@@ -85,11 +96,14 @@ TripRouteStop.description = (
         key={exampleRealtimeDeparture.stop.gtfsId}
         stop={exampleRealtimeDeparture.stop}
         mode={exampleRealtimeDeparture.pattern.route.type}
-        vehicle={exampleVehicle}
+        vehicles={[exampleVehicle]}
         stopPassed={false}
         realtime={exampleRealtimeDeparture.realtime}
         distance={231}
         realtimeDeparture={exampleRealtimeDeparture.realtimeDeparture}
+        stoptime={exampleRealtimeDeparture}
+        currentTime={exampleCurrentTime}
+        selectedVehicle={exampleVehicle}
       />
     </ComponentUsageExample>
   </div>);
