@@ -37,6 +37,7 @@ module.exports =
   search:
     suggestions:
       useTransportIcons: false
+    showStopsFirst: false
   nearbyRoutes:
     radius: 10000
     bucketSize: 1000
