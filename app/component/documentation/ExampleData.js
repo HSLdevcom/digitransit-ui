@@ -10,7 +10,8 @@ export const realtimeDeparture = {
 
   stoptime: 1444165199,
   realtime: true,
-  realtimeDeparture: 49140,
+  realtimeDeparture: 86399,
+  serviceDay: 1444078800,
 
   pattern: {
     __dataID__: 'UGF0dGVybjpIU0w6NDYxMToxOjAx',
@@ -40,6 +41,8 @@ export const departure = {
 
   stoptime: 1444185960,
   realtime: false,
+  realtimeDeparture: 69900,
+  serviceDay: 1444116060,
 
   pattern: {
     __dataID__: 'UGF0dGVybjpIU0w6MTAwN0I6MDowMg==',
@@ -72,7 +75,7 @@ export const vehicle = {
   long: 25.00535,
 };
 
-export const currentTime = new Date().getTime() / 1000;
+export const currentTime = new Date(1464778000).getTime() / 1000;
 
 export const station = {
   bikesAvailable: 1,

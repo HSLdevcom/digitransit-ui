@@ -11,6 +11,8 @@ import RouteMapContainer from '../component/route/RouteMapContainer';
 import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
 import RouteAlertsContainer from '../component/route/RouteAlertsContainer';
 import RoutePatternSelect from '../component/route/RoutePatternSelect';
+import TripListHeader from '../component/trip/TripListHeader';
+import TripStopListContainer from '../component/trip/TripStopListContainer';
 import { startRealTimeClient, updateTopic, stopRealTimeClient }
   from '../action/realTimeClientAction';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -37,7 +39,7 @@ class RoutePage extends React.Component {
   }
 
   componentDidMount() {
-    const route = this.props.params.routeId.split(':');
+    const route = this.props.pattern.code.split(':');
 
     if (route[0].toLowerCase() === 'hsl') {
       this.context.executeAction(startRealTimeClient, {
@@ -48,7 +50,7 @@ class RoutePage extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const route = newProps.params.routeId.split(':');
+    const route = newProps.pattern.code.split(':');
     const { client } = this.context.getStore('RealTimeInformationStore');
 
     if (client) {
@@ -145,6 +147,19 @@ class RoutePage extends React.Component {
         </DefaultNavigation>);
     }
 
+    const mainContent = this.props.trip ? ([
+      <TripListHeader key="header" />,
+      <TripStopListContainer key="list" className="below-map" trip={this.props.trip} />,
+    ]) : ([
+      <RouteListHeader key="header" />,
+      <RouteStopListContainer
+        key="list"
+        pattern={this.props.pattern}
+        routeId={this.props.pattern.code}
+      />,
+    ]);
+
+
     return (
       <DefaultNavigation className="fullscreen" title={title}>
         <Helmet {...meta} />
@@ -169,11 +184,7 @@ class RoutePage extends React.Component {
             >
               <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} />
             </RouteMapContainer>
-            <RouteListHeader />
-            <RouteStopListContainer
-              pattern={this.props.pattern}
-              routeId={this.props.relay.variables.routeId}
-            />
+            {mainContent}
           </Tabs.Panel>
           <Tabs.Panel
             title={
@@ -206,6 +217,7 @@ class RoutePage extends React.Component {
 RoutePage.propTypes = {
   params: React.PropTypes.object.isRequired,
   relay: React.PropTypes.object.isRequired,
+  trip: React.PropTypes.object,
 };
 
 export default Relay.createContainer(RoutePage, {

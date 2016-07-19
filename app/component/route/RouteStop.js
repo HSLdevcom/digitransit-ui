@@ -1,8 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
-import FuzzyTripRoute from '../../route/FuzzyTripRoute';
+import FuzzyTripRoute from './FuzzyTripRoute';
 import Link from 'react-router/lib/Link';
-import TripLink from '../trip/trip-link';
+import TripLink from '../trip/TripLink';
 import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
 import { fromStopTime } from '../departure/DepartureTime';
