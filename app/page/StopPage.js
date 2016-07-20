@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Helmet from 'react-helmet';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Map from '../component/map/Map';
 import DepartureListContainer from '../component/departure/DepartureListContainer';
@@ -46,7 +47,7 @@ function StopPage(props, { intl, router, executeAction }) {
     <DepartureListContainer
       stoptimes={props.stop.stoptimes}
       key="departures"
-      className="stop-page below-map momentum-scroll"
+      className="stop-page momentum-scroll"
       routeLinks
       infiniteScroll
       rowClasses="padding-normal border-bottom"
@@ -55,32 +56,42 @@ function StopPage(props, { intl, router, executeAction }) {
   return (
     <DefaultNavigation className="fullscreen stop" title={title}>
       <Helmet {...meta} />
-      <StopCardHeader
-        stop={props.stop}
-        favourite={props.favourite}
-        addFavouriteStop={addFavouriteStop}
-        className="stop-page header"
-        headingStyle="h3"
-        infoIcon
-      />
-      <Map
-        className="small"
-        lat={props.stop.lat}
-        lon={props.stop.lon}
-        zoom={16}
-        key="map"
-        showStops
-        hilightedStops={[props.params.stopId]}
-        disableZoom
+      <ReactCSSTransitionGroup
+        transitionName="stop-page-content"
+        transitionEnterTimeout={300}
+        transitionLeaveTimeout={300}
+        component="div"
+        className="stop-page-content"
       >
-        <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />
-        <Link to={`/pysakit/${props.params.stopId}${props.fullscreenMap ? '' : '/kartta'}`}>
-          <div className="fullscreen-toggle">
-            <Icon img="icon-icon_maximize" className="cursor-pointer" />
-          </div>
-        </Link>
-      </Map>
-      {contents}
+        <StopCardHeader
+          stop={props.stop}
+          favourite={props.favourite}
+          addFavouriteStop={addFavouriteStop}
+          key="header"
+          className="stop-page header"
+          headingStyle="h3"
+          infoIcon
+        />
+        <Map
+          className="full"
+          lat={props.stop.lat}
+          lon={props.stop.lon}
+          zoom={16}
+          key="map"
+          showStops
+          hilightedStops={[props.params.stopId]}
+          disableZoom={!props.fullscreenMap}
+        >
+          {props.fullscreenMap ? null :
+            <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
+          <Link to={`/pysakit/${props.params.stopId}${props.fullscreenMap ? '' : '/kartta'}`}>
+            <div className="fullscreen-toggle">
+              <Icon img="icon-icon_maximize" className="cursor-pointer" />
+            </div>
+          </Link>
+        </Map>
+        {contents}
+      </ReactCSSTransitionGroup>
     </DefaultNavigation>
   );
 }
