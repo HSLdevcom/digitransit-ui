@@ -151,10 +151,6 @@ nav.top-bar {
   background-color: $content-background-color;
   height: calc(100% - #{$topbar-height});
   max-height: calc(100% - #{$topbar-height});
-  & > .itinerary-container-content {
-    min-height: calc(100% - #{$topbar-height});
-    max-height: calc(100% - #{$topbar-height});
-  }
 }
 
 .offcanvas > div {
