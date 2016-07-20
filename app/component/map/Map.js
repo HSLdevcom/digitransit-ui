@@ -129,6 +129,7 @@ class Map extends React.Component {
           <TileLayerContainer
             key="tileLayer"
             layers={layers}
+            hilightedStops={this.props.hilightedStops}
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
             disableMapTracking={this.props.disableMapTracking}
