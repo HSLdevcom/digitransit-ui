@@ -77,6 +77,13 @@ const routes = (
       render={({ props }) => (props ? <RoutePage {...props} /> : <LoadingPage />)}
     />
     <Route
+      path="linjat/:routeId/kartta"
+      name="route"
+      component={RoutePage}
+      queries={RouteQueries}
+      render={({ props }) => (props ? <RoutePage {...props} fullscreenMap /> : <LoadingPage />)}
+    />
+    <Route
       path="lahdot/:tripId"
       name="trip"
       component={TripPage}
@@ -88,7 +95,7 @@ const routes = (
       name="tripMap"
       component={TripPage}
       queries={TripQueries}
-      render={({ props }) => (props ? <TripPage {...props} /> : <LoadingPage />)}
+      render={({ props }) => (props ? <TripPage {...props} fullscreenMap /> : <LoadingPage />)}
     />
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage} />
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage} />
