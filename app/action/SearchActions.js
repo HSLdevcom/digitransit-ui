@@ -271,13 +271,21 @@ function executeSearchInternal(actionContext, { input, type }) {
     const favouriteLocations = actionContext.getStore('FavouriteLocationStore').getLocations();
     const oldSearches = actionContext.getStore('OldSearchesStore').getOldSearches('endpoint');
 
-    return Promise.all([
+    const searches = [
       addCurrentPositionIfEmpty(input),
       addFavouriteLocations(favouriteLocations, input),
       addOldSearches(oldSearches, input),
-      searchStops(input),
-      getGeocodingResult(input, position, language),
-    ])
+    ];
+
+    if (config.search.showStopsFirst) {
+      searches.push(searchStops(input));
+      searches.push(getGeocodingResult(input, position, language));
+    } else {
+      searches.push(getGeocodingResult(input, position, language));
+      searches.push(searchStops(input));
+    }
+
+    return Promise.all(searches)
     .then(flatten)
     .then(uniq)
     .then(suggestions => processResults(actionContext, suggestions))
