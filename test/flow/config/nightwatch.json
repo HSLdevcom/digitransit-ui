@@ -22,6 +22,11 @@
     }
   },
 
+  "test_workers": {
+    "enabled": true,
+    "workers": 4
+  },
+
   "test_settings": {
     "default": {
       "launch_url": "http://localhost:8000",
