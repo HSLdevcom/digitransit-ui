@@ -21,7 +21,6 @@ var searchCommands = {
             .click('@origin');
         this.waitForElementVisible('@searchOrigin', timeout)
             .clearValue('@searchOrigin')
-            .setValue('@searchOrigin', this.api.Keys.SPACE)
             .waitForElementVisible("@searchResultCurrentLocation", timeout)
             .click("@searchResultCurrentLocation");
 

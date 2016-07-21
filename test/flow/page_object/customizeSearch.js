@@ -1,6 +1,6 @@
 'use strict'
 
-var modalities = ["bus", "tram", "rail", "subway", "ferry", "citybike", "air"];
+var modalities = ["bus", "tram", "rail", "subway", "ferry", "citybike"];
 
 var commands = {
     clickCanvasToggle: function() {

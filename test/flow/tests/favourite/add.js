@@ -3,11 +3,12 @@
 
 module.exports = {
     tags:  ['favourite'],
-    "Add my home address as favourite": function(browser) {
+    "Add HSL address as favourite": function(browser) {
         var browser = browser.url(browser.launch_url);
         var myFavourites = browser.page.myFavourites();
-        var favouriteName = "Home sweet home"
-        myFavourites.saveHomeFavourite("Vestre vei 21, Asker", favouriteName);
+        var favouriteName = "HSL"
+        myFavourites.saveHomeFavourite("Opastinsilta 6, Helsinki", favouriteName);
+        browser.page.feedback().close();
         myFavourites.verifyFirstHeader(favouriteName);
         browser.end();
     }

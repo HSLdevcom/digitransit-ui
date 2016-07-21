@@ -6,7 +6,7 @@ module.exports = {
         var browser = browser.url(browser.launch_url);
 
         var searchFields = browser.page.searchFields();
-        searchFields.itinerarySearch("Hausmanns gate", "Malerhaugveien 28, Oslo");
+        searchFields.itinerarySearch("Helsinki central", "Kamppi");
 
         var itinerarySummary = browser.page.itinerarySummary();
         itinerarySummary.waitForFirstItineraryRow();
@@ -14,29 +14,24 @@ module.exports = {
 
         var itineraryInstructions = browser.page.itineraryInstructions();
         itineraryInstructions.waitForFirstItineraryInstructionColumn();
-        itineraryInstructions.verifyOrigin("Hausmanns gate, Oslo");
-        itineraryInstructions.verifyDestination("Malerhaugveien 28, Oslo");
+        itineraryInstructions.verifyOrigin("Helsinki Central railway station, Helsinki");
+        itineraryInstructions.verifyDestination("Kamppi, Helsinki");
         browser.end();
     },
-    'From Hausmanns gate to Ula nord': function(browser) {
+    'From King\'s gate to Pohjolanaukio': function(browser) {
         var browser = browser.url(browser.launch_url);
         var searchFields = browser.page.searchFields();
-        searchFields.itinerarySearch("Hausmanns gate", "Ula nord");
+        searchFields.itinerarySearch("King's gate", "Pohjolanaukio");
         browser.page.itinerarySummary().waitForFirstItineraryRow();
+
+        var itinerarySummary = browser.page.itinerarySummary();
+        itinerarySummary.waitForFirstItineraryRow();
+        itinerarySummary.chooseFirstItinerarySuggestion();
+
+        var itineraryInstructions = browser.page.itineraryInstructions();
+        itineraryInstructions.waitForFirstItineraryInstructionColumn();
+        itineraryInstructions.verifyOrigin("King's Gate,");
+        itineraryInstructions.verifyDestination("Pohjolanaukio");
         browser.end();
     },
-    'From Røros skole to Festplassen, Bergen': function(browser) {
-        var browser = browser.url(browser.launch_url);
-        var searchFields = browser.page.searchFields();
-        searchFields.itinerarySearch("Røros skole", "Festplassen");
-        browser.page.itinerarySummary().waitForFirstItineraryRow();
-        browser.end();
-    },
-    'From Festplassen, Bergen to Scandic Alta': function(browser) {
-        var browser = browser.url(browser.launch_url);
-        var searchFields = browser.page.searchFields();
-        searchFields.itinerarySearch("Festplassen", "Scandic Alta");
-        browser.page.itinerarySummary().waitForFirstItineraryRow();
-        browser.end();
-    }
 }

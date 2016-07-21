@@ -2,14 +2,14 @@
 
 module.exports = {
     tags: ['geolocation'],
-    'From my location nearby Blommenholm stasjon to Bryn stasjon': function(browser) {
+    'From my location nearby Central Railway Station to HSL': function(browser) {
         var browser = browser.url(browser.launch_url)
-            .setGeolocation(59.896442, 10.554464);
+            .setGeolocation(60.1719, 24.9414);
 
 
         browser.page.searchFields()
             .useCurrentLocationInOrigin()
-            .setDestination("Bryn stasjon")
+            .setDestination("Opastinsilta 6")
             .enterKeyDestination();
 
         browser.page.itinerarySummary()

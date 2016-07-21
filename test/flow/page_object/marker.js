@@ -1,8 +1,14 @@
 'use strict'
 
 var commands = {
-    clickAnyBusStopMarker: function() {
-        return this.click("@anyBusStopMarker");
+    clickSouthOfCurrentLocation: function() {
+        this.api.pause(500);
+        this.api.element("class name", "current-location-marker", (result) => {
+          this.api.moveTo(result.value.ELEMENT, 0, 50);
+        });
+        this.api.pause(100);
+        this.api.mouseButtonClick();
+        this.api.pause(5000);
     },
     waitForPopupPaneVisible: function() {
         return this.waitForElementVisible("@popupPane", this.api.globals.itinerarySearchTimeout);
@@ -12,8 +18,8 @@ var commands = {
 module.exports = {
     commands: [commands],
     elements: {
-        anyBusStopMarker: {
-            selector: ".leaflet-marker-icon + .bus"
+        currentLocationMarker: {
+            selector: ".current-location-marker",
         },
         popupPane: {
             selector: ".leaflet-pane .leaflet-popup-pane"

@@ -7,7 +7,8 @@ module.exports = {
 
         var myFavourites = browser.page.myFavourites();
         var favouriteName = "A favourite that should show up in search results";
-        myFavourites.saveHomeFavourite("Vestre vei 21, Asker", favouriteName);
+        myFavourites.saveHomeFavourite("Opastinsilta 6, Helsinki", favouriteName);
+        browser.page.feedback().close();
 
         var searchFields = browser.page.searchFields();
 

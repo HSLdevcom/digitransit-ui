@@ -4,9 +4,10 @@ module.exports = {
     tags: ['walk'],
     'Walk in the park': function(browser) {
         var browser = browser.url(browser.launch_url);
+        browser.page.messages().clickMessagebarClose();  // TODO shouldn't be needed
 
         var searchFields = browser.page.searchFields();
-        searchFields.itinerarySearch("Bryn stasjon", "Kværnerbyen");
+        searchFields.itinerarySearch("Helsinki central railway", "Kaisaniemen puisto");
 
         var customizeSearch = browser.page.customizeSearch();
         customizeSearch.clickCanvasToggle();

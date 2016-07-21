@@ -2,7 +2,7 @@
 
 
 var commands = {
-    openFavouritesPage: function() {
+    clickFavourites: function() {
         this.waitForElementVisible("@favouritePaneSelect", this.api.globals.elementVisibleTimeout);
         return this.click("@favouritePaneSelect");
     },
@@ -12,8 +12,8 @@ var commands = {
     },
     enterAddress: function(addressSearch) {
         var timeout = this.api.globals.elementVisibleTimeout;
-        this.waitForElementVisible("@addressPlaceholdeNoSelect", timeout);
-        this.click("@addressPlaceholdeNoSelect");
+        this.waitForElementVisible("@addressPlaceholderNoSelect", timeout);
+        this.click("@addressPlaceholderNoSelect");
         this.waitForElementVisible("@searchFavourite", timeout);
         this.setValue("@searchFavourite", addressSearch);
         this.api.pause(1000);
@@ -29,7 +29,7 @@ var commands = {
         return this.click("@saveButton");
     },
     saveHomeFavourite: function(address, name) {
-        return this.openFavouritesPage()
+        return this.clickFavourites()
             .addFavourite()
             .enterAddress(address)
             .enterName(name)
@@ -37,7 +37,7 @@ var commands = {
             .saveFavourite();
     },
     verifyFirstHeader: function(header) {
-        this.openFavouritesPage();
+        this.clickFavourites();
         this.waitForElementVisible("@favouriteLocationHeader", this.api.globals.elementVisibleTimeout);
         return this.assert.containsText("@favouriteLocationHeader", header);
     },
@@ -57,7 +57,7 @@ module.exports = {
         newFavouriteButtonContent: {
             selector: ".new-favourite-button-content"
         },
-        addressPlaceholdeNoSelect: {
+        addressPlaceholderNoSelect: {
             selector: ".address-placeholder "
         },
         searchFavourite: {

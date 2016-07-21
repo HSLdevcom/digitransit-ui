@@ -2,11 +2,12 @@
 
 module.exports = {
     tags: ['citybike'],
-    'CityBike in Trondheim': function(browser) {
+    'Citybike': function(browser) {
         var browser = browser.url(browser.launch_url);
+        browser.page.messages().clickMessagebarClose();  // TODO Shouldn't be needed
 
         var searchFields = browser.page.searchFields();
-        searchFields.itinerarySearch("Nidareid 6", "Gløshaugveien 4");
+        searchFields.itinerarySearch("Katajanokka", "Kauppatori");
 
         var customizeSearch = browser.page.customizeSearch();
         customizeSearch.clickCanvasToggle();
