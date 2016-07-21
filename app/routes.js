@@ -1,5 +1,6 @@
 // Libraries
 import React from 'react';
+import Relay from 'react-relay';
 import { Route, IndexRoute } from 'react-router';
 
 // React pages
@@ -9,8 +10,7 @@ import RoutePage from './page/RoutePage';
 import StopMapPage from './page/stop-map';
 import StopPage from './page/stop';
 import SummaryPage from './page/SummaryPage';
-import TripPage from './page/trip';
-import TripMapPage from './page/trip-map';
+import TripPage from './page/TripPage';
 import LoadingPage from './page/loading';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
@@ -18,7 +18,31 @@ import AddFavouritePage from './page/add-favourite';
 import splashOrComponent from './component/splash/splash-or-component';
 
 import TopLevel from './component/top-level';
-import { StopQueries, TripQueries, RouteQueries } from './queries';
+
+const StopQueries = {
+  stop: () => Relay.QL`
+    query  {
+      stop(id: $stopId)
+    }
+  `,
+};
+
+const RouteQueries = {
+  pattern: () => Relay.QL`
+    query {
+      pattern(id: $routeId)
+    }
+  `,
+};
+
+const TripQueries = {
+  trip: () => Relay.QL`
+    query {
+      trip(id: $tripId)
+    }
+  `,
+};
+
 
 const routes = (
   <Route path="/" name="app" component={TopLevel}>
@@ -63,9 +87,9 @@ const routes = (
     <Route
       path="lahdot/:tripId/kartta"
       name="tripMap"
-      component={TripMapPage}
+      component={TripPage}
       queries={TripQueries}
-      render={({ props }) => (props ? <TripMapPage {...props} /> : <LoadingPage />)}
+      render={({ props }) => (props ? <TripPage {...props} /> : <LoadingPage />)}
     />
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage} />
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage} />
