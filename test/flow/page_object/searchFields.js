@@ -86,7 +86,7 @@ module.exports = {
             selector: "#react-autowhatever-suggest--item-0"
         },
         search: {
-            selector: "[tabindex=\"2\"]"
+            selector: "button#search-button"
         },
         searchInput: {
             selector: "#search"
