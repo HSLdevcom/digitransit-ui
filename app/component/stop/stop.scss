@@ -4,7 +4,26 @@
   @include font-bold;
 }
 
+.stop-page-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
-div.stop > .content {
-  height: calc(100% - 91px);
+.stop-page-content > .departure-list {
+  flex-basis: 0;
+  flex-grow: 20;
+  transition: flex-grow 300ms;
+
+  &.stop-page-content-enter, &.stop-page-content-leave {
+    will-change: flex-grow;
+  }
+
+  &.stop-page-content-enter.stop-page-content-enter-active {
+    flex-grow: 20;
+  }
+
+  &.stop-page-content-enter, &.stop-page-content-leave.stop-page-content-leave-active {
+    flex-grow: 0;
+  }
 }
