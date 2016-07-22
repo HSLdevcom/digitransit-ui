@@ -149,47 +149,45 @@ const DepartureListContainerWithTime = connectToStores(DepartureListContainer, [
   (context) => ({ currentTime: context.getStore('TimeStore').getCurrentTime() })
 );
 
-export const relayFragment = {
-  stoptimes: () => Relay.QL`
-    fragment on StoptimesInPattern @relay(plural:true) {
-      pattern {
-        alerts {
-          effectiveStartDate
-          effectiveEndDate
+export default Relay.createContainer(DepartureListContainerWithTime, {
+  fragments: {
+    stoptimes: () => Relay.QL`
+      fragment on StoptimesInPattern @relay(plural:true) {
+        pattern {
+          alerts {
+            effectiveStartDate
+            effectiveEndDate
+            trip {
+              gtfsId
+            }
+          }
+          route {
+            gtfsId
+            shortName
+            longName
+            type
+            color
+          }
+          code
+          headsign
+        }
+        stoptimes {
+          realtimeState
+          realtimeDeparture
+          scheduledDeparture
+          realtimeArrival
+          scheduledArrival
+          realtime
+          serviceDay
+          pickupType
+          stop {
+            code
+          }
           trip {
             gtfsId
           }
         }
-        route {
-          gtfsId
-          shortName
-          longName
-          type
-          color
-        }
-        code
-        headsign
       }
-      stoptimes {
-        realtimeState
-        realtimeDeparture
-        scheduledDeparture
-        realtimeArrival
-        scheduledArrival
-        realtime
-        serviceDay
-        pickupType
-        stop {
-          code
-        }
-        trip {
-          gtfsId
-        }
-      }
-    }
-  `,
-};
-
-export default Relay.createContainer(DepartureListContainerWithTime, {
-  fragments: relayFragment,
+    `,
+  },
 });
