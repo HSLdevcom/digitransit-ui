@@ -5,12 +5,11 @@ import { realtimeDeparture as ExampleData } from '../documentation/ExampleData';
 import { intlShape } from 'react-intl';
 
 function RouteDestination(props, context) {
-  const mode = props.mode.toLowerCase();
   let destination;
   if (props.isArrival) {
     destination = (
       <span className="destination arrival">
-        <span className={cx('last-stop-icon', mode)}></span>
+        <span className={cx('last-stop-icon', props.mode.toLowerCase())}></span>
         <span>
         {context.intl.formatMessage({
           id: 'route-destination-arrives',
@@ -51,8 +50,8 @@ RouteDestination.description = (
   </div>);
 
 RouteDestination.propTypes = {
-  mode: PropTypes.string.isRequired,
-  destination: PropTypes.string.isRequired,
+  mode: PropTypes.string,
+  destination: PropTypes.string,
   className: PropTypes.string,
   isArrival: PropTypes.bool,
 };

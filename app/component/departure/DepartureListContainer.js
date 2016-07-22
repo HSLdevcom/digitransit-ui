@@ -88,7 +88,7 @@ class DepartureListContainer extends Component {
           .unix();
       }
 
-      const id = `${departure.pattern.code} : ${departure.stoptime}`;
+      const id = `${departure.pattern.code}:${departure.stoptime}`;
 
       const validAt = alert =>
         alert.effectiveStartDate <= departure.stoptime &&
@@ -101,33 +101,24 @@ class DepartureListContainer extends Component {
         canceled: departure.canceled,
       };
 
-      if (rowClasses) {
-        classes[rowClasses] = true;
-      }
+      const departureObj = (
+        <Departure
+          key={id}
+          departure={departure}
+          showStop={this.props.showStops}
+          currentTime={currentTime}
+          className={cx(classes, rowClasses)}
+          canceled={departure.canceled}
+          isArrival={departure.isArrival}
+        />
+      );
 
       if (this.props.routeLinks) {
         departureObjs.push(
-          <Link to={`/linjat/${departure.pattern.code}`} key={id}>
-            <Departure
-              departure={departure}
-              showStop={this.props.showStops}
-              currentTime={currentTime}
-              className={cx(classes)}
-              canceled={departure.canceled}
-              isArrival={departure.isArrival}
-            />
-          </Link>);
+          <Link to={`/linjat/${departure.pattern.code}`} key={id}>{departureObj}</Link>
+        );
       } else {
-        departureObjs.push(
-          <Departure
-            key={id}
-            departure={departure}
-            showStop={this.props.showStops}
-            currentTime={currentTime}
-            className={cx(classes)}
-            canceled={departure.canceled}
-            isArrival={departure.isArrival}
-          />);
+        departureObjs.push(departureObj);
       }
     }
 
