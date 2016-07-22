@@ -88,22 +88,21 @@ class DepartureListContainer extends Component {
           .unix();
       }
 
-      const id = `${departure.pattern.code}:${departure.stoptime}`;
-
-      const validAt = alert =>
-        alert.effectiveStartDate <= departure.stoptime &&
-        departure.stoptime <= alert.effectiveEndDate &&
-        get(alert.trip.gtfsId) === get(departure.trip.gtfsId);
-
-
       const classes = {
-        disruption: filter(departure.pattern.alerts, validAt).length > 0,
+        disruption:
+          filter(
+            departure.pattern.alerts,
+            alert =>
+              alert.effectiveStartDate <= departure.stoptime &&
+              departure.stoptime <= alert.effectiveEndDate &&
+              get(alert.trip.gtfsId) === get(departure.trip.gtfsId)
+          ).length > 0,
         canceled: departure.canceled,
       };
 
       const departureObj = (
         <Departure
-          key={id}
+          key={`${departure.pattern.code}:${departure.stoptime}`}
           departure={departure}
           showStop={this.props.showStops}
           currentTime={currentTime}
