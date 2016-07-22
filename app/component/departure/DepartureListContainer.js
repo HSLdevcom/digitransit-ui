@@ -41,27 +41,15 @@ const asDepartures = stoptimes =>
 
 class DepartureListContainer extends Component {
   static propTypes = {
-    relay: PropTypes.object.isRequired,
     rowClasses: PropTypes.string.isRequired,
     stoptimes: PropTypes.array.isRequired,
     currentTime: PropTypes.object.isRequired,
     limit: PropTypes.number,
-    pattern: PropTypes.object,
     infiniteScroll: PropTypes.bool,
     showStops: PropTypes.bool,
     routeLinks: PropTypes.bool,
     className: PropTypes.string,
   };
-
-  static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-  };
-
-  constructor(props) {
-    super(props);
-    this.getDepartures = this.getDepartures.bind(this);
-    this.render = this.render.bind(this);
-  }
 
   onScroll = () => {
     if (this.props.infiniteScroll && typeof window !== 'undefined' && window !== null) {
