@@ -1,6 +1,6 @@
 module.exports = {
   tags: ['stops', 'map', 'geolocation'],
-  'Click any bus stop place marker in map and show its departures': (browser) => {
+  'Open Kamppi cluster, select stop to show its departures': (browser) => {
     browser.url(browser.launch_url);
     browser.setGeolocation(60.1692, 24.9318);
 
@@ -8,8 +8,11 @@ module.exports = {
     marker.clickSouthOfCurrentLocation();
     marker.waitForPopupPaneVisible();
 
-    // TODO: Enable when route data is present for stops in map.
-    //browser.page.stopCard().waitForDepartureVisible();
+    const stop = browser.page.stopCard();
+    stop.waitForElementVisible('@cluster', browser.globals.itinerarySearchTimeout);
+    stop.click('@clusterStop');
+    stop.expectCardHeader('Kamppi');
+    stop.waitForDepartureVisible();
 
     browser.end();
   },

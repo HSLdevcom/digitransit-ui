@@ -5,9 +5,9 @@ module.exports = {
 
     browser.page.searchFields().setSearch('1240');
 
-    browser.page.stopCard().expectCardHeader('Kamppi');
+    browser.page.stopCard().expectCardHeader('Fredrikinkatu 65');
+    browser.page.stopCard().waitForDepartureVisible();
 
-    // stopCard.waitForDepartureVisible();
     browser.end();
   },
 };

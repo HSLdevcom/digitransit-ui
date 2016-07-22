@@ -1,5 +1,7 @@
-function clickAnyMarker() {
-  return this.click('@anyStopMarker');
+function expectCardHeader(expected) {
+  this.waitForElementVisible('@cardHeader',
+                             this.api.globals.itinerarySearchTimeout);
+  return this.assert.containsText('@cardHeader', expected);
 }
 
 function waitForDepartureVisible() {
@@ -7,24 +9,23 @@ function waitForDepartureVisible() {
                                     this.api.globals.itinerarySearchTimeout);
 }
 
-function expectCardHeader(expected) {
-  this.waitForElementVisible('@cardHeader',
-                             this.api.globals.itinerarySearchTimeout);
-  return this.assert.containsText('@cardHeader', expected);
-}
-
 module.exports = {
   commands: [{
-    clickAnyMarker,
-    waitForDepartureVisible,
     expectCardHeader,
+    waitForDepartureVisible,
   }],
   elements: {
-    departure: {
-      selector: '.departure .route-detail-text',
+    cluster: {
+      selector: '.leaflet-popup-content .card',
+    },
+    clusterStop: {
+      selector: '.card .cursor-pointer',
     },
     cardHeader: {
-      selector: '.card-header > span.h3',
+      selector: '.card-header .sub-header-h4',
+    },
+    departure: {
+      selector: '.route-detail-text',
     },
   },
 };
