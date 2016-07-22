@@ -88,6 +88,8 @@ class DepartureListContainer extends Component {
           .unix();
       }
 
+      const id = `${departure.pattern.code}:${departure.stoptime}`;
+
       const classes = {
         disruption:
           filter(
@@ -102,7 +104,7 @@ class DepartureListContainer extends Component {
 
       const departureObj = (
         <Departure
-          key={`${departure.pattern.code}:${departure.stoptime}`}
+          key={id}
           departure={departure}
           showStop={this.props.showStops}
           currentTime={currentTime}
