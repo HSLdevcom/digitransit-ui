@@ -45,6 +45,7 @@ class MessageBar extends Component {
         key={i}
         selected={i === this.state.slideIndex}
         icon={(
+          // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
           <span>
             <span
               style={{
