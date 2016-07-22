@@ -44,12 +44,26 @@ class MessageBar extends Component {
       <Tab
         key={i}
         selected={i === this.state.slideIndex}
-        label="•"
+        icon={(
+          <span>
+            <span
+              style={{
+                color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
+                fontSize: '18px',
+                height: '18px',
+                position: 'absolute',
+                top: 0,
+              }}
+            >
+              •
+            </span>
+          </span>
+        )}
         value={i}
         style={{
           height: '18px',
           color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-          fontSize: '34px',
+          fontSize: '18px',
           padding: '0px',
         }}
       />
@@ -121,7 +135,7 @@ class MessageBar extends Component {
             value={this.state.slideIndex}
             tabItemContainerStyle={{
               backgroundColor: '#fff',
-              lineHeight: '18px',
+              height: '18px',
               width: '60px',
               marginLeft: 'auto',
               marginRight: 'auto',

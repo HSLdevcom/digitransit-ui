@@ -154,8 +154,8 @@ nav.top-bar {
 }
 
 .content:nth-child(5) {
-  height: calc(100% - #{$topbar-height} - 100px);
-  // 100px is the height of the message bar, but is specified in js
+  height: calc(100% - #{$topbar-height} - 60px - 18px);
+  // 60px and 18px are the height of the message bar, but is specified in js
 }
 
 .offcanvas > div {
@@ -174,7 +174,7 @@ nav.top-bar {
   h2 {
     @include font-medium;
     font-size: 13px;
-    color: $title-color;
+    color: $action-color;
     margin: 0;
   }
 }
