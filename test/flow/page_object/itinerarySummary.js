@@ -7,6 +7,9 @@ var commands = {
     waitForItineraryRowOfType: function(modality) {
         return this.waitForElementVisible(".line ." + modality + ":nth-of-type(1)", this.api.globals.itinerarySearchTimeout);
     },
+    waitForItineraryRowOfTypeNotPresent: function(modality) {
+        return this.waitForElementNotPresent(".line ." + modality + ":nth-of-type(1)", this.api.globals.itinerarySearchTimeout);
+    },
     chooseFirstItinerarySuggestion: function() {
         return this.click("@firstItinerarySummaryRow");
     }
