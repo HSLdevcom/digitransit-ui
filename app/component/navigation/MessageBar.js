@@ -126,7 +126,13 @@ class MessageBar extends Component {
               maxHeight: this.state.maximized ? '400px' : '60px',
               transition: 'max-height 300ms',
             }}
-            slideStyle={{ padding: '10px', overflow: 'hidden', background: '#fff' }}
+            slideStyle={{
+              maxHeight: this.state.maximized ? '400px' : '60px',
+              transition: 'max-height 300ms',
+              padding: '10px',
+              overflow: 'hidden',
+              background: '#fff',
+            }}
           >
             {this.getTabContent()}
           </SwipeableViews>
