@@ -1,39 +1,33 @@
-'use strict'
-
 module.exports = {
-    tags: ['citybike'],
-    'Citybikes are used when it\'s the only modality': function(browser) {
-        var browser = browser.url(browser.launch_url);
-        browser.page.messages().clickMessagebarClose();  // TODO Shouldn't be needed
+  tags: ['citybike'],
+  'Citybikes are used when it\'s the only modality': (browser) => {
+    browser.url(browser.launch_url);
+    browser.page.messages().clickMessagebarClose();  // TODO Shouldn't be needed
 
-        var searchFields = browser.page.searchFields();
-        searchFields.itinerarySearch("Katajanokka", "Kauppatori");
+    browser.page.searchFields().itinerarySearch('Katajanokka', 'Kauppatori');
 
-        var customizeSearch = browser.page.customizeSearch();
-        customizeSearch.clickCanvasToggle();
-        customizeSearch.disableAllModalitiesExcept("citybike");
-        customizeSearch.enableModality("citybike");
+    const customizeSearch = browser.page.customizeSearch();
+    customizeSearch.clickCanvasToggle();
+    customizeSearch.disableAllModalitiesExcept('citybike');
+    customizeSearch.enableModality('citybike');
 
-        var itinerarySummary = browser.page.itinerarySummary();
-        itinerarySummary.waitForItineraryRowOfType('citybike');
+    browser.page.itinerarySummary().waitForItineraryRowOfType('citybike');
 
-        browser.end();
-    },
+    browser.end();
+  },
 
-    'Citybikes are not used when disabled': function(browser) {
-        var browser = browser.url(browser.launch_url);
-        browser.page.messages().clickMessagebarClose();  // TODO Shouldn't be needed
+  'Citybikes are not used when disabled': (browser) => {
+    browser.url(browser.launch_url);
+    browser.page.messages().clickMessagebarClose();  // TODO Shouldn't be needed
 
-        var searchFields = browser.page.searchFields();
-        searchFields.itinerarySearch("Katajanokka", "Kauppatori");
+    browser.page.searchFields().itinerarySearch('Katajanokka', 'Kauppatori');
 
-        var customizeSearch = browser.page.customizeSearch();
-        customizeSearch.clickCanvasToggle();
-        customizeSearch.disableAllModalitiesExcept();
+    const customizeSearch = browser.page.customizeSearch();
+    customizeSearch.clickCanvasToggle();
+    customizeSearch.disableAllModalitiesExcept();
 
-        var itinerarySummary = browser.page.itinerarySummary();
-        itinerarySummary.waitForItineraryRowOfTypeNotPresent('citybike');
+    browser.page.itinerarySummary().waitForItineraryRowOfTypeNotPresent('citybike');
 
-        browser.end();
-    }
+    browser.end();
+  },
 };

@@ -1,28 +1,29 @@
-'use strict'
+function openNearbyRoutes() {
+  this.waitForElementVisible('@nearbyRoutesPaneSelect',
+                             this.api.globals.elementVisibleTimeout);
+  return this.click('@nearbyRoutesPaneSelect');
+}
 
-var commands = {
-    openNearbyRoutes: function() {
-        this.waitForElementVisible("@nearbyRoutesPaneSelect", this.api.globals.elementVisibleTimeout);
-        return this.click("@nearbyRoutesPaneSelect");
-    },
-    waitForRoutes: function() {
-        var timeout = this.api.globals.elementVisibleTimeout;
-        this.waitForElementVisible("@scrollableRoutes", timeout);
-        return this.waitForElementVisible("@routeDestination", timeout);
-    }
+function waitForRoutes() {
+  const timeout = this.api.globals.elementVisibleTimeout;
+  this.waitForElementVisible('@scrollableRoutes', timeout);
+  return this.waitForElementVisible('@routeDestination', timeout);
 }
 
 module.exports = {
-    commands: [commands],
-    elements: {
-        nearbyRoutesPaneSelect: {
-            selector: ".nearby-routes"
-        },
-        scrollableRoutes: {
-            selector: "#scrollable-routes"
-        },
-        routeDestination: {
-            selector: ".route-destination"
-        }
-    }
-}
+  commands: [{
+    openNearbyRoutes,
+    waitForRoutes,
+  }],
+  elements: {
+    nearbyRoutesPaneSelect: {
+      selector: '.nearby-routes',
+    },
+    scrollableRoutes: {
+      selector: '#scrollable-routes',
+    },
+    routeDestination: {
+      selector: '.route-destination',
+    },
+  },
+};

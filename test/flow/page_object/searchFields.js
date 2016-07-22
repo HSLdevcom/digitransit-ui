@@ -1,97 +1,107 @@
-'use strict'
+function setOrigin(origin) {
+  const timeout = this.api.globals.elementVisibleTimeout;
+  this.waitForElementVisible('@frontPageSearchBar', timeout)
+    .click('@frontPageSearchBar')
+    .waitForElementVisible('@origin', timeout)
+    .click('@origin')
+    .waitForElementVisible('@searchOrigin', timeout)
+    .clearValue('@searchOrigin')
+    .setValue('@searchOrigin', origin);
 
-var searchCommands = {
-    setOrigin: function(origin) {
-        var timeout = this.api.globals.elementVisibleTimeout;
-        this.waitForElementVisible('@frontPageSearchBar', timeout)
-            .click('@frontPageSearchBar')
-            .waitForElementVisible('@origin', timeout)
-            .click('@origin')
-            .waitForElementVisible('@searchOrigin', timeout)
-            .clearValue('@searchOrigin')
-            .setValue('@searchOrigin', origin);
+  return this;
+}
 
-        return this;
-    },
-    useCurrentLocationInOrigin: function(origin) {
-        var timeout = this.api.globals.elementVisibleTimeout;
-        this.waitForElementVisible('@frontPageSearchBar', timeout)
-            .click('@frontPageSearchBar')
-            .waitForElementVisible('@origin', timeout)
-            .click('@origin');
-        this.waitForElementVisible('@searchOrigin', timeout)
-            .clearValue('@searchOrigin')
-            .waitForElementVisible("@searchResultCurrentLocation", timeout)
-            .click("@searchResultCurrentLocation");
+function useCurrentLocationInOrigin() {
+  const timeout = this.api.globals.elementVisibleTimeout;
+  this.waitForElementVisible('@frontPageSearchBar', timeout)
+    .click('@frontPageSearchBar')
+    .waitForElementVisible('@origin', timeout)
+    .click('@origin');
+  this.waitForElementVisible('@searchOrigin', timeout)
+    .clearValue('@searchOrigin')
+    .waitForElementVisible('@searchResultCurrentLocation', timeout)
+    .click('@searchResultCurrentLocation');
 
-        return this;
-    },
-    enterKeyOrigin: function() {
-        this.api.pause(1000);
-        return this.setValue('@searchOrigin', this.api.Keys.ENTER);
-    },
-    setDestination: function(destination) {
-        var timeout = this.api.globals.elementVisibleTimeout;
-        return this.waitForElementVisible('@frontPageSearchBar', timeout)
-            .click('@frontPageSearchBar')
-            .waitForElementVisible('@destination', timeout)
-            .click('@destination')
-            .waitForElementVisible('@searchDestination', timeout)
-            .setValue('@searchDestination', destination);
-    },
-    enterKeyDestination: function() {
-        this.api.pause(1000);
-        return this.setValue('@searchDestination', this.api.Keys.ENTER);
-    },
-    itinerarySearch: function(origin, destination) {
-        return this.setOrigin(origin)
-            .enterKeyOrigin()
-            .setDestination(destination)
-            .enterKeyDestination();
-    },
-    setSearch: function(search) {
-        var timeout = this.api.globals.elementVisibleTimeout;
-        this.waitForElementVisible('@frontPageSearchBar', timeout)
-            .click('@frontPageSearchBar')
-            .waitForElementVisible('@search', timeout)
-            .click('@search')
-            .waitForElementVisible('@searchInput', timeout)
-            .setValue('@searchInput', search);
+  return this;
+}
 
-        this.api.pause(1000);
-        return this.setValue('@searchInput', this.api.Keys.ENTER);
-    }
-};
+function enterKeyOrigin() {
+  this.api.pause(1000);
+  return this.setValue('@searchOrigin', this.api.Keys.ENTER);
+}
+
+function setDestination(destination) {
+  const timeout = this.api.globals.elementVisibleTimeout;
+  return this.waitForElementVisible('@frontPageSearchBar', timeout)
+    .click('@frontPageSearchBar')
+    .waitForElementVisible('@destination', timeout)
+    .click('@destination')
+    .waitForElementVisible('@searchDestination', timeout)
+    .setValue('@searchDestination', destination);
+}
+
+function enterKeyDestination() {
+  this.api.pause(1000);
+  return this.setValue('@searchDestination', this.api.Keys.ENTER);
+}
+
+function itinerarySearch(origin, destination) {
+  return this.setOrigin(origin)
+    .enterKeyOrigin()
+    .setDestination(destination)
+    .enterKeyDestination();
+}
+
+function setSearch(search) {
+  const timeout = this.api.globals.elementVisibleTimeout;
+  this.waitForElementVisible('@frontPageSearchBar', timeout)
+    .click('@frontPageSearchBar')
+    .waitForElementVisible('@search', timeout)
+    .click('@search')
+    .waitForElementVisible('@searchInput', timeout)
+    .setValue('@searchInput', search);
+
+  this.api.pause(1000);
+  return this.setValue('@searchInput', this.api.Keys.ENTER);
+}
 
 module.exports = {
-    commands: [searchCommands],
-    elements: {
-        frontPageSearchBar: {
-            selector: '#front-page-search-bar'
-        },
-        origin: {
-            selector: '#origin'
-        },
-        searchOrigin: {
-            selector: '#search-origin'
-        },
-        destination: {
-            selector: '#destination'
-        },
-        searchDestination: {
-            selector: '#search-destination'
-        },
-        firstSuggestedItem: {
-            selector: "#react-autowhatever-suggest--item-0"
-        },
-        search: {
-            selector: "button#search-button"
-        },
-        searchInput: {
-            selector: "#search"
-        },
-        searchResultCurrentLocation: {
-          selector: ".search-result.CurrentLocation"
-        }
-    }
+  commands: [{
+    setOrigin,
+    useCurrentLocationInOrigin,
+    enterKeyOrigin,
+    setDestination,
+    enterKeyDestination,
+    itinerarySearch,
+    setSearch,
+  }],
+  elements: {
+    frontPageSearchBar: {
+      selector: '#front-page-search-bar',
+    },
+    origin: {
+      selector: '#origin',
+    },
+    searchOrigin: {
+      selector: '#search-origin',
+    },
+    destination: {
+      selector: '#destination',
+    },
+    searchDestination: {
+      selector: '#search-destination',
+    },
+    firstSuggestedItem: {
+      selector: '#react-autowhatever-suggest--item-0',
+    },
+    search: {
+      selector: 'button#search-button',
+    },
+    searchInput: {
+      selector: '#search',
+    },
+    searchResultCurrentLocation: {
+      selector: '.search-result.CurrentLocation',
+    },
+  },
 };
