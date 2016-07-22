@@ -58,7 +58,7 @@ class DepartureListContainer extends Component {
     return null;
   };
 
-  getDepartures(rowClasses) {
+  render() {
     const departureObjs = [];
     const currentTime = this.props.currentTime.unix();
     let currentDate = this.props.currentTime.clone()
@@ -108,7 +108,7 @@ class DepartureListContainer extends Component {
           departure={departure}
           showStop={this.props.showStops}
           currentTime={currentTime}
-          className={cx(classes, rowClasses)}
+          className={cx(classes, this.props.rowClasses)}
           canceled={departure.canceled}
           isArrival={departure.isArrival}
         />
@@ -123,16 +123,12 @@ class DepartureListContainer extends Component {
       }
     }
 
-    return departureObjs;
-  }
-
-  render() {
     return (
       <div
         className={cx('departure-list', this.props.className)}
         onScroll={this.onScroll()}
       >
-        {this.getDepartures(this.props.rowClasses)}
+        {departureObjsthis}
       </div>);
   }
 }
