@@ -157,6 +157,7 @@ class SearchMainContainer extends React.Component
           className={"search-header__button" + if @state.selectedTab == "search" then "--selected" else ""}
           label={searchTabLabel}
           value="search"
+          id="search-button"
           onActive={@onTabChange}>
           <GeolocationOrInput
             ref="searchInputsearch"
