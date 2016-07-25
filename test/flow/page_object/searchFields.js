@@ -26,7 +26,7 @@ function useCurrentLocationInOrigin() {
 }
 
 function enterKeyOrigin() {
-  this.api.pause(1000);
+  this.api.pause(2000);
   return this.setValue('@searchOrigin', this.api.Keys.ENTER);
 }
 
@@ -41,7 +41,7 @@ function setDestination(destination) {
 }
 
 function enterKeyDestination() {
-  this.api.pause(1000);
+  this.api.pause(2000);
   return this.setValue('@searchDestination', this.api.Keys.ENTER);
 }
 
