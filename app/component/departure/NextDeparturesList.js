@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import Distance from './distance';
 import RouteNumber from './RouteNumber';
-import RouteDestination from './route-destination';
+import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import Link from 'react-router/lib/Link';
 import sortBy from 'lodash/sortBy';

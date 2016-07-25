@@ -108,7 +108,10 @@ class MessageBar extends Component {
           <SwipeableViews
             index={this.state.slideIndex}
             onChangeIndex={this.handleChange}
-            containerStyle={{ height: this.state.maximized ? '50%' : '60px' }}
+            containerStyle={{
+              maxHeight: this.state.maximized ? '400px' : '60px',
+              transition: 'max-height 300ms',
+            }}
             slideStyle={{ padding: '10px', overflow: 'hidden', background: '#fff' }}
           >
             {this.getTabContent()}

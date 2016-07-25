@@ -155,6 +155,7 @@ translations =
     'itinerary-feedback-placeholder': "Kuvaus (valinnainen)"
     'itinerary-feedback-button': "Lähetä palautetta"
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.'
+    'route-destination-arrives': 'Saapuu / Päätepysäkki'
     'location-from-map': 'Valittu sijainti'
     'alert.duration': "{day} klo {startTime} – {endTime}"
   'sv':
@@ -283,6 +284,7 @@ translations =
     'itinerary-feedback-message': "Hittade du inte vad du sökte?"
     'itinerary-feedback-placeholder': "Beskrivning (valfri)"
     'itinerary-feedback-button': "Skicka feedback"
+    'route-destination-arrives': 'Anländer / Ändhållplats'
     'location-from-map': 'Vald position'
     'alert.duration': "{day} kl. {startTime} – {endTime}"
   'nb':

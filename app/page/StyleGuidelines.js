@@ -4,7 +4,7 @@ import IconWithTail from '../component/icon/icon-with-tail';
 import ComponentDocumentation from '../component/documentation/ComponentDocumentation';
 import Departure from '../component/departure/Departure';
 import RouteNumber from '../component/departure/RouteNumber';
-import RouteDestination from '../component/departure/route-destination';
+import RouteDestination from '../component/departure/RouteDestination';
 import DepartureTime from '../component/departure/DepartureTime';
 import StopReference from '../component/stop/stop-reference';
 import Distance from '../component/departure/distance';

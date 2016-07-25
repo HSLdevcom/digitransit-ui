@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import RouteNumber from './RouteNumber';
-import RouteDestination from './route-destination';
+import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import StopReference from '../stop/stop-reference';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
@@ -37,6 +37,7 @@ function Departure(props) {
         mode={mode}
         destination={props.departure.pattern.headsign ||
                      props.departure.pattern.route.longName}
+        isArrival={props.isArrival}
       />
       {stopReference}
     </p>);
@@ -75,6 +76,17 @@ Departure.description = (
         useUTC
       />
     </ComponentUsageExample>
+    <ComponentUsageExample
+      description="isArrival true"
+    >
+      <Departure
+        departure={exampleDeparture}
+        currentTime={exampleCurrentTime}
+        className="padding-normal padding-bottom"
+        useUTC
+        isArrival
+      />
+    </ComponentUsageExample>
   </div>);
 
 Departure.propTypes = {
@@ -82,6 +94,7 @@ Departure.propTypes = {
   className: React.PropTypes.string,
   currentTime: React.PropTypes.number.isRequired,
   departure: React.PropTypes.object.isRequired,
+  isArrival: React.PropTypes.bool,
   showStop: React.PropTypes.bool,
   useUTC: React.PropTypes.bool,
 };
