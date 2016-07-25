@@ -128,7 +128,7 @@ class DepartureListContainer extends Component {
         className={cx('departure-list', this.props.className)}
         onScroll={this.onScroll()}
       >
-        {departureObjsthis}
+        {departureObjs}
       </div>);
   }
 }
