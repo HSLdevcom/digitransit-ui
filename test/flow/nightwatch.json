@@ -114,6 +114,7 @@
         "os_version": "8.1",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
+        "resolution": "1280x800",
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
