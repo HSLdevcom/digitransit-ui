@@ -63,6 +63,34 @@
   display: inline-block;
   width: calc(100% - 9.5em);
   height: 1.2em;
+
+  .last-stop-icon {
+    vertical-align: middle;
+    display: inline-block;
+
+    &::after {
+      vertical-align: middle;
+    }
+
+    &.bus::after {
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($bus-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
+    }
+    &.tram::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($tram-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($tram-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
+    }
+    &.rail::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($rail-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($rail-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
+    }
+    &.subway::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($metro-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($metro-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
+    }
+    &.ferry::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($ferry-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($ferry-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
+    }
+    &.citybike::after{
+      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($citybike-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($citybike-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
+    }
+  }
 }
 
 .popup .route-destination {
