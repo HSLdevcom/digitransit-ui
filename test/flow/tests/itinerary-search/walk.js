@@ -2,7 +2,6 @@ module.exports = {
   tags: ['walk'],
   'Walk in the park': (browser) => {
     browser.url(browser.launch_url);
-    browser.page.messages().clickMessagebarClose();  // TODO shouldn't be needed
 
     browser.page.searchFields().itinerarySearch('Helsinki central railway', 'Kaisaniemen puisto');
 
