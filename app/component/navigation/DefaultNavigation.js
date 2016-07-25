@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
-import BackButton from './back-button';
+import BackButton from './BackButton';
 import NotImplemented from '../util/not-implemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
