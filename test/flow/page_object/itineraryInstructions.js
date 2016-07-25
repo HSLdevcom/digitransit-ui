@@ -4,13 +4,13 @@ function waitForFirstItineraryInstructionColumn() {
 }
 
 function verifyOrigin(origin) {
-  return this.waitForElementVisible('@itineraryOrigin',
+  return this.waitForElementPresent('@itineraryOrigin',
                                     this.api.globals.itinerarySearchTimeout)
     .assert.containsText('@itineraryOrigin', origin);
 }
 
 function verifyDestination(destination) {
-  return this.waitForElementVisible('@itineraryDestination',
+  return this.waitForElementPresent('@itineraryDestination',
                                     this.api.globals.itinerarySearchTimeout)
     .assert.containsText('@itineraryDestination', destination);
 }
