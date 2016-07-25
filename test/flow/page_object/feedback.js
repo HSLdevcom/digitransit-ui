@@ -1,7 +1,7 @@
 function close() {
   this.click('@close');
-  this.api.pause(500);
-  return this.waitForElementNotPresent('@close', 500);
+  this.api.pause(2000);
+  return this.waitForElementNotPresent('@close', 2000);
 }
 
 module.exports = {
