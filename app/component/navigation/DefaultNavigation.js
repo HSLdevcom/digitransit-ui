@@ -4,7 +4,7 @@ import BackButton from './back-button';
 import NotImplemented from '../util/not-implemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
-import MessageBar from './MessageBar';
+// import MessageBar from './MessageBar';
 
 // Cannot be stateless, because it contains refs
 class DefaultNavigation extends Component {
