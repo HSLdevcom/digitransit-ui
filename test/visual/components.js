@@ -17,6 +17,10 @@ gemini.suite('components', (parent) => {
       suite.setCaptureElements('#Departure .component-example:nth-of-type(3) .component')
       .capture('normal');
     });
+    gemini.suite('isArrival', (suite) => {
+      suite.setCaptureElements('#Departure .component-example:nth-of-type(4) .component')
+      .capture('normal');
+    });
   });
 
   gemini.suite('DepartureTime', () => {
@@ -37,9 +41,15 @@ gemini.suite('components', (parent) => {
     });
   });
 
-  gemini.suite('RouteDestination', (component) => {
-    component.setCaptureElements('#RouteDestination .component-example:nth-of-type(1) .component')
-    .capture('normal');
+  gemini.suite('RouteDestination', () => {
+    gemini.suite('normal', (suite) => {
+      suite.setCaptureElements('#RouteDestination .component-example:nth-of-type(1) .component')
+      .capture('normal');
+    });
+    gemini.suite('isArrival', (suite) => {
+      suite.setCaptureElements('#RouteDestination .component-example:nth-of-type(2) .component')
+      .capture('normal');
+    });
   });
 
   gemini.suite('StopReference', (component) => {
@@ -114,6 +124,7 @@ gemini.suite('components', (parent) => {
     });
     gemini.suite('realtime', (suite) => {
       suite.setCaptureElements('#TripRouteStop .component-example:nth-of-type(2) .component')
+      .ignoreElements('#TripRouteStop .component-example:nth-of-type(2) .component .time.realtime')
       .capture('normal');
     });
   });

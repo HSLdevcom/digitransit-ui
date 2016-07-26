@@ -1,7 +1,7 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
-DepartureListContainer = require '../departure/departure-list-container'
+DepartureListContainer = require('../departure/DepartureListContainer').default
 StopCard              = require './stop-card'
 FavouriteStopsActions = require '../../action/favourite-stops-action'
 connectToStores = require 'fluxible-addons-react/connectToStores'

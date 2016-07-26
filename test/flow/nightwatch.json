@@ -1,6 +1,9 @@
 {
-  "src_folders": ["test/flow/"],
+  "src_folders": ["test/flow/tests/"],
   "output_folder": "test_output",
+
+  "page_objects_path": "test/flow/page_object",
+  "custom_commands_path": "test/flow/custom_commands",
 
   "selenium": {
     "start_process": true,
@@ -14,7 +17,7 @@
     }
   },
 
-  "test_runner": {
+  "disabled_test_runner": {
     "type": "mocha",
     "options": {
       "reporter": "list",
@@ -22,12 +25,21 @@
     }
   },
 
+  "test_workers": {
+    "enabled": true,
+    "workers": 4
+  },
+
   "test_settings": {
     "default": {
-      "launch_url": "http://localhost:8000",
+      "launch_url": "http://localhost:8000?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
+      "globals": {
+        "itinerarySearchTimeout": 21000,
+        "elementVisibleTimeout": 10000
+      },
       "screenshots": {
         "enabled": true,
         "on_failure": true,
@@ -102,6 +114,7 @@
         "os_version": "8.1",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
+        "resolution": "1280x800",
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
