@@ -69,7 +69,7 @@ export default class FrontPagePanel extends React.Component {
           state: {
             selectedPanel: newSelection,
           },
-
+          query: this.context.location.query,
           pathname: this.context.location.pathname,
         });
       }
@@ -77,6 +77,7 @@ export default class FrontPagePanel extends React.Component {
         state: {
           selectedPanel: newSelection,
         },
+        query: this.context.location.query,
         pathname: this.context.location.pathname,
       });
     }
