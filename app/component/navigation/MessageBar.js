@@ -44,12 +44,27 @@ class MessageBar extends Component {
       <Tab
         key={i}
         selected={i === this.state.slideIndex}
-        label="•"
+        icon={(
+          // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
+          <span>
+            <span
+              style={{
+                color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
+                fontSize: '18px',
+                height: '18px',
+                position: 'absolute',
+                top: 0,
+              }}
+            >
+              •
+            </span>
+          </span>
+        )}
         value={i}
         style={{
           height: '18px',
           color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-          fontSize: '34px',
+          fontSize: '18px',
           padding: '0px',
         }}
       />
@@ -112,7 +127,13 @@ class MessageBar extends Component {
               maxHeight: this.state.maximized ? '400px' : '60px',
               transition: 'max-height 300ms',
             }}
-            slideStyle={{ padding: '10px', overflow: 'hidden', background: '#fff' }}
+            slideStyle={{
+              maxHeight: this.state.maximized ? '400px' : '60px',
+              transition: 'max-height 300ms',
+              padding: '10px',
+              overflow: 'hidden',
+              background: '#fff',
+            }}
           >
             {this.getTabContent()}
           </SwipeableViews>
@@ -121,7 +142,7 @@ class MessageBar extends Component {
             value={this.state.slideIndex}
             tabItemContainerStyle={{
               backgroundColor: '#fff',
-              lineHeight: '18px',
+              height: '18px',
               width: '60px',
               marginLeft: 'auto',
               marginRight: 'auto',

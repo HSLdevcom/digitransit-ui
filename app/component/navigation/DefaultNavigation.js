@@ -32,8 +32,8 @@ class DefaultNavigation extends Component {
             </Link>
           </section>
           <MainMenuContainer />
-          <MessageBar />
         </nav>
+        <MessageBar />
         <section ref="content" className="content">
           {this.props.children}
         </section>

@@ -1,7 +1,7 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../../queries'
-DepartureListContainer = require '../../departure/departure-list-container'
+DepartureListContainer = require('../../departure/DepartureListContainer').default
 Icon                  = require '../../icon/icon'
 Link                  = require 'react-router/lib/Link'
 MarkerPopupBottom     = require '../marker-popup-bottom'
