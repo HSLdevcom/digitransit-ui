@@ -29,6 +29,10 @@ class TileContainer {
         Layer.getName() === 'citybike' && this.coords.z >= config.cityBike.cityBikeMinZoom
       ) {
         return true;
+      } else if (
+        Layer.getName() === 'parkAndRide' && this.coords.z >= config.parkAndRide.parkAndRideMinZoom
+      ) {
+        return true;
       }
       return false;
     }).map(Layer => new Layer(this));

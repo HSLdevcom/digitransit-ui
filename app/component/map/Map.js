@@ -20,6 +20,7 @@ let L;
 let TileLayerContainer;
 let CityBikes;
 let Stops;
+let ParkAndRide;
 
 let StopMarkerContainer;
 let CityBikeMarkerContainer;
@@ -34,6 +35,7 @@ if (isBrowser) {
   TileLayerContainer = require('./tile-layer/TileLayerContainer').default;
   CityBikes = require('./tile-layer/CityBikes').default;
   Stops = require('./tile-layer/Stops').default;
+  ParkAndRide = require('./tile-layer/ParkAndRide').default;
 
   StopMarkerContainer = require('./non-tile-layer/StopMarkerContainer').default;
   CityBikeMarkerContainer = require('./non-tile-layer/CityBikeMarkerContainer').default;
@@ -122,6 +124,10 @@ class Map extends React.Component {
 
           if (config.cityBike.showCityBikes) {
             layers.push(CityBikes);
+          }
+
+          if (config.parkAndRide.showParkAndRide) {
+            layers.push(ParkAndRide);
           }
         }
 
