@@ -28,9 +28,6 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
-.navigation {
-}
-
 nav.top-bar {
   line-height: $topbar-height;
   background: $primary-color;
@@ -143,10 +140,18 @@ nav.top-bar {
 }
 
 /* content */
+// TODO: This is an ugly hack
+// Performance with flex is ok after 9b3d165f2385f4737f757f77e0faa2d74e003119, which was reverted
+// Should-be re-enabled after safari fixes https://github.com/philipwalton/flexbugs/issues/84
+// Work-around using position: absolute; and pinning all corners made the performance really bad
 .content {
   background-color: $content-background-color;
   height: calc(100% - #{$topbar-height});
-  max-height: calc(100% - #{$topbar-height});
+}
+
+.content:nth-child(5) {
+  height: calc(100% - #{$topbar-height} - 60px - 18px);
+  // 60px and 18px are the height of the message bar, but is specified in js
 }
 
 .offcanvas > div {
@@ -165,24 +170,24 @@ nav.top-bar {
   h2 {
     @include font-medium;
     font-size: 13px;
-    color: $title-color;
+    color: $action-color;
     margin: 0;
   }
 }
 
 // Need more specific selector to override
-nav.top-bar .message-bar .icon {
+.message-bar .icon {
   margin: 10px;
 }
 
-nav.top-bar .message-bar .icon.info {
+.message-bar .icon.info {
   float: left;
   fill: $primary-color;
   height: 35px;
   width: 35px;
 }
 
-nav.top-bar .message-bar .icon.close {
+.message-bar .icon.close {
   float: right;
   fill: $gray;
   height: 15px;

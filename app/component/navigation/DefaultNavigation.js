@@ -4,7 +4,7 @@ import BackButton from './BackButton';
 import NotImplemented from '../util/not-implemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
-// import MessageBar from './MessageBar';
+import MessageBar from './MessageBar';
 
 // Cannot be stateless, because it contains refs
 class DefaultNavigation extends Component {
@@ -33,6 +33,7 @@ class DefaultNavigation extends Component {
           </section>
           <MainMenuContainer />
         </nav>
+        <MessageBar />
         <section ref="content" className="content">
           {this.props.children}
         </section>

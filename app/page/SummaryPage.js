@@ -149,12 +149,12 @@ export default class SummaryPage extends React.Component {
 
     const title = this.context.intl.formatMessage({
       id: 'itinerary-summary-page.title',
-      defaultMessage: 'Route suggestions',
+      defaultMessage: 'Itinerary suggestions',
     });
 
     const description = this.context.intl.formatMessage({
       id: 'itinerary-summary-page.description',
-      defaultMessage: 'Route suggestions',
+      defaultMessage: 'Itinerary suggestions',
     });
 
     const meta = {
