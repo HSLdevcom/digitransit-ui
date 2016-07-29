@@ -1,14 +1,18 @@
 import Relay from 'react-relay';
 import { VectorTile } from 'vector-tile';
 
-import without from 'lodash/without';
+import compact from 'lodash/compact';
+import isEmpty from 'lodash/isEmpty';
 import Protobuf from 'pbf';
 import config from '../../../config';
-import { drawRoundIcon } from '../../../util/mapIconUtils';
+import { getImageFromSprite } from '../../../util/mapIconUtils';
 
 export default class ParkAndRide {
   constructor(tile) {
     this.tile = tile;
+    const scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
+    this.width = 24 * scaleratio;
+    this.height = 12 * scaleratio;
     this.promise = this.getPromise();
   }
 
@@ -45,11 +49,16 @@ export default class ParkAndRide {
               query,
             }, readyState => {
               if (readyState.done) {
-                const result = without(Relay.Store.readQuery(query));
-                if (result) {
+                const result = compact(Relay.Store.readQuery(query));
+                if (!isEmpty(result)) {
                   feature.properties.facilities = result;
                   this.features.push(feature);
-                  drawRoundIcon(this.tile, feature.loadGeometry(), 'bus');
+                  const geom = feature.loadGeometry();
+                  this.tile.ctx.drawImage(
+                    getImageFromSprite('icon-icon_park-and-ride', this.width, this.height),
+                    (geom[0][0].x / this.tile.ratio) - this.width / 2,
+                    (geom[0][0].y / this.tile.ratio) - this.height / 2
+                  );
                 }
               }
             });
