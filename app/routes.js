@@ -7,8 +7,7 @@ import { Route, IndexRoute } from 'react-router';
 import IndexPage from './page/IndexPage';
 import ItineraryPage from './page/itinerary';
 import RoutePage from './page/RoutePage';
-import StopMapPage from './page/stop-map';
-import StopPage from './page/stop';
+import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
 import TripPage from './page/TripPage';
 import LoadingPage from './page/loading';
@@ -64,9 +63,9 @@ const routes = (
     <Route
       path="pysakit/:stopId/kartta"
       name="stopMap"
-      component={StopMapPage}
+      component={StopPage}
       queries={StopQueries}
-      render={({ props }) => (props ? <StopMapPage {...props} /> : <LoadingPage />)}
+      render={({ props }) => (props ? <StopPage {...props} fullscreenMap /> : <LoadingPage />)}
     />
     <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404} />
     <Route path="linjat" name="routeList" component={Error404} />
@@ -76,6 +75,13 @@ const routes = (
       component={RoutePage}
       queries={RouteQueries}
       render={({ props }) => (props ? <RoutePage {...props} /> : <LoadingPage />)}
+    />
+    <Route
+      path="linjat/:routeId/kartta"
+      name="route"
+      component={RoutePage}
+      queries={RouteQueries}
+      render={({ props }) => (props ? <RoutePage {...props} fullscreenMap /> : <LoadingPage />)}
     />
     <Route
       path="lahdot/:tripId"
@@ -89,7 +95,7 @@ const routes = (
       name="tripMap"
       component={TripPage}
       queries={TripQueries}
-      render={({ props }) => (props ? <TripPage {...props} /> : <LoadingPage />)}
+      render={({ props }) => (props ? <TripPage {...props} fullscreenMap /> : <LoadingPage />)}
     />
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage} />
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage} />

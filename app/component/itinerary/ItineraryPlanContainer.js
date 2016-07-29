@@ -8,6 +8,7 @@ import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Map from '../map/Map';
 import moment from 'moment';
 import config from '../../config';
@@ -130,6 +131,7 @@ class ItineraryPlanContainer extends React.Component {
     const swipe = this.getFullscreen() ? undefined : (
       <SwipeableViews
         index={index}
+        key="swipe"
         className="itinerary-swipe-views-root"
         slideStyle={{ minHeight: '100%' }}
         containerStyle={{ minHeight: '100%' }}
@@ -138,7 +140,7 @@ class ItineraryPlanContainer extends React.Component {
         {this.getSlides(itineraries)}
       </SwipeableViews>);
     const tabs = this.getFullscreen() ? undefined : (
-      <div className="itinerary-tabs-container">
+      <div className="itinerary-tabs-container" key="tabs">
         <Tabs
           onChange={this.switchSlide}
           value={index}
@@ -156,17 +158,22 @@ class ItineraryPlanContainer extends React.Component {
       </div>);
 
     return (
-      <div
+      <ReactCSSTransitionGroup
+        transitionName="itinerary-container-content"
+        transitionEnterTimeout={300}
+        transitionLeaveTimeout={300}
+        component="div"
         className="itinerary-container-content"
         onTouchStart={e => e.stopPropagation()}
         onMouseDown={e => e.stopPropagation()}
       >
         <Map
-          className={this.getFullscreen() ? 'full' : 'small'}
+          className="full"
           leafletObjs={leafletObjs}
           lat={this.state.lat ? this.state.lat : itinerary.legs[0].from.lat}
           lon={this.state.lon ? this.state.lon : itinerary.legs[0].from.lon}
           zoom={16}
+          key="map"
           fitBounds={false}
           leafletOptions={this.getFullscreen() ? {} : {
             dragging: false,
@@ -189,7 +196,7 @@ class ItineraryPlanContainer extends React.Component {
         </Map>
         {swipe}
         {tabs}
-      </div>
+      </ReactCSSTransitionGroup>
     );
   }
 }
