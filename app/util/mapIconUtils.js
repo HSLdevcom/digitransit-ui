@@ -71,3 +71,23 @@ export function drawRoundIcon(tile, geom, type) {
     }
   }
 }
+
+function getImageFromSpriteInternal(icon, width, height) {
+  if (!document) { return null; }
+  const symbol = document.getElementById(icon);
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('width', width);
+  svg.setAttribute('height', height);
+  const vb = symbol.viewBox.baseVal;
+  svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
+  // TODO: Simplify after https://github.com/Financial-Times/polyfill-service/pull/722 is merged
+  Array.prototype.forEach.call(symbol.childNodes, node => svg.appendChild(node.cloneNode(true)));
+  const image = new Image(width, height);
+  image.src = `data:image/svg+xml;base64,${btoa(new XMLSerializer().serializeToString(svg))}`;
+  return image;
+}
+
+export const getImageFromSprite = memoize(
+  getImageFromSpriteInternal,
+  (icon, w, h) => `${icon}_${w}_${h}`
+);
