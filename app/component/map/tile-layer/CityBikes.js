@@ -3,33 +3,26 @@ import Protobuf from 'pbf';
 import Relay from 'react-relay';
 import config from '../../../config';
 import { drawRoundIcon, getImageFromSprite } from '../../../util/mapIconUtils';
+import glfun from 'mapbox-gl-function';
 
-const scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
-
-const citybikeImageSize = 16 * scaleratio;
-const availabilityImageSize = 8 * scaleratio;
-const notInUseImageSize = 12 * scaleratio;
-
-// TODO: IE doesn't support innerHTML for svg elements, so icon has to be duplicated
-const manyAvailableText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${availabilityImageSize}" height="${availabilityImageSize}"><circle fill="#64BE14" cx="12" cy="12" r="12"/><path opacity=".1" d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2m0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"/><path fill="#FFF" d="M10.6 16.5l-4.2-4.2L7.8 11l2.8 2.7L17 7.3l1.4 1.5"/></svg>`;
-const fewAvailableText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${availabilityImageSize}" height="${availabilityImageSize}"><circle fill="#FF9000" cx="12" cy="12" r="12"/><path opacity=".1" d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2m0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"/><path fill="#FFF" d="M14 14H8v-2h4V5h2"/></svg>`;
-const noneAvailableText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${availabilityImageSize}" height="${availabilityImageSize}"><circle fill="#DC0451" cx="12" cy="12" r="12"/><path opacity=".1" d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2m0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"/><path fill="#FFF" d="M6.8 15.8l9-9L17 8.3l-9 9z"/><path fill="#FFF" d="M6.8 8.2l1.4-1.4 9 9-1.5 1.4z"/></svg>`;
-const notInUseText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="${notInUseImageSize}" height="${notInUseImageSize}"><path fill="#DC0451" d="M1.565 24c-.4 0-.8-.153-1.107-.46-.61-.61-.61-1.6 0-2.212L21.328.458c.61-.61 1.602-.61 2.213 0 .612.61.612 1.602 0 2.213L2.67 23.54c-.304.307-.704.46-1.105.46z"/><path fill="#DC0451" d="M22.435 24c-.4 0-.8-.153-1.107-.46L.458 2.673C-.15 2.062-.15 1.07.46.46c.612-.612 1.603-.612 2.214 0l20.87 20.87c.61.61.61 1.6 0 2.212-.306.305-.707.458-1.107.458z"/></svg>`;
-
-const manyAvailableImage = new Image(availabilityImageSize, availabilityImageSize);
-manyAvailableImage.src = `data:image/svg+xml;base64,${btoa(manyAvailableText)}`;
-const fewAvailableImage = new Image(availabilityImageSize, availabilityImageSize);
-fewAvailableImage.src = `data:image/svg+xml;base64,${btoa(fewAvailableText)}`;
-const noneAvailableImage = new Image(availabilityImageSize, availabilityImageSize);
-noneAvailableImage.src = `data:image/svg+xml;base64,${btoa(noneAvailableText)}`;
-const notInUseImage = new Image(notInUseImageSize, notInUseImageSize);
-notInUseImage.src = `data:image/svg+xml;base64,${btoa(notInUseText)}`;
+const getScale = glfun({
+  type: 'exponential',
+  base: 1,
+  domain: [13, 20],
+  range: [0.8, 1.6],
+});
 
 const timeOfLastFetch = {};
 
 class CityBikes {
   constructor(tile) {
     this.tile = tile;
+
+    this.scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
+    this.citybikeImageSize = 16 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
+    this.availabilityImageSize = 8 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
+    this.notInUseImageSize = 12 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
+
     this.promise = this.fetchWithAction(this.addFeature);
   }
 
@@ -61,9 +54,9 @@ class CityBikes {
 
   drawCityBikeBaseIcon = (geom) => {
     this.tile.ctx.drawImage(
-      getImageFromSprite('icon-icon_citybike', citybikeImageSize, citybikeImageSize),
-      (geom[0][0].x / this.tile.ratio) - citybikeImageSize / 2,
-      (geom[0][0].y / this.tile.ratio) - citybikeImageSize / 2
+      getImageFromSprite('icon-icon_citybike', this.citybikeImageSize, this.citybikeImageSize),
+      (geom[0][0].x / this.tile.ratio) - this.citybikeImageSize / 2,
+      (geom[0][0].y / this.tile.ratio) - this.citybikeImageSize / 2
     );
   }
 
@@ -87,18 +80,22 @@ class CityBikes {
 
         if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
           this.tile.ctx.drawImage(
-            notInUseImage,
-            geom[0][0].x / this.tile.ratio - notInUseImageSize / 2,
-            geom[0][0].y / this.tile.ratio - notInUseImageSize / 2
+            getImageFromSprite(
+              'icon-icon_not-in-use', this.notInUseImageSize, this.notInUseImageSize),
+            geom[0][0].x / this.tile.ratio - this.notInUseImageSize / 2,
+            geom[0][0].y / this.tile.ratio - this.notInUseImageSize / 2
           );
 
           return;
         } else if (result.bikesAvailable > config.cityBike.fewAvailableCount) {
-          image = manyAvailableImage;
+          image = getImageFromSprite(
+            'icon-icon_good-availability', this.availabilityImageSize, this.availabilityImageSize);
         } else if (result.bikesAvailable > 0) {
-          image = fewAvailableImage;
+          image = getImageFromSprite(
+            'icon-icon_poor-availability', this.availabilityImageSize, this.availabilityImageSize);
         } else {
-          image = noneAvailableImage;
+          image = getImageFromSprite(
+            'icon-icon_no-availability', this.availabilityImageSize, this.availabilityImageSize);
         }
 
         this.tile.ctx.drawImage(
@@ -121,7 +118,8 @@ class CityBikes {
   }
 
   calculatePosition = (coord) =>
-    coord / this.tile.ratio - citybikeImageSize / 2 - availabilityImageSize / 2 + 2 * scaleratio
+    coord / this.tile.ratio -
+    this.citybikeImageSize / 2 - this.availabilityImageSize / 2 + 2 * this.scaleratio
 
   addFeature = (feature) => {
     const geom = feature.loadGeometry();
