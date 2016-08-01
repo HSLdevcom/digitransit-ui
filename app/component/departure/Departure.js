@@ -12,7 +12,7 @@ import {
 } from '../documentation/ExampleData';
 
 function Departure(props) {
-  const mode = props.departure.pattern.route.type.toLowerCase();
+  const mode = props.departure.pattern.route.mode.toLowerCase();
 
   let stopReference = <span />;
   if (props.showStop) {

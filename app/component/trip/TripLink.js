@@ -9,8 +9,8 @@ import { FormattedMessage } from 'react-intl';
 
 function TripLink(props) {
   const icon = (<IconWithTail
-    className={cx(props.routeType, 'large-icon')}
-    img={`icon-icon_${props.routeType}-live`}
+    className={cx(props.mode, 'large-icon')}
+    img={`icon-icon_${props.mode}-live`}
   />);
 
   if (props.trip.trip) {
@@ -29,7 +29,7 @@ function TripLink(props) {
 
 TripLink.propTypes = {
   trip: React.PropTypes.object.isRequired,
-  routeType: React.PropTypes.string.isRequired,
+  mode: React.PropTypes.string.isRequired,
 };
 
 export default Relay.createContainer(TripLink, {

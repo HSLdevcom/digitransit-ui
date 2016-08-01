@@ -13,7 +13,10 @@ StopReference.description =
   <div>
     <p>Display stop number / platform number, Text color depends on mode.</p>
     <ComponentUsageExample>
-      <StopReference mode={Example.realtimeDeparture.pattern.route.type} code={Example.realtimeDeparture.stop.code}/>
+      <StopReference
+        mode={Example.realtimeDeparture.pattern.route.mode}
+        code={Example.realtimeDeparture.stop.code}
+      />
     </ComponentUsageExample>
   </div>
 

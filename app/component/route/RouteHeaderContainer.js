@@ -70,7 +70,7 @@ export default Relay.createContainer(RouteHeaderContainerWithFavourite, {
         headsign
         route {
           gtfsId
-          type
+          mode
           shortName
           longName
           patterns {

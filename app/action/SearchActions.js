@@ -116,8 +116,8 @@ function mapRoutes(res) {
         agency: item.agency,
         properties: {
           label: `${item.shortName} ${item.longName}`,
-          layer: `route-${item.type}`,
-          mode: item.type.toLowerCase(),
+          layer: `route-${item.mode}`,
+          mode: item.mode.toLowerCase(),
           shortName: item.shortName,
           longName: item.longName,
           link: `/linjat/${item.patterns[0].code}`,
@@ -141,7 +141,7 @@ function getStops(res) {
     return res.map(item => {
       const mode = item.routes
               && item.routes.length > 0
-              ? item.routes[0].type.toLowerCase()
+              ? item.routes[0].mode.toLowerCase()
               : null;
 
       const stop = {
@@ -175,7 +175,7 @@ function searchStops(input) {
     return Promise.resolve([]);
   }
 
-  return queryGraphQL(`{stops(name:"${input}") {gtfsId lat lon name code routes{type}}}`)
+  return queryGraphQL(`{stops(name:"${input}") { gtfsId lat lon name code routes { mode }}}`)
     .then(response =>
       getStops(response && response.data && response.data.stops)
     );
@@ -195,7 +195,7 @@ function searchRoutesAndStops(input, reference, favourites) {
       patterns {code}
       agency {name}
       shortName
-      type
+      mode
       longName
     }`
   );
@@ -221,12 +221,12 @@ function searchRoutesAndStops(input, reference, favourites) {
 
   if (doRouteSearch) {
     searches.push(
-      `routes(name:"${input}") {patterns {code} agency {name} shortName type longName}`
+      `routes(name:"${input}") {patterns {code} agency {name} shortName mode longName}`
     );
   }
 
   if (doStopSearch) {
-    searches.push(`stops(name:"${input}") {gtfsId lat lon name code routes{type}}`);
+    searches.push(`stops(name:"${input}") { gtfsId lat lon name code routes{ mode }}`);
   }
 
   if (searches.length > 0) {

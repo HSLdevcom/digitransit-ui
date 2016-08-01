@@ -129,7 +129,7 @@ const StopPageContainer = Relay.createContainer(StopPage, {
           gtfsId
           shortName
           longName
-          type
+          mode
           color
         }
         stoptimes: stoptimesForServiceDate(date: $date) {

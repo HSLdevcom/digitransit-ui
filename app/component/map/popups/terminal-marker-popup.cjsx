@@ -15,7 +15,7 @@ class TerminalMarkerPopup extends React.Component
 
   render: ->
     stops = @props.terminal.stops.slice().sort((a, b) -> naturalSort(a.platformCode, b.platformCode)).map (stop, i) ->
-      mode = stop.routes[0].type.toLowerCase()
+      mode = stop.routes[0].mode.toLowerCase()
       <Link to="/pysakit/#{stop.gtfsId}" key={stop.gtfsId} className="no-decoration">
         <div className="platform padding-small">
           <Icon className={mode + " platform-icon"} img={'icon-icon_' + mode}/>

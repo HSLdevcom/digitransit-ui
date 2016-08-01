@@ -21,7 +21,7 @@ const RouteStop = (props) => {
         })}
         renderFetched={data =>
           (<TripLink
-            routeType={vehicle.mode}
+            mode={vehicle.mode}
             {...data}
           />)
         }

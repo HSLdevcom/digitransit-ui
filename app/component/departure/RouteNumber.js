@@ -32,20 +32,20 @@ RouteNumber.description = (
     <p>Display mode icon and route number with mode color</p>
     <ComponentUsageExample>
       <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.type}
+        mode={exampleRealtimeDeparture.pattern.route.mode}
         text={exampleRealtimeDeparture.pattern.route.shortName}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="with realtime symbol">
       <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.type}
+        mode={exampleRealtimeDeparture.pattern.route.mode}
         text={exampleRealtimeDeparture.pattern.route.shortName}
         realtime
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="in vertical configuration">
       <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.type}
+        mode={exampleRealtimeDeparture.pattern.route.mode}
         text={exampleRealtimeDeparture.pattern.route.shortName}
         vertical
       />
