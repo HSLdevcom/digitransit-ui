@@ -13,7 +13,7 @@ class TripStopListContainer extends React.Component {
 
   static propTypes = {
     trip: React.PropTypes.object.isRequired,
-    className: React.PropTypes.string.isRequired,
+    className: React.PropTypes.string,
     vehicles: React.PropTypes.object,
     locationState: React.PropTypes.object.isRequired,
     currentTime: React.PropTypes.object.isRequired,
