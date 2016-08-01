@@ -54,14 +54,14 @@ $heading-color: #858585;
 }
 
 .frontpage-panel-wrapper-enter.frontpage-panel-wrapper-enter-active {
-  top: 52px;
-  height: calc(100% - 52px);
+  top: 0;
+  height: 100%;
   transition: top 300ms, height 300ms;
 }
 
 .frontpage-panel-wrapper-leave {
-  top: 52px;
-  height: calc(100% - 52px);
+  top: 0;
+  height: 100%;
 }
 
 .frontpage-panel-wrapper-leave.frontpage-panel-wrapper-leave-active {
