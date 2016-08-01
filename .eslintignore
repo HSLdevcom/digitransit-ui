@@ -5,5 +5,3 @@ static
 build
 gemini-report
 webpack.config.js
-
-app/queries.js

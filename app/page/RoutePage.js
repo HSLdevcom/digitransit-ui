@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import Helmet from 'react-helmet';
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Tabs from 'react-simpletabs';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import RouteListHeader from '../component/route/RouteListHeader';
 import Icon from '../component/icon/icon';
 import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
@@ -30,6 +31,7 @@ class RoutePage extends React.Component {
 
   static propTypes = {
     pattern: React.PropTypes.object.isRequired,
+    fullscreenMap: React.PropTypes.bool,
   };
 
   constructor() {
@@ -89,24 +91,12 @@ class RoutePage extends React.Component {
     });
   }
 
-  isMapFullscreen = () => {
-    if (typeof window !== 'undefined') {
-      const state = this.context.location.state;
-      return state && state.fullscreenMap;
-    }
-    return false;
-  };
-
   toggleFullscreenMap = () => {
-    if (this.context.location.state && this.context.location.state.fullscreenMap) {
+    if (this.props.fullscreenMap) {
       this.context.router.goBack();
+      return;
     }
-    this.context.router.push({
-      state: {
-        fullscreenMap: true,
-      },
-      pathname: this.context.location.pathname,
-    });
+    this.context.router.push(`${this.context.location.pathname}/kartta`);
   };
 
   render() {
@@ -135,29 +125,21 @@ class RoutePage extends React.Component {
       }],
     };
 
-    if (this.isMapFullscreen()) {
-      return (
-        <DefaultNavigation className="fullscreen" title={title}>
-          <Helmet {...meta} />
-          <RouteMapContainer
-            pattern={this.props.pattern}
-            toggleFullscreenMap={this.toggleFullscreenMap}
-            className="fullscreen"
-          />
-        </DefaultNavigation>);
-    }
+    let mainContent = null;
 
-    const mainContent = this.props.trip ? ([
-      <TripListHeader key="header" />,
-      <TripStopListContainer key="list" className="below-map" trip={this.props.trip} />,
-    ]) : ([
-      <RouteListHeader key="header" />,
-      <RouteStopListContainer
-        key="list"
-        pattern={this.props.pattern}
-        routeId={this.props.pattern.code}
-      />,
-    ]);
+    if (!this.props.fullscreenMap) {
+      mainContent = this.props.trip ? ([
+        <TripListHeader key="header" />,
+        <TripStopListContainer key="list" trip={this.props.trip} />,
+      ]) : ([
+        <RouteListHeader key="header" />,
+        <RouteStopListContainer
+          key="list"
+          pattern={this.props.pattern}
+          routeId={this.props.pattern.code}
+        />,
+      ]);
+    }
 
 
     return (
@@ -165,7 +147,11 @@ class RoutePage extends React.Component {
         <Helmet {...meta} />
         <RouteHeaderContainer pattern={this.props.pattern} />
         <Tabs className="route-tabs">
-          <Tabs.Panel
+          <ReactCSSTransitionGroup
+            component={Tabs.Panel}
+            transitionName="route-page-content"
+            transitionEnterTimeout={300}
+            transitionLeaveTimeout={300}
             title={
               <div>
                 <Icon img="icon-icon_bus-stop" />
@@ -174,18 +160,23 @@ class RoutePage extends React.Component {
             }
           >
             <RoutePatternSelect
+              key="patternSelect"
               pattern={this.props.pattern}
               onSelectChange={this.selectRoutePattern}
             />
             <RouteMapContainer
+              key="map"
               pattern={this.props.pattern}
               toggleFullscreenMap={this.toggleFullscreenMap}
-              className="routeMap small"
+              className="routeMap full"
             >
-              <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} />
+              {!this.props.fullscreenMap ?
+                <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} /> :
+                null
+              }
             </RouteMapContainer>
             {mainContent}
-          </Tabs.Panel>
+          </ReactCSSTransitionGroup>
           <Tabs.Panel
             title={
               <div>

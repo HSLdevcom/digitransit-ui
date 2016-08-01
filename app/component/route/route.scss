@@ -92,6 +92,25 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
       border:none;
     }
   }
+
+  flex-grow: 20;
+  flex-basis: 0;
+
+  &.route-page-content-enter, &.route-page-content-leave {
+    will-change: flex-grow;
+  }
+
+  &.route-page-content-leave, &.route-page-content-enter.route-page-content-enter-active {
+    transition: flex-grow 300ms;
+  }
+
+  &.route-page-content-enter, &.route-page-content-leave.route-page-content-leave-active {
+    flex-grow: 0;
+  }
+
+  &.route-page-content-enter.route-page-content-enter-active {
+    flex-grow: 20;
+  }
 }
 
 // each stop row
