@@ -4,7 +4,7 @@
  "display": "standalone",
  "background_color": "#5c4696",
  "theme_color": "#5c4696",
- "start_url": "https:\/\/joensuu.digitransit.fi",
+ "start_url": "/",
  "lang": "fi-FI",
  "icons": [
   {

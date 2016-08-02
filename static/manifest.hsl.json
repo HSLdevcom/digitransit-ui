@@ -1,10 +1,11 @@
 {
- "name": "Reittiopas",
+ "name": "Reittiopas Beta",
  "short_name": "Reittiopas",
  "display": "standalone",
  "background_color": "#007ac9",
  "theme_color": "#007ac9",
  "lang": "fi-FI",
+ "start_url": "/",
  "icons": [
   {
    "src": "\/img\/hsl-icons\/android-icon-36x36.png",
