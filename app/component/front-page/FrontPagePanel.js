@@ -11,15 +11,14 @@ import { supportsHistory } from 'history/lib/DOMUtils';
 
 import Feedback from '../../util/feedback';
 import FeedbackAction from '../../action/feedback-action';
-import intl from 'react-intl';
-const { FormattedMessage } = intl;
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
 
 export default class FrontPagePanel extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
-    intl: intl.intlShape.isRequired,
+    intl: intlShape.isRequired,
     piwik: React.PropTypes.object,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
@@ -70,7 +69,7 @@ export default class FrontPagePanel extends React.Component {
           state: {
             selectedPanel: newSelection,
           },
-
+          query: this.context.location.query,
           pathname: this.context.location.pathname,
         });
       }
@@ -78,6 +77,7 @@ export default class FrontPagePanel extends React.Component {
         state: {
           selectedPanel: newSelection,
         },
+        query: this.context.location.query,
         pathname: this.context.location.pathname,
       });
     }

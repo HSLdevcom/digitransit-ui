@@ -24,19 +24,18 @@ export const getHubRadius = memoize(glfun({
 }));
 
 export const getColor = memoize((mode) => {
-  if (typeof mode === 'undefined' || mode == null) {
-    return undefined;
-  }
-  const ref = getSelector(`.${mode.toLowerCase()}`);
-  return ref != null ? ref.style.color : void 0;
+  const cssRule = mode && getSelector(`.${mode.toLowerCase()}`);
+  return cssRule && cssRule.style.color;
 });
 
-export function drawRoundIcon(tile, geom, type) {
-  const caseRadius = getCaseRadius({ $zoom: tile.coords.z });
+export function drawRoundIcon(tile, geom, type, large) {
+  const scale = large ? 2 : 1;
 
-  const stopRadius = getStopRadius({ $zoom: tile.coords.z });
+  const caseRadius = getCaseRadius({ $zoom: tile.coords.z }) * scale;
 
-  const hubRadius = getHubRadius({ $zoom: tile.coords.z });
+  const stopRadius = getStopRadius({ $zoom: tile.coords.z }) * scale;
+
+  const hubRadius = getHubRadius({ $zoom: tile.coords.z }) * scale;
 
   if (caseRadius > 0) {
     tile.ctx.beginPath();

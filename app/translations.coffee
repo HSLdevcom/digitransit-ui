@@ -35,7 +35,7 @@ translations =
     'later': 'Myöhemmin'
     'instructions': 'Ohjeet'
     'map': 'Kartta'
-    'buy-ticket': 'Osta lippu'
+    'buy-ticket': 'Näin ostat lipun (HSL.fi)'
     'required-ticket': 'Reitillä tarvittava lippu'
     'share': 'Jaa ohje'
     'print': 'Tulosta'
@@ -59,7 +59,7 @@ translations =
     'login': 'Kirjaudu sisään'
     'off-canvas-info': 'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi'
     'cause': 'syy'
-    'disruptions': 'Häiriöitä'
+    'disruptions': 'Häiriöt'
     'disruption-info': 'Poikkeusinfo'
     'disruption-info-no-alerts': 'Ei poikkeustiedotteita.'
     'leaving-at': 'Lähtee'
@@ -86,6 +86,7 @@ translations =
     'give-destination': 'Kirjoita määränpää'
     'select-position': 'Valitse sijaintisi edellisistä hauistasi'
     'page-not-found': 'Voe rähmä! Sivuu ei löytyny'
+    'yesterday': 'Eilen'
     'today': 'Tänään'
     'tomorrow': 'Huomenna'
     'not-implemented': '{name} -toiminnallisuus on vielä kesken'
@@ -154,6 +155,9 @@ translations =
     'itinerary-feedback-placeholder': "Kuvaus (valinnainen)"
     'itinerary-feedback-button': "Lähetä palautetta"
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.'
+    'route-destination-arrives': 'Saapuu / Päätepysäkki'
+    'location-from-map': 'Valittu sijainti'
+    'alert.duration': "{day} klo {startTime} – {endTime}"
   'sv':
     'searching-position': 'Söker position'
     'own-position': 'Min position'
@@ -179,6 +183,7 @@ translations =
     'later': 'Senare'
     'instructions': 'Instruktioner'
     'map': 'Karta'
+    'buy-ticket': 'Såhär köper du biljetten (HSL.fi)'
     'required-ticket': 'Biljett för resan'
     'share': 'Dela resan'
     'print': 'Skriv ut'
@@ -202,6 +207,7 @@ translations =
     'login': 'Logga in'
     'off-canvas-info': 'Genom att logga in sparas dina favoriter och kan användas på dina andra enheter.'
     'cause': 'Orsak'
+    'disruptions': 'Störningar'
     'disruption-info': 'Undantagsinfo'
     'disruption-info-no-alerts': 'Inga undantagsmeddelanden.'
     'leaving-at': 'Avgår'
@@ -228,6 +234,7 @@ translations =
     'give-destination': 'Skriv in din destination'
     'select-position': 'Välj din position bland tidigare sökningar'
     'page-not-found': 'Sidan kunde inte hittas ੨( ･᷄ ︵･᷅ )ｼ'
+    'yesterday': 'Igår'
     'today': 'Idag'
     'tomorrow': 'Imorgon'
     'not-implemented': '{name} - funktionen är inte implementerad'
@@ -277,6 +284,9 @@ translations =
     'itinerary-feedback-message': "Hittade du inte vad du sökte?"
     'itinerary-feedback-placeholder': "Beskrivning (valfri)"
     'itinerary-feedback-button': "Skicka feedback"
+    'route-destination-arrives': 'Anländer / Ändhållplats'
+    'location-from-map': 'Vald position'
+    'alert.duration': "{day} kl. {startTime} – {endTime}"
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -365,6 +375,7 @@ translations =
     'give-destination': 'skriv hvor du vil reise'
     'select-position': 'Velg din posisjon basert på tidligere søk'
     'page-not-found': 'Siden kunne ikke finnes ੨( ･᷄ ︵･᷅ )ｼ'
+    'yesterday': 'I går'
     'today': 'I dag'
     'tomorrow': 'I morgen'
     'not-implemented': '{name} - funksjonen er ikke implementert'
@@ -431,6 +442,7 @@ translations =
     'itinerary-feedback-message': "Fant du ikke det du lette etter?"
     'itinerary-feedback-placeholder': "Beskrivelse (valgfritt)"
     'itinerary-feedback-button': "Send tilbakemelding"
+    'alert.duration': "{day} kl. {startTime} – {endTime}"
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -476,7 +488,7 @@ translations =
     'time': 'Heure'
     'stop': 'Arrêt'
     'stops': 'Arrêts'
-    'stop-number': 'nombre d\'arrêts'
+    'stop-number': 'Identifiant d\'arrêt'
     'right-now': 'Immédiatement'
     'minutes': 'min'
     'timetable': 'Fiche horaire'
@@ -491,6 +503,7 @@ translations =
     'login': 'Se connecter'
     'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessibles depuis d\'autres appareils'
     'cause': 'Cause'
+    'disruptions': 'Perturbations'
     'disruption-info': 'Informations sur les perturbations'
     'disruption-info-no-alerts': 'Perturbations en cours'
     'leaving-at': 'Départ'
@@ -580,5 +593,11 @@ translations =
     'choose-stop': 'Merci de choisir la ligne'
     'loading': 'Chargement'
     'skip-positioning': 'Ignorer le positionnement'
+    'hour-short': 'h'
+    'minute-short': 'min'
+    'itinerary-feedback-message': "Avez-vous trouvé ce que vous cherchiez ?"
+    'itinerary-feedback-placeholder': "Description (optionnel)"
+    'itinerary-feedback-button': "Envoyez votre avis"
+    'no-trips-found': 'Il n\'y a pas de trajet possible au jour choisi.'
 
 module.exports = translations

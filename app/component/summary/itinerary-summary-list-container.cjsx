@@ -2,7 +2,7 @@ React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../queries'
 ItinerarySummary      = require '../itinerary/itinerary-summary'
-SummaryRow            = require './summary-row'
+SummaryRow            = require('./SummaryRow').default
 Icon                  = require '../icon/icon'
 FormattedMessage      = require('react-intl').FormattedMessage
 
@@ -21,9 +21,9 @@ class ItinerarySummaryListContainer extends React.Component
           currentTime={@props.currentTime}
           onSelect={@props.onSelect}
         />
-      <div>{summaries}</div>
+      <div className="summary-list-container">{summaries}</div>
     else
-      <div className="summary-no-route-found">
+      <div className="summary-list-container summary-no-route-found">
         <FormattedMessage
           id={'no-route-msg'}
           defaultMessage="Unfortunately no route was found between the locations you gave. Please change origin and/or destination address."

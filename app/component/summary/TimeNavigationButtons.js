@@ -44,7 +44,7 @@ const setSelectedTimeToNow = (executeAction) =>
   () => executeAction(setDepartureTime, moment());
 
 export default function TimeNavigationButtons({ plan }, { executeAction }) {
-  if (plan == null) { return null; }
+  if (!plan || !plan.itineraries || !plan.itineraries[0]) { return null; }
   let itineraryFeedback = config.itinerary.enableFeedback ? <ItineraryFeedback /> : null;
   const enableButtonArrows = config.itinerary.timeNavigation.enableButtonArrows;
   let leftArrow = enableButtonArrows ?

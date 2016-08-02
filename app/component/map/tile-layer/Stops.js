@@ -32,7 +32,13 @@ class Stops {
             const feature = vt.layers.stops.feature(i);
             if (feature.properties.type) {
               this.features.push(feature);
-              drawRoundIcon(this.tile, feature.loadGeometry(), feature.properties.type);
+              drawRoundIcon(
+                this.tile,
+                feature.loadGeometry(),
+                feature.properties.type,
+                this.tile.props.hilightedStops &&
+                  this.tile.props.hilightedStops.includes(feature.properties.gtfsId)
+              );
             }
           }
         }

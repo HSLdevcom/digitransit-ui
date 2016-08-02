@@ -1,6 +1,6 @@
 import React from 'react';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Map from './map';
+import Map from './Map';
 import ToggleMapTracking from '../navigation/toggle-map-tracking';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withReducer from 'recompose/withReducer';
@@ -124,7 +124,7 @@ const MapWithTracking =
         return {
           lat: location ? location.lat : null,
           lon: location ? location.lon : null,
-          zoom: props.mapState.initialZoom ? 16 : void 0,
+          zoom: props.mapState.initialZoom && 16 || undefined,
           lang: language, // passing this prop just because we want map to
                           // update on lang changes, lang is not used
           mapTracking,

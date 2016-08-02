@@ -7,9 +7,10 @@ module.exports = {
   },
   'extends': 'airbnb',
   'rules': {
-    'eqeqeq': [2, 'allow-null'],
-    'import/no-unresolved': 0,
-    'graphql/template-strings': [2, {
+    'eqeqeq': ['error', 'allow-null'],
+    'no-void': 'error',
+    'import/no-unresolved': 'off',
+    'graphql/template-strings': ['error', {
       'env': 'relay',
       'schemaJson': require('./build/schema.json'),
     }],

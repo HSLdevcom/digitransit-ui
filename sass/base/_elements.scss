@@ -13,8 +13,21 @@ $border-radius-rounded: 30px;
 .card-header {
   background-color: $white;
   padding: 0.3em 0 0.5em;
-  h3 {
-   margin: 0;
+  .h3 {
+   margin-top: -10px;
+  }
+ .card-sub-header {
+   p {
+     display: inline;
+   }
+   .card-code {
+     border: 1px solid $gray-blue;
+     border-radius: $border-radius;
+     font-size: 10px;
+     color: $gray-blue;
+     margin-right: 3px;
+     padding: 0px 2px 0px 2px;
+   }
  }
 }
 /* Tabs */

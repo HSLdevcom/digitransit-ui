@@ -14,10 +14,8 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    return window.localStorage.getItem(key);
-  }
-  return void 0;
+  return typeof window !== 'undefined' && window.localStorage &&
+    window.localStorage.getItem(key) || null;
 }
 
 function getItemAsJson(key) {
@@ -58,6 +56,14 @@ export function getFavouriteRoutesStorage() {
 
 export function setFavouriteRoutesStorage(data) {
   setItem('favouriteRoutes', data);
+}
+
+export function getMessagesStorage() {
+  return getItemAsJson('messages');
+}
+
+export function setMessagesStorage(data) {
+  setItem('messages', data);
 }
 
 export function getModeStorage() {

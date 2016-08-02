@@ -1,16 +1,15 @@
 // Libraries
 import React from 'react';
+import Relay from 'react-relay';
 import { Route, IndexRoute } from 'react-router';
 
 // React pages
 import IndexPage from './page/IndexPage';
 import ItineraryPage from './page/itinerary';
-import RoutePage from './page/route';
-import StopMapPage from './page/stop-map';
-import StopPage from './page/stop';
-import SummaryPage from './page/summary';
-import TripPage from './page/trip';
-import TripMapPage from './page/trip-map';
+import RoutePage from './page/RoutePage';
+import StopPage from './page/StopPage';
+import SummaryPage from './page/SummaryPage';
+import TripPage from './page/TripPage';
 import LoadingPage from './page/loading';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
@@ -18,7 +17,31 @@ import AddFavouritePage from './page/add-favourite';
 import splashOrComponent from './component/splash/splash-or-component';
 
 import TopLevel from './component/top-level';
-import { StopQueries, TripQueries, RouteQueries } from './queries';
+
+const StopQueries = {
+  stop: () => Relay.QL`
+    query  {
+      stop(id: $stopId)
+    }
+  `,
+};
+
+const RouteQueries = {
+  pattern: () => Relay.QL`
+    query {
+      pattern(id: $routeId)
+    }
+  `,
+};
+
+const TripQueries = {
+  trip: () => Relay.QL`
+    query {
+      trip(id: $tripId)
+    }
+  `,
+};
+
 
 const routes = (
   <Route path="/" name="app" component={TopLevel}>
@@ -35,14 +58,14 @@ const routes = (
       name="stop"
       component={StopPage}
       queries={StopQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <StopPage {...props} /> : <LoadingPage />)}
     />
     <Route
       path="pysakit/:stopId/kartta"
       name="stopMap"
-      component={StopMapPage}
+      component={StopPage}
       queries={StopQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <StopPage {...props} fullscreenMap /> : <LoadingPage />)}
     />
     <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404} />
     <Route path="linjat" name="routeList" component={Error404} />
@@ -51,21 +74,28 @@ const routes = (
       name="route"
       component={RoutePage}
       queries={RouteQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <RoutePage {...props} /> : <LoadingPage />)}
+    />
+    <Route
+      path="linjat/:routeId/kartta"
+      name="route"
+      component={RoutePage}
+      queries={RouteQueries}
+      render={({ props }) => (props ? <RoutePage {...props} fullscreenMap /> : <LoadingPage />)}
     />
     <Route
       path="lahdot/:tripId"
       name="trip"
       component={TripPage}
       queries={TripQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <TripPage {...props} /> : <LoadingPage />)}
     />
     <Route
       path="lahdot/:tripId/kartta"
       name="tripMap"
-      component={TripMapPage}
+      component={TripPage}
       queries={TripQueries}
-      renderLoading={() => <LoadingPage />}
+      render={({ props }) => (props ? <TripPage {...props} fullscreenMap /> : <LoadingPage />)}
     />
     <Route path="reitti/:from/:to" name="summary" component={SummaryPage} />
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage} />

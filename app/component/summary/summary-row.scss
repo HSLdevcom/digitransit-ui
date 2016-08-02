@@ -50,6 +50,14 @@
     padding-right: 10px;
     width: 75px;
     margin-top: 4px;
+
+    .itinerary-first-leg-start-time {
+      color: $distance-gray;
+      font-size: small;
+      margin-top: -4px;
+      margin-right: -10px;
+      font-weight: 100;
+    }
   }
 
   & .realtime-available {

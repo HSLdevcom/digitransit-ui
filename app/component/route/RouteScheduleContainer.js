@@ -6,7 +6,8 @@ import RouteScheduleDateSelect from './RouteScheduleDateSelect';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
-import { keyBy, sortBy } from 'lodash';
+import keyBy from 'lodash/keyBy';
+import sortBy from 'lodash/sortBy';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -33,6 +34,7 @@ class RouteScheduleContainer extends Component {
     // If route has changed, reset state.
     if (nextProps.relay.route.params.routeId !== this.props.relay.route.params.routeId) {
       this.initState(nextProps, false);
+      nextProps.relay.setVariables({ serviceDay: nextProps.serviceDay });
     }
   }
 
@@ -61,8 +63,10 @@ class RouteScheduleContainer extends Component {
         </div>);
     }
     return trips.map((trip) => {
-      const departureTime = this.formatTime(trip.stoptimes[stops[from].id].scheduledDeparture);
-      const arrivalTime = this.formatTime(trip.stoptimes[stops[to].id].scheduledArrival);
+      const fromSt = trip.stoptimes[stops[from].id];
+      const toSt = trip.stoptimes[stops[to].id];
+      const departureTime = this.formatTime(fromSt.serviceDay + fromSt.scheduledDeparture);
+      const arrivalTime = this.formatTime(toSt.serviceDay + toSt.scheduledArrival);
 
       return (
         <RouteScheduleTripRow
@@ -147,9 +151,10 @@ export const relayFragment = {
       tripsForDate(serviceDay: $serviceDay) {
         id
         serviceId
-        stoptimes {
+        stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
           scheduledArrival
           scheduledDeparture
+          serviceDay
           stop {
             id
           }

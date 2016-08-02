@@ -1,12 +1,11 @@
 /* foundation override */
 $menu-slide: "transform 200ms ease";
-$topbar-bg: $primary-color;
-$topbar-height: 40px;
 $offcanvas-background: #333333;
 $offcanvas-background-hover: scale-color($gray, $lightness: -30%);
 $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 
-/* top bar icons */
+/* top bar */
+$topbar-height: 40px;
 $top-navigation-icon-color: $primary-font-color;
 $top-navigation-title-color: $title-color;
 
@@ -30,7 +29,10 @@ $offcanvas-link-text-font-size: 15px;
 $content-background-color: $background-color;
 
 nav.top-bar {
+  line-height: $topbar-height;
+  background: $primary-color;
   z-index: 1150;
+  position: relative;
   text-align: center;
   overflow: visible; // Show drawer menu
 
@@ -39,13 +41,7 @@ nav.top-bar {
     width: $topbar-height;
     position: absolute;
     top: 0;
-
-    &.back {  // Appears on non-front pages
-      left: 0.5em;
-    }
-    &.right-offcanvas-toggle {
-      right: 0;
-    }
+    z-index: 1160;
   }
 
   .icon {
@@ -144,12 +140,68 @@ nav.top-bar {
 }
 
 /* content */
+// TODO: This is an ugly hack
+// Performance with flex is ok after 9b3d165f2385f4737f757f77e0faa2d74e003119, which was reverted
+// Should-be re-enabled after safari fixes https://github.com/philipwalton/flexbugs/issues/84
+// Work-around using position: absolute; and pinning all corners made the performance really bad
 .content {
   background-color: $content-background-color;
-  position: relative;
   height: calc(100% - #{$topbar-height});
+}
+
+.content:nth-child(5) {
+  height: calc(100% - #{$topbar-height} - 60px - 18px);
+  // 60px and 18px are the height of the message bar, but is specified in js
 }
 
 .offcanvas > div {
   z-index:2000 !important;
+}
+
+.message-bar {
+  @include font-book;
+  font-size: 13px;
+  line-height: 14px;
+  background: $white;
+  color: $gray;
+  text-align: left;
+  cursor: pointer;
+
+  h2 {
+    @include font-medium;
+    font-size: 13px;
+    color: $action-color;
+    margin: 0;
+  }
+}
+
+// Need more specific selector to override
+.message-bar .icon {
+  margin: 10px;
+}
+
+.message-bar .icon.info {
+  float: left;
+  fill: $primary-color;
+  height: 35px;
+  width: 35px;
+}
+
+.message-bar .icon.close {
+  float: right;
+  fill: $gray;
+  height: 15px;
+  width: 15px;
+}
+
+.origin-destination-bar {
+  height: 40px;
+}
+
+.time-selector-settings-row {
+  background-color: $secondary-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
 }

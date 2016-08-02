@@ -2,8 +2,9 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
+import reject from 'lodash/reject';
 
-import RouteDestination from '../../departure/route-destination';
+import RouteDestination from '../../departure/RouteDestination';
 import routeCompare from '../../../util/route-compare';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
@@ -38,12 +39,14 @@ function SelectStopRow(props) {
   );
 
   if (patternData.length > 1) {
-    patterns.push(
-      <div key="second" className="route-detail-text">
-        <FormattedMessage id="in-addition" defaultMessage="In addition" />
-        {uniqBy(patternData.slice(1), pattern => pattern.shortName).map(getName)}
-      </div>
-    );
+    const otherPatterns = reject(patternData, ['shortName', patternData[0].shortName]);
+    if (otherPatterns.length > 0) {
+      patterns.push(
+        <div key="second" className="route-detail-text">
+          <FormattedMessage id="in-addition" defaultMessage="In addition" />
+          {uniqBy(otherPatterns, pattern => pattern.shortName).map(getName)}
+        </div>);
+    }
   }
 
   return (
@@ -52,7 +55,6 @@ function SelectStopRow(props) {
       <div className="no-margin cursor-pointer" onClick={props.selectRow}>
         <div className="left padding-vertical-normal" style={{ width: 40 }}>
           <svg
-            xmlns="http://www.w3.org/svg/2000"
             viewBox="0 0 30 30"
             width="30"
             height="30"

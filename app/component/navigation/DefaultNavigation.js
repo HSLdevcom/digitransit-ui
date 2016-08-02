@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
-import BackButton from './back-button';
+import BackButton from './BackButton';
 import NotImplemented from '../util/not-implemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
+import MessageBar from './MessageBar';
 
 // Cannot be stateless, because it contains refs
 class DefaultNavigation extends Component {
@@ -11,14 +12,13 @@ class DefaultNavigation extends Component {
     className: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     disableBackButton: PropTypes.bool,
-    showDisruptionInfo: PropTypes.bool,
     title: PropTypes.string.isRequired,
     showLogo: PropTypes.bool,
   };
 
   render() {
     return (
-      <div className={this.props.className} >
+      <div className={`navigation ${this.props.className}`} >
         <NotImplemented />
         <DisruptionInfo />
         <nav className="top-bar">
@@ -33,6 +33,7 @@ class DefaultNavigation extends Component {
           </section>
           <MainMenuContainer />
         </nav>
+        <MessageBar />
         <section ref="content" className="content">
           {this.props.children}
         </section>

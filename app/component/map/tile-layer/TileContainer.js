@@ -10,7 +10,7 @@ class TileContainer {
     this.coords = coords;
     this.props = props;
     this.extent = 4096;
-    this.scaleratio = (typeof window !== 'undefined' ? window.devicePixelRatio : void 0) || 1;
+    this.scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
     this.tileSize = (this.props.tileSize || 256) * this.scaleratio;
     this.ratio = this.extent / this.tileSize;
     this.el = this.createElement();
@@ -58,13 +58,12 @@ class TileContainer {
                     point[1] * this.scaleratio % this.tileSize];
 
       features = flatten(this.layers.map(layer => (
-        layer.features != null ? layer.features.map(feature =>
+        layer.features && layer.features.map(feature =>
           ({
             layer: layer.constructor.getName(),
             feature,
           })
-        ) : void 0)
-      ));
+      ))));
 
       nearest = features.filter(feature => {
         if (!feature) { return false; }
@@ -80,16 +79,19 @@ class TileContainer {
         return false;
       });
 
-      if (nearest.length === 0) {
-        return this.onSelectableTargetClicked(false);
+      if (nearest.length === 0 && e.type === 'click') {
+        return this.onSelectableTargetClicked(false, e.latlng); // close any open menu
+      } else if (nearest.length === 0 && e.type === 'contextmenu') {
+        return this.onSelectableTargetClicked([], e.latlng); // open menu for no stop
       } else if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
         coords = nearest[0].feature.toGeoJSON(this.coords.x, this.coords.y, this.coords.z +
           (this.props.zoomOffset || 0)).geometry.coordinates;
+        // open menu for single stop
         return this.onSelectableTargetClicked(nearest, L.latLng([coords[1], coords[0]]));
       }
       L.DomEvent.stopPropagation(e);
-      return this.onSelectableTargetClicked(nearest, e.latlng);
+      return this.onSelectableTargetClicked(nearest, e.latlng); // open menu for a list of stops
     }
     return false;
   }

@@ -8,7 +8,8 @@ import take from 'lodash/take';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import { getLabel } from '../util/suggestionUtils';
-import geoUtils from '../util/geo-utils';
+import { getLatLng } from '../util/geo-utils';
+import routeCompare from '../util/route-compare';
 
 function processResults(actionContext, result) {
   actionContext.dispatch('SuggestionsResult', result);
@@ -58,7 +59,10 @@ function addOldSearches(oldSearches, input) {
   return Promise.resolve(take(matchingOldSearches, 10).map(item =>
     ({
       type: 'OldSearch',
-      properties: { label: item.address, layer: 'oldSearch' },
+      properties: {
+        label: item.address,
+        layer: 'oldSearch',
+        mode: item.properties ? item.properties.mode : null },
       geometry: item.geometry,
     })
   ));
@@ -113,6 +117,9 @@ function mapRoutes(res) {
         properties: {
           label: `${item.shortName} ${item.longName}`,
           layer: `route-${item.type}`,
+          mode: item.type.toLowerCase(),
+          shortName: item.shortName,
+          longName: item.longName,
           link: `/linjat/${item.patterns[0].code}`,
         },
         geometry: {
@@ -124,15 +131,26 @@ function mapRoutes(res) {
   return [];
 }
 
+function compareRoutes(x, y) {
+  return x.agency.name.localeCompare(y.agency.name) ||
+    routeCompare(x.properties, y.properties);
+}
+
 function getStops(res) {
   if (res) {
     return res.map(item => {
+      const mode = item.routes
+              && item.routes.length > 0
+              ? item.routes[0].type.toLowerCase()
+              : null;
+
       const stop = {
         type: 'Stop',
 
         properties: {
           code: item.code,
           label: item.name,
+          mode,
           layer: 'stop',
           link: `/pysakit/${item.gtfsId}`,
         },
@@ -157,9 +175,9 @@ function searchStops(input) {
     return Promise.resolve([]);
   }
 
-  return queryGraphQL(`{stops(name:"${input}") {gtfsId lat lon name code}}`)
+  return queryGraphQL(`{stops(name:"${input}") {gtfsId lat lon name code routes{type}}}`)
     .then(response =>
-      getStops(response != null && response.data != null ? response.data.stops : void 0)
+      getStops(response && response.data && response.data.stops)
     );
 }
 
@@ -208,11 +226,11 @@ function searchRoutesAndStops(input, reference, favourites) {
   }
 
   if (doStopSearch) {
-    searches.push(`stops(name:"${input}") {gtfsId lat lon name code}`);
+    searches.push(`stops(name:"${input}") {gtfsId lat lon name code routes{type}}`);
   }
 
   if (searches.length > 0) {
-    refLatLng = geoUtils.getLatLng(reference.lat, reference.lon);
+    refLatLng = getLatLng(reference.lat, reference.lon);
 
     return queryGraphQL(`{${searches.join(' ')}}`).then(response => {
       if (response == null || response.data == null) {
@@ -224,13 +242,12 @@ function searchRoutesAndStops(input, reference, favourites) {
           type: 'Favourite',
         })
       );
-
       return ([]
-        .concat(sortBy(favouriteRoutes, () => ['agency.name', 'properties.label']))
-        .concat(sortBy(mapRoutes(response.data.routes), () => ['agency.name', 'properties.label']))
+        .concat(favouriteRoutes.sort(compareRoutes))
+        .concat(uniq(mapRoutes(response.data.routes)).sort(compareRoutes))
         .concat(sortBy(getStops(response.data.stops || []), (item) =>
           Math.round(
-            geoUtils.getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
+            getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
             .distanceTo(refLatLng) / 50000)
         )));
     });
@@ -254,13 +271,21 @@ function executeSearchInternal(actionContext, { input, type }) {
     const favouriteLocations = actionContext.getStore('FavouriteLocationStore').getLocations();
     const oldSearches = actionContext.getStore('OldSearchesStore').getOldSearches('endpoint');
 
-    return Promise.all([
+    const searches = [
       addCurrentPositionIfEmpty(input),
       addFavouriteLocations(favouriteLocations, input),
       addOldSearches(oldSearches, input),
-      getGeocodingResult(input, position, language),
-      searchStops(input),
-    ])
+    ];
+
+    if (config.search.showStopsFirst) {
+      searches.push(searchStops(input));
+      searches.push(getGeocodingResult(input, position, language));
+    } else {
+      searches.push(getGeocodingResult(input, position, language));
+      searches.push(searchStops(input));
+    }
+
+    return Promise.all(searches)
     .then(flatten)
     .then(uniq)
     .then(suggestions => processResults(actionContext, suggestions))

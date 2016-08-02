@@ -4,7 +4,7 @@ import Relay from 'react-relay';
 import config from '../../../config';
 import { drawRoundIcon } from '../../../util/mapIconUtils';
 
-const scaleratio = (typeof window !== 'undefined' ? window.devicePixelRatio : void 0) || 1;
+const scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
 
 const citybikeImageSize = 16 * scaleratio;
 const availabilityImageSize = 8 * scaleratio;
