@@ -9,6 +9,18 @@ import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../documentation/ExampleData';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 import CityBikeRoute from '../../../route/CityBikeRoute';
+import config from '../../../config';
+
+let L;
+
+/* eslint-disable global-require */
+// TODO When server side rendering is re-enabled,
+//      these need to be loaded only when isBrowser is true.
+//      Perhaps still using the require from webpack?
+if (isBrowser) {
+  L = require('leaflet');
+}
+/* eslint-enable global-require */
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
@@ -48,36 +60,30 @@ class CityBikeMarker extends React.Component {
     intl: intlShape.isRequired,
   };
 
-  getCityBikeMediumIcon() {
-    return Icon.asString('icon-icon_citybike', 'city-bike-medium-size');
-  }
+  getIcon = (zoom) => (
+    (!this.props.transit && zoom <= config.stopsSmallMaxZoom) ?
+      L.divIcon({
+        html: smallIconSvg,
+        iconSize: [8, 8],
+        className: 'citybike cursor-pointer',
+      })
+    :
+      L.divIcon({
+        html: Icon.asString('icon-icon_citybike', 'city-bike-medium-size'),
+        iconSize: [20, 20],
+        className: 'citybike cursor-pointer',
+      })
+    )
 
-  getCityBikeMarker() {
-    let iconSmall = smallIconSvg;
-    let iconSmallSize = [8, 8];
-    const iconMedium = this.getCityBikeMediumIcon();
-    const iconMediumSize = [20, 20];
-
-    if (this.props.transit) {
-      iconSmall = iconMedium;
-      iconSmallSize = [20, 20];
-    }
-
+  render() {
+    if (!isBrowser) return false;
     return (
       <GenericMarker
         position={{
           lat: this.props.station.y,
           lon: this.props.station.x,
         }}
-        icons={{
-          smallIconSvg: iconSmall,
-          iconSvg: iconMedium,
-        }}
-        iconSizes={{
-          smallIconSvg: iconSmallSize,
-          iconSvg: iconMediumSize,
-        }}
-        mode="citybike"
+        getIcon={this.getIcon}
         id={this.props.station.id}
       >
         <Relay.RootContainer
@@ -92,11 +98,6 @@ class CityBikeMarker extends React.Component {
         />
       </GenericMarker>
     );
-  }
-
-  render() {
-    if (!isBrowser) return false;
-    return this.getCityBikeMarker();
   }
 }
 
