@@ -50,49 +50,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 // stop list
 .route-stop-list {
   @include font-narrow-medium;
-  .route-stop-name  {
-    height: 38px;
-    // vertical line
-    &::before {
-      content: "";
-      position: absolute;
-      top: 17px;
-      bottom: -7px;
-      left: -9px;
-      border-left: solid 3px;
-    }
-    &::after {
-      width:12px;
-      height:12px;
-      position: absolute;
-      top: 0px;
-      left: -13px;
-    }
-    &.bus::after{
-      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
-    }
-    &.tram::after{
-      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($tram-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
-    }
-    &.rail::after{
-      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($rail-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
-    }
-    &.subway::after{
-      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($metro-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
-    }
-    &.ferry::after{
-      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($ferry-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
-    }
-    &.citybike::after{
-      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><circle stroke-width='2.5' stroke='#{rgba($citybike-color, 0.9999999)}' fill='white' cx='6' cy='6' r='2.5'/></svg>");
-    }
-  }
-  > :nth-last-child(1) {
-    .route-stop-name::before {
-      border:none;
-    }
-  }
-
   flex-grow: 20;
   flex-basis: 0;
 
@@ -152,8 +109,8 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   }
 }
 .route-stop-name {
-  margin-left: -1em;
-  padding-left: 1em;
+  margin-left: -10px;
+  padding-left: 10px;
   font-size: $font-size-normal;
 }
 .route-stop-code,
