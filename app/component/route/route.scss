@@ -297,6 +297,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     height: 30px;
     line-height: 24px;
     font-weight: 500;
+    appearance: none;
   }
 
   position: relative;
@@ -386,6 +387,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     background-image: none;
     width: 7em;
     text-align: left;
+    appearance: none;
 
     option {
       padding: 4px;
@@ -488,6 +490,7 @@ div.route-tabs {
     border-radius: $border-radius;
     border: 1px solid $light-gray;
     font-weight: bold;
+    appearance: none;
   }
   .icon {
     color: $gray-blue;
