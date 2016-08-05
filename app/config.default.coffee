@@ -188,6 +188,29 @@ module.exports =
     address: "Helsinki-Vantaan Lentoasema"
     lat: 60.317429
     lon: 24.9690395
+  aboutThisService: {
+    fi: {
+      about: 'Tämän palvelun tarjoaa <a href="http://liikennevirasto.fi">Liikennevirasto</a> joukkoliikenteen reittisuunnittelua varten koko Suomen alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
+      digitransit: '<a href="http://digitransit.fi">Digitransit palvelualusta</a> on <a href="http://hsl.fi">HSL:n</a> ja <a href="http://liikennevirasto.fi">Liikenneviraston</a> kehittämä avoimen lähdekoodin reititystuote. Lähdekoodi tarjotaan EUPL v1.2 ja AGPLv3 lisensseillä.'
+      datasources: '<p>Kartat, kadut, rakennukset, pysäkkisijainnit ym. tiedot tarjoaa <a href="http://openstreetmap.org">© OpenStreetMap contributors</a> ja ne ladataan <a href="http://download.geofabrik.de/europe/finland.html">Geofabrik palvelusta</a>.</p><p>Osoitetiedot tuodaan VRK:n rakennustietorekisteristä ja ne ladataan OpenAddresses-palvelusta.</p><p>Joukkoliikenteen reitit ja aikataulut ladataan HSL:n <a href="http://dev.hsl.fi/gtfs">dev.hsl.fi/gtfs</a> palvelimelta.</p>'
+    },
+    sv: {
+      about: 'This service is provided by <a href="http://fta.fi">Finnish Transport Agency</a> for journey planning and information in Finland. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+      digitransit: '<a href="http://digitransit.fi/en">Digitransit service platform</a> is created by <a href="http://hsl.fi/en">HSL</a> and <a href="http://fta.fi">Finnish Transport Agency</a>. The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.'
+      datasources: '<p>Maps, streets, buildings, stop locations etc. from <a href="http://openstreetmap.org">© OpenStreetMap contributors</a> downloaded from <a href="http://download.geofabrik.de/europe/finland.html">Geofabrik</a>.</p><p>Additional address data from Finland&apos;s Population Register Centre downloaded from OpenAddresses</p><p>Public transport routes and timetables from HSL downloaded from <a href="http://dev.hsl.fi/gtfs">dev.hsl.fi/gtfs</a>.</p>'
+    },
+    en: {
+      about: 'This service is provided by <a href="http://fta.fi">Finnish Transport Agency</a> for journey planning and information in Finland. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+      digitransit: '<a href="http://digitransit.fi/en">Digitransit service platform</a> is created by <a href="http://hsl.fi/en">HSL</a> and <a href="http://fta.fi">Finnish Transport Agency</a>. The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.'
+      datasources: '<p>Maps, streets, buildings, stop locations etc. from <a href="http://openstreetmap.org">© OpenStreetMap contributors</a> downloaded from <a href="http://download.geofabrik.de/europe/finland.html">Geofabrik</a>.</p><p>Additional address data from Finland&apos;s Population Register Centre downloaded from OpenAddresses</p><p>Public transport routes and timetables from HSL downloaded from <a href="http://dev.hsl.fi/gtfs">dev.hsl.fi/gtfs</a>.</p>'
+    }
+    nb: {
+
+    }
+    fr: {
+
+    }
+  }
   staticMessages: [
     {
       id: 1,

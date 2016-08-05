@@ -158,6 +158,10 @@ translations =
     'route-destination-arrives': 'Saapuu / Päätepysäkki'
     'location-from-map': 'Valittu sijainti'
     'alert.duration': "{day} klo {startTime} – {endTime}"
+    'about-this-service': 'Tietoja palvelusta'
+    'digitransit-platform': 'Digitransit palvelualusta'
+    'datasources': 'Tietolähteet'
+    'back-to-front-page': 'Takaisin etusivulle'
   'sv':
     'searching-position': 'Söker position'
     'own-position': 'Min position'
@@ -287,6 +291,10 @@ translations =
     'route-destination-arrives': 'Anländer / Ändhållplats'
     'location-from-map': 'Vald position'
     'alert.duration': "{day} kl. {startTime} – {endTime}"
+    'about-this-service': 'Om tjänsten'
+    'digitransit-platform': 'Digitransit platform'
+    'datasources': 'Datasources'
+    'back-to-front-page': 'Back to front page'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"
@@ -443,6 +451,10 @@ translations =
     'itinerary-feedback-placeholder': "Beskrivelse (valgfritt)"
     'itinerary-feedback-button': "Send tilbakemelding"
     'alert.duration': "{day} kl. {startTime} – {endTime}"
+    'about-this-service': 'Om tjänsten'
+    'digitransit-platform': 'Digitransit platform'
+    'datasources': 'Datasources'
+    'back-to-front-page': 'Back to front page'
   'fr':
     'stop-page.title': "Arrêt {stop_name} - {stop_code}"
     'stop-page.description': "Arrêt {stop_name} - {stop_code}"
@@ -599,5 +611,9 @@ translations =
     'itinerary-feedback-placeholder': "Description (optionnel)"
     'itinerary-feedback-button': "Envoyez votre avis"
     'no-trips-found': 'Il n\'y a pas de trajet possible au jour choisi.'
+    'about-this-service': 'About this service'
+    'digitransit-platform': 'Digitransit platform'
+    'datasources': 'Datasources'
+    'back-to-front-page': 'Back to front page'
 
 module.exports = translations
