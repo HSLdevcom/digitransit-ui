@@ -14,6 +14,7 @@ import LoadingPage from './page/loading';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/add-favourite';
+import AboutPage from './page/AboutPage';
 import splashOrComponent from './component/splash/splash-or-component';
 
 import TopLevel from './component/top-level';
@@ -102,6 +103,9 @@ const routes = (
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={Error404} />
     <Route path="styleguide" name="styleGuidelines" component={StyleGuidelines} />
     <Route path="lisaa-suosikki" name="addFavourite" component={AddFavouritePage} />
+    <Route path="tietoja-palvelusta" name="about" component={AboutPage} />
+    // Main menu does not open without this in mock mode?
+    <Route path="/?mock" name="mockIndex" component={IndexPage} />
   </Route>
 );
 
