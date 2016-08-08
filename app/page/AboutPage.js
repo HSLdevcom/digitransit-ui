@@ -5,56 +5,49 @@ import Link from 'react-router/lib/Link';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-class AboutPage extends React.Component {
+const AboutPage = ({ currentLanguage }) => {
+  const about = Config.aboutThisService[currentLanguage];
+  return (
+    <DefaultNavigation
+      className="front-page fullscreen"
+      disableBackButton
+      showDisruptionInfo
+      title={Config.title}
+      showLogo={Config.useNavigationLogo}
+    >
+      <div className="page-frame fullscreen momentum-scroll">
+        <h1 id="about-header">
+          <FormattedMessage
+            id="about-this-service" defaultMessage="About this service"
+          />
+        </h1>
+        <p>{about.about}</p>
 
-  componentDidMount() {
-    return null;
-  }
+        <h1>
+          <FormattedMessage
+            id="digitransit-platform" defaultMessage="Digitransit platform"
+          />
+        </h1>
+        <p>{about.digitransit}</p>
 
-  render() {
-    const about = Config.aboutThisService[this.props.currentLanguage];
-    return (
-      <DefaultNavigation
-        className="front-page fullscreen"
-        disableBackButton
-        showDisruptionInfo
-        title={Config.title}
-        showLogo={Config.useNavigationLogo}
-      >
-        <div className="page-frame fullscreen momentum-scroll">
-          <h1 id="about-header">
+        <h1>
+          <FormattedMessage
+            id="datasources" defaultMessage="Datasources"
+          />
+        </h1>
+        <p>{about.datasources}</p>
+
+        <Link to="/">
+          <div className="call-to-action-button">
             <FormattedMessage
-              id="about-this-service" defaultMessage="About this service"
+              id="back-to-front-page" defaultMessage="Back to front page"
             />
-          </h1>
-          <p dangerouslySetInnerHTML={{ __html: about.about }} />
-
-          <h1>
-            <FormattedMessage
-              id="digitransit-platform" defaultMessage="Digitransit platform"
-            />
-          </h1>
-          <p dangerouslySetInnerHTML={{ __html: about.digitransit }} />
-
-          <h1>
-            <FormattedMessage
-              id="datasources" defaultMessage="Datasources"
-            />
-          </h1>
-          <p dangerouslySetInnerHTML={{ __html: about.datasources }} />
-
-          <Link to="/">
-            <div className="call-to-action-button">
-              <FormattedMessage
-                id="back-to-front-page" defaultMessage="Back to front page"
-              />
-            </div>
-          </Link>
-        </div>
-      </DefaultNavigation>
-    );
-  }
-}
+          </div>
+        </Link>
+      </div>
+    </DefaultNavigation>
+  );
+};
 
 AboutPage.propTypes = {
   currentLanguage: React.PropTypes.string.isRequired,
