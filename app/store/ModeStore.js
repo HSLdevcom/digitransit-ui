@@ -1,5 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
-import { getModeStorage } from './localStorage';
+import { setModeStorage, getModeStorage } from './localStorage';
 import config from '../config';
 
 class ModeStore extends Store {
@@ -13,17 +13,16 @@ class ModeStore extends Store {
     this.data = (() => {
       if (typeof localData.busState !== 'undefined') {
         return localData;
-      } else {
-        return {
-          busState: config.transportModes.bus.defaultValue,
-          tramState: config.transportModes.tram.defaultValue,
-          railState: config.transportModes.rail.defaultValue,
-          subwayState: config.transportModes.subway.defaultValue,
-          ferryState: config.transportModes.ferry.defaultValue,
-          airplaneState: config.transportModes.airplane.defaultValue,
-          citybikeState: config.transportModes.citybike.defaultValue,
-        };
       }
+      return {
+        busState: config.transportModes.bus.defaultValue,
+        tramState: config.transportModes.tram.defaultValue,
+        railState: config.transportModes.rail.defaultValue,
+        subwayState: config.transportModes.subway.defaultValue,
+        ferryState: config.transportModes.ferry.defaultValue,
+        airplaneState: config.transportModes.airplane.defaultValue,
+        citybikeState: config.transportModes.citybike.defaultValue,
+      };
     })();
   }
 
@@ -140,7 +139,7 @@ class ModeStore extends Store {
   }
 
   storeMode() {
-    return storage.setModeStorage(this.data);
+    return setModeStorage(this.data);
   }
 
   dehydrate() {
@@ -148,17 +147,17 @@ class ModeStore extends Store {
   }
 
   rehydrate(data) {
-    return this.data = data;
+    this.data = data;
   }
 
   static handlers = {
-    'ToggleNearbyRouteBusState': 'toggleBusState',
-    'ToggleNearbyRouteTramState': 'toggleTramState',
-    'ToggleNearbyRouteRailState': 'toggleRailState',
-    'ToggleNearbyRouteSubwayState': 'toggleSubwayState',
-    'ToggleNearbyRouteFerryState': 'toggleFerryState',
-    'ToggleNearbyRouteCitybikeState': 'toggleCitybikeState',
-    'ToggleNearbyRouteAirplaneState': 'toggleAirplaneState',
+    ToggleNearbyRouteBusState: 'toggleBusState',
+    ToggleNearbyRouteTramState: 'toggleTramState',
+    ToggleNearbyRouteRailState: 'toggleRailState',
+    ToggleNearbyRouteSubwayState: 'toggleSubwayState',
+    ToggleNearbyRouteFerryState: 'toggleFerryState',
+    ToggleNearbyRouteCitybikeState: 'toggleCitybikeState',
+    ToggleNearbyRouteAirplaneState: 'toggleAirplaneState',
   };
 }
 
