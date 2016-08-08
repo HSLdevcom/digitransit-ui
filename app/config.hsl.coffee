@@ -47,7 +47,7 @@ module.exports =
     radius: 2000
     bucketSize: 100
   maxWalkDistance: 2500
-  maxBikingDistance: 10000
+  maxBikingDistance: 100000
   availableLanguages: ['fi', 'sv', 'en']
   defaultLanguage: 'en'
   # This timezone data will expire on 31.12.2020
