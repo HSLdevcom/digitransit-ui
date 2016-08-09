@@ -2,6 +2,7 @@ React                 = require 'react'
 {FormattedMessage}    = require('react-intl')
 ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 config                = require '../../config'
+Example               = require '../documentation/ExampleData'
 
 CityBikeUse = ({lang}) ->
   <div className="city-bike-use-container">
@@ -21,7 +22,7 @@ CityBikeUse.description =
     <div>
       <p>Renders use citybike component</p>
       <ComponentUsageExample description="">
-        <CityBikeUse/>
+        <CityBikeUse lang={Example.lang} />
       </ComponentUsageExample>
     </div>
 

@@ -1,5 +1,7 @@
 /* eslint-disable quote-props, max-len */
 
+export const lang = 'fi';
+
 export const realtimeDeparture = {
   stop: {
     code: '4611',
