@@ -24,6 +24,11 @@ class Slider extends React.Component {
     maxText: '',
   };
 
+  constructor() {
+    super();
+    this.state = { modified: false };
+    this.valueChanged = this.valueChanged.bind(this);
+  }
   componentDidMount() {
     this.refs.slider.addEventListener('touchmove', this.f);
   }
@@ -36,11 +41,22 @@ class Slider extends React.Component {
     e.stopPropagation();
   }
 
-  makeOption = value => <option>{value}</option>;
+  valueChanged(e) {
+    if (parseInt(e.target.value, 10) !== this.props.defaultValue) {
+      this.setState({ modified: true });
+    } else {
+      this.setState({ modified: false });
+    }
+    this.props.onSliderChange(e);
+  }
 
   render() {
     return (
-      <div ref="slider" className={cx('slider-container', this.props.className)}>
+      <div
+        ref="slider"
+        className={
+          cx('slider-container', this.props.className, this.state.modified ? 'modified' : '')}
+      >
         <h4>{this.props.headerText}</h4>
         <input
           id={this.props.id}
@@ -50,8 +66,8 @@ class Slider extends React.Component {
           min={this.props.min}
           max={this.props.max}
           step={this.props.step}
-          onMouseUp={this.props.onSliderChange}
-          onTouchEnd={this.props.onSliderChange}
+          onMouseUp={this.valueChanged}
+          onTouchEnd={this.valueChanged}
         />
         <span className="sub-header-h5 left">{this.props.minText}</span>
         <span className="sub-header-h5 right">{this.props.maxText}</span>

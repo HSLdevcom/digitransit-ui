@@ -119,7 +119,7 @@ input[type=range].slider {
 
 $thumb-color-pink: $favourite-color;
 
-.slider-container.active  {
+.slider-container.active, .slider-container.modified {
   input[type=range].slider::-webkit-slider-thumb {
     background-color: $thumb-color-pink !important;
   }
