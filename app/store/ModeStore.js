@@ -1,30 +1,25 @@
 import Store from 'fluxible/addons/BaseStore';
 import { setModeStorage, getModeStorage } from './localStorage';
-import config from '../config';
 
 class ModeStore extends Store {
+
   static storeName = 'ModeStore';
 
   constructor(dispatcher) {
     super(dispatcher);
-    this.getModeString = this.getModeString.bind(this);
     const localData = getModeStorage();
-
-    this.data = (() => {
-      if (typeof localData.busState !== 'undefined') {
-        return localData;
-      }
-      return {
-        busState: config.transportModes.bus.defaultValue,
-        tramState: config.transportModes.tram.defaultValue,
-        railState: config.transportModes.rail.defaultValue,
-        subwayState: config.transportModes.subway.defaultValue,
-        ferryState: config.transportModes.ferry.defaultValue,
-        airplaneState: config.transportModes.airplane.defaultValue,
-        citybikeState: config.transportModes.citybike.defaultValue,
-      };
-    })();
+    this.data = localData.busState !== undefined ? localData : this.getRestoreState();
   }
+
+  getRestoreState = () => ({
+    busState: true,
+    tramState: true,
+    railState: true,
+    subwayState: true,
+    ferryState: true,
+    airplaneState: true,
+    citybikeState: true,
+  });
 
   getData() {
     return this.data;
@@ -64,9 +59,9 @@ class ModeStore extends Store {
     return mode;
   }
 
-  getModeString() {
-    return this.getMode.join(',');
-  }
+  getModeString = () => (
+    this.getMode.join(',')
+  )
 
   getBusState() {
     return this.data.busState;
@@ -96,57 +91,64 @@ class ModeStore extends Store {
     return this.data.citybikeState;
   }
 
-  toggleBusState() {
-    this.data.busState = !this.data.busState;
+  clearState = () => {
+    this.data.subwayState = false;
+    this.data.ferryState = false;
+    this.data.airplaneState = false;
+    this.data.citybikeState = false;
+    this.data.railState = false;
+    this.data.tramState = false;
+    this.data.busState = false;
+  }
+
+  doToggle = (name) => {
+    if (this.data.selected !== name) {
+      this.clearState();
+      this.data[name] = true;
+      this.data.selected = name;
+    } else {
+      this.data = this.getRestoreState();
+      this.data.selected = undefined;
+    }
     this.storeMode();
-    return this.emitChange();
+    this.emitChange();
+  }
+
+  toggleBusState() {
+    this.doToggle('busState');
   }
 
   toggleTramState() {
-    this.data.tramState = !this.data.tramState;
-    this.storeMode();
-    return this.emitChange();
+    this.doToggle('tramState');
   }
 
   toggleRailState() {
-    this.data.railState = !this.data.railState;
-    this.storeMode();
-    return this.emitChange();
+    this.doToggle('railState');
   }
 
   toggleSubwayState() {
-    this.data.subwayState = !this.data.subwayState;
-    this.storeMode();
-    return this.emitChange();
+    this.doToggle('subwayState');
   }
 
-  toggleFerryState() {
-    this.data.ferryState = !this.data.ferryState;
-    this.storeMode();
-    return this.emitChange();
+  toggleFerryState = () => {
+    this.doToggle('ferryState');
   }
 
-  toggleAirplaneState() {
-    this.data.airplaneState = !this.data.airplaneState;
-    this.storeMode();
-    return this.emitChange();
+  toggleAirplaneState = () => {
+    this.doToggle('airplaneState');
   }
 
   toggleCitybikeState() {
-    this.data.citybikeState = !this.data.citybikeState;
-    this.storeMode();
-    return this.emitChange();
+    this.doToggle('cityBikeState');
   }
 
-  storeMode() {
-    return setModeStorage(this.data);
+  storeMode = () => {
+    setModeStorage(this.data);
   }
 
-  dehydrate() {
-    return this.data;
-  }
+  dehydrate = () => this.data;
 
-  rehydrate(data) {
+  rehydrate = (data) => {
     this.data = data;
   }
 
