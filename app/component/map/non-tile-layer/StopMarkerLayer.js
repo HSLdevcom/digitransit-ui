@@ -59,7 +59,7 @@ class StopMarkerLayer extends React.Component {
         return;
       }
 
-      const modeClass = stop.routes[0].type.toLowerCase();
+      const modeClass = stop.routes[0].mode.toLowerCase();
       const selected = this.props.hilightedStops && this.props.hilightedStops.includes(stop.gtfsId);
 
       if (stop.parentStation && this.context.map.getZoom() <= config.terminalStopsMaxZoom) {
@@ -122,7 +122,7 @@ export default Relay.createContainer(StopMarkerLayer, {
             }
           }
           routes {
-            type
+            mode
           }
         }
       }

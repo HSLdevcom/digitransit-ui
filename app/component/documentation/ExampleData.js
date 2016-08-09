@@ -21,7 +21,7 @@ export const realtimeDeparture = {
       gtfsId: 'HSL:4611',
       shortName: '611',
       longName: 'Rautatientori - Siltamäki - Suutarila - Tikkurila',
-      type: 'BUS',
+      mode: 'BUS',
       color: null,
     },
 
@@ -52,7 +52,7 @@ export const departure = {
       gtfsId: 'HSL:1007B',
       shortName: '7B',
       longName: 'Senaatintori-Pasila-Töölö-Senaatintori',
-      type: 'TRAM',
+      mode: 'TRAM',
       color: null,
     },
 
@@ -568,7 +568,7 @@ export const routePatterns = {
         { code: 'HSL:1007A:1:01', headsign: 'Rautatieasema' },
       ],
       shortName: '7A',
-      type: 'TRAM',
+      mode: 'TRAM',
     },
   },
 };

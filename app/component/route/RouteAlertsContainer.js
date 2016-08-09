@@ -9,7 +9,7 @@ import RouteAlertsRow from './RouteAlertsRow';
 
 
 const getAlerts = (route, currentTime, intl) => {
-  const routeMode = route.type.toLowerCase();
+  const routeMode = route.mode.toLowerCase();
   const routeLine = route.shortName;
 
   return route.alerts.map(alert => {
@@ -118,7 +118,7 @@ export default Relay.createContainer(RouteAlertsContainerWithTime,
     fragments: {
       route: () => Relay.QL`
         fragment on Route {
-          type
+          mode
           shortName
           alerts {
             id

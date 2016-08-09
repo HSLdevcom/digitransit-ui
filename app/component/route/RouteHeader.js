@@ -4,7 +4,7 @@ import RouteNumber from '../departure/RouteNumber';
 import cx from 'classnames';
 
 export default function RouteHeader(props) {
-  const mode = props.route.type.toLowerCase();
+  const mode = props.route.mode.toLowerCase();
 
   const trip = props.trip ?
     (<span className="route-header-trip">
