@@ -47,7 +47,6 @@ class Slider extends React.Component {
     } else {
       this.setState({ modified: false });
     }
-    this.props.onSliderChange(e);
   }
 
   render() {
@@ -66,8 +65,9 @@ class Slider extends React.Component {
           min={this.props.min}
           max={this.props.max}
           step={this.props.step}
-          onMouseUp={this.valueChanged}
-          onTouchEnd={this.valueChanged}
+          onMouseUp={this.props.onSliderChange}
+          onTouchEnd={this.props.onSliderChange}
+          onInput={this.valueChanged}
         />
         <span className="sub-header-h5 left">{this.props.minText}</span>
         <span className="sub-header-h5 right">{this.props.maxText}</span>
