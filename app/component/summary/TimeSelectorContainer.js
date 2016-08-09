@@ -67,10 +67,10 @@ class TimeSelectorContainer extends Component {
       this.state.time,
     ), 500);
 
-  changeTime = ({ target }) => this.setState(
+  changeTime = ({ target }) => (target.value ? this.setState(
     { time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD') },
     this.dispatchChangedtime
-  );
+  ) : {});
 
   changeTimeMui = (e, date) => this.setState(
     { time: moment(`${date.getHours()}:${date.getMinutes()} ${this.state.time.format('YYYY-MM-DD')}`

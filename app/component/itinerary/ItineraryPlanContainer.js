@@ -175,13 +175,6 @@ class ItineraryPlanContainer extends React.Component {
           zoom={16}
           key="map"
           fitBounds={false}
-          leafletOptions={this.getFullscreen() ? {} : {
-            dragging: false,
-            touchZoom: false,
-            scrollWheelZoom: false,
-            doubleClickZoom: false,
-            boxZoom: false,
-          }}
         >
           {overlay}
           <div

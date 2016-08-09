@@ -174,19 +174,27 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     , trackReactPerformance
   );
 
-  if (window !== null) {
-    // start positioning
-    piwik.enableLinkTracking();
-    context.executeAction(startLocationWatch);
+  // Listen for Web App Install Banner events
+  window.addEventListener('beforeinstallprompt', e => {
+    piwik.trackEvent('installprompt', 'fired');
 
-    // Send perf data after React has compared real and shadow DOMs
-    // and started positioning
-    piwik.setCustomVariable(4, 'commit_id', buildInfo.COMMIT_ID, 'visit');
-    piwik.setCustomVariable(5, 'build_time', buildInfo.BUILD_TIME, 'visit');
+    // e.userChoice will return a Promise.
+    e.userChoice.then(choiceResult =>
+      piwik.trackEvent('installprompt', 'result', choiceResult.outcome)
+    );
+  });
 
-    // Track performance after some time has passed
-    setTimeout(() => trackDomPerformance(), 5000);
-  }
+  // start positioning
+  piwik.enableLinkTracking();
+  context.executeAction(startLocationWatch);
+
+  // Send perf data after React has compared real and shadow DOMs
+  // and started positioning
+  piwik.setCustomVariable(4, 'commit_id', buildInfo.COMMIT_ID, 'visit');
+  piwik.setCustomVariable(5, 'build_time', buildInfo.BUILD_TIME, 'visit');
+
+  // Track performance after some time has passed
+  setTimeout(() => trackDomPerformance(), 5000);
 });
 
 // Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service

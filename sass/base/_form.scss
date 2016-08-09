@@ -33,3 +33,13 @@ span.prefix {
 .prefix-and-postfix-radius input {
   border-radius: 0 !important;
 }
+
+// Hide X-button from time inputs
+input[type="date"]::-webkit-clear-button, input[type="time"]::-webkit-clear-button {
+  display: none;
+}
+
+// Hide up and down buttons from time element
+input[type="time"]::-webkit-inner-spin-button {
+  display: none;
+}
