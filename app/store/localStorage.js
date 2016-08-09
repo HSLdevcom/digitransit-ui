@@ -18,11 +18,11 @@ function getItem(key) {
     window.localStorage.getItem(key) || null;
 }
 
-function getItemAsJson(key) {
+function getItemAsJson(key, defaultValue) {
   let item = getItem(key);
 
   if (item == null) {
-    item = '[]';
+    item = defaultValue || '[]';
   }
 
   return JSON.parse(item);
@@ -67,7 +67,7 @@ export function setMessagesStorage(data) {
 }
 
 export function getModeStorage() {
-  return getItemAsJson('mode');
+  return getItemAsJson('mode', '{}');
 }
 
 export function setModeStorage(data) {
