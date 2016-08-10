@@ -186,7 +186,7 @@ gemini.suite('components', (parent) => {
   gemini.suite('SelectStopRow', (component) => {
     component.setCaptureElements(
       '#SelectStopRow .component-example:nth-of-type(1) .component')
-    .capture('normal', { tolerance: 5 }, () => {});
+    .capture('normal', { tolerance: 7 }, () => {});
   });
 
   gemini.suite('SelectCityBikeRow', (component) => {
