@@ -1573,8 +1573,8 @@
                             "name": "String",
                             "ofType": null
                         },
-                        "isDeprecated": false,
-                        "deprecationReason": null
+                        "isDeprecated": true,
+                        "deprecationReason": "The meaning of the type field will be changed to v2. Please use the mode-field instead. Type will export the raw type integer form the GTFS source."
                     },
                     {
                         "name": "desc",

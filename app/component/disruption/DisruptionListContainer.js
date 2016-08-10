@@ -64,7 +64,7 @@ export const relayFragment = {
       effectiveEndDate
       route {
         shortName
-        type
+        mode
       }
     }
   }

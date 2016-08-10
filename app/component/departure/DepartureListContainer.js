@@ -153,7 +153,7 @@ export default Relay.createContainer(DepartureListContainerWithTime, {
             gtfsId
             shortName
             longName
-            type
+            mode
             color
           }
           code

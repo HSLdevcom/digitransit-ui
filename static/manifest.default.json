@@ -1,10 +1,11 @@
 {
- "name": "Digitransit",
+ "name": "Digitransit Beta",
  "short_name": "Digitransit",
  "display": "standalone",
  "background_color": "#ffffff",
  "theme_color": "#ffffff",
  "lang": "fi-FI",
+ "start_url": "/",
  "icons": [
   {
    "src": "\/img\/default-icons\/android-icon-36x36.png",

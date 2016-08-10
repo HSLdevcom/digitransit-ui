@@ -17,7 +17,7 @@ const TripRouteStop = (props) => {
   const vehicles = props.vehicles && props.vehicles.map(
       (vehicle) => (<PatternLink
         key={vehicle.id}
-        routeType={vehicle.mode}
+        mode={vehicle.mode}
         pattern={props.pattern}
         selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
       />)
@@ -80,7 +80,7 @@ TripRouteStop.description = (
       <TripRouteStop
         key={exampleDeparture.stop.gtfsId}
         stop={exampleDeparture.stop}
-        mode={exampleDeparture.pattern.route.type}
+        mode={exampleDeparture.pattern.route.mode}
         pattern={exampleDeparture.pattern.code}
         vehicles={null}
         stopPassed
@@ -96,7 +96,7 @@ TripRouteStop.description = (
       <TripRouteStop
         key={exampleRealtimeDeparture.stop.gtfsId}
         stop={exampleRealtimeDeparture.stop}
-        mode={exampleRealtimeDeparture.pattern.route.type}
+        mode={exampleRealtimeDeparture.pattern.route.mode}
         pattern={exampleDeparture.pattern.code}
         vehicles={[exampleVehicle]}
         stopPassed={false}
