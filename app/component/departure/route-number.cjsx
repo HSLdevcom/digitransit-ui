@@ -16,15 +16,15 @@ RouteNumber.description =
   <div>
     <p>Display mode icon and route number with mode color</p>
     <ComponentUsageExample>
-      <RouteNumber mode={Example.realtimeDeparture.pattern.route.type} text={Example.realtimeDeparture.pattern.route.shortName}/>
+      <RouteNumber mode={Example.realtimeDeparture.pattern.route.mode} text={Example.realtimeDeparture.pattern.route.shortName}/>
     </ComponentUsageExample>
 
     <ComponentUsageExample description="with realtime symbol">
-      <RouteNumber mode={Example.realtimeDeparture.pattern.route.type} text={Example.realtimeDeparture.pattern.route.shortName} realtime={true}/>
+      <RouteNumber mode={Example.realtimeDeparture.pattern.route.mode} text={Example.realtimeDeparture.pattern.route.shortName} realtime={true}/>
     </ComponentUsageExample>
 
     <ComponentUsageExample description="in vertical configuration">
-      <RouteNumber mode={Example.realtimeDeparture.pattern.route.type} text={Example.realtimeDeparture.pattern.route.shortName} vertical={true}/>
+      <RouteNumber mode={Example.realtimeDeparture.pattern.route.mode} text={Example.realtimeDeparture.pattern.route.shortName} vertical={true}/>
     </ComponentUsageExample>
   </div>
 

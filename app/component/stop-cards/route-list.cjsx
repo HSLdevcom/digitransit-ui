@@ -9,7 +9,7 @@ RouteNumber           = require('../departure/RouteNumber').default
 class RouteList extends React.Component
   render: ->
     routeObjs = []
-    for mode, routes of groupBy(@props.routes, (route) -> route.type.toLowerCase())
+    for mode, routes of groupBy(@props.routes, (route) -> route.mode.toLowerCase())
       routeText = " " + uniq(
         route.shortName for route in routes.sort(routeCompare) when route.shortName
       ).join(', ')
