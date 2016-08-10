@@ -1,7 +1,7 @@
 React                  = require 'react'
 Icon                   = require '../icon/icon'
 Slider                 = require '../util/slider'
-ToggleButton           = require '../util/toggle-button'
+ToggleButton           = require('../util/ToggleButton').default
 ModeFilter             = require '../util/mode-filter'
 ItinerarySearchActions = require('../../action/ItinerarySearchActions')
 Select                 = require '../util/select'

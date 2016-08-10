@@ -1,5 +1,5 @@
 React        = require 'react'
-ToggleButton = require './toggle-button'
+ToggleButton = require('./ToggleButton').default
 config       = require '../../config'
 
 class ModeFilter extends React.Component
