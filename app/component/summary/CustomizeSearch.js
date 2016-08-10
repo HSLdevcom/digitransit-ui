@@ -45,10 +45,11 @@ class CustomizeSearch extends React.Component {
     );
   }
 
-  getSliderStepsArray(min, max, defaultValue) {
-    const lowStep = (defaultValue - min) / 10;
+  getSliderStepsArray(min, max, defaultValue, stepCount = 20) {
+    const denom = stepCount / 2;
+    const lowStep = (defaultValue - min) / denom;
     const lowRange = range(min, defaultValue, lowStep);
-    const highStep = (max - defaultValue) / 10;
+    const highStep = (max - defaultValue) / denom;
     const highRange = range(defaultValue, max, highStep);
     return lowRange.concat(highRange.concat(max));
   }
@@ -118,7 +119,7 @@ class CustomizeSearch extends React.Component {
   getTransferMarginSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getMinTransferTime()
 
-    const transferMarginSliderValues = this.getSliderStepsArray(60, 660, 180);
+    const transferMarginSliderValues = this.getSliderStepsArray(0, 660, 180);
 
     return (
       <section className="offcanvas-section">
@@ -137,8 +138,14 @@ class CustomizeSearch extends React.Component {
           min={0}
           max={20}
           step={1}
-          minText="1 min"
-          maxText="12 min"
+          minText={this.context.intl.formatMessage({
+            id: 'no-transfers-margin',
+            defaultMessage: 'None',
+          })}
+          maxText={this.context.intl.formatMessage({
+            id: 'long-transfers-margin',
+            defaultMessage: 'Very long',
+          })}
         />
       </section>);
   }
@@ -244,9 +251,9 @@ class CustomizeSearch extends React.Component {
           </div>
         </section>
         {config.customizeSearch.walkReluctance.available ? this.getWalkReluctanceSlider() : null}
+        {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
         {config.customizeSearch.walkBoardCost.available ? this.getWalkBoardCostSlider() : null}
         {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
-        {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
         {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
         {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
       </div>);
