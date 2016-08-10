@@ -120,7 +120,7 @@ gemini.suite('components', (parent) => {
   gemini.suite('TripRouteStop', () => {
     gemini.suite('non-realtime', (suite) => {
       suite.setCaptureElements('#TripRouteStop .component-example:nth-of-type(1) .component')
-      .capture('normal');
+      .capture('normal', { tolerance: 5 }, () => {});
     });
     gemini.suite('realtime', (suite) => {
       suite.setCaptureElements([
@@ -128,7 +128,7 @@ gemini.suite('components', (parent) => {
         '#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime',
       ])
       .ignoreElements('#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime')
-      .capture('normal');
+      .capture('normal', { tolerance: 5 }, () => {});
     });
   });
 
@@ -169,24 +169,24 @@ gemini.suite('components', (parent) => {
   gemini.suite('RightOffcanvasToggle', () => {
     gemini.suite('default', (suite) => {
       suite.setCaptureElements('#RightOffcanvasToggle .component-example:nth-of-type(1) .component')
-      .capture('normal');
+      .capture('normal', { tolerance: 7 }, () => {});
     });
     gemini.suite('adjusted', (suite) => {
       suite.setCaptureElements('#RightOffcanvasToggle .component-example:nth-of-type(2) .component')
-      .capture('normal');
+      .capture('normal', { tolerance: 7 }, () => {});
     });
   });
 
   gemini.suite('MarkerSelectPopup', (component) => {
     component.setCaptureElements(
       '#MarkerSelectPopup .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('SelectStopRow', (component) => {
     component.setCaptureElements(
       '#SelectStopRow .component-example:nth-of-type(1) .component')
-    .capture('normal');
+    .capture('normal', { tolerance: 5 }, () => {});
   });
 
   gemini.suite('SelectCityBikeRow', (component) => {
