@@ -58,12 +58,12 @@ function NextDeparturesList(props) {
         <div className="next-departure-row padding-vertical-normal border-bottom">
           <Distance distance={departure.distance} />
           <RouteNumber
-            mode={stoptime.pattern.route.type}
+            mode={stoptime.pattern.route.mode}
             text={stoptime.pattern.route.shortName}
             hasDisruption={departure.hasDisruption}
           />
           <RouteDestination
-            mode={stoptime.pattern.route.type}
+            mode={stoptime.pattern.route.mode}
             destination={stoptime.pattern.headsign || stoptime.pattern.route.longName}
           />
           {departureTimes}
@@ -91,7 +91,7 @@ export const relayFragment = Relay.QL`
         gtfsId
         shortName
         longName
-        type
+        mode
       }
     }
     stoptimes {

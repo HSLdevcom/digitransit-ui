@@ -21,7 +21,7 @@ function getNextDepartures(props) {
 
       const seenKey = `${pattern.route.gtfsId}:${pattern.headsign}`;
       const isSeen = seenDepartures[seenKey];
-      const isModeIncluded = props.modes.includes(pattern.route.type);
+      const isModeIncluded = props.modes.includes(pattern.route.mode);
       const isPickup = patternAndStoptimes.stoptimes[0].pickupType !== 'NONE';
 
       if (!isSeen && isModeIncluded && isPickup) {
@@ -70,7 +70,7 @@ export default Relay.createContainer(NearbyRouteListContainer, {
                     headsign
                     route {
                       gtfsId,
-                      type,
+                      mode,
                       alerts {
                         id
                       }

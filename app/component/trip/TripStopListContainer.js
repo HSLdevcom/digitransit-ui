@@ -29,7 +29,7 @@ class TripStopListContainer extends React.Component {
     const nearest = this.getNearestStopDistance(this.props.trip.stoptimesForDate
       .map(stoptime => stoptime.stop));
 
-    const mode = this.props.trip.route.type.toLowerCase();
+    const mode = this.props.trip.route.mode.toLowerCase();
     const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
     const tripStartTime = this.props.trip.stoptimesForDate[0].serviceDay +
       this.props.trip.stoptimesForDate[0].scheduledDeparture;
@@ -103,7 +103,7 @@ export default Relay.createContainer(
       trip: () => Relay.QL`
       fragment on Trip {
         route {
-          type
+          mode
         }
         pattern {
           code

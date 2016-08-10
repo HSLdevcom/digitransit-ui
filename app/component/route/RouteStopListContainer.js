@@ -31,7 +31,7 @@ class RouteStopListContainer extends React.Component {
     const stops = this.props.pattern.stops;
     const nearest = state.hasLocation === true ?
       getDistanceToNearestStop(state.lat, state.lon, stops) : null;
-    const mode = this.props.pattern.route.type.toLowerCase();
+    const mode = this.props.pattern.route.mode.toLowerCase();
 
     const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
 
@@ -82,7 +82,7 @@ export default Relay.createContainer(
       pattern: () => Relay.QL`
         fragment on Pattern {
           route {
-            type
+            mode
           }
           stops {
             stopTimesForPattern(id: $routeId) {
