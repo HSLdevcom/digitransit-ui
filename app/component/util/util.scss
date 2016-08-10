@@ -54,6 +54,7 @@ input[type=range].slider {
   }
   &::-moz-range-track {
     @include track;
+    height: 3px;
   }
   &::-ms-track {
     @include track;
@@ -250,4 +251,8 @@ $btn-heigth: 17px;
   padding-bottom: 0px;
   height: 53px;
   text-align: center;
+}
+
+select {
+  -moz-appearance: none;
 }
