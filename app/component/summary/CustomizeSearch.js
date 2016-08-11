@@ -57,7 +57,7 @@ class CustomizeSearch extends React.Component {
   getWalkReluctanceSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkReluctance()
 
-    const walkReluctanceSliderValues = this.getSliderStepsArray(0.8, 10, 2);
+    const walkReluctanceSliderValues = this.getSliderStepsArray(0.8, 10, 2).reverse();
 
     return (<section className="offcanvas-section">
       <Slider
@@ -73,12 +73,12 @@ class CustomizeSearch extends React.Component {
         max={20}
         step={1}
         minText={this.context.intl.formatMessage({
-          id: 'prefer-walking',
-          defaultMessage: 'Prefer walking',
-        })}
-        maxText={this.context.intl.formatMessage({
           id: 'avoid-walking',
           defaultMessage: 'Avoid walking',
+        })}
+        maxText={this.context.intl.formatMessage({
+          id: 'prefer-walking',
+          defaultMessage: 'Prefer walking',
         })}
       />
     </section>);
@@ -87,7 +87,7 @@ class CustomizeSearch extends React.Component {
   getWalkBoardCostSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkBoardCost()
 
-    const walkBoardCostSliderValues = this.getSliderStepsArray(1, 1800, 600);
+    const walkBoardCostSliderValues = this.getSliderStepsArray(1, 1800, 600).reverse();
 
     return (
       <section className="offcanvas-section">
@@ -105,12 +105,12 @@ class CustomizeSearch extends React.Component {
           max={20}
           step={1}
           minText={this.context.intl.formatMessage({
-            id: 'transfers-allowed',
-            defaultMessage: 'Transfers allowed',
-          })}
-          maxText={this.context.intl.formatMessage({
             id: 'avoid-transfers',
             defaultMessage: 'Avoid transfers',
+          })}
+          maxText={this.context.intl.formatMessage({
+            id: 'transfers-allowed',
+            defaultMessage: 'Transfers allowed',
           })}
         />
       </section>);
