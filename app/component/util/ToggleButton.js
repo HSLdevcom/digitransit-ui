@@ -34,7 +34,7 @@ ToggleButton.propTypes = {
   state: React.PropTypes.bool,
   icon: React.PropTypes.string,
   className: React.PropTypes.string,
-  style: React.PropTypes.string,
+  style: React.PropTypes.object,
   children: React.PropTypes.array,
 };
 

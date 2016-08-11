@@ -2,7 +2,7 @@ React                  = require 'react'
 Icon                   = require '../icon/icon'
 Slider                 = require '../util/slider'
 ToggleButton           = require('../util/ToggleButton').default
-ModeFilter             = require '../util/mode-filter'
+ModeFilter             = require('../util/ModeFilter').default
 ItinerarySearchActions = require('../../action/ItinerarySearchActions')
 Select                 = require '../util/select'
 config                 = require '../../config'
@@ -35,7 +35,7 @@ class CustomizeSearch extends React.Component
   render: ->
     <div className="customize-search">
       <section className="offcanvas-section">
-        <ModeFilter store={@context.getStore('ItinerarySearchStore')} action={ItinerarySearchActions} buttonClass="mode-icon"/>
+        <ModeFilter modes={@context.getStore('ItinerarySearchStore').getMode()} action={ItinerarySearchActions} buttonClass="mode-icon"/>
       </section>
 
       <section className="offcanvas-section">
