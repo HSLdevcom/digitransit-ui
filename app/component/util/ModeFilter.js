@@ -22,7 +22,7 @@ class ModeFilter extends React.Component {
   }
 
   render = () => {
-    const ModeToggleButton = ({ type, style }) => {
+    const ModeToggleButton = ({ type, style, stateName }) => {
       if (config.transportModes[type].availableForSelection) {
         const icon = `${type}-withoutBox`;
         const camelCaseType = type.charAt(0).toUpperCase() + type.slice(1);
@@ -33,7 +33,7 @@ class ModeFilter extends React.Component {
           onBtnClick={() => {
             this.context.executeAction(this.props.action[actionName]);
           }}
-          state={this.props.modes.indexOf(upperCaseType) !== -1}
+          state={this.props.modes.indexOf(stateName || upperCaseType) !== -1}
           checkedClass={type}
           style={style}
           className={this.props.buttonClass}
@@ -54,7 +54,7 @@ class ModeFilter extends React.Component {
       <ModeToggleButton type="rail" style={style} />
       <ModeToggleButton type="subway" style={style} />
       <ModeToggleButton type="ferry" style={style} />
-      <ModeToggleButton type="citybike" style={style} />
+      <ModeToggleButton type="citybike" style={style} stateName="BICYCLE_RENT" />
     </div>);
   }
 }
