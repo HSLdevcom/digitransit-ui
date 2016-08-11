@@ -74,6 +74,7 @@ class TripStopListContainer extends React.Component {
         currentTime={this.props.currentTime.unix()}
         realtimeDeparture={stoptime.realtimeDeparture}
         pattern={this.props.trip.pattern.code}
+        last={index === this.props.trip.stoptimesForDate.length - 1}
       />);
     });
   }
