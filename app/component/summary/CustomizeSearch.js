@@ -45,6 +45,14 @@ class CustomizeSearch extends React.Component {
     );
   }
 
+  /*
+      This function is used to map our desired min, max, and default values to a standard
+      amount of steps on the UI sliders. This allows us to always keep the default values
+      in the slider midpoint.
+
+      The ranges below and above the default value are divided into even steps, after which
+      the two ranges are combined into a single array of desired values.
+  */
   getSliderStepsArray(min, max, defaultValue, stepCount = 20) {
     const denom = stepCount / 2;
     const lowStep = (defaultValue - min) / denom;
