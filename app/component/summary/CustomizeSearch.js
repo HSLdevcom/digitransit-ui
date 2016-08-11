@@ -51,7 +51,8 @@ class CustomizeSearch extends React.Component {
     const lowRange = range(min, defaultValue, lowStep);
     const highStep = (max - defaultValue) / denom;
     const highRange = range(defaultValue, max, highStep);
-    return lowRange.concat(highRange.concat(max));
+    const sliderSteps = lowRange.concat(highRange.concat(max));
+    return sliderSteps;
   }
 
   getWalkReluctanceSlider = () => {
@@ -87,7 +88,8 @@ class CustomizeSearch extends React.Component {
   getWalkBoardCostSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkBoardCost()
 
-    const walkBoardCostSliderValues = this.getSliderStepsArray(1, 1800, 600).reverse();
+    const walkBoardCostSliderValues = this.getSliderStepsArray(1, 1800, 600).reverse().map(
+      num => Math.round(num));
 
     return (
       <section className="offcanvas-section">
@@ -119,7 +121,8 @@ class CustomizeSearch extends React.Component {
   getTransferMarginSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getMinTransferTime()
 
-    const transferMarginSliderValues = this.getSliderStepsArray(0, 660, 180);
+    const transferMarginSliderValues = this.getSliderStepsArray(60, 660, 180).map(
+      num => Math.round(num));
 
     return (
       <section className="offcanvas-section">
