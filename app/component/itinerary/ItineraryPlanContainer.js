@@ -175,6 +175,7 @@ class ItineraryPlanContainer extends React.Component {
           zoom={16}
           key="map"
           fitBounds={false}
+          disableZoom={!this.getFullscreen()}
         >
           {overlay}
           <div

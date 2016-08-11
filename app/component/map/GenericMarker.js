@@ -44,14 +44,10 @@ export default class GenericMarker extends React.Component {
 
   static propTypes = {
     position: React.PropTypes.object.isRequired,
-    mode: React.PropTypes.string.isRequired,
-    icons: React.PropTypes.object.isRequired,
-    iconSizes: React.PropTypes.object.isRequired,
+    getIcon: React.PropTypes.func.isRequired,
     id: React.PropTypes.string,
     renderName: React.PropTypes.bool,
-    selected: React.PropTypes.bool,
     name: React.PropTypes.string,
-    thin: React.PropTypes.bool,
     children: React.PropTypes.node,
   };
 
@@ -69,37 +65,10 @@ export default class GenericMarker extends React.Component {
 
   onMapMove = () => this.forceUpdate();
 
-  getIcon = (mode, selected, zoom) => L.divIcon({
-    html: (() => {
-      if (zoom <= config.stopsSmallMaxZoom) {
-        return this.props.icons.smallIconSvg;
-      } else if (selected) {
-        return this.props.icons.selectedIconSvg;
-      }
-      return this.props.icons.iconSvg;
-    })(),
-
-    iconSize: (() => {
-      if (zoom <= config.stopsSmallMaxZoom) {
-        return this.props.iconSizes.smallIconSvg;
-      } else if (selected) {
-        return this.props.iconSizes.selectedIconSvg;
-      }
-      return this.props.iconSizes.iconSvg;
-    })(),
-
-    className: `${mode} cursor-pointer`,
-  });
-
-
   getMarker = () => (
     <Marker
       position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
-      icon={this.getIcon(
-        this.props.mode + (this.props.thin ? ' thin' : ''),
-        this.props.selected,
-        this.context.map.getZoom())
-      }
+      icon={this.props.getIcon(this.context.map.getZoom())}
     >
       <Popup
         offset={config.map.genericMarker.popup.offset}
