@@ -464,7 +464,19 @@ div.route-tabs {
 
 .nearby-routes .mode-filter {
   &.btn-bar .btn {
-    border-right: 1px solid white;
+    border-right: 1px solid $light-gray;
+    border-top: 1px solid $light-gray;
+    border-bottom: 1px solid $light-gray;
+
+    &:first-child {
+      border-top-left-radius: $border-radius-bigger;
+      border-bottom-left-radius: $border-radius-bigger;
+      border-left: 1px solid $light-gray;
+    }
+    &:last-child {
+      border-top-right-radius: $border-radius-bigger;
+      border-bottom-right-radius: $border-radius-bigger;
+    }
 
     & .icon-holder {
       padding-top: 8px;
@@ -476,6 +488,15 @@ div.route-tabs {
       }
     }
   }
+}
+
+.mode-nearby {
+    &.btn {
+      background-color: white;
+      .icon{
+        color: #79919D;
+      }
+    }
 }
 
 .route-pattern-select {
