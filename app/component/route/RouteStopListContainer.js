@@ -31,11 +31,11 @@ class RouteStopListContainer extends React.Component {
     const stops = this.props.pattern.stops;
     const nearest = state.hasLocation === true ?
       getDistanceToNearestStop(state.lat, state.lon, stops) : null;
-    const mode = this.props.pattern.route.type.toLowerCase();
+    const mode = this.props.pattern.route.mode.toLowerCase();
 
     const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
 
-    return stops.map((stop) => {
+    return stops.map((stop, i) => {
       const isNearest = (
         nearest && nearest.distance < config.nearestStopDistance.maxShownDistance &&
           nearest.stop.gtfsId
@@ -50,6 +50,7 @@ class RouteStopListContainer extends React.Component {
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? 'nearestStop' : null}
           currentTime={this.props.currentTime.unix()}
+          last={i === stops.length - 1}
         />
       );
     });
@@ -81,7 +82,7 @@ export default Relay.createContainer(
       pattern: () => Relay.QL`
         fragment on Pattern {
           route {
-            type
+            mode
           }
           stops {
             stopTimesForPattern(id: $routeId) {

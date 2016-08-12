@@ -19,7 +19,7 @@ class RouteLine extends React.Component {
     }
 
     const objs = [];
-    const modeClass = this.props.pattern.route.type.toLowerCase();
+    const modeClass = this.props.pattern.route.mode.toLowerCase();
 
     if (!this.props.thin) {
       // We are drawing a background line under an itinerary line,
@@ -81,7 +81,7 @@ export default Relay.createContainer(RouteLine, {
           lon
         }
         route {
-          type
+          mode
         }
         stops {
           lat

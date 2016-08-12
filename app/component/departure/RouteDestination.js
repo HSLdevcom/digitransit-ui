@@ -32,7 +32,7 @@ RouteDestination.description = (
     <p>Display the destination of the route (headsign)</p>
     <ComponentUsageExample>
       <RouteDestination
-        mode={ExampleData.pattern.route.type}
+        mode={ExampleData.pattern.route.mode}
         destination={ExampleData.pattern.headsign ||
             ExampleData.pattern.route.longName}
       />
@@ -41,7 +41,7 @@ RouteDestination.description = (
       description="isArrival true"
     >
       <RouteDestination
-        mode={ExampleData.pattern.route.type}
+        mode={ExampleData.pattern.route.mode}
         destination={ExampleData.pattern.headsign ||
             ExampleData.pattern.route.longName}
         isArrival

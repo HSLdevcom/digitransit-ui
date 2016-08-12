@@ -316,6 +316,11 @@ div.origin-popup {
   fill-opacity: 1;
 }
 
+.map .icon.mode-icon {
+  height: 100%;
+  width: 100%;
+}
+
 .map svg use { pointer-events:none; }
 
 .map .thin .stop-small {

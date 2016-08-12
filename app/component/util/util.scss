@@ -40,7 +40,6 @@ $track-border: 2px solid $slider-gray;
   width: 100%;
   height: 7px;
   cursor: pointer;
-  box-shadow: $track-box-shadow;
   background: #000000;
   border-radius: 3px;
   border: $track-border;
@@ -55,6 +54,7 @@ input[type=range].slider {
   }
   &::-moz-range-track {
     @include track;
+    height: 3px;
   }
   &::-ms-track {
     @include track;
@@ -67,13 +67,11 @@ input[type=range].slider {
     background: #000000;
     border: $track-border;
     border-radius: 6px;
-    box-shadow: $track-box-shadow;
   }
   &::-ms-fill-upper {
     background: #000000;
     border: $track-border;
     border-radius: 6px;
-    box-shadow: $track-box-shadow;
   }
   &:focus::-ms-fill-lower {
     background: #000000;
@@ -119,7 +117,7 @@ input[type=range].slider {
 
 $thumb-color-pink: $favourite-color;
 
-.slider-container.active  {
+.slider-container.active, .slider-container.modified {
   input[type=range].slider::-webkit-slider-thumb {
     background-color: $thumb-color-pink !important;
   }
@@ -253,4 +251,8 @@ $btn-heigth: 17px;
   padding-bottom: 0px;
   height: 53px;
   text-align: center;
+}
+
+select {
+  -moz-appearance: none;
 }

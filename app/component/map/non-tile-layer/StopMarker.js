@@ -6,17 +6,22 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../icon/icon';
-import ReactDomServer from 'react-dom/server';
 import config from '../../../config';
+import { getCaseRadius, getStopRadius, getHubRadius } from '../../../util/mapIconUtils';
+
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
-/* eslint-disable max-len */
-const iconSvg = '<svg viewBox="0 0 18 18">n  <circle key="halo" class="stop-halo" cx="9" cy="9" r="8" stroke-width="1"/>n  <circle key="stop" class="stop" cx="9" cy="9" r="4.5" stroke-width="4"/>n</svg>';
-const selectedIconSvg = '<svg viewBox="0 0 28 28">n  <circle key="halo" class="stop-halo" cx="14" cy="14" r="13" stroke-width="1"/>n  <circle key="stop" class="stop" cx="14" cy="14" r="8" stroke-width="7"/>n</svg>';
-const transferIconSvg = '<svg viewBox="0 0 28 28">n  <circle key="halo" class="stop-halo" cx="14" cy="14" r="13" stroke-width="1"/>n  <circle key="stop" class="stop" cx="14" cy="14" r="8" stroke-width="7"/>n</svg>';
-const smallIconSvg = '<svg viewBox="0 0 8 8">n  <circle class="stop-small" cx="4" cy="4" r="3" stroke-width="1"/>n</svg>';
-/* eslint-enable max-len */
+let L;
+
+/* eslint-disable global-require */
+// TODO When server side rendering is re-enabled,
+//      these need to be loaded only when isBrowser is true.
+//      Perhaps still using the require from webpack?
+if (isBrowser) {
+  L = require('leaflet');
+}
+/* eslint-enable global-require */
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
@@ -41,49 +46,58 @@ class StopMarker extends React.Component {
     intl: intlShape.isRequired,
   };
 
-  getStopMarker() {
-    let iconId;
+
+  getModeIcon = (zoom) => {
+    const iconId = `icon-icon_${this.props.mode}`;
+    const icon = Icon.asString(iconId, 'mode-icon');
     let size;
-    let iconSelected;
-    let icon;
-    let iconSmall;
-
-    const loadingPopupStyle = {
-      height: 150,
-    };
-
-    let iconSizes = {
-      smallIconSvg: [8, 8],
-      iconSvg: [18, 18],
-      selectedIconSvg: [28, 28],
-    };
-
-    if (this.props.stop.transfer) {
-      iconSmall = transferIconSvg;
-      icon = transferIconSvg;
-      iconSelected = transferIconSvg;
-      size = [18, 18];
-
-      iconSizes = {
-        smallIconSvg: size,
-        iconSvg: size,
-        selectedIconSvg: size,
-      };
-    } else if (config.map.useModeIconsInNonTileLayer && !this.props.disableModeIcons) {
-      iconId = `icon-icon_${this.props.mode}`;
-      iconSmall = ReactDomServer.renderToString(
-        <Icon viewBox="0 0 8 8" img={iconId} className="stop-marker" />
-      );
-      icon = ReactDomServer.renderToString(
-        <Icon viewBox="0 0 18 18" img={iconId} className="stop-marker" />
-      );
-      iconSelected = ReactDomServer.renderToString(
-        <Icon viewBox="0 0 28 28" img={iconId} className="stop-marker" />
-      );
+    if (zoom <= config.stopsSmallMaxZoom) {
+      size = 8;
+    } else if (this.props.selected) {
+      size = 28;
     } else {
-      iconSmall = smallIconSvg;
-      icon = iconSvg;
-      iconSelected = selectedIconSvg;
+      size = 18;
+    }
+
+    return L.divIcon({
+      html: icon,
+      iconSize: [size, size],
+      className: `${this.props.mode} cursor-pointer`,
+    });
+  }
+
+  getIcon = (zoom) => {
+    const scale = this.props.stop.transfer || this.props.selected ? 1.5 : 1;
+    const calcZoom = this.props.stop.transfer || this.props.selected ? Math.max(zoom, 15) : zoom;
+
+    const radius = getCaseRadius({ $zoom: calcZoom }) * scale;
+    const stopRadius = getStopRadius({ $zoom: calcZoom }) * scale;
+    const hubRadius = getHubRadius({ $zoom: calcZoom }) * scale;
+
+    const inner = (stopRadius + hubRadius) / 2;
+    const stroke = stopRadius - hubRadius;
+
+    let iconSvg = `
+      <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
+        <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
+        <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
+      </svg>
+    `;
+
+    if (radius === 0) {
+      iconSvg = '';
+    }
+
+    return L.divIcon({
+      html: iconSvg,
+      iconSize: [radius * 2, radius * 2],
+      className: `${this.props.mode} cursor-pointer`,
+    });
+  }
+
+  render() {
+    if (!isBrowser) {
+      return '';
     }
 
     return (
@@ -92,16 +106,12 @@ class StopMarker extends React.Component {
           lat: this.props.stop.lat,
           lon: this.props.stop.lon,
         }}
-        mode={this.props.mode}
-        icons={{
-          smallIconSvg: iconSmall,
-          iconSvg: icon,
-          selectedIconSvg: iconSelected,
-        }}
-        iconSizes={iconSizes}
+        getIcon={
+          config.map.useModeIconsInNonTileLayer && !this.props.disableModeIcons ?
+          this.getModeIcon : this.getIcon
+        }
         id={this.props.stop.gtfsId}
         renderName={this.props.renderName}
-        selected={this.props.selected}
         name={this.props.stop.name}
       >
         <Relay.RootContainer
@@ -111,7 +121,7 @@ class StopMarker extends React.Component {
             date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
           })}
           renderLoading={() =>
-            <div className="card" style={loadingPopupStyle}><div className="spinner-loader" /></div>
+            <div className="card" style={{ height: 150 }}><div className="spinner-loader" /></div>
           }
           renderFetched={data =>
             <StopMarkerPopupWithContext {...data} context={this.context} />
@@ -119,14 +129,6 @@ class StopMarker extends React.Component {
         />
       </GenericMarker>
     );
-  }
-
-  render() {
-    if (!isBrowser) {
-      return '';
-    }
-
-    return <div>{this.getStopMarker()}</div>;
   }
 }
 
