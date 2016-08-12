@@ -14,9 +14,8 @@ const CardHeader = ({
   code,
 }) => (
   <div className={cx('card-header', className)}>
-    <span className="right">
-      {addFavourite ? <Favourite addFavourite={addFavourite} favourite={favourite} /> : null}
-    </span>
+    {addFavourite ?
+      <Favourite addFavourite={addFavourite} favourite={favourite} className="right" /> : null}
     {children}
     <span className={headingStyle || 'h4 link-color'}>{name} ›</span>
     <div className="card-sub-header">
