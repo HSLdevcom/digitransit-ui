@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomizeSearch from '../summary/customize-search';
+import CustomizeSearch from '../summary/CustomizeSearch';
 import Drawer from 'material-ui/Drawer';
 import { supportsHistory } from 'history/lib/DOMUtils';
 import OriginDestinationBar from '../summary/OriginDestinationBar';
