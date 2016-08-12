@@ -13,11 +13,24 @@ import {
   vehicle as exampleVehicle,
 } from '../documentation/ExampleData';
 
+const routeStopSvg = (
+  <svg style={{ position: 'absolute', width: 12, height: 65, left: -14 }} >
+    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="4" stroke="currentColor" />
+    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
+  </svg>
+);
+
+const lastRouteStopSvg = (
+  <svg style={{ position: 'absolute', width: 12, height: 12, left: -14 }} >
+    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
+  </svg>
+);
+
 const TripRouteStop = (props) => {
   const vehicles = props.vehicles && props.vehicles.map(
       (vehicle) => (<PatternLink
         key={vehicle.id}
-        routeType={vehicle.mode}
+        mode={vehicle.mode}
         pattern={props.pattern}
         selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
       />)
@@ -28,6 +41,7 @@ const TripRouteStop = (props) => {
       <div className="columns small-3 route-stop-now">{vehicles}</div>
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
         <div className={`columns small-7 route-stop-name ${props.mode}`}>
+          {props.last ? lastRouteStopSvg : routeStopSvg}
           {props.stop.name}&nbsp;
           {props.distance &&
             <WalkDistance
@@ -68,6 +82,7 @@ TripRouteStop.propTypes = {
     React.PropTypes.object,
     React.PropTypes.oneOf([false]),
   ]).isRequired,
+  last: React.PropTypes.bool,
 };
 
 TripRouteStop.description = (
@@ -80,7 +95,7 @@ TripRouteStop.description = (
       <TripRouteStop
         key={exampleDeparture.stop.gtfsId}
         stop={exampleDeparture.stop}
-        mode={exampleDeparture.pattern.route.type}
+        mode={exampleDeparture.pattern.route.mode}
         pattern={exampleDeparture.pattern.code}
         vehicles={null}
         stopPassed
@@ -96,7 +111,7 @@ TripRouteStop.description = (
       <TripRouteStop
         key={exampleRealtimeDeparture.stop.gtfsId}
         stop={exampleRealtimeDeparture.stop}
-        mode={exampleRealtimeDeparture.pattern.route.type}
+        mode={exampleRealtimeDeparture.pattern.route.mode}
         pattern={exampleDeparture.pattern.code}
         vehicles={[exampleVehicle]}
         stopPassed={false}

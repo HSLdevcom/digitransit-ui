@@ -5,6 +5,7 @@ import config from '../../config';
 import DisruptionInfoButtonContainer from '../disruption/DisruptionInfoButtonContainer';
 import Icon from '../icon/icon';
 import LangSelect from './LangSelect';
+import Link from 'react-router/lib/Link';
 
 function MainMenu(props) {
   const inquiry = (
@@ -27,6 +28,11 @@ function MainMenu(props) {
       <div className="offcanvas-section">
         {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
           <DisruptionInfoButtonContainer />}
+      </div>
+      <div className="offcanvas-section">
+        <Link id="about" to="/tietoja-palvelusta">
+          <FormattedMessage id="about-this-service" defaultMessage="About this service" />
+        </Link>
       </div>
     </div>);
 }

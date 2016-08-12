@@ -3,10 +3,10 @@ import Link from 'react-router/lib/Link';
 import IconWithTail from '../icon/icon-with-tail';
 import cx from 'classnames';
 
-function PatternLink({ routeType, pattern, selected = false }) {
+function PatternLink({ mode, pattern, selected = false }) {
   const icon = (<IconWithTail
-    className={cx(routeType, 'large-icon', { large: selected })}
-    img={`icon-icon_${routeType}-live`}
+    className={cx(mode, 'large-icon', { large: selected })}
+    img={`icon-icon_${mode}-live`}
   />);
 
   return (<Link
@@ -16,7 +16,7 @@ function PatternLink({ routeType, pattern, selected = false }) {
 }
 
 PatternLink.propTypes = {
-  routeType: React.PropTypes.string.isRequired,
+  mode: React.PropTypes.string.isRequired,
   pattern: React.PropTypes.string.isRequired,
   selected: React.PropTypes.bool,
 };
