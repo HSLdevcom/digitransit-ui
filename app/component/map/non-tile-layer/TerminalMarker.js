@@ -47,7 +47,12 @@ class TerminalMarker extends React.Component {
     renderName: React.PropTypes.string,
   }
 
-  static terminalIcon = Icon.asString('icon-icon_mapMarker-station', 'terminal-medium-size');
+  getIcon = () =>
+    L.divIcon({
+      html: Icon.asString('icon-icon_mapMarker-station', 'terminal-medium-size'),
+      iconSize: [24, 24],
+      className: `${this.props.mode} cursor-pointer`,
+    })
 
   getTerminalMarker() {
     return (
@@ -56,17 +61,9 @@ class TerminalMarker extends React.Component {
           lat: this.props.terminal.lat,
           lon: this.props.terminal.lon,
         }}
-        mode={this.props.mode} icons={{
-          smallIconSvg: TerminalMarker.terminalIcon,
-          iconSvg: TerminalMarker.terminalIcon,
-        }}
-        iconSizes={{
-          smallIconSvg: [24, 24],
-          iconSvg: [24, 24],
-        }}
+        getIcon={this.getIcon}
         id={this.props.terminal.gtfsId}
         renderName={this.props.renderName}
-        selected={this.props.selected}
         name={this.props.terminal.name}
       >
         <Relay.RootContainer

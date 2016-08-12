@@ -9,7 +9,7 @@ import FavouriteStopsStore from './store/favourite-stops-store';
 import FeedbackStore from './store/feedback-store';
 import ItinerarySearchStore from './store/ItinerarySearchStore';
 import MessageStore from './store/MessageStore';
-import ModeStore from './store/mode-store';
+import ModeStore from './store/ModeStore';
 import NotImplementedStore from './store/not-implemented-store';
 import OldSearchesStore from './store/old-searches-store';
 import PositionStore from './store/PositionStore';

@@ -167,3 +167,26 @@ body .large {
 .hidden {
   visibility: hidden;
 }
+
+.page-frame {
+  padding: 10px;
+}
+
+.call-to-action-button {
+  @include font-medium;
+  color: white;
+  background: linear-gradient(#{#069DD8}, #{#0057B9});
+  vertical-align: middle;
+  border-radius: 1.5em;
+  padding: 0.5em 1.5em;
+  text-align: center;
+  max-width: 500px;
+  margin-top: 25px;
+  margin-bottom: 18px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &:active {
+    background: linear-gradient(#{#0057B9}, #{#069DD8});
+  }
+}

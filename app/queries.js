@@ -15,7 +15,7 @@ export const TerminalMarkerPopupFragments = {
         routes {
           shortName
           longName
-          type
+          mode
         }
       }
     }
@@ -75,7 +75,7 @@ export const RouteMarkerPopupFragments = {
       }
       route(id: $route) {
         gtfsId
-        type
+        mode
         shortName
         longName
       }
