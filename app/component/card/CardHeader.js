@@ -16,11 +16,8 @@ const CardHeader = ({
   icon,
 }) => (
   <div className={cx('card-header', className)}>
-    {addFavourite ? (
-      <span className="right">
-        <Favourite addFavourite={addFavourite} favourite={favourite} />
-      </span>
-    ) : null}
+    {addFavourite ?
+      <Favourite addFavourite={addFavourite} favourite={favourite} className="right" /> : null}
     {children}
     {icon ? (
       <div
