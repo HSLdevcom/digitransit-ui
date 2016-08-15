@@ -1,7 +1,7 @@
 React                 = require 'react'
 Relay                 = require 'react-relay'
 queries               = require '../../../queries'
-StopCardContainer     = require '../../stop-cards/StopCardContainer'
+StopCardContainer     = require('../../stop-cards/StopCardContainer').default
 MarkerPopupBottom     = require '../marker-popup-bottom'
 
 class StopMarkerPopup extends React.Component
