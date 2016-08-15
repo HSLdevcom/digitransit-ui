@@ -1,4 +1,5 @@
 import Relay from 'react-relay';
+import StopCardContainer from './component/stop-cards/StopCardContainer';
 /* eslint-disable global-require*/
 
 export const TerminalMarkerPopupFragments = {
@@ -22,18 +23,6 @@ export const TerminalMarkerPopupFragments = {
   `,
 };
 
-export const StopCardContainerFragments = {
-  stop: () => Relay.QL`
-    fragment on Stop{
-      gtfsId
-      stoptimes: stoptimesForServiceDate(date: $date) {
-        ${require('./component/departure/DepartureListContainer').default.getFragment('stoptimes')}
-      }
-      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
-    }
-  `,
-};
-
 export const StopMarkerPopupFragments = {
   stop: ({ date }) => Relay.QL`
     fragment on Stop{
@@ -41,7 +30,7 @@ export const StopMarkerPopupFragments = {
       lat
       lon
       name
-      ${require('./component/stop-cards/stop-card-container').getFragment('stop', { date })}
+      ${StopCardContainer.getFragment('stop', { date })}
     }
   `,
 };

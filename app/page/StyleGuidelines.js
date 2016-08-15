@@ -14,7 +14,7 @@ import CardHeader from '../component/card/CardHeader';
 import Card from '../component/card/card';
 import CityBikeCard from '../component/city-bike/city-bike-card';
 import CityBikeContent from '../component/city-bike/city-bike-content';
-import CityBikeAvailability from '../component/city-bike/city-bike-availability';
+import CityBikeAvailability from '../component/city-bike/CityBikeAvailability';
 import CityBikeUse from '../component/city-bike/city-bike-use';
 import CityBikePopup from '../component/map/popups/city-bike-popup';
 import FavouriteLocation from '../component/favourites/FavouriteLocation';
