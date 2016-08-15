@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import Favourite from '../favourites/Favourite';
+import Icon from '../icon/icon';
 
 const CardHeader = ({
   className,
@@ -12,12 +13,23 @@ const CardHeader = ({
   name,
   description,
   code,
+  icon,
 }) => (
   <div className={cx('card-header', className)}>
-    <span className="right">
-      {addFavourite ? <Favourite addFavourite={addFavourite} favourite={favourite} /> : null}
-    </span>
+    {addFavourite ? (
+      <span className="right">
+        <Favourite addFavourite={addFavourite} favourite={favourite} />
+      </span>
+    ) : null}
     {children}
+    {icon ? (
+      <div
+        className="left"
+        style={{ fontSize: 32, paddingRight: 10 }}
+      >
+        <Icon img={icon} />
+      </div>
+    ) : null}
     <span className={headingStyle || 'h4 link-color'}>{name} ›</span>
     <div className="card-sub-header">
       {code != null ? <p className="card-code">{code}</p> : null}
@@ -49,6 +61,7 @@ CardHeader.propTypes = {
   name: React.PropTypes.string.isRequired,
   description: React.PropTypes.string.isRequired,
   code: React.PropTypes.string,
+  icon: React.PropTypes.string,
   children: React.PropTypes.node,
 };
 

@@ -10,15 +10,14 @@ Card                  = require '../card/card'
 CityBikeCard = ({station, children, className}) ->
   if !station || !children || children.length == 0
     return false
-  <div>
-    <Card className={className}>
-      <CardHeader
-        name={station.name}
-        description={station.stationId}
-      />
-      {children}
-    </Card>
-  </div>
+  <Card className={className}>
+    <CardHeader
+      name={station.name}
+      description={station.stationId}
+      icon="icon-icon_citybike"
+    />
+    {children}
+  </Card>
 
 CityBikeCard.description =
   <div>
