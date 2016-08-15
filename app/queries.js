@@ -35,20 +35,6 @@ export const StopMarkerPopupFragments = {
   `,
 };
 
-
-export const CityBikePopupFragments = {
-  station: () => Relay.QL`
-    fragment on BikeRentalStation {
-      stationId
-      name
-      lat
-      lon
-      bikesAvailable
-      spacesAvailable
-    }
-  `,
-};
-
 export const RouteMarkerPopupFragments = {
   trip: () => Relay.QL`
     fragment on QueryType {
