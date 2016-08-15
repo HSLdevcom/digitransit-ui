@@ -225,9 +225,16 @@ gemini.suite('components', (parent) => {
     .capture('normal');
   });
 
-  gemini.suite('ModeFilter', (component) => {
-    component.setCaptureElements(
-      '#ModeFilter .component-example:nth-of-type(1) .component')
-    .capture('normal');
+  gemini.suite('ModeFilter', () => {
+    gemini.suite('Grey buttons', (component) => {
+      component.setCaptureElements(
+        '#ModeFilter .component-example:nth-of-type(1) .component')
+      .capture('normal');
+    });
+    gemini.suite('White buttons', (component) => {
+      component.setCaptureElements(
+        '#ModeFilter .nearby-routes .component-example:nth-of-type(1) .component')
+      .capture('normal');
+    });
   });
 });

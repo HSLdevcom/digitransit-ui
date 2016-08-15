@@ -67,10 +67,27 @@ ModeFilter.description = (
     <ComponentUsageExample>
       <ModeFilter
         modes={['BUS', 'TRAM']}
-        action={() => {}}
+        action={{
+          toggleBusState: () => {},
+          toggleTramState: () => {},
+        }}
         buttonClass=""
       />
     </ComponentUsageExample>
+
+    <p>For 'nearby white buttons'</p>
+    <div className="nearby-routes">
+      <ComponentUsageExample>
+        <ModeFilter
+          modes={['BUS', 'TRAM']}
+          action={{
+            toggleBusState: () => {},
+            toggleTramState: () => {},
+          }}
+          buttonClass="btn mode-nearby"
+        />
+      </ComponentUsageExample>
+    </div>
   </div>);
 
 ModeFilter.displayName = 'ModeFilter';
