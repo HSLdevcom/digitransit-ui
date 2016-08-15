@@ -1,6 +1,7 @@
 import React from 'react';
 import ToggleButton from './ToggleButton';
 import config from '../../config';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 class ModeFilter extends React.Component {
   static propTypes = {
@@ -58,5 +59,20 @@ class ModeFilter extends React.Component {
     </div>);
   }
 }
+
+ModeFilter.description = (
+  <div>
+    <p>ModeFilter displays row of transport mode icons that can be used to select transport modes
+    </p>
+    <ComponentUsageExample>
+      <ModeFilter
+        modes={['BUS', 'TRAM']}
+        action={() => {}}
+        buttonClass=""
+      />
+    </ComponentUsageExample>
+  </div>);
+
+ModeFilter.displayName = 'ModeFilter';
 
 export default ModeFilter;

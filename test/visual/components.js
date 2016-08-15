@@ -224,4 +224,10 @@ gemini.suite('components', (parent) => {
       '#RouteScheduleTripRow .component-example:nth-of-type(1) .component')
     .capture('normal');
   });
+
+  gemini.suite('ModeFilter', (component) => {
+    component.setCaptureElements(
+      '#ModeFilter .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
 });
