@@ -1,7 +1,7 @@
 React                 = require 'react'
 config                = require '../../config'
 CityBikeAvailability  = require('./CityBikeAvailability').default
-CityBikeUse           = require './city-bike-use'
+CityBikeUse           = require('./CityBikeUse').default
 ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 Example = require '../documentation/ExampleData'
 

@@ -15,7 +15,7 @@ import Card from '../component/card/card';
 import CityBikeCard from '../component/city-bike/CityBikeCard';
 import CityBikeContent from '../component/city-bike/city-bike-content';
 import CityBikeAvailability from '../component/city-bike/CityBikeAvailability';
-import CityBikeUse from '../component/city-bike/city-bike-use';
+import CityBikeUse from '../component/city-bike/CityBikeUse';
 import CityBikePopup from '../component/map/popups/city-bike-popup';
 import FavouriteLocation from '../component/favourites/FavouriteLocation';
 import TimeSelectors from '../component/summary/TimeSelectors';
