@@ -1,8 +1,9 @@
 import React from 'react';
 import Icon from '../../icon/icon';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import { intlShape } from 'react-intl';
 
-function SelectParkAndRideRow(props) {
+function SelectParkAndRideRow(props, { intl }) {
   return (
     <div className="no-margin">
       <hr className="no-margin" />
@@ -14,7 +15,9 @@ function SelectParkAndRideRow(props) {
           <Icon img="icon-icon_car" />
         </div>
         <div className="left padding-vertical-normal" style={{ width: 'calc(100% - 40px)' }}>
-          <span className="h4 no-margin link-color">{props.name} ›</span>
+          <span className="h4 no-margin link-color">
+            {JSON.parse(props.name)[intl.locale]} ›
+          </span>
         </div>
         <div className="clear">
         </div>
@@ -37,6 +40,10 @@ SelectParkAndRideRow.description = (
 SelectParkAndRideRow.propTypes = {
   selectRow: React.PropTypes.func.isRequired,
   name: React.PropTypes.string.isRequired,
+};
+
+SelectParkAndRideRow.contextTypes = {
+  intl: intlShape,
 };
 
 export default SelectParkAndRideRow;

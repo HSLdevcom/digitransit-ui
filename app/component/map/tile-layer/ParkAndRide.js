@@ -7,6 +7,8 @@ import Protobuf from 'pbf';
 import config from '../../../config';
 import { getImageFromSprite } from '../../../util/mapIconUtils';
 
+const showFacilities = 17;
+
 export default class ParkAndRide {
   constructor(tile) {
     this.tile = tile;
@@ -36,6 +38,7 @@ export default class ParkAndRide {
         if (vt.layers.hubs != null) {
           for (let i = 0, ref = vt.layers.hubs.length - 1; i <= ref; i++) {
             const feature = vt.layers.hubs.feature(i);
+            console.log(feature.properties.name);
             const query = Relay.createQuery(Relay.QL`
             query ParkAndRide($ids: [String!]!){
               carParks(ids: $ids) {
@@ -44,7 +47,7 @@ export default class ParkAndRide {
                 spacesAvailable
                 realtime
               }
-            }`, { ids: feature.properties.facilityIds.split(',') });
+            }`, { ids: JSON.parse(feature.properties.facilityIds) });
             Relay.Store.primeCache({
               query,
             }, readyState => {

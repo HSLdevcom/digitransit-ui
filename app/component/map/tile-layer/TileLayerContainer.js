@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import StopRoute from '../../../route/StopRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
+import MultipleParkAndRideRoute from '../../../route/MultipleParkAndRideRoute';
 import Popup from '../Popup';
 import { intlShape } from 'react-intl';
 import BaseTileLayer from 'react-leaflet/lib/BaseTileLayer';
@@ -10,6 +11,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/city-bike-popup';
+import ParkAndRidePopup from '../popups/ParkAndRidePopup';
 import LocationPopup from '../popups/LocationPopup';
 import SphericalMercator from 'sphericalmercator';
 import lodashFilter from 'lodash/filter';
@@ -29,6 +31,13 @@ const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired,
+  route: React.PropTypes.object.isRequired,
+  getStore: React.PropTypes.func.isRequired,
+});
+
+const ParkAndRidePopupWithContext = provideContext(ParkAndRidePopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
@@ -162,7 +171,7 @@ class TileLayerContainer extends BaseTileLayer {
             <Relay.RootContainer
               Component={StopMarkerPopup}
               route={new StopRoute({
-                stopId: this.state.selectableTargets[0].feature.properties.gtfsId,
+                stopId: id,
                 date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
               })}
               renderLoading={loadingPopup}
@@ -178,16 +187,39 @@ class TileLayerContainer extends BaseTileLayer {
               Component={CityBikePopup}
               forceFetch
               route={new CityBikeRoute({
-                stationId: this.state.selectableTargets[0].feature.properties.id,
+                stationId: id,
               })}
               renderLoading={loadingPopup}
               renderFetched={data => <CityBikePopupWithContext {...data} context={this.context} />}
             />
           );
+        } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
+          id = this.state.selectableTargets[0].feature.properties.facilityIds;
+          contents = (
+            <Relay.RootContainer
+              Component={ParkAndRidePopup}
+              forceFetch
+              route={new MultipleParkAndRideRoute({
+                stationIds: JSON.parse(id),
+              })}
+              renderLoading={loadingPopup}
+              renderFetched={data => (
+                <ParkAndRidePopupWithContext
+                  name={JSON.parse(this.state.selectableTargets[0].feature.properties.name)
+                    [this.context.intl.locale]
+                  }
+                  lat={this.state.coords.lat}
+                  lon={this.state.coords.lng}
+                  {...data}
+                  context={this.context}
+                />
+              )}
+            />
+          );
         }
         popup = (
           <Popup
-            ey={id}
+            key={id}
             offset={[106, 3]}
             closeButton={false}
             minWidth={250}
@@ -197,7 +229,7 @@ class TileLayerContainer extends BaseTileLayer {
             position={this.state.coords}
             ref="popup"
           >
-              {contents}
+            {contents}
           </Popup>
           );
       } else if (this.state.selectableTargets.length > 1) {
