@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import MarkerPopupBottom from '../marker-popup-bottom';
 import CityBikeContent from '../../city-bike/CityBikeContent';
-import CityBikeCard from '../../city-bike/CityBikeCard';
+import CityBikeCardContainer from '../../city-bike/CityBikeCardContainer';
 import { station as exampleStation } from '../../documentation/ExampleData';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
@@ -31,12 +31,12 @@ class CityBikePopup extends React.Component {
   render() {
     return (
       <div className="card">
-        <CityBikeCard className="padding-small" station={this.props.station}>
+        <CityBikeCardContainer className="padding-small" station={this.props.station}>
           <CityBikeContent
             lang={this.context.getStore('PreferencesStore').getLanguage()}
             station={this.props.station}
           />
-        </CityBikeCard>
+        </CityBikeCardContainer>
         <MarkerPopupBottom
           location={{
             address: this.props.station.name,
