@@ -18,6 +18,7 @@ import RealTimeInformationStore from './store/real-time-information-store';
 import SearchStore from './store/search-store';
 import ServiceStore from './store/service-store';
 import TimeStore from './store/TimeStore';
+import FavouriteCityBikeStationStore from './store/FavouriteCityBikeStationStore';
 
 const app = new Fluxible({
   component: routes,
@@ -41,4 +42,6 @@ app.registerStore(RealTimeInformationStore);
 app.registerStore(SearchStore);
 app.registerStore(ServiceStore);
 app.registerStore(TimeStore);
+app.registerStore(FavouriteCityBikeStationStore);
+
 export default app;
