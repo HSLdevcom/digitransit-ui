@@ -42,8 +42,8 @@ export function drawRoundIcon(tile, geom, type, large) {
     tile.ctx.fillStyle = '#fff'; // eslint-disable-line no-param-reassign
 
     tile.ctx.arc(
-      geom[0][0].x / tile.ratio,
-      geom[0][0].y / tile.ratio,
+      geom.x / tile.ratio,
+      geom.y / tile.ratio,
       caseRadius * tile.scaleratio, 0, Math.PI * 2
     );
 
@@ -52,8 +52,8 @@ export function drawRoundIcon(tile, geom, type, large) {
     tile.ctx.fillStyle = getColor(type); // eslint-disable-line no-param-reassign
 
     tile.ctx.arc(
-      geom[0][0].x / tile.ratio,
-      geom[0][0].y / tile.ratio,
+      geom.x / tile.ratio,
+      geom.y / tile.ratio,
       stopRadius * tile.scaleratio, 0, Math.PI * 2
     );
 
@@ -64,8 +64,8 @@ export function drawRoundIcon(tile, geom, type, large) {
       tile.ctx.fillStyle = '#fff'; // eslint-disable-line no-param-reassign
 
       tile.ctx.arc(
-        geom[0][0].x / tile.ratio,
-        geom[0][0].y / tile.ratio,
+        geom.x / tile.ratio,
+        geom.y / tile.ratio,
         hubRadius * tile.scaleratio, 0, Math.PI * 2
       );
 

@@ -42,6 +42,17 @@ class TileContainer {
     Promise.all(this.layers.map(layer => layer.promise)).then(() => done(null, this.el));
   }
 
+  project = (point) => {
+    const size = this.extent * Math.pow(2, this.coords.z + (this.props.zoomOffset || 0));
+    const x0 = this.extent * this.coords.x;
+    const y0 = this.extent * this.coords.y;
+    const y1 = 180 - (point.y + y0) * 360 / size;
+    return {
+      lon: (point.x + x0) * 360 / size - 180,
+      lat: 360 / Math.PI * Math.atan(Math.exp(y1 * Math.PI / 180)) - 90,
+    };
+  }
+
   createElement = () => {
     const el = document.createElement('canvas');
     el.setAttribute('class', 'leaflet-tile');
@@ -52,7 +63,6 @@ class TileContainer {
   }
 
   onMapClick = (e, point) => {
-    let coords;
     let nearest;
     let features;
     let localPoint;
@@ -72,7 +82,7 @@ class TileContainer {
       nearest = features.filter(feature => {
         if (!feature) { return false; }
 
-        const g = feature.feature.loadGeometry()[0][0];
+        const g = feature.feature.geom;
 
         const dist = Math.sqrt(Math.pow((localPoint[0] - (g.x / this.ratio)), 2) +
           Math.pow((localPoint[1] - (g.y / this.ratio)), 2));
@@ -89,10 +99,9 @@ class TileContainer {
         return this.onSelectableTargetClicked([], e.latlng); // open menu for no stop
       } else if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
-        coords = nearest[0].feature.toGeoJSON(this.coords.x, this.coords.y, this.coords.z +
-          (this.props.zoomOffset || 0)).geometry.coordinates;
         // open menu for single stop
-        return this.onSelectableTargetClicked(nearest, L.latLng([coords[1], coords[0]]));
+        const latLon = L.latLng(this.project(nearest[0].feature.geom));
+        return this.onSelectableTargetClicked(nearest, latLon);
       }
       L.DomEvent.stopPropagation(e);
       return this.onSelectableTargetClicked(nearest, e.latlng); // open menu for a list of stops

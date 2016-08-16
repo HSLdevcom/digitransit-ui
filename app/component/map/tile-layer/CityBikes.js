@@ -42,7 +42,9 @@ class CityBikes {
 
         if (vt.layers.stations != null) {
           for (let i = 0, ref = vt.layers.stations.length - 1; i <= ref; i++) {
-            this.features.push(vt.layers.stations.feature(i));
+            const feature = vt.layers.stations.feature(i);
+            feature.geom = feature.loadGeometry()[0][0];
+            this.features.push(feature);
           }
         }
 
@@ -55,8 +57,8 @@ class CityBikes {
   drawCityBikeBaseIcon = (geom) => {
     this.tile.ctx.drawImage(
       getImageFromSprite('icon-icon_citybike', this.citybikeImageSize, this.citybikeImageSize),
-      (geom[0][0].x / this.tile.ratio) - this.citybikeImageSize / 2,
-      (geom[0][0].y / this.tile.ratio) - this.citybikeImageSize / 2
+      (geom.x / this.tile.ratio) - this.citybikeImageSize / 2,
+      (geom.y / this.tile.ratio) - this.citybikeImageSize / 2
     );
   }
 
@@ -82,8 +84,8 @@ class CityBikes {
           this.tile.ctx.drawImage(
             getImageFromSprite(
               'icon-icon_not-in-use', this.notInUseImageSize, this.notInUseImageSize),
-            geom[0][0].x / this.tile.ratio - this.notInUseImageSize / 2,
-            geom[0][0].y / this.tile.ratio - this.notInUseImageSize / 2
+            geom.x / this.tile.ratio - this.notInUseImageSize / 2,
+            geom.y / this.tile.ratio - this.notInUseImageSize / 2
           );
 
           return;
@@ -100,8 +102,8 @@ class CityBikes {
 
         this.tile.ctx.drawImage(
           image,
-          this.calculatePosition(geom[0][0].x),
-          this.calculatePosition(geom[0][0].y)
+          this.calculatePosition(geom.x),
+          this.calculatePosition(geom.y)
         );
       }
     };
@@ -122,12 +124,11 @@ class CityBikes {
     this.citybikeImageSize / 2 - this.availabilityImageSize / 2 + 2 * this.scaleratio
 
   addFeature = (feature) => {
-    const geom = feature.loadGeometry();
     if (this.tile.coords.z <= config.cityBike.cityBikeSmallIconZoom) {
-      drawRoundIcon(this.tile, geom, 'citybike');
+      drawRoundIcon(this.tile, feature.geom, 'citybike');
     } else {
-      this.drawCityBikeBaseIcon(geom);
-      this.fetchAndDrawStatus(feature, geom);
+      this.drawCityBikeBaseIcon(feature.geom);
+      this.fetchAndDrawStatus(feature, feature.geom);
     }
   }
 

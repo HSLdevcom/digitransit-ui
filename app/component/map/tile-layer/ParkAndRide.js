@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import Protobuf from 'pbf';
 import config from '../../../config';
 import { getImageFromSprite } from '../../../util/mapIconUtils';
+import { Contour } from '../../../util/geo-utils';
 
 const showFacilities = 17;
 
@@ -35,10 +36,9 @@ export default class ParkAndRide {
 
         this.features = [];
 
-        if (vt.layers.hubs != null) {
+        if (this.tile.coords.z < showFacilities && vt.layers.hubs != null) {
           for (let i = 0, ref = vt.layers.hubs.length - 1; i <= ref; i++) {
             const feature = vt.layers.hubs.feature(i);
-            console.log(feature.properties.name);
             const query = Relay.createQuery(Relay.QL`
             query ParkAndRide($ids: [String!]!){
               carParks(ids: $ids) {
@@ -55,12 +55,42 @@ export default class ParkAndRide {
                 const result = compact(Relay.Store.readQuery(query));
                 if (!isEmpty(result)) {
                   feature.properties.facilities = result;
+                  feature.geom = feature.loadGeometry()[0][0];
                   this.features.push(feature);
-                  const geom = feature.loadGeometry();
                   this.tile.ctx.drawImage(
                     getImageFromSprite('icon-icon_park-and-ride', this.width, this.height),
-                    (geom[0][0].x / this.tile.ratio) - this.width / 2,
-                    (geom[0][0].y / this.tile.ratio) - this.height / 2
+                    (feature.geom.x / this.tile.ratio) - this.width / 2,
+                    (feature.geom.y / this.tile.ratio) - this.height / 2
+                  );
+                }
+              }
+            });
+          }
+        } else if (this.tile.coords.z >= showFacilities && vt.layers.facilities != null) {
+          for (let i = 0, ref = vt.layers.facilities.length - 1; i <= ref; i++) {
+            const feature = vt.layers.facilities.feature(i);
+            const query = Relay.createQuery(Relay.QL`
+            query ParkAndRide($id: String!){
+              carPark(id: $id) {
+                name
+                maxCapacity
+                spacesAvailable
+                realtime
+              }
+            }`, { id: feature.id });
+            Relay.Store.primeCache({
+              query,
+            }, readyState => {
+              if (readyState.done) {
+                const result = compact(Relay.Store.readQuery(query));
+                if (result != null && result.length !== 0) {
+                  feature.properties.facility = result;
+                  feature.geom = new Contour(feature.loadGeometry()[0]).centroid();
+                  this.features.push(feature);
+                  this.tile.ctx.drawImage(
+                    getImageFromSprite('icon-icon_park-and-ride', this.width, this.height),
+                    (feature.geom.x / this.tile.ratio) - this.width / 2,
+                    (feature.geom.y / this.tile.ratio) - this.height / 2
                   );
                 }
               }
