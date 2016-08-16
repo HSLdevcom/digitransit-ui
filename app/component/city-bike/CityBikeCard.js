@@ -33,7 +33,10 @@ CityBikeCard.description = (
       </CityBikeCard>
     </ComponentUsageExample>
     <ComponentUsageExample description="Selected as favourite">
-      <CityBikeCard addFavourite={() => {}} isFavourite station={exampleStation}>
+      <CityBikeCard
+        className="padding-small"
+        toggleFavourite={() => {}} isFavourite station={exampleStation}
+      >
         Im content of the favourite citybike card
       </CityBikeCard>
     </ComponentUsageExample>
