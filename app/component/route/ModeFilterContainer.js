@@ -1,17 +1,14 @@
-import React from 'react';
-import ModeFilter from '../util/mode-filter';
+import ModeFilter from '../util/ModeFilter';
 import ModeSelectedAction from '../../action/mode-selected-action';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
-export default function ModeFilterContainer(props, { getStore }) {
-  return (
-    <ModeFilter
-      store={getStore('ModeStore')}
-      action={ModeSelectedAction}
-      buttonClass="btn mode-icon"
-    />
-  );
-}
-
-ModeFilterContainer.contextTypes = {
-  getStore: React.PropTypes.func.isRequired,
-};
+export default connectToStores(
+  ModeFilter,
+  ['ModeStore'],
+  (context) =>
+    ({
+      modes: context.getStore('ModeStore').getMode(),
+      buttonClass: 'btn mode-nearby',
+      action: ModeSelectedAction,
+    })
+);
