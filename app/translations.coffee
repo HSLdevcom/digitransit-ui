@@ -164,6 +164,7 @@ translations =
     'digitransit-platform': 'Digitransit palvelualusta'
     'datasources': 'Tietolähteet'
     'back-to-front-page': 'Takaisin etusivulle'
+    'park-and-ride': 'Liityntäpysäköinti'
     'park-and-ride-availability': 'Pysäköintipaikkoja vapaana'
   'sv':
     'searching-position': 'Söker position'
@@ -300,6 +301,7 @@ translations =
     'digitransit-platform': 'Digitransit platform'
     'datasources': 'Datasources'
     'back-to-front-page': 'Back to front page'
+    'park-and-ride': 'Infartsparkering'
     'park-and-ride-availability': 'Lediga parkeringsplatser'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"

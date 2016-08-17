@@ -6,9 +6,12 @@ import Card from '../../card/card';
 import CardHeader from '../../card/CardHeader';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
+import { intlShape } from 'react-intl';
+
 export default class ParkAndRidePopup extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
+    intl: intlShape,
   };
 
   static description = (
@@ -37,7 +40,10 @@ export default class ParkAndRidePopup extends React.Component {
       <div className="card">
         <Card className="padding-small">
           <CardHeader
-            name="Liityntäpysäköinti"
+            name={this.context.intl.formatMessage({
+              id: 'park-and-ride',
+              defaultMessage: 'Park and ride',
+            })}
             description={this.props.name}
             icon="icon-icon_car"
           />
