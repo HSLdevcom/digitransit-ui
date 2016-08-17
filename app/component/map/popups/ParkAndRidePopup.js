@@ -22,10 +22,9 @@ export default class ParkAndRidePopup extends React.Component {
   );
 
   static propTypes = {
-    facility: React.PropTypes.oneOfType([
-      React.PropTypes.array,
-      React.PropTypes.object,
-    ]).isRequired,
+    realtime: React.PropTypes.bool.isRequired,
+    maxCapacity: React.PropTypes.number.isRequired,
+    spacesAvailable: React.PropTypes.number.isRequired,
     context: React.PropTypes.object.isRequired,
     name: React.PropTypes.string.isRequired,
     lat: React.PropTypes.number.isRequired,
