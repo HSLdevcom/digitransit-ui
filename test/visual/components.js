@@ -4,14 +4,16 @@
 /**
  * Customizable test function
  * @componentName component name as specified in styleguide to test
- * @aptureOrExampleNumber example number (index starts from 1) or array of selectors for capture-elements
+ * @aptureOrExampleNumber example number (index starts from 1) or array of
+ *   selectors for capture-elements
  * @ignoreElements ignore ignoreElements selector (string) or selectors (Array of string)
  * @fn
 **/
 function test(componentName, captureOrExampleNumber, ignoreElements, fn = () => {}) {
   return function (suite) {
     try {
-      let capture = `#${componentName} .component-example:nth-of-type(${captureOrExampleNumber || 1}) .component`;
+      let capture = `#${componentName} .component-example:nth-of-type(${captureOrExampleNumber
+         || 1}) .component`;
       if (captureOrExampleNumber instanceof Array) {
         capture = captureOrExampleNumber;
       }
@@ -114,4 +116,9 @@ gemini.suite('components', () => {
   basicTest('RouteScheduleHeader');
   basicTest('RouteScheduleStopSelect');
   basicTest('RouteScheduleTripRow');
+
+  gemini.suite('ModeFilter', () => {
+    gemini.suite('Grey buttons', test('ModeFilter'));
+    gemini.suite('White buttons', test('ModeFilter'), 2);
+  });
 });

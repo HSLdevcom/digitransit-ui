@@ -139,7 +139,7 @@ class ModeStore extends Store {
   }
 
   toggleCitybikeState() {
-    this.doToggle('cityBikeState');
+    this.doToggle('citybikeState');
   }
 
   storeMode = () => {

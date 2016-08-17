@@ -32,6 +32,7 @@ import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
+import ModeFilter from '../component/util/ModeFilter';
 
 import sortBy from 'lodash/sortBy';
 import Link from 'react-router/lib/Link';
@@ -49,7 +50,7 @@ class StyleGuidelinesPage extends React.Component {
     FavouriteLocation, TimeSelectors, TimeNavigationButtons, RightOffcanvasToggle,
     TripRouteStop, MarkerSelectPopup, SelectCityBikeRow, SelectStopRow, Favourite,
     TicketInformation, RouteScheduleDateSelect, RouteScheduleHeader, RouteScheduleStopSelect,
-    RouteScheduleTripRow, RouteAlertsRow,
+    RouteScheduleTripRow, RouteAlertsRow, ModeFilter,
   }
 
   getColors() {
@@ -425,6 +426,14 @@ class StyleGuidelinesPage extends React.Component {
     );
   }
 
+  getUtilComponents() {
+    return (
+      <div>
+        <ComponentDocumentation component={ModeFilter} />
+      </div>
+    );
+  }
+
   render() {
     if (this.props.params.componentName) {
       return (
@@ -475,6 +484,7 @@ class StyleGuidelinesPage extends React.Component {
         {this.getTileLayerComponents()}
         {this.getScheduleComponents()}
         {this.getRouteAlertsComponents()}
+        {this.getUtilComponents()}
       </div>
     );
   }
