@@ -33,6 +33,8 @@ import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect'
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
+import Availability from '../component/card/Availability.js';
+import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
 
 import sortBy from 'lodash/sortBy';
 
@@ -355,6 +357,7 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={CityBikePopup} />
         <ComponentDocumentation component={FavouriteLocation} />
         <ComponentDocumentation component={TripRouteStop} />
+        <ComponentDocumentation component={Availability} />
       </div>
     );
   }
@@ -387,6 +390,7 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={MarkerSelectPopup} />
         <ComponentDocumentation component={SelectCityBikeRow} />
         <ComponentDocumentation component={SelectStopRow} />
+        <ComponentDocumentation component={ParkAndRideAvailability} />
       </div>
     );
   }

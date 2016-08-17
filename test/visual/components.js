@@ -108,6 +108,25 @@ gemini.suite('components', (parent) => {
     .capture('normal', { tolerance: 5 }, () => {});
   });
 
+  gemini.suite('Availability', (component) => {
+    component.setCaptureElements(
+      '#Availability .component-example:nth-of-type(1) .component')
+    .capture('normal');
+  });
+
+  gemini.suite('ParkAndRideAvailability', () => {
+    gemini.suite('non-realtime', (suite) => {
+      suite.setCaptureElements(
+        '#ParkAndRideAvailability .component-example:nth-of-type(1) .component'
+      ).capture('normal');
+    });
+    gemini.suite('realtime', (suite) => {
+      suite.setCaptureElements(
+        '#ParkAndRideAvailability .component-example:nth-of-type(2) .component'
+      ).capture('normal');
+    });
+  });
+
   gemini.suite('FavouriteLocation', (component) => {
     component.setCaptureElements(
       '#FavouriteLocation .component-example:nth-of-type(1) .component')
