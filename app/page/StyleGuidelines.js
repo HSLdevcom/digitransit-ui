@@ -441,7 +441,8 @@ class StyleGuidelinesPage extends React.Component {
           className={this.props.params.componentName === 'RouteAlertsRow' ?
             'route-alerts-list' : 'container column'}
         >
-          <ComponentDocumentation mode="examples-only"
+          <ComponentDocumentation
+            mode="examples-only"
             component={StyleGuidelinesPage.components[this.props.params.componentName]}
           />
           <hr />
