@@ -59,6 +59,16 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
   router: React.PropTypes.object.isRequired,
 });
 
+const PopupOptions = {
+  offset: [106, 3],
+  closeButton: false,
+  minWidth: 260,
+  maxWidth: 260,
+  autoPanPaddingTopLeft: [5, 125],
+  className: 'popup',
+  ref: 'popup',
+};
+
 // TODO eslint doesn't know that TileLayerContainer is a react component,
 //      because it doesn't inherit it directly. This will force the detection
 //      once eslint-plugin-react has a new release (https://github.com/yannickcr/eslint-plugin-react/pull/513)
@@ -251,15 +261,9 @@ class TileLayerContainer extends BaseTileLayer {
         }
         popup = (
           <Popup
+            {...PopupOptions}
             key={id}
-            offset={[106, 3]}
-            closeButton={false}
-            minWidth={250}
-            maxWidth={250}
-            autoPanPaddingTopLeft={[5, 125]}
-            className="popup"
             position={this.state.coords}
-            ref="popup"
           >
             {contents}
           </Popup>
@@ -268,15 +272,9 @@ class TileLayerContainer extends BaseTileLayer {
         popup = (
           <Popup
             key={this.state.coords.toString()}
-            offset={[106, 3]}
-            closeButton={false}
-            minWidth={250}
-            maxWidth={250}
-            autoPanPaddingTopLeft={[5, 125]}
-            className="popup"
+            {...PopupOptions}
             maxHeight={220}
             position={this.state.coords}
-            ref="popup"
           >
             <MarkerSelectPopupWithContext
               selectRow={this.selectRow}
@@ -289,15 +287,9 @@ class TileLayerContainer extends BaseTileLayer {
         popup = (
           <Popup
             key={this.state.coords.toString()}
-            offset={[106, 3]}
-            closeButton={false}
-            minWidth={250}
-            maxWidth={250}
-            autoPanPaddingTopLeft={[5, 125]}
-            className="popup"
+            {...PopupOptions}
             maxHeight={220}
             position={this.state.coords}
-            ref="popup"
           >
             <LocationPopupWithContext
               name={""} // TODO: fill in name from reverse geocoding, possibly in a container.
