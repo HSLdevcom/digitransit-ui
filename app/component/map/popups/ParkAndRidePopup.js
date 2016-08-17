@@ -1,5 +1,6 @@
 import React from 'react';
 import MarkerPopupBottom from '../marker-popup-bottom';
+import ParkAndRideAvailability from './ParkAndRideAvailability';
 
 import Card from '../../card/card';
 import CardHeader from '../../card/CardHeader';
@@ -40,7 +41,11 @@ export default class ParkAndRidePopup extends React.Component {
             description={this.props.name}
             icon="icon-icon_car"
           />
-          <div />
+          <ParkAndRideAvailability
+            realtime={this.props.realtime}
+            maxCapacity={this.props.maxCapacity}
+            spacesAvailable={this.props.spacesAvailable}
+          />
         </Card>
         <MarkerPopupBottom
           location={{
