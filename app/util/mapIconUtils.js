@@ -72,7 +72,7 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
 
       tile.ctx.fill();
 
-      if (platformNumber && hubRadius > 8) {
+      if (platformNumber && hubRadius > 7) {
         tile.ctx.font = `${1.2 * hubRadius * tile.scaleratio
           }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif`;
         tile.ctx.fillStyle = '#333';
