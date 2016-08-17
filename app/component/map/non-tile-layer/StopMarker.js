@@ -83,7 +83,7 @@ class StopMarker extends React.Component {
         <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
         ${inner > 7 && this.props.stop.platformCode ?
           `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
-            font-size="${1.2 * inner}px"
+            fill="#333" font-size="${1.2 * inner}px"
             font-family="Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif"
             >${this.props.stop.platformCode}</text>`
           : ''}
