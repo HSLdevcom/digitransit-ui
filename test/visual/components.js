@@ -119,6 +119,7 @@ gemini.suite('components', () => {
 
   gemini.suite('ModeFilter', () => {
     gemini.suite('Grey buttons', test('ModeFilter'));
-    gemini.suite('White buttons', test('ModeFilter'), 2);
+    gemini.suite('White buttons', test('ModeFilter',
+      ['#ModeFilter .nearby-routes .component-example:nth-of-type(1) .component']));
   });
 });
