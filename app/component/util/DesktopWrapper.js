@@ -6,7 +6,7 @@ import config from '../../config';
 function DesktopWrapper({ children, containerWidth }) {
   if (containerWidth < 980
     || !config.enableDesktopWrapper
-    || (typeof window !== 'undefined' && window.location.pathname === '/styleguide')
+    || (typeof window !== 'undefined' && window.location.pathname.indexOf('/styleguide') === 0)
   ) {
     return children;
   }

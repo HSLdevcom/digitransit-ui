@@ -34,8 +34,24 @@ import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 
 import sortBy from 'lodash/sortBy';
+import Link from 'react-router/lib/Link';
 
 class StyleGuidelinesPage extends React.Component {
+
+  static propTypes = {
+    params: React.PropTypes.object,
+  };
+
+  static components = {
+    Icon, IconWithTail, ComponentDocumentation, Departure, RouteNumber, RouteDestination,
+    DepartureTime, StopReference, Distance, NotImplemented, NotImplementedLink, CardHeader,
+    Card, CityBikeCard, CityBikeContent, CityBikeAvailability, CityBikeUse, CityBikePopup,
+    FavouriteLocation, TimeSelectors, TimeNavigationButtons, RightOffcanvasToggle,
+    TripRouteStop, MarkerSelectPopup, SelectCityBikeRow, SelectStopRow, Favourite,
+    TicketInformation, RouteScheduleDateSelect, RouteScheduleHeader, RouteScheduleStopSelect,
+    RouteScheduleTripRow, RouteAlertsRow,
+  }
+
   getColors() {
     return (
       <section>
@@ -410,6 +426,20 @@ class StyleGuidelinesPage extends React.Component {
   }
 
   render() {
+    if (this.props.params.componentName) {
+      return (
+        <div
+          className={this.props.params.componentName === 'RouteAlertsRow' ?
+            'route-alerts-list' : 'container column'}
+        >
+          <ComponentDocumentation mode="examples-only"
+            component={StyleGuidelinesPage.components[this.props.params.componentName]}
+          />
+          <hr />
+          <Link to="/styleguide">Go back to styleguide</Link>
+        </div>);
+    }
+
     return (
       <div className="container column">
         <h1>UI Elements</h1>
@@ -449,5 +479,6 @@ class StyleGuidelinesPage extends React.Component {
     );
   }
 }
+
 
 export default StyleGuidelinesPage;
