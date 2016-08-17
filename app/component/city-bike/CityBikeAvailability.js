@@ -33,8 +33,7 @@ const CityBikeAvailability = (props) => {
   return (
     <div className="city-bike-availability-container">
       <p className="sub-header-h4 bike-availability-header">
-        <FormattedMessage id="bike-availability" defaultMessage="Bikes available" />
-        ({isNaN(props.bikesAvailable) ? 0 : props.bikesAvailable}/
+        <FormattedMessage id="bike-availability" defaultMessage="Bikes available" />&nbsp;({isNaN(props.bikesAvailable) ? 0 : props.bikesAvailable}/
           {isNaN(props.totalSpaces) ? 0 : props.totalSpaces})
       </p>
       <div className="row">
@@ -43,7 +42,7 @@ const CityBikeAvailability = (props) => {
           style={{ width: `${availablepct}%` }}
         /><div
           className={cx('city-bike-column', totalClass, separator)}
-          style={{ width: `${100 - availablepct} %` }}
+          style={{ width: `${100 - availablepct}%` }}
         /></div></div>);
 };
 
