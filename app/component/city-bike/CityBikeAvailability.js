@@ -1,56 +1,23 @@
 import React from 'react';
-import cx from 'classnames';
-
-import { FormattedMessage } from 'react-intl';
-
+import Availability from '../card/Availability';
+import mapProps from 'recompose/mapProps';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import { FormattedMessage } from 'react-intl';
 import config from '../../config';
 
-function CityBikeAvailability(props) {
-  let availablepct = 100 * props.bikesAvailable / props.totalSpaces;
-
-  let availableClass;
-
-  if (availablepct === 0) {
-    availableClass = 'available-none';
-  } else if (props.bikesAvailable <= config.cityBike.fewAvailableCount) {
-    availableClass = 'available-few';
-  } else {
-    availableClass = 'available-more';
-  }
-
-  const totalClass = availablepct === 100 ? 'available-more' : 'available-none';
-
-  const separator = availablepct > 0 && availablepct < 100 ? 'separate' : false;
-
-  if (availablepct < 5) {
-    availablepct = 5;
-  }
-
-  if (availablepct > 95) {
-    availablepct = 95;
-  }
-
-  return (
-    <div className="city-bike-availability-container">
-      <p className="sub-header-h4 bike-availability-header">
-        <FormattedMessage id="bike-availability" defaultMessage="Bikes available" />
-        ({isNaN(props.bikesAvailable) ? 0 : props.bikesAvailable}/
-         {isNaN(props.totalSpaces) ? 0 : props.totalSpaces})
-      </p>
-      <div className="row">
-        <div
-          className={cx('city-bike-column', availableClass, separator)}
-          style={{ width: `${availablepct}%` }}
-        />
-        <div
-          className={cx('city-bike-column', totalClass, separator)}
-          style={{ width: `${100 - availablepct}%` }}
-        />
-      </div>
-    </div>
-  );
-}
+const CityBikeAvailability = mapProps(({ bikesAvailable, totalSpaces }) => ({
+  available: bikesAvailable,
+  total: totalSpaces,
+  fewAvailableCount: config.cityBike.fewAvailableCount,
+  text: (
+    <p className="sub-header-h4 availability-header">
+      <FormattedMessage id="bike-availability" defaultMessage="Bikes available" />
+      {'\u00a0'}
+      ({isNaN(bikesAvailable) ? 0 : bikesAvailable}/
+       {isNaN(totalSpaces) ? 0 : totalSpaces})
+    </p>
+  ),
+}))(Availability);
 
 CityBikeAvailability.displayName = 'CityBikeAvailability';
 
