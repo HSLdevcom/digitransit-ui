@@ -1,6 +1,6 @@
 import Relay from 'react-relay';
 
-export default class MultipleParkAndRideRoute extends Relay.Route {
+export default class ParkAndRideHubRoute extends Relay.Route {
   static queries = {
     facility: () => Relay.QL`
       query ($stationIds: [String!]) {
@@ -11,5 +11,5 @@ export default class MultipleParkAndRideRoute extends Relay.Route {
   static paramDefinitions = {
     stationIds: { required: true },
   };
-  static routeName = 'MultipleParkAndRideRoute';
+  static routeName = 'ParkAndRideHubRoute';
 }

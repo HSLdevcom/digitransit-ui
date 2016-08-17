@@ -1,12 +1,11 @@
 import React from 'react';
-import Relay from 'react-relay';
 import MarkerPopupBottom from '../marker-popup-bottom';
 
 import Card from '../../card/card';
 import CardHeader from '../../card/CardHeader';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
-class ParkAndRidePopup extends React.Component {
+export default class ParkAndRidePopup extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
   };
@@ -23,7 +22,10 @@ class ParkAndRidePopup extends React.Component {
   );
 
   static propTypes = {
-    facility: React.PropTypes.array.isRequired,
+    facility: React.PropTypes.oneOfType([
+      React.PropTypes.array,
+      React.PropTypes.object,
+    ]).isRequired,
     context: React.PropTypes.object.isRequired,
     name: React.PropTypes.string.isRequired,
     lat: React.PropTypes.number.isRequired,
@@ -52,18 +54,3 @@ class ParkAndRidePopup extends React.Component {
     );
   }
 }
-
-export default Relay.createContainer(ParkAndRidePopup, {
-  fragments: {
-    facility: () => Relay.QL`
-      fragment on CarPark @relay(plural:true) {
-        carParkId
-        name
-        lat
-        lon
-        spacesAvailable
-        maxCapacity
-      }
-    `,
-  },
-});
