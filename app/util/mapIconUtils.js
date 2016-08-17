@@ -28,7 +28,8 @@ export const getColor = memoize((mode) => {
   return cssRule && cssRule.style.color;
 });
 
-export function drawRoundIcon(tile, geom, type, large) {
+/* eslint-disable no-param-reassign */
+export function drawRoundIcon(tile, geom, type, large, platformNumber) {
   const scale = large ? 2 : 1;
 
   const caseRadius = getCaseRadius({ $zoom: tile.coords.z }) * scale;
@@ -39,7 +40,7 @@ export function drawRoundIcon(tile, geom, type, large) {
 
   if (caseRadius > 0) {
     tile.ctx.beginPath();
-    tile.ctx.fillStyle = '#fff'; // eslint-disable-line no-param-reassign
+    tile.ctx.fillStyle = '#fff';
 
     tile.ctx.arc(
       geom[0][0].x / tile.ratio,
@@ -49,7 +50,7 @@ export function drawRoundIcon(tile, geom, type, large) {
 
     tile.ctx.fill();
     tile.ctx.beginPath();
-    tile.ctx.fillStyle = getColor(type); // eslint-disable-line no-param-reassign
+    tile.ctx.fillStyle = getColor(type);
 
     tile.ctx.arc(
       geom[0][0].x / tile.ratio,
@@ -61,7 +62,7 @@ export function drawRoundIcon(tile, geom, type, large) {
 
     if (hubRadius > 0) {
       tile.ctx.beginPath();
-      tile.ctx.fillStyle = '#fff'; // eslint-disable-line no-param-reassign
+      tile.ctx.fillStyle = '#fff';
 
       tile.ctx.arc(
         geom[0][0].x / tile.ratio,
@@ -70,6 +71,15 @@ export function drawRoundIcon(tile, geom, type, large) {
       );
 
       tile.ctx.fill();
+
+      if (platformNumber && hubRadius > 8) {
+        tile.ctx.font = `${1.2 * hubRadius * tile.scaleratio
+          }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif`;
+        tile.ctx.fillStyle = '#333';
+        tile.ctx.textAlign = 'center';
+        tile.ctx.textBaseline = 'middle';
+        tile.ctx.fillText(platformNumber, geom[0][0].x / tile.ratio, geom[0][0].y / tile.ratio);
+      }
     }
   }
 }
