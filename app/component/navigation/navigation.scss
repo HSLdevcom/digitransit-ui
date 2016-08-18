@@ -31,7 +31,6 @@ $content-background-color: $background-color;
 nav.top-bar {
   line-height: $topbar-height;
   background: $primary-color;
-  z-index: 1150;
   position: relative;
   text-align: center;
   overflow: visible; // Show drawer menu
@@ -41,7 +40,6 @@ nav.top-bar {
     width: $topbar-height;
     position: absolute;
     top: 0;
-    z-index: 1160;
   }
 
   .icon {
@@ -151,10 +149,6 @@ nav.top-bar {
 .content:nth-child(5) {
   height: calc(100% - #{$topbar-height} - 60px - 18px);
   // 60px and 18px are the height of the message bar, but is specified in js
-}
-
-.offcanvas > div {
-  z-index:2000 !important;
 }
 
 .message-bar {

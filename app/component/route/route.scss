@@ -85,11 +85,9 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
       & svg {
         position: absolute;
-        z-index: 1;
         &.tail {
           left: -7px;
           top: -17px;
-          z-index: 0;
           width: 50px;
           height: 50px;
         }
