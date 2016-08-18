@@ -237,4 +237,13 @@ gemini.suite('components', (parent) => {
       .capture('normal');
     });
   });
+
+  gemini.suite('RouteStop', (component) => {
+    component.setCaptureElements([
+      '#RouteStop .component-example:nth-of-type(1) .component',
+      '#RouteStop .component-example:nth-of-type(1) .component svg.realtime',
+    ])
+      .ignoreElements('#RouteStop .component-example:nth-of-type(1) .component svg.realtime')
+    .capture('normal');
+  });
 });
