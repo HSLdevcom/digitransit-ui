@@ -43,13 +43,6 @@ const TripRouteStop = (props) => {
         <div className={`columns small-7 route-stop-name ${props.mode}`}>
           {props.last ? lastRouteStopSvg : routeStopSvg}
           {props.stop.name}&nbsp;
-          {props.distance &&
-            <WalkDistance
-              className="nearest-route-stop"
-              icon="icon_location-with-user"
-              walkDistance={props.distance}
-            />
-          }
           <br />
           <StopCode code={props.stop.code} />
           <span className="route-stop-address">{props.stop.desc}</span>
@@ -58,8 +51,14 @@ const TripRouteStop = (props) => {
           props.stoptime &&
           (<div>
             <div className="columns small-2 route-stop-time">
-              {fromStopTime(props.stoptime, props.currentTime)}
-            </div>
+              {fromStopTime(props.stoptime, props.currentTime)}<br />
+            {props.distance &&
+              <WalkDistance
+                className="nearest-route-stop"
+                icon="icon_location-with-user"
+                walkDistance={props.distance}
+              />
+            }</div>
           </div>))}
       </Link>
     </div>);
