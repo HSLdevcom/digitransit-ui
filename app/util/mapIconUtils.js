@@ -98,17 +98,17 @@ export function drawTerminalIcon(tile, geom, type, name) {
 
     const gradient = tile.ctx.createRadialGradient(
       geom[0][0].x / tile.ratio, geom[0][0].y / tile.ratio, 0,
-      geom[0][0].x / tile.ratio, geom[0][0].y / tile.ratio, haloRadius
+      geom[0][0].x / tile.ratio, geom[0][0].y / tile.ratio, haloRadius * tile.scaleratio
     );
     gradient.addColorStop(0, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.5)`);
     gradient.addColorStop(1, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0)`);
     // eslint-disable-next-line no-param-reassign
     tile.ctx.fillStyle = gradient;
     tile.ctx.fillRect(
-      geom[0][0].x / tile.ratio - haloRadius,
-      geom[0][0].y / tile.ratio - haloRadius,
-      haloRadius * 2,
-      haloRadius * 2
+      geom[0][0].x / tile.ratio - haloRadius * tile.scaleratio,
+      geom[0][0].y / tile.ratio - haloRadius * tile.scaleratio,
+      haloRadius * tile.scaleratio * 2,
+      haloRadius * tile.scaleratio * 2
     );
 
     tile.ctx.beginPath();
@@ -142,7 +142,7 @@ export function drawTerminalIcon(tile, geom, type, name) {
     tile.ctx.fill();
 
     if (stopRadius > 6) {
-      const iconSize = stopRadius - 2;
+      const iconSize = (stopRadius - 2) * tile.scaleratio;
       tile.ctx.drawImage(
         getImageFromSprite('icon-icon_station', iconSize, iconSize, 'white'),
         geom[0][0].x / tile.ratio - iconSize / 2,
@@ -151,20 +151,21 @@ export function drawTerminalIcon(tile, geom, type, name) {
 
       if (name) {
         /* eslint-disable no-param-reassign */
-        tile.ctx.fillStyle = '#777';
+        tile.ctx.fillStyle = '#333';
         tile.ctx.strokeStyle = 'white';
+        tile.ctx.lineWidth = 2 * tile.scaleratio;
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'top';
-        tile.ctx.font =
-          '500 11px Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif';
+        tile.ctx.font = `500 ${11 * tile.scaleratio}px
+          Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif`;
         tile.ctx.strokeText(
-        name,
-        geom[0][0].x / tile.ratio,
-        geom[0][0].y / tile.ratio + caseRadius + 1);
+          name,
+          geom[0][0].x / tile.ratio,
+          geom[0][0].y / tile.ratio + (caseRadius + 1) * tile.scaleratio);
         tile.ctx.fillText(
-        name,
-        geom[0][0].x / tile.ratio,
-        geom[0][0].y / tile.ratio + caseRadius + 1);
+          name,
+          geom[0][0].x / tile.ratio,
+          geom[0][0].y / tile.ratio + (caseRadius + 1) * tile.scaleratio);
       }
     }
   }
