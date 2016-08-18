@@ -149,12 +149,14 @@ export function drawTerminalIcon(tile, geom, type, name) {
         geom[0][0].y / tile.ratio - iconSize / 2,
       );
 
-      if (tile.coords.z >= 16) {
+      if (name) {
+        /* eslint-disable no-param-reassign */
         tile.ctx.fillStyle = '#777';
         tile.ctx.strokeStyle = 'white';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'top';
-        tile.ctx.font = '500 11px Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif';
+        tile.ctx.font =
+          '500 11px Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif';
         tile.ctx.strokeText(
         name,
         geom[0][0].x / tile.ratio,

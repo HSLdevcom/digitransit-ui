@@ -31,7 +31,8 @@ class Stops {
           for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
             const feature = vt.layers.stops.feature(i);
             if (feature.properties.type && (feature.properties.parentStation === 'null' ||
-              config.terminalStopsMaxZoom - 1 <= this.tile.coords.z + (this.tile.props.zoomOffset || 0))
+              config.terminalStopsMaxZoom - 1 <=
+              this.tile.coords.z + (this.tile.props.zoomOffset || 0))
             ) {
               this.features.push(feature);
               drawRoundIcon(
@@ -55,7 +56,7 @@ class Stops {
                 this.tile,
                 feature.loadGeometry(),
                 feature.properties.type,
-                feature.properties.name
+                this.tile.coords.z >= config.terminalNamesZoom ? feature.properties.name : false
               );
             }
           }
