@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from '../util/Slider';
-import ToggleButton from '../util/toggle-button';
-import ModeFilter from '../util/mode-filter';
+import ToggleButton from '../util/ToggleButton';
+import ModeFilter from '../util/ModeFilter';
 import * as ItinerarySearchActions from '../../action/ItinerarySearchActions';
 import Select from '../util/select';
 import config from '../../config';
@@ -230,9 +230,9 @@ class CustomizeSearch extends React.Component {
       <div className="customize-search">
         <section className="offcanvas-section">
           <ModeFilter
-            store={this.context.getStore('ItinerarySearchStore')}
             action={ItinerarySearchActions}
             buttonClass="mode-icon"
+            modes={this.context.getStore('ItinerarySearchStore').getMode()}
           />
         </section>
         <section className="offcanvas-section">

@@ -32,6 +32,7 @@ import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
+import ModeFilter from '../component/util/ModeFilter';
 
 import sortBy from 'lodash/sortBy';
 
@@ -409,6 +410,14 @@ class StyleGuidelinesPage extends React.Component {
     );
   }
 
+  getUtilComponents() {
+    return (
+      <div>
+        <ComponentDocumentation component={ModeFilter} />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="container column">
@@ -445,6 +454,7 @@ class StyleGuidelinesPage extends React.Component {
         {this.getTileLayerComponents()}
         {this.getScheduleComponents()}
         {this.getRouteAlertsComponents()}
+        {this.getUtilComponents()}
       </div>
     );
   }
