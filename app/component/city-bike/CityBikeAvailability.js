@@ -33,7 +33,10 @@ const CityBikeAvailability = (props) => {
   return (
     <div className="city-bike-availability-container">
       <p className="sub-header-h4 bike-availability-header">
-        <FormattedMessage id="bike-availability" defaultMessage="Bikes available" />&nbsp;({isNaN(props.bikesAvailable) ? 0 : props.bikesAvailable}/
+        <FormattedMessage
+          id="bike-availability"
+          defaultMessage="Bikes available"
+        />&nbsp;({isNaN(props.bikesAvailable) ? 0 : props.bikesAvailable}/
           {isNaN(props.totalSpaces) ? 0 : props.totalSpaces})
       </p>
       <div className="row">
