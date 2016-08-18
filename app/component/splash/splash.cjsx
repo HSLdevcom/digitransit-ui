@@ -1,14 +1,14 @@
-React               = require 'react'
-Relay               = require 'react-relay'
-Config              = require '../../config'
-DefaultNavigation   = require('../navigation/DefaultNavigation').default
-FrontPagePanel      = require('../front-page/FrontPagePanel').default
-EndpointActions     = require('../../action/EndpointActions')
-{intlShape}         = require 'react-intl'
-FormattedMessage    = require('react-intl').FormattedMessage
-OneTabSearchModal   = require '../search/one-tab-search-modal'
-FakeSearchBar       = require '../search/fake-search-bar'
-FakeSearchWithButton = require '../search/fake-search-with-button'
+React                = require 'react'
+Relay                = require 'react-relay'
+Config               = require '../../config'
+DefaultNavigation    = require('../navigation/DefaultNavigation').default
+FrontPagePanel       = require('../front-page/FrontPagePanel').default
+EndpointActions      = require('../../action/EndpointActions')
+{intlShape}          = require 'react-intl'
+FormattedMessage     = require('react-intl').FormattedMessage
+FakeSearchBar        = require('../search/FakeSearchBar').default
+FakeSearchWithButton = require('../search/FakeSearchWithButton').default
+OneTabSearchModal    = require('../search/OneTabSearchModal').default
 
 class Splash extends React.Component
   @contextTypes:

@@ -4,8 +4,8 @@ cx                        = require 'classnames'
 Link                      = require 'react-router/lib/Link'
 FavouriteIconTable        = require './favourite-icon-table'
 FavouriteLocationActions  = require '../../action/favourite-location-action'
-FakeSearchBar             = require '../search/fake-search-bar'
-OneTabSearchModal         = require '../search/one-tab-search-modal'
+FakeSearchBar             = require('../search/FakeSearchBar').default
+OneTabSearchModal         = require('../search/OneTabSearchModal').default
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage

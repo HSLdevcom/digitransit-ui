@@ -1,13 +1,13 @@
 import React from 'react';
 import Config from '../config';
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
-import FrontPagePanel from '../component/front-page/FrontPagePanel';
-import SearchMainContainer from '../component/search/search-main-container';
-import MapWithTracking from '../component/map/MapWithTracking';
-import FeedbackPanel from '../component/feedback/feedback-panel';
 import { clearDestination } from '../action/EndpointActions';
-import { unsetSelectedTime } from '../action/TimeActions';
 import { reset, forceCitybikeState } from '../action/ItinerarySearchActions';
+import { unsetSelectedTime } from '../action/TimeActions';
+import FeedbackPanel from '../component/feedback/feedback-panel';
+import FrontPagePanel from '../component/front-page/FrontPagePanel';
+import MapWithTracking from '../component/map/MapWithTracking';
+import DefaultNavigation from '../component/navigation/DefaultNavigation';
+import SearchMainContainer from '../component/search/SearchMainContainer';
 
 class IndexPage extends React.Component {
   static contextTypes = {

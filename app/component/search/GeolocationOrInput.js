@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import GeolocationBar from './geolocation-bar';
+import GeolocationBar from './GeolocationBar';
 import SearchInputContainer from './SearchInputContainer';
 
 export default class GeolocationOrInput extends Component {

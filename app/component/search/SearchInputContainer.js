@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactAutowhatever from 'react-autowhatever';
 import { getLabel } from '../../util/suggestionUtils';
 import SuggestionItem from './SuggestionItem';
-import CurrentPositionItem from './current-position-suggestion-item';
+import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import { executeSearch, saveSearch, closeSearch } from '../../action/SearchActions';
 import Icon from '../icon/icon';
 
@@ -198,7 +198,7 @@ export default class SearchInputContainer extends Component {
           id="suggest"
           items={this.state.suggestions}
           renderItem={(item) => (item.properties.layer === 'currentPosition' ?
-            <CurrentPositionItem ref={item.name} item={item} spanClass="autosuggestIcon" /> :
+            <CurrentPositionSuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon" /> :
             <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon" />
           )}
           onSuggestionSelected={this.currentItemSelected}

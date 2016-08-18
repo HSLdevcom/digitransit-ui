@@ -4,7 +4,7 @@ import { swapEndpoints } from '../../action/EndpointActions';
 import { intlShape } from 'react-intl';
 
 import Icon from '../icon/icon';
-import OneTabSearchModal from '../search/one-tab-search-modal';
+import OneTabSearchModal from '../search/OneTabSearchModal';
 
 class OriginDestinationBar extends React.Component {
 
