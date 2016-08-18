@@ -31,6 +31,7 @@ import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect'
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
+import RouteStop from '../component/route/RouteStop';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
 
@@ -334,6 +335,7 @@ class StyleGuidelinesPage extends React.Component {
         <ComponentDocumentation component={DepartureTime} />
         <ComponentDocumentation component={RouteNumber} />
         <ComponentDocumentation component={RouteDestination} />
+        <ComponentDocumentation component={RouteStop} />
         <ComponentDocumentation component={StopReference} />
         <ComponentDocumentation component={Distance} />
         <ComponentDocumentation component={NotImplementedLink} />
