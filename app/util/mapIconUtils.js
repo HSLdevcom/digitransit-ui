@@ -88,7 +88,7 @@ export const getImageFromSprite = memoize(
   (icon, w, h, fill) => `${icon}_${w}_${h}_${fill}`
 );
 
-export function drawTerminalIcon(tile, geom, type) {
+export function drawTerminalIcon(tile, geom, type, name) {
   const stopRadius = getStopRadius({ $zoom: tile.coords.z }) * 2.5;
 
   if (stopRadius > 0) {
@@ -148,6 +148,22 @@ export function drawTerminalIcon(tile, geom, type) {
         geom[0][0].x / tile.ratio - iconSize / 2,
         geom[0][0].y / tile.ratio - iconSize / 2,
       );
+
+      if (tile.coords.z >= 16) {
+        tile.ctx.fillStyle = '#777';
+        tile.ctx.strokeStyle = 'white';
+        tile.ctx.textAlign = 'center';
+        tile.ctx.textBaseline = 'top';
+        tile.ctx.font = '500 11px Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif';
+        tile.ctx.strokeText(
+        name,
+        geom[0][0].x / tile.ratio,
+        geom[0][0].y / tile.ratio + caseRadius + 1);
+        tile.ctx.fillText(
+        name,
+        geom[0][0].x / tile.ratio,
+        geom[0][0].y / tile.ratio + caseRadius + 1);
+      }
     }
   }
 }
