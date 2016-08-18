@@ -77,6 +77,7 @@ class StopMarker extends React.Component {
     const inner = (stopRadius + hubRadius) / 2;
     const stroke = stopRadius - hubRadius;
 
+    // see app/util/mapIconUtils.js for the canvas version
     let iconSvg = `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
