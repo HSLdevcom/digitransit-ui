@@ -82,14 +82,12 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     min-height: 1px;
     .route-now-content {
       padding-top: 10px;
-
       & svg {
         position: absolute;
         z-index: 1;
         &.tail {
           left: -7px;
           top: -17px;
-          z-index: 0;
           width: 50px;
           height: 50px;
         }
@@ -133,24 +131,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 .nearest-route-stop > span > svg.icon {
   transform: translate(0px,3px);
-}
-
-.route-stop-now-icon {
-  position: relative;
-  svg {
-    position: absolute;
-    top: -40px;
-    right: -22px;
-    z-index: 1;
-    &.tail {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      top: -57px;
-      right: -39px;
-      z-index: 0;
-    }
-  }
 }
 
 .route-header {
@@ -296,7 +276,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   top: 10px;
   left: 0;
   border-top: 1px solid $light-gray;
-  z-index: 0;
 }
 
 .trip-from, .trip-to {
