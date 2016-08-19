@@ -25,6 +25,7 @@ import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
+import SelectTerminalRow from '../component/map/tile-layer/SelectTerminalRow';
 import Favourite from '../component/favourites/Favourite';
 import TicketInformation from '../component/itinerary/TicketInformation';
 import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect';
@@ -70,6 +71,7 @@ class StyleGuidelinesPage extends React.Component {
     MarkerSelectPopup,
     SelectCityBikeRow,
     SelectStopRow,
+    SelectTerminalRow,
     Favourite,
     TicketInformation,
     RouteScheduleDateSelect,
