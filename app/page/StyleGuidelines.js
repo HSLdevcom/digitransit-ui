@@ -36,8 +36,52 @@ import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
 
 import sortBy from 'lodash/sortBy';
+import Link from 'react-router/lib/Link';
 
 class StyleGuidelinesPage extends React.Component {
+
+  static propTypes = {
+    params: React.PropTypes.object,
+  };
+
+  static components = {
+    Icon,
+    IconWithTail,
+    ComponentDocumentation,
+    Departure,
+    RouteNumber,
+    RouteDestination,
+    DepartureTime,
+    StopReference,
+    Distance,
+    NotImplemented,
+    NotImplementedLink,
+    CardHeader,
+    Card,
+    CityBikeCard,
+    CityBikeContent,
+    CityBikeAvailability,
+    CityBikeUse,
+    CityBikePopup,
+    FavouriteLocation,
+    TimeSelectors,
+    TimeNavigationButtons,
+    RightOffcanvasToggle,
+    TripRouteStop,
+    MarkerSelectPopup,
+    SelectCityBikeRow,
+    SelectStopRow,
+    Favourite,
+    TicketInformation,
+    RouteScheduleDateSelect,
+    RouteScheduleHeader,
+    RouteScheduleStopSelect,
+    RouteScheduleTripRow,
+    RouteAlertsRow,
+    ModeFilter,
+    RouteStop,
+  }
+
   getColors() {
     return (
       <section>
@@ -328,99 +372,27 @@ class StyleGuidelinesPage extends React.Component {
     );
   }
 
-  getDepartureMolecules() {
-    return (
-      <div>
-        <ComponentDocumentation component={Departure} />
-        <ComponentDocumentation component={DepartureTime} />
-        <ComponentDocumentation component={RouteNumber} />
-        <ComponentDocumentation component={RouteDestination} />
-        <ComponentDocumentation component={RouteStop} />
-        <ComponentDocumentation component={StopReference} />
-        <ComponentDocumentation component={Distance} />
-        <ComponentDocumentation component={NotImplementedLink} />
-        <ComponentDocumentation component={NotImplemented} />
-        <ComponentDocumentation component={Favourite} />
+  getComponents() {
+    return Object.keys(StyleGuidelinesPage.components).map(component => (
+      <div key={component}>
+        <ComponentDocumentation component={StyleGuidelinesPage.components[component]} />
       </div>
-    );
-  }
-
-  getCardComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={CardHeader} />
-        <ComponentDocumentation component={Card} />
-        <ComponentDocumentation component={CityBikeCard} />
-        <ComponentDocumentation component={CityBikeContent} />
-        <ComponentDocumentation component={CityBikeAvailability} />
-        <ComponentDocumentation component={CityBikeUse} />
-        <ComponentDocumentation component={CityBikePopup} />
-        <ComponentDocumentation component={FavouriteLocation} />
-        <ComponentDocumentation component={TripRouteStop} />
-      </div>
-    );
-  }
-
-  getIconComponents() {
-    return <div><ComponentDocumentation component={IconWithTail} /></div>;
-  }
-
-  getSummaryComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={TimeNavigationButtons} />
-        <ComponentDocumentation component={TimeSelectors} />
-        <ComponentDocumentation component={RightOffcanvasToggle} />
-      </div>
-    );
-  }
-
-  getItineraryComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={TicketInformation} />
-      </div>
-    );
-  }
-
-  getTileLayerComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={MarkerSelectPopup} />
-        <ComponentDocumentation component={SelectCityBikeRow} />
-        <ComponentDocumentation component={SelectStopRow} />
-      </div>
-    );
-  }
-
-  getScheduleComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={RouteScheduleDateSelect} />
-        <ComponentDocumentation component={RouteScheduleHeader} />
-        <ComponentDocumentation component={RouteScheduleStopSelect} />
-        <ComponentDocumentation component={RouteScheduleTripRow} />
-      </div>
-    );
-  }
-
-  getRouteAlertsComponents() {
-    return (
-      <div className="route-alerts-list">
-        <ComponentDocumentation component={RouteAlertsRow} />
-      </div>
-    );
-  }
-
-  getUtilComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={ModeFilter} />
-      </div>
-    );
+    ));
   }
 
   render() {
+    if (this.props.params.componentName) {
+      return (
+        <div className="container column">
+          <ComponentDocumentation
+            mode="examples-only"
+            component={StyleGuidelinesPage.components[this.props.params.componentName]}
+          />
+          <hr />
+          <Link to="/styleguide">Go back to styleguide</Link>
+        </div>);
+    }
+
     return (
       <div className="container column">
         <h1>UI Elements</h1>
@@ -448,18 +420,11 @@ class StyleGuidelinesPage extends React.Component {
 
         <h1>Components</h1><hr />
 
-        {this.getDepartureMolecules()}
-        {this.getCardComponents()}
-        {this.getIconComponents()}
-        {this.getSummaryComponents()}
-        {this.getItineraryComponents()}
-        {this.getTileLayerComponents()}
-        {this.getScheduleComponents()}
-        {this.getRouteAlertsComponents()}
-        {this.getUtilComponents()}
+        {this.getComponents()}
       </div>
     );
   }
 }
+
 
 export default StyleGuidelinesPage;

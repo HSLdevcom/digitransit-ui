@@ -88,6 +88,7 @@ export default Relay.createContainer(RouteLine, {
           lon
           name
           gtfsId
+          platformCode
           ${StopCardHeader.getFragment('stop')}
         }
       }
