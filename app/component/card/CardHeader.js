@@ -22,7 +22,7 @@ const CardHeader = ({
     {icon ? (
       <div
         className="left"
-        style={{ fontSize: 32, paddingRight: 10 }}
+        style={{ fontSize: 32, paddingRight: 10, height: 32 }}
       >
         <Icon img={icon} />
       </div>
