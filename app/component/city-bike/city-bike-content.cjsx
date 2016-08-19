@@ -20,7 +20,7 @@ CityBikeContent.description =
     <div>
       <p>Renders content of a citybike card</p>
       <ComponentUsageExample description="">
-        <CityBikeContent station={Example.station}/>
+        <CityBikeContent station={Example.station} lang={Example.lang}/>
       </ComponentUsageExample>
     </div>
 
