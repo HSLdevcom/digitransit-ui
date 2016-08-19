@@ -1,5 +1,6 @@
 import React from 'react';
 import SelectStopRow from './SelectStopRow';
+import SelectTerminalRow from './SelectTerminalRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 import { options as options } from '../../documentation/ExampleData';
@@ -8,7 +9,15 @@ import { FormattedMessage } from 'react-intl';
 
 function MarkerSelectPopup(props) {
   const rows = props.options.map((option) => {
-    if (option.layer === 'stop') {
+    if (option.layer === 'stop' && option.feature.properties.stops) {
+      return (
+        <SelectTerminalRow
+          {...option.feature.properties}
+          key={option.feature.properties.gtfsId}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    } else if (option.layer === 'stop') {
       return (
         <SelectStopRow
           {...option.feature.properties}
