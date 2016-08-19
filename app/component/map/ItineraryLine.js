@@ -146,13 +146,7 @@ class ItineraryLine extends React.Component {
             objs.push(
               <StopMarker
                 disableModeIcons
-                stop={{
-                  lat: stop.lat,
-                  lon: stop.lon,
-                  name: stop.name,
-                  gtfsId: stop.gtfsId,
-                  code: stop.code,
-                }}
+                stop={stop}
                 key={`intermediate-${stop.gtfsId}`}
                 mode={modePlusClass}
                 thin
@@ -200,11 +194,10 @@ class ItineraryLine extends React.Component {
               key={`${i},${leg.mode}marker,from`}
               disableModeIcons
               stop={{
-                lat: leg.from.lat,
-                lon: leg.from.lon,
-                name: leg.from.name,
+                ...leg.from,
                 gtfsId: leg.from.stop.gtfsId,
                 code: leg.from.stop.code,
+                platformCode: leg.from.stop.platformCode,
                 transfer: true,
               }}
               mode={mode.toLowerCase()}

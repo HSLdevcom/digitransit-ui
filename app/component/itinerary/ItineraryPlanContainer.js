@@ -241,6 +241,7 @@ export const ItineraryPlanContainerFragments = {
               stop {
                 gtfsId
                 code
+                platformCode
               }
             }
             to {
@@ -254,6 +255,7 @@ export const ItineraryPlanContainerFragments = {
               stop {
                 gtfsId
                 code
+                platformCode
               }
             }
             legGeometry {
@@ -266,6 +268,7 @@ export const ItineraryPlanContainerFragments = {
               lon
               name
               code
+              platformCode
             }
             realTime
             transitLeg
