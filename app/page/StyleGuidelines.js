@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '../component/icon/icon';
-import IconWithTail from '../component/icon/icon-with-tail';
+import IconWithTail from '../component/icon/IconWithTail';
 import ComponentDocumentation from '../component/documentation/ComponentDocumentation';
 import Departure from '../component/departure/Departure';
 import RouteNumber from '../component/departure/RouteNumber';

@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import IconWithTail from '../icon/icon-with-tail';
+import IconWithTail from '../icon/IconWithTail';
 import cx from 'classnames';
 
 function PatternLink({ mode, pattern, selected = false }) {

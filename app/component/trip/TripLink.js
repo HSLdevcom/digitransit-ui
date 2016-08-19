@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
-import IconWithTail from '../icon/icon-with-tail';
+import IconWithTail from '../icon/IconWithTail';
 import cx from 'classnames';
 import NotImplementedLink from '../util/not-implemented-link';
 import { FormattedMessage } from 'react-intl';
