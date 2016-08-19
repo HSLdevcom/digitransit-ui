@@ -37,7 +37,8 @@ class Stops {
                 feature.loadGeometry(),
                 feature.properties.type,
                 this.tile.props.hilightedStops &&
-                  this.tile.props.hilightedStops.includes(feature.properties.gtfsId)
+                  this.tile.props.hilightedStops.includes(feature.properties.gtfsId),
+                feature.properties.platform !== 'null' ? feature.properties.platform : false
               );
             }
           }
