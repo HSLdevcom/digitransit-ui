@@ -4,6 +4,8 @@ import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import config from '../../config';
+import { lang as exampleLang } from '../documentation/ExampleData';
+
 
 const CityBikeUse = ({ lang }) => (
   <div className="city-bike-use-container">
@@ -26,7 +28,7 @@ CityBikeUse.description = (
   <div>
     <p>Renders use citybike component</p>
     <ComponentUsageExample description="">
-      <CityBikeUse />
+      <CityBikeUse lang={exampleLang} />
     </ComponentUsageExample>
   </div>);
 

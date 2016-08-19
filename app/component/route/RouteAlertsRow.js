@@ -58,34 +58,36 @@ RouteAlertsRow.description = (
     <p>
       Display a disruption alert for a specific route.
     </p>
-    <ComponentUsageExample
-      description="Currently active disruption"
-    >
-      <RouteAlertsRow
-        header={'Raitiolinja 2 - Myöhästyy'}
-        description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
-          'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
-          'Arvioitu kesto: 14:29 - 15:20.'}
-        startTime={'11:32'}
-        endTime={'12:20'}
-        routeMode={'tram'}
-        routeLine={'2'}
-        day={'Today'}
-        expired={false}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="Past disruption" >
-      <RouteAlertsRow
-        header={'Raitiolinja 2 - Myöhästyy'}
-        description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
-          'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
-          'Arvioitu kesto: 14:29 - 15:20.'}
-        startTime={'11:32'}
-        endTime={'12:20'}
-        routeMode={'tram'}
-        routeLine={'2'}
-        day={'Yesterday'}
-        expired
-      />
-    </ComponentUsageExample>
+    <div className="route-alerts-list">
+      <ComponentUsageExample
+        description="Currently active disruption"
+      >
+        <RouteAlertsRow
+          header={'Raitiolinja 2 - Myöhästyy'}
+          description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
+            'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
+            'Arvioitu kesto: 14:29 - 15:20.'}
+          startTime={'11:32'}
+          endTime={'12:20'}
+          routeMode={'tram'}
+          routeLine={'2'}
+          day={'Today'}
+          expired={false}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="Past disruption" >
+        <RouteAlertsRow
+          header={'Raitiolinja 2 - Myöhästyy'}
+          description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
+            'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
+            'Arvioitu kesto: 14:29 - 15:20.'}
+          startTime={'11:32'}
+          endTime={'12:20'}
+          routeMode={'tram'}
+          routeLine={'2'}
+          day={'Yesterday'}
+          expired
+        />
+      </ComponentUsageExample>
+    </div>
   </div>);

@@ -2,7 +2,7 @@ import React from 'react';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import { station as exampleStation } from '../documentation/ExampleData';
+import { station as exampleStation, lang as exampleLang } from '../documentation/ExampleData';
 
 const CityBikeContent = ({ station, lang }) => (
   <div className="city-bike-container">
@@ -19,7 +19,7 @@ CityBikeContent.description = (
   <div>
     <p>Renders content of a citybike card</p>
     <ComponentUsageExample description="">
-      <CityBikeContent station={exampleStation} />
+      <CityBikeContent station={exampleStation} lang={exampleLang} />
     </ComponentUsageExample>
   </div>);
 
