@@ -18,7 +18,7 @@ module.exports =
     API_URL: "#{API_URL}"
     OTP: "#{API_URL}/routing/v1/routers/hsl/"
     MAP: "#{MAP_URL}/map/v1/hsl-map/"
-    STOP_MAP: "#{API_URL}/map/v1/hsl-stop-map/"
+    STOP_MAP: "http://localhost:3000/hsl-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "wss://dev.hsl.fi/mqtt-proxy"
     ALERTS: "#{API_URL}/realtime/service-alerts/v1"
@@ -115,15 +115,16 @@ module.exports =
       fi: "https://www.hsl.fi/kaupunkipyörät"
       sv: "https://www.hsl.fi/sv/stadscyklar"
       en: "https://www.hsl.fi/en/citybikes"
-    cityBikeMinZoom: 13
+    cityBikeMinZoom: 14
     cityBikeSmallIconZoom: 14
     fewAvailableCount: 3
   # Lowest level for stops and terminals are rendered
-  stopsMinZoom: 13
+  stopsMinZoom: 14
   # Highest level when stops and terminals are still rendered as small markers
   stopsSmallMaxZoom: 14
   # Highest level when terminals are still rendered instead of individual stops
   terminalStopsMaxZoom: 17
+  terminalStopsMinZoom: 13
   terminalNamesZoom: 16
   colors:
     primary: "#007ac9"
