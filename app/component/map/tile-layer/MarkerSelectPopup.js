@@ -30,10 +30,13 @@ function MarkerSelectPopup(props) {
 
   return (
     <div className="card">
-      <h3 className="padding-normal">
+      <h3 className="padding-normal gray" style={{ height: 42 }}>
         <FormattedMessage id="choose-stop" defaultMessage="Choose stop" />
       </h3>
-      {rows}
+      <hr className="no-margin gray" />
+      <div style={{ maxHeight: 176, overflow: 'scroll' }}>
+        {rows}
+      </div>
     </div>
   );
 }

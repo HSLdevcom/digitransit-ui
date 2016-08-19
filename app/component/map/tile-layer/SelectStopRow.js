@@ -43,7 +43,9 @@ function SelectStopRow(props) {
     if (otherPatterns.length > 0) {
       patterns.push(
         <div key="second" className="route-detail-text">
-          <FormattedMessage id="in-addition" defaultMessage="In addition" />
+          <span className="gray">
+            <FormattedMessage id="in-addition" defaultMessage="In addition" />
+          </span>
           {uniqBy(otherPatterns, pattern => pattern.shortName).map(getName)}
         </div>);
     }
@@ -51,7 +53,6 @@ function SelectStopRow(props) {
 
   return (
     <div className="no-margin">
-      <hr className="no-margin" />
       <div className="no-margin cursor-pointer" onClick={props.selectRow}>
         <div className="left padding-vertical-normal" style={{ width: 40 }}>
           <svg
@@ -62,10 +63,10 @@ function SelectStopRow(props) {
             className={`${props.type.toLowerCase()} left`}
           >
             <circle
-              r="7"
+              r="8"
               cx="15"
               cy="15"
-              strokeWidth="6.5"
+              strokeWidth="3"
               fill="None"
               stroke="currentColor"
             />
@@ -80,6 +81,7 @@ function SelectStopRow(props) {
         <div className="clear">
         </div>
       </div>
+      <hr className="no-margin gray" />
     </div>
   );
 }
