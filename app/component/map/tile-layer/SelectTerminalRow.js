@@ -19,7 +19,7 @@ function getName(route) {
   return null;
 }
 
-function SelectStopRow(props) {
+function SelectTerminalRow(props) {
   const routeData = JSON.parse(props.routes).sort(routeCompare);
 
   return (
@@ -59,13 +59,13 @@ function SelectStopRow(props) {
   );
 }
 
-SelectStopRow.displayName = 'SelectStopRow';
+SelectTerminalRow.displayName = 'SelectTerminalRow';
 
-SelectStopRow.description = (
+SelectTerminalRow.description = (
   <div>
     <p>Renders a select stop row</p>
     <ComponentUsageExample description="">
-      <SelectStopRow
+      <SelectTerminalRow
         name={'Pasilan Asema'}
         selectRow={() => {}}
         type={'BUS'}
@@ -75,11 +75,11 @@ SelectStopRow.description = (
   </div>
 );
 
-SelectStopRow.propTypes = {
+SelectTerminalRow.propTypes = {
   type: React.PropTypes.string.isRequired,
   name: React.PropTypes.string.isRequired,
   selectRow: React.PropTypes.func.isRequired,
   routes: React.PropTypes.string.isRequired,
 };
 
-export default SelectStopRow;
+export default SelectTerminalRow;
