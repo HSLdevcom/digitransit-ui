@@ -167,15 +167,16 @@ $border-radius-rounded: 30px;
     fill: $white;
 
     &:hover {
-      fill: $favourite-color;
+      stroke: $favourite-color;
     }
 
     &.selected {
       fill: $favourite-color;
+      stroke: $favourite-color;
     }
 
     &.selected:hover {
-      fill: $white;
+      stroke: $white;
     }
   }
 }
