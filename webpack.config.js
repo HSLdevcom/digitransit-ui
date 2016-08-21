@@ -24,7 +24,7 @@ function getLoadersConfig(env) {
         exclude: /node_modules/,
         query: {
           // loose is needed by older Androids < 4.3 and IE10
-          'presets': ['es2015-webpack-loose', 'react', 'stage-2'],
+          'presets': [['es2015', { "loose": true, "modules": false }], 'react', 'stage-2'],
           'plugins': [
             'transform-class-properties',
             path.join(__dirname, 'build/babelRelayPlugin'),
@@ -48,7 +48,7 @@ function getLoadersConfig(env) {
       exclude: /node_modules/,
       query: {
         // loose is needed by older Androids < 4.3 and IE10
-        'presets': ['es2015-webpack-loose', 'react', 'stage-2'],
+        'presets': [['es2015', { "loose": true, "modules": false }], 'react', 'stage-2'],
         'plugins': [
           'transform-class-properties',
           path.join(__dirname, 'build/babelRelayPlugin'),
