@@ -24,7 +24,7 @@ export default function PlaceMarker({ displayOriginPopup, position }, { intl, po
         header={intl.formatMessage({ id: 'origin', defaultMessage: 'From' })}
         popupContainer={popupContainer}
         text={position.address}
-        yOffset={-15}
+        yOffset={14}
       />
     );
   }

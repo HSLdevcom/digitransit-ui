@@ -4,7 +4,7 @@ import config from '../../config';
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
 const Popup = isBrowser ?
-  require('./Popup').default : null; // eslint-disable-line global-require
+  require('react-leaflet/lib/Popup').default : null; // eslint-disable-line global-require
 
 import { openDialog } from '../../action/SearchActions';
 import { intlShape } from 'react-intl';

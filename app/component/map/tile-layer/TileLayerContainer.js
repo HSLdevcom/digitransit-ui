@@ -2,9 +2,9 @@ import React from 'react';
 import Relay from 'react-relay';
 import StopRoute from '../../../route/StopRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
-import Popup from '../Popup';
+import Popup from 'react-leaflet/lib/Popup';
 import { intlShape } from 'react-intl';
-import BaseTileLayer from 'react-leaflet/lib/BaseTileLayer';
+import MapLayer from 'react-leaflet/lib/MapLayer';
 import omit from 'lodash/omit';
 import provideContext from 'fluxible-addons-react/provideContext';
 import StopMarkerPopup from '../popups/stop-marker-popup';
@@ -44,7 +44,7 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
 //      because it doesn't inherit it directly. This will force the detection
 //      once eslint-plugin-react has a new release (https://github.com/yannickcr/eslint-plugin-react/pull/513)
 /** @extends React.Component */
-class TileLayerContainer extends BaseTileLayer {
+class TileLayerContainer extends MapLayer {
   static propTypes = {
     tileSize: React.PropTypes.number,
     zoomOffset: React.PropTypes.number,
@@ -65,16 +65,17 @@ class TileLayerContainer extends BaseTileLayer {
     coords: undefined,
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    super.componentWillMount()
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
 
+    //TODO: Convert to use react-leaflet <GridLayer>
     const Layer = L.GridLayer.extend({ createTile: this.createTile });
 
     this.leafletElement = new Layer(omit(this.props, 'map'));
     this.context.map.addEventParent(this.leafletElement);
 
     this.leafletElement.on('click contextmenu', this.onClick);
-    super.componentDidMount(...this.props);
   }
 
   componentDidUpdate() {
@@ -188,7 +189,7 @@ class TileLayerContainer extends BaseTileLayer {
         popup = (
           <Popup
             ey={id}
-            offset={[106, 3]}
+            offset={[106, 16]}
             closeButton={false}
             minWidth={250}
             maxWidth={250}
@@ -204,7 +205,7 @@ class TileLayerContainer extends BaseTileLayer {
         popup = (
           <Popup
             key={this.state.coords.toString()}
-            offset={[106, 3]}
+            offset={[106, 16]}
             closeButton={false}
             minWidth={250}
             maxWidth={250}
@@ -225,7 +226,7 @@ class TileLayerContainer extends BaseTileLayer {
         popup = (
           <Popup
             key={this.state.coords.toString()}
-            offset={[106, 3]}
+            offset={[106, 16]}
             closeButton={false}
             minWidth={250}
             maxWidth={250}

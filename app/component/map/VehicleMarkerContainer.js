@@ -14,7 +14,7 @@ let L;
 
 /* eslint-disable global-require */
 if (isBrowser) {
-  Popup = require('./Popup').default;
+  Popup = require('react-leaflet/lib/Popup').default;
   Marker = require('react-leaflet/lib/Marker').default;
   L = require('leaflet');
 }
@@ -174,7 +174,7 @@ export default class VehicleMarkerContainer extends React.Component {
         icon={this.getVehicleIcon(message.mode, message.heading)}
       >
         <Popup
-          offset={[106, 3]}
+          offset={[106, 16]}
           closeButton={false}
           maxWidth={250}
           minWidth={250}
