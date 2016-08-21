@@ -47,7 +47,7 @@
   "dependencies": {
     "babel-core": "6.10.4",
     "babel-plugin-transform-class-properties": "6.10.2",
-    "babel-preset-modern-node": "2.2.1",
+    "babel-preset-modern-node": "3.1.0",
     "babel-preset-react": "6.11.1",
     "babel-preset-stage-2": "6.11.0",
     "babel-relay-plugin": "0.9.1",

@@ -3,17 +3,10 @@
 
 /* ********* Polyfills (for node) **********/
 const path = require('path');
-const versionArray = process.versions.node.split('.');
-let version;
-if (versionArray[0] === '0') {
-  version = '0.12';
-} else {
-  version = versionArray[0] + '.0'; // eslint-disable-line prefer-template
-}
 
 require('node-cjsx').transform();
 require('babel-core/register')({
-  presets: ['modern-node/' + version, 'stage-2', 'react'], // eslint-disable-line prefer-template
+  presets: ['modern-node', 'stage-2', 'react'], // eslint-disable-line prefer-template
   plugins: [
     'transform-es2015-destructuring',
     'transform-es2015-parameters',
