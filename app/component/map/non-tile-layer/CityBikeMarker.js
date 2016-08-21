@@ -1,7 +1,7 @@
 const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
 import Relay from 'react-relay';
-import CityBikePopup from '../popups/city-bike-popup';
+import CityBikePopup from '../popups/CityBikePopup';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import Icon from '../../icon/icon';

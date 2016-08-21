@@ -4,8 +4,8 @@ queries               = require '../../../queries'
 RouteHeader           = require('../../route/RouteHeader').default
 Icon                  = require '../../icon/icon'
 Link                  = require 'react-router/lib/Link'
-FavouriteRoutesActions = require '../../../action/favourite-routes-action'
-connectToStores = require 'fluxible-addons-react/connectToStores'
+{addFavouriteRoute}   = require '../../../action/FavouriteActions'
+connectToStores       = require 'fluxible-addons-react/connectToStores'
 
 class RouteMarkerPopup extends React.Component
   @childContextTypes:
@@ -14,9 +14,9 @@ class RouteMarkerPopup extends React.Component
   getChildContext: () ->
     router: @props.context.router
 
-  addFavouriteRoute: (e) =>
+  addAsFavouriteRoute: (e) =>
     e.stopPropagation()
-    @props.context.executeAction FavouriteRoutesActions.addFavouriteRoute, @props.trip.route.gtfsId
+    @props.context.executeAction addFavouriteRoute, @props.trip.route.gtfsId
 
   render: ->
     <div className="card">
@@ -25,7 +25,7 @@ class RouteMarkerPopup extends React.Component
         pattern={@props.trip.fuzzyTrip.pattern}
         trip={@props.message.tripStartTime}
         favourite={@props.favourite}
-        addFavouriteRoute={@addFavouriteRoute}/>
+        addFavouriteRoute={@addAsFavouriteRoute}/>
       <div className="bottom location">
         <Link to="/lahdot/#{@props.trip.fuzzyTrip.gtfsId}">
           <Icon img={'icon-icon_time'}/> Lähdön tiedot</Link>

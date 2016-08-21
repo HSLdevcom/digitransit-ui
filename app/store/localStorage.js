@@ -50,6 +50,14 @@ export function setFavouriteStopsStorage(data) {
   setItem('favouriteStops', data);
 }
 
+export function getFavouriteCityBikeStations() {
+  return getItemAsJson('favouriteCityBikeStations', '[]');
+}
+
+export function setFavouriteCityBikeStations(data) {
+  setItem('favouriteCityBikeStations', data);
+}
+
 export function getFavouriteRoutesStorage() {
   return getItemAsJson('favouriteRoutes');
 }

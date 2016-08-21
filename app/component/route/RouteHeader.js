@@ -33,6 +33,5 @@ RouteHeader.propTypes = {
   pattern: React.PropTypes.object.isRequired,
   reverseId: React.PropTypes.string,
   className: React.PropTypes.string,
-  addFavouriteRoute: React.PropTypes.func.isRequired,
   favourite: React.PropTypes.bool.isRequired,
 };

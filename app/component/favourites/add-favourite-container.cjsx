@@ -3,7 +3,7 @@ Icon                      = require '../icon/icon'
 cx                        = require 'classnames'
 Link                      = require 'react-router/lib/Link'
 FavouriteIconTable        = require './favourite-icon-table'
-FavouriteLocationActions  = require '../../action/favourite-location-action'
+{addFavouriteLocation}    = require('../../action/FavouriteActions')
 FakeSearchBar             = require '../search/fake-search-bar'
 OneTabSearchModal         = require '../search/one-tab-search-modal'
 
@@ -44,7 +44,7 @@ class AddFavouriteContainer extends React.Component
 
   save: =>
     if @canSave()
-      @context.executeAction FavouriteLocationActions.addFavouriteLocation, @state
+      @context.executeAction addFavouriteLocation, @state
       @context.router.replace "/"
 
   canSave: =>
