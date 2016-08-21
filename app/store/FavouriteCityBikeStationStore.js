@@ -5,12 +5,12 @@ class FavouriteCityBikeStationStore extends Store {
   static storeName = 'FavouriteCityBikeStationStore';
 
   isFavourite(id) {
-    return getFavouriteCityBikeStations().indexOf(id) !== -1;
+    return getFavouriteCityBikeStations().includes(id);
   }
 
   addFavouriteCityBikeStation(id) {
     const favourites = getFavouriteCityBikeStations();
-    if (favourites.indexOf(id) === -1) {
+    if (!favourites.includes(id)) {
       favourites.push(id);
       setFavouriteCityBikeStations(favourites);
       this.emitChange();

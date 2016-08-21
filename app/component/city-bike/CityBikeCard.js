@@ -21,7 +21,8 @@ const CityBikeCard = ({ station, children, className, isFavourite, toggleFavouri
         />
         {children}
       </Card>
-    </div>);
+    </div>
+  );
 };
 
 CityBikeCard.description = (

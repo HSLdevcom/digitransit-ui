@@ -18,14 +18,12 @@ class RouteHeaderContainer extends React.Component {
     favourite: React.PropTypes.bool,
   };
 
-  addAsFavouriteRoute= (e) => {
+  addAsFavouriteRoute = (e) => {
     e.stopPropagation();
-    this.context.executeAction(
-      addFavouriteRoute,
-      this.props.pattern.route.gtfsId);
+    this.context.executeAction(addFavouriteRoute, this.props.pattern.route.gtfsId);
   }
 
-  render = () => {
+  render() {
     let reverseId;
 
     const patterns = this.props.pattern.route.patterns.map(pattern => pattern.code);
@@ -45,7 +43,8 @@ class RouteHeaderContainer extends React.Component {
         reverseId={reverseId}
         favourite={this.props.favourite}
         addFavouriteRoute={this.addAsFavouriteRoute}
-      />);
+      />
+    );
   }
 }
 

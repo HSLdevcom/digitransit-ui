@@ -43,7 +43,9 @@ class CityBikePopup extends React.Component {
             lat: this.props.station.lat,
             lon: this.props.station.lon,
           }}
-        /></div>);
+        />
+      </div>
+    );
   }
 }
 

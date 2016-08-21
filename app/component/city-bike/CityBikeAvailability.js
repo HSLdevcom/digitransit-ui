@@ -36,17 +36,23 @@ const CityBikeAvailability = (props) => {
         <FormattedMessage
           id="bike-availability"
           defaultMessage="Bikes available"
-        />&nbsp;({isNaN(props.bikesAvailable) ? 0 : props.bikesAvailable}/
-          {isNaN(props.totalSpaces) ? 0 : props.totalSpaces})
+        />
+        {'\u00a0'}
+        ({isNaN(props.bikesAvailable) ? 0 : props.bikesAvailable}/
+         {isNaN(props.totalSpaces) ? 0 : props.totalSpaces})
       </p>
       <div className="row">
         <div
           className={cx('city-bike-column', availableClass, separator)}
           style={{ width: `${availablepct}%` }}
-        /><div
+        />
+        <div
           className={cx('city-bike-column', totalClass, separator)}
           style={{ width: `${100 - availablepct}%` }}
-        /></div></div>);
+        />
+      </div>
+    </div>
+  );
 };
 
 CityBikeAvailability.displayName = 'CityBikeAvailability';
