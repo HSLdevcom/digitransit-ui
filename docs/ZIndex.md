@@ -8,7 +8,7 @@ Selector | Component | Z-Index | Comment
 `.frontpage-panel-container .tabs-row` | Front page tabs | 1201 |
 `.frontpage-panel-wrapper` | Front page pull ups (nearby, favourites) | 1200 |
 `.splash` | Splash screen | 1100 |
-`div.leaflet-marker-icon.from, div.leaflet-marker-icon.to { > span { &::before` | From/To marker letters | 1000 | Could be removed through new SVG components
+`div.leaflet-marker-icon.from, div.leaflet-marker-icon.to { > span { &::before` | From/To marker letters | 1000 | Could be removed through new icon components
 `.toggle-positioning-container` | Pan-to-your-position button | 802 |
 `.search-form-map-overlay` | Fake search field | 802 |
 `.fullscreen-toggle` | Map fullscreen toggle | 802 |
@@ -17,6 +17,6 @@ Selector | Component | Z-Index | Comment
 `.itinerary-feedback-container .form-container` | Itinerary feedback form | 800 | Component not in use
 `.trip-from, .trip-to` | Route schedule times | 1 |
 `.route-stop { div { .route-now-content { svg` | Selected trip icon with tail | 1 |
-`.origin-destination-bar { .field-link { span:first-child { &::before` | Summary search bar from/to marker letters | 1 | Could be removed through new SVG components
+`.origin-destination-bar { .field-link { span:first-child { &::before` | Summary search bar from/to marker letters | 1 | Could be removed through new icon components
 `.itinerary-summary-row { .itinerary-legs { .line` | Summary result row leg lines | 1 |
 `.itinerary-summary-row { .itinerary-legs { .line { :after` | Hides the Summary result row leg lines behind the mode icon. | -1 |
