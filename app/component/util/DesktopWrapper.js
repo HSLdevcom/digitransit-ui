@@ -1,10 +1,9 @@
 import React from 'react';
-import { toClass } from 'recompose';
-import dimensions from 'react-dimensions';
+import ContainerDimensions from 'react-container-dimensions';
 import config from '../../config';
 
-function DesktopWrapper({ children, containerWidth }) {
-  if (containerWidth < 980
+function DesktopWrapperInternal({ children, width }) {
+  if (width < 980
     || !config.enableDesktopWrapper
     || (typeof window !== 'undefined' && window.location.pathname.indexOf('/styleguide') === 0)
   ) {
@@ -51,9 +50,19 @@ function DesktopWrapper({ children, containerWidth }) {
   );
 }
 
-DesktopWrapper.propTypes = {
+DesktopWrapperInternal.propTypes = {
   children: React.PropTypes.node.isRequired,
-  containerWidth: React.PropTypes.number.isRequired,
+  width: React.PropTypes.number,
 };
 
-export default dimensions()(toClass(DesktopWrapper));
+export default function DesktopWrapper({ children }) {
+  return (
+    <ContainerDimensions>
+      <DesktopWrapperInternal>{children}</DesktopWrapperInternal>
+    </ContainerDimensions>
+  );
+}
+
+DesktopWrapper.propTypes = {
+  children: React.PropTypes.node.isRequired,
+};
