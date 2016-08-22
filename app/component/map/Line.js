@@ -50,8 +50,8 @@ export default class Line extends React.Component {
     let legWeight = this.props.thin ? lineConfig.leg.thinWeight : lineConfig.leg.weight;
 
     if (this.props.passive) {
-      haloWeight = 0.5 * haloWeight;
-      legWeight = 0.5 * legWeight;
+      haloWeight *= 0.5;
+      legWeight *= 0.5;
     }
 
     return (

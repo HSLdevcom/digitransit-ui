@@ -4,7 +4,7 @@ import Relay from 'react-relay';
 import config from '../../../config';
 import { drawRoundIcon } from '../../../util/mapIconUtils';
 
-const scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
+const scaleratio = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
 
 const citybikeImageSize = 16 * scaleratio;
 const availabilityImageSize = 8 * scaleratio;
@@ -65,8 +65,8 @@ class CityBikes {
   drawCityBikeBaseIcon = (geom) => {
     this.tile.ctx.drawImage(
       citybikeImage,
-      (geom[0][0].x / this.tile.ratio) - citybikeImageSize / 2,
-      (geom[0][0].y / this.tile.ratio) - citybikeImageSize / 2
+      (geom[0][0].x / this.tile.ratio) - (citybikeImageSize / 2),
+      (geom[0][0].y / this.tile.ratio) - (citybikeImageSize / 2)
     );
   }
 
@@ -91,8 +91,8 @@ class CityBikes {
         if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
           this.tile.ctx.drawImage(
             notInUseImage,
-            geom[0][0].x / this.tile.ratio - notInUseImageSize / 2,
-            geom[0][0].y / this.tile.ratio - notInUseImageSize / 2
+            (geom[0][0].x / this.tile.ratio) - (notInUseImageSize / 2),
+            (geom[0][0].y / this.tile.ratio) - (notInUseImageSize / 2)
           );
 
           return;
@@ -123,8 +123,8 @@ class CityBikes {
     }
   }
 
-  calculatePosition = (coord) =>
-    coord / this.tile.ratio - citybikeImageSize / 2 - availabilityImageSize / 2 + 2 * scaleratio
+  calculatePosition = (coord) => ((coord / this.tile.ratio) - (citybikeImageSize / 2)) -
+    ((availabilityImageSize / 2) + (2 * scaleratio))
 
   addFeature = (feature) => {
     const geom = feature.loadGeometry();

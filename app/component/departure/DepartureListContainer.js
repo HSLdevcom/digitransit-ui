@@ -16,7 +16,7 @@ const asDepartures = stoptimes =>
     pattern.stoptimes.map(stoptime => {
       const isArrival = stoptime.pickupType === 'NONE';
       const canceled = stoptime.realtimeState === 'CANCELED' ||
-        window.mock && stoptime.realtimeDeparture % 40 === 0;
+        (window.mock && stoptime.realtimeDeparture % 40 === 0);
       const arrivalTime = stoptime.serviceDay +
         (canceled
           ? stoptime.realtimeArrival

@@ -18,7 +18,7 @@ function getLengthOf(geometry) {
   for (let i = 0; i < geometry.length - 1; ++i) {
     const dlat = geometry[i + 1][0] - geometry[i][0];
     const dlon = geometry[i + 1][1] - geometry[i][1];
-    d += Math.sqrt(dlat * dlat + dlon * dlon);
+    d += Math.sqrt((dlat * dlat) + (dlon * dlon));
   }
 
   return d;
@@ -32,7 +32,7 @@ function getMiddleIndexOf(geometry) {
   for (let i = 0; i < geometry.length - 1; ++i) {
     const dlat = geometry[i + 1][0] - geometry[i][0];
     const dlon = geometry[i + 1][1] - geometry[i][1];
-    distanceSoFar += Math.sqrt(dlat * dlat + dlon * dlon);
+    distanceSoFar += Math.sqrt((dlat * dlat) + (dlon * dlon));
     if (distanceSoFar >= distanceToHalf) {
       middleIndex = i;
       break;
@@ -48,8 +48,8 @@ function getMiddleOf(geometry) {
   const i = Math.max(1, getMiddleIndexOf(geometry));
 
   return {
-    lat: geometry[i - 1][0] + 0.5 * (geometry[i][0] - geometry[i - 1][0]),
-    lon: geometry[i - 1][1] + 0.5 * (geometry[i][1] - geometry[i - 1][1]),
+    lat: geometry[i - 1][0] + (0.5 * (geometry[i][0] - geometry[i - 1][0])),
+    lon: geometry[i - 1][1] + (0.5 * (geometry[i][1] - geometry[i - 1][1])),
   };
 }
 

@@ -141,7 +141,7 @@ class ItineraryLegs extends React.Component {
             focusAction={focus(leg.from)}
           />);
       } else if (leg.mode === 'AIRPLANE') {
-        startTime = previousLeg && previousLeg.endTime || leg.startTime;
+        startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
 
         legs.push(
           <AirportCheckInLeg

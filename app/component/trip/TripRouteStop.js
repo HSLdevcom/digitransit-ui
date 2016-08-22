@@ -35,7 +35,7 @@ const TripRouteStop = (props) => {
         pattern={props.pattern}
         selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
       />)
-    ) || [];
+    );
 
   return (
     <div className={cx('route-stop row', { passed: props.stopPassed })}>

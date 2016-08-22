@@ -7,7 +7,7 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import config from '../../config';
 
 const CityBikeAvailability = (props) => {
-  let availablepct = 100 * props.bikesAvailable / props.totalSpaces;
+  let availablepct = (props.bikesAvailable / props.totalSpaces) * 100;
 
   const availableClass = (() => {
     if (availablepct === 0) {

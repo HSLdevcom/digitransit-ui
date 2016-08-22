@@ -16,8 +16,8 @@ function NextDeparturesList(props) {
 
     // TODO: use util or util Component
     const roundedDistance = distance < 1000 ?
-        (distance - distance % 10) / 1000 :
-        (distance - distance % 100) / 1000;
+        (distance - (distance % 10)) / 1000 :
+        (distance - (distance % 100)) / 1000;
 
     const departure = Object.assign({}, originalDeparture, { roundedDistance });
 

@@ -155,8 +155,8 @@ export default class VehicleMarkerContainer extends React.Component {
           direction: message.direction,
           date: message.operatingDay,
           time:
-            message.tripStartTime.substring(0, 2) * 60 * 60 +
-            message.tripStartTime.substring(2, 4) * 60,
+            (message.tripStartTime.substring(0, 2) * 60 * 60) +
+            (message.tripStartTime.substring(2, 4) * 60),
         })}
         renderLoading={() => (
           <div className="card" style={{ height: 150 }}><div className="spinner-loader" /></div>

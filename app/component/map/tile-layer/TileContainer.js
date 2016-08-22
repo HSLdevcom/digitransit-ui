@@ -11,7 +11,7 @@ class TileContainer {
     this.coords = coords;
     this.props = props;
     this.extent = 4096;
-    this.scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
+    this.scaleratio = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
     this.tileSize = (this.props.tileSize || 256) * this.scaleratio;
     this.ratio = this.extent / this.tileSize;
     this.el = this.createElement();
@@ -55,8 +55,8 @@ class TileContainer {
     let localPoint;
 
     if (this.layers) {
-      localPoint = [point[0] * this.scaleratio % this.tileSize,
-                    point[1] * this.scaleratio % this.tileSize];
+      localPoint = [(point[0] * this.scaleratio) % this.tileSize,
+                    (point[1] * this.scaleratio) % this.tileSize];
 
       features = flatten(this.layers.map(layer => (
         layer.features && layer.features.map(feature =>

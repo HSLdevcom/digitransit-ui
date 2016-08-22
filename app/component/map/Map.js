@@ -162,8 +162,8 @@ class Map extends React.Component {
       leafletObjs.push(
         <PositionMarker key="position" displayOriginPopup={this.props.displayOriginPopup} />);
 
-      const center = !this.props.fitBounds && this.props.lat && this.props.lon &&
-        [this.props.lat, this.props.lon] || null;
+      const center = (!this.props.fitBounds && this.props.lat && this.props.lon &&
+        [this.props.lat, this.props.lon]) || null;
 
       ({ zoom } = this.props);
 
@@ -179,7 +179,7 @@ class Map extends React.Component {
             zoom,
             zoomControl: false,
             attributionControl: false,
-            bounds: this.props.fitBounds && boundWithMinimumArea(this.props.bounds) || undefined,
+            bounds: (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) || undefined,
             animate: true,
             ...this.props.leafletOptions,
             boundsOptions,

@@ -30,8 +30,8 @@ const RouteStop = (props) => {
           route: vehicle.route,
           direction: vehicle.direction,
           date: vehicle.operatingDay,
-          time: vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
-            vehicle.tripStartTime.substring(2, 4) * 60,
+          time: (vehicle.tripStartTime.substring(0, 2) * 60 * 60) +
+            (vehicle.tripStartTime.substring(2, 4) * 60),
         })}
         renderFetched={data =>
           (<TripLink
@@ -39,7 +39,7 @@ const RouteStop = (props) => {
             {...data}
           />)
         }
-      />)) || [];
+      />));
 
   return (
     <div className="route-stop row">
