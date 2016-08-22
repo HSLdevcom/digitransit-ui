@@ -73,8 +73,8 @@ class Map extends React.Component {
     }).addTo(this.refs.map.leafletElement);
 
     if (!this.props.disableZoom || L.Browser.touch) {
-      L.control.zoom({ position: 'topleft' }).
-        addTo(this.refs.map.leafletElement);
+      L.control.zoom({ position: 'topleft' })
+        .addTo(this.refs.map.leafletElement);
     }
 
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });

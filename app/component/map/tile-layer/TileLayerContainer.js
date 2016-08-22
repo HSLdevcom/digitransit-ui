@@ -67,10 +67,10 @@ class TileLayerContainer extends MapLayer {
   };
 
   componentWillMount() {
-    super.componentWillMount()
+    super.componentWillMount();
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
 
-    //TODO: Convert to use react-leaflet <GridLayer>
+    // TODO: Convert to use react-leaflet <GridLayer>
     const Layer = L.GridLayer.extend({ createTile: this.createTile });
 
     this.leafletElement = new Layer(omit(this.props, 'map'));
