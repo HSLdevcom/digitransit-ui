@@ -25,7 +25,7 @@ export default function TicketInformation({ fares }) {
         </div>
       </div>
       <div className="itinerary-ticket-information-buy">
-        <a target="_blank" href="https://www.hsl.fi/liput-ja-hinnat">
+        <a href="https://www.hsl.fi/liput-ja-hinnat">
           <FormattedMessage
             id="buy-ticket"
             defaultMessage="How to buy a ticket (HSL.fi)"
