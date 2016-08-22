@@ -9,7 +9,7 @@ import omit from 'lodash/omit';
 import provideContext from 'fluxible-addons-react/provideContext';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import MarkerSelectPopup from './MarkerSelectPopup';
-import CityBikePopup from '../popups/city-bike-popup';
+import CityBikePopup from '../popups/CityBikePopup';
 import LocationPopup from '../popups/LocationPopup';
 import SphericalMercator from 'sphericalmercator';
 import lodashFilter from 'lodash/filter';

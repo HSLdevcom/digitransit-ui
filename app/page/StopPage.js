@@ -6,7 +6,7 @@ import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Map from '../component/map/Map';
 import DepartureListContainer from '../component/departure/DepartureListContainer';
 import StopCardHeader from '../component/stop-cards/StopCardHeader';
-import FavouriteStopsAction from '../action/favourite-stops-action';
+import { addFavouriteStop } from '../action/FavouriteActions';
 import Link from 'react-router/lib/Link';
 import Icon from '../component/icon/icon';
 import moment from 'moment';
@@ -35,9 +35,9 @@ function StopPage(props, { intl, router, executeAction }) {
     }],
   };
 
-  const addFavouriteStop = e => {
+  const addAsFavouriteStop = e => {
     e.stopPropagation();
-    executeAction(FavouriteStopsAction.addFavouriteStop, props.params.stopId);
+    executeAction(addFavouriteStop, props.params.stopId);
   };
 
   const toggleFullscreenMap = () =>
@@ -66,7 +66,7 @@ function StopPage(props, { intl, router, executeAction }) {
         <StopCardHeader
           stop={props.stop}
           favourite={props.favourite}
-          addFavouriteStop={addFavouriteStop}
+          addFavouriteStop={addAsFavouriteStop}
           key="header"
           className="stop-page header"
           headingStyle="h3"
