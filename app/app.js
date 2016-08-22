@@ -1,6 +1,5 @@
 import Fluxible from 'fluxible';
 import routes from './routes';
-import CityBikeStore from './store/city-bike-store';
 import DisruptionInfoStore from './store/DisruptionInfoStore';
 import EndpointStore from './store/endpoint-store';
 import FavouriteLocationStore from './store/favourite-location-store';
@@ -24,7 +23,6 @@ const app = new Fluxible({
   component: routes,
 });
 
-app.registerStore(CityBikeStore);
 app.registerStore(DisruptionInfoStore);
 app.registerStore(EndpointStore);
 app.registerStore(FavouriteLocationStore);

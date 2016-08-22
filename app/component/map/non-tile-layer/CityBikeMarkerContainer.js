@@ -1,10 +1,30 @@
 import config from '../../../config';
 import React from 'react';
-
-import { cityBikeSearchRequest } from '../../../action/city-bike-actions';
+import Relay from 'react-relay';
+import ViewerRoute from '../../../route/ViewerRoute';
 
 import CityBikeMarker from './CityBikeMarker';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+
+const CityBikeMarkerWrapper = Relay.createContainer((({ alerts }) => (
+  <div>
+    {alerts && Array.isArray(alerts.stations) && alerts.stations.map(station => (
+      <CityBikeMarker station={station} key={station.stationId} />
+    ))}
+  </div>
+)), {
+  fragments: {
+    alerts: () => Relay.QL`
+      fragment on QueryType {
+        stations: bikeRentalStations {
+          ${CityBikeMarker.getFragment('station')}
+          stationId
+        }
+      }
+    `,
+  },
+});
+
 
 class CityBikeMarkerContainer extends React.Component {
   static description = (
@@ -17,20 +37,8 @@ class CityBikeMarkerContainer extends React.Component {
   );
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
     map: React.PropTypes.object.isRequired,
   };
-
-  componentWillMount() {
-    const data = this.context.getStore('CityBikeStore').getData();
-
-    if (!data || !data.stations) {
-      this.context.executeAction(cityBikeSearchRequest);
-    }
-
-    this.context.getStore('CityBikeStore').addChangeListener(this.onCityBikeChange);
-  }
 
   componentDidMount() {
     this.context.map.on('zoomend', this.onMapZoom);
@@ -38,27 +46,20 @@ class CityBikeMarkerContainer extends React.Component {
 
   componentWillUnmount() {
     this.context.map.off('zoomend', this.onMapZoom);
-    this.context.getStore('CityBikeStore').removeChangeListener(this.onCityBikeChange);
   }
 
   onMapZoom = () => this.forceUpdate()
 
-  onCityBikeChange = () => this.forceUpdate()
-
-  getStations() {
-    const data = this.context.getStore('CityBikeStore').getData();
-
-    // TODO: set showName
-    return data && data.stations && data.stations.map(station => (
-      <CityBikeMarker key={station.id} station={station} />
-    ));
-  }
-
   render() {
+    if (this.context.map.getZoom() < config.cityBike.cityBikeMinZoom) {
+      return false;
+    }
     return (
-      <div>
-        {this.context.map.getZoom() >= config.cityBike.cityBikeMinZoom ? this.getStations() : false}
-      </div>
+      <Relay.Renderer
+        Container={CityBikeMarkerWrapper}
+        queryConfig={new ViewerRoute()}
+        environment={Relay.Store}
+      />
     );
   }
 }

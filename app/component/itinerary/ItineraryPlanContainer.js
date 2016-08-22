@@ -4,6 +4,7 @@ import ItineraryTab from '../itinerary/ItineraryTab';
 import { FormattedMessage } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
 import ItineraryLine from '../map/ItineraryLine';
+import CityBikeMarker from '../map/non-tile-layer/CityBikeMarker';
 import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
 import Tabs from 'material-ui/Tabs/Tabs';
@@ -236,7 +237,7 @@ export const ItineraryPlanContainerFragments = {
               name
               vertexType
               bikeRentalStation {
-                stationId
+                ${CityBikeMarker.getFragment('station')}
               }
               stop {
                 gtfsId
@@ -250,7 +251,7 @@ export const ItineraryPlanContainerFragments = {
               name
               vertexType
               bikeRentalStation {
-                stationId
+                ${CityBikeMarker.getFragment('station')}
               }
               stop {
                 gtfsId
