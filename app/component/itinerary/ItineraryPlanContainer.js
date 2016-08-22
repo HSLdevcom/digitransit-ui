@@ -32,7 +32,7 @@ class ItineraryPlanContainer extends React.Component {
     return itineraries.map((itinerary, i) => (
       <div className="itinerary-slide-container" key={i}>
         <ItineraryTab
-          ref={`itineraryTab${i}`}
+          ref={component => { this.itineraryTabs[i] = component; }}
           focus={this.focusMap}
           itinerary={itinerary}
           index={i}
@@ -83,12 +83,14 @@ class ItineraryPlanContainer extends React.Component {
     return this.setState({ fullscreen: !this.state.fullscreen });
   };
 
+  itineraryTabs = [];
+
   focusMap = (lat, lon) => this.setState({ lat, lon })
 
   switchSlide = (index) => {
     this.context.router.replace(
       `${getRoutePath(this.props.fromPlace, this.props.toPlace)}/${index}`);
-    const itineraryTab = this.refs[`itineraryTab${index}`];
+    const itineraryTab = this.itineraryTabs[index];
 
     if (itineraryTab && itineraryTab.state) {
       this.focusMap(itineraryTab.state.lat, itineraryTab.state.lon);
