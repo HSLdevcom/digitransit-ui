@@ -9,7 +9,7 @@ function RouteDestination(props, context) {
   if (props.isArrival) {
     destination = (
       <span className="destination arrival">
-        <span className={cx('last-stop-icon', props.mode.toLowerCase())}></span>
+        <span className={cx('last-stop-icon', props.mode.toLowerCase())} />
         <span>
         {context.intl.formatMessage({
           id: 'route-destination-arrives',

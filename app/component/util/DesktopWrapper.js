@@ -16,8 +16,7 @@ function DesktopWrapper({ children, containerWidth }) {
         <div
           className="desktop-wrapper--left-bar"
           dangerouslySetInnerHTML={{ __html: config.desktopWrapperText }}
-        >
-        </div>
+        />
         <div className="desktop-wrapper--child-content">
           <svg viewBox="0 0 500 1000" className="desktop-wrapper--phone">
             <path
