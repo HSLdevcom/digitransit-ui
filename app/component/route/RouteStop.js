@@ -45,33 +45,30 @@ const RouteStop = ({ vehicles, stop, mode, distance, last, currentTime }) => {
     <div className="route-stop row">
       <div className="columns small-3 route-stop-now">{vehicleTripLinks}</div>
       <Link to={`/pysakit/${stop.gtfsId}`}>
-        <div className={`columns small-9 route-stop-name ${mode}`}>
-          <div className="row">
-            <div className="columns small-8">
-              {last ? lastRouteStopSvg : routeStopSvg}
-              {stop.name}
-            </div>
-            {(stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0 &&
-              stop.stopTimesForPattern.map((stopTime) => (
-                <div key={stopTime.scheduledDeparture} className="columns small-2 route-stop-time">
-                  {fromStopTime(stopTime, currentTime)}
-                </div>
-              )))}
-          </div>
-          <div className="row">
-            <div className="columns small-8">
-              <StopCode code={stop.code} />
-              <span className="route-stop-address">{stop.desc}</span>
-            </div>
-            <div className="columns small-2 route-stop-time">
-              {distance && <WalkDistance
+        <div className={`columns small-5 route-stop-name ${mode}`}>
+          {last ? lastRouteStopSvg : routeStopSvg}
+          {stop.name}
+          <br />
+          <div style={{whiteSpace: 'nowrap'}}>
+            <StopCode code={stop.code} />
+            <span className="route-stop-address">{stop.desc}</span>
+            {'\u2002'}
+            {distance && (
+              <WalkDistance
                 className="nearest-route-stop"
                 icon="icon_location-with-user"
                 walkDistance={distance}
-              />}
-            </div><div className="columns small-2"></div>
+              />
+            )}
           </div>
         </div>
+        {(stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0 &&
+          stop.stopTimesForPattern.map((stopTime) => (
+            <div key={stopTime.scheduledDeparture} className="columns small-2 route-stop-time">
+              {fromStopTime(stopTime, currentTime)}
+            </div>
+          ))
+        )}
       </Link>
     </div>);
 };
