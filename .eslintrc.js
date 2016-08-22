@@ -10,6 +10,7 @@ module.exports = {
     'eqeqeq': ['error', 'allow-null'],
     'no-void': 'error',
     'import/no-unresolved': 'off',
+    'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
     'graphql/template-strings': ['error', {
       'env': 'relay',
       'schemaJson': require('./build/schema.json'),
