@@ -49,7 +49,7 @@ const RouteStop = ({ vehicles, stop, mode, distance, last, currentTime }) => {
           {last ? lastRouteStopSvg : routeStopSvg}
           {stop.name}
           <br />
-          <div style={{whiteSpace: 'nowrap'}}>
+          <div style={{ whiteSpace: 'nowrap' }}>
             <StopCode code={stop.code} />
             <span className="route-stop-address">{stop.desc}</span>
             {'\u2002'}

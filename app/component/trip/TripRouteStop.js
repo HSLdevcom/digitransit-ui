@@ -44,7 +44,7 @@ const TripRouteStop = (props) => {
           {props.last ? lastRouteStopSvg : routeStopSvg}
           {props.stop.name}
           <br />
-          <div style={{whiteSpace: 'nowrap'}}>
+          <div style={{ whiteSpace: 'nowrap' }}>
             <StopCode code={props.stop.code} />
             <span className="route-stop-address">{props.stop.desc}</span>
             {'\u2002'}
