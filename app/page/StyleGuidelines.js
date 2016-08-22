@@ -221,7 +221,7 @@ class StyleGuidelinesPage extends React.Component {
   getTextStyles() {
     return (
       <section>
-        <p><a href="#">This is a link</a><span className="code">{"<a />"}</span>
+        <p><a href={undefined}>This is a link</a><span className="code">{"<a />"}</span>
         </p>
         <p>
           <span className="dotted-link cursor-pointer">
