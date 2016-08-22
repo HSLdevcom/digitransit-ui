@@ -1,11 +1,13 @@
-const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
-import OriginPopup from './OriginPopup';
-import Icon from '../icon/icon';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import pure from 'recompose/pure';
-
 import { intlShape } from 'react-intl';
+
+import OriginPopup from './OriginPopup';
+import Icon from '../icon/icon';
+
+const isBrowser = typeof window !== 'undefined' && window !== null;
+
 let Marker;
 let L;
 

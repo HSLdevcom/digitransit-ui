@@ -1,12 +1,14 @@
-const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
 import Relay from 'react-relay';
-import { startRealTimeClient, stopRealTimeClient } from '../../action/realTimeClientAction';
-import Icon from '../icon/icon';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
+
+import { startRealTimeClient, stopRealTimeClient } from '../../action/realTimeClientAction';
+import Icon from '../icon/icon';
 import RouteMarkerPopup from './route/route-marker-popup';
 import FuzzyTripRoute from '../../route/FuzzyTripRoute';
+
+const isBrowser = typeof window !== 'undefined' && window !== null;
 
 let Popup;
 let Marker;

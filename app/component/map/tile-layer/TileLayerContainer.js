@@ -1,20 +1,21 @@
 import React from 'react';
 import Relay from 'react-relay';
-import StopRoute from '../../../route/StopRoute';
-import CityBikeRoute from '../../../route/CityBikeRoute';
 import Popup from 'react-leaflet/lib/Popup';
 import { intlShape } from 'react-intl';
 import MapLayer from 'react-leaflet/lib/MapLayer';
 import omit from 'lodash/omit';
 import provideContext from 'fluxible-addons-react/provideContext';
+import SphericalMercator from 'sphericalmercator';
+import lodashFilter from 'lodash/filter';
+import L from 'leaflet';
+
+import StopRoute from '../../../route/StopRoute';
+import CityBikeRoute from '../../../route/CityBikeRoute';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/CityBikePopup';
 import LocationPopup from '../popups/LocationPopup';
-import SphericalMercator from 'sphericalmercator';
-import lodashFilter from 'lodash/filter';
 import TileContainer from './TileContainer';
-import L from 'leaflet';
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,

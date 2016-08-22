@@ -1,4 +1,5 @@
 import unzip from 'lodash/unzip';
+
 /* eslint-disable global-require */
 const L = (typeof window !== 'undefined' && window !== null) ? require('leaflet') : null;
 /* eslint-enable global-require */

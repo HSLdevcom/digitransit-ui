@@ -1,10 +1,11 @@
 import React from 'react';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Map from './Map';
-import ToggleMapTracking from '../navigation/toggle-map-tracking';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withReducer from 'recompose/withReducer';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
+
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Map from './Map';
+import ToggleMapTracking from '../navigation/toggle-map-tracking';
 
 function mapStateReducer(state, action) {
   switch (action.type) {

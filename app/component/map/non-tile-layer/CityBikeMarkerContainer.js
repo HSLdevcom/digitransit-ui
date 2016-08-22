@@ -1,8 +1,7 @@
-import config from '../../../config';
 import React from 'react';
 
+import config from '../../../config';
 import { cityBikeSearchRequest } from '../../../action/city-bike-actions';
-
 import CityBikeMarker from './CityBikeMarker';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 

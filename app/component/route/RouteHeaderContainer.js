@@ -1,9 +1,10 @@
 import React from 'react';
 import Relay from 'react-relay';
-import RouteHeader from './RouteHeader';
 import without from 'lodash/without';
-import { addFavouriteRoute } from '../../action/FavouriteActions';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+
+import RouteHeader from './RouteHeader';
+import { addFavouriteRoute } from '../../action/FavouriteActions';
 
 class RouteHeaderContainer extends React.Component {
 

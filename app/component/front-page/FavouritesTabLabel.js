@@ -1,7 +1,8 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import Icon from '../icon/icon';
 import IconWithCaution from '../icon/IconWithCaution';
-import { FormattedMessage } from 'react-intl';
 
 export default function FavouritesTabLabel({ hasDisruption, classes, onClick }) {
   return (

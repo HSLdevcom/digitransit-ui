@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import cx from 'classnames';
+
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
 import PatternLink from './PatternLink';

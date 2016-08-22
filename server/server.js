@@ -20,10 +20,11 @@ require('babel-core/register')({
 });
 
 global.fetch = require('node-fetch');
+
 global.self = { fetch: global.fetch };
 
-
 const config = require('../app/config');
+
 let raven;
 
 if (process.env.NODE_ENV === 'production') {

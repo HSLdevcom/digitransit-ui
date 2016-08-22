@@ -1,4 +1,7 @@
 import React from 'react';
+import sortBy from 'lodash/sortBy';
+import Link from 'react-router/lib/Link';
+
 import Icon from '../component/icon/icon';
 import IconWithTail from '../component/icon/icon-with-tail';
 import ComponentDocumentation from '../component/documentation/ComponentDocumentation';
@@ -33,9 +36,6 @@ import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect'
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
-
-import sortBy from 'lodash/sortBy';
-import Link from 'react-router/lib/Link';
 
 class StyleGuidelinesPage extends React.Component {
 

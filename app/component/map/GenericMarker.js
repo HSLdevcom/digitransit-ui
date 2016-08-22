@@ -1,6 +1,8 @@
-import config from '../../config';
 import React from 'react';
+
+import config from '../../config';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
+
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
 let Marker;

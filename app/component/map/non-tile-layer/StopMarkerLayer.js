@@ -1,9 +1,10 @@
-import config from '../../../config';
 import React from 'react';
 import Relay from 'react-relay';
+import uniq from 'lodash/uniq';
+
+import config from '../../../config';
 import StopMarker from './StopMarker';
 import TerminalMarker from './TerminalMarker';
-import uniq from 'lodash/uniq';
 
 class StopMarkerLayer extends React.Component {
   static contextTypes = {

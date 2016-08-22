@@ -1,14 +1,14 @@
 import React from 'react';
+import { intlShape } from 'react-intl';
+
 import config from '../../config';
+import { openDialog } from '../../action/SearchActions';
+import Icon from '../icon/icon';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
 const Popup = isBrowser ?
   require('react-leaflet/lib/Popup').default : null; // eslint-disable-line global-require
-
-import { openDialog } from '../../action/SearchActions';
-import { intlShape } from 'react-intl';
-import Icon from '../icon/icon';
 
 class OriginPopup extends React.Component {
   static contextTypes = {

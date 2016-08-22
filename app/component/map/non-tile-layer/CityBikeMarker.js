@@ -1,15 +1,17 @@
-const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
 import Relay from 'react-relay';
-import CityBikePopup from '../popups/CityBikePopup';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
+
+import CityBikePopup from '../popups/CityBikePopup';
 import Icon from '../../icon/icon';
 import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../documentation/ExampleData';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 import CityBikeRoute from '../../../route/CityBikeRoute';
 import config from '../../../config';
+
+const isBrowser = typeof window !== 'undefined' && window !== null;
 
 let L;
 

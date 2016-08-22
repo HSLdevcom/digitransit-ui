@@ -1,6 +1,6 @@
+import { supportsHistory } from 'history/lib/DOMUtils';
 import { locationToOTP } from '../util/otp-strings';
 import { getRoutePath } from '../util/path';
-import { supportsHistory } from 'history/lib/DOMUtils';
 import history from '../history';
 
 export function itinerarySearchRequest(actionContext, options) {

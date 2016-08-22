@@ -1,12 +1,13 @@
 import React from 'react';
+import { intlShape } from 'react-intl';
+import range from 'lodash/range';
+
 import Slider from '../util/Slider';
 import ToggleButton from '../util/ToggleButton';
 import ModeFilter from '../util/ModeFilter';
 import * as ItinerarySearchActions from '../../action/ItinerarySearchActions';
 import Select from '../util/select';
 import config from '../../config';
-import { intlShape } from 'react-intl';
-import range from 'lodash/range';
 
 class CustomizeSearch extends React.Component {
 

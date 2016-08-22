@@ -1,5 +1,5 @@
-import config from '../config';
 import moment from 'moment';
+import config from '../config';
 import xhrPromise from '../util/xhr-promise';
 
 // getTopic

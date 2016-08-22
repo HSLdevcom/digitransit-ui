@@ -1,7 +1,8 @@
 import flatten from 'lodash/flatten';
-import config from '../../../config';
 import omit from 'lodash/omit';
 import L from 'leaflet';
+
+import config from '../../../config';
 
 const markersMinZoom = Math.min(config.cityBike.cityBikeMinZoom, config.stopsMinZoom);
 
