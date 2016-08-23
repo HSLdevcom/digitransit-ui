@@ -1,7 +1,7 @@
 import memoize from 'lodash/memoize';
 import glfun from 'mapbox-gl-function';
-import getSelector from './get-selector';
 import { parseCSSColor } from 'csscolorparser';
+import getSelector from './get-selector';
 
 export const getCaseRadius = memoize(glfun({
   type: 'exponential',
@@ -58,7 +58,6 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
     if (hubRadius > 0) {
       tile.ctx.beginPath();
       tile.ctx.fillStyle = '#fff';
-
       tile.ctx.arc(
         geom[0][0].x / tile.ratio,
         geom[0][0].y / tile.ratio,

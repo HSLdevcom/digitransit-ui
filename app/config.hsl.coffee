@@ -18,7 +18,7 @@ module.exports =
     API_URL: "#{API_URL}"
     OTP: "#{API_URL}/routing/v1/routers/hsl/"
     MAP: "#{MAP_URL}/map/v1/hsl-map/"
-    STOP_MAP: "http://localhost:3000/hsl-stop-map/"
+    STOP_MAP: "#{API_URL}/map/v1/hsl-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
     MQTT: "wss://dev.hsl.fi/mqtt-proxy"
     ALERTS: "#{API_URL}/realtime/service-alerts/v1"
