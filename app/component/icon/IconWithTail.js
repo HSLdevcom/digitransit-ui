@@ -2,14 +2,14 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-const IconWithTail = ({ className, id, img, rotate = 180 }) => (
+const IconWithTail = ({ className, id, img, rotate = 180, children }) => (
   <span><svg
     id={id} viewBox="0 0 80 80" className={cx('icon', className)}
   ><use
     xlinkHref="#icon-icon_vehicle-live-shadow"
     transform={`rotate(${rotate} 40 40)`}
   /><use xlinkHref={`#${img}`} transform="translate(26 26) scale(0.35)  " />
-  </svg></span>);
+  {children}</svg></span>);
 
 IconWithTail.displayName = 'IconWithTail';
 
@@ -29,6 +29,7 @@ IconWithTail.propTypes = {
   className: React.PropTypes.string,
   img: React.PropTypes.string.isRequired,
   rotate: React.PropTypes.number.isRequired,
+  children: React.PropTypes.array,
 };
 
 export default IconWithTail;
