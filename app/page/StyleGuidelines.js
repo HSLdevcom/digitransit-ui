@@ -34,6 +34,7 @@ import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect'
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
+import RouteStop from '../component/route/RouteStop';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
 
@@ -78,6 +79,7 @@ class StyleGuidelinesPage extends React.Component {
     RouteScheduleTripRow,
     RouteAlertsRow,
     ModeFilter,
+    RouteStop,
   }
 
   getColors() {
