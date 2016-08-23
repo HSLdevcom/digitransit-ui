@@ -28,7 +28,7 @@ IconWithTail.propTypes = {
   id: React.PropTypes.string,
   className: React.PropTypes.string,
   img: React.PropTypes.string.isRequired,
-  rotate: React.PropTypes.number.isRequired,
+  rotate: React.PropTypes.number,
   children: React.PropTypes.array,
 };
 
