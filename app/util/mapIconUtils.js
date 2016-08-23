@@ -79,7 +79,7 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
         tile.ctx.fillStyle = '#333';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';
-        tile.ctx.fillText(platformNumber, geom[0][0].x / tile.ratio, geom[0][0].y / tile.ratio);
+        tile.ctx.fillText(platformNumber, geom.x / tile.ratio, geom.y / tile.ratio);
       }
     }
   }
