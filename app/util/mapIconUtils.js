@@ -116,8 +116,8 @@ export function drawTerminalIcon(tile, geom, type, name) {
     // eslint-disable-next-line no-param-reassign
     tile.ctx.fillStyle = gradient;
     tile.ctx.fillRect(
-      geom[0][0].x / tile.ratio - haloRadius * tile.scaleratio,
-      geom[0][0].y / tile.ratio - haloRadius * tile.scaleratio,
+      (geom[0][0].x / tile.ratio) - (haloRadius * tile.scaleratio),
+      (geom[0][0].y / tile.ratio) - (haloRadius * tile.scaleratio),
       haloRadius * tile.scaleratio * 2,
       haloRadius * tile.scaleratio * 2
     );
@@ -156,8 +156,8 @@ export function drawTerminalIcon(tile, geom, type, name) {
       const iconSize = (stopRadius - 2) * tile.scaleratio;
       tile.ctx.drawImage(
         getImageFromSprite('icon-icon_station', iconSize, iconSize, 'white'),
-        geom[0][0].x / tile.ratio - iconSize / 2,
-        geom[0][0].y / tile.ratio - iconSize / 2,
+        (geom[0][0].x / tile.ratio) - (iconSize / 2),
+        (geom[0][0].y / tile.ratio) - (iconSize / 2),
       );
 
       if (name) {
@@ -172,11 +172,11 @@ export function drawTerminalIcon(tile, geom, type, name) {
         tile.ctx.strokeText(
           name,
           geom[0][0].x / tile.ratio,
-          geom[0][0].y / tile.ratio + (caseRadius + 1) * tile.scaleratio);
+          (geom[0][0].y / tile.ratio) + ((caseRadius + 1) * tile.scaleratio));
         tile.ctx.fillText(
           name,
           geom[0][0].x / tile.ratio,
-          geom[0][0].y / tile.ratio + (caseRadius + 1) * tile.scaleratio);
+          (geom[0][0].y / tile.ratio) + ((caseRadius + 1) * tile.scaleratio));
       }
     }
   }

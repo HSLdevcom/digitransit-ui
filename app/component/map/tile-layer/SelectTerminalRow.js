@@ -51,8 +51,7 @@ function SelectTerminalRow(props) {
             {routeData.map(getName)}
           </div>
         </div>
-        <div className="clear">
-        </div>
+        <div className="clear" />
       </div>
       <hr className="no-margin gray" />
     </div>
