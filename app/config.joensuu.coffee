@@ -123,7 +123,7 @@ module.exports =
   # Highest level when terminals are still rendered instead of individual stops
   terminalStopsMaxZoom: 17
   terminalStopsMinZoom: 12
-  terminalNamesZoom: 16
+  terminalNamesZoom: 17
   colors:
     primary: "#007ac9"
   disruption:
