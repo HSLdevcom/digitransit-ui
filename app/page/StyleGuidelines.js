@@ -31,6 +31,7 @@ import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect'
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
+import RouteStop from '../component/route/RouteStop';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
 import Availability from '../component/card/Availability.js';
@@ -82,6 +83,7 @@ class StyleGuidelinesPage extends React.Component {
     RouteScheduleTripRow,
     RouteAlertsRow,
     ModeFilter,
+    RouteStop,
   }
 
   getColors() {
@@ -225,7 +227,7 @@ class StyleGuidelinesPage extends React.Component {
   getTextStyles() {
     return (
       <section>
-        <p><a href="#">This is a link</a><span className="code">{"<a />"}</span>
+        <p><a>This is a link</a><span className="code">{"<a />"}</span>
         </p>
         <p>
           <span className="dotted-link cursor-pointer">
