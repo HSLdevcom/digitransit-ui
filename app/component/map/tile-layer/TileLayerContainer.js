@@ -10,6 +10,7 @@ import lodashFilter from 'lodash/filter';
 import L from 'leaflet';
 
 import StopRoute from '../../../route/StopRoute';
+import TerminalRoute from '../../../route/TerminalRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import MarkerSelectPopup from './MarkerSelectPopup';
@@ -192,10 +193,17 @@ class TileLayerContainer extends MapLayer {
           contents = (
             <Relay.RootContainer
               Component={StopMarkerPopup}
-              route={new StopRoute({
-                stopId: id,
-                date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
-              })}
+              route={this.state.selectableTargets[0].feature.properties.stops ?
+                new TerminalRoute({
+                  terminalId: id,
+                  date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
+                })
+                :
+                new StopRoute({
+                  stopId: id,
+                  date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
+                })
+              }
               renderLoading={loadingPopup}
               renderFetched={data =>
                 <StopMarkerPopupWithContext {...data} context={this.context} />

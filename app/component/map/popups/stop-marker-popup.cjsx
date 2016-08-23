@@ -6,16 +6,18 @@ MarkerPopupBottom     = require '../marker-popup-bottom'
 
 class StopMarkerPopup extends React.Component
   render: ->
+    stop = @props.stop or @props.terminal
+
     <div className="card">
       <StopCardContainer
-        stop={@props.stop}
+        stop={stop}
         departures={5}
         date={@props.relay.variables.date}
         className="padding-small cursor-pointer"/>
       <MarkerPopupBottom location={{
-        address: @props.stop.name
-        lat: @props.stop.lat
-        lon: @props.stop.lon
+        address: stop.name
+        lat: stop.lat
+        lon: stop.lon
       }}/>
     </div>
 
