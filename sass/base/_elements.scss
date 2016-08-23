@@ -172,11 +172,11 @@ $border-radius-rounded: 30px;
 
     &.selected {
       fill: $favourite-color;
-      stroke: $favourite-color;
+      stroke: $background-color;
     }
 
     &.selected:hover {
-      stroke: $white;
+      stroke: $light-gray;
     }
   }
 }
