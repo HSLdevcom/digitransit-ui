@@ -5,7 +5,6 @@ import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 function SelectCityBikeRow(props) {
   return (
     <div className="no-margin">
-      <hr className="no-margin" />
       <div className="cursor-pointer" onClick={props.selectRow}>
         <div
           className="left padding-vertical-small"
@@ -18,6 +17,7 @@ function SelectCityBikeRow(props) {
         </div>
         <div className="clear" />
       </div>
+      <hr className="no-margin gray" />
     </div>
   );
 }

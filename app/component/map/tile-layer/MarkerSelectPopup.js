@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import SelectStopRow from './SelectStopRow';
+import SelectTerminalRow from './SelectTerminalRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 import { options } from '../../documentation/ExampleData';
@@ -9,7 +10,15 @@ import { options } from '../../documentation/ExampleData';
 
 function MarkerSelectPopup(props) {
   const rows = props.options.map((option) => {
-    if (option.layer === 'stop') {
+    if (option.layer === 'stop' && option.feature.properties.stops) {
+      return (
+        <SelectTerminalRow
+          {...option.feature.properties}
+          key={option.feature.properties.gtfsId}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    } else if (option.layer === 'stop') {
       return (
         <SelectStopRow
           {...option.feature.properties}
@@ -31,10 +40,13 @@ function MarkerSelectPopup(props) {
 
   return (
     <div className="card">
-      <h3 className="padding-normal">
+      <h3 className="padding-normal gray" style={{ height: 42 }}>
         <FormattedMessage id="choose-stop" defaultMessage="Choose stop" />
       </h3>
-      {rows}
+      <hr className="no-margin gray" />
+      <div style={{ maxHeight: 176, overflow: 'scroll' }}>
+        {rows}
+      </div>
     </div>
   );
 }
