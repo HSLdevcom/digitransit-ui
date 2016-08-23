@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 function PatternLink({ mode, pattern, selected = false }) {
   const icon = (<IconWithTail
-    className={cx(mode, 'large-icon', { large: selected })}
+    className={cx(mode, { 'selected-tail-icon': selected }, { 'tail-icon': !selected })}
     img={`icon-icon_${mode}-live`}
   />);
 

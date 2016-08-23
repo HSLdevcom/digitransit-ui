@@ -9,7 +9,7 @@ import { FormattedMessage } from 'react-intl';
 
 function TripLink(props) {
   const icon = (<IconWithTail
-    className={cx(props.mode, 'large-icon')}
+    className={cx(props.mode, 'tail-icon')}
     img={`icon-icon_${props.mode}-live`}
   />);
 
