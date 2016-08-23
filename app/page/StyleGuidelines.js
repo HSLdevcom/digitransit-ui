@@ -1,6 +1,7 @@
 import React from 'react';
 import Icon from '../component/icon/icon';
 import IconWithTail from '../component/icon/IconWithTail';
+import SelectedIconWithTail from '../component/icon/SelectedIconWithTail';
 import IconWithCaution from '../component/icon/IconWithCaution';
 import IconWithBigCaution from '../component/icon/IconWithBigCaution';
 import ComponentDocumentation from '../component/documentation/ComponentDocumentation';
@@ -48,6 +49,7 @@ class StyleGuidelinesPage extends React.Component {
   static components = {
     Icon,
     IconWithTail,
+    SelectedIconWithTail,
     IconWithBigCaution,
     IconWithCaution,
     ComponentDocumentation,

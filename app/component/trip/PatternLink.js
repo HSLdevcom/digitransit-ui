@@ -1,13 +1,13 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
 import IconWithTail from '../icon/IconWithTail';
+import SelectedIconWithTail from '../icon/SelectedIconWithTail';
 import cx from 'classnames';
 
 function PatternLink({ mode, pattern, selected = false }) {
-  const icon = (<IconWithTail
-    className={cx(mode, { 'selected-tail-icon': selected }, { 'tail-icon': !selected })}
-    img={`icon-icon_${mode}-live`}
-  />);
+  const imgName = `icon-icon_${mode}-live`;
+  const icon = (selected && (<SelectedIconWithTail img={imgName} />))
+    || (<IconWithTail className={cx(mode, 'tail-icon')} img={imgName} />);
 
   return (<Link
     to={pattern && `/linjat/${pattern}`}

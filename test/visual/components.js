@@ -96,6 +96,7 @@ gemini.suite('components', () => {
   });
 
   basicTest('IconWithTail');
+  basicTest('SelectedIconWithTail');
   basicTest('IconWithCaution');
   basicTest('IconWithBigCaution');
 
