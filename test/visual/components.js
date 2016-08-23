@@ -129,9 +129,9 @@ gemini.suite('components', () => {
       ['#ModeFilter .nearby-routes .component-example:nth-of-type(1) .component']));
   });
 
-  gemini.suite('RouteStop', () => {
-    gemini.suite('RouteStop', test('RouteStop',
-      ['#RouteStop .component-example:nth-of-type(1) .component',
-      '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
-      '#RouteStop .component-example:nth-of-type(1) .component svg.realtime')); });
+  gemini.suite('RouteStop', test('RouteStop',
+    ['#RouteStop .component-example:nth-of-type(1) .component',
+    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
+    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'
+  ));
 });
