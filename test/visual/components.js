@@ -23,7 +23,7 @@ function test(componentName, captureOrExampleNumber, ignoreElements, fn = () => 
       .ignoreElements(ignoreElements || [])
       .capture('normal', {}, fn);
     } catch (error) {
-      console.error(error);
+      console.error('oooo', error);
     }
   };
 }
@@ -128,4 +128,10 @@ gemini.suite('components', () => {
     gemini.suite('White buttons', test('ModeFilter',
       ['#ModeFilter .nearby-routes .component-example:nth-of-type(1) .component']));
   });
+
+  gemini.suite('RouteStop', test('RouteStop',
+    ['#RouteStop .component-example:nth-of-type(1) .component',
+    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
+    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'
+  ));
 });
