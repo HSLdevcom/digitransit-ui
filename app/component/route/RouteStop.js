@@ -86,13 +86,32 @@ RouteStop.propTypes = {
 RouteStop.description = (
   <ComponentUsageExample description="basic">
     <RouteStop
-      stop={{ stopTimesForPattern: [{ realtime: true, realtimeState: 'UPDATED',
-      realtimeDeparture: 48796, serviceDay: 1471467600, scheduledDeparture: 48780 },
-     { realtime: false, realtimeState: 'SCHEDULED', realtimeDeparture: 49980,
-       serviceDay: 1471467600, scheduledDeparture: 49980 }],
-      gtfsId: 'HSL:1173101', lat: 60.198185699999726, lon: 24.940634400000118,
-      name: 'Asemapäällikönkatu', desc: 'Ratamestarinkatu', code: '0663' }}
-      mode="bus" distance={200} last={false} currentTime={1471515614}
+      stop={{
+        stopTimesForPattern: [{
+          realtime: true,
+          realtimeState: 'UPDATED',
+          realtimeDeparture: 48796,
+          serviceDay: 1471467600,
+          scheduledDeparture: 48780,
+        },
+        {
+          realtime: false,
+          realtimeState: 'SCHEDULED',
+          realtimeDeparture: 49980,
+          serviceDay: 1471467600,
+          scheduledDeparture: 49980,
+        }],
+        gtfsId: 'HSL:1173101',
+        lat: 60.198185699999726,
+        lon: 24.940634400000118,
+        name: 'Asemapäällikönkatu',
+        desc: 'Ratamestarinkatu',
+        code: '0663',
+      }}
+      mode="bus"
+      distance={200}
+      last={false}
+      currentTime={1471515614}
     />
   </ComponentUsageExample>
 );
