@@ -89,8 +89,9 @@ gemini.suite('components', () => {
     gemini.suite('not-favourite', test('Favourite', 2));
   });
 
-  gemini.suite('IconWithTail', test('IconWithTail'));
-
+  basicTest('IconWithTail');
+  basicTest('IconWithCaution');
+  basicTest('IconWithBigCaution');
 
   gemini.suite('TimeNavigationButtons', () => {
     gemini.suite('normal', test('TimeNavigationButtons'));
