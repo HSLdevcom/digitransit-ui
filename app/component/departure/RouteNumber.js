@@ -6,7 +6,11 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from '../documentation/ExampleData';
 
 function RouteNumber(props) {
-  const mode = props.mode.toLowerCase();
+  let mode = props.mode.toLowerCase();
+
+  if (mode === 'bicycle' || mode === 'car') {
+    mode += '-withoutBox';
+  }
 
   return (
     <span className={cx('route-number', props.className, { vertical: props.vertical })}>

@@ -40,8 +40,8 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
     tile.ctx.beginPath();
     tile.ctx.fillStyle = '#fff';
     tile.ctx.arc(
-      geom[0][0].x / tile.ratio,
-      geom[0][0].y / tile.ratio,
+      geom.x / tile.ratio,
+      geom.y / tile.ratio,
       caseRadius * tile.scaleratio, 0, Math.PI * 2
     );
     tile.ctx.fill();
@@ -49,8 +49,8 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
     tile.ctx.beginPath();
     tile.ctx.fillStyle = getColor(type);
     tile.ctx.arc(
-      geom[0][0].x / tile.ratio,
-      geom[0][0].y / tile.ratio,
+      geom.x / tile.ratio,
+      geom.y / tile.ratio,
       stopRadius * tile.scaleratio, 0, Math.PI * 2
     );
     tile.ctx.fill();
@@ -59,8 +59,8 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
       tile.ctx.beginPath();
       tile.ctx.fillStyle = '#fff';
       tile.ctx.arc(
-        geom[0][0].x / tile.ratio,
-        geom[0][0].y / tile.ratio,
+        geom.x / tile.ratio,
+        geom.y / tile.ratio,
         hubRadius * tile.scaleratio, 0, Math.PI * 2
       );
       tile.ctx.fill();
@@ -72,7 +72,7 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
         tile.ctx.fillStyle = '#333';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';
-        tile.ctx.fillText(platformNumber, geom[0][0].x / tile.ratio, geom[0][0].y / tile.ratio);
+        tile.ctx.fillText(platformNumber, geom.x / tile.ratio, geom.y / tile.ratio);
       }
     }
   }
@@ -108,16 +108,16 @@ export function drawTerminalIcon(tile, geom, type, name) {
     const color = parseCSSColor(getColor(type));
 
     const gradient = tile.ctx.createRadialGradient(
-      geom[0][0].x / tile.ratio, geom[0][0].y / tile.ratio, 0,
-      geom[0][0].x / tile.ratio, geom[0][0].y / tile.ratio, haloRadius * tile.scaleratio
+      geom.x / tile.ratio, geom.y / tile.ratio, 0,
+      geom.x / tile.ratio, geom.y / tile.ratio, haloRadius * tile.scaleratio
     );
     gradient.addColorStop(0, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.5)`);
     gradient.addColorStop(1, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0)`);
     // eslint-disable-next-line no-param-reassign
     tile.ctx.fillStyle = gradient;
     tile.ctx.fillRect(
-      (geom[0][0].x / tile.ratio) - (haloRadius * tile.scaleratio),
-      (geom[0][0].y / tile.ratio) - (haloRadius * tile.scaleratio),
+      (geom.x / tile.ratio) - (haloRadius * tile.scaleratio),
+      (geom.y / tile.ratio) - (haloRadius * tile.scaleratio),
       haloRadius * tile.scaleratio * 2,
       haloRadius * tile.scaleratio * 2
     );
@@ -126,8 +126,8 @@ export function drawTerminalIcon(tile, geom, type, name) {
     // eslint-disable-next-line no-param-reassign
     tile.ctx.fillStyle = '#fff';
     tile.ctx.arc(
-      geom[0][0].x / tile.ratio,
-      geom[0][0].y / tile.ratio,
+      geom.x / tile.ratio,
+      geom.y / tile.ratio,
       caseRadius * tile.scaleratio, 0, Math.PI * 2
     );
     tile.ctx.fill();
@@ -136,8 +136,8 @@ export function drawTerminalIcon(tile, geom, type, name) {
     // eslint-disable-next-line no-param-reassign
     tile.ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
     tile.ctx.arc(
-      geom[0][0].x / tile.ratio,
-      geom[0][0].y / tile.ratio,
+      geom.x / tile.ratio,
+      geom.y / tile.ratio,
       (caseRadius + 1) * tile.scaleratio, 0, Math.PI * 2
     );
     tile.ctx.stroke();
@@ -146,8 +146,8 @@ export function drawTerminalIcon(tile, geom, type, name) {
     // eslint-disable-next-line no-param-reassign
     tile.ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 1)`;
     tile.ctx.arc(
-      geom[0][0].x / tile.ratio,
-      geom[0][0].y / tile.ratio,
+      geom.x / tile.ratio,
+      geom.y / tile.ratio,
       stopRadius * tile.scaleratio, 0, Math.PI * 2
     );
     tile.ctx.fill();
@@ -156,8 +156,8 @@ export function drawTerminalIcon(tile, geom, type, name) {
       const iconSize = (stopRadius - 2) * tile.scaleratio;
       tile.ctx.drawImage(
         getImageFromSprite('icon-icon_station', iconSize, iconSize, 'white'),
-        (geom[0][0].x / tile.ratio) - (iconSize / 2),
-        (geom[0][0].y / tile.ratio) - (iconSize / 2),
+        (geom.x / tile.ratio) - (iconSize / 2),
+        (geom.y / tile.ratio) - (iconSize / 2),
       );
 
       if (name) {
@@ -171,12 +171,12 @@ export function drawTerminalIcon(tile, geom, type, name) {
           Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif`;
         tile.ctx.strokeText(
           name,
-          geom[0][0].x / tile.ratio,
-          (geom[0][0].y / tile.ratio) + ((caseRadius + 1) * tile.scaleratio));
+          geom.x / tile.ratio,
+          (geom.y / tile.ratio) + ((caseRadius + 1) * tile.scaleratio));
         tile.ctx.fillText(
           name,
-          geom[0][0].x / tile.ratio,
-          (geom[0][0].y / tile.ratio) + ((caseRadius + 1) * tile.scaleratio));
+          geom.x / tile.ratio,
+          (geom.y / tile.ratio) + ((caseRadius + 1) * tile.scaleratio));
       }
     }
   }

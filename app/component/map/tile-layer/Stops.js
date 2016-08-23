@@ -34,10 +34,11 @@ class Stops {
               config.terminalStopsMaxZoom - 1 <=
               this.tile.coords.z + (this.tile.props.zoomOffset || 0))
             ) {
+              feature.geom = feature.loadGeometry()[0][0];
               this.features.push(feature);
               drawRoundIcon(
                 this.tile,
-                feature.loadGeometry(),
+                feature.geom,
                 feature.properties.type,
                 this.tile.props.hilightedStops &&
                   this.tile.props.hilightedStops.includes(feature.properties.gtfsId),
@@ -53,10 +54,11 @@ class Stops {
           for (let i = 0, ref = vt.layers.stations.length - 1; i <= ref; i++) {
             const feature = vt.layers.stations.feature(i);
             if (feature.properties.type) {
+              feature.geom = feature.loadGeometry()[0][0];
               this.features.unshift(feature);
               drawTerminalIcon(
                 this.tile,
-                feature.loadGeometry(),
+                feature.geom,
                 feature.properties.type,
                 this.tile.coords.z >= config.terminalNamesZoom ? feature.properties.name : false
               );

@@ -11,17 +11,15 @@ const CityBikeCard = ({ station, children, className, isFavourite, toggleFavouri
   }
 
   return (
-    <div>
-      <Card className={className}>
-        <CardHeader
-          addFavourite={toggleFavourite}
-          name={station.name}
-          description={station.stationId}
-          favourite={isFavourite}
-        />
-        {children}
-      </Card>
-    </div>
+    <Card className={className}>
+      <CardHeader
+        addFavourite={toggleFavourite}
+        name={station.name}
+        description={station.stationId}
+        favourite={isFavourite}
+      />
+      {children}
+    </Card>
   );
 };
 
