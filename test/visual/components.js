@@ -73,6 +73,13 @@ gemini.suite('components', () => {
   basicTest('CityBikeAvailability');
   basicTest('CityBikeUse');
 
+  basicTest('Availability');
+
+  gemini.suite('ParkAndRideAvailability', () => {
+    gemini.suite('non-realtime', test('ParkAndRideAvailability'));
+    gemini.suite('realtime', test('ParkAndRideAvailability'));
+  });
+
   gemini.suite('FavouriteLocation', test('FavouriteLocation', 1,
     '#FavouriteLocation .component-example:nth-of-type(1) .component .realtime-icon'));
 

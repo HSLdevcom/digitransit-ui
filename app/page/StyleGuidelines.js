@@ -34,6 +34,8 @@ import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
 import RouteStop from '../component/route/RouteStop';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
+import Availability from '../component/card/Availability.js';
+import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
 
 import sortBy from 'lodash/sortBy';
 import Link from 'react-router/lib/Link';
@@ -63,6 +65,8 @@ class StyleGuidelinesPage extends React.Component {
     CityBikeAvailability,
     CityBikeUse,
     CityBikePopup,
+    Availability,
+    ParkAndRideAvailability,
     FavouriteLocation,
     TimeSelectors,
     TimeNavigationButtons,
@@ -223,7 +227,7 @@ class StyleGuidelinesPage extends React.Component {
   getTextStyles() {
     return (
       <section>
-        <p><a href="#">This is a link</a><span className="code">{"<a />"}</span>
+        <p><a>This is a link</a><span className="code">{"<a />"}</span>
         </p>
         <p>
           <span className="dotted-link cursor-pointer">

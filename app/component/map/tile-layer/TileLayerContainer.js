@@ -2,6 +2,8 @@ import React from 'react';
 import Relay from 'react-relay';
 import StopRoute from '../../../route/StopRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
+import ParkAndRideHubRoute from '../../../route/ParkAndRideHubRoute';
+import ParkAndRideFacilityRoute from '../../../route/ParkAndRideFacilityRoute';
 import Popup from '../Popup';
 import { intlShape } from 'react-intl';
 import BaseTileLayer from 'react-leaflet/lib/BaseTileLayer';
@@ -10,6 +12,8 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/CityBikePopup';
+import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';
+import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopup';
 import LocationPopup from '../popups/LocationPopup';
 import SphericalMercator from 'sphericalmercator';
 import lodashFilter from 'lodash/filter';
@@ -35,10 +39,35 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
   getStore: React.PropTypes.func.isRequired,
 });
 
+const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired,
+  route: React.PropTypes.object.isRequired,
+  getStore: React.PropTypes.func.isRequired,
+});
+
+const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPopup, {
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired,
+  route: React.PropTypes.object.isRequired,
+  getStore: React.PropTypes.func.isRequired,
+});
+
+
 const LocationPopupWithContext = provideContext(LocationPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
 });
+
+const PopupOptions = {
+  offset: [106, 3],
+  closeButton: false,
+  minWidth: 260,
+  maxWidth: 260,
+  autoPanPaddingTopLeft: [5, 125],
+  className: 'popup',
+  ref: 'popup',
+};
 
 // TODO eslint doesn't know that TileLayerContainer is a react component,
 //      because it doesn't inherit it directly. This will force the detection
@@ -162,7 +191,7 @@ class TileLayerContainer extends BaseTileLayer {
             <Relay.RootContainer
               Component={StopMarkerPopup}
               route={new StopRoute({
-                stopId: this.state.selectableTargets[0].feature.properties.gtfsId,
+                stopId: id,
                 date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
               })}
               renderLoading={loadingPopup}
@@ -178,41 +207,74 @@ class TileLayerContainer extends BaseTileLayer {
               Component={CityBikePopup}
               forceFetch
               route={new CityBikeRoute({
-                stationId: this.state.selectableTargets[0].feature.properties.id,
+                stationId: id,
               })}
               renderLoading={loadingPopup}
               renderFetched={data => <CityBikePopupWithContext {...data} context={this.context} />}
             />
           );
+        } else if (
+          this.state.selectableTargets[0].layer === 'parkAndRide' &&
+          this.state.selectableTargets[0].feature.properties.facilityIds
+        ) {
+          id = this.state.selectableTargets[0].feature.properties.facilityIds;
+          contents = (
+            <Relay.RootContainer
+              Component={ParkAndRideHubPopup}
+              forceFetch
+              route={new ParkAndRideHubRoute({ stationIds: JSON.parse(id) })}
+              renderLoading={loadingPopup}
+              renderFetched={data => (
+                <ParkAndRideHubPopupWithContext
+                  name={JSON.parse(this.state.selectableTargets[0].feature.properties.name)
+                    [this.context.intl.locale]
+                  }
+                  lat={this.state.coords.lat}
+                  lon={this.state.coords.lng}
+                  {...data}
+                  context={this.context}
+                />
+              )}
+            />
+          );
+        } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
+          id = this.state.selectableTargets[0].feature.id;
+          contents = (
+            <Relay.RootContainer
+              Component={ParkAndRideFacilityPopup}
+              forceFetch
+              route={new ParkAndRideFacilityRoute({ id })}
+              renderLoading={loadingPopup}
+              renderFetched={data => (
+                <ParkAndRideFacilityPopupWithContext
+                  name={JSON.parse(this.state.selectableTargets[0].feature.properties.name)
+                    [this.context.intl.locale]
+                  }
+                  lat={this.state.coords.lat}
+                  lon={this.state.coords.lng}
+                  {...data}
+                  context={this.context}
+                />
+              )}
+            />
+          );
         }
         popup = (
           <Popup
-            ey={id}
-            offset={[106, 3]}
-            closeButton={false}
-            minWidth={250}
-            maxWidth={250}
-            autoPanPaddingTopLeft={[5, 125]}
-            className="popup"
+            {...PopupOptions}
+            key={id}
             position={this.state.coords}
-            ref="popup"
           >
-              {contents}
+            {contents}
           </Popup>
           );
       } else if (this.state.selectableTargets.length > 1) {
         popup = (
           <Popup
             key={this.state.coords.toString()}
-            offset={[106, 3]}
-            closeButton={false}
-            minWidth={250}
-            maxWidth={250}
-            autoPanPaddingTopLeft={[5, 125]}
-            className="popup"
+            {...PopupOptions}
             maxHeight={220}
             position={this.state.coords}
-            ref="popup"
           >
             <MarkerSelectPopupWithContext
               selectRow={this.selectRow}
@@ -225,15 +287,9 @@ class TileLayerContainer extends BaseTileLayer {
         popup = (
           <Popup
             key={this.state.coords.toString()}
-            offset={[106, 3]}
-            closeButton={false}
-            minWidth={250}
-            maxWidth={250}
-            autoPanPaddingTopLeft={[5, 125]}
-            className="popup"
+            {...PopupOptions}
             maxHeight={220}
             position={this.state.coords}
-            ref="popup"
           >
             <LocationPopupWithContext
               name={""} // TODO: fill in name from reverse geocoding, possibly in a container.
