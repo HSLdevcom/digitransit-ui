@@ -17,6 +17,7 @@ const CityBikeCard = ({ station, children, className, isFavourite, toggleFavouri
         name={station.name}
         description={station.stationId}
         favourite={isFavourite}
+        icon="icon-icon_citybike"
       />
       {children}
     </Card>

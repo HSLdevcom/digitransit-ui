@@ -1,12 +1,11 @@
 import React from 'react';
+import { intlShape } from 'react-intl';
+
 import MarkerPopupBottom from '../marker-popup-bottom';
 import ParkAndRideAvailability from './ParkAndRideAvailability';
-
 import Card from '../../card/card';
 import CardHeader from '../../card/CardHeader';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
-
-import { intlShape } from 'react-intl';
 
 export default class ParkAndRidePopup extends React.Component {
   static contextTypes = {

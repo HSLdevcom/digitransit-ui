@@ -126,7 +126,7 @@ export class Contour {
 
     for (let i = 0; i < nPts; j = i++) {
       p1 = pts[i]; p2 = pts[j];
-      f = p1.x * p2.y - p2.x * p1.y;
+      f = (p1.x * p2.y) - (p2.x * p1.y);
       x += (p1.x + p2.x) * f;
       y += (p1.y + p2.y) * f;
     }
