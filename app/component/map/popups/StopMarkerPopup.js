@@ -5,6 +5,7 @@ import MarkerPopupBottom from '../marker-popup-bottom';
 
 function StopMarkerPopup(props) {
   const stop = props.stop || props.terminal;
+  const terminal = props.terminal !== null;
 
   return (
     <div className="card">
@@ -12,6 +13,7 @@ function StopMarkerPopup(props) {
         stop={stop}
         departures={5}
         date={props.relay.variables.date}
+        isTerminal={terminal}
         className="padding-small cursor-pointer"
       />
       <MarkerPopupBottom
@@ -52,7 +54,7 @@ export default Relay.createContainer(StopMarkerPopup, {
         lat
         lon
         name
-        ${StopCardContainer.getFragment('stop', { date, terminal: true })}
+        ${StopCardContainer.getFragment('stop', { date })}
       }
     `,
   },

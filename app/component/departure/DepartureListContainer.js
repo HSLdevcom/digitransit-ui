@@ -170,6 +170,7 @@ export default Relay.createContainer(DepartureListContainerWithTime, {
           pickupType
           stop {
             code
+            platformCode
           }
           trip {
             gtfsId

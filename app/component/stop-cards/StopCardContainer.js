@@ -18,6 +18,7 @@ const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (co
       rowClasses="no-padding no-margin"
       stoptimes={props.stop.stoptimes}
       limit={props.departures}
+      isTerminal={props.isTerminal}
     />,
   })
 );
