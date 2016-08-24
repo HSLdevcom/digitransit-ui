@@ -32,6 +32,7 @@ IconWithTail.description = (
 
 IconWithTail.propTypes = {
   id: React.PropTypes.string,
+  wrapperClassName: React.PropTypes.string,
   className: React.PropTypes.string,
   img: React.PropTypes.string.isRequired,
   rotate: React.PropTypes.number,
