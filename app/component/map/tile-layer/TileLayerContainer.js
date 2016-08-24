@@ -12,7 +12,7 @@ import L from 'leaflet';
 import StopRoute from '../../../route/StopRoute';
 import TerminalRoute from '../../../route/TerminalRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
-import StopMarkerPopup from '../popups/stop-marker-popup';
+import StopMarkerPopup from '../popups/StopMarkerPopup';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/CityBikePopup';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';

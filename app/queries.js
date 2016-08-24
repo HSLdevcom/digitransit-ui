@@ -1,27 +1,5 @@
 import Relay from 'react-relay';
-import StopCardContainer from './component/stop-cards/StopCardContainer';
 /* eslint-disable global-require*/
-
-export const StopMarkerPopupFragments = {
-  stop: ({ date }) => Relay.QL`
-    fragment on Stop{
-      gtfsId
-      lat
-      lon
-      name
-      ${StopCardContainer.getFragment('stop', { date })}
-    }
-  `,
-  terminal: ({ date }) => Relay.QL`
-    fragment on Stop{
-      gtfsId
-      lat
-      lon
-      name
-      ${StopCardContainer.getFragment('stop', { date })}
-    }
-  `,
-};
 
 export const RouteMarkerPopupFragments = {
   trip: () => Relay.QL`

@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl';
 
 import { getDistanceToFurthestStop } from '../../../util/geo-utils';
 import Icon from '../../icon/icon';
-import StopMarkerPopup from '../popups/stop-marker-popup';
+import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import TerminalRoute from '../../../route/TerminalRoute';
 
