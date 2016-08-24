@@ -77,8 +77,7 @@ function SelectStopRow(props) {
           </span>
           {patterns}
         </div>
-        <div className="clear">
-        </div>
+        <div className="clear" />
       </div>
     </div>
   );

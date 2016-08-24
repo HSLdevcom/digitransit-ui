@@ -1,7 +1,8 @@
 import React from 'react';
+import cx from 'classnames';
+
 import Icon from '../icon/icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import cx from 'classnames';
 
 const Favourite = ({ addFavourite, favourite, className }) => (
   <span className={cx('cursor-pointer favourite-icon', className)} onClick={addFavourite}>

@@ -1,9 +1,9 @@
 import { VectorTile } from 'vector-tile';
 import Protobuf from 'pbf';
 import Relay from 'react-relay';
+import glfun from 'mapbox-gl-function';
 import config from '../../../config';
 import { drawRoundIcon, getImageFromSprite } from '../../../util/mapIconUtils';
-import glfun from 'mapbox-gl-function';
 
 const getScale = glfun({
   type: 'exponential',
@@ -18,7 +18,7 @@ class CityBikes {
   constructor(tile) {
     this.tile = tile;
 
-    this.scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
+    this.scaleratio = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
     this.citybikeImageSize = 16 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
     this.availabilityImageSize = 8 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
     this.notInUseImageSize = 12 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
@@ -57,8 +57,8 @@ class CityBikes {
   drawCityBikeBaseIcon = (geom) => {
     this.tile.ctx.drawImage(
       getImageFromSprite('icon-icon_citybike', this.citybikeImageSize, this.citybikeImageSize),
-      (geom.x / this.tile.ratio) - this.citybikeImageSize / 2,
-      (geom.y / this.tile.ratio) - this.citybikeImageSize / 2
+      (geom.x / this.tile.ratio) - (this.citybikeImageSize / 2),
+      (geom.y / this.tile.ratio) - (this.citybikeImageSize / 2)
     );
   }
 
@@ -84,8 +84,8 @@ class CityBikes {
           this.tile.ctx.drawImage(
             getImageFromSprite(
               'icon-icon_not-in-use', this.notInUseImageSize, this.notInUseImageSize),
-            geom.x / this.tile.ratio - this.notInUseImageSize / 2,
-            geom.y / this.tile.ratio - this.notInUseImageSize / 2
+            (geom.x / this.tile.ratio) - (this.notInUseImageSize / 2),
+            (geom.y / this.tile.ratio) - (this.notInUseImageSize / 2)
           );
 
           return;
@@ -119,9 +119,8 @@ class CityBikes {
     }
   }
 
-  calculatePosition = (coord) =>
-    coord / this.tile.ratio -
-    this.citybikeImageSize / 2 - this.availabilityImageSize / 2 + 2 * this.scaleratio
+  calculatePosition = (coord) => ((coord / this.tile.ratio) - (this.citybikeImageSize / 2)) -
+    ((this.availabilityImageSize / 2) + (2 * this.caleratio))
 
   addFeature = (feature) => {
     if (this.tile.coords.z <= config.cityBike.cityBikeSmallIconZoom) {

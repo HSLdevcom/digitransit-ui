@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import IconWithTail from '../icon/icon-with-tail';
 import cx from 'classnames';
+
+import IconWithTail from '../icon/icon-with-tail';
 
 function PatternLink({ mode, pattern, selected = false }) {
   const icon = (<IconWithTail

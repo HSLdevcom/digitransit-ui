@@ -2,16 +2,17 @@ import React from 'react';
 import Relay from 'react-relay';
 import Helmet from 'react-helmet';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Link from 'react-router/lib/Link';
+import moment from 'moment';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import { intlShape } from 'react-intl';
+
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Map from '../component/map/Map';
 import DepartureListContainer from '../component/departure/DepartureListContainer';
 import StopCardHeader from '../component/stop-cards/StopCardHeader';
 import { addFavouriteStop } from '../action/FavouriteActions';
-import Link from 'react-router/lib/Link';
 import Icon from '../component/icon/icon';
-import moment from 'moment';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { intlShape } from 'react-intl';
 
 function StopPage(props, { intl, router, executeAction }) {
   const params = {

@@ -24,7 +24,7 @@ function getLoadersConfig(env) {
         exclude: /node_modules/,
         query: {
           // loose is needed by older Androids < 4.3 and IE10
-          'presets': ['es2015-webpack-loose', 'react', 'stage-2'],
+          'presets': [['es2015', { "loose": true, "modules": false }], 'react', 'stage-2'],
           'plugins': [
             'transform-class-properties',
             path.join(__dirname, 'build/babelRelayPlugin'),
@@ -37,18 +37,18 @@ function getLoadersConfig(env) {
     ]);
   }
   return ([
-    { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css!postcss')},
+    { test: /\.css$/, loader: ExtractTextPlugin.extract('css!postcss')},
     { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
     { test: /\.coffee$/, loader: 'coffee' },
     { test: /\.json$/, loader: 'json'},
-    { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')},
+    { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss!sass')},
     { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file'},
     { test: /\.js$/,
       loader: 'babel',
       exclude: /node_modules/,
       query: {
         // loose is needed by older Androids < 4.3 and IE10
-        'presets': ['es2015-webpack-loose', 'react', 'stage-2'],
+        'presets': [['es2015', { "loose": true, "modules": false }], 'react', 'stage-2'],
         'plugins': [
           'transform-class-properties',
           path.join(__dirname, 'build/babelRelayPlugin'),
@@ -129,7 +129,8 @@ function getPluginsConfig(env) {
       minimize: true,
       debug: false,
     }),
-    new ExtractTextPlugin('css/[name].[chunkhash].css', {
+    new ExtractTextPlugin({
+      filename: 'css/[name].[chunkhash].css',
       allChunks: true,
     }),
     new webpack.NoErrorsPlugin(),

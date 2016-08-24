@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import toClass from 'recompose/toClass';
-import RouteStop from './RouteStop';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import cx from 'classnames';
+
 import { getDistanceToNearestStop } from '../../util/geo-utils';
 import config from '../../config';
+import RouteStop from './RouteStop';
 
 const RouteStopClass = toClass(RouteStop);
 

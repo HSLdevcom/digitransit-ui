@@ -1,8 +1,10 @@
-const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
+import { intlShape } from 'react-intl';
+
 import OriginPopup from './OriginPopup';
 import Icon from '../icon/icon';
-import { intlShape } from 'react-intl';
+
+const isBrowser = typeof window !== 'undefined' && window !== null;
 
 let L;
 let Marker;
@@ -24,7 +26,7 @@ export default function PlaceMarker({ displayOriginPopup, position }, { intl, po
         header={intl.formatMessage({ id: 'origin', defaultMessage: 'From' })}
         popupContainer={popupContainer}
         text={position.address}
-        yOffset={-15}
+        yOffset={14}
       />
     );
   }
