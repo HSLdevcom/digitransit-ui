@@ -1,7 +1,8 @@
 import React from 'react';
+import { intlShape } from 'react-intl';
+
 import Icon from '../../icon/icon';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
-import { intlShape } from 'react-intl';
 
 function SelectParkAndRideRow(props, { intl }) {
   return (
@@ -19,8 +20,7 @@ function SelectParkAndRideRow(props, { intl }) {
             {JSON.parse(props.name)[intl.locale]} ›
           </span>
         </div>
-        <div className="clear">
-        </div>
+        <div className="clear" />
       </div>
     </div>
   );
