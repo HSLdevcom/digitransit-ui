@@ -7,9 +7,9 @@ $citybike-not-available-color: $light-gray;
   border-radius: $border-radius;
 }
 
-.city-bike-availability-container {
+.availability-container {
 
-  .bike-availability-header {
+  .availability-header {
     margin-top: 5px !important;
     margin-bottom: 6px !important;
   }
@@ -19,7 +19,7 @@ $citybike-not-available-color: $light-gray;
     padding-right: 1px;
   }
 
-  .city-bike-column {
+  .availability-column {
     height: 8px;
     background: $citybike-not-available-color;
     background-clip: content-box;
@@ -33,12 +33,12 @@ $citybike-not-available-color: $light-gray;
     .available-more {
       background: $slider-ok-color;
     }
-    .city-bike-column:first-child {
+    .availability-column:first-child {
       padding-left: 0;
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
     }
-    .city-bike-column:last-child {
+    .availability-column:last-child {
       padding-right: 0;
       border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;

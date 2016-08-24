@@ -247,7 +247,7 @@ class CustomizeSearch extends React.Component {
               className="first-btn small-4"
             />
             <ToggleButton
-              icon="bicycle"
+              icon="bicycle-withoutBox"
               onBtnClick={() =>
                 this.context.executeAction(ItinerarySearchActions.toggleBicycleState)}
               state={this.context.getStore('ItinerarySearchStore').getBicycleState()}
@@ -255,7 +255,7 @@ class CustomizeSearch extends React.Component {
               className=" small-4"
             />
             <ToggleButton
-              icon="car"
+              icon="car-withoutBox"
               onBtnClick={() => this.context.executeAction(ItinerarySearchActions.toggleCarState)}
               state={this.context.getStore('ItinerarySearchStore').getCarState()}
               checkedClass="car" className="last-btn small-4"

@@ -43,8 +43,8 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
     tile.ctx.fillStyle = '#fff';
 
     tile.ctx.arc(
-      geom[0][0].x / tile.ratio,
-      geom[0][0].y / tile.ratio,
+      geom.x / tile.ratio,
+      geom.y / tile.ratio,
       caseRadius * tile.scaleratio, 0, Math.PI * 2
     );
 
@@ -53,8 +53,8 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
     tile.ctx.fillStyle = getColor(type);
 
     tile.ctx.arc(
-      geom[0][0].x / tile.ratio,
-      geom[0][0].y / tile.ratio,
+      geom.x / tile.ratio,
+      geom.y / tile.ratio,
       stopRadius * tile.scaleratio, 0, Math.PI * 2
     );
 
@@ -65,8 +65,8 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
       tile.ctx.fillStyle = '#fff';
 
       tile.ctx.arc(
-        geom[0][0].x / tile.ratio,
-        geom[0][0].y / tile.ratio,
+        geom.x / tile.ratio,
+        geom.y / tile.ratio,
         hubRadius * tile.scaleratio, 0, Math.PI * 2
       );
 
@@ -79,8 +79,28 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
         tile.ctx.fillStyle = '#333';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';
-        tile.ctx.fillText(platformNumber, geom[0][0].x / tile.ratio, geom[0][0].y / tile.ratio);
+        tile.ctx.fillText(platformNumber, geom.x / tile.ratio, geom.y / tile.ratio);
       }
     }
   }
 }
+
+function getImageFromSpriteInternal(icon, width, height) {
+  if (!document) { return null; }
+  const symbol = document.getElementById(icon);
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('width', width);
+  svg.setAttribute('height', height);
+  const vb = symbol.viewBox.baseVal;
+  svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
+  // TODO: Simplify after https://github.com/Financial-Times/polyfill-service/pull/722 is merged
+  Array.prototype.forEach.call(symbol.childNodes, node => svg.appendChild(node.cloneNode(true)));
+  const image = new Image(width, height);
+  image.src = `data:image/svg+xml;base64,${btoa(new XMLSerializer().serializeToString(svg))}`;
+  return image;
+}
+
+export const getImageFromSprite = memoize(
+  getImageFromSpriteInternal,
+  (icon, w, h) => `${icon}_${w}_${h}`
+);
