@@ -95,7 +95,12 @@ gemini.suite('components', () => {
     )));
   });
 
-  basicTest('IconWithTail');
+  gemini.suite('IconWithTail', () => {
+    gemini.suite('normal', test('IconWithTail', 1));
+    gemini.suite('rotate', test('IconWithTail', 2));
+    gemini.suite('class', test('IconWithTail', 3));
+  });
+
   basicTest('SelectedIconWithTail');
   basicTest('IconWithCaution');
   basicTest('IconWithBigCaution');

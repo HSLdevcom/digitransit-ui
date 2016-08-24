@@ -9,6 +9,11 @@
   left: -10px;
 }
 
+/*http://stackoverflow.com/questions/36407096/inline-svg-disappears-in-iosand-safari-when-a-css-filter-is-applied*/
+span.tail-icon-grayscale {
+  filter: grayscale(100%) brightness(150%);
+}
+
 .selected-tail-icon {
   font-size: 5em;
   top: -20px;
