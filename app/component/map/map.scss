@@ -168,6 +168,14 @@ div.leaflet-marker-icon.vehicle-icon {
   .card {
     border: none;
 
+    hr {
+      height: 1px;
+      color: #ddd;
+      background: #ddd;
+      font-size: 0;
+      border: 0;
+    }
+
     .card-row .no-margin:last-child hr{
       display: none;
     }
