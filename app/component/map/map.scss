@@ -167,6 +167,10 @@ div.leaflet-marker-icon.vehicle-icon {
   }
   .card {
     border: none;
+
+    .card-row .no-margin:last-child hr{
+      display: none;
+    }
   }
   .card-header {
     border-radius: $border-radius;

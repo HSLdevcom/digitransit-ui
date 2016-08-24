@@ -44,7 +44,7 @@ function MarkerSelectPopup(props) {
       </h3>
       <hr className="no-margin gray" />
       <div
-        className="scrollable momentum-scroll"
+        className="scrollable momentum-scroll card-row"
         style={{ maxHeight: 176, overflowY: 'scroll' }}
       >
         {rows}
