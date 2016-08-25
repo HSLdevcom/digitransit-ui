@@ -8,7 +8,7 @@ function waitForDepartureVisible() {
 }
 
 function navigateToStopPage() {
-  return this.click('@cardHeader', () => {
+  return this.click('@cardName', () => {
     this.waitForElementVisible(
       'div.card-header.stop-page.header',
       this.api.globals.itinerarySearchTimeout
@@ -31,6 +31,9 @@ module.exports = {
     },
     cardHeader: {
       selector: '.card-header .sub-header-h4',
+    },
+    cardName: {
+      selector: '.card-header > .h4',
     },
     departure: {
       selector: '.route-detail-text',
