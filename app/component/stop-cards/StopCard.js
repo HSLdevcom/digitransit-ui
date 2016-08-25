@@ -17,7 +17,6 @@ class StopCard extends React.Component {
             favourite={this.props.favourite}
             addFavouriteStop={this.props.addFavouriteStop}
             distance={this.props.distance}
-            isTerminal={this.props.isTerminal}
           />
           {this.props.children}
         </Card>
@@ -30,7 +29,6 @@ StopCard.propTypes = {
   children: React.PropTypes.object.isRequired,
   className: React.PropTypes.string,
   favourite: React.PropTypes.bool,
-  isTerminal: React.PropTypes.bool,
   addFavouriteStop: React.PropTypes.func,
   distance: React.PropTypes.number,
 };

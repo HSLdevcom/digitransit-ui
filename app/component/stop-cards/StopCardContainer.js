@@ -4,7 +4,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import StopCardHeader from './StopCardHeader';
 import DepartureListContainer from '../departure/DepartureListContainer';
-import StopCard from './StopCard';
+import StopCard from './stop-card';
 import { addFavouriteStop } from '../../action/FavouriteActions';
 
 const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (context, props) =>
