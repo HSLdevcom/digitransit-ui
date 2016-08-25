@@ -94,7 +94,7 @@ class TileContainer {
         const dist = Math.sqrt(Math.pow((localPoint[0] - (g.x / this.ratio)), 2) +
           Math.pow((localPoint[1] - (g.y / this.ratio)), 2));
 
-        if (dist < 17 * this.scaleratio) {
+        if (dist < 22 * this.scaleratio) {
           return true;
         }
         return false;

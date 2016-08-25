@@ -99,6 +99,7 @@ export const getImageFromSprite = memoize(
   (icon, w, h, fill) => `${icon}_${w}_${h}_${fill}`
 );
 
+
 export function drawTerminalIcon(tile, geom, type, name) {
   const stopRadius = getStopRadius({ $zoom: tile.coords.z }) * 2.5;
 
