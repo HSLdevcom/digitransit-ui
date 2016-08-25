@@ -1,10 +1,11 @@
 import React from 'react';
 import Relay from 'react-relay';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+
 import StopCardHeader from './StopCardHeader';
 import DepartureListContainer from '../departure/DepartureListContainer';
 import StopCard from './stop-card';
 import { addFavouriteStop } from '../../action/FavouriteActions';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 
 const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (context, props) =>
   ({

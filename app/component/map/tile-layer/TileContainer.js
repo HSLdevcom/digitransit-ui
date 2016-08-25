@@ -1,7 +1,8 @@
 import flatten from 'lodash/flatten';
-import config from '../../../config';
 import omit from 'lodash/omit';
 import L from 'leaflet';
+
+import config from '../../../config';
 
 const markersMinZoom = Math.min(config.cityBike.cityBikeMinZoom, config.stopsMinZoom);
 
@@ -10,7 +11,7 @@ class TileContainer {
     this.coords = coords;
     this.props = props;
     this.extent = 4096;
-    this.scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
+    this.scaleratio = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
     this.tileSize = (this.props.tileSize || 256) * this.scaleratio;
     this.ratio = this.extent / this.tileSize;
     this.el = this.createElement();
@@ -46,10 +47,10 @@ class TileContainer {
     const size = this.extent * Math.pow(2, this.coords.z + (this.props.zoomOffset || 0));
     const x0 = this.extent * this.coords.x;
     const y0 = this.extent * this.coords.y;
-    const y1 = 180 - (point.y + y0) * 360 / size;
+    const y1 = 180 - (((point.y + y0) * 360) / size);
     return {
-      lon: (point.x + x0) * 360 / size - 180,
-      lat: 360 / Math.PI * Math.atan(Math.exp(y1 * Math.PI / 180)) - 90,
+      lon: (((point.x + x0) * 360) / size) - 180,
+      lat: ((360 / Math.PI) * Math.atan(Math.exp(y1 * (Math.PI / 180)))) - 90,
     };
   }
 
@@ -68,8 +69,8 @@ class TileContainer {
     let localPoint;
 
     if (this.layers) {
-      localPoint = [point[0] * this.scaleratio % this.tileSize,
-                    point[1] * this.scaleratio % this.tileSize];
+      localPoint = [(point[0] * this.scaleratio) % this.tileSize,
+                    (point[1] * this.scaleratio) % this.tileSize];
 
       features = flatten(this.layers.map(layer => (
         layer.features && layer.features.map(feature =>

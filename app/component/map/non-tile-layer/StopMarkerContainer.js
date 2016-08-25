@@ -1,6 +1,7 @@
-import config from '../../../config';
 import React from 'react';
 import Relay from 'react-relay';
+
+import config from '../../../config';
 import StopMarkerLayer from './StopMarkerLayer';
 import StopMarkerLayerRoute from '../../../route/StopMarkerLayerRoute';
 

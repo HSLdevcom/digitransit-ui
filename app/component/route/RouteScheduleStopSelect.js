@@ -17,7 +17,7 @@ function RouteScheduleStopSelect(props) {
       <select onChange={props.onSelectChange} value={props.selected}>
         {options}
       </select>
-      <div className="caret"></div>
+      <div className="caret" />
     </div>
   );
 }

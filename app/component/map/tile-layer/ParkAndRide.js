@@ -1,9 +1,9 @@
 import Relay from 'react-relay';
 import { VectorTile } from 'vector-tile';
-
 import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
 import Protobuf from 'pbf';
+
 import config from '../../../config';
 import { getImageFromSprite } from '../../../util/mapIconUtils';
 import { Contour } from '../../../util/geo-utils';
@@ -13,7 +13,7 @@ const showFacilities = 17;
 export default class ParkAndRide {
   constructor(tile) {
     this.tile = tile;
-    const scaleratio = typeof window !== 'undefined' && window.devicePixelRatio || 1;
+    const scaleratio = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
     this.width = 24 * scaleratio;
     this.height = 12 * scaleratio;
     this.promise = this.getPromise();
@@ -59,8 +59,8 @@ export default class ParkAndRide {
                   this.features.push(feature);
                   this.tile.ctx.drawImage(
                     getImageFromSprite('icon-icon_park-and-ride', this.width, this.height),
-                    (feature.geom.x / this.tile.ratio) - this.width / 2,
-                    (feature.geom.y / this.tile.ratio) - this.height / 2
+                    (feature.geom.x / this.tile.ratio) - (this.width / 2),
+                    (feature.geom.y / this.tile.ratio) - (this.height / 2)
                   );
                 }
               }
@@ -89,8 +89,8 @@ export default class ParkAndRide {
                   this.features.push(feature);
                   this.tile.ctx.drawImage(
                     getImageFromSprite('icon-icon_park-and-ride', this.width, this.height),
-                    (feature.geom.x / this.tile.ratio) - this.width / 2,
-                    (feature.geom.y / this.tile.ratio) - this.height / 2
+                    (feature.geom.x / this.tile.ratio) - (this.width / 2),
+                    (feature.geom.y / this.tile.ratio) - (this.height / 2)
                   );
                 }
               }

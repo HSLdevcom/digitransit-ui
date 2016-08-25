@@ -1,5 +1,3 @@
-import XhrPromise from '../util/xhr-promise';
-import config from '../config';
 import debounce from 'lodash/debounce';
 import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
@@ -7,6 +5,8 @@ import orderBy from 'lodash/orderBy';
 import take from 'lodash/take';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
+import XhrPromise from '../util/xhr-promise';
+import config from '../config';
 import { getLabel } from '../util/suggestionUtils';
 import { getLatLng } from '../util/geo-utils';
 import routeCompare from '../util/route-compare';

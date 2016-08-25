@@ -1,14 +1,15 @@
 import unzip from 'lodash/unzip';
+
 /* eslint-disable global-require */
 const L = (typeof window !== 'undefined' && window !== null) ? require('leaflet') : null;
 /* eslint-enable global-require */
 
 function toRad(deg) {
-  return deg * Math.PI / 180;
+  return deg * (Math.PI / 180);
 }
 
 function toDeg(rad) {
-  return rad * 180 / Math.PI;
+  return rad * (180 / Math.PI);
 }
 
 export function getBearing(lat1, lng1, lat2, lng2) {
@@ -62,15 +63,15 @@ export function getDistanceToFurthestStop(coordinates, stops) {
 export function displayDistance(meters) {
   /* eslint-disable yoda */
   if (meters < 100) {
-    return `${Math.round(meters / 10) * 10} m`;
+    return `${Math.round(meters / 10) * 10} m`; // Tens of meters
   } else if (meters < 1000) {
-    return `${Math.round(meters / 50) * 50} m`;
+    return `${Math.round(meters / 50) * 50} m`; // fifty meters
   } else if (meters < 10000) {
-    return `${Math.round(meters / 100) * 100 / 1000} km`;
+    return `${(Math.round(meters / 100) * 100) / 1000} km`; // hudreds of meters
   } else if (meters < 100000) {
-    return `${Math.round(meters / 1000)} km`;
+    return `${Math.round(meters / 1000)} km`; // kilometers
   }
-  return `${Math.round(meters / 10000) * 10} km`;
+  return `${Math.round(meters / 10000) * 10} km`; // tens of kilometers
   /* eslint-enable yoda */
 }
 
@@ -85,8 +86,8 @@ export function boundWithMinimumArea(points) {
   const maxlon = Math.max(...lons);
   const missingHeight = Math.max(0, 0.002 - (maxlat - minlat));
   const missingWidth = Math.max(0, 0.002 - (maxlon - minlon));
-  return [[minlat - missingHeight / 2, minlon - missingWidth / 2],
-          [maxlat + missingHeight / 2, maxlon + missingWidth / 2]];
+  return [[minlat - (missingHeight / 2), minlon - (missingWidth / 2)],
+          [maxlat + (missingHeight / 2), maxlon + (missingWidth / 2)]];
 }
 
 
@@ -125,7 +126,7 @@ export class Contour {
 
     for (let i = 0; i < nPts; j = i++) {
       p1 = pts[i]; p2 = pts[j];
-      f = p1.x * p2.y - p2.x * p1.y;
+      f = (p1.x * p2.y) - (p2.x * p1.y);
       x += (p1.x + p2.x) * f;
       y += (p1.y + p2.y) * f;
     }

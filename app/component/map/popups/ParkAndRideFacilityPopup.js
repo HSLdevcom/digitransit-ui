@@ -1,6 +1,6 @@
 import Relay from 'react-relay';
-import ParkAndRidePopup from './ParkAndRidePopup';
 import withProps from 'recompose/withProps';
+import ParkAndRidePopup from './ParkAndRidePopup';
 
 export default Relay.createContainer(withProps(props => ({
   realtime: props.facility.realtime,

@@ -1,24 +1,25 @@
 import React from 'react';
 import Relay from 'react-relay';
-import StopRoute from '../../../route/StopRoute';
-import CityBikeRoute from '../../../route/CityBikeRoute';
-import ParkAndRideHubRoute from '../../../route/ParkAndRideHubRoute';
-import ParkAndRideFacilityRoute from '../../../route/ParkAndRideFacilityRoute';
-import Popup from '../Popup';
+import Popup from 'react-leaflet/lib/Popup';
 import { intlShape } from 'react-intl';
-import BaseTileLayer from 'react-leaflet/lib/BaseTileLayer';
+import MapLayer from 'react-leaflet/lib/MapLayer';
 import omit from 'lodash/omit';
 import provideContext from 'fluxible-addons-react/provideContext';
+import SphericalMercator from 'sphericalmercator';
+import lodashFilter from 'lodash/filter';
+import L from 'leaflet';
+
+import StopRoute from '../../../route/StopRoute';
+import CityBikeRoute from '../../../route/CityBikeRoute';
 import StopMarkerPopup from '../popups/stop-marker-popup';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/CityBikePopup';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopup';
+import ParkAndRideHubRoute from '../../../route/ParkAndRideHubRoute';
+import ParkAndRideFacilityRoute from '../../../route/ParkAndRideFacilityRoute';
 import LocationPopup from '../popups/LocationPopup';
-import SphericalMercator from 'sphericalmercator';
-import lodashFilter from 'lodash/filter';
 import TileContainer from './TileContainer';
-import L from 'leaflet';
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
@@ -60,7 +61,7 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
 });
 
 const PopupOptions = {
-  offset: [106, 3],
+  offset: [106, 16],
   closeButton: false,
   minWidth: 260,
   maxWidth: 260,
@@ -73,7 +74,7 @@ const PopupOptions = {
 //      because it doesn't inherit it directly. This will force the detection
 //      once eslint-plugin-react has a new release (https://github.com/yannickcr/eslint-plugin-react/pull/513)
 /** @extends React.Component */
-class TileLayerContainer extends BaseTileLayer {
+class TileLayerContainer extends MapLayer {
   static propTypes = {
     tileSize: React.PropTypes.number,
     zoomOffset: React.PropTypes.number,
@@ -94,16 +95,17 @@ class TileLayerContainer extends BaseTileLayer {
     coords: undefined,
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    super.componentWillMount();
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
 
+    // TODO: Convert to use react-leaflet <GridLayer>
     const Layer = L.GridLayer.extend({ createTile: this.createTile });
 
     this.leafletElement = new Layer(omit(this.props, 'map'));
     this.context.map.addEventParent(this.leafletElement);
 
     this.leafletElement.on('click contextmenu', this.onClick);
-    super.componentDidMount(...this.props);
   }
 
   componentDidUpdate() {
@@ -226,8 +228,10 @@ class TileLayerContainer extends BaseTileLayer {
               renderLoading={loadingPopup}
               renderFetched={data => (
                 <ParkAndRideHubPopupWithContext
-                  name={JSON.parse(this.state.selectableTargets[0].feature.properties.name)
-                    [this.context.intl.locale]
+                  name={
+                    JSON.parse(this.state.selectableTargets[0].feature.properties.name)[
+                      this.context.intl.locale
+                    ]
                   }
                   lat={this.state.coords.lat}
                   lon={this.state.coords.lng}
@@ -247,8 +251,10 @@ class TileLayerContainer extends BaseTileLayer {
               renderLoading={loadingPopup}
               renderFetched={data => (
                 <ParkAndRideFacilityPopupWithContext
-                  name={JSON.parse(this.state.selectableTargets[0].feature.properties.name)
-                    [this.context.intl.locale]
+                  name={
+                    JSON.parse(this.state.selectableTargets[0].feature.properties.name)[
+                      this.context.intl.locale
+                    ]
                   }
                   lat={this.state.coords.lat}
                   lon={this.state.coords.lng}
@@ -262,7 +268,6 @@ class TileLayerContainer extends BaseTileLayer {
         popup = (
           <Popup
             {...PopupOptions}
-            key={id}
             position={this.state.coords}
           >
             {contents}

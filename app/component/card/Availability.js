@@ -3,7 +3,7 @@ import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 function Availability({ total, available, fewAvailableCount, text }) {
-  let availablepct = 100 * available / total;
+  let availablepct = (available / total) * 100;
 
   let availableClass;
 

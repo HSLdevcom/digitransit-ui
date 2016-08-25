@@ -1,8 +1,9 @@
 import React from 'react';
-import Availability from '../../card/Availability';
 import mapProps from 'recompose/mapProps';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 import { FormattedMessage } from 'react-intl';
+
+import Availability from '../../card/Availability';
+import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
 const ParkAndRideAvailability = mapProps(({ realtime, maxCapacity, spacesAvailable }) => ({
   available: realtime ? spacesAvailable : 0,

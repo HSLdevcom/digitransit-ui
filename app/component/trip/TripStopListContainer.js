@@ -1,13 +1,14 @@
 import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
-import TripRouteStop from './TripRouteStop';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
-import { getDistanceToNearestStop } from '../../util/geo-utils';
-import config from '../../config';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
+
+import TripRouteStop from './TripRouteStop';
+import { getDistanceToNearestStop } from '../../util/geo-utils';
+import config from '../../config';
 
 class TripStopListContainer extends React.Component {
 

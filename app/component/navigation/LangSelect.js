@@ -1,7 +1,8 @@
 import React from 'react';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+
 import config from '../../config';
 import UserPreferencesActions from '../../action/user-preferences-actions';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 
 const selectLanguage = (executeAction, lang) =>
   () => executeAction(UserPreferencesActions.setLanguage, lang);
