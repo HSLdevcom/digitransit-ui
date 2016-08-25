@@ -139,14 +139,6 @@
   width: 0.5em;
 }
 
-.cancelation-info {
-  width: 12px;
-  height: 12px;
-  stroke: $white;
-  color: $cancelation-red;
-  margin: 0 0.5em;
-}
-
 .canceled .time, .time.canceled {
   position: relative;
   display: inline-block;
@@ -158,7 +150,7 @@
     content: '';
     width: 2em;
     position: absolute;
-    left: 0.75em;
+    left: 0.5em;
     top: 50%;
     opacity: 0.5;
     border-bottom: 1px solid $cancelation-red;
