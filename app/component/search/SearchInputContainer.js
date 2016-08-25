@@ -197,10 +197,24 @@ export default class SearchInputContainer extends Component {
           className={this.props.className}
           id="suggest"
           items={this.state.suggestions}
-          renderItem={(item) => (item.properties.layer === 'currentPosition' ?
-            <CurrentPositionSuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon" /> :
-            <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon" />
-          )}
+          renderItem={(item) => {
+            if (item.properties.layer === 'currentPosition') {
+              return (
+                <CurrentPositionSuggestionItem
+                  ref={item.name}
+                  item={item}
+                  spanClass="autosuggestIcon"
+                />
+              );
+            }
+            return (
+              <SuggestionItem
+                ref={item.name}
+                item={item}
+                spanClass="autosuggestIcon"
+              />
+            );
+          }}
           onSuggestionSelected={this.currentItemSelected}
           focusedItemIndex={this.state.focusedItemIndex}
           inputProps={{

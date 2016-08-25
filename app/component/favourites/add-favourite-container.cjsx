@@ -100,7 +100,7 @@ class AddFavouriteContainer extends React.Component
             <div className="add-favourite-container__search search-form">
               <h4><FormattedMessage id="specify-location" defaultMessage="Specify the location"/></h4>
               <FakeSearchBar
-                endpoint={"address": @state?.address || ""}
+                endpointAddress={@state?.address || ""}
                 placeholder={destinationPlaceholder}
                 onClick={(e) =>
                   e.preventDefault()

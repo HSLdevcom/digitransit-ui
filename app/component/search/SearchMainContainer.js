@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 import Tab from 'material-ui/Tabs/Tab';
 
 import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
@@ -10,191 +10,204 @@ import GeolocationOrInput from './GeolocationOrInput';
 import SearchModal from './SearchModal';
 
 class SearchMainContainer extends React.Component {
-  constructor() {
-    super(...arguments);
-    this.componentWillMount = this.componentWillMount.bind(this);
-    this.componentWillUnmount = this.componentWillUnmount.bind(this);
-    this.onSearchChange = this.onSearchChange.bind(this);
-    this.onTabChange = this.onTabChange.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.focusInput = this.focusInput.bind(this);
-    this.openDialog = this.openDialog.bind(this);
-    this.clickSearch = this.clickSearch.bind(this);
-    this.render = this.render.bind(this);
-
-    this.state = {
-      selectedTab: "destination",
-      modalIsOpen: false
-    };
-  }
-
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
     getStore: React.PropTypes.func.isRequired,
     router: React.PropTypes.object.isRequired,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
   };
 
-  componentWillMount() {
-    return this.context.getStore("SearchStore").addChangeListener(this.onSearchChange);
+  constructor(args) {
+    super(args);
+    this.state = {
+      selectedTab: 'destination',
+      modalIsOpen: false,
+    };
   }
 
-  componentWillUnmount() {
-    return this.context.getStore("SearchStore").removeChangeListener(this.onSearchChange);
-  }
+  componentWillMount = () => (
+    this.context.getStore('SearchStore').addChangeListener(this.onSearchChange)
+  );
 
-  onSearchChange(payload) {
-    if (payload.action === "open") {
+  componentWillUnmount = () => (
+    this.context.getStore('SearchStore').removeChangeListener(this.onSearchChange)
+  );
+
+  onSearchChange = (payload) => {
+    if (payload.action === 'open') {
       return this.openDialog(payload.data);
     }
+    return undefined;
   }
 
-  onTabChange(tab) {
-    return this.setState({
-      selectedTab: tab.props.value
+  onTabChange = (tab) => (
+    this.setState({
+      selectedTab: tab.props.value,
     }, () => {
-      let ref1;
-      let ref;
-
-      if (tab.props.value === "origin") {
+      if (tab.props.value === 'origin') {
         this.context.executeAction(executeSearch, {
-          input: ((ref = this.context.getStore("EndpointStore").getOrigin()) != null ? ref.address : void 0) || "",
-          type: "endpoint"
+          input: this.context.getStore('EndpointStore').getOrigin().address || '',
+          type: 'endpoint',
         });
       }
 
-      if (tab.props.value === "destination") {
+      if (tab.props.value === 'destination') {
         this.context.executeAction(executeSearch, {
-          input: ((ref1 = this.context.getStore("EndpointStore").getDestination()) != null ? ref1.address : void 0) || "",
-          type: "endpoint"
+          input: this.context.getStore('EndpointStore').getDestination().address || '',
+          type: 'endpoint',
         });
       }
 
-      if (tab.props.value === "search") {
+      if (tab.props.value === 'search') {
         this.context.executeAction(executeSearch, {
-          input: "",
-          type: "search"
+          input: '',
+          type: 'search',
         });
       }
 
-      return setTimeout(() => {
-        return this.focusInput(tab.props.value);
-      }, 0);
-    });
-  }
+      return setTimeout(() => this.focusInput(tab.props.value), 0);
+    })
+  );
 
-  closeModal() {
-    return this.setState({
-      modalIsOpen: false
-    });
-  }
+  closeModal = () => (
+    this.setState({
+      modalIsOpen: false,
+    })
+  );
 
-  focusInput(value) {
-    let ref2;
-    let ref1;
-    let ref;
-    return (ref = this.refs[`searchInput${value}`]) != null ? (ref1 = ref.refs.searchInput.refs.autowhatever) != null ? (ref2 = ref1.refs.input) != null ? ref2.focus() : void 0 : void 0 : void 0;
-  }
+  focusInput = (value) => (
+    this.refs[`searchInput${value}`].refs.searchInput.refs.autowhatever.refs.input.focus()
+  );
 
-  openDialog(tab, cb) {
-    return this.setState({
+  openDialog = (tab, cb) => (
+    this.setState({
       selectedTab: tab,
-      modalIsOpen: true
-    }, function () {
+      modalIsOpen: true,
+    }, () => {
       if (cb) {
         return cb();
       }
-    });
-  }
+      return undefined;
+    })
+  );
 
-  clickSearch() {
-    let ref;
-    const geolocation = this.context.getStore("PositionStore").getLocationState();
-    const origin = this.context.getStore("EndpointStore").getOrigin();
-    const tab = (origin.lat || origin.useCurrentPosition) && geolocation.hasLocation ? "destination" : "origin";
+  clickSearch = () => {
+    const origin = this.context.getStore('EndpointStore').getOrigin();
+    const geolocation = this.context.getStore('PositionStore').getLocationState();
+    const hasOrigin = origin.lat || origin.useCurrentPosition && geolocation.hasLocation;
 
-    this.openDialog(tab, () => {
-      return this.focusInput((origin.lat || origin.useCurrentPosition) && geolocation.hasLocation ? "destination" : "origin");
-    });
+    this.openDialog(hasOrigin ? 'destination' : 'origin',
+                    () => this.focusInput(hasOrigin ? 'destination' : 'origin'));
 
-    if ((origin.lat || origin.useCurrentPosition) && geolocation.hasLocation) {
+    if (hasOrigin) {
       return this.context.executeAction(executeSearch, {
-        input: ((ref = this.context.getStore("EndpointStore").getDestination()) != null ? ref.address : void 0) || "",
-        type: "endpoint"
-      });
-    } else {
-      return this.context.executeAction(executeSearch, {
-        input: "",
-        type: "endpoint"
+        input: this.context.getStore('EndpointStore').getDestination().address || '',
+        type: 'endpoint',
       });
     }
+    return this.context.executeAction(executeSearch, {
+      input: '',
+      type: 'endpoint',
+    });
   }
 
-  render() {
-    const origin = this.context.getStore("EndpointStore").getOrigin();
-    const destination = this.context.getStore("EndpointStore").getDestination();
+  makeEndpointTab = (tabname, tablabel, endpoint) => (
+    <Tab
+      className={`search-header__button${this.state.selectedTab === tabname ? '--selected' : ''}`}
+      label={tablabel}
+      value={tabname}
+      id={tabname}
+      onActive={this.onTabChange}
+    >
+      <GeolocationOrInput
+        ref={`searchInput${tabname}`}
+        id={`search-${tabname}`}
+        endpoint={endpoint}
+        type="endpoint"
+        onSuggestionSelected={(name, item) => {
+          if (item.type === 'CurrentLocation') {
+            this.context.executeAction(setUseCurrent, tabname);
+          } else {
+            this.context.executeAction(setEndpoint, {
+              target: tabname,
+              endpoint: {
+                lat: item.geometry.coordinates[1],
+                lon: item.geometry.coordinates[0],
+                address: name,
+              },
+            });
+          }
 
-    const originSearchTabLabel = this.context.intl.formatMessage({
-      id: "origin",
-      defaultMessage: "Origin"
-    });
+          return this.closeModal();
+        }}
+      />
+    </Tab>
+  );
 
-    const destinationSearchTabLabel = this.context.intl.formatMessage({
-      id: "destination",
-      defaultMessage: "destination"
-    });
-
+  render = () => {
     const searchTabLabel = this.context.intl.formatMessage({
-      id: "search",
-      defaultMessage: "SEARCH"
+      id: 'search',
+      defaultMessage: 'SEARCH',
     });
 
     const destinationPlaceholder = this.context.intl.formatMessage({
-      id: "destination-placeholder",
-      defaultMessage: "Where to? - address or stop"
+      id: 'destination-placeholder',
+      defaultMessage: 'Where to? - address or stop',
     });
 
-    const fakeSearchBar = <FakeSearchBar onClick={this.clickSearch} placeholder={destinationPlaceholder} id="front-page-search-bar" />;
+    const fakeSearchBar = (
+      <FakeSearchBar
+        onClick={this.clickSearch}
+        placeholder={destinationPlaceholder}
+        id="front-page-search-bar"
+      />);
 
-    return <div><FakeSearchWithButton fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} /><SearchModal selectedTab={this.state.selectedTab} modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal}><Tab className={`search-header__button${this.state.selectedTab === "origin" ? "--selected" : ""}`} label={originSearchTabLabel} value="origin" id="origin" onActive={this.onTabChange}><GeolocationOrInput ref="searchInputorigin" id="search-origin" endpoint={this.context.getStore("EndpointStore").getOrigin()} type="endpoint" onSuggestionSelected={(name, item) => {
-            if (item.type === "CurrentLocation") {
-              this.context.executeAction(setUseCurrent, "origin");
-            } else {
-              this.context.executeAction(setEndpoint, {
-                "target": "origin",
-
-                "endpoint": {
-                  lat: item.geometry.coordinates[1],
-                  lon: item.geometry.coordinates[0],
-                  address: name
+    return (
+      <div>
+        <FakeSearchWithButton
+          fakeSearchBar={fakeSearchBar}
+          onClick={this.clickSearch}
+        />
+        <SearchModal
+          selectedTab={this.state.selectedTab}
+          modalIsOpen={this.state.modalIsOpen}
+          closeModal={this.closeModal}
+        >
+          {this.makeEndpointTab('origin',
+                   this.context.intl.formatMessage({
+                     id: 'origin',
+                     defaultMessage: 'Origin',
+                   }),
+                   this.context.getStore('EndpointStore').getOrigin())}
+          {this.makeEndpointTab('destination',
+                   this.context.intl.formatMessage({
+                     id: 'destination',
+                     defaultMessage: 'destination',
+                   }),
+                   this.context.getStore('EndpointStore').getDestination())}
+          <Tab
+            className={
+              `search-header__button${this.state.selectedTab === 'search' ? '--selected' : ''}`}
+            label={searchTabLabel}
+            value="search"
+            id="search-button"
+            onActive={this.onTabChange}
+          >
+            <GeolocationOrInput
+              ref="searchInputsearch"
+              initialValue=""
+              id="search"
+              type="search"
+              onSuggestionSelected={(name, item) => {
+                if (item.properties.link) {
+                  this.context.router.push(item.properties.link);
                 }
-              });
-            }
-
-            return this.closeModal();
-          }} /></Tab><Tab className={`search-header__button${this.state.selectedTab === "destination" ? "--selected" : ""}`} label={destinationSearchTabLabel} value="destination" id="destination" onActive={this.onTabChange}><GeolocationOrInput ref="searchInputdestination" endpoint={this.context.getStore("EndpointStore").getDestination()} id="search-destination" type="endpoint" onSuggestionSelected={(name, item) => {
-            if (item.type === "CurrentLocation") {
-              this.context.executeAction(setUseCurrent, "destination");
-            } else {
-              this.context.executeAction(setEndpoint, {
-                "target": "destination",
-
-                "endpoint": {
-                  lat: item.geometry.coordinates[1],
-                  lon: item.geometry.coordinates[0],
-                  address: name
-                }
-              });
-            }
-
-            return this.closeModal();
-          }} /></Tab><Tab className={`search-header__button${this.state.selectedTab === "search" ? "--selected" : ""}`} label={searchTabLabel} value="search" id="search-button" onActive={this.onTabChange}><GeolocationOrInput ref="searchInputsearch" initialValue="" id="search" type="search" onSuggestionSelected={(name, item) => {
-            if (item.properties.link) {
-              this.context.router.push(item.properties.link);
-            }
-
-            return this.closeModal();
-          }} /></Tab></SearchModal></div>;
+                return this.closeModal();
+              }}
+            />
+          </Tab>
+        </SearchModal>
+      </div>);
   }
 }
 
