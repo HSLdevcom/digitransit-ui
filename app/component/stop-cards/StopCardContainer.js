@@ -14,6 +14,7 @@ const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (co
       e.preventDefault();
       return context.executeAction(addFavouriteStop, props.stop.gtfsId);
     },
+    isTerminal: props.isTerminal,
     children: <DepartureListContainer
       rowClasses="no-padding no-margin"
       stoptimes={props.stop.stoptimes}
