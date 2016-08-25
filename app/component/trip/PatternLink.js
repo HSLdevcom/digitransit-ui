@@ -6,7 +6,7 @@ import SelectedIconWithTail from '../icon/SelectedIconWithTail';
 function PatternLink({ mode, pattern, selected = false }) {
   const imgName = `icon-icon_${mode}-live`;
   const icon = (selected && (<SelectedIconWithTail img={imgName} />))
-    || (<IconWithTail wrapperClassName="tail-icon-grayscale" img={imgName} />);
+    || (<IconWithTail desaturate img={imgName} />);
 
   return (<Link
     to={pattern && `/linjat/${pattern}`}
