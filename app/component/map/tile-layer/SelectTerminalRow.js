@@ -20,7 +20,13 @@ function getName(route) {
 }
 
 function SelectTerminalRow(props) {
-  const routeData = JSON.parse(props.routes).sort(routeCompare);
+  let routeData = JSON.parse(props.routes).sort(routeCompare);
+  let ellipsis = null;
+
+  if (routeData.length > 18) {
+    routeData = routeData.slice(0, 19);
+    ellipsis = <span className={routeData[18].mode.toLowerCase()}>...</span>;
+  }
 
   return (
     <div className="no-margin">
@@ -48,7 +54,7 @@ function SelectTerminalRow(props) {
             {props.name} ›
           </span>
           <div className="route-detail-text">
-            {routeData.map(getName)}
+            {routeData.map(getName)} {ellipsis}
           </div>
         </div>
         <div className="clear" />

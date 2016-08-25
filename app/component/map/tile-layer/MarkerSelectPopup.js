@@ -53,7 +53,10 @@ function MarkerSelectPopup(props) {
         <FormattedMessage id="choose-stop" defaultMessage="Choose stop" />
       </h3>
       <hr className="no-margin gray" />
-      <div style={{ maxHeight: 176, overflow: 'scroll' }}>
+      <div
+        className="scrollable momentum-scroll card-row"
+        style={{ maxHeight: 176, overflowY: 'scroll' }}
+      >
         {rows}
       </div>
     </div>
