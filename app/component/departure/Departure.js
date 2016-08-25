@@ -3,7 +3,7 @@ import cx from 'classnames';
 import RouteNumber from './RouteNumber';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
-import StopReference from '../stop/stop-reference';
+import PlatformNumber from './PlatformNumber';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import {
   currentTime as exampleCurrentTime,
@@ -14,9 +14,9 @@ import {
 function Departure(props) {
   const mode = props.departure.pattern.route.mode.toLowerCase();
 
-  let stopReference = <span />;
-  if (props.showStop) {
-    stopReference = <StopReference mode={mode} code={props.departure.stop.code} />;
+  let platformNumber = false;
+  if (props.isTerminal) {
+    platformNumber = <PlatformNumber number={props.departure.stop.platformCode} />;
   }
 
   return (
@@ -39,7 +39,7 @@ function Departure(props) {
                      props.departure.pattern.route.longName}
         isArrival={props.isArrival}
       />
-      {stopReference}
+      {platformNumber}
     </p>);
 }
 
@@ -66,13 +66,13 @@ Departure.description = (
       />
     </ComponentUsageExample>
     <ComponentUsageExample
-      description="with stop number"
+      description="with platform number"
     >
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}
         className="padding-normal padding-bottom"
-        showStop
+        isTerminal
         useUTC
       />
     </ComponentUsageExample>
@@ -95,7 +95,7 @@ Departure.propTypes = {
   currentTime: React.PropTypes.number.isRequired,
   departure: React.PropTypes.object.isRequired,
   isArrival: React.PropTypes.bool,
-  showStop: React.PropTypes.bool,
+  isTerminal: React.PropTypes.bool,
   useUTC: React.PropTypes.bool,
 };
 

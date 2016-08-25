@@ -49,6 +49,7 @@ class DepartureListContainer extends Component {
     showStops: PropTypes.bool,
     routeLinks: PropTypes.bool,
     className: PropTypes.string,
+    isTerminal: PropTypes.bool,
   };
 
   onScroll = () => {
@@ -113,6 +114,7 @@ class DepartureListContainer extends Component {
           className={cx(classes, this.props.rowClasses)}
           canceled={departure.canceled}
           isArrival={departure.isArrival}
+          isTerminal={this.props.isTerminal}
         />
       );
 

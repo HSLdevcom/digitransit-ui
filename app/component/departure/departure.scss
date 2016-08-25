@@ -18,11 +18,6 @@
   .icon {
     font-size: 9pt;
   }
-  .stop-reference {
-    width: 3em;
-    display: inline-block;
-    text-align: right;
-  }
   .route-destination {
     padding-left: 0.5em;
   }
@@ -36,7 +31,8 @@
 
 & .time,
 & .vehicle-number,
-& .destination {
+& .destination,
+& .platform-number {
   display: inline-block;
 }
 
@@ -93,8 +89,12 @@
   }
 }
 
-.popup .route-destination {
+.popup .route-destination:last-child {
   width: calc(100% - 7.5em);
+}
+
+.popup .route-destination {
+  width: calc(100% - 9em);
 }
 
 .distance {
@@ -109,6 +109,15 @@
   position: absolute;
   right:0;
   top: 0;
+}
+
+
+.platform-number {
+  @include font-narrow-book;
+  width: 3em;
+  color: $gray;
+  font-size: 14px;
+  text-align: right;
 }
 
 // route-number component
@@ -193,11 +202,6 @@
   }
   .icon {
     font-size: 9pt;
-  }
-  .stop-reference {
-    width: 3em;
-    display: inline-block;
-    text-align: right;
   }
   .route-destination {
     width: calc(100% - 16em);
