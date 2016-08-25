@@ -58,8 +58,6 @@ gemini.suite('components', () => {
     gemini.suite('isArrival', test('RouteDestination', 2));
   });
 
-  gemini.suite('StopReference', test('StopReference'));
-
   gemini.suite('Distance', () => {
     gemini.suite('zero', test('Distance'));
     gemini.suite('meters', test('Distance', 2));
