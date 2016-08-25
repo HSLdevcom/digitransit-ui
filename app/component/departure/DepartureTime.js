@@ -76,6 +76,15 @@ DepartureTime.description = (
         useUTC
       />
     </ComponentUsageExample>
+    <ComponentUsageExample description="canceled" >
+      <DepartureTime
+        departureTime={exampleDeparture.stoptime}
+        realtime={exampleDeparture.realtime}
+        currentTime={exampleCurrentTime}
+        canceled
+        useUTC
+      />
+    </ComponentUsageExample>
   </div>);
 
 DepartureTime.propTypes = {

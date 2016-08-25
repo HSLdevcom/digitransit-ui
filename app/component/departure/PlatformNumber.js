@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 function PlatformNumber({ number }) {
   if (!number) {
@@ -15,5 +16,17 @@ function PlatformNumber({ number }) {
 PlatformNumber.propTypes = {
   number: React.PropTypes.number,
 };
+
+PlatformNumber.description = (
+  <div>
+    <p>
+      Displays the platform number for a specific departure
+    </p>
+    <ComponentUsageExample >
+      <PlatformNumber
+        number="2"
+      />
+    </ComponentUsageExample>
+  </div>);
 
 export default PlatformNumber;
