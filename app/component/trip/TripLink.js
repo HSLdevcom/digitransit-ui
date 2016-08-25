@@ -1,9 +1,9 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
-import IconWithTail from '../icon/IconWithTail';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import IconWithTail from '../icon/IconWithTail';
 import NotImplementedLink from '../util/not-implemented-link';
 
 function TripLink(props) {
