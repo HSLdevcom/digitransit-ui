@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '../icon/icon';
-
+import pure from 'recompose/pure';
 import { FormattedMessage } from 'react-intl';
 
 const getLocationMessage = (geolocation) => {
@@ -17,7 +17,7 @@ const getLocationMessage = (geolocation) => {
   return <FormattedMessage id="no-position" defaultMessage="No position" />;
 };
 
-const GeolocationBar = (props) => (
+const GeolocationBar = pure((props) => (
   <div className="geolocation input-placeholder" onClick={props.onClick}>
     <div className="geolocation-selected">
       <Icon img="icon-icon_position" />
@@ -26,7 +26,7 @@ const GeolocationBar = (props) => (
         <Icon img="icon-icon_close" />
       </span>
     </div>
-  </div>);
+  </div>));
 
 GeolocationBar.propTypes = {
   geolocation: React.PropTypes.object.isRequired,

@@ -3,6 +3,7 @@ import Icon from '../icon/icon';
 import cx from 'classnames';
 import { getLabel } from '../../util/suggestionUtils';
 import config from '../../config';
+import pure from 'recompose/pure';
 
 function getIcon(layer, iconClass) {
   const layerIcon = new Map([
@@ -24,7 +25,7 @@ function getIcon(layer, iconClass) {
   return <Icon img={layerIcon.get(layer) || defaultIcon} className={iconClass || ''} />;
 }
 
-function SuggestionItem(props) {
+const SuggestionItem = pure((props) => {
   let icon;
   if (props.item.properties.mode && config.search.suggestions.useTransportIcons) {
     icon =
@@ -44,7 +45,7 @@ function SuggestionItem(props) {
       </span>
       {displayText}
     </span>);
-}
+});
 
 SuggestionItem.propTypes = {
   item: React.PropTypes.object,

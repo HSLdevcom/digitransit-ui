@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import pure from 'recompose/pure';
 
 const inputOrPlaceholder = (value, placeholder) => {
   if (value !== undefined && value !== null && value !== '') {
@@ -8,13 +9,14 @@ const inputOrPlaceholder = (value, placeholder) => {
   return <div className="address-placeholder no-select">{placeholder}</div>;
 };
 
-const FakeSearchBar = (props) => (
-  <div id={props.id} onClick={props.onClick}>
-    <div className={cx('input-placeholder', props.className)}>
-      {inputOrPlaceholder(props.endpointAddress, props.placeholder)}
+const FakeSearchBar = pure(
+  (props) => (
+    <div id={props.id} onClick={props.onClick}>
+      <div className={cx('input-placeholder', props.className)}>
+        {inputOrPlaceholder(props.endpointAddress, props.placeholder)}
+      </div>
     </div>
-  </div>
-  );
+    ));
 
 FakeSearchBar.propTypes = {
   className: React.PropTypes.string,

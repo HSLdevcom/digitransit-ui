@@ -1,7 +1,8 @@
 import React from 'react';
 import Icon from '../icon/icon';
+import pure from 'recompose/pure';
 
-const FakeSearchWithButton = props => (
+const FakeSearchWithButton = pure((props) => (
   <div className="row search-form">
     <div className="small-12 columns search-form-map-overlay">
       <div className="row collapse postfix-radius">
@@ -16,7 +17,7 @@ const FakeSearchWithButton = props => (
       </div>
     </div>
   </div>
-);
+));
 
 FakeSearchWithButton.propTypes = {
   fakeSearchBar: React.PropTypes.object.isRequired,
