@@ -14,9 +14,10 @@ const CardHeader = ({
   description,
   code,
   icon,
+  isTerminal,
 }) => (
   <div className={cx('card-header', className)}>
-    {addFavourite ?
+    {addFavourite && !isTerminal ?
       <Favourite addFavourite={addFavourite} favourite={favourite} className="right" /> : null}
     {children}
     {icon ? (
@@ -54,6 +55,7 @@ CardHeader.propTypes = {
   addFavourite: React.PropTypes.func,
   className: React.PropTypes.string,
   favourite: React.PropTypes.bool,
+  isTerminal: React.PropTypes.bool,
   headingStyle: React.PropTypes.string,
   name: React.PropTypes.string.isRequired,
   description: React.PropTypes.string.isRequired,

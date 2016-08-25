@@ -45,6 +45,7 @@ class StopCardHeader extends React.Component {
         description={this.getDescription()}
         code={config.stopCard.header.showStopCode && this.props.stop.code ?
           this.props.stop.code : null}
+        isTerminal={this.props.isTerminal}
       >
         {this.props.infoIcon ? this.getInfoIcon() : null}
       </CardHeader>
@@ -58,6 +59,7 @@ StopCardHeader.propTypes = {
   addFavouriteStop: React.PropTypes.func,
   className: React.PropTypes.string,
   favourite: React.PropTypes.bool,
+  isTerminal: React.PropTypes.bool,
   headingStyle: React.PropTypes.string,
   infoIcon: React.PropTypes.bool,
 };
