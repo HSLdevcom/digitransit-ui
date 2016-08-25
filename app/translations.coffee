@@ -2,6 +2,9 @@ translations =
   'fi':
     'stop-page.title': "Pysäkki {stop_name} - {stop_code}"
     'stop-page.description': "Pysäkki {stop_name} - {stop_code}"
+    'terminal-page.title-short': "Terminaali"
+    'terminal-page.title': "Terminaali {stop_name}"
+    'terminal-page.description': "Terminaali {stop_name}"
     'route-page.title': "Linja {route_short_name}"
     'route-page.description': "Linja {route_short_name} - {route_long_name}"
     'itinerary-page.title': "Reitti"
@@ -168,6 +171,9 @@ translations =
     'park-and-ride-availability': 'Pysäköintipaikkoja vapaana'
     'platform-short': 'Lait.'
   'sv':
+    'terminal-page.title-short': "Terminal"
+    'terminal-page.title': "Terminal {stop_name}"
+    'terminal-page.description': "Terminal {stop_name}"
     'searching-position': 'Söker position'
     'own-position': 'Min position'
     'use-own-position': 'Använd min position'

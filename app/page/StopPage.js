@@ -24,12 +24,28 @@ function StopPage(props, { intl, router, executeAction }) {
     stop_code: props.stop.code,
   };
 
-  const title = intl.formatMessage({
+  const title = isTerminal ? 
+  intl.formatMessage({
+    id: 'terminal-page.title-short',
+    defaultMessage: 'Terminal',
+  }, params)
+  :
+  intl.formatMessage({
     id: 'stop-page.title',
     defaultMessage: 'Stop {stop_name} - {stop_code}',
   }, params);
 
-  const meta = {
+  const meta = isTerminal ? 
+  {
+    title,
+    meta: [{
+      name: 'description',
+      content: intl.formatMessage({
+        id: 'terminal-page.description',
+        defaultMessage: 'Terminal {stop_name}',
+      }, params),
+    }],
+  } : {
     title,
     meta: [{
       name: 'description',
