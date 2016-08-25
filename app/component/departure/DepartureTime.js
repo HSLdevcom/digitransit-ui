@@ -11,11 +11,6 @@ import {
 } from '../documentation/ExampleData';
 
 function DepartureTime(props, context) {
-  let canceled;
-  if (props.canceled) {
-    canceled = <Icon img="icon-icon_caution" className="icon cancelation-info" />;
-  }
-
   let shownTime;
   const departureTime = moment(props.departureTime * 1000);
   if (props.useUTC) {
@@ -47,7 +42,6 @@ function DepartureTime(props, context) {
       props.className)}
     >
       {realtime}
-      {canceled}
       {shownTime}
     </span>);
 }

@@ -38,7 +38,7 @@
 
 .time {
   @include font-narrow-medium;
-  width: 4em;
+  width: 3em;
   margin-right: 0.5em;
   padding-right: 0.5em;
   text-align: right;
@@ -158,7 +158,7 @@
     content: '';
     width: 2em;
     position: absolute;
-    left: 1.75em;
+    left: 0.75em;
     top: 50%;
     opacity: 0.5;
     border-bottom: 1px solid $cancelation-red;
