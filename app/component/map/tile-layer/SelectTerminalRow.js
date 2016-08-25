@@ -57,8 +57,7 @@ function SelectTerminalRow(props) {
             {routeData.map(getName)} {ellipsis}
           </div>
         </div>
-        <div className="clear">
-        </div>
+        <div className="clear" />
       </div>
       <hr className="no-margin gray" />
     </div>
