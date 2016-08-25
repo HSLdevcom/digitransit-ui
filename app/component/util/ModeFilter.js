@@ -3,6 +3,8 @@ import ToggleButton from './ToggleButton';
 import config from '../../config';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
+import pure from 'recompose/pure';
+
 class ModeFilter extends React.Component {
   static propTypes = {
     selectedModes: React.PropTypes.array.isRequired,
@@ -83,4 +85,4 @@ ModeFilter.description = (
 
 ModeFilter.displayName = 'ModeFilter';
 
-export default ModeFilter;
+export default pure(ModeFilter);
