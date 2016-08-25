@@ -22,17 +22,18 @@
     max-height: 176px;
     overflow-y: scroll;
   }
+}
+
+.select-row-icon {
+  width: 40px;
+  .icon {
+    font-size: 32px;
+    padding-left: 8px;
+  }
+}
+.select-row-text {
+  width: calc(100% - 40px);
   .vehicle-number {
     padding: 0 2px;
-  }
-  .select-row-icon {
-    width: 40px;
-    .icon {
-      font-size: 32px;
-      padding-left: 8px;
-    }
-  }
-  .select-row-text {
-    width: calc(100% - 40px);
   }
 }
