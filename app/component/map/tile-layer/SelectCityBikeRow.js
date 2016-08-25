@@ -6,13 +6,10 @@ function SelectCityBikeRow(props) {
   return (
     <div className="no-margin">
       <div className="cursor-pointer" onClick={props.selectRow}>
-        <div
-          className="left padding-vertical-small"
-          style={{ width: 40, fontSize: '2em', paddingLeft: 8 }}
-        >
+        <div className="left padding-vertical-small select-row-icon">
           <Icon img="icon-icon_citybike" />
         </div>
-        <div className="left padding-vertical-normal" style={{ width: 'calc(100% - 40px)' }}>
+        <div className="left padding-vertical-normal select-row-text">
           <span className="h4 no-margin link-color">{props.name} ›</span>
         </div>
         <div className="clear" />
