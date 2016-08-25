@@ -2,6 +2,14 @@
   color: $dark-color;
 }
 
+.passed span {
+  color: $dark-color;
+}
+
+.passed span svg.realtime-icon {
+  visibility: hidden;
+}
+
 .tail-icon {
   font-size: 3.5em;
   top: -40px;
