@@ -34,12 +34,6 @@ class RoutePage extends React.Component {
     fullscreenMap: React.PropTypes.bool,
   };
 
-  constructor() {
-    super();
-    this.selectRoutePattern.bind(this);
-    this.toggleFullscreenMap.bind(this);
-  }
-
   componentDidMount() {
     const route = this.props.pattern.code.split(':');
 

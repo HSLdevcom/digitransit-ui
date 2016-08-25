@@ -34,13 +34,6 @@ export default class SummaryPage extends React.Component {
       }],
     ]
 
-  constructor() {
-    super();
-    this.onChange = this.onChange.bind(this);
-    this.onTimeChange = this.onTimeChange.bind(this);
-    this.onMount = this.onMount.bind(this);
-  }
-
   componentDidMount() {
     this.context.getStore('ItinerarySearchStore').addChangeListener(this.onChange);
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
@@ -57,20 +50,20 @@ export default class SummaryPage extends React.Component {
     this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
   }
 
-  onMount() {
+  onMount = () => {
     this.setState({
       search: this.updateItinerarySearch(this.context.getStore('ItinerarySearchStore')),
       time: this.updateTime(this.context.getStore('TimeStore')),
     });
   }
 
-  onChange() {
+  onChange = () => {
     this.setState({
       search: this.updateItinerarySearch(this.context.getStore('ItinerarySearchStore')),
     });
   }
 
-  onTimeChange(e) {
+  onTimeChange = (e) => {
     if (e.selectedTime) {
       this.setState({
         time: this.updateTime(this.context.getStore('TimeStore')),

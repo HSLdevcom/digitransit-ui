@@ -18,13 +18,7 @@ class RouteHeaderContainer extends React.Component {
     favourite: React.PropTypes.bool,
   };
 
-  constructor(args) {
-    super(...args);
-    this.addFavouriteRoute = this.addFavouriteRoute.bind(this);
-    this.render = this.render.bind(this);
-  }
-
-  addFavouriteRoute(e) {
+  addFavouriteRoute = (e) => {
     e.stopPropagation();
     this.context.executeAction(
       FavouriteRoutesActions.addFavouriteRoute,

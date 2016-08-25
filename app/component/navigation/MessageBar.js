@@ -21,14 +21,11 @@ class MessageBar extends Component {
     messages: PropTypes.array.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      slideIndex: 0,
-      maximized: false,
-      visible: true,
-    };
-  }
+  state = {
+    slideIndex: 0,
+    maximized: false,
+    visible: true,
+  };
 
   getTabContent = () => (
     this.unreadMessages().map((el, i) => (

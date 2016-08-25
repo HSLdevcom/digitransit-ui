@@ -23,17 +23,6 @@ export default class SearchInputContainer extends Component {
     children: PropTypes.node,
   };
 
-  constructor(props) {
-    super(props);
-    this.initialValue = props.initialValue != null ? props.initialValue : '';
-    this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
-    this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
-    this.handleOnTouchStart = this.handleOnTouchStart.bind(this);
-    this.handleUpdateInputNow = this.handleUpdateInputNow.bind(this);
-    this.currentItemSelected = this.currentItemSelected.bind(this);
-    this.render = this.render.bind(this);
-  }
-
   state = {
     focusedItemIndex: 0,
     suggestions: [],
@@ -114,7 +103,7 @@ export default class SearchInputContainer extends Component {
     }
   }
 
-  handleOnMouseDown(event, eventProps) {
+  handleOnMouseDown = (event, eventProps) => {
     if (eventProps.itemIndex != null) {
       this.setState({
         focusedItemIndex: eventProps.itemIndex,
@@ -125,11 +114,11 @@ export default class SearchInputContainer extends Component {
     }
   }
 
-  handleOnTouchStart() {
+  handleOnTouchStart = () => {
     this.blur();
   }
 
-  handleUpdateInputNow(event) {
+  handleUpdateInputNow = (event) => {
     const input = event.target.value;
 
     if (input === this.state.value) {
@@ -146,7 +135,7 @@ export default class SearchInputContainer extends Component {
     });
   }
 
-  currentItemSelected() {
+  currentItemSelected = () => {
     let save;
     let state;
     let name;
@@ -188,7 +177,7 @@ export default class SearchInputContainer extends Component {
 
   render() {
     const inputValue = this.state.value != null && typeof this.state.value === 'string'
-      && this.state.value.length >= 0 ? this.state.value : this.initialValue;
+      && this.state.value.length >= 0 ? this.state.value : this.props.initialValue;
 
     return (
       <div className="fullscreen">

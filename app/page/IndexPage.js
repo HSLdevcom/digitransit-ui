@@ -15,13 +15,7 @@ class IndexPage extends React.Component {
     location: React.PropTypes.object.isRequired,
   };
 
-  constructor(args) {
-    super(args);
-    this.resetToCleanState = this.resetToCleanState.bind(this);
-    this.componentWillMount = this.componentWillMount.bind(this);
-  }
-
-  componentWillMount() {
+  componentWillMount = () => {
     this.resetToCleanState();
   }
 
@@ -33,7 +27,7 @@ class IndexPage extends React.Component {
     }
   }
 
-  resetToCleanState() {
+  resetToCleanState = () => {
     this.context.executeAction(clearDestination);
     this.context.executeAction(unsetSelectedTime);
     this.context.executeAction(reset);

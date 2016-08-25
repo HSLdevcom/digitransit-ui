@@ -25,14 +25,6 @@ export default class FrontPagePanel extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
   };
 
-  constructor(args) {
-    super(args);
-    this.getSelectedPanel = this.getSelectedPanel.bind(this);
-    this.selectPanel = this.selectPanel.bind(this);
-    this.closePanel = this.closePanel.bind(this);
-    this.stopMeasuring = this.stopMeasuring.bind(this);
-  }
-
   onReturnToFrontPage() {
     const timeStore = this.context.getStore('TimeStore');
     if (Feedback.shouldDisplayPopup(timeStore.getCurrentTime().valueOf())) {
@@ -41,7 +33,7 @@ export default class FrontPagePanel extends React.Component {
     return undefined;
   }
 
-  getSelectedPanel() {
+  getSelectedPanel = () => {
     if (typeof window !== 'undefined' && supportsHistory()) {
       const state = this.context.location.state;
       return state && state.selectedPanel;
@@ -50,7 +42,7 @@ export default class FrontPagePanel extends React.Component {
     return this.state && this.state.selectedPanel;
   }
 
-  selectPanel(selection) {
+  selectPanel = (selection) => {
     let tabOpensOrCloses;
     let newSelection;
     const oldSelection = this.getSelectedPanel();
@@ -86,15 +78,11 @@ export default class FrontPagePanel extends React.Component {
     });
   }
 
-  closePanel() {
-    return this.selectPanel(this.getSelectedPanel());
-  }
+  closePanel = () => this.selectPanel(this.getSelectedPanel())
 
-  startMeasuring() {
-    return startMeasuring();
-  }
+  startMeasuring = () => startMeasuring()
 
-  stopMeasuring() {
+  stopMeasuring = () => {
     const piwik = this.context.piwik;
     const results = stopMeasuring();
 

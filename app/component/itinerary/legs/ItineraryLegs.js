@@ -16,28 +16,18 @@ import CarLeg from './car-leg';
 import config from '../../../config';
 
 class ItineraryLegs extends React.Component {
-  constructor() {
-    super();
-    this.continueWithBicycle = this.continueWithBicycle.bind(this);
-    this.continueWithRentedBicycle = this.continueWithRentedBicycle.bind(this);
-  }
-
   stopCode(stop) {
     return stop && stop.code && <StopCode code={stop.code} />;
   }
 
-  continueWithBicycle(leg1, leg2) {
-    return (
-      (leg1 != null && (leg1.mode === 'BICYCLE' || leg1.mode === 'WALK'))
-      && (leg2 != null && (leg2.mode === 'BICYCLE' || leg2.mode === 'WALK'))
-    );
-  }
+  continueWithBicycle = (leg1, leg2) => (
+    (leg1 != null && (leg1.mode === 'BICYCLE' || leg1.mode === 'WALK')) &&
+      (leg2 != null && (leg2.mode === 'BICYCLE' || leg2.mode === 'WALK'))
+  );
 
-  continueWithRentedBicycle(leg1, leg2) {
-    return (
-      (leg1 != null && leg1.rentedBike) && (leg2 != null && leg2.rentedBike)
-    );
-  }
+  continueWithRentedBicycle = (leg1, leg2) => (
+    (leg1 != null && leg1.rentedBike) && (leg2 != null && leg2.rentedBike)
+  );
 
   render() {
     let waitTime;

@@ -14,49 +14,41 @@ class OriginDestinationBar extends React.Component {
     intl: intlShape.isRequired,
   };
 
-  constructor() {
-    super();
+  state = {
+    origin: undefined,
+    destination: undefined,
+    tabOpen: false,
+  };
 
-    this.state = {
-      origin: undefined,
-      destination: undefined,
-      tabOpen: false,
-    };
-
-    this.onEndpointChange = this.onEndpointChange.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.openSearch = this.openSearch.bind(this);
-  }
-
-  componentWillMount() {
+  componentWillMount = () => {
     this.onEndpointChange();
     this.context.getStore('EndpointStore').addChangeListener(this.onEndpointChange);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     this.context.getStore('EndpointStore').removeChangeListener(this.onEndpointChange);
   }
 
-  onEndpointChange() {
+  onEndpointChange= () => {
     this.setState({
       origin: this.context.getStore('EndpointStore').getOrigin(),
       destination: this.context.getStore('EndpointStore').getDestination(),
     });
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({
       tabOpen: false,
     });
   }
 
-  openSearch(tab) {
+  openSearch = (tab) => {
     this.setState({
       tabOpen: tab,
     });
   }
 
-  render() {
+  render = () => {
     const ownPosition = this.context.intl.formatMessage({
       id: 'own-position',
       defaultMessage: 'Your current location',

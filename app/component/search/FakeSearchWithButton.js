@@ -5,7 +5,8 @@ const FakeSearchWithButton = props => (
   <div className="row search-form">
     <div className="small-12 columns search-form-map-overlay">
       <div className="row collapse postfix-radius">
-        <div className="small-11 columns">{props.fakeSearchBar}
+        <div className="small-11 columns">
+          {props.fakeSearchBar}
         </div>
         <div className="small-1 columns" onClick={props.onClick}>
           <span className="postfix search cursor-pointer button-icon">

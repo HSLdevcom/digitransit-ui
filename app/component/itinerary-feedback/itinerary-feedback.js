@@ -11,13 +11,10 @@ export default class ItineraryFeedback extends React.Component {
     piwik: React.PropTypes.object,
   };
 
-  constructor(args) {
-    super(...args);
-    this.state = {
-      feedbackFormOpen: false,
-      feedbackText: '',
-    };
-  }
+  state = {
+    feedbackFormOpen: false,
+    feedbackText: '',
+  };
 
   sendFeedback = () => {
     this.context.piwik.setCustomVariable(3, 'feedback', this.state.feedbackText, 'page');

@@ -17,13 +17,10 @@ class SearchMainContainer extends React.Component {
     intl: intlShape.isRequired,
   };
 
-  constructor(args) {
-    super(args);
-    this.state = {
-      selectedTab: 'destination',
-      modalIsOpen: false,
-    };
-  }
+  state = {
+    selectedTab: 'destination',
+    modalIsOpen: false,
+  };
 
   componentWillMount = () => (
     this.context.getStore('SearchStore').addChangeListener(this.onSearchChange)
