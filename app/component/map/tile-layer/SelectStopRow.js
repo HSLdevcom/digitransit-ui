@@ -14,7 +14,6 @@ function getName(pattern) {
     return (
       <span
         key={pattern.shortName}
-        style={{ padding: '0 2px' }}
         className={`${pattern.type.toLowerCase()} vehicle-number`}
       >
         {pattern.shortName}
@@ -54,7 +53,7 @@ function SelectStopRow(props) {
   return (
     <div className="no-margin">
       <div className="no-margin cursor-pointer" onClick={props.selectRow}>
-        <div className="left padding-vertical-normal" style={{ width: 40 }}>
+        <div className="left padding-vertical-normal select-row-icon">
           <svg
             viewBox="0 0 30 30"
             width="30"
@@ -72,7 +71,7 @@ function SelectStopRow(props) {
             />
           </svg>
         </div>
-        <div className="left padding-vertical-normal" style={{ width: 'calc(100% - 40px)' }}>
+        <div className="left padding-vertical-normal select-row-text">
           <span className="h4 no-margin link-color" >
             {props.name} ›
           </span>
