@@ -18,7 +18,7 @@ function SelectParkAndRideRow(props, { intl }) {
         </div>
         <div className="clear" />
       </div>
-    <hr className="no-margin gray" />
+      <hr className="no-margin gray" />
     </div>
   );
 }
