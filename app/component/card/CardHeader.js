@@ -27,7 +27,9 @@ const CardHeader = ({
         <Icon img={icon} />
       </div>
     ) : null}
-    <span className={headingStyle || 'h4 link-color'}>{name} ›</span>
+    <span className={headingStyle || 'h4 link-color'}>
+      {name}<span className="link-arrow"> ›</span>
+    </span>
     <div className="card-sub-header">
       {code != null ? <p className="card-code">{code}</p> : null}
       <p className="sub-header-h4">{description}</p>

@@ -27,6 +27,9 @@
     flex: 0 0 auto;
     overflow:hidden;
     min-height: 3em;
+    .link-arrow {
+      display: none;
+    }
   }
   .card-sub-header {
     margin-top: -0.5em;
