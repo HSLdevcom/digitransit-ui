@@ -1,19 +1,20 @@
 import React from 'react';
 import Relay from 'react-relay';
-import ItineraryTab from '../itinerary/ItineraryTab';
+import Tabs from 'material-ui/Tabs/Tabs';
+import Tab from 'material-ui/Tabs/Tab';
+import moment from 'moment';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage } from 'react-intl';
+import { supportsHistory } from 'history/lib/DOMUtils';
 import SwipeableViews from 'react-swipeable-views';
+
 import ItineraryLine from '../map/ItineraryLine';
 import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
-import Tabs from 'material-ui/Tabs/Tabs';
-import Tab from 'material-ui/Tabs/Tab';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Map from '../map/Map';
-import moment from 'moment';
 import config from '../../config';
 import ItinerarySummaryListContainer from '../summary/itinerary-summary-list-container';
-import { supportsHistory } from 'history/lib/DOMUtils';
+import ItineraryTab from '../itinerary/ItineraryTab';
 
 class ItineraryPlanContainer extends React.Component {
   static contextTypes = {
@@ -241,6 +242,7 @@ export const ItineraryPlanContainerFragments = {
               stop {
                 gtfsId
                 code
+                platformCode
               }
             }
             to {
@@ -254,6 +256,7 @@ export const ItineraryPlanContainerFragments = {
               stop {
                 gtfsId
                 code
+                platformCode
               }
             }
             legGeometry {
@@ -266,6 +269,7 @@ export const ItineraryPlanContainerFragments = {
               lon
               name
               code
+              platformCode
             }
             realTime
             transitLeg

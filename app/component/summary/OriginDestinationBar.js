@@ -1,8 +1,7 @@
 import React from 'react';
-import { swapEndpoints } from '../../action/EndpointActions';
-
 import { intlShape } from 'react-intl';
 
+import { swapEndpoints } from '../../action/EndpointActions';
 import Icon from '../icon/icon';
 import OneTabSearchModal from '../search/OneTabSearchModal';
 

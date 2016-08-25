@@ -1,15 +1,15 @@
 import React, { PropTypes } from 'react';
+import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { realtimeDeparture as ExampleData } from '../documentation/ExampleData';
-import { intlShape } from 'react-intl';
 
 function RouteDestination(props, context) {
   let destination;
   if (props.isArrival) {
     destination = (
       <span className="destination arrival">
-        <span className={cx('last-stop-icon', props.mode.toLowerCase())}></span>
+        <span className={cx('last-stop-icon', props.mode.toLowerCase())} />
         <span>
         {context.intl.formatMessage({
           id: 'route-destination-arrives',

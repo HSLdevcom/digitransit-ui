@@ -31,13 +31,15 @@ class Stops {
           for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
             const feature = vt.layers.stops.feature(i);
             if (feature.properties.type) {
+              feature.geom = feature.loadGeometry()[0][0];
               this.features.push(feature);
               drawRoundIcon(
                 this.tile,
-                feature.loadGeometry(),
+                feature.geom,
                 feature.properties.type,
                 this.tile.props.hilightedStops &&
-                  this.tile.props.hilightedStops.includes(feature.properties.gtfsId)
+                  this.tile.props.hilightedStops.includes(feature.properties.gtfsId),
+                feature.properties.platform !== 'null' ? feature.properties.platform : false
               );
             }
           }

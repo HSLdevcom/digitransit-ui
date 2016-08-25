@@ -1,9 +1,10 @@
 import React from 'react';
 import Relay from 'react-relay';
-import RouteHeader from './RouteHeader';
 import without from 'lodash/without';
-import FavouriteRoutesActions from '../../action/favourite-routes-action';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+
+import RouteHeader from './RouteHeader';
+import { addFavouriteRoute } from '../../action/FavouriteActions';
 
 class RouteHeaderContainer extends React.Component {
 
@@ -18,11 +19,9 @@ class RouteHeaderContainer extends React.Component {
     favourite: React.PropTypes.bool,
   };
 
-  addFavouriteRoute = (e) => {
+  addAsFavouriteRoute = (e) => {
     e.stopPropagation();
-    this.context.executeAction(
-      FavouriteRoutesActions.addFavouriteRoute,
-      this.props.pattern.route.gtfsId);
+    this.context.executeAction(addFavouriteRoute, this.props.pattern.route.gtfsId);
   }
 
   render() {
@@ -44,8 +43,9 @@ class RouteHeaderContainer extends React.Component {
         trip={this.props.trip}
         reverseId={reverseId}
         favourite={this.props.favourite}
-        addFavouriteRoute={this.addFavouriteRoute}
-      />);
+        addFavouriteRoute={this.addAsFavouriteRoute}
+      />
+    );
   }
 }
 

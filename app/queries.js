@@ -1,4 +1,5 @@
 import Relay from 'react-relay';
+import StopCardContainer from './component/stop-cards/StopCardContainer';
 /* eslint-disable global-require*/
 
 export const TerminalMarkerPopupFragments = {
@@ -22,18 +23,6 @@ export const TerminalMarkerPopupFragments = {
   `,
 };
 
-export const StopCardContainerFragments = {
-  stop: () => Relay.QL`
-    fragment on Stop{
-      gtfsId
-      stoptimes: stoptimesForServiceDate(date: $date) {
-        ${require('./component/departure/DepartureListContainer').default.getFragment('stoptimes')}
-      }
-      ${require('./component/stop-cards/StopCardHeader').default.getFragment('stop')}
-    }
-  `,
-};
-
 export const StopMarkerPopupFragments = {
   stop: ({ date }) => Relay.QL`
     fragment on Stop{
@@ -41,21 +30,7 @@ export const StopMarkerPopupFragments = {
       lat
       lon
       name
-      ${require('./component/stop-cards/stop-card-container').getFragment('stop', { date })}
-    }
-  `,
-};
-
-
-export const CityBikePopupFragments = {
-  station: () => Relay.QL`
-    fragment on BikeRentalStation {
-      stationId
-      name
-      lat
-      lon
-      bikesAvailable
-      spacesAvailable
+      ${StopCardContainer.getFragment('stop', { date })}
     }
   `,
 };
@@ -166,23 +141,7 @@ export class SummaryPlanContainerRoute extends Relay.Route {
     plan: (Component, variables) => Relay.QL`
     query {
       viewer {
-        ${Component.getFragment('plan', {
-          fromPlace: variables.fromPlace,
-          toPlace: variables.toPlace,
-          walkReluctance: variables.walkReluctance,
-          modes: variables.modes,
-          date: variables.date,
-          time: variables.time,
-          walkBoardCost: variables.walkBoardCost,
-          walkSpeed: variables.walkSpeed,
-          minTransferTime: variables.minTransferTime,
-          numItineraries: variables.numItineraries,
-          maxWalkDistance: variables.maxWalkDistance,
-          wheelchair: variables.wheelchair,
-          preferred: variables.preferred,
-          arriveBy: variables.arriveBy,
-          disableRemainingWeightHeuristic: variables.disableRemainingWeightHeuristic,
-        })}
+        ${Component.getFragment('plan', variables)}
       }
     }`,
   };

@@ -1,5 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
 import config from '../config';
+
 const STORAGE_KEY = 'currentItinerary';
 
 class ItinerarySearchStore extends Store {

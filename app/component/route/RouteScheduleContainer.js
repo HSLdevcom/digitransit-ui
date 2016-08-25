@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import Relay from 'react-relay';
-import RouteScheduleHeader from './RouteScheduleHeader';
-import RouteScheduleTripRow from './RouteScheduleTripRow';
-import RouteScheduleDateSelect from './RouteScheduleDateSelect';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
+
+import RouteScheduleHeader from './RouteScheduleHeader';
+import RouteScheduleTripRow from './RouteScheduleTripRow';
+import RouteScheduleDateSelect from './RouteScheduleDateSelect';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -39,12 +40,12 @@ class RouteScheduleContainer extends Component {
   onFromSelectChange = (event) => {
     const from = Number(event.target.value);
     const to = this.state.to > from ? this.state.to : from + 1;
-    this.setState({ ... this.state, from, to });
+    this.setState({ ...this.state, from, to });
   }
 
   onToSelectChange = (event) => {
     const to = Number(event.target.value);
-    this.setState({ ... this.state, to });
+    this.setState({ ...this.state, to });
   }
 
   getTrips = (from, to) => {
@@ -93,7 +94,7 @@ class RouteScheduleContainer extends Component {
       return null;
     }
     let transformedTrips = trips.map((trip) => {
-      const newTrip = { ... trip };
+      const newTrip = { ...trip };
       newTrip.stoptimes = keyBy(trip.stoptimes, 'stop.id');
       return newTrip;
     });

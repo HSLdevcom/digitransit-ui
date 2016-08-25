@@ -1,10 +1,12 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import SelectStopRow from './SelectStopRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
+import SelectParkAndRideRow from './SelectParkAndRideRow';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
-import { options as options } from '../../documentation/ExampleData';
+import { options } from '../../documentation/ExampleData';
 
-import { FormattedMessage } from 'react-intl';
 
 function MarkerSelectPopup(props) {
   const rows = props.options.map((option) => {
@@ -21,6 +23,14 @@ function MarkerSelectPopup(props) {
         <SelectCityBikeRow
           {...option.feature.properties}
           key={option.feature.properties.stationId}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    } else if (option.layer === 'parkAndRide') {
+      return (
+        <SelectParkAndRideRow
+          {...option.feature.properties}
+          key={option.feature.properties.carParkId}
           selectRow={() => props.selectRow(option)}
         />
       );

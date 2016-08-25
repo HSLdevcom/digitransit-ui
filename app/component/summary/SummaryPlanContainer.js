@@ -77,10 +77,10 @@ class SummaryPlanContainer extends React.Component {
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
-    const bounds = [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...
-      plan.itineraries.map((itinerary) => (
-        [].concat(...
-          itinerary.legs.map((leg) => polyUtil.decode(leg.legGeometry.points)))))
+    const bounds =
+      [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...plan.itineraries.map((itinerary) => (
+        [].concat(...itinerary.legs.map((leg) => polyUtil.decode(leg.legGeometry.points)))
+      ))
     );
 
     return (

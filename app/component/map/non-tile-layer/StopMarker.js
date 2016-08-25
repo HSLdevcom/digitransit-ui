@@ -1,9 +1,10 @@
 import React from 'react';
 import Relay from 'react-relay';
-import StopRoute from '../../../route/StopRoute';
-import StopMarkerPopup from '../popups/stop-marker-popup';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
+
+import StopRoute from '../../../route/StopRoute';
+import StopMarkerPopup from '../popups/stop-marker-popup';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../icon/icon';
 import config from '../../../config';
@@ -77,10 +78,17 @@ class StopMarker extends React.Component {
     const inner = (stopRadius + hubRadius) / 2;
     const stroke = stopRadius - hubRadius;
 
+    // see app/util/mapIconUtils.js for the canvas version
     let iconSvg = `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
         <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
+        ${inner > 7 && this.props.stop.platformCode ?
+          `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
+            fill="#333" font-size="${1.2 * inner}px"
+            font-family="Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif"
+            >${this.props.stop.platformCode}</text>`
+          : ''}
       </svg>
     `;
 

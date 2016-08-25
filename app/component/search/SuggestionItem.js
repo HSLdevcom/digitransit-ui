@@ -1,6 +1,7 @@
 import React from 'react';
-import Icon from '../icon/icon';
 import cx from 'classnames';
+
+import Icon from '../icon/icon';
 import { getLabel } from '../../util/suggestionUtils';
 import config from '../../config';
 import pure from 'recompose/pure';

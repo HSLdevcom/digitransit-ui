@@ -1,6 +1,12 @@
 import React from 'react';
+import sortBy from 'lodash/sortBy';
+import Link from 'react-router/lib/Link';
+
 import Icon from '../component/icon/icon';
-import IconWithTail from '../component/icon/icon-with-tail';
+import IconWithTail from '../component/icon/IconWithTail';
+import SelectedIconWithTail from '../component/icon/SelectedIconWithTail';
+import IconWithCaution from '../component/icon/IconWithCaution';
+import IconWithBigCaution from '../component/icon/IconWithBigCaution';
 import ComponentDocumentation from '../component/documentation/ComponentDocumentation';
 import Departure from '../component/departure/Departure';
 import RouteNumber from '../component/departure/RouteNumber';
@@ -12,11 +18,11 @@ import NotImplemented from '../component/util/not-implemented';
 import NotImplementedLink from '../component/util/not-implemented-link';
 import CardHeader from '../component/card/CardHeader';
 import Card from '../component/card/card';
-import CityBikeCard from '../component/city-bike/city-bike-card';
-import CityBikeContent from '../component/city-bike/city-bike-content';
-import CityBikeAvailability from '../component/city-bike/city-bike-availability';
-import CityBikeUse from '../component/city-bike/city-bike-use';
-import CityBikePopup from '../component/map/popups/city-bike-popup';
+import CityBikeCard from '../component/city-bike/CityBikeCard';
+import CityBikeContent from '../component/city-bike/CityBikeContent';
+import CityBikeAvailability from '../component/city-bike/CityBikeAvailability';
+import CityBikeUse from '../component/city-bike/CityBikeUse';
+import CityBikePopup from '../component/map/popups/CityBikePopup';
 import FavouriteLocation from '../component/favourites/FavouriteLocation';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
@@ -31,12 +37,61 @@ import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect'
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
+import RouteStop from '../component/route/RouteStop';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
-
-import sortBy from 'lodash/sortBy';
+import Availability from '../component/card/Availability.js';
+import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
 
 class StyleGuidelinesPage extends React.Component {
+
+  static propTypes = {
+    params: React.PropTypes.object,
+  };
+
+  static components = {
+    Icon,
+    IconWithTail,
+    SelectedIconWithTail,
+    IconWithBigCaution,
+    IconWithCaution,
+    ComponentDocumentation,
+    Departure,
+    RouteNumber,
+    RouteDestination,
+    DepartureTime,
+    StopReference,
+    Distance,
+    NotImplemented,
+    NotImplementedLink,
+    CardHeader,
+    Card,
+    CityBikeCard,
+    CityBikeContent,
+    CityBikeAvailability,
+    CityBikeUse,
+    CityBikePopup,
+    Availability,
+    ParkAndRideAvailability,
+    FavouriteLocation,
+    TimeSelectors,
+    TimeNavigationButtons,
+    RightOffcanvasToggle,
+    TripRouteStop,
+    MarkerSelectPopup,
+    SelectCityBikeRow,
+    SelectStopRow,
+    Favourite,
+    TicketInformation,
+    RouteScheduleDateSelect,
+    RouteScheduleHeader,
+    RouteScheduleStopSelect,
+    RouteScheduleTripRow,
+    RouteAlertsRow,
+    ModeFilter,
+    RouteStop,
+  }
+
   getColors() {
     return (
       <section>
@@ -178,7 +233,7 @@ class StyleGuidelinesPage extends React.Component {
   getTextStyles() {
     return (
       <section>
-        <p><a href="#">This is a link</a><span className="code">{"<a />"}</span>
+        <p><a>This is a link</a><span className="code">{"<a />"}</span>
         </p>
         <p>
           <span className="dotted-link cursor-pointer">
@@ -327,98 +382,27 @@ class StyleGuidelinesPage extends React.Component {
     );
   }
 
-  getDepartureMolecules() {
-    return (
-      <div>
-        <ComponentDocumentation component={Departure} />
-        <ComponentDocumentation component={DepartureTime} />
-        <ComponentDocumentation component={RouteNumber} />
-        <ComponentDocumentation component={RouteDestination} />
-        <ComponentDocumentation component={StopReference} />
-        <ComponentDocumentation component={Distance} />
-        <ComponentDocumentation component={NotImplementedLink} />
-        <ComponentDocumentation component={NotImplemented} />
-        <ComponentDocumentation component={Favourite} />
+  getComponents() {
+    return Object.keys(StyleGuidelinesPage.components).map(component => (
+      <div key={component}>
+        <ComponentDocumentation component={StyleGuidelinesPage.components[component]} />
       </div>
-    );
-  }
-
-  getCardComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={CardHeader} />
-        <ComponentDocumentation component={Card} />
-        <ComponentDocumentation component={CityBikeCard} />
-        <ComponentDocumentation component={CityBikeContent} />
-        <ComponentDocumentation component={CityBikeAvailability} />
-        <ComponentDocumentation component={CityBikeUse} />
-        <ComponentDocumentation component={CityBikePopup} />
-        <ComponentDocumentation component={FavouriteLocation} />
-        <ComponentDocumentation component={TripRouteStop} />
-      </div>
-    );
-  }
-
-  getIconComponents() {
-    return <div><ComponentDocumentation component={IconWithTail} /></div>;
-  }
-
-  getSummaryComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={TimeNavigationButtons} />
-        <ComponentDocumentation component={TimeSelectors} />
-        <ComponentDocumentation component={RightOffcanvasToggle} />
-      </div>
-    );
-  }
-
-  getItineraryComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={TicketInformation} />
-      </div>
-    );
-  }
-
-  getTileLayerComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={MarkerSelectPopup} />
-        <ComponentDocumentation component={SelectCityBikeRow} />
-        <ComponentDocumentation component={SelectStopRow} />
-      </div>
-    );
-  }
-
-  getScheduleComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={RouteScheduleDateSelect} />
-        <ComponentDocumentation component={RouteScheduleHeader} />
-        <ComponentDocumentation component={RouteScheduleStopSelect} />
-        <ComponentDocumentation component={RouteScheduleTripRow} />
-      </div>
-    );
-  }
-
-  getRouteAlertsComponents() {
-    return (
-      <div className="route-alerts-list">
-        <ComponentDocumentation component={RouteAlertsRow} />
-      </div>
-    );
-  }
-
-  getUtilComponents() {
-    return (
-      <div>
-        <ComponentDocumentation component={ModeFilter} />
-      </div>
-    );
+    ));
   }
 
   render() {
+    if (this.props.params.componentName) {
+      return (
+        <div className="container column">
+          <ComponentDocumentation
+            mode="examples-only"
+            component={StyleGuidelinesPage.components[this.props.params.componentName]}
+          />
+          <hr />
+          <Link to="/styleguide">Go back to styleguide</Link>
+        </div>);
+    }
+
     return (
       <div className="container column">
         <h1>UI Elements</h1>
@@ -446,18 +430,11 @@ class StyleGuidelinesPage extends React.Component {
 
         <h1>Components</h1><hr />
 
-        {this.getDepartureMolecules()}
-        {this.getCardComponents()}
-        {this.getIconComponents()}
-        {this.getSummaryComponents()}
-        {this.getItineraryComponents()}
-        {this.getTileLayerComponents()}
-        {this.getScheduleComponents()}
-        {this.getRouteAlertsComponents()}
-        {this.getUtilComponents()}
+        {this.getComponents()}
       </div>
     );
   }
 }
+
 
 export default StyleGuidelinesPage;

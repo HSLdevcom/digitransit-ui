@@ -1,7 +1,8 @@
 import React from 'react';
-import CustomizeSearch from '../summary/CustomizeSearch';
 import Drawer from 'material-ui/Drawer';
 import { supportsHistory } from 'history/lib/DOMUtils';
+
+import CustomizeSearch from '../summary/CustomizeSearch';
 import OriginDestinationBar from '../summary/OriginDestinationBar';
 import TimeSelectorContainer from '../summary/TimeSelectorContainer';
 import RightOffcanvasToggle from '../summary/RightOffcanvasToggle';

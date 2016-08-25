@@ -11,9 +11,6 @@ div.map {
     background: rgba(255, 255, 255, 0.4);
     color: $dark-gray
   }
-  .leaflet-bottom {
-    z-index: 800;
-  }
 }
 
 .below-map  {
@@ -197,7 +194,7 @@ div.leaflet-marker-icon.vehicle-icon {
 
   .leaflet-popup-tip-container {
     margin: -6px 0px;
-    top: 1px;
+    left: 0px;
     .leaflet-popup-tip  {
       border: 1px solid $gray;
       background: $background-color;
@@ -249,6 +246,7 @@ div.origin-popup {
   .leaflet-popup-tip-container {
     position: relative;
     bottom: 1px;
+    left: 0px;
     margin: 0px 0px;
     .leaflet-popup-tip {
       border: 1px solid $gray;
@@ -271,8 +269,6 @@ div.origin-popup {
 }
 
 .map .stop-halo {
-  stroke: #333;
-  stroke-opacity: $stop-thin-opacity;
   fill: #fff;
   fill-opacity: 1;
 }

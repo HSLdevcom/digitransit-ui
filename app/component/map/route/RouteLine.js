@@ -1,10 +1,12 @@
 import React from 'react';
 import Relay from 'react-relay';
-const isBrowser = typeof window !== 'undefined' && window !== null;
+
 import StopMarker from '../non-tile-layer/StopMarker';
 import StopCardHeader from '../../stop-cards/StopCardHeader';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
+
+const isBrowser = typeof window !== 'undefined' && window !== null;
 
 class RouteLine extends React.Component {
   static propTypes = {
@@ -88,6 +90,7 @@ export default Relay.createContainer(RouteLine, {
           lon
           name
           gtfsId
+          platformCode
           ${StopCardHeader.getFragment('stop')}
         }
       }

@@ -14,8 +14,8 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  return typeof window !== 'undefined' && window.localStorage &&
-    window.localStorage.getItem(key) || null;
+  return (typeof window !== 'undefined' && window.localStorage &&
+    window.localStorage.getItem(key)) || null;
 }
 
 function getItemAsJson(key, defaultValue) {
@@ -48,6 +48,14 @@ export function getFavouriteStopsStorage() {
 
 export function setFavouriteStopsStorage(data) {
   setItem('favouriteStops', data);
+}
+
+export function getFavouriteCityBikeStations() {
+  return getItemAsJson('favouriteCityBikeStations', '[]');
+}
+
+export function setFavouriteCityBikeStations(data) {
+  setItem('favouriteCityBikeStations', data);
 }
 
 export function getFavouriteRoutesStorage() {

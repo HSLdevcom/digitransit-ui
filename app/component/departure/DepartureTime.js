@@ -1,9 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
-import Icon from '../icon/icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
+import Icon from '../icon/icon';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
@@ -126,5 +126,7 @@ export const mapStopTime = (stoptime, pattern) => (
  *  @param currentTime
  */
 export const fromStopTime = (stoptime, currentTime) => (
-  <DepartureTime currentTime={currentTime} {...mapStopTime(stoptime)} />
+  <DepartureTime
+    currentTime={currentTime} {...mapStopTime(stoptime)} style={{ whiteSpace: 'nowrap' }}
+  />
 );

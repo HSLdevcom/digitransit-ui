@@ -102,9 +102,12 @@ const routes = (
     <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage} />
     <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={Error404} />
     <Route path="styleguide" name="styleGuidelines" component={StyleGuidelines} />
+    <Route
+      path="styleguide/component/:componentName" name="componentExample" component={StyleGuidelines}
+    />
     <Route path="lisaa-suosikki" name="addFavourite" component={AddFavouritePage} />
     <Route path="tietoja-palvelusta" name="about" component={AboutPage} />
-    // Main menu does not open without this in mock mode?
+    {/* Main menu does not open without this in mock mode? */}
     <Route path="/?mock" name="mockIndex" component={IndexPage} />
   </Route>
 );

@@ -1,9 +1,11 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Helmet from 'react-helmet';
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Tabs from 'react-simpletabs';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { FormattedMessage, intlShape } from 'react-intl';
+
+import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import RouteListHeader from '../component/route/RouteListHeader';
 import Icon from '../component/icon/icon';
 import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
@@ -16,7 +18,6 @@ import TripListHeader from '../component/trip/TripListHeader';
 import TripStopListContainer from '../component/trip/TripStopListContainer';
 import { startRealTimeClient, updateTopic, stopRealTimeClient }
   from '../action/realTimeClientAction';
-import { FormattedMessage, intlShape } from 'react-intl';
 import NotFound from './404';
 
 class RoutePage extends React.Component {

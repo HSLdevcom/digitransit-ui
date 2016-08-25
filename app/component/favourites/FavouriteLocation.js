@@ -1,12 +1,13 @@
 import React from 'react';
+import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
+import Link from 'react-router/lib/Link';
+
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import Icon from '../icon/icon';
-import cx from 'classnames';
 import DepartureTime from '../departure/DepartureTime';
 import RouteNumber from '../departure/RouteNumber';
-import { FormattedMessage } from 'react-intl';
 import { favouriteLocation as favouriteLocationExample } from '../documentation/ExampleData';
-import Link from 'react-router/lib/Link';
 
 const FavouriteLocation = (props) => {
   if (!props.locationName) {

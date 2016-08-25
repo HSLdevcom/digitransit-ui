@@ -9,7 +9,7 @@ WalkDistance = (props) ->
   walkDistance = if roundedWalkDistanceInM < 1000 then "#{roundedWalkDistanceInM}m" else "#{roundedWalkDistanceInKm}km"
   icon = 'icon-' + (props.icon or 'icon_walk')
 
-  <span className={cx props.className}>
+  <span className={cx props.className} style={{whiteSpace: 'nowrap'}}>
     <Icon img={icon}/>
     <span className="walk-distance">&nbsp;{walkDistance}</span>
   </span>

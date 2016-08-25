@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
-import { setArrivalTime, setDepartureTime } from '../../action/TimeActions';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
+
+import { setArrivalTime, setDepartureTime } from '../../action/TimeActions';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { plan as examplePlan } from '../documentation/ExampleData';
 import ItineraryFeedback from '../itinerary-feedback/itinerary-feedback';

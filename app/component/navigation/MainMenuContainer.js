@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
+import Drawer from 'material-ui/Drawer';
+import { supportsHistory } from 'history/lib/DOMUtils';
+
 import config from '../../config';
 import Icon from '../icon/icon';
 import MainMenu from './MainMenu';
-import Drawer from 'material-ui/Drawer';
 import FeedbackActions from '../../action/feedback-action';
-
-import { supportsHistory } from 'history/lib/DOMUtils';
 
 class MainMenuContainer extends Component {
   static contextTypes = {
