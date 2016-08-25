@@ -55,6 +55,7 @@ function StopPage(props, { intl, router, executeAction }) {
       className="stop-page momentum-scroll"
       routeLinks
       infiniteScroll
+      isTerminal={isTerminal}
       rowClasses="padding-normal border-bottom"
     />);
 
