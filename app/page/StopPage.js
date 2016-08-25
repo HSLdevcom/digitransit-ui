@@ -82,7 +82,7 @@ function StopPage(props, { intl, router, executeAction }) {
           className="full"
           lat={props.stop.lat}
           lon={props.stop.lon}
-          zoom={16}
+          zoom={isTerminal || props.stop.platformCode ? 18 : 16}
           key="map"
           showStops
           hilightedStops={[id]}
