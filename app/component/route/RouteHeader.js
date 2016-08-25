@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import RouteNumber from '../departure/RouteNumber';
 import cx from 'classnames';
+
+import RouteNumber from '../departure/RouteNumber';
 
 export default function RouteHeader(props) {
   const mode = props.route.mode.toLowerCase();
@@ -33,6 +34,5 @@ RouteHeader.propTypes = {
   pattern: React.PropTypes.object.isRequired,
   reverseId: React.PropTypes.string,
   className: React.PropTypes.string,
-  addFavouriteRoute: React.PropTypes.func.isRequired,
   favourite: React.PropTypes.bool.isRequired,
 };

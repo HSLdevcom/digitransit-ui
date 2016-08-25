@@ -9,11 +9,16 @@ module.exports = {
   'rules': {
     'eqeqeq': ['error', 'allow-null'],
     'no-void': 'error',
-    'import/no-unresolved': 'off',
+    'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
+    'react/no-string-refs': 'warn',
+    'react/no-find-dom-node': 'warn',
     'graphql/template-strings': ['error', {
       'env': 'relay',
       'schemaJson': require('./build/schema.json'),
     }],
+  },
+  settings: {
+    'import/resolver': 'webpack',
   },
   'env': {
     'browser': true,

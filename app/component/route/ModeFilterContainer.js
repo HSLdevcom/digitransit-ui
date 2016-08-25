@@ -1,6 +1,7 @@
+import connectToStores from 'fluxible-addons-react/connectToStores';
+
 import ModeFilter from '../util/ModeFilter';
 import ModeSelectedAction from '../../action/mode-selected-action';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 
 export default connectToStores(
   ModeFilter,

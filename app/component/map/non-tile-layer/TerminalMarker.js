@@ -1,13 +1,15 @@
-const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
 import Relay from 'react-relay';
+import provideContext from 'fluxible-addons-react/provideContext';
+import { intlShape } from 'react-intl';
+
 import { getDistanceToFurthestStop } from '../../../util/geo-utils';
 import Icon from '../../icon/icon';
 import TerminalMarkerPopup from '../popups/terminal-marker-popup';
-import provideContext from 'fluxible-addons-react/provideContext';
-import { intlShape } from 'react-intl';
 import GenericMarker from '../GenericMarker';
 import TerminalRoute from '../../../route/TerminalRoute';
+
+const isBrowser = typeof window !== 'undefined' && window !== null;
 
 let Circle;
 let L;

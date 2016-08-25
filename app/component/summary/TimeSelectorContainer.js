@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { setArriveBy, setSelectedTime } from '../../action/TimeActions';
 import moment from 'moment';
-import TimeSelectors from './TimeSelectors';
-
 import { intlShape } from 'react-intl';
-
 import debounce from 'lodash/debounce';
 
-class TimeSelectorContainer extends Component {
+import { setArriveBy, setSelectedTime } from '../../action/TimeActions';
+import TimeSelectors from './TimeSelectors';
 
+
+class TimeSelectorContainer extends Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,

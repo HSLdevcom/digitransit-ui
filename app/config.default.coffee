@@ -81,7 +81,7 @@ module.exports =
       # Do not render name markers at zoom levels below this value
       nameMarkerMinZoom: 18
       popup:
-        offset: [106, 3]
+        offset: [106, 16]
         maxWidth: 250
         minWidth: 250
     line:

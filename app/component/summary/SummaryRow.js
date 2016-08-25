@@ -1,9 +1,10 @@
 import React from 'react';
 import moment from 'moment';
+import cx from 'classnames';
+
 import legTextUtil from '../../util/leg-text-util';
 import { displayDistance } from '../../util/geo-utils';
 import RouteNumber from '../departure/RouteNumber';
-import cx from 'classnames';
 import Icon from '../icon/icon';
 import RelativeDuration from '../duration/relative-duration';
 

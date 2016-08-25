@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, import/no-extraneous-dependencies  */
 const cjsxTransform = require('coffee-react-transform');
 const decaf = require('decafjs');
 const babel = require('babel-core');

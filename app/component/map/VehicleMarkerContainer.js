@@ -1,12 +1,14 @@
-const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
 import Relay from 'react-relay';
-import { startRealTimeClient, stopRealTimeClient } from '../../action/realTimeClientAction';
-import Icon from '../icon/icon';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
+
+import { startRealTimeClient, stopRealTimeClient } from '../../action/realTimeClientAction';
+import Icon from '../icon/icon';
 import RouteMarkerPopup from './route/route-marker-popup';
 import FuzzyTripRoute from '../../route/FuzzyTripRoute';
+
+const isBrowser = typeof window !== 'undefined' && window !== null;
 
 let Popup;
 let Marker;
@@ -14,7 +16,7 @@ let L;
 
 /* eslint-disable global-require */
 if (isBrowser) {
-  Popup = require('./Popup').default;
+  Popup = require('react-leaflet/lib/Popup').default;
   Marker = require('react-leaflet/lib/Marker').default;
   L = require('leaflet');
 }
@@ -153,8 +155,8 @@ export default class VehicleMarkerContainer extends React.Component {
           direction: message.direction,
           date: message.operatingDay,
           time:
-            message.tripStartTime.substring(0, 2) * 60 * 60 +
-            message.tripStartTime.substring(2, 4) * 60,
+            (message.tripStartTime.substring(0, 2) * 60 * 60) +
+            (message.tripStartTime.substring(2, 4) * 60),
         })}
         renderLoading={() => (
           <div className="card" style={{ height: 150 }}><div className="spinner-loader" /></div>
@@ -174,7 +176,7 @@ export default class VehicleMarkerContainer extends React.Component {
         icon={this.getVehicleIcon(message.mode, message.heading)}
       >
         <Popup
-          offset={[106, 3]}
+          offset={[106, 16]}
           closeButton={false}
           maxWidth={250}
           minWidth={250}
