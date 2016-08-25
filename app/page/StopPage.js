@@ -15,6 +15,10 @@ import { addFavouriteStop } from '../action/FavouriteActions';
 import Icon from '../component/icon/icon';
 
 function StopPage(props, { intl, router, executeAction }) {
+  const isTerminal = props.route.name.startsWith('station');
+  const prefix = isTerminal ? 'terminaalit' : 'pysakit';
+  const id = isTerminal ? props.params.terminalId : props.params.stopId;
+
   const params = {
     stop_name: props.stop.name,
     stop_code: props.stop.code,
@@ -38,11 +42,11 @@ function StopPage(props, { intl, router, executeAction }) {
 
   const addAsFavouriteStop = e => {
     e.stopPropagation();
-    executeAction(addFavouriteStop, props.params.stopId);
+    executeAction(addFavouriteStop, id);
   };
 
   const toggleFullscreenMap = () =>
-    router.push(`/pysakit/${props.params.stopId}${props.fullscreenMap ? '' : '/kartta'}`);
+    router.push(`/${prefix}/${id}${props.fullscreenMap ? '' : '/kartta'}`);
 
   const contents = props.fullscreenMap ? null : (
     <DepartureListContainer
@@ -80,12 +84,12 @@ function StopPage(props, { intl, router, executeAction }) {
           zoom={16}
           key="map"
           showStops
-          hilightedStops={[props.params.stopId]}
+          hilightedStops={[id]}
           disableZoom={!props.fullscreenMap}
         >
           {props.fullscreenMap ? null :
             <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
-          <Link to={`/pysakit/${props.params.stopId}${props.fullscreenMap ? '' : '/kartta'}`}>
+          <Link to={`/${prefix}/${id}${props.fullscreenMap ? '' : '/kartta'}`}>
             <div className="fullscreen-toggle">
               <Icon img="icon-icon_maximize" className="cursor-pointer" />
             </div>
@@ -99,7 +103,8 @@ function StopPage(props, { intl, router, executeAction }) {
 
 StopPage.propTypes = {
   params: React.PropTypes.shape({
-    stopId: React.PropTypes.string.isRequired,
+    stopId: React.PropTypes.string,
+    terminalId: React.PropTypes.string,
   }).isRequired,
   stop: React.PropTypes.shape({
     name: React.PropTypes.string.isRequired,
@@ -107,9 +112,13 @@ StopPage.propTypes = {
     lat: React.PropTypes.number.isRequired,
     lon: React.PropTypes.number.isRequired,
     stoptimes: React.PropTypes.array,
+    platformCode: React.PropTypes.string,
   }),
   favourite: React.PropTypes.bool,
   fullscreenMap: React.PropTypes.bool,
+  route: React.PropTypes.shape({
+    name: React.PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 StopPage.contextTypes = {
@@ -126,6 +135,7 @@ const StopPageContainer = Relay.createContainer(StopPage, {
         lon
         name
         code
+        platformCode
         routes {
           gtfsId
           shortName

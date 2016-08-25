@@ -43,6 +43,13 @@ const TripQueries = {
   `,
 };
 
+const terminalQueries = {
+  stop: () => Relay.QL`
+    query  {
+      station(id: $terminalId)
+    }
+  `,
+};
 
 const routes = (
   <Route path="/" name="app" component={TopLevel}>
@@ -69,6 +76,20 @@ const routes = (
       render={({ props }) => (props ? <StopPage {...props} fullscreenMap /> : <LoadingPage />)}
     />
     <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404} />
+    <Route
+      path="terminaalit/:terminalId"
+      name="station"
+      component={StopPage}
+      queries={terminalQueries}
+      render={({ props }) => (props ? <StopPage {...props} /> : <LoadingPage />)}
+    />
+    <Route
+      path="terminaalit/:terminalId/kartta"
+      name="stationMap"
+      component={StopPage}
+      queries={terminalQueries}
+      render={({ props }) => (props ? <StopPage {...props} fullscreenMap /> : <LoadingPage />)}
+    />
     <Route path="linjat" name="routeList" component={Error404} />
     <Route
       path="linjat/:routeId"
