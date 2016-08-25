@@ -72,11 +72,11 @@ function StopPage(props, { intl, router, executeAction }) {
         <StopCardHeader
           stop={props.stop}
           favourite={props.favourite}
-          addFavouriteStop={addAsFavouriteStop}
+          addFavouriteStop={isTerminal ? false : addAsFavouriteStop}
           key="header"
           className="stop-page header"
           headingStyle="h3"
-          infoIcon
+          infoIcon={!isTerminal}
         />
         <Map
           className="full"
