@@ -1,13 +1,17 @@
-.route-stop div .route-now-content .large {
-  font-size: 48px;  //icon
-  &.tail {
-    left: -35px;
-    top: -45px;
-    width: 140px;
-    height: 140px;
-  }
-}
-
 .passed div {
   color: $dark-color;
+}
+
+.tail-icon {
+  font-size: 3.5em;
+  top: -40px;
+  bottom: 0;
+  left: -10px;
+}
+
+.selected-tail-icon {
+  font-size: 5em;
+  top: -50px;
+  bottom: 0;
+  left: -20px;
 }
