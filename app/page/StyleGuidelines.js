@@ -27,6 +27,7 @@ import RightOffcanvasToggle from '../component/summary/RightOffcanvasToggle';
 import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
+import SelectParkAndRideRow from '../component/map/tile-layer/SelectParkAndRideRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
 import SelectTerminalRow from '../component/map/tile-layer/SelectTerminalRow';
 import Favourite from '../component/favourites/Favourite';
@@ -75,6 +76,7 @@ class StyleGuidelinesPage extends React.Component {
     TripRouteStop,
     MarkerSelectPopup,
     SelectCityBikeRow,
+    SelectParkAndRideRow,
     SelectStopRow,
     SelectTerminalRow,
     Favourite,

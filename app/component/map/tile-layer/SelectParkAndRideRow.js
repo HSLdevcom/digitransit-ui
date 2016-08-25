@@ -7,7 +7,6 @@ import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 function SelectParkAndRideRow(props, { intl }) {
   return (
     <div className="no-margin">
-      <hr className="no-margin" />
       <div className="cursor-pointer" onClick={props.selectRow}>
         <div className="left padding-vertical-small select-row-icon" >
           <Icon img="icon-icon_car" />
@@ -19,6 +18,7 @@ function SelectParkAndRideRow(props, { intl }) {
         </div>
         <div className="clear" />
       </div>
+    <hr className="no-margin gray" />
     </div>
   );
 }
@@ -29,7 +29,10 @@ SelectParkAndRideRow.description = (
   <div>
     <p>Renders a select citybike row</p>
     <ComponentUsageExample description="">
-      <SelectParkAndRideRow name={'Leppävaara'} selectRow={() => {}} />
+      <SelectParkAndRideRow
+        name={'{"en": "Leppävaara", "fi": "Leppävaara", "sv": "Leppävaara"}'}
+        selectRow={() => {}}
+      />
     </ComponentUsageExample>
   </div>
   );
