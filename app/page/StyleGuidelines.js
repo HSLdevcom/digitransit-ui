@@ -1,4 +1,7 @@
 import React from 'react';
+import sortBy from 'lodash/sortBy';
+import Link from 'react-router/lib/Link';
+
 import Icon from '../component/icon/icon';
 import IconWithTail from '../component/icon/icon-with-tail';
 import ComponentDocumentation from '../component/documentation/ComponentDocumentation';
@@ -12,11 +15,11 @@ import NotImplemented from '../component/util/not-implemented';
 import NotImplementedLink from '../component/util/not-implemented-link';
 import CardHeader from '../component/card/CardHeader';
 import Card from '../component/card/card';
-import CityBikeCard from '../component/city-bike/city-bike-card';
-import CityBikeContent from '../component/city-bike/city-bike-content';
-import CityBikeAvailability from '../component/city-bike/city-bike-availability';
-import CityBikeUse from '../component/city-bike/city-bike-use';
-import CityBikePopup from '../component/map/popups/city-bike-popup';
+import CityBikeCard from '../component/city-bike/CityBikeCard';
+import CityBikeContent from '../component/city-bike/CityBikeContent';
+import CityBikeAvailability from '../component/city-bike/CityBikeAvailability';
+import CityBikeUse from '../component/city-bike/CityBikeUse';
+import CityBikePopup from '../component/map/popups/CityBikePopup';
 import FavouriteLocation from '../component/favourites/FavouriteLocation';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
@@ -32,11 +35,11 @@ import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect'
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
+import RouteStop from '../component/route/RouteStop';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
-
-import sortBy from 'lodash/sortBy';
-import Link from 'react-router/lib/Link';
+import Availability from '../component/card/Availability.js';
+import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
 
 class StyleGuidelinesPage extends React.Component {
 
@@ -63,6 +66,8 @@ class StyleGuidelinesPage extends React.Component {
     CityBikeAvailability,
     CityBikeUse,
     CityBikePopup,
+    Availability,
+    ParkAndRideAvailability,
     FavouriteLocation,
     TimeSelectors,
     TimeNavigationButtons,
@@ -80,6 +85,7 @@ class StyleGuidelinesPage extends React.Component {
     RouteScheduleTripRow,
     RouteAlertsRow,
     ModeFilter,
+    RouteStop,
   }
 
   getColors() {
@@ -223,7 +229,7 @@ class StyleGuidelinesPage extends React.Component {
   getTextStyles() {
     return (
       <section>
-        <p><a href="#">This is a link</a><span className="code">{"<a />"}</span>
+        <p><a>This is a link</a><span className="code">{"<a />"}</span>
         </p>
         <p>
           <span className="dotted-link cursor-pointer">

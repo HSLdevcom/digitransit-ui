@@ -23,7 +23,7 @@ function test(componentName, captureOrExampleNumber, ignoreElements, fn = () => 
       .ignoreElements(ignoreElements || [])
       .capture('normal', {}, fn);
     } catch (error) {
-      console.error(error);
+      console.error('oooo', error);
     }
   };
 }
@@ -73,6 +73,13 @@ gemini.suite('components', () => {
   basicTest('CityBikeAvailability');
   basicTest('CityBikeUse');
 
+  basicTest('Availability');
+
+  gemini.suite('ParkAndRideAvailability', () => {
+    gemini.suite('non-realtime', test('ParkAndRideAvailability'));
+    gemini.suite('realtime', test('ParkAndRideAvailability'));
+  });
+
   gemini.suite('FavouriteLocation', test('FavouriteLocation', 1,
     '#FavouriteLocation .component-example:nth-of-type(1) .component .realtime-icon'));
 
@@ -86,7 +93,13 @@ gemini.suite('components', () => {
   });
   gemini.suite('Favourite', () => {
     gemini.suite('favourite', test('Favourite'));
+    gemini.suite('favourite-hovered', test('Favourite', 1, [], (actions) => actions.mouseMove(
+      '#Favourite .component-example:nth-of-type(1) .component svg'
+    )));
     gemini.suite('not-favourite', test('Favourite', 2));
+    gemini.suite('not-favourite-hovered', test('Favourite', 2, [], (actions) => actions.mouseMove(
+      '#Favourite .component-example:nth-of-type(2) .component svg'
+    )));
   });
 
   gemini.suite('IconWithTail', test('IconWithTail'));
@@ -123,4 +136,10 @@ gemini.suite('components', () => {
     gemini.suite('White buttons', test('ModeFilter',
       ['#ModeFilter .nearby-routes .component-example:nth-of-type(1) .component']));
   });
+
+  gemini.suite('RouteStop', test('RouteStop',
+    ['#RouteStop .component-example:nth-of-type(1) .component',
+    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
+    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'
+  ));
 });

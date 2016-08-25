@@ -17,6 +17,7 @@ export function storeEndpoint(actionContext, { target, endpoint }, done) {
 export function setEndpoint(actionContext, payload) {
   return actionContext.executeAction(storeEndpoint, payload, e => {
     if (e) {
+      // Todo: Show there shrow instead
       return console.error('Could not store endpoint: ', e);
     }
     return actionContext.executeAction(route, undefined, e2 => {

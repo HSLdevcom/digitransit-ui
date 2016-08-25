@@ -1,9 +1,10 @@
 import React from 'react';
 import Relay from 'react-relay';
-import StopRoute from '../../../route/StopRoute';
-import StopMarkerPopup from '../popups/stop-marker-popup';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
+
+import StopRoute from '../../../route/StopRoute';
+import StopMarkerPopup from '../popups/stop-marker-popup';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../icon/icon';
 import config from '../../../config';

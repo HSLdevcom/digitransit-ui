@@ -15,8 +15,7 @@ function SelectCityBikeRow(props) {
         <div className="left padding-vertical-normal" style={{ width: 'calc(100% - 40px)' }}>
           <span className="h4 no-margin link-color">{props.name} ›</span>
         </div>
-        <div className="clear">
-        </div>
+        <div className="clear" />
       </div>
       <hr className="no-margin gray" />
     </div>

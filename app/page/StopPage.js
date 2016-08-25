@@ -2,16 +2,17 @@ import React from 'react';
 import Relay from 'react-relay';
 import Helmet from 'react-helmet';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Link from 'react-router/lib/Link';
+import moment from 'moment';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import { intlShape } from 'react-intl';
+
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Map from '../component/map/Map';
 import DepartureListContainer from '../component/departure/DepartureListContainer';
 import StopCardHeader from '../component/stop-cards/StopCardHeader';
-import FavouriteStopsAction from '../action/favourite-stops-action';
-import Link from 'react-router/lib/Link';
+import { addFavouriteStop } from '../action/FavouriteActions';
 import Icon from '../component/icon/icon';
-import moment from 'moment';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { intlShape } from 'react-intl';
 
 function StopPage(props, { intl, router, executeAction }) {
   const params = {
@@ -35,9 +36,9 @@ function StopPage(props, { intl, router, executeAction }) {
     }],
   };
 
-  const addFavouriteStop = e => {
+  const addAsFavouriteStop = e => {
     e.stopPropagation();
-    executeAction(FavouriteStopsAction.addFavouriteStop, props.params.stopId);
+    executeAction(addFavouriteStop, props.params.stopId);
   };
 
   const toggleFullscreenMap = () =>
@@ -66,7 +67,7 @@ function StopPage(props, { intl, router, executeAction }) {
         <StopCardHeader
           stop={props.stop}
           favourite={props.favourite}
-          addFavouriteStop={addFavouriteStop}
+          addFavouriteStop={addAsFavouriteStop}
           key="header"
           className="stop-page header"
           headingStyle="h3"

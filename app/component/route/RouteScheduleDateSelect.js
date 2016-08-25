@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
-import Icon from '../icon/icon';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
+
+import Icon from '../icon/icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 function RouteScheduleDateSelect(props, context) {

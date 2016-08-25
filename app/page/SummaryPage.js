@@ -2,6 +2,8 @@ import React from 'react';
 import Relay from 'react-relay';
 import Helmet from 'react-helmet';
 import isEqual from 'lodash/isEqual';
+import { intlShape } from 'react-intl';
+
 import SummaryPlanContainer from '../component/summary/SummaryPlanContainer';
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import SummaryNavigation from '../component/navigation/SummaryNavigation';
@@ -9,7 +11,6 @@ import NoRoutePopup from '../component/summary/no-route-popup';
 import { itinerarySearchRequest } from '../action/ItinerarySearchActions';
 import { otpToLocation } from '../util/otp-strings';
 import { storeEndpoint } from '../action/EndpointActions';
-import { intlShape } from 'react-intl';
 import { SummaryPlanContainerRoute } from '../queries';
 import config from '../config';
 

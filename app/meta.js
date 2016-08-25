@@ -1,4 +1,5 @@
 import config from './config';
+
 const configPath = config.CONFIG;
 const root = config.APP_PATH;
 

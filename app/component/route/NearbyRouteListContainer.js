@@ -1,9 +1,11 @@
 import Relay from 'react-relay';
+import mapProps from 'recompose/mapProps';
+
 import NextDeparturesList, {
    relayFragment as NextDeparturesListRelayFragment,
 } from '../departure/NextDeparturesList';
 import config from '../../config';
-import mapProps from 'recompose/mapProps';
+
 const STOP_COUNT = 20;
 
 function getNextDepartures(props) {
