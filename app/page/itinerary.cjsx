@@ -53,7 +53,7 @@ class ItineraryPage extends React.Component
   #      time: @updateTime @context.getStore('TimeStore')
 
   updateItinerarySearch: (store) =>
-    modes: store.getMode()
+    modes: store.getMode().join(',')
     walkReluctance: store.getWalkReluctance()
     walkBoardCost: store.getWalkBoardCost()
     minTransferTime: store.getMinTransferTime()

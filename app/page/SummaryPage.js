@@ -80,7 +80,7 @@ export default class SummaryPage extends React.Component {
 
   updateItinerarySearch(store) {
     return {
-      modes: store.getMode(),
+      modes: store.getMode().join(','),
       walkReluctance: store.getWalkReluctance(),
       walkBoardCost: store.getWalkBoardCost(),
       minTransferTime: store.getMinTransferTime(),

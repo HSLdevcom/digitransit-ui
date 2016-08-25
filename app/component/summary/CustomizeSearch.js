@@ -232,7 +232,7 @@ class CustomizeSearch extends React.Component {
           <ModeFilter
             action={ItinerarySearchActions}
             buttonClass="mode-icon"
-            modes={this.context.getStore('ItinerarySearchStore').getMode()}
+            selectedModes={this.context.getStore('ItinerarySearchStore').getMode()}
           />
         </section>
         <section className="offcanvas-section">

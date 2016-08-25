@@ -109,7 +109,7 @@ class ItinerarySearchStore extends Store {
       mode.push('CAR');
     }
 
-    return mode.join(',');
+    return mode;
   }
 
   getTicketOptions() {
