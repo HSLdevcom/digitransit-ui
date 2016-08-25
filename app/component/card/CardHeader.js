@@ -53,7 +53,10 @@ CardHeader.description = (
   </div>);
 
 CardHeader.propTypes = {
-  addFavourite: React.PropTypes.func,
+  addFavourite: React.PropTypes.oneOfType([
+    React.PropTypes.func,
+    React.PropTypes.bool,
+  ]).isRequired,
   className: React.PropTypes.string,
   favourite: React.PropTypes.bool,
   headingStyle: React.PropTypes.string,

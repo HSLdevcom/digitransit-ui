@@ -31,7 +31,10 @@ StopCard.propTypes = {
     gtfsId: React.PropTypes.string.isRequired,
   }),
   favourite: React.PropTypes.bool,
-  addFavouriteStop: React.PropTypes.func,
+  addFavouriteStop: React.PropTypes.oneOfType([
+    React.PropTypes.func,
+    React.PropTypes.bool,
+  ]).isRequired,
   distance: React.PropTypes.number,
   className: React.PropTypes.string,
   children: React.PropTypes.node,

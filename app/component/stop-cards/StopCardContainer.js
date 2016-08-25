@@ -10,7 +10,7 @@ import { addFavouriteStop } from '../../action/FavouriteActions';
 const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (context, props) =>
   ({
     favourite: context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId),
-    addFavouriteStop(e) {
+    addFavouriteStop: props.isTerminal ? false : (e) => {
       e.preventDefault();
       return context.executeAction(addFavouriteStop, props.stop.gtfsId);
     },
