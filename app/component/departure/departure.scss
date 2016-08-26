@@ -38,7 +38,7 @@
 
 .time {
   @include font-narrow-medium;
-  width: 3em;
+  width: 3.5em;
   margin-right: 0.5em;
   padding-right: 0.5em;
   text-align: right;
@@ -94,7 +94,7 @@
 }
 
 .popup .route-destination {
-  width: calc(100% - 9em);
+  width: calc(100% - 9.5em);
 }
 
 .distance {

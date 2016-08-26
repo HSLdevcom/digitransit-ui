@@ -14,7 +14,7 @@ function PlatformNumber({ number }) {
 }
 
 PlatformNumber.propTypes = {
-  number: React.PropTypes.number,
+  number: React.PropTypes.string,
 };
 
 PlatformNumber.description = (

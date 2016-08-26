@@ -55,7 +55,10 @@ class StopCardHeader extends React.Component {
 StopCardHeader.propTypes = {
   stop: React.PropTypes.object,
   distance: React.PropTypes.number,
-  addFavouriteStop: React.PropTypes.func,
+  addFavouriteStop: React.PropTypes.oneOfType([
+    React.PropTypes.func,
+    React.PropTypes.bool,
+  ]).isRequired,
   className: React.PropTypes.string,
   favourite: React.PropTypes.bool,
   headingStyle: React.PropTypes.string,

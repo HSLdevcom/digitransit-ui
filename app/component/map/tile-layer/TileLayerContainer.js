@@ -62,7 +62,7 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
 });
 
 const PopupOptions = {
-  offset: [106, 16],
+  offset: [110, 16],
   closeButton: false,
   minWidth: 260,
   maxWidth: 260,

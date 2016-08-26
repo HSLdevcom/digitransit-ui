@@ -1,8 +1,8 @@
 module.exports = {
-  tags: ['stops', 'map', 'geolocation'],
-  'Open Ruoholahden villat cluster, select stop to show its departures': (browser) => {
+  tags: ['terminals', 'map', 'geolocation'],
+  'Open Kamppi cluster, select stop to show its departures': (browser) => {
     browser.url(browser.launch_url);
-    browser.setGeolocation(60.1659488, 24.92693);
+    browser.setGeolocation(60.169546, 24.931658);
 
     // Wait for the tiles to be loaded
     browser.pause(2500);
@@ -13,8 +13,11 @@ module.exports = {
     const stop = browser.page.stopCard();
     stop.waitForElementVisible('@cluster', browser.globals.itinerarySearchTimeout);
     stop.click('@clusterStop');
-    stop.expectCardHeaderDescription('Ruoholahdenkatu');
+    // stop.expectCardHeaderDescription('Kamppi');
     stop.waitForDepartureVisible();
+    stop.navigateToStopPage();
+    const stopPage = browser.page.stop();
+    stopPage.expectStopName('Kamppi');
 
     browser.end();
   },

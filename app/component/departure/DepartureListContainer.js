@@ -72,7 +72,9 @@ class DepartureListContainer extends Component {
 
     const departures = mergeDepartures(asDepartures(this.props.stoptimes))
       .filter(departure => !(this.props.isTerminal && departure.isArrival))
-      .filter(departure => currentTime < departure.stoptime).slice(0, this.props.limit);
+      .filter(departure => !(this.props.isTerminal && (departure.stoptime > currentTime + 3600)))
+      .filter(departure => currentTime < departure.stoptime)
+      .slice(0, this.props.limit);
 
     for (let departure of departures) {
       if (departure.stoptime >= tomorrow) {
