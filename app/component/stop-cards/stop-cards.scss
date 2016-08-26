@@ -22,10 +22,14 @@
 .stop-page  {
   overflow-y: auto;
   &.card-header  {
-    padding: 0.4em 1em;
+    padding: 0.75em 1em 0.5em;
     position: relative;
     flex: 0 0 auto;
     overflow:hidden;
+    min-height: 3em;
+    .link-arrow {
+      display: none;
+    }
   }
   .card-sub-header {
     margin-top: -0.5em;

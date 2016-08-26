@@ -116,18 +116,20 @@ module.exports =
       fi: "https://www.hsl.fi/kaupunkipyörät"
       sv: "https://www.hsl.fi/sv/stadscyklar"
       en: "https://www.hsl.fi/en/citybikes"
-    cityBikeMinZoom: 13
+    cityBikeMinZoom: 14
     cityBikeSmallIconZoom: 14
     fewAvailableCount: 3
   parkAndRide:
     showParkAndRide: true
     parkAndRideMinZoom: 13
   # Lowest level for stops and terminals are rendered
-  stopsMinZoom: 13
+  stopsMinZoom: 14
   # Highest level when stops and terminals are still rendered as small markers
   stopsSmallMaxZoom: 14
   # Highest level when terminals are still rendered instead of individual stops
   terminalStopsMaxZoom: 17
+  terminalStopsMinZoom: 12
+  terminalNamesZoom: 16
   colors:
     primary: "#007ac9"
   disruption:

@@ -1,18 +1,26 @@
-function expectCardHeader(expected) {
-  this.waitForElementVisible('@cardHeader',
-                             this.api.globals.itinerarySearchTimeout);
+function expectCardHeaderDescription(expected) {
+  this.waitForElementVisible('@cardHeader', this.api.globals.itinerarySearchTimeout);
   return this.assert.containsText('@cardHeader', expected);
 }
 
 function waitForDepartureVisible() {
-  return this.waitForElementVisible('@departure',
-                                    this.api.globals.itinerarySearchTimeout);
+  return this.waitForElementVisible('@departure', this.api.globals.itinerarySearchTimeout);
+}
+
+function navigateToStopPage() {
+  return this.click('@cardName', () => {
+    this.waitForElementVisible(
+      'div.card-header.stop-page.header',
+      this.api.globals.itinerarySearchTimeout
+    );
+  });
 }
 
 module.exports = {
   commands: [{
-    expectCardHeader,
+    expectCardHeaderDescription,
     waitForDepartureVisible,
+    navigateToStopPage,
   }],
   elements: {
     cluster: {
@@ -23,6 +31,9 @@ module.exports = {
     },
     cardHeader: {
       selector: '.card-header .sub-header-h4',
+    },
+    cardName: {
+      selector: '.card-header > .h4',
     },
     departure: {
       selector: '.route-detail-text',

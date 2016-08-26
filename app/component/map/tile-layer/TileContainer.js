@@ -4,7 +4,11 @@ import L from 'leaflet';
 
 import config from '../../../config';
 
-const markersMinZoom = Math.min(config.cityBike.cityBikeMinZoom, config.stopsMinZoom);
+const markersMinZoom = Math.min(
+  config.cityBike.cityBikeMinZoom,
+  config.stopsMinZoom,
+  config.terminalStopsMinZoom,
+);
 
 class TileContainer {
   constructor(coords, done, props) {
@@ -24,7 +28,9 @@ class TileContainer {
     this.ctx = this.el.getContext('2d');
 
     this.layers = this.props.layers.filter(Layer => {
-      if (Layer.getName() === 'stop' && this.coords.z >= config.stopsMinZoom) {
+      if (Layer.getName() === 'stop' &&
+        (this.coords.z >= config.stopsMinZoom || this.coords.z >= config.terminalStopsMinZoom)
+      ) {
         return true;
       } else if (
         Layer.getName() === 'citybike' && this.coords.z >= config.cityBike.cityBikeMinZoom
@@ -88,7 +94,7 @@ class TileContainer {
         const dist = Math.sqrt(Math.pow((localPoint[0] - (g.x / this.ratio)), 2) +
           Math.pow((localPoint[1] - (g.y / this.ratio)), 2));
 
-        if (dist < 17 * this.scaleratio) {
+        if (dist < 22 * this.scaleratio) {
           return true;
         }
         return false;

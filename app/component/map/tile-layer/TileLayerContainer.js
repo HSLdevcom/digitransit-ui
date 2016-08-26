@@ -10,8 +10,9 @@ import lodashFilter from 'lodash/filter';
 import L from 'leaflet';
 
 import StopRoute from '../../../route/StopRoute';
+import TerminalRoute from '../../../route/TerminalRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
-import StopMarkerPopup from '../popups/stop-marker-popup';
+import StopMarkerPopup from '../popups/StopMarkerPopup';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/CityBikePopup';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';
@@ -61,7 +62,7 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
 });
 
 const PopupOptions = {
-  offset: [106, 16],
+  offset: [110, 16],
   closeButton: false,
   minWidth: 260,
   maxWidth: 260,
@@ -192,10 +193,17 @@ class TileLayerContainer extends MapLayer {
           contents = (
             <Relay.RootContainer
               Component={StopMarkerPopup}
-              route={new StopRoute({
-                stopId: id,
-                date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
-              })}
+              route={this.state.selectableTargets[0].feature.properties.stops ?
+                new TerminalRoute({
+                  terminalId: id,
+                  date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
+                })
+                :
+                new StopRoute({
+                  stopId: id,
+                  date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
+                })
+              }
               renderLoading={loadingPopup}
               renderFetched={data =>
                 <StopMarkerPopupWithContext {...data} context={this.context} />
@@ -229,9 +237,9 @@ class TileLayerContainer extends MapLayer {
               renderFetched={data => (
                 <ParkAndRideHubPopupWithContext
                   name={
-                    JSON.parse(this.state.selectableTargets[0].feature.properties.name)[
-                      this.context.intl.locale
-                    ]
+                    JSON.parse(
+                      this.state.selectableTargets[0].feature.properties.name
+                    )[this.context.intl.locale]
                   }
                   lat={this.state.coords.lat}
                   lon={this.state.coords.lng}
@@ -252,9 +260,9 @@ class TileLayerContainer extends MapLayer {
               renderFetched={data => (
                 <ParkAndRideFacilityPopupWithContext
                   name={
-                    JSON.parse(this.state.selectableTargets[0].feature.properties.name)[
-                      this.context.intl.locale
-                    ]
+                    JSON.parse(
+                      this.state.selectableTargets[0].feature.properties.name
+                    )[this.context.intl.locale]
                   }
                   lat={this.state.coords.lat}
                   lon={this.state.coords.lng}
@@ -268,6 +276,7 @@ class TileLayerContainer extends MapLayer {
         popup = (
           <Popup
             {...PopupOptions}
+            key={id}
             position={this.state.coords}
           >
             {contents}

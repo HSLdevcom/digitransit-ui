@@ -119,8 +119,8 @@ class CityBikes {
     }
   }
 
-  calculatePosition = (coord) => ((coord / this.tile.ratio) - (this.citybikeImageSize / 2)) -
-    ((this.availabilityImageSize / 2) + (2 * this.caleratio))
+  calculatePosition = (coord) => ((coord / this.tile.ratio) -
+    (this.citybikeImageSize / 2) - (this.availabilityImageSize / 2)) + (2 * this.scaleratio)
 
   addFeature = (feature) => {
     if (this.tile.coords.z <= config.cityBike.cityBikeSmallIconZoom) {
