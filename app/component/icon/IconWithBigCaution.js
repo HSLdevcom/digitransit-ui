@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const IconWithBigCaution = props => (
   <svg id={props.id} viewBox="0 0 40 40" className={cx('icon', props.className)}>
@@ -17,7 +18,13 @@ const IconWithBigCaution = props => (
   </svg>
 );
 
-IconWithBigCaution.displayName = 'IconWithCaution';
+IconWithBigCaution.displayName = 'IconWithBigCaution';
+
+
+IconWithBigCaution.description = (<ComponentUsageExample description="Bus with caution">
+  <IconWithBigCaution className="bus" img={'icon-icon_bus'} />
+</ComponentUsageExample>);
+
 
 IconWithBigCaution.propTypes = {
   id: React.PropTypes.string,

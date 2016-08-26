@@ -103,8 +103,15 @@ gemini.suite('components', () => {
     )));
   });
 
-  gemini.suite('IconWithTail', test('IconWithTail'));
+  gemini.suite('IconWithTail', () => {
+    gemini.suite('normal', test('IconWithTail', 1));
+    gemini.suite('rotate', test('IconWithTail', 2));
+    gemini.suite('class', test('IconWithTail', 3));
+  });
 
+  basicTest('SelectedIconWithTail');
+  basicTest('IconWithCaution');
+  basicTest('IconWithBigCaution');
 
   gemini.suite('TimeNavigationButtons', () => {
     gemini.suite('normal', test('TimeNavigationButtons'));
