@@ -462,9 +462,19 @@
 <mask id="fadeMask" maskContentUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
 	<rect x="0" y="0" width="1" height="1" fill="url(#fadeGrad)"/>
 </mask>
+<linearGradient id="tailGrad" x1="0" x2="0" y1="0" y2="1">
+	<stop offset="0" stop-color="rgb(0, 122, 201)" stop-opacity="1"/>
+	<stop offset="1" stop-color="rgb(0, 122, 201)" stop-opacity="0"/>
+</linearGradient>
+<filter id="desaturate">
+	<feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0 0
+																	     0.3333 0.3333 0.3333 0 0
+																	     0.3333 0.3333 0.3333 0 0
+																	     0      0      0      1 0" />
+</filter>
 <symbol id="icon-icon_vehicle-live-shadow" viewBox="0 0 1024 1024">
 	<title>icon_vehicle-live-shadow</title>
-	<path fill="url(#fadeGrad)" class="path1" d="M693.568 516.62c0-97.725-79.222-176.948-176.948-176.948s-176.948 79.222-176.948 176.948c0 0.509 0.036 1.012 0.040 1.521-0.004 0.47-0.040 0.936-0.040 1.405 0 90.208 79.222 509.074 176.948 509.074s176.948-418.862 176.948-509.074c0-0.47-0.036-0.936-0.036-1.405 0-0.509 0.036-1.012 0.036-1.521z"></path>
+	<path fill="url(#tailGrad)" class="path1" d="M693.568 516.62c0-97.725-79.222-176.948-176.948-176.948s-176.948 79.222-176.948 176.948c0 0.509 0.036 1.012 0.040 1.521-0.004 0.47-0.040 0.936-0.040 1.405 0 90.208 79.222 509.074 176.948 509.074s176.948-418.862 176.948-509.074c0-0.47-0.036-0.936-0.036-1.405 0-0.509 0.036-1.012 0.036-1.521z"></path>
 </symbol>
 <symbol id="icon-icon_home" viewBox="0 0 283.46 283.46" enable-background="new 0 0 283.46 283.46">
 	<title>icon_home</title>

@@ -3,13 +3,12 @@ import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-
+import IconWithTail from '../icon/IconWithTail';
 import NotImplementedLink from '../util/not-implemented-link';
-import IconWithTail from '../icon/icon-with-tail';
 
 function TripLink(props) {
   const icon = (<IconWithTail
-    className={cx(props.mode, 'large-icon')}
+    className={cx(props.mode, 'tail-icon')}
     img={`icon-icon_${props.mode}-live`}
   />);
 
