@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 export default class TerminalRoute extends Relay.Route {
   static queries = {
     terminal: () => Relay.QL`
-      query  {
+      query ($terminalId: String!){
         station(id: $terminalId)
       }
     `,

@@ -4,7 +4,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 
 import StopRoute from '../../../route/StopRoute';
-import StopMarkerPopup from '../popups/stop-marker-popup';
+import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../icon/icon';
 import config from '../../../config';

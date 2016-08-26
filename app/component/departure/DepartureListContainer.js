@@ -49,6 +49,7 @@ class DepartureListContainer extends Component {
     showStops: PropTypes.bool,
     routeLinks: PropTypes.bool,
     className: PropTypes.string,
+    isTerminal: PropTypes.bool,
   };
 
   onScroll = () => {
@@ -70,7 +71,9 @@ class DepartureListContainer extends Component {
       .unix();
 
     const departures = mergeDepartures(asDepartures(this.props.stoptimes))
+      .filter(departure => !(this.props.isTerminal && departure.isArrival))
       .filter(departure => currentTime < departure.stoptime).slice(0, this.props.limit);
+
     for (let departure of departures) {
       if (departure.stoptime >= tomorrow) {
         departureObjs.push(
@@ -111,6 +114,7 @@ class DepartureListContainer extends Component {
           className={cx(classes, this.props.rowClasses)}
           canceled={departure.canceled}
           isArrival={departure.isArrival}
+          isTerminal={this.props.isTerminal}
         />
       );
 
@@ -170,6 +174,7 @@ export default Relay.createContainer(DepartureListContainerWithTime, {
           pickupType
           stop {
             code
+            platformCode
           }
           trip {
             gtfsId

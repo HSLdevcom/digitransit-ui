@@ -47,6 +47,7 @@ gemini.suite('components', () => {
 
   gemini.suite('DepartureTime', () => {
     gemini.suite('normal', test('DepartureTime', 2));
+    gemini.suite('canceled', test('DepartureTime', 3));
   });
 
   gemini.suite('RouteNumber', () => {
@@ -58,13 +59,13 @@ gemini.suite('components', () => {
     gemini.suite('isArrival', test('RouteDestination', 2));
   });
 
-  gemini.suite('StopReference', test('StopReference'));
-
   gemini.suite('Distance', () => {
     gemini.suite('zero', test('Distance'));
     gemini.suite('meters', test('Distance', 2));
     gemini.suite('km', test('Distance', 3));
   });
+
+  basicTest('PlatformNumber');
 
   basicTest('CardHeader');
   basicTest('Card');

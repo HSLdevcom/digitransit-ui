@@ -166,6 +166,7 @@ translations =
     'back-to-front-page': 'Takaisin etusivulle'
     'park-and-ride': 'Liityntäpysäköinti'
     'park-and-ride-availability': 'Pysäköintipaikkoja vapaana'
+    'platform-short': 'Lait.'
   'sv':
     'searching-position': 'Söker position'
     'own-position': 'Min position'
@@ -303,6 +304,7 @@ translations =
     'back-to-front-page': 'Back to front page'
     'park-and-ride': 'Infartsparkering'
     'park-and-ride-availability': 'Lediga parkeringsplatser'
+    'platform-short': 'Plat.'
   'nb':
     'stop-page.title': "Holdeplass {stop_name}"
     'stop-page.description': "Holdeplass {stop_name} - {stop_code}"

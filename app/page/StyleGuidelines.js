@@ -12,8 +12,8 @@ import Departure from '../component/departure/Departure';
 import RouteNumber from '../component/departure/RouteNumber';
 import RouteDestination from '../component/departure/RouteDestination';
 import DepartureTime from '../component/departure/DepartureTime';
-import StopReference from '../component/stop/stop-reference';
 import Distance from '../component/departure/distance';
+import PlatformNumber from '../component/departure/PlatformNumber';
 import NotImplemented from '../component/util/not-implemented';
 import NotImplementedLink from '../component/util/not-implemented-link';
 import CardHeader from '../component/card/CardHeader';
@@ -62,8 +62,8 @@ class StyleGuidelinesPage extends React.Component {
     RouteNumber,
     RouteDestination,
     DepartureTime,
-    StopReference,
     Distance,
+    PlatformNumber,
     NotImplemented,
     NotImplementedLink,
     CardHeader,
