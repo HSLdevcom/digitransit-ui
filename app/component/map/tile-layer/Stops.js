@@ -55,7 +55,7 @@ class Stops {
             const feature = vt.layers.stations.feature(i);
             if (feature.properties.type) {
               feature.geom = feature.loadGeometry()[0][0];
-              this.features.push(feature);
+              this.features.unshift(feature);
               drawTerminalIcon(
                 this.tile,
                 feature.geom,

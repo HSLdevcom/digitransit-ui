@@ -130,7 +130,9 @@ gemini.suite('components', () => {
 
   basicTest('MarkerSelectPopup');
   basicTest('SelectStopRow');
+  basicTest('SelectTerminalRow');
   basicTest('SelectCityBikeRow');
+  basicTest('SelectParkAndRideRow');
   basicTest('TicketInformation');
   basicTest('RouteScheduleDateSelect');
   basicTest('RouteScheduleHeader');
