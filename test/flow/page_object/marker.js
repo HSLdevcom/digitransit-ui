@@ -1,7 +1,7 @@
 function clickSouthOfCurrentLocation() {
   this.api.pause(500);
   this.api.element('class name', 'current-location-marker', (result) => {
-    this.api.moveTo(result.value.ELEMENT, 0, 50);
+    this.api.moveTo(result.value.ELEMENT, 20, 70); // 50 px south of current position
   });
   this.api.pause(100);
   this.api.mouseButtonClick();
