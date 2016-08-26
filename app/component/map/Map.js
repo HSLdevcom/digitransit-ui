@@ -122,11 +122,11 @@ class Map extends React.Component {
         if (this.props.showStops) {
           layers.push(Stops);
 
-          if (config.cityBike.showCityBikes) {
+          if (config.cityBike && config.cityBike.showCityBikes) {
             layers.push(CityBikes);
           }
 
-          if (config.parkAndRide.showParkAndRide) {
+          if (config.parkAndRide && config.parkAndRide.showParkAndRide) {
             layers.push(ParkAndRide);
           }
         }
