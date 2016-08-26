@@ -34,14 +34,14 @@ function DepartureTime(props, context) {
   }
 
   let realtime;
-  if (props.realtime && !props.canceled && departureTime.isAfter(currentTime)) {
+  if (props.realtime && !props.canceled) {
     realtime = <Icon img="icon-icon_realtime" className="realtime-icon realtime" />;
   }
   return (
     <span
       style={props.style}
       className={cx('time', {
-        realtime: departureTime.isAfter(currentTime) && props.realtime,
+        realtime: props.realtime,
         canceled: props.canceled,
       },
       props.className)}
