@@ -6,26 +6,26 @@ import RouteLine from '../map/route/RouteLine';
 import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeader from '../stop-cards/StopCardHeader';
 
-function RouteMapContainer(props) {
+function RouteMapContainer({ pattern, trip, className, children, toggleFullscreenMap }) {
   const leafletObjs = [
-    <RouteLine key="line" pattern={props.pattern} />,
+    <RouteLine key="line" pattern={pattern} />,
     <VehicleMarkerContainer
       key="vehicles"
-      pattern={props.pattern.code}
-      trip={props.trip}
+      pattern={pattern.code}
+      trip={trip}
     />,
   ];
 
   return (
     <Map
-      className={props.className}
+      className={className}
       leafletObjs={leafletObjs}
       fitBounds
-      bounds={props.pattern.geometry.map((p) => [p.lat, p.lon])}
+      bounds={pattern.geometry.map((p) => [p.lat, p.lon])}
     >
-      {props.children}
-      <div className="fullscreen-toggle" onClick={props.toggleFullscreenMap} >
-        {props.className === 'fullscreen' ?
+      {children}
+      <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
+        {className === 'fullscreen' ?
           <Icon img="icon-icon_minimize" className="cursor-pointer" /> :
           <Icon img="icon-icon_maximize" className="cursor-pointer" />}
       </div>
@@ -40,7 +40,6 @@ RouteMapContainer.contextTypes = {
 RouteMapContainer.propTypes = {
   className: React.PropTypes.string,
   trip: React.PropTypes.string,
-  tripId: React.PropTypes.string,
   toggleFullscreenMap: React.PropTypes.func.isRequired,
   pattern: React.PropTypes.object.isRequired,
   children: React.PropTypes.node,
