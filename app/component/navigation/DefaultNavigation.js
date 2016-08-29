@@ -11,7 +11,7 @@ class DefaultNavigation extends Component {
     className: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     disableBackButton: PropTypes.bool,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.node.isRequired,
     showLogo: PropTypes.bool,
   };
 
