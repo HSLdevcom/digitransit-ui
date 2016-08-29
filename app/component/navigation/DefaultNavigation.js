@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Link from 'react-router/lib/Link';
 import BackButton from './BackButton';
 import NotImplemented from '../util/not-implemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
@@ -24,12 +23,10 @@ class DefaultNavigation extends Component {
         <nav className="top-bar">
           {!this.props.disableBackButton ? <BackButton /> : null}
           <section className="title">
-            <Link to="/">
-              {this.props.showLogo ?
-                <div className="logo" /> :
-                <span className="title">{this.props.title}</span>
-              }
-            </Link>
+            {this.props.showLogo ?
+              <div className="logo" /> :
+              <span className="title">{this.props.title}</span>
+            }
           </section>
           <MainMenuContainer />
         </nav>
