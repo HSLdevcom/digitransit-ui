@@ -194,6 +194,15 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   }
 }
 
+
+.route-page-header.favourite-icon {
+  position: absolute;
+  top: 17px;
+  right: 20px;
+  height: 22px;
+  width: 22px;
+}
+
 // Schedule list
 .route-schedule-content-wrapper {
   height: 100%;
