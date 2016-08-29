@@ -9,7 +9,6 @@ import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import RouteListHeader from '../component/route/RouteListHeader';
 import Icon from '../component/icon/icon';
 import RouteNumber from '../component/departure/RouteNumber';
-import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
 import RouteStopListContainer from '../component/route/RouteStopListContainer';
 import RouteMapContainer from '../component/route/RouteMapContainer';
 import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
@@ -153,7 +152,6 @@ class RoutePage extends React.Component {
         }
       >
         <Helmet {...meta} />
-        <RouteHeaderContainer pattern={this.props.pattern} />
         <Tabs className="route-tabs">
           <ReactCSSTransitionGroup
             component={Tabs.Panel}

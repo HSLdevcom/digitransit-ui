@@ -218,7 +218,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 .route-schedule-stop-select {
   select {
-    border: 1px solid #ddd;
+    border: 1px solid $light-gray;
     border-radius: 5px;
     padding: 2px 33px 2px 10px;
     background-color: #fff;
@@ -328,16 +328,14 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 div.route-tabs {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   .tabs-navigation {
     flex-shrink: 0;
-    position: absolute;
-    top: 40px;
-    right: 10px;
-    width: initial;
-    min-width: 240px;
-    max-width: 300px;
+    width: calc(100% - 20px);
+    margin: 0 10px;
     padding: 0;
+    border-bottom: 1px solid $light-gray;
 
     .icon {
       display: block;
@@ -366,6 +364,10 @@ div.route-tabs {
       font-size: 7pt;
       min-width: 60px;
     }
+
+    ul {
+      float: none;
+    }
   }
 
   .tab-panel {
@@ -387,7 +389,6 @@ div.route-tabs {
     }
 
   }
-  height: calc(100% - #{$route-header-height});
 }
 
 
