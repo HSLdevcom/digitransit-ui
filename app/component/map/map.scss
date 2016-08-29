@@ -28,6 +28,7 @@ div.map.full {
   min-height: $small-map-height;
   max-height: 100%;
   flex-grow: 1;
+  flex-basis: 0;
 }
 div.background-gradient {
   height: $small-map-height;
