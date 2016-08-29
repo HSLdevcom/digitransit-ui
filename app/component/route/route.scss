@@ -522,3 +522,18 @@ div.route-tabs {
   text-align: center;
   margin-top: 50px;
 }
+
+nav.top-bar .title .route-number {
+  .vehicle-number {
+    color: $title-color;
+  }
+
+  font-size: 21px;
+  .icon {
+    margin-top: -4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: $border-radius;
+    height: 25px;
+    width: 25px;
+  }
+}

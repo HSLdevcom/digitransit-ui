@@ -8,6 +8,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import RouteListHeader from '../component/route/RouteListHeader';
 import Icon from '../component/icon/icon';
+import RouteNumber from '../component/departure/RouteNumber';
 import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
 import RouteStopListContainer from '../component/route/RouteStopListContainer';
 import RouteMapContainer from '../component/route/RouteMapContainer';
@@ -102,7 +103,7 @@ class RoutePage extends React.Component {
 
   render() {
     if (this.props.pattern == null) {
-      return <NotFound />;
+      return <NotFound />; // TODO: redirect?
     }
 
     const params = {
@@ -110,13 +111,11 @@ class RoutePage extends React.Component {
       route_long_name: this.props.pattern.route.longName,
     };
 
-    const title = this.context.intl.formatMessage({
-      id: 'route-page.title',
-      defaultMessage: 'Route {route_short_name}',
-    }, params);
-
     const meta = {
-      title,
+      title: this.context.intl.formatMessage({
+        id: 'route-page.title',
+        defaultMessage: 'Route {route_short_name}',
+      }, params),
       meta: [{
         name: 'description',
         content: this.context.intl.formatMessage({
@@ -144,7 +143,15 @@ class RoutePage extends React.Component {
 
 
     return (
-      <DefaultNavigation className="fullscreen" title={title}>
+      <DefaultNavigation
+        className="fullscreen"
+        title={
+          <RouteNumber
+            mode={this.props.pattern.route.mode}
+            text={this.props.pattern.route.shortName}
+          />
+        }
+      >
         <Helmet {...meta} />
         <RouteHeaderContainer pattern={this.props.pattern} />
         <Tabs className="route-tabs">
@@ -226,6 +233,7 @@ export default Relay.createContainer(RoutePage, {
         route {
           shortName
           longName
+          mode
           patterns {
             code
             headsign
@@ -235,7 +243,6 @@ export default Relay.createContainer(RoutePage, {
           }
           ${RouteAlertsContainer.getFragment('route')}
         }
-        ${RouteHeaderContainer.getFragment('pattern')}
         ${RouteMapContainer.getFragment('pattern')}
         ${RouteScheduleContainer.getFragment('pattern')}
         ${RouteStopListContainer.getFragment('pattern', { routeId })}
