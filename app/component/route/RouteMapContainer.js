@@ -21,7 +21,7 @@ function RouteMapContainer(props) {
       className={props.className}
       leafletObjs={leafletObjs}
       fitBounds
-      bounds={props.pattern.geometry.map((p) => [p.lat, p.lon])}
+      bounds={(props.pattern.geometry || props.pattern.stops).map((p) => [p.lat, p.lon])}
     >
       {props.children}
       <div className="fullscreen-toggle" onClick={props.toggleFullscreenMap} >
