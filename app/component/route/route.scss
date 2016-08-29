@@ -345,6 +345,7 @@ div.route-tabs {
     margin: 0 10px;
     padding: 0;
     border-bottom: 1px solid $light-gray;
+    pointer-events: none;
 
     .icon {
       display: block;
@@ -356,6 +357,7 @@ div.route-tabs {
     .tabs-menu-item {
       padding: 8px 0 5px;
       border: none;
+      pointer-events: auto;
     }
 
     li a {

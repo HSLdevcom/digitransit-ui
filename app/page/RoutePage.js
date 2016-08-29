@@ -8,7 +8,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import RouteListHeader from '../component/route/RouteListHeader';
 import Icon from '../component/icon/icon';
-import Favourite from '../component/favourites/Favourite';
+import FavouriteRouteContainer from '../component/favourites/FavouriteRouteContainer';
 import RouteNumber from '../component/departure/RouteNumber';
 import RouteStopListContainer from '../component/route/RouteStopListContainer';
 import RouteMapContainer from '../component/route/RouteMapContainer';
@@ -153,8 +153,9 @@ class RoutePage extends React.Component {
         }
       >
         <Helmet {...meta} />
-        <Favourite
+        <FavouriteRouteContainer
           className="route-page-header"
+          gtfsId={this.props.pattern.route.gtfsId}
         />
         <Tabs className="route-tabs">
           <ReactCSSTransitionGroup
@@ -233,6 +234,7 @@ export default Relay.createContainer(RoutePage, {
         code
         headsign
         route {
+          gtfsId
           shortName
           longName
           mode
