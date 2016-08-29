@@ -339,13 +339,13 @@ div.route-tabs {
 
     .icon {
       display: block;
-      width: 16px;
-      height: 16px;
-      margin: 5px auto;
+      width: 15px;
+      height: 15px;
+      margin: 4px auto;
     }
 
     .tabs-menu-item {
-      padding: 9px 0;
+      padding: 8px 0 5px;
       border: none;
     }
 
@@ -361,7 +361,7 @@ div.route-tabs {
     }
 
     ul li {
-      font-size: 7pt;
+      font-size: 6pt;
       min-width: 60px;
     }
 
@@ -430,15 +430,15 @@ div.route-tabs {
 }
 
 .route-pattern-select {
-  padding: 10px;
+  padding: 8px 10px;
   background-color: #eef1f3;
   position: relative;
-  min-height: 60px;
+  min-height: 53px;
 
   select {
-    padding: 10px;
-    height: 40px;
-    border-radius: $border-radius;
+    padding: 6px 10px;
+    height: 35px;
+    border-radius: $border-radius-bigger;
     border: 1px solid $light-gray;
     font-weight: bold;
     appearance: none;
@@ -529,12 +529,12 @@ nav.top-bar .title .route-number {
     color: $title-color;
   }
 
-  font-size: 21px;
+  font-size: 24px;
   .icon {
     margin-top: -4px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: $border-radius;
-    height: 25px;
-    width: 25px;
+    height: 26px;
+    width: 26px;
   }
 }
