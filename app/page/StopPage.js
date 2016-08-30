@@ -15,7 +15,7 @@ import { addFavouriteStop } from '../action/FavouriteActions';
 import Icon from '../component/icon/icon';
 
 function StopPage(props, { intl, router, executeAction }) {
-  const isTerminal = props.route.name.startsWith('station');
+  const isTerminal = !(props.params.stopId);
   const prefix = isTerminal ? 'terminaalit' : 'pysakit';
   const id = isTerminal ? props.params.terminalId : props.params.stopId;
 

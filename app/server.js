@@ -200,7 +200,7 @@ export default function (req, res, next) {
     } else {
       const promises = [getPolyfills(req.headers['user-agent'])];
 
-      if (renderProps.components[1].loadAction) {
+      if (renderProps.components[1] && renderProps.components[1].loadAction) {
         renderProps.components[1]
           .loadAction(renderProps.params)
           .forEach(action => promises.push(context.executeAction(action[0], action[1])));
