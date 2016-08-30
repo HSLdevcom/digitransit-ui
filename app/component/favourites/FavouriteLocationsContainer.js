@@ -1,13 +1,36 @@
 import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { FavouriteLocationContainerRoute } from '../../queries';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { setEndpoint } from '../../action/EndpointActions';
 
 import config from '../../config';
+
+class FavouriteLocationContainerRoute extends Relay.Route {
+  static queries = {
+    plan: (Component, variables) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('plan', {
+          from: variables.from,
+          to: variables.to,
+          maxWalkDistance: variables.maxWalkDistance,
+          wheelchair: variables.wheelchair,
+          preferred: variables.preferred,
+          arriveBy: variables.arriveBy,
+          disableRemainingWeightHeuristic: variables.disableRemainingWeightHeuristic,
+        })}
+      }
+    }`,
+  };
+  static paramDefinitions = {
+    from: { required: true },
+    to: { required: true },
+  };
+  static routeName = 'FavouriteLocationsContainerRoute';
+}
 
 class FavouriteLocationsContainer extends React.Component {
 
@@ -121,7 +144,7 @@ export default connectToStores(FavouriteLocationsContainer,
              if (position.hasLocation) {
                return position;
              }
-             return false;
+             return null;
            }
 
            return origin;

@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
-import { createContainer } from 'react-relay';
+import Relay from 'react-relay';
 import head from 'lodash/head';
 import find from 'lodash/find';
-import { FavouriteLocationContainerFragments } from '../../queries';
 import FavouriteLocation from './FavouriteLocation';
 import config from '../../config';
 
@@ -28,9 +27,42 @@ FavouriteLocationContainer.propTypes = {
   onClickFavourite: PropTypes.func.isRequired,
 };
 
-export default createContainer(FavouriteLocationContainer, {
-  fragments: FavouriteLocationContainerFragments,
-
+export default Relay.createContainer(FavouriteLocationContainer, {
+  fragments: {
+    plan: () => Relay.QL`
+      fragment on QueryType {
+        plan(
+          from: $from,
+          to: $to,
+          numItineraries: $numItineraries,
+          walkReluctance: $walkReluctance,
+          walkBoardCost: $walkBoardCost,
+          minTransferTime: $minTransferTime,
+          walkSpeed: $walkSpeed,
+          maxWalkDistance:
+          $maxWalkDistance,
+          wheelchair: $wheelchair,
+          disableRemainingWeightHeuristic:
+          $disableRemainingWeightHeuristic,
+          arriveBy: $arriveBy,
+          preferred: $preferred
+        ) {
+          itineraries {
+            startTime
+            endTime
+            legs {
+              realTime
+              transitLeg
+              mode
+              route {
+                shortName
+              }
+            }
+          }
+        }
+      }
+    `,
+  },
   initialVariables: {
     from: null,
     to: null,
