@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FavouriteLocationContainerRoute } from '../../queries';
-import FavouriteLocationContainer from './favourite-location-container';
+import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { setEndpoint } from '../../action/EndpointActions';
@@ -82,12 +82,10 @@ class FavouriteLocationsContainer extends React.Component {
         })} renderLoading={() => (favouriteLocation)
         } renderFetched={(data) => (
           <FavouriteLocationContainer
-            {
-            ...Object.assign({
-              favourite,
-              onClickFavourite: this.setDestination,
-              currentTime: this.props.currentTime.unix(),
-            }, data)}
+            favourite={favourite}
+            onClickFavourite={this.setDestination}
+            currentTime={this.props.currentTime.unix()}
+            {...data}
           />)
         }
       />);
