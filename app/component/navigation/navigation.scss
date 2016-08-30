@@ -144,10 +144,12 @@ nav.top-bar {
 .content {
   background-color: $content-background-color;
   height: calc(100% - #{$topbar-height});
+  position: relative;
 }
 
 .content:nth-child(5) {
   height: calc(100% - #{$topbar-height} - 60px - 18px);
+  position: relative;
   // 60px and 18px are the height of the message bar, but is specified in js
 }
 

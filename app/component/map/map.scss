@@ -1,4 +1,4 @@
-$small-map-height: 120px;
+$small-map-height: 100px;
 $medium-map-height: 300px;
 $large-map-height: 500px;
 $stop-thin-opacity: 0.2;
@@ -28,6 +28,7 @@ div.map.full {
   min-height: $small-map-height;
   max-height: 100%;
   flex-grow: 1;
+  flex-basis: 0;
 }
 div.background-gradient {
   height: $small-map-height;
@@ -390,7 +391,7 @@ div.background-gradient {
   width: 100%;
   position: absolute;
   top: 0px;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   pointer-events: none;
   z-index: 801;
 }
