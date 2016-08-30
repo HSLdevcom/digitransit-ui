@@ -57,11 +57,14 @@ export default class ParkAndRide {
                   feature.properties.facilities = result;
                   feature.geom = feature.loadGeometry()[0][0];
                   this.features.push(feature);
-                  this.tile.ctx.drawImage(
-                    getImageFromSprite('icon-icon_park-and-ride', this.width, this.height),
-                    (feature.geom.x / this.tile.ratio) - (this.width / 2),
-                    (feature.geom.y / this.tile.ratio) - (this.height / 2)
-                  );
+                  getImageFromSprite('icon-icon_park-and-ride', this.width, this.height)
+                    .then(image => {
+                      this.tile.ctx.drawImage(
+                        image,
+                        (feature.geom.x / this.tile.ratio) - (this.width / 2),
+                        (feature.geom.y / this.tile.ratio) - (this.height / 2)
+                      );
+                    });
                 }
               }
             });
@@ -87,11 +90,14 @@ export default class ParkAndRide {
                   feature.properties.facility = result;
                   feature.geom = new Contour(feature.loadGeometry()[0]).centroid();
                   this.features.push(feature);
-                  this.tile.ctx.drawImage(
-                    getImageFromSprite('icon-icon_park-and-ride', this.width, this.height),
-                    (feature.geom.x / this.tile.ratio) - (this.width / 2),
-                    (feature.geom.y / this.tile.ratio) - (this.height / 2)
-                  );
+                  getImageFromSprite('icon-icon_park-and-ride', this.width, this.height)
+                    .then(image => {
+                      this.tile.ctx.drawImage(
+                        image,
+                        (feature.geom.x / this.tile.ratio) - (this.width / 2),
+                        (feature.geom.y / this.tile.ratio) - (this.height / 2)
+                      );
+                    });
                 }
               }
             });
