@@ -168,29 +168,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     position: absolute;
     top: 13px;
     right: 15px;
-    padding: 0;
-    height: 24px;
-    width: 24px;
-
-    .icon.favourite {
-      height: 24px;
-      width: 24px;
-      stroke: $route-header-favourite-icon-stroke-color;
-      stroke-width: 50px;
-      fill: $route-header-favourite-icon-fill-color;
-    }
-
-    .icon.favourite:hover {
-      stroke: $route-header-favourite-icon-hover-stroke-color;
-    }
-
-    .icon.favourite.selected {
-      fill: $route-header-favourite-icon-selected-fill-color;
-    }
-
-    .icon.favourite.selected:hover {
-      stroke: $route-header-favourite-icon-selected-hover-stroke-color;
-    }
   }
 }
 
