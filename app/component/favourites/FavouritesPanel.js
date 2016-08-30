@@ -5,7 +5,7 @@ import { FavouriteRouteListContainerRoute } from '../../queries';
 import FavouriteRouteListContainer from './FavouriteRouteListContainer';
 import FavouriteLocationsContainer from './favourite-locations-container';
 import NextDeparturesListHeader from '../departure/next-departures-list-header';
-import NoFavouritesPanel from './no-favourites-panel';
+import NoFavouritesPanel from './NoFavouritesPanel';
 
 
 const FavouriteRoutes = ({ routes }) => {
