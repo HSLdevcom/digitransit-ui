@@ -4,7 +4,8 @@ This is a list of the existing z-index values of UI components. The z-index prop
 
 Selector | Component | Z-Index | Comment
 ---------|-----------|---------|--------
-`.modal-overlay` | Modal util | 3000 | Inline styling 
+`.modal-overlay` | Modal util | 3000 |
+N/A | React Material Drawer | 1200/1300 | Defined by material-ui
 `.search-modal` | Search modal | 1202 |
 `.frontpage-panel-container .tabs-row` | Front page tabs | 1201 |
 `.frontpage-panel-wrapper` | Front page pull ups (nearby, favourites) | 1200 |
