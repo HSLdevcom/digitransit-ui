@@ -52,82 +52,82 @@ const terminalQueries = {
 };
 
 const routes = (
-  <Route path="/" name="app" component={TopLevel}>
-    <IndexRoute
-      component={splashOrComponent(IndexPage)}
-    />
-    <Route
-      path="pysakit"
-      name="stopList"
-      component={Error404}
-    />
-    <Route
-      path="pysakit/:stopId"
-      name="stop"
-      component={StopPage}
-      queries={StopQueries}
-      render={({ props }) => (props ? <StopPage {...props} /> : <LoadingPage />)}
-    />
-    <Route
-      path="pysakit/:stopId/kartta"
-      name="stopMap"
-      component={StopPage}
-      queries={StopQueries}
-      render={({ props }) => (props ? <StopPage {...props} fullscreenMap /> : <LoadingPage />)}
-    />
-    <Route path="pysakit/:stopId/info" name="stopInfo" component={Error404} />
-    <Route
-      path="terminaalit/:terminalId"
-      name="station"
-      component={StopPage}
-      queries={terminalQueries}
-      render={({ props }) => (props ? <StopPage {...props} /> : <LoadingPage />)}
-    />
-    <Route
-      path="terminaalit/:terminalId/kartta"
-      name="stationMap"
-      component={StopPage}
-      queries={terminalQueries}
-      render={({ props }) => (props ? <StopPage {...props} fullscreenMap /> : <LoadingPage />)}
-    />
-    <Route path="linjat" name="routeList" component={Error404} />
-    <Route
-      path="linjat/:routeId"
-      name="route"
-      component={RoutePage}
-      queries={RouteQueries}
-      render={({ props }) => (props ? <RoutePage {...props} /> : <LoadingPage />)}
-    />
-    <Route
-      path="linjat/:routeId/kartta"
-      name="route"
-      component={RoutePage}
-      queries={RouteQueries}
-      render={({ props }) => (props ? <RoutePage {...props} fullscreenMap /> : <LoadingPage />)}
-    />
-    <Route
-      path="lahdot/:tripId"
-      name="trip"
-      component={TripPage}
-      queries={TripQueries}
-      render={({ props }) => (props ? <TripPage {...props} /> : <LoadingPage />)}
-    />
-    <Route
-      path="lahdot/:tripId/kartta"
-      name="tripMap"
-      component={TripPage}
-      queries={TripQueries}
-      render={({ props }) => (props ? <TripPage {...props} fullscreenMap /> : <LoadingPage />)}
-    />
-    <Route path="reitti/:from/:to" name="summary" component={SummaryPage} />
-    <Route path="reitti/:from/:to/:hash" name="itinerary" component={ItineraryPage} />
-    <Route path="reitti/:from/:to/:hash/navigoi" name="navigate" component={Error404} />
-    <Route path="styleguide" name="styleGuidelines" component={StyleGuidelines} />
-    <Route
-      path="styleguide/component/:componentName" name="componentExample" component={StyleGuidelines}
-    />
-    <Route path="suosikki/uusi" name="addFavourite" component={AddFavouritePage} />
-    <Route path="suosikki/muokkaa/:id" name="editFavourite" component={AddFavouritePage} />
+  <Route path="/" component={TopLevel}>
+    <IndexRoute component={splashOrComponent(IndexPage)} />
+    <Route path="pysakit">
+      <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
+      <Route path=":stopId">
+        <IndexRoute
+          component={StopPage}
+          queries={StopQueries}
+          render={({ props }) => (props ? <StopPage {...props} /> : <LoadingPage />)}
+        />
+        <Route
+          path="kartta"
+          component={StopPage}
+          queries={StopQueries}
+          render={({ props }) => (props ? <StopPage {...props} fullscreenMap /> : <LoadingPage />)}
+        />
+        <Route path="info" component={Error404} />
+      </Route>
+    </Route>
+    <Route path="terminaalit">
+      <IndexRoute component={Error404} /> {/* TODO: Should return list of all terminals*/}
+      <Route path=":terminalId">
+        <IndexRoute
+          component={StopPage}
+          queries={terminalQueries}
+          render={({ props }) => (props ? <StopPage {...props} isTerminal /> : <LoadingPage />)}
+        />
+        <Route
+          path="kartta"
+          component={StopPage}
+          queries={terminalQueries}
+          render={({ props }) => (
+            props ? <StopPage {...props} isTerminal fullscreenMap /> : <LoadingPage />
+          )}
+        />
+      </Route>
+    </Route>
+    <Route path="linjat">
+      <IndexRoute component={Error404} />
+      <Route path=":routeId">
+        <IndexRoute
+          component={RoutePage}
+          queries={RouteQueries}
+          render={({ props }) => (props ? <RoutePage {...props} /> : <LoadingPage />)}
+        />
+        <Route
+          path="kartta"
+          component={RoutePage}
+          queries={RouteQueries}
+          render={({ props }) => (props ? <RoutePage {...props} fullscreenMap /> : <LoadingPage />)}
+        />
+      </Route>
+    </Route>
+    <Route path="lahdot">
+      <IndexRoute component={Error404} />
+      <Route path=":tripId">
+        <IndexRoute
+          component={TripPage}
+          queries={TripQueries}
+          render={({ props }) => (props ? <TripPage {...props} /> : <LoadingPage />)}
+        />
+        <Route
+          path="kartta"
+          component={TripPage}
+          queries={TripQueries}
+          render={({ props }) => (props ? <TripPage {...props} fullscreenMap /> : <LoadingPage />)}
+        />
+      </Route>
+    </Route>
+    <Route path="reitti/:from/:to" component={SummaryPage} />
+    <Route path="reitti/:from/:to/:hash" component={ItineraryPage} />
+    <Route path="reitti/:from/:to/:hash/navigoi" component={Error404} />
+    <Route path="styleguide" component={StyleGuidelines} />
+    <Route path="styleguide/component/:componentName" component={StyleGuidelines} />
+    <Route path="suosikki/uusi" component={AddFavouritePage} />
+    <Route path="suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route path="tietoja-palvelusta" name="about" component={AboutPage} />
     {/* Main menu does not open without this in mock mode? */}
     <Route path="/?mock" name="mockIndex" component={IndexPage} />
