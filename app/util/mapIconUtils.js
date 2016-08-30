@@ -155,11 +155,14 @@ export function drawTerminalIcon(tile, geom, type, name) {
 
     if (stopRadius > 6) {
       const iconSize = (stopRadius - 2) * tile.scaleratio;
-      tile.ctx.drawImage(
-        getImageFromSprite('icon-icon_station', iconSize, iconSize, 'white'),
-        (geom.x / tile.ratio) - (iconSize / 2),
-        (geom.y / tile.ratio) - (iconSize / 2),
-      );
+      const img = getImageFromSpriteInternal('icon-icon_station', iconSize, iconSize, 'white');
+      img.onload = function draw() {
+        tile.ctx.drawImage(
+          this,
+          (geom.x / tile.ratio) - (iconSize / 2),
+          (geom.y / tile.ratio) - (iconSize / 2),
+        );
+      };
 
       if (name) {
         /* eslint-disable no-param-reassign */
