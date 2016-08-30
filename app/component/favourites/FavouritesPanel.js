@@ -3,10 +3,9 @@ import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FavouriteRouteListContainerRoute } from '../../queries';
 import FavouriteRouteListContainer from './FavouriteRouteListContainer';
-import FavouriteLocationsContainer from './favourite-locations-container';
+import FavouriteLocationsContainer from './FavouriteLocationsContainer';
 import NextDeparturesListHeader from '../departure/next-departures-list-header';
 import NoFavouritesPanel from './NoFavouritesPanel';
-
 
 const FavouriteRoutes = ({ routes }) => {
   if (routes.length > 0) {
@@ -19,14 +18,12 @@ const FavouriteRoutes = ({ routes }) => {
       )}
     />);
   }
-
   return <NoFavouritesPanel />;
 };
 
 FavouriteRoutes.propTypes = {
   routes: React.PropTypes.array.isRequired,
 };
-
 
 const FavouritesPanel = ({
   routes,
@@ -39,7 +36,6 @@ const FavouritesPanel = ({
       <FavouriteRoutes routes={routes} />
     </div>
   </div>);
-
 
 FavouritesPanel.propTypes = {
   routes: React.PropTypes.array.isRequired,
