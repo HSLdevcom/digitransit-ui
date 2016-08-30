@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import Tabs from 'react-simpletabs';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage, intlShape } from 'react-intl';
+import Link from 'react-router/lib/Link';
 
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import RouteListHeader from '../component/route/RouteListHeader';
@@ -146,10 +147,12 @@ class RoutePage extends React.Component {
       <DefaultNavigation
         className="fullscreen"
         title={
-          <RouteNumber
-            mode={this.props.pattern.route.mode}
-            text={this.props.pattern.route.shortName}
-          />
+          <Link to={`/linjat/${this.props.pattern.code}`}>
+            <RouteNumber
+              mode={this.props.pattern.route.mode}
+              text={this.props.pattern.route.shortName}
+            />
+          </Link>
         }
       >
         <Helmet {...meta} />
