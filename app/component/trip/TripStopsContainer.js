@@ -11,6 +11,11 @@ class TripStopsContainer extends React.Component {
   static propTypes = {
     trip: React.PropTypes.shape({
       pattern: React.PropTypes.object.isRequired,
+      stoptimesForDate: React.PropTypes.arrayOf(
+        React.PropTypes.shape({
+          scheduledDeparture: React.PropTypes.number.isRequired,
+        }).isRequired
+      ).isRequired,
     }).isRequired,
     route: React.PropTypes.shape({
       fullscreenMap: React.PropTypes.bool,
@@ -42,6 +47,8 @@ class TripStopsContainer extends React.Component {
       ]);
     }
 
+    const startTime = this.props.trip.stoptimesForDate[0].scheduledDeparture;
+
     return (
       <ReactCSSTransitionGroup
         component="div"
@@ -55,6 +62,7 @@ class TripStopsContainer extends React.Component {
           pattern={this.props.trip.pattern}
           toggleFullscreenMap={this.toggleFullscreenMap}
           className="routeMap full"
+          tripStart={`${startTime % (60 * 60)}${startTime % (60 * 60)}`}
         >
           {!this.props.route.fullscreenMap ?
             <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} /> :
@@ -72,6 +80,9 @@ export default Relay.createContainer(TripStopsContainer, {
     trip: () =>
       Relay.QL`
       fragment on Trip {
+        stoptimesForDate {
+          scheduledDeparture
+        }
         pattern {
           ${RouteMapContainer.getFragment('pattern')}
         }

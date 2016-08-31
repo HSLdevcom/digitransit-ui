@@ -2,9 +2,6 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-/**
- * wrapperClassName is here because Safari!
- */
 const IconWithTail = ({ className, id, img, rotate = 180, children, desaturate = false }) => (
   <span><svg
     id={id} viewBox="0 0 80 80" className={cx('icon', 'tail-icon', className)}
@@ -35,7 +32,6 @@ IconWithTail.description = (
 
 IconWithTail.propTypes = {
   id: React.PropTypes.string,
-  wrapperClassName: React.PropTypes.string,
   className: React.PropTypes.string,
   img: React.PropTypes.string.isRequired,
   rotate: React.PropTypes.number,
