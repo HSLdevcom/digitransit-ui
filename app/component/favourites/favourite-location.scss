@@ -1,4 +1,4 @@
-$font-size-supersmall: 10px;
+$font-size-supersmall: 12px;
 
 .favourite-button-shared {
   text-align: center;
@@ -7,15 +7,40 @@ $font-size-supersmall: 10px;
   cursor: pointer;
   max-width: 320px;
   padding-top: 8px;
-  padding-bottom: 8px;
+  padding-bottom: 3px;
+}
+
+.favourite-edit-icon-click-area {
+  //background-color: rgb(10,80,190);
+  border-bottom: 1px solid $light-gray;
+  border-left: 1px solid $light-gray;
+  border-bottom-left-radius: $border-radius;
+  width: 1.4em;
+  height: 1.4em;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  position: absolute;
+
+  .favourite-edit-icon {
+    color: $light-gray;
+    font-size: 12px;
+    margin-left: 5px;
+  }
 }
 
 .favourite-location-content {
   @extend .favourite-button-shared;
   background: $white;
-  .favourite-location-header {
+  height: 80px;
+
+
+  .favourite-edit-button {
+    background-color: rgb(200,128,128);
     color: $gray-blue;
-    font-size: 12px;
+    font-size: 11px;
+    width: 2.5em;
+    height: 2.5em;
   }
   .time {
     padding-left: 0.25em;
@@ -34,18 +59,21 @@ $font-size-supersmall: 10px;
     padding-left: 0.25em;
   }
   .favourite-location-icon {
-    padding-left: 0.25em;
     color: $gray-blue;
     vertical-align: middle;
+    font-size: 1.2em;
+  }
+
+  .favourite-location-name {
+    color: $gray-blue;
+    vertical-align: middle;
+    font-size: 0.75em;
   }
   .favourite-location-departure {
     vertical-align: middle;
     & > span {
       vertical-align: middle;
-    }
-    .favourite-location-arrow {
-      font-size: $font-size-supersmall;
-      color: $gray;
+      padding-top: 3px;
     }
     .route-number {
       width: auto;
@@ -55,11 +83,6 @@ $font-size-supersmall: 10px;
         vertical-align: middle;
       }
     }
-  }
-  .favourite-location-departure-icon {
-    width: 0.8em;
-    height: 0.8em;
-    color: $gray-blue;
   }
   .favourite-location-departure-time {
     vertical-align: top;
@@ -79,7 +102,7 @@ $font-size-supersmall: 10px;
 .new-favourite-button-content {
   @extend .favourite-button-shared;
   background: $background-color;
-  height: 85.25px;
+  height: 80px;
 
   .add-new-favourite-icon {
     color: $gray-blue;
