@@ -189,11 +189,11 @@ export async function drawTerminalIcon(tile, geom, type, name) {
   }
 }
 
-function drawIconImage(image, tile, geom, imageSize) {
+function drawIconImage(image, tile, geom, width, height) {
   tile.ctx.drawImage(
     image,
-    (geom.x / tile.ratio) - (imageSize / 2),
-    (geom.y / tile.ratio) - (imageSize / 2)
+    (geom.x / tile.ratio) - (width / 2),
+    (geom.y / tile.ratio) - (height / 2)
   );
 }
 
@@ -210,14 +210,19 @@ function calculateIconBadgePosition(coord, tile, imageSize, badgeSize, scalerati
     (imageSize / 2) - (badgeSize / 2)) + (2 * scaleratio);
 }
 
+export async function drawParkAndRideIcon(tile, geom, width, height, scaleratio) {
+  const image = await getImageFromSpriteCache('icon-icon_park-and-ride', width, height, 'white');
+  drawIconImage(image, tile, geom, width, height)
+}
+
 export async function drawCitybikeIcon(tile, geom, imageSize, scaleratio) {
   const image = await getImageFromSpriteCache('icon-icon_citybike', imageSize, imageSize, 'white');
-  drawIconImage(image, tile, geom, imageSize)
+  drawIconImage(image, tile, geom, imageSize, imageSize);
 }
 
 export async function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
   const image = await getImageFromSpriteCache('icon-icon_not-in-use', imageSize, imageSize, 'white');
-  drawIconImage(image, tile, geom, imageSize)
+  drawIconImage(image, tile, geom, imageSize, imageSize)
 }
 
 export async function drawGoodAvailabilityBadge(tile, geom, imageSize, badgeSize, scaleratio) {
