@@ -4,7 +4,7 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { routePatterns as exampleRoutePatterns } from '../documentation/ExampleData';
 
 export default function RoutePatternSelect(props) {
-  const options = props.pattern.route.patterns.map((pattern) =>
+  const options = props.route && props.route.patterns.map((pattern) =>
     (<option key={pattern.code} value={pattern.code}>
       {pattern.stops[0].name} ➔ {pattern.headsign}
     </option>));
@@ -12,7 +12,7 @@ export default function RoutePatternSelect(props) {
   return (
     <div className="route-pattern-select">
       <Icon img="icon-icon_arrow-dropdown" />
-      <select onChange={props.onSelectChange} value={props.pattern.code}>
+      <select onChange={props.onSelectChange} value={props.params && props.params.patternId}>
         {options}
       </select>
     </div>
@@ -20,7 +20,8 @@ export default function RoutePatternSelect(props) {
 }
 
 RoutePatternSelect.propTypes = {
-  pattern: React.PropTypes.object.isRequired,
+  params: React.PropTypes.object,
+  route: React.PropTypes.object,
   onSelectChange: React.PropTypes.func.isRequired,
 };
 

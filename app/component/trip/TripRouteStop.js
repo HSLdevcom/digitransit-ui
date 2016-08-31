@@ -33,6 +33,7 @@ const TripRouteStop = (props) => {
         key={vehicle.id}
         mode={vehicle.mode}
         pattern={props.pattern}
+        route={props.route}
         selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
       />)
     );
@@ -79,6 +80,7 @@ TripRouteStop.propTypes = {
   stoptime: React.PropTypes.object.isRequired,
   currentTime: React.PropTypes.number.isRequired,
   pattern: React.PropTypes.string.isRequired,
+  route: React.PropTypes.string.isRequired,
   selectedVehicle: React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.oneOf([false]),
