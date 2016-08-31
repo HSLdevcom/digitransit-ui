@@ -31,7 +31,12 @@ class TripStopListContainer extends React.Component {
       .map(stoptime => stoptime.stop));
 
     const mode = this.props.trip.route.mode.toLowerCase();
+    // groups by next_stop (busses)
     const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
+
+    // groups by stop_index (trams)
+    const vehicleStopIndex = groupBy(this.props.vehicles, vehicle => `${vehicle.stop_index}`);
+
     const vehiclesWithCorrectStartTime = Object.keys(this.props.vehicles)
       .map((key) => (this.props.vehicles[key]))
       .filter((vehicle) => (vehicle.tripStartTime === this.props.tripStart));
@@ -59,7 +64,7 @@ class TripStopListContainer extends React.Component {
         stoptime={stoptime}
         stop={stoptime.stop}
         mode={mode}
-        vehicles={vehicleStops[stoptime.stop.gtfsId]}
+        vehicles={vehicleStops[stoptime.stop.gtfsId] || vehicleStopIndex[index + 1]}
         selectedVehicle={vehicle}
         stopPassed={stopPassed}
         realtime={stoptime.realtime}
