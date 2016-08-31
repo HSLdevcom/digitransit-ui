@@ -34,11 +34,7 @@ class RouteStopListContainer extends React.Component {
       getDistanceToNearestStop(state.lat, state.lon, stops) : null;
     const mode = this.props.pattern.route.mode.toLowerCase();
 
-    // groups by next_stop (busses)
     const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
-
-    // groups by stop_index (trams)
-    const vehicleStopIndex = groupBy(this.props.vehicles, vehicle => `${vehicle.stop_index}`);
 
     return stops.map((stop, i) => {
       const isNearest = (
@@ -46,13 +42,12 @@ class RouteStopListContainer extends React.Component {
           nearest.stop.gtfsId
       ) === stop.gtfsId;
 
-
       return (
         <RouteStopClass
           key={stop.gtfsId}
           stop={stop}
           mode={mode}
-          vehicles={vehicleStops[stop.gtfsId] || vehicleStopIndex[i + 1]}
+          vehicles={vehicleStops[stop.gtfsId]}
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? 'nearestStop' : null}
           currentTime={this.props.currentTime.unix()}
