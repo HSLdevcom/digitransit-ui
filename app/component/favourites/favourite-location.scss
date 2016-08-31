@@ -27,6 +27,15 @@ $font-size-supersmall: 12px;
     font-size: 12px;
     margin-left: 5px;
   }
+
+  &:after{
+    content:"";
+    position: absolute;
+    left: -5px;
+    top: -5px;
+    bottom: -5px;
+    right: -5px;
+  }
 }
 
 .favourite-location-content {
