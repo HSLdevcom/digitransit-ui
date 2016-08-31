@@ -1,27 +1,49 @@
 import React from 'react';
 import Relay from 'react-relay';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from '../icon/icon';
 import Map from '../map/Map';
 import RouteLine from '../map/route/RouteLine';
 import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeader from '../stop-cards/StopCardHeader';
 
-function RouteMapContainer({ pattern, trip, className, children, toggleFullscreenMap }) {
+function RouteMapContainer(
+  { pattern, tripStart, className, children, toggleFullscreenMap, vehicles }) {
   const leafletObjs = [
     <RouteLine key="line" pattern={pattern} />,
     <VehicleMarkerContainer
       key="vehicles"
       pattern={pattern.code}
-      trip={trip}
+      tripStart={tripStart}
     />,
   ];
 
+  let selectedVehicle;
+  let fitBounds = true;
+  let zoom;
+
+  if (tripStart) {
+    const vehiclesWithCorrectStartTime = Object.keys(vehicles).map((key) => (vehicles[key]))
+      .filter((vehicle) => (vehicle.tripStartTime === tripStart));
+
+    selectedVehicle = (vehiclesWithCorrectStartTime && vehiclesWithCorrectStartTime.length > 0)
+      && vehiclesWithCorrectStartTime[0];
+
+    if (selectedVehicle) {
+      fitBounds = false;
+      zoom = 15;
+    }
+  }
+
   return (
     <Map
+      lat={(selectedVehicle && selectedVehicle.lat) || undefined}
+      lon={(selectedVehicle && selectedVehicle.long) || undefined}
       className={className}
       leafletObjs={leafletObjs}
-      fitBounds
+      fitBounds={fitBounds}
       bounds={pattern.geometry.map((p) => [p.lat, p.lon])}
+      zoom={zoom}
     >
       {children}
       <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
@@ -39,10 +61,13 @@ RouteMapContainer.contextTypes = {
 
 RouteMapContainer.propTypes = {
   className: React.PropTypes.string,
-  trip: React.PropTypes.string,
+  tripStart: React.PropTypes.string,
   toggleFullscreenMap: React.PropTypes.func.isRequired,
   pattern: React.PropTypes.object.isRequired,
   children: React.PropTypes.node,
+  lat: React.PropTypes.number,
+  lon: React.PropTypes.number,
+  vehicles: React.PropTypes.object,
 };
 
 export const RouteMapFragments = {
@@ -65,6 +90,15 @@ export const RouteMapFragments = {
   `,
 };
 
-export default Relay.createContainer(RouteMapContainer, {
+const RouteMapContainerWithVehicles = connectToStores(
+  RouteMapContainer,
+  ['RealTimeInformationStore'],
+  ({ getStore }) => ({
+    vehicles: getStore('RealTimeInformationStore').vehicles,
+  })
+)
+;
+
+export default Relay.createContainer(RouteMapContainerWithVehicles, {
   fragments: RouteMapFragments,
 });

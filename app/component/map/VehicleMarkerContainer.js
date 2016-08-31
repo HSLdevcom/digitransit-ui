@@ -36,7 +36,7 @@ export default class VehicleMarkerContainer extends React.Component {
 
   static propTypes = {
     startRealTimeClient: React.PropTypes.bool,
-    trip: React.PropTypes.string,
+    tripStartTime: React.PropTypes.string,
   }
 
   componentWillMount() {
@@ -52,7 +52,7 @@ export default class VehicleMarkerContainer extends React.Component {
       // if tripStartTime has been specified,
       // use only the updates for vehicles with matching startTime
       const message = vehicles[id];
-      if (!this.props.trip || message.tripStartTime === this.props.trip) {
+      if (!this.props.tripStartTime || message.tripStartTime === this.props.tripStartTime) {
         this.updateVehicle(id, message);
       }
     });
