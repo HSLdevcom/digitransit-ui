@@ -33,7 +33,13 @@ class TransitLeg extends React.Component {
       }}
       className="row itinerary-row"
     >
-      <Link to={`/lahdot/${this.props.leg.trip.gtfsId}`}>
+      <Link
+        to={
+          `/linjat/${this.props.leg.route.gtfsId}/pysakit/${
+          this.props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`
+          // TODO: Create a helper function for generationg links
+        }
+      >
         <div className="small-2 columns itinerary-time-column">
           <div className="itinerary-time-column-time">
             <span className={this.props.leg.realTime ? 'realtime' : ''}>

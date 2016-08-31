@@ -122,7 +122,12 @@ class DepartureListContainer extends Component {
 
       if (this.props.routeLinks) {
         departureObjs.push(
-          <Link to={`/linjat/${departure.pattern.code}`} key={id}>{departureObj}</Link>
+          <Link
+            to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure.pattern.code}`}
+            key={id}
+          >
+            {departureObj}
+          </Link>
         );
       } else {
         departureObjs.push(departureObj);

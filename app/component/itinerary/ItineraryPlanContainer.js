@@ -281,10 +281,14 @@ export const ItineraryPlanContainerFragments = {
             duration
             route {
               shortName
+              gtfsId
             }
             trip {
               gtfsId
               tripHeadsign
+              pattern {
+                code
+              }
             }
           }
           ${ItinerarySummaryListContainer.getFragment('itineraries')}

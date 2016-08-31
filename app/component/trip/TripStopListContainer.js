@@ -75,6 +75,7 @@ class TripStopListContainer extends React.Component {
         currentTime={this.props.currentTime.unix()}
         realtimeDeparture={stoptime.realtimeDeparture}
         pattern={this.props.trip.pattern.code}
+        route={this.props.trip.route.gtfsId}
         last={index === this.props.trip.stoptimesForDate.length - 1}
       />);
     });
@@ -105,6 +106,7 @@ export default Relay.createContainer(
       fragment on Trip {
         route {
           mode
+          gtfsId
         }
         pattern {
           code

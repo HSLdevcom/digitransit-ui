@@ -47,6 +47,12 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   }
 }
 
+.route-page-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
 // stop list
 .route-stop-list {
   @include font-narrow-medium;
@@ -320,7 +326,7 @@ div.route-tabs {
     flex-shrink: 0;
     width: calc(100% - 20px);
     margin: 0 10px;
-    padding: 0;
+    padding: 0 3px;
     border-bottom: 1px solid $light-gray;
     pointer-events: none;
 
@@ -331,30 +337,37 @@ div.route-tabs {
       margin: 4px auto;
     }
 
-    .tabs-menu-item {
+    a {
       padding: 8px 0 5px;
       border: none;
       pointer-events: auto;
-    }
-
-    li a {
-      border-right: 1px solid $light-gray;
-    }
-    li:last-child a{
-      border-right: none;
-    }
-
-    .tabs-menu-item.is-active {
-      border-bottom: 2px solid $primary-color ;
-    }
-
-    ul li {
-      font-size: 6pt;
+      display: inline-block;
+      text-decoration: none;
+      font-size: 9px;
       min-width: 60px;
-    }
 
-    ul {
-      float: none;
+      &.is-active {
+        border-bottom: 2px solid $primary-color ;
+        color: $black;
+      }
+
+      &:hover {
+        color: lighten($black, 20%);
+      }
+
+      > div {
+        border-right: 1px solid $light-gray;
+        display: block;
+        margin: 0 0 0 1px;
+        padding: 3px 7px;
+        text-decoration: none;
+        text-align: center;
+        line-height: 1.3em;
+      }
+
+      &:last-child > div {
+        border-right: none;
+      }
     }
   }
 

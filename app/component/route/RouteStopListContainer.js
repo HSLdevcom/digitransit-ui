@@ -77,7 +77,7 @@ export default Relay.createContainer(
   ),
   {
     initialVariables: {
-      routeId: null,
+      patternId: null,
     },
     fragments: {
       pattern: () => Relay.QL`
@@ -86,7 +86,7 @@ export default Relay.createContainer(
             mode
           }
           stops {
-            stopTimesForPattern(id: $routeId) {
+            stopTimesForPattern(id: $patternId) {
               realtime
               realtimeState
               realtimeDeparture

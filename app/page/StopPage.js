@@ -133,9 +133,6 @@ StopPage.propTypes = {
   }),
   favourite: React.PropTypes.bool,
   fullscreenMap: React.PropTypes.bool,
-  route: React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 StopPage.contextTypes = {
