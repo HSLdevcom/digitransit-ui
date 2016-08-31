@@ -4,6 +4,7 @@ import Relay from 'react-relay';
 import toClass from 'recompose/toClass';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
+import values from 'lodash/values';
 import cx from 'classnames';
 
 import { getDistanceToNearestStop } from '../../util/geo-utils';
@@ -34,7 +35,15 @@ class RouteStopListContainer extends React.Component {
       getDistanceToNearestStop(state.lat, state.lon, stops) : null;
     const mode = this.props.pattern.route.mode.toLowerCase();
 
-    const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
+    const vehicles = groupBy(
+      values(this.props.vehicles)
+        .filter(vehicle => (this.props.currentTime - (vehicle.timestamp * 1000)) < (90 * 1000))
+        .filter(vehicle => vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined')
+      , vehicle => vehicle.direction);
+
+    const vehicleStops = groupBy(vehicles[this.props.pattern.directionId], vehicle =>
+      `HSL:${vehicle.next_stop}`
+    );
 
     return stops.map((stop, i) => {
       const isNearest = (
@@ -82,6 +91,7 @@ export default Relay.createContainer(
     fragments: {
       pattern: () => Relay.QL`
         fragment on Pattern {
+          directionId
           route {
             mode
           }
