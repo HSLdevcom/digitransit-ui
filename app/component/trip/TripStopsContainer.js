@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
+import { getStartTime } from '../../util/time-utils';
 import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
 import RouteMapContainer from '../route/RouteMapContainer';
@@ -47,8 +48,6 @@ class TripStopsContainer extends React.Component {
       ]);
     }
 
-    const startTime = this.props.trip.stoptimesForDate[0].scheduledDeparture;
-
     return (
       <ReactCSSTransitionGroup
         component="div"
@@ -62,7 +61,7 @@ class TripStopsContainer extends React.Component {
           pattern={this.props.trip.pattern}
           toggleFullscreenMap={this.toggleFullscreenMap}
           className="routeMap full"
-          tripStart={`${startTime % (60 * 60)}${startTime % (60 * 60)}`}
+          tripStart={getStartTime(this.props.trip.stoptimesForDate[0].scheduledDeparture)}
         >
           {!this.props.route.fullscreenMap ?
             <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} /> :
