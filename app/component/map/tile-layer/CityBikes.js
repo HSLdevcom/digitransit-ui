@@ -55,11 +55,12 @@ class CityBikes {
     });
 
   drawCityBikeBaseIcon = (geom) => {
-    this.tile.ctx.drawImage(
-      getImageFromSprite('icon-icon_citybike', this.citybikeImageSize, this.citybikeImageSize),
-      (geom.x / this.tile.ratio) - (this.citybikeImageSize / 2),
-      (geom.y / this.tile.ratio) - (this.citybikeImageSize / 2)
-    );
+    getImageFromSprite('icon-icon_citybike', this.citybikeImageSize, this.citybikeImageSize)
+      .then(image => {
+        this.tile.ctx.drawImage(image,
+          (geom.x / this.tile.ratio) - (this.citybikeImageSize / 2),
+          (geom.y / this.tile.ratio) - (this.citybikeImageSize / 2));
+      });
   }
 
   fetchAndDrawStatus = (feature, geom) => {
@@ -81,13 +82,14 @@ class CityBikes {
         let image;
 
         if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
-          this.tile.ctx.drawImage(
-            getImageFromSprite(
-              'icon-icon_not-in-use', this.notInUseImageSize, this.notInUseImageSize),
-            (geom.x / this.tile.ratio) - (this.notInUseImageSize / 2),
-            (geom.y / this.tile.ratio) - (this.notInUseImageSize / 2)
-          );
-
+          getImageFromSprite('icon-icon_not-in-use', this.notInUseImageSize, this.notInUseImageSize)
+            .then(i => {
+              this.tile.ctx.drawImage(
+                i,
+                (geom.x / this.tile.ratio) - (this.notInUseImageSize / 2),
+                (geom.y / this.tile.ratio) - (this.notInUseImageSize / 2)
+              );
+            });
           return;
         } else if (result.bikesAvailable > config.cityBike.fewAvailableCount) {
           image = getImageFromSprite(
@@ -100,11 +102,13 @@ class CityBikes {
             'icon-icon_no-availability', this.availabilityImageSize, this.availabilityImageSize);
         }
 
-        this.tile.ctx.drawImage(
-          image,
-          this.calculatePosition(geom.x),
-          this.calculatePosition(geom.y)
-        );
+        image.then(i => {
+          this.tile.ctx.drawImage(
+            i,
+            this.calculatePosition(geom.x),
+            this.calculatePosition(geom.y)
+          );
+        });
       }
     };
 

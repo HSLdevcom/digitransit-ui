@@ -79,19 +79,27 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
 }
 
 function getImageFromSpriteInternal(icon, width, height, fill) {
-  if (!document) { return null; }
-  const symbol = document.getElementById(icon);
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('width', width);
-  svg.setAttribute('height', height);
-  const vb = symbol.viewBox.baseVal;
-  svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
-  if (fill) svg.setAttribute('fill', fill);
-  // TODO: Simplify after https://github.com/Financial-Times/polyfill-service/pull/722 is merged
-  Array.prototype.forEach.call(symbol.childNodes, node => svg.appendChild(node.cloneNode(true)));
-  const image = new Image(width, height);
-  image.src = `data:image/svg+xml;base64,${btoa(new XMLSerializer().serializeToString(svg))}`;
-  return image;
+  return new Promise((resolve, reject) => {
+    if (!document) { return null; }
+    const symbol = document.getElementById(icon);
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', width);
+    svg.setAttribute('height', height);
+    const vb = symbol.viewBox.baseVal;
+    svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
+    if (fill) svg.setAttribute('fill', fill);
+    // TODO: Simplify after https://github.com/Financial-Times/polyfill-service/pull/722 is merged
+    Array.prototype.forEach.call(symbol.childNodes, node => svg.appendChild(node.cloneNode(true)));
+    const image = new Image(width, height);
+    image.src = `data:image/svg+xml;base64,${btoa(new XMLSerializer().serializeToString(svg))}`;
+    image.onload = () => {
+      resolve(image);
+    };
+    image.onError = (e) => {
+      reject(e);
+    };
+    return null;
+  });
 }
 
 export const getImageFromSprite = memoize(
@@ -155,11 +163,14 @@ export function drawTerminalIcon(tile, geom, type, name) {
 
     if (stopRadius > 6) {
       const iconSize = (stopRadius - 2) * tile.scaleratio;
-      tile.ctx.drawImage(
-        getImageFromSprite('icon-icon_station', iconSize, iconSize, 'white'),
-        (geom.x / tile.ratio) - (iconSize / 2),
-        (geom.y / tile.ratio) - (iconSize / 2),
-      );
+      getImageFromSprite('icon-icon_station', iconSize, iconSize, 'white')
+        .then((image) => {
+          tile.ctx.drawImage(
+            image,
+            (geom.x / tile.ratio) - (iconSize / 2),
+            (geom.y / tile.ratio) - (iconSize / 2),
+          );
+        });
 
       if (name) {
         /* eslint-disable no-param-reassign */
