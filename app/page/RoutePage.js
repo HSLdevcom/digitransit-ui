@@ -33,13 +33,8 @@ class RoutePage extends React.Component {
   static propTypes = {
     pattern: React.PropTypes.object.isRequired,
     fullscreenMap: React.PropTypes.bool,
+    tripStart: React.PropTypes.string,
   };
-
-  constructor() {
-    super();
-    this.selectRoutePattern.bind(this);
-    this.toggleFullscreenMap.bind(this);
-  }
 
   componentDidMount() {
     const route = this.props.pattern.code.split(':');
@@ -131,7 +126,9 @@ class RoutePage extends React.Component {
     if (!this.props.fullscreenMap) {
       mainContent = this.props.trip ? ([
         <TripListHeader key="header" />,
-        <TripStopListContainer key="list" trip={this.props.trip} />,
+        <TripStopListContainer
+          key="list" tripStart={this.props.tripStart} trip={this.props.trip}
+        />,
       ]) : ([
         <RouteListHeader key="header" />,
         <RouteStopListContainer
@@ -167,6 +164,7 @@ class RoutePage extends React.Component {
             />
             <RouteMapContainer
               key="map"
+              tripStart={this.props.tripStart}
               pattern={this.props.pattern}
               toggleFullscreenMap={this.toggleFullscreenMap}
               className="routeMap full"
