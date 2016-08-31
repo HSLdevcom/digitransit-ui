@@ -4,6 +4,7 @@ import Link from 'react-router/lib/Link';
 
 import FuzzyTripRoute from './FuzzyTripRoute';
 import TripLink from '../trip/TripLink';
+import PatternLink from '../trip/PatternLink';
 import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
 import { fromStopTime } from '../departure/DepartureTime';
@@ -22,7 +23,7 @@ const lastRouteStopSvg = (
   </svg>
 );
 
-const RouteStop = ({ vehicles, stop, mode, distance, last, currentTime }) => {
+const RouteStop = ({ vehicles, reverseVehicles, stop, mode, distance, last, currentTime }) => {
   const vehicleTripLinks = vehicles && vehicles.map((vehicle) =>
       (<Relay.RootContainer
         key={vehicle.id}
@@ -40,11 +41,20 @@ const RouteStop = ({ vehicles, stop, mode, distance, last, currentTime }) => {
             {...data}
           />)
         }
-      />));
+      />)
+    );
+
+  const reverseVehicleLinks = reverseVehicles && reverseVehicles.map(vehicle => (
+    <PatternLink
+      key={vehicle.id}
+      mode={vehicle.mode}
+    />
+  ));
 
   return (
     <div className="route-stop row">
-      <div className="columns small-3 route-stop-now">{vehicleTripLinks}</div>
+      <div className="columns small-2 route-stop-now">{vehicleTripLinks}</div>
+      <div className="columns small-1 route-stop-now">{reverseVehicleLinks}</div>
       <Link to={`/pysakit/${stop.gtfsId}`}>
         <div className={`columns small-5 route-stop-name ${mode}`}>
           {last ? lastRouteStopSvg : routeStopSvg}
@@ -76,6 +86,7 @@ const RouteStop = ({ vehicles, stop, mode, distance, last, currentTime }) => {
 
 RouteStop.propTypes = {
   vehicles: React.PropTypes.array,
+  reverseVehicles: React.PropTypes.array,
   stop: React.PropTypes.object,
   mode: React.PropTypes.string,
   distance: React.PropTypes.number,
