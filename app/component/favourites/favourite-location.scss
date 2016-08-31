@@ -42,7 +42,8 @@ $font-size-supersmall: 12px;
   @extend .favourite-button-shared;
   background: $white;
   height: 80px;
-
+  line-height: 1.5;
+  position: relative;
 
   .favourite-edit-button {
     background-color: rgb(200,128,128);

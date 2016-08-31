@@ -52,10 +52,10 @@ const FavouriteLocation = (props) => {
       />
     );
   }
-  return (<div style={{ position: 'relative' }}>
+  return (
     <div
-      onClick={() => props.clickFavourite(props.locationName, props.lat, props.lon)}
       className={cx('favourite-location-content', props.className)}
+      onClick={() => props.clickFavourite(props.locationName, props.lat, props.lon)}
     >
       <div className="favourite-location-arrival">
         <Icon className="favourite-location-icon" img={props.favouriteLocationIconId} />
@@ -63,11 +63,10 @@ const FavouriteLocation = (props) => {
       </div>
       <div className="favourite-location-departure">{firstTransitLeg}&nbsp;{departureTime}
       </div>
+      <div className="favourite-edit-icon-click-area">
+        <Icon className="favourite-edit-icon" img="icon-icon_edit" />
+      </div>
     </div>
-    <div className="favourite-edit-icon-click-area">
-      <Icon className="favourite-edit-icon" img="icon-icon_edit" />
-    </div>
-  </div>
   );
 };
 
