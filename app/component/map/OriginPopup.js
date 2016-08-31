@@ -43,9 +43,9 @@ class OriginPopup extends React.Component {
         className="origin-popup"
       >
         <div onClick={() => this.context.executeAction(openDialog, 'origin')}>
-          <div className="origin-popup">
+          <div className="origin-popup-header">
             {this.props.header}
-            <Icon className="right-arrow" img="icon-icon_arrow-collapse--right" />
+            <Icon className="icon-edit" img="icon-icon_edit" />
           </div>
           <div>
             <div className="origin-popup-name">{this.props.text}</div>

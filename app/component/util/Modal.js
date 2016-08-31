@@ -30,7 +30,7 @@ class Modal extends React.Component {
     };
 
     const overlayStyle = {
-      zIndex: 3000,
+      zIndex: 1400,
     };
 
     return (
