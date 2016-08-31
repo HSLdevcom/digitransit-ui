@@ -47,7 +47,7 @@ const TripRouteStop = (props) => {
           {props.stop.name}
           <br />
           <div style={{ whiteSpace: 'nowrap' }}>
-            <StopCode code={props.stop.code} />
+            {props.stop.code && <StopCode code={props.stop.code} />}
             <span className="route-stop-address">{props.stop.desc}</span>
             {'\u2002'}
             {props.distance &&
@@ -99,6 +99,7 @@ TripRouteStop.description = (
         key={exampleDeparture.stop.gtfsId}
         stop={exampleDeparture.stop}
         mode={exampleDeparture.pattern.route.mode}
+        route={exampleDeparture.pattern.route.gtfsId}
         pattern={exampleDeparture.pattern.code}
         vehicles={null}
         stopPassed
@@ -116,6 +117,7 @@ TripRouteStop.description = (
         stop={exampleRealtimeDeparture.stop}
         mode={exampleRealtimeDeparture.pattern.route.mode}
         pattern={exampleDeparture.pattern.code}
+        route={exampleDeparture.pattern.route.gtfsId}
         vehicles={[exampleVehicle]}
         stopPassed={false}
         realtime={exampleRealtimeDeparture.realtime}

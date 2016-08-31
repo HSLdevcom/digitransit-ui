@@ -51,7 +51,7 @@ const RouteStop = ({ vehicles, stop, mode, distance, last, currentTime }) => {
           {stop.name}
           <br />
           <div style={{ whiteSpace: 'nowrap' }}>
-            <StopCode code={stop.code} />
+            {stop.code && <StopCode code={stop.code} />}
             <span className="route-stop-address">{stop.desc}</span>
             {'\u2002'}
             {distance && (
