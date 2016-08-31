@@ -9,7 +9,7 @@ function PatternLink({ mode, pattern, route, selected = false }) {
     || (<IconWithTail desaturate img={imgName} />);
 
   return (<Link
-    to={pattern && `/linjat/${route}/pysakit/${pattern}`}
+    to={`/linjat/${route}/pysakit/${pattern}`}
     className="route-now-content"
   >{icon}</Link>);
 }

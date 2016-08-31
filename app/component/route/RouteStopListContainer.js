@@ -45,6 +45,12 @@ class RouteStopListContainer extends React.Component {
       `HSL:${vehicle.next_stop}`
     );
 
+    const reverse = this.props.pattern.directionId === 0 ? 1 : 0;
+
+    const reverseVehicleStops = groupBy(vehicles[reverse], vehicle =>
+      getDistanceToNearestStop(vehicle.lat, vehicle.long, stops).stop.gtfsId
+    );
+
     return stops.map((stop, i) => {
       const isNearest = (
         nearest && nearest.distance < config.nearestStopDistance.maxShownDistance &&
@@ -57,6 +63,7 @@ class RouteStopListContainer extends React.Component {
           stop={stop}
           mode={mode}
           vehicles={vehicleStops[stop.gtfsId]}
+          reverseVehicles={reverseVehicleStops[stop.gtfsId]}
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? 'nearestStop' : null}
           currentTime={this.props.currentTime.unix()}
