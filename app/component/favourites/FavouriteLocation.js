@@ -10,7 +10,6 @@ import RouteNumber from '../departure/RouteNumber';
 import { favouriteLocation as favouriteLocationExample } from '../documentation/ExampleData';
 
 const FavouriteLocation = (props) => {
-  console.log('props', props);
   if (!props.locationName) {
     return (
       <Link
