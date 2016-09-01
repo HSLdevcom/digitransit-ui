@@ -80,7 +80,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-stop {
   border-bottom: solid 1px $background-color;
   background-color: $white;
-  padding-bottom: 4px;
+  padding-bottom: 8px;
   line-height: $line-height-normal;
   position:relative;
   min-height: 43px;
@@ -112,6 +112,9 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   width: 40px;
   .tail-icon {
     left: -5px;
+    &.selected-tail-icon {
+      left: -17px;
+    }
   }
 }
 .route-stop-now-reverse {
@@ -143,6 +146,9 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .nearest-route-stop {
   @include font-narrow-book;
   color: $gray;
+  .walk-distance {
+    font-size: 13px;
+  }
 }
 
 .nearest-route-stop > span > svg.icon {
