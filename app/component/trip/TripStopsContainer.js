@@ -40,11 +40,12 @@ class TripStopsContainer extends React.Component {
 
   render() {
     let mainContent = null;
+    const tripStartTime = getStartTime(this.props.trip.stoptimesForDate[0].scheduledDeparture);
 
     if (!this.props.route.fullscreenMap) {
       mainContent = ([
         <TripListHeader key="header" />,
-        <TripStopListContainer key="list" trip={this.props.trip} />,
+        <TripStopListContainer key="list" trip={this.props.trip} tripStart={tripStartTime} />,
       ]);
     }
 
@@ -61,7 +62,7 @@ class TripStopsContainer extends React.Component {
           pattern={this.props.trip.pattern}
           toggleFullscreenMap={this.toggleFullscreenMap}
           className="routeMap full"
-          tripStart={getStartTime(this.props.trip.stoptimesForDate[0].scheduledDeparture)}
+          tripStart={tripStartTime}
         >
           {!this.props.route.fullscreenMap ?
             <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} /> :

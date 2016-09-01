@@ -35,14 +35,24 @@ const TripRouteStop = (props) => {
         pattern={props.pattern}
         route={props.route}
         selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
-      />)
-    );
+      />
+    )
+  );
+
+  const reverseVehicles = props.reverseVehicles && props.reverseVehicles.map(vehicle => (
+    <PatternLink
+      key={vehicle.id}
+      mode={vehicle.mode}
+      reverse
+    />
+  ));
 
   return (
     <div className={cx('route-stop row', { passed: props.stopPassed })}>
-      <div className="columns small-3 route-stop-now">{vehicles}</div>
+      <div className="columns route-stop-now">{vehicles}</div>
+      <div className="columns route-stop-now-reverse">{reverseVehicles}</div>
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
-        <div className={`columns small-7 route-stop-name ${props.mode}`}>
+        <div className={`columns route-stop-name ${props.mode}`}>
           {props.last ? lastRouteStopSvg : routeStopSvg}
           {props.stop.name}
           <br />
@@ -59,7 +69,7 @@ const TripRouteStop = (props) => {
             }
           </div>
         </div>
-        <div className="columns small-2 route-stop-time">
+        <div className="columns route-stop-time">
           {props.stoptime && fromStopTime(props.stoptime, props.currentTime)}
         </div>
       </Link>
@@ -69,6 +79,7 @@ const TripRouteStop = (props) => {
 
 TripRouteStop.propTypes = {
   vehicles: React.PropTypes.array,
+  reverseVehicles: React.PropTypes.array,
   mode: React.PropTypes.string.isRequired,
   stopPassed: React.PropTypes.bool,
   realtimeDeparture: React.PropTypes.number,
