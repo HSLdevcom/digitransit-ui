@@ -16,6 +16,7 @@ module.exports = {
       'env': 'relay',
       'schemaJson': require('./build/schema.json'),
     }],
+    'generator-star-spacing': 0,
   },
   settings: {
     'import/resolver': 'webpack',
