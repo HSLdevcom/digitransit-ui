@@ -57,6 +57,27 @@ const getImageFromSpriteCache = memoize(
   (icon, w, h, fill) => `${icon}_${w}_${h}_${fill}`
 );
 
+function drawIconImage(image, tile, geom, width, height) {
+  tile.ctx.drawImage(
+    image,
+    (geom.x / tile.ratio) - (width / 2),
+    (geom.y / tile.ratio) - (height / 2)
+  );
+}
+
+function drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio) {
+  tile.ctx.drawImage(
+    image,
+    calculateIconBadgePosition(geom.x, tile, imageSize, badgeSize, scaleratio),
+    calculateIconBadgePosition(geom.y, tile, imageSize, badgeSize, scaleratio)
+  );
+}
+
+function calculateIconBadgePosition(coord, tile, imageSize, badgeSize, scaleratio) {
+  return ((coord / tile.ratio) -
+    (imageSize / 2) - (badgeSize / 2)) + (2 * scaleratio);
+}
+
 /* eslint-disable no-param-reassign */
 export async function drawRoundIcon(tile, geom, type, large, platformNumber) {
   const scale = large ? 2 : 1;
@@ -189,53 +210,32 @@ export async function drawTerminalIcon(tile, geom, type, name) {
   }
 }
 
-function drawIconImage(image, tile, geom, width, height) {
-  tile.ctx.drawImage(
-    image,
-    (geom.x / tile.ratio) - (width / 2),
-    (geom.y / tile.ratio) - (height / 2)
-  );
-}
-
-function drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio) {
-  tile.ctx.drawImage(
-    image,
-    calculateIconBadgePosition(geom.x, tile, imageSize, badgeSize, scaleratio),
-    calculateIconBadgePosition(geom.y, tile, imageSize, badgeSize, scaleratio)
-  );
-}
-
-function calculateIconBadgePosition(coord, tile, imageSize, badgeSize, scaleratio) {
-  return ((coord / tile.ratio) -
-    (imageSize / 2) - (badgeSize / 2)) + (2 * scaleratio);
-}
-
 export async function drawParkAndRideIcon(tile, geom, width, height, scaleratio) {
-  const image = await getImageFromSpriteCache('icon-icon_park-and-ride', width, height, 'white');
+  const image = await getImageFromSpriteCache('icon-icon_park-and-ride', width, height);
   drawIconImage(image, tile, geom, width, height)
 }
 
 export async function drawCitybikeIcon(tile, geom, imageSize, scaleratio) {
-  const image = await getImageFromSpriteCache('icon-icon_citybike', imageSize, imageSize, 'white');
+  const image = await getImageFromSpriteCache('icon-icon_citybike', imageSize, imageSize);
   drawIconImage(image, tile, geom, imageSize, imageSize);
 }
 
 export async function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
-  const image = await getImageFromSpriteCache('icon-icon_not-in-use', imageSize, imageSize, 'white');
+  const image = await getImageFromSpriteCache('icon-icon_not-in-use', imageSize, imageSize);
   drawIconImage(image, tile, geom, imageSize, imageSize)
 }
 
 export async function drawGoodAvailabilityBadge(tile, geom, imageSize, badgeSize, scaleratio) {
-  const image = await getImageFromSpriteCache('icon-icon_good-availability', badgeSize, badgeSize, 'white');
+  const image = await getImageFromSpriteCache('icon-icon_good-availability', badgeSize, badgeSize);
   drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio)
 }
 
 export async function drawPoorAvailabilityBadge(tile, geom, imageSize, badgeSize, scaleratio) {
-  const image = await getImageFromSpriteCache('icon-icon_poor-availability', badgeSize, badgeSize, 'white');
+  const image = await getImageFromSpriteCache('icon-icon_poor-availability', badgeSize, badgeSize);
   drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio)
 }
 
 export async function drawNoAvailabilityBadge(tile, geom, imageSize, badgeSize, scaleratio) {
-  const image = await getImageFromSpriteCache('icon-icon_no-availability', badgeSize, badgeSize, 'white');
+  const image = await getImageFromSpriteCache('icon-icon_no-availability', badgeSize, badgeSize);
   drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio)
 }
