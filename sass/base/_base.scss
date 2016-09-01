@@ -9,8 +9,10 @@ $transparent-color: $white;
 
 $spinner-size: 68px;
 
-/* Disable touch delay on ms-devices */
 html {
+  /* Fix font display on webkit based browsers */
+  -webkit-font-smoothing: antialiased;
+  /* Disable touch delay on ms-devices */
   -ms-touch-action: manipulation;
   touch-action: manipulation;
 }
