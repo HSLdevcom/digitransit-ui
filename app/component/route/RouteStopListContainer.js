@@ -63,7 +63,7 @@ class RouteStopListContainer extends React.Component {
           stop={stop}
           mode={mode}
           vehicles={vehicleStops[stop.gtfsId]}
-          reverseVehicles={reverseVehicleStops[stop.gtfsId]}
+          reverseVehicles={i !== 0 ? reverseVehicleStops[stops[i - 1].gtfsId] : []}
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? 'nearestStop' : null}
           currentTime={this.props.currentTime.unix()}
