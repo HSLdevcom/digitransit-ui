@@ -13,7 +13,7 @@ import TripPage from './page/TripPage';
 import LoadingPage from './page/loading';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
-import AddFavouritePage from './page/add-favourite';
+import AddFavouritePage from './page/AddFavouritePage';
 import AboutPage from './page/AboutPage';
 import splashOrComponent from './component/splash/splash-or-component';
 

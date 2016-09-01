@@ -305,9 +305,9 @@ translations =
     'location-from-map': 'Vald position'
     'alert.duration': "{day} kl. {startTime} – {endTime}"
     'about-this-service': 'Om tjänsten'
-    'digitransit-platform': 'Digitransit platform'
-    'datasources': 'Datasources'
-    'back-to-front-page': 'Back to front page'
+    'digitransit-platform': 'Digitransit-plattformen'
+    'datasources': 'Datakällor'
+    'back-to-front-page': 'Tillbaka till framsidan'
     'park-and-ride': 'Infartsparkering'
     'park-and-ride-availability': 'Lediga parkeringsplatser'
     'platform-short': 'Plat.'
