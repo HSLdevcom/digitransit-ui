@@ -7,9 +7,7 @@ import {
   drawRoundIcon,
   drawCitybikeIcon,
   drawCitybikeNotInUseIcon,
-  drawGoodAvailabilityBadge,
-  drawPoorAvailabilityBadge,
-  drawNoAvailabilityBadge,
+  drawAvailabilityBadge,
 } from '../../../util/mapIconUtils';
 
 const getScale = glfun({
@@ -82,13 +80,13 @@ class CityBikes {
         if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
           drawCitybikeNotInUseIcon(this.tile, geom, this.notInUseImageSize);
         } else if (result.bikesAvailable > config.cityBike.fewAvailableCount) {
-          drawGoodAvailabilityBadge(this.tile, geom, this.citybikeImageSize,
+          drawAvailabilityBadge('good', this.tile, geom, this.citybikeImageSize,
             this.availabilityImageSize, this.scaleratio);
         } else if (result.bikesAvailable > 0) {
-          drawPoorAvailabilityBadge(this.tile, geom, this.citybikeImageSize,
+          drawAvailabilityBadge('poor', this.tile, geom, this.citybikeImageSize,
             this.availabilityImageSize, this.scaleratio);
         } else {
-          drawNoAvailabilityBadge(this.tile, geom, this.citybikeImageSize,
+          drawAvailabilityBadge('no', this.tile, geom, this.citybikeImageSize,
             this.availabilityImageSize, this.scaleratio);
         }
       }

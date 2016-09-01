@@ -226,17 +226,13 @@ export async function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
   drawIconImage(image, tile, geom, imageSize, imageSize);
 }
 
-export async function drawGoodAvailabilityBadge(tile, geom, imageSize, badgeSize, scaleratio) {
-  const image = await getImageFromSpriteCache('icon-icon_good-availability', badgeSize, badgeSize);
-  drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
-}
+export async function drawAvailabilityBadge(availability, tile, geom, imageSize,
+  badgeSize, scaleratio) {
+  if (availability !== 'good' && availability !== 'poor' && availability !== 'no') {
+    throw Error("Supported badges are 'good', 'poor', and 'no'");
+  }
 
-export async function drawPoorAvailabilityBadge(tile, geom, imageSize, badgeSize, scaleratio) {
-  const image = await getImageFromSpriteCache('icon-icon_poor-availability', badgeSize, badgeSize);
-  drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
-}
-
-export async function drawNoAvailabilityBadge(tile, geom, imageSize, badgeSize, scaleratio) {
-  const image = await getImageFromSpriteCache('icon-icon_no-availability', badgeSize, badgeSize);
+  const image = await getImageFromSpriteCache(`icon-icon_${availability}-availability`,
+    badgeSize, badgeSize);
   drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
 }
