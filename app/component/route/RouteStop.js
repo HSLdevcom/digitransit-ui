@@ -11,8 +11,9 @@ import { fromStopTime } from '../departure/DepartureTime';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const routeStopSvg = (
-  <svg style={{ position: 'absolute', width: 12, height: 65, left: -14 }} >
-    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="4" stroke="currentColor" />
+  <svg style={{ position: 'absolute', width: 12, height: 65, left: -12 }} >
+    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="5" stroke="currentColor" />
+    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="2" stroke="white" opacity="0.2" />
     <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
   </svg>
 );
@@ -53,10 +54,10 @@ const RouteStop = ({ vehicles, reverseVehicles, stop, mode, distance, last, curr
 
   return (
     <div className="route-stop row">
-      <div className="columns small-2 route-stop-now">{vehicleTripLinks}</div>
-      <div className="columns small-1 route-stop-now">{reverseVehicleLinks}</div>
+      <div className="columns route-stop-now">{vehicleTripLinks}</div>
+      <div className="columns route-stop-now-reverse">{reverseVehicleLinks}</div>
       <Link to={`/pysakit/${stop.gtfsId}`}>
-        <div className={`columns small-5 route-stop-name ${mode}`}>
+        <div className={`columns route-stop-name ${mode}`}>
           {last ? lastRouteStopSvg : routeStopSvg}
           {stop.name}
           <br />
@@ -75,7 +76,7 @@ const RouteStop = ({ vehicles, reverseVehicles, stop, mode, distance, last, curr
         </div>
         {(stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0 &&
           stop.stopTimesForPattern.map((stopTime) => (
-            <div key={stopTime.scheduledDeparture} className="columns small-2 route-stop-time">
+            <div key={stopTime.scheduledDeparture} className="columns route-stop-time">
               {fromStopTime(stopTime, currentTime)}
             </div>
           ))

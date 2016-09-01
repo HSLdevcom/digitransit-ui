@@ -17,10 +17,10 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   flex-shrink: 0;
 
   overflow: hidden;
-  div {
+  div, .columns.route-stop-time {
     @include font-narrow-book;
     color: $gray;
-    font-size: $font-size-small;
+    font-size: 12px;
   }
   &.route-stop {
     min-height:0;
@@ -99,16 +99,33 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   color: $dark-color;
   padding-left: 0;
   padding-top: 1px;
+  width: 50px;
+  font-size: 13px;
   .time {
     margin-right: 0;
     padding-right: 0;
     width: 3em;
   }
 }
+.route-stop-now {
+  min-height: 100%;
+  width: 40px;
+  .tail-icon {
+    left: -5px;
+  }
+}
+.route-stop-now-reverse {
+  border-left: dashed 1px $light-gray;
+  width: 53px;
+  .tail-icon {
+    left: -15px;
+  }
+}
 .route-stop-name {
+  max-width: calc(100% - 40px - 53px - 40px - 50px);
   margin-left: -10px;
   padding-left: 10px;
-  font-size: $font-size-normal;
+  font-size: 15px;
 }
 .route-stop-code,
 .route-stop-mins {
@@ -118,7 +135,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 }
 .route-stop-address {
   @include font-narrow-book;
-  font-size: $font-size-normal;
+  font-size: 13px;
   color: $gray;
   white-space: nowrap;
 }
@@ -437,12 +454,17 @@ div.route-tabs {
   min-height: 53px;
 
   select {
+    @include font-medium;
     padding: 6px 10px;
     height: 35px;
-    border-radius: $border-radius-bigger;
+    border-radius: 5px;
     border: 1px solid $light-gray;
-    font-weight: bold;
     appearance: none;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $light-gray;
+    }
   }
   .icon {
     color: $gray-blue;
