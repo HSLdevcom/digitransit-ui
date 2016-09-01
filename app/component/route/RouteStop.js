@@ -49,6 +49,7 @@ const RouteStop = ({ vehicles, reverseVehicles, stop, mode, distance, last, curr
     <PatternLink
       key={vehicle.id}
       mode={vehicle.mode}
+      reverse
     />
   ));
 
