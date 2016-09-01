@@ -58,7 +58,7 @@ const getImageFromSpriteCache = memoize(
 );
 
 /* eslint-disable no-param-reassign */
-export function drawRoundIcon(tile, geom, type, large, platformNumber) {
+export async function drawRoundIcon(tile, geom, type, large, platformNumber) {
   const scale = large ? 2 : 1;
   const caseRadius = getCaseRadius({ $zoom: tile.coords.z }) * scale;
   const stopRadius = getStopRadius({ $zoom: tile.coords.z }) * scale;
