@@ -277,13 +277,7 @@ function executeSearchInternal(actionContext, { input, type }) {
       addOldSearches(oldSearches, input),
     ];
 
-    if (config.search.showStopsFirst) {
-      searches.push(searchStops(input));
-      searches.push(getGeocodingResult(input, position, language));
-    } else {
-      searches.push(getGeocodingResult(input, position, language));
-      searches.push(searchStops(input));
-    }
+    searches.push(getGeocodingResult(input, position, language));
 
     return Promise.all(searches)
     .then(flatten)
