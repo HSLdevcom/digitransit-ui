@@ -115,21 +115,10 @@ div.leaflet-marker-icon.vehicle-icon {
   border: none;
   background: none;
   > span > svg.icon {
-    width: 2em;
-    height: 2em;
-    top:-0.5em;
-    left:-0.5em;
-  }
-}
-
-div.leaflet-marker-icon.vehicle-icon.small-map-icon {
-  > span {
-    > svg.icon {
-      width: 1em;
-      height: 1em;
-      top:-0.25em;
-      left:-0.25em;
-    }
+    width: 1em;
+    height: 1em;
+    top:-0.25em;
+    left:-0.25em;
   }
 }
 

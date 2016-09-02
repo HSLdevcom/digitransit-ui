@@ -40,7 +40,6 @@ export default class VehicleMarkerContainer extends React.Component {
   static propTypes = {
     startRealTimeClient: PropTypes.bool,
     tripStartTime: PropTypes.string,
-    useSmallIcons: PropTypes.bool,
   }
 
   componentWillMount() {
@@ -78,7 +77,7 @@ export default class VehicleMarkerContainer extends React.Component {
     this.updateVehicle(id, message);
   }
 
-  getVehicleIcon(mode, heading, useSmallIcon = false) {
+  getVehicleIcon(mode, heading) {
     if (!isBrowser) {
       return null;
     }
@@ -86,7 +85,7 @@ export default class VehicleMarkerContainer extends React.Component {
     if (MODES_WITH_ICONS.indexOf(mode) !== -1) {
       return L.divIcon({
         html: iconAsString({ img: `icon-icon_${mode}-live`, rotate: heading }),
-        className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
+        className: `vehicle-icon ${mode}}`,
         iconSize: [20, 20],
         iconAnchor: [10, 10],
       });
@@ -94,7 +93,7 @@ export default class VehicleMarkerContainer extends React.Component {
 
     return L.divIcon({
       html: iconAsString({ img: 'icon-icon_bus-live', rotate: heading }),
-      className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
+      className: 'vehicle-icon bus',
       iconSize: [20, 20],
       iconAnchor: [10, 10],
     });
@@ -130,7 +129,7 @@ export default class VehicleMarkerContainer extends React.Component {
           lat: message.lat,
           lng: message.long,
         }}
-        icon={this.getVehicleIcon(message.mode, message.heading, this.props.useSmallIcons)}
+        icon={this.getVehicleIcon(message.mode, message.heading)}
       >
         <Popup
           offset={[106, 16]}

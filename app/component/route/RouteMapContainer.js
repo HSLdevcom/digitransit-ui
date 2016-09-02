@@ -8,14 +8,14 @@ import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeader from '../stop-cards/StopCardHeader';
 
 
-function RouteMapContainer({ pattern, tripStart, className, children, toggleFullscreenMap, vehicles, useSmallIcons = false }) {
+function RouteMapContainer({ pattern, tripStart, className, children, toggleFullscreenMap,
+  vehicles }) {
   const leafletObjs = [
     <RouteLine key="line" pattern={pattern} />,
     <VehicleMarkerContainer
       key="vehicles"
       pattern={pattern.code}
       tripStart={tripStart}
-      useSmallIcons={useSmallIcons}
     />,
   ];
 
@@ -69,7 +69,6 @@ RouteMapContainer.propTypes = {
   lat: PropTypes.number,
   lon: PropTypes.number,
   vehicles: PropTypes.object,
-  useSmallIcons: PropTypes.bool,
 };
 
 const RouteMapFragments = {
