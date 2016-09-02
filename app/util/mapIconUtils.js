@@ -133,7 +133,7 @@ export async function drawTerminalIcon(tile, geom, type, name) {
   if (stopRadius <= 0) return;
 
   const iconSize = (stopRadius - 2) * tile.scaleratio;
-  const image = await getImageFromSpriteAsync('icon-icon_station', iconSize, iconSize, 'white');
+  const image = await getImageFromSpriteCache('icon-icon_station', iconSize, iconSize, 'white');
   const caseRadius = stopRadius + 1;
   const haloRadius = stopRadius * 2.5;
   const color = parseCSSColor(getColor(type));
