@@ -19,7 +19,7 @@ const routeStopSvg = (
 );
 
 const lastRouteStopSvg = (
-  <svg style={{ position: 'absolute', width: 12, height: 12, left: -14 }} >
+  <svg style={{ position: 'absolute', width: 12, height: 12, left: -12 }} >
     <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
   </svg>
 );
