@@ -15,14 +15,15 @@ import {
 } from '../documentation/ExampleData';
 
 const routeStopSvg = (
-  <svg style={{ position: 'absolute', width: 12, height: 65, left: -14 }} >
-    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="4" stroke="currentColor" />
+  <svg style={{ position: 'absolute', width: 12, height: 65, left: -12 }} >
+    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="5" stroke="currentColor" />
+    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="2" stroke="white" opacity="0.2" />
     <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
   </svg>
 );
 
 const lastRouteStopSvg = (
-  <svg style={{ position: 'absolute', width: 12, height: 12, left: -14 }} >
+  <svg style={{ position: 'absolute', width: 12, height: 12, left: -12 }} >
     <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
   </svg>
 );
