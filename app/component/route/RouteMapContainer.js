@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from '../icon/icon';
@@ -7,9 +7,8 @@ import RouteLine from '../map/route/RouteLine';
 import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeader from '../stop-cards/StopCardHeader';
 
-
-function RouteMapContainer({ pattern, tripStart, className, children, toggleFullscreenMap,
-  vehicles }) {
+function RouteMapContainer(
+  { pattern, tripStart, className, children, toggleFullscreenMap, vehicles }) {
   const leafletObjs = [
     <RouteLine key="line" pattern={pattern} />,
     <VehicleMarkerContainer
@@ -56,22 +55,22 @@ function RouteMapContainer({ pattern, tripStart, className, children, toggleFull
 }
 
 RouteMapContainer.contextTypes = {
-  router: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
 };
 
 RouteMapContainer.propTypes = {
-  className: PropTypes.string,
-  tripStart: PropTypes.string,
-  toggleFullscreenMap: PropTypes.func.isRequired,
-  pattern: PropTypes.object.isRequired,
-  children: PropTypes.node,
-  lat: PropTypes.number,
-  lon: PropTypes.number,
-  vehicles: PropTypes.object,
+  className: React.PropTypes.string,
+  tripStart: React.PropTypes.string,
+  toggleFullscreenMap: React.PropTypes.func.isRequired,
+  pattern: React.PropTypes.object.isRequired,
+  children: React.PropTypes.node,
+  lat: React.PropTypes.number,
+  lon: React.PropTypes.number,
+  vehicles: React.PropTypes.object,
 };
 
-const RouteMapFragments = {
+export const RouteMapFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
       code
@@ -97,7 +96,8 @@ const RouteMapContainerWithVehicles = connectToStores(
   ({ getStore }) => ({
     vehicles: getStore('RealTimeInformationStore').vehicles,
   })
-);
+)
+;
 
 export default Relay.createContainer(RouteMapContainerWithVehicles, {
   fragments: RouteMapFragments,
