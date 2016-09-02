@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from '../icon/icon';
@@ -7,14 +7,15 @@ import RouteLine from '../map/route/RouteLine';
 import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeader from '../stop-cards/StopCardHeader';
 
-function RouteMapContainer(
-  { pattern, tripStart, className, children, toggleFullscreenMap, vehicles }) {
+
+function RouteMapContainer({ pattern, tripStart, className, children, toggleFullscreenMap, vehicles, useSmallIcons = false }) {
   const leafletObjs = [
     <RouteLine key="line" pattern={pattern} />,
     <VehicleMarkerContainer
       key="vehicles"
       pattern={pattern.code}
       tripStart={tripStart}
+      useSmallIcons={useSmallIcons}
     />,
   ];
 
@@ -55,22 +56,23 @@ function RouteMapContainer(
 }
 
 RouteMapContainer.contextTypes = {
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 RouteMapContainer.propTypes = {
-  className: React.PropTypes.string,
-  tripStart: React.PropTypes.string,
-  toggleFullscreenMap: React.PropTypes.func.isRequired,
-  pattern: React.PropTypes.object.isRequired,
-  children: React.PropTypes.node,
-  lat: React.PropTypes.number,
-  lon: React.PropTypes.number,
-  vehicles: React.PropTypes.object,
+  className: PropTypes.string,
+  tripStart: PropTypes.string,
+  toggleFullscreenMap: PropTypes.func.isRequired,
+  pattern: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  vehicles: PropTypes.object,
+  useSmallIcons: PropTypes.bool,
 };
 
-export const RouteMapFragments = {
+const RouteMapFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
       code
@@ -96,8 +98,7 @@ const RouteMapContainerWithVehicles = connectToStores(
   ({ getStore }) => ({
     vehicles: getStore('RealTimeInformationStore').vehicles,
   })
-)
-;
+);
 
 export default Relay.createContainer(RouteMapContainerWithVehicles, {
   fragments: RouteMapFragments,

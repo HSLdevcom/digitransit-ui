@@ -181,6 +181,7 @@ class RoutePage extends React.Component {
               pattern={this.props.pattern}
               toggleFullscreenMap={this.toggleFullscreenMap}
               className="routeMap full"
+              useSmallIcons
             >
               {!this.props.fullscreenMap ?
                 <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} /> :

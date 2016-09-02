@@ -1,18 +1,26 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-const IconWithTail = ({ className, id, img, rotate = 180, children, desaturate = false }) => (
+const IconWithTail = ({ className, id, img, rotate, children, desaturate = false }) => (
   <span><svg
     id={id} viewBox="0 0 80 80" className={cx('icon', 'tail-icon', className)}
-  ><use
+  >{rotate !== undefined && (<use
     filter={desaturate && 'url(#desaturate)'} xlinkHref="#icon-icon_vehicle-live-shadow"
     transform={`rotate(${rotate} 40 40)`}
-  /><use
+  />)}<use
     filter={desaturate && 'url(#desaturate)'} xlinkHref={`#${img}`}
     transform="translate(26 26) scale(0.35)  "
   />
   {children}</svg></span>);
+
+/** Leaflet needs html as string */
+export const asString = (props) => {
+  const element = window.document.createElement('div');
+  ReactDOM.render(React.createElement(IconWithTail, props), element);
+  return element.innerHTML;
+};
 
 IconWithTail.displayName = 'IconWithTail';
 
@@ -27,6 +35,9 @@ IconWithTail.description = (
     </ComponentUsageExample>
     <ComponentUsageExample description="Rotate 90, desaturated">
       <IconWithTail desaturate img="icon-icon_bus-live" rotate={90} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="no tail">
+      <IconWithTail desaturate img="icon-icon_bus-live" />
     </ComponentUsageExample>
   </div>);
 
