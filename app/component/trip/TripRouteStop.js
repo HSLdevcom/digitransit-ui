@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import cx from 'classnames';
 
@@ -6,6 +7,8 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
 import PatternLink from './PatternLink';
+import FuzzyTripRoute from '../route/FuzzyTripRoute';
+import FuzzyPatternLink from './FuzzyPatternLink';
 import { fromStopTime } from '../departure/DepartureTime';
 import {
   currentTime as exampleCurrentTime,
@@ -41,12 +44,25 @@ const TripRouteStop = (props) => {
   );
 
   const reverseVehicles = props.reverseVehicles && props.reverseVehicles.map(vehicle => (
-    <PatternLink
+    <Relay.RootContainer
       key={vehicle.id}
-      mode={vehicle.mode}
-      reverse
-    />
-  ));
+      Component={FuzzyPatternLink}
+      route={new FuzzyTripRoute({
+        route: vehicle.route,
+        direction: vehicle.direction,
+        date: vehicle.operatingDay,
+        time: (vehicle.tripStartTime.substring(0, 2) * 60 * 60) +
+          (vehicle.tripStartTime.substring(2, 4) * 60),
+      })}
+      renderFetched={data =>
+        (<FuzzyPatternLink
+          mode={vehicle.mode}
+          {...data}
+          reverse
+        />)
+      }
+    />)
+  );
 
   return (
     <div className={cx('route-stop row', { passed: props.stopPassed })}>

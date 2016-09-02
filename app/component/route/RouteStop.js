@@ -4,7 +4,7 @@ import Link from 'react-router/lib/Link';
 
 import FuzzyTripRoute from './FuzzyTripRoute';
 import TripLink from '../trip/TripLink';
-import PatternLink from '../trip/PatternLink';
+import FuzzyPatternLink from '../trip/FuzzyPatternLink';
 import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
 import { fromStopTime } from '../departure/DepartureTime';
@@ -46,12 +46,25 @@ const RouteStop = ({ vehicles, reverseVehicles, stop, mode, distance, last, curr
     );
 
   const reverseVehicleLinks = reverseVehicles && reverseVehicles.map(vehicle => (
-    <PatternLink
+    <Relay.RootContainer
       key={vehicle.id}
-      mode={vehicle.mode}
-      reverse
-    />
-  ));
+      Component={FuzzyPatternLink}
+      route={new FuzzyTripRoute({
+        route: vehicle.route,
+        direction: vehicle.direction,
+        date: vehicle.operatingDay,
+        time: (vehicle.tripStartTime.substring(0, 2) * 60 * 60) +
+          (vehicle.tripStartTime.substring(2, 4) * 60),
+      })}
+      renderFetched={data =>
+        (<FuzzyPatternLink
+          mode={vehicle.mode}
+          {...data}
+          reverse
+        />)
+      }
+    />)
+  );
 
   return (
     <div className="route-stop row">

@@ -18,7 +18,7 @@ class RouteStopListContainer extends React.Component {
     pattern: React.PropTypes.object.isRequired,
     className: React.PropTypes.string,
     vehicles: React.PropTypes.object,
-    locationState: React.PropTypes.object.isRequired,
+    position: React.PropTypes.object.isRequired,
     currentTime: React.PropTypes.object.isRequired,
   };
 
@@ -29,10 +29,10 @@ class RouteStopListContainer extends React.Component {
   }
 
   getStops() {
-    const state = this.props.locationState;
+    const position = this.props.position;
     const stops = this.props.pattern.stops;
-    const nearest = state.hasLocation === true ?
-      getDistanceToNearestStop(state.lat, state.lon, stops) : null;
+    const nearest = position.hasLocation === true ?
+      getDistanceToNearestStop(position.lat, position.lon, stops) : null;
     const mode = this.props.pattern.route.mode.toLowerCase();
 
     const vehicles = groupBy(
@@ -87,7 +87,7 @@ export default Relay.createContainer(
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
-      locationState: getStore('PositionStore').getLocationState(),
+      position: getStore('PositionStore').getLocationState(),
       currentTime: getStore('TimeStore').getCurrentTime(),
     })
   ),
