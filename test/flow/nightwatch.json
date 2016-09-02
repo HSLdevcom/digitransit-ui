@@ -7,13 +7,14 @@
 
   "selenium": {
     "start_process": true,
-    "server_path": "test/flow/binaries/selenium-server-standalone-2.53.0.jar",
+    "server_path": "test/flow/binaries/selenium-server-3.0.0-beta3.jar",
     "log_path": "",
     "host": "127.0.0.1",
     "port": 4444,
     "cli_args": {
       "webdriver.chrome.driver": "",
-      "webdriver.ie.driver": ""
+      "webdriver.ie.driver": "",
+      "webdriver.gecko.driver": "test/flow/binaries/geckodriver"
     }
   },
 
@@ -49,7 +50,8 @@
       "desiredCapabilities": {
         "browserName": "firefox",
         "javascriptEnabled": true,
-        "acceptSslCerts": true
+        "acceptSslCerts": true,
+        "marionette": true
       }
     },
 
