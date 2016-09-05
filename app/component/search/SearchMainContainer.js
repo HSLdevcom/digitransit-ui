@@ -43,31 +43,35 @@ class SearchMainContainer extends React.Component {
   }
 
   onTabChange = (tab) => (
+    this.changeToTab(tab.props.value)
+  );
+
+  changeToTab = (tabname) => (
     this.setState({
-      selectedTab: tab.props.value,
+      selectedTab: tabname,
     }, () => {
-      if (tab.props.value === 'origin') {
+      if (tabname === 'origin') {
         this.context.executeAction(executeSearch, {
           input: this.context.getStore('EndpointStore').getOrigin().address || '',
           type: 'endpoint',
         });
       }
 
-      if (tab.props.value === 'destination') {
+      if (tabname === 'destination') {
         this.context.executeAction(executeSearch, {
           input: this.context.getStore('EndpointStore').getDestination().address || '',
           type: 'endpoint',
         });
       }
 
-      if (tab.props.value === 'search') {
+      if (tabname === 'search') {
         this.context.executeAction(executeSearch, {
           input: '',
           type: 'search',
         });
       }
 
-      return setTimeout(() => this.focusInput(tab.props.value), 0);
+      return setTimeout(() => this.focusInput(tabname), 0);
     })
   );
 
@@ -78,28 +82,20 @@ class SearchMainContainer extends React.Component {
   );
 
   focusInput = (value) => (
-    this.searchInputs[value].searchInput.refs.autowhatever.refs.input.focus()
+    this.searchInputs[value].searchInput.autowhatever.refs.input.focus()
   );
 
-  openDialog = (tab, cb) => (
-    this.setState({
-      selectedTab: tab,
-      modalIsOpen: true,
-    }, () => {
-      if (cb) {
-        return cb();
-      }
-      return undefined;
-    })
-  );
+  openDialog = (tab) => {
+    this.setState({ modalIsOpen: true });
+    this.changeToTab(tab);
+  };
 
   clickSearch = () => {
     const origin = this.context.getStore('EndpointStore').getOrigin();
     const geolocation = this.context.getStore('PositionStore').getLocationState();
     const hasOrigin = origin.lat || (origin.useCurrentPosition && geolocation.hasLocation);
 
-    this.openDialog(hasOrigin ? 'destination' : 'origin',
-                    () => this.focusInput(hasOrigin ? 'destination' : 'origin'));
+    this.openDialog(hasOrigin ? 'destination' : 'origin');
 
     if (hasOrigin) {
       return this.context.executeAction(executeSearch, {
