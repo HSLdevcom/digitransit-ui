@@ -124,10 +124,12 @@ div.leaflet-marker-icon.vehicle-icon {
 
 div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   > span > svg.icon {
-    width: 0.68em;
-    height: 0.68em;
-    top: -0.17em;
-    left: -0.17em;
+    stroke-width: 40px;
+    stroke: white;
+    width: 0.78em;
+    height: 0.78em;
+    top: -0.20em;
+    left: -0.20em;
   }
 }
 
