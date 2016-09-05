@@ -17,6 +17,11 @@ class SearchMainContainer extends React.Component {
     intl: intlShape.isRequired,
   };
 
+  constructor(args) {
+    super(...args);
+    this.searchInputs = [];
+  }
+
   state = {
     selectedTab: 'destination',
     modalIsOpen: false,
@@ -73,7 +78,7 @@ class SearchMainContainer extends React.Component {
   );
 
   focusInput = (value) => (
-    this.refs[`searchInput${value}`].refs.searchInput.refs.autowhatever.refs.input.focus()
+    this.searchInputs[value].searchInput.refs.autowhatever.refs.input.focus()
   );
 
   openDialog = (tab, cb) => (
@@ -91,7 +96,7 @@ class SearchMainContainer extends React.Component {
   clickSearch = () => {
     const origin = this.context.getStore('EndpointStore').getOrigin();
     const geolocation = this.context.getStore('PositionStore').getLocationState();
-    const hasOrigin = origin.lat || origin.useCurrentPosition && geolocation.hasLocation;
+    const hasOrigin = origin.lat || (origin.useCurrentPosition && geolocation.hasLocation);
 
     this.openDialog(hasOrigin ? 'destination' : 'origin',
                     () => this.focusInput(hasOrigin ? 'destination' : 'origin'));
@@ -117,7 +122,7 @@ class SearchMainContainer extends React.Component {
       onActive={this.onTabChange}
     >
       <GeolocationOrInput
-        ref={`searchInput${tabname}`}
+        ref={(c) => { this.searchInputs[tabname] = c; }}
         id={`search-${tabname}`}
         endpoint={endpoint}
         type="endpoint"
@@ -191,7 +196,7 @@ class SearchMainContainer extends React.Component {
             onActive={this.onTabChange}
           >
             <GeolocationOrInput
-              ref="searchInputsearch"
+              ref={(c) => { this.searchInputs.search = c; }}
               initialValue=""
               id="search"
               type="search"

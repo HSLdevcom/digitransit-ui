@@ -1,10 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
+import pure from 'recompose/pure';
 
 import Icon from '../icon/icon';
 import { getLabel } from '../../util/suggestionUtils';
 import config from '../../config';
-import pure from 'recompose/pure';
+
 
 function getIcon(layer, iconClass) {
   const layerIcon = new Map([

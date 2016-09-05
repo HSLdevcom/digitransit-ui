@@ -36,7 +36,11 @@ export default class GeolocationOrInput extends Component {
       />;
 
     return (
-      <SearchInputContainer ref="searchInput" initialValue={this.getInitialValue()} {...this.props}>
+      <SearchInputContainer
+        ref={(c) => { this.searchInput = c; }}
+        initialValue={this.getInitialValue()}
+        {...this.props}
+      >
         {child}
       </SearchInputContainer>
     );

@@ -1,7 +1,9 @@
 import React from 'react';
-import Icon from '../icon/icon';
 import Tabs from 'material-ui/Tabs/Tabs';
+
+import Icon from '../icon/icon';
 import config from '../../config';
+
 
 const SearchModal = (props) => {
   if (!props.modalIsOpen) {

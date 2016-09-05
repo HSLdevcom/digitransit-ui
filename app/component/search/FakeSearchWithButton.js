@@ -1,6 +1,8 @@
 import React from 'react';
-import Icon from '../icon/icon';
 import pure from 'recompose/pure';
+
+import Icon from '../icon/icon';
+
 
 const FakeSearchWithButton = pure((props) => (
   <div className="row search-form">

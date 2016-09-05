@@ -1,7 +1,9 @@
 import React from 'react';
-import Icon from '../icon/icon';
 import pure from 'recompose/pure';
 import { FormattedMessage } from 'react-intl';
+
+import Icon from '../icon/icon';
+
 
 const getLocationMessage = (geolocation) => {
   if (geolocation.hasLocation) {

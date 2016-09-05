@@ -1,11 +1,12 @@
 import React from 'react';
 import Tab from 'material-ui/Tabs/Tab';
+import { intlShape } from 'react-intl';
+
 import GeolocationOrInput from './GeolocationOrInput';
 import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
 import { executeSearch } from '../../action/SearchActions';
 import SearchModal from './SearchModal';
 
-import { intlShape } from 'react-intl';
 
 class OneTabSearchModal extends React.Component {
   static contextTypes = {
@@ -28,10 +29,10 @@ class OneTabSearchModal extends React.Component {
   componentDidUpdate() {
     if (this.props.modalIsOpen) {
       setTimeout(() => {
-        if (this.refs.geolocationOrInput != null &&
-            this.refs.geolocationOrInput.refs.searchInput.refs.autowhatever != null &&
-            this.refs.geolocationOrInput.refs.searchInput.refs.autowhatever.refs.input != null) {
-          this.refs.geolocationOrInput.refs.searchInput.refs.autowhatever.refs.input.focus();
+        if (this.geolocationOrInput != null &&
+            this.geolocationOrInput.searchInput.refs.autowhatever != null &&
+            this.geolocationOrInput.searchInput.refs.autowhatever.refs.input != null) {
+          this.geolocationOrInput.searchInput.refs.autowhatever.refs.input.focus();
         }
       }, 0);
 
@@ -70,7 +71,7 @@ class OneTabSearchModal extends React.Component {
       >
         <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
           <GeolocationOrInput
-            ref="geolocationOrInput"
+            ref={(c) => { this.geolocationOrInput = c; }}
             initialValue={this.props.initialValue}
             type="endpoint"
             endpoint={this.props.endpoint}

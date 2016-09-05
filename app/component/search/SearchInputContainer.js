@@ -67,7 +67,7 @@ export default class SearchInputContainer extends Component {
 
   blur() {
     // hide safari keyboard
-    this.refs.autowhatever.refs.input.blur();
+    this.autowhatever.refs.input.blur();
   }
 
   handleOnKeyDown = (event, eventProps) => {
@@ -182,7 +182,7 @@ export default class SearchInputContainer extends Component {
     return (
       <div className="fullscreen">
         <ReactAutowhatever
-          ref="autowhatever"
+          ref={(c) => { this.autowhatever = c; }}
           className={this.props.className}
           id="suggest"
           items={this.state.suggestions}

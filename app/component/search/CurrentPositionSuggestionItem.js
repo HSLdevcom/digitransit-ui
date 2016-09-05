@@ -1,11 +1,11 @@
 import React from 'react';
-import Icon from '../icon/icon';
-import cx from 'classnames';
-
-import { FormattedMessage } from 'react-intl';
-
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import pure from 'recompose/pure';
+import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
+
+import Icon from '../icon/icon';
+
 
 const Locate = () => (
   <span> - <span className="search-position">
