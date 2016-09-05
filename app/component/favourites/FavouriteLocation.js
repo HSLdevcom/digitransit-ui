@@ -9,14 +9,15 @@ import DepartureTime from '../departure/DepartureTime';
 import RouteNumber from '../departure/RouteNumber';
 import { favouriteLocation as favouriteLocationExample } from '../documentation/ExampleData';
 
-const FavouriteLocation = (props) => {
-  if (!props.locationName) {
+const FavouriteLocation = ({ locationName, className, currentTime, departureTime,
+  firstTransitLeg, favouriteLocationIconId, clickFavourite, lat, lon }) => {
+  if (!locationName) {
     return (
       <Link
         to="/lisaa-suosikki"
         className="cursor-pointer no-decoration"
       >
-        <div className={cx('new-favourite-button-content', props.className)}>
+        <div className={cx('new-favourite-button-content', className)}>
           <Icon img="icon-icon_plus" className="add-new-favourite-icon" />
           <p className="add-location-text">
             <FormattedMessage id="add-location" defaultMessage="Add location" />
@@ -26,42 +27,42 @@ const FavouriteLocation = (props) => {
     );
   }
 
-  let departureTime;
-  let firstTransitLeg;
-  const timeIsNotPast = props.currentTime < props.departureTime;
+  let departureTimeComponent;
+  let transitLeg;
+  const timeIsNotPast = currentTime < departureTime;
 
-  if (props.departureTime && timeIsNotPast) {
-    departureTime = (
+  if (departureTime && timeIsNotPast) {
+    departureTimeComponent = (
       <DepartureTime
-        departureTime={props.departureTime}
-        realtime={props.firstTransitLeg && props.firstTransitLeg.realTime}
-        currentTime={props.currentTime}
+        departureTime={departureTime}
+        realtime={firstTransitLeg && firstTransitLeg.realTime}
+        currentTime={currentTime}
         className="time--small"
       />
     );
   } else {
-    departureTime =
+    departureTimeComponent =
       <div className="favourite-location-content-placeholder time--small">--:--</div>;
   }
-  if (props.firstTransitLeg && props.firstTransitLeg.route) {
-    firstTransitLeg = (
+  if (firstTransitLeg && firstTransitLeg.route) {
+    transitLeg = (
       <RouteNumber
-        mode={props.firstTransitLeg.mode}
-        realtime={props.firstTransitLeg.realTime}
-        text={props.firstTransitLeg.route.shortName}
+        mode={firstTransitLeg.mode}
+        realtime={firstTransitLeg.realTime}
+        text={firstTransitLeg.route.shortName}
       />
     );
   }
   return (
     <div
-      className={cx('favourite-location-content', props.className)}
-      onClick={() => props.clickFavourite(props.locationName, props.lat, props.lon)}
+      className={cx('favourite-location-content', className)}
+      onClick={() => clickFavourite(locationName, lat, lon)}
     >
       <div className="favourite-location-arrival">
-        <Icon className="favourite-location-icon" img={props.favouriteLocationIconId} />
-        <div className="favourite-location-name">{props.locationName}</div>
+        <Icon className="favourite-location-icon" img={favouriteLocationIconId} />
+        <div className="favourite-location-name">{locationName}</div>
       </div>
-      <div className="favourite-location-departure">{firstTransitLeg}&nbsp;{departureTime}
+      <div className="favourite-location-departure">{transitLeg}&nbsp;{departureTimeComponent}
       </div>
       <div className="favourite-edit-icon-click-area">
         <Icon className="favourite-edit-icon" img="icon-icon_edit" />
