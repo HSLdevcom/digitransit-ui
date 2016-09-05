@@ -47,7 +47,7 @@
 .vehicle-number {
   @include font-narrow-medium;
   padding: 0 5px;
-  vertical-align: top;
+  vertical-align: bottom;
 }
 .departure > div, .departure > span {
     vertical-align: middle;
@@ -185,6 +185,7 @@
 
   .route-number {
     width: 3.5em;
+    vertical-align: baseline;
   }
   .distance {
     width: 3em;
@@ -198,6 +199,7 @@
   .route-destination {
     width: calc(100% - 16em);
     padding-left: 0.5em;
+    vertical-align: bottom;
   }
 
   & > div,

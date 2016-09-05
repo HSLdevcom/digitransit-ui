@@ -1,99 +1,42 @@
+import React from 'react';
 import Relay from 'react-relay';
-import mapProps from 'recompose/mapProps';
-
-import NextDeparturesList, {
-   relayFragment as NextDeparturesListRelayFragment,
-} from '../departure/NextDeparturesList';
+import PlaceAtDistanceListContainer, {
+  placeAtDistanceListContainerFragment,
+} from './PlaceAtDistanceListContainer';
 import config from '../../config';
 
-const STOP_COUNT = 20;
-
-function getNextDepartures(props) {
-  const seenDepartures = {};
-  const nodes = props.stops.stopsByRadius.edges.map(edge => edge.node);
-  const nextDepartures = [];
-
-  nodes.forEach((stopAtDistance) => {
-    const keepStoptimes = [];
-    if (stopAtDistance.stop.stoptimesForPatterns == null) { return; }
-
-    stopAtDistance.stop.stoptimesForPatterns.forEach((patternAndStoptimes) => {
-      if (patternAndStoptimes.stoptimes.length === 0) { return; }
-      const pattern = patternAndStoptimes.pattern;
-
-      const seenKey = `${pattern.route.gtfsId}:${pattern.headsign}`;
-      const isSeen = seenDepartures[seenKey];
-      const isModeIncluded = props.modes.includes(pattern.route.mode);
-      const isPickup = patternAndStoptimes.stoptimes[0].pickupType !== 'NONE';
-
-      if (!isSeen && isModeIncluded && isPickup) {
-        keepStoptimes.push(patternAndStoptimes);
-        seenDepartures[seenKey] = true;
-      }
-    });
-
-    keepStoptimes.forEach((stoptime) => {
-      nextDepartures.push({
-        distance: stopAtDistance.distance,
-        stoptime,
-        hasDisruption: stoptime.pattern.route.alerts.length > 0,
-      });
-    });
-  });
-
-  return nextDepartures;
-}
-
-const NearbyRouteListContainer = mapProps(props => ({
-  departures: getNextDepartures(props),
-  currentTime: parseInt(props.currentTime, 10),
-}))(NextDeparturesList);
+const NearbyRouteListContainer = (props) => {
+  return (<PlaceAtDistanceListContainer currentTime={parseInt(props.currentTime, 10)} places={props.nearest.places}/>);
+};
 
 export default Relay.createContainer(NearbyRouteListContainer, {
   fragments: {
-    stops: () => Relay.QL`
+    nearest: variables => Relay.QL`
       fragment on QueryType {
-        stopsByRadius(
-          lat: $lat,
-          lon: $lon,
-          radius: $radius,
-          agency: $agency,
-          first: $numberOfStops
-        ) {
-          edges {
-            node {
-              distance
-              stop {
-                stoptimesForPatterns(
-                  numberOfDepartures:2, startTime: $currentTime, timeRange: 7200
-                ) {
-                  ${NextDeparturesListRelayFragment}
-                  pattern {
-                    headsign
-                    route {
-                      gtfsId,
-                      mode,
-                      alerts {
-                        id
-                      }
-                    }
-                  }
-                  stoptimes { pickupType }
-                }
-              }
-            }
-          }
+        places: nearest(lat: $lat, lon: $lon,
+                  maxDistance: $maxDistance,
+                  maxResults: 50,
+                  first: 50,
+                  filterByPlaceTypes: [DEPARTURE_ROW, BICYCLE_RENT, BIKE_PARK, CAR_PARK]) @relay(isConnectionWithoutNodeID: true) {
+          ${PlaceAtDistanceListContainer.getFragment('places',  { currentTime: variables.currentTime })}
         }
       }
     `,
   },
 
+  prepareVariables: vars => {
+    if (vars.currentTime) {
+      vars.currentTime = parseInt(vars.currentTime, 10);
+    }
+    console.log(vars);
+    return vars;
+  },
+
   initialVariables: {
     lat: null,
     lon: null,
-    radius: config.nearbyRoutes.radius,
-    numberOfStops: STOP_COUNT,
-    agency: config.preferredAgency,
-    currentTime: '0',
+    maxDistance: config.nearbyRoutes.radius,
+    //agency: config.preferredAgency,
+    currentTime: 0,
   },
 });

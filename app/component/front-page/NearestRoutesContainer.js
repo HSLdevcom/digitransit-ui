@@ -4,10 +4,10 @@ import NearbyRouteListContainer from '../route/NearbyRouteListContainer';
 
 class NearbyRouteListContainerRoute extends Route {
   static queries = {
-    stops: (RelayComponent, variables) => Relay.QL`
+    nearest: (RelayComponent, variables) => Relay.QL`
       query {
         viewer {
-          ${RelayComponent.getFragment('stops', variables)}
+          ${RelayComponent.getFragment('nearest', variables)}
         }
       }
     `,
