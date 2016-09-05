@@ -28,13 +28,8 @@ class OneTabSearchModal extends React.Component {
 
   componentDidUpdate() {
     if (this.props.modalIsOpen) {
-      setTimeout(() => {
-        if (this.geolocationOrInput != null &&
-            this.geolocationOrInput.searchInput.refs.autowhatever != null &&
-            this.geolocationOrInput.searchInput.refs.autowhatever.refs.input != null) {
-          this.geolocationOrInput.searchInput.refs.autowhatever.refs.input.focus();
-        }
-      }, 0);
+      setTimeout(() => this.geolocationOrInput.searchInput.autowhatever.refs.input.focus(),
+                 0);
 
       if (!this.props.endpoint) {
         this.context.executeAction(executeSearch, {
