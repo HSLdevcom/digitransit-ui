@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import Link from 'react-router/lib/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from '../icon/icon';
 import FavouriteIconTable from './FavouriteIconTable';
 import { addFavouriteLocation } from '../../action/FavouriteActions';
@@ -15,22 +16,26 @@ class AddFavouriteContainer extends React.Component {
     router: PropTypes.object.isRequired,
   };
 
-  propTypes = {
-    className: PropTypes.string.isRequired,
-  };
-
-  constructor() {
-    super();
-    this.state = {
-      selectedIconId: undefined,
-      lat: undefined,
-      lon: undefined,
-      locationName: undefined,
-      address: undefined,
-      searchModalIsOpen: false,
-    };
+  static propTypes = {
+    favourite: PropTypes.object, // if specified edit mode is activated and
   }
 
+  componentWillMount = () => {
+    console.log('favourite', this.props.favourite);
+    if (this.isEdit()) {
+      this.setState(this.props.favourite);
+    } else {
+      this.setState({
+        selectedIconId: undefined,
+        lat: undefined,
+        lon: undefined,
+        locationName: undefined,
+        address: undefined,
+        searchModalIsOpen: false,
+        version: 1,
+      });
+    }
+  }
 
   getFavouriteIconIds = () =>
     (['icon-icon_place', 'icon-icon_home', 'icon-icon_work', 'icon-icon_sport',
@@ -42,6 +47,8 @@ class AddFavouriteContainer extends React.Component {
       lon: location.geometry.coordinates[0],
       address: name,
     }));
+
+  isEdit = () => this.props.favourite !== undefined && this.props.favourite.id !== undefined;
 
   canSave = () => (
       this.state.selectedIconId !== undefined &&
@@ -57,15 +64,14 @@ class AddFavouriteContainer extends React.Component {
   save = () => {
     if (this.canSave()) {
       this.context.executeAction(addFavouriteLocation, this.state);
-      return this.context.router.replace('/');
+      this.context.router.replace('/');
     }
-    return undefined;
   }
 
   specifyName = (event) => {
     const input = event.target.value;
 
-    return this.setState({
+    this.setState({
       locationName: input,
     });
   }
@@ -76,8 +82,8 @@ class AddFavouriteContainer extends React.Component {
     })
   );
 
-  closeSearchModal() {
-    return this.setState({
+  closeSearchModal = () => {
+    this.setState({
       searchModalIsOpen: false,
     });
   }
@@ -94,7 +100,7 @@ class AddFavouriteContainer extends React.Component {
     });
 
     return (<div className="fullscreen">
-      <div className={cx(this.props.className, 'add-favourite-container')}>
+      <div className="add-favourite-container">
         <Link to="/" className="right cursor-pointer">
           <Icon id="add-favourite-close-icon" img="icon-icon_close" />
         </Link>
@@ -105,11 +111,14 @@ class AddFavouriteContainer extends React.Component {
                 <Icon className={cx('add-favourite-star__icon', 'selected')} img="icon-icon_star" />
               </div>
               <div className="add-favourite-container__header-text small-11 columns">
-                <h3>
+                <h3>{(this.isEdit() &&
                   <FormattedMessage
                     id="add-location-to-favourites"
                     defaultMessage="Add a location to your favourites tab"
-                  />
+                  />) || <FormattedMessage
+                    id="edit-favourites"
+                    defaultMessage="Edit favourite place"
+                  />}
                 </h3>
               </div>
             </header>
@@ -121,8 +130,7 @@ class AddFavouriteContainer extends React.Component {
                 endpoint={{ address: (this.state != null ? this.state.address : undefined) || '',
                 }} placeholder={destinationPlaceholder} onClick={e => {
                   e.preventDefault();
-
-                  return this.setState({
+                  this.setState({
                     searchModalIsOpen: true,
                   });
                 }} id="destination" className="add-favourite-container__input-placeholder"
@@ -179,4 +187,14 @@ class AddFavouriteContainer extends React.Component {
 }
 
 
-export default AddFavouriteContainer;
+const AddFavouriteContainerWithFavourite = connectToStores(AddFavouriteContainer,
+  ['FavouriteLocationStore'],
+  (context, props) => (
+    { favourite:
+      props.params.id !== undefined ? context.getStore('FavouriteLocationStore')
+        .getById(parseInt(props.params.id, 10)) : {},
+    }
+  )
+);
+
+export default AddFavouriteContainerWithFavourite;
