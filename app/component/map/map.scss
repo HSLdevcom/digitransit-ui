@@ -122,6 +122,16 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 }
 
+div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
+  > span > svg.icon {
+    width: 0.68em;
+    height: 0.68em;
+    top: -0.17em;
+    left: -0.17em;
+  }
+}
+
+
 .toggle-positioning-container {
   position: absolute;
   z-index: 802;
