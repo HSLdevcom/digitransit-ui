@@ -8,6 +8,7 @@ module.exports = {
   'extends': 'airbnb',
   'rules': {
     'eqeqeq': ['error', 'allow-null'],
+    'import/no-unresolved': 'off',
     'no-void': 'error',
     'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
     'react/no-string-refs': 'warn',
@@ -16,9 +17,6 @@ module.exports = {
       'env': 'relay',
       'schemaJson': require('./build/schema.json'),
     }],
-  },
-  settings: {
-    'import/resolver': 'webpack',
   },
   'env': {
     'browser': true,
