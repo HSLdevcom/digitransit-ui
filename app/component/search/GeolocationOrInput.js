@@ -32,7 +32,10 @@ export default class GeolocationOrInput extends Component {
     const child = this.state.geolocation === false ? null :
       <GeolocationBar
         geolocation={{ hasLocation: true }}
-        onClick={() => this.setState({ geolocation: false })}
+        onClick={() => {
+          this.setState({ geolocation: false });
+          this.searchInput.focus();
+        }}
       />;
 
     return (
