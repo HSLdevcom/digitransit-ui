@@ -70,6 +70,10 @@ export default class SearchInputContainer extends Component {
     this.autowhatever.refs.input.blur();
   }
 
+  focus = () => {
+    this.autowhatever.refs.input.focus();
+  }
+
   handleOnKeyDown = (event, eventProps) => {
     if (event.keyCode === 13 && this.state.suggestions.length > 0) {
       // enter selects current
@@ -223,7 +227,7 @@ export default class SearchInputContainer extends Component {
         {inputValue.length > 0 ? (
           <div
             className="clear-icon"
-            onClick={() => this.handleUpdateInputNow({ target: { value: '' } })}
+            onClick={() => { this.handleUpdateInputNow({ target: { value: '' } }); this.focus(); }}
           >
             <Icon img="icon-icon_close" />
           </div>
