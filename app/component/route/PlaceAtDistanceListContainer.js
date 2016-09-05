@@ -102,6 +102,68 @@ const DepartureRowContainer = Relay.createContainer(DepartureRow, {
   },
 });
 
+const bicycleRentalRowContainerFragment = () => Relay.QL`
+  fragment on BikeRentalStation {
+    name
+  }
+`;
+
+const BicycleRentalStationRow = (props) => {
+  return (<div>{props.station.name}</div>);
+};
+
+const BicycleRentalStationRowContainer = Relay.createContainer(BicycleRentalStationRow, {
+  fragments: {
+    station: bicycleRentalRowContainerFragment,
+  },
+
+  initialVariables: {
+    currentTime: 0,
+  },
+});
+
+
+const carParkRowContainerFragment = () => Relay.QL`
+  fragment on CarPark {
+    name
+  }
+`;
+
+const CarParkRow = (props) => {
+  return (<div>{props.station.name}</div>);
+};
+
+const CarParkRowContainer = Relay.createContainer(CarParkRow, {
+  fragments: {
+    station: carParkRowContainerFragment,
+  },
+
+  initialVariables: {
+    currentTime: 0,
+  },
+});
+
+
+const bikeParkRowContainerFragment = () => Relay.QL`
+  fragment on BikePark {
+    name
+  }
+`;
+
+const BikeParkRow = (props) => {
+  return (<div>{props.station.name}</div>);
+};
+
+const BikeParkRowContainer = Relay.createContainer(BikeParkRow, {
+  fragments: {
+    station: bikeParkRowContainerFragment,
+  },
+
+  initialVariables: {
+    currentTime: 0,
+  },
+});
+
 const placeAtDistanceFragment = variables => Relay.QL`
   fragment on placeAtDistance {
     distance
@@ -109,12 +171,12 @@ const placeAtDistanceFragment = variables => Relay.QL`
       id
       __typename
       ${DepartureRowContainer.getFragment('departure', { currentTime: variables.currentTime })}
+      ${BicycleRentalStationRowContainer.getFragment('station', { currentTime: variables.currentTime })}
+      ${BikeParkRowContainer.getFragment('station', { currentTime: variables.currentTime })}
+      ${CarParkRowContainer.getFragment('station', { currentTime: variables.currentTime })}
     }
   }
 `;
-      // ${BicycleRentalRowContainer.getFragment('bicycleRentalRow', { currentTime: variables.currentTime })}
-      // ${BikeParkRowContainer.getFragment('bikeParkRow', { currentTime: variables.currentTime })}
-      // ${CarParkRowContainer.getFragment('carParkRow', { currentTime: variables.currentTime })}
 
 const PlaceAtDistance = (props) => {
   let place;
@@ -124,6 +186,30 @@ const PlaceAtDistance = (props) => {
       <DepartureRowContainer
         distance={props.placeAtDistance.distance}
         departure={props.placeAtDistance.place}
+        currentTime={props.currentTime}
+      />
+    );
+  } else if (props.placeAtDistance.place.__typename === 'BicycleRentalStation') {
+    place = (
+      <BicycleRentalStationContainer
+        distance={props.placeAtDistance.distance}
+        station={props.placeAtDistance.place}
+        currentTime={props.currentTime}
+      />
+    );
+  } else if (props.placeAtDistance.place.__typename === 'BikePark') {
+    place = (
+      <BikeParkRowContainer
+        distance={props.placeAtDistance.distance}
+        station={props.placeAtDistance.place}
+        currentTime={props.currentTime}
+      />
+    );
+  } else if (props.placeAtDistance.place.__typename === 'CarPark') {
+    place = (
+      <CarParkRowContainer
+        distance={props.placeAtDistance.distance}
+        station={props.placeAtDistance.place}
         currentTime={props.currentTime}
       />
     );
