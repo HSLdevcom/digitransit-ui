@@ -170,17 +170,6 @@ function getStops(res) {
   return [];
 }
 
-function searchStops(input) {
-  if (input === undefined || input === null || input.trim().length < 3) {
-    return Promise.resolve([]);
-  }
-
-  return queryGraphQL(`{stops(name:"${input}") { gtfsId lat lon name code routes { mode }}}`)
-    .then(response =>
-      getStops(response && response.data && response.data.stops)
-    );
-}
-
 function searchRoutesAndStops(input, reference, favourites) {
   let refLatLng;
   let isNumber;
