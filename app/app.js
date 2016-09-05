@@ -3,7 +3,7 @@ import routes from './routes';
 import CityBikeStore from './store/city-bike-store';
 import DisruptionInfoStore from './store/DisruptionInfoStore';
 import EndpointStore from './store/endpoint-store';
-import FavouriteLocationStore from './store/favourite-location-store';
+import FavouriteLocationStore from './store/FavouriteLocationStore';
 import FavouriteRoutesStore from './store/favourite-routes-store';
 import FavouriteStopsStore from './store/favourite-stops-store';
 import FeedbackStore from './store/feedback-store';
