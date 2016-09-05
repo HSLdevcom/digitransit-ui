@@ -17,7 +17,7 @@ $body-font-weight: $font-weight-medium;
 // so they must be loaded before the relevant foundation modules
 @import '../app/component/stop-cards/stop-cards';
 @import '../app/component/map/map';
-@import '../app/component/map/popups/terminal-marker-popup';
+@import '../app/component/map/popups/marker-popup';
 @import '../app/component/front-page/front-page-panel';
 @import '../app/component/navigation/navigation';
 @import '../app/component/itinerary/itinerary';

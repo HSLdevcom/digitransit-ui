@@ -39,10 +39,10 @@ function saveHomeFavourite(address, name) {
     .saveFavourite();
 }
 
-function verifyFirstHeader(header) {
+function verifyFirstName(header) {
   this.clickFavourites();
-  this.waitForElementVisible('@favouriteLocationHeader', this.api.globals.elementVisibleTimeout);
-  return this.assert.containsText('@favouriteLocationHeader', header);
+  this.waitForElementVisible('@favouriteLocationName', this.api.globals.elementVisibleTimeout);
+  return this.assert.containsText('@favouriteLocationName', header);
 }
 
 function verifyFavouriteInSearchResult(favouriteName) {
@@ -62,7 +62,7 @@ module.exports = {
     clickHomeIcon,
     saveFavourite,
     saveHomeFavourite,
-    verifyFirstHeader,
+    verifyFirstName,
     verifyFavouriteInSearchResult,
   }],
   elements: {
@@ -87,8 +87,8 @@ module.exports = {
     saveButton: {
       selector: '.add-favourite-container__save-button',
     },
-    favouriteLocationHeader: {
-      selector: '.favourite-location-header',
+    favouriteLocationName: {
+      selector: '.favourite-location-name',
     },
   },
 };

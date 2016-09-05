@@ -164,7 +164,7 @@ $border-radius-rounded: 30px;
     width: 24px;
     stroke: $light-gray;
     stroke-width: 50px;
-    fill: $white;
+    fill: transparent;
 
     &:hover {
       stroke: $favourite-color;
@@ -182,13 +182,14 @@ $border-radius-rounded: 30px;
 }
 .fullscreen-toggle {
   position: absolute;
-  height: 2em;
+  height: 34px;
   background: rgba(0, 0, 0, 0.5);
-  width: 2em;
+  width: 34px;
   bottom: 0px;
-  right: 1em;
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
+  right: 10px;
+  font-size: 17px;
+  border-top-right-radius: $border-radius;
+  border-top-left-radius: $border-radius;
   z-index: 802;
   .icon {
    margin: 0.5em 0.5em 0 0.5em;

@@ -4,11 +4,13 @@ import Helmet from 'react-helmet';
 import Tabs from 'react-simpletabs';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage, intlShape } from 'react-intl';
+import Link from 'react-router/lib/Link';
 
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import RouteListHeader from '../component/route/RouteListHeader';
 import Icon from '../component/icon/icon';
-import RouteHeaderContainer from '../component/route/RouteHeaderContainer';
+import FavouriteRouteContainer from '../component/favourites/FavouriteRouteContainer';
+import RouteNumber from '../component/departure/RouteNumber';
 import RouteStopListContainer from '../component/route/RouteStopListContainer';
 import RouteMapContainer from '../component/route/RouteMapContainer';
 import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
@@ -33,6 +35,7 @@ class RoutePage extends React.Component {
   static propTypes = {
     pattern: React.PropTypes.object.isRequired,
     fullscreenMap: React.PropTypes.bool,
+    tripStart: React.PropTypes.string,
   };
 
   componentDidMount() {
@@ -96,7 +99,7 @@ class RoutePage extends React.Component {
 
   render() {
     if (this.props.pattern == null) {
-      return <NotFound />;
+      return <NotFound />; // TODO: redirect?
     }
 
     const params = {
@@ -104,13 +107,11 @@ class RoutePage extends React.Component {
       route_long_name: this.props.pattern.route.longName,
     };
 
-    const title = this.context.intl.formatMessage({
-      id: 'route-page.title',
-      defaultMessage: 'Route {route_short_name}',
-    }, params);
-
     const meta = {
-      title,
+      title: this.context.intl.formatMessage({
+        id: 'route-page.title',
+        defaultMessage: 'Route {route_short_name}',
+      }, params),
       meta: [{
         name: 'description',
         content: this.context.intl.formatMessage({
@@ -125,7 +126,9 @@ class RoutePage extends React.Component {
     if (!this.props.fullscreenMap) {
       mainContent = this.props.trip ? ([
         <TripListHeader key="header" />,
-        <TripStopListContainer key="list" trip={this.props.trip} />,
+        <TripStopListContainer
+          key="list" tripStart={this.props.tripStart} trip={this.props.trip}
+        />,
       ]) : ([
         <RouteListHeader key="header" />,
         <RouteStopListContainer
@@ -138,9 +141,22 @@ class RoutePage extends React.Component {
 
 
     return (
-      <DefaultNavigation className="fullscreen" title={title}>
+      <DefaultNavigation
+        className="fullscreen"
+        title={
+          <Link to={`/linjat/${this.props.pattern.code}`}>
+            <RouteNumber
+              mode={this.props.pattern.route.mode}
+              text={this.props.pattern.route.shortName}
+            />
+          </Link>
+        }
+      >
         <Helmet {...meta} />
-        <RouteHeaderContainer pattern={this.props.pattern} />
+        <FavouriteRouteContainer
+          className="route-page-header"
+          gtfsId={this.props.pattern.route.gtfsId}
+        />
         <Tabs className="route-tabs">
           <ReactCSSTransitionGroup
             component={Tabs.Panel}
@@ -161,6 +177,7 @@ class RoutePage extends React.Component {
             />
             <RouteMapContainer
               key="map"
+              tripStart={this.props.tripStart}
               pattern={this.props.pattern}
               toggleFullscreenMap={this.toggleFullscreenMap}
               className="routeMap full"
@@ -218,8 +235,10 @@ export default Relay.createContainer(RoutePage, {
         code
         headsign
         route {
+          gtfsId
           shortName
           longName
+          mode
           patterns {
             code
             headsign
@@ -229,7 +248,6 @@ export default Relay.createContainer(RoutePage, {
           }
           ${RouteAlertsContainer.getFragment('route')}
         }
-        ${RouteHeaderContainer.getFragment('pattern')}
         ${RouteMapContainer.getFragment('pattern')}
         ${RouteScheduleContainer.getFragment('pattern')}
         ${RouteStopListContainer.getFragment('pattern', { routeId })}

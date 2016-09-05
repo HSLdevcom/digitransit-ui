@@ -18,11 +18,6 @@
   .icon {
     font-size: 9pt;
   }
-  .stop-reference {
-    width: 3em;
-    display: inline-block;
-    text-align: right;
-  }
   .route-destination {
     padding-left: 0.5em;
   }
@@ -36,13 +31,14 @@
 
 & .time,
 & .vehicle-number,
-& .destination {
+& .destination,
+& .platform-number {
   display: inline-block;
 }
 
 .time {
   @include font-narrow-medium;
-  width: 4em;
+  width: 3.5em;
   margin-right: 0.5em;
   padding-right: 0.5em;
   text-align: right;
@@ -93,8 +89,12 @@
   }
 }
 
-.popup .route-destination {
+.popup .route-destination:last-child {
   width: calc(100% - 7.5em);
+}
+
+.popup .route-destination {
+  width: calc(100% - 9.5em);
 }
 
 .distance {
@@ -109,6 +109,15 @@
   position: absolute;
   right:0;
   top: 0;
+}
+
+
+.platform-number {
+  @include font-narrow-book;
+  width: 3em;
+  color: $gray;
+  font-size: 14px;
+  text-align: right;
 }
 
 // route-number component
@@ -130,14 +139,6 @@
   width: 0.5em;
 }
 
-.cancelation-info {
-  width: 12px;
-  height: 12px;
-  stroke: $white;
-  color: $cancelation-red;
-  margin: 0 0.5em;
-}
-
 .canceled .time, .time.canceled {
   position: relative;
   display: inline-block;
@@ -149,7 +150,7 @@
     content: '';
     width: 2em;
     position: absolute;
-    left: 1.75em;
+    left: 0.5em;
     top: 50%;
     opacity: 0.5;
     border-bottom: 1px solid $cancelation-red;
@@ -193,11 +194,6 @@
   }
   .icon {
     font-size: 9pt;
-  }
-  .stop-reference {
-    width: 3em;
-    display: inline-block;
-    text-align: right;
   }
   .route-destination {
     width: calc(100% - 16em);

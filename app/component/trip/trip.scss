@@ -1,5 +1,13 @@
-.passed div {
-  color: $dark-color;
+.passed {
+  div {
+    color: $dark-color;
+  }
+  span {
+    color: $dark-color;
+    svg.realtime-icon {
+      visibility: hidden;
+    }
+  }
 }
 
 .tail-icon {
