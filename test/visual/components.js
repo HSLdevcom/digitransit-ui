@@ -84,6 +84,8 @@ gemini.suite('components', () => {
   gemini.suite('FavouriteLocation', test('FavouriteLocation', 1,
     '#FavouriteLocation .component-example:nth-of-type(1) .component .realtime-icon'));
 
+  basicTest('EmptyFavouriteLocationSlot');
+
   gemini.suite('TripRouteStop', () => {
     gemini.suite('non-realtime', test('TripRouteStop'));
     gemini.suite('realtime', test('TripRouteStop', [
