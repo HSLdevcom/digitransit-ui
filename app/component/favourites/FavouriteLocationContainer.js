@@ -10,9 +10,7 @@ const FavouriteLocationContainer = ({ currentTime, onClickFavourite, plan, favou
   const firstTransitLeg = find(itinerary.legs, leg => (leg.transitLeg));
 
   return (<FavouriteLocation
-    locationName={favourite.locationName}
-    favouriteLocationIconId={favourite.selectedIconId}
-    lat={favourite.lat} lon={favourite.lon}
+    favourite={favourite}
     clickFavourite={onClickFavourite}
     departureTime={firstTransitLeg.startTime / 1000}
     currentTime={currentTime} firstTransitLeg={firstTransitLeg}
