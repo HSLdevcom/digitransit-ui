@@ -30,26 +30,6 @@ export default Relay.createContainer(NearbyRouteList, {
     `,
   },
 
-  prepareVariables: vars => {
-    /*
-    console.log(vars.modes);
-    if (vars.modes) {
-      const onlyCityBike = vars.modes.length === 1 && vars.modes.join(",").indexOf("BICYCLE_RENT") != -1;
-      if (onlyCityBike) {
-        vars.placeTypes = ['BICYCLE_RENT'];
-      } else {
-        vars.placeTypes = ['DEPARTURE_ROW', 'BICYCLE_RENT'];
-        //vars.modes = ['BUS', 'TRAM', 'RAIL', 'SUBWAY', 'FERRY', 'AIRPLANE'];
-      }
-    }
-    */
-    if (vars.currentTime) {
-      vars.currentTime = parseInt(vars.currentTime, 10);
-    }
-    console.log(vars);
-    return vars;
-  },
-
   initialVariables: {
     lat: null,
     lon: null,

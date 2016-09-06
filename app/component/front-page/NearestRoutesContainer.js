@@ -56,7 +56,7 @@ export default class NearestRoutesContainer extends Component {
         route={new NearbyRouteListContainerRoute({
           lat: this.props.lat,
           lon: this.props.lon,
-          currentTime: this.props.currentTime.toString(),
+          currentTime: this.props.currentTime,
           modes: this.props.modes,
           placeTypes: this.props.placeTypes,
         })}
@@ -66,9 +66,7 @@ export default class NearestRoutesContainer extends Component {
           }
           return undefined;
         }}
-        renderFetched={data =>
-          <NearbyRouteListContainer {...data} modes={this.props.modes} />
-        }
+        renderFetched={data => <NearbyRouteListContainer {...data} />}
       />
     );
   }
