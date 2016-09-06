@@ -49,7 +49,8 @@ const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
       </div>
       <div className="favourite-location-departure">{transitLeg}&nbsp;{departureTimeComponent}
       </div>
-      <Link onClick={(e) => { e.stopPropagation(); console.log('clicked'); return false; }}
+      <Link
+        onClick={(e) => { e.stopPropagation(); console.log('clicked'); return false; }}
         to={`/suosikki/muokkaa/${id}`}
         className="cursor-pointer no-decoration"
       ><div className="favourite-edit-icon-click-area" >

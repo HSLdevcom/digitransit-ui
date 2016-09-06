@@ -33,11 +33,15 @@ class FavouriteLocationStore extends Store {
     }
   }
 
+  getMaxId = (collection) => (
+    (maxBy(collection, (location) => location.id) || { id: 0 }).id
+  );
+
   migrate01 = (locations) => {
     const matchF = favourite => favourite.version === undefined;
     if (locations.filter(matchF).length === 0) return null; // nothing to migrate
 
-    let maxId = maxBy(locations, (location) => location.id) || 0;
+    let maxId = this.getMaxId(locations);
 
     const modified = locations.map((favourite) => {
       if (matchF(favourite)) {
@@ -63,7 +67,18 @@ class FavouriteLocationStore extends Store {
       throw new Error(`location is not a object:${JSON.stringify(location)}`);
     }
 
-    this.locations.push(location);
+    if (location.id === undefined) {
+      // new
+      this.locations.push({ ...location, id: (1 + this.getMaxId(this.locations)) });
+    } else {
+      // update
+      this.locations = this.locations.map((currentLocation) => {
+        if (currentLocation.id === location.id) {
+          return location;
+        }
+        return currentLocation;
+      });
+    }
     this.save();
   }
 
