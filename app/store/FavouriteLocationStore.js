@@ -82,8 +82,15 @@ class FavouriteLocationStore extends Store {
     this.save();
   }
 
+  deleteFavouriteLocation(location) {
+    this.locations = this.locations.filter((currentLocation) =>
+      (currentLocation.id !== location.id));
+    this.save();
+  }
+
   static handlers = {
     AddFavouriteLocation: 'addFavouriteLocation',
+    DeleteFavouriteLocation: 'deleteFavouriteLocation',
   };
 }
 

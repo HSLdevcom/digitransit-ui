@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import Icon from '../icon/icon';
 import FavouriteIconTable from './FavouriteIconTable';
-import { addFavouriteLocation } from '../../action/FavouriteActions';
+import { addFavouriteLocation, deleteFavouriteLocation } from '../../action/FavouriteActions';
 import FakeSearchBar from '../search/fake-search-bar';
 import OneTabSearchModal from '../search/one-tab-search-modal';
 
@@ -63,6 +63,11 @@ class AddFavouriteContainer extends React.Component {
       this.context.executeAction(addFavouriteLocation, this.state.favourite);
       this.context.router.replace('/');
     }
+  }
+
+  delete = () => {
+    this.context.executeAction(deleteFavouriteLocation, this.state.favourite);
+    this.context.router.replace('/');
   }
 
   specifyName = (event) => {
@@ -164,7 +169,17 @@ class AddFavouriteContainer extends React.Component {
                 />
               </div>
             </div>
-          </div>
+            {this.isEdit() &&
+              (<div className="add-favourite-container__save">
+                <div
+                  className="add-favourite-container__save-button" onClick={this.delete}
+                >
+                  <FormattedMessage
+                    id="delete" defaultMessage="Delete"
+                  />
+                </div>
+              </div>)
+            }</div>
         </row>
       </div>
       <OneTabSearchModal
