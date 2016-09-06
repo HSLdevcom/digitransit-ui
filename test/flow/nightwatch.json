@@ -72,6 +72,7 @@
       },
       "desiredCapabilities": {
         "browserName": "firefox",
+        "version": 47,
         "os": "WINDOWS",
         "os_version": "10",
         "javascriptEnabled": true,
