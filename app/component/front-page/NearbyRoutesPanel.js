@@ -5,8 +5,10 @@ import ModeFilterContainer from '../route/ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from '../departure/next-departures-list-header';
 import config from '../../config';
+import includes from 'lodash/includes';
+import pull from 'lodash/pull';
 
-function NearbyRoutesPanel({ location, currentTime, modes }) {
+function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }) {
   return (
     <div className="frontpage-panel nearby-routes">
       {config.showModeFilter ?
@@ -15,7 +17,7 @@ function NearbyRoutesPanel({ location, currentTime, modes }) {
             <ModeFilterContainer id="nearby-routes-mode" />
           </div>
         </div> : null
-    }
+      }
       <NextDeparturesListHeader />
       <div
         className="scrollable momentum-scroll"
@@ -26,6 +28,7 @@ function NearbyRoutesPanel({ location, currentTime, modes }) {
           lon={location.lon}
           currentTime={currentTime}
           modes={modes}
+          placeTypes={placeTypes}
         />
       </div>
     </div>
@@ -39,6 +42,7 @@ NearbyRoutesPanel.propTypes = {
   }).isRequired,
   currentTime: PropTypes.number.isRequired,
   modes: PropTypes.array.isRequired,
+  placeTypes: PropTypes.array.isRequired,
 };
 
 export default connectToStores(
@@ -47,11 +51,22 @@ export default connectToStores(
   (context) => {
     const position = context.getStore('PositionStore').getLocationState();
     const origin = context.getStore('EndpointStore').getOrigin();
+    const modes = context.getStore('ModeStore').getMode();
+    const bicycleRent = includes(modes, 'BICYCLE_RENT');
+    const modeFilter = pull(modes.slice(0), 'BICYCLE_RENT');
+    let placeTypeFilter = ['DEPARTURE_ROW', 'BICYCLE_RENT'];
+
+    if (!bicycleRent) {
+      pull(placeTypeFilter, 'BICYCLE_RENT');
+    } else if (modes.length === 1) {
+      placeTypeFilter = ['BICYCLE_RENT'];
+    }
 
     return {
       location: origin.useCurrentPosition ? position : origin,
       currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
-      modes: context.getStore('ModeStore').getMode(),
+      modes: modeFilter,
+      placeTypes: placeTypeFilter,
     };
   }
 );

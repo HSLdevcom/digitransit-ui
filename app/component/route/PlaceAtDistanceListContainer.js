@@ -246,11 +246,13 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
 
 const PlaceAtDistanceList = (props) => {
   let rows = [];
-  for (const i in props.places.edges) {
-    const node = props.places.edges[i].node;
-    rows.push(
+  if (props.places) {
+    for (const i in props.places.edges) {
+      const node = props.places.edges[i].node;
+      rows.push(
         <PlaceAtDistanceContainer key={node.place.id} currentTime={props.currentTime} placeAtDistance={node} />
-    );
+      );
+    }
   }
   return (<div>{rows}</div>);
 };

@@ -26,6 +26,7 @@ export default class NearestRoutesContainer extends Component {
     lon: PropTypes.number.isRequired,
     currentTime: PropTypes.number.isRequired,
     modes: PropTypes.array.isRequired,
+    placeTypes: PropTypes.array.isRequired,
   };
 
   constructor() {
@@ -56,6 +57,8 @@ export default class NearestRoutesContainer extends Component {
           lat: this.props.lat,
           lon: this.props.lon,
           currentTime: this.props.currentTime.toString(),
+          modes: this.props.modes,
+          placeTypes: this.props.placeTypes,
         })}
         renderLoading={() => {
           if (this.useSpinner === true) {
