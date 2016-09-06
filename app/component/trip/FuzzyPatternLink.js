@@ -14,7 +14,7 @@ function FuzzyPatternLink(props) {
   if (props.trip.trip) {
     return (
       <Link
-        to={`/linjat/${props.trip.trip.route.gtfsId}/pysakit/${props.trip.trip.pattern.code}/`}
+        to={`/linjat/${props.trip.trip.route.gtfsId}/pysakit/${props.trip.trip.pattern.code}`}
         className="route-now-content"
       >
         {icon}
