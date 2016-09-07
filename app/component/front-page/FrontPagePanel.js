@@ -12,8 +12,6 @@ import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 import Feedback from '../../util/feedback';
 import FeedbackAction from '../../action/feedback-action';
 
-import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
-
 export default class FrontPagePanel extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
@@ -78,20 +76,6 @@ export default class FrontPagePanel extends React.Component {
   }
 
   closePanel = () => this.selectPanel(this.getSelectedPanel())
-
-  startMeasuring = () => startMeasuring()
-
-  stopMeasuring = () => {
-    const piwik = this.context.piwik;
-    const results = stopMeasuring();
-
-    if (piwik && results) {
-      // Piwik doesn't show event values, if they are too long, so we must round... >_<
-      piwik.trackEvent('perf', 'nearby-panel-drag', 'min', Math.round(results.min));
-      piwik.trackEvent('perf', 'nearby-panel-drag', 'max', Math.round(results.max));
-      piwik.trackEvent('perf', 'nearby-panel-drag', 'avg', Math.round(results.avg));
-    }
-  }
 
   render() {
     let heading;

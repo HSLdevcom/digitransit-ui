@@ -50,6 +50,23 @@ class OneTabSearchModal extends React.Component {
     }
   }
 
+  onSuggestionSelected = (name, item) => {
+    if (item.type === 'CurrentLocation') {
+      this.context.executeAction(setUseCurrent, this.props.target);
+    } else {
+      this.context.executeAction(setEndpoint, {
+        target: this.props.target,
+        endpoint: {
+          lat: item.geometry.coordinates[1],
+          lon: item.geometry.coordinates[0],
+          address: name,
+        },
+      });
+    }
+
+    return this.props.closeModal();
+  };
+
   render() {
     const searchTabLabel = (this.props.customTabLabel ?
       this.props.customTabLabel :
@@ -67,30 +84,11 @@ class OneTabSearchModal extends React.Component {
         <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
           <GeolocationOrInput
             ref={(c) => { this.geolocationOrInput = c; }}
+            useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
             initialValue={this.props.initialValue}
             type="endpoint"
-            endpoint={this.props.endpoint}
-            onSuggestionSelected={(() => {
-              if (this.props.customOnSuggestionSelected) {
-                return this.props.customOnSuggestionSelected;
-              }
-              return (name, item) => {
-                if (item.type === 'CurrentLocation') {
-                  this.context.executeAction(setUseCurrent, this.props.target);
-                } else {
-                  this.context.executeAction(setEndpoint, {
-                    target: this.props.target,
-                    endpoint: {
-                      lat: item.geometry.coordinates[1],
-                      lon: item.geometry.coordinates[0],
-                      address: name,
-                    },
-                  });
-                }
-
-                return this.props.closeModal();
-              };
-            })()}
+            onSuggestionSelected={
+              this.props.customOnSuggestionSelected || this.onSuggestionSelected}
           />
         </Tab>
       </SearchModal>);

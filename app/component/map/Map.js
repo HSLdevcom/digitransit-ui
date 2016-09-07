@@ -5,7 +5,6 @@ import config from '../../config';
 import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
-import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
@@ -90,20 +89,6 @@ class Map extends React.Component {
 
   resizeMap = () => {
     this.refs.map.leafletElement.invalidateSize();
-  }
-
-  startMeasuring = () => (
-    startMeasuring()
-  );
-
-  stopMeasuring = () => {
-    const results = stopMeasuring();
-
-    if (results && context.piwiki != null) {
-      context.piwik.trackEvent('perf', 'map-drag', 'min', Math.round(results.min));
-      context.piwik.trackEvent('perf', 'map-drag', 'max', Math.round(results.max));
-      context.piwik.trackEvent('perf', 'map-drag', 'avg', Math.round(results.avg));
-    }
   }
 
   render = () => {

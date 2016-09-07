@@ -4,11 +4,10 @@ import SearchInputContainer from './SearchInputContainer';
 
 export default class GeolocationOrInput extends Component {
   static propTypes = {
-    endpoint: PropTypes.shape({
-      useCurrentPosition: PropTypes.bool,
-      address: PropTypes.string,
-    }),
-    initialValue: PropTypes.string,
+    useCurrentPosition: PropTypes.bool,
+    initialValue: SearchInputContainer.propTypes.initialValue,
+    type: SearchInputContainer.propTypes.type,
+    onSuggestionSelected: SearchInputContainer.propTypes.onSuggestionSelected,
   }
 
   state = {
@@ -16,32 +15,24 @@ export default class GeolocationOrInput extends Component {
   };
 
   componentWillMount() {
-    if (this.props.endpoint != null) {
-      this.setStateFromEndpoint(this.props.endpoint);
-    }
+    this.setState({ geolocation: this.props.useCurrentPosition });
   }
 
-  setStateFromEndpoint = ({ useCurrentPosition }) =>
-    (useCurrentPosition ? this.setState({ geolocation: useCurrentPosition }) : null)
-
-  getInitialValue = () =>
-    (this.props.endpoint != null ?
-      this.props.endpoint.address || '' : this.props.initialValue)
+  disableGeolocation = () => {
+    this.setState({ geolocation: false });
+    this.searchInput.focus();
+  };
 
   render() {
     const child = this.state.geolocation === false ? null :
       <GeolocationBar
         geolocation={{ hasLocation: true }}
-        onClick={() => {
-          this.setState({ geolocation: false });
-          this.searchInput.focus();
-        }}
+        onClick={this.disableGeolocation}
       />;
 
     return (
       <SearchInputContainer
         ref={(c) => { this.searchInput = c; }}
-        initialValue={this.getInitialValue()}
         {...this.props}
       >
         {child}

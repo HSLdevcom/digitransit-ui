@@ -19,7 +19,7 @@ export default class SearchInputContainer extends Component {
     onSuggestionSelected: PropTypes.func.isRequired,
     className: PropTypes.string,
     id: PropTypes.string,
-    initialValue: PropTypes.string.isRequired,
+    initialValue: PropTypes.string,
     children: PropTypes.node,
   };
 
@@ -179,9 +179,17 @@ export default class SearchInputContainer extends Component {
     }
   }
 
+  clearInput = () => {
+    this.handleUpdateInputNow({ target: { value: '' } });
+    this.focus();
+  };
+
   render() {
-    const inputValue = this.state.value != null && typeof this.state.value === 'string'
-      && this.state.value.length >= 0 ? this.state.value : this.props.initialValue;
+    const inputValue = (
+      this.state.value != null &&
+        typeof this.state.value === 'string' &&
+        this.state.value.length >= 0 ? this.state.value : this.props.initialValue
+    ) || '';
 
     return (
       <div className="fullscreen">
@@ -227,7 +235,7 @@ export default class SearchInputContainer extends Component {
         {inputValue.length > 0 ? (
           <div
             className="clear-icon"
-            onClick={() => { this.handleUpdateInputNow({ target: { value: '' } }); this.focus(); }}
+            onClick={this.clearInput}
           >
             <Icon img="icon-icon_close" />
           </div>

@@ -7,6 +7,7 @@ import { executeSearch } from '../../action/SearchActions';
 import FakeSearchBar from './FakeSearchBar';
 import FakeSearchWithButton from './FakeSearchWithButton';
 import GeolocationOrInput from './GeolocationOrInput';
+import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
 
 class SearchMainContainer extends React.Component {
@@ -71,7 +72,7 @@ class SearchMainContainer extends React.Component {
         });
       }
 
-      return setTimeout(() => this.focusInput(tabname), 0);
+      return setTimeout(() => { this.focusInput(tabname); }, 0);
     })
   );
 
@@ -82,6 +83,7 @@ class SearchMainContainer extends React.Component {
   );
 
   focusInput = (value) => (
+    // this.searchInputs[value].searchInput is a hack
     this.searchInputs[value].searchInput.autowhatever.refs.input.focus()
   );
 
@@ -120,7 +122,8 @@ class SearchMainContainer extends React.Component {
       <GeolocationOrInput
         ref={(c) => { this.searchInputs[tabname] = c; }}
         id={`search-${tabname}`}
-        endpoint={endpoint}
+        useCurrentPosition={endpoint.useCurrentPosition}
+        initialValue={endpoint.address}
         type="endpoint"
         onSuggestionSelected={(name, item) => {
           if (item.type === 'CurrentLocation') {
@@ -191,10 +194,11 @@ class SearchMainContainer extends React.Component {
             id="search-button"
             onActive={this.onTabChange}
           >
-            <GeolocationOrInput
-              ref={(c) => { this.searchInputs.search = c; }}
-              initialValue=""
+            <SearchInputContainer
+              // Hack. In GeolocationOrInput, c.searchInput causes rendering problems
+              ref={(c) => { this.searchInputs.search = { searchInput: c }; }}
               id="search"
+              initialValue=""
               type="search"
               onSuggestionSelected={(name, item) => {
                 if (item.properties.link) {
