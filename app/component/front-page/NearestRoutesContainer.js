@@ -63,6 +63,7 @@ export default class NearestRoutesContainer extends Component {
           modes: this.props.modes,
           placeTypes: this.props.placeTypes,
         })}
+        forceFetch
         renderLoading={() => {
           if (this.useSpinner === true) {
             return <div className="spinner-loader" />;
