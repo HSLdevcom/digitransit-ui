@@ -16,6 +16,8 @@ class NearbyRouteListContainerRoute extends Route {
     lat: { required: true },
     lon: { required: true },
     currentTime: { required: true },
+    modes: { required: true },
+    placeTypes: { required: true },
   };
   static routeName = 'NearbyRouteListContainerRoute';
 }
@@ -45,7 +47,8 @@ export default class NearestRoutesContainer extends Component {
       nextProps.lat !== this.props.lat ||
       nextProps.lon !== this.props.lon ||
       nextProps.currentTime !== this.props.currentTime ||
-      nextProps.modes !== this.props.modes
+      nextProps.modes !== this.props.modes ||
+      nextProps.placeTypes !== this.props.placeTypes
     );
   }
 

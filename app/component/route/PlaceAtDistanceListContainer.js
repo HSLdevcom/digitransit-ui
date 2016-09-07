@@ -34,7 +34,7 @@ const departureRowContainerFragment = () => Relay.QL`
       code
       headsign
     }
-    stoptimes (startTime:$currentTime, timeRange:7200, numberOfDepartures:2) {
+    stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
       realtimeState
       realtimeDeparture
       scheduledDeparture
@@ -99,6 +99,7 @@ const DepartureRowContainer = Relay.createContainer(DepartureRow, {
 
   initialVariables: {
     currentTime: 0,
+    timeRange: config.nearbyRoutes.timeRange || 7200,
   },
 });
 
