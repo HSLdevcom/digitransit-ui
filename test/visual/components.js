@@ -107,6 +107,7 @@ gemini.suite('components', () => {
     gemini.suite('normal', test('IconWithTail', 1));
     gemini.suite('rotate', test('IconWithTail', 2));
     gemini.suite('class', test('IconWithTail', 3));
+    gemini.suite('notail', test('IconWithTail', 4));
   });
 
   basicTest('SelectedIconWithTail');
