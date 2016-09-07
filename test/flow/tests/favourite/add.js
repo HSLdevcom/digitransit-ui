@@ -8,7 +8,7 @@ module.exports = {
 
     myFavourites.saveHomeFavourite('Opastinsilta 6, Helsinki', favouriteName);
     browser.page.feedback().close();
-    myFavourites.verifyFirstHeader(favouriteName);
+    myFavourites.verifyFirstName(favouriteName);
     browser.end();
   },
 };

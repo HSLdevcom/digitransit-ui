@@ -216,12 +216,21 @@ div.leaflet-marker-icon.vehicle-icon {
 }
 
 div.origin-popup {
-  @include font-bold;
-  text-transform: uppercase;
-  color: $link-color;
   font-size: 11px;
-
   cursor: pointer;
+
+  .origin-popup-header {
+    @include font-bold;
+    text-transform: uppercase;
+    color: $primary-color;
+
+    .icon {
+      margin: 0 0 -2px 8px;
+      font-size: 13px;
+    }
+  }
+
+
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
     padding: 0;
