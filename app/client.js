@@ -8,6 +8,7 @@ import tapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import debug from 'debug';
+import 'regenerator-runtime/runtime';
 
 import Raven from './util/Raven';
 import config from './config';

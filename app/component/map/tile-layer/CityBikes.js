@@ -3,7 +3,12 @@ import Protobuf from 'pbf';
 import Relay from 'react-relay';
 import glfun from 'mapbox-gl-function';
 import config from '../../../config';
-import { drawRoundIcon, getImageFromSprite } from '../../../util/mapIconUtils';
+import {
+  drawRoundIcon,
+  drawCitybikeIcon,
+  drawCitybikeNotInUseIcon,
+  drawAvailabilityBadge,
+} from '../../../util/mapIconUtils';
 
 const getScale = glfun({
   type: 'exponential',
@@ -54,15 +59,8 @@ class CityBikes {
       }, err => console.log(err));
     });
 
-  drawCityBikeBaseIcon = (geom) => {
-    this.tile.ctx.drawImage(
-      getImageFromSprite('icon-icon_citybike', this.citybikeImageSize, this.citybikeImageSize),
-      (geom.x / this.tile.ratio) - (this.citybikeImageSize / 2),
-      (geom.y / this.tile.ratio) - (this.citybikeImageSize / 2)
-    );
-  }
-
-  fetchAndDrawStatus = (feature, geom) => {
+  fetchAndDrawStatus = (feature) => {
+    const geom = feature.geom;
     const query = Relay.createQuery(Relay.QL`
     query Test($id: String!){
       bikeRentalStation(id: $id) {
@@ -78,33 +76,19 @@ class CityBikes {
       if (readyState.done) {
         timeOfLastFetch[feature.properties.id] = new Date().getTime();
         const result = Relay.Store.readQuery(query)[0];
-        let image;
 
         if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
-          this.tile.ctx.drawImage(
-            getImageFromSprite(
-              'icon-icon_not-in-use', this.notInUseImageSize, this.notInUseImageSize),
-            (geom.x / this.tile.ratio) - (this.notInUseImageSize / 2),
-            (geom.y / this.tile.ratio) - (this.notInUseImageSize / 2)
-          );
-
-          return;
+          drawCitybikeNotInUseIcon(this.tile, geom, this.notInUseImageSize);
         } else if (result.bikesAvailable > config.cityBike.fewAvailableCount) {
-          image = getImageFromSprite(
-            'icon-icon_good-availability', this.availabilityImageSize, this.availabilityImageSize);
+          drawAvailabilityBadge('good', this.tile, geom, this.citybikeImageSize,
+            this.availabilityImageSize, this.scaleratio);
         } else if (result.bikesAvailable > 0) {
-          image = getImageFromSprite(
-            'icon-icon_poor-availability', this.availabilityImageSize, this.availabilityImageSize);
+          drawAvailabilityBadge('poor', this.tile, geom, this.citybikeImageSize,
+            this.availabilityImageSize, this.scaleratio);
         } else {
-          image = getImageFromSprite(
-            'icon-icon_no-availability', this.availabilityImageSize, this.availabilityImageSize);
+          drawAvailabilityBadge('no', this.tile, geom, this.citybikeImageSize,
+            this.availabilityImageSize, this.scaleratio);
         }
-
-        this.tile.ctx.drawImage(
-          image,
-          this.calculatePosition(geom.x),
-          this.calculatePosition(geom.y)
-        );
       }
     };
 
@@ -119,27 +103,19 @@ class CityBikes {
     }
   }
 
-  calculatePosition = (coord) => ((coord / this.tile.ratio) -
-    (this.citybikeImageSize / 2) - (this.availabilityImageSize / 2)) + (2 * this.scaleratio)
-
   addFeature = (feature) => {
     if (this.tile.coords.z <= config.cityBike.cityBikeSmallIconZoom) {
       drawRoundIcon(this.tile, feature.geom, 'citybike');
     } else {
-      this.drawCityBikeBaseIcon(feature.geom);
-      this.fetchAndDrawStatus(feature, feature.geom);
+      drawCitybikeIcon(this.tile, feature.geom, this.citybikeImageSize);
+      this.fetchAndDrawStatus(feature);
     }
   }
 
   onTimeChange = () => {
     if (this.tile.coords.z > config.cityBike.cityBikeSmallIconZoom) {
-      this.fetchWithAction(this.drawCityBikeStatus);
+      this.fetchWithAction(this.fetchAndDrawStatus);
     }
-  }
-
-  drawCityBikeStatus = (feature) => {
-    const geom = feature.loadGeometry();
-    this.fetchAndDrawStatus(feature, geom);
   }
 
   static getName = () => 'citybike';
