@@ -5,7 +5,7 @@ module.exports = {
     browser.setGeolocation(60.1659488, 24.92693);
 
     // Wait for the tiles to be loaded
-    browser.pause(2500);
+    browser.pause(5000);
     const marker = browser.page.marker();
     marker.clickSouthOfCurrentLocation();
     marker.waitForPopupPaneVisible();
