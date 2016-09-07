@@ -42,7 +42,7 @@ function RouteMapContainer(
       className={className}
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
-      bounds={pattern.geometry.map((p) => [p.lat, p.lon])}
+      bounds={(pattern.geometry || pattern.stops).map((p) => [p.lat, p.lon])}
       zoom={zoom}
     >
       {children}
