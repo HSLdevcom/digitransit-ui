@@ -85,7 +85,7 @@ module.exports = {
       selector: '.favourite-icon-table-column:nth-of-type(2)',
     },
     saveButton: {
-      selector: '.add-favourite-container__save-button',
+      selector: '.add-favourite-container-button',
     },
     favouriteLocationName: {
       selector: '.favourite-location-name',
