@@ -10,6 +10,7 @@ function TripLink(props) {
   const icon = (<IconWithTail
     className={cx(props.mode, 'tail-icon')}
     img={`icon-icon_${props.mode}-live`}
+    rotate={180}
   />);
 
   if (props.trip.trip) {
