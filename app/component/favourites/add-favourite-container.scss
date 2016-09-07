@@ -66,7 +66,7 @@ $add-favourite-input-overlay-height: 27px;
       }
     }
 
-    .add-favourite-container__save-button {
+    .add-favourite-container-button {
       @include font-medium;
       color: white;
       background: linear-gradient(#{#069DD8}, #{#0057B9});
@@ -75,8 +75,8 @@ $add-favourite-input-overlay-height: 27px;
       padding: 0.5em 1.5em;
       text-align: center;
       max-width: 500px;
-      margin-top: 25px;
-      margin-bottom: 18px;
+      margin-top: 10px;
+      margin-bottom: 10px;
       margin-left: auto;
       margin-right: auto;
 
@@ -84,15 +84,32 @@ $add-favourite-input-overlay-height: 27px;
         background: linear-gradient(#{#0057B9}, #{#069DD8});
       }
 
-    }
-
-    .add-favourite-container__save-button--disabled {
-      @extend .add-favourite-container__save-button;
-      background: $medium-gray;
-      &:active {
-        background: $medium-gray;
+      &.delete {
+        background: $background-color;
+        color: $gray-blue;
+        border: 1.5px solid $gray-blue;
+        &:active {
+          background: $medium-gray;
+        }
       }
-    }
 
+      &.disabled {
+        background: $medium-gray;
+        &:active {
+          background: $medium-gray;
+        }
+      }
+
+      &.cancel {
+        background: $background-color;
+        color: $gray-blue;
+
+        border-radius: 0;
+        span {
+          border-bottom: 2px dotted $gray-blue;
+        }
+      }
+
+    }
   }
 }
