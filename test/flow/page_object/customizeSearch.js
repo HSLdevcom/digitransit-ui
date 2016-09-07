@@ -1,4 +1,4 @@
-const modalities = ['bus', 'tram', 'rail', 'subway', 'ferry', 'citybike'];
+const modalities = ['bus', 'tram', 'rail', 'subway', 'ferry', 'citybike', 'airplane'];
 
 function clickCanvasToggle() {
   return this.click('@canvasToggle');
