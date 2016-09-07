@@ -184,9 +184,9 @@ const PlaceAtDistance = (props) => {
         currentTime={props.currentTime}
       />
     );
-  } else if (props.placeAtDistance.place.__typename === 'BicycleRentalStation') {
+  } else if (props.placeAtDistance.place.__typename === 'BikeRentalStation') {
     place = (
-      <BicycleRentalStationContainer
+      <BicycleRentalStationRowContainer
         distance={props.placeAtDistance.distance}
         station={props.placeAtDistance.place}
         currentTime={props.currentTime}
