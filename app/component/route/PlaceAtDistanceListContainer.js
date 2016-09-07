@@ -6,13 +6,7 @@ import Distance from '../departure/distance';
 import RouteNumber from '../departure/RouteNumber';
 import RouteDestination from '../departure/RouteDestination';
 import DepartureTime from '../departure/DepartureTime';
-//import mapProps from 'recompose/mapProps';
 import config from '../../config';
-
-// const NearbyRouteListContainer = mapProps(props => ({
-//   departures: getNextDepartures(props),
-//   currentTime: parseInt(props.currentTime, 10),
-// }))(NextDeparturesList);
 
 const departureRowContainerFragment = () => Relay.QL`
   fragment on DepartureRow {
