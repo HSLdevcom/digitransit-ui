@@ -61,12 +61,16 @@ class AddFavouriteContainer extends React.Component {
   save = () => {
     if (this.canSave()) {
       this.context.executeAction(addFavouriteLocation, this.state.favourite);
-      this.context.router.replace('/');
+      this.quit();
     }
   }
 
   delete = () => {
     this.context.executeAction(deleteFavouriteLocation, this.state.favourite);
+    this.quit();
+  }
+
+  quit = () => {
     this.context.router.replace('/');
   }
 
@@ -161,8 +165,8 @@ class AddFavouriteContainer extends React.Component {
             </div>
             <div className="add-favourite-container__save">
               <div
-                className={this.canSave() ? 'add-favourite-container__save-button' :
-                  'add-favourite-container__save-button--disabled'} onClick={this.save}
+                className={`add-favourite-container-button ${this.canSave() ? '' : 'disabled'}`}
+                onClick={this.save}
               >
                 <FormattedMessage
                   id="save" defaultMessage="Save"
@@ -170,16 +174,25 @@ class AddFavouriteContainer extends React.Component {
               </div>
             </div>
             {this.isEdit() &&
-              (<div className="add-favourite-container__save">
+              [(<div key="delete" className="add-favourite-container__save">
                 <div
-                  className="add-favourite-container__save-button" onClick={this.delete}
+                  className="add-favourite-container-button delete" onClick={this.delete}
                 >
                   <FormattedMessage
                     id="delete" defaultMessage="Delete"
                   />
                 </div>
-              </div>)
-            }</div>
+              </div>), (<div key="cancel" className="add-favourite-container__save">
+                <div
+                  className="add-favourite-container-button cancel" onClick={this.quit}
+                >
+                  <FormattedMessage
+                    id="cancel" defaultMessage="Cancel"
+                  />
+                </div>
+              </div>)]
+            }
+          </div>
         </row>
       </div>
       <OneTabSearchModal
