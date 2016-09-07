@@ -5,7 +5,7 @@ import { supportsHistory } from 'history/lib/DOMUtils';
 import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from '../icon/icon';
-import FavouritesPanel from '../favourites/favourites-panel';
+import FavouritesPanel from '../favourites/FavouritesPanel';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';

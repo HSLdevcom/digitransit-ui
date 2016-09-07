@@ -168,30 +168,16 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     position: absolute;
     top: 13px;
     right: 15px;
-    padding: 0;
-    height: 24px;
-    width: 24px;
-
-    .icon.favourite {
-      height: 24px;
-      width: 24px;
-      stroke: $route-header-favourite-icon-stroke-color;
-      stroke-width: 50px;
-      fill: $route-header-favourite-icon-fill-color;
-    }
-
-    .icon.favourite:hover {
-      stroke: $route-header-favourite-icon-hover-stroke-color;
-    }
-
-    .icon.favourite.selected {
-      fill: $route-header-favourite-icon-selected-fill-color;
-    }
-
-    .icon.favourite.selected:hover {
-      stroke: $route-header-favourite-icon-selected-hover-stroke-color;
-    }
   }
+}
+
+
+.route-page-header.favourite-icon {
+  position: absolute;
+  top: 17px;
+  right: 20px;
+  height: 22px;
+  width: 22px;
 }
 
 // Schedule list
@@ -218,7 +204,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 .route-schedule-stop-select {
   select {
-    border: 1px solid #ddd;
+    border: 1px solid $light-gray;
     border-radius: 5px;
     padding: 2px 33px 2px 10px;
     background-color: #fff;
@@ -328,27 +314,27 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 div.route-tabs {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   .tabs-navigation {
     flex-shrink: 0;
-    position: absolute;
-    top: 40px;
-    right: 10px;
-    width: initial;
-    min-width: 240px;
-    max-width: 300px;
+    width: calc(100% - 20px);
+    margin: 0 10px;
     padding: 0;
+    border-bottom: 1px solid $light-gray;
+    pointer-events: none;
 
     .icon {
       display: block;
-      width: 16px;
-      height: 16px;
-      margin: 5px auto;
+      width: 15px;
+      height: 15px;
+      margin: 4px auto;
     }
 
     .tabs-menu-item {
-      padding: 9px 0;
+      padding: 8px 0 5px;
       border: none;
+      pointer-events: auto;
     }
 
     li a {
@@ -363,8 +349,12 @@ div.route-tabs {
     }
 
     ul li {
-      font-size: 7pt;
+      font-size: 6pt;
       min-width: 60px;
+    }
+
+    ul {
+      float: none;
     }
   }
 
@@ -387,7 +377,6 @@ div.route-tabs {
     }
 
   }
-  height: calc(100% - #{$route-header-height});
 }
 
 
@@ -429,15 +418,15 @@ div.route-tabs {
 }
 
 .route-pattern-select {
-  padding: 10px;
+  padding: 8px 10px;
   background-color: #eef1f3;
   position: relative;
-  min-height: 60px;
+  min-height: 53px;
 
   select {
-    padding: 10px;
-    height: 40px;
-    border-radius: $border-radius;
+    padding: 6px 10px;
+    height: 35px;
+    border-radius: $border-radius-bigger;
     border: 1px solid $light-gray;
     font-weight: bold;
     appearance: none;
@@ -445,8 +434,8 @@ div.route-tabs {
   .icon {
     color: $gray-blue;
     position: absolute;
-    right: 25px;
-    top: 24px;
+    right: 23px;
+    top: 18px;
     pointer-events: none;
   }
 }
@@ -521,4 +510,19 @@ div.route-tabs {
 .no-alerts-message {
   text-align: center;
   margin-top: 50px;
+}
+
+nav.top-bar .title .route-number {
+  .vehicle-number {
+    color: $title-color;
+  }
+
+  font-size: 24px;
+  .icon {
+    margin-top: -4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: $border-radius;
+    height: 26px;
+    width: 26px;
+  }
 }

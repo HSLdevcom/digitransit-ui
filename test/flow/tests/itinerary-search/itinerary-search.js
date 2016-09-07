@@ -3,7 +3,7 @@ module.exports = {
   'Origin and destination exists in instructions if suggestion is chosen': (browser) => {
     browser.url(browser.launch_url);
 
-    browser.page.searchFields().itinerarySearch('Helsinki central railway', 'Kamppi');
+    browser.page.searchFields().itinerarySearch('Helsinki central railway', 'Narinkkatori');
 
     const itinerarySummary = browser.page.itinerarySummary();
     itinerarySummary.waitForFirstItineraryRow();
@@ -12,7 +12,7 @@ module.exports = {
     const itineraryInstructions = browser.page.itineraryInstructions();
     itineraryInstructions.waitForFirstItineraryInstructionColumn();
     itineraryInstructions.verifyOrigin('Helsinki Central railway station, Helsinki');
-    itineraryInstructions.verifyDestination('Kamppi, Helsinki');
+    itineraryInstructions.verifyDestination('Narinkkatori, Helsinki');
     browser.end();
   },
 
