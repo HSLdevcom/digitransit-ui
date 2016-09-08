@@ -1,29 +1,27 @@
 import Store from 'fluxible/addons/BaseStore';
-import { setPreferencesStorage, getPreferencesStorage } from './localStorage';
+import reactCookie from 'react-cookie';
 import config from '../config';
 
+/* Language is stored in cookie, server should set the language based on browser
+ * accepted languages
+ */
 class PreferencesStore extends Store {
   static storeName = 'PreferencesStore';
 
-  constructor(dispatcher) {
-    super(dispatcher);
-    this.preferences = this.loadPreferences();
-  }
-
   getLanguage() {
-    return this.preferences.language || config.defaultLanguage;
+    let lang = reactCookie.load('lang');
+
+    if (config.availableLanguages.indexOf(lang) === -1) { // illegal selection, use default
+      lang = config.defaultLanguage;
+    }
+
+    return lang;
   }
 
   setLanguage(language) {
     if (config.availableLanguages.indexOf(language) === -1) {
-      console.error(`Could not set language ${language} as it is not configured
-        as availableLanguage`);
-
       return;
     }
-
-    this.preferences.language = language;
-    this.storePreferences();
 
     if (document) {
       document.cookie = `lang=${language}`;
@@ -32,25 +30,6 @@ class PreferencesStore extends Store {
     this.emitChange({
       lang: language,
     });
-  }
-
-  loadPreferences() {
-    if (typeof window !== 'undefined' && window !== null) {
-      const preferences = getPreferencesStorage();
-
-      if (typeof preferences.language !== 'undefined') {
-        return {
-          language: window.locale ? window.locale : config.defaultLanguage,
-        };
-      }
-    }
-    return {
-      language: config.defaultLanguage,
-    };
-  }
-
-  storePreferences() {
-    return setPreferencesStorage(this.preferences);
   }
 
   static handlers = {
