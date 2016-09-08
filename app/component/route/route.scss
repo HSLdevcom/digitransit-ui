@@ -62,6 +62,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   @include font-narrow-medium;
   flex-grow: 20;
   flex-basis: 0;
+  position: relative;
 
   &.route-page-content-enter, &.route-page-content-leave {
     will-change: flex-grow;
@@ -77,6 +78,14 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
   &.route-page-content-enter.route-page-content-enter-active {
     flex-grow: 20;
+  }
+
+  .route-stop-now-divider {
+    position: absolute;
+    height: calc(100% - 9px);
+    left: 38px;
+    top: 9px;
+    border-left: 2px dashed $light-gray;
   }
 }
 
