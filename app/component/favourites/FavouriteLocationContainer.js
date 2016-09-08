@@ -7,7 +7,10 @@ import config from '../../config';
 
 const FavouriteLocationContainer = ({ currentTime, onClickFavourite, plan, favourite }) => {
   const itinerary = (plan && plan.plan.itineraries[0]) || {};
-  const firstTransitLeg = find(itinerary.legs, leg => (leg.transitLeg));
+  let firstTransitLeg = find(itinerary.legs, leg => (leg.transitLeg));
+  if (firstTransitLeg === undefined && itinerary.legs && itinerary.legs.length > 0) {
+    firstTransitLeg = { startTime: (currentTime + 1) * 1000, realTime: true }; // walk leg
+  }
 
   return (<FavouriteLocation
     locationName={favourite.locationName}

@@ -27,7 +27,7 @@ const FavouriteLocation = (props) => {
   }
 
   let departureTime;
-  let firstTransitLeg;
+  let firstLeg;
   const timeIsNotPast = props.currentTime < props.departureTime;
 
   if (props.departureTime && timeIsNotPast) {
@@ -44,13 +44,15 @@ const FavouriteLocation = (props) => {
       <div className="favourite-location-content-placeholder time--small">--:--</div>;
   }
   if (props.firstTransitLeg && props.firstTransitLeg.route) {
-    firstTransitLeg = (
+    firstLeg = (
       <RouteNumber
         mode={props.firstTransitLeg.mode}
         realtime={props.firstTransitLeg.realTime}
         text={props.firstTransitLeg.route.shortName}
       />
     );
+  } else if (props.firstTransitLeg) {
+    firstLeg = (<Icon img="icon-icon_walk" />);
   }
   return (
     <div
@@ -61,7 +63,7 @@ const FavouriteLocation = (props) => {
         <Icon className="favourite-location-icon" img={props.favouriteLocationIconId} />
         <div className="favourite-location-name">{props.locationName}</div>
       </div>
-      <div className="favourite-location-departure">{firstTransitLeg}&nbsp;{departureTime}
+      <div className="favourite-location-departure">{firstLeg}&nbsp;{departureTime}
       </div>
       <div className="favourite-edit-icon-click-area">
         <Icon className="favourite-edit-icon" img="icon-icon_edit" />
