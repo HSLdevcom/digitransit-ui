@@ -181,6 +181,13 @@ function searchStops(input) {
     );
 }
 
+// Get
+//
+// - favourite routes
+// - other routes
+// - stops in 50km buckets
+//
+// that match the search term
 function searchRoutesAndStops(input, reference, favourites) {
   let refLatLng;
   let isNumber;
@@ -257,15 +264,11 @@ function searchRoutesAndStops(input, reference, favourites) {
 
 function executeSearchInternal(actionContext, { input, type }) {
   processResults(actionContext, []);
-
   const position = actionContext.getStore('PositionStore').getLocationState();
-  const language = actionContext.getStore('PreferencesStore').getLanguage();
-  const origin = actionContext.getStore('EndpointStore').getOrigin();
-
-  const positionCoords = position.hasLocation ? { lon: position.lon, lat: position.lat } :
-    { lon: config.initialLocation.lon, lat: config.initialLocation.lat };
-
-  const referenceLocation = origin.lat ? { lon: origin.lon, lat: origin.lat } : positionCoords;
+  const positionCoords = (
+    position.hasLocation ?
+      { lon: position.lon, lat: position.lat } :
+      { lon: config.initialLocation.lon, lat: config.initialLocation.lat });
 
   if (type === 'endpoint') {
     const favouriteLocations = actionContext.getStore('FavouriteLocationStore').getLocations();
@@ -276,6 +279,7 @@ function executeSearchInternal(actionContext, { input, type }) {
       addFavouriteLocations(favouriteLocations, input),
       addOldSearches(oldSearches, input),
     ];
+    const language = actionContext.getStore('PreferencesStore').getLanguage();
 
     if (config.search.showStopsFirst) {
       searches.push(searchStops(input));
@@ -293,6 +297,8 @@ function executeSearchInternal(actionContext, { input, type }) {
   }
   const favouriteRoutes = actionContext.getStore('FavouriteRoutesStore').getRoutes();
 
+  const origin = actionContext.getStore('EndpointStore').getOrigin();
+  const referenceLocation = origin.lat ? { lon: origin.lon, lat: origin.lat } : positionCoords;
   return searchRoutesAndStops(input, referenceLocation, favouriteRoutes)
     .then(uniq)
     .then(suggestions =>
