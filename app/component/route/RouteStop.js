@@ -107,6 +107,7 @@ const RouteStop = ({
           ))
         )}
       </Link>
+      <div className="route-stop-row-divider" />
     </div>);
 };
 

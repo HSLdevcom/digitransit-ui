@@ -99,6 +99,7 @@ const TripRouteStop = (props) => {
           {props.stoptime && fromStopTime(props.stoptime, props.currentTime)}
         </div>
       </Link>
+      <div className="route-stop-row-divider" />
     </div>
   );
 };
