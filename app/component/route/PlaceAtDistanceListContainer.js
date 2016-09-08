@@ -264,6 +264,12 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
       node {
         place {
           id
+          __typename
+          ... on DepartureRow {
+            stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
+              realtimeState
+            }
+          }
         }
         ${PlaceAtDistanceContainer.getFragment('placeAtDistance', { currentTime: variables.currentTime })},
       }
@@ -276,9 +282,13 @@ const PlaceAtDistanceList = (props) => {
   if (props.places) {
     for (const i in props.places.edges) {
       const node = props.places.edges[i].node;
-      rows.push(
-        <PlaceAtDistanceContainer key={node.place.id} currentTime={props.currentTime} placeAtDistance={node} />
-      );
+      const hasDepartures = node.place.__typename !== 'DepartureRow' ||
+        (node.place.stoptimes && node.place.stoptimes.length > 0);
+      if (hasDepartures) {
+        rows.push(
+          <PlaceAtDistanceContainer key={node.place.id} currentTime={props.currentTime} placeAtDistance={node} />
+        );
+      }
     }
   }
   return (<div>{rows}</div>);
@@ -291,5 +301,6 @@ export default Relay.createContainer(PlaceAtDistanceList, {
 
   initialVariables: {
     currentTime: 0,
+    timeRange: config.nearbyRoutes.timeRange || 7200,
   },
 });
