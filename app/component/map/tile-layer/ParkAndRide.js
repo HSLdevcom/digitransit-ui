@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import Protobuf from 'pbf';
 
 import config from '../../../config';
-import { getImageFromSprite } from '../../../util/mapIconUtils';
+import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
 import { Contour } from '../../../util/geo-utils';
 
 const showFacilities = 17;
@@ -57,11 +57,7 @@ export default class ParkAndRide {
                   feature.properties.facilities = result;
                   feature.geom = feature.loadGeometry()[0][0];
                   this.features.push(feature);
-                  this.tile.ctx.drawImage(
-                    getImageFromSprite('icon-icon_park-and-ride', this.width, this.height),
-                    (feature.geom.x / this.tile.ratio) - (this.width / 2),
-                    (feature.geom.y / this.tile.ratio) - (this.height / 2)
-                  );
+                  drawParkAndRideIcon(this.tile, feature.geom, this.width, this.height);
                 }
               }
             });
@@ -87,11 +83,7 @@ export default class ParkAndRide {
                   feature.properties.facility = result;
                   feature.geom = new Contour(feature.loadGeometry()[0]).centroid();
                   this.features.push(feature);
-                  this.tile.ctx.drawImage(
-                    getImageFromSprite('icon-icon_park-and-ride', this.width, this.height),
-                    (feature.geom.x / this.tile.ratio) - (this.width / 2),
-                    (feature.geom.y / this.tile.ratio) - (this.height / 2)
-                  );
+                  drawParkAndRideIcon(this.tile, feature.geom, this.width, this.height);
                 }
               }
             });

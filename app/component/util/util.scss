@@ -177,7 +177,7 @@ $btn-heigth: 17px;
   &.ferry {
     background-color: $btn-ferry-active-background-color;
   }
-  &.air {
+  &.airplane {
     background-color: $btn-air-active-background-color;
   }
   &.citybike {
@@ -189,7 +189,7 @@ $btn-heigth: 17px;
       color: $btn-icon-color-checked;
     }
   }
-  &.bus, &.tram, &.rail, &.subway, &.ferry, &.air, &.citybike {
+  &.bus, &.tram, &.rail, &.subway, &.ferry, &.airplane, &.citybike {
     .icon{
       color:$btn-icon-color-active;
     }

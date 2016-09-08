@@ -11,6 +11,7 @@ require('babel-core/register')({
     'transform-es2015-destructuring',
     'transform-es2015-parameters',
     'transform-class-properties',
+    'transform-es2015-modules-commonjs',
     path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
   ignore: [

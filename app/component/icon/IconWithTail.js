@@ -19,7 +19,9 @@ const IconWithTail = ({ className, id, img, rotate, children, desaturate = false
 export const asString = (props) => {
   const element = window.document.createElement('div');
   ReactDOM.render(React.createElement(IconWithTail, props), element);
-  return element.innerHTML;
+  const html = element.innerHTML;
+  ReactDOM.unmountComponentAtNode(element);
+  return html;
 };
 
 IconWithTail.displayName = 'IconWithTail';

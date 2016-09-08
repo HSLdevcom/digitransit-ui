@@ -113,7 +113,7 @@ export default Relay.createContainer(SummaryPlanContainer, {
     fromPlace: null,
     toPlace: null,
     numItineraries: 3,
-    modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK',
+    modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,AIRPLANE',
     date: moment().format('YYYY-MM-DD'),
     time: moment().format('HH:mm:ss'),
     walkReluctance: 2.0001,
