@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import { getStartTime } from '../../util/time-utils';
 import TripListHeader from './TripListHeader';
@@ -39,24 +38,10 @@ class TripStopsContainer extends React.Component {
   }
 
   render() {
-    let mainContent = null;
     const tripStartTime = getStartTime(this.props.trip.stoptimesForDate[0].scheduledDeparture);
 
-    if (!this.props.route.fullscreenMap) {
-      mainContent = ([
-        <TripListHeader key="header" />,
-        <TripStopListContainer key="list" trip={this.props.trip} tripStart={tripStartTime} />,
-      ]);
-    }
-
     return (
-      <ReactCSSTransitionGroup
-        component="div"
-        className="route-page-content"
-        transitionName="route-page-content"
-        transitionEnterTimeout={300}
-        transitionLeaveTimeout={300}
-      >
+      <div className="route-page-content">
         <RouteMapContainer
           key="map"
           pattern={this.props.trip.pattern}
@@ -69,8 +54,14 @@ class TripStopsContainer extends React.Component {
             null
           }
         </RouteMapContainer>
-        {mainContent}
-      </ReactCSSTransitionGroup>
+        <TripListHeader key="header" />
+        <TripStopListContainer
+          key="list"
+          trip={this.props.trip}
+          tripStart={tripStartTime}
+          fullscreenMap={this.props.route.fullscreenMap}
+        />
+      </div>
     );
   }
 }

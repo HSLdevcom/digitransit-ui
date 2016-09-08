@@ -71,13 +71,10 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   flex-grow: 20;
   flex-basis: 0;
   position: relative;
+  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1), flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
   &.route-page-content-enter, &.route-page-content-leave {
     will-change: flex-grow;
-  }
-
-  &.route-page-content-leave, &.route-page-content-enter.route-page-content-enter-active {
-    transition: flex-grow 300ms;
   }
 
   &.route-page-content-enter, &.route-page-content-leave.route-page-content-leave-active {
@@ -86,6 +83,11 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
   &.route-page-content-enter.route-page-content-enter-active {
     flex-grow: 20;
+  }
+
+  &.fullscreen-map {
+    flex-grow: 0;
+    flex-basis: 80px;
   }
 
   .route-stop-now-divider {

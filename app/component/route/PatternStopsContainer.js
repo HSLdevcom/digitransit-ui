@@ -51,8 +51,8 @@ class PatternStopsContainer extends React.Component {
         component="div"
         className="route-page-content"
         transitionName="route-page-content"
-        transitionEnterTimeout={300}
-        transitionLeaveTimeout={300}
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={500}
       >
         <RouteMapContainer
           key="map"

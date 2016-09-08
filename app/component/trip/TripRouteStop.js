@@ -48,6 +48,7 @@ const TripRouteStop = (props) => {
         pattern={props.pattern}
         route={props.route}
         selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
+        fullscreenMap={props.fullscreenMap}
       />
     )
   );
@@ -125,6 +126,7 @@ TripRouteStop.propTypes = {
   ]).isRequired,
   first: React.PropTypes.bool,
   last: React.PropTypes.bool,
+  fullscreenMap: React.PropTypes.bool,
 };
 
 TripRouteStop.description = (
