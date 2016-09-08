@@ -9,15 +9,13 @@ class PreferencesStore extends Store {
   static storeName = 'PreferencesStore';
 
   getLanguage() {
-    const lang = reactCookie.load('lang');
+    let lang = reactCookie.load('lang');
 
-    // 1. use user selected language from cookie
-    if (lang !== undefined) {
-      return lang;
+    if (config.availableLanguages.indexOf(lang) === -1) { // illegal selection, use default
+      lang = config.defaultLanguage;
     }
 
-    // fallback to default language
-    return config.defaultLanguage;
+    return lang;
   }
 
   setLanguage(language) {

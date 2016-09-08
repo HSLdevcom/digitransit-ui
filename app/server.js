@@ -178,11 +178,14 @@ function getHtml(context, renderProps, locale, polyfills, req) {
 export default function (req, res, next) {
   processFeedback(req, res);
    // 1. use locale from cookie (user selected) 2. browser preferred 3. default
-  const locale = req.cookies.lang ||
-    req.acceptsLanguages(config.availableLanguages) ||
-    config.defaultLanguage;
+  let locale = req.cookies.lang ||
+    req.acceptsLanguages(config.availableLanguages);
 
-  if (req.cookies.lang === undefined) {
+  if (config.availableLanguages.indexOf(locale) === -1) {
+    locale = config.defaultLanguage;
+  }
+
+  if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
     res.cookie('lang', locale);
   }
 
