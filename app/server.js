@@ -177,9 +177,15 @@ function getHtml(context, renderProps, locale, polyfills, req) {
 
 export default function (req, res, next) {
   processFeedback(req, res);
+   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
   const locale = req.cookies.lang ||
     req.acceptsLanguages(config.availableLanguages) ||
     config.defaultLanguage;
+
+  if (req.cookies.lang === undefined) {
+    res.cookie('lang', locale);
+  }
+
   const context = application.createContext();
 
   // required by material-ui
