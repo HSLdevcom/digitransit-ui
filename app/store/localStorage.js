@@ -82,14 +82,6 @@ export function setModeStorage(data) {
   setItem('mode', data);
 }
 
-export function getPreferencesStorage() {
-  return getItemAsJson('userPreferences');
-}
-
-export function setPreferencesStorage(data) {
-  setItem('userPreferences', data);
-}
-
 export function getOldSearchesStorage() {
   return getItemAsJson('saved-searches');
 }

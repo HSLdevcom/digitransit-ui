@@ -17,6 +17,8 @@ module.exports = {
       'env': 'relay',
       'schemaJson': require('./build/schema.json'),
     }],
+    // Temporary fix for: https://github.com/babel/babel-eslint/issues/316
+    'generator-star-spacing': 0,
   },
   'env': {
     'browser': true,
