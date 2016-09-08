@@ -17,17 +17,26 @@ import {
   vehicle as exampleVehicle,
 } from '../documentation/ExampleData';
 
-const routeStopSvg = (
+const getRouteStopSvg = (first, last) => (
   <svg style={{ position: 'absolute', width: 12, height: 65, left: -12 }} >
-    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="5" stroke="currentColor" />
-    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="2" stroke="white" opacity="0.2" />
-    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
-  </svg>
-);
-
-const lastRouteStopSvg = (
-  <svg style={{ position: 'absolute', width: 12, height: 12, left: -12 }} >
-    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
+    <line
+      x1="6"
+      x2="6"
+      y1={first ? 9 : 0}
+      y2={last ? 9 : 65}
+      strokeWidth="5"
+      stroke="currentColor"
+    />
+    <line
+      x1="6"
+      x2="6"
+      y1={first ? 9 : 0}
+      y2={last ? 9 : 65}
+      strokeWidth="2"
+      stroke="white"
+      opacity="0.2"
+    />
+    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="9" r="5" />
   </svg>
 );
 
@@ -70,7 +79,7 @@ const TripRouteStop = (props) => {
       <div className="columns route-stop-now-reverse">{reverseVehicles}</div>
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
         <div className={`columns route-stop-name ${props.mode}`}>
-          {props.last ? lastRouteStopSvg : routeStopSvg}
+          {getRouteStopSvg(props.first, props.last)}
           {props.stop.name}
           <br />
           <div style={{ whiteSpace: 'nowrap' }}>
@@ -113,6 +122,7 @@ TripRouteStop.propTypes = {
     React.PropTypes.object,
     React.PropTypes.oneOf([false]),
   ]).isRequired,
+  first: React.PropTypes.bool,
   last: React.PropTypes.bool,
 };
 
