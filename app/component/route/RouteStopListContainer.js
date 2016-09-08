@@ -68,6 +68,7 @@ class RouteStopListContainer extends React.Component {
           ref={isNearest ? 'nearestStop' : null}
           currentTime={this.props.currentTime.unix()}
           last={i === stops.length - 1}
+          first={i === 0}
         />
       );
     });

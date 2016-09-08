@@ -94,6 +94,7 @@ class TripStopListContainer extends React.Component {
         pattern={this.props.trip.pattern.code}
         route={this.props.trip.route.gtfsId}
         last={index === this.props.trip.stoptimesForDate.length - 1}
+        first={index === 0}
       />);
     });
   }

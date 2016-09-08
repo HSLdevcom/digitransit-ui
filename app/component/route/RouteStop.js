@@ -10,21 +10,32 @@ import StopCode from '../itinerary/StopCode';
 import { fromStopTime } from '../departure/DepartureTime';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-const routeStopSvg = (
+const getRouteStopSvg = (first, last) => (
   <svg style={{ position: 'absolute', width: 12, height: 65, left: -12 }} >
-    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="5" stroke="currentColor" />
-    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="2" stroke="white" opacity="0.2" />
-    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
+    <line
+      x1="6"
+      x2="6"
+      y1={first ? 9 : 0}
+      y2={last ? 9 : 65}
+      strokeWidth="5"
+      stroke="currentColor"
+    />
+    <line
+      x1="6"
+      x2="6"
+      y1={first ? 9 : 0}
+      y2={last ? 9 : 65}
+      strokeWidth="2"
+      stroke="white"
+      opacity="0.2"
+    />
+    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="9" r="5" />
   </svg>
 );
 
-const lastRouteStopSvg = (
-  <svg style={{ position: 'absolute', width: 12, height: 12, left: -12 }} >
-    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
-  </svg>
-);
-
-const RouteStop = ({ vehicles, reverseVehicles, stop, mode, distance, last, currentTime }) => {
+const RouteStop = ({
+  vehicles, reverseVehicles, stop, mode, distance, last, first, currentTime,
+}) => {
   const vehicleTripLinks = vehicles && vehicles.map((vehicle) =>
       (<Relay.RootContainer
         key={vehicle.id}
@@ -72,7 +83,7 @@ const RouteStop = ({ vehicles, reverseVehicles, stop, mode, distance, last, curr
       <div className="columns route-stop-now-reverse">{reverseVehicleLinks}</div>
       <Link to={`/pysakit/${stop.gtfsId}`}>
         <div className={`columns route-stop-name ${mode}`}>
-          {last ? lastRouteStopSvg : routeStopSvg}
+          {getRouteStopSvg(first, last)}
           {stop.name}
           <br />
           <div style={{ whiteSpace: 'nowrap' }}>
@@ -106,6 +117,7 @@ RouteStop.propTypes = {
   mode: React.PropTypes.string,
   distance: React.PropTypes.number,
   currentTime: React.PropTypes.number.isRequired,
+  first: React.PropTypes.bool,
   last: React.PropTypes.bool,
 };
 
