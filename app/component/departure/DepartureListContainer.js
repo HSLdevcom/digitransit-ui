@@ -1,12 +1,12 @@
 import React, { PropTypes, Component } from 'react';
 import Relay from 'react-relay';
-import Departure from './Departure';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import moment from 'moment';
 import Link from 'react-router/lib/Link';
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import Departure from './Departure';
 
 const mergeDepartures = departures =>
   Array.prototype.concat.apply([], departures).sort((a, b) => a.stoptime - b.stoptime);
@@ -16,7 +16,7 @@ const asDepartures = stoptimes =>
     pattern.stoptimes.map(stoptime => {
       const isArrival = stoptime.pickupType === 'NONE';
       const canceled = stoptime.realtimeState === 'CANCELED' ||
-        window.mock && stoptime.realtimeDeparture % 40 === 0;
+        (window.mock && stoptime.realtimeDeparture % 40 === 0);
       const arrivalTime = stoptime.serviceDay +
         (canceled
           ? stoptime.realtimeArrival
@@ -49,6 +49,7 @@ class DepartureListContainer extends Component {
     showStops: PropTypes.bool,
     routeLinks: PropTypes.bool,
     className: PropTypes.string,
+    isTerminal: PropTypes.bool,
   };
 
   onScroll = () => {
@@ -70,7 +71,11 @@ class DepartureListContainer extends Component {
       .unix();
 
     const departures = mergeDepartures(asDepartures(this.props.stoptimes))
-      .filter(departure => currentTime < departure.stoptime).slice(0, this.props.limit);
+      .filter(departure => !(this.props.isTerminal && departure.isArrival))
+      .filter(departure => !(this.props.isTerminal && (departure.stoptime > currentTime + 3600)))
+      .filter(departure => currentTime < departure.stoptime)
+      .slice(0, this.props.limit);
+
     for (let departure of departures) {
       if (departure.stoptime >= tomorrow) {
         departureObjs.push(
@@ -111,6 +116,7 @@ class DepartureListContainer extends Component {
           className={cx(classes, this.props.rowClasses)}
           canceled={departure.canceled}
           isArrival={departure.isArrival}
+          isTerminal={this.props.isTerminal}
         />
       );
 
@@ -170,6 +176,7 @@ export default Relay.createContainer(DepartureListContainerWithTime, {
           pickupType
           stop {
             code
+            platformCode
           }
           trip {
             gtfsId

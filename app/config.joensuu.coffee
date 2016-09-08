@@ -85,7 +85,7 @@ module.exports =
       # Do not render name markers at zoom levels below this value
       nameMarkerMinZoom: 18
       popup:
-        offset: [106, 3]
+        offset: [106, 16]
         maxWidth: 250
         minWidth: 250
     line:
@@ -122,6 +122,8 @@ module.exports =
   stopsSmallMaxZoom: 14
   # Highest level when terminals are still rendered instead of individual stops
   terminalStopsMaxZoom: 17
+  terminalStopsMinZoom: 12
+  terminalNamesZoom: 16
   colors:
     primary: "#007ac9"
   disruption:

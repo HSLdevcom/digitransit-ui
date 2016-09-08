@@ -20,6 +20,7 @@ module.exports =
     MAP: "#{MAP_URL}/map/v1/hsl-map/"
     STOP_MAP: "#{API_URL}/map/v1/hsl-stop-map/"
     CITYBIKE_MAP: "#{API_URL}/map/v1/hsl-citybike-map/"
+    PARK_AND_RIDE_MAP: "#{API_URL}/map/v1/hsl-parkandride-map/"
     MQTT: "wss://dev.hsl.fi/mqtt-proxy"
     ALERTS: "#{API_URL}/realtime/service-alerts/v1"
     FONT: "https://cloud.typography.com/6364294/6653152/css/fonts.css"
@@ -86,7 +87,7 @@ module.exports =
       # Do not render name markers at zoom levels below this value
       nameMarkerMinZoom: 18
       popup:
-        offset: [106, 3]
+        offset: [106, 16]
         maxWidth: 250
         minWidth: 250
     line:
@@ -115,15 +116,20 @@ module.exports =
       fi: "https://www.hsl.fi/kaupunkipyörät"
       sv: "https://www.hsl.fi/sv/stadscyklar"
       en: "https://www.hsl.fi/en/citybikes"
-    cityBikeMinZoom: 13
+    cityBikeMinZoom: 14
     cityBikeSmallIconZoom: 14
     fewAvailableCount: 3
+  parkAndRide:
+    showParkAndRide: true
+    parkAndRideMinZoom: 13
   # Lowest level for stops and terminals are rendered
-  stopsMinZoom: 13
+  stopsMinZoom: 14
   # Highest level when stops and terminals are still rendered as small markers
   stopsSmallMaxZoom: 14
   # Highest level when terminals are still rendered instead of individual stops
   terminalStopsMaxZoom: 17
+  terminalStopsMinZoom: 12
+  terminalNamesZoom: 16
   colors:
     primary: "#007ac9"
   disruption:

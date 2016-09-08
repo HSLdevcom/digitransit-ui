@@ -1,7 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
-import Icon from '../icon/icon';
 import { intlShape, FormattedMessage } from 'react-intl';
+
+import Icon from '../icon/icon';
 
 export default class ItineraryFeedback extends React.Component {
   static contextTypes = {

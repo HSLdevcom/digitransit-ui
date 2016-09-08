@@ -14,8 +14,8 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  return typeof window !== 'undefined' && window.localStorage &&
-    window.localStorage.getItem(key) || null;
+  return (typeof window !== 'undefined' && window.localStorage &&
+    window.localStorage.getItem(key)) || null;
 }
 
 function getItemAsJson(key, defaultValue) {
@@ -80,14 +80,6 @@ export function getModeStorage() {
 
 export function setModeStorage(data) {
   setItem('mode', data);
-}
-
-export function getPreferencesStorage() {
-  return getItemAsJson('userPreferences');
-}
-
-export function setPreferencesStorage(data) {
-  setItem('userPreferences', data);
 }
 
 export function getOldSearchesStorage() {

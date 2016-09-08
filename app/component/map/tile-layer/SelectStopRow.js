@@ -14,7 +14,6 @@ function getName(pattern) {
     return (
       <span
         key={pattern.shortName}
-        style={{ padding: '0 2px' }}
         className={`${pattern.type.toLowerCase()} vehicle-number`}
       >
         {pattern.shortName}
@@ -43,7 +42,9 @@ function SelectStopRow(props) {
     if (otherPatterns.length > 0) {
       patterns.push(
         <div key="second" className="route-detail-text">
-          <FormattedMessage id="in-addition" defaultMessage="In addition" />
+          <span className="gray">
+            <FormattedMessage id="in-addition" defaultMessage="In addition" />
+          </span>
           {uniqBy(otherPatterns, pattern => pattern.shortName).map(getName)}
         </div>);
     }
@@ -51,9 +52,8 @@ function SelectStopRow(props) {
 
   return (
     <div className="no-margin">
-      <hr className="no-margin" />
       <div className="no-margin cursor-pointer" onClick={props.selectRow}>
-        <div className="left padding-vertical-normal" style={{ width: 40 }}>
+        <div className="left padding-vertical-normal select-row-icon">
           <svg
             viewBox="0 0 30 30"
             width="30"
@@ -62,24 +62,24 @@ function SelectStopRow(props) {
             className={`${props.type.toLowerCase()} left`}
           >
             <circle
-              r="7"
+              r="8"
               cx="15"
               cy="15"
-              strokeWidth="6.5"
+              strokeWidth="3"
               fill="None"
               stroke="currentColor"
             />
           </svg>
         </div>
-        <div className="left padding-vertical-normal" style={{ width: 'calc(100% - 40px)' }}>
+        <div className="left padding-vertical-normal select-row-text">
           <span className="h4 no-margin link-color" >
             {props.name} ›
           </span>
           {patterns}
         </div>
-        <div className="clear">
-        </div>
+        <div className="clear" />
       </div>
+      <hr className="no-margin gray" />
     </div>
   );
 }

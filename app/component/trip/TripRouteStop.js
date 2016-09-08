@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import cx from 'classnames';
+
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
 import PatternLink from './PatternLink';
@@ -34,7 +35,7 @@ const TripRouteStop = (props) => {
         pattern={props.pattern}
         selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
       />)
-    ) || [];
+    );
 
   return (
     <div className={cx('route-stop row', { passed: props.stopPassed })}>
@@ -42,27 +43,27 @@ const TripRouteStop = (props) => {
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
         <div className={`columns small-7 route-stop-name ${props.mode}`}>
           {props.last ? lastRouteStopSvg : routeStopSvg}
-          {props.stop.name}&nbsp;
-          {props.distance &&
-            <WalkDistance
-              className="nearest-route-stop"
-              icon="icon_location-with-user"
-              walkDistance={props.distance}
-            />
-          }
+          {props.stop.name}
           <br />
-          <StopCode code={props.stop.code} />
-          <span className="route-stop-address">{props.stop.desc}</span>
+          <div style={{ whiteSpace: 'nowrap' }}>
+            <StopCode code={props.stop.code} />
+            <span className="route-stop-address">{props.stop.desc}</span>
+            {'\u2002'}
+            {props.distance &&
+              <WalkDistance
+                className="nearest-route-stop"
+                icon="icon_location-with-user"
+                walkDistance={props.distance}
+              />
+            }
+          </div>
         </div>
-        {(
-          props.stoptime &&
-          (<div>
-            <div className="columns small-2 route-stop-time">
-              {fromStopTime(props.stoptime, props.currentTime)}
-            </div>
-          </div>))}
+        <div className="columns small-2 route-stop-time">
+          {props.stoptime && fromStopTime(props.stoptime, props.currentTime)}
+        </div>
       </Link>
-    </div>);
+    </div>
+  );
 };
 
 TripRouteStop.propTypes = {

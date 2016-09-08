@@ -41,3 +41,4 @@ More information about [testing](docs/Tests.md).
 * [Style guide](http://beta.digitransit.fi/styleguide)
 * [Installation](docs/Installation.md)
 * [Tests](docs/Tests.md)
+* [Z-Index Index](docs/ZIndex.md)

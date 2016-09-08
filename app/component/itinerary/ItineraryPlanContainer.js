@@ -1,20 +1,21 @@
 import React from 'react';
 import Relay from 'react-relay';
-import ItineraryTab from '../itinerary/ItineraryTab';
+import Tabs from 'material-ui/Tabs/Tabs';
+import Tab from 'material-ui/Tabs/Tab';
+import moment from 'moment';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage } from 'react-intl';
+import { supportsHistory } from 'history/lib/DOMUtils';
 import SwipeableViews from 'react-swipeable-views';
+
 import ItineraryLine from '../map/ItineraryLine';
 import CityBikeMarker from '../map/non-tile-layer/CityBikeMarker';
 import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
-import Tabs from 'material-ui/Tabs/Tabs';
-import Tab from 'material-ui/Tabs/Tab';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Map from '../map/Map';
-import moment from 'moment';
 import config from '../../config';
 import ItinerarySummaryListContainer from '../summary/itinerary-summary-list-container';
-import { supportsHistory } from 'history/lib/DOMUtils';
+import ItineraryTab from '../itinerary/ItineraryTab';
 
 class ItineraryPlanContainer extends React.Component {
   static contextTypes = {
@@ -303,7 +304,7 @@ export default Relay.createContainer(ItineraryPlanContainer, {
     fromPlace: null,
     toPlace: null,
     numItineraries: 3,
-    modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK',
+    modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,AIRPLANE',
     date: moment().format('YYYY-MM-DD'),
     time: moment().format('HH:mm:ss'),
     walkReluctance: 2.0001,

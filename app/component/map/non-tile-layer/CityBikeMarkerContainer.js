@@ -1,8 +1,8 @@
-import config from '../../../config';
 import React from 'react';
 import Relay from 'react-relay';
 import ViewerRoute from '../../../route/ViewerRoute';
 
+import config from '../../../config';
 import CityBikeMarker from './CityBikeMarker';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 

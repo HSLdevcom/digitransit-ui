@@ -1,13 +1,13 @@
-const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
 import elementResizeDetectorMaker from 'element-resize-detector';
-import config from '../../config';
 
+import config from '../../config';
 import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
 
+const isBrowser = typeof window !== 'undefined' && window !== null;
 
 /* eslint-disable global-require */
 // TODO When server side rendering is re-enabled,
@@ -20,6 +20,7 @@ let L;
 let TileLayerContainer;
 let CityBikes;
 let Stops;
+let ParkAndRide;
 
 let StopMarkerContainer;
 let CityBikeMarkerContainer;
@@ -34,6 +35,7 @@ if (isBrowser) {
   TileLayerContainer = require('./tile-layer/TileLayerContainer').default;
   CityBikes = require('./tile-layer/CityBikes').default;
   Stops = require('./tile-layer/Stops').default;
+  ParkAndRide = require('./tile-layer/ParkAndRide').default;
 
   StopMarkerContainer = require('./non-tile-layer/StopMarkerContainer').default;
   CityBikeMarkerContainer = require('./non-tile-layer/CityBikeMarkerContainer').default;
@@ -73,8 +75,8 @@ class Map extends React.Component {
     }).addTo(this.refs.map.leafletElement);
 
     if (!this.props.disableZoom || L.Browser.touch) {
-      L.control.zoom({ position: 'topleft' }).
-        addTo(this.refs.map.leafletElement);
+      L.control.zoom({ position: 'topleft' })
+        .addTo(this.refs.map.leafletElement);
     }
 
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
@@ -120,8 +122,12 @@ class Map extends React.Component {
         if (this.props.showStops) {
           layers.push(Stops);
 
-          if (config.cityBike.showCityBikes) {
+          if (config.cityBike && config.cityBike.showCityBikes) {
             layers.push(CityBikes);
+          }
+
+          if (config.parkAndRide && config.parkAndRide.showParkAndRide) {
+            layers.push(ParkAndRide);
           }
         }
 
@@ -162,8 +168,8 @@ class Map extends React.Component {
       leafletObjs.push(
         <PositionMarker key="position" displayOriginPopup={this.props.displayOriginPopup} />);
 
-      const center = !this.props.fitBounds && this.props.lat && this.props.lon &&
-        [this.props.lat, this.props.lon] || null;
+      const center = (!this.props.fitBounds && this.props.lat && this.props.lon &&
+        [this.props.lat, this.props.lon]) || null;
 
       ({ zoom } = this.props);
 
@@ -179,7 +185,7 @@ class Map extends React.Component {
             zoom,
             zoomControl: false,
             attributionControl: false,
-            bounds: this.props.fitBounds && boundWithMinimumArea(this.props.bounds) || undefined,
+            bounds: (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) || undefined,
             animate: true,
             ...this.props.leafletOptions,
             boundsOptions,

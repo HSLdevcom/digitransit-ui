@@ -44,7 +44,8 @@ let manifest;
 let css;
 
 if (process.env.NODE_ENV !== 'development') {
-  stats = require('../stats.json'); // eslint-disable-line global-require
+  stats = require('../stats.json'); // eslint-disable-line global-require, import/no-unresolved
+
   const manifestFile = getStringOrArrayElement(stats.assetsByChunkName.manifest, 0);
   manifest = fs.readFileSync(`${appRoot}_static/${manifestFile}`);
   css = [
@@ -115,7 +116,7 @@ function processFeedback(req, res) {
 function getScripts(req) {
   if (process.env.NODE_ENV === 'development') {
     const host =
-      req.headers.host && req.headers.host.split(':')[0] || 'localhost';
+      (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
 
     return <script async src={`//${host}:${port}/js/bundle.js`} />;
   }
@@ -176,9 +177,18 @@ function getHtml(context, renderProps, locale, polyfills, req) {
 
 export default function (req, res, next) {
   processFeedback(req, res);
-  const locale = req.cookies.lang ||
-    req.acceptsLanguages(config.availableLanguages) ||
-    config.defaultLanguage;
+   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
+  let locale = req.cookies.lang ||
+    req.acceptsLanguages(config.availableLanguages);
+
+  if (config.availableLanguages.indexOf(locale) === -1) {
+    locale = config.defaultLanguage;
+  }
+
+  if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
+    res.cookie('lang', locale);
+  }
+
   const context = application.createContext();
 
   // required by material-ui

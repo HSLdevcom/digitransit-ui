@@ -1,17 +1,16 @@
 import React from 'react';
-import Icon from '../icon/icon';
 import cx from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import FavouritesPanel from '../favourites/favourites-panel';
+import { supportsHistory } from 'history/lib/DOMUtils';
+import { FormattedMessage, intlShape } from 'react-intl';
+
+import Icon from '../icon/icon';
+import FavouritesPanel from '../favourites/FavouritesPanel';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';
-
-import { supportsHistory } from 'history/lib/DOMUtils';
-
 import Feedback from '../../util/feedback';
 import FeedbackAction from '../../action/feedback-action';
-import { FormattedMessage, intlShape } from 'react-intl';
 
 import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
 

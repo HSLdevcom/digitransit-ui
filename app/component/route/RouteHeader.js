@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import RouteNumber from '../departure/RouteNumber';
 import cx from 'classnames';
+
+import RouteNumber from '../departure/RouteNumber';
 
 export default function RouteHeader(props) {
   const mode = props.route.mode.toLowerCase();

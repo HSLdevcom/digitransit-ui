@@ -1,13 +1,15 @@
-const isBrowser = typeof window !== 'undefined' && window !== null;
 import React from 'react';
 import Relay from 'react-relay';
-import { getDistanceToFurthestStop } from '../../../util/geo-utils';
-import Icon from '../../icon/icon';
-import TerminalMarkerPopup from '../popups/terminal-marker-popup';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
+
+import { getDistanceToFurthestStop } from '../../../util/geo-utils';
+import Icon from '../../icon/icon';
+import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import TerminalRoute from '../../../route/TerminalRoute';
+
+const isBrowser = typeof window !== 'undefined' && window !== null;
 
 let Circle;
 let L;
@@ -19,7 +21,7 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-const TerminalMarkerPopupWithContext = provideContext(TerminalMarkerPopup, {
+const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
@@ -67,15 +69,16 @@ class TerminalMarker extends React.Component {
         name={this.props.terminal.name}
       >
         <Relay.RootContainer
-          Component={TerminalMarkerPopup}
+          Component={StopMarkerPopup}
           route={new TerminalRoute({
             terminalId: this.props.terminal.gtfsId,
+            date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
           })}
           renderLoading={() => (
             <div className="card" style={{ height: 150 }}><div className="spinner-loader" /></div>
           )}
           renderFetched={data => (
-            <TerminalMarkerPopupWithContext {...data} context={this.context} />
+            <StopMarkerPopupWithContext {...data} context={this.context} />
           )}
         />
       </GenericMarker>

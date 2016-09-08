@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
+import Link from 'react-router/lib/Link';
 
 import config from '../../config';
 import DisruptionInfoButtonContainer from '../disruption/DisruptionInfoButtonContainer';
 import Icon from '../icon/icon';
 import LangSelect from './LangSelect';
-import Link from 'react-router/lib/Link';
 
 function MainMenu(props) {
   const inquiry = (

@@ -1,11 +1,11 @@
 module.exports = {
   tags: ['stops', 'map', 'geolocation'],
-  'Open Kamppi cluster, select stop to show its departures': (browser) => {
+  'Open Ruoholahden villat cluster, select stop to show its departures': (browser) => {
     browser.url(browser.launch_url);
-    browser.setGeolocation(60.1692, 24.9318);
+    browser.setGeolocation(60.1659488, 24.92693);
 
     // Wait for the tiles to be loaded
-    browser.pause(2000);
+    browser.pause(5000);
     const marker = browser.page.marker();
     marker.clickSouthOfCurrentLocation();
     marker.waitForPopupPaneVisible();
@@ -13,7 +13,7 @@ module.exports = {
     const stop = browser.page.stopCard();
     stop.waitForElementVisible('@cluster', browser.globals.itinerarySearchTimeout);
     stop.click('@clusterStop');
-    stop.expectCardHeader('Kamppi');
+    stop.expectCardHeaderDescription('Ruoholahdenkatu');
     stop.waitForDepartureVisible();
 
     browser.end();

@@ -1,5 +1,3 @@
-import Raven from './util/Raven';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
@@ -7,6 +5,12 @@ import useRelay from 'react-router-relay';
 import { Router, applyRouterMiddleware } from 'react-router';
 import provideContext from 'fluxible-addons-react/provideContext';
 import tapEventPlugin from 'react-tap-event-plugin';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import debug from 'debug';
+import 'regenerator-runtime/runtime';
+
+import Raven from './util/Raven';
 import config from './config';
 import StoreListeningIntlProvider from './util/store-listening-intl-provider';
 import app from './app';
@@ -16,8 +20,6 @@ import { openFeedbackModal } from './action/feedback-action';
 import Feedback from './util/feedback';
 import history from './history';
 import buildInfo from './build-info';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import DesktopWrapper from './component/util/DesktopWrapper';
 
 const plugContext = (f) => () => ({
@@ -51,7 +53,6 @@ if (process.env.NODE_ENV === 'development') {
   require('../sass/themes/' + config.CONFIG + '/main.scss');
 }
 
-import debug from 'debug';
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
 Relay.injectNetworkLayer(

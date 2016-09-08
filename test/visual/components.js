@@ -23,7 +23,7 @@ function test(componentName, captureOrExampleNumber, ignoreElements, fn = () => 
       .ignoreElements(ignoreElements || [])
       .capture('normal', {}, fn);
     } catch (error) {
-      console.error(error);
+      console.error('oooo', error);
     }
   };
 }
@@ -47,6 +47,7 @@ gemini.suite('components', () => {
 
   gemini.suite('DepartureTime', () => {
     gemini.suite('normal', test('DepartureTime', 2));
+    gemini.suite('canceled', test('DepartureTime', 3));
   });
 
   gemini.suite('RouteNumber', () => {
@@ -58,13 +59,13 @@ gemini.suite('components', () => {
     gemini.suite('isArrival', test('RouteDestination', 2));
   });
 
-  gemini.suite('StopReference', test('StopReference'));
-
   gemini.suite('Distance', () => {
     gemini.suite('zero', test('Distance'));
     gemini.suite('meters', test('Distance', 2));
     gemini.suite('km', test('Distance', 3));
   });
+
+  basicTest('PlatformNumber');
 
   basicTest('CardHeader');
   basicTest('Card');
@@ -72,6 +73,13 @@ gemini.suite('components', () => {
   basicTest('CityBikeContent');
   basicTest('CityBikeAvailability');
   basicTest('CityBikeUse');
+
+  basicTest('Availability');
+
+  gemini.suite('ParkAndRideAvailability', () => {
+    gemini.suite('non-realtime', test('ParkAndRideAvailability'));
+    gemini.suite('realtime', test('ParkAndRideAvailability'));
+  });
 
   gemini.suite('FavouriteLocation', test('FavouriteLocation', 1,
     '#FavouriteLocation .component-example:nth-of-type(1) .component .realtime-icon'));
@@ -95,8 +103,16 @@ gemini.suite('components', () => {
     )));
   });
 
-  gemini.suite('IconWithTail', test('IconWithTail'));
+  gemini.suite('IconWithTail', () => {
+    gemini.suite('normal', test('IconWithTail', 1));
+    gemini.suite('rotate', test('IconWithTail', 2));
+    gemini.suite('class', test('IconWithTail', 3));
+    gemini.suite('notail', test('IconWithTail', 4));
+  });
 
+  basicTest('SelectedIconWithTail');
+  basicTest('IconWithCaution');
+  basicTest('IconWithBigCaution');
 
   gemini.suite('TimeNavigationButtons', () => {
     gemini.suite('normal', test('TimeNavigationButtons'));
@@ -116,7 +132,9 @@ gemini.suite('components', () => {
 
   basicTest('MarkerSelectPopup');
   basicTest('SelectStopRow');
+  basicTest('SelectTerminalRow');
   basicTest('SelectCityBikeRow');
+  basicTest('SelectParkAndRideRow');
   basicTest('TicketInformation');
   basicTest('RouteScheduleDateSelect');
   basicTest('RouteScheduleHeader');
@@ -128,4 +146,10 @@ gemini.suite('components', () => {
     gemini.suite('White buttons', test('ModeFilter',
       ['#ModeFilter .nearby-routes .component-example:nth-of-type(1) .component']));
   });
+
+  gemini.suite('RouteStop', test('RouteStop',
+    ['#RouteStop .component-example:nth-of-type(1) .component',
+    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
+    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'
+  ));
 });

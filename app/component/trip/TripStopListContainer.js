@@ -1,13 +1,13 @@
 import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
-import TripRouteStop from './TripRouteStop';
 import isEmpty from 'lodash/isEmpty';
-import moment from 'moment';
-import { getDistanceToNearestStop } from '../../util/geo-utils';
-import config from '../../config';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
+
+import TripRouteStop from './TripRouteStop';
+import { getDistanceToNearestStop } from '../../util/geo-utils';
+import config from '../../config';
 
 class TripStopListContainer extends React.Component {
 
@@ -17,6 +17,7 @@ class TripStopListContainer extends React.Component {
     vehicles: React.PropTypes.object,
     locationState: React.PropTypes.object.isRequired,
     currentTime: React.PropTypes.object.isRequired,
+    tripStart: React.PropTypes.string.isRequired,
   }
 
   getNearestStopDistance = (stops) => (
@@ -31,12 +32,9 @@ class TripStopListContainer extends React.Component {
 
     const mode = this.props.trip.route.mode.toLowerCase();
     const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
-    const tripStartTime = this.props.trip.stoptimesForDate[0].serviceDay +
-      this.props.trip.stoptimesForDate[0].scheduledDeparture;
-    const tripStartHHmm = moment(tripStartTime * 1000).format('HHmm');
     const vehiclesWithCorrectStartTime = Object.keys(this.props.vehicles)
       .map((key) => (this.props.vehicles[key]))
-      .filter((vehicle) => (vehicle.tripStartTime === tripStartHHmm));
+      .filter((vehicle) => (vehicle.tripStartTime === this.props.tripStart));
 
     // selected vehicle
     const vehicle = (vehiclesWithCorrectStartTime.length > 0) && vehiclesWithCorrectStartTime[0];

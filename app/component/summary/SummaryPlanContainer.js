@@ -77,10 +77,10 @@ class SummaryPlanContainer extends React.Component {
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
-    const bounds = [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...
-      plan.itineraries.map((itinerary) => (
-        [].concat(...
-          itinerary.legs.map((leg) => polyUtil.decode(leg.legGeometry.points)))))
+    const bounds =
+      [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...plan.itineraries.map((itinerary) => (
+        [].concat(...itinerary.legs.map((leg) => polyUtil.decode(leg.legGeometry.points)))
+      ))
     );
 
     return (
@@ -113,7 +113,7 @@ export default Relay.createContainer(SummaryPlanContainer, {
     fromPlace: null,
     toPlace: null,
     numItineraries: 3,
-    modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK',
+    modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,AIRPLANE',
     date: moment().format('YYYY-MM-DD'),
     time: moment().format('HH:mm:ss'),
     walkReluctance: 2.0001,

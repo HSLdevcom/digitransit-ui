@@ -1,13 +1,19 @@
 import React from 'react';
+import sortBy from 'lodash/sortBy';
+import Link from 'react-router/lib/Link';
+
 import Icon from '../component/icon/icon';
-import IconWithTail from '../component/icon/icon-with-tail';
+import IconWithTail from '../component/icon/IconWithTail';
+import SelectedIconWithTail from '../component/icon/SelectedIconWithTail';
+import IconWithCaution from '../component/icon/IconWithCaution';
+import IconWithBigCaution from '../component/icon/IconWithBigCaution';
 import ComponentDocumentation from '../component/documentation/ComponentDocumentation';
 import Departure from '../component/departure/Departure';
 import RouteNumber from '../component/departure/RouteNumber';
 import RouteDestination from '../component/departure/RouteDestination';
 import DepartureTime from '../component/departure/DepartureTime';
-import StopReference from '../component/stop/stop-reference';
 import Distance from '../component/departure/distance';
+import PlatformNumber from '../component/departure/PlatformNumber';
 import NotImplemented from '../component/util/not-implemented';
 import NotImplementedLink from '../component/util/not-implemented-link';
 import CardHeader from '../component/card/CardHeader';
@@ -24,18 +30,20 @@ import RightOffcanvasToggle from '../component/summary/RightOffcanvasToggle';
 import TripRouteStop from '../component/trip/TripRouteStop';
 import MarkerSelectPopup from '../component/map/tile-layer/MarkerSelectPopup';
 import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
+import SelectParkAndRideRow from '../component/map/tile-layer/SelectParkAndRideRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
+import SelectTerminalRow from '../component/map/tile-layer/SelectTerminalRow';
 import Favourite from '../component/favourites/Favourite';
 import TicketInformation from '../component/itinerary/TicketInformation';
 import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect';
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
 import RouteScheduleStopSelect from '../component/route/RouteScheduleStopSelect';
 import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
+import RouteStop from '../component/route/RouteStop';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
-
-import sortBy from 'lodash/sortBy';
-import Link from 'react-router/lib/Link';
+import Availability from '../component/card/Availability.js';
+import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
 
 class StyleGuidelinesPage extends React.Component {
 
@@ -46,13 +54,16 @@ class StyleGuidelinesPage extends React.Component {
   static components = {
     Icon,
     IconWithTail,
+    SelectedIconWithTail,
+    IconWithBigCaution,
+    IconWithCaution,
     ComponentDocumentation,
     Departure,
     RouteNumber,
     RouteDestination,
     DepartureTime,
-    StopReference,
     Distance,
+    PlatformNumber,
     NotImplemented,
     NotImplementedLink,
     CardHeader,
@@ -62,6 +73,8 @@ class StyleGuidelinesPage extends React.Component {
     CityBikeAvailability,
     CityBikeUse,
     CityBikePopup,
+    Availability,
+    ParkAndRideAvailability,
     FavouriteLocation,
     TimeSelectors,
     TimeNavigationButtons,
@@ -69,7 +82,9 @@ class StyleGuidelinesPage extends React.Component {
     TripRouteStop,
     MarkerSelectPopup,
     SelectCityBikeRow,
+    SelectParkAndRideRow,
     SelectStopRow,
+    SelectTerminalRow,
     Favourite,
     TicketInformation,
     RouteScheduleDateSelect,
@@ -78,6 +93,7 @@ class StyleGuidelinesPage extends React.Component {
     RouteScheduleTripRow,
     RouteAlertsRow,
     ModeFilter,
+    RouteStop,
   }
 
   getColors() {
@@ -221,7 +237,7 @@ class StyleGuidelinesPage extends React.Component {
   getTextStyles() {
     return (
       <section>
-        <p><a href="#">This is a link</a><span className="code">{"<a />"}</span>
+        <p><a>This is a link</a><span className="code">{"<a />"}</span>
         </p>
         <p>
           <span className="dotted-link cursor-pointer">

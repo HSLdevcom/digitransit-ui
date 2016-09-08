@@ -2,29 +2,50 @@ import React from 'react';
 import Relay from 'react-relay';
 import Helmet from 'react-helmet';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Link from 'react-router/lib/Link';
+import moment from 'moment';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import { intlShape } from 'react-intl';
+
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Map from '../component/map/Map';
 import DepartureListContainer from '../component/departure/DepartureListContainer';
 import StopCardHeader from '../component/stop-cards/StopCardHeader';
 import { addFavouriteStop } from '../action/FavouriteActions';
-import Link from 'react-router/lib/Link';
 import Icon from '../component/icon/icon';
-import moment from 'moment';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { intlShape } from 'react-intl';
 
 function StopPage(props, { intl, router, executeAction }) {
+  const isTerminal = props.route.name.startsWith('station');
+  const prefix = isTerminal ? 'terminaalit' : 'pysakit';
+  const id = isTerminal ? props.params.terminalId : props.params.stopId;
+
   const params = {
     stop_name: props.stop.name,
     stop_code: props.stop.code,
   };
 
-  const title = intl.formatMessage({
+  const title = isTerminal ?
+  intl.formatMessage({
+    id: 'terminal-page.title-short',
+    defaultMessage: 'Terminal',
+  }, params)
+  :
+  intl.formatMessage({
     id: 'stop-page.title',
     defaultMessage: 'Stop {stop_name} - {stop_code}',
   }, params);
 
-  const meta = {
+  const meta = isTerminal ?
+  {
+    title,
+    meta: [{
+      name: 'description',
+      content: intl.formatMessage({
+        id: 'terminal-page.description',
+        defaultMessage: 'Terminal {stop_name}',
+      }, params),
+    }],
+  } : {
     title,
     meta: [{
       name: 'description',
@@ -37,11 +58,11 @@ function StopPage(props, { intl, router, executeAction }) {
 
   const addAsFavouriteStop = e => {
     e.stopPropagation();
-    executeAction(addFavouriteStop, props.params.stopId);
+    executeAction(addFavouriteStop, id);
   };
 
   const toggleFullscreenMap = () =>
-    router.push(`/pysakit/${props.params.stopId}${props.fullscreenMap ? '' : '/kartta'}`);
+    router.push(`/${prefix}/${id}${props.fullscreenMap ? '' : '/kartta'}`);
 
   const contents = props.fullscreenMap ? null : (
     <DepartureListContainer
@@ -50,6 +71,7 @@ function StopPage(props, { intl, router, executeAction }) {
       className="stop-page momentum-scroll"
       routeLinks
       infiniteScroll
+      isTerminal={isTerminal}
       rowClasses="padding-normal border-bottom"
     />);
 
@@ -66,25 +88,25 @@ function StopPage(props, { intl, router, executeAction }) {
         <StopCardHeader
           stop={props.stop}
           favourite={props.favourite}
-          addFavouriteStop={addAsFavouriteStop}
+          addFavouriteStop={isTerminal ? false : addAsFavouriteStop}
           key="header"
           className="stop-page header"
           headingStyle="h3"
-          infoIcon
+          infoIcon={!isTerminal}
         />
         <Map
           className="full"
           lat={props.stop.lat}
           lon={props.stop.lon}
-          zoom={16}
+          zoom={isTerminal || props.stop.platformCode ? 18 : 16}
           key="map"
           showStops
-          hilightedStops={[props.params.stopId]}
+          hilightedStops={[id]}
           disableZoom={!props.fullscreenMap}
         >
           {props.fullscreenMap ? null :
             <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
-          <Link to={`/pysakit/${props.params.stopId}${props.fullscreenMap ? '' : '/kartta'}`}>
+          <Link to={`/${prefix}/${id}${props.fullscreenMap ? '' : '/kartta'}`}>
             <div className="fullscreen-toggle">
               <Icon img="icon-icon_maximize" className="cursor-pointer" />
             </div>
@@ -98,7 +120,8 @@ function StopPage(props, { intl, router, executeAction }) {
 
 StopPage.propTypes = {
   params: React.PropTypes.shape({
-    stopId: React.PropTypes.string.isRequired,
+    stopId: React.PropTypes.string,
+    terminalId: React.PropTypes.string,
   }).isRequired,
   stop: React.PropTypes.shape({
     name: React.PropTypes.string.isRequired,
@@ -106,9 +129,13 @@ StopPage.propTypes = {
     lat: React.PropTypes.number.isRequired,
     lon: React.PropTypes.number.isRequired,
     stoptimes: React.PropTypes.array,
+    platformCode: React.PropTypes.string,
   }),
   favourite: React.PropTypes.bool,
   fullscreenMap: React.PropTypes.bool,
+  route: React.PropTypes.shape({
+    name: React.PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 StopPage.contextTypes = {
@@ -125,6 +152,7 @@ const StopPageContainer = Relay.createContainer(StopPage, {
         lon
         name
         code
+        platformCode
         routes {
           gtfsId
           shortName
