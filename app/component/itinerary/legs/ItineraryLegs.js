@@ -1,7 +1,7 @@
 import React from 'react';
 
 import WalkLeg from './walk-leg';
-import WaitLeg from './wait-leg';
+import WaitLeg from './WaitLeg';
 import BicycleLeg from './bicycle-leg';
 import EndLeg from './end-leg';
 import AirportCheckInLeg from './airport-check-in-leg';
