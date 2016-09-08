@@ -89,7 +89,7 @@ class Map extends React.Component {
   }
 
   resizeMap = () => {
-    this.refs.map.leafletElement.invalidateSize();
+    this.refs.map && this.refs.map.leafletElement.invalidateSize();
   }
 
   startMeasuring = () => (
