@@ -77,8 +77,8 @@ class RouteStopListContainer extends React.Component {
   render() {
     return (
       <div className={cx('route-stop-list momentum-scroll', this.props.className)}>
-        {this.getStops()}
         <div className="route-stop-now-divider" />
+        {this.getStops()}
       </div>);
   }
 }
