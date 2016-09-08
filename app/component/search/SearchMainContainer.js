@@ -71,8 +71,9 @@ class SearchMainContainer extends React.Component {
           type: 'search',
         });
       }
-
-      return setTimeout(() => { this.focusInput(tabname); }, 0);
+      // Cannot use setTimeout for the focus, or iOS Safari won't show the caret.
+      // Other browsers don't seem to care one way or another.
+      this.focusInput(tabname);
     })
   );
 
