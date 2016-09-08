@@ -22,6 +22,13 @@ class TripStopListContainer extends React.Component {
     fullscreenMap: React.PropTypes.bool,
   }
 
+  componentDidMount() {
+    const el = document.getElementsByClassName('selected-tail-icon')[0];
+    if (el) {
+      el.scrollIntoView();
+    }
+  }
+
   getNearestStopDistance = (stops) => (
     this.props.locationState.hasLocation === true
       ? getDistanceToNearestStop(this.props.locationState.lat, this.props.locationState.lon, stops)
