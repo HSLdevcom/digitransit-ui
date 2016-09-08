@@ -11,12 +11,12 @@ import { fromStopTime } from '../departure/DepartureTime';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const getRouteStopSvg = (first, last) => (
-  <svg style={{ position: 'absolute', width: 12, height: 65, left: -12, top: -4 }} >
+  <svg style={{ position: 'absolute', width: 12, height: 67, left: -12, top: -4 }} >
     <line
       x1="6"
       x2="6"
       y1={first ? 13 : 0}
-      y2={last ? 13 : 65}
+      y2={last ? 13 : 67}
       strokeWidth="5"
       stroke="currentColor"
     />
@@ -24,7 +24,7 @@ const getRouteStopSvg = (first, last) => (
       x1="6"
       x2="6"
       y1={first ? 13 : 0}
-      y2={last ? 13 : 65}
+      y2={last ? 13 : 67}
       strokeWidth="2"
       stroke="white"
       opacity="0.2"

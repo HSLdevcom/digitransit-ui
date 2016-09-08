@@ -102,7 +102,10 @@ class TripStopListContainer extends React.Component {
   render() {
     return (
       <div className={cx('route-stop-list momentum-scroll', this.props.className)}>
-        <div className="route-stop-now-divider" />
+        <div
+          className="route-stop-now-divider"
+          ref={el => el && el.style.setProperty('height', `${el.parentNode.scrollHeight - 29}px`)}
+        />
         {this.getStops()}
       </div>
     );
