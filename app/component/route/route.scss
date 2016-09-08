@@ -25,6 +25,10 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   &.route-stop {
     min-height:0;
   }
+
+  .route-stop-now {
+    white-space: nowrap;
+  }
 }
 
 .departure-list-header {
