@@ -6,6 +6,7 @@ import Distance from '../departure/distance';
 import RouteNumber from '../departure/RouteNumber';
 import RouteDestination from '../departure/RouteDestination';
 import DepartureTime from '../departure/DepartureTime';
+import Icon from '../icon/icon';
 import config from '../../config';
 
 const departureRowContainerFragment = () => Relay.QL`
@@ -36,7 +37,6 @@ const departureRowContainerFragment = () => Relay.QL`
       scheduledArrival
       realtime
       serviceDay
-      pickupType
       stop {
         code
         platformCode
@@ -100,11 +100,44 @@ const DepartureRowContainer = Relay.createContainer(DepartureRow, {
 const bicycleRentalRowContainerFragment = () => Relay.QL`
   fragment on BikeRentalStation {
     name
+    stationId
+    bikesAvailable
+    spacesAvailable
   }
 `;
 
 const BicycleRentalStationRow = (props) => {
-  return (<div>{props.station.name}</div>);
+  let availabilityIcon = null;
+
+  if (props.station.bikesAvailable === 0 && props.station.spacesAvailable === 0) {
+    availabilityIcon = <Icon img="icon-icon_not-in-use"/>
+  } else if (props.station.bikesAvailable > config.cityBike.fewAvailableCount) {
+    availabilityIcon = <Icon img="icon-icon_good-availability"/>
+  } else if (props.station.bikesAvailable > 0) {
+    availabilityIcon = <Icon img="icon-icon_poor-availability"/>
+  } else {
+    availabilityIcon = <Icon img="icon-icon_no-availability"/>
+  }
+
+  return (
+    <div className="bicycle-rental-station-row">
+      <Distance distance={props.distance} />
+      <div className="bicycle-rental-station">
+        <RouteNumber
+          mode="citybike"
+          text={props.station.stationId}
+          hasDisruption={false}
+        />
+        <span className="city-bike-station-name">{props.station.name}</span>
+        <span className="city-bike-station-availability">
+          Pyöriä <span className="city-bikes-available">{props.station.bikesAvailable}</span>
+          /
+          {props.station.bikesAvailable + props.station.spacesAvailable}
+          {availabilityIcon}
+        </span>
+      </div>
+    </div>
+  );
 };
 
 const BicycleRentalStationRowContainer = Relay.createContainer(BicycleRentalStationRow, {
@@ -175,7 +208,6 @@ const placeAtDistanceFragment = variables => Relay.QL`
 
 const PlaceAtDistance = (props) => {
   let place;
-
   if (props.placeAtDistance.place.__typename === 'DepartureRow') {
     place = (
       <DepartureRowContainer

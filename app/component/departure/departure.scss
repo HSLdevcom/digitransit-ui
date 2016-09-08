@@ -32,15 +32,18 @@
 & .time,
 & .vehicle-number,
 & .destination,
-& .platform-number {
+& .platform-number,
+& .bicycle-rental-station,
+& .city-bike-station-name,
+& .city-bike-station-availability {
   display: inline-block;
 }
 
 .time {
   @include font-narrow-medium;
-  width: 3.5em;
-  margin-right: 0.5em;
-  padding-right: 0.5em;
+  width: 3.25em;
+  padding-right: 0.25em;
+  margin-right: 0.25em;
   text-align: right;
 }
 
@@ -57,7 +60,7 @@
   overflow: hidden;
   position: relative;
   display: inline-block;
-  width: calc(100% - 9.5em);
+  width: calc(100% - 10.5em);
   height: 1.2em;
 
   .last-stop-icon {
@@ -148,9 +151,9 @@
   &::before,
   &::after {
     content: '';
-    width: 2em;
+    width: 1.5em;
     position: absolute;
-    left: 0.5em;
+    left: 0.825em;
     top: 50%;
     opacity: 0.5;
     border-bottom: 1px solid $cancelation-red;
@@ -184,6 +187,7 @@
   font-size: $font-size-normal;
 
   .route-number {
+    padding-left: 0.25em;
     width: 3.5em;
     vertical-align: baseline;
   }
@@ -197,9 +201,36 @@
     font-size: 9pt;
   }
   .route-destination {
-    width: calc(100% - 16em);
+    width: calc(100% - 14em);
     padding-left: 0.5em;
     vertical-align: bottom;
+  }
+  .city-bike-station-name {
+    width: calc(100% - 10.5em);
+    vertical-align: bottom;
+    padding-left: 0.5em;
+  }
+  .bicycle-rental-station {
+    position: relative;
+    width: calc(100% - 3.5em);
+    background-color: rgb(238, 241, 243);
+    margin-top: -0.5em;
+    margin-bottom: -0.5em;
+    margin-right: 0.25em;
+    margin-left: -0.25em;
+    padding: 0.5em 0.25em;
+    border-radius: $border-radius;
+  }
+  .city-bike-station-availability {
+    text-align: right;
+    width: 7em;
+    padding-right: 0.25em;
+    .icon {
+      margin-left: 0.5em;
+    }
+  }
+  .city-bikes-available {
+    font-weight: 700;
   }
 
   & > div,
