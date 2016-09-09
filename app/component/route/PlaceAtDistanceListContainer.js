@@ -315,7 +315,7 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
 const PlaceAtDistanceList = (props) => {
   let rows = [];
   if (props.places && props.places.edges) {
-    rows.places.edges.forEach((edge) => {
+    props.places.edges.forEach((edge) => {
       const node = edge.node;
       const hasDepartures = node.place.__typename !== 'DepartureRow' ||
         (node.place.stoptimes && node.place.stoptimes.length > 0);
