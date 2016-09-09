@@ -40,7 +40,6 @@ function saveHomeFavourite(address, name) {
 }
 
 function verifyFirstName(header) {
-  this.clickFavourites();
   this.waitForElementVisible('@favouriteLocationName', this.api.globals.elementVisibleTimeout);
   return this.assert.containsText('@favouriteLocationName', header);
 }
