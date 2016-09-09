@@ -27,10 +27,8 @@ const FavouriteLocation = (props) => {
   }
 
   let departureTime;
-  let firstTransitLeg;
-  const timeIsNotPast = props.currentTime < props.departureTime;
-
-  if (props.departureTime && timeIsNotPast) {
+  if (props.departureTime &&
+      (props.currentTime < props.departureTime)) {  // Departure is in the future
     departureTime = (
       <DepartureTime
         departureTime={props.departureTime}
@@ -43,15 +41,26 @@ const FavouriteLocation = (props) => {
     departureTime =
       <div className="favourite-location-content-placeholder time--small">--:--</div>;
   }
+
+  // Show either route number and when it departs from nearest stop,
+  // or icon indicating that the itinerary is just walking.
+  let info;
   if (props.firstTransitLeg && props.firstTransitLeg.route) {
-    firstTransitLeg = (
-      <RouteNumber
-        mode={props.firstTransitLeg.mode}
-        realtime={props.firstTransitLeg.realTime}
-        text={props.firstTransitLeg.route.shortName}
-      />
+    info = (
+      <div className="favourite-location-departure">
+        <RouteNumber
+          mode={props.firstTransitLeg.mode}
+          realtime={props.firstTransitLeg.realTime}
+          text={props.firstTransitLeg.route.shortName}
+        />
+        &nbsp;
+        {departureTime}
+      </div>
     );
+  } else {
+    info = <Icon img="icon-icon_walk" viewBox="6 0 40 40" />;
   }
+
   return (
     <div
       className={cx('favourite-location-content', props.className)}
@@ -61,8 +70,7 @@ const FavouriteLocation = (props) => {
         <Icon className="favourite-location-icon" img={props.favouriteLocationIconId} />
         <div className="favourite-location-name">{props.locationName}</div>
       </div>
-      <div className="favourite-location-departure">{firstTransitLeg}&nbsp;{departureTime}
-      </div>
+      {info}
       <div className="favourite-edit-icon-click-area">
         <Icon className="favourite-edit-icon" img="icon-icon_edit" />
       </div>
