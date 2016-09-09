@@ -12,11 +12,10 @@ const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
   firstTransitLeg, clickFavourite }) => {
   const { locationName, id, lat, lon, selectedIconId } = favourite;
 
-  let departureTimeComponent;
-  let transitLeg;
-  const timeIsNotPast = currentTime < departureTime;
 
-  if (departureTime && timeIsNotPast) {
+  let departureTimeComponent;
+  if (departureTime &&
+      (currentTime < departureTime)) {  // Departure is in the future
     departureTimeComponent = (
       <DepartureTime
         departureTime={departureTime}
@@ -29,15 +28,26 @@ const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
     departureTimeComponent =
       <div className="favourite-location-content-placeholder time--small">--:--</div>;
   }
+
+  // Show either route number and when it departs from nearest stop,
+  // or icon indicating that the itinerary is just walking.
+  let info;
   if (firstTransitLeg && firstTransitLeg.route) {
-    transitLeg = (
-      <RouteNumber
-        mode={firstTransitLeg.mode}
-        realtime={firstTransitLeg.realTime}
-        text={firstTransitLeg.route.shortName}
-      />
+    info = (
+      <div className="favourite-location-departure">
+        <RouteNumber
+          mode={firstTransitLeg.mode}
+          realtime={firstTransitLeg.realTime}
+          text={firstTransitLeg.route.shortName}
+        />
+        &nbsp;
+        {departureTimeComponent}
+      </div>
     );
+  } else {
+    info = <Icon img="icon-icon_walk" viewBox="6 0 40 40" />;
   }
+
   return (
     <div
       className={cx('favourite-location-content', className)}
@@ -47,15 +57,16 @@ const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
         <Icon className="favourite-location-icon" img={selectedIconId} />
         <div className="favourite-location-name">{locationName}</div>
       </div>
-      <div className="favourite-location-departure">{transitLeg}&nbsp;{departureTimeComponent}
-      </div>
+
+      {info}
       <Link
         onClick={(e) => { e.stopPropagation(); }}
         to={`/suosikki/muokkaa/${id}`}
         className="cursor-pointer no-decoration"
-      ><div className="favourite-edit-icon-click-area" >
-        <Icon className="favourite-edit-icon" img="icon-icon_edit" />
-      </div>
+      >
+        <div className="favourite-edit-icon-click-area">
+          <Icon className="favourite-edit-icon" img="icon-icon_edit" />
+        </div>
       </Link>
     </div>
   );
