@@ -1,14 +1,14 @@
 import React from 'react';
 import Relay from 'react-relay';
-import cx from 'classnames';
 import Link from 'react-router/lib/Link';
+import { intlShape } from 'react-intl';
+
 import Distance from '../departure/distance';
 import RouteNumber from '../departure/RouteNumber';
 import RouteDestination from '../departure/RouteDestination';
 import DepartureTime from '../departure/DepartureTime';
 import Icon from '../icon/icon';
 import config from '../../config';
-import { intlShape } from 'react-intl';
 
 const departureRowContainerFragment = () => Relay.QL`
   fragment on DepartureRow {
@@ -87,6 +87,12 @@ const DepartureRow = (props) => {
   );
 };
 
+DepartureRow.propTypes = {
+  departure: React.PropTypes.object.isRequired,
+  distance: React.PropTypes.number.isRequired,
+  currentTime: React.PropTypes.number.isRequired,
+};
+
 const DepartureRowContainer = Relay.createContainer(DepartureRow, {
   fragments: {
     departure: departureRowContainerFragment,
@@ -111,13 +117,13 @@ const BicycleRentalStationRow = (props, context) => {
   let availabilityIcon = null;
 
   if (props.station.bikesAvailable === 0 && props.station.spacesAvailable === 0) {
-    availabilityIcon = <Icon img="icon-icon_not-in-use"/>
+    availabilityIcon = (<Icon img="icon-icon_not-in-use" />);
   } else if (props.station.bikesAvailable > config.cityBike.fewAvailableCount) {
-    availabilityIcon = <Icon img="icon-icon_good-availability"/>
+    availabilityIcon = (<Icon img="icon-icon_good-availability" />);
   } else if (props.station.bikesAvailable > 0) {
-    availabilityIcon = <Icon img="icon-icon_poor-availability"/>
+    availabilityIcon = (<Icon img="icon-icon_poor-availability" />);
   } else {
-    availabilityIcon = <Icon img="icon-icon_no-availability"/>
+    availabilityIcon = (<Icon img="icon-icon_no-availability" />);
   }
 
   return (
@@ -131,7 +137,9 @@ const BicycleRentalStationRow = (props, context) => {
         />
         <span className="city-bike-station-name">{props.station.name}</span>
         <span className="city-bike-station-availability">
-          <span className="bikes-label">{context.intl.formatMessage({ id: 'bike-availability-short', defaultMessage: 'Bikes' })}</span>
+          <span className="bikes-label">
+            {context.intl.formatMessage({ id: 'bike-availability-short', defaultMessage: 'Bikes' })}
+          </span>
           <span className="bikes-available">{props.station.bikesAvailable}</span>
           /
           {props.station.bikesAvailable + props.station.spacesAvailable}
@@ -141,6 +149,12 @@ const BicycleRentalStationRow = (props, context) => {
     </div>
   );
 };
+
+BicycleRentalStationRow.propTypes = {
+  station: React.PropTypes.object.isRequired,
+  distance: React.PropTypes.number.isRequired,
+};
+
 BicycleRentalStationRow.contextTypes = {
   intl: intlShape.isRequired,
 };
@@ -162,8 +176,11 @@ const carParkRowContainerFragment = () => Relay.QL`
   }
 `;
 
-const CarParkRow = (props) => {
-  return (<div>{props.station.name}</div>);
+const CarParkRow = (props) => (<div>{props.station.name}</div>);
+
+CarParkRow.propTypes = {
+  station: React.PropTypes.object.isRequired,
+  distance: React.PropTypes.number.isRequired,
 };
 
 const CarParkRowContainer = Relay.createContainer(CarParkRow, {
@@ -183,8 +200,11 @@ const bikeParkRowContainerFragment = () => Relay.QL`
   }
 `;
 
-const BikeParkRow = (props) => {
-  return (<div>{props.station.name}</div>);
+const BikeParkRow = (props) => (<div>{props.station.name}</div>);
+
+BikeParkRow.propTypes = {
+  station: React.PropTypes.object.isRequired,
+  distance: React.PropTypes.number.isRequired,
 };
 
 const BikeParkRowContainer = Relay.createContainer(BikeParkRow, {
@@ -204,13 +224,15 @@ const placeAtDistanceFragment = variables => Relay.QL`
       id
       __typename
       ${DepartureRowContainer.getFragment('departure', { currentTime: variables.currentTime })}
-      ${BicycleRentalStationRowContainer.getFragment('station', { currentTime: variables.currentTime })}
+      ${BicycleRentalStationRowContainer.getFragment('station', {
+        currentTime: variables.currentTime })}
       ${BikeParkRowContainer.getFragment('station', { currentTime: variables.currentTime })}
       ${CarParkRowContainer.getFragment('station', { currentTime: variables.currentTime })}
     }
   }
 `;
 
+/* eslint-disable no-underscore-dangle */
 const PlaceAtDistance = (props) => {
   let place;
   if (props.placeAtDistance.place.__typename === 'DepartureRow') {
@@ -252,6 +274,12 @@ const PlaceAtDistance = (props) => {
     </div>
   );
 };
+/* eslint-enable no-underscore-dangle */
+
+PlaceAtDistance.propTypes = {
+  placeAtDistance: React.PropTypes.object.isRequired,
+  currentTime: React.PropTypes.number.isRequired,
+};
 
 const PlaceAtDistanceContainer = Relay.createContainer(PlaceAtDistance, {
   fragments: {
@@ -276,27 +304,39 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
             }
           }
         }
-        ${PlaceAtDistanceContainer.getFragment('placeAtDistance', { currentTime: variables.currentTime })},
+        ${PlaceAtDistanceContainer.getFragment('placeAtDistance', {
+          currentTime: variables.currentTime })},
       }
     }
   }
 `;
 
+/* eslint-disable no-underscore-dangle */
 const PlaceAtDistanceList = (props) => {
   let rows = [];
-  if (props.places) {
-    for (const i in props.places.edges) {
-      const node = props.places.edges[i].node;
+  if (props.places && props.places.edges) {
+    rows.places.edges.forEach((edge) => {
+      const node = edge.node;
       const hasDepartures = node.place.__typename !== 'DepartureRow' ||
         (node.place.stoptimes && node.place.stoptimes.length > 0);
       if (hasDepartures) {
         rows.push(
-          <PlaceAtDistanceContainer key={node.place.id} currentTime={props.currentTime} placeAtDistance={node} />
+          <PlaceAtDistanceContainer
+            key={node.place.id}
+            currentTime={props.currentTime}
+            placeAtDistance={node}
+          />
         );
       }
-    }
+    });
   }
   return (<div>{rows}</div>);
+};
+/* eslint-enable no-underscore-dangle */
+
+PlaceAtDistanceList.propTypes = {
+  places: React.PropTypes.object.isRequired,
+  currentTime: React.PropTypes.number.isRequired,
 };
 
 export default Relay.createContainer(PlaceAtDistanceList, {

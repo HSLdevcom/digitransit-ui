@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import includes from 'lodash/includes';
+import pull from 'lodash/pull';
 
 import ModeFilterContainer from '../route/ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from '../departure/next-departures-list-header';
 import config from '../../config';
-import includes from 'lodash/includes';
-import pull from 'lodash/pull';
 
 function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }) {
   return (

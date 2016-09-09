@@ -3,13 +3,16 @@ import Relay from 'react-relay';
 import PlaceAtDistanceListContainer from './PlaceAtDistanceListContainer';
 import config from '../../config';
 
-const NearbyRouteList = (props) => {
-  return (
-    <PlaceAtDistanceListContainer
-      currentTime={props.currentTime}
-      places={props.nearest.places}
-    />
-  );
+const NearbyRouteList = (props) => (
+  <PlaceAtDistanceListContainer
+    currentTime={props.currentTime}
+    places={props.nearest.places}
+  />
+);
+
+NearbyRouteList.propTypes = {
+  nearest: React.PropTypes.array.isRequired,
+  currentTime: React.PropTypes.number.isRequired,
 };
 
 export default Relay.createContainer(NearbyRouteList, {
@@ -22,7 +25,8 @@ export default Relay.createContainer(NearbyRouteList, {
                   first: $maxResults,
                   filterByModes: $modes,
                   filterByPlaceTypes: $placeTypes) {
-          ${PlaceAtDistanceListContainer.getFragment('places', { currentTime: variables.currentTime })}
+          ${PlaceAtDistanceListContainer.getFragment('places', {
+            currentTime: variables.currentTime })}
         }
       }
     `,
