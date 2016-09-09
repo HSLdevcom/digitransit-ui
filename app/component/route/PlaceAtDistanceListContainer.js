@@ -131,7 +131,7 @@ const BicycleRentalStationRow = (props, context) => {
         />
         <span className="city-bike-station-name">{props.station.name}</span>
         <span className="city-bike-station-availability">
-          {context.intl.formatMessage({ id: 'bike-availability-short', defaultMessage: 'Bikes' })}
+          <span className="bikes-label">{context.intl.formatMessage({ id: 'bike-availability-short', defaultMessage: 'Bikes' })}</span>
           <span className="bikes-available">{props.station.bikesAvailable}</span>
           /
           {props.station.bikesAvailable + props.station.spacesAvailable}

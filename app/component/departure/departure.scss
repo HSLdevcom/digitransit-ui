@@ -186,6 +186,10 @@
   @include font-narrow-book;
   font-size: $font-size-normal;
 
+  a {
+    color: inherit;
+  }
+
   .route-number {
     padding-left: 0.25em;
     width: 3.5em;
@@ -228,6 +232,10 @@
     .icon {
       margin-left: 0.5em;
     }
+  }
+  .bikes-label {
+    font-size: $font-size-small;
+    color: $gray;
   }
   .bikes-available {
     padding-left: 0.25em;
