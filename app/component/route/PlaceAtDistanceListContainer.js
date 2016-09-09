@@ -8,6 +8,7 @@ import RouteDestination from '../departure/RouteDestination';
 import DepartureTime from '../departure/DepartureTime';
 import Icon from '../icon/icon';
 import config from '../../config';
+import { intlShape } from 'react-intl';
 
 const departureRowContainerFragment = () => Relay.QL`
   fragment on DepartureRow {
@@ -106,7 +107,7 @@ const bicycleRentalRowContainerFragment = () => Relay.QL`
   }
 `;
 
-const BicycleRentalStationRow = (props) => {
+const BicycleRentalStationRow = (props, context) => {
   let availabilityIcon = null;
 
   if (props.station.bikesAvailable === 0 && props.station.spacesAvailable === 0) {
@@ -130,7 +131,8 @@ const BicycleRentalStationRow = (props) => {
         />
         <span className="city-bike-station-name">{props.station.name}</span>
         <span className="city-bike-station-availability">
-          Pyöriä <span className="city-bikes-available">{props.station.bikesAvailable}</span>
+          {context.intl.formatMessage({ id: 'bike-availability-short', defaultMessage: 'Bikes' })}
+          <span className="bikes-available">{props.station.bikesAvailable}</span>
           /
           {props.station.bikesAvailable + props.station.spacesAvailable}
           {availabilityIcon}
@@ -138,6 +140,9 @@ const BicycleRentalStationRow = (props) => {
       </div>
     </div>
   );
+};
+BicycleRentalStationRow.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 const BicycleRentalStationRowContainer = Relay.createContainer(BicycleRentalStationRow, {
