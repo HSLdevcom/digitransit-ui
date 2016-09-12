@@ -6,7 +6,7 @@ let additionalConfig;
 
 if (process.env.CONFIG && process.env.CONFIG !== 'default') {
   // eslint-disable-next-line global-require
-  additionalConfig = require(`./config.${process.env.CONFIG}`);
+  additionalConfig = require(`./config.${process.env.CONFIG}`).default;
 }
 
 function customizer(objValue, srcValue) {
