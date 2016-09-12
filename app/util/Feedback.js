@@ -3,17 +3,12 @@ import moment from 'moment';
 import config from '../config';
 import { getFeedbackStorage, setFeedbackStorage } from '../store/localStorage';
 
-
 function updateStorage(updates) {
   setFeedbackStorage({ ...getFeedbackStorage(), ...updates });
 }
 
-function touch(NOW) {
-  updateStorage({ appUseStarted: NOW.valueOf() });
-}
-
 function removeCookies(NOW) {
-  updateStorage({ feedbackInteractionDate: reactCookie.load('fid') | NOW.valueOf(),
+  updateStorage({ feedbackInteractionDate: reactCookie.load('fid') || NOW.valueOf(),
     appUseStarted: NOW.valueOf() });
 
   ['fid', 'vc'].forEach((name) => {
@@ -25,23 +20,20 @@ function removeCookies(NOW) {
 
 const shouldDisplayPopup = (time) => {
   if (typeof window !== 'undefined' && window !== null && config.feedback.enable) {
-    const NOW = moment();
+    const NOW = moment(time);
     if (reactCookie.load('vc') !== undefined) {
       // previously data was in cookies, remove cookies TODO remove this at some point
       removeCookies(NOW);
+    } else if (getFeedbackStorage().appUseStarted === undefined) {
+      // initialize localstorage if needed
+      updateStorage({ feedbackInteractionDate: 0, appUseStarted: NOW.valueOf() });
     }
 
-    touch(NOW);
-
     const appInUseDays = NOW.diff(moment(getFeedbackStorage().appUseStarted), 'days');
+    const lastFeedbackDays = NOW.diff(moment(getFeedbackStorage().feedbackInteractionDate), 'days');
 
-    if (appInUseDays > 2) {
-      const feedbackInteractionDate = reactCookie.load('fid');
-
-      if (feedbackInteractionDate === undefined || feedbackInteractionDate === null ||
-        time - feedbackInteractionDate >= 30 * 24 * 60 * 60 * 1000) {
-        return true;
-      }
+    if (appInUseDays > 2 && lastFeedbackDays > 30) {
+      return true;
     }
   }
   return false;
