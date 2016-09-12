@@ -32,7 +32,7 @@ const shouldDisplayPopup = (time) => {
     const appInUseDays = NOW.diff(moment(getFeedbackStorage().appUseStarted), 'days');
     const lastFeedbackDays = NOW.diff(moment(getFeedbackStorage().feedbackInteractionDate), 'days');
 
-    if (appInUseDays > 2 && lastFeedbackDays > 30) {
+    if (appInUseDays >= 2 && lastFeedbackDays > 30) {
       return true;
     }
   }
