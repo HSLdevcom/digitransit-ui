@@ -9,14 +9,14 @@ const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Liikenneviraston Matka.fi uudistuu. Apuasi kaivataan kehitystyössä. Tule palvelun testaajaksi tai tee siitä saman tien parempi.';
 
 export default {
-  PIWIK_ADDRESS: `${PIWIK_ADDRESS}`,
-  PIWIK_ID: `${PIWIK_ID}`,
-  SENTRY_DSN: `${SENTRY_DSN}`,
+  PIWIK_ADDRESS,
+  PIWIK_ID,
+  SENTRY_DSN,
   PORT,
-  CONFIG: `${CONFIG}`,
+  CONFIG,
 
   URL: {
-    API_URL: `${API_URL}`,
+    API_URL,
     OTP: API_URL + '/routing/v1/routers/finland/',
     MAP: MAP_URL + '/map/v1/hsl-map/',
     STOP_MAP: API_URL + '/map/v1/finland-stop-map/',

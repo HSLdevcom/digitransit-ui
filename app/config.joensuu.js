@@ -1,35 +1,15 @@
 const CONFIG = process.env.CONFIG || 'joensuu';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const MAP_URL = process.env.MAP_URL || 'https://{s}-dev-api.digitransit.fi';
-const APP_PATH = process.env.APP_CONTEXT || '';
-const PIWIK_ADDRESS = process.env.PIWIK_ADDRESS || '';
-const PIWIK_ID = process.env.PIWIK_ID || '';
-const SENTRY_DSN = process.env.SENTRY_DSN || '';
-const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
 
 export default {
-  PIWIK_ADDRESS: `${PIWIK_ADDRESS}`,
-  PIWIK_ID: `${PIWIK_ID}`,
-  SENTRY_DSN: `${SENTRY_DSN}`,
-  PORT,
-  CONFIG: `${CONFIG}`,
+  CONFIG,
 
   URL: {
-    API_URL: `${API_URL}`,
     OTP: API_URL + '/routing/v1/routers/waltti/',
-    MAP: MAP_URL + '/map/v1/hsl-map/',
     STOP_MAP: API_URL + '/map/v1/waltti-stop-map/',
-    CITYBIKE_MAP: API_URL + '/map/v1/hsl-citybike-map/',
-    MQTT: 'wss://dev.hsl.fi/mqtt-proxy',
-    ALERTS: API_URL + '/realtime/service-alerts/v1',
-    FONT: 'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
-    REALTIME: API_URL + '/realtime/vehicle-positions/v1',
-    PELIAS: API_URL + '/geocoding/v1/search',
-    PELIAS_REVERSE_GEOCODER: API_URL + '/geocoding/v1/reverse',
   },
 
-  APP_PATH: `${APP_PATH}`,
   title: 'joensuu.digitransit.fi',
   useNavigationLogo: true,
 
@@ -46,166 +26,36 @@ export default {
     'boundary.rect.max_lon': 31,
   },
 
-  search: {
-    suggestions: {
-      useTransportIcons: false,
-    },
-
-    showStopsFirst: false,
-  },
-
-  nearbyRoutes: {
-    radius: 10000,
-    bucketSize: 1000,
-  },
-
-  maxWalkDistance: 10000,
-  maxBikingDistance: 100000,
   availableLanguages: ['fi', 'sv', 'en'],
-  defaultLanguage: 'en',
-  timezoneData: 'Europe/Helsinki|EET EEST|-20 -30|01010101010101010101010|1BWp0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|35e5',
-  enableDesktopWrapper: true,
-
-  mainMenu: {
-    show: true,
-    showDisruptions: true,
-    showInquiry: true,
-    showLoginCreateAccount: true,
-    showOffCanvasList: true,
-  },
-
-  feedback: {
-    enable: true,
-  },
-
-  itinerary: {
-    delayThreshold: 180,
-    waitThreshold: 180,
-    enableFeedback: false,
-
-    timeNavigation: {
-      enableButtonArrows: false,
-    },
-  },
 
   initialLocation: {
-    zoom: 11,
     lat: 62.6024263,
     lon: 29.7569847,
   },
 
-  nearestStopDistance: {
-    maxShownDistance: 5000,
-  },
-
-  map: {
-    useRetinaTiles: true,
-    tileSize: 512,
-    zoomOffset: -1,
-    useVectorTiles: true,
-
-    genericMarker: {
-      nameMarkerMinZoom: 18,
-
-      popup: {
-        offset: [106, 16],
-        maxWidth: 250,
-        minWidth: 250,
-      },
-    },
-
-    line: {
-      halo: {
-        weight: 7,
-        thinWeight: 4,
-      },
-
-      leg: {
-        weight: 5,
-        thinWeight: 2,
-      },
-    },
-
-    useModeIconsInNonTileLayer: false,
-  },
-
-  stopCard: {
-    header: {
-      showDescription: true,
-      showStopCode: true,
-      showDistance: true,
-    },
-  },
-
-  autoSuggest: {
-    locationAware: true,
-  },
-
   cityBike: {
     showCityBikes: false,
-
-    useUrl: {
-      fi: 'https://www.hsl.fi/citybike',
-      sv: 'https://www.hsl.fi/sv/citybike',
-      en: 'https://www.hsl.fi/en/citybike',
-    },
-
-    infoUrl: {
-      fi: 'https://www.hsl.fi/kaupunkipyörät',
-      sv: 'https://www.hsl.fi/sv/stadscyklar',
-      en: 'https://www.hsl.fi/en/citybikes',
-    },
-
-    cityBikeMinZoom: 13,
-    fewAvailableCount: 3,
   },
 
   stopsMinZoom: 14,
-  stopsSmallMaxZoom: 14,
-  terminalStopsMaxZoom: 17,
-  terminalStopsMinZoom: 12,
-  terminalNamesZoom: 16,
 
   colors: {
     primary: '#007ac9',
   },
 
-  disruption: {
-    showInfoButton: true,
-  },
-
   socialMedia: {
     title: 'Uusi Reittiopas - Joensuu',
     description: APP_DESCRIPTION,
-    locale: 'fi_FI',
-
-    twitter: {
-      site: '@hsldevcom',
-    },
   },
 
   meta: {
     description: APP_DESCRIPTION,
-    keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
   },
 
-  showTicketInformation: false,
-  showRouteInformation: false,
-
   transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-
     tram: {
       availableForSelection: false,
       defaultValue: false,
-    },
-
-    rail: {
-      availableForSelection: true,
-      defaultValue: true,
     },
 
     subway: {
@@ -215,7 +65,6 @@ export default {
 
     citybike: {
       availableForSelection: false,
-      defaultValue: false,
     },
 
     airplane: {
@@ -230,42 +79,6 @@ export default {
   },
 
   showModeFilter: false,
-
-  moment: {
-    relativeTimeThreshold: {
-      seconds: 55,
-      minutes: 59,
-      hours: 23,
-      days: 26,
-      months: 11,
-    },
-  },
-
-  customizeSearch: {
-    walkReluctance: {
-      available: true,
-    },
-
-    walkBoardCost: {
-      available: true,
-    },
-
-    transferMargin: {
-      available: true,
-    },
-
-    walkingSpeed: {
-      available: true,
-    },
-
-    ticketOptions: {
-      available: true,
-    },
-
-    accessibility: {
-      available: true,
-    },
-  },
 
   areaPolygon: [[29.2154, 62.2692], [29.2154, 62.9964], [31.0931, 62.9964], [31.0931, 62.2692]],
 
