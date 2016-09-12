@@ -16,10 +16,7 @@ const FavouriteLocationContainer = ({ currentTime, onClickFavourite, plan, favou
   }
 
   return (<FavouriteLocation
-    locationName={favourite.locationName}
-    favouriteLocationIconId={favourite.selectedIconId}
-    lat={favourite.lat}
-    lon={favourite.lon}
+    favourite={favourite}
     clickFavourite={onClickFavourite}
     {...{
       departureTime,

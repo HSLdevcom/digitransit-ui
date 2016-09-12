@@ -24,6 +24,7 @@ import CityBikeAvailability from '../component/city-bike/CityBikeAvailability';
 import CityBikeUse from '../component/city-bike/CityBikeUse';
 import CityBikePopup from '../component/map/popups/CityBikePopup';
 import FavouriteLocation from '../component/favourites/FavouriteLocation';
+import EmptyFavouriteLocationSlot from '../component/favourites/EmptyFavouriteLocationSlot';
 import TimeSelectors from '../component/summary/TimeSelectors';
 import TimeNavigationButtons from '../component/summary/TimeNavigationButtons';
 import RightOffcanvasToggle from '../component/summary/RightOffcanvasToggle';
@@ -76,6 +77,7 @@ class StyleGuidelinesPage extends React.Component {
     Availability,
     ParkAndRideAvailability,
     FavouriteLocation,
+    EmptyFavouriteLocationSlot,
     TimeSelectors,
     TimeNavigationButtons,
     RightOffcanvasToggle,

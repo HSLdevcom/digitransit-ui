@@ -40,7 +40,6 @@ function saveHomeFavourite(address, name) {
 }
 
 function verifyFirstName(header) {
-  this.clickFavourites();
   this.waitForElementVisible('@favouriteLocationName', this.api.globals.elementVisibleTimeout);
   return this.assert.containsText('@favouriteLocationName', header);
 }
@@ -85,7 +84,7 @@ module.exports = {
       selector: '.favourite-icon-table-column:nth-of-type(2)',
     },
     saveButton: {
-      selector: '.add-favourite-container__save-button',
+      selector: '.add-favourite-container-button',
     },
     favouriteLocationName: {
       selector: '.favourite-location-name',
