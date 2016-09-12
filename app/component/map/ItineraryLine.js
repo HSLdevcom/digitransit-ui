@@ -161,11 +161,7 @@ class ItineraryLine extends React.Component {
             <CityBikeMarker
               key={leg.from.bikeRentalStation.stationId}
               transit
-              station={{
-                x: leg.from.lon,
-                y: leg.from.lat,
-                id: leg.from.bikeRentalStation.stationId,
-              }}
+              station={leg.from.bikeRentalStation}
             />);
         } else if (leg.from.vertexType === 'TRANSIT' && !walking) {
           if (leg.transitLeg) {
