@@ -7,8 +7,8 @@ const Distance = (props) => {
   let roundedDistanceInM;
 
   if (props.distance) {
-    roundedDistanceInM = (props.distance - props.distance) % 10;
-    roundedDistanceInKm = (((props.distance - props.distance) % 100) / 1000).toFixed(1);
+    roundedDistanceInM = props.distance - (props.distance % 10);
+    roundedDistanceInKm = ((props.distance - (props.distance % 100)) / 1000).toFixed(1);
   }
 
   if (!props.distance) {
