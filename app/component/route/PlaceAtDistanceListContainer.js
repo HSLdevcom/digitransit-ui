@@ -9,6 +9,7 @@ import RouteDestination from '../departure/RouteDestination';
 import DepartureTime from '../departure/DepartureTime';
 import Icon from '../icon/icon';
 import config from '../../config';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const departureRowContainerFragment = () => Relay.QL`
   fragment on DepartureRow {
@@ -70,6 +71,8 @@ const DepartureRow = (props) => {
     });
   }
 
+  // TODO implement disruption checking
+
   return (
     <Link to={`/linjat/${departure.pattern.code}`} key={departure.pattern.code}>
       <Distance distance={props.distance} />
@@ -87,11 +90,49 @@ const DepartureRow = (props) => {
   );
 };
 
+DepartureRow.displayName = 'DepartureRow';
+
 DepartureRow.propTypes = {
   departure: React.PropTypes.object.isRequired,
   distance: React.PropTypes.number.isRequired,
   currentTime: React.PropTypes.number.isRequired,
 };
+
+const exampleDeparture = {
+  pattern: {
+    code: '28',
+    headSign: 'Tampere',
+    route: {
+      gtfsId: '123',
+      mode: 'RAIL',
+      shortName: 'IC28',
+    },
+  },
+  stoptimes: [
+    {
+      realtimeDeparture: 0,
+      realtime: true,
+      serviceDay: 144444000,
+    },
+    {
+      realtimeDeparture: 120,
+      realtime: true,
+      serviceDay: 144444000,
+    },
+  ],
+};
+
+DepartureRow.description = (
+  <ComponentUsageExample description="example">
+    <DepartureRow
+      departure={exampleDeparture}
+      distance={123}
+      currentTime={14444444}
+    />
+  </ComponentUsageExample>
+);
+
+export { DepartureRow };
 
 const DepartureRowContainer = Relay.createContainer(DepartureRow, {
   fragments: {
@@ -126,6 +167,8 @@ const BicycleRentalStationRow = (props, context) => {
     availabilityIcon = (<Icon img="icon-icon_no-availability" />);
   }
 
+  // TODO implement disruption checking
+
   return (
     <div className="bicycle-rental-station-row">
       <Distance distance={props.distance} />
@@ -158,6 +201,57 @@ BicycleRentalStationRow.propTypes = {
 BicycleRentalStationRow.contextTypes = {
   intl: intlShape.isRequired,
 };
+
+BicycleRentalStationRow.displayName = 'BicycleRentalStationRow';
+
+const exampleStation1 = {
+  stationId: 'A27',
+  name: 'Mannerheimintie',
+  bikesAvailable: 12,
+  spacesAvailable: 16,
+};
+
+const exampleStation2 = {
+  stationId: 'A27',
+  name: 'Mannerheimintie',
+  bikesAvailable: 2,
+  spacesAvailable: 16,
+};
+
+const exampleStation3 = {
+  stationId: 'A27',
+  name: 'Mannerheimintie',
+  bikesAvailable: 0,
+  spacesAvailable: 16,
+};
+
+BicycleRentalStationRow.description = (
+  <div>
+    <ComponentUsageExample description="plenty of bikes available">
+      <BicycleRentalStationRow
+        station={exampleStation1}
+        distance={256}
+        currentTime={14444444}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="few bikes available">
+      <BicycleRentalStationRow
+        station={exampleStation2}
+        distance={256}
+        currentTime={14444444}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="no bikes available">
+      <BicycleRentalStationRow
+        station={exampleStation3}
+        distance={256}
+        currentTime={14444444}
+      />
+      </ComponentUsageExample>
+    </div>
+);
+
+export { BicycleRentalStationRow };
 
 const BicycleRentalStationRowContainer = Relay.createContainer(BicycleRentalStationRow, {
   fragments: {
