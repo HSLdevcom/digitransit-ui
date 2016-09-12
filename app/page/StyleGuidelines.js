@@ -12,7 +12,7 @@ import Departure from '../component/departure/Departure';
 import RouteNumber from '../component/departure/RouteNumber';
 import RouteDestination from '../component/departure/RouteDestination';
 import DepartureTime from '../component/departure/DepartureTime';
-import Distance from '../component/departure/distance';
+import Distance from '../component/departure/Distance';
 import PlatformNumber from '../component/departure/PlatformNumber';
 import NotImplemented from '../component/util/not-implemented';
 import NotImplementedLink from '../component/util/not-implemented-link';

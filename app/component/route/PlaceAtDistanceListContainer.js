@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import { intlShape } from 'react-intl';
 
-import Distance from '../departure/distance';
+import Distance from '../departure/Distance';
 import RouteNumber from '../departure/RouteNumber';
 import RouteDestination from '../departure/RouteDestination';
 import DepartureTime from '../departure/DepartureTime';
