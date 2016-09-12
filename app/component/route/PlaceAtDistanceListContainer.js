@@ -75,19 +75,19 @@ const DepartureRow = (props) => {
 
   return (
     <div className="next-departure-row">
-    <Link to={`/linjat/${departure.pattern.code}`} key={departure.pattern.code}>
-      <Distance distance={props.distance} />
-      <RouteNumber
-        mode={departure.pattern.route.mode}
-        text={departure.pattern.route.shortName}
-        hasDisruption={departure.hasDisruption}
-      />
-      <RouteDestination
-        mode={departure.pattern.route.mode}
-        destination={departure.pattern.headsign || departure.pattern.route.longName}
-      />
-      {departureTimes}
-    </Link>
+      <Link to={`/linjat/${departure.pattern.code}`} key={departure.pattern.code}>
+        <Distance distance={props.distance} />
+        <RouteNumber
+          mode={departure.pattern.route.mode}
+          text={departure.pattern.route.shortName}
+          hasDisruption={departure.hasDisruption}
+        />
+        <RouteDestination
+          mode={departure.pattern.route.mode}
+          destination={departure.pattern.headsign || departure.pattern.route.longName}
+        />
+        {departureTimes}
+      </Link>
     </div>
   );
 };
@@ -100,7 +100,7 @@ DepartureRow.propTypes = {
   currentTime: React.PropTypes.number.isRequired,
 };
 
-const exampleDeparture = {
+const exampleDeparture1 = {
   pattern: {
     code: '28',
     headSign: 'Tampere',
@@ -112,26 +112,60 @@ const exampleDeparture = {
   },
   stoptimes: [
     {
-      realtimeDeparture: 0,
+      realtimeDeparture: 6900,
       realtime: true,
-      serviceDay: 144444000,
+      serviceDay: 1473670000,
     },
     {
-      realtimeDeparture: 120,
+      realtimeDeparture: 8000,
+      realtime: false,
+      serviceDay: 1473670000,
+    },
+  ],
+};
+
+const exampleDeparture2 = {
+  pattern: {
+    code: '154',
+    headSign: 'Kamppi',
+    route: {
+      gtfsId: '123',
+      mode: 'BUS',
+      shortName: '154',
+    },
+  },
+  stoptimes: [
+    {
+      realtimeDeparture: 7396,
       realtime: true,
-      serviceDay: 144444000,
+      serviceDay: 1473670000,
+      realtimeState: 'CANCELED',
+    },
+    {
+      realtimeDeparture: 9000,
+      realtime: false,
+      serviceDay: 1473670000,
     },
   ],
 };
 
 DepartureRow.description = (
-  <ComponentUsageExample description="example">
-    <DepartureRow
-      departure={exampleDeparture}
-      distance={123}
-      currentTime={14444444}
-    />
-  </ComponentUsageExample>
+  <div>
+    <ComponentUsageExample description="example">
+      <DepartureRow
+        departure={exampleDeparture1}
+        distance={123}
+        currentTime={1473676196}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with cancellation">
+      <DepartureRow
+        departure={exampleDeparture2}
+        distance={123}
+        currentTime={1473676196}
+      />
+    </ComponentUsageExample>
+  </div>
 );
 
 export { DepartureRow };
@@ -233,21 +267,21 @@ BicycleRentalStationRow.description = (
       <BicycleRentalStationRow
         station={exampleStation1}
         distance={256}
-        currentTime={14444444}
+        currentTime={1473676196}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="few bikes available">
       <BicycleRentalStationRow
         station={exampleStation2}
         distance={256}
-        currentTime={14444444}
+        currentTime={1473676196}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="no bikes available">
       <BicycleRentalStationRow
         station={exampleStation3}
         distance={256}
-        currentTime={14444444}
+        currentTime={1473676196}
       />
       </ComponentUsageExample>
     </div>
