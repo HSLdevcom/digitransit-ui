@@ -26,19 +26,24 @@ else
   ARCHITECTURE=''
 fi
 
-SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
+SELENIUM_URL="http://selenium-release.storage.googleapis.com/3.0-beta3/selenium-server-standalone-3.0.0-beta3.jar"
 
 if [[ $PLATFORM == 'Darwin' ]]; then
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-darwin-x64.zip"
+  GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.10.0/geckodriver-v0.10.0-macos.tar.gz"
 elif [[ $ARCHITECTURE == 'i686' ]]; then
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-ia32.zip"
+  GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.10.0/geckodriver-v0.10.0-linux64.tar.gz"
 else
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
+  # Hmm.. is there 32bit driver?
+  GECKODRIVER_URL="https://github.com/mozilla/geckodriver/releases/download/v0.10.0/geckodriver-v0.10.0-linux64.tar.gz"
 fi
 
 NIGHTWATCH_BINARY="./node_modules/nightwatch/bin/nightwatch"
 BROWSERSTACK_LOCAL_BINARY="./test/flow/binaries/BrowserStackLocal"
-SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.53.0.jar"
+SELENIUM_BINARY="./test/flow/binaries/selenium-server-3.0.0-beta3.jar"
+GECKODRIVER_BINARY="./test/flow/binaries/geckodriver"
 
 # checks for dependencies and downloads them if needed
 function checkDependencies {
@@ -54,6 +59,13 @@ function checkDependencies {
     curl -o $BROWSERSTACK_LOCAL_BINARY.zip $BROWSERSTACK_LOCAL_URL
     unzip $BROWSERSTACK_LOCAL_BINARY.zip
     mv BrowserStackLocal $BROWSERSTACK_LOCAL_BINARY
+  fi
+
+  if [ ! -f $GECKODRIVER_BINARY ]; then
+    echo "Downloading GeckoDriver..."
+    curl -Lo $GECKODRIVER_BINARY.tar.gz $GECKODRIVER_URL
+    tar xvzf $GECKODRIVER_BINARY.tar.gz
+    mv geckodriver $GECKODRIVER_BINARY
   fi
 }
 
