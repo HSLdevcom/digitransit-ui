@@ -179,10 +179,12 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   window.addEventListener('beforeinstallprompt', e => {
     piwik.trackEvent('installprompt', 'fired');
 
-    // e.userChoice will return a Promise.
-    e.userChoice.then(choiceResult =>
-      piwik.trackEvent('installprompt', 'result', choiceResult.outcome)
-    );
+    // e.userChoice will return a Promise. (Only in chrome, not IE)
+    if (e.userChoice) {
+      e.userChoice.then(choiceResult =>
+        piwik.trackEvent('installprompt', 'result', choiceResult.outcome)
+      );
+    }
   });
 
   // start positioning

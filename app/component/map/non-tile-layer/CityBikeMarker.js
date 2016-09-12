@@ -82,15 +82,15 @@ class CityBikeMarker extends React.Component {
     return (
       <GenericMarker
         position={{
-          lat: this.props.station.y,
-          lon: this.props.station.x,
+          lat: this.props.station.lat,
+          lon: this.props.station.lon,
         }}
         getIcon={this.getIcon}
-        id={this.props.station.id}
+        id={this.props.station.stationId}
       >
         <Relay.RootContainer
           Component={CityBikePopup}
-          route={new CityBikeRoute({ stationId: this.props.station.id })}
+          route={new CityBikeRoute({ stationId: this.props.station.stationId })}
           renderLoading={() => (
             <div className="card" style={{ height: 150 }}>
               <div className="spinner-loader" />
@@ -103,4 +103,14 @@ class CityBikeMarker extends React.Component {
   }
 }
 
-export default CityBikeMarker;
+export default Relay.createContainer(CityBikeMarker, {
+  fragments: {
+    station: () => Relay.QL`
+      fragment on BikeRentalStation {
+        lat
+        lon
+        stationId
+      }
+    `,
+  },
+});
