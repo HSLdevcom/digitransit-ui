@@ -62,7 +62,8 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-page-content {
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto;
+  flex-grow: 1;
+  flex-basis: 100%;
 }
 
 // stop list
@@ -427,20 +428,14 @@ div.route-tabs {
 
   .tab-panel {
     flex-grow: 1;
-
     display: flex;
     flex-direction: column;
 
     background: white;
-    height: calc(100% - 1.2em - 8px);
     > div {
       flex-grow: 1;
-
       display: flex;
       flex-direction: column;
-      @extend .momentum-scroll;
-      height: 100%;
-      overflow: auto;
     }
 
   }
