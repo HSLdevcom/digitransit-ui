@@ -1,5 +1,5 @@
 reactCookie   = if window? then require 'react-cookie' else null
-config = require '../config'
+config = require('../config').default
 #call when "user returns to frontpage"
 # time (currentTime) in ms
 shouldDisplayPopup = (time) ->
