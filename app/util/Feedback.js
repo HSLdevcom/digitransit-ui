@@ -13,7 +13,6 @@ function touch(NOW) {
 }
 
 function removeCookies(NOW) {
-  console.log('removing cookies');
   updateStorage({ feedbackInteractionDate: reactCookie.load('fid') | NOW.valueOf(),
     appUseStarted: NOW.valueOf() });
 
@@ -31,7 +30,6 @@ const shouldDisplayPopup = (time) => {
       // previously data was in cookies, remove cookies TODO remove this at some point
       removeCookies(NOW);
     }
-
 
     touch(NOW);
 
