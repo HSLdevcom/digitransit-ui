@@ -17,7 +17,7 @@ import app from './app';
 import translations from './translations';
 import { startLocationWatch } from './action/PositionActions';
 import { openFeedbackModal } from './action/feedback-action';
-import Feedback from './util/feedback';
+import { shouldDisplayPopup } from './util/Feedback';
 import history from './history';
 import buildInfo from './build-info';
 import DesktopWrapper from './component/util/DesktopWrapper';
@@ -71,7 +71,7 @@ function track() {
   const newHref = this.props.history.createHref(this.state.location);
 
   if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-    if (Feedback.shouldDisplayPopup(
+    if (shouldDisplayPopup(
       context
         .getComponentContext()
         .getStore('TimeStore')
@@ -207,8 +207,7 @@ if (typeof window.Intl !== 'undefined') {
   const modules = [System.import('intl')];
 
   for (const language of config.availableLanguages) {
-    // eslint-disable-next-line prefer-template
-    modules.push(System.import('intl/locale-data/jsonp/' + language));
+    modules.push(System.import(`intl/locale-data/jsonp/${language}`));
   }
 
   Promise.all(modules).then(callback);
