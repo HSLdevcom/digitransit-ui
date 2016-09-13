@@ -193,19 +193,22 @@
   .route-number {
     padding-left: 0.25em;
     width: 3.5em;
-    vertical-align: baseline;
+    vertical-align: middle;
+    margin-bottom: -2px;
   }
   .vehicle-number {
     vertical-align: top;
+
+    .icon {
+      font-size: 16px;
+    }
   }
   .distance {
     width: 3em;
     color: $gray;
     text-align: right;
     margin-right: 0.5em;
-  }
-  .icon {
-    font-size: 9pt;
+    font-size: $font-size-small;
   }
   .route-destination {
     width: calc(100% - 14em);
@@ -221,11 +224,10 @@
     position: relative;
     width: calc(100% - 3.5em);
     background-color: rgb(238, 241, 243);
-    margin-top: -0.5em;
+    margin-top: -0.6em;
     margin-bottom: -0.5em;
-    margin-right: 0.25em;
     margin-left: -0.25em;
-    padding: 0.5em 0.25em;
+    padding: 0.3em 0.25em;
     border-radius: $border-radius;
   }
   .city-bike-station-availability {
@@ -234,6 +236,7 @@
     padding-right: 0.25em;
     .icon {
       margin-left: 0.5em;
+      font-size: 12px;
     }
   }
   .bikes-label {
@@ -275,7 +278,7 @@
     width: 3.5em;
   }
   .route-destination-header {
-    padding-left: 0.5em;
+    font-size: $font-size-xsmall;
   }
   .time-header {
     float: right;
