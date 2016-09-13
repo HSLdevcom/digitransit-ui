@@ -25,6 +25,7 @@ class RoutePage extends React.Component {
   };
 
   componentDidMount() {
+    if (this.props.route == null) { return; }
     const route = this.props.route.gtfsId.split(':');
 
     if (route[0].toLowerCase() === 'hsl') {
