@@ -74,7 +74,7 @@ const DepartureRow = (props) => {
   // TODO implement disruption checking
 
   return (
-    <div className="next-departure-row">
+    <div className="next-departure-row padding-vertical-normal border-bottom">
       <Link to={`/linjat/${departure.pattern.code}`} key={departure.pattern.code}>
         <Distance distance={props.distance} />
         <RouteNumber
@@ -206,7 +206,7 @@ const BicycleRentalStationRow = (props, context) => {
   // TODO implement disruption checking
 
   return (
-    <div className="next-departure-row bicycle-rental-station-row">
+    <div className="next-departure-row bicycle-rental-station-row padding-vertical-normal border-bottom">
       <Distance distance={props.distance} />
       <div className="bicycle-rental-station">
         <RouteNumber
@@ -398,11 +398,7 @@ const PlaceAtDistance = (props) => {
       />
     );
   }
-  return (
-    <div className="padding-vertical-normal border-bottom">
-      {place}
-    </div>
-  );
+  return place;
 };
 /* eslint-enable no-underscore-dangle */
 

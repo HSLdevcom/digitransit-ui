@@ -50,7 +50,7 @@
 .vehicle-number {
   @include font-narrow-medium;
   padding: 0 5px;
-  vertical-align: bottom;
+  vertical-align: top;
 }
 .departure > div, .departure > span {
     vertical-align: middle;
@@ -194,6 +194,9 @@
     padding-left: 0.25em;
     width: 3.5em;
     vertical-align: baseline;
+  }
+  .vehicle-number {
+    vertical-align: top;
   }
   .distance {
     width: 3em;
