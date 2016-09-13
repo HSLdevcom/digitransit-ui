@@ -4,9 +4,8 @@ function waitForFirstItineraryInstructionColumn() {
 }
 
 function verifyOrigin(origin) {
-  return this.waitForElementPresent('@itineraryOrigin',
+  return this.waitForElementVisible('@itineraryOrigin',
                                     this.api.globals.itinerarySearchTimeout)
-    .moveToElement('@itineraryOrigin', 0, 0)
     .assert.containsText('@itineraryOrigin', origin);
 }
 
