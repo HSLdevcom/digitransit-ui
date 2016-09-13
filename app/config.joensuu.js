@@ -1,13 +1,14 @@
 const CONFIG = process.env.CONFIG || 'joensuu';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const APP_DESCRIPTION = 'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
+const APP_DESCRIPTION =
+  'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
 
 export default {
   CONFIG,
 
   URL: {
-    OTP: API_URL + '/routing/v1/routers/waltti/',
-    STOP_MAP: API_URL + '/map/v1/waltti-stop-map/',
+    OTP: `${API_URL}/routing/v1/routers/waltti/`,
+    STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
   },
 
   title: 'joensuu.digitransit.fi',
@@ -88,6 +89,7 @@ export default {
     lon: 29.7569847,
   },
 
+  /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
       about: 'Tämä on Joensuun kaupungin testi uudeksi reittioppaaksi Joensuun alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
@@ -107,6 +109,23 @@ export default {
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
   },
+  /* eslint-enable max-len*/
 
-  desktopWrapperText: '<h2>\n  Reittiopas<sup>BETA</sup>\n</h2>\n<h1>Kokeile uutta Reittiopasta!</h1>\nReittiopas uudistuu pian. Uusi Reittiopas tuo mukanaan liudan kauan\nkaivattuja parannuksia:\n<ul>\n  <li>Reaaliaikatiedot kaikista liikennevälineistä</li>\n  <li>Entistä parempi kartta</li>\n  <li>Ennakoiva haku</li>\n  <li>Näet lähialueesi lähdöt helposti</li>\n</ul>\nUusi Reittiopas on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki\ntoimimaan erinomaisesti myös tietokoneella. Voit tutustua jo nyt mobiilioptimoituun\nversioon. Valmista on loppuvuodesta 2016.',
+  desktopWrapperText: `
+    <h2>
+      Reittiopas<sup>BETA</sup>
+    </h2>
+    <h1>Kokeile uutta Reittiopasta!</h1>
+    Reittiopas uudistuu pian. Uusi Reittiopas tuo mukanaan liudan kauan
+    kaivattuja parannuksia:
+    <ul>
+      <li>Reaaliaikatiedot kaikista liikennevälineistä</li>
+      <li>Entistä parempi kartta</li>
+      <li>Ennakoiva haku</li>
+      <li>Näet lähialueesi lähdöt helposti</li>
+    </ul>
+    Uusi Reittiopas on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki
+    toimimaan erinomaisesti myös tietokoneella. Voit tutustua jo nyt mobiilioptimoituun
+    versioon. Valmista on loppuvuodesta 2016.
+  `,
 };
