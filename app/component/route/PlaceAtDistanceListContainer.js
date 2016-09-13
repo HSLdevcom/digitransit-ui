@@ -206,7 +206,7 @@ const BicycleRentalStationRow = (props, context) => {
   // TODO implement disruption checking
 
   return (
-    <div className="next-departure-row bicycle-rental-station-row padding-vertical-normal border-bottom">
+    <div className="next-departure-row padding-vertical-normal border-bottom">
       <Distance distance={props.distance} />
       <div className="bicycle-rental-station">
         <RouteNumber
@@ -283,8 +283,8 @@ BicycleRentalStationRow.description = (
         distance={256}
         currentTime={1473676196}
       />
-      </ComponentUsageExample>
-    </div>
+    </ComponentUsageExample>
+  </div>
 );
 
 export { BicycleRentalStationRow };

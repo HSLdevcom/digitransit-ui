@@ -45,7 +45,10 @@ import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
 import Availability from '../component/card/Availability.js';
 import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
-import { DepartureRow, BicycleRentalStationRow } from '../component/route/PlaceAtDistanceListContainer';
+import {
+  DepartureRow,
+  BicycleRentalStationRow,
+} from '../component/route/PlaceAtDistanceListContainer';
 
 class StyleGuidelinesPage extends React.Component {
   static propTypes = {
