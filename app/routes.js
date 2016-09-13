@@ -113,7 +113,7 @@ const routes = (
       >
         <IndexRedirect to="pysakit" />
         <Route path="pysakit" component={RoutePatternSelectContainer} queries={RouteQueries}>
-          <IndexRedirect to=":routeId%3A0%3A01" />
+          <IndexRedirect to=":routeId%3A0%3A01" /> {/* Redirect to first pattern of route*/}
           <Route path=":patternId">
             <IndexRoute component={PatternStopsContainer} queries={PatternQueries} />
             <Route
