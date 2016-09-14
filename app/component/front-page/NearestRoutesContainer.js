@@ -54,23 +54,25 @@ export default class NearestRoutesContainer extends Component {
 
   render() {
     return (
-      <Relay.RootContainer
-        Component={NearbyRouteListContainer}
-        route={new NearbyRouteListContainerRoute({
+      <Relay.Renderer
+        Container={NearbyRouteListContainer}
+        queryConfig={new NearbyRouteListContainerRoute({
           lat: this.props.lat,
           lon: this.props.lon,
           currentTime: this.props.currentTime,
           modes: this.props.modes,
           placeTypes: this.props.placeTypes,
         })}
-        forceFetch
-        renderLoading={() => {
+        environment={Relay.Store}
+        render={({ props }) => {
+          if (props) {
+            return <NearbyRouteListContainer {...props} />;
+          }
           if (this.useSpinner === true) {
             return <div className="spinner-loader" />;
           }
           return undefined;
         }}
-        renderFetched={data => <NearbyRouteListContainer {...data} />}
       />
     );
   }
