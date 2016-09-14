@@ -1,6 +1,6 @@
 {createHistory}    = require 'history'
 {useRouterHistory} = require 'react-router'
-config             = require './config'
+config             = require('./config').default
 
 isBrowser = window?
 

@@ -3,7 +3,7 @@ MaterialModal    = require('material-ui/Dialog').default
 Icon             = require '../icon/icon'
 intl             = require 'react-intl'
 Tabs             = require('material-ui/Tabs/Tabs').default
-config           = require '../../config'
+config           = require('../../config').default
 
 class SearchModal extends React.Component
   render: =>

@@ -38,7 +38,7 @@
     "url": "https://github.com/HSLdevcom/digitransit-ui/issues"
   },
   "browser": {
-    "./app/config.coffee": "./app/config.client.coffee"
+    "./app/config.js": "./app/config.client.js"
   },
   "engineStrict": true,
   "engines": {
