@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
+import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { setEndpoint } from '../../action/EndpointActions';
 
@@ -72,11 +73,11 @@ class FavouriteLocationsContainer extends React.Component {
     const favourite = this.props.favourites[index];
 
     if (typeof favourite === 'undefined') {
-      return <FavouriteLocation />;
+      return <EmptyFavouriteLocationSlot />;
     }
+
     const favouriteLocation = (<FavouriteLocation
-      locationName={favourite.locationName} favouriteLocationIconId={favourite.selectedIconId}
-      lat={favourite.lat} lon={favourite.lon} clickFavourite={this.setDestination}
+      favourite={favourite} clickFavourite={this.setDestination}
     />);
 
     if (this.props.location) {

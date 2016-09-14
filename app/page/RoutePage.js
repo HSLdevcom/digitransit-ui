@@ -39,6 +39,7 @@ class RoutePage extends React.Component {
   };
 
   componentDidMount() {
+    if (this.props.pattern == null) { return; }
     const route = this.props.pattern.code.split(':');
 
     if (route[0].toLowerCase() === 'hsl') {
@@ -99,7 +100,7 @@ class RoutePage extends React.Component {
 
   render() {
     if (this.props.pattern == null) {
-      return <NotFound />; // TODO: redirect?
+      return <div className="error"><NotFound /></div>; // TODO: redirect?
     }
 
     const params = {

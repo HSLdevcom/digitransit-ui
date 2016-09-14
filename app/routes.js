@@ -126,7 +126,8 @@ const routes = (
     <Route
       path="styleguide/component/:componentName" name="componentExample" component={StyleGuidelines}
     />
-    <Route path="lisaa-suosikki" name="addFavourite" component={AddFavouritePage} />
+    <Route path="suosikki/uusi" name="addFavourite" component={AddFavouritePage} />
+    <Route path="suosikki/muokkaa/:id" name="editFavourite" component={AddFavouritePage} />
     <Route path="tietoja-palvelusta" name="about" component={AboutPage} />
     {/* Main menu does not open without this in mock mode? */}
     <Route path="/?mock" name="mockIndex" component={IndexPage} />

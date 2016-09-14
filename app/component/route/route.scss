@@ -27,6 +27,14 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   }
 }
 
+.error {
+  div {
+    p {
+      color: $gray;    
+    }
+  };
+}
+
 .departure-list-header {
   border-bottom: 1px solid $light-gray;
   @include font-bold;

@@ -6,7 +6,7 @@ module.exports = {
     const myFavourites = browser.page.myFavourites();
     const favouriteName = 'A favourite that should show up in search results';
     myFavourites.saveHomeFavourite('Opastinsilta 6, Helsinki', favouriteName);
-    browser.page.feedback().close();
+    myFavourites.clickFavourites();
 
     browser.page.searchFields().setDestination('');
 

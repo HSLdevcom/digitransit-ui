@@ -4,7 +4,7 @@ Icon                  = require '../icon/icon'
 ScoreTable            = require './score-table'
 TextAreaWithCounter   = require './text-area-with-counter'
 FeedbackActions       = require '../../action/feedback-action'
-Feedback              = require '../../util/feedback'
+Feedback              = require '../../util/Feedback'
 
 intl = require 'react-intl'
 FormattedMessage = intl.FormattedMessage

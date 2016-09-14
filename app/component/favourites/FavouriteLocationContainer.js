@@ -9,13 +9,20 @@ const FavouriteLocationContainer = ({ currentTime, onClickFavourite, plan, favou
   const itinerary = (plan && plan.plan.itineraries[0]) || {};
   const firstTransitLeg = find(itinerary.legs, leg => (leg.transitLeg));
 
+  let departureTime;
+  // We might not have any transit legs, just walking
+  if (firstTransitLeg) {
+    departureTime = firstTransitLeg.startTime / 1000;
+  }
+
   return (<FavouriteLocation
-    locationName={favourite.locationName}
-    favouriteLocationIconId={favourite.selectedIconId}
-    lat={favourite.lat} lon={favourite.lon}
+    favourite={favourite}
     clickFavourite={onClickFavourite}
-    departureTime={firstTransitLeg.startTime / 1000}
-    currentTime={currentTime} firstTransitLeg={firstTransitLeg}
+    {...{
+      departureTime,
+      currentTime,
+      firstTransitLeg,
+    }}
   />);
 };
 

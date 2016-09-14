@@ -1,4 +1,4 @@
-config     = require '../config'
+config     = require('../config').default
 
 module.exports.toggleBusState = (actionContext)  ->
   actionContext.dispatch "ToggleNearbyRouteBusState"
