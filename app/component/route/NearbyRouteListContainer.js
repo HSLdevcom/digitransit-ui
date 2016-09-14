@@ -19,14 +19,18 @@ export default Relay.createContainer(NearbyRouteList, {
   fragments: {
     nearest: variables => Relay.QL`
       fragment on QueryType {
-        places: nearest(lat: $lat, lon: $lon,
-                  maxDistance: $maxDistance,
-                  maxResults: $maxResults,
-                  first: $maxResults,
-                  filterByModes: $modes,
-                  filterByPlaceTypes: $placeTypes) {
+        places: nearest(
+          lat: $lat,
+          lon: $lon,
+          maxDistance: $maxDistance,
+          maxResults: $maxResults,
+          first: $maxResults,
+          filterByModes: $modes,
+          filterByPlaceTypes: $placeTypes
+        ) {
           ${PlaceAtDistanceListContainer.getFragment('places', {
-            currentTime: variables.currentTime })}
+            currentTime: variables.currentTime })
+          }
         }
       }
     `,
