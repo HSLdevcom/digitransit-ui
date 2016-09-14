@@ -32,6 +32,8 @@ const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PI
 
 if (!config.PIWIK_ADDRESS || config.PIWIK_ID == null) {
   piwik.trackEvent = () => {};
+  piwik.setCustomVariable = () => {};
+  piwik.trackPageView = () => {};
 }
 
 const addPiwik = (context) => (context.piwik = piwik); // eslint-disable-line no-param-reassign
