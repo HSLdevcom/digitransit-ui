@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import includes from 'lodash/includes';
-import pull from 'lodash/pull';
+import without from 'lodash/without';
 
 import ModeFilterContainer from '../route/ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
@@ -53,7 +53,7 @@ export default connectToStores(
     const origin = context.getStore('EndpointStore').getOrigin();
     const modes = context.getStore('ModeStore').getMode();
     const bicycleRent = includes(modes, 'BICYCLE_RENT');
-    const modeFilter = pull(modes.slice(0), 'BICYCLE_RENT');
+    const modeFilter = without(modes, 'BICYCLE_RENT');
     let placeTypeFilter = ['DEPARTURE_ROW', 'BICYCLE_RENT'];
 
     if (!bicycleRent) {
