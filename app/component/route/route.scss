@@ -30,7 +30,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .error {
   div {
     p {
-      color: $gray;    
+      color: $gray;
     }
   };
 }
@@ -432,7 +432,9 @@ div.route-tabs {
   min-height: 53px;
 
   select {
-    padding: 6px 10px;
+    padding:0 35px 0 10px;
+    -webkit-padding-end: 35px;
+    -webkit-padding-start: 10px;
     height: 35px;
     border-radius: $border-radius-bigger;
     border: 1px solid $light-gray;
