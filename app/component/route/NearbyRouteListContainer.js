@@ -11,7 +11,7 @@ const NearbyRouteList = (props) => (
 );
 
 NearbyRouteList.propTypes = {
-  nearest: React.PropTypes.array.isRequired,
+  nearest: React.PropTypes.object.isRequired,
   currentTime: React.PropTypes.number.isRequired,
 };
 
