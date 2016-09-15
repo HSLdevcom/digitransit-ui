@@ -54,7 +54,10 @@ function NextDeparturesList(props) {
 
     // TODO: Should this be its own view component?
     return (
-      <Link to={`/linjat/${stoptime.pattern.code}`} key={stoptime.pattern.code}>
+      <Link
+        to={`/linjat/${stoptime.pattern.route.gtfsId}/pysakit/${stoptime.pattern.code}`}
+        key={stoptime.pattern.code}
+      >
         <div className="next-departure-row padding-vertical-normal border-bottom">
           <Distance distance={departure.distance} />
           <RouteNumber

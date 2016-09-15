@@ -120,7 +120,7 @@ function mapRoutes(res) {
           mode: item.mode.toLowerCase(),
           shortName: item.shortName,
           longName: item.longName,
-          link: `/linjat/${item.patterns[0].code}`,
+          link: `/linjat/${item.gtfsId}`,
         },
         geometry: {
           coordinates: [item.lat, item.lon],
@@ -192,7 +192,7 @@ function searchRoutesAndStops(input, reference, favourites) {
 
   searches.push(
     `favouriteRoutes:routes(ids:[${fav.join(',')}]) {
-      patterns {code}
+      gtfsId
       agency {name}
       shortName
       mode
@@ -221,7 +221,7 @@ function searchRoutesAndStops(input, reference, favourites) {
 
   if (doRouteSearch) {
     searches.push(
-      `routes(name:"${input}") {patterns {code} agency {name} shortName mode longName}`
+      `routes(name:"${input}") {gtfsId agency {name} shortName mode longName}`
     );
   }
 

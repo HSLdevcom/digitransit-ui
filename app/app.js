@@ -13,7 +13,7 @@ import NotImplementedStore from './store/not-implemented-store';
 import OldSearchesStore from './store/old-searches-store';
 import PositionStore from './store/PositionStore';
 import PreferencesStore from './store/PreferencesStore';
-import RealTimeInformationStore from './store/real-time-information-store';
+import RealTimeInformationStore from './store/RealTimeInformationStore';
 import SearchStore from './store/search-store';
 import ServiceStore from './store/service-store';
 import TimeStore from './store/TimeStore';

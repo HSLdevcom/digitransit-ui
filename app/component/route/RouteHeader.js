@@ -15,7 +15,7 @@ export default function RouteHeader(props) {
   const routeLineText = ` ${props.route.shortName || ''}`;
 
   const routeLine = props.trip ?
-    (<Link to={`/linjat/${props.pattern.code}`}>
+    (<Link to={`/linjat/${props.route.gtfsId}/pysakit/${props.pattern.code}`}>
       {routeLineText}
     </Link>) : routeLineText;
 

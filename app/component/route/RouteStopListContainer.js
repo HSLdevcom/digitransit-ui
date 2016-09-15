@@ -4,6 +4,7 @@ import Relay from 'react-relay';
 import toClass from 'recompose/toClass';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
+import values from 'lodash/values';
 import cx from 'classnames';
 
 import { getDistanceToNearestStop } from '../../util/geo-utils';
@@ -17,7 +18,7 @@ class RouteStopListContainer extends React.Component {
     pattern: React.PropTypes.object.isRequired,
     className: React.PropTypes.string,
     vehicles: React.PropTypes.object,
-    locationState: React.PropTypes.object.isRequired,
+    position: React.PropTypes.object.isRequired,
     currentTime: React.PropTypes.object.isRequired,
   };
 
@@ -28,13 +29,27 @@ class RouteStopListContainer extends React.Component {
   }
 
   getStops() {
-    const state = this.props.locationState;
+    const position = this.props.position;
     const stops = this.props.pattern.stops;
-    const nearest = state.hasLocation === true ?
-      getDistanceToNearestStop(state.lat, state.lon, stops) : null;
+    const nearest = position.hasLocation === true ?
+      getDistanceToNearestStop(position.lat, position.lon, stops) : null;
     const mode = this.props.pattern.route.mode.toLowerCase();
 
-    const vehicleStops = groupBy(this.props.vehicles, vehicle => `HSL:${vehicle.next_stop}`);
+    const vehicles = groupBy(
+      values(this.props.vehicles)
+        .filter(vehicle => (this.props.currentTime - (vehicle.timestamp * 1000)) < (90 * 1000))
+        .filter(vehicle => vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined')
+      , vehicle => vehicle.direction);
+
+    const vehicleStops = groupBy(vehicles[this.props.pattern.directionId], vehicle =>
+      `HSL:${vehicle.next_stop}`
+    );
+
+    const reverse = this.props.pattern.directionId === 0 ? 1 : 0;
+
+    const reverseVehicleStops = groupBy(vehicles[reverse], vehicle =>
+      getDistanceToNearestStop(vehicle.lat, vehicle.long, stops).stop.gtfsId
+    );
 
     return stops.map((stop, i) => {
       const isNearest = (
@@ -48,10 +63,12 @@ class RouteStopListContainer extends React.Component {
           stop={stop}
           mode={mode}
           vehicles={vehicleStops[stop.gtfsId]}
+          reverseVehicles={i !== 0 ? reverseVehicleStops[stops[i - 1].gtfsId] : []}
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? 'nearestStop' : null}
           currentTime={this.props.currentTime.unix()}
           last={i === stops.length - 1}
+          first={i === 0}
         />
       );
     });
@@ -60,6 +77,10 @@ class RouteStopListContainer extends React.Component {
   render() {
     return (
       <div className={cx('route-stop-list momentum-scroll', this.props.className)}>
+        <div
+          className="route-stop-now-divider"
+          ref={el => el && el.style.setProperty('height', `${el.parentNode.scrollHeight - 50}px`)}
+        />
         {this.getStops()}
       </div>);
   }
@@ -71,22 +92,23 @@ export default Relay.createContainer(
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
-      locationState: getStore('PositionStore').getLocationState(),
+      position: getStore('PositionStore').getLocationState(),
       currentTime: getStore('TimeStore').getCurrentTime(),
     })
   ),
   {
     initialVariables: {
-      routeId: null,
+      patternId: null,
     },
     fragments: {
       pattern: () => Relay.QL`
         fragment on Pattern {
+          directionId
           route {
             mode
           }
           stops {
-            stopTimesForPattern(id: $routeId) {
+            stopTimesForPattern(id: $patternId) {
               realtime
               realtimeState
               realtimeDeparture
