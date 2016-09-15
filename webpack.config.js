@@ -6,6 +6,21 @@ const csswring = require('csswring');
 const StatsPlugin = require('stats-webpack-plugin');
 const fs = require('fs');
 
+require('babel-core/register')({
+  presets: ['modern-node', 'stage-2'], // eslint-disable-line prefer-template
+  plugins: [
+    'transform-es2015-destructuring',
+    'transform-es2015-parameters',
+    'transform-class-properties',
+    'transform-es2015-modules-commonjs',
+  ],
+  ignore: [
+    /node_modules/,
+    'app/util/piwik.js',
+  ],
+});
+
+
 require('coffee-script/register');
 
 const port = process.env.HOT_LOAD_PORT || 9000;
@@ -64,9 +79,9 @@ function getLoadersConfig(env) {
 function getAllPossibleLanguages() {
   const srcDirectory = 'app';
   return fs.readdirSync(srcDirectory)
-    .filter((file) => /^config\.\w+\.coffee$/.test(file))
-    .filter((file) => !/^config\.client\.coffee$/.test(file))
-    .map((file) => require('./' + srcDirectory + '/' + file).availableLanguages)
+    .filter((file) => /^config\.\w+\.js$/.test(file))
+    .filter((file) => !/^config\.client\.js$/.test(file))
+    .map((file) => require('./' + srcDirectory + '/' + file).default.availableLanguages)
     .reduce((languages, languages2) => languages.concat(languages2))
     .filter((language, position, languages) => languages.indexOf(language) === position);
 }
