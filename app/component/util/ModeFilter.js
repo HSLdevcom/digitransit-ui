@@ -55,7 +55,9 @@ class ModeFilter extends React.Component {
   }
 }
 
-ModeFilter.description = (
+const pureModeFilter = pure(ModeFilter);
+
+pureModeFilter.description = (
   <div>
     <p>ModeFilter displays row of transport mode icons that can be used to select transport modes
     </p>
@@ -85,6 +87,6 @@ ModeFilter.description = (
     </div>
   </div>);
 
-ModeFilter.displayName = 'ModeFilter';
+pureModeFilter.displayName = 'ModeFilter';
 
-export default pure(ModeFilter);
+export default pureModeFilter;
