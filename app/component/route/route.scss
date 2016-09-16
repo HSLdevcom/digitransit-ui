@@ -34,7 +34,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .error {
   div {
     p {
-      color: $gray;    
+      color: $gray;
     }
   };
 }
@@ -120,7 +120,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-stop-row-divider {
   position: absolute;
   height: 1px;
-  width: 100%;
+  width: calc(100% - 90px);
   bottom: 0px;
   left: 90px;
   background-color: $background-color;
