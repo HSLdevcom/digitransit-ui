@@ -19,6 +19,14 @@ class TripStopListContainer extends React.Component {
     locationState: React.PropTypes.object.isRequired,
     currentTime: React.PropTypes.object.isRequired,
     tripStart: React.PropTypes.string.isRequired,
+    fullscreenMap: React.PropTypes.bool,
+  }
+
+  componentDidMount() {
+    const el = document.getElementsByClassName('selected-tail-icon')[0];
+    if (el) {
+      el.scrollIntoView();
+    }
   }
 
   getNearestStopDistance = (stops) => (
@@ -95,13 +103,20 @@ class TripStopListContainer extends React.Component {
         route={this.props.trip.route.gtfsId}
         last={index === this.props.trip.stoptimesForDate.length - 1}
         first={index === 0}
+        fullscreenMap={this.props.fullscreenMap}
       />);
     });
   }
 
   render() {
     return (
-      <div className={cx('route-stop-list momentum-scroll', this.props.className)}>
+      <div
+        className={cx(
+          'route-stop-list momentum-scroll',
+          { 'fullscreen-map': this.props.fullscreenMap },
+          this.props.className)
+        }
+      >
         <div
           className="route-stop-now-divider"
           ref={el => el && el.style.setProperty('height', `${el.parentNode.scrollHeight - 29}px`)}

@@ -34,7 +34,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .error {
   div {
     p {
-      color: $gray;    
+      color: $gray;
     }
   };
 }
@@ -62,7 +62,8 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-page-content {
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto;
+  flex-grow: 1;
+  flex-basis: 100%;
 }
 
 // stop list
@@ -71,13 +72,10 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   flex-grow: 20;
   flex-basis: 0;
   position: relative;
+  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1), flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
   &.route-page-content-enter, &.route-page-content-leave {
     will-change: flex-grow;
-  }
-
-  &.route-page-content-leave, &.route-page-content-enter.route-page-content-enter-active {
-    transition: flex-grow 300ms;
   }
 
   &.route-page-content-enter, &.route-page-content-leave.route-page-content-leave-active {
@@ -86,6 +84,11 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
   &.route-page-content-enter.route-page-content-enter-active {
     flex-grow: 20;
+  }
+
+  &.fullscreen-map {
+    flex-grow: 0;
+    flex-basis: 80px;
   }
 
   .route-stop-now-divider {
@@ -117,7 +120,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-stop-row-divider {
   position: absolute;
   height: 1px;
-  width: 100%;
+  width: calc(100% - 90px);
   bottom: 0px;
   left: 90px;
   background-color: $background-color;
@@ -240,9 +243,9 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 // Schedule list
 .route-schedule-content-wrapper {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .route-schedule-list-wrapper {
@@ -425,20 +428,14 @@ div.route-tabs {
 
   .tab-panel {
     flex-grow: 1;
-
     display: flex;
     flex-direction: column;
 
     background: white;
-    height: calc(100% - 1.2em - 8px);
     > div {
       flex-grow: 1;
-
       display: flex;
       flex-direction: column;
-      @extend .momentum-scroll;
-      height: 100%;
-      overflow: auto;
     }
 
   }
