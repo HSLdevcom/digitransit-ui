@@ -243,9 +243,9 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 // Schedule list
 .route-schedule-content-wrapper {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .route-schedule-list-wrapper {
