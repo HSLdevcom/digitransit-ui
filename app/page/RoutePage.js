@@ -1,25 +1,14 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Helmet from 'react-helmet';
-import Tabs from 'react-simpletabs';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'react-router/lib/Link';
 
 import DefaultNavigation from '../component/navigation/DefaultNavigation';
-import RouteListHeader from '../component/route/RouteListHeader';
 import Icon from '../component/icon/icon';
 import FavouriteRouteContainer from '../component/favourites/FavouriteRouteContainer';
 import RouteNumber from '../component/departure/RouteNumber';
-import RouteStopListContainer from '../component/route/RouteStopListContainer';
-import RouteMapContainer from '../component/route/RouteMapContainer';
-import RouteScheduleContainer from '../component/route/RouteScheduleContainer';
-import RouteAlertsContainer from '../component/route/RouteAlertsContainer';
-import RoutePatternSelect from '../component/route/RoutePatternSelect';
-import TripListHeader from '../component/trip/TripListHeader';
-import TripStopListContainer from '../component/trip/TripStopListContainer';
-import { startRealTimeClient, updateTopic, stopRealTimeClient }
-  from '../action/realTimeClientAction';
+import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClientAction';
 import NotFound from './404';
 
 class RoutePage extends React.Component {
@@ -28,50 +17,20 @@ class RoutePage extends React.Component {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    pattern: React.PropTypes.object.isRequired,
-    fullscreenMap: React.PropTypes.bool,
-    tripStart: React.PropTypes.string,
+    route: React.PropTypes.object.isRequired,
+    children: React.PropTypes.node.isRequired,
   };
 
   componentDidMount() {
-    if (this.props.pattern == null) { return; }
-    const route = this.props.pattern.code.split(':');
+    if (this.props.route == null) { return; }
+    const route = this.props.route.gtfsId.split(':');
 
     if (route[0].toLowerCase() === 'hsl') {
       this.context.executeAction(startRealTimeClient, {
         route: route[1],
-        direction: route[2],
-      });
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    const route = newProps.pattern.code.split(':');
-    const { client } = this.context.getStore('RealTimeInformationStore');
-
-    if (client) {
-      if (route[0].toLowerCase() === 'hsl') {
-        this.context.executeAction(updateTopic, {
-          client,
-          oldTopics: this.context.getStore('RealTimeInformationStore').getSubscriptions(),
-
-          newTopic: {
-            route: route[1],
-            direction: route[2],
-          },
-        });
-      } else {
-        this.componentWillUnmount();
-      }
-    } else if (route[0].toLowerCase() === 'hsl') {
-      this.context.executeAction(startRealTimeClient, {
-        route: route[1],
-        direction: route[2],
       });
     }
   }
@@ -84,28 +43,14 @@ class RoutePage extends React.Component {
     }
   }
 
-  selectRoutePattern = (e) => {
-    this.context.router.push({
-      pathname: `/linjat/${e.target.value}`,
-    });
-  }
-
-  toggleFullscreenMap = () => {
-    if (this.props.fullscreenMap) {
-      this.context.router.goBack();
-      return;
-    }
-    this.context.router.push(`${this.context.location.pathname}/kartta`);
-  };
-
   render() {
-    if (this.props.pattern == null) {
+    if (this.props.route == null) {
       return <div className="error"><NotFound /></div>; // TODO: redirect?
     }
 
     const params = {
-      route_short_name: this.props.pattern.route.shortName,
-      route_long_name: this.props.pattern.route.longName,
+      route_short_name: this.props.route.shortName,
+      route_long_name: this.props.route.longName,
     };
 
     const meta = {
@@ -122,32 +67,14 @@ class RoutePage extends React.Component {
       }],
     };
 
-    let mainContent = null;
-
-    if (!this.props.fullscreenMap) {
-      mainContent = this.props.trip ? ([
-        <TripListHeader key="header" />,
-        <TripStopListContainer
-          key="list" tripStart={this.props.tripStart} trip={this.props.trip}
-        />,
-      ]) : ([
-        <RouteListHeader key="header" />,
-        <RouteStopListContainer
-          key="list"
-          pattern={this.props.pattern}
-          routeId={this.props.pattern.code}
-        />,
-      ]);
-    }
-
     return (
       <DefaultNavigation
         className="fullscreen"
         title={
-          <Link to={`/linjat/${this.props.pattern.code}`}>
+          <Link to={`/linjat/${this.props.route.gtfsId}`}>
             <RouteNumber
-              mode={this.props.pattern.route.mode}
-              text={this.props.pattern.route.shortName}
+              mode={this.props.route.mode}
+              text={this.props.route.shortName}
             />
           </Link>
         }
@@ -155,103 +82,47 @@ class RoutePage extends React.Component {
         <Helmet {...meta} />
         <FavouriteRouteContainer
           className="route-page-header"
-          gtfsId={this.props.pattern.route.gtfsId}
+          gtfsId={this.props.route.gtfsId}
         />
-        <Tabs className="route-tabs">
-          <ReactCSSTransitionGroup
-            component={Tabs.Panel}
-            transitionName="route-page-content"
-            transitionEnterTimeout={300}
-            transitionLeaveTimeout={300}
-            title={
+        <div className="tabs route-tabs">
+          <nav className="tabs-navigation">
+            <Link to={`/linjat/${this.props.route.gtfsId}/pysakit`} activeClassName="is-active">
               <div>
                 <Icon img="icon-icon_bus-stop" />
                 <FormattedMessage id="stops" defaultMessage="Stops" />
               </div>
-            }
-          >
-            <RoutePatternSelect
-              key="patternSelect"
-              pattern={this.props.pattern}
-              onSelectChange={this.selectRoutePattern}
-            />
-            <RouteMapContainer
-              key="map"
-              tripStart={this.props.tripStart}
-              pattern={this.props.pattern}
-              toggleFullscreenMap={this.toggleFullscreenMap}
-              className="routeMap full"
-              useSmallIcons={this.props.tripStart === undefined}
-            >
-              {!this.props.fullscreenMap ?
-                <div className="map-click-prevent-overlay" onClick={this.toggleFullscreenMap} /> :
-                null
-              }
-            </RouteMapContainer>
-            {mainContent}
-          </ReactCSSTransitionGroup>
-          <Tabs.Panel
-            title={
+            </Link>
+            <Link to={`/linjat/${this.props.route.gtfsId}/aikataulu`} activeClassName="is-active">
               <div>
                 <Icon img="icon-icon_schedule" />
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
-              </div>}
-          >
-            <RoutePatternSelect
-              pattern={this.props.pattern}
-              onSelectChange={this.selectRoutePattern}
-            />
-            <RouteScheduleContainer pattern={this.props.pattern} />
-          </Tabs.Panel>
-          <Tabs.Panel
-            title={
+              </div>
+            </Link>
+            <Link to={`/linjat/${this.props.route.gtfsId}/hairiot`} activeClassName="is-active">
               <div>
                 <Icon img="icon-icon_caution" />
                 <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
-              </div>}
-          >
-            <RouteAlertsContainer route={this.props.pattern.route} />
-          </Tabs.Panel>
-        </Tabs>
+              </div>
+            </Link>
+          </nav>
+          <article className="tab-panel">
+            {this.props.children}
+          </article>
+        </div>
       </DefaultNavigation>
     );
   }
 }
 
-RoutePage.propTypes = {
-  params: React.PropTypes.object.isRequired,
-  relay: React.PropTypes.object.isRequired,
-  trip: React.PropTypes.object,
-};
-
 export default Relay.createContainer(RoutePage, {
-  initialVariables: {
-    routeId: null,
-  },
-
   fragments: {
-    pattern: ({ routeId }) =>
+    route: () =>
       Relay.QL`
-      fragment on Pattern {
-        code
-        headsign
-        route {
-          gtfsId
-          shortName
-          longName
-          mode
-          patterns {
-            code
-            headsign
-            stops {
-              name
-            }
-          }
-          ${RouteAlertsContainer.getFragment('route')}
-        }
-        ${RouteMapContainer.getFragment('pattern')}
-        ${RouteScheduleContainer.getFragment('pattern')}
-        ${RouteStopListContainer.getFragment('pattern', { routeId })}
+      fragment on Route {
+        gtfsId
+        shortName
+        longName
+        mode
       }
     `,
   },
