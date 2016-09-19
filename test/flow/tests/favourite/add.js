@@ -7,7 +7,6 @@ module.exports = {
     const myFavourites = browser.page.myFavourites();
 
     myFavourites.saveHomeFavourite('Opastinsilta 6, Helsinki', favouriteName);
-    browser.page.feedback().close();
     myFavourites.verifyFirstName(favouriteName);
     browser.end();
   },

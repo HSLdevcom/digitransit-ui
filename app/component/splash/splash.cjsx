@@ -1,6 +1,6 @@
 React               = require 'react'
 Relay               = require 'react-relay'
-Config              = require '../../config'
+Config              = require('../../config').default
 DefaultNavigation   = require('../navigation/DefaultNavigation').default
 FrontPagePanel      = require('../front-page/FrontPagePanel').default
 EndpointActions     = require('../../action/EndpointActions')

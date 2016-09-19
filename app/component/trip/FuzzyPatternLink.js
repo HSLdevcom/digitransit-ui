@@ -1,26 +1,25 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
-import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import IconWithTail from '../icon/IconWithTail';
+import SelectedIconWithTail from '../icon/SelectedIconWithTail';
 import NotImplementedLink from '../util/not-implemented-link';
 
-function TripLink(props) {
-  const icon = (<IconWithTail
-    className={cx(props.mode, 'tail-icon')}
-    img={`icon-icon_${props.mode}-live`}
-    rotate={180}
-  />);
+function FuzzyPatternLink(props) {
+  const imgName = `icon-icon_${props.mode}-live`;
+  const icon = (props.selected && (<SelectedIconWithTail img={imgName} />))
+    || (<IconWithTail desaturate img={imgName} rotate={props.reverse ? 0 : 180} />);
 
   if (props.trip.trip) {
-    return (<Link
-      to={
-        `/linjat/${props.trip.trip.route.gtfsId}/pysakit/${
-          props.trip.trip.pattern.code}/${props.trip.trip.gtfsId}`
-      }
-      className="route-now-content"
-    >{icon}</Link>);
+    return (
+      <Link
+        to={`/linjat/${props.trip.trip.route.gtfsId}/pysakit/${props.trip.trip.pattern.code}`}
+        className="route-now-content"
+      >
+        {icon}
+      </Link>
+    );
   }
 
   return (<NotImplementedLink
@@ -30,17 +29,18 @@ function TripLink(props) {
   >{icon}</NotImplementedLink>);
 }
 
-TripLink.propTypes = {
+FuzzyPatternLink.propTypes = {
   trip: React.PropTypes.object.isRequired,
   mode: React.PropTypes.string.isRequired,
+  reverse: React.PropTypes.bool,
+  selected: React.PropTypes.bool,
 };
 
-export default Relay.createContainer(TripLink, {
+export default Relay.createContainer(FuzzyPatternLink, {
   fragments: {
     trip: () => Relay.QL`
       fragment on QueryType {
         trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
-          gtfsId
           pattern {
             code
           }

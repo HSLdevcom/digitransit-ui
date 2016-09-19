@@ -4,25 +4,38 @@ import Link from 'react-router/lib/Link';
 
 import FuzzyTripRoute from './FuzzyTripRoute';
 import TripLink from '../trip/TripLink';
+import FuzzyPatternLink from '../trip/FuzzyPatternLink';
 import WalkDistance from '../itinerary/walk-distance';
 import StopCode from '../itinerary/StopCode';
 import { fromStopTime } from '../departure/DepartureTime';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-const routeStopSvg = (
-  <svg style={{ position: 'absolute', width: 12, height: 65, left: -14 }} >
-    <line x1="6" x2="6" y1="6" y2="65" strokeWidth="4" stroke="currentColor" />
-    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
+const getRouteStopSvg = (first, last) => (
+  <svg style={{ position: 'absolute', width: 12, height: 67, left: -12, top: -4 }} >
+    <line
+      x1="6"
+      x2="6"
+      y1={first ? 13 : 0}
+      y2={last ? 13 : 67}
+      strokeWidth="5"
+      stroke="currentColor"
+    />
+    <line
+      x1="6"
+      x2="6"
+      y1={first ? 13 : 0}
+      y2={last ? 13 : 67}
+      strokeWidth="2"
+      stroke="white"
+      opacity="0.2"
+    />
+    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="13" r="5" />
   </svg>
 );
 
-const lastRouteStopSvg = (
-  <svg style={{ position: 'absolute', width: 12, height: 12, left: -14 }} >
-    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="6" r="5" />
-  </svg>
-);
-
-const RouteStop = ({ vehicles, stop, mode, distance, last, currentTime }) => {
+const RouteStop = ({
+  vehicles, reverseVehicles, stop, mode, distance, last, first, currentTime,
+}) => {
   const vehicleTripLinks = vehicles && vehicles.map((vehicle) =>
       (<Relay.RootContainer
         key={vehicle.id}
@@ -40,18 +53,41 @@ const RouteStop = ({ vehicles, stop, mode, distance, last, currentTime }) => {
             {...data}
           />)
         }
-      />));
+      />)
+    );
+
+  const reverseVehicleLinks = reverseVehicles && reverseVehicles.map(vehicle => (
+    <Relay.RootContainer
+      key={vehicle.id}
+      Component={FuzzyPatternLink}
+      route={new FuzzyTripRoute({
+        route: vehicle.route,
+        direction: vehicle.direction,
+        date: vehicle.operatingDay,
+        time: (vehicle.tripStartTime.substring(0, 2) * 60 * 60) +
+          (vehicle.tripStartTime.substring(2, 4) * 60),
+      })}
+      renderFetched={data =>
+        (<FuzzyPatternLink
+          mode={vehicle.mode}
+          {...data}
+          reverse
+        />)
+      }
+    />)
+  );
 
   return (
     <div className="route-stop row">
-      <div className="columns small-3 route-stop-now">{vehicleTripLinks}</div>
+      <div className="columns route-stop-now">{vehicleTripLinks}</div>
+      <div className="columns route-stop-now-reverse">{reverseVehicleLinks}</div>
       <Link to={`/pysakit/${stop.gtfsId}`}>
-        <div className={`columns small-5 route-stop-name ${mode}`}>
-          {last ? lastRouteStopSvg : routeStopSvg}
+        <div className={`columns route-stop-name ${mode}`}>
+          {getRouteStopSvg(first, last)}
           {stop.name}
           <br />
           <div style={{ whiteSpace: 'nowrap' }}>
-            <StopCode code={stop.code} />
+            {stop.code && <StopCode code={stop.code} />}
             <span className="route-stop-address">{stop.desc}</span>
             {'\u2002'}
             {distance && (
@@ -65,21 +101,24 @@ const RouteStop = ({ vehicles, stop, mode, distance, last, currentTime }) => {
         </div>
         {(stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0 &&
           stop.stopTimesForPattern.map((stopTime) => (
-            <div key={stopTime.scheduledDeparture} className="columns small-2 route-stop-time">
+            <div key={stopTime.scheduledDeparture} className="columns route-stop-time">
               {fromStopTime(stopTime, currentTime)}
             </div>
           ))
         )}
       </Link>
+      <div className="route-stop-row-divider" />
     </div>);
 };
 
 RouteStop.propTypes = {
   vehicles: React.PropTypes.array,
+  reverseVehicles: React.PropTypes.array,
   stop: React.PropTypes.object,
   mode: React.PropTypes.string,
   distance: React.PropTypes.number,
   currentTime: React.PropTypes.number.isRequired,
+  first: React.PropTypes.bool,
   last: React.PropTypes.bool,
 };
 

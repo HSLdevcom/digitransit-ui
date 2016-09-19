@@ -45,3 +45,5 @@ static/browserconfig.*.xml
 !static/browserconfig.hsl.xml
 !static/browserconfig.default.xml
 !static/browserconfig.joensuu.xml
+
+tags
