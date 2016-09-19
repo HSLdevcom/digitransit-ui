@@ -23,7 +23,7 @@ import RouteScheduleContainer from './component/route/RouteScheduleContainer';
 import PatternStopsContainer from './component/route/PatternStopsContainer';
 import TripStopsContainer from './component/trip/TripStopsContainer';
 
-import TopLevel from './component/top-level';
+import TopLevel from './component/TopLevel';
 
 const StopQueries = {
   stop: () => Relay.QL`
