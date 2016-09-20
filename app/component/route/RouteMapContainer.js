@@ -8,13 +8,15 @@ import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeader from '../stop-cards/StopCardHeader';
 
 function RouteMapContainer(
-  { pattern, tripStart, className, children, toggleFullscreenMap, vehicles }) {
+  { pattern, tripStart, className, children, toggleFullscreenMap, vehicles,
+    useSmallIcons = false }) {
   const leafletObjs = [
     <RouteLine key="line" pattern={pattern} />,
     <VehicleMarkerContainer
       key="vehicles"
       pattern={pattern.code}
       tripStart={tripStart}
+      useSmallIcons={useSmallIcons}
     />,
   ];
 
@@ -42,7 +44,7 @@ function RouteMapContainer(
       className={className}
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
-      bounds={pattern.geometry.map((p) => [p.lat, p.lon])}
+      bounds={(pattern.geometry || pattern.stops).map((p) => [p.lat, p.lon])}
       zoom={zoom}
     >
       {children}
@@ -68,6 +70,7 @@ RouteMapContainer.propTypes = {
   lat: React.PropTypes.number,
   lon: React.PropTypes.number,
   vehicles: React.PropTypes.object,
+  useSmallIcons: React.PropTypes.bool,
 };
 
 export const RouteMapFragments = {

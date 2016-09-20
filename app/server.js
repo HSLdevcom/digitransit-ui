@@ -104,15 +104,6 @@ function getPolyfills(userAgent) {
   });
 }
 
-function processFeedback(req, res) {
-  if (req.headers.dnt === 1) {
-    return;
-  }
-
-  const visitCount = req.cookies.vc | 0;
-  res.cookie('vc', visitCount + 1);
-}
-
 function getScripts(req) {
   if (process.env.NODE_ENV === 'development') {
     const host =
@@ -176,10 +167,18 @@ function getHtml(context, renderProps, locale, polyfills, req) {
 }
 
 export default function (req, res, next) {
-  processFeedback(req, res);
-  const locale = req.cookies.lang ||
-    req.acceptsLanguages(config.availableLanguages) ||
-    config.defaultLanguage;
+   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
+  let locale = req.cookies.lang ||
+    req.acceptsLanguages(config.availableLanguages);
+
+  if (config.availableLanguages.indexOf(locale) === -1) {
+    locale = config.defaultLanguage;
+  }
+
+  if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
+    res.cookie('lang', locale);
+  }
+
   const context = application.createContext();
 
   // required by material-ui
@@ -200,7 +199,7 @@ export default function (req, res, next) {
     } else {
       const promises = [getPolyfills(req.headers['user-agent'])];
 
-      if (renderProps.components[1].loadAction) {
+      if (renderProps.components[1] && renderProps.components[1].loadAction) {
         renderProps.components[1]
           .loadAction(renderProps.params)
           .forEach(action => promises.push(context.executeAction(action[0], action[1])));

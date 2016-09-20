@@ -44,9 +44,7 @@ nav.top-bar {
 
   .icon {
     fill: $top-navigation-icon-color;
-    font-size: 13pt;
-    height: 1.2em;
-    width: 1.2em;
+    font-size: 15pt;
     vertical-align: middle;
   }
 
@@ -54,18 +52,13 @@ nav.top-bar {
     text-align: center;
     color: $top-navigation-title-color;
 
-    a {
-      text-decoration: none;
-      div.logo {
-        background-image: $nav-logo;
-        background-size: contain;
-        height: $topbar-height;
-        max-width: 170px;
-      }
+    div.logo {
+      background-image: $nav-logo;
+      background-size: contain;
+      height: $topbar-height;
+      max-width: 170px;
     }
   }
-
-
 }
 
 .lang-select {

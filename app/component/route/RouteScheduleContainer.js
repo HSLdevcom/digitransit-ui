@@ -33,7 +33,7 @@ class RouteScheduleContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     // If route has changed, reset state.
-    if (nextProps.relay.route.params.routeId !== this.props.relay.route.params.routeId) {
+    if (nextProps.relay.route.params.patternId !== this.props.relay.route.params.patternId) {
       this.initState(nextProps, false);
       nextProps.relay.setVariables({ serviceDay: nextProps.serviceDay });
     }
@@ -151,7 +151,6 @@ export const relayFragment = {
       }
       tripsForDate(serviceDay: $serviceDay) {
         id
-        serviceId
         stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
           scheduledArrival
           scheduledDeparture
@@ -171,4 +170,5 @@ export default connectToStores(
     fragments: relayFragment,
   }), [], (context) => ({
     serviceDay: context.getStore('TimeStore').getCurrentTime().format(DATE_FORMAT),
-  }));
+  })
+);

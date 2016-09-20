@@ -27,7 +27,7 @@
 
   "test_workers": {
     "enabled": true,
-    "workers": 4
+    "workers": 2
   },
 
   "test_settings": {
@@ -38,7 +38,7 @@
       "silent": true,
       "globals": {
         "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 10000
+        "elementVisibleTimeout": 30000
       },
       "screenshots": {
         "enabled": true,
@@ -72,6 +72,7 @@
       },
       "desiredCapabilities": {
         "browserName": "firefox",
+        "version": 47,
         "os": "WINDOWS",
         "os_version": "10",
         "javascriptEnabled": true,
@@ -153,6 +154,23 @@
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
         "build": "${BROWSERSTACK_BUILD}"
+      }
+    },
+    "sl-iphone": {
+      "selenium_port": 80,
+      "selenium_host": "ondemand.saucelabs.com",
+      "selenium": {
+        "start_process": false
+      },
+      "username": "${SAUCELABS_USER}",
+      "access_key": "${SAUCELABS_KEY}",
+      "desiredCapabilities": {
+        "browserName": "Safari",
+        "platformName": "iOS",
+        "platformVersion": "9.2",
+        "deviceName": "iPhone 6",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
       }
     }
   }
