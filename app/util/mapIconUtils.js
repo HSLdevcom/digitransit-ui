@@ -8,21 +8,21 @@ export const getCaseRadius = memoize(glfun({
   base: 1.15,
   domain: [11.9, 12, 22],
   range: [0, 1.5, 26],
-}));
+}), ({ $zoom }) => $zoom);
 
 export const getStopRadius = memoize(glfun({
   type: 'exponential',
   base: 1.15,
   domain: [11.9, 12, 22],
   range: [0, 1, 24],
-}));
+}), ({ $zoom }) => $zoom);
 
 export const getHubRadius = memoize(glfun({
   type: 'exponential',
   base: 1.15,
   domain: [14, 14.1, 22],
   range: [0, 2, 20],
-}));
+}), ({ $zoom }) => $zoom);
 
 export const getColor = memoize((mode) => {
   const cssRule = mode && getSelector(`.${mode.toLowerCase()}`);
