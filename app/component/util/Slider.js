@@ -24,16 +24,13 @@ class Slider extends React.Component {
     maxText: '',
   };
 
-  constructor() {
-    super();
-    this.state = { modified: false };
-    this.valueChanged = this.valueChanged.bind(this);
-  }
-  componentDidMount() {
+  state = { modified: false };
+
+  componentDidMount = () => {
     this.refs.slider.addEventListener('touchmove', this.f);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     this.refs.slider.removeEventListener('touchmove', this.f);
   }
 
@@ -41,7 +38,7 @@ class Slider extends React.Component {
     e.stopPropagation();
   }
 
-  valueChanged(e) {
+  valueChanged = (e) => {
     if (parseInt(e.target.value, 10) !== this.props.defaultValue) {
       this.setState({ modified: true });
     } else {

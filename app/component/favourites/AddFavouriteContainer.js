@@ -8,8 +8,8 @@ import isNumber from 'lodash/isNumber';
 import Icon from '../icon/icon';
 import FavouriteIconTable from './FavouriteIconTable';
 import { addFavouriteLocation, deleteFavouriteLocation } from '../../action/FavouriteActions';
-import FakeSearchBar from '../search/fake-search-bar';
-import OneTabSearchModal from '../search/one-tab-search-modal';
+import FakeSearchBar from '../search/FakeSearchBar';
+import OneTabSearchModal from '../search/OneTabSearchModal';
 
 class AddFavouriteContainer extends React.Component {
   static contextTypes = {
@@ -129,8 +129,9 @@ class AddFavouriteContainer extends React.Component {
                 <FormattedMessage id="specify-location" defaultMessage="Specify the location" />
               </h4>
               <FakeSearchBar
-                endpoint={{ address: (this.state != null ? favourite.address : undefined) || '',
-                }} placeholder={destinationPlaceholder} onClick={e => {
+                endpointAddress={(this.state != null ? favourite.address : undefined) || ''}
+                placeholder={destinationPlaceholder}
+                onClick={e => {
                   e.preventDefault();
                   this.setState({
                     searchModalIsOpen: true,

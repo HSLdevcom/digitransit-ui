@@ -14,32 +14,20 @@ class ItineraryTab extends React.Component {
     focus: PropTypes.func.isRequired,
   };
 
-  constructor(args) {
-    super(args);
+  state = {
+    fullscreen: false,
+    lat: undefined,
+    lon: undefined,
+  };
 
-    this.state = {
-      fullscreen: false,
-      lat: undefined,
-      lon: undefined,
-    };
+  shouldComponentUpdate = () => false
 
-    this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
-    this.getState = this.getState.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-  }
+  getState = () => ({
+    lat: this.state.lat,
+    lon: this.state.lon,
+  });
 
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  getState() {
-    return {
-      lat: this.state.lat,
-      lon: this.state.lon,
-    };
-  }
-
-  handleFocus(lat, lon) {
+  handleFocus = (lat, lon) => {
     this.props.focus(lat, lon);
 
     return this.setState({

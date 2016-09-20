@@ -21,11 +21,6 @@ class CustomizeSearch extends React.Component {
     open: React.PropTypes.bool,
   };
 
-  constructor() {
-    super();
-    this.onChange = this.onChange.bind(this);
-  }
-
   componentDidMount() {
     return this.context.getStore('ItinerarySearchStore').addChangeListener(this.onChange);
   }
@@ -34,17 +29,7 @@ class CustomizeSearch extends React.Component {
     return this.context.getStore('ItinerarySearchStore').removeChangeListener(this.onChange);
   }
 
-  onChange() {
-    return this.forceUpdate();
-  }
-
-  getTicketOptions() {
-    const options = this.context.getStore('ItinerarySearchStore').getTicketOptions();
-
-    return options.map(
-      (option, index) => <option key={index} value={option.value}>{option.displayName}</option>
-    );
-  }
+  onChange = () => this.forceUpdate()
 
   /*
       This function is used to map our desired min, max, and default values to a standard
@@ -233,7 +218,7 @@ class CustomizeSearch extends React.Component {
           <ModeFilter
             action={ItinerarySearchActions}
             buttonClass="mode-icon"
-            modes={this.context.getStore('ItinerarySearchStore').getMode()}
+            selectedModes={this.context.getStore('ItinerarySearchStore').getMode()}
           />
         </section>
         <section className="offcanvas-section">

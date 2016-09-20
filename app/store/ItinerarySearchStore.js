@@ -9,10 +9,9 @@ class ItinerarySearchStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.reset();
-    this.reset = this.reset.bind(this);
   }
 
-  reset() {
+  reset = () => {
     let localData;
     if (typeof window !== 'undefined' && window !== null && window.sessionStorage != null) {
       localData = window.sessionStorage.getItem(STORAGE_KEY);
@@ -110,7 +109,7 @@ class ItinerarySearchStore extends Store {
       mode.push('CAR');
     }
 
-    return mode.join(',');
+    return mode;
   }
 
   getTicketOptions() {
