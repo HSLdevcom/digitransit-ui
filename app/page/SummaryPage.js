@@ -11,7 +11,7 @@ import NoRoutePopup from '../component/summary/no-route-popup';
 import { itinerarySearchRequest } from '../action/ItinerarySearchActions';
 import { otpToLocation } from '../util/otp-strings';
 import { storeEndpoint } from '../action/EndpointActions';
-import { SummaryPlanContainerRoute } from '../queries';
+import PlanRoute from '../route/PlanRoute';
 import config from '../config';
 
 export default class SummaryPage extends React.Component {
@@ -102,6 +102,7 @@ export default class SummaryPage extends React.Component {
 
   render() {
     let plan;
+    const preferredAgencies = config.preferredAgency || '';
     const from = otpToLocation(this.props.params.from);
     const to = otpToLocation(this.props.params.to);
     const search = this.state && this.state.search;
@@ -111,7 +112,7 @@ export default class SummaryPage extends React.Component {
       plan = (
         <Relay.RootContainer
           Component={SummaryPlanContainer}
-          route={new SummaryPlanContainerRoute({
+          route={new PlanRoute({
             fromPlace: this.props.params.from,
             toPlace: this.props.params.to,
             from,
@@ -127,7 +128,7 @@ export default class SummaryPage extends React.Component {
             maxWalkDistance: search.maxWalkDistance + 0.1,
             wheelchair: search.wheelchair,
             preferred: {
-              agencies: search.preferredAgencies,
+              agencies: preferredAgencies,
             },
             arriveBy: time.arriveBy,
             disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic,
