@@ -167,7 +167,7 @@
       },
       "desiredCapabilities": {
         "browser": "iPhone",
-        "device" : "iPhone 6",
+        "device" : "iPhone 6S",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "autoAcceptAlerts" : true,
