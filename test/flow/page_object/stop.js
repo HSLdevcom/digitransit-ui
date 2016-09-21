@@ -1,5 +1,5 @@
 function expectStopName(expected) {
-  this.waitForElementVisible('@stopName', this.api.globals.itinerarySearchTimeout);
+  this.waitForElementVisible('@stopName', this.api.globals.itinerarySearchTimeout * 2);
   return this.assert.containsText('@stopName', expected);
 }
 
