@@ -133,7 +133,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
   if [ "$1" == "browserstack" ] ; then
     env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-fx,bs-chrome --suiteRetries 3
   else
-    env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-ie,bs-edge --tag smoke --suiteRetries 3
+    env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-ie,bs-edge,bs-iphone,bs-android --tag smoke --suiteRetries 3
   fi
   TESTSTATUS=$?
   # Kill Node and Browserstack tunnel
