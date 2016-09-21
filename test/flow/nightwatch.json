@@ -151,6 +151,7 @@
       },
       "desiredCapabilities": {
         "browserName": "android",
+        "device": "Samsung Galaxy S5",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
