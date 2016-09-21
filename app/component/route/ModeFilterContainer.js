@@ -8,7 +8,7 @@ export default connectToStores(
   ['ModeStore'],
   (context) =>
     ({
-      modes: context.getStore('ModeStore').getMode(),
+      selectedModes: context.getStore('ModeStore').getMode(),
       buttonClass: 'btn mode-nearby',
       action: ModeSelectedAction,
     })
