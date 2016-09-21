@@ -102,7 +102,7 @@ if [ "$1" == "local" ]; then
     killtree $NODE_PID
   fi
   exit $TESTSTATUS
-elif [ "$1" == "browserstack" ]; then
+elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
   if [ "$#" -lt 3 ]; then
     echo "ERROR: You need to use BrowserStack Username and API key as parameters"
     echo "usage: npm run test-browserstack -- BROWSERSTACK_USERNAME BROWSERSTACK_KEY [noserver]"
@@ -125,7 +125,11 @@ elif [ "$1" == "browserstack" ]; then
   # Wait for the server to start
   sleep 10
   # Then run tests
-  env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-fx,bs-chrome --suiteRetries 3
+  if [ "$1" == "browserstack" ] ; then
+    env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-fx,bs-chrome --suiteRetries 3
+  else
+    env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-ie,bs-edge --tag smoke --suiteRetries 3
+  fi
   TESTSTATUS=$?
   # Kill Node and Browserstack tunnel
   if [ "$START_SERVER" == "1" ]; then
@@ -172,5 +176,5 @@ elif [ "$1" == "saucelabs" ]; then
   killtree $SAUCELABS_PID
   exit $TESTSTATUS
 else
-  echo "Please specify environment. 'local', 'browserstack', or 'saucelabs'"
+  echo "Please specify environment. 'local', 'browserstack', 'smoke', or 'saucelabs'"
 fi
