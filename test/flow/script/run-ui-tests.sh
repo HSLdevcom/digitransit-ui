@@ -62,9 +62,14 @@ function checkDependencies {
 
   if [ ! -f $SAUCELABS_CONNECT_BINARY ]; then
     echo "Downloading SauceLabs Connect..."
-    curl -o $SAUCELABS_CONNECT_BINARY.tar.gz $SAUCELABS_CONNECT_URL
-    tar -v --no-anchored --strip-components=2 -x sc -f $SAUCELABS_CONNECT_BINARY.tar.gz
-    mv sc $SAUCELABS_CONNECT_BINARY
+    if [[ $PLATFORM == 'Darwin' ]]; then
+      curl -o $SAUCELABS_CONNECT_BINARY.zip $SAUCELABS_CONNECT_URL
+      unzip -j $SAUCELABS_CONNECT_BINARY.zip "sc-4.3.16-osx/bin/sc" -d ./test/flow/binaries
+    else
+      curl -o $SAUCELABS_CONNECT_BINARY.tar.gz $SAUCELABS_CONNECT_URL
+      tar -v --no-anchored --strip-components=2 -x sc -f $SAUCELABS_CONNECT_BINARY.tar.gz
+      mv sc $SAUCELABS_CONNECT_BINARY
+    fi
   fi
 }
 
