@@ -13,7 +13,7 @@ import { storeEndpoint } from '../action/EndpointActions';
 import NoRoutePopup from '../component/summary/no-route-popup';
 
 const getItinerarySearch = (store) => ({
-  modes: store.getMode(),
+  modes: store.getMode().join(','),
   walkReluctance: store.getWalkReluctance(),
   walkBoardCost: store.getWalkBoardCost(),
   minTransferTime: store.getMinTransferTime(),

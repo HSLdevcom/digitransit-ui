@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactAutowhatever from 'react-autowhatever';
 import { getLabel } from '../../util/suggestionUtils';
 import SuggestionItem from './SuggestionItem';
-import CurrentPositionItem from './current-position-suggestion-item';
+import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import { executeSearch, saveSearch, closeSearch } from '../../action/SearchActions';
 import Icon from '../icon/icon';
 
@@ -19,20 +19,9 @@ export default class SearchInputContainer extends Component {
     onSuggestionSelected: PropTypes.func.isRequired,
     className: PropTypes.string,
     id: PropTypes.string,
-    initialValue: PropTypes.string.isRequired,
+    initialValue: PropTypes.string,
     children: PropTypes.node,
   };
-
-  constructor(props) {
-    super(props);
-    this.initialValue = props.initialValue != null ? props.initialValue : '';
-    this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
-    this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
-    this.handleOnTouchStart = this.handleOnTouchStart.bind(this);
-    this.handleUpdateInputNow = this.handleUpdateInputNow.bind(this);
-    this.currentItemSelected = this.currentItemSelected.bind(this);
-    this.render = this.render.bind(this);
-  }
 
   state = {
     focusedItemIndex: 0,
@@ -78,7 +67,11 @@ export default class SearchInputContainer extends Component {
 
   blur() {
     // hide safari keyboard
-    this.refs.autowhatever.refs.input.blur();
+    this.autowhatever.refs.input.blur();
+  }
+
+  focus = () => {
+    this.autowhatever.refs.input.focus();
   }
 
   handleOnKeyDown = (event, eventProps) => {
@@ -114,7 +107,7 @@ export default class SearchInputContainer extends Component {
     }
   }
 
-  handleOnMouseDown(event, eventProps) {
+  handleOnMouseDown = (event, eventProps) => {
     if (eventProps.itemIndex != null) {
       this.setState({
         focusedItemIndex: eventProps.itemIndex,
@@ -125,11 +118,11 @@ export default class SearchInputContainer extends Component {
     }
   }
 
-  handleOnTouchStart() {
+  handleOnTouchStart = () => {
     this.blur();
   }
 
-  handleUpdateInputNow(event) {
+  handleUpdateInputNow = (event) => {
     const input = event.target.value;
 
     if (input === this.state.value) {
@@ -146,7 +139,7 @@ export default class SearchInputContainer extends Component {
     });
   }
 
-  currentItemSelected() {
+  currentItemSelected = () => {
     let save;
     let state;
     let name;
@@ -186,21 +179,43 @@ export default class SearchInputContainer extends Component {
     }
   }
 
+  clearInput = () => {
+    this.handleUpdateInputNow({ target: { value: '' } });
+    this.focus();
+  };
+
   render() {
-    const inputValue = this.state.value != null && typeof this.state.value === 'string'
-      && this.state.value.length >= 0 ? this.state.value : this.initialValue;
+    const inputValue = (
+      this.state.value != null &&
+        typeof this.state.value === 'string' &&
+        this.state.value.length >= 0 ? this.state.value : this.props.initialValue
+    ) || '';
 
     return (
       <div className="fullscreen">
         <ReactAutowhatever
-          ref="autowhatever"
+          ref={(c) => { this.autowhatever = c; }}
           className={this.props.className}
           id="suggest"
           items={this.state.suggestions}
-          renderItem={(item) => (item.properties.layer === 'currentPosition' ?
-            <CurrentPositionItem ref={item.name} item={item} spanClass="autosuggestIcon" /> :
-            <SuggestionItem ref={item.name} item={item} spanClass="autosuggestIcon" />
-          )}
+          renderItem={(item) => {
+            if (item.properties.layer === 'currentPosition') {
+              return (
+                <CurrentPositionSuggestionItem
+                  ref={item.name}
+                  item={item}
+                  spanClass="autosuggestIcon"
+                />
+              );
+            }
+            return (
+              <SuggestionItem
+                ref={item.name}
+                item={item}
+                spanClass="autosuggestIcon"
+              />
+            );
+          }}
           onSuggestionSelected={this.currentItemSelected}
           focusedItemIndex={this.state.focusedItemIndex}
           inputProps={{
@@ -220,7 +235,7 @@ export default class SearchInputContainer extends Component {
         {inputValue.length > 0 ? (
           <div
             className="clear-icon"
-            onClick={() => this.handleUpdateInputNow({ target: { value: '' } })}
+            onClick={this.clearInput}
           >
             <Icon img="icon-icon_close" />
           </div>

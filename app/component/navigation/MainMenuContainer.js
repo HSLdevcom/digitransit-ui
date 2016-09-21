@@ -15,10 +15,7 @@ class MainMenuContainer extends Component {
     router: PropTypes.object.isRequired,
   };
 
-  constructor(props, context) {
-    super(props, context);
-    this.state = { offcanvasVisible: false };
-  }
+  state = { offcanvasVisible: false };
 
   onRequestChange = (newState) => this.internalSetOffcanvas(newState);
 

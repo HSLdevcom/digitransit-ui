@@ -9,8 +9,8 @@ class EndpointStore extends Store
   constructor: (dispatcher) ->
     super(dispatcher)
     @origin = @getUseCurrent(@origin, true)
-    @emitChange("origin-use-current")
     @destination = @getUseCurrent(@destination, false)
+    @emitChange("origin-use-current")
 
   isCurrentPositionInUse: () ->
     @origin.useCurrentPosition || @destination.useCurrentPosition

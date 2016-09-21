@@ -19,21 +19,15 @@ export default class LegMarker extends React.Component {
     mode: React.PropTypes.string.isRequired,
   };
 
-  constructor(args) {
-    super(...args);
-    this.componentWillUnmount = this.componentWillUnmount.bind(this);
-    this.onMapZoom = this.onMapZoom.bind(this);
-  }
-
   componentDidMount() {
     this.context.map.on('zoomend', this.onMapZoom);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     this.context.map.off('zoomend', this.onMapZoom);
   }
 
-  onMapZoom() {
+  onMapZoom = () => {
     this.forceUpdate();
   }
 

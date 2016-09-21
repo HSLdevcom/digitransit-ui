@@ -7,9 +7,6 @@ class TimeStore extends Store {
 
   constructor(dispatcher) {
     super(dispatcher);
-    this.isSelectedTimeSet = this.isSelectedTimeSet.bind(this);
-    this.updateCurrentTime = this.updateCurrentTime.bind(this);
-    this.updateSelectedTime = this.updateSelectedTime.bind(this);
     this.updateCurrentTime();
     this.arriveBy = false;
     this.setSelectedTimeToNow();
@@ -21,11 +18,9 @@ class TimeStore extends Store {
     return this.updateSelectedTime();
   }
 
-  isSelectedTimeSet() {
-    return this.status === 'SET';
-  }
+  isSelectedTimeSet = () => this.status === 'SET'
 
-  updateCurrentTime() {
+  updateCurrentTime = () => {
     this.setCurrentTime(moment());
 
     if (!this.isSelectedTimeSet()) {
@@ -35,7 +30,7 @@ class TimeStore extends Store {
     return setTimeout(this.updateCurrentTime, TimeStore.TWICE_PER_MINUTE);
   }
 
-  updateSelectedTime() {
+  updateSelectedTime = () => {
     this.selectedTime = moment();
 
     return this.emitChange({
