@@ -120,7 +120,7 @@ function mapRoutes(res) {
           mode: item.mode.toLowerCase(),
           shortName: item.shortName,
           longName: item.longName,
-          link: `/linjat/${item.patterns[0].code}`,
+          link: `/linjat/${item.gtfsId}`,
         },
         geometry: {
           coordinates: [item.lat, item.lon],
@@ -170,17 +170,13 @@ function getStops(res) {
   return [];
 }
 
-function searchStops(input) {
-  if (input === undefined || input === null || input.trim().length < 3) {
-    return Promise.resolve([]);
-  }
-
-  return queryGraphQL(`{stops(name:"${input}") { gtfsId lat lon name code routes { mode }}}`)
-    .then(response =>
-      getStops(response && response.data && response.data.stops)
-    );
-}
-
+// Get
+//
+// - favourite routes
+// - other routes
+// - stops in 50km buckets
+//
+// that match the search term
 function searchRoutesAndStops(input, reference, favourites) {
   let refLatLng;
   let isNumber;
@@ -192,7 +188,7 @@ function searchRoutesAndStops(input, reference, favourites) {
 
   searches.push(
     `favouriteRoutes:routes(ids:[${fav.join(',')}]) {
-      patterns {code}
+      gtfsId
       agency {name}
       shortName
       mode
@@ -221,7 +217,7 @@ function searchRoutesAndStops(input, reference, favourites) {
 
   if (doRouteSearch) {
     searches.push(
-      `routes(name:"${input}") {patterns {code} agency {name} shortName mode longName}`
+      `routes(name:"${input}") {gtfsId agency {name} shortName mode longName}`
     );
   }
 
@@ -257,15 +253,11 @@ function searchRoutesAndStops(input, reference, favourites) {
 
 function executeSearchInternal(actionContext, { input, type }) {
   processResults(actionContext, []);
-
   const position = actionContext.getStore('PositionStore').getLocationState();
-  const language = actionContext.getStore('PreferencesStore').getLanguage();
-  const origin = actionContext.getStore('EndpointStore').getOrigin();
-
-  const positionCoords = position.hasLocation ? { lon: position.lon, lat: position.lat } :
-    { lon: config.initialLocation.lon, lat: config.initialLocation.lat };
-
-  const referenceLocation = origin.lat ? { lon: origin.lon, lat: origin.lat } : positionCoords;
+  const positionCoords = (
+    position.hasLocation ?
+      { lon: position.lon, lat: position.lat } :
+      { lon: config.initialLocation.lon, lat: config.initialLocation.lat });
 
   if (type === 'endpoint') {
     const favouriteLocations = actionContext.getStore('FavouriteLocationStore').getLocations();
@@ -276,14 +268,9 @@ function executeSearchInternal(actionContext, { input, type }) {
       addFavouriteLocations(favouriteLocations, input),
       addOldSearches(oldSearches, input),
     ];
+    const language = actionContext.getStore('PreferencesStore').getLanguage();
 
-    if (config.search.showStopsFirst) {
-      searches.push(searchStops(input));
-      searches.push(getGeocodingResult(input, position, language));
-    } else {
-      searches.push(getGeocodingResult(input, position, language));
-      searches.push(searchStops(input));
-    }
+    searches.push(getGeocodingResult(input, position, language));
 
     return Promise.all(searches)
     .then(flatten)
@@ -293,6 +280,8 @@ function executeSearchInternal(actionContext, { input, type }) {
   }
   const favouriteRoutes = actionContext.getStore('FavouriteRoutesStore').getRoutes();
 
+  const origin = actionContext.getStore('EndpointStore').getOrigin();
+  const referenceLocation = origin.lat ? { lon: origin.lon, lat: origin.lat } : positionCoords;
   return searchRoutesAndStops(input, referenceLocation, favouriteRoutes)
     .then(uniq)
     .then(suggestions =>

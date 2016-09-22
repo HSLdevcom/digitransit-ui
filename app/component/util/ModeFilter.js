@@ -1,11 +1,14 @@
 import React from 'react';
+import pure from 'recompose/pure';
+
 import ToggleButton from './ToggleButton';
 import config from '../../config';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
+
 class ModeFilter extends React.Component {
   static propTypes = {
-    modes: React.PropTypes.array.isRequired,
+    selectedModes: React.PropTypes.array.isRequired,
     action: React.PropTypes.object.isRequired,
     buttonClass: React.PropTypes.string,
   };
@@ -17,57 +20,50 @@ class ModeFilter extends React.Component {
   availableModes = () => Object.keys(config.transportModes).filter(
     (mode) => (config.transportModes[mode].availableForSelection))
 
-  calcWidth = () => {
-    const numberOfModes = this.availableModes().length;
-    return 100 / numberOfModes;
-  }
-
   render = () => {
-    const ModeToggleButton = ({ type, style, stateName }) => {
+    const widthPercentage = 100 / this.availableModes().length;
+    const ModeToggleButton = ({ type, stateName }) => {
       if (config.transportModes[type].availableForSelection) {
-        const icon = `${type}-withoutBox`;
-        const camelCaseType = type.charAt(0).toUpperCase() + type.slice(1);
-        const upperCaseType = type.toUpperCase();
-        const actionName = `toggle${camelCaseType}State`;
+        const action = this.props.action[
+          `toggle${type.charAt(0).toUpperCase() + type.slice(1)}State`];
         return (<ToggleButton
-          icon={icon}
+          icon={`${type}-withoutBox`}
           onBtnClick={() => {
-            this.context.executeAction(this.props.action[actionName]);
+            this.context.executeAction(action);
           }}
-          state={this.props.modes.indexOf(stateName || upperCaseType) !== -1}
+          state={this.props.selectedModes.indexOf(stateName || type.toUpperCase()) !== -1}
           checkedClass={type}
-          style={style}
+          style={{
+            width: `${widthPercentage}%`,
+          }}
           className={this.props.buttonClass}
         />);
       }
       return null;
     };
-    const widthPercentage = this.calcWidth();
-
-    const style = {
-      width: `${widthPercentage}%`,
-    };
 
     // TODO we could build the filter strictly based on config
     return (<div className="btn-bar mode-filter no-select">
-      <ModeToggleButton type="bus" style={style} />
-      <ModeToggleButton type="tram" style={style} />
-      <ModeToggleButton type="rail" style={style} />
-      <ModeToggleButton type="subway" style={style} />
-      <ModeToggleButton type="ferry" style={style} />
-      <ModeToggleButton type="airplane" style={style} />
-      <ModeToggleButton type="citybike" style={style} stateName="BICYCLE_RENT" />
+      <ModeToggleButton type="bus" />
+      <ModeToggleButton type="tram" />
+      <ModeToggleButton type="rail" />
+      <ModeToggleButton type="subway" />
+      <ModeToggleButton type="ferry" />
+      <ModeToggleButton type="airplane" />
+      <ModeToggleButton type="citybike" stateName="BICYCLE_RENT" />
     </div>);
   }
 }
 
-ModeFilter.description = (
+const pureModeFilter = pure(ModeFilter);
+
+pureModeFilter.description = (
   <div>
     <p>ModeFilter displays row of transport mode icons that can be used to select transport modes
     </p>
     <ComponentUsageExample>
       <ModeFilter
-        modes={['BUS', 'TRAM']}
+        selectedModes={['BUS', 'TRAM']}
         action={{
           toggleBusState: () => {},
           toggleTramState: () => {},
@@ -80,7 +76,7 @@ ModeFilter.description = (
     <div className="nearby-routes">
       <ComponentUsageExample>
         <ModeFilter
-          modes={['BUS', 'TRAM']}
+          selectedModes={['BUS', 'TRAM']}
           action={{
             toggleBusState: () => {},
             toggleTramState: () => {},
@@ -91,6 +87,6 @@ ModeFilter.description = (
     </div>
   </div>);
 
-ModeFilter.displayName = 'ModeFilter';
+pureModeFilter.displayName = 'ModeFilter';
 
-export default ModeFilter;
+export default pureModeFilter;

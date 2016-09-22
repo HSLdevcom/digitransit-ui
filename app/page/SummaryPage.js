@@ -11,7 +11,7 @@ import NoRoutePopup from '../component/summary/no-route-popup';
 import { itinerarySearchRequest } from '../action/ItinerarySearchActions';
 import { otpToLocation } from '../util/otp-strings';
 import { storeEndpoint } from '../action/EndpointActions';
-import { SummaryPlanContainerRoute } from '../queries';
+import PlanRoute from '../route/PlanRoute';
 import config from '../config';
 
 export default class SummaryPage extends React.Component {
@@ -35,13 +35,6 @@ export default class SummaryPage extends React.Component {
       }],
     ]
 
-  constructor() {
-    super();
-    this.onChange = this.onChange.bind(this);
-    this.onTimeChange = this.onTimeChange.bind(this);
-    this.onMount = this.onMount.bind(this);
-  }
-
   componentDidMount() {
     this.context.getStore('ItinerarySearchStore').addChangeListener(this.onChange);
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
@@ -58,20 +51,20 @@ export default class SummaryPage extends React.Component {
     this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
   }
 
-  onMount() {
+  onMount = () => {
     this.setState({
       search: this.updateItinerarySearch(this.context.getStore('ItinerarySearchStore')),
       time: this.updateTime(this.context.getStore('TimeStore')),
     });
   }
 
-  onChange() {
+  onChange = () => {
     this.setState({
       search: this.updateItinerarySearch(this.context.getStore('ItinerarySearchStore')),
     });
   }
 
-  onTimeChange(e) {
+  onTimeChange = (e) => {
     if (e.selectedTime) {
       this.setState({
         time: this.updateTime(this.context.getStore('TimeStore')),
@@ -81,7 +74,7 @@ export default class SummaryPage extends React.Component {
 
   updateItinerarySearch(store) {
     return {
-      modes: store.getMode(),
+      modes: store.getMode().join(','),
       walkReluctance: store.getWalkReluctance(),
       walkBoardCost: store.getWalkBoardCost(),
       minTransferTime: store.getMinTransferTime(),
@@ -102,6 +95,7 @@ export default class SummaryPage extends React.Component {
 
   render() {
     let plan;
+    const preferredAgencies = config.preferredAgency || '';
     const from = otpToLocation(this.props.params.from);
     const to = otpToLocation(this.props.params.to);
     const search = this.state && this.state.search;
@@ -111,7 +105,7 @@ export default class SummaryPage extends React.Component {
       plan = (
         <Relay.RootContainer
           Component={SummaryPlanContainer}
-          route={new SummaryPlanContainerRoute({
+          route={new PlanRoute({
             fromPlace: this.props.params.from,
             toPlace: this.props.params.to,
             from,
@@ -127,7 +121,7 @@ export default class SummaryPage extends React.Component {
             maxWalkDistance: search.maxWalkDistance + 0.1,
             wheelchair: search.wheelchair,
             preferred: {
-              agencies: search.preferredAgencies,
+              agencies: preferredAgencies,
             },
             arriveBy: time.arriveBy,
             disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic,

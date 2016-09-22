@@ -4,10 +4,10 @@ import NearbyRouteListContainer from '../route/NearbyRouteListContainer';
 
 class NearbyRouteListContainerRoute extends Route {
   static queries = {
-    stops: (RelayComponent, variables) => Relay.QL`
+    nearest: (RelayComponent, variables) => Relay.QL`
       query {
         viewer {
-          ${RelayComponent.getFragment('stops', variables)}
+          ${RelayComponent.getFragment('nearest', variables)}
         }
       }
     `,
@@ -16,6 +16,8 @@ class NearbyRouteListContainerRoute extends Route {
     lat: { required: true },
     lon: { required: true },
     currentTime: { required: true },
+    modes: { required: true },
+    placeTypes: { required: true },
   };
   static routeName = 'NearbyRouteListContainerRoute';
 }
@@ -26,6 +28,7 @@ export default class NearestRoutesContainer extends Component {
     lon: PropTypes.number.isRequired,
     currentTime: PropTypes.number.isRequired,
     modes: PropTypes.array.isRequired,
+    placeTypes: PropTypes.array.isRequired,
   };
 
   constructor() {
@@ -44,28 +47,32 @@ export default class NearestRoutesContainer extends Component {
       nextProps.lat !== this.props.lat ||
       nextProps.lon !== this.props.lon ||
       nextProps.currentTime !== this.props.currentTime ||
-      nextProps.modes !== this.props.modes
+      nextProps.modes !== this.props.modes ||
+      nextProps.placeTypes !== this.props.placeTypes
     );
   }
 
   render() {
     return (
-      <Relay.RootContainer
-        Component={NearbyRouteListContainer}
-        route={new NearbyRouteListContainerRoute({
+      <Relay.Renderer
+        Container={NearbyRouteListContainer}
+        queryConfig={new NearbyRouteListContainerRoute({
           lat: this.props.lat,
           lon: this.props.lon,
-          currentTime: this.props.currentTime.toString(),
+          currentTime: this.props.currentTime,
+          modes: this.props.modes,
+          placeTypes: this.props.placeTypes,
         })}
-        renderLoading={() => {
+        environment={Relay.Store}
+        render={({ props }) => {
+          if (props) {
+            return <NearbyRouteListContainer {...props} />;
+          }
           if (this.useSpinner === true) {
             return <div className="spinner-loader" />;
           }
           return undefined;
         }}
-        renderFetched={data =>
-          <NearbyRouteListContainer {...data} modes={this.props.modes} />
-        }
       />
     );
   }

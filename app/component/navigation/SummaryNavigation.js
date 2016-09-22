@@ -15,20 +15,11 @@ class SummaryNavigation extends React.Component {
     location: React.PropTypes.object.isRequired,
   };
 
-  constructor() {
-    super();
-    this.toggleCustomizeSearchOffcanvas = this.toggleCustomizeSearchOffcanvas.bind(this);
-    this.onRequestChange = this.onRequestChange.bind(this);
-    this.internalSetOffcanvas = this.internalSetOffcanvas.bind(this);
-    this.getOffcanvasState = this.getOffcanvasState.bind(this);
-    this.toggleDisruptionInfo = this.toggleDisruptionInfo.bind(this);
-  }
-
-  onRequestChange(newState) {
+  onRequestChange = (newState) => {
     this.internalSetOffcanvas(newState);
   }
 
-  getOffcanvasState() {
+  getOffcanvasState = () => {
     if (typeof window !== 'undefined' && supportsHistory()) {
       if (this.context.location != null && this.context.location.state != null) {
         return this.context.location.state.customizeSearchOffcanvas || false;
@@ -37,7 +28,7 @@ class SummaryNavigation extends React.Component {
     return this.state ? this.state.customizeSearchOffcanvas : false;
   }
 
-  internalSetOffcanvas(newState) {
+  internalSetOffcanvas = (newState) => {
     this.setState({
       customizeSearchOffcanvas: newState,
     });
@@ -64,11 +55,11 @@ class SummaryNavigation extends React.Component {
     }
   }
 
-  toggleCustomizeSearchOffcanvas() {
+  toggleCustomizeSearchOffcanvas = () => {
     this.internalSetOffcanvas(!this.getOffcanvasState());
   }
 
-  toggleDisruptionInfo() {
+  toggleDisruptionInfo = () => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
         'Modal',

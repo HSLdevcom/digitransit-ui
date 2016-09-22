@@ -2,6 +2,7 @@ import Relay from 'react-relay';
 import { VectorTile } from 'vector-tile';
 import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
+import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
 import config from '../../../config';
@@ -56,7 +57,7 @@ export default class ParkAndRide {
                 if (!isEmpty(result)) {
                   feature.properties.facilities = result;
                   feature.geom = feature.loadGeometry()[0][0];
-                  this.features.push(feature);
+                  this.features.push(pick(feature, ['geom', 'properties']));
                   drawParkAndRideIcon(this.tile, feature.geom, this.width, this.height);
                 }
               }

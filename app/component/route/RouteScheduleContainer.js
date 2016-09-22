@@ -27,30 +27,28 @@ class RouteScheduleContainer extends Component {
     super(props);
     this.initState(props, true);
     props.relay.setVariables({ serviceDay: props.serviceDay });
-    this.onFromSelectChange = this.onFromSelectChange.bind(this);
-    this.onToSelectChange = this.onToSelectChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     // If route has changed, reset state.
-    if (nextProps.relay.route.params.routeId !== this.props.relay.route.params.routeId) {
+    if (nextProps.relay.route.params.patternId !== this.props.relay.route.params.patternId) {
       this.initState(nextProps, false);
       nextProps.relay.setVariables({ serviceDay: nextProps.serviceDay });
     }
   }
 
-  onFromSelectChange(event) {
+  onFromSelectChange = (event) => {
     const from = Number(event.target.value);
     const to = this.state.to > from ? this.state.to : from + 1;
     this.setState({ ...this.state, from, to });
   }
 
-  onToSelectChange(event) {
+  onToSelectChange = (event) => {
     const to = Number(event.target.value);
     this.setState({ ...this.state, to });
   }
 
-  getTrips(from, to) {
+  getTrips = (from, to) => {
     const { stops } = this.props.pattern;
     const trips = this.transformTrips(this.props.pattern.tripsForDate, stops);
     if (trips == null) {
@@ -79,9 +77,10 @@ class RouteScheduleContainer extends Component {
   }
 
   initState(props, isInitialState) {
-    const from = 0;
-    const to = props.pattern.stops.length - 1;
-    const state = { from, to };
+    const state = {
+      from: 0,
+      to: props.pattern.stops.length - 1,
+    };
 
     if (isInitialState) {
       this.state = state;
@@ -151,7 +150,6 @@ export const relayFragment = {
       }
       tripsForDate(serviceDay: $serviceDay) {
         id
-        serviceId
         stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
           scheduledArrival
           scheduledDeparture
@@ -171,4 +169,5 @@ export default connectToStores(
     fragments: relayFragment,
   }), [], (context) => ({
     serviceDay: context.getStore('TimeStore').getCurrentTime().format(DATE_FORMAT),
-  }));
+  })
+);

@@ -27,10 +27,11 @@ class RouteMarkerPopup extends React.Component
         favourite={@props.favourite}
         addFavouriteRoute={@addAsFavouriteRoute}/>
       <div className="bottom location">
-        <Link to="/lahdot/#{@props.trip.fuzzyTrip.gtfsId}">
-          <Icon img={'icon-icon_time'}/> Lähdön tiedot</Link>
+        <Link to="/linjat/#{@props.trip.route.gtfsId}/pysakit/#{@props.trip.fuzzyTrip.pattern.code}/#{@props.trip.fuzzyTrip.gtfsId}">
+          <Icon img={'icon-icon_time'}/> Lähdön tiedot
+        </Link>
         <br/>
-        <Link to="/linjat/#{@props.trip.fuzzyTrip.pattern.code}" className="route">
+        <Link to="/linjat/#{@props.trip.route.gtfsId}/pysakit/#{@props.trip.fuzzyTrip.pattern.code}" className="route">
           <Icon img={'icon-icon_' + @props.message.mode + "-withoutBox"}/> Linjan tiedot
         </Link>
       </div>

@@ -8,10 +8,11 @@ class ModeStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     const localData = getModeStorage();
-    this.data = localData.busState !== undefined ? localData : this.getRestoreState();
+    this.data = localData.busState !== undefined ? localData : this.enableAll();
+    this.generateMode();
   }
 
-  getRestoreState = () => ({
+  enableAll = () => ({
     busState: true,
     tramState: true,
     railState: true,
@@ -25,7 +26,8 @@ class ModeStore extends Store {
     return this.data;
   }
 
-  getMode() {
+  // Store the same array/string to enable change detection with shallow comparison
+  generateMode = () => {
     const mode = [];
 
     if (this.getBusState()) {
@@ -56,12 +58,13 @@ class ModeStore extends Store {
       mode.push('BICYCLE_RENT');
     }
 
-    return mode;
+    this.mode = mode;
+    this.modeString = mode.join(',');
   }
 
-  getModeString = () => (
-    this.getMode.join(',')
-  )
+  getMode = () => this.mode
+
+  getModeString = () => this.modeString
 
   getBusState() {
     return this.data.busState;
@@ -107,10 +110,11 @@ class ModeStore extends Store {
       this.data[name] = true;
       this.data.selected = name;
     } else {
-      this.data = this.getRestoreState();
+      this.data = this.enableAll();
       this.data.selected = undefined;
     }
     this.storeMode();
+    this.generateMode();
     this.emitChange();
   }
 

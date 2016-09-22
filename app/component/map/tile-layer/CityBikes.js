@@ -2,6 +2,8 @@ import { VectorTile } from 'vector-tile';
 import Protobuf from 'pbf';
 import Relay from 'react-relay';
 import glfun from 'mapbox-gl-function';
+import pick from 'lodash/pick';
+
 import config from '../../../config';
 import {
   drawRoundIcon,
@@ -49,7 +51,7 @@ class CityBikes {
           for (let i = 0, ref = vt.layers.stations.length - 1; i <= ref; i++) {
             const feature = vt.layers.stations.feature(i);
             feature.geom = feature.loadGeometry()[0][0];
-            this.features.push(feature);
+            this.features.push(pick(feature, ['geom', 'properties']));
           }
         }
 

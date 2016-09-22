@@ -12,8 +12,6 @@ import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 import { shouldDisplayPopup } from '../../util/Feedback';
 import FeedbackAction from '../../action/feedback-action';
 
-import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
-
 export default class FrontPagePanel extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
@@ -24,14 +22,6 @@ export default class FrontPagePanel extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
   };
 
-  constructor(args) {
-    super(args);
-    this.getSelectedPanel = this.getSelectedPanel.bind(this);
-    this.selectPanel = this.selectPanel.bind(this);
-    this.closePanel = this.closePanel.bind(this);
-    this.stopMeasuring = this.stopMeasuring.bind(this);
-  }
-
   onReturnToFrontPage() {
     const timeStore = this.context.getStore('TimeStore');
     if (shouldDisplayPopup(timeStore.getCurrentTime().valueOf())) {
@@ -40,7 +30,7 @@ export default class FrontPagePanel extends React.Component {
     return undefined;
   }
 
-  getSelectedPanel() {
+  getSelectedPanel = () => {
     if (typeof window !== 'undefined' && supportsHistory()) {
       const state = this.context.location.state;
       return state && state.selectedPanel;
@@ -49,7 +39,7 @@ export default class FrontPagePanel extends React.Component {
     return this.state && this.state.selectedPanel;
   }
 
-  selectPanel(selection) {
+  selectPanel = (selection) => {
     let tabOpensOrCloses;
     let newSelection;
     const oldSelection = this.getSelectedPanel();
@@ -85,25 +75,7 @@ export default class FrontPagePanel extends React.Component {
     });
   }
 
-  closePanel() {
-    return this.selectPanel(this.getSelectedPanel());
-  }
-
-  startMeasuring() {
-    return startMeasuring();
-  }
-
-  stopMeasuring() {
-    const piwik = this.context.piwik;
-    const results = stopMeasuring();
-
-    if (piwik && results) {
-      // Piwik doesn't show event values, if they are too long, so we must round... >_<
-      piwik.trackEvent('perf', 'nearby-panel-drag', 'min', Math.round(results.min));
-      piwik.trackEvent('perf', 'nearby-panel-drag', 'max', Math.round(results.max));
-      piwik.trackEvent('perf', 'nearby-panel-drag', 'avg', Math.round(results.avg));
-    }
-  }
+  closePanel = () => this.selectPanel(this.getSelectedPanel())
 
   render() {
     let heading;

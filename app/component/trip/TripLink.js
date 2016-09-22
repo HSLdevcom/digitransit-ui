@@ -10,11 +10,15 @@ function TripLink(props) {
   const icon = (<IconWithTail
     className={cx(props.mode, 'tail-icon')}
     img={`icon-icon_${props.mode}-live`}
+    rotate={180}
   />);
 
   if (props.trip.trip) {
     return (<Link
-      to={props.trip.trip && `/lahdot/${props.trip.trip.gtfsId}`}
+      to={
+        `/linjat/${props.trip.trip.route.gtfsId}/pysakit/${
+          props.trip.trip.pattern.code}/${props.trip.trip.gtfsId}`
+      }
       className="route-now-content"
     >{icon}</Link>);
   }
@@ -37,6 +41,12 @@ export default Relay.createContainer(TripLink, {
       fragment on QueryType {
         trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
           gtfsId
+          pattern {
+            code
+          }
+          route {
+            gtfsId
+          }
         }
       }
     `,

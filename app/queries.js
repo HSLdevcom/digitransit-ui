@@ -24,20 +24,6 @@ export const RouteMarkerPopupFragments = {
   `,
 };
 
-export class SummaryPlanContainerRoute extends Relay.Route {
-  static queries = {
-    plan: (Component, variables) => Relay.QL`
-    query {
-      viewer {
-        ${Component.getFragment('plan', variables)}
-      }
-    }`,
-  };
-  static paramDefinitions = {
-  };
-  static routeName = 'PlanListContainerRoute';
-}
-
 export const ItinerarySummaryListContainerFragments = {
   itineraries: () => Relay.QL`
     fragment on Itinerary @relay(plural:true){

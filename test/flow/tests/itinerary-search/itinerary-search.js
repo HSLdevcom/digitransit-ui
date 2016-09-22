@@ -3,7 +3,7 @@ module.exports = {
   'Origin and destination exists in instructions if suggestion is chosen': (browser) => {
     browser.url(browser.launch_url);
 
-    browser.page.searchFields().itinerarySearch('Helsinki central railway', 'Narinkkatori');
+    browser.page.searchFields().itinerarySearch('helsingin rautatieasema', 'Narinkkatori');
 
     const itinerarySummary = browser.page.itinerarySummary();
     itinerarySummary.waitForFirstItineraryRow();
@@ -11,14 +11,14 @@ module.exports = {
 
     const itineraryInstructions = browser.page.itineraryInstructions();
     itineraryInstructions.waitForFirstItineraryInstructionColumn();
-    itineraryInstructions.verifyOrigin('Helsinki Central railway station, Helsinki');
+    itineraryInstructions.verifyOrigin('Helsingin rautatieasema, Helsinki');
     itineraryInstructions.verifyDestination('Narinkkatori, Helsinki');
     browser.end();
   },
 
-  'From King\'s gate to Pohjolanaukio': (browser) => {
+  'From Kuninkaanportti to Pohjolanaukio': (browser) => {
     browser.url(browser.launch_url);
-    browser.page.searchFields().itinerarySearch('King\'s gate', 'Pohjolanaukio');
+    browser.page.searchFields().itinerarySearch('kuninkaanportti', 'Pohjolanaukio');
     browser.page.itinerarySummary().waitForFirstItineraryRow();
 
     const itinerarySummary = browser.page.itinerarySummary();
@@ -27,7 +27,7 @@ module.exports = {
 
     const itineraryInstructions = browser.page.itineraryInstructions();
     itineraryInstructions.waitForFirstItineraryInstructionColumn();
-    itineraryInstructions.verifyOrigin('King\'s Gate,');
+    itineraryInstructions.verifyOrigin('Kuninkaanportti');
     itineraryInstructions.verifyDestination('Pohjolanaukio');
     browser.end();
   },

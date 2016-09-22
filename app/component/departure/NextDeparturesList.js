@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import sortBy from 'lodash/sortBy';
-import Distance from './distance';
+import Distance from './Distance';
 import RouteNumber from './RouteNumber';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
@@ -54,7 +54,10 @@ function NextDeparturesList(props) {
 
     // TODO: Should this be its own view component?
     return (
-      <Link to={`/linjat/${stoptime.pattern.code}`} key={stoptime.pattern.code}>
+      <Link
+        to={`/linjat/${stoptime.pattern.route.gtfsId}/pysakit/${stoptime.pattern.code}`}
+        key={stoptime.pattern.code}
+      >
         <div className="next-departure-row padding-vertical-normal border-bottom">
           <Distance distance={departure.distance} />
           <RouteNumber
