@@ -17,7 +17,7 @@ import app from './app';
 import translations from './translations';
 import { startLocationWatch } from './action/PositionActions';
 import { openFeedbackModal } from './action/feedback-action';
-import Feedback from './util/feedback';
+import { shouldDisplayPopup } from './util/Feedback';
 import history from './history';
 import buildInfo from './build-info';
 import DesktopWrapper from './component/util/DesktopWrapper';
@@ -32,6 +32,8 @@ const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PI
 
 if (!config.PIWIK_ADDRESS || config.PIWIK_ID == null) {
   piwik.trackEvent = () => {};
+  piwik.setCustomVariable = () => {};
+  piwik.trackPageView = () => {};
 }
 
 const addPiwik = (context) => (context.piwik = piwik); // eslint-disable-line no-param-reassign
@@ -71,7 +73,7 @@ function track() {
   const newHref = this.props.history.createHref(this.state.location);
 
   if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-    if (Feedback.shouldDisplayPopup(
+    if (shouldDisplayPopup(
       context
         .getComponentContext()
         .getStore('TimeStore')
@@ -179,10 +181,12 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   window.addEventListener('beforeinstallprompt', e => {
     piwik.trackEvent('installprompt', 'fired');
 
-    // e.userChoice will return a Promise.
-    e.userChoice.then(choiceResult =>
-      piwik.trackEvent('installprompt', 'result', choiceResult.outcome)
-    );
+    // e.userChoice will return a Promise. (Only in chrome, not IE)
+    if (e.userChoice) {
+      e.userChoice.then(choiceResult =>
+        piwik.trackEvent('installprompt', 'result', choiceResult.outcome)
+      );
+    }
   });
 
   // start positioning
@@ -205,8 +209,7 @@ if (typeof window.Intl !== 'undefined') {
   const modules = [System.import('intl')];
 
   for (const language of config.availableLanguages) {
-    // eslint-disable-next-line prefer-template
-    modules.push(System.import('intl/locale-data/jsonp/' + language));
+    modules.push(System.import(`intl/locale-data/jsonp/${language}`));
   }
 
   Promise.all(modules).then(callback);

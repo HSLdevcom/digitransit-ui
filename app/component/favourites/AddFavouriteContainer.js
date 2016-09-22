@@ -2,9 +2,12 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import Link from 'react-router/lib/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import isEmpty from 'lodash/isEmpty';
+import isNumber from 'lodash/isNumber';
 import Icon from '../icon/icon';
 import FavouriteIconTable from './FavouriteIconTable';
-import { addFavouriteLocation } from '../../action/FavouriteActions';
+import { addFavouriteLocation, deleteFavouriteLocation } from '../../action/FavouriteActions';
 import FakeSearchBar from '../search/fake-search-bar';
 import OneTabSearchModal from '../search/one-tab-search-modal';
 
@@ -15,69 +18,72 @@ class AddFavouriteContainer extends React.Component {
     router: PropTypes.object.isRequired,
   };
 
-  propTypes = {
-    className: PropTypes.string.isRequired,
-  };
-
-  constructor() {
-    super();
-    this.state = {
-      selectedIconId: undefined,
-      lat: undefined,
-      lon: undefined,
-      locationName: undefined,
-      address: undefined,
-      searchModalIsOpen: false,
-    };
+  static propTypes = {
+    favourite: PropTypes.object, // if specified edit mode is activated
   }
 
+  componentWillMount = () => {
+    if (this.isEdit()) {
+      this.setState({ favourite: this.props.favourite, searchModalIsOpen: false });
+    } else {
+      this.setState({ favourite: {
+        selectedIconId: undefined,
+        lat: undefined,
+        lon: undefined,
+        locationName: undefined,
+        address: undefined,
+        version: 1,
+      },
+      searchModalIsOpen: false });
+    }
+  }
 
   getFavouriteIconIds = () =>
     (['icon-icon_place', 'icon-icon_home', 'icon-icon_work', 'icon-icon_sport',
       'icon-icon_school', 'icon-icon_shopping']);
 
   setCoordinatesAndAddress = (name, location) => (
-    this.setState({
+    this.setState({ favourite: { ...this.state.favourite,
       lat: location.geometry.coordinates[1],
       lon: location.geometry.coordinates[0],
       address: name,
-    }));
+    } }));
+
+  isEdit = () => this.props.favourite !== undefined && this.props.favourite.id !== undefined;
 
   canSave = () => (
-      this.state.selectedIconId !== undefined &&
-      this.state.selectedIconId !== '' &&
-      this.state.lat !== undefined &&
-      this.state.lat !== '' &&
-      this.state.lon !== undefined &&
-      this.state.lon !== '' &&
-      this.state.locationName !== undefined &&
-      this.state.locationName !== ''
-    );
+    !isEmpty(this.state.favourite.selectedIconId) &&
+    isNumber(this.state.favourite.lat) &&
+    isNumber(this.state.favourite.lon) &&
+    !isEmpty(this.state.favourite.locationName)
+  );
 
   save = () => {
     if (this.canSave()) {
-      this.context.executeAction(addFavouriteLocation, this.state);
-      return this.context.router.replace('/');
+      this.context.executeAction(addFavouriteLocation, this.state.favourite);
+      this.quit();
     }
-    return undefined;
+  }
+
+  delete = () => {
+    this.context.executeAction(deleteFavouriteLocation, this.state.favourite);
+    this.quit();
+  }
+
+  quit = () => {
+    this.context.router.replace({ pathName: '/', state: { selectedPanel: 2 } });
   }
 
   specifyName = (event) => {
-    const input = event.target.value;
-
-    return this.setState({
-      locationName: input,
-    });
+    this.setState({ favourite: { ...this.state.favourite, locationName: event.target.value } });
   }
 
-  selectIcon = (id) => (
-    this.setState({
-      selectedIconId: id,
-    })
-  );
+  selectIcon = (id) => {
+    this.setState({ favourite: { ...this.state.favourite, selectedIconId: id } });
+  };
 
-  closeSearchModal() {
-    return this.setState({
+  closeSearchModal = () => {
+    this.setState({
       searchModalIsOpen: false,
     });
   }
@@ -93,9 +99,11 @@ class AddFavouriteContainer extends React.Component {
       defaultMessage: 'Favourite place',
     });
 
+    const favourite = this.state.favourite;
+
     return (<div className="fullscreen">
-      <div className={cx(this.props.className, 'add-favourite-container')}>
-        <Link to="/" className="right cursor-pointer">
+      <div className="add-favourite-container">
+        <Link to={{ pathName: '/', state: { selectedPanel: 2 } }} className="right cursor-pointer">
           <Icon id="add-favourite-close-icon" img="icon-icon_close" />
         </Link>
         <row>
@@ -105,11 +113,14 @@ class AddFavouriteContainer extends React.Component {
                 <Icon className={cx('add-favourite-star__icon', 'selected')} img="icon-icon_star" />
               </div>
               <div className="add-favourite-container__header-text small-11 columns">
-                <h3>
+                <h3>{(!this.isEdit() &&
                   <FormattedMessage
                     id="add-location-to-favourites"
                     defaultMessage="Add a location to your favourites tab"
-                  />
+                  />) || <FormattedMessage
+                    id="edit-favourites"
+                    defaultMessage="Edit favourite place"
+                  />}
                 </h3>
               </div>
             </header>
@@ -118,11 +129,10 @@ class AddFavouriteContainer extends React.Component {
                 <FormattedMessage id="specify-location" defaultMessage="Specify the location" />
               </h4>
               <FakeSearchBar
-                endpoint={{ address: (this.state != null ? this.state.address : undefined) || '',
+                endpoint={{ address: (this.state != null ? favourite.address : undefined) || '',
                 }} placeholder={destinationPlaceholder} onClick={e => {
                   e.preventDefault();
-
-                  return this.setState({
+                  this.setState({
                     searchModalIsOpen: true,
                   });
                 }} id="destination" className="add-favourite-container__input-placeholder"
@@ -134,6 +144,7 @@ class AddFavouriteContainer extends React.Component {
               <div className="add-favourite-container__input-placeholder">
                 <input
                   className="add-favourite-container__input"
+                  value={favourite.locationName}
                   placeholder={this.context.intl.formatMessage({
                     id: 'location-examples',
                     defaultMessage: 'e.g. Home, Work, Scool,...',
@@ -145,8 +156,8 @@ class AddFavouriteContainer extends React.Component {
               <h4><FormattedMessage id="pick-icon" defaultMessage="Select an icon" /></h4>
               <FavouriteIconTable
                 selectedIconId={(() => {
-                  if (this.state.selectedIconId !== 'undefined' || null) {
-                    return this.state.selectedIconId;
+                  if (favourite.selectedIconId !== 'undefined' || null) {
+                    return favourite.selectedIconId;
                   }
                   return undefined;
                 })()} favouriteIconIds={this.getFavouriteIconIds()} handleClick={this.selectIcon}
@@ -154,14 +165,33 @@ class AddFavouriteContainer extends React.Component {
             </div>
             <div className="add-favourite-container__save">
               <div
-                className={this.canSave() ? 'add-favourite-container__save-button' :
-                  'add-favourite-container__save-button--disabled'} onClick={this.save}
+                className={`add-favourite-container-button ${this.canSave() ? '' : 'disabled'}`}
+                onClick={this.save}
               >
                 <FormattedMessage
                   id="save" defaultMessage="Save"
                 />
               </div>
             </div>
+            {this.isEdit() &&
+              [(<div key="delete" className="add-favourite-container__save">
+                <div
+                  className="add-favourite-container-button delete" onClick={this.delete}
+                >
+                  <FormattedMessage
+                    id="delete" defaultMessage="Delete"
+                  />
+                </div>
+              </div>), (<div key="cancel" className="add-favourite-container__save">
+                <div
+                  className="add-favourite-container-button cancel" onClick={this.quit}
+                >
+                  <FormattedMessage
+                    id="cancel" defaultMessage="Cancel"
+                  />
+                </div>
+              </div>)]
+            }
           </div>
         </row>
       </div>
@@ -178,5 +208,14 @@ class AddFavouriteContainer extends React.Component {
   }
 }
 
+const AddFavouriteContainerWithFavourite = connectToStores(AddFavouriteContainer,
+  ['FavouriteLocationStore'],
+  (context, props) => (
+    { favourite:
+      props.params.id !== undefined ? context.getStore('FavouriteLocationStore')
+        .getById(parseInt(props.params.id, 10)) : {},
+    }
+  )
+);
 
-export default AddFavouriteContainer;
+export default AddFavouriteContainerWithFavourite;

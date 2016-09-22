@@ -1,9 +1,8 @@
 import Fluxible from 'fluxible';
 import routes from './routes';
-import CityBikeStore from './store/city-bike-store';
 import DisruptionInfoStore from './store/DisruptionInfoStore';
 import EndpointStore from './store/endpoint-store';
-import FavouriteLocationStore from './store/favourite-location-store';
+import FavouriteLocationStore from './store/FavouriteLocationStore';
 import FavouriteRoutesStore from './store/favourite-routes-store';
 import FavouriteStopsStore from './store/favourite-stops-store';
 import FeedbackStore from './store/feedback-store';
@@ -14,7 +13,7 @@ import NotImplementedStore from './store/not-implemented-store';
 import OldSearchesStore from './store/old-searches-store';
 import PositionStore from './store/PositionStore';
 import PreferencesStore from './store/PreferencesStore';
-import RealTimeInformationStore from './store/real-time-information-store';
+import RealTimeInformationStore from './store/RealTimeInformationStore';
 import SearchStore from './store/search-store';
 import ServiceStore from './store/service-store';
 import TimeStore from './store/TimeStore';
@@ -24,7 +23,6 @@ const app = new Fluxible({
   component: routes,
 });
 
-app.registerStore(CityBikeStore);
 app.registerStore(DisruptionInfoStore);
 app.registerStore(EndpointStore);
 app.registerStore(FavouriteLocationStore);

@@ -9,6 +9,7 @@ import { supportsHistory } from 'history/lib/DOMUtils';
 import SwipeableViews from 'react-swipeable-views';
 
 import ItineraryLine from '../map/ItineraryLine';
+import CityBikeMarker from '../map/non-tile-layer/CityBikeMarker';
 import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
 import Map from '../map/Map';
@@ -237,7 +238,7 @@ export const ItineraryPlanContainerFragments = {
               name
               vertexType
               bikeRentalStation {
-                stationId
+                ${CityBikeMarker.getFragment('station')}
               }
               stop {
                 gtfsId
@@ -251,7 +252,7 @@ export const ItineraryPlanContainerFragments = {
               name
               vertexType
               bikeRentalStation {
-                stationId
+                ${CityBikeMarker.getFragment('station')}
               }
               stop {
                 gtfsId
@@ -281,10 +282,14 @@ export const ItineraryPlanContainerFragments = {
             duration
             route {
               shortName
+              gtfsId
             }
             trip {
               gtfsId
               tripHeadsign
+              pattern {
+                code
+              }
             }
           }
           ${ItinerarySummaryListContainer.getFragment('itineraries')}

@@ -30,14 +30,18 @@ SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.53/selenium-serv
 
 if [[ $PLATFORM == 'Darwin' ]]; then
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-darwin-x64.zip"
+  SAUCELABS_CONNECT_URL="https://saucelabs.com/downloads/sc-4.3.16-osx.zip"
 elif [[ $ARCHITECTURE == 'i686' ]]; then
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-ia32.zip"
+  SAUCELABS_CONNECT_URL="https://saucelabs.com/downloads/sc-4.3.16-linux32.tar.gz"
 else
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
+  SAUCELABS_CONNECT_URL="https://saucelabs.com/downloads/sc-4.3.16-linux.tar.gz"
 fi
 
 NIGHTWATCH_BINARY="./node_modules/nightwatch/bin/nightwatch"
 BROWSERSTACK_LOCAL_BINARY="./test/flow/binaries/BrowserStackLocal"
+SAUCELABS_CONNECT_BINARY="./test/flow/binaries/sc"
 SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.53.0.jar"
 
 # checks for dependencies and downloads them if needed
@@ -54,6 +58,13 @@ function checkDependencies {
     curl -o $BROWSERSTACK_LOCAL_BINARY.zip $BROWSERSTACK_LOCAL_URL
     unzip $BROWSERSTACK_LOCAL_BINARY.zip
     mv BrowserStackLocal $BROWSERSTACK_LOCAL_BINARY
+  fi
+
+  if [ ! -f $SAUCELABS_CONNECT_BINARY ]; then
+    echo "Downloading SauceLabs Connect..."
+    curl -o $SAUCELABS_CONNECT_BINARY.tar.gz $SAUCELABS_CONNECT_URL
+    tar -v --no-anchored --strip-components=2 -x sc -f $SAUCELABS_CONNECT_BINARY.tar.gz
+    mv sc $SAUCELABS_CONNECT_BINARY
   fi
 }
 
@@ -125,6 +136,41 @@ elif [ "$1" == "browserstack" ]; then
   echo "Shutting down Browserstack tunnel"
   killtree $BROWSERSTACK_PID
   exit $TESTSTATUS
+elif [ "$1" == "saucelabs" ]; then
+  if [ "$#" -lt 3 ]; then
+    echo "ERROR: You need to use SauceLabs Username and API key as parameters"
+    echo "usage: npm run test-saucelabs -- SAUCELABS_USER SAUCELABS_KEY [noserver]"
+    exit
+  fi
+
+  $SAUCELABS_CONNECT_BINARY -u $2 -k $3 &
+  SAUCELABS_PID=$!
+
+  if [ "$4" == "noserver" ]; then
+    echo "Not starting local server."
+    START_SERVER=0
+  else
+    echo "Starting local server."
+    START_SERVER=1
+    npm run build; CONFIG=hsl PORT=8000 npm run start &
+    NODE_PID=$!
+  fi
+
+  # Wait for the server to start
+  sleep 10
+  # Then run tests
+  env SAUCELABS_USER=$2 SAUCELABS_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e sl-iphone --retries 3
+  TESTSTATUS=$?
+
+  # Kill Node and SL tunnel
+  if [ "$START_SERVER" == "1" ]; then
+    echo "Shutting down local server"
+    killtree $NODE_PID
+  fi
+
+  echo "Shutting down SauceLabs tunnel"
+  killtree $SAUCELABS_PID
+  exit $TESTSTATUS
 else
-  echo "Please specify environment. 'local' or 'browserstack'"
+  echo "Please specify environment. 'local', 'browserstack', or 'saucelabs'"
 fi

@@ -1,6 +1,7 @@
 import { VectorTile } from 'vector-tile';
-
 import Protobuf from 'pbf';
+import pick from 'lodash/pick';
+
 import config from '../../../config';
 import { drawRoundIcon, drawTerminalIcon } from '../../../util/mapIconUtils';
 
@@ -35,7 +36,7 @@ class Stops {
               this.tile.coords.z + (this.tile.props.zoomOffset || 0))
             ) {
               feature.geom = feature.loadGeometry()[0][0];
-              this.features.push(feature);
+              this.features.push(pick(feature, ['geom', 'properties']));
               drawRoundIcon(
                 this.tile,
                 feature.geom,
@@ -55,7 +56,7 @@ class Stops {
             const feature = vt.layers.stations.feature(i);
             if (feature.properties.type) {
               feature.geom = feature.loadGeometry()[0][0];
-              this.features.unshift(feature);
+              this.features.unshift(pick(feature, ['geom', 'properties']));
               drawTerminalIcon(
                 this.tile,
                 feature.geom,

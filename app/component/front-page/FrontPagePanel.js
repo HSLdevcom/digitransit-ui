@@ -9,7 +9,7 @@ import FavouritesPanel from '../favourites/FavouritesPanel';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';
-import Feedback from '../../util/feedback';
+import { shouldDisplayPopup } from '../../util/Feedback';
 import FeedbackAction from '../../action/feedback-action';
 
 import { startMeasuring, stopMeasuring } from '../../util/jankmeter';
@@ -34,7 +34,7 @@ export default class FrontPagePanel extends React.Component {
 
   onReturnToFrontPage() {
     const timeStore = this.context.getStore('TimeStore');
-    if (Feedback.shouldDisplayPopup(timeStore.getCurrentTime().valueOf())) {
+    if (shouldDisplayPopup(timeStore.getCurrentTime().valueOf())) {
       return this.context.executeAction(FeedbackAction.openFeedbackModal);
     }
     return undefined;

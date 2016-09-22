@@ -2,8 +2,13 @@ import React from 'react';
 import IconWithTail from './IconWithTail';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-const SelectedIconWithTail = ({ img }) => (
-  <IconWithTail img={img} className="selected-tail-icon" rotate={180} >
+const SelectedIconWithTail = ({ img, fullscreenMap }) => (
+  <IconWithTail
+    img={img}
+    className="selected-tail-icon"
+    rotate={180}
+    scrollIntoView={fullscreenMap}
+  >
     <svg>
       <circle strokeWidth="2" r="16" cx="40" cy="40" fill="rgba(0,0,0,0)" stroke="#575757" />
       <use xlinkHref={'#icon-icon_good-availability'} transform="translate(47,22) scale(0.15) " />
@@ -25,6 +30,7 @@ SelectedIconWithTail.description = (
 
 SelectedIconWithTail.propTypes = {
   img: React.PropTypes.string.isRequired,
+  fullscreenMap: React.PropTypes.bool,
 };
 
 export default SelectedIconWithTail;

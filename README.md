@@ -42,3 +42,4 @@ More information about [testing](docs/Tests.md).
 * [Installation](docs/Installation.md)
 * [Tests](docs/Tests.md)
 * [Z-Index Index](docs/ZIndex.md)
+* [Benchmark results and UX](docs/JSBenchmark.md)

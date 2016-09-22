@@ -93,8 +93,10 @@ export const station = {
 };
 
 export const favouriteLocation = {
-  locationName: 'Työ',
-  favouriteLocationIconId: 'icon-icon_place',
+  favourite: {
+    locationName: 'Työ',
+    selectedIconId: 'icon-icon_place',
+  },
   arrivalTime: 1444175199,
   departureTime: 1444165199,
   realtime: true,
