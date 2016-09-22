@@ -5,53 +5,6 @@ import DepartureRowContainer from './DepartureRowContainer';
 import BicycleRentalStationRowContainer from './BicycleRentalStationRowContainer';
 import config from '../../config';
 
-const carParkRowContainerFragment = () => Relay.QL`
-  fragment on CarPark {
-    name
-  }
-`;
-
-const CarParkRow = (props) => (<div>{props.station.name}</div>);
-
-CarParkRow.propTypes = {
-  station: React.PropTypes.object.isRequired,
-  distance: React.PropTypes.number.isRequired,
-};
-
-const CarParkRowContainer = Relay.createContainer(CarParkRow, {
-  fragments: {
-    station: carParkRowContainerFragment,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-  },
-});
-
-
-const bikeParkRowContainerFragment = () => Relay.QL`
-  fragment on BikePark {
-    name
-  }
-`;
-
-const BikeParkRow = (props) => (<div>{props.station.name}</div>);
-
-BikeParkRow.propTypes = {
-  station: React.PropTypes.object.isRequired,
-  distance: React.PropTypes.number.isRequired,
-};
-
-const BikeParkRowContainer = Relay.createContainer(BikeParkRow, {
-  fragments: {
-    station: bikeParkRowContainerFragment,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-  },
-});
-
 const placeAtDistanceFragment = variables => Relay.QL`
   fragment on placeAtDistance {
     distance
@@ -61,8 +14,6 @@ const placeAtDistanceFragment = variables => Relay.QL`
       ${DepartureRowContainer.getFragment('departure', { currentTime: variables.currentTime })}
       ${BicycleRentalStationRowContainer.getFragment('station', {
         currentTime: variables.currentTime })}
-      ${BikeParkRowContainer.getFragment('station', { currentTime: variables.currentTime })}
-      ${CarParkRowContainer.getFragment('station', { currentTime: variables.currentTime })}
     }
   }
 `;
@@ -81,22 +32,6 @@ const PlaceAtDistance = (props) => {
   } else if (props.placeAtDistance.place.__typename === 'BikeRentalStation') {
     place = (
       <BicycleRentalStationRowContainer
-        distance={props.placeAtDistance.distance}
-        station={props.placeAtDistance.place}
-        currentTime={props.currentTime}
-      />
-    );
-  } else if (props.placeAtDistance.place.__typename === 'BikePark') {
-    place = (
-      <BikeParkRowContainer
-        distance={props.placeAtDistance.distance}
-        station={props.placeAtDistance.place}
-        currentTime={props.currentTime}
-      />
-    );
-  } else if (props.placeAtDistance.place.__typename === 'CarPark') {
-    place = (
-      <CarParkRowContainer
         distance={props.placeAtDistance.distance}
         station={props.placeAtDistance.place}
         currentTime={props.currentTime}
