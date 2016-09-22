@@ -154,4 +154,17 @@ gemini.suite('components', () => {
     '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
     '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'
   ));
+
+  gemini.suite('DepartureRow', () => {
+    gemini.suite('Normal', test('DepartureRow', 1, [
+      '#DepartureRow .component-example:nth-of-type(1) .component .realtime-icon',
+    ]));
+    gemini.suite('With cancellation', test('DepartureRow', 2));
+  });
+
+  gemini.suite('BicycleRentalStationRow', () => {
+    gemini.suite('Plenty of bikes', test('BicycleRentalStationRow'));
+    gemini.suite('Few bikes', test('BicycleRentalStationRow', 2));
+    gemini.suite('No bikes', test('BicycleRentalStationRow', 3));
+  });
 });

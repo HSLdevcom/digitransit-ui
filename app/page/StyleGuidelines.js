@@ -12,7 +12,7 @@ import Departure from '../component/departure/Departure';
 import RouteNumber from '../component/departure/RouteNumber';
 import RouteDestination from '../component/departure/RouteDestination';
 import DepartureTime from '../component/departure/DepartureTime';
-import Distance from '../component/departure/distance';
+import Distance from '../component/departure/Distance';
 import PlatformNumber from '../component/departure/PlatformNumber';
 import NotImplemented from '../component/util/not-implemented';
 import NotImplementedLink from '../component/util/not-implemented-link';
@@ -45,9 +45,10 @@ import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
 import Availability from '../component/card/Availability.js';
 import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
+import { DepartureRow } from '../component/departure/DepartureRowContainer';
+import { BicycleRentalStationRow } from '../component/departure/BicycleRentalStationRowContainer';
 
 class StyleGuidelinesPage extends React.Component {
-
   static propTypes = {
     params: React.PropTypes.object,
   };
@@ -96,6 +97,8 @@ class StyleGuidelinesPage extends React.Component {
     RouteAlertsRow,
     ModeFilter,
     RouteStop,
+    DepartureRow,
+    BicycleRentalStationRow,
   }
 
   getColors() {
