@@ -26,20 +26,20 @@ $hsl-metro-orange: #ff6319;
 $hsl-rail-red: #8c4799;
 $vr-rail-green: rgb(100, 190, 20);
 
-$joensuu-purple: #5c4696;
-$joensuu-dark-purple: #4e3c80;
-$joensuu-bus-blue:  #009fe3;
-$joensuu-orange: #ff7200;
-$joensuu-rail-green: #64be14;
+$turku-purple: #5c4696;
+$turku-dark-purple: #4e3c80;
+$turku-bus-blue:  #009fe3;
+$turku-orange: #ff7200;
+$turku-rail-green: #64be14;
 
 
-$primary-color: $joensuu-purple;
+$primary-color: $turku-purple;
 $primary-font-color: $white;
-$secondary-color: $joensuu-dark-purple;
+$secondary-color: $turku-dark-purple;
 $secondary-font-color: $white;
 $title-color: $white;
 $favourite-color: $livi-gold;
-$hilight-color: $joensuu-orange;
+$hilight-color: $turku-orange;
 $action-color: $livi-logo-blue;
 $cancelation-red: #dc0451;
 $cancelation-black: #666;
@@ -50,7 +50,7 @@ $standalone-btn-color: $primary-color;
 $standalone-btn-hover-color: $gray-blue-light;
 
 /* Markers */
-$viewpoint-marker-color: $joensuu-orange;
+$viewpoint-marker-color: $turku-orange;
 
 /* Fonts */
 $font-family: Lato, Arial, Georgia, Serif;
@@ -78,19 +78,19 @@ $font-size-xlarge: 32px;
 $background-color: #eef1f3;
 $dark-color: $gray;
 
-$link-color: $joensuu-purple;
+$link-color: $turku-purple;
 $realtime-color: #46b32a;
 
 /* Vehicle colors */
 $airplane-color: $livi-airplane-blue;
-$bus-color: $joensuu-bus-blue;
+$bus-color: $turku-bus-blue;
 $tram-color: $livi-tram-green;
 $metro-color: $livi-subway-orange;
-$rail-color: $joensuu-rail-green;
+$rail-color: $turku-rail-green;
 $ferry-color: $livi-ferry-blue;
 $citybike-color: #FBB800;
-$from-color: $joensuu-rail-green;
-$to-color: $joensuu-orange;
+$from-color: $turku-rail-green;
+$to-color: $turku-orange;
 $walk-color: #6ba3af;
 $wait-color: #979797;
 $bicycle-color: #64be14;
