@@ -1,167 +1,34 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Helmet from 'react-helmet';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import Link from 'react-router/lib/Link';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { intlShape } from 'react-intl';
 import some from 'lodash/some';
+import mapProps from 'recompose/mapProps';
+import getContext from 'recompose/getContext';
+import compose from 'recompose/compose';
 
-import Map from '../component/map/Map';
 import DepartureListContainer from '../component/departure/DepartureListContainer';
-import StopCardHeader from '../component/stop-cards/StopCardHeader';
-import { addFavouriteStop } from '../action/FavouriteActions';
-import Icon from '../component/icon/icon';
 
-function StopPage(props, { intl, router, executeAction }) {
-  const isTerminal = !(props.params.stopId);
-  const prefix = isTerminal ? 'terminaalit' : 'pysakit';
-  const id = isTerminal ? props.params.terminalId : props.params.stopId;
-  const fullscreenMap = some(props.routes, 'fullscreenMap');
-
-  const params = {
-    stop_name: props.stop.name,
-    stop_code: props.stop.code,
-  };
-
-  const title = isTerminal ?
-  intl.formatMessage({
-    id: 'terminal-page.title-short',
-    defaultMessage: 'Terminal',
-  }, params)
-  :
-  intl.formatMessage({
-    id: 'stop-page.title',
-    defaultMessage: 'Stop {stop_name} - {stop_code}',
-  }, params);
-
-  const meta = isTerminal ?
-  {
-    title,
-    meta: [{
-      name: 'description',
-      content: intl.formatMessage({
-        id: 'terminal-page.description',
-        defaultMessage: 'Terminal {stop_name}',
-      }, params),
-    }],
-  } : {
-    title,
-    meta: [{
-      name: 'description',
-      content: intl.formatMessage({
-        id: 'stop-page.description',
-        defaultMessage: 'Stop {stop_name} - {stop_code}',
-      }, params),
-    }],
-  };
-
-  const addAsFavouriteStop = e => {
-    e.stopPropagation();
-    executeAction(addFavouriteStop, id);
-  };
-
-  const toggleFullscreenMap = () =>
-    router.push(`/${prefix}/${id}${fullscreenMap ? '' : '/kartta'}`);
-
-  const contents = fullscreenMap ? null : (
-    <DepartureListContainer
-      stoptimes={props.stop.stoptimes}
-      key="departures"
-      className="stop-page momentum-scroll"
-      routeLinks
-      infiniteScroll
-      isTerminal={isTerminal}
-      rowClasses="padding-normal border-bottom"
-    />);
-
-  return (
-    <div className="fullscreen stop">
-      <Helmet {...meta} />
-      <ReactCSSTransitionGroup
-        transitionName="stop-page-content"
-        transitionEnterTimeout={300}
-        transitionLeaveTimeout={300}
-        component="div"
-        className="stop-page-content"
-      >
-        <StopCardHeader
-          stop={props.stop}
-          favourite={props.favourite}
-          addFavouriteStop={isTerminal ? false : addAsFavouriteStop}
-          key="header"
-          className="stop-page header"
-          headingStyle="h3"
-          infoIcon={!isTerminal}
-        />
-        <Map
-          className="full"
-          lat={props.stop.lat}
-          lon={props.stop.lon}
-          zoom={isTerminal || props.stop.platformCode ? 18 : 16}
-          key="map"
-          showStops
-          hilightedStops={[id]}
-          disableZoom={!fullscreenMap}
-        >
-          {fullscreenMap ? null :
-            <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
-          <Link to={`/${prefix}/${id}${fullscreenMap ? '' : '/kartta'}`}>
-            <div className="fullscreen-toggle">
-              <Icon img="icon-icon_maximize" className="cursor-pointer" />
-            </div>
-          </Link>
-        </Map>
-        {contents}
-      </ReactCSSTransitionGroup>
-    </div>
-  );
-}
-
-StopPage.propTypes = {
-  params: React.PropTypes.shape({
-    stopId: React.PropTypes.string,
-    terminalId: React.PropTypes.string,
-  }).isRequired,
-  stop: React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired,
-    code: React.PropTypes.string,
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
-    stoptimes: React.PropTypes.array,
-    platformCode: React.PropTypes.string,
-  }),
-  favourite: React.PropTypes.bool,
-  fullscreenMap: React.PropTypes.bool,
-};
-
-StopPage.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
-  router: React.PropTypes.object.isRequired,
-  intl: intlShape,
-};
+const StopPage = compose(
+  getContext({ breakpoint: React.PropTypes.string.isRequired }),
+  mapProps(props => (some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : {
+    stoptimes: props.stop.stoptimes,
+    key: 'departures',
+    className: 'stop-page momentum-scroll',
+    routeLinks: true,
+    infiniteScroll: true,
+    isTerminal: !(props.params.stopId),
+    rowClasses: 'padding-normal border-bottom',
+  }))
+)(DepartureListContainer);
 
 const StopPageContainer = Relay.createContainer(StopPage, {
   fragments: {
     stop: () => Relay.QL`
       fragment on Stop {
-        lat
-        lon
-        name
-        code
-        platformCode
-        routes {
-          gtfsId
-          shortName
-          longName
-          mode
-          color
-        }
         stoptimes: stoptimesForServiceDate(date: $date) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
-        ${StopCardHeader.getFragment('stop')}
       }
     `,
   },
@@ -172,7 +39,6 @@ const StopPageContainer = Relay.createContainer(StopPage, {
 });
 
 export default connectToStores(StopPageContainer, ['TimeStore', 'FavouriteStopsStore'],
-  ({ getStore }, { params }) => ({
+  ({ getStore }) => ({
     date: getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
-    favourite: getStore('FavouriteStopsStore').isFavourite(params.stopId),
   }));

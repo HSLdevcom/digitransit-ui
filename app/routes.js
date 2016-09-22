@@ -2,6 +2,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
+import ContainerDimensions from 'react-container-dimensions';
 
 // React pages
 import IndexPage from './page/IndexPage';
@@ -23,6 +24,9 @@ import RouteScheduleContainer from './component/route/RouteScheduleContainer';
 import PatternStopsContainer from './component/route/PatternStopsContainer';
 import TripStopsContainer from './component/trip/TripStopsContainer';
 import RouteTitle from './component/route/RouteTitle';
+import StopPageMap from './component/stop/StopPageMap';
+import StopPageHeader from './component/stop/StopPageHeader';
+
 
 import TopLevel from './component/TopLevel';
 
@@ -69,7 +73,10 @@ const terminalQueries = {
 };
 
 const routes = (
-  <Route path="/" component={TopLevel}>
+  <Route
+    path="/"
+    component={(props) => <ContainerDimensions><TopLevel {...props} /></ContainerDimensions>}
+  >
     <IndexRoute
       topBarOptions={{
         disableBackButton: true,
@@ -87,9 +94,15 @@ const routes = (
         path=":stopId"
         components={{
           title: () => <span>Pysäkki</span>, // TODO: Add FormattedMessage
+          header: StopPageHeader,
           content: StopPage,
+          map: StopPageMap,
         }}
-        queries={{ content: StopQueries }}
+        queries={{
+          header: StopQueries,
+          content: StopQueries,
+          map: StopQueries,
+        }}
       >
         <Route path="kartta" fullscreenMap />
         <Route path="info" component={Error404} />
