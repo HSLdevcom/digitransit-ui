@@ -146,7 +146,7 @@ function getContent(context, renderProps, locale, userAgent) {
 
 function getHtml(context, renderProps, locale, polyfills, req) {
   // Render content in order to create required meta-tags using react-hemet
-  getContent(context, renderProps, locale, req.headers['user-agent']);
+  // getContent(context, renderProps, locale, req.headers['user-agent']);
 
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
