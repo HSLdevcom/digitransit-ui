@@ -162,15 +162,13 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   ReactDOM.render(
     <ContextProvider translations={translations} context={context.getComponentContext()}>
       <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
-        <DesktopWrapper>
-          <Router
-            history={history}
-            environment={Relay.Store}
-            render={applyRouterMiddleware(useRelay)}
-            children={app.getComponent()}
-            onUpdate={track}
-          />
-        </DesktopWrapper>
+        <Router
+          history={history}
+          environment={Relay.Store}
+          render={applyRouterMiddleware(useRelay)}
+          children={app.getComponent()}
+          onUpdate={track}
+        />
       </MuiThemeProvider>
     </ContextProvider>
     , document.getElementById('app')
