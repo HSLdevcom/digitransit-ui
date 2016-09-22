@@ -79,8 +79,6 @@ class ItineraryPage extends React.Component {
   }
 
   render() {
-    let plan;
-
     // dependencies from config
     const preferredAgencies = config.preferredAgency || '';
 
@@ -93,48 +91,6 @@ class ItineraryPage extends React.Component {
 
     // dependencies from time store
     const time = this.state && this.state.time;
-
-    if (search && time) {
-      plan = (
-        <Relay.RootContainer
-          Component={ItineraryPlanContainer}
-          route={new PlanRoute({
-            fromPlace: this.props.params.from,
-            toPlace: this.props.params.to,
-            from,
-            to,
-            numItineraries: 3,
-            modes: search.modes,
-            date: time.selectedTime.format('YYYY-MM-DD'),
-            time: time.selectedTime.format('HH:mm:ss'),
-            walkReluctance: search.walkReluctance + 0.000099,
-            walkBoardCost: search.walkBoardCost,
-            minTransferTime: search.minTransferTime,
-            walkSpeed: search.walkSpeed + 0.000099,
-            maxWalkDistance: search.maxWalkDistance + 0.1,
-            wheelchair: search.wheelchair,
-
-            preferred: {
-              agencies: preferredAgencies,
-            },
-
-            arriveBy: time.arriveBy,
-            disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic,
-            hash: this.props.params.hash,
-          })}
-          renderFailure={error => {
-            this.context.raven.captureMessage('OTP returned an error when requesting a plan', {
-              extra: error,
-            });
-
-            return <div><NoRoutePopup /></div>;
-          }}
-          renderLoading={() => <div className="spinner-loader" />}
-        />
-      );
-    } else {
-      plan = <div className="spinner-loader" />;
-    }
 
     const title = this.context.intl.formatMessage({
       id: 'itinerary-page.title',
@@ -152,16 +108,44 @@ class ItineraryPage extends React.Component {
           defaultMessage: 'Route',
         }),
       }],
-    };
+    }; // TODO: add back helmet
 
     return (
-      <DefaultNavigation
-        className="fullscreen"
-        title={title}
-      >
-        <Helmet {...meta} />
-        {plan}
-      </DefaultNavigation>
+      <Relay.RootContainer
+        Component={ItineraryPlanContainer}
+        route={new PlanRoute({
+          fromPlace: this.props.params.from,
+          toPlace: this.props.params.to,
+          from,
+          to,
+          numItineraries: 3,
+          modes: search.modes,
+          date: time.selectedTime.format('YYYY-MM-DD'),
+          time: time.selectedTime.format('HH:mm:ss'),
+          walkReluctance: search.walkReluctance + 0.000099,
+          walkBoardCost: search.walkBoardCost,
+          minTransferTime: search.minTransferTime,
+          walkSpeed: search.walkSpeed + 0.000099,
+          maxWalkDistance: search.maxWalkDistance + 0.1,
+          wheelchair: search.wheelchair,
+
+          preferred: {
+            agencies: preferredAgencies,
+          },
+
+          arriveBy: time.arriveBy,
+          disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic,
+          hash: this.props.params.hash,
+        })}
+        renderFailure={error => {
+          this.context.raven.captureMessage('OTP returned an error when requesting a plan', {
+            extra: error,
+          });
+
+          return <div><NoRoutePopup /></div>;
+        }}
+        renderLoading={() => <div className="spinner-loader" />}
+      />
     );
   }
 }

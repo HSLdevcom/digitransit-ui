@@ -4,10 +4,8 @@ import Helmet from 'react-helmet';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'react-router/lib/Link';
 
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Icon from '../component/icon/icon';
 import FavouriteRouteContainer from '../component/favourites/FavouriteRouteContainer';
-import RouteNumber from '../component/departure/RouteNumber';
 import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClientAction';
 import NotFound from './404';
 
@@ -68,17 +66,7 @@ class RoutePage extends React.Component {
     };
 
     return (
-      <DefaultNavigation
-        className="fullscreen"
-        title={
-          <Link to={`/linjat/${this.props.route.gtfsId}`}>
-            <RouteNumber
-              mode={this.props.route.mode}
-              text={this.props.route.shortName}
-            />
-          </Link>
-        }
-      >
+      <div className="fullscreen">
         <Helmet {...meta} />
         <FavouriteRouteContainer
           className="route-page-header"
@@ -109,7 +97,7 @@ class RoutePage extends React.Component {
             {this.props.children}
           </article>
         </div>
-      </DefaultNavigation>
+      </div>
     );
   }
 }

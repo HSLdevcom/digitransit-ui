@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import meta from '../meta';
 import configureMoment from '../util/configure-moment';
+import DefaultNavigation from './navigation/DefaultNavigation';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -28,12 +29,13 @@ class TopLevel extends React.Component {
   render() {
     configureMoment(this.context.intl.locale);
     const metadata = meta(this.context.intl.locale);
+    const topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
 
     return (
-      <div className="fullscreen">
+      <DefaultNavigation className="fullscreen" title={this.props.title} {...topBarOptions}>
         <Helmet {...metadata} />
-        {this.props.children}
-      </div>
+        {this.props.children || this.props.content}
+      </DefaultNavigation>
     );
   }
 }

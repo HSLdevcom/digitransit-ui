@@ -9,7 +9,7 @@ import ItineraryPage from './page/ItineraryPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
-import LoadingPage from './page/loading';
+// import LoadingPage from './page/loading'; TODO: Re-add loadingspinners where wanted
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
@@ -22,8 +22,11 @@ import RoutePatternSelectContainer from './component/route/RoutePatternSelectCon
 import RouteScheduleContainer from './component/route/RouteScheduleContainer';
 import PatternStopsContainer from './component/route/PatternStopsContainer';
 import TripStopsContainer from './component/trip/TripStopsContainer';
+import RouteTitle from './component/route/RouteTitle';
 
 import TopLevel from './component/TopLevel';
+
+import config from './config';
 
 const StopQueries = {
   stop: () => Relay.QL`
@@ -67,49 +70,50 @@ const terminalQueries = {
 
 const routes = (
   <Route path="/" component={TopLevel}>
-    <IndexRoute component={splashOrComponent(IndexPage)} />
+    <IndexRoute
+      topBarOptions={{
+        disableBackButton: true,
+        showDisruptionInfo: true,
+        showLogo: config.useNavigationLogo,
+      }}
+      components={{
+        title: () => <span>{config.title}</span>,
+        content: splashOrComponent(IndexPage),
+      }}
+    />
     <Route path="pysakit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
-      <Route path=":stopId">
-        <IndexRoute
-          component={StopPage}
-          queries={StopQueries}
-          render={({ props }) => (props ? <StopPage {...props} /> : <LoadingPage />)}
-        />
-        <Route
-          path="kartta"
-          component={StopPage}
-          queries={StopQueries}
-          render={({ props }) => (props ? <StopPage {...props} fullscreenMap /> : <LoadingPage />)}
-        />
+      <Route
+        path=":stopId"
+        components={{
+          title: () => <span>Pysäkki</span>, // TODO: Add FormattedMessage
+          content: StopPage,
+        }}
+        queries={{ content: StopQueries }}
+      >
+        <Route path="kartta" fullscreenMap />
         <Route path="info" component={Error404} />
       </Route>
     </Route>
     <Route path="terminaalit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all terminals*/}
-      <Route path=":terminalId">
-        <IndexRoute
-          component={StopPage}
-          queries={terminalQueries}
-          render={({ props }) => (props ? <StopPage {...props} isTerminal /> : <LoadingPage />)}
-        />
-        <Route
-          path="kartta"
-          component={StopPage}
-          queries={terminalQueries}
-          render={({ props }) => (
-            props ? <StopPage {...props} isTerminal fullscreenMap /> : <LoadingPage />
-          )}
-        />
+      <Route
+        path=":terminalId"
+        components={{
+          title: () => <span>Terminaali</span>, // TODO: Add FormattedMessage
+          content: StopPage,
+        }}
+        queries={{ content: terminalQueries }}
+      >
+        <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
     <Route path="linjat">
       <IndexRoute component={Error404} />
       <Route
         path=":routeId"
-        component={RoutePage}
-        queries={RouteQueries}
-        render={({ props }) => (props ? <RoutePage {...props} /> : <LoadingPage />)}
+        components={{ title: RouteTitle, content: RoutePage }}
+        queries={{ title: RouteQueries, content: RouteQueries }}
       >
         <IndexRedirect to="pysakit" />
         <Route path="pysakit" component={RoutePatternSelectContainer} queries={RouteQueries}>
@@ -140,14 +144,24 @@ const routes = (
         <Route path="hairiot" component={RouteAlertsContainer} queries={RouteQueries} />
       </Route>
     </Route>
-    <Route path="reitti/:from/:to" component={SummaryPage} />
-    <Route path="reitti/:from/:to/:hash" component={ItineraryPage} />
-    <Route path="reitti/:from/:to/:hash/navigoi" component={Error404} />
+    <Route
+      path="reitti/:from/:to"
+      components={{ title: () => <span>Reittiehdotukset</span>, content: SummaryPage }}
+    />
+    <Route
+      path="reitti/:from/:to/:hash"
+      components={{ title: () => <span>Reittiohje</span>, content: ItineraryPage }}
+    />
     <Route path="styleguide" component={StyleGuidelines} />
     <Route path="styleguide/component/:componentName" component={StyleGuidelines} />
     <Route path="suosikki/uusi" component={AddFavouritePage} />
     <Route path="suosikki/muokkaa/:id" component={AddFavouritePage} />
-    <Route path="tietoja-palvelusta" name="about" component={AboutPage} />
+    <Route
+      path="tietoja-palvelusta"
+      components={{
+        title: () => <span>{config.title}</span>,
+        content: AboutPage }}
+    />
     {/* Main menu does not open without this in mock mode? */}
     <Route path="/?mock" name="mockIndex" component={IndexPage} />
   </Route>

@@ -35,19 +35,13 @@ class IndexPage extends React.Component {
 
   render() {
     return (
-      <DefaultNavigation
-        className="front-page fullscreen"
-        disableBackButton
-        showDisruptionInfo
-        title={Config.title}
-        showLogo={Config.useNavigationLogo}
-      >
+      <div className="front-page fullscreen">
         <MapWithTracking showStops>
           <SearchMainContainer />
         </MapWithTracking>
         <FrontPagePanel />
         <FeedbackPanel />
-      </DefaultNavigation>
+      </div>
     );
   }
 }

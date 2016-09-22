@@ -6,8 +6,8 @@ import Link from 'react-router/lib/Link';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
+import some from 'lodash/some';
 
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Map from '../component/map/Map';
 import DepartureListContainer from '../component/departure/DepartureListContainer';
 import StopCardHeader from '../component/stop-cards/StopCardHeader';
@@ -18,6 +18,7 @@ function StopPage(props, { intl, router, executeAction }) {
   const isTerminal = !(props.params.stopId);
   const prefix = isTerminal ? 'terminaalit' : 'pysakit';
   const id = isTerminal ? props.params.terminalId : props.params.stopId;
+  const fullscreenMap = some(props.routes, 'fullscreenMap');
 
   const params = {
     stop_name: props.stop.name,
@@ -62,9 +63,9 @@ function StopPage(props, { intl, router, executeAction }) {
   };
 
   const toggleFullscreenMap = () =>
-    router.push(`/${prefix}/${id}${props.fullscreenMap ? '' : '/kartta'}`);
+    router.push(`/${prefix}/${id}${fullscreenMap ? '' : '/kartta'}`);
 
-  const contents = props.fullscreenMap ? null : (
+  const contents = fullscreenMap ? null : (
     <DepartureListContainer
       stoptimes={props.stop.stoptimes}
       key="departures"
@@ -76,7 +77,7 @@ function StopPage(props, { intl, router, executeAction }) {
     />);
 
   return (
-    <DefaultNavigation className="fullscreen stop" title={title}>
+    <div className="fullscreen stop">
       <Helmet {...meta} />
       <ReactCSSTransitionGroup
         transitionName="stop-page-content"
@@ -102,11 +103,11 @@ function StopPage(props, { intl, router, executeAction }) {
           key="map"
           showStops
           hilightedStops={[id]}
-          disableZoom={!props.fullscreenMap}
+          disableZoom={!fullscreenMap}
         >
-          {props.fullscreenMap ? null :
+          {fullscreenMap ? null :
             <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
-          <Link to={`/${prefix}/${id}${props.fullscreenMap ? '' : '/kartta'}`}>
+          <Link to={`/${prefix}/${id}${fullscreenMap ? '' : '/kartta'}`}>
             <div className="fullscreen-toggle">
               <Icon img="icon-icon_maximize" className="cursor-pointer" />
             </div>
@@ -114,7 +115,7 @@ function StopPage(props, { intl, router, executeAction }) {
         </Map>
         {contents}
       </ReactCSSTransitionGroup>
-    </DefaultNavigation>
+    </div>
   );
 }
 
