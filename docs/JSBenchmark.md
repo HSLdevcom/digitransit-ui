@@ -6,6 +6,7 @@ Digitransit-ui UX depends on browser JS engine performance. In here, we keep tra
 
 | Device                                    | Result |
 |-------------------------------------------|--------|
+| i7-4810MQ CPU @ 2.80GHz (Chrome)          | 211   |
 | E3-1505M v5 @ 2.80Ghz (Chromium)          | 206    |
 | i5-4440 CPU @ 3.10GHz (Edge)              | 194    |
 | MBP I7-4850HQ @ 2,3GHz i7 (Chrome)        | 182    |
