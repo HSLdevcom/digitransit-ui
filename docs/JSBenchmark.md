@@ -6,10 +6,12 @@ Digitransit-ui UX depends on browser JS engine performance. In here, we keep tra
 
 | Device                                    | Result |
 |-------------------------------------------|--------|
+| E3-1505M v5 @ 2.80Ghz (Chromium)          | 206    |
 | MBP I7-4850HQ @ 2,3GHz i7 (Chrome)        | 182    |
 | i7-4700MQ @2,40GHz WIN10 (Edge) (Chrome)  | 170    |
 | iPhone 7 (Chrome)                         | 169    |
 | i7-5500U CPU @ 2.40GHz (Chromium)         | 159    |
+| i5-4440 CPU @ 3.10GHz (Chrome)            | 158    |
 | i7-4700MQ @2,40GHz WIN10 (Edge) (Firefox) | 147    |
 | i7-2620M CPU @ 2.70GHz (Chromium)         | 135    |
 | iPhone 6s (Chrome)                        | 119    |
@@ -26,8 +28,10 @@ Digitransit-ui UX depends on browser JS engine performance. In here, we keep tra
 | Honor 5 (Chrome)                          | 30     |
 | Nexus 5 (Chrome)                          | 27     |
 | LG G4 (Chrome)                            | 27     |
+| Samsung J5 2016 (Chrome)                  | 18     | 
 | Lumia 650 (Edge)                          | 15     |
 | Lumia 635 (IE)                            | 11     |
+| Jolla 1.1.9.28 (Sailfish Browser)         | 11     |
 
 ## Analysis
 
