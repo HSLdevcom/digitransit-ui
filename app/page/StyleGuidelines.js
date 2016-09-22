@@ -48,7 +48,7 @@ import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailabi
 import {
   DepartureRow,
   BicycleRentalStationRow,
-} from '../component/route/PlaceAtDistanceListContainer';
+} from '../component/departure/PlaceAtDistanceListContainer';
 
 class StyleGuidelinesPage extends React.Component {
   static propTypes = {
