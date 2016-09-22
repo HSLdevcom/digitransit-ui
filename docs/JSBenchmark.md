@@ -7,6 +7,7 @@ Digitransit-ui UX depends on browser JS engine performance. In here, we keep tra
 | Device                                    | Result |
 |-------------------------------------------|--------|
 | E3-1505M v5 @ 2.80Ghz (Chromium)          | 206    |
+| i5-4440 CPU @ 3.10GHz (Edge)              | 194    |
 | MBP I7-4850HQ @ 2,3GHz i7 (Chrome)        | 182    |
 | i7-4700MQ @2,40GHz WIN10 (Edge) (Chrome)  | 170    |
 | iPhone 7 (Chrome)                         | 169    |
@@ -21,6 +22,8 @@ Digitransit-ui UX depends on browser JS engine performance. In here, we keep tra
 | Samsung Galaxy S7 (Chrome)                | 58     |
 | Samsung Galaxy S6 (Chrome)                | 49     |
 | Xperia Z5C (Chrome)                       | 47     |
+| Xperia Z5P (Chrome)                       | 47     |
+| LG GFlex2 (Chrome)                        | 35     |
 | LG G2 (Chrome)                            | 31     |
 | 1+1 "2014 Flagship killer" (Chrome)       | 31     |
 | Lumia 950 (Edge)                          | 31     |
@@ -30,6 +33,7 @@ Digitransit-ui UX depends on browser JS engine performance. In here, we keep tra
 | LG G4 (Chrome)                            | 27     |
 | Samsung J5 2016 (Chrome)                  | 18     | 
 | Lumia 650 (Edge)                          | 15     |
+| Moto G 4G XT1039 (Cyanogen 12.1)          | 12     |
 | Lumia 635 (IE)                            | 11     |
 | Jolla 1.1.9.28 (Sailfish Browser)         | 11     |
 
