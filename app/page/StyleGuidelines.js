@@ -45,8 +45,8 @@ import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
 import Availability from '../component/card/Availability.js';
 import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
+import { DepartureRow } from '../component/departure/DepartureRowContainer';
 import {
-  DepartureRow,
   BicycleRentalStationRow,
 } from '../component/departure/PlaceAtDistanceListContainer';
 
