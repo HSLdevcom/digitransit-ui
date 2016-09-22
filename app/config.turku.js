@@ -1,4 +1,4 @@
-const CONFIG = process.env.CONFIG || 'joensuu';
+const CONFIG = process.env.CONFIG || 'turku';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const APP_DESCRIPTION =
   'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
@@ -11,7 +11,7 @@ export default {
     STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
   },
 
-  title: 'joensuu.digitransit.fi',
+  title: 'turku.digitransit.fi',
   useNavigationLogo: true,
 
   contactName: {
@@ -30,8 +30,8 @@ export default {
   availableLanguages: ['fi', 'sv', 'en'],
 
   initialLocation: {
-    lat: 62.6024263,
-    lon: 29.7569847,
+    lat: 60.451159,
+    lon: 22.267633,
   },
 
   cityBike: {
@@ -45,7 +45,7 @@ export default {
   },
 
   socialMedia: {
-    title: 'Uusi Reittiopas - Joensuu',
+    title: 'Uusi Reittiopas - Turku',
     description: APP_DESCRIPTION,
   },
 
@@ -81,30 +81,30 @@ export default {
 
   showModeFilter: false,
 
-  areaPolygon: [[29.2154, 62.2692], [29.2154, 62.9964], [31.0931, 62.9964], [31.0931, 62.2692]],
+  areaPolygon: [[21.81, 60.40], [21.81, 60.69], [22.80, 60.69], [22.80, 60.40]],
 
   defaultEndpoint: {
-    address: 'Keskusta, Joensuu',
-    lat: 62.6024263,
-    lon: 29.7569847,
+    address: 'Kauppatori, Turku',
+    lat: 60.451159,
+    lon: 22.267633,
   },
 
   /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
-      about: 'Tämä on Joensuun kaupungin testi uudeksi reittioppaaksi Joensuun alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
+      about: 'Tämä on Turun kaupungin testi uudeksi reittioppaaksi Turun alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
       digitransit: 'Digitransit palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote. Lähdekoodi tarjotaan EUPL v1.2 ja AGPLv3 lisensseillä.',
       datasources: 'Kartat, kadut, rakennukset, pysäkkisijainnit ym. tiedot tarjoaa © OpenStreetMap contributors ja ne ladataan Geofabrik palvelusta. Osoitetiedot tuodaan VRK:n rakennustietorekisteristä ja ne ladataan OpenAddresses-palvelusta. Joukkoliikenteen reitit ja aikataulut ladataan HSL:n dev.hsl.fi/gtfs palvelimelta.',
     },
 
     sv: {
-      about: 'This is a test service for Joensuu area route planning. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+      about: 'This is a test service for Turku area route planning. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
       digitransit: 'Digitransit service platform is created by HSL Finnish Transport Agency. The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.',
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
 
     en: {
-      about: 'This is a test service for Joensuu area route planning. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+      about: 'This is a test service for Turku area route planning. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
       digitransit: 'Digitransit service platform is created by HSL Finnish Transport Agency. The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.',
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
