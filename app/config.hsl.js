@@ -23,6 +23,8 @@ export default {
     default: 'HSL',
   },
 
+  enableDesktopWrapper: false,
+
   preferredAgency: 'HSL',
 
   searchParams: {
