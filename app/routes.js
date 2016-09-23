@@ -97,11 +97,13 @@ const routes = (
           header: StopPageHeader,
           content: StopPage,
           map: StopPageMap,
+          meta: StopPageMeta,
         }}
         queries={{
           header: StopQueries,
           content: StopQueries,
           map: StopQueries,
+          meta: StopQueries,
         }}
       >
         <Route path="kartta" fullscreenMap />
