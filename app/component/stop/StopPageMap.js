@@ -9,12 +9,40 @@ import compose from 'recompose/compose';
 import Map from '../map/Map';
 import Icon from '../icon/icon';
 
+const getFullscreenTogglePath = (fullscreenMap, params) =>
+  `/${
+    params.stopId ? 'pysakit' : 'terminaalit'
+  }/${
+    params.stopId ? params.stopId : params.terminalId
+  }${fullscreenMap ? '' : '/kartta'}`;
+
+
+const fullscreenMapOverlay = (fullscreenMap, params, router) => (
+  !fullscreenMap && (
+    <div
+      className="map-click-prevent-overlay"
+      key="overlay"
+      onClick={() => router.replace(getFullscreenTogglePath(fullscreenMap, params))}
+    />
+  )
+);
+
+const fullscreenMapToggle = (fullscreenMap, params) => (
+  <Link to={getFullscreenTogglePath(fullscreenMap, params)} key="toggle">
+    <div className="fullscreen-toggle">
+      <Icon img="icon-icon_maximize" className="cursor-pointer" />
+    </div>
+  </Link>
+);
 
 const StopPageMap = compose(
-  getContext({ breakpoint: React.PropTypes.string.isRequired }),
+  getContext({
+    breakpoint: React.PropTypes.string.isRequired,
+    router: React.PropTypes.shape({
+      replace: React.PropTypes.func.isRequired,
+    }).isRequired,
+  }),
   mapProps(props => {
-    const prefix = props.params.stopId ? 'pysakit' : 'terminaalit';
-    const id = props.params.stopId ? props.params.stopId : props.params.terminalId;
     const fullscreenMap = some(props.routes, 'fullscreenMap');
 
     return {
@@ -26,15 +54,9 @@ const StopPageMap = compose(
       showStops: true,
       hilightedStops: [props.params.stopId],
       disableZoom: !fullscreenMap,
-      children: [ // TODO: Break into a function(al component)?
-        (fullscreenMap || props.breakpoint === 'large' ? null :
-          <div className="map-click-prevent-overlay" onClick={() => {}} />),
-        props.breakpoint === 'large' ? null :
-          <Link to={`/${prefix}/${id}${fullscreenMap ? '' : '/kartta'}`}>
-            <div className="fullscreen-toggle">
-              <Icon img="icon-icon_maximize" className="cursor-pointer" />
-            </div>
-          </Link>,
+      children: props.breakpoint !== 'large' && [
+        fullscreenMapOverlay(fullscreenMap, props.params, props.router),
+        fullscreenMapToggle(fullscreenMap, props.params),
       ],
     };
   })
