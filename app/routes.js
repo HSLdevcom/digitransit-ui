@@ -26,6 +26,7 @@ import TripStopsContainer from './component/trip/TripStopsContainer';
 import RouteTitle from './component/route/RouteTitle';
 import StopPageMap from './component/stop/StopPageMap';
 import StopPageHeader from './component/stop/StopPageHeader';
+import StopPageMeta from './component/stop/StopPageMeta';
 
 
 import TopLevel from './component/TopLevel';
@@ -116,9 +117,17 @@ const routes = (
         path=":terminalId"
         components={{
           title: () => <span>Terminaali</span>, // TODO: Add FormattedMessage
+          header: StopPageHeader,
           content: StopPage,
+          map: StopPageMap,
+          meta: StopPageMeta,
         }}
-        queries={{ content: terminalQueries }}
+        queries={{
+          header: terminalQueries,
+          content: terminalQueries,
+          map: terminalQueries,
+          meta: terminalQueries,
+        }}
       >
         <Route path="kartta" fullscreenMap />
       </Route>
