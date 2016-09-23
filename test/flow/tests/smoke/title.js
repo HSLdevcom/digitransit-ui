@@ -3,7 +3,7 @@ module.exports = {
   'Page should have title Rutebanken': (browser) => {
     browser
       .url(browser.launch_url)
-      .assert.containsText('.title', 'Reittiopas.fi')
+      .assert.containsText('.title', 'Reittiopas')
       .end();
   },
 };
