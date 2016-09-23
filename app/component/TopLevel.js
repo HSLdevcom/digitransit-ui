@@ -63,12 +63,14 @@ class TopLevel extends React.Component {
             height: '100%',
           }}
         >
-         <div style={{
-           width: 600,
-           height: '100%',
-           display: 'flex',
-           flexDirection: 'column',
-         }}>
+          <div
+            style={{
+              width: 600,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
             {this.props.header}
             {this.props.content}
           </div>
