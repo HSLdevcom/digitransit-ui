@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import isFunction from 'lodash/isFunction';
 
 /*
   Displays a card with the information of the given component as prop
@@ -16,7 +17,8 @@ export default function ComponentDocumentation({ component, children }) {
       id={component.displayName || component.name}
     >
       <h2>{component.displayName || component.name}</h2>
-      <div>{component.description}</div>
+      <div>{(isFunction(component.description) && component.description()) ||
+        component.description} </div>
       <p>Props:</p>
       <ul>{Object.keys(component.propTypes || {}).map(key => <li key={key}>{key}</li>)}</ul>
       {children}
