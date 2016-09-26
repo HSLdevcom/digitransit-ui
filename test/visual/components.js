@@ -132,6 +132,7 @@ gemini.suite('components', () => {
     gemini.suite('adjusted', test('RightOffcanvasToggle', 2));
   });
 
+  basicTest('FakeSearchWithButton');
   basicTest('MarkerSelectPopup');
   basicTest('SelectStopRow');
   basicTest('SelectTerminalRow');

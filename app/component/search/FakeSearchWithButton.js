@@ -1,7 +1,8 @@
 import React from 'react';
 import pure from 'recompose/pure';
-
 import Icon from '../icon/icon';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import FakeSearchBar from './FakeSearchBar';
 
 
 const FakeSearchWithButton = pure((props) => (
@@ -26,6 +27,16 @@ FakeSearchWithButton.propTypes = {
   onClick: React.PropTypes.func,
 };
 
-FakeSearchWithButton.description = 'Centered fake search field with search icon button';
+FakeSearchWithButton.description = () => (
+
+
+  <div>
+    <ComponentUsageExample description="Centered fake search field with search icon button">
+      <div>
+        <FakeSearchWithButton fakeSearchBar={<FakeSearchBar placeholder="Enter address" />} />
+      </div>
+    </ComponentUsageExample>
+  </div>);
+
 FakeSearchWithButton.displayName = 'FakeSearchWithButton';
 export default FakeSearchWithButton;
