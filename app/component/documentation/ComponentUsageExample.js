@@ -22,9 +22,14 @@ function getPropStrings(props) {
         }
         return '';
       case 'object':
-        return `${key}={${toPairs(value).map(([innerKey, innerValue]) =>
-          `${innerKey}:${toString(innerValue)}`
-        ).join(', ')}}`;
+        if (value === null) {
+          return `${key}={null}`;
+        }
+        if (value.$$typeof) {
+          // react component
+          return `${key}={<${value.type.displayName || value.type.name} ${getPropStrings(value.props)}}/>`;
+        }
+        return `${key}={${getPropStrings(value)}}`;
       default:
         return `${key}={${toString(value)}}`;
     }
