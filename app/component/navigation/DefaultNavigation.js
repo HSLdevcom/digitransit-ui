@@ -4,6 +4,7 @@ import NotImplemented from '../util/not-implemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import MessageBar from './MessageBar';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 // Cannot be stateless, because it contains refs
 class DefaultNavigation extends Component {
@@ -37,5 +38,15 @@ class DefaultNavigation extends Component {
       </div>);
   }
 }
+
+DefaultNavigation.description = () => (
+  <div>
+    <p>
+      DefaultNavigation
+    </p>
+    <ComponentUsageExample description="">
+      <DefaultNavigation title="Reittiopas.fi" className="fullscreen">Content</DefaultNavigation>
+    </ComponentUsageExample>
+  </div>);
 
 export default DefaultNavigation;

@@ -133,6 +133,7 @@ gemini.suite('components', () => {
   });
 
   basicTest('FakeSearchWithButton');
+  basicTest('DefaultNavigation');
   basicTest('MarkerSelectPopup');
   basicTest('SelectStopRow');
   basicTest('SelectTerminalRow');
