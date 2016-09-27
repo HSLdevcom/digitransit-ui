@@ -20,6 +20,7 @@ Digitransit-ui UX depends on browser JS engine performance. In here, we keep tra
 | MBP i5 (Chrome)                           | 111    |
 | iPhone 6 plus (Safari)                    | 69     |
 | iPad Air 2 (Safari)                       | 60     |
+| iPhone 6 64GB (iOS9, Safari)              | 65     |
 | Samsung Galaxy S7 (Chrome)                | 58     |
 | Samsung Galaxy S6 (Chrome)                | 49     |
 | Xperia Z5C (Chrome)                       | 47     |
