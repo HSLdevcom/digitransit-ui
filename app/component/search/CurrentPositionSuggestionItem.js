@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import Icon from '../icon/icon';
 
 
-const Locate = (
+const Locate = () => (
   <span> - <span className="search-position">
     <FormattedMessage id="search-position" defaultMessage="Locate" />
   </span></span>

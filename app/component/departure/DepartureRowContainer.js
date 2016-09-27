@@ -70,10 +70,12 @@ const DepartureRow = (props) => {
   }
 
   // TODO implement disruption checking
-
   return (
     <div className="next-departure-row padding-vertical-normal border-bottom">
-      <Link to={`/linjat/${departure.pattern.code}`} key={departure.pattern.code}>
+      <Link
+        to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure.pattern.code}`}
+        key={departure.pattern.code}
+      >
         <Distance distance={props.distance} />
         <RouteNumber
           mode={departure.pattern.route.mode}
