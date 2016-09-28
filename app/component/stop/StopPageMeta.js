@@ -23,7 +23,7 @@ const StopPageMeta = compose(
   }))
 )(Helmet);
 
-Relay.createContainer(StopPageMeta, {
+export default Relay.createContainer(StopPageMeta, {
   fragments: {
     stop: () => Relay.QL`
       fragment on Stop {
