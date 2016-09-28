@@ -19,8 +19,14 @@ export default function ComponentDocumentation({ component, children }) {
       <h2>{component.displayName || component.name}</h2>
       <div>{(isFunction(component.description) && component.description()) ||
         component.description} </div>
-      <p>Props:</p>
-      <ul>{Object.keys(component.propTypes || {}).map(key => <li key={key}>{key}</li>)}</ul>
+      <p>Required props:</p>
+      <ul>{Object.keys(component.propTypes || {}).filter(key =>
+        component.propTypes[key].isRequired
+      ).map(key => <li key={key} >{key}</li>)}</ul>
+      <p>Optional props:</p>
+      <ul>{Object.keys(component.propTypes || {}).filter(key =>
+        !component.propTypes[key].isRequired
+      ).map(key => <li key={key} >{key}</li>)}</ul>
       {children}
     </div>
   );
