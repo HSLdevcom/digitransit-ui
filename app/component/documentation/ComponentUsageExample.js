@@ -27,7 +27,8 @@ function getPropStrings(props) {
         }
         if (value.$$typeof) {
           // react component
-          return `${key}={<${value.type.displayName || value.type.name} ${getPropStrings(value.props)}}/>`;
+          return `${key}={<${value.type.displayName || value.type.name}
+            ${getPropStrings(value.props)}/>}`;
         }
         return `${key}={${getPropStrings(value)}}`;
       default:
