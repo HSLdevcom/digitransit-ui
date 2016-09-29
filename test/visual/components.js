@@ -132,7 +132,6 @@ gemini.suite('components', () => {
     gemini.suite('adjusted', test('RightOffcanvasToggle', 2));
   });
 
-  basicTest('FakeSearchWithButton');
   basicTest('MarkerSelectPopup');
   basicTest('SelectStopRow');
   basicTest('SelectTerminalRow');
@@ -148,6 +147,11 @@ gemini.suite('components', () => {
   gemini.suite('DefaultNavigation', () => {
     gemini.suite('basic', test('DefaultNavigation'));
     gemini.suite('large', test('DefaultNavigation', 2));
+  });
+
+  gemini.suite('FakeSearchWithButton', () => {
+    gemini.suite('basic', test('FakeSearchWithButton'));
+    gemini.suite('large', test('FakeSearchWithButton', 2));
   });
 
   gemini.suite('ModeFilter', () => {
