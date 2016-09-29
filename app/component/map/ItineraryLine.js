@@ -123,7 +123,7 @@ class ItineraryLine extends React.Component {
 
       objs.push(
         <Line
-          key={`${this.props.hash}_${i}`}
+          key={`${this.props.hash}_${i}_${mode}`}
           geometry={geometry}
           mode={mode.toLowerCase()}
           passive={this.props.passive}
