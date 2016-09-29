@@ -13,6 +13,16 @@ class TopLevel extends React.Component {
     children: React.PropTypes.node,
     width: React.PropTypes.number.isRequired,
     height: React.PropTypes.number.isRequired,
+    header: React.PropTypes.node,
+    map: React.PropTypes.node,
+    content: React.PropTypes.node,
+    title: React.PropTypes.node,
+    meta: React.PropTypes.node,
+    routes: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        topBarOptions: React.PropTypes.object,
+      }).isRequired
+    ).isRequired,
   }
 
   static contextTypes = {
