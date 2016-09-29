@@ -4,6 +4,8 @@ import { intlShape } from 'react-intl';
 import meta from '../meta';
 import configureMoment from '../util/configure-moment';
 import DefaultNavigation from './navigation/DefaultNavigation';
+import MobileView from './MobileView';
+import DesktopView from './DesktopView';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -42,49 +44,19 @@ class TopLevel extends React.Component {
       content = this.props.children || this.props.content;
     } else if (this.props.width < 900) {
       content = (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-          }}
-        >
-          {this.props.header}
-          {this.props.map}
-          {this.props.content}
-        </div>
-      );
+        <MobileView
+          map={this.props.map}
+          content={this.props.content}
+          header={this.props.header}
+        />
+     );
     } else {
       content = (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            height: '100%',
-          }}
-        >
-          <div
-            style={{
-              width: 600,
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            {this.props.header}
-            {this.props.content}
-          </div>
-          <div
-            style={{
-              width: 'calc(100% - 600px)',
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            {this.props.map}
-          </div>
-        </div>
+        <DesktopView
+          map={this.props.map}
+          content={this.props.content}
+          header={this.props.header}
+        />
       );
     }
 
