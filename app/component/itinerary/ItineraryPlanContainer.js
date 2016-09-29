@@ -14,7 +14,7 @@ import Icon from '../icon/icon';
 import { getRoutePath } from '../../util/path';
 import Map from '../map/Map';
 import config from '../../config';
-import ItinerarySummaryListContainer from '../summary/itinerary-summary-list-container';
+import ItinerarySummaryListContainer from '../summary/ItinerarySummaryListContainer';
 import ItineraryTab from '../itinerary/ItineraryTab';
 
 class ItineraryPlanContainer extends React.Component {

@@ -7,7 +7,7 @@ import sortBy from 'lodash/sortBy';
 import moment from 'moment';
 
 import config from '../../config';
-import ItinerarySummaryListContainer from './itinerary-summary-list-container';
+import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import Map from '../map/Map';
 import ItineraryLine from '../map/ItineraryLine';
