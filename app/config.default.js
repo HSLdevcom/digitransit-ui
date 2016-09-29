@@ -175,7 +175,7 @@ export default {
   terminalNamesZoom: 16,
 
   colors: {
-    primary: '#fff',
+    primary: 'rgb(61, 183, 228)',
   },
 
   disruption: {
