@@ -123,7 +123,7 @@ export default Relay.createContainer(SummaryPlanContainer, {
     wheelchair: false,
     maxWalkDistance: config.maxWalkDistance + 0.1,
     preferred: { agencies: config.preferredAgency || '' },
-    arriveBy: true,
+    arriveBy: false,
     disableRemainingWeightHeuristic: false,
   },
 });
