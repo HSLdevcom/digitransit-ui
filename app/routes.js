@@ -4,6 +4,9 @@ import Relay from 'react-relay';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
 
+import omitBy from 'lodash/omitBy';
+import isNil from 'lodash/isNil';
+
 // React pages
 import IndexPage from './page/IndexPage';
 import ItineraryPage from './page/ItineraryPage';
@@ -27,7 +30,9 @@ import RouteTitle from './component/route/RouteTitle';
 import StopPageMap from './component/stop/StopPageMap';
 import StopPageHeader from './component/stop/StopPageHeader';
 import StopPageMeta from './component/stop/StopPageMeta';
+import SummaryTitle from './component/summary/SummaryTitle';
 
+import { otpToLocation } from './util/otp-strings';
 
 import TopLevel from './component/TopLevel';
 
@@ -71,6 +76,15 @@ const terminalQueries = {
       station(id: $terminalId)
     }
   `,
+};
+
+const planQueries = {
+  plan: (Component, variables) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('plan', variables)}
+      }
+    }`,
 };
 
 const routes = (
@@ -170,12 +184,21 @@ const routes = (
     </Route>
     <Route
       path="reitti/:from/:to"
-      components={{ title: () => <span>Reittiehdotukset</span>, content: SummaryPage }}
-    />
-    <Route
-      path="reitti/:from/:to/:hash"
-      components={{ title: () => <span>Reittiohje</span>, content: ItineraryPage }}
-    />
+      components={{
+        title: SummaryTitle,
+        content: SummaryPage,
+      }}
+      queries={{ content: planQueries }}
+      prepareParams={({ from, to }, { location: { query: { numItineraries } } }) => omitBy({
+        fromPlace: from,
+        toPlace: to,
+        from: otpToLocation(from),
+        to: otpToLocation(to),
+        numItineraries: numItineraries ? Number(numItineraries) : undefined,
+      }, isNil)}
+    >
+      <Route path=":hash" component={ItineraryPage} />
+    </Route>
     <Route path="styleguide" component={StyleGuidelines} />
     <Route path="styleguide/component/:componentName" component={StyleGuidelines} />
     <Route path="suosikki/uusi" component={AddFavouritePage} />

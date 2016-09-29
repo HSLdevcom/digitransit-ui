@@ -14,7 +14,6 @@ function ItinerarySummaryListContainer(props) {
         <SummaryRow
           key={i}
           hash={i}
-          params={props.params}
           data={itinerary}
           passive={passive}
           currentTime={props.currentTime}
@@ -41,7 +40,6 @@ ItinerarySummaryListContainer.propTypes = {
   activeIndex: React.PropTypes.number.isRequired,
   currentTime: React.PropTypes.number.isRequired,
   onSelect: React.PropTypes.func.isRequired,
-  params: React.PropTypes.object.isRequired,
 };
 
 export default Relay.createContainer(ItinerarySummaryListContainer, {

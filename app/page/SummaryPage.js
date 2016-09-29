@@ -1,179 +1,154 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Helmet from 'react-helmet';
-import isEqual from 'lodash/isEqual';
-import { intlShape } from 'react-intl';
+
+import moment from 'moment';
+import sortBy from 'lodash/sortBy';
+import polyline from 'polyline-encoded';
+
+import DesktopView from '../component/DesktopView';
+import MobileView from '../component/MobileView';
+import Map from '../component/map/Map';
 
 import SummaryPlanContainer from '../component/summary/SummaryPlanContainer';
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import SummaryNavigation from '../component/navigation/SummaryNavigation';
-import NoRoutePopup from '../component/summary/no-route-popup';
-import { itinerarySearchRequest } from '../action/ItinerarySearchActions';
-import { otpToLocation } from '../util/otp-strings';
-import { storeEndpoint } from '../action/EndpointActions';
-import PlanRoute from '../route/PlanRoute';
+import ItineraryLine from '../component/map/ItineraryLine';
+
 import config from '../config';
 
-export default class SummaryPage extends React.Component {
+// eslint-disable-next-line react/prop-types
+function renderMap({ plan: { plan }, from, to }, activeIndex) {
+  const itineraries = plan.itineraries || [];
 
-  static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
-    getStore: React.PropTypes.func.isRequired,
-    raven: React.PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
-  };
+  const leafletObjs = sortBy(
+    itineraries.map((itinerary, i) => (
+      <ItineraryLine
+        key={i}
+        hash={i}
+        legs={itinerary.legs}
+        showFromToMarkers={i === 0}
+        passive={i !== activeIndex}
+      />
+    )),
+    // Make sure active line isn't rendered over
+    i => i.props.passive === false);
 
-  static loadAction = (params) =>
-    [
-      [storeEndpoint, {
-        target: 'origin',
-        endpoint: otpToLocation(params.from),
-      }],
-      [storeEndpoint, {
-        target: 'destination',
-        endpoint: otpToLocation(params.to),
-      }],
-    ]
+  // Decode all legs of all itineraries into latlong arrays,
+  // and concatenate into one big latlong array
+  const bounds =
+    [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...itineraries.map((itinerary) => (
+      [].concat(...itinerary.legs.map((leg) => polyline.decode(leg.legGeometry.points)))
+    ))
+  );
 
-  componentDidMount() {
-    this.context.getStore('ItinerarySearchStore').addChangeListener(this.onChange);
-    this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
-    this.context.executeAction(itinerarySearchRequest, this.props);
-    this.onMount();
-  }
+  return (
+    <Map
+      className="summary-map"
+      leafletObjs={leafletObjs}
+      fitBounds
+      bounds={bounds}
+    />
+  );
+}
 
-  shouldComponentUpdate(newProps, newState) {
-    return !(this.state && isEqual(this.props, newProps && isEqual(this.state, newState)));
-  }
+function getActiveIndex(state) {
+  return (state && state.summaryPageSelected) || 0;
+}
 
-  componentWillUnmount() {
-    this.context.getStore('ItinerarySearchStore').removeChangeListener(this.onChange);
-    this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
-  }
+function SummaryPage(props, { breakpoint }) {
+  const header = <SummaryNavigation hasDefaultPreferences />;
+  const map = renderMap(props, getActiveIndex(props.location.state));
 
-  onMount = () => {
-    this.setState({
-      search: this.updateItinerarySearch(this.context.getStore('ItinerarySearchStore')),
-      time: this.updateTime(this.context.getStore('TimeStore')),
-    });
-  }
-
-  onChange = () => {
-    this.setState({
-      search: this.updateItinerarySearch(this.context.getStore('ItinerarySearchStore')),
-    });
-  }
-
-  onTimeChange = (e) => {
-    if (e.selectedTime) {
-      this.setState({
-        time: this.updateTime(this.context.getStore('TimeStore')),
-      });
-    }
-  }
-
-  updateItinerarySearch(store) {
-    return {
-      modes: store.getMode().join(','),
-      walkReluctance: store.getWalkReluctance(),
-      walkBoardCost: store.getWalkBoardCost(),
-      minTransferTime: store.getMinTransferTime(),
-      walkSpeed: store.getWalkSpeed(),
-      wheelchair: store.isWheelchair(),
-      maxWalkDistance: store.getMode().indexOf('BICYCLE') === -1 ?
-        config.maxWalkDistance : config.maxBikingDistance,
-      disableRemainingWeightHeuristic: store.getCitybikeState(),
-    };
-  }
-
-  updateTime(store) {
-    return {
-      selectedTime: store.getSelectedTime(),
-      arriveBy: store.getArriveBy(),
-    };
-  }
-
-  render() {
-    let plan;
-    const preferredAgencies = config.preferredAgency || '';
-    const from = otpToLocation(this.props.params.from);
-    const to = otpToLocation(this.props.params.to);
-    const search = this.state && this.state.search;
-    const time = this.state && this.state.time;
-
-    if (search && time) {
-      plan = (
-        <Relay.RootContainer
-          Component={SummaryPlanContainer}
-          route={new PlanRoute({
-            fromPlace: this.props.params.from,
-            toPlace: this.props.params.to,
-            from,
-            to,
-            numItineraries: 3,
-            modes: search.modes,
-            date: time.selectedTime.format('YYYY-MM-DD'),
-            time: time.selectedTime.format('HH:mm:ss'),
-            walkReluctance: search.walkReluctance + 0.000099,
-            walkBoardCost: search.walkBoardCost,
-            minTransferTime: search.minTransferTime,
-            walkSpeed: search.walkSpeed + 0.000099,
-            maxWalkDistance: search.maxWalkDistance + 0.1,
-            wheelchair: search.wheelchair,
-            preferred: {
-              agencies: preferredAgencies,
-            },
-            arriveBy: time.arriveBy,
-            disableRemainingWeightHeuristic: search.disableRemainingWeightHeuristic,
-          })}
-          renderFailure={error => {
-            this.context.raven.captureMessage('OTP returned an error when requesting a plan', {
-              extra: error,
-            });
-            return (
-              <div className="summary">
-                <SummaryPlanContainer from={from} to={to} />
-                <NoRoutePopup />
-              </div>);
-          }}
-          renderLoading={() => <div className="spinner-loader" />}
-        />);
-    } else {
-      plan = <div className="spinner-loader" />;
-    }
-
-    const title = this.context.intl.formatMessage({
-      id: 'itinerary-summary-page.title',
-      defaultMessage: 'Itinerary suggestions',
-    });
-
-    const description = this.context.intl.formatMessage({
-      id: 'itinerary-summary-page.description',
-      defaultMessage: 'Itinerary suggestions',
-    });
-
-    const meta = {
-      title,
-      meta: [{
-        name: 'description',
-        content: description,
-      }],
-    };
-
+  if (breakpoint === 'large') {
     return (
-      <SummaryNavigation
-        title={title}
-        hasDefaultPreferences={
-          this.context.getStore('ItinerarySearchStore').hasDefaultPreferences()
-        }
-      >
-        <Helmet {...meta} />
-        {plan}
-      </SummaryNavigation>
+      <DesktopView
+        header={header}
+        content={<SummaryPlanContainer itineraries={props.plan.plan.itineraries} />}
+        map={map}
+      />
     );
   }
+  return (
+    <MobileView
+      header={header}
+      content={<SummaryPlanContainer itineraries={props.plan.plan.itineraries} />}
+      map={map}
+    />
+  );
 }
 
 SummaryPage.propTypes = {
-  params: React.PropTypes.object.isRequired,
+  location: React.PropTypes.shape({
+    state: React.PropTypes.object,
+  }).isRequired,
 };
+
+SummaryPage.contextTypes = {
+  breakpoint: React.PropTypes.string.isRequired,
+};
+
+export default Relay.createContainer(SummaryPage, {
+  fragments: {
+    plan: () => Relay.QL`
+      fragment on QueryType {
+        plan(
+          fromPlace: $fromPlace,
+          toPlace: $toPlace,
+          numItineraries: $numItineraries,
+          modes: $modes,
+          date: $date,
+          time: $time,
+          walkReluctance: $walkReluctance,
+          walkBoardCost: $walkBoardCost,
+          minTransferTime: $minTransferTime,
+          walkSpeed: $walkSpeed,
+          maxWalkDistance: $maxWalkDistance,
+          wheelchair: $wheelchair,
+          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
+          arriveBy: $arriveBy,
+          preferred: $preferred)
+        {
+          itineraries {
+            ${SummaryPlanContainer.getFragment('itineraries')}
+            legs {
+              mode
+              legGeometry {
+                points
+              }
+              from {
+                vertexType
+                stop {
+                  gtfsId
+                }
+                lat
+                lon
+              }
+              to {
+                lat
+                lon
+              }
+            }
+          }
+        }
+      }
+    `,
+  },
+  initialVariables: {
+    from: null,
+    to: null,
+    fromPlace: null,
+    toPlace: null,
+    numItineraries: 3,
+    modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,AIRPLANE',
+    date: moment().format('YYYY-MM-DD'),
+    time: moment().format('HH:mm:ss'),
+    walkReluctance: 2,
+    walkBoardCost: 600,
+    minTransferTime: 180,
+    walkSpeed: 1.2,
+    wheelchair: false,
+    maxWalkDistance: config.maxWalkDistance,
+    preferred: { agencies: config.preferredAgency || '' },
+    arriveBy: false,
+    disableRemainingWeightHeuristic: false,
+  },
+});

@@ -75,7 +75,7 @@ class SummaryNavigation extends React.Component {
 
   render() {
     return (
-      <div className="fullscreen">
+      <section>
         <Drawer
           className="offcanvas"
           disableSwipeToOpen
@@ -86,25 +86,20 @@ class SummaryNavigation extends React.Component {
         >
           <CustomizeSearch />
         </Drawer>
-        <div className="summary-content grid-frame">
-          <section>
-            <OriginDestinationBar />
-            <div className="time-selector-settings-row">
-              <TimeSelectorContainer />
-              <RightOffcanvasToggle
-                onToggleClick={this.toggleCustomizeSearchOffcanvas}
-                hasChanges={!this.props.hasDefaultPreferences}
-              />
-            </div>
-            {this.props.children}
-          </section>
+        <OriginDestinationBar />
+        <div className="time-selector-settings-row">
+          <TimeSelectorContainer />
+          <RightOffcanvasToggle
+            onToggleClick={this.toggleCustomizeSearchOffcanvas}
+            hasChanges={!this.props.hasDefaultPreferences}
+          />
         </div>
-      </div>);
+      </section>
+    );
   }
 }
 
 SummaryNavigation.propTypes = {
-  children: React.PropTypes.node.isRequired,
   hasDefaultPreferences: React.PropTypes.bool.isRequired,
 };
 

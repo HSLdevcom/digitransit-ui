@@ -1,5 +1,4 @@
 import Relay from 'react-relay';
-/* eslint-disable global-require*/
 
 export const RouteMarkerPopupFragments = {
   trip: () => Relay.QL`
@@ -19,29 +18,6 @@ export const RouteMarkerPopupFragments = {
         mode
         shortName
         longName
-      }
-    }
-  `,
-};
-
-export const ItinerarySummaryListContainerFragments = {
-  itineraries: () => Relay.QL`
-    fragment on Itinerary @relay(plural:true){
-      walkDistance
-      startTime
-      endTime
-      legs {
-        realTime
-        transitLeg
-        startTime
-        endTime
-        mode
-        distance
-        duration
-        rentedBike
-        route {
-          shortName
-        }
       }
     }
   `,

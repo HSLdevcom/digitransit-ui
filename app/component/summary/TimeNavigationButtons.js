@@ -9,8 +9,8 @@ import ItineraryFeedback from '../itinerary-feedback/itinerary-feedback';
 import Icon from '../icon/icon';
 import config from '../../config';
 
-function setEarlierSelectedTime(executeAction, plan) {
-  const earliestArrivalTime = plan.itineraries.reduce((previous, current) => {
+function setEarlierSelectedTime(executeAction, itineraries) {
+  const earliestArrivalTime = itineraries.reduce((previous, current) => {
     const endTime = moment(current.endTime);
 
     if (previous == null) {
@@ -25,8 +25,8 @@ function setEarlierSelectedTime(executeAction, plan) {
   return () => executeAction(setArrivalTime, earliestArrivalTime);
 }
 
-function setLaterSelectedTime(executeAction, plan) {
-  const latestDepartureTime = plan.itineraries.reduce((previous, current) => {
+function setLaterSelectedTime(executeAction, itineraries) {
+  const latestDepartureTime = itineraries.reduce((previous, current) => {
     const startTime = moment(current.startTime);
 
     if (previous == null) {
@@ -44,8 +44,8 @@ function setLaterSelectedTime(executeAction, plan) {
 const setSelectedTimeToNow = (executeAction) =>
   () => executeAction(setDepartureTime, moment());
 
-export default function TimeNavigationButtons({ plan }, { executeAction }) {
-  if (!plan || !plan.itineraries || !plan.itineraries[0]) { return null; }
+export default function TimeNavigationButtons({ itineraries }, { executeAction }) {
+  if (!itineraries || !itineraries[0]) { return null; }
   let itineraryFeedback = config.itinerary.enableFeedback ? <ItineraryFeedback /> : null;
   const enableButtonArrows = config.itinerary.timeNavigation.enableButtonArrows;
   let leftArrow = enableButtonArrows ?
@@ -58,7 +58,7 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
       {itineraryFeedback}
       <button
         className="standalone-btn time-navigation-earlier-btn"
-        onClick={setEarlierSelectedTime(executeAction, plan)}
+        onClick={setEarlierSelectedTime(executeAction, itineraries)}
       >
         {leftArrow}
         <FormattedMessage id="earlier" defaultMessage="Earlier" />
@@ -71,7 +71,7 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
       </button>
       <button
         className="standalone-btn time-navigation-later-btn"
-        onClick={setLaterSelectedTime(executeAction, plan)}
+        onClick={setLaterSelectedTime(executeAction, itineraries)}
       >
         <FormattedMessage id="later" defaultMessage="Later" />
         {rightArrow}
@@ -81,14 +81,12 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
 }
 
 TimeNavigationButtons.propTypes = {
-  plan: PropTypes.shape({
-    itineraries: PropTypes.arrayOf(
-      PropTypes.shape({
-        endTime: PropTypes.number.isRequired,
-        startTime: PropTypes.number.isRequired,
-      }).isRequired
-    ).isRequired,
-  }).isRequired,
+  itineraries: PropTypes.arrayOf(
+    PropTypes.shape({
+      endTime: PropTypes.number.isRequired,
+      startTime: PropTypes.number.isRequired,
+    }).isRequired
+  ).isRequired,
 };
 
 TimeNavigationButtons.contextTypes = {

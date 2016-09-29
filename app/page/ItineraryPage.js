@@ -1,10 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import { otpToLocation } from '../util/otp-strings';
 import config from '../config';
 import ItineraryPlanContainer from '../component/itinerary/ItineraryPlanContainer';
@@ -92,23 +90,7 @@ class ItineraryPage extends React.Component {
     // dependencies from time store
     const time = this.state && this.state.time;
 
-    const title = this.context.intl.formatMessage({
-      id: 'itinerary-page.title',
-      defaultMessage: 'Route',
-    });
-
-    const meta = {
-      title,
-
-      meta: [{
-        name: 'description',
-
-        content: this.context.intl.formatMessage({
-          id: 'itinerary-page.description',
-          defaultMessage: 'Route',
-        }),
-      }],
-    }; // TODO: add back helmet
+    // TODO: add back helmet
 
     return (
       <Relay.RootContainer
@@ -150,4 +132,4 @@ class ItineraryPage extends React.Component {
   }
 }
 
-export default ItineraryPage;
+export default ItineraryPlanContainer;
