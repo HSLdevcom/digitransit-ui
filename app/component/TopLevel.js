@@ -11,8 +11,8 @@ class TopLevel extends React.Component {
   static propTypes = {
     location: React.PropTypes.object.isRequired,
     children: React.PropTypes.node,
-    width: React.PropTypes.number.isRequired,
-    height: React.PropTypes.number.isRequired,
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
     header: React.PropTypes.node,
     map: React.PropTypes.node,
     content: React.PropTypes.node,
@@ -39,7 +39,10 @@ class TopLevel extends React.Component {
     return {
       location: this.props.location,
       breakpoint:
-        (this.props.width < 400 && 'small') || (this.props.width < 900 && 'medium') || 'large',
+        (!this.props.width && 'none') ||
+        (this.props.width < 400 && 'small') ||
+        (this.props.width < 900 && 'medium') ||
+        'large',
     };
   }
 
@@ -60,7 +63,7 @@ class TopLevel extends React.Component {
           header={this.props.header}
         />
      );
-    } else {
+    } else if (this.props.width >= 900) {
       content = (
         <DesktopView
           map={this.props.map}
