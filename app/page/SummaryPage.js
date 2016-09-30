@@ -71,48 +71,60 @@ function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
 }
 
-function SummaryPage(props, { breakpoint }) {
+function SummaryPage(props, { breakpoint, queryAggregator: { readyState: { done } } }) {
   const map = props.children && props.children.type.renderMap ?
     props.children.type.renderMap(props.plan.plan.itineraries[props.params.hash]) :
     renderMap(props, getActiveIndex(props.location.state));
 
   if (breakpoint === 'large') {
+    let content;
+
+    if (done) {
+      content = (
+        <SummaryPlanContainer itineraries={props.plan.plan.itineraries} params={props.params}>
+          {props.children && React.cloneElement(
+            props.children,
+            { itinerary: props.plan.plan.itineraries[props.params.hash] }
+          )}
+        </SummaryPlanContainer>
+      );
+    } else {
+      content = <div className="spinner-loader" />;
+    }
+
     return (
       <DesktopView
         header={<SummaryNavigation hasDefaultPreferences />}
-        content={
-          <SummaryPlanContainer
-            itineraries={props.plan.plan.itineraries}
-            params={props.params}
-          >
-            {props.children && React.cloneElement(
-              props.children,
-              { itinerary: props.plan.plan.itineraries[props.params.hash] }
-            )}
-          </SummaryPlanContainer>
-        }
+        content={content}
         map={map}
       />
     );
   }
+  let content;
+
+  if (!done) {
+    content = <div className="spinner-loader" />;
+  } else if (props.params.hash) {
+    content = (
+      <MobileItineraryWrapper
+        itineraries={props.plan.plan.itineraries}
+        params={props.params}
+      >
+        {props.children && props.plan.plan.itineraries.map((itinerary, i) =>
+          React.cloneElement(props.children, { key: i, itinerary })
+        )}
+      </MobileItineraryWrapper>
+    );
+  } else {
+    content = (
+      <SummaryPlanContainer itineraries={props.plan.plan.itineraries} params={props.params} />
+    );
+  }
+
   return (
     <MobileView
       header={!props.params.hash ? <SummaryNavigation hasDefaultPreferences /> : false}
-      content={props.params.hash ?
-        <MobileItineraryWrapper
-          itineraries={props.plan.plan.itineraries}
-          params={props.params}
-        >
-          {props.children && props.plan.plan.itineraries.map((itinerary, i) =>
-            React.cloneElement(props.children, { key: i, itinerary })
-          )}
-        </MobileItineraryWrapper>
-        :
-        <SummaryPlanContainer
-          itineraries={props.plan.plan.itineraries}
-          params={props.params}
-        />
-      }
+      content={content}
       map={map}
     />
   );
@@ -135,6 +147,11 @@ SummaryPage.propTypes = {
 
 SummaryPage.contextTypes = {
   breakpoint: React.PropTypes.string.isRequired,
+  queryAggregator: React.PropTypes.shape({
+    readyState: React.PropTypes.shape({
+      done: React.PropTypes.bool.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default Relay.createContainer(SummaryPage, {
