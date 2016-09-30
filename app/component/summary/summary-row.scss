@@ -1,5 +1,5 @@
 .itinerary-summary-row {
-  height: 50px;
+  min-height: 50px;
   padding-left: 10px;
   padding-right: 15px;
   padding-top: 3px;
@@ -132,6 +132,10 @@
     & svg {
       color: $action-color;
     }
+  }
+
+  .itinerary-tab {
+    width: 100%;
   }
 }
 

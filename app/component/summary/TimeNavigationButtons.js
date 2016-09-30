@@ -101,6 +101,6 @@ TimeNavigationButtons.description = (
       reset the time.
     </p>
     <ComponentUsageExample>
-      <TimeNavigationButtons plan={examplePlan} />
+      <TimeNavigationButtons itineraries={examplePlan.itineraries} />
     </ComponentUsageExample>
   </div>);

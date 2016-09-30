@@ -7,6 +7,11 @@ import TimeNavigationButtons from './TimeNavigationButtons';
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
     itineraries: React.PropTypes.array.isRequired,
+    params: React.PropTypes.shape({
+      from: React.PropTypes.string.isRequired,
+      to: React.PropTypes.string.isRequired,
+      hash: React.PropTypes.string,
+    }).isRequired,
   }
 
   static contextTypes = {
@@ -18,11 +23,19 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectActive = index => {
     if (this.getActiveIndex() === index) {
-      this.context.router.push(`${this.context.location.pathname}/${index}`);
+      if (Number(this.props.params.hash) === index) {
+        this.context.router.goBack();
+      } else {
+        this.context.router.push({
+          ...this.context.location,
+          pathname: `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`,
+        });
+      }
     } else {
       this.context.router.replace({
         ...this.context.location,
         state: { summaryPageSelected: index },
+        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
       });
     }
   }
@@ -35,6 +48,9 @@ class SummaryPlanContainer extends React.Component {
   render() {
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
     const activeIndex = this.getActiveIndex();
+    if (!this.props.itineraries) {
+      return <div className="spinner-loader" />;
+    }
 
     return (
       <div className="summary">
@@ -43,7 +59,10 @@ class SummaryPlanContainer extends React.Component {
           currentTime={currentTime}
           onSelect={this.onSelectActive}
           activeIndex={activeIndex}
-        />
+          open={this.props.params.hash}
+        >
+          {this.props.children}
+        </ItinerarySummaryListContainer>
         <TimeNavigationButtons itineraries={this.props.itineraries} />
       </div>
     );

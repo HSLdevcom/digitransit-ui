@@ -8,10 +8,13 @@ import polyline from 'polyline-encoded';
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
 import Map from '../component/map/Map';
+import ItineraryPage from './ItineraryPage';
 
 import SummaryPlanContainer from '../component/summary/SummaryPlanContainer';
 import SummaryNavigation from '../component/navigation/SummaryNavigation';
 import ItineraryLine from '../component/map/ItineraryLine';
+import LocationMarker from '../component/map/LocationMarker';
+import MobileItineraryWrapper from '../component/itinerary/MobileItineraryWrapper';
 
 import config from '../config';
 
@@ -25,12 +28,26 @@ function renderMap({ plan: { plan }, from, to }, activeIndex) {
         key={i}
         hash={i}
         legs={itinerary.legs}
-        showFromToMarkers={i === 0}
         passive={i !== activeIndex}
       />
     )),
     // Make sure active line isn't rendered over
     i => i.props.passive === false);
+
+  leafletObjs.push(
+    <LocationMarker
+      key="from"
+      position={from}
+      className="from"
+    />
+  );
+  leafletObjs.push(
+    <LocationMarker
+      key="to"
+      position={to}
+      className="to"
+    />
+  );
 
   // Decode all legs of all itineraries into latlong arrays,
   // and concatenate into one big latlong array
@@ -55,22 +72,47 @@ function getActiveIndex(state) {
 }
 
 function SummaryPage(props, { breakpoint }) {
-  const header = <SummaryNavigation hasDefaultPreferences />;
-  const map = renderMap(props, getActiveIndex(props.location.state));
+  const map = props.children && props.children.type.renderMap ?
+    props.children.type.renderMap(props.plan.plan.itineraries[props.params.hash]) :
+    renderMap(props, getActiveIndex(props.location.state));
 
   if (breakpoint === 'large') {
     return (
       <DesktopView
-        header={header}
-        content={<SummaryPlanContainer itineraries={props.plan.plan.itineraries} />}
+        header={<SummaryNavigation hasDefaultPreferences />}
+        content={
+          <SummaryPlanContainer
+            itineraries={props.plan.plan.itineraries}
+            params={props.params}
+          >
+            {props.children && React.cloneElement(
+              props.children,
+              { itinerary: props.plan.plan.itineraries[props.params.hash] }
+            )}
+          </SummaryPlanContainer>
+        }
         map={map}
       />
     );
   }
   return (
     <MobileView
-      header={header}
-      content={<SummaryPlanContainer itineraries={props.plan.plan.itineraries} />}
+      header={!props.params.hash ? <SummaryNavigation hasDefaultPreferences /> : false}
+      content={props.params.hash ?
+        <MobileItineraryWrapper
+          itineraries={props.plan.plan.itineraries}
+          params={props.params}
+        >
+          {props.children && props.plan.plan.itineraries.map((itinerary, i) =>
+            React.cloneElement(props.children, { key: i, itinerary })
+          )}
+        </MobileItineraryWrapper>
+        :
+        <SummaryPlanContainer
+          itineraries={props.plan.plan.itineraries}
+          params={props.params}
+        />
+      }
       map={map}
     />
   );
@@ -80,6 +122,15 @@ SummaryPage.propTypes = {
   location: React.PropTypes.shape({
     state: React.PropTypes.object,
   }).isRequired,
+  params: React.PropTypes.shape({
+    hash: React.PropTypes.string,
+  }).isRequired,
+  plan: React.PropTypes.shape({
+    plan: React.PropTypes.shape({
+      itineraries: React.PropTypes.array,
+    }).isRequired,
+  }).isRequired,
+  children: React.PropTypes.node,
 };
 
 SummaryPage.contextTypes = {
@@ -108,17 +159,14 @@ export default Relay.createContainer(SummaryPage, {
           preferred: $preferred)
         {
           itineraries {
+            ${ItineraryPage.getFragment('itinerary')}
             ${SummaryPlanContainer.getFragment('itineraries')}
             legs {
-              mode
+              ${ItineraryLine.getFragment('legs')}
               legGeometry {
                 points
               }
               from {
-                vertexType
-                stop {
-                  gtfsId
-                }
                 lat
                 lon
               }

@@ -7,6 +7,7 @@ function ItinerarySummaryListContainer(props) {
   const summaries = [];
 
   if (props.itineraries && props.itineraries.length > 0) {
+    const open = props.open && Number(props.open);
     for (let [i, itinerary] of props.itineraries.entries()) {
       const passive = i !== props.activeIndex;
 
@@ -18,7 +19,9 @@ function ItinerarySummaryListContainer(props) {
           passive={passive}
           currentTime={props.currentTime}
           onSelect={props.onSelect}
-        />
+        >
+          {i === open && props.children}
+        </SummaryRow>
       );
     }
 

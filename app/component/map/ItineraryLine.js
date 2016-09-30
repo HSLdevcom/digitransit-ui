@@ -23,21 +23,6 @@ class ItineraryLine extends React.Component {
 
     const objs = [];
 
-    if (this.props.showFromToMarkers) {
-      objs.push(
-        <LocationMarker
-          key="from"
-          position={this.props.legs[0].from}
-          className="from"
-        />);
-
-      objs.push(<LocationMarker
-        key="to"
-        position={this.props.legs[this.props.legs.length - 1].to}
-        className="to"
-      />);
-    }
-
     const usingOwnBicycle = (
       (this.props.legs[0] != null
         && this.props.legs[0].mode === 'BICYCLE')
@@ -143,7 +128,6 @@ class ItineraryLine extends React.Component {
 }
 
 ItineraryLine.propTypes = {
-  showFromToMarkers: React.PropTypes.bool,
   legs: React.PropTypes.array,
   passive: React.PropTypes.bool,
   hash: React.PropTypes.number,
@@ -151,4 +135,52 @@ ItineraryLine.propTypes = {
   showIntermediateStops: React.PropTypes.bool,
 };
 
-export default ItineraryLine;
+export default Relay.createContainer(ItineraryLine, {
+  fragments: {
+    legs: () => Relay.QL`
+      fragment on Leg @relay(plural: true){
+        mode
+        legGeometry {
+          points
+        }
+        transitLeg
+        from {
+          lat
+          lon
+          name
+          vertexType
+          bikeRentalStation {
+            ${CityBikeMarker.getFragment('station')}
+          }
+          stop {
+            gtfsId
+            code
+            platformCode
+          }
+        }
+        to {
+          lat
+          lon
+          name
+          vertexType
+          bikeRentalStation {
+            ${CityBikeMarker.getFragment('station')}
+          }
+          stop {
+            gtfsId
+            code
+            platformCode
+          }
+        }
+        intermediateStops {
+          gtfsId
+          lat
+          lon
+          name
+          code
+          platformCode
+        }
+      }
+    `,
+  },
+});
