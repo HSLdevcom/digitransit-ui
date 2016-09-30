@@ -48,7 +48,7 @@ $action-button-gradient: linear-gradient(to bottom, lighten($action-color, 15%) 
 $action-button-gradient-active: linear-gradient(to top, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
 
 /* Markers */
-$viewpoint-marker-color: $title-color;
+$viewpoint-marker-color: $livi-logo-blue;
 
 /* Fonts */
 $font-family: Lato, Arial, Georgia, Serif;
