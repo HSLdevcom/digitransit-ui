@@ -21,12 +21,15 @@ export default function ComponentDocumentation({ component, children }) {
         component.description} </div>
       <p>Required props:</p>
       <ul>{Object.keys(component.propTypes || {}).filter(key =>
-        component.propTypes[key].isRequired
+        !component.propTypes[key].isRequired
       ).map(key => <li key={key} >{key}</li>)}</ul>
       <p>Optional props:</p>
       <ul>{Object.keys(component.propTypes || {}).filter(key =>
-        !component.propTypes[key].isRequired
+        component.propTypes[key].isRequired
       ).map(key => <li key={key} >{key}</li>)}</ul>
+      <p>Default values:</p>
+      <ul>{Object.keys(component.defaultProps || {}).map(key => <li key={key} >
+        {key}={JSON.stringify(component.defaultProps[key])}</li>)}</ul>
       {children}
     </div>
   );
