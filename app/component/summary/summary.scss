@@ -1,6 +1,7 @@
 .summary {
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
 }
 
 .summary-no-route-found {
