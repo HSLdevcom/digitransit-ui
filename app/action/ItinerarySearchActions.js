@@ -11,12 +11,6 @@ export function itinerarySearchRequest(actionContext, options) {
     });
   }
 
-  const time = actionContext.getStore('TimeStore').getSelectedTime();
-
-  if (!actionContext.getStore('TimeStore').isSelectedTimeSet()) {
-    return actionContext.dispatch('SetSelectedTime', time);
-  }
-
   return undefined;
 }
 

@@ -7,6 +7,8 @@ import ContainerDimensions from 'react-container-dimensions';
 import omitBy from 'lodash/omitBy';
 import isNil from 'lodash/isNil';
 
+import moment from 'moment';
+
 // React pages
 import IndexPage from './page/IndexPage';
 import ItineraryPage from './page/ItineraryPage';
@@ -189,13 +191,20 @@ const routes = (
         content: SummaryPage,
       }}
       queries={{ content: planQueries }}
-      prepareParams={({ from, to }, { location: { query: { numItineraries } } }) => omitBy({
-        fromPlace: from,
-        toPlace: to,
-        from: otpToLocation(from),
-        to: otpToLocation(to),
-        numItineraries: numItineraries ? Number(numItineraries) : undefined,
-      }, isNil)}
+      prepareParams={
+        ({ from, to }, { location: { query: {
+          numItineraries, time, arriveBy,
+        } } }) => omitBy({
+          fromPlace: from,
+          toPlace: to,
+          from: otpToLocation(from),
+          to: otpToLocation(to),
+          numItineraries: numItineraries ? Number(numItineraries) : undefined,
+          date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
+          time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
+          arriveBy: arriveBy ? arriveBy === 'true' : undefined,
+        }, isNil)
+      }
     >
       <Route path=":hash" component={ItineraryPage} />
     </Route>

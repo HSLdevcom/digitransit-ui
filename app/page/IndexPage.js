@@ -2,7 +2,6 @@ import React from 'react';
 import Config from '../config';
 import { clearDestination } from '../action/EndpointActions';
 import { reset, forceCitybikeState } from '../action/ItinerarySearchActions';
-import { unsetSelectedTime } from '../action/TimeActions';
 import FeedbackPanel from '../component/feedback/feedback-panel';
 import FrontPagePanel from '../component/front-page/FrontPagePanel';
 import MapWithTracking from '../component/map/MapWithTracking';
@@ -29,7 +28,6 @@ class IndexPage extends React.Component {
 
   resetToCleanState = () => {
     this.context.executeAction(clearDestination);
-    this.context.executeAction(unsetSelectedTime);
     this.context.executeAction(reset);
   }
 
