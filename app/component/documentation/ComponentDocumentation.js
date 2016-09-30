@@ -27,7 +27,7 @@ export default function ComponentDocumentation({ component, children }) {
       <ul>{Object.keys(component.propTypes || {}).filter(key =>
         component.propTypes[key].isRequired
       ).map(key => <li key={key} >{key}</li>)}</ul>
-      <p>Default values:</p>
+      <p>Default props:</p>
       <ul>{Object.keys(component.defaultProps || {}).map(key => <li key={key} >
         {key}={JSON.stringify(component.defaultProps[key])}</li>)}</ul>
       {children}
