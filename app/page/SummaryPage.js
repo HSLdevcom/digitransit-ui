@@ -89,7 +89,11 @@ function SummaryPage(props, { breakpoint, queryAggregator: { readyState: { done 
         </SummaryPlanContainer>
       );
     } else {
-      content = <div className="spinner-loader" />;
+      content = (
+        <div style={{ position: 'relative', height: 200 }}>
+          <div className="spinner-loader" />
+        </div>
+      );
     }
 
     return (
@@ -103,7 +107,11 @@ function SummaryPage(props, { breakpoint, queryAggregator: { readyState: { done 
   let content;
 
   if (!done) {
-    content = <div className="spinner-loader" />;
+    content = (
+      <div style={{ position: 'relative', height: 200 }}>
+        <div className="spinner-loader" />
+      </div>
+    );
   } else if (props.params.hash) {
     content = (
       <MobileItineraryWrapper

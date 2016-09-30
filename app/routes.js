@@ -89,6 +89,22 @@ const planQueries = {
     }`,
 };
 
+const preparePlanParams = (
+    { from, to },
+    { location: { query: {
+      numItineraries, time, arriveBy,
+    } } }
+  ) => omitBy({
+    fromPlace: from,
+    toPlace: to,
+    from: otpToLocation(from),
+    to: otpToLocation(to),
+    numItineraries: numItineraries ? Number(numItineraries) : undefined,
+    date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
+    time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
+    arriveBy: arriveBy ? arriveBy === 'true' : undefined,
+  }, isNil);
+
 const routes = (
   <Route
     path="/"
@@ -191,20 +207,16 @@ const routes = (
         content: SummaryPage,
       }}
       queries={{ content: planQueries }}
-      prepareParams={
-        ({ from, to }, { location: { query: {
-          numItineraries, time, arriveBy,
-        } } }) => omitBy({
-          fromPlace: from,
-          toPlace: to,
-          from: otpToLocation(from),
-          to: otpToLocation(to),
-          numItineraries: numItineraries ? Number(numItineraries) : undefined,
-          date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
-          time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
-          arriveBy: arriveBy ? arriveBy === 'true' : undefined,
-        }, isNil)
-      }
+      prepareParams={preparePlanParams}
+      render={{ content: ({ props, routerProps }) => (props ?
+        <SummaryPage {...props} /> :
+        <SummaryPage
+          {...routerProps}
+          {...preparePlanParams(routerProps.params, routerProps)}
+          plan={{ plan: { } }}
+          loading
+        />
+      ) }}
     >
       <Route path=":hash" component={ItineraryPage} />
     </Route>
