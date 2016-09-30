@@ -9,49 +9,9 @@ import LocationMarker from './LocationMarker';
 import Line from './Line';
 import TripLine from './TripLine';
 import CityBikeMarker from './non-tile-layer/CityBikeMarker';
+import { getMiddleOf } from '../../util/geo-utils';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
-
-function getLengthOf(geometry) {
-  let d = 0;
-
-  for (let i = 0; i < geometry.length - 1; ++i) {
-    const dlat = geometry[i + 1][0] - geometry[i][0];
-    const dlon = geometry[i + 1][1] - geometry[i][1];
-    d += Math.sqrt((dlat * dlat) + (dlon * dlon));
-  }
-
-  return d;
-}
-
-function getMiddleIndexOf(geometry) {
-  let middleIndex = 0;
-  let distanceSoFar = 0;
-  const distanceToHalf = getLengthOf(geometry) * 0.5;
-
-  for (let i = 0; i < geometry.length - 1; ++i) {
-    const dlat = geometry[i + 1][0] - geometry[i][0];
-    const dlon = geometry[i + 1][1] - geometry[i][1];
-    distanceSoFar += Math.sqrt((dlat * dlat) + (dlon * dlon));
-    if (distanceSoFar >= distanceToHalf) {
-      middleIndex = i;
-      break;
-    }
-  }
-  return middleIndex;
-}
-
-function getMiddleOf(geometry) {
-  if (geometry.length <= 0) return { lat: 0, lon: 0 };
-  if (geometry.length === 1) return { lat: geometry[0][0], lon: geometry[0][1] };
-
-  const i = Math.max(1, getMiddleIndexOf(geometry));
-
-  return {
-    lat: geometry[i - 1][0] + (0.5 * (geometry[i][0] - geometry[i - 1][0])),
-    lon: geometry[i - 1][1] + (0.5 * (geometry[i][1] - geometry[i - 1][1])),
-  };
-}
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
