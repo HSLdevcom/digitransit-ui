@@ -42,6 +42,25 @@ $heading-color: #858585;
   }
 }
 
+.content-marker > div:nth-child(3) {
+    height:100%;
+    > div {
+      height:100%;
+    }
+    #scrollable-routes {
+      min-height: 200px;
+      height:calc(100% - 110px);
+    }
+}
+
+.fpcfloat {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 802;
+  height: calc(100% - 90px)
+}
+
 .frontpage-panel-container .tabs-row {
   z-index: 1201;
   width: 100%;
@@ -70,9 +89,15 @@ $heading-color: #858585;
   transition: top 300ms, height 300ms;
 }
 
-.front-page {
+.front-page { //small, mid
   .map.fullscreen {
     height: calc(100% - 50px);
+  }
+}
+
+.front-page.bp-large { //large
+  .map.fullscreen {
+    height: 100%;
   }
 }
 

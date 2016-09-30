@@ -5,7 +5,7 @@ import Tab from 'material-ui/Tabs/Tab';
 import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
 import { executeSearch } from '../../action/SearchActions';
 import FakeSearchBar from './FakeSearchBar';
-import FakeSearchWithButton from './FakeSearchWithButton';
+import { default as FakeSearchWithButton } from './FakeSearchWithButton';
 import GeolocationOrInput from './GeolocationOrInput';
 import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
@@ -17,6 +17,10 @@ class SearchMainContainer extends React.Component {
     router: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
+
+  static propTypes = {
+    className: React.PropTypes.string,
+  }
 
   constructor(args) {
     super(...args);
@@ -165,7 +169,7 @@ class SearchMainContainer extends React.Component {
       />);
 
     return (
-      <div>
+      <div className={this.props.className}>
         <FakeSearchWithButton
           fakeSearchBar={fakeSearchBar}
           onClick={this.clickSearch}

@@ -44,10 +44,10 @@ import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
 import RouteStop from '../component/route/RouteStop';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
-import Availability from '../component/card/Availability.js';
-import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
-import { DefaultNavigation } from '../component/navigation/DefaultNavigation.js';
-
+import Availability from '../component/card/Availability';
+import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability';
+import { DefaultNavigation } from '../component/navigation/DefaultNavigation';
+import FrontPagePanelContainer from '../component/front-page/FrontPagePanelContainer';
 import { DepartureRow } from '../component/departure/DepartureRowContainer';
 import { BicycleRentalStationRow } from '../component/departure/BicycleRentalStationRowContainer';
 
@@ -104,6 +104,7 @@ class StyleGuidelinesPage extends React.Component {
     BicycleRentalStationRow,
     FakeSearchWithButton,
     DefaultNavigation,
+    FrontPagePanelContainer,
   }
 
   getColors() {

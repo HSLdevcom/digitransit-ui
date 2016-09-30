@@ -72,7 +72,7 @@ class DefaultNavigation extends Component {
         </div>
       </div>
       <MessageBar />
-      <section ref="content" className="content">
+      <section ref="content" className="content bp-large">
         {this.props.children}
       </section>
     </div>);

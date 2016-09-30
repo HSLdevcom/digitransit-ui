@@ -57,14 +57,14 @@ $search-header-height: 45px;
 }
 
 .search-form.large {
-  padding-top: 30px;
-  max-width: 700px;
-  margin-left:200px;
+  //max-width: 700px;
+  //margin-left:200px;
+
+  padding-top: 0;
 
   .postfix {
     height:60px;
     .icon {
-      font-size: 30px;
       margin-top: 20px;
     }
   }

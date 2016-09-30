@@ -151,6 +151,12 @@ $content-background-color: $background-color;
   position: relative;
 }
 
+
+.content.bp-large {
+  height: calc(100% - 60px);
+  position: relative;
+}
+
 .content:nth-child(5) {
   height: calc(100% - #{$topbar-height} - 60px - 18px);
   position: relative;
