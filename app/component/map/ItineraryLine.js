@@ -19,11 +19,7 @@ class ItineraryLine extends React.Component {
   };
 
   render() {
-    let itineraryStops;
-
-    if (!isBrowser) {
-      return false;
-    }
+    if (!isBrowser) { return false; }
 
     const objs = [];
 
@@ -40,17 +36,6 @@ class ItineraryLine extends React.Component {
         position={this.props.legs[this.props.legs.length - 1].to}
         className="to"
       />);
-    }
-
-    if (!this.props.passive) {
-      itineraryStops = Array.prototype.concat.apply([], this.props.legs.map((leg) => {
-        const fromTo = [leg.from, leg.to];
-
-        if (leg.intermediateStops) {
-          return leg.intermediateStops.concat(fromTo);
-        }
-        return fromTo;
-      }));
     }
 
     const usingOwnBicycle = (
@@ -90,19 +75,6 @@ class ItineraryLine extends React.Component {
         />);
 
       if (!this.props.passive) {
-        if (leg.tripId) {
-          objs.push(
-            <Relay.RootContainer
-              Component={TripLine}
-              key={leg.tripId}
-              route={new TripRoute({
-                id: leg.tripId,
-              })}
-              renderLoading={() => false}
-              renderFetched={data => <TripLine {...data} filteredStops={itineraryStops} />}
-            />);
-        }
-
         if (this.props.showIntermediateStops && leg.intermediateStops != null) {
           leg.intermediateStops.forEach(stop =>
             objs.push(
