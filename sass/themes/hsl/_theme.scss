@@ -36,6 +36,8 @@ $disruption-color: $cancelation-red;
 
 $standalone-btn-color: $primary-color;
 $standalone-btn-hover-color: $secondary-color;
+$action-button-gradient: linear-gradient(#{#069DD8}, #{#0057B9});
+$action-button-gradient-active: linear-gradient(#{#0057B9}, #{#069DD8});
 
 /* Markers */
 $viewpoint-marker-color: $hsl-blue;
