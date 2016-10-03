@@ -63,18 +63,7 @@ class IndexPage extends React.Component {
       )) || // 'large'
       (
         <div className={`front-page fullscreen bp-${this.props.breakpoint}`} >
-          <MapWithTracking showStops />
-          <div
-            style={{
-              position: 'absolute',
-              top: '30px',
-              right: 0,
-              paddingLeft: '50px',
-              paddingRight: '400px',
-              paddingTop: 0,
-              width: '100%',
-            }}
-          ><SearchMainContainer /></div>
+          <MapWithTracking showStops ><SearchMainContainer /></MapWithTracking>
           <FrontPagePanelContainer
             breakpoint="large"
           />

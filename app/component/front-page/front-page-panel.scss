@@ -80,21 +80,38 @@ $heading-color: #858585;
   > div {
       height: calc(100% - 50px);
   }
+
+  > ul > li.selected {
+    color: $primary-color;
+  }
 }
 
 .frontpage-panel-container .tabs-row {
   z-index: 1201;
   width: 100%;
   position: relative;
+
 }
 
 .tabs-row.bp-large {
   height: 49px;
+  li {
+    font-size: 15px;
+  }
+
   li:nth-child(1) {
     border-top-left-radius: 8px;
   }
+
   li:nth-child(2) {
     border-top-right-radius: 8px;
+  }
+
+  li.favourites.selected {
+
+    svg.favourites-icon {
+      color: $primary-color;
+    }
   }
 
 }

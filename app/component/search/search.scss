@@ -56,11 +56,17 @@ $search-header-height: 45px;
   }
 }
 
-.search-form.large {
+.search-form.bp-large {
   //max-width: 700px;
   //margin-left:200px;
 
-  padding-top: 0;
+
+
+  padding-top: 30px;
+  padding-left: 50px;
+  padding-right: 400px;
+  max-width: none;
+
 
   .postfix {
     height:60px;

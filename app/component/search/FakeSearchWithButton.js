@@ -5,7 +5,7 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import FakeSearchBar from './FakeSearchBar';
 
 const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => (
-  <div className={`row search-form ${breakpoint}`}>
+  <div className={`row search-form bp-${breakpoint}`}>
     <div className="small-12 columns search-form-map-overlay">
       <div className="row collapse postfix-radius">
         <div className="small-11 columns">
