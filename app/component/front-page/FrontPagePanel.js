@@ -20,7 +20,7 @@ const FrontPagePanel = ({ selectedPanel, nearbyClicked,
     panel = <NearbyRoutesPanel />;
     heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
     nearbyClasses.push('selected');
-  } else if (selectedPanel === 2) {
+  } else {
     panel = <FavouritesPanel />;
     heading = <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />;
     favouritesClasses.push('selected');
