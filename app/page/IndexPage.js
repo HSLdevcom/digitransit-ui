@@ -76,7 +76,6 @@ class IndexPage extends React.Component {
             }}
           ><SearchMainContainer /></div>
           <FrontPagePanelContainer
-            className="fpcfloat"
             breakpoint="large"
           />
         </div>

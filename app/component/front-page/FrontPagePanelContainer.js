@@ -96,32 +96,55 @@ export default class FrontPagePanelContainer extends React.Component {
 
   closePanel = () => this.selectPanel(this.getSelectedPanel())
 
-  render() {
-    const piwik = this.context.piwik;
 
-    const clickNearby = () => {
-      if (piwik) {
+  clickNearby = () => {
+    console.log('click nearby', this.getSelectedPanel());
+    if (this.props.breakpoint === 'medium') {
+      if (this.context.piwik) {
         const action = this.getSelectedPanel() === 1 ? 'close' : 'open';
-        piwik.trackEvent('Front page tabs', 'Nearby', action);
+        this.context.piwik.trackEvent('Front page tabs', 'Nearby', action);
       }
-      return this.selectPanel(1);
-    };
+      this.selectPanel(1);
+      return;
+    }
 
-    const clickFavourites = () => {
-      if (piwik) {
+    if (this.getSelectedPanel() === 2) {
+      const action = 'open';
+      this.context.piwik.trackEvent('Front page tabs', 'Nearby', action);
+      this.selectPanel(1);
+    }
+  };
+
+  clickFavourites = () => {
+    console.log('click favourites', this.getSelectedPanel());
+    if (this.props.breakpoint === 'medium') {
+      if (this.context.piwik) {
         const action = this.getSelectedPanel() === 2 ? 'close' : 'open';
-        piwik.trackEvent('Front page tabs', 'Favourites', action);
+        this.context.piwik.trackEvent('Front page tabs', 'Favourites', action);
+        this.selectPanel(2);
+        return;
       }
-      return this.selectPanel(2);
-    };
+    }
 
+    if (this.getSelectedPanel() === 1) {
+      const action = 'open';
+      this.context.piwik.trackEvent('Front page tabs', 'Favourites', action);
+      this.selectPanel(2);
+    }
+  };
+
+  render() {
     return (this.props.breakpoint !== 'large' && // small, medium
       <FrontPagePanel
         selectedPanel={this.getSelectedPanel()}
-        nearbyClicked={clickNearby}
-        favouritesClicked={clickFavourites}
+        nearbyClicked={this.clickNearby}
+        favouritesClicked={this.clickFavourites}
         closePanel={this.closePanel}
       />
-    ) || <FrontPagePanelLarge className={this.props.className} />;
+    ) || <FrontPagePanelLarge
+      selectedPanel={this.getSelectedPanel()}
+      nearbyClicked={this.clickNearby}
+      favouritesClicked={this.clickFavourites}
+    />;
   }
 }

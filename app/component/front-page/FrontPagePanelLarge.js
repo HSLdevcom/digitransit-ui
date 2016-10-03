@@ -1,40 +1,65 @@
 import React from 'react';
-import Tabs from 'material-ui/Tabs/Tabs';
-import Tab from 'material-ui/Tabs/Tab';
+import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
+import Icon from '../icon/icon';
 import FavouritesPanel from '../favourites/FavouritesPanel';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
+import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
+import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
-const style = {
-  background: '#eef1f3',
-  padding: 0,
-  width: '340px',
-};
+const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
+   favouritesClicked, closePanel }) => {
+  let heading;
+  let panel;
+  const tabClasses = ['small-6', 'h4', 'hover'];
+  const nearbyClasses = ['nearby-routes'];
+  const favouritesClasses = ['favourites'];
 
-const tabStyle = { height: '100%' };
+  if (selectedPanel === 1) {
+    panel = <NearbyRoutesPanel />;
+    heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
+    nearbyClasses.push('selected');
+  } else {
+    panel = <FavouritesPanel />;
+    heading = <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />;
+    favouritesClasses.push('selected');
+  }
 
-const FrontPagePanelLarge = ({ className }) => (
-  <div style={style} className={className}>
-    <Tabs
-      inkBarStyle={{ height: 2, marginTop: -2 }}
-      style={{ fontSize: '15px', height: '100%' }}
-      className="content-marker"
-    >
-      <Tab label="nearby" value="1">
-        <div style={tabStyle}>
-          <NearbyRoutesPanel />
-        </div>
-      </Tab>
-      <Tab label="favourites" value="2">
-        <div style={tabStyle}>
-          <FavouritesPanel />
-        </div>
-      </Tab>
-    </Tabs>
-  </div>
-);
+  const top = (
+    <div className="panel-top">
+      <div className="panel-heading">
+        <h2>{heading}</h2>
+      </div>
+      <div className="close-icon" onClick={closePanel}>
+        <Icon img="icon-icon_close" />
+      </div>
+    </div>
+  );
+
+  const content = <div key="panel">{top}{panel}</div>;
+
+  return (
+    <div className="fpcfloat no-select">
+      <ul className="tabs-row tabs-arrow-up cursor-pointer">
+        <NearbyTabLabelContainer
+          classes={cx(tabClasses, nearbyClasses)}
+          onClick={nearbyClicked}
+        />
+        <FavouritesTabLabelContainer
+          classes={cx(tabClasses, favouritesClasses)}
+          onClick={favouritesClicked}
+        />
+      </ul>
+      {selectedPanel ? content : undefined}
+    </div>
+); };
 
 FrontPagePanelLarge.propTypes = {
-  className: React.PropTypes.string,
+  selectedPanel: React.PropTypes.number.isRequired,
+  nearbyClicked: React.PropTypes.func.isRequired,
+  favouritesClicked: React.PropTypes.func.isRequired,
+  closePanel: React.PropTypes.func.isRequired,
 };
+
 
 export default FrontPagePanelLarge;
