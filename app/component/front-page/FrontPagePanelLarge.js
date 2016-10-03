@@ -1,15 +1,12 @@
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
-import Icon from '../icon/icon';
 import FavouritesPanel from '../favourites/FavouritesPanel';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
 const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
-   favouritesClicked, closePanel }) => {
-  let heading;
+   favouritesClicked }) => {
   let panel;
   const tabClasses = ['small-6', 'h4', 'hover'];
   const nearbyClasses = ['nearby-routes'];
@@ -17,18 +14,16 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
 
   if (selectedPanel === 1) {
     panel = <NearbyRoutesPanel />;
-    heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
     nearbyClasses.push('selected');
   } else {
     panel = <FavouritesPanel />;
-    heading = <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />;
     favouritesClasses.push('selected');
   }
 
   const top = (
-    <div className="panel-top">
+    <div className="panel-top" >
       <div className="panel-heading">
-        <h2>e</h2>
+        <h5>&nbsp;</h5>
       </div>
     </div>
   );
@@ -37,7 +32,7 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
 
   return (
     <div className="fpcfloat no-select">
-      <ul className="tabs-row tabs-arrow-up cursor-pointer">
+      <ul className="tabs-row bp-large cursor-pointer">
         <NearbyTabLabelContainer
           classes={cx(tabClasses, nearbyClasses)}
           onClick={nearbyClicked}

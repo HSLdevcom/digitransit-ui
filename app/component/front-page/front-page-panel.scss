@@ -68,6 +68,15 @@ $heading-color: #858585;
   position: relative;
 }
 
+.tabs-row.bp-large {
+  li:nth-child(1) {
+    border-top-left-radius: 8px;
+  }
+  li:nth-child(2) {
+    border-top-right-radius: 8px;
+  }
+}
+
 .frontpage-panel-wrapper-enter {
   top: 100%;
   height: 0;
