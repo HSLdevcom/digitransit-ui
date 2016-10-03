@@ -36,14 +36,14 @@ function renderMap({ plan: { plan }, from, to }, activeIndex) {
 
   leafletObjs.push(
     <LocationMarker
-      key="from"
+      key="fromMarker"
       position={from}
       className="from"
     />
   );
   leafletObjs.push(
     <LocationMarker
-      key="to"
+      key="toMarker"
       position={to}
       className="to"
     />
@@ -73,7 +73,7 @@ function getActiveIndex(state) {
 
 function SummaryPage(props, { breakpoint, queryAggregator: { readyState: { done } } }) {
   const map = props.children && props.children.type.renderMap ?
-    props.children.type.renderMap(props.plan.plan.itineraries[props.params.hash]) :
+    props.children.type.renderMap(props.plan.plan.itineraries[props.params.hash], props.params) :
     renderMap(props, getActiveIndex(props.location.state));
 
   if (breakpoint === 'large') {
@@ -190,14 +190,6 @@ export default Relay.createContainer(SummaryPage, {
               ${ItineraryLine.getFragment('legs')}
               legGeometry {
                 points
-              }
-              from {
-                lat
-                lon
-              }
-              to {
-                lat
-                lon
               }
             }
           }

@@ -104,16 +104,16 @@ const ItineraryPageContainer = Relay.createContainer(ItineraryPage, {
   },
 });
 
-ItineraryPageContainer.renderMap = (itinerary) => {
+ItineraryPageContainer.renderMap = (itinerary, { from, to }) => {
   const leafletObjs = [
     <LocationMarker
-      key="from"
-      position={itinerary.legs[0].from}
+      key="fromMarker"
+      position={from}
       className="from"
     />,
     <LocationMarker
-      key="to"
-      position={itinerary.legs[itinerary.legs.length - 1].to}
+      key="toMarker"
+      position={to}
       className="to"
     />,
     <ItineraryLine
