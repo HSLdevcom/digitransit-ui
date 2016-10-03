@@ -115,13 +115,18 @@ ItineraryPageContainer.renderMap = (itinerary, { from, to }) => {
       key="toMarker"
       position={to}
       className="to"
-    />,
-    <ItineraryLine
-      key={'line'}
-      legs={itinerary.legs}
-      showTransferLabels
-      showIntermediateStops
     />];
+
+  if (itinerary) {
+    leafletObjs.push(
+      <ItineraryLine
+        key={'line'}
+        legs={itinerary.legs}
+        showTransferLabels
+        showIntermediateStops
+      />
+    );
+  }
 
   return (
     <Map

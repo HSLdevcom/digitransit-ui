@@ -73,7 +73,10 @@ function getActiveIndex(state) {
 
 function SummaryPage(props, { breakpoint, queryAggregator: { readyState: { done } } }) {
   const map = props.children && props.children.type.renderMap ?
-    props.children.type.renderMap(props.plan.plan.itineraries[props.params.hash], props.params) :
+    props.children.type.renderMap(
+      props.plan.plan.itineraries && props.plan.plan.itineraries[props.params.hash],
+      props
+    ) :
     renderMap(props, getActiveIndex(props.location.state));
 
   if (breakpoint === 'large') {
