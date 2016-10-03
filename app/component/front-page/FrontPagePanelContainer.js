@@ -108,7 +108,7 @@ export default class FrontPagePanelContainer extends React.Component {
       return;
     }
 
-    if (this.getSelectedPanel() === 2) {
+    if (this.getSelectedPanel() !== 1) {
       const action = 'open';
       this.context.piwik.trackEvent('Front page tabs', 'Nearby', action);
       this.selectPanel(1);
@@ -126,7 +126,7 @@ export default class FrontPagePanelContainer extends React.Component {
       }
     }
 
-    if (this.getSelectedPanel() === 1) {
+    if (this.getSelectedPanel() !== 2) {
       const action = 'open';
       this.context.piwik.trackEvent('Front page tabs', 'Favourites', action);
       this.selectPanel(2);
