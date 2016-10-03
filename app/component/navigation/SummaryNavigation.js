@@ -44,10 +44,11 @@ class SummaryNavigation extends React.Component {
     if (supportsHistory()) {
       if (newState) {
         this.context.router.push({
+          ...this.context.location,
           state: {
+            ...this.context.location.state,
             customizeSearchOffcanvas: newState,
           },
-          pathname: this.context.location.pathname,
         });
       } else {
         this.context.router.goBack();
@@ -57,20 +58,6 @@ class SummaryNavigation extends React.Component {
 
   toggleCustomizeSearchOffcanvas = () => {
     this.internalSetOffcanvas(!this.getOffcanvasState());
-  }
-
-  toggleDisruptionInfo = () => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'Modal',
-        'Disruption',
-        this.state.disruptionVisible ? 'close' : 'open'
-      );
-    }
-
-    this.setState({
-      disruptionVisible: !this.state.disruptionVisible,
-    });
   }
 
   render() {

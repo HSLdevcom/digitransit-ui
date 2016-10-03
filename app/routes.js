@@ -93,7 +93,15 @@ const planQueries = {
 const preparePlanParams = (
     { from, to },
     { location: { query: {
-      numItineraries, time, arriveBy,
+      numItineraries,
+      time,
+      arriveBy,
+      walkReluctance,
+      walkSpeed,
+      walkBoardCost,
+      minTransferTime,
+      modes,
+      accessibilityOption,
     } } }
   ) => omitBy({
     fromPlace: from,
@@ -101,9 +109,19 @@ const preparePlanParams = (
     from: otpToLocation(from),
     to: otpToLocation(to),
     numItineraries: numItineraries ? Number(numItineraries) : undefined,
+    modes: modes ? modes.split(',').sort().join(',') : undefined,
     date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
     time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
+    walkReluctance: walkReluctance ? Number(walkReluctance) : undefined,
+    walkBoardCost: walkBoardCost ? Number(walkBoardCost) : undefined,
+    minTransferTime: minTransferTime ? Number(minTransferTime) : undefined,
+    walkSpeed: walkSpeed ? Number(walkSpeed) : undefined,
     arriveBy: arriveBy ? arriveBy === 'true' : undefined,
+    maxWalkDistance: modes && modes.split(',').includes('BICYCLE') ?
+      config.maxWalkDistance : config.maxBikingDistance,
+    wheelchair: accessibilityOption === '1',
+    preferred: { agencies: config.preferredAgency || '' },
+    disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
   }, isNil);
 
 const routes = (

@@ -3,119 +3,7 @@ import { locationToOTP } from '../util/otp-strings';
 import { getRoutePath } from '../util/path';
 import history from '../history';
 
-export function itinerarySearchRequest(actionContext, options) {
-  if (options && options.params) {
-    actionContext.dispatch('UpdateFromToPlaces', {
-      to: options.params.to,
-      from: options.params.from,
-    });
-  }
-
-  return undefined;
-}
-
-export function toggleBusState(actionContext) {
-  return actionContext.dispatch('ToggleItineraryBusState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function toggleTramState(actionContext) {
-  return actionContext.dispatch('ToggleItineraryTramState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function toggleRailState(actionContext) {
-  return actionContext.dispatch('ToggleItineraryRailState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function toggleSubwayState(actionContext) {
-  return actionContext.dispatch('ToggleItinerarySubwayState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function toggleFerryState(actionContext) {
-  return actionContext.dispatch('ToggleItineraryFerryState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function toggleCitybikeState(actionContext) {
-  return actionContext.dispatch('ToggleItineraryCitybikeState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function forceCitybikeState(actionContext) {
-  return actionContext.dispatch('ForceItineraryCitybikeState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function toggleAirplaneState(actionContext) {
-  return actionContext.dispatch('ToggleItineraryAirplaneState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function toggleWalkState(actionContext) {
-  return actionContext.dispatch('ToggleItineraryWalkState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function toggleBicycleState(actionContext) {
-  return actionContext.dispatch('ToggleItineraryBicycleState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function toggleCarState(actionContext) {
-  return actionContext.dispatch('ToggleItineraryCarState',
-                                null,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function setWalkReluctance(actionContext, value) {
-  return actionContext.dispatch('SetWalkReluctance',
-                                value,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function setWalkBoardCost(actionContext, value) {
-  return actionContext.dispatch('SetWalkBoardCost',
-                                value,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function setMinTransferTime(actionContext, value) {
-  return actionContext.dispatch('SetMinTransferTime',
-                                value,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function setWalkSpeed(actionContext, value) {
-  return actionContext.dispatch('SetWalkSpeed',
-                                value,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function setTicketOption(actionContext, value) {
-  return actionContext.dispatch('SetTicketOption',
-                                value,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
-export function setAccessibilityOption(actionContext, value) {
-  return actionContext.dispatch('SetAccessibilityOption',
-                                value,
-                                actionContext.executeAction(itinerarySearchRequest));
-}
-
+// eslint-disable-next-line import/prefer-default-export
 export function route(actionContext, payload, done) {
   let to;
   let from;
@@ -150,8 +38,4 @@ export function route(actionContext, payload, done) {
   }
 
   return done();
-}
-
-export function reset(actionContext) {
-  return actionContext.dispatch('Reset');
 }

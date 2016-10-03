@@ -1,7 +1,6 @@
 import React from 'react';
 import Config from '../config';
 import { clearDestination } from '../action/EndpointActions';
-import { reset, forceCitybikeState } from '../action/ItinerarySearchActions';
 import FeedbackPanel from '../component/feedback/feedback-panel';
 import FrontPagePanel from '../component/front-page/FrontPagePanel';
 import MapWithTracking from '../component/map/MapWithTracking';
@@ -22,13 +21,12 @@ class IndexPage extends React.Component {
     const search = this.context.location.search;
 
     if (search && search.indexOf('citybikes') >= -1) {
-      this.context.executeAction(forceCitybikeState);
+      // this.context.executeAction(forceCitybikeState); // TODO: how to do this??
     }
   }
 
   resetToCleanState = () => {
     this.context.executeAction(clearDestination);
-    this.context.executeAction(reset);
   }
 
   render() {
