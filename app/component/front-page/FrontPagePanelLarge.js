@@ -16,19 +16,11 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
     panel = <NearbyRoutesPanel />;
     nearbyClasses.push('selected');
   } else {
-    panel = <FavouritesPanel />;
+    panel = <FavouritesPanel className="white" />;
     favouritesClasses.push('selected');
   }
 
-  const top = (
-    <div className="panel-top" >
-      <div className="panel-heading">
-        <h5>&nbsp;</h5>
-      </div>
-    </div>
-  );
-
-  const content = <div key="panel">{top}{panel}</div>;
+  const content = <div key="panel">{panel}</div>;
 
   return (
     <div className="fpcfloat no-select">

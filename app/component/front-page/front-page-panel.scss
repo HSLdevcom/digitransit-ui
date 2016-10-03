@@ -60,6 +60,26 @@ $heading-color: #858585;
   z-index: 802;
   height: calc(100% - 90px);
   width: 340px;
+  .frontpage-panel {
+    height: 100%;
+    background: #eef1f3;
+    .row {
+      padding-top:10px;
+    }
+    .next-departures-list-header {
+      padding:14px;
+    }
+    .next-departure-row {
+      padding-left:20px;
+      padding-right:20px;
+    }
+    .scrollable {
+      height: calc(100% - 90px);
+    }
+  }
+  > div {
+      height: calc(100% - 50px);
+  }
 }
 
 .frontpage-panel-container .tabs-row {
@@ -69,12 +89,14 @@ $heading-color: #858585;
 }
 
 .tabs-row.bp-large {
+  height: 49px;
   li:nth-child(1) {
     border-top-left-radius: 8px;
   }
   li:nth-child(2) {
     border-top-right-radius: 8px;
   }
+
 }
 
 .frontpage-panel-wrapper-enter {
