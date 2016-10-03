@@ -28,10 +28,7 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
   const top = (
     <div className="panel-top">
       <div className="panel-heading">
-        <h2>{heading}</h2>
-      </div>
-      <div className="close-icon" onClick={closePanel}>
-        <Icon img="icon-icon_close" />
+        <h2>e</h2>
       </div>
     </div>
   );
@@ -58,7 +55,6 @@ FrontPagePanelLarge.propTypes = {
   selectedPanel: React.PropTypes.number.isRequired,
   nearbyClicked: React.PropTypes.func.isRequired,
   favouritesClicked: React.PropTypes.func.isRequired,
-  closePanel: React.PropTypes.func.isRequired,
 };
 
 
