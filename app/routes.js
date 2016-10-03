@@ -34,6 +34,7 @@ import StopPageHeader from './component/stop/StopPageHeader';
 import StopPageMeta from './component/stop/StopPageMeta';
 import SummaryTitle from './component/summary/SummaryTitle';
 
+import { storeEndpoint } from './action/EndpointActions';
 import { otpToLocation } from './util/otp-strings';
 
 import TopLevel from './component/TopLevel';
@@ -217,6 +218,10 @@ const routes = (
           loading
         />
       ) }}
+      loadAction={(params) => [
+        [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
+        [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
+      ]}
     >
       <Route path=":hash" component={ItineraryPage} />
     </Route>
