@@ -127,8 +127,8 @@ ItineraryPageContainer.renderMap = (itinerary, { from, to }) => {
     <Map
       className="full"
       leafletObjs={leafletObjs}
-      lat={itinerary.legs[0].from.lat}
-      lon={itinerary.legs[0].from.lon}
+      lat={from.lat}
+      lon={from.lon}
       zoom={16}
       fitBounds={false}
       disableZoom={false}
