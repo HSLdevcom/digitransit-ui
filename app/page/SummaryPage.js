@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import moment from 'moment';
 import sortBy from 'lodash/sortBy';
+import some from 'lodash/some';
 import polyline from 'polyline-encoded';
 
 import DesktopView from '../component/DesktopView';
@@ -71,11 +72,13 @@ function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
 }
 
-function SummaryPage(props, { breakpoint, queryAggregator: { readyState: { done } } }) {
+function SummaryPage(props, context) {
+  const { breakpoint, queryAggregator: { readyState: { done } } } = context;
   const map = props.children && props.children.type.renderMap ?
     props.children.type.renderMap(
       props.plan.plan.itineraries && props.plan.plan.itineraries[props.params.hash],
-      props
+      props,
+      context
     ) :
     renderMap(props, getActiveIndex(props.location.state));
 
@@ -121,6 +124,7 @@ function SummaryPage(props, { breakpoint, queryAggregator: { readyState: { done 
       <MobileItineraryWrapper
         itineraries={props.plan.plan.itineraries}
         params={props.params}
+        fullscreenMap={some(props.routes.map(route => route.fullscreenMap))}
       >
         {props.children && props.plan.plan.itineraries.map((itinerary, i) =>
           React.cloneElement(props.children, { key: i, itinerary })
@@ -164,6 +168,8 @@ SummaryPage.contextTypes = {
       done: React.PropTypes.bool.isRequired,
     }).isRequired,
   }).isRequired,
+  router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
 };
 
 export default Relay.createContainer(SummaryPage, {

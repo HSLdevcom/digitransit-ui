@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import some from 'lodash/some';
 
 import CityBikeMarker from '../component/map/non-tile-layer/CityBikeMarker';
 
@@ -7,11 +8,12 @@ import LocationMarker from '../component/map/LocationMarker';
 import ItineraryLine from '../component/map/ItineraryLine';
 import ItineraryTab from '../component/itinerary/ItineraryTab';
 import Map from '../component/map/Map';
+import Icon from '../component/icon/icon';
 
 function ItineraryPage({ itinerary }) {
   return (
     <ItineraryTab
-      focus={() => {}}
+      focus={() => false}
       itinerary={itinerary}
     />
   );
@@ -104,7 +106,11 @@ const ItineraryPageContainer = Relay.createContainer(ItineraryPage, {
   },
 });
 
-ItineraryPageContainer.renderMap = (itinerary, { from, to }) => {
+ItineraryPageContainer.renderMap = (
+  itinerary,
+  { from, to, routes },
+  { breakpoint, router, location }
+) => {
   const leafletObjs = [
     <LocationMarker
       key="fromMarker"
@@ -127,6 +133,19 @@ ItineraryPageContainer.renderMap = (itinerary, { from, to }) => {
       />
     );
   }
+  const fullscreen = some(routes.map(route => route.fullscreenMap));
+
+  const toggleFullscreenMap = fullscreen ?
+    router.goBack :
+    () => router.push({
+      pathname: `${location.pathname}/kartta`,
+    });
+
+  const overlay = fullscreen ? undefined : (
+    <div
+      className="map-click-prevent-overlay"
+      onClick={toggleFullscreenMap}
+    />);
 
   return (
     <Map
@@ -137,7 +156,20 @@ ItineraryPageContainer.renderMap = (itinerary, { from, to }) => {
       zoom={16}
       fitBounds={false}
       disableZoom={false}
-    />
+    >
+      {overlay}
+      {breakpoint !== 'large' && (
+        <div
+          className="fullscreen-toggle"
+          onClick={toggleFullscreenMap}
+        >
+          <Icon
+            img="icon-icon_maximize"
+            className="cursor-pointer"
+          />
+        </div>
+      )}
+    </Map>
   );
 };
 

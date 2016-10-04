@@ -241,7 +241,9 @@ const routes = (
         [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
       ]}
     >
-      <Route path=":hash" component={ItineraryPage} />
+      <Route path=":hash" component={ItineraryPage}>
+        <Route path="kartta" fullscreenMap />
+      </Route>
     </Route>
     <Route path="styleguide" component={StyleGuidelines} />
     <Route path="styleguide/component/:componentName" component={StyleGuidelines} />

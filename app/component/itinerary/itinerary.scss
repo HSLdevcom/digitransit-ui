@@ -259,6 +259,11 @@ div.itinerary-container-content {
   position: relative;
   width: 100%;
   height: 100%;
+  transition: height 500ms;
+
+  &:empty {
+    height: 0;
+  }
 }
 
 .row.itinerary-bottom-navigation {

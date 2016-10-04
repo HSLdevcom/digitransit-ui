@@ -3,12 +3,21 @@ import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage } from 'react-intl';
-import { supportsHistory } from 'history/lib/DOMUtils';
 import SwipeableViews from 'react-swipeable-views';
 
 import { getRoutePath } from '../../util/path';
 
 export default class MobileItineraryWrapper extends React.Component {
+  static propTypes = {
+    fullscreenMap: React.PropTypes.bool,
+    children: React.PropTypes.arrayOf(React.PropTypes.node.isRequired).isRequired,
+    params: React.PropTypes.shape({
+      from: React.PropTypes.string.isRequired,
+      to: React.PropTypes.string.isRequired,
+      hash: React.PropTypes.string.isRequired,
+    }).isRequired,
+  }
+
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
@@ -17,7 +26,6 @@ export default class MobileItineraryWrapper extends React.Component {
   state = {
     lat: undefined,
     lon: undefined,
-    fullscreen: false,
   };
 
   getTabs(itineraries, selectedIndex) {
@@ -38,28 +46,14 @@ export default class MobileItineraryWrapper extends React.Component {
     ));
   }
 
-  getFullscreen = () => {
-    if (typeof window !== 'undefined' && supportsHistory()) {
-      const state = this.context.location.state;
-      return state && state.fullscreen;
-    }
-
-    return this.state && this.state.fullscreen;
-  };
-
   toggleFullscreenMap = () => {
-    if (supportsHistory()) {
-      if (this.context.location.state && this.context.location.state.fullscreen) {
-        return this.context.router.goBack();
-      }
-      return this.context.router.push({
-        state: {
-          fullscreen: true,
-        },
-        pathname: this.context.location.pathname,
+    if (this.props.fullscreenMap) {
+      this.context.router.goBack();
+    } else {
+      this.context.router.push({
+        pathname: `${this.context.location.pathname}/kartta`,
       });
     }
-    return this.setState({ fullscreen: !this.state.fullscreen });
   };
 
   focusMap = (lat, lon) => this.setState({ lat, lon })
@@ -92,7 +86,7 @@ export default class MobileItineraryWrapper extends React.Component {
       );
     }
 
-    const swipe = this.getFullscreen() ? undefined : (
+    const swipe = this.props.fullscreenMap ? undefined : (
       <SwipeableViews
         index={index}
         key="swipe"
@@ -103,7 +97,7 @@ export default class MobileItineraryWrapper extends React.Component {
       >
         {this.props.children}
       </SwipeableViews>);
-    const tabs = this.getFullscreen() ? undefined : (
+    const tabs = this.props.fullscreenMap ? undefined : (
       <div className="itinerary-tabs-container" key="tabs">
         <Tabs
           onChange={this.switchSlide}
