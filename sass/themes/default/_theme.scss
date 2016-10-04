@@ -14,7 +14,7 @@ $gray: #888;
 $hsl-alert: #dc0451;
 
 $livi-bus-blue: rgb(0, 136, 206);
-$livi-logo-blue: rgb(61, 183, 228);
+$livi-logo-blue: #00AFFF;
 $livi-airplane-blue: rgb(0, 70, 173);
 $livi-ferry-blue: rgb(53, 181, 179);
 $livi-rail-purple: rgb(175, 141, 188);
@@ -48,11 +48,11 @@ $action-button-gradient: linear-gradient(to bottom, lighten($action-color, 15%) 
 $action-button-gradient-active: linear-gradient(to top, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
 
 /* Markers */
-$viewpoint-marker-color: $title-color;
+$viewpoint-marker-color: $livi-logo-blue;
 
 /* Fonts */
 $font-family: Lato, Arial, Georgia, Serif;
-$font-weight-book: 300;
+$font-weight-book: 400;
 $font-weight-medium: 400;
 $font-weight-bold: 700;
 $font-weight-map-container: $font-weight-book;
@@ -94,7 +94,7 @@ $wait-color: #979797;
 $bicycle-color: #64be14;
 $car-color: #333;
 
-$nav-logo: null;
+$nav-logo: url('/img/matka-logo.png');
 
 /* Borders */
 $border-radius: 3px;
