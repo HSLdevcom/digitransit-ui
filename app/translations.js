@@ -120,7 +120,7 @@ const translations = {
     'likely-to-recommend': `Kuinka todennäköistä on, että suosittelisit palveluamme
       ystävälle tai kollegallesi?`,
     'likely-to-use': `Kuinka todennäköisesti käyttäisit tätä palvelua ennemmin kuin
-      nykyistä Reittiopas.fi-palvelua?`,
+      nykyistä reittiopas-palvelua?`,
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
     'char-left': 'merkkiä',
     'send': 'Lähetä',
