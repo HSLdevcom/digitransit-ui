@@ -1,49 +1,68 @@
-/* default theme */
+/* Turku theme */
 
 /* General palette */
 $white: #ffffff;
+$light-gray: #ddd;
+$medium-gray: #ccc;
+$gray: #888;
+$dark-gray: #575757;
 $black: #333;
 $gray-blue: #7f929c;
 $gray-blue-light: rgb(182, 193, 199);
-$light-gray: #ddd;
-$medium-gray: #ccc;
-$dark-gray: #575757;
-$gray: #888;
 
+/* Operator palette */
 $turku-light-yellow: #e8aa27;
 $turku-dark-yellow: #a07415;
 $turku-blue: #45CBCB;
 $turku-dark-blue: #6BA3AF;
 $turku-red: #EA4C58;
-$turku-dark: #555555;
 $turku-light-gray: #c9ccce;
+$turku-dark: #555555;
 $turku-rail-color: #8c4799;
 $turku-ferry-color: rgb(53, 181, 179);
 
-$realtime-color: #46b32a;
-$cancelation-red: #dc0451;
-$cancelation-black: #666;
-$cancelation-background: #fbe0ea;
-$hsl-alert: #dc0451;
-
+/* Application palette */
+$background-color: #eef1f3;
 $primary-color: $turku-light-yellow;
 $primary-font-color: $white;
 $secondary-color: $turku-dark-yellow;
 $secondary-font-color: $white;
-$title-color: $white;
 $favourite-color: $turku-light-yellow;
 $hilight-color: $turku-dark;
 $action-color: $turku-dark;
+$cancelation-red: #dc0451;
+$cancelation-black: #666;
+$cancelation-background: #fbe0ea;
 $disruption-color: $cancelation-red;
+$realtime-color: #46b32a;
+$dark-color: $gray;
+
+/* Component palette */
+$title-color: $white;
 $standalone-btn-color: $primary-color;
 $standalone-btn-hover-color: turku-light-gray;
-
 $action-button-fill-color-difference: 10%;
 $action-button-gradient: linear-gradient(to bottom, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
 $action-button-gradient-active: linear-gradient(to top, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
-
-/* Markers */
 $viewpoint-marker-color: $turku-light-yellow;
+$link-color: $turku-dark;
+$from-color: $turku-blue;
+$to-color: $turku-red;
+$slider-warning-color: $turku-red;
+$slider-ok-color: $turku-blue;
+
+/* Vehicle palette */
+$airplane-color: $turku-light-yellow;
+$bus-color: $turku-light-yellow;
+$tram-color: $turku-light-yellow;
+$metro-color: $turku-light-yellow;
+$rail-color: $turku-rail-color;
+$ferry-color: $turku-ferry-color;
+$citybike-color: $turku-light-yellow;
+$walk-color: $turku-dark-blue;
+$wait-color: #979797;
+$bicycle-color: #64be14;
+$car-color: #333;
 
 /* Fonts */
 $font-family: Lato, Arial, Georgia, Serif;
@@ -67,35 +86,12 @@ $font-size-normal: 16px;
 $font-size-large: 24px;
 $font-size-xlarge: 32px;
 
-/* Application base colors */
-$background-color: #eef1f3;
-$dark-color: $gray;
-$link-color: $turku-dark;
-
-/* Vehicle colors */
-$airplane-color: $turku-light-yellow;
-$bus-color: $turku-light-yellow;
-$tram-color: $turku-light-yellow;
-$metro-color: $turku-light-yellow;
-$rail-color: $turku-rail-color;
-$ferry-color: $turku-ferry-color;
-$citybike-color: $turku-light-yellow;
-$from-color: $turku-blue;
-$to-color: $turku-red;
-$walk-color: $turku-dark-blue;
-$wait-color: #979797;
-$bicycle-color: #64be14;
-$car-color: #333;
-
-$nav-logo: url('/img/foli-logo.png');
-
 /* Borders */
 $border-radius: 3px;
 $border-radius-bigger: 8px;
 
-/* Slider colors */
-$slider-warning-color: $turku-red;
-$slider-ok-color: $turku-blue;
+/* Navbar logo */
+$nav-logo: url('/img/foli-logo.png');
 
 /* Spinner */
 div.spinner-loader {
