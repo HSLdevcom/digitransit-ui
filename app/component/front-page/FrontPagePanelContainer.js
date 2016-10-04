@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { supportsHistory } from 'history/lib/DOMUtils';
 import { intlShape } from 'react-intl';
 
 import { shouldDisplayPopup } from '../../util/Feedback';
@@ -22,6 +21,9 @@ export default class FrontPagePanelContainer extends React.Component {
   static propTypes = {
     breakpoint: React.PropTypes.string,
     className: React.PropTypes.string,
+    children: React.PropTypes.node,
+    routes: React.PropTypes.array,
+    history: React.PropTypes.object,
   }
 
   static defaultProps = {
@@ -41,6 +43,7 @@ export default class FrontPagePanelContainer extends React.Component {
       </ComponentUsageExample>
     </div>);
 
+// TODO hook this function
   onReturnToFrontPage() {
     const timeStore = this.context.getStore('TimeStore');
     if (shouldDisplayPopup(timeStore.getCurrentTime().valueOf())) {
@@ -49,102 +52,80 @@ export default class FrontPagePanelContainer extends React.Component {
     return undefined;
   }
 
-  getSelectedPanel = () => {
-    if (typeof window !== 'undefined' && supportsHistory()) {
-      const state = this.context.location.state;
-      return state && state.selectedPanel;
-    }
 
-    return this.state && this.state.selectedPanel;
+  getSelectedTab() {
+    const routePath = this.props.routes[this.props.routes.length - 1].path;
+
+    if (routePath === 'suosikit') {
+      return 2;
+    } else if (routePath === 'lahellasi') {
+      return 1;
+    } return undefined;
   }
 
-  selectPanel = (selection) => {
-    let tabOpensOrCloses;
-    let newSelection;
-    const oldSelection = this.getSelectedPanel();
-
-    if (selection === oldSelection) {
-      this.onReturnToFrontPage();
-    } else {
-      newSelection = selection;
+  trackEvent = (...args) => {
+    if (this.context.piwik) {
+      this.context.piwik(...args);
     }
-
-    if (supportsHistory()) {
-      tabOpensOrCloses = !oldSelection || !newSelection;
-
-      if (tabOpensOrCloses) {
-        return this.context.router.push({
-          state: {
-            selectedPanel: newSelection,
-          },
-          query: this.context.location.query,
-          pathname: this.context.location.pathname,
-        });
-      }
-      return this.context.router.replace({
-        state: {
-          selectedPanel: newSelection,
-        },
-        query: this.context.location.query,
-        pathname: this.context.location.pathname,
-      });
-    }
-    return this.setState({
-      selectedPanel: newSelection,
-    });
   }
-
-  closePanel = () => this.selectPanel(this.getSelectedPanel())
-
 
   clickNearby = () => {
-    console.log('click nearby', this.getSelectedPanel());
-    if (this.props.breakpoint === 'medium') {
-      if (this.context.piwik) {
-        const action = this.getSelectedPanel() === 1 ? 'close' : 'open';
-        this.context.piwik.trackEvent('Front page tabs', 'Nearby', action);
+    // tab click logic is different in large vs the rest!
+    if (this.props.breakpoint !== 'large') {
+      if (this.getSelectedTab() === 1) {
+        this.closeTab();
+      } else {
+        this.openNearby();
       }
-      this.selectPanel(1);
-      return;
-    }
-
-    if (this.getSelectedPanel() !== 1) {
-      const action = 'open';
-      this.context.piwik.trackEvent('Front page tabs', 'Nearby', action);
-      this.selectPanel(1);
+      this.trackEvent('Front page tabs', 'Nearby', this.getSelectedTab() === 1 ? 'close' : 'open');
+    } else {
+      if (this.getSelectedTab() !== 1) {
+        this.openNearby();
+        this.trackEvent('Front page tabs', 'Nearby', 'open');
+      }
     }
   };
 
   clickFavourites = () => {
-    console.log('click favourites', this.getSelectedPanel());
-    if (this.props.breakpoint === 'medium') {
-      if (this.context.piwik) {
-        const action = this.getSelectedPanel() === 2 ? 'close' : 'open';
-        this.context.piwik.trackEvent('Front page tabs', 'Favourites', action);
-        this.selectPanel(2);
-        return;
+    // tab click logic is different in large vs the rest!
+    if (this.props.breakpoint !== 'large') {
+      if (this.getSelectedTab() === 2) {
+        this.closeTab();
+      } else {
+        this.openFavourites();
       }
-    }
-
-    if (this.getSelectedPanel() !== 2) {
-      const action = 'open';
-      this.context.piwik.trackEvent('Front page tabs', 'Favourites', action);
-      this.selectPanel(2);
+      this.trackEvent('Front page tabs', 'Favourites', this.getSelectedTab() === 1 ? 'close' : 'open');
+    } else {
+      this.openFavourites();
+      this.trackEvent('Front page tabs', 'Nearby', 'open');
     }
   };
 
+  openFavourites() {
+    this.props.history.replace('/app/suosikit');
+  }
+
+  openNearby() {
+    this.props.history.replace('/app/lahellasi');
+  }
+
+  closeTab() {
+    this.props.history.replace('/app');
+  }
+
   render() {
+    console.log('children in container', this.props.children);
     return (this.props.breakpoint !== 'large' && // small, medium
       <FrontPagePanel
-        selectedPanel={this.getSelectedPanel()}
+        selectedPanel={this.getSelectedTab()}
         nearbyClicked={this.clickNearby}
         favouritesClicked={this.clickFavourites}
-        closePanel={this.closePanel}
-      />
+        closePanel={this.closeTab}
+      >{this.props.children}</FrontPagePanel>
     ) || <FrontPagePanelLarge
-      selectedPanel={this.getSelectedPanel()}
+      selectedPanel={this.getSelectedTab()}
       nearbyClicked={this.clickNearby}
       favouritesClicked={this.clickFavourites}
-    />;
+    >{this.props.children}</FrontPagePanelLarge>;
   }
 }
