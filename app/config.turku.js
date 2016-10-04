@@ -1,7 +1,7 @@
 const CONFIG = process.env.CONFIG || 'turku';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const APP_DESCRIPTION =
-  'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
+  'Fölin reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
 
 export default {
   CONFIG,
@@ -11,7 +11,7 @@ export default {
     STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
   },
 
-  title: 'turku.digitransit.fi',
+  title: 'Föli - Turun seudun joukkoliikenne',
   useNavigationLogo: true,
 
   contactName: {
@@ -21,10 +21,10 @@ export default {
   },
 
   searchParams: {
-    'boundary.rect.min_lat': 61.6,
-    'boundary.rect.max_lat': 63.6,
-    'boundary.rect.min_lon': 27.1,
-    'boundary.rect.max_lon': 31,
+    'boundary.rect.min_lat': 59.963388,
+    'boundary.rect.max_lat': 60.950777,
+    'boundary.rect.min_lon': 21.145557,
+    'boundary.rect.max_lon': 22.939795,
   },
 
   availableLanguages: ['fi', 'sv', 'en'],
@@ -45,8 +45,12 @@ export default {
   },
 
   socialMedia: {
-    title: 'Uusi Reittiopas - Turku',
+    title: 'Fölin reittiopas',
     description: APP_DESCRIPTION,
+
+    twitter: {
+      site: '@Turkukaupunki',
+    },
   },
 
   meta: {
@@ -81,7 +85,8 @@ export default {
 
   showModeFilter: false,
 
-  areaPolygon: [[21.81, 60.40], [21.81, 60.69], [22.80, 60.69], [22.80, 60.40]],
+  /* eslint-disable max-len*/
+  areaPolygon: [[21.145557, 59.963388], [21.145557, 60.950777], [22.939795, 60.950777], [22.939795, 59.963388]],
 
   defaultEndpoint: {
     address: 'Kauppatori, Turku',
@@ -89,40 +94,61 @@ export default {
     lon: 22.267633,
   },
 
-  /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
-      about: 'Tämä on Turun kaupungin testi uudeksi reittioppaaksi Turun alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
+      about: 'Kuuden kunnan yhdessä järjestämä joukkoliikenne Turun seudulla alkoi 1.7.2014. Turun seudun joukkoliikenteessä eli Fölissä ovat mukana Turku, Kaarina, Raisio, Naantali, Lieto ja Rusko. Seudullisen joukkoliikenteen alkamisen myötä joukkoliikenteen käyttö on helppoa ja edullista riippumatta kuntarajoista.',
       digitransit: 'Digitransit palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote. Lähdekoodi tarjotaan EUPL v1.2 ja AGPLv3 lisensseillä.',
       datasources: 'Kartat, kadut, rakennukset, pysäkkisijainnit ym. tiedot tarjoaa © OpenStreetMap contributors ja ne ladataan Geofabrik palvelusta. Osoitetiedot tuodaan VRK:n rakennustietorekisteristä ja ne ladataan OpenAddresses-palvelusta. Joukkoliikenteen reitit ja aikataulut ladataan HSL:n dev.hsl.fi/gtfs palvelimelta.',
     },
 
     sv: {
-      about: 'This is a test service for Turku area route planning. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
-      digitransit: 'Digitransit service platform is created by HSL Finnish Transport Agency. The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.',
-      datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
+      about: 'Kollektivtrafiken i Åboregionen inleds den 1 juli 2014 och ordnas samfällt av sex kommuner. Åbo, S:t Karins, Reso, Nådendal, Lundo och Rusko deltar i Föli, dvs. kollektivtrafiken i Åboregionen. När den regionala kollektivtrafiken startar blir det lätt och förmånligt att använda kollektivtrafiken i regionen kring Åbo stad oberoende av kommungränserna.',
+      digitransit: 'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Trafikverket, som bl.a. stödjer sig på OpenTripPlanner. Källkoden distribueras under EUPL v1.2 och AGPLv3 licenserna.',
+      datasources: 'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors och laddas ned från Geofabrik-tjänsten. Addressinformation hämtas från BRC:s byggnadsinformationsregister och laddas ned från OpenAddresses-tjänsten. Kollektivtrafikens rutter och tidtabeller hämtas bl.a. från Trafikverkets landsomfattande kollektivtrafiksdatabas.',
     },
 
     en: {
-      about: 'This is a test service for Turku area route planning. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+      about: 'Public transport organised jointly between six municipalities in the Turku region will start on 1 July 2014. Turku region public transport, under the name of Föli, is a collaboration between Turku, Kaarina, Raisio, Naantali, Lieto, and Rusko. With regional public transport, using the public transport system in Turku city region will be easy and inexpensive, regardless of municipal borders. Public transport service points will be introduced in each of the six municipalities. You can use any of the service points.',
       digitransit: 'Digitransit service platform is created by HSL Finnish Transport Agency. The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.',
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
   },
-  /* eslint-enable max-len*/
 
+  staticMessages: [{
+    id: 1,
+
+    content: {
+      fi: {
+        title: 'Tämä on Fölin kehitysversio',
+        content: 'Kokeile uusia ominaisuuksia ja lähetä meille palautetta. Päivitämme palvelua jatkuvasti. Lisätietoa projektista löydät osoitteesta digitransit.fi.',
+      },
+
+      sv: {
+        title: 'Det här är utvecklingsversionen av Föli',
+        content: 'Prova de nya egenskaperna och ge oss feedback. Vi uppdaterar tjänsten kontinuerligt. Mer information om projektet hittar du på addressen digitransit.fi.',
+      },
+
+      en: {
+        title: 'This version of Föli is under development',
+        content: 'Try the new features and send us feedback. We are updating the service constantly. More information about the project can be found at digitransit.fi.',
+      },
+    },
+  }],
+
+  /* eslint-enable max-len*/
   desktopWrapperText: `
     <h2>
-      Reittiopas<sup>BETA</sup>
+      Föli<sup>BETA</sup>
     </h2>
-    <h1>Kokeile uutta Reittiopasta!</h1>
-    Reittiopas uudistuu pian. Uusi Reittiopas tuo mukanaan liudan kauan
+    <h1>Kokeile uutta Turun seudun reittiopasta!</h1>
+    Fölin testiversio tuo mukanaan liudan kauan
     kaivattuja parannuksia:
     <ul>
       <li>Reaaliaikatiedot kaikista liikennevälineistä</li>
       <li>Entistä parempi kartta</li>
       <li>Ennakoiva haku</li>
       <li>Näet lähialueesi lähdöt helposti</li>
+      <li>Avoimet rajapinnat</li>
     </ul>
     Uusi Reittiopas on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki
     toimimaan erinomaisesti myös tietokoneella. Voit tutustua jo nyt mobiilioptimoituun
