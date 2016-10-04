@@ -40,7 +40,7 @@ $secondary-font-color: $white;
 $title-color: $white;
 $favourite-color: $livi-gold;
 $hilight-color: $joensuu-orange;
-$action-color: $livi-logo-blue;
+$action-color: $joensuu-orange;
 $cancelation-red: #dc0451;
 $cancelation-black: #666;
 $cancelation-background: #fbe0ea;
@@ -49,12 +49,16 @@ $disruption-color: $cancelation-red;
 $standalone-btn-color: $primary-color;
 $standalone-btn-hover-color: $gray-blue-light;
 
+$action-button-fill-color-difference: 10%;
+$action-button-gradient: linear-gradient(to bottom, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
+$action-button-gradient-active: linear-gradient(to top, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
+
 /* Markers */
 $viewpoint-marker-color: $joensuu-orange;
 
 /* Fonts */
 $font-family: Lato, Arial, Georgia, Serif;
-$font-weight-book: 300;
+$font-weight-book: 400;
 $font-weight-medium: 400;
 $font-weight-bold: 700;
 $font-weight-map-container: $font-weight-book;

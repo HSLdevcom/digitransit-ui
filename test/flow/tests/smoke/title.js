@@ -1,9 +1,9 @@
 module.exports = {
   '@tags': ['smoke'],
-  'Page should have title Rutebanken': (browser) => {
+  'Page should have title logo': (browser) => {
     browser
       .url(browser.launch_url)
-      .assert.containsText('.title', 'Reittiopas')
+      .assert.visible('.title .logo')
       .end();
   },
 };

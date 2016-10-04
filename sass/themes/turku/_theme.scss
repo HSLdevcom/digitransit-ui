@@ -10,51 +10,44 @@ $medium-gray: #ccc;
 $dark-gray: #575757;
 $gray: #888;
 
-/* Palette */
-$hsl-alert: #dc0451;
+$turku-light-yellow: #e8aa27;
+$turku-dark-yellow: #a07415;
+$turku-blue: #45CBCB;
+$turku-dark-blue: #6BA3AF;
+$turku-red: #EA4C58;
+$turku-dark: #555555;
+$turku-light-gray: #c9ccce;
+$turku-rail-color: #8c4799;
+$turku-ferry-color: rgb(53, 181, 179);
 
-$livi-bus-blue: rgb(0, 136, 206);
-$livi-logo-blue: rgb(61, 183, 228);
-$livi-airplane-blue: rgb(0, 70, 173);
-$livi-ferry-blue: rgb(53, 181, 179);
-$livi-rail-purple: rgb(175, 141, 188);
-$livi-subway-orange: rgb(237, 140, 0);
-$livi-tram-green: rgb(106, 137, 37);
-$livi-gold: rgb(233, 171, 0);
-$hsl-tram-green: #00985f;
-$hsl-metro-orange: #ff6319;
-$hsl-rail-red: #8c4799;
-$vr-rail-green: rgb(100, 190, 20);
-
-$turku-purple: #5c4696;
-$turku-dark-purple: #4e3c80;
-$turku-bus-blue:  #009fe3;
-$turku-orange: #ff7200;
-$turku-rail-green: #64be14;
-
-
-$primary-color: $turku-purple;
-$primary-font-color: $white;
-$secondary-color: $turku-dark-purple;
-$secondary-font-color: $white;
-$title-color: $white;
-$favourite-color: $livi-gold;
-$hilight-color: $turku-orange;
-$action-color: $livi-logo-blue;
+$realtime-color: #46b32a;
 $cancelation-red: #dc0451;
 $cancelation-black: #666;
 $cancelation-background: #fbe0ea;
-$disruption-color: $cancelation-red;
+$hsl-alert: #dc0451;
 
+$primary-color: $turku-light-yellow;
+$primary-font-color: $white;
+$secondary-color: $turku-dark-yellow;
+$secondary-font-color: $white;
+$title-color: $white;
+$favourite-color: $turku-light-yellow;
+$hilight-color: $turku-dark;
+$action-color: $turku-dark;
+$disruption-color: $cancelation-red;
 $standalone-btn-color: $primary-color;
-$standalone-btn-hover-color: $gray-blue-light;
+$standalone-btn-hover-color: turku-light-gray;
+
+$action-button-fill-color-difference: 10%;
+$action-button-gradient: linear-gradient(to bottom, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
+$action-button-gradient-active: linear-gradient(to top, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
 
 /* Markers */
-$viewpoint-marker-color: $turku-orange;
+$viewpoint-marker-color: $turku-light-yellow;
 
 /* Fonts */
 $font-family: Lato, Arial, Georgia, Serif;
-$font-weight-book: 300;
+$font-weight-book: 400;
 $font-weight-medium: 400;
 $font-weight-bold: 700;
 $font-weight-map-container: $font-weight-book;
@@ -77,34 +70,32 @@ $font-size-xlarge: 32px;
 /* Application base colors */
 $background-color: #eef1f3;
 $dark-color: $gray;
-
-$link-color: $turku-purple;
-$realtime-color: #46b32a;
+$link-color: $turku-dark;
 
 /* Vehicle colors */
-$airplane-color: $livi-airplane-blue;
-$bus-color: $turku-bus-blue;
-$tram-color: $livi-tram-green;
-$metro-color: $livi-subway-orange;
-$rail-color: $turku-rail-green;
-$ferry-color: $livi-ferry-blue;
-$citybike-color: #FBB800;
-$from-color: $turku-rail-green;
-$to-color: $turku-orange;
-$walk-color: #6ba3af;
+$airplane-color: $turku-light-yellow;
+$bus-color: $turku-light-yellow;
+$tram-color: $turku-light-yellow;
+$metro-color: $turku-light-yellow;
+$rail-color: $turku-rail-color;
+$ferry-color: $turku-ferry-color;
+$citybike-color: $turku-light-yellow;
+$from-color: $turku-blue;
+$to-color: $turku-red;
+$walk-color: $turku-dark-blue;
 $wait-color: #979797;
 $bicycle-color: #64be14;
 $car-color: #333;
 
-$nav-logo: url('/img/jojo-logo.png');
+$nav-logo: url('/img/foli-logo.png');
 
 /* Borders */
 $border-radius: 3px;
 $border-radius-bigger: 8px;
 
 /* Slider colors */
-$slider-warning-color: #FC7C08;
-$slider-ok-color: #55B511;
+$slider-warning-color: $turku-red;
+$slider-ok-color: $turku-blue;
 
 /* Spinner */
 div.spinner-loader {
