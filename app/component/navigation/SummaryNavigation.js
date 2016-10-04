@@ -51,6 +51,15 @@ class SummaryNavigation extends React.Component {
           },
         });
       } else {
+        const query = this.context.location.query;
+        if (query) {
+          const unlisten = this.context.router.listen(location => {
+            if (!location.state || !location.state.customizeSearchOffcanvas) {
+              unlisten();
+              this.context.router.replace({ ...location, query });
+            }
+          });
+        }
         this.context.router.goBack();
       }
     }
