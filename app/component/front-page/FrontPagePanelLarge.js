@@ -1,26 +1,21 @@
 import React from 'react';
 import cx from 'classnames';
-import FavouritesPanel from '../favourites/FavouritesPanel';
-import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
 const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
-   favouritesClicked }) => {
-  let panel;
+   favouritesClicked, children }) => {
+  // let panel;
   const tabClasses = ['small-6', 'h4', 'hover'];
   const nearbyClasses = ['nearby-routes'];
   const favouritesClasses = ['favourites'];
 
+
   if (selectedPanel === 1) {
-    panel = <NearbyRoutesPanel />;
     nearbyClasses.push('selected');
   } else {
-    panel = <FavouritesPanel className="white" />;
     favouritesClasses.push('selected');
   }
-
-  const content = <div key="panel">{panel}</div>;
 
   return (
     <div className="fpcfloat no-select">
@@ -34,14 +29,15 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
           onClick={favouritesClicked}
         />
       </ul>
-      {selectedPanel ? content : undefined}
+      {children}
     </div>
 ); };
 
 FrontPagePanelLarge.propTypes = {
-  selectedPanel: React.PropTypes.number.isRequired,
+  selectedPanel: React.PropTypes.number,
   nearbyClicked: React.PropTypes.func.isRequired,
   favouritesClicked: React.PropTypes.func.isRequired,
+  children: React.PropTypes.node,
 };
 
 
