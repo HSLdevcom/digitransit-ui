@@ -15,24 +15,31 @@ class SummaryNavigation extends React.Component {
     location: React.PropTypes.object.isRequired,
   };
 
+  componentDidMount() {
+    this.unlisten = this.context.router.listen(location => {
+      if (this.context.location.state && this.context.location.state.customizeSearchOffcanvas &&
+        (!location.state || !location.state.customizeSearchOffcanvas) && !this.transitionDone) {
+        this.transitionDone = true;
+        this.context.router.replace({ ...location, query: this.context.location.query });
+      } else {
+        this.transitionDone = false;
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
+  }
+
   onRequestChange = (newState) => {
     this.internalSetOffcanvas(newState);
   }
 
-  getOffcanvasState = () => {
-    if (typeof window !== 'undefined' && supportsHistory()) {
-      if (this.context.location != null && this.context.location.state != null) {
-        return this.context.location.state.customizeSearchOffcanvas || false;
-      }
-    }
-    return this.state ? this.state.customizeSearchOffcanvas : false;
-  }
+  getOffcanvasState = () =>
+    (supportsHistory() && this.context.location.state &&
+      this.context.location.state.customizeSearchOffcanvas) || false;
 
   internalSetOffcanvas = (newState) => {
-    this.setState({
-      customizeSearchOffcanvas: newState,
-    });
-
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
         'Offcanvas',
@@ -51,15 +58,6 @@ class SummaryNavigation extends React.Component {
           },
         });
       } else {
-        const query = this.context.location.query;
-        if (query) {
-          const unlisten = this.context.router.listen(location => {
-            if (!location.state || !location.state.customizeSearchOffcanvas) {
-              unlisten();
-              this.context.router.replace({ ...location, query });
-            }
-          });
-        }
         this.context.router.goBack();
       }
     }
