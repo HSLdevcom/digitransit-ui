@@ -10,8 +10,9 @@
 
 .time-selectors {
   @include font-book;
+  font-size: $font-size-smallish;
 
-  height: 32px;
+  height: 20px;
   margin: 4px 0;
   background-color: $secondary-color;
   padding: 0 10px;
@@ -33,6 +34,8 @@
     border-bottom: 2px dotted $gray-blue-light !important;
     border-radius: 0;
     appearance: none;
+    @include font-book;
+    font-size: $font-size-smallish;
 
     &:focus, &:hover {
       border-color: $gray-blue-light;
