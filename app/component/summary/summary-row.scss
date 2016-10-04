@@ -1,7 +1,7 @@
 .itinerary-summary-row {
-  min-height: 50px;
+  min-height: 46px;
   padding-left: 10px;
-  padding-right: 15px;
+  padding-right: 8px;
   padding-top: 3px;
   padding-bottom: 0;
   overflow: hidden;
@@ -39,7 +39,7 @@
   }
 
   & .itinerary-walking-distance {
-    margin-top: -4px;
+    margin-top: -1px;
     color: $distance-gray;
     font-weight: $font-weight-book;
     font-size: $font-size-smallish;
@@ -48,14 +48,15 @@
   & .itinerary-start-time {
     text-align: right;
     padding-right: 10px;
+    padding-left: 5px;
     width: 75px;
     margin-top: 4px;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
       font-size: small;
-      margin-top: -4px;
-      margin-right: -10px;
+      margin-top: -1px;
+      margin-right: -7px;
       font-weight: 100;
     }
   }
@@ -65,8 +66,7 @@
   }
 
   & .itinerary-end-time {
-    padding-left: 8px;
-    padding-right: 20px;
+    padding-left: 10px;
     width: 60px;
     margin-top: 4px;
   }
@@ -111,23 +111,20 @@
     }
 
     .vehicle-number {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-smallish;
       clear: left;
       float: left;
       padding: 0;
       width: 20px;
       margin-left: 3px;
-      margin-top:-2px;
-
-      span {
-        font-weight: $font-weight-book;
-        font-size: $font-size-smallish;
-      }
+      margin-top: 1px;
     }
   }
 
   .action-arrow {
-    line-height: 50px;
-    padding-left: 10px;
+    line-height: 46px;
+    padding-left: 15px;
 
     & svg {
       color: $action-color;
