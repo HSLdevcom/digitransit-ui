@@ -9,6 +9,7 @@ module.exports = (mode) => {
         for (const index2 in document.styleSheets[index].cssRules) {
           if ({}.hasOwnProperty.call(document.styleSheets[index].cssRules, index2)) {
             const ref = document.styleSheets[index].cssRules[index2].selectorText;
+            // A bug in minifier messes the selectors in production mode...
             if (ref && ref.split(',').map(s => s.trim()).indexOf(selector) > -1) {
               return document.styleSheets[index].cssRules[index2];
             }
