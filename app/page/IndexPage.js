@@ -17,6 +17,9 @@ class IndexPage extends React.Component {
 
   static propTypes = {
     breakpoint: React.PropTypes.string.isRequired,
+    children: React.PropTypes.node,
+    history: React.PropTypes.object,
+    routes: React.PropTypes.array,
   }
 
   static defaultProps = {
@@ -41,37 +44,21 @@ class IndexPage extends React.Component {
     this.context.executeAction(reset);
   }
 
-  largeStyle = {
-    maxWidth: 'none',
-    height: 'calc(100% - 80px)',
-    zIndex: 401,
-    position: 'absolute',
-    top: 30,
-  };
-
   render() {
     return (
-      ((this.props.breakpoint !== 'large') && // 'small & medium'
-      (
-        <div className={'front-page fullscreen'} >
-          <MapWithTracking showStops >
-            <SearchMainContainer />
-          </MapWithTracking>
-          <FrontPagePanelContainer breakpoint="medium" />
-          <FeedbackPanel />
-        </div>
-      )) || // 'large'
-      (
-        <div className={`front-page fullscreen bp-${this.props.breakpoint}`} >
-          <MapWithTracking showStops ><SearchMainContainer /></MapWithTracking>
-          <FrontPagePanelContainer
-            breakpoint="large"
-          />
-        </div>
-    )); }
+      <div className={`front-page fullscreen bp-${this.props.breakpoint}`} >
+        <MapWithTracking showStops ><SearchMainContainer /></MapWithTracking>
+        <FrontPagePanelContainer
+          history={this.props.history}
+          routes={this.props.routes} breakpoint={this.props.breakpoint}
+        >{this.props.children}</FrontPagePanelContainer>
+        <FeedbackPanel />
+      </div>
+    );
+  }
 }
 
 const IndexPageWithBreakpoint =
     getContext({ breakpoint: React.PropTypes.string.isRequired })(IndexPage);
 
-export { IndexPageWithBreakpoint as default, IndexPage };
+export default IndexPageWithBreakpoint;
