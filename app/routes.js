@@ -15,7 +15,7 @@ import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
 import AboutPage from './page/AboutPage';
-import splashOrComponent from './component/splash/splash-or-component';
+import SplashOrComponent from './component/splash/splash-or-component';
 
 // Components for page parts
 import RouteAlertsContainer from './component/route/RouteAlertsContainer';
@@ -27,6 +27,8 @@ import RouteTitle from './component/route/RouteTitle';
 import StopPageMap from './component/stop/StopPageMap';
 import StopPageHeader from './component/stop/StopPageHeader';
 import StopPageMeta from './component/stop/StopPageMeta';
+import FavouritesPanel from './component/favourites/FavouritesPanel';
+import NearbyRoutesPanel from './component/front-page/NearbyRoutesPanel';
 
 
 import TopLevel from './component/TopLevel';
@@ -78,17 +80,22 @@ const routes = (
     path="/"
     component={(props) => <ContainerDimensions><TopLevel {...props} /></ContainerDimensions>}
   >
-    <IndexRoute
-      topBarOptions={{
-        disableBackButton: true,
-        showDisruptionInfo: true,
-        showLogo: config.useNavigationLogo,
-      }}
-      components={{
+
+    <Route
+      path="app" components={{
         title: () => <span>{config.title}</span>,
-        content: splashOrComponent(IndexPage),
+        content: (props) => (<SplashOrComponent><IndexPage {...props} /></SplashOrComponent>)
+        ,
       }}
-    />
+    >
+      <Route
+        path="lahellasi" component={() => <NearbyRoutesPanel />}
+      />
+      <Route
+        path="suosikit" component={() => <FavouritesPanel />}
+      />
+    </Route>
+
     <Route path="pysakit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
       <Route

@@ -27,6 +27,9 @@ class Splash extends React.Component
       searchModalIsOpen: false
 
   render: ->
+    if @props.displaySplash != true
+      return @props.children
+
     ownPosition = @context.intl.formatMessage
       id: 'own-position'
       defaultMessage: 'Your current location'
