@@ -257,20 +257,22 @@ class CustomizeSearch extends React.Component {
     });
   }
 
+  actions = {
+    toggleBusState: () => this.toggleTransportMode('bus'),
+    toggleTramState: () => this.toggleTransportMode('tram'),
+    toggleRailState: () => this.toggleTransportMode('rail'),
+    toggleSubwayState: () => this.toggleTransportMode('subway'),
+    toggleFerryState: () => this.toggleTransportMode('ferry'),
+    toggleCitybikeState: () => this.toggleTransportMode('citybike'),
+    toggleAirplaneState: () => this.toggleTransportMode('airplane'),
+  }
+
   render() {
     return (
       <div className="customize-search">
         <section className="offcanvas-section">
           <ModeFilter
-            action={{
-              toggleBusState: () => this.toggleTransportMode('bus'),
-              toggleTramState: () => this.toggleTransportMode('tram'),
-              toggleRailState: () => this.toggleTransportMode('rail'),
-              toggleSubwayState: () => this.toggleTransportMode('subway'),
-              toggleFerryState: () => this.toggleTransportMode('ferry'),
-              toggleCitybikeState: () => this.toggleTransportMode('citybike'),
-              toggleAirplaneState: () => this.toggleTransportMode('airplane'),
-            }}
+            action={this.actions}
             buttonClass="mode-icon"
             selectedModes={
               Object.keys(config.transportModes)
