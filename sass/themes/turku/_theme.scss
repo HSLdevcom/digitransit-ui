@@ -39,11 +39,9 @@ $dark-color: $gray;
 
 /* Component palette */
 $title-color: $white;
-$standalone-btn-color: $primary-color;
-$standalone-btn-hover-color: turku-light-gray;
-$action-button-fill-color-difference: 10%;
-$action-button-gradient: linear-gradient(to bottom, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
-$action-button-gradient-active: linear-gradient(to top, lighten($action-color, 15%) 1px, lighten($action-color, $action-button-fill-color-difference) 1px, darken($action-color, $action-button-fill-color-difference));
+$standalone-btn-color: $turku-dark;
+$standalone-btn-hover-color: $turku-light-gray;
+$standalone-btn-active-color: $turku-light-gray;
 $viewpoint-marker-color: $turku-light-yellow;
 $link-color: $turku-dark;
 $from-color: $turku-blue;
