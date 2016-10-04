@@ -9,7 +9,8 @@ import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
 const FrontPagePanel = ({ selectedPanel, nearbyClicked,
-   favouritesClicked, closePanel }) => {
+   favouritesClicked, closePanel, children }) => {
+  console.log('children', children);
   let heading;
   let panel;
   const tabClasses = ['small-6', 'h4', 'hover'];
@@ -17,11 +18,9 @@ const FrontPagePanel = ({ selectedPanel, nearbyClicked,
   const favouritesClasses = ['favourites'];
 
   if (selectedPanel === 1) {
-    panel = <NearbyRoutesPanel />;
     heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
     nearbyClasses.push('selected');
-  } else {
-    panel = <FavouritesPanel />;
+  } else if (selectedPanel === 2) {
     heading = <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />;
     favouritesClasses.push('selected');
   }
@@ -37,7 +36,7 @@ const FrontPagePanel = ({ selectedPanel, nearbyClicked,
     </div>
   );
 
-  const content = <div className="frontpage-panel-wrapper" key="panel">{top}{panel}</div>;
+  const content = <div className="frontpage-panel-wrapper" key="panel">{top}{children}</div>;
 
   return (
     <div className="frontpage-panel-container no-select">
@@ -66,6 +65,7 @@ FrontPagePanel.propTypes = {
   nearbyClicked: React.PropTypes.func.isRequired,
   favouritesClicked: React.PropTypes.func.isRequired,
   closePanel: React.PropTypes.func.isRequired,
+  children: React.PropTypes.node,
 };
 
 
