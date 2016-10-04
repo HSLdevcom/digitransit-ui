@@ -101,7 +101,8 @@ function SummaryPage(props, { breakpoint, queryAggregator: { readyState: { done 
 
     return (
       <DesktopView
-        header={<SummaryNavigation hasDefaultPreferences />}
+        header={<SummaryNavigation params={props.params} hasDefaultPreferences />}
+        // TODO: Chceck preferences
         content={content}
         map={map}
       />

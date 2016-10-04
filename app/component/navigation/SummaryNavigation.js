@@ -8,6 +8,12 @@ import TimeSelectorContainer from '../summary/TimeSelectorContainer';
 import RightOffcanvasToggle from '../summary/RightOffcanvasToggle';
 
 class SummaryNavigation extends React.Component {
+  static propTypes = {
+    params: React.PropTypes.shape({
+      from: React.PropTypes.string,
+      to: React.PropTypes.string,
+    }).isRequired,
+  };
 
   static contextTypes = {
     piwik: React.PropTypes.object,
@@ -18,9 +24,13 @@ class SummaryNavigation extends React.Component {
   componentDidMount() {
     this.unlisten = this.context.router.listen(location => {
       if (this.context.location.state && this.context.location.state.customizeSearchOffcanvas &&
-        (!location.state || !location.state.customizeSearchOffcanvas) && !this.transitionDone) {
+        (!location.state || !location.state.customizeSearchOffcanvas)
+        && !this.transitionDone && location.pathname.startsWith('/reitti/')) {
         this.transitionDone = true;
-        this.context.router.replace({ ...location, query: this.context.location.query });
+        this.context.router.replace({ ...location,
+          pathname: this.context.location.pathname,
+          query: this.context.location.query,
+        });
       } else {
         this.transitionDone = false;
       }
@@ -78,7 +88,7 @@ class SummaryNavigation extends React.Component {
           open={this.getOffcanvasState()}
           onRequestChange={this.onRequestChange}
         >
-          <CustomizeSearch />
+          <CustomizeSearch params={this.props.params} />
         </Drawer>
         <OriginDestinationBar />
         <div className="time-selector-settings-row">

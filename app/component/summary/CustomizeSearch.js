@@ -24,6 +24,10 @@ class CustomizeSearch extends React.Component {
 
   static propTypes = {
     open: React.PropTypes.bool,
+    params: React.PropTypes.shape({
+      from: React.PropTypes.string,
+      to: React.PropTypes.string,
+    }).isRequired,
   };
 
   /*
@@ -230,6 +234,7 @@ class CustomizeSearch extends React.Component {
   updateSettings(name, value) {
     this.context.router.replace({
       ...this.context.location,
+      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
       query: { ...this.context.location.query, [name]: value },
     });
   }
@@ -237,6 +242,7 @@ class CustomizeSearch extends React.Component {
   toggleTransportMode(mode, otpMode) {
     this.context.router.replace({
       ...this.context.location,
+      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
       query: {
         ...this.context.location.query,
         modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
@@ -247,6 +253,7 @@ class CustomizeSearch extends React.Component {
   toggleStreetMode(mode) {
     this.context.router.replace({
       ...this.context.location,
+      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
       query: {
         ...this.context.location.query,
         modes:
