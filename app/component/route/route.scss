@@ -486,8 +486,10 @@ div.route-tabs {
   min-height: 53px;
 
   select {
+    padding:0 35px 0 10px;
+    -webkit-padding-end: 35px;
+    -webkit-padding-start: 10px;
     @include font-medium;
-    padding: 6px 10px;
     height: 35px;
     border-radius: 5px;
     border: 1px solid $light-gray;

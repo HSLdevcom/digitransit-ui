@@ -5,7 +5,7 @@ import { Route, IndexRoute, IndexRedirect } from 'react-router';
 
 // React pages
 import IndexPage from './page/IndexPage';
-import ItineraryPage from './page/itinerary';
+import ItineraryPage from './page/ItineraryPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
@@ -23,7 +23,7 @@ import RouteScheduleContainer from './component/route/RouteScheduleContainer';
 import PatternStopsContainer from './component/route/PatternStopsContainer';
 import TripStopsContainer from './component/trip/TripStopsContainer';
 
-import TopLevel from './component/top-level';
+import TopLevel from './component/TopLevel';
 
 const StopQueries = {
   stop: () => Relay.QL`

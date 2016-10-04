@@ -99,7 +99,7 @@
   padding: 0.45em 0;
 }
 .padding-vertical-normal {
-  padding: 0.7em 0;
+  padding: 0.5em 0;
 }
 .padding-horizontal {
   padding: 0 1em;
@@ -175,7 +175,7 @@ body .large {
 .call-to-action-button {
   @include font-medium;
   color: white;
-  background: linear-gradient(#{#069DD8}, #{#0057B9});
+  background: $action-button-gradient;
   vertical-align: middle;
   border-radius: 1.5em;
   padding: 0.5em 1.5em;
@@ -187,6 +187,6 @@ body .large {
   margin-right: auto;
 
   &:active {
-    background: linear-gradient(#{#0057B9}, #{#069DD8});
+    background: $action-button-gradient-active;
   }
 }

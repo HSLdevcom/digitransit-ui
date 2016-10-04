@@ -215,7 +215,7 @@
                             },
                             {
                                 "name": "radius",
-                                "description": "Radius (in meters) to search for from the specidied location",
+                                "description": "Radius (in meters) to search for from the specified location",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -283,6 +283,164 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "nearest",
+                        "description": "Get all places (stops, stations, etc. with coordinates) within the specified radius from a location. The returned type has two fields place and distance. The search is done by walking so the distance is according to the network of walkables.",
+                        "args": [
+                            {
+                                "name": "lat",
+                                "description": "Latitude of the location",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Float",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "lon",
+                                "description": "Longitude of the location",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Float",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "maxDistance",
+                                "description": "Maximum distance (in meters) to search for from the specified location. Default is 2000m.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": "2000"
+                            },
+                            {
+                                "name": "maxResults",
+                                "description": "Maximum number of results. Search is stopped when this limit is reached. Default is 20.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": "20"
+                            },
+                            {
+                                "name": "filterByPlaceTypes",
+                                "description": "Only include places that imply this type. i.e. mode for stops, station etc. Also BICYCLE_RENT for bike rental stations.",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "ENUM",
+                                        "name": "FilterPlaceType",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "filterByModes",
+                                "description": "Only include places that include this mode. Only checked for places with mode i.e. stops, departure rows.",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "ENUM",
+                                        "name": "Mode",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "filterByIds",
+                                "description": "Only include places that match one of the given GTFS ids.",
+                                "type": {
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "InputFilters",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "before",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "after",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "first",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "last",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "placeAtDistanceConnection",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "departureRow",
+                        "description": "Get a single departure row based on its id (format is Agency:StopId:PatternId)",
+                        "args": [
+                            {
+                                "name": "id",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "DepartureRow",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "stop",
                         "description": "Get a single stop based on its id (format is Agency:StopId)",
                         "args": [
@@ -332,6 +490,22 @@
                             "kind": "OBJECT",
                             "name": "Stop",
                             "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "stations",
+                        "description": "Get all stations (stop with location_type = 1)",
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stop",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -1275,6 +1449,16 @@
                     {
                         "kind": "OBJECT",
                         "name": "Alert",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "placeAtDistance",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "DepartureRow",
                         "ofType": null
                     },
                     {
@@ -2439,13 +2623,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Float",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -2455,13 +2635,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Float",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -2806,6 +2982,11 @@
                         "kind": "INTERFACE",
                         "name": "Node",
                         "ofType": null
+                    },
+                    {
+                        "kind": "INTERFACE",
+                        "name": "PlaceInterface",
+                        "ofType": null
                     }
                 ],
                 "enumValues": null,
@@ -3074,6 +3255,83 @@
                 "possibleTypes": null
             },
             {
+                "kind": "INTERFACE",
+                "name": "PlaceInterface",
+                "description": "Interface for places, i.e. stops, stations, parks",
+                "fields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "ID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "lat",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "lon",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": [
+                    {
+                        "kind": "OBJECT",
+                        "name": "Stop",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "DepartureRow",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "BikeRentalStation",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "BikePark",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "CarPark",
+                        "ofType": null
+                    }
+                ]
+            },
+            {
                 "kind": "OBJECT",
                 "name": "Stoptime",
                 "description": null,
@@ -3241,6 +3499,18 @@
                         "type": {
                             "kind": "OBJECT",
                             "name": "Trip",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "stopHeadsign",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -3768,6 +4038,495 @@
             },
             {
                 "kind": "OBJECT",
+                "name": "placeAtDistanceConnection",
+                "description": "A connection to a list of items.",
+                "fields": [
+                    {
+                        "name": "edges",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "placeAtDistanceEdge",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "pageInfo",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "PageInfo",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "placeAtDistanceEdge",
+                "description": "An edge in a connection.",
+                "fields": [
+                    {
+                        "name": "node",
+                        "description": "The item at the end of the edge",
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "placeAtDistance",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "cursor",
+                        "description": "",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "placeAtDistance",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "ID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "place",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "INTERFACE",
+                            "name": "PlaceInterface",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "distance",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Int",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [
+                    {
+                        "kind": "INTERFACE",
+                        "name": "Node",
+                        "ofType": null
+                    }
+                ],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "ENUM",
+                "name": "FilterPlaceType",
+                "description": null,
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": [
+                    {
+                        "name": "STOP",
+                        "description": "Stops",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "DEPARTURE_ROW",
+                        "description": "Departure rows",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "BICYCLE_RENT",
+                        "description": "Bicycle rent stations",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "BIKE_PARK",
+                        "description": "Bike parks",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "CAR_PARK",
+                        "description": "Car parks",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "possibleTypes": null
+            },
+            {
+                "kind": "ENUM",
+                "name": "Mode",
+                "description": null,
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": [
+                    {
+                        "name": "AIRPLANE",
+                        "description": "AIRPLANE",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "BICYCLE",
+                        "description": "BICYCLE",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "BUS",
+                        "description": "BUS",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "CABLE_CAR",
+                        "description": "CABLE_CAR",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "CAR",
+                        "description": "CAR",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "FERRY",
+                        "description": "FERRY",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "FUNICULAR",
+                        "description": "FUNICULAR",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "GONDOLA",
+                        "description": "GONDOLA",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "LEG_SWITCH",
+                        "description": "LEG_SWITCH",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "RAIL",
+                        "description": "RAIL",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "SUBWAY",
+                        "description": "SUBWAY",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "TRAM",
+                        "description": "TRAM",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "TRANSIT",
+                        "description": "TRANSIT",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "WALK",
+                        "description": "WALK",
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "InputFilters",
+                "description": null,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "stops",
+                        "description": "Stops to include by GTFS id.",
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "routes",
+                        "description": "Routes to include by GTFS id.",
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "bikeRentalStations",
+                        "description": "Bike rentals to include by id.",
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "bikeParks",
+                        "description": "Bike parks to include by id.",
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "carParks",
+                        "description": "Car parks to include by id.",
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "DepartureRow",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "ID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "stop",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Stop",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "lat",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "lon",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "pattern",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Pattern",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "stoptimes",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "startTime",
+                                "description": "What is the start time for the times. Default is to use current time. (0)",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Long",
+                                    "ofType": null
+                                },
+                                "defaultValue": "0"
+                            },
+                            {
+                                "name": "timeRange",
+                                "description": "How many seconds ahead to search for departures. Default is one day.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": "86400"
+                            },
+                            {
+                                "name": "numberOfDepartures",
+                                "description": "Maximum number of departures to return.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": "1"
+                            }
+                        ],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stoptime",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [
+                    {
+                        "kind": "INTERFACE",
+                        "name": "Node",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "INTERFACE",
+                        "name": "PlaceInterface",
+                        "ofType": null
+                    }
+                ],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
                 "name": "BikeRentalStation",
                 "description": null,
                 "fields": [
@@ -3804,9 +4563,13 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -3906,6 +4669,11 @@
                         "kind": "INTERFACE",
                         "name": "Node",
                         "ofType": null
+                    },
+                    {
+                        "kind": "INTERFACE",
+                        "name": "PlaceInterface",
+                        "ofType": null
                     }
                 ],
                 "enumValues": null,
@@ -3949,9 +4717,13 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -4011,6 +4783,11 @@
                         "kind": "INTERFACE",
                         "name": "Node",
                         "ofType": null
+                    },
+                    {
+                        "kind": "INTERFACE",
+                        "name": "PlaceInterface",
+                        "ofType": null
                     }
                 ],
                 "enumValues": null,
@@ -4054,9 +4831,13 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -4127,6 +4908,11 @@
                     {
                         "kind": "INTERFACE",
                         "name": "Node",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "INTERFACE",
+                        "name": "PlaceInterface",
                         "ofType": null
                     }
                 ],
@@ -4740,101 +5526,6 @@
                 "inputFields": null,
                 "interfaces": [],
                 "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "ENUM",
-                "name": "Mode",
-                "description": null,
-                "fields": null,
-                "inputFields": null,
-                "interfaces": null,
-                "enumValues": [
-                    {
-                        "name": "AIRPLANE",
-                        "description": "AIRPLANE",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "BICYCLE",
-                        "description": "BICYCLE",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "BUS",
-                        "description": "BUS",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "CABLE_CAR",
-                        "description": "CABLE_CAR",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "CAR",
-                        "description": "CAR",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "FERRY",
-                        "description": "FERRY",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "FUNICULAR",
-                        "description": "FUNICULAR",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "GONDOLA",
-                        "description": "GONDOLA",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "LEG_SWITCH",
-                        "description": "LEG_SWITCH",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "RAIL",
-                        "description": "RAIL",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "SUBWAY",
-                        "description": "SUBWAY",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "TRAM",
-                        "description": "TRAM",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "TRANSIT",
-                        "description": "TRANSIT",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "WALK",
-                        "description": "WALK",
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
                 "possibleTypes": null
             },
             {

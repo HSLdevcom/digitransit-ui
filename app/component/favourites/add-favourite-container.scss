@@ -70,7 +70,7 @@ $add-favourite-input-overlay-height: 27px;
     .add-favourite-container-button {
       @include font-medium;
       color: white;
-      background: linear-gradient(#{#069DD8}, #{#0057B9});
+      background: $action-button-gradient;
       vertical-align: middle;
       border-radius: 1.5em;
       padding: 0.5em 1.5em;
@@ -83,7 +83,7 @@ $add-favourite-input-overlay-height: 27px;
       cursor: pointer;
 
       &:active {
-        background: linear-gradient(#{#0057B9}, #{#069DD8});
+        background: $action-button-gradient-active;
       }
 
       &.delete {

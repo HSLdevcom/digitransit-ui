@@ -32,8 +32,8 @@ export default {
   },
 
   APP_PATH: `${APP_PATH}`,
-  title: 'beta.matka.fi',
-  useNavigationLogo: false,
+  title: 'Matka.fi',
+  useNavigationLogo: true,
 
   contactName: {
     sv: 'Livin',
@@ -47,8 +47,6 @@ export default {
     suggestions: {
       useTransportIcons: false,
     },
-
-    showStopsFirst: false,
   },
 
   nearbyRoutes: {

@@ -15,7 +15,7 @@ export default {
     FONT: 'https://cloud.typography.com/6364294/6653152/css/fonts.css',
   },
 
-  title: 'Reittiopas.fi',
+  title: 'Reittiopas',
 
   contactName: {
     sv: 'HSR',

@@ -170,17 +170,6 @@ function getStops(res) {
   return [];
 }
 
-function searchStops(input) {
-  if (input === undefined || input === null || input.trim().length < 3) {
-    return Promise.resolve([]);
-  }
-
-  return queryGraphQL(`{stops(name:"${input}") { gtfsId lat lon name code routes { mode }}}`)
-    .then(response =>
-      getStops(response && response.data && response.data.stops)
-    );
-}
-
 // Get
 //
 // - favourite routes
@@ -281,13 +270,7 @@ function executeSearchInternal(actionContext, { input, type }) {
     ];
     const language = actionContext.getStore('PreferencesStore').getLanguage();
 
-    if (config.search.showStopsFirst) {
-      searches.push(searchStops(input));
-      searches.push(getGeocodingResult(input, position, language));
-    } else {
-      searches.push(getGeocodingResult(input, position, language));
-      searches.push(searchStops(input));
-    }
+    searches.push(getGeocodingResult(input, position, language));
 
     return Promise.all(searches)
     .then(flatten)

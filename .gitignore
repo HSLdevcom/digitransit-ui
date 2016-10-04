@@ -19,31 +19,37 @@ sass/themes/*
 !sass/themes/default
 !sass/themes/hsl
 !sass/themes/joensuu
+!sass/themes/turku
 
 app/config.*.coffee
 !app/config.client.coffee
 !app/config.default.coffee
 !app/config.hsl.coffee
 !app/config.joensuu.coffee
+!app/config.turku.coffee
 
 static/img/*icons
 !static/img/hsl-icons
 !static/img/default-icons
 !static/img/joensuu-icons
+!static/img/turku-icons
 
 static/svg-sprite.*.svg
 !static/svg-sprite.hsl.svg
 !static/svg-sprite.default.svg
 !static/svg-sprite.joensuu.svg
+!static/svg-sprite.turku.svg
 
 static/manifest.*.json
 !static/manifest.hsl.json
 !static/manifest.default.json
 !static/manifest.joensuu.json
+!static/manifest.turku.json
 
 static/browserconfig.*.xml
 !static/browserconfig.hsl.xml
 !static/browserconfig.default.xml
 !static/browserconfig.joensuu.xml
+!static/browserconfig.turku.xml
 
 tags

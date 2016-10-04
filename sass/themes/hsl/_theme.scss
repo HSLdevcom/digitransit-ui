@@ -36,6 +36,8 @@ $disruption-color: $cancelation-red;
 
 $standalone-btn-color: $primary-color;
 $standalone-btn-hover-color: $secondary-color;
+$action-button-gradient: linear-gradient(#{#069DD8}, #{#0057B9});
+$action-button-gradient-active: linear-gradient(#{#0057B9}, #{#069DD8});
 
 /* Markers */
 $viewpoint-marker-color: $hsl-blue;
@@ -58,7 +60,7 @@ $line-height-normal: 1.2;
 $font-size-xsmall: 12px;
 $font-size-small: 13px;
 $font-size-smallish: 14px;
-$font-size-normal: 16px;
+$font-size-normal: 15px;
 $font-size-large: 24px;
 $font-size-xlarge: 32px;
 
@@ -84,7 +86,7 @@ $wait-color: #979797;
 $bicycle-color: #64be14;
 $car-color: #333;
 
-$nav-logo: null;
+$nav-logo: url('/img/hsl-logo.png');
 
 /* Borders */
 $border-radius: 3px;
