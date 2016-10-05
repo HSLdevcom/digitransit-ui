@@ -15,7 +15,7 @@ import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
 import AboutPage from './page/AboutPage';
-import SplashOrComponent from './component/splash/splash-or-component';
+import SplashOrChildren from './component/splash/SplashOrChildren';
 
 // Components for page parts
 import RouteAlertsContainer from './component/route/RouteAlertsContainer';
@@ -77,14 +77,13 @@ const terminalQueries = {
 
 const routes = (
   <Route
-    path="/"
     component={(props) => <ContainerDimensions><TopLevel {...props} /></ContainerDimensions>}
   >
 
     <Route
-      path="app" components={{
+      path="/" components={{
         title: () => <span>{config.title}</span>,
-        content: (props) => (<SplashOrComponent><IndexPage {...props} /></SplashOrComponent>)
+        content: (props) => (<SplashOrChildren><IndexPage {...props} /></SplashOrChildren>)
         ,
       }}
     >
@@ -96,7 +95,7 @@ const routes = (
       />
     </Route>
 
-    <Route path="pysakit">
+    <Route path="/pysakit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
       <Route
         path=":stopId"
@@ -118,7 +117,7 @@ const routes = (
         <Route path="info" component={Error404} />
       </Route>
     </Route>
-    <Route path="terminaalit">
+    <Route path="/terminaalit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all terminals*/}
       <Route
         path=":terminalId"
@@ -139,7 +138,7 @@ const routes = (
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="linjat">
+    <Route path="/linjat">
       <IndexRoute component={Error404} />
       <Route
         path=":routeId"
@@ -176,19 +175,19 @@ const routes = (
       </Route>
     </Route>
     <Route
-      path="reitti/:from/:to"
+      path="/reitti/:from/:to"
       components={{ title: () => <span>Reittiehdotukset</span>, content: SummaryPage }}
     />
     <Route
-      path="reitti/:from/:to/:hash"
+      path="/reitti/:from/:to/:hash"
       components={{ title: () => <span>Reittiohje</span>, content: ItineraryPage }}
     />
-    <Route path="styleguide" component={StyleGuidelines} />
-    <Route path="styleguide/component/:componentName" component={StyleGuidelines} />
-    <Route path="suosikki/uusi" component={AddFavouritePage} />
-    <Route path="suosikki/muokkaa/:id" component={AddFavouritePage} />
+    <Route path="/styleguide" component={StyleGuidelines} />
+    <Route path="/styleguide/component/:componentName" component={StyleGuidelines} />
+    <Route path="/suosikki/uusi" component={AddFavouritePage} />
+    <Route path="/suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route
-      path="tietoja-palvelusta"
+      path="/tietoja-palvelusta"
       components={{
         title: () => <span>{config.title}</span>,
         content: AboutPage }}

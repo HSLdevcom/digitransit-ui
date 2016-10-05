@@ -77,12 +77,11 @@ export default class FrontPagePanelContainer extends React.Component {
       } else {
         this.openNearby();
       }
-      this.trackEvent('Front page tabs', 'Nearby', this.getSelectedTab() === 1 ? 'close' : 'open');
+      this.trackEvent('Front page tabs', 'Nearby',
+        this.getSelectedTab() === 1 ? 'close' : 'open');
     } else {
-      if (this.getSelectedTab() !== 1) {
-        this.openNearby();
-        this.trackEvent('Front page tabs', 'Nearby', 'open');
-      }
+      this.openNearby();
+      this.trackEvent('Front page tabs', 'Nearby', 'open');
     }
   };
 
@@ -94,7 +93,8 @@ export default class FrontPagePanelContainer extends React.Component {
       } else {
         this.openFavourites();
       }
-      this.trackEvent('Front page tabs', 'Favourites', this.getSelectedTab() === 1 ? 'close' : 'open');
+      this.trackEvent('Front page tabs', 'Favourites',
+        this.getSelectedTab() === 1 ? 'close' : 'open');
     } else {
       this.openFavourites();
       this.trackEvent('Front page tabs', 'Nearby', 'open');
@@ -102,15 +102,15 @@ export default class FrontPagePanelContainer extends React.Component {
   };
 
   openFavourites() {
-    this.props.history.replace('/app/suosikit');
+    this.props.history.replace('/suosikit');
   }
 
   openNearby() {
-    this.props.history.replace('/app/lahellasi');
+    this.props.history.replace('/lahellasi');
   }
 
   closeTab() {
-    this.props.history.replace('/app');
+    this.props.history.replace('/');
   }
 
   render() {
