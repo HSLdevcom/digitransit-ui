@@ -23,7 +23,6 @@ export default class FrontPagePanelContainer extends React.Component {
     className: React.PropTypes.string,
     children: React.PropTypes.node,
     routes: React.PropTypes.array,
-    history: React.PropTypes.object,
   }
 
   static defaultProps = {
@@ -42,6 +41,13 @@ export default class FrontPagePanelContainer extends React.Component {
         <FrontPagePanelContainer breakpoint="large" />
       </ComponentUsageExample>
     </div>);
+
+  componentDidMount() {
+      // auto select nearby tab if none selected and bp=large
+    if (this.props.breakpoint === 'large' && this.getSelectedTab() === undefined) {
+      this.clickNearby();
+    }
+  }
 
 // TODO hook this function
   onReturnToFrontPage() {
@@ -63,7 +69,7 @@ export default class FrontPagePanelContainer extends React.Component {
   }
 
   trackEvent = (...args) => {
-    if (this.context.piwik) {
+    if (typeof this.context.piwik === 'function') {
       this.context.piwik(...args);
     }
   }
@@ -101,15 +107,15 @@ export default class FrontPagePanelContainer extends React.Component {
   };
 
   openFavourites() {
-    this.props.history.replace('/suosikit');
+    this.context.router.replace('/suosikit');
   }
 
   openNearby() {
-    this.props.history.replace('/lahellasi');
+    this.context.router.replace('/lahellasi');
   }
 
   closeTab() {
-    this.props.history.replace('/');
+    this.context.router.replace('/');
   }
 
   render() {
