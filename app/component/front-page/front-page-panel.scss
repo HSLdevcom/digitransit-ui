@@ -59,10 +59,10 @@ $heading-color: #858585;
   right: 30px;
   z-index: 802;
   height: 100%;
-  max-height: calc(100% - 90px);
+  max-height: calc(100% - 60px);
   width: 340px;
   .frontpage-panel {
-    height: 100%;
+    height: calc(100% - 60px);
     background: #eef1f3;
     .row {
       padding-top:10px;
@@ -75,12 +75,10 @@ $heading-color: #858585;
       padding-right:20px;
     }
     .scrollable {
-      height: calc(100% - 90px);
+      height: calc(100% - 100px);
     }
   }
-  > div {
-      height: calc(100% - 50px);
-  }
+
 
   > ul > li.selected {
     color: $primary-color;
