@@ -38,13 +38,15 @@ class TopLevel extends React.Component {
   getChildContext() {
     return {
       location: this.props.location,
-      breakpoint:
-        (!this.props.width && 'none') ||
-        (this.props.width < 400 && 'small') ||
-        (this.props.width < 900 && 'medium') ||
-        'large',
+      breakpoint: this.getBreakpoint(),
     };
   }
+
+  getBreakpoint = () =>
+    (!this.props.width && 'none') ||
+    (this.props.width < 400 && 'small') ||
+    (this.props.width < 900 && 'medium') ||
+    'large'
 
   render() {
     configureMoment(this.context.intl.locale);
@@ -74,7 +76,11 @@ class TopLevel extends React.Component {
     }
 
     return (
-      <DefaultNavigation className="fullscreen" title={this.props.title} {...topBarOptions}>
+      <DefaultNavigation
+        className={`fullscreen breakpoint-${this.getBreakpoint()}`}
+        title={this.props.title}
+        {...topBarOptions}
+      >
         <Helmet {...metadata} />
         {this.props.meta}
         { content }

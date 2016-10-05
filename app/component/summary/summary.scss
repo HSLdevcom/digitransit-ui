@@ -68,6 +68,14 @@
  }
 }
 
+.breakpoint-large .time-selectors {
+  padding: 0 30px;
+
+  input[type="date"], input[type="time"], input[type="text"], select {
+    font-size: $font-size-normal;
+  }
+}
+
 .right-offcanvas-toggle {
   margin: 4px 0;
   background-color: #333;

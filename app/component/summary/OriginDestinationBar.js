@@ -1,5 +1,5 @@
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 
 import { swapEndpoints } from '../../action/EndpointActions';
 import Icon from '../icon/icon';
@@ -11,6 +11,7 @@ class OriginDestinationBar extends React.Component {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    breakpoint: React.PropTypes.string.isRequired,
   };
 
   state = {
@@ -62,6 +63,13 @@ class OriginDestinationBar extends React.Component {
 
     return (
       <div className="origin-destination-bar">
+        {this.context.breakpoint === 'large' && (
+          <FormattedMessage
+            id="itinerary-summary-page.title"
+            defaultMessage="Itinerary suggestions"
+            tagName="h2"
+          />
+        )}
         <div className="field-link from-link" onClick={() => this.openSearch('origin')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
           <span className="dotted-link">
