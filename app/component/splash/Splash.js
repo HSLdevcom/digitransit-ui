@@ -2,12 +2,10 @@ import React from 'react';
 
 import { intlShape, FormattedMessage } from 'react-intl';
 
-import Config from '../../config';
-import { DefaultNavigation } from '../navigation/DefaultNavigation';
 import FrontPagePanel from '../front-page/FrontPagePanel';
 import { setOriginToDefault } from '../../action/EndpointActions';
 import FakeSearchBar from '../search/FakeSearchBar';
-import { FakeSearchWithButton } from '../search/FakeSearchWithButton';
+import { default as FakeSearchWithButton } from '../search/FakeSearchWithButton';
 import OneTabSearchModal from '../search/OneTabSearchModal';
 
 class Splash extends React.Component {
