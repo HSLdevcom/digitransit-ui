@@ -202,12 +202,14 @@
     @include font-narrow-medium;
 
     .itinerary-first-leg-start-time {
+      padding-top: 0;
       font-size: $font-size-normal;
     }
   }
 
   .itinerary-legs {
     padding-top: 14px;
+    flex-shrink: 2;
 
     .line:after {
       top: 10px;
