@@ -18,7 +18,6 @@ class IndexPage extends React.Component {
   static propTypes = {
     breakpoint: React.PropTypes.string.isRequired,
     children: React.PropTypes.node,
-    history: React.PropTypes.object,
     routes: React.PropTypes.array,
   }
 
@@ -49,7 +48,6 @@ class IndexPage extends React.Component {
       <div className={`front-page fullscreen bp-${this.props.breakpoint}`} >
         <MapWithTracking showStops ><SearchMainContainer /></MapWithTracking>
         <FrontPagePanelContainer
-          history={this.props.history}
           routes={this.props.routes} breakpoint={this.props.breakpoint}
         >{this.props.children}</FrontPagePanelContainer>
         <FeedbackPanel />
