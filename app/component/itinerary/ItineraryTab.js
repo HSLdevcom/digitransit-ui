@@ -27,8 +27,8 @@ class ItineraryTab extends React.Component {
   shouldComponentUpdate = () => false
 
   getState = () => ({
-    lat: this.state.lat,
-    lon: this.state.lon,
+    lat: this.state.lat || this.props.itinerary.legs[0].from.lat,
+    lon: this.state.lon || this.props.itinerary.legs[0].from.lon,
   });
 
   handleFocus = (lat, lon) => {

@@ -67,7 +67,9 @@ class SummaryPage extends React.Component {
   state = { center: null }
 
   componentWillReceiveProps() {
-    this.setState({ center: null });
+    if (this.context.breakpoint === 'large') {
+      this.setState({ center: null });
+    }
   }
 
   updateCenter = (lat, lon) => this.setState({ center: { lat, lon } })
@@ -181,6 +183,7 @@ class SummaryPage extends React.Component {
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
           fullscreenMap={some(this.props.routes.map(route => route.fullscreenMap))}
+          focus={this.updateCenter}
         >
           {this.props.content && this.props.plan.plan.itineraries.map((itinerary, i) =>
             React.cloneElement(this.props.content, { key: i, itinerary })

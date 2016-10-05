@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import toClass from 'recompose/toClass';
 
 import CityBikeMarker from '../component/map/non-tile-layer/CityBikeMarker';
 
@@ -10,6 +11,7 @@ function ItineraryPage({ itinerary, focus }) {
     <ItineraryTab
       focus={focus}
       itinerary={itinerary}
+      ref="itineraryTab"
     />
   );
 }
@@ -18,7 +20,7 @@ ItineraryPage.propTypes = {
   itinerary: React.PropTypes.object.isRequired,
 };
 
-const ItineraryPageContainer = Relay.createContainer(ItineraryPage, {
+const ItineraryPageContainer = Relay.createContainer(toClass(ItineraryPage), {
   fragments: {
     itinerary: () => Relay.QL`
       fragment on Itinerary {

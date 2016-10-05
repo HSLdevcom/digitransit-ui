@@ -10,6 +10,7 @@ import { getRoutePath } from '../../util/path';
 export default class MobileItineraryWrapper extends React.Component {
   static propTypes = {
     fullscreenMap: React.PropTypes.bool,
+    focus: React.PropTypes.func.isRequired,
     children: React.PropTypes.arrayOf(React.PropTypes.node.isRequired).isRequired,
     params: React.PropTypes.shape({
       from: React.PropTypes.string.isRequired,
@@ -56,7 +57,7 @@ export default class MobileItineraryWrapper extends React.Component {
     }
   };
 
-  focusMap = (lat, lon) => this.setState({ lat, lon })
+  focusMap = (lat, lon) => this.props.focus(lat, lon)
 
   switchSlide = (index) => {
     this.context.router.replace({
@@ -64,8 +65,9 @@ export default class MobileItineraryWrapper extends React.Component {
       pathname: `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}` });
     const itineraryTab = this.refs[`itineraryTab${index}`];
 
-    if (itineraryTab && itineraryTab.state) {
-      this.focusMap(itineraryTab.state.lat, itineraryTab.state.lon);
+    if (itineraryTab) {
+      const coords = itineraryTab.refs.component.refs.itineraryTab.getState();
+      this.focusMap(coords.lat, coords.lon);
     }
   }
 
@@ -95,7 +97,12 @@ export default class MobileItineraryWrapper extends React.Component {
         containerStyle={{ minHeight: '100%' }}
         onChangeIndex={(idx) => setTimeout(this.switchSlide, 500, idx)}
       >
-        {this.props.children}
+        {React.Children.map(this.props.children, (el, i) =>
+          React.cloneElement(el, {
+            focus: this.focusMap,
+            ref: `itineraryTab${i}`,
+          })
+        )}
       </SwipeableViews>);
     const tabs = this.props.fullscreenMap ? undefined : (
       <div className="itinerary-tabs-container" key="tabs">
