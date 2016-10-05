@@ -1,6 +1,6 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import Splash from './splash';
+import Splash from './Splash';
 
 
 const SplashOrComponent = ({
