@@ -57,7 +57,6 @@ $content-background-color: $background-color;
     background-size: contain;
     max-width: 170px;
   }
-
   .navi-logo {
     margin-left:20px;
     margin-top:13px;
@@ -67,9 +66,15 @@ $content-background-color: $background-color;
   .hamburger-large {
     .main-menu-toggle {
       top: 10px;
+      div.logo {
+        background-image: $nav-logo;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: $topbar-height;
+        max-width: 170px;
+      }
     }
   }
-
 }
 
 .lang-select {
