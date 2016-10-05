@@ -52,7 +52,6 @@ export default class FrontPagePanelContainer extends React.Component {
     return undefined;
   }
 
-
   getSelectedTab() {
     const routePath = this.props.routes[this.props.routes.length - 1].path;
 
@@ -114,7 +113,6 @@ export default class FrontPagePanelContainer extends React.Component {
   }
 
   render() {
-    console.log('children in container', this.props.children);
     return (this.props.breakpoint !== 'large' && // small, medium
       <FrontPagePanel
         selectedPanel={this.getSelectedTab()}
