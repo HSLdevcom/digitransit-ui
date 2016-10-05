@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
-import ItinerarySummary from './itinerary-summary';
+import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './time-frame';
 import config from '../../config';
 import ItineraryLegs from './legs/ItineraryLegs';
