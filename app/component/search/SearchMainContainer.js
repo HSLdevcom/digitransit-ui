@@ -175,7 +175,10 @@ class SearchMainContainer extends React.Component {
       />);
 
     return (
-      <div className={`fake-search-container bp-${this.props.breakpoint} ${this.props.className || ''}`}>
+      <div
+        className={`fake-search-container bp-${this.props.breakpoint} ${this.props.className ||
+          ''}`}
+      >
         <FakeSearchWithButton
           fakeSearchBar={fakeSearchBar}
           onClick={this.clickSearch}
