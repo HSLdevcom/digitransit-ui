@@ -3,16 +3,12 @@ import cx from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../icon/icon';
-import FavouritesPanel from '../favourites/FavouritesPanel';
-import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
 const FrontPagePanel = ({ selectedPanel, nearbyClicked,
    favouritesClicked, closePanel, children }) => {
-  console.log('children', children);
   let heading;
-  let panel;
   const tabClasses = ['small-6', 'h4', 'hover'];
   const nearbyClasses = ['nearby-routes'];
   const favouritesClasses = ['favourites'];
@@ -36,7 +32,8 @@ const FrontPagePanel = ({ selectedPanel, nearbyClicked,
     </div>
   );
 
-  const content = <div className="frontpage-panel-wrapper" key="panel">{top}{children}</div>;
+  const content = selectedPanel ?
+    <div className="frontpage-panel-wrapper" key="panel">{top}{children}</div> : undefined;
 
   return (
     <div className="frontpage-panel-container no-select">
@@ -45,7 +42,7 @@ const FrontPagePanel = ({ selectedPanel, nearbyClicked,
         transitionEnterTimeout={300}
         transitionLeaveTimeout={300}
       >
-      {selectedPanel ? content : undefined}
+      {content}
       </ReactCSSTransitionGroup>
       <ul className="tabs-row tabs-arrow-up cursor-pointer">
         <NearbyTabLabelContainer
