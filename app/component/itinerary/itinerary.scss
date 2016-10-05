@@ -66,6 +66,10 @@ $itinerary-route-max-width: 500px;
   }
 }
 
+.breakpoint-large .itinerary-main {
+  padding-top: 7px;
+}
+
 .itinerary-summary {
   flex-grow: 0;
   color: $gray;
@@ -128,7 +132,6 @@ $itinerary-route-max-width: 500px;
 
 .row.itinerary-row {
   position:relative;
-  margin-bottom: 0.5em;
   line-height: 1.1;
   color: $medium-gray;
   max-width: $itinerary-route-max-width;
@@ -137,6 +140,7 @@ $itinerary-route-max-width: 500px;
     font-size: 10pt;
     text-align: center;
     color: $black;
+    margin-bottom: 0.5em;
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
     }
@@ -155,22 +159,25 @@ $itinerary-route-max-width: 500px;
     }
   }
   .itinerary-instruction-column::before {
-    content: "•";
-    font-size: 19px;
+    content: "⚬";
+    font-size: 24px;
     position: absolute;
-    left: 0;
-    top: -2px;
+    left: -2px;
+    top: -6px;
   }
-  .itinerary-instruction-column.to::before {
+  &:first-child .itinerary-instruction-column::before {
+    content: "";
+  }
+  &:last-child .itinerary-instruction-column::before {
     content: "";
   }
   .itinerary-instruction-column:not(.to)::after {
     content: "";
     position: absolute;
-    top: 0.7em;
-    bottom: -0.8em;
-    left:3px;
-    border-left: solid 3.5px;
+    top: 17px;
+    bottom: -8px;
+    left: 3px;
+    border-left: solid 4px;
   }
   .itinerary-instruction-column.walk:not(.to)::after{
     border-left-style: dotted;
@@ -183,6 +190,7 @@ $itinerary-route-max-width: 500px;
     @include font-book;
     font-size: 10pt;
     padding-left: 1.5em;
+    margin-bottom: 0.5em;
     min-height: 4em;
 
     .itinerary-leg-first-row {
@@ -220,6 +228,36 @@ $itinerary-route-max-width: 500px;
 
     }
 
+  }
+}
+
+.breakpoint-large .row.itinerary-row {
+  .itinerary-time-column {
+    .itinerary-time-column-time {
+      font-size: 21px;
+    }
+
+    .icon {
+      font-size: 24px;
+    }
+
+    .vehicle-number {
+      font-size: $font-size-normal;
+    }
+  }
+
+  .itinerary-instruction-column {
+    font-size: $font-size-normal;
+    min-height: 80px;
+
+    .itinerary-icon {
+      font-size: 13px;
+      margin-left: -24px;
+    }
+
+    .itinerary-search-icon {
+      font-size: 20px;
+    }
   }
 }
 
