@@ -3,9 +3,9 @@
   z-index:1100;
   position: absolute;
   width: 100%;
-  top: 40px;
+  top: 0px;
   line-height: 2em;
-  height: calc(100% - 40px);
+  height: 100%;
   user-select: none;
   @include font-book
 

@@ -54,7 +54,7 @@ class Splash extends React.Component {
     />);
 
     return (<div className="fullscreen">
-      <DefaultNavigation className="front-page fullscreen" disableBackButton title={Config.title}>
+      <div className="front-page fullscreen">
         <div className="fullscreen splash-map">
           <FakeSearchWithButton fakeSearchBar={fakeSearchBar} />
           <div className="map fullscreen">
@@ -62,7 +62,7 @@ class Splash extends React.Component {
           </div>
           <FrontPagePanel />
         </div>
-      </DefaultNavigation>
+      </div>
       <div className="splash">
         <div className="top" />
         <div className="mid">
