@@ -33,6 +33,7 @@ import StopPageMap from './component/stop/StopPageMap';
 import StopPageHeader from './component/stop/StopPageHeader';
 import StopPageMeta from './component/stop/StopPageMeta';
 import SummaryTitle from './component/summary/SummaryTitle';
+import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
 
 import { storeEndpoint } from './action/EndpointActions';
 import { otpToLocation } from './util/otp-strings';
@@ -241,7 +242,7 @@ const routes = (
         [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
       ]}
     >
-      <Route path=":hash" component={ItineraryPage}>
+      <Route path=":hash" components={{ content: ItineraryPage, map: ItineraryPageMap }}>
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
