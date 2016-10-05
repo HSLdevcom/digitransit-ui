@@ -56,25 +56,22 @@ $search-header-height: 45px;
   }
 }
 
-.search-form.bp-large {
-  //max-width: 700px;
-  //margin-left:200px;
-
-
-
+.fake-search-container.bp-large {
   padding-top: 30px;
   padding-left: 50px;
   padding-right: 400px;
   max-width: none;
+}
 
-
+.search-form.bp-large {
+  padding-top:0;
   .postfix {
     height:60px;
     .icon {
       margin-top: 20px;
+      font-size: 20px;
     }
   }
-
   .input-placeholder {
       @include form-element();
       height: 60px;

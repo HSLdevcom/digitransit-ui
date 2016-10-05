@@ -1,6 +1,7 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
 import Tab from 'material-ui/Tabs/Tab';
+import getContext from 'recompose/getContext';
 
 import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
 import { executeSearch } from '../../action/SearchActions';
@@ -20,6 +21,11 @@ class SearchMainContainer extends React.Component {
 
   static propTypes = {
     className: React.PropTypes.string,
+    breakpoint: React.PropTypes.string,
+  }
+
+  static defaultProps= {
+    breakpoint: 'medium',
   }
 
   constructor(args) {
@@ -169,7 +175,7 @@ class SearchMainContainer extends React.Component {
       />);
 
     return (
-      <div className={this.props.className}>
+      <div className={`fake-search-container bp-${this.props.breakpoint} ${this.props.className || ''}`}>
         <FakeSearchWithButton
           fakeSearchBar={fakeSearchBar}
           onClick={this.clickSearch}
@@ -218,4 +224,7 @@ class SearchMainContainer extends React.Component {
   }
 }
 
-export default SearchMainContainer;
+const SearchMainContainerWithBreakpoint =
+    getContext({ breakpoint: React.PropTypes.string.isRequired })(SearchMainContainer);
+
+export { SearchMainContainer as default, SearchMainContainerWithBreakpoint };

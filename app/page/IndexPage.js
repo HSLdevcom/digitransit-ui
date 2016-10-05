@@ -6,7 +6,7 @@ import { unsetSelectedTime } from '../action/TimeActions';
 import FeedbackPanel from '../component/feedback/feedback-panel';
 import FrontPagePanelContainer from '../component/front-page/FrontPagePanelContainer';
 import MapWithTracking from '../component/map/MapWithTracking';
-import SearchMainContainer from '../component/search/SearchMainContainer';
+import { SearchMainContainerWithBreakpoint } from '../component/search/SearchMainContainer';
 
 
 class IndexPage extends React.Component {
@@ -46,7 +46,7 @@ class IndexPage extends React.Component {
   render() {
     return (
       <div className={`front-page fullscreen bp-${this.props.breakpoint}`} >
-        <MapWithTracking showStops ><SearchMainContainer /></MapWithTracking>
+        <MapWithTracking showStops ><SearchMainContainerWithBreakpoint /></MapWithTracking>
         <FrontPagePanelContainer
           routes={this.props.routes} breakpoint={this.props.breakpoint}
         >{this.props.children}</FrontPagePanelContainer>
