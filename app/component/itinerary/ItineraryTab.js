@@ -14,6 +14,10 @@ class ItineraryTab extends React.Component {
     focus: PropTypes.func.isRequired,
   };
 
+  static contextTypes = {
+    breakpoint: React.PropTypes.string.isRequired,
+  }
+
   state = {
     fullscreen: false,
     lat: undefined,
@@ -39,13 +43,15 @@ class ItineraryTab extends React.Component {
   render() {
     return (
       <div className="itinerary-tab">
-        <ItinerarySummary itinerary={this.props.itinerary}>
-          <TimeFrame
-            startTime={this.props.itinerary.startTime}
-            endTime={this.props.itinerary.endTime}
-            className="timeframe--itinerary-summary"
-          />
-        </ItinerarySummary>
+        {this.context.breakpoint !== 'large' &&
+          <ItinerarySummary itinerary={this.props.itinerary}>
+            <TimeFrame
+              startTime={this.props.itinerary.startTime}
+              endTime={this.props.itinerary.endTime}
+              className="timeframe--itinerary-summary"
+            />
+          </ItinerarySummary>
+        }
         <div className="momentum-scroll itinerary-tabs__scroll">
           <div className="itinerary-main">
             <ItineraryLegs
