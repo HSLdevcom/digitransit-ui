@@ -22,7 +22,25 @@ class DefaultNavigation extends Component {
     breakpoint: PropTypes.string.isRequired,
   };
 
+  /* large template, static content, logo always visible */
+  static tabStyle = { height: '60px', textTransform: 'none', fontSize: '17px' };
+
   static defaultProps = { breakpoint: 'medium' };
+
+  static NAVI_LINKS = (() => {
+    const links = [];
+
+    if (config.topNaviLinks) {
+      for (let i = 0; i < config.topNaviLinks.length; i++) {
+        links.push(<Tab
+          label={config.topNaviLinks[i].name} value={`t${i}`}
+          style={{ ...DefaultNavigation.tabStyle }}
+          onActive={() => { window.location = config.topNaviLinks[i].href; }}
+        />);
+      }
+    }
+    return links;
+  })();
 
   /* medium small template */
   medium = () => (
@@ -45,9 +63,6 @@ class DefaultNavigation extends Component {
       </section>
     </div>)
 
-  /* large template, static content, logo always visible */
-  tabStyle = { height: '60px', textTransform: 'none', fontSize: '17px' };
-
   large = () => (
     <div className={` ${this.props.className}`} >
       <div className="top-bar row" style={{ maxWidth: '100%' }}>
@@ -60,11 +75,8 @@ class DefaultNavigation extends Component {
             onChange={this.handleChange}
             inkBarStyle={{ height: 4, marginTop: -4 }}
           >
-            <Tab label={config.title} value="a" style={{ ...this.tabStyle }} />
-            <Tab
-              label="HSL" value="b" style={{ ...this.tabStyle }}
-              onActive={() => { window.location = 'https://www.hsl.fi/'; }}
-            />
+            <Tab label={config.title} value="a" style={{ ...DefaultNavigation.tabStyle }} />
+            {DefaultNavigation.NAVI_LINKS}
           </Tabs>
         </div>
         <div className="columns small-4 hamburger-large">

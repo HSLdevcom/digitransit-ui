@@ -55,6 +55,11 @@ export default {
 
   logo: '/img/hsl-logo.svg',
 
+
+  topNaviLinks: [
+    { name: 'HSL', href: 'https://www.hsl.fi/' },
+  ],
+
   socialMedia: {
     title: 'Uusi Reittiopas',
     description: APP_DESCRIPTION,

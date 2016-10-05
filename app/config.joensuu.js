@@ -40,6 +40,8 @@ export default {
 
   stopsMinZoom: 14,
 
+  logo: '/img/jojo-logo.png',
+
   colors: {
     primary: '#5c4696',
   },
