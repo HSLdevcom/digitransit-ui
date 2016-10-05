@@ -4,12 +4,11 @@ import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
 const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
-   favouritesClicked, children }) => {
+   favouritesClicked, children, floating }) => {
   // let panel;
   const tabClasses = ['small-6', 'h4', 'hover'];
   const nearbyClasses = ['nearby-routes'];
   const favouritesClasses = ['favourites'];
-
 
   if (selectedPanel === 1) {
     nearbyClasses.push('selected');
@@ -18,7 +17,7 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
   }
 
   return (
-    <div className="fpcfloat no-select">
+    <div className={`fpcfloat ${floating === 'yes' ? 'floating' : ''} no-select`}>
       <ul className="tabs-row bp-large cursor-pointer">
         <NearbyTabLabelContainer
           classes={cx(tabClasses, nearbyClasses)}
@@ -38,7 +37,7 @@ FrontPagePanelLarge.propTypes = {
   nearbyClicked: React.PropTypes.func.isRequired,
   favouritesClicked: React.PropTypes.func.isRequired,
   children: React.PropTypes.node,
+  floating: React.PropTypes.string.isRequired,
 };
-
 
 export default FrontPagePanelLarge;

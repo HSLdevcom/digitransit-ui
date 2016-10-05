@@ -54,7 +54,6 @@ $heading-color: #858585;
 }
 
 .fpcfloat {
-  position: absolute;
   top: 30px;
   right: 30px;
   z-index: 802;
@@ -85,6 +84,10 @@ $heading-color: #858585;
   }
 }
 
+.fpcfloat.floating {
+  position: absolute;
+}
+
 .frontpage-panel-container .tabs-row {
   z-index: 1201;
   width: 100%;
@@ -112,7 +115,6 @@ $heading-color: #858585;
       color: $primary-color;
     }
   }
-
 }
 
 .frontpage-panel-wrapper-enter {

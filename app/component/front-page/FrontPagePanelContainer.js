@@ -23,10 +23,12 @@ export default class FrontPagePanelContainer extends React.Component {
     className: React.PropTypes.string,
     children: React.PropTypes.node,
     routes: React.PropTypes.array,
+    floating: React.PropTypes.string,
   }
 
   static defaultProps = {
     breakpoint: 'medium',
+    floating: 'yes',
   }
 
   static description = () => (
@@ -38,7 +40,7 @@ export default class FrontPagePanelContainer extends React.Component {
         <FrontPagePanelContainer />
       </ComponentUsageExample>
       <ComponentUsageExample description="Large front page tabs">
-        <FrontPagePanelContainer breakpoint="large" />
+        <FrontPagePanelContainer breakpoint="large" floating="no" />
       </ComponentUsageExample>
     </div>);
 
@@ -59,13 +61,16 @@ export default class FrontPagePanelContainer extends React.Component {
   }
 
   getSelectedTab() {
-    const routePath = this.props.routes[this.props.routes.length - 1].path;
+    if (this.props.routes && this.props.routes.length > 0) {
+      const routePath = this.props.routes[this.props.routes.length - 1].path;
 
-    if (routePath === 'suosikit') {
-      return 2;
-    } else if (routePath === 'lahellasi') {
-      return 1;
-    } return undefined;
+      if (routePath === 'suosikit') {
+        return 2;
+      } else if (routePath === 'lahellasi') {
+        return 1;
+      } }
+
+    return undefined;
   }
 
   trackEvent = (...args) => {
@@ -106,16 +111,22 @@ export default class FrontPagePanelContainer extends React.Component {
     }
   };
 
+  replace(path) {
+    if (this.context.router) {
+      this.context.router.replace(path);
+    }
+  }
+
   openFavourites() {
-    this.context.router.replace('/suosikit');
+    this.replace('/suosikit');
   }
 
   openNearby() {
-    this.context.router.replace('/lahellasi');
+    this.replace('/lahellasi');
   }
 
   closeTab() {
-    this.context.router.replace('/');
+    this.replace('/');
   }
 
   render() {
@@ -127,6 +138,7 @@ export default class FrontPagePanelContainer extends React.Component {
         closePanel={this.closeTab}
       >{this.props.children}</FrontPagePanel>
     ) || <FrontPagePanelLarge
+      floating="yes"
       selectedPanel={this.getSelectedTab()}
       nearbyClicked={this.clickNearby}
       favouritesClicked={this.clickFavourites}
