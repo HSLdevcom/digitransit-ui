@@ -23,12 +23,14 @@ export default class FrontPagePanelContainer extends React.Component {
     className: React.PropTypes.string,
     children: React.PropTypes.node,
     routes: React.PropTypes.array,
-    floating: React.PropTypes.string,
+    floating: React.PropTypes.bool,
+    autoNavigateToNearby: React.PropTypes.bool,
   }
 
   static defaultProps = {
     breakpoint: 'medium',
-    floating: 'yes',
+    floating: true,
+    autoNavigateToNearby: true,
   }
 
   static description = () => (
@@ -40,13 +42,15 @@ export default class FrontPagePanelContainer extends React.Component {
         <FrontPagePanelContainer />
       </ComponentUsageExample>
       <ComponentUsageExample description="Large front page tabs">
-        <FrontPagePanelContainer breakpoint="large" floating="no" />
+        <FrontPagePanelContainer breakpoint="large" floating="no" autoNavigateToNearby={false} />
       </ComponentUsageExample>
     </div>);
 
   componentDidMount() {
+    console.log('autonavigate to nearby', this.props.autoNavigateToNearby);
       // auto select nearby tab if none selected and bp=large
-    if (this.props.breakpoint === 'large' && this.getSelectedTab() === undefined) {
+    if (this.props.autoNavigateToNearby === true && this.props.breakpoint === 'large' &&
+    this.getSelectedTab() === undefined) {
       this.clickNearby();
     }
   }
@@ -68,7 +72,8 @@ export default class FrontPagePanelContainer extends React.Component {
         return 2;
       } else if (routePath === 'lahellasi') {
         return 1;
-      } }
+      }
+    }
 
     return undefined;
   }
@@ -138,7 +143,7 @@ export default class FrontPagePanelContainer extends React.Component {
         closePanel={this.closeTab}
       >{this.props.children}</FrontPagePanel>
     ) || <FrontPagePanelLarge
-      floating="yes"
+      floating={this.props.floating}
       selectedPanel={this.getSelectedTab()}
       nearbyClicked={this.clickNearby}
       favouritesClicked={this.clickFavourites}
