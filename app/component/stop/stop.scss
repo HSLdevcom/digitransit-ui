@@ -4,6 +4,10 @@
   height: 100%;
 }
 
+.stop-page.header {
+  background-color: $background-color;
+}
+
 .stop-page-content > .departure-list {
   flex-basis: 0;
   flex-grow: 20;
