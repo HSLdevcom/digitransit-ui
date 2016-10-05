@@ -5,7 +5,6 @@ import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
 const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
    favouritesClicked, children, floating }) => {
-  console.log('floating:', floating);
   const tabClasses = ['small-6', 'h4', 'hover'];
   const nearbyClasses = ['nearby-routes'];
   const favouritesClasses = ['favourites'];
