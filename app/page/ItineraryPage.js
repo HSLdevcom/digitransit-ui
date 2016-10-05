@@ -157,7 +157,7 @@ ItineraryPageContainer.renderMap = (
       fitBounds={false}
       disableZoom={false}
     >
-      {overlay}
+      {breakpoint !== 'large' && overlay}
       {breakpoint !== 'large' && (
         <div
           className="fullscreen-toggle"
