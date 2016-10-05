@@ -92,7 +92,8 @@ $heading-color: #858585;
   z-index: 1201;
   width: 100%;
   position: relative;
-
+  height:50px;
+  background: $light-gray;
 }
 
 .tabs-row.bp-large {
@@ -115,6 +116,7 @@ $heading-color: #858585;
       color: $primary-color;
     }
   }
+
 }
 
 .frontpage-panel-wrapper-enter {
