@@ -1,17 +1,27 @@
 import React from 'react';
-import Config from '../config';
+import getContext from 'recompose/getContext';
 import { clearDestination } from '../action/EndpointActions';
 import FeedbackPanel from '../component/feedback/feedback-panel';
-import FrontPagePanel from '../component/front-page/FrontPagePanel';
+import FrontPagePanelContainer from '../component/front-page/FrontPagePanelContainer';
 import MapWithTracking from '../component/map/MapWithTracking';
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
-import SearchMainContainer from '../component/search/SearchMainContainer';
+import { SearchMainContainerWithBreakpoint } from '../component/search/SearchMainContainer';
+
 
 class IndexPage extends React.Component {
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
     location: React.PropTypes.object.isRequired,
   };
+
+  static propTypes = {
+    breakpoint: React.PropTypes.string.isRequired,
+    children: React.PropTypes.node,
+    routes: React.PropTypes.array,
+  }
+
+  static defaultProps = {
+    breakpoint: 'medium',
+  }
 
   componentWillMount = () => {
     this.resetToCleanState();
@@ -31,15 +41,18 @@ class IndexPage extends React.Component {
 
   render() {
     return (
-      <div className="front-page fullscreen">
-        <MapWithTracking showStops>
-          <SearchMainContainer />
-        </MapWithTracking>
-        <FrontPagePanel />
+      <div className={`front-page fullscreen bp-${this.props.breakpoint}`} >
+        <MapWithTracking showStops ><SearchMainContainerWithBreakpoint /></MapWithTracking>
+        <FrontPagePanelContainer
+          routes={this.props.routes} breakpoint={this.props.breakpoint}
+        >{this.props.children}</FrontPagePanelContainer>
         <FeedbackPanel />
       </div>
     );
   }
 }
 
-export default IndexPage;
+const IndexPageWithBreakpoint =
+    getContext({ breakpoint: React.PropTypes.string.isRequired })(IndexPage);
+
+export default IndexPageWithBreakpoint;

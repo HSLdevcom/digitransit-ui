@@ -174,8 +174,11 @@ export default {
   terminalStopsMinZoom: 12,
   terminalNamesZoom: 16,
 
+
+  logo: '/img/matka-logo.png',
+
   colors: {
-    primary: '#fff',
+    primary: '#00AFFF',
   },
 
   disruption: {

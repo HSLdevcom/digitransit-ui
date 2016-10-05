@@ -12,6 +12,7 @@ import 'regenerator-runtime/runtime';
 
 import Raven from './util/Raven';
 import config from './config';
+import MUITheme from './MuiTheme';
 import StoreListeningIntlProvider from './util/store-listening-intl-provider';
 import app from './app';
 import translations from './translations';
@@ -161,7 +162,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 
   ReactDOM.render(
     <ContextProvider translations={translations} context={context.getComponentContext()}>
-      <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
+      <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
         <Router
           history={history}
           environment={Relay.Store}
