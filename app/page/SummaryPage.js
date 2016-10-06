@@ -66,8 +66,8 @@ class SummaryPage extends React.Component {
 
   state = { center: null }
 
-  componentWillReceiveProps() {
-    if (this.context.breakpoint === 'large') {
+  componentWillReceiveProps(newProps, newContext) {
+    if (newContext.breakpoint === 'large' && this.state.center) {
       this.setState({ center: null });
     }
   }
@@ -250,7 +250,8 @@ export default Relay.createContainer(SummaryPage, {
     to: null,
     fromPlace: null,
     toPlace: null,
-    numItineraries: 3,
+    numItineraries: typeof matchMedia !== 'undefined' &&
+      matchMedia('(min-width: 900px)').matches ? 5 : 3,
     modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,AIRPLANE',
     date: moment().format('YYYY-MM-DD'),
     time: moment().format('HH:mm:ss'),
