@@ -73,8 +73,12 @@ $heading-color: #858585;
       padding-left:20px;
       padding-right:20px;
     }
-    .scrollable {
+    .scrollable.nearby {
       height: calc(100% - 100px);
+    }
+
+    .scrollable.favourites {
+      height: calc(100% - 146px);
     }
   }
 
