@@ -144,6 +144,9 @@ export default Relay.createContainer(ItineraryLine, {
           points
         }
         transitLeg
+        route {
+          shortName
+        }
         from {
           lat
           lon
