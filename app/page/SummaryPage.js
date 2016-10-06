@@ -201,7 +201,8 @@ class SummaryPage extends React.Component {
 
     return (
       <MobileView
-        header={!this.props.params.hash ? <SummaryNavigation hasDefaultPreferences /> : false}
+        header={!this.props.params.hash ?
+          <SummaryNavigation hasDefaultPreferences params={this.props.params} /> : false}
         content={content}
         map={map}
       />
