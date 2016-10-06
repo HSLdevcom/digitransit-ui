@@ -110,7 +110,12 @@ const preparePlanParams = (
     from: otpToLocation(from),
     to: otpToLocation(to),
     numItineraries: numItineraries ? Number(numItineraries) : undefined,
-    modes: modes ? modes.split(',').sort().join(',') : undefined,
+    modes: modes ? modes
+      .split(',')
+      .sort()
+      .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+      .join(',')
+    : undefined,
     date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
     time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
     walkReluctance: walkReluctance ? Number(walkReluctance) : undefined,
