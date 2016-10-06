@@ -11,7 +11,6 @@ import moment from 'moment';
 
 // React pages
 import IndexPage from './page/IndexPage';
-import ItineraryPage from './page/ItineraryPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
@@ -33,6 +32,7 @@ import StopPageMap from './component/stop/StopPageMap';
 import StopPageHeader from './component/stop/StopPageHeader';
 import StopPageMeta from './component/stop/StopPageMeta';
 import SummaryTitle from './component/summary/SummaryTitle';
+import ItineraryTab from './component/itinerary/ItineraryTab';
 import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
 
 import { storeEndpoint } from './action/EndpointActions';
@@ -247,7 +247,7 @@ const routes = (
         [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
       ]}
     >
-      <Route path=":hash" components={{ content: ItineraryPage, map: ItineraryPageMap }}>
+      <Route path=":hash" components={{ content: ItineraryTab, map: ItineraryPageMap }}>
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>

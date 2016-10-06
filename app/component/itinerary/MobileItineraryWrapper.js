@@ -66,7 +66,7 @@ export default class MobileItineraryWrapper extends React.Component {
     const itineraryTab = this.refs[`itineraryTab${index}`];
 
     if (itineraryTab) {
-      const coords = itineraryTab.refs.component.refs.itineraryTab.getState();
+      const coords = itineraryTab.refs.component.getState();
       this.focusMap(coords.lat, coords.lon);
     }
   }

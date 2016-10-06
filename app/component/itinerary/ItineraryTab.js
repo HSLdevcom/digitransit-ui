@@ -1,10 +1,13 @@
 import React, { PropTypes } from 'react';
+import Relay from 'react-relay';
+
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './time-frame';
 import config from '../../config';
 import ItineraryLegs from './legs/ItineraryLegs';
+import CityBikeMarker from '../map/non-tile-layer/CityBikeMarker';
 
 const routeInformation = config.showRouteInformation && <RouteInformation />;
 
@@ -68,4 +71,85 @@ class ItineraryTab extends React.Component {
   }
 }
 
-export default ItineraryTab;
+export default Relay.createContainer(ItineraryTab, {
+  fragments: {
+    itinerary: () => Relay.QL`
+      fragment on Itinerary {
+        walkDistance
+        duration
+        startTime
+        endTime
+        fares {
+          type
+          currency
+          cents
+        }
+        legs {
+          mode
+          agency {
+            name
+          }
+          from {
+            lat
+            lon
+            name
+            vertexType
+            bikeRentalStation {
+              ${CityBikeMarker.getFragment('station')}
+            }
+            stop {
+              gtfsId
+              code
+              platformCode
+            }
+          }
+          to {
+            lat
+            lon
+            name
+            vertexType
+            bikeRentalStation {
+              ${CityBikeMarker.getFragment('station')}
+            }
+            stop {
+              gtfsId
+              code
+              platformCode
+            }
+          }
+          legGeometry {
+            length
+            points
+          }
+          intermediateStops {
+            gtfsId
+            lat
+            lon
+            name
+            code
+            platformCode
+          }
+          realTime
+          transitLeg
+          rentedBike
+          startTime
+          endTime
+          mode
+          distance
+          duration
+          route {
+            shortName
+            gtfsId
+          }
+          trip {
+            gtfsId
+            tripHeadsign
+            pattern {
+              code
+            }
+          }
+        }
+      }
+    `,
+  },
+});

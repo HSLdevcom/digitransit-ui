@@ -9,7 +9,7 @@ import polyline from 'polyline-encoded';
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
 import Map from '../component/map/Map';
-import ItineraryPage from './ItineraryPage';
+import ItineraryTab from '../component/itinerary/ItineraryTab';
 
 import SummaryPlanContainer from '../component/summary/SummaryPlanContainer';
 import SummaryNavigation from '../component/navigation/SummaryNavigation';
@@ -232,7 +232,7 @@ export default Relay.createContainer(SummaryPage, {
           preferred: $preferred)
         {
           itineraries {
-            ${ItineraryPage.getFragment('itinerary')}
+            ${ItineraryTab.getFragment('itinerary')}
             ${SummaryPlanContainer.getFragment('itineraries')}
             legs {
               ${ItineraryLine.getFragment('legs')}
