@@ -36,7 +36,7 @@ import ItineraryTab from './component/itinerary/ItineraryTab';
 import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
 
 import { storeEndpoint } from './action/EndpointActions';
-import { otpToLocation } from './util/otp-strings';
+import { otpToLocation } from './util/otpStrings';
 
 import TopLevel from './component/TopLevel';
 
