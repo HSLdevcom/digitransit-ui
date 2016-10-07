@@ -4,7 +4,6 @@ import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import { otpToLocation } from '../util/otp-strings';
 import config from '../config';
 import ItineraryPlanContainer from '../component/itinerary/ItineraryPlanContainer';

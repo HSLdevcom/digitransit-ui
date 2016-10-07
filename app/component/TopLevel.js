@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import meta from '../meta';
 import configureMoment from '../util/configure-moment';
-import DefaultNavigation from './navigation/DefaultNavigation';
+import { default as DefaultNavigation } from './navigation/DefaultNavigation';
 
 class TopLevel extends React.Component {
   static propTypes = {
