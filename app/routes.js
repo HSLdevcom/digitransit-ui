@@ -14,7 +14,7 @@ import IndexPage from './page/IndexPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
-// import LoadingPage from './page/loading'; TODO: Re-add loadingspinners where wanted
+// import LoadingPage from './page/LoadingPage'; TODO: Re-add loadingspinners where wanted
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
