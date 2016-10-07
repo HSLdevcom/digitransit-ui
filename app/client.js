@@ -12,7 +12,7 @@ import 'regenerator-runtime/runtime';
 
 import Raven from './util/Raven';
 import config from './config';
-import StoreListeningIntlProvider from './util/store-listening-intl-provider';
+import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import app from './app';
 import translations from './translations';
 import { startLocationWatch } from './action/PositionActions';
