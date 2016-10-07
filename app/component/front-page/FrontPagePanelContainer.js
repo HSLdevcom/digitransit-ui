@@ -63,7 +63,7 @@ export default class FrontPagePanelContainer extends React.Component {
     return undefined;
   }
 
-  getSelectedTab() {
+  getSelectedTab = () => {
     if (this.props.routes && this.props.routes.length > 0) {
       const routePath = this.props.routes[this.props.routes.length - 1].path;
 
@@ -115,21 +115,21 @@ export default class FrontPagePanelContainer extends React.Component {
     }
   };
 
-  replace(path) {
+  replace = (path) => {
     if (this.context.router) {
       this.context.router.replace(path);
     }
   }
 
-  openFavourites() {
+  openFavourites = () => {
     this.replace('/suosikit');
   }
 
-  openNearby() {
+  openNearby = () => {
     this.replace('/lahellasi');
   }
 
-  closeTab() {
+  closeTab = () => {
     this.replace('/');
   }
 
