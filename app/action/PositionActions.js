@@ -1,6 +1,6 @@
 import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
-import { getJson } from '../util/xhr-promise';
+import { getJson } from '../util/xhrPromise';
 import config from '../config';
 import { setOriginToDefault } from './EndpointActions';
 

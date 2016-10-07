@@ -1,6 +1,6 @@
 import moment from 'moment';
 import config from '../config';
-import { getJson } from '../util/xhr-promise';
+import { getJson } from '../util/xhrPromise';
 
 // getTopic
 // Returns MQTT topic to be subscribed

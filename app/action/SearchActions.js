@@ -5,7 +5,7 @@ import orderBy from 'lodash/orderBy';
 import take from 'lodash/take';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
-import { getJson, postJson } from '../util/xhr-promise';
+import { getJson, postJson } from '../util/xhrPromise';
 import config from '../config';
 import { getLabel } from '../util/suggestionUtils';
 import { getLatLng } from '../util/geo-utils';
