@@ -9,7 +9,7 @@ import polyline from 'polyline-encoded';
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
 import Map from '../component/map/Map';
-import ItineraryPage from './ItineraryPage';
+import ItineraryTab from '../component/itinerary/ItineraryTab';
 
 import SummaryPlanContainer from '../component/summary/SummaryPlanContainer';
 import SummaryNavigation from '../component/navigation/SummaryNavigation';
@@ -66,8 +66,8 @@ class SummaryPage extends React.Component {
 
   state = { center: null }
 
-  componentWillReceiveProps() {
-    if (this.context.breakpoint === 'large') {
+  componentWillReceiveProps(newProps, newContext) {
+    if (newContext.breakpoint === 'large' && this.state.center) {
       this.setState({ center: null });
     }
   }
@@ -201,7 +201,8 @@ class SummaryPage extends React.Component {
 
     return (
       <MobileView
-        header={!this.props.params.hash ? <SummaryNavigation hasDefaultPreferences /> : false}
+        header={!this.props.params.hash ?
+          <SummaryNavigation hasDefaultPreferences params={this.props.params} /> : false}
         content={content}
         map={map}
       />
@@ -231,7 +232,7 @@ export default Relay.createContainer(SummaryPage, {
           preferred: $preferred)
         {
           itineraries {
-            ${ItineraryPage.getFragment('itinerary')}
+            ${ItineraryTab.getFragment('itinerary')}
             ${SummaryPlanContainer.getFragment('itineraries')}
             legs {
               ${ItineraryLine.getFragment('legs')}
@@ -249,7 +250,8 @@ export default Relay.createContainer(SummaryPage, {
     to: null,
     fromPlace: null,
     toPlace: null,
-    numItineraries: 3,
+    numItineraries: typeof matchMedia !== 'undefined' &&
+      matchMedia('(min-width: 900px)').matches ? 5 : 3,
     modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,AIRPLANE',
     date: moment().format('YYYY-MM-DD'),
     time: moment().format('HH:mm:ss'),
