@@ -67,11 +67,11 @@ export default class SearchInputContainer extends Component {
 
   blur() {
     // hide safari keyboard
-    this.autowhatever.refs.input.blur();
+    this.autowhatever.input.blur();
   }
 
   focus = () => {
-    this.autowhatever.refs.input.focus();
+    this.autowhatever.input.focus();
   }
 
   handleOnKeyDown = (event, eventProps) => {
