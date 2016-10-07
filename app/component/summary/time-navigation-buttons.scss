@@ -1,6 +1,7 @@
 .time-navigation-buttons {
   display: flex;
   margin: 5px 10px;
+  flex-shrink: 0;
 
   button {
     font-size: $font-size-smallish;
