@@ -69,7 +69,7 @@
     "intl": "1.2.5",
     "javascript-natural-sort": "0.7.1",
     "leaflet": "1.0.1",
-    "lodash": "4.15.0",
+    "lodash": "4.16.4",
     "mapbox-gl-function": "2.1.0",
     "material-ui": "0.15.4",
     "moment": "2.14.1",
