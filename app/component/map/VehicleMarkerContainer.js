@@ -4,7 +4,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 
 import { startRealTimeClient, stopRealTimeClient } from '../../action/realTimeClientAction';
-import RouteMarkerPopup from './route/route-marker-popup';
+import RouteMarkerPopup from './route/RouteMarkerPopup';
 import FuzzyTripRoute from '../../route/FuzzyTripRoute';
 import { asString as iconAsString } from '../icon/IconWithTail';
 
