@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import pure from 'recompose/pure';
 
 const inputOrPlaceholder = (value, placeholder) => {
   if (value !== undefined && value !== null && value !== '') {
@@ -9,14 +8,14 @@ const inputOrPlaceholder = (value, placeholder) => {
   return <div className="address-placeholder no-select">{placeholder}</div>;
 };
 
-const FakeSearchBar = pure(
-  (props) => (
-    <div id={props.id} onClick={props.onClick}>
-      <div className={cx('input-placeholder', props.className)}>
-        {inputOrPlaceholder(props.endpointAddress, props.placeholder)}
+const FakeSearchBar =
+  ({ id, onClick, className, endpointAddress, placeholder }) => (
+    <div id={id} onClick={onClick}>
+      <div className={cx('input-placeholder', className)}>
+        {inputOrPlaceholder(endpointAddress, placeholder)}
       </div>
     </div>
-    ));
+    );
 
 FakeSearchBar.propTypes = {
   className: React.PropTypes.string,
@@ -24,7 +23,6 @@ FakeSearchBar.propTypes = {
   id: React.PropTypes.string,
   onClick: React.PropTypes.func,
   placeholder: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string,
 };
 
 FakeSearchBar.displayName = 'FakeSearchBar';

@@ -22,7 +22,6 @@ $search-form-location-icon-size: 18px;
 $search-header-height: 45px;
 
 .search-form {
-  position: absolute;
   top: 0;
   padding-top: 10px;
 
@@ -57,7 +56,37 @@ $search-header-height: 45px;
   }
 }
 
-ul#react-whatever-suggest {
+.fake-search-container.bp-large {
+  padding-top: 30px;
+  padding-left: 50px;
+  padding-right: 400px;
+  max-width: none;
+}
+
+.search-form.bp-large {
+  padding-top:0;
+  .postfix {
+    height:60px;
+    .icon {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+  }
+  .input-placeholder {
+      @include form-element();
+      height: 60px;
+      font-size:18px;
+      line-height: $search-form-input-overlay-height;
+      border-top-left-radius: $input-border-radius;
+      border-bottom-left-radius: $input-border-radius;
+      box-shadow: 2px 4px 5px rgba(0,0,0,0.2);
+  }
+  .address-placeholder {
+    padding-top: 13px;
+  }
+}
+
+ul.react-autowhatever__items-list {
   @extend .momentum-scroll;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   list-style-type: none;

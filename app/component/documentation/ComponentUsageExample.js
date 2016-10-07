@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import toPairs from 'lodash/toPairs';
+import toString from 'lodash/toString';
 /*
   Renders the components given as children. In addition a string represenation
   of the given components and its props are given.
@@ -21,11 +22,17 @@ function getPropStrings(props) {
         }
         return '';
       case 'object':
-        return `${key}={${toPairs(value).map(([innerKey, innerValue]) =>
-          `${innerKey}:${innerValue}`
-        ).join(', ')}}`;
+        if (value === null) {
+          return `${key}={null}`;
+        }
+        if (value.$$typeof) {
+          // react component
+          return `${key}={<${value.type.displayName || value.type.name}
+            ${getPropStrings(value.props)}/>}`;
+        }
+        return `${key}={${getPropStrings(value)}}`;
       default:
-        return `${key}={${value}}`;
+        return `${key}={${toString(value)}}`;
     }
   }).join(' ');
 }

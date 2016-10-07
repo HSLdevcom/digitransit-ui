@@ -19,7 +19,7 @@ import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
 import AboutPage from './page/AboutPage';
-import splashOrComponent from './component/splash/splash-or-component';
+import SplashOrChildren from './component/splash/SplashOrChildren';
 
 // Components for page parts
 import RouteAlertsContainer from './component/route/RouteAlertsContainer';
@@ -34,6 +34,8 @@ import StopPageMeta from './component/stop/StopPageMeta';
 import SummaryTitle from './component/summary/SummaryTitle';
 import ItineraryTab from './component/itinerary/ItineraryTab';
 import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
+import FavouritesPanel from './component/favourites/FavouritesPanel';
+import NearbyRoutesPanel from './component/front-page/NearbyRoutesPanel';
 
 import { storeEndpoint } from './action/EndpointActions';
 import { otpToLocation } from './util/otpStrings';
@@ -147,21 +149,25 @@ SummaryPageWrapper.propTypes = {
 
 const routes = (
   <Route
-    path="/"
     component={(props) => <ContainerDimensions><TopLevel {...props} /></ContainerDimensions>}
   >
-    <IndexRoute
-      topBarOptions={{
-        disableBackButton: true,
-        showDisruptionInfo: true,
-        showLogo: config.useNavigationLogo,
-      }}
-      components={{
+
+    <Route
+      path="/" components={{
         title: () => <span>{config.title}</span>,
-        content: splashOrComponent(IndexPage),
+        content: (props) => (<SplashOrChildren><IndexPage {...props} /></SplashOrChildren>)
+        ,
       }}
-    />
-    <Route path="pysakit">
+    >
+      <Route
+        path="lahellasi" component={() => <NearbyRoutesPanel />}
+      />
+      <Route
+        path="suosikit" component={() => <FavouritesPanel />}
+      />
+    </Route>
+
+    <Route path="/pysakit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
       <Route
         path=":stopId"
@@ -183,7 +189,7 @@ const routes = (
         <Route path="info" component={Error404} />
       </Route>
     </Route>
-    <Route path="terminaalit">
+    <Route path="/terminaalit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all terminals*/}
       <Route
         path=":terminalId"
@@ -204,7 +210,7 @@ const routes = (
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="linjat">
+    <Route path="/linjat">
       <IndexRoute component={Error404} />
       <Route
         path=":routeId"
@@ -241,7 +247,7 @@ const routes = (
       </Route>
     </Route>
     <Route
-      path="reitti/:from/:to"
+      path="/reitti/:from/:to"
       components={{
         title: SummaryTitle,
         content: SummaryPage,
@@ -258,12 +264,12 @@ const routes = (
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="styleguide" component={StyleGuidelines} />
-    <Route path="styleguide/component/:componentName" component={StyleGuidelines} />
-    <Route path="suosikki/uusi" component={AddFavouritePage} />
-    <Route path="suosikki/muokkaa/:id" component={AddFavouritePage} />
+    <Route path="/styleguide" component={StyleGuidelines} />
+    <Route path="/styleguide/component/:componentName" component={StyleGuidelines} />
+    <Route path="/suosikki/uusi" component={AddFavouritePage} />
+    <Route path="/suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route
-      path="tietoja-palvelusta"
+      path="/tietoja-palvelusta"
       components={{
         title: () => <span>{config.title}</span>,
         content: AboutPage }}

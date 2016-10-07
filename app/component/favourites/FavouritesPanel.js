@@ -49,7 +49,7 @@ const FavouritesPanel = ({
     <div className="row favourite-locations-container">
       <FavouriteLocationsContainer />
     </div><NextDeparturesListHeader />
-    <div className="scrollable momentum-scroll">
+    <div className="scrollable momentum-scroll favourites">
       <FavouriteRoutes routes={routes} />
     </div>
   </div>);

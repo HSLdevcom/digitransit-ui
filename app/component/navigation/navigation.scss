@@ -28,7 +28,7 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
-nav.top-bar {
+.top-bar {
   line-height: $topbar-height;
   background: $primary-color;
   position: relative;
@@ -51,13 +51,27 @@ nav.top-bar {
   .title {
     text-align: center;
     color: $top-navigation-title-color;
-
-    div.logo {
-      background-image: $nav-logo;
-      background-size: contain;
-      background-repeat: no-repeat;
-      height: $topbar-height;
-      max-width: 170px;
+  }
+  .logo {
+    background-image: $nav-logo;
+    background-size: contain;
+    max-width: 170px;
+  }
+  .navi-logo {
+    margin-top:13px;
+    margin-bottom:13px;
+    max-height:34px;
+  }
+  .hamburger-large {
+    .main-menu-toggle {
+      top: 10px;
+      div.logo {
+        background-image: $nav-logo;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: $topbar-height;
+        max-width: 170px;
+      }
     }
   }
 }
@@ -138,6 +152,12 @@ nav.top-bar {
 .content {
   background-color: $content-background-color;
   height: calc(100% - #{$topbar-height});
+  position: relative;
+}
+
+
+.content.bp-large {
+  height: calc(100% - 60px);
   position: relative;
 }
 

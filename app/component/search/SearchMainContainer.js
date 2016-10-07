@@ -1,11 +1,12 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
 import Tab from 'material-ui/Tabs/Tab';
+import getContext from 'recompose/getContext';
 
 import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
 import { executeSearch } from '../../action/SearchActions';
 import FakeSearchBar from './FakeSearchBar';
-import FakeSearchWithButton from './FakeSearchWithButton';
+import { default as FakeSearchWithButton } from './FakeSearchWithButton';
 import GeolocationOrInput from './GeolocationOrInput';
 import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
@@ -17,6 +18,15 @@ class SearchMainContainer extends React.Component {
     router: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
+
+  static propTypes = {
+    className: React.PropTypes.string,
+    breakpoint: React.PropTypes.string,
+  }
+
+  static defaultProps= {
+    breakpoint: 'medium',
+  }
 
   constructor(args) {
     super(...args);
@@ -85,7 +95,7 @@ class SearchMainContainer extends React.Component {
 
   focusInput = (value) => (
     // this.searchInputs[value].searchInput is a hack
-    this.searchInputs[value].searchInput.autowhatever.refs.input.focus()
+    this.searchInputs[value].searchInput.autowhatever.input.focus()
   );
 
   openDialog = (tab) => {
@@ -165,7 +175,10 @@ class SearchMainContainer extends React.Component {
       />);
 
     return (
-      <div>
+      <div
+        className={`fake-search-container bp-${this.props.breakpoint} ${this.props.className ||
+          ''}`}
+      >
         <FakeSearchWithButton
           fakeSearchBar={fakeSearchBar}
           onClick={this.clickSearch}
@@ -214,4 +227,7 @@ class SearchMainContainer extends React.Component {
   }
 }
 
-export default SearchMainContainer;
+const SearchMainContainerWithBreakpoint =
+    getContext({ breakpoint: React.PropTypes.string.isRequired })(SearchMainContainer);
+
+export { SearchMainContainer as default, SearchMainContainerWithBreakpoint };

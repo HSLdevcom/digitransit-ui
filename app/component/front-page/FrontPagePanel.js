@@ -1,150 +1,69 @@
 import React from 'react';
 import cx from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { supportsHistory } from 'history/lib/DOMUtils';
-import { FormattedMessage, intlShape } from 'react-intl';
-
+import { FormattedMessage } from 'react-intl';
 import Icon from '../icon/icon';
-import FavouritesPanel from '../favourites/FavouritesPanel';
-import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';
-import { shouldDisplayPopup } from '../../util/Feedback';
-import FeedbackAction from '../../action/feedback-action';
 
-export default class FrontPagePanel extends React.Component {
-  static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
-    piwik: React.PropTypes.object,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
-  };
+const FrontPagePanel = ({ selectedPanel, nearbyClicked,
+   favouritesClicked, closePanel, children }) => {
+  let heading;
+  const tabClasses = ['small-6', 'h4', 'hover'];
+  const nearbyClasses = ['nearby-routes'];
+  const favouritesClasses = ['favourites'];
 
-  onReturnToFrontPage() {
-    const timeStore = this.context.getStore('TimeStore');
-    if (shouldDisplayPopup(timeStore.getCurrentTime().valueOf())) {
-      return this.context.executeAction(FeedbackAction.openFeedbackModal);
-    }
-    return undefined;
+  if (selectedPanel === 1) {
+    heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
+    nearbyClasses.push('selected');
+  } else if (selectedPanel === 2) {
+    heading = <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />;
+    favouritesClasses.push('selected');
   }
 
-  getSelectedPanel = () => {
-    if (typeof window !== 'undefined' && supportsHistory()) {
-      const state = this.context.location.state;
-      return state && state.selectedPanel;
-    }
-
-    return this.state && this.state.selectedPanel;
-  }
-
-  selectPanel = (selection) => {
-    let tabOpensOrCloses;
-    let newSelection;
-    const oldSelection = this.getSelectedPanel();
-
-    if (selection === oldSelection) {
-      this.onReturnToFrontPage();
-    } else {
-      newSelection = selection;
-    }
-
-    if (supportsHistory()) {
-      tabOpensOrCloses = !oldSelection || !newSelection;
-
-      if (tabOpensOrCloses) {
-        return this.context.router.push({
-          state: {
-            selectedPanel: newSelection,
-          },
-          query: this.context.location.query,
-          pathname: this.context.location.pathname,
-        });
-      }
-      return this.context.router.replace({
-        state: {
-          selectedPanel: newSelection,
-        },
-        query: this.context.location.query,
-        pathname: this.context.location.pathname,
-      });
-    }
-    return this.setState({
-      selectedPanel: newSelection,
-    });
-  }
-
-  closePanel = () => this.selectPanel(this.getSelectedPanel())
-
-  render() {
-    let heading;
-    let panel;
-    const tabClasses = ['small-6', 'h4', 'hover'];
-    const nearbyClasses = ['nearby-routes'];
-    const favouritesClasses = ['favourites'];
-
-    if (this.getSelectedPanel() === 1) {
-      panel = <NearbyRoutesPanel />;
-      heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
-      nearbyClasses.push('selected');
-    } else if (this.getSelectedPanel() === 2) {
-      panel = <FavouritesPanel />;
-      heading = <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />;
-      favouritesClasses.push('selected');
-    }
-
-    const top = (
-      <div className="panel-top">
-        <div className="panel-heading">
-          <h2>{heading}</h2>
-        </div>
-        <div className="close-icon" onClick={this.closePanel}>
-          <Icon img="icon-icon_close" />
-        </div>
+  const top = (
+    <div className="panel-top">
+      <div className="panel-heading">
+        <h2>{heading}</h2>
       </div>
-    );
-
-    const content = <div className="frontpage-panel-wrapper" key="panel">{top}{panel}</div>;
-
-    const piwik = this.context.piwik;
-
-    const clickNearby = () => {
-      if (piwik) {
-        const action = this.getSelectedPanel() === 1 ? 'close' : 'open';
-        piwik.trackEvent('Front page tabs', 'Nearby', action);
-      }
-      return this.selectPanel(1);
-    };
-
-    const clickFavourites = () => {
-      if (piwik) {
-        const action = this.getSelectedPanel() === 2 ? 'close' : 'open';
-        piwik.trackEvent('Front page tabs', 'Favourites', action);
-      }
-      return this.selectPanel(2);
-    };
-
-    return (
-      <div className="frontpage-panel-container no-select">
-        <ReactCSSTransitionGroup
-          transitionName="frontpage-panel-wrapper"
-          transitionEnterTimeout={300}
-          transitionLeaveTimeout={300}
-        >
-        {this.getSelectedPanel() ? content : undefined}
-        </ReactCSSTransitionGroup>
-        <ul className="tabs-row tabs-arrow-up cursor-pointer">
-          <NearbyTabLabelContainer
-            classes={cx(tabClasses, nearbyClasses)}
-            onClick={clickNearby}
-          />
-          <FavouritesTabLabelContainer
-            classes={cx(tabClasses, favouritesClasses)}
-            onClick={clickFavourites}
-          />
-        </ul>
+      <div className="close-icon" onClick={closePanel}>
+        <Icon img="icon-icon_close" />
       </div>
-    );
-  }
-}
+    </div>
+  );
+
+  const content = selectedPanel ?
+    <div className="frontpage-panel-wrapper" key="panel">{top}{children}</div> : undefined;
+
+  return (
+    <div className="frontpage-panel-container no-select">
+      <ReactCSSTransitionGroup
+        transitionName="frontpage-panel-wrapper"
+        transitionEnterTimeout={300}
+        transitionLeaveTimeout={300}
+      >
+      {content}
+      </ReactCSSTransitionGroup>
+      <ul className="tabs-row tabs-arrow-up cursor-pointer">
+        <NearbyTabLabelContainer
+          classes={cx(tabClasses, nearbyClasses)}
+          onClick={nearbyClicked}
+        />
+        <FavouritesTabLabelContainer
+          classes={cx(tabClasses, favouritesClasses)}
+          onClick={favouritesClicked}
+        />
+      </ul>
+    </div>
+); };
+
+FrontPagePanel.propTypes = {
+  selectedPanel: React.PropTypes.number,
+  nearbyClicked: React.PropTypes.func.isRequired,
+  favouritesClicked: React.PropTypes.func.isRequired,
+  closePanel: React.PropTypes.func.isRequired,
+  children: React.PropTypes.node,
+};
+
+
+export default FrontPagePanel;
