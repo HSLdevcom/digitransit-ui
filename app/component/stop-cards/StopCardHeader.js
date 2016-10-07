@@ -4,22 +4,9 @@ import Icon from '../icon/icon';
 import NotImplementedLink from '../util/not-implemented-link';
 import CardHeader from '../card/CardHeader';
 import config from '../../config';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-class StopCardHeader extends React.Component {
-  getInfoIcon() {
-    return (
-      <NotImplementedLink
-        href={`/pysakit/${this.props.stop.gtfsId}/info`}
-        name="info"
-        nonTextLink
-      >
-        <span className="cursor-pointer">
-          <Icon className="info right" img="icon-icon_info" />
-        </span>
-      </NotImplementedLink>
-    );
-  }
-
+class PureStopCardHeader extends React.Component {
   getDescription() {
     let description = '';
 
@@ -46,13 +33,13 @@ class StopCardHeader extends React.Component {
         code={config.stopCard.header.showStopCode && this.props.stop.code ?
           this.props.stop.code : null}
       >
-        {this.props.infoIcon ? this.getInfoIcon() : null}
+        {this.props.infoIcon}
       </CardHeader>
   );
   }
 }
 
-StopCardHeader.propTypes = {
+PureStopCardHeader.propTypes = {
   stop: React.PropTypes.object,
   distance: React.PropTypes.number,
   addFavouriteStop: React.PropTypes.oneOfType([
@@ -65,7 +52,24 @@ StopCardHeader.propTypes = {
   infoIcon: React.PropTypes.bool,
 };
 
-export default Relay.createContainer(StopCardHeader, {
+const exampleStop = {
+  code: '4611',
+  gtfsId: 'HSL:1541157',
+  name: 'Kaivonkatsojanpuisto',
+  desc: 'Kaivonkatsojantie',
+};
+
+PureStopCardHeader.description = (
+  <div>
+    <ComponentUsageExample description="basic">
+      <PureStopCardHeader stop={exampleStop} distance={345.6} />
+    </ComponentUsageExample>
+  </div>
+);
+
+export { PureStopCardHeader };
+
+export default Relay.createContainer(PureStopCardHeader, {
   fragments: {
     stop: () => Relay.QL`
       fragment on Stop {
