@@ -9,14 +9,22 @@ import React, { PropTypes } from 'react';
   </ComponentDocumentation>
 */
 
+const getName = (component) => component.displayName || component.name || 'Unknown';
+
+const getDescription = (component) => {
+  if (component.description) return component.description;
+  return <div>Component {getName(component)} has no description</div>;
+};
+
+
 export default function ComponentDocumentation({ component, children }) {
   return (
     <div
       className="card padding-normal"
-      id={component.displayName || component.name}
+      id={getName(component)}
     >
-      <h2>{component.displayName || component.name}</h2>
-      <div>{component.description}</div>
+      <h2>{getName(component)}</h2>
+      <div>{getDescription(component)}</div>
       <p>Props:</p>
       <ul>{Object.keys(component.propTypes || {}).map(key => <li key={key}>{key}</li>)}</ul>
       {children}
