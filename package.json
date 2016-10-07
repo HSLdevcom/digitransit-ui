@@ -74,7 +74,7 @@
     "material-ui": "0.16.0",
     "moment": "2.15.1",
     "moment-timezone": "0.5.5",
-    "mqtt": "1.14.0",
+    "mqtt": "2.0.1",
     "node-cjsx": "2.0.0",
     "node-fetch": "1.6.0",
     "pbf": "2.0.1",
