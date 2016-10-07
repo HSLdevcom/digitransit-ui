@@ -76,7 +76,7 @@
     "moment-timezone": "0.5.5",
     "mqtt": "2.0.1",
     "node-cjsx": "2.0.0",
-    "node-fetch": "1.6.0",
+    "node-fetch": "1.6.3",
     "pbf": "2.0.1",
     "point-in-polygon": "1.0.1",
     "polyfill-service": "3.13.0-0",
