@@ -9,7 +9,7 @@ DOCKER_IMAGE=digitransit-ui
 #DOCKER_AUTH=
 
 # Save build info
-echo -e "module.exports =\n  COMMIT_ID: \""`git rev-parse HEAD`"\"\n  BUILD_TIME: \""`date -Iminutes -u`\" > app/build-info.coffee
+echo -e "export const COMMIT_ID = \""`git rev-parse HEAD`"\";\nexport const BUILD_TIME: \""`date -Iminutes -u`"\";" > app/buildInfo.js
 
 # Build image
 docker build --tag="$ORG/$DOCKER_IMAGE:$DOCKER_TAG" .

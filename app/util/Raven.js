@@ -1,5 +1,5 @@
 import config from '../config';
-import buildInfo from '../build-info';
+import { COMMIT_ID } from '../buildInfo';
 
 function getRaven() {
   if (process.env.NODE_ENV === 'production') {
@@ -9,7 +9,7 @@ function getRaven() {
     /* eslint-enable global-require */
 
     Raven.config(config.SENTRY_DSN, {
-      release: buildInfo.COMMIT_ID,
+      release: COMMIT_ID,
     }).install();
     return Raven;
   }

@@ -20,7 +20,7 @@ import { startLocationWatch } from './action/PositionActions';
 import { openFeedbackModal } from './action/feedback-action';
 import { shouldDisplayPopup } from './util/Feedback';
 import history from './history';
-import buildInfo from './build-info';
+import { COMMIT_ID, BUILD_TIME } from './buildInfo';
 
 const plugContext = (f) => () => ({
   plugComponentContext: f,
@@ -193,8 +193,8 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 
   // Send perf data after React has compared real and shadow DOMs
   // and started positioning
-  piwik.setCustomVariable(4, 'commit_id', buildInfo.COMMIT_ID, 'visit');
-  piwik.setCustomVariable(5, 'build_time', buildInfo.BUILD_TIME, 'visit');
+  piwik.setCustomVariable(4, 'commit_id', COMMIT_ID, 'visit');
+  piwik.setCustomVariable(5, 'build_time', BUILD_TIME, 'visit');
 
   // Track performance after some time has passed
   setTimeout(() => trackDomPerformance(), 5000);
