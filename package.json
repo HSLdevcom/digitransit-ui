@@ -82,7 +82,7 @@
     "polyfill-service": "3.13.0-0",
     "polyline-encoded": "0.0.8",
     "raven": "0.12.1",
-    "raven-js": "3.5.1",
+    "raven-js": "3.7.0",
     "react": "15.3.1",
     "react-addons-css-transition-group": "15.3.1",
     "react-autowhatever": "3.3.0",
