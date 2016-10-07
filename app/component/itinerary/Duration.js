@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import Icon from '../icon/icon';
-import { durationToString } from '../../util/time-utils';
+import { durationToString } from '../../util/timeUtils';
 
 function Duration(props) {
   const duration = durationToString(props.duration * 1000);

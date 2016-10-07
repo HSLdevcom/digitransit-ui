@@ -6,7 +6,7 @@ intl         = require 'react-intl'
 Distance     = require('../Distance').default
 FormattedMessage = intl.FormattedMessage
 geoUtils         = require '../../../util/geo-utils'
-timeUtils    = require '../../../util/time-utils'
+timeUtils    = require '../../../util/timeUtils'
 
 class CarLeg extends React.Component
 

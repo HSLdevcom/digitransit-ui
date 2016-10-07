@@ -7,7 +7,7 @@ Distance     = require('../Distance').default
 FormattedMessage  = intl.FormattedMessage
 FormattedRelative = intl.FormattedRelative
 geoUtils     = require '../../../util/geo-utils'
-timeUtils    = require '../../../util/time-utils'
+timeUtils    = require '../../../util/timeUtils'
 
 class BicycleLeg extends React.Component
 

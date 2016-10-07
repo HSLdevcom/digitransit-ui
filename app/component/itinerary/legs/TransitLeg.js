@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import config from '../../../config';
 import RouteNumber from '../../departure/RouteNumber';
 import Icon from '../../icon/icon';
-import { durationToString } from '../../../util/time-utils';
+import { durationToString } from '../../../util/timeUtils';
 import StopCode from '../StopCode';
 
 class TransitLeg extends React.Component {
