@@ -4,7 +4,7 @@ import Relay from 'react-relay';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
-import TimeFrame from './time-frame';
+import TimeFrame from './TimeFrame';
 import config from '../../config';
 import ItineraryLegs from './legs/ItineraryLegs';
 import CityBikeMarker from '../map/non-tile-layer/CityBikeMarker';
