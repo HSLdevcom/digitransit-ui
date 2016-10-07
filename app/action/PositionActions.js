@@ -1,6 +1,6 @@
 import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
-import xhrPromise from '../util/xhr-promise';
+import { getJson } from '../util/xhr-promise';
 import config from '../config';
 import { setOriginToDefault } from './EndpointActions';
 
@@ -10,7 +10,7 @@ let position;
 function reverseGeocodeAddress(actionContext, location, done) {
   const language = actionContext.getStore('PreferencesStore').getLanguage();
 
-  return xhrPromise.getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
+  return getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
     'point.lat': location.lat,
     'point.lon': location.lon,
     lang: language,
