@@ -1,5 +1,5 @@
 import React from 'react';
-import Duration from './duration';
+import Duration from './Duration';
 import WalkDistance from './walk-distance';
 
 const ItinerarySummary = ({ itinerary, children }) => (
