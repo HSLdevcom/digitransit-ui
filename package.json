@@ -97,7 +97,7 @@
     "react-router": "2.8.1",
     "react-router-relay": "0.13.5",
     "react-simpletabs": "0.7.0",
-    "react-swipeable-views": "0.7.0",
+    "react-swipeable-views": "0.7.10",
     "react-tap-event-plugin": "1.0.0",
     "recompose": "0.20.2",
     "regenerator-runtime": "0.9.5",
