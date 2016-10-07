@@ -47,6 +47,7 @@ import Availability from '../component/card/Availability.js';
 import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
 import { DepartureRow } from '../component/departure/DepartureRowContainer';
 import { BicycleRentalStationRow } from '../component/departure/BicycleRentalStationRowContainer';
+import { PureStopPageHeader } from '../component/stop/StopPageHeader';
 
 class StyleGuidelinesPage extends React.Component {
   static propTypes = {
@@ -99,6 +100,7 @@ class StyleGuidelinesPage extends React.Component {
     RouteStop,
     DepartureRow,
     BicycleRentalStationRow,
+    PureStopPageHeader,
   }
 
   getColors() {

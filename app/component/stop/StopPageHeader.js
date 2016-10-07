@@ -7,8 +7,9 @@ import compose from 'recompose/compose';
 
 import StopCardHeader from '../stop-cards/StopCardHeader';
 import { addFavouriteStop } from '../../action/FavouriteActions';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-const StopPageHeader = compose(
+const PureStopPageHeader = compose(
   getContext({ executeAction: React.PropTypes.func.isRequired }),
   mapProps((props) => ({
     stop: props.stop,
@@ -23,7 +24,22 @@ const StopPageHeader = compose(
   }))
 )(StopCardHeader);
 
-const StopPageHeaderContainer = Relay.createContainer(StopPageHeader, {
+const exampleStop = {
+  code: '4611',
+  gtfsId: 'HSL:1541157',
+  name: 'Kaivonkatsojanpuisto',
+  desc: 'Kaivonkatsojantie',
+};
+
+PureStopPageHeader.description = (
+  <div>
+    <ComponentUsageExample description="basic">
+      <PureStopPageHeader stop={exampleStop} params={{ stopId: 123 }} />
+    </ComponentUsageExample>
+  </div>
+);
+
+const StopPageHeaderContainer = Relay.createContainer(PureStopPageHeader, {
   fragments: {
     stop: () => Relay.QL`
       fragment on Stop {
@@ -32,6 +48,8 @@ const StopPageHeaderContainer = Relay.createContainer(StopPageHeader, {
     `,
   },
 });
+
+export { PureStopPageHeader };
 
 export default connectToStores(StopPageHeaderContainer, ['FavouriteStopsStore'],
   ({ getStore }, { params }) => ({
