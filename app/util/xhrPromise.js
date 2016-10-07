@@ -15,7 +15,7 @@ function serialize(obj, prefix) {
 // Return Promise for a url json get request
 export function getJson(url, params) {
   return fetch(
-    encodeURI(url) + params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : '',
+    encodeURI(url) + (params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : ''),
     {
       timeout: 10000,
       method: 'GET',
@@ -30,7 +30,7 @@ export function getJson(url, params) {
 // Return Promise for a json post request
 export function postJson(url, params, payload) {
   return fetch(
-    encodeURI(url) + params ? ((url.search(/\?/) === -1 ? '?' : '&') + serialize(params)) : '',
+    encodeURI(url) + (params ? ((url.search(/\?/) === -1 ? '?' : '&') + serialize(params)) : ''),
     {
       timeout: 10000,
       method: 'POST',
