@@ -2,12 +2,9 @@ import React from 'react';
 import Relay from 'react-relay';
 import polyUtil from 'polyline-encoded';
 
-import TripRoute from '../../route/TripRoute';
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
-import LocationMarker from './LocationMarker';
 import Line from './Line';
-import TripLine from './TripLine';
 import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 

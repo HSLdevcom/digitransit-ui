@@ -1,10 +1,8 @@
 import React from 'react';
-import Config from '../config';
 import { clearDestination } from '../action/EndpointActions';
 import FeedbackPanel from '../component/feedback/feedback-panel';
 import FrontPagePanel from '../component/front-page/FrontPagePanel';
 import MapWithTracking from '../component/map/MapWithTracking';
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import SearchMainContainer from '../component/search/SearchMainContainer';
 
 class IndexPage extends React.Component {

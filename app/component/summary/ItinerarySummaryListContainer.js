@@ -8,7 +8,7 @@ function ItinerarySummaryListContainer(props) {
 
   if (props.itineraries && props.itineraries.length > 0) {
     const open = props.open && Number(props.open);
-    for (let [i, itinerary] of props.itineraries.entries()) {
+    for (const [i, itinerary] of props.itineraries.entries()) {
       const passive = i !== props.activeIndex;
 
       summaries.push(
@@ -43,6 +43,8 @@ ItinerarySummaryListContainer.propTypes = {
   activeIndex: React.PropTypes.number.isRequired,
   currentTime: React.PropTypes.number.isRequired,
   onSelect: React.PropTypes.func.isRequired,
+  open: React.PropTypes.number,
+  children: React.PropTypes.node,
 };
 
 export default Relay.createContainer(ItinerarySummaryListContainer, {

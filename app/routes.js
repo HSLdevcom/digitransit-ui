@@ -130,6 +130,21 @@ const preparePlanParams = (
     disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
   }, isNil);
 
+const SummaryPageWrapper = ({ props, routerProps }) => (props ?
+  <SummaryPage {...props} /> :
+  <SummaryPage
+    {...routerProps}
+    {...preparePlanParams(routerProps.params, routerProps)}
+    plan={{ plan: { } }}
+    loading
+  />
+);
+
+SummaryPageWrapper.propTypes = {
+  props: React.PropTypes.object.isRequired,
+  routerProps: React.PropTypes.object.isRequired,
+};
+
 const routes = (
   <Route
     path="/"
@@ -233,15 +248,7 @@ const routes = (
       }}
       queries={{ content: planQueries }}
       prepareParams={preparePlanParams}
-      render={{ content: ({ props, routerProps }) => (props ?
-        <SummaryPage {...props} /> :
-        <SummaryPage
-          {...routerProps}
-          {...preparePlanParams(routerProps.params, routerProps)}
-          plan={{ plan: { } }}
-          loading
-        />
-      ) }}
+      render={{ content: SummaryPageWrapper }}
       loadAction={(params) => [
         [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
         [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
