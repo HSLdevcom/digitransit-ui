@@ -20,7 +20,7 @@ function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }) {
         </div>)}
       <NextDeparturesListHeader />
       <div
-        className="scrollable momentum-scroll"
+        className="scrollable momentum-scroll nearby"
         id="scrollable-routes"
       >
         <NearestRoutesContainer

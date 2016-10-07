@@ -47,7 +47,6 @@ export default class FrontPagePanelContainer extends React.Component {
     </div>);
 
   componentDidMount() {
-    console.log('autonavigate to nearby', this.props.autoNavigateToNearby);
       // auto select nearby tab if none selected and bp=large
     if (this.props.autoNavigateToNearby === true && this.props.breakpoint === 'large' &&
     this.getSelectedTab() === undefined) {

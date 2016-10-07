@@ -32,7 +32,7 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
 ); };
 
 FrontPagePanelLarge.propTypes = {
-  selectedPanel: React.PropTypes.number,
+  selectedPanel: React.PropTypes.number.isRequired,
   nearbyClicked: React.PropTypes.func.isRequired,
   favouritesClicked: React.PropTypes.func.isRequired,
   children: React.PropTypes.node,

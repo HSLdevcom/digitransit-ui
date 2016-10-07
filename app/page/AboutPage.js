@@ -3,7 +3,6 @@ import Link from 'react-router/lib/Link';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import Config from '../config';
 
 const AboutPage = ({ currentLanguage }) => {

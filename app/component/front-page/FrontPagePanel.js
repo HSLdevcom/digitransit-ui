@@ -58,7 +58,7 @@ const FrontPagePanel = ({ selectedPanel, nearbyClicked,
 ); };
 
 FrontPagePanel.propTypes = {
-  selectedPanel: React.PropTypes.number.isRequired,
+  selectedPanel: React.PropTypes.number,
   nearbyClicked: React.PropTypes.func.isRequired,
   favouritesClicked: React.PropTypes.func.isRequired,
   closePanel: React.PropTypes.func.isRequired,

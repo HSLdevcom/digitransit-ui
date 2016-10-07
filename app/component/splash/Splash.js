@@ -2,7 +2,7 @@ import React from 'react';
 
 import { intlShape, FormattedMessage } from 'react-intl';
 
-import FrontPagePanel from '../front-page/FrontPagePanel';
+import FrontPagePanelContainer from '../front-page/FrontPagePanelContainer';
 import { setOriginToDefault } from '../../action/EndpointActions';
 import FakeSearchBar from '../search/FakeSearchBar';
 import { default as FakeSearchWithButton } from '../search/FakeSearchWithButton';
@@ -58,7 +58,7 @@ class Splash extends React.Component {
           <div className="map fullscreen">
             <div className="background-gradient" />
           </div>
-          <FrontPagePanel />
+          <FrontPagePanelContainer />
         </div>
       </div>
       <div className="splash">

@@ -33,6 +33,7 @@ class DefaultNavigation extends Component {
     if (config.topNaviLinks) {
       for (let i = 0; i < config.topNaviLinks.length; i++) {
         links.push(<Tab
+          key={`fpp-tab-${i}`}
           label={config.topNaviLinks[i].name} value={`t${i}`}
           style={{ ...DefaultNavigation.tabStyle }}
           onActive={() => { window.location = config.topNaviLinks[i].href; }}
