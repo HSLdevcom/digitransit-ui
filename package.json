@@ -66,6 +66,8 @@
     "foundation-apps": "1.2.0",
     "history": "2.1.2",
     "intl": "1.2.4",
+    "isomorphic-relay": "0.7.3",
+    "isomorphic-relay-router": "0.8.4",
     "javascript-natural-sort": "0.7.1",
     "leaflet": "1.0.0-rc.3",
     "lodash": "4.15.0",
