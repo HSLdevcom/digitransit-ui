@@ -125,6 +125,8 @@ function getScripts(req) {
   ];
 }
 
+// TODO: integrate with isomorphic-relay-router
+// eslint-disable-next-line no-unused-vars
 function getContent(context, renderProps, locale, userAgent) {
   // Ugly way to see if this is a Relay RootComponent
   // until Relay gets server rendering capabilities
