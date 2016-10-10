@@ -3,6 +3,8 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
+import withProps from 'recompose/withProps';
+import { FormattedMessage } from 'react-intl';
 
 // React pages
 import IndexPage from './page/IndexPage';
@@ -73,6 +75,16 @@ const terminalQueries = {
   `,
 };
 
+const StopTitle = withProps({
+  id: 'stop-page.title-short',
+  defaultMessage: 'Stop',
+})(FormattedMessage);
+
+const TerminalTitle = withProps({
+  id: 'terminal-page.title-short',
+  defaultMessage: 'Terminal',
+})(FormattedMessage);
+
 const routes = (
   <Route
     path="/"
@@ -94,7 +106,7 @@ const routes = (
       <Route
         path=":stopId"
         components={{
-          title: () => <span>Pysäkki</span>, // TODO: Add FormattedMessage
+          title: StopTitle,
           header: StopPageHeader,
           content: StopPage,
           map: StopPageMap,
@@ -122,7 +134,7 @@ const routes = (
       <Route
         path=":terminalId"
         components={{
-          title: () => <span>Terminaali</span>, // TODO: Add FormattedMessage
+          title: TerminalTitle,
           header: StopPageHeader,
           content: StopPage,
           map: StopPageMap,
