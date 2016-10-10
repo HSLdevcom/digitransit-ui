@@ -9,8 +9,8 @@ class TopLevel extends React.Component {
   static propTypes = {
     location: React.PropTypes.object.isRequired,
     children: React.PropTypes.node,
-    width: React.PropTypes.number.isRequired,
-    height: React.PropTypes.number.isRequired,
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
     header: React.PropTypes.node,
     map: React.PropTypes.node,
     content: React.PropTypes.node,
