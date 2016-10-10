@@ -57,6 +57,7 @@ class TopLevel extends React.Component {
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
+            position: 'relative',
           }}
         >
           {this.props.header}
@@ -79,6 +80,7 @@ class TopLevel extends React.Component {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
+              position: 'relative',
             }}
           >
             {this.props.header}
@@ -90,6 +92,7 @@ class TopLevel extends React.Component {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
+              position: 'relative',
             }}
           >
             {this.props.map}

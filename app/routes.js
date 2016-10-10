@@ -10,7 +10,7 @@ import ItineraryPage from './page/ItineraryPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
-// import LoadingPage from './page/loading'; TODO: Re-add loadingspinners where wanted
+import LoadingPage from './page/loading';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
@@ -105,6 +105,12 @@ const routes = (
           content: StopQueries,
           map: StopQueries,
           meta: StopQueries,
+        }}
+        render={{
+          // eslint-disable-next-line react/prop-types
+          header: ({ props }) => (props ? <StopPageHeader {...props} /> : <LoadingPage />),
+          // eslint-disable-next-line react/prop-types
+          content: ({ props }) => (props ? <StopPage {...props} /> : false),
         }}
       >
         <Route path="kartta" fullscreenMap />
