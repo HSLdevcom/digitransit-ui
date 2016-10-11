@@ -3,6 +3,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
+import pure from 'recompose/pure';
 
 // React pages
 import IndexPage from './page/IndexPage';
@@ -83,15 +84,15 @@ const routes = (
     <Route
       path="/" components={{
         title: () => <span>{config.title}</span>,
-        content: (props) => (<SplashOrChildren><IndexPage {...props} /></SplashOrChildren>)
+        content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
         ,
       }}
     >
       <Route
-        path="lahellasi" component={() => <NearbyRoutesPanel />}
+        path="lahellasi" component={NearbyRoutesPanel}
       />
       <Route
-        path="suosikit" component={() => <FavouritesPanel />}
+        path="suosikit" component={FavouritesPanel}
       />
     </Route>
 

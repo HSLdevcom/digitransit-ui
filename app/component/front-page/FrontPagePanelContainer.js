@@ -54,6 +54,23 @@ export default class FrontPagePanelContainer extends React.Component {
     }
   }
 
+  componentWillReceiveProps = (nextProps, b) => {
+    const frombp = this.props.breakpoint;
+    const tobp = nextProps.breakpoint;
+
+    if (frombp === tobp) {
+      return;
+    }
+
+    // auto close any tab on bp change from large
+    if (this.getSelectedTab() !== undefined && frombp === 'large') {
+      this.closeTab();
+    } else if (this.getSelectedTab() === undefined && tobp === 'large') {
+      // auto open nearby tab on bp change to large
+      this.clickNearby();
+    }
+  }
+
 // TODO hook this function
   onReturnToFrontPage() {
     const timeStore = this.context.getStore('TimeStore');

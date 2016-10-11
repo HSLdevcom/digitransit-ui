@@ -14,8 +14,6 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 // Cannot be stateless, because it contains refs
 class DefaultNavigation extends Component {
   static propTypes = {
-    className: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
     disableBackButton: PropTypes.bool,
     title: PropTypes.node.isRequired,
     showLogo: PropTypes.bool,
@@ -45,7 +43,7 @@ class DefaultNavigation extends Component {
 
   /* medium small template */
   medium = () => (
-    <div className={`navigation ${this.props.className}`} >
+    <div>
       <NotImplemented />
       <DisruptionInfo />
       <nav className="top-bar">
@@ -59,13 +57,10 @@ class DefaultNavigation extends Component {
         <MainMenuContainer />
       </nav>
       <MessageBar />
-      <section ref="content" className="content">
-        {this.props.children}
-      </section>
     </div>)
 
   large = () => (
-    <div className={` ${this.props.className}`} >
+    <div>
       <div className="top-bar row" style={{ maxWidth: '100%' }}>
         <div className="columns small-3" style={{ textAlign: 'left' }}>
           <img alt="LOGO" className="navi-logo" src={config.logo} height="30px" />
@@ -85,13 +80,10 @@ class DefaultNavigation extends Component {
         </div>
       </div>
       <MessageBar />
-      <section ref="content" className="content bp-large">
-        {this.props.children}
-      </section>
     </div>);
 
   render() {
-    return (this.props.breakpoint === 'medium' && this.medium()) || this.large();
+    return (this.props.breakpoint !== 'large' && this.medium()) || this.large();
   }
 }
 
