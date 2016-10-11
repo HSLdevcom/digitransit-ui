@@ -27,7 +27,7 @@ function MainMenu(props) {
       </header>
       <div className="offcanvas-section">
         <Link id="frontpage" to="/">
-          <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
+          <FormattedMessage id="frontpage" defaultMessage="Front page" />
         </Link>
       </div>
       <div className="offcanvas-section">
