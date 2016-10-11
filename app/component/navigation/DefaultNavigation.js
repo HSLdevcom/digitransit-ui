@@ -61,7 +61,7 @@ class DefaultNavigation extends Component {
 
   large = () => (
     <div>
-      <div className="top-bar row" style={{ maxWidth: '100%' }}>
+      <div className="top-bar row" style={{ maxWidth: '100%', zIndex: '803', boxShadow: '2px 0px 2px gray' }}>
         <div className="columns small-3" style={{ textAlign: 'left' }}>
           <img alt="LOGO" className="navi-logo" src={config.logo} height="30px" />
         </div>
