@@ -121,11 +121,23 @@ $heading-color: #858585;
   background: $light-gray;
 }
 
+
 .tabs-row.bp-large {
   height: 49px;
   li {
     font-size: 15px;
   }
+
+.selected::before {
+  background: $primary-color;
+  content: '';
+  width: 140px;
+  height: 2px;
+  position: absolute;
+  bottom: 50px;
+  right:15px;
+  z-index:1;
+}
 
   li:nth-child(1) {
     border-top-left-radius: 8px;
