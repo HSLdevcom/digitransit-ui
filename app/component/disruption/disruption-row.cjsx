@@ -1,6 +1,5 @@
 React = require 'react'
 Relay = require 'react-relay'
-queries = require '../../queries'
 Icon  = require '../icon/icon'
 RouteList = require '../stop-cards/route-list'
 FormattedMessage = require('react-intl').FormattedMessage
