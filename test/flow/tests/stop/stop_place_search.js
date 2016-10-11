@@ -1,5 +1,5 @@
 module.exports = {
-  tags: ['stops', 'search'],
+  tags: ['stops', 'search', 'smoke'],
   'Search for 1240 (Kamppi) and verify that the title is correct': (browser) => {
     browser.url(browser.launch_url);
 
