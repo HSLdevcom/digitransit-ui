@@ -65,6 +65,9 @@ $search-header-height: 45px;
 
 .search-form.bp-large {
   padding-top:0;
+  .address-placeholder {
+    padding-left: 18px;
+  }
   .postfix {
     height:60px;
     .icon {
