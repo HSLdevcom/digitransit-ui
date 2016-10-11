@@ -11,6 +11,7 @@ class TimeSelectorContainer extends Component {
     intl: intlShape.isRequired,
     location: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   state = { time: this.context.location.query.time ?
