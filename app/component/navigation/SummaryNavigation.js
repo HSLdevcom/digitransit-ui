@@ -1,6 +1,5 @@
 import React from 'react';
 import Drawer from 'material-ui/Drawer';
-import { supportsHistory } from 'history/lib/DOMUtils';
 
 import CustomizeSearch from '../summary/CustomizeSearch';
 import OriginDestinationBar from '../summary/OriginDestinationBar';
@@ -46,8 +45,7 @@ class SummaryNavigation extends React.Component {
   }
 
   getOffcanvasState = () =>
-    (supportsHistory() && this.context.location.state &&
-      this.context.location.state.customizeSearchOffcanvas) || false;
+    (this.context.location.state && this.context.location.state.customizeSearchOffcanvas) || false;
 
   internalSetOffcanvas = (newState) => {
     if (this.context.piwik != null) {
@@ -58,18 +56,16 @@ class SummaryNavigation extends React.Component {
       );
     }
 
-    if (supportsHistory()) {
-      if (newState) {
-        this.context.router.push({
-          ...this.context.location,
-          state: {
-            ...this.context.location.state,
-            customizeSearchOffcanvas: newState,
-          },
-        });
-      } else {
-        this.context.router.goBack();
-      }
+    if (newState) {
+      this.context.router.push({
+        ...this.context.location,
+        state: {
+          ...this.context.location.state,
+          customizeSearchOffcanvas: newState,
+        },
+      });
+    } else {
+      this.context.router.goBack();
     }
   }
 
