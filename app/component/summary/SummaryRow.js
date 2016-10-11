@@ -119,4 +119,5 @@ SummaryRow.propTypes = {
   passive: React.PropTypes.bool.isRequired,
   onSelect: React.PropTypes.func.isRequired,
   hash: React.PropTypes.number.isRequired,
+  children: React.PropTypes.node,
 };

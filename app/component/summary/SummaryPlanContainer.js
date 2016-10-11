@@ -7,6 +7,7 @@ import TimeNavigationButtons from './TimeNavigationButtons';
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
     itineraries: React.PropTypes.array.isRequired,
+    children: React.PropTypes.node,
     params: React.PropTypes.shape({
       from: React.PropTypes.string.isRequired,
       to: React.PropTypes.string.isRequired,

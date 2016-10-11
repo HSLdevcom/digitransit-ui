@@ -16,7 +16,7 @@ import IndexPage from './page/IndexPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
-import LoadingPage from './page/loading';
+import LoadingPage from './page/LoadingPage';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
@@ -133,6 +133,21 @@ const preparePlanParams = (
     preferred: { agencies: config.preferredAgency || '' },
     disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
   }, isNil);
+
+const SummaryPageWrapper = ({ props, routerProps }) => (props ?
+  <SummaryPage {...props} /> :
+  <SummaryPage
+    {...routerProps}
+    {...preparePlanParams(routerProps.params, routerProps)}
+    plan={{ plan: { } }}
+    loading
+  />
+);
+
+SummaryPageWrapper.propTypes = {
+  props: React.PropTypes.object.isRequired,
+  routerProps: React.PropTypes.object.isRequired,
+};
 
 const StopTitle = withProps({
   id: 'stop-page.title-short',
@@ -260,15 +275,7 @@ const routes = (
       }}
       queries={{ content: planQueries }}
       prepareParams={preparePlanParams}
-      render={{ content: ({ props, routerProps }) => (props ?
-        <SummaryPage {...props} /> :
-        <SummaryPage
-          {...routerProps}
-          {...preparePlanParams(routerProps.params, routerProps)}
-          plan={{ plan: { } }}
-          loading
-        />
-      ) }}
+      render={{ content: SummaryPageWrapper }}
       loadAction={(params) => [
         [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
         [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
