@@ -6,7 +6,6 @@ import FrontPagePanelContainer from '../component/front-page/FrontPagePanelConta
 import MapWithTracking from '../component/map/MapWithTracking';
 import { SearchMainContainerWithBreakpoint } from '../component/search/SearchMainContainer';
 
-
 class IndexPage extends React.Component {
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,

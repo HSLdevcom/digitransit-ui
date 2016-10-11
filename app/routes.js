@@ -3,6 +3,8 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
+import withProps from 'recompose/withProps';
+import { FormattedMessage } from 'react-intl';
 
 import omitBy from 'lodash/omitBy';
 import isNil from 'lodash/isNil';
@@ -14,7 +16,7 @@ import IndexPage from './page/IndexPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
-// import LoadingPage from './page/loading'; TODO: Re-add loadingspinners where wanted
+import LoadingPage from './page/loading';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
@@ -132,6 +134,16 @@ const preparePlanParams = (
     disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
   }, isNil);
 
+const StopTitle = withProps({
+  id: 'stop-page.title-short',
+  defaultMessage: 'Stop',
+})(FormattedMessage);
+
+const TerminalTitle = withProps({
+  id: 'terminal-page.title-short',
+  defaultMessage: 'Terminal',
+})(FormattedMessage);
+
 const routes = (
   <Route
     component={(props) => <ContainerDimensions><TopLevel {...props} /></ContainerDimensions>}
@@ -157,7 +169,7 @@ const routes = (
       <Route
         path=":stopId"
         components={{
-          title: () => <span>Pysäkki</span>, // TODO: Add FormattedMessage
+          title: StopTitle,
           header: StopPageHeader,
           content: StopPage,
           map: StopPageMap,
@@ -169,6 +181,12 @@ const routes = (
           map: StopQueries,
           meta: StopQueries,
         }}
+        render={{
+          // eslint-disable-next-line react/prop-types
+          header: ({ props }) => (props ? <StopPageHeader {...props} /> : <LoadingPage />),
+          // eslint-disable-next-line react/prop-types
+          content: ({ props }) => (props ? <StopPage {...props} /> : false),
+        }}
       >
         <Route path="kartta" fullscreenMap />
         <Route path="info" component={Error404} />
@@ -179,7 +197,7 @@ const routes = (
       <Route
         path=":terminalId"
         components={{
-          title: () => <span>Terminaali</span>, // TODO: Add FormattedMessage
+          title: TerminalTitle,
           header: StopPageHeader,
           content: StopPage,
           map: StopPageMap,

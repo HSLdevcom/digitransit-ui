@@ -13,6 +13,7 @@ const Application = (
     config,
     locale,
     scripts,
+    relayData,
   }) => {
   const head = Helmet.rewind();
 
@@ -34,6 +35,9 @@ const Application = (
         <script dangerouslySetInnerHTML={{ __html: state }} />
         <script dangerouslySetInnerHTML={{ __html: config }} />
         <script dangerouslySetInnerHTML={{ __html: `window.locale="${locale}"` }} />
+        <script
+          dangerouslySetInnerHTML={{ __html: `window.relayData='${JSON.stringify(relayData)}'` }}
+        />
         {scripts}
       </body>
     </html>
@@ -51,6 +55,7 @@ Application.propTypes = {
   config: React.PropTypes.string,
   locale: React.PropTypes.string,
   scripts: React.PropTypes.node,
+  relayData: React.PropTypes.any,
 };
 
 export default Application;

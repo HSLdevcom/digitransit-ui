@@ -15,6 +15,7 @@ export default function DesktopView({ header, map, content }) {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
+          position: 'relative',
         }}
       >
         {header}
@@ -26,6 +27,7 @@ export default function DesktopView({ header, map, content }) {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
+          position: 'relative',
         }}
       >
         {map}

@@ -7,6 +7,7 @@ export default function MobileView({ header, map, content }) {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
+        position: 'relative',
       }}
     >
       {header}
