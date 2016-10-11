@@ -1,5 +1,6 @@
 import React from 'react';
 import some from 'lodash/some';
+import polyline from 'polyline-encoded';
 
 import LocationMarker from '../map/LocationMarker';
 import ItineraryLine from '../map/ItineraryLine';
@@ -47,15 +48,23 @@ export default function ItineraryPageMap(
       onClick={toggleFullscreenMap}
     />);
 
+  let bounds = false;
+
+  if (itinerary && !itinerary.legs[0].transitLeg) {
+    bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
+  }
+
   return (
     <Map
       className="full"
       leafletObjs={leafletObjs}
       lat={center ? center.lat : from.lat}
       lon={center ? center.lon : from.lon}
-      zoom={16}
-      fitBounds={false}
+      zoom={bounds ? undefined : 16}
+      bounds={bounds}
+      fitBounds={bounds !== false}
       disableZoom={false}
+      boundsOptions={{ maxZoom: 16 }}
     >
       {breakpoint !== 'large' && overlay}
       {breakpoint !== 'large' && (
