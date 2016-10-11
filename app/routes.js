@@ -170,16 +170,12 @@ const routes = (
     <Route
       path="/" components={{
         title: () => <span>{config.title}</span>,
-        content: (props) => (<SplashOrChildren><IndexPage {...props} /></SplashOrChildren>)
+        content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
         ,
       }}
     >
-      <Route
-        path="lahellasi" component={() => <NearbyRoutesPanel />}
-      />
-      <Route
-        path="suosikit" component={() => <FavouritesPanel />}
-      />
+      <Route path="lahellasi" component={NearbyRoutesPanel} />
+      <Route path="suosikit" component={FavouritesPanel} />
     </Route>
 
     <Route path="/pysakit">

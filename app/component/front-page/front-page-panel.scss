@@ -38,6 +38,7 @@ $heading-color: #858585;
       color: $close-color;
       display: inline-block;
       line-height: 2;
+      cursor: pointer;
     }
   }
 }
@@ -60,28 +61,48 @@ $heading-color: #858585;
   height: 100%;
   max-height: calc(100% - 60px);
   width: 340px;
+
   .frontpage-panel {
+
+    border-radius: 8px;
     height: calc(100% - 60px);
     background: #eef1f3;
+    background: #fff;
     .row {
       padding-top:10px;
+      background: #eef1f3;
     }
     .next-departures-list-header {
+      background: #eef1f3;
       padding:14px;
     }
     .next-departure-row {
       padding-left:20px;
       padding-right:20px;
     }
+
+    .scrollable::before {
+      background-image: linear-gradient(0deg, white, rgba(255, 255, 255, 0));
+      content: '';
+      width: 100%;
+      height: 0.5em;
+      position: absolute;
+      right:0;
+      bottom: 5px;
+      z-index:1
+    }
     .scrollable.nearby {
-      height: calc(100% - 100px);
+      height: calc(100% - 113px);
     }
 
-    .scrollable.favourites {
-      height: calc(100% - 146px);
+  .scrollable.favourites {
+      height: calc(100% - 152px);
+      position: relative;
     }
+
+
+
   }
-
 
   > ul > li.selected {
     color: $primary-color;
@@ -100,11 +121,23 @@ $heading-color: #858585;
   background: $light-gray;
 }
 
+
 .tabs-row.bp-large {
   height: 49px;
   li {
     font-size: 15px;
   }
+
+.selected::before {
+  background: $primary-color;
+  content: '';
+  width: 140px;
+  height: 2px;
+  position: absolute;
+  bottom: 50px;
+  right:15px;
+  z-index:1;
+}
 
   li:nth-child(1) {
     border-top-left-radius: 8px;

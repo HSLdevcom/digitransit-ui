@@ -54,6 +54,23 @@ export default class FrontPagePanelContainer extends React.Component {
     }
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    const frombp = this.props.breakpoint;
+    const tobp = nextProps.breakpoint;
+
+    if (frombp === tobp) {
+      return;
+    }
+
+    // auto close any tab on bp change from large
+    if (this.getSelectedTab() !== undefined && frombp === 'large') {
+      this.closeTab();
+    } else if (this.getSelectedTab() === undefined && tobp === 'large') {
+      // auto open nearby tab on bp change to large
+      this.clickNearby();
+    }
+  }
+
 // TODO hook this function
   onReturnToFrontPage() {
     const timeStore = this.context.getStore('TimeStore');
@@ -63,7 +80,7 @@ export default class FrontPagePanelContainer extends React.Component {
     return undefined;
   }
 
-  getSelectedTab() {
+  getSelectedTab = () => {
     if (this.props.routes && this.props.routes.length > 0) {
       const routePath = this.props.routes[this.props.routes.length - 1].path;
 
@@ -115,21 +132,21 @@ export default class FrontPagePanelContainer extends React.Component {
     }
   };
 
-  replace(path) {
+  replace = (path) => {
     if (this.context.router) {
       this.context.router.replace(path);
     }
   }
 
-  openFavourites() {
+  openFavourites = () => {
     this.replace('/suosikit');
   }
 
-  openNearby() {
+  openNearby = () => {
     this.replace('/lahellasi');
   }
 
-  closeTab() {
+  closeTab = () => {
     this.replace('/');
   }
 

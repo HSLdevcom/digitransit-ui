@@ -56,20 +56,57 @@ $search-header-height: 45px;
   }
 }
 
+
 .fake-search-container.bp-large {
   padding-top: 30px;
   padding-left: 50px;
-  padding-right: 400px;
   max-width: none;
+  padding-right: 400px;
+  .search-modal {
+    padding-left: 50px;
+    border-radius: $border-radius-bigger;
+    bottom: auto;
+    top:-25px;
+    left:52px;
+    max-width:720px;
+    max-height: 550px;
+    padding: 4px;
+    width:100%;
+    input[type="text"].react-autowhatever__input {
+      border: 1px solid $gray;
+      border-radius: 4px;
+      height: 4em;
+      padding: 10px;
+      outline: 0;
+      appearance: none;
+    }
+
+    .search-header .geolocation {
+      top:11px;
+    }
+
+    #react-whatever-suggest{
+      max-height:410px;
+    }
+  }
+}
+
+search-modal-container {
+  padding-left: 50px;
+  padding-right: 400px;
 }
 
 .search-form.bp-large {
   padding-top:0;
+  .address-placeholder {
+    padding-left: 18px;
+  }
   .postfix {
-    height:60px;
+    height: 60px;
+    width: 60px;
     .icon {
-      margin-top: 20px;
-      font-size: 20px;
+      margin-top: 18px;
+      font-size: 26px;
     }
   }
   .input-placeholder {
@@ -171,6 +208,7 @@ ul.react-autowhatever__items-list {
 
 .search-form-map-overlay {
   z-index: 802;
+  max-width: 720px;
 }
 
 .geolocation-bar-location-icon {

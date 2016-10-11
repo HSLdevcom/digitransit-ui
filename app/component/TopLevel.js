@@ -75,16 +75,17 @@ class TopLevel extends React.Component {
       );
     }
 
+    const menuHeight = (this.getBreakpoint() === 'large' && '60px') || '40px';
+
     return (
-      <DefaultNavigation
-        className={`fullscreen breakpoint-${this.getBreakpoint()}`}
-        title={this.props.title}
-        {...topBarOptions}
-      >
+      <div className={`fullscreen breakpoint-${this.getBreakpoint()}`}>
+        <DefaultNavigation title={this.props.title} {...topBarOptions} />
         <Helmet {...metadata} />
-        {this.props.meta}
-        { content }
-      </DefaultNavigation>
+        <section ref="content" className="content" style={{ height: `calc(100% - ${menuHeight})` }}>
+          {this.props.meta}
+          { content }
+        </section>
+      </div>
     );
   }
 }

@@ -10,6 +10,7 @@ import { default as FakeSearchWithButton } from './FakeSearchWithButton';
 import GeolocationOrInput from './GeolocationOrInput';
 import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
+import SearchModalLarge from './SearchModalLarge';
 
 class SearchMainContainer extends React.Component {
   static contextTypes = {
@@ -57,36 +58,6 @@ class SearchMainContainer extends React.Component {
     this.changeToTab(tab.props.value)
   );
 
-  changeToTab = (tabname) => (
-    this.setState({
-      selectedTab: tabname,
-    }, () => {
-      if (tabname === 'origin') {
-        this.context.executeAction(executeSearch, {
-          input: this.context.getStore('EndpointStore').getOrigin().address || '',
-          type: 'endpoint',
-        });
-      }
-
-      if (tabname === 'destination') {
-        this.context.executeAction(executeSearch, {
-          input: this.context.getStore('EndpointStore').getDestination().address || '',
-          type: 'endpoint',
-        });
-      }
-
-      if (tabname === 'search') {
-        this.context.executeAction(executeSearch, {
-          input: '',
-          type: 'search',
-        });
-      }
-      // Cannot use setTimeout for the focus, or iOS Safari won't show the caret.
-      // Other browsers don't seem to care one way or another.
-      this.focusInput(tabname);
-    })
-  );
-
   closeModal = () => (
     this.setState({
       modalIsOpen: false,
@@ -121,6 +92,79 @@ class SearchMainContainer extends React.Component {
       type: 'endpoint',
     });
   }
+
+  getContent = () => {
+    const searchTabLabel = this.context.intl.formatMessage({
+      id: 'search',
+      defaultMessage: 'SEARCH',
+    });
+
+    return ([
+      this.makeEndpointTab('origin',
+             this.context.intl.formatMessage({
+               id: 'origin',
+               defaultMessage: 'Origin',
+             }),
+             this.context.getStore('EndpointStore').getOrigin()),
+      this.makeEndpointTab('destination',
+             this.context.intl.formatMessage({
+               id: 'destination',
+               defaultMessage: 'destination',
+             }),
+             this.context.getStore('EndpointStore').getDestination()),
+      <Tab
+        className={
+        `search-header__button${this.state.selectedTab === 'search' ? '--selected' : ''}`}
+        label={searchTabLabel}
+        value="search"
+        id="search-button"
+        onActive={this.onTabChange}
+      >
+        <SearchInputContainer
+          // Hack. In GeolocationOrInput, c.searchInput causes rendering problems
+          ref={(c) => { this.searchInputs.search = { searchInput: c }; }}
+          id="search"
+          initialValue=""
+          type="search"
+          onSuggestionSelected={(name, item) => {
+            if (item.properties.link) {
+              this.context.router.push(item.properties.link);
+            }
+            return this.closeModal();
+          }}
+        />
+      </Tab>]);
+  };
+
+  changeToTab = (tabname) => (
+    this.setState({
+      selectedTab: tabname,
+    }, () => {
+      if (tabname === 'origin') {
+        this.context.executeAction(executeSearch, {
+          input: this.context.getStore('EndpointStore').getOrigin().address || '',
+          type: 'endpoint',
+        });
+      }
+
+      if (tabname === 'destination') {
+        this.context.executeAction(executeSearch, {
+          input: this.context.getStore('EndpointStore').getDestination().address || '',
+          type: 'endpoint',
+        });
+      }
+
+      if (tabname === 'search') {
+        this.context.executeAction(executeSearch, {
+          input: '',
+          type: 'search',
+        });
+      }
+      // Cannot use setTimeout for the focus, or iOS Safari won't show the caret.
+      // Other browsers don't seem to care one way or another.
+      this.focusInput(tabname);
+    })
+  );
 
   makeEndpointTab = (tabname, tablabel, endpoint) => (
     <Tab
@@ -157,11 +201,6 @@ class SearchMainContainer extends React.Component {
   );
 
   render = () => {
-    const searchTabLabel = this.context.intl.formatMessage({
-      id: 'search',
-      defaultMessage: 'SEARCH',
-    });
-
     const destinationPlaceholder = this.context.intl.formatMessage({
       id: 'destination-placeholder',
       defaultMessage: 'Where to? - address or stop',
@@ -183,48 +222,22 @@ class SearchMainContainer extends React.Component {
           fakeSearchBar={fakeSearchBar}
           onClick={this.clickSearch}
         />
-        <SearchModal
-          selectedTab={this.state.selectedTab}
-          modalIsOpen={this.state.modalIsOpen}
-          closeModal={this.closeModal}
-        >
-          {this.makeEndpointTab('origin',
-                   this.context.intl.formatMessage({
-                     id: 'origin',
-                     defaultMessage: 'Origin',
-                   }),
-                   this.context.getStore('EndpointStore').getOrigin())}
-          {this.makeEndpointTab('destination',
-                   this.context.intl.formatMessage({
-                     id: 'destination',
-                     defaultMessage: 'destination',
-                   }),
-                   this.context.getStore('EndpointStore').getDestination())}
-          <Tab
-            className={
-              `search-header__button${this.state.selectedTab === 'search' ? '--selected' : ''}`}
-            label={searchTabLabel}
-            value="search"
-            id="search-button"
-            onActive={this.onTabChange}
-          >
-            <SearchInputContainer
-              // Hack. In GeolocationOrInput, c.searchInput causes rendering problems
-              ref={(c) => { this.searchInputs.search = { searchInput: c }; }}
-              id="search"
-              initialValue=""
-              type="search"
-              onSuggestionSelected={(name, item) => {
-                if (item.properties.link) {
-                  this.context.router.push(item.properties.link);
-                }
-                return this.closeModal();
-              }}
-            />
-          </Tab>
-        </SearchModal>
+        {(this.props.breakpoint !== 'large' && (
+          <SearchModal
+            selectedTab={this.state.selectedTab}
+            modalIsOpen={this.state.modalIsOpen}
+            closeModal={this.closeModal}
+          >{this.getContent()}</SearchModal>)) ||
+          (
+          <SearchModalLarge
+            selectedTab={this.state.selectedTab}
+            modalIsOpen={this.state.modalIsOpen}
+            closeModal={this.closeModal}
+          >{this.getContent()}</SearchModalLarge>)}
       </div>);
   }
+
+
 }
 
 const SearchMainContainerWithBreakpoint =

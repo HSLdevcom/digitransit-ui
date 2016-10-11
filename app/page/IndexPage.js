@@ -43,7 +43,8 @@ class IndexPage extends React.Component {
   render() {
     return (
       <div className={`front-page fullscreen bp-${this.props.breakpoint}`} >
-        <MapWithTracking showStops ><SearchMainContainerWithBreakpoint /></MapWithTracking>
+        <MapWithTracking breakpoint={this.props.breakpoint} showStops >
+          <SearchMainContainerWithBreakpoint /></MapWithTracking>
         <FrontPagePanelContainer
           routes={this.props.routes} breakpoint={this.props.breakpoint}
         >{this.props.children}</FrontPagePanelContainer>
