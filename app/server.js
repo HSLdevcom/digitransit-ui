@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/server';
 
 // Routing and state handling
 import match from 'react-router/lib/match';
-import RouterContext from 'react-router/lib/RouterContext';
+import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
@@ -129,8 +129,6 @@ function getScripts(req) {
   ];
 }
 
-// TODO: integrate with isomorphic-relay-router
-// eslint-disable-next-line no-unused-vars
 function getContent(context, renderProps, locale, userAgent) {
   // TODO: This should be moved to a place to coexist with similar content from client.js
   return ReactDOM.renderToString(
@@ -145,7 +143,9 @@ function getContent(context, renderProps, locale, userAgent) {
 }
 
 function getHtml(context, locale, [polyfills, relayData], req) {
-  getContent(context, relayData.props, locale, req.headers['user-agent']);
+  // eslint-disable-next-line no-unused-vars
+  const content = getContent(context, relayData.props, locale, req.headers['user-agent']);
+  const head = Helmet.rewind();
 
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
@@ -153,8 +153,8 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       svgSprite={svgSprite}
       content=""
       // TODO: temporarely disable server-side rendering in order to fix issue with having different
-      // content from the server, which breaks leaflet integration
-      // content={getContent(context, relayData.props, locale, req.headers['user-agent'])}
+      // content from the server, which breaks leaflet integration. Should be:
+      // content={content}
       polyfill={polyfills}
       state={`window.state=${serialize(application.dehydrate(context))};`}
       locale={locale} scripts={getScripts(req)}
@@ -162,6 +162,7 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       config={`window.config=${JSON.stringify(config)}`}
       geolocationStarter={geolocationStarter}
       relayData={relayData.data}
+      head={head}
     />
   );
 }
