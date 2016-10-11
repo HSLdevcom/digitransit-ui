@@ -1,6 +1,7 @@
 /* eslint quote-props: ["error", "consistent"]*/
 const translations = {
   'fi': {
+    'stop-page.title-short': 'Pysäkki',
     'stop-page.title': 'Pysäkki {stop_name} - {stop_code}',
     'stop-page.description': 'Pysäkki {stop_name} - {stop_code}',
     'terminal-page.title-short': 'Terminaali',
@@ -119,8 +120,8 @@ const translations = {
     'close': 'Sulje',
     'likely-to-recommend': `Kuinka todennäköistä on, että suosittelisit palveluamme
       ystävälle tai kollegallesi?`,
-    'likely-to-use': `Kuinka todennäköisesti käyttäisit tätä palvelua enemmin kuin
-      nykyistä Reittiopas.fi-palvelua?`,
+    'likely-to-use': `Kuinka todennäköisesti käyttäisit tätä palvelua ennemmin kuin
+      nykyistä reittiopas-palvelua?`,
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
     'char-left': 'merkkiä',
     'send': 'Lähetä',
@@ -183,6 +184,7 @@ const translations = {
   },
 
   'sv': {
+    'stop-page.title-short': 'Hållplats',
     'terminal-page.title-short': 'Terminal',
     'terminal-page.title': 'Terminal {stop_name}',
     'terminal-page.description': 'Terminal {stop_name}',
@@ -329,6 +331,7 @@ const translations = {
   },
 
   'nb': {
+    'stop-page.title-short': 'Holdeplass',
     'stop-page.title': 'Holdeplass {stop_name}',
     'stop-page.description': 'Holdeplass {stop_name} - {stop_code}',
     'route-page.title': 'Rute {route_short_name}',
@@ -498,6 +501,7 @@ const translations = {
   },
 
   'fr': {
+    'stop-page.title-short': 'Arrêt',
     'stop-page.title': 'Arrêt {stop_name} - {stop_code}',
     'stop-page.description': 'Arrêt {stop_name} - {stop_code}',
     'route-page.title': 'Ligne {route_short_name}',

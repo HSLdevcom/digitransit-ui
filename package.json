@@ -18,6 +18,7 @@
     "dev-nowatch": "NODE_ENV=development node --harmony server/server.js & NODE_ENV=development node --harmony server/hotLoadServer.js",
     "test-local": "./test/flow/script/run-ui-tests.sh local",
     "test-browserstack": "./test/flow/script/run-ui-tests.sh browserstack",
+    "test-smoke": "./test/flow/script/run-ui-tests.sh smoke",
     "test-saucelabs": "./test/flow/script/run-ui-tests.sh saucelabs",
     "test-visual": "gemini --reporter flat --reporter html test test/visual/",
     "test-visual-update": "gemini update test/visual/",
