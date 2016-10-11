@@ -54,7 +54,7 @@ export default class FrontPagePanelContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps = (nextProps, b) => {
+  componentWillReceiveProps = (nextProps) => {
     const frombp = this.props.breakpoint;
     const tobp = nextProps.breakpoint;
 
