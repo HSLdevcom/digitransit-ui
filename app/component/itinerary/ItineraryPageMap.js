@@ -50,7 +50,7 @@ export default function ItineraryPageMap(
 
   let bounds = false;
 
-  if (itinerary && !itinerary.legs[0].transitLeg) {
+  if (!center && itinerary && !itinerary.legs[0].transitLeg) {
     bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
   }
 
