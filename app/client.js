@@ -61,7 +61,10 @@ Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer(`${config.URL.OTP}index/graphql`)
 );
 
-IsomorphicRelay.injectPreparedData(Relay.Store, JSON.parse(window.relayData));
+IsomorphicRelay.injectPreparedData(
+  Relay.Store,
+  JSON.parse(document.getElementById('relayData').textContent)
+);
 
 if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
   window.Raven.setUserContext({ piwik: piwik.getVisitorId() });

@@ -36,7 +36,9 @@ const Application = (
         <script dangerouslySetInnerHTML={{ __html: config }} />
         <script dangerouslySetInnerHTML={{ __html: `window.locale="${locale}"` }} />
         <script
-          dangerouslySetInnerHTML={{ __html: `window.relayData='${JSON.stringify(relayData)}'` }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(relayData) }}
+          type="application/json"
+          id="relayData"
         />
         {scripts}
       </body>
