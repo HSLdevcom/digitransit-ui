@@ -81,6 +81,10 @@ $search-header-height: 45px;
       appearance: none;
     }
 
+    .search-header .geolocation {
+      top:11px;
+    }
+
     #react-whatever-suggest{
       max-height:410px;
     }
