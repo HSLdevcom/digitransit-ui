@@ -5,6 +5,8 @@ import FrontPagePanel from '../component/front-page/FrontPagePanel';
 import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from '../component/search/SearchMainContainer';
 
+import config from '../config';
+
 class IndexPage extends React.Component {
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
@@ -19,7 +21,7 @@ class IndexPage extends React.Component {
     const search = this.context.location.search;
 
     if (search && search.indexOf('citybikes') >= -1) {
-      // this.context.executeAction(forceCitybikeState); // TODO: how to do this??
+      config.transportModes.citybike.defaultValue = true;
     }
   }
 
