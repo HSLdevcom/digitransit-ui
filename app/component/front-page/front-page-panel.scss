@@ -62,12 +62,17 @@ $heading-color: #858585;
   max-height: calc(100% - 60px);
   width: 340px;
   .frontpage-panel {
+
+    border-radius: 8px;
     height: calc(100% - 60px);
     background: #eef1f3;
+    background: #fff;
     .row {
       padding-top:10px;
+      background: #eef1f3;
     }
     .next-departures-list-header {
+      background: #eef1f3;
       padding:14px;
     }
     .next-departure-row {
@@ -75,14 +80,13 @@ $heading-color: #858585;
       padding-right:20px;
     }
     .scrollable.nearby {
-      height: calc(100% - 100px);
+      height: calc(100% - 113px);
     }
 
     .scrollable.favourites {
       height: calc(100% - 146px);
     }
   }
-
 
   > ul > li.selected {
     color: $primary-color;
