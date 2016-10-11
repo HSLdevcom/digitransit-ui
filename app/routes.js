@@ -88,7 +88,10 @@ const TerminalTitle = withProps({
 const routes = (
   <Route
     path="/"
-    component={(props) => <ContainerDimensions><TopLevel {...props} /></ContainerDimensions>}
+    component={(props) => (typeof window !== 'undefined' ?
+      <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
+      <TopLevel {...props} />
+    )}
   >
     <IndexRoute
       topBarOptions={{
