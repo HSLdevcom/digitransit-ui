@@ -1,6 +1,8 @@
 /* eslint quote-props: ["error", "consistent"]*/
 const translations = {
   'fi': {
+    'frontpage': 'Etusivu',
+    'stop-page.title-short': 'Pysäkki',
     'stop-page.title': 'Pysäkki {stop_name} - {stop_code}',
     'stop-page.description': 'Pysäkki {stop_name} - {stop_code}',
     'terminal-page.title-short': 'Terminaali',
@@ -183,6 +185,8 @@ const translations = {
   },
 
   'sv': {
+    'frontpage': 'Framsidan',
+    'stop-page.title-short': 'Hållplats',
     'terminal-page.title-short': 'Terminal',
     'terminal-page.title': 'Terminal {stop_name}',
     'terminal-page.description': 'Terminal {stop_name}',
@@ -329,6 +333,8 @@ const translations = {
   },
 
   'nb': {
+    'frontpage': 'Forside',
+    'stop-page.title-short': 'Holdeplass',
     'stop-page.title': 'Holdeplass {stop_name}',
     'stop-page.description': 'Holdeplass {stop_name} - {stop_code}',
     'route-page.title': 'Rute {route_short_name}',
@@ -498,6 +504,8 @@ const translations = {
   },
 
   'fr': {
+    'frontpage': 'Page de garde',
+    'stop-page.title-short': 'Arrêt',
     'stop-page.title': 'Arrêt {stop_name} - {stop_code}',
     'stop-page.description': 'Arrêt {stop_name} - {stop_code}',
     'route-page.title': 'Ligne {route_short_name}',
