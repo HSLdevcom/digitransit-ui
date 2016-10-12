@@ -58,41 +58,6 @@ class SearchMainContainer extends React.Component {
     this.changeToTab(tab.props.value)
   );
 
-  closeModal = () => (
-    this.setState({
-      modalIsOpen: false,
-    })
-  );
-
-  focusInput = (value) => (
-    // this.searchInputs[value].searchInput is a hack
-    this.searchInputs[value].searchInput.autowhatever.refs.input.focus()
-  );
-
-  openDialog = (tab) => {
-    this.setState({ modalIsOpen: true });
-    this.changeToTab(tab);
-  };
-
-  clickSearch = () => {
-    const origin = this.context.getStore('EndpointStore').getOrigin();
-    const geolocation = this.context.getStore('PositionStore').getLocationState();
-    const hasOrigin = origin.lat || (origin.useCurrentPosition && geolocation.hasLocation);
-
-    this.openDialog(hasOrigin ? 'destination' : 'origin');
-
-    if (hasOrigin) {
-      return this.context.executeAction(executeSearch, {
-        input: this.context.getStore('EndpointStore').getDestination().address || '',
-        type: 'endpoint',
-      });
-    }
-    return this.context.executeAction(executeSearch, {
-      input: '',
-      type: 'endpoint',
-    });
-  }
-
   getContent = () => {
     const searchTabLabel = this.context.intl.formatMessage({
       id: 'search',
@@ -135,6 +100,41 @@ class SearchMainContainer extends React.Component {
         />
       </Tab>]);
   };
+
+  clickSearch = () => {
+    const origin = this.context.getStore('EndpointStore').getOrigin();
+    const geolocation = this.context.getStore('PositionStore').getLocationState();
+    const hasOrigin = origin.lat || (origin.useCurrentPosition && geolocation.hasLocation);
+
+    this.openDialog(hasOrigin ? 'destination' : 'origin');
+
+    if (hasOrigin) {
+      return this.context.executeAction(executeSearch, {
+        input: this.context.getStore('EndpointStore').getDestination().address || '',
+        type: 'endpoint',
+      });
+    }
+    return this.context.executeAction(executeSearch, {
+      input: '',
+      type: 'endpoint',
+    });
+  }
+
+  openDialog = (tab) => {
+    this.setState({ modalIsOpen: true });
+    this.changeToTab(tab);
+  };
+
+  focusInput = (value) => (
+    // this.searchInputs[value].searchInput is a hack
+    this.searchInputs[value].searchInput.autowhatever.refs.input.focus()
+  );
+
+  closeModal = () => (
+    this.setState({
+      modalIsOpen: false,
+    })
+  );
 
   changeToTab = (tabname) => (
     this.setState({
@@ -236,8 +236,6 @@ class SearchMainContainer extends React.Component {
           >{this.getContent()}</SearchModalLarge>)}
       </div>);
   }
-
-
 }
 
 const SearchMainContainerWithBreakpoint =
