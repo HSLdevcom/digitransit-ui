@@ -78,6 +78,7 @@ class SearchMainContainer extends React.Component {
              }),
              this.context.getStore('EndpointStore').getDestination()),
       <Tab
+        key="haku"
         className={
         `search-header__button${this.state.selectedTab === 'search' ? '--selected' : ''}`}
         label={searchTabLabel}
@@ -172,6 +173,7 @@ class SearchMainContainer extends React.Component {
       label={tablabel}
       value={tabname}
       id={tabname}
+      key={{ tabname }}
       onActive={this.onTabChange}
     >
       <GeolocationOrInput
