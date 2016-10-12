@@ -48,7 +48,8 @@ import Availability from '../component/card/Availability';
 import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability';
 import AppBarSmall from '../component/navigation/AppBarSmall';
 import AppBarLarge from '../component/navigation/AppBarLarge';
-import FrontPagePanelContainer from '../component/front-page/FrontPagePanelContainer';
+import FrontPagePanelSmall from '../component/front-page/FrontPagePanelSmall';
+import FrontPagePanelLarge from '../component/front-page/FrontPagePanelLarge';
 import { DepartureRow } from '../component/departure/DepartureRowContainer';
 import { BicycleRentalStationRow } from '../component/departure/BicycleRentalStationRowContainer';
 
@@ -106,7 +107,8 @@ class StyleGuidelinesPage extends React.Component {
     FakeSearchWithButton,
     AppBarSmall,
     AppBarLarge,
-    FrontPagePanelContainer,
+    FrontPagePanelLarge,
+    FrontPagePanelSmall,
   }
 
   getColors() {

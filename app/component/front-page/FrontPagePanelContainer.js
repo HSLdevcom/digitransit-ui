@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { intlShape } from 'react-intl';
+import getContext from 'recompose/getContext';
 
 import { shouldDisplayPopup } from '../../util/Feedback';
 import FeedbackAction from '../../action/feedback-action';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import FrontPagePanel from './FrontPagePanel';
+import FrontPagePanelSmall from './FrontPagePanelSmall';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 
-export default class FrontPagePanelContainer extends React.Component {
+class FrontPagePanelContainer extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
@@ -20,31 +20,14 @@ export default class FrontPagePanelContainer extends React.Component {
 
   static propTypes = {
     breakpoint: React.PropTypes.string,
-    className: React.PropTypes.string,
     children: React.PropTypes.node,
     routes: React.PropTypes.array,
-    floating: React.PropTypes.bool,
     autoNavigateToNearby: React.PropTypes.bool,
   }
 
   static defaultProps = {
-    breakpoint: 'medium',
-    floating: true,
     autoNavigateToNearby: true,
   }
-
-  static description = () => (
-    <div>
-      <p>
-        Visual search component that acts as a link to search dialog.
-      </p>
-      <ComponentUsageExample description="Front page tabs">
-        <FrontPagePanelContainer />
-      </ComponentUsageExample>
-      <ComponentUsageExample description="Large front page tabs">
-        <FrontPagePanelContainer breakpoint="large" floating="no" autoNavigateToNearby={false} />
-      </ComponentUsageExample>
-    </div>);
 
   componentDidMount() {
       // auto select nearby tab if none selected and bp=large
@@ -152,17 +135,28 @@ export default class FrontPagePanelContainer extends React.Component {
 
   render() {
     return (this.props.breakpoint !== 'large' && // small, medium
-      <FrontPagePanel
+      <FrontPagePanelSmall
         selectedPanel={this.getSelectedTab()}
         nearbyClicked={this.clickNearby}
         favouritesClicked={this.clickFavourites}
         closePanel={this.closeTab}
-      >{this.props.children}</FrontPagePanel>
-    ) || <FrontPagePanelLarge
-      floating={this.props.floating}
-      selectedPanel={this.getSelectedTab()}
-      nearbyClicked={this.clickNearby}
-      favouritesClicked={this.clickFavourites}
-    >{this.props.children}</FrontPagePanelLarge>;
+      >{this.props.children}</FrontPagePanelSmall>
+    ) || <div className="fpccontainer">
+      <FrontPagePanelLarge
+        selectedPanel={this.getSelectedTab()}
+        nearbyClicked={this.clickNearby}
+        favouritesClicked={this.clickFavourites}
+      >{this.props.children}</FrontPagePanelLarge></div>;
   }
 }
+
+const WithContext = getContext(
+  { breakpoint: React.PropTypes.string.isRequired })(FrontPagePanelContainer);
+
+WithContext.propTypes = {
+  children: React.PropTypes.node,
+  routes: React.PropTypes.array,
+  autoNavigateToNearby: React.PropTypes.bool,
+};
+
+export default WithContext;

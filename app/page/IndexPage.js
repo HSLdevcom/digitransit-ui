@@ -49,7 +49,7 @@ class IndexPage extends React.Component {
         <MapWithTracking breakpoint={this.props.breakpoint} showStops >
           <SearchMainContainerWithBreakpoint /></MapWithTracking>
         <FrontPagePanelContainer
-          routes={this.props.routes} breakpoint={this.props.breakpoint}
+          routes={this.props.routes}
         >{this.props.children}</FrontPagePanelContainer>
         <FeedbackPanel />
       </div>

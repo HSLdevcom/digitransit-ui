@@ -54,13 +54,18 @@ $heading-color: #858585;
     }
 }
 
-.fpcfloat {
+.fpccontainer {
+  position:absolute;
   top: 30px;
   right: 30px;
   z-index: 802;
   height: 100%;
   max-height: calc(100% - 60px);
   width: 340px;
+}
+
+.fpcfloat {
+    height: 100%;
 
   .frontpage-panel {
 
@@ -95,22 +100,15 @@ $heading-color: #858585;
       height: calc(100% - 113px);
     }
 
-  .scrollable.favourites {
+    .scrollable.favourites {
       height: calc(100% - 152px);
       position: relative;
     }
-
-
-
   }
 
   > ul > li.selected {
     color: $primary-color;
   }
-}
-
-.fpcfloat.floating {
-  position: absolute;
 }
 
 .frontpage-panel-container .tabs-row {
