@@ -84,6 +84,8 @@ const translations = {
     'run': 'Juoksu',
     'no-transfers-margin': 'Tiukka',
     'long-transfers-margin': 'Väljä',
+    'main-mode': 'Olen liikkeellä',
+    'using-modes': 'Haluan kulkea',
     'zones': 'Lippuvyöhykkeet',
     'accessibility': 'Esteettömyys',
     'no-position-no-stops': `Sijaintisi ei ole tiedossa, joten emme voi näyttää
