@@ -46,7 +46,8 @@ import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
 import Availability from '../component/card/Availability';
 import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability';
-import { DefaultNavigation } from '../component/navigation/DefaultNavigation';
+import AppBarSmall from '../component/navigation/AppBarSmall';
+import AppBarLarge from '../component/navigation/AppBarLarge';
 import FrontPagePanelContainer from '../component/front-page/FrontPagePanelContainer';
 import { DepartureRow } from '../component/departure/DepartureRowContainer';
 import { BicycleRentalStationRow } from '../component/departure/BicycleRentalStationRowContainer';
@@ -103,7 +104,8 @@ class StyleGuidelinesPage extends React.Component {
     DepartureRow,
     BicycleRentalStationRow,
     FakeSearchWithButton,
-    DefaultNavigation,
+    AppBarSmall,
+    AppBarLarge,
     FrontPagePanelContainer,
   }
 
