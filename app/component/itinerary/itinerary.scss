@@ -55,6 +55,10 @@ $itinerary-route-max-width: 500px;
   display: flex;
   flex-direction: column;
 
+  &.bp-large {
+    padding-top: 7px;
+  }
+
   div {
     flex-grow: 1;
     flex-shrink: 0;
@@ -64,10 +68,6 @@ $itinerary-route-max-width: 500px;
     flex-grow: 0;
     flex-shrink: 0;
   }
-}
-
-.breakpoint-large .itinerary-main {
-  padding-top: 7px;
 }
 
 .itinerary-summary {
@@ -231,7 +231,7 @@ $itinerary-route-max-width: 500px;
   }
 }
 
-.breakpoint-large .row.itinerary-row {
+.bp-large .row.itinerary-row {
   .itinerary-time-column {
     .itinerary-time-column-time {
       font-size: 21px;

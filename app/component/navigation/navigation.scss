@@ -217,8 +217,8 @@ section.content {
   justify-content: space-between;
   align-items: center;
   height: 40px;
-}
 
-.breakpoint-large .time-selector-settings-row {
-  height: 50px;
+  &.bp-large {
+    height: 50px;
+  }
 }

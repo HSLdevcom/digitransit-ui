@@ -1,6 +1,7 @@
 import React from 'react';
 import Drawer from 'material-ui/Drawer';
 import { supportsHistory } from 'history/lib/DOMUtils';
+import cx from 'classnames';
 
 import CustomizeSearch from '../summary/CustomizeSearch';
 import OriginDestinationBar from '../summary/OriginDestinationBar';
@@ -19,6 +20,7 @@ class SummaryNavigation extends React.Component {
     piwik: React.PropTypes.object,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
+    breakpoint: React.PropTypes.string,
   };
 
   componentDidMount() {
@@ -78,6 +80,8 @@ class SummaryNavigation extends React.Component {
   }
 
   render() {
+    const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
+
     return (
       <section>
         <Drawer
@@ -90,8 +94,8 @@ class SummaryNavigation extends React.Component {
         >
           <CustomizeSearch params={this.props.params} />
         </Drawer>
-        <OriginDestinationBar />
-        <div className="time-selector-settings-row">
+        <OriginDestinationBar className={className} />
+        <div className={cx('time-selector-settings-row', className)}>
           <TimeSelectorContainer />
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
