@@ -2,14 +2,7 @@ import React from 'react';
 
 export default function MobileView({ header, map, content }) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        position: 'relative',
-      }}
-    >
+    <div className="mobile">
       {header}
       {map}
       {content}

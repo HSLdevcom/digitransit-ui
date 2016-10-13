@@ -2,34 +2,12 @@ import React from 'react';
 
 export default function DesktopView({ header, map, content }) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        height: '100%',
-      }}
-    >
-      <div
-        style={{
-          width: 600,
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'relative',
-        }}
-      >
+    <div className="desktop">
+      <div className="main-content">
         {header}
         {content}
       </div>
-      <div
-        style={{
-          width: 'calc(100% - 600px)',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'relative',
-        }}
-      >
+      <div className="map-content">
         {map}
       </div>
     </div>
