@@ -79,12 +79,14 @@ $search-header-height: 45px;
     margin-right: auto;
     position: relative;
     input[type="text"].react-autowhatever__input {
-      border: 1px solid $gray;
+      border: 1px solid $primary-color;
       border-radius: 4px;
-      height: 4em;
+      height: 3em;
       padding: 10px;
       outline: 0;
       appearance: none;
+      font-size:19px;
+      @include font-medium;
     }
 
     .search-header .geolocation {
