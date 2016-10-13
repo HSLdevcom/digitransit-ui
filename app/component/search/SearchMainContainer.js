@@ -243,4 +243,4 @@ class SearchMainContainer extends React.Component {
 const SearchMainContainerWithBreakpoint =
     getContext({ breakpoint: React.PropTypes.string.isRequired })(SearchMainContainer);
 
-export { SearchMainContainer as default, SearchMainContainerWithBreakpoint };
+export default SearchMainContainerWithBreakpoint;
