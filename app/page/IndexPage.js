@@ -21,10 +21,6 @@ class IndexPage extends React.Component {
     routes: React.PropTypes.array,
   }
 
-  static defaultProps = {
-    breakpoint: 'medium',
-  }
-
   componentWillMount = () => {
     this.resetToCleanState();
   }
