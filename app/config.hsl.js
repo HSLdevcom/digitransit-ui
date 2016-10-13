@@ -48,7 +48,7 @@ export default {
   stopsMinZoom: 14,
 
   colors: {
-    primary: '#007ac9',
+    primary: '#fff',
   },
 
   socialMedia: {
