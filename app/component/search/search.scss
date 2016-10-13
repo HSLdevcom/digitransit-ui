@@ -65,15 +65,19 @@ $search-header-height: 45px;
   margin-left: auto;
   margin-right:auto;
   .search-modal {
+    top:0;
     padding-left: 50px;
     border-radius: $border-radius-bigger;
     bottom: auto;
-    top:-25px;
-    left:52px;
+//    top:-25px;
+//    left:52px;
     max-width:720px;
     max-height: 550px;
     padding: 4px;
     width:100%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
     input[type="text"].react-autowhatever__input {
       border: 1px solid $gray;
       border-radius: 4px;
@@ -93,9 +97,17 @@ $search-header-height: 45px;
   }
 }
 
-search-modal-container {
-  padding-left: 50px;
-  padding-right: 400px;
+.search-modal-container {
+  padding-left: 20px;
+  left: 0;
+  max-width: none;
+  padding-right: 387px;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  z-index: 9000;
+  width: 100%;
+  top: -17px;
 }
 
 .search-form.bp-large {
