@@ -101,6 +101,27 @@
         "build": "${BROWSERSTACK_BUILD}"
       }
     },
+    "bs-edge": {
+      "selenium_port": 80,
+      "selenium_host": "hub.browserstack.com",
+      "selenium": {
+        "start_process": false
+      },
+      "desiredCapabilities": {
+        "browserName": "edge",
+        "browser": "Edge",
+        "browser_version": "13",
+        "os": "WINDOWS",
+        "os_version": "10",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true,
+        "resolution": "1280x800",
+        "browserstack.user": "${BROWSERSTACK_USER}",
+        "browserstack.key": "${BROWSERSTACK_KEY}",
+        "browserstack.local": true,
+        "build": "${BROWSERSTACK_BUILD}"
+      }
+    },
     "bs-ie": {
       "selenium_port": 80,
       "selenium_host": "hub.browserstack.com",
@@ -130,6 +151,7 @@
       },
       "desiredCapabilities": {
         "browserName": "android",
+        "device": "Samsung Galaxy S5",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "browserstack.user": "${BROWSERSTACK_USER}",
@@ -146,7 +168,7 @@
       },
       "desiredCapabilities": {
         "browser": "iPhone",
-        "device" : "iPhone 6",
+        "device" : "iPhone 6S",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "autoAcceptAlerts" : true,
