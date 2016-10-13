@@ -396,7 +396,7 @@ const translations = {
     'login': 'Logg inn',
     'off-canvas-info': 'Ved å logge inn kan du finne tilbake til dine favoritter på andre enheter',
     'cause': 'Årsak',
-    'disruptions': 'TODO',
+    'disruptions': 'Avvik',
     'disruption-info': 'Avviksmelding',
     'disruption-info-no-alerts': 'Ingen avviksmeldinger.',
     'leaving-at': 'Avgang',
