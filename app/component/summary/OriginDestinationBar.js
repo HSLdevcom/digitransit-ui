@@ -1,17 +1,20 @@
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import cx from 'classnames';
 
 import { swapEndpoints } from '../../action/EndpointActions';
 import Icon from '../icon/icon';
 import OneTabSearchModal from '../search/OneTabSearchModal';
 
 class OriginDestinationBar extends React.Component {
+  static propTypes = {
+    className: React.PropTypes.string,
+  }
 
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    breakpoint: React.PropTypes.string.isRequired,
   };
 
   state = {
@@ -62,8 +65,8 @@ class OriginDestinationBar extends React.Component {
     }
 
     return (
-      <div className="origin-destination-bar">
-        {this.context.breakpoint === 'large' && (
+      <div className={cx('origin-destination-bar', this.props.className)}>
+        {this.props.className === 'bp-large' && (
           <FormattedMessage
             id="itinerary-summary-page.title"
             defaultMessage="Itinerary suggestions"

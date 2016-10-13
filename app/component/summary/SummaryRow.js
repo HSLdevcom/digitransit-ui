@@ -8,7 +8,7 @@ import RouteNumber from '../departure/RouteNumber';
 import Icon from '../icon/icon';
 import RelativeDuration from '../duration/relative-duration';
 
-export default function SummaryRow(props) {
+export default function SummaryRow(props, { breakpoint }) {
   let mode;
   const data = props.data;
   const startTime = moment(data.startTime);
@@ -76,6 +76,7 @@ export default function SummaryRow(props) {
 
   const classes = cx(['itinerary-summary-row', 'cursor-pointer', {
     passive: props.passive,
+    'bp-large': breakpoint === 'large',
   }]);
 
   return (
@@ -120,4 +121,8 @@ SummaryRow.propTypes = {
   onSelect: React.PropTypes.func.isRequired,
   hash: React.PropTypes.number.isRequired,
   children: React.PropTypes.node,
+};
+
+SummaryRow.contextTypes = {
+  breakpoint: React.PropTypes.string,
 };
