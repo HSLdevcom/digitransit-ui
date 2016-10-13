@@ -1,6 +1,7 @@
 /* eslint quote-props: ["error", "consistent"]*/
 const translations = {
   'fi': {
+    'frontpage': 'Etusivu',
     'stop-page.title-short': 'Pysäkki',
     'stop-page.title': 'Pysäkki {stop_name} - {stop_code}',
     'stop-page.description': 'Pysäkki {stop_name} - {stop_code}',
@@ -184,6 +185,7 @@ const translations = {
   },
 
   'sv': {
+    'frontpage': 'Framsidan',
     'stop-page.title-short': 'Hållplats',
     'terminal-page.title-short': 'Terminal',
     'terminal-page.title': 'Terminal {stop_name}',
@@ -331,6 +333,7 @@ const translations = {
   },
 
   'nb': {
+    'frontpage': 'Forside',
     'stop-page.title-short': 'Holdeplass',
     'stop-page.title': 'Holdeplass {stop_name}',
     'stop-page.description': 'Holdeplass {stop_name} - {stop_code}',
@@ -393,7 +396,7 @@ const translations = {
     'login': 'Logg inn',
     'off-canvas-info': 'Ved å logge inn kan du finne tilbake til dine favoritter på andre enheter',
     'cause': 'Årsak',
-    'disruptions': 'TODO',
+    'disruptions': 'Avvik',
     'disruption-info': 'Avviksmelding',
     'disruption-info-no-alerts': 'Ingen avviksmeldinger.',
     'leaving-at': 'Avgang',
@@ -501,6 +504,7 @@ const translations = {
   },
 
   'fr': {
+    'frontpage': 'Page de garde',
     'stop-page.title-short': 'Arrêt',
     'stop-page.title': 'Arrêt {stop_name} - {stop_code}',
     'stop-page.description': 'Arrêt {stop_name} - {stop_code}',

@@ -26,6 +26,11 @@ function MainMenu(props) {
         {config.mainMenu.showInquiry && inquiry}
       </header>
       <div className="offcanvas-section">
+        <Link id="frontpage" to="/">
+          <FormattedMessage id="frontpage" defaultMessage="Front page" />
+        </Link>
+      </div>
+      <div className="offcanvas-section">
         {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
           <DisruptionInfoButtonContainer />}
       </div>
