@@ -37,9 +37,11 @@ FrontPagePanelLarge.description = () => (
     <p>
       Front page tabs for large display.
     </p>
-    <ComponentUsageExample description="Front page tabs">
-      <FrontPagePanelLarge />
-    </ComponentUsageExample>
+    <div style={{ width: '340px' }}>
+      <ComponentUsageExample description="Front page tabs">
+        <FrontPagePanelLarge />
+      </ComponentUsageExample>
+    </div>
   </div>);
 
 FrontPagePanelLarge.propTypes = {
