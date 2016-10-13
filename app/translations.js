@@ -52,7 +52,8 @@ const translations = {
     'right-now': 'Juuri nyt',
     'minutes': 'min',
     'timetable': 'Aikataulu',
-    'no-favourites': 'Tähti-painikkeilla saat lisättyä linjan tai pysäkin suosikiksesi. Suosikkisi näkyvät tällä sivulla.',
+    'no-favourites': 'Tähti-painikkeilla saat lisättyä linjan tai pysäkin suosikiksesi. ' +
+			'Suosikkisi näkyvät tällä sivulla.',
     'distance-under': 'Etäisyys alle {distance} m',
     'distance-between': 'Etäisyys {distance1} m — {distance2} m',
     'tickets': 'Matkaliput',
