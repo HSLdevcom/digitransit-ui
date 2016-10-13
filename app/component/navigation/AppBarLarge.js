@@ -24,7 +24,7 @@ const NAVI_LINKS = (() => {
   return links;
 })();
 
-const AppBarLarge = ({ title }) =>
+const AppBarLarge = ({ titleClicked }) =>
   <div>
     <div
       className="top-bar row" style={{ maxWidth: '100%',
@@ -39,7 +39,7 @@ const AppBarLarge = ({ title }) =>
           value="a"
           inkBarStyle={{ height: 4, marginTop: -4 }}
         >
-          <Tab label={title} value="a" style={{ ...tabStyle }} />
+          <Tab label={config.title} value="a" style={{ ...tabStyle }} onActive={titleClicked} />
           {NAVI_LINKS}
         </Tabs>
       </div>
@@ -51,7 +51,7 @@ const AppBarLarge = ({ title }) =>
   </div>;
 
 AppBarLarge.propTypes = {
-  title: PropTypes.node.isRequired,
+  titleClicked: PropTypes.func.isRequired,
 };
 
 AppBarLarge.description = () => (
@@ -60,7 +60,7 @@ AppBarLarge.description = () => (
       AppBar of application for large display
     </p>
     <ComponentUsageExample description="">
-      <AppBarLarge title="Reittiopas.fi" className="fullscreen" />
+      <AppBarLarge titleClicked={() => {}} />
     </ComponentUsageExample>
   </div>);
 
