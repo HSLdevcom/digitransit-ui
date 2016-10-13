@@ -67,12 +67,14 @@ $heading-color: #858585;
 .fpcfloat {
     height: 100%;
 
-  .frontpage-panel {
+  .frontpage-panel.nearby-routes {
+    background: #fff;
+  }
 
+  .frontpage-panel {
     border-radius: 8px;
     height: calc(100% - 60px);
     background: #eef1f3;
-    background: #fff;
     .row {
       padding-top:10px;
       background: #eef1f3;
@@ -85,8 +87,7 @@ $heading-color: #858585;
       padding-left:20px;
       padding-right:20px;
     }
-
-    .scrollable::before {
+    .scrollable.nearby::before {
       background-image: linear-gradient(0deg, white, rgba(255, 255, 255, 0));
       content: '';
       width: 100%;
