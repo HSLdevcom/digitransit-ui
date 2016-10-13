@@ -59,9 +59,11 @@ $search-header-height: 45px;
 
 .fake-search-container.bp-large {
   padding-top: 30px;
-  padding-left: 50px;
+  padding-left: 20px;
   max-width: none;
   padding-right: 400px;
+  margin-left: auto;
+  margin-right:auto;
   .search-modal {
     padding-left: 50px;
     border-radius: $border-radius-bigger;
@@ -97,7 +99,8 @@ search-modal-container {
 }
 
 .search-form.bp-large {
-  padding-top:0;
+  padding-top: 0;
+  max-width: 720px;
   .address-placeholder {
     padding-left: 18px;
   }
