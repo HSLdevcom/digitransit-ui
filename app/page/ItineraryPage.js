@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 
@@ -90,24 +89,6 @@ class ItineraryPage extends React.Component {
 
     // dependencies from time store
     const time = this.state && this.state.time;
-
-    const title = this.context.intl.formatMessage({
-      id: 'itinerary-page.title',
-      defaultMessage: 'Route',
-    });
-
-    const meta = {
-      title,
-
-      meta: [{
-        name: 'description',
-
-        content: this.context.intl.formatMessage({
-          id: 'itinerary-page.description',
-          defaultMessage: 'Route',
-        }),
-      }],
-    }; // TODO: add back helmet
 
     return (
       <Relay.RootContainer
