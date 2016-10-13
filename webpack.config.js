@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies, global-require, prefer-template */
+
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -25,22 +27,22 @@ require('coffee-script/register');
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
-function getLoadersConfig(env) {
+function getRulesConfig(env) {
   if (env === 'development') {
     return ([
-      { test: /\.css$/, loaders: ['style', 'css', 'postcss']},
-      { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx']},
+      { test: /\.css$/, loaders: ['style', 'css', 'postcss'] },
+      { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx'] },
       { test: /\.coffee$/, loader: 'coffee' },
-      { test: /\.json$/, loader: 'json'},
-      { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass']},
-      { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file'},
+      { test: /\.json$/, loader: 'json' },
+      { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] },
+      { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
       { test: /\.js$/,
         loader: 'babel',
         exclude: /node_modules/,
-        query: {
+        options: {
           // loose is needed by older Androids < 4.3 and IE10
-          'presets': [['latest', { "es2015": { "loose": true, "modules": false }}], 'react', 'stage-2'],
-          'plugins': [
+          presets: [['latest', { es2015: { loose: true, modules: false } }], 'react', 'stage-2'],
+          plugins: [
             'transform-class-properties',
             path.join(__dirname, 'build/babelRelayPlugin'),
           ],
@@ -52,19 +54,19 @@ function getLoadersConfig(env) {
     ]);
   }
   return ([
-    { test: /\.css$/, loader: ExtractTextPlugin.extract('css!postcss')},
-    { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
+    { test: /\.css$/, loader: ExtractTextPlugin.extract('css!postcss') },
+    { test: /\.cjsx$/, loaders: ['coffee', 'cjsx'] },
     { test: /\.coffee$/, loader: 'coffee' },
-    { test: /\.json$/, loader: 'json'},
-    { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss!sass')},
-    { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file'},
+    { test: /\.json$/, loader: 'json' },
+    { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss!sass') },
+    { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
     { test: /\.js$/,
       loader: 'babel',
       exclude: /node_modules/,
-      query: {
+      options: {
         // loose is needed by older Androids < 4.3 and IE10
-        'presets': [['latest', { "es2015": { "loose": true, "modules": false }}], 'react', 'stage-2'],
-        'plugins': [
+        presets: [['latest', { es2015: { loose: true, modules: false } }], 'react', 'stage-2'],
+        plugins: [
           'transform-class-properties',
           path.join(__dirname, 'build/babelRelayPlugin'),
         ],
@@ -86,15 +88,15 @@ function getAllPossibleLanguages() {
     .filter((language, position, languages) => languages.indexOf(language) === position);
 }
 
-function getSourceMapPlugin(testPattern,prefix) {
+function getSourceMapPlugin(testPattern, prefix) {
   return new webpack.SourceMapDevToolPlugin({
     test: testPattern,
     filename: '[file].map',
     append: '\n//# sourceMappingURL=' + prefix + '[url]',
     module: true,
     columns: true,
-    lineToLine: false
-  })
+    lineToLine: false,
+  });
 }
 
 function getPluginsConfig(env) {
@@ -109,7 +111,13 @@ function getPluginsConfig(env) {
       new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
       new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
       new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
-      new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('development')}}),
+      new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('development') } }),
+      new webpack.LoaderOptionsPlugin({
+        debug: true,
+        options: {
+          postcss: () => [autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] })],
+        },
+      }),
       new webpack.NoErrorsPlugin(),
     ]);
   }
@@ -117,20 +125,25 @@ function getPluginsConfig(env) {
     new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
     new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
-    new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('production')}}),
+    new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
     new webpack.PrefetchPlugin('react'),
     new webpack.PrefetchPlugin('react-router'),
     new webpack.PrefetchPlugin('fluxible'),
     new webpack.PrefetchPlugin('leaflet'),
     new webpack.HashedModuleIdsPlugin(),
-    getSourceMapPlugin(/\.(js)($|\?)/i,'/js/'),
-    getSourceMapPlugin(/\.(css)($|\?)/i,'/css/'),
+    new webpack.LoaderOptionsPlugin({
+      debug: false,
+      minimize: true,
+      options: {
+        postcss: () => [autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] }), csswring],
+      },
+    }),
+    getSourceMapPlugin(/\.(js)($|\?)/i, '/js/'),
+    getSourceMapPlugin(/\.(css)($|\?)/i, '/css/'),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['common', 'leaflet', 'manifest'],
     }),
-    new StatsPlugin('../stats.json', {chunkModules: true}),
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-    // new webpack.optimize.DedupePlugin(), // TODO:crashes weirdly
+    new StatsPlugin('../stats.json', { chunkModules: true }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       compress: {
@@ -153,9 +166,9 @@ function getPluginsConfig(env) {
 }
 
 function getDirectories(srcDirectory) {
-  return fs.readdirSync(srcDirectory).filter((file) => {
-    return fs.statSync(path.join(srcDirectory, file)).isDirectory();
-  });
+  return fs.readdirSync(srcDirectory).filter((file) =>
+    fs.statSync(path.join(srcDirectory, file)).isDirectory()
+  );
 }
 
 function getDevelopmentEntry() {
@@ -194,44 +207,35 @@ function getEntry() {
 }
 
 module.exports = {
-  devtool: (process.env.NODE_ENV === 'development') ? 'eval' : false, // prod mode sourcemaps are hand defined in plugins.
-  debug: (process.env.NODE_ENV === 'development') ? true : false,
+  // prod mode sourcemaps are hand defined in plugins.
+  devtool: (process.env.NODE_ENV === 'development') ? 'eval' : false,
   cache: true,
   entry: (process.env.NODE_ENV === 'development') ? getDevelopmentEntry() : getEntry(),
   output: {
     path: path.join(__dirname, '_static'),
-    filename: (process.env.NODE_ENV === 'development') ? 'js/bundle.js' : 'js/[name].[chunkhash].js',
+    filename: (process.env.NODE_ENV === 'development') ?
+      'js/bundle.js' : 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[name].[chunkhash].js',
-    publicPath: ((process.env.NODE_ENV === 'development') ? 'http://localhost:' + port : (process.env.APP_PATH || '')) + '/',
-  },
-  resolveLoader: {
-    modulesDirectories: ['node_modules'],
+    publicPath: ((process.env.NODE_ENV === 'development') ?
+      'http://localhost:' + port : (process.env.APP_PATH || '')) + '/',
   },
   plugins: getPluginsConfig(process.env.NODE_ENV),
   resolve: {
-    extensions: ['', '.js', '.cjsx', '.jsx', '.coffee'],
+    extensions: ['.js', '.cjsx', '.jsx', '.coffee'],
+    modules: ['node_modules'],
     alias: {},
   },
   module: {
-    loaders: getLoadersConfig(process.env.NODE_ENV),
+    rules: getRulesConfig(process.env.NODE_ENV),
   },
-  postcss: (process.env.NODE_ENV === 'development') ?
-    [ autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] })] :
-    [ autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] }), csswring],
   node: {
     net: 'empty',
     tls: 'empty',
   },
   externals: {
     'es6-promise': 'var Promise',
-    'fetch': 'var fetch',
+    fetch: 'var fetch',
     'fbjs/lib/fetch': 'var fetch',
     './fetch': 'var fetch',
-  },
-  worker: {
-    output: {
-      filename: 'js/[hash].worker.js',
-      chunkFilename: 'js/[id].[hash].worker.js',
-    },
   },
 };

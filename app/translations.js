@@ -1,6 +1,7 @@
 /* eslint quote-props: ["error", "consistent"]*/
 const translations = {
   'fi': {
+    'frontpage': 'Etusivu',
     'stop-page.title-short': 'Pysäkki',
     'stop-page.title': 'Pysäkki {stop_name} - {stop_code}',
     'stop-page.description': 'Pysäkki {stop_name} - {stop_code}',
@@ -22,13 +23,13 @@ const translations = {
     'use-own-position': 'Käytä nykyistä sijaintia',
     'no-position': 'Ei sijaintia',
     'origin-placeholder': 'Mistä? - osoite tai pysäkki',
-    'origin': 'Lähtöpaikka',
+    'origin': 'Lähtöpaikkasi',
     'to-stop': 'Pysäkille',
     'line': 'Linja',
     'leaves': 'Lähtee',
     'next': 'Seuraava',
     'destination': 'Määränpää',
-    'destination-placeholder': 'Määränpää, linja tai pysäkki',
+    'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
     'nearest': 'Lähimmät',
     'previous': 'Edelliset',
     'earlier': 'Aiemmin',
@@ -53,8 +54,8 @@ const translations = {
     'right-now': 'Juuri nyt',
     'minutes': 'min',
     'timetable': 'Aikataulu',
-    'no-favourites': `Voit lisätä linjoja suosikeiksi käyttöliittymästä löytyvillä
-      "tähti-painikkeilla". Lisäyksen jälkeen näet tässä listan lähimmistä suosikkilinjoistasi.`,
+    'no-favourites': 'Tähti-painikkeilla saat lisättyä linjan tai pysäkin suosikiksesi. ' +
+			'Suosikkisi näkyvät tällä sivulla.',
     'distance-under': 'Etäisyys alle {distance} m',
     'distance-between': 'Etäisyys {distance1} m — {distance2} m',
     'tickets': 'Matkaliput',
@@ -68,9 +69,9 @@ const translations = {
     'cause': 'syy',
     'disruptions': 'Häiriöt',
     'disruption-info': 'Poikkeusinfo',
-    'disruption-info-no-alerts': 'Ei poikkeustiedotteita.',
-    'leaving-at': 'Lähtee',
-    'arriving-at': 'Saapuu',
+    'disruption-info-no-alerts': 'Ei häiriöitä.',
+    'leaving-at': 'Lähtöaika',
+    'arriving-at': 'Perillä',
     'route-here': 'Reititä tänne',
     'route-from-here': 'Reititä täältä',
     'walking': 'Kävely',
@@ -111,7 +112,7 @@ const translations = {
     'citybike-register-required': 'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
     'use-citybike': 'Ota käyttöön',
     'citybike': 'Kaupunkipyörä',
-    'inquiry': 'Vastaa kysymyksiin palvelun kehittämiseksi',
+    'inquiry': 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     'platform-num': 'Laituri {platformCode}',
     'departures': 'Lähdöt',
     'show-departures': 'Näytä lähdöt',
@@ -184,6 +185,7 @@ const translations = {
   },
 
   'sv': {
+    'frontpage': 'Framsidan',
     'stop-page.title-short': 'Hållplats',
     'terminal-page.title-short': 'Terminal',
     'terminal-page.title': 'Terminal {stop_name}',
@@ -331,6 +333,7 @@ const translations = {
   },
 
   'nb': {
+    'frontpage': 'Forside',
     'stop-page.title-short': 'Holdeplass',
     'stop-page.title': 'Holdeplass {stop_name}',
     'stop-page.description': 'Holdeplass {stop_name} - {stop_code}',
@@ -393,7 +396,7 @@ const translations = {
     'login': 'Logg inn',
     'off-canvas-info': 'Ved å logge inn kan du finne tilbake til dine favoritter på andre enheter',
     'cause': 'Årsak',
-    'disruptions': 'TODO',
+    'disruptions': 'Avvik',
     'disruption-info': 'Avviksmelding',
     'disruption-info-no-alerts': 'Ingen avviksmeldinger.',
     'leaving-at': 'Avgang',
@@ -501,6 +504,7 @@ const translations = {
   },
 
   'fr': {
+    'frontpage': 'Page de garde',
     'stop-page.title-short': 'Arrêt',
     'stop-page.title': 'Arrêt {stop_name} - {stop_code}',
     'stop-page.description': 'Arrêt {stop_name} - {stop_code}',
