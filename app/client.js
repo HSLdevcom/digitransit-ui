@@ -20,7 +20,6 @@ import { openFeedbackModal } from './action/feedback-action';
 import { shouldDisplayPopup } from './util/Feedback';
 import history from './history';
 import buildInfo from './build-info';
-import DesktopWrapper from './component/util/DesktopWrapper';
 
 const plugContext = (f) => () => ({
   plugComponentContext: f,
@@ -162,15 +161,13 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   ReactDOM.render(
     <ContextProvider translations={translations} context={context.getComponentContext()}>
       <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent: navigator.userAgent })}>
-        <DesktopWrapper>
-          <Router
-            history={history}
-            environment={Relay.Store}
-            render={applyRouterMiddleware(useRelay)}
-            children={app.getComponent()}
-            onUpdate={track}
-          />
-        </DesktopWrapper>
+        <Router
+          history={history}
+          environment={Relay.Store}
+          render={applyRouterMiddleware(useRelay)}
+          children={app.getComponent()}
+          onUpdate={track}
+        />
       </MuiThemeProvider>
     </ContextProvider>
     , document.getElementById('app')

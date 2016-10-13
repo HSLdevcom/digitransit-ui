@@ -1,12 +1,10 @@
 import React from 'react';
-import Config from '../config';
 import { clearDestination } from '../action/EndpointActions';
 import { reset, forceCitybikeState } from '../action/ItinerarySearchActions';
 import { unsetSelectedTime } from '../action/TimeActions';
 import FeedbackPanel from '../component/feedback/feedback-panel';
 import FrontPagePanel from '../component/front-page/FrontPagePanel';
 import MapWithTracking from '../component/map/MapWithTracking';
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import SearchMainContainer from '../component/search/SearchMainContainer';
 
 class IndexPage extends React.Component {
@@ -35,19 +33,13 @@ class IndexPage extends React.Component {
 
   render() {
     return (
-      <DefaultNavigation
-        className="front-page fullscreen"
-        disableBackButton
-        showDisruptionInfo
-        title={Config.title}
-        showLogo={Config.useNavigationLogo}
-      >
+      <div className="front-page fullscreen">
         <MapWithTracking showStops>
           <SearchMainContainer />
         </MapWithTracking>
         <FrontPagePanel />
         <FeedbackPanel />
-      </DefaultNavigation>
+      </div>
     );
   }
 }

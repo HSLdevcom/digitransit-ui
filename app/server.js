@@ -125,6 +125,8 @@ function getScripts(req) {
   ];
 }
 
+// TODO: integrate with isomorphic-relay-router
+// eslint-disable-next-line no-unused-vars
 function getContent(context, renderProps, locale, userAgent) {
   // Ugly way to see if this is a Relay RootComponent
   // until Relay gets server rendering capabilities
@@ -146,7 +148,7 @@ function getContent(context, renderProps, locale, userAgent) {
 
 function getHtml(context, renderProps, locale, polyfills, req) {
   // Render content in order to create required meta-tags using react-hemet
-  getContent(context, renderProps, locale, req.headers['user-agent']);
+  // getContent(context, renderProps, locale, req.headers['user-agent']);
 
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml

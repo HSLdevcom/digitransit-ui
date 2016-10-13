@@ -135,15 +135,43 @@ nav.top-bar {
 // Performance with flex is ok after 9b3d165f2385f4737f757f77e0faa2d74e003119, which was reverted
 // Should-be re-enabled after safari fixes https://github.com/philipwalton/flexbugs/issues/84
 // Work-around using position: absolute; and pinning all corners made the performance really bad
-.content {
+section.content {
   background-color: $content-background-color;
   height: calc(100% - #{$topbar-height});
   position: relative;
+
+  .mobile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+  }
+
+  .desktop {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+
+    .main-content {
+      width: 600px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .map-content {
+      width: calc(100% - 600px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+  }
 }
 
 .content:nth-child(5) {
   height: calc(100% - #{$topbar-height} - 60px - 18px);
-  position: relative;
   // 60px and 18px are the height of the message bar, but is specified in js
 }
 

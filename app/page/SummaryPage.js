@@ -5,7 +5,6 @@ import isEqual from 'lodash/isEqual';
 import { intlShape } from 'react-intl';
 
 import SummaryPlanContainer from '../component/summary/SummaryPlanContainer';
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import SummaryNavigation from '../component/navigation/SummaryNavigation';
 import NoRoutePopup from '../component/summary/no-route-popup';
 import { itinerarySearchRequest } from '../action/ItinerarySearchActions';
@@ -161,17 +160,16 @@ export default class SummaryPage extends React.Component {
     };
 
     return (
-      <DefaultNavigation className="fullscreen" title={title}>
-        <SummaryNavigation
-          title={title}
-          hasDefaultPreferences={
-            this.context.getStore('ItinerarySearchStore').hasDefaultPreferences()
-          }
-        >
-          <Helmet {...meta} />
-          {plan}
-        </SummaryNavigation>
-      </DefaultNavigation>);
+      <SummaryNavigation
+        title={title}
+        hasDefaultPreferences={
+          this.context.getStore('ItinerarySearchStore').hasDefaultPreferences()
+        }
+      >
+        <Helmet {...meta} />
+        {plan}
+      </SummaryNavigation>
+    );
   }
 }
 
