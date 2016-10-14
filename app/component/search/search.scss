@@ -88,6 +88,10 @@ $search-header-height: 45px;
       @include font-medium;
     }
 
+    .clear-icon {
+      top:5px;
+    }
+
     .search-header .geolocation {
       top:11px;
     }
