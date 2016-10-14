@@ -1,7 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Icon from '../icon/icon';
-import NotImplementedLink from '../util/not-implemented-link';
 import CardHeader from '../card/CardHeader';
 import config from '../../config';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
