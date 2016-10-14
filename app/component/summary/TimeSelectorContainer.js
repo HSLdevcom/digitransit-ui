@@ -3,35 +3,34 @@ import moment from 'moment';
 import { intlShape } from 'react-intl';
 import debounce from 'lodash/debounce';
 
-import { setArriveBy, setSelectedTime } from '../../action/TimeActions';
 import TimeSelectors from './TimeSelectors';
 
 
 class TimeSelectorContainer extends Component {
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    location: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
-  state = { time: this.context.getStore('TimeStore').getSelectedTime() };
+  state = { time: this.context.location.query.time ?
+    moment(this.context.location.query.time * 1000) :
+    moment(),
+  };
 
   componentDidMount() {
-    this.context.getStore('TimeStore').addChangeListener(this.onChange);
+    this.context.router.listen(location =>
+      location.query.time && Number(location.query.time) !== this.state.time.unix() &&
+        this.setState({ time: moment(location.query.time * 1000) })
+    );
   }
-
-  componentWillUnmount() {
-    this.context.getStore('TimeStore').removeChangeListener(this.onChange);
-  }
-
-  onChange = ({ selectedTime }) => {
-    if (selectedTime) {
-      this.setState({ time: selectedTime });
-    }
-  };
 
   setArriveBy = ({ target }) =>
-    this.context.executeAction(setArriveBy, target.value === 'true');
+    this.context.router.replace({
+      ...this.context.location,
+      query: { ...this.context.location.query, arriveBy: target.value },
+    });
 
   getDates() {
     const dates = [];
@@ -61,10 +60,15 @@ class TimeSelectorContainer extends Component {
   }
 
   dispatchChangedtime = debounce(
-    () => this.context.executeAction(
-      setSelectedTime,
-      this.state.time,
-    ), 500);
+    () =>
+      this.context.router.replace({
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          time: this.state.time.unix(),
+        },
+      })
+    , 500);
 
   changeTime = ({ target }) => (target.value ? this.setState(
     { time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD') },
@@ -83,10 +87,9 @@ class TimeSelectorContainer extends Component {
   );
 
   render() {
-    const arriveBy = this.context.getStore('TimeStore').getArriveBy();
     return (
       <TimeSelectors
-        arriveBy={arriveBy}
+        arriveBy={this.context.location.query.arriveBy === 'true'}
         time={this.state.time}
         setArriveBy={this.setArriveBy}
         changeTime={this.changeTime}

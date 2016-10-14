@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
 import useRelay from 'react-router-relay';
 import { Router, applyRouterMiddleware } from 'react-router';
+import IsomorphicRelay from 'isomorphic-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 import tapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -58,6 +59,11 @@ window.debug = debug; // Allow _debug.enable('*') in browser console
 
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer(`${config.URL.OTP}index/graphql`)
+);
+
+IsomorphicRelay.injectPreparedData(
+  Relay.Store,
+  JSON.parse(document.getElementById('relayData').textContent)
 );
 
 if (typeof window.Raven !== 'undefined' && window.Raven !== null) {

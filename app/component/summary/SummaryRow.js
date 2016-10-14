@@ -92,19 +92,24 @@ export default function SummaryRow(props) {
           {displayDistance(data.walkDistance)}
         </div>
       </div>
-      <div className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}>
-        {startTime.format('HH:mm')}
-        {firstLegStartTime}
-      </div>
-      <div className="itinerary-legs">
-        {legs}
-      </div>
-      <div className="itinerary-end-time">
-        {endTime.format('HH:mm')}
-      </div>
-      <div className="action-arrow">
-        <Icon img="icon-icon_arrow-collapse--right" />
-      </div>
+      {props.children ? props.children : [
+        <div
+          className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}
+          key="startTime"
+        >
+          {startTime.format('HH:mm')}
+          {firstLegStartTime}
+        </div>,
+        <div className="itinerary-legs" key="legs">
+          {legs}
+        </div>,
+        <div className="itinerary-end-time" key="endtime">
+          {endTime.format('HH:mm')}
+        </div>,
+        <div className="action-arrow" key="arrow">
+          <Icon img="icon-icon_arrow-collapse--right" />
+        </div>,
+      ]}
     </div>);
 }
 
@@ -114,4 +119,5 @@ SummaryRow.propTypes = {
   passive: React.PropTypes.bool.isRequired,
   onSelect: React.PropTypes.func.isRequired,
   hash: React.PropTypes.number.isRequired,
+  children: React.PropTypes.node,
 };

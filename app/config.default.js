@@ -238,6 +238,36 @@ export default {
     },
   },
 
+  streetModes: {
+    walk: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    bicycle: {
+      availableForSelection: true,
+      defaultValue: false,
+    },
+
+    car: {
+      availableForSelection: true,
+      defaultValue: false,
+    },
+  },
+
+  ticketOptions: [{
+    displayName: 'Ei lippuvyöhykerajoitusta',
+    value: '0',
+  }],
+
+  accessibilityOptions: [{
+    displayName: 'Ei rajoitusta',
+    value: '0',
+  }, {
+    displayName: 'Liikun pyörätuolilla',
+    value: '1',
+  }],
+
   showModeFilter: true,
 
   moment: {
