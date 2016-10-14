@@ -76,7 +76,11 @@ class TopLevel extends React.Component {
     }
 
     return (
-      <DefaultNavigation className="fullscreen" title={this.props.title} {...topBarOptions}>
+      <DefaultNavigation
+        className={`fullscreen breakpoint-${this.getBreakpoint()}`}
+        title={this.props.title}
+        {...topBarOptions}
+      >
         <Helmet {...metadata} />
         {this.props.meta}
         { content }

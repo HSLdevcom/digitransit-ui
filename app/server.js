@@ -203,8 +203,8 @@ export default function (req, res, next) {
         IsomorphicRouter.prepareData(renderProps, networkLayer),
       ];
 
-      if (renderProps.components[1] && renderProps.components[1].loadAction) {
-        renderProps.components[1]
+      if (renderProps.routes[1] && renderProps.routes[1].loadAction) {
+        renderProps.routes[1]
           .loadAction(renderProps.params)
           .forEach(action => promises.push(context.executeAction(action[0], action[1])));
       }

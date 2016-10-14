@@ -1,16 +1,15 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
-import { setArrivalTime, setDepartureTime } from '../../action/TimeActions';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { plan as examplePlan } from '../documentation/ExampleData';
 import ItineraryFeedback from '../itinerary-feedback/itinerary-feedback';
 import Icon from '../icon/icon';
 import config from '../../config';
 
-function setEarlierSelectedTime(executeAction, plan) {
-  const earliestArrivalTime = plan.itineraries.reduce((previous, current) => {
+function setEarlierSelectedTime(router, location, itineraries) {
+  const earliestArrivalTime = itineraries.reduce((previous, current) => {
     const endTime = moment(current.endTime);
 
     if (previous == null) {
@@ -22,11 +21,14 @@ function setEarlierSelectedTime(executeAction, plan) {
   }, null);
 
   earliestArrivalTime.subtract(1, 'minutes');
-  return () => executeAction(setArrivalTime, earliestArrivalTime);
+  router.replace({
+    ...location,
+    query: { ...location.query, time: earliestArrivalTime.unix(), arriveBy: true },
+  });
 }
 
-function setLaterSelectedTime(executeAction, plan) {
-  const latestDepartureTime = plan.itineraries.reduce((previous, current) => {
+function setLaterSelectedTime(router, location, itineraries) {
+  const latestDepartureTime = itineraries.reduce((previous, current) => {
     const startTime = moment(current.startTime);
 
     if (previous == null) {
@@ -38,14 +40,20 @@ function setLaterSelectedTime(executeAction, plan) {
   }, null);
 
   latestDepartureTime.add(1, 'minutes');
-  return () => executeAction(setDepartureTime, latestDepartureTime);
+  router.replace({
+    ...location,
+    query: { ...location.query, time: latestDepartureTime.unix(), arriveBy: false },
+  });
 }
 
-const setSelectedTimeToNow = (executeAction) =>
-  () => executeAction(setDepartureTime, moment());
+const setSelectedTimeToNow = (router, location) =>
+  router.replace({
+    ...location,
+    query: { ...location.query, time: moment().unix(), arriveBy: false },
+  });
 
-export default function TimeNavigationButtons({ plan }, { executeAction }) {
-  if (!plan || !plan.itineraries || !plan.itineraries[0]) { return null; }
+export default function TimeNavigationButtons({ itineraries }, { router, location }) {
+  if (!itineraries || !itineraries[0]) { return null; }
   let itineraryFeedback = config.itinerary.enableFeedback ? <ItineraryFeedback /> : null;
   const enableButtonArrows = config.itinerary.timeNavigation.enableButtonArrows;
   let leftArrow = enableButtonArrows ?
@@ -58,20 +66,20 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
       {itineraryFeedback}
       <button
         className="standalone-btn time-navigation-earlier-btn"
-        onClick={setEarlierSelectedTime(executeAction, plan)}
+        onClick={() => setEarlierSelectedTime(router, location, itineraries)}
       >
         {leftArrow}
         <FormattedMessage id="earlier" defaultMessage="Earlier" />
       </button>
       <button
         className="standalone-btn time-navigation-now-btn"
-        onClick={setSelectedTimeToNow(executeAction)}
+        onClick={() => setSelectedTimeToNow(router, location)}
       >
         <FormattedMessage id="now" defaultMessage="Now" />
       </button>
       <button
         className="standalone-btn time-navigation-later-btn"
-        onClick={setLaterSelectedTime(executeAction, plan)}
+        onClick={() => setLaterSelectedTime(router, location, itineraries)}
       >
         <FormattedMessage id="later" defaultMessage="Later" />
         {rightArrow}
@@ -81,19 +89,17 @@ export default function TimeNavigationButtons({ plan }, { executeAction }) {
 }
 
 TimeNavigationButtons.propTypes = {
-  plan: PropTypes.shape({
-    itineraries: PropTypes.arrayOf(
-      PropTypes.shape({
-        endTime: PropTypes.number.isRequired,
-        startTime: PropTypes.number.isRequired,
-      }).isRequired
-    ).isRequired,
-  }).isRequired,
+  itineraries: PropTypes.arrayOf(
+    PropTypes.shape({
+      endTime: PropTypes.number.isRequired,
+      startTime: PropTypes.number.isRequired,
+    }).isRequired
+  ).isRequired,
 };
 
 TimeNavigationButtons.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 TimeNavigationButtons.description = (
@@ -103,6 +109,6 @@ TimeNavigationButtons.description = (
       reset the time.
     </p>
     <ComponentUsageExample>
-      <TimeNavigationButtons plan={examplePlan} />
+      <TimeNavigationButtons itineraries={examplePlan.itineraries} />
     </ComponentUsageExample>
   </div>);

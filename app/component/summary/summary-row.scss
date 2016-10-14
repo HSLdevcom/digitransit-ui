@@ -1,7 +1,7 @@
 .itinerary-summary-row {
-  height: 50px;
+  min-height: 46px;
   padding-left: 10px;
-  padding-right: 15px;
+  padding-right: 8px;
   padding-top: 3px;
   padding-bottom: 0;
   overflow: hidden;
@@ -14,6 +14,7 @@
   font-size: $font-size-normal;
   font-weight: $font-weight-medium;
   @include font-narrow-book;
+  white-space: nowrap;
 
   &.passive {
     border-left-color: $background-color;
@@ -29,49 +30,53 @@
     background-color: $background-color;
   }
 
-  & .itinerary-duration-and-distance {
+  .itinerary-duration-and-distance {
     width: 150px;
     margin-top: 4px;
   }
 
-  & .itinerary-duration {
+  .itinerary-duration {
     white-space: nowrap;
   }
 
-  & .itinerary-walking-distance {
-    margin-top: -4px;
+  .itinerary-walking-distance {
+    margin-top: -1px;
     color: $distance-gray;
     font-weight: $font-weight-book;
     font-size: $font-size-smallish;
+
+    .icon {
+      margin-bottom: -2px;
+    }
   }
 
-  & .itinerary-start-time {
+  .itinerary-start-time {
     text-align: right;
     padding-right: 10px;
+    padding-left: 5px;
     width: 75px;
     margin-top: 4px;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
       font-size: small;
-      margin-top: -4px;
-      margin-right: -10px;
+      margin-top: -1px;
+      margin-right: -7px;
       font-weight: 100;
     }
   }
 
-  & .realtime-available {
+  .realtime-available {
     color: $realtime-color;
   }
 
-  & .itinerary-end-time {
-    padding-left: 8px;
-    padding-right: 20px;
+  .itinerary-end-time {
+    padding-left: 10px;
     width: 60px;
     margin-top: 4px;
   }
 
-  & .itinerary-legs {
+  .itinerary-legs {
     width: 100%;
     display: flex;
     white-space: nowrap;
@@ -104,34 +109,34 @@
       .icon {
         margin-top: 0.25em;
         margin-left: 3px;
-        width: 20px;
-        height: 20px;
+        font-size: 20px;
         float: left;
       }
     }
 
     .vehicle-number {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-smallish;
       clear: left;
       float: left;
       padding: 0;
       width: 20px;
       margin-left: 3px;
-      margin-top:-2px;
-
-      span {
-        font-weight: $font-weight-book;
-        font-size: $font-size-smallish;
-      }
+      margin-top: 1px;
     }
   }
 
   .action-arrow {
-    line-height: 50px;
-    padding-left: 10px;
+    line-height: 46px;
+    padding-left: 15px;
 
-    & svg {
+    svg {
       color: $action-color;
     }
+  }
+
+  .itinerary-tab {
+    width: 100%;
   }
 }
 
@@ -166,5 +171,73 @@
   input[type="text"]:focus {
     color: $black;
     outline: none;
+  }
+}
+
+.breakpoint-large .itinerary-summary-row {
+  min-height: 100px;
+  border-left-width: 8px;
+  padding-left: 20px;
+  padding-right: 16px;
+  padding-top: 20px;
+
+  .itinerary-duration-and-distance {
+    width: 100px;
+    margin-top: 2px;
+  }
+
+  .itinerary-duration {
+    font-size: 21px;
+    @include font-narrow-medium;
+  }
+
+  .itinerary-walking-distance {
+    font-size: 18px;
+  }
+
+  .itinerary-start-time {
+    font-size: 21px;
+    padding-top: 7px;
+    padding-left: 16px;
+    @include font-narrow-medium;
+
+    .itinerary-first-leg-start-time {
+      padding-top: 0;
+      font-size: $font-size-normal;
+    }
+  }
+
+  .itinerary-legs {
+    padding-top: 14px;
+    flex-shrink: 2;
+
+    .line:after {
+      top: 10px;
+      border-width: 3px;
+      border-radius: 3px;
+    }
+
+    .line .icon {
+      margin-top: 0;
+      margin-left: 5px;
+      font-size: 24px;
+    }
+
+    .vehicle-number {
+      font-size: $font-size-normal;
+      margin-left: 6px;
+      margin-top: 3.5px;
+    }
+  }
+
+  .itinerary-end-time {
+    font-size: 21px;
+    padding-top: 8px;
+  }
+
+  .action-arrow {
+    padding-left: 30px;
+    font-size: 20px;
+    padding-top: 8px;
   }
 }
