@@ -46,7 +46,7 @@ class SummaryNavigation extends React.Component {
   }
 
   getOffcanvasState = () =>
-    (supportsHistory() && this.context.location.state &&
+    (typeof window !== 'undefined' && supportsHistory() && this.context.location.state &&
       this.context.location.state.customizeSearchOffcanvas) || false;
 
   internalSetOffcanvas = (newState) => {
