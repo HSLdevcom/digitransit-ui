@@ -177,7 +177,7 @@ section.content {
 
 .message-bar {
   @include font-book;
-  font-size: 13px;
+  font-size: $font-size-small;
   line-height: 14px;
   background: $white;
   color: $gray;

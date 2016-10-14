@@ -132,7 +132,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   padding-left: 0;
   padding-top: 1px;
   width: 50px;
-  font-size: 13px;
+  font-size: $font-size-small;
   .time {
     margin-right: 0;
     padding-right: 0;
@@ -170,7 +170,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 }
 .route-stop-address {
   @include font-narrow-book;
-  font-size: 13px;
+  font-size: $font-size-small;
   color: $gray;
   white-space: nowrap;
 }
@@ -179,7 +179,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   @include font-narrow-book;
   color: $gray;
   .walk-distance {
-    font-size: 13px;
+    font-size: $font-size-small;
   }
 }
 

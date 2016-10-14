@@ -9,7 +9,7 @@
 
   .missing-routes {
     @include font-book;
-    font-size: 13px;
+    font-size: $font-size-small;
     margin: 0.5em 0 0;
     padding: 0;
     width: 100%;

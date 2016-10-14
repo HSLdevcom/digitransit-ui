@@ -201,7 +201,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
 
   .bottom {
     @include font-medium;
-    font-size: 13px;
+    font-size: $font-size-small;
     line-height: $line-height-normal;
     color: $gray;
     margin: 0px auto 0px;
@@ -240,7 +240,7 @@ div.origin-popup {
 
     .icon {
       margin: 0 0 -2px 8px;
-      font-size: 13px;
+      font-size: $font-size-small;
     }
   }
 
