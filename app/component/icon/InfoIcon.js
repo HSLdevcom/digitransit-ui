@@ -1,5 +1,4 @@
 import React from 'react';
-import Relay from 'react-relay';
 import Icon from '../icon/icon';
 import NotImplementedLink from '../util/not-implemented-link';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
