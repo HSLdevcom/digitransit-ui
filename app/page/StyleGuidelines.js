@@ -50,6 +50,7 @@ import { BicycleRentalStationRow } from '../component/departure/BicycleRentalSta
 import { PureStopPageHeader } from '../component/stop/StopPageHeader';
 import { PureStopCardHeader } from '../component/stop-cards/StopCardHeader';
 import SplitBars from '../component/util/SplitBars';
+import Labeled from '../component/util/Labeled';
 
 class StyleGuidelinesPage extends React.Component {
   static propTypes = {
@@ -105,6 +106,7 @@ class StyleGuidelinesPage extends React.Component {
     PureStopPageHeader,
     PureStopCardHeader,
     SplitBars,
+    Labeled,
   }
 
   getColors() {
