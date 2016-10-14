@@ -262,7 +262,7 @@ div.origin-popup {
       @include font-book;
       text-transform: none;
       color: $black;
-      font-size: 13px;
+      font-size: $font-size-small;
   }
 
   .shade-to-white {

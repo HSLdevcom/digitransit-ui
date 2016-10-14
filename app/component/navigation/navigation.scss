@@ -186,7 +186,7 @@ section.content {
 
   h2 {
     @include font-medium;
-    font-size: 13px;
+    font-size: $font-size-small;
     color: $action-color;
     margin: 0;
   }
