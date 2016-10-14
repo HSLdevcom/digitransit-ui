@@ -34,7 +34,6 @@ import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectParkAndRideRow from '../component/map/tile-layer/SelectParkAndRideRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
 import SelectTerminalRow from '../component/map/tile-layer/SelectTerminalRow';
-import Favourite from '../component/favourites/Favourite';
 import TicketInformation from '../component/itinerary/TicketInformation';
 import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect';
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
@@ -51,6 +50,7 @@ import { PureStopPageHeader } from '../component/stop/StopPageHeader';
 import { PureStopCardHeader } from '../component/stop-cards/StopCardHeader';
 import SplitBars from '../component/util/SplitBars';
 import Labeled from '../component/util/Labeled';
+import Favourite from '../component/favourites/Favourite';
 
 class StyleGuidelinesPage extends React.Component {
   static propTypes = {
@@ -92,7 +92,6 @@ class StyleGuidelinesPage extends React.Component {
     SelectParkAndRideRow,
     SelectStopRow,
     SelectTerminalRow,
-    Favourite,
     TicketInformation,
     RouteScheduleDateSelect,
     RouteScheduleHeader,
@@ -107,6 +106,7 @@ class StyleGuidelinesPage extends React.Component {
     PureStopCardHeader,
     SplitBars,
     Labeled,
+    Favourite,
   }
 
   getColors() {
