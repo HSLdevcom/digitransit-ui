@@ -20,7 +20,6 @@ import { openFeedbackModal } from './action/feedback-action';
 import { shouldDisplayPopup } from './util/Feedback';
 import history from './history';
 import buildInfo from './build-info';
-import DesktopWrapper from './component/util/DesktopWrapper';
 
 const plugContext = (f) => () => ({
   plugComponentContext: f,

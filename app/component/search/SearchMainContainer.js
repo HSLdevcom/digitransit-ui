@@ -85,7 +85,7 @@ class SearchMainContainer extends React.Component {
 
   focusInput = (value) => (
     // this.searchInputs[value].searchInput is a hack
-    this.searchInputs[value].searchInput.autowhatever.refs.input.focus()
+    this.searchInputs[value].searchInput.autowhatever.input.focus()
   );
 
   openDialog = (tab) => {
