@@ -3,6 +3,7 @@ import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import Icon from '../icon/icon';
 import SplitBars from '../util/SplitBars';
+import Favourite from '../favourites/Favourite';
 
 const CardHeader = ({
   className,
@@ -38,6 +39,8 @@ const CardHeader = ({
     </div>
   </div>);
 
+const exampleIcons = [<Favourite favourite={false} />];
+
 CardHeader.description = (
   <div>
     <p>
@@ -46,19 +49,15 @@ CardHeader.description = (
     </p>
     <ComponentUsageExample description="">
       <CardHeader
-        addFavourite={() => {}}
         name="Testipysäkki"
         description="Testipysäkki 2"
         code="7528"
+        icons={exampleIcons}
       />
     </ComponentUsageExample>
   </div>);
 
 CardHeader.propTypes = {
-  addFavourite: React.PropTypes.oneOfType([
-    React.PropTypes.func,
-    React.PropTypes.bool,
-  ]).isRequired,
   className: React.PropTypes.string,
   headingStyle: React.PropTypes.string,
   name: React.PropTypes.string.isRequired,
