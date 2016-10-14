@@ -18,6 +18,9 @@ Centered.description = (
     <p>
       This component centers other components using flex.
     </p>
+    <ComponentUsageExample description="basic">
+      <Centered>Center this</Centered>
+    </ComponentUsageExample>
   </div>
 );
 
