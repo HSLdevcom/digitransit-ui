@@ -256,6 +256,8 @@ $btn-heigth: 17px;
 select {
   -moz-appearance: none;
 }
+
+
 .split-bars {
   display: flex;
   margin-right: 0.7em;
@@ -271,3 +273,25 @@ select {
   width: 0.7em;
 }
 
+.labeled {
+  display: inline-block;
+  width: inherit;
+  height: inherit;
+  line-height: 1;
+  &:hover .labeled-label {
+    color: lighten($black, 20%);
+  }
+}
+
+.labeled-item {
+  text-align: center;
+}
+
+.labeled-label {
+  display: inline-block;
+  min-width: 60px;
+  color: $gray-blue;
+  font-size: 9px;
+  text-transform: uppercase;
+  text-align: center;
+}
