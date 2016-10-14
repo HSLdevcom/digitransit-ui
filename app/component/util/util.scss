@@ -256,3 +256,18 @@ $btn-heigth: 17px;
 select {
   -moz-appearance: none;
 }
+.split-bars {
+  display: flex;
+  margin-right: 0.7em;
+  align-items: stretch;
+  & > .split-bar {
+    flex-grow: 1;
+  }
+}
+
+.split-bar--bar {
+  border-left: 1px solid #ddd;
+  margin-left: 0.7em;
+  width: 0.7em;
+}
+
