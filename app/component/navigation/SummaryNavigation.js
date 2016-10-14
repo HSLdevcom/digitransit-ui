@@ -1,6 +1,7 @@
 import React from 'react';
 import Drawer from 'material-ui/Drawer';
 import { supportsHistory } from 'history/lib/DOMUtils';
+import cx from 'classnames';
 
 import CustomizeSearch from '../summary/CustomizeSearch';
 import OriginDestinationBar from '../summary/OriginDestinationBar';
@@ -8,31 +9,49 @@ import TimeSelectorContainer from '../summary/TimeSelectorContainer';
 import RightOffcanvasToggle from '../summary/RightOffcanvasToggle';
 
 class SummaryNavigation extends React.Component {
+  static propTypes = {
+    params: React.PropTypes.shape({
+      from: React.PropTypes.string,
+      to: React.PropTypes.string,
+    }).isRequired,
+  };
 
   static contextTypes = {
     piwik: React.PropTypes.object,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
+    breakpoint: React.PropTypes.string,
   };
+
+  componentDidMount() {
+    this.unlisten = this.context.router.listen(location => {
+      if (this.context.location.state && this.context.location.state.customizeSearchOffcanvas &&
+        (!location.state || !location.state.customizeSearchOffcanvas)
+        && !this.transitionDone && location.pathname.startsWith('/reitti/')) {
+        this.transitionDone = true;
+        this.context.router.replace({ ...location,
+          pathname: this.context.location.pathname,
+          query: this.context.location.query,
+        });
+      } else {
+        this.transitionDone = false;
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
+  }
 
   onRequestChange = (newState) => {
     this.internalSetOffcanvas(newState);
   }
 
-  getOffcanvasState = () => {
-    if (typeof window !== 'undefined' && supportsHistory()) {
-      if (this.context.location != null && this.context.location.state != null) {
-        return this.context.location.state.customizeSearchOffcanvas || false;
-      }
-    }
-    return this.state ? this.state.customizeSearchOffcanvas : false;
-  }
+  getOffcanvasState = () =>
+    (supportsHistory() && this.context.location.state &&
+      this.context.location.state.customizeSearchOffcanvas) || false;
 
   internalSetOffcanvas = (newState) => {
-    this.setState({
-      customizeSearchOffcanvas: newState,
-    });
-
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
         'Offcanvas',
@@ -44,10 +63,11 @@ class SummaryNavigation extends React.Component {
     if (supportsHistory()) {
       if (newState) {
         this.context.router.push({
+          ...this.context.location,
           state: {
+            ...this.context.location.state,
             customizeSearchOffcanvas: newState,
           },
-          pathname: this.context.location.pathname,
         });
       } else {
         this.context.router.goBack();
@@ -59,23 +79,11 @@ class SummaryNavigation extends React.Component {
     this.internalSetOffcanvas(!this.getOffcanvasState());
   }
 
-  toggleDisruptionInfo = () => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'Modal',
-        'Disruption',
-        this.state.disruptionVisible ? 'close' : 'open'
-      );
-    }
-
-    this.setState({
-      disruptionVisible: !this.state.disruptionVisible,
-    });
-  }
-
   render() {
+    const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
+
     return (
-      <div className="fullscreen">
+      <section>
         <Drawer
           className="offcanvas"
           disableSwipeToOpen
@@ -84,27 +92,22 @@ class SummaryNavigation extends React.Component {
           open={this.getOffcanvasState()}
           onRequestChange={this.onRequestChange}
         >
-          <CustomizeSearch />
+          <CustomizeSearch params={this.props.params} />
         </Drawer>
-        <div className="summary-content grid-frame">
-          <section>
-            <OriginDestinationBar />
-            <div className="time-selector-settings-row">
-              <TimeSelectorContainer />
-              <RightOffcanvasToggle
-                onToggleClick={this.toggleCustomizeSearchOffcanvas}
-                hasChanges={!this.props.hasDefaultPreferences}
-              />
-            </div>
-            {this.props.children}
-          </section>
+        <OriginDestinationBar className={className} />
+        <div className={cx('time-selector-settings-row', className)}>
+          <TimeSelectorContainer />
+          <RightOffcanvasToggle
+            onToggleClick={this.toggleCustomizeSearchOffcanvas}
+            hasChanges={!this.props.hasDefaultPreferences}
+          />
         </div>
-      </div>);
+      </section>
+    );
   }
 }
 
 SummaryNavigation.propTypes = {
-  children: React.PropTypes.node.isRequired,
   hasDefaultPreferences: React.PropTypes.bool.isRequired,
 };
 
