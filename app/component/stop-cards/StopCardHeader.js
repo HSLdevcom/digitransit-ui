@@ -5,7 +5,7 @@ import NotImplementedLink from '../util/not-implemented-link';
 import CardHeader from '../card/CardHeader';
 import config from '../../config';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import FavouriteIcon from '../icon/FavouriteIcon';
+import InfoIcon from '../icon/InfoIcon';
 
 class PureStopCardHeader extends React.Component {
   getDescription() {
@@ -52,7 +52,7 @@ const exampleStop = {
   desc: 'Kaivonkatsojantie',
 };
 
-const exampleIcons = [<FavouriteIcon addFavourite={() => {}} />];
+const exampleIcons = [<InfoIcon stop={exampleStop} />];
 
 PureStopCardHeader.displayName = 'PureStopCardHeader';
 
