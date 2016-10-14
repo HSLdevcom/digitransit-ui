@@ -50,6 +50,7 @@ import { PureStopPageHeader } from '../component/stop/StopPageHeader';
 import { PureStopCardHeader } from '../component/stop-cards/StopCardHeader';
 import SplitBars from '../component/util/SplitBars';
 import Labeled from '../component/util/Labeled';
+import InfoIcon from '../component/icon/InfoIcon';
 import Favourite from '../component/favourites/Favourite';
 
 class StyleGuidelinesPage extends React.Component {
@@ -106,6 +107,7 @@ class StyleGuidelinesPage extends React.Component {
     PureStopCardHeader,
     SplitBars,
     Labeled,
+    InfoIcon,
     Favourite,
   }
 
