@@ -52,7 +52,8 @@ const withMapStateTracking = withReducer('mapState', 'dispatch', mapStateReducer
   })
 );
 
-const onlyUpdateCoordChanges = onlyUpdateForKeys(['breakpoint', 'lat', 'lon', 'zoom', 'mapTracking', 'lang']);
+const onlyUpdateCoordChanges = onlyUpdateForKeys(
+  ['breakpoint', 'lat', 'lon', 'zoom', 'mapTracking', 'lang']);
 
 const MapWithTracking =
   withMapStateTracking(

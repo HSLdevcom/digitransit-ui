@@ -23,7 +23,10 @@ const SearchModal = (props) => {
               }}
               value={props.selectedTab}
             >{props.children}</Tabs>
-            <div onClick={props.closeModal} style={{ position: 'absolute', top: 0, right: '11px', color: '#78909c' }}>
+            <div
+              onClick={props.closeModal}
+              style={{ position: 'absolute', top: 0, right: '11px', color: '#78909c' }}
+            >
               <Icon img="icon-icon_close" />
             </div>
           </div>

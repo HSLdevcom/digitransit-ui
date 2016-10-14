@@ -3,7 +3,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
-import pure from 'recompose/pure';
 import withProps from 'recompose/withProps';
 import { FormattedMessage } from 'react-intl';
 
