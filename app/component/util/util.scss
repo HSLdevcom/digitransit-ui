@@ -291,7 +291,8 @@ select {
   display: inline-block;
   min-width: 60px;
   color: $gray-blue;
-  font-size: 9px;
+  @include font-bold;
+  font-size: $font-size-small;
   text-transform: uppercase;
   text-align: center;
 }
