@@ -50,7 +50,7 @@ class ModeFilter extends React.Component {
       <ModeToggleButton type="subway" />
       <ModeToggleButton type="ferry" />
       <ModeToggleButton type="airplane" />
-      <ModeToggleButton type="citybike" stateName="BICYCLE_RENT" />
+      <ModeToggleButton type="citybike" />
     </div>);
   }
 }
