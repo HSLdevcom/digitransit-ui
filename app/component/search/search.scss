@@ -89,11 +89,21 @@ $search-header-height: 45px;
     }
 
     .clear-icon {
-      top:5px;
+      top:8px;
     }
 
-    .search-header .geolocation {
-      top:11px;
+    .search-header {
+
+      .search-header__button {
+        font-size: 15px !important;
+      }
+
+      .geolocation {
+
+        .geolocation-selected {
+          padding: 13.5px;
+        }
+      }
     }
 
     #react-whatever-suggest{
