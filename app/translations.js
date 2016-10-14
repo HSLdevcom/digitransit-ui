@@ -70,7 +70,7 @@ const translations = {
     'disruptions': 'Häiriöt',
     'disruption-info': 'Poikkeusinfo',
     'disruption-info-no-alerts': 'Ei häiriöitä.',
-    'leaving-at': 'Lähtöaika',
+    'leaving-at': 'Lähtee',
     'arriving-at': 'Perillä',
     'route-here': 'Reititä tänne',
     'route-from-here': 'Reititä täältä',
