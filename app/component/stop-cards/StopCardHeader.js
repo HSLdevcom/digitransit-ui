@@ -5,6 +5,7 @@ import NotImplementedLink from '../util/not-implemented-link';
 import CardHeader from '../card/CardHeader';
 import config from '../../config';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import FavouriteIcon from '../icon/FavouriteIcon';
 
 class PureStopCardHeader extends React.Component {
   getDescription() {
@@ -24,17 +25,14 @@ class PureStopCardHeader extends React.Component {
   render() {
     return (
       <CardHeader
-        addFavourite={this.props.addFavouriteStop}
         className={this.props.className}
-        favourite={this.props.favourite}
         headingStyle={this.props.headingStyle}
         name={this.props.stop.name}
         description={this.getDescription()}
         code={config.stopCard.header.showStopCode && this.props.stop.code ?
-          this.props.stop.code : null}
-      >
-        {this.props.infoIcon}
-      </CardHeader>
+              this.props.stop.code : null}
+        icons={this.props.icons}
+      />
   );
   }
 }
@@ -42,14 +40,9 @@ class PureStopCardHeader extends React.Component {
 PureStopCardHeader.propTypes = {
   stop: React.PropTypes.object,
   distance: React.PropTypes.number,
-  addFavouriteStop: React.PropTypes.oneOfType([
-    React.PropTypes.func,
-    React.PropTypes.bool,
-  ]).isRequired,
   className: React.PropTypes.string,
-  favourite: React.PropTypes.bool,
   headingStyle: React.PropTypes.string,
-  infoIcon: React.PropTypes.bool,
+  icons: React.PropTypes.array,
 };
 
 const exampleStop = {
@@ -59,10 +52,17 @@ const exampleStop = {
   desc: 'Kaivonkatsojantie',
 };
 
+const exampleIcons = [<FavouriteIcon addFavourite={() => {}} />];
+
+PureStopCardHeader.displayName = 'PureStopCardHeader';
+
 PureStopCardHeader.description = (
   <div>
     <ComponentUsageExample description="basic">
       <PureStopCardHeader stop={exampleStop} distance={345.6} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with icons">
+      <PureStopCardHeader stop={exampleStop} distance={345.6} icons={exampleIcons} />
     </ComponentUsageExample>
   </div>
 );
