@@ -195,7 +195,7 @@ div.origin-destination-bar {
 
   .search-header__category-text {
     color: $gray-blue;
-    font-size: 11px;
+    font-size: $font-size-xxsmall;
     margin-left: 12px;
     margin-right: 6px;
     vertical-align: middle;
@@ -211,7 +211,7 @@ div.origin-destination-bar {
   .search-header__button {
     margin-bottom: 0;
     letter-spacing: -0.025em;
-    font-size: 11px !important;
+    font-size: $font-size-xxsmall !important;
     font-weight: $font-weight-bold !important;
     font-family: $font-family !important;
     color: $gray-blue !important;

@@ -230,7 +230,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
 }
 
 div.origin-popup {
-  font-size: 11px;
+  font-size: $font-size-xxsmall;
   cursor: pointer;
 
   .origin-popup-header {
