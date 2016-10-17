@@ -6,14 +6,20 @@ import StopCardHeader from './StopCardHeader';
 import DepartureListContainer from '../departure/DepartureListContainer';
 import StopCard from './StopCard';
 import { addFavouriteStop } from '../../action/FavouriteActions';
+import Favourite from '../favourites/Favourite';
 
 const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (context, props) =>
   ({
-    favourite: context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId),
-    addFavouriteStop: props.isTerminal ? false : (e) => {
-      e.preventDefault();
-      return context.executeAction(addFavouriteStop, props.stop.gtfsId);
-    },
+    icons: [
+      props.isTerminal ? null :
+        <Favourite
+          favourite={context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId)}
+          addFavourite={(e) => {
+            e.preventDefault();
+            return context.executeAction(addFavouriteStop, props.stop.gtfsId);
+          }}
+        />,
+    ],
     isTerminal: props.isTerminal,
     children: <DepartureListContainer
       rowClasses="no-padding no-margin"
