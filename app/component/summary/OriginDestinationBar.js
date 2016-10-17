@@ -23,12 +23,15 @@ class OriginDestinationBar extends React.Component {
     tabOpen: false,
   };
 
-  componentWillMount = () => {
+  componentWillMount() {
     this.onEndpointChange();
+  }
+
+  componentDidMount() {
     this.context.getStore('EndpointStore').addChangeListener(this.onEndpointChange);
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.context.getStore('EndpointStore').removeChangeListener(this.onEndpointChange);
   }
 
@@ -51,7 +54,7 @@ class OriginDestinationBar extends React.Component {
     });
   }
 
-  render = () => {
+  render() {
     const ownPosition = this.context.intl.formatMessage({
       id: 'own-position',
       defaultMessage: 'Your current location',
