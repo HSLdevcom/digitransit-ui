@@ -40,7 +40,7 @@ PureStopCardHeader.propTypes = {
   distance: React.PropTypes.number,
   className: React.PropTypes.string,
   headingStyle: React.PropTypes.string,
-  icons: React.PropTypes.array,
+  icons: React.PropTypes.arrayOf(React.PropTypes.node),
 };
 
 const exampleStop = {
