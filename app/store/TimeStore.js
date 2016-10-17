@@ -8,90 +8,22 @@ class TimeStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.updateCurrentTime();
-    this.arriveBy = false;
-    this.setSelectedTimeToNow();
+    setInterval(this.updateCurrentTime, TimeStore.TWICE_PER_MINUTE);
   }
-
-  setSelectedTimeToNow() {
-    this.arriveBy = false;
-    this.status = 'UNSET';
-    return this.updateSelectedTime();
-  }
-
-  isSelectedTimeSet = () => this.status === 'SET'
 
   updateCurrentTime = () => {
-    this.setCurrentTime(moment());
+    this.currentTime = moment();
 
-    if (!this.isSelectedTimeSet()) {
-      this.updateSelectedTime();
-    }
-
-    return setTimeout(this.updateCurrentTime, TimeStore.TWICE_PER_MINUTE);
-  }
-
-  updateSelectedTime = () => {
-    this.selectedTime = moment();
-
-    return this.emitChange({
-      selectedTime: this.selectedTime,
-    });
-  }
-
-  setSelectedTime(data) {
-    this.selectedTime = data;
-    this.status = 'SET';
-
-    return this.emitChange({
-      selectedTime: this.selectedTime,
-    });
-  }
-
-  setCurrentTime(data) {
-    this.currentTime = data;
-
-    return this.emitChange({
+    this.emitChange({
       currentTime: this.currentTime,
     });
-  }
-
-  setArriveBy(arriveBy) {
-    this.arriveBy = arriveBy;
-
-    return this.emitChange({
-      selectedTime: this.selectedTime,
-    });
-  }
-
-  setArrivalTime(arrivalTime) {
-    this.arriveBy = true;
-    return this.setSelectedTime(arrivalTime);
-  }
-
-  setDepartureTime(departureTime) {
-    this.arriveBy = false;
-    return this.setSelectedTime(departureTime);
-  }
-
-  getSelectedTime() {
-    return this.selectedTime.clone();
   }
 
   getCurrentTime() {
     return this.currentTime.clone();
   }
 
-  getArriveBy() {
-    return this.arriveBy;
-  }
-
-  static handlers = {
-    SetSelectedTime: 'setSelectedTime',
-    UnsetSelectedTime: 'setSelectedTimeToNow',
-    SetArriveBy: 'setArriveBy',
-    SetArrivalTime: 'setArrivalTime',
-    SetDepartureTime: 'setDepartureTime',
-  };
+  static handlers = {};
 }
 
 export default TimeStore;

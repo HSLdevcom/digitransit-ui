@@ -34,6 +34,7 @@ class TransitLeg extends React.Component {
       className="row itinerary-row"
     >
       <Link
+        onClick={e => e.stopPropagation()}
         to={
           `/linjat/${this.props.leg.route.gtfsId}/pysakit/${
           this.props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`

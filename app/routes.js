@@ -6,13 +6,17 @@ import ContainerDimensions from 'react-container-dimensions';
 import withProps from 'recompose/withProps';
 import { FormattedMessage } from 'react-intl';
 
+import omitBy from 'lodash/omitBy';
+import isNil from 'lodash/isNil';
+
+import moment from 'moment';
+
 // React pages
 import IndexPage from './page/IndexPage';
-import ItineraryPage from './page/ItineraryPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
-import LoadingPage from './page/loading';
+import LoadingPage from './page/LoadingPage';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
@@ -31,7 +35,12 @@ import StopPageHeader from './component/stop/StopPageHeader';
 import StopPageMeta from './component/stop/StopPageMeta';
 import FavouritesPanel from './component/favourites/FavouritesPanel';
 import NearbyRoutesPanel from './component/front-page/NearbyRoutesPanel';
+import SummaryTitle from './component/summary/SummaryTitle';
+import ItineraryTab from './component/itinerary/ItineraryTab';
+import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
 
+import { storeEndpoint } from './action/EndpointActions';
+import { otpToLocation } from './util/otp-strings';
 
 import TopLevel from './component/TopLevel';
 
@@ -77,6 +86,69 @@ const terminalQueries = {
   `,
 };
 
+const planQueries = {
+  plan: (Component, variables) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('plan', variables)}
+      }
+    }`,
+};
+
+const preparePlanParams = (
+    { from, to },
+    { location: { query: {
+      numItineraries,
+      time,
+      arriveBy,
+      walkReluctance,
+      walkSpeed,
+      walkBoardCost,
+      minTransferTime,
+      modes,
+      accessibilityOption,
+    } } }
+  ) => omitBy({
+    fromPlace: from,
+    toPlace: to,
+    from: otpToLocation(from),
+    to: otpToLocation(to),
+    numItineraries: numItineraries ? Number(numItineraries) : undefined,
+    modes: modes ? modes
+      .split(',')
+      .sort()
+      .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+      .join(',')
+    : undefined,
+    date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
+    time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
+    walkReluctance: walkReluctance ? Number(walkReluctance) : undefined,
+    walkBoardCost: walkBoardCost ? Number(walkBoardCost) : undefined,
+    minTransferTime: minTransferTime ? Number(minTransferTime) : undefined,
+    walkSpeed: walkSpeed ? Number(walkSpeed) : undefined,
+    arriveBy: arriveBy ? arriveBy === 'true' : undefined,
+    maxWalkDistance: modes && modes.split(',').includes('BICYCLE') ?
+      config.maxWalkDistance : config.maxBikingDistance,
+    wheelchair: accessibilityOption === '1',
+    preferred: { agencies: config.preferredAgency || '' },
+    disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
+  }, isNil);
+
+const SummaryPageWrapper = ({ props, routerProps }) => (props ?
+  <SummaryPage {...props} /> :
+  <SummaryPage
+    {...routerProps}
+    {...preparePlanParams(routerProps.params, routerProps)}
+    plan={{ plan: { } }}
+    loading
+  />
+);
+
+SummaryPageWrapper.propTypes = {
+  props: React.PropTypes.object.isRequired,
+  routerProps: React.PropTypes.object.isRequired,
+};
+
 const StopTitle = withProps({
   id: 'stop-page.title-short',
   defaultMessage: 'Stop',
@@ -91,7 +163,6 @@ const routes = (
   <Route
     component={(props) => <ContainerDimensions><TopLevel {...props} /></ContainerDimensions>}
   >
-
     <Route
       path="/" components={{
         title: () => <span>{config.title}</span>,
@@ -193,17 +264,27 @@ const routes = (
       </Route>
     </Route>
     <Route
-      path="/reitti/:from/:to"
-      components={{ title: () => <span>Reittiehdotukset</span>, content: SummaryPage }}
-    />
-    <Route
-      path="/reitti/:from/:to/:hash"
-      components={{ title: () => <span>Reittiohje</span>, content: ItineraryPage }}
-    />
-    <Route path="/styleguide" component={StyleGuidelines} />
-    <Route path="/styleguide/component/:componentName" component={StyleGuidelines} />
-    <Route path="/suosikki/uusi" component={AddFavouritePage} />
-    <Route path="/suosikki/muokkaa/:id" component={AddFavouritePage} />
+      path="reitti/:from/:to"
+      components={{
+        title: SummaryTitle,
+        content: SummaryPage,
+      }}
+      queries={{ content: planQueries }}
+      prepareParams={preparePlanParams}
+      render={{ content: SummaryPageWrapper }}
+      loadAction={(params) => [
+        [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
+        [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
+      ]}
+    >
+      <Route path=":hash" components={{ content: ItineraryTab, map: ItineraryPageMap }}>
+        <Route path="kartta" fullscreenMap />
+      </Route>
+    </Route>
+    <Route path="styleguide" component={StyleGuidelines} />
+    <Route path="styleguide/component/:componentName" component={StyleGuidelines} />
+    <Route path="suosikki/uusi" component={AddFavouritePage} />
+    <Route path="suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route
       path="/tietoja-palvelusta"
       components={{
