@@ -1,13 +1,11 @@
 import React from 'react';
-import Config from '../config';
 import { clearDestination } from '../action/EndpointActions';
-import { reset, forceCitybikeState } from '../action/ItinerarySearchActions';
-import { unsetSelectedTime } from '../action/TimeActions';
 import FeedbackPanel from '../component/feedback/feedback-panel';
 import FrontPagePanel from '../component/front-page/FrontPagePanel';
 import MapWithTracking from '../component/map/MapWithTracking';
-import DefaultNavigation from '../component/navigation/DefaultNavigation';
 import SearchMainContainer from '../component/search/SearchMainContainer';
+
+import config from '../config';
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -23,31 +21,23 @@ class IndexPage extends React.Component {
     const search = this.context.location.search;
 
     if (search && search.indexOf('citybikes') >= -1) {
-      this.context.executeAction(forceCitybikeState);
+      config.transportModes.citybike.defaultValue = true;
     }
   }
 
   resetToCleanState = () => {
     this.context.executeAction(clearDestination);
-    this.context.executeAction(unsetSelectedTime);
-    this.context.executeAction(reset);
   }
 
   render() {
     return (
-      <DefaultNavigation
-        className="front-page fullscreen"
-        disableBackButton
-        showDisruptionInfo
-        title={Config.title}
-        showLogo={Config.useNavigationLogo}
-      >
+      <div className="front-page fullscreen">
         <MapWithTracking showStops>
           <SearchMainContainer />
         </MapWithTracking>
         <FrontPagePanel />
         <FeedbackPanel />
-      </DefaultNavigation>
+      </div>
     );
   }
 }

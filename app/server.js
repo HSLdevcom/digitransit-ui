@@ -4,8 +4,10 @@ import ReactDOM from 'react-dom/server';
 
 // Routing and state handling
 import match from 'react-router/lib/match';
-import RouterContext from 'react-router/lib/RouterContext';
+import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
+import Relay from 'react-relay';
+import IsomorphicRouter from 'isomorphic-relay-router';
 import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
 
 // Libraries
@@ -38,6 +40,8 @@ const appRoot = `${process.cwd()}/`;
 
 const svgSprite = fs.readFileSync(`${appRoot}static/svg-sprite.${config.CONFIG}.svg`).toString();
 const geolocationStarter = fs.readFileSync(`${appRoot}static/geolocation.js`).toString();
+
+const networkLayer = new Relay.DefaultNetworkLayer(`${config.URL.OTP}index/graphql`);
 
 let stats;
 let manifest;
@@ -126,27 +130,22 @@ function getScripts(req) {
 }
 
 function getContent(context, renderProps, locale, userAgent) {
-  // Ugly way to see if this is a Relay RootComponent
-  // until Relay gets server rendering capabilities
-  if (renderProps.components.some(i => i instanceof Object && i.hasFragment)) {
-    return '';
-  }
-
   // TODO: This should be moved to a place to coexist with similar content from client.js
   return ReactDOM.renderToString(
     <FluxibleComponent context={context.getComponentContext()}>
       <IntlProvider locale={locale} messages={translations[locale]}>
         <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent })}>
-          <RouterContext {...renderProps} />
+          {IsomorphicRouter.render(renderProps)}
         </MuiThemeProvider>
       </IntlProvider>
     </FluxibleComponent>
   );
 }
 
-function getHtml(context, renderProps, locale, polyfills, req) {
-  // Render content in order to create required meta-tags using react-hemet
-  getContent(context, renderProps, locale, req.headers['user-agent']);
+function getHtml(context, locale, [polyfills, relayData], req) {
+  // eslint-disable-next-line no-unused-vars
+  const content = getContent(context, relayData.props, locale, req.headers['user-agent']);
+  const head = Helmet.rewind();
 
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
@@ -154,14 +153,16 @@ function getHtml(context, renderProps, locale, polyfills, req) {
       svgSprite={svgSprite}
       content=""
       // TODO: temporarely disable server-side rendering in order to fix issue with having different
-      // content from the server, which breaks leaflet integration
-      // getContent(context, renderProps, locale, req.headers['user-agent'])
+      // content from the server, which breaks leaflet integration. Should be:
+      // content={content}
       polyfill={polyfills}
       state={`window.state=${serialize(application.dehydrate(context))};`}
       locale={locale} scripts={getScripts(req)}
       fonts={config.URL.FONT}
       config={`window.config=${JSON.stringify(config)}`}
       geolocationStarter={geolocationStarter}
+      relayData={relayData.data}
+      head={head}
     />
   );
 }
@@ -197,16 +198,19 @@ export default function (req, res, next) {
     } else if (!renderProps) {
       res.status(404).send('Not found');
     } else {
-      const promises = [getPolyfills(req.headers['user-agent'])];
+      const promises = [
+        getPolyfills(req.headers['user-agent']),
+        IsomorphicRouter.prepareData(renderProps, networkLayer),
+      ];
 
-      if (renderProps.components[1] && renderProps.components[1].loadAction) {
-        renderProps.components[1]
+      if (renderProps.routes[1] && renderProps.routes[1].loadAction) {
+        renderProps.routes[1]
           .loadAction(renderProps.params)
           .forEach(action => promises.push(context.executeAction(action[0], action[1])));
       }
 
       Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(context, renderProps, locale, results[0], req)}`)
+        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`)
       ).catch(err => {
         if (err) { next(err); }
       });

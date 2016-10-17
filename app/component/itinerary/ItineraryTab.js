@@ -1,10 +1,14 @@
 import React, { PropTypes } from 'react';
+import Relay from 'react-relay';
+import cx from 'classnames';
+
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
-import ItinerarySummary from './itinerary-summary';
+import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './time-frame';
 import config from '../../config';
 import ItineraryLegs from './legs/ItineraryLegs';
+import CityBikeMarker from '../map/non-tile-layer/CityBikeMarker';
 
 const routeInformation = config.showRouteInformation && <RouteInformation />;
 
@@ -13,6 +17,10 @@ class ItineraryTab extends React.Component {
     itinerary: PropTypes.object.isRequired,
     focus: PropTypes.func.isRequired,
   };
+
+  static contextTypes = {
+    breakpoint: React.PropTypes.string.isRequired,
+  }
 
   state = {
     fullscreen: false,
@@ -23,8 +31,8 @@ class ItineraryTab extends React.Component {
   shouldComponentUpdate = () => false
 
   getState = () => ({
-    lat: this.state.lat,
-    lon: this.state.lon,
+    lat: this.state.lat || this.props.itinerary.legs[0].from.lat,
+    lon: this.state.lon || this.props.itinerary.legs[0].from.lon,
   });
 
   handleFocus = (lat, lon) => {
@@ -39,15 +47,19 @@ class ItineraryTab extends React.Component {
   render() {
     return (
       <div className="itinerary-tab">
-        <ItinerarySummary itinerary={this.props.itinerary}>
-          <TimeFrame
-            startTime={this.props.itinerary.startTime}
-            endTime={this.props.itinerary.endTime}
-            className="timeframe--itinerary-summary"
-          />
-        </ItinerarySummary>
+        {this.context.breakpoint !== 'large' &&
+          <ItinerarySummary itinerary={this.props.itinerary}>
+            <TimeFrame
+              startTime={this.props.itinerary.startTime}
+              endTime={this.props.itinerary.endTime}
+              className="timeframe--itinerary-summary"
+            />
+          </ItinerarySummary>
+        }
         <div className="momentum-scroll itinerary-tabs__scroll">
-          <div className="itinerary-main">
+          <div
+            className={cx('itinerary-main', { 'bp-large': this.context.breakpoint === 'large' })}
+          >
             <ItineraryLegs
               itinerary={this.props.itinerary}
               focusMap={this.handleFocus}
@@ -62,4 +74,85 @@ class ItineraryTab extends React.Component {
   }
 }
 
-export default ItineraryTab;
+export default Relay.createContainer(ItineraryTab, {
+  fragments: {
+    itinerary: () => Relay.QL`
+      fragment on Itinerary {
+        walkDistance
+        duration
+        startTime
+        endTime
+        fares {
+          type
+          currency
+          cents
+        }
+        legs {
+          mode
+          agency {
+            name
+          }
+          from {
+            lat
+            lon
+            name
+            vertexType
+            bikeRentalStation {
+              ${CityBikeMarker.getFragment('station')}
+            }
+            stop {
+              gtfsId
+              code
+              platformCode
+            }
+          }
+          to {
+            lat
+            lon
+            name
+            vertexType
+            bikeRentalStation {
+              ${CityBikeMarker.getFragment('station')}
+            }
+            stop {
+              gtfsId
+              code
+              platformCode
+            }
+          }
+          legGeometry {
+            length
+            points
+          }
+          intermediateStops {
+            gtfsId
+            lat
+            lon
+            name
+            code
+            platformCode
+          }
+          realTime
+          transitLeg
+          rentedBike
+          startTime
+          endTime
+          mode
+          distance
+          duration
+          route {
+            shortName
+            gtfsId
+          }
+          trip {
+            gtfsId
+            tripHeadsign
+            pattern {
+              code
+            }
+          }
+        }
+      }
+    `,
+  },
+});

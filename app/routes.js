@@ -2,14 +2,21 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
+import ContainerDimensions from 'react-container-dimensions';
+import withProps from 'recompose/withProps';
+import { FormattedMessage } from 'react-intl';
+
+import omitBy from 'lodash/omitBy';
+import isNil from 'lodash/isNil';
+
+import moment from 'moment';
 
 // React pages
 import IndexPage from './page/IndexPage';
-import ItineraryPage from './page/ItineraryPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
-import LoadingPage from './page/loading';
+import LoadingPage from './page/LoadingPage';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
@@ -22,8 +29,20 @@ import RoutePatternSelectContainer from './component/route/RoutePatternSelectCon
 import RouteScheduleContainer from './component/route/RouteScheduleContainer';
 import PatternStopsContainer from './component/route/PatternStopsContainer';
 import TripStopsContainer from './component/trip/TripStopsContainer';
+import RouteTitle from './component/route/RouteTitle';
+import StopPageMap from './component/stop/StopPageMap';
+import StopPageHeader from './component/stop/StopPageHeader';
+import StopPageMeta from './component/stop/StopPageMeta';
+import SummaryTitle from './component/summary/SummaryTitle';
+import ItineraryTab from './component/itinerary/ItineraryTab';
+import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
+
+import { storeEndpoint } from './action/EndpointActions';
+import { otpToLocation } from './util/otp-strings';
 
 import TopLevel from './component/TopLevel';
+
+import config from './config';
 
 const StopQueries = {
   stop: () => Relay.QL`
@@ -65,51 +84,153 @@ const terminalQueries = {
   `,
 };
 
+const planQueries = {
+  plan: (Component, variables) => Relay.QL`
+    query {
+      viewer {
+        ${Component.getFragment('plan', variables)}
+      }
+    }`,
+};
+
+const preparePlanParams = (
+    { from, to },
+    { location: { query: {
+      numItineraries,
+      time,
+      arriveBy,
+      walkReluctance,
+      walkSpeed,
+      walkBoardCost,
+      minTransferTime,
+      modes,
+      accessibilityOption,
+    } } }
+  ) => omitBy({
+    fromPlace: from,
+    toPlace: to,
+    from: otpToLocation(from),
+    to: otpToLocation(to),
+    numItineraries: numItineraries ? Number(numItineraries) : undefined,
+    modes: modes ? modes
+      .split(',')
+      .sort()
+      .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+      .join(',')
+    : undefined,
+    date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
+    time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
+    walkReluctance: walkReluctance ? Number(walkReluctance) : undefined,
+    walkBoardCost: walkBoardCost ? Number(walkBoardCost) : undefined,
+    minTransferTime: minTransferTime ? Number(minTransferTime) : undefined,
+    walkSpeed: walkSpeed ? Number(walkSpeed) : undefined,
+    arriveBy: arriveBy ? arriveBy === 'true' : undefined,
+    maxWalkDistance: modes && modes.split(',').includes('BICYCLE') ?
+      config.maxWalkDistance : config.maxBikingDistance,
+    wheelchair: accessibilityOption === '1',
+    preferred: { agencies: config.preferredAgency || '' },
+    disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
+  }, isNil);
+
+const SummaryPageWrapper = ({ props, routerProps }) => (props ?
+  <SummaryPage {...props} /> :
+  <SummaryPage
+    {...routerProps}
+    {...preparePlanParams(routerProps.params, routerProps)}
+    plan={{ plan: { } }}
+    loading
+  />
+);
+
+SummaryPageWrapper.propTypes = {
+  props: React.PropTypes.object.isRequired,
+  routerProps: React.PropTypes.object.isRequired,
+};
+
+const StopTitle = withProps({
+  id: 'stop-page.title-short',
+  defaultMessage: 'Stop',
+})(FormattedMessage);
+
+const TerminalTitle = withProps({
+  id: 'terminal-page.title-short',
+  defaultMessage: 'Terminal',
+})(FormattedMessage);
+
 const routes = (
-  <Route path="/" component={TopLevel}>
-    <IndexRoute component={splashOrComponent(IndexPage)} />
+  <Route
+    path="/"
+    component={(props) => (typeof window !== 'undefined' ?
+      <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
+      <TopLevel {...props} />
+    )}
+  >
+    <IndexRoute
+      topBarOptions={{
+        disableBackButton: true,
+        showDisruptionInfo: true,
+        showLogo: config.useNavigationLogo,
+      }}
+      components={{
+        title: () => <span>{config.title}</span>,
+        content: splashOrComponent(IndexPage),
+      }}
+    />
     <Route path="pysakit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
-      <Route path=":stopId">
-        <IndexRoute
-          component={StopPage}
-          queries={StopQueries}
-          render={({ props }) => (props ? <StopPage {...props} /> : <LoadingPage />)}
-        />
-        <Route
-          path="kartta"
-          component={StopPage}
-          queries={StopQueries}
-          render={({ props }) => (props ? <StopPage {...props} fullscreenMap /> : <LoadingPage />)}
-        />
+      <Route
+        path=":stopId"
+        components={{
+          title: StopTitle,
+          header: StopPageHeader,
+          content: StopPage,
+          map: StopPageMap,
+          meta: StopPageMeta,
+        }}
+        queries={{
+          header: StopQueries,
+          content: StopQueries,
+          map: StopQueries,
+          meta: StopQueries,
+        }}
+        render={{
+          // eslint-disable-next-line react/prop-types
+          header: ({ props }) => (props ? <StopPageHeader {...props} /> : <LoadingPage />),
+          // eslint-disable-next-line react/prop-types
+          content: ({ props }) => (props ? <StopPage {...props} /> : false),
+        }}
+      >
+        <Route path="kartta" fullscreenMap />
         <Route path="info" component={Error404} />
       </Route>
     </Route>
     <Route path="terminaalit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all terminals*/}
-      <Route path=":terminalId">
-        <IndexRoute
-          component={StopPage}
-          queries={terminalQueries}
-          render={({ props }) => (props ? <StopPage {...props} isTerminal /> : <LoadingPage />)}
-        />
-        <Route
-          path="kartta"
-          component={StopPage}
-          queries={terminalQueries}
-          render={({ props }) => (
-            props ? <StopPage {...props} isTerminal fullscreenMap /> : <LoadingPage />
-          )}
-        />
+      <Route
+        path=":terminalId"
+        components={{
+          title: TerminalTitle,
+          header: StopPageHeader,
+          content: StopPage,
+          map: StopPageMap,
+          meta: StopPageMeta,
+        }}
+        queries={{
+          header: terminalQueries,
+          content: terminalQueries,
+          map: terminalQueries,
+          meta: terminalQueries,
+        }}
+      >
+        <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
     <Route path="linjat">
       <IndexRoute component={Error404} />
       <Route
         path=":routeId"
-        component={RoutePage}
-        queries={RouteQueries}
-        render={({ props }) => (props ? <RoutePage {...props} /> : <LoadingPage />)}
+        components={{ title: RouteTitle, content: RoutePage }}
+        queries={{ title: RouteQueries, content: RouteQueries }}
       >
         <IndexRedirect to="pysakit" />
         <Route path="pysakit" component={RoutePatternSelectContainer} queries={RouteQueries}>
@@ -140,14 +261,34 @@ const routes = (
         <Route path="hairiot" component={RouteAlertsContainer} queries={RouteQueries} />
       </Route>
     </Route>
-    <Route path="reitti/:from/:to" component={SummaryPage} />
-    <Route path="reitti/:from/:to/:hash" component={ItineraryPage} />
-    <Route path="reitti/:from/:to/:hash/navigoi" component={Error404} />
+    <Route
+      path="reitti/:from/:to"
+      components={{
+        title: SummaryTitle,
+        content: SummaryPage,
+      }}
+      queries={{ content: planQueries }}
+      prepareParams={preparePlanParams}
+      render={{ content: SummaryPageWrapper }}
+      loadAction={(params) => [
+        [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
+        [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
+      ]}
+    >
+      <Route path=":hash" components={{ content: ItineraryTab, map: ItineraryPageMap }}>
+        <Route path="kartta" fullscreenMap />
+      </Route>
+    </Route>
     <Route path="styleguide" component={StyleGuidelines} />
     <Route path="styleguide/component/:componentName" component={StyleGuidelines} />
     <Route path="suosikki/uusi" component={AddFavouritePage} />
     <Route path="suosikki/muokkaa/:id" component={AddFavouritePage} />
-    <Route path="tietoja-palvelusta" name="about" component={AboutPage} />
+    <Route
+      path="tietoja-palvelusta"
+      components={{
+        title: () => <span>{config.title}</span>,
+        content: AboutPage }}
+    />
     {/* Main menu does not open without this in mock mode? */}
     <Route path="/?mock" name="mockIndex" component={IndexPage} />
   </Route>

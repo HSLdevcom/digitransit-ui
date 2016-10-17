@@ -11,8 +11,8 @@ import Departure from './Departure';
 const mergeDepartures = departures =>
   Array.prototype.concat.apply([], departures).sort((a, b) => a.stoptime - b.stoptime);
 
-const asDepartures = stoptimes =>
-  stoptimes.map(pattern =>
+const asDepartures = stoptimes => (
+  !stoptimes ? [] : stoptimes.map(pattern =>
     pattern.stoptimes.map(stoptime => {
       const isArrival = stoptime.pickupType === 'NONE';
       const canceled = stoptime.realtimeState === 'CANCELED' ||
@@ -37,7 +37,8 @@ const asDepartures = stoptimes =>
         trip: { gtfsId: stoptime.trip.gtfsId },
       };
     })
-  );
+  )
+);
 
 class DepartureListContainer extends Component {
   static propTypes = {

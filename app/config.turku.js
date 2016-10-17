@@ -135,23 +135,4 @@ export default {
     },
   }],
 
-  /* eslint-enable max-len*/
-  desktopWrapperText: `
-    <h2>
-      Föli<sup>BETA</sup>
-    </h2>
-    <h1>Kokeile uutta Turun seudun reittiopasta!</h1>
-    Fölin testiversio tuo mukanaan liudan kauan
-    kaivattuja parannuksia:
-    <ul>
-      <li>Reaaliaikatiedot kaikista liikennevälineistä</li>
-      <li>Entistä parempi kartta</li>
-      <li>Ennakoiva haku</li>
-      <li>Näet lähialueesi lähdöt helposti</li>
-      <li>Avoimet rajapinnat</li>
-    </ul>
-    Uusi Reittiopas on suunniteltu erityisesti mobiililaitteet huomioiden, mutta se tulee toki
-    toimimaan erinomaisesti myös tietokoneella. Voit tutustua jo nyt mobiilioptimoituun
-    versioon. Valmista on loppuvuodesta 2016.
-  `,
 };
