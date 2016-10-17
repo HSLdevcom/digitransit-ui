@@ -159,6 +159,9 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     raven: React.PropTypes.object,
   });
 
+  // force init of ServiceStore so that mock get's a chance to initialize
+  context.getComponentContext().getStore('ServiceStore');
+
   ReactDOM.render(
     <ContextProvider translations={translations} context={context.getComponentContext()}>
       <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
