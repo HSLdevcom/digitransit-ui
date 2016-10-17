@@ -27,16 +27,18 @@ const NAVI_LINKS = (() => {
 const AppBarLarge = ({ titleClicked }) =>
   <div>
     <div
-      className="top-bar row" style={{ maxWidth: '100%',
+      className="top-bar row" style={{ height: '60px',
+      maxWidth: '100%',
       zIndex: '803',
       boxShadow: '2px 0px 2px gray' }}
     >
       <div className="columns small-3" style={{ textAlign: 'left' }}>
-        <img alt="LOGO" className="navi-logo" src={config.logo} height="30px" />
+        <img alt="LOGO" className="navi-logo" src={config.logo} />
       </div>
       <div className="columns small-5">
         <Tabs
           value="a"
+          className="app-bar-tabs"
           inkBarStyle={{ height: 4, marginTop: -4 }}
         >
           <Tab label={config.title} value="a" style={{ ...tabStyle }} onActive={titleClicked} />

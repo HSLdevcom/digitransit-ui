@@ -58,9 +58,10 @@ $content-background-color: $background-color;
     max-width: 170px;
   }
   .navi-logo {
-    margin-top:13px;
-    margin-bottom:13px;
-    max-height:34px;
+    margin-top: 13px;
+    margin-bottom: 13px;
+    max-height: 34px;
+    min-width: 100px; //for ff
   }
   .hamburger-large {
     .main-menu-toggle {
@@ -76,6 +77,15 @@ $content-background-color: $background-color;
   }
 }
 
+.top-bar.pb-large {
+  height: 60px;
+}
+
+.app-bar-tabs {
+  > div:nth-child(1) {
+      height: 60px;
+  }
+}
 .lang-select {
   list-style: none;
   border-bottom: 1px solid #262626;
