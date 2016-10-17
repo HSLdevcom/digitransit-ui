@@ -28,7 +28,7 @@ class SearchMainContainer extends React.Component {
     modalIsOpen: false,
   };
 
-  componentWillMount = () => (
+  componentDidMount = () => (
     this.context.getStore('SearchStore').addChangeListener(this.onSearchChange)
   );
 
