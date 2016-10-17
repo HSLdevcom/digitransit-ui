@@ -210,8 +210,6 @@ const routes = (
         title: () => <span>{config.title}</span>,
         content: AboutPage }}
     />
-    {/* Main menu does not open without this in mock mode? */}
-    <Route path="/?mock" name="mockIndex" component={IndexPage} />
   </Route>
 );
 
