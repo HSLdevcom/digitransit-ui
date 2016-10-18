@@ -41,7 +41,7 @@ export default {
   stopsMinZoom: 14,
 
   colors: {
-    primary: '#fff',
+    primary: '#e8aa27',
   },
 
   logo: '/img/foli-logo.png',

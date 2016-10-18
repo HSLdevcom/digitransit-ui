@@ -48,7 +48,7 @@ export default {
   stopsMinZoom: 14,
 
   colors: {
-    primary: '#fff',
+    primary: '#007ac9',
   },
 
   logo: '/img/hsl-logo.svg',
