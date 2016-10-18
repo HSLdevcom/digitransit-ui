@@ -2,8 +2,8 @@
  "name": "Turku Digitransit",
  "short_name": "Digitransit",
  "display": "standalone",
- "background_color": "#5c4696",
- "theme_color": "#5c4696",
+ "background_color": "#e8aa27",
+ "theme_color": "#e8aa27",
  "start_url": "/",
  "lang": "fi-FI",
  "icons": [
