@@ -4,6 +4,7 @@ import range from 'lodash/range';
 import xor from 'lodash/xor';
 import without from 'lodash/without';
 
+import Icon from '../icon/icon';
 import Slider from '../util/Slider';
 import ToggleButton from '../util/ToggleButton';
 import ModeFilter from '../util/ModeFilter';
@@ -24,6 +25,7 @@ class CustomizeSearch extends React.Component {
 
   static propTypes = {
     open: React.PropTypes.bool,
+    onToggleClick: React.PropTypes.func,
     params: React.PropTypes.shape({
       from: React.PropTypes.string,
       to: React.PropTypes.string,
@@ -276,54 +278,73 @@ class CustomizeSearch extends React.Component {
 
   render() {
     return (
-      <div className="customize-search">
-        <section className="offcanvas-section">
-          <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
-          <div className="row btn-bar">
-            <ToggleButton
-              icon="walk"
-              onBtnClick={() => this.toggleStreetMode('walk')}
-              state={this.getMode('walk')}
-              checkedClass="walk"
-              className="first-btn small-4"
-            />
-            <ToggleButton
-              icon="bicycle-withoutBox"
-              onBtnClick={() => this.toggleStreetMode('bicycle')}
-              state={this.getMode('bicycle')}
-              checkedClass="bicycle"
-              className=" small-4"
-            />
-            <ToggleButton
-              icon="car-withoutBox"
-              onBtnClick={() => this.toggleStreetMode('car')}
-              state={this.getMode('car')}
-              checkedClass="car" className="last-btn small-4"
-            />
+      <div
+        className="customize-search-wrapper"
+        // Clicks to the transparent area and close arrow should close the offcanvas
+        onClick={this.props.onToggleClick}
+      >
+        <div className="offcanvas-close">
+          <div className="action-arrow" key="arrow">
+            <Icon img="icon-icon_arrow-collapse--right" />
           </div>
-        </section>
+        </div>
+        <div
+          className="customize-search"
+          // Clicks musn't bubble to prevent wrapper from closing the offcanvas
+          onClick={e => e.stopPropagation()}
+        >
+          <section className="offcanvas-section">
+            <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
+            <div className="row btn-bar">
+              <ToggleButton
+                icon="walk"
+                onBtnClick={() => this.toggleStreetMode('walk')}
+                state={this.getMode('walk')}
+                checkedClass="walk"
+                className="first-btn small-4"
+              />
+              <ToggleButton
+                icon="bicycle-withoutBox"
+                onBtnClick={() => this.toggleStreetMode('bicycle')}
+                state={this.getMode('bicycle')}
+                checkedClass="bicycle"
+                className=" small-4"
+              />
+              <ToggleButton
+                icon="car-withoutBox"
+                onBtnClick={() => this.toggleStreetMode('car')}
+                state={this.getMode('car')}
+                checkedClass="car" className="last-btn small-4"
+              />
+            </div>
+          </section>
 
-        {config.customizeSearch.walkReluctance.available ? this.getWalkReluctanceSlider() : null}
-        {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
+          {config.customizeSearch.walkReluctance.available ? this.getWalkReluctanceSlider() : null}
+          {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
 
-        <section className="offcanvas-section">
-          <h4><FormattedMessage id="using-modes" defaultMessage="Using" /></h4>
-          <ModeFilter
-            action={this.actions}
-            buttonClass="mode-icon"
-            selectedModes={
-              Object.keys(config.transportModes)
-                .filter(mode => config.transportModes[mode].availableForSelection)
-                .filter(mode => this.getMode(mode))
-                .map(mode => mode.toUpperCase())
-            }
-          />
-        </section>
+          <section className="offcanvas-section">
+            <hr />
+          </section>
 
-        {config.customizeSearch.walkBoardCost.available ? this.getWalkBoardCostSlider() : null}
-        {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
-        {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
-        {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
+          <section className="offcanvas-section">
+            <h4><FormattedMessage id="using-modes" defaultMessage="Using" /></h4>
+            <ModeFilter
+              action={this.actions}
+              buttonClass="mode-icon"
+              selectedModes={
+                Object.keys(config.transportModes)
+                  .filter(mode => config.transportModes[mode].availableForSelection)
+                  .filter(mode => this.getMode(mode))
+                  .map(mode => mode.toUpperCase())
+              }
+            />
+          </section>
+
+          {config.customizeSearch.walkBoardCost.available ? this.getWalkBoardCostSlider() : null}
+          {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
+          {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
+          {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
+        </div>
       </div>);
   }
 }
