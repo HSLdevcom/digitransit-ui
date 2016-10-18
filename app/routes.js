@@ -167,7 +167,7 @@ const routes = (
     )}
   >
     <Route
-      path="/" components={{
+      path="/" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
         content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
         ,
