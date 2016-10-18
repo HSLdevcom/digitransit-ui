@@ -43,7 +43,7 @@ export default {
   logo: '/img/jojo-logo.png',
 
   colors: {
-    primary: '#5c4696',
+    primary: '#fff',
   },
 
   socialMedia: {
