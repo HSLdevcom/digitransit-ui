@@ -5,8 +5,15 @@
 }
 
 .stop-page.header {
-  line-height: 1.5;
+  line-height: 1.67;
   background-color: $background-color;
+  @include font-bold;
+  & > .h3 {
+    font-size: 24px;
+  }
+  & .sub-header-h4 {
+    font-size: 18px;
+  }
 }
 
 .stop-page-content > .departure-list {
