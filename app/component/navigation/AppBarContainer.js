@@ -4,9 +4,9 @@ import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
 
 
-const AppBarContainer = ({ breakpoint, router, ...args }) =>
+const AppBarContainer = ({ breakpoint, router, disableBackButton, ...args }) =>
   ((breakpoint !== 'large' &&
-    <AppBarSmall {...args} />) || <AppBarLarge
+    <AppBarSmall disableBackButton={disableBackButton} {...args} />) || <AppBarLarge
       {...args} titleClicked={() => router.push('/lahellasi')}
     />
 );
