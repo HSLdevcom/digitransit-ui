@@ -12,7 +12,7 @@ export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
         {hasChanges ?
           <Icon img="icon-icon_settings-adjusted" /> : <Icon img="icon-icon_settings" />}
         {hasChanges ? <Icon img="icon-icon_attention" className="super-icon" /> : null}
-      </div>
+      </div><span>Tarkenna</span>
     </div>
   );
 }
