@@ -34,7 +34,7 @@ class StopCardHeader extends React.Component {
   }
 }
 
-PureStopCardHeader.propTypes = {
+StopCardHeader.propTypes = {
   stop: React.PropTypes.object,
   distance: React.PropTypes.number,
   className: React.PropTypes.string,
