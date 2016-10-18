@@ -2,8 +2,8 @@
  "name": "Digitransit Beta",
  "short_name": "Digitransit",
  "display": "standalone",
- "background_color": "#ffffff",
- "theme_color": "#ffffff",
+ "background_color": "#00afff",
+ "theme_color": "#00afff",
  "lang": "fi-FI",
  "start_url": "/",
  "icons": [
