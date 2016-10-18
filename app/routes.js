@@ -161,7 +161,10 @@ const TerminalTitle = withProps({
 
 const routes = (
   <Route
-    component={(props) => <ContainerDimensions><TopLevel {...props} /></ContainerDimensions>}
+    component={(props) => (typeof window !== 'undefined' ?
+      <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
+      <TopLevel {...props} />
+    )}
   >
     <Route
       path="/" components={{
