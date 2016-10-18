@@ -46,8 +46,8 @@ import Availability from '../component/card/Availability.js';
 import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
 import { DepartureRow } from '../component/departure/DepartureRowContainer';
 import { BicycleRentalStationRow } from '../component/departure/BicycleRentalStationRowContainer';
-import { PureStopPageHeader } from '../component/stop/StopPageHeader';
-import { PureStopCardHeader } from '../component/stop-cards/StopCardHeader';
+import StopPageHeader from '../component/stop/StopPageHeader';
+import StopCardHeader from '../component/stop-cards/StopCardHeader';
 import SplitBars from '../component/util/SplitBars';
 import Labeled from '../component/util/Labeled';
 import Centered from '../component/util/Centered';
@@ -104,8 +104,8 @@ class StyleGuidelinesPage extends React.Component {
     RouteStop,
     DepartureRow,
     BicycleRentalStationRow,
-    PureStopPageHeader,
-    PureStopCardHeader,
+    StopPageHeader,
+    StopCardHeader,
     SplitBars,
     Labeled,
     Centered,

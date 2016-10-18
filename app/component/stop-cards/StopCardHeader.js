@@ -1,11 +1,10 @@
 import React from 'react';
-import Relay from 'react-relay';
 import CardHeader from '../card/CardHeader';
 import config from '../../config';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import InfoIcon from '../icon/InfoIcon';
 
-class PureStopCardHeader extends React.Component {
+class StopCardHeader extends React.Component {
   getDescription() {
     let description = '';
 
@@ -35,7 +34,7 @@ class PureStopCardHeader extends React.Component {
   }
 }
 
-PureStopCardHeader.propTypes = {
+StopCardHeader.propTypes = {
   stop: React.PropTypes.object,
   distance: React.PropTypes.number,
   className: React.PropTypes.string,
@@ -52,30 +51,17 @@ const exampleStop = {
 
 const exampleIcons = [<InfoIcon stop={exampleStop} />];
 
-PureStopCardHeader.displayName = 'PureStopCardHeader';
+StopCardHeader.displayName = 'StopCardHeader';
 
-PureStopCardHeader.description = (
+StopCardHeader.description = (
   <div>
     <ComponentUsageExample description="basic">
-      <PureStopCardHeader stop={exampleStop} distance={345.6} />
+      <StopCardHeader stop={exampleStop} distance={345.6} />
     </ComponentUsageExample>
     <ComponentUsageExample description="with icons">
-      <PureStopCardHeader stop={exampleStop} distance={345.6} icons={exampleIcons} />
+      <StopCardHeader stop={exampleStop} distance={345.6} icons={exampleIcons} />
     </ComponentUsageExample>
   </div>
 );
 
-export { PureStopCardHeader };
-
-export default Relay.createContainer(PureStopCardHeader, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        gtfsId
-        name
-        code
-        desc
-      }
-    `,
-  },
-});
+export default StopCardHeader;

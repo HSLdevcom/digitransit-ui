@@ -1,12 +1,10 @@
 import React from 'react';
-import Relay from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
 import compose from 'recompose/compose';
 import { FormattedMessage } from 'react-intl';
 
-import StopCardHeader from '../stop-cards/StopCardHeader';
+import StopCardHeaderContainer from '../stop-cards/StopCardHeaderContainer';
 import { addFavouriteStop } from '../../action/FavouriteActions';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import Labeled from '../util/Labeled';
@@ -14,7 +12,7 @@ import Centered from '../util/Centered';
 import InfoIcon from '../icon/InfoIcon';
 import Favourite from '../favourites/Favourite';
 
-const PureStopPageHeader = compose(
+const StopPageHeader = compose(
   getContext({ executeAction: React.PropTypes.func.isRequired,
                breakpoint: React.PropTypes.string.isRequired }),
   mapProps((props) => ({
@@ -26,10 +24,7 @@ const PureStopPageHeader = compose(
         label={<FormattedMessage id="extra-info" defaultMessage="More info" />}
         showLabel={props.breakpoint === 'large'}
       >
-        <InfoIcon
-          key="stop"
-          stop={props.stop}
-        />
+        <InfoIcon stop={props.stop} />
       </Labeled>,
       <Centered>
         <Favourite
@@ -42,7 +37,7 @@ const PureStopPageHeader = compose(
       </Centered>,
     ],
   }))
-)(StopCardHeader);
+)(StopCardHeaderContainer);
 
 const exampleStop = {
   code: '4611',
@@ -51,30 +46,14 @@ const exampleStop = {
   desc: 'Kaivonkatsojantie',
 };
 
-PureStopPageHeader.displayName = 'PureStopPageHeader';
+StopPageHeader.displayName = 'StopPageHeader';
 
-PureStopPageHeader.description = (
+StopPageHeader.description = (
   <div>
     <ComponentUsageExample description="basic">
-      <PureStopPageHeader stop={exampleStop} params={{ stopId: 123 }} />
+      <StopPageHeader stop={exampleStop} params={{ stopId: 123 }} />
     </ComponentUsageExample>
   </div>
 );
 
-const StopPageHeaderContainer = Relay.createContainer(PureStopPageHeader, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        ${StopCardHeader.getFragment('stop')}
-      }
-    `,
-  },
-});
-
-export { PureStopPageHeader };
-
-export default connectToStores(StopPageHeaderContainer, ['FavouriteStopsStore'],
-  ({ getStore }, { params }) => ({
-    favourite: getStore('FavouriteStopsStore').isFavourite(params.stopId),
-  })
-);
+export default StopPageHeader;

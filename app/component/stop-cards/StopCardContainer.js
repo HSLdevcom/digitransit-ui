@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import StopCardHeader from './StopCardHeader';
+import StopCardHeaderContainer from './StopCardHeaderContainer';
 import DepartureListContainer from '../departure/DepartureListContainer';
 import StopCard from './StopCard';
 import { addFavouriteStop } from '../../action/FavouriteActions';
@@ -44,7 +44,7 @@ export default Relay.createContainer(StopCardContainer, {
         stoptimes: stoptimesForServiceDate(date: $date) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
-        ${StopCardHeader.getFragment('stop')}
+        ${StopCardHeaderContainer.getFragment('stop')}
       }
     `,
   },

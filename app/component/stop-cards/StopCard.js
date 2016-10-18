@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import StopCardHeader from './StopCardHeader';
+import StopCardHeaderContainer from './StopCardHeaderContainer';
 import Card from '../card/card';
 
 class StopCard extends React.Component {
@@ -13,7 +13,7 @@ class StopCard extends React.Component {
     return (
       <Link to={`/${prefix}/${this.props.stop.gtfsId}`} className="no-decoration">
         <Card className={this.props.className}>
-          <StopCardHeader
+          <StopCardHeaderContainer
             stop={this.props.stop}
             icons={this.props.icons}
             distance={this.props.distance}

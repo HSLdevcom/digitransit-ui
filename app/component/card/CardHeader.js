@@ -39,7 +39,7 @@ const CardHeader = ({
     </div>
   </div>);
 
-const exampleIcons = [<Favourite favourite={false} />];
+const exampleIcons = [<Favourite favourite={false} addFavourite={() => {}} />];
 
 CardHeader.description = (
   <div>
