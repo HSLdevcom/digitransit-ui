@@ -278,7 +278,7 @@ class CustomizeSearch extends React.Component {
     return (
       <div className="customize-search">
         <section className="offcanvas-section">
-          <h4><FormattedMessage id='main-mode' defaultMessage="I'm travelling by" /></h4>
+          <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
           <div className="row btn-bar">
             <ToggleButton
               icon="walk"
@@ -307,7 +307,7 @@ class CustomizeSearch extends React.Component {
         {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
 
         <section className="offcanvas-section">
-          <h4><FormattedMessage id='using-modes' defaultMessage='Using' /></h4>
+          <h4><FormattedMessage id="using-modes" defaultMessage="Using" /></h4>
           <ModeFilter
             action={this.actions}
             buttonClass="mode-icon"
