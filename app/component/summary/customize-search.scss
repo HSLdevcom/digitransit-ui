@@ -26,6 +26,10 @@
     height:100%;
     overflow-y: auto;
 
+    h4, .sub-header-h5 {
+      color: $medium-gray;
+    }
+
     hr {
       opacity: 0.1;
       color: #ffffff;
