@@ -1,35 +1,34 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
 import range from 'lodash/range';
+import xor from 'lodash/xor';
+import without from 'lodash/without';
 
 import Slider from '../util/Slider';
 import ToggleButton from '../util/ToggleButton';
 import ModeFilter from '../util/ModeFilter';
-import * as ItinerarySearchActions from '../../action/ItinerarySearchActions';
 import Select from '../util/select';
 import config from '../../config';
 
 class CustomizeSearch extends React.Component {
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    router: React.PropTypes.shape({
+      replace: React.PropTypes.func.isRequired,
+    }).isRequired,
+    location: React.PropTypes.shape({
+      query: React.PropTypes.object.isRequired,
+    }).isRequired,
   };
 
   static propTypes = {
     open: React.PropTypes.bool,
+    params: React.PropTypes.shape({
+      from: React.PropTypes.string,
+      to: React.PropTypes.string,
+    }).isRequired,
   };
-
-  componentDidMount() {
-    return this.context.getStore('ItinerarySearchStore').addChangeListener(this.onChange);
-  }
-
-  componentWillUnmount() {
-    return this.context.getStore('ItinerarySearchStore').removeChangeListener(this.onChange);
-  }
-
-  onChange = () => this.forceUpdate()
 
   /*
       This function is used to map our desired min, max, and default values to a standard
@@ -61,9 +60,10 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Walking',
         })}
         defaultValue={10}
-        onSliderChange={e =>
-          this.context.executeAction(
-            ItinerarySearchActions.setWalkReluctance, walkReluctanceSliderValues[e.target.value])}
+        onSliderChange={e => this.updateSettings(
+          'walkReluctance',
+          walkReluctanceSliderValues[e.target.value]
+        )}
         min={0}
         max={20}
         step={1}
@@ -93,10 +93,10 @@ class CustomizeSearch extends React.Component {
             defaultMessage: 'Transfers',
           })}
           defaultValue={10}
-          onSliderChange={e => {
-            this.context.executeAction(
-              ItinerarySearchActions.setWalkBoardCost, walkBoardCostSliderValues[e.target.value]);
-          }}
+          onSliderChange={e => this.updateSettings(
+            'walkBoardCost',
+            walkBoardCostSliderValues[e.target.value]
+          )}
           min={0}
           max={20}
           step={1}
@@ -126,12 +126,10 @@ class CustomizeSearch extends React.Component {
             defaultMessage: 'Transfer margin',
           })}
           defaultValue={10}
-          onSliderChange={e => {
-            this.context.executeAction(
-              ItinerarySearchActions.setMinTransferTime,
-              transferMarginSliderValues[e.target.value]
-            );
-          }}
+          onSliderChange={e => this.updateSettings(
+            'minTransferTime',
+            transferMarginSliderValues[e.target.value]
+          )}
           min={0}
           max={20}
           step={1}
@@ -160,10 +158,10 @@ class CustomizeSearch extends React.Component {
             defaultMessage: 'Walking speed',
           })}
           defaultValue={10}
-          onSliderChange={e => {
-            this.context.executeAction(
-              ItinerarySearchActions.setWalkSpeed, walkingSpeedSliderValues[e.target.value]);
-          }}
+          onSliderChange={e => this.updateSettings(
+            'walkSpeed',
+            walkingSpeedSliderValues[e.target.value]
+          )}
           min={0}
           max={20}
           step={1}
@@ -187,11 +185,12 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Zones',
         })}
         name="ticket"
-        selected={this.context.getStore('ItinerarySearchStore').getSelectedTicketOption()}
-        options={this.context.getStore('ItinerarySearchStore').getTicketOptions()}
-        onSelectChange={e => {
-          this.context.executeAction(ItinerarySearchActions.setTicketOption, e.target.value);
-        }}
+        selected={this.context.location.query.ticketOption || '0'}
+        options={config.ticketOptions}
+        onSelectChange={e => this.updateSettings(
+          'ticketOption',
+          e.target.value
+        )}
       />
     </section>);
 
@@ -203,46 +202,113 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Accessibility',
         })}
         name="accessible"
-        selected={this.context.getStore('ItinerarySearchStore').getSelectedAccessibilityOption()}
-        options={this.context.getStore('ItinerarySearchStore').getAccessibilityOptions()}
-        onSelectChange={e => {
-          this.context.executeAction(ItinerarySearchActions.setAccessibilityOption, e.target.value);
-        }}
+        selected={this.context.location.query.accessibilityOption || '0'}
+        options={config.accessibilityOptions}
+        onSelectChange={e => this.updateSettings(
+          'accessibilityOption',
+          e.target.value
+        )}
       />
     </section>);
+
+  getModes() {
+    if (this.context.location.query.modes) {
+      return decodeURI(this.context.location.query.modes).split(',');
+    }
+    return this.getDefaultModes();
+  }
+
+  getMode(mode) {
+    return this.getModes().includes(mode.toUpperCase());
+  }
+
+  getDefaultModes() {
+    return [
+      ...Object.keys(config.transportModes)
+        .filter(mode => config.transportModes[mode].defaultValue).map(mode => mode.toUpperCase()),
+      ...Object.keys(config.streetModes)
+        .filter(mode => config.streetModes[mode].defaultValue).map(mode => mode.toUpperCase()),
+    ];
+  }
+
+  updateSettings(name, value) {
+    this.context.router.replace({
+      ...this.context.location,
+      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+      query: { ...this.context.location.query, [name]: value },
+    });
+  }
+
+  toggleTransportMode(mode, otpMode) {
+    this.context.router.replace({
+      ...this.context.location,
+      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+      query: {
+        ...this.context.location.query,
+        modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
+      },
+    });
+  }
+
+  toggleStreetMode(mode) {
+    this.context.router.replace({
+      ...this.context.location,
+      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+      query: {
+        ...this.context.location.query,
+        modes:
+          without(this.getModes(), ...Object.keys(config.streetModes).map(m => m.toUpperCase()))
+            .concat(mode.toUpperCase())
+            .join(','),
+      },
+    });
+  }
+
+  actions = {
+    toggleBusState: () => this.toggleTransportMode('bus'),
+    toggleTramState: () => this.toggleTransportMode('tram'),
+    toggleRailState: () => this.toggleTransportMode('rail'),
+    toggleSubwayState: () => this.toggleTransportMode('subway'),
+    toggleFerryState: () => this.toggleTransportMode('ferry'),
+    toggleCitybikeState: () => this.toggleTransportMode('citybike'),
+    toggleAirplaneState: () => this.toggleTransportMode('airplane'),
+  }
 
   render() {
     return (
       <div className="customize-search">
         <section className="offcanvas-section">
           <ModeFilter
-            action={ItinerarySearchActions}
+            action={this.actions}
             buttonClass="mode-icon"
-            selectedModes={this.context.getStore('ItinerarySearchStore').getMode()}
+            selectedModes={
+              Object.keys(config.transportModes)
+                .filter(mode => config.transportModes[mode].availableForSelection)
+                .filter(mode => this.getMode(mode))
+                .map(mode => mode.toUpperCase())
+            }
           />
         </section>
         <section className="offcanvas-section">
           <div className="row btn-bar">
             <ToggleButton
               icon="walk"
-              onBtnClick={() =>
-                this.context.executeAction(ItinerarySearchActions.toggleWalkState)}
-              state={this.context.getStore('ItinerarySearchStore').getWalkState()}
+              onBtnClick={() => this.toggleStreetMode('walk')}
+              state={this.getMode('walk')}
               checkedClass="walk"
               className="first-btn small-4"
             />
             <ToggleButton
               icon="bicycle-withoutBox"
-              onBtnClick={() =>
-                this.context.executeAction(ItinerarySearchActions.toggleBicycleState)}
-              state={this.context.getStore('ItinerarySearchStore').getBicycleState()}
+              onBtnClick={() => this.toggleStreetMode('bicycle')}
+              state={this.getMode('bicycle')}
               checkedClass="bicycle"
               className=" small-4"
             />
             <ToggleButton
               icon="car-withoutBox"
-              onBtnClick={() => this.context.executeAction(ItinerarySearchActions.toggleCarState)}
-              state={this.context.getStore('ItinerarySearchStore').getCarState()}
+              onBtnClick={() => this.toggleStreetMode('car')}
+              state={this.getMode('car')}
               checkedClass="car" className="last-btn small-4"
             />
           </div>

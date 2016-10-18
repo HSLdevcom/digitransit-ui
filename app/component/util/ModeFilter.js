@@ -26,12 +26,15 @@ class ModeFilter extends React.Component {
       if (config.transportModes[type].availableForSelection) {
         const action = this.props.action[
           `toggle${type.charAt(0).toUpperCase() + type.slice(1)}State`];
+        const selectedModes = this.props.selectedModes;
+        const isEnabled = selectedModes.includes(stateName) ||
+          selectedModes.includes(type.toUpperCase());
         return (<ToggleButton
           icon={`${type}-withoutBox`}
           onBtnClick={() => {
             this.context.executeAction(action);
           }}
-          state={this.props.selectedModes.indexOf(stateName || type.toUpperCase()) !== -1}
+          state={isEnabled}
           checkedClass={type}
           style={{
             width: `${widthPercentage}%`,

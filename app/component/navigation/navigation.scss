@@ -211,14 +211,14 @@ section.content {
   width: 15px;
 }
 
-.origin-destination-bar {
-  height: 40px;
-}
-
 .time-selector-settings-row {
   background-color: $secondary-color;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 40px;
+
+  &.bp-large {
+    height: 50px;
+  }
 }

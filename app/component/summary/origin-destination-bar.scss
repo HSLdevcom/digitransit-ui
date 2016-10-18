@@ -1,15 +1,14 @@
 .origin-destination-bar {
   background-color: $primary-color;
-  height: 40px;
+  height: 35px;
   width: 100%;
   padding-left: 10px;
   padding-right: 10px;
-  padding-top: 5px;
   display: flex;
   align-items: center;
   justify-content: space-around;
 
-  .field-link, .switch {
+  .field-link{
     @include font-book;
     font-size: $font-size-smallish;
     cursor: pointer;
@@ -19,8 +18,8 @@
 
 
   .field-link {
-    width: 45%;
-    padding-left: 20px;
+    width: calc(50% - 20px);
+    padding-left: 17px;
 
     &.from-link span:first-child::before {
         content: "A";
@@ -35,17 +34,18 @@
 
       &::before {
         position: absolute;
-        margin-top: 2px;
-        margin-left: -17px;
+        margin-top: 3px;
+        margin-left: -14px;
         z-index: 1;
-        font-size: $font-size-xxsmall;
+        font-size: 9px;
         color: $white;
       }
     }
 
     .icon.itinerary-icon {
-      font-size: 22px;
-      margin-left: -24px;
+      font-size: 19px;
+      margin-left: -20px;
+      margin-top: 3px;
     }
 
     span:last-child {
@@ -60,15 +60,68 @@
   }
 
   .switch {
-    padding: 0 10px;
+    padding: 2px 3px;
+    font-size: 13px;
+    margin-top: -4px;
+    background-color: $secondary-color;
+    border-radius: $border-radius;
+    color: $secondary-font-color;
+    cursor: pointer;
+    display: inline-block;
 
     .icon {
-      width: 1.6em;
-      height: 1.6em;
-      margin-top: -10px;
       position: relative;
-      top: 5px;
+      top: 2px;
     }
   }
 
+  &.bp-large {
+    height: 110px;
+    flex-wrap: wrap;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    h2 {
+      width: 100%;
+      @include font-medium;
+      letter-spacing: -0.6px;
+      color: $primary-font-color;
+      font-size: 24px;
+      margin: 5px 0 0 0;
+    }
+
+    .field-link {
+      width: calc(50% - 35px);
+      padding-left: 30px;
+      margin-bottom: 5px;
+
+      .icon.itinerary-icon {
+        font-size: 30px;
+        margin-left: -37px;
+        margin-top: -3px;
+      }
+
+      span:first-child::before {
+        margin-top: -3px;
+        margin-left: -27px;
+        font-size: 14.4px;
+      }
+
+      span:last-child {
+        height: auto;
+        padding-bottom: 2px;
+        font-size: $font-size-normal;
+      }
+    }
+
+    .switch {
+      padding: 4px 6px;
+      font-size: 18px;
+      margin-top: -10px;
+
+      .icon {
+        top: 3px;
+      }
+    }
+  }
 }
