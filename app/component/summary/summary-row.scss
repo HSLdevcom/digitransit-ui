@@ -127,8 +127,12 @@
   }
 
   .action-arrow {
-    line-height: 46px;
-    padding-left: 15px;
+    line-height: 38px;
+    margin-bottom: 4px;
+    margin-left: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+    padding: 2px 2px 0px 2px;
 
     svg {
       color: $action-color;
@@ -204,6 +208,7 @@
       padding-left: 30px;
       font-size: 20px;
       padding-top: 8px;
+      border: 0;
     }
   }
 }
