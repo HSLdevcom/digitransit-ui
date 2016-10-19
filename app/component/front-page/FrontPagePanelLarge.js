@@ -6,7 +6,7 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
    favouritesClicked, children }) => {
-  const tabClasses = ['small-6', 'h4', 'hover'];
+  const tabClasses = ['small-6', 'h4'];
   const nearbyClasses = ['nearby-routes'];
   const favouritesClasses = ['favourites'];
 
