@@ -55,7 +55,10 @@ $content-background-color: $background-color;
   .logo {
     background-image: $nav-logo;
     background-size: contain;
+    background-repeat: no-repeat;
     max-width: 170px;
+    width: 170px;
+    height: $topbar-height;
   }
   .navi-logo {
     margin-top: 13px;
