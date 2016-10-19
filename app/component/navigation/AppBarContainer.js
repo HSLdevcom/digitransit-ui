@@ -6,7 +6,7 @@ import AppBarLarge from './AppBarLarge';
 
 const AppBarContainer = ({ breakpoint, router, ...args }) => (
   (breakpoint !== 'large' &&
-    <AppBarSmall {...args} />) || <AppBarLarge
+    <AppBarSmall {...args} showLogo={router.isActive('/')} />) || <AppBarLarge
       {...args} titleClicked={() => router.push('/lahellasi')}
     />);
 
