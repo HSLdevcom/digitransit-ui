@@ -1,7 +1,7 @@
 .summary {
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .summary-no-route-found {
@@ -19,9 +19,7 @@
     vertical-align: middle;
     text-align: left;
     width: auto;
-    padding: 0;
-    margin: 0;
-    margin-right: 1px;
+    margin: 0px 0px 1px 1px;
     font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
@@ -34,18 +32,33 @@
     @include font-book;
 
     &:hover {
-      border-color: $gray-blue-light;
+      //border-color: $gray-blue-light;
       background-color: $secondary-color;
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:focus {
+      background-color: $primary-color;
       outline: none;
       box-shadow: none;
     }
 
     border-radius: $border-radius;
     background: $primary-color;
-    padding-top: 6px;
-    padding-left: 9px;
-    padding-right: 9px;
-    padding-bottom: 6px;
+    padding: 6px 13px 6px 9px;
+  }
+  .select-wrapper {
+    display: inline;
+    position:relative;
+  }
+
+  .fake-select-arrow {
+    position: absolute;
+    right: 5px;
+    top: 7px;
+    font-size: 5px;
+    color: #fff;
   }
 
   select {
@@ -76,7 +89,7 @@
 }
 
 .time-selector-settings-row {
-  padding: 0 10px;
+  padding: 0 6px;
   min-width: 320px;
   overflow-x: hidden;
 }
@@ -98,6 +111,8 @@
 
 .right-offcanvas-toggle {
   span {
+    @include font-bold;
+    font-size: 10px;
     margin: 0 4px;
   }
   margin: 0;
@@ -109,10 +124,11 @@
   text-align: center;
   text-transform:uppercase;
   color: $primary-font-color;
+  padding: 0px 4px 0px 4px;
 
   .icon-holder {
     position: relative;
-    top: 4px;
+    top: 5px;
     vertical-align: middle;
     display: inline;
 
