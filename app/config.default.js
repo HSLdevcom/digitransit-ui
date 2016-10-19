@@ -32,7 +32,7 @@ export default {
   },
 
   APP_PATH: `${APP_PATH}`,
-  title: 'Matka.fi',
+  title: 'Reittihaku',
 
   contactName: {
     sv: 'Livin',
@@ -172,8 +172,11 @@ export default {
   terminalStopsMinZoom: 12,
   terminalNamesZoom: 16,
 
-
   logo: '/img/matka-logo.png',
+
+  topNaviLinks: [
+    { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/' },
+  ],
 
   colors: {
     primary: '#00AFFF',
