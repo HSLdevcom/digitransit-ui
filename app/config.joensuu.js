@@ -41,6 +41,10 @@ export default {
 
   logo: '/img/jojo-logo.png',
 
+  topNaviLinks: [
+    { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
+  ],
+
   colors: {
     primary: '#5c4696',
   },
