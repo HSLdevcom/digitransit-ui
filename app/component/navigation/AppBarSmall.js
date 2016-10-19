@@ -35,6 +35,9 @@ AppBarSmall.description = () => (
     <ComponentUsageExample description="no back button">
       <AppBarSmall disableBackButton title="Reittiopas.fi" className="fullscreen" />
     </ComponentUsageExample>
+    <ComponentUsageExample description="Show logo">
+      <AppBarSmall showLogo={true} disableBackButton title="Reittiopas.fi" className="fullscreen" />
+    </ComponentUsageExample>
   </div>);
 
 
