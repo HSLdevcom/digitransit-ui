@@ -199,6 +199,18 @@ export default {
   showTicketInformation: false,
   showRouteInformation: false,
 
+  modeToOTP: {
+    bus: 'BUS',
+    tram: 'TRAM',
+    rail: 'RAIL',
+    subway: 'SUBWAY',
+    citybike: 'BICYCLE_RENT',
+    airplane: 'AIRPLANE',
+    ferry: 'FERRY',
+    walk: 'WALK',
+    bicycle: 'BICYCLE',
+    car: 'CAR',
+  },
   // Control what transport modes that should be possible to select in the UI
   // and whether the transport mode is used in trip planning by default.
   transportModes: {
