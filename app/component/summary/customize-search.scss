@@ -4,7 +4,7 @@
   .offcanvas-close {
     float: left;
     margin-top: 10px;
-
+    border-radius: $border-radius 0 0 $border-radius;
     width: 35px;
     padding: 30px 8px;
     background: #333;
@@ -31,8 +31,11 @@
     }
 
     hr {
+      margin-top: 20px;
+      height: 2px;
+      border: 0;
       opacity: 0.1;
-      color: #ffffff;
+      background-color: #ffffff;
     }
   }
 }
