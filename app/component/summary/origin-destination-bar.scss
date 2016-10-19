@@ -20,6 +20,11 @@
   .field-link {
     width: calc(50% - 20px);
     padding-left: 17px;
+    position: relative;
+
+    .link-name {
+      border-bottom: 1px solid $secondary-color;
+    }
 
     &.from-link span:first-child::before {
         content: "A";
