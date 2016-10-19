@@ -53,6 +53,7 @@ import Labeled from '../component/util/Labeled';
 import Centered from '../component/util/Centered';
 import InfoIcon from '../component/icon/InfoIcon';
 import Favourite from '../component/favourites/Favourite';
+import DepartureListHeader from '../component/departure/DepartureListHeader';
 
 class StyleGuidelinesPage extends React.Component {
   static propTypes = {
@@ -111,6 +112,7 @@ class StyleGuidelinesPage extends React.Component {
     Centered,
     InfoIcon,
     Favourite,
+    DepartureListHeader,
   }
 
   getColors() {

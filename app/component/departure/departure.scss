@@ -289,3 +289,29 @@
     text-align: right;
   }
 }
+
+.departure-list-header {
+  color: $gray;
+  @include font-narrow-book;
+  font-size: $font-size-normal;
+  white-space: nowrap;
+  margin: 0;
+  line-height: 1em;
+
+  & > span {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .route-number-header {
+    width: 5em;
+  }
+  .route-destination-header {
+  }
+  .time-header {
+    font-weight: inherit;
+    text-align: right;
+    width: 5em;
+    margin-right: 0.5em;
+    padding-right: 2em;
+  }
+}

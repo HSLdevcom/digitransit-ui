@@ -7,9 +7,10 @@ import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
 import compose from 'recompose/compose';
 
+import DepartureListHeader from '../component/departure/DepartureListHeader';
 import DepartureListContainer from '../component/departure/DepartureListContainer';
 
-const StopPage = compose(
+const DepartureListContainerComposed = compose(
   getContext({ breakpoint: React.PropTypes.string.isRequired }),
   mapProps(props => (some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : {
     stoptimes: props.stop.stoptimes,
@@ -21,6 +22,13 @@ const StopPage = compose(
     rowClasses: 'padding-normal border-bottom',
   }))
 )(DepartureListContainer);
+
+const StopPage = (props) => (
+  <div>
+    <DepartureListHeader />
+    <DepartureListContainerComposed {...props} />
+  </div>
+);
 
 const StopPageContainer = Relay.createContainer(StopPage, {
   fragments: {
