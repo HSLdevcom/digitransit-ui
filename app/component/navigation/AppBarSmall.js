@@ -7,17 +7,14 @@ import MainMenuContainer from './MainMenuContainer';
 import MessageBar from './MessageBar';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-const AppBarSmall = ({ disableBackButton, showLogo, title }) =>
+const AppBarSmall = ({ disableBackButton }) =>
   <div>
     <NotImplemented />
     <DisruptionInfo />
     <nav className="top-bar">
       {!disableBackButton && <BackButton />}
       <section className="title">
-        {showLogo ?
-          <div className="logo" /> :
-          <span className="title">{title}</span>
-        }
+        <div className="logo" />
       </section>
       <MainMenuContainer />
     </nav>

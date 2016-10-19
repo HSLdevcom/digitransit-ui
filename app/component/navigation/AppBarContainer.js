@@ -16,7 +16,6 @@ const WithContext = getContext({ router: React.PropTypes.object.isRequired,
 WithContext.propTypes = {
   disableBackButton: PropTypes.bool,
   title: PropTypes.node.isRequired,
-  showLogo: PropTypes.bool,
 };
 
 export default WithContext;
