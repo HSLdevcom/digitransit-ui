@@ -33,7 +33,6 @@ export default {
 
   APP_PATH: `${APP_PATH}`,
   title: 'Matka.fi',
-  useNavigationLogo: true,
 
   contactName: {
     sv: 'Livin',

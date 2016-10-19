@@ -11,8 +11,7 @@ export default {
     STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
   },
 
-  title: 'Föli - Turun seudun joukkoliikenne',
-  useNavigationLogo: true,
+  title: 'Reittiopas',
 
   contactName: {
     sv: '',

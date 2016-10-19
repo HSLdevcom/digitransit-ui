@@ -11,8 +11,7 @@ export default {
     STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
   },
 
-  title: 'joensuu.digitransit.fi',
-  useNavigationLogo: true,
+  title: 'Reittiopas',
 
   contactName: {
     sv: '',
