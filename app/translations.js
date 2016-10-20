@@ -59,7 +59,7 @@ const translations = {
     'distance-under': 'Etäisyys alle {distance} m',
     'distance-between': 'Etäisyys {distance1} m — {distance2} m',
     'tickets': 'Matkaliput',
-    'settings': 'Asetukset',
+    'settings': 'Tarkenna',
     'terms-of-use': 'Käyttöehdot',
     'contact-information': '{contactName}:n yhteystiedot',
     'create-account': 'Luo {contactName} tunnus',
