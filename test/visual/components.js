@@ -143,6 +143,17 @@ gemini.suite('components', () => {
   basicTest('RouteScheduleStopSelect');
   basicTest('RouteScheduleTripRow');
 
+  basicTest('AppBarSmall');
+  basicTest('AppBarLarge');
+
+  gemini.suite('FakeSearchWithButton', () => {
+    gemini.suite('basic', test('FakeSearchWithButton'));
+    gemini.suite('large', test('FakeSearchWithButton', 2));
+  });
+
+  basicTest('FrontPagePanelLarge');
+  basicTest('FrontPagePanelSmall');
+
   gemini.suite('ModeFilter', () => {
     gemini.suite('Grey buttons', test('ModeFilter'));
     gemini.suite('White buttons', test('ModeFilter',

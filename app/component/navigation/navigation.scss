@@ -28,7 +28,7 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
-nav.top-bar {
+.top-bar {
   line-height: $topbar-height;
   background: $primary-color;
   position: relative;
@@ -51,17 +51,45 @@ nav.top-bar {
   .title {
     text-align: center;
     color: $top-navigation-title-color;
-
-    div.logo {
-      background-image: $nav-logo;
-      background-size: contain;
-      background-repeat: no-repeat;
-      height: $topbar-height;
-      max-width: 170px;
+  }
+  .logo {
+    background-image: $nav-logo;
+    background-size: contain;
+    background-repeat: no-repeat;
+    max-width: 170px;
+    width: 170px;
+    height: $topbar-height;
+  }
+  .navi-logo {
+    margin-top: 13px;
+    margin-bottom: 13px;
+    max-height: 34px;
+    min-width: 100px; //for ff
+    cursor: pointer;
+  }
+  .hamburger-large {
+    .main-menu-toggle {
+      top: 10px;
+      div.logo {
+        background-image: $nav-logo;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: $topbar-height;
+        max-width: 170px;
+      }
     }
   }
 }
 
+.top-bar.pb-large {
+  height: 60px;
+}
+
+.app-bar-tabs {
+  > div:nth-child(1) {
+      height: 60px;
+  }
+}
 .lang-select {
   list-style: none;
   border-bottom: 1px solid #262626;
@@ -168,6 +196,12 @@ section.content {
       position: relative;
     }
   }
+}
+
+
+.content.bp-large {
+  height: calc(100% - 60px);
+  position: relative;
 }
 
 .content:nth-child(5) {

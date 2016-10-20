@@ -11,17 +11,16 @@ import config from '../../config';
 
 function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }) {
   return (
-    <div className="frontpage-panel nearby-routes">
-      {config.showModeFilter ?
-        <div className="row">
+    <div className="frontpage-panel nearby-routes fullscreen">
+      {config.showModeFilter &&
+        (<div className="row">
           <div className="small-12 column">
             <ModeFilterContainer id="nearby-routes-mode" />
           </div>
-        </div> : null
-      }
+        </div>)}
       <NextDeparturesListHeader />
       <div
-        className="scrollable momentum-scroll"
+        className="scrollable momentum-scroll nearby"
         id="scrollable-routes"
       >
         <NearestRoutesContainer

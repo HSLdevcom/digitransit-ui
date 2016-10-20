@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import isFunction from 'lodash/isFunction';
 
 /*
   Displays a card with the information of the given component as prop
@@ -12,7 +13,8 @@ import React, { PropTypes } from 'react';
 const getName = (component) => component.displayName || component.name || 'Unknown';
 
 const getDescription = (component) => {
-  if (component.description) return component.description;
+  if (isFunction(component.description)) return component.description();
+  else if (component.description) return component.description;
   return <div>Component {getName(component)} has no description</div>;
 };
 
@@ -24,9 +26,18 @@ export default function ComponentDocumentation({ component, children }) {
       id={getName(component)}
     >
       <h2>{getName(component)}</h2>
-      <div>{getDescription(component)}</div>
-      <p>Props:</p>
-      <ul>{Object.keys(component.propTypes || {}).map(key => <li key={key}>{key}</li>)}</ul>
+      <div>{getDescription(component)} </div>
+      <p>Required props:</p>
+      <ul>{Object.keys(component.propTypes || {}).filter(key =>
+        !component.propTypes[key].isRequired
+      ).map(key => <li key={key} >{key}</li>)}</ul>
+      <p>Optional props:</p>
+      <ul>{Object.keys(component.propTypes || {}).filter(key =>
+        component.propTypes[key].isRequired
+      ).map(key => <li key={key} >{key}</li>)}</ul>
+      <p>Default props:</p>
+      <ul>{Object.keys(component.defaultProps || {}).map(key => <li key={key} >
+        {key}={JSON.stringify(component.defaultProps[key])}</li>)}</ul>
       {children}
     </div>
   );
