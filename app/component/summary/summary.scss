@@ -11,7 +11,7 @@
 .time-selectors {
   @include font-book;
   font-size: $font-size-smallish;
-  margin: 4px 0;
+  height: 30px;
   background-color: $secondary-color;
   display: flex;
   flex-direction: row;
@@ -20,7 +20,7 @@
     vertical-align: middle;
     text-align: left;
     width: auto;
-    margin: 0px 0px 1px 1px;
+    margin: 0px 0px 0px 1px;
     font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
