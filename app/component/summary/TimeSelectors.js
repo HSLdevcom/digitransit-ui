@@ -43,22 +43,25 @@ export default function TimeSelectors(
         <div className="select-wrapper">
           <input
             type="time"
-            className="time"
+            className="time-selector"
             value={time.format('HH:mm')}
             onChange={changeTime}
           />
           <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
         </div> :
-        <TimePicker
-          format="24hr"
-          className="time time-mui"
-          defaultTime={time.toDate()}
-          value={time.toDate()}
-          onChange={changeTimeMui}
-          style={{
-            display: 'inline-block',
-          }}
-        />}
+        <div className="select-wrapper">
+          <TimePicker
+            format="24hr"
+            className="time-selector time-mui"
+            defaultTime={time.toDate()}
+            value={time.toDate()}
+            onChange={changeTimeMui}
+            style={{
+              display: 'inline-block',
+            }}
+          />
+          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+        </div>}
     </div>
   );
 }
