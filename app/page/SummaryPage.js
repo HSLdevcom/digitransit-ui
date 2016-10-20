@@ -192,7 +192,9 @@ class SummaryPage extends React.Component {
 
       return (
         <DesktopView
-          header={<SummaryNavigation params={this.props.params} hasDefaultPreferences={hasDefaultPreferences} />}
+          header={<SummaryNavigation
+            params={this.props.params} hasDefaultPreferences={hasDefaultPreferences}
+          />}
           // TODO: Chceck preferences
           content={content}
           map={map}
