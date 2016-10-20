@@ -48,8 +48,14 @@ export default {
   stopsMinZoom: 14,
 
   colors: {
-    primary: '#fff',
+    primary: '#007ac9',
   },
+
+  logo: '/img/hsl-logo.svg',
+
+  topNaviLinks: [
+    { name: 'HSL', href: 'https://www.hsl.fi/' },
+  ],
 
   socialMedia: {
     title: 'Uusi Reittiopas',
@@ -132,6 +138,4 @@ export default {
       },
     },
   }],
-  /* eslint-enable max-len*/
-
 };

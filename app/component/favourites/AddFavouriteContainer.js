@@ -71,7 +71,7 @@ class AddFavouriteContainer extends React.Component {
   }
 
   quit = () => {
-    this.context.router.replace({ pathName: '/', state: { selectedPanel: 2 } });
+    this.context.router.replace('/suosikit');
   }
 
   specifyName = (event) => {
@@ -103,7 +103,7 @@ class AddFavouriteContainer extends React.Component {
 
     return (<div className="fullscreen">
       <div className="add-favourite-container">
-        <Link to={{ pathName: '/', state: { selectedPanel: 2 } }} className="right cursor-pointer">
+        <Link to="/suosikit" className="right cursor-pointer">
           <Icon id="add-favourite-close-icon" img="icon-icon_close" />
         </Link>
         <row>

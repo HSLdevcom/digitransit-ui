@@ -11,8 +11,7 @@ export default {
     STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
   },
 
-  title: 'joensuu.digitransit.fi',
-  useNavigationLogo: true,
+  title: 'Reittiopas',
 
   contactName: {
     sv: '',
@@ -40,8 +39,14 @@ export default {
 
   stopsMinZoom: 14,
 
+  logo: '/img/jojo-logo.png',
+
+  topNaviLinks: [
+    { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
+  ],
+
   colors: {
-    primary: '#fff',
+    primary: '#5c4696',
   },
 
   socialMedia: {

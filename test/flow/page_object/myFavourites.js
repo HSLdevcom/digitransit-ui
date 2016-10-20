@@ -66,7 +66,7 @@ module.exports = {
   }],
   elements: {
     favouritePaneSelect: {
-      selector: '.hover + .favourites',
+      selector: '.favourites',
     },
     newFavouriteButtonContent: {
       selector: '.new-favourite-button-content',

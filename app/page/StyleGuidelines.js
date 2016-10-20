@@ -2,6 +2,7 @@ import React from 'react';
 import sortBy from 'lodash/sortBy';
 import Link from 'react-router/lib/Link';
 
+import { FakeSearchWithButton } from '../component/search/FakeSearchWithButton';
 import Icon from '../component/icon/icon';
 import IconWithTail from '../component/icon/IconWithTail';
 import SelectedIconWithTail from '../component/icon/SelectedIconWithTail';
@@ -43,8 +44,12 @@ import RouteScheduleTripRow from '../component/route/RouteScheduleTripRow';
 import RouteStop from '../component/route/RouteStop';
 import RouteAlertsRow from '../component/route/RouteAlertsRow';
 import ModeFilter from '../component/util/ModeFilter';
-import Availability from '../component/card/Availability.js';
-import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability.js';
+import Availability from '../component/card/Availability';
+import ParkAndRideAvailability from '../component/map/popups/ParkAndRideAvailability';
+import AppBarSmall from '../component/navigation/AppBarSmall';
+import AppBarLarge from '../component/navigation/AppBarLarge';
+import FrontPagePanelSmall from '../component/front-page/FrontPagePanelSmall';
+import FrontPagePanelLarge from '../component/front-page/FrontPagePanelLarge';
 import { DepartureRow } from '../component/departure/DepartureRowContainer';
 import { BicycleRentalStationRow } from '../component/departure/BicycleRentalStationRowContainer';
 
@@ -99,6 +104,11 @@ class StyleGuidelinesPage extends React.Component {
     RouteStop,
     DepartureRow,
     BicycleRentalStationRow,
+    FakeSearchWithButton,
+    AppBarSmall,
+    AppBarLarge,
+    FrontPagePanelLarge,
+    FrontPagePanelSmall,
   }
 
   getColors() {

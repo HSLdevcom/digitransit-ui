@@ -21,7 +21,7 @@ import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
 import AboutPage from './page/AboutPage';
-import splashOrComponent from './component/splash/splash-or-component';
+import SplashOrChildren from './component/splash/SplashOrChildren';
 
 // Components for page parts
 import RouteAlertsContainer from './component/route/RouteAlertsContainer';
@@ -33,6 +33,8 @@ import RouteTitle from './component/route/RouteTitle';
 import StopPageMap from './component/stop/StopPageMap';
 import StopPageHeader from './component/stop/StopPageHeader';
 import StopPageMeta from './component/stop/StopPageMeta';
+import FavouritesPanel from './component/favourites/FavouritesPanel';
+import NearbyRoutesPanel from './component/front-page/NearbyRoutesPanel';
 import SummaryTitle from './component/summary/SummaryTitle';
 import ItineraryTab from './component/itinerary/ItineraryTab';
 import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
@@ -159,24 +161,27 @@ const TerminalTitle = withProps({
 
 const routes = (
   <Route
-    path="/"
     component={(props) => (typeof window !== 'undefined' ?
       <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
       <TopLevel {...props} />
     )}
   >
-    <IndexRoute
-      topBarOptions={{
-        disableBackButton: true,
-        showDisruptionInfo: true,
-        showLogo: config.useNavigationLogo,
-      }}
-      components={{
+    <Route
+      path="/" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
-        content: splashOrComponent(IndexPage),
+        content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
+        ,
       }}
-    />
-    <Route path="pysakit">
+    >
+      <Route
+        path="lahellasi" component={NearbyRoutesPanel}
+      />
+      <Route
+        path="suosikit" component={FavouritesPanel}
+      />
+    </Route>
+
+    <Route path="/pysakit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
       <Route
         path=":stopId"
@@ -204,7 +209,7 @@ const routes = (
         <Route path="info" component={Error404} />
       </Route>
     </Route>
-    <Route path="terminaalit">
+    <Route path="/terminaalit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all terminals*/}
       <Route
         path=":terminalId"
@@ -225,7 +230,7 @@ const routes = (
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="linjat">
+    <Route path="/linjat">
       <IndexRoute component={Error404} />
       <Route
         path=":routeId"
@@ -284,13 +289,11 @@ const routes = (
     <Route path="suosikki/uusi" component={AddFavouritePage} />
     <Route path="suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route
-      path="tietoja-palvelusta"
+      path="/tietoja-palvelusta"
       components={{
         title: () => <span>{config.title}</span>,
         content: AboutPage }}
     />
-    {/* Main menu does not open without this in mock mode? */}
-    <Route path="/?mock" name="mockIndex" component={IndexPage} />
   </Route>
 );
 
