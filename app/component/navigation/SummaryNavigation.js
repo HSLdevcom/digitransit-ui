@@ -91,8 +91,14 @@ class SummaryNavigation extends React.Component {
           docked={false}
           open={this.getOffcanvasState()}
           onRequestChange={this.onRequestChange}
+          // Needed for the closing arrow button that's left of the drawer.
+          containerStyle={{ background: 'transparent', boxShadow: 'none' }}
+          width={291}
         >
-          <CustomizeSearch params={this.props.params} />
+          <CustomizeSearch
+            params={this.props.params}
+            onToggleClick={this.toggleCustomizeSearchOffcanvas}
+          />
         </Drawer>
         <OriginDestinationBar className={className} />
         <div className={cx('time-selector-settings-row', className)}>
