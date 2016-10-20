@@ -303,15 +303,45 @@
     vertical-align: top;
   }
   .route-number-header {
-    width: 5em;
+    width: 3.5em;
   }
   .route-destination-header {
   }
   .time-header {
     font-weight: inherit;
     text-align: right;
+    width: 4em;
+    padding-right: 0.25em;
+    margin-right: 0.25em;
+  }
+}
+
+.desktop .departure-list-header {
+  .route-number-header {
     width: 5em;
-    margin-right: 0.5em;
-    padding-right: 2em;
+  }
+  .route-destination-header {
+    margin-left: 0.5em;
+  }
+  .time-header {
+    margin-right: 1.75em;
+  }
+}
+
+.stop-page .departure {
+  .time {
+    width: 4em;
+  }
+}
+.desktop .stop-page .departure {
+  .time {
+    margin-right: 1.75em;
+  }
+  .vehicle-number {
+    width: 5em;
+  }
+
+  & .route-number {
+    width: 5em;
   }
 }
