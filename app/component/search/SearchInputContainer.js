@@ -28,7 +28,7 @@ export default class SearchInputContainer extends Component {
     suggestions: [],
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.context.getStore('SearchStore').addChangeListener(this.onSearchChange);
   }
 
