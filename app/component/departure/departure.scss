@@ -292,8 +292,9 @@
 
 .departure-list-header {
   color: $gray;
+  background-color: $white;
   @include font-narrow-book;
-  font-size: $font-size-normal;
+  font-size: $font-size-small;
   white-space: nowrap;
   margin: 0;
   line-height: 1em;
@@ -303,45 +304,43 @@
     vertical-align: top;
   }
   .route-number-header {
-    width: 3.5em;
+    width: 50px;
   }
   .route-destination-header {
+    padding-left: 10px;
   }
   .time-header {
     font-weight: inherit;
     text-align: right;
-    width: 4em;
-    padding-right: 0.25em;
-    margin-right: 0.25em;
+    width: 50px;
+    padding-right: 10px;
+    margin-right: 10px;
   }
 }
 
 .desktop .departure-list-header {
   .route-number-header {
-    width: 5em;
+    width: 50px;
   }
   .route-destination-header {
-    margin-left: 0.5em;
+    padding-left: 30px;
   }
   .time-header {
-    margin-right: 1.75em;
+    width: 50px;
+    margin-right: 30px;
   }
 }
 
 .stop-page .departure {
   .time {
-    width: 4em;
+    width: 50px;
   }
 }
 .desktop .stop-page .departure {
   .time {
-    margin-right: 1.75em;
+    margin-right: 30px;
   }
-  .vehicle-number {
-    width: 5em;
-  }
-
   & .route-number {
-    width: 5em;
+    width: 100px;
   }
 }

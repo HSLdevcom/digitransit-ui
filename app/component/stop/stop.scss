@@ -39,8 +39,32 @@
 
 .stop-page.departure-list {
   & .departure {
-    & .vehicle-number {
-      width: 5em;
+    .time {
+      width: 50px;
+      padding-right: 10px;
+      margin-right: 10px;
+    }
+    .route-number {
+      width: 50px;
+    }
+    .route-destination {
+      padding-left: 10px;
+    }
+  }
+}
+
+.desktop .stop-page.departure-list {
+  & .departure {
+    .time {
+      width: 50px;
+      padding-right: 10px;
+      margin-right: 30px;
+    }
+    .route-number {
+      width: 50px;
+    }
+    .route-destination {
+      padding-left: 30px;
     }
   }
 }
