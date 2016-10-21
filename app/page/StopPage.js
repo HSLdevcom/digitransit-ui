@@ -24,7 +24,7 @@ const DepartureListContainerComposed = compose(
 )(DepartureListContainer);
 
 const StopPage = (props) => (
-  <div>
+  <div className="stop-page-content-wrapper">
     <DepartureListHeader />
     <DepartureListContainerComposed {...props} />
   </div>

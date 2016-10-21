@@ -297,7 +297,7 @@
   font-size: $font-size-small;
   white-space: nowrap;
   margin: 0;
-  line-height: 1em;
+  line-height: $line-height-normal;
 
   & > span {
     display: inline-block;
