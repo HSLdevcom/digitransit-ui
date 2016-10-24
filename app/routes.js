@@ -127,7 +127,8 @@ const preparePlanParams = (
     minTransferTime: minTransferTime ? Number(minTransferTime) : undefined,
     walkSpeed: walkSpeed ? Number(walkSpeed) : undefined,
     arriveBy: arriveBy ? arriveBy === 'true' : undefined,
-    maxWalkDistance: modes && modes.split(',').includes('BICYCLE') ?
+    maxWalkDistance: (typeof modes === 'undefined' ||
+      (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))) ?
       config.maxWalkDistance : config.maxBikingDistance,
     wheelchair: accessibilityOption === '1',
     preferred: { agencies: config.preferredAgency || '' },

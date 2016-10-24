@@ -47,7 +47,7 @@ $font-size-supersmall: 12px;
   .favourite-edit-button {
     background-color: rgb(200,128,128);
     color: $gray-blue;
-    font-size: 11px;
+    font-size: $font-size-xxsmall;
     width: 2.5em;
     height: 2.5em;
   }

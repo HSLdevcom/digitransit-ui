@@ -59,7 +59,7 @@ $citybike-not-available-color: $light-gray;
     background: $gray-blue;
     color: #ffffff;
     @include font-medium;
-    font-size: 13px;
+    font-size: $font-size-small;
     width: 80%;
     height: 30px;
     margin-top: 10px;

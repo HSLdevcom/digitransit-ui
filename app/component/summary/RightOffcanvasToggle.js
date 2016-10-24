@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import Icon from '../icon/icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
@@ -12,7 +13,7 @@ export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
         {hasChanges ?
           <Icon img="icon-icon_settings-adjusted" /> : <Icon img="icon-icon_settings" />}
         {hasChanges ? <Icon img="icon-icon_attention" className="super-icon" /> : null}
-      </div>
+      </div><span><FormattedMessage id="settings" defaultMessage="Settings" /></span>
     </div>
   );
 }
@@ -20,6 +21,7 @@ export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
 RightOffcanvasToggle.propTypes = {
   onToggleClick: React.PropTypes.func.isRequired,
   hasChanges: React.PropTypes.bool,
+  text: React.PropTypes.string,
 };
 
 RightOffcanvasToggle.description = (

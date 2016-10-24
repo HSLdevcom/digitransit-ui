@@ -2,6 +2,9 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import moment from 'moment';
+import isMatch from 'lodash/isMatch';
+import keys from 'lodash/keys';
+import pick from 'lodash/pick';
 import sortBy from 'lodash/sortBy';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
@@ -64,6 +67,26 @@ class SummaryPage extends React.Component {
     }).isRequired).isRequired,
   };
 
+  static customizableParameters = {
+    modes: Object.keys(config.transportModes)
+      .filter(mode => config.transportModes[mode].defaultValue === true)
+      .map((mode) => config.modeToOTP[mode])
+      .concat((Object.keys(config.streetModes)
+        .filter(mode => config.streetModes[mode].defaultValue === true)
+        .map((mode) => config.modeToOTP[mode])))
+
+
+      .sort()
+      .join(','),
+    walkReluctance: 2,
+    walkBoardCost: 600,
+    minTransferTime: 180,
+    walkSpeed: 1.2,
+    wheelchair: false,
+    maxWalkDistance: config.maxWalkDistance,
+    preferred: { agencies: config.preferredAgency || '' },
+  };
+
   state = { center: null }
 
   componentWillReceiveProps(newProps, newContext) {
@@ -74,6 +97,11 @@ class SummaryPage extends React.Component {
 
   updateCenter = (lat, lon) => this.setState({ center: { lat, lon } })
 
+  hasDefaultPreferences = () => {
+    const a = pick(SummaryPage.customizableParameters, keys(this.props));
+    const b = pick(this.props, keys(SummaryPage.customizableParameters));
+    return isMatch(a, b);
+  }
   renderMap() {
     const { plan: { plan }, location: { state }, from, to } = this.props;
     const activeIndex = getActiveIndex(state);
@@ -134,6 +162,8 @@ class SummaryPage extends React.Component {
       ...this.props,
     }, this.context) : this.renderMap();
 
+    const hasDefaultPreferences = this.hasDefaultPreferences();
+
     if (breakpoint === 'large') {
       let content;
 
@@ -162,13 +192,16 @@ class SummaryPage extends React.Component {
 
       return (
         <DesktopView
-          header={<SummaryNavigation params={this.props.params} hasDefaultPreferences />}
+          header={<SummaryNavigation
+            params={this.props.params} hasDefaultPreferences={hasDefaultPreferences}
+          />}
           // TODO: Chceck preferences
           content={content}
           map={map}
         />
       );
     }
+
     let content;
 
     if (!done) {
@@ -202,13 +235,16 @@ class SummaryPage extends React.Component {
     return (
       <MobileView
         header={!this.props.params.hash ?
-          <SummaryNavigation hasDefaultPreferences params={this.props.params} /> : false}
+          <SummaryNavigation
+            hasDefaultPreferences={hasDefaultPreferences} params={this.props.params}
+          /> : false}
         content={content}
         map={map}
       />
     );
   }
 }
+
 
 export default Relay.createContainer(SummaryPage, {
   fragments: {
@@ -246,24 +282,18 @@ export default Relay.createContainer(SummaryPage, {
       }
     `,
   },
-  initialVariables: {
+  initialVariables: { ...{
     from: null,
     to: null,
     fromPlace: null,
     toPlace: null,
     numItineraries: typeof matchMedia !== 'undefined' &&
       matchMedia('(min-width: 900px)').matches ? 5 : 3,
-    modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,AIRPLANE',
     date: moment().format('YYYY-MM-DD'),
     time: moment().format('HH:mm:ss'),
-    walkReluctance: 2,
-    walkBoardCost: 600,
-    minTransferTime: 180,
-    walkSpeed: 1.2,
-    wheelchair: false,
-    maxWalkDistance: config.maxWalkDistance,
     preferred: { agencies: config.preferredAgency || '' },
     arriveBy: false,
     disableRemainingWeightHeuristic: false,
   },
+  ...SummaryPage.customizableParameters },
 });

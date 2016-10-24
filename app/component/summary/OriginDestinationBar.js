@@ -78,7 +78,7 @@ class OriginDestinationBar extends React.Component {
         )}
         <div className="field-link from-link" onClick={() => this.openSearch('origin')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
-          <span className="dotted-link">
+          <span className="link-name">
             {this.state.origin.useCurrentPosition ? ownPosition : this.state.origin.address}
           </span>
         </div>
@@ -92,7 +92,7 @@ class OriginDestinationBar extends React.Component {
         </div>
         <div className="field-link to-link" onClick={() => this.openSearch('destination')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
-          <span className="dotted-link">
+          <span className="link-name">
             {this.state.destination.useCurrentPosition ?
               ownPosition : this.state.destination.address}
           </span>

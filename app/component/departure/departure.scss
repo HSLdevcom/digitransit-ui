@@ -119,7 +119,7 @@
   @include font-narrow-book;
   width: 3em;
   color: $gray;
-  font-size: 14px;
+  font-size: $font-size-smallish;
   text-align: right;
 }
 
