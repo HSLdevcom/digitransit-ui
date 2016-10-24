@@ -2,10 +2,10 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import config from '../../config';
-import UserPreferencesActions from '../../action/user-preferences-actions';
+import { setLanguage } from '../../action/userPreferencesActions';
 
 const selectLanguage = (executeAction, lang) =>
-  () => executeAction(UserPreferencesActions.setLanguage, lang);
+  () => executeAction(setLanguage, lang);
 
 const language = (lang, currentLanguage, highlight, executeAction) => (
   <div className="lang" key={lang}>

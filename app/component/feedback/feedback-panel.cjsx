@@ -3,7 +3,7 @@ MaterialModal         = require('material-ui/Dialog').default
 Icon                  = require '../icon/icon'
 ScoreTable            = require './score-table'
 TextAreaWithCounter   = require './text-area-with-counter'
-FeedbackActions       = require '../../action/feedback-action'
+FeedbackActions       = require '../../action/feedbackActions'
 Feedback              = require '../../util/Feedback'
 
 intl = require 'react-intl'

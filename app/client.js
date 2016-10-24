@@ -18,7 +18,7 @@ import MUITheme from './MuiTheme';
 import app from './app';
 import translations from './translations';
 import { startLocationWatch } from './action/PositionActions';
-import { openFeedbackModal } from './action/feedback-action';
+import { openFeedbackModal } from './action/feedbackActions';
 import { shouldDisplayPopup } from './util/Feedback';
 import history from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';

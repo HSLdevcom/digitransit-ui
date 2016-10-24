@@ -4,7 +4,7 @@ import { intlShape } from 'react-intl';
 import getContext from 'recompose/getContext';
 
 import { shouldDisplayPopup } from '../../util/Feedback';
-import FeedbackAction from '../../action/feedback-action';
+import { openFeedbackModal } from '../../action/feedbackActions';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 
@@ -58,7 +58,7 @@ class FrontPagePanelContainer extends React.Component {
   onReturnToFrontPage() {
     const timeStore = this.context.getStore('TimeStore');
     if (shouldDisplayPopup(timeStore.getCurrentTime().valueOf())) {
-      return this.context.executeAction(FeedbackAction.openFeedbackModal);
+      return this.context.executeAction(openFeedbackModal);
     }
     return undefined;
   }
