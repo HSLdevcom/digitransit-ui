@@ -55,12 +55,17 @@ $content-background-color: $background-color;
   .logo {
     background-image: $nav-logo;
     background-size: contain;
+    background-repeat: no-repeat;
     max-width: 170px;
+    width: 170px;
+    height: $topbar-height;
   }
   .navi-logo {
-    margin-top:13px;
-    margin-bottom:13px;
-    max-height:34px;
+    margin-top: 13px;
+    margin-bottom: 13px;
+    max-height: 34px;
+    min-width: 100px; //for ff
+    cursor: pointer;
   }
   .hamburger-large {
     .main-menu-toggle {
@@ -76,6 +81,15 @@ $content-background-color: $background-color;
   }
 }
 
+.top-bar.pb-large {
+  height: 60px;
+}
+
+.app-bar-tabs {
+  > div:nth-child(1) {
+      height: 60px;
+  }
+}
 .lang-select {
   list-style: none;
   border-bottom: 1px solid #262626;
@@ -149,10 +163,39 @@ $content-background-color: $background-color;
 // Performance with flex is ok after 9b3d165f2385f4737f757f77e0faa2d74e003119, which was reverted
 // Should-be re-enabled after safari fixes https://github.com/philipwalton/flexbugs/issues/84
 // Work-around using position: absolute; and pinning all corners made the performance really bad
-.content {
+section.content {
   background-color: $content-background-color;
   height: calc(100% - #{$topbar-height});
   position: relative;
+
+  .mobile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+  }
+
+  .desktop {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+
+    .main-content {
+      width: 600px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .map-content {
+      width: calc(100% - 600px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+  }
 }
 
 
@@ -163,7 +206,6 @@ $content-background-color: $background-color;
 
 .content:nth-child(5) {
   height: calc(100% - #{$topbar-height} - 60px - 18px);
-  position: relative;
   // 60px and 18px are the height of the message bar, but is specified in js
 }
 
@@ -209,8 +251,8 @@ $content-background-color: $background-color;
   justify-content: space-between;
   align-items: center;
   height: 40px;
-}
 
-.breakpoint-large .time-selector-settings-row {
-  height: 50px;
+  &.bp-large {
+    height: 50px;
+  }
 }

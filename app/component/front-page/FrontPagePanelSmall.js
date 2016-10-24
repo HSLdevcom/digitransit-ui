@@ -3,10 +3,11 @@ import cx from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../icon/icon';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
-const FrontPagePanel = ({ selectedPanel, nearbyClicked,
+const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
    favouritesClicked, closePanel, children }) => {
   let heading;
   const tabClasses = ['small-6', 'h4', 'hover'];
@@ -57,7 +58,18 @@ const FrontPagePanel = ({ selectedPanel, nearbyClicked,
     </div>
 ); };
 
-FrontPagePanel.propTypes = {
+
+FrontPagePanelSmall.description = () => (
+  <div>
+    <p>
+      Front page tabs for small display.
+    </p>
+    <ComponentUsageExample description="Front page tabs">
+      <FrontPagePanelSmall />
+    </ComponentUsageExample>
+  </div>);
+
+FrontPagePanelSmall.propTypes = {
   selectedPanel: React.PropTypes.number,
   nearbyClicked: React.PropTypes.func.isRequired,
   favouritesClicked: React.PropTypes.func.isRequired,
@@ -65,5 +77,4 @@ FrontPagePanel.propTypes = {
   children: React.PropTypes.node,
 };
 
-
-export default FrontPagePanel;
+export default FrontPagePanelSmall;

@@ -1,6 +1,7 @@
 import React from 'react';
 import Drawer from 'material-ui/Drawer';
 import { supportsHistory } from 'history/lib/DOMUtils';
+import cx from 'classnames';
 
 import CustomizeSearch from '../summary/CustomizeSearch';
 import OriginDestinationBar from '../summary/OriginDestinationBar';
@@ -19,6 +20,7 @@ class SummaryNavigation extends React.Component {
     piwik: React.PropTypes.object,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
+    breakpoint: React.PropTypes.string,
   };
 
   componentDidMount() {
@@ -46,7 +48,7 @@ class SummaryNavigation extends React.Component {
   }
 
   getOffcanvasState = () =>
-    (supportsHistory() && this.context.location.state &&
+    (typeof window !== 'undefined' && supportsHistory() && this.context.location.state &&
       this.context.location.state.customizeSearchOffcanvas) || false;
 
   internalSetOffcanvas = (newState) => {
@@ -78,6 +80,8 @@ class SummaryNavigation extends React.Component {
   }
 
   render() {
+    const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
+
     return (
       <section>
         <Drawer
@@ -87,11 +91,17 @@ class SummaryNavigation extends React.Component {
           docked={false}
           open={this.getOffcanvasState()}
           onRequestChange={this.onRequestChange}
+          // Needed for the closing arrow button that's left of the drawer.
+          containerStyle={{ background: 'transparent', boxShadow: 'none' }}
+          width={291}
         >
-          <CustomizeSearch params={this.props.params} />
+          <CustomizeSearch
+            params={this.props.params}
+            onToggleClick={this.toggleCustomizeSearchOffcanvas}
+          />
         </Drawer>
-        <OriginDestinationBar />
-        <div className="time-selector-settings-row">
+        <OriginDestinationBar className={className} />
+        <div className={cx('time-selector-settings-row', className)}>
           <TimeSelectorContainer />
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}

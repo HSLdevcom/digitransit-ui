@@ -138,6 +138,74 @@
   .itinerary-tab {
     width: 100%;
   }
+
+  &.bp-large {
+    min-height: 100px;
+    border-left-width: 8px;
+    padding-left: 20px;
+    padding-right: 16px;
+    padding-top: 20px;
+
+    .itinerary-duration-and-distance {
+      width: 100px;
+      margin-top: 2px;
+    }
+
+    .itinerary-duration {
+      font-size: 21px;
+      @include font-narrow-medium;
+    }
+
+    .itinerary-walking-distance {
+      font-size: 18px;
+    }
+
+    .itinerary-start-time {
+      font-size: 21px;
+      padding-top: 7px;
+      padding-left: 16px;
+      @include font-narrow-medium;
+
+      .itinerary-first-leg-start-time {
+        padding-top: 0;
+        font-size: $font-size-normal;
+      }
+    }
+
+    .itinerary-legs {
+      padding-top: 14px;
+      flex-shrink: 2;
+
+      .line:after {
+        top: 10px;
+        border-width: 3px;
+        border-radius: 3px;
+      }
+
+      .line .icon {
+        margin-top: 0;
+        margin-left: 5px;
+        font-size: 24px;
+      }
+
+      .vehicle-number {
+        font-size: $font-size-normal;
+        margin-left: 6px;
+        margin-top: 3.5px;
+      }
+    }
+
+    .itinerary-end-time {
+      font-size: 21px;
+      padding-top: 8px;
+    }
+
+    .action-arrow {
+      padding-left: 30px;
+      font-size: 20px;
+      padding-top: 8px;
+    }
+  }
 }
 
 /*
@@ -171,73 +239,5 @@
   input[type="text"]:focus {
     color: $black;
     outline: none;
-  }
-}
-
-.breakpoint-large .itinerary-summary-row {
-  min-height: 100px;
-  border-left-width: 8px;
-  padding-left: 20px;
-  padding-right: 16px;
-  padding-top: 20px;
-
-  .itinerary-duration-and-distance {
-    width: 100px;
-    margin-top: 2px;
-  }
-
-  .itinerary-duration {
-    font-size: 21px;
-    @include font-narrow-medium;
-  }
-
-  .itinerary-walking-distance {
-    font-size: 18px;
-  }
-
-  .itinerary-start-time {
-    font-size: 21px;
-    padding-top: 7px;
-    padding-left: 16px;
-    @include font-narrow-medium;
-
-    .itinerary-first-leg-start-time {
-      padding-top: 0;
-      font-size: $font-size-normal;
-    }
-  }
-
-  .itinerary-legs {
-    padding-top: 14px;
-    flex-shrink: 2;
-
-    .line:after {
-      top: 10px;
-      border-width: 3px;
-      border-radius: 3px;
-    }
-
-    .line .icon {
-      margin-top: 0;
-      margin-left: 5px;
-      font-size: 24px;
-    }
-
-    .vehicle-number {
-      font-size: $font-size-normal;
-      margin-left: 6px;
-      margin-top: 3.5px;
-    }
-  }
-
-  .itinerary-end-time {
-    font-size: 21px;
-    padding-top: 8px;
-  }
-
-  .action-arrow {
-    padding-left: 30px;
-    font-size: 20px;
-    padding-top: 8px;
   }
 }

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
+import cx from 'classnames';
 
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { plan as examplePlan } from '../documentation/ExampleData';
@@ -52,17 +53,19 @@ const setSelectedTimeToNow = (router, location) =>
     query: { ...location.query, time: moment().unix(), arriveBy: false },
   });
 
-export default function TimeNavigationButtons({ itineraries }, { router, location }) {
+
+// TODO: sptlit into container and view
+export default function TimeNavigationButtons({ itineraries }, { router, location, breakpoint }) {
   if (!itineraries || !itineraries[0]) { return null; }
-  let itineraryFeedback = config.itinerary.enableFeedback ? <ItineraryFeedback /> : null;
+  const itineraryFeedback = config.itinerary.enableFeedback ? <ItineraryFeedback /> : null;
   const enableButtonArrows = config.itinerary.timeNavigation.enableButtonArrows;
-  let leftArrow = enableButtonArrows ?
+  const leftArrow = enableButtonArrows ?
     <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back" /> : null;
-  let rightArrow = enableButtonArrows ?
+  const rightArrow = enableButtonArrows ?
     <Icon img={'icon-icon_arrow-right'} className="cursor-pointer back" /> : null;
 
   return (
-    <div className="time-navigation-buttons">
+    <div className={cx('time-navigation-buttons', { 'bp-large': breakpoint === 'large' })}>
       {itineraryFeedback}
       <button
         className="standalone-btn time-navigation-earlier-btn"
@@ -100,6 +103,7 @@ TimeNavigationButtons.propTypes = {
 TimeNavigationButtons.contextTypes = {
   router: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  breakpoint: PropTypes.string,
 };
 
 TimeNavigationButtons.description = (

@@ -16,6 +16,14 @@ function MainMenu(props) {
       </span>
     </p>);
 
+  let links = config.topNaviLinks.map(link =>
+    (<div className="offcanvas-section">
+      <Link id={link.name} to={link.url}>
+        {link.name}
+      </Link>
+    </div>)
+  );
+
   return (
     <div className="main-menu no-select">
       <div onClick={props.toggleVisibility} className="close-button cursor-pointer">
@@ -26,13 +34,19 @@ function MainMenu(props) {
         {config.mainMenu.showInquiry && inquiry}
       </header>
       <div className="offcanvas-section">
-        {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
-          <DisruptionInfoButtonContainer />}
+        <Link id="frontpage" to="/">
+          <FormattedMessage id="frontpage" defaultMessage="Front page" />
+        </Link>
       </div>
+      {links}
       <div className="offcanvas-section">
         <Link id="about" to="/tietoja-palvelusta">
           <FormattedMessage id="about-this-service" defaultMessage="About this service" />
         </Link>
+      </div>
+      <div className="offcanvas-section">
+        {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
+          <DisruptionInfoButtonContainer />}
       </div>
     </div>);
 }

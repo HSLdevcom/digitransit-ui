@@ -74,55 +74,54 @@
       top: 2px;
     }
   }
-}
 
-
-.breakpoint-large .origin-destination-bar {
-  height: 110px;
-  flex-wrap: wrap;
-  padding-left: 30px;
-  padding-right: 30px;
-
-  h2 {
-    width: 100%;
-    @include font-medium;
-    letter-spacing: -0.6px;
-    color: $primary-font-color;
-    font-size: 24px;
-    margin: 5px 0 0 0;
-  }
-
-  .field-link {
-    width: calc(50% - 35px);
+  &.bp-large {
+    height: 110px;
+    flex-wrap: wrap;
     padding-left: 30px;
-    margin-bottom: 5px;
+    padding-right: 30px;
 
-    .icon.itinerary-icon {
-      font-size: 30px;
-      margin-left: -37px;
-      margin-top: -3px;
+    h2 {
+      width: 100%;
+      @include font-medium;
+      letter-spacing: -0.6px;
+      color: $primary-font-color;
+      font-size: 24px;
+      margin: 5px 0 0 0;
     }
 
-    span:first-child::before {
-      margin-top: -3px;
-      margin-left: -27px;
-      font-size: 14.4px;
+    .field-link {
+      width: calc(50% - 35px);
+      padding-left: 30px;
+      margin-bottom: 5px;
+
+      .icon.itinerary-icon {
+        font-size: 30px;
+        margin-left: -37px;
+        margin-top: -3px;
+      }
+
+      span:first-child::before {
+        margin-top: -3px;
+        margin-left: -27px;
+        font-size: 14.4px;
+      }
+
+      span:last-child {
+        height: auto;
+        padding-bottom: 2px;
+        font-size: $font-size-normal;
+      }
     }
 
-    span:last-child {
-      height: auto;
-      padding-bottom: 2px;
-      font-size: $font-size-normal;
-    }
-  }
+    .switch {
+      padding: 4px 6px;
+      font-size: 18px;
+      margin-top: -10px;
 
-  .switch {
-    padding: 4px 6px;
-    font-size: 18px;
-    margin-top: -10px;
-
-    .icon {
-      top: 3px;
+      .icon {
+        top: 3px;
+      }
     }
   }
 }

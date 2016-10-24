@@ -1,8 +1,41 @@
-.customize-search {
-  background: #333;
-  padding-top: 40px;
-  padding-bottom: 20px;
-  color: $offcanvas-link-color;
+.customize-search-wrapper {
   height:100%;
-  overflow-y: auto;
+
+  .offcanvas-close {
+    float: left;
+    margin-top: 10px;
+    border-radius: $border-radius 0 0 $border-radius;
+    width: 35px;
+    padding: 30px 8px;
+    background: #333;
+
+    .action-arrow {
+      font-size: 25px;
+
+      svg {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .customize-search {
+    background: #333;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    color: $offcanvas-link-color;
+    height:100%;
+    overflow-y: auto;
+
+    h4, .sub-header-h5 {
+      color: $medium-gray;
+    }
+
+    hr {
+      margin-top: 20px;
+      height: 2px;
+      border: 0;
+      opacity: 0.1;
+      background-color: #ffffff;
+    }
+  }
 }

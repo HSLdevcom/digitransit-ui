@@ -26,7 +26,7 @@ class FeedbackPanel extends React.Component
       modalIsOpen: false
       charLeft: FEEDBACK_OPEN_AREA_MAX_CHARS
 
-  componentWillMount: =>
+  componentDidMount: =>
     @context.getStore('FeedbackStore').addChangeListener @onFeedbackModalChange
 
   componentWillUnmount: =>
