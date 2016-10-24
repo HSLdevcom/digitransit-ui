@@ -1,7 +1,7 @@
 .summary {
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .summary-no-route-found {
@@ -11,47 +11,67 @@
 .time-selectors {
   @include font-book;
   font-size: $font-size-smallish;
-
-  height: 20px;
-  margin: 4px 0;
+  height: 30px;
   background-color: $secondary-color;
-  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
 
   input[type="date"], input[type="time"], input[type="text"], select {
     vertical-align: middle;
     text-align: left;
-    height: 19px;
     width: auto;
-    padding: 0;
-    margin: 0;
-    margin-right: 7px;
+    margin: 0px 0px 0px 1px;
+    font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
     background-color: $secondary-color;
     box-shadow: none;
-    color: $secondary-font-color !important;
+    color: white !important;
     border: none;
-    border-bottom: 2px dotted $gray-blue-light !important;
     border-radius: 0;
     appearance: none;
     @include font-book;
-    font-size: $font-size-smallish;
 
-    &:focus, &:hover {
-      border-color: $gray-blue-light;
-      background-color: $secondary-color;
+    &:hover {
+      background-color: $primary-color;
       outline: none;
       box-shadow: none;
     }
+
+    &:focus {
+      background-color: $primary-color;
+      outline: none;
+      box-shadow: none;
+    }
+
+    border-radius: $border-radius;
+    background: $primary-color !important;
+    padding: 6px 13px 6px 6px !important;
+  }
+  .select-wrapper {
+    position:relative;
   }
 
-  .time {
+  .fake-select-arrow {
+    position: absolute;
+    right: 5px;
+    top: 13px;
+    font-size: 5px;
+    color: #fff;
+  }
+
+  select {
+    height: 30px;
+  }
+
+  .time-selector {
     @include font-book;
-    height: 19px !important;
+    height: 30px !important;
     text-align: left;
     font-family: $font-family !important;
+    display: flex !important;
     input {
-      font-size: 14px !important;
+      font-size: $font-size-xxsmall !important;
     }
     hr {
       display: none;
@@ -68,29 +88,53 @@
  }
 }
 
-.bp-large .time-selectors {
-  padding: 0 30px;
+.time-selector-settings-row {
+  padding: 0 6px;
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+.bp-large.time-selector-settings-row {
+  padding: 0 20px;
 
   input[type="date"], input[type="time"], input[type="text"], select {
-    font-size: $font-size-normal;
+    font-size: $font-size-normal !important;
+  }
+
+  .right-offcanvas-toggle {
+      padding: 0 7px;
+      span {
+        font-size: $font-size-small;
+      }
   }
 }
 
 .right-offcanvas-toggle {
-  margin: 4px 0;
-  background-color: #333;
-  border-radius: 5px 0 0 5px;
-  width: 36px;
-  height: 32px;
+  span {
+    @include font-bold;
+    font-size: 10px;
+    margin: 0 4px;
+  }
+  margin: 0;
+  background-color: $primary-color;
+  border-radius: 2px;
+  width: auto;
+  font-size: $font-size-xxsmall;
+  height: 30px;
   text-align: center;
+  text-transform:uppercase;
+  color: $primary-font-color;
+  padding: 0px 2px 0px 2px;
 
   .icon-holder {
-    margin-top: 7px;
-    vertical-align: middle;
     position: relative;
+    top: 5px;
+    vertical-align: middle;
+    display: inline;
 
     .icon {
       fill: $white;
+      font-size: 15pt;
     }
 
     .super-icon {

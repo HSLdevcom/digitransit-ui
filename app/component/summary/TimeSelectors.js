@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import TimePicker from 'material-ui/TimePicker';
+import Icon from '../icon/icon';
 
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import supportsInputType from '../../util/supportsInputType';
@@ -11,44 +12,56 @@ export default function TimeSelectors(
 ) {
   return (
     <div className="time-selectors">
-      <select className="arrive" value={arriveBy} onChange={setArriveBy}>
-        <option value="false">
-          {intl.formatMessage({
-            id: 'leaving-at',
-            defaultMessage: 'Leaving at',
-          })}
-        </option>
-        <option value="true">
-          {intl.formatMessage({
-            id: 'arriving-at',
-            defaultMessage: 'Arriving at',
-          })}
-        </option>
-      </select>
-      <select
-        className="date"
-        value={time.format('YYYY-MM-DD')}
-        onChange={changeDate}
-      >
-        {dates}
-      </select>
+      <div className="select-wrapper">
+        <select className="arrive" value={arriveBy} onChange={setArriveBy}>
+          <option value="false">
+            {intl.formatMessage({
+              id: 'leaving-at',
+              defaultMessage: 'Leaving at',
+            })}
+          </option>
+          <option value="true">
+            {intl.formatMessage({
+              id: 'arriving-at',
+              defaultMessage: 'Arriving at',
+            })}
+          </option>
+        </select>
+        <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+      </div>
+      <div className="select-wrapper">
+        <select
+          className="date"
+          value={time.format('YYYY-MM-DD')}
+          onChange={changeDate}
+        >
+          {dates}
+        </select>
+        <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+      </div>
       {supportsInputType('time') ?
-        <input
-          type="time"
-          className="time"
-          value={time.format('HH:mm')}
-          onChange={changeTime}
-        /> :
-        <TimePicker
-          format="24hr"
-          className="time time-mui"
-          defaultTime={time.toDate()}
-          value={time.toDate()}
-          onChange={changeTimeMui}
-          style={{
-            display: 'inline-block',
-          }}
-        />}
+        <div className="select-wrapper">
+          <input
+            type="time"
+            className="time-selector"
+            value={time.format('HH:mm')}
+            onChange={changeTime}
+          />
+          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+        </div> :
+        <div className="select-wrapper">
+          <TimePicker
+            format="24hr"
+            className="time-selector time-mui"
+            defaultTime={time.toDate()}
+            value={time.toDate()}
+            onChange={changeTimeMui}
+            style={{
+              display: 'inline-block',
+            }}
+          />
+          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+        </div>}
     </div>
   );
 }

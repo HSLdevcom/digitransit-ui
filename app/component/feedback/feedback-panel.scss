@@ -4,7 +4,7 @@
     vertical-align: sub;
     width: 1em;
     height: 1em;
-    font-size: 14px;
+    font-size: $font-size-smallish;
   }
 
   .feedback-close-container {
@@ -97,5 +97,5 @@
   @extend .right;
   margin-top: 43px;
   color: $gray;
-  font-size: 11px;
+  font-size: $font-size-xxsmall;
 }
