@@ -236,6 +236,7 @@ export default Relay.createContainer(SummaryPage, {
             ${SummaryPlanContainer.getFragment('itineraries')}
             legs {
               ${ItineraryLine.getFragment('legs')}
+              transitLeg
               legGeometry {
                 points
               }

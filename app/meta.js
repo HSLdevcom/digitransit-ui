@@ -49,7 +49,7 @@ export default function getMetadata(lang) {
       content: `${root}/img/${configPath}-icons/ms-icon-144x144.png`,
     }, {
       name: 'theme-color',
-      content: `${config.colors.primary}`,
+      content: '#fff',
     }, {
       property: 'og:url',
       content: `${root}/`,

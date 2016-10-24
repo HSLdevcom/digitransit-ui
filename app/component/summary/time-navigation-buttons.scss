@@ -18,13 +18,12 @@
       margin-right: 0;
     }
   }
-}
+  &.bp-large {
+    margin: 20px;
 
-.breakpoint-large .time-navigation-buttons {
-  margin: 20px;
-
-  button {
-    font-size: 18px;
-    height: 40px;
+    button {
+      font-size: 18px;
+      height: 40px;
+    }
   }
 }

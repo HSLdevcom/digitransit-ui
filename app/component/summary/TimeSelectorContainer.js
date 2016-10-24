@@ -11,6 +11,7 @@ class TimeSelectorContainer extends Component {
     intl: intlShape.isRequired,
     location: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   state = { time: this.context.location.query.time ?
@@ -33,7 +34,7 @@ class TimeSelectorContainer extends Component {
 
   getDates() {
     const dates = [];
-    const date = moment(); // TODO: cache
+    const date = this.context.getStore('TimeStore').getCurrentTime();
 
     dates.push(
       <option value={date.format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')} >

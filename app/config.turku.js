@@ -11,8 +11,7 @@ export default {
     STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
   },
 
-  title: 'Föli - Turun seudun joukkoliikenne',
-  useNavigationLogo: true,
+  title: 'Reittiopas',
 
   contactName: {
     sv: '',
@@ -45,6 +44,12 @@ export default {
   },
 
   logo: '/img/foli-logo.png',
+
+  topNaviLinks: [
+    { name: 'Hinnat', href: 'http://www.foli.fi/fi/tuotteet-ja-hinnat' },
+    { name: 'Ohjeita', href: 'http://www.foli.fi/fi/tietoja-ja-ohjeita' },
+  ],
+
 
   socialMedia: {
     title: 'Fölin reittiopas',

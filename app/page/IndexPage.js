@@ -1,11 +1,11 @@
 import React from 'react';
-
 import getContext from 'recompose/getContext';
 import { clearDestination } from '../action/EndpointActions';
 import FeedbackPanel from '../component/feedback/feedback-panel';
 import FrontPagePanelContainer from '../component/front-page/FrontPagePanelContainer';
 import MapWithTracking from '../component/map/MapWithTracking';
-import { SearchMainContainerWithBreakpoint } from '../component/search/SearchMainContainer';
+import SearchMainContainer from '../component/search/SearchMainContainer';
+import config from '../config';
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -19,10 +19,6 @@ class IndexPage extends React.Component {
     routes: React.PropTypes.array,
   }
 
-  static defaultProps = {
-    breakpoint: 'medium',
-  }
-
   componentWillMount = () => {
     this.resetToCleanState();
   }
@@ -31,7 +27,7 @@ class IndexPage extends React.Component {
     const search = this.context.location.search;
 
     if (search && search.indexOf('citybikes') >= -1) {
-      // this.context.executeAction(forceCitybikeState); // TODO: how to do this??
+      config.transportModes.citybike.defaultValue = true;
     }
   }
 
@@ -42,9 +38,10 @@ class IndexPage extends React.Component {
   render() {
     return (
       <div className={`front-page fullscreen bp-${this.props.breakpoint}`} >
-        <MapWithTracking showStops ><SearchMainContainerWithBreakpoint /></MapWithTracking>
+        <MapWithTracking breakpoint={this.props.breakpoint} showStops >
+          <SearchMainContainer /></MapWithTracking>
         <FrontPagePanelContainer
-          routes={this.props.routes} breakpoint={this.props.breakpoint}
+          routes={this.props.routes}
         >{this.props.children}</FrontPagePanelContainer>
         <FeedbackPanel />
       </div>

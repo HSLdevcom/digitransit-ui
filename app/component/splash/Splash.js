@@ -1,12 +1,11 @@
 import React from 'react';
-
 import { intlShape, FormattedMessage } from 'react-intl';
-
 import FrontPagePanelContainer from '../front-page/FrontPagePanelContainer';
 import { setOriginToDefault } from '../../action/EndpointActions';
 import FakeSearchBar from '../search/FakeSearchBar';
 import { default as FakeSearchWithButton } from '../search/FakeSearchWithButton';
 import OneTabSearchModal from '../search/OneTabSearchModal';
+
 
 class Splash extends React.Component {
   static contextTypes = {
@@ -23,24 +22,22 @@ class Splash extends React.Component {
 
   constructor(...args) {
     super(...args);
-    this.closeModal = this.closeModal.bind(this);
 
     this.state = {
       searchModalIsOpen: false,
     };
   }
 
-  closeModal() {
-    return this.setState({
+  closeModal = () => {
+    this.setState({
       searchModalIsOpen: false,
     });
-  }
+  };
 
   render() {
     if (this.props.displaySplash !== true) {
       return this.props.children;
     }
-
 
     const destinationPlaceholder = this.context.intl.formatMessage({
       id: 'destination-placeholder',

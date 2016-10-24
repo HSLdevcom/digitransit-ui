@@ -3,6 +3,8 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
+import withProps from 'recompose/withProps';
+import { FormattedMessage } from 'react-intl';
 
 import omitBy from 'lodash/omitBy';
 import isNil from 'lodash/isNil';
@@ -14,7 +16,7 @@ import IndexPage from './page/IndexPage';
 import RoutePage from './page/RoutePage';
 import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
-// import LoadingPage from './page/LoadingPage'; TODO: Re-add loadingspinners where wanted
+import LoadingPage from './page/LoadingPage';
 import Error404 from './page/404';
 import StyleGuidelines from './page/StyleGuidelines';
 import AddFavouritePage from './page/AddFavouritePage';
@@ -31,11 +33,11 @@ import RouteTitle from './component/route/RouteTitle';
 import StopPageMap from './component/stop/StopPageMap';
 import StopPageHeader from './component/stop/StopPageHeader';
 import StopPageMeta from './component/stop/StopPageMeta';
+import FavouritesPanel from './component/favourites/FavouritesPanel';
+import NearbyRoutesPanel from './component/front-page/NearbyRoutesPanel';
 import SummaryTitle from './component/summary/SummaryTitle';
 import ItineraryTab from './component/itinerary/ItineraryTab';
 import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
-import FavouritesPanel from './component/favourites/FavouritesPanel';
-import NearbyRoutesPanel from './component/front-page/NearbyRoutesPanel';
 
 import { storeEndpoint } from './action/EndpointActions';
 import { otpToLocation } from './util/otpStrings';
@@ -147,23 +149,35 @@ SummaryPageWrapper.propTypes = {
   routerProps: React.PropTypes.object.isRequired,
 };
 
+const StopTitle = withProps({
+  id: 'stop-page.title-short',
+  defaultMessage: 'Stop',
+})(FormattedMessage);
+
+const TerminalTitle = withProps({
+  id: 'terminal-page.title-short',
+  defaultMessage: 'Terminal',
+})(FormattedMessage);
+
 const routes = (
   <Route
-    component={(props) => <ContainerDimensions><TopLevel {...props} /></ContainerDimensions>}
+    component={(props) => (typeof window !== 'undefined' ?
+      <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
+      <TopLevel {...props} />
+    )}
   >
-
     <Route
-      path="/" components={{
+      path="/" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
-        content: (props) => (<SplashOrChildren><IndexPage {...props} /></SplashOrChildren>)
+        content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
         ,
       }}
     >
       <Route
-        path="lahellasi" component={() => <NearbyRoutesPanel />}
+        path="lahellasi" component={NearbyRoutesPanel}
       />
       <Route
-        path="suosikit" component={() => <FavouritesPanel />}
+        path="suosikit" component={FavouritesPanel}
       />
     </Route>
 
@@ -172,7 +186,7 @@ const routes = (
       <Route
         path=":stopId"
         components={{
-          title: () => <span>Pysäkki</span>, // TODO: Add FormattedMessage
+          title: StopTitle,
           header: StopPageHeader,
           content: StopPage,
           map: StopPageMap,
@@ -184,6 +198,12 @@ const routes = (
           map: StopQueries,
           meta: StopQueries,
         }}
+        render={{
+          // eslint-disable-next-line react/prop-types
+          header: ({ props }) => (props ? <StopPageHeader {...props} /> : <LoadingPage />),
+          // eslint-disable-next-line react/prop-types
+          content: ({ props }) => (props ? <StopPage {...props} /> : false),
+        }}
       >
         <Route path="kartta" fullscreenMap />
         <Route path="info" component={Error404} />
@@ -194,7 +214,7 @@ const routes = (
       <Route
         path=":terminalId"
         components={{
-          title: () => <span>Terminaali</span>, // TODO: Add FormattedMessage
+          title: TerminalTitle,
           header: StopPageHeader,
           content: StopPage,
           map: StopPageMap,
@@ -274,8 +294,6 @@ const routes = (
         title: () => <span>{config.title}</span>,
         content: AboutPage }}
     />
-    {/* Main menu does not open without this in mock mode? */}
-    <Route path="/?mock" name="mockIndex" component={IndexPage} />
   </Route>
 );
 

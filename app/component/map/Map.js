@@ -43,6 +43,7 @@ if (isBrowser) {
 class Map extends React.Component {
   static propTypes = {
     bounds: React.PropTypes.array,
+    boundsOptions: React.PropTypes.object,
     center: React.PropTypes.bool,
     className: React.PropTypes.string,
     children: React.PropTypes.node,
@@ -89,7 +90,13 @@ class Map extends React.Component {
 
   resizeMap = () => {
     if (this.refs.map) {
-      this.refs.map.leafletElement.invalidateSize();
+      this.refs.map.leafletElement.invalidateSize(false);
+      if (this.props.fitBounds) {
+        this.refs.map.leafletElement.fitBounds(
+          boundWithMinimumArea(this.props.bounds),
+          this.props.boundsOptions
+        );
+      }
     }
   }
 
@@ -160,9 +167,11 @@ class Map extends React.Component {
 
       ({ zoom } = this.props);
 
-      const boundsOptions = this.props.padding && {
-        paddingTopLeft: this.props.padding,
-      };
+      const boundsOptions = this.props.boundsOptions;
+
+      if (this.props.padding) {
+        boundsOptions.paddingTopLeft = this.props.padding;
+      }
 
       map = (
         <LeafletMap

@@ -33,7 +33,7 @@ module.exports = {
       selector: '.card-header .sub-header-h4',
     },
     cardName: {
-      selector: '.card-header > .h4',
+      selector: '.card-header > .h3',
     },
     departure: {
       selector: '.route-detail-text',

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
+import cx from 'classnames';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -56,7 +57,9 @@ class ItineraryTab extends React.Component {
           </ItinerarySummary>
         }
         <div className="momentum-scroll itinerary-tabs__scroll">
-          <div className="itinerary-main">
+          <div
+            className={cx('itinerary-main', { 'bp-large': this.context.breakpoint === 'large' })}
+          >
             <ItineraryLegs
               itinerary={this.props.itinerary}
               focusMap={this.handleFocus}
