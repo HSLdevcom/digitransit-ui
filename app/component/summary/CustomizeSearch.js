@@ -8,7 +8,7 @@ import Icon from '../icon/Icon';
 import Slider from '../util/Slider';
 import ToggleButton from '../util/ToggleButton';
 import ModeFilter from '../util/ModeFilter';
-import Select from '../util/select';
+import Select from '../util/Select';
 import config from '../../config';
 
 class CustomizeSearch extends React.Component {
