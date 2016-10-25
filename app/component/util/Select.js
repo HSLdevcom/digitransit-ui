@@ -5,7 +5,7 @@ class Select extends React.Component {
     onSelectChange: React.PropTypes.func.isRequired,
     headerText: React.PropTypes.string,
     selected: React.PropTypes.string,
-    onSelectChange: React.PropTypes.arrayOf(
+    options: React.PropTypes.arrayOf(
       React.PropTypes.shape({
         displayName: React.PropTypes.string.isRequired,
         value: React.PropTypes.string.isRequired,
