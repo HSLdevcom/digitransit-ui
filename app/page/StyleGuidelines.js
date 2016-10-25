@@ -15,7 +15,7 @@ import RouteDestination from '../component/departure/RouteDestination';
 import DepartureTime from '../component/departure/DepartureTime';
 import Distance from '../component/departure/Distance';
 import PlatformNumber from '../component/departure/PlatformNumber';
-import NotImplemented from '../component/util/not-implemented';
+import NotImplemented from '../component/util/NotImplemented';
 import NotImplementedLink from '../component/util/NotImplementedLink';
 import CardHeader from '../component/card/CardHeader';
 import Card from '../component/card/Card';
