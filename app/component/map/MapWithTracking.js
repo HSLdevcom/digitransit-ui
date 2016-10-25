@@ -5,7 +5,7 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import Map from './Map';
-import ToggleMapTracking from '../navigation/toggle-map-tracking';
+import ToggleMapTracking from '../navigation/ToggleMapTracking';
 
 function mapStateReducer(state, action) {
   switch (action.type) {
