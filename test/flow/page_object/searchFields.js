@@ -68,10 +68,10 @@ function enterKeySearch() {
 
 function itinerarySearch(origin, destination) {
   return this.setOrigin(origin)
-    .pause(100)
+    .api.pause(100)
     .enterKeyOrigin()
     .setDestination(destination)
-    .pause(100)
+    .api.pause(100)
     .enterKeyDestination();
 }
 
