@@ -34,7 +34,7 @@ function useCurrentLocationInOrigin() {
 function enterKeyOrigin() {
   this.api.debug('hit enter origin');
   this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
-  this.api.globals.elementVisibleTimeout);
+    this.api.globals.elementVisibleTimeout);
   return this.setValue('@searchOrigin', this.api.Keys.ENTER);
 }
 
@@ -61,7 +61,6 @@ function enterKeyDestination() {
 
 function enterKeySearch() {
   this.api.debug('hit enter search');
-  this.api.pause(50);
   this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
     this.api.globals.elementVisibleTimeout);
   return this.setValue('@searchInput', this.api.Keys.ENTER);
@@ -69,8 +68,10 @@ function enterKeySearch() {
 
 function itinerarySearch(origin, destination) {
   return this.setOrigin(origin)
+    .pause(100)
     .enterKeyOrigin()
     .setDestination(destination)
+    .pause(100)
     .enterKeyDestination();
 }
 
