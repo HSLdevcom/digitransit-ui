@@ -1,48 +1,70 @@
 function setOrigin(origin) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.waitForElementVisible('@frontPageSearchBar', timeout)
-    .click('@frontPageSearchBar')
+  return this.waitForElementVisible('@frontPageSearchBar', timeout)
+    .click('@frontPageSearchBar', result => {
+      this.assert.equal(result.status, 0);
+    })
     .waitForElementVisible('@origin', timeout)
-    .click('@origin')
+    .click('@origin', result => {
+      this.assert.equal(result.status, 0);
+    })
     .waitForElementVisible('@searchOrigin', timeout)
     .clearValue('@searchOrigin')
     .setValue('@searchOrigin', origin);
-
-  return this;
 }
 
 function useCurrentLocationInOrigin() {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.waitForElementVisible('@frontPageSearchBar', timeout)
-    .click('@frontPageSearchBar')
+  return this.waitForElementVisible('@frontPageSearchBar', timeout)
+    .click('@frontPageSearchBar', result => {
+      this.assert.equal(result.status, 0);
+    })
     .waitForElementVisible('@origin', timeout)
-    .click('@origin');
-  this.waitForElementVisible('@searchOrigin', timeout)
+    .click('@origin', result => {
+      this.assert.equal(result.status, 0);
+    })
+    .waitForElementVisible('@searchOrigin', timeout)
     .clearValue('@searchOrigin')
     .waitForElementVisible('@searchResultCurrentLocation', timeout)
-    .click('@searchResultCurrentLocation');
-
-  return this;
+    .click('@searchResultCurrentLocation', result => {
+      this.assert.equal(result.status, 0);
+    });
 }
 
 function enterKeyOrigin() {
-  this.api.pause(2000);
+  this.api.debug('hit enter origin');
+  this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
+  this.api.globals.elementVisibleTimeout);
   return this.setValue('@searchOrigin', this.api.Keys.ENTER);
 }
 
 function setDestination(destination) {
-  const timeout = this.api.globals.elementVisibleTimeout;
-  return this.waitForElementVisible('@frontPageSearchBar', timeout)
-    .click('@frontPageSearchBar')
-    .waitForElementVisible('@destination', timeout)
-    .click('@destination')
-    .waitForElementVisible('@searchDestination', timeout)
+  return this.waitForElementVisible('@frontPageSearchBar', this.api.globals.elementVisibleTimeout)
+    .click('@frontPageSearchBar', result => {
+      this.assert.equal(result.status, 0);
+    })
+    .waitForElementVisible('@destination', this.api.globals.elementVisibleTimeout)
+    .click('@destination', result => {
+      this.assert.equal(result.status, 0);
+    })
+    .waitForElementVisible('@searchDestination', this.api.globals.elementVisibleTimeout)
     .setValue('@searchDestination', destination);
 }
 
 function enterKeyDestination() {
-  this.api.pause(2000);
+  this.api.debug('hit enter destination');
+  this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
+    this.api.globals.elementVisibleTimeout);
+
   return this.setValue('@searchDestination', this.api.Keys.ENTER);
+}
+
+function enterKeySearch() {
+  this.api.debug('hit enter search');
+  this.api.pause(50);
+  this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
+    this.api.globals.elementVisibleTimeout);
+  return this.setValue('@searchInput', this.api.Keys.ENTER);
 }
 
 function itinerarySearch(origin, destination) {
@@ -55,18 +77,22 @@ function itinerarySearch(origin, destination) {
 function setSearch(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
   this.waitForElementVisible('@frontPageSearchBar', timeout)
-    .click('@frontPageSearchBar')
+    .click('@frontPageSearchBar', result => {
+      this.assert.equal(result.status, 0);
+    })
     .waitForElementVisible('@search', timeout)
-    .click('@search')
+    .click('@search', result => {
+      this.assert.equal(result.status, 0);
+    })
     .waitForElementVisible('@searchInput', timeout)
     .setValue('@searchInput', search);
 
-  this.api.pause(1000);
-  return this.setValue('@searchInput', this.api.Keys.ENTER);
+  return this.enterKeySearch();
 }
 
 module.exports = {
   commands: [{
+    enterKeySearch,
     setOrigin,
     useCurrentLocationInOrigin,
     enterKeyOrigin,
