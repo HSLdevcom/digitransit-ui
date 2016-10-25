@@ -13,7 +13,7 @@ import SubwayLeg from './SubwayLeg';
 import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
-import CarLeg from './car-leg';
+import CarLeg from './CarLeg';
 import config from '../../../config';
 
 class ItineraryLegs extends React.Component {
