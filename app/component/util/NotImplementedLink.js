@@ -24,7 +24,7 @@ class NotImplementedLink extends React.Component {
     name: React.PropTypes.node,
     nonTextLink: React.PropTypes.bool,
     className: React.PropTypes.string,
-    children: React.propTypes.node,
+    children: React.PropTypes.node,
   };
 
   notImplemented = () => {

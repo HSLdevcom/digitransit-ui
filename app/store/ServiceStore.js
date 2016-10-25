@@ -15,7 +15,7 @@ class ServiceStore extends Store {
   }
 
   geolocator() {
-    return { geolocation: this.mock.geolocation || navigator.geolocation };
+    return { geolocation: (this.mock && this.mock.geolocation) || navigator.geolocation };
   }
 
   notify(disableDebounce) {
