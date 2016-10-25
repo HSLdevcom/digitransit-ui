@@ -4,7 +4,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from '../icon/icon';
 import ScoreTable from './ScoreTable';
-import TextAreaWithCounter from './text-area-with-counter';
+import TextAreaWithCounter from './TextAreaWithCounter';
 import { closeFeedbackModal } from '../../action/feedbackActions';
 import { recordResult } from '../../util/Feedback';
 
