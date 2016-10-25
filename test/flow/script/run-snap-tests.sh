@@ -25,15 +25,19 @@ NIGHTWATCH_BINARY="./node_modules/nightwatch/bin/nightwatch"
 #echo "Starting local server."
 #START_SERVER=1
 #CONFIG=hsl PORT=8080 npm run dev-nowatch &
-echo "Building app"
-npm run build; CONFIG=hsl PORT=8080 npm run start &
-NODE_PID=$!
-sleep 15
+if [ -z "$NOSERVER" ]; then
+  echo "Building app"
+  npm run build; CONFIG=hsl PORT=8080 npm run start &
+  NODE_PID=$!
+  sleep 15
+fi
 
-echo "Starting chromedriver"
-DBUS_SESSION_BUS_ADDRESS=/dev/null CHROMEDRIVER_VERSION=2.24 chromedriver --verbose --log-path=chromedriver.log &
+if [ -z "$CHROMEDRIVER" ]; then CHROMEDRIVER="chromedriver"; fi
+
+echo "Starting chromedriver '$CHROMEDRIVER'"
+DBUS_SESSION_BUS_ADDRESS=/dev/null CHROMEDRIVER_VERSION=2.24 $CHROMEDRIVER --verbose --log-path=chromedriver.log &
 DRIVER_PID=$!
-sleep 2
+sleep 4
 
 #while true; do ps aux;sleep 10;done &
 #WATCHER_PID=$!
@@ -45,7 +49,9 @@ echo "Done"
 
 
 #killtree $WATCHER_PID
-killtree $NODE_PID
+if [ -n "$NODE_PID" ]; then
+  killtree $NODE_PID
+fi
 killtree $DRIVER_PID
 
 echo "Exiting with status $TESTSTATUS"
