@@ -4,7 +4,7 @@ import DisruptionInfoStore from './store/DisruptionInfoStore';
 import EndpointStore from './store/EndpointStore';
 import FavouriteLocationStore from './store/FavouriteLocationStore';
 import FavouriteRoutesStore from './store/FavouriteRoutesStore';
-import FavouriteStopsStore from './store/favourite-stops-store';
+import FavouriteStopsStore from './store/FavouriteStopsStore';
 import FeedbackStore from './store/feedback-store';
 import MessageStore from './store/MessageStore';
 import ModeStore from './store/ModeStore';
