@@ -9,7 +9,7 @@ import FeedbackStore from './store/FeedbackStore';
 import MessageStore from './store/MessageStore';
 import ModeStore from './store/ModeStore';
 import NotImplementedStore from './store/NotImplementedStore';
-import OldSearchesStore from './store/old-searches-store';
+import OldSearchesStore from './store/OldSearchesStore';
 import PositionStore from './store/PositionStore';
 import PreferencesStore from './store/PreferencesStore';
 import RealTimeInformationStore from './store/RealTimeInformationStore';
