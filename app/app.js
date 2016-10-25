@@ -5,7 +5,7 @@ import EndpointStore from './store/EndpointStore';
 import FavouriteLocationStore from './store/FavouriteLocationStore';
 import FavouriteRoutesStore from './store/FavouriteRoutesStore';
 import FavouriteStopsStore from './store/FavouriteStopsStore';
-import FeedbackStore from './store/feedback-store';
+import FeedbackStore from './store/FeedbackStore';
 import MessageStore from './store/MessageStore';
 import ModeStore from './store/ModeStore';
 import NotImplementedStore from './store/not-implemented-store';
