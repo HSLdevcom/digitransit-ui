@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WalkLeg from './walk-leg';
+import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
 import EndLeg from './end-leg';
