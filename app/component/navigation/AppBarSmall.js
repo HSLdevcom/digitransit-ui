@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import BackButton from './BackButton';
-import NotImplemented from '../util/not-implemented';
+import NotImplemented from '../util/NotImplemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import MessageBar from './MessageBar';
