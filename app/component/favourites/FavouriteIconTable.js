@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import GenericTable from '../util/table/generic-table';
+import GenericTable from '../util/table/GenericTable';
 import Icon from '../icon/Icon';
 
 const FavouriteIconTable = ({ favouriteIconIds, selectedIconId, handleClick }) => {
