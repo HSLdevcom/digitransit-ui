@@ -1,33 +1,55 @@
+
 function clickFavourites() {
+  this.api.debug('opening favourites tab');
   this.waitForElementVisible('@favouritePaneSelect', this.api.globals.elementVisibleTimeout);
-  return this.click('@favouritePaneSelect');
+  return this.click('@favouritePaneSelect', result => {
+    this.assert.equal(result.status, 0);
+  });
 }
 
 function addFavourite() {
+  this.api.debug('clicking add favourite');
   this.waitForElementVisible('@newFavouriteButtonContent', this.api.globals.elementVisibleTimeout);
-  return this.click('@newFavouriteButtonContent');
+  this.click('@newFavouriteButtonContent', result => {
+    this.assert.equal(result.status, 0);
+  });
+  return this;
 }
 
 function enterAddress(addressSearch) {
-  const timeout = this.api.globals.elementVisibleTimeout;
-  this.waitForElementVisible('@addressPlaceholderNoSelect', timeout);
-  this.click('@addressPlaceholderNoSelect');
-  this.waitForElementVisible('@searchFavourite', timeout);
+  this.api.debug('entering address');
+  this.waitForElementVisible('@addressPlaceholderNoSelect', this.api.globals.elementVisibleTimeout);
+
+  this.click('@addressPlaceholderNoSelect', result => {
+    this.assert.equal(result.status, 0);
+  });
+  this.waitForElementPresent('@searchFavourite', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchFavourite', addressSearch);
-  this.api.pause(1000);
+  this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
+    this.api.globals.elementVisibleTimeout);
   return this.setValue('@searchFavourite', this.api.Keys.ENTER);
 }
 
 function enterName(name) {
+  this.api.debug('entering name');
+  this.waitForElementVisible('@nameInput', this.api.globals.elementVisibleTimeout);
   return this.setValue('@nameInput', name);
 }
 
 function clickHomeIcon() {
-  return this.click('@homeIcon');
+  this.api.debug('clicking home icon');
+  this.waitForElementVisible('@homeIcon', this.api.globals.elementVisibleTimeout);
+  return this.click('@homeIcon', result => {
+    this.assert.equal(result.status, 0);
+  });
 }
 
 function saveFavourite() {
-  return this.click('@saveButton');
+  this.api.debug('saving favourite');
+  this.waitForElementVisible('@saveButton', this.api.globals.elementVisibleTimeout);
+  return this.click('@saveButton', result => {
+    this.assert.equal(result.status, 0);
+  });
 }
 
 function saveHomeFavourite(address, name) {
@@ -45,11 +67,11 @@ function verifyFirstName(header) {
 }
 
 function verifyFavouriteInSearchResult(favouriteName) {
-  this.api.useXpath();
-  this.waitForElementPresent(
+  this.api.withXpath(() => {
+    this.waitForElementPresent(
     `//*/li[@class=\'react-autowhatever__item\']/span[text()=\'${favouriteName}\']`,
       this.api.globals.elementVisibleTimeout);
-  this.api.useCss();
+  });
 }
 
 module.exports = {
@@ -66,10 +88,10 @@ module.exports = {
   }],
   elements: {
     favouritePaneSelect: {
-      selector: '.favourites',
+      selector: 'li.favourites',
     },
     newFavouriteButtonContent: {
-      selector: '.new-favourite-button-content',
+      selector: '#add-new-favourite-0',
     },
     addressPlaceholderNoSelect: {
       selector: '.address-placeholder ',
