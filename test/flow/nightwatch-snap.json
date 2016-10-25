@@ -1,0 +1,50 @@
+{
+  "src_folders": ["test/flow/tests"],
+  "output_folder": "test_output",
+
+  "page_objects_path": "test/flow/page_object",
+  "custom_commands_path": "test/flow/custom_commands",
+
+  "live_output": true,
+
+  "selenium": {
+    "start_process": false
+  },
+
+  "xtest_workers": {
+    "enabled": true,
+    "workers": 2
+  },
+
+  "test_workers": false,
+
+  "test_settings": {
+    "default": {
+      "globals": {
+        "itinerarySearchTimeout": 21000,
+        "elementVisibleTimeout": 30000,
+        "debug": false
+      },
+      "screenshots": {
+        "enabled": true,
+        "on_failure": true,
+        "on_error": true,
+        "path": "test_output/screenshots/"
+      },
+      "launch_url": "http://localhost:8080?mock",
+      "selenium_port"  : 9515,
+      "selenium_host"  : "localhost",
+      "default_path_prefix" : "",
+
+      "desiredCapabilities": {
+        "desiredCapabilities": {
+          "browserName": "chrome",
+          "chromeOptions" : {
+            "args" : ["--no-sandbox"]
+          },
+          "acceptSslCerts": true
+        }
+      }
+    }
+  }
+}
