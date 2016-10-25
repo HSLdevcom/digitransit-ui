@@ -114,7 +114,10 @@ class MessageBar extends Component {
       return (
         <div className="message-bar">
           <Icon img={'icon-icon_info'} className="info" />
-          <a onClick={this.handleClose} className="close-button cursor-pointer">
+          <a
+            id="close-message-bar"
+            onClick={this.handleClose} className="close-button cursor-pointer"
+          >
             <Icon img="icon-icon_close" className="close" />
           </a>
           <SwipeableViews
