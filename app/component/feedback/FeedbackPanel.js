@@ -3,7 +3,7 @@ import MaterialModal from 'material-ui/Dialog';
 import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from '../icon/icon';
-import ScoreTable from './score-table';
+import ScoreTable from './ScoreTable';
 import TextAreaWithCounter from './text-area-with-counter';
 import { closeFeedbackModal } from '../../action/feedbackActions';
 import { recordResult } from '../../util/Feedback';
