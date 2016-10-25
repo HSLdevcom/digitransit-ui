@@ -13,7 +13,7 @@ import OldSearchesStore from './store/OldSearchesStore';
 import PositionStore from './store/PositionStore';
 import PreferencesStore from './store/PreferencesStore';
 import RealTimeInformationStore from './store/RealTimeInformationStore';
-import SearchStore from './store/search-store';
+import SearchStore from './store/SearchStore';
 import ServiceStore from './store/service-store';
 import TimeStore from './store/TimeStore';
 import FavouriteCityBikeStationStore from './store/FavouriteCityBikeStationStore';
