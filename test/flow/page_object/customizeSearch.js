@@ -1,7 +1,10 @@
 const modalities = ['bus', 'tram', 'rail', 'subway', 'ferry', 'citybike', 'airplane'];
 
 function clickCanvasToggle() {
-  return this.click('@canvasToggle');
+  this.waitForElementVisible('@canvasToggle', this.api.globals.elementVisibleTimeout);
+  return this.click('@canvasToggle', result => {
+    this.assert.equal(result.status, 0);
+  });
 }
 
 function exists(selector, callback) {
@@ -17,7 +20,9 @@ function exists(selector, callback) {
 function enableModality(modality) {
   exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
     if (!found) {
-      this.click(`.btn-bar > .btn:nth-of-type(${modalities.indexOf(modality) + 1})`);
+      this.click(`.btn-bar > .btn:nth-of-type(${modalities.indexOf(modality) + 1})`, result => {
+        this.assert.equal(result.status, 0);
+      });
     }
   });
 }
@@ -25,7 +30,9 @@ function enableModality(modality) {
 function disableModality(modality) {
   exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
     if (found) {
-      this.click(selector);
+      this.click(selector, result => {
+        this.assert.equal(result.status, 0);
+      });
     }
   });
 }
@@ -33,6 +40,7 @@ function disableModality(modality) {
 function disableAllModalitiesExcept(except) {
   modalities.forEach((modality) => {
     if (modality !== except) {
+      this.api.pause(50);
       disableModality.call(this, modality);
     }
   });

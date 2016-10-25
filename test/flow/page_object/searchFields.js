@@ -1,6 +1,6 @@
 function setOrigin(origin) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  return this.waitForElementVisible('@frontPageSearchBar', timeout)
+  this.waitForElementVisible('@frontPageSearchBar', timeout)
     .click('@frontPageSearchBar', result => {
       this.assert.equal(result.status, 0);
     })
@@ -9,8 +9,9 @@ function setOrigin(origin) {
       this.assert.equal(result.status, 0);
     })
     .waitForElementVisible('@searchOrigin', timeout)
-    .clearValue('@searchOrigin')
-    .setValue('@searchOrigin', origin);
+    .clearValue('@searchOrigin');
+  this.api.pause(50);
+  return this.setValue('@searchOrigin', origin);
 }
 
 function useCurrentLocationInOrigin() {
@@ -39,6 +40,7 @@ function enterKeyOrigin() {
 }
 
 function setDestination(destination) {
+  this.api.debug('setting destination');
   return this.waitForElementVisible('@frontPageSearchBar', this.api.globals.elementVisibleTimeout)
     .click('@frontPageSearchBar', result => {
       this.assert.equal(result.status, 0);
@@ -68,10 +70,8 @@ function enterKeySearch() {
 
 function itinerarySearch(origin, destination) {
   return this.setOrigin(origin)
-    .api.pause(100)
     .enterKeyOrigin()
     .setDestination(destination)
-    .api.pause(100)
     .enterKeyDestination();
 }
 
