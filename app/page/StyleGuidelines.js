@@ -35,7 +35,6 @@ import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectParkAndRideRow from '../component/map/tile-layer/SelectParkAndRideRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
 import SelectTerminalRow from '../component/map/tile-layer/SelectTerminalRow';
-import Favourite from '../component/favourites/Favourite';
 import TicketInformation from '../component/itinerary/TicketInformation';
 import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect';
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
@@ -52,6 +51,14 @@ import FrontPagePanelSmall from '../component/front-page/FrontPagePanelSmall';
 import FrontPagePanelLarge from '../component/front-page/FrontPagePanelLarge';
 import { DepartureRow } from '../component/departure/DepartureRowContainer';
 import { BicycleRentalStationRow } from '../component/departure/BicycleRentalStationRowContainer';
+import StopPageHeader from '../component/stop/StopPageHeader';
+import StopCardHeader from '../component/stop-cards/StopCardHeader';
+import SplitBars from '../component/util/SplitBars';
+import Labeled from '../component/util/Labeled';
+import Centered from '../component/util/Centered';
+import InfoIcon from '../component/icon/InfoIcon';
+import Favourite from '../component/favourites/Favourite';
+import DepartureListHeader from '../component/departure/DepartureListHeader';
 
 class StyleGuidelinesPage extends React.Component {
   static propTypes = {
@@ -93,7 +100,6 @@ class StyleGuidelinesPage extends React.Component {
     SelectParkAndRideRow,
     SelectStopRow,
     SelectTerminalRow,
-    Favourite,
     TicketInformation,
     RouteScheduleDateSelect,
     RouteScheduleHeader,
@@ -109,6 +115,14 @@ class StyleGuidelinesPage extends React.Component {
     AppBarLarge,
     FrontPagePanelLarge,
     FrontPagePanelSmall,
+    StopPageHeader,
+    StopCardHeader,
+    SplitBars,
+    Labeled,
+    Centered,
+    InfoIcon,
+    Favourite,
+    DepartureListHeader,
   }
 
   getColors() {

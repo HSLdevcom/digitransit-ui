@@ -21,7 +21,7 @@ $border-radius-rounded: 30px;
      display: inline;
    }
    .card-code {
-     border: 1px solid $gray-blue;
+     border: 1px solid $light-gray;
      border-radius: $border-radius;
      font-size: 10px;
      color: $gray-blue;
@@ -206,7 +206,7 @@ $border-radius-rounded: 30px;
 .prefix-icon {
   margin-right: 6px;
 }
-.info {
+.info.icon {
     width: 24px;
     height: 24px;
     color: $gray-blue;

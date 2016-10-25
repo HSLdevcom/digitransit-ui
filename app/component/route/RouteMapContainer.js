@@ -5,7 +5,7 @@ import Icon from '../icon/Icon';
 import Map from '../map/Map';
 import RouteLine from '../map/route/RouteLine';
 import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
-import StopCardHeader from '../stop-cards/StopCardHeader';
+import StopCardHeaderContainer from '../stop-cards/StopCardHeaderContainer';
 
 function RouteMapContainer(
   { pattern, tripStart, className, children, toggleFullscreenMap, vehicles,
@@ -86,7 +86,7 @@ export const RouteMapFragments = {
         lon
         name
         gtfsId
-        ${StopCardHeader.getFragment('stop')}
+        ${StopCardHeaderContainer.getFragment('stop')}
       }
       ${RouteLine.getFragment('pattern')}
     }

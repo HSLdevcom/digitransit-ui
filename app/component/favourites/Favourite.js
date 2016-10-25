@@ -7,7 +7,8 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 const Favourite = ({ addFavourite, favourite, className }) => (
   <span className={cx('cursor-pointer favourite-icon', className)} onClick={addFavourite}>
     <Icon className={cx('favourite', { selected: favourite })} img="icon-icon_star" />
-  </span>);
+  </span>
+);
 
 Favourite.propTypes = {
   addFavourite: React.PropTypes.func.isRequired,
@@ -27,6 +28,9 @@ Favourite.description = (
     <ComponentUsageExample description="entity is not favourite">
       <Favourite addFavourite={() => {}} />
     </ComponentUsageExample>
-  </div>);
+  </div>
+);
+
+Favourite.displayName = 'Favourite';
 
 export default Favourite;

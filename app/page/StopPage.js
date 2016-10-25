@@ -5,22 +5,27 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
-import compose from 'recompose/compose';
 
+import DepartureListHeader from '../component/departure/DepartureListHeader';
 import DepartureListContainer from '../component/departure/DepartureListContainer';
 
-const StopPage = compose(
-  getContext({ breakpoint: React.PropTypes.string.isRequired }),
-  mapProps(props => (some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : {
-    stoptimes: props.stop.stoptimes,
-    key: 'departures',
-    className: 'stop-page momentum-scroll',
-    routeLinks: true,
-    infiniteScroll: true,
-    isTerminal: !(props.params.stopId),
-    rowClasses: 'padding-normal border-bottom',
-  }))
-)(DepartureListContainer);
+const DepartureListContainerWithProps = mapProps(props => ({
+  stoptimes: props.stop.stoptimes,
+  key: 'departures',
+  className: 'stop-page momentum-scroll',
+  routeLinks: true,
+  infiniteScroll: true,
+  isTerminal: !(props.params.stopId),
+  rowClasses: 'padding-normal border-bottom',
+}))(DepartureListContainer);
+
+const StopPage = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
+  some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
+    <div className="stop-page-content-wrapper">
+      <DepartureListHeader />
+      <DepartureListContainerWithProps {...props} />
+    </div>
+  )));
 
 const StopPageContainer = Relay.createContainer(StopPage, {
   fragments: {
