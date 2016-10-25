@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 
-import RouteList from '../stop-cards/route-list';
+import RouteList from '../stop-cards/RouteList';
 
 function DisruptionRow({ routes, startTime, endTime, description, cause }) {
   return (
