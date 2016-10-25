@@ -3,7 +3,7 @@ import routes from './routes';
 import DisruptionInfoStore from './store/DisruptionInfoStore';
 import EndpointStore from './store/EndpointStore';
 import FavouriteLocationStore from './store/FavouriteLocationStore';
-import FavouriteRoutesStore from './store/favourite-routes-store';
+import FavouriteRoutesStore from './store/FavouriteRoutesStore';
 import FavouriteStopsStore from './store/favourite-stops-store';
 import FeedbackStore from './store/feedback-store';
 import MessageStore from './store/MessageStore';
