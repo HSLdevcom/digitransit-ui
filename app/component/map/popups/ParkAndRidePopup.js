@@ -1,7 +1,7 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
 
-import MarkerPopupBottom from '../marker-popup-bottom';
+import MarkerPopupBottom from '../MarkerPopupBottom';
 import ParkAndRideAvailability from './ParkAndRideAvailability';
 import Card from '../../card/Card';
 import CardHeader from '../../card/CardHeader';
