@@ -22,17 +22,12 @@ require('babel-core/register')({
   ],
 });
 
-
-require('coffee-script/register');
-
 const port = process.env.HOT_LOAD_PORT || 9000;
 
 function getRulesConfig(env) {
   if (env === 'development') {
     return ([
       { test: /\.css$/, loaders: ['style', 'css', 'postcss'] },
-      { test: /\.cjsx$/, loaders: ['react-hot', 'coffee', 'cjsx'] },
-      { test: /\.coffee$/, loader: 'coffee' },
       { test: /\.json$/, loader: 'json' },
       { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] },
       { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
@@ -55,8 +50,6 @@ function getRulesConfig(env) {
   }
   return ([
     { test: /\.css$/, loader: ExtractTextPlugin.extract('css!postcss') },
-    { test: /\.cjsx$/, loaders: ['coffee', 'cjsx'] },
-    { test: /\.coffee$/, loader: 'coffee' },
     { test: /\.json$/, loader: 'json' },
     { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss!sass') },
     { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
@@ -183,7 +176,7 @@ function getDevelopmentEntry() {
 function getEntry() {
   const entry = {
     main: './app/client',
-    common: [ // These come from all imports in client.cjsx
+    common: [ // These come from all imports in client.js
       'react',
       'react-dom',
       'react-relay',
@@ -221,7 +214,7 @@ module.exports = {
   },
   plugins: getPluginsConfig(process.env.NODE_ENV),
   resolve: {
-    extensions: ['.js', '.cjsx', '.jsx', '.coffee'],
+    extensions: ['.js'],
     modules: ['node_modules'],
     alias: {},
   },

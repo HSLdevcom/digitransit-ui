@@ -49,7 +49,7 @@ suite('Frontpage', function () {
 });
 ```
 
-Initial url includes the mock-parameter, which gives the tests functionality to e.g. change position. Here setCurrentPosition is a feature of the upgraded browser object, which in turn requires mock functionality to be present. See also [service-store.cjsx](../app/store/service-score.cjsx).
+Initial url includes the mock-parameter, which gives the tests functionality to e.g. change position. Here setCurrentPosition is a feature of the upgraded browser object, which in turn requires mock functionality to be present. See also [ServiceStore.js](../app/store/ServiceStore.js).
 
 ```js
 describe('at Mäkelänrinne', function () {
