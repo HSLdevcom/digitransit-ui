@@ -228,12 +228,12 @@ class StyleGuidelinesPage extends React.Component {
   getHeadings() {
     return (
       <section>
-        <h1>Heading 1<span className="code">{"<h1 />"}</span></h1>
-        <h2>Heading 2<span className="code">{"<h2 />"}</span></h2>
-        <h3>Heading 3<span className="code">{"<h3 />"}</span></h3>
-        <h4>Heading 4<span className="code">{"<h4 />"}</span></h4>
-        <h5>Heading 5<span className="code">{"<h5 />"}</span></h5>
-        <h6>Heading 6<span className="code">{"<h6 />"}</span></h6>
+        <h1>Heading 1<span className="code">{'<h1 />'}</span></h1>
+        <h2>Heading 2<span className="code">{'<h2 />'}</span></h2>
+        <h3>Heading 3<span className="code">{'<h3 />'}</span></h3>
+        <h4>Heading 4<span className="code">{'<h4 />'}</span></h4>
+        <h5>Heading 5<span className="code">{'<h5 />'}</span></h5>
+        <h6>Heading 6<span className="code">{'<h6 />'}</span></h6>
       </section>
     );
   }
@@ -252,7 +252,7 @@ class StyleGuidelinesPage extends React.Component {
   getTextStyles() {
     return (
       <section>
-        <p><a>This is a link</a><span className="code">{"<a />"}</span>
+        <p><a>This is a link</a><span className="code">{'<a />'}</span>
         </p>
         <p>
           <span className="dotted-link cursor-pointer">
@@ -264,7 +264,7 @@ class StyleGuidelinesPage extends React.Component {
         </p>
         <p>Paragraph: normal text looks like this
           <span className="code">
-            {"<p />"}
+            {'<p />'}
           </span>
         </p>
         <span>span style</span>
