@@ -3,7 +3,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 
 /* Small version has constant height,

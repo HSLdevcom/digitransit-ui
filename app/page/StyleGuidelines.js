@@ -3,7 +3,7 @@ import sortBy from 'lodash/sortBy';
 import Link from 'react-router/lib/Link';
 
 import { FakeSearchWithButton } from '../component/search/FakeSearchWithButton';
-import Icon from '../component/icon/icon';
+import Icon from '../component/icon/Icon';
 import IconWithTail from '../component/icon/IconWithTail';
 import SelectedIconWithTail from '../component/icon/SelectedIconWithTail';
 import IconWithCaution from '../component/icon/IconWithCaution';
@@ -296,7 +296,7 @@ class StyleGuidelinesPage extends React.Component {
     }
     return (
       <section>Import:
-        <p className="code">Icon = require '../icon/icon'</p>
+        <p className="code">Icon = require '../icon/Icon'</p>
         <br />
         <div
           style={{

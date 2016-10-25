@@ -7,7 +7,7 @@ import getContext from 'recompose/getContext';
 import compose from 'recompose/compose';
 
 import Map from '../map/Map';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
   `/${

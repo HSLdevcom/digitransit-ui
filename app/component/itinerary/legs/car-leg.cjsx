@@ -1,7 +1,7 @@
 React        = require 'react'
 RouteNumber  = require('../../departure/RouteNumber').default
 moment       = require 'moment'
-Icon         = require '../../icon/icon'
+Icon         = require '../../icon/Icon'
 intl         = require 'react-intl'
 Distance     = require('../Distance').default
 FormattedMessage = intl.FormattedMessage

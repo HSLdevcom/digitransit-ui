@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 function WalkDistance(props) {
   const roundedWalkDistanceInM = Math.round(props.walkDistance / 100) * 100;

@@ -4,7 +4,7 @@ import { getLabel } from '../../util/suggestionUtils';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import { executeSearch, saveSearch, closeSearch } from '../../action/SearchActions';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 const L = typeof window !== 'undefined' ? require('leaflet') : null;
 

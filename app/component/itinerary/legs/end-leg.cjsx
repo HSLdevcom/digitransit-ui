@@ -1,7 +1,7 @@
 React  = require 'react'
 moment = require 'moment'
 config = require('../../../config').default
-Icon   = require '../../icon/icon'
+Icon   = require '../../icon/Icon'
 intl   = require('react-intl')
 FormattedMessage = intl.FormattedMessage
 

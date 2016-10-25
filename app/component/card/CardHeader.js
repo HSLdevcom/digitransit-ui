@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import Favourite from '../favourites/Favourite';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 const CardHeader = ({
   className,

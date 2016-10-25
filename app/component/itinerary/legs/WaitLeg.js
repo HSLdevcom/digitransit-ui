@@ -3,7 +3,7 @@ import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
 import RouteNumber from '../../departure/RouteNumber';
-import Icon from '../../icon/icon';
+import Icon from '../../icon/Icon';
 import { durationToString } from '../../../util/timeUtils';
 
 function WaitLeg(props) {

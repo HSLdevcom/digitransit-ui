@@ -1,5 +1,5 @@
 React           = require 'react'
-Icon            = require '../icon/icon'
+Icon            = require '../icon/Icon'
 
 class ToggleMapTracking extends React.Component
   @propTypes:

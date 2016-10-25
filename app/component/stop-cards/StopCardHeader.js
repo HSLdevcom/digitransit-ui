@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import NotImplementedLink from '../util/not-implemented-link';
 import CardHeader from '../card/CardHeader';
 import config from '../../config';

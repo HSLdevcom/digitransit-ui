@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { findLocation } from '../../action/PositionActions';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 class NoPositionPanel extends React.Component {
   static contextTypes = {

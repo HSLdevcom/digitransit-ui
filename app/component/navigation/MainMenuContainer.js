@@ -3,7 +3,7 @@ import Drawer from 'material-ui/Drawer';
 import { supportsHistory } from 'history/lib/DOMUtils';
 
 import config from '../../config';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import MainMenu from './MainMenu';
 import { openFeedbackModal } from '../../action/feedbackActions';
 

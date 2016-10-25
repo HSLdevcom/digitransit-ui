@@ -4,7 +4,7 @@ import { intlShape } from 'react-intl';
 
 import Distance from './Distance';
 import RouteNumber from './RouteNumber';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import config from '../../config';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 

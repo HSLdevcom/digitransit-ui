@@ -2,7 +2,7 @@ React                = require 'react'
 Modal                = require('./Modal').default
 NotImplementedAction = require('../../action/notImplementedActions')
 FormattedMessage     = require('react-intl').FormattedMessage
-Icon  = require '../icon/icon'
+Icon  = require '../icon/Icon'
 ComponentUsageExample = require('../documentation/ComponentUsageExample').default
 connectToStores       = require 'fluxible-addons-react/connectToStores'
 

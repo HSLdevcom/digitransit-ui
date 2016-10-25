@@ -1,5 +1,5 @@
 React              = require 'react'
-Icon               = require '../icon/icon'
+Icon               = require '../icon/Icon'
 {FormattedMessage} = require('react-intl')
 EndpointActions    = require('../../action/EndpointActions')
 
