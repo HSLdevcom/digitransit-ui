@@ -31,7 +31,7 @@ import PatternStopsContainer from './component/route/PatternStopsContainer';
 import TripStopsContainer from './component/trip/TripStopsContainer';
 import RouteTitle from './component/route/RouteTitle';
 import StopPageMap from './component/stop/StopPageMap';
-import StopPageHeader from './component/stop/StopPageHeader';
+import StopPageHeaderContainer from './component/stop/StopPageHeaderContainer';
 import StopPageMeta from './component/stop/StopPageMeta';
 import FavouritesPanel from './component/favourites/FavouritesPanel';
 import NearbyRoutesPanel from './component/front-page/NearbyRoutesPanel';
@@ -188,7 +188,7 @@ const routes = (
         path=":stopId"
         components={{
           title: StopTitle,
-          header: StopPageHeader,
+          header: StopPageHeaderContainer,
           content: StopPage,
           map: StopPageMap,
           meta: StopPageMeta,
@@ -201,7 +201,7 @@ const routes = (
         }}
         render={{
           // eslint-disable-next-line react/prop-types
-          header: ({ props }) => (props ? <StopPageHeader {...props} /> : <LoadingPage />),
+          header: ({ props }) => (props ? <StopPageHeaderContainer {...props} /> : <LoadingPage />),
           // eslint-disable-next-line react/prop-types
           content: ({ props }) => (props ? <StopPage {...props} /> : false),
         }}
@@ -216,7 +216,7 @@ const routes = (
         path=":terminalId"
         components={{
           title: TerminalTitle,
-          header: StopPageHeader,
+          header: StopPageHeaderContainer,
           content: StopPage,
           map: StopPageMap,
           meta: StopPageMeta,

@@ -30,6 +30,8 @@ NotImplemented = ({name}, {executeAction}) ->
     </div>
   </Modal>
 
+NotImplemented.displayName = 'NotImplemented'
+
 NotImplemented.description =
   <div>
     <p>
