@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { intlShape } from 'react-intl';
-import Card from '../../card/card';
+import Card from '../../card/Card';
 import CardHeader from '../../card/CardHeader';
 import MarkerPopupBottom from '../marker-popup-bottom';
 
