@@ -33,7 +33,7 @@ NotImplemented = ({name}, {executeAction}) ->
 NotImplemented.description =
   <div>
     <p>
-       Placeholder for a 'not implemented' popup. It is activated from clicking of not-implemented-link
+       Placeholder for a 'not implemented' popup. It is activated from clicking of NotImplementedLink
     </p>
     <ComponentUsageExample>
       <NotImplemented/>

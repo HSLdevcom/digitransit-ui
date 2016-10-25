@@ -16,7 +16,7 @@ import DepartureTime from '../component/departure/DepartureTime';
 import Distance from '../component/departure/Distance';
 import PlatformNumber from '../component/departure/PlatformNumber';
 import NotImplemented from '../component/util/not-implemented';
-import NotImplementedLink from '../component/util/not-implemented-link';
+import NotImplementedLink from '../component/util/NotImplementedLink';
 import CardHeader from '../component/card/CardHeader';
 import Card from '../component/card/Card';
 import CityBikeCard from '../component/city-bike/CityBikeCard';
