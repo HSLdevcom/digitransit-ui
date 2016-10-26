@@ -1,25 +1,10 @@
 import React from 'react';
-import Relay from 'react-relay';
-import Icon from '../icon/Icon';
-import NotImplementedLink from '../util/NotImplementedLink';
 import CardHeader from '../card/CardHeader';
 import config from '../../config';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import InfoIcon from '../icon/InfoIcon';
 
 class StopCardHeader extends React.Component {
-  getInfoIcon() {
-    return (
-      <NotImplementedLink
-        href={`/pysakit/${this.props.stop.gtfsId}/info`}
-        name="info"
-        nonTextLink
-      >
-        <span className="cursor-pointer">
-          <Icon className="info right" img="icon-icon_info" />
-        </span>
-      </NotImplementedLink>
-    );
-  }
-
   getDescription() {
     let description = '';
 
@@ -37,17 +22,14 @@ class StopCardHeader extends React.Component {
   render() {
     return (
       <CardHeader
-        addFavourite={this.props.addFavouriteStop}
         className={this.props.className}
-        favourite={this.props.favourite}
         headingStyle={this.props.headingStyle}
         name={this.props.stop.name}
         description={this.getDescription()}
         code={config.stopCard.header.showStopCode && this.props.stop.code ?
-          this.props.stop.code : null}
-      >
-        {this.props.infoIcon ? this.getInfoIcon() : null}
-      </CardHeader>
+              this.props.stop.code : null}
+        icons={this.props.icons}
+      />
   );
   }
 }
@@ -55,25 +37,31 @@ class StopCardHeader extends React.Component {
 StopCardHeader.propTypes = {
   stop: React.PropTypes.object,
   distance: React.PropTypes.number,
-  addFavouriteStop: React.PropTypes.oneOfType([
-    React.PropTypes.func,
-    React.PropTypes.bool,
-  ]).isRequired,
   className: React.PropTypes.string,
-  favourite: React.PropTypes.bool,
   headingStyle: React.PropTypes.string,
-  infoIcon: React.PropTypes.bool,
+  icons: React.PropTypes.arrayOf(React.PropTypes.node),
 };
 
-export default Relay.createContainer(StopCardHeader, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        gtfsId
-        name
-        code
-        desc
-      }
-    `,
-  },
-});
+const exampleStop = {
+  code: '4611',
+  gtfsId: 'HSL:1541157',
+  name: 'Kaivonkatsojanpuisto',
+  desc: 'Kaivonkatsojantie',
+};
+
+const exampleIcons = [<InfoIcon stop={exampleStop} />];
+
+StopCardHeader.displayName = 'StopCardHeader';
+
+StopCardHeader.description = (
+  <div>
+    <ComponentUsageExample description="basic">
+      <StopCardHeader stop={exampleStop} distance={345.6} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with icons">
+      <StopCardHeader stop={exampleStop} distance={345.6} icons={exampleIcons} />
+    </ComponentUsageExample>
+  </div>
+);
+
+export default StopCardHeader;

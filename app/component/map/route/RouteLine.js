@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import StopMarker from '../non-tile-layer/StopMarker';
-import StopCardHeader from '../../stop-cards/StopCardHeader';
+import StopCardHeaderContainer from '../../stop-cards/StopCardHeaderContainer';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 
@@ -91,7 +91,7 @@ export default Relay.createContainer(RouteLine, {
           name
           gtfsId
           platformCode
-          ${StopCardHeader.getFragment('stop')}
+          ${StopCardHeaderContainer.getFragment('stop')}
         }
       }
     `,

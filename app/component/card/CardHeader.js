@@ -1,23 +1,21 @@
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Favourite from '../favourites/Favourite';
 import Icon from '../icon/Icon';
+import SplitBars from '../util/SplitBars';
+import Favourite from '../favourites/Favourite';
 
 const CardHeader = ({
   className,
-  favourite,
-  addFavourite,
   children,
   headingStyle,
   name,
   description,
   code,
   icon,
+  icons,
 }) => (
   <div className={cx('card-header', className)}>
-    {addFavourite ?
-      <Favourite addFavourite={addFavourite} favourite={favourite} className="right" /> : null}
     {children}
     {icon ? (
       <div
@@ -25,6 +23,11 @@ const CardHeader = ({
         style={{ fontSize: 32, paddingRight: 10, height: 32 }}
       >
         <Icon img={icon} />
+      </div>
+    ) : null}
+    { icons ? (
+      <div className="right">
+        <SplitBars>{icons}</SplitBars>
       </div>
     ) : null}
     <span className={headingStyle || 'h4 link-color'}>
@@ -36,6 +39,8 @@ const CardHeader = ({
     </div>
   </div>);
 
+const exampleIcons = [<Favourite favourite={false} addFavourite={() => {}} />];
+
 CardHeader.description = (
   <div>
     <p>
@@ -44,26 +49,22 @@ CardHeader.description = (
     </p>
     <ComponentUsageExample description="">
       <CardHeader
-        addFavourite={() => {}}
         name="Testipysäkki"
         description="Testipysäkki 2"
         code="7528"
+        icons={exampleIcons}
       />
     </ComponentUsageExample>
   </div>);
 
 CardHeader.propTypes = {
-  addFavourite: React.PropTypes.oneOfType([
-    React.PropTypes.func,
-    React.PropTypes.bool,
-  ]).isRequired,
   className: React.PropTypes.string,
-  favourite: React.PropTypes.bool,
   headingStyle: React.PropTypes.string,
   name: React.PropTypes.string.isRequired,
   description: React.PropTypes.string.isRequired,
   code: React.PropTypes.string,
   icon: React.PropTypes.string,
+  icons: React.PropTypes.array,
   children: React.PropTypes.node,
 };
 
