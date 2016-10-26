@@ -17,14 +17,6 @@
     }
   },
 
-  "disabled_test_runner": {
-    "type": "mocha",
-    "options": {
-      "reporter": "list",
-      "exitOnFailure": true
-    }
-  },
-
   "test_workers": {
     "enabled": true,
     "workers": 2
@@ -54,6 +46,17 @@
     },
 
     "firefox": {
+      "selenium": {
+        "start_process": true,
+        "server_path": "test/flow/binaries/selenium-server-standalone-2.51.0.jar",
+        "log_path": "",
+        "host": "127.0.0.1",
+        "port": 4444,
+        "cli_args": {
+          "webdriver.chrome.driver": "",
+          "webdriver.ie.driver": ""
+        }
+      }
       "launch_url": "http://localhost:8080/?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
