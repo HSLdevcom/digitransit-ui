@@ -17,7 +17,7 @@ killtree() {
 }
 
 SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.51.0.jar"
-SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.51.0.jar"
+SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.51/selenium-server-standalone-2.51.0.jar"
 
 NIGHTWATCH_BINARY="./node_modules/nightwatch/bin/nightwatch"
 
