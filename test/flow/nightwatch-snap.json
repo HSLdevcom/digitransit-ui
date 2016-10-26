@@ -22,7 +22,7 @@
     "default": {
       "globals": {
         "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 30000,
+        "elementVisibleTimeout": 10000,
         "debug": false
       },
       "screenshots": {
