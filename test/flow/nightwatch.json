@@ -6,7 +6,7 @@
   "custom_commands_path": "test/flow/custom_commands",
 
   "selenium": {
-    "start_process": true,
+    "start_process": false,
     "server_path": "test/flow/binaries/selenium-server-standalone-2.51.0.jar",
     "log_path": "",
     "host": "127.0.0.1",
@@ -46,17 +46,6 @@
     },
 
     "firefox": {
-      "selenium": {
-        "start_process": true,
-        "server_path": "test/flow/binaries/selenium-server-standalone-2.51.0.jar",
-        "log_path": "",
-        "host": "127.0.0.1",
-        "port": 4444,
-        "cli_args": {
-          "webdriver.chrome.driver": "",
-          "webdriver.ie.driver": ""
-        }
-      },
       "launch_url": "http://localhost:8080/?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
