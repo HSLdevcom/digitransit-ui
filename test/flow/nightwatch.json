@@ -32,7 +32,29 @@
 
   "test_settings": {
     "default": {
-      "launch_url": "http://localhost:8000?mock",
+      "launch_url": "http://localhost:8000/?mock",
+      "selenium_port": 4444,
+      "selenium_host": "localhost",
+      "silent": true,
+      "globals": {
+        "itinerarySearchTimeout": 21000,
+        "elementVisibleTimeout": 30000
+      },
+      "screenshots": {
+        "enabled": true,
+        "on_failure": true,
+        "on_error": true,
+        "path": "test_output/screenshots/"
+      },
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      }
+    },
+
+    "firefox": {
+      "launch_url": "http://localhost:8080/?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
