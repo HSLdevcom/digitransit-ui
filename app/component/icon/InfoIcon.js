@@ -1,6 +1,6 @@
 import React from 'react';
-import Icon from '../icon/icon';
-import NotImplementedLink from '../util/not-implemented-link';
+import Icon from '../icon/Icon';
+import NotImplementedLink from '../util/NotImplementedLink';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const InfoIcon = ({ stop }) => (
