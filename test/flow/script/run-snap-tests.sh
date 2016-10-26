@@ -31,6 +31,10 @@ if [ -z "$NOSERVER" ]; then
   sleep 15
 fi
 
+if [ -z "$NWENV" ]; then
+  NWENV="chromedriver"
+fi
+
 if [ -z "$CHROMEDRIVER" ]; then CHROMEDRIVER="chromedriver"; fi
 
 echo "Starting chromedriver '$CHROMEDRIVER'"
@@ -39,7 +43,7 @@ DRIVER_PID=$!
 sleep 4
 
 echo "Running tests"
-$NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e chromedriver --retries 3
+$NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $NWENV --retries 3
 TESTSTATUS=$?
 echo "Done"
 
