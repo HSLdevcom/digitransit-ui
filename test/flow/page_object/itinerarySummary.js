@@ -1,6 +1,6 @@
 function waitForFirstItineraryRow() {
   return this.waitForElementVisible('@firstItinerarySummaryRow',
-                                    this.api.globals.itinerarySearchTimeout);
+                          this.api.globals.itinerarySearchTimeout);
 }
 
 function waitForItineraryRowOfType(modality) {
@@ -14,7 +14,7 @@ function waitForItineraryRowOfTypeNotPresent(modality) {
 }
 
 function chooseFirstItinerarySuggestion() {
-  return this.click('@firstItinerarySummaryRow');
+  return this.api.checkedClick(this.elements.firstItinerarySummaryRow.selector);
 }
 
 module.exports = {

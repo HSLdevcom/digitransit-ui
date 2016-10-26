@@ -1,22 +1,17 @@
+
 function clickMenuToggle() {
   this.api.debug('clicking menu toggle');
-  return this.click('@mainMenuToggle', result => {
-    this.assert.equal(result.status, 0);
-  });
+  return this.api.checkedClick(this.elements.mainMenuToggle.selector);
 }
 
 function clickSelectEnglish() {
   this.api.debug('selecting english language');
-  return this.click('@langEn', result => {
-    this.assert.equal(result.status, 0);
-  });
+  return this.api.checkedClick(this.elements.langEn.selector);
 }
 
 function openAbout() {
   this.api.debug('clicking about');
-  this.click('#about', result => {
-    this.assert.equal(result.status, 0);
-  });
+  this.api.checkedClick(this.elements.about.selector);
 }
 
 module.exports = {
@@ -28,5 +23,6 @@ module.exports = {
   elements: {
     mainMenuToggle: '.main-menu-toggle',
     langEn: '#lang-en',
+    about: '#about',
   },
 };
