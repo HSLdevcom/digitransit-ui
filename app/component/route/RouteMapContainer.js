@@ -41,7 +41,7 @@ function RouteMapContainer(
     <Map
       lat={(selectedVehicle && selectedVehicle.lat) || undefined}
       lon={(selectedVehicle && selectedVehicle.long) || undefined}
-      className={className}
+      className={`${className} full`}
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
       bounds={(pattern.geometry || pattern.stops).map((p) => [p.lat, p.lon])}

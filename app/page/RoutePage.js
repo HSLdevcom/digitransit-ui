@@ -1,11 +1,11 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Helmet from 'react-helmet';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'react-router/lib/Link';
 
 import Icon from '../component/icon/Icon';
 import FavouriteRouteContainer from '../component/favourites/FavouriteRouteContainer';
+import RoutePatternSelect from '../component/route/RoutePatternSelect';
 import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClientAction';
 import NotFound from './404';
 
@@ -14,12 +14,20 @@ class RoutePage extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
+    router: React.PropTypes.shape({
+      replace: React.PropTypes.func.isRequired,
+    }).isRequired,
     intl: intlShape.isRequired,
   };
 
   static propTypes = {
     route: React.PropTypes.object.isRequired,
-    children: React.PropTypes.node.isRequired,
+    location: React.PropTypes.shape({
+      pathname: React.PropTypes.string.isRequired,
+    }).isRequired,
+    params: React.PropTypes.shape({
+      patternId: React.PropTypes.string.isRequired,
+    }).isRequired,
   };
 
   componentDidMount() {
@@ -41,62 +49,55 @@ class RoutePage extends React.Component {
     }
   }
 
+  onPatternChange = (e) => {
+    this.context.router.replace(
+      decodeURIComponent(this.props.location.pathname)
+        .replace(new RegExp(`${this.props.params.patternId}(.*)`), e.target.value)
+    );
+  }
+
   render() {
     if (this.props.route == null) {
       return <div className="error"><NotFound /></div>; // TODO: redirect?
     }
 
-    const params = {
-      route_short_name: this.props.route.shortName,
-      route_long_name: this.props.route.longName,
-    };
-
-    const meta = {
-      title: this.context.intl.formatMessage({
-        id: 'route-page.title',
-        defaultMessage: 'Route {route_short_name}',
-      }, params),
-      meta: [{
-        name: 'description',
-        content: this.context.intl.formatMessage({
-          id: 'route-page.description',
-          defaultMessage: 'Route {route_short_name} - {route_long_name}',
-        }, params),
-      }],
-    };
-
     return (
-      <div className="fullscreen">
-        <Helmet {...meta} />
-        <FavouriteRouteContainer
-          className="route-page-header"
-          gtfsId={this.props.route.gtfsId}
-        />
-        <div className="tabs route-tabs">
-          <nav className="tabs-navigation">
-            <Link to={`/linjat/${this.props.route.gtfsId}/pysakit`} activeClassName="is-active">
-              <div>
-                <Icon img="icon-icon_bus-stop" />
-                <FormattedMessage id="stops" defaultMessage="Stops" />
-              </div>
-            </Link>
-            <Link to={`/linjat/${this.props.route.gtfsId}/aikataulu`} activeClassName="is-active">
-              <div>
-                <Icon img="icon-icon_schedule" />
-                <FormattedMessage id="timetable" defaultMessage="Timetable" />
-              </div>
-            </Link>
-            <Link to={`/linjat/${this.props.route.gtfsId}/hairiot`} activeClassName="is-active">
-              <div>
-                <Icon img="icon-icon_caution" />
-                <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
-              </div>
-            </Link>
-          </nav>
-          <article className="tab-panel">
-            {this.props.children}
-          </article>
-        </div>
+      <div className="tabs route-tabs">
+        <nav className="tabs-navigation">
+          <Link
+            to={`/linjat/${this.props.route.gtfsId}/pysakit/${this.props.params.patternId || ''}`}
+            activeClassName="is-active"
+          >
+            <div>
+              <Icon img="icon-icon_bus-stop" />
+              <FormattedMessage id="stops" defaultMessage="Stops" />
+            </div>
+          </Link>
+          <Link
+            to={`/linjat/${this.props.route.gtfsId}/aikataulu/${this.props.params.patternId || ''}`}
+            activeClassName="is-active"
+          >
+            <div>
+              <Icon img="icon-icon_schedule" />
+              <FormattedMessage id="timetable" defaultMessage="Timetable" />
+            </div>
+          </Link>
+          <Link to={`/linjat/${this.props.route.gtfsId}/hairiot`} activeClassName="is-active">
+            <div>
+              <Icon img="icon-icon_caution" />
+              <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
+            </div>
+          </Link>
+          <FavouriteRouteContainer
+            className="route-page-header"
+            gtfsId={this.props.route.gtfsId}
+          />
+        </nav>
+        {this.props.params.patternId && <RoutePatternSelect
+          params={this.props.params}
+          route={this.props.route}
+          onSelectChange={this.onPatternChange}
+        />}
       </div>
     );
   }
@@ -111,6 +112,7 @@ export default Relay.createContainer(RoutePage, {
         shortName
         longName
         mode
+        ${RoutePatternSelect.getFragment('route')}
       }
     `,
   },

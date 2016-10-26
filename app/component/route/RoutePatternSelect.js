@@ -1,10 +1,11 @@
 import React from 'react';
+import Relay from 'react-relay';
 import Icon from '../icon/Icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { routePatterns as exampleRoutePatterns } from '../documentation/ExampleData';
 
-export default function RoutePatternSelect(props) {
-  const options = props.route && props.route.patterns.map((pattern) =>
+function RoutePatternSelect(props) {
+  const options = props.route && props.route.patterns.map(pattern =>
     (<option key={pattern.code} value={pattern.code}>
       {pattern.stops[0].name} ➔ {pattern.headsign}
     </option>));
@@ -37,3 +38,20 @@ RoutePatternSelect.description = (
       />
     </ComponentUsageExample>
   </div>);
+
+export default Relay.createContainer(RoutePatternSelect, {
+  fragments: {
+    route: () =>
+      Relay.QL`
+      fragment on Route {
+        patterns {
+          code
+          headsign
+          stops {
+            name
+          }
+        }
+      }
+    `,
+  },
+});

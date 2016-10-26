@@ -1,6 +1,8 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
+import some from 'lodash/some';
+
 import meta from '../meta';
 import configureMoment from '../util/configure-moment';
 import AppBarContainer from './navigation/AppBarContainer';
@@ -21,6 +23,7 @@ class TopLevel extends React.Component {
     routes: React.PropTypes.arrayOf(
       React.PropTypes.shape({
         topBarOptions: React.PropTypes.object,
+        disableMapOnMobile: React.PropTypes.bool,
       }).isRequired
     ).isRequired,
   }
@@ -53,6 +56,8 @@ class TopLevel extends React.Component {
     const metadata = meta(this.context.intl.locale);
     const topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
 
+    const disableMapOnMobile = some(this.props.routes, route => route.disableMapOnMobile);
+
     let content;
 
     if (this.props.children || !(this.props.map || this.props.header)) {
@@ -60,7 +65,7 @@ class TopLevel extends React.Component {
     } else if (this.props.width < 900) {
       content = (
         <MobileView
-          map={this.props.map}
+          map={disableMapOnMobile || this.props.map}
           content={this.props.content}
           header={this.props.header}
         />

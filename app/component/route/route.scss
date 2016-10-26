@@ -63,6 +63,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   flex-direction: column;
   flex-grow: 1;
   flex-basis: 100%;
+  background: $white;
 }
 
 // stop list
@@ -245,6 +246,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   display: flex;
   flex-direction: column;
   flex: 1;
+  background: $white;
 }
 
 .route-schedule-list-wrapper {
@@ -374,7 +376,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 div.route-tabs {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 0 0 auto;
 
   .tabs-navigation {
     flex-shrink: 0;
@@ -509,6 +511,7 @@ div.route-tabs {
 }
 
 .route-alerts-list {
+  background: $white;
 
   .route-alert-row {
     border-bottom: 1px solid $light-gray;
