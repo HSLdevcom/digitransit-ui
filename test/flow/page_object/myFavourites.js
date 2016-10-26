@@ -2,17 +2,14 @@
 function clickFavourites() {
   this.api.debug('opening favourites tab');
   this.waitForElementVisible('@favouritePaneSelect', this.api.globals.elementVisibleTimeout);
-  return this.click('@favouritePaneSelect', result => {
-    this.assert.equal(result.status, 0);
-  });
+  this.api.checkedClick(this.elements.favouritePaneSelect.selector);
+  return this;
 }
 
 function addFavourite() {
   this.api.debug('clicking add favourite');
   this.waitForElementVisible('@newFavouriteButtonContent', this.api.globals.elementVisibleTimeout);
-  this.click('@newFavouriteButtonContent', result => {
-    this.assert.equal(result.status, 0);
-  });
+  this.api.checkedClick(this.elements.newFavouriteButtonContent.selector);
   return this;
 }
 
@@ -20,9 +17,7 @@ function enterAddress(addressSearch) {
   this.api.debug('entering address');
   this.waitForElementVisible('@addressPlaceholderNoSelect', this.api.globals.elementVisibleTimeout);
 
-  this.click('@addressPlaceholderNoSelect', result => {
-    this.assert.equal(result.status, 0);
-  });
+  this.api.checkedClick(this.elements.addressPlaceholderNoSelect.selector);
   this.waitForElementPresent('@searchFavourite', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchFavourite', addressSearch);
   this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
@@ -39,17 +34,15 @@ function enterName(name) {
 function clickHomeIcon() {
   this.api.debug('clicking home icon');
   this.waitForElementVisible('@homeIcon', this.api.globals.elementVisibleTimeout);
-  return this.click('@homeIcon', result => {
-    this.assert.equal(result.status, 0);
-  });
+  this.api.checkedClick(this.elements.homeIcon.selector);
+  return this;
 }
 
 function saveFavourite() {
   this.api.debug('saving favourite');
   this.waitForElementVisible('@saveButton', this.api.globals.elementVisibleTimeout);
-  return this.click('@saveButton', result => {
-    this.assert.equal(result.status, 0);
-  });
+  this.api.checkedClick(this.elements.saveButton.selector);
+  return this;
 }
 
 function saveHomeFavourite(address, name) {

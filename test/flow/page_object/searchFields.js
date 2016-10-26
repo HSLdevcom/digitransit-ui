@@ -1,35 +1,25 @@
 function setOrigin(origin) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.waitForElementVisible('@frontPageSearchBar', timeout)
-    .click('@frontPageSearchBar', result => {
-      this.assert.equal(result.status, 0);
-    })
-    .waitForElementVisible('@origin', timeout)
-    .click('@origin', result => {
-      this.assert.equal(result.status, 0);
-    })
-    .waitForElementVisible('@searchOrigin', timeout)
-    .clearValue('@searchOrigin');
-  this.api.pause(50);
-  return this.setValue('@searchOrigin', origin);
+  this.openSearch();
+  this.waitForElementVisible('@origin', timeout);
+  this.api.checkedClick(this.elements.origin.selector);
+  this.waitForElementVisible('@searchOrigin', timeout);
+  this.clearValue('@searchOrigin');
+  this.setValue('@searchOrigin', origin);
+  this.waitForElementNotPresent('@searchResultCurrentLocation', timeout);
+  return this;
 }
 
 function useCurrentLocationInOrigin() {
   const timeout = this.api.globals.elementVisibleTimeout;
-  return this.waitForElementVisible('@frontPageSearchBar', timeout)
-    .click('@frontPageSearchBar', result => {
-      this.assert.equal(result.status, 0);
-    })
-    .waitForElementVisible('@origin', timeout)
-    .click('@origin', result => {
-      this.assert.equal(result.status, 0);
-    })
-    .waitForElementVisible('@searchOrigin', timeout)
+  this.openSearch();
+  this.waitForElementVisible('@origin', timeout);
+  this.api.checkedClick(this.elements.origin.selector);
+  this.waitForElementVisible('@searchOrigin', timeout)
     .clearValue('@searchOrigin')
-    .waitForElementVisible('@searchResultCurrentLocation', timeout)
-    .click('@searchResultCurrentLocation', result => {
-      this.assert.equal(result.status, 0);
-    });
+    .waitForElementVisible('@searchResultCurrentLocation', timeout);
+  this.api.checkedClick(this.elements.searchResultCurrentLocation.selector);
+  return this;
 }
 
 function enterKeyOrigin() {
@@ -39,18 +29,20 @@ function enterKeyOrigin() {
   return this.setValue('@searchOrigin', this.api.Keys.ENTER);
 }
 
+function openSearch() {
+  this.waitForElementVisible('@frontPageSearchBar', this.api.globals.elementVisibleTimeout);
+  this.api.checkedClick(this.elements.frontPageSearchBar.selector);
+}
+
 function setDestination(destination) {
   this.api.debug('setting destination');
-  return this.waitForElementVisible('@frontPageSearchBar', this.api.globals.elementVisibleTimeout)
-    .click('@frontPageSearchBar', result => {
-      this.assert.equal(result.status, 0);
-    })
-    .waitForElementVisible('@destination', this.api.globals.elementVisibleTimeout)
-    .click('@destination', result => {
-      this.assert.equal(result.status, 0);
-    })
-    .waitForElementVisible('@searchDestination', this.api.globals.elementVisibleTimeout)
-    .setValue('@searchDestination', destination);
+  this.openSearch();
+  this.waitForElementVisible('@destination', this.api.globals.elementVisibleTimeout);
+  this.checkedClick(this.elements.destination.selector);
+  this.waitForElementVisible('@searchDestination', this.api.globals.elementVisibleTimeout);
+  this.setValue('@searchDestination', destination);
+  return this.waitForElementNotPresent('@searchResultCurrentLocation',
+    this.api.globals.elementVisibleTimeout);
 }
 
 function enterKeyDestination() {
@@ -69,24 +61,21 @@ function enterKeySearch() {
 }
 
 function itinerarySearch(origin, destination) {
-  return this.setOrigin(origin)
-    .enterKeyOrigin()
-    .setDestination(destination)
-    .enterKeyDestination();
+  this.setOrigin(origin);
+  this.enterKeyOrigin();
+  this.setDestination(destination);
+  this.enterKeyDestination();
+  return this;
 }
 
 function setSearch(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.waitForElementVisible('@frontPageSearchBar', timeout)
-    .click('@frontPageSearchBar', result => {
-      this.assert.equal(result.status, 0);
-    })
-    .waitForElementVisible('@search', timeout)
-    .click('@search', result => {
-      this.assert.equal(result.status, 0);
-    })
-    .waitForElementVisible('@searchInput', timeout)
-    .setValue('@searchInput', search);
+  this.openSearch();
+  this.waitForElementVisible('@search', timeout);
+  this.api.checkedClick(this.elements.search.selector);
+  this.waitForElementVisible('@searchInput', timeout)
+  .setValue('@searchInput', search);
+  this.waitForElementNotPresent('@searchResultCurrentLocation', timeout);
 
   return this.enterKeySearch();
 }
@@ -101,6 +90,7 @@ module.exports = {
     enterKeyDestination,
     itinerarySearch,
     setSearch,
+    openSearch,
   }],
   elements: {
     frontPageSearchBar: {
