@@ -51,7 +51,7 @@ function RouteMapContainer(
       <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
         {className === 'fullscreen' ?
           <Icon img="icon-icon_minimize" className="cursor-pointer" /> :
-          <Icon img="icon-icon_maximize" className="cursor-pointer" />}
+            <Icon img="icon-icon_maximize" className="cursor-pointer" />}
       </div>
     </Map>);
 }

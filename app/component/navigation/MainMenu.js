@@ -16,7 +16,7 @@ function MainMenu(props) {
       </span>
     </p>);
 
-  let links = config.topNaviLinks.map(link =>
+  const links = config.topNaviLinks.map(link =>
     (<div className="offcanvas-section">
       <Link id={link.name} to={link.url}>
         {link.name}

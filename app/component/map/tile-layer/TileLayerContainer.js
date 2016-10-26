@@ -306,7 +306,7 @@ class TileLayerContainer extends MapLayer {
             position={this.state.coords}
           >
             <LocationPopupWithContext
-              name={""} // TODO: fill in name from reverse geocoding, possibly in a container.
+              name={''} // TODO: fill in name from reverse geocoding, possibly in a container.
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
               context={this.context}

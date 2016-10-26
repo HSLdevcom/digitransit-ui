@@ -64,7 +64,7 @@ class Splash extends React.Component {
           <div className="spinner-loader" />
         </div>
         <div className="bottom">
-        {((this.props.state === 'load') &&
+          {((this.props.state === 'load') &&
           (<h2><FormattedMessage id="loading" defaultMessage="Loading..." /></h2>))
           || (<div>
             <h2 className="state">

@@ -11,10 +11,10 @@ function RouteDestination(props, context) {
       <span className="destination arrival">
         <span className={cx('last-stop-icon', props.mode.toLowerCase())} />
         <span>
-        {context.intl.formatMessage({
-          id: 'route-destination-arrives',
-          defaultMessage: 'Arriving / Last stop',
-        })}
+          {context.intl.formatMessage({
+            id: 'route-destination-arrives',
+            defaultMessage: 'Arriving / Last stop',
+          })}
         </span>
       </span>);
   } else {

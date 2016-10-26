@@ -49,19 +49,19 @@ export default function TimeSelectors(
           />
           <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
         </div> :
-        <div className="select-wrapper">
-          <TimePicker
-            format="24hr"
-            className="time-selector time-mui"
-            defaultTime={time.toDate()}
-            value={time.toDate()}
-            onChange={changeTimeMui}
-            style={{
-              display: 'inline-block',
-            }}
-          />
-          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
-        </div>}
+          <div className="select-wrapper">
+            <TimePicker
+              format="24hr"
+              className="time-selector time-mui"
+              defaultTime={time.toDate()}
+              value={time.toDate()}
+              onChange={changeTimeMui}
+              style={{
+                display: 'inline-block',
+              }}
+            />
+            <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+          </div>}
     </div>
   );
 }

@@ -47,7 +47,7 @@ function verifyFirstName(header) {
 function verifyFavouriteInSearchResult(favouriteName) {
   this.api.useXpath();
   this.waitForElementPresent(
-    `//*/li[@class=\'react-autowhatever__item\']/span[text()=\'${favouriteName}\']`,
+    `//*/li[@class='react-autowhatever__item']/span[text()='${favouriteName}']`,
       this.api.globals.elementVisibleTimeout);
   this.api.useCss();
 }
