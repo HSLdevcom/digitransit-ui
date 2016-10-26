@@ -16,10 +16,23 @@ killtree() {
   fi
 }
 
-echo "Running ui-tests"
-echo "***************************"
+SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.53.0.jar"
+SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
 
 NIGHTWATCH_BINARY="./node_modules/nightwatch/bin/nightwatch"
+
+# checks for dependencies and downloads them if needed
+function checkDependencies() {
+  echo "Checking dependencies"
+  mkdir -p ./test/flow/binaries
+  if [ ! -f $SELENIUM_BINARY ]; then
+    echo "Downloading Selenium..."
+    curl -o $SELENIUM_BINARY $SELENIUM_URL
+  fi
+}
+
+echo "Running ui-tests"
+echo "***************************"
 
 #echo "Starting local server."
 #START_SERVER=1
@@ -36,6 +49,8 @@ if [ -z "$NWENV" ]; then
 fi
 
 if [ -z "$CHROMEDRIVER" ]; then CHROMEDRIVER="chromedriver"; fi
+
+checkDependencies
 
 echo "Starting chromedriver '$CHROMEDRIVER'"
 DBUS_SESSION_BUS_ADDRESS=/dev/null CHROMEDRIVER_VERSION=2.24 $CHROMEDRIVER --verbose --log-path=chromedriver.log &
