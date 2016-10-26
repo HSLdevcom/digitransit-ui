@@ -54,20 +54,8 @@
     },
 
     "firefox": {
-      "selenium": {
-        "start_process": true,
-        "server_path": "test/flow/binaries/selenium-server-standalone-2.53.0.jar",
-        "log_path": "",
-        "host": "127.0.0.1",
-        "port": 7055,
-        "cli_args": {
-          "webdriver.chrome.driver": "",
-          "webdriver.ie.driver": ""
-        }
-      },
-
       "launch_url": "http://localhost:8080/?mock",
-      "selenium_port": 7055,
+      "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
