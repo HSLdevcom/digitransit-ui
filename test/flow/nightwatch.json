@@ -6,8 +6,8 @@
   "custom_commands_path": "test/flow/custom_commands",
 
   "selenium": {
-    "start_process": false,
-    "server_path": "test/flow/binaries/selenium-server-standalone-2.51.0.jar",
+    "start_process": true,
+    "server_path": "test/flow/binaries/selenium-server-standalone-2.53.0.jar",
     "log_path": "",
     "host": "127.0.0.1",
     "port": 4444,
@@ -24,7 +24,7 @@
 
   "test_settings": {
     "default": {
-      "launch_url": "http://localhost:8000/?mock",
+      "launch_url": "http://localhost:8000?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
@@ -46,13 +46,13 @@
     },
 
     "firefox": {
-      "launch_url": "http://localhost:8080/?mock",
+      "launch_url": "http://localhost:8080?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
         "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 30000
+        "elementVisibleTimeout": 10000
       },
       "screenshots": {
         "enabled": true,
