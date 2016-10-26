@@ -56,7 +56,7 @@
           "webdriver.chrome.driver": "",
           "webdriver.ie.driver": ""
         }
-      }
+      },
       "launch_url": "http://localhost:8080/?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
