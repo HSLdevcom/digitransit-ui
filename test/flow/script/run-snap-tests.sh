@@ -39,7 +39,7 @@ DRIVER_PID=$!
 sleep 4
 
 echo "Running tests"
-$NIGHTWATCH_BINARY -c ./test/flow/nightwatch-snap.json --retries 3
+$NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e chromedriver --retries 3
 TESTSTATUS=$?
 echo "Done"
 
