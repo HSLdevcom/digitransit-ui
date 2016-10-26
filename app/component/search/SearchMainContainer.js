@@ -54,7 +54,7 @@ class SearchMainContainer extends React.Component {
     return undefined;
   }
 
-  onTabChange = (tab) => (
+  onTabChange = tab => (
     this.changeToTab(tab.props.value)
   );
 
@@ -126,7 +126,7 @@ class SearchMainContainer extends React.Component {
     this.changeToTab(tab);
   };
 
-  focusInput = (value) => (
+  focusInput = value => (
     // this.searchInputs[value].searchInput is a hack
     this.searchInputs[value].searchInput.autowhatever.refs.input.focus()
   );
@@ -137,7 +137,7 @@ class SearchMainContainer extends React.Component {
     })
   );
 
-  changeToTab = (tabname) => (
+  changeToTab = tabname => (
     this.setState({
       selectedTab: tabname,
     }, () => {

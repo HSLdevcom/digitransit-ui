@@ -24,19 +24,11 @@ class Slider extends React.Component {
     maxText: '',
   };
 
-  state = { modified: false };
-
-  componentDidMount = () => {
-    this.refs.slider.addEventListener('touchmove', this.f);
-  }
-
-  componentWillUnmount = () => {
-    this.refs.slider.removeEventListener('touchmove', this.f);
-  }
-
-  f(e) {
+  static stopPropagation(e) {
     e.stopPropagation();
   }
+
+  state = { modified: false };
 
   valueChanged = (e) => {
     if (parseInt(e.target.value, 10) !== this.props.defaultValue) {
@@ -49,7 +41,7 @@ class Slider extends React.Component {
   render() {
     return (
       <div
-        ref="slider"
+        onTouchMove={Slider.stopPropagation}
         className={
           cx('slider-container', this.props.className, this.state.modified ? 'modified' : '')}
       >

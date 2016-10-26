@@ -45,7 +45,7 @@ export default class SearchInputContainer extends Component {
     }
   }
 
-  focusItem = i => {
+  focusItem = (i) => {
     if (L.Browser.touch) { return; }
     const domElement = document.getElementById(`react-autowhatever-suggest--item-${i}`);
     if (domElement != null) {

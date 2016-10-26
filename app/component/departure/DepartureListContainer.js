@@ -13,7 +13,7 @@ const mergeDepartures = departures =>
 
 const asDepartures = stoptimes => (
   !stoptimes ? [] : stoptimes.map(pattern =>
-    pattern.stoptimes.map(stoptime => {
+    pattern.stoptimes.map((stoptime) => {
       const isArrival = stoptime.pickupType === 'NONE';
       const canceled = stoptime.realtimeState === 'CANCELED' ||
         (window.mock && stoptime.realtimeDeparture % 40 === 0);
@@ -146,7 +146,7 @@ class DepartureListContainer extends Component {
 }
 
 const DepartureListContainerWithTime = connectToStores(DepartureListContainer, ['TimeStore'],
-  (context) => ({ currentTime: context.getStore('TimeStore').getCurrentTime() })
+  context => ({ currentTime: context.getStore('TimeStore').getCurrentTime() })
 );
 
 export default Relay.createContainer(DepartureListContainerWithTime, {

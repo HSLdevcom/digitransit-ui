@@ -8,6 +8,7 @@ import config from '../config';
 class PreferencesStore extends Store {
   static storeName = 'PreferencesStore';
 
+  // eslint-disable-next-line class-methods-use-this
   getLanguage() {
     let lang = reactCookie.load('lang');
 

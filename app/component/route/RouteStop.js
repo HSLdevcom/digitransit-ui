@@ -36,7 +36,7 @@ const getRouteStopSvg = (first, last) => (
 const RouteStop = ({
   vehicles, reverseVehicles, stop, mode, distance, last, first, currentTime,
 }) => {
-  const vehicleTripLinks = vehicles && vehicles.map((vehicle) =>
+  const vehicleTripLinks = vehicles && vehicles.map(vehicle =>
       (<Relay.RootContainer
         key={vehicle.id}
         Component={TripLink}
@@ -100,7 +100,7 @@ const RouteStop = ({
           </div>
         </div>
         {(stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0 &&
-          stop.stopTimesForPattern.map((stopTime) => (
+          stop.stopTimesForPattern.map(stopTime => (
             <div key={stopTime.scheduledDeparture} className="columns route-stop-time">
               {fromStopTime(stopTime, currentTime)}
             </div>

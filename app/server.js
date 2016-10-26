@@ -211,7 +211,7 @@ export default function (req, res, next) {
 
       Promise.all(promises).then(results =>
         res.send(`<!doctype html>${getHtml(context, locale, results, req)}`)
-      ).catch(err => {
+      ).catch((err) => {
         if (err) { next(err); }
       });
     }

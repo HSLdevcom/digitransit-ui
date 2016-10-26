@@ -5,9 +5,9 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 class NotImplementedLink extends React.Component {
   static description = (
     <div>
-      <p>Builds a link that opens a 'not implemented' popup.</p>
+      <p>Builds a link that opens a &lsquo;not implemented&rsquo; popup.</p>
       <p>
-        The 'not implemented' -popup can also be activated by sending a event through
+        The &lsquo;not implemented&rsquo; -popup can also be activated by sending a event through
         not-implemented-action#click
       </p>
       <ComponentUsageExample>

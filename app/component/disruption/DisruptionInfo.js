@@ -49,7 +49,7 @@ DisruptionInfo.description = (
     </ComponentUsageExample>
   </div>);
 
-export default connectToStores(DisruptionInfo, ['DisruptionInfoStore'], (context) =>
+export default connectToStores(DisruptionInfo, ['DisruptionInfoStore'], context =>
   ({
     open: context.getStore('DisruptionInfoStore').isOpen,
   })

@@ -1,4 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies, global-require, prefer-template */
+/* eslint-disable import/no-extraneous-dependencies, global-require, prefer-template,
+   import/no-dynamic-require
+*/
 
 const path = require('path');
 const webpack = require('webpack');
@@ -74,9 +76,9 @@ function getRulesConfig(env) {
 function getAllPossibleLanguages() {
   const srcDirectory = 'app';
   return fs.readdirSync(srcDirectory)
-    .filter((file) => /^config\.\w+\.js$/.test(file))
-    .filter((file) => !/^config\.client\.js$/.test(file))
-    .map((file) => require('./' + srcDirectory + '/' + file).default.availableLanguages)
+    .filter(file => /^config\.\w+\.js$/.test(file))
+    .filter(file => !/^config\.client\.js$/.test(file))
+    .map(file => require('./' + srcDirectory + '/' + file).default.availableLanguages)
     .reduce((languages, languages2) => languages.concat(languages2))
     .filter((language, position, languages) => languages.indexOf(language) === position);
 }
@@ -159,7 +161,7 @@ function getPluginsConfig(env) {
 }
 
 function getDirectories(srcDirectory) {
-  return fs.readdirSync(srcDirectory).filter((file) =>
+  return fs.readdirSync(srcDirectory).filter(file =>
     fs.statSync(path.join(srcDirectory, file)).isDirectory()
   );
 }

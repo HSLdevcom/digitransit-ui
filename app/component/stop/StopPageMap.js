@@ -42,7 +42,7 @@ const StopPageMap = compose(
       replace: React.PropTypes.func.isRequired,
     }).isRequired,
   }),
-  mapProps(props => {
+  mapProps((props) => {
     const fullscreenMap = some(props.routes, 'fullscreenMap');
 
     return {

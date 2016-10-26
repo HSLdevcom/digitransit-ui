@@ -10,9 +10,7 @@ import { durationToString } from '../../../util/timeUtils';
 import StopCode from '../StopCode';
 
 class TransitLeg extends React.Component {
-  stopCode(stopCode) {
-    return stopCode && <StopCode code={stopCode} />;
-  }
+  stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   render() {
     const originalTime = (this.props.leg.realTime && this.props.leg.departureDelay

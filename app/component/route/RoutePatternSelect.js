@@ -4,7 +4,7 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { routePatterns as exampleRoutePatterns } from '../documentation/ExampleData';
 
 export default function RoutePatternSelect(props) {
-  const options = props.route && props.route.patterns.map((pattern) =>
+  const options = props.route && props.route.patterns.map(pattern =>
     (<option key={pattern.code} value={pattern.code}>
       {pattern.stops[0].name} ➔ {pattern.headsign}
     </option>));

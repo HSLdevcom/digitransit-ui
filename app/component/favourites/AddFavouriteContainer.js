@@ -131,7 +131,7 @@ class AddFavouriteContainer extends React.Component {
               <FakeSearchBar
                 endpointAddress={(this.state != null ? favourite.address : undefined) || ''}
                 placeholder={destinationPlaceholder}
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   this.setState({
                     searchModalIsOpen: true,

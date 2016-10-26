@@ -162,7 +162,7 @@ const TerminalTitle = withProps({
 
 const routes = (
   <Route
-    component={(props) => (typeof window !== 'undefined' ?
+    component={props => (typeof window !== 'undefined' ?
       <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
         <TopLevel {...props} />
     )}
@@ -170,7 +170,7 @@ const routes = (
     <Route
       path="/" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
-        content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
+        content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
         ,
       }}
     >
@@ -276,7 +276,7 @@ const routes = (
       queries={{ content: planQueries }}
       prepareParams={preparePlanParams}
       render={{ content: SummaryPageWrapper }}
-      loadAction={(params) => [
+      loadAction={params => [
         [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
         [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
       ]}

@@ -4,6 +4,7 @@ import { getFavouriteCityBikeStations, setFavouriteCityBikeStations } from './lo
 class FavouriteCityBikeStationStore extends Store {
   static storeName = 'FavouriteCityBikeStationStore';
 
+  // eslint-disable-next-line class-methods-use-this
   isFavourite(id) {
     return getFavouriteCityBikeStations().includes(id);
   }
@@ -19,7 +20,7 @@ class FavouriteCityBikeStationStore extends Store {
 
   removeFavouriteCityBikeStation(id) {
     const favourites = getFavouriteCityBikeStations();
-    const newFavourites = favourites.filter((fav) => (fav !== id));
+    const newFavourites = favourites.filter(fav => (fav !== id));
 
     if (newFavourites.length !== favourites.length) {
       setFavouriteCityBikeStations(newFavourites);

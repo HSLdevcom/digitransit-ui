@@ -50,7 +50,8 @@ function NotImplemented({ name }, { executeAction }) {
 NotImplemented.description = (
   <div>
     <p>
-      Placeholder for a 'not implemented' popup. It is activated from clicking of NotImplementedLink
+      Placeholder for a &lsquo;not implemented&rsquo; popup.
+      It is activated from clicking of NotImplementedLink
     </p>
     <ComponentUsageExample><NotImplemented /></ComponentUsageExample>
   </div>
@@ -64,6 +65,6 @@ NotImplemented.propTypes = {
   name: React.PropTypes.string,
 };
 
-export default connectToStores(NotImplemented, ['NotImplementedStore'], (context) =>
+export default connectToStores(NotImplemented, ['NotImplementedStore'], context =>
   ({ name: context.getStore('NotImplementedStore').getName() })
 );

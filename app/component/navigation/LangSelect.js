@@ -34,6 +34,6 @@ LangSelect.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
 };
 
-export default connectToStores(LangSelect, ['PreferencesStore'], (context) => ({
+export default connectToStores(LangSelect, ['PreferencesStore'], context => ({
   currentLanguage: context.getStore('PreferencesStore').getLanguage(),
 }));

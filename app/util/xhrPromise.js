@@ -3,7 +3,7 @@ function serialize(obj, prefix) {
     return '';
   }
 
-  return Object.keys(obj).map(p => {
+  return Object.keys(obj).map((p) => {
     const k = prefix || p;
     const v = obj[p];
 

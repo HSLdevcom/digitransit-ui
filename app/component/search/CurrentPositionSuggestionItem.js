@@ -36,7 +36,7 @@ const CurrentPositionSuggestionItem = pure(
   }
 );
 
-export default connectToStores(CurrentPositionSuggestionItem, ['PositionStore'], (context) =>
+export default connectToStores(CurrentPositionSuggestionItem, ['PositionStore'], context =>
   ({
     havePosition: context.getStore('PositionStore').getLocationState().hasLocation,
   })

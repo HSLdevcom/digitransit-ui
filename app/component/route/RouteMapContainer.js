@@ -25,8 +25,8 @@ function RouteMapContainer(
   let zoom;
 
   if (tripStart) {
-    const vehiclesWithCorrectStartTime = Object.keys(vehicles).map((key) => (vehicles[key]))
-      .filter((vehicle) => (vehicle.tripStartTime === tripStart));
+    const vehiclesWithCorrectStartTime = Object.keys(vehicles).map(key => (vehicles[key]))
+      .filter(vehicle => (vehicle.tripStartTime === tripStart));
 
     selectedVehicle = (vehiclesWithCorrectStartTime && vehiclesWithCorrectStartTime.length > 0)
       && vehiclesWithCorrectStartTime[0];
@@ -44,7 +44,7 @@ function RouteMapContainer(
       className={className}
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
-      bounds={(pattern.geometry || pattern.stops).map((p) => [p.lat, p.lon])}
+      bounds={(pattern.geometry || pattern.stops).map(p => [p.lat, p.lon])}
       zoom={zoom}
     >
       {children}

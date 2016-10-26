@@ -20,7 +20,7 @@ class RoutePatternSelectWrapper extends React.Component {
     }).isRequired,
   }
 
-  onSelectChange = (e) =>
+  onSelectChange = e =>
     this.context.router.replace(
       decodeURIComponent(this.props.location.pathname)
         .replace(new RegExp(`${this.props.params.patternId}(.*)`), e.target.value)

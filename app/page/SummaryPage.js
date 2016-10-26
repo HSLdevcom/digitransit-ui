@@ -70,10 +70,10 @@ class SummaryPage extends React.Component {
   static customizableParameters = {
     modes: Object.keys(config.transportModes)
       .filter(mode => config.transportModes[mode].defaultValue === true)
-      .map((mode) => config.modeToOTP[mode])
+      .map(mode => config.modeToOTP[mode])
       .concat((Object.keys(config.streetModes)
         .filter(mode => config.streetModes[mode].defaultValue === true)
-        .map((mode) => config.modeToOTP[mode])))
+        .map(mode => config.modeToOTP[mode])))
 
 
       .sort()
@@ -137,8 +137,8 @@ class SummaryPage extends React.Component {
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
     const bounds =
-      [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...itineraries.map((itinerary) => (
-        [].concat(...itinerary.legs.map((leg) => polyline.decode(leg.legGeometry.points)))
+      [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...itineraries.map(itinerary => (
+        [].concat(...itinerary.legs.map(leg => polyline.decode(leg.legGeometry.points)))
       ))
     );
 

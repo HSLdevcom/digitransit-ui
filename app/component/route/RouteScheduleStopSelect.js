@@ -6,7 +6,7 @@ import {
 } from '../documentation/ExampleData';
 
 function RouteScheduleStopSelect(props) {
-  const options = props.options.map((option) =>
+  const options = props.options.map(option =>
     (<option key={option.displayName + option.value} value={option.value}>
       {option.displayName}
     </option>));
@@ -37,7 +37,7 @@ RouteScheduleStopSelect.description = (
       <RouteScheduleStopSelect
         selected={1}
         options={exampleOptions}
-        onSelectChange={(event) => event.target.value}
+        onSelectChange={event => event.target.value}
       />
     </ComponentUsageExample>
   </div>);

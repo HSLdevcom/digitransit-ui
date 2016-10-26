@@ -62,7 +62,7 @@ class CityBikeMarker extends React.Component {
     intl: intlShape.isRequired,
   };
 
-  getIcon = (zoom) => (
+  getIcon = zoom => (
     (!this.props.transit && zoom <= config.stopsSmallMaxZoom) ?
       L.divIcon({
         html: smallIconSvg,
