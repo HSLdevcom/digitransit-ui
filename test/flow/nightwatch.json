@@ -50,7 +50,7 @@
       "launch_url": "http://localhost:8080/?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
-      "silent": false,
+      "silent": true,
       "globals": {
         "itinerarySearchTimeout": 11000,
         "elementVisibleTimeout": 10000
