@@ -4,13 +4,11 @@ import Relay from 'react-relay';
 import { getStartTime } from '../../util/timeUtils';
 import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
-import RouteMapContainer from '../route/RouteMapContainer';
-
 
 class TripStopsContainer extends React.Component {
   static propTypes = {
+    pattern: React.PropTypes.object.isRequired,
     trip: React.PropTypes.shape({
-      pattern: React.PropTypes.object.isRequired,
       stoptimesForDate: React.PropTypes.arrayOf(
         React.PropTypes.shape({
           scheduledDeparture: React.PropTypes.number.isRequired,
@@ -62,10 +60,12 @@ export default Relay.createContainer(TripStopsContainer, {
         stoptimesForDate {
           scheduledDeparture
         }
-        pattern {
-          ${RouteMapContainer.getFragment('pattern')}
-        }
         ${TripStopListContainer.getFragment('trip')}
+      }
+    `,
+    pattern: () => Relay.QL`
+      fragment on Pattern {
+        id
       }
     `,
   },

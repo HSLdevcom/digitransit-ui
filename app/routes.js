@@ -76,6 +76,11 @@ const TripQueries = {
       trip(id: $tripId)
     }
   `,
+  pattern: () => Relay.QL`
+    query {
+      pattern(id: $patternId)
+    }
+  `,
 };
 
 const terminalQueries = {
@@ -279,7 +284,7 @@ const routes = (
               queries={{
                 title: RouteQueries,
                 header: RouteQueries,
-                map: PatternQueries,
+                map: TripQueries,
                 content: TripQueries,
               }}
             >

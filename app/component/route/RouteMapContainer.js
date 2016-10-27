@@ -6,25 +6,18 @@ import Map from '../map/Map';
 import RouteLine from '../map/route/RouteLine';
 import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeaderContainer from '../stop-cards/StopCardHeaderContainer';
+import { getStartTime } from '../../util/timeUtils';
 
 function RouteMapContainer(
-  { pattern, tripStart, className, children, toggleFullscreenMap, vehicles,
+  { pattern, trip, className, children, toggleFullscreenMap, vehicles,
     useSmallIcons = false }) {
-  const leafletObjs = [
-    <RouteLine key="line" pattern={pattern} />,
-    <VehicleMarkerContainer
-      key="vehicles"
-      pattern={pattern.code}
-      tripStart={tripStart}
-      useSmallIcons={useSmallIcons}
-    />,
-  ];
-
   let selectedVehicle;
   let fitBounds = true;
   let zoom;
+  let tripStart;
 
-  if (tripStart) {
+  if (trip) {
+    tripStart = getStartTime(trip.stoptimesForDate[0].scheduledDeparture);
     const vehiclesWithCorrectStartTime = Object.keys(vehicles).map((key) => (vehicles[key]))
       .filter((vehicle) => (vehicle.tripStartTime === tripStart));
 
@@ -36,6 +29,16 @@ function RouteMapContainer(
       zoom = 15;
     }
   }
+
+  const leafletObjs = [
+    <RouteLine key="line" pattern={pattern} />,
+    <VehicleMarkerContainer
+      key="vehicles"
+      pattern={pattern.code}
+      tripStart={tripStart}
+      useSmallIcons={useSmallIcons}
+    />,
+  ];
 
   return (
     <Map
@@ -63,7 +66,11 @@ RouteMapContainer.contextTypes = {
 
 RouteMapContainer.propTypes = {
   className: React.PropTypes.string,
-  tripStart: React.PropTypes.string,
+  trip: React.PropTypes.shape({
+    stoptimesForDate: React.PropTypes.arrayOf(React.PropTypes.shape({
+      scheduledDeparture: React.PropTypes.number.isRequired,
+    })).isRequired,
+  }),
   toggleFullscreenMap: React.PropTypes.func.isRequired,
   pattern: React.PropTypes.object.isRequired,
   children: React.PropTypes.node,
@@ -89,6 +96,13 @@ export const RouteMapFragments = {
         ${StopCardHeaderContainer.getFragment('stop')}
       }
       ${RouteLine.getFragment('pattern')}
+    }
+  `,
+  trip: () => Relay.QL`
+    fragment on Trip {
+      stoptimesForDate {
+        scheduledDeparture
+      }
     }
   `,
 };
