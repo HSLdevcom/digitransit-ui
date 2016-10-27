@@ -69,7 +69,7 @@ const translations = {
     'cause': 'syy',
     'disruptions': 'Häiriöt',
     'disruption-info': 'Poikkeusinfo',
-    'disruption-info-no-alerts': 'Ei häiriöitä.',
+    'disruption-info-no-alerts': 'Linjalla ei tiedossa olevia häiriöitä tai poikkeuksia',
     'leaving-at': 'Lähtee',
     'arriving-at': 'Perillä',
     'route-here': 'Reititä tänne',
