@@ -5,6 +5,8 @@ import { setFavouriteRoutesStorage, getFavouriteRoutesStorage } from './localSto
 class FavouriteRoutesStore extends Store {
   static storeName = 'FavouriteRoutesStore';
 
+  routes = this.getRoutes();
+
   isFavourite(id) {
     return includes(this.routes, id);
   }
