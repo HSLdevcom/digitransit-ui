@@ -33,7 +33,7 @@ function checkDependencies() {
   fi
 
   ##ff
-  if [ ! -f $SELENIUM_BINARY ]; then
+  if [ ! -f $FIREFOX_BINARY ]; then
     echo "Downloading Firefox..."
     sudo dpkg -r firefox
     curl -o firefox-45.4.0esr.tar.bz2 $FIREFOX_URL
