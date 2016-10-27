@@ -1,20 +1,18 @@
 import React from 'react';
 import Relay from 'react-relay';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import some from 'lodash/some';
 
 import RouteListHeader from './RouteListHeader';
 import RouteStopListContainer from './RouteStopListContainer';
-import RouteMapContainer from './RouteMapContainer';
-
 
 class PatternStopsContainer extends React.Component {
   static propTypes = {
     pattern: React.PropTypes.shape({
       code: React.PropTypes.string.isRequired,
     }).isRequired,
-    route: React.PropTypes.shape({
+    routes: React.PropTypes.arrayOf(React.PropTypes.shape({
       fullscreenMap: React.PropTypes.bool,
-    }).isRequired,
+    }).isRequired).isRequired,
     location: React.PropTypes.shape({
       pathname: React.PropTypes.string.isRequired,
     }).isRequired,
@@ -22,10 +20,11 @@ class PatternStopsContainer extends React.Component {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
+    breakpoint: React.PropTypes.string.isRequired,
   }
 
   toggleFullscreenMap = () => {
-    if (this.props.route.fullscreenMap) {
+    if (some(this.props.routes, route => route.fullscreenMap)) {
       this.context.router.goBack();
       return;
     }
@@ -33,29 +32,22 @@ class PatternStopsContainer extends React.Component {
   }
 
   render() {
-    let mainContent = null;
+    if (
+      some(this.props.routes, route => route.fullscreenMap) &&
+      this.context.breakpoint !== 'large'
+    ) {
+      return <div className="route-page-content" />;
+    }
 
-    if (!this.props.route.fullscreenMap) {
-      mainContent = ([
-        <RouteListHeader key="header" />,
+    return (
+      <div className="route-page-content">
+        <RouteListHeader key="header" />
         <RouteStopListContainer
           key="list"
           pattern={this.props.pattern}
           patternId={this.props.pattern.code}
-        />,
-      ]);
-    }
-
-    return (
-      <ReactCSSTransitionGroup
-        component="div"
-        className="route-page-content"
-        transitionName="route-page-content"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}
-      >
-        {mainContent}
-      </ReactCSSTransitionGroup>
+        />
+      </div>
     );
   }
 }
@@ -69,7 +61,6 @@ export default Relay.createContainer(PatternStopsContainer, {
       Relay.QL`
       fragment on Pattern {
         code
-        ${RouteMapContainer.getFragment('pattern')}
         ${RouteStopListContainer.getFragment('pattern', { patternId })}
       }
     `,

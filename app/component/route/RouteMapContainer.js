@@ -1,6 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import some from 'lodash/some';
+
 import Icon from '../icon/Icon';
 import Map from '../map/Map';
 import RouteLine from '../map/route/RouteLine';
@@ -8,9 +10,7 @@ import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
 import StopCardHeaderContainer from '../stop-cards/StopCardHeaderContainer';
 import { getStartTime } from '../../util/timeUtils';
 
-function RouteMapContainer(
-  { pattern, trip, className, children, toggleFullscreenMap, vehicles,
-    useSmallIcons = false }) {
+function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, location, breakpoint }) {
   let selectedVehicle;
   let fitBounds = true;
   let zoom;
@@ -30,13 +30,23 @@ function RouteMapContainer(
     }
   }
 
+  const fullscreen = some(routes, route => route.fullscreenMap);
+
+  const toggleFullscreenMap = () => {
+    if (fullscreen) {
+      router.goBack();
+      return;
+    }
+    router.push(`${location.pathname}/kartta`);
+  };
+
   const leafletObjs = [
     <RouteLine key="line" pattern={pattern} />,
     <VehicleMarkerContainer
       key="vehicles"
       pattern={pattern.code}
       tripStart={tripStart}
-      useSmallIcons={useSmallIcons}
+      useSmallIcons={false}
     />,
   ];
 
@@ -44,40 +54,40 @@ function RouteMapContainer(
     <Map
       lat={(selectedVehicle && selectedVehicle.lat) || undefined}
       lon={(selectedVehicle && selectedVehicle.long) || undefined}
-      className={`${className} full`}
+      className={'full'}
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
       bounds={(pattern.geometry || pattern.stops).map((p) => [p.lat, p.lon])}
       zoom={zoom}
     >
-      {children}
-      <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
-        {className === 'fullscreen' ?
-          <Icon img="icon-icon_minimize" className="cursor-pointer" /> :
-          <Icon img="icon-icon_maximize" className="cursor-pointer" />}
-      </div>
+      {!fullscreen && <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
+      {breakpoint !== 'large' && (
+        <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
+          {fullscreen ?
+            <Icon img="icon-icon_minimize" className="cursor-pointer" /> :
+            <Icon img="icon-icon_maximize" className="cursor-pointer" />}
+        </div>
+      )}
     </Map>);
 }
 
 RouteMapContainer.contextTypes = {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
+  breakpoint: React.PropTypes.string,
 };
 
 RouteMapContainer.propTypes = {
-  className: React.PropTypes.string,
   trip: React.PropTypes.shape({
     stoptimesForDate: React.PropTypes.arrayOf(React.PropTypes.shape({
       scheduledDeparture: React.PropTypes.number.isRequired,
     })).isRequired,
   }),
-  toggleFullscreenMap: React.PropTypes.func.isRequired,
+  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
+    fullscreenMap: React.PropTypes.bool,
+  })).isRequired,
   pattern: React.PropTypes.object.isRequired,
-  children: React.PropTypes.node,
-  lat: React.PropTypes.number,
-  lon: React.PropTypes.number,
   vehicles: React.PropTypes.object,
-  useSmallIcons: React.PropTypes.bool,
 };
 
 export const RouteMapFragments = {

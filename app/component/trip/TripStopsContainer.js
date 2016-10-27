@@ -27,14 +27,6 @@ class TripStopsContainer extends React.Component {
     router: React.PropTypes.object.isRequired,
   }
 
-  toggleFullscreenMap = () => {
-    if (this.props.route.fullscreenMap) {
-      this.context.router.goBack();
-      return;
-    }
-    this.context.router.push(`${this.props.location.pathname}/kartta`);
-  }
-
   render() {
     const tripStartTime = getStartTime(this.props.trip.stoptimesForDate[0].scheduledDeparture);
 
