@@ -5,7 +5,7 @@ import orderBy from 'lodash/orderBy';
 import take from 'lodash/take';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
-import XhrPromise from '../util/xhr-promise';
+import { getJson, postJson } from '../util/xhrPromise';
 import config from '../config';
 import { getLabel } from '../util/suggestionUtils';
 import { getLatLng } from '../util/geo-utils';
@@ -99,13 +99,13 @@ function getGeocodingResult(input, geolocation, language) {
     opts = Object.assign({ text: input }, config.searchParams, { lang: language });
   }
 
-  return XhrPromise.getJson(config.URL.PELIAS, opts)
+  return getJson(config.URL.PELIAS, opts)
     .then(res => orderBy(res.features, feature => feature.properties.confidence, 'desc'));
 }
 
 function queryGraphQL(query, opts) {
   const payload = JSON.stringify({ query, variables: null });
-  return XhrPromise.postJson(`${config.URL.OTP}index/graphql`, opts, payload);
+  return postJson(`${config.URL.OTP}index/graphql`, opts, payload);
 }
 
 function mapRoutes(res) {

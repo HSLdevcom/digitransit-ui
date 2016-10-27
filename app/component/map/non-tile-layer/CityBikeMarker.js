@@ -4,7 +4,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 
 import CityBikePopup from '../popups/CityBikePopup';
-import Icon from '../../icon/icon';
+import Icon from '../../icon/Icon';
 import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../documentation/ExampleData';
 import ComponentUsageExample from '../../documentation/ComponentUsageExample';

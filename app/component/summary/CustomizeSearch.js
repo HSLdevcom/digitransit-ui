@@ -4,11 +4,11 @@ import range from 'lodash/range';
 import xor from 'lodash/xor';
 import without from 'lodash/without';
 
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import Slider from '../util/Slider';
 import ToggleButton from '../util/ToggleButton';
 import ModeFilter from '../util/ModeFilter';
-import Select from '../util/select';
+import Select from '../util/Select';
 import config from '../../config';
 
 class CustomizeSearch extends React.Component {

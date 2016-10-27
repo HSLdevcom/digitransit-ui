@@ -5,8 +5,8 @@ import cx from 'classnames';
 import legTextUtil from '../../util/leg-text-util';
 import { displayDistance } from '../../util/geo-utils';
 import RouteNumber from '../departure/RouteNumber';
-import Icon from '../icon/icon';
-import RelativeDuration from '../duration/relative-duration';
+import Icon from '../icon/Icon';
+import RelativeDuration from '../duration/RelativeDuration';
 
 export default function SummaryRow(props, { breakpoint }) {
   let mode;

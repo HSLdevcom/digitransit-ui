@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import RouteNumber from '../departure/RouteNumber';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 export default function RouteAlertsRow({
   header,

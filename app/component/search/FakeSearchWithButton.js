@@ -1,6 +1,6 @@
 import React from 'react';
 import getContext from 'recompose/getContext';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import FakeSearchBar from './FakeSearchBar';
 

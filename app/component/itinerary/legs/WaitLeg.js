@@ -3,8 +3,8 @@ import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
 import RouteNumber from '../../departure/RouteNumber';
-import Icon from '../../icon/icon';
-import timeUtils from '../../../util/time-utils';
+import Icon from '../../icon/Icon';
+import { durationToString } from '../../../util/timeUtils';
 
 function WaitLeg(props) {
   return (
@@ -35,7 +35,7 @@ function WaitLeg(props) {
         <div className="itinerary-leg-action">
           <FormattedMessage
             id="wait-amount-of-time"
-            values={{ duration: `(${timeUtils.durationToString(props.waitTime)})` }}
+            values={{ duration: `(${durationToString(props.waitTime)})` }}
             defaultMessage="Wait {duration}"
           />
         </div>

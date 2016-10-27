@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import TimePicker from 'material-ui/TimePicker';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import supportsInputType from '../../util/supportsInputType';

@@ -21,12 +21,12 @@ sass/themes/*
 !sass/themes/joensuu
 !sass/themes/turku
 
-app/config.*.coffee
-!app/config.client.coffee
-!app/config.default.coffee
-!app/config.hsl.coffee
-!app/config.joensuu.coffee
-!app/config.turku.coffee
+app/config.*.js
+!app/config.client.js
+!app/config.default.js
+!app/config.hsl.js
+!app/config.joensuu.js
+!app/config.turku.js
 
 static/img/*icons
 !static/img/hsl-icons

@@ -1,6 +1,6 @@
 import React from 'react';
-import Duration from './duration';
-import WalkDistance from './walk-distance';
+import Duration from './Duration';
+import WalkDistance from './WalkDistance';
 
 const ItinerarySummary = ({ itinerary, children }) => (
   <div className="itinerary-summary">

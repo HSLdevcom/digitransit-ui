@@ -1,11 +1,11 @@
 import React from 'react';
 
-import WalkLeg from './walk-leg';
+import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
-import BicycleLeg from './bicycle-leg';
-import EndLeg from './end-leg';
-import AirportCheckInLeg from './airport-check-in-leg';
-import AirportCollectLuggageLeg from './airport-collect-luggage-leg';
+import BicycleLeg from './BicycleLeg';
+import EndLeg from './EndLeg';
+import AirportCheckInLeg from './AirportCheckInLeg';
+import AirportCollectLuggageLeg from './AirportCollectLuggageLeg';
 import StopCode from '../StopCode';
 import BusLeg from './BusLeg';
 import AirplaneLeg from './AirplaneLeg';
@@ -13,7 +13,7 @@ import SubwayLeg from './SubwayLeg';
 import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
-import CarLeg from './car-leg';
+import CarLeg from './CarLeg';
 import config from '../../../config';
 
 class ItineraryLegs extends React.Component {

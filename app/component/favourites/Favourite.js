@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const Favourite = ({ addFavourite, favourite, className }) => (

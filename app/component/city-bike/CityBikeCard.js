@@ -3,7 +3,7 @@ import React from 'react';
 import CardHeader from '../card/CardHeader';
 import { station as exampleStation } from '../documentation/ExampleData';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Card from '../card/card';
+import Card from '../card/Card';
 import Favourite from '../favourites/Favourite';
 
 const CityBikeCard = ({ station, children, className, isFavourite, toggleFavourite }) => {

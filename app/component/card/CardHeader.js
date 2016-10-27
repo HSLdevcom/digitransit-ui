@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import SplitBars from '../util/SplitBars';
 import Favourite from '../favourites/Favourite';
 

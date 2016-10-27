@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'react-router/lib/Link';
 
-import Icon from '../component/icon/icon';
+import Icon from '../component/icon/Icon';
 import FavouriteRouteContainer from '../component/favourites/FavouriteRouteContainer';
 import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClientAction';
 import NotFound from './404';

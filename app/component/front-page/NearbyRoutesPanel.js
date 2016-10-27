@@ -6,7 +6,7 @@ import without from 'lodash/without';
 
 import ModeFilterContainer from '../route/ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
-import NextDeparturesListHeader from '../departure/next-departures-list-header';
+import NextDeparturesListHeader from '../departure/NextDeparturesListHeader';
 import config from '../../config';
 
 function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }) {

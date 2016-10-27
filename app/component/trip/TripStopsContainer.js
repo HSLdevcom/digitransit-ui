@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import { getStartTime } from '../../util/time-utils';
+import { getStartTime } from '../../util/timeUtils';
 import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
 import RouteMapContainer from '../route/RouteMapContainer';

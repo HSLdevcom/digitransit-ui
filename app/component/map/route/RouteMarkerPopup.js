@@ -4,7 +4,7 @@ import Link from 'react-router/lib/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteHeader from '../../route/RouteHeader';
-import Icon from '../../icon/icon';
+import Icon from '../../icon/Icon';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
 

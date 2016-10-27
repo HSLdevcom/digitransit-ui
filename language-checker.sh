@@ -6,5 +6,5 @@ usedBundleIds=$(grep -hor "id=.*" app/* | cut -d " " -f 1 | grep -v "props" | gr
 # Then expect to find 4 instances for alle
 for id in $usedBundleIds; do
   echo "CHECK $id:"
-  grep "'$id'" app/translations.coffee
+  grep "'$id'" app/translations.js
 done;

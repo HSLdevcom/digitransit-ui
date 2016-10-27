@@ -40,7 +40,7 @@ import ItineraryTab from './component/itinerary/ItineraryTab';
 import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
 
 import { storeEndpoint } from './action/EndpointActions';
-import { otpToLocation } from './util/otp-strings';
+import { otpToLocation } from './util/otpStrings';
 
 import TopLevel from './component/TopLevel';
 
@@ -268,7 +268,7 @@ const routes = (
       </Route>
     </Route>
     <Route
-      path="reitti/:from/:to"
+      path="/reitti/:from/:to"
       components={{
         title: SummaryTitle,
         content: SummaryPage,
@@ -285,10 +285,10 @@ const routes = (
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="styleguide" component={StyleGuidelines} />
-    <Route path="styleguide/component/:componentName" component={StyleGuidelines} />
-    <Route path="suosikki/uusi" component={AddFavouritePage} />
-    <Route path="suosikki/muokkaa/:id" component={AddFavouritePage} />
+    <Route path="/styleguide" component={StyleGuidelines} />
+    <Route path="/styleguide/component/:componentName" component={StyleGuidelines} />
+    <Route path="/suosikki/uusi" component={AddFavouritePage} />
+    <Route path="/suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route
       path="/tietoja-palvelusta"
       components={{

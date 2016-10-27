@@ -1,5 +1,5 @@
 import { supportsHistory } from 'history/lib/DOMUtils';
-import { locationToOTP } from '../util/otp-strings';
+import { locationToOTP } from '../util/otpStrings';
 import { getRoutePath } from '../util/path';
 import history from '../history';
 

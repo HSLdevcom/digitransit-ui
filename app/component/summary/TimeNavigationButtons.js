@@ -6,7 +6,7 @@ import cx from 'classnames';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { plan as examplePlan } from '../documentation/ExampleData';
 import ItineraryFeedback from '../itinerary-feedback/itinerary-feedback';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import config from '../../config';
 
 function setEarlierSelectedTime(router, location, itineraries) {

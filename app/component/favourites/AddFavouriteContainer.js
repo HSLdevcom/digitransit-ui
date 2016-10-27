@@ -5,7 +5,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import FavouriteIconTable from './FavouriteIconTable';
 import { addFavouriteLocation, deleteFavouriteLocation } from '../../action/FavouriteActions';
 import FakeSearchBar from '../search/FakeSearchBar';
