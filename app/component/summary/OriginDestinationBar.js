@@ -3,7 +3,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 
 import { swapEndpoints } from '../../action/EndpointActions';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import OneTabSearchModal from '../search/OneTabSearchModal';
 
 class OriginDestinationBar extends React.Component {

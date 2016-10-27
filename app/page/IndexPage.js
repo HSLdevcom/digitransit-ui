@@ -1,7 +1,7 @@
 import React from 'react';
 import getContext from 'recompose/getContext';
 import { clearDestination } from '../action/EndpointActions';
-import FeedbackPanel from '../component/feedback/feedback-panel';
+import FeedbackPanel from '../component/feedback/FeedbackPanel';
 import FrontPagePanelContainer from '../component/front-page/FrontPagePanelContainer';
 import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from '../component/search/SearchMainContainer';

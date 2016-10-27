@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import config from '../../config';
 
 class DisruptionInfoButton extends React.Component {

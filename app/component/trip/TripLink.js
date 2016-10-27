@@ -4,7 +4,7 @@ import Link from 'react-router/lib/Link';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import IconWithTail from '../icon/IconWithTail';
-import NotImplementedLink from '../util/not-implemented-link';
+import NotImplementedLink from '../util/NotImplementedLink';
 
 function TripLink(props) {
   const icon = (<IconWithTail

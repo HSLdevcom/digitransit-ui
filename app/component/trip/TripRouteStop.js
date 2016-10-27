@@ -4,7 +4,7 @@ import Link from 'react-router/lib/Link';
 import cx from 'classnames';
 
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import WalkDistance from '../itinerary/walk-distance';
+import WalkDistance from '../itinerary/WalkDistance';
 import StopCode from '../itinerary/StopCode';
 import PatternLink from './PatternLink';
 import FuzzyTripRoute from '../route/FuzzyTripRoute';

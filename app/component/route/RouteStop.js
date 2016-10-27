@@ -5,7 +5,7 @@ import Link from 'react-router/lib/Link';
 import FuzzyTripRoute from './FuzzyTripRoute';
 import TripLink from '../trip/TripLink';
 import FuzzyPatternLink from '../trip/FuzzyPatternLink';
-import WalkDistance from '../itinerary/walk-distance';
+import WalkDistance from '../itinerary/WalkDistance';
 import StopCode from '../itinerary/StopCode';
 import { fromStopTime } from '../departure/DepartureTime';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';

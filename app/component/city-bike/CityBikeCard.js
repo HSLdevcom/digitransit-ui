@@ -3,7 +3,8 @@ import React from 'react';
 import CardHeader from '../card/CardHeader';
 import { station as exampleStation } from '../documentation/ExampleData';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Card from '../card/card';
+import Card from '../card/Card';
+import Favourite from '../favourites/Favourite';
 
 const CityBikeCard = ({ station, children, className, isFavourite, toggleFavourite }) => {
   if (!station || !children || children.length === 0) {
@@ -13,11 +14,14 @@ const CityBikeCard = ({ station, children, className, isFavourite, toggleFavouri
   return (
     <Card className={className}>
       <CardHeader
-        addFavourite={toggleFavourite}
         name={station.name}
         description={station.stationId}
-        favourite={isFavourite}
         icon="icon-icon_citybike"
+        icons={[<Favourite
+          favourite={isFavourite}
+          addFavourite={toggleFavourite}
+        />,
+        ]}
       />
       {children}
     </Card>

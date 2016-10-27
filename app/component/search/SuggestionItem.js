@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
 
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import { getLabel } from '../../util/suggestionUtils';
 import config from '../../config';
 

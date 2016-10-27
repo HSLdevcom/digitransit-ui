@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import find from 'lodash/find';
-import DisruptionRow from './disruption-row';
+import DisruptionRow from './DisruptionRow';
 
 function DisruptionListContainer({ alerts }, { intl }) {
   if (!alerts || !alerts.alerts || alerts.alerts.length === 0) {

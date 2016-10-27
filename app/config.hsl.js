@@ -138,4 +138,5 @@ export default {
       },
     },
   }],
+  /* eslint-enable max-len*/
 };

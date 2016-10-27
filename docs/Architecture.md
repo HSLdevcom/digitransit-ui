@@ -22,7 +22,7 @@ Digitransit-ui is a React based web application. The following bullet point desc
       - If state is needed you should either store it using fluxible or in a container
     - Must be included in the style guide
     - Visual regression testing using gemini
-      - all use cases should be provided by the style guide 
+      - all use cases should be provided by the style guide
   - RelayConnector
     - Data from server should be fetched by adding a relay fragment and wrapping it with Relay.createContainer
     - The file should have the pure view as default export and the <View>RelayConnector as named export
@@ -47,11 +47,7 @@ Digitransit-ui is a React based web application. The following bullet point desc
 
 ## How to get there
   - Incremental process
-  - When working with a .cjsx/.coffee-file
-    - transpile using cjsx2es6.js
-    - check comments
-    - fix lint issues
-    - inline graphQL fragments
+  - When working with a file
     - add to style guide
     - write gemini and/or unit tests
     - create gemini images
@@ -81,4 +77,4 @@ Links:
     - We should provide information about layout (mobile/tablet/desktop) in the context by using matchMedia or browser sniffing in order for the containers to be able to render different contents depending on the device
 
  - How to get there
-    - Still a uncertain process 
+    - Still a uncertain process

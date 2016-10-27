@@ -4,7 +4,6 @@
 /* ********* Polyfills (for node) **********/
 const path = require('path');
 
-require('node-cjsx').transform();
 require('babel-core/register')({
   presets: ['modern-node', 'stage-2', 'react'], // eslint-disable-line prefer-template
   plugins: [

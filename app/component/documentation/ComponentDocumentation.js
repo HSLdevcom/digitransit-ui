@@ -10,15 +10,23 @@ import isFunction from 'lodash/isFunction';
   </ComponentDocumentation>
 */
 
+const getName = (component) => component.displayName || component.name || 'Unknown';
+
+const getDescription = (component) => {
+  if (isFunction(component.description)) return component.description();
+  else if (component.description) return component.description;
+  return <div>Component {getName(component)} has no description</div>;
+};
+
+
 export default function ComponentDocumentation({ component, children }) {
   return (
     <div
       className="card padding-normal"
-      id={component.displayName || component.name}
+      id={getName(component)}
     >
-      <h2>{component.displayName || component.name}</h2>
-      <div>{(isFunction(component.description) && component.description()) ||
-        component.description} </div>
+      <h2>{getName(component)}</h2>
+      <div>{getDescription(component)} </div>
       <p>Required props:</p>
       <ul>{Object.keys(component.propTypes || {}).filter(key =>
         !component.propTypes[key].isRequired

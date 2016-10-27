@@ -108,7 +108,7 @@ const translations = {
     'route-not-possible': 'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"',
     'realtime-matching': 'Realiajan integraatio',
     'locate': 'Paikanna',
-    'extra-info': 'Lisätietoa',
+    'extra-info': 'Lisätiedot',
     'bike-availability': 'Pyöriä asemalla juuri nyt',
     'bike-availability-short': 'Pyöriä',
     'citybike-register-required': 'Kaupunkipyörien käyttö vaatii rekisteröitymisen',

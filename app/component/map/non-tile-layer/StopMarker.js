@@ -6,7 +6,7 @@ import { intlShape } from 'react-intl';
 import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
-import Icon from '../../icon/icon';
+import Icon from '../../icon/Icon';
 import config from '../../../config';
 import { getCaseRadius, getStopRadius, getHubRadius } from '../../../util/mapIconUtils';
 

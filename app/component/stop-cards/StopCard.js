@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import StopCardHeader from './StopCardHeader';
-import Card from '../card/card';
+import StopCardHeaderContainer from './StopCardHeaderContainer';
+import Card from '../card/Card';
 
 class StopCard extends React.Component {
   render() {
@@ -13,10 +13,9 @@ class StopCard extends React.Component {
     return (
       <Link to={`/${prefix}/${this.props.stop.gtfsId}`} className="no-decoration">
         <Card className={this.props.className}>
-          <StopCardHeader
+          <StopCardHeaderContainer
             stop={this.props.stop}
-            favourite={this.props.favourite}
-            addFavouriteStop={this.props.addFavouriteStop}
+            icons={this.props.icons}
             distance={this.props.distance}
           />
           {this.props.children}
@@ -30,11 +29,7 @@ StopCard.propTypes = {
   stop: React.PropTypes.shape({
     gtfsId: React.PropTypes.string.isRequired,
   }),
-  favourite: React.PropTypes.bool,
-  addFavouriteStop: React.PropTypes.oneOfType([
-    React.PropTypes.func,
-    React.PropTypes.bool,
-  ]).isRequired,
+  icons: React.PropTypes.arrayOf(React.PropTypes.node),
   distance: React.PropTypes.number,
   className: React.PropTypes.string,
   children: React.PropTypes.node,

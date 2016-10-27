@@ -59,6 +59,11 @@ function verifyFirstName(header) {
   return this.assert.containsText('@favouriteLocationName', header);
 }
 
+function verifyFavouriteRoute(number) {
+  this.waitForElementVisible('@favouriteRoute', this.api.globals.elementVisibleTimeout);
+  return this.assert.containsText('@favouriteRoute', number);
+}
+
 function verifyFavouriteInSearchResult(favouriteName) {
   this.api.withXpath(() => {
     this.waitForElementPresent(
@@ -78,6 +83,7 @@ module.exports = {
     saveHomeFavourite,
     verifyFirstName,
     verifyFavouriteInSearchResult,
+    verifyFavouriteRoute,
   }],
   elements: {
     favouritePaneSelect: {
@@ -103,6 +109,9 @@ module.exports = {
     },
     favouriteLocationName: {
       selector: '.favourite-location-name',
+    },
+    favouriteRoute: {
+      selector: '.favourites .vehicle-number',
     },
   },
 };

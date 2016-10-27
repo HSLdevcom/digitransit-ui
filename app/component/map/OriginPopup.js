@@ -3,7 +3,7 @@ import { intlShape } from 'react-intl';
 
 import config from '../../config';
 import { openDialog } from '../../action/SearchActions';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 

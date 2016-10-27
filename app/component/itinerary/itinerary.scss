@@ -2,7 +2,6 @@
 
 $topbar-height: 40px;
 $itinerary-summary-height: 40px;
-$itinerary-bottom-navigation-height: 30px;
 $itinerary-tab-switch-height: 48px;
 $itinerary-route-max-width: 500px;
 
@@ -301,30 +300,6 @@ div.itinerary-container-content {
 
   &:empty {
     height: 0;
-  }
-}
-
-.row.itinerary-bottom-navigation {
-  left: 1em;
-  right: 1em;
-  width: calc(100% - 2em);
-  height: $itinerary-bottom-navigation-height;
-  padding: 0.25em 0;
-  margin: 0 auto;
-  font-size: 10pt;
-  color: $gray-blue;
-  border-top: solid 1px $light-gray;
-  div {
-    border-right: solid 1px $light-gray;
-    text-align: center;
-    &.noborder {
-      border-right: none;
-      color: $action-color;
-      a {
-        color: inherit;
-        text-decoration: inherit;
-      }
-    }
   }
 }
 

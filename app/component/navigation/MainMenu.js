@@ -4,7 +4,7 @@ import Link from 'react-router/lib/Link';
 
 import config from '../../config';
 import DisruptionInfoButtonContainer from '../disruption/DisruptionInfoButtonContainer';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import LangSelect from './LangSelect';
 
 function MainMenu(props) {

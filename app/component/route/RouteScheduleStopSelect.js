@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import {
   routeScheduleStopSelectOptions as exampleOptions,

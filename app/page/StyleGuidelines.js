@@ -3,7 +3,7 @@ import sortBy from 'lodash/sortBy';
 import Link from 'react-router/lib/Link';
 
 import { FakeSearchWithButton } from '../component/search/FakeSearchWithButton';
-import Icon from '../component/icon/icon';
+import Icon from '../component/icon/Icon';
 import IconWithTail from '../component/icon/IconWithTail';
 import SelectedIconWithTail from '../component/icon/SelectedIconWithTail';
 import IconWithCaution from '../component/icon/IconWithCaution';
@@ -15,10 +15,10 @@ import RouteDestination from '../component/departure/RouteDestination';
 import DepartureTime from '../component/departure/DepartureTime';
 import Distance from '../component/departure/Distance';
 import PlatformNumber from '../component/departure/PlatformNumber';
-import NotImplemented from '../component/util/not-implemented';
-import NotImplementedLink from '../component/util/not-implemented-link';
+import NotImplemented from '../component/util/NotImplemented';
+import NotImplementedLink from '../component/util/NotImplementedLink';
 import CardHeader from '../component/card/CardHeader';
-import Card from '../component/card/card';
+import Card from '../component/card/Card';
 import CityBikeCard from '../component/city-bike/CityBikeCard';
 import CityBikeContent from '../component/city-bike/CityBikeContent';
 import CityBikeAvailability from '../component/city-bike/CityBikeAvailability';
@@ -35,7 +35,6 @@ import SelectCityBikeRow from '../component/map/tile-layer/SelectCityBikeRow';
 import SelectParkAndRideRow from '../component/map/tile-layer/SelectParkAndRideRow';
 import SelectStopRow from '../component/map/tile-layer/SelectStopRow';
 import SelectTerminalRow from '../component/map/tile-layer/SelectTerminalRow';
-import Favourite from '../component/favourites/Favourite';
 import TicketInformation from '../component/itinerary/TicketInformation';
 import RouteScheduleDateSelect from '../component/route/RouteScheduleDateSelect';
 import RouteScheduleHeader from '../component/route/RouteScheduleHeader';
@@ -52,6 +51,14 @@ import FrontPagePanelSmall from '../component/front-page/FrontPagePanelSmall';
 import FrontPagePanelLarge from '../component/front-page/FrontPagePanelLarge';
 import { DepartureRow } from '../component/departure/DepartureRowContainer';
 import { BicycleRentalStationRow } from '../component/departure/BicycleRentalStationRowContainer';
+import StopPageHeader from '../component/stop/StopPageHeader';
+import StopCardHeader from '../component/stop-cards/StopCardHeader';
+import SplitBars from '../component/util/SplitBars';
+import Labeled from '../component/util/Labeled';
+import Centered from '../component/util/Centered';
+import InfoIcon from '../component/icon/InfoIcon';
+import Favourite from '../component/favourites/Favourite';
+import DepartureListHeader from '../component/departure/DepartureListHeader';
 
 class StyleGuidelinesPage extends React.Component {
   static propTypes = {
@@ -93,7 +100,6 @@ class StyleGuidelinesPage extends React.Component {
     SelectParkAndRideRow,
     SelectStopRow,
     SelectTerminalRow,
-    Favourite,
     TicketInformation,
     RouteScheduleDateSelect,
     RouteScheduleHeader,
@@ -109,6 +115,14 @@ class StyleGuidelinesPage extends React.Component {
     AppBarLarge,
     FrontPagePanelLarge,
     FrontPagePanelSmall,
+    StopPageHeader,
+    StopCardHeader,
+    SplitBars,
+    Labeled,
+    Centered,
+    InfoIcon,
+    Favourite,
+    DepartureListHeader,
   }
 
   getColors() {
@@ -228,12 +242,12 @@ class StyleGuidelinesPage extends React.Component {
   getHeadings() {
     return (
       <section>
-        <h1>Heading 1<span className="code">{"<h1 />"}</span></h1>
-        <h2>Heading 2<span className="code">{"<h2 />"}</span></h2>
-        <h3>Heading 3<span className="code">{"<h3 />"}</span></h3>
-        <h4>Heading 4<span className="code">{"<h4 />"}</span></h4>
-        <h5>Heading 5<span className="code">{"<h5 />"}</span></h5>
-        <h6>Heading 6<span className="code">{"<h6 />"}</span></h6>
+        <h1>Heading 1<span className="code">{'<h1 />'}</span></h1>
+        <h2>Heading 2<span className="code">{'<h2 />'}</span></h2>
+        <h3>Heading 3<span className="code">{'<h3 />'}</span></h3>
+        <h4>Heading 4<span className="code">{'<h4 />'}</span></h4>
+        <h5>Heading 5<span className="code">{'<h5 />'}</span></h5>
+        <h6>Heading 6<span className="code">{'<h6 />'}</span></h6>
       </section>
     );
   }
@@ -252,7 +266,7 @@ class StyleGuidelinesPage extends React.Component {
   getTextStyles() {
     return (
       <section>
-        <p><a>This is a link</a><span className="code">{"<a />"}</span>
+        <p><a>This is a link</a><span className="code">{'<a />'}</span>
         </p>
         <p>
           <span className="dotted-link cursor-pointer">
@@ -264,7 +278,7 @@ class StyleGuidelinesPage extends React.Component {
         </p>
         <p>Paragraph: normal text looks like this
           <span className="code">
-            {"<p />"}
+            {'<p />'}
           </span>
         </p>
         <span>span style</span>
@@ -296,7 +310,7 @@ class StyleGuidelinesPage extends React.Component {
     }
     return (
       <section>Import:
-        <p className="code">Icon = require '../icon/icon'</p>
+        <p className="code">Icon = require '../icon/Icon'</p>
         <br />
         <div
           style={{

@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import MarkerPopupBottom from '../marker-popup-bottom';
+import MarkerPopupBottom from '../MarkerPopupBottom';
 import CityBikeContent from '../../city-bike/CityBikeContent';
 import CityBikeCardContainer from '../../city-bike/CityBikeCardContainer';
 import { station as exampleStation } from '../../documentation/ExampleData';

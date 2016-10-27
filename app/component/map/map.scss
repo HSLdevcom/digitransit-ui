@@ -204,15 +204,24 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     font-size: $font-size-small;
     line-height: $line-height-normal;
     color: $gray;
-    margin: 0px auto 0px;
-    padding: 0.5em 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     background: $background-color;
-    text-align: center;
-    columns: 2 auto;
-    column-rule: 1px solid $light-gray;
     border-top: solid 1px #ddd;
+
+    div {
+      padding: 0.5em 12px;
+      flex-grow: 1;
+
+      &:first-child {
+        border-right: 1px solid $light-gray;
+      }
+    }
+
     a {
       color: $gray;
       text-decoration: none;

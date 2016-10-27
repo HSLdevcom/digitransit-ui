@@ -3,9 +3,9 @@ import Drawer from 'material-ui/Drawer';
 import { supportsHistory } from 'history/lib/DOMUtils';
 
 import config from '../../config';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 import MainMenu from './MainMenu';
-import FeedbackActions from '../../action/feedback-action';
+import { openFeedbackModal } from '../../action/feedbackActions';
 
 class MainMenuContainer extends Component {
   static contextTypes = {
@@ -56,7 +56,7 @@ class MainMenuContainer extends Component {
   }
 
   openFeedback = () => {
-    this.context.executeAction(FeedbackActions.openFeedbackModal);
+    this.context.executeAction(openFeedbackModal);
     this.toggleOffcanvas();
   }
 

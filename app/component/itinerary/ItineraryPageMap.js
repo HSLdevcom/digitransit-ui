@@ -5,7 +5,7 @@ import polyline from 'polyline-encoded';
 import LocationMarker from '../map/LocationMarker';
 import ItineraryLine from '../map/ItineraryLine';
 import Map from '../map/Map';
-import Icon from '../icon/icon';
+import Icon from '../icon/Icon';
 
 
 export default function ItineraryPageMap(

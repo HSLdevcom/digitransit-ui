@@ -31,7 +31,7 @@ import PatternStopsContainer from './component/route/PatternStopsContainer';
 import TripStopsContainer from './component/trip/TripStopsContainer';
 import RouteTitle from './component/route/RouteTitle';
 import StopPageMap from './component/stop/StopPageMap';
-import StopPageHeader from './component/stop/StopPageHeader';
+import StopPageHeaderContainer from './component/stop/StopPageHeaderContainer';
 import StopPageMeta from './component/stop/StopPageMeta';
 import FavouritesPanel from './component/favourites/FavouritesPanel';
 import NearbyRoutesPanel from './component/front-page/NearbyRoutesPanel';
@@ -40,7 +40,7 @@ import ItineraryTab from './component/itinerary/ItineraryTab';
 import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
 
 import { storeEndpoint } from './action/EndpointActions';
-import { otpToLocation } from './util/otp-strings';
+import { otpToLocation } from './util/otpStrings';
 
 import TopLevel from './component/TopLevel';
 
@@ -203,7 +203,7 @@ const routes = (
         path=":stopId"
         components={{
           title: StopTitle,
-          header: StopPageHeader,
+          header: StopPageHeaderContainer,
           content: StopPage,
           map: StopPageMap,
           meta: StopPageMeta,
@@ -216,7 +216,7 @@ const routes = (
         }}
         render={{
           // eslint-disable-next-line react/prop-types
-          header: ({ props }) => (props ? <StopPageHeader {...props} /> : <LoadingPage />),
+          header: ({ props }) => (props ? <StopPageHeaderContainer {...props} /> : <LoadingPage />),
           // eslint-disable-next-line react/prop-types
           content: ({ props }) => (props ? <StopPage {...props} /> : false),
         }}
@@ -231,7 +231,7 @@ const routes = (
         path=":terminalId"
         components={{
           title: TerminalTitle,
-          header: StopPageHeader,
+          header: StopPageHeaderContainer,
           content: StopPage,
           map: StopPageMap,
           meta: StopPageMeta,
@@ -283,7 +283,7 @@ const routes = (
       </Route>
     </Route>
     <Route
-      path="reitti/:from/:to"
+      path="/reitti/:from/:to"
       components={{
         title: SummaryTitle,
         content: SummaryPage,
@@ -300,10 +300,10 @@ const routes = (
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="styleguide" component={StyleGuidelines} />
-    <Route path="styleguide/component/:componentName" component={StyleGuidelines} />
-    <Route path="suosikki/uusi" component={AddFavouritePage} />
-    <Route path="suosikki/muokkaa/:id" component={AddFavouritePage} />
+    <Route path="/styleguide" component={StyleGuidelines} />
+    <Route path="/styleguide/component/:componentName" component={StyleGuidelines} />
+    <Route path="/suosikki/uusi" component={AddFavouritePage} />
+    <Route path="/suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route
       path="/tietoja-palvelusta"
       components={{
