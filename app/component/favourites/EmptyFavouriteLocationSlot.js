@@ -28,5 +28,9 @@ EmptyFavouriteLocationSlot.description = (
   </div>
 );
 
+EmptyFavouriteLocationSlot.propTypes = {
+  index: React.PropTypes.number.isRequired,
+};
+
 
 export default EmptyFavouriteLocationSlot;
