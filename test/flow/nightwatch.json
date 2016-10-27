@@ -13,7 +13,8 @@
     "port": 4444,
     "cli_args": {
       "webdriver.chrome.driver": "",
-      "webdriver.ie.driver": ""
+      "webdriver.ie.driver": "",
+      "webdriver.firefox.bin": "./firefox/firefox-bin"
     }
   },
 
@@ -46,12 +47,12 @@
     },
 
     "firefox": {
-      "launch_url": "http://localhost:8080?mock",
+      "launch_url": "http://localhost:8080/?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
-      "silent": true,
+      "silent": false,
       "globals": {
-        "itinerarySearchTimeout": 21000,
+        "itinerarySearchTimeout": 11000,
         "elementVisibleTimeout": 10000
       },
       "screenshots": {
@@ -63,6 +64,7 @@
       "desiredCapabilities": {
         "browserName": "firefox",
         "javascriptEnabled": true,
+
         "acceptSslCerts": true
       }
     },
