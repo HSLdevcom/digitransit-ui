@@ -2,10 +2,12 @@ import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'react-router/lib/Link';
+import cx from 'classnames';
 
 import Icon from '../component/icon/Icon';
 import FavouriteRouteContainer from '../component/favourites/FavouriteRouteContainer';
 import RoutePatternSelect from '../component/route/RoutePatternSelect';
+import RouteNumber from '../component/departure/RouteNumber';
 import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClientAction';
 import NotFound from './404';
 
@@ -18,6 +20,7 @@ class RoutePage extends React.Component {
       replace: React.PropTypes.func.isRequired,
     }).isRequired,
     intl: intlShape.isRequired,
+    breakpoint: React.PropTypes.string,
   };
 
   static propTypes = {
@@ -63,7 +66,10 @@ class RoutePage extends React.Component {
 
     return (
       <div className="tabs route-tabs">
-        <nav className="tabs-navigation">
+        <nav className={cx('tabs-navigation', { 'bp-large': this.context.breakpoint === 'large' })}>
+          { this.context.breakpoint === 'large' && (
+            <RouteNumber mode={this.props.route.mode} text={this.props.route.shortName} />
+          )}
           <Link
             to={`/linjat/${this.props.route.gtfsId}/pysakit/${this.props.params.patternId || ''}`}
             activeClassName="is-active"
@@ -97,6 +103,7 @@ class RoutePage extends React.Component {
           params={this.props.params}
           route={this.props.route}
           onSelectChange={this.onPatternChange}
+          className={cx({ 'bp-large': this.context.breakpoint === 'large' })}
         />}
       </div>
     );

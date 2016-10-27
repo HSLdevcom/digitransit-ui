@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import cx from 'classnames';
 import Icon from '../icon/Icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { routePatterns as exampleRoutePatterns } from '../documentation/ExampleData';
@@ -11,7 +12,7 @@ function RoutePatternSelect(props) {
     </option>));
 
   return (
-    <div className="route-pattern-select">
+    <div className={cx('route-pattern-select', props.className)}>
       <Icon img="icon-icon_arrow-dropdown" />
       <select onChange={props.onSelectChange} value={props.params && props.params.patternId}>
         {options}
@@ -23,6 +24,7 @@ function RoutePatternSelect(props) {
 RoutePatternSelect.propTypes = {
   params: React.PropTypes.object,
   route: React.PropTypes.object,
+  className: React.PropTypes.string,
   onSelectChange: React.PropTypes.func.isRequired,
 };
 

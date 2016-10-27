@@ -384,16 +384,9 @@ div.route-tabs {
     margin: 0 10px;
     padding: 0 3px;
     border-bottom: 1px solid $light-gray;
-    pointer-events: none;
-
-    .icon {
-      display: block;
-      width: 15px;
-      height: 15px;
-      margin: 4px auto;
-    }
 
     a {
+      @include font-bold;
       padding: 8px 0 5px;
       border: none;
       pointer-events: auto;
@@ -423,6 +416,13 @@ div.route-tabs {
 
       &:last-child > div {
         border-right: none;
+      }
+
+      .icon {
+        display: block;
+        width: 15px;
+        height: 15px;
+        margin: 4px auto;
       }
     }
   }
@@ -507,6 +507,23 @@ div.route-tabs {
     right: 23px;
     top: 18px;
     pointer-events: none;
+  }
+
+  &.bp-large {
+    padding: 10px 20px;
+
+    select {
+      height: 40px;
+      font-size: 18px;
+      padding:0 48px 0 20px;
+      -webkit-padding-end: 48px;
+      -webkit-padding-start: 20px;
+    }
+
+    .icon {
+      right: 38px;
+      top: 25px;
+    }
   }
 }
 
