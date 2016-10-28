@@ -18,7 +18,7 @@ function TripStopsContainer(props, { breakpoint }) {
         'fullscreen-map': fullscreen && breakpoint !== 'large',
       })}
     >
-      <TripListHeader key="header" />
+      <TripListHeader key="header" className={breakpoint === 'large' && 'bp-large'} />
       <TripStopListContainer
         key="list"
         trip={props.trip}
