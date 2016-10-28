@@ -137,6 +137,7 @@ export default Relay.createContainer(ItineraryLine, {
     legs: () => Relay.QL`
       fragment on Leg @relay(plural: true){
         mode
+        rentedBike
         legGeometry {
           points
         }
