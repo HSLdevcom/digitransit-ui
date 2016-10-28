@@ -7,13 +7,17 @@ import { getStartTime } from '../../util/timeUtils';
 import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
 
-function TripStopsContainer(props) {
+function TripStopsContainer(props, { breakpoint }) {
   const tripStartTime = getStartTime(props.trip.stoptimesForDate[0].scheduledDeparture);
 
   const fullscreen = some(props.routes, route => route.fullscreenMap);
 
   return (
-    <div className={cx('route-page-content', { 'fullscreen-map': fullscreen })}>
+    <div
+      className={cx('route-page-content', {
+        'fullscreen-map': fullscreen && breakpoint !== 'large',
+      })}
+    >
       <TripListHeader key="header" />
       <TripStopListContainer
         key="list"
@@ -43,7 +47,7 @@ TripStopsContainer.propTypes = {
 };
 
 TripStopsContainer.contextTypes = {
-  router: React.PropTypes.object.isRequired,
+  breakpoint: React.PropTypes.string,
 };
 
 export default Relay.createContainer(TripStopsContainer, {
