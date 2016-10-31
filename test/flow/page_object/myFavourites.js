@@ -20,9 +20,12 @@ function enterAddress(addressSearch) {
   this.api.checkedClick(this.elements.addressPlaceholderNoSelect.selector);
   this.waitForElementPresent('@searchFavourite', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchFavourite', addressSearch);
+  this.waitForElementNotPresent('@searchResultCurrentLocation',
+    this.api.globals.elementVisibleTimeout);
   this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
     this.api.globals.elementVisibleTimeout);
-  return this.setValue('@searchFavourite', this.api.Keys.ENTER);
+  this.setValue('@searchFavourite', this.api.Keys.ENTER);
+  return this;
 }
 
 function enterName(name) {
@@ -112,6 +115,9 @@ module.exports = {
     },
     favouriteRoute: {
       selector: '.favourites .vehicle-number',
+    },
+    searchResultCurrentLocation: {
+      selector: '.search-result.CurrentLocation',
     },
   },
 };
