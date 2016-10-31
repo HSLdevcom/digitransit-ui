@@ -559,7 +559,8 @@ const translations = {
     'right-now': 'Immédiatement',
     'minutes': 'min',
     'timetable': 'Fiche horaire',
-    'no-favourites': 'Vous pouvez cliquer sur les étoiles pour ajouter une ligne à vos favoris. Après l\'ajout, ceux-ci sont disponibles dans l\'onglet Favoris de l\'interface',
+    'no-favourites': `Vous pouvez cliquer sur les étoiles pour ajouter une ligne à vos favoris.
+      Après l'ajout, ceux-ci sont disponibles dans l'onglet Favoris de l'interface`,
     'distance-under': 'Distance inférieure à {distance} m',
     'distance-between': 'Distance {distance1} m — {distance2} m',
     'tickets': 'Titres de transport',
@@ -568,7 +569,8 @@ const translations = {
     'contact-information': 'Contacter {contactName}',
     'create-account': 'Créer un identifiant {contactName}',
     'login': 'Se connecter',
-    'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessibles depuis d\'autres appareils',
+    'off-canvas-info': `En vous connectant, vos favoris seront sauvegardés et accessibles depuis
+      d'autres appareils`,
     'cause': 'Cause',
     'disruptions': 'Perturbations',
     'disruption-info': 'Informations sur les perturbations',
@@ -605,7 +607,8 @@ const translations = {
     'today': "Aujourd'hui",
     'tomorrow': 'Demain',
     'not-implemented': '{name} - la fonctionnalité est en cours de développement',
-    'not-implemented-msg': 'Si vous souhaitez participer au développement, vous pouvez obtenir des informations via les liens ci-dessous',
+    'not-implemented-msg': `Si vous souhaitez participer au développement, vous pouvez
+      obtenir des informations via les liens ci-dessous`,
     'route-not-possible': 'Impossible de calculer un itinéraire. Information technique : "{error}"',
     'realtime-matching': 'Intégration du temps-réel',
     'locate': 'Localiser',
@@ -619,7 +622,8 @@ const translations = {
     'platform-num': 'Quai {platformCode}',
     'departures': 'Départs',
     'show-departures': 'Afficher les départs',
-    'no-route-msg': 'Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d\'arrivée.',
+    'no-route-msg': `Impossible de trouver un itinéraire dans cette zone. Changer le point
+      de départ ou d'arrivée.`,
     'close': 'Fermer',
     'likely-to-recommend': 'A quel point recommandriez vous ce service à un ami ou un collègue ?',
     'likely-to-use': 'A quel point utiliseriez-vous ce service plutôt que le service actuel ?',
@@ -647,12 +651,14 @@ const translations = {
     'address': 'Adresse',
     'wait-amount-of-time': 'Attendre {duration}',
     'airport-check-in': "S'enregistrer au guichet {agency}",
-    'airport-security-check-go-to-gate': 'Franchir les contrôles de sécurité et se rendre à la porte d\'embarquement',
+    'airport-security-check-go-to-gate': `Franchir les contrôles de sécurité et se rendre
+      à la porte d'embarquement`,
     'airport-collect-luggage': 'Récupérer vos bagages',
     'rent-cycle-at': 'Décrocher un vélo à la station {station}',
     'cycle-distance-duration': 'Pédaler {distance} ({duration})',
     'cyclewalk-distance-duration': 'Avancer pied à terre sur {distance} ({duration})',
-    'number-of-intermediate-stops': '{number, plural, =0 {Sans arrêt} =1 {{number} arrêt} other {{number} arrêts} } ({duration})',
+    'number-of-intermediate-stops': `{number, plural, =0 {Sans arrêt} =1 {{number} arrêt}
+      other {{number} arrêts} } ({duration})`,
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     'tram-with-route-number': 'Tramway {routeNumber} {headSign}',
     'train-with-route-number': 'Train {routeNumber} {headSign}',
