@@ -6,7 +6,10 @@ function setOrigin(origin) {
   this.waitForElementVisible('@searchOrigin', timeout);
   this.clearValue('@searchOrigin');
   this.setValue('@searchOrigin', origin);
-  this.waitForElementNotPresent('@searchResultCurrentLocation', timeout);
+
+  if (origin.length > 0) {
+    this.waitForElementNotPresent('@searchResultCurrentLocation', timeout);
+  }
   return this;
 }
 
@@ -41,8 +44,11 @@ function setDestination(destination) {
   this.checkedClick(this.elements.destination.selector);
   this.waitForElementVisible('@searchDestination', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchDestination', destination);
-  return this.waitForElementNotPresent('@searchResultCurrentLocation',
+  if (destination.length > 0) {
+    this.waitForElementNotPresent('@searchResultCurrentLocation',
     this.api.globals.elementVisibleTimeout);
+  }
+  return this;
 }
 
 function enterKeyDestination() {
