@@ -19,6 +19,7 @@ function enableModality(modality) {
   exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
     if (!found) {
       this.checkedClick(`.btn-bar > .btn:nth-of-type(${modalities.indexOf(modality) + 1})`);
+      this.waitForElementPresent(`.btn-bar > .${modality}`, this.api.globals.elementVisibleTimeout);
     }
   });
 }
@@ -27,6 +28,8 @@ function disableModality(modality) {
   exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
     if (found) {
       this.checkedClick(selector);
+      this.waitForElementNotPresent(`.btn-bar > .${modality}`,
+        this.api.globals.elementVisibleTimeout);
     }
   });
 }
@@ -34,7 +37,6 @@ function disableModality(modality) {
 function disableAllModalitiesExcept(except) {
   modalities.forEach((modality) => {
     if (modality !== except) {
-      this.api.pause(300);
       disableModality.call(this, modality);
     }
   });
