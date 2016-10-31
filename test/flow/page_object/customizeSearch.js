@@ -34,7 +34,7 @@ function disableModality(modality) {
 function disableAllModalitiesExcept(except) {
   modalities.forEach((modality) => {
     if (modality !== except) {
-      this.api.pause(50);
+      this.api.pause(300);
       disableModality.call(this, modality);
     }
   });
