@@ -7,6 +7,7 @@ import getContext from 'recompose/getContext';
 import compose from 'recompose/compose';
 
 import Map from '../map/Map';
+import SelectedStopLabel from '../map/SelectedStopLabel';
 import Icon from '../icon/Icon';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
@@ -45,6 +46,31 @@ const StopPageMap = compose(
   mapProps(props => {
     const fullscreenMap = some(props.routes, 'fullscreenMap');
 
+    const children = [];
+
+    if (props.breakpoint !== 'large') {
+      children.push(fullscreenMapOverlay(fullscreenMap, props.params, props.router));
+      children.push(fullscreenMapToggle(fullscreenMap, props.params));
+    }
+
+    const leafletObjs = [];
+
+    if (props.breakpoint === 'large') {
+      const header = (
+        <span>{props.stop.name}</span>
+      );
+      const content = (
+        <div className="selected-stop-popup">
+          <p className="card-code">{props.stop.code}</p>
+          <p className="description">{props.stop.desc}</p>
+        </div>
+      );
+
+      leafletObjs.push(
+        <SelectedStopLabel stop={props.stop} header={header} content={content} />
+      );
+    }
+
     return {
       className: 'full',
       lat: props.stop.lat,
@@ -54,10 +80,8 @@ const StopPageMap = compose(
       showStops: true,
       hilightedStops: [props.params.stopId],
       disableZoom: !fullscreenMap,
-      children: props.breakpoint !== 'large' && [
-        fullscreenMapOverlay(fullscreenMap, props.params, props.router),
-        fullscreenMapToggle(fullscreenMap, props.params),
-      ],
+      children,
+      leafletObjs,
     };
   })
 )(Map);
@@ -69,6 +93,9 @@ export default Relay.createContainer(StopPageMap, {
         lat
         lon
         platformCode
+        code
+        name
+        desc
       }
     `,
   },
