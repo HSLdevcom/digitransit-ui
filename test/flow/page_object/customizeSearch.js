@@ -1,5 +1,6 @@
-const modalities = ['bus', 'tram', 'rail', 'subway', 'ferry', 'citybike', 'airplane'];
+const async = require('async');
 
+const modalities = ['bus', 'tram', 'rail', 'subway', 'ferry', 'citybike', 'airplane'];
 function clickCanvasToggle() {
   this.waitForElementVisible('@canvasToggle', this.api.globals.elementVisibleTimeout);
   return this.api.checkedClick(this.elements.canvasToggle.selector);
@@ -16,6 +17,7 @@ function exists(selector, callback) {
 }
 
 function enableModality(modality) {
+  this.api.debug(`enabling ${modality}`);
   exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
     if (!found) {
       this.checkedClick(`.btn-bar > .btn:nth-of-type(${modalities.indexOf(modality) + 1})`);
@@ -24,22 +26,31 @@ function enableModality(modality) {
   });
 }
 
-function disableModality(modality) {
+function disableModality(modality, asyncCallback = () => {}) {
+  this.api.debug(`disabling ${modality}, callback:${asyncCallback}`);
   exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
     if (found) {
       this.checkedClick(selector);
       this.waitForElementNotPresent(`.btn-bar > .${modality}`,
-        this.api.globals.elementVisibleTimeout);
+        this.api.globals.elementVisibleTimeout, true, () => {
+          asyncCallback();
+        });
+    } else {
+      asyncCallback();
     }
   });
 }
 
 function disableAllModalitiesExcept(except) {
-  modalities.forEach((modality) => {
+  this.api.debug(`disabling all but ${except}`);
+
+  async.eachSeries(modalities, (modality, callback) => {
+    this.api.debug(`iterating ${modality}`);
     if (modality !== except) {
-      disableModality.call(this, modality);
+      disableModality.call(this, modality, callback);
     }
   });
+  this.api.debug('all iterated');
 }
 
 module.exports = {
