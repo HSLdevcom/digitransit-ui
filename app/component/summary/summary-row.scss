@@ -81,6 +81,18 @@
     display: flex;
     white-space: nowrap;
 
+    .leg {
+      flex: 1 0 0;
+      overflow: hidden;
+    }
+
+    .departure-stop {
+      @include font-narrow-book;
+      font-size: 13px;
+      color: $gray;
+      width: 100%;
+    }
+
     .line.walk, .line.bicycle, .line.car {
       &:after {
         left: 2em;
@@ -177,7 +189,8 @@
     }
 
     .itinerary-legs {
-      padding-top: 14px;
+      padding-top: 0;
+      margin-top: -5px;
       flex-shrink: 2;
 
       .line:after {

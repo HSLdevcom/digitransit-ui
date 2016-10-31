@@ -66,6 +66,9 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           route {
             shortName
           }
+          from {
+            name
+          }
         }
       }
     `,
