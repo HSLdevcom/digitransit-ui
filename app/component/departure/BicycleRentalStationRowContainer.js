@@ -41,7 +41,7 @@ const BicycleRentalStationRow = (props, context) => {
           text={props.station.stationId}
           hasDisruption={false}
         />
-        <span className="city-bike-station-name">{props.station.name}</span>
+        <span className="city-bike-station-name overflow-fade">{props.station.name}</span>
         <span className="city-bike-station-availability">
           <span className="bikes-label">
             {context.intl.formatMessage({ id: 'bike-availability-short', defaultMessage: 'Bikes' })}
@@ -125,4 +125,3 @@ export default Relay.createContainer(BicycleRentalStationRow, {
     currentTime: 0,
   },
 });
-
