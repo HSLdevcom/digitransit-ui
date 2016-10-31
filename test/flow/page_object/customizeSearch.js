@@ -21,30 +21,29 @@ function enableModality(modality) {
   exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
     if (!found) {
       this.checkedClick(`.btn-bar > .btn:nth-of-type(${modalities.indexOf(modality) + 1})`);
-      this.waitForElementPresent(`.btn-bar > .${modality}`, this.api.globals.elementVisibleTimeout);
     }
   });
+  this.waitForElementPresent(`.btn-bar > .${modality}`, this.api.globals.elementVisibleTimeout);
 }
 
 function disableModality(modality, asyncCallback = () => {}) {
-  this.api.debug(`disabling ${modality}, callback:${asyncCallback}`);
+  this.api.debug(`disabling ${modality}`);
   exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
     if (found) {
       this.checkedClick(selector);
-      this.waitForElementNotPresent(`.btn-bar > .${modality}`,
-        this.api.globals.elementVisibleTimeout, true, () => {
-          asyncCallback();
-        });
-    } else {
-      asyncCallback();
     }
   });
+  this.waitForElementNotPresent(`.btn-bar > .${modality}`,
+    this.api.globals.elementVisibleTimeout, true, () => {
+      asyncCallback();
+    });
 }
 
 function disableAllModalitiesExcept(except) {
   this.api.debug(`disabling all but ${except}`);
 
   async.eachSeries(modalities, (modality, callback) => {
+    this.api.pause(1000);
     this.api.debug(`iterating ${modality}`);
     if (modality !== except) {
       disableModality.call(this, modality, callback);
