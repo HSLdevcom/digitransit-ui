@@ -256,6 +256,8 @@ const routes = (
                 map: PatternQueries,
                 content: PatternQueries,
               }}
+              // eslint-disable-next-line react/prop-types
+              render={{ title: ({ props }) => <RouteTitle {...props} /> }}
             />
             <Route
               path="kartta"
@@ -271,6 +273,8 @@ const routes = (
                 map: PatternQueries,
                 content: PatternQueries,
               }}
+              // eslint-disable-next-line react/prop-types
+              render={{ title: ({ props }) => <RouteTitle {...props} /> }}
               fullscreenMap
             />
             <Route
@@ -287,6 +291,8 @@ const routes = (
                 map: TripQueries,
                 content: TripQueries,
               }}
+              // eslint-disable-next-line react/prop-types
+              render={{ title: ({ props }) => <RouteTitle {...props} /> }}
             >
               <Route path="kartta" fullscreenMap />
             </Route>
@@ -309,6 +315,8 @@ const routes = (
               map: PatternQueries,
               content: PatternQueries,
             }}
+            // eslint-disable-next-line react/prop-types
+            render={{ title: ({ props }) => <RouteTitle {...props} /> }}
           />
         </Route>
         <Route
@@ -323,6 +331,8 @@ const routes = (
             header: RouteQueries,
             content: RouteQueries,
           }}
+          // eslint-disable-next-line react/prop-types
+          render={{ title: ({ props }) => <RouteTitle {...props} /> }}
         />
       </Route>
     </Route>
