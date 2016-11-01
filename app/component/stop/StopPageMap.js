@@ -1,12 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { intlShape } from 'react-intl';
 import Link from 'react-router/lib/Link';
 import some from 'lodash/some';
-import mapProps from 'recompose/mapProps';
-import getContext from 'recompose/getContext';
-import compose from 'recompose/compose';
-import provideContext from 'fluxible-addons-react/provideContext';
 
 import Map from '../map/Map';
 import SelectedStopPopup from '../map/popups/SelectedStopPopup';

@@ -1,8 +1,6 @@
 import React from 'react';
 
 import config from '../../../config';
-import Icon from '../../icon/Icon';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
