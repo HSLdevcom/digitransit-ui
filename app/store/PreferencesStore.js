@@ -29,7 +29,7 @@ class PreferencesStore extends Store {
       return;
     }
 
-    reactCookie.set('lang', language);
+    reactCookie.save('lang', language);
     this.language = language;
     this.emitChange();
   }
