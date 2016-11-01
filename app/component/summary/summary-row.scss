@@ -33,7 +33,7 @@
   &.open {
     flex-wrap: wrap;
 
-    .action-arrow svg {
+    .action-arrow span > svg {
       transform: rotate(90deg);
     }
   }
@@ -150,6 +150,7 @@
     svg {
       color: $action-color;
       transition: transform 300ms;
+      transform-origin: 50% 50%;
     }
   }
 
