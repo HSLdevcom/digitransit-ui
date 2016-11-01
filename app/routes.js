@@ -208,7 +208,7 @@ const routes = (
           // eslint-disable-next-line react/prop-types
           header: ({ props }) => (props ? <StopPageHeaderContainer {...props} /> : <LoadingPage />),
           // eslint-disable-next-line react/prop-types
-          content: ({ props }) => (props ? <StopPage {...props} /> : false),
+          content: ({ props }) => (props ? <StopPage {...props} /> : undefined),
         }}
       >
         <Route path="kartta" fullscreenMap />
