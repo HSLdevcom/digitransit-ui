@@ -73,6 +73,7 @@ class TopLevel extends React.Component {
     } else if (this.props.width >= 900) {
       content = (
         <DesktopView
+          title={this.props.title}
           map={this.props.map}
           content={this.props.content}
           header={this.props.header}
