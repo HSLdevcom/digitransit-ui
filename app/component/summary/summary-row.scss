@@ -30,6 +30,19 @@
     background-color: $background-color;
   }
 
+  &.open {
+    flex-wrap: wrap;
+
+    .action-arrow svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  h2 {
+    flex-grow: 1;
+    margin: 0.5em;
+  }
+
   .itinerary-duration-and-distance {
     width: 150px;
     margin-top: 4px;
@@ -136,11 +149,14 @@
 
     svg {
       color: $action-color;
+      transition: transform 300ms;
     }
   }
 
   .itinerary-tab {
     width: 100%;
+    margin-left: 100px;
+    border-top: solid 1px $light-gray;
   }
 
   &.bp-large {
