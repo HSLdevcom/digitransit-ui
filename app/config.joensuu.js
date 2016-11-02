@@ -39,8 +39,6 @@ export default {
 
   stopsMinZoom: 14,
 
-  logo: '/img/jojo-logo.png',
-
   topNaviLinks: [
     { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
   ],

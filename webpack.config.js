@@ -52,7 +52,7 @@ function getRulesConfig(env) {
     { test: /\.css$/, loader: ExtractTextPlugin.extract('css!postcss') },
     { test: /\.json$/, loader: 'json' },
     { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss!sass') },
-    { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
+    { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'url-loader?limit=10000' },
     { test: /\.js$/,
       loader: 'babel',
       exclude: /node_modules/,

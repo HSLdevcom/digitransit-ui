@@ -33,7 +33,7 @@ const AppBarLarge = ({ titleClicked }) =>
       boxShadow: '2px 0px 2px #575757' }}
     >
       <div className="columns small-3" style={{ textAlign: 'left' }}>
-        <img alt="LOGO" className="navi-logo" src={config.logo} onClick={titleClicked} />
+        <div className="navi-logo" onClick={titleClicked} />
       </div>
       <div className="columns small-5">
         <Tabs
