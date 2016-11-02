@@ -45,12 +45,19 @@ export default function SummaryRow(props, { breakpoint }) {
       }
 
       legs.push(
-        <RouteNumber
-          key={i}
-          mode={mode}
-          text={legTextUtil.getLegText(leg)}
-          vertical className={cx('line', mode.toLowerCase())}
-        />
+        <div key={i} className="leg">
+          {breakpoint === 'large' &&
+            <div className="departure-stop overflow-fade">
+              &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
+            </div>
+          }
+          <RouteNumber
+            mode={mode}
+            text={legTextUtil.getLegText(leg)}
+            className={cx('line', mode.toLowerCase())}
+            vertical
+          />
+        </div>
       );
     }
   });
