@@ -10,7 +10,8 @@ const selectLanguage = (executeAction, lang) =>
 const language = (lang, currentLanguage, highlight, executeAction) => (
   <div className="lang" key={lang}>
     <span
-      className={highlight && 'selected'}
+      id={`lang-${lang}`}
+      className={(highlight && 'selected') || ''}
       onClick={selectLanguage(executeAction, lang)}
     >
       {lang}

@@ -48,7 +48,7 @@ class Splash extends React.Component {
       placeholder={destinationPlaceholder} id="front-page-search-bar"
     />);
 
-    return (<div className="fullscreen">
+    return (<div id="splash" className="fullscreen">
       <div className="front-page fullscreen">
         <div className="fullscreen splash-map">
           <FakeSearchWithButton fakeSearchBar={fakeSearchBar} />
