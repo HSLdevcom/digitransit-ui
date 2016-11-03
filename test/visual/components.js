@@ -178,4 +178,14 @@ gemini.suite('components', () => {
     gemini.suite('Few bikes', test('BicycleRentalStationRow', 2));
     gemini.suite('No bikes', test('BicycleRentalStationRow', 3));
   });
+
+  basicTest('StopPageHeader');
+  basicTest('StopCardHeader');
+  basicTest('SplitBars');
+  basicTest('Labeled');
+  basicTest('Centered');
+  basicTest('InfoIcon');
+  basicTest('Favourite');
+  basicTest('DepartureListHeader');
+  basicTest('SelectedStopPopupContent');
 });
