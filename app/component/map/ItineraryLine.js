@@ -41,8 +41,6 @@ class ItineraryLine extends React.Component {
         mode = 'BICYCLE_WALK';
       }
 
-      const walking = leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
-
       const modePlusClass = mode.toLowerCase() + (this.props.passive ? ' passive' : '');
 
       const geometry = polyUtil.decode(leg.legGeometry.points);
@@ -77,30 +75,28 @@ class ItineraryLine extends React.Component {
               transit
               station={leg.from.bikeRentalStation}
             />);
-        } else if (leg.from.vertexType === 'TRANSIT' && !walking) {
-          if (leg.transitLeg) {
-            let name = leg.route && leg.route.shortName;
-            if (mode === 'SUBWAY' && !name) {
-              name = 'M';
-            }
-            objs.push(
-              <LegMarker
-                key={`${i},${leg.mode}legmarker`}
-                disableModeIcons
-                renderName
-                leg={{
-                  from: leg.from,
-                  to: leg.to,
-                  lat: middle.lat,
-                  lon: middle.lon,
-                  name,
-                  gtfsId: leg.from.stop.gtfsId,
-                  code: leg.from.stop.code,
-                }}
-                mode={mode.toLowerCase()}
-              />
-            );
+        } else if (leg.transitLeg) {
+          let name = leg.route && leg.route.shortName;
+          if (mode === 'SUBWAY' && !name) {
+            name = 'M';
           }
+          objs.push(
+            <LegMarker
+              key={`${i},${leg.mode}legmarker`}
+              disableModeIcons
+              renderName
+              leg={{
+                from: leg.from,
+                to: leg.to,
+                lat: middle.lat,
+                lon: middle.lon,
+                name,
+                gtfsId: leg.from.stop.gtfsId,
+                code: leg.from.stop.code,
+              }}
+              mode={mode.toLowerCase()}
+            />
+          );
           objs.push(
             <StopMarker
               key={`${i},${leg.mode}marker,from`}
@@ -110,6 +106,21 @@ class ItineraryLine extends React.Component {
                 gtfsId: leg.from.stop.gtfsId,
                 code: leg.from.stop.code,
                 platformCode: leg.from.stop.platformCode,
+                transfer: true,
+              }}
+              mode={mode.toLowerCase()}
+              renderText={leg.transitLeg && this.props.showTransferLabels}
+            />
+          );
+          objs.push(
+            <StopMarker
+              key={`${i},${leg.mode}marker,to`}
+              disableModeIcons
+              stop={{
+                ...leg.to,
+                gtfsId: leg.to.stop.gtfsId,
+                code: leg.to.stop.code,
+                platformCode: leg.to.stop.platformCode,
                 transfer: true,
               }}
               mode={mode.toLowerCase()}

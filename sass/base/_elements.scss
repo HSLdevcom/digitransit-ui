@@ -215,3 +215,7 @@ $border-radius-rounded: 30px;
 .dotted-link {
   border-bottom: 2px dotted rgba(255,255,255,0.5);
 }
+
+.overflow-fade {
+  mask-image: linear-gradient(to left, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
+}

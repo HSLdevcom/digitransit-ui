@@ -43,8 +43,6 @@ export default {
     primary: '#e8aa27',
   },
 
-  logo: '/img/foli-logo.png',
-
   topNaviLinks: [
     { name: 'Hinnat', href: 'http://www.foli.fi/fi/tuotteet-ja-hinnat' },
     { name: 'Ohjeita', href: 'http://www.foli.fi/fi/tietoja-ja-ohjeita' },

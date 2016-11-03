@@ -73,7 +73,7 @@ class FavouriteLocationsContainer extends React.Component {
     const favourite = this.props.favourites[index];
 
     if (typeof favourite === 'undefined') {
-      return <EmptyFavouriteLocationSlot />;
+      return <EmptyFavouriteLocationSlot index={index} />;
     }
 
     const favouriteLocation = (<FavouriteLocation

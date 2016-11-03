@@ -1,33 +1,51 @@
+
 function clickFavourites() {
+  this.api.debug('opening favourites tab');
   this.waitForElementVisible('@favouritePaneSelect', this.api.globals.elementVisibleTimeout);
-  return this.click('@favouritePaneSelect');
+  this.api.checkedClick(this.elements.favouritePaneSelect.selector);
+  return this;
 }
 
 function addFavourite() {
+  this.api.debug('clicking add favourite');
   this.waitForElementVisible('@newFavouriteButtonContent', this.api.globals.elementVisibleTimeout);
-  return this.click('@newFavouriteButtonContent');
+  this.api.checkedClick(this.elements.newFavouriteButtonContent.selector);
+  return this;
 }
 
 function enterAddress(addressSearch) {
-  const timeout = this.api.globals.elementVisibleTimeout;
-  this.waitForElementVisible('@addressPlaceholderNoSelect', timeout);
-  this.click('@addressPlaceholderNoSelect');
-  this.waitForElementVisible('@searchFavourite', timeout);
+  this.api.debug('entering address');
+  this.waitForElementVisible('@addressPlaceholderNoSelect', this.api.globals.elementVisibleTimeout);
+
+  this.api.checkedClick(this.elements.addressPlaceholderNoSelect.selector);
+  this.waitForElementPresent('@searchFavourite', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchFavourite', addressSearch);
-  this.api.pause(1000);
-  return this.setValue('@searchFavourite', this.api.Keys.ENTER);
+  this.waitForElementNotPresent('@searchResultCurrentLocation',
+    this.api.globals.elementVisibleTimeout);
+  this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
+    this.api.globals.elementVisibleTimeout);
+  this.setValue('@searchFavourite', this.api.Keys.ENTER);
+  return this;
 }
 
 function enterName(name) {
+  this.api.debug('entering name');
+  this.waitForElementVisible('@nameInput', this.api.globals.elementVisibleTimeout);
   return this.setValue('@nameInput', name);
 }
 
 function clickHomeIcon() {
-  return this.click('@homeIcon');
+  this.api.debug('clicking home icon');
+  this.waitForElementVisible('@homeIcon', this.api.globals.elementVisibleTimeout);
+  this.api.checkedClick(this.elements.homeIcon.selector);
+  return this;
 }
 
 function saveFavourite() {
-  return this.click('@saveButton');
+  this.api.debug('saving favourite');
+  this.waitForElementVisible('@saveButton', this.api.globals.elementVisibleTimeout);
+  this.api.checkedClick(this.elements.saveButton.selector);
+  return this;
 }
 
 function saveHomeFavourite(address, name) {
@@ -50,11 +68,11 @@ function verifyFavouriteRoute(number) {
 }
 
 function verifyFavouriteInSearchResult(favouriteName) {
-  this.api.useXpath();
-  this.waitForElementPresent(
+  this.api.withXpath(() => {
+    this.waitForElementPresent(
     `//*/li[@class=\'react-autowhatever__item\']/span[text()=\'${favouriteName}\']`,
       this.api.globals.elementVisibleTimeout);
-  this.api.useCss();
+  });
 }
 
 module.exports = {
@@ -72,10 +90,10 @@ module.exports = {
   }],
   elements: {
     favouritePaneSelect: {
-      selector: '.favourites',
+      selector: 'li.favourites',
     },
     newFavouriteButtonContent: {
-      selector: '.new-favourite-button-content',
+      selector: '#add-new-favourite-0',
     },
     addressPlaceholderNoSelect: {
       selector: '.address-placeholder ',
@@ -97,6 +115,9 @@ module.exports = {
     },
     favouriteRoute: {
       selector: '.favourites .vehicle-number',
+    },
+    searchResultCurrentLocation: {
+      selector: '.search-result.CurrentLocation',
     },
   },
 };

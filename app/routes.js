@@ -187,6 +187,21 @@ const routes = (
       />
     </Route>
 
+    <Route
+      path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
+        title: () => <span>{config.title}</span>,
+        content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
+        ,
+      }}
+    >
+      <Route
+        path="lahellasi" component={NearbyRoutesPanel}
+      />
+      <Route
+        path="suosikit" component={FavouritesPanel}
+      />
+    </Route>
+
     <Route path="/pysakit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
       <Route

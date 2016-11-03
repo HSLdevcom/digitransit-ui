@@ -63,8 +63,11 @@ $content-background-color: $background-color;
   .navi-logo {
     margin-top: 13px;
     margin-bottom: 13px;
-    max-height: 34px;
+    height: 34px;
     min-width: 100px; //for ff
+    background-image: $nav-logo;
+    background-size: contain;
+    background-repeat: no-repeat;
     cursor: pointer;
   }
   .hamburger-large {

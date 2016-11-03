@@ -4,8 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import Icon from '../icon/Icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-const EmptyFavouriteLocationSlot = () => (
+const EmptyFavouriteLocationSlot = ({ index }) => (
   <Link
+    id={`add-new-favourite-${index}`}
     to="/suosikki/uusi"
     className="cursor-pointer no-decoration"
   >
@@ -26,6 +27,10 @@ EmptyFavouriteLocationSlot.description = (
     </ComponentUsageExample>
   </div>
 );
+
+EmptyFavouriteLocationSlot.propTypes = {
+  index: React.PropTypes.number.isRequired,
+};
 
 
 export default EmptyFavouriteLocationSlot;
