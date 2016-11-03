@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 import config from '../../config';
+import NotImplemented from '../util/NotImplemented';
+import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import MessageBar from './MessageBar';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
@@ -49,6 +51,8 @@ const AppBarLarge = ({ titleClicked }) =>
         <MainMenuContainer />
       </div>
     </div>
+    <NotImplemented />
+    <DisruptionInfo />
     <MessageBar />
   </div>;
 
