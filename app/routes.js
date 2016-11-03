@@ -33,8 +33,6 @@ import RouteTitle from './component/route/RouteTitle';
 import StopPageMap from './component/stop/StopPageMap';
 import StopPageHeaderContainer from './component/stop/StopPageHeaderContainer';
 import StopPageMeta from './component/stop/StopPageMeta';
-import FavouritesPanel from './component/favourites/FavouritesPanel';
-import NearbyRoutesPanel from './component/front-page/NearbyRoutesPanel';
 import SummaryTitle from './component/summary/SummaryTitle';
 import ItineraryTab from './component/itinerary/ItineraryTab';
 import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
@@ -174,12 +172,8 @@ const routes = (
         ,
       }}
     >
-      <Route
-        path="lahellasi" component={NearbyRoutesPanel}
-      />
-      <Route
-        path="suosikit" component={FavouritesPanel}
-      />
+      <Route path="lahellasi" />
+      <Route path="suosikit" />
     </Route>
 
     <Route
@@ -189,12 +183,8 @@ const routes = (
         ,
       }}
     >
-      <Route
-        path="lahellasi" component={NearbyRoutesPanel}
-      />
-      <Route
-        path="suosikit" component={FavouritesPanel}
-      />
+      <Route path="lahellasi" />
+      <Route path="suosikit" />
     </Route>
 
     <Route path="/pysakit">

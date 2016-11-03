@@ -178,15 +178,8 @@ $heading-color: #858585;
 }
 
 .front-page { //small, mid
-  .map.fullscreen {
-    height: calc(100% - 50px);
-  }
-}
-
-.front-page.bp-large { //large
-  .map.fullscreen {
-    height: 100%;
-  }
+  display: flex;
+  flex-direction: column;
 }
 
 // <Tab> component

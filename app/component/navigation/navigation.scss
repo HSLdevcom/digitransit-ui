@@ -213,6 +213,8 @@ section.content {
 }
 
 .message-bar {
+  position:relative;
+  z-index:802;
   @include font-book;
   font-size: $font-size-small;
   line-height: 14px;

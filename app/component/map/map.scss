@@ -13,6 +13,15 @@ div.map {
   }
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-vertical {
+  display: flex;
+  flex-direction: column;
+}
+
 .below-map  {
   overflow: auto;
 }

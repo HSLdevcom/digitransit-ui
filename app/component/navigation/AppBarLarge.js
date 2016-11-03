@@ -3,7 +3,6 @@ import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 import config from '../../config';
 import MainMenuContainer from './MainMenuContainer';
-import MessageBar from './MessageBar';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const tabStyle = { height: '60px', textTransform: 'none', fontSize: '17px' };
@@ -49,7 +48,6 @@ const AppBarLarge = ({ titleClicked }) =>
         <MainMenuContainer />
       </div>
     </div>
-    <MessageBar />
   </div>;
 
 AppBarLarge.propTypes = {

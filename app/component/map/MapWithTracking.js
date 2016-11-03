@@ -53,7 +53,8 @@ const withMapStateTracking = withReducer('mapState', 'dispatch', mapStateReducer
 );
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys(
-  ['breakpoint', 'lat', 'lon', 'zoom', 'mapTracking', 'lang']);
+  // tab key here's just to get map updated when tab changes (in large view tabs are inside map)
+  ['breakpoint', 'lat', 'lon', 'zoom', 'mapTracking', 'lang', 'tab']);
 
 const MapWithTracking =
   withMapStateTracking(
@@ -131,7 +132,7 @@ const MapWithTracking =
                           // update on lang changes, lang is not used
           mapTracking,
           position,
-          className: 'fullscreen',
+          className: 'flex-grow',
           displayOriginPopup: true,
           leafletEvents: {
             onDragstart: disableMapTracking,
