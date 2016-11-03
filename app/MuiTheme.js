@@ -13,4 +13,12 @@ export default {
   inkBar: {
     backgroundColor: '#fff',
   },
+  timePicker: {
+    headerColor: config.colors.primary,
+    selectTextColor: '#fff',
+    clockCircleColor: '#eef1f3',
+  },
+  dialog: {
+    bodyColor: '#888',
+  },
 };
