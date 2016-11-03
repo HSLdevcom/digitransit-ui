@@ -185,7 +185,6 @@ gemini.suite('components', () => {
   basicTest('Labeled');
   basicTest('Centered');
   basicTest('InfoIcon');
-  basicTest('Favourite');
   basicTest('DepartureListHeader');
   basicTest('SelectedStopPopupContent');
 });
