@@ -3,7 +3,7 @@ module.exports = {
   'Page should have title logo': (browser) => {
     browser
       .url(browser.launch_url)
-      .assert.visible('.navi-logo')
+      .assert.visible('.navi-logo, .logo')
       .end();
   },
 };

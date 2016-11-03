@@ -8,12 +8,9 @@ function waitForDepartureVisible() {
 }
 
 function navigateToStopPage() {
-  return this.click('@cardName', () => {
-    this.waitForElementVisible(
-      'div.card-header.stop-page.header',
-      this.api.globals.itinerarySearchTimeout
-    );
-  });
+  return this.api.checkedClick(this.elements.cardName.selector)
+  .waitForElementVisible('div.card-header.stop-page.header',
+      this.api.globals.itinerarySearchTimeout);
 }
 
 module.exports = {
