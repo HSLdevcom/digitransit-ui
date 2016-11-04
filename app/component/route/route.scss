@@ -39,25 +39,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   };
 }
 
-.departure-list-header {
-  border-bottom: 1px solid $light-gray;
-  @include font-bold;
-  font-size: $font-size-small;
-  line-height: $line-height-normal;
-  height: $route-list-header-height;
-  color: $gray;
-  margin-left: 0;
-  padding-left: 1em;
-  &:first-of-type {
-      border-top: 1px solid $light-gray;
-  }
-
-  & .right {
-    font-weight: $font-weight-medium;
-    padding-right: 1em;
-  }
-}
-
 .route-page-content {
   display: flex;
   flex-direction: column;
