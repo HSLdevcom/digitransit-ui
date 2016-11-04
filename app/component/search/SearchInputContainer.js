@@ -87,7 +87,8 @@ export default class SearchInputContainer extends Component {
 
     if (event.keyCode === 27) {
       // esc clears
-      if (this.state.value === '') {
+      if (this.state.value === '' || this.state.value === undefined) {
+        // or closes if input is empty
         this.props.close();
       } else {
         this.handleUpdateInputNow({
