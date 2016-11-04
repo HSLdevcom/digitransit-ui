@@ -18,7 +18,7 @@ import {
 } from '../documentation/ExampleData';
 
 const getRouteStopSvg = (first, last) => (
-  <svg style={{ position: 'absolute', width: 12, height: 67, left: -12, top: -4 }} >
+  <svg className="route-stop-schematized" >
     <line
       x1="6"
       x2="6"
@@ -75,7 +75,7 @@ const TripRouteStop = (props) => {
   );
 
   return (
-    <div className={cx('route-stop row', { passed: props.stopPassed })}>
+    <div className={cx('route-stop row', { passed: props.stopPassed }, props.className)}>
       <div className="columns route-stop-now">{vehicles}</div>
       <div className="columns route-stop-now-reverse">{reverseVehicles}</div>
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
@@ -120,6 +120,7 @@ TripRouteStop.propTypes = {
   currentTime: React.PropTypes.number.isRequired,
   pattern: React.PropTypes.string.isRequired,
   route: React.PropTypes.string.isRequired,
+  className: React.PropTypes.string,
   selectedVehicle: React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.oneOf([false]),

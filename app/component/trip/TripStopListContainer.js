@@ -22,6 +22,10 @@ class TripStopListContainer extends React.Component {
     fullscreenMap: React.PropTypes.bool,
   }
 
+  static contextTypes = {
+    breakpoint: React.PropTypes.string,
+  }
+
   componentDidMount() {
     const el = document.getElementsByClassName('selected-tail-icon')[0];
     if (el) {
@@ -104,21 +108,18 @@ class TripStopListContainer extends React.Component {
         last={index === this.props.trip.stoptimesForDate.length - 1}
         first={index === 0}
         fullscreenMap={this.props.fullscreenMap}
+        className={this.context.breakpoint === 'large' && 'bp-large'}
       />);
     });
   }
 
   render() {
+    const rowClassName = this.context.breakpoint === 'large' && 'bp-large';
+
     return (
-      <div
-        className={cx(
-          'route-stop-list momentum-scroll',
-          { 'fullscreen-map': this.props.fullscreenMap },
-          this.props.className)
-        }
-      >
+      <div className={cx('route-stop-list momentum-scroll', this.props.className)}>
         <div
-          className="route-stop-now-divider"
+          className={cx('route-stop-now-divider', rowClassName)}
           ref={el => el && el.style.setProperty('height', `${el.parentNode.scrollHeight - 29}px`)}
         />
         {this.getStops()}

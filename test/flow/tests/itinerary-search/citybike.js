@@ -1,4 +1,5 @@
 module.exports = {
+  '@disabled': true, // TODO: add citybikes back in april
   tags: ['citybike'],
   'Citybikes are used when it\'s the only modality': (browser) => {
     browser.url(browser.launch_url);
