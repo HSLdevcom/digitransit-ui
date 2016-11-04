@@ -1,5 +1,4 @@
 $route-header-height: 65px;
-$route-list-header-height: 26px;
 $route-schedule-date-height: 36px;
 
 $route-header-favourite-icon-stroke-color: $light-gray;
@@ -13,7 +12,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   border-bottom: solid 1px #eef1f3;
   @include font-narrow-medium;
   line-height: $line-height-normal;
-  height: $route-list-header-height;
   flex-shrink: 0;
 
   overflow: hidden;
@@ -28,6 +26,16 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
   .route-stop-now {
     white-space: nowrap;
+  }
+
+  &.bp-large {
+    &.route-stop {
+      padding: 8px 10px 5px 20px;
+    }
+
+    div, .columns.route-stop-time {
+      font-size: 16px;
+    }
   }
 }
 
@@ -44,7 +52,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   @include font-bold;
   font-size: $font-size-small;
   line-height: $line-height-normal;
-  height: $route-list-header-height;
   color: $gray;
   margin-left: 0;
   padding-left: 1em;
@@ -63,6 +70,18 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   flex-direction: column;
   flex-grow: 1;
   flex-basis: 100%;
+  background: $white;
+  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1), flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  &:empty {
+    flex-basis: 0;
+    flex-grow: 0;
+  }
+
+  &.fullscreen-map {
+    flex-grow: 0;
+    flex-basis: 110px;
+  }
 }
 
 // stop list
@@ -71,24 +90,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   flex-grow: 20;
   flex-basis: 0;
   position: relative;
-  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1), flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
-
-  &.route-page-content-enter, &.route-page-content-leave {
-    will-change: flex-grow;
-  }
-
-  &.route-page-content-enter, &.route-page-content-leave.route-page-content-leave-active {
-    flex-grow: 0;
-  }
-
-  &.route-page-content-enter.route-page-content-enter-active {
-    flex-grow: 20;
-  }
-
-  &.fullscreen-map {
-    flex-grow: 0;
-    flex-basis: 80px;
-  }
 
   .route-stop-now-divider {
     position: absolute;
@@ -96,6 +97,10 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     left: 38px;
     top: 9px;
     border-left: 2px dashed $light-gray;
+
+    &.bp-large {
+      left: 79px;
+    }
   }
 }
 
@@ -112,6 +117,60 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
       & svg {
         position: absolute;
       }
+    }
+  }
+
+  &.bp-large {
+    padding: 6px 10px 8px 20px;
+
+    .route-stop-now {
+      width: 59px;
+      .tail-icon {
+        font-size: 5.5em;
+        left: -23px;
+
+        &.selected-tail-icon {
+          font-size: 8em;
+          left: -43px;
+        }
+      }
+    }
+
+    .route-stop-now-reverse {
+      width: 107px;
+      .tail-icon {
+        font-size: 5.5em;
+        left: -9px;
+      }
+    }
+
+    .route-stop-row-divider {
+      width: calc(100% - 188px);
+      left: 188px;
+    }
+
+    .route-stop-schematized {
+      width: 12px;
+      left: -25px;
+    }
+
+    .route-stop-name {
+      font-size: 18px;
+      max-width: calc(100% - 59px - 107px - 60px - 70px);
+    }
+
+    .route-stop-address {
+      font-size: 16px;
+    }
+
+    .itinerary-stop-code {
+      font-size: 14px;
+      margin-right: 6px;
+    }
+
+    .route-stop-time {
+      font-size: 18px;
+      width: 70px;
     }
   }
 }
@@ -154,6 +213,13 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   .tail-icon {
     left: -15px;
   }
+}
+.route-stop-schematized {
+  position: absolute;
+  width: 12px;
+  height: 67px;
+  left: -12px;
+  top: -4px;
 }
 .route-stop-name {
   max-width: calc(100% - 40px - 53px - 40px - 50px);
@@ -245,6 +311,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   display: flex;
   flex-direction: column;
   flex: 1;
+  background: $white;
 }
 
 .route-schedule-list-wrapper {
@@ -374,7 +441,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 div.route-tabs {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 0 0 auto;
 
   .tabs-navigation {
     flex-shrink: 0;
@@ -382,16 +449,9 @@ div.route-tabs {
     margin: 0 10px;
     padding: 0 3px;
     border-bottom: 1px solid $light-gray;
-    pointer-events: none;
-
-    .icon {
-      display: block;
-      width: 15px;
-      height: 15px;
-      margin: 4px auto;
-    }
 
     a {
+      @include font-bold;
       padding: 8px 0 5px;
       border: none;
       pointer-events: auto;
@@ -421,6 +481,13 @@ div.route-tabs {
 
       &:last-child > div {
         border-right: none;
+      }
+
+      .icon {
+        display: block;
+        width: 15px;
+        height: 15px;
+        margin: 4px auto;
       }
     }
   }
@@ -506,9 +573,27 @@ div.route-tabs {
     top: 18px;
     pointer-events: none;
   }
+
+  &.bp-large {
+    padding: 10px 20px;
+
+    select {
+      height: 40px;
+      font-size: 18px;
+      padding:0 48px 0 20px;
+      -webkit-padding-end: 48px;
+      -webkit-padding-start: 20px;
+    }
+
+    .icon {
+      right: 38px;
+      top: 23px;
+    }
+  }
 }
 
 .route-alerts-list {
+  background: $white;
 
   .route-alert-row {
     border-bottom: 1px solid $light-gray;
