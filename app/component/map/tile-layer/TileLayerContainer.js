@@ -25,18 +25,21 @@ import TileContainer from './TileContainer';
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
 });
@@ -44,6 +47,7 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
 const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
 });
@@ -51,6 +55,7 @@ const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
 const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
 });
@@ -59,6 +64,7 @@ const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPo
 const LocationPopupWithContext = provideContext(LocationPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
 });
 
 const PopupOptions = {
@@ -88,6 +94,7 @@ class TileLayerContainer extends MapLayer {
     intl: intlShape.isRequired,
     map: React.PropTypes.object.isRequired,
     router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
   };
 
