@@ -5,33 +5,37 @@ import Icon from '../icon/Icon';
 import config from '../../config';
 
 
-const SearchModal = (props) => {
-  if (!props.modalIsOpen) {
+const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }) => {
+  if (!modalIsOpen) {
     return false;
   }
   return (
-    <div className="search-modal-container">
-      <div className="search-modal">
-        <div className="row float">
-          <div className="small-12 columns cursor-pointer search-header">
-            <Tabs
-              className="search-header__tabs-root"
-              inkBarStyle={{
-                backgroundColor: config.colors.primary,
-                height: '4px',
-              }}
-              value={props.selectedTab}
-            >{props.children}</Tabs>
-            <div
-              onClick={props.closeModal}
-              style={{ position: 'absolute', top: 0, right: '11px', color: '#78909c' }}
-            >
-              <Icon img="icon-icon_close" />
+    <div>
+      <div className="search-modal-overlay" onClick={closeModal} />
+      <div className="search-modal-container">
+        <div className="search-modal">
+          <div className="row float">
+            <div className="small-12 columns cursor-pointer search-header">
+              <Tabs
+                className="search-header__tabs-root"
+                inkBarStyle={{
+                  backgroundColor: config.colors.primary,
+                  height: '4px',
+                }}
+                value={selectedTab}
+              >{children}</Tabs>
+              <div
+                onClick={closeModal}
+                style={{ position: 'absolute', top: 0, right: '11px', color: '#78909c' }}
+              >
+                <Icon img="icon-icon_close" />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>);
+    </div>
+);
 };
 
 SearchModal.propTypes = {
