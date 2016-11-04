@@ -58,49 +58,44 @@ class SearchMainContainer extends React.Component {
     this.changeToTab(tab.props.value)
   );
 
-  getContent = () => {
-    const searchTabLabel = this.context.intl.formatMessage({
-      id: 'search',
-      defaultMessage: 'SEARCH',
-    });
+  getLabel = (id, defaultMessage) =>
+    (this.context.intl.formatMessage({
+      id, defaultMessage,
+    }));
 
-    return ([
-      this.makeEndpointTab('origin',
-             this.context.intl.formatMessage({
-               id: 'origin',
-               defaultMessage: 'Origin',
-             }),
-             this.context.getStore('EndpointStore').getOrigin()),
-      this.makeEndpointTab('destination',
-             this.context.intl.formatMessage({
-               id: 'destination',
-               defaultMessage: 'destination',
-             }),
-             this.context.getStore('EndpointStore').getDestination()),
-      <Tab
-        key="haku"
-        className={
-        `search-header__button${this.state.selectedTab === 'search' ? '--selected' : ''}`}
-        label={searchTabLabel}
-        value="search"
-        id="search-button"
-        onActive={this.onTabChange}
-      >
-        <SearchInputContainer
-          // Hack. In GeolocationOrInput, c.searchInput causes rendering problems
-          ref={(c) => { this.searchInputs.search = { searchInput: c }; }}
-          id="search"
-          initialValue=""
-          type="search"
-          onSuggestionSelected={(name, item) => {
-            if (item.properties.link) {
-              this.context.router.push(item.properties.link);
-            }
-            return this.closeModal();
-          }}
-        />
-      </Tab>]);
-  };
+
+  getContent = () => ([
+    this.makeEndpointTab('origin',
+      this.getLabel('origin', 'Origin'),
+      this.context.getStore('EndpointStore').getOrigin()),
+    this.makeEndpointTab('destination',
+      this.getLabel('destination', 'Destination'),
+      this.context.getStore('EndpointStore').getDestination()),
+    <Tab
+      key="haku"
+      className={
+      `search-header__button${this.state.selectedTab === 'search' ? '--selected' : ''}`}
+      label={this.getLabel('search', 'Search')}
+      value="search"
+      id="search-button"
+      onActive={this.onTabChange}
+    >
+      <SearchInputContainer
+        // Hack. In GeolocationOrInput, c.searchInput causes rendering problems
+        ref={(c) => { this.searchInputs.search = { searchInput: c }; }}
+        id="search"
+        initialValue=""
+        type="search"
+        close={this.closeModal}
+        onSuggestionSelected={(name, item) => {
+          if (item.properties.link) {
+            this.context.router.push(item.properties.link);
+          }
+          this.closeModal();
+        }}
+      />
+    </Tab>]);
+
 
   clickSearch = () => {
     const origin = this.context.getStore('EndpointStore').getOrigin();
@@ -182,6 +177,7 @@ class SearchMainContainer extends React.Component {
         useCurrentPosition={endpoint.useCurrentPosition}
         initialValue={endpoint.address}
         type="endpoint"
+        close={this.closeModal}
         onSuggestionSelected={(name, item) => {
           if (item.type === 'CurrentLocation') {
             this.context.executeAction(setUseCurrent, tabname);
@@ -196,7 +192,7 @@ class SearchMainContainer extends React.Component {
             });
           }
 
-          return this.closeModal();
+          this.closeModal();
         }}
       />
     </Tab>
