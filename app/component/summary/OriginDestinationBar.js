@@ -15,6 +15,8 @@ class OriginDestinationBar extends React.Component {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
   };
 
   state = {
@@ -40,6 +42,16 @@ class OriginDestinationBar extends React.Component {
       origin: this.context.getStore('EndpointStore').getOrigin(),
       destination: this.context.getStore('EndpointStore').getDestination(),
     });
+  }
+
+  swapEndpoints= () => {
+    this.context.executeAction(
+      swapEndpoints,
+      {
+        router: this.context.router,
+        location: this.context.location,
+      }
+    );
   }
 
   closeModal = () => {
@@ -82,10 +94,7 @@ class OriginDestinationBar extends React.Component {
             {this.state.origin.useCurrentPosition ? ownPosition : this.state.origin.address}
           </span>
         </div>
-        <div
-          className="switch"
-          onClick={() => this.context.executeAction(swapEndpoints)}
-        >
+        <div className="switch" onClick={() => this.swapEndpoints()}>
           <span>
             <Icon img="icon-icon_direction-b" />
           </span>
