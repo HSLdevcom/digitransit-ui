@@ -1,6 +1,7 @@
 const async = require('async');
 
-const modalities = ['bus', 'tram', 'rail', 'subway', 'ferry', 'citybike', 'airplane'];
+// TODO: add citybikes back in april
+const modalities = ['bus', 'tram', 'rail', 'subway', 'ferry', /* 'citybike',*/ 'airplane'];
 function clickCanvasToggle() {
   this.waitForElementVisible('@canvasToggle', this.api.globals.elementVisibleTimeout);
   return this.api.checkedClick(this.elements.canvasToggle.selector);

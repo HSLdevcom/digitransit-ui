@@ -25,7 +25,7 @@ import SplashOrChildren from './component/splash/SplashOrChildren';
 
 // Components for page parts
 import RouteAlertsContainer from './component/route/RouteAlertsContainer';
-import RoutePatternSelectContainer from './component/route/RoutePatternSelectContainer';
+import RouteMapContainer from './component/route/RouteMapContainer';
 import RouteScheduleContainer from './component/route/RouteScheduleContainer';
 import PatternStopsContainer from './component/route/PatternStopsContainer';
 import TripStopsContainer from './component/trip/TripStopsContainer';
@@ -72,6 +72,11 @@ const TripQueries = {
   trip: () => Relay.QL`
     query {
       trip(id: $tripId)
+    }
+  `,
+  pattern: () => Relay.QL`
+    query {
+      pattern(id: $patternId)
     }
   `,
 };
@@ -208,7 +213,7 @@ const routes = (
           // eslint-disable-next-line react/prop-types
           header: ({ props }) => (props ? <StopPageHeaderContainer {...props} /> : <LoadingPage />),
           // eslint-disable-next-line react/prop-types
-          content: ({ props }) => (props ? <StopPage {...props} /> : false),
+          content: ({ props }) => (props ? <StopPage {...props} /> : undefined),
         }}
       >
         <Route path="kartta" fullscreenMap />
@@ -238,38 +243,102 @@ const routes = (
     </Route>
     <Route path="/linjat">
       <IndexRoute component={Error404} />
-      <Route
-        path=":routeId"
-        components={{ title: RouteTitle, content: RoutePage }}
-        queries={{ title: RouteQueries, content: RouteQueries }}
-      >
+      <Route path=":routeId">
         <IndexRedirect to="pysakit" />
-        <Route path="pysakit" component={RoutePatternSelectContainer} queries={RouteQueries}>
+        <Route path="pysakit">
           <IndexRedirect to=":routeId%3A0%3A01" /> {/* Redirect to first pattern of route*/}
           <Route path=":patternId">
-            <IndexRoute component={PatternStopsContainer} queries={PatternQueries} />
+            <IndexRoute
+              components={{
+                title: RouteTitle,
+                header: RoutePage,
+                map: RouteMapContainer,
+                content: PatternStopsContainer,
+              }}
+              queries={{
+                title: RouteQueries,
+                header: RouteQueries,
+                map: PatternQueries,
+                content: PatternQueries,
+              }}
+              // eslint-disable-next-line react/prop-types
+              render={{ title: ({ props }) => <RouteTitle {...props} /> }}
+            />
             <Route
               path="kartta"
-              component={PatternStopsContainer}
-              queries={PatternQueries}
+              components={{
+                title: RouteTitle,
+                header: RoutePage,
+                map: RouteMapContainer,
+                content: PatternStopsContainer,
+              }}
+              queries={{
+                title: RouteQueries,
+                header: RouteQueries,
+                map: PatternQueries,
+                content: PatternQueries,
+              }}
+              // eslint-disable-next-line react/prop-types
+              render={{ title: ({ props }) => <RouteTitle {...props} /> }}
               fullscreenMap
             />
-            <Route path=":tripId">
-              <IndexRoute component={TripStopsContainer} queries={TripQueries} />
-              <Route
-                path="kartta"
-                component={TripStopsContainer}
-                queries={TripQueries}
-                fullscreenMap
-              />
+            <Route
+              path=":tripId"
+              components={{
+                title: RouteTitle,
+                header: RoutePage,
+                map: RouteMapContainer,
+                content: TripStopsContainer,
+              }}
+              queries={{
+                title: RouteQueries,
+                header: RouteQueries,
+                map: TripQueries,
+                content: TripQueries,
+              }}
+              // eslint-disable-next-line react/prop-types
+              render={{ title: ({ props }) => <RouteTitle {...props} /> }}
+            >
+              <Route path="kartta" fullscreenMap />
             </Route>
           </Route>
         </Route>
-        <Route path="aikataulu" component={RoutePatternSelectContainer} queries={RouteQueries}>
+        <Route path="aikataulu" >
           <IndexRedirect to=":routeId%3A0%3A01" />
-          <Route path=":patternId" component={RouteScheduleContainer} queries={PatternQueries} />
+          <Route
+            path=":patternId"
+            disableMapOnMobile
+            components={{
+              title: RouteTitle,
+              header: RoutePage,
+              map: RouteMapContainer,
+              content: RouteScheduleContainer,
+            }}
+            queries={{
+              title: RouteQueries,
+              header: RouteQueries,
+              map: PatternQueries,
+              content: PatternQueries,
+            }}
+            // eslint-disable-next-line react/prop-types
+            render={{ title: ({ props }) => <RouteTitle {...props} /> }}
+          />
         </Route>
-        <Route path="hairiot" component={RouteAlertsContainer} queries={RouteQueries} />
+        <Route
+          path="hairiot"
+          components={{
+            title: RouteTitle,
+            header: RoutePage,
+            content: RouteAlertsContainer,
+          }}
+          queries={{
+            title: RouteQueries,
+            header: RouteQueries,
+            content: RouteQueries,
+          }}
+          // eslint-disable-next-line react/prop-types
+          render={{ title: ({ props }) => <RouteTitle {...props} /> }}
+        />
       </Route>
     </Route>
     <Route

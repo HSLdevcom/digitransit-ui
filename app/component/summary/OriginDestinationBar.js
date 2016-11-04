@@ -1,5 +1,5 @@
 import React from 'react';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 import cx from 'classnames';
 
 import { swapEndpoints } from '../../action/EndpointActions';
@@ -69,13 +69,6 @@ class OriginDestinationBar extends React.Component {
 
     return (
       <div className={cx('origin-destination-bar', this.props.className)}>
-        {this.props.className === 'bp-large' && (
-          <FormattedMessage
-            id="itinerary-summary-page.title"
-            defaultMessage="Itinerary suggestions"
-            tagName="h2"
-          />
-        )}
         <div className="field-link from-link" onClick={() => this.openSearch('origin')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
           <span className="link-name">
