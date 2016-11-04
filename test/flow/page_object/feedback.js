@@ -1,6 +1,5 @@
 function close() {
-  this.click('@close');
-  this.api.pause(2000);
+  this.api.checkedClick(this.elements.close.selector);
   return this.waitForElementNotPresent('@close', 2000);
 }
 

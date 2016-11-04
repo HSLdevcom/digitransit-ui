@@ -3,6 +3,8 @@ module.exports = {
   'Open Kamppi cluster, select stop to show its departures': (browser) => {
     browser.url(browser.launch_url);
     browser.setGeolocation(60.169546, 24.931658);
+    const messagebar = browser.page.messageBar();
+    messagebar.close();
 
     // Wait for the tiles to be loaded
     browser.pause(5000);

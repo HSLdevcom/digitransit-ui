@@ -63,8 +63,11 @@ $content-background-color: $background-color;
   .navi-logo {
     margin-top: 13px;
     margin-bottom: 13px;
-    max-height: 34px;
+    height: 34px;
     min-width: 100px; //for ff
+    background-image: $nav-logo;
+    background-size: contain;
+    background-repeat: no-repeat;
     cursor: pointer;
   }
   .hamburger-large {
@@ -207,6 +210,31 @@ section.content {
 .content:nth-child(5) {
   height: calc(100% - #{$topbar-height} - 60px - 18px);
   // 60px and 18px are the height of the message bar, but is specified in js
+}
+
+.desktop-title {
+  background: $primary-color;
+
+  a {
+    color: $primary-font-color;
+  }
+
+  h2 {
+    @include font-medium;
+    color: $primary-font-color;
+    margin: 20px 30px;
+    line-height: 1;
+  }
+
+  .home-icon {
+    font-size: 0.8em;
+  }
+
+  .arrow-icon {
+    font-size: 0.6em;
+    margin: 2px 1em;
+    color: $secondary-color;
+  }
 }
 
 .message-bar {

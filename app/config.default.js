@@ -173,8 +173,6 @@ export default {
   terminalStopsMinZoom: 12,
   terminalNamesZoom: 16,
 
-  logo: '/img/matka-logo.png',
-
   topNaviLinks: [
     { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/' },
   ],

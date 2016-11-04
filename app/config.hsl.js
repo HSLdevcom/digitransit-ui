@@ -51,8 +51,6 @@ export default {
     primary: '#007ac9',
   },
 
-  logo: '/img/hsl-logo.svg',
-
   topNaviLinks: [
     { name: 'HSL', href: 'https://www.hsl.fi/' },
   ],
