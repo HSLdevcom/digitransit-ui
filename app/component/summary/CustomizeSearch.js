@@ -10,26 +10,22 @@ import ToggleButton from '../util/ToggleButton';
 import ModeFilter from '../util/ModeFilter';
 import Select from '../util/Select';
 import config from '../../config';
+import { route } from '../../action/ItinerarySearchActions';
 
 class CustomizeSearch extends React.Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: React.PropTypes.shape({
-      replace: React.PropTypes.func.isRequired,
-    }).isRequired,
+    router: React.PropTypes.object.isRequired,
     location: React.PropTypes.shape({
       query: React.PropTypes.object.isRequired,
     }).isRequired,
+    executeAction: React.PropTypes.func.isRequired,
   };
 
   static propTypes = {
     open: React.PropTypes.bool,
     onToggleClick: React.PropTypes.func,
-    params: React.PropTypes.shape({
-      from: React.PropTypes.string,
-      to: React.PropTypes.string,
-    }).isRequired,
   };
 
   /*
@@ -234,36 +230,54 @@ class CustomizeSearch extends React.Component {
   }
 
   updateSettings(name, value) {
-    this.context.router.replace({
-      ...this.context.location,
-      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
-      query: { ...this.context.location.query, [name]: value },
-    });
+    this.context.executeAction(
+      route,
+      {
+        location: {
+          ...this.context.location,
+          query: {
+            ...this.context.location.query,
+            [name]: value,
+          },
+        },
+        router: this.context.router,
+      }
+    );
   }
 
   toggleTransportMode(mode, otpMode) {
-    this.context.router.replace({
-      ...this.context.location,
-      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
-      query: {
-        ...this.context.location.query,
-        modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
-      },
-    });
+    this.context.executeAction(
+      route,
+      {
+        location: {
+          ...this.context.location,
+          query: {
+            ...this.context.location.query,
+            modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
+          },
+        },
+        router: this.context.router,
+      }
+    );
   }
 
   toggleStreetMode(mode) {
-    this.context.router.replace({
-      ...this.context.location,
-      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
-      query: {
-        ...this.context.location.query,
-        modes:
-          without(this.getModes(), ...Object.keys(config.streetModes).map(m => m.toUpperCase()))
-            .concat(mode.toUpperCase())
-            .join(','),
-      },
-    });
+    this.context.executeAction(
+      route,
+      {
+        location: {
+          ...this.context.location,
+          query: {
+            ...this.context.location.query,
+            modes:
+              without(this.getModes(), ...Object.keys(config.streetModes).map(m => m.toUpperCase()))
+              .concat(mode.toUpperCase())
+              .join(','),
+          },
+        },
+        router: this.context.router,
+      }
+    );
   }
 
   actions = {
