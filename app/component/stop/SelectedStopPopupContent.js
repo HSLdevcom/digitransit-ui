@@ -5,7 +5,9 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 const SelectedStopPopupContent = ({ stop }) => (
   <div className="origin-popup">
     <div className="origin-popup-header">
-      {stop.name}
+      <div className="selected-stop-header">
+        {stop.name}
+      </div>
     </div>
     <div>
       <div className="origin-popup-name">
