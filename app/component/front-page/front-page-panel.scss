@@ -235,6 +235,59 @@ $heading-color: #858585;
   color: $tab-selected-color;
 }
 
+div.route-tabs .tabs-navigation.bp-large {
+  display: flex;
+  margin: 0 20px;
+  width: calc(100% - 40px);
+
+  .route-number {
+    flex: 1;
+    width: auto;
+    font-size: 40px;
+    margin-top: 20px;
+    margin-left: 10px;
+
+    .icon {
+      font-size: 48px;
+    }
+
+    .vehicle-number {
+      vertical-align: text-bottom;
+      padding-left: 0.4em;
+    }
+  }
+
+  a {
+    font-size: 13px;
+    min-width: 100px;
+    padding: 20px 0 10px;
+
+    .icon {
+      width: 2em;
+      height: 2em;
+    }
+  }
+
+  a.is-active {
+    border-bottom-width: 4px;
+  }
+
+  .route-page-header.favourite-icon {
+    position: relative;
+    width: auto;
+    height: 30px;
+    right: 0;
+    top: 0;
+    padding: 30px 10px 25px 20px;
+
+    .icon {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+}
+
 li.favourites.selected {
   svg.favourites-icon {
     color: $favourite-color;

@@ -22,6 +22,10 @@ class RouteStopListContainer extends React.Component {
     currentTime: React.PropTypes.object.isRequired,
   };
 
+  static contextTypes = {
+    breakpoint: React.PropTypes.string,
+  }
+
   componentDidMount() {
     if (this.refs.nearestStop) {
       ReactDOM.findDOMNode(this.refs.nearestStop).scrollIntoView(false);
@@ -51,6 +55,8 @@ class RouteStopListContainer extends React.Component {
       getDistanceToNearestStop(vehicle.lat, vehicle.long, stops).stop.gtfsId
     );
 
+    const rowClassName = this.context.breakpoint === 'large' && 'bp-large';
+
     return stops.map((stop, i) => {
       const isNearest = (
         nearest && nearest.distance < config.nearestStopDistance.maxShownDistance &&
@@ -69,16 +75,19 @@ class RouteStopListContainer extends React.Component {
           currentTime={this.props.currentTime.unix()}
           last={i === stops.length - 1}
           first={i === 0}
+          className={rowClassName}
         />
       );
     });
   }
 
   render() {
+    const rowClassName = this.context.breakpoint === 'large' && 'bp-large';
+
     return (
       <div className={cx('route-stop-list momentum-scroll', this.props.className)}>
         <div
-          className="route-stop-now-divider"
+          className={cx('route-stop-now-divider', rowClassName)}
           ref={el => el && el.style.setProperty('height', `${el.parentNode.scrollHeight - 50}px`)}
         />
         {this.getStops()}
