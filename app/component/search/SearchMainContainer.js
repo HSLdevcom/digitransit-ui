@@ -184,7 +184,7 @@ class SearchMainContainer extends React.Component {
         type="endpoint"
         onSuggestionSelected={(name, item) => {
           if (item.type === 'CurrentLocation') {
-            this.context.executeAction(setUseCurrent, tabname);
+            this.context.executeAction(setUseCurrent, { target: tabname });
           } else {
             this.context.executeAction(setEndpoint, {
               target: tabname,
