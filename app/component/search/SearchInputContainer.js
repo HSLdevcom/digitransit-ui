@@ -28,6 +28,9 @@ export default class SearchInputContainer extends Component {
     focusedItemIndex: 0,
     suggestions: [],
   };
+  componentWillMount() {
+    this.setState({ value: this.props.initialValue });
+  }
 
   componentDidMount() {
     this.context.getStore('SearchStore').addChangeListener(this.onSearchChange);
@@ -87,7 +90,7 @@ export default class SearchInputContainer extends Component {
 
     if (event.keyCode === 27) {
       // esc clears
-      if (this.state.value === '' || this.state.value === undefined) {
+      if (this.state.value === '' || this.state.value === null) {
         // or closes if input is empty
         this.props.close();
       } else {
