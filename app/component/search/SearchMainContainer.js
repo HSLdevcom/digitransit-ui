@@ -1,14 +1,13 @@
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import Tab from 'material-ui/Tabs/Tab';
-import getContext from 'recompose/getContext';
+import cx from 'classnames';
 
 import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
 import { executeSearch } from '../../action/SearchActions';
 import FakeSearchBar from './FakeSearchBar';
 import { default as FakeSearchWithButton } from './FakeSearchWithButton';
 import GeolocationOrInput from './GeolocationOrInput';
-import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 
@@ -18,20 +17,11 @@ class SearchMainContainer extends React.Component {
     getStore: React.PropTypes.func.isRequired,
     router: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    breakpoint: React.PropTypes.string.isRequired,
   };
 
   static propTypes = {
     className: React.PropTypes.string,
-    breakpoint: React.PropTypes.string,
-  }
-
-  static defaultProps= {
-    breakpoint: 'medium',
-  }
-
-  constructor(args) {
-    super(...args);
-    this.searchInputs = [];
   }
 
   state = {
@@ -47,60 +37,30 @@ class SearchMainContainer extends React.Component {
     this.context.getStore('SearchStore').removeChangeListener(this.onSearchChange)
   );
 
-  onSearchChange = (payload) => {
-    if (payload.action === 'open') {
-      return this.openDialog(payload.data);
+  onSearchChange = (payload) => payload.action === 'open' && this.openDialog(payload.data);
+
+  onTabChange = (tab) => this.changeToTab(tab.props.value)
+
+  onSuggestionSelected = (name, item) => {
+    if (item.properties.link) {
+      this.context.router.push(item.properties.link);
+    } else if (item.type === 'CurrentLocation') {
+      this.context.executeAction(setUseCurrent, this.state.selectedTab);
+    } else {
+      this.context.executeAction(setEndpoint, {
+        target: this.state.selectedTab,
+        endpoint: {
+          lat: item.geometry.coordinates[1],
+          lon: item.geometry.coordinates[0],
+          address: name,
+        },
+      });
     }
-    return undefined;
+
+    this.closeModal();
   }
 
-  onTabChange = (tab) => (
-    this.changeToTab(tab.props.value)
-  );
-
-  getContent = () => {
-    const searchTabLabel = this.context.intl.formatMessage({
-      id: 'search',
-      defaultMessage: 'SEARCH',
-    });
-
-    return ([
-      this.makeEndpointTab('origin',
-             this.context.intl.formatMessage({
-               id: 'origin',
-               defaultMessage: 'Origin',
-             }),
-             this.context.getStore('EndpointStore').getOrigin()),
-      this.makeEndpointTab('destination',
-             this.context.intl.formatMessage({
-               id: 'destination',
-               defaultMessage: 'destination',
-             }),
-             this.context.getStore('EndpointStore').getDestination()),
-      <Tab
-        key="haku"
-        className={
-        `search-header__button${this.state.selectedTab === 'search' ? '--selected' : ''}`}
-        label={searchTabLabel}
-        value="search"
-        id="search-button"
-        onActive={this.onTabChange}
-      >
-        <SearchInputContainer
-          // Hack. In GeolocationOrInput, c.searchInput causes rendering problems
-          ref={(c) => { this.searchInputs.search = { searchInput: c }; }}
-          id="search"
-          initialValue=""
-          type="search"
-          onSuggestionSelected={(name, item) => {
-            if (item.properties.link) {
-              this.context.router.push(item.properties.link);
-            }
-            return this.closeModal();
-          }}
-        />
-      </Tab>]);
-  };
+  searchInputs = [];
 
   clickSearch = () => {
     const origin = this.context.getStore('EndpointStore').getOrigin();
@@ -110,15 +70,16 @@ class SearchMainContainer extends React.Component {
     this.openDialog(hasOrigin ? 'destination' : 'origin');
 
     if (hasOrigin) {
-      return this.context.executeAction(executeSearch, {
+      this.context.executeAction(executeSearch, {
         input: this.context.getStore('EndpointStore').getDestination().address || '',
         type: 'endpoint',
       });
+    } else {
+      this.context.executeAction(executeSearch, {
+        input: '',
+        type: 'endpoint',
+      });
     }
-    return this.context.executeAction(executeSearch, {
-      input: '',
-      type: 'endpoint',
-    });
   }
 
   openDialog = (tab) => {
@@ -155,17 +116,12 @@ class SearchMainContainer extends React.Component {
         });
       }
 
-      if (tabname === 'search') {
-        this.context.executeAction(executeSearch, {
-          input: '',
-          type: 'search',
-        });
-      }
       // Cannot use setTimeout for the focus, or iOS Safari won't show the caret.
       // Other browsers don't seem to care one way or another.
       this.focusInput(tabname);
     })
   );
+
 
   makeEndpointTab = (tabname, tablabel, endpoint) => (
     <Tab
@@ -173,7 +129,6 @@ class SearchMainContainer extends React.Component {
       label={tablabel}
       value={tabname}
       id={tabname}
-      key={{ tabname }}
       onActive={this.onTabChange}
     >
       <GeolocationOrInput
@@ -182,22 +137,7 @@ class SearchMainContainer extends React.Component {
         useCurrentPosition={endpoint.useCurrentPosition}
         initialValue={endpoint.address}
         type="endpoint"
-        onSuggestionSelected={(name, item) => {
-          if (item.type === 'CurrentLocation') {
-            this.context.executeAction(setUseCurrent, tabname);
-          } else {
-            this.context.executeAction(setEndpoint, {
-              target: tabname,
-              endpoint: {
-                lat: item.geometry.coordinates[1],
-                lon: item.geometry.coordinates[0],
-                address: name,
-              },
-            });
-          }
-
-          return this.closeModal();
-        }}
+        onSuggestionSelected={this.onSuggestionSelected}
       />
     </Tab>
   );
@@ -215,32 +155,34 @@ class SearchMainContainer extends React.Component {
         id="front-page-search-bar"
       />);
 
+    const Component = this.context.breakpoint === 'large' ? SearchModalLarge : SearchModal;
+
     return (
       <div
-        className={`fake-search-container bp-${this.props.breakpoint} ${this.props.className ||
-          ''}`}
+        className={cx(
+          'fake-search-container', `bp-${this.context.breakpoint}`, this.props.className
+        )}
       >
-        <FakeSearchWithButton
-          fakeSearchBar={fakeSearchBar}
-          onClick={this.clickSearch}
-        />
-        {(this.props.breakpoint !== 'large' && (
-          <SearchModal
-            selectedTab={this.state.selectedTab}
-            modalIsOpen={this.state.modalIsOpen}
-            closeModal={this.closeModal}
-          >{this.getContent()}</SearchModal>)) ||
-          (
-          <SearchModalLarge
-            selectedTab={this.state.selectedTab}
-            modalIsOpen={this.state.modalIsOpen}
-            closeModal={this.closeModal}
-          >{this.getContent()}</SearchModalLarge>)}
-      </div>);
+        <FakeSearchWithButton fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
+        <Component
+          selectedTab={this.state.selectedTab}
+          modalIsOpen={this.state.modalIsOpen}
+          closeModal={this.closeModal}
+        >
+          {this.makeEndpointTab(
+            'origin',
+            <FormattedMessage id="origin" defaultMessage="Origin" />,
+            this.context.getStore('EndpointStore').getOrigin()
+          )}
+          {this.makeEndpointTab(
+            'destination',
+            <FormattedMessage id="destination" defaultMessage="Destination" />,
+            this.context.getStore('EndpointStore').getDestination()
+          )}
+        </Component>
+      </div>
+    );
   }
 }
 
-const SearchMainContainerWithBreakpoint =
-    getContext({ breakpoint: React.PropTypes.string.isRequired })(SearchMainContainer);
-
-export default SearchMainContainerWithBreakpoint;
+export default SearchMainContainer;
