@@ -4,8 +4,6 @@ class SearchStore extends Store {
   static storeName = 'SearchStore';
 
   saveSuggestionsResult(suggestions) {
-    this.suggestions = suggestions;
-
     this.emitChange({
       action: 'suggestions',
       data: suggestions,
@@ -17,10 +15,6 @@ class SearchStore extends Store {
       action: 'open',
       data: tab,
     });
-  }
-
-  getSuggestions() {
-    return this.suggestions;
   }
 
   static handlers = {
