@@ -54,10 +54,6 @@ $itinerary-route-max-width: 500px;
   display: flex;
   flex-direction: column;
 
-  &.bp-large {
-    padding-top: 7px;
-  }
-
   div {
     flex-grow: 1;
     flex-shrink: 0;

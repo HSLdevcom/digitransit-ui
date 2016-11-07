@@ -1,8 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import cx from 'classnames';
 
-const RouteListHeader = () =>
-  (<div className="route-list-header route-stop row padding-vertical-small">
+const TripListHeader = ({ className }) => (
+  <div className={cx('route-list-header route-stop row padding-vertical-small', className)}>
     <div className="columns small-3 route-stop-now">
       <FormattedMessage id="right-now" defaultMessage="Right now" />
     </div>
@@ -14,5 +15,11 @@ const RouteListHeader = () =>
       <FormattedMessage id="leaves" defaultMessage="Leaves" />
     </div>
 
-  </div>);
-export default RouteListHeader;
+  </div>
+);
+
+TripListHeader.propTypes = {
+  className: React.PropTypes.string,
+};
+
+export default TripListHeader;

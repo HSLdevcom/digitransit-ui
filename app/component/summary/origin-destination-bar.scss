@@ -81,19 +81,10 @@
   }
 
   &.bp-large {
-    height: 110px;
+    height: 50px;
     flex-wrap: wrap;
     padding-left: 30px;
     padding-right: 30px;
-
-    h2 {
-      width: 100%;
-      @include font-medium;
-      letter-spacing: -0.6px;
-      color: $primary-font-color;
-      font-size: 24px;
-      margin: 5px 0 0 0;
-    }
 
     .field-link {
       width: calc(50% - 35px);

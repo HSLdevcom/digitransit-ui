@@ -154,7 +154,7 @@ function getPluginsConfig(env) {
       debug: false,
     }),
     new ExtractTextPlugin({
-      filename: 'css/[name].[chunkhash].css',
+      filename: 'css/[name].[contenthash].css',
       allChunks: true,
     }),
     new webpack.NoErrorsPlugin(),
