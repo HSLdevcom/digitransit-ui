@@ -178,15 +178,13 @@ $heading-color: #858585;
 }
 
 .front-page { //small, mid
-  .map.fullscreen {
-    height: calc(100% - 50px);
-  }
+  display: flex;
+  flex-direction: column;
 }
 
-.front-page.bp-large { //large
-  .map.fullscreen {
-    height: 100%;
-  }
+.map-container {
+    display: flex;
+    flexBasis: 50%;
 }
 
 // <Tab> component
@@ -299,4 +297,14 @@ li.favourites.selected {
   svg.favourites-icon {
     color: $favourite-color;
   }
+}
+
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-vertical {
+  display: flex;
+  flex-direction: column;
 }

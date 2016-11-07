@@ -5,7 +5,6 @@ import config from '../../config';
 import NotImplemented from '../util/NotImplemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
-import MessageBar from './MessageBar';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const tabStyle = { height: '60px', textTransform: 'none', fontSize: '17px' };
@@ -53,7 +52,6 @@ const AppBarLarge = ({ titleClicked }) =>
     </div>
     <NotImplemented />
     <DisruptionInfo />
-    <MessageBar />
   </div>;
 
 AppBarLarge.propTypes = {
