@@ -26,6 +26,9 @@ import ApplicationHtml from './html';
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
+// Disable relay query cache in order tonot leak memory, see facebook/relay#754
+Relay.disableQueryCaching()
+
 function getStringOrArrayElement(arrayOrString, index) {
   if (Array.isArray(arrayOrString)) {
     return arrayOrString[index];
