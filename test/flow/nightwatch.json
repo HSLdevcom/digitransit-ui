@@ -13,8 +13,7 @@
     "port": 4444,
     "cli_args": {
       "webdriver.chrome.driver": "",
-      "webdriver.ie.driver": "",
-      "webdriver.firefox.bin": "./firefox/firefox-bin"
+      "webdriver.ie.driver": ""
     }
   },
 
