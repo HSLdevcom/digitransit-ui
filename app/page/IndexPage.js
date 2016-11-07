@@ -95,7 +95,6 @@ class IndexPage extends React.Component {
   }
 
   clickNearby = () => {
-    console.log('nearbyclicked');
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
       if (this.getSelectedTab() === 1) {
@@ -112,7 +111,6 @@ class IndexPage extends React.Component {
   };
 
   clickFavourites = () => {
-    console.log('favouritesClicked');
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
       if (this.getSelectedTab() === 2) {
@@ -166,7 +164,7 @@ class IndexPage extends React.Component {
       </div>
     ) : (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
-        <div className="front-page-layout flex-grow" style={{ display: 'flex', flexBasis: '50%' }}>
+        <div className="flex-grow map-container">
           <MapWithTracking breakpoint={this.props.breakpoint} showStops >
             <MessageBar />
             <SearchMainContainer />
