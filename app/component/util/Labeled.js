@@ -28,10 +28,10 @@ Labeled.description = (
   <div>
     <p>
       This component wraps other components into a labeled component.
-      <ComponentUsageExample>
-        <Labeled label={exampleLabel} showLabel>Example content</Labeled>
-      </ComponentUsageExample>
     </p>
+    <ComponentUsageExample>
+      <Labeled label={exampleLabel} showLabel>Example content</Labeled>
+    </ComponentUsageExample>
   </div>
 );
 
