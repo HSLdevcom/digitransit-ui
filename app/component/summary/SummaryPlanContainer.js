@@ -41,6 +41,17 @@ class SummaryPlanContainer extends React.Component {
     }
   }
 
+  onSelectImmediately = index => {
+    if (Number(this.props.params.hash) === index) {
+      this.context.router.goBack();
+    } else {
+      this.context.router.push({
+        ...this.context.location,
+        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`,
+      });
+    }
+  }
+
   getActiveIndex() {
     const state = this.context.location.state || {};
     return state.summaryPageSelected || 0;
@@ -59,6 +70,7 @@ class SummaryPlanContainer extends React.Component {
           itineraries={this.props.itineraries}
           currentTime={currentTime}
           onSelect={this.onSelectActive}
+          onSelectImmediately={this.onSelectImmediately}
           activeIndex={activeIndex}
           open={this.props.params.hash}
         >

@@ -126,7 +126,14 @@ export default function SummaryRow(props, { breakpoint }) {
         <div className="itinerary-end-time" key="endtime">
           {endTime.format('HH:mm')}
         </div>,
-        <div className="action-arrow" key="arrow">
+        <div
+          className="action-arrow"
+          key="arrow"
+          onClick={(e) => {
+            e.stopPropagation();
+            props.onSelectImmediately(props.hash);
+          }}
+        >
           <Icon img="icon-icon_arrow-collapse--right" />
         </div>,
       ]}
@@ -138,6 +145,7 @@ SummaryRow.propTypes = {
   data: React.PropTypes.object.isRequired,
   passive: React.PropTypes.bool.isRequired,
   onSelect: React.PropTypes.func.isRequired,
+  onSelectImmediately: React.PropTypes.func.isRequired,
   hash: React.PropTypes.number.isRequired,
   children: React.PropTypes.node,
 };
