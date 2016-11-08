@@ -24,14 +24,7 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectActive = index => {
     if (this.getActiveIndex() === index) {
-      if (Number(this.props.params.hash) === index) {
-        this.context.router.goBack();
-      } else {
-        this.context.router.push({
-          ...this.context.location,
-          pathname: `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`,
-        });
-      }
+      this.onSelectImmediately(index);
     } else {
       this.context.router.replace({
         ...this.context.location,
