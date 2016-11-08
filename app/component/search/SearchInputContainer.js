@@ -49,6 +49,16 @@ export default class SearchInputContainer extends Component {
     }, () => this.focusItem(0));
   }
 
+  onSwitchTab = (tab) => {
+    this.setState({
+      type: tab,
+      focusedItemIndex: 0,
+    }, () => {
+      this.focusItem(0);
+      this.focus();
+    });
+  }
+
   getItems() {
     if (this.props.type === 'all') {
       const suggestions = find(this.state.suggestions, ['name', this.state.type]);
@@ -89,7 +99,7 @@ export default class SearchInputContainer extends Component {
   }
 
   handleOnKeyDown = (event, eventProps) => {
-    if (event.keyCode === 13 && this.state.suggestions.length > 0) {
+    if (event.keyCode === 13 && this.getItems().length > 0) {
       // enter selects current
       this.currentItemSelected();
       this.blur();
@@ -160,9 +170,8 @@ export default class SearchInputContainer extends Component {
     let name;
     let item;
 
-    if (this.state.focusedItemIndex >= 0 && this.state.suggestions != null
-      && this.state.suggestions.length > 0) {
-      item = this.state.suggestions[this.state.focusedItemIndex];
+    if (this.state.focusedItemIndex >= 0 && this.getItems().length > 0) {
+      item = this.getItems()[this.state.focusedItemIndex];
       name = getLabel(item.properties);
 
       if (item.type === 'CurrentLocation') {
@@ -199,6 +208,20 @@ export default class SearchInputContainer extends Component {
     this.focus();
   };
 
+  renderMultiWrapper = ({ children, ...rest }) => (
+    <div {...rest} >
+      <div>
+        <span onClick={() => this.onSwitchTab('endpoint')}>
+          Destination
+        </span>
+        <span onClick={() => this.onSwitchTab('search')}>
+          Search
+        </span>
+      </div>
+      {children}
+    </div>
+  )
+
   render() {
     const inputValue = (
       this.state.value != null &&
@@ -231,6 +254,7 @@ export default class SearchInputContainer extends Component {
               />
             );
           }}
+          renderItemsContainer={this.props.type === 'all' ? this.renderMultiWrapper : undefined}
           onSuggestionSelected={this.currentItemSelected}
           focusedItemIndex={this.state.focusedItemIndex}
           inputProps={{
