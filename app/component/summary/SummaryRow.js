@@ -85,7 +85,7 @@ export default function SummaryRow(props, { breakpoint }) {
   const classes = cx(['itinerary-summary-row', 'cursor-pointer', {
     passive: props.passive,
     'bp-large': breakpoint === 'large',
-    open: props.children,
+    open: props.open || props.children,
   }]);
 
   return (
@@ -102,7 +102,7 @@ export default function SummaryRow(props, { breakpoint }) {
           {displayDistance(data.walkDistance)}
         </div>
       </div>
-      {props.children ? [
+      {props.open || props.children ? [
         <FormattedMessage
           id="itinerary-page.title"
           defaultMessage="Itinerary"
@@ -148,6 +148,7 @@ SummaryRow.propTypes = {
   onSelectImmediately: React.PropTypes.func.isRequired,
   hash: React.PropTypes.number.isRequired,
   children: React.PropTypes.node,
+  open: React.PropTypes.bool,
 };
 
 SummaryRow.contextTypes = {
