@@ -89,6 +89,7 @@ class OneTabSearchModal extends React.Component {
             type="endpoint"
             onSuggestionSelected={
               this.props.customOnSuggestionSelected || this.onSuggestionSelected}
+            close={this.props.closeModal}
           />
         </Tab>
       </SearchModal>);

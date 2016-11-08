@@ -120,7 +120,6 @@ $search-header-height: 45px;
   margin-left: auto;
   margin-right: auto;
   position: absolute;
-  z-index: 9000;
   width: 100%;
   top: -17px;
 }
@@ -237,6 +236,16 @@ ul.react-autowhatever__items-list {
 
 .search-form-map-overlay {
   z-index: 802;
+}
+
+.search-modal-overlay {
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  z-index: 803;
+  background: rgba(0, 0, 0, 0.541176);
 }
 
 .geolocation-bar-location-icon svg.icon {
