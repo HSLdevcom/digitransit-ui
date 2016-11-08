@@ -4,13 +4,15 @@ import get from 'lodash/get';
 import take from 'lodash/take';
 import orderBy from 'lodash/orderBy';
 import sortBy from 'lodash/sortBy';
+import debounce from 'lodash/debounce';
+import flatten from 'lodash/flatten';
 
 import config from '../config';
 
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
-
+import { uniqByLabel } from './suggestionUtils';
 
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
@@ -78,7 +80,7 @@ function mapStops(stops) {
 }
 
 
-export function filterMatchingToInput(list, input, fields) {
+function filterMatchingToInput(list, input, fields) {
   if (typeof input === 'string' && input.length > 0) {
     return list.filter(item => {
       const parts = fields.map(pName => get(item, pName));
@@ -91,7 +93,7 @@ export function filterMatchingToInput(list, input, fields) {
   return list;
 }
 
-export function getCurrentPositionIfEmpty(input) {
+function getCurrentPositionIfEmpty(input) {
   if (typeof input !== 'string' || input.length === 0) {
     return Promise.resolve([{
       type: 'CurrentLocation',
@@ -102,7 +104,7 @@ export function getCurrentPositionIfEmpty(input) {
   return Promise.resolve([]);
 }
 
-export function getOldSearches(oldSearches, input) {
+function getOldSearches(oldSearches, input) {
   const matchingOldSearches =
     filterMatchingToInput(oldSearches, input, ['address', 'locationName']);
 
@@ -118,7 +120,7 @@ export function getOldSearches(oldSearches, input) {
   ));
 }
 
-export function getFavouriteLocations(favourites, input) {
+function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     orderBy(
       filterMatchingToInput(favourites, input, ['address', 'locationName']),
@@ -132,7 +134,7 @@ export function getFavouriteLocations(favourites, input) {
   ));
 }
 
-export function getGeocodingResult(input, geolocation, language) {
+function getGeocodingResult(input, geolocation, language) {
   // TODO: minimum length should be in config
   if (input === undefined || input === null || input.trim().length < 3) {
     return Promise.resolve([]);
@@ -148,7 +150,7 @@ export function getGeocodingResult(input, geolocation, language) {
     .then(res => orderBy(res.features, feature => feature.properties.confidence, 'desc'));
 }
 
-export function getFavouriteRoutes(favourites, input) {
+function getFavouriteRoutes(favourites, input) {
   const query = Relay.createQuery(Relay.QL`
     query favouriteRoutes($ids: [String!]!) {
       routes(ids: $ids ) {
@@ -174,7 +176,7 @@ export function getFavouriteRoutes(favourites, input) {
   );
 }
 
-export function getRoutes(input) {
+function getRoutes(input) {
   if (typeof input !== 'string' || input.trim().length === 0) {
     return Promise.resolve([]);
   }
@@ -202,7 +204,7 @@ export function getRoutes(input) {
   ).then(suggestions => take(suggestions, 10));
 }
 
-export function getStops(input, origin) {
+function getStops(input, origin) {
   if (typeof input !== 'string' || input.trim().length === 0) {
     return Promise.resolve([]);
   }
@@ -237,3 +239,74 @@ export function getStops(input, origin) {
     ) : stops
   )).then(suggestions => take(suggestions, 10));
 }
+
+export function executeSearchPromise(getStore, { input, type }, callback) {
+  const position = getStore('PositionStore').getLocationState();
+  let endpoitSearches = [];
+  let searchSearches = [];
+
+  if (type === 'endpoint' || type === 'all') {
+    const favouriteLocations = getStore('FavouriteLocationStore').getLocations();
+    const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
+    const language = getStore('PreferencesStore').getLanguage();
+
+    endpoitSearches = Promise.all([
+      getCurrentPositionIfEmpty(input),
+      getFavouriteLocations(favouriteLocations, input),
+      getOldSearches(oldSearches, input),
+      getGeocodingResult(input, position, language),
+    ])
+    .then(flatten)
+    .then(uniqByLabel)
+    .catch(err => console.error(err)); // eslint-disable-line no-console
+
+    if (type === 'endpoint') {
+      if (typeof callback !== 'function') {
+        return endpoitSearches;
+      }
+      return endpoitSearches.then(callback);
+    }
+  }
+
+  if (type === 'search' || type === 'all') {
+    const origin = getStore('EndpointStore').getOrigin();
+    const location = origin.lat ? origin : position;
+    const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
+
+    searchSearches = Promise.all([
+      getFavouriteRoutes(favouriteRoutes, input),
+      getRoutes(input),
+      getStops(input, location),
+    ])
+    .then(flatten)
+    .then(uniqByLabel)
+    .catch(err => console.error(err)); // eslint-disable-line no-console
+
+    if (type === 'search') {
+      if (typeof callback !== 'function') {
+        return searchSearches;
+      }
+      return searchSearches.then(callback);
+    }
+  }
+
+  if (typeof callback !== 'function') {
+    return Promise.all([endpoitSearches, searchSearches]).then(([endpoints, search]) => ([
+      { name: 'endpoints', items: endpoints },
+      { name: 'search', items: search },
+    ]));
+  }
+  return Promise.all([endpoitSearches, searchSearches])
+    .then(([endpoints, search]) => callback([
+      { name: 'endpoints', items: endpoints },
+      { name: 'search', items: search },
+    ]))
+    .catch(err => console.error(err)); // eslint-disable-line no-console
+}
+
+const debouncedSearch = debounce(executeSearchPromise, 300);
+
+export const executeSearch = (getStore, data, callback) => {
+  callback([]);
+  debouncedSearch(getStore, data, callback);
+};

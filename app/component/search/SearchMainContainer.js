@@ -4,7 +4,6 @@ import Tab from 'material-ui/Tabs/Tab';
 import cx from 'classnames';
 
 import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
-import { executeSearch } from '../../action/SearchActions';
 import FakeSearchBar from './FakeSearchBar';
 import { default as FakeSearchWithButton } from './FakeSearchWithButton';
 import GeolocationOrInput from './GeolocationOrInput';
@@ -68,18 +67,6 @@ class SearchMainContainer extends React.Component {
     const hasOrigin = origin.lat || (origin.useCurrentPosition && geolocation.hasLocation);
 
     this.openDialog(hasOrigin ? 'destination' : 'origin');
-
-    if (hasOrigin) {
-      this.context.executeAction(executeSearch, {
-        input: this.context.getStore('EndpointStore').getDestination().address || '',
-        type: 'endpoint',
-      });
-    } else {
-      this.context.executeAction(executeSearch, {
-        input: '',
-        type: 'endpoint',
-      });
-    }
   }
 
   openDialog = (tab) => {
@@ -102,20 +89,6 @@ class SearchMainContainer extends React.Component {
     this.setState({
       selectedTab: tabname,
     }, () => {
-      if (tabname === 'origin') {
-        this.context.executeAction(executeSearch, {
-          input: this.context.getStore('EndpointStore').getOrigin().address || '',
-          type: 'endpoint',
-        });
-      }
-
-      if (tabname === 'destination') {
-        this.context.executeAction(executeSearch, {
-          input: this.context.getStore('EndpointStore').getDestination().address || '',
-          type: 'all',
-        });
-      }
-
       // Cannot use setTimeout for the focus, or iOS Safari won't show the caret.
       // Other browsers don't seem to care one way or another.
       this.focusInput(tabname);
@@ -179,8 +152,8 @@ class SearchMainContainer extends React.Component {
           {this.makeEndpointTab(
             'destination',
             <FormattedMessage id="destination" defaultMessage="Destination" />,
-            'all',
-            this.context.getStore('EndpointStore').getDestination()
+            'endpoint',
+            this.context.getStore('EndpointStore').getDestination(),
           )}
         </Component>
       </div>

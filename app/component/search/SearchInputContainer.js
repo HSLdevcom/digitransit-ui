@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
+
 import ReactAutowhatever from 'react-autowhatever';
 import { getLabel } from '../../util/suggestionUtils';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
-import { executeSearch, saveSearch } from '../../action/SearchActions';
+import { executeSearch } from '../../util/searchUtils';
+import { saveSearch } from '../../action/SearchActions';
 import Icon from '../icon/Icon';
 
 const L = typeof window !== 'undefined' ? require('leaflet') : null;
@@ -22,31 +24,27 @@ export default class SearchInputContainer extends Component {
     initialValue: PropTypes.string,
     children: PropTypes.node,
     close: PropTypes.func.isRequired,
+    sections: PropTypes.bool,
   };
 
   state = {
     focusedItemIndex: 0,
     suggestions: [],
+    value: this.props.initialValue,
   };
-  componentWillMount() {
-    this.setState({ value: this.props.initialValue });
-  }
 
   componentDidMount() {
-    this.context.getStore('SearchStore').addChangeListener(this.onSearchChange);
+    executeSearch(this.context.getStore, {
+      input: this.state.value,
+      type: this.props.type,
+    }, this.onSearchChange);
   }
 
-  componentWillUnmount() {
-    this.context.getStore('SearchStore').removeChangeListener(this.onSearchChange);
-  }
-
-  onSearchChange = (payload) => {
-    if (payload.action === 'suggestions' && Array.isArray(payload.data)) {
-      this.setState({
-        suggestions: payload.data,
-        focusedItemIndex: 0,
-      }, () => this.focusItem(0));
-    }
+  onSearchChange = (data) => {
+    this.setState({
+      suggestions: data,
+      focusedItemIndex: 0,
+    }, () => this.focusItem(0));
   }
 
   focusItem = i => {
@@ -140,10 +138,10 @@ export default class SearchInputContainer extends Component {
       value: input,
     });
 
-    this.context.executeAction(executeSearch, {
+    executeSearch(this.context.getStore, {
       input: event.target.value,
       type: this.props.type,
-    });
+    }, this.onSearchChange);
   }
 
   currentItemSelected = () => {

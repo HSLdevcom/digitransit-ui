@@ -12,12 +12,8 @@ export default class GeolocationOrInput extends Component {
   }
 
   state = {
-    geolocation: false,
+    geolocation: this.props.useCurrentPosition === true,
   };
-
-  componentWillMount() {
-    this.setState({ geolocation: this.props.useCurrentPosition });
-  }
 
   disableGeolocation = () => {
     this.setState({ geolocation: false });
