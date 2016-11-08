@@ -112,7 +112,7 @@ class SearchMainContainer extends React.Component {
       if (tabname === 'destination') {
         this.context.executeAction(executeSearch, {
           input: this.context.getStore('EndpointStore').getDestination().address || '',
-          type: 'endpoint',
+          type: 'all',
         });
       }
 
@@ -123,7 +123,7 @@ class SearchMainContainer extends React.Component {
   );
 
 
-  makeEndpointTab = (tabname, tablabel, endpoint) => (
+  makeEndpointTab = (tabname, tablabel, type, endpoint) => (
     <Tab
       className={`search-header__button${this.state.selectedTab === tabname ? '--selected' : ''}`}
       label={tablabel}
@@ -136,7 +136,8 @@ class SearchMainContainer extends React.Component {
         id={`search-${tabname}`}
         useCurrentPosition={endpoint.useCurrentPosition}
         initialValue={endpoint.address}
-        type="endpoint"
+        type={type}
+        close={this.closeModal}
         onSuggestionSelected={this.onSuggestionSelected}
       />
     </Tab>
@@ -172,11 +173,13 @@ class SearchMainContainer extends React.Component {
           {this.makeEndpointTab(
             'origin',
             <FormattedMessage id="origin" defaultMessage="Origin" />,
+            'endpoint',
             this.context.getStore('EndpointStore').getOrigin()
           )}
           {this.makeEndpointTab(
             'destination',
             <FormattedMessage id="destination" defaultMessage="Destination" />,
+            'all',
             this.context.getStore('EndpointStore').getDestination()
           )}
         </Component>
