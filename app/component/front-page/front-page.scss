@@ -182,6 +182,11 @@ $heading-color: #858585;
   flex-direction: column;
 }
 
+.map-container {
+    display: flex;
+    flexBasis: 50%;
+}
+
 // <Tab> component
 .tabs-navigation {
    width:100%;
@@ -292,4 +297,14 @@ li.favourites.selected {
   svg.favourites-icon {
     color: $favourite-color;
   }
+}
+
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-vertical {
+  display: flex;
+  flex-direction: column;
 }
