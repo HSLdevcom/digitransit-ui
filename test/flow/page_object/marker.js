@@ -20,7 +20,7 @@ module.exports = {
       selector: '.current-location-marker',
     },
     popupPane: {
-      selector: '.leaflet-pane .leaflet-popup-pane',
+      selector: '.card-header > .h4',
     },
   },
 };
