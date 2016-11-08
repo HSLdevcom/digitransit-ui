@@ -1,6 +1,6 @@
 module.exports = {
   tags: ['terminals', 'map', 'geolocation'],
-  'Open Kamppi cluster, select stop to show its departures': (browser) => {
+  'Open Kamppi Terminal and show its departures': (browser) => {
     browser.url(browser.launch_url);
     browser.setGeolocation(60.169546, 24.931658);
     const messagebar = browser.page.messageBar();
@@ -11,15 +11,15 @@ module.exports = {
     const marker = browser.page.marker();
     marker.clickSouthOfCurrentLocation();
     marker.waitForPopupPaneHeaderVisible();
+    browser.debug('Popup should have loaded by now');
 
     const stop = browser.page.stopCard();
-    stop.waitForElementVisible('@cluster', browser.globals.itinerarySearchTimeout);
-    stop.click('@clusterStop');
-    // stop.expectCardHeaderDescription('Kamppi');
+    browser.debug('Click on popup');
+    browser.checkedClick('.card .cursor-pointer');
+
     stop.waitForDepartureVisible();
-    stop.navigateToStopPage();
     const stopPage = browser.page.stop();
-    stopPage.expectStopName('Kamppi');
+    stopPage.expectStopName('Kamppi (Espoon terminaali)');
 
     browser.end();
   },
