@@ -30,14 +30,6 @@
     background-color: $background-color;
   }
 
-  &.open {
-    flex-wrap: wrap;
-
-    .action-arrow span > svg {
-      transform: rotate(90deg);
-    }
-  }
-
   h2 {
     flex-grow: 1;
     margin: 0.5em;
@@ -239,6 +231,16 @@
       font-size: 20px;
       padding-top: 8px;
       border: 0;
+    }
+    .action-arrow span > svg {
+      transform: rotate(90deg);
+    }
+    &.open {
+      flex-wrap: wrap;
+
+      .action-arrow span > svg {
+        transform: rotate(-90deg);
+      }
     }
   }
 }
