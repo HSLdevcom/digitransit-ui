@@ -26,6 +26,13 @@ Using BrowserStack
 npm run test-browserstack -- YOUR_BROWSERSTACK_USERNAME YOUR_BROWSERSTACK_KEY
 ```
 
+## Running a single test locally
+```
+PORT=8000 npm run dev
+nightwatch -c ./test/flow/nightwatch.json test/flow/tests/itinerary-search/itinerary-search.js
+```
+
+
 ## :warning: Known issues
 - Local: PhantomJS end-to-end tests do not currently work, but it can be run with "node_modules/nightwatch/bin/nightwatch -e phantom --skiptags nophantom"
 - BrowserStack: For some reason Android and IE11 on Windows 10 won't work with local server, but do work when deployed publicly.
