@@ -6,7 +6,7 @@ module.exports = {
     const messagebar = browser.page.messageBar();
     messagebar.close();
 
-    // Wait for the tiles to be loaded
+    browser.debug('Waiting a while for tiles to load');
     browser.pause(5000);
     const marker = browser.page.marker();
     marker.clickSouthOfCurrentLocation();
