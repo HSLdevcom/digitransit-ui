@@ -39,3 +39,9 @@
     text-decoration: none;
   }
 }
+
+.header-primary {
+  @include font-bold;
+  text-transform: uppercase;
+  color: $primary-color;
+}

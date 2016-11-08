@@ -17,7 +17,7 @@ function MainMenu(props) {
     </p>);
 
   let links = config.topNaviLinks.map(link =>
-    (<div className="offcanvas-section" key={link.name}>
+    (<div key={link.name} className="offcanvas-section">
       <Link id={link.name} to={link.url}>
         {link.name}
       </Link>

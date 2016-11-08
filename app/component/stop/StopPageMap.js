@@ -2,11 +2,10 @@ import React from 'react';
 import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import some from 'lodash/some';
-import mapProps from 'recompose/mapProps';
-import getContext from 'recompose/getContext';
-import compose from 'recompose/compose';
 
 import Map from '../map/Map';
+import SelectedStopPopup from '../map/popups/SelectedStopPopup';
+import SelectedStopPopupContent from './SelectedStopPopupContent';
 import Icon from '../icon/Icon';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
@@ -35,32 +34,52 @@ const fullscreenMapToggle = (fullscreenMap, params) => (
   </Link>
 );
 
-const StopPageMap = compose(
-  getContext({
-    breakpoint: React.PropTypes.string.isRequired,
-    router: React.PropTypes.shape({
-      replace: React.PropTypes.func.isRequired,
-    }).isRequired,
-  }),
-  mapProps(props => {
-    const fullscreenMap = some(props.routes, 'fullscreenMap');
+const StopPageMap = ({ stop, routes, router, params }, { breakpoint }) => {
+  const fullscreenMap = some(routes, 'fullscreenMap');
+  const leafletObjs = [];
+  const children = [];
 
-    return {
-      className: 'full',
-      lat: props.stop.lat,
-      lon: props.stop.lon,
-      zoom: !(props.params.stopId) || props.stop.platformCode ? 18 : 16,
-      key: 'map',
-      showStops: true,
-      hilightedStops: [props.params.stopId],
-      disableZoom: !fullscreenMap,
-      children: props.breakpoint !== 'large' && [
-        fullscreenMapOverlay(fullscreenMap, props.params, props.router),
-        fullscreenMapToggle(fullscreenMap, props.params),
-      ],
-    };
-  })
-)(Map);
+  if (breakpoint === 'large') {
+    leafletObjs.push(
+      <SelectedStopPopup lat={stop.lat} lon={stop.lon}>
+        <SelectedStopPopupContent stop={stop} />
+      </SelectedStopPopup>
+    );
+  } else {
+    children.push(fullscreenMapOverlay(fullscreenMap, params, router));
+    children.push(fullscreenMapToggle(fullscreenMap, params));
+  }
+
+  return (
+    <Map
+      className="full"
+      lat={stop.lat}
+      lon={stop.lon}
+      zoom={!(params.stopId) || stop.platformCode ? 18 : 16}
+      key="map"
+      showStops
+      hilightedStops={[params.stopId]}
+      disableZoom={!fullscreenMap}
+      leafletObjs={leafletObjs}
+    >
+      {children}
+    </Map>
+  );
+};
+
+StopPageMap.contextTypes = {
+  breakpoint: React.PropTypes.string.isRequired,
+  router: React.PropTypes.shape({
+    replace: React.PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+StopPageMap.propTypes = {
+  stop: React.PropTypes.object.isRequired,
+  routes: React.PropTypes.object.isRequired,
+  router: React.PropTypes.object.isRequired,
+  params: React.PropTypes.object.isRequired,
+};
 
 export default Relay.createContainer(StopPageMap, {
   fragments: {
@@ -69,6 +88,9 @@ export default Relay.createContainer(StopPageMap, {
         lat
         lon
         platformCode
+        name
+        code
+        desc
       }
     `,
   },
