@@ -82,7 +82,8 @@ window.mock.geolocation.demo();
 
 # Visual tests
 
-- run: BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual
+- first run: `CONFIG=hsl npm run dev`
+- then run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual`
 
 If things change, you need to update the images
 
