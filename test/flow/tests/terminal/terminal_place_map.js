@@ -15,7 +15,7 @@ module.exports = {
 
     const stop = browser.page.stopCard();
     browser.debug('Click on popup');
-    browser.checkedClick('.card .cursor-pointer');
+    browser.checkedClick('span.time');
 
     stop.waitForDepartureVisible();
     const stopPage = browser.page.stop();
