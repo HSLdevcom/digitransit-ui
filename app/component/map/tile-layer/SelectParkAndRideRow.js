@@ -12,7 +12,7 @@ function SelectParkAndRideRow(props, { intl }) {
           <Icon img="icon-icon_car" />
         </div>
         <div className="left padding-vertical-normal select-row-text">
-          <span className="h4 no-margin link-color">
+          <span className="header-primary no-margin link-color">
             {JSON.parse(props.name)[intl.locale]} ›
           </span>
         </div>

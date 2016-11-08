@@ -72,7 +72,7 @@ function SelectStopRow(props) {
           </svg>
         </div>
         <div className="left padding-vertical-normal select-row-text">
-          <span className="h4 no-margin link-color" >
+          <span className="header-primary no-margin link-color" >
             {props.name} ›
           </span>
           {patterns}
