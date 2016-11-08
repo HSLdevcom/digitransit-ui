@@ -5,22 +5,22 @@ function clickSouthOfCurrentLocation() {
   });
 }
 
-function waitForPopupPaneVisible() {
-  return this.waitForElementVisible('@popupPane',
+function waitForPopupPaneHeaderVisible() {
+  return this.waitForElementVisible('@popupPaneHeader',
                                     this.api.globals.itinerarySearchTimeout);
 }
 
 module.exports = {
   commands: [{
     clickSouthOfCurrentLocation,
-    waitForPopupPaneVisible,
+    waitForPopupPaneHeaderVisible,
   }],
   elements: {
     currentLocationMarker: {
       selector: '.current-location-marker',
     },
-    popupPane: {
-      selector: '.card-header > .h4',
+    popupPaneHeader: {
+      selector: '.leaflet-pane .leaflet-popup-pane .h4',
     },
   },
 };
