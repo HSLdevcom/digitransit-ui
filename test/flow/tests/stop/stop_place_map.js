@@ -8,7 +8,7 @@ module.exports = {
     browser.pause(5000);
     const marker = browser.page.marker();
     marker.clickSouthOfCurrentLocation();
-    marker.waitForPopupPaneVisible();
+    marker.waitForPopupPaneHeaderVisible();
 
     const stop = browser.page.stopCard();
     stop.waitForElementVisible('@cluster', browser.globals.itinerarySearchTimeout);
