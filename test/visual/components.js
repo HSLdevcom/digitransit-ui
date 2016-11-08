@@ -178,4 +178,10 @@ gemini.suite('components', () => {
     gemini.suite('Few bikes', test('BicycleRentalStationRow', 2));
     gemini.suite('No bikes', test('BicycleRentalStationRow', 3));
   });
+
+  gemini.suite('SummaryRow', () => {
+    gemini.suite('passive', test('SummaryRow'));
+    gemini.suite('active', test('SummaryRow', 2));
+    gemini.suite('open', test('SummaryRow', 3));
+  });
 });

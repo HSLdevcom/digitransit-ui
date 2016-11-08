@@ -8,6 +8,7 @@ import { displayDistance } from '../../util/geo-utils';
 import RouteNumber from '../departure/RouteNumber';
 import Icon from '../icon/Icon';
 import RelativeDuration from '../duration/RelativeDuration';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 export default function SummaryRow(props, { breakpoint }) {
   let mode;
@@ -154,3 +155,83 @@ SummaryRow.propTypes = {
 SummaryRow.contextTypes = {
   breakpoint: React.PropTypes.string,
 };
+
+SummaryRow.displayName = 'SummaryRow';
+
+const exampleData = {
+  startTime: 1478611781000,
+  endTime: 1478612600000,
+  walkDistance: 770,
+  legs: [
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: 1478611781000,
+      endTime: 1478612219000,
+      mode: 'WALK',
+      distance: 483.84600000000006,
+      duration: 438,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Messuaukio 1, Helsinki' },
+    },
+    {
+      realTime: false,
+      transitLeg: true,
+      startTime: 1478612220000,
+      endTime: 1478612340000,
+      mode: 'BUS',
+      distance: 586.4621425755712,
+      duration: 120,
+      rentedBike: false,
+      route: { shortName: '57' },
+      from: { name: 'Ilmattarentie' },
+    },
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: 1478612341000,
+      endTime: 1478612600000,
+      mode: 'WALK',
+      distance: 291.098,
+      duration: 259,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Veturitie' },
+    },
+  ],
+};
+
+SummaryRow.description = (
+  <div>
+    <p>
+      Displays a summary of an itinerary.
+    </p>
+    <ComponentUsageExample description="passive">
+      <SummaryRow
+        data={exampleData}
+        passive
+        onSelect={() => {}}
+        onSelectImmediately={() => {}}
+        hash={1}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="active">
+      <SummaryRow
+        data={exampleData}
+        onSelect={() => {}}
+        onSelectImmediately={() => {}}
+        hash={1}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="open">
+      <SummaryRow
+        open
+        data={exampleData}
+        onSelect={() => {}}
+        onSelectImmediately={() => {}}
+        hash={1}
+      />
+    </ComponentUsageExample>
+  </div>
+);
