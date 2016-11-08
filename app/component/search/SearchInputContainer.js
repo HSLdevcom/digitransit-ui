@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import find from 'lodash/find';
 
 import ReactAutowhatever from 'react-autowhatever';
 import { getLabel } from '../../util/suggestionUtils';
@@ -31,6 +32,7 @@ export default class SearchInputContainer extends Component {
     focusedItemIndex: 0,
     suggestions: [],
     value: this.props.initialValue,
+    type: 'endpoint',
   };
 
   componentDidMount() {
@@ -47,7 +49,15 @@ export default class SearchInputContainer extends Component {
     }, () => this.focusItem(0));
   }
 
-  focusItem = i => {
+  getItems() {
+    if (this.props.type === 'all') {
+      const suggestions = find(this.state.suggestions, ['name', this.state.type]);
+      return (suggestions && suggestions.items) || [];
+    }
+    return this.state.suggestions;
+  }
+
+  focusItem(i) {
     if (L.Browser.touch) {
       return;
     }
@@ -202,7 +212,7 @@ export default class SearchInputContainer extends Component {
           ref={(c) => { this.autowhatever = c; }}
           className={this.props.className}
           id="suggest"
-          items={this.state.suggestions}
+          items={this.getItems()}
           renderItem={(item) => {
             if (item.properties.layer === 'currentPosition') {
               return (

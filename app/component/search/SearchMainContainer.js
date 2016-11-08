@@ -152,7 +152,7 @@ class SearchMainContainer extends React.Component {
           {this.makeEndpointTab(
             'destination',
             <FormattedMessage id="destination" defaultMessage="Destination" />,
-            'endpoint',
+            'all',
             this.context.getStore('EndpointStore').getDestination(),
           )}
         </Component>

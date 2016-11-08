@@ -292,13 +292,13 @@ export function executeSearchPromise(getStore, { input, type }, callback) {
 
   if (typeof callback !== 'function') {
     return Promise.all([endpoitSearches, searchSearches]).then(([endpoints, search]) => ([
-      { name: 'endpoints', items: endpoints },
+      { name: 'endpoint', items: endpoints },
       { name: 'search', items: search },
     ]));
   }
   return Promise.all([endpoitSearches, searchSearches])
     .then(([endpoints, search]) => callback([
-      { name: 'endpoints', items: endpoints },
+      { name: 'endpoint', items: endpoints },
       { name: 'search', items: search },
     ]))
     .catch(err => console.error(err)); // eslint-disable-line no-console
