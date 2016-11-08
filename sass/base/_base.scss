@@ -15,7 +15,21 @@ html {
   /* Disable touch delay on ms-devices */
   -ms-touch-action: manipulation;
   touch-action: manipulation;
+  font-size: 15px !important;
 }
+
+@media screen and (min-width: 320px) {
+  html {
+    font-size: calc(15px + 6 * (100vw - 320px) / 500) !important;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  html {
+    font-size: 16px !important;
+  }
+}
+
 body {
   background-color: $background-color !important;
   font-family: $font-family;
