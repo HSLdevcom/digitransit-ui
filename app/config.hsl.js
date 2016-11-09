@@ -39,6 +39,7 @@ export default {
 
   maxWalkDistance: 2500,
   availableLanguages: ['fi', 'sv', 'en'],
+  defaultLanguage: 'fi',
 
   parkAndRide: {
     showParkAndRide: true,
