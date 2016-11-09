@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import find from 'lodash/find';
+import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import ReactAutowhatever from 'react-autowhatever';
 import { getLabel } from '../../util/suggestionUtils';
@@ -210,17 +212,52 @@ export default class SearchInputContainer extends Component {
 
   renderMultiWrapper = ({ children, ...rest }) => (
     <div {...rest} >
-      <div>
-        <span onClick={() => this.onSwitchTab('endpoint')}>
-          Destination
-        </span>
-        <span onClick={() => this.onSwitchTab('search')}>
-          Search
-        </span>
+      <div className="react-autowhatever__type-selector">
+        <a
+          onClick={() => this.onSwitchTab('endpoint')}
+          className={cx({ selected: this.state.type === 'endpoint' })}
+        >
+          <FormattedMessage id="destination" defaultMessage="Destination" />
+          {this.state.type !== 'endpoint' && (
+            <span className="item-count">
+              {(find(this.state.suggestions, ['name', 'endpoint']) || { items: [] }).items.length}
+            </span>
+          )}
+        </a>
+        <a
+          onClick={() => this.onSwitchTab('search')}
+          className={cx({ selected: this.state.type === 'search' })}
+        >
+          <FormattedMessage id="route-stop-or-keyword" defaultMessage="Route, stop or keyword" />
+          {this.state.type !== 'search' && (
+            <span className="item-count">
+              {(find(this.state.suggestions, ['name', 'search']) || { items: [] }).items.length}
+            </span>
+          )}
+        </a>
       </div>
       {children}
     </div>
   )
+
+  renderItem(item) {
+    if (item.properties.layer === 'currentPosition') {
+      return (
+        <CurrentPositionSuggestionItem
+          ref={item.name}
+          item={item}
+          spanClass="autosuggestIcon"
+        />
+      );
+    }
+    return (
+      <SuggestionItem
+        ref={item.name}
+        item={item}
+        spanClass="autosuggestIcon"
+      />
+    );
+  }
 
   render() {
     const inputValue = (
@@ -230,30 +267,13 @@ export default class SearchInputContainer extends Component {
     ) || '';
 
     return (
-      <div style={{ flex: 1 }}>
+      <div>
         <ReactAutowhatever
           ref={(c) => { this.autowhatever = c; }}
           className={this.props.className}
           id="suggest"
           items={this.getItems()}
-          renderItem={(item) => {
-            if (item.properties.layer === 'currentPosition') {
-              return (
-                <CurrentPositionSuggestionItem
-                  ref={item.name}
-                  item={item}
-                  spanClass="autosuggestIcon"
-                />
-              );
-            }
-            return (
-              <SuggestionItem
-                ref={item.name}
-                item={item}
-                spanClass="autosuggestIcon"
-              />
-            );
-          }}
+          renderItem={this.renderItem}
           renderItemsContainer={this.props.type === 'all' ? this.renderMultiWrapper : undefined}
           onSuggestionSelected={this.currentItemSelected}
           focusedItemIndex={this.state.focusedItemIndex}

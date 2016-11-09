@@ -25,7 +25,7 @@ const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }) => {
             >{children}</Tabs>
             <div
               onClick={closeModal}
-              style={{ position: 'absolute', top: 0, right: '11px', color: '#78909c' }}
+              style={{ position: 'absolute', top: 3, right: 16, color: '#78909c' }}
             >
               <Icon img="icon-icon_close" />
             </div>

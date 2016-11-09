@@ -91,7 +91,7 @@ class SearchMainContainer extends React.Component {
     });
   }
 
-  makeEndpointTab = (tabname, tablabel, type, endpoint) => (
+  renderEndpointTab = (tabname, tablabel, type, endpoint) => (
     <Tab
       className={`search-header__button${this.state.selectedTab === tabname ? '--selected' : ''}`}
       label={tablabel}
@@ -138,15 +138,15 @@ class SearchMainContainer extends React.Component {
           modalIsOpen={this.state.modalIsOpen}
           closeModal={this.closeModal}
         >
-          {this.makeEndpointTab(
+          {this.renderEndpointTab(
             'origin',
             <FormattedMessage id="origin" defaultMessage="Origin" />,
             'endpoint',
             this.context.getStore('EndpointStore').getOrigin()
           )}
-          {this.makeEndpointTab(
+          {this.renderEndpointTab(
             'destination',
-            <FormattedMessage id="destination" defaultMessage="Destination" />,
+            <FormattedMessage id="search" defaultMessage="Search" />,
             'all',
             this.context.getStore('EndpointStore').getDestination(),
           )}

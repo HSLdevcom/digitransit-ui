@@ -107,7 +107,7 @@ $search-header-height: 45px;
       flex-direction: column;
 
       ul.react-autowhatever__items-list {
-        padding: 4px 16px;
+        padding: 10px 16px;
         width: calc(100% + 32px);
         margin: 0 -16px;
       }
@@ -121,6 +121,14 @@ $search-header-height: 45px;
         .geolocation-selected {
           padding: 13.5px;
         }
+      }
+    }
+
+    .react-autowhatever__type-selector {
+      font-size: 13px;
+
+      a {
+        padding: 10px 40px;
       }
     }
 
@@ -182,6 +190,43 @@ $search-header-height: 45px;
   }
 }
 
+.react-autowhatever__type-selector {
+  font-size: 11px;
+  line-height: 1;
+  display: flex;
+  flex: 0 0 auto;
+
+  a {
+    color: $primary-color;
+    height: 100%;
+    padding: 10px 10px;
+    margin: 0 3px;
+    border: 1px solid $light-gray;
+    border-bottom: none;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &.selected {
+      background: $white;
+      color: $black;
+    }
+
+    .item-count {
+      background-color: $primary-color;
+      color: $primary-font-color;
+      font-size: 0.8em;
+      margin-left: 0.5em;
+      padding: 0.25em 0.75em;
+      border-radius: 1em;
+      vertical-align: 0.1em;
+    }
+  }
+}
+
 ul.react-autowhatever__items-list {
   @extend .momentum-scroll;
   list-style-type: none;
@@ -193,7 +238,6 @@ ul.react-autowhatever__items-list {
   margin: 0 -11px;
 
   li {
-
     white-space: nowrap;
     overflow: hidden;
 
@@ -360,7 +404,8 @@ div.origin-destination-bar {
 
   .search-header-width-fix {
     margin-left: 30px !important;
-    width: calc(100% - 30px) !important;
+    margin-right: 30px !important;
+    width: calc(100% - 60px) !important;
   }
 
   .search-header__tabs-root {
@@ -387,6 +432,10 @@ div.origin-destination-bar {
       > div {
         flex: 0 1 auto;
         display: flex;
+        > div {
+          flex: 1 0 0;
+          width: 100%;
+        }
       }
     }
   }
