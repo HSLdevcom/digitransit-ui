@@ -230,7 +230,7 @@ export default class SearchInputContainer extends Component {
     ) || '';
 
     return (
-      <div className="fullscreen">
+      <div style={{ flex: 1 }}>
         <ReactAutowhatever
           ref={(c) => { this.autowhatever = c; }}
           className={this.props.className}

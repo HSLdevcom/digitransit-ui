@@ -63,16 +63,24 @@ $search-header-height: 45px;
   padding-right: 400px;
   margin-left: auto;
   margin-right:auto;
+
+  .search-modal-container {
+    max-height: calc(100% - 30px);
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
   .search-modal {
+    display: flex;
+    flex-direction: column;
     top:0;
     padding-left: 50px;
     border-radius: $border-radius-bigger;
     bottom: auto;
-//    top:-25px;
-//    left:52px;
     max-width:720px;
-    max-height: 550px;
-    padding: 4px;
+    max-height: calc(100% - 30px);
+    padding: 0;
     width:100%;
     margin-left: auto;
     margin-right: auto;
@@ -93,6 +101,16 @@ $search-header-height: 45px;
     }
 
     .search-header {
+      padding: 0 15px;
+      flex: 0 1 auto;
+      display: flex;
+      flex-direction: column;
+
+      ul.react-autowhatever__items-list {
+        padding: 4px 16px;
+        width: calc(100% + 32px);
+        margin: 0 -16px;
+      }
 
       .search-header__button {
         font-size: 15px !important;
@@ -122,6 +140,18 @@ $search-header-height: 45px;
   position: absolute;
   width: 100%;
   top: -17px;
+}
+
+.react-autowhatever__items-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.react-autowhatever__container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .search-form.bp-large {
@@ -154,21 +184,22 @@ $search-header-height: 45px;
 
 ul.react-autowhatever__items-list {
   @extend .momentum-scroll;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   list-style-type: none;
   background: $white;
-  border: 1px solid $white;
-  border-radius: 4px;
-  padding: 4px;
-  max-height: 9em;
+  border: 1px solid $light-gray;
+  padding: 4px 11px;
   overflow-y: auto;
-  margin-top: 10px;
-  max-height: 412px;
+  width: calc(100% + 22px);
+  margin: 0 -11px;
 
   li {
 
     white-space: nowrap;
     overflow: hidden;
+
+    &:not(:last-child) {
+      border-bottom: solid 1px #eee;
+    }
 
     & .search-result {
       display: block;
@@ -271,6 +302,11 @@ div.search-modal {
     padding: 10px;
     outline: 0;
     appearance: none;
+
+    &:focus {
+      box-shadow: none;
+      border-color: $primary-color
+    }
   }
 }
 
@@ -328,6 +364,14 @@ div.origin-destination-bar {
   }
 
   .search-header__tabs-root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    > div {
+      flex: 0 0 auto;
+    }
+
     > div:first-child {
       background-color: $background-color !important;
       line-height: 18px !important;
@@ -336,7 +380,15 @@ div.origin-destination-bar {
     > div:nth-child(2) { //hack, modify tabs in material ui to fix
       @extend .search-header-width-fix;
     }
-    height: calc(100% - 30px)
+    > div:nth-child(3) {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      > div {
+        flex: 0 1 auto;
+        display: flex;
+      }
+    }
   }
 
 
