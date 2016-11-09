@@ -109,8 +109,16 @@ export default function SummaryRow(props, { breakpoint }) {
           defaultMessage="Itinerary"
           tagName="h2"
         />,
-        <div className="action-arrow" key="arrow">
-          <Icon img="icon-icon_arrow-collapse--right" />
+        <div
+          className="action-arrow-click-area"
+          onClick={(e) => {
+            e.stopPropagation();
+            props.onSelectImmediately(props.hash);
+          }}
+        >
+          <div className="action-arrow" key="arrow">
+            <Icon img="icon-icon_arrow-collapse--right" />
+          </div>
         </div>,
         props.children,
       ] : [
@@ -128,14 +136,18 @@ export default function SummaryRow(props, { breakpoint }) {
           {endTime.format('HH:mm')}
         </div>,
         <div
-          className="action-arrow"
-          key="arrow"
+          className="action-arrow-click-area"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <Icon img="icon-icon_arrow-collapse--right" />
+          <div
+            className="action-arrow"
+            key="arrow"
+          >
+            <Icon img="icon-icon_arrow-collapse--right" />
+          </div>
         </div>,
       ]}
     </div>);
