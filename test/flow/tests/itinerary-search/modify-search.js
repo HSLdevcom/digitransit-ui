@@ -43,7 +43,6 @@ module.exports = {
     itinerarySummary.waitForFirstItineraryRow();
 
     browser.setGeolocation(60.199100, 24.936155); // LIVI opastinsilta 12
-    browser.setGeolocation(60.199101, 24.936156);
 
     itinerarySummary.clickLater(); // triggers new routing
 
