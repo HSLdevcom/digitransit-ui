@@ -28,13 +28,13 @@ class SearchMainContainer extends React.Component {
     modalIsOpen: false,
   };
 
-  componentDidMount = () => (
-    this.context.getStore('SearchStore').addChangeListener(this.onSearchChange)
-  );
+  componentDidMount() {
+    this.context.getStore('SearchStore').addChangeListener(this.onSearchChange);
+  }
 
-  componentWillUnmount = () => (
-    this.context.getStore('SearchStore').removeChangeListener(this.onSearchChange)
-  );
+  componentWillUnmount() {
+    this.context.getStore('SearchStore').removeChangeListener(this.onSearchChange);
+  }
 
   onSearchChange = (payload) => payload.action === 'open' && this.openDialog(payload.data);
 
@@ -69,32 +69,27 @@ class SearchMainContainer extends React.Component {
     this.openDialog(hasOrigin ? 'destination' : 'origin');
   }
 
-  openDialog = (tab) => {
+  openDialog(tab) {
     this.setState({ modalIsOpen: true });
     this.changeToTab(tab);
-  };
+  }
 
-  focusInput = (value) => (
+  focusInput(value) {
     // this.searchInputs[value].searchInput is a hack
-    this.searchInputs[value].searchInput.autowhatever.input.focus()
-  );
+    this.searchInputs[value].searchInput.autowhatever.input.focus();
+  }
 
-  closeModal = () => (
-    this.setState({
-      modalIsOpen: false,
-    })
-  );
+  closeModal = () => this.setState({ modalIsOpen: false })
 
-  changeToTab = (tabname) => (
+  changeToTab(tabname) {
     this.setState({
       selectedTab: tabname,
     }, () => {
       // Cannot use setTimeout for the focus, or iOS Safari won't show the caret.
       // Other browsers don't seem to care one way or another.
       this.focusInput(tabname);
-    })
-  );
-
+    });
+  }
 
   makeEndpointTab = (tabname, tablabel, type, endpoint) => (
     <Tab
@@ -116,7 +111,7 @@ class SearchMainContainer extends React.Component {
     </Tab>
   );
 
-  render = () => {
+  render() {
     const destinationPlaceholder = this.context.intl.formatMessage({
       id: 'destination-placeholder',
       defaultMessage: 'Where to? - address or stop',
