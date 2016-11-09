@@ -240,7 +240,7 @@ function getStops(input, origin) {
   )).then(suggestions => take(suggestions, 10));
 }
 
-export function executeSearchPromise(getStore, { input, type }, callback) {
+export function executeSearchImmediate(getStore, { input, type }, callback) {
   const position = getStore('PositionStore').getLocationState();
   let endpoitSearches = [];
   let searchSearches = [];
@@ -261,10 +261,8 @@ export function executeSearchPromise(getStore, { input, type }, callback) {
     .catch(err => console.error(err)); // eslint-disable-line no-console
 
     if (type === 'endpoint') {
-      if (typeof callback !== 'function') {
-        return endpoitSearches;
-      }
-      return endpoitSearches.then(callback);
+      endpoitSearches.then(callback);
+      return;
     }
   }
 
@@ -283,20 +281,12 @@ export function executeSearchPromise(getStore, { input, type }, callback) {
     .catch(err => console.error(err)); // eslint-disable-line no-console
 
     if (type === 'search') {
-      if (typeof callback !== 'function') {
-        return searchSearches;
-      }
-      return searchSearches.then(callback);
+      searchSearches.then(callback);
+      return;
     }
   }
 
-  if (typeof callback !== 'function') {
-    return Promise.all([endpoitSearches, searchSearches]).then(([endpoints, search]) => ([
-      { name: 'endpoint', items: endpoints },
-      { name: 'search', items: search },
-    ]));
-  }
-  return Promise.all([endpoitSearches, searchSearches])
+  Promise.all([endpoitSearches, searchSearches])
     .then(([endpoints, search]) => callback([
       { name: 'endpoint', items: endpoints },
       { name: 'search', items: search },
@@ -304,7 +294,7 @@ export function executeSearchPromise(getStore, { input, type }, callback) {
     .catch(err => console.error(err)); // eslint-disable-line no-console
 }
 
-const debouncedSearch = debounce(executeSearchPromise, 300);
+const debouncedSearch = debounce(executeSearchImmediate, 300);
 
 export const executeSearch = (getStore, data, callback) => {
   callback([]);

@@ -7,7 +7,7 @@ import ReactAutowhatever from 'react-autowhatever';
 import { getLabel } from '../../util/suggestionUtils';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
-import { executeSearch, executeSearchPromise } from '../../util/searchUtils';
+import { executeSearch, executeSearchImmediate } from '../../util/searchUtils';
 import { saveSearch } from '../../action/SearchActions';
 import Icon from '../icon/Icon';
 
@@ -38,7 +38,7 @@ export default class SearchInputContainer extends Component {
   };
 
   componentDidMount() {
-    executeSearchPromise(this.context.getStore, {
+    executeSearchImmediate(this.context.getStore, {
       input: this.state.value,
       type: this.props.type,
     }, this.onSearchChange);
