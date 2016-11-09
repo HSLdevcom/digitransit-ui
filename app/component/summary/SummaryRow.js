@@ -144,7 +144,7 @@ export default function SummaryRow(props, { breakpoint }) {
 
 SummaryRow.propTypes = {
   data: React.PropTypes.object.isRequired,
-  passive: React.PropTypes.bool.isRequired,
+  passive: React.PropTypes.bool,
   onSelect: React.PropTypes.func.isRequired,
   onSelectImmediately: React.PropTypes.func.isRequired,
   hash: React.PropTypes.number.isRequired,
