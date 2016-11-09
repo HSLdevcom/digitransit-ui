@@ -17,14 +17,21 @@ function chooseFirstItinerarySuggestion() {
   return this.api.checkedClick(this.elements.firstItinerarySummaryRow.selector);
 }
 
+function clickSwapOriginDestination() {
+  this.waitForElementVisible('@swapDir', this.api.globals.elementVisibleTimeout);
+  return this.api.checkedClick(this.elements.swapDir.selector);
+}
+
 module.exports = {
   commands: [{
     waitForFirstItineraryRow,
     waitForItineraryRowOfType,
     waitForItineraryRowOfTypeNotPresent,
     chooseFirstItinerarySuggestion,
+    clickSwapOriginDestination,
   }],
   elements: {
     firstItinerarySummaryRow: '.itinerary-summary-row:nth-of-type(1)',
+    swapDir: 'div.switch',
   },
 };

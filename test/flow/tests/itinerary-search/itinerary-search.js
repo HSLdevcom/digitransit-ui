@@ -39,4 +39,31 @@ module.exports = {
     itineraryInstructions.verifyDestination('Pohjolanaukio');
     browser.end();
   },
+
+  'Custom search options are not forgotten if endpoint changes': (browser) => {
+    browser.url(browser.launch_url);
+    const splash = browser.page.splash();
+    splash.waitClose();
+
+    const searchFields = browser.page.searchFields();
+    searchFields.itinerarySearch('Helsingin rautatieasema', 'Opastinsilta 6');
+
+    const itinerarySummary = browser.page.itinerarySummary();
+    itinerarySummary.waitForFirstItineraryRow();
+
+    const customizeSearch = browser.page.customizeSearch();
+    customizeSearch.clickCanvasToggle();
+    customizeSearch.disableModality('rail');
+
+    // rautatieasema  - pasila had rail connections before disable
+    itinerarySummary.waitForItineraryRowOfTypeNotPresent('rail');
+
+    itinerarySummary.clickSwapOriginDestination();
+
+    // rail still not available
+    itinerarySummary.waitForItineraryRowOfTypeNotPresent('rail');
+
+    browser.end();
+  },
+
 };

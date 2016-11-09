@@ -57,6 +57,7 @@ module.exports = {
   commands: [{
     clickCanvasToggle,
     enableModality,
+    disableModality,
     disableAllModalitiesExcept,
     exists,
   }],
