@@ -6,6 +6,8 @@ exports.command = function setGeolocation(latitude, longitude) {
       // Hack around PositionStore
       (2 * latitude2) - window.mock.data.position.coords.latitude,
       (2 * longitude2) - window.mock.data.position.coords.longitude);
+    window.mock.data.position.coords.latitude = latitude2;
+    window.mock.data.position.coords.longitude = longitude2;
   }, [latitude, longitude]);
   return this;
 };
