@@ -22,6 +22,11 @@ function clickSwapOriginDestination() {
   return this.api.checkedClick(this.elements.swapDir.selector);
 }
 
+function clickLater() {
+  this.waitForElementVisible('@later', this.api.globals.elementVisibleTimeout);
+  return this.api.checkedClick(this.elements.later.selector);
+}
+
 module.exports = {
   commands: [{
     waitForFirstItineraryRow,
@@ -29,9 +34,11 @@ module.exports = {
     waitForItineraryRowOfTypeNotPresent,
     chooseFirstItinerarySuggestion,
     clickSwapOriginDestination,
+    clickLater,
   }],
   elements: {
     firstItinerarySummaryRow: '.itinerary-summary-row:nth-of-type(1)',
-    swapDir: 'div.switch',
+    swapDir: '.switch',
+    later: '.time-navigation-later-btn',
   },
 };
