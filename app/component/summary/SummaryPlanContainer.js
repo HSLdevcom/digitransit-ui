@@ -38,6 +38,11 @@ class SummaryPlanContainer extends React.Component {
     if (Number(this.props.params.hash) === index) {
       this.context.router.goBack();
     } else {
+      this.context.router.replace({
+        ...this.context.location,
+        state: { summaryPageSelected: index },
+        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+      });
       this.context.router.push({
         ...this.context.location,
         pathname: `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`,
