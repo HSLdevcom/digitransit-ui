@@ -13,12 +13,13 @@ class TransitLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   render() {
-    const originalTime = (this.props.leg.realTime && this.props.leg.departureDelay
-          >= config.itinerary.delayThreshold) && [<br />,
-      <span className="original-time">
-        {moment(this.props.leg.startTime).subtract(
-                this.props.leg.departureDelay, 's').format('HH:mm')}
-      </span>];
+    const originalTime = (
+      this.props.leg.realTime &&
+      this.props.leg.departureDelay >= config.itinerary.delayThreshold) && [<br />,
+        <span className="original-time">
+          {moment(this.props.leg.startTime).subtract(
+                  this.props.leg.departureDelay, 's').format('HH:mm')}
+        </span>];
 
     const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
