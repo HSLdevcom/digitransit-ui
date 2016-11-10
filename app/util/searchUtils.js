@@ -73,8 +73,8 @@ function filterMatchingToInput(list, input, fields) {
   return list;
 }
 
-function getCurrentPositionIfEmpty(input) {
-  if (typeof input !== 'string' || input.length === 0) {
+function getCurrentPositionIfEmpty(input, useCurrentPosition) {
+  if (!useCurrentPosition && (typeof input !== 'string' || input.length === 0)) {
     return Promise.resolve([{
       type: 'CurrentLocation',
       properties: { labelId: 'own-position', layer: 'currentPosition' },
@@ -256,12 +256,13 @@ export function executeSearchImmediate(getStore, { input, type }, callback) {
   let searchSearches = [];
 
   if (type === 'endpoint' || type === 'all') {
+    const origin = getStore('EndpointStore').getOrigin();
     const favouriteLocations = getStore('FavouriteLocationStore').getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
     const language = getStore('PreferencesStore').getLanguage();
 
     endpoitSearches = Promise.all([
-      getCurrentPositionIfEmpty(input),
+      getCurrentPositionIfEmpty(input, origin.useCurrentPosition),
       getFavouriteLocations(favouriteLocations, input),
       getOldSearches(oldSearches, input),
       getGeocodingResult(input, position, language),
