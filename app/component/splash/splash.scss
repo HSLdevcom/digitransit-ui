@@ -1,32 +1,87 @@
-.splash {
-  background-color: rgba(32, 32, 32, 0.5);
+#splash {
+  background-color: white;
   z-index:1100;
   position: absolute;
-  width: 100%;
-  top: 0px;
+
+  left: calc(50% - 15rem);
+  width: 30rem;
+  margin: auto;
+
+  top: 20%;
+  height: 30rem;
+
+  border-radius: 3px;
+  box-shadow: 0 0 9.5px 0 rgba(0, 0, 0, 0.3);
+
+  text-align: center;
+
   line-height: 2em;
-  height: 100%;
   user-select: none;
   @include font-book
 
-  h2.state {
-    @include font-medium
-    color: $white;
-    line-height: 0em;
+  padding-top: 4rem;
+
+  .spinner-caption {
+    padding-top: 6rem;
+    padding-bottom: 2rem;
   }
 
-  > .top {
-    height:30%;
+  #splash-searchfield {
+    color: $primary-color;
+    border-bottom: 2px solid $primary-color;
+
+    .icon {
+      margin-left: 1rem;
+    }
   }
-  > .mid {
-    height: 140px;
-  }
-  > .bottom {
-    color: $white;
+
+  #splash-separator {
+    color: $light-gray;
+
+    margin: .7em auto;
+    overflow: hidden;
     text-align: center;
-    height: calc(70% - 140px - 40px);
-    .medium {
-      @include font-medium
+
+    // Horizontal gray line "behind" the text
+    &:before, &:after {
+      content: "";
+      display: inline-block;
+      width: 50%;
+      margin: 0 .5em 0 -55%;
+      vertical-align: middle;
+      border-bottom: 1px solid $light-gray;
+    }
+    &:after {
+      margin: 0 -55% 0 .5em;
+    }
+  }
+
+  ul {
+    list-style: none;
+    text-align: left;
+    margin: 0;
+    padding: 10px;
+
+    .icon {
+      margin-left: 5px;
+      margin-right: 1rem;
+    }
+
+    svg.icon-origin-star {
+      stroke: $favourite-color;
+      fill: $favourite-color;
+    }
+
+    svg.icon-origin-airplane {
+      stroke: $airplane-color;
+      fill: $airplane-color;
+    }
+
+    li {
+      border-bottom: 1px solid $light-gray;
+    }
+    li:last-child {
+      border:none;
     }
   }
 }

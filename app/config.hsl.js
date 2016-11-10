@@ -93,6 +93,12 @@ export default {
     lon: 24.9414841,
   },
 
+  defaultOrigins: [
+    { type: 'rail', address: 'Rautatieasema, Helsinki', lat: 60.1710688, lon: 24.9414841 },
+    { type: 'airplane', address: 'Lentoasema, Vantaa', lat: 60.317429, lon: 24.9690395 },
+    { type: 'bus', address: 'Kampin bussiterminaali, Helsinki', lat: 60.16902, lon: 24.931702 },
+  ],
+
   /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
