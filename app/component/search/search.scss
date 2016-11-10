@@ -245,17 +245,38 @@ ul.react-autowhatever__items-list {
       border-bottom: solid 1px #eee;
     }
 
-    & .search-result {
-      display: block;
-      height: 2.1em;
-      line-height: 2.1em;
+    .search-result {
+      display: flex;
+      align-items: center;
+      line-height: 1.2;
+      min-height: 40px;
+
+      .autosuggestIcon {
+        font-size: 19px;
+      }
+
+      .use-own-position {
+	      font-size: 13px;
+        color: $gray-blue;
+        @include font-medium;
+      }
+
+      .suggestion-name, .suggestion-label {
+        margin: 0;
+        @include font-book;
+      }
+
+      .suggestion-name {
+        font-size: 13px;
+      }
+
+      .suggestion-label {
+        font-size: 11px;
+        color: $gray;
+      }
     }
 
-    & .OldSearch {
-      /* TODO add somehow border */
-    }
-
-    & .Favourite svg.icon {
+    .favourite svg.icon {
       stroke: $favourite-color;
       fill: $favourite-color;
     }

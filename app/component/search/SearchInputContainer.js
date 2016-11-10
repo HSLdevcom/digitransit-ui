@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import find from 'lodash/find';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import ReactAutowhatever from 'react-autowhatever';
-import { getLabel } from '../../util/suggestionUtils';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import { executeSearch, executeSearchImmediate } from '../../util/searchUtils';
+import { getLabel } from '../../util/suggestionUtils';
 import { saveSearch } from '../../action/SearchActions';
 import Icon from '../icon/Icon';
 
@@ -17,6 +17,7 @@ export default class SearchInputContainer extends Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
+    intl: intlShape,
   };
 
   static propTypes = {
@@ -39,7 +40,7 @@ export default class SearchInputContainer extends Component {
 
   componentDidMount() {
     executeSearchImmediate(this.context.getStore, {
-      input: this.state.value,
+      input: '',
       type: this.props.type,
     }, this.onSearchChange);
   }
@@ -167,41 +168,23 @@ export default class SearchInputContainer extends Component {
   }
 
   currentItemSelected = () => {
-    let save;
-    let state;
-    let name;
-    let item;
-
     if (this.state.focusedItemIndex >= 0 && this.getItems().length > 0) {
-      item = this.getItems()[this.state.focusedItemIndex];
-      name = getLabel(item.properties);
+      const item = this.getItems()[this.state.focusedItemIndex];
+      let name;
 
       if (item.type === 'CurrentLocation') {
-        state = this.context.getStore('PositionStore').getLocationState();
-
-        item.geometry = {
-          coordinates: [state.lon, state.lat],
-        };
-
-        name = 'Nykyinen sijainti';
+        const state = this.context.getStore('PositionStore').getLocationState();
+        item.geometry = { coordinates: [state.lon, state.lat] };
+        name = this.context.intl.formatMessage(
+          { id: 'own-position', defaultMessage: 'Current position' }
+        );
       } else {
-        save = () => this.context.executeAction(saveSearch, {
-          address: name,
-          geometry: item.geometry,
-          properties: {
-            mode: item.properties.mode,
-          },
-          type: this.props.type,
-        });
-
-        setTimeout(save, 0);
+        const type = (this.props.type === 'all' && this.state.type) || this.props.type;
+        this.context.executeAction(saveSearch, { item, type });
+        name = getLabel(item.properties).join(', ');
       }
 
       this.props.onSuggestionSelected(name, item);
-
-      this.setState({
-        value: name,
-      });
     }
   }
 

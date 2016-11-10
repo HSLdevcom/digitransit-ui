@@ -8,32 +8,29 @@ import Icon from '../icon/Icon';
 
 
 const Locate = () => (
-  <span> - <span className="search-position">
-    <FormattedMessage id="search-position" defaultMessage="Locate" />
-  </span></span>
+  <span className="use-own-position">
+    &nbsp;-&nbsp;
+    <span className="search-position">
+      <FormattedMessage id="search-position" defaultMessage="Locate" />
+    </span>
+  </span>
 );
 
 const CurrentPositionSuggestionItem = pure(
-  ({ item, havePosition }) => {
-    let locate;
-    if (!havePosition) {
-      locate = <Locate />;
-    }
-    return (
-      <span className={cx('search-result', item.type)}>
-        <span>
-          <span className="autosuggestIcon">
-            <Icon img="icon-icon_position" className={cx('havePosition')} />
-          </span>
-          <FormattedMessage
-            id="use-own-position"
-            defaultMessage="Use Your current location"
-          />
-          {locate}
-        </span>
+  ({ item, havePosition }) => (
+    <div className={cx('search-result', item.type)}>
+      <span className="autosuggestIcon">
+        <Icon img="icon-icon_position" className={cx('havePosition')} />
       </span>
-    );
-  }
+      <FormattedMessage
+        id="use-own-position"
+        defaultMessage="Use Your current location"
+      >
+        {(message) => <span className="use-own-position">{message}</span>}
+      </FormattedMessage>
+      {!havePosition && <Locate />}
+    </div>
+  )
 );
 
 export default connectToStores(CurrentPositionSuggestionItem, ['PositionStore'], (context) =>

@@ -3,50 +3,45 @@ import cx from 'classnames';
 import pure from 'recompose/pure';
 
 import Icon from '../icon/Icon';
-import { getLabel } from '../../util/suggestionUtils';
+import { getLabel, getIcon } from '../../util/suggestionUtils';
 import config from '../../config';
-
-
-function getIcon(layer, iconClass) {
-  const layerIcon = new Map([
-    ['favourite', 'icon-icon_star'],
-    ['address', 'icon-icon_place'],
-    ['stop', 'icon-icon_bus-stop'],
-    ['locality', 'icon-icon_city'],
-    ['station', 'icon-icon_station'],
-    ['localadmin', 'icon-icon_city'],
-    ['neighbourdood', 'icon-icon_city'],
-    ['route-BUS', 'icon-icon_bus-withoutBox'],
-    ['route-TRAM', 'icon-icon_tram-withoutBox'],
-    ['route-RAIL', 'icon-icon_rail-withoutBox'],
-    ['route-SUBWAY', 'icon-icon_subway-withoutBox'],
-    ['route-FERRY', 'icon-icon_ferry-withoutBox'],
-    ['route-AIRPLANE', 'icon-icon_airplane-withoutBox']]);
-
-  const defaultIcon = 'icon-icon_place';
-  return <Icon img={layerIcon.get(layer) || defaultIcon} className={iconClass || ''} />;
-}
 
 const SuggestionItem = pure((props) => {
   let icon;
   if (props.item.properties.mode && config.search.suggestions.useTransportIcons) {
-    icon =
-      (<Icon
+    icon = (
+      <Icon
         img={`icon-icon_${props.item.properties.mode}`}
         className={props.item.properties.mode}
-      />);
+      />
+    );
   } else {
-    icon = getIcon(props.item.properties.layer, props.item.iconClass);
+    icon = (
+      <Icon
+        img={getIcon(props.item.properties.layer)}
+        className={props.item.iconClass || ''}
+      />
+    );
   }
 
-  const displayText = getLabel(props.item.properties);
+  const label = getLabel(props.item.properties);
+
   return (
-    <span className={cx('search-result', props.item.type)}>
+    <div
+      className={cx(
+        'search-result',
+        props.item.type,
+        { favourite: props.item.type.startsWith('Favourite') }
+      )}
+    >
       <span className={props.spanClass || ''}>
         {icon}
       </span>
-      {displayText}
-    </span>);
+      <div>
+        <p className="suggestion-name" >{label[0]}</p>
+        <p className="suggestion-label" >{label[1]}</p>
+      </div>
+    </div>);
 });
 
 SuggestionItem.propTypes = {

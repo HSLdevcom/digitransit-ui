@@ -33,50 +33,30 @@ function mapRoutes(res) {
     ({
       type: 'Route',
       properties: {
-        label: `${item.shortName} ${item.longName}`,
+        ...item,
         layer: `route-${item.mode}`,
-        mode: item.mode.toLowerCase(),
-        agency: item.agency,
-        shortName: item.shortName,
-        longName: item.longName,
         link: `/linjat/${item.gtfsId}`,
       },
       geometry: {
-        coordinates: [item.lat, item.lon],
+        coordinates: null,
       },
     })
   );
 }
 
 function mapStops(stops) {
-  return stops.map(item => {
-    const mode = item.routes
-            && item.routes.length > 0
-            ? item.routes[0].mode.toLowerCase()
-            : null;
-
-    const stop = {
-      type: 'Stop',
-
-      properties: {
-        code: item.code,
-        label: item.name,
-        mode,
-        layer: 'stop',
-        link: `/pysakit/${item.gtfsId}`,
-      },
-
-      geometry: {
-        coordinates: [item.lon, item.lat],
-      },
-    };
-
-    if (item.code) {
-      stop.properties.label = `${stop.properties.label}, ${item.code}`;
-    }
-
-    return stop;
-  });
+  return stops.map(item => ({
+    type: 'Stop',
+    properties: {
+      ...item,
+      mode: item.routes.length > 0 && item.routes[0].mode.toLowerCase(),
+      layer: 'stop',
+      link: `/pysakit/${item.gtfsId}`,
+    },
+    geometry: {
+      coordinates: [item.lon, item.lat],
+    },
+  }));
 }
 
 
@@ -106,18 +86,14 @@ function getCurrentPositionIfEmpty(input) {
 
 function getOldSearches(oldSearches, input) {
   const matchingOldSearches =
-    filterMatchingToInput(oldSearches, input, ['address', 'locationName']);
+    filterMatchingToInput(oldSearches, input, ['properties.name', 'properties.label']);
 
-  return Promise.resolve(take(matchingOldSearches, 10).map(item =>
-    ({
+  return Promise.resolve(
+    take(matchingOldSearches, 10).map(item => ({
+      ...item,
       type: 'OldSearch',
-      properties: {
-        label: item.address,
-        layer: 'oldSearch',
-        mode: item.properties ? item.properties.mode : null },
-      geometry: item.geometry,
-    })
-  ));
+    }))
+  );
 }
 
 function getFavouriteLocations(favourites, input) {
@@ -127,8 +103,8 @@ function getFavouriteLocations(favourites, input) {
       feature => feature.locationName
     ).map(item =>
       ({
-        type: 'Favourite',
-        properties: { label: item.locationName, layer: 'favourite' },
+        type: 'FavouritePlace',
+        properties: { ...item, label: item.locationName, layer: 'favouritePlace' },
         geometry: { type: 'Point', coordinates: [item.lon, item.lat] },
       })
   ));
@@ -167,8 +143,8 @@ function getFavouriteRoutes(favourites, input) {
     filterMatchingToInput(
       mapRoutes(favouriteRoutes).map(favourite => ({
         ...favourite,
-        properties: { ...favourite.properties, layer: 'favourite' },
-        type: 'Favourite',
+        properties: { ...favourite.properties, layer: 'favouriteRoute' },
+        type: 'FavouriteRoute',
       })),
       input,
       ['properties.label', 'properties.code']
@@ -221,6 +197,7 @@ function getStops(input, origin) {
           lat
           lon
           name
+          desc
           code
           routes { mode }
         }
