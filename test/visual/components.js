@@ -179,6 +179,15 @@ gemini.suite('components', () => {
     gemini.suite('No bikes', test('BicycleRentalStationRow', 3));
   });
 
+  basicTest('StopPageHeader');
+  basicTest('StopCardHeader');
+  basicTest('SplitBars');
+  basicTest('Labeled');
+  basicTest('Centered');
+  basicTest('InfoIcon');
+  basicTest('DepartureListHeader');
+  basicTest('SelectedStopPopupContent');
+
   gemini.suite('SummaryRow', () => {
     gemini.suite('passive', test('SummaryRow'));
     gemini.suite('active', test('SummaryRow', 2));

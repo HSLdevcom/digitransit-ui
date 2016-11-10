@@ -59,6 +59,7 @@ import Centered from '../component/util/Centered';
 import InfoIcon from '../component/icon/InfoIcon';
 import Favourite from '../component/favourites/Favourite';
 import DepartureListHeader from '../component/departure/DepartureListHeader';
+import SelectedStopPopupContent from '../component/stop/SelectedStopPopupContent';
 import SummaryRow from '../component/summary/SummaryRow';
 
 class StyleGuidelinesPage extends React.Component {
@@ -124,6 +125,7 @@ class StyleGuidelinesPage extends React.Component {
     InfoIcon,
     Favourite,
     DepartureListHeader,
+    SelectedStopPopupContent,
     SummaryRow,
   }
 
