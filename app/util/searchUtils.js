@@ -86,7 +86,8 @@ function getCurrentPositionIfEmpty(input) {
 
 function getOldSearches(oldSearches, input) {
   const matchingOldSearches =
-    filterMatchingToInput(oldSearches, input, ['properties.name', 'properties.label']);
+    filterMatchingToInput(oldSearches, input, [
+      'properties.name', 'properties.label', 'shortName', 'longName', 'name', 'desc']);
 
   return Promise.resolve(
     take(matchingOldSearches, 10).map(item => ({
@@ -151,6 +152,38 @@ function getFavouriteRoutes(favourites, input) {
     ).sort((x, y) => routeCompare(x.properties, y.properties))
   );
 }
+
+function getFavouriteStops(favourites, input, origin) {
+  const query = Relay.createQuery(Relay.QL`
+    query favouriteStops($ids: [String!]!) {
+      stops(ids: $ids ) {
+        gtfsId
+        lat
+        lon
+        name
+        desc
+        code
+        routes { mode }
+      }
+    }`, { ids: favourites }
+  );
+
+  const refLatLng = origin.lat && origin.lon && getLatLng(origin.lat, origin.lon);
+
+  return getRelayQuery(query)
+    .then(favouriteStops => mapStops(favouriteStops).map(favourite => ({
+      ...favourite,
+      properties: { ...favourite.properties, layer: 'favouriteStop' },
+      type: 'FavouriteStop',
+    })))
+    .then(stops => (
+      refLatLng ?
+      sortBy(stops, (item) =>
+        getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0]).distanceTo(refLatLng)
+      ) : stops
+  ));
+}
+
 
 function getRoutes(input) {
   if (typeof input !== 'string' || input.trim().length === 0) {
@@ -246,10 +279,14 @@ export function executeSearchImmediate(getStore, { input, type }, callback) {
   if (type === 'search' || type === 'all') {
     const origin = getStore('EndpointStore').getOrigin();
     const location = origin.lat ? origin : position;
+    const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
+    const favouriteStops = getStore('FavouriteStopsStore').getStops();
 
     searchSearches = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input),
+      getFavouriteStops(favouriteStops, input, origin),
+      getOldSearches(oldSearches, input),
       getRoutes(input),
       getStops(input, location),
     ])

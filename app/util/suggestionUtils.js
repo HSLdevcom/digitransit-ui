@@ -2,12 +2,15 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import uniqWith from 'lodash/uniqWith';
 import isEqual from 'lodash/isEqual';
+import memoize from 'lodash/memoize';
 
 import StopCode from '../component/itinerary/StopCode';
 
 const getLocality = suggestion => suggestion.localadmin || suggestion.locality || '';
 
-export const getLabel = (suggestion) => {
+memoize.Cache = Map;
+
+export const getLabel = memoize((suggestion) => {
   switch (suggestion.layer) {
     case 'currentPosition':
       return [suggestion.labelId, null];
@@ -31,19 +34,20 @@ export const getLabel = (suggestion) => {
       return suggestion.name.startsWith(suggestion.streetname) ?
       [suggestion.name, getLocality(suggestion)] :
         [suggestion.name, suggestion.label.split(',').slice(1).join(',')];
+    case 'favouriteStop':
     case 'stop':
       return suggestion.source === 'gtfs' ?
-      [suggestion.name || suggestion.label, getLocality(suggestion)] :
-      [
-        suggestion.name,
-        <span>{suggestion.code && <StopCode code={suggestion.code} />} {suggestion.desc}</span>,
-      ];
+        [suggestion.name || suggestion.label, getLocality(suggestion)]
+        : [
+          suggestion.name,
+          <span>{suggestion.code && <StopCode code={suggestion.code} />} {suggestion.desc}</span>,
+        ];
     case 'station':
       return [suggestion.name || suggestion.label, getLocality(suggestion)];
     default:
       return [suggestion.name || suggestion.label, getLocality(suggestion)];
   }
-};
+});
 
 export function uniqByLabel(features) {
   return uniqWith(features, (feat1, feat2) =>
