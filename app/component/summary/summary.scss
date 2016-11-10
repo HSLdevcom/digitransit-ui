@@ -1,5 +1,9 @@
 .summary {
-    overflow-y: auto;
+}
+
+.desktop .summary {
+  height: 100%;
+  max-height: calc(100% - 164px);
 }
 
 .summary-no-route-found {
@@ -147,7 +151,13 @@
 
 .summary-list-container {
   width: 100%;
+  overflow-y: auto;
 }
+
+.desktop .summary-list-container {
+  height: calc(100% - 80px);
+}
+
 
 .summary-content {
   height: 100%;
