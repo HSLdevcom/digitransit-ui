@@ -8,6 +8,7 @@ import pick from 'lodash/pick';
 import sortBy from 'lodash/sortBy';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
+import { FormattedMessage } from 'react-intl';
 
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
@@ -192,6 +193,12 @@ class SummaryPage extends React.Component {
 
       return (
         <DesktopView
+          title={(
+            <FormattedMessage
+              id="itinerary-summary-page.title"
+              defaultMessage="Itinerary suggestions"
+            />
+          )}
           header={<SummaryNavigation
             params={this.props.params} hasDefaultPreferences={hasDefaultPreferences}
           />}

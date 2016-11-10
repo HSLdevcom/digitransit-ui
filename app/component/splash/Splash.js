@@ -1,6 +1,5 @@
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
-import FrontPagePanelContainer from '../front-page/FrontPagePanelContainer';
 import { setOriginToDefault } from '../../action/EndpointActions';
 import FakeSearchBar from '../search/FakeSearchBar';
 import { default as FakeSearchWithButton } from '../search/FakeSearchWithButton';
@@ -48,14 +47,13 @@ class Splash extends React.Component {
       placeholder={destinationPlaceholder} id="front-page-search-bar"
     />);
 
-    return (<div className="fullscreen">
+    return (<div id="splash" className="fullscreen">
       <div className="front-page fullscreen">
         <div className="fullscreen splash-map">
           <FakeSearchWithButton fakeSearchBar={fakeSearchBar} />
           <div className="map fullscreen">
             <div className="background-gradient" />
           </div>
-          <FrontPagePanelContainer />
         </div>
       </div>
       <div className="splash">

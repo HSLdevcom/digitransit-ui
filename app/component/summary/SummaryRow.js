@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import legTextUtil from '../../util/leg-text-util';
 import { displayDistance } from '../../util/geo-utils';
@@ -45,12 +46,19 @@ export default function SummaryRow(props, { breakpoint }) {
       }
 
       legs.push(
-        <RouteNumber
-          key={i}
-          mode={mode}
-          text={legTextUtil.getLegText(leg)}
-          vertical className={cx('line', mode.toLowerCase())}
-        />
+        <div key={i} className="leg">
+          {breakpoint === 'large' &&
+            <div className="departure-stop overflow-fade">
+              &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
+            </div>
+          }
+          <RouteNumber
+            mode={mode}
+            text={legTextUtil.getLegText(leg)}
+            className={cx('line', mode.toLowerCase())}
+            vertical
+          />
+        </div>
       );
     }
   });
@@ -77,6 +85,7 @@ export default function SummaryRow(props, { breakpoint }) {
   const classes = cx(['itinerary-summary-row', 'cursor-pointer', {
     passive: props.passive,
     'bp-large': breakpoint === 'large',
+    open: props.children,
   }]);
 
   return (
@@ -93,7 +102,17 @@ export default function SummaryRow(props, { breakpoint }) {
           {displayDistance(data.walkDistance)}
         </div>
       </div>
-      {props.children ? props.children : [
+      {props.children ? [
+        <FormattedMessage
+          id="itinerary-page.title"
+          defaultMessage="Itinerary"
+          tagName="h2"
+        />,
+        <div className="action-arrow" key="arrow">
+          <Icon img="icon-icon_arrow-collapse--right" />
+        </div>,
+        props.children,
+      ] : [
         <div
           className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}
           key="startTime"

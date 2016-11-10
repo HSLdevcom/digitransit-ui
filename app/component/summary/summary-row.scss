@@ -30,6 +30,19 @@
     background-color: $background-color;
   }
 
+  &.open {
+    flex-wrap: wrap;
+
+    .action-arrow span > svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  h2 {
+    flex-grow: 1;
+    margin: 0.5em;
+  }
+
   .itinerary-duration-and-distance {
     width: 150px;
     margin-top: 4px;
@@ -80,6 +93,18 @@
     width: 100%;
     display: flex;
     white-space: nowrap;
+
+    .leg {
+      flex: 1 0 0;
+      overflow: hidden;
+    }
+
+    .departure-stop {
+      @include font-narrow-book;
+      font-size: 13px;
+      color: $gray;
+      width: 100%;
+    }
 
     .line.walk, .line.bicycle, .line.car {
       &:after {
@@ -136,11 +161,15 @@
 
     svg {
       color: $action-color;
+      transition: transform 300ms;
+      transform-origin: 50% 50%;
     }
   }
 
   .itinerary-tab {
     width: 100%;
+    margin-left: 100px;
+    border-top: solid 1px $light-gray;
   }
 
   &.bp-large {
@@ -177,7 +206,8 @@
     }
 
     .itinerary-legs {
-      padding-top: 14px;
+      padding-top: 0;
+      margin-top: -5px;
       flex-shrink: 2;
 
       .line:after {

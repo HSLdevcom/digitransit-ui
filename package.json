@@ -46,6 +46,7 @@
     "npm": ">=3.0"
   },
   "dependencies": {
+    "async": "^2.1.2",
     "babel-core": "6.18.0",
     "babel-plugin-transform-class-properties": "6.16.0",
     "babel-plugin-transform-es2015-modules-commonjs": "6.16.0",
@@ -141,6 +142,7 @@
     "sigmund": "1.0.1",
     "stats-webpack-plugin": "0.4.2",
     "style-loader": "0.13.1",
+    "url-loader": "0.5.7",
     "webpack": "2.1.0-beta.25",
     "webpack-dev-server": "2.1.0-beta.9"
   }

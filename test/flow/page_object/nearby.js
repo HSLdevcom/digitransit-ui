@@ -1,7 +1,8 @@
 function openNearbyRoutes() {
   this.waitForElementVisible('@nearbyRoutesPaneSelect',
                              this.api.globals.elementVisibleTimeout);
-  return this.click('@nearbyRoutesPaneSelect');
+  this.api.checkedClick(this.elements.nearbyRoutesPaneSelect.selector);
+  return this;
 }
 
 function waitForRoutes() {

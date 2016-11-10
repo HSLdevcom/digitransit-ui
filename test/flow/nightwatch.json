@@ -17,14 +17,6 @@
     }
   },
 
-  "disabled_test_runner": {
-    "type": "mocha",
-    "options": {
-      "reporter": "list",
-      "exitOnFailure": true
-    }
-  },
-
   "test_workers": {
     "enabled": true,
     "workers": 2
@@ -32,7 +24,7 @@
 
   "test_settings": {
     "default": {
-      "launch_url": "http://localhost:8000?mock",
+      "launch_url": "http://localhost:8000/?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
@@ -51,6 +43,62 @@
         "javascriptEnabled": true,
         "acceptSslCerts": true
       }
+    },
+
+    "firefox": {
+      "launch_url": "http://localhost:8080/?mock",
+      "selenium_port": 4444,
+      "selenium_host": "localhost",
+      "silent": true,
+      "globals": {
+        "itinerarySearchTimeout": 11000,
+        "elementVisibleTimeout": 10000
+      },
+      "screenshots": {
+        "enabled": true,
+        "on_failure": true,
+        "on_error": true,
+        "path": "test_output/screenshots/"
+      },
+      "desiredCapabilities": {
+        "browserName": "firefox",
+        "javascriptEnabled": true,
+
+        "acceptSslCerts": true
+      }
+    },
+
+    "chromedriver": {
+      "selenium": {
+        "start_process": false
+      },
+      "test_workers": {
+        "enabled": true,
+        "workers": 2
+      },
+      "globals": {
+        "itinerarySearchTimeout": 21000,
+        "elementVisibleTimeout": 10000,
+        "debug": false
+      },
+      "screenshots": {
+        "enabled": true,
+        "on_failure": true,
+        "on_error": true,
+        "path": "test_output/screenshots/"
+      },
+      "launch_url": "http://localhost:8080/?mock",
+      "selenium_port"  : 9515,
+      "selenium_host"  : "localhost",
+      "default_path_prefix" : "",
+
+      "desiredCapabilities": {
+          "browserName": "chrome",
+          "chromeOptions" : {
+            "args" : ["--no-sandbox"]
+          },
+          "acceptSslCerts": true
+        }
     },
 
     "phantom": {

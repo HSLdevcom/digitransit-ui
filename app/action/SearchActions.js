@@ -19,10 +19,6 @@ export function saveSearch(actionContext, endpoint) {
   actionContext.dispatch('SaveSearch', endpoint);
 }
 
-export function closeSearch(actionContext) {
-  actionContext.dispatch('CloseSearch');
-}
-
 const uniq = features =>
   uniqWith(features, (feat1, feat2) =>
     getLabel(feat1.properties) === getLabel(feat2.properties)

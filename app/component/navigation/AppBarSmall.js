@@ -4,7 +4,6 @@ import BackButton from './BackButton';
 import NotImplemented from '../util/NotImplemented';
 import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
-import MessageBar from './MessageBar';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const AppBarSmall = ({ disableBackButton, showLogo, title }) =>
@@ -21,7 +20,6 @@ const AppBarSmall = ({ disableBackButton, showLogo, title }) =>
       </section>
       <MainMenuContainer />
     </nav>
-    <MessageBar />
   </div>;
 
 AppBarSmall.description = () => (

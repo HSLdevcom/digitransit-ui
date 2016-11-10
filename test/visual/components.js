@@ -121,7 +121,7 @@ gemini.suite('components', () => {
     gemini.suite('hovered', test('TimeNavigationButtons', 1, [], (actions) => {
       actions.mouseMove(
         '#TimeNavigationButtons .component-example:nth-of-type(1) .component button:first-of-type'
-      );
+      ).wait(400); // Wait for animation to happen
     }));
   });
 
@@ -178,4 +178,13 @@ gemini.suite('components', () => {
     gemini.suite('Few bikes', test('BicycleRentalStationRow', 2));
     gemini.suite('No bikes', test('BicycleRentalStationRow', 3));
   });
+
+  basicTest('StopPageHeader');
+  basicTest('StopCardHeader');
+  basicTest('SplitBars');
+  basicTest('Labeled');
+  basicTest('Centered');
+  basicTest('InfoIcon');
+  basicTest('DepartureListHeader');
+  basicTest('SelectedStopPopupContent');
 });

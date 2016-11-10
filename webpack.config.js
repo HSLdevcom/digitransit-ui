@@ -54,7 +54,7 @@ function getRulesConfig(env) {
     { test: /\.css$/, loader: ExtractTextPlugin.extract('css!postcss') },
     { test: /\.json$/, loader: 'json' },
     { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss!sass') },
-    { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
+    { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'url-loader?limit=10000' },
     { test: /\.js$/,
       loader: 'babel',
       exclude: /node_modules/,
@@ -99,6 +99,8 @@ function getPluginsConfig(env) {
   const momentExpression = /moment[\\\/]locale$/;
   const reactIntlExpression = /react-intl[\/\\]locale\-data$/;
   const intlExpression = /intl[\/\\]locale\-data[\/\\]jsonp$/;
+  const themeExpression = /sass[\/\\]themes$/;
+  const selectedTheme = new RegExp(`^./(${process.env.CONFIG || 'default'})/main.scss$`);
 
   if (env === 'development') {
     return ([
@@ -106,6 +108,7 @@ function getPluginsConfig(env) {
       new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
       new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
       new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
+      new webpack.ContextReplacementPlugin(themeExpression, selectedTheme),
       new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('development') } }),
       new webpack.LoaderOptionsPlugin({
         debug: true,
@@ -153,7 +156,7 @@ function getPluginsConfig(env) {
       debug: false,
     }),
     new ExtractTextPlugin({
-      filename: 'css/[name].[chunkhash].css',
+      filename: 'css/[name].[contenthash].css',
       allChunks: true,
     }),
     new webpack.NoErrorsPlugin(),

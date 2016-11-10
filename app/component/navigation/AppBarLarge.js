@@ -2,8 +2,9 @@ import React, { PropTypes } from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 import config from '../../config';
+import NotImplemented from '../util/NotImplemented';
+import DisruptionInfo from '../disruption/DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
-import MessageBar from './MessageBar';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const tabStyle = { height: '60px', textTransform: 'none', fontSize: '17px' };
@@ -33,7 +34,7 @@ const AppBarLarge = ({ titleClicked }) =>
       boxShadow: '2px 0px 2px #575757' }}
     >
       <div className="columns small-3" style={{ textAlign: 'left' }}>
-        <img alt="LOGO" className="navi-logo" src={config.logo} onClick={titleClicked} />
+        <div className="navi-logo" onClick={titleClicked} />
       </div>
       <div className="columns small-5">
         <Tabs
@@ -49,7 +50,8 @@ const AppBarLarge = ({ titleClicked }) =>
         <MainMenuContainer />
       </div>
     </div>
-    <MessageBar />
+    <NotImplemented />
+    <DisruptionInfo />
   </div>;
 
 AppBarLarge.propTypes = {

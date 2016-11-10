@@ -22,16 +22,16 @@ Labeled.propTypes = {
   className: React.PropTypes.string,
 };
 
-// TODO Add example once ComponentUsageExample is fixed
-
-// const exampleLabel = <span>'Example label'</span>;
+const exampleLabel = <span>Example label</span>;
 
 Labeled.description = (
   <div>
     <p>
       This component wraps other components into a labeled component.
-      <ComponentUsageExample />
     </p>
+    <ComponentUsageExample>
+      <Labeled label={exampleLabel} showLabel>Example content</Labeled>
+    </ComponentUsageExample>
   </div>
 );
 

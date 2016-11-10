@@ -24,8 +24,8 @@ $livi-tram-green: rgb(106, 137, 37);
 $background-color: #eef1f3;
 $primary-color: $livi-blue;
 $primary-font-color: $white;
-$secondary-color: #eef1f3;
-$secondary-font-color: $gray-blue;
+$secondary-color: #008bde;
+$secondary-font-color: $white;
 $favourite-color: $livi-gold;
 $hilight-color: $livi-blue;
 $action-color: $livi-blue;
@@ -89,4 +89,6 @@ $border-radius: 3px;
 $border-radius-bigger: 8px;
 
 /* Navbar logo */
-$nav-logo: url('/img/matka-logo.png');
+$nav-logo: url('matka-logo.png');
+
+$spinner-image: url('/img/default-spinner.png')

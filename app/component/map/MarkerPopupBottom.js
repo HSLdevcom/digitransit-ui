@@ -4,40 +4,49 @@ import { FormattedMessage } from 'react-intl';
 import Icon from '../icon/Icon';
 import { setEndpoint } from '../../action/EndpointActions';
 
-function MarkerPopupBottom({ location }, { executeAction }) {
-  const routeFrom = () =>
-    executeAction(setEndpoint, {
+class MarkerPopupBottom extends React.Component {
+  static displayName = 'MarkerPopupBottom';
+
+  static propTypes = {
+    location: React.PropTypes.object.isRequired,
+  };
+
+  static contextTypes = {
+    executeAction: React.PropTypes.func.isRequired,
+    router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
+  };
+
+  routeFrom = () => {
+    this.context.executeAction(setEndpoint, {
       target: 'origin',
-      endpoint: location,
+      endpoint: this.props.location,
+      router: this.context.router,
+      location: this.context.location,
     });
+  }
 
-  const routeTo = () =>
-    executeAction(setEndpoint, {
+  routeTo = () =>
+    this.context.executeAction(setEndpoint, {
       target: 'destination',
-      endpoint: location,
+      endpoint: this.props.location,
+      router: this.context.router,
+      location: this.context.location,
     });
 
-  return (
-    <div className="bottom location">
-      <div onClick={routeFrom} className="route cursor-pointer">
-        <Icon img="icon-icon_route" />
-        <FormattedMessage id="route-from-here" defaultMessage="Route from here" />
-      </div>
-      <div onClick={routeTo} className="route cursor-pointer">
-        <Icon img="icon-icon_route" />
-        <FormattedMessage id="route-here" defaultMessage="Route to here" />
-      </div>
-    </div>);
+  render() {
+    return (
+      <div className="bottom location">
+        <div onClick={() => this.routeFrom()} className="route cursor-pointer">
+          <Icon img="icon-icon_route" />
+          <FormattedMessage id="route-from-here" defaultMessage="Route from here" />
+        </div>
+        <div onClick={() => this.routeTo()} className="route cursor-pointer">
+          <Icon img="icon-icon_route" />
+          <FormattedMessage id="route-here" defaultMessage="Route to here" />
+        </div>
+      </div>);
+  }
 }
-
-MarkerPopupBottom.displayName = 'MarkerPopupBottom';
-
-MarkerPopupBottom.propTypes = {
-  location: React.PropTypes.object.isRequired,
-};
-
-MarkerPopupBottom.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
-};
 
 export default MarkerPopupBottom;

@@ -1,6 +1,6 @@
 function waitForFirstItineraryRow() {
   return this.waitForElementVisible('@firstItinerarySummaryRow',
-                                    this.api.globals.itinerarySearchTimeout);
+                          this.api.globals.itinerarySearchTimeout);
 }
 
 function waitForItineraryRowOfType(modality) {
@@ -14,7 +14,17 @@ function waitForItineraryRowOfTypeNotPresent(modality) {
 }
 
 function chooseFirstItinerarySuggestion() {
-  return this.click('@firstItinerarySummaryRow');
+  return this.api.checkedClick(this.elements.firstItinerarySummaryRow.selector);
+}
+
+function clickSwapOriginDestination() {
+  this.waitForElementVisible('@swapDir', this.api.globals.elementVisibleTimeout);
+  return this.api.checkedClick(this.elements.swapDir.selector);
+}
+
+function clickLater() {
+  this.waitForElementVisible('@later', this.api.globals.elementVisibleTimeout);
+  return this.api.checkedClick(this.elements.later.selector);
 }
 
 module.exports = {
@@ -23,8 +33,12 @@ module.exports = {
     waitForItineraryRowOfType,
     waitForItineraryRowOfTypeNotPresent,
     chooseFirstItinerarySuggestion,
+    clickSwapOriginDestination,
+    clickLater,
   }],
   elements: {
     firstItinerarySummaryRow: '.itinerary-summary-row:nth-of-type(1)',
+    swapDir: '.switch',
+    later: '.time-navigation-later-btn',
   },
 };

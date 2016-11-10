@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
+import cx from 'classnames';
 
 import FuzzyTripRoute from './FuzzyTripRoute';
 import TripLink from '../trip/TripLink';
@@ -11,7 +12,7 @@ import { fromStopTime } from '../departure/DepartureTime';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const getRouteStopSvg = (first, last) => (
-  <svg style={{ position: 'absolute', width: 12, height: 67, left: -12, top: -4 }} >
+  <svg className="route-stop-schematized" >
     <line
       x1="6"
       x2="6"
@@ -34,7 +35,7 @@ const getRouteStopSvg = (first, last) => (
 );
 
 const RouteStop = ({
-  vehicles, reverseVehicles, stop, mode, distance, last, first, currentTime,
+  vehicles, reverseVehicles, stop, mode, distance, last, first, currentTime, className,
 }) => {
   const vehicleTripLinks = vehicles && vehicles.map(vehicle =>
       (<Relay.RootContainer
@@ -78,7 +79,7 @@ const RouteStop = ({
   );
 
   return (
-    <div className="route-stop row">
+    <div className={cx('route-stop row', className)}>
       <div className="columns route-stop-now">{vehicleTripLinks}</div>
       <div className="columns route-stop-now-reverse">{reverseVehicleLinks}</div>
       <Link to={`/pysakit/${stop.gtfsId}`}>
@@ -116,6 +117,7 @@ RouteStop.propTypes = {
   reverseVehicles: React.PropTypes.array,
   stop: React.PropTypes.object,
   mode: React.PropTypes.string,
+  className: React.PropTypes.string,
   distance: React.PropTypes.number,
   currentTime: React.PropTypes.number.isRequired,
   first: React.PropTypes.bool,

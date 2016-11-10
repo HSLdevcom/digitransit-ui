@@ -3,7 +3,7 @@ import ReactAutowhatever from 'react-autowhatever';
 import { getLabel } from '../../util/suggestionUtils';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
-import { executeSearch, saveSearch, closeSearch } from '../../action/SearchActions';
+import { executeSearch, saveSearch } from '../../action/SearchActions';
 import Icon from '../icon/Icon';
 
 const L = typeof window !== 'undefined' ? require('leaflet') : null;
@@ -21,12 +21,16 @@ export default class SearchInputContainer extends Component {
     id: PropTypes.string,
     initialValue: PropTypes.string,
     children: PropTypes.node,
+    close: PropTypes.func.isRequired,
   };
 
   state = {
     focusedItemIndex: 0,
     suggestions: [],
   };
+  componentWillMount() {
+    this.setState({ value: this.props.initialValue });
+  }
 
   componentDidMount() {
     this.context.getStore('SearchStore').addChangeListener(this.onSearchChange);
@@ -46,7 +50,9 @@ export default class SearchInputContainer extends Component {
   }
 
   focusItem = (i) => {
-    if (L.Browser.touch) { return; }
+    if (L.Browser.touch) {
+      return;
+    }
     const domElement = document.getElementById(`react-autowhatever-suggest--item-${i}`);
     if (domElement != null) {
       domElement.scrollIntoView(false);
@@ -84,8 +90,9 @@ export default class SearchInputContainer extends Component {
 
     if (event.keyCode === 27) {
       // esc clears
-      if (this.state.value === '') {
-        this.context.executeAction(closeSearch);
+      if (this.state.value === '' || this.state.value === null) {
+        // or closes if input is empty
+        this.props.close();
       } else {
         this.handleUpdateInputNow({
           target: {
