@@ -180,7 +180,7 @@ class SearchMainContainer extends React.Component {
         close={this.closeModal}
         onSuggestionSelected={(name, item) => {
           if (item.type === 'CurrentLocation') {
-            this.context.executeAction(setUseCurrent, tabname);
+            this.context.executeAction(setUseCurrent, { target: tabname });
           } else {
             this.context.executeAction(setEndpoint, {
               target: tabname,

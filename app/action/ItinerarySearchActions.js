@@ -30,9 +30,17 @@ export function route(actionContext, payload, done) {
       to = locationToOTP(destination);
     }
 
+    const path = getRoutePath(from, to);
+
+    if (payload && payload.router && payload.location) {
+      if (payload.location.pathname.indexOf('/reitti') === 0) {
+        payload.router.replace({ ...payload.location, pathname: path });
+        return done();
+      }
+    }
     if (supportsHistory()) {
       history.push({
-        pathname: getRoutePath(from, to),
+        pathname: path,
       });
     }
   }
