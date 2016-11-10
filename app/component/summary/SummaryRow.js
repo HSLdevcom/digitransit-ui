@@ -110,13 +110,14 @@ export default function SummaryRow(props, { breakpoint }) {
           tagName="h2"
         />,
         <div
+          key="arrow"
           className="action-arrow-click-area"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow" key="arrow">
+          <div className="action-arrow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
         </div>,
@@ -136,16 +137,14 @@ export default function SummaryRow(props, { breakpoint }) {
           {endTime.format('HH:mm')}
         </div>,
         <div
+          key="arrow"
           className="action-arrow-click-area"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div
-            className="action-arrow"
-            key="arrow"
-          >
+          <div className="action-arrow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
         </div>,
