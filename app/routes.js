@@ -140,12 +140,12 @@ const preparePlanParams = (
 
 const SummaryPageWrapper = ({ props, routerProps }) => (props ?
   <SummaryPage {...props} /> :
-  <SummaryPage
-    {...routerProps}
-    {...preparePlanParams(routerProps.params, routerProps)}
-    plan={{ plan: { } }}
-    loading
-  />
+    <SummaryPage
+      {...routerProps}
+      {...preparePlanParams(routerProps.params, routerProps)}
+      plan={{ plan: { } }}
+      loading
+    />
 );
 
 SummaryPageWrapper.propTypes = {
@@ -167,7 +167,7 @@ const routes = (
   <Route
     component={props => (typeof window !== 'undefined' ?
       <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
-      <TopLevel {...props} />
+        <TopLevel {...props} />
     )}
   >
     <Route
@@ -184,7 +184,7 @@ const routes = (
     <Route
       path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
-        content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
+        content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
         ,
       }}
     >
