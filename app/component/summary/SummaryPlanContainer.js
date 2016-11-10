@@ -45,6 +45,7 @@ class SummaryPlanContainer extends React.Component {
       });
       this.context.router.push({
         ...this.context.location,
+        state: { summaryPageSelected: index },
         pathname: `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`,
       });
     }
