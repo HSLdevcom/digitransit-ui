@@ -245,37 +245,6 @@ ul.react-autowhatever__items-list {
       border-bottom: solid 1px #eee;
     }
 
-    .search-result {
-      display: flex;
-      align-items: center;
-      line-height: 1.2;
-      min-height: 40px;
-
-      .autosuggestIcon {
-        font-size: 19px;
-      }
-
-      .use-own-position {
-	      font-size: 13px;
-        color: $gray-blue;
-        @include font-medium;
-      }
-
-      .suggestion-name, .suggestion-label {
-        margin: 0;
-        @include font-book;
-      }
-
-      .suggestion-name {
-        font-size: 13px;
-      }
-
-      .suggestion-label {
-        font-size: 11px;
-        color: $gray;
-      }
-    }
-
     .favourite svg.icon {
       stroke: $favourite-color;
       fill: $favourite-color;
@@ -327,6 +296,53 @@ ul.react-autowhatever__items-list {
     color: $medium-gray;
     padding-left: 3px;
     padding-right: 10px;
+  }
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+  min-height: 40px;
+
+  .autosuggestIcon {
+    font-size: 19px;
+
+    svg.havePosition {
+      vertical-align: -0.15em;
+    }
+  }
+
+  .use-own-position, .suggestion-name, .suggestion-label {
+    margin: 0;
+    @include font-book;
+  }
+
+  .suggestion-name, .use-own-position {
+    font-size: 13px;
+  }
+
+  .suggestion-label {
+    font-size: 11px;
+    color: $gray;
+  }
+}
+
+
+.bp-large .search-result {
+  min-height: 45px;
+  line-height: 1.4;
+
+  .autosuggestIcon {
+    font-size: 24px;
+  }
+
+  .suggestion-name, .use-own-position {
+    font-size: 18px;
+  }
+
+  .suggestion-label {
+    font-size: 13px;
   }
 }
 
