@@ -12,8 +12,8 @@ const DepartureListHeader = () => (
     </span>
     <span className="route-number-header">
       <FormattedMessage
-        id="line"
-        defaultMessage="Line"
+        id="route"
+        defaultMessage="Route"
       />
     </span>
     <span className="route-destination-header">

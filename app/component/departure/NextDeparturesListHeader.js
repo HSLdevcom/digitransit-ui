@@ -13,7 +13,7 @@ const NextDeparturesListHeader = () => (
       <FormattedMessage id="to-stop" defaultMessage="To stop" />
     </span>
     <span className="route-number-header">
-      <FormattedMessage id="line" defaultMessage="Line" />
+      <FormattedMessage id="route" defaultMessage="Route" />
     </span>
     <span className="route-destination-header">
       <FormattedMessage id="destination" defaultMessage="Destination" />
