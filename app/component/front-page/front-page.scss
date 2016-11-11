@@ -80,6 +80,9 @@ $heading-color: #858585;
     flex: 1 1 auto;
     overflow: hidden;
     background: #eef1f3;
+    border-bottom-right-radius: $border-radius-bigger;
+    border-bottom-left-radius: $border-radius-bigger;
+
     .row {
       padding-top:10px;
       background: #eef1f3;
