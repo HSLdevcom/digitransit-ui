@@ -1,53 +1,26 @@
 import React, { PropTypes } from 'react';
-import Tabs from 'material-ui/Tabs/Tabs';
-import Tab from 'material-ui/Tabs/Tab';
 import config from '../../config';
 import NotImplemented from '../util/NotImplemented';
+import ExternalLink from './ExternalLink';
 import DisruptionInfo from '../disruption/DisruptionInfo';
-import MainMenuContainer from './MainMenuContainer';
+import { open } from '../../action/DisruptionInfoAction';
+import Icon from '../icon/Icon';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import LangSelect from './LangSelect';
 
-const tabStyle = { height: '60px', textTransform: 'none', fontSize: '17px' };
-
-const NAVI_LINKS = (() => {
-  const links = [];
-
-  if (config.topNaviLinks) {
-    for (let i = 0; i < config.topNaviLinks.length; i++) {
-      links.push(<Tab
-        key={`fpp-tab-${i}`}
-        label={config.topNaviLinks[i].name} value={`t${i}`}
-        style={{ ...tabStyle }}
-        onActive={() => { window.location = config.topNaviLinks[i].href; }}
-      />);
-    }
-  }
-  return links;
-})();
-
-const AppBarLarge = ({ titleClicked }) =>
+const AppBarLarge = ({ titleClicked }, context) =>
   <div>
-    <div
-      className="top-bar row" style={{ height: '60px',
-      maxWidth: '100%',
-      zIndex: '803',
-      boxShadow: '2px 0px 2px #575757' }}
-    >
-      <div className="columns small-3" style={{ textAlign: 'left' }}>
-        <div className="navi-logo" onClick={titleClicked} />
+    <div className="top-bar bp-large flex-horizontal">
+      <a className="navi-logo" onClick={titleClicked} />
+      <div className="empty-space flex-grow" />
+      <div className="navi-languages right-border navi-margin"><LangSelect /></div>
+      <div className="navi-icons navi-margin padding-horizontal-large">
+        <a onClick={() => context.executeAction(open)}>
+          <Icon img="icon-icon_caution" />
+        </a>
       </div>
-      <div className="columns small-5">
-        <Tabs
-          value="a"
-          className="app-bar-tabs"
-          inkBarStyle={{ height: 4, marginTop: -4 }}
-        >
-          <Tab label={config.title} value="a" style={{ ...tabStyle }} onActive={titleClicked} />
-          {NAVI_LINKS}
-        </Tabs>
-      </div>
-      <div className="columns small-4 hamburger-large">
-        <MainMenuContainer />
+      <div className="padding-horizontal-large navi-margin" >
+        <ExternalLink {...config.appBarLink} />
       </div>
     </div>
     <NotImplemented />
@@ -56,6 +29,10 @@ const AppBarLarge = ({ titleClicked }) =>
 
 AppBarLarge.propTypes = {
   titleClicked: PropTypes.func.isRequired,
+};
+
+AppBarLarge.contextTypes = {
+  executeAction: React.PropTypes.func.isRequired,
 };
 
 AppBarLarge.description = () => (
