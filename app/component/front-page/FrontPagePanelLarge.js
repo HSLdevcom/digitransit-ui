@@ -41,7 +41,7 @@ FrontPagePanelLarge.description = () => (
     </p>
     <div style={{ width: '340px' }}>
       <ComponentUsageExample description="Front page tabs">
-        <FrontPagePanelLarge selectedPanel={1} nearbyClicked={noop} favouritesClicked={noop} />
+        <FrontPagePanelLarge selectedPanel={2} nearbyClicked={noop} favouritesClicked={noop} />
       </ComponentUsageExample>
     </div>
   </div>);
