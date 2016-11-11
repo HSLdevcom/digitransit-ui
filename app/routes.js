@@ -18,7 +18,7 @@ import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
 import LoadingPage from './page/LoadingPage';
 import Error404 from './page/404';
-import StyleGuidelines from './page/StyleGuidelines';
+import StyleGuide from './page/StyleGuide';
 import AddFavouritePage from './page/AddFavouritePage';
 import AboutPage from './page/AboutPage';
 import SplashOrChildren from './component/splash/SplashOrChildren';
@@ -359,8 +359,8 @@ const routes = (
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="/styleguide" component={StyleGuidelines} />
-    <Route path="/styleguide/component/:componentName" component={StyleGuidelines} />
+    <Route path="/styleguide" component={StyleGuide} />
+    <Route path="/styleguide/component/:componentName" component={StyleGuide} />
     <Route path="/suosikki/uusi" component={AddFavouritePage} />
     <Route path="/suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route
