@@ -20,7 +20,7 @@ export function setEndpoint(actionContext, payload) {
       // Todo: Show there shrow instead
       return console.error('Could not store endpoint: ', e);
     }
-    return actionContext.executeAction(route, undefined, e2 => {
+    return actionContext.executeAction(route, payload, e2 => {
       if (e2) {
         return console.error('Could not route:', e2);
       }
@@ -29,15 +29,15 @@ export function setEndpoint(actionContext, payload) {
   });
 }
 
-export function setUseCurrent(actionContext, target) {
-  actionContext.dispatch('useCurrentPosition', target);
-  return actionContext.executeAction(route);
+export function setUseCurrent(actionContext, payload) {
+  actionContext.dispatch('useCurrentPosition', payload.target);
+  return actionContext.executeAction(route, payload);
 }
 
-export function swapEndpoints(actionContext) {
+export function swapEndpoints(actionContext, payload) {
   actionContext.dispatch('swapEndpoints');
 
-  return actionContext.executeAction(route, undefined, e => {
+  return actionContext.executeAction(route, payload, e => {
     if (e) {
       return console.error('Could not route:', e);
     }

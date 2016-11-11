@@ -12,6 +12,8 @@ class OneTabSearchModal extends React.Component {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    router: React.PropTypes.object,
+    location: React.PropTypes.object,
   };
 
   static propTypes = {
@@ -33,7 +35,11 @@ class OneTabSearchModal extends React.Component {
 
   onSuggestionSelected = (name, item) => {
     if (item.type === 'CurrentLocation') {
-      this.context.executeAction(setUseCurrent, this.props.target);
+      this.context.executeAction(setUseCurrent, {
+        target: this.props.target,
+        router: this.context.router,
+        location: this.context.location,
+      });
     } else {
       this.context.executeAction(setEndpoint, {
         target: this.props.target,
@@ -42,6 +48,8 @@ class OneTabSearchModal extends React.Component {
           lon: item.geometry.coordinates[0],
           address: name,
         },
+        router: this.context.router,
+        location: this.context.location,
       });
     }
 
