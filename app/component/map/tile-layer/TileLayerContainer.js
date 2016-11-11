@@ -134,9 +134,9 @@ class TileLayerContainer extends MapLayer {
       /* eslint-disable no-underscore-dangle */
       activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
       /* eslint-enable no-underscore-dangle */
-      activeTiles.forEach(tile => {
+      activeTiles.forEach((tile) => {
         /* eslint-disable no-unused-expressions */
-        tile.el.layers && tile.el.layers.forEach(layer => {
+        tile.el.layers && tile.el.layers.forEach((layer) => {
           if (layer.onTimeChange) {
             layer.onTimeChange();
           }
@@ -146,7 +146,7 @@ class TileLayerContainer extends MapLayer {
     }
   }
 
-  onClick = e => {
+  onClick = (e) => {
     /* eslint-disable no-underscore-dangle */
     Object.keys(this.leafletElement._tiles)
       .filter(key => this.leafletElement._tiles[key].active)
@@ -181,7 +181,7 @@ class TileLayerContainer extends MapLayer {
     return tile.el;
   }
 
-  selectRow = (option) => this.setState({ selectableTargets: [option] })
+  selectRow = option => this.setState({ selectableTargets: [option] })
 
   render() {
     let popup = null;
@@ -313,7 +313,7 @@ class TileLayerContainer extends MapLayer {
             position={this.state.coords}
           >
             <LocationPopupWithContext
-              name={""} // TODO: fill in name from reverse geocoding, possibly in a container.
+              name={''} // TODO: fill in name from reverse geocoding, possibly in a container.
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
               context={this.context}

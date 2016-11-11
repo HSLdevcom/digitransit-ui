@@ -18,7 +18,7 @@ import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
 import LoadingPage from './page/LoadingPage';
 import Error404 from './page/404';
-import StyleGuidelines from './page/StyleGuidelines';
+import StyleGuidePage from './page/StyleGuidePage';
 import AddFavouritePage from './page/AddFavouritePage';
 import AboutPage from './page/AboutPage';
 import SplashOrChildren from './component/splash/SplashOrChildren';
@@ -140,12 +140,12 @@ const preparePlanParams = (
 
 const SummaryPageWrapper = ({ props, routerProps }) => (props ?
   <SummaryPage {...props} /> :
-  <SummaryPage
-    {...routerProps}
-    {...preparePlanParams(routerProps.params, routerProps)}
-    plan={{ plan: { } }}
-    loading
-  />
+    <SummaryPage
+      {...routerProps}
+      {...preparePlanParams(routerProps.params, routerProps)}
+      plan={{ plan: { } }}
+      loading
+    />
 );
 
 SummaryPageWrapper.propTypes = {
@@ -165,15 +165,15 @@ const TerminalTitle = withProps({
 
 const routes = (
   <Route
-    component={(props) => (typeof window !== 'undefined' ?
+    component={props => (typeof window !== 'undefined' ?
       <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
-      <TopLevel {...props} />
+        <TopLevel {...props} />
     )}
   >
     <Route
       path="/" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
-        content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
+        content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
         ,
       }}
     >
@@ -184,7 +184,7 @@ const routes = (
     <Route
       path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
-        content: (props) => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
+        content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
         ,
       }}
     >
@@ -350,7 +350,7 @@ const routes = (
       queries={{ content: planQueries }}
       prepareParams={preparePlanParams}
       render={{ content: SummaryPageWrapper }}
-      loadAction={(params) => [
+      loadAction={params => [
         [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
         [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
       ]}
@@ -359,8 +359,8 @@ const routes = (
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="/styleguide" component={StyleGuidelines} />
-    <Route path="/styleguide/component/:componentName" component={StyleGuidelines} />
+    <Route path="/styleguide" component={StyleGuidePage} />
+    <Route path="/styleguide/component/:componentName" component={StyleGuidePage} />
     <Route path="/suosikki/uusi" component={AddFavouritePage} />
     <Route path="/suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route

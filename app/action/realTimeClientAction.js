@@ -54,14 +54,14 @@ export function startRealTimeClient(actionContext, originalOptions, done) {
 
   // Fetch initial data
   for (const topic of topics) {
-    getJson(config.URL.REALTIME + topic.replace('#', '')).then(data => {
+    getJson(config.URL.REALTIME + topic.replace('#', '')).then((data) => {
       for (const resTopic of Object.keys(data)) {
         parseMessage(resTopic, data[resTopic], actionContext);
       }
     });
   }
 
-  System.import('mqtt').then(mqtt => {
+  System.import('mqtt').then((mqtt) => {
     const client = mqtt.connect(config.URL.MQTT);
     client.on('connect', () => client.subscribe(topics));
     client.on('message', (topic, message) => parseMessage(topic, message, actionContext));
@@ -81,7 +81,7 @@ export function updateTopic(actionContext, options, done) {
 
   // Do the loading of initial data after clearing the vehicles object
   for (const topic of newTopics) {
-    getJson(config.URL.REALTIME + topic.replace('#', '')).then(data => {
+    getJson(config.URL.REALTIME + topic.replace('#', '')).then((data) => {
       for (const resTopic of Object.keys(data)) {
         parseMessage(resTopic, data[resTopic], actionContext);
       }

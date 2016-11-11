@@ -104,7 +104,7 @@ class FavouriteLocationsContainer extends React.Component {
           arriveBy: false,
           disableRemainingWeightHeuristic: false,
         })} renderLoading={() => (favouriteLocation)
-        } renderFetched={(data) => (
+        } renderFetched={data => (
           <FavouriteLocationContainer
             favourite={favourite}
             onClickFavourite={this.setDestination}

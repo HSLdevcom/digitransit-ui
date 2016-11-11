@@ -27,7 +27,7 @@ class TileContainer {
 
     this.ctx = this.el.getContext('2d');
 
-    this.layers = this.props.layers.filter(Layer => {
+    this.layers = this.props.layers.filter((Layer) => {
       if (Layer.getName() === 'stop' &&
         (this.coords.z >= config.stopsMinZoom || this.coords.z >= config.terminalStopsMinZoom)
       ) {
@@ -86,7 +86,7 @@ class TileContainer {
           })
       ))));
 
-      nearest = features.filter(feature => {
+      nearest = features.filter((feature) => {
         if (!feature) { return false; }
 
         const g = feature.feature.geom;

@@ -49,7 +49,7 @@ export default class SearchInputContainer extends Component {
     }
   }
 
-  focusItem = i => {
+  focusItem = (i) => {
     if (L.Browser.touch) {
       return;
     }

@@ -92,7 +92,7 @@
     "react-dom": "15.3.2",
     "react-helmet": "3.2.2",
     "react-intl": "2.1.5",
-    "react-leaflet": "1.0.0-rc.1",
+    "react-leaflet": "1.0.0-rc.2",
     "react-motion": "0.4.5",
     "react-relay": "0.9.3",
     "react-router": "3.0.0",
@@ -144,6 +144,6 @@
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
     "webpack": "2.1.0-beta.25",
-    "webpack-dev-server": "2.1.0-beta.8"
+    "webpack-dev-server": "2.1.0-beta.9"
   }
 }
