@@ -17,7 +17,6 @@ import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import app from './app';
 import translations from './translations';
-import { startLocationWatch } from './action/PositionActions';
 import { openFeedbackModal } from './action/feedbackActions';
 import { shouldDisplayPopup } from './util/Feedback';
 import history from './history';
@@ -196,9 +195,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     }
   });
 
-  // start positioning
   piwik.enableLinkTracking();
-  context.executeAction(startLocationWatch);
 
   // Send perf data after React has compared real and shadow DOMs
   // and started positioning

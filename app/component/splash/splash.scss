@@ -8,7 +8,6 @@
   margin: auto;
 
   top: 20%;
-  height: 30rem;
 
   border-radius: 3px;
   box-shadow: 0 0 9.5px 0 rgba(0, 0, 0, 0.3);
@@ -20,6 +19,24 @@
   @include font-book
 
   padding-top: 4rem;
+
+  h2 {
+    padding: 1rem;
+  }
+
+  #splash-locationing-button {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 2px 10px;
+    background-color: $hilight-color;
+    color: $primary-font-color;
+
+    cursor: pointer;
+
+    .icon {
+      margin-right: 1rem;
+    }
+  }
 
   .spinner-caption {
     padding-top: 6rem;
@@ -35,7 +52,7 @@
     }
   }
 
-  #splash-separator {
+  .splash-separator {
     color: $light-gray;
 
     margin: .7em auto;
@@ -78,8 +95,10 @@
     }
 
     li {
+      cursor: pointer;
       border-bottom: 1px solid $light-gray;
     }
+
     li:last-child {
       border:none;
     }

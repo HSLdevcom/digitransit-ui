@@ -68,6 +68,11 @@ export function startLocationWatch(actionContext, payload, done) {
     done();
   }
 
+  // Check if we need to manually ask for geolocation permission now
+  if (typeof window.geoWatchId == 'undefined') {
+    getPosition();  // From static geolocation function loaded into HTML
+  }
+
   actionContext.dispatch('GeolocationSearch');
 
   window.retrieveGeolocation = function retrieveGeolocation(pos, disableDebounce) {
@@ -95,15 +100,13 @@ export function startLocationWatch(actionContext, payload, done) {
           actionContext.getStore('PositionStore').getLocationState().hasLocation)
       ) {
         if (error.code < 10) {
-          actionContext.executeAction(setOriginToDefault).then(() => {
-            if (error.code === 1) {
-              actionContext.dispatch('GeolocationDenied');
-            } else if (error.code === 2) {
-              actionContext.dispatch('GeolocationNotSupported');
-            } else if (error.code === 3) {
-              actionContext.dispatch('GeolocationTimeout');
-            }
-          });
+          if (error.code === 1) {
+            actionContext.dispatch('GeolocationDenied');
+          } else if (error.code === 2) {
+            actionContext.dispatch('GeolocationNotSupported');
+          } else if (error.code === 3) {
+            actionContext.dispatch('GeolocationTimeout');
+          }
         } else if (error.code === 100001) {
           actionContext.dispatch('GeolocationWatchTimeout');
         }
