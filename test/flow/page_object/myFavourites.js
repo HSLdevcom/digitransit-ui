@@ -71,7 +71,7 @@ function verifyFavouriteRoute(number) {
 function verifyFavouriteInSearchResult(favouriteName) {
   this.api.withXpath(() => {
     this.waitForElementPresent(
-    `//*/li[@class=\'react-autowhatever__item\']/span[text()=\'${favouriteName}\']`,
+    `//*/li[@class=\'react-autowhatever__item\']/div/div/p[text()=\'${favouriteName}\']`,
       this.api.globals.elementVisibleTimeout);
   });
 }
