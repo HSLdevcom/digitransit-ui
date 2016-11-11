@@ -6,10 +6,7 @@ function setOrigin(origin) {
   this.waitForElementVisible('@searchOrigin', timeout);
   this.clearValue('@searchOrigin');
   this.setValue('@searchOrigin', origin);
-
-  if (origin.length > 0) {
-    this.waitForElementNotPresent('@searchResultCurrentLocation', timeout);
-  }
+  this.verifyItemInSearchResult(origin);
   return this;
 }
 
@@ -54,10 +51,7 @@ function setDestination(destination) {
   this.checkedClick(this.elements.destination.selector);
   this.waitForElementVisible('@searchDestination', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchDestination', destination);
-  if (destination.length > 0) {
-    this.waitForElementNotPresent('@searchResultCurrentLocation',
-    this.api.globals.elementVisibleTimeout);
-  }
+  this.verifyItemInSearchResult(destination);
   return this;
 }
 
@@ -96,6 +90,15 @@ function setSearch(search) {
   return this.enterKeySearch();
 }
 
+
+function verifyItemInSearchResult(favouriteName) {
+  this.api.withXpath(() => {
+    this.waitForElementPresent(
+    `//*/p[@class='suggestion-name' and contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '${favouriteName.toLowerCase()}')]`,
+      this.api.globals.elementVisibleTimeout);
+  });
+}
+
 module.exports = {
   commands: [{
     enterKeySearch,
@@ -107,6 +110,7 @@ module.exports = {
     itinerarySearch,
     setSearch,
     openSearch,
+    verifyItemInSearchResult,
   }],
   elements: {
     frontPageSearchBar: {
