@@ -41,7 +41,7 @@ AppBarSmall.description = () => (
 
 AppBarSmall.propTypes = {
   disableBackButton: PropTypes.bool,
-  title: PropTypes.node.isRequired,
+  title: PropTypes.node,
   showLogo: PropTypes.bool,
 };
 
