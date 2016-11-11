@@ -34,7 +34,7 @@ class AddFavouriteContainer extends React.Component {
         address: undefined,
         version: 1,
       },
-      searchModalIsOpen: false });
+        searchModalIsOpen: false });
     }
   }
 

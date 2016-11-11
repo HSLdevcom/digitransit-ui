@@ -56,7 +56,8 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
         />
       </ul>
     </div>
-); };
+  );
+};
 
 
 FrontPagePanelSmall.description = () => (

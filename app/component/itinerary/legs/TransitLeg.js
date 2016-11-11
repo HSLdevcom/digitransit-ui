@@ -15,10 +15,11 @@ class TransitLeg extends React.Component {
   render() {
     const originalTime = (
       this.props.leg.realTime &&
-      this.props.leg.departureDelay >= config.itinerary.delayThreshold) && [<br />,
-      <span className="original-time">
-        {moment(this.props.leg.startTime).subtract(
-                this.props.leg.departureDelay, 's').format('HH:mm')}
+      this.props.leg.departureDelay >= config.itinerary.delayThreshold) &&
+      [<br />, <span className="original-time">
+        {moment(this.props.leg.startTime).subtract(this.props.leg.departureDelay, 's')
+          .format('HH:mm')
+        }
       </span>];
 
     const modeClassName =
