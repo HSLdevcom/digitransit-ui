@@ -1,6 +1,8 @@
 module.exports = {
   tags: ['about'],
-  'Open about page': (browser) => {
+  '@disabled': true, // XXX There's currently no link to about page
+
+  'Open about page': browser => {
     browser.url(browser.launch_url);
     const splash = browser.page.splash();
     splash.waitClose();
