@@ -11,7 +11,7 @@ import LangSelect from './LangSelect';
 const AppBarLarge = ({ titleClicked }, context) =>
   <div>
     <div className="top-bar bp-large flex-horizontal">
-      <a className="navi-logo" onClick={titleClicked} />
+      <a onClick={titleClicked} ><div className="navi-logo" /></a>
       <div className="empty-space flex-grow" />
       <div className="navi-languages right-border navi-margin"><LangSelect /></div>
       <div className="navi-icons navi-margin padding-horizontal-large">
