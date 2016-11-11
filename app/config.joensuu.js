@@ -91,6 +91,11 @@ export default {
     lat: 62.6024263,
     lon: 29.7569847,
   },
+  defaultOrigins: [
+    { type: 'bus', address: 'Keskusta, Joensuu', lat: 62.6024263, lon: 29.7569847 },
+    { type: 'rail', address: 'Rautatieasema, Joensuu', lat: 62.5998886, lon: 20.77629661560059 },
+    { type: 'airplane', address: 'Lentoasema, Joensuu', lat: 62.65764959350609, lon: 29.61371183395386 },
+  ],
 
   /* eslint-disable max-len*/
   aboutThisService: {

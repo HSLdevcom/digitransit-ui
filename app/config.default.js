@@ -377,6 +377,11 @@ export default {
     lat: 60.317429,
     lon: 24.9690395,
   },
+  defaultOrigins: [
+    { type: 'airplane', address: 'Helsinki-Vantaan lentoasema', lat: 60.317429, lon: 24.9690395 },
+    { type: 'ferry', address: 'Turun satama', lat: 60.436363, lon: 22.220002 },
+    { type: 'airplane', address: 'Rovaniemen lentoasema', lat: 66.557326, lon: 25.828135 },
+  ],
 
   /* eslint-disable max-len*/
   aboutThisService: {

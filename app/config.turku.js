@@ -99,6 +99,12 @@ export default {
     lon: 22.267633,
   },
 
+  defaultOrigins: [
+    { type: 'bus', address: 'Kauppatori, Turku', lat: 60.451159, lon: 22.267633 },
+    { type: 'rail', address: 'Rautatieasema, Turku', lat: 60.453537, lon: 22.253379 },
+    { type: 'airplane', address: 'Lentoasema, Turku', lat: 60.511092, lon: 22.274211 },
+  ],
+
   aboutThisService: {
     fi: {
       about: 'Kuuden kunnan yhdessä järjestämä joukkoliikenne Turun seudulla alkoi 1.7.2014. Turun seudun joukkoliikenteessä eli Fölissä ovat mukana Turku, Kaarina, Raisio, Naantali, Lieto ja Rusko. Seudullisen joukkoliikenteen alkamisen myötä joukkoliikenteen käyttö on helppoa ja edullista riippumatta kuntarajoista.',
