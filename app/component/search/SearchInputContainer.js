@@ -199,6 +199,7 @@ export default class SearchInputContainer extends Component {
         <a
           onClick={() => this.onSwitchTab('endpoint')}
           className={cx({ selected: this.state.type === 'endpoint' })}
+          id="endpoint-tab"
         >
           <FormattedMessage id="destination" defaultMessage="Destination" />
           {this.state.type !== 'endpoint' && (
@@ -210,6 +211,7 @@ export default class SearchInputContainer extends Component {
         <a
           onClick={() => this.onSwitchTab('search')}
           className={cx({ selected: this.state.type === 'search' })}
+          id="search-tab"
         >
           <FormattedMessage id="route-stop-or-keyword" defaultMessage="Route, stop or keyword" />
           {this.state.type !== 'search' && (

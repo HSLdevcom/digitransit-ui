@@ -24,6 +24,7 @@ const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }) => {
               value={selectedTab}
             >{children}</Tabs>
             <div
+              id="closeSearchButton"
               onClick={closeModal}
               style={{ position: 'absolute', top: 3, right: 16, color: '#78909c' }}
             >
