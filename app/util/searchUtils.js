@@ -87,7 +87,13 @@ function getCurrentPositionIfEmpty(input, useCurrentPosition) {
 function getOldSearches(oldSearches, input) {
   const matchingOldSearches =
     filterMatchingToInput(oldSearches, input, [
-      'properties.name', 'properties.label', 'shortName', 'longName', 'name', 'desc']);
+      'properties.name',
+      'properties.label',
+      'properties.shortName',
+      'properties.longName',
+      'properties.name',
+      'properties.desc',
+    ]);
 
   return Promise.resolve(
     take(matchingOldSearches, 10).map(item => ({
@@ -140,17 +146,17 @@ function getFavouriteRoutes(favourites, input) {
     }`, { ids: favourites }
   );
 
-  return getRelayQuery(query).then(favouriteRoutes =>
-    filterMatchingToInput(
-      mapRoutes(favouriteRoutes).map(favourite => ({
-        ...favourite,
-        properties: { ...favourite.properties, layer: 'favouriteRoute' },
-        type: 'FavouriteRoute',
-      })),
-      input,
-      ['properties.label', 'properties.code']
-    ).sort((x, y) => routeCompare(x.properties, y.properties))
-  );
+  return getRelayQuery(query)
+    .then(favouriteRoutes => mapRoutes(favouriteRoutes))
+    .then(routes => routes.map(favourite => ({
+      ...favourite,
+      properties: { ...favourite.properties, layer: 'favouriteRoute' },
+      type: 'FavouriteRoute',
+    })))
+    .then(routes => filterMatchingToInput(
+      routes, input, ['properties.shortName', 'properties.longName'])
+    )
+    .then(routes => routes.sort((x, y) => routeCompare(x.properties, y.properties)));
 }
 
 function getFavouriteStops(favourites, input, origin) {
@@ -176,6 +182,7 @@ function getFavouriteStops(favourites, input, origin) {
       properties: { ...favourite.properties, layer: 'favouriteStop' },
       type: 'FavouriteStop',
     })))
+    .then(stops => filterMatchingToInput(stops, input, ['properties.name', 'properties.desc']))
     .then(stops => (
       refLatLng ?
       sortBy(stops, (item) =>

@@ -30,10 +30,17 @@ export const getLabel = memoize((suggestion) => {
           <FormattedMessage id="route" defaultMessage="Route" />
         </span>
       ), suggestion.longName] : [suggestion.longName, null];
-    case 'venue':
-      return suggestion.name.startsWith(suggestion.streetname) ?
-      [suggestion.name, getLocality(suggestion)] :
-        [suggestion.name, suggestion.label.split(',').slice(1).join(',')];
+    case 'venue': {
+      let desc;
+      if (suggestion.street) {
+        desc = suggestion.housenumber ?
+          `${suggestion.street} ${suggestion.housenumber}, ${getLocality(suggestion)}` :
+          `${suggestion.street}, ${getLocality(suggestion)}`;
+      } else {
+        desc = suggestion.label.replace(new RegExp(`${suggestion.name}(,)?( )?`), '');
+      }
+      return [suggestion.name, desc];
+    }
     case 'favouriteStop':
     case 'stop':
       return suggestion.source === 'gtfs' ?

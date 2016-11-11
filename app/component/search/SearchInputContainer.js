@@ -181,7 +181,7 @@ export default class SearchInputContainer extends Component {
       } else {
         const type = (this.props.type === 'all' && this.state.type) || this.props.type;
         this.context.executeAction(saveSearch, { item, type });
-        name = getLabel(item.properties).join(', ');
+        name = item.properties.label || getLabel(item.properties).join(', ');
       }
 
       this.props.onSuggestionSelected(name, item);
