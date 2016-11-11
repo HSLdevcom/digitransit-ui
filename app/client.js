@@ -23,7 +23,7 @@ import { shouldDisplayPopup } from './util/Feedback';
 import history from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';
 
-const plugContext = (f) => () => ({
+const plugContext = f => () => ({
   plugComponentContext: f,
   plugActionContext: f,
   plugStoreContext: f,
@@ -37,14 +37,14 @@ if (!config.PIWIK_ADDRESS || config.PIWIK_ID == null) {
   piwik.trackPageView = () => {};
 }
 
-const addPiwik = (context) => (context.piwik = piwik); // eslint-disable-line no-param-reassign
+const addPiwik = context => (context.piwik = piwik); // eslint-disable-line no-param-reassign
 
 const piwikPlugin = {
   name: 'PiwikPlugin',
   plugContext: plugContext(addPiwik),
 };
 
-const addRaven = (context) => (context.raven = Raven); // eslint-disable-line no-param-reassign
+const addRaven = context => (context.raven = Raven); // eslint-disable-line no-param-reassign
 
 const ravenPlugin = {
   name: 'RavenPlugin',
@@ -52,7 +52,7 @@ const ravenPlugin = {
 };
 
 if (process.env.NODE_ENV === 'development') {
-  // eslint-disable-next-line global-require, prefer-template
+  // eslint-disable-next-line global-require, prefer-template, import/no-dynamic-require
   require('../sass/themes/' + config.CONFIG + '/main.scss');
 }
 
@@ -175,9 +175,10 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
           history={history}
           environment={Relay.Store}
           render={applyRouterMiddleware(useRelay)}
-          children={app.getComponent()}
           onUpdate={track}
-        />
+        >
+          {app.getComponent()}
+        </Router>
       </MuiThemeProvider>
     </ContextProvider>
     , document.getElementById('app')
@@ -185,7 +186,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   );
 
   // Listen for Web App Install Banner events
-  window.addEventListener('beforeinstallprompt', e => {
+  window.addEventListener('beforeinstallprompt', (e) => {
     piwik.trackEvent('installprompt', 'fired');
 
     // e.userChoice will return a Promise. (Only in chrome, not IE)

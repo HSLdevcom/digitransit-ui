@@ -17,9 +17,7 @@ import CarLeg from './CarLeg';
 import config from '../../../config';
 
 class ItineraryLegs extends React.Component {
-  stopCode(stop) {
-    return stop && stop.code && <StopCode code={stop.code} />;
-  }
+  stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
   continueWithBicycle = (leg1, leg2) => (
     (leg1 != null && (leg1.mode === 'BICYCLE' || leg1.mode === 'WALK')) &&
@@ -79,7 +77,7 @@ class ItineraryLegs extends React.Component {
 
     const numberOfLegs = compressedLegs.length;
 
-    const focus = (position) => e => {
+    const focus = position => (e) => {
       e.stopPropagation();
       this.props.focusMap(position.lat, position.lon);
     };

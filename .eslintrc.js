@@ -16,6 +16,12 @@ module.exports = {
       'env': 'relay',
       'schemaJson': require('./build/schema.json'),
     }],
+    // TODO: https://github.com/yannickcr/eslint-plugin-react/issues/819
+    // TODO: https://github.com/yannickcr/eslint-plugin-react/issues/811
+    'react/no-unused-prop-types': ['off', { skipShapeProps: true }],
+    'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
+    'jsx-a11y/no-static-element-interactions': 'warn',
+    'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
     // Temporary fix for: https://github.com/babel/babel-eslint/issues/316
     'generator-star-spacing': 0,
   },

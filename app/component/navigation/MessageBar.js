@@ -160,7 +160,7 @@ class MessageBar extends Component {
 export default connectToStores(
   MessageBar,
   ['MessageStore', 'PreferencesStore'],
-  (context) => (
+  context => (
     { lang: context.getStore('PreferencesStore').getLanguage(),
       messages: Array.from(context.getStore('MessageStore').messages.values()) })
 );

@@ -51,7 +51,7 @@ export function getDistanceToNearestStop(lat, lon, stops) {
 }
 
 export function getDistanceToFurthestStop(coordinates, stops) {
-  return stops.map((stop) =>
+  return stops.map(stop =>
     ({
       stop,
       distance: coordinates.distanceTo(new L.LatLng(stop.lat, stop.lon)),
@@ -145,7 +145,7 @@ export class Contour {
     let p1;
     let p2;
 
-    for (let i = 0; i < nPts; j = i++) {
+    for (let i = 0; i < nPts; j = i++) { // eslint-disable-line no-plusplus
       p1 = pts[i]; p2 = pts[j];
       area += p1.x * p2.y;
       area -= p1.y * p2.x;
@@ -164,7 +164,7 @@ export class Contour {
     let p1;
     let p2;
 
-    for (let i = 0; i < nPts; j = i++) {
+    for (let i = 0; i < nPts; j = i++) { // eslint-disable-line no-plusplus
       p1 = pts[i]; p2 = pts[j];
       f = (p1.x * p2.y) - (p2.x * p1.y);
       x += (p1.x + p2.x) * f;

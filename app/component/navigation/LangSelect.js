@@ -47,7 +47,7 @@ LangSelect.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
 };
 
-const connected = connectToStores(LangSelect, ['PreferencesStore'], (context) => ({
+const connected = connectToStores(LangSelect, ['PreferencesStore'], context => ({
   currentLanguage: context.getStore('PreferencesStore').getLanguage(),
 }));
 

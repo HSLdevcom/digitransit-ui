@@ -30,7 +30,8 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
       </ul>
       {children}
     </div>
-); };
+  );
+};
 
 const noop = () => {};
 

@@ -3,7 +3,7 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const SplitBars = ({ children }) => {
   let splits = [];
-  children.forEach(child => {
+  children.forEach((child) => {
     splits.push(<div className="split-bar">{child}</div>);
     splits.push(<div className="split-bar--bar" />);
   });
