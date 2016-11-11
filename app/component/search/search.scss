@@ -85,6 +85,7 @@ $search-header-height: 45px;
     margin-right: auto;
     position: relative;
     input[type="text"].react-autowhatever__input {
+      flex: 0 0 auto;
       border: 1px solid $primary-color;
       border-radius: 4px;
       height: 3em;
@@ -409,7 +410,7 @@ div.origin-destination-bar {
   height: $search-header-height;
   line-height: $search-header-height;
   height: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
 
   .search-header__category-text {
     color: $gray-blue;
