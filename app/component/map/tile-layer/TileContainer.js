@@ -76,7 +76,7 @@ class TileContainer {
 
     if (this.layers) {
       localPoint = [(point[0] * this.scaleratio) % this.tileSize,
-                    (point[1] * this.scaleratio) % this.tileSize];
+        (point[1] * this.scaleratio) % this.tileSize];
 
       features = flatten(this.layers.map(layer => (
         layer.features && layer.features.map(feature =>

@@ -96,10 +96,10 @@ function getSourceMapPlugin(testPattern, prefix) {
 
 function getPluginsConfig(env) {
   const languageExpression = new RegExp('^./(' + getAllPossibleLanguages().join('|') + ')$');
-  const momentExpression = /moment[\\\/]locale$/;
-  const reactIntlExpression = /react-intl[\/\\]locale\-data$/;
-  const intlExpression = /intl[\/\\]locale\-data[\/\\]jsonp$/;
-  const themeExpression = /sass[\/\\]themes$/;
+  const momentExpression = /moment[/\\]locale$/;
+  const reactIntlExpression = /react-intl[/\\]locale-data$/;
+  const intlExpression = /intl[/\\]locale-data[/\\]jsonp$/;
+  const themeExpression = /sass[/\\]themes$/;
   const selectedTheme = new RegExp(`^./(${process.env.CONFIG || 'default'})/main.scss$`);
 
   if (env === 'development') {

@@ -14,7 +14,7 @@ import Favourite from '../favourites/Favourite';
 
 const StopPageHeader = compose(
   getContext({ executeAction: React.PropTypes.func.isRequired,
-               breakpoint: React.PropTypes.string.isRequired }),
+    breakpoint: React.PropTypes.string.isRequired }),
   mapProps(props => ({
     stop: props.stop,
     className: 'stop-page header',

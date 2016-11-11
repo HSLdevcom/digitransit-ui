@@ -34,7 +34,7 @@ const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }) => {
         </div>
       </div>
     </div>
-);
+  );
 };
 
 SearchModal.propTypes = {

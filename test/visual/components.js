@@ -162,7 +162,7 @@ gemini.suite('components', () => {
 
   gemini.suite('RouteStop', test('RouteStop',
     ['#RouteStop .component-example:nth-of-type(1) .component',
-    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
+      '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
     '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'
   ));
 

@@ -65,7 +65,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
         <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
           {fullscreen ?
             <Icon img="icon-icon_minimize" className="cursor-pointer" /> :
-              <Icon img="icon-icon_maximize" className="cursor-pointer" />}
+            <Icon img="icon-icon_maximize" className="cursor-pointer" />}
         </div>
       )}
     </Map>);
