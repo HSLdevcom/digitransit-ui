@@ -27,15 +27,11 @@ class Slider extends React.Component {
   state = { modified: false };
 
   componentDidMount = () => {
-    this.refs.slider.addEventListener('touchmove', this.f);
+    this.refs.slider.addEventListener('touchmove', e => e.stopPropagation());
   }
 
   componentWillUnmount = () => {
-    this.refs.slider.removeEventListener('touchmove', this.f);
-  }
-
-  f(e) {
-    e.stopPropagation();
+    this.refs.slider.removeEventListener('touchmove', e => e.stopPropagation());
   }
 
   valueChanged = (e) => {

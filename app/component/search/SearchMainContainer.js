@@ -36,9 +36,9 @@ class SearchMainContainer extends React.Component {
     this.context.getStore('SearchStore').removeChangeListener(this.onSearchChange);
   }
 
-  onSearchChange = (payload) => payload.action === 'open' && this.openDialog(payload.data);
+  onSearchChange = payload => payload.action === 'open' && this.openDialog(payload.data);
 
-  onTabChange = (tab) => this.changeToTab(tab.props.value)
+  onTabChange = tab => this.changeToTab(tab.props.value)
 
   onSuggestionSelected = (name, item) => {
     if (item.properties.link) {
@@ -74,10 +74,10 @@ class SearchMainContainer extends React.Component {
     this.changeToTab(tab);
   }
 
-  focusInput(value) {
+  focusInput = value => (
     // this.searchInputs[value].searchInput is a hack
-    this.searchInputs[value].searchInput.autowhatever.input.focus();
-  }
+    this.searchInputs[value].searchInput.autowhatever.input.focus()
+  )
 
   closeModal = () => this.setState({ modalIsOpen: false })
 

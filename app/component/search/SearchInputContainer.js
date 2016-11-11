@@ -70,7 +70,7 @@ export default class SearchInputContainer extends Component {
     return this.state.suggestions;
   }
 
-  focusItem(i) {
+  focusItem(i) {  // eslint-disable-line class-methods-use-this
     if (L.Browser.touch) {
       return;
     }
@@ -225,7 +225,7 @@ export default class SearchInputContainer extends Component {
     </div>
   )
 
-  renderItem(item) {
+  renderItem(item) { // eslint-disable-line class-methods-use-this
     if (item.properties.layer === 'currentPosition') {
       return (
         <CurrentPositionSuggestionItem

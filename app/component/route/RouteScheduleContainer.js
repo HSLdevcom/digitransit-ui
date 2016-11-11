@@ -23,6 +23,20 @@ class RouteScheduleContainer extends Component {
     intl: intlShape.isRequired,
   };
 
+  static transformTrips(trips, stops) {
+    if (trips == null) {
+      return null;
+    }
+    let transformedTrips = trips.map((trip) => {
+      const newTrip = { ...trip };
+      newTrip.stoptimes = keyBy(trip.stoptimes, 'stop.id');
+      return newTrip;
+    });
+    transformedTrips = sortBy(transformedTrips,
+      trip => trip.stoptimes[stops[0].id].scheduledDeparture);
+    return transformedTrips;
+  }
+
   constructor(props) {
     super(props);
     this.initState(props, true);
@@ -50,7 +64,7 @@ class RouteScheduleContainer extends Component {
 
   getTrips = (from, to) => {
     const { stops } = this.props.pattern;
-    const trips = this.transformTrips(this.props.pattern.tripsForDate, stops);
+    const trips = RouteScheduleContainer.transformTrips(this.props.pattern.tripsForDate, stops);
     if (trips == null) {
       return <div className="spinner-loader" />;
     } else if (trips.length === 0) {
@@ -89,21 +103,7 @@ class RouteScheduleContainer extends Component {
     }
   }
 
-  transformTrips(trips, stops) {
-    if (trips == null) {
-      return null;
-    }
-    let transformedTrips = trips.map((trip) => {
-      const newTrip = { ...trip };
-      newTrip.stoptimes = keyBy(trip.stoptimes, 'stop.id');
-      return newTrip;
-    });
-    transformedTrips = sortBy(transformedTrips,
-      trip => trip.stoptimes[stops[0].id].scheduledDeparture);
-    return transformedTrips;
-  }
-
-  formatTime = (timestamp) => moment(timestamp * 1000).format('HH:mm');
+  formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
   changeDate = ({ target }) => {
     // TODO: add setState and a callback that resets the laoding state in oreder to get a spinner.
@@ -167,7 +167,7 @@ export default connectToStores(
   Relay.createContainer(RouteScheduleContainer, {
     initialVariables: relayInitialVariables,
     fragments: relayFragment,
-  }), [], (context) => ({
+  }), [], context => ({
     serviceDay: context.getStore('TimeStore').getCurrentTime().format(DATE_FORMAT),
   })
 );

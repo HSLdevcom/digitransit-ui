@@ -10,7 +10,7 @@ import isFunction from 'lodash/isFunction';
   </ComponentDocumentation>
 */
 
-const getName = (component) => component.displayName || component.name || 'Unknown';
+const getName = component => component.displayName || component.name || 'Unknown';
 
 const getDescription = (component) => {
   if (isFunction(component.description)) return component.description();

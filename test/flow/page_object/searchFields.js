@@ -19,7 +19,7 @@ function useCurrentLocationInOrigin() {
   this.waitForElementVisible('@origin', timeout);
   this.api.checkedClick(this.elements.origin.selector);
   this.waitForElementVisible('@searchOrigin', timeout);
-  this.isVisible('@geolocationSelected', result => {
+  this.isVisible('@geolocationSelected', (result) => {
     if (result && result.value) {
       this.api.debug('Origin already selected');
       this.waitForElementVisible('@closeSearchButton', timeout);

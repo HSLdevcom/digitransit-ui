@@ -24,12 +24,7 @@ export default class MobileItineraryWrapper extends React.Component {
     location: React.PropTypes.object.isRequired,
   };
 
-  state = {
-    lat: undefined,
-    lon: undefined,
-  };
-
-  getTabs(itineraries, selectedIndex) {
+  static getTabs(itineraries, selectedIndex) {
     return itineraries.map((itinerary, i) => (
       <Tab
         selected={i === selectedIndex}
@@ -46,6 +41,11 @@ export default class MobileItineraryWrapper extends React.Component {
       />
     ));
   }
+
+  state = {
+    lat: undefined,
+    lon: undefined,
+  };
 
   toggleFullscreenMap = () => {
     if (this.props.fullscreenMap) {
@@ -95,7 +95,7 @@ export default class MobileItineraryWrapper extends React.Component {
         className="itinerary-swipe-views-root"
         slideStyle={{ minHeight: '100%' }}
         containerStyle={{ minHeight: '100%' }}
-        onChangeIndex={(idx) => setTimeout(this.switchSlide, 500, idx)}
+        onChangeIndex={idx => setTimeout(this.switchSlide, 500, idx)}
       >
         {React.Children.map(this.props.children, (el, i) =>
           React.cloneElement(el, {
@@ -118,7 +118,7 @@ export default class MobileItineraryWrapper extends React.Component {
           }}
           inkBarStyle={{ display: 'none' }}
         >
-          {this.getTabs(this.props.children, index)}
+          {MobileItineraryWrapper.getTabs(this.props.children, index)}
         </Tabs>
       </div>);
 

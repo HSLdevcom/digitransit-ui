@@ -67,6 +67,7 @@ function verifyFavouriteRoute(number) {
   return this.assert.containsText('@favouriteRoute', number);
 }
 
+/* eslint-disable no-useless-escape */
 function verifyFavouriteInSearchResult(favouriteName) {
   this.api.withXpath(() => {
     this.waitForElementPresent(
@@ -74,6 +75,7 @@ function verifyFavouriteInSearchResult(favouriteName) {
       this.api.globals.elementVisibleTimeout);
   });
 }
+/* eslint-enable no-useless-escape */
 
 module.exports = {
   commands: [{

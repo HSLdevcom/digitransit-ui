@@ -18,7 +18,7 @@ function loadLanguage() {
 class PreferencesStore extends Store {
   static storeName = 'PreferencesStore';
 
-  language = loadLanguage()
+  language = loadLanguage();
 
   getLanguage() {
     return this.language;

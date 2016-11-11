@@ -4,13 +4,17 @@ import range from 'lodash/range';
 class ServiceStore extends Store {
   static storeName = 'ServiceStore';
 
+  static notify(disableDebounce) {
+    window.retrieveGeolocation(window.mock.data.position, disableDebounce);
+  }
+
   constructor(dispatcher) {
     super(dispatcher);
 
     if (window && window.location.search && window.location.search.indexOf('mock')) {
       window.mock = this.mock = { data: {} };
 
-      window.mock.geolocation = this.makeMockGeolocation();
+      window.mock.geolocation = ServiceStore.makeMockGeolocation();
     }
   }
 
@@ -18,11 +22,7 @@ class ServiceStore extends Store {
     return { geolocation: (this.mock && this.mock.geolocation) || navigator.geolocation };
   }
 
-  notify(disableDebounce) {
-    window.retrieveGeolocation(window.mock.data.position, disableDebounce);
-  }
-
-  makeMockGeolocation() {
+  static makeMockGeolocation() {
     let follow = false;
 
     window.mock.data.position = {
@@ -33,7 +33,7 @@ class ServiceStore extends Store {
       },
     };
 
-    this.notify();
+    ServiceStore.notify();
 
     return {
       demo() {
@@ -45,7 +45,7 @@ class ServiceStore extends Store {
         };
 
         const steps = 180;
-        const track = range(steps).map(i => {
+        const track = range(steps).map((i) => {
           const f = i / steps;
           const variation = (Math.random() * 0.0001) - 0.00005;
           const lat = ((f * to.latitude) + ((1 - f) * from.latitude)) + variation;
@@ -70,7 +70,7 @@ class ServiceStore extends Store {
 
         if (follow.track && i < follow.track.length) {
           position = follow.track[i];
-          ++follow.index;
+          follow.index += 1;
           window.mock.geolocation.setCurrentPosition(position.latitude, position.longitude);
         } else {
           clearInterval(follow.interval);
@@ -86,7 +86,7 @@ class ServiceStore extends Store {
           window.mock.data.position.coords.heading = heading;
         }
 
-        this.notify();
+        ServiceStore.notify();
       },
 
       setCurrentPosition: (lat, lon, heading, disableDebounce) => {
@@ -97,7 +97,7 @@ class ServiceStore extends Store {
           window.mock.data.position.coords.heading = heading;
         }
 
-        this.notify(disableDebounce);
+        ServiceStore.notify(disableDebounce);
       },
     };
   }

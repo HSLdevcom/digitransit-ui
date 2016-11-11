@@ -26,14 +26,14 @@ const CurrentPositionSuggestionItem = pure(
         id="use-own-position"
         defaultMessage="Use Your current location"
       >
-        {(message) => <span className="use-own-position">{message}</span>}
+        {message => <span className="use-own-position">{message}</span>}
       </FormattedMessage>
       {!havePosition && <Locate />}
     </div>
   )
 );
 
-export default connectToStores(CurrentPositionSuggestionItem, ['PositionStore'], (context) =>
+export default connectToStores(CurrentPositionSuggestionItem, ['PositionStore'], context =>
   ({
     havePosition: context.getStore('PositionStore').getLocationState().hasLocation,
   })

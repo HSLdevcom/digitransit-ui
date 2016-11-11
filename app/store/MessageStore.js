@@ -1,6 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
 import { getMessagesStorage, setMessagesStorage } from './localStorage';
-import staticMessages from '../staticMessages.js';
+import staticMessages from '../staticMessages';
 
 // Save to local storage as an array of key, value pairs
 function saveMapToStorage(msgMap) {

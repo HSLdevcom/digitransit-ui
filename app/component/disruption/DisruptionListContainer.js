@@ -15,7 +15,7 @@ function DisruptionListContainer({ alerts }, { intl }) {
     );
   }
 
-  const alertElements = alerts.alerts.map(alert => {
+  const alertElements = alerts.alerts.map((alert) => {
     const { id } = alert;
     const startTime = moment(alert.effectiveStartDate * 1000);
     const endTime = moment(alert.effectiveEndDate * 1000);

@@ -13,7 +13,7 @@ function configureMoment(language) {
   }
 
   if (language !== 'en') {
-    // eslint-disable-next-line global-require, prefer-template
+    // eslint-disable-next-line global-require, prefer-template, import/no-dynamic-require
     require('moment/locale/' + language);
   }
 

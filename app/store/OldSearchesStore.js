@@ -38,9 +38,10 @@ class OldSearchesStore extends Store {
     this.emitChange(destination);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getOldSearches(type) {
     return getOldSearchesStorage().items
-      .filter((item) => (type ? item.type === type : true))
+      .filter(item => (type ? item.type === type : true))
       .map(item => item.item);
   }
 

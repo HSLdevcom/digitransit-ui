@@ -16,7 +16,7 @@ import { uniqByLabel } from './suggestionUtils';
 
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
-    const callback = readyState => {
+    const callback = (readyState) => {
       if (readyState.error) {
         reject(readyState.error);
       } else if (readyState.done) {
@@ -62,7 +62,7 @@ function mapStops(stops) {
 
 function filterMatchingToInput(list, input, fields) {
   if (typeof input === 'string' && input.length > 0) {
-    return list.filter(item => {
+    return list.filter((item) => {
       const parts = fields.map(pName => get(item, pName));
 
       const test = parts.join(' ').toLowerCase();
@@ -185,7 +185,7 @@ function getFavouriteStops(favourites, input, origin) {
     .then(stops => filterMatchingToInput(stops, input, ['properties.name', 'properties.desc']))
     .then(stops => (
       refLatLng ?
-      sortBy(stops, (item) =>
+      sortBy(stops, item =>
         getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0]).distanceTo(refLatLng)
       ) : stops
   ));
@@ -249,7 +249,7 @@ function getStops(input, origin) {
 
   return getRelayQuery(query).then(data => mapStops(data[0].stops)).then(stops => (
     refLatLng ?
-    sortBy(stops, (item) =>
+    sortBy(stops, item =>
       Math.round(
         getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
         .distanceTo(refLatLng) / 50000) // divide in 50km buckets

@@ -44,11 +44,9 @@ export const getLabel = memoize((suggestion) => {
     case 'favouriteStop':
     case 'stop':
       return suggestion.source === 'gtfs' ?
-        [suggestion.name || suggestion.label, getLocality(suggestion)]
-        : [
-          suggestion.name,
-          <span>{suggestion.code && <StopCode code={suggestion.code} />} {suggestion.desc}</span>,
-        ];
+        [suggestion.name || suggestion.label, getLocality(suggestion)] : [suggestion.name, (
+          <span>{suggestion.code && <StopCode code={suggestion.code} />} {suggestion.desc}</span>
+        )];
     case 'station':
       return [suggestion.name || suggestion.label, getLocality(suggestion)];
     default:
