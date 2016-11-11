@@ -36,7 +36,7 @@ module.exports = {
 
     browser.page.searchFields()
       .useCurrentLocationInOrigin()
-      .setDestination('Opastinsilta 6, Helsinki')
+      .setDestination('Opastinsilta 6')
       .enterKeyDestination();
 
     const itinerarySummary = browser.page.itinerarySummary();

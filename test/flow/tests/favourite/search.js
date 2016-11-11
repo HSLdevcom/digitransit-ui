@@ -6,7 +6,7 @@ module.exports = {
 //    messagebar.close();
     const myFavourites = browser.page.myFavourites();
     const favouriteName = 'A favourite that should show up in search results';
-    myFavourites.saveHomeFavourite('Opastinsilta 6, Helsinki', favouriteName);
+    myFavourites.saveHomeFavourite('Opastinsilta 6', favouriteName);
     myFavourites.clickFavourites(); // should close favourites
 
     browser.page.searchFields().setDestination('');

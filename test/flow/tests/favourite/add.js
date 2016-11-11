@@ -9,7 +9,7 @@ module.exports = {
     const favouriteName = 'HSL';
     const myFavourites = browser.page.myFavourites();
 
-    myFavourites.saveHomeFavourite('Opastinsilta 6, Helsinki', favouriteName);
+    myFavourites.saveHomeFavourite('Opastinsilta 6', favouriteName);
     myFavourites.verifyFirstName(favouriteName);
     browser.end();
   },
