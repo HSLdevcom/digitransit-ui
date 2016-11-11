@@ -410,6 +410,7 @@ div.origin-destination-bar {
   height: $search-header-height;
   line-height: $search-header-height;
   height: 100%;
+  overflow-x: hidden;
 
   .search-header__category-text {
     color: $gray-blue;
