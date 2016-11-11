@@ -15,7 +15,7 @@ const AppBarSmall = ({ disableBackButton, showLogo, title }) =>
       <section className="title">
         {showLogo ?
           <div className="logo" /> :
-          <span className="title">{title}</span>
+            <span className="title">{title}</span>
         }
       </section>
       <MainMenuContainer />

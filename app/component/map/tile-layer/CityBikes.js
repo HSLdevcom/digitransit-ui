@@ -33,16 +33,16 @@ class CityBikes {
     this.promise = this.fetchWithAction(this.addFeature);
   }
 
-  fetchWithAction = (actionFn) =>
+  fetchWithAction = actionFn =>
     fetch(`${config.URL.CITYBIKE_MAP}` +
       `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
       `${this.tile.coords.x}/${this.tile.coords.y}.pbf`
-    ).then(res => {
+    ).then((res) => {
       if (res.status !== 200) {
         return undefined;
       }
 
-      return res.arrayBuffer().then(buf => {
+      return res.arrayBuffer().then((buf) => {
         const vt = new VectorTile(new Protobuf(buf));
 
         this.features = [];
@@ -74,7 +74,7 @@ class CityBikes {
     const lastFetch = timeOfLastFetch[feature.properties.id];
     const currentTime = new Date().getTime();
 
-    const callback = readyState => {
+    const callback = (readyState) => {
       if (readyState.done) {
         timeOfLastFetch[feature.properties.id] = new Date().getTime();
         const result = Relay.Store.readQuery(query)[0];

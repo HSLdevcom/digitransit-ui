@@ -18,8 +18,8 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
 
   if (trip) {
     tripStart = getStartTime(trip.stoptimesForDate[0].scheduledDeparture);
-    const vehiclesWithCorrectStartTime = Object.keys(vehicles).map((key) => (vehicles[key]))
-      .filter((vehicle) => (vehicle.tripStartTime === tripStart));
+    const vehiclesWithCorrectStartTime = Object.keys(vehicles).map(key => (vehicles[key]))
+      .filter(vehicle => (vehicle.tripStartTime === tripStart));
 
     selectedVehicle = (vehiclesWithCorrectStartTime && vehiclesWithCorrectStartTime.length > 0)
       && vehiclesWithCorrectStartTime[0];
@@ -57,7 +57,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       className={'full'}
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
-      bounds={(pattern.geometry || pattern.stops).map((p) => [p.lat, p.lon])}
+      bounds={(pattern.geometry || pattern.stops).map(p => [p.lat, p.lon])}
       zoom={zoom}
     >
       {!fullscreen && <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
@@ -65,7 +65,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
         <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
           {fullscreen ?
             <Icon img="icon-icon_minimize" className="cursor-pointer" /> :
-            <Icon img="icon-icon_maximize" className="cursor-pointer" />}
+              <Icon img="icon-icon_maximize" className="cursor-pointer" />}
         </div>
       )}
     </Map>);

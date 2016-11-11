@@ -18,6 +18,16 @@ class FeedbackPanel extends React.Component {
     piwik: React.PropTypes.object,
   };
 
+  static isInitialState(state) {
+    return (
+      state.selectedNPS === undefined &&
+      state.useThisMoreLikely === undefined &&
+      state.openText === undefined &&
+      state.charLeft === FEEDBACK_OPEN_AREA_MAX_CHARS &&
+      state.postFirstQuestion === false
+    );
+  }
+
   state = {
     postFirstQuestion: false,
     modalIsOpen: false,
@@ -29,7 +39,7 @@ class FeedbackPanel extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !this.isInitialState(nextState);
+    return !FeedbackPanel.isInitialState(nextState);
   }
 
   componentWillUnmount() {
@@ -92,16 +102,6 @@ class FeedbackPanel extends React.Component {
       charLeft: FEEDBACK_OPEN_AREA_MAX_CHARS,
       postFirstQuestion: false,
     });
-  }
-
-  isInitialState(state) {
-    return (
-      state.selectedNPS === undefined &&
-      state.useThisMoreLikely === undefined &&
-      state.openText === undefined &&
-      state.charLeft === FEEDBACK_OPEN_AREA_MAX_CHARS &&
-      state.postFirstQuestion === false
-    );
   }
 
   render() {

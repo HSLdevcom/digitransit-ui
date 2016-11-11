@@ -8,8 +8,8 @@ class EndpointStore extends Store {
 
   constructor(dispatcher) {
     super(dispatcher);
-    this.origin = this.getUseCurrent(this.origin, true);
-    this.destination = this.getUseCurrent(this.destination, false);
+    this.origin = EndpointStore.getUseCurrent(this.origin, true);
+    this.destination = EndpointStore.getUseCurrent(this.destination, false);
     this.emitChange('origin-use-current');
   }
 
@@ -18,12 +18,12 @@ class EndpointStore extends Store {
   }
 
   clearOrigin() {
-    this.origin = this.getUseCurrent(null, false);
+    this.origin = EndpointStore.getUseCurrent(null, false);
     this.emitChange('set-origin');
   }
 
   clearDestination() {
-    this.destination = this.getUseCurrent(null, false);
+    this.destination = EndpointStore.getUseCurrent(null, false);
     this.emitChange();
   }
 
@@ -37,7 +37,7 @@ class EndpointStore extends Store {
       this.clearDestination();
     }
 
-    this.origin = this.getUseCurrent(this.origin, true);
+    this.origin = EndpointStore.getUseCurrent(this.origin, true);
     this.emitChange('set-origin');
   }
 
@@ -46,11 +46,11 @@ class EndpointStore extends Store {
       this.clearOrigin();
     }
 
-    this.destination = this.getUseCurrent(this.destination, true);
+    this.destination = EndpointStore.getUseCurrent(this.destination, true);
     this.emitChange();
   }
 
-  getUseCurrent(current, useCurrent) {
+  static getUseCurrent(current, useCurrent) {
     return {
       useCurrentPosition: useCurrent,
       userSetPosition: (current && current.userSetPosition) || false,
@@ -94,11 +94,11 @@ class EndpointStore extends Store {
 
   clearGeolocation() {
     if (this.origin.useCurrentPosition) {
-      this.origin = this.getUseCurrent(this.origin, false);
+      this.origin = EndpointStore.getUseCurrent(this.origin, false);
     }
 
     if (this.destination.useCurrentPosition) {
-      this.destination = this.getUseCurrent(this.destination, false);
+      this.destination = EndpointStore.getUseCurrent(this.destination, false);
     }
 
     this.emitChange();

@@ -10,17 +10,16 @@ import { durationToString } from '../../../util/timeUtils';
 import StopCode from '../StopCode';
 
 class TransitLeg extends React.Component {
-  stopCode(stopCode) {
-    return stopCode && <StopCode code={stopCode} />;
-  }
+  stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   render() {
-    const originalTime = (this.props.leg.realTime && this.props.leg.departureDelay
-          >= config.itinerary.delayThreshold) && [<br />,
-            <span className="original-time">
-              {moment(this.props.leg.startTime).subtract(
+    const originalTime = (
+      this.props.leg.realTime &&
+      this.props.leg.departureDelay >= config.itinerary.delayThreshold) && [<br />,
+      <span className="original-time">
+        {moment(this.props.leg.startTime).subtract(
                 this.props.leg.departureDelay, 's').format('HH:mm')}
-            </span>];
+      </span>];
 
     const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;

@@ -33,7 +33,7 @@ class TripStopListContainer extends React.Component {
     }
   }
 
-  getNearestStopDistance = (stops) => (
+  getNearestStopDistance = stops => (
     this.props.locationState.hasLocation === true
       ? getDistanceToNearestStop(this.props.locationState.lat, this.props.locationState.lon, stops)
       : null
@@ -63,7 +63,7 @@ class TripStopListContainer extends React.Component {
     );
 
     const vehiclesWithCorrectStartTime = Object.keys(this.props.vehicles)
-      .map((key) => (this.props.vehicles[key]))
+      .map(key => (this.props.vehicles[key]))
       .filter(vehicle => (vehicle.direction === this.props.trip.pattern.directionId))
       .filter(vehicle => (vehicle.tripStartTime === this.props.tripStart));
 

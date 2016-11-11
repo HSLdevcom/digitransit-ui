@@ -42,7 +42,7 @@ IconWithTail.displayName = 'IconWithTail';
 
 IconWithTail.description = (
   <div>
-    <p>Shows an icon from the SVG sprite and adds blue 'tail'.</p>
+    <p>Shows an icon from the SVG sprite and adds blue &lsquo;tail&rsquo;.</p>
     <ComponentUsageExample description="Rotate 0">
       <IconWithTail img="icon-icon_bus-live" rotate={0} />
     </ComponentUsageExample>
