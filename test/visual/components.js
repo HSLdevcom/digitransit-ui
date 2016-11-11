@@ -143,7 +143,12 @@ gemini.suite('components', () => {
   basicTest('RouteScheduleStopSelect');
   basicTest('RouteScheduleTripRow');
 
-  basicTest('AppBarSmall');
+  gemini.suite('AppBarSmall', () => {
+    gemini.suite('with-back-arrow', test('AppBarSmall'));
+    gemini.suite('without-back-arrow', test('AppBarSmall', 2));
+    gemini.suite('with-logo', test('AppBarSmall', 3));
+  });
+
   basicTest('AppBarLarge');
 
   gemini.suite('FakeSearchWithButton', () => {
@@ -153,6 +158,8 @@ gemini.suite('components', () => {
 
   basicTest('FrontPagePanelLarge');
   basicTest('FrontPagePanelSmall');
+  basicTest('ExternalLink');
+  basicTest('LangSelect');
 
   gemini.suite('ModeFilter', () => {
     gemini.suite('Grey buttons', test('ModeFilter'));
