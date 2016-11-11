@@ -29,9 +29,9 @@ const AppBarLarge = ({ titleClicked }) =>
   <div>
     <div
       className="top-bar row" style={{ height: '60px',
-      maxWidth: '100%',
-      zIndex: '803',
-      boxShadow: '2px 0px 2px #575757' }}
+        maxWidth: '100%',
+        zIndex: '803',
+        boxShadow: '2px 0px 2px #575757' }}
     >
       <div className="columns small-3" style={{ textAlign: 'left' }}>
         <div className="navi-logo" onClick={titleClicked} />

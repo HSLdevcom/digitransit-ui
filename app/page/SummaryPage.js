@@ -302,5 +302,5 @@ export default Relay.createContainer(SummaryPage, {
     arriveBy: false,
     disableRemainingWeightHeuristic: false,
   },
-  ...SummaryPage.customizableParameters },
+    ...SummaryPage.customizableParameters },
 });

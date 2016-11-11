@@ -470,7 +470,7 @@ function StyleGuidePage(props) {
 
       {getComponents()}
     </div>
-    );
+  );
 }
 
 StyleGuidePage.propTypes = {
