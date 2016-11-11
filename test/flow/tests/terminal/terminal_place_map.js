@@ -1,25 +1,31 @@
 module.exports = {
   tags: ['terminals', 'map', 'geolocation'],
-  'Open Kamppi cluster, select stop to show its departures': (browser) => {
+  'Open Kamppi Terminal and show its departures': (browser) => {
     browser.url(browser.launch_url);
     browser.setGeolocation(60.169546, 24.931658);
     const messagebar = browser.page.messageBar();
     messagebar.close();
 
-    // Wait for the tiles to be loaded
+    browser.debug('Waiting a while for tiles to load');
     browser.pause(5000);
     const marker = browser.page.marker();
     marker.clickSouthOfCurrentLocation();
-    marker.waitForPopupPaneVisible();
+    marker.waitForPopupPaneHeaderVisible();
+    browser.debug('Popup should have loaded by now');
 
+    /* This is little bit tricky!
+     * If we click '.card .cursor-pointer' it seems that snap-ci somehow clicks aside of the popup
+     * failed screenshot then shows 'wrong popup open'
+     * Therefore we click 'deep inside popup' to make sure it actually works.
+     * This commit fixes snap-ci:
+     * https://github.com/HSLdevcom/digitransit-ui/commit/b69bee413933787fe7be72cb5fc25ae3230329e1
+    */
+    browser.debug('Click on popup');
+    browser.checkedClick('span.time');
     const stop = browser.page.stopCard();
-    stop.waitForElementVisible('@cluster', browser.globals.itinerarySearchTimeout);
-    stop.click('@clusterStop');
-    // stop.expectCardHeaderDescription('Kamppi');
     stop.waitForDepartureVisible();
-    stop.navigateToStopPage();
     const stopPage = browser.page.stop();
-    stopPage.expectStopName('Kamppi');
+    stopPage.expectStopName('Kamppi (Espoon terminaali)');
 
     browser.end();
   },

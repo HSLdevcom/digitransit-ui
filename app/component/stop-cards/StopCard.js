@@ -17,6 +17,7 @@ class StopCard extends React.Component {
             stop={this.props.stop}
             icons={this.props.icons}
             distance={this.props.distance}
+            headingStyle="header-primary"
           />
           {this.props.children}
         </Card>

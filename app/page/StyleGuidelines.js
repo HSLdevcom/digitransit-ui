@@ -61,6 +61,7 @@ import Favourite from '../component/favourites/Favourite';
 import DepartureListHeader from '../component/departure/DepartureListHeader';
 import { Component as LangSelect } from '../component/navigation/LangSelect';
 import ExternalLink from '../component/navigation/ExternalLink';
+import SelectedStopPopupContent from '../component/stop/SelectedStopPopupContent';
 
 class StyleGuidelinesPage extends React.Component {
   static propTypes = {
@@ -127,6 +128,7 @@ class StyleGuidelinesPage extends React.Component {
     DepartureListHeader,
     LangSelect,
     ExternalLink,
+    SelectedStopPopupContent,
   }
 
   getColors() {
