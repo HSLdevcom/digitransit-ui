@@ -1,4 +1,3 @@
-import { supportsHistory } from 'history/lib/DOMUtils';
 import { locationToOTP } from '../util/otpStrings';
 import { getRoutePath } from '../util/path';
 import history from '../history';
@@ -30,11 +29,9 @@ export function route(actionContext, payload, done) {
       to = locationToOTP(destination);
     }
 
-    if (supportsHistory()) {
-      history.push({
-        pathname: getRoutePath(from, to),
-      });
-    }
+    history.push({
+      pathname: getRoutePath(from, to),
+    });
   }
 
   return done();
