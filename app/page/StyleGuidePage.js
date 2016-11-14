@@ -60,6 +60,8 @@ import InfoIcon from '../component/icon/InfoIcon';
 import Favourite from '../component/favourites/Favourite';
 import DepartureListHeader from '../component/departure/DepartureListHeader';
 import SelectedStopPopupContent from '../component/stop/SelectedStopPopupContent';
+import { Component as LangSelect } from '../component/navigation/LangSelect';
+import ExternalLink from '../component/navigation/ExternalLink';
 
 const components = {
   Icon,
@@ -120,6 +122,8 @@ const components = {
   Favourite,
   DepartureListHeader,
   SelectedStopPopupContent,
+  ExternalLink,
+  LangSelect,
 };
 
 function getColors() {
