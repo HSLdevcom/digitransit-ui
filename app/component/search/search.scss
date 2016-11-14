@@ -28,7 +28,7 @@ $search-header-height: 45px;
  .postfix {
     height: $search-form-input-height;
     line-height: $search-form-input-height;
-    box-shadow: 1px 4px 5px rgba(0,0,0,0.2);
+    box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
     .icon {
       font-size: 15px;
       margin-top: 10px;
@@ -36,12 +36,12 @@ $search-header-height: 45px;
   }
 
   .input-placeholder {
-      @include form-element();
-      height: $search-form-input-height;
-      line-height: $search-form-input-overlay-height;
-      border-top-left-radius: $input-border-radius;
-      border-bottom-left-radius: $input-border-radius;
-      box-shadow: 2px 4px 5px rgba(0,0,0,0.2);
+    @include form-element();
+    height: $search-form-input-height;
+    line-height: $search-form-input-overlay-height;
+    border-top-left-radius: $input-border-radius;
+    border-bottom-left-radius: $input-border-radius;
+    box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
   }
 
   .address-placeholder {
@@ -183,7 +183,7 @@ $search-header-height: 45px;
       line-height: $search-form-input-overlay-height;
       border-top-left-radius: $input-border-radius;
       border-bottom-left-radius: $input-border-radius;
-      box-shadow: 2px 4px 5px rgba(0,0,0,0.2);
+      box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
   }
   .address-placeholder {
     padding-top: 13px;

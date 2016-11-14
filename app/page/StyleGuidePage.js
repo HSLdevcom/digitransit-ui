@@ -63,6 +63,8 @@ import NextDeparturesListHeader from '../component/departure/NextDeparturesListH
 import CurrentPositionSuggestionItem from '../component/search/CurrentPositionSuggestionItem';
 import SuggestionItem from '../component/search/SuggestionItem';
 import SelectedStopPopupContent from '../component/stop/SelectedStopPopupContent';
+import { Component as LangSelect } from '../component/navigation/LangSelect';
+import ExternalLink from '../component/navigation/ExternalLink';
 
 const components = {
   Icon,
@@ -126,6 +128,8 @@ const components = {
   CurrentPositionSuggestionItem,
   SuggestionItem,
   SelectedStopPopupContent,
+  ExternalLink,
+  LangSelect,
 };
 
 function getColors() {
