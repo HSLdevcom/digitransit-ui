@@ -67,7 +67,7 @@ function verifyFavouriteRoute(number) {
 function verifyFavouriteInSearchResult(favouriteName) {
   this.api.withXpath(() => {
     this.waitForElementPresent(
-    `//*/p[@class='suggestion-name' and contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '${favouriteName.toLowerCase()}')]`,
+    `//*/p[@class='suggestion-name' and contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '${favouriteName.split(',')[0].toLowerCase()}')]`,
       this.api.globals.elementVisibleTimeout);
   });
 }
