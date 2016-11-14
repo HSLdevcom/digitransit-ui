@@ -173,9 +173,7 @@ export default {
   terminalStopsMinZoom: 12,
   terminalNamesZoom: 16,
 
-  topNaviLinks: [
-    { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/' },
-  ],
+  appBarLink: { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/' },
 
   colors: {
     primary: '#00AFFF',

@@ -59,6 +59,7 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
   );
 };
 
+const noop = () => {};
 
 FrontPagePanelSmall.description = () => (
   <div>
@@ -66,7 +67,7 @@ FrontPagePanelSmall.description = () => (
       Front page tabs for small display.
     </p>
     <ComponentUsageExample description="Front page tabs">
-      <FrontPagePanelSmall />
+      <FrontPagePanelSmall closePanel={noop} favouritesClicked={noop} nearbyClicked={noop} />
     </ComponentUsageExample>
   </div>);
 

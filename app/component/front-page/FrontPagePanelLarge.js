@@ -33,6 +33,8 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
   );
 };
 
+const noop = () => {};
+
 FrontPagePanelLarge.description = () => (
   <div>
     <p>
@@ -40,7 +42,7 @@ FrontPagePanelLarge.description = () => (
     </p>
     <div style={{ width: '340px' }}>
       <ComponentUsageExample description="Front page tabs">
-        <FrontPagePanelLarge />
+        <FrontPagePanelLarge selectedPanel={2} nearbyClicked={noop} favouritesClicked={noop} />
       </ComponentUsageExample>
     </div>
   </div>);
