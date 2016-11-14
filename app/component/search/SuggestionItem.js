@@ -5,6 +5,7 @@ import pure from 'recompose/pure';
 import Icon from '../icon/Icon';
 import { getLabel, getIcon } from '../../util/suggestionUtils';
 import config from '../../config';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const SuggestionItem = pure((props) => {
   let icon;
@@ -34,7 +35,7 @@ const SuggestionItem = pure((props) => {
         { favourite: props.item.type.startsWith('Favourite') }
       )}
     >
-      <span className={props.spanClass || ''}>
+      <span className="autosuggestIcon">
         {icon}
       </span>
       <div>
@@ -46,7 +47,76 @@ const SuggestionItem = pure((props) => {
 
 SuggestionItem.propTypes = {
   item: React.PropTypes.object,
-  spanClass: React.PropTypes.string,
 };
+
+SuggestionItem.displayName = 'SuggestionItem';
+
+const exampleFavourite = {
+  type: 'FavouritePlace',
+  properties: { locationName: 'HSL', address: 'Opastinsilta 6, Helsinki', layer: 'favouritePlace' },
+};
+
+const exampleAddress = {
+  type: 'Feature',
+  properties: {
+    id: 'fi/uusimaa:103267060F-3',
+    layer: 'address',
+    source: 'openaddresses',
+    name: 'Opastinsilta 6',
+    housenumber: '6',
+    street: 'Opastinsilta',
+    postalcode: '00520',
+    confidence: 1,
+    accuracy: 'point',
+    region: 'Uusimaa',
+    localadmin: 'Helsinki',
+    locality: 'Helsinki',
+    neighbourhood: 'Itä-Pasila',
+    label: 'Opastinsilta 6, Helsinki',
+  },
+};
+
+const exampleRoute = {
+  type: 'Route',
+  properties: {
+    gtfsId: 'HSL:1019',
+    agency: { name: 'Helsingin seudun liikenne' },
+    shortName: '19',
+    mode: 'FERRY',
+    longName: 'Kauppatori - Suomenlinna',
+    layer: 'route-FERRY',
+    link: '/linjat/HSL:1019',
+  },
+};
+
+const exampleStop = {
+  type: 'Stop',
+  properties: {
+    gtfsId: 'HSL:1130446',
+    name: 'Caloniuksenkatu',
+    desc: 'Mechelininkatu 21',
+    code: '0221',
+    mode: 'tram',
+    layer: 'stop',
+    link: '/pysakit/HSL:1130446',
+  },
+};
+
+SuggestionItem.description = (
+  <div>
+    <ComponentUsageExample description="Favourite">
+      <SuggestionItem item={exampleFavourite} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Address">
+      <SuggestionItem item={exampleAddress} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Route">
+      <SuggestionItem item={exampleRoute} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Stop">
+      <SuggestionItem item={exampleStop} />
+    </ComponentUsageExample>
+  </div>
+);
 
 export default SuggestionItem;

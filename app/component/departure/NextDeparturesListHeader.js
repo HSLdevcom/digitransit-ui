@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const NextDeparturesListHeader = () => (
   <div className="next-departures-list-header padding-vertical-small border-top">
@@ -22,5 +23,13 @@ const NextDeparturesListHeader = () => (
 );
 
 NextDeparturesListHeader.displayName = 'NextDeparturesListHeader';
+
+NextDeparturesListHeader.description = (
+  <div>
+    <ComponentUsageExample>
+      <NextDeparturesListHeader />
+    </ComponentUsageExample>
+  </div>
+);
 
 export default NextDeparturesListHeader;

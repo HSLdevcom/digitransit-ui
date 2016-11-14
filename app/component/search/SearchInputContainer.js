@@ -231,7 +231,6 @@ export default class SearchInputContainer extends Component {
         <CurrentPositionSuggestionItem
           ref={item.name}
           item={item}
-          spanClass="autosuggestIcon"
         />
       );
     }
@@ -239,7 +238,6 @@ export default class SearchInputContainer extends Component {
       <SuggestionItem
         ref={item.name}
         item={item}
-        spanClass="autosuggestIcon"
       />
     );
   }

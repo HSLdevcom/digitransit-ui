@@ -5,6 +5,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 
 import Icon from '../icon/Icon';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 
 const Locate = () => (
@@ -16,11 +17,11 @@ const Locate = () => (
   </span>
 );
 
-const CurrentPositionSuggestionItem = pure(
+const CurrentPositionSuggestionItemComponent = pure(
   ({ item, havePosition }) => (
     <div className={cx('search-result', item.type)}>
       <span className="autosuggestIcon">
-        <Icon img="icon-icon_position" className={cx('havePosition')} />
+        <Icon img="icon-icon_position" className="havePosition" />
       </span>
       <FormattedMessage
         id="use-own-position"
@@ -33,8 +34,28 @@ const CurrentPositionSuggestionItem = pure(
   )
 );
 
-export default connectToStores(CurrentPositionSuggestionItem, ['PositionStore'], context =>
-  ({
-    havePosition: context.getStore('PositionStore').getLocationState().hasLocation,
-  })
+const CurrentPositionSuggestionItem = connectToStores(
+  CurrentPositionSuggestionItemComponent,
+  ['PositionStore'],
+  context => ({ havePosition: context.getStore('PositionStore').getLocationState().hasLocation })
 );
+
+CurrentPositionSuggestionItem.displayName = 'CurrentPositionSuggestionItem';
+
+const exampleItem = {
+  type: 'CurrentLocation',
+  properties: { labelId: 'own-position', layer: 'currentPosition' },
+};
+
+CurrentPositionSuggestionItem.description = (
+  <div>
+    <ComponentUsageExample description="With position">
+      <CurrentPositionSuggestionItemComponent havePosition item={exampleItem} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="No position">
+      <CurrentPositionSuggestionItemComponent item={exampleItem} />
+    </ComponentUsageExample>
+  </div>
+);
+
+export default CurrentPositionSuggestionItem;

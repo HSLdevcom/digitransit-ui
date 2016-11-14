@@ -29,7 +29,7 @@ DepartureListHeader.displayName = 'DepartureListHeader';
 
 DepartureListHeader.description = (
   <div>
-    <ComponentUsageExample description="basic">
+    <ComponentUsageExample>
       <DepartureListHeader />
     </ComponentUsageExample>
   </div>

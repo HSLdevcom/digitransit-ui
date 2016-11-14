@@ -246,41 +246,44 @@ ul.react-autowhatever__items-list {
     &:not(:last-child) {
       border-bottom: solid 1px #eee;
     }
-
-    .favourite svg.icon {
-      stroke: $favourite-color;
-      fill: $favourite-color;
-    }
   }
+}
 
-  .react-autowhatever__item {
-    font-family: $search-result-text-font-family;
-    font-weight: $search-result-text-font-weight;
-    letter-spacing: $search-result-text-letter-spacing;
-    padding:0.1em;
-  }
+.react-autowhatever__item {
+  font-family: $search-result-text-font-family;
+  font-weight: $search-result-text-font-weight;
+  letter-spacing: $search-result-text-letter-spacing;
+  padding:0.1em;
+}
 
-  .react-autowhatever__item--focused {
-    color: $search-result-text-highlight-color;
-    font-family: $search-result-text-font-family;
-    font-weight: $search-result-text-font-weight;
-    letter-spacing: $search-result-text-letter-spacing;
-    background-color: $search-result-text-highlight-background-color;
-  }
+.react-autowhatever__item--focused {
+  color: $search-result-text-highlight-color;
+  font-family: $search-result-text-font-family;
+  font-weight: $search-result-text-font-weight;
+  letter-spacing: $search-result-text-letter-spacing;
+  background-color: $search-result-text-highlight-background-color;
+}
 
-  .react-autosuggest__suggestion {
-    padding: 0px 0 5px 0;
-    margin: 0;
-    cursor: pointer;
-    height: 1.9em;
-    overflow-x: hidden;
-    white-space: nowrap;
-  }
+.react-autosuggest__suggestion {
+  padding: 0px 0 5px 0;
+  margin: 0;
+  cursor: pointer;
+  height: 1.9em;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
 
-  .react-autosuggest__suggestion .icon {
-    margin-right: 4px;
-    fill: $search-result-icon-color;
-  }
+.react-autosuggest__suggestion .icon {
+  margin-right: 4px;
+  fill: $search-result-icon-color;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+  min-height: 40px;
+
 
   .havePosition {
     color: $hilight-color;
@@ -298,21 +301,17 @@ ul.react-autowhatever__items-list {
     color: $medium-gray;
     padding-left: 3px;
     padding-right: 10px;
-  }
-}
-
-.search-result {
-  display: flex;
-  align-items: center;
-  line-height: 1.2;
-  min-height: 40px;
-
-  .autosuggestIcon {
     font-size: 19px;
 
     svg.havePosition {
       vertical-align: -0.15em;
     }
+
+  }
+
+  &.favourite svg.icon {
+    stroke: $favourite-color;
+    fill: $favourite-color;
   }
 
   .use-own-position, .suggestion-name, .suggestion-label {
