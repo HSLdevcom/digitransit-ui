@@ -94,7 +94,7 @@ function setSearch(search) {
 function verifyItemInSearchResult(favouriteName) {
   this.api.withXpath(() => {
     this.waitForElementPresent(
-    `//*/p[@class='suggestion-name' and contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '${favouriteName.toLowerCase()}')]`,
+    `//*/p[@class='suggestion-name' and contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '${favouriteName.split(',')[0].toLowerCase()}')]`,
       this.api.globals.elementVisibleTimeout);
   });
 }
