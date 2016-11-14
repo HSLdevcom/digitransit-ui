@@ -69,6 +69,7 @@ $search-header-height: 45px;
     flex: 0 1 auto;
     display: flex;
     flex-direction: column;
+    top: -33px;
   }
 
   .search-modal {
@@ -112,8 +113,15 @@ $search-header-height: 45px;
         margin: 0 -16px;
       }
 
-      .search-header__button {
-        font-size: 15px !important;
+      .search-header-width-fix {
+        margin-left: 10px !important;
+        margin-right: 50px !important;
+        width: calc(100% - 60px) !important;
+      }
+
+      .search-header__button, .search-header__button--selected {
+        font-size: 18px !important;
+        height: 60px !important;
       }
 
       .geolocation {
@@ -426,25 +434,27 @@ div.origin-destination-bar {
     user-select: none;
   }
 
-  .search-header__button {
+  .search-header__button, .search-header__button--selected {
     margin-bottom: 0;
     letter-spacing: -0.025em;
-    font-size: $font-size-xxsmall !important;
+    font-size: $font-size-small !important;
     font-weight: $font-weight-bold !important;
-    font-family: $font-family !important;
-    color: $gray-blue !important;
     height: $search-header-height !important;
-  }
 
-  .search-header__button--selected {
-    @extend .search-header__button;
-    color: $black !important;
+    &:first-child {
+      @extend .overflow-fade;
+    }
+
+    // Uh-oh, override material-ui style for not overflowing the beginning of the word
+    > div > div {
+      align-items: stretch !important;
+    }
   }
 
   .search-header-width-fix {
     margin-left: 30px !important;
-    margin-right: 30px !important;
-    width: calc(100% - 60px) !important;
+    margin-right: 5px !important;
+    width: calc(100% - 35px) !important;
   }
 
   .search-header__tabs-root {
@@ -457,7 +467,6 @@ div.origin-destination-bar {
     }
 
     > div:first-child {
-      background-color: $background-color !important;
       line-height: 18px !important;
       @extend .search-header-width-fix;
     }
@@ -535,4 +544,33 @@ div.origin-destination-bar {
   display: inline-block;
   position: relative;
   bottom: -4px;
+}
+
+.search-current-origin-tip {
+  @include font-book;
+  font-size: 10px;
+  text-transform: none;
+
+  svg.icon {
+    color: $hilight-color;
+    margin-right: 0.5em;
+    font-size: 8px;
+  }
+}
+
+.bp-large .search-current-origin-tip {
+  font-size: 13px;
+
+  svg.icon {
+    font-size: 16px;
+    vertical-align: -3px;
+  }
+}
+
+.closeSearchButton {
+  position: absolute;
+  font-size: 24px;
+  top: 10px;
+  right: 20px;
+  color: $gray-blue
 }
