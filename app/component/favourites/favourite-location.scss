@@ -1,5 +1,3 @@
-$font-size-supersmall: 12px;
-
 .favourite-button-shared {
   text-align: center;
   border-radius: $border-radius;
@@ -61,7 +59,7 @@ $font-size-supersmall: 12px;
     padding: 0;
     padding-right: 0.25em;
     margin: 0;
-    font-size: $font-size-supersmall;
+    font-size: $font-size-xxsmall;
   }
   .vehicle-number {
     padding: 0;
@@ -76,7 +74,7 @@ $font-size-supersmall: 12px;
   .favourite-location-name {
     color: $gray-blue;
     vertical-align: middle;
-    font-size: 0.75em;
+    font-size: $font-size-xsmall;
   }
   .favourite-location-departure {
     vertical-align: middle;
@@ -87,7 +85,7 @@ $font-size-supersmall: 12px;
     .route-number {
       width: auto;
       display: inline-block;
-      font-size: $font-size-supersmall;
+      font-size: $font-size-xxsmall;
       & > span:first-of-type {
         vertical-align: middle;
       }
@@ -121,7 +119,7 @@ $font-size-supersmall: 12px;
   .add-location-text {
     @include font-medium;
     color: $gray-blue;
-    font-size: 12px;
+    font-size: $font-size-xxsmall;
     margin-top: 0px;
     margin-bottom: 0px;
   }

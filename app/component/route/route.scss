@@ -225,7 +225,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   max-width: calc(100% - 40px - 53px - 40px - 50px);
   margin-left: -10px;
   padding-left: 10px;
-  font-size: 15px;
+  font-size: $font-size-normal;
 }
 .route-stop-code,
 .route-stop-mins {
@@ -457,7 +457,7 @@ div.route-tabs {
       pointer-events: auto;
       display: inline-block;
       text-decoration: none;
-      font-size: 9px;
+      font-size: $font-size-xxsmall;
       min-width: 60px;
 
       &.is-active {

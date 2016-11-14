@@ -110,7 +110,7 @@
 .right-offcanvas-toggle {
   span {
     @include font-bold;
-    font-size: 10px;
+    font-size: $font-size-xsmall;
     margin: 0 4px;
   }
   margin: 0;
