@@ -24,6 +24,7 @@ if (isBrowser) {
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
@@ -32,6 +33,7 @@ class TerminalMarker extends React.Component {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };

@@ -70,7 +70,7 @@ class RouteLine extends React.Component {
         />
         {markers}
       </div>
-      );
+    );
   }
 }
 

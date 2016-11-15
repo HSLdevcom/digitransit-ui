@@ -10,26 +10,22 @@ import ToggleButton from '../util/ToggleButton';
 import ModeFilter from '../util/ModeFilter';
 import Select from '../util/Select';
 import config from '../../config';
+import { route } from '../../action/ItinerarySearchActions';
 
 class CustomizeSearch extends React.Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: React.PropTypes.shape({
-      replace: React.PropTypes.func.isRequired,
-    }).isRequired,
+    router: React.PropTypes.object.isRequired,
     location: React.PropTypes.shape({
       query: React.PropTypes.object.isRequired,
     }).isRequired,
+    executeAction: React.PropTypes.func.isRequired,
   };
 
   static propTypes = {
     open: React.PropTypes.bool,
     onToggleClick: React.PropTypes.func,
-    params: React.PropTypes.shape({
-      from: React.PropTypes.string,
-      to: React.PropTypes.string,
-    }).isRequired,
   };
 
   /*
@@ -40,7 +36,7 @@ class CustomizeSearch extends React.Component {
       The ranges below and above the default value are divided into even steps, after which
       the two ranges are combined into a single array of desired values.
   */
-  getSliderStepsArray(min, max, defaultValue, stepCount = 20) {
+  static getSliderStepsArray(min, max, defaultValue, stepCount = 20) {
     const denom = stepCount / 2;
     const lowStep = (defaultValue - min) / denom;
     const lowRange = range(min, defaultValue, lowStep);
@@ -50,10 +46,20 @@ class CustomizeSearch extends React.Component {
     return sliderSteps;
   }
 
+
+  static getDefaultModes() {
+    return [
+      ...Object.keys(config.transportModes)
+          .filter(mode => config.transportModes[mode].defaultValue).map(mode => mode.toUpperCase()),
+      ...Object.keys(config.streetModes)
+          .filter(mode => config.streetModes[mode].defaultValue).map(mode => mode.toUpperCase()),
+    ];
+  }
+
   getWalkReluctanceSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkReluctance()
 
-    const walkReluctanceSliderValues = this.getSliderStepsArray(0.8, 10, 2).reverse();
+    const walkReluctanceSliderValues = CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
 
     return (<section className="offcanvas-section">
       <Slider
@@ -84,8 +90,8 @@ class CustomizeSearch extends React.Component {
   getWalkBoardCostSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkBoardCost()
 
-    const walkBoardCostSliderValues = this.getSliderStepsArray(1, 1800, 600).reverse().map(
-      num => Math.round(num));
+    const walkBoardCostSliderValues =
+      CustomizeSearch.getSliderStepsArray(1, 1800, 600).reverse().map(num => Math.round(num));
 
     return (
       <section className="offcanvas-section">
@@ -117,7 +123,7 @@ class CustomizeSearch extends React.Component {
   getTransferMarginSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getMinTransferTime()
 
-    const transferMarginSliderValues = this.getSliderStepsArray(60, 660, 180).map(
+    const transferMarginSliderValues = CustomizeSearch.getSliderStepsArray(60, 660, 180).map(
       num => Math.round(num));
 
     return (
@@ -150,7 +156,7 @@ class CustomizeSearch extends React.Component {
   getWalkSpeedSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkSpeed()
 
-    const walkingSpeedSliderValues = this.getSliderStepsArray(0.5, 3, 1.2);
+    const walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(0.5, 3, 1.2);
 
     return (
       <section className="offcanvas-section">
@@ -217,53 +223,62 @@ class CustomizeSearch extends React.Component {
     if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes).split(',');
     }
-    return this.getDefaultModes();
+    return CustomizeSearch.getDefaultModes();
   }
 
   getMode(mode) {
     return this.getModes().includes(mode.toUpperCase());
   }
 
-  getDefaultModes() {
-    return [
-      ...Object.keys(config.transportModes)
-        .filter(mode => config.transportModes[mode].defaultValue).map(mode => mode.toUpperCase()),
-      ...Object.keys(config.streetModes)
-        .filter(mode => config.streetModes[mode].defaultValue).map(mode => mode.toUpperCase()),
-    ];
-  }
-
   updateSettings(name, value) {
-    this.context.router.replace({
-      ...this.context.location,
-      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
-      query: { ...this.context.location.query, [name]: value },
-    });
+    this.context.executeAction(
+      route,
+      {
+        location: {
+          ...this.context.location,
+          query: {
+            ...this.context.location.query,
+            [name]: value,
+          },
+        },
+        router: this.context.router,
+      }
+    );
   }
 
   toggleTransportMode(mode, otpMode) {
-    this.context.router.replace({
-      ...this.context.location,
-      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
-      query: {
-        ...this.context.location.query,
-        modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
-      },
-    });
+    this.context.executeAction(
+      route,
+      {
+        location: {
+          ...this.context.location,
+          query: {
+            ...this.context.location.query,
+            modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
+          },
+        },
+        router: this.context.router,
+      }
+    );
   }
 
   toggleStreetMode(mode) {
-    this.context.router.replace({
-      ...this.context.location,
-      pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
-      query: {
-        ...this.context.location.query,
-        modes:
-          without(this.getModes(), ...Object.keys(config.streetModes).map(m => m.toUpperCase()))
-            .concat(mode.toUpperCase())
-            .join(','),
-      },
-    });
+    this.context.executeAction(
+      route,
+      {
+        location: {
+          ...this.context.location,
+          query: {
+            ...this.context.location.query,
+            modes:
+              without(this.getModes(), ...Object.keys(config.streetModes).map(m => m.toUpperCase()))
+              .concat(mode.toUpperCase())
+              .join(','),
+          },
+        },
+        router: this.context.router,
+      }
+    );
   }
 
   actions = {

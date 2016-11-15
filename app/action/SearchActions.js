@@ -37,7 +37,7 @@ function addCurrentPositionIfEmpty(input) {
 
 function filterMatchingToInput(list, input, fields) {
   if ((typeof input === 'string' ? input.length : 0) > 0) {
-    return list.filter(item => {
+    return list.filter((item) => {
       const parts = fields.map(pName => get(item, pName));
 
       const test = parts.join(' ').toLowerCase();
@@ -134,7 +134,7 @@ function compareRoutes(x, y) {
 
 function getStops(res) {
   if (res) {
-    return res.map(item => {
+    return res.map((item) => {
       const mode = item.routes
               && item.routes.length > 0
               ? item.routes[0].mode.toLowerCase()
@@ -224,7 +224,7 @@ function searchRoutesAndStops(input, reference, favourites) {
   if (searches.length > 0) {
     refLatLng = getLatLng(reference.lat, reference.lon);
 
-    return queryGraphQL(`{${searches.join(' ')}}`).then(response => {
+    return queryGraphQL(`{${searches.join(' ')}}`).then((response) => {
       if (response == null || response.data == null) {
         return [];
       }
@@ -237,7 +237,7 @@ function searchRoutesAndStops(input, reference, favourites) {
       return ([]
         .concat(favouriteRoutes.sort(compareRoutes))
         .concat(uniq(mapRoutes(response.data.routes)).sort(compareRoutes))
-        .concat(sortBy(getStops(response.data.stops || []), (item) =>
+        .concat(sortBy(getStops(response.data.stops || []), item =>
           Math.round(
             getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
             .distanceTo(refLatLng) / 50000)

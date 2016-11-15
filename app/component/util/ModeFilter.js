@@ -18,7 +18,7 @@ class ModeFilter extends React.Component {
   };
 
   availableModes = () => Object.keys(config.transportModes).filter(
-    (mode) => (config.transportModes[mode].availableForSelection))
+    mode => (config.transportModes[mode].availableForSelection))
 
   render = () => {
     const widthPercentage = 100 / this.availableModes().length;
@@ -75,7 +75,7 @@ pureModeFilter.description = (
       />
     </ComponentUsageExample>
 
-    <p>For 'nearby white buttons'</p>
+    <p>For &lsquo;nearby white buttons&rsquo;</p>
     <div className="nearby-routes">
       <ComponentUsageExample>
         <ModeFilter

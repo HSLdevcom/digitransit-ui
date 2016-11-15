@@ -65,7 +65,7 @@ export default class PositionStore extends Store {
     this.emitChange();
   }
 
-  hasStatusChanged = (hasLocation) => hasLocation !== this.getLocationState().hasLocation;
+  hasStatusChanged = hasLocation => hasLocation !== this.getLocationState().hasLocation;
 
   getLocationState() {
     return {

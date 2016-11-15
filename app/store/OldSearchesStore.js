@@ -51,8 +51,9 @@ class OldSearchesStore extends Store {
     this.emitChange(destination);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getOldSearches(type) {
-    return getOldSearchesStorage().filter((item) => (type ? item.type === type : true));
+    return getOldSearchesStorage().filter(item => (type ? item.type === type : true));
   }
 
   static handlers = {

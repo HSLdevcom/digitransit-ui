@@ -34,7 +34,7 @@ class AddFavouriteContainer extends React.Component {
         address: undefined,
         version: 1,
       },
-      searchModalIsOpen: false });
+        searchModalIsOpen: false });
     }
   }
 
@@ -131,7 +131,7 @@ class AddFavouriteContainer extends React.Component {
               <FakeSearchBar
                 endpointAddress={(this.state != null ? favourite.address : undefined) || ''}
                 placeholder={destinationPlaceholder}
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   this.setState({
                     searchModalIsOpen: true,
