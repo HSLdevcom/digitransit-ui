@@ -4,7 +4,6 @@ import { intlShape } from 'react-intl';
 
 import GeolocationOrInput from './GeolocationOrInput';
 import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
-import { executeSearch } from '../../action/SearchActions';
 import SearchModal from './SearchModal';
 
 
@@ -30,25 +29,7 @@ class OneTabSearchModal extends React.Component {
 
   componentDidUpdate() {
     if (this.props.modalIsOpen) {
-      setTimeout(() => this.geolocationOrInput.searchInput.autowhatever.input.focus(),
-                 0);
-
-      if (!this.props.endpoint) {
-        this.context.executeAction(executeSearch, {
-          input: '',
-          type: 'endpoint',
-        });
-      } else if (this.props.target === 'origin') {
-        this.context.executeAction(executeSearch, {
-          input: this.context.getStore('EndpointStore').getOrigin().address || '',
-          type: 'endpoint',
-        });
-      } else if (this.props.target === 'destination') {
-        this.context.executeAction(executeSearch, {
-          input: this.context.getStore('EndpointStore').getDestination().address || '',
-          type: 'endpoint',
-        });
-      }
+      setTimeout(() => this.geolocationOrInput.searchInput.autowhatever.input.focus(), 0);
     }
   }
 

@@ -193,11 +193,24 @@ gemini.suite('components', () => {
   basicTest('Centered');
   basicTest('InfoIcon');
   basicTest('DepartureListHeader');
+  basicTest('NextDeparturesListHeader');
   basicTest('SelectedStopPopupContent');
 
   gemini.suite('SummaryRow', () => {
     gemini.suite('passive', test('SummaryRow'));
     gemini.suite('active', test('SummaryRow', 2));
     gemini.suite('open', test('SummaryRow', 3));
+  });
+
+  gemini.suite('CurrentPositionSuggestionItem', () => {
+    gemini.suite('With position', test('CurrentPositionSuggestionItem'));
+    gemini.suite('No position', test('CurrentPositionSuggestionItem', 2));
+  });
+
+  gemini.suite('SuggestionItem', () => {
+    gemini.suite('Favourite', test('SuggestionItem'));
+    gemini.suite('Address', test('SuggestionItem', 2));
+    gemini.suite('Route', test('SuggestionItem', 3));
+    gemini.suite('Stop', test('SuggestionItem', 4));
   });
 });

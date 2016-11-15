@@ -1,6 +1,10 @@
 import Store from 'fluxible/addons/BaseStore';
 import orderBy from 'lodash/orderBy';
+import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
+
 import { getOldSearchesStorage, setOldSearchesStorage } from './localStorage';
+import { getLabel } from '../util/suggestionUtils';
 
 class OldSearchesStore extends Store {
   static storeName = 'OldSearchesStore';
@@ -8,52 +12,37 @@ class OldSearchesStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
 
-    // migrate old searches
-    setOldSearchesStorage(this.getOldSearches().map((item) => {
-      item.type = item.type || 'endpoint'; // eslint-disable-line no-param-reassign
-      return item;
-    }));
+    const oldSearches = getOldSearchesStorage();
+    if (!oldSearches || oldSearches.version == null || oldSearches.version < 2) {
+      setOldSearchesStorage({
+        version: 2,
+        items: [],
+      });
+    }
   }
 
-  // storage (sorted by count desc):
-  // [
-  //  {
-  //   "address": "Espoo, Espoo",
-  //   "coordinates" :[]
-  //   "count": 1
-  //   "type": "endpoint" or "search"
-  //  }
-  // ]
   saveSearch(destination) {
-    let searches = this.getOldSearches();
+    let searches = getOldSearchesStorage().items;
 
-    const found =
-      searches
-        .filter(storedSearch => storedSearch.type === destination.type)
-        .filter(storedSearch => storedSearch.address === destination.address);
+    const found = find(searches, oldItem =>
+        isEqual(getLabel(destination.item.properties), getLabel(oldItem.item.properties)));
 
-    switch (found.length) {
-      case 0:
-        searches.push(Object.assign({
-          count: 1,
-        }, destination));
-
-        break;
-      case 1:
-        found[0].count += 1;
-        break;
-      default:
-        console.error('too many matches', found);
+    if (found != null) {
+      found.count += 1;
+    } else {
+      searches.push({ count: 1, ...destination });
     }
 
-    setOldSearchesStorage(orderBy(searches, 'count', 'desc'));
+    setOldSearchesStorage({ version: 2, items: orderBy(searches, 'count', 'desc') });
     searches = this.getOldSearches();
     this.emitChange(destination);
   }
 
   // eslint-disable-next-line class-methods-use-this
   getOldSearches(type) {
-    return getOldSearchesStorage().filter(item => (type ? item.type === type : true));
+    return getOldSearchesStorage().items
+      .filter(item => (type ? item.type === type : true))
+      .map(item => item.item);
   }
 
   static handlers = {
