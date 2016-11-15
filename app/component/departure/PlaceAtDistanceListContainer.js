@@ -26,7 +26,7 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
 
 /* eslint-disable no-underscore-dangle */
 const PlaceAtDistanceList = (props) => {
-  let rows = [];
+  const rows = [];
   if (props.places && props.places.edges) {
     props.places.edges.forEach((edge) => {
       const node = edge.node;

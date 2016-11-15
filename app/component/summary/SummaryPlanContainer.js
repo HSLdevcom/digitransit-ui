@@ -22,7 +22,7 @@ class SummaryPlanContainer extends React.Component {
     location: React.PropTypes.object.isRequired,
   };
 
-  onSelectActive = index => {
+  onSelectActive = (index) => {
     if (this.getActiveIndex() === index) {
       if (Number(this.props.params.hash) === index) {
         this.context.router.goBack();

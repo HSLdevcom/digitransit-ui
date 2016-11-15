@@ -40,13 +40,6 @@ RouteNumber.description = (
         text={exampleRealtimeDeparture.pattern.route.shortName}
       />
     </ComponentUsageExample>
-    <ComponentUsageExample description="with realtime symbol">
-      <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.mode}
-        text={exampleRealtimeDeparture.pattern.route.shortName}
-        realtime
-      />
-    </ComponentUsageExample>
     <ComponentUsageExample description="in vertical configuration">
       <RouteNumber
         mode={exampleRealtimeDeparture.pattern.route.mode}
@@ -58,7 +51,6 @@ RouteNumber.description = (
 
 RouteNumber.propTypes = {
   mode: React.PropTypes.string.isRequired,
-  realtime: React.PropTypes.bool,
   text: React.PropTypes.node,
   vertical: React.PropTypes.bool,
   className: React.PropTypes.string,

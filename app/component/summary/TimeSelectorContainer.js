@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import debounce from 'lodash/debounce';
+import { route } from '../../action/ItinerarySearchActions';
 
 import TimeSelectors from './TimeSelectors';
 
@@ -12,6 +13,7 @@ class TimeSelectorContainer extends Component {
     location: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
+    executeAction: React.PropTypes.func.isRequired,
   };
 
   state = { time: this.context.location.query.time ?
@@ -27,10 +29,19 @@ class TimeSelectorContainer extends Component {
   }
 
   setArriveBy = ({ target }) =>
-    this.context.router.replace({
-      ...this.context.location,
-      query: { ...this.context.location.query, arriveBy: target.value },
-    });
+    this.context.executeAction(
+      route,
+      {
+        location: {
+          ...this.context.location,
+          query: {
+            ...this.context.location.query,
+            arriveBy: target.value,
+          },
+        },
+        router: this.context.router,
+      }
+    );
 
   getDates() {
     const dates = [];
@@ -61,14 +72,20 @@ class TimeSelectorContainer extends Component {
 
   dispatchChangedtime = debounce(
     () =>
-      this.context.router.replace({
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          time: this.state.time.unix(),
-        },
-      })
-    , 500);
+      this.context.executeAction(
+        route,
+        {
+          location: {
+            ...this.context.location,
+            query: {
+              ...this.context.location.query,
+              time: this.state.time.unix(),
+            },
+          },
+          router: this.context.router,
+        }
+      ),
+    500);
 
   changeTime = ({ target }) => (target.value ? this.setState(
     { time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD') },

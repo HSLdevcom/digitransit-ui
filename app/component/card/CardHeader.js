@@ -64,7 +64,7 @@ CardHeader.propTypes = {
   description: React.PropTypes.string.isRequired,
   code: React.PropTypes.string,
   icon: React.PropTypes.string,
-  icons: React.PropTypes.array,
+  icons: React.PropTypes.arrayOf(React.PropTypes.node),
   children: React.PropTypes.node,
 };
 

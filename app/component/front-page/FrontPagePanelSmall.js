@@ -43,7 +43,7 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
         transitionEnterTimeout={300}
         transitionLeaveTimeout={300}
       >
-      {content}
+        {content}
       </ReactCSSTransitionGroup>
       <ul className="tabs-row tabs-arrow-up cursor-pointer">
         <NearbyTabLabelContainer
@@ -56,8 +56,10 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
         />
       </ul>
     </div>
-); };
+  );
+};
 
+const noop = () => {};
 
 FrontPagePanelSmall.description = () => (
   <div>
@@ -65,7 +67,7 @@ FrontPagePanelSmall.description = () => (
       Front page tabs for small display.
     </p>
     <ComponentUsageExample description="Front page tabs">
-      <FrontPagePanelSmall />
+      <FrontPagePanelSmall closePanel={noop} favouritesClicked={noop} nearbyClicked={noop} />
     </ComponentUsageExample>
   </div>);
 

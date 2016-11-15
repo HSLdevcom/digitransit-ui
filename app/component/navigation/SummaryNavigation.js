@@ -24,7 +24,7 @@ class SummaryNavigation extends React.Component {
   };
 
   componentDidMount() {
-    this.unlisten = this.context.router.listen(location => {
+    this.unlisten = this.context.router.listen((location) => {
       if (this.context.location.state && this.context.location.state.customizeSearchOffcanvas &&
         (!location.state || !location.state.customizeSearchOffcanvas)
         && !this.transitionDone && location.pathname.startsWith('/reitti/')) {

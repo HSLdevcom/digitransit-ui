@@ -39,4 +39,5 @@ module.exports = {
     itineraryInstructions.verifyDestination('Pohjolanaukio');
     browser.end();
   },
+
 };

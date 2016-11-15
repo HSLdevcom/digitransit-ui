@@ -12,13 +12,13 @@ const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (co
   ({
     icons: [
       props.isTerminal ? null :
-        <Favourite
-          favourite={context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId)}
-          addFavourite={(e) => {
-            e.preventDefault();
-            return context.executeAction(addFavouriteStop, props.stop.gtfsId);
-          }}
-        />,
+      <Favourite
+        favourite={context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId)}
+        addFavourite={(e) => {
+          e.preventDefault();
+          return context.executeAction(addFavouriteStop, props.stop.gtfsId);
+        }}
+      />,
     ],
     isTerminal: props.isTerminal,
     children: <DepartureListContainer

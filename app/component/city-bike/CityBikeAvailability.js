@@ -15,7 +15,7 @@ const CityBikeAvailability = mapProps(({ bikesAvailable, totalSpaces }) => ({
       <FormattedMessage id="bike-availability" defaultMessage="Bikes available" />
       {'\u00a0'}
       ({isNaN(bikesAvailable) ? 0 : bikesAvailable}/
-       {isNaN(totalSpaces) ? 0 : totalSpaces})
+      {isNaN(totalSpaces) ? 0 : totalSpaces})
     </p>
   ),
 }))(Availability);

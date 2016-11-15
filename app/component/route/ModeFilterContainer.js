@@ -6,7 +6,7 @@ import * as ModeSelectedAction from '../../action/modeSelectedActions';
 export default connectToStores(
   ModeFilter,
   ['ModeStore'],
-  (context) =>
+  context =>
     ({
       selectedModes: context.getStore('ModeStore').getMode(),
       buttonClass: 'btn mode-nearby',

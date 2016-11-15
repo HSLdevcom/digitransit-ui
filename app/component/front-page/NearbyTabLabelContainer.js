@@ -10,7 +10,7 @@ import StopListRoute from '../../route/StopListRoute';
 
 const STOP_COUNT = 20;
 
-const hasDisruption = (stops) =>
+const hasDisruption = stops =>
   some(flatten(stops.stopsByRadius.edges.map(edge =>
     edge.node.stop.routes.map(route =>
       route.alerts.length > 0))));
@@ -63,7 +63,7 @@ function NearbyTabLabelContainer(props) {
     return (
       <Relay.RootContainer
         Component={NearbyTabLabelRelayConnector}
-        renderFetched={(data) =>
+        renderFetched={data =>
           <NearbyTabLabelRelayConnector {...data} {...props} />
         }
         route={new StopListRoute({

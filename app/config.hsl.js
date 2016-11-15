@@ -51,9 +51,7 @@ export default {
     primary: '#007ac9',
   },
 
-  topNaviLinks: [
-    { name: 'HSL', href: 'https://www.hsl.fi/' },
-  ],
+  appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
 
   socialMedia: {
     title: 'Uusi Reittiopas',

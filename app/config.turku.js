@@ -43,11 +43,7 @@ export default {
     primary: '#e8aa27',
   },
 
-  topNaviLinks: [
-    { name: 'Hinnat', href: 'http://www.foli.fi/fi/tuotteet-ja-hinnat' },
-    { name: 'Ohjeita', href: 'http://www.foli.fi/fi/tietoja-ja-ohjeita' },
-  ],
-
+  appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },
 
   socialMedia: {
     title: 'Fölin reittiopas',

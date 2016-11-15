@@ -27,12 +27,12 @@ export default class ParkAndRide {
       `${config.URL.PARK_AND_RIDE_MAP}${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}` +
       `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`
     )
-    .then(res => {
+    .then((res) => {
       if (res.status !== 200) {
         return undefined;
       }
 
-      return res.arrayBuffer().then(buf => {
+      return res.arrayBuffer().then((buf) => {
         const vt = new VectorTile(new Protobuf(buf));
 
         this.features = [];
@@ -51,7 +51,7 @@ export default class ParkAndRide {
             }`, { ids: JSON.parse(feature.properties.facilityIds) });
             Relay.Store.primeCache({
               query,
-            }, readyState => {
+            }, (readyState) => {
               if (readyState.done) {
                 const result = compact(Relay.Store.readQuery(query));
                 if (!isEmpty(result)) {
@@ -77,7 +77,7 @@ export default class ParkAndRide {
             }`, { id: feature.id });
             Relay.Store.primeCache({
               query,
-            }, readyState => {
+            }, (readyState) => {
               if (readyState.done) {
                 const result = compact(Relay.Store.readQuery(query));
                 if (result != null && result.length !== 0) {

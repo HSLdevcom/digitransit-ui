@@ -4,7 +4,7 @@ import { getJson } from '../util/xhrPromise';
 import config from '../config';
 import { setOriginToDefault } from './EndpointActions';
 
-const geolocator = (actionContext) => actionContext.getStore('ServiceStore').geolocator();
+const geolocator = actionContext => actionContext.getStore('ServiceStore').geolocator();
 let position;
 
 function reverseGeocodeAddress(actionContext, location, done) {

@@ -39,8 +39,8 @@ class Splash extends React.Component {
       <div id="splash">
         <h2>
           <FormattedMessage
-           id="welcome"
-           defaultMessage="Welcome to the new Journey Planner!"
+            id="welcome"
+            defaultMessage="Welcome to the new Journey Planner!"
           />
         </h2>
 
@@ -49,7 +49,6 @@ class Splash extends React.Component {
         <div className="splash-separator">
           <FormattedMessage id="you-can-also" defaultMessage="You can also" />
         </div>
-
         <span id="splash-searchfield" onClick={this.openModal}>
           <FormattedMessage id="give-origin" defaultMessage="Type in your origin" />
           <Icon className="icon-edit" img="icon-icon_edit" />
@@ -57,6 +56,7 @@ class Splash extends React.Component {
 
         <div className="splash-separator">
           <FormattedMessage id="or-choose" defaultMessage="or choose your origin from" />
+´
         </div>
         <OriginSelector />
       </div>

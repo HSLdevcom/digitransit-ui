@@ -44,7 +44,7 @@ class RouteMarkerPopup extends React.Component {
     };
   }
 
-  addAsFavouriteRoute = e => {
+  addAsFavouriteRoute = (e) => {
     e.stopPropagation();
     this.props.context.executeAction(addFavouriteRoute, this.props.trip.route.gtfsId);
   }

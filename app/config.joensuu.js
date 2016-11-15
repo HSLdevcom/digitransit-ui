@@ -39,9 +39,7 @@ export default {
 
   stopsMinZoom: 14,
 
-  topNaviLinks: [
-    { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
-  ],
+  appBarLink: { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
 
   colors: {
     primary: '#5c4696',

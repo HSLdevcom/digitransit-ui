@@ -71,7 +71,7 @@ FavouriteRouteListContainer.propTypes = {
 const FavouriteRouteListContainerWithTime = connectToStores(
   FavouriteRouteListContainer,
   ['TimeStore'],
-  context => {
+  (context) => {
     const PositionStore = context.getStore('PositionStore');
     const position = PositionStore.getLocationState();
     const origin = context.getStore('EndpointStore').getOrigin();

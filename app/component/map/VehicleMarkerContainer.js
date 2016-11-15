@@ -16,6 +16,28 @@ let Popup;
 let Marker;
 let L;
 
+function getVehicleIcon(mode, heading, useSmallIcon = false) {
+  if (!isBrowser) {
+    return null;
+  }
+
+  if (MODES_WITH_ICONS.indexOf(mode) !== -1) {
+    return L.divIcon({
+      html: iconAsString({ img: `icon-icon_${mode}-live`, rotate: heading }),
+      className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+    });
+  }
+
+  return L.divIcon({
+    html: iconAsString({ img: 'icon-icon_bus-live', rotate: heading }),
+    className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+  });
+}
+
 
 if (isBrowser) {
   /* eslint-disable global-require */
@@ -52,7 +74,7 @@ export default class VehicleMarkerContainer extends React.Component {
 
     const vehicles = this.context.getStore('RealTimeInformationStore').vehicles;
 
-    Object.keys(vehicles).forEach(id => {
+    Object.keys(vehicles).forEach((id) => {
       // if tripStartTime has been specified,
       // use only the updates for vehicles with matching startTime
       const message = vehicles[id];
@@ -77,29 +99,6 @@ export default class VehicleMarkerContainer extends React.Component {
     const message = this.context.getStore('RealTimeInformationStore').getVehicle(id);
     this.updateVehicle(id, message);
   }
-
-  getVehicleIcon(mode, heading, useSmallIcon = false) {
-    if (!isBrowser) {
-      return null;
-    }
-
-    if (MODES_WITH_ICONS.indexOf(mode) !== -1) {
-      return L.divIcon({
-        html: iconAsString({ img: `icon-icon_${mode}-live`, rotate: heading }),
-        className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
-        iconSize: [20, 20],
-        iconAnchor: [10, 10],
-      });
-    }
-
-    return L.divIcon({
-      html: iconAsString({ img: 'icon-icon_bus-live', rotate: heading }),
-      className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
-    });
-  }
-
 
   vehicles = {};
 
@@ -130,7 +129,7 @@ export default class VehicleMarkerContainer extends React.Component {
           lat: message.lat,
           lng: message.long,
         }}
-        icon={this.getVehicleIcon(message.mode, message.heading, this.props.useSmallIcons)}
+        icon={getVehicleIcon(message.mode, message.heading, this.props.useSmallIcons)}
       >
         <Popup
           offset={[106, 16]}

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
-const TextAreaWithCounter = props => {
+const TextAreaWithCounter = (props) => {
   let counter;
 
   if (props.showCounter) {

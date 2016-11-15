@@ -7,6 +7,7 @@ class FavouriteStopsStore extends Store {
 
   stops = this.getStops();
 
+  // eslint-disable-next-line class-methods-use-this
   getStops() {
     return getFavouriteStopsStorage();
   }

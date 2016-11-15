@@ -12,7 +12,7 @@ class FavouriteLocationStore extends Store {
     this.migrate();
   }
 
-  getById = (id) => find(this.locations, (location) => id === location.id);
+  getById = id => find(this.locations, location => id === location.id);
 
   /*
    * migrate local storage data from old format to new.
@@ -33,8 +33,8 @@ class FavouriteLocationStore extends Store {
     }
   }
 
-  getMaxId = (collection) => (
-    (maxBy(collection, (location) => location.id) || { id: 0 }).id
+  getMaxId = collection => (
+    (maxBy(collection, location => location.id) || { id: 0 }).id
   );
 
   migrate01 = (locations) => {
@@ -44,8 +44,9 @@ class FavouriteLocationStore extends Store {
     let maxId = this.getMaxId(locations);
 
     const modified = locations.map((favourite) => {
+      maxId += 1;
       if (matchF(favourite)) {
-        const migrated = { ...favourite, version: 1, id: ++maxId };
+        const migrated = { ...favourite, version: 1, id: maxId };
         return migrated;
       }
       return { favourite };
@@ -58,6 +59,7 @@ class FavouriteLocationStore extends Store {
     setFavouriteLocationsStorage(this.locations);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getLocations() {
     return getFavouriteLocationsStorage();
   }
@@ -83,7 +85,7 @@ class FavouriteLocationStore extends Store {
   }
 
   deleteFavouriteLocation(location) {
-    this.locations = this.locations.filter((currentLocation) =>
+    this.locations = this.locations.filter(currentLocation =>
       (currentLocation.id !== location.id));
     this.save();
   }
