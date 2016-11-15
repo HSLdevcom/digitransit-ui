@@ -1,9 +1,14 @@
 import React, { Component, PropTypes } from 'react';
+import find from 'lodash/find';
+import cx from 'classnames';
+import { FormattedMessage, intlShape } from 'react-intl';
+
 import ReactAutowhatever from 'react-autowhatever';
-import { getLabel } from '../../util/suggestionUtils';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
-import { executeSearch, saveSearch } from '../../action/SearchActions';
+import { executeSearch, executeSearchImmediate } from '../../util/searchUtils';
+import { getLabel } from '../../util/suggestionUtils';
+import { saveSearch } from '../../action/SearchActions';
 import Icon from '../icon/Icon';
 
 const L = typeof window !== 'undefined' ? require('leaflet') : null;
@@ -12,6 +17,7 @@ export default class SearchInputContainer extends Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
+    intl: intlShape,
   };
 
   static propTypes = {
@@ -22,34 +28,49 @@ export default class SearchInputContainer extends Component {
     initialValue: PropTypes.string,
     children: PropTypes.node,
     close: PropTypes.func.isRequired,
+    sections: PropTypes.bool,
   };
 
   state = {
     focusedItemIndex: 0,
     suggestions: [],
+    value: this.props.initialValue,
+    type: 'endpoint',
   };
-  componentWillMount() {
-    this.setState({ value: this.props.initialValue });
-  }
 
   componentDidMount() {
-    this.context.getStore('SearchStore').addChangeListener(this.onSearchChange);
+    executeSearchImmediate(this.context.getStore, {
+      input: '',
+      type: this.props.type,
+    }, this.onSearchChange);
   }
 
-  componentWillUnmount() {
-    this.context.getStore('SearchStore').removeChangeListener(this.onSearchChange);
+  onSearchChange = (data) => {
+    this.setState({
+      suggestions: data,
+      focusedItemIndex: 0,
+    }, () => this.focusItem(0));
   }
 
-  onSearchChange = (payload) => {
-    if (payload.action === 'suggestions' && Array.isArray(payload.data)) {
-      this.setState({
-        suggestions: payload.data,
-        focusedItemIndex: 0,
-      }, () => this.focusItem(0));
+  onSwitchTab = (tab) => {
+    this.setState({
+      type: tab,
+      focusedItemIndex: 0,
+    }, () => {
+      this.focusItem(0);
+      this.focus();
+    });
+  }
+
+  getItems() {
+    if (this.props.type === 'all') {
+      const suggestions = find(this.state.suggestions, ['name', this.state.type]);
+      return (suggestions && suggestions.items) || [];
     }
+    return this.state.suggestions;
   }
 
-  focusItem = (i) => {
+  focusItem(i) {  // eslint-disable-line class-methods-use-this
     if (L.Browser.touch) {
       return;
     }
@@ -81,7 +102,7 @@ export default class SearchInputContainer extends Component {
   }
 
   handleOnKeyDown = (event, eventProps) => {
-    if (event.keyCode === 13 && this.state.suggestions.length > 0) {
+    if (event.keyCode === 13 && this.getItems().length > 0) {
       // enter selects current
       this.currentItemSelected();
       this.blur();
@@ -140,49 +161,30 @@ export default class SearchInputContainer extends Component {
       value: input,
     });
 
-    this.context.executeAction(executeSearch, {
+    executeSearch(this.context.getStore, {
       input: event.target.value,
       type: this.props.type,
-    });
+    }, this.onSearchChange);
   }
 
   currentItemSelected = () => {
-    let save;
-    let state;
-    let name;
-    let item;
-
-    if (this.state.focusedItemIndex >= 0 && this.state.suggestions != null
-      && this.state.suggestions.length > 0) {
-      item = this.state.suggestions[this.state.focusedItemIndex];
-      name = getLabel(item.properties);
+    if (this.state.focusedItemIndex >= 0 && this.getItems().length > 0) {
+      const item = this.getItems()[this.state.focusedItemIndex];
+      let name;
 
       if (item.type === 'CurrentLocation') {
-        state = this.context.getStore('PositionStore').getLocationState();
-
-        item.geometry = {
-          coordinates: [state.lon, state.lat],
-        };
-
-        name = 'Nykyinen sijainti';
+        const state = this.context.getStore('PositionStore').getLocationState();
+        item.geometry = { coordinates: [state.lon, state.lat] };
+        name = this.context.intl.formatMessage(
+          { id: 'own-position', defaultMessage: 'Current position' }
+        );
       } else {
-        save = () => this.context.executeAction(saveSearch, {
-          address: name,
-          geometry: item.geometry,
-          properties: {
-            mode: item.properties.mode,
-          },
-          type: this.props.type,
-        });
-
-        setTimeout(save, 0);
+        const type = (this.props.type === 'all' && this.state.type) || this.props.type;
+        this.context.executeAction(saveSearch, { item, type });
+        name = item.properties.label || getLabel(item.properties).join(', ');
       }
 
       this.props.onSuggestionSelected(name, item);
-
-      this.setState({
-        value: name,
-      });
     }
   }
 
@@ -190,6 +192,55 @@ export default class SearchInputContainer extends Component {
     this.handleUpdateInputNow({ target: { value: '' } });
     this.focus();
   };
+
+  renderMultiWrapper = ({ children, ...rest }) => (
+    <div {...rest} >
+      <div className="react-autowhatever__type-selector">
+        <a
+          onClick={() => this.onSwitchTab('endpoint')}
+          className={cx({ selected: this.state.type === 'endpoint' })}
+          id="endpoint-tab"
+        >
+          <FormattedMessage id="destination" defaultMessage="Destination" />
+          {this.state.type !== 'endpoint' && (
+            <span className="item-count">
+              {(find(this.state.suggestions, ['name', 'endpoint']) || { items: [] }).items.length}
+            </span>
+          )}
+        </a>
+        <a
+          onClick={() => this.onSwitchTab('search')}
+          className={cx({ selected: this.state.type === 'search' })}
+          id="search-tab"
+        >
+          <FormattedMessage id="route-stop-or-keyword" defaultMessage="Route, stop or keyword" />
+          {this.state.type !== 'search' && (
+            <span className="item-count">
+              {(find(this.state.suggestions, ['name', 'search']) || { items: [] }).items.length}
+            </span>
+          )}
+        </a>
+      </div>
+      {children}
+    </div>
+  )
+
+  renderItem(item) { // eslint-disable-line class-methods-use-this
+    if (item.properties.layer === 'currentPosition') {
+      return (
+        <CurrentPositionSuggestionItem
+          ref={item.name}
+          item={item}
+        />
+      );
+    }
+    return (
+      <SuggestionItem
+        ref={item.name}
+        item={item}
+      />
+    );
+  }
 
   render() {
     const inputValue = (
@@ -199,30 +250,14 @@ export default class SearchInputContainer extends Component {
     ) || '';
 
     return (
-      <div className="fullscreen">
+      <div>
         <ReactAutowhatever
           ref={(c) => { this.autowhatever = c; }}
           className={this.props.className}
           id="suggest"
-          items={this.state.suggestions}
-          renderItem={(item) => {
-            if (item.properties.layer === 'currentPosition') {
-              return (
-                <CurrentPositionSuggestionItem
-                  ref={item.name}
-                  item={item}
-                  spanClass="autosuggestIcon"
-                />
-              );
-            }
-            return (
-              <SuggestionItem
-                ref={item.name}
-                item={item}
-                spanClass="autosuggestIcon"
-              />
-            );
-          }}
+          items={this.getItems()}
+          renderItem={this.renderItem}
+          renderItemsContainer={this.props.type === 'all' ? this.renderMultiWrapper : undefined}
           onSuggestionSelected={this.currentItemSelected}
           focusedItemIndex={this.state.focusedItemIndex}
           inputProps={{

@@ -63,21 +63,29 @@ $search-header-height: 45px;
   padding-right: 400px;
   margin-left: auto;
   margin-right:auto;
+
+  .search-modal-container {
+    max-height: calc(100% - 30px);
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
   .search-modal {
+    display: flex;
+    flex-direction: column;
     top:0;
     padding-left: 50px;
     border-radius: $border-radius-bigger;
     bottom: auto;
-//    top:-25px;
-//    left:52px;
     max-width:720px;
-    max-height: 550px;
-    padding: 4px;
+    padding: 0;
     width:100%;
     margin-left: auto;
     margin-right: auto;
     position: relative;
     input[type="text"].react-autowhatever__input {
+      flex: 0 0 auto;
       border: 1px solid $primary-color;
       border-radius: 4px;
       height: 3em;
@@ -93,6 +101,16 @@ $search-header-height: 45px;
     }
 
     .search-header {
+      padding: 0 15px;
+      flex: 0 1 auto;
+      display: flex;
+      flex-direction: column;
+
+      ul.react-autowhatever__items-list {
+        padding: 10px 16px;
+        width: calc(100% + 32px);
+        margin: 0 -16px;
+      }
 
       .search-header__button {
         font-size: 15px !important;
@@ -103,6 +121,14 @@ $search-header-height: 45px;
         .geolocation-selected {
           padding: 13.5px;
         }
+      }
+    }
+
+    .react-autowhatever__type-selector {
+      font-size: 13px;
+
+      a {
+        padding: 10px 40px;
       }
     }
 
@@ -122,6 +148,18 @@ $search-header-height: 45px;
   position: absolute;
   width: 100%;
   top: -17px;
+}
+
+.react-autowhatever__items-container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.react-autowhatever__container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .search-form.bp-large {
@@ -152,68 +190,100 @@ $search-header-height: 45px;
   }
 }
 
+.react-autowhatever__type-selector {
+  font-size: 11px;
+  line-height: 1;
+  display: flex;
+  flex: 0 0 auto;
+  margin-bottom: -1px;
+  z-index: 1;
+
+  a {
+    color: $primary-color;
+    height: 100%;
+    padding: 10px 10px;
+    margin: 0 3px;
+    border: 1px solid $light-gray;
+    border-bottom: none;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &.selected {
+      background: $white;
+      color: $black;
+    }
+
+    .item-count {
+      background-color: $primary-color;
+      color: $primary-font-color;
+      font-size: 0.8em;
+      margin-left: 0.5em;
+      padding: 0.25em 0.75em;
+      border-radius: 1em;
+      vertical-align: 0.1em;
+    }
+  }
+}
+
 ul.react-autowhatever__items-list {
   @extend .momentum-scroll;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   list-style-type: none;
   background: $white;
-  border: 1px solid $white;
-  border-radius: 4px;
-  padding: 4px;
-  max-height: 9em;
+  border: 1px solid $light-gray;
+  padding: 4px 11px;
   overflow-y: auto;
-  margin-top: 10px;
-  max-height: 412px;
+  width: calc(100% + 22px);
+  margin: 0 -11px;
 
   li {
-
     white-space: nowrap;
     overflow: hidden;
 
-    & .search-result {
-      display: block;
-      height: 2.1em;
-      line-height: 2.1em;
-    }
-
-    & .OldSearch {
-      /* TODO add somehow border */
-    }
-
-    & .Favourite svg.icon {
-      stroke: $favourite-color;
-      fill: $favourite-color;
+    &:not(:last-child) {
+      border-bottom: solid 1px #eee;
     }
   }
+}
 
-  .react-autowhatever__item {
-    font-family: $search-result-text-font-family;
-    font-weight: $search-result-text-font-weight;
-    letter-spacing: $search-result-text-letter-spacing;
-    padding:0.1em;
-  }
+.react-autowhatever__item {
+  font-family: $search-result-text-font-family;
+  font-weight: $search-result-text-font-weight;
+  letter-spacing: $search-result-text-letter-spacing;
+  padding:0.1em;
+}
 
-  .react-autowhatever__item--focused {
-    color: $search-result-text-highlight-color;
-    font-family: $search-result-text-font-family;
-    font-weight: $search-result-text-font-weight;
-    letter-spacing: $search-result-text-letter-spacing;
-    background-color: $search-result-text-highlight-background-color;
-  }
+.react-autowhatever__item--focused {
+  color: $search-result-text-highlight-color;
+  font-family: $search-result-text-font-family;
+  font-weight: $search-result-text-font-weight;
+  letter-spacing: $search-result-text-letter-spacing;
+  background-color: $search-result-text-highlight-background-color;
+}
 
-  .react-autosuggest__suggestion {
-    padding: 0px 0 5px 0;
-    margin: 0;
-    cursor: pointer;
-    height: 1.9em;
-    overflow-x: hidden;
-    white-space: nowrap;
-  }
+.react-autosuggest__suggestion {
+  padding: 0px 0 5px 0;
+  margin: 0;
+  cursor: pointer;
+  height: 1.9em;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
 
-  .react-autosuggest__suggestion .icon {
-    margin-right: 4px;
-    fill: $search-result-icon-color;
-  }
+.react-autosuggest__suggestion .icon {
+  margin-right: 4px;
+  fill: $search-result-icon-color;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+  min-height: 40px;
+
 
   .havePosition {
     color: $hilight-color;
@@ -231,6 +301,49 @@ ul.react-autowhatever__items-list {
     color: $medium-gray;
     padding-left: 3px;
     padding-right: 10px;
+    font-size: 19px;
+
+    svg.havePosition {
+      vertical-align: -0.15em;
+    }
+
+  }
+
+  &.favourite svg.icon {
+    stroke: $favourite-color;
+    fill: $favourite-color;
+  }
+
+  .use-own-position, .suggestion-name, .suggestion-label {
+    margin: 0;
+    @include font-book;
+  }
+
+  .suggestion-name, .use-own-position {
+    font-size: 13px;
+  }
+
+  .suggestion-label {
+    font-size: 11px;
+    color: $gray;
+  }
+}
+
+
+.bp-large .search-result {
+  min-height: 45px;
+  line-height: 1.4;
+
+  .autosuggestIcon {
+    font-size: 24px;
+  }
+
+  .suggestion-name, .use-own-position {
+    font-size: 18px;
+  }
+
+  .suggestion-label {
+    font-size: 13px;
   }
 }
 
@@ -271,6 +384,11 @@ div.search-modal {
     padding: 10px;
     outline: 0;
     appearance: none;
+
+    &:focus {
+      box-shadow: none;
+      border-color: $primary-color
+    }
   }
 }
 
@@ -291,6 +409,7 @@ div.origin-destination-bar {
   height: $search-header-height;
   line-height: $search-header-height;
   height: 100%;
+  overflow: hidden;
 
   .search-header__category-text {
     color: $gray-blue;
@@ -324,10 +443,19 @@ div.origin-destination-bar {
 
   .search-header-width-fix {
     margin-left: 30px !important;
-    width: calc(100% - 30px) !important;
+    margin-right: 30px !important;
+    width: calc(100% - 60px) !important;
   }
 
   .search-header__tabs-root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    > div {
+      flex: 0 0 auto;
+    }
+
     > div:first-child {
       background-color: $background-color !important;
       line-height: 18px !important;
@@ -336,7 +464,19 @@ div.origin-destination-bar {
     > div:nth-child(2) { //hack, modify tabs in material ui to fix
       @extend .search-header-width-fix;
     }
-    height: calc(100% - 30px)
+    > div:nth-child(3) {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      > div {
+        flex: 0 1 auto;
+        display: flex;
+        > div {
+          flex: 1 0 0;
+          width: 100%;
+        }
+      }
+    }
   }
 
 

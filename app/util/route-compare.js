@@ -1,4 +1,10 @@
 module.exports = (routea, routeb) => {
+  if (routea.agency && routea.agency.name && routeb.agency && routeb.agency.name) {
+    const agencyCompare = routea.agency.name.localeCompare(routeb.agency.name);
+    if (agencyCompare !== 0) {
+      return agencyCompare;
+    }
+  }
   const partsA = (routea.shortName || '').match(/^[A-Za-z]?(0*)([0-9]*)/);
   const partsB = (routeb.shortName || '').match(/^[A-Za-z]?(0*)([0-9]*)/);
   if (partsA[1].length !== partsB[1].length) {
