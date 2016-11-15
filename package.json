@@ -131,7 +131,7 @@
     "json-loader": "0.5.4",
     "mocha": "3.1.2",
     "nightwatch": "0.9.8",
-    "node-sass": "3.12.5",
+    "node-sass": "3.13.0",
     "nodemon": "1.11.0",
     "phantomjs-prebuilt": "2.1.13",
     "postcss-loader": "1.1.1",
