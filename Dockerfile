@@ -30,6 +30,8 @@ RUN \
   npm run static && \
   npm rebuild node-sass && \
   npm run build && \
+  rm -rf static docs test /tmp/* && \
+  npm prune --production && \
   npm cache clean && \
   chmod -R a+rwX . && \
   chown -R 9999:9999 ${WORK}
