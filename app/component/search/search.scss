@@ -65,16 +65,10 @@ $search-header-height: 45px;
   margin-right:auto;
 
   .search-modal-container {
-    max-height: calc(100% - 30px);
-    flex: 0 1 auto;
-    display: flex;
-    flex-direction: column;
     top: -33px;
   }
 
   .search-modal {
-    display: flex;
-    flex-direction: column;
     top:0;
     padding-left: 50px;
     border-radius: $border-radius-bigger;
@@ -103,9 +97,10 @@ $search-header-height: 45px;
 
     .search-header {
       padding: 0 15px;
-      flex: 0 1 auto;
-      display: flex;
-      flex-direction: column;
+
+      .react-autowhatever__container {
+        max-height: calc(100% - 200px);
+      }
 
       ul.react-autowhatever__items-list {
         padding: 10px 16px;
@@ -414,7 +409,6 @@ div.origin-destination-bar {
 }
 
 .search-header {
-  height: $search-header-height;
   line-height: $search-header-height;
   height: 100%;
   overflow: hidden;
