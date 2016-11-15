@@ -15,14 +15,17 @@ const asDepartures = stoptimes => (
   !stoptimes ? [] : stoptimes.map(pattern =>
     pattern.stoptimes.map((stoptime) => {
       const isArrival = stoptime.pickupType === 'NONE';
+      /* OTP returns either scheduled time or realtime prediction in
+       * 'realtimeDeparture' and 'realtimeArrival' fields.
+       * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
       const canceled = stoptime.realtimeState === 'CANCELED' ||
         (window.mock && stoptime.realtimeDeparture % 40 === 0);
       const arrivalTime = stoptime.serviceDay +
-        (canceled
+        (!canceled
           ? stoptime.realtimeArrival
           : stoptime.scheduledArrival);
       const departureTime = stoptime.serviceDay +
-        (canceled
+        (!canceled
           ? stoptime.realtimeDeparture
           : stoptime.scheduledDeparture);
       const stoptimeTime = isArrival ? arrivalTime : departureTime;
