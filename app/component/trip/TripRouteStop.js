@@ -42,7 +42,7 @@ const getRouteStopSvg = (first, last) => (
 
 const TripRouteStop = (props) => {
   const vehicles = props.vehicles && props.vehicles.map(
-      (vehicle) => (<PatternLink
+      vehicle => (<PatternLink
         key={vehicle.id}
         mode={vehicle.mode}
         pattern={props.pattern}

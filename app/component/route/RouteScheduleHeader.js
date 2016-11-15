@@ -52,8 +52,8 @@ RouteScheduleHeader.description = (
         stops={exampleStops}
         from={0}
         to={4}
-        onFromSelectChange={(event) => event.target.value}
-        onToSelectChange={(event) => event.target.value}
+        onFromSelectChange={event => event.target.value}
+        onToSelectChange={event => event.target.value}
       />
     </ComponentUsageExample>
   </div>);

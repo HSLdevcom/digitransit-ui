@@ -12,7 +12,7 @@ const getAlerts = (route, currentTime, intl) => {
   const routeMode = route.mode.toLowerCase();
   const routeLine = route.shortName;
 
-  return route.alerts.map(alert => {
+  return route.alerts.map((alert) => {
     // Try to find the alert in user's language, or failing in English, or failing in any language
     // TODO: This should be a util function that we use everywhere
     // TODO: We should match to all languages user's browser lists as acceptable

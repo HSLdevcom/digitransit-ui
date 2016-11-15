@@ -7,7 +7,7 @@ import flatten from 'lodash/flatten';
 import RoutesRoute from '../../route/RoutesRoute';
 import FavouritesTabLabel from './FavouritesTabLabel';
 
-const hasDisruption = (routes) =>
+const hasDisruption = routes =>
   some(flatten(routes.map(route => route.alerts.length > 0)));
 
 const alertReducer = mapProps(({ routes, ...rest }) => ({
@@ -37,7 +37,7 @@ function FavouritesTabLabelContainer({ routes, ...rest }) {
         render={({ done, props }) => (done ? (
           <FavouritesTabLabelRelayConnector {...props} {...rest} />
         ) : (
-          <FavouritesTabLabel {...rest} />
+        <FavouritesTabLabel {...rest} />
         ))}
       />);
   }
@@ -51,6 +51,6 @@ FavouritesTabLabelContainer.propTypes = {
 export default connectToStores(
   FavouritesTabLabelContainer,
   ['FavouriteRoutesStore'],
-  (context) => ({
+  context => ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),
   }));

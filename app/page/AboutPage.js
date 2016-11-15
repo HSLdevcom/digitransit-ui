@@ -45,6 +45,6 @@ AboutPage.propTypes = {
   currentLanguage: React.PropTypes.string.isRequired,
 };
 
-export default connectToStores(AboutPage, ['PreferencesStore'], (context) => ({
+export default connectToStores(AboutPage, ['PreferencesStore'], context => ({
   currentLanguage: context.getStore('PreferencesStore').getLanguage(),
 }));

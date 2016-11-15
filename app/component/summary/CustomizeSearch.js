@@ -36,7 +36,7 @@ class CustomizeSearch extends React.Component {
       The ranges below and above the default value are divided into even steps, after which
       the two ranges are combined into a single array of desired values.
   */
-  getSliderStepsArray(min, max, defaultValue, stepCount = 20) {
+  static getSliderStepsArray(min, max, defaultValue, stepCount = 20) {
     const denom = stepCount / 2;
     const lowStep = (defaultValue - min) / denom;
     const lowRange = range(min, defaultValue, lowStep);
@@ -46,10 +46,20 @@ class CustomizeSearch extends React.Component {
     return sliderSteps;
   }
 
+
+  static getDefaultModes() {
+    return [
+      ...Object.keys(config.transportModes)
+          .filter(mode => config.transportModes[mode].defaultValue).map(mode => mode.toUpperCase()),
+      ...Object.keys(config.streetModes)
+          .filter(mode => config.streetModes[mode].defaultValue).map(mode => mode.toUpperCase()),
+    ];
+  }
+
   getWalkReluctanceSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkReluctance()
 
-    const walkReluctanceSliderValues = this.getSliderStepsArray(0.8, 10, 2).reverse();
+    const walkReluctanceSliderValues = CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
 
     return (<section className="offcanvas-section">
       <Slider
@@ -80,8 +90,8 @@ class CustomizeSearch extends React.Component {
   getWalkBoardCostSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkBoardCost()
 
-    const walkBoardCostSliderValues = this.getSliderStepsArray(1, 1800, 600).reverse().map(
-      num => Math.round(num));
+    const walkBoardCostSliderValues =
+      CustomizeSearch.getSliderStepsArray(1, 1800, 600).reverse().map(num => Math.round(num));
 
     return (
       <section className="offcanvas-section">
@@ -113,7 +123,7 @@ class CustomizeSearch extends React.Component {
   getTransferMarginSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getMinTransferTime()
 
-    const transferMarginSliderValues = this.getSliderStepsArray(60, 660, 180).map(
+    const transferMarginSliderValues = CustomizeSearch.getSliderStepsArray(60, 660, 180).map(
       num => Math.round(num));
 
     return (
@@ -146,7 +156,7 @@ class CustomizeSearch extends React.Component {
   getWalkSpeedSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkSpeed()
 
-    const walkingSpeedSliderValues = this.getSliderStepsArray(0.5, 3, 1.2);
+    const walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(0.5, 3, 1.2);
 
     return (
       <section className="offcanvas-section">
@@ -213,20 +223,11 @@ class CustomizeSearch extends React.Component {
     if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes).split(',');
     }
-    return this.getDefaultModes();
+    return CustomizeSearch.getDefaultModes();
   }
 
   getMode(mode) {
     return this.getModes().includes(mode.toUpperCase());
-  }
-
-  getDefaultModes() {
-    return [
-      ...Object.keys(config.transportModes)
-        .filter(mode => config.transportModes[mode].defaultValue).map(mode => mode.toUpperCase()),
-      ...Object.keys(config.streetModes)
-        .filter(mode => config.streetModes[mode].defaultValue).map(mode => mode.toUpperCase()),
-    ];
   }
 
   updateSettings(name, value) {

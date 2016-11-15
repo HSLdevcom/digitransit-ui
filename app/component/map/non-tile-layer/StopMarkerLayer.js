@@ -55,7 +55,7 @@ class StopMarkerLayer extends React.Component {
     const stops = [];
     const renderedNames = [];
 
-    this.props.stopsInRectangle.stopsByBbox.forEach(stop => {
+    this.props.stopsInRectangle.stopsByBbox.forEach((stop) => {
       if (stop.routes.length === 0) {
         return;
       }

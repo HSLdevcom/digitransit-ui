@@ -60,7 +60,7 @@ RouteScheduleDateSelect.description = (
         startDate={'19700101'}
         selectedDate={'19700101'}
         dateFormat={'YYYYMMDD'}
-        onDateChange={(event) => event.target.value}
+        onDateChange={event => event.target.value}
       />
     </ComponentUsageExample>
   </div>);
