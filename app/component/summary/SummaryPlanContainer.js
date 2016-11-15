@@ -34,7 +34,7 @@ class SummaryPlanContainer extends React.Component {
     }
   }
 
-  onSelectImmediately = index => {
+  onSelectImmediately = (index) => {
     if (Number(this.props.params.hash) === index) {
       this.context.router.goBack();
     } else {
