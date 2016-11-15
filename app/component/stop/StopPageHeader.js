@@ -14,8 +14,8 @@ import Favourite from '../favourites/Favourite';
 
 const StopPageHeader = compose(
   getContext({ executeAction: React.PropTypes.func.isRequired,
-               breakpoint: React.PropTypes.string.isRequired }),
-  mapProps((props) => ({
+    breakpoint: React.PropTypes.string.isRequired }),
+  mapProps(props => ({
     stop: props.stop,
     className: 'stop-page header',
     headingStyle: 'h3',
@@ -29,7 +29,7 @@ const StopPageHeader = compose(
       <Centered>
         <Favourite
           favourite={props.favourite}
-          addFavourite={e => {
+          addFavourite={(e) => {
             e.stopPropagation();
             props.executeAction(addFavouriteStop, props.params.stopId);
           }}

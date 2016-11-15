@@ -13,8 +13,8 @@ class Select extends React.Component {
     ).isRequired,
   };
 
-  getOptionTags(options) {
-    return options.map((option) => (
+  static getOptionTags(options) {
+    return options.map(option => (
       <option key={option.displayName + option.value} value={option.value}>
         {option.displayName}
       </option>
@@ -29,7 +29,7 @@ class Select extends React.Component {
           onChange={this.props.onSelectChange}
           value={this.props.selected}
         >
-          {this.getOptionTags(this.props.options)}
+          {Select.getOptionTags(this.props.options)}
         </select>
       </div>
     );

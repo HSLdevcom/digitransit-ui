@@ -19,7 +19,7 @@ const getLocationMessage = (geolocation) => {
   return <FormattedMessage id="no-position" defaultMessage="No position" />;
 };
 
-const GeolocationBar = pure((props) => (
+const GeolocationBar = pure(props => (
   <div className="geolocation input-placeholder" onClick={props.onClick}>
     <div className="geolocation-selected">
       <Icon img="icon-icon_position" />

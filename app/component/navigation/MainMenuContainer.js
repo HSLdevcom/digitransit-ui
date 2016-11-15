@@ -17,7 +17,7 @@ class MainMenuContainer extends Component {
 
   state = { offcanvasVisible: false };
 
-  onRequestChange = (newState) => this.internalSetOffcanvas(newState);
+  onRequestChange = newState => this.internalSetOffcanvas(newState);
 
   getOffcanvasState = () => {
     if (typeof window !== 'undefined' && supportsHistory()) {
