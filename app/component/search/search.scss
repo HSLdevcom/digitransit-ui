@@ -79,6 +79,7 @@ $search-header-height: 45px;
     margin-left: auto;
     margin-right: auto;
     position: relative;
+
     input[type="text"].react-autowhatever__input {
       flex: 0 0 auto;
       border: 1px solid $primary-color;
@@ -99,7 +100,7 @@ $search-header-height: 45px;
       padding: 0 15px;
 
       .react-autowhatever__container {
-        max-height: calc(100% - 200px);
+        max-height: calc(85vh - 50px);
       }
 
       ul.react-autowhatever__items-list {
