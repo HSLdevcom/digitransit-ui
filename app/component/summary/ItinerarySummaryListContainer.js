@@ -25,7 +25,7 @@ function ItinerarySummaryListContainer(props) {
       );
     }
 
-    return <div className="summary-list-container">{summaries}</div>;
+    return <div className="summary-list-container momentum-scroll">{summaries}</div>;
   }
   return (
     <div className="summary-list-container summary-no-route-found">
