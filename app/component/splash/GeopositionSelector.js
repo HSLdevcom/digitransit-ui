@@ -26,8 +26,11 @@ const GeopositionSelector = ({ status }) => {
           id="splash-locationing-button"
           onClick={() => context.executeAction(startLocationWatch)}
         >
-          <Icon className="icon-locationing" img="icon-icon_position" />
-          Use locationing!
+          <Icon className="icon-positioning" img="icon-icon_position" />
+          <FormattedMessage
+            id="use-positioning"
+            defaultMessage="Use positioning!"
+          />
         </span>
       </div>
     );
