@@ -1,7 +1,7 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
 import config from '../../config';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 import { setLanguage } from '../../action/userPreferencesActions';
 
 const selectLanguage = (executeAction, lang) =>
@@ -20,12 +20,24 @@ const language = (lang, currentLanguage, highlight, executeAction) => (
 );
 
 const LangSelect = ({ currentLanguage }, { executeAction }) => (
-  <div key="lang-select" className="lang-select row">
+  <div key="lang-select" className="lang-select">
     {config.availableLanguages.map(lang =>
       language(lang, currentLanguage, lang === currentLanguage, executeAction)
     )}
   </div>
 );
+
+LangSelect.description = () => (
+  <div>
+    <p>
+      Language selection component, language selection comes from config.
+    </p>
+    <ComponentUsageExample description="">
+      <div style={{ width: '200px', background: 'rgb(51, 51, 51)' }}>
+        <LangSelect currentLanguage="en" />
+      </div>
+    </ComponentUsageExample>
+  </div>);
 
 LangSelect.propTypes = {
   currentLanguage: React.PropTypes.string.isRequired,
@@ -35,6 +47,8 @@ LangSelect.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
 };
 
-export default connectToStores(LangSelect, ['PreferencesStore'], (context) => ({
+const connected = connectToStores(LangSelect, ['PreferencesStore'], context => ({
   currentLanguage: context.getStore('PreferencesStore').getLanguage(),
 }));
+
+export { connected as default, LangSelect as Component };

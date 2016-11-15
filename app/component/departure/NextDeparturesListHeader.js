@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const NextDeparturesListHeader = () => (
   <div className="next-departures-list-header padding-vertical-small border-top">
@@ -13,7 +14,7 @@ const NextDeparturesListHeader = () => (
       <FormattedMessage id="to-stop" defaultMessage="To stop" />
     </span>
     <span className="route-number-header">
-      <FormattedMessage id="line" defaultMessage="Line" />
+      <FormattedMessage id="route" defaultMessage="Route" />
     </span>
     <span className="route-destination-header">
       <FormattedMessage id="destination" defaultMessage="Destination" />
@@ -22,5 +23,13 @@ const NextDeparturesListHeader = () => (
 );
 
 NextDeparturesListHeader.displayName = 'NextDeparturesListHeader';
+
+NextDeparturesListHeader.description = (
+  <div>
+    <ComponentUsageExample>
+      <NextDeparturesListHeader />
+    </ComponentUsageExample>
+  </div>
+);
 
 export default NextDeparturesListHeader;

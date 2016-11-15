@@ -27,7 +27,6 @@ const departureRowContainerFragment = () => Relay.QL`
         color
       }
       code
-      headsign
     }
     stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
       realtimeState
@@ -37,6 +36,7 @@ const departureRowContainerFragment = () => Relay.QL`
       scheduledArrival
       realtime
       serviceDay
+      stopHeadsign
       stop {
         code
         platformCode
@@ -51,8 +51,10 @@ const departureRowContainerFragment = () => Relay.QL`
 const DepartureRow = (props) => {
   const departure = props.departure;
   let departureTimes;
+  let headsign;
   if (departure.stoptimes) {
     departureTimes = departure.stoptimes.map((departureTime) => {
+      headsign = departureTime.stopHeadsign;
       const canceled = departureTime.realtimeState === 'CANCELED';
       const key = `${departure.pattern.route.gtfsId}:${departure.pattern.headsign}:
         ${departureTime.realtimeDeparture}`;
@@ -84,7 +86,7 @@ const DepartureRow = (props) => {
         />
         <RouteDestination
           mode={departure.pattern.route.mode}
-          destination={departure.pattern.headsign || departure.pattern.route.longName}
+          destination={headsign || departure.pattern.route.longName}
         />
         {departureTimes}
       </Link>

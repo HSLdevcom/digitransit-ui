@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import PlaceAtDistanceListContainer from '../departure/PlaceAtDistanceListContainer';
 import config from '../../config';
 
-const NearbyRouteList = (props) => (
+const NearbyRouteList = props => (
   <PlaceAtDistanceListContainer
     currentTime={props.currentTime}
     places={props.nearest.places}

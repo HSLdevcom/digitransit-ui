@@ -30,7 +30,7 @@ class StopCardHeader extends React.Component {
               this.props.stop.code : null}
         icons={this.props.icons}
       />
-  );
+    );
   }
 }
 

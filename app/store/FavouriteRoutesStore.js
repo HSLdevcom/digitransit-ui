@@ -15,6 +15,7 @@ class FavouriteRoutesStore extends Store {
     setFavouriteRoutesStorage(this.routes);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getRoutes() {
     return getFavouriteRoutesStorage();
   }

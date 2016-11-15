@@ -6,10 +6,7 @@ function setOrigin(origin) {
   this.waitForElementVisible('@searchOrigin', timeout);
   this.clearValue('@searchOrigin');
   this.setValue('@searchOrigin', origin);
-
-  if (origin.length > 0) {
-    this.waitForElementNotPresent('@searchResultCurrentLocation', timeout);
-  }
+  this.verifyItemInSearchResult(origin);
   return this;
 }
 
@@ -18,10 +15,20 @@ function useCurrentLocationInOrigin() {
   this.openSearch();
   this.waitForElementVisible('@origin', timeout);
   this.api.checkedClick(this.elements.origin.selector);
-  this.waitForElementVisible('@searchOrigin', timeout)
-    .clearValue('@searchOrigin')
-    .waitForElementVisible('@searchResultCurrentLocation', timeout);
-  this.api.checkedClick(this.elements.searchResultCurrentLocation.selector);
+  this.waitForElementVisible('@searchOrigin', timeout);
+  this.isVisible('@geolocationSelected', (result) => {
+    if (result && result.value) {
+      this.api.debug('Origin already selected');
+      this.waitForElementVisible('@closeSearchButton', timeout);
+      this.api.checkedClick(this.elements.closeSearchButton.selector);
+      return this;
+    }
+    this.api.debug('Selecting origin');
+    this.clearValue('@searchOrigin')
+      .waitForElementVisible('@searchResultCurrentLocation', timeout);
+    this.api.checkedClick(this.elements.searchResultCurrentLocation.selector);
+    return this;
+  });
   return this;
 }
 
@@ -44,10 +51,7 @@ function setDestination(destination) {
   this.checkedClick(this.elements.destination.selector);
   this.waitForElementVisible('@searchDestination', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchDestination', destination);
-  if (destination.length > 0) {
-    this.waitForElementNotPresent('@searchResultCurrentLocation',
-    this.api.globals.elementVisibleTimeout);
-  }
+  this.verifyItemInSearchResult(destination);
   return this;
 }
 
@@ -63,7 +67,7 @@ function enterKeySearch() {
   this.api.debug('hit enter search');
   this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
     this.api.globals.elementVisibleTimeout);
-  return this.setValue('@searchInput', this.api.Keys.ENTER);
+  return this.setValue('@searchDestination', this.api.Keys.ENTER);
 }
 
 function itinerarySearch(origin, destination) {
@@ -79,11 +83,20 @@ function setSearch(search) {
   this.openSearch();
   this.waitForElementVisible('@search', timeout);
   this.api.checkedClick(this.elements.search.selector);
-  this.waitForElementVisible('@searchInput', timeout)
-  .setValue('@searchInput', search);
-  this.waitForElementNotPresent('@searchResultCurrentLocation', timeout);
+  this.waitForElementVisible('@searchDestination', timeout)
+  .setValue('@searchDestination', search);
+  this.waitForElementVisible('@firstSuggestedItem', timeout);
 
   return this.enterKeySearch();
+}
+
+
+function verifyItemInSearchResult(favouriteName) {
+  this.api.withXpath(() => {
+    this.waitForElementPresent(
+    `//*/p[@class='suggestion-name' and contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '${favouriteName.split(',')[0].toLowerCase()}')]`,
+      this.api.globals.elementVisibleTimeout);
+  });
 }
 
 module.exports = {
@@ -97,6 +110,7 @@ module.exports = {
     itinerarySearch,
     setSearch,
     openSearch,
+    verifyItemInSearchResult,
   }],
   elements: {
     frontPageSearchBar: {
@@ -118,13 +132,16 @@ module.exports = {
       selector: '#react-autowhatever-suggest--item-0',
     },
     search: {
-      selector: 'button#search-button',
-    },
-    searchInput: {
-      selector: '#search',
+      selector: 'a#search-tab',
     },
     searchResultCurrentLocation: {
       selector: '.search-result.CurrentLocation',
+    },
+    geolocationSelected: {
+      selector: '.geolocation-selected',
+    },
+    closeSearchButton: {
+      selector: '#closeSearchButton',
     },
   },
 };

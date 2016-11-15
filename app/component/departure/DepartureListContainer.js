@@ -13,7 +13,7 @@ const mergeDepartures = departures =>
 
 const asDepartures = stoptimes => (
   !stoptimes ? [] : stoptimes.map(pattern =>
-    pattern.stoptimes.map(stoptime => {
+    pattern.stoptimes.map((stoptime) => {
       const isArrival = stoptime.pickupType === 'NONE';
       const canceled = stoptime.realtimeState === 'CANCELED' ||
         (window.mock && stoptime.realtimeDeparture % 40 === 0);
@@ -34,6 +34,7 @@ const asDepartures = stoptimes => (
         stop: stoptime.stop,
         realtime: stoptime.realtime,
         pattern: pattern.pattern,
+        headsign: stoptime.stopHeadsign,
         trip: { gtfsId: stoptime.trip.gtfsId },
       };
     })
@@ -77,7 +78,7 @@ class DepartureListContainer extends Component {
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, this.props.limit);
 
-    for (let departure of departures) {
+    for (const departure of departures) {
       if (departure.stoptime >= tomorrow) {
         departureObjs.push(
           <div
@@ -100,10 +101,11 @@ class DepartureListContainer extends Component {
         disruption:
           filter(
             departure.pattern.alerts,
-            alert =>
-              alert.effectiveStartDate <= departure.stoptime &&
-              departure.stoptime <= alert.effectiveEndDate &&
+            alert => (
+              (alert.effectiveStartDate <= departure.stoptime) &&
+              (departure.stoptime <= alert.effectiveEndDate) &&
               get(alert.trip.gtfsId) === get(departure.trip.gtfsId)
+            )
           ).length > 0,
         canceled: departure.canceled,
       };
@@ -146,7 +148,7 @@ class DepartureListContainer extends Component {
 }
 
 const DepartureListContainerWithTime = connectToStores(DepartureListContainer, ['TimeStore'],
-  (context) => ({ currentTime: context.getStore('TimeStore').getCurrentTime() })
+  context => ({ currentTime: context.getStore('TimeStore').getCurrentTime() })
 );
 
 export default Relay.createContainer(DepartureListContainerWithTime, {
@@ -169,7 +171,6 @@ export default Relay.createContainer(DepartureListContainerWithTime, {
             color
           }
           code
-          headsign
         }
         stoptimes {
           realtimeState
@@ -180,6 +181,7 @@ export default Relay.createContainer(DepartureListContainerWithTime, {
           realtime
           serviceDay
           pickupType
+          stopHeadsign
           stop {
             code
             platformCode

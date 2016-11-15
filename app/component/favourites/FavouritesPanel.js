@@ -58,7 +58,7 @@ FavouritesPanel.propTypes = {
   routes: React.PropTypes.array.isRequired,
 };
 
-export default connectToStores(FavouritesPanel, ['FavouriteRoutesStore'], (context) =>
+export default connectToStores(FavouritesPanel, ['FavouriteRoutesStore'], context =>
   ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),
   })

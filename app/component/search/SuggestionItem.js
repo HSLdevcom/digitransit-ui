@@ -3,55 +3,120 @@ import cx from 'classnames';
 import pure from 'recompose/pure';
 
 import Icon from '../icon/Icon';
-import { getLabel } from '../../util/suggestionUtils';
+import { getLabel, getIcon } from '../../util/suggestionUtils';
 import config from '../../config';
-
-
-function getIcon(layer, iconClass) {
-  const layerIcon = new Map([
-    ['favourite', 'icon-icon_star'],
-    ['address', 'icon-icon_place'],
-    ['stop', 'icon-icon_bus-stop'],
-    ['locality', 'icon-icon_city'],
-    ['station', 'icon-icon_station'],
-    ['localadmin', 'icon-icon_city'],
-    ['neighbourdood', 'icon-icon_city'],
-    ['route-BUS', 'icon-icon_bus-withoutBox'],
-    ['route-TRAM', 'icon-icon_tram-withoutBox'],
-    ['route-RAIL', 'icon-icon_rail-withoutBox'],
-    ['route-SUBWAY', 'icon-icon_subway-withoutBox'],
-    ['route-FERRY', 'icon-icon_ferry-withoutBox'],
-    ['route-AIRPLANE', 'icon-icon_airplane-withoutBox']]);
-
-  const defaultIcon = 'icon-icon_place';
-  return <Icon img={layerIcon.get(layer) || defaultIcon} className={iconClass || ''} />;
-}
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const SuggestionItem = pure((props) => {
   let icon;
   if (props.item.properties.mode && config.search.suggestions.useTransportIcons) {
-    icon =
-      (<Icon
+    icon = (
+      <Icon
         img={`icon-icon_${props.item.properties.mode}`}
         className={props.item.properties.mode}
-      />);
+      />
+    );
   } else {
-    icon = getIcon(props.item.properties.layer, props.item.iconClass);
+    icon = (
+      <Icon
+        img={getIcon(props.item.properties.layer)}
+        className={props.item.iconClass || ''}
+      />
+    );
   }
 
-  const displayText = getLabel(props.item.properties);
+  const label = getLabel(props.item.properties);
+
   return (
-    <span className={cx('search-result', props.item.type)}>
-      <span className={props.spanClass || ''}>
+    <div
+      className={cx(
+        'search-result',
+        props.item.type,
+        { favourite: props.item.type.startsWith('Favourite') }
+      )}
+    >
+      <span className="autosuggestIcon">
         {icon}
       </span>
-      {displayText}
-    </span>);
+      <div>
+        <p className="suggestion-name" >{label[0]}</p>
+        <p className="suggestion-label" >{label[1]}</p>
+      </div>
+    </div>);
 });
 
 SuggestionItem.propTypes = {
   item: React.PropTypes.object,
-  spanClass: React.PropTypes.string,
 };
+
+SuggestionItem.displayName = 'SuggestionItem';
+
+const exampleFavourite = {
+  type: 'FavouritePlace',
+  properties: { locationName: 'HSL', address: 'Opastinsilta 6, Helsinki', layer: 'favouritePlace' },
+};
+
+const exampleAddress = {
+  type: 'Feature',
+  properties: {
+    id: 'fi/uusimaa:103267060F-3',
+    layer: 'address',
+    source: 'openaddresses',
+    name: 'Opastinsilta 6',
+    housenumber: '6',
+    street: 'Opastinsilta',
+    postalcode: '00520',
+    confidence: 1,
+    accuracy: 'point',
+    region: 'Uusimaa',
+    localadmin: 'Helsinki',
+    locality: 'Helsinki',
+    neighbourhood: 'Itä-Pasila',
+    label: 'Opastinsilta 6, Helsinki',
+  },
+};
+
+const exampleRoute = {
+  type: 'Route',
+  properties: {
+    gtfsId: 'HSL:1019',
+    agency: { name: 'Helsingin seudun liikenne' },
+    shortName: '19',
+    mode: 'FERRY',
+    longName: 'Kauppatori - Suomenlinna',
+    layer: 'route-FERRY',
+    link: '/linjat/HSL:1019',
+  },
+};
+
+const exampleStop = {
+  type: 'Stop',
+  properties: {
+    gtfsId: 'HSL:1130446',
+    name: 'Caloniuksenkatu',
+    desc: 'Mechelininkatu 21',
+    code: '0221',
+    mode: 'tram',
+    layer: 'stop',
+    link: '/pysakit/HSL:1130446',
+  },
+};
+
+SuggestionItem.description = (
+  <div>
+    <ComponentUsageExample description="Favourite">
+      <SuggestionItem item={exampleFavourite} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Address">
+      <SuggestionItem item={exampleAddress} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Route">
+      <SuggestionItem item={exampleRoute} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Stop">
+      <SuggestionItem item={exampleStop} />
+    </ComponentUsageExample>
+  </div>
+);
 
 export default SuggestionItem;

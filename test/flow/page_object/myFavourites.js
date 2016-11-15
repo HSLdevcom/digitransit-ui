@@ -20,10 +20,7 @@ function enterAddress(addressSearch) {
   this.api.checkedClick(this.elements.addressPlaceholderNoSelect.selector);
   this.waitForElementPresent('@searchFavourite', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchFavourite', addressSearch);
-  this.waitForElementNotPresent('@searchResultCurrentLocation',
-    this.api.globals.elementVisibleTimeout);
-  this.waitForElementPresent('li#react-autowhatever-suggest--item-0',
-    this.api.globals.elementVisibleTimeout);
+  this.verifyFavouriteInSearchResult(addressSearch);
   this.setValue('@searchFavourite', this.api.Keys.ENTER);
   return this;
 }
@@ -70,7 +67,7 @@ function verifyFavouriteRoute(number) {
 function verifyFavouriteInSearchResult(favouriteName) {
   this.api.withXpath(() => {
     this.waitForElementPresent(
-    `//*/li[@class=\'react-autowhatever__item\']/span[text()=\'${favouriteName}\']`,
+    `//*/p[@class='suggestion-name' and contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '${favouriteName.split(',')[0].toLowerCase()}')]`,
       this.api.globals.elementVisibleTimeout);
   });
 }

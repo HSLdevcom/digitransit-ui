@@ -21,10 +21,10 @@ const DepartureListContainerWithProps = mapProps(props => ({
 
 const StopPage = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
   some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
-    <div className="stop-page-content-wrapper">
-      <DepartureListHeader />
-      <DepartureListContainerWithProps {...props} />
-    </div>
+  <div className="stop-page-content-wrapper">
+    <DepartureListHeader />
+    <DepartureListContainerWithProps {...props} />
+  </div>
   )));
 
 const StopPageContainer = Relay.createContainer(StopPage, {

@@ -4,7 +4,6 @@ import { intlShape } from 'react-intl';
 
 import GeolocationOrInput from './GeolocationOrInput';
 import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
-import { executeSearch } from '../../action/SearchActions';
 import SearchModal from './SearchModal';
 
 
@@ -13,6 +12,8 @@ class OneTabSearchModal extends React.Component {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    router: React.PropTypes.object,
+    location: React.PropTypes.object,
   };
 
   static propTypes = {
@@ -28,31 +29,17 @@ class OneTabSearchModal extends React.Component {
 
   componentDidUpdate() {
     if (this.props.modalIsOpen) {
-      setTimeout(() => this.geolocationOrInput.searchInput.autowhatever.input.focus(),
-                 0);
-
-      if (!this.props.endpoint) {
-        this.context.executeAction(executeSearch, {
-          input: '',
-          type: 'endpoint',
-        });
-      } else if (this.props.target === 'origin') {
-        this.context.executeAction(executeSearch, {
-          input: this.context.getStore('EndpointStore').getOrigin().address || '',
-          type: 'endpoint',
-        });
-      } else if (this.props.target === 'destination') {
-        this.context.executeAction(executeSearch, {
-          input: this.context.getStore('EndpointStore').getDestination().address || '',
-          type: 'endpoint',
-        });
-      }
+      setTimeout(() => this.geolocationOrInput.searchInput.autowhatever.input.focus(), 0);
     }
   }
 
   onSuggestionSelected = (name, item) => {
     if (item.type === 'CurrentLocation') {
-      this.context.executeAction(setUseCurrent, this.props.target);
+      this.context.executeAction(setUseCurrent, {
+        target: this.props.target,
+        router: this.context.router,
+        location: this.context.location,
+      });
     } else {
       this.context.executeAction(setEndpoint, {
         target: this.props.target,
@@ -61,6 +48,8 @@ class OneTabSearchModal extends React.Component {
           lon: item.geometry.coordinates[0],
           address: name,
         },
+        router: this.context.router,
+        location: this.context.location,
       });
     }
 
@@ -89,6 +78,7 @@ class OneTabSearchModal extends React.Component {
             type="endpoint"
             onSuggestionSelected={
               this.props.customOnSuggestionSelected || this.onSuggestionSelected}
+            close={this.props.closeModal}
           />
         </Tab>
       </SearchModal>);

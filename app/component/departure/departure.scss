@@ -285,8 +285,9 @@
   @include font-narrow-book;
   font-size: $font-size-small;
   white-space: nowrap;
-  margin: 0;
+  padding-left: 15px;
   line-height: $line-height-normal;
+  border-bottom: 1px solid $light-gray;
 
   & > span {
     display: inline-block;

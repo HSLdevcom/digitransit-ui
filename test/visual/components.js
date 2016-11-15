@@ -52,7 +52,7 @@ gemini.suite('components', () => {
 
   gemini.suite('RouteNumber', () => {
     gemini.suite('normal', test('RouteNumber'));
-    gemini.suite('vertical', test('RouteNumber', 3));
+    gemini.suite('vertical', test('RouteNumber', 2));
   });
   gemini.suite('RouteDestination', () => {
     gemini.suite('normal', test('RouteDestination'));
@@ -96,11 +96,11 @@ gemini.suite('components', () => {
   });
   gemini.suite('Favourite', () => {
     gemini.suite('favourite', test('Favourite'));
-    gemini.suite('favourite-hovered', test('Favourite', 1, [], (actions) => actions.mouseMove(
+    gemini.suite('favourite-hovered', test('Favourite', 1, [], actions => actions.mouseMove(
       '#Favourite .component-example:nth-of-type(1) .component svg'
     )));
     gemini.suite('not-favourite', test('Favourite', 2));
-    gemini.suite('not-favourite-hovered', test('Favourite', 2, [], (actions) => actions.mouseMove(
+    gemini.suite('not-favourite-hovered', test('Favourite', 2, [], actions => actions.mouseMove(
       '#Favourite .component-example:nth-of-type(2) .component svg'
     )));
   });
@@ -143,7 +143,12 @@ gemini.suite('components', () => {
   basicTest('RouteScheduleStopSelect');
   basicTest('RouteScheduleTripRow');
 
-  basicTest('AppBarSmall');
+  gemini.suite('AppBarSmall', () => {
+    gemini.suite('with-back-arrow', test('AppBarSmall'));
+    gemini.suite('without-back-arrow', test('AppBarSmall', 2));
+    gemini.suite('with-logo', test('AppBarSmall', 3));
+  });
+
   basicTest('AppBarLarge');
 
   gemini.suite('FakeSearchWithButton', () => {
@@ -153,6 +158,8 @@ gemini.suite('components', () => {
 
   basicTest('FrontPagePanelLarge');
   basicTest('FrontPagePanelSmall');
+  basicTest('ExternalLink');
+  basicTest('LangSelect');
 
   gemini.suite('ModeFilter', () => {
     gemini.suite('Grey buttons', test('ModeFilter'));
@@ -162,7 +169,7 @@ gemini.suite('components', () => {
 
   gemini.suite('RouteStop', test('RouteStop',
     ['#RouteStop .component-example:nth-of-type(1) .component',
-    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
+      '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
     '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'
   ));
 
@@ -177,5 +184,27 @@ gemini.suite('components', () => {
     gemini.suite('Plenty of bikes', test('BicycleRentalStationRow'));
     gemini.suite('Few bikes', test('BicycleRentalStationRow', 2));
     gemini.suite('No bikes', test('BicycleRentalStationRow', 3));
+  });
+
+  basicTest('StopPageHeader');
+  basicTest('StopCardHeader');
+  basicTest('SplitBars');
+  basicTest('Labeled');
+  basicTest('Centered');
+  basicTest('InfoIcon');
+  basicTest('DepartureListHeader');
+  basicTest('NextDeparturesListHeader');
+  basicTest('SelectedStopPopupContent');
+
+  gemini.suite('CurrentPositionSuggestionItem', () => {
+    gemini.suite('With position', test('CurrentPositionSuggestionItem'));
+    gemini.suite('No position', test('CurrentPositionSuggestionItem', 2));
+  });
+
+  gemini.suite('SuggestionItem', () => {
+    gemini.suite('Favourite', test('SuggestionItem'));
+    gemini.suite('Address', test('SuggestionItem', 2));
+    gemini.suite('Route', test('SuggestionItem', 3));
+    gemini.suite('Stop', test('SuggestionItem', 4));
   });
 });

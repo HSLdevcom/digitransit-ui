@@ -11,7 +11,7 @@ import DepartureTime from './DepartureTime';
 // TODO: Alerts aren't showing properly
 // Need to implement logic as per DepartureListContainer
 function NextDeparturesList(props) {
-  const departures = props.departures.map(originalDeparture => {
+  const departures = props.departures.map((originalDeparture) => {
     const distance = originalDeparture.distance;
 
     // TODO: use util or util Component

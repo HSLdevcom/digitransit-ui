@@ -2,9 +2,15 @@ const async = require('async');
 
 // TODO: add citybikes back in april
 const modalities = ['bus', 'tram', 'rail', 'subway', 'ferry', /* 'citybike',*/ 'airplane'];
+
 function clickCanvasToggle() {
   this.waitForElementVisible('@canvasToggle', this.api.globals.elementVisibleTimeout);
   return this.api.checkedClick(this.elements.canvasToggle.selector);
+}
+
+function closeCanvas() {
+  this.waitForElementVisible('@closeCanvas', this.api.globals.elementVisibleTimeout);
+  return this.api.checkedClick(this.elements.closeCanvas.selector);
 }
 
 function exists(selector, callback) {
@@ -57,10 +63,13 @@ module.exports = {
   commands: [{
     clickCanvasToggle,
     enableModality,
+    disableModality,
     disableAllModalitiesExcept,
     exists,
+    closeCanvas,
   }],
   elements: {
     canvasToggle: '.right-offcanvas-toggle',
+    closeCanvas: '.offcanvas-close',
   },
 };

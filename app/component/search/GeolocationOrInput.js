@@ -8,15 +8,12 @@ export default class GeolocationOrInput extends Component {
     initialValue: SearchInputContainer.propTypes.initialValue,
     type: SearchInputContainer.propTypes.type,
     onSuggestionSelected: SearchInputContainer.propTypes.onSuggestionSelected,
+    close: PropTypes.func.isRequired,
   }
 
   state = {
-    geolocation: false,
+    geolocation: this.props.useCurrentPosition === true,
   };
-
-  componentWillMount() {
-    this.setState({ geolocation: this.props.useCurrentPosition });
-  }
 
   disableGeolocation = () => {
     this.setState({ geolocation: false });
@@ -25,10 +22,10 @@ export default class GeolocationOrInput extends Component {
 
   render() {
     const child = this.state.geolocation === false ? null :
-      <GeolocationBar
-        geolocation={{ hasLocation: true }}
-        onClick={this.disableGeolocation}
-      />;
+    <GeolocationBar
+      geolocation={{ hasLocation: true }}
+      onClick={this.disableGeolocation}
+    />;
 
     return (
       <SearchInputContainer
