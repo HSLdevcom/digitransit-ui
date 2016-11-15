@@ -96,7 +96,7 @@ const translations = {
     'geolocate-yourself': 'Paikanna itsesi',
     'or': 'tai',
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.',
-    'give-origin': 'Kirjoita lähtöpaikka',
+    'give-origin': 'Kirjoita lähtöpaikkasi',
     'give-destination': 'Kirjoita määränpää',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     'page-not-found': 'Voe rähmä! Sivuu ei löytyny',
