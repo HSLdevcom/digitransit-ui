@@ -69,8 +69,8 @@ export function startLocationWatch(actionContext, payload, done) {
   }
 
   // Check if we need to manually ask for geolocation permission now
-  if (typeof window.geoWatchId == 'undefined') {
-    getPosition();  // From static geolocation function loaded into HTML
+  if (typeof window.geoWatchId === 'undefined') {
+    window.getPosition();  // From static geolocation function loaded into HTML
   }
 
   actionContext.dispatch('GeolocationSearch');

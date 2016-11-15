@@ -8,9 +8,8 @@ import Icon from '../icon/Icon';
 const OriginSelectorRow = ({ type, address, lat, lon }, { executeAction }) => (
   <li
     onClick={() => executeAction(setEndpoint,
-                                 { target: 'origin', endpoint: { lat, lon, address } })}
+      { target: 'origin', endpoint: { lat, lon, address } })}
   >
-
     <Icon className={`icon-origin-${type}`} img={`icon-icon_${type}`} />
     { address }
   </li>
@@ -29,7 +28,7 @@ OriginSelectorRow.contextTypes = {
 
 const OriginSelector = ({ favourites }) => {
   const names = favourites.map(
-      (f) => <OriginSelectorRow
+      f => <OriginSelectorRow
         key={f.locationName}
         type="star"
         address={f.locationName}
@@ -37,7 +36,7 @@ const OriginSelector = ({ favourites }) => {
         lon={f.lon}
       />).concat(
     config.defaultOrigins.map(
-      (o) => <OriginSelectorRow key={o.address} {...o} />));
+      o => <OriginSelectorRow key={o.address} {...o} />)).slice(0, 3);
   return <ul>{names.slice(0, 3)}</ul>;
   // TODO Fill to three options from config
 };
@@ -49,6 +48,6 @@ OriginSelector.propTypes = {
 export default connectToStores(
   OriginSelector,
   ['FavouriteLocationStore'],
-  (context) => (
+  context => (
     { favourites: context.getStore('FavouriteLocationStore').getLocations() }
   ));

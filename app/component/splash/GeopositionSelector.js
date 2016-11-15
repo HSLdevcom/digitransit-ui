@@ -6,7 +6,7 @@ import { startLocationWatch } from '../../action/PositionActions';
 import PositionStore from '../../store/PositionStore';
 import Icon from '../icon/Icon';
 
-const GeopositionSelector = ({ state }) => {
+const GeopositionSelector = ({ status }) => {
   /* States:
    * - locationing hasn't been started
    * . locationing in progress
@@ -14,13 +14,13 @@ const GeopositionSelector = ({ state }) => {
    * . locationing failed
    * - locationing succeeded
    */
-  console.log(state.status);
-  if (state.status == PositionStore.STATUS_NO_LOCATION) {
+  console.log(status);
+  if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
       <div>
         <FormattedMessage
-         id="please-allow-locationing"
-         defaultMessage="The service offers it's best if you allow locationing."
+          id="please-allow-locationing"
+          defaultMessage="The service offers it's best if you allow locationing."
         />
         <span
           id="splash-locationing-button"
@@ -31,7 +31,7 @@ const GeopositionSelector = ({ state }) => {
         </span>
       </div>
     );
-  } else if (state.status == PositionStore.STATUS_SEARCHING_LOCATION) {
+  } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
     return (
       <div id="geoposition-selector">
         <div className="spinner-loader" />
@@ -39,14 +39,14 @@ const GeopositionSelector = ({ state }) => {
           <FormattedMessage id="locating" defaultMessage="Locating" />…
         </div>
       </div>);
-  } else if (state.status == PositionStore.STATUS_GEOLOCATION_DENIED) {
-    return <div>Sowwy, I can't do a thing if you won't let me</div>;
+  } else if (status === PositionStore.STATUS_GEOLOCATION_DENIED) {
+    return <div>Sowwy, I can&apos;t do a thing if you won&apos;t let me</div>;
   }
   return null;
 };
 
 GeopositionSelector.propTypes = {
-  state: React.PropTypes.object,
+  status: React.PropTypes.string.required,
 };
 
 GeopositionSelector.contextTypes = {
@@ -56,6 +56,6 @@ GeopositionSelector.contextTypes = {
 export default connectToStores(
   GeopositionSelector,
   ['PositionStore'],
-  (context) => (
-    { state: context.getStore('PositionStore').getLocationState() }
+  context => (
+    { status: context.getStore('PositionStore').getLocationState().status }
   ));
