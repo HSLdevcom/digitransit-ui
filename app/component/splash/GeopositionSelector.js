@@ -45,7 +45,7 @@ const GeopositionSelector = ({ status }) => {
       </div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_DENIED) {
     return (<div><FormattedMessage
-      id="geolocation-denied-medssage"
+      id="splash-geolocation-denied-message"
       defaultMessage="Sorry, I can't do a thing if you won't let me"
     /></div>);
   }
