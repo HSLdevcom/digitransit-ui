@@ -5,10 +5,12 @@ window.position = {
 }
 
 window.retrieveGeolocation = function retrieveGeolocation(pos) {
+  console.log("retrieve position", pos);
   window.position.pos = pos;
 }
 
 window.retrieveGeolocationError = function retrieveGeolocationError(error) {
+  console.log("retrieve error", error);
   window.position.error = error;
 }
 
@@ -16,7 +18,8 @@ window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
   window.position.timing = timing;
 }
 
-function getPosition() {
+function startPositioning() {
+  console.log("startiong geolocation watch...");
   var startTime = new Date().getTime();
   var quietTimeoutSeconds = 20;
 
@@ -27,17 +30,21 @@ function getPosition() {
     },
     quietTimeoutSeconds * 1000);
 
+  console.log("adding watch...");
   window.geoWatchId = navigator.geolocation.watchPosition(function geoPosition(position) {
     if (timeout != null) {
       clearTimeout(timeout);
       timeout = null;
+
       window.retrieveGeolocationTiming(new Date().getTime() - startTime);
     }
+        console.log("retrieving geolocation...", position);
     window.retrieveGeolocation(position);
   }, function handleError(error) {
     if (timeout != null) {
       clearTimeout(timeout);
       timeout = null;
+      console.log("geolocationerror", error);
     }
     window.retrieveGeolocationError(error);
   }
@@ -49,12 +56,15 @@ function getPosition() {
 (function() {
   setTimeout(function () {
     if (window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined) {
+      console.log(navigator.permissions);
       navigator.permissions.query({name:'geolocation'}).then(
         function(result) {
+          console.log("geolocation permission result", result)
           if (result.state === 'granted') {
-            getPosition();
+            window.startPositioning();
           } else if (result.state === 'prompt') {
           } else if (result.state === 'denied') {
+            window.retrieveGeolocationError({code:1}); //user has denied geolocation, cannot fix until user changes settings...
           }
         }
       );

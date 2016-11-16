@@ -19,6 +19,7 @@ import app from './app';
 import translations from './translations';
 import { openFeedbackModal } from './action/feedbackActions';
 import { shouldDisplayPopup } from './util/Feedback';
+import { initGeolocation } from './action/PositionActions';
 import history from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';
 
@@ -183,6 +184,9 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     , document.getElementById('app')
     , trackReactPerformance
   );
+
+  // init geolocation handling
+  context.executeAction(initGeolocation);
 
   // Listen for Web App Install Banner events
   window.addEventListener('beforeinstallprompt', (e) => {

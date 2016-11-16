@@ -62,18 +62,23 @@ const setCurrentLocation = (actionContext, pos) => {
   }
 };
 
+/* starts location watch */
 export function startLocationWatch(actionContext, payload, done) {
+  console.log('starting locationwatch manually');
+
+  // Check if we need to manually start positioning
+  if (typeof window.geoWatchId === 'undefined') {
+    window.startPositioning();  // from geolocation.js
+    actionContext.dispatch('GeolocationSearch');
+  }
+  done();
+}
+
+export function initGeolocation(actionContext, payload, done) {
   if (!geolocator(actionContext).geolocation) {
     actionContext.dispatch('GeolocationNotSupported');
     done();
   }
-
-  // Check if we need to manually ask for geolocation permission now
-  if (typeof window.geoWatchId === 'undefined') {
-    window.getPosition();  // From static geolocation function loaded into HTML
-  }
-
-  actionContext.dispatch('GeolocationSearch');
 
   window.retrieveGeolocation = function retrieveGeolocation(pos, disableDebounce) {
     setCurrentLocation(actionContext, {
@@ -118,6 +123,7 @@ export function startLocationWatch(actionContext, payload, done) {
     actionContext.piwik.trackEvent('geolocation', 'status_OK', 'OK', timing);
   };
 
+  // process existing data
   if (window.position.error !== null) {
     window.retrieveGeolocationError(window.position.error);
     window.position.error = null;
@@ -132,6 +138,7 @@ export function startLocationWatch(actionContext, payload, done) {
     window.retrieveGeolocationTiming(window.position.timing);
     window.position.timing = null;
   }
+  // \process existing data
 
   done();
 }
