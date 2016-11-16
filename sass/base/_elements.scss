@@ -275,10 +275,13 @@ svg.realtime-icon {
   }
 }
 
+.paused {
+  animation-play-state: paused;
+}
 
 #icon-icon_mapMarker-location-animated circle {
   animation-duration: 2.4s;
-  animation-iteration-count: infinite;;
+  animation-iteration-count: infinite;
   animation-timing-function: linear;
   transform-origin: center;
 

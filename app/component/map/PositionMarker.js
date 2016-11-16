@@ -11,6 +11,24 @@ const isBrowser = typeof window !== 'undefined' && window !== null;
 let Marker;
 let L;
 
+const timeoutId = null;
+const ANIMATION_TIME = 5000;
+
+const toggleAnimation = (el) => {
+  if (el == null) {
+    clearTimeout(timeoutId);
+    Array.from(document.getElementById('icon-icon_mapMarker-location-animated').children).forEach(
+      circle => circle.setAttribute('class', 'paused')
+    );
+  } else {
+    setTimeout(toggleAnimation, ANIMATION_TIME);
+    Array.from(document.getElementById('icon-icon_mapMarker-location-animated').children).forEach(
+      // eslint-disable-next-line no-param-reassign, no-return-assign
+      circle => circle.setAttribute('class', '')
+    );
+  }
+};
+
 /* eslint-disable global-require */
 if (isBrowser) {
   Marker = require('react-leaflet/lib/Marker').default;
@@ -34,6 +52,7 @@ function PositionMarker({ coordinates, useCurrentPosition, displayOriginPopup },
   if (displayOriginPopup) {
     popup = (
       <OriginPopup
+        ref={toggleAnimation}
         shouldOpen={useCurrentPosition}
         header={intl.formatMessage({ id: 'origin', defaultMessage: 'From' })}
         text={intl.formatMessage({ id: 'own-position', defaultMessage: 'Your current position' })}
