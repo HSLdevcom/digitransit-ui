@@ -133,6 +133,7 @@
     "nightwatch": "0.9.8",
     "node-sass": "3.12.5",
     "nodemon": "1.11.0",
+    "optimize-js-plugin": "0.0.4",
     "phantomjs-prebuilt": "2.1.13",
     "postcss-loader": "1.1.1",
     "react-addons-perf": "15.3.2",

@@ -8,6 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const csswring = require('csswring');
 const StatsPlugin = require('stats-webpack-plugin');
+const OptimizeJsPlugin = require('optimize-js-plugin');
 const fs = require('fs');
 
 require('babel-core/register')({
@@ -146,10 +147,15 @@ function getPluginsConfig(env) {
       sourceMap: true,
       compress: {
         warnings: false,
+        screw_ie8: true,
+        negate_iife: false,
       },
       mangle: {
         except: ['$super', '$', 'exports', 'require', 'window'],
       },
+    }),
+    new OptimizeJsPlugin({
+      sourceMap: true,
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
