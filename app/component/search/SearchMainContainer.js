@@ -168,7 +168,7 @@ class SearchMainContainer extends React.Component {
               <span className="search-current-origin-tip">
                 <FormattedMessage
                   id="place-route-or-keyword"
-                  defaultMessage="Place, route or keyword"
+                  defaultMessage="Destination, route or stop"
                 />
               </span>
             </div>,
