@@ -219,3 +219,38 @@ $border-radius-rounded: 30px;
 .overflow-fade {
   mask-image: linear-gradient(to left, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
 }
+
+@keyframes realtimeInnerArch {
+  0%   {opacity: 1;}
+  20%  {opacity: 1;}
+  40%  {opacity: 0;}
+  60%  {opacity: 1;}
+  80%  {opacity: 1;}
+  100% {opacity: 1;}
+}
+
+@keyframes realtimeOuterArch {
+  0%   {opacity: 1;}
+  20%  {opacity: 1;}
+  40%  {opacity: 0;}
+  60%  {opacity: 0;}
+  80%  {opacity: 1;}
+  100% {opacity: 1;}
+}
+
+svg.realtime-icon {
+  transform: translate3d(0,0,0);
+}
+
+#icon-icon_realtime path {
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+
+  &.path1 {
+    animation-name: realtimeInnerArch;
+  }
+
+  &.path2 {
+    animation-name: realtimeOuterArch;
+  }
+}
