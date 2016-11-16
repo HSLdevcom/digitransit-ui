@@ -35,7 +35,8 @@ function Departure(props) {
       />
       <RouteDestination
         mode={mode}
-        destination={props.departure.pattern.headsign ||
+        destination={props.departure.headsign ||
+                     props.departure.pattern.headsign ||
                      props.departure.pattern.route.longName}
         isArrival={props.isArrival}
       />

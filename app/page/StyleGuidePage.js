@@ -59,6 +59,9 @@ import Centered from '../component/util/Centered';
 import InfoIcon from '../component/icon/InfoIcon';
 import Favourite from '../component/favourites/Favourite';
 import DepartureListHeader from '../component/departure/DepartureListHeader';
+import NextDeparturesListHeader from '../component/departure/NextDeparturesListHeader';
+import CurrentPositionSuggestionItem from '../component/search/CurrentPositionSuggestionItem';
+import SuggestionItem from '../component/search/SuggestionItem';
 import SelectedStopPopupContent from '../component/stop/SelectedStopPopupContent';
 import { Component as LangSelect } from '../component/navigation/LangSelect';
 import ExternalLink from '../component/navigation/ExternalLink';
@@ -121,6 +124,9 @@ const components = {
   InfoIcon,
   Favourite,
   DepartureListHeader,
+  NextDeparturesListHeader,
+  CurrentPositionSuggestionItem,
+  SuggestionItem,
   SelectedStopPopupContent,
   ExternalLink,
   LangSelect,
