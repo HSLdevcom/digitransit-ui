@@ -152,12 +152,13 @@
   }
 
   .action-arrow {
-    line-height: 38px;
+    display: flex;
+    align-items: center;
     margin-bottom: 4px;
-    margin-left: 15px;
+    margin-left: $padding-medium;
     border: 1px solid rgba(0, 0, 0, 0.19);
     border-radius: 4px;
-    padding: 2px 2px 0px 2px;
+    padding: $padding-xxsmall $padding-xxsmall 0px $padding-xxsmall;
 
     svg {
       color: $action-color;
