@@ -96,9 +96,9 @@ export default {
   },
 
   defaultOrigins: [
-    { type: 'bus', address: 'Kauppatori, Turku', lat: 60.451159, lon: 22.267633 },
-    { type: 'rail', address: 'Rautatieasema, Turku', lat: 60.453537, lon: 22.253379 },
-    { type: 'airplane', address: 'Lentoasema, Turku', lat: 60.511092, lon: 22.274211 },
+    { type: 'icon-icon_bus', label: 'Kauppatori, Turku', lat: 60.451159, lon: 22.267633 },
+    { type: 'icon-icon_rail', label: 'Rautatieasema, Turku', lat: 60.453537, lon: 22.253379 },
+    { type: 'airplane', label: 'Lentoasema, Turku', lat: 60.511092, lon: 22.274211 },
   ],
 
   aboutThisService: {
