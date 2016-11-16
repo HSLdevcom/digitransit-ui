@@ -36,13 +36,13 @@ $content-background-color: $background-color;
   overflow: visible; // Show drawer menu
   z-index: 803;
   line-height: 35px;
-  box-shadow: 2px 0px 2px #575757;
   height: 40px;
 
   &.bp-large {
     height: 60px;
     align-items: center;
     line-height: 1.8em;
+    box-shadow: 2px 0px 2px #575757;
   }
 
   .icon-holder {
@@ -311,18 +311,6 @@ section.content {
   fill: $gray;
   height: 15px;
   width: 15px;
-}
-
-.time-selector-settings-row {
-  background-color: $secondary-color;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 40px;
-
-  &.bp-large {
-    height: 50px;
-  }
 }
 
 .external-link-container {
