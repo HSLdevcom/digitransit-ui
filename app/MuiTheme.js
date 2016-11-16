@@ -8,7 +8,9 @@ export default {
     primary1Color: config.colors.primary,
   },
   tabs: {
-    textColor: '#fff',
+    textColor: '#333',
+    selectedTextColor: '#333',
+    backgroundColor: '#eef1f3',
   },
   inkBar: {
     backgroundColor: '#fff',

@@ -9,6 +9,7 @@ import { default as FakeSearchWithButton } from './FakeSearchWithButton';
 import GeolocationOrInput from './GeolocationOrInput';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
+import Icon from '../icon/Icon';
 
 class SearchMainContainer extends React.Component {
   static contextTypes = {
@@ -126,6 +127,8 @@ class SearchMainContainer extends React.Component {
 
     const Component = this.context.breakpoint === 'large' ? SearchModalLarge : SearchModal;
 
+    const origin = this.context.getStore('EndpointStore').getOrigin();
+
     return (
       <div
         className={cx(
@@ -140,13 +143,35 @@ class SearchMainContainer extends React.Component {
         >
           {this.renderEndpointTab(
             'origin',
-            <FormattedMessage id="origin" defaultMessage="Origin" />,
+            <div>
+              <FormattedMessage id="origin" defaultMessage="Origin" />
+              <br />
+              <span className="search-current-origin-tip">
+                {!origin.useCurrentPosition ? origin.address : [
+                  <Icon img="icon-icon_position" key="icon" />,
+                  <FormattedMessage
+                    key="text"
+                    id="own-position"
+                    defaultMessage="Your current location"
+                  />,
+                ]}
+              </span>
+            </div>,
             'endpoint',
             this.context.getStore('EndpointStore').getOrigin()
           )}
           {this.renderEndpointTab(
             'destination',
-            <FormattedMessage id="search" defaultMessage="Search" />,
+            <div>
+              <FormattedMessage id="search" defaultMessage="Search" />
+              <br />
+              <span className="search-current-origin-tip">
+                <FormattedMessage
+                  id="place-route-or-keyword"
+                  defaultMessage="Destination, route or stop"
+                />
+              </span>
+            </div>,
             'all',
             this.context.getStore('EndpointStore').getDestination(),
           )}
