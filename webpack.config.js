@@ -125,10 +125,6 @@ function getPluginsConfig(env) {
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
     new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
-    new webpack.PrefetchPlugin('react'),
-    new webpack.PrefetchPlugin('react-router'),
-    new webpack.PrefetchPlugin('fluxible'),
-    new webpack.PrefetchPlugin('leaflet'),
     new webpack.HashedModuleIdsPlugin(),
     new webpack.LoaderOptionsPlugin({
       debug: false,
@@ -191,12 +187,7 @@ function getEntry() {
       'react',
       'react-dom',
       'react-relay',
-      'react-router-relay',
-      'react-intl',
-      'fluxible-addons-react/FluxibleComponent',
-      'lodash/isEqual',
       'react-tap-event-plugin',
-      'fluxible',
     ],
     leaflet: ['leaflet'],
   };
