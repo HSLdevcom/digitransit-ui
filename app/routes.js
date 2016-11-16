@@ -18,7 +18,6 @@ import StopPage from './page/StopPage';
 import SummaryPage from './page/SummaryPage';
 import LoadingPage from './page/LoadingPage';
 import Error404 from './page/404';
-import StyleGuidePage from './page/StyleGuidePage';
 import AddFavouritePage from './page/AddFavouritePage';
 import AboutPage from './page/AboutPage';
 import SplashOrChildren from './component/splash/SplashOrChildren';
@@ -137,6 +136,14 @@ const preparePlanParams = (
     preferred: { agencies: config.preferredAgency || '' },
     disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
   }, isNil);
+
+function errorLoading(err) {
+  console.error('Dynamic page loading failed', err);
+}
+
+function loadRoute(cb) {
+  return module => cb(null, module.default);
+}
 
 const SummaryPageWrapper = ({ props, routerProps }) => (props ?
   <SummaryPage {...props} /> :
@@ -359,8 +366,18 @@ const routes = (
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="/styleguide" component={StyleGuidePage} />
-    <Route path="/styleguide/component/:componentName" component={StyleGuidePage} />
+    <Route
+      path="/styleguide"
+      getComponent={(location, cb) => {
+        System.import('./page/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
+      }}
+    />
+    <Route
+      path="/styleguide/component/:componentName"
+      getComponent={(location, cb) => {
+        System.import('./page/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
+      }}
+    />
     <Route path="/suosikki/uusi" component={AddFavouritePage} />
     <Route path="/suosikki/muokkaa/:id" component={AddFavouritePage} />
     <Route
