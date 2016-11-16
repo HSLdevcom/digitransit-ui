@@ -218,7 +218,9 @@ module.exports = {
   resolve: {
     extensions: ['.js'],
     modules: ['node_modules'],
-    alias: {},
+    alias: {
+      'lodash.merge': 'lodash/merge',
+    },
   },
   module: {
     rules: getRulesConfig(process.env.NODE_ENV),
