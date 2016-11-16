@@ -55,7 +55,7 @@ function startPositioning() {
 // If yes, start immediately, if not, we will not prompt for permission at this point.
 (function() {
   setTimeout(function () {
-    if (window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined) {
+    if (window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined && navigator.permissions !== undefined) {
       console.log(navigator.permissions);
       navigator.permissions.query({name:'geolocation'}).then(
         function(result) {
