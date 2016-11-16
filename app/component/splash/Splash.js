@@ -30,24 +30,22 @@ class Splash extends React.Component {
         closeModal={this.closeModal} initialValue="" target="origin"
       />
       <div className="front-page fullscreen">
-        <div className="fullscreen splash-map">
+        <div id="splash-map" className="fullscreen">
           <div className="map fullscreen">
             <div className="background-gradient" />
           </div>
         </div>
       </div>
       <div id="splash">
-        <h2>
+        <h3>
           <FormattedMessage
-            id="welcome"
+            id="splash-welcome"
             defaultMessage="Welcome to the new Journey Planner!"
           />
-        </h2>
-
+        </h3>
         <GeopositionSelector />
-
         <div className="splash-separator">
-          <FormattedMessage id="you-can-also" defaultMessage="You can also" />
+          <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
         </div>
         <span id="splash-searchfield" onClick={this.openModal}>
           <FormattedMessage id="give-origin" defaultMessage="Type in your origin" />
@@ -55,7 +53,7 @@ class Splash extends React.Component {
         </span>
 
         <div className="splash-separator">
-          <FormattedMessage id="or-choose" defaultMessage="or choose your origin from" />
+          <FormattedMessage id="splash-or-choose" defaultMessage="or choose your origin from" />
 ´
         </div>
         <OriginSelector />

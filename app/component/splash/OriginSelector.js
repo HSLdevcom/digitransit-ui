@@ -10,7 +10,7 @@ const OriginSelectorRow = ({ type, address, lat, lon }, { executeAction }) => (
     onClick={() => executeAction(setEndpoint,
       { target: 'origin', endpoint: { lat, lon, address } })}
   >
-    <Icon className={`icon-origin-${type}`} img={`icon-icon_${type}`} />
+    <Icon className={`splash-icon icon-origin-${type}`} img={`icon-icon_${type}`} />
     { address }
   </li>
 );

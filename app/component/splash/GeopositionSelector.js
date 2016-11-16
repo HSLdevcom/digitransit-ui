@@ -18,17 +18,18 @@ const GeopositionSelector = ({ status }) => {
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
       <div>
-        <FormattedMessage
-          id="please-allow-locationing"
-          defaultMessage="The service offers it's best if you allow locationing."
-        />
+        <span id="splash-text-block">
+          <FormattedMessage
+            id="splash-please-allow-positioning"
+            defaultMessage="The service offers it's best if you allow locationing."
+          /></span>
         <span
           id="splash-locationing-button"
           onClick={() => context.executeAction(startLocationWatch)}
         >
           <Icon className="icon-positioning" img="icon-icon_position" />
           <FormattedMessage
-            id="use-positioning"
+            id="splash-use-positioning"
             defaultMessage="Use positioning!"
           />
         </span>
@@ -43,13 +44,16 @@ const GeopositionSelector = ({ status }) => {
         </div>
       </div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_DENIED) {
-    return <div>Sowwy, I can&apos;t do a thing if you won&apos;t let me</div>;
+    return (<div><FormattedMessage
+      id="geolocation-denied-medssage"
+      defaultMessage="Sorry, I can't do a thing if you won't let me"
+    /></div>);
   }
   return null;
 };
 
 GeopositionSelector.propTypes = {
-  status: React.PropTypes.string.required,
+  status: React.PropTypes.string.isRequired,
 };
 
 GeopositionSelector.contextTypes = {
