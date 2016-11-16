@@ -391,26 +391,10 @@
 	<title>icon_mapMarker-location-animated</title>
 	<circle fill="#EF80C6" cx="1124" cy="1124" r="340"/>
 	<circle cx="1124" cy="1124" r="732" stroke-width="784" fill="none" stroke="url(#mapMarker-white)" />
-	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(239, 128, 198, 0.1)" cy="1124" id="circle_pink_first">
-		<animate from="340" attributeName="r" to="1079" dur="2.4s" repeatCount="indefinite"/>
-		<animate values="rgba(239, 128, 198, 1) ;rgba(239, 128, 198, 0.4) ; rgba(239, 128, 198, 0.1) ; rgba(239, 128, 198, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="2.4s" repeatCount="indefinite"/>
-		<animate values="50 ; 150" attributeName="stroke-width" dur="2.4s" keyTimes="0;1" begin="0s" repeatCount="indefinite"/>
-	</circle>
-	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(239, 128, 198, 0.1)" cy="1124" id="circle_pink_second">
-		<animate from="340" attributeName="r" to="1079" dur="2.4s" repeatCount="indefinite" begin="0.6s"/>
-		<animate values="rgba(239, 128, 198, 1) ;rgba(239, 128, 198, 0.4) ; rgba(239, 128, 198, 0.1) ; rgba(239, 128, 198, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="2.4s" repeatCount="indefinite" begin="0.6s"/>
-		<animate values="50 ; 150" attributeName="stroke-width" dur="2.4s" keyTimes="0;1" begin="0.6s" repeatCount="indefinite"/>
-	</circle>
-	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(239, 128, 198, 0.1)" cy="1124" id="circle_pink_third">
-		<animate from="340" attributeName="r" to="1079" dur="2.4s" repeatCount="indefinite" begin="1.2s"/>
-		<animate values="rgba(239, 128, 198, 1) ;rgba(239, 128, 198, 0.4) ; rgba(239, 128, 198, 0.1) ; rgba(239, 128, 198, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="2.4s" repeatCount="indefinite" begin="1.2s"/>
-		<animate values="50 ; 150" attributeName="stroke-width" dur="2.4s" keyTimes="0;1" begin="1.2s" repeatCount="indefinite"/>
-	</circle>
-	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(239, 128, 198, 0.1)" cy="1124" id="circle_pink_fourth">
-		<animate from="340" attributeName="r" to="1079" dur="2.4s" repeatCount="indefinite" begin="1.8s"/>
-		<animate values="rgba(239, 128, 198, 1) ;rgba(239, 128, 198, 0.4) ; rgba(239, 128, 198, 0.1) ; rgba(239, 128, 198, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="2.4s" repeatCount="indefinite" begin="1.8s"/>
-		<animate values="50 ; 150" attributeName="stroke-width" dur="2.4s" keyTimes="0;1" begin="1.8s" repeatCount="indefinite"/>
-	</circle>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_first"/>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_second"/>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_third"/>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_fourth"/>
 	<use x="850" y="830" width="550" height="550" class="fill-color14" xlink:href="#icon-icon_user" fill="#fff"/>
 </symbol>
 <symbol id="icon-icon_no_route_found" viewBox="0 0 283.46 283.46" enable-background="new 0 0 283.46 283.46">
