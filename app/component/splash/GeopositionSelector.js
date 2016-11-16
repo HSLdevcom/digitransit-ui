@@ -40,7 +40,7 @@ const GeopositionSelector = ({ status }) => {
       <div id="geoposition-selector">
         <div className="spinner-loader" />
         <div className="spinner-caption">
-          <FormattedMessage id="locating" defaultMessage="Locating" />…
+          <FormattedMessage id="splash-locating" defaultMessage="Locating" />…
         </div>
       </div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_DENIED) {
