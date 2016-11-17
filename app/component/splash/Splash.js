@@ -54,7 +54,6 @@ class Splash extends React.Component {
 
         <div className="splash-separator">
           <FormattedMessage id="splash-or-choose" defaultMessage="or choose your origin from" />
-´
         </div>
         <OriginSelector />
       </div>
