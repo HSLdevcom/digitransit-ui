@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
+import NearbyTabLabel from './NearbyTabLabel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
-import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
@@ -19,7 +19,8 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
   return (
     <div className={'fpcfloat no-select'}>
       <ul className="tabs-row bp-large cursor-pointer">
-        <NearbyTabLabelContainer
+        <NearbyTabLabel
+          hasDisruption={false}
           classes={cx(tabClasses, nearbyClasses)}
           onClick={nearbyClicked}
         />

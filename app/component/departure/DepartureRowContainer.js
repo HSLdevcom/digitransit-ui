@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
+import filter from 'lodash/filter';
 
 import Distance from '../departure/Distance';
 import RouteNumber from '../departure/RouteNumber';
@@ -12,19 +13,17 @@ import ComponentUsageExample from '../documentation/ComponentUsageExample';
 const departureRowContainerFragment = () => Relay.QL`
   fragment on DepartureRow {
     pattern {
-      alerts {
-        effectiveStartDate
-        effectiveEndDate
-        trip {
-          gtfsId
-        }
-      }
       route {
         gtfsId
         shortName
         longName
         mode
         color
+        alerts {
+          id
+          effectiveStartDate
+          effectiveEndDate
+        }
       }
       code
     }
@@ -47,6 +46,9 @@ const departureRowContainerFragment = () => Relay.QL`
     }
   }
 `;
+
+const hasActiveDisruption = (t, alerts) =>
+  filter(alerts, alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate).length > 0;
 
 const DepartureRow = (props) => {
   const departure = props.departure;
@@ -71,7 +73,6 @@ const DepartureRow = (props) => {
     });
   }
 
-  // TODO implement disruption checking
   return (
     <div className="next-departure-row padding-vertical-normal border-bottom">
       <Link
@@ -82,7 +83,7 @@ const DepartureRow = (props) => {
         <RouteNumber
           mode={departure.pattern.route.mode}
           text={departure.pattern.route.shortName}
-          hasDisruption={departure.hasDisruption}
+          hasDisruption={hasActiveDisruption(props.currentTime, departure.pattern.route.alerts)}
         />
         <RouteDestination
           mode={departure.pattern.route.mode}
