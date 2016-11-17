@@ -60,7 +60,6 @@ function startPositioning() {
             window.startPositioning();
           } else if (result.state === 'prompt') {
           } else if (result.state === 'denied') {
-            window.retrieveGeolocationError({code:1}); //user has denied geolocation, cannot fix until user changes settings...
           }
         }
       );
