@@ -47,8 +47,8 @@ const geolocationStarter = fs.readFileSync(`${appRoot}static/geolocation.js`).to
 
 const networkLayer = new RelayNetworkLayer([
   urlMiddleware({
-    url: 'http://localhost:8080/otp/routers/hsl/index/graphql',
-    batchUrl: 'http://localhost:8080/otp/routers/hsl/index/graphql/batch',
+    url: `${config.URL.OTP}index/graphql`,
+    batchUrl: `${config.URL.OTP}index/graphql/batch`,
   }),
   gqErrorsMiddleware(),
 ], { disableBatchQuery: false });
