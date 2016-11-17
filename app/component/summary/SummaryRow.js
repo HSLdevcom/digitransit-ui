@@ -8,6 +8,7 @@ import { displayDistance } from '../../util/geo-utils';
 import RouteNumber from '../departure/RouteNumber';
 import Icon from '../icon/Icon';
 import RelativeDuration from '../duration/RelativeDuration';
+import ComponentUsageExample from '../documentation/ComponentUsageExample';
 
 export default function SummaryRow(props, { breakpoint }) {
   let mode;
@@ -85,7 +86,7 @@ export default function SummaryRow(props, { breakpoint }) {
   const classes = cx(['itinerary-summary-row', 'cursor-pointer', {
     passive: props.passive,
     'bp-large': breakpoint === 'large',
-    open: props.children,
+    open: props.open || props.children,
   }]);
 
   return (
@@ -102,14 +103,23 @@ export default function SummaryRow(props, { breakpoint }) {
           {displayDistance(data.walkDistance)}
         </div>
       </div>
-      {props.children ? [
+      {props.open || props.children ? [
         <FormattedMessage
           id="itinerary-page.title"
           defaultMessage="Itinerary"
           tagName="h2"
         />,
-        <div className="action-arrow" key="arrow">
-          <Icon img="icon-icon_arrow-collapse--right" />
+        <div
+          key="arrow"
+          className="action-arrow-click-area"
+          onClick={(e) => {
+            e.stopPropagation();
+            props.onSelectImmediately(props.hash);
+          }}
+        >
+          <div className="action-arrow">
+            <Icon img="icon-icon_arrow-collapse--right" />
+          </div>
         </div>,
         props.children,
       ] : [
@@ -126,8 +136,17 @@ export default function SummaryRow(props, { breakpoint }) {
         <div className="itinerary-end-time" key="endtime">
           {endTime.format('HH:mm')}
         </div>,
-        <div className="action-arrow" key="arrow">
-          <Icon img="icon-icon_arrow-collapse--right" />
+        <div
+          key="arrow"
+          className="action-arrow-click-area"
+          onClick={(e) => {
+            e.stopPropagation();
+            props.onSelectImmediately(props.hash);
+          }}
+        >
+          <div className="action-arrow">
+            <Icon img="icon-icon_arrow-collapse--right" />
+          </div>
         </div>,
       ]}
     </div>);
@@ -136,12 +155,94 @@ export default function SummaryRow(props, { breakpoint }) {
 
 SummaryRow.propTypes = {
   data: React.PropTypes.object.isRequired,
-  passive: React.PropTypes.bool.isRequired,
+  passive: React.PropTypes.bool,
   onSelect: React.PropTypes.func.isRequired,
+  onSelectImmediately: React.PropTypes.func.isRequired,
   hash: React.PropTypes.number.isRequired,
   children: React.PropTypes.node,
+  open: React.PropTypes.bool,
 };
 
 SummaryRow.contextTypes = {
   breakpoint: React.PropTypes.string,
 };
+
+SummaryRow.displayName = 'SummaryRow';
+
+const exampleData = {
+  startTime: 1478611781000,
+  endTime: 1478612600000,
+  walkDistance: 770,
+  legs: [
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: 1478611781000,
+      endTime: 1478612219000,
+      mode: 'WALK',
+      distance: 483.84600000000006,
+      duration: 438,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Messuaukio 1, Helsinki' },
+    },
+    {
+      realTime: false,
+      transitLeg: true,
+      startTime: 1478612220000,
+      endTime: 1478612340000,
+      mode: 'BUS',
+      distance: 586.4621425755712,
+      duration: 120,
+      rentedBike: false,
+      route: { shortName: '57' },
+      from: { name: 'Ilmattarentie' },
+    },
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: 1478612341000,
+      endTime: 1478612600000,
+      mode: 'WALK',
+      distance: 291.098,
+      duration: 259,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Veturitie' },
+    },
+  ],
+};
+
+SummaryRow.description = (
+  <div>
+    <p>
+      Displays a summary of an itinerary.
+    </p>
+    <ComponentUsageExample description="passive">
+      <SummaryRow
+        data={exampleData}
+        passive
+        onSelect={() => {}}
+        onSelectImmediately={() => {}}
+        hash={1}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="active">
+      <SummaryRow
+        data={exampleData}
+        onSelect={() => {}}
+        onSelectImmediately={() => {}}
+        hash={1}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="open">
+      <SummaryRow
+        open
+        data={exampleData}
+        onSelect={() => {}}
+        onSelectImmediately={() => {}}
+        hash={1}
+      />
+    </ComponentUsageExample>
+  </div>
+);

@@ -19,6 +19,7 @@ function ItinerarySummaryListContainer(props) {
           passive={passive}
           currentTime={props.currentTime}
           onSelect={props.onSelect}
+          onSelectImmediately={props.onSelectImmediately}
         >
           {i === open && props.children}
         </SummaryRow>
@@ -43,6 +44,7 @@ ItinerarySummaryListContainer.propTypes = {
   activeIndex: React.PropTypes.number.isRequired,
   currentTime: React.PropTypes.number.isRequired,
   onSelect: React.PropTypes.func.isRequired,
+  onSelectImmediately: React.PropTypes.func.isRequired,
   open: React.PropTypes.number,
   children: React.PropTypes.node,
 };
