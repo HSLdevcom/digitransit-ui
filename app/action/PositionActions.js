@@ -64,8 +64,6 @@ const setCurrentLocation = (actionContext, pos) => {
 
 /* starts location watch */
 export function startLocationWatch(actionContext, payload, done) {
-  console.log('starting locationwatch manually');
-
   // Check if we need to manually start positioning
   if (typeof window.geoWatchId === 'undefined') {
     window.startPositioning();  // from geolocation.js

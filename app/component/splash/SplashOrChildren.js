@@ -18,8 +18,6 @@ SplashOrComponent.propTypes = {
 export default connectToStores(SplashOrComponent, ['PositionStore', 'EndpointStore'],
   (context, props) => {
     const origin = context.getStore('EndpointStore').getOrigin();
-    console.log('origin', origin);
-    console.log('haslocation', context.getStore('PositionStore').getLocationState().hasLocation);
 
     return {
       displaySplash: (

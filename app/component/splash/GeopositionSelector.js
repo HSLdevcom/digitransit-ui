@@ -14,7 +14,6 @@ const GeopositionSelector = ({ status }) => {
    * . locationing failed
    * - locationing succeeded
    */
-  console.log(status);
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
       <div>

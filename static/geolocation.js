@@ -5,12 +5,10 @@ window.position = {
 }
 
 window.retrieveGeolocation = function retrieveGeolocation(pos) {
-  console.log("retrieve position", pos);
   window.position.pos = pos;
 }
 
 window.retrieveGeolocationError = function retrieveGeolocationError(error) {
-  console.log("retrieve error", error);
   window.position.error = error;
 }
 
@@ -19,7 +17,6 @@ window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
 }
 
 function startPositioning() {
-  console.log("startiong geolocation watch...");
   var startTime = new Date().getTime();
   var quietTimeoutSeconds = 20;
 
@@ -30,25 +27,26 @@ function startPositioning() {
     },
     quietTimeoutSeconds * 1000);
 
-  console.log("adding watch...");
-  window.geoWatchId = navigator.geolocation.watchPosition(function geoPosition(position) {
-    if (timeout != null) {
-      clearTimeout(timeout);
-      timeout = null;
+  try {
+    window.geoWatchId = navigator.geolocation.watchPosition(function geoPosition(position) {
+      if (timeout != null) {
+        clearTimeout(timeout);
+        timeout = null;
 
-      window.retrieveGeolocationTiming(new Date().getTime() - startTime);
+        window.retrieveGeolocationTiming(new Date().getTime() - startTime);
+      }
+      window.retrieveGeolocation(position);
+    }, function handleError(error) {
+      if (timeout != null) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      window.retrieveGeolocationError(error);
     }
-        console.log("retrieving geolocation...", position);
-    window.retrieveGeolocation(position);
-  }, function handleError(error) {
-    if (timeout != null) {
-      clearTimeout(timeout);
-      timeout = null;
-      console.log("geolocationerror", error);
-    }
-    window.retrieveGeolocationError(error);
+    , {enableHighAccuracy: true, timeout: 60000, maximumAge: 60000});
+  } catch (Error) {
+    console.log("Error starting geolocation", Error);
   }
-  , {enableHighAccuracy: true, timeout: 60000, maximumAge: 60000});
 }
 
 // Check if we have previous permissions to get geolocation.
@@ -56,10 +54,8 @@ function startPositioning() {
 (function() {
   setTimeout(function () {
     if (window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined && navigator.permissions !== undefined) {
-      console.log(navigator.permissions);
       navigator.permissions.query({name:'geolocation'}).then(
         function(result) {
-          console.log("geolocation permission result", result)
           if (result.state === 'granted') {
             window.startPositioning();
           } else if (result.state === 'prompt') {
