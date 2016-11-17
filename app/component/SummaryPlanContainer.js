@@ -24,19 +24,29 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectActive = (index) => {
     if (this.getActiveIndex() === index) {
-      if (Number(this.props.params.hash) === index) {
-        this.context.router.goBack();
-      } else {
-        this.context.router.push({
-          ...this.context.location,
-          pathname: `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`,
-        });
-      }
+      this.onSelectImmediately(index);
     } else {
       this.context.router.replace({
         ...this.context.location,
         state: { summaryPageSelected: index },
         pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+      });
+    }
+  }
+
+  onSelectImmediately = (index) => {
+    if (Number(this.props.params.hash) === index) {
+      this.context.router.goBack();
+    } else {
+      this.context.router.replace({
+        ...this.context.location,
+        state: { summaryPageSelected: index },
+        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+      });
+      this.context.router.push({
+        ...this.context.location,
+        state: { summaryPageSelected: index },
+        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`,
       });
     }
   }
@@ -59,6 +69,7 @@ class SummaryPlanContainer extends React.Component {
           itineraries={this.props.itineraries}
           currentTime={currentTime}
           onSelect={this.onSelectActive}
+          onSelectImmediately={this.onSelectImmediately}
           activeIndex={activeIndex}
           open={this.props.params.hash}
         >

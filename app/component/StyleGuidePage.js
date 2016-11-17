@@ -65,6 +65,7 @@ import SuggestionItem from './SuggestionItem';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
+import SummaryRow from './SummaryRow';
 
 const components = {
   Icon,
@@ -128,6 +129,7 @@ const components = {
   CurrentPositionSuggestionItem,
   SuggestionItem,
   SelectedStopPopupContent,
+  SummaryRow,
   ExternalLink,
   LangSelect,
 };
