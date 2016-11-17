@@ -20,6 +20,7 @@ function startPositioning() {
   var startTime = new Date().getTime();
   var quietTimeoutSeconds = 20;
 
+
   //timeout timer for geolocation
   var timeout = setTimeout(function () {
     window.retrieveGeolocationError(
@@ -46,6 +47,18 @@ function startPositioning() {
     , {enableHighAccuracy: true, timeout: 60000, maximumAge: 60000});
   } catch (Error) {
     console.log("Error starting geolocation", Error);
+  }
+
+
+  //check if permission prompt is active
+  if(navigator.permissions !== undefined) {
+    navigator.permissions.query({name:'geolocation'}).then(
+      function(result){
+        if (result.state === 'prompt') {
+          window.retrieveGeolocationError({code: 100002, message: "Prompt"});
+
+        }
+      });
   }
 }
 

@@ -67,7 +67,6 @@ export function startLocationWatch(actionContext, payload, done) {
   // Check if we need to manually start positioning
   if (typeof window.geoWatchId === 'undefined') {
     window.startPositioning();  // from geolocation.js
-    actionContext.dispatch('GeolocationSearch');
   }
   done();
 }
@@ -96,23 +95,20 @@ export function initGeolocation(actionContext, payload, done) {
   };
 
   window.retrieveGeolocationError = function retrieveGeolocationError(error) {
-    console.log('error', error);
     if (error) {
       actionContext.piwik.trackEvent('geolocation', `status_${error.code}`, error.message);
       if (
         !(actionContext.getStore('EndpointStore').getOrigin().userSetPosition ||
           actionContext.getStore('PositionStore').getLocationState().hasLocation)
       ) {
-        if (error.code < 10) {
-          if (error.code === 1) {
-            actionContext.dispatch('GeolocationDenied');
-          } else if (error.code === 2) {
-            actionContext.dispatch('GeolocationNotSupported');
-          } else if (error.code === 3) {
-            actionContext.dispatch('GeolocationTimeout');
-          }
-        } else if (error.code === 100001) {
-          actionContext.dispatch('GeolocationWatchTimeout');
+        switch (error.code) { // see geolocation.js
+          case 1: actionContext.dispatch('GeolocationDenied'); break;
+          case 2: actionContext.dispatch('GeolocationNotSupported'); break;
+          case 3: actionContext.dispatch('GeolocationTimeout'); break;
+          case 100000: actionContext.dispatch('GeolocationSearch'); break;
+          case 100001: actionContext.dispatch('GeolocationWatchTimeout'); break;
+          case 100002: actionContext.dispatch('GeolocationPrompt'); break;
+          default: break;
         }
       }
     }
