@@ -43,9 +43,14 @@ const GeopositionSelector = ({ status }) => {
         </div>
       </div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_DENIED) {
-    return (<div><FormattedMessage
+    return (<div id="splash-positioning-message"><FormattedMessage
       id="splash-geolocation-denied-message"
       defaultMessage="Sorry, I can't do a thing if you won't let me"
+    /></div>);
+  } else if (status === PositionStore.STATUS_GEOLOCATION_WATCH_TIMEOUT) {
+    return (<div id="splash-positioning-message"><FormattedMessage
+      id="splash-geolocation-watch-timeout-message"
+      defaultMessage="Positioning is taking longer than expected. Choose origin below or try again later."
     /></div>);
   }
   return null;

@@ -1,3 +1,4 @@
+
 /* eslint quote-props: ["error", "consistent"]*/
 const translations = {
   'fi': {
@@ -11,7 +12,8 @@ const translations = {
     'splash-you-can-also': 'Vaihtoehtoisesti',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
     'splash-locating': 'Paikannetaan...',
-    'splash-geolocation-denied-message': 'TODO FI Paikannus estetty.',
+    'splash-geolocation-denied-message': 'Paikannus ei ole sallittu, tarkista selaimen/puhelimen asetukset.',
+    'splash-geolocation-watch-timeout-message': 'Paikannus kestää odotettua pidempään. Valitse lähtöpaikka alta tai yritä myöhemmin uudelleen.',
     'terminal-page.title-short': 'Terminaali',
     'terminal-page.title': 'Terminaali {stop_name}',
     'terminal-page.description': 'Terminaali {stop_name}',
@@ -209,7 +211,8 @@ const translations = {
     'splash-you-can-also': 'TODO SV Vaihtoehtoisesti',
     'splash-or-choose': 'TODO SV tai valitse lähtöpaikaksi',
     'splash-locating': 'TODO SV Paikannetaan...',
-    'splash-geolocation-denied-message': 'TODO SV Paikannus estetty.',
+    'splash-geolocation-denied-message': 'TODO SV Paikannus ei ole sallittu, tarkista selaimen/puhelimen asetukset.',
+    'splash-geolocation-watch-timeout-message': 'TODO SV Paikannus kestää odotettua pidempään. Valitse lähtöpaikka alta tai yritä myöhemmin uudelleen.',
     'own-position': 'Min position',
     'use-own-position': 'Använd min position',
     'search-position': 'Sök position',

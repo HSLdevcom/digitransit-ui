@@ -96,6 +96,7 @@ export function initGeolocation(actionContext, payload, done) {
   };
 
   window.retrieveGeolocationError = function retrieveGeolocationError(error) {
+    console.log('error', error);
     if (error) {
       actionContext.piwik.trackEvent('geolocation', `status_${error.code}`, error.message);
       if (

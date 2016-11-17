@@ -9,6 +9,7 @@ export default class PositionStore extends Store {
   static STATUS_FOUND_ADDRESS = 'found-address';
   static STATUS_GEOLOCATION_DENIED = 'geolocation-denied';
   static STATUS_GEOLOCATION_TIMEOUT = 'geolocation-timeout';
+  static STATUS_GEOLOCATION_WATCH_TIMEOUT = 'geolocation-watch-timeout';
   static STATUS_GEOLOCATION_NOT_SUPPORTED = 'geolocation-not-supported';
 
   constructor(dispatcher) {
@@ -46,6 +47,10 @@ export default class PositionStore extends Store {
     this.emitChange();
   }
 
+  geolocationWatchTimeout() {
+    this.status = PositionStore.STATUS_GEOLOCATION_WATCH_TIMEOUT;
+    this.emitChange();
+  }
   storeLocation(location) {
     const statusChanged = this.hasStatusChanged(true);
 
@@ -100,6 +105,7 @@ export default class PositionStore extends Store {
     GeolocationNotSupported: 'geolocationNotSupported',
     GeolocationDenied: 'geolocationDenied',
     GeolocationTimeout: 'geolocationTimeout',
+    GeolocationWatchTimeout: 'geolocationWatchTimeout',
     AddressFound: 'storeAddress',
     GeolocationWatchStarted: 'storeWatchId',
     GeolocationWatchStopped: 'clearWatchId',
