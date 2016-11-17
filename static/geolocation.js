@@ -16,29 +16,59 @@ window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
   window.position.timing = timing;
 }
 
+// for prompt/positioning detection
+function clearTimeout2(){
+  if (timeout2 !== null) {
+    clearTimeout(timeout2);
+    timeout2 = null;
+  }
+}
+
 function startPositioning() {
   var startTime = new Date().getTime();
   var quietTimeoutSeconds = 20;
 
+  //timeout for prompt/positioning detection
+  var timeout2 = setInterval(function () {
+
+    //check if permission prompt is active
+    if(navigator.permissions !== undefined) {
+      navigator.permissions.query({name:'geolocation'}).then(
+        function(result){
+          if (result.state === 'prompt') {
+            window.retrieveGeolocationError({code: 100002, message: "Prompt"});
+          } else if (result.state === 'granted') {
+            window.retrieveGeolocationError({code: 100000, message: "Granted"});
+            clearTimeout2();
+          }
+        });
+    } else {
+      //no permission api available
+      clearTimeout2();
+    }
+  },1000);
 
   //timeout timer for geolocation
   var timeout = setTimeout(function () {
+    clearTimeout2();
     window.retrieveGeolocationError(
       {code: 100001, message: "No location retrieved for " + quietTimeoutSeconds + " seconds."});
     },
     quietTimeoutSeconds * 1000);
 
+
   try {
     window.geoWatchId = navigator.geolocation.watchPosition(function geoPosition(position) {
-      if (timeout != null) {
+      clearTimeout2();
+
+      if (timeout !== null) {
         clearTimeout(timeout);
         timeout = null;
-
         window.retrieveGeolocationTiming(new Date().getTime() - startTime);
       }
       window.retrieveGeolocation(position);
     }, function handleError(error) {
-      if (timeout != null) {
+      if (timeout !== null) {
         clearTimeout(timeout);
         timeout = null;
       }
@@ -47,18 +77,6 @@ function startPositioning() {
     , {enableHighAccuracy: true, timeout: 60000, maximumAge: 60000});
   } catch (Error) {
     console.log("Error starting geolocation", Error);
-  }
-
-
-  //check if permission prompt is active
-  if(navigator.permissions !== undefined) {
-    navigator.permissions.query({name:'geolocation'}).then(
-      function(result){
-        if (result.state === 'prompt') {
-          window.retrieveGeolocationError({code: 100002, message: "Prompt"});
-
-        }
-      });
   }
 }
 
