@@ -67,8 +67,8 @@ window.debug = debug; // Allow _debug.enable('*') in browser console
 Relay.injectNetworkLayer(
   new RelayNetworkLayer([
     urlMiddleware({
-      url: 'http://localhost:8080/otp/routers/hsl/index/graphql',
-      batchUrl: 'http://localhost:8080/otp/routers/hsl/index/graphql/batch',
+      url: `${config.URL.OTP}index/graphql`,
+      batchUrl: `${config.URL.OTP}index/graphql/batch`,
     }),
     gqErrorsMiddleware(),
     retryMiddleware(),
