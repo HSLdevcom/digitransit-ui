@@ -3,9 +3,9 @@ import { intlShape } from 'react-intl';
 
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import ParkAndRideAvailability from './ParkAndRideAvailability';
-import Card from '../../card/Card';
-import CardHeader from '../../card/CardHeader';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import Card from '../../Card';
+import CardHeader from '../../CardHeader';
+import ComponentUsageExample from '../../ComponentUsageExample';
 
 export default class ParkAndRidePopup extends React.Component {
   static contextTypes = {

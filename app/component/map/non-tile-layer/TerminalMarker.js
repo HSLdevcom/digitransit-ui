@@ -4,7 +4,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 
 import { getDistanceToFurthestStop } from '../../../util/geo-utils';
-import Icon from '../../icon/Icon';
+import Icon from '../../Icon';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import TerminalRoute from '../../../route/TerminalRoute';

@@ -4,7 +4,7 @@ import pure from 'recompose/pure';
 import { intlShape } from 'react-intl';
 
 import OriginPopup from './OriginPopup';
-import Icon from '../icon/Icon';
+import Icon from '../Icon';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 

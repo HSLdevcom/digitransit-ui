@@ -12,30 +12,30 @@ import isNil from 'lodash/isNil';
 import moment from 'moment';
 
 // React pages
-import IndexPage from './page/IndexPage';
-import RoutePage from './page/RoutePage';
-import StopPage from './page/StopPage';
-import SummaryPage from './page/SummaryPage';
-import LoadingPage from './page/LoadingPage';
-import Error404 from './page/404';
-import StyleGuidePage from './page/StyleGuidePage';
-import AddFavouritePage from './page/AddFavouritePage';
-import AboutPage from './page/AboutPage';
-import SplashOrChildren from './component/splash/SplashOrChildren';
+import IndexPage from './component/IndexPage';
+import RoutePage from './component/RoutePage';
+import StopPage from './component/StopPage';
+import SummaryPage from './component/SummaryPage';
+import LoadingPage from './component/LoadingPage';
+import Error404 from './component/404';
+import StyleGuidePage from './component/StyleGuidePage';
+import AddFavouritePage from './component/AddFavouritePage';
+import AboutPage from './component/AboutPage';
+import SplashOrChildren from './component/SplashOrChildren';
 
 // Components for page parts
-import RouteAlertsContainer from './component/route/RouteAlertsContainer';
-import RouteMapContainer from './component/route/RouteMapContainer';
-import RouteScheduleContainer from './component/route/RouteScheduleContainer';
-import PatternStopsContainer from './component/route/PatternStopsContainer';
-import TripStopsContainer from './component/trip/TripStopsContainer';
-import RouteTitle from './component/route/RouteTitle';
-import StopPageMap from './component/stop/StopPageMap';
-import StopPageHeaderContainer from './component/stop/StopPageHeaderContainer';
-import StopPageMeta from './component/stop/StopPageMeta';
-import SummaryTitle from './component/summary/SummaryTitle';
-import ItineraryTab from './component/itinerary/ItineraryTab';
-import ItineraryPageMap from './component/itinerary/ItineraryPageMap';
+import RouteAlertsContainer from './component/RouteAlertsContainer';
+import RouteMapContainer from './component/RouteMapContainer';
+import RouteScheduleContainer from './component/RouteScheduleContainer';
+import PatternStopsContainer from './component/PatternStopsContainer';
+import TripStopsContainer from './component/TripStopsContainer';
+import RouteTitle from './component/RouteTitle';
+import StopPageMap from './component/StopPageMap';
+import StopPageHeaderContainer from './component/StopPageHeaderContainer';
+import StopPageMeta from './component/StopPageMeta';
+import SummaryTitle from './component/SummaryTitle';
+import ItineraryTab from './component/ItineraryTab';
+import ItineraryPageMap from './component/ItineraryPageMap';
 
 import { storeEndpoint } from './action/EndpointActions';
 import { otpToLocation } from './util/otpStrings';
