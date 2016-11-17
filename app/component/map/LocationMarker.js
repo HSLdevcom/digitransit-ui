@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '../icon/Icon';
+import Icon from '../Icon';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 

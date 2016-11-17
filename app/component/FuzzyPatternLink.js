@@ -2,9 +2,9 @@ import React from 'react';
 import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import { FormattedMessage } from 'react-intl';
-import IconWithTail from '../icon/IconWithTail';
-import SelectedIconWithTail from '../icon/SelectedIconWithTail';
-import NotImplementedLink from '../util/NotImplementedLink';
+import IconWithTail from './IconWithTail';
+import SelectedIconWithTail from './SelectedIconWithTail';
+import NotImplementedLink from './NotImplementedLink';
 
 function FuzzyPatternLink(props) {
   const imgName = `icon-icon_${props.mode}-live`;

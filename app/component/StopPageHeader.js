@@ -4,13 +4,13 @@ import getContext from 'recompose/getContext';
 import compose from 'recompose/compose';
 import { FormattedMessage } from 'react-intl';
 
-import StopCardHeaderContainer from '../stop-cards/StopCardHeaderContainer';
-import { addFavouriteStop } from '../../action/FavouriteActions';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Labeled from '../util/Labeled';
-import Centered from '../util/Centered';
-import InfoIcon from '../icon/InfoIcon';
-import Favourite from '../favourites/Favourite';
+import StopCardHeaderContainer from './StopCardHeaderContainer';
+import { addFavouriteStop } from '../action/FavouriteActions';
+import ComponentUsageExample from './ComponentUsageExample';
+import Labeled from './Labeled';
+import Centered from './Centered';
+import InfoIcon from './InfoIcon';
+import Favourite from './Favourite';
 
 const StopPageHeader = compose(
   getContext({ executeAction: React.PropTypes.func.isRequired,

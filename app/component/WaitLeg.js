@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
-import RouteNumber from '../../departure/RouteNumber';
-import Icon from '../../icon/Icon';
-import { durationToString } from '../../../util/timeUtils';
+import RouteNumber from './RouteNumber';
+import Icon from './Icon';
+import { durationToString } from '../util/timeUtils';
 
 function WaitLeg(props) {
   return (

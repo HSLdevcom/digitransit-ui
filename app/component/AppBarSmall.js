@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 
 import BackButton from './BackButton';
-import NotImplemented from '../util/NotImplemented';
-import DisruptionInfo from '../disruption/DisruptionInfo';
+import NotImplemented from './NotImplemented';
+import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const AppBarSmall = ({ disableBackButton, showLogo, title }) =>
   <div>

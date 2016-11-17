@@ -3,13 +3,13 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import Tab from 'material-ui/Tabs/Tab';
 import cx from 'classnames';
 
-import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
+import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import FakeSearchBar from './FakeSearchBar';
 import { default as FakeSearchWithButton } from './FakeSearchWithButton';
 import GeolocationOrInput from './GeolocationOrInput';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
-import Icon from '../icon/Icon';
+import Icon from './Icon';
 
 class SearchMainContainer extends React.Component {
   static contextTypes = {

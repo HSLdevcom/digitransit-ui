@@ -1,6 +1,6 @@
 import React from 'react';
 import IconWithTail from './IconWithTail';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const SelectedIconWithTail = ({ img, fullscreenMap }) => (
   <IconWithTail

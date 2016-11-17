@@ -1,7 +1,7 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import CityBikeCard from './CityBikeCard';
-import { toggleFavouriteCityBikeStation } from '../../action/FavouriteActions';
+import { toggleFavouriteCityBikeStation } from '../action/FavouriteActions';
 
 const CityBikeCardContainer = connectToStores(CityBikeCard, ['FavouriteCityBikeStationStore'],
   (context, props) => ({

@@ -1,6 +1,6 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import Icon from '../icon/Icon';
+import Icon from './Icon';
 
 export default class BackButton extends React.Component {
   static contextTypes = {

@@ -6,8 +6,8 @@ import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
 
-import DepartureListHeader from '../component/departure/DepartureListHeader';
-import DepartureListContainer from '../component/departure/DepartureListContainer';
+import DepartureListHeader from './DepartureListHeader';
+import DepartureListContainer from './DepartureListContainer';
 
 const DepartureListContainerWithProps = mapProps(props => ({
   stoptimes: props.stop.stoptimes,

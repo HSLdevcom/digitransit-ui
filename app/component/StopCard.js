@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
-import Card from '../card/Card';
+import Card from './Card';
 
 class StopCard extends React.Component {
   render() {

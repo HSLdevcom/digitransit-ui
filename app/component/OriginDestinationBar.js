@@ -2,9 +2,9 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 
-import { swapEndpoints } from '../../action/EndpointActions';
-import Icon from '../icon/Icon';
-import OneTabSearchModal from '../search/OneTabSearchModal';
+import { swapEndpoints } from '../action/EndpointActions';
+import Icon from './Icon';
+import OneTabSearchModal from './OneTabSearchModal';
 
 class OriginDestinationBar extends React.Component {
   static propTypes = {

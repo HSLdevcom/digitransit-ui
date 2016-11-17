@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
-import { route } from '../../action/ItinerarySearchActions';
+import { route } from '../action/ItinerarySearchActions';
 
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import { plan as examplePlan } from '../documentation/ExampleData';
-import ItineraryFeedback from '../itinerary-feedback/itinerary-feedback';
-import Icon from '../icon/Icon';
-import config from '../../config';
+import ComponentUsageExample from './ComponentUsageExample';
+import { plan as examplePlan } from './ExampleData';
+import ItineraryFeedback from './itinerary-feedback';
+import Icon from './Icon';
+import config from '../config';
 
 // TODO: sptlit into container and view
 

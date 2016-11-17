@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import { FormattedMessage } from 'react-intl';
 
-import RouteNumber from '../departure/RouteNumber';
+import RouteNumber from './RouteNumber';
 
 const RouteTitle = ({ route }, { breakpoint }) => (
   (breakpoint === 'large' || !route) ?

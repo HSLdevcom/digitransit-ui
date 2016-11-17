@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import find from 'lodash/find';
 import FavouriteLocation from './FavouriteLocation';
-import config from '../../config';
+import config from '../config';
 
 
 const FavouriteLocationContainer = ({ currentTime, onClickFavourite, plan, favourite }) => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import range from 'lodash/range';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import GenericTable from '../util/table/GenericTable';
+import ComponentUsageExample from './ComponentUsageExample';
+import GenericTable from './GenericTable';
 
 const Column = ({ i, columnWidth, handleClick, selectedScore }) => (
   <div

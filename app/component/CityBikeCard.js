@@ -1,10 +1,10 @@
 import React from 'react';
 
-import CardHeader from '../card/CardHeader';
-import { station as exampleStation } from '../documentation/ExampleData';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Card from '../card/Card';
-import Favourite from '../favourites/Favourite';
+import CardHeader from './CardHeader';
+import { station as exampleStation } from './ExampleData';
+import ComponentUsageExample from './ComponentUsageExample';
+import Card from './Card';
+import Favourite from './Favourite';
 
 const CityBikeCard = ({ station, children, className, isFavourite, toggleFavourite }) => {
   if (!station || !children || children.length === 0) {

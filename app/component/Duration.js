@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
-import Icon from '../icon/Icon';
-import { durationToString } from '../../util/timeUtils';
+import Icon from './Icon';
+import { durationToString } from '../util/timeUtils';
 
 function Duration(props) {
   const duration = durationToString(props.duration * 1000);

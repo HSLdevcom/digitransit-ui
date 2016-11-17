@@ -4,13 +4,13 @@ import range from 'lodash/range';
 import xor from 'lodash/xor';
 import without from 'lodash/without';
 
-import Icon from '../icon/Icon';
-import Slider from '../util/Slider';
-import ToggleButton from '../util/ToggleButton';
-import ModeFilter from '../util/ModeFilter';
-import Select from '../util/Select';
-import config from '../../config';
-import { route } from '../../action/ItinerarySearchActions';
+import Icon from './Icon';
+import Slider from './Slider';
+import ToggleButton from './ToggleButton';
+import ModeFilter from './ModeFilter';
+import Select from './Select';
+import config from '../config';
+import { route } from '../action/ItinerarySearchActions';
 
 class CustomizeSearch extends React.Component {
 

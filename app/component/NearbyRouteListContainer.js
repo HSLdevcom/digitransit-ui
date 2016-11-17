@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
-import PlaceAtDistanceListContainer from '../departure/PlaceAtDistanceListContainer';
-import config from '../../config';
+import PlaceAtDistanceListContainer from './PlaceAtDistanceListContainer';
+import config from '../config';
 
 const NearbyRouteList = props => (
   <PlaceAtDistanceListContainer

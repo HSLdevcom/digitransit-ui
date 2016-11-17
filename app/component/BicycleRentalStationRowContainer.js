@@ -4,9 +4,9 @@ import { intlShape } from 'react-intl';
 
 import Distance from './Distance';
 import RouteNumber from './RouteNumber';
-import Icon from '../icon/Icon';
-import config from '../../config';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Icon from './Icon';
+import config from '../config';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const bicycleRentalRowContainerFragment = () => Relay.QL`
   fragment on BikeRentalStation {

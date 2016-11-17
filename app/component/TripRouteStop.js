@@ -3,19 +3,19 @@ import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import cx from 'classnames';
 
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import WalkDistance from '../itinerary/WalkDistance';
-import StopCode from '../itinerary/StopCode';
+import ComponentUsageExample from './ComponentUsageExample';
+import WalkDistance from './WalkDistance';
+import StopCode from './StopCode';
 import PatternLink from './PatternLink';
 import FuzzyTripRoute from '../route/FuzzyTripRoute';
 import FuzzyPatternLink from './FuzzyPatternLink';
-import { fromStopTime } from '../departure/DepartureTime';
+import { fromStopTime } from './DepartureTime';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
   realtimeDeparture as exampleRealtimeDeparture,
   vehicle as exampleVehicle,
-} from '../documentation/ExampleData';
+} from './ExampleData';
 
 const getRouteStopSvg = (first, last) => (
   <svg className="route-stop-schematized" >

@@ -1,5 +1,5 @@
 import React from 'react';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 function GenericTable(props) {
   let highEndLabel;

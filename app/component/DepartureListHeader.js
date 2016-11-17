@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const DepartureListHeader = () => (
   <div className="departure-list-header row padding-vertical-small border-top">

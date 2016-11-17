@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import debounce from 'lodash/debounce';
-import { route } from '../../action/ItinerarySearchActions';
+import { route } from '../action/ItinerarySearchActions';
 
 import TimeSelectors from './TimeSelectors';
 

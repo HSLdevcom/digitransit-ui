@@ -1,9 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
-import Icon from '../icon/Icon';
-import IconWithBigCaution from '../icon/IconWithBigCaution';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import { realtimeDeparture as exampleRealtimeDeparture } from '../documentation/ExampleData';
+import Icon from './Icon';
+import IconWithBigCaution from './IconWithBigCaution';
+import ComponentUsageExample from './ComponentUsageExample';
+import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 
 function RouteNumber(props) {
   let mode = props.mode.toLowerCase();

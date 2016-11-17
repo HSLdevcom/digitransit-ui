@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import { plan as examplePlan } from '../documentation/ExampleData';
+import ComponentUsageExample from './ComponentUsageExample';
+import { plan as examplePlan } from './ExampleData';
 
 export default function TicketInformation({ fares }) {
   let currency;

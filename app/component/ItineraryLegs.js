@@ -6,7 +6,7 @@ import BicycleLeg from './BicycleLeg';
 import EndLeg from './EndLeg';
 import AirportCheckInLeg from './AirportCheckInLeg';
 import AirportCollectLuggageLeg from './AirportCollectLuggageLeg';
-import StopCode from '../StopCode';
+import StopCode from './StopCode';
 import BusLeg from './BusLeg';
 import AirplaneLeg from './AirplaneLeg';
 import SubwayLeg from './SubwayLeg';
@@ -14,7 +14,7 @@ import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
-import config from '../../../config';
+import config from '../config';
 
 class ItineraryLegs extends React.Component {
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;

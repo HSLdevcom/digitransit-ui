@@ -4,10 +4,10 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'react-router/lib/Link';
 import cx from 'classnames';
 
-import Icon from '../component/icon/Icon';
-import FavouriteRouteContainer from '../component/favourites/FavouriteRouteContainer';
-import RoutePatternSelect from '../component/route/RoutePatternSelect';
-import RouteNumber from '../component/departure/RouteNumber';
+import Icon from './Icon';
+import FavouriteRouteContainer from './FavouriteRouteContainer';
+import RoutePatternSelect from './RoutePatternSelect';
+import RouteNumber from './RouteNumber';
 import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClientAction';
 import NotFound from './404';
 

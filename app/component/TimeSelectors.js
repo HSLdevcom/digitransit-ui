@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import TimePicker from 'material-ui/TimePicker';
-import Icon from '../icon/Icon';
+import Icon from './Icon';
 
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import supportsInputType from '../../util/supportsInputType';
+import ComponentUsageExample from './ComponentUsageExample';
+import supportsInputType from '../util/supportsInputType';
 
 export default function TimeSelectors(
   { arriveBy, time, dates, setArriveBy, changeTime, changeTimeMui, changeDate }, { intl }

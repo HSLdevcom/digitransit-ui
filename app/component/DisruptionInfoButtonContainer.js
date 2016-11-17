@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
-import ViewerRoute from '../../route/ViewerRoute';
-import { open } from '../../action/DisruptionInfoAction';
+import ViewerRoute from '../route/ViewerRoute';
+import { open } from '../action/DisruptionInfoAction';
 import DisruptionInfoButton from './DisruptionInfoButton';
 
 function DisruptionInfoButtonContainer() {

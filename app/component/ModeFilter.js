@@ -2,8 +2,8 @@ import React from 'react';
 import pure from 'recompose/pure';
 
 import ToggleButton from './ToggleButton';
-import config from '../../config';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import config from '../config';
+import ComponentUsageExample from './ComponentUsageExample';
 
 
 class ModeFilter extends React.Component {

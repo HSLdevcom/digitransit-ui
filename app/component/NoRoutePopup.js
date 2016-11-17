@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import Modal from '../util/Modal';
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Modal from './Modal';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 class NoRoutePopup extends React.Component {
   static description = (

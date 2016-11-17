@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import Drawer from 'material-ui/Drawer';
 import { supportsHistory } from 'history/lib/DOMUtils';
 
-import config from '../../config';
-import Icon from '../icon/Icon';
+import config from '../config';
+import Icon from './Icon';
 import MainMenu from './MainMenu';
-import { openFeedbackModal } from '../../action/feedbackActions';
+import { openFeedbackModal } from '../action/feedbackActions';
 
 class MainMenuContainer extends Component {
   static contextTypes = {

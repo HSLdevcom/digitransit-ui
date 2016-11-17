@@ -4,10 +4,10 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import { setEndpoint } from '../../action/EndpointActions';
+import ComponentUsageExample from './ComponentUsageExample';
+import { setEndpoint } from '../action/EndpointActions';
 
-import config from '../../config';
+import config from '../config';
 
 class FavouriteLocationContainerRoute extends Relay.Route {
   static queries = {

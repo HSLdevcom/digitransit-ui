@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'react-router/lib/Link';
 
-import config from '../../config';
-import DisruptionInfoButtonContainer from '../disruption/DisruptionInfoButtonContainer';
-import Icon from '../icon/Icon';
+import config from '../config';
+import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
+import Icon from './Icon';
 import LangSelect from './LangSelect';
 
 function MainMenu(props) {

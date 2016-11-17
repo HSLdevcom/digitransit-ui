@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
-import RouteNumber from '../../departure/RouteNumber';
-import Icon from '../../icon/Icon';
+import RouteNumber from './RouteNumber';
+import Icon from './Icon';
 
 function AirportCollectLuggageLeg(props) {
   return (

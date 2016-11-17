@@ -3,7 +3,7 @@ import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
 
 import GeolocationOrInput from './GeolocationOrInput';
-import { setEndpoint, setUseCurrent } from '../../action/EndpointActions';
+import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import SearchModal from './SearchModal';
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const SelectedStopPopupContent = ({ stop }) => (
   <div className="origin-popup">

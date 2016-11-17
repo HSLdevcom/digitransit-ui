@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
   return (

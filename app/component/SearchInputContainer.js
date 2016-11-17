@@ -6,10 +6,10 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import ReactAutowhatever from 'react-autowhatever';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
-import { executeSearch, executeSearchImmediate } from '../../util/searchUtils';
-import { getLabel } from '../../util/suggestionUtils';
-import { saveSearch } from '../../action/SearchActions';
-import Icon from '../icon/Icon';
+import { executeSearch, executeSearchImmediate } from '../util/searchUtils';
+import { getLabel } from '../util/suggestionUtils';
+import { saveSearch } from '../action/SearchActions';
+import Icon from './Icon';
 
 const L = typeof window !== 'undefined' ? require('leaflet') : null;
 

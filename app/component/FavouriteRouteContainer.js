@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Favourite from './Favourite';
-import { addFavouriteRoute } from '../../action/FavouriteActions';
+import { addFavouriteRoute } from '../action/FavouriteActions';
 
 const FavouriteRouteContainer = connectToStores(Favourite, ['FavouriteRoutesStore'],
   (context, { gtfsId }) => ({

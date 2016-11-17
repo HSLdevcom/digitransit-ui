@@ -1,7 +1,7 @@
 import React from 'react';
-import Icon from '../icon/Icon';
-import NotImplementedLink from '../util/NotImplementedLink';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Icon from './Icon';
+import NotImplementedLink from './NotImplementedLink';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const InfoIcon = ({ stop }) => (
   <NotImplementedLink

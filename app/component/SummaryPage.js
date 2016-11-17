@@ -13,13 +13,13 @@ import { FormattedMessage } from 'react-intl';
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
 import Map from '../component/map/Map';
-import ItineraryTab from '../component/itinerary/ItineraryTab';
+import ItineraryTab from './ItineraryTab';
 
-import SummaryPlanContainer from '../component/summary/SummaryPlanContainer';
-import SummaryNavigation from '../component/navigation/SummaryNavigation';
+import SummaryPlanContainer from './SummaryPlanContainer';
+import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from '../component/map/ItineraryLine';
 import LocationMarker from '../component/map/LocationMarker';
-import MobileItineraryWrapper from '../component/itinerary/MobileItineraryWrapper';
+import MobileItineraryWrapper from './MobileItineraryWrapper';
 
 import config from '../config';
 

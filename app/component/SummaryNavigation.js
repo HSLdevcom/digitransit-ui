@@ -3,10 +3,10 @@ import Drawer from 'material-ui/Drawer';
 import { supportsHistory } from 'history/lib/DOMUtils';
 import cx from 'classnames';
 
-import CustomizeSearch from '../summary/CustomizeSearch';
-import OriginDestinationBar from '../summary/OriginDestinationBar';
-import TimeSelectorContainer from '../summary/TimeSelectorContainer';
-import RightOffcanvasToggle from '../summary/RightOffcanvasToggle';
+import CustomizeSearch from './CustomizeSearch';
+import OriginDestinationBar from './OriginDestinationBar';
+import TimeSelectorContainer from './TimeSelectorContainer';
+import RightOffcanvasToggle from './RightOffcanvasToggle';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {

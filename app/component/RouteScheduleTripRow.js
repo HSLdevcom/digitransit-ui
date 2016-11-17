@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 function RouteScheduleTripRow(props) {
   return (

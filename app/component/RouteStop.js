@@ -4,12 +4,12 @@ import Link from 'react-router/lib/Link';
 import cx from 'classnames';
 
 import FuzzyTripRoute from './FuzzyTripRoute';
-import TripLink from '../trip/TripLink';
-import FuzzyPatternLink from '../trip/FuzzyPatternLink';
-import WalkDistance from '../itinerary/WalkDistance';
-import StopCode from '../itinerary/StopCode';
-import { fromStopTime } from '../departure/DepartureTime';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import TripLink from './TripLink';
+import FuzzyPatternLink from './FuzzyPatternLink';
+import WalkDistance from './WalkDistance';
+import StopCode from './StopCode';
+import { fromStopTime } from './DepartureTime';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const getRouteStopSvg = (first, last) => (
   <svg className="route-stop-schematized" >

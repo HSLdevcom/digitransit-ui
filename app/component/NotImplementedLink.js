@@ -1,6 +1,6 @@
 import React from 'react';
-import { click } from '../../action/notImplementedActions';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import { click } from '../action/notImplementedActions';
+import ComponentUsageExample from './ComponentUsageExample';
 
 class NotImplementedLink extends React.Component {
   static description = (

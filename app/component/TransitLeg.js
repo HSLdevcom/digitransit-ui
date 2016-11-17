@@ -3,11 +3,11 @@ import Link from 'react-router/lib/Link';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
-import config from '../../../config';
-import RouteNumber from '../../departure/RouteNumber';
-import Icon from '../../icon/Icon';
-import { durationToString } from '../../../util/timeUtils';
-import StopCode from '../StopCode';
+import config from '../config';
+import RouteNumber from './RouteNumber';
+import Icon from './Icon';
+import { durationToString } from '../util/timeUtils';
+import StopCode from './StopCode';
 
 class TransitLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;

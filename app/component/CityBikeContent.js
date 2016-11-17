@@ -1,8 +1,8 @@
 import React from 'react';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import { station as exampleStation, lang as exampleLang } from '../documentation/ExampleData';
+import ComponentUsageExample from './ComponentUsageExample';
+import { station as exampleStation, lang as exampleLang } from './ExampleData';
 
 const CityBikeContent = ({ station, lang }) => (
   <div className="city-bike-container">

@@ -3,8 +3,8 @@ import groupBy from 'lodash/groupBy';
 import uniq from 'lodash/uniq';
 import cx from 'classnames';
 
-import routeCompare from '../../util/route-compare';
-import RouteNumber from '../departure/RouteNumber';
+import routeCompare from '../util/route-compare';
+import RouteNumber from './RouteNumber';
 
 function RouteList(props) {
   const routeObjs =

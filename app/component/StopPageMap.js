@@ -3,10 +3,10 @@ import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import some from 'lodash/some';
 
-import Map from '../map/Map';
-import SelectedStopPopup from '../map/popups/SelectedStopPopup';
+import Map from './map/Map';
+import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
-import Icon from '../icon/Icon';
+import Icon from './Icon';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
   `/${

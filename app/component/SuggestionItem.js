@@ -2,10 +2,10 @@ import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
 
-import Icon from '../icon/Icon';
-import { getLabel, getIcon } from '../../util/suggestionUtils';
-import config from '../../config';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Icon from './Icon';
+import { getLabel, getIcon } from '../util/suggestionUtils';
+import config from '../config';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure((props) => {
   let icon;

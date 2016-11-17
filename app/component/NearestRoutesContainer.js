@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Relay, { Route } from 'react-relay';
-import NearbyRouteListContainer from '../route/NearbyRouteListContainer';
+import NearbyRouteListContainer from './NearbyRouteListContainer';
 
 class NearbyRouteListContainerRoute extends Route {
   static queries = {

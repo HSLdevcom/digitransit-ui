@@ -1,8 +1,8 @@
 import React from 'react';
-import CardHeader from '../card/CardHeader';
-import config from '../../config';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import InfoIcon from '../icon/InfoIcon';
+import CardHeader from './CardHeader';
+import config from '../config';
+import ComponentUsageExample from './ComponentUsageExample';
+import InfoIcon from './InfoIcon';
 
 class StopCardHeader extends React.Component {
   getDescription() {

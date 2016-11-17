@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import FavouriteRouteListContainer from './FavouriteRouteListContainer';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
-import NextDeparturesListHeader from '../departure/NextDeparturesListHeader';
+import NextDeparturesListHeader from './NextDeparturesListHeader';
 import NoFavouritesPanel from './NoFavouritesPanel';
 
 class FavouriteRouteListContainerRoute extends Relay.Route {

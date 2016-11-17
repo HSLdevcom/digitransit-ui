@@ -3,11 +3,11 @@ import moment from 'moment';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 
-import legTextUtil from '../../util/leg-text-util';
-import { displayDistance } from '../../util/geo-utils';
-import RouteNumber from '../departure/RouteNumber';
-import Icon from '../icon/Icon';
-import RelativeDuration from '../duration/RelativeDuration';
+import legTextUtil from '../util/leg-text-util';
+import { displayDistance } from '../util/geo-utils';
+import RouteNumber from './RouteNumber';
+import Icon from './Icon';
+import RelativeDuration from './RelativeDuration';
 
 export default function SummaryRow(props, { breakpoint }) {
   let mode;

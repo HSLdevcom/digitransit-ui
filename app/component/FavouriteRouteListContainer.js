@@ -4,9 +4,9 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import NextDeparturesList, {
    relayFragment as NextDeparturesListRelayFragment,
-} from '../departure/NextDeparturesList';
-import NoPositionPanel from '../front-page/NoPositionPanel';
-import { getDistanceToNearestStop } from '../../util/geo-utils';
+} from './NextDeparturesList';
+import NoPositionPanel from './NoPositionPanel';
+import { getDistanceToNearestStop } from '../util/geo-utils';
 
 
 const getNextDepartures = (routes, lat, lon) => {

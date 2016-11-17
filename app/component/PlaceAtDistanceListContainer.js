@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import PlaceAtDistanceContainer from './PlaceAtDistanceContainer';
-import config from '../../config';
+import config from '../config';
 
 export const placeAtDistanceListContainerFragment = variables => Relay.QL`
   fragment on placeAtDistanceConnection {

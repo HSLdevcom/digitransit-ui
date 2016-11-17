@@ -1,7 +1,7 @@
 import React from 'react';
 import getContext from 'recompose/getContext';
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 import FakeSearchBar from './FakeSearchBar';
 
 const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => (

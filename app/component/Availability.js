@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 function Availability({ total, available, fewAvailableCount, text }) {
   let availablepct = (available / total) * 100;

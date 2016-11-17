@@ -7,8 +7,8 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 
-import { getDistanceToNearestStop } from '../../util/geo-utils';
-import config from '../../config';
+import { getDistanceToNearestStop } from '../util/geo-utils';
+import config from '../config';
 import RouteStop from './RouteStop';
 
 const RouteStopClass = toClass(RouteStop);

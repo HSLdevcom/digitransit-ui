@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import some from 'lodash/some';
 import cx from 'classnames';
 
-import { getStartTime } from '../../util/timeUtils';
+import { getStartTime } from '../util/timeUtils';
 import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
 

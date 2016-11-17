@@ -2,9 +2,9 @@ import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
 
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import config from '../../config';
-import { lang as exampleLang } from '../documentation/ExampleData';
+import ComponentUsageExample from './ComponentUsageExample';
+import config from '../config';
+import { lang as exampleLang } from './ExampleData';
 
 
 const CityBikeUse = ({ lang }) => (

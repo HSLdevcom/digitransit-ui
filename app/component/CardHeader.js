@@ -1,9 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Icon from '../icon/Icon';
-import SplitBars from '../util/SplitBars';
-import Favourite from '../favourites/Favourite';
+import ComponentUsageExample from './ComponentUsageExample';
+import Icon from './Icon';
+import SplitBars from './SplitBars';
+import Favourite from './Favourite';
 
 const CardHeader = ({
   className,

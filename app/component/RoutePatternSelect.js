@@ -1,9 +1,9 @@
 import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import { routePatterns as exampleRoutePatterns } from '../documentation/ExampleData';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
+import { routePatterns as exampleRoutePatterns } from './ExampleData';
 
 function RoutePatternSelect(props) {
   const options = props.route && props.route.patterns.map(pattern =>

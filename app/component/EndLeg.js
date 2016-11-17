@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import Icon from '../../icon/Icon';
+import Icon from './Icon';
 
 function EndLeg(props) {
   return (

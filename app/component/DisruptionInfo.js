@@ -3,11 +3,11 @@ import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 
-import Modal from '../util/Modal';
-import ViewerRoute from '../../route/ViewerRoute';
-import { close } from '../../action/DisruptionInfoAction';
+import Modal from './Modal';
+import ViewerRoute from '../route/ViewerRoute';
+import { close } from '../action/DisruptionInfoAction';
 import DisruptionListContainer from './DisruptionListContainer';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 function DisruptionInfo(props, context) {
   if (typeof window !== 'undefined' && props.open) {

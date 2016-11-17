@@ -1,17 +1,17 @@
 import React from 'react';
 import getContext from 'recompose/getContext';
 import { clearDestination } from '../action/EndpointActions';
-import FeedbackPanel from '../component/feedback/FeedbackPanel';
-import FrontPagePanelLarge from '../component/front-page/FrontPagePanelLarge';
-import FrontPagePanelSmall from '../component/front-page/FrontPagePanelSmall';
+import FeedbackPanel from './FeedbackPanel';
+import FrontPagePanelLarge from './FrontPagePanelLarge';
+import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
-import SearchMainContainer from '../component/search/SearchMainContainer';
+import SearchMainContainer from './SearchMainContainer';
 import config from '../config';
-import MessageBar from '../component/navigation/MessageBar';
+import MessageBar from './MessageBar';
 import { shouldDisplayPopup } from '../util/Feedback';
 import { openFeedbackModal } from '../action/feedbackActions';
-import FavouritesPanel from '../component/favourites/FavouritesPanel';
-import NearbyRoutesPanel from '../component/front-page/NearbyRoutesPanel';
+import FavouritesPanel from './FavouritesPanel';
+import NearbyRoutesPanel from './NearbyRoutesPanel';
 
 class IndexPage extends React.Component {
   static contextTypes = {

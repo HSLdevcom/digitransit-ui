@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Icon from '../icon/Icon';
+import ComponentUsageExample from './ComponentUsageExample';
+import Icon from './Icon';
 
 const ExternalLink = ({ name, href }) => ((name !== undefined) &&
   <span className="external-link-container">

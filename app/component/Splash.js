@@ -1,9 +1,9 @@
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { setOriginToDefault } from '../../action/EndpointActions';
-import FakeSearchBar from '../search/FakeSearchBar';
-import { default as FakeSearchWithButton } from '../search/FakeSearchWithButton';
-import OneTabSearchModal from '../search/OneTabSearchModal';
+import { setOriginToDefault } from '../action/EndpointActions';
+import FakeSearchBar from './FakeSearchBar';
+import { default as FakeSearchWithButton } from './FakeSearchWithButton';
+import OneTabSearchModal from './OneTabSearchModal';
 
 
 class Splash extends React.Component {

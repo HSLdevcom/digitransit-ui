@@ -1,7 +1,7 @@
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import StopCardHeaderContainer from '../stop-cards/StopCardHeaderContainer';
+import StopCardHeaderContainer from './StopCardHeaderContainer';
 import StopPageHeader from './StopPageHeader';
 
 const StopPageHeaderContainer = Relay.createContainer(StopPageHeader, {

@@ -7,8 +7,8 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 
 import TripRouteStop from './TripRouteStop';
-import { getDistanceToNearestStop } from '../../util/geo-utils';
-import config from '../../config';
+import { getDistanceToNearestStop } from '../util/geo-utils';
+import config from '../config';
 
 class TripStopListContainer extends React.Component {
 

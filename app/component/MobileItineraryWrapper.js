@@ -5,7 +5,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
 
-import { getRoutePath } from '../../util/path';
+import { getRoutePath } from '../util/path';
 
 export default class MobileItineraryWrapper extends React.Component {
   static propTypes = {

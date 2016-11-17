@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import Modal from './Modal';
-import { close as closeAction } from '../../action/notImplementedActions';
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import { close as closeAction } from '../action/notImplementedActions';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 function NotImplemented({ name }, { executeAction }) {
   const close = () => executeAction(closeAction);

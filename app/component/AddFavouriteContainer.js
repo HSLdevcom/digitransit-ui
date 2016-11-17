@@ -5,11 +5,11 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
-import Icon from '../icon/Icon';
+import Icon from './Icon';
 import FavouriteIconTable from './FavouriteIconTable';
-import { addFavouriteLocation, deleteFavouriteLocation } from '../../action/FavouriteActions';
-import FakeSearchBar from '../search/FakeSearchBar';
-import OneTabSearchModal from '../search/OneTabSearchModal';
+import { addFavouriteLocation, deleteFavouriteLocation } from '../action/FavouriteActions';
+import FakeSearchBar from './FakeSearchBar';
+import OneTabSearchModal from './OneTabSearchModal';
 
 class AddFavouriteContainer extends React.Component {
   static contextTypes = {

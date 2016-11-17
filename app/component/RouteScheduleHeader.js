@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import RouteScheduleStopSelect from './RouteScheduleStopSelect';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 import {
   routeScheduleHeaderStops as exampleStops,
-} from '../documentation/ExampleData';
+} from './ExampleData';
 
 function RouteScheduleHeader(props) {
   const options = props.stops.map((stop, index) => {

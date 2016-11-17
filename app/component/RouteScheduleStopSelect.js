@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 import {
   routeScheduleStopSelectOptions as exampleOptions,
-} from '../documentation/ExampleData';
+} from './ExampleData';
 
 function RouteScheduleStopSelect(props) {
   const options = props.options.map(option =>

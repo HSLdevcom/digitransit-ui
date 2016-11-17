@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const Centered = ({ children }) => (
   <div className="centered">

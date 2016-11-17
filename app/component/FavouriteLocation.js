@@ -2,11 +2,11 @@ import React from 'react';
 import cx from 'classnames';
 import Link from 'react-router/lib/Link';
 
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Icon from '../icon/Icon';
-import DepartureTime from '../departure/DepartureTime';
-import RouteNumber from '../departure/RouteNumber';
-import { favouriteLocation as favouriteLocationExample } from '../documentation/ExampleData';
+import ComponentUsageExample from './ComponentUsageExample';
+import Icon from './Icon';
+import DepartureTime from './DepartureTime';
+import RouteNumber from './RouteNumber';
+import { favouriteLocation as favouriteLocationExample } from './ExampleData';
 
 const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
   firstTransitLeg, clickFavourite }) => {

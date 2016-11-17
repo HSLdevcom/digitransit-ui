@@ -2,13 +2,13 @@ import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
   realtimeDeparture as exampleRealtimeDeparture,
-} from '../documentation/ExampleData';
+} from './ExampleData';
 
 function DepartureTime(props, context) {
   let shownTime;

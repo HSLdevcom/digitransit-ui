@@ -2,11 +2,11 @@ import React from 'react';
 import MaterialModal from 'material-ui/Dialog';
 import { FormattedMessage, intlShape } from 'react-intl';
 
-import Icon from '../icon/Icon';
+import Icon from './Icon';
 import ScoreTable from './ScoreTable';
 import TextAreaWithCounter from './TextAreaWithCounter';
-import { closeFeedbackModal } from '../../action/feedbackActions';
-import { recordResult } from '../../util/Feedback';
+import { closeFeedbackModal } from '../action/feedbackActions';
+import { recordResult } from '../util/Feedback';
 
 const FEEDBACK_OPEN_AREA_MAX_CHARS = 200;
 

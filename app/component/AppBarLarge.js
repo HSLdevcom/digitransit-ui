@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
-import config from '../../config';
-import NotImplemented from '../util/NotImplemented';
+import config from '../config';
+import NotImplemented from './NotImplemented';
 import ExternalLink from './ExternalLink';
-import DisruptionInfo from '../disruption/DisruptionInfo';
-import { open } from '../../action/DisruptionInfoAction';
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import DisruptionInfo from './DisruptionInfo';
+import { open } from '../action/DisruptionInfoAction';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 
 const AppBarLarge = ({ titleClicked }, context) =>

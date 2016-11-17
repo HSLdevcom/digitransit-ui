@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import Icon from '../icon/Icon';
+import Icon from './Icon';
 
 const ToggleButton = ({ checkedClass, state, icon, className, onBtnClick, style, children }) => {
   let iconTag;

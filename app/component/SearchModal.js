@@ -1,8 +1,8 @@
 import React from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 
-import Icon from '../icon/Icon';
-import config from '../../config';
+import Icon from './Icon';
+import config from '../config';
 
 
 const SearchModal = (props) => {

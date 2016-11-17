@@ -2,12 +2,12 @@ import React from 'react';
 import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 
-import Distance from '../departure/Distance';
-import RouteNumber from '../departure/RouteNumber';
-import RouteDestination from '../departure/RouteDestination';
-import DepartureTime from '../departure/DepartureTime';
-import config from '../../config';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Distance from './Distance';
+import RouteNumber from './RouteNumber';
+import RouteDestination from './RouteDestination';
+import DepartureTime from './DepartureTime';
+import config from '../config';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const departureRowContainerFragment = () => Relay.QL`
   fragment on DepartureRow {

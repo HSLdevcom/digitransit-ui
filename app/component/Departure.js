@@ -4,12 +4,12 @@ import RouteNumber from './RouteNumber';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import PlatformNumber from './PlatformNumber';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
   realtimeDeparture as exampleRealtimeDeparture,
-} from '../documentation/ExampleData';
+} from './ExampleData';
 
 function Departure(props) {
   const mode = props.departure.pattern.route.mode.toLowerCase();

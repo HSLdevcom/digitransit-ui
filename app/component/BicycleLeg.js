@@ -1,11 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
-import RouteNumber from '../../departure/RouteNumber';
-import Icon from '../../icon/Icon';
+import RouteNumber from './RouteNumber';
+import Icon from './Icon';
 
-import { displayDistance } from '../../../util/geo-utils';
-import { durationToString } from '../../../util/timeUtils';
+import { displayDistance } from '../util/geo-utils';
+import { durationToString } from '../util/timeUtils';
 
 function BicycleLeg(props) {
   let stopsDescription;

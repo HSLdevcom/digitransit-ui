@@ -4,9 +4,9 @@ import mapProps from 'recompose/mapProps';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
 import flatten from 'lodash/flatten';
-import config from '../../config';
+import config from '../config';
 import NearbyTabLabel from './NearbyTabLabel';
-import StopListRoute from '../../route/StopListRoute';
+import StopListRoute from '../route/StopListRoute';
 
 const STOP_COUNT = 20;
 

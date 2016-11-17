@@ -4,10 +4,10 @@ import includes from 'lodash/includes';
 import pull from 'lodash/pull';
 import without from 'lodash/without';
 
-import ModeFilterContainer from '../route/ModeFilterContainer';
+import ModeFilterContainer from './ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
-import NextDeparturesListHeader from '../departure/NextDeparturesListHeader';
-import config from '../../config';
+import NextDeparturesListHeader from './NextDeparturesListHeader';
+import config from '../config';
 
 function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }) {
   return (

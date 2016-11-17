@@ -4,8 +4,8 @@ import pure from 'recompose/pure';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 
 const Locate = () => (

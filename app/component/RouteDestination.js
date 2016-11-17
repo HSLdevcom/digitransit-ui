@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import { realtimeDeparture as ExampleData } from '../documentation/ExampleData';
+import ComponentUsageExample from './ComponentUsageExample';
+import { realtimeDeparture as ExampleData } from './ExampleData';
 
 function RouteDestination(props, context) {
   let destination;

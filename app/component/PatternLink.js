@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import IconWithTail from '../icon/IconWithTail';
-import SelectedIconWithTail from '../icon/SelectedIconWithTail';
+import IconWithTail from './IconWithTail';
+import SelectedIconWithTail from './SelectedIconWithTail';
 
 function PatternLink({ mode, pattern, route, fullscreenMap, reverse = false, selected = false }) {
   const imgName = `icon-icon_${mode}-live`;

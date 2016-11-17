@@ -4,7 +4,7 @@ import without from 'lodash/without';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteHeader from './RouteHeader';
-import { addFavouriteRoute } from '../../action/FavouriteActions';
+import { addFavouriteRoute } from '../action/FavouriteActions';
 
 class RouteHeaderContainer extends React.Component {
 

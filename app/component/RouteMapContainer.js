@@ -3,12 +3,12 @@ import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
 
-import Icon from '../icon/Icon';
-import Map from '../map/Map';
-import RouteLine from '../map/route/RouteLine';
-import VehicleMarkerContainer from '../map/VehicleMarkerContainer';
-import StopCardHeaderContainer from '../stop-cards/StopCardHeaderContainer';
-import { getStartTime } from '../../util/timeUtils';
+import Icon from './Icon';
+import Map from './map/Map';
+import RouteLine from './map/route/RouteLine';
+import VehicleMarkerContainer from './map/VehicleMarkerContainer';
+import StopCardHeaderContainer from './StopCardHeaderContainer';
+import { getStartTime } from '../util/timeUtils';
 
 function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, location, breakpoint }) {
   let selectedVehicle;

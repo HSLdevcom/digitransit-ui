@@ -1,9 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import RouteNumber from '../departure/RouteNumber';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
-import Icon from '../icon/Icon';
+import RouteNumber from './RouteNumber';
+import ComponentUsageExample from './ComponentUsageExample';
+import Icon from './Icon';
 
 export default function RouteAlertsRow({
   header,

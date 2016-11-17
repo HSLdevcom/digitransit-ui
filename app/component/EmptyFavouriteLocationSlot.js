@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../icon/Icon';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const EmptyFavouriteLocationSlot = ({ index }) => (
   <Link

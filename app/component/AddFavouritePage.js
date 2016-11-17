@@ -1,4 +1,4 @@
 import React from 'react';
-import AddFavouriteContainer from '../component/favourites/AddFavouriteContainer';
+import AddFavouriteContainer from './AddFavouriteContainer';
 
 export default props => (<AddFavouriteContainer {...props} />);

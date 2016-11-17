@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import ComponentUsageExample from '../documentation/ComponentUsageExample';
+import ComponentUsageExample from './ComponentUsageExample';
 
 const Card = ({ className, children }) => (
   <div className={cx('card', className)}>
