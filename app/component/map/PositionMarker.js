@@ -11,19 +11,19 @@ const isBrowser = typeof window !== 'undefined' && window !== null;
 let Marker;
 let L;
 
-const timeoutId = null;
+let timeoutId = null;
 const ANIMATION_TIME = 5000;
 
 const toggleAnimation = (el) => {
   if (el == null) {
     clearTimeout(timeoutId);
+    timeoutId = null;
     Array.from(document.getElementById('icon-icon_mapMarker-location-animated').children).forEach(
       circle => circle.setAttribute('class', 'paused')
     );
   } else {
-    setTimeout(toggleAnimation, ANIMATION_TIME);
+    timeoutId = setTimeout(toggleAnimation, ANIMATION_TIME);
     Array.from(document.getElementById('icon-icon_mapMarker-location-animated').children).forEach(
-      // eslint-disable-next-line no-param-reassign, no-return-assign
       circle => circle.setAttribute('class', '')
     );
   }
