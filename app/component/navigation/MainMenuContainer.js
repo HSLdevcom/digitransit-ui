@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Drawer from 'material-ui/Drawer';
-import { supportsHistory } from 'history/lib/DOMUtils';
 
 import config from '../../config';
 import Icon from '../icon/Icon';
@@ -15,43 +14,33 @@ class MainMenuContainer extends Component {
     router: PropTypes.object.isRequired,
   };
 
-  state = { offcanvasVisible: false };
-
   onRequestChange = newState => this.internalSetOffcanvas(newState);
 
   getOffcanvasState = () => {
-    if (typeof window !== 'undefined' && supportsHistory()) {
-      if (this.context.location.state != null &&
-          this.context.location.state.offcanvasVisible != null) {
-        return this.context.location.state.offcanvasVisible;
-      }
-      // If the state is missing or doesn't have offcanvasVisible, it's not set
-      return false;
+    if (this.context.location.state != null &&
+        this.context.location.state.offcanvasVisible != null) {
+      return this.context.location.state.offcanvasVisible;
     }
-    // Use state only if we can't use the state in history API
-    return this.state.offcanvasVisible;
+    // If the state is missing or doesn't have offcanvasVisible, it's not set
+    return false;
   }
 
   toggleOffcanvas = () => this.internalSetOffcanvas(!this.getOffcanvasState());
 
   internalSetOffcanvas = (newState) => {
-    this.setState({ offcanvasVisible: newState });
-
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent('Offcanvas', 'Index', newState ? 'open' : 'close');
     }
 
-    if (supportsHistory()) {
-      if (newState) {
-        this.context.router.push({
-          state: { offcanvasVisible: newState },
-          pathname: this.context.location.pathname + (
-            (this.context.location.search && this.context.location.search.indexOf('mock') > -1) ?
-              '?mock' : ''),
-        });
-      } else {
-        this.context.router.goBack();
-      }
+    if (newState) {
+      this.context.router.push({
+        state: { offcanvasVisible: newState },
+        pathname: this.context.location.pathname + (
+          (this.context.location.search && this.context.location.search.indexOf('mock') > -1) ?
+            '?mock' : ''),
+      });
+    } else {
+      this.context.router.goBack();
     }
   }
 
