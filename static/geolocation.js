@@ -24,7 +24,6 @@ function clearTimeout2(){
   }
 }
 
-
 let timeout2;
 
 function startPositioning() {
@@ -32,11 +31,11 @@ function startPositioning() {
   var quietTimeoutSeconds = 20;
 
   //timeout for prompt/positioning detection
-  timeout2 = setInterval(function () {
+  if(navigator.permissions !== undefined) {
+    timeout2 = setInterval(function () {
 
     //check if permission prompt is active
-    if(navigator.permissions !== undefined) {
-      navigator.permissions.query({name:'geolocation'}).then(
+    navigator.permissions.query({name:'geolocation'}).then(
         function(result){
           if (result.state === 'prompt') {
             window.retrieveGeolocationError({code: 100002, message: "Prompt"});
@@ -45,11 +44,10 @@ function startPositioning() {
             clearTimeout2();
           }
         });
-    } else {
-      //no permission api available
-      clearTimeout2();
-    }
   },1000);
+} else {
+  window.retrieveGeolocationError({code: 100000, message: "Granted"});
+}
 
   //timeout timer for geolocation
   var timeout = setTimeout(()=>{
