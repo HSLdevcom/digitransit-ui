@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteHeader from '../../route/RouteHeader';

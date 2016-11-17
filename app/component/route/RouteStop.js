@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import cx from 'classnames';
 
 import FuzzyTripRoute from './FuzzyTripRoute';

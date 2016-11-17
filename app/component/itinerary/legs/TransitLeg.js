@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 

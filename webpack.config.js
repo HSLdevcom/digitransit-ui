@@ -218,8 +218,17 @@ module.exports = {
   resolve: {
     extensions: ['.js'],
     modules: ['node_modules'],
+    mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     alias: {
       'lodash.merge': 'lodash/merge',
+      'history/lib/Actions': 'history/es6/Actions',
+      'history/lib/createBrowserHistory': 'history/es6/createBrowserHistory',
+      'history/lib/createHashHistory': 'history/es6/createHashHistory',
+      'history/lib/createMemoryHistory': 'history/es6/createMemoryHistory',
+      'history/lib/useBasename': 'history/es6/useBasename',
+      'history/lib/useQueries': 'history/es6/useQueries',
+      'react-router/lib/getRouteParams': 'react-router/es6/getRouteParams',
+      moment$: 'moment/moment.js',
     },
   },
   module: {

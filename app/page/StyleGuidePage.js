@@ -1,6 +1,6 @@
 import React from 'react';
 import sortBy from 'lodash/sortBy';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 
 import { FakeSearchWithButton } from '../component/search/FakeSearchWithButton';
 import Icon from '../component/icon/Icon';
