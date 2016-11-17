@@ -23,3 +23,9 @@
     width: 90%;
   }
 }
+
+@media screen and (max-width: 480px) {
+  @-ms-viewport {
+    width: 330px;
+  }
+}
