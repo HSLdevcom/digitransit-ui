@@ -24,12 +24,15 @@ function clearTimeout2(){
   }
 }
 
+
+let timeout2;
+
 function startPositioning() {
   var startTime = new Date().getTime();
   var quietTimeoutSeconds = 20;
 
   //timeout for prompt/positioning detection
-  var timeout2 = setInterval(function () {
+  timeout2 = setInterval(function () {
 
     //check if permission prompt is active
     if(navigator.permissions !== undefined) {
@@ -49,7 +52,7 @@ function startPositioning() {
   },1000);
 
   //timeout timer for geolocation
-  var timeout = setTimeout(function () {
+  var timeout = setTimeout(()=>{
     clearTimeout2();
     window.retrieveGeolocationError(
       {code: 100001, message: "No location retrieved for " + quietTimeoutSeconds + " seconds."});
@@ -68,6 +71,7 @@ function startPositioning() {
       }
       window.retrieveGeolocation(position);
     }, function handleError(error) {
+      clearTimeout2();
       if (timeout !== null) {
         clearTimeout(timeout);
         timeout = null;
