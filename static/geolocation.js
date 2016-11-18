@@ -44,7 +44,7 @@ function startPositioning() {
             clearTimeout2();
           }
         });
-  },1000);
+  },200);
 } else {
   window.retrieveGeolocationError({code: 100000, message: "Granted"});
 }
