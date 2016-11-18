@@ -20,7 +20,7 @@ const GeopositionSelector = ({ status }) => {
         <span id="splash-text-block">
           <FormattedMessage
             id="splash-please-allow-positioning"
-            defaultMessage="The service works best if you allow positioning."
+            defaultMessage="The service works best if you use positioning."
           /></span>
         <span
           id="splash-locationing-button"

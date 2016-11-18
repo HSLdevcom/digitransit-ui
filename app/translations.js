@@ -7,7 +7,7 @@ const translations = {
     'stop-page.title': 'Pysäkki {stop_name} - {stop_code}',
     'stop-page.description': 'Pysäkki {stop_name} - {stop_code}',
     'splash-welcome': 'Tervetuloa käyttämään uudistuvaa Reittiopasta!',
-    'splash-please-allow-positioning': 'Palvelusta saa parhaan hyödyn sallimalla paikannuksen.',
+    'splash-please-allow-positioning': 'Palvelusta saa parhaan hyödyn käyttämällä paikannusta.',
     'splash-use-positioning': 'Käytä paikannusta',
     'splash-you-can-also': 'Vaihtoehtoisesti',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
