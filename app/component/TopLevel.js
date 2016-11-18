@@ -5,7 +5,7 @@ import some from 'lodash/some';
 
 import meta from '../meta';
 import configureMoment from '../util/configure-moment';
-import AppBarContainer from './navigation/AppBarContainer';
+import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 

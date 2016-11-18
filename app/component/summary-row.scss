@@ -1,0 +1,295 @@
+.itinerary-summary-row {
+  min-height: 46px;
+  padding-left: 10px;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  background-color: $white;
+  border-bottom: 1px solid $light-gray;
+  border-left: 0.3em $action-color solid;
+  display: flex;
+  user-select: none;
+  $distance-gray: #999999;
+  font-size: $font-size-normal;
+  font-weight: $font-weight-medium;
+  @include font-narrow-book;
+  white-space: nowrap;
+
+  &.passive {
+    border-left-color: $background-color;
+    background-color: $background-color;
+
+    .vehicle-number {
+      color: $gray;
+    }
+  }
+
+  &.passive {
+    border-left-color: $background-color;
+    background-color: $background-color;
+  }
+
+  h2 {
+    flex-grow: 1;
+    margin: 0.5em;
+  }
+
+  .itinerary-duration-and-distance {
+    width: 150px;
+    margin-top: 7px;
+  }
+
+  .itinerary-duration {
+    white-space: nowrap;
+  }
+
+  .itinerary-walking-distance {
+    margin-top: -1px;
+    color: $distance-gray;
+    font-weight: $font-weight-book;
+    font-size: $font-size-smallish;
+
+    .icon {
+      margin-bottom: -2px;
+    }
+  }
+
+  .itinerary-start-time {
+    text-align: right;
+    padding-right: 10px;
+    padding-left: 5px;
+    width: 75px;
+    margin-top: 7px;
+
+    .itinerary-first-leg-start-time {
+      color: $distance-gray;
+      font-size: small;
+      margin-top: -1px;
+      margin-right: -7px;
+      font-weight: 100;
+    }
+  }
+
+  .realtime-available {
+    color: $realtime-color;
+  }
+
+  .itinerary-end-time {
+    padding-left: 10px;
+    width: 60px;
+    margin-top: 7px;
+  }
+
+  .itinerary-legs {
+    width: 100%;
+    display: flex;
+    white-space: nowrap;
+    margin-top: 3px;
+
+    .leg {
+      flex: 1 0 0;
+      overflow: hidden;
+    }
+
+    .departure-stop {
+      @include font-narrow-book;
+      font-size: 13px;
+      color: $gray;
+      width: 100%;
+    }
+
+    .line.walk, .line.bicycle, .line.car {
+      &:after {
+        left: 2em;
+      }
+    }
+
+    .line {
+      white-space: nowrap;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+
+      &:after {
+        content:"";
+        position: absolute;
+        z-index: -1;
+        right: 1px;
+        left: 0;
+        top: 0.875em;
+
+        border: 2px solid;
+        border-radius: 2px;
+      }
+
+      .icon {
+        margin-top: 0.25em;
+        margin-left: 3px;
+        font-size: 20px;
+        float: left;
+      }
+    }
+
+    .vehicle-number {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-smallish;
+      clear: left;
+      float: left;
+      padding: 0;
+      width: 20px;
+      margin-left: 3px;
+      margin-top: 1px;
+    }
+  }
+
+  .action-arrow-click-area {
+    padding: 1px 8px 4px 15px;
+  }
+  .action-arrow {
+    line-height: 38px;
+    margin-top: 2px;
+    margin-bottom: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+
+    svg {
+      color: $action-color;
+      transition: transform 300ms;
+      transform-origin: 50% 50%;
+    }
+  }
+
+  .itinerary-tab {
+    width: 100%;
+    margin-left: 100px;
+    border-top: solid 1px $light-gray;
+  }
+
+  &.bp-large {
+    min-height: 100px;
+    border-left-width: 8px;
+    padding-left: 20px;
+    padding-top: 0;
+
+    .itinerary-duration-and-distance {
+      width: 100px;
+      margin-top: 22px;
+    }
+
+    h2 {
+      margin-top: 25px;
+    }
+
+    .itinerary-duration {
+      font-size: 21px;
+      @include font-narrow-medium;
+    }
+
+    .itinerary-walking-distance {
+      font-size: 18px;
+    }
+
+    .itinerary-start-time {
+      font-size: 21px;
+      margin-top: 25px;
+      padding-top: 8px;
+      padding-left: 16px;
+      @include font-narrow-medium;
+
+      .itinerary-first-leg-start-time {
+        padding-top: 0;
+        font-size: $font-size-normal;
+      }
+    }
+
+    .itinerary-legs {
+      padding-top: 0;
+      margin-top: 17px;
+      flex-shrink: 2;
+
+      .line:after {
+        top: 10px;
+        border-width: 3px;
+        border-radius: 3px;
+      }
+
+      .line .icon {
+        margin-top: 0;
+        margin-left: 5px;
+        font-size: 24px;
+      }
+
+      .vehicle-number {
+        font-size: $font-size-normal;
+        margin-left: 6px;
+        margin-top: 3.5px;
+      }
+    }
+
+    .itinerary-end-time {
+      font-size: 21px;
+      padding-top: 8px;
+      margin-top: 25px;
+    }
+
+    .action-arrow-click-area {
+      padding: 22px 25px 2px 13px;
+    }
+    .action-arrow {
+      padding-left: 30px;
+      font-size: 20px;
+      padding-top: 8px;
+      border: 0;
+    }
+    .action-arrow span > svg {
+      transform: rotate(90deg);
+    }
+    &.open {
+      flex-wrap: wrap;
+
+      .action-arrow span > svg {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+}
+
+/*
+  Customize Search
+*/
+
+.customize-search {
+  select  {
+    background-color: $dark-gray;
+    color:$white;
+    &:hover {
+      background-color: $dark-gray;
+    }
+  }
+  h4 {
+    font-size: $font-size-smallish;  // larger than normal
+    margin: 10px 0 5px 0;
+  }
+  input[type="text"] {
+    background-color: transparent;
+    border: 1px solid #575757;
+    border-radius: $border-radius;
+    color: $white;
+    display: block;
+    margin: 0;
+    width: 100%;
+    appearance: none;
+    box-shadow: none;
+    border-radius: none;
+  }
+  input[type="text"]:focus {
+    color: $black;
+    outline: none;
+  }
+}

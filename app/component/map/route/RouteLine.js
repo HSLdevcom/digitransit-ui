@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import StopMarker from '../non-tile-layer/StopMarker';
-import StopCardHeaderContainer from '../../stop-cards/StopCardHeaderContainer';
+import StopCardHeaderContainer from '../../StopCardHeaderContainer';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 

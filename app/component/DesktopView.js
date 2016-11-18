@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import Icon from './icon/Icon';
+import Icon from './Icon';
 
 export default function DesktopView({ title, header, map, content }) {
   return (

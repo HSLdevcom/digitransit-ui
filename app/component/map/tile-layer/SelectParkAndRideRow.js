@@ -1,8 +1,8 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
 
-import Icon from '../../icon/Icon';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import Icon from '../../Icon';
+import ComponentUsageExample from '../../ComponentUsageExample';
 
 function SelectParkAndRideRow(props, { intl }) {
   return (

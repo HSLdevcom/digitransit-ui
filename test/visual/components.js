@@ -196,6 +196,12 @@ gemini.suite('components', () => {
   basicTest('NextDeparturesListHeader');
   basicTest('SelectedStopPopupContent');
 
+  gemini.suite('SummaryRow', () => {
+    gemini.suite('passive', test('SummaryRow'));
+    gemini.suite('active', test('SummaryRow', 2));
+    gemini.suite('open', test('SummaryRow', 3));
+  });
+
   gemini.suite('CurrentPositionSuggestionItem', () => {
     gemini.suite('With position', test('CurrentPositionSuggestionItem'));
     gemini.suite('No position', test('CurrentPositionSuggestionItem', 2));
