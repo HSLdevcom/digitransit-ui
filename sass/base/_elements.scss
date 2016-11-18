@@ -225,7 +225,6 @@ $border-radius-rounded: 30px;
   20%  {opacity: 1;}
   40%  {opacity: 0;}
   60%  {opacity: 1;}
-  80%  {opacity: 1;}
   100% {opacity: 1;}
 }
 
@@ -245,6 +244,7 @@ svg.realtime-icon {
 #icon-icon_realtime path {
   animation-duration: 2s;
   animation-iteration-count: infinite;
+  animation-timing-function: step-start;
 
   &.path1 {
     animation-name: realtimeInnerArch;
