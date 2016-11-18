@@ -5,8 +5,8 @@ import SelectStopRow from './SelectStopRow';
 import SelectTerminalRow from './SelectTerminalRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
-import { options } from '../../documentation/ExampleData';
+import ComponentUsageExample from '../../ComponentUsageExample';
+import { options } from '../../ExampleData';
 
 
 function MarkerSelectPopup(props) {

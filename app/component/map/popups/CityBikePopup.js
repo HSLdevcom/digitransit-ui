@@ -1,10 +1,10 @@
 import React from 'react';
 import Relay from 'react-relay';
 import MarkerPopupBottom from '../MarkerPopupBottom';
-import CityBikeContent from '../../city-bike/CityBikeContent';
-import CityBikeCardContainer from '../../city-bike/CityBikeCardContainer';
-import { station as exampleStation } from '../../documentation/ExampleData';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import CityBikeContent from '../../CityBikeContent';
+import CityBikeCardContainer from '../../CityBikeCardContainer';
+import { station as exampleStation } from '../../ExampleData';
+import ComponentUsageExample from '../../ComponentUsageExample';
 
 class CityBikePopup extends React.Component {
   static contextTypes = {

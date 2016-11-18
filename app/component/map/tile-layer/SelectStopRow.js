@@ -4,9 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
 import reject from 'lodash/reject';
 
-import RouteDestination from '../../departure/RouteDestination';
+import RouteDestination from '../../RouteDestination';
 import routeCompare from '../../../util/route-compare';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import ComponentUsageExample from '../../ComponentUsageExample';
 
 
 function getName(pattern) {
