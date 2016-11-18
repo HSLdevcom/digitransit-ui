@@ -20,7 +20,7 @@ const GeopositionSelector = ({ status }) => {
         <span id="splash-text-block">
           <FormattedMessage
             id="splash-please-allow-positioning"
-            defaultMessage="The service offers it's best if you allow locationing."
+            defaultMessage="The service works best if you allow positioning."
           /></span>
         <span
           id="splash-locationing-button"
@@ -29,7 +29,7 @@ const GeopositionSelector = ({ status }) => {
           <Icon className="icon-positioning" img="icon-icon_position" />
           <FormattedMessage
             id="splash-use-positioning"
-            defaultMessage="Use positioning!"
+            defaultMessage="Use positioning"
           />
         </span>
       </div>
@@ -39,13 +39,13 @@ const GeopositionSelector = ({ status }) => {
       <div id="geoposition-selector">
         <div className="spinner-loader" />
         <div className="spinner-caption">
-          <FormattedMessage id="splash-locating" defaultMessage="Locating" />…
+          <FormattedMessage id="splash-locating" defaultMessage="Positioning..." />…
         </div>
       </div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_DENIED) {
     return (<div id="splash-positioning-message"><FormattedMessage
       id="splash-geolocation-denied-message"
-      defaultMessage="Sorry, I can't do a thing if you won't let me"
+      defaultMessage="Positioning is not allowed. Please check the settings of your browser."
     /></div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_WATCH_TIMEOUT) {
     return (<div id="splash-positioning-message"><FormattedMessage
