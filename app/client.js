@@ -9,6 +9,12 @@ import tapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import debug from 'debug';
+import {
+  RelayNetworkLayer,
+  urlMiddleware,
+  gqErrorsMiddleware,
+  retryMiddleware,
+} from 'react-relay-network-layer';
 import 'regenerator-runtime/runtime';
 
 import Raven from './util/Raven';
@@ -59,7 +65,14 @@ if (process.env.NODE_ENV === 'development') {
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
 Relay.injectNetworkLayer(
-  new Relay.DefaultNetworkLayer(`${config.URL.OTP}index/graphql`)
+  new RelayNetworkLayer([
+    urlMiddleware({
+      url: `${config.URL.OTP}index/graphql`,
+      batchUrl: `${config.URL.OTP}index/graphql/batch`,
+    }),
+    gqErrorsMiddleware(),
+    retryMiddleware(),
+  ], { disableBatchQuery: false })
 );
 
 IsomorphicRelay.injectPreparedData(

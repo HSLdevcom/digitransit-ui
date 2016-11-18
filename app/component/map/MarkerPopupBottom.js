@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import Icon from '../icon/Icon';
+import Icon from '../Icon';
 import { setEndpoint } from '../../action/EndpointActions';
 
 class MarkerPopupBottom extends React.Component {
