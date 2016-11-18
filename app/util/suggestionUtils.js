@@ -4,7 +4,7 @@ import uniqWith from 'lodash/uniqWith';
 import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';
 
-import StopCode from '../component/itinerary/StopCode';
+import StopCode from '../component/StopCode';
 
 const getLocality = suggestion => suggestion.localadmin || suggestion.locality || '';
 

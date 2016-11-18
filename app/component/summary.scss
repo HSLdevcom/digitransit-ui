@@ -1,0 +1,167 @@
+.summary {
+}
+
+.desktop .summary {
+  height: 100%;
+  max-height: calc(100% - 164px);
+}
+
+.summary-no-route-found {
+    margin: 1em;
+}
+
+.time-selectors {
+  @include font-book;
+  font-size: $font-size-smallish;
+  height: 30px;
+  background-color: $secondary-color;
+  display: flex;
+  flex-direction: row;
+
+  input[type="date"], input[type="time"], input[type="text"], select {
+    vertical-align: middle;
+    text-align: left;
+    width: auto;
+    margin: 0px 0px 0px 1px;
+    font-size: $font-size-xxsmall;
+    display: inline-block;
+    background-image: none;
+    background-color: $secondary-color;
+    box-shadow: none;
+    color: $secondary-font-color;
+    border: none;
+    border-radius: 0;
+    appearance: none;
+    @include font-book;
+
+    &:hover {
+      background-color: $primary-color;
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:focus {
+      background-color: $primary-color;
+      outline: none;
+      box-shadow: none;
+    }
+
+    border-radius: $border-radius;
+    background: $primary-color !important;
+    padding: 6px 13px 6px 6px !important;
+  }
+  .select-wrapper {
+    position:relative;
+  }
+
+  .fake-select-arrow {
+    position: absolute;
+    right: 5px;
+    top: 13px;
+    font-size: 5px;
+    color: #fff;
+  }
+
+  select {
+    height: 30px;
+  }
+
+  .time-selector {
+    @include font-book;
+    height: 30px !important;
+    text-align: left;
+    font-family: $font-family !important;
+    display: flex !important;
+    input {
+      font-size: $font-size-xxsmall !important;
+    }
+    hr {
+      display: none;
+    }
+  }
+
+  .time-mui {
+    max-width: 5em;
+  }
+
+  .arrive {
+    width: auto;
+    text-align: left;
+ }
+}
+
+.time-selector-settings-row {
+  padding: 0 6px;
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+.bp-large.time-selector-settings-row {
+  padding: 0 20px;
+
+  input[type="date"], input[type="time"], input[type="text"], select {
+    font-size: $font-size-normal !important;
+  }
+
+  .right-offcanvas-toggle {
+      padding: 0 7px;
+      span {
+        font-size: $font-size-small;
+      }
+  }
+}
+
+.right-offcanvas-toggle {
+  span {
+    @include font-bold;
+    font-size: 10px;
+    margin: 0 4px;
+  }
+  margin: 0;
+  background-color: $primary-color;
+  border-radius: 2px;
+  width: auto;
+  font-size: $font-size-xxsmall;
+  height: 30px;
+  text-align: center;
+  text-transform:uppercase;
+  color: $primary-font-color;
+  padding: 0px 2px 0px 2px;
+
+  .icon-holder {
+    position: relative;
+    top: 5px;
+    vertical-align: middle;
+    display: inline;
+    white-space: nowrap;
+
+    .icon {
+      fill: $white;
+      font-size: 15pt;
+    }
+
+    .super-icon {
+      fill: $hilight-color;
+      position: absolute;
+      right: 4px;
+      top: -2px;
+      height: 12px;
+    }
+  }
+}
+
+.summary-list-container {
+  width: 100%;
+}
+
+.desktop .summary-list-container {
+  height: calc(100% - 80px);
+}
+
+
+.summary-content {
+  height: 100%;
+  > section {
+    height: 100%;
+  }
+}

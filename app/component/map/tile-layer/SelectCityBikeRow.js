@@ -1,6 +1,6 @@
 import React from 'react';
-import Icon from '../../icon/Icon';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import Icon from '../../Icon';
+import ComponentUsageExample from '../../ComponentUsageExample';
 
 function SelectCityBikeRow(props) {
   return (
