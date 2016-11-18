@@ -14,7 +14,7 @@ const translations = {
     'splash-locating': 'Paikannetaan...',
     'splash-geolocation-denied-message': 'Paikannus ei ole sallittu, tarkista selaimen/puhelimen asetukset.',
     'splash-geolocation-watch-timeout-message': 'Paikannus kestää odotettua pidempään. Valitse lähtöpaikka alta tai yritä myöhemmin uudelleen.',
-    'splash-geolocation-prompt-message': 'Hyväksy paikannuspyynto.',
+    'splash-geolocation-prompt-message': 'Hyväksy paikannuspyyntö.',
     'terminal-page.title-short': 'Terminaali',
     'terminal-page.title': 'Terminaali {stop_name}',
     'terminal-page.description': 'Terminaali {stop_name}',
