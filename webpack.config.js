@@ -217,6 +217,9 @@ module.exports = {
     modules: ['node_modules'],
     alias: {},
   },
+  resolveLoader: {
+    moduleExtensions: ['-loader'],
+  },
   module: {
     rules: getRulesConfig(process.env.NODE_ENV),
   },
