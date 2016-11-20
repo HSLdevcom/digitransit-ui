@@ -43,10 +43,10 @@ export default function ItineraryPageMap(
     });
 
   const overlay = fullscreen ? undefined : (
-  <div
-    className="map-click-prevent-overlay"
-    onClick={toggleFullscreenMap}
-  />);
+    <div
+      className="map-click-prevent-overlay"
+      onClick={toggleFullscreenMap}
+    />);
 
   let bounds = false;
 
