@@ -114,7 +114,7 @@
     "babel-plugin-dev-expression": "0.2.1",
     "babel-preset-latest": "6.16.0",
     "chance": "1.0.4",
-    "css-loader": "0.25.0",
+    "css-loader": "0.26.0",
     "csswring": "5.1.0",
     "eslint": "3.10.2",
     "eslint-config-airbnb": "12.0.0",
