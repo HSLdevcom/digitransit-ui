@@ -37,7 +37,7 @@ function FavouritesTabLabelContainer({ routes, ...rest }) {
         render={({ done, props }) => (done ? (
           <FavouritesTabLabelRelayConnector {...props} {...rest} />
         ) : (
-        <FavouritesTabLabel {...rest} />
+          <FavouritesTabLabel {...rest} />
         ))}
       />);
   }
