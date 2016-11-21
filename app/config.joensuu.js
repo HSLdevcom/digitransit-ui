@@ -27,6 +27,7 @@ export default {
   },
 
   availableLanguages: ['fi', 'sv', 'en'],
+  defaultLanguage: 'fi',
 
   initialLocation: {
     lat: 62.6024263,
