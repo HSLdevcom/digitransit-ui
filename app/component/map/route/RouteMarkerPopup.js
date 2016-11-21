@@ -3,8 +3,8 @@ import Relay from 'react-relay';
 import Link from 'react-router/lib/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import RouteHeader from '../../route/RouteHeader';
-import Icon from '../../icon/Icon';
+import RouteHeader from '../../RouteHeader';
+import Icon from '../../Icon';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
 

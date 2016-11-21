@@ -124,7 +124,8 @@ function getGeocodingResult(input, geolocation, language) {
   }
 
   const focusPoint = (config.autoSuggest.locationAware && geolocation.hasLocation) ? {
-    'focus.point.lat': geolocation.lat, 'focus.point.lon': geolocation.lon,
+    // Round coordinates to approx 1 km, in order to improve caching
+    'focus.point.lat': geolocation.lat.toFixed(2), 'focus.point.lon': geolocation.lon.toFixed(2),
   } : {};
 
   const opts = { text: input, ...config.searchParams, ...focusPoint, lang: language };

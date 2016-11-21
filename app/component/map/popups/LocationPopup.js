@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { intlShape } from 'react-intl';
-import Card from '../../card/Card';
-import CardHeader from '../../card/CardHeader';
+import Card from '../../Card';
+import CardHeader from '../../CardHeader';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 
 export default function LocationPopup({ name, lat, lon }, { intl }) {

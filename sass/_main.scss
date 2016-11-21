@@ -15,34 +15,34 @@ $body-font-weight: $font-weight-medium;
 
 // Some of these files override sass variables Foundation uses,
 // so they must be loaded before the relevant foundation modules
-@import '../app/component/stop-cards/stop-cards';
+@import '../app/component/stop-cards';
 @import '../app/component/map/map';
 @import '../app/component/map/popups/marker-popup';
-@import '../app/component/front-page/front-page';
-@import '../app/component/navigation/navigation';
-@import '../app/component/itinerary/itinerary';
-@import '../app/component/itinerary-feedback/itinerary-feedback';
-@import '../app/component/route/route';
-@import '../app/component/trip/trip';
-@import '../app/component/summary/customize-search';
-@import '../app/component/summary/no-route-popup';
-@import '../app/component/summary/summary-row';
-@import '../app/component/summary/summary';
-@import '../app/component/summary/time-navigation-buttons';
-@import '../app/component/summary/origin-destination-bar';
-@import '../app/component/disruption/disruption';
-@import '../app/component/departure/departure';
-@import '../app/component/stop/stop';
-@import '../app/component/util/util';
-@import '../app/component/util/not-implemented';
-@import '../app/component/city-bike/city-bike';
 @import '../app/component/map/non-tile-layer/terminal-marker';
-@import '../app/component/feedback/feedback-panel';
-@import '../app/component/feedback/score-table';
-@import '../app/component/util/table/generic-table';
-@import '../app/component/favourites/favourite-icon-table';
-@import '../app/component/splash/splash';
-@import '../app/component/documentation/documentation';
+@import '../app/component/front-page';
+@import '../app/component/navigation';
+@import '../app/component/itinerary';
+@import '../app/component/itinerary-feedback';
+@import '../app/component/route';
+@import '../app/component/trip';
+@import '../app/component/customize-search';
+@import '../app/component/no-route-popup';
+@import '../app/component/summary-row';
+@import '../app/component/summary';
+@import '../app/component/time-navigation-buttons';
+@import '../app/component/origin-destination-bar';
+@import '../app/component/disruption';
+@import '../app/component/departure';
+@import '../app/component/stop';
+@import '../app/component/util';
+@import '../app/component/not-implemented';
+@import '../app/component/city-bike';
+@import '../app/component/feedback-panel';
+@import '../app/component/score-table';
+@import '../app/component/generic-table';
+@import '../app/component/favourite-icon-table';
+@import '../app/component/splash';
+@import '../app/component/documentation';
 
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/forms';
 
@@ -52,6 +52,6 @@ $body-font-weight: $font-weight-medium;
 
 // And these application specific styles use Foundation variables,
 // so they have to be loaded afterwards
-@import '../app/component/search/search';
-@import '../app/component/favourites/add-favourite-container';
-@import '../app/component/favourites/favourite-location';
+@import '../app/component/search';
+@import '../app/component/add-favourite-container';
+@import '../app/component/favourite-location';
