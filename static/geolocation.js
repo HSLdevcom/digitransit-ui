@@ -20,15 +20,14 @@ window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
 function watchPosition() {
   var startTime = new Date().getTime();
   var quietTimeoutSeconds = 20;
-  
-  var timeout = setTimeout(()=>{
+
+  var timeout = setTimeout(function setTimeout(){
     window.retrieveGeolocationError(
       {code: 100001, message: "No location retrieved for " + quietTimeoutSeconds + " seconds."});
     },
     quietTimeoutSeconds * 1000);
   try {
     window.geoWatchId = navigator.geolocation.watchPosition(function geoPosition(position) {
-
       if (timeout !== null) {
         clearTimeout(timeout);
         timeout = null;
