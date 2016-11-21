@@ -12,7 +12,7 @@ import {
 
 function DepartureTime(props) {
   let shownTime;
-  const timeDiffInMinutes = ((props.departureTime - props.currentTime) / 60).toFixed(0);
+  const timeDiffInMinutes = Math.floor(((props.departureTime - props.currentTime) / 60));
 
   if (props.departureTime < props.currentTime ||
       props.departureTime > props.currentTime + (20 * 60)) {
@@ -24,8 +24,7 @@ function DepartureTime(props) {
   } else if (timeDiffInMinutes === 0) {
     shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
   } else {
-    shownTime = `${timeDiffInMinutes}
-      ${context.intl.formatMessage({ id: 'minute-short', defaultMessage: 'min' })}`;
+    shownTime = <FormattedMessage id="departure-time-in-minutes" defaultMessage="{minutes} min" values={{ minutes: timeDiffInMinutes }} />;
   }
 
   let realtime;
