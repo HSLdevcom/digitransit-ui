@@ -10,7 +10,7 @@ import {
   realtimeDeparture as exampleRealtimeDeparture,
 } from './ExampleData';
 
-function DepartureTime(props, context) {
+function DepartureTime(props) {
   let shownTime;
   const timeDiffInMinutes = ((props.departureTime - props.currentTime) / 60).toFixed(0);
 
