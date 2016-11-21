@@ -30,13 +30,13 @@ $content-background-color: $background-color;
 
 
 .top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: $primary-color;
-  position: relative;
   text-align: center;
-  overflow: visible; // Show drawer menu
-  z-index: 803;
-  line-height: 35px;
   height: 40px;
+  line-height: 35px;
 
   &.bp-large {
     height: 60px;
@@ -46,33 +46,30 @@ $content-background-color: $background-color;
   }
 
   .icon-holder {
-    height: $topbar-height;
-    width: $topbar-height;
-    position: absolute;
-    top: 1px;
+    padding: $padding-medium;
+    align-self: stretch;
   }
-
   .icon {
     fill: $top-navigation-icon-color;
-    font-size: 15pt;
+    font-size: $font-size-large;
     vertical-align: middle;
   }
-  .title {
-    height:40px;
-    padding-top:2px;
+  section.title {
+    padding-left: $padding-medium;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
     text-align: center;
     color: $top-navigation-title-color;
   }
   .logo {
-    margin-left: 13px;
+    height: 100%;
+    min-height: 40px;
     background-image: $nav-logo;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    max-width: 170px;
-    width: 105px;
-    height: 18px;
-    margin-top:9px;
+    min-width: 8em;
   }
   .navi-logo {
     margin-left: 32px;
