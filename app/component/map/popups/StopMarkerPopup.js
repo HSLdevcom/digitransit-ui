@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import StopCardContainer from '../../stop-cards/StopCardContainer';
+import StopCardContainer from '../../StopCardContainer';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 
 function StopMarkerPopup(props) {
