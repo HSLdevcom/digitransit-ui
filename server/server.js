@@ -7,7 +7,10 @@ const path = require('path');
 
 require('babel-core/register')({
   presets: ['modern-node', 'stage-2', 'react'], // eslint-disable-line prefer-template
-  plugins: [path.join(process.cwd(), 'build/babelRelayPlugin')],
+  plugins: [
+    'transform-es2015-modules-commonjs',
+    path.join(process.cwd(), 'build/babelRelayPlugin'),
+  ],
   ignore: [
     /node_modules/,
     'app/util/piwik.js',
