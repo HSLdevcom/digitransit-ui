@@ -157,6 +157,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
 }
 
 .popup {
+  left: -21px !important;
   .route-header {
     height:auto;
     border: none;
@@ -179,6 +180,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   }
   .leaflet-popup-content {
     margin: 0;
+    width: 18rem !important;
   }
   .card {
     border: none;
@@ -242,6 +244,7 @@ div.origin-popup {
   font-size: $font-size-xxsmall;
   cursor: pointer;
   width: 12.5em;
+  left: -21px !important;
 
   .origin-popup-header {
     @include font-bold;
