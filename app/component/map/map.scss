@@ -241,6 +241,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
 div.origin-popup {
   font-size: $font-size-xxsmall;
   cursor: pointer;
+  width: 12.5em;
 
   .origin-popup-header {
     @include font-bold;
@@ -257,7 +258,6 @@ div.origin-popup {
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
     padding: 0;
-    width: 12em;
     border: 1px solid $gray;
     overflow: hidden;
     .leaflet-popup-content {
