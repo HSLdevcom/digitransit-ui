@@ -52,6 +52,11 @@ const GeopositionSelector = ({ status }) => {
       id="splash-geolocation-watch-timeout-message"
       defaultMessage="Positioning is taking longer than expected. Choose origin below or try again later."
     /></div>);
+  } else if (status === PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED) {
+    return (<div id="splash-positioning-message"><FormattedMessage
+      id="splash-geolocation-not-supported-message"
+      defaultMessage="Your browser does not support Positioning."
+    /></div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_PROMPT) {
     return (<div id="splash-positioning-message"><FormattedMessage
       id="splash-geolocation-prompt-message"
