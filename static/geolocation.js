@@ -49,24 +49,32 @@ function watchPosition() {
 
 function startPositioning() {
   if(navigator.permissions !== undefined) {
-    //check if permission prompt is active
+    //check permission state
     navigator.permissions.query({name:'geolocation'}).then(
       function(permissionStatus){
         if ('prompt' === permissionStatus.state) {
           //it was, let's listen for changes
-          permissionStatus.onchange = function () {
+          function promptChangeHandler() {
             permissionStatus.onchange = null; //remove listener
             if ('granted' === permissionStatus.state) {
               window.retrieveGeolocationError({code: 100000, message: 'Granted'});
+            } else if ('denied' === permissionStatus.state) {
+              window.retrieveGeolocationError({code: 1, message: 'Denied from prompt'});
             }
           }
+          permissionStatus.onchange = promptChangeHandler;
           window.retrieveGeolocationError({code: 100002, message: 'Prompt'});
+          watchPosition();
         } else if ('granted' === permissionStatus.state) {
           window.retrieveGeolocationError({code: 100000, message: 'Granted'});
+          watchPosition();
         }
-        watchPosition();
+        else if ('denied' === permissionStatus.state) {
+          window.retrieveGeolocationError({code: 1, message: 'Denied'});
+        }
       });
   } else {
+    //browsers not supporting permission api
     window.retrieveGeolocationError({code: 100000, message: 'Granted'});
     watchPosition();
   }
@@ -90,13 +98,17 @@ function startPositioning() {
     if (window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined && navigator.permissions !== undefined) {
       navigator.permissions.query({name:'geolocation'}).then(
         function(result) {
-          if (result.state === 'granted') {
+          if ('granted' === result.state) {
             window.startPositioning();
+          }
+          if ('denied' === result.state) {
+            //for ff with permisson api display error immediately instead of timeout error
+            window.retrieveGeolocationError({code: 1, message: 'Denied'});
           }
         }
       );
     } else {
-      //check is
+      //broser does not support permission api
       if (getPositioningHasSucceeded()) {
         window.startPositioning();
       }
