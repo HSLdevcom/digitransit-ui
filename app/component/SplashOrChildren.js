@@ -16,7 +16,7 @@ SplashOrComponent.propTypes = {
 };
 
 export default connectToStores(SplashOrComponent, ['PositionStore', 'EndpointStore'],
-  (context, props) => {
+  (context) => {
     const origin = context.getStore('EndpointStore').getOrigin();
 
     return {
@@ -24,6 +24,5 @@ export default connectToStores(SplashOrComponent, ['PositionStore', 'EndpointSto
         (origin.useCurrentPosition &&
             !context.getStore('PositionStore').getLocationState().hasLocation) ||
         (!origin.useCurrentPosition && (!origin.lat || !origin.lon))), // selected location
-      children: props.children,
     };
   });
