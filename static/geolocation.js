@@ -72,6 +72,22 @@ function startPositioning() {
   }
 }
 
+function getItem(key, defaultValue) {
+  return (typeof window !== 'undefined' && window.localStorage &&
+    window.localStorage.getItem(key)) || defaultValue;
+}
+
+function getItemAsJson(key, defaultValue) {
+  let item = getItem(key);
+  return JSON.parse(item);
+}
+
+function getPositioningHasSucceeded() {
+  //XXX hack for windows phone
+  return navigator && navigator.userAgent.indexOf('Windows Phone') > -1
+    && getItemAsJson('positioningSuccesful', '{ "state": false }').state;
+}
+
 // Check if we have previous permissions to get geolocation.
 // If yes, start immediately, if not, we will not prompt for permission at this point.
 (function() {
@@ -79,14 +95,16 @@ function startPositioning() {
     if (window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined && navigator.permissions !== undefined) {
       navigator.permissions.query({name:'geolocation'}).then(
         function(result) {
-
           if (result.state === 'granted') {
             window.startPositioning();
-          } else if (result.state === 'prompt') {
-          } else if (result.state === 'denied') {
           }
         }
       );
+    } else {
+      //check is
+      if (getPositioningHasSucceeded()) {
+        window.startPositioning();
+      }
     }
   }, 1);
 })();
