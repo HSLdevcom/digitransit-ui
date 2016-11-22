@@ -72,25 +72,26 @@ function startPositioning() {
   }
 }
 
-function getItem(key, defaultValue) {
-  return (typeof window !== 'undefined' && window.localStorage &&
-    window.localStorage.getItem(key)) || defaultValue;
-}
-
-function getItemAsJson(key, defaultValue) {
-  let item = getItem(key);
-  return JSON.parse(item);
-}
-
-function getPositioningHasSucceeded() {
-  //XXX hack for windows phone
-  return navigator && navigator.userAgent.indexOf('Windows Phone') > -1
-    && getItemAsJson('positioningSuccesful', '{ "state": false }').state;
-}
-
 // Check if we have previous permissions to get geolocation.
 // If yes, start immediately, if not, we will not prompt for permission at this point.
 (function() {
+
+  function getItem(key, defaultValue) {
+    return (typeof window !== 'undefined' && window.localStorage &&
+      window.localStorage.getItem(key)) || defaultValue;
+  }
+
+  function getItemAsJson(key, defaultValue) {
+    let item = getItem(key);
+    return JSON.parse(item);
+  }
+
+  function getPositioningHasSucceeded() {
+    //XXX hack for windows phone
+    return navigator && navigator.userAgent.indexOf('Windows Phone') > -1
+      && getItemAsJson('positioningSuccesful', '{ "state": false }').state;
+  }
+
   setTimeout(function () {
     if (window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined && navigator.permissions !== undefined) {
       navigator.permissions.query({name:'geolocation'}).then(
