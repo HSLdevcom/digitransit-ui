@@ -157,19 +157,42 @@ const routes = (
         ,
       }}
     >
-      <Route path="lahellasi" />
-      <Route path="suosikit" />
+      <Route
+        path="lahellasi"
+        getComponents={(location, cb) =>
+          System.import('./component/NearbyRoutesPanel')
+            .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
+        }
+      />
+      <Route
+        path="suosikit"
+        getComponents={(location, cb) =>
+          System.import('./component/FavouritesPanel')
+            .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
+        }
+      />
     </Route>
 
     <Route
       path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
-        content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
-        ,
+        content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>,
       }}
     >
-      <Route path="lahellasi" />
-      <Route path="suosikit" />
+      <Route
+        path="lahellasi"
+        getComponents={(location, cb) =>
+          System.import('./component/NearbyRoutesPanel')
+            .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
+        }
+      />
+      <Route
+        path="suosikit"
+        getComponents={(location, cb) =>
+          System.import('./component/FavouritesPanel')
+            .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
+        }
+      />
     </Route>
 
     <Route path="/pysakit">

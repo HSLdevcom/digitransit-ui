@@ -10,8 +10,6 @@ import config from '../config';
 import MessageBar from './MessageBar';
 import { shouldDisplayPopup } from '../util/Feedback';
 import { openFeedbackModal } from '../action/feedbackActions';
-import FavouritesPanel from './FavouritesPanel';
-import NearbyRoutesPanel from './NearbyRoutesPanel';
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -22,8 +20,9 @@ class IndexPage extends React.Component {
 
   static propTypes = {
     breakpoint: React.PropTypes.string.isRequired,
-    children: React.PropTypes.node,
+    content: React.PropTypes.node,
     routes: React.PropTypes.array,
+
   }
 
   componentWillMount = () => {
@@ -146,7 +145,6 @@ class IndexPage extends React.Component {
 
   render() {
     const selectedTab = this.getSelectedTab();
-    const content = selectedTab === 1 ? <NearbyRoutesPanel /> : <FavouritesPanel />;
     return (this.props.breakpoint === 'large' ? (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         <MessageBar />
@@ -157,7 +155,7 @@ class IndexPage extends React.Component {
               selectedPanel={selectedTab}
               nearbyClicked={this.clickNearby}
               favouritesClicked={this.clickFavourites}
-            >{content}</FrontPagePanelLarge>
+            >{this.props.content}</FrontPagePanelLarge>
           </div>
         </MapWithTracking>
         <FeedbackPanel />
@@ -176,7 +174,7 @@ class IndexPage extends React.Component {
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
             closePanel={this.closeTab}
-          >{content}</FrontPagePanelSmall>
+          >{this.props.content}</FrontPagePanelSmall>
           <FeedbackPanel />
         </div>
       </div>
