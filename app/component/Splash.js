@@ -35,26 +35,28 @@ class Splash extends React.Component {
           </div>
         </div>
       </div>
-      <div id="splash">
-        <h3>
-          <FormattedMessage
-            id="splash-welcome"
-            defaultMessage="Welcome to the new Journey Planner!"
-          />
-        </h3>
-        <GeopositionSelector />
-        <div className="splash-separator">
-          <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
-        </div>
-        <span id="splash-searchfield" onClick={this.openModal}>
-          <FormattedMessage id="give-origin" defaultMessage="Type in your origin" />
-          <Icon className="icon-edit" img="icon-icon_edit" />
-        </span>
+      <div id="splash-wrapper">
+        <div id="splash" className="flex-vertical">
+          <h3>
+            <FormattedMessage
+              id="splash-welcome"
+              defaultMessage="Welcome to the new Journey Planner!"
+            />
+          </h3>
+          <GeopositionSelector />
+          <div className="splash-separator">
+            <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
+          </div>
+          <span id="splash-searchfield" onClick={this.openModal}>
+            <FormattedMessage id="give-origin" defaultMessage="Type in your origin" />
+            <Icon className="icon-edit" img="icon-icon_edit" />
+          </span>
 
-        <div className="splash-separator">
-          <FormattedMessage id="splash-or-choose" defaultMessage="or choose your origin from" />
+          <div className="splash-separator">
+            <FormattedMessage id="splash-or-choose" defaultMessage="or choose your origin from" />
+          </div>
+          <OriginSelector />
         </div>
-        <OriginSelector />
       </div>
     </div>
   );

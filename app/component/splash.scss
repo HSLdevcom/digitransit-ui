@@ -1,15 +1,20 @@
-#splash {
+
+#splash-wrapper {
   position: absolute;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  z-index:802;
+}
+#splash {
   background-color: white;
-  z-index:1100;
   width: 70%;
-  margin: auto;
   min-width:230px;
   max-width: 300px;
 
-  top: 15%;
-  left: 0;
-  right: 0;
 
   border-radius: 3px;
   box-shadow: 0 0 9.5px 0 rgba(0, 0, 0, 0.3);
