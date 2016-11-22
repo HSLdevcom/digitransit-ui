@@ -186,6 +186,7 @@ function getEntry() {
       'react-dom',
       'react-relay',
       'react-tap-event-plugin',
+      'moment',
     ],
     leaflet: ['leaflet'],
   };
