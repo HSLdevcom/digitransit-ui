@@ -205,7 +205,7 @@ module.exports = {
     path: path.join(__dirname, '_static'),
     filename: (process.env.NODE_ENV === 'development') ?
       'js/bundle.js' : 'js/[name].[chunkhash].js',
-    chunkFilename: 'js/[name].[chunkhash].js',
+    chunkFilename: 'js/[chunkhash].js',
     publicPath: ((process.env.NODE_ENV === 'development') ?
       'http://localhost:' + port : (process.env.APP_PATH || '')) + '/',
   },
