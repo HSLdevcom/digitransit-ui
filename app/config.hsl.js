@@ -120,8 +120,8 @@ export default {
 
     content: {
       fi: {
-        title: 'Tämä on Reittioppaan kehitysversio',
-        content: 'Kuulut eliittiin! Käytät Reittioppaan kehitysversiota. Nauti uusista ominaisuuksista ja lähetä meille palautetta. Päivitämme palvelua jatkuvasti. Valmista on luvassa loppuvuodesta 2016. Lisätietoa projektista löydät osoitteesta digitransit.fi.',
+        title: 'Tervetuloa käyttämään uutta Reittiopasta!',
+        content: 'Uusi Reittiopas auttaa löytämään sinulle läheisimmät joukkoliikennepalvelut. Voit antaa meille palautetta HSL:n palautelomakkeen kautta: https://www.hsl.fi/palaute',
       },
 
       sv: {
@@ -130,8 +130,8 @@ export default {
       },
 
       en: {
-        title: 'This Journey Planner is still under development',
-        content: 'You are one of the elite! You are using the development version of the Journey Planner. Enjoy the new features and send us feedback. We are updating the service constantly. Work is done by end of 2016. More information about the project can be found at digitransit.fi.',
+        title: 'Welcome to new Journey planner!',
+        content: 'The new Journey planner will help you to find public transport nearby. You can send us feedback at https://www.hsl.fi/palaute',
       },
     },
   }],
