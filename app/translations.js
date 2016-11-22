@@ -676,6 +676,8 @@ const translations = {
     'airplane-with-route-number': 'Avion {routeNumber}',
     'favourite-target': 'Destination favorite',
     'search': 'Recherche',
+    'route-stop-or-keyword': 'Ligne, arrêt ou mot-clé',
+    'place-route-or-keyword': 'Lieu, ligne ou mot-clé',
     'in-addition': 'En plus',
     'choose-stop': 'Merci de choisir la ligne',
     'loading': 'Chargement',
