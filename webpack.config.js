@@ -119,7 +119,7 @@ function getPluginsConfig(env) {
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
     new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
-    new webpack.HashedModuleIdsPlugin(),
+    new webpack.HashedModuleIdsPlugin({ hashDigestLength: 6 }),
     new webpack.LoaderOptionsPlugin({
       debug: false,
       minimize: true,
