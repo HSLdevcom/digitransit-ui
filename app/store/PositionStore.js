@@ -1,4 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
+import { getPositioningHasSucceeded, setPositioningHasSucceeded } from './localStorage';
 
 export default class PositionStore extends Store {
   static storeName = 'PositionStore';
@@ -13,9 +14,11 @@ export default class PositionStore extends Store {
   static STATUS_GEOLOCATION_WATCH_TIMEOUT = 'geolocation-watch-timeout';
   static STATUS_GEOLOCATION_NOT_SUPPORTED = 'geolocation-not-supported';
 
+
   constructor(dispatcher) {
     super(dispatcher);
     this.removeLocation();
+    this.positioningHasSucceeded = getPositioningHasSucceeded();
   }
 
   removeLocation() {
@@ -59,6 +62,11 @@ export default class PositionStore extends Store {
   }
 
   storeLocation(location) {
+    if (!this.positioningHasSucceeded) {
+      setPositioningHasSucceeded(true);
+      this.positioningHasSucceeded = true;
+    }
+
     const statusChanged = this.hasStatusChanged(true);
 
     this.lat = this.lat !== 0 ? (this.lat + location.lat) / 2 : location.lat;
