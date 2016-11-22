@@ -125,8 +125,8 @@ export default {
       },
 
       sv: {
-        title: 'Det här är reseplanerarens utvecklingsversion',
-        content: 'Du tillhör eliten! Du använder utvecklingsversionen av reseplaneraren. Njut av de nya egenskaperna och ge oss feedback. Vi uppdaterar tjänsten kontinuerligt. Tjänsten kommer att stå färdig kring slutet av 2016. Mer information om projektet hittar du på addressen digitransit.fi.',
+        title: 'Välkommen till den nya reseplaneraren!',
+        content: 'Den nya reseplaneraren hjälper dig hitta de närmaste kollektivtrafikstjänsterna. Du kan ge oss feedback genom HRT:s responsformulär: https://www.hsl.fi/respons',
       },
 
       en: {
