@@ -9,6 +9,7 @@ const autoprefixer = require('autoprefixer');
 const csswring = require('csswring');
 const StatsPlugin = require('stats-webpack-plugin');
 // const OptimizeJsPlugin = require('optimize-js-plugin');
+const OfflinePlugin = require('offline-plugin');
 const fs = require('fs');
 
 require('babel-core/register')({
@@ -151,13 +152,14 @@ function getPluginsConfig(env) {
     // new OptimizeJsPlugin({
     //   sourceMap: true,
     // }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
       allChunks: true,
+    }),
+    new OfflinePlugin({
+      publicPath: (process.env.APP_PATH || '/'),
+      excludes: ['**/.*', '**/*.map', '../stats.json'],
+      relativePaths: false,
     }),
     new webpack.NoErrorsPlugin(),
   ]);
@@ -180,7 +182,6 @@ function getDevelopmentEntry() {
 
 function getEntry() {
   const entry = {
-    main: './app/client',
     common: [ // These come from all imports in client.js
       'react',
       'react-dom',
@@ -189,6 +190,7 @@ function getEntry() {
       'moment',
     ],
     leaflet: ['leaflet'],
+    main: './app/client',
   };
 
   const directories = getDirectories('./sass/themes');

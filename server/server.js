@@ -43,7 +43,18 @@ const app = express();
 function setUpStaticFolders() {
   const staticFolder = path.join(process.cwd(), '_static');
   // Sert cache for 1 week
-  app.use(config.APP_PATH, express.static(staticFolder, { maxAge: 604800000 }));
+  const oneDay = 86400000;
+  app.use(config.APP_PATH, express.static(staticFolder, {
+    maxAge: 30 * oneDay,
+    setHeaders(res, reqPath) {
+      if (
+        reqPath === path.join(process.cwd(), '_static', 'sw.js') ||
+        reqPath.startsWith(path.join(process.cwd(), '_static', 'appcache'))
+      ) {
+        res.setHeader('Cache-Control', 'public, max-age=0');
+      }
+    },
+  }));
 }
 
 function setUpMiddleware() {

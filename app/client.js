@@ -16,6 +16,7 @@ import {
   retryMiddleware,
 } from 'react-relay-network-layer';
 import 'regenerator-runtime/runtime';
+import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
 import config from './config';
@@ -218,6 +219,10 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   // and started positioning
   piwik.setCustomVariable(4, 'commit_id', COMMIT_ID, 'visit');
   piwik.setCustomVariable(5, 'build_time', BUILD_TIME, 'visit');
+
+  if (process.env.NODE_ENV === 'production') {
+    OfflinePlugin.install();
+  }
 
   // Track performance after some time has passed
   setTimeout(() => trackDomPerformance(), 5000);
