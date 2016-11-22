@@ -145,13 +145,12 @@
   }
 
   .action-arrow-click-area {
-    padding: 1px 8px 4px 15px;
+    padding: $padding-xsmall $padding-medium;
+    display: flex;
   }
   .action-arrow {
     display: flex;
     align-items: center;
-    margin-bottom: 4px;
-    margin-left: $padding-medium;
     border: 1px solid rgba(0, 0, 0, 0.19);
     border-radius: 4px;
     padding: $padding-xxsmall $padding-xxsmall 0px $padding-xxsmall;
@@ -237,12 +236,10 @@
     }
 
     .action-arrow-click-area {
-      padding: 22px 25px 2px 13px;
+      padding: 0 25px 0 43px;
     }
     .action-arrow {
-      padding-left: 30px;
       font-size: 20px;
-      padding-top: 8px;
       border: 0;
     }
     .action-arrow span > svg {
