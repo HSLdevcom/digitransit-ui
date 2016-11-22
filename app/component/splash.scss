@@ -64,6 +64,7 @@
   }
 
   #splash-searchfield {
+    margin: auto;
     @include font-medium;
     color: $primary-color;
     border-bottom: 2px solid $primary-color;
