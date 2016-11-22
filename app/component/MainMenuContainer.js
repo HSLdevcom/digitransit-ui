@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import Drawer from 'material-ui/Drawer';
 
 import config from '../config';
 import Icon from './Icon';
-import MainMenu from './MainMenu';
 import { openFeedbackModal } from '../action/feedbackActions';
+import LazilyLoad, { importLazy } from './LazilyLoad';
+
 
 class MainMenuContainer extends Component {
   static contextTypes = {
@@ -52,21 +52,30 @@ class MainMenuContainer extends Component {
   render() {
     return (
       <div>
-        <Drawer
-          className="offcanvas"
-          disableSwipeToOpen
-          ref="leftNav"
-          docked={false}
-          open={this.getOffcanvasState()}
-          openSecondary
-          onRequestChange={this.onRequestChange}
+        <LazilyLoad
+          modules={{
+            Drawer: () => importLazy(System.import('material-ui/Drawer')),
+            MainMenu: () => importLazy(System.import('./MainMenu')),
+          }}
         >
-          <MainMenu
-            openFeedback={this.openFeedback}
-            toggleVisibility={this.toggleOffcanvas}
-            showDisruptionInfo={this.getOffcanvasState()}
-          />
-        </Drawer>
+          {({ Drawer, MainMenu }) => (
+            <Drawer
+              className="offcanvas"
+              disableSwipeToOpen
+              ref="leftNav"
+              docked={false}
+              open={this.getOffcanvasState()}
+              openSecondary
+              onRequestChange={this.onRequestChange}
+            >
+              <MainMenu
+                openFeedback={this.openFeedback}
+                toggleVisibility={this.toggleOffcanvas}
+                showDisruptionInfo={this.getOffcanvasState()}
+              />
+            </Drawer>
+          )}
+        </LazilyLoad>
         {config.mainMenu.show ?
           <div
             onClick={this.toggleOffcanvas}

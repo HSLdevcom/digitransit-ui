@@ -1,15 +1,26 @@
 import React from 'react';
 import getContext from 'recompose/getContext';
 import { clearDestination } from '../action/EndpointActions';
-import FeedbackPanel from './FeedbackPanel';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from './SearchMainContainer';
 import config from '../config';
-import MessageBar from './MessageBar';
 import { shouldDisplayPopup } from '../util/Feedback';
 import { openFeedbackModal } from '../action/feedbackActions';
+
+const feedbackPanel = (
+  <LazilyLoad modules={{ Panel: () => importLazy(System.import('./FeedbackPanel')) }} >
+    {({ Panel }) => <Panel />}
+  </LazilyLoad>
+);
+
+const messageBar = (
+  <LazilyLoad modules={{ Bar: () => importLazy(System.import('./MessageBar')) }} >
+    {({ Bar }) => <Bar />}
+  </LazilyLoad>
+);
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -147,7 +158,7 @@ class IndexPage extends React.Component {
     const selectedTab = this.getSelectedTab();
     return (this.props.breakpoint === 'large' ? (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
-        <MessageBar />
+        {messageBar}
         <MapWithTracking breakpoint={this.props.breakpoint} showStops tab={selectedTab}>
           <SearchMainContainer />
           <div key="foo" className="fpccontainer">
@@ -158,13 +169,13 @@ class IndexPage extends React.Component {
             >{this.props.content}</FrontPagePanelLarge>
           </div>
         </MapWithTracking>
-        <FeedbackPanel />
+        {feedbackPanel}
       </div>
     ) : (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         <div className="flex-grow map-container">
           <MapWithTracking breakpoint={this.props.breakpoint} showStops >
-            <MessageBar />
+            {messageBar}
             <SearchMainContainer />
           </MapWithTracking>
         </div>
@@ -175,7 +186,7 @@ class IndexPage extends React.Component {
             favouritesClicked={this.clickFavourites}
             closePanel={this.closeTab}
           >{this.props.content}</FrontPagePanelSmall>
-          <FeedbackPanel />
+          {feedbackPanel}
         </div>
       </div>
     ));

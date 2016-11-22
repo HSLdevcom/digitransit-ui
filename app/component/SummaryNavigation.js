@@ -1,11 +1,10 @@
 import React from 'react';
-import Drawer from 'material-ui/Drawer';
 import cx from 'classnames';
 
-import CustomizeSearch from './CustomizeSearch';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -80,22 +79,31 @@ class SummaryNavigation extends React.Component {
 
     return (
       <section>
-        <Drawer
-          className="offcanvas"
-          disableSwipeToOpen
-          openSecondary
-          docked={false}
-          open={this.getOffcanvasState()}
-          onRequestChange={this.onRequestChange}
-          // Needed for the closing arrow button that's left of the drawer.
-          containerStyle={{ background: 'transparent', boxShadow: 'none' }}
-          width={291}
+        <LazilyLoad
+          modules={{
+            Drawer: () => importLazy(System.import('material-ui/Drawer')),
+            CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
+          }}
         >
-          <CustomizeSearch
-            params={this.props.params}
-            onToggleClick={this.toggleCustomizeSearchOffcanvas}
-          />
-        </Drawer>
+          {({ Drawer, CustomizeSearch }) => (
+            <Drawer
+              className="offcanvas"
+              disableSwipeToOpen
+              openSecondary
+              docked={false}
+              open={this.getOffcanvasState()}
+              onRequestChange={this.onRequestChange}
+              // Needed for the closing arrow button that's left of the drawer.
+              containerStyle={{ background: 'transparent', boxShadow: 'none' }}
+              width={291}
+            >
+              <CustomizeSearch
+                params={this.props.params}
+                onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              />
+            </Drawer>
+          )}
+        </LazilyLoad>
         <OriginDestinationBar className={className} />
         <div className={cx('time-selector-settings-row', className)}>
           <TimeSelectorContainer />
