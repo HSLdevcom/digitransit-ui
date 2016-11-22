@@ -4,7 +4,7 @@ import ViewerRoute from '../../../route/ViewerRoute';
 
 import config from '../../../config';
 import CityBikeMarker from './CityBikeMarker';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import ComponentUsageExample from '../../ComponentUsageExample';
 
 const CityBikeMarkerWrapper = Relay.createContainer((({ alerts }) => (
   <div>

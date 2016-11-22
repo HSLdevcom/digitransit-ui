@@ -1,0 +1,369 @@
+/* foundation override */
+$menu-slide: "transform 200ms ease";
+$offcanvas-background: #333333;
+$offcanvas-background-hover: scale-color($gray, $lightness: -30%);
+$offcanvas-background-active: scale-color($gray, $lightness: -30%);
+
+/* top bar */
+$topbar-height: 40px;
+$top-navigation-icon-color: $primary-font-color;
+$top-navigation-title-color: $title-color;
+
+/* offcanvas */
+$offcanvas-profile-icon-size: 60px;
+$offcanvas-profile-icon-color: $white;
+$offcanvas-lead-text-color: $gray;
+$offcanvas-lead-text-font-family: $font-family;
+$offcanvas-lead-text-font-weight: $font-weight-book;
+$offcanvas-lead-text-letter-spacing: $letter-spacing;
+$offcanvas-lead-text-font-size: 15px;
+$offcanvas-login-text-font-family: $font-family;
+$offcanvas-login-text-font-weight: $font-weight-book;
+$offcanvas-login-text-letter-spacing: $letter-spacing;
+$offcanvas-login-text-font-size: $font-size-smallish;
+$offcanvas-login-arrow-icon-size: 14px;
+$offcanvas-link-color: $white;
+$offcanvas-link-text-font-size: 15px;
+
+/* Content */
+$content-background-color: $background-color;
+
+
+.top-bar {
+  background: $primary-color;
+  position: relative;
+  text-align: center;
+  overflow: visible; // Show drawer menu
+  z-index: 803;
+  line-height: 35px;
+  height: 40px;
+
+  &.bp-large {
+    height: 60px;
+    align-items: center;
+    line-height: 1.8em;
+    box-shadow: 2px 0px 2px #575757;
+  }
+
+  .icon-holder {
+    height: $topbar-height;
+    width: $topbar-height;
+    position: absolute;
+    top: 1px;
+  }
+
+  .icon {
+    fill: $top-navigation-icon-color;
+    font-size: 15pt;
+    vertical-align: middle;
+  }
+  .title {
+    height:40px;
+    padding-top:2px;
+    text-align: center;
+    color: $top-navigation-title-color;
+  }
+  .logo {
+    margin-left: 13px;
+    background-image: $nav-logo;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    max-width: 170px;
+    width: 105px;
+    height: 18px;
+    margin-top:9px;
+  }
+  .navi-logo {
+    margin-left: 32px;
+    height: 1.8em;
+    min-width: 130px; //for ff
+    background-image: $nav-logo;
+    background-size: contain;
+    width:170px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+  .hamburger-large {
+    .main-menu-toggle {
+      top: 10px;
+      div.logo {
+        background-image: $nav-logo;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: $topbar-height;
+        max-width: 170px;
+      }
+    }
+  }
+}
+
+.flex-horizontal {
+  display:flex;
+  flex-direction: row;
+}
+
+.lang-select {
+  color: white;
+  border-bottom: 1px solid #262626;
+  padding: 2px 5px;
+  .lang {
+    display: inline-block;
+    text-transform: uppercase;
+    span {
+      cursor: pointer;
+      padding: 3px 8px;
+      margin: 0px 2px;
+    }
+    span.selected {
+      border-radius: 3px;
+      background-color: rgba($white, 0.15);
+    }
+  }
+}
+
+.right-border {
+  border-right: 1px solid rgba(0,0,0,0.15);
+}
+
+.navi-margin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.navi-languages {
+  .lang-select{
+    border-bottom: 0px;
+    .lang {
+      .selected {
+        background: rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+}
+.navi-icons {
+  .icon {
+    font-size: 1.8em;
+  }
+  width:50px;
+  a {
+    color: $primary-color;
+  }
+}
+.main-menu-toggle {
+  right: 0;
+}
+
+.main-menu {
+  padding: 0;
+  background: $black;
+  color: $offcanvas-link-color;
+  height:100%;
+  overflow-y: auto;
+  text-align: left;
+  @include font-medium
+
+  i.icon-profile {
+    font-size: $offcanvas-profile-icon-size;
+    color: $offcanvas-profile-icon-color;
+  }
+  a {
+    color: $offcanvas-link-color;
+    text-decoration: none;
+  }
+
+  span {
+    cursor: pointer;
+    color: $offcanvas-link-color;
+    text-decoration: none;
+  }
+  .icon{
+    fill: $offcanvas-link-color;
+    &.small {
+      width: 10px;
+      height: 10px;
+    }
+
+    &.medium {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .close-button {
+    padding: 5px 20px;
+    float: right;
+  }
+}
+
+.offcanvas-section {
+  padding: 5px 20px;
+}
+
+/* content */
+// TODO: This is an ugly hack
+// Performance with flex is ok after 9b3d165f2385f4737f757f77e0faa2d74e003119, which was reverted
+// Should-be re-enabled after safari fixes https://github.com/philipwalton/flexbugs/issues/84
+// Work-around using position: absolute; and pinning all corners made the performance really bad
+section.content {
+  background-color: $content-background-color;
+  height: calc(100% - #{$topbar-height});
+  position: relative;
+
+  .mobile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+  }
+
+  .desktop {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+
+    .main-content {
+      width: 600px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .map-content {
+      width: calc(100% - 600px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+  }
+}
+
+
+.content.bp-large {
+  height: calc(100% - 60px);
+  position: relative;
+}
+
+.content:nth-child(5) {
+  height: calc(100% - #{$topbar-height} - 60px - 18px);
+  // 60px and 18px are the height of the message bar, but is specified in js
+}
+
+.desktop-title {
+  background: $primary-color;
+
+  a {
+    color: $primary-font-color;
+  }
+
+  h2 {
+    @include font-medium;
+    color: $primary-font-color;
+    margin: 20px 30px;
+    line-height: 1;
+  }
+
+  .home-icon {
+    font-size: 0.8em;
+  }
+
+  .arrow-icon {
+    font-size: 0.6em;
+    margin: 2px 1em;
+    color: $secondary-color;
+  }
+}
+
+.message-bar {
+  position:relative;
+  z-index:802;
+  @include font-book;
+  font-size: $font-size-small;
+  line-height: 14px;
+  background: $white;
+  color: $gray;
+  text-align: left;
+  cursor: pointer;
+
+  h2 {
+    @include font-medium;
+    font-size: $font-size-small;
+    color: $action-color;
+    margin: 0;
+  }
+}
+
+// Need more specific selector to override
+.message-bar .icon {
+  margin: 10px;
+}
+
+.message-bar .icon.info {
+  float: left;
+  fill: $primary-color;
+  height: 35px;
+  width: 35px;
+}
+
+.message-bar .icon.close {
+  float: right;
+  fill: $gray;
+  height: 15px;
+  width: 15px;
+}
+
+.time-selector-settings-row {
+  background-color: $secondary-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+
+  &.bp-large {
+    height: 50px;
+  }
+}
+
+.external-link-container {
+  position:relative;
+  spacing: 0px;
+  margin: 0px;
+  padding: 0px 6px 3px 6px;
+  line-height:0;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+
+  span {
+    position: absolute;
+    line-height: normal;
+    top: -1px;
+    right: -1px;
+    height:7px;
+    line-height:0;
+  }
+
+  span:nth-of-type(1) {
+    .icon {
+      font-size: 7px;
+      color: $primary-color;
+    }
+  }
+
+  span:nth-of-type(2) {
+    .icon {
+      font-size: 6px;
+      color: $primary-font-color;
+    }
+  }
+
+
+  .external-link {
+    spacing: 0;
+    margin: 0;
+    color: $white;
+    font-size: $font-size-xxsmall;
+    text-decoration: none;
+  }
+
+}

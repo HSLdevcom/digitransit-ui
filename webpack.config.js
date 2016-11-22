@@ -40,10 +40,7 @@ function getRulesConfig(env) {
         options: {
           // loose is needed by older Androids < 4.3 and IE10
           presets: [['latest', { es2015: { loose: true, modules: false } }], 'react', 'stage-2'],
-          plugins: [
-            'transform-class-properties',
-            path.join(__dirname, 'build/babelRelayPlugin'),
-          ],
+          plugins: [path.join(__dirname, 'build/babelRelayPlugin')],
           ignore: [
             'app/util/piwik.js',
           ],
@@ -62,10 +59,7 @@ function getRulesConfig(env) {
       options: {
         // loose is needed by older Androids < 4.3 and IE10
         presets: [['latest', { es2015: { loose: true, modules: false } }], 'react', 'stage-2'],
-        plugins: [
-          'transform-class-properties',
-          path.join(__dirname, 'build/babelRelayPlugin'),
-        ],
+        plugins: [path.join(__dirname, 'build/babelRelayPlugin')],
         ignore: [
           'app/util/piwik.js',
         ],
@@ -230,6 +224,9 @@ module.exports = {
       'react-router/lib/getRouteParams': 'react-router/es6/getRouteParams',
       moment$: 'moment/moment.js',
     },
+  },
+  resolveLoader: {
+    moduleExtensions: ['-loader'],
   },
   module: {
     rules: getRulesConfig(process.env.NODE_ENV),
