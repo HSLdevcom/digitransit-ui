@@ -3,9 +3,9 @@
   border-radius: $border-radius;
   border: 1px solid $medium-gray;
   cursor: pointer;
-  max-width: 320px;
   padding-top: 8px;
   padding-bottom: 3px;
+  height: 100%;
 }
 
 .favourite-edit-icon-click-area {
@@ -38,7 +38,6 @@
 .favourite-location-content {
   @extend .favourite-button-shared;
   background: $white;
-  height: 80px;
   line-height: 1.5;
   position: relative;
 
@@ -109,7 +108,6 @@
 .new-favourite-button-content {
   @extend .favourite-button-shared;
   background: $background-color;
-  height: 80px;
 
   .add-new-favourite-icon {
     color: $gray-blue;
@@ -125,28 +123,25 @@
   }
 }
 
-.favourite-locations-container {
-  padding-top: 0.8em;
-  padding-bottom: 0.8em;
+.favourite-locations-container > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  min-height: 80px;
+  padding: $padding-medium;
 }
 
 .favourite-location-container {
-  padding-right: 7px;
-  padding-left: 7px;
+  flex-basis: 0;
+  flex-grow: 1;
+  padding: 0 $padding-small;
 }
 
-.favourite-location-container--first {
-  @extend .favourite-location-container;
-  padding-left: 15px;
-  padding-right: 0px;
+.favourite-location-container--first, .favourite-location-container--last{
+  flex-basis: 0;
+  flex-grow: 1;
+  padding: 0;
 }
-
-.favourite-location-container--last {
-  @extend .favourite-location-container;
-  padding-left: 0px;
-  padding-right: 15px;
-}
-
 
 .favourite-location-content-placeholder {
   margin-left: 0.25em;
