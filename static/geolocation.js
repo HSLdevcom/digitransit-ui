@@ -76,20 +76,14 @@ function startPositioning() {
 // If yes, start immediately, if not, we will not prompt for permission at this point.
 (function() {
 
-  function getItem(key, defaultValue) {
-    return (typeof window !== 'undefined' && window.localStorage &&
-      window.localStorage.getItem(key)) || defaultValue;
-  }
-
-  function getItemAsJson(key, defaultValue) {
-    let item = getItem(key);
-    return JSON.parse(item);
-  }
-
   function getPositioningHasSucceeded() {
     //XXX hack for windows phone
-    return navigator && navigator.userAgent.indexOf('Windows Phone') > -1
-      && getItemAsJson('positioningSuccesful', '{ "state": false }').state;
+    if (navigator && navigator.userAgent.indexOf('Windows Phone') != -1) {
+      return JSON.parse(typeof window !== 'undefined' && window.localStorage &&
+        window.localStorage.getItem("positioningSuccesful") || '{ "state": false }')
+        .state || false;
+    }
+    return false;
   }
 
   setTimeout(function () {
