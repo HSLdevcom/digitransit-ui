@@ -28,7 +28,6 @@ ADD . ${WORK}
 # (https://docs.openshift.org/latest/creating_images/guidelines.html#openshift-specific-guidelines)
 RUN \
   npm install && \
-  npm run static && \
   npm rebuild node-sass && \
   npm run build && \
   rm -rf static docs test /tmp/* && \
