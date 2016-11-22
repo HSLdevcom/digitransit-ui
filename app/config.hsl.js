@@ -120,7 +120,7 @@ export default {
 
     content: {
       fi: {
-        title: 'Tervetuloa käyttämään uutta Reittiopasta!',
+        title: 'Tervetuloa kokeilemaan uutta Reittiopasta!',
         content: 'Uusi Reittiopas auttaa löytämään sinulle läheisimmät joukkoliikennepalvelut. Voit antaa meille palautetta HSL:n palautelomakkeen kautta: https://www.hsl.fi/palaute',
       },
 
