@@ -82,7 +82,8 @@ function startPositioning() {
 
 // Check if we have previous permissions to get geolocation.
 // If yes, start immediately, if not, we will not prompt for permission at this point.
-(function() {
+
+setTimeout(function () {
 
   function getPositioningHasSucceeded() {
     //XXX hack for windows phone
@@ -94,24 +95,22 @@ function startPositioning() {
     return false;
   }
 
-  setTimeout(function () {
-    if (window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined && navigator.permissions !== undefined) {
-      navigator.permissions.query({name:'geolocation'}).then(
-        function(result) {
-          if ('granted' === result.state) {
-            window.startPositioning();
-          }
-          if ('denied' === result.state) {
-            //for ff with permisson api display error immediately instead of timeout error
-            window.retrieveGeolocationError({code: 1, message: 'Denied'});
-          }
+  if (window.location.search.indexOf('mock') === -1 && navigator.geolocation !== undefined && navigator.permissions !== undefined) {
+    navigator.permissions.query({name:'geolocation'}).then(
+      function(result) {
+        if ('granted' === result.state) {
+          window.startPositioning();
         }
-      );
-    } else {
-      //broser does not support permission api
-      if (getPositioningHasSucceeded()) {
-        window.startPositioning();
+        if ('denied' === result.state) {
+          //for ff with permisson api display error immediately instead of timeout error
+          window.retrieveGeolocationError({code: 1, message: 'Denied'});
+        }
       }
+    );
+  } else {
+    //broser does not support permission api
+    if (getPositioningHasSucceeded()) {
+      window.startPositioning();
     }
-  }, 1);
-})();
+  }
+}, 1);
