@@ -7,11 +7,11 @@
   "scripts": {
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
+    "prestart": "npm run static",
+    "prewin-start": "npm run win-static",
     "predev": "npm run static",
     "predev-win-hsl": "npm run win-static",
     "predev-win-national": "npm run win-static",
-    "prestart": "npm run static",
-    "prewin-start": "npm run win-static",
     "dev": "PID=$$; trap 'pkill -QUIT -P $PID > /dev/null' EXIT; NODE_ENV=development nodemon -e js,css,scss,html --watch ./app/ server/server.js -x \"node --harmony\" & NODE_ENV=development forever -f start server/hotLoadServer.js",
     "dev-win-hsl": "cd win-launch-scripts&& hsl-win-launch-script.bat",
     "dev-win-national": "cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
