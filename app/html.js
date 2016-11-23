@@ -26,7 +26,7 @@ const Application = (
       {css}
     </head>
     <body>
-      <div style={{ visibility: 'hidden' }} dangerouslySetInnerHTML={{ __html: svgSprite }} />
+      {svgSprite}
       <div id="app" style={{ height: '100%' }} dangerouslySetInnerHTML={{ __html: content }} />
       <script dangerouslySetInnerHTML={{ __html: polyfill }} />
       <script dangerouslySetInnerHTML={{ __html: state }} />

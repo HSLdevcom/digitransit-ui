@@ -18,6 +18,7 @@ import polyfillService from 'polyfill-service';
 import fs from 'fs';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import find from 'lodash/find';
 
 // Application
 import application from './app';
@@ -42,7 +43,6 @@ function getStringOrArrayElement(arrayOrString, index) {
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
-const svgSprite = fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString();
 const geolocationStarter = fs.readFileSync(`${appRoot}_static/geolocation.js`).toString();
 
 const networkLayer = new RelayNetworkLayer([
@@ -56,6 +56,7 @@ const networkLayer = new RelayNetworkLayer([
 let stats;
 let manifest;
 let css;
+let svgSprite;
 
 if (process.env.NODE_ENV !== 'development') {
   stats = require('../stats.json'); // eslint-disable-line global-require, import/no-unresolved
@@ -76,6 +77,30 @@ if (process.env.NODE_ENV !== 'development') {
       }`}
     />,
   ];
+
+  console.log(find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]);
+
+  svgSprite = (
+    <script
+      dangerouslySetInnerHTML={{ __html: `
+        fetch('${
+          config.APP_PATH}/${find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]
+        }').then(function(response) {return response.text();}).then(function(blob) {
+          var div = document.createElement('div');
+          div.innerHTML = blob;
+          document.body.insertBefore(div, document.body.childNodes[0]);
+        })
+    ` }}
+    />
+  );
+} else {
+  svgSprite = (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString(),
+      }}
+    />
+  );
 }
 
 function getPolyfills(userAgent) {

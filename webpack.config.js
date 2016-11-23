@@ -163,7 +163,7 @@ function getPluginsConfig(env) {
       caches: {
         main: [':rest:'],
         additional: [':externals:'],
-        optional: ['css/*.css', 'js/*_theme.*.js'],
+        optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js'],
       },
       safeToUseOptionalCaches: true,
     }),
@@ -203,6 +203,11 @@ function getEntry() {
   directories.forEach((theme) => {
     const entryPath = './sass/themes/' + theme + '/main.scss';
     entry[theme + '_theme'] = [entryPath];
+  });
+
+  directories.forEach((theme) => {
+    const entryPath = './static/svg-sprite.' + theme + '.svg';
+    entry[theme + '_sprite'] = [entryPath];
   });
 
   return entry;

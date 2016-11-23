@@ -241,10 +241,15 @@ svg.realtime-icon {
   transform: translate3d(0,0,0);
 }
 
+#icon-icon_realtime {
+  color: $realtime-color;
+}
+
 #icon-icon_realtime path {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: step-start;
+  fill: currentColor;
 
   &.path1 {
     animation-name: realtimeInnerArch;
