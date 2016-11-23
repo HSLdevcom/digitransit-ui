@@ -313,7 +313,6 @@ li.favourites.selected {
   }
 }
 
-
 .flex-grow {
   flex-grow: 1;
 }
@@ -321,4 +320,35 @@ li.favourites.selected {
 .flex-vertical {
   display: flex;
   flex-direction: column;
+}
+
+#page-footer {
+  display:flex;
+  align-items: center;
+  flex-direction: row;
+  font-size: $font-size-small;
+  color: $primary-color;
+  background-color: rgba(255,255,255,0.7);
+  position:absolute;
+  bottom:0px;
+  z-index:100000;
+  height:30px;
+  > span {
+    margin-left:10px;
+    margin-right:10px;
+  }
+  svg.icon.footer-icon {
+    position: relative;
+    top: 2px;
+    margin-right: 6px;
+  }
+}
+
+.front-page.bp-large .toggle-positioning-container{
+  bottom: 40px;
+}
+
+.front-page.bp-large .leaflet-container .leaflet-control-attribution {
+  bottom: 40px;
+  left: 50px;
 }

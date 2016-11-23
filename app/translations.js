@@ -188,6 +188,7 @@ const translations = {
     'park-and-ride': 'Liityntäpysäköinti',
     'park-and-ride-availability': 'Pysäköintipaikkoja vapaana',
     'platform-short': 'Lait.',
+    'footer-feedback': 'Anna palautetta',
   },
 
   'sv': {
@@ -338,6 +339,7 @@ const translations = {
     'park-and-ride': 'Infartsparkering',
     'park-and-ride-availability': 'Lediga parkeringsplatser',
     'platform-short': 'Plat.',
+    'footer-feedback': 'TODO Anna palautetta',
   },
 
   'nb': {

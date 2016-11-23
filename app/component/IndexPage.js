@@ -12,6 +12,7 @@ import { shouldDisplayPopup } from '../util/Feedback';
 import { openFeedbackModal } from '../action/feedbackActions';
 import FavouritesPanel from './FavouritesPanel';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
+import PageFooter from './PageFooter';
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -150,7 +151,9 @@ class IndexPage extends React.Component {
     return (this.props.breakpoint === 'large' ? (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         <MessageBar />
-        <MapWithTracking breakpoint={this.props.breakpoint} showStops showScaleBar tab={selectedTab}>
+        <MapWithTracking
+          breakpoint={this.props.breakpoint} showStops showScaleBar tab={selectedTab}
+        >
           <SearchMainContainer />
           <div key="foo" className="fpccontainer">
             <FrontPagePanelLarge
@@ -160,6 +163,7 @@ class IndexPage extends React.Component {
             >{content}</FrontPagePanelLarge>
           </div>
         </MapWithTracking>
+        <PageFooter content={(config.footer && config.footer.content) || []} />
         <FeedbackPanel />
       </div>
     ) : (
