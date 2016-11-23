@@ -1,6 +1,4 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
 import Icon from './Icon';
 import IconWithCaution from './IconWithCaution';
 
@@ -16,7 +14,6 @@ export default function FavouritesTabLabel({ hasDisruption, classes, onClick }) 
             className="prefix-icon favourites-icon"
             img="icon-icon_star"
           />}
-      <FormattedMessage id="your-favourites" defaultMessage="Favourites" />
     </li>
   );
 }

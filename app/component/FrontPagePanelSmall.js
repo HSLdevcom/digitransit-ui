@@ -45,9 +45,8 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
       >
         {content}
       </ReactCSSTransitionGroup>
-      <ul className="tabs-row tabs-arrow-up cursor-pointer">
+      <ul className="tabs-row cursor-pointer">
         <NearbyTabLabel
-          hasDisruption={false}
           classes={cx(tabClasses, nearbyClasses)}
           onClick={nearbyClicked}
         />

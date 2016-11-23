@@ -35,30 +35,38 @@ $border-radius-rounded: 30px;
   width: 100%;
   margin: 0;
   padding: 0;
+
   h4, .h4 {
     font-size:$font-size-small;
   }
-  .selected {
-    color: $black;
-    background-color: $background-color;
-    &:before  {
-      transform: rotate(0);
-      transition: 0.2s ease-in-out;
-    }
-  }
+
   li {
     background: $white;
-    float: left;
-    list-style: none;
     text-align: center;
-    cursor: pointer;
-    position: relative;
+    padding-top: 10px;
+    list-style: none;
+    float: left;
+    height: 100%;
     color: $link-color;
-    padding: 19px 0 13px 0;
     border-left: 1px solid $light-gray;
     border-top: 1px solid $light-gray;
+
     &:nth-child(1) {
       border-left: none;
+    }
+
+    .icon {
+      height: 27px;
+      width: 31px;
+      color: $primary-color;
+    }
+
+    &.selected {
+      background-color: $background-color;
+      border-top: 3px solid $primary-color;
+      svg.nearby-icon, svg.favourites-icon {
+        color: $black;
+      }
     }
   }
 }
