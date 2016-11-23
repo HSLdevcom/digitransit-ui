@@ -110,58 +110,6 @@ function track() {
   piwik.trackPageView();
 }
 
-function isPerfomanceSupported() {
-  if (typeof window === 'undefined' ||
-      typeof performance === 'undefined' ||
-      performance.timing === null) {
-    return false;
-  }
-  return true;
-}
-
-/* Tracks React render performance */
-function trackReactPerformance() {
-  if (!isPerfomanceSupported()) {
-    return;
-  }
-
-  const appRender = Date.now() - performance.timing.fetchStart;
-  piwik.trackEvent('monitoring', 'perf', '3. App Render', appRender);
-}
-
-/* Tracks DOM and JS loading and parsing performance */
-function trackDomPerformance() {
-  if (!isPerfomanceSupported()) {
-    return;
-  }
-
-  // See https://www.w3.org/TR/navigation-timing/#sec-navigation-timing-interface
-  // for explanation of timing events
-  const timing = performance.timing;
-
-  // Timing: How long did it take to load HTML and parse DOM
-  const domParse = timing.domLoading - timing.fetchStart;
-  piwik.trackEvent('monitoring', 'perf', '1. DOM', domParse);
-
-  // Timing: How long did it take to load and parse JS and css
-  const jsParse = timing.domContentLoadedEventStart - timing.fetchStart;
-  piwik.trackEvent('monitoring', 'perf', '2. DOMContentLoaded', jsParse);
-
-  // Running scripts between timing.domComplete and timing.loadEventStart, and
-  // onLoad handlers between timing.loadEventStart and timing.loadEventEnd take 0ms,
-  // because the scripts are async.
-  // If this changes, more data points should be added.
-
-  // TODO Add more data points for loading parts of the frontpage,
-  // and for tracking other pages than just the front.
-  // In some cases microsecond accuracy from Usr Timing API could be necessary.
-  // Something like https://www.npmjs.com/package/browsertime might be useful
-  // then..
-  // In case we think there's a bottleneck in particular resources,
-  // we need the Resource Timing API (http://caniuse.com/#feat=resource-timing)
-  // to get more detailed data.
-}
-
 // Add plugins
 app.plug(piwikPlugin);
 app.plug(ravenPlugin);
@@ -196,7 +144,6 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
       </MuiThemeProvider>
     </ContextProvider>
     , document.getElementById('app')
-    , trackReactPerformance
   );
 
   // Listen for Web App Install Banner events
@@ -223,9 +170,6 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   if (process.env.NODE_ENV === 'production') {
     OfflinePlugin.install();
   }
-
-  // Track performance after some time has passed
-  setTimeout(() => trackDomPerformance(), 5000);
 });
 
 // Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service
