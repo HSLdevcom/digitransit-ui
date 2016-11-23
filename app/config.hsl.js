@@ -39,6 +39,7 @@ export default {
 
   maxWalkDistance: 2500,
   availableLanguages: ['fi', 'sv', 'en'],
+  defaultLanguage: 'fi',
 
   parkAndRide: {
     showParkAndRide: true,
@@ -100,9 +101,9 @@ export default {
     },
 
     sv: {
-      about: 'This service is provided by HSL for journey planning and information in the HSL region (Helsinki, Espoo, Vantaa, Kauniainen, Kerava, Kirkkonummi and Sipoo). The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
-      digitransit: 'Digitransit service platform is created by HSL Finnish Transport Agency. The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.',
-      datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
+      about: 'Den här tjänsten erbjuds av HRT för reseplanering inom huvudstadsregionen (Helsingfors, Esbo, Vanda, Grankulla, Kervo, Kyrkslätt och Sibbo). Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+      digitransit: 'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Trafikverket. Källkoden distribueras under EUPL v1.2 och AGPLv3 licenserna. Du är välkommen att delta i utvecklandet av plattformen. Mer information hittar du på addressen digitransit.fi.',
+      datasources: 'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors och hämtas från Geofabrik-tjänsten. Addressinformation hämtas från BRC:s byggnadsinformationsregister och hämtas från OpenAddresses-tjänsten. Kollektivtrafikens rutter och tidtabeller hämtas från HRT:s egna tjänst dev.hsl.fi/gtfs.',
     },
 
     en: {
@@ -119,18 +120,18 @@ export default {
 
     content: {
       fi: {
-        title: 'Tämä on Reittioppaan kehitysversio',
-        content: 'Kuulut eliittiin! Käytät Reittioppaan kehitysversiota. Nauti uusista ominaisuuksista ja lähetä meille palautetta. Päivitämme palvelua jatkuvasti. Valmista on luvassa loppuvuodesta 2016. Lisätietoa projektista löydät osoitteesta digitransit.fi.',
+        title: 'Tervetuloa kokeilemaan uutta Reittiopasta!',
+        content: 'Uusi Reittiopas auttaa löytämään sinulle läheisimmät joukkoliikennepalvelut. Voit antaa meille palautetta HSL:n palautelomakkeen kautta: https://www.hsl.fi/palaute',
       },
 
       sv: {
-        title: 'Det här är reseplanerarens utvecklingsversion',
-        content: 'Du tillhör eliten! Du använder utvecklingsversionen av reseplaneraren. Njut av de nya egenskaperna och ge oss feedback. Vi uppdaterar tjänsten kontinuerligt. Tjänsten kommer att stå färdig kring slutet av 2016. Mer information om projektet hittar du på addressen digitransit.fi.',
+        title: 'Välkommen till den nya reseplaneraren!',
+        content: 'Den nya reseplaneraren hjälper dig hitta de närmaste kollektivtrafikstjänsterna. Du kan ge oss feedback genom HRT:s responsformulär: https://www.hsl.fi/respons',
       },
 
       en: {
-        title: 'This Journey Planner is still under development',
-        content: 'You are one of the elite! You are using the development version of the Journey Planner. Enjoy the new features and send us feedback. We are updating the service constantly. Work is done by end of 2016. More information about the project can be found at digitransit.fi.',
+        title: 'Welcome to new Journey planner!',
+        content: 'The new Journey planner will help you to find public transport nearby. You can send us feedback at https://www.hsl.fi/palaute',
       },
     },
   }],

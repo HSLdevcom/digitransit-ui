@@ -8,6 +8,7 @@ import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
+import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware } from 'react-relay-network-layer';
 import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
 
 // Libraries
@@ -41,10 +42,16 @@ function getStringOrArrayElement(arrayOrString, index) {
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
-const svgSprite = fs.readFileSync(`${appRoot}static/svg-sprite.${config.CONFIG}.svg`).toString();
-const geolocationStarter = fs.readFileSync(`${appRoot}static/geolocation.js`).toString();
+const svgSprite = fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString();
+const geolocationStarter = fs.readFileSync(`${appRoot}_static/geolocation.js`).toString();
 
-const networkLayer = new Relay.DefaultNetworkLayer(`${config.URL.OTP}index/graphql`);
+const networkLayer = new RelayNetworkLayer([
+  urlMiddleware({
+    url: `${config.URL.OTP}index/graphql`,
+    batchUrl: `${config.URL.OTP}index/graphql/batch`,
+  }),
+  gqErrorsMiddleware(),
+], { disableBatchQuery: false });
 
 let stats;
 let manifest;

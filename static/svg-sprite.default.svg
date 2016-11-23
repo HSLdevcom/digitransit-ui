@@ -406,12 +406,8 @@
 </radialGradient>
 <symbol id="icon-icon_realtime" viewBox="0 0 1024 1024">
 	<title>icon_realtime</title>
-	<path class="path1" d="M368.356 1024.014c-44.781 0-81.079-36.302-81.079-81.079 0-361.528 294.123-655.658 655.651-655.658 44.781 0 81.079 36.302 81.079 81.079s-36.298 81.079-81.079 81.079c-272.112 0-493.497 221.385-493.497 493.5 0.004 44.773-36.295 81.079-81.075 81.079z">
-		<animate values="1; 1; 0; 1; 1; 1" keyTimes="0;0.2;0.4;0.6;0.8;1" attributeName="opacity" dur="2s" repeatCount="indefinite"/>
-	</path>
-	<path class="path2" d="M81.072 1024.014c-44.781 0-81.079-36.302-81.079-81.079 0-519.948 423.002-942.946 942.939-942.946 44.781 0 81.079 36.302 81.079 81.079s-36.298 81.079-81.079 81.079c-430.524 0-780.781 350.257-780.781 780.788 0 44.773-36.298 81.079-81.079 81.079z">
-		<animate values="1; 1; 0; 0; 1; 1" keyTimes="0;0.2;0.4;0.6;0.8;1" attributeName="opacity" dur="2s" repeatCount="indefinite"/>
-	</path>
+	<path class="path1" d="M368.356 1024.014c-44.781 0-81.079-36.302-81.079-81.079 0-361.528 294.123-655.658 655.651-655.658 44.781 0 81.079 36.302 81.079 81.079s-36.298 81.079-81.079 81.079c-272.112 0-493.497 221.385-493.497 493.5 0.004 44.773-36.295 81.079-81.075 81.079z"/>
+	<path class="path2" d="M81.072 1024.014c-44.781 0-81.079-36.302-81.079-81.079 0-519.948 423.002-942.946 942.939-942.946 44.781 0 81.079 36.302 81.079 81.079s-36.298 81.079-81.079 81.079c-430.524 0-780.781 350.257-780.781 780.788 0 44.773-36.298 81.079-81.079 81.079z"/>
 </symbol>
 <symbol id="icon-icon_mapMarker-station" viewBox="0 0 2348 2348">
 	<title>icon_mapMarker-station</title>
@@ -423,26 +419,16 @@
 	<title>icon_mapMarker-location-animated</title>
 	<circle fill="rgb(61, 183, 228)" cx="1124" cy="1124" r="340"/>
 	<circle cx="1124" cy="1124" r="732" stroke-width="784" fill="none" stroke="url(#mapMarker-white)" />
-	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(61, 183, 228, 0.1)" cy="1124" id="circle_pink_first">
-		<animate from="340" attributeName="r" to="1079" dur="2.4s" repeatCount="indefinite"/>
-		<animate values="rgba(61, 183, 228, 1) ;rgba(61, 183, 228, 0.4) ; rgba(61, 183, 228, 0.1) ; rgba(61, 183, 228, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="2.4s" repeatCount="indefinite"/>
-		<animate values="50 ; 150" attributeName="stroke-width" dur="2.4s" keyTimes="0;1" begin="0s" repeatCount="indefinite"/>
-	</circle>
-	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(61, 183, 228, 0.1)" cy="1124" id="circle_pink_second">
-		<animate from="340" attributeName="r" to="1079" dur="2.4s" repeatCount="indefinite" begin="0.6s"/>
-		<animate values="rgba(61, 183, 228, 1) ;rgba(61, 183, 228, 0.4) ; rgba(61, 183, 228, 0.1) ; rgba(61, 183, 228, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="2.4s" repeatCount="indefinite" begin="0.6s"/>
-		<animate values="50 ; 150" attributeName="stroke-width" dur="2.4s" keyTimes="0;1" begin="0.6s" repeatCount="indefinite"/>
-	</circle>
-	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(61, 183, 228, 0.1)" cy="1124" id="circle_pink_third">
-		<animate from="340" attributeName="r" to="1079" dur="2.4s" repeatCount="indefinite" begin="1.2s"/>
-		<animate values="rgba(61, 183, 228, 1) ;rgba(61, 183, 228, 0.4) ; rgba(61, 183, 228, 0.1) ; rgba(61, 183, 228, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="2.4s" repeatCount="indefinite" begin="1.2s"/>
-		<animate values="50 ; 150" attributeName="stroke-width" dur="2.4s" keyTimes="0;1" begin="1.2s" repeatCount="indefinite"/>
-	</circle>
-	<circle stroke-width="70" r="340" cx="1124" fill="rgba(0,0,0,0)" stroke="rgba(61, 183, 228, 0.1)" cy="1124" id="circle_pink_fourth">
-		<animate from="340" attributeName="r" to="1079" dur="2.4s" repeatCount="indefinite" begin="1.8s"/>
-		<animate values="rgba(61, 183, 228, 1) ;rgba(61, 183, 228, 0.4) ; rgba(61, 183, 228, 0.1) ; rgba(61, 183, 228, 0.0)" keyTimes="0;0.5;0.75;1" attributeName="stroke" dur="2.4s" repeatCount="indefinite" begin="1.8s"/>
-		<animate values="50 ; 150" attributeName="stroke-width" dur="2.4s" keyTimes="0;1" begin="1.8s" repeatCount="indefinite"/>
-	</circle>
+	<circle stroke-width="50" r="340" opacity="1" cx="1124" fill="transparent" stroke="rgb(61, 183, 228)" cy="1124" id="circle_pink_first"/>
+	<circle stroke-width="82" r="585" opacity="0.6" cx="1124" fill="transparent" stroke="rgb(61, 183, 228)" cy="1124" id="circle_pink_second"/>
+	<circle stroke-width="116" r="830" opacity="0.4" cx="1124" fill="transparent" stroke="rgb(61, 183, 228)" cy="1124" id="circle_pink_third"/>
+	<circle stroke-width="149" r="1075" opacity="0.1" cx="1124" fill="transparent" stroke="rgb(61, 183, 228)" cy="1124" id="circle_pink_fourth"/>
+	<!-- These circles are for the animated marker, which is currently disabled
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_first"/>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_second"/>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_third"/>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_fourth"/>
+-->
 	<use x="850" y="830" width="550" height="550" class="fill-color14" xlink:href="#icon-icon_user" fill="#fff"/>
 </symbol>
 <symbol id="icon-icon_no_route_found" viewBox="0 0 283.46 283.46" enable-background="new 0 0 283.46 283.46">

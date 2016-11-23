@@ -1,7 +1,7 @@
 import React from 'react';
 
 import routeCompare from '../../../util/route-compare';
-import ComponentUsageExample from '../../documentation/ComponentUsageExample';
+import ComponentUsageExample from '../../ComponentUsageExample';
 
 
 function getName(route) {
