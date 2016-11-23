@@ -336,6 +336,10 @@ li.favourites.selected {
   > span {
     margin-left:10px;
     margin-right:10px;
+    a {
+      text-decoration:none;
+      color: $primary-color;
+    }
   }
   svg.icon.footer-icon {
     position: relative;
