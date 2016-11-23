@@ -6,7 +6,7 @@
   window.position = {
     pos: null,
     error: null,
-    timing: null
+    // timing: null
   }
 
   window.retrieveGeolocation = function retrieveGeolocation(pos) {
@@ -17,9 +17,9 @@
     window.position.error = error;
   }
 
-  window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
-    window.position.timing = timing;
-  }
+  // window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
+  //   window.position.timing = timing;
+  // }
 
   //timeout timer for geolocation
   var timeout = setTimeout(function () {
@@ -32,7 +32,7 @@
           if (timeout != null) {
             clearTimeout(timeout);
             timeout = null;
-            window.retrieveGeolocationTiming(new Date().getTime() - startTime);
+            // window.retrieveGeolocationTiming(new Date().getTime() - startTime);
           }
           window.retrieveGeolocation(position);
         }, function handleError(error) {
