@@ -157,9 +157,15 @@ function getPluginsConfig(env) {
       allChunks: true,
     }),
     new OfflinePlugin({
-      publicPath: (process.env.APP_PATH || '/'),
       excludes: ['**/.*', '**/*.map', '../stats.json'],
-      relativePaths: false,
+      // TODO: Can be enabled after cors headers have been added
+      // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
+      caches: {
+        main: [':rest:'],
+        additional: [':externals:'],
+        optional: ['css/*.css', 'js/*_theme.*.js'],
+      },
+      safeToUseOptionalCaches: true,
     }),
     new webpack.NoErrorsPlugin(),
   ]);
