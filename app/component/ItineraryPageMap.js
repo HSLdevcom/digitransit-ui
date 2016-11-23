@@ -43,10 +43,10 @@ export default function ItineraryPageMap(
     });
 
   const overlay = fullscreen ? undefined : (
-    <div
-      className="map-click-prevent-overlay"
-      onClick={toggleFullscreenMap}
-    />);
+  <div
+    className="map-click-prevent-overlay"
+    onClick={toggleFullscreenMap}
+  />);
 
   let bounds = false;
 
@@ -56,7 +56,7 @@ export default function ItineraryPageMap(
 
   return (
     <Map
-      className="full"
+      className="full itinerary"
       leafletObjs={leafletObjs}
       lat={center ? center.lat : from.lat}
       lon={center ? center.lon : from.lon}
@@ -65,6 +65,7 @@ export default function ItineraryPageMap(
       fitBounds={bounds !== false}
       disableZoom={false}
       boundsOptions={{ maxZoom: 16 }}
+      showScaleBar
     >
       {breakpoint !== 'large' && overlay}
       {breakpoint !== 'large' && (

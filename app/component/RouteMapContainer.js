@@ -55,10 +55,12 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       lat={(selectedVehicle && selectedVehicle.lat) || undefined}
       lon={(selectedVehicle && selectedVehicle.long) || undefined}
       className={'full'}
+      key={fullscreen} // rerender for scale
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
       bounds={(pattern.geometry || pattern.stops).map(p => [p.lat, p.lon])}
       zoom={zoom}
+      showScaleBar={fullscreen}
     >
       {!fullscreen && <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
       {breakpoint !== 'large' && (
