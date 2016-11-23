@@ -35,7 +35,8 @@ $border-radius-rounded: 30px;
   width: 100%;
   margin: 0;
   padding: 0;
-
+  height: 50px;
+  
   h4, .h4 {
     font-size:$font-size-small;
   }
@@ -59,6 +60,15 @@ $border-radius-rounded: 30px;
       height: 27px;
       width: 31px;
       color: $primary-color;
+    }
+
+    &.bp-large {
+      .icon {
+        top: 3px;
+        position: relative;
+        height: 20px;
+        width: 20px;
+      }
     }
 
     &.selected {
