@@ -10,6 +10,7 @@ const csswring = require('csswring');
 const StatsPlugin = require('stats-webpack-plugin');
 // const OptimizeJsPlugin = require('optimize-js-plugin');
 const OfflinePlugin = require('offline-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
 const fs = require('fs');
 
 require('babel-core/register')({
@@ -124,6 +125,7 @@ function getPluginsConfig(env) {
     new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
     new webpack.HashedModuleIdsPlugin({ hashDigestLength: 6 }),
+    new WebpackMd5Hash(),
     new webpack.LoaderOptionsPlugin({
       debug: false,
       minimize: true,
