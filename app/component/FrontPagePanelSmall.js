@@ -4,8 +4,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
+import NearbyTabLabel from './NearbyTabLabel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
-import NearbyTabLabelContainer from './NearbyTabLabelContainer';
 
 const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
    favouritesClicked, closePanel, children }) => {
@@ -46,7 +46,8 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
         {content}
       </ReactCSSTransitionGroup>
       <ul className="tabs-row tabs-arrow-up cursor-pointer">
-        <NearbyTabLabelContainer
+        <NearbyTabLabel
+          hasDisruption={false}
           classes={cx(tabClasses, nearbyClasses)}
           onClick={nearbyClicked}
         />

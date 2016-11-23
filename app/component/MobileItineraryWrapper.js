@@ -89,38 +89,38 @@ export default class MobileItineraryWrapper extends React.Component {
     }
 
     const swipe = this.props.fullscreenMap ? undefined : (
-    <SwipeableViews
-      index={index}
-      key="swipe"
-      className="itinerary-swipe-views-root"
-      slideStyle={{ minHeight: '100%' }}
-      containerStyle={{ minHeight: '100%' }}
-      onChangeIndex={idx => setTimeout(this.switchSlide, 500, idx)}
-    >
-      {React.Children.map(this.props.children, (el, i) =>
+      <SwipeableViews
+        index={index}
+        key="swipe"
+        className="itinerary-swipe-views-root"
+        slideStyle={{ minHeight: '100%' }}
+        containerStyle={{ minHeight: '100%' }}
+        onChangeIndex={idx => setTimeout(this.switchSlide, 500, idx)}
+      >
+        {React.Children.map(this.props.children, (el, i) =>
           React.cloneElement(el, {
             focus: this.focusMap,
             ref: `itineraryTab${i}`,
           })
         )}
-    </SwipeableViews>);
+      </SwipeableViews>);
     const tabs = this.props.fullscreenMap ? undefined : (
-    <div className="itinerary-tabs-container" key="tabs">
-      <Tabs
-        onChange={this.switchSlide}
-        value={index}
-        tabItemContainerStyle={{
-          backgroundColor: '#eef1f3',
-          lineHeight: '18px',
-          width: '60px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-        inkBarStyle={{ display: 'none' }}
-      >
-        {MobileItineraryWrapper.getTabs(this.props.children, index)}
-      </Tabs>
-    </div>);
+      <div className="itinerary-tabs-container" key="tabs">
+        <Tabs
+          onChange={this.switchSlide}
+          value={index}
+          tabItemContainerStyle={{
+            backgroundColor: '#eef1f3',
+            lineHeight: '18px',
+            width: '60px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          inkBarStyle={{ display: 'none' }}
+        >
+          {MobileItineraryWrapper.getTabs(this.props.children, index)}
+        </Tabs>
+      </div>);
 
     return (
       <ReactCSSTransitionGroup

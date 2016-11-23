@@ -12,10 +12,10 @@ export default function NearbyTabLabel({ hasDisruption, classes, onClick }) {
           className="prefix-icon nearby-icon"
           img="icon-icon_bus-withoutBox"
         /> :
-        <Icon
-          className="prefix-icon nearby-icon"
-          img="icon-icon_bus-withoutBox"
-        />}
+          <Icon
+            className="prefix-icon nearby-icon"
+            img="icon-icon_bus-withoutBox"
+          />}
       <FormattedMessage id="near-you" defaultMessage="Near you" />
     </li>
   );

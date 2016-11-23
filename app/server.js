@@ -42,8 +42,8 @@ function getStringOrArrayElement(arrayOrString, index) {
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
-const svgSprite = fs.readFileSync(`${appRoot}static/svg-sprite.${config.CONFIG}.svg`).toString();
-const geolocationStarter = fs.readFileSync(`${appRoot}static/geolocation.js`).toString();
+const svgSprite = fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString();
+const geolocationStarter = fs.readFileSync(`${appRoot}_static/geolocation.js`).toString();
 
 const networkLayer = new RelayNetworkLayer([
   urlMiddleware({
