@@ -26,9 +26,9 @@ const Application = (
       {css}
     </head>
     <body>
+      <script dangerouslySetInnerHTML={{ __html: polyfill }} />
       {svgSprite}
       <div id="app" style={{ height: '100%' }} dangerouslySetInnerHTML={{ __html: content }} />
-      <script dangerouslySetInnerHTML={{ __html: polyfill }} />
       <script dangerouslySetInnerHTML={{ __html: state }} />
       <script dangerouslySetInnerHTML={{ __html: config }} />
       <script dangerouslySetInnerHTML={{ __html: `window.locale="${locale}"` }} />
