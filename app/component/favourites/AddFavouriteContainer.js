@@ -148,7 +148,7 @@ class AddFavouriteContainer extends React.Component {
                   value={favourite.locationName}
                   placeholder={this.context.intl.formatMessage({
                     id: 'location-examples',
-                    defaultMessage: 'e.g. Home, Work, Scool,...',
+                    defaultMessage: 'e.g. Home, Work, School,...',
                   })} onChange={this.specifyName}
                 />
               </div>
