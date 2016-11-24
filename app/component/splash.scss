@@ -63,8 +63,11 @@
     margin-right:20px;
   }
 
+#splash-search-field-container {
+  align-items: center;
+}
   #splash-searchfield {
-    margin: auto;
+    display: flex;
     @include font-medium;
     color: $primary-color;
     border-bottom: 2px solid $primary-color;

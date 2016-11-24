@@ -47,11 +47,12 @@ class Splash extends React.Component {
           <div className="splash-separator">
             <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
           </div>
-          <span id="splash-searchfield" onClick={this.openModal}>
-            <FormattedMessage id="give-origin" defaultMessage="Type in your origin" />
-            <Icon className="icon-edit" img="icon-icon_edit" />
-          </span>
-
+          <div id="splash-search-field-container" className="flex-vertical">
+            <span id="splash-searchfield" onClick={this.openModal}>
+              <FormattedMessage id="give-origin" defaultMessage="Type in your origin" />
+              <Icon className="icon-edit" img="icon-icon_edit" />
+            </span>
+          </div>
           <div className="splash-separator">
             <FormattedMessage id="splash-or-choose" defaultMessage="or choose your origin from" />
           </div>
