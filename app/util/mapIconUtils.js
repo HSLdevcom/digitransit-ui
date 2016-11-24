@@ -130,8 +130,7 @@ export async function drawRoundIcon(tile, geom, type, large, platformNumber) {
 }
 
 export async function drawTerminalIcon(tile, geom, type, name) {
-  const stopRadius = getStopRadius({ $zoom: tile.coords.z }) * 2.5;
-  const iconSize = (stopRadius + 8) * tile.scaleratio;
+  const iconSize = ((getStopRadius({ $zoom: tile.coords.z }) * 2.5) + 8) * tile.scaleratio;
   const image = await getImageFromSpriteCache(`icon-icon_${type.toLowerCase()}`, iconSize, iconSize);
 
   tile.ctx.drawImage(
@@ -149,17 +148,17 @@ export async function drawTerminalIcon(tile, geom, type, name) {
     tile.ctx.textBaseline = 'top';
     tile.ctx.font = `500 ${FONT_SIZE * tile.scaleratio}px
       Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif`;
-    let y = ((iconSize / 2) + 2);
+    let y = ((iconSize / 2) + (2 * tile.scaleratio));
     name.split(' ').forEach((part) => {
       tile.ctx.strokeText(
         part,
         geom.x / tile.ratio,
-        (geom.y / tile.ratio) + (y * tile.scaleratio));
+        (geom.y / tile.ratio) + y);
       tile.ctx.fillText(
         part,
         geom.x / tile.ratio,
-        (geom.y / tile.ratio) + (y * tile.scaleratio));
-      y += (FONT_SIZE + 2);
+        (geom.y / tile.ratio) + y);
+      y += (FONT_SIZE + 2) * tile.scaleratio;
     });
   }
 }
