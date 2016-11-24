@@ -37,6 +37,15 @@ class Stops {
             ) {
               feature.geom = feature.loadGeometry()[0][0];
               this.features.push(pick(feature, ['geom', 'properties']));
+              if (feature.properties.type === 'FERRY') {
+                drawTerminalIcon(
+                  this.tile,
+                  feature.geom,
+                  feature.properties.type,
+                  this.tile.coords.z >= config.terminalNamesZoom ? feature.properties.name : false
+                );
+                continue;
+              }
               drawRoundIcon(
                 this.tile,
                 feature.geom,
