@@ -5,8 +5,9 @@ import { FormattedMessage } from 'react-intl';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 import Icon from './Icon';
+import { setUseCurrent } from '../action/EndpointActions';
 
-const GeopositionSelector = ({ status }) => {
+const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => {
   /* States:
    * - locationing hasn't been started
    * . locationing in progress
@@ -14,6 +15,14 @@ const GeopositionSelector = ({ status }) => {
    * . locationing failed
    * - locationing succeeded
    */
+
+  // sets origin to 'current locationä if search modal is not open
+  if ((status === PositionStore.STATUS_FOUND_LOCATION ||
+    status === PositionStore.STATUS_FOUND_ADDRESS)
+    && !searchModalIsOpen && !origin.userSetPosition && !origin.useCurrentPosition) {
+    context.executeAction(setUseCurrent, { target: 'origin' });
+  }
+
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
       <div>
@@ -68,6 +77,8 @@ const GeopositionSelector = ({ status }) => {
 
 GeopositionSelector.propTypes = {
   status: React.PropTypes.string.isRequired,
+  searchModalIsOpen: React.PropTypes.bool.isRequired,
+  origin: React.PropTypes.object,
 };
 
 GeopositionSelector.contextTypes = {
@@ -76,7 +87,8 @@ GeopositionSelector.contextTypes = {
 
 export default connectToStores(
   GeopositionSelector,
-  ['PositionStore'],
+  ['PositionStore', 'EndpointStore'],
   context => (
-    { status: context.getStore('PositionStore').getLocationState().status }
+    { status: context.getStore('PositionStore').getLocationState().status,
+      origin: context.getStore('EndpointStore').getOrigin() }
   ));
