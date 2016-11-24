@@ -163,7 +163,9 @@ class IndexPage extends React.Component {
             >{content}</FrontPagePanelLarge>
           </div>
         </MapWithTracking>
-        <PageFooter content={(config.footer && config.footer.content) || []} />
+        <div id="page-footer-container">
+          <PageFooter content={(config.footer && config.footer.content) || []} />
+        </div>
         <FeedbackPanel />
       </div>
     ) : (

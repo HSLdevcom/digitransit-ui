@@ -14,13 +14,13 @@ const mapToRoute = (router, route, children) => (<span
 const FooterItem = ({ name, href, label, nameEn, route, icon }, { router }) => {
   const displayIcon = (icon && <Icon className="footer-icon" img={icon} />) || undefined;
   const displayLabel = label || <FormattedMessage id={name} defaultMessage={nameEn || name} />;
-  const item = <span id={name} >{displayIcon}{displayLabel}</span>;
+  let item = <span id={name} >{displayIcon}{displayLabel}</span>;
   if (href) {
-    return mapToLink(href, item);
+    item = mapToLink(href, item);
   } else if (route) {
-    return mapToRoute(router, route, item);
+    item = mapToRoute(router, route, item);
   }
-  return item;
+  return <span className="footer-item">{item}</span>;
 };
 
 FooterItem.propTypes = {
@@ -29,6 +29,7 @@ FooterItem.propTypes = {
   icon: PropTypes.string,
   href: PropTypes.string,
   route: PropTypes.string,
+  label: PropTypes.string,
 };
 
 FooterItem.contextTypes = {
@@ -48,7 +49,7 @@ FooterItem.description = () => (
       <FooterItem name="Palaute" href="http://www.google.com" />
     </ComponentUsageExample>
     <ComponentUsageExample description="with icon">
-      <FooterItem icon="icon-icon_speech-bubble" name="People" action="foo.bar" />
+      <FooterItem icon="icon-icon_speech-bubble" name="Feedback" action="foo.bar" />
     </ComponentUsageExample>
   </div>);
 

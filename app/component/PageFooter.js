@@ -8,7 +8,7 @@ const PageFooter = ({ content }) => (<div id="page-footer">
 </div>);
 
 PageFooter.propTypes = {
-  content: PropTypes.array.isRequired,
+  content: PropTypes.array,
 };
 
 PageFooter.defaultProps = {
@@ -21,7 +21,7 @@ PageFooter.description = () => (
       Front page footer for large display
     </p>
     <ComponentUsageExample description="">
-      <PageFooter links={[{ name: { fi: 'nimi' }, href: 'http://external/' }]} />
+      <PageFooter content={[{ name: 'Feedback', icon: 'icon-icon_speech-bubble' }, { name: 'Print', icon: 'icon-icon_print' }, { name: 'Home', icon: 'icon-icon_place' }]} />
     </ComponentUsageExample>
   </div>);
 

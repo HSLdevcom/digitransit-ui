@@ -322,31 +322,39 @@ li.favourites.selected {
   flex-direction: column;
 }
 
+#page-footer-container {
+  position:absolute;
+  bottom:0px;
+  z-index:100000;
+}
+
 #page-footer {
   display:flex;
   align-items: center;
   flex-direction: row;
+  background-color: rgba(255,255,255,0.7);
+
+  height:30px;
+}
+
+.footer-item {
+  cursor: pointer;
   font-size: $font-size-small;
   color: $primary-color;
-  background-color: rgba(255,255,255,0.7);
-  position:absolute;
-  bottom:0px;
-  z-index:100000;
-  height:30px;
-  > span {
-    margin-left:10px;
-    margin-right:10px;
-    a {
-      text-decoration:none;
-      color: $primary-color;
-    }
-  }
-  svg.icon.footer-icon {
-    position: relative;
-    top: 2px;
-    margin-right: 6px;
+  margin-left:10px;
+  margin-right:10px;
+  a {
+    text-decoration:none;
+    color: $primary-color;
   }
 }
+
+svg.icon.footer-icon {
+  position: relative;
+  top: 2px;
+  margin-right: 6px;
+}
+
 
 .front-page.bp-large .toggle-positioning-container{
   bottom: 40px;
