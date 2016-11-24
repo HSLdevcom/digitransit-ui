@@ -127,8 +127,8 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     raven: React.PropTypes.object,
   });
 
-  // force init of ServiceStore so that mock get's a chance to initialize
-  context.getComponentContext().getStore('ServiceStore');
+  // init geolocation handling
+  context.executeAction(initGeolocation);
 
   ReactDOM.render(
     <ContextProvider translations={translations} context={context.getComponentContext()}>
@@ -145,9 +145,6 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     </ContextProvider>
     , document.getElementById('app')
   );
-
-  // init geolocation handling
-  context.executeAction(initGeolocation);
 
   // Listen for Web App Install Banner events
   window.addEventListener('beforeinstallprompt', (e) => {

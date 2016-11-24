@@ -14,7 +14,6 @@ import PositionStore from './store/PositionStore';
 import PreferencesStore from './store/PreferencesStore';
 import RealTimeInformationStore from './store/RealTimeInformationStore';
 import SearchStore from './store/SearchStore';
-import ServiceStore from './store/ServiceStore';
 import TimeStore from './store/TimeStore';
 import FavouriteCityBikeStationStore from './store/FavouriteCityBikeStationStore';
 
@@ -36,7 +35,6 @@ app.registerStore(PositionStore);
 app.registerStore(PreferencesStore);
 app.registerStore(RealTimeInformationStore);
 app.registerStore(SearchStore);
-app.registerStore(ServiceStore);
 app.registerStore(TimeStore);
 app.registerStore(FavouriteCityBikeStationStore);
 

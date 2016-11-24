@@ -43,8 +43,6 @@ function getStringOrArrayElement(arrayOrString, index) {
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
-const geolocationStarter = fs.readFileSync(`${appRoot}_static/geolocation.js`).toString();
-
 const networkLayer = new RelayNetworkLayer([
   urlMiddleware({
     url: `${config.URL.OTP}index/graphql`,
@@ -193,7 +191,6 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       locale={locale} scripts={getScripts(req)}
       fonts={config.URL.FONT}
       config={`window.config=${JSON.stringify(config)}`}
-      geolocationStarter={geolocationStarter}
       relayData={relayData.data}
       head={head}
     />

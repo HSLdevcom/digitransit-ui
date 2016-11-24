@@ -102,6 +102,10 @@ export function setPositioningHasSucceeded(state) {
   setItem('positioningSuccesful', { state });
 }
 
-export function getPositioningHasSucceeded() {
+export function getPositioningHasSucceeded(shouldCheckBrowser) {
+  // Hack for Windows phone
+  if (shouldCheckBrowser && navigator && !navigator.userAgent.includes('Windows Phone')) {
+    return false;
+  }
   return getItemAsJson('positioningSuccesful', '{ "state": false }').state;
 }
