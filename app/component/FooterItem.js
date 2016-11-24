@@ -28,11 +28,12 @@ const FooterItem = ({ name, href, label, nameEn, route, icon, type }, { router }
   let item = <span id={name} >{displayIcon}{displayLabel}</span>;
   if (type) {
     item = mapToFn(getFuntionForType(type), item);
-  }
-  if (href) {
+  } else if (href) {
     item = mapToLink(href, item);
   } else if (route) {
     item = mapToRoute(router, route, item);
+  } else {
+    item = (<span className="footer-text">{item}</span>);
   }
   return <span className="footer-item">{item}</span>;
 };

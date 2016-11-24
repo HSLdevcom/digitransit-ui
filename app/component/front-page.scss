@@ -349,6 +349,12 @@ li.favourites.selected {
   }
 }
 
+.footer-text {
+  @include font-book;
+  font-size: $font-size-xxsmall;
+  color: $gray;
+}
+
 svg.icon.footer-icon {
   position: relative;
   top: 2px;
