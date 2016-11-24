@@ -43,7 +43,7 @@ class Splash extends React.Component {
               defaultMessage="Welcome to the new Journey Planner!"
             />
           </h3>
-          <GeopositionSelector />
+          <GeopositionSelector searchModalIsOpen={this.state.searchModalIsOpen} />
           <div className="splash-separator">
             <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
           </div>
@@ -58,8 +58,7 @@ class Splash extends React.Component {
           <OriginSelector />
         </div>
       </div>
-    </div>
-  );
+    </div>);
 }
 
 export default Splash;
