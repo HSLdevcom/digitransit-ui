@@ -169,23 +169,23 @@ class IndexPage extends React.Component {
         <FeedbackPanel />
       </div>
     ) : (
-    <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
-      <div className="flex-grow map-container">
-        <MapWithTracking breakpoint={this.props.breakpoint} showStops showScaleBar>
-          <MessageBar />
-          <SearchMainContainer />
-        </MapWithTracking>
+      <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
+        <div className="flex-grow map-container">
+          <MapWithTracking breakpoint={this.props.breakpoint} showStops showScaleBar>
+            <MessageBar />
+            <SearchMainContainer />
+          </MapWithTracking>
+        </div>
+        <div>
+          <FrontPagePanelSmall
+            selectedPanel={this.getSelectedTab()}
+            nearbyClicked={this.clickNearby}
+            favouritesClicked={this.clickFavourites}
+            closePanel={this.closeTab}
+          >{content}</FrontPagePanelSmall>
+          <FeedbackPanel />
+        </div>
       </div>
-      <div>
-        <FrontPagePanelSmall
-          selectedPanel={this.getSelectedTab()}
-          nearbyClicked={this.clickNearby}
-          favouritesClicked={this.clickFavourites}
-          closePanel={this.closeTab}
-        >{content}</FrontPagePanelSmall>
-        <FeedbackPanel />
-      </div>
-    </div>
     ));
   }
 }
