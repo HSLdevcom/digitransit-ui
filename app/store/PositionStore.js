@@ -1,19 +1,24 @@
 import Store from 'fluxible/addons/BaseStore';
+import { getPositioningHasSucceeded, setPositioningHasSucceeded } from './localStorage';
 
 export default class PositionStore extends Store {
   static storeName = 'PositionStore';
 
   static STATUS_NO_LOCATION = 'no-location';
   static STATUS_SEARCHING_LOCATION = 'searching-location';
+  static STATUS_GEOLOCATION_PROMPT = 'prompt';
   static STATUS_FOUND_LOCATION = 'found-location';
   static STATUS_FOUND_ADDRESS = 'found-address';
   static STATUS_GEOLOCATION_DENIED = 'geolocation-denied';
   static STATUS_GEOLOCATION_TIMEOUT = 'geolocation-timeout';
+  static STATUS_GEOLOCATION_WATCH_TIMEOUT = 'geolocation-watch-timeout';
   static STATUS_GEOLOCATION_NOT_SUPPORTED = 'geolocation-not-supported';
+
 
   constructor(dispatcher) {
     super(dispatcher);
     this.removeLocation();
+    this.positioningHasSucceeded = getPositioningHasSucceeded();
   }
 
   removeLocation() {
@@ -46,7 +51,22 @@ export default class PositionStore extends Store {
     this.emitChange();
   }
 
+  geolocationWatchTimeout() {
+    this.status = PositionStore.STATUS_GEOLOCATION_WATCH_TIMEOUT;
+    this.emitChange();
+  }
+
+  geolocationPrompt() {
+    this.status = PositionStore.STATUS_GEOLOCATION_PROMPT;
+    this.emitChange();
+  }
+
   storeLocation(location) {
+    if (!this.positioningHasSucceeded) {
+      setPositioningHasSucceeded(true);
+      this.positioningHasSucceeded = true;
+    }
+
     const statusChanged = this.hasStatusChanged(true);
 
     this.lat = this.lat !== 0 ? (this.lat + location.lat) / 2 : location.lat;
@@ -100,6 +120,8 @@ export default class PositionStore extends Store {
     GeolocationNotSupported: 'geolocationNotSupported',
     GeolocationDenied: 'geolocationDenied',
     GeolocationTimeout: 'geolocationTimeout',
+    GeolocationWatchTimeout: 'geolocationWatchTimeout',
+    GeolocationPrompt: 'geolocationPrompt',
     AddressFound: 'storeAddress',
     GeolocationWatchStarted: 'storeWatchId',
     GeolocationWatchStopped: 'clearWatchId',
