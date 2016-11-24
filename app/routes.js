@@ -36,7 +36,6 @@ import StopPageMeta from './component/StopPageMeta';
 import SummaryTitle from './component/SummaryTitle';
 import ItineraryTab from './component/ItineraryTab';
 import ItineraryPageMap from './component/ItineraryPageMap';
-import OpenFeedback from './component/OpenFeedback';
 
 import { storeEndpoint } from './action/EndpointActions';
 import { otpToLocation } from './util/otpStrings';
@@ -180,13 +179,7 @@ const routes = (
     >
       <Route path="lahellasi" />
       <Route path="suosikit" />
-
     </Route>
-    <Route
-      path="/palaute"
-      component={OpenFeedback}
-    />
-
     <Route
       path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
