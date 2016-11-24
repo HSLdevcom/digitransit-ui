@@ -64,7 +64,7 @@
     "fluxible-action-utils": "0.2.4",
     "fluxible-addons-react": "0.2.8",
     "foundation-apps": "1.2.0",
-    "history": "2.1.2",
+    "history": "4.4.1",
     "intl": "1.2.5",
     "isomorphic-relay": "0.7.3",
     "isomorphic-relay-router": "0.8.6",
