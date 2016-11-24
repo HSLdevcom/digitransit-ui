@@ -63,11 +63,7 @@ export default class SearchInputContainer extends Component {
   }
 
   getItems() {
-    if (this.props.type === 'all') {
-      const suggestions = find(this.state.suggestions, ['name', this.state.type]);
-      return (suggestions && suggestions.items) || [];
-    }
-    return this.state.suggestions;
+    return this.state.suggestions || [];
   }
 
   focusItem(i) {  // eslint-disable-line class-methods-use-this

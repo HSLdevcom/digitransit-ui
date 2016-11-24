@@ -45,6 +45,7 @@ export default {
   search: {
     suggestions: {
       useTransportIcons: false,
+      types: ['endpoint'],
     },
   },
 
