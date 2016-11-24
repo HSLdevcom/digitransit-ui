@@ -61,7 +61,7 @@ const StopPageMap = ({ stop, routes, router, params }, { breakpoint }) => {
       hilightedStops={[params.stopId]}
       disableZoom={!fullscreenMap}
       leafletObjs={leafletObjs}
-      showScaleBar={fullscreenMap}
+      showScaleBar={fullscreenMap || breakpoint === 'large'}
     >
       {children}
     </Map>
