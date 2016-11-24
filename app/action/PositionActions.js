@@ -62,13 +62,20 @@ const setCurrentLocation = (actionContext, pos) => {
   }
 };
 
+/* starts location watch */
 export function startLocationWatch(actionContext, payload, done) {
+  // Check if we need to manually start positioning
+  if (typeof window.geoWatchId === 'undefined') {
+    window.startPositioning();  // from geolocation.js
+  }
+  done();
+}
+
+export function initGeolocation(actionContext, payload, done) {
   if (!geolocator(actionContext).geolocation) {
     actionContext.dispatch('GeolocationNotSupported');
     done();
   }
-
-  actionContext.dispatch('GeolocationSearch');
 
   window.retrieveGeolocation = function retrieveGeolocation(pos, disableDebounce) {
     setCurrentLocation(actionContext, {
@@ -94,27 +101,20 @@ export function startLocationWatch(actionContext, payload, done) {
         !(actionContext.getStore('EndpointStore').getOrigin().userSetPosition ||
           actionContext.getStore('PositionStore').getLocationState().hasLocation)
       ) {
-        if (error.code < 10) {
-          actionContext.executeAction(setOriginToDefault).then(() => {
-            if (error.code === 1) {
-              actionContext.dispatch('GeolocationDenied');
-            } else if (error.code === 2) {
-              actionContext.dispatch('GeolocationNotSupported');
-            } else if (error.code === 3) {
-              actionContext.dispatch('GeolocationTimeout');
-            }
-          });
-        } else if (error.code === 100001) {
-          actionContext.dispatch('GeolocationWatchTimeout');
+        switch (error.code) { // see geolocation.js
+          case 1: actionContext.dispatch('GeolocationDenied'); break;
+          case 2: actionContext.dispatch('GeolocationNotSupported'); break;
+          case 3: actionContext.dispatch('GeolocationTimeout'); break;
+          case 100000: actionContext.dispatch('GeolocationSearch'); break;
+          case 100001: actionContext.dispatch('GeolocationWatchTimeout'); break;
+          case 100002: actionContext.dispatch('GeolocationPrompt'); break;
+          default: break;
         }
       }
     }
   };
 
-  // window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
-  //   actionContext.piwik.trackEvent('geolocation', 'status_OK', 'OK', timing);
-  // };
-
+  // process existing data
   if (window.position.error !== null) {
     window.retrieveGeolocationError(window.position.error);
     window.position.error = null;
@@ -124,11 +124,6 @@ export function startLocationWatch(actionContext, payload, done) {
     window.retrieveGeolocation(window.position.pos);
     window.position.pos = null;
   }
-
-  // if (window.position.timing !== null) {
-  //   window.retrieveGeolocationTiming(window.position.timing);
-  //   window.position.timing = null;
-  // }
 
   done();
 }
