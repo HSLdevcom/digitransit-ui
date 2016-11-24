@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import RouteNumber from './RouteNumber';
 
 const RouteTitle = ({ route }, { breakpoint }) => (
-  (breakpoint === 'large' || !route) ?
+  (breakpoint === 'large' || !route || !route.mode) ?
     <FormattedMessage
       id="route-page.title-short"
       defaultMessage="Route"
