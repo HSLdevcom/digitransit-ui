@@ -18,9 +18,8 @@ const mapToRoute = (router, route, children) => (<span
 const getFuntionForType = (type) => {
   switch (type) {
     case 'feedback': return () => context.executeAction(openFeedbackModal);
-    default: () => console.log('No function defined for type', type);
+    default: return () => console.log('No function defined for type', type);
   }
-  return () => {};
 };
 
 const FooterItem = ({ name, href, label, nameEn, route, icon, type }, { router }) => {
