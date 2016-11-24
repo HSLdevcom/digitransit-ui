@@ -3,7 +3,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import FooterItem from './FooterItem';
 
 const PageFooter = ({ content }) => (<div id="page-footer">
-  {content.map(link => (<FooterItem key={link.label || link.name} {...link} />))}
+  {content.map(link => ((Object.keys(link).length === 0) ?
+    (<span className="footer-separator" />) : <FooterItem key={link.label || link.name} {...link} />))}
 </div>);
 
 
