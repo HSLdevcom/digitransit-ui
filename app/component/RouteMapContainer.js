@@ -60,7 +60,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       fitBounds={fitBounds}
       bounds={(pattern.geometry || pattern.stops).map(p => [p.lat, p.lon])}
       zoom={zoom}
-      showScaleBar={fullscreen}
+      showScaleBar={fullscreen || breakpoint === 'large'}
     >
       {!fullscreen && <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
       {breakpoint !== 'large' && (
