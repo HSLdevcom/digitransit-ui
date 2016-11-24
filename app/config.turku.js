@@ -90,6 +90,14 @@ export default {
   /* eslint-disable max-len*/
   areaPolygon: [[21.145557, 59.963388], [21.145557, 60.950777], [22.939795, 60.950777], [22.939795, 59.963388]],
 
+  footer: {
+    content: [
+      { label: (function () { return `© Turun seudun joukkoliikenne ${(1900 + new Date().getYear())}`; }()) },
+      { name: 'footer-feedback', nameEn: 'Send feedback', route: '/palaute', icon: 'icon-icon_speech-bubble' },
+      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+    ],
+  },
+
   defaultEndpoint: {
     address: 'Kauppatori, Turku',
     lat: 60.451159,
