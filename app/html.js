@@ -45,7 +45,7 @@ const Application = (
 Application.propTypes = {
   fonts: React.PropTypes.string,
   geolocationStarter: React.PropTypes.string,
-  svgSprite: React.PropTypes.string,
+  svgSprite: React.PropTypes.node,
   css: React.PropTypes.node,
   content: React.PropTypes.string,
   polyfill: React.PropTypes.string,
