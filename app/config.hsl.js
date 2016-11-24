@@ -43,7 +43,7 @@ export default {
 
   parkAndRide: {
     showParkAndRide: true,
-    parkAndRideMinZoom: 13,
+    parkAndRideMinZoom: 14,
   },
 
   stopsMinZoom: 14,
