@@ -66,6 +66,8 @@ import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
 import SummaryRow from './SummaryRow';
+import PageFooter from './PageFooter';
+import FooterItem from './FooterItem';
 
 const components = {
   Icon,
@@ -132,6 +134,8 @@ const components = {
   SummaryRow,
   ExternalLink,
   LangSelect,
+  PageFooter,
+  FooterItem,
 };
 
 function getColors() {
