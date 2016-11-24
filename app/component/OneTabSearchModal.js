@@ -67,11 +67,11 @@ class OneTabSearchModal extends React.Component {
     let label = (this.props.customTabLabel ?
       this.props.customTabLabel :
       this.context.intl.formatMessage({
-        id: this.props.target || 'origin',
-        defaultMessage: this.props.target || 'origin',
+        id: this.props.target || 'Origin',
+        defaultMessage: this.props.target || 'Origin',
       }));
 
-
+    label = label.charAt(0).toUpperCase() + label.slice(1);
     let searchTabLabel;
     let Component;
     let cName = 'onetab-search-modal-container';
@@ -86,7 +86,7 @@ class OneTabSearchModal extends React.Component {
       Component = SearchModal;
       searchTabLabel = label;
     }
-/*              initialValue={this.props.initialValue} */
+
     return (
       <div className={cName}>
         <Component
