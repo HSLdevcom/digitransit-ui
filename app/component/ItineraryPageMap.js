@@ -54,8 +54,11 @@ export default function ItineraryPageMap(
     bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
   }
 
+  const showScale = fullscreen || breakpoint === 'large';
+
   return (
     <Map
+      key={showScale}
       className="full itinerary"
       leafletObjs={leafletObjs}
       lat={center ? center.lat : from.lat}
@@ -65,7 +68,7 @@ export default function ItineraryPageMap(
       fitBounds={bounds !== false}
       disableZoom={false}
       boundsOptions={{ maxZoom: 16 }}
-      showScaleBar
+      showScaleBar={showScale}
     >
       {breakpoint !== 'large' && overlay}
       {breakpoint !== 'large' && (
