@@ -24,9 +24,11 @@ PageFooter.description = () => (
     <ComponentUsageExample description="">
       <PageFooter
         content={[
-        { name: 'Feedback', icon: 'icon-icon_speech-bubble' },
-        { name: 'Print', icon: 'icon-icon_print' },
-        { name: 'Home', icon: 'icon-icon_place' }]}
+        { name: 'Feedback', icon: 'icon-icon_speech-bubble', route: '/' },
+        {},
+        { name: 'Print', icon: 'icon-icon_print', route: '/' },
+        {},
+        { name: 'Home', icon: 'icon-icon_place', route: '/' }]}
       />
     </ComponentUsageExample>
   </div>);

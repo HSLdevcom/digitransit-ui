@@ -66,7 +66,7 @@ FooterItem.description = () => (
       <FooterItem name="Palaute" href="http://www.google.com" />
     </ComponentUsageExample>
     <ComponentUsageExample description="with icon">
-      <FooterItem icon="icon-icon_speech-bubble" name="Feedback" action="foo.bar" />
+      <FooterItem icon="icon-icon_speech-bubble" name="Feedback" route="/" />
     </ComponentUsageExample>
   </div>);
 
