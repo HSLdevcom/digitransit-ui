@@ -24,8 +24,8 @@ const FooterItem = ({ name, href, label, nameEn, route, icon }, { router }) => {
 };
 
 FooterItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  nameEn: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  nameEn: PropTypes.string,
   icon: PropTypes.string,
   href: PropTypes.string,
   route: PropTypes.string,

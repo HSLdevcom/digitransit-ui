@@ -4,8 +4,9 @@ import ComponentUsageExample from './ComponentUsageExample';
 import FooterItem from './FooterItem';
 
 const PageFooter = ({ content }) => (<div id="page-footer">
-  {content.map(link => (<FooterItem {...link} />))}
+  {content.map(link => (<FooterItem key={link.label || link.name} {...link} />))}
 </div>);
+
 
 PageFooter.propTypes = {
   content: PropTypes.array,
