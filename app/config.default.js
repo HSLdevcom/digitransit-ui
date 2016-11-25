@@ -376,9 +376,9 @@ export default {
     lon: 24.9690395,
   },
   defaultOrigins: [
-    { type: 'icon-icon_airplane', label: 'Helsinki-Vantaan lentoasema', lat: 60.317429, lon: 24.9690395 },
-    { type: 'icon-icon_ferry', label: 'Turun satama', lat: 60.436363, lon: 22.220002 },
-    { type: 'icon-icon_airplane', label: 'Rovaniemen lentoasema', lat: 66.557326, lon: 25.828135 },
+    { icon: 'icon-icon_airplane', label: 'Helsinki-Vantaan lentoasema', lat: 60.317429, lon: 24.9690395 },
+    { icon: 'icon-icon_ferry', label: 'Turun satama', lat: 60.436363, lon: 22.220002 },
+    { icon: 'icon-icon_airplane', label: 'Rovaniemen lentoasema', lat: 66.557326, lon: 25.828135 },
   ],
 
   /* eslint-disable max-len*/
