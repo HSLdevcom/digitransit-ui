@@ -8,8 +8,6 @@ import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from './SearchMainContainer';
 import config from '../config';
 import MessageBar from './MessageBar';
-import { shouldDisplayPopup } from '../util/Feedback';
-import { openFeedbackModal } from '../action/feedbackActions';
 import FavouritesPanel from './FavouritesPanel';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 
@@ -59,15 +57,6 @@ class IndexPage extends React.Component {
       // auto open nearby tab on bp change to large
       this.clickNearby();
     }
-  }
-
-  // TODO hook this function
-  onReturnToFrontPage() {
-    const timeStore = this.context.getStore('TimeStore');
-    if (shouldDisplayPopup(timeStore.getCurrentTime().valueOf())) {
-      return this.context.executeAction(openFeedbackModal);
-    }
-    return undefined;
   }
 
   getSelectedTab = (props = this.props) => {
