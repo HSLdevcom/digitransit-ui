@@ -166,27 +166,21 @@ $search-header-height: 45px;
 
   > div:first-child {
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
-    bottom:0;
     width: 100vw;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .search-modal-container {
+    top: 105px;
     position: relative;
-    top: 0;
-    margin-left: 0;
-    margin-right: 0;
     padding-right: 20px;
     width: 660px;
   }
 
   .search-modal {
-    top:0;
+    top: 0;
     padding-left: 50px;
     border-radius: $border-radius-bigger;
     bottom: auto;
@@ -221,7 +215,7 @@ $search-header-height: 45px;
       }
 
       .react-autowhatever__container {
-        max-height: calc(85vh - 50px);
+        max-height: calc(85vh - 150px);
       }
 
       ul.react-autowhatever__items-list {
