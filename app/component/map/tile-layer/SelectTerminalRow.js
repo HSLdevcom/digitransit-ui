@@ -29,8 +29,8 @@ function SelectTerminalRow(props) {
 
   return (
     <div className="no-margin">
-      <div className="no-margin cursor-pointer" onClick={props.selectRow}>
-        <div className="left padding-vertical-normal select-row-icon" >
+      <div className="cursor-pointer select-row" onClick={props.selectRow}>
+        <div className="padding-vertical-normal select-row-icon" >
           <svg
             viewBox="0 0 30 30"
             width="30"
@@ -48,7 +48,7 @@ function SelectTerminalRow(props) {
             <use xlinkHref="#icon-icon_station" fill="white" height="12" width="12" x="9" y="9" />
           </svg>
         </div>
-        <div className="left padding-vertical-normal select-row-text">
+        <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color" >
             {props.name} ›
           </span>
