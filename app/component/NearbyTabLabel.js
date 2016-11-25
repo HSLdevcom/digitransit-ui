@@ -8,10 +8,12 @@ export default function NearbyTabLabel({ classes, onClick, showLabel }) {
     <li className={classes} onClick={onClick}>
       <Icon
         className="prefix-icon nearby-icon"
-        img="icon-icon_user"
+        img="icon-icon_nearby"
       />
       {showLabel ?
-        <FormattedMessage id="near-you" defaultMessage="Near you" /> :
+        <span className="label">
+          <FormattedMessage id="near-you" defaultMessage="Near you" />
+        </span> :
         null
       }
     </li>

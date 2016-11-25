@@ -16,7 +16,9 @@ export default function FavouritesTabLabel({ hasDisruption, classes, onClick, sh
             img="icon-icon_star"
           />}
       {showLabel ?
-        <FormattedMessage id="your-favourites" defaultMessage="Favourites" /> :
+        <span className="label">
+          <FormattedMessage id="your-favourites" defaultMessage="Favourites" />
+        </span> :
         null
       }
     </li>

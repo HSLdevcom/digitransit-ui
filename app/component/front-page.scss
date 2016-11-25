@@ -135,28 +135,33 @@ $heading-color: #858585;
     border-top-right-radius: 8px;
   }
 
-  .h4 {
-    font-size: $font-size-normal;
-  }
-
   li {
     background: $white;
-    text-align: center;
-    padding-top: 8px;
+    padding-top: 12px;
     list-style: none;
     height: 100%;
     width: 100%;
-    color: $link-color;
+    color: $primary-color;
     position: relative;
+    border-bottom: 1px solid $light-gray;
+    text-align: center;
 
     &:nth-child(2) {
       border-left: 1px solid $light-gray;
     }
 
     .icon {
-      height: 27px;
-      width: 31px;
       color: $primary-color;
+
+      &.nearby-icon {
+        width: 31px;
+        height: 27px;
+      }
+
+      &.favourites-icon {
+        width: 23px;
+        height: 23px;
+      }
     }
 
     &.bp-large {
@@ -180,10 +185,26 @@ $heading-color: #858585;
       }
 
       .icon {
-        top: 3px;
-        position: relative;
-        height: 24px;
-        width: 27px;
+        color: $primary-color;
+        float: left;
+        margin-left: 26px;
+
+        &.nearby-icon {
+          width: 26px;
+          height: 26px;
+        }
+
+        &.favourites-icon {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      .label {
+        font-size: $font-size-normal;
+        float: left;
+        margin-left: 2px;
+        margin-top: 3px;
       }
     }
 
@@ -200,7 +221,8 @@ $heading-color: #858585;
 
     &.selected {
       background-color: $background-color;
-      svg {
+      border-bottom: none;
+      .icon, .label {
         color: $black;
       }
     }
