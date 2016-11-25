@@ -1,31 +1,20 @@
 import React from 'react';
-import { intlShape, FormattedMessage } from 'react-intl';
-import { setOriginToDefault } from '../action/EndpointActions';
-import FakeSearchBar from './FakeSearchBar';
-import { default as FakeSearchWithButton } from './FakeSearchWithButton';
+import { FormattedMessage } from 'react-intl';
 import OneTabSearchModal from './OneTabSearchModal';
-
+import Icon from './Icon';
+import GeopositionSelector from './GeopositionSelector';
+import OriginSelector from './OriginSelector';
 
 class Splash extends React.Component {
-  static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
+  state = {
+    searchModalIsOpen: false,
   };
 
-  static propTypes = {
-    displaySplash: React.PropTypes.bool,
-    state: React.PropTypes.string,
-    children: React.PropTypes.node,
+  openModal = () => {
+    this.setState({
+      searchModalIsOpen: true,
+    });
   };
-
-  constructor(...args) {
-    super(...args);
-
-    this.state = {
-      searchModalIsOpen: false,
-    };
-  }
 
   closeModal = () => {
     this.setState({
@@ -33,70 +22,44 @@ class Splash extends React.Component {
     });
   };
 
-  render() {
-    if (this.props.displaySplash !== true) {
-      return this.props.children;
-    }
-
-    const destinationPlaceholder = this.context.intl.formatMessage({
-      id: 'destination-placeholder',
-      defaultMessage: 'Where to? - address or stop',
-    });
-
-    const fakeSearchBar = (<FakeSearchBar
-      placeholder={destinationPlaceholder} id="front-page-search-bar"
-    />);
-
-    return (<div id="splash" className="fullscreen">
+  render = () => (
+    <div className="fullscreen">
+      <OneTabSearchModal
+        modalIsOpen={this.state.searchModalIsOpen}
+        closeModal={this.closeModal} initialValue="" target="origin"
+      />
       <div className="front-page fullscreen">
-        <div className="fullscreen splash-map">
-          <FakeSearchWithButton fakeSearchBar={fakeSearchBar} />
+        <div id="splash-map" className="fullscreen">
           <div className="map fullscreen">
             <div className="background-gradient" />
           </div>
         </div>
       </div>
-      <div className="splash">
-        <div className="top" />
-        <div className="mid">
-          <div className="spinner-loader" />
-        </div>
-        <div className="bottom">
-          {((this.props.state === 'load') &&
-          (<h2><FormattedMessage id="loading" defaultMessage="Loading..." /></h2>))
-          || (<div>
-            <h2 className="state">
-              <FormattedMessage id="searching-position" defaultMessage="Searching position..." />
-            </h2>
-            <FormattedMessage id="or" defaultMessage="Or" />
-            <br />
-            <span
-              className="cursor-pointer dotted-link medium" onClick={() => {
-                this.setState({
-                  searchModalIsOpen: true,
-                });
-              }}
-            >
+      <div id="splash-wrapper">
+        <div id="splash" className="flex-vertical">
+          <h3>
+            <FormattedMessage
+              id="splash-welcome"
+              defaultMessage="Welcome to the new Journey Planner!"
+            />
+          </h3>
+          <GeopositionSelector searchModalIsOpen={this.state.searchModalIsOpen} />
+          <div className="splash-separator">
+            <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
+          </div>
+          <div id="splash-search-field-container" className="flex-vertical">
+            <span id="splash-searchfield" onClick={this.openModal}>
               <FormattedMessage id="give-origin" defaultMessage="Type in your origin" />
-              <br />
-              <br />
+              <Icon className="icon-edit" img="icon-icon_edit" />
             </span>
-            <span
-              className="cursor-pointer dotted-link medium" onClick={() => {
-                this.context.executeAction(setOriginToDefault);
-              }}
-            >
-              <FormattedMessage id="skip-positioning" defaultMessage="Skip" />
-            </span></div>)
-        }
+          </div>
+          <div className="splash-separator">
+            <FormattedMessage id="splash-or-choose" defaultMessage="or choose your origin from" />
+          </div>
+          <OriginSelector />
         </div>
-        <OneTabSearchModal
-          modalIsOpen={this.state.searchModalIsOpen}
-          closeModal={this.closeModal} initialValue="" target="origin"
-        />
       </div>
     </div>);
-  }
 }
 
 export default Splash;

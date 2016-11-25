@@ -8,7 +8,7 @@ class EndpointStore extends Store {
 
   constructor(dispatcher) {
     super(dispatcher);
-    this.origin = EndpointStore.getUseCurrent(this.origin, true);
+    this.origin = EndpointStore.getUseCurrent(this.origin, false);
     this.destination = EndpointStore.getUseCurrent(this.destination, false);
     this.emitChange('origin-use-current');
   }

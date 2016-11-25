@@ -37,13 +37,18 @@ export default {
     bucketSize: 100,
   },
 
+  feedback: {
+    // Enable feedback popup
+    enable: true,
+  },
+
   maxWalkDistance: 2500,
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
 
   parkAndRide: {
     showParkAndRide: true,
-    parkAndRideMinZoom: 13,
+    parkAndRideMinZoom: 14,
   },
 
   stopsMinZoom: 14,
@@ -101,6 +106,12 @@ export default {
     lat: 60.1710688,
     lon: 24.9414841,
   },
+
+  defaultOrigins: [
+    { icon: 'icon-icon_rail', label: 'Rautatieasema, Helsinki', lat: 60.1710688, lon: 24.9414841 },
+    { icon: 'icon-icon_airplane', label: 'Lentoasema, Vantaa', lat: 60.317429, lon: 24.9690395 },
+    { icon: 'icon-icon_bus', label: 'Kampin bussiterminaali, Helsinki', lat: 60.16902, lon: 24.931702 },
+  ],
 
   /* eslint-disable max-len*/
   aboutThisService: {

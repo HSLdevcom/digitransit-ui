@@ -9,8 +9,8 @@ N/A | React Material Drawer | 1200/1300 | Defined by material-ui
 `.search-modal` | Search modal | 1202 |
 `.frontpage-panel-container .tabs-row` | Front page tabs | 1201 |
 `.frontpage-panel-wrapper` | Front page pull ups (nearby, favourites) | 1200 |
-`.splash` | Splash screen | 1100 |
 `div.leaflet-marker-icon.from, div.leaflet-marker-icon.to { > span { &::before` | From/To marker letters | 1000 | Could be removed through new icon components
+`#splash-container` | Splash screen |  802 |
 `.toggle-positioning-container` | Pan-to-your-position button | 802 |
 `.message-bar` | Messagebar | 802 |
 `.search-form-map-overlay` | Fake search field | 802 |

@@ -29,7 +29,7 @@ class PreferencesStore extends Store {
       return;
     }
 
-    reactCookie.save('lang', language);
+    reactCookie.save('lang', language, { maxAge: 365 * 24 * 60 * 60 }); // Good up to one year
     this.language = language;
     this.emitChange();
   }
