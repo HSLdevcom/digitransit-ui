@@ -28,7 +28,7 @@ class NotImplementedLink extends React.Component {
   };
 
   notImplemented = () => {
-    context.executeAction(click, this.props.name);
+    this.context.executeAction(click, this.props.name);
     return false;
   }
 
