@@ -37,6 +37,11 @@ export default {
     bucketSize: 100,
   },
 
+  feedback: {
+    // Enable feedback popup
+    enable: true,
+  },
+
   maxWalkDistance: 2500,
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
