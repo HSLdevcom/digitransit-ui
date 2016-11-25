@@ -10,7 +10,7 @@ import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
    favouritesClicked, closePanel, children }) => {
   let heading;
-  const tabClasses = ['small-6', 'h4', 'hover'];
+  const tabClasses = ['hover'];
   const nearbyClasses = ['nearby-routes'];
   const favouritesClasses = ['favourites'];
 
