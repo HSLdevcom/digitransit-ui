@@ -172,7 +172,6 @@ const routes = (
         }
       />
     </Route>
-
     <Route
       path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,

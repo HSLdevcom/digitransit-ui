@@ -195,6 +195,12 @@ gemini.suite('components', () => {
   basicTest('DepartureListHeader');
   basicTest('NextDeparturesListHeader');
   basicTest('SelectedStopPopupContent');
+  basicTest('PageFooter');
+
+  gemini.suite('FooterItem', () => {
+    gemini.suite('basic', test('FooterItem'));
+    gemini.suite('with-icon', test('FooterItem', 2));
+  });
 
   gemini.suite('SummaryRow', () => {
     gemini.suite('passive', test('SummaryRow'));

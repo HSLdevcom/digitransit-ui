@@ -25,7 +25,10 @@ function ScoreTable(props) {
   const columnWidth = 100 / ((props.highestScore - props.lowestScore) + 1);
 
   const columns = range(props.lowestScore, props.highestScore + 1).map(i => (
-    <Column i={i} key={i} columnWidth={columnWidth} handleClick={props.handleClick} />
+    <Column
+      i={i} key={i} columnWidth={columnWidth}
+      selectedScore={props.selectedScore} handleClick={props.handleClick}
+    />
   ));
 
   return (

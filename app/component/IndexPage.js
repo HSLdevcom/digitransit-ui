@@ -7,8 +7,7 @@ import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from './SearchMainContainer';
 import config from '../config';
-import { shouldDisplayPopup } from '../util/Feedback';
-import { openFeedbackModal } from '../action/feedbackActions';
+import PageFooter from './PageFooter';
 
 const feedbackPanel = (
   <LazilyLoad modules={{ Panel: () => importLazy(System.import('./FeedbackPanel')) }} >
@@ -69,15 +68,6 @@ class IndexPage extends React.Component {
       // auto open nearby tab on bp change to large
       this.clickNearby();
     }
-  }
-
-  // TODO hook this function
-  onReturnToFrontPage() {
-    const timeStore = this.context.getStore('TimeStore');
-    if (shouldDisplayPopup(timeStore.getCurrentTime().valueOf())) {
-      return this.context.executeAction(openFeedbackModal);
-    }
-    return undefined;
   }
 
   getSelectedTab = (props = this.props) => {
@@ -159,7 +149,9 @@ class IndexPage extends React.Component {
     return (this.props.breakpoint === 'large' ? (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         {messageBar}
-        <MapWithTracking breakpoint={this.props.breakpoint} showStops tab={selectedTab}>
+        <MapWithTracking
+          breakpoint={this.props.breakpoint} showStops showScaleBar tab={selectedTab}
+        >
           <SearchMainContainer />
           <div key="foo" className="fpccontainer">
             <FrontPagePanelLarge
@@ -169,12 +161,15 @@ class IndexPage extends React.Component {
             >{this.props.content}</FrontPagePanelLarge>
           </div>
         </MapWithTracking>
+        <div id="page-footer-container">
+          <PageFooter content={(config.footer && config.footer.content) || []} />
+        </div>
         {feedbackPanel}
       </div>
     ) : (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         <div className="flex-grow map-container">
-          <MapWithTracking breakpoint={this.props.breakpoint} showStops >
+          <MapWithTracking breakpoint={this.props.breakpoint} showStops showScaleBar>
             {messageBar}
             <SearchMainContainer />
           </MapWithTracking>
