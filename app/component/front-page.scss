@@ -375,3 +375,62 @@ div.route-tabs .tabs-navigation.bp-large {
   display: flex;
   flex-direction: column;
 }
+
+#page-footer-container {
+  position:absolute;
+  bottom:0px;
+  z-index:800;
+}
+
+#page-footer {
+  display:flex;
+  align-items: center;
+  flex-direction: row;
+  background-color: rgba(255,255,255,0.7);
+
+  height:30px;
+}
+
+.footer-item {
+  cursor: pointer;
+  font-size: $font-size-small;
+  color: $primary-color;
+  margin-left:10px;
+  margin-right:10px;
+  a {
+    text-decoration:none;
+    color: $primary-color;
+  }
+}
+
+.footer-text {
+  @include font-book;
+  color: $gray;
+}
+
+.footer-separator {
+  width: 1px;
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-right: 1px solid $medium-gray;
+}
+
+svg.icon.footer-icon {
+  position: relative;
+  top: 2px;
+  margin-right: 6px;
+}
+
+#footer-link-to-old {
+    @include font-book;
+}
+
+.front-page.bp-large .toggle-positioning-container{
+  bottom: 40px;
+}
+
+.front-page.bp-large .leaflet-container .leaflet-control-attribution {
+  bottom: 40px;
+  left: 50px;
+}
