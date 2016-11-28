@@ -538,7 +538,7 @@ div.route-tabs {
     -webkit-padding-end: 35px;
     -webkit-padding-start: 10px;
     @include font-medium;
-    height: 35px;
+    height: 2.5rem;
     border-radius: 5px;
     border: 1px solid $light-gray;
     appearance: none;
@@ -552,7 +552,7 @@ div.route-tabs {
     color: $gray-blue;
     position: absolute;
     right: 23px;
-    top: 18px;
+    top: 1.25rem;
     pointer-events: none;
   }
 
