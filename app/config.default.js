@@ -65,14 +65,14 @@ export default {
     // Whether to show the left menu toggle button at all
     show: true,
     showDisruptions: true,
-    showInquiry: true,
+    showInquiry: false,
     showLoginCreateAccount: true,
     showOffCanvasList: true,
   },
 
   feedback: {
     // Whether to allow the feedback popup
-    enable: true,
+    enable: false,
   },
 
   itinerary: {
@@ -369,12 +369,26 @@ export default {
     [18.776, 60.3316],
   ],
 
+  footer: {
+    content: [
+      { label: (function () { return `© Liikennevirasto ${(1900 + new Date().getYear())}`; }()) },
+      {},
+      { name: 'footer-feedback', nameEn: 'Send feedback', href: 'http://www.liikennevirasto.fi/yhteystiedot/palaute', icon: 'icon-icon_speech-bubble' },
+      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+    ],
+  },
+
   // Default origin endpoint to use when user is outside of area
   defaultEndpoint: {
     address: 'Helsinki-Vantaan Lentoasema',
     lat: 60.317429,
     lon: 24.9690395,
   },
+  defaultOrigins: [
+    { icon: 'icon-icon_airplane', label: 'Helsinki-Vantaan lentoasema', lat: 60.317429, lon: 24.9690395 },
+    { icon: 'icon-icon_ferry', label: 'Turun satama', lat: 60.436363, lon: 22.220002 },
+    { icon: 'icon-icon_airplane', label: 'Rovaniemen lentoasema', lat: 66.557326, lon: 25.828135 },
+  ],
 
   /* eslint-disable max-len*/
   aboutThisService: {

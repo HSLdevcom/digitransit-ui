@@ -97,3 +97,11 @@ export function getFeedbackStorage() {
 export function setFeedbackStorage(data) {
   setItem('feedback', data);
 }
+
+export function setPositioningHasSucceeded(state) {
+  setItem('positioningSuccesful', { state });
+}
+
+export function getPositioningHasSucceeded() {
+  return getItemAsJson('positioningSuccesful', '{ "state": false }').state;
+}

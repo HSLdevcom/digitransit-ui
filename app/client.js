@@ -23,9 +23,9 @@ import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import app from './app';
 import translations from './translations';
-import { startLocationWatch } from './action/PositionActions';
 import { openFeedbackModal } from './action/feedbackActions';
 import { shouldDisplayPopup } from './util/Feedback';
+import { initGeolocation } from './action/PositionActions';
 import history from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';
 
@@ -86,28 +86,6 @@ if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
 
 // Material-ui uses touch tap events
 tapEventPlugin();
-
-function track() {
-  // track "getting back to home"
-  const newHref = this.props.history.createHref(this.state.location);
-
-  if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-    if (shouldDisplayPopup(
-      context
-        .getComponentContext()
-        .getStore('TimeStore')
-        .getCurrentTime()
-        .valueOf()
-      )
-    ) {
-      context.executeAction(openFeedbackModal);
-    }
-  }
-
-  this.href = newHref;
-  piwik.setCustomUrl(this.props.history.createHref(this.state.location));
-  piwik.trackPageView();
-}
 
 function isPerfomanceSupported() {
   if (typeof window === 'undefined' ||
@@ -173,6 +151,28 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 
   window.context = context;
 
+  function track() {
+    // track "getting back to home"
+    const newHref = this.props.history.createHref(this.state.location);
+
+    if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
+      if (shouldDisplayPopup(
+        context
+          .getComponentContext()
+          .getStore('TimeStore')
+          .getCurrentTime()
+          .valueOf()
+        )
+      ) {
+        context.executeAction(openFeedbackModal);
+      }
+    }
+
+    this.href = newHref;
+    piwik.setCustomUrl(this.props.history.createHref(this.state.location));
+    piwik.trackPageView();
+  }
+
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
     piwik: React.PropTypes.object,
     raven: React.PropTypes.object,
@@ -198,6 +198,9 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     , trackReactPerformance
   );
 
+  // init geolocation handling
+  context.executeAction(initGeolocation);
+
   // Listen for Web App Install Banner events
   window.addEventListener('beforeinstallprompt', (e) => {
     piwik.trackEvent('installprompt', 'fired');
@@ -210,9 +213,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     }
   });
 
-  // start positioning
   piwik.enableLinkTracking();
-  context.executeAction(startLocationWatch);
 
   // Send perf data after React has compared real and shadow DOMs
   // and started positioning

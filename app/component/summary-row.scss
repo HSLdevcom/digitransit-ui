@@ -36,7 +36,7 @@
   }
 
   .itinerary-duration-and-distance {
-    width: 150px;
+    width: 4em;
     margin-top: 7px;
   }
 
@@ -59,7 +59,7 @@
     text-align: right;
     padding-right: 10px;
     padding-left: 5px;
-    width: 75px;
+    width: 3em;
     margin-top: 7px;
 
     .itinerary-first-leg-start-time {
@@ -77,15 +77,16 @@
 
   .itinerary-end-time {
     padding-left: 10px;
-    width: 60px;
+    width: 3em;
     margin-top: 7px;
   }
 
   .itinerary-legs {
-    width: 100%;
     display: flex;
     white-space: nowrap;
     margin-top: 3px;
+    min-width: 0;
+    flex: 1 1 0;
 
     .leg {
       flex: 1 0 0;
@@ -208,7 +209,6 @@
     .itinerary-legs {
       padding-top: 0;
       margin-top: 17px;
-      flex-shrink: 2;
 
       .line:after {
         top: 10px;

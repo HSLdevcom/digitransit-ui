@@ -438,3 +438,50 @@ div.map-click-prevent-overlay {
   width: 100%;
   z-index: 801;
 }
+
+.leaflet-control-scale.leaflet-control {
+    //front page
+    margin-right: 20px;
+    margin-bottom: 20px;
+    cursor: grab;
+}
+
+.bp-large .leaflet-control-scale.leaflet-control {
+    //front page desktop
+    margin-right: 400px;
+    margin-bottom: 44px;
+    cursor: grab;
+}
+
+.map.full .leaflet-control-scale.leaflet-control {
+    //stop & ininerary page mobile
+    margin-right: 60px;
+    margin-bottom: 20px;
+    cursor: grab;
+}
+
+.desktop .map.full .leaflet-control-scale.leaflet-control {
+    //stop & ininerary page mobile
+    margin-right: 20px;
+    margin-bottom: 20px;
+    cursor: grab;
+}
+
+.leaflet-control-scale-line {
+  background: none;
+  border:none;
+  text-align:right;
+  margin-bottom: -2px;
+  cursor: grab;
+}
+
+.leaflet-control-scale::after {
+  content: "";
+  display:block;
+  border-bottom: 1px solid $gray;
+  border-left:1px solid $gray;
+  border-right:1px solid $gray;
+  height:4px;
+  background: none;
+  cursor: grab;
+}

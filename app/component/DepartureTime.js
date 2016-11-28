@@ -10,22 +10,26 @@ import {
   realtimeDeparture as exampleRealtimeDeparture,
 } from './ExampleData';
 
-function DepartureTime(props, context) {
+function DepartureTime(props) {
   let shownTime;
-  const departureTime = moment(props.departureTime * 1000);
-  if (props.useUTC) {
-    departureTime.utc();
-  }
+  const timeDiffInMinutes = Math.floor(((props.departureTime - props.currentTime) / 60));
 
-  const currentTime = moment(props.currentTime * 1000);
-  if (departureTime.isBefore(currentTime) ||
-      departureTime.isAfter(currentTime.clone().add(20, 'minutes'))) {
+  if (timeDiffInMinutes < 0 || timeDiffInMinutes > 20) {
+    const departureTime = moment(props.departureTime * 1000);
+    if (props.useUTC) {
+      departureTime.utc();
+    }
     shownTime = departureTime.format('HH:mm');
-  } else if (currentTime.diff(departureTime, 'minutes') === 0) {
+  } else if (timeDiffInMinutes === 0) {
     shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
   } else {
-    shownTime = `${departureTime.diff(currentTime, 'minutes')}
-      ${context.intl.formatMessage({ id: 'minute-short', defaultMessage: 'min' })}`;
+    shownTime = (
+      <FormattedMessage
+        id="departure-time-in-minutes"
+        defaultMessage="{minutes} min"
+        values={{ minutes: timeDiffInMinutes }}
+      />
+    );
   }
 
   let realtime;

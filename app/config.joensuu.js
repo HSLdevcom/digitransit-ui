@@ -27,6 +27,7 @@ export default {
   },
 
   availableLanguages: ['fi', 'sv', 'en'],
+  defaultLanguage: 'fi',
 
   initialLocation: {
     lat: 62.6024263,
@@ -84,11 +85,25 @@ export default {
 
   areaPolygon: [[29.2154, 62.2692], [29.2154, 62.9964], [31.0931, 62.9964], [31.0931, 62.2692]],
 
+  footer: {
+    content: [
+      { label: (function () { return `© Joensuun kaupunki ${(1900 + new Date().getYear())}`; }()) },
+      {},
+      { name: 'footer-feedback', nameEn: 'Send feedback', type: 'feedback', icon: 'icon-icon_speech-bubble' },
+      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+    ],
+  },
+
   defaultEndpoint: {
     address: 'Keskusta, Joensuu',
     lat: 62.6024263,
     lon: 29.7569847,
   },
+  defaultOrigins: [
+    { icon: 'icon-icon_bus', label: 'Keskusta, Joensuu', lat: 62.6024263, lon: 29.7569847 },
+    { icon: 'icon-icon_rail', label: 'Rautatieasema, Joensuu', lat: 62.5998886, lon: 20.77629661560059 },
+    { icon: 'icon-icon_airplane', label: 'Lentoasema, Joensuu', lat: 62.65764959350609, lon: 29.61371183395386 },
+  ],
 
   /* eslint-disable max-len*/
   aboutThisService: {
