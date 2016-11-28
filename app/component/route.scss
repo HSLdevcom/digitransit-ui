@@ -18,7 +18,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   div, .columns.route-stop-time {
     @include font-narrow-book;
     color: $gray;
-    font-size: 12px;
+    font-size: $font-size-small;
   }
   &.route-stop {
     min-height:0;

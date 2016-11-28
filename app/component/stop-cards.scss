@@ -42,6 +42,7 @@
 
 .header-primary {
   @include font-bold;
+  font-size: $font-size-small;
   text-transform: uppercase;
   color: $primary-color;
 }
