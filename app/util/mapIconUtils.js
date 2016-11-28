@@ -1,7 +1,8 @@
 import memoize from 'lodash/memoize';
 import glfun from 'mapbox-gl-function';
-import { parseCSSColor } from 'csscolorparser';
 import getSelector from './get-selector';
+
+const FONT_SIZE = 11;
 
 export const getCaseRadius = memoize(glfun({
   type: 'exponential',
@@ -129,85 +130,36 @@ export async function drawRoundIcon(tile, geom, type, large, platformNumber) {
 }
 
 export async function drawTerminalIcon(tile, geom, type, name) {
-  const stopRadius = getStopRadius({ $zoom: tile.coords.z }) * 2.5;
-  if (stopRadius <= 0) return;
+  const iconSize = ((getStopRadius({ $zoom: tile.coords.z }) * 2.5) + 8) * tile.scaleratio;
+  const image = await getImageFromSpriteCache(`icon-icon_${type.toLowerCase()}`, iconSize, iconSize);
 
-  const iconSize = (stopRadius - 2) * tile.scaleratio;
-  const image = await getImageFromSpriteCache('icon-icon_station', iconSize, iconSize, 'white');
-  const caseRadius = stopRadius + 1;
-  const haloRadius = stopRadius * 2.5;
-  const color = parseCSSColor(getColor(type));
-
-  const gradient = tile.ctx.createRadialGradient(
-    geom.x / tile.ratio, geom.y / tile.ratio, 0,
-    geom.x / tile.ratio, geom.y / tile.ratio, haloRadius * tile.scaleratio
-  );
-  gradient.addColorStop(0, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.5)`);
-  gradient.addColorStop(1, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0)`);
-  // eslint-disable-next-line no-param-reassign
-  tile.ctx.fillStyle = gradient;
-  tile.ctx.fillRect(
-    (geom.x / tile.ratio) - (haloRadius * tile.scaleratio),
-    (geom.y / tile.ratio) - (haloRadius * tile.scaleratio),
-    haloRadius * tile.scaleratio * 2,
-    haloRadius * tile.scaleratio * 2
+  tile.ctx.drawImage(
+    image,
+    (geom.x / tile.ratio) - (iconSize / 2),
+    (geom.y / tile.ratio) - (iconSize / 2),
   );
 
-  tile.ctx.beginPath();
-  // eslint-disable-next-line no-param-reassign
-  tile.ctx.fillStyle = '#fff';
-  tile.ctx.arc(
-    geom.x / tile.ratio,
-    geom.y / tile.ratio,
-    caseRadius * tile.scaleratio, 0, Math.PI * 2
-  );
-  tile.ctx.fill();
-
-  tile.ctx.beginPath();
-  // eslint-disable-next-line no-param-reassign
-  tile.ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
-  tile.ctx.arc(
-    geom.x / tile.ratio,
-    geom.y / tile.ratio,
-    (caseRadius + 1) * tile.scaleratio, 0, Math.PI * 2
-  );
-  tile.ctx.stroke();
-
-  tile.ctx.beginPath();
-  // eslint-disable-next-line no-param-reassign
-  tile.ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 1)`;
-  tile.ctx.arc(
-    geom.x / tile.ratio,
-    geom.y / tile.ratio,
-    stopRadius * tile.scaleratio, 0, Math.PI * 2
-  );
-  tile.ctx.fill();
-
-  if (stopRadius > 6) {
-    tile.ctx.drawImage(
-      image,
-      (geom.x / tile.ratio) - (iconSize / 2),
-      (geom.y / tile.ratio) - (iconSize / 2),
-    );
-
-    if (name) {
-      /* eslint-disable no-param-reassign */
-      tile.ctx.fillStyle = '#333';
-      tile.ctx.strokeStyle = 'white';
-      tile.ctx.lineWidth = 2 * tile.scaleratio;
-      tile.ctx.textAlign = 'center';
-      tile.ctx.textBaseline = 'top';
-      tile.ctx.font = `500 ${11 * tile.scaleratio}px
-        Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif`;
+  if (name) {
+    /* eslint-disable no-param-reassign */
+    tile.ctx.fillStyle = '#333';
+    tile.ctx.strokeStyle = 'white';
+    tile.ctx.lineWidth = 2 * tile.scaleratio;
+    tile.ctx.textAlign = 'center';
+    tile.ctx.textBaseline = 'top';
+    tile.ctx.font = `500 ${FONT_SIZE * tile.scaleratio}px
+      Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif`;
+    let y = ((iconSize / 2) + (2 * tile.scaleratio));
+    name.split(' ').forEach((part) => {
       tile.ctx.strokeText(
-        name,
+        part,
         geom.x / tile.ratio,
-        (geom.y / tile.ratio) + ((caseRadius + 1) * tile.scaleratio));
+        (geom.y / tile.ratio) + y);
       tile.ctx.fillText(
-        name,
+        part,
         geom.x / tile.ratio,
-        (geom.y / tile.ratio) + ((caseRadius + 1) * tile.scaleratio));
-    }
+        (geom.y / tile.ratio) + y);
+      y += (FONT_SIZE + 2) * tile.scaleratio;
+    });
   }
 }
 

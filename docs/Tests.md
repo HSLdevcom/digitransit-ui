@@ -1,6 +1,6 @@
 # UI-tests
 
-Automated tests for digitransit-ui are written in Mocha format with custom extensions. They are executed using Nightwatch.js using its WebDriver remote API. Tests can be run either locally or in BrowserStack.
+Automated tests for digitransit-ui are written in Nightwatch format with custom extensions. They are executed using Nightwatch.js using its WebDriver remote API. Tests can be run either locally or in BrowserStack.
 
 ## Folder structure
 - 'test' all the actual tests

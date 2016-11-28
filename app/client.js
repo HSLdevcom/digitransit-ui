@@ -88,28 +88,6 @@ if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
 // Material-ui uses touch tap events
 tapEventPlugin();
 
-function track() {
-  // track "getting back to home"
-  const newHref = this.props.history.createHref(this.state.location);
-
-  if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-    if (shouldDisplayPopup(
-      context
-        .getComponentContext()
-        .getStore('TimeStore')
-        .getCurrentTime()
-        .valueOf()
-      )
-    ) {
-      context.executeAction(openFeedbackModal);
-    }
-  }
-
-  this.href = newHref;
-  piwik.setCustomUrl(this.props.history.createHref(this.state.location));
-  piwik.trackPageView();
-}
-
 // Add plugins
 app.plug(piwikPlugin);
 app.plug(ravenPlugin);
@@ -121,6 +99,28 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   }
 
   window.context = context;
+
+  function track() {
+    // track "getting back to home"
+    const newHref = this.props.history.createHref(this.state.location);
+
+    if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
+      if (shouldDisplayPopup(
+        context
+          .getComponentContext()
+          .getStore('TimeStore')
+          .getCurrentTime()
+          .valueOf()
+        )
+      ) {
+        context.executeAction(openFeedbackModal);
+      }
+    }
+
+    this.href = newHref;
+    piwik.setCustomUrl(this.props.history.createHref(this.state.location));
+    piwik.trackPageView();
+  }
 
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
     piwik: React.PropTypes.object,
