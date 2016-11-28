@@ -154,7 +154,7 @@ function getContent(context, renderProps, locale, userAgent) {
 
 function getHtml(context, locale, [polyfills, relayData], req) {
   // eslint-disable-next-line no-unused-vars
-  const content = getContent(context, relayData.props, locale, req.headers['user-agent']);
+  const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent']) : undefined;
   const head = Helmet.rewind();
 
   return ReactDOM.renderToStaticMarkup(
@@ -171,7 +171,7 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       fonts={config.URL.FONT}
       config={`window.config=${JSON.stringify(config)}`}
       geolocationStarter={geolocationStarter}
-      relayData={relayData.data}
+      relayData={relayData != null ? relayData.data : []}
       head={head}
     />
   );
@@ -222,11 +222,11 @@ export default function (req, res, next) {
       Promise.all(promises).then(results =>
         res.send(`<!doctype html>${getHtml(context, locale, results, req)}`)
       ).catch((err) => {
-        console.log('Ignoring Relay error and serving without relay data', err);
-        // send ithout relay data...
+        console.warn('Ignoring Relay error and serving without relay data', err);
+        // send without relay data...
         getPolyfills(req.headers['user-agent']).then((polyfills) => {
-          res.send(`<!doctype html>${getHtml(context, locale, [polyfills, { data: [] }], req)}`);
-        });
+          res.send(`<!doctype html>${getHtml(context, locale, [polyfills, null], req)}`);
+        }).catch((ee) => { console.error('Could not send without relay data:', ee); });
       });
     }
   });
