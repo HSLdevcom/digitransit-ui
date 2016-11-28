@@ -12,7 +12,7 @@
 
 .time-selectors {
   @include font-book;
-  font-size: $font-size-smallish;
+  font-size: $font-size-small;
   background-color: $secondary-color;
   display: flex;
   flex-direction: row;

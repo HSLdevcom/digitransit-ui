@@ -48,7 +48,7 @@
     margin-top: -1px;
     color: $distance-gray;
     font-weight: $font-weight-book;
-    font-size: $font-size-smallish;
+    font-size: $font-size-small;
 
     .icon {
       margin-bottom: -2px;
@@ -135,7 +135,7 @@
 
     .vehicle-number {
       font-weight: $font-weight-medium;
-      font-size: $font-size-smallish;
+      font-size: $font-size-small;
       clear: left;
       float: left;
       padding: 0;
@@ -268,7 +268,7 @@
     }
   }
   h4 {
-    font-size: $font-size-smallish;  // larger than normal
+    font-size: $font-size-small;  // larger than normal
     margin: 10px 0 5px 0;
   }
   input[type="text"] {
