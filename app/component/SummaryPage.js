@@ -149,6 +149,7 @@ class SummaryPage extends React.Component {
         leafletObjs={leafletObjs}
         fitBounds
         bounds={bounds}
+        showScaleBar
       />
     );
   }
