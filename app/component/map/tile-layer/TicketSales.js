@@ -58,7 +58,7 @@ export default class TicketSales {
                 TicketSales.getIcon(feature.properties.TYYPPI),
                 this.tile,
                 feature.geom,
-                getStopRadius({ $zoom: this.tile.coords.z }) * 2.5
+                getStopRadius({ $zoom: this.tile.coords.z }) * 2.5 * this.scaleratio
               );
             }
           }
