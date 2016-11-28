@@ -18,6 +18,7 @@ N/A | React Material Drawer | 1200/1300 | Defined by material-ui
 `.background-gradient` | Shadow at top of map | 801 |
 `.map-click-prevent-overlay` | Overlay to prevent interaction with map | 801 |
 `.itinerary-feedback-container .form-container` | Itinerary feedback form | 800 | Component not in use
+`#page-footer-container` | Frontpage footer | 800
 `.trip-from, .trip-to` | Route schedule times | 1 |
 `.route-stop { div { .route-now-content { svg` | Selected trip icon with tail | 1 |
 `.origin-destination-bar { .field-link { span:first-child { &::before` | Summary search bar from/to marker letters | 1 | Could be removed through new icon components
