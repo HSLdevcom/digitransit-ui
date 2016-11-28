@@ -29,8 +29,8 @@ function SelectTerminalRow(props) {
 
   return (
     <div className="no-margin">
-      <div className="no-margin cursor-pointer" onClick={props.selectRow}>
-        <div className="left padding-vertical-small select-row-icon">
+      <div className="cursor-pointer select-row" onClick={props.selectRow}>
+        <div className="padding-vertical-normal select-row-icon">
           <Icon img={`icon-icon_${props.type.toLowerCase()}`} />
         </div>
         <div className="padding-vertical-normal select-row-text">
