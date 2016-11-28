@@ -6,7 +6,7 @@ function SelectCityBikeRow(props) {
   return (
     <div className="no-margin">
       <div className="cursor-pointer select-row" onClick={props.selectRow}>
-        <div className="padding-vertical-small select-row-icon">
+        <div className="padding-vertical-normal select-row-icon">
           <Icon img="icon-icon_citybike" />
         </div>
         <div className="padding-vertical-normal select-row-text">
