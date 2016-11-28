@@ -222,7 +222,11 @@ export default function (req, res, next) {
       Promise.all(promises).then(results =>
         res.send(`<!doctype html>${getHtml(context, locale, results, req)}`)
       ).catch((err) => {
-        if (err) { next(err); }
+        console.log('Ignoring Relay error and serving without relay data', err);
+        // send ithout relay data...
+        getPolyfills(req.headers['user-agent']).then((polyfills) => {
+          res.send(`<!doctype html>${getHtml(context, locale, [polyfills, { data: [] }], req)}`);
+        });
       });
     }
   });
