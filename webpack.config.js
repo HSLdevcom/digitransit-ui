@@ -42,7 +42,10 @@ function getRulesConfig(env) {
         options: {
           // loose is needed by older Androids < 4.3 and IE10
           presets: [['latest', { es2015: { loose: true, modules: false } }], 'react', 'stage-2'],
-          plugins: [path.join(__dirname, 'build/babelRelayPlugin')],
+          plugins: [
+            'transform-system-import-commonjs',
+            path.join(__dirname, 'build/babelRelayPlugin'),
+          ],
           ignore: [
             'app/util/piwik.js',
           ],
