@@ -121,7 +121,6 @@ $search-header-height: 45px;
 
       .search-header__button, .search-header__button--selected {
         font-size: 18px !important;
-        height: 60px !important;
       }
 
       .geolocation {
@@ -198,7 +197,7 @@ $search-header-height: 45px;
 }
 
 .react-autowhatever__type-selector {
-  font-size: 11px;
+  font-size: $font-size-xxsmall;
   line-height: 1;
   display: flex;
   flex: 0 0 auto;
@@ -308,7 +307,7 @@ ul.react-autowhatever__items-list {
     color: $medium-gray;
     padding-left: 3px;
     padding-right: 10px;
-    font-size: 19px;
+    font-size: $font-size-large;
 
     svg.havePosition {
       vertical-align: -0.15em;
@@ -327,11 +326,11 @@ ul.react-autowhatever__items-list {
   }
 
   .suggestion-name, .use-own-position {
-    font-size: 13px;
+    font-size: $font-size-small;
   }
 
   .suggestion-label {
-    font-size: 11px;
+    font-size: $font-size-xxsmall;
     color: $gray;
   }
 }
@@ -413,8 +412,6 @@ div.origin-destination-bar {
 }
 
 .search-header {
-  line-height: $search-header-height;
-  height: 100%;
   overflow: hidden;
 
   .search-header__category-text {
@@ -428,8 +425,8 @@ div.origin-destination-bar {
   .search-header__back-arrow {
     position: absolute;
     color: $gray-blue;
-    width: 30px;
     user-select: none;
+    line-height: 55px;
   }
 
   .search-header__button, .search-header__button--selected {
@@ -437,7 +434,6 @@ div.origin-destination-bar {
     letter-spacing: -0.025em;
     font-size: $font-size-small !important;
     font-weight: $font-weight-bold !important;
-    height: $search-header-height !important;
 
     &:first-child {
       @extend .overflow-fade;
@@ -539,7 +535,7 @@ div.origin-destination-bar {
 
 .search-current-origin-tip {
   @include font-book;
-  font-size: 10px;
+  font-size: $font-size-xxxsmall;
   text-transform: none;
 
   svg.icon {
