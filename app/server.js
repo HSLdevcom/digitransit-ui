@@ -157,7 +157,6 @@ function getHtml(context, locale, [polyfills, relayData], req) {
   // eslint-disable-next-line no-unused-vars
   const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent']) : undefined;
   const head = Helmet.rewind();
-
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
       css={process.env.NODE_ENV === 'development' ? false : css}
@@ -211,10 +210,8 @@ export default function (req, res, next) {
     } else {
       const promises = [
         getPolyfills(req.headers['user-agent']),
-        IsomorphicRouter.prepareData(renderProps, networkLayer).catch((e) => {
-          console.warn('Ignoring Relay error and serving without relay data. relay error:', e);
-          return null;
-        }),
+        // Isomorphic rendering is ok to fail due timeout
+        IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];
 
       if (renderProps.routes[1] && renderProps.routes[1].loadAction) {
