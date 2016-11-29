@@ -81,7 +81,7 @@
     "point-in-polygon": "1.0.1",
     "polyfill-service": "3.14.0",
     "polyline-encoded": "0.0.8",
-    "raven": "0.12.2",
+    "raven": "0.12.3",
     "raven-js": "3.8.1",
     "react": "15.4.1",
     "react-addons-css-transition-group": "15.4.1",
