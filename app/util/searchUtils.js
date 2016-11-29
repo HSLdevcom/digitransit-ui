@@ -1,4 +1,5 @@
 
+
 import Relay from 'react-relay';
 
 import get from 'lodash/get';
@@ -97,12 +98,9 @@ function getOldSearches(oldSearches, input, dropLayers) {
       'properties.desc',
     ]);
 
-  if (dropLayers) {
+  if (dropLayers) { // don't want these
     matchingOldSearches = matchingOldSearches.filter(
-      item => {
-        console.log('***', item, dropLayers);
-        return(dropLayers.indexOf(item.properties.layer) === -1);
-      }
+      item => (dropLayers.indexOf(item.properties.layer) === -1)
     );
   }
 
