@@ -13,9 +13,10 @@ export default class BackButton extends React.Component {
   // See: https://github.com/zilverline/react-tap-event-plugin/issues/14
   // This should be removed either when we change how pages are rendered or
   // When react-tap-plugin works better
+  // window.navigator.standalone check ios app mode
   goBack = () => {
     setTimeout(() => {
-      if (window.history.length > 1) {
+      if (window.navigator.standalone || window.history.length > 1) {
         this.context.router.goBack();
       } else {
         this.context.router.push('/');

@@ -37,7 +37,7 @@ export default function getMetadata(lang) {
       content: 'yes',
     }, {
       name: 'apple-mobile-web-app-capable',
-      content: 'no',
+      content: 'yes',
     }, {
       name: 'msapplication-config',
       content: `${root}/browserconfig.${configPath}.xml`,
