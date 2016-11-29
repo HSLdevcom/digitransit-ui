@@ -62,16 +62,18 @@ class CustomizeSearch extends React.Component {
 
     if (!availableStreetModes.length) return null;
 
-    const streetModeToggleButtons = [];
-
-    availableStreetModes.forEach((streetMode, index) => {
+    return availableStreetModes.map((streetMode, index) => {
       let btnClass = '';
 
-      if (index === 0) btnClass = 'first-btn';
+      if (index === 0) {
+        btnClass = 'first-btn';
+      }
 
-      if (index === availableStreetModes.length - 1) btnClass = 'last-btn';
+      if (index === availableStreetModes.length - 1) {
+        btnClass = 'last-btn';
+      }
 
-      streetModeToggleButtons.push(
+      return (
         <ToggleButton
           key={`toggle-button${index}`}
           icon={config.streetModes[streetMode].icon}
@@ -82,7 +84,6 @@ class CustomizeSearch extends React.Component {
         />
       );
     });
-    return streetModeToggleButtons;
   }
 
   getWalkReluctanceSlider = () => {
