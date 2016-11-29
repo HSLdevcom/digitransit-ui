@@ -128,11 +128,12 @@ $heading-color: #858585;
   padding: 0px;
   margin: 0px;
   height: 50px;
-  border-top: 1px solid $light-gray;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 
   &.bp-large {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    border-top: none;
   }
 
   li {
@@ -144,6 +145,8 @@ $heading-color: #858585;
     position: relative;
     border-bottom: 1px solid $light-gray;
     text-align: center;
+    font-size: $font-size-normal;
+    line-height: 50px;
 
     &:nth-child(2) {
       border-left: 1px solid $light-gray;
@@ -166,11 +169,6 @@ $heading-color: #858585;
       }
     }
 
-    .label {
-      font-size: $font-size-normal;
-      line-height: 50px;
-    }
-
     &.bp-large {
 
       &:nth-child(1) {
@@ -186,7 +184,7 @@ $heading-color: #858585;
         content: '';
         height: 3px;
         position: absolute;
-        top: -1px;
+        top: 0px;
         left: 15px;
         width: 140px;
         z-index: 1;
