@@ -168,7 +168,8 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   piwik.setCustomVariable(4, 'commit_id', COMMIT_ID, 'visit');
   piwik.setCustomVariable(5, 'build_time', BUILD_TIME, 'visit');
 
-  if (process.env.NODE_ENV === 'production') {
+  // Roun only in production mode and when built in a docker container
+  if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
     OfflinePlugin.install();
   }
 });
