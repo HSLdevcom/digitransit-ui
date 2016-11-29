@@ -6,9 +6,10 @@ module.exports = {
     const messagebar = browser.page.messageBar();
     messagebar.close();
 
-    browser.debug('Waiting a while for tiles to load');
-    browser.pause(5000);
     const marker = browser.page.marker();
+    browser.debug('Waiting a while for tiles to load');
+    marker.waitForVectorLayerLoaded();
+    browser.pause(1000);
     marker.clickSouthOfCurrentLocation();
     marker.waitForPopupPaneHeaderVisible();
     browser.debug('Popup should have loaded by now');
