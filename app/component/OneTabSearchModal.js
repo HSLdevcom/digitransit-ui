@@ -25,6 +25,7 @@ class OneTabSearchModal extends React.Component {
     modalIsOpen: React.PropTypes.oneOfType(
       [React.PropTypes.bool, React.PropTypes.string]).isRequired,
     target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
+    layers: React.PropTypes.array,
   };
 
   componentDidUpdate() {
@@ -76,6 +77,7 @@ class OneTabSearchModal extends React.Component {
             useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
             initialValue={this.props.initialValue}
             type="endpoint"
+            layers={this.props.layers}
             onSuggestionSelected={
               this.props.customOnSuggestionSelected || this.onSuggestionSelected}
             close={this.props.closeModal}

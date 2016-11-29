@@ -29,6 +29,7 @@ export default class SearchInputContainer extends Component {
     children: PropTypes.node,
     close: PropTypes.func.isRequired,
     sections: PropTypes.bool,
+    layers: React.PropTypes.array,
   };
 
   state = {
@@ -42,6 +43,7 @@ export default class SearchInputContainer extends Component {
     executeSearchImmediate(this.context.getStore, {
       input: '',
       type: this.props.type,
+      layers: this.props.layers,
     }, this.onSearchChange);
   }
 
@@ -164,6 +166,7 @@ export default class SearchInputContainer extends Component {
     executeSearch(this.context.getStore, {
       input: event.target.value,
       type: this.props.type,
+      layers: this.props.layers,
     }, this.onSearchChange);
   }
 

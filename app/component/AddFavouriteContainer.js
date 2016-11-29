@@ -5,11 +5,13 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
+import without from 'lodash/without';
 import Icon from './Icon';
 import FavouriteIconTable from './FavouriteIconTable';
 import { addFavouriteLocation, deleteFavouriteLocation } from '../action/FavouriteActions';
 import FakeSearchBar from './FakeSearchBar';
 import OneTabSearchModal from './OneTabSearchModal';
+import { getAllEndpointLayers } from '../util/searchUtils';
 
 class AddFavouriteContainer extends React.Component {
   static contextTypes = {
@@ -100,6 +102,7 @@ class AddFavouriteContainer extends React.Component {
     });
 
     const favourite = this.state.favourite;
+    const favouriteLayers = without(getAllEndpointLayers(), 'FavouritePlace');
 
     return (<div className="fullscreen">
       <div className="add-favourite-container">
@@ -200,6 +203,7 @@ class AddFavouriteContainer extends React.Component {
         modalIsOpen={this.state.searchModalIsOpen}
         closeModal={this.closeSearchModal}
         customTabLabel={searchTabLabel}
+        layers={favouriteLayers}
         initialValue=""
         customOnSuggestionSelected={(name, item) => {
           this.setCoordinatesAndAddress(name, item);

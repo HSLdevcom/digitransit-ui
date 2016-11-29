@@ -1,10 +1,11 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
-
+import without from 'lodash/without';
 import { swapEndpoints } from '../action/EndpointActions';
 import Icon from './Icon';
 import OneTabSearchModal from './OneTabSearchModal';
+import { getAllEndpointLayers } from '../util/searchUtils';
 
 class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -72,6 +73,13 @@ class OriginDestinationBar extends React.Component {
       defaultMessage: 'Your current location',
     });
 
+    let searchLayers = getAllEndpointLayers();
+
+    // don't offer current pos if it is already used as a route end point
+    if ((this.state.origin && this.state.origin.useCurrentPosition) ||
+        (this.state.destination && this.state.destination.useCurrentPosition)) {
+      searchLayers = without(searchLayers, 'CurrentPosition');
+    }
 
     let initialValue = '';
     if (this.state[this.state.tabOpen]) {
@@ -103,6 +111,7 @@ class OriginDestinationBar extends React.Component {
           modalIsOpen={this.state.tabOpen}
           closeModal={this.closeModal}
           initialValue={initialValue}
+          layers={searchLayers}
           endpoint={this.state[this.state.tabOpen]}
           target={this.state.tabOpen}
         />
