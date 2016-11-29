@@ -152,6 +152,7 @@ $heading-color: #858585;
 
     .icon {
       color: $primary-color;
+      vertical-align: top;
 
       &.nearby-icon {
         width: 31px;
@@ -162,6 +163,10 @@ $heading-color: #858585;
         width: 23px;
         height: 23px;
       }
+    }
+
+    .label {
+      font-size: $font-size-normal;
     }
 
     &.bp-large {
@@ -201,7 +206,6 @@ $heading-color: #858585;
       }
 
       .label {
-        font-size: $font-size-normal;
         float: left;
         margin-left: 2px;
         margin-top: 3px;
