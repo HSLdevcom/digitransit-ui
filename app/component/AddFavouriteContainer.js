@@ -47,7 +47,7 @@ class AddFavouriteContainer extends React.Component {
 
   setCoordinatesAndAddress = (name, location) => {
     let address = name;
-    if(location.type === 'CurrentLocation') {
+    if (location.type === 'CurrentLocation') {
       const position = this.context.getStore('PositionStore').getLocationState();
       if (position.address.length > 0) {
         address = position.address;
@@ -56,7 +56,7 @@ class AddFavouriteContainer extends React.Component {
     this.setState({ favourite: { ...this.state.favourite,
       lat: location.geometry.coordinates[1],
       lon: location.geometry.coordinates[0],
-      address: address,
+      address,
     } });
   };
 
