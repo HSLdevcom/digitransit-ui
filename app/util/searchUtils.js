@@ -73,8 +73,9 @@ function filterMatchingToInput(list, input, fields) {
   return list;
 }
 
-function getCurrentPositionIfEmpty(input, useCurrentPosition) {
-  if (!useCurrentPosition && (typeof input !== 'string' || input.length === 0)) {
+
+function getCurrentPositionIfEmpty(input) {
+  if (typeof input !== 'string' || input.length === 0) {
     return Promise.resolve([{
       type: 'CurrentLocation',
       properties: { labelId: 'own-position', layer: 'currentPosition' },
