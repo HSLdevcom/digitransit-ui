@@ -9,13 +9,13 @@ function clickSouthOfCurrentLocation() {
 }
 
 function waitForVectorLayerLoaded() {
-  this.waitForElementVisible(
+  this.waitForElementPresent(
     '.leaflet-layer canvas.leaflet-tile-loaded',
-    this.globals.elementVisibleTimeout
+    this.api.globals.elementVisibleTimeout
   );
   return this.waitForElementNotPresent(
     '.leaflet-layer canvas.leaflet-tile:not(.leaflet-tile-loaded)',
-    this.globals.elementVisibleTimeout
+    this.api.globals.elementVisibleTimeout
   );
 }
 
