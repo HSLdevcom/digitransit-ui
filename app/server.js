@@ -8,7 +8,7 @@ import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
-import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware } from 'react-relay-network-layer';
+import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware, retryMiddleware } from 'react-relay-network-layer';
 import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
 
 // Libraries
@@ -46,6 +46,7 @@ const svgSprite = fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}
 const geolocationStarter = fs.readFileSync(`${appRoot}_static/geolocation.js`).toString();
 
 const networkLayer = new RelayNetworkLayer([
+  retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
   urlMiddleware({
     url: `${config.URL.OTP}index/graphql`,
     batchUrl: `${config.URL.OTP}index/graphql/batch`,
@@ -210,7 +211,10 @@ export default function (req, res, next) {
     } else {
       const promises = [
         getPolyfills(req.headers['user-agent']),
-        IsomorphicRouter.prepareData(renderProps, networkLayer),
+        IsomorphicRouter.prepareData(renderProps, networkLayer).catch((e) => {
+          console.warn('Ignoring Relay error and serving without relay data. relay error:', e);
+          return null;
+        }),
       ];
 
       if (renderProps.routes[1] && renderProps.routes[1].loadAction) {
@@ -222,11 +226,7 @@ export default function (req, res, next) {
       Promise.all(promises).then(results =>
         res.send(`<!doctype html>${getHtml(context, locale, results, req)}`)
       ).catch((err) => {
-        console.warn('Ignoring Relay error and serving without relay data', err);
-        // send without relay data...
-        getPolyfills(req.headers['user-agent']).then((polyfills) => {
-          res.send(`<!doctype html>${getHtml(context, locale, [polyfills, null], req)}`);
-        }).catch((ee) => { console.error('Could not send without relay data:', ee); });
+        if (err) { next(err); }
       });
     }
   });
