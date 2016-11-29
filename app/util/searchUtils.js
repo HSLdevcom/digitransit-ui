@@ -1,3 +1,4 @@
+
 import Relay from 'react-relay';
 
 import get from 'lodash/get';
@@ -85,8 +86,8 @@ function getCurrentPositionIfEmpty(input) {
   return Promise.resolve([]);
 }
 
-function getOldSearches(oldSearches, input) {
-  const matchingOldSearches =
+function getOldSearches(oldSearches, input, dropLayers) {
+  let matchingOldSearches =
     filterMatchingToInput(oldSearches, input, [
       'properties.name',
       'properties.label',
@@ -95,6 +96,15 @@ function getOldSearches(oldSearches, input) {
       'properties.name',
       'properties.desc',
     ]);
+
+  if (dropLayers) {
+    matchingOldSearches = matchingOldSearches.filter(
+      item => {
+        console.log('***', item, dropLayers);
+        return(dropLayers.indexOf(item.properties.layer) === -1);
+      }
+    );
+  }
 
   return Promise.resolve(
     take(matchingOldSearches, 10).map(item => ({
@@ -259,29 +269,48 @@ function getStops(input, origin) {
   )).then(suggestions => take(suggestions, 10));
 }
 
-export function executeSearchImmediate(getStore, { input, type }, callback) {
+export const getAllEndpointLayers = () => (
+  ['CurrentPosition', 'FavouritePlace', 'OldSearch', 'Geocoding']
+);
+
+
+export function executeSearchImmediate(getStore, { input, type, layers }, callback) {
   const position = getStore('PositionStore').getLocationState();
-  let endpoitSearches = [];
+  let endpointSearches = [];
   let searchSearches = [];
+  const endpointLayers = layers || getAllEndpointLayers();
 
   if (type === 'endpoint' || type === 'all') {
-    const origin = getStore('EndpointStore').getOrigin();
     const favouriteLocations = getStore('FavouriteLocationStore').getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
     const language = getStore('PreferencesStore').getLanguage();
+    const searchComponents = [];
 
-    endpoitSearches = Promise.all([
-      getCurrentPositionIfEmpty(input, origin.useCurrentPosition),
-      getFavouriteLocations(favouriteLocations, input),
-      getOldSearches(oldSearches, input),
-      getGeocodingResult(input, position, language),
-    ])
+    if (endpointLayers.indexOf('CurrentPosition') !== -1 && position.hasLocation) {
+      searchComponents.push(getCurrentPositionIfEmpty(input));
+    }
+    if (endpointLayers.indexOf('FavouritePlace') !== -1) {
+      searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+    }
+    if (endpointLayers.indexOf('OldSearch') !== -1) {
+      let dropLayers;
+      // old searches should also obey the layers definition
+      if (endpointLayers.indexOf('FavouritePlace') === -1) {
+        dropLayers = ['favouritePlace'];
+      }
+      searchComponents.push(getOldSearches(oldSearches, input, dropLayers));
+    }
+    if (endpointLayers.indexOf('Geocoding') !== -1) {
+      searchComponents.push(getGeocodingResult(input, position, language));
+    }
+
+    endpointSearches = Promise.all(searchComponents)
     .then(flatten)
     .then(uniqByLabel)
     .catch(err => console.error(err)); // eslint-disable-line no-console
 
     if (type === 'endpoint') {
-      endpoitSearches.then(callback);
+      endpointSearches.then(callback);
       return;
     }
   }
@@ -310,7 +339,7 @@ export function executeSearchImmediate(getStore, { input, type }, callback) {
     }
   }
 
-  Promise.all([endpoitSearches, searchSearches])
+  Promise.all([endpointSearches, searchSearches])
     .then(([endpoints, search]) => callback([
       { name: 'endpoint', items: endpoints },
       { name: 'search', items: search },
