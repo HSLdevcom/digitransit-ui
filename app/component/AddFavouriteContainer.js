@@ -18,6 +18,7 @@ class AddFavouriteContainer extends React.Component {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -44,12 +45,20 @@ class AddFavouriteContainer extends React.Component {
     (['icon-icon_place', 'icon-icon_home', 'icon-icon_work', 'icon-icon_sport',
       'icon-icon_school', 'icon-icon_shopping']);
 
-  setCoordinatesAndAddress = (name, location) => (
+  setCoordinatesAndAddress = (name, location) => {
+    let address = name;
+    if(location.type === 'CurrentLocation') {
+      const position = this.context.getStore('PositionStore').getLocationState();
+      if (position.address.length > 0) {
+        address = position.address;
+      }
+    }
     this.setState({ favourite: { ...this.state.favourite,
       lat: location.geometry.coordinates[1],
       lon: location.geometry.coordinates[0],
-      address: name,
-    } }));
+      address: address,
+    } });
+  };
 
   isEdit = () => this.props.favourite !== undefined && this.props.favourite.id !== undefined;
 
