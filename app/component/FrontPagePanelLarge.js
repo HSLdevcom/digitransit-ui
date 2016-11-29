@@ -20,12 +20,10 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
     <div className={'fpcfloat no-select'}>
       <ul className="tabs-row bp-large cursor-pointer">
         <NearbyTabLabel
-          showLabel
           classes={cx(tabClasses, nearbyClasses)}
           onClick={nearbyClicked}
         />
         <FavouritesTabLabelContainer
-          showLabel
           classes={cx(tabClasses, favouritesClasses)}
           onClick={favouritesClicked}
         />

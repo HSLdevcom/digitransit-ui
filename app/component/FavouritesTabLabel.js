@@ -6,21 +6,18 @@ import IconWithCaution from './IconWithCaution';
 export default function FavouritesTabLabel({ hasDisruption, classes, onClick, showLabel }) {
   return (
     <li className={classes} onClick={onClick}>
-      {hasDisruption ?
-        <IconWithCaution
-          className="prefix-icon favourites-icon"
-          img="icon-icon_star"
-        /> :
-          <Icon
+      <span className="label">
+        {hasDisruption ?
+          <IconWithCaution
             className="prefix-icon favourites-icon"
             img="icon-icon_star"
-          />}
-      {showLabel ?
-        <span className="label">
-          <FormattedMessage id="your-favourites" defaultMessage="Favourites" />
-        </span> :
-        null
-      }
+          /> :
+            <Icon
+              className="prefix-icon favourites-icon"
+              img="icon-icon_star"
+            />}
+        <FormattedMessage id="your-favourites" defaultMessage="Favourites" />
+      </span>
     </li>
   );
 }

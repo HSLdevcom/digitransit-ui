@@ -137,7 +137,6 @@ $heading-color: #858585;
 
   li {
     background: $white;
-    padding-top: 12px;
     list-style: none;
     height: 100%;
     width: 100%;
@@ -152,24 +151,28 @@ $heading-color: #858585;
 
     .icon {
       color: $primary-color;
-      vertical-align: top;
+      vertical-align: middle;
 
       &.nearby-icon {
         width: 31px;
         height: 27px;
+        margin-top: 2px;
       }
 
       &.favourites-icon {
         width: 23px;
         height: 23px;
+        margin-top: 0px;
       }
     }
 
     .label {
       font-size: $font-size-normal;
+      line-height: 50px;
     }
 
     &.bp-large {
+
       &:nth-child(1) {
         border-top-left-radius: 8px;
       }
@@ -190,25 +193,19 @@ $heading-color: #858585;
       }
 
       .icon {
-        color: $primary-color;
-        float: left;
-        margin-left: 26px;
+        vertical-align: middle;
 
         &.nearby-icon {
           width: 26px;
           height: 26px;
+          margin-top: 0px;
         }
 
         &.favourites-icon {
           width: 20px;
           height: 20px;
+          margin-top: -4px;
         }
-      }
-
-      .label {
-        float: left;
-        margin-left: 2px;
-        margin-top: 3px;
       }
     }
 

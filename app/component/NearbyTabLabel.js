@@ -6,16 +6,13 @@ import Icon from './Icon';
 export default function NearbyTabLabel({ classes, onClick, showLabel }) {
   return (
     <li className={classes} onClick={onClick}>
-      <Icon
-        className="prefix-icon nearby-icon"
-        img="icon-icon_nearby"
-      />
-      {showLabel ?
-        <span className="label">
-          <FormattedMessage id="near-you" defaultMessage="Near you" />
-        </span> :
-        null
-      }
+      <span className="label">
+        <Icon
+          className="prefix-icon nearby-icon"
+          img="icon-icon_nearby"
+        />
+        <FormattedMessage id="near-you" defaultMessage="Near you" />
+      </span>
     </li>
   );
 }

@@ -11,8 +11,8 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
    favouritesClicked, closePanel, children }) => {
   let heading;
   const tabClasses = ['hover'];
-  const nearbyClasses = ['nearby-routes'];
-  const favouritesClasses = ['favourites'];
+  const nearbyClasses = ['nearby-routes', 'h4'];
+  const favouritesClasses = ['favourites', 'h4'];
 
   if (selectedPanel === 1) {
     heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
@@ -47,12 +47,10 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
       </ReactCSSTransitionGroup>
       <ul className="tabs-row cursor-pointer">
         <NearbyTabLabel
-          showLabel
           classes={cx(tabClasses, nearbyClasses)}
           onClick={nearbyClicked}
         />
         <FavouritesTabLabelContainer
-          showLabel
           classes={cx(tabClasses, favouritesClasses)}
           onClick={favouritesClicked}
         />
