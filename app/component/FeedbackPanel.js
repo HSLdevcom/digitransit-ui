@@ -18,6 +18,14 @@ class FeedbackPanel extends React.Component {
     piwik: React.PropTypes.object,
   };
 
+  static propTypes = {
+    onClose: React.PropTypes.func,
+  }
+
+  static defaultProps= {
+    onClose: () => {},
+  }
+
   static isInitialState(state) {
     return (
       state.selectedNPS === undefined &&
@@ -45,7 +53,6 @@ class FeedbackPanel extends React.Component {
   componentWillUnmount() {
     this.context.getStore('FeedbackStore').removeChangeListener(this.onFeedbackModalChange);
   }
-
 
   onFeedbackModalChange = () => this.forceUpdate();
 
@@ -77,7 +84,6 @@ class FeedbackPanel extends React.Component {
     });
   }
 
-
   sendAll = () => {
     recordResult(
       this.context.piwik,
@@ -95,6 +101,7 @@ class FeedbackPanel extends React.Component {
 
     recordResult(this.context.piwik, this.context.getStore('TimeStore').getCurrentTime().valueOf());
 
+    this.props.onClose();
     return this.setState({
       selectedNPS: undefined,
       useThisMoreLikely: undefined,
