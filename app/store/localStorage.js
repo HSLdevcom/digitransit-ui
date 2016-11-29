@@ -105,3 +105,11 @@ export function setPositioningHasSucceeded(state) {
 export function getPositioningHasSucceeded() {
   return getItemAsJson('positioningSuccesful', '{ "state": false }').state;
 }
+
+export function setHistory(history) {
+  setItem('history', history);
+}
+
+export function getHistory() {
+  return getItemAsJson('history', '["/"]');
+}
