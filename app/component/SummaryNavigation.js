@@ -74,17 +74,17 @@ class SummaryNavigation extends React.Component {
     this.internalSetOffcanvas(!this.getOffcanvasState());
   }
 
+  customizeSearchModules = {
+    Drawer: () => importLazy(System.import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
+  }
+
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
 
     return (
       <section>
-        <LazilyLoad
-          modules={{
-            Drawer: () => importLazy(System.import('material-ui/Drawer')),
-            CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
-          }}
-        >
+        <LazilyLoad modules={this.customizeSearchModules} >
           {({ Drawer, CustomizeSearch }) => (
             <Drawer
               className="offcanvas"

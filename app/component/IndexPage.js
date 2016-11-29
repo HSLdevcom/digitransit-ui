@@ -9,14 +9,18 @@ import SearchMainContainer from './SearchMainContainer';
 import config from '../config';
 import PageFooter from './PageFooter';
 
+const feedbackPanelMudules = { Panel: () => importLazy(System.import('./FeedbackPanel')) };
+
 const feedbackPanel = (
-  <LazilyLoad modules={{ Panel: () => importLazy(System.import('./FeedbackPanel')) }} >
+  <LazilyLoad modules={feedbackPanelMudules} >
     {({ Panel }) => <Panel />}
   </LazilyLoad>
 );
 
+const messageBarModules = { Bar: () => importLazy(System.import('./MessageBar')) };
+
 const messageBar = (
-  <LazilyLoad modules={{ Bar: () => importLazy(System.import('./MessageBar')) }} >
+  <LazilyLoad modules={messageBarModules} >
     {({ Bar }) => <Bar />}
   </LazilyLoad>
 );

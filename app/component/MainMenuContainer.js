@@ -49,15 +49,15 @@ class MainMenuContainer extends Component {
     this.toggleOffcanvas();
   }
 
+  mainMenuModules = {
+    Drawer: () => importLazy(System.import('material-ui/Drawer')),
+    MainMenu: () => importLazy(System.import('./MainMenu')),
+  }
+
   render() {
     return (
       <div>
-        <LazilyLoad
-          modules={{
-            Drawer: () => importLazy(System.import('material-ui/Drawer')),
-            MainMenu: () => importLazy(System.import('./MainMenu')),
-          }}
-        >
+        <LazilyLoad modules={this.mainMenuModules}>
           {({ Drawer, MainMenu }) => (
             <Drawer
               className="offcanvas"
