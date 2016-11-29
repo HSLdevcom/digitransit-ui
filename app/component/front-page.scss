@@ -114,10 +114,6 @@ $heading-color: #858585;
       position: relative;
     }
   }
-
-  > ul > li.selected {
-    color: $primary-color;
-  }
 }
 
 .tabs-row {
@@ -143,7 +139,6 @@ $heading-color: #858585;
     width: 100%;
     color: $primary-color;
     position: relative;
-    border-bottom: 1px solid $light-gray;
     text-align: center;
     font-size: $font-size-normal;
     line-height: 50px;
@@ -170,6 +165,7 @@ $heading-color: #858585;
     }
 
     &.bp-large {
+      border-bottom: 1px solid $light-gray;
 
       &:nth-child(1) {
         border-top-left-radius: 8px;
@@ -220,8 +216,9 @@ $heading-color: #858585;
 
     &.selected {
       background-color: $background-color;
+      color: $black;
       border-bottom: none;
-      .icon, .label {
+      .icon {
         color: $black;
       }
     }
