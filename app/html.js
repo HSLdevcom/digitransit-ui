@@ -26,9 +26,9 @@ const Application = (
       {css}
     </head>
     <body>
-      <div style={{ visibility: 'hidden' }} dangerouslySetInnerHTML={{ __html: svgSprite }} />
-      <div id="app" style={{ height: '100%' }} dangerouslySetInnerHTML={{ __html: content }} />
       <script dangerouslySetInnerHTML={{ __html: polyfill }} />
+      {svgSprite}
+      <div id="app" style={{ height: '100%' }} dangerouslySetInnerHTML={{ __html: content }} />
       <script dangerouslySetInnerHTML={{ __html: state }} />
       <script dangerouslySetInnerHTML={{ __html: config }} />
       <script dangerouslySetInnerHTML={{ __html: `window.locale="${locale}"` }} />
@@ -45,7 +45,7 @@ const Application = (
 Application.propTypes = {
   fonts: React.PropTypes.string,
   geolocationStarter: React.PropTypes.string,
-  svgSprite: React.PropTypes.string,
+  svgSprite: React.PropTypes.node,
   css: React.PropTypes.node,
   content: React.PropTypes.string,
   polyfill: React.PropTypes.string,

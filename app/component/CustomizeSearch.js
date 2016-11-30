@@ -3,6 +3,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import range from 'lodash/range';
 import xor from 'lodash/xor';
 import without from 'lodash/without';
+import cx from 'classnames';
 
 import Icon from './Icon';
 import Slider from './Slider';
@@ -54,6 +55,26 @@ class CustomizeSearch extends React.Component {
       ...Object.keys(config.streetModes)
           .filter(mode => config.streetModes[mode].defaultValue).map(mode => mode.toUpperCase()),
     ];
+  }
+
+  getStreetModesToggleButtons = () => {
+    const availableStreetModes = Object.keys(config.streetModes)
+      .filter(streetMode => config.streetModes[streetMode].availableForSelection);
+
+    if (!availableStreetModes.length) return null;
+
+    return availableStreetModes.map((streetMode, index) => (
+      <ToggleButton
+        key={`toggle-button${index}`}
+        icon={config.streetModes[streetMode].icon}
+        onBtnClick={() => this.toggleStreetMode(streetMode)}
+        state={this.getMode(streetMode)}
+        checkedClass={streetMode}
+        className={cx('small-4',
+          { 'first-btn': index === 0, 'last-btn': index === availableStreetModes.length - 1 }
+        )}
+      />
+    ));
   }
 
   getWalkReluctanceSlider = () => {
@@ -311,26 +332,7 @@ class CustomizeSearch extends React.Component {
           <section className="offcanvas-section">
             <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
             <div className="row btn-bar">
-              <ToggleButton
-                icon="walk"
-                onBtnClick={() => this.toggleStreetMode('walk')}
-                state={this.getMode('walk')}
-                checkedClass="walk"
-                className="first-btn small-4"
-              />
-              <ToggleButton
-                icon="bicycle-withoutBox"
-                onBtnClick={() => this.toggleStreetMode('bicycle')}
-                state={this.getMode('bicycle')}
-                checkedClass="bicycle"
-                className=" small-4"
-              />
-              <ToggleButton
-                icon="car-withoutBox"
-                onBtnClick={() => this.toggleStreetMode('car')}
-                state={this.getMode('car')}
-                checkedClass="car" className="last-btn small-4"
-              />
+              {this.getStreetModesToggleButtons()}
             </div>
           </section>
 

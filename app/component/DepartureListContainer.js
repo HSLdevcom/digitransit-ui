@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import moment from 'moment';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Departure from './Departure';

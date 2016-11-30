@@ -32,6 +32,10 @@ class RouteStopListContainer extends React.Component {
     }
   }
 
+  componentWillReceiveProps({ relay, currentTime }) {
+    relay.setVariables({ currentTime: currentTime.unix() });
+  }
+
   getStops() {
     const position = this.props.position;
     const stops = this.props.pattern.stops;
@@ -108,6 +112,7 @@ export default Relay.createContainer(
   {
     initialVariables: {
       patternId: null,
+      currentTime: 0,
     },
     fragments: {
       pattern: () => Relay.QL`
@@ -117,7 +122,7 @@ export default Relay.createContainer(
             mode
           }
           stops {
-            stopTimesForPattern(id: $patternId) {
+            stopTimesForPattern(id: $patternId, startTime: $currentTime) {
               realtime
               realtimeState
               realtimeDeparture

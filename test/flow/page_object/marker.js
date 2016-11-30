@@ -8,6 +8,17 @@ function clickSouthOfCurrentLocation() {
   this.api.mouseButtonClick();
 }
 
+function waitForVectorLayerLoaded() {
+  this.waitForElementPresent(
+    '.leaflet-layer canvas.leaflet-tile-loaded',
+    this.api.globals.elementVisibleTimeout
+  );
+  return this.waitForElementNotPresent(
+    '.leaflet-layer canvas.leaflet-tile:not(.leaflet-tile-loaded)',
+    this.api.globals.elementVisibleTimeout
+  );
+}
+
 function waitForPopupPaneHeaderVisible() {
   return this.waitForElementVisible('@popupPaneHeader',
                                     this.api.globals.itinerarySearchTimeout);
@@ -17,6 +28,7 @@ module.exports = {
   commands: [{
     clickSouthOfCurrentLocation,
     waitForPopupPaneHeaderVisible,
+    waitForVectorLayerLoaded,
   }],
   elements: {
     currentLocationMarker: {
