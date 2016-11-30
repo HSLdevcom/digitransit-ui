@@ -193,6 +193,35 @@ export default class SearchInputContainer extends Component {
     this.focus();
   };
 
+  findItemsOrRenderEmpty(children) {
+    if (this.state.suggestions.length === 0) {
+      return (
+        <ul className="search-no-results">
+          <li>
+            <div className="spinner-loader" />
+          </li>
+        </ul>
+      );
+    }
+
+    if (children === null) {
+      let text = <FormattedMessage id="search-no-results" defaultMessage="Could not find anything." />;
+      if (this.state.suggestions[0].items.length > 0) {
+        text = <FormattedMessage id="search-destination-results-but-no-search" defaultMessage="See results from 'Destination'" />;
+      } else if (this.state.suggestions[1].items.length > 0) {
+        text = <FormattedMessage id="search-search-results-but-no-destination" defaultMessage="See results from 'Route, stop or keyword'" />;
+      }
+      return (
+        <ul className="search-no-results">
+          <li>
+            {text}
+          </li>
+        </ul>
+      );
+    }
+    return children;
+  }
+
   renderMultiWrapper = ({ children, ...rest }) => (
     <div {...rest} >
       <div className="react-autowhatever__type-selector">
@@ -221,7 +250,7 @@ export default class SearchInputContainer extends Component {
           )}
         </a>
       </div>
-      {children}
+      {this.findItemsOrRenderEmpty(children)}
     </div>
   )
 

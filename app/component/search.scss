@@ -253,6 +253,17 @@ ul.react-autowhatever__items-list {
   }
 }
 
+.search-no-results {
+  @extend .react-autowhatever__items-list;
+  height: 200px;
+  li {
+    text-align: center;
+    font-weight: normal;
+    line-height: 90px;
+    padding-top: 35px;
+  }
+}
+
 .react-autowhatever__item {
   font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
