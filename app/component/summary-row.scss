@@ -1,6 +1,6 @@
 .itinerary-summary-row {
-  min-height: 46px;
-  padding-left: 10px;
+  min-height: 3.3em;
+  padding-left: $padding-medium;
   padding-right: 0;
   padding-top: 0;
   padding-bottom: 0;
@@ -64,7 +64,7 @@
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
-      font-size: small;
+      font-size: $font-size-xsmall;
       margin-top: -1px;
       margin-right: -7px;
       font-weight: 100;
@@ -126,9 +126,9 @@
       }
 
       .icon {
-        margin-top: 0.25em;
-        margin-left: 3px;
-        font-size: 20px;
+        margin-top: $padding-small;
+        margin-left: $padding-xsmall;
+        font-size: 1.1em;
         float: left;
       }
     }
@@ -139,8 +139,8 @@
       clear: left;
       float: left;
       padding: 0;
-      width: 20px;
-      margin-left: 3px;
+      width: 1.3em;
+      margin-left: $padding-xsmall;
       margin-top: 1px;
     }
   }
