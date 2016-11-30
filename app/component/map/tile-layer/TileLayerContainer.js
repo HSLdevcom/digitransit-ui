@@ -188,7 +188,7 @@ class TileLayerContainer extends MapLayer {
     let contents;
 
     const loadingPopup = () =>
-      <div className="card" style={{ height: 150 }}>
+      <div className="card" style={{ height: '12rem' }}>
         <div className="spinner-loader" />
       </div>;
 
