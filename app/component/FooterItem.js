@@ -15,19 +15,21 @@ const mapToRoute = (router, route, children) => (<span
   }}
 >{children}</span>);
 
-const getFuntionForType = (type) => {
+const getFuntionForType = (type, executeAction) => {
   switch (type) {
-    case 'feedback': return () => context.executeAction(openFeedbackModal);
+    case 'feedback': return () => executeAction(openFeedbackModal);
     default: return () => console.log('No function defined for type', type);
   }
 };
 
-const FooterItem = ({ name, href, label, nameEn, route, icon, type }, { router }) => {
+const FooterItem = (
+  { name, href, label, nameEn, route, icon, type },
+  { router, executeAction }) => {
   const displayIcon = (icon && <Icon className="footer-icon" img={icon} />) || undefined;
   const displayLabel = label || <FormattedMessage id={name} defaultMessage={nameEn || name} />;
   let item = <span id={name} >{displayIcon}{displayLabel}</span>;
   if (type) {
-    item = mapToFn(getFuntionForType(type), item);
+    item = mapToFn(getFuntionForType(type, executeAction), item);
   } else if (href) {
     item = mapToLink(href, item);
   } else if (route) {
