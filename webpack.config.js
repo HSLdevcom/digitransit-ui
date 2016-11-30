@@ -9,6 +9,8 @@ const autoprefixer = require('autoprefixer');
 const csswring = require('csswring');
 const StatsPlugin = require('stats-webpack-plugin');
 const fs = require('fs');
+const GzipCompressionPlugin = require("compression-webpack-plugin")
+const BrotliCompressionPlugin = require('brotli-webpack-plugin')
 
 require('babel-core/register')({
   presets: ['modern-node', 'stage-2'], // eslint-disable-line prefer-template
@@ -152,6 +154,19 @@ function getPluginsConfig(env) {
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
       allChunks: true,
+    }),
+    new GzipCompressionPlugin({
+      debug: true,
+      asset: '[path].gz[query]',
+      algorithm: 'zopfli',
+      test: /\.(js|css|html|svg)$/,
+      minRatio: 0.95
+    }),
+    new BrotliCompressionPlugin({
+      debug: true,
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      minRatio: 0.95
     }),
     new webpack.NoErrorsPlugin(),
   ]);

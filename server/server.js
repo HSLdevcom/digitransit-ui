@@ -42,7 +42,10 @@ const app = express();
 function setUpStaticFolders() {
   const staticFolder = path.join(process.cwd(), '_static');
   // Sert cache for 1 week
-  app.use(config.APP_PATH, express.static(staticFolder, { maxAge: 604800000 }));
+  app.use(config.APP_PATH, express.static(staticFolder, {
+    maxAge: 604800000,
+    precompressed: [{ encoding: 'br', extension: '.br' }, { encoding: 'gzip', extension: '.gz' }],
+  }));
 }
 
 function setUpMiddleware() {
