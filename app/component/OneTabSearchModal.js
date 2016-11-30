@@ -27,8 +27,8 @@ class OneTabSearchModal extends React.Component {
     modalIsOpen: React.PropTypes.oneOfType(
       [React.PropTypes.bool, React.PropTypes.string]).isRequired,
     target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
-    responsive: React.PropTypes.bool, // a switch to force use of fullscreen modal, e.g. from favourite places
- };
+    responsive: React.PropTypes.bool, // a switch to force use of fullscreen modal
+  };
 
   componentDidUpdate() {
     if (this.props.modalIsOpen) {
@@ -77,7 +77,7 @@ class OneTabSearchModal extends React.Component {
     let responsiveClass = '';
     let placeholder;
 
-    if(this.context.breakpoint === 'large' && this.props.responsive) {
+    if (this.context.breakpoint === 'large' && this.props.responsive) {
       Component = SearchModalLarge;
       responsiveClass = 'bp-large';
       searchTabLabel = '';
@@ -110,7 +110,7 @@ class OneTabSearchModal extends React.Component {
           </Component>
         </div>
       </div>);
-    }
+  }
 }
 
 export default OneTabSearchModal;

@@ -267,7 +267,7 @@ export default class SearchInputContainer extends Component {
             onChange: this.handleUpdateInputNow,
             onKeyDown: this.handleOnKeyDown,
             onTouchStart: this.handleOnTouchStart,
-            placeholder: this.props.placeholder
+            placeholder: this.props.placeholder,
           }}
           itemProps={{
             onMouseEnter: this.handleOnMouseEnter,
