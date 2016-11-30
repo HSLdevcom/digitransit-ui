@@ -2,7 +2,7 @@ import React from 'react';
 import sortBy from 'lodash/sortBy';
 import Link from 'react-router/lib/Link';
 
-import { FakeSearchWithButton } from './FakeSearchWithButton';
+import { FakeSearchWithButton } from './FakeSearchWithButtonContainer';
 import Icon from './Icon';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
