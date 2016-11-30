@@ -12,7 +12,6 @@
 }
 
 .stop-page.header {
-  line-height: 1.67;
   background-color: $background-color;
   @include font-bold;
 }
@@ -67,33 +66,28 @@
 }
 
 .stop-page.departure-list {
-  & .departure {
+  .departure {
     .time {
-      width: 50px;
-      padding-right: 10px;
-      margin-right: 10px;
+      width: 3.7em;
+      padding-right: $padding-medium;
+      margin-right: $padding-medium;
     }
     .route-number {
-      width: 50px;
+      width: 3.7em;
     }
     .route-destination {
-      padding-left: 10px;
+      padding-left: $padding-medium;
     }
   }
 }
 
 .desktop .stop-page.departure-list {
-  & .departure {
+  .departure {
     .time {
-      width: 50px;
-      padding-right: 10px;
-      margin-right: 30px;
-    }
-    .route-number {
-      width: 50px;
+      margin-right: $padding-large;
     }
     .route-destination {
-      padding-left: 30px;
+      padding-left: $padding-medium;
     }
   }
 }
