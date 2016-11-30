@@ -285,7 +285,7 @@
   @include font-narrow-book;
   font-size: $font-size-small;
   white-space: nowrap;
-  padding-left: 15px;
+  padding-left: 1.5em;
   line-height: $line-height-normal;
   border-bottom: 1px solid $light-gray;
 
@@ -294,17 +294,17 @@
     vertical-align: top;
   }
   .route-number-header {
-    width: 50px;
+    width: 4em;
   }
   .route-destination-header {
-    padding-left: 10px;
+    padding-left: 1em;
   }
   .time-header {
     font-weight: inherit;
     text-align: right;
-    width: 50px;
-    padding-right: 10px;
-    margin-right: 10px;
+    width: 3.5em;
+    padding-right: $padding-medium;
+    margin-right: $padding-medium;
   }
 }
 
