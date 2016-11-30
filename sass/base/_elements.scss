@@ -23,7 +23,7 @@ $border-radius-rounded: 30px;
    .card-code {
      border: 1px solid $light-gray;
      border-radius: $border-radius;
-     font-size: 10px;
+     font-size: $font-size-xxsmall;
      color: $gray-blue;
      margin-right: 3px;
      padding: 0px 2px 0px 2px;
