@@ -74,12 +74,12 @@ class OneTabSearchModal extends React.Component {
     label = label.charAt(0).toUpperCase() + label.slice(1);
     let searchTabLabel;
     let Component;
-    let cName = 'onetab-search-modal-container';
+    let responsiveClass = '';
     let placeholder;
 
     if(this.context.breakpoint === 'large' && this.props.responsive) {
       Component = SearchModalLarge;
-      cName += ' bp-large';
+      responsiveClass = 'bp-large';
       searchTabLabel = '';
       placeholder = label;
     } else {
@@ -88,27 +88,29 @@ class OneTabSearchModal extends React.Component {
     }
 
     return (
-      <div className={cName}>
-        <Component
-          selectedTab="tab"
-          modalIsOpen={this.props.modalIsOpen}
-          closeModal={this.props.closeModal}
-        >
-          <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
-            <GeolocationOrInput
-              ref={(c) => { this.geolocationOrInput = c; }}
-              useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
-              initialValue={placeholder ? '' : this.props.initialValue}
-              placeholder={placeholder}
-              type="endpoint"
-              onSuggestionSelected={
-                this.props.customOnSuggestionSelected || this.onSuggestionSelected}
-              close={this.props.closeModal}
-            />
-          </Tab>
-        </Component>
+      <div className={cx('onetab-search-modal-container', responsiveClass)}>
+        <div className={cx('fake-search-container', responsiveClass)}>
+          <Component
+            selectedTab="tab"
+            modalIsOpen={this.props.modalIsOpen}
+            closeModal={this.props.closeModal}
+          >
+            <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
+              <GeolocationOrInput
+                ref={(c) => { this.geolocationOrInput = c; }}
+                useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
+                initialValue={placeholder ? '' : this.props.initialValue}
+                placeholder={placeholder}
+                type="endpoint"
+                onSuggestionSelected={
+                  this.props.customOnSuggestionSelected || this.onSuggestionSelected}
+                close={this.props.closeModal}
+              />
+            </Tab>
+          </Component>
+        </div>
       </div>);
-  }
+    }
 }
 
 export default OneTabSearchModal;
