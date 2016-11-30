@@ -50,7 +50,7 @@ class TileContainer {
   }
 
   project = (point) => {
-    const size = this.extent * Math.pow(2, this.coords.z + (this.props.zoomOffset || 0));
+    const size = this.extent * (2 ** (this.coords.z + (this.props.zoomOffset || 0)));
     const x0 = this.extent * this.coords.x;
     const y0 = this.extent * this.coords.y;
     const y1 = 180 - (((point.y + y0) * 360) / size);
@@ -91,8 +91,8 @@ class TileContainer {
 
         const g = feature.feature.geom;
 
-        const dist = Math.sqrt(Math.pow((localPoint[0] - (g.x / this.ratio)), 2) +
-          Math.pow((localPoint[1] - (g.y / this.ratio)), 2));
+        const dist = Math.sqrt(((localPoint[0] - (g.x / this.ratio)) ** 2) +
+          ((localPoint[1] - (g.y / this.ratio)) ** 2));
 
         if (dist < 22 * this.scaleratio) {
           return true;
