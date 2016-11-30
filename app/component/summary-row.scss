@@ -87,9 +87,11 @@
     margin-top: 3px;
     min-width: 0;
     flex: 1 1 0;
+    flex-grow: 1; //Needed on IE
 
     .leg {
       flex: 1 0 0;
+      flex-grow: 1; //Needed on IE
       overflow: hidden;
     }
 
@@ -197,7 +199,6 @@
       font-size: 21px;
       margin-top: 25px;
       padding-top: 8px;
-      padding-left: 16px;
       @include font-narrow-medium;
 
       .itinerary-first-leg-start-time {
@@ -236,7 +237,7 @@
     }
 
     .action-arrow-click-area {
-      padding: 0 25px 0 43px;
+      padding: 0 25px 0 20px;
     }
     .action-arrow {
       font-size: 20px;
