@@ -199,6 +199,8 @@ const translations = {
     'park-and-ride': 'Liityntäpysäköinti',
     'park-and-ride-availability': 'Pysäköintipaikkoja vapaana',
     'platform-short': 'Lait.',
+    'footer-feedback': 'Anna palautetta',
+    'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
   },
 
   'sv': {
@@ -233,7 +235,7 @@ const translations = {
     'nearest': 'Närmaste',
     'previous': 'Senaste',
     'earlier': 'Tidigare',
-    'your-favourites': 'Dina favoriter',
+    'your-favourites': 'Favoriter',
     'near-you': 'Nära dig',
     'show-more': 'Visa flera',
     'now': 'Nu',
@@ -359,6 +361,8 @@ const translations = {
     'park-and-ride': 'Infartsparkering',
     'park-and-ride-availability': 'Lediga parkeringsplatser',
     'platform-short': 'Plat.',
+    'footer-feedback': 'TODO Anna palautetta',
+    'footer-link-to-old': 'TODO Siirry vanhaan Reittioppaaseen',
   },
 
   'nb': {
@@ -391,7 +395,7 @@ const translations = {
     'nearest': 'Forrige',
     'previous': 'Tidligere',
     'earlier': 'Tidligere',
-    'your-favourites': 'Dine favoritter',
+    'your-favourites': 'Favoritter',
     'near-you': 'Nær deg',
     'show-more': 'Vis flere',
     'now': 'Nå',

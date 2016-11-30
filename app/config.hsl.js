@@ -91,6 +91,16 @@ export default {
     [24.5041, 59.801], [24.2785, 59.7737], [24.246, 59.791], [24.2367, 59.9579],
     [24.2579, 60.017], [24.3257, 60.0729], [24.2647, 60.178]],
 
+  footer: {
+    content: [
+      { label: (function () { return `© HSL ${(1900 + new Date().getYear())}`; }()) },
+      {},
+      { name: 'footer-feedback', nameEn: 'Send feedback', type: 'feedback', icon: 'icon-icon_speech-bubble' },
+      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      { name: 'footer-link-to-old', nameEn: 'Use old Journey planner', href: 'http://www.reittiopas.fi/' },
+    ],
+  },
+
   defaultEndpoint: {
     address: 'Rautatieasema, Helsinki',
     lat: 60.1710688,

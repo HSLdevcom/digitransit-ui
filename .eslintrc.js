@@ -30,8 +30,6 @@ module.exports = {
   },
   'env': {
     'browser': true,
-    'mocha': true,
-    'node': true,
   },
   'plugins': [
     'react',

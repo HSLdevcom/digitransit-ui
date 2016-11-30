@@ -60,7 +60,12 @@ class Map extends React.Component {
     padding: React.PropTypes.array,
     showStops: React.PropTypes.bool,
     zoom: React.PropTypes.number,
+    showScaleBar: React.PropTypes.bool,
   };
+
+  static defaultProps ={
+    showScaleBar: false,
+  }
 
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
@@ -73,6 +78,10 @@ class Map extends React.Component {
       position: 'bottomleft',
       prefix: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
     }).addTo(this.refs.map.leafletElement);
+
+    if (this.props.showScaleBar) {
+      L.control.scale({ imperial: false, position: 'bottomright' }).addTo(this.refs.map.leafletElement);
+    }
 
     if (!this.props.disableZoom || L.Browser.touch) {
       L.control.zoom({ position: 'topleft' })
