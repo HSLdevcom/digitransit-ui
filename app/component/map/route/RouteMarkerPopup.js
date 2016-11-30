@@ -87,7 +87,7 @@ const RouteMarkerPopupWithFavourite = connectToStores(
   ['FavouriteRoutesStore'],
   (context, props) => ({
     favourite: context.getStore('FavouriteRoutesStore').isFavourite(props.trip.route.gtfsId),
-  })
+  }),
 );
 
 export default Relay.createContainer(RouteMarkerPopupWithFavourite, {

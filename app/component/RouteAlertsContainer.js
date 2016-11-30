@@ -109,7 +109,7 @@ const RouteAlertsContainerWithTime = connectToStores(
   ['TimeStore'],
   context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime(),
-  })
+  }),
 );
 
 
@@ -136,5 +136,5 @@ export default Relay.createContainer(RouteAlertsContainerWithTime,
         }
       `,
     },
-  }
+  },
 );

@@ -176,7 +176,7 @@ export default class SearchInputContainer extends Component {
         const state = this.context.getStore('PositionStore').getLocationState();
         item.geometry = { coordinates: [state.lon, state.lat] };
         name = this.context.intl.formatMessage(
-          { id: 'own-position', defaultMessage: 'Current position' }
+          { id: 'own-position', defaultMessage: 'Current position' },
         );
       } else {
         const type = (this.props.type === 'all' && this.state.type) || this.props.type;

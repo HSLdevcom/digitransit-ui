@@ -4,7 +4,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import FakeSearchBar from './FakeSearchBar';
 
-const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => (
+export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => (
   <div className={`row search-form bp-${breakpoint}`}>
     <div className="small-12 columns search-form-map-overlay">
       <div className="row collapse postfix-radius">
@@ -48,7 +48,4 @@ FakeSearchWithButton.description = () => (
     </ComponentUsageExample>
   </div>);
 
-const FakeSearchWithButtonWithBreakpoint =
-    getContext({ breakpoint: React.PropTypes.string.isRequired })(FakeSearchWithButton);
-
-export { FakeSearchWithButton, FakeSearchWithButtonWithBreakpoint as default };
+export default getContext({ breakpoint: React.PropTypes.string.isRequired })(FakeSearchWithButton);

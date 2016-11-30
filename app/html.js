@@ -14,7 +14,7 @@ const Application = (
     scripts,
     relayData,
     head,
-  }
+  },
 ) => (
   <html lang={locale}>
     <head>

@@ -9,7 +9,7 @@ class Select extends React.Component {
       React.PropTypes.shape({
         displayName: React.PropTypes.string.isRequired,
         value: React.PropTypes.string.isRequired,
-      }).isRequired
+      }).isRequired,
     ).isRequired,
   };
 

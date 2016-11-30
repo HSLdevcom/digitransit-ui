@@ -50,7 +50,7 @@ class OriginDestinationBar extends React.Component {
       {
         router: this.context.router,
         location: this.context.location,
-      }
+      },
     );
   }
 

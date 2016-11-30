@@ -74,7 +74,7 @@ class FeedbackPanel extends React.Component {
     recordResult(
       this.context.piwik,
       this.context.getStore('TimeStore').getCurrentTime().valueOf(),
-      answer
+      answer,
     );
   }
 
@@ -90,7 +90,7 @@ class FeedbackPanel extends React.Component {
       this.context.getStore('TimeStore').getCurrentTime().valueOf(),
       this.state.selectedNPS,
       this.state.useThisMoreLikely,
-      this.state.openText
+      this.state.openText,
     );
 
     this.closeModal();

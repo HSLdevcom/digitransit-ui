@@ -125,7 +125,7 @@ const RouteMapContainerWithVehicles = connectToStores(
   ['RealTimeInformationStore'],
   ({ getStore }) => ({
     vehicles: getStore('RealTimeInformationStore').vehicles,
-  })
+  }),
 )
 ;
 

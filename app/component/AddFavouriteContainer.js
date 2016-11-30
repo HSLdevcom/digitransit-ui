@@ -216,7 +216,7 @@ const AddFavouriteContainerWithFavourite = connectToStores(AddFavouriteContainer
       props.params.id !== undefined ? context.getStore('FavouriteLocationStore')
         .getById(parseInt(props.params.id, 10)) : {},
     }
-  )
+  ),
 );
 
 export default AddFavouriteContainerWithFavourite;

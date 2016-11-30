@@ -34,7 +34,7 @@ function SelectStopRow(props) {
       </span>
       {'\u00a0'}
       <RouteDestination mode={patternData[0].type} destination={patternData[0].headsign} />
-    </div>
+    </div>,
   );
 
   if (patternData.length > 1) {

@@ -89,7 +89,7 @@ export default class VehicleMarkerContainer extends React.Component {
       this.props.startRealTimeClient && this.context.getStore('RealTimeInformationStore').client
     ) {
       this.context.executeAction(stopRealTimeClient(
-        this.context.getStore('RealTimeInformationStore').client
+        this.context.getStore('RealTimeInformationStore').client,
       ));
     }
     this.context.getStore('RealTimeInformationStore').removeChangeListener(this.onChange);

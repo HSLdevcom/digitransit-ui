@@ -180,7 +180,7 @@ function getPluginsConfig(env) {
 
 function getDirectories(srcDirectory) {
   return fs.readdirSync(srcDirectory).filter(file =>
-    fs.statSync(path.join(srcDirectory, file)).isDirectory()
+    fs.statSync(path.join(srcDirectory, file)).isDirectory() // eslint-disable-line comma-dangle
   );
 }
 

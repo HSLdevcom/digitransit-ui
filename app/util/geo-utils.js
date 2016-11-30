@@ -19,15 +19,6 @@ export function getBearing(lat1, lng1, lat2, lng2) {
   return (toDeg(Math.atan2(dx, dy)) + 360) % 360;
 }
 
-export function getTopicsForPlan(plan) {
-  for (const leg of plan.legs) {
-    if (leg.transitLeg && leg.agencyId === 'HSL') {
-      return { route: leg.routeId.split(':')[1] };
-    }
-  }
-  return null;
-}
-
 export function getLatLng(lat, lon) {
   return new L.LatLng(lat, lon);
 }
@@ -55,7 +46,7 @@ export function getDistanceToFurthestStop(coordinates, stops) {
     ({
       stop,
       distance: coordinates.distanceTo(new L.LatLng(stop.lat, stop.lon)),
-    })
+    }),
   ).reduce((previous, current) => (current.distance > previous.distance ? current : previous),
            { stop: null, distance: 0 });
 }
