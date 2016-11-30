@@ -34,9 +34,9 @@ export function route(actionContext, payload, done) {
     if (payload && payload.router && payload.location) {
       if (payload.location.pathname.indexOf('/reitti') === 0) {
         payload.router.replace({ ...payload.location, pathname: path });
+      } else {
+        history.push({ pathname: path });
       }
-    } else {
-      history.push({ pathname: path });
     }
   }
 
