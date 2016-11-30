@@ -349,10 +349,6 @@ const routes = (
       queries={{ content: planQueries }}
       prepareParams={preparePlanParams}
       render={{ content: SummaryPageWrapper }}
-      loadAction={params => [
-        [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
-        [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
-      ]}
     >
       <Route path=":hash" components={{ content: ItineraryTab, map: ItineraryPageMap }}>
         <Route path="kartta" fullscreenMap />

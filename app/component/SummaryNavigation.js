@@ -7,6 +7,7 @@ import CustomizeSearch from './CustomizeSearch';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
+import { otpToLocation } from '../util/otpStrings';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -100,7 +101,11 @@ class SummaryNavigation extends React.Component {
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
           />
         </Drawer>
-        <OriginDestinationBar className={className} />
+        <OriginDestinationBar
+          className={className}
+          origin={otpToLocation(this.props.params.from)}
+          destination={otpToLocation(this.props.params.to)}
+        />
         <div className={cx('time-selector-settings-row', className)}>
           <TimeSelectorContainer />
           <RightOffcanvasToggle
