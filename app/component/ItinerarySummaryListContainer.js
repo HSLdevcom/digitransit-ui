@@ -6,7 +6,7 @@ import SummaryRow from './SummaryRow';
 function ItinerarySummaryListContainer(props) {
   if (props.itineraries && props.itineraries.length > 0) {
     const open = props.open && Number(props.open);
-    const summaries = props.itineraries.entries().map(([i, itinerary]) => (
+    const summaries = props.itineraries.map((itinerary, i) => (
       <SummaryRow
         key={i}
         hash={i}
