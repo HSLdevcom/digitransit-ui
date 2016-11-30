@@ -56,6 +56,36 @@ class CustomizeSearch extends React.Component {
     ];
   }
 
+  getStreetModesToggleButtons = () => {
+    const availableStreetModes = Object.keys(config.streetModes)
+      .filter(streetMode => config.streetModes[streetMode].availableForSelection);
+
+    if (!availableStreetModes.length) return null;
+
+    return availableStreetModes.map((streetMode, index) => {
+      let btnClass = '';
+
+      if (index === 0) {
+        btnClass = 'first-btn';
+      }
+
+      if (index === availableStreetModes.length - 1) {
+        btnClass = 'last-btn';
+      }
+
+      return (
+        <ToggleButton
+          key={`toggle-button${index}`}
+          icon={config.streetModes[streetMode].icon}
+          onBtnClick={() => this.toggleStreetMode(streetMode)}
+          state={this.getMode(streetMode)}
+          checkedClass={streetMode}
+          className={`${btnClass} small-4`}
+        />
+      );
+    });
+  }
+
   getWalkReluctanceSlider = () => {
     // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkReluctance()
 
@@ -311,26 +341,7 @@ class CustomizeSearch extends React.Component {
           <section className="offcanvas-section">
             <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
             <div className="row btn-bar">
-              <ToggleButton
-                icon="walk"
-                onBtnClick={() => this.toggleStreetMode('walk')}
-                state={this.getMode('walk')}
-                checkedClass="walk"
-                className="first-btn small-4"
-              />
-              <ToggleButton
-                icon="bicycle-withoutBox"
-                onBtnClick={() => this.toggleStreetMode('bicycle')}
-                state={this.getMode('bicycle')}
-                checkedClass="bicycle"
-                className=" small-4"
-              />
-              <ToggleButton
-                icon="car-withoutBox"
-                onBtnClick={() => this.toggleStreetMode('car')}
-                state={this.getMode('car')}
-                checkedClass="car" className="last-btn small-4"
-              />
+              {this.getStreetModesToggleButtons()}
             </div>
           </section>
 

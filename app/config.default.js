@@ -257,16 +257,25 @@ export default {
     walk: {
       availableForSelection: true,
       defaultValue: true,
+      icon: 'walk',
     },
 
     bicycle: {
       availableForSelection: true,
       defaultValue: false,
+      icon: 'bicycle-withoutBox',
     },
 
     car: {
       availableForSelection: true,
       defaultValue: false,
+      icon: 'car-withoutBox',
+    },
+
+    car_park: {
+      availableForSelection: false,
+      defaultValue: false,
+      icon: 'car_park-withoutBox',
     },
   },
 
