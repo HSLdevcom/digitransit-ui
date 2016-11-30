@@ -31,12 +31,12 @@ export function route(actionContext, payload, done) {
 
     const path = getRoutePath(from, to);
 
-    if (payload && payload.router && payload.location) {
-      if (payload.location.pathname.indexOf('/reitti') === 0) {
-        payload.router.replace({ ...payload.location, pathname: path });
-      } else {
-        history.push({ pathname: path });
-      }
+    if (payload && payload.router && payload.location &&
+      payload.location.pathname.indexOf('/reitti') === 0
+    ) {
+      payload.router.replace({ ...payload.location, pathname: path });
+    } else {
+      history.push({ pathname: path });
     }
   }
 
