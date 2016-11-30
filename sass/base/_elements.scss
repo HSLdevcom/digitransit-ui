@@ -30,55 +30,6 @@ $border-radius-rounded: 30px;
    }
  }
 }
-/* Tabs */
-.tabs-row {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  h4, .h4 {
-    font-size:$font-size-small;
-  }
-  .selected {
-    color: $black;
-    background-color: $background-color;
-    &:before  {
-      transform: rotate(0);
-      transition: 0.2s ease-in-out;
-    }
-  }
-  li {
-    background: $white;
-    float: left;
-    list-style: none;
-    text-align: center;
-    cursor: pointer;
-    position: relative;
-    color: $link-color;
-    padding: 19px 0 13px 0;
-    border-left: 1px solid $light-gray;
-    border-top: 1px solid $light-gray;
-    &:nth-child(1) {
-      border-left: none;
-    }
-  }
-}
-.tabs-arrow-up  {
-  li {
-    // arrow pointing up
-    &:before {
-      width: 12px;
-      height: 12px;
-      position: absolute;
-      top: 4px;
-      left: 47%;
-      transform: rotate(180deg);
-      transition: 0.2s ease-in-out;
-      -webkit-backface-visibility: hidden;  // prevents the icon to move on hover
-      -webkit-transform: translateZ(180) scale(1.0, 1.0);
-      content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'><path stroke='white' fill='#{rgba($medium-gray, 1)}' class='path1' d='M845.224 212.621l-333.221 333.235-333.224-333.235c-40.901-40.901-107.212-40.901-148.113 0v0c-40.901 40.901-40.897 107.212 0 148.109l481.333 481.326 481.333-481.326c40.901-40.901 40.901-107.212 0-148.109v0c-40.897-40.904-107.212-40.901-148.109 0z'></path></svg>");
-    }
-  }
-}
 
 /* buttons */
 .show-more {
@@ -241,10 +192,15 @@ svg.realtime-icon {
   transform: translate3d(0,0,0);
 }
 
+#icon-icon_realtime {
+  color: $realtime-color;
+}
+
 #icon-icon_realtime path {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: step-start;
+  fill: currentColor;
 
   &.path1 {
     animation-name: realtimeInnerArch;

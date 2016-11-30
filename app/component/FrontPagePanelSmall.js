@@ -10,9 +10,9 @@ import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
    favouritesClicked, closePanel, children }) => {
   let heading;
-  const tabClasses = ['small-6', 'h4', 'hover'];
-  const nearbyClasses = ['nearby-routes'];
-  const favouritesClasses = ['favourites'];
+  const tabClasses = ['hover'];
+  const nearbyClasses = ['nearby-routes', 'h4'];
+  const favouritesClasses = ['favourites', 'h4'];
 
   if (selectedPanel === 1) {
     heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
@@ -45,9 +45,8 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
       >
         {content}
       </ReactCSSTransitionGroup>
-      <ul className="tabs-row tabs-arrow-up cursor-pointer">
+      <ul className="tabs-row cursor-pointer">
         <NearbyTabLabel
-          hasDisruption={false}
           classes={cx(tabClasses, nearbyClasses)}
           onClick={nearbyClicked}
         />
