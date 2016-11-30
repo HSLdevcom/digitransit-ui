@@ -425,7 +425,7 @@ div.origin-destination-bar {
     position: absolute;
     color: $gray-blue;
     user-select: none;
-    line-height: 55px;
+    line-height: 3.5em;
   }
 
   .search-header__button, .search-header__button--selected {
@@ -524,10 +524,10 @@ div.origin-destination-bar {
 .search-header-separator {
   border-left: 1px solid $light-gray;
   margin-left: 11px;
-  height: 23px;
+  height: 2em;
   display: inline-block;
   position: relative;
-  bottom: -4px;
+  bottom: -0.6em;
 }
 
 .search-current-origin-tip {
