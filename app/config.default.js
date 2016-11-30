@@ -103,7 +103,15 @@ export default {
     tileSize: 512,
     zoomOffset: -1,
     useVectorTiles: true,
-
+    controls: {
+      zoom: {
+        // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'
+        position: 'topright',
+      },
+      scale: {
+        position: 'bottomright',
+      },
+    },
     genericMarker: {
       // Do not render name markers at zoom levels below this value
       nameMarkerMinZoom: 18,

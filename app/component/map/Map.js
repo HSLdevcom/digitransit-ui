@@ -65,11 +65,12 @@ class Map extends React.Component {
     }).addTo(this.refs.map.leafletElement);
 
     if (this.props.showScaleBar) {
-      L.control.scale({ imperial: false, position: 'bottomright' }).addTo(this.refs.map.leafletElement);
+      L.control.scale({ imperial: false, position: config.map.controls.scale.position })
+        .addTo(this.refs.map.leafletElement);
     }
 
     if (!this.props.disableZoom || L.Browser.touch) {
-      L.control.zoom({ position: 'topleft' })
+      L.control.zoom({ position: config.map.controls.zoom.position })
         .addTo(this.refs.map.leafletElement);
     }
 
