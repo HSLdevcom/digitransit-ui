@@ -55,9 +55,7 @@ class CityBikes {
           }
         }
 
-        for (const i of this.features) {
-          actionFn(i);
-        }
+        this.features.forEach(actionFn);
       }, err => console.log(err));
     });
 

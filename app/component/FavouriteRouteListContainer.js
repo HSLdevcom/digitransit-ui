@@ -13,14 +13,12 @@ const getNextDepartures = (routes, lat, lon) => {
   const nextDepartures = [];
   const seenDepartures = {};
 
-  for (const route of routes) {
+  routes.forEach((route) => {
     const hasDisruption = route.alerts.length > 0;
 
-    for (const pattern of route.patterns) {
+    route.patterns.forEach((pattern) => {
       const closest = getDistanceToNearestStop(lat, lon, pattern.stops);
-      const keepStoptimes = [];
-
-      for (const stoptime of closest.stop.stoptimes) {
+      closest.stop.stoptimes.filter((stoptime) => {
         const seenKey = `${stoptime.pattern.route.gtfsId}:${stoptime.pattern.headsign}`;
         const isSeen = seenDepartures[seenKey];
         const isFavourite =
@@ -28,20 +26,19 @@ const getNextDepartures = (routes, lat, lon) => {
           stoptime.pattern.headsign === pattern.headsign;
 
         if (!isSeen && isFavourite) {
-          keepStoptimes.push(stoptime);
           seenDepartures[seenKey] = true;
+          return true;
         }
-      }
-
-      for (const stoptime of keepStoptimes) {
+        return false;
+      }).forEach((stoptime) => {
         nextDepartures.push({
           distance: closest.distance,
           stoptime,
           hasDisruption,
         });
-      }
-    }
-  }
+      });
+    });
+  });
 
   return nextDepartures;
 };

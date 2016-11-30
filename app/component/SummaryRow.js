@@ -21,15 +21,14 @@ export default function SummaryRow(props, { breakpoint }) {
   let realTimeAvailable = false;
   let noTransitLegs = true;
 
-  for (const leg of data.legs) {
+  data.legs.forEach((leg) => {
     if (leg.transitLeg || leg.rentedBike) {
       if (noTransitLegs && leg.realTime) {
         realTimeAvailable = true;
       }
       noTransitLegs = false;
-      break;
     }
-  }
+  });
 
   let lastLegRented = false;
 

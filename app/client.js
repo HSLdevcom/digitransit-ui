@@ -230,9 +230,9 @@ if (typeof window.Intl !== 'undefined') {
 } else {
   const modules = [System.import('intl')];
 
-  for (const language of config.availableLanguages) {
+  config.availableLanguages.forEach((language) => {
     modules.push(System.import(`intl/locale-data/jsonp/${language}`));
-  }
+  });
 
   Promise.all(modules).then(callback);
 }

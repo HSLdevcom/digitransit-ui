@@ -102,11 +102,11 @@ function getPolyfills(userAgent) {
     'Symbol.iterator': { flags: ['gated'] },
   };
 
-  for (const language of config.availableLanguages) {
+  config.availableLanguages.forEach((language) => {
     features[`Intl.~locale.${language}`] = {
       flags: ['gated'],
     };
-  }
+  });
 
   return polyfillService.getPolyfillString({
     uaString: userAgent,
