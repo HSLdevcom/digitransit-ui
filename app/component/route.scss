@@ -440,7 +440,7 @@ div.route-tabs {
       display: inline-block;
       text-decoration: none;
       font-size: $font-size-xxsmall;
-      min-width: 60px;
+      min-width: 6em;
 
       &.is-active {
         border-bottom: 2px solid $primary-color ;
@@ -467,9 +467,9 @@ div.route-tabs {
 
       .icon {
         display: block;
-        width: 15px;
-        height: 15px;
-        margin: 4px auto;
+        width: 1.5em;
+        height: 1.5em;
+        margin: $padding-small auto;
       }
     }
   }
