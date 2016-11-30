@@ -71,7 +71,7 @@ class CustomizeSearch extends React.Component {
         state={this.getMode(streetMode)}
         checkedClass={streetMode}
         className={cx('small-4',
-          { 'first-btn': index === 0, 'last-btn': index === availableStreetModes.length - 1 }
+          { 'first-btn': index === 0, 'last-btn': index === availableStreetModes.length - 1 },
         )}
       />
     ));
@@ -91,7 +91,7 @@ class CustomizeSearch extends React.Component {
         defaultValue={10}
         onSliderChange={e => this.updateSettings(
           'walkReluctance',
-          walkReluctanceSliderValues[e.target.value]
+          walkReluctanceSliderValues[e.target.value],
         )}
         min={0}
         max={20}
@@ -124,7 +124,7 @@ class CustomizeSearch extends React.Component {
           defaultValue={10}
           onSliderChange={e => this.updateSettings(
             'walkBoardCost',
-            walkBoardCostSliderValues[e.target.value]
+            walkBoardCostSliderValues[e.target.value],
           )}
           min={0}
           max={20}
@@ -157,7 +157,7 @@ class CustomizeSearch extends React.Component {
           defaultValue={10}
           onSliderChange={e => this.updateSettings(
             'minTransferTime',
-            transferMarginSliderValues[e.target.value]
+            transferMarginSliderValues[e.target.value],
           )}
           min={0}
           max={20}
@@ -189,7 +189,7 @@ class CustomizeSearch extends React.Component {
           defaultValue={10}
           onSliderChange={e => this.updateSettings(
             'walkSpeed',
-            walkingSpeedSliderValues[e.target.value]
+            walkingSpeedSliderValues[e.target.value],
           )}
           min={0}
           max={20}
@@ -218,7 +218,7 @@ class CustomizeSearch extends React.Component {
         options={config.ticketOptions}
         onSelectChange={e => this.updateSettings(
           'ticketOption',
-          e.target.value
+          e.target.value,
         )}
       />
     </section>);
@@ -235,7 +235,7 @@ class CustomizeSearch extends React.Component {
         options={config.accessibilityOptions}
         onSelectChange={e => this.updateSettings(
           'accessibilityOption',
-          e.target.value
+          e.target.value,
         )}
       />
     </section>);
@@ -263,7 +263,7 @@ class CustomizeSearch extends React.Component {
           },
         },
         router: this.context.router,
-      }
+      },
     );
   }
 
@@ -279,7 +279,7 @@ class CustomizeSearch extends React.Component {
           },
         },
         router: this.context.router,
-      }
+      },
     );
   }
 
@@ -298,7 +298,7 @@ class CustomizeSearch extends React.Component {
           },
         },
         router: this.context.router,
-      }
+      },
     );
   }
 

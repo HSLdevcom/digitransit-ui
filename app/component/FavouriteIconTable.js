@@ -14,7 +14,7 @@ const FavouriteIconTable = ({ favouriteIconIds, selectedIconId, handleClick }) =
       key={index} className={cx('favourite-icon-table-column', {
         'selected-icon': value === selectedIconId,
       })} style={columnWidth} onClick={() => handleClick(value)}
-    ><Icon img={value} /></div>)
+    ><Icon img={value} /></div>),
   );
 
   return <GenericTable showLabels={false}>{columns}</GenericTable>;

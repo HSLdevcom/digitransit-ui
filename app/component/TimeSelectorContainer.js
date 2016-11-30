@@ -24,7 +24,7 @@ class TimeSelectorContainer extends Component {
   componentDidMount() {
     this.context.router.listen(location =>
       location.query.time && Number(location.query.time) !== this.state.time.unix() &&
-        this.setState({ time: moment(location.query.time * 1000) })
+        this.setState({ time: moment(location.query.time * 1000) }),
     );
   }
 
@@ -40,7 +40,7 @@ class TimeSelectorContainer extends Component {
           },
         },
         router: this.context.router,
-      }
+      },
     );
 
   getDates() {
@@ -50,20 +50,20 @@ class TimeSelectorContainer extends Component {
     dates.push(
       <option value={date.format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')} >
         {this.context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' })}
-      </option>
+      </option>,
     );
 
     dates.push(
       <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')} >
         {this.context.intl.formatMessage({ id: 'tomorrow', defaultMessage: 'Tomorrow' })}
-      </option>
+      </option>,
     );
 
     for (let i = 0; i < 28; i++) {
       dates.push(
         <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>
           {date.format('dd D.M')}
-        </option>
+        </option>,
       );
     }
 
@@ -83,24 +83,24 @@ class TimeSelectorContainer extends Component {
             },
           },
           router: this.context.router,
-        }
+        },
       ),
     500);
 
   changeTime = ({ target }) => (target.value ? this.setState(
     { time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD') },
-    this.dispatchChangedtime
+    this.dispatchChangedtime,
   ) : {});
 
   changeTimeMui = (e, date) => this.setState(
     { time: moment(`${date.getHours()}:${date.getMinutes()} ${this.state.time.format('YYYY-MM-DD')}`
     , 'H:m YYYY-MM-DD') },
-    this.dispatchChangedtime
+    this.dispatchChangedtime,
   );
 
   changeDate = ({ target }) => this.setState(
     { time: moment(`${this.state.time.format('H:m')} ${target.value}`, 'H:m YYYY-MM-DD') },
-    this.dispatchChangedtime
+    this.dispatchChangedtime,
   );
 
   render() {

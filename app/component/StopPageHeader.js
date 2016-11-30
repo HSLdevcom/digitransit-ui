@@ -36,7 +36,7 @@ const StopPageHeader = compose(
         />
       </Centered>,
     ],
-  }))
+  })),
 )(StopCardHeaderContainer);
 
 const exampleStop = {

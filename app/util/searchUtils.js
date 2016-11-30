@@ -40,7 +40,7 @@ function mapRoutes(res) {
       geometry: {
         coordinates: null,
       },
-    })
+    }),
   );
 }
 
@@ -99,7 +99,7 @@ function getOldSearches(oldSearches, input) {
     take(matchingOldSearches, 10).map(item => ({
       ...item,
       type: 'OldSearch',
-    }))
+    })),
   );
 }
 
@@ -107,13 +107,13 @@ function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     orderBy(
       filterMatchingToInput(favourites, input, ['address', 'locationName']),
-      feature => feature.locationName
+      feature => feature.locationName,
     ).map(item =>
       ({
         type: 'FavouritePlace',
         properties: { ...item, label: item.locationName, layer: 'favouritePlace' },
         geometry: { type: 'Point', coordinates: [item.lon, item.lat] },
-      })
+      }),
   ));
 }
 
@@ -144,7 +144,7 @@ function getFavouriteRoutes(favourites, input) {
         mode
         longName
       }
-    }`, { ids: favourites }
+    }`, { ids: favourites },
   );
 
   return getRelayQuery(query)
@@ -155,7 +155,7 @@ function getFavouriteRoutes(favourites, input) {
       type: 'FavouriteRoute',
     })))
     .then(routes => filterMatchingToInput(
-      routes, input, ['properties.shortName', 'properties.longName'])
+      routes, input, ['properties.shortName', 'properties.longName']),
     )
     .then(routes => routes.sort((x, y) => routeCompare(x.properties, y.properties)));
 }
@@ -172,7 +172,7 @@ function getFavouriteStops(favourites, input, origin) {
         code
         routes { mode }
       }
-    }`, { ids: favourites }
+    }`, { ids: favourites },
   );
 
   const refLatLng = origin.lat && origin.lon && getLatLng(origin.lat, origin.lon);
@@ -187,7 +187,7 @@ function getFavouriteStops(favourites, input, origin) {
     .then(stops => (
       refLatLng ?
       sortBy(stops, item =>
-        getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0]).distanceTo(refLatLng)
+        getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0]).distanceTo(refLatLng),
       ) : stops
   ));
 }
@@ -213,11 +213,11 @@ function getRoutes(input) {
           longName
         }
       }
-    }`, { name: input }
+    }`, { name: input },
   );
 
   return getRelayQuery(query).then(data =>
-    mapRoutes(data[0].routes).sort((x, y) => routeCompare(x.properties, y.properties))
+    mapRoutes(data[0].routes).sort((x, y) => routeCompare(x.properties, y.properties)),
   ).then(suggestions => take(suggestions, 10));
 }
 
@@ -243,7 +243,7 @@ function getStops(input, origin) {
           routes { mode }
         }
       }
-    }`, { name: input }
+    }`, { name: input },
   );
 
   const refLatLng = origin.lat && origin.lon && getLatLng(origin.lat, origin.lon);
@@ -253,7 +253,7 @@ function getStops(input, origin) {
     sortBy(stops, item =>
       Math.round(
         getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
-        .distanceTo(refLatLng) / 50000) // divide in 50km buckets
+        .distanceTo(refLatLng) / 50000), // divide in 50km buckets
     ) : stops
   )).then(suggestions => take(suggestions, 10));
 }

@@ -162,5 +162,5 @@ export default connectToStores(
   ['MessageStore', 'PreferencesStore'],
   context => (
     { lang: context.getStore('PreferencesStore').getLanguage(),
-      messages: Array.from(context.getStore('MessageStore').messages.values()) })
+      messages: Array.from(context.getStore('MessageStore').messages.values()) }),
 );

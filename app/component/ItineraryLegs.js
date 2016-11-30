@@ -44,7 +44,7 @@ class ItineraryLegs extends React.Component {
     const compressedLegs = [];
     let compressLeg = false;
 
-    for (const cleg of originalLegs) {
+    originalLegs.forEach((cleg) => {
       if (compressLeg) {
         if (usingOwnBicycle && this.continueWithBicycle(compressLeg, cleg)) {
           compressLeg.duration += cleg.duration;
@@ -69,7 +69,7 @@ class ItineraryLegs extends React.Component {
       } else {
         compressLeg = cleg;
       }
-    }
+    });
 
     if (compressLeg) {
       compressedLegs.push(compressLeg);

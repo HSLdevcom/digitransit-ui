@@ -88,7 +88,7 @@ class Map extends React.Component {
       if (this.props.fitBounds) {
         this.refs.map.leafletElement.fitBounds(
           boundWithMinimumArea(this.props.bounds),
-          this.props.boundsOptions
+          this.props.boundsOptions,
         );
       }
     }
@@ -137,13 +137,13 @@ class Map extends React.Component {
         leafletObjs.push(
           <LazilyLoad key="vector-tiles" modules={this.vectorTileLayerContainerModules}>
             {this.renderVectorTileLayerContainer}
-          </LazilyLoad>
+          </LazilyLoad>,
         );
       } else if (this.props.showStops) {
         leafletObjs.push(
           <LazilyLoad key="stop-layer" modules={this.stopMarkerContainerModules}>
             {this.renderStopMarkerContainer}
-          </LazilyLoad>
+          </LazilyLoad>,
           );
 
         if (config.cityBike.showCityBikes) {
