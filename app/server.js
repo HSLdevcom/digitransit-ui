@@ -8,7 +8,7 @@ import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
-import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware } from 'react-relay-network-layer';
+import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware, retryMiddleware } from 'react-relay-network-layer';
 import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
 
 // Libraries
@@ -46,6 +46,7 @@ const appRoot = `${process.cwd()}/`;
 const geolocationStarter = fs.readFileSync(`${appRoot}_static/geolocation.js`).toString();
 
 const networkLayer = new RelayNetworkLayer([
+  retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
   urlMiddleware({
     url: `${config.URL.OTP}index/graphql`,
     batchUrl: `${config.URL.OTP}index/graphql/batch`,
@@ -177,9 +178,8 @@ function getContent(context, renderProps, locale, userAgent) {
 
 function getHtml(context, locale, [polyfills, relayData], req) {
   // eslint-disable-next-line no-unused-vars
-  const content = getContent(context, relayData.props, locale, req.headers['user-agent']);
+  const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent']) : undefined;
   const head = Helmet.rewind();
-
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
       css={process.env.NODE_ENV === 'development' ? false : css}
@@ -194,7 +194,7 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       fonts={config.URL.FONT}
       config={`window.config=${JSON.stringify(config)}`}
       geolocationStarter={geolocationStarter}
-      relayData={relayData.data}
+      relayData={relayData != null ? relayData.data : []}
       head={head}
     />
   );
@@ -233,7 +233,8 @@ export default function (req, res, next) {
     } else {
       const promises = [
         getPolyfills(req.headers['user-agent']),
-        IsomorphicRouter.prepareData(renderProps, networkLayer),
+        // Isomorphic rendering is ok to fail due timeout
+        IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];
 
       if (renderProps.routes[1] && renderProps.routes[1].loadAction) {
