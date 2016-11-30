@@ -5,6 +5,7 @@ import config from '../../config';
 import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
+import LazilyLoad, { importLazy } from '../LazilyLoad';
 
 const isBrowser = typeof window !== 'undefined' && window !== null;
 
@@ -16,28 +17,12 @@ let LeafletMap;
 let TileLayer;
 let L;
 
-let TileLayerContainer;
-let CityBikes;
-let Stops;
-let ParkAndRide;
-
-let StopMarkerContainer;
-let CityBikeMarkerContainer;
-
 if (isBrowser) {
   LeafletMap = require('react-leaflet/lib/Map').default;
   TileLayer = require('react-leaflet/lib/TileLayer').default;
   L = require('leaflet');
   // Webpack handles this by bundling it with the other css files
   require('leaflet/dist/leaflet.css');
-
-  TileLayerContainer = require('./tile-layer/TileLayerContainer').default;
-  CityBikes = require('./tile-layer/CityBikes').default;
-  Stops = require('./tile-layer/Stops').default;
-  ParkAndRide = require('./tile-layer/ParkAndRide').default;
-
-  StopMarkerContainer = require('./non-tile-layer/StopMarkerContainer').default;
-  CityBikeMarkerContainer = require('./non-tile-layer/CityBikeMarkerContainer').default;
 }
 
 class Map extends React.Component {
@@ -109,51 +94,63 @@ class Map extends React.Component {
     }
   }
 
+  vectorTileLayerContainerModules = ({ VectorTileLayerContainer:
+    () => importLazy(System.import('./tile-layer/VectorTileLayerContainer')),
+  })
+
+  stopMarkerContainerModules = { StopMarkerContainer:
+    () => importLazy(System.import('./non-tile-layer/StopMarkerContainer')),
+  }
+
+  cityBikeMarkerContainerModules = { CityBikeMarkerContainer:
+    () => importLazy(System.import('./non-tile-layer/CityBikeMarkerContainer')),
+  }
+
+  renderVectorTileLayerContainer = ({ VectorTileLayerContainer }) => (
+    <VectorTileLayerContainer
+      hilightedStops={this.props.hilightedStops}
+      showStops={this.props.showStops}
+      disableMapTracking={this.props.disableMapTracking}
+    />
+  )
+
+  renderStopMarkerContainer = ({ StopMarkerContainer }) => (
+    <StopMarkerContainer
+      hilightedStops={this.props.hilightedStops}
+      disableMapTracking={this.props.disableMapTracking}
+      updateWhenIdle={false}
+    />
+  )
+
+  renderCityBikeMarkerContainer = ({ CityBikeMarkerContainer }) => (<CityBikeMarkerContainer />)
+
   render = () => {
     let map;
     let zoom;
     let origin;
-    let layers;
     let leafletObjs;
 
     if (isBrowser) {
       leafletObjs = this.props.leafletObjs || [];
 
       if (config.map.useVectorTiles) {
-        layers = [];
-
-        if (this.props.showStops) {
-          layers.push(Stops);
-
-          if (config.cityBike && config.cityBike.showCityBikes) {
-            layers.push(CityBikes);
-          }
-
-          if (config.parkAndRide && config.parkAndRide.showParkAndRide) {
-            layers.push(ParkAndRide);
-          }
-        }
-
         leafletObjs.push(
-          <TileLayerContainer
-            key="tileLayer"
-            layers={layers}
-            hilightedStops={this.props.hilightedStops}
-            tileSize={config.map.tileSize || 256}
-            zoomOffset={config.map.zoomOffset || 0}
-            disableMapTracking={this.props.disableMapTracking}
-          />);
+          <LazilyLoad key="vector-tiles" modules={this.vectorTileLayerContainerModules}>
+            {this.renderVectorTileLayerContainer}
+          </LazilyLoad>
+        );
       } else if (this.props.showStops) {
         leafletObjs.push(
-          <StopMarkerContainer
-            key="stops"
-            hilightedStops={this.props.hilightedStops}
-            disableMapTracking={this.props.disableMapTracking}
-            updateWhenIdle={false}
-          />);
+          <LazilyLoad key="stop-layer" modules={this.stopMarkerContainerModules}>
+            {this.renderStopMarkerContainer}
+          </LazilyLoad>
+          );
 
         if (config.cityBike.showCityBikes) {
-          leafletObjs.push(<CityBikeMarkerContainer key="cityBikes" />);
+          leafletObjs.push(
+            <LazilyLoad key="citybikes" modules={this.cityBikeMarkerContainerModules}>
+              {this.renderCityBikeMarkerContainer}
+            </LazilyLoad>);
         }
       }
 

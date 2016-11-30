@@ -1,12 +1,10 @@
 import React from 'react';
-import Drawer from 'material-ui/Drawer';
-import { supportsHistory } from 'history/lib/DOMUtils';
 import cx from 'classnames';
 
-import CustomizeSearch from './CustomizeSearch';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -48,8 +46,7 @@ class SummaryNavigation extends React.Component {
   }
 
   getOffcanvasState = () =>
-    (typeof window !== 'undefined' && supportsHistory() && this.context.location.state &&
-      this.context.location.state.customizeSearchOffcanvas) || false;
+    (this.context.location.state && this.context.location.state.customizeSearchOffcanvas) || false;
 
   internalSetOffcanvas = (newState) => {
     if (this.context.piwik != null) {
@@ -60,18 +57,16 @@ class SummaryNavigation extends React.Component {
       );
     }
 
-    if (supportsHistory()) {
-      if (newState) {
-        this.context.router.push({
-          ...this.context.location,
-          state: {
-            ...this.context.location.state,
-            customizeSearchOffcanvas: newState,
-          },
-        });
-      } else {
-        this.context.router.goBack();
-      }
+    if (newState) {
+      this.context.router.push({
+        ...this.context.location,
+        state: {
+          ...this.context.location.state,
+          customizeSearchOffcanvas: newState,
+        },
+      });
+    } else {
+      this.context.router.goBack();
     }
   }
 
@@ -79,27 +74,36 @@ class SummaryNavigation extends React.Component {
     this.internalSetOffcanvas(!this.getOffcanvasState());
   }
 
+  customizeSearchModules = {
+    Drawer: () => importLazy(System.import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
+  }
+
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
 
     return (
       <section>
-        <Drawer
-          className="offcanvas"
-          disableSwipeToOpen
-          openSecondary
-          docked={false}
-          open={this.getOffcanvasState()}
-          onRequestChange={this.onRequestChange}
-          // Needed for the closing arrow button that's left of the drawer.
-          containerStyle={{ background: 'transparent', boxShadow: 'none' }}
-          width={291}
-        >
-          <CustomizeSearch
-            params={this.props.params}
-            onToggleClick={this.toggleCustomizeSearchOffcanvas}
-          />
-        </Drawer>
+        <LazilyLoad modules={this.customizeSearchModules} >
+          {({ Drawer, CustomizeSearch }) => (
+            <Drawer
+              className="offcanvas"
+              disableSwipeToOpen
+              openSecondary
+              docked={false}
+              open={this.getOffcanvasState()}
+              onRequestChange={this.onRequestChange}
+              // Needed for the closing arrow button that's left of the drawer.
+              containerStyle={{ background: 'transparent', boxShadow: 'none' }}
+              width={291}
+            >
+              <CustomizeSearch
+                params={this.props.params}
+                onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              />
+            </Drawer>
+          )}
+        </LazilyLoad>
         <OriginDestinationBar className={className} />
         <div className={cx('time-selector-settings-row', className)}>
           <TimeSelectorContainer />

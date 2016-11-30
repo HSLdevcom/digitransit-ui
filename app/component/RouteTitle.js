@@ -1,12 +1,12 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
 import RouteNumber from './RouteNumber';
 
 const RouteTitle = ({ route }, { breakpoint }) => (
-  (breakpoint === 'large' || !route) ?
+  (breakpoint === 'large' || !route || !route.mode) ?
     <FormattedMessage
       id="route-page.title-short"
       defaultMessage="Route"
