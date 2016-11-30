@@ -183,7 +183,7 @@ $btn-heigth: 17px;
   &.citybike {
     background-color: $btn-citybike-active-background-color;
   }
-  &.walk, &.bicycle, &.car  {
+  &.walk, &.bicycle, &.car, &.car_park  {
     background-color: $btn-radio-checked-background-color;
     .icon {
       color: $btn-icon-color-checked;
