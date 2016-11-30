@@ -3,6 +3,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import range from 'lodash/range';
 import xor from 'lodash/xor';
 import without from 'lodash/without';
+import cx from 'classnames';
 
 import Icon from './Icon';
 import Slider from './Slider';
@@ -62,28 +63,18 @@ class CustomizeSearch extends React.Component {
 
     if (!availableStreetModes.length) return null;
 
-    return availableStreetModes.map((streetMode, index) => {
-      let btnClass = '';
-
-      if (index === 0) {
-        btnClass = 'first-btn';
-      }
-
-      if (index === availableStreetModes.length - 1) {
-        btnClass = 'last-btn';
-      }
-
-      return (
-        <ToggleButton
-          key={`toggle-button${index}`}
-          icon={config.streetModes[streetMode].icon}
-          onBtnClick={() => this.toggleStreetMode(streetMode)}
-          state={this.getMode(streetMode)}
-          checkedClass={streetMode}
-          className={`${btnClass} small-4`}
-        />
-      );
-    });
+    return availableStreetModes.map((streetMode, index) => (
+      <ToggleButton
+        key={`toggle-button${index}`}
+        icon={config.streetModes[streetMode].icon}
+        onBtnClick={() => this.toggleStreetMode(streetMode)}
+        state={this.getMode(streetMode)}
+        checkedClass={streetMode}
+        className={cx('small-4',
+          { 'first-btn': index === 0, 'last-btn': index === availableStreetModes.length - 1 }
+        )}
+      />
+    ));
   }
 
   getWalkReluctanceSlider = () => {
