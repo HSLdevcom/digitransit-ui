@@ -16,12 +16,15 @@
   background-color: $secondary-color;
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   input[type="date"], input[type="time"], input[type="text"], select {
     vertical-align: middle;
     text-align: left;
     width: auto;
+    height: 2.6em;
     margin: 0;
+    padding: 0;
     font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
@@ -46,19 +49,18 @@
     }
   }
   .select-wrapper {
-    position:relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: $padding-xsmall;
     border-radius: $border-radius;
     background: $primary-color;
-    padding: $padding-xsmall 1em $padding-xsmall $padding-xsmall !important;
     margin-right: 1px;
-    min-height: 30px;
   }
 
   .fake-select-arrow {
-    position: absolute;
-    right: 5px;
-    top: 42%;
     font-size: 0.5rem;
+    width: 2em;
     color: #fff;
   }
 
@@ -76,7 +78,9 @@
   }
 
   .time-mui {
-    max-width: 5em;
+    max-width: 3.5em;
+    height: 2.6em !important;
+    font-size: $font-size-xxsmall !important;
   }
 
   .arrive {
@@ -101,12 +105,12 @@
 .bp-large.time-selector-settings-row {
   padding: 0 20px;
 
-  input[type="date"], input[type="time"], input[type="text"], select {
+  input[type="date"], input[type="time"], input[type="text"], select, .time-mui {
     font-size: $font-size-normal !important;
+    height: 35px !important;
   }
 
   .right-offcanvas-toggle {
-      padding: 0 7px;
       span {
         font-size: $font-size-small;
       }
