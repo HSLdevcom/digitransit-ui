@@ -30,6 +30,7 @@ $content-background-color: $background-color;
 
 
 .top-bar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
