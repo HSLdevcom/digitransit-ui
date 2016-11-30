@@ -82,20 +82,25 @@ function startPositioning() {
 
 // Check if we have previous permissions to get geolocation.
 // If yes, start immediately, if not, we will not prompt for permission at this point.
-
 setTimeout(function () {
 
   function getPositioningHasSucceeded() {
+
+    function isWindowsPhone(){
+      return navigator && navigator.userAgent.indexOf('Windows Phone') !== -1;
+    }
+
+    function isIDeviceApp() {
+      return navigator
+        && navigator.userAgent
+        && (navigator.userAgent.indexOf('iPhone') !==-1 || navigator.userAgent.indexOf('iPad') !==-1)
+        && window && window.navigator.standalone;
+    }
     //XXX hack for windows phone & safari app mode
-    if (navigator && (
-      navigator.userAgent.indexOf('Windows Phone') !== -1 ||
-      (window && window.navigator.standalone == true && (
-        navigator.userAgent.indexOf('iPhone') !==-1) || navigator.userAgent.indexOf('iPad') !==-1)
-    )) {
+    if (isWindowsPhone() || isIDeviceApp()){
       const r = JSON.parse(typeof window !== 'undefined' && window.localStorage &&
         window.localStorage.getItem("positioningSuccesful") || '{ "state": false }')
         .state || false;
-
       return r;
     }
     return false;
