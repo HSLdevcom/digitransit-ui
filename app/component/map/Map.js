@@ -137,13 +137,13 @@ class Map extends React.Component {
         leafletObjs.push(
           <LazilyLoad key="vector-tiles" modules={this.vectorTileLayerContainerModules}>
             {this.renderVectorTileLayerContainer}
-          </LazilyLoad>
+          </LazilyLoad>,
         );
       } else if (this.props.showStops) {
         leafletObjs.push(
           <LazilyLoad key="stop-layer" modules={this.stopMarkerContainerModules}>
             {this.renderStopMarkerContainer}
-          </LazilyLoad>
+          </LazilyLoad>,
           );
 
         if (config.cityBike.showCityBikes) {

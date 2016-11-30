@@ -205,9 +205,9 @@ const routes = (
             System.import('./component/StopPage').then(getDefault),
             System.import('./component/StopPageMap').then(getDefault),
             System.import('./component/StopPageMeta').then(getDefault),
-          ]).then(
-            ([title, header, content, map, meta]) => cb(null, { title, header, content, map, meta })
-          );
+          ]).then(([title, header, content, map, meta]) =>
+            cb(null, { title, header, content, map, meta },
+          ));
         }}
         queries={{
           header: StopQueries,
@@ -237,9 +237,9 @@ const routes = (
             System.import('./component/StopPage').then(getDefault),
             System.import('./component/StopPageMap').then(getDefault),
             System.import('./component/StopPageMeta').then(getDefault),
-          ]).then(
-            ([title, header, content, map, meta]) => cb(null, { title, header, content, map, meta })
-          );
+          ]).then(([title, header, content, map, meta]) =>
+            cb(null, { title, header, content, map, meta },
+          ));
         }}
         queries={{
           header: terminalQueries,
@@ -266,7 +266,7 @@ const routes = (
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/PatternStopsContainer').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content })
+                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
                 );
               }}
               queries={{
@@ -286,7 +286,7 @@ const routes = (
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/PatternStopsContainer').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content })
+                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
                 );
               }}
               queries={{
@@ -307,7 +307,7 @@ const routes = (
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/TripStopsContainer').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content })
+                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
                 );
               }}
               queries={{
