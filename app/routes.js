@@ -110,7 +110,7 @@ const preparePlanParams = (
       minTransferTime,
       modes,
       accessibilityOption,
-    } } }
+    } } },
   ) => omitBy({
     fromPlace: from,
     toPlace: to,

@@ -83,7 +83,7 @@ class TileContainer {
           ({
             layer: layer.constructor.getName(),
             feature,
-          })
+          }),
       ))));
 
       nearest = features.filter((feature) => {

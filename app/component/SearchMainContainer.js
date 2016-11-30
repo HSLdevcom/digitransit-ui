@@ -132,7 +132,7 @@ class SearchMainContainer extends React.Component {
     return (
       <div
         className={cx(
-          'fake-search-container', `bp-${this.context.breakpoint}`, this.props.className
+          'fake-search-container', `bp-${this.context.breakpoint}`, this.props.className,
         )}
       >
         <FakeSearchWithButton fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
@@ -158,7 +158,7 @@ class SearchMainContainer extends React.Component {
               </span>
             </div>,
             'endpoint',
-            this.context.getStore('EndpointStore').getOrigin()
+            this.context.getStore('EndpointStore').getOrigin(),
           )}
           {this.renderEndpointTab(
             'destination',

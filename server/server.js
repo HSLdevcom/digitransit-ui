@@ -75,7 +75,7 @@ function setUpRoutes() {
 
 function startServer() {
   const server = app.listen(port, () =>
-    console.log('Digitransit-ui available on port %d', server.address().port)
+    console.log('Digitransit-ui available on port %d', server.address().port),
   );
 }
 

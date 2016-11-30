@@ -24,7 +24,7 @@ class TopLevel extends React.Component {
       React.PropTypes.shape({
         topBarOptions: React.PropTypes.object,
         disableMapOnMobile: React.PropTypes.bool,
-      }).isRequired
+      }).isRequired,
     ).isRequired,
   }
 

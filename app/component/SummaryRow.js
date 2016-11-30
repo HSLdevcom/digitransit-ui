@@ -60,7 +60,7 @@ export default function SummaryRow(props, { breakpoint }) {
             className={cx('line', mode.toLowerCase())}
             vertical
           />
-        </div>
+        </div>,
       );
     }
   });

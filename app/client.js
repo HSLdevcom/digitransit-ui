@@ -72,12 +72,12 @@ Relay.injectNetworkLayer(
     }),
     gqErrorsMiddleware(),
     retryMiddleware(),
-  ], { disableBatchQuery: false })
+  ], { disableBatchQuery: false }),
 );
 
 IsomorphicRelay.injectPreparedData(
   Relay.Store,
-  JSON.parse(document.getElementById('relayData').textContent)
+  JSON.parse(document.getElementById('relayData').textContent),
 );
 
 if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
@@ -161,7 +161,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
           .getComponentContext()
           .getStore('TimeStore')
           .getCurrentTime()
-          .valueOf()
+          .valueOf(),
         )
       ) {
         context.executeAction(openFeedbackModal);
@@ -195,7 +195,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
       </MuiThemeProvider>
     </ContextProvider>
     , document.getElementById('app')
-    , trackReactPerformance
+    , trackReactPerformance,
   );
 
   // init geolocation handling
@@ -208,7 +208,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     // e.userChoice will return a Promise. (Only in chrome, not IE)
     if (e.userChoice) {
       e.userChoice.then(choiceResult =>
-        piwik.trackEvent('installprompt', 'result', choiceResult.outcome)
+        piwik.trackEvent('installprompt', 'result', choiceResult.outcome),
       );
     }
   });

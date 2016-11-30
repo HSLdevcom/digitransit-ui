@@ -91,17 +91,17 @@ gemini.suite('components', () => {
     gemini.suite('realtime', test('TripRouteStop', [
       '#TripRouteStop .component-example:nth-of-type(2) .component',
       '#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime',
-    ], '#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime'
+    ], '#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime',
     ));
   });
   gemini.suite('Favourite', () => {
     gemini.suite('favourite', test('Favourite'));
     gemini.suite('favourite-hovered', test('Favourite', 1, [], actions => actions.mouseMove(
-      '#Favourite .component-example:nth-of-type(1) .component svg'
+      '#Favourite .component-example:nth-of-type(1) .component svg',
     )));
     gemini.suite('not-favourite', test('Favourite', 2));
     gemini.suite('not-favourite-hovered', test('Favourite', 2, [], actions => actions.mouseMove(
-      '#Favourite .component-example:nth-of-type(2) .component svg'
+      '#Favourite .component-example:nth-of-type(2) .component svg',
     )));
   });
 
@@ -120,7 +120,7 @@ gemini.suite('components', () => {
     gemini.suite('normal', test('TimeNavigationButtons'));
     gemini.suite('hovered', test('TimeNavigationButtons', 1, [], (actions) => {
       actions.mouseMove(
-        '#TimeNavigationButtons .component-example:nth-of-type(1) .component button:first-of-type'
+        '#TimeNavigationButtons .component-example:nth-of-type(1) .component button:first-of-type',
       ).wait(400); // Wait for animation to happen
     }));
   });
@@ -170,7 +170,7 @@ gemini.suite('components', () => {
   gemini.suite('RouteStop', test('RouteStop',
     ['#RouteStop .component-example:nth-of-type(1) .component',
       '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
-    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'
+    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime',
   ));
 
   gemini.suite('DepartureRow', () => {

@@ -52,5 +52,5 @@ DisruptionInfo.description = (
 export default connectToStores(DisruptionInfo, ['DisruptionInfoStore'], context =>
   ({
     open: context.getStore('DisruptionInfoStore').isOpen,
-  })
+  }),
 );

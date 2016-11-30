@@ -55,7 +55,7 @@ export function getDistanceToFurthestStop(coordinates, stops) {
     ({
       stop,
       distance: coordinates.distanceTo(new L.LatLng(stop.lat, stop.lon)),
-    })
+    }),
   ).reduce((previous, current) => (current.distance > previous.distance ? current : previous),
            { stop: null, distance: 0 });
 }

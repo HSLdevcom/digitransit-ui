@@ -22,7 +22,7 @@ function ItinerarySummaryListContainer(props) {
           onSelectImmediately={props.onSelectImmediately}
         >
           {i === open && props.children}
-        </SummaryRow>
+        </SummaryRow>,
       );
     }
 

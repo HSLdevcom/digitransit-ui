@@ -82,7 +82,7 @@ const FavouriteRouteListContainerWithTime = connectToStores(
       searching: position.status === PositionStore.STATUS_SEARCHING_LOCATION,
       location: origin.useCurrentPosition ? positionOrFalse : origin,
     };
-  }
+  },
 );
 
 

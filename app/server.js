@@ -148,7 +148,7 @@ function getContent(context, renderProps, locale, userAgent) {
           {IsomorphicRouter.render(renderProps)}
         </MuiThemeProvider>
       </IntlProvider>
-    </FluxibleComponent>
+    </FluxibleComponent>,
   );
 }
 
@@ -173,7 +173,7 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       geolocationStarter={geolocationStarter}
       relayData={relayData.data}
       head={head}
-    />
+    />,
   );
 }
 
@@ -220,7 +220,7 @@ export default function (req, res, next) {
       }
 
       Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`)
+        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`),
       ).catch((err) => {
         if (err) { next(err); }
       });

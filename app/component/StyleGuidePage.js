@@ -340,7 +340,7 @@ function getIcons() {
         }}
       >
         {sortBy([].slice.call(document.getElementsByTagName('symbol')), symbol => symbol.id)
-          .map(symbol => getIcon(symbol.id)
+          .map(symbol => getIcon(symbol.id),
         )}
       </div>
       <div>

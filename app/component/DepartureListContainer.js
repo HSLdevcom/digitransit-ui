@@ -40,7 +40,7 @@ const asDepartures = stoptimes => (
         headsign: stoptime.stopHeadsign,
         trip: { gtfsId: stoptime.trip.gtfsId },
       };
-    })
+    }),
   )
 );
 
@@ -108,7 +108,7 @@ class DepartureListContainer extends Component {
               (alert.effectiveStartDate <= departure.stoptime) &&
               (departure.stoptime <= alert.effectiveEndDate) &&
               get(alert.trip.gtfsId) === get(departure.trip.gtfsId)
-            )
+            ),
           ).length > 0,
         canceled: departure.canceled,
       };
@@ -133,7 +133,7 @@ class DepartureListContainer extends Component {
             key={id}
           >
             {departureObj}
-          </Link>
+          </Link>,
         );
       } else {
         departureObjs.push(departureObj);
@@ -151,7 +151,7 @@ class DepartureListContainer extends Component {
 }
 
 const DepartureListContainerWithTime = connectToStores(DepartureListContainer, ['TimeStore'],
-  context => ({ currentTime: context.getStore('TimeStore').getCurrentTime() })
+  context => ({ currentTime: context.getStore('TimeStore').getCurrentTime() }),
 );
 
 export default Relay.createContainer(DepartureListContainerWithTime, {

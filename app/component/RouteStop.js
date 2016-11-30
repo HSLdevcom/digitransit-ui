@@ -54,7 +54,7 @@ const RouteStop = ({
             {...data}
           />)
         }
-      />)
+      />),
     );
 
   const reverseVehicleLinks = reverseVehicles && reverseVehicles.map(vehicle => (
@@ -75,7 +75,7 @@ const RouteStop = ({
           reverse
         />)
       }
-    />)
+    />),
   );
 
   return (

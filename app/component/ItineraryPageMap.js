@@ -10,7 +10,7 @@ import Icon from './Icon';
 
 export default function ItineraryPageMap(
   { itinerary, from, to, routes, center },
-  { breakpoint, router, location }
+  { breakpoint, router, location },
 ) {
   const leafletObjs = [
     <LocationMarker
@@ -31,7 +31,7 @@ export default function ItineraryPageMap(
         legs={itinerary.legs}
         showTransferLabels
         showIntermediateStops
-      />
+      />,
     );
   }
   const fullscreen = some(routes.map(route => route.fullscreenMap));

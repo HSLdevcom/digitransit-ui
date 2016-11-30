@@ -103,7 +103,7 @@ class Map extends React.Component {
       if (this.props.fitBounds) {
         this.refs.map.leafletElement.fitBounds(
           boundWithMinimumArea(this.props.bounds),
-          this.props.boundsOptions
+          this.props.boundsOptions,
         );
       }
     }

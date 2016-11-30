@@ -43,7 +43,7 @@ const StopPageMap = ({ stop, routes, router, params }, { breakpoint }) => {
     leafletObjs.push(
       <SelectedStopPopup lat={stop.lat} lon={stop.lon}>
         <SelectedStopPopupContent stop={stop} />
-      </SelectedStopPopup>
+      </SelectedStopPopup>,
     );
   } else {
     children.push(fullscreenMapOverlay(fullscreenMap, params, router));
