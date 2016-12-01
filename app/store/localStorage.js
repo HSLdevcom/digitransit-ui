@@ -1,4 +1,5 @@
 import { isBrowser } from '../util/browser';
+
 function setItem(key, value) {
   if (isBrowser && window.localStorage) {
     try {

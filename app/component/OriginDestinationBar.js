@@ -26,12 +26,8 @@ class OriginDestinationBar extends React.Component {
   };
 
   componentWillMount() {
-    this.context.executeAction(storeEndpoint,
-      { target: 'origin', endpoint: this.props.origin }
-    );
-    this.context.executeAction(storeEndpoint,
-      { target: 'destination', endpoint: this.props.destination }
-    );
+    this.context.executeAction(storeEndpoint, { target: 'origin', endpoint: this.props.origin });
+    this.context.executeAction(storeEndpoint, { target: 'destination', endpoint: this.props.destination });
   }
 
   swapEndpoints= () => {
