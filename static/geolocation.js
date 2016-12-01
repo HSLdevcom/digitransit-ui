@@ -91,11 +91,9 @@ setTimeout(function () {
         && window && window.navigator.standalone;
     }
     //XXX hack for windows phone & safari app mode
-    if (isWindowsPhone() || isIDeviceApp()){
-      const r = JSON.parse(typeof window !== 'undefined' && window.localStorage &&
-        window.localStorage.getItem("positioningSuccesful") || '{ "state": false }')
-        .state || false;
-      return r;
+    if (isWindowsPhone() || isIDeviceApp()) {
+      return JSON.parse(typeof window !== 'undefined' && window.localStorage &&
+        window.localStorage.getItem("positioningSuccesful") || '{ "state": false }').state || false;
     }
     return false;
   }
