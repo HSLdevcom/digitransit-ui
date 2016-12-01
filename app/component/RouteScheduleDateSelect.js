@@ -12,20 +12,20 @@ function RouteScheduleDateSelect(props, context) {
   dates.push(
     <option value={date.format(props.dateFormat)} key={date.format(props.dateFormat)} >
       {context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' })}
-    </option>
+    </option>,
   );
 
   dates.push(
     <option value={date.add(1, 'd').format(props.dateFormat)} key={date.format(props.dateFormat)} >
       {context.intl.formatMessage({ id: 'tomorrow', defaultMessage: 'Tomorrow' })}
-    </option>
+    </option>,
   );
 
   for (let i = 0; i < 28; i++) {
     dates.push(
       <option value={date.add(1, 'd').format(props.dateFormat)} key={date.format(props.dateFormat)}>
         {date.format('dd D.M')}
-      </option>
+      </option>,
     );
   }
 

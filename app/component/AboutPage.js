@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 

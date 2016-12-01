@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
 import Card from './Card';
 

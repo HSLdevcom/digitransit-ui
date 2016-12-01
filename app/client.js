@@ -16,6 +16,7 @@ import {
   retryMiddleware,
 } from 'react-relay-network-layer';
 import 'regenerator-runtime/runtime';
+import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
 import config from './config';
@@ -72,12 +73,12 @@ Relay.injectNetworkLayer(
     }),
     gqErrorsMiddleware(),
     retryMiddleware(),
-  ], { disableBatchQuery: false })
+  ], { disableBatchQuery: false }),
 );
 
 IsomorphicRelay.injectPreparedData(
   Relay.Store,
-  JSON.parse(document.getElementById('relayData').textContent)
+  JSON.parse(document.getElementById('relayData').textContent),
 );
 
 if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
@@ -86,58 +87,6 @@ if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
 
 // Material-ui uses touch tap events
 tapEventPlugin();
-
-function isPerfomanceSupported() {
-  if (typeof window === 'undefined' ||
-      typeof performance === 'undefined' ||
-      performance.timing === null) {
-    return false;
-  }
-  return true;
-}
-
-/* Tracks React render performance */
-function trackReactPerformance() {
-  if (!isPerfomanceSupported()) {
-    return;
-  }
-
-  const appRender = Date.now() - performance.timing.fetchStart;
-  piwik.trackEvent('monitoring', 'perf', '3. App Render', appRender);
-}
-
-/* Tracks DOM and JS loading and parsing performance */
-function trackDomPerformance() {
-  if (!isPerfomanceSupported()) {
-    return;
-  }
-
-  // See https://www.w3.org/TR/navigation-timing/#sec-navigation-timing-interface
-  // for explanation of timing events
-  const timing = performance.timing;
-
-  // Timing: How long did it take to load HTML and parse DOM
-  const domParse = timing.domLoading - timing.fetchStart;
-  piwik.trackEvent('monitoring', 'perf', '1. DOM', domParse);
-
-  // Timing: How long did it take to load and parse JS and css
-  const jsParse = timing.domContentLoadedEventStart - timing.fetchStart;
-  piwik.trackEvent('monitoring', 'perf', '2. DOMContentLoaded', jsParse);
-
-  // Running scripts between timing.domComplete and timing.loadEventStart, and
-  // onLoad handlers between timing.loadEventStart and timing.loadEventEnd take 0ms,
-  // because the scripts are async.
-  // If this changes, more data points should be added.
-
-  // TODO Add more data points for loading parts of the frontpage,
-  // and for tracking other pages than just the front.
-  // In some cases microsecond accuracy from Usr Timing API could be necessary.
-  // Something like https://www.npmjs.com/package/browsertime might be useful
-  // then..
-  // In case we think there's a bottleneck in particular resources,
-  // we need the Resource Timing API (http://caniuse.com/#feat=resource-timing)
-  // to get more detailed data.
-}
 
 // Add plugins
 app.plug(piwikPlugin);
@@ -161,7 +110,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
           .getComponentContext()
           .getStore('TimeStore')
           .getCurrentTime()
-          .valueOf()
+          .valueOf(),
         )
       ) {
         context.executeAction(openFeedbackModal);
@@ -194,8 +143,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
         </Router>
       </MuiThemeProvider>
     </ContextProvider>
-    , document.getElementById('app')
-    , trackReactPerformance
+    , document.getElementById('app'),
   );
 
   // init geolocation handling
@@ -208,7 +156,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     // e.userChoice will return a Promise. (Only in chrome, not IE)
     if (e.userChoice) {
       e.userChoice.then(choiceResult =>
-        piwik.trackEvent('installprompt', 'result', choiceResult.outcome)
+        piwik.trackEvent('installprompt', 'result', choiceResult.outcome),
       );
     }
   });
@@ -220,8 +168,10 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   piwik.setCustomVariable(4, 'commit_id', COMMIT_ID, 'visit');
   piwik.setCustomVariable(5, 'build_time', BUILD_TIME, 'visit');
 
-  // Track performance after some time has passed
-  setTimeout(() => trackDomPerformance(), 5000);
+  // Roun only in production mode and when built in a docker container
+  if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
+    OfflinePlugin.install();
+  }
 });
 
 // Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service
@@ -230,9 +180,9 @@ if (typeof window.Intl !== 'undefined') {
 } else {
   const modules = [System.import('intl')];
 
-  for (const language of config.availableLanguages) {
+  config.availableLanguages.forEach((language) => {
     modules.push(System.import(`intl/locale-data/jsonp/${language}`));
-  }
+  });
 
   Promise.all(modules).then(callback);
 }

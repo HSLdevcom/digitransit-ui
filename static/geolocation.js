@@ -1,7 +1,6 @@
 window.position = {
   pos: null,
   error: null,
-  timing: null
 }
 
 window.retrieveGeolocation = function retrieveGeolocation(pos) {
@@ -10,10 +9,6 @@ window.retrieveGeolocation = function retrieveGeolocation(pos) {
 
 window.retrieveGeolocationError = function retrieveGeolocationError(error) {
   window.position.error = error;
-}
-
-window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
-  window.position.timing = timing;
 }
 
 //set watcher for geolocation
@@ -31,7 +26,6 @@ function watchPosition() {
       if (timeout !== null) {
         clearTimeout(timeout);
         timeout = null;
-        window.retrieveGeolocationTiming(new Date().getTime() - startTime);
       }
       window.retrieveGeolocation(position);
     }, function handleError(error) {

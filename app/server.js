@@ -8,7 +8,7 @@ import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
-import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware } from 'react-relay-network-layer';
+import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware, retryMiddleware } from 'react-relay-network-layer';
 import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
 
 // Libraries
@@ -18,6 +18,7 @@ import polyfillService from 'polyfill-service';
 import fs from 'fs';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import find from 'lodash/find';
 
 // Application
 import application from './app';
@@ -42,10 +43,10 @@ function getStringOrArrayElement(arrayOrString, index) {
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
-const svgSprite = fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString();
 const geolocationStarter = fs.readFileSync(`${appRoot}_static/geolocation.js`).toString();
 
 const networkLayer = new RelayNetworkLayer([
+  retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
   urlMiddleware({
     url: `${config.URL.OTP}index/graphql`,
     batchUrl: `${config.URL.OTP}index/graphql/batch`,
@@ -56,6 +57,7 @@ const networkLayer = new RelayNetworkLayer([
 let stats;
 let manifest;
 let css;
+let svgSprite;
 
 if (process.env.NODE_ENV !== 'development') {
   stats = require('../stats.json'); // eslint-disable-line global-require, import/no-unresolved
@@ -76,6 +78,30 @@ if (process.env.NODE_ENV !== 'development') {
       }`}
     />,
   ];
+
+  console.log(find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]);
+
+  svgSprite = (
+    <script
+      dangerouslySetInnerHTML={{ __html: `
+        fetch('${
+          config.APP_PATH}/${find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]
+        }').then(function(response) {return response.text();}).then(function(blob) {
+          var div = document.createElement('div');
+          div.innerHTML = blob;
+          document.body.insertBefore(div, document.body.childNodes[0]);
+        })
+    ` }}
+    />
+  );
+} else {
+  svgSprite = (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString(),
+      }}
+    />
+  );
 }
 
 function getPolyfills(userAgent) {
@@ -102,19 +128,17 @@ function getPolyfills(userAgent) {
     'Symbol.iterator': { flags: ['gated'] },
   };
 
-  for (const language of config.availableLanguages) {
+  config.availableLanguages.forEach((language) => {
     features[`Intl.~locale.${language}`] = {
       flags: ['gated'],
     };
-  }
+  });
 
   return polyfillService.getPolyfillString({
     uaString: userAgent,
     features,
     minify: true,
     unknown: 'polyfill',
-    // TODO WeakMap polyfill breaks IE11 on load, bug in polyfill-service
-    excludes: ['WeakMap'],
   });
 }
 
@@ -148,15 +172,14 @@ function getContent(context, renderProps, locale, userAgent) {
           {IsomorphicRouter.render(renderProps)}
         </MuiThemeProvider>
       </IntlProvider>
-    </FluxibleComponent>
+    </FluxibleComponent>,
   );
 }
 
 function getHtml(context, locale, [polyfills, relayData], req) {
   // eslint-disable-next-line no-unused-vars
-  const content = getContent(context, relayData.props, locale, req.headers['user-agent']);
+  const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent']) : undefined;
   const head = Helmet.rewind();
-
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
       css={process.env.NODE_ENV === 'development' ? false : css}
@@ -171,9 +194,9 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       fonts={config.URL.FONT}
       config={`window.config=${JSON.stringify(config)}`}
       geolocationStarter={geolocationStarter}
-      relayData={relayData.data}
+      relayData={relayData != null ? relayData.data : []}
       head={head}
-    />
+    />,
   );
 }
 
@@ -210,7 +233,8 @@ export default function (req, res, next) {
     } else {
       const promises = [
         getPolyfills(req.headers['user-agent']),
-        IsomorphicRouter.prepareData(renderProps, networkLayer),
+        // Isomorphic rendering is ok to fail due timeout
+        IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];
 
       if (renderProps.routes[1] && renderProps.routes[1].loadAction) {
@@ -220,7 +244,7 @@ export default function (req, res, next) {
       }
 
       Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`)
+        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`),
       ).catch((err) => {
         if (err) { next(err); }
       });

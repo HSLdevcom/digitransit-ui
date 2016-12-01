@@ -154,8 +154,8 @@ class TileLayerContainer extends MapLayer {
       .forEach(key => this.leafletElement._tiles[key].el.onMapClick(
         e,
         this.merc.px([e.latlng.lng, e.latlng.lat],
-        Number(key.split(':')[2]) + this.props.zoomOffset)
-      )
+        Number(key.split(':')[2]) + this.props.zoomOffset),
+      ),
     );
     /* eslint-enable no-underscore-dangle */
   }
@@ -245,7 +245,7 @@ class TileLayerContainer extends MapLayer {
                 <ParkAndRideHubPopupWithContext
                   name={
                     JSON.parse(
-                      this.state.selectableTargets[0].feature.properties.name
+                      this.state.selectableTargets[0].feature.properties.name,
                     )[this.context.intl.locale]
                   }
                   lat={this.state.coords.lat}
@@ -268,7 +268,7 @@ class TileLayerContainer extends MapLayer {
                 <ParkAndRideFacilityPopupWithContext
                   name={
                     JSON.parse(
-                      this.state.selectableTargets[0].feature.properties.name
+                      this.state.selectableTargets[0].feature.properties.name,
                     )[this.context.intl.locale]
                   }
                   lat={this.state.coords.lat}

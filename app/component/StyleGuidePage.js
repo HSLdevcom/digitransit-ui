@@ -1,8 +1,8 @@
 import React from 'react';
 import sortBy from 'lodash/sortBy';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 
-import { FakeSearchWithButton } from './FakeSearchWithButton';
+import { FakeSearchWithButton } from './FakeSearchWithButtonContainer';
 import Icon from './Icon';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
@@ -340,7 +340,7 @@ function getIcons() {
         }}
       >
         {sortBy([].slice.call(document.getElementsByTagName('symbol')), symbol => symbol.id)
-          .map(symbol => getIcon(symbol.id)
+          .map(symbol => getIcon(symbol.id),
         )}
       </div>
       <div>

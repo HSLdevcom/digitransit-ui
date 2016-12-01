@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import cx from 'classnames';
 
 import Icon from './Icon';
@@ -55,7 +55,7 @@ class RoutePage extends React.Component {
   onPatternChange = (e) => {
     this.context.router.replace(
       decodeURIComponent(this.props.location.pathname)
-        .replace(new RegExp(`${this.props.params.patternId}(.*)`), e.target.value)
+        .replace(new RegExp(`${this.props.params.patternId}(.*)`), e.target.value),
     );
   }
 

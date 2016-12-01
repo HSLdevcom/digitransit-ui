@@ -71,7 +71,7 @@ class StopMarkerLayer extends React.Component {
             selected={selected}
             mode={modeClass}
             renderName={false}
-          />
+          />,
         );
         return;
       }
@@ -82,7 +82,7 @@ class StopMarkerLayer extends React.Component {
           selected={selected}
           mode={modeClass}
           renderName={!renderedNames.includes(stop.name)}
-        />
+        />,
       );
 
       renderedNames.push(stop.name);

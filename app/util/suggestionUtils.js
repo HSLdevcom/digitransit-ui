@@ -56,7 +56,7 @@ export const getLabel = memoize((suggestion) => {
 
 export function uniqByLabel(features) {
   return uniqWith(features, (feat1, feat2) =>
-    isEqual(getLabel(feat1.properties), getLabel(feat2.properties))
+    isEqual(getLabel(feat1.properties), getLabel(feat2.properties)),
   );
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import cx from 'classnames';
 
 import ComponentUsageExample from './ComponentUsageExample';
@@ -50,7 +50,7 @@ const TripRouteStop = (props) => {
         selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
         fullscreenMap={props.fullscreenMap}
       />
-    )
+    ),
   );
 
   const reverseVehicles = props.reverseVehicles && props.reverseVehicles.map(vehicle => (
@@ -71,7 +71,7 @@ const TripRouteStop = (props) => {
           reverse
         />)
       }
-    />)
+    />),
   );
 
   return (

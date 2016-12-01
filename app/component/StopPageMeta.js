@@ -20,7 +20,7 @@ const StopPageMeta = compose(
         defaultMessage: 'Stop {stop_name} - {stop_code}',
       }, { stop_name: props.stop.name, stop_code: props.stop.code }),
     }],
-  }))
+  })),
 )(Helmet);
 
 export default Relay.createContainer(StopPageMeta, {

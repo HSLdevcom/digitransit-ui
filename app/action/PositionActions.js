@@ -96,7 +96,7 @@ export function initGeolocation(actionContext, payload, done) {
 
   window.retrieveGeolocationError = function retrieveGeolocationError(error) {
     if (error) {
-      actionContext.piwik.trackEvent('geolocation', `status_${error.code}`, error.message);
+      // actionContext.piwik.trackEvent('geolocation', `status_${error.code}`, error.message);
       if (
         !(actionContext.getStore('EndpointStore').getOrigin().userSetPosition ||
           actionContext.getStore('PositionStore').getLocationState().hasLocation)
@@ -114,10 +114,6 @@ export function initGeolocation(actionContext, payload, done) {
     }
   };
 
-  window.retrieveGeolocationTiming = function retrieveGeolocationTiming(timing) {
-    actionContext.piwik.trackEvent('geolocation', 'status_OK', 'OK', timing);
-  };
-
   // process existing data
   if (window.position.error !== null) {
     window.retrieveGeolocationError(window.position.error);
@@ -128,12 +124,6 @@ export function initGeolocation(actionContext, payload, done) {
     window.retrieveGeolocation(window.position.pos);
     window.position.pos = null;
   }
-
-  if (window.position.timing !== null) {
-    window.retrieveGeolocationTiming(window.position.timing);
-    window.position.timing = null;
-  }
-  // \process existing data
 
   done();
 }
