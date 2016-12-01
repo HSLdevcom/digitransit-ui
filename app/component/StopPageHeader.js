@@ -26,15 +26,13 @@ const StopPageHeader = compose(
       >
         <InfoIcon stop={props.stop} />
       </Labeled>,
-      <Centered>
-        <Favourite
-          favourite={props.favourite}
-          addFavourite={(e) => {
-            e.stopPropagation();
-            props.executeAction(addFavouriteStop, props.params.stopId);
-          }}
-        />
-      </Centered>,
+      <Favourite
+        favourite={props.favourite}
+        addFavourite={(e) => {
+          e.stopPropagation();
+          props.executeAction(addFavouriteStop, props.params.stopId);
+        }}
+      />,
     ],
   })),
 )(StopCardHeaderContainer);
