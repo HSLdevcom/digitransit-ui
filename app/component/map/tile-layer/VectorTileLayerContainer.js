@@ -5,6 +5,7 @@ import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
+import TicketSales from './TicketSales';
 
 export default function VectorTileLayerContainer(props) {
   const layers = [];
@@ -18,6 +19,10 @@ export default function VectorTileLayerContainer(props) {
 
     if (config.parkAndRide && config.parkAndRide.showParkAndRide) {
       layers.push(ParkAndRide);
+    }
+
+    if (config.ticketSales && config.ticketSales.showTicketSales) {
+      layers.push(TicketSales);
     }
   }
 
