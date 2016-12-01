@@ -9,7 +9,7 @@ import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import TerminalRoute from '../../../route/TerminalRoute';
 
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../../util/browser';
 
 let Circle;
 let L;

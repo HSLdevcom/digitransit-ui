@@ -1,6 +1,5 @@
 import React from 'react';
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../../util/browser';
 
 /* eslint-disable global-require */
 

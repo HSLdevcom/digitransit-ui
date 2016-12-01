@@ -15,12 +15,12 @@ import LoadingPage from './component/LoadingPage';
 import Error404 from './component/404';
 import SplashOrChildren from './component/SplashOrChildren';
 
-import { storeEndpoint } from './action/EndpointActions';
 import { otpToLocation } from './util/otpStrings';
 
 import TopLevel from './component/TopLevel';
 
 import config from './config';
+import { isBrowser } from './util/browser';
 
 const StopQueries = {
   stop: () => Relay.QL`
@@ -145,7 +145,7 @@ SummaryPageWrapper.propTypes = {
 
 const routes = (
   <Route
-    component={props => (typeof window !== 'undefined' ?
+    component={props => (isBrowser ?
       <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
       <TopLevel {...props} />
     )}
