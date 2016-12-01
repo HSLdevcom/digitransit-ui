@@ -119,6 +119,8 @@ export default {
     { icon: 'icon-icon_bus', label: 'Kampin bussiterminaali, Helsinki', lat: 60.16902, lon: 24.931702 },
   ],
 
+  shouldShowIntro: true,
+
   /* eslint-disable max-len*/
   aboutThisService: {
     fi: {

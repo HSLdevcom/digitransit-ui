@@ -6,6 +6,7 @@ import Icon from './Icon';
 import GeopositionSelector from './GeopositionSelector';
 import OriginSelector from './OriginSelector';
 import Intro from './Intro';
+import config from '../config';
 
 class Splash extends React.Component {
   state = {
@@ -27,7 +28,9 @@ class Splash extends React.Component {
     });
   };
 
-  shouldShowIntro = () => this.state.shouldShowIntro
+  shouldShowIntro() {
+    return config.shouldShowIntro && this.state.shouldShowIntro;
+  }
 
   renderContents() {
     return (
