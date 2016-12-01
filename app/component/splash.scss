@@ -160,7 +160,7 @@
   padding-right: 15px;
 }
 
-.intro-slides .bottom {
+#splash .intro-slides .bottom {
   font-size: $font-size-xsmall;
   position: relative;
   overflow: hidden;
@@ -192,14 +192,17 @@
   }
 }
 
-.intro-slide {
+#splash .intro-slide {
   padding-bottom: 1em;
 
-  .img {
+  img {
     width: 100%;
+    border-top-right-radius: $border-radius;
+    border-top-left-radius: $border-radius;
   }
-  .h3 {
+  h3 {
     margin-top: 1em;
+    margin-bottom: 1em;
   }
   span {
     @include font-book;

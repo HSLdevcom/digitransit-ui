@@ -90,10 +90,6 @@ export default class Intro extends React.Component {
           onChangeIndex={this.handleChange}
           onTransitionEnd={this.onTransitionFinished}
           className="intro-swipeable"
-          slideStyle={{
-            overflow: 'hidden',
-            background: '#fff',
-          }}
         >
           {[...(slides.map(this.renderSlide)), this.props.finalSlide]}
         </BindKeyboardSwipeableViews>
