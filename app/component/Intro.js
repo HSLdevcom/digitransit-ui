@@ -38,9 +38,9 @@ if (typeof window !== 'undefined') {
     }, {
       image: require('../../static/img/hsl-nearyou.png'),
       header: {
-        fi: 'Milloin lähden',
-        en: 'Milloin lähden',
-        sv: 'Milloin lähden',
+        fi: 'Milloin lähden?',
+        en: 'Milloin lähden?',
+        sv: 'Milloin lähden?',
       },
       text: {
         fi: 'Tarkista nopeasti, mitä lähtee suraavaksi lähipysäkeiltäsi.',
