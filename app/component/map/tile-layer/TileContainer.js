@@ -40,6 +40,10 @@ class TileContainer {
         Layer.getName() === 'parkAndRide' && this.coords.z >= config.parkAndRide.parkAndRideMinZoom
       ) {
         return true;
+      } else if (
+        Layer.getName() === 'ticketSales' && this.coords.z >= config.ticketSales.ticketSalesMinZoom
+      ) {
+        return true;
       }
       return false;
     }).map(Layer => new Layer(this));

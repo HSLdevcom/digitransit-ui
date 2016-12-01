@@ -48,6 +48,7 @@ function getImageFromSpriteSync(icon, width, height, fill) {
 
 function getImageFromSpriteAsync(icon, width, height, fill) {
   return new Promise((resolve) => {
+    // TODO: check that icon exists using MutationObserver
     const image = getImageFromSpriteSync(icon, width, height, fill);
     image.onload = () => resolve(image);
   });
@@ -187,4 +188,9 @@ export async function drawAvailabilityBadge(availability, tile, geom, imageSize,
   const image = await getImageFromSpriteCache(`icon-icon_${availability}-availability`,
     badgeSize, badgeSize);
   drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
+}
+
+export async function drawIcon(icon, tile, geom, imageSize) {
+  const image = await getImageFromSpriteCache(icon, imageSize, imageSize);
+  drawIconImage(image, tile, geom, imageSize, imageSize);
 }
