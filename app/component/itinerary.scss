@@ -160,6 +160,20 @@ $itinerary-route-max-width: 500px;
     left: -2px;
     top: -6px;
   }
+
+  .itinerary-leg-intermediate-stops  {
+    padding-left: 10px;
+    list-style-type: none;
+    padding-bottom: 0;
+  }
+
+  .itinerary-intermediate-stop {
+    position:relative;
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+  }
+
   &:first-child .itinerary-instruction-column::before {
     content: "";
   }
@@ -218,9 +232,17 @@ $itinerary-route-max-width: 500px;
 
     .itinerary-leg-intermediate-stops {
       margin-top: 12px;
-      padding-bottom: 10px;
+      padding-bottom: 0px;
       @extend .itinerary-leg-text-gray
+    }
 
+    .intermediate-stops-link {
+      color: $gray-blue;
+      border-bottom: 2px dotted $gray-blue;
+    }
+
+    .intermediate-stops-duration {
+      color: $gray;
     }
 
   }
@@ -354,4 +376,28 @@ div.itinerary-container-content {
   flex-direction: column;
   min-height: 100%;
   max-height: 100%;
+}
+
+.itinerary-intermediate-stop::before {
+  content: "●";
+  font-size: 18px;
+  position: absolute;
+  left: -31px;
+  top: -3px;
+}
+
+.desktop .itinerary-intermediate-stop::before {
+  font-size: 19px;
+  left: -34.5px;
+  top: -1px;
+}
+
+.itinerary-intermediate-stop-name {
+  font-size: 13px;
+  color: $black;
+  @include font-medium;
+}
+
+.desktop .itinerary-intermediate-stop-name {
+  font-size: 15px;
 }

@@ -10,7 +10,19 @@ import { durationToString } from '../util/timeUtils';
 import StopCode from './StopCode';
 
 class TransitLeg extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showIntermediateStops: false,
+    };
+  }
+
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
+
+  toggleShowIntermediateStops = () => {
+    this.setState({ showIntermediateStops: !this.state.showIntermediateStops });
+  }
 
   render() {
     const originalTime = (
@@ -25,6 +37,36 @@ class TransitLeg extends React.Component {
     const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
 
+    const IntermediateStop = ({ name, code, focusFunction }) => <li key={code} onClick={(e) => { console.log('intermediate clicked'); e.stopPropagation(); focusFunction(e); }} className={`${modeClassName} itinerary-intermediate-stop`}><span className="itinerary-intermediate-stop-name">{name}</span> <StopCode code={code} /></li>;
+
+    const IntermediateStopList = ({ leg, stops, toggleFunction, focusFunction }) =>
+      <div><span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}><FormattedMessage
+        id="itinerary-hide-stops"
+        defaultMessage="Hide stops"
+      /></span> <span className="intermediate-stops-duration">({durationToString(leg.duration * 1000)})</span>
+        <ul className="itinerary-leg-intermediate-stops">
+          {stops.map(stop => <IntermediateStop
+            toggleFunction={toggleFunction}
+            focusFunction={focusFunction({ lat: stop.lat, lon: stop.lon })} {...stop}
+          />)}
+        </ul>
+      </div>;
+
+    const StopInfo = ({ stops, leg, toggleFunction }) =>
+      <div><span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}><FormattedMessage
+        id="number-of-intermediate-stops"
+        values={{
+          number: (stops
+          && stops.length) || 0,
+        }}
+        defaultMessage="{number, plural, =0 {No intermediate stops} other {{number} stops} }"
+      /></span><span className="intermediate-stops-duration">({durationToString(leg.duration * 1000)})</span></div>;
+
+    const IntermediateStops = ({ stops, showStops, leg, toggleFunction, focusFunction }) =>
+      (showStops && <IntermediateStopList
+        toggleFunction={toggleFunction} focusFunction={focusFunction} stops={stops} leg={leg}
+      />)
+        || <StopInfo toggleFunction={toggleFunction} leg={leg} stops={stops} />;
 
     return (<div
       key={this.props.index}
@@ -71,16 +113,13 @@ class TransitLeg extends React.Component {
         <div className="itinerary-transit-leg-route">
           {this.props.children}
         </div>
-        <div className="itinerary-leg-intermediate-stops">
-          <FormattedMessage
-            id="number-of-intermediate-stops"
-            values={{
-              number: (this.props.leg.intermediateStops
-                && this.props.leg.intermediateStops.length) || 0,
-              duration: durationToString(this.props.leg.duration * 1000),
-            }}
-            defaultMessage="{number, plural, =0 {No intermediate stops}
-              other {{number} stops} } ({duration})"
+        <div >
+          <IntermediateStops
+            toggleFunction={this.toggleShowIntermediateStops}
+            leg={this.props.leg}
+            stops={this.props.leg.intermediateStops}
+            showStops={this.state.showIntermediateStops}
+            focusFunction={this.context.focusFunction}
           />
         </div>
       </div>
@@ -95,6 +134,10 @@ TransitLeg.propTypes = {
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+};
+
+TransitLeg.contextTypes = {
+  focusFunction: React.PropTypes.func.isRequired,
 };
 
 

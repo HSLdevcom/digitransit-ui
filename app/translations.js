@@ -24,6 +24,7 @@ const translations = {
     'route-page.description': 'Linja {route_short_name} - {route_long_name}',
     'itinerary-page.title': 'Reittiohje',
     'itinerary-page.description': 'Reittiohje',
+    'itinerary-hide-stops': 'Piilota pysäkit',
     'trip-page.title': 'Linja {route_short_name}',
     'trip-page.description': 'Linja {route_short_name} - {route_long_name}',
     'itinerary-summary-page.title': 'Reittiehdotukset',
@@ -167,7 +168,7 @@ const translations = {
     'cycle-distance-duration': 'Pyöräile {distance} ({duration})',
     'cyclewalk-distance-duration': 'Taluta pyörää {distance} ({duration})',
     'number-of-intermediate-stops': `{number, plural, =0 {Ei pysähdyksiä} other
-      {{number} pysäkkiä} } ({duration})`,
+      {{number} pysäkkiä} }`,
     'bus-with-route-number': 'Bussi {routeNumber} {headSign}',
     'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
     'train-with-route-number': 'Juna {routeNumber} {headSign}',
@@ -325,7 +326,7 @@ const translations = {
     'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen och gå till gate',
     'airport-collect-luggage': 'Plocka upp ditt bagage',
     'number-of-intermediate-stops': `{number, plural, =0 {Inga hållplatser} other
-      {{number} hållplatser} } ({duration})`,
+      {{number} hållplatser} }`,
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',
     'train-with-route-number': 'Tåg {routeNumber} {headSign}',
@@ -351,6 +352,7 @@ const translations = {
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
     'itinerary-feedback-button': 'Skicka feedback',
+    'itinerary-hide-stops': 'TODO Piilota pysäkit',
     'route-destination-arrives': 'Anländer / Ändhållplats',
     'location-from-map': 'Vald position',
     'alert.duration': '{day} kl. {startTime} – {endTime}',
@@ -512,7 +514,7 @@ const translations = {
     'cycle-distance-duration': 'Sykle {distance} ({duration})',
     'cyclewalk-distance-duration': 'Trill sykkelen {distance} ({duration})',
     'number-of-intermediate-stops': `{number, plural, =0 {Ingen stopp} other {{number}
-      stopp} }({duration})`,
+      stopp} }`,
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
     'tram-with-route-number': 'Trikk {routeNumber} {headSign}',
     'train-with-route-number': 'Tog {routeNumber} {headSign}',
@@ -692,7 +694,7 @@ const translations = {
     'cycle-distance-duration': 'Pédaler {distance} ({duration})',
     'cyclewalk-distance-duration': 'Avancer pied à terre sur {distance} ({duration})',
     'number-of-intermediate-stops': `{number, plural, =0 {Sans arrêt} =1 {{number} arrêt}
-      other {{number} arrêts} } ({duration})`,
+      other {{number} arrêts} }`,
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     'tram-with-route-number': 'Tramway {routeNumber} {headSign}',
     'train-with-route-number': 'Train {routeNumber} {headSign}',

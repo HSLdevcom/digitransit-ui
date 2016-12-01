@@ -56,7 +56,7 @@ class ItineraryTab extends React.Component {
             />
           </ItinerarySummary>
         }
-        <div className="momentum-scroll itinerary-tabs__scroll">
+        <div className="itinerary-tabs__scroll">
           <div
             className={cx('itinerary-main', { 'bp-large': this.context.breakpoint === 'large' })}
           >
