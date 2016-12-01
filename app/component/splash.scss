@@ -141,10 +141,14 @@
 }
 
 #splash-map {
-  background-image: url('/img/map.9.opti.png');
+  background-image: url('../../../static/img/background-map.png');
   background-position: center;
   background-size: cover;
-  filter: blur(5px);
+  overflow: hidden;
+  filter: blur(7px);
+  margin: -10px;
+  height: calc(100% + 20px);
+  width: calc(100% + 10px);
 }
 
 .splash-icon {
