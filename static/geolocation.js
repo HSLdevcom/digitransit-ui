@@ -88,7 +88,7 @@ setTimeout(function () {
       return navigator
         && navigator.userAgent
         && (navigator.userAgent.indexOf('iPhone') !==-1 || navigator.userAgent.indexOf('iPad') !==-1)
-        && window && window.navigator.standalone;
+        && navigator.standalone;
     }
     //XXX hack for windows phone & safari app mode
     if (isWindowsPhone() || isIDeviceApp()) {
