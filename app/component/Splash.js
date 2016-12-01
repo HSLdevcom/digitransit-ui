@@ -8,13 +8,18 @@ import OriginSelector from './OriginSelector';
 import Intro from './Intro';
 import config from '../config';
 
+import { getIntroShown, setIntroShown } from '../store/localStorage';
+
 class Splash extends React.Component {
   state = {
     searchModalIsOpen: false,
-    shouldShowIntro: true,
+    shouldShowIntro: getIntroShown() !== true,
   };
 
-  onIntroFinished = () => this.setState({ shouldShowIntro: false })
+  onIntroFinished = () => {
+    setIntroShown();
+    this.setState({ shouldShowIntro: false });
+  }
 
   openModal = () => {
     this.setState({
