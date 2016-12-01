@@ -49,7 +49,10 @@ export default class SearchInputContainer extends Component {
     this.setState({
       suggestions: data,
       focusedItemIndex: 0,
-    }, () => this.focusItem(0));
+    }, () => {
+      this.searching = false;
+      this.focusItem(0);
+    });
   }
 
   onSwitchTab = (tab) => {
@@ -160,7 +163,7 @@ export default class SearchInputContainer extends Component {
     this.setState({
       value: input,
     });
-
+    this.searching = true;
     executeSearch(this.context.getStore, {
       input: event.target.value,
       type: this.props.type,
@@ -193,34 +196,46 @@ export default class SearchInputContainer extends Component {
     this.focus();
   };
 
-  findItemsOrRenderEmpty(children) {
-    if (this.state.suggestions.length === 0) {
-      return (
-        <ul className="search-no-results">
-          <li>
-            <div className="spinner-loader" />
-          </li>
-        </ul>
-      );
+  renderItemsOrEmpty(children) {
+    let elem;
+    if (children != null) {
+      // we have results
+      return children;
+    } else if (this.searching === true) {
+      // Loading in progress
+      elem = <div className="spinner-loader" />;
+    } else if (this.state.suggestions.length === 0) {
+      // Simple search, no results
+      elem = <FormattedMessage id="search-no-results" defaultMessage="No results" />;
+    } else if (
+        this.state.suggestions[0].items.length === 0 &&
+        this.state.suggestions[1].items.length === 0) {
+      // Complex search, No results
+      elem = <FormattedMessage id="search-no-results" defaultMessage="No results" />;
+    } else if (children === null && this.state.suggestions[0].items.length > 0) {
+      // Complex search, Results in destination tab
+      elem = <FormattedMessage id="search-destination-results-but-no-search" defaultMessage="See results from 'Destination'" />;
+    } else if (children === null && this.state.suggestions[1].items.length > 0) {
+      // Complex search, Results in search tab
+      elem = <FormattedMessage id="search-search-results-but-no-destination" defaultMessage="See results from 'Route, stop or keyword'" />;
+    } else {
+      throw Error('Rendering results is not working correctly');
     }
 
-    if (children === null) {
-      let text = <FormattedMessage id="search-no-results" defaultMessage="Could not find anything." />;
-      if (this.state.suggestions[0].items.length > 0) {
-        text = <FormattedMessage id="search-destination-results-but-no-search" defaultMessage="See results from 'Destination'" />;
-      } else if (this.state.suggestions[1].items.length > 0) {
-        text = <FormattedMessage id="search-search-results-but-no-destination" defaultMessage="See results from 'Route, stop or keyword'" />;
-      }
-      return (
-        <ul className="search-no-results">
-          <li>
-            {text}
-          </li>
-        </ul>
-      );
-    }
-    return children;
+    return (
+      <ul className="search-no-results">
+        <li>
+          {elem}
+        </li>
+      </ul>
+    );
   }
+
+  renderSimpleWrapper = ({ children, ...rest }) => (
+    <div {...rest} >
+      {this.renderItemsOrEmpty(children)}
+    </div>
+  )
 
   renderMultiWrapper = ({ children, ...rest }) => (
     <div {...rest} >
@@ -250,7 +265,7 @@ export default class SearchInputContainer extends Component {
           )}
         </a>
       </div>
-      {this.findItemsOrRenderEmpty(children)}
+      {this.renderItemsOrEmpty(children)}
     </div>
   )
 
@@ -286,7 +301,7 @@ export default class SearchInputContainer extends Component {
           id="suggest"
           items={this.getItems()}
           renderItem={this.renderItem}
-          renderItemsContainer={this.props.type === 'all' ? this.renderMultiWrapper : undefined}
+          renderItemsContainer={this.props.type === 'all' ? this.renderMultiWrapper : this.renderSimpleWrapper}
           onSuggestionSelected={this.currentItemSelected}
           focusedItemIndex={this.state.focusedItemIndex}
           inputProps={{

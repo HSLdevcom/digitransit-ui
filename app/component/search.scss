@@ -259,8 +259,14 @@ ul.react-autowhatever__items-list {
   li {
     text-align: center;
     font-weight: normal;
-    line-height: 90px;
     padding-top: 35px;
+
+    span {
+      padding-top: 40px;
+      display: inline-block;
+      white-space: normal;
+      line-height: normal;
+    }
   }
 }
 
