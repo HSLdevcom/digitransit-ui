@@ -26,6 +26,7 @@ export default class SearchInputContainer extends Component {
     className: PropTypes.string,
     id: PropTypes.string,
     initialValue: PropTypes.string,
+    placeholder: PropTypes.string,
     children: PropTypes.node,
     close: PropTypes.func.isRequired,
     sections: PropTypes.bool,
@@ -266,6 +267,7 @@ export default class SearchInputContainer extends Component {
             onChange: this.handleUpdateInputNow,
             onKeyDown: this.handleOnKeyDown,
             onTouchStart: this.handleOnTouchStart,
+            placeholder: this.props.placeholder,
           }}
           itemProps={{
             onMouseEnter: this.handleOnMouseEnter,
