@@ -29,8 +29,8 @@
 
   h3 {
     font-size: 15px;
-    margin-top: 24px;
-    margin-bottom: 11px;
+    margin-top: 2em;
+    margin-bottom: 2em;
     margin-left: 10px;
     margin-right: 10px;
   }
@@ -158,4 +158,55 @@
   margin-bottom: 13px;
   padding-left:15px;
   padding-right: 15px;
+}
+
+.intro-slides .bottom {
+  font-size: $font-size-xsmall;
+  position: relative;
+  overflow: hidden;
+  transition: height 250ms ease-in;
+  height: 3em;
+
+  &.hidden {
+    height: 0;
+  }
+
+  .next {
+    @include font-medium;
+    position: absolute;
+    right: 0;
+    color: $gray;
+    text-transform: uppercase;
+    top: -1.5em;
+    padding: 1.5em;
+    outline: none;
+  }
+
+  .dot {
+    font-size: 2em;
+    color: $medium-gray;
+
+    &.active {
+      color: $primary-color;
+    }
+  }
+}
+
+.intro-slide {
+  padding-bottom: 1em;
+
+  .img {
+    width: 100%;
+  }
+  .h3 {
+    margin-top: 1em;
+  }
+  span {
+    @include font-book;
+    font-size: $font-size-small;
+	  line-height: 1.23;
+    margin: 0 1em;
+    display: block;
+  }
+
 }

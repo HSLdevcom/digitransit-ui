@@ -6,6 +6,6 @@ function waitClose() {
 module.exports = {
   commands: [{ waitClose }],
   elements: {
-    splash: '#splash',
+    splash: '#splash-wrapper',
   },
 };
