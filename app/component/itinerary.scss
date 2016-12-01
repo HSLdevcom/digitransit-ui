@@ -237,6 +237,7 @@ $itinerary-route-max-width: 500px;
     }
 
     .intermediate-stops-link {
+      @include font-bold
       color: $gray-blue;
       border-bottom: 2px dotted $gray-blue;
     }
