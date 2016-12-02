@@ -91,6 +91,7 @@ class OriginDestinationBar extends React.Component {
           initialValue={initialValue}
           endpoint={this.props[this.state.tabOpen]}
           target={this.state.tabOpen}
+          responsive
         />
       </div>);
   }

@@ -6,6 +6,7 @@ export default class GeolocationOrInput extends Component {
   static propTypes = {
     useCurrentPosition: PropTypes.bool,
     initialValue: SearchInputContainer.propTypes.initialValue,
+    placeholder: SearchInputContainer.propTypes.placeholder,
     type: SearchInputContainer.propTypes.type,
     onSuggestionSelected: SearchInputContainer.propTypes.onSuggestionSelected,
     close: PropTypes.func.isRequired,

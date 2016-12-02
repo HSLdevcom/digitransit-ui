@@ -1,16 +1,18 @@
 import React from 'react';
 import Icon from '../../Icon';
 import ComponentUsageExample from '../../ComponentUsageExample';
+import { getIcon } from '../popups/TicketSalesPopup';
 
-function SelectCityBikeRow(props) {
+
+function SelectTicketSalesRow(props) {
   return (
     <div className="no-margin">
       <div className="cursor-pointer select-row" onClick={props.selectRow}>
         <div className="padding-vertical-normal select-row-icon">
-          <Icon img="icon-icon_citybike" />
+          <Icon img={getIcon(props.TYYPPI)} />
         </div>
         <div className="padding-vertical-normal select-row-text">
-          <span className="header-primary no-margin link-color">{props.name} ›</span>
+          <span className="header-primary no-margin link-color">{props.NIMI} ›</span>
         </div>
         <div className="clear" />
       </div>
@@ -19,20 +21,21 @@ function SelectCityBikeRow(props) {
   );
 }
 
-SelectCityBikeRow.displayName = 'SelectCityBikeRow';
+SelectTicketSalesRow.displayName = 'SelectTicketSalesRow';
 
-SelectCityBikeRow.description = (
+SelectTicketSalesRow.description = () => (
   <div>
-    <p>Renders a select citybike row</p>
+    <p>Renders a select ticket sales row</p>
     <ComponentUsageExample description="">
-      <SelectCityBikeRow name={'LINNANMÄKI'} selectRow={() => {}} />
+      <SelectTicketSalesRow selectRow={() => {}} />
     </ComponentUsageExample>
   </div>
   );
 
-SelectCityBikeRow.propTypes = {
+SelectTicketSalesRow.propTypes = {
   selectRow: React.PropTypes.func.isRequired,
-  name: React.PropTypes.string.isRequired,
+  TYYPPI: React.PropTypes.string.isRequired,
+  NIMI: React.PropTypes.string.isRequired,
 };
 
-export default SelectCityBikeRow;
+export default SelectTicketSalesRow;
