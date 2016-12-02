@@ -43,9 +43,9 @@ if (typeof window !== 'undefined') {
         sv: 'Milloin lähden?',
       },
       text: {
-        fi: 'Tarkista nopeasti, mitä lähtee suraavaksi lähipysäkeiltäsi.',
-        en: 'Tarkista nopeasti, mitä lähtee suraavaksi lähipysäkeiltäsi.',
-        sv: 'Tarkista nopeasti, mitä lähtee suraavaksi lähipysäkeiltäsi.',
+        fi: 'Tarkista nopeasti, mitä lähtee seuraavaksi lähipysäkeiltäsi.',
+        en: 'Tarkista nopeasti, mitä lähtee seuraavaksi lähipysäkeiltäsi.',
+        sv: 'Tarkista nopeasti, mitä lähtee seuraavaksi lähipysäkeiltäsi.',
       },
     },
   ];
