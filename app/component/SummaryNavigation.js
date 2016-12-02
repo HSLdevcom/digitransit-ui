@@ -53,7 +53,7 @@ class SummaryNavigation extends React.Component {
       this.context.piwik.trackEvent(
         'Offcanvas',
         'Customize Search',
-        newState ? 'close' : 'open'
+        newState ? 'close' : 'open',
       );
     }
 

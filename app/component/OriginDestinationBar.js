@@ -50,7 +50,7 @@ class OriginDestinationBar extends React.Component {
       {
         router: this.context.router,
         location: this.context.location,
-      }
+      },
     );
   }
 
@@ -105,6 +105,7 @@ class OriginDestinationBar extends React.Component {
           initialValue={initialValue}
           endpoint={this.state[this.state.tabOpen]}
           target={this.state.tabOpen}
+          responsive
         />
       </div>);
   }

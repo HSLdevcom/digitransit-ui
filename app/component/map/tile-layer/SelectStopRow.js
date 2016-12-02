@@ -34,7 +34,7 @@ function SelectStopRow(props) {
       </span>
       {'\u00a0'}
       <RouteDestination mode={patternData[0].type} destination={patternData[0].headsign} />
-    </div>
+    </div>,
   );
 
   if (patternData.length > 1) {
@@ -52,8 +52,8 @@ function SelectStopRow(props) {
 
   return (
     <div className="no-margin">
-      <div className="no-margin cursor-pointer" onClick={props.selectRow}>
-        <div className="left padding-vertical-normal select-row-icon">
+      <div className="cursor-pointer select-row" onClick={props.selectRow}>
+        <div className="padding-vertical-normal select-row-icon">
           <svg
             viewBox="0 0 30 30"
             width="30"
@@ -71,7 +71,7 @@ function SelectStopRow(props) {
             />
           </svg>
         </div>
-        <div className="left padding-vertical-normal select-row-text">
+        <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color" >
             {props.name} ›
           </span>

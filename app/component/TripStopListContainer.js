@@ -53,13 +53,13 @@ class TripStopListContainer extends React.Component {
       , vehicle => vehicle.direction);
 
     const vehicleStops = groupBy(vehicles[this.props.trip.pattern.directionId], vehicle =>
-      `HSL:${vehicle.next_stop}`
+      `HSL:${vehicle.next_stop}`,
     );
 
     const reverse = this.props.trip.pattern.directionId === 0 ? 1 : 0;
 
     const reverseVehicleStops = groupBy(vehicles[reverse], vehicle =>
-      getDistanceToNearestStop(vehicle.lat, vehicle.long, stops).stop.gtfsId
+      getDistanceToNearestStop(vehicle.lat, vehicle.long, stops).stop.gtfsId,
     );
 
     const vehiclesWithCorrectStartTime = Object.keys(this.props.vehicles)
@@ -136,7 +136,7 @@ export default Relay.createContainer(
       vehicles: getStore('RealTimeInformationStore').vehicles,
       locationState: getStore('PositionStore').getLocationState(),
       currentTime: getStore('TimeStore').getCurrentTime(),
-    })
+    }),
   ),
   {
     fragments: {

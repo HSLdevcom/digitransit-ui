@@ -26,6 +26,7 @@ export default class SearchInputContainer extends Component {
     className: PropTypes.string,
     id: PropTypes.string,
     initialValue: PropTypes.string,
+    placeholder: PropTypes.string,
     children: PropTypes.node,
     close: PropTypes.func.isRequired,
     sections: PropTypes.bool,
@@ -179,7 +180,7 @@ export default class SearchInputContainer extends Component {
         const state = this.context.getStore('PositionStore').getLocationState();
         item.geometry = { coordinates: [state.lon, state.lat] };
         name = this.context.intl.formatMessage(
-          { id: 'own-position', defaultMessage: 'Current position' }
+          { id: 'own-position', defaultMessage: 'Current position' },
         );
       } else {
         const type = (this.props.type === 'all' && this.state.type) || this.props.type;
@@ -310,6 +311,7 @@ export default class SearchInputContainer extends Component {
             onChange: this.handleUpdateInputNow,
             onKeyDown: this.handleOnKeyDown,
             onTouchStart: this.handleOnTouchStart,
+            placeholder: this.props.placeholder,
           }}
           itemProps={{
             onMouseEnter: this.handleOnMouseEnter,

@@ -11,5 +11,5 @@ export default connectToStores(
       selectedModes: context.getStore('ModeStore').getMode(),
       buttonClass: 'btn mode-nearby',
       action: ModeSelectedAction,
-    })
+    }),
 );

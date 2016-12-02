@@ -55,7 +55,7 @@ class RoutePage extends React.Component {
   onPatternChange = (e) => {
     this.context.router.replace(
       decodeURIComponent(this.props.location.pathname)
-        .replace(new RegExp(`${this.props.params.patternId}(.*)`), e.target.value)
+        .replace(new RegExp(`${this.props.params.patternId}(.*)`), e.target.value),
     );
   }
 

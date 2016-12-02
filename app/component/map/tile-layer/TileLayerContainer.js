@@ -19,6 +19,7 @@ import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopup';
 import ParkAndRideHubRoute from '../../../route/ParkAndRideHubRoute';
 import ParkAndRideFacilityRoute from '../../../route/ParkAndRideFacilityRoute';
+import TicketSalesPopup from '../popups/TicketSalesPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 
@@ -60,6 +61,13 @@ const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPo
   getStore: React.PropTypes.func.isRequired,
 });
 
+const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object.isRequired,
+  route: React.PropTypes.object.isRequired,
+  getStore: React.PropTypes.func.isRequired,
+});
 
 const LocationPopupWithContext = provideContext(LocationPopup, {
   intl: intlShape.isRequired,
@@ -154,8 +162,8 @@ class TileLayerContainer extends MapLayer {
       .forEach(key => this.leafletElement._tiles[key].el.onMapClick(
         e,
         this.merc.px([e.latlng.lng, e.latlng.lat],
-        Number(key.split(':')[2]) + this.props.zoomOffset)
-      )
+        Number(key.split(':')[2]) + this.props.zoomOffset),
+      ),
     );
     /* eslint-enable no-underscore-dangle */
   }
@@ -245,7 +253,7 @@ class TileLayerContainer extends MapLayer {
                 <ParkAndRideHubPopupWithContext
                   name={
                     JSON.parse(
-                      this.state.selectableTargets[0].feature.properties.name
+                      this.state.selectableTargets[0].feature.properties.name,
                     )[this.context.intl.locale]
                   }
                   lat={this.state.coords.lat}
@@ -268,7 +276,7 @@ class TileLayerContainer extends MapLayer {
                 <ParkAndRideFacilityPopupWithContext
                   name={
                     JSON.parse(
-                      this.state.selectableTargets[0].feature.properties.name
+                      this.state.selectableTargets[0].feature.properties.name,
                     )[this.context.intl.locale]
                   }
                   lat={this.state.coords.lat}
@@ -277,6 +285,14 @@ class TileLayerContainer extends MapLayer {
                   context={this.context}
                 />
               )}
+            />
+          );
+        } else if (this.state.selectableTargets[0].layer === 'ticketSales') {
+          id = this.state.selectableTargets[0].feature.properties.FID;
+          contents = (
+            <TicketSalesPopupWithContext
+              {...this.state.selectableTargets[0].feature.properties}
+              context={this.context}
             />
           );
         }

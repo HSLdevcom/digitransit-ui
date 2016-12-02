@@ -53,7 +53,7 @@ const RouteHeaderContainerWithFavourite = connectToStores(
   RouteHeaderContainer, ['FavouriteRoutesStore'], (context, props) =>
     ({
       favourite: context.getStore('FavouriteRoutesStore').isFavourite(props.pattern.route.gtfsId),
-    })
+    }),
 );
 
 export default Relay.createContainer(RouteHeaderContainerWithFavourite, {

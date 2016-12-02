@@ -31,7 +31,7 @@ class RouteLine extends React.Component {
           key="from"
           position={this.props.pattern.stops[0]}
           className="from"
-        />
+        />,
       );
 
       objs.push(
@@ -39,7 +39,7 @@ class RouteLine extends React.Component {
           key="to"
           position={this.props.pattern.stops[this.props.pattern.stops.length - 1]}
           className="to"
-        />
+        />,
       );
     }
 
