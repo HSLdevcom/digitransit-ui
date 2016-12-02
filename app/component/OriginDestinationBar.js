@@ -1,8 +1,9 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import { storeEndpoint, swapEndpoints } from '../action/EndpointActions';
+import { storeEndpointIfNotCurrent, swapEndpoints } from '../action/EndpointActions';
 import Icon from './Icon';
 import OneTabSearchModal from './OneTabSearchModal';
 
@@ -11,10 +12,11 @@ class OriginDestinationBar extends React.Component {
     className: React.PropTypes.string,
     origin: React.PropTypes.node,
     destination: React.PropTypes.node,
+    originIsCurrent: React.PropTypes.bool,
+    destinationIsCurrent: React.PropTypes.bool,
   }
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     router: React.PropTypes.object.isRequired,
@@ -26,8 +28,8 @@ class OriginDestinationBar extends React.Component {
   };
 
   componentWillMount() {
-    this.context.executeAction(storeEndpoint, { target: 'origin', endpoint: this.props.origin });
-    this.context.executeAction(storeEndpoint, { target: 'destination', endpoint: this.props.destination });
+    this.context.executeAction(storeEndpointIfNotCurrent, { target: 'origin', endpoint: this.props.origin });
+    this.context.executeAction(storeEndpointIfNotCurrent, { target: 'destination', endpoint: this.props.destination });
   }
 
   swapEndpoints= () => {
@@ -53,6 +55,7 @@ class OriginDestinationBar extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const ownPosition = this.context.intl.formatMessage({
       id: 'own-position',
       defaultMessage: 'Your current location',
@@ -70,7 +73,7 @@ class OriginDestinationBar extends React.Component {
         <div className="field-link from-link" onClick={() => this.openSearch('origin')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
           <span className="link-name">
-            {this.props.origin.useCurrentPosition ? ownPosition : this.props.origin.address}
+            {this.props.originIsCurrent ? ownPosition : this.props.origin.address}
           </span>
         </div>
         <div className="switch" onClick={() => this.swapEndpoints()}>
@@ -81,7 +84,7 @@ class OriginDestinationBar extends React.Component {
         <div className="field-link to-link" onClick={() => this.openSearch('destination')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
           <span className="link-name">
-            {this.props.destination.useCurrentPosition ?
+            {this.props.destinationIsCurrent ?
               ownPosition : this.props.destination.address}
           </span>
         </div>
@@ -97,4 +100,7 @@ class OriginDestinationBar extends React.Component {
   }
 }
 
-export default OriginDestinationBar;
+export default connectToStores(OriginDestinationBar, ['EndpointStore'], context => ({
+  originIsCurrent: context.getStore('EndpointStore').getOrigin().useCurrentPosition,
+  destinationIsCurrent: context.getStore('EndpointStore').getDestination().useCurrentPosition,
+}));

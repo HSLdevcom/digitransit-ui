@@ -126,6 +126,18 @@ class EndpointStore extends Store {
     }
   }
 
+  setEndpointIfNotCurrent(props) {
+    const { target, value } = props;
+
+    if (target === 'destination') {
+      if (!this.destination.useCurrentPosition) {
+        this.setDestination(value);
+      }
+    } else if (!this.oprigin.useCurrentPosition) {
+      this.setOrigin(value);
+    }
+  }
+
   useCurrentPosition(target) {
     if (target === 'destination') {
       this.setDestinationToCurrent();
@@ -137,6 +149,7 @@ class EndpointStore extends Store {
 
   static handlers = {
     setEndpoint: 'setEndpoint',
+    setEndpointIfNotCurrent: 'setEndpointIfNotCurrent',
     useCurrentPosition: 'useCurrentPosition',
     swapEndpoints: 'swapEndpoints',
     clearOrigin: 'clearOrigin',
