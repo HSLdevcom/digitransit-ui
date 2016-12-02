@@ -8,7 +8,6 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { addFavouriteStop } from '../action/FavouriteActions';
 import ComponentUsageExample from './ComponentUsageExample';
 import Labeled from './Labeled';
-import Centered from './Centered';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
 
