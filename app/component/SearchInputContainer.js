@@ -47,13 +47,13 @@ export default class SearchInputContainer extends Component {
   }
 
   onSearchChange = (data) => {
+    const inProgress = data == null;
+    const results = inProgress ? [] : data;
     this.setState({
-      suggestions: data,
+      searchInProgress: inProgress,
+      suggestions: results,
       focusedItemIndex: 0,
-    }, () => {
-      this.searching = false;
-      this.focusItem(0);
-    });
+    }, () => this.focusItem(0));
   }
 
   onSwitchTab = (tab) => {
@@ -164,7 +164,7 @@ export default class SearchInputContainer extends Component {
     this.setState({
       value: input,
     });
-    this.searching = true;
+
     executeSearch(this.context.getStore, {
       input: event.target.value,
       type: this.props.type,
@@ -202,16 +202,14 @@ export default class SearchInputContainer extends Component {
     if (children != null) {
       // we have results
       return children;
-    } else if (this.searching === true) {
+    } else if (this.state.searchInProgress) {
       // Loading in progress
       elem = <div className="spinner-loader" />;
-    } else if (this.state.suggestions.length === 0) {
-      // Simple search, no results
-      elem = <FormattedMessage id="search-no-results" defaultMessage="No results" />;
     } else if (
-        this.state.suggestions[0].items.length === 0 &&
-        this.state.suggestions[1].items.length === 0) {
-      // Complex search, No results
+        this.state.suggestions.length === 0 ||
+        (this.state.suggestions[0].items.length === 0 &&
+        this.state.suggestions[1].items.length === 0)) {
+      // No results
       elem = <FormattedMessage id="search-no-results" defaultMessage="No results" />;
     } else if (children === null && this.state.suggestions[0].items.length > 0) {
       // Complex search, Results in destination tab

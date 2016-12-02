@@ -320,6 +320,6 @@ export function executeSearchImmediate(getStore, { input, type }, callback) {
 const debouncedSearch = debounce(executeSearchImmediate, 300);
 
 export const executeSearch = (getStore, data, callback) => {
-  callback([]);
+  callback(null); // This means 'we are searching'
   debouncedSearch(getStore, data, callback);
 };
