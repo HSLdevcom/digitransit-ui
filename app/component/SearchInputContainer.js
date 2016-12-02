@@ -213,10 +213,10 @@ export default class SearchInputContainer extends Component {
       elem = <FormattedMessage id="search-no-results" defaultMessage="No results" />;
     } else if (children === null && this.state.suggestions[0].items.length > 0) {
       // Complex search, Results in destination tab
-      elem = <FormattedMessage id="search-destination-results-but-no-search" defaultMessage="See results from 'Destination'" />;
+      elem = <FormattedMessage id="search-destination-results-but-no-search" defaultMessage="See results from Destination tab" />;
     } else if (children === null && this.state.suggestions[1].items.length > 0) {
       // Complex search, Results in search tab
-      elem = <FormattedMessage id="search-search-results-but-no-destination" defaultMessage="See results from 'Route, stop or keyword'" />;
+      elem = <FormattedMessage id="search-search-results-but-no-destination" defaultMessage="See results from &quot;Route, stop or keyword&quot; tab" />;
     } else {
       throw Error('Rendering results is not working correctly');
     }
