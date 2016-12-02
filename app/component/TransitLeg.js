@@ -37,7 +37,7 @@ class TransitLeg extends React.Component {
     const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
 
-    const IntermediateStop = ({ name, code, focusFunction }) => <li key={code} onClick={(e) => { console.log('intermediate clicked'); e.stopPropagation(); focusFunction(e); }} className={`${modeClassName} itinerary-intermediate-stop`}><span className="itinerary-intermediate-stop-name">{name}</span> <StopCode code={code} /></li>;
+    const IntermediateStop = ({ name, code, focusFunction }) => <li key={code} onClick={(e) => { e.stopPropagation(); focusFunction(e); }} className={`${modeClassName} itinerary-intermediate-stop`}><span className="itinerary-intermediate-stop-name">{name}</span> <StopCode code={code} /></li>;
 
     const IntermediateStopList = ({ leg, stops, toggleFunction, focusFunction }) =>
       <div><span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}><FormattedMessage
