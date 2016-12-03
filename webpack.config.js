@@ -170,7 +170,7 @@ function getPluginsConfig(env) {
       caches: {
         main: [':rest:'],
         additional: [':externals:'],
-        optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js'],
+        optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js', '*.png'],
       },
       externals: ['/'],
       safeToUseOptionalCaches: true,
