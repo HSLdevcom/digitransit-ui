@@ -172,6 +172,7 @@ function getPluginsConfig(env) {
         additional: [':externals:'],
         optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js'],
       },
+      externals: ['/'],
       safeToUseOptionalCaches: true,
     }),
     new webpack.NoErrorsPlugin(),
