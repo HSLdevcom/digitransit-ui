@@ -174,6 +174,9 @@ function getPluginsConfig(env) {
       },
       externals: ['/'],
       safeToUseOptionalCaches: true,
+      ServiceWorker: {
+        entry: './app/util/font-sw.js',
+      },
       AppCache: {
         caches: ['main', 'additional', 'optional'],
       },
