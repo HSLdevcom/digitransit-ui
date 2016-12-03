@@ -735,7 +735,7 @@ const translations = {
     'park-and-ride-availability': 'Disponibilité du Parc Relais',
     'platform-short': 'Plat.',
     'footer-feedback': 'Donner votre avis',
-    'footer-link-to-old': 'Utiliser l\'ancien planificateur d\itinéraires',
+    'footer-link-to-old': 'Utiliser l\'ancien planificateur d\'itinéraires',
   },
 };
 
