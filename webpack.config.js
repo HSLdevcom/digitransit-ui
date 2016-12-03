@@ -174,6 +174,9 @@ function getPluginsConfig(env) {
       },
       externals: ['/'],
       safeToUseOptionalCaches: true,
+      AppCache: {
+        caches: ['main', 'additional', 'optional'],
+      },
     }),
     new webpack.NoErrorsPlugin(),
   ]);
