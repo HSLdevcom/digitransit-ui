@@ -45,7 +45,7 @@
     "npm": ">=3.0"
   },
   "dependencies": {
-    "async": "^2.1.4",
+    "async": "2.1.4",
     "babel-core": "6.18.2",
     "babel-plugin-transform-es2015-modules-commonjs": "6.18.0",
     "babel-plugin-transform-object-rest-spread": "6.19.0",
