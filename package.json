@@ -128,7 +128,7 @@
     "exports-loader": "0.6.3",
     "extract-text-webpack-plugin": "2.0.0-beta.4",
     "file-loader": "0.9.0",
-    "gemini": "4.13.0",
+    "gemini": "4.14.2",
     "gemini-browserstack": "1.0.0",
     "imports-loader": "0.6.5",
     "json-loader": "0.5.4",
