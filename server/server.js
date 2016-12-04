@@ -6,9 +6,8 @@
 const path = require('path');
 
 require('babel-core/register')({
-  presets: ['modern-node', 'stage-2', 'react'], // eslint-disable-line prefer-template
+  presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
-    'transform-es2015-modules-commonjs',
     'transform-system-import-commonjs',
     path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
