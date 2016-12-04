@@ -14,12 +14,10 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 const fs = require('fs');
 
 require('babel-core/register')({
-  presets: ['modern-node', 'stage-2'], // eslint-disable-line prefer-template
+  presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
-    'transform-es2015-destructuring',
-    'transform-es2015-parameters',
-    'transform-class-properties',
-    'transform-es2015-modules-commonjs',
+    'transform-system-import-commonjs',
+    path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
   ignore: [
     /node_modules/,
@@ -28,6 +26,10 @@ require('babel-core/register')({
 });
 
 const port = process.env.HOT_LOAD_PORT || 9000;
+
+const devBrowsers = ['edge 14', 'last 1 chrome version', 'Firefox ESR', 'safari 9'];
+
+const prodBrowsers = ['IE 10', '> 0.3% in FI', 'last 2 versions'];
 
 function getRulesConfig(env) {
   if (env === 'development') {
@@ -40,8 +42,11 @@ function getRulesConfig(env) {
         loader: 'babel',
         exclude: /node_modules/,
         options: {
-          // loose is needed by older Androids < 4.3 and IE10
-          presets: [['latest', { es2015: { loose: true, modules: false } }], 'react', 'stage-2'],
+          presets: [
+            ['env', { targets: { browsers: devBrowsers }, modules: false }],
+            'react',
+            'stage-2',
+          ],
           plugins: [
             'transform-system-import-commonjs',
             path.join(__dirname, 'build/babelRelayPlugin'),
@@ -63,7 +68,11 @@ function getRulesConfig(env) {
       exclude: /node_modules/,
       options: {
         // loose is needed by older Androids < 4.3 and IE10
-        presets: [['latest', { es2015: { loose: true, modules: false } }], 'react', 'stage-2'],
+        presets: [
+          ['env', { targets: { browsers: prodBrowsers }, loose: true, modules: false }],
+          'react',
+          'stage-2',
+        ],
         plugins: [
           'transform-react-remove-prop-types',
           path.join(__dirname, 'build/babelRelayPlugin'),
@@ -133,7 +142,7 @@ function getPluginsConfig(env) {
       debug: false,
       minimize: true,
       options: {
-        postcss: () => [autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] }), csswring],
+        postcss: () => [autoprefixer({ browsers: prodBrowsers }), csswring],
       },
     }),
     getSourceMapPlugin(/\.(js)($|\?)/i, '/js/'),
