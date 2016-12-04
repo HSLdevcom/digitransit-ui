@@ -181,7 +181,8 @@ if (typeof window.Intl !== 'undefined') {
   const modules = [System.import('intl')];
 
   config.availableLanguages.forEach((language) => {
-    modules.push(System.import(`intl/locale-data/jsonp/${language}`));
+    // eslint-disable-next-line prefer-template
+    modules.push(System.import('intl/locale-data/jsonp/' + language));
   });
 
   Promise.all(modules).then(callback);
