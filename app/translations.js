@@ -547,7 +547,7 @@ const translations = {
     'splash-please-allow-positioning': 'Ce service fonctionne mieux en autorisant la géolocalisation.',
     'splash-use-positioning': 'Utiliser la position',
     'splash-you-can-also': 'Vous pouvez aussi',
-    'splash-or-choose': 'Ou choisir parmi vos favoris',
+    'splash-or-choose': 'Ou choisir parmi ces destinations',
     'splash-locating': 'Localisation...',
     'splash-geolocation-denied-message': 'La géolocalisation n\'est pas autorisée. Merci de vérifier votre navigateur/téléphone',
     'splash-geolocation-watch-timeout-message': 'Le positionnement prend plus de temps que prévu. Merci de sélectionner une origine ou réessayer plus tard.',
