@@ -15,7 +15,6 @@ import {
   gqErrorsMiddleware,
   retryMiddleware,
 } from 'react-relay-network-layer';
-import 'regenerator-runtime/runtime';
 import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';

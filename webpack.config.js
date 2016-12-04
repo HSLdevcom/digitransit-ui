@@ -50,6 +50,11 @@ function getRulesConfig(env) {
           plugins: [
             'transform-system-import-commonjs',
             path.join(__dirname, 'build/babelRelayPlugin'),
+            ['transform-runtime', {
+              helpers: true,
+              polyfill: false,
+              regenerator: true,
+            }],
           ],
           ignore: [
             'app/util/piwik.js',
@@ -76,6 +81,11 @@ function getRulesConfig(env) {
         plugins: [
           'transform-react-remove-prop-types',
           path.join(__dirname, 'build/babelRelayPlugin'),
+          ['transform-runtime', {
+            helpers: true,
+            polyfill: false,
+            regenerator: true,
+          }],
         ],
         ignore: [
           'app/util/piwik.js',
