@@ -721,7 +721,7 @@ const translations = {
     'favourite-target': 'Destination favorite',
     'search': 'Recherche',
     'search-no-results': 'Aucun résultat',
-    'search-destination-results-but-no-search': 'Voir les résultats de l\'onglet "Lieu, ligne ou mot-clé"',
+    'search-destination-results-but-no-search': 'Voir les résultats de l\'onglet "Destination"',
     'search-search-results-but-no-destination': 'Voir les résultats de l\'onglet "Ligne, arrêt ou mot-clé"',
     'route-stop-or-keyword': 'Ligne, arrêt ou mot-clé',
     'place-route-or-keyword': 'Lieu, ligne ou mot-clé',
