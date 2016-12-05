@@ -10,8 +10,9 @@ import { executeSearch, executeSearchImmediate } from '../util/searchUtils';
 import { getLabel } from '../util/suggestionUtils';
 import { saveSearch } from '../action/SearchActions';
 import Icon from './Icon';
+import { isBrowser } from '../util/browser';
 
-const L = typeof window !== 'undefined' ? require('leaflet') : null;
+const L = isBrowser ? require('leaflet') : null;
 
 export default class SearchInputContainer extends Component {
   static contextTypes = {

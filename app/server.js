@@ -237,12 +237,6 @@ export default function (req, res, next) {
         IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];
 
-      if (renderProps.routes[1] && renderProps.routes[1].loadAction) {
-        renderProps.routes[1]
-          .loadAction(renderProps.params)
-          .forEach(action => promises.push(context.executeAction(action[0], action[1])));
-      }
-
       Promise.all(promises).then(results =>
         res.send(`<!doctype html>${getHtml(context, locale, results, req)}`),
       ).catch((err) => {
