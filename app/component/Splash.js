@@ -6,20 +6,17 @@ import Icon from './Icon';
 import GeopositionSelector from './GeopositionSelector';
 import OriginSelector from './OriginSelector';
 import Intro from './Intro';
-import config from '../config';
 
-import { getIntroShown, setIntroShown } from '../store/localStorage';
 
 class Splash extends React.Component {
+  static propTypes = {
+    shouldShowIntro: React.PropTypes.bool.isRequired,
+    setIntroShown: React.PropTypes.func.isRequired,
+  }
+
   state = {
     searchModalIsOpen: false,
-    shouldShowIntro: getIntroShown() !== true,
   };
-
-  onIntroFinished = () => {
-    setIntroShown();
-    this.setState({ shouldShowIntro: false });
-  }
 
   openModal = () => {
     this.setState({
@@ -32,10 +29,6 @@ class Splash extends React.Component {
       searchModalIsOpen: false,
     });
   };
-
-  shouldShowIntro() {
-    return config.shouldShowIntro && this.state.shouldShowIntro;
-  }
 
   renderContents() {
     return (
@@ -80,8 +73,11 @@ class Splash extends React.Component {
         </div>
         <div id="splash-wrapper">
           <div id="splash">
-            {this.shouldShowIntro() ?
-              <Intro onIntroFinished={this.onIntroFinished} finalSlide={this.renderContents()} /> :
+            {this.props.shouldShowIntro ?
+              <Intro
+                onIntroFinished={this.props.setIntroShown}
+                finalSlide={this.renderContents()}
+              /> :
               this.renderContents()
             }
           </div>

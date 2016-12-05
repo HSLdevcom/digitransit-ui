@@ -3,20 +3,29 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import Splash from './Splash';
 
 import config from '../config';
-import { getIntroShown } from '../store/localStorage';
+import { getIntroShown, setIntroShown } from '../store/localStorage';
 
+class SplashOrComponent extends React.Component {
+  static propTypes = {
+    displaySplash: React.PropTypes.bool.isRequired,
+    children: React.PropTypes.node.isRequired,
+  };
 
-const SplashOrComponent = ({ displaySplash, children }) => {
-  if (!displaySplash) {
-    return children;
+  state = { shouldShowIntro: config.shouldShowIntro && getIntroShown() !== true }
+
+  setIntroShown = () => {
+    this.setState({ shouldShowIntro: false }, setIntroShown);
   }
-  return <Splash />;
-};
 
-SplashOrComponent.propTypes = {
-  displaySplash: React.PropTypes.bool.isRequired,
-  children: React.PropTypes.node.isRequired,
-};
+  render() {
+    if (!this.props.displaySplash && !this.state.shouldShowIntro) {
+      return this.props.children;
+    }
+    return (
+      <Splash setIntroShown={this.setIntroShown} shouldShowIntro={this.state.shouldShowIntro} />
+    );
+  }
+}
 
 export default connectToStores(SplashOrComponent, ['PositionStore', 'EndpointStore'],
   (context) => {
@@ -24,7 +33,6 @@ export default connectToStores(SplashOrComponent, ['PositionStore', 'EndpointSto
 
     return {
       displaySplash: (
-        (config.shouldShowIntro && getIntroShown() !== true) ||
         (origin.useCurrentPosition &&
             !context.getStore('PositionStore').getLocationState().hasLocation) ||
         (!origin.useCurrentPosition && (!origin.lat || !origin.lon))), // selected location
