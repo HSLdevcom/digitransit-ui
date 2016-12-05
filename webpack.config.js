@@ -162,7 +162,7 @@ function getPluginsConfig(env) {
     new webpack.optimize.CommonsChunkPlugin({
       names: ['common', 'leaflet', 'manifest'],
     }),
-    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.2 }),
     new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 60000 }),
     new StatsPlugin('../stats.json', { chunkModules: true }),
     new webpack.optimize.UglifyJsPlugin({
