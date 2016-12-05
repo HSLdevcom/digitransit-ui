@@ -52,15 +52,22 @@ class TransitLeg extends React.Component {
         </ul>
       </div>;
 
-    const StopInfo = ({ stops, leg, toggleFunction }) =>
-      <div className="intermediate-stop-info-container"><span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}><FormattedMessage
+    const StopInfo = ({ stops, leg, toggleFunction }) => {
+      const stopCount = (stops && stops.length) || 0;
+      const message = (<FormattedMessage
         id="number-of-intermediate-stops"
         values={{
           number: (stops
-          && stops.length) || 0,
+         && stops.length) || 0,
         }}
         defaultMessage="{number, plural, =0 {No intermediate stops} other {{number} stops} }"
-      /></span> <span className="intermediate-stops-duration">({durationToString(leg.duration * 1000)})</span></div>;
+      />);
+      return (
+        <div className="intermediate-stop-info-container">{stopCount === 0 ? <span className="intermediate-stop-no-stops">{message}</span> :
+        <span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}>
+          {message}
+        </span>} <span className="intermediate-stops-duration">({durationToString(leg.duration * 1000)})</span></div>);
+    };
 
     const IntermediateStops = ({ stops, showStops, leg, toggleFunction, focusFunction }) =>
       (showStops && <IntermediateStopList

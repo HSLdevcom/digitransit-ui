@@ -403,6 +403,12 @@ div.itinerary-container-content {
   @include font-medium;
 }
 
+.intermediate-stop-no-stops {
+  color: $gray;
+  font-weight: $font-weight-book;
+  font-size: 10pt;
+}
+
 .desktop .itinerary-intermediate-stop-name {
   font-size: 15px;
 }
