@@ -40,7 +40,7 @@ class TransitLeg extends React.Component {
     const IntermediateStop = ({ name, code, focusFunction }) => <li key={code} onClick={(e) => { e.stopPropagation(); focusFunction(e); }} className={`${modeClassName} itinerary-intermediate-stop`}><span className="itinerary-intermediate-stop-name">{name}</span> <StopCode code={code} /></li>;
 
     const IntermediateStopList = ({ leg, stops, toggleFunction, focusFunction }) =>
-      <div><span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}><FormattedMessage
+      <div className="intermediate-stop-info-container"><span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}><FormattedMessage
         id="itinerary-hide-stops"
         defaultMessage="Hide stops"
       /></span> <span className="intermediate-stops-duration">({durationToString(leg.duration * 1000)})</span>
@@ -53,14 +53,14 @@ class TransitLeg extends React.Component {
       </div>;
 
     const StopInfo = ({ stops, leg, toggleFunction }) =>
-      <div><span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}><FormattedMessage
+      <div className="intermediate-stop-info-container"><span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}><FormattedMessage
         id="number-of-intermediate-stops"
         values={{
           number: (stops
           && stops.length) || 0,
         }}
         defaultMessage="{number, plural, =0 {No intermediate stops} other {{number} stops} }"
-      /></span><span className="intermediate-stops-duration">({durationToString(leg.duration * 1000)})</span></div>;
+      /></span> <span className="intermediate-stops-duration">({durationToString(leg.duration * 1000)})</span></div>;
 
     const IntermediateStops = ({ stops, showStops, leg, toggleFunction, focusFunction }) =>
       (showStops && <IntermediateStopList

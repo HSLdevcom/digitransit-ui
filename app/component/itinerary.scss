@@ -170,7 +170,7 @@ $itinerary-route-max-width: 500px;
   .itinerary-intermediate-stop {
     position:relative;
     padding-top: 2px;
-    padding-bottom: 2px;
+    padding-bottom: 5px;
 
   }
 
@@ -234,6 +234,10 @@ $itinerary-route-max-width: 500px;
       margin-top: 12px;
       padding-bottom: 0px;
       @extend .itinerary-leg-text-gray
+    }
+
+    .intermediate-stop-info-container {
+      padding-top:6px;
     }
 
     .intermediate-stops-link {
