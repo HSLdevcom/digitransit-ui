@@ -1,23 +1,34 @@
 import { setHistory, getHistory } from './store/localStorage';
 
 // minimial serializable history state (just the paths)
-const entries = getHistory().length > 0 ? getHistory() : ['/'];
+const history = getHistory();
 
-const PUSH = (entry) => {
-  entries.push(entry.pathname);
-  setHistory(entries);
+const saveHistory = () => {
+  setHistory(history);
 };
 
+const PUSH = (entry) => {
+  history.entries.splice(history.index + 1);
+  history.entries.push(entry.pathname);
+  history.index += 1;
+  saveHistory();
+};
+
+
 const POP = () => {
-  if (entries.length > 0) {
-    entries.splice(entries.length - 1);
-    setHistory(entries);
+  if (history.index > 0) {
+    history.index -= 1;
+    saveHistory();
   }
 };
 
 const REPLACE = (entry) => {
-  POP();
-  PUSH(entry);
+  history.entries.splice(history.index);
+  history.entries.push(entry.pathname);
+  saveHistory();
 };
 
-export default { PUSH, POP, REPLACE, entries };
+const getEntries = () => (history.entries);
+const getIndex = () => (history.index);
+
+export default { PUSH, POP, REPLACE, getEntries, getIndex };

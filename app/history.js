@@ -12,7 +12,10 @@ const args = {
 const history = isIOSApp ?
   // custom local Storage based history for ios app mode
   useRouterHistory(() => {
-    const h = createMemoryHistory({ entries: localStorageHistory.entries });
+    const h = createMemoryHistory({
+      current: localStorageHistory.getIndex(),
+      entries: localStorageHistory.getEntries(),
+    });
     h.listen((event) => {
       if (localStorageHistory[event.action] !== undefined) {
         localStorageHistory[event.action](event);
