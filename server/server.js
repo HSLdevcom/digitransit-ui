@@ -46,6 +46,7 @@ function setUpStaticFolders() {
   const oneDay = 86400000;
   app.use(config.APP_PATH, expressStaticGzip(staticFolder, {
     enableBrotli: true,
+    indexFromEmptyFile: false,
     maxAge: 30 * oneDay,
     setHeaders(res, reqPath) {
       if (
