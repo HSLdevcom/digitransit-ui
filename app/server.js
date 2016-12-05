@@ -79,8 +79,6 @@ if (process.env.NODE_ENV !== 'development') {
     />,
   ];
 
-  console.log(find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]);
-
   svgSprite = (
     <script
       dangerouslySetInnerHTML={{ __html: `

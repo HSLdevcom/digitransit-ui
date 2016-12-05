@@ -189,11 +189,18 @@ function getPluginsConfig(env) {
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
-        main: [':rest:'],
-        additional: [':externals:'],
-        optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js'],
+        main: [':rest:', ':externals:'],
+        additional: ['js/+([a-z0-9]).js'],
+        optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js', '*.png'],
       },
+      externals: ['/'],
       safeToUseOptionalCaches: true,
+      ServiceWorker: {
+        entry: './app/util/font-sw.js',
+      },
+      AppCache: {
+        caches: ['main', 'additional', 'optional'],
+      },
     }),
     new GzipCompressionPlugin({
       asset: '[path].gz[query]',
