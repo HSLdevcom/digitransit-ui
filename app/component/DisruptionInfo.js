@@ -8,9 +8,10 @@ import ViewerRoute from '../route/ViewerRoute';
 import { close } from '../action/DisruptionInfoAction';
 import DisruptionListContainer from './DisruptionListContainer';
 import ComponentUsageExample from './ComponentUsageExample';
+import { isBrowser } from '../util/browser';
 
 function DisruptionInfo(props, context) {
-  if (typeof window !== 'undefined' && props.open) {
+  if (isBrowser && props.open) {
     return (
       <Modal
         open={props.open}

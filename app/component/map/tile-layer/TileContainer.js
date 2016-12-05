@@ -3,6 +3,7 @@ import omit from 'lodash/omit';
 import L from 'leaflet';
 
 import config from '../../../config';
+import { isBrowser } from '../../../util/browser';
 
 const markersMinZoom = Math.min(
   config.cityBike.cityBikeMinZoom,
@@ -15,7 +16,7 @@ class TileContainer {
     this.coords = coords;
     this.props = props;
     this.extent = 4096;
-    this.scaleratio = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
+    this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.tileSize = (this.props.tileSize || 256) * this.scaleratio;
     this.ratio = this.extent / this.tileSize;
     this.el = this.createElement();

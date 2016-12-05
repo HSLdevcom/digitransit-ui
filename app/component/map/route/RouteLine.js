@@ -6,7 +6,7 @@ import StopCardHeaderContainer from '../../StopCardHeaderContainer';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../../util/browser';
 
 class RouteLine extends React.Component {
   static propTypes = {

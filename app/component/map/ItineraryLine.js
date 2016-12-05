@@ -7,8 +7,7 @@ import LegMarker from './non-tile-layer/LegMarker';
 import Line from './Line';
 import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../util/browser';
 
 class ItineraryLine extends React.Component {
   static contextTypes = {

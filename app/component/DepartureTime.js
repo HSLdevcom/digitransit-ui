@@ -4,6 +4,7 @@ import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
+import { isBrowser } from '../util/browser';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
@@ -116,7 +117,7 @@ export const mapStopTime = (stoptime, pattern) => (
   {
     stop: stoptime.stop,
     canceled: stoptime.realtimeState === 'CANCELED'
-      || (typeof window !== 'undefined' && window.mock && stoptime.realtimeDeparture % 40 === 0),
+      || (isBrowser && window.mock && stoptime.realtimeDeparture % 40 === 0),
     departureTime: stoptime.serviceDay +
       ((stoptime.realtimeState === 'CANCELED' || stoptime.realtimeDeparture === -1)
         ? stoptime.scheduledDeparture
