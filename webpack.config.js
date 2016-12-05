@@ -11,6 +11,8 @@ const StatsPlugin = require('stats-webpack-plugin');
 // const OptimizeJsPlugin = require('optimize-js-plugin');
 const OfflinePlugin = require('offline-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const GzipCompressionPlugin = require('compression-webpack-plugin');
+const BrotliCompressionPlugin = require('brotli-webpack-plugin');
 const fs = require('fs');
 
 require('babel-core/register')({
@@ -161,7 +163,7 @@ function getPluginsConfig(env) {
       names: ['common', 'leaflet', 'manifest'],
     }),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 20000 }),
+    new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 60000 }),
     new StatsPlugin('../stats.json', { chunkModules: true }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
@@ -192,6 +194,17 @@ function getPluginsConfig(env) {
         optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js'],
       },
       safeToUseOptionalCaches: true,
+    }),
+    new GzipCompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'zopfli',
+      test: /\.(js|css|html|svg)$/,
+      minRatio: 0.95,
+    }),
+    new BrotliCompressionPlugin({
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      minRatio: 0.95,
     }),
     new webpack.NoErrorsPlugin(),
   ]);

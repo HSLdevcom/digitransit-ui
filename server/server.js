@@ -31,6 +31,7 @@ if (process.env.NODE_ENV === 'production') {
 
 /* ********* Server **********/
 const express = require('express');
+const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
@@ -43,7 +44,8 @@ function setUpStaticFolders() {
   const staticFolder = path.join(process.cwd(), '_static');
   // Sert cache for 1 week
   const oneDay = 86400000;
-  app.use(config.APP_PATH, express.static(staticFolder, {
+  app.use(config.APP_PATH, expressStaticGzip(staticFolder, {
+    enableBrotli: true,
     maxAge: 30 * oneDay,
     setHeaders(res, reqPath) {
       if (
