@@ -47,8 +47,11 @@ export default class SearchInputContainer extends Component {
   }
 
   onSearchChange = (data) => {
+    const inProgress = data == null;
+    const results = inProgress ? [] : data;
     this.setState({
-      suggestions: data,
+      searchInProgress: inProgress,
+      suggestions: results,
       focusedItemIndex: 0,
     }, () => this.focusItem(0));
   }
@@ -194,6 +197,45 @@ export default class SearchInputContainer extends Component {
     this.focus();
   };
 
+  renderItemsOrEmpty(children) {
+    let elem;
+    if (children != null) {
+      // we have results
+      return children;
+    } else if (this.state.searchInProgress) {
+      // Loading in progress
+      elem = <div className="spinner-loader" />;
+    } else if (
+        this.state.suggestions.length === 0 ||
+        (this.state.suggestions[0].items.length === 0 &&
+        this.state.suggestions[1].items.length === 0)) {
+      // No results
+      elem = <FormattedMessage id="search-no-results" defaultMessage="No results" />;
+    } else if (children === null && this.state.suggestions[0].items.length > 0) {
+      // Complex search, Results in destination tab
+      elem = <FormattedMessage id="search-destination-results-but-no-search" defaultMessage="See results from Destination tab" />;
+    } else if (children === null && this.state.suggestions[1].items.length > 0) {
+      // Complex search, Results in search tab
+      elem = <FormattedMessage id="search-search-results-but-no-destination" defaultMessage="See results from &quot;Route, stop or keyword&quot; tab" />;
+    } else {
+      throw Error('Rendering results is not working correctly');
+    }
+
+    return (
+      <ul className="search-no-results">
+        <li>
+          {elem}
+        </li>
+      </ul>
+    );
+  }
+
+  renderSimpleWrapper = ({ children, ...rest }) => (
+    <div {...rest} >
+      {this.renderItemsOrEmpty(children)}
+    </div>
+  )
+
   renderMultiWrapper = ({ children, ...rest }) => (
     <div {...rest} >
       <div className="react-autowhatever__type-selector">
@@ -222,7 +264,7 @@ export default class SearchInputContainer extends Component {
           )}
         </a>
       </div>
-      {children}
+      {this.renderItemsOrEmpty(children)}
     </div>
   )
 
@@ -258,7 +300,7 @@ export default class SearchInputContainer extends Component {
           id="suggest"
           items={this.getItems()}
           renderItem={this.renderItem}
-          renderItemsContainer={this.props.type === 'all' ? this.renderMultiWrapper : undefined}
+          renderItemsContainer={this.props.type === 'all' ? this.renderMultiWrapper : this.renderSimpleWrapper}
           onSuggestionSelected={this.currentItemSelected}
           focusedItemIndex={this.state.focusedItemIndex}
           inputProps={{
