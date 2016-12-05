@@ -310,11 +310,21 @@ export function executeSearchImmediate(getStore, { input, type }, callback) {
   }
 
   Promise.all([endpoitSearches, searchSearches])
-    .then(([endpoints, search]) => callback([
-      { name: 'endpoint', items: endpoints },
-      { name: 'search', items: search },
-    ]))
-    .catch(err => console.error(err)); // eslint-disable-line no-console
+    .then(([endpoints, search]) => {
+      const suggestionTypes = config.search.suggestions.types;
+      let searchItems = [];
+
+      if (suggestionTypes) {
+        suggestionTypes.forEach((suggestionType) => {
+          if (suggestionType === 'endpoint') {
+            searchItems = searchItems.concat(endpoints);
+          } else if (suggestionType === 'search') {
+            searchItems = searchItems.concat(search);
+          }
+        });
+      }
+      return callback(searchItems);
+    }).catch(err => console.error(err)); // eslint-disable-line no-console
 }
 
 const debouncedSearch = debounce(executeSearchImmediate, 300);
