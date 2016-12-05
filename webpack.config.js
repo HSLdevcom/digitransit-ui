@@ -185,7 +185,7 @@ function getPluginsConfig(env) {
       allChunks: true,
     }),
     new OfflinePlugin({
-      excludes: ['**/.*', '**/*.map', '../stats.json'],
+      excludes: ['**/.*', '**/*.map', '../stats.json', '**/*.gz', '**/*.br'],
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
