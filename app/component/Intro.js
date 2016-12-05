@@ -4,13 +4,15 @@ import bindKeyboard from 'react-swipeable-views/lib/bindKeyboard';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 
+import config from '../config';
+
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
-let slides = [];
+let slides = {};
 
 if (typeof window !== 'undefined') {
   /* eslint-disable global-require */
-  slides = [
+  slides = { hsl: [
     {
       image: require('../../static/img/hsl-intro-pic.png'),
       header: {
@@ -48,10 +50,11 @@ if (typeof window !== 'undefined') {
         sv: 'Kolla snabbt och enkelt vilka förbindelser som är nära dig.',
       },
     },
-  ];
+  ] };
   /* eslint-enable global-require */
 }
 
+const themeSlides = slides[config.CONFIG] || [];
 
 export default class Intro extends React.Component {
   static propTypes = {
@@ -68,7 +71,7 @@ export default class Intro extends React.Component {
   onNextClick = () => this.handleChange(this.state.slideIndex + 1)
 
   onTransitionFinished = () =>
-    this.state.slideIndex === slides.length && this.props.onIntroFinished()
+    this.state.slideIndex === themeSlides.length && this.props.onIntroFinished()
 
   handleChange = value => this.setState({ slideIndex: value })
 
@@ -91,10 +94,10 @@ export default class Intro extends React.Component {
           onTransitionEnd={this.onTransitionFinished}
           className="intro-swipeable"
         >
-          {[...(slides.map(this.renderSlide)), this.props.finalSlide]}
+          {[...(themeSlides.map(this.renderSlide)), this.props.finalSlide]}
         </BindKeyboardSwipeableViews>
-        <div className={cx('bottom', { hidden: this.state.slideIndex === slides.length })} >
-          {[...slides, this.props.finalSlide].map(this.renderDot)}
+        <div className={cx('bottom', { hidden: this.state.slideIndex === themeSlides.length })} >
+          {[...themeSlides, this.props.finalSlide].map(this.renderDot)}
           <a className="next" onClick={this.onNextClick} tabIndex="0">
             <FormattedMessage id="next" defaultMessage="next" />
           </a>
