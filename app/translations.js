@@ -545,6 +545,7 @@ const translations = {
     'route-stop-or-keyword': 'Linje eller stoppested',
     'main-mode': 'Jeg reiser med',
     'edit-favourites': 'Rediger favorittsted',
+    'splash-locating': 'Søker etter din posisjon',
   },
 
   'fr': {
