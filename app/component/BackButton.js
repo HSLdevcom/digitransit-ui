@@ -1,6 +1,7 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import Icon from './Icon';
+import { hasHistoryEntries } from '../util/browser';
 
 export default class BackButton extends React.Component {
   static contextTypes = {
@@ -13,10 +14,9 @@ export default class BackButton extends React.Component {
   // See: https://github.com/zilverline/react-tap-event-plugin/issues/14
   // This should be removed either when we change how pages are rendered or
   // When react-tap-plugin works better
-  // window.navigator.standalone check ios app mode
   goBack = () => {
     setTimeout(() => {
-      if (window.navigator.standalone || window.history.length > 1) {
+      if (hasHistoryEntries()) {
         this.context.router.goBack();
       } else {
         this.context.router.push('/');
