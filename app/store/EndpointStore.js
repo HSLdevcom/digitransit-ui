@@ -133,7 +133,7 @@ class EndpointStore extends Store {
       if (!this.destination.useCurrentPosition) {
         this.setDestination(value);
       }
-    } else if (!this.oprigin.useCurrentPosition) {
+    } else if (!this.origin.useCurrentPosition) {
       this.setOrigin(value);
     }
   }
