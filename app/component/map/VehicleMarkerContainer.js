@@ -8,7 +8,7 @@ import RouteMarkerPopup from './route/RouteMarkerPopup';
 import FuzzyTripRoute from '../../route/FuzzyTripRoute';
 import { asString as iconAsString } from '../IconWithTail';
 
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../util/browser';
 
 const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry'];
 
@@ -89,7 +89,7 @@ export default class VehicleMarkerContainer extends React.Component {
       this.props.startRealTimeClient && this.context.getStore('RealTimeInformationStore').client
     ) {
       this.context.executeAction(stopRealTimeClient(
-        this.context.getStore('RealTimeInformationStore').client
+        this.context.getStore('RealTimeInformationStore').client,
       ));
     }
     this.context.getStore('RealTimeInformationStore').removeChangeListener(this.onChange);

@@ -9,7 +9,7 @@ import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import TerminalRoute from '../../../route/TerminalRoute';
 
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../../util/browser';
 
 let Circle;
 let L;
@@ -98,7 +98,7 @@ class TerminalMarker extends React.Component {
           center={{ lat: this.props.terminal.lat, lng: this.props.terminal.lon }}
           radius={getDistanceToFurthestStop(
             new L.LatLng(this.props.terminal.lat, this.props.terminal.lon),
-            this.props.terminal.stops
+            this.props.terminal.stops,
           ).distance}
           fillOpacity={0.05}
           weight={1}

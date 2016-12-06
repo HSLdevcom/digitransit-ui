@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteHeader from '../../RouteHeader';
@@ -87,7 +87,7 @@ const RouteMarkerPopupWithFavourite = connectToStores(
   ['FavouriteRoutesStore'],
   (context, props) => ({
     favourite: context.getStore('FavouriteRoutesStore').isFavourite(props.trip.route.gtfsId),
-  })
+  }),
 );
 
 export default Relay.createContainer(RouteMarkerPopupWithFavourite, {

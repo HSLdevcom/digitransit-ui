@@ -4,9 +4,10 @@ module.exports = {
     browser.url(browser.launch_url);
     browser.setGeolocation(60.1659488, 24.92693);
 
-    // Wait for the tiles to be loaded
-    browser.pause(5000);
     const marker = browser.page.marker();
+    browser.debug('Waiting a while for tiles to load');
+    marker.waitForVectorLayerLoaded();
+    browser.pause(1000);
     marker.clickSouthOfCurrentLocation();
     marker.waitForPopupPaneHeaderVisible();
 

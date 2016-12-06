@@ -3,10 +3,11 @@ import Relay from 'react-relay';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import moment from 'moment';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Departure from './Departure';
+import { isBrowser } from '../util/browser';
 
 const mergeDepartures = departures =>
   Array.prototype.concat.apply([], departures).sort((a, b) => a.stoptime - b.stoptime);
@@ -40,7 +41,7 @@ const asDepartures = stoptimes => (
         headsign: stoptime.stopHeadsign,
         trip: { gtfsId: stoptime.trip.gtfsId },
       };
-    })
+    }),
   )
 );
 
@@ -58,7 +59,7 @@ class DepartureListContainer extends Component {
   };
 
   onScroll = () => {
-    if (this.props.infiniteScroll && typeof window !== 'undefined' && window !== null) {
+    if (this.props.infiniteScroll && isBrowser) {
       return this.scrollHandler;
     }
     return null;
@@ -81,7 +82,7 @@ class DepartureListContainer extends Component {
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, this.props.limit);
 
-    for (const departure of departures) {
+    departures.forEach((departure) => {
       if (departure.stoptime >= tomorrow) {
         departureObjs.push(
           <div
@@ -108,7 +109,7 @@ class DepartureListContainer extends Component {
               (alert.effectiveStartDate <= departure.stoptime) &&
               (departure.stoptime <= alert.effectiveEndDate) &&
               get(alert.trip.gtfsId) === get(departure.trip.gtfsId)
-            )
+            ),
           ).length > 0,
         canceled: departure.canceled,
       };
@@ -133,12 +134,12 @@ class DepartureListContainer extends Component {
             key={id}
           >
             {departureObj}
-          </Link>
+          </Link>,
         );
       } else {
         departureObjs.push(departureObj);
       }
-    }
+    });
 
     return (
       <div
@@ -151,7 +152,7 @@ class DepartureListContainer extends Component {
 }
 
 const DepartureListContainerWithTime = connectToStores(DepartureListContainer, ['TimeStore'],
-  context => ({ currentTime: context.getStore('TimeStore').getCurrentTime() })
+  context => ({ currentTime: context.getStore('TimeStore').getCurrentTime() }),
 );
 
 export default Relay.createContainer(DepartureListContainerWithTime, {

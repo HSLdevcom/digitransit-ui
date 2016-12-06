@@ -2,7 +2,9 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import without from 'lodash/without';
-import { swapEndpoints } from '../action/EndpointActions';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+
+import { storeEndpointIfNotCurrent, swapEndpoints } from '../action/EndpointActions';
 import Icon from './Icon';
 import OneTabSearchModal from './OneTabSearchModal';
 import { getAllEndpointLayers } from '../util/searchUtils';
@@ -10,10 +12,13 @@ import { getAllEndpointLayers } from '../util/searchUtils';
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
+    origin: React.PropTypes.node,
+    destination: React.PropTypes.node,
+    originIsCurrent: React.PropTypes.bool,
+    destinationIsCurrent: React.PropTypes.bool,
   }
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     router: React.PropTypes.object.isRequired,
@@ -21,28 +26,12 @@ class OriginDestinationBar extends React.Component {
   };
 
   state = {
-    origin: undefined,
-    destination: undefined,
     tabOpen: false,
   };
 
   componentWillMount() {
-    this.onEndpointChange();
-  }
-
-  componentDidMount() {
-    this.context.getStore('EndpointStore').addChangeListener(this.onEndpointChange);
-  }
-
-  componentWillUnmount() {
-    this.context.getStore('EndpointStore').removeChangeListener(this.onEndpointChange);
-  }
-
-  onEndpointChange= () => {
-    this.setState({
-      origin: this.context.getStore('EndpointStore').getOrigin(),
-      destination: this.context.getStore('EndpointStore').getDestination(),
-    });
+    this.context.executeAction(storeEndpointIfNotCurrent, { target: 'origin', endpoint: this.props.origin });
+    this.context.executeAction(storeEndpointIfNotCurrent, { target: 'destination', endpoint: this.props.destination });
   }
 
   swapEndpoints= () => {
@@ -51,7 +40,7 @@ class OriginDestinationBar extends React.Component {
       {
         router: this.context.router,
         location: this.context.location,
-      }
+      },
     );
   }
 
@@ -68,6 +57,7 @@ class OriginDestinationBar extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const ownPosition = this.context.intl.formatMessage({
       id: 'own-position',
       defaultMessage: 'Your current location',
@@ -83,8 +73,8 @@ class OriginDestinationBar extends React.Component {
 
     let initialValue = '';
     if (this.state[this.state.tabOpen]) {
-      initialValue = this.state[this.state.tabOpen].useCurrentPosition ?
-        ownPosition : this.state[this.state.tabOpen].address;
+      initialValue = this.props[this.state.tabOpen].useCurrentPosition ?
+        ownPosition : this.props[this.state.tabOpen].address;
     }
 
     return (
@@ -92,7 +82,7 @@ class OriginDestinationBar extends React.Component {
         <div className="field-link from-link" onClick={() => this.openSearch('origin')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
           <span className="link-name">
-            {this.state.origin.useCurrentPosition ? ownPosition : this.state.origin.address}
+            {this.props.originIsCurrent ? ownPosition : this.props.origin.address}
           </span>
         </div>
         <div className="switch" onClick={() => this.swapEndpoints()}>
@@ -103,8 +93,8 @@ class OriginDestinationBar extends React.Component {
         <div className="field-link to-link" onClick={() => this.openSearch('destination')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
           <span className="link-name">
-            {this.state.destination.useCurrentPosition ?
-              ownPosition : this.state.destination.address}
+            {this.props.destinationIsCurrent ?
+              ownPosition : this.props.destination.address}
           </span>
         </div>
         <OneTabSearchModal
@@ -114,9 +104,13 @@ class OriginDestinationBar extends React.Component {
           layers={searchLayers}
           endpoint={this.state[this.state.tabOpen]}
           target={this.state.tabOpen}
+          responsive
         />
       </div>);
   }
 }
 
-export default OriginDestinationBar;
+export default connectToStores(OriginDestinationBar, ['EndpointStore'], context => ({
+  originIsCurrent: context.getStore('EndpointStore').getOrigin().useCurrentPosition,
+  destinationIsCurrent: context.getStore('EndpointStore').getDestination().useCurrentPosition,
+}));

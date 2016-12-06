@@ -9,6 +9,7 @@ require('babel-core/register')({
   presets: ['modern-node', 'stage-2', 'react'], // eslint-disable-line prefer-template
   plugins: [
     'transform-es2015-modules-commonjs',
+    'transform-system-import-commonjs',
     path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
   ignore: [
@@ -42,7 +43,18 @@ const app = express();
 function setUpStaticFolders() {
   const staticFolder = path.join(process.cwd(), '_static');
   // Sert cache for 1 week
-  app.use(config.APP_PATH, express.static(staticFolder, { maxAge: 604800000 }));
+  const oneDay = 86400000;
+  app.use(config.APP_PATH, express.static(staticFolder, {
+    maxAge: 30 * oneDay,
+    setHeaders(res, reqPath) {
+      if (
+        reqPath === path.join(process.cwd(), '_static', 'sw.js') ||
+        reqPath.startsWith(path.join(process.cwd(), '_static', 'appcache'))
+      ) {
+        res.setHeader('Cache-Control', 'public, max-age=0');
+      }
+    },
+  }));
 }
 
 function setUpMiddleware() {
@@ -74,9 +86,7 @@ function setUpRoutes() {
 }
 
 function startServer() {
-  const server = app.listen(port, () =>
-    console.log('Digitransit-ui available on port %d', server.address().port)
-  );
+  const server = app.listen(port, () => console.log('Digitransit-ui available on port %d', server.address().port));
 }
 
 /* ********* Init **********/

@@ -6,7 +6,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
    favouritesClicked, children }) => {
-  const tabClasses = ['small-6', 'h4'];
+  const tabClasses = ['bp-large', 'h4'];
   const nearbyClasses = ['nearby-routes'];
   const favouritesClasses = ['favourites'];
 
@@ -20,7 +20,6 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
     <div className={'fpcfloat no-select'}>
       <ul className="tabs-row bp-large cursor-pointer">
         <NearbyTabLabel
-          hasDisruption={false}
           classes={cx(tabClasses, nearbyClasses)}
           onClick={nearbyClicked}
         />

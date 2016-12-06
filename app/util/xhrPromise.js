@@ -23,7 +23,7 @@ export function getJson(url, params) {
       headers: {
         Accept: 'application/json',
       },
-    }
+    },
   ).then(res => res.json());
 }
 
@@ -40,7 +40,7 @@ export function postJson(url, params, payload) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    }
+    },
   ).then(res => res.json());
 }
 

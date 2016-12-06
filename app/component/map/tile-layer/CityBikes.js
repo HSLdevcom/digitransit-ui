@@ -5,6 +5,7 @@ import glfun from 'mapbox-gl-function';
 import pick from 'lodash/pick';
 
 import config from '../../../config';
+import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
   drawCitybikeIcon,
@@ -25,7 +26,7 @@ class CityBikes {
   constructor(tile) {
     this.tile = tile;
 
-    this.scaleratio = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
+    this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize = 16 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
     this.availabilityImageSize = 8 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
     this.notInUseImageSize = 12 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
@@ -36,7 +37,7 @@ class CityBikes {
   fetchWithAction = actionFn =>
     fetch(`${config.URL.CITYBIKE_MAP}` +
       `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
-      `${this.tile.coords.x}/${this.tile.coords.y}.pbf`
+      `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then((res) => {
       if (res.status !== 200) {
         return undefined;
@@ -55,9 +56,7 @@ class CityBikes {
           }
         }
 
-        for (const i of this.features) {
-          actionFn(i);
-        }
+        this.features.forEach(actionFn);
       }, err => console.log(err));
     });
 

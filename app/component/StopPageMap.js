@@ -1,6 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import some from 'lodash/some';
 
 import Map from './map/Map';
@@ -43,7 +43,7 @@ const StopPageMap = ({ stop, routes, router, params }, { breakpoint }) => {
     leafletObjs.push(
       <SelectedStopPopup lat={stop.lat} lon={stop.lon}>
         <SelectedStopPopupContent stop={stop} />
-      </SelectedStopPopup>
+      </SelectedStopPopup>,
     );
   } else {
     children.push(fullscreenMapOverlay(fullscreenMap, params, router));

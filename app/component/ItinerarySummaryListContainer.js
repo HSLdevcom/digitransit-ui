@@ -4,27 +4,21 @@ import { FormattedMessage } from 'react-intl';
 import SummaryRow from './SummaryRow';
 
 function ItinerarySummaryListContainer(props) {
-  const summaries = [];
-
   if (props.itineraries && props.itineraries.length > 0) {
     const open = props.open && Number(props.open);
-    for (const [i, itinerary] of props.itineraries.entries()) {
-      const passive = i !== props.activeIndex;
-
-      summaries.push(
-        <SummaryRow
-          key={i}
-          hash={i}
-          data={itinerary}
-          passive={passive}
-          currentTime={props.currentTime}
-          onSelect={props.onSelect}
-          onSelectImmediately={props.onSelectImmediately}
-        >
-          {i === open && props.children}
-        </SummaryRow>
-      );
-    }
+    const summaries = props.itineraries.map((itinerary, i) => (
+      <SummaryRow
+        key={i}
+        hash={i}
+        data={itinerary}
+        passive={i !== props.activeIndex}
+        currentTime={props.currentTime}
+        onSelect={props.onSelect}
+        onSelectImmediately={props.onSelectImmediately}
+      >
+        {i === open && props.children}
+      </SummaryRow>
+    ));
 
     return <div className="summary-list-container momentum-scroll">{summaries}</div>;
   }

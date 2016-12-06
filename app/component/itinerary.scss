@@ -5,16 +5,20 @@ $itinerary-summary-height: 40px;
 $itinerary-tab-switch-height: 48px;
 $itinerary-route-max-width: 500px;
 
-// hacketihack, instead of all this we should have more generic measures for pages somewhere else...
 
 .itinerary-swipe-views-root {
-  flex-grow: 20;
+  flex-grow: 1;
   flex-basis: 0;
   display: flex;
   flex-direction: column;
   // min-height: 300px; // TODO: This is required in IE due to ???
   & > div {
+    display:flex;
     flex-grow: 1;
+    >div {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   &.itinerary-container-content-enter {
@@ -41,13 +45,10 @@ $itinerary-route-max-width: 500px;
 .itinerary-tabs__scroll {
   background: $white;
   flex-grow: 1;
-  display: flex;
-  flex-direction: column;
 }
 
 .itinerary-main {
   width: 100%;
-  min-height: 100%;
   padding-top: 20px;
 
   flex-grow: 1;
@@ -67,6 +68,7 @@ $itinerary-route-max-width: 500px;
 
 .itinerary-summary {
   flex-grow: 0;
+  flex-shrink: 0; //for ie mobile
   color: $gray;
   font-weight: $font-weight-book;
   font-size: 10pt;
@@ -340,6 +342,10 @@ div.itinerary-container-content {
   opacity: 1.0;
 }
 
+.itinerary-tab {
+  flex-grow:1;
+}
+
 .itinerary-tab-root--selected {
   @extend .itinerary-tab-root;
   opacity: 0.75;
@@ -352,6 +358,9 @@ div.itinerary-container-content {
 .itinerary-tab {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  //for ie mobile
   min-height: 100%;
+  //for ie mobile
   max-height: 100%;
 }

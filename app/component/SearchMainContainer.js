@@ -6,7 +6,7 @@ import without from 'lodash/without';
 
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import FakeSearchBar from './FakeSearchBar';
-import { default as FakeSearchWithButton } from './FakeSearchWithButton';
+import FakeSearchWithButtonContainer from './FakeSearchWithButtonContainer';
 import GeolocationOrInput from './GeolocationOrInput';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
@@ -139,10 +139,10 @@ class SearchMainContainer extends React.Component {
     return (
       <div
         className={cx(
-          'fake-search-container', `bp-${this.context.breakpoint}`, this.props.className
+          'fake-search-container', `bp-${this.context.breakpoint}`, this.props.className,
         )}
       >
-        <FakeSearchWithButton fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
+        <FakeSearchWithButtonContainer fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
         <Component
           selectedTab={this.state.selectedTab}
           modalIsOpen={this.state.modalIsOpen}
@@ -166,7 +166,7 @@ class SearchMainContainer extends React.Component {
             </div>,
             'endpoint',
             this.context.getStore('EndpointStore').getOrigin(),
-            searchLayers
+            searchLayers,
           )}
           {this.renderEndpointTab(
             'destination',
@@ -182,7 +182,7 @@ class SearchMainContainer extends React.Component {
             </div>,
             'all',
             this.context.getStore('EndpointStore').getDestination(),
-            searchLayers
+            searchLayers,
           )}
         </Component>
       </div>
