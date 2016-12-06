@@ -102,7 +102,7 @@ class OriginDestinationBar extends React.Component {
           closeModal={this.closeModal}
           initialValue={initialValue}
           layers={searchLayers}
-          endpoint={this.state[this.state.tabOpen]}
+          endpoint={this.props[this.state.tabOpen]}
           target={this.state.tabOpen}
           responsive
         />
