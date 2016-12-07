@@ -4,6 +4,7 @@ import Splash from './Splash';
 
 import config from '../config';
 import { getIntroShown, setIntroShown } from '../store/localStorage';
+import { isBrowser } from '../util/browser';
 
 class SplashOrComponent extends React.Component {
   static propTypes = {
@@ -14,7 +15,7 @@ class SplashOrComponent extends React.Component {
   state = { shouldShowIntro:
     config.shouldShowIntro && getIntroShown() !== true &&
     // Do not show intro in mock mode
-    !(window && window.location.search && window.location.search.includes('mock')),
+    !(isBrowser && window.location.search && window.location.search.includes('mock')),
   }
 
   setIntroShown = () => {
