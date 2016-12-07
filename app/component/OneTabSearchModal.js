@@ -27,6 +27,7 @@ class OneTabSearchModal extends React.Component {
     modalIsOpen: React.PropTypes.oneOfType(
       [React.PropTypes.bool, React.PropTypes.string]).isRequired,
     target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
+    layers: React.PropTypes.array,
     responsive: React.PropTypes.bool, // a switch to force use of fullscreen modal
   };
 
@@ -102,6 +103,7 @@ class OneTabSearchModal extends React.Component {
                 initialValue={placeholder ? '' : this.props.initialValue}
                 placeholder={placeholder}
                 type="endpoint"
+                layers={this.props.layers}
                 onSuggestionSelected={
                   this.props.customOnSuggestionSelected || this.onSuggestionSelected}
                 close={this.props.closeModal}
@@ -109,7 +111,8 @@ class OneTabSearchModal extends React.Component {
             </Tab>
           </Component>
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 

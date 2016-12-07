@@ -5,17 +5,20 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
+import without from 'lodash/without';
 import Icon from './Icon';
 import FavouriteIconTable from './FavouriteIconTable';
 import { addFavouriteLocation, deleteFavouriteLocation } from '../action/FavouriteActions';
 import FakeSearchBar from './FakeSearchBar';
 import OneTabSearchModal from './OneTabSearchModal';
+import { getAllEndpointLayers } from '../util/searchUtils';
 
 class AddFavouriteContainer extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -42,12 +45,20 @@ class AddFavouriteContainer extends React.Component {
     (['icon-icon_place', 'icon-icon_home', 'icon-icon_work', 'icon-icon_sport',
       'icon-icon_school', 'icon-icon_shopping']);
 
-  setCoordinatesAndAddress = (name, location) => (
+  setCoordinatesAndAddress = (name, location) => {
+    let address = name;
+    if (location.type === 'CurrentLocation') {
+      const position = this.context.getStore('PositionStore').getLocationState();
+      if (position.address.length > 0) {
+        address = position.address;
+      }
+    }
     this.setState({ favourite: { ...this.state.favourite,
       lat: location.geometry.coordinates[1],
       lon: location.geometry.coordinates[0],
-      address: name,
-    } }));
+      address,
+    } });
+  };
 
   isEdit = () => this.props.favourite !== undefined && this.props.favourite.id !== undefined;
 
@@ -100,6 +111,7 @@ class AddFavouriteContainer extends React.Component {
     });
 
     const favourite = this.state.favourite;
+    const favouriteLayers = without(getAllEndpointLayers(), 'FavouritePlace');
 
     return (<div className="fullscreen">
       <div className="add-favourite-container">
@@ -200,6 +212,7 @@ class AddFavouriteContainer extends React.Component {
         modalIsOpen={this.state.searchModalIsOpen}
         closeModal={this.closeSearchModal}
         customTabLabel={searchTabLabel}
+        layers={favouriteLayers}
         initialValue=""
         customOnSuggestionSelected={(name, item) => {
           this.setCoordinatesAndAddress(name, item);
