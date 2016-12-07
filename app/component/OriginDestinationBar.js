@@ -65,8 +65,7 @@ class OriginDestinationBar extends React.Component {
     let searchLayers = getAllEndpointLayers();
 
     // don't offer current pos if it is already used as a route end point
-    if ((this.props.origin && this.props.origin.useCurrentPosition) ||
-        (this.props.destination && this.props.destination.useCurrentPosition)) {
+    if (this.props.originIsCurrent || this.props.destinationIsCurrent) {
       searchLayers = without(searchLayers, 'CurrentPosition');
     }
 
