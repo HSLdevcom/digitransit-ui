@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Departure from './Departure';
+import { isBrowser } from '../util/browser';
 
 const mergeDepartures = departures =>
   Array.prototype.concat.apply([], departures).sort((a, b) => a.stoptime - b.stoptime);
@@ -57,7 +58,7 @@ class DepartureListContainer extends Component {
   };
 
   onScroll = () => {
-    if (this.props.infiniteScroll && typeof window !== 'undefined' && window !== null) {
+    if (this.props.infiniteScroll && isBrowser) {
       return this.scrollHandler;
     }
     return null;

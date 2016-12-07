@@ -4,6 +4,7 @@ import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
+import { isBrowser } from '../util/browser';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
