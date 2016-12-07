@@ -15,7 +15,7 @@ class SplashOrComponent extends React.Component {
   state = { shouldShowIntro:
     config.shouldShowIntro && getIntroShown() !== true &&
     // Do not show intro in mock mode
-    !(isBrowser && window.location.search && window.location.search.includes('mock')),
+    !(isBrowser && window.mock),
   }
 
   setIntroShown = () => {
