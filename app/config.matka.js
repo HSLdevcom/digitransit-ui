@@ -14,6 +14,9 @@ export default {
     default: "FTA's",
   },
 
+  availableLanguages: ['fi', 'sv', 'en'],
+  defaultLanguage: 'fi',
+
   appBarLink: { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/' },
 
   socialMedia: {
