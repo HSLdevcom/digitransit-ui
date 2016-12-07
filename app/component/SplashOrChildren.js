@@ -11,7 +11,11 @@ class SplashOrComponent extends React.Component {
     children: React.PropTypes.node.isRequired,
   };
 
-  state = { shouldShowIntro: config.shouldShowIntro && getIntroShown() !== true }
+  state = { shouldShowIntro:
+    config.shouldShowIntro && getIntroShown() !== true &&
+    // Do not show intro in mock mode
+    !(window && window.location.search && window.location.search.includes('mock')),
+  }
 
   setIntroShown = () => {
     this.setState({ shouldShowIntro: false }, setIntroShown);
