@@ -49,7 +49,7 @@ const withMapStateTracking = withReducer('mapState', 'dispatch', mapStateReducer
     initialZoom: true,
     mapTracking: true,
     focusOnOrigin: false,
-  })
+  }),
 );
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys(
@@ -141,8 +141,8 @@ const MapWithTracking =
           disableMapTracking,
           children,
         };
-      }
-    )
+      },
+    ),
   );
 
 MapWithTracking.contextTypes = {

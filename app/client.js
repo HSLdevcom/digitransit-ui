@@ -73,12 +73,12 @@ Relay.injectNetworkLayer(
     }),
     gqErrorsMiddleware(),
     retryMiddleware(),
-  ], { disableBatchQuery: false })
+  ], { disableBatchQuery: false }),
 );
 
 IsomorphicRelay.injectPreparedData(
   Relay.Store,
-  JSON.parse(document.getElementById('relayData').textContent)
+  JSON.parse(document.getElementById('relayData').textContent),
 );
 
 if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
@@ -87,28 +87,6 @@ if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
 
 // Material-ui uses touch tap events
 tapEventPlugin();
-
-function track() {
-  // track "getting back to home"
-  const newHref = this.props.history.createHref(this.state.location);
-
-  if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-    if (shouldDisplayPopup(
-      context
-        .getComponentContext()
-        .getStore('TimeStore')
-        .getCurrentTime()
-        .valueOf()
-      )
-    ) {
-      context.executeAction(openFeedbackModal);
-    }
-  }
-
-  this.href = newHref;
-  piwik.setCustomUrl(this.props.history.createHref(this.state.location));
-  piwik.trackPageView();
-}
 
 // Add plugins
 app.plug(piwikPlugin);
@@ -121,6 +99,28 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   }
 
   window.context = context;
+
+  function track() {
+    // track "getting back to home"
+    const newHref = this.props.history.createHref(this.state.location);
+
+    if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
+      if (shouldDisplayPopup(
+        context
+          .getComponentContext()
+          .getStore('TimeStore')
+          .getCurrentTime()
+          .valueOf(),
+        )
+      ) {
+        context.executeAction(openFeedbackModal);
+      }
+    }
+
+    this.href = newHref;
+    piwik.setCustomUrl(this.props.history.createHref(this.state.location));
+    piwik.trackPageView();
+  }
 
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
     piwik: React.PropTypes.object,
@@ -143,7 +143,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
         </Router>
       </MuiThemeProvider>
     </ContextProvider>
-    , document.getElementById('app')
+    , document.getElementById('app'),
   );
 
   // Listen for Web App Install Banner events
@@ -153,7 +153,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     // e.userChoice will return a Promise. (Only in chrome, not IE)
     if (e.userChoice) {
       e.userChoice.then(choiceResult =>
-        piwik.trackEvent('installprompt', 'result', choiceResult.outcome)
+        piwik.trackEvent('installprompt', 'result', choiceResult.outcome),
       );
     }
   });
@@ -165,7 +165,8 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   piwik.setCustomVariable(4, 'commit_id', COMMIT_ID, 'visit');
   piwik.setCustomVariable(5, 'build_time', BUILD_TIME, 'visit');
 
-  if (process.env.NODE_ENV === 'production') {
+  // Roun only in production mode and when built in a docker container
+  if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
     OfflinePlugin.install();
   }
 });
@@ -176,9 +177,9 @@ if (typeof window.Intl !== 'undefined') {
 } else {
   const modules = [System.import('intl')];
 
-  for (const language of config.availableLanguages) {
+  config.availableLanguages.forEach((language) => {
     modules.push(System.import(`intl/locale-data/jsonp/${language}`));
-  }
+  });
 
   Promise.all(modules).then(callback);
 }

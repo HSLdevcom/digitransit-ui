@@ -1,8 +1,7 @@
 import React from 'react';
 
 import config from '../../../config';
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../../util/browser';
 
 const Popup = isBrowser ?
   require('react-leaflet/lib/Popup').default : null; // eslint-disable-line global-require

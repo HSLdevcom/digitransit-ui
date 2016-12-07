@@ -88,21 +88,20 @@ gemini.suite('components', () => {
 
   gemini.suite('TripRouteStop', () => {
     gemini.suite('non-realtime', test('TripRouteStop'));
-    gemini.suite('realtime', test('TripRouteStop', [
-      '#TripRouteStop .component-example:nth-of-type(2) .component',
-      '#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime',
-    ], '#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime'
-    ));
+    gemini.suite('realtime',
+      test('TripRouteStop',
+        [
+          '#TripRouteStop .component-example:nth-of-type(2) .component',
+          '#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime',
+        ], '#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime'));
   });
   gemini.suite('Favourite', () => {
     gemini.suite('favourite', test('Favourite'));
     gemini.suite('favourite-hovered', test('Favourite', 1, [], actions => actions.mouseMove(
-      '#Favourite .component-example:nth-of-type(1) .component svg'
-    )));
+      '#Favourite .component-example:nth-of-type(1) .component svg')));
     gemini.suite('not-favourite', test('Favourite', 2));
     gemini.suite('not-favourite-hovered', test('Favourite', 2, [], actions => actions.mouseMove(
-      '#Favourite .component-example:nth-of-type(2) .component svg'
-    )));
+      '#Favourite .component-example:nth-of-type(2) .component svg')));
   });
 
   gemini.suite('IconWithTail', () => {
@@ -120,6 +119,7 @@ gemini.suite('components', () => {
     gemini.suite('normal', test('TimeNavigationButtons'));
     gemini.suite('hovered', test('TimeNavigationButtons', 1, [], (actions) => {
       actions.mouseMove(
+         // eslint-disable-next-line comma-dangle
         '#TimeNavigationButtons .component-example:nth-of-type(1) .component button:first-of-type'
       ).wait(400); // Wait for animation to happen
     }));
@@ -167,11 +167,12 @@ gemini.suite('components', () => {
       ['#ModeFilter .nearby-routes .component-example:nth-of-type(1) .component']));
   });
 
-  gemini.suite('RouteStop', test('RouteStop',
-    ['#RouteStop .component-example:nth-of-type(1) .component',
-      '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'],
-    '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'
-  ));
+  gemini.suite('RouteStop',
+    test('RouteStop',
+      [
+        '#RouteStop .component-example:nth-of-type(1) .component',
+        '#RouteStop .component-example:nth-of-type(1) .component svg.realtime',
+      ], '#RouteStop .component-example:nth-of-type(1) .component svg.realtime'));
 
   gemini.suite('DepartureRow', () => {
     gemini.suite('Normal', test('DepartureRow', 1, [
@@ -195,6 +196,12 @@ gemini.suite('components', () => {
   basicTest('DepartureListHeader');
   basicTest('NextDeparturesListHeader');
   basicTest('SelectedStopPopupContent');
+  basicTest('PageFooter');
+
+  gemini.suite('FooterItem', () => {
+    gemini.suite('basic', test('FooterItem'));
+    gemini.suite('with-icon', test('FooterItem', 2));
+  });
 
   gemini.suite('SummaryRow', () => {
     gemini.suite('passive', test('SummaryRow'));

@@ -12,6 +12,7 @@ export default {
     STOP_MAP: `${API_URL}/map/v1/hsl-stop-map/`,
     CITYBIKE_MAP: `${API_URL}/map/v1/hsl-citybike-map/`,
     PARK_AND_RIDE_MAP: `${API_URL}/map/v1/hsl-parkandride-map/`,
+    TICKET_SALES_MAP: `${API_URL}/map/v1/hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/6653152/css/fonts.css',
   },
 
@@ -37,13 +38,23 @@ export default {
     bucketSize: 100,
   },
 
+  feedback: {
+    // Enable feedback popup
+    enable: true,
+  },
+
   maxWalkDistance: 2500,
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
 
   parkAndRide: {
     showParkAndRide: true,
-    parkAndRideMinZoom: 13,
+    parkAndRideMinZoom: 14,
+  },
+
+  ticketSales: {
+    showTicketSales: true,
+    ticketSalesMinZoom: 16,
   },
 
   stopsMinZoom: 14,
@@ -85,6 +96,16 @@ export default {
     [25.5622, 60.2691], [25.4213, 60.1613], [25.3479, 59.9218], [24.94, 59.904],
     [24.5041, 59.801], [24.2785, 59.7737], [24.246, 59.791], [24.2367, 59.9579],
     [24.2579, 60.017], [24.3257, 60.0729], [24.2647, 60.178]],
+
+  footer: {
+    content: [
+      { label: (function () { return `© HSL ${(1900 + new Date().getYear())}`; }()) },
+      {},
+      { name: 'footer-feedback', nameEn: 'Send feedback', type: 'feedback', icon: 'icon-icon_speech-bubble' },
+      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      { name: 'footer-link-to-old', nameEn: 'Use old Journey planner', href: 'http://www.reittiopas.fi/' },
+    ],
+  },
 
   defaultEndpoint: {
     address: 'Rautatieasema, Helsinki',

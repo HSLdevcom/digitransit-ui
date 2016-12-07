@@ -1,5 +1,7 @@
+import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
+
 function setItem(key, value) {
-  if (typeof window !== 'undefined' && window.localStorage) {
+  if (isBrowser && window.localStorage) {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
@@ -14,7 +16,7 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  return (typeof window !== 'undefined' && window.localStorage &&
+  return (isBrowser && window.localStorage &&
     window.localStorage.getItem(key)) || null;
 }
 
@@ -29,7 +31,7 @@ function getItemAsJson(key, defaultValue) {
 }
 
 export function removeItem(k) {
-  if (typeof window !== 'undefined' && window.localStorage) {
+  if (isBrowser && window.localStorage) {
     window.localStorage.removeItem(k);
   }
 }
@@ -103,9 +105,17 @@ export function setPositioningHasSucceeded(state) {
 }
 
 export function getPositioningHasSucceeded(shouldCheckBrowser) {
-  // Hack for Windows phone
-  if (shouldCheckBrowser && navigator && !navigator.userAgent.includes('Windows Phone')) {
+  // Hack for Windows phone and iOS fullscreen apps
+  if (shouldCheckBrowser && !(isWindowsPhone || isIOSApp)) {
     return false;
   }
   return getItemAsJson('positioningSuccesful', '{ "state": false }').state;
+}
+
+export function setHistory(history) {
+  setItem('history', history);
+}
+
+export function getHistory() {
+  return getItemAsJson('history', '{"entries":["/"], "index":0}');
 }

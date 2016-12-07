@@ -68,5 +68,5 @@ export default connectToStores(
       modes: modeFilter,
       placeTypes: placeTypeFilter,
     };
-  }
+  },
 );

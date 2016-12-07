@@ -15,12 +15,12 @@ import LoadingPage from './component/LoadingPage';
 import Error404 from './component/404';
 import SplashOrChildren from './component/SplashOrChildren';
 
-import { storeEndpoint } from './action/EndpointActions';
 import { otpToLocation } from './util/otpStrings';
 
 import TopLevel from './component/TopLevel';
 
 import config from './config';
+import { isBrowser } from './util/browser';
 
 const StopQueries = {
   stop: () => Relay.QL`
@@ -88,7 +88,7 @@ const preparePlanParams = (
       minTransferTime,
       modes,
       accessibilityOption,
-    } } }
+    } } },
   ) => omitBy({
     fromPlace: from,
     toPlace: to,
@@ -145,7 +145,7 @@ SummaryPageWrapper.propTypes = {
 
 const routes = (
   <Route
-    component={props => (typeof window !== 'undefined' ?
+    component={props => (isBrowser ?
       <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
       <TopLevel {...props} />
     )}
@@ -172,7 +172,6 @@ const routes = (
         }
       />
     </Route>
-
     <Route
       path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
@@ -206,9 +205,9 @@ const routes = (
             System.import('./component/StopPage').then(getDefault),
             System.import('./component/StopPageMap').then(getDefault),
             System.import('./component/StopPageMeta').then(getDefault),
-          ]).then(
-            ([title, header, content, map, meta]) => cb(null, { title, header, content, map, meta })
-          );
+          ]).then(([title, header, content, map, meta]) =>
+            cb(null, { title, header, content, map, meta },
+          ));
         }}
         queries={{
           header: StopQueries,
@@ -238,9 +237,9 @@ const routes = (
             System.import('./component/StopPage').then(getDefault),
             System.import('./component/StopPageMap').then(getDefault),
             System.import('./component/StopPageMeta').then(getDefault),
-          ]).then(
-            ([title, header, content, map, meta]) => cb(null, { title, header, content, map, meta })
-          );
+          ]).then(([title, header, content, map, meta]) =>
+            cb(null, { title, header, content, map, meta },
+          ));
         }}
         queries={{
           header: terminalQueries,
@@ -267,7 +266,7 @@ const routes = (
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/PatternStopsContainer').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content })
+                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
                 );
               }}
               queries={{
@@ -287,7 +286,7 @@ const routes = (
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/PatternStopsContainer').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content })
+                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
                 );
               }}
               queries={{
@@ -308,7 +307,7 @@ const routes = (
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/TripStopsContainer').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content })
+                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
                 );
               }}
               queries={{
@@ -374,10 +373,6 @@ const routes = (
       queries={{ content: planQueries }}
       prepareParams={preparePlanParams}
       render={{ content: SummaryPageWrapper }}
-      loadAction={params => [
-        [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
-        [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
-      ]}
     >
       <Route
         path=":hash"

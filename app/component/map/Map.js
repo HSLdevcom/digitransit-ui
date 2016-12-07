@@ -6,8 +6,7 @@ import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../util/browser';
 
 /* eslint-disable global-require */
 // TODO When server side rendering is re-enabled,
@@ -45,7 +44,12 @@ class Map extends React.Component {
     padding: React.PropTypes.array,
     showStops: React.PropTypes.bool,
     zoom: React.PropTypes.number,
+    showScaleBar: React.PropTypes.bool,
   };
+
+  static defaultProps ={
+    showScaleBar: false,
+  }
 
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
@@ -58,6 +62,10 @@ class Map extends React.Component {
       position: 'bottomleft',
       prefix: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
     }).addTo(this.refs.map.leafletElement);
+
+    if (this.props.showScaleBar) {
+      L.control.scale({ imperial: false, position: 'bottomright' }).addTo(this.refs.map.leafletElement);
+    }
 
     if (!this.props.disableZoom || L.Browser.touch) {
       L.control.zoom({ position: 'topleft' })
@@ -79,11 +87,41 @@ class Map extends React.Component {
       if (this.props.fitBounds) {
         this.refs.map.leafletElement.fitBounds(
           boundWithMinimumArea(this.props.bounds),
-          this.props.boundsOptions
+          this.props.boundsOptions,
         );
       }
     }
   }
+
+  vectorTileLayerContainerModules = ({ VectorTileLayerContainer:
+    () => importLazy(System.import('./tile-layer/VectorTileLayerContainer')),
+  })
+
+  stopMarkerContainerModules = { StopMarkerContainer:
+    () => importLazy(System.import('./non-tile-layer/StopMarkerContainer')),
+  }
+
+  cityBikeMarkerContainerModules = { CityBikeMarkerContainer:
+    () => importLazy(System.import('./non-tile-layer/CityBikeMarkerContainer')),
+  }
+
+  renderVectorTileLayerContainer = ({ VectorTileLayerContainer }) => (
+    <VectorTileLayerContainer
+      hilightedStops={this.props.hilightedStops}
+      showStops={this.props.showStops}
+      disableMapTracking={this.props.disableMapTracking}
+    />
+  )
+
+  renderStopMarkerContainer = ({ StopMarkerContainer }) => (
+    <StopMarkerContainer
+      hilightedStops={this.props.hilightedStops}
+      disableMapTracking={this.props.disableMapTracking}
+      updateWhenIdle={false}
+    />
+  )
+
+  renderCityBikeMarkerContainer = ({ CityBikeMarkerContainer }) => (<CityBikeMarkerContainer />)
 
   render = () => {
     let map;
@@ -96,43 +134,21 @@ class Map extends React.Component {
 
       if (config.map.useVectorTiles) {
         leafletObjs.push(
-          <LazilyLoad
-            modules={{ VectorTileLayerContainer: () =>
-              importLazy(System.import('./tile-layer/VectorTileLayerContainer')) }}
-          >
-            {({ VectorTileLayerContainer }) => (
-              <VectorTileLayerContainer
-                hilightedStops={this.props.hilightedStops}
-                showStops={this.props.showStops}
-                disableMapTracking={this.props.disableMapTracking}
-              />
-            )}
-          </LazilyLoad>
+          <LazilyLoad key="vector-tiles" modules={this.vectorTileLayerContainerModules}>
+            {this.renderVectorTileLayerContainer}
+          </LazilyLoad>,
         );
       } else if (this.props.showStops) {
         leafletObjs.push(
-          <LazilyLoad
-            modules={{ StopMarkerContainer: () =>
-              importLazy(System.import('./non-tile-layer/StopMarkerContainer')) }}
-          >
-            {({ StopMarkerContainer }) => (
-              <StopMarkerContainer
-                key="stops"
-                hilightedStops={this.props.hilightedStops}
-                disableMapTracking={this.props.disableMapTracking}
-                updateWhenIdle={false}
-              />
-            )}
-          </LazilyLoad>
+          <LazilyLoad key="stop-layer" modules={this.stopMarkerContainerModules}>
+            {this.renderStopMarkerContainer}
+          </LazilyLoad>,
           );
 
         if (config.cityBike.showCityBikes) {
           leafletObjs.push(
-            <LazilyLoad
-              modules={{ CityBikeMarkerContainer: () =>
-                importLazy(System.import('./non-tile-layer/CityBikeMarkerContainer')) }}
-            >
-              {({ CityBikeMarkerContainer }) => (<CityBikeMarkerContainer key="cityBikes" />)}
+            <LazilyLoad key="citybikes" modules={this.cityBikeMarkerContainerModules}>
+              {this.renderCityBikeMarkerContainer}
             </LazilyLoad>);
         }
       }

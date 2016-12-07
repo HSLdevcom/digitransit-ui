@@ -5,6 +5,7 @@ import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import { otpToLocation } from '../util/otpStrings';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -46,14 +47,14 @@ class SummaryNavigation extends React.Component {
   }
 
   getOffcanvasState = () =>
-    this.context.location.state && this.context.location.state.customizeSearchOffcanvas;
+    (this.context.location.state && this.context.location.state.customizeSearchOffcanvas) || false;
 
   internalSetOffcanvas = (newState) => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
         'Offcanvas',
         'Customize Search',
-        newState ? 'close' : 'open'
+        newState ? 'close' : 'open',
       );
     }
 
@@ -74,17 +75,17 @@ class SummaryNavigation extends React.Component {
     this.internalSetOffcanvas(!this.getOffcanvasState());
   }
 
+  customizeSearchModules = {
+    Drawer: () => importLazy(System.import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
+  }
+
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
 
     return (
       <section>
-        <LazilyLoad
-          modules={{
-            Drawer: () => importLazy(System.import('material-ui/Drawer')),
-            CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
-          }}
-        >
+        <LazilyLoad modules={this.customizeSearchModules} >
           {({ Drawer, CustomizeSearch }) => (
             <Drawer
               className="offcanvas"
@@ -104,7 +105,11 @@ class SummaryNavigation extends React.Component {
             </Drawer>
           )}
         </LazilyLoad>
-        <OriginDestinationBar className={className} />
+        <OriginDestinationBar
+          className={className}
+          origin={otpToLocation(this.props.params.from)}
+          destination={otpToLocation(this.props.params.to)}
+        />
         <div className={cx('time-selector-settings-row', className)}>
           <TimeSelectorContainer />
           <RightOffcanvasToggle

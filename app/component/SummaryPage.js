@@ -125,14 +125,14 @@ class SummaryPage extends React.Component {
         key="fromMarker"
         position={from}
         className="from"
-      />
+      />,
     );
     leafletObjs.push(
       <LocationMarker
         key="toMarker"
         position={to}
         className="to"
-      />
+      />,
     );
 
     // Decode all legs of all itineraries into latlong arrays,
@@ -140,7 +140,7 @@ class SummaryPage extends React.Component {
     const bounds =
       [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...itineraries.map(itinerary => (
         [].concat(...itinerary.legs.map(leg => polyline.decode(leg.legGeometry.points)))
-      ))
+      )),
     );
 
     return (
@@ -149,6 +149,7 @@ class SummaryPage extends React.Component {
         leafletObjs={leafletObjs}
         fitBounds
         bounds={bounds}
+        showScaleBar
       />
     );
   }
@@ -179,7 +180,7 @@ class SummaryPage extends React.Component {
               {
                 itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
                 focus: this.updateCenter,
-              }
+              },
             )}
           </SummaryPlanContainer>
         );
@@ -226,7 +227,7 @@ class SummaryPage extends React.Component {
           focus={this.updateCenter}
         >
           {this.props.content && this.props.plan.plan.itineraries.map((itinerary, i) =>
-            React.cloneElement(this.props.content, { key: i, itinerary })
+            React.cloneElement(this.props.content, { key: i, itinerary }),
           )}
         </MobileItineraryWrapper>
       );

@@ -43,12 +43,14 @@ const StopPageMap = ({ stop, routes, router, params }, { breakpoint }) => {
     leafletObjs.push(
       <SelectedStopPopup lat={stop.lat} lon={stop.lon}>
         <SelectedStopPopupContent stop={stop} />
-      </SelectedStopPopup>
+      </SelectedStopPopup>,
     );
   } else {
     children.push(fullscreenMapOverlay(fullscreenMap, params, router));
     children.push(fullscreenMapToggle(fullscreenMap, params));
   }
+
+  const showScale = fullscreenMap || breakpoint === 'large';
 
   return (
     <Map
@@ -56,11 +58,12 @@ const StopPageMap = ({ stop, routes, router, params }, { breakpoint }) => {
       lat={stop.lat}
       lon={stop.lon}
       zoom={!(params.stopId) || stop.platformCode ? 18 : 16}
-      key="map"
+      key={`map-${showScale}`} // forces update when prop fullScreenMap changes
       showStops
       hilightedStops={[params.stopId]}
       disableZoom={!fullscreenMap}
       leafletObjs={leafletObjs}
+      showScaleBar={showScale}
     >
       {children}
     </Map>

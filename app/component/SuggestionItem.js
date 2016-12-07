@@ -32,7 +32,7 @@ const SuggestionItem = pure((props) => {
       className={cx(
         'search-result',
         props.item.type,
-        { favourite: props.item.type.startsWith('Favourite') }
+        { favourite: props.item.type.startsWith('Favourite') },
       )}
     >
       <span className="autosuggestIcon">

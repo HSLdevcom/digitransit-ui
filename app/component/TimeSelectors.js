@@ -8,7 +8,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import supportsInputType from '../util/supportsInputType';
 
 export default function TimeSelectors(
-  { arriveBy, time, dates, setArriveBy, changeTime, changeTimeMui, changeDate }, { intl }
+  { arriveBy, time, dates, setArriveBy, changeTime, changeTimeMui, changeDate }, { intl },
 ) {
   return (
     <div className="time-selectors">

@@ -10,7 +10,7 @@ import Icon from './Icon';
 
 export default function ItineraryPageMap(
   { itinerary, from, to, routes, center },
-  { breakpoint, router, location }
+  { breakpoint, router, location },
 ) {
   const leafletObjs = [
     <LocationMarker
@@ -31,7 +31,7 @@ export default function ItineraryPageMap(
         legs={itinerary.legs}
         showTransferLabels
         showIntermediateStops
-      />
+      />,
     );
   }
   const fullscreen = some(routes.map(route => route.fullscreenMap));
@@ -54,9 +54,12 @@ export default function ItineraryPageMap(
     bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
   }
 
+  const showScale = fullscreen || breakpoint === 'large';
+
   return (
     <Map
-      className="full"
+      key={showScale}
+      className="full itinerary"
       leafletObjs={leafletObjs}
       lat={center ? center.lat : from.lat}
       lon={center ? center.lon : from.lon}
@@ -65,6 +68,7 @@ export default function ItineraryPageMap(
       fitBounds={bounds !== false}
       disableZoom={false}
       boundsOptions={{ maxZoom: 16 }}
+      showScaleBar={showScale}
     >
       {breakpoint !== 'large' && overlay}
       {breakpoint !== 'large' && (

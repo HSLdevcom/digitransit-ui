@@ -7,8 +7,7 @@ import LegMarker from './non-tile-layer/LegMarker';
 import Line from './Line';
 import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../util/browser';
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
@@ -64,7 +63,7 @@ class ItineraryLine extends React.Component {
                 key={`intermediate-${stop.gtfsId}`}
                 mode={modePlusClass}
                 thin
-              />)
+              />),
             );
         }
 
@@ -95,7 +94,7 @@ class ItineraryLine extends React.Component {
                 code: leg.from.stop.code,
               }}
               mode={mode.toLowerCase()}
-            />
+            />,
           );
           objs.push(
             <StopMarker
@@ -110,7 +109,7 @@ class ItineraryLine extends React.Component {
               }}
               mode={mode.toLowerCase()}
               renderText={leg.transitLeg && this.props.showTransferLabels}
-            />
+            />,
           );
           objs.push(
             <StopMarker
@@ -125,7 +124,7 @@ class ItineraryLine extends React.Component {
               }}
               mode={mode.toLowerCase()}
               renderText={leg.transitLeg && this.props.showTransferLabels}
-            />
+            />,
           );
         }
       }

@@ -1,7 +1,8 @@
 import unzip from 'lodash/unzip';
+import { isBrowser } from './browser';
 
 /* eslint-disable global-require */
-const L = (typeof window !== 'undefined' && window !== null) ? require('leaflet') : null;
+const L = isBrowser ? require('leaflet') : null;
 /* eslint-enable global-require */
 
 function toRad(deg) {
@@ -17,15 +18,6 @@ export function getBearing(lat1, lng1, lat2, lng2) {
   const dy = lat2 - lat1;
   const dx = (lng2 - lng1) * lonScale;
   return (toDeg(Math.atan2(dx, dy)) + 360) % 360;
-}
-
-export function getTopicsForPlan(plan) {
-  for (const leg of plan.legs) {
-    if (leg.transitLeg && leg.agencyId === 'HSL') {
-      return { route: leg.routeId.split(':')[1] };
-    }
-  }
-  return null;
 }
 
 export function getLatLng(lat, lon) {
@@ -55,7 +47,7 @@ export function getDistanceToFurthestStop(coordinates, stops) {
     ({
       stop,
       distance: coordinates.distanceTo(new L.LatLng(stop.lat, stop.lon)),
-    })
+    }),
   ).reduce((previous, current) => (current.distance > previous.distance ? current : previous),
            { stop: null, distance: 0 });
 }

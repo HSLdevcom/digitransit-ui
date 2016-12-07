@@ -8,7 +8,7 @@ import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
-import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware } from 'react-relay-network-layer';
+import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware, retryMiddleware } from 'react-relay-network-layer';
 import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
 
 // Libraries
@@ -44,6 +44,7 @@ function getStringOrArrayElement(arrayOrString, index) {
 const appRoot = `${process.cwd()}/`;
 
 const networkLayer = new RelayNetworkLayer([
+  retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
   urlMiddleware({
     url: `${config.URL.OTP}index/graphql`,
     batchUrl: `${config.URL.OTP}index/graphql/batch`,
@@ -125,11 +126,11 @@ function getPolyfills(userAgent) {
     'Symbol.iterator': { flags: ['gated'] },
   };
 
-  for (const language of config.availableLanguages) {
+  config.availableLanguages.forEach((language) => {
     features[`Intl.~locale.${language}`] = {
       flags: ['gated'],
     };
-  }
+  });
 
   return polyfillService.getPolyfillString({
     uaString: userAgent,
@@ -169,15 +170,14 @@ function getContent(context, renderProps, locale, userAgent) {
           {IsomorphicRouter.render(renderProps)}
         </MuiThemeProvider>
       </IntlProvider>
-    </FluxibleComponent>
+    </FluxibleComponent>,
   );
 }
 
 function getHtml(context, locale, [polyfills, relayData], req) {
   // eslint-disable-next-line no-unused-vars
-  const content = getContent(context, relayData.props, locale, req.headers['user-agent']);
+  const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent']) : undefined;
   const head = Helmet.rewind();
-
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
       css={process.env.NODE_ENV === 'development' ? false : css}
@@ -191,9 +191,9 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       locale={locale} scripts={getScripts(req)}
       fonts={config.URL.FONT}
       config={`window.config=${JSON.stringify(config)}`}
-      relayData={relayData.data}
+      relayData={relayData != null ? relayData.data : []}
       head={head}
-    />
+    />,
   );
 }
 
@@ -230,17 +230,12 @@ export default function (req, res, next) {
     } else {
       const promises = [
         getPolyfills(req.headers['user-agent']),
-        IsomorphicRouter.prepareData(renderProps, networkLayer),
+        // Isomorphic rendering is ok to fail due timeout
+        IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];
 
-      if (renderProps.routes[1] && renderProps.routes[1].loadAction) {
-        renderProps.routes[1]
-          .loadAction(renderProps.params)
-          .forEach(action => promises.push(context.executeAction(action[0], action[1])));
-      }
-
       Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`)
+        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`),
       ).catch((err) => {
         if (err) { next(err); }
       });

@@ -18,6 +18,14 @@ class FeedbackPanel extends React.Component {
     piwik: React.PropTypes.object,
   };
 
+  static propTypes = {
+    onClose: React.PropTypes.func,
+  }
+
+  static defaultProps= {
+    onClose: () => {},
+  }
+
   static isInitialState(state) {
     return (
       state.selectedNPS === undefined &&
@@ -46,7 +54,6 @@ class FeedbackPanel extends React.Component {
     this.context.getStore('FeedbackStore').removeChangeListener(this.onFeedbackModalChange);
   }
 
-
   onFeedbackModalChange = () => this.forceUpdate();
 
   onOpenTextAreaChange = (event) => {
@@ -67,7 +74,7 @@ class FeedbackPanel extends React.Component {
     recordResult(
       this.context.piwik,
       this.context.getStore('TimeStore').getCurrentTime().valueOf(),
-      answer
+      answer,
     );
   }
 
@@ -77,14 +84,13 @@ class FeedbackPanel extends React.Component {
     });
   }
 
-
   sendAll = () => {
     recordResult(
       this.context.piwik,
       this.context.getStore('TimeStore').getCurrentTime().valueOf(),
       this.state.selectedNPS,
       this.state.useThisMoreLikely,
-      this.state.openText
+      this.state.openText,
     );
 
     this.closeModal();
@@ -95,6 +101,7 @@ class FeedbackPanel extends React.Component {
 
     recordResult(this.context.piwik, this.context.getStore('TimeStore').getCurrentTime().valueOf());
 
+    this.props.onClose();
     return this.setState({
       selectedNPS: undefined,
       useThisMoreLikely: undefined,

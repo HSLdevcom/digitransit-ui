@@ -1,3 +1,4 @@
+
 import Relay from 'react-relay';
 
 import get from 'lodash/get';
@@ -40,7 +41,7 @@ function mapRoutes(res) {
       geometry: {
         coordinates: null,
       },
-    })
+    }),
   );
 }
 
@@ -66,15 +67,16 @@ function filterMatchingToInput(list, input, fields) {
       const parts = fields.map(pName => get(item, pName));
 
       const test = parts.join(' ').toLowerCase();
-      return test.indexOf(input.toLowerCase()) > -1;
+      return test.includes(input.toLowerCase());
     });
   }
 
   return list;
 }
 
-function getCurrentPositionIfEmpty(input, useCurrentPosition) {
-  if (!useCurrentPosition && (typeof input !== 'string' || input.length === 0)) {
+
+function getCurrentPositionIfEmpty(input) {
+  if (typeof input !== 'string' || input.length === 0) {
     return Promise.resolve([{
       type: 'CurrentLocation',
       properties: { labelId: 'own-position', layer: 'currentPosition' },
@@ -84,8 +86,8 @@ function getCurrentPositionIfEmpty(input, useCurrentPosition) {
   return Promise.resolve([]);
 }
 
-function getOldSearches(oldSearches, input) {
-  const matchingOldSearches =
+function getOldSearches(oldSearches, input, dropLayers) {
+  let matchingOldSearches =
     filterMatchingToInput(oldSearches, input, [
       'properties.name',
       'properties.label',
@@ -95,11 +97,17 @@ function getOldSearches(oldSearches, input) {
       'properties.desc',
     ]);
 
+  if (dropLayers) { // don't want these
+    matchingOldSearches = matchingOldSearches.filter(
+      item => (!dropLayers.includes(item.properties.layer)),
+    );
+  }
+
   return Promise.resolve(
     take(matchingOldSearches, 10).map(item => ({
       ...item,
       type: 'OldSearch',
-    }))
+    })),
   );
 }
 
@@ -107,13 +115,13 @@ function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     orderBy(
       filterMatchingToInput(favourites, input, ['address', 'locationName']),
-      feature => feature.locationName
+      feature => feature.locationName,
     ).map(item =>
       ({
         type: 'FavouritePlace',
         properties: { ...item, label: item.locationName, layer: 'favouritePlace' },
         geometry: { type: 'Point', coordinates: [item.lon, item.lat] },
-      })
+      }),
   ));
 }
 
@@ -144,7 +152,7 @@ function getFavouriteRoutes(favourites, input) {
         mode
         longName
       }
-    }`, { ids: favourites }
+    }`, { ids: favourites },
   );
 
   return getRelayQuery(query)
@@ -155,7 +163,7 @@ function getFavouriteRoutes(favourites, input) {
       type: 'FavouriteRoute',
     })))
     .then(routes => filterMatchingToInput(
-      routes, input, ['properties.shortName', 'properties.longName'])
+      routes, input, ['properties.shortName', 'properties.longName']),
     )
     .then(routes => routes.sort((x, y) => routeCompare(x.properties, y.properties)));
 }
@@ -172,7 +180,7 @@ function getFavouriteStops(favourites, input, origin) {
         code
         routes { mode }
       }
-    }`, { ids: favourites }
+    }`, { ids: favourites },
   );
 
   const refLatLng = origin.lat && origin.lon && getLatLng(origin.lat, origin.lon);
@@ -187,7 +195,7 @@ function getFavouriteStops(favourites, input, origin) {
     .then(stops => (
       refLatLng ?
       sortBy(stops, item =>
-        getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0]).distanceTo(refLatLng)
+        getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0]).distanceTo(refLatLng),
       ) : stops
   ));
 }
@@ -213,11 +221,11 @@ function getRoutes(input) {
           longName
         }
       }
-    }`, { name: input }
+    }`, { name: input },
   );
 
   return getRelayQuery(query).then(data =>
-    mapRoutes(data[0].routes).sort((x, y) => routeCompare(x.properties, y.properties))
+    mapRoutes(data[0].routes).sort((x, y) => routeCompare(x.properties, y.properties)),
   ).then(suggestions => take(suggestions, 10));
 }
 
@@ -243,7 +251,7 @@ function getStops(input, origin) {
           routes { mode }
         }
       }
-    }`, { name: input }
+    }`, { name: input },
   );
 
   const refLatLng = origin.lat && origin.lon && getLatLng(origin.lat, origin.lon);
@@ -253,34 +261,53 @@ function getStops(input, origin) {
     sortBy(stops, item =>
       Math.round(
         getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
-        .distanceTo(refLatLng) / 50000) // divide in 50km buckets
+        .distanceTo(refLatLng) / 50000), // divide in 50km buckets
     ) : stops
   )).then(suggestions => take(suggestions, 10));
 }
 
-export function executeSearchImmediate(getStore, { input, type }, callback) {
+export const getAllEndpointLayers = () => (
+  ['CurrentPosition', 'FavouritePlace', 'OldSearch', 'Geocoding']
+);
+
+
+export function executeSearchImmediate(getStore, { input, type, layers }, callback) {
   const position = getStore('PositionStore').getLocationState();
-  let endpoitSearches = [];
+  let endpointSearches = [];
   let searchSearches = [];
+  const endpointLayers = layers || getAllEndpointLayers();
 
   if (type === 'endpoint' || type === 'all') {
-    const origin = getStore('EndpointStore').getOrigin();
     const favouriteLocations = getStore('FavouriteLocationStore').getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
     const language = getStore('PreferencesStore').getLanguage();
+    const searchComponents = [];
 
-    endpoitSearches = Promise.all([
-      getCurrentPositionIfEmpty(input, origin.useCurrentPosition),
-      getFavouriteLocations(favouriteLocations, input),
-      getOldSearches(oldSearches, input),
-      getGeocodingResult(input, position, language),
-    ])
+    if (endpointLayers.includes('CurrentPosition') && position.hasLocation) {
+      searchComponents.push(getCurrentPositionIfEmpty(input));
+    }
+    if (endpointLayers.includes('FavouritePlace')) {
+      searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+    }
+    if (endpointLayers.includes('OldSearch')) {
+      let dropLayers;
+      // old searches should also obey the layers definition
+      if (!endpointLayers.includes('FavouritePlace')) {
+        dropLayers = ['favouritePlace'];
+      }
+      searchComponents.push(getOldSearches(oldSearches, input, dropLayers));
+    }
+    if (endpointLayers.includes('Geocoding')) {
+      searchComponents.push(getGeocodingResult(input, position, language));
+    }
+
+    endpointSearches = Promise.all(searchComponents)
     .then(flatten)
     .then(uniqByLabel)
     .catch(err => console.error(err)); // eslint-disable-line no-console
 
     if (type === 'endpoint') {
-      endpoitSearches.then(callback);
+      endpointSearches.then(callback);
       return;
     }
   }
@@ -309,7 +336,7 @@ export function executeSearchImmediate(getStore, { input, type }, callback) {
     }
   }
 
-  Promise.all([endpoitSearches, searchSearches])
+  Promise.all([endpointSearches, searchSearches])
     .then(([endpoints, search]) => callback([
       { name: 'endpoint', items: endpoints },
       { name: 'search', items: search },
@@ -320,6 +347,6 @@ export function executeSearchImmediate(getStore, { input, type }, callback) {
 const debouncedSearch = debounce(executeSearchImmediate, 300);
 
 export const executeSearch = (getStore, data, callback) => {
-  callback([]);
+  callback(null); // This means 'we are searching'
   debouncedSearch(getStore, data, callback);
 };

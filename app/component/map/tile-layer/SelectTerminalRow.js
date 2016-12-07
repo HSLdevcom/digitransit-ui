@@ -2,7 +2,7 @@ import React from 'react';
 
 import routeCompare from '../../../util/route-compare';
 import ComponentUsageExample from '../../ComponentUsageExample';
-
+import Icon from '../../Icon';
 
 function getName(route) {
   if (route.shortName) {
@@ -29,26 +29,11 @@ function SelectTerminalRow(props) {
 
   return (
     <div className="no-margin">
-      <div className="no-margin cursor-pointer" onClick={props.selectRow}>
-        <div className="left padding-vertical-normal select-row-icon" >
-          <svg
-            viewBox="0 0 30 30"
-            width="30"
-            height="30"
-            style={{ position: 'relative', left: 5 }}
-            className={`${props.type.toLowerCase()} left`}
-          >
-            <circle
-              r="12.5"
-              cx="15"
-              cy="15"
-              fill="currentColor"
-              stroke="none"
-            />
-            <use xlinkHref="#icon-icon_station" fill="white" height="12" width="12" x="9" y="9" />
-          </svg>
+      <div className="cursor-pointer select-row" onClick={props.selectRow}>
+        <div className="padding-vertical-normal select-row-icon">
+          <Icon img={`icon-icon_${props.type.toLowerCase()}`} />
         </div>
-        <div className="left padding-vertical-normal select-row-text">
+        <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color" >
             {props.name} ›
           </span>

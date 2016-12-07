@@ -71,7 +71,7 @@ class RouteScheduleContainer extends Component {
       return (
         <div className="text-center">
           {this.context.intl.formatMessage(
-            { id: 'no-trips-found', defaultMessage: 'No trips available for this day.' }
+            { id: 'no-trips-found', defaultMessage: 'No trips available for this day.' },
           )}
         </div>);
     }
@@ -169,5 +169,5 @@ export default connectToStores(
     fragments: relayFragment,
   }), [], context => ({
     serviceDay: context.getStore('TimeStore').getCurrentTime().format(DATE_FORMAT),
-  })
+  }),
 );

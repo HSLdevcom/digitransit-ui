@@ -47,19 +47,20 @@ function parseMessage(topic, message, actionContext) {
   actionContext.dispatch('RealTimeClientMessage', { id, message: messageContents });
 }
 
+function getInitialData(topic, actionContext) {
+  getJson(config.URL.REALTIME + topic.replace('#', '')).then((data) => {
+    Object.keys(data).forEach((resTopic) => {
+      parseMessage(resTopic, data[resTopic], actionContext);
+    });
+  });
+}
+
 export function startRealTimeClient(actionContext, originalOptions, done) {
   const options = !Array.isArray(originalOptions) ? [originalOptions] : originalOptions;
 
   const topics = options.map(option => getTopic(option));
 
-  // Fetch initial data
-  for (const topic of topics) {
-    getJson(config.URL.REALTIME + topic.replace('#', '')).then((data) => {
-      for (const resTopic of Object.keys(data)) {
-        parseMessage(resTopic, data[resTopic], actionContext);
-      }
-    });
-  }
+  topics.forEach(topic => getInitialData(topic, actionContext));
 
   System.import('mqtt').then((mqtt) => {
     const client = mqtt.connect(config.URL.MQTT);
@@ -80,13 +81,7 @@ export function updateTopic(actionContext, options, done) {
   actionContext.dispatch('RealTimeClientTopicChanged', newTopics);
 
   // Do the loading of initial data after clearing the vehicles object
-  for (const topic of newTopics) {
-    getJson(config.URL.REALTIME + topic.replace('#', '')).then((data) => {
-      for (const resTopic of Object.keys(data)) {
-        parseMessage(resTopic, data[resTopic], actionContext);
-      }
-    });
-  }
+  newTopics.forEach(topic => getInitialData(topic, actionContext));
 
   done();
 }

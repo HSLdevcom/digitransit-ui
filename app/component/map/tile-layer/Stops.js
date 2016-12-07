@@ -13,10 +13,30 @@ class Stops {
 
   static getName = () => 'stop';
 
+  drawStop(feature) {
+    if (feature.properties.type === 'FERRY') {
+      drawTerminalIcon(
+        this.tile,
+        feature.geom,
+        feature.properties.type,
+        this.tile.coords.z >= config.terminalNamesZoom ? feature.properties.name : false,
+      );
+      return;
+    }
+    drawRoundIcon(
+      this.tile,
+      feature.geom,
+      feature.properties.type,
+      this.tile.props.hilightedStops &&
+        this.tile.props.hilightedStops.includes(feature.properties.gtfsId),
+      feature.properties.platform !== 'null' ? feature.properties.platform : false,
+    );
+  }
+
   getPromise() {
     return fetch(
       `${config.URL.STOP_MAP}${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}` +
-      `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`
+      `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     )
     .then((res) => {
       if (res.status !== 200) {
@@ -37,14 +57,7 @@ class Stops {
             ) {
               feature.geom = feature.loadGeometry()[0][0];
               this.features.push(pick(feature, ['geom', 'properties']));
-              drawRoundIcon(
-                this.tile,
-                feature.geom,
-                feature.properties.type,
-                this.tile.props.hilightedStops &&
-                  this.tile.props.hilightedStops.includes(feature.properties.gtfsId),
-                feature.properties.platform !== 'null' ? feature.properties.platform : false
-              );
+              this.drawStop(feature);
             }
           }
         }
@@ -61,7 +74,7 @@ class Stops {
                 this.tile,
                 feature.geom,
                 feature.properties.type,
-                this.tile.coords.z >= config.terminalNamesZoom ? feature.properties.name : false
+                this.tile.coords.z >= config.terminalNamesZoom ? feature.properties.name : false,
               );
             }
           }
