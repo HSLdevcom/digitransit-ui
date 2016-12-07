@@ -292,10 +292,11 @@ div.itinerary-main > div > .row:nth-child(1)  {
   }
 }
 
-.bp-large .itinerary-instruction-column:not(.to)::after {
-    left: 4px;
-    border-left: solid 6px;
-  }
+
+
+.bp-large .row.itinerary-row .itinerary-instruction-column:not(.to)::after {
+    left: 3px;
+}
 
 .bp-large .row.itinerary-row {
   .itinerary-time-column {
@@ -317,7 +318,8 @@ div.itinerary-main > div > .row:nth-child(1)  {
     min-height: 75px;
 
     &.intermediate {
-      min-height:10px;
+      min-height: 10px;
+      margin-bottom: 7px;
     }
     .itinerary-icon {
       font-size: 13px;
