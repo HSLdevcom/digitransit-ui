@@ -1,11 +1,13 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
+import without from 'lodash/without';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import { storeEndpointIfNotCurrent, swapEndpoints } from '../action/EndpointActions';
 import Icon from './Icon';
 import OneTabSearchModal from './OneTabSearchModal';
+import { getAllEndpointLayers } from '../util/searchUtils';
 
 class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -55,15 +57,21 @@ class OriginDestinationBar extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const ownPosition = this.context.intl.formatMessage({
       id: 'own-position',
       defaultMessage: 'Your current location',
     });
 
+    let searchLayers = getAllEndpointLayers();
+
+    // don't offer current pos if it is already used as a route end point
+    if ((this.props.origin && this.props.origin.useCurrentPosition) ||
+        (this.props.destination && this.props.destination.useCurrentPosition)) {
+      searchLayers = without(searchLayers, 'CurrentPosition');
+    }
 
     let initialValue = '';
-    if (this.state[this.state.tabOpen]) {
+    if (this.props[this.state.tabOpen]) {
       initialValue = this.props[this.state.tabOpen].useCurrentPosition ?
         ownPosition : this.props[this.state.tabOpen].address;
     }
@@ -92,6 +100,7 @@ class OriginDestinationBar extends React.Component {
           modalIsOpen={this.state.tabOpen}
           closeModal={this.closeModal}
           initialValue={initialValue}
+          layers={searchLayers}
           endpoint={this.props[this.state.tabOpen]}
           target={this.state.tabOpen}
           responsive
