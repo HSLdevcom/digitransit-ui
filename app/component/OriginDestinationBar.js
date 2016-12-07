@@ -57,7 +57,6 @@ class OriginDestinationBar extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const ownPosition = this.context.intl.formatMessage({
       id: 'own-position',
       defaultMessage: 'Your current location',
