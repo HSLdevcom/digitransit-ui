@@ -3,8 +3,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
-import withProps from 'recompose/withProps';
-import { FormattedMessage } from 'react-intl';
 
 import omitBy from 'lodash/omitBy';
 import isNil from 'lodash/isNil';
@@ -13,36 +11,16 @@ import moment from 'moment';
 
 // React pages
 import IndexPage from './component/IndexPage';
-import RoutePage from './component/RoutePage';
-import StopPage from './component/StopPage';
-import SummaryPage from './component/SummaryPage';
 import LoadingPage from './component/LoadingPage';
 import Error404 from './component/404';
-import StyleGuidePage from './component/StyleGuidePage';
-import AddFavouritePage from './component/AddFavouritePage';
-import AboutPage from './component/AboutPage';
 import SplashOrChildren from './component/SplashOrChildren';
 
-// Components for page parts
-import RouteAlertsContainer from './component/RouteAlertsContainer';
-import RouteMapContainer from './component/RouteMapContainer';
-import RouteScheduleContainer from './component/RouteScheduleContainer';
-import PatternStopsContainer from './component/PatternStopsContainer';
-import TripStopsContainer from './component/TripStopsContainer';
-import RouteTitle from './component/RouteTitle';
-import StopPageMap from './component/StopPageMap';
-import StopPageHeaderContainer from './component/StopPageHeaderContainer';
-import StopPageMeta from './component/StopPageMeta';
-import SummaryTitle from './component/SummaryTitle';
-import ItineraryTab from './component/ItineraryTab';
-import ItineraryPageMap from './component/ItineraryPageMap';
-
-import { storeEndpoint } from './action/EndpointActions';
 import { otpToLocation } from './util/otpStrings';
 
 import TopLevel from './component/TopLevel';
 
 import config from './config';
+import { isBrowser } from './util/browser';
 
 const StopQueries = {
   stop: () => Relay.QL`
@@ -110,7 +88,7 @@ const preparePlanParams = (
       minTransferTime,
       modes,
       accessibilityOption,
-    } } }
+    } } },
   ) => omitBy({
     fromPlace: from,
     toPlace: to,
@@ -138,14 +116,26 @@ const preparePlanParams = (
     disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
   }, isNil);
 
-const SummaryPageWrapper = ({ props, routerProps }) => (props ?
-  <SummaryPage {...props} /> :
-  <SummaryPage
-    {...routerProps}
-    {...preparePlanParams(routerProps.params, routerProps)}
-    plan={{ plan: { } }}
-    loading
-  />
+function errorLoading(err) {
+  console.error('Dynamic page loading failed', err);
+}
+
+function loadRoute(cb) {
+  return module => cb(null, module.default);
+}
+
+function getDefault(module) {
+  return module.default;
+}
+
+const SummaryPageWrapper = ({ props, routerProps, element }) => (props ?
+  React.cloneElement(element, props) :
+  React.cloneElement(element, {
+    ...routerProps,
+    ...preparePlanParams(routerProps.params, routerProps),
+    plan: { plan: { } },
+    loading: true,
+  })
 );
 
 SummaryPageWrapper.propTypes = {
@@ -153,19 +143,9 @@ SummaryPageWrapper.propTypes = {
   routerProps: React.PropTypes.object.isRequired,
 };
 
-const StopTitle = withProps({
-  id: 'stop-page.title-short',
-  defaultMessage: 'Stop',
-})(FormattedMessage);
-
-const TerminalTitle = withProps({
-  id: 'terminal-page.title-short',
-  defaultMessage: 'Terminal',
-})(FormattedMessage);
-
 const routes = (
   <Route
-    component={props => (typeof window !== 'undefined' ?
+    component={props => (isBrowser ?
       <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
       <TopLevel {...props} />
     )}
@@ -177,30 +157,57 @@ const routes = (
         ,
       }}
     >
-      <Route path="lahellasi" />
-      <Route path="suosikit" />
+      <Route
+        path="lahellasi"
+        getComponents={(location, cb) =>
+          System.import('./component/NearbyRoutesPanel')
+            .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
+        }
+      />
+      <Route
+        path="suosikit"
+        getComponents={(location, cb) =>
+          System.import('./component/FavouritesPanel')
+            .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
+        }
+      />
     </Route>
     <Route
       path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
         title: () => <span>{config.title}</span>,
-        content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
-        ,
+        content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>,
       }}
     >
-      <Route path="lahellasi" />
-      <Route path="suosikit" />
+      <Route
+        path="lahellasi"
+        getComponents={(location, cb) =>
+          System.import('./component/NearbyRoutesPanel')
+            .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
+        }
+      />
+      <Route
+        path="suosikit"
+        getComponents={(location, cb) =>
+          System.import('./component/FavouritesPanel')
+            .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
+        }
+      />
     </Route>
 
     <Route path="/pysakit">
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
       <Route
         path=":stopId"
-        components={{
-          title: StopTitle,
-          header: StopPageHeaderContainer,
-          content: StopPage,
-          map: StopPageMap,
-          meta: StopPageMeta,
+        getComponents={(location, cb) => {
+          Promise.all([
+            System.import('./component/StopTitle').then(getDefault),
+            System.import('./component/StopPageHeaderContainer').then(getDefault),
+            System.import('./component/StopPage').then(getDefault),
+            System.import('./component/StopPageMap').then(getDefault),
+            System.import('./component/StopPageMeta').then(getDefault),
+          ]).then(([title, header, content, map, meta]) =>
+            cb(null, { title, header, content, map, meta },
+          ));
         }}
         queries={{
           header: StopQueries,
@@ -210,9 +217,9 @@ const routes = (
         }}
         render={{
           // eslint-disable-next-line react/prop-types
-          header: ({ props }) => (props ? <StopPageHeaderContainer {...props} /> : <LoadingPage />),
-          // eslint-disable-next-line react/prop-types
-          content: ({ props }) => (props ? <StopPage {...props} /> : undefined),
+          header: ({ props, element }) =>
+            (props ? React.cloneElement(element, props) : <LoadingPage />),
+          content: ({ props, element }) => (props ? React.cloneElement(element, props) : undefined),
         }}
       >
         <Route path="kartta" fullscreenMap />
@@ -223,12 +230,16 @@ const routes = (
       <IndexRoute component={Error404} /> {/* TODO: Should return list of all terminals*/}
       <Route
         path=":terminalId"
-        components={{
-          title: TerminalTitle,
-          header: StopPageHeaderContainer,
-          content: StopPage,
-          map: StopPageMap,
-          meta: StopPageMeta,
+        getComponents={(location, cb) => {
+          Promise.all([
+            System.import('./component/TerminalTitle').then(getDefault),
+            System.import('./component/StopPageHeaderContainer').then(getDefault),
+            System.import('./component/StopPage').then(getDefault),
+            System.import('./component/StopPageMap').then(getDefault),
+            System.import('./component/StopPageMeta').then(getDefault),
+          ]).then(([title, header, content, map, meta]) =>
+            cb(null, { title, header, content, map, meta },
+          ));
         }}
         queries={{
           header: terminalQueries,
@@ -248,11 +259,15 @@ const routes = (
           <IndexRedirect to=":routeId%3A0%3A01" /> {/* Redirect to first pattern of route*/}
           <Route path=":patternId">
             <IndexRoute
-              components={{
-                title: RouteTitle,
-                header: RoutePage,
-                map: RouteMapContainer,
-                content: PatternStopsContainer,
+              getComponents={(location, cb) => {
+                Promise.all([
+                  System.import('./component/RouteTitle').then(getDefault),
+                  System.import('./component/RoutePage').then(getDefault),
+                  System.import('./component/RouteMapContainer').then(getDefault),
+                  System.import('./component/PatternStopsContainer').then(getDefault),
+                ]).then(
+                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
+                );
               }}
               queries={{
                 title: RouteQueries,
@@ -260,16 +275,19 @@ const routes = (
                 map: PatternQueries,
                 content: PatternQueries,
               }}
-              // eslint-disable-next-line react/prop-types
-              render={{ title: ({ props }) => <RouteTitle {...props} /> }}
+              render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
             />
             <Route
               path="kartta"
-              components={{
-                title: RouteTitle,
-                header: RoutePage,
-                map: RouteMapContainer,
-                content: PatternStopsContainer,
+              getComponents={(location, cb) => {
+                Promise.all([
+                  System.import('./component/RouteTitle').then(getDefault),
+                  System.import('./component/RoutePage').then(getDefault),
+                  System.import('./component/RouteMapContainer').then(getDefault),
+                  System.import('./component/PatternStopsContainer').then(getDefault),
+                ]).then(
+                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
+                );
               }}
               queries={{
                 title: RouteQueries,
@@ -277,17 +295,20 @@ const routes = (
                 map: PatternQueries,
                 content: PatternQueries,
               }}
-              // eslint-disable-next-line react/prop-types
-              render={{ title: ({ props }) => <RouteTitle {...props} /> }}
+              render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
               fullscreenMap
             />
             <Route
               path=":tripId"
-              components={{
-                title: RouteTitle,
-                header: RoutePage,
-                map: RouteMapContainer,
-                content: TripStopsContainer,
+              getComponents={(location, cb) => {
+                Promise.all([
+                  System.import('./component/RouteTitle').then(getDefault),
+                  System.import('./component/RoutePage').then(getDefault),
+                  System.import('./component/RouteMapContainer').then(getDefault),
+                  System.import('./component/TripStopsContainer').then(getDefault),
+                ]).then(
+                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
+                );
               }}
               queries={{
                 title: RouteQueries,
@@ -295,8 +316,7 @@ const routes = (
                 map: TripQueries,
                 content: TripQueries,
               }}
-              // eslint-disable-next-line react/prop-types
-              render={{ title: ({ props }) => <RouteTitle {...props} /> }}
+              render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
             >
               <Route path="kartta" fullscreenMap />
             </Route>
@@ -307,11 +327,13 @@ const routes = (
           <Route
             path=":patternId"
             disableMapOnMobile
-            components={{
-              title: RouteTitle,
-              header: RoutePage,
-              map: RouteMapContainer,
-              content: RouteScheduleContainer,
+            getComponents={(location, cb) => {
+              Promise.all([
+                System.import('./component/RouteTitle').then(getDefault),
+                System.import('./component/RoutePage').then(getDefault),
+                System.import('./component/RouteMapContainer').then(getDefault),
+                System.import('./component/RouteScheduleContainer').then(getDefault),
+              ]).then(([title, header, map, content]) => cb(null, { title, header, map, content }));
             }}
             queries={{
               title: RouteQueries,
@@ -319,54 +341,83 @@ const routes = (
               map: PatternQueries,
               content: PatternQueries,
             }}
-            // eslint-disable-next-line react/prop-types
-            render={{ title: ({ props }) => <RouteTitle {...props} /> }}
+            render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
           />
         </Route>
         <Route
           path="hairiot"
-          components={{
-            title: RouteTitle,
-            header: RoutePage,
-            content: RouteAlertsContainer,
+          getComponents={(location, cb) => {
+            Promise.all([
+              System.import('./component/RouteTitle').then(getDefault),
+              System.import('./component/RoutePage').then(getDefault),
+              System.import('./component/RouteAlertsContainer').then(getDefault),
+            ]).then(([title, header, content]) => cb(null, { title, header, content }));
           }}
           queries={{
             title: RouteQueries,
             header: RouteQueries,
             content: RouteQueries,
           }}
-          // eslint-disable-next-line react/prop-types
-          render={{ title: ({ props }) => <RouteTitle {...props} /> }}
+          render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
         />
       </Route>
     </Route>
     <Route
       path="/reitti/:from/:to"
-      components={{
-        title: SummaryTitle,
-        content: SummaryPage,
+      getComponents={(location, cb) => {
+        Promise.all([
+          System.import('./component/SummaryTitle').then(getDefault),
+          System.import('./component/SummaryPage').then(getDefault),
+        ]).then(([title, content]) => cb(null, { title, content }));
       }}
       queries={{ content: planQueries }}
       prepareParams={preparePlanParams}
       render={{ content: SummaryPageWrapper }}
-      loadAction={params => [
-        [storeEndpoint, { target: 'origin', endpoint: otpToLocation(params.from) }],
-        [storeEndpoint, { target: 'destination', endpoint: otpToLocation(params.to) }],
-      ]}
     >
-      <Route path=":hash" components={{ content: ItineraryTab, map: ItineraryPageMap }}>
+      <Route
+        path=":hash"
+        getComponents={(location, cb) => {
+          Promise.all([
+            System.import('./component/ItineraryTab').then(getDefault),
+            System.import('./component/ItineraryPageMap').then(getDefault),
+          ]).then(([content, map]) => cb(null, { content, map }));
+        }}
+      >
         <Route path="kartta" fullscreenMap />
       </Route>
     </Route>
-    <Route path="/styleguide" component={StyleGuidePage} />
-    <Route path="/styleguide/component/:componentName" component={StyleGuidePage} />
-    <Route path="/suosikki/uusi" component={AddFavouritePage} />
-    <Route path="/suosikki/muokkaa/:id" component={AddFavouritePage} />
+    <Route
+      path="/styleguide"
+      getComponent={(location, cb) => {
+        System.import('./component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
+      }}
+    />
+    <Route
+      path="/styleguide/component/:componentName"
+      getComponent={(location, cb) => {
+        System.import('./component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
+      }}
+    />
+    <Route
+      path="/suosikki/uusi"
+      getComponent={(location, cb) => {
+        System.import('./component/AddFavouritePage').then(loadRoute(cb)).catch(errorLoading);
+      }}
+    />
+    <Route
+      path="/suosikki/muokkaa/:id"
+      getComponent={(location, cb) => {
+        System.import('./component/AddFavouritePage').then(loadRoute(cb)).catch(errorLoading);
+      }}
+    />
     <Route
       path="/tietoja-palvelusta"
-      components={{
-        title: () => <span>{config.title}</span>,
-        content: AboutPage }}
+      getComponents={(location, cb) => {
+        Promise.all([
+          Promise.resolve(() => <span>{config.title}</span>),
+          System.import('./component/AboutPage').then(getDefault),
+        ]).then(([title, content]) => cb(null, { title, content }));
+      }}
     />
   </Route>
 );

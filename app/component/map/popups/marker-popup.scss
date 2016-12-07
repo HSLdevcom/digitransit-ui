@@ -17,19 +17,24 @@
 .marker-select-popup {
   .card-row {
     max-height: 176px;
-    overflow-y: scroll;
   }
+}
+
+.select-row {
+  display: flex;
+  flex-direction: row;
+  padding-right: 0.5em;
 }
 
 .select-row-icon {
   width: 40px;
+  text-align: center;
   .icon {
-    font-size: 32px;
-    padding-left: 8px;
+    font-size: 24px;
   }
 }
 .select-row-text {
-  width: calc(100% - 40px);
+  flex: 1 0 0;
   .vehicle-number {
     padding: 0 2px;
   }

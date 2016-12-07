@@ -1,16 +1,29 @@
 import React from 'react';
 import getContext from 'recompose/getContext';
 import { clearDestination } from '../action/EndpointActions';
-import FeedbackPanel from './FeedbackPanel';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from './SearchMainContainer';
 import config from '../config';
-import MessageBar from './MessageBar';
-import FavouritesPanel from './FavouritesPanel';
-import NearbyRoutesPanel from './NearbyRoutesPanel';
 import PageFooter from './PageFooter';
+
+const feedbackPanelMudules = { Panel: () => importLazy(System.import('./FeedbackPanel')) };
+
+const feedbackPanel = (
+  <LazilyLoad modules={feedbackPanelMudules} >
+    {({ Panel }) => <Panel />}
+  </LazilyLoad>
+);
+
+const messageBarModules = { Bar: () => importLazy(System.import('./MessageBar')) };
+
+const messageBar = (
+  <LazilyLoad modules={messageBarModules} >
+    {({ Bar }) => <Bar />}
+  </LazilyLoad>
+);
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -21,8 +34,9 @@ class IndexPage extends React.Component {
 
   static propTypes = {
     breakpoint: React.PropTypes.string.isRequired,
-    children: React.PropTypes.node,
+    content: React.PropTypes.node,
     routes: React.PropTypes.array,
+
   }
 
   componentWillMount = () => {
@@ -136,10 +150,9 @@ class IndexPage extends React.Component {
 
   render() {
     const selectedTab = this.getSelectedTab();
-    const content = selectedTab === 1 ? <NearbyRoutesPanel /> : <FavouritesPanel />;
     return (this.props.breakpoint === 'large' ? (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
-        <MessageBar />
+        {messageBar}
         <MapWithTracking
           breakpoint={this.props.breakpoint} showStops showScaleBar tab={selectedTab}
         >
@@ -149,19 +162,19 @@ class IndexPage extends React.Component {
               selectedPanel={selectedTab}
               nearbyClicked={this.clickNearby}
               favouritesClicked={this.clickFavourites}
-            >{content}</FrontPagePanelLarge>
+            >{this.props.content}</FrontPagePanelLarge>
           </div>
         </MapWithTracking>
         <div id="page-footer-container">
           <PageFooter content={(config.footer && config.footer.content) || []} />
         </div>
-        <FeedbackPanel />
+        {feedbackPanel}
       </div>
     ) : (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         <div className="flex-grow map-container">
           <MapWithTracking breakpoint={this.props.breakpoint} showStops showScaleBar>
-            <MessageBar />
+            {messageBar}
             <SearchMainContainer />
           </MapWithTracking>
         </div>
@@ -171,8 +184,8 @@ class IndexPage extends React.Component {
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
             closePanel={this.closeTab}
-          >{content}</FrontPagePanelSmall>
-          <FeedbackPanel />
+          >{this.props.content}</FrontPagePanelSmall>
+          {feedbackPanel}
         </div>
       </div>
     ));

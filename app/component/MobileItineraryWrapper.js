@@ -101,7 +101,7 @@ export default class MobileItineraryWrapper extends React.Component {
           React.cloneElement(el, {
             focus: this.focusMap,
             ref: `itineraryTab${i}`,
-          })
+          }),
         )}
       </SwipeableViews>);
     const tabs = this.props.fullscreenMap ? undefined : (

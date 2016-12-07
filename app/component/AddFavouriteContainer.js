@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
@@ -160,7 +160,7 @@ class AddFavouriteContainer extends React.Component {
                   value={favourite.locationName}
                   placeholder={this.context.intl.formatMessage({
                     id: 'location-examples',
-                    defaultMessage: 'e.g. Home, Work, Scool,...',
+                    defaultMessage: 'e.g. Home, Work, School,...',
                   })} onChange={this.specifyName}
                 />
               </div>
@@ -229,7 +229,7 @@ const AddFavouriteContainerWithFavourite = connectToStores(AddFavouriteContainer
       props.params.id !== undefined ? context.getStore('FavouriteLocationStore')
         .getById(parseInt(props.params.id, 10)) : {},
     }
-  )
+  ),
 );
 
 export default AddFavouriteContainerWithFavourite;

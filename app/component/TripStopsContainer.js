@@ -35,7 +35,7 @@ TripStopsContainer.propTypes = {
     stoptimesForDate: React.PropTypes.arrayOf(
       React.PropTypes.shape({
         scheduledDeparture: React.PropTypes.number.isRequired,
-      }).isRequired
+      }).isRequired,
     ).isRequired,
   }).isRequired,
   routes: React.PropTypes.arrayOf(React.PropTypes.shape({

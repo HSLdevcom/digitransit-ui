@@ -31,13 +31,13 @@ const CurrentPositionSuggestionItemComponent = pure(
       </FormattedMessage>
       {!havePosition && <Locate />}
     </div>
-  )
+  ),
 );
 
 const CurrentPositionSuggestionItem = connectToStores(
   CurrentPositionSuggestionItemComponent,
   ['PositionStore'],
-  context => ({ havePosition: context.getStore('PositionStore').getLocationState().hasLocation })
+  context => ({ havePosition: context.getStore('PositionStore').getLocationState().hasLocation }),
 );
 
 CurrentPositionSuggestionItem.displayName = 'CurrentPositionSuggestionItem';

@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
 import Icon from './Icon';
 import IconWithCaution from './IconWithCaution';
 

@@ -27,7 +27,7 @@ const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (co
       limit={props.departures}
       isTerminal={props.isTerminal}
     />,
-  })
+  }),
 );
 
 StopCardContainer.contextTypes = {

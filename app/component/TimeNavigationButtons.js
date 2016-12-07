@@ -18,7 +18,7 @@ export default class TimeNavigationButtons extends React.Component {
       PropTypes.shape({
         endTime: PropTypes.number.isRequired,
         startTime: PropTypes.number.isRequired,
-      }).isRequired
+      }).isRequired,
     ).isRequired,
   };
 
@@ -66,7 +66,7 @@ export default class TimeNavigationButtons extends React.Component {
           },
         },
         router: this.context.router,
-      }
+      },
     );
   }
 
@@ -97,7 +97,7 @@ export default class TimeNavigationButtons extends React.Component {
           },
         },
         router: this.context.router,
-      }
+      },
     );
   }
 
@@ -114,7 +114,7 @@ export default class TimeNavigationButtons extends React.Component {
           },
         },
         router: this.context.router,
-      }
+      },
     );
   }
 

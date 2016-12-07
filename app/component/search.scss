@@ -85,6 +85,7 @@ $search-header-height: 45px;
       border: 1px solid $primary-color;
       border-radius: 4px;
       height: 3em;
+      width: calc(100% - 50px);
       padding: 10px;
       outline: 0;
       appearance: none;
@@ -152,6 +153,66 @@ $search-header-height: 45px;
   position: absolute;
   width: 100%;
   top: -17px;
+}
+
+.onetab-search-modal-container.bp-large {
+  width: 0px;
+  margin-left: -13px;
+
+  .fake-search-container.bp-large {
+    position: absolute;
+    padding:0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+  }
+
+  .search-modal-container {
+    top: 105px;
+    position: relative;
+    padding-right: 20px;
+    width: 660px;
+  }
+
+  .search-modal {
+
+    .clear-icon {
+      right:50px;
+    }
+
+    .search-header {
+      padding: 15px;
+
+      .search-header__tabs-root {
+        > div:first-child {
+          display: none;
+          width: 0px !important;
+        }
+        > div:nth-child(2) {
+          display: none;
+        }
+      }
+
+      .react-autowhatever__container {
+        max-height: calc(85vh - 150px);
+      }
+
+      .search-header__button, .search-header__button--selected {
+        height: 0px !important;
+      }
+
+      .search-header__back-arrow {
+          display: none;
+      }
+
+      .geolocation {
+        .geolocation-selected {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 .react-autowhatever__items-container {
@@ -249,6 +310,23 @@ ul.react-autowhatever__items-list {
 
     &:not(:last-child) {
       border-bottom: solid 1px #eee;
+    }
+  }
+}
+
+.search-no-results {
+  @extend .react-autowhatever__items-list;
+  height: 200px;
+  li {
+    text-align: center;
+    font-weight: normal;
+    padding-top: 35px;
+
+    span {
+      padding-top: 40px;
+      display: inline-block;
+      white-space: normal;
+      line-height: normal;
     }
   }
 }

@@ -29,11 +29,11 @@ export default function ComponentDocumentation({ component, children }) {
       <div>{getDescription(component)} </div>
       <p>Required props:</p>
       <ul>{Object.keys(component.propTypes || {}).filter(key =>
-        !component.propTypes[key].isRequired
+        !component.propTypes[key].isRequired,
       ).map(key => <li key={key} >{key}</li>)}</ul>
       <p>Optional props:</p>
       <ul>{Object.keys(component.propTypes || {}).filter(key =>
-        component.propTypes[key].isRequired
+        component.propTypes[key].isRequired,
       ).map(key => <li key={key} >{key}</li>)}</ul>
       <p>Default props:</p>
       <ul>{Object.keys(component.defaultProps || {}).map(key => <li key={key} >
