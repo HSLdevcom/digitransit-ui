@@ -42,7 +42,7 @@ export function createMock(actionContext, payload, done) {
       follow = {
         track,
         index: 0,
-        interval: setInterval(this.followTrack, 1000),
+        interval: setInterval(window.mock.geolocation.followTrack, 1000),
       };
     },
 
@@ -68,7 +68,7 @@ export function createMock(actionContext, payload, done) {
         window.mock.data.position.coords.heading = heading;
       }
 
-      this.notify();
+      window.mock.geolocation.notify();
     },
 
     setCurrentPosition: (lat, lon, heading, disableDebounce) => {
@@ -79,10 +79,10 @@ export function createMock(actionContext, payload, done) {
         window.mock.data.position.coords.heading = heading;
       }
 
-      this.notify(disableDebounce);
+      window.mock.geolocation.notify(disableDebounce);
     },
 
-    notify: disableDebounce => actionContext(
+    notify: disableDebounce => actionContext.executeAction(
       geolocatonCallback,
       { pos: window.mock.data.position, disableDebounce },
     ),
