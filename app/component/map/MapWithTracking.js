@@ -78,7 +78,7 @@ const MapWithTracking =
         })();
 
         if (!origin.useCurrentPosition && origin !== props.mapState.previousOrigin) {
-          setImmediate(props.dispatch, {
+          setTimeout(props.dispatch, 0, {
             type: 'useOrigin',
             origin,
           });
@@ -88,7 +88,7 @@ const MapWithTracking =
           props.mapState.previousOrigin &&
           origin !== props.mapState.previousOrigin
         ) {
-          setImmediate(props.dispatch, {
+          setTimeout(props.dispatch, 0, {
             type: 'usePosition',
             origin,
           });

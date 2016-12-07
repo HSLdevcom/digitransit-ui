@@ -25,7 +25,7 @@ class OriginPopup extends React.Component {
   };
 
   componentDidMount() {
-    return this.props.shouldOpen && setImmediate(this.display);
+    return this.props.shouldOpen && setTimeout(this.display);
   }
 
   display = () => this.context.popupContainer.openPopup();

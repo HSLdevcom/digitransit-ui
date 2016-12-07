@@ -121,7 +121,6 @@ function getPolyfills(userAgent) {
     fetch: { flags: ['gated'] },
     Intl: { flags: ['gated'] },
     matchMedia: { flags: ['gated'] },
-    setImmediate: { flags: ['gated'] },
     Symbol: { flags: ['gated'] },
     'Symbol.iterator': { flags: ['gated'] },
   };
