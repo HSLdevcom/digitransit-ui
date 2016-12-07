@@ -156,7 +156,7 @@ export function startLocationWatch(actionContext, payload, done) {
 export function initGeolocation(actionContext, payload, done) {
   if (location.search.includes('mock')) {
     actionContext.executeAction(createMock, null, done);
-  } else if (navigator.geolocation) {
+  } else if (!navigator.geolocation) {
     actionContext.dispatch('GeolocationNotSupported');
     done();
   } else if (navigator.permissions !== undefined) {
