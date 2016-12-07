@@ -84,7 +84,7 @@ export function createMock(actionContext, payload, done) {
 
     notify: disableDebounce => actionContext(
       geolocatonCallback,
-      { pos: window.mock.data.position, disableDebounce }
+      { pos: window.mock.data.position, disableDebounce },
     ),
   };
 

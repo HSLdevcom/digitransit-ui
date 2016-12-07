@@ -82,7 +82,7 @@ function watchPosition(actionContext, done) {
 
   let timeout = setTimeout(
     () => actionContext.dispatch('GeolocationWatchTimeout'),
-    quietTimeoutSeconds * 1000
+    quietTimeoutSeconds * 1000,
   );
   try {
     geoWatchId = navigator.geolocation.watchPosition(
@@ -100,7 +100,7 @@ function watchPosition(actionContext, done) {
         }
         dispatchGeolocationError(actionContext, error);
       },
-      { enableHighAccuracy: true, timeout: 60000, maximumAge: 60000 }
+      { enableHighAccuracy: true, timeout: 60000, maximumAge: 60000 },
     );
   } catch (error) {
     actionContext.dispatch('GeolocationNotSupported');
@@ -179,4 +179,3 @@ export function initGeolocation(actionContext, payload, done) {
     done();
   }
 }
-
