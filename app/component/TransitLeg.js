@@ -60,7 +60,7 @@ class TransitLeg extends React.Component {
           number: (stops
          && stops.length) || 0,
         }}
-        defaultMessage="{number, plural, =0 {No intermediate stops} other {{number} stops} }"
+        defaultMessage="{number, plural, =0 {No intermediate stops} one {1 stop} other {{number} stops} }"
       />);
       return (
         <div className="intermediate-stop-info-container">{stopCount === 0 ? <span className="intermediate-stop-no-stops">{message}</span> :

@@ -167,7 +167,7 @@ const translations = {
     'rent-cycle-at': 'Vuokraa pyörä asemalta {station}',
     'cycle-distance-duration': 'Pyöräile {distance} ({duration})',
     'cyclewalk-distance-duration': 'Taluta pyörää {distance} ({duration})',
-    'number-of-intermediate-stops': `{number, plural, =0 {Ei pysähdyksiä} other
+    'number-of-intermediate-stops': `{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other
       {{number} pysäkkiä} }`,
     'bus-with-route-number': 'Bussi {routeNumber} {headSign}',
     'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
