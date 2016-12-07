@@ -552,7 +552,7 @@ const translations = {
     'stop-page.title-short': 'Arrêt',
     'stop-page.title': 'Arrêt {stop_name} - {stop_code}',
     'stop-page.description': 'Arrêt {stop_name} - {stop_code}',
-    'splash-welcome': 'Bienvenue dans votre nouveau planificateur d\'itinéraires !',
+    'splash-welcome': 'Comment souhaitez-vous démarrer ?',
     'splash-please-allow-positioning': 'Ce service fonctionne mieux en autorisant la géolocalisation.',
     'splash-use-positioning': 'Utiliser la position',
     'splash-you-can-also': 'Vous pouvez aussi',
