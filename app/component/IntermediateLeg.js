@@ -17,7 +17,7 @@ function IntermediateLeg({ mode, name, stopCode, focusFunction }) {
           <div className="itinerary-intermediate-stop-name">
             {name} <StopCode code={stopCode} />
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
+
         </div>
         <div className="itinerary-leg-action" />
       </div>
