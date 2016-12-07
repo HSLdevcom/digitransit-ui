@@ -28,15 +28,12 @@ class TransitLeg extends React.Component {
   renderIntermediate() {
     if (this.props.leg.intermediateStops.length > 0 && this.state.showIntermediateStops === true) {
       return this.props.leg.intermediateStops.map(
-        (stop) => {
-          console.log(stop);
-          return (<IntermediateLeg
-            mode={this.props.mode}
-            name={stop.name}
-            stopCode={stop.code}
-            focusFunction={this.context.focusFunction}
-          />);
-        },
+        stop => (<IntermediateLeg
+          mode={this.props.mode}
+          name={stop.name}
+          stopCode={stop.code}
+          focusFunction={this.context.focusFunction({ lat: stop.lat, lon: stop.lon })}
+        />),
       );
     }
     return null;

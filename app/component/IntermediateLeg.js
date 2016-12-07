@@ -3,17 +3,14 @@ import StopCode from './StopCode';
 
 import Icon from './Icon';
 
-function IntermediateLeg({ mode, name, stopCode, focusAction }) {
+function IntermediateLeg({ mode, name, stopCode, focusFunction }) {
   const modeClassName =
     `${mode.toLowerCase()}`;
 
   return (
-    <div style={{ width: '100%' }} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
-&nbsp;
-      </div>
+    <div style={{ width: '100%' }} className="row itinerary-row" onClick={e => focusFunction(e)}>
+      <div className="small-2 columns itinerary-time-column" />
       <div
-        onClick={focusAction}
         className={`small-10 columns itinerary-instruction-column intermediate ${modeClassName}`}
       >
         <div className="itinerary-leg-first-row">
@@ -29,7 +26,7 @@ function IntermediateLeg({ mode, name, stopCode, focusAction }) {
 }
 
 IntermediateLeg.propTypes = {
-  focusAction: React.PropTypes.func.isRequired,
+  focusFunction: React.PropTypes.func.isRequired,
   waitTime: React.PropTypes.number.isRequired,
   name: React.PropTypes.string.isRequired,
   mode: React.PropTypes.string.isRequired,
