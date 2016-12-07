@@ -29,7 +29,6 @@ const Application = (
       <div id="app" style={{ height: '100%' }} dangerouslySetInnerHTML={{ __html: content }} />
       <script dangerouslySetInnerHTML={{ __html: state }} />
       <script dangerouslySetInnerHTML={{ __html: config }} />
-      <script dangerouslySetInnerHTML={{ __html: `window.locale="${locale}"` }} />
       <script
         dangerouslySetInnerHTML={{ __html: JSON.stringify(relayData) }}
         type="application/json"
