@@ -1,8 +1,6 @@
 import React from 'react';
 import StopCode from './StopCode';
 
-import Icon from './Icon';
-
 function IntermediateLeg({ mode, name, stopCode, focusFunction }) {
   const modeClassName =
     `${mode.toLowerCase()}`;
