@@ -1,7 +1,8 @@
 import unzip from 'lodash/unzip';
+import { isBrowser } from './browser';
 
 /* eslint-disable global-require */
-const L = (typeof window !== 'undefined' && window !== null) ? require('leaflet') : null;
+const L = isBrowser ? require('leaflet') : null;
 /* eslint-enable global-require */
 
 function toRad(deg) {

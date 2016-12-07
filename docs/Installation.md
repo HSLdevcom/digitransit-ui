@@ -7,6 +7,11 @@ You need Node.
 - `node -v` should be >= 5
 - `npm -v` should be >= 3
 
+You also need a C compiler:
+- Linux: GCC 4.6 or later
+- OS X: Xcode 5.0 or later
+- Windows: for example MSVC 2013 Express
+
 ## Installation
 - `npm install`
 - `npm rebuild node-sass`

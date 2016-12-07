@@ -1,11 +1,12 @@
 import React from 'react';
 import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
+import cx from 'classnames';
 
 import GeolocationOrInput from './GeolocationOrInput';
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import SearchModal from './SearchModal';
-
+import SearchModalLarge from './SearchModalLarge';
 
 class OneTabSearchModal extends React.Component {
   static contextTypes = {
@@ -14,6 +15,7 @@ class OneTabSearchModal extends React.Component {
     intl: intlShape.isRequired,
     router: React.PropTypes.object,
     location: React.PropTypes.object,
+    breakpoint: React.PropTypes.string.isRequired,
   };
 
   static propTypes = {
@@ -25,6 +27,7 @@ class OneTabSearchModal extends React.Component {
     modalIsOpen: React.PropTypes.oneOfType(
       [React.PropTypes.bool, React.PropTypes.string]).isRequired,
     target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
+    responsive: React.PropTypes.bool, // a switch to force use of fullscreen modal
   };
 
   componentDidUpdate() {
@@ -57,31 +60,56 @@ class OneTabSearchModal extends React.Component {
   };
 
   render() {
-    const searchTabLabel = (this.props.customTabLabel ?
+    if (!this.props.modalIsOpen) {
+      return false;
+    }
+
+    let label = (this.props.customTabLabel ?
       this.props.customTabLabel :
       this.context.intl.formatMessage({
-        id: this.props.target || 'origin',
-        defaultMessage: this.props.target || 'origin',
+        id: this.props.target || 'Origin',
+        defaultMessage: this.props.target || 'Origin',
       }));
 
+    label = label.charAt(0).toUpperCase() + label.slice(1);
+    let searchTabLabel;
+    let Component;
+    let responsiveClass = '';
+    let placeholder;
+
+    if (this.context.breakpoint === 'large' && this.props.responsive) {
+      Component = SearchModalLarge;
+      responsiveClass = 'bp-large';
+      searchTabLabel = '';
+      placeholder = label;
+    } else {
+      Component = SearchModal;
+      searchTabLabel = label;
+    }
+
     return (
-      <SearchModal
-        selectedTab="tab"
-        modalIsOpen={this.props.modalIsOpen}
-        closeModal={this.props.closeModal}
-      >
-        <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
-          <GeolocationOrInput
-            ref={(c) => { this.geolocationOrInput = c; }}
-            useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
-            initialValue={this.props.initialValue}
-            type="endpoint"
-            onSuggestionSelected={
-              this.props.customOnSuggestionSelected || this.onSuggestionSelected}
-            close={this.props.closeModal}
-          />
-        </Tab>
-      </SearchModal>);
+      <div className={cx('onetab-search-modal-container', responsiveClass)}>
+        <div className={cx('fake-search-container', responsiveClass)}>
+          <Component
+            selectedTab="tab"
+            modalIsOpen={this.props.modalIsOpen}
+            closeModal={this.props.closeModal}
+          >
+            <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
+              <GeolocationOrInput
+                ref={(c) => { this.geolocationOrInput = c; }}
+                useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
+                initialValue={placeholder ? '' : this.props.initialValue}
+                placeholder={placeholder}
+                type="endpoint"
+                onSuggestionSelected={
+                  this.props.customOnSuggestionSelected || this.onSuggestionSelected}
+                close={this.props.closeModal}
+              />
+            </Tab>
+          </Component>
+        </div>
+      </div>);
   }
 }
 

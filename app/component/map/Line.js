@@ -2,8 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import config from '../../config';
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../util/browser';
 
 let Polyline;
 

@@ -8,13 +8,14 @@ import Protobuf from 'pbf';
 import config from '../../../config';
 import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
 import { Contour } from '../../../util/geo-utils';
+import { isBrowser } from '../../../util/browser';
 
 const showFacilities = 17;
 
 export default class ParkAndRide {
   constructor(tile) {
     this.tile = tile;
-    const scaleratio = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
+    const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.width = 24 * scaleratio;
     this.height = 12 * scaleratio;
     this.promise = this.getPromise();
