@@ -20,6 +20,7 @@ sass/themes/*
 !sass/themes/hsl
 !sass/themes/joensuu
 !sass/themes/turku
+!sass/themes/matka
 
 app/config.*.js
 !app/config.client.js
@@ -27,29 +28,34 @@ app/config.*.js
 !app/config.hsl.js
 !app/config.joensuu.js
 !app/config.turku.js
+!app/config.matka.js
 
 static/img/*icons
 !static/img/hsl-icons
 !static/img/default-icons
 !static/img/joensuu-icons
 !static/img/turku-icons
+!static/img/matka-icons
 
 static/svg-sprite.*.svg
 !static/svg-sprite.hsl.svg
 !static/svg-sprite.default.svg
 !static/svg-sprite.joensuu.svg
 !static/svg-sprite.turku.svg
+!static/svg-sprite.matka.svg
 
 static/manifest.*.json
 !static/manifest.hsl.json
 !static/manifest.default.json
 !static/manifest.joensuu.json
 !static/manifest.turku.json
+!static/manifest.matka.json
 
 static/browserconfig.*.xml
 !static/browserconfig.hsl.xml
 !static/browserconfig.default.xml
 !static/browserconfig.joensuu.xml
 !static/browserconfig.turku.xml
+!static/browserconfig.matka.xml
 
 tags
