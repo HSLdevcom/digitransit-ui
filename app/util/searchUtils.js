@@ -1,5 +1,4 @@
 
-
 import Relay from 'react-relay';
 
 import get from 'lodash/get';
@@ -68,7 +67,7 @@ function filterMatchingToInput(list, input, fields) {
       const parts = fields.map(pName => get(item, pName));
 
       const test = parts.join(' ').toLowerCase();
-      return test.indexOf(input.toLowerCase()) > -1;
+      return test.includes(input.toLowerCase());
     });
   }
 
@@ -100,7 +99,7 @@ function getOldSearches(oldSearches, input, dropLayers) {
 
   if (dropLayers) { // don't want these
     matchingOldSearches = matchingOldSearches.filter(
-      item => (dropLayers.indexOf(item.properties.layer) === -1)
+      item => (!dropLayers.includes(item.properties.layer))
     );
   }
 
@@ -284,21 +283,21 @@ export function executeSearchImmediate(getStore, { input, type, layers }, callba
     const language = getStore('PreferencesStore').getLanguage();
     const searchComponents = [];
 
-    if (endpointLayers.indexOf('CurrentPosition') !== -1 && position.hasLocation) {
+    if (endpointLayers.includes('CurrentPosition') && position.hasLocation) {
       searchComponents.push(getCurrentPositionIfEmpty(input));
     }
-    if (endpointLayers.indexOf('FavouritePlace') !== -1) {
+    if (endpointLayers.includes('FavouritePlace')) {
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
     }
-    if (endpointLayers.indexOf('OldSearch') !== -1) {
+    if (endpointLayers.includes('OldSearch')) {
       let dropLayers;
       // old searches should also obey the layers definition
-      if (endpointLayers.indexOf('FavouritePlace') === -1) {
+      if (!endpointLayers.includes('FavouritePlace')) {
         dropLayers = ['favouritePlace'];
       }
       searchComponents.push(getOldSearches(oldSearches, input, dropLayers));
     }
-    if (endpointLayers.indexOf('Geocoding') !== -1) {
+    if (endpointLayers.includes('Geocoding')) {
       searchComponents.push(getGeocodingResult(input, position, language));
     }
 
