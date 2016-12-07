@@ -27,7 +27,6 @@ class ItineraryLegs extends React.Component {
   }
 
   focus = position => (e) => {
-    console.log('focusing...', position.lat, position.lon);
     e.stopPropagation();
     this.props.focusMap(position.lat, position.lon);
   };
