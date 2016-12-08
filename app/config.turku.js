@@ -46,6 +46,10 @@ export default {
 
   appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },
 
+  agency: {
+    show: false,
+  },
+
   socialMedia: {
     title: 'Fölin reittiopas',
     description: APP_DESCRIPTION,
