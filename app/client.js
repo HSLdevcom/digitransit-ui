@@ -15,7 +15,6 @@ import {
   gqErrorsMiddleware,
   retryMiddleware,
 } from 'react-relay-network-layer';
-import 'regenerator-runtime/runtime';
 import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
@@ -181,7 +180,8 @@ if (typeof window.Intl !== 'undefined') {
   const modules = [System.import('intl')];
 
   config.availableLanguages.forEach((language) => {
-    modules.push(System.import(`intl/locale-data/jsonp/${language}`));
+    // eslint-disable-next-line prefer-template
+    modules.push(System.import('intl/locale-data/jsonp/' + language));
   });
 
   Promise.all(modules).then(callback);

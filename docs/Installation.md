@@ -2,10 +2,10 @@
 - [Run application in Docker](Docker.md).
 
 ## Install requirements
-You need Node.
+You need Node and yarn (or npm3).
 
 - `node -v` should be >= 5
-- `npm -v` should be >= 3
+- `yarn --version` should be >= 0.18.0 (or `npm -v` should be >= 3)
 
 You also need a C compiler:
 - Linux: GCC 4.6 or later
@@ -13,23 +13,15 @@ You also need a C compiler:
 - Windows: for example MSVC 2013 Express
 
 ## Installation
-- `npm install`
-- `npm rebuild node-sass`
-
-### :warning: What if 'npm install' fails?
-- Ensure you have npm3 installed: `sudo npm install -g npm@3`
-- Clear npm cache: `npm cache clean`
-- remove node_modules: `rm -rf node_modules`
-- Try again: `npm install`
-
+- `yarn install`
 ## Start development version
 
-- OSX / Linux: `npm run dev`
+- OSX / Linux: `yarn run dev`
 - Windows: `npm run dev-win-national`
 - open: http://localhost:8080
 
 ## Start production version
-- First run: `npm run build`, then run: `npm run start`
+- First run: `yarn run build`, then run: `yarn run start`
 - open: http://localhost:8080
 
 Note: on Windows, add "win-" prefix to the run commands above. For example: `npm run win-build`.
@@ -57,19 +49,19 @@ Note that you can combine multiple configuration parameters.
 
 ### Changing National/Regional version (optional)
 Start national version
-- `npm run build`
-- `npm run start`
+- `yarn run build`
+- `yarn run start`
 
 Start HSL version
-- `npm run build`
-- `CONFIG=hsl npm run start`
+- `yarn run build`
+- `CONFIG=hsl yarn run start`
 
 ### Changing url for OpenTripPlanner and Geocoding (optional)
 By default digitransit-ui uses services from https://api.digitransit.fi but you can override API server like so:
-- `npm run build`
-- `API_URL=https://dev-api.digitransit.fi npm run start`
+- `yarn run build`
+- `API_URL=https://dev-api.digitransit.fi yarn run start`
 
 ### Using Sentry to track client errors (optional)
 Sentry can be configured like so:
-- `npm run build`
-- `SENTRY_DSN=https://xxxxx@app.getsentry.com/zzzzz SENTRY_SECRET_DSN=https://xxxx:yyyy@app.getsentry.com/zzzzz npm run start`
+- `yarn run build`
+- `SENTRY_DSN=https://xxxxx@app.getsentry.com/zzzzz SENTRY_SECRET_DSN=https://xxxx:yyyy@app.getsentry.com/zzzzz yarn run start`

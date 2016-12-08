@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl';
 import MapLayer from 'react-leaflet/lib/MapLayer';
 import omit from 'lodash/omit';
 import provideContext from 'fluxible-addons-react/provideContext';
-import SphericalMercator from 'sphericalmercator';
+import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
 import L from 'leaflet';
 
