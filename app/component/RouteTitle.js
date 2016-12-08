@@ -12,12 +12,12 @@ const RouteTitle = ({ route }, { breakpoint }) => (
       defaultMessage="Route"
     />
     :
-      <Link to={`/linjat/${route.gtfsId}`}>
-        <RouteNumber
-          mode={route.mode}
-          text={route.shortName}
-        />
-      </Link>
+    <Link to={`/linjat/${route.gtfsId}`}>
+      <RouteNumber
+        mode={route.mode}
+        text={route.shortName}
+      />
+    </Link>
 );
 
 RouteTitle.propTypes = {
