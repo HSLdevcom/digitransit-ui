@@ -372,7 +372,7 @@ const translations = {
     'platform-short': 'Plat.',
     'footer-feedback': 'TODO Anna palautetta',
     'footer-link-to-old': 'TODO Siirry vanhaan Reittioppaaseen',
-    'agency': 'TODO Byrå',
+    'agency': 'Trafikidkare',
   },
 
   'nb': {
