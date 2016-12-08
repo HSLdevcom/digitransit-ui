@@ -46,6 +46,10 @@ export default {
     primary: '#5c4696',
   },
 
+  agency: {
+    show: false,
+  },
+
   socialMedia: {
     title: 'Uusi Reittiopas - Joensuu',
     description: APP_DESCRIPTION,
