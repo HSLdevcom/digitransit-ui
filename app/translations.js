@@ -250,7 +250,7 @@ const translations = {
     'map': 'Karta',
     'buy-ticket': 'Såhär köper du biljetten (HSL.fi)',
     'required-ticket': 'Biljett för resan',
-    'ticket-and-price-info': 'TODO Biljett och prisinformation',
+    'ticket-and-price-info': 'Biljett- och prisinformation',
     'share': 'Dela resan',
     'print': 'Skriv ut',
     'navigate': 'Navigera',
