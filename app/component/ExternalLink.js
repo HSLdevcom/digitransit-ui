@@ -4,7 +4,7 @@ import Icon from './Icon';
 
 const ExternalLink = ({ name, href, className }) => ((name !== undefined) &&
   <span className={`external-link-container ${className}`}>
-    <a className="external-link" href={href} >{name}</a>
+    <a onClick={e => e.stopPropagation()}className="external-link" href={href} >{name}</a>
     <Icon img="icon-icon_external_link_arrow" className="external-link-icon-outer" />
     <Icon img="icon-icon_external_link_arrow" className="external-link-icon" />
   </span>
