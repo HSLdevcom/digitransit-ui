@@ -309,6 +309,28 @@ div.itinerary-container-content {
   width: 100%;
 }
 
+.itinerary-leg-agency {
+  @extend .itinerary-leg-text-gray;
+  padding-top: 10px;
+  .agency-link-container {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    .itinerary-leg-agency-link {
+      a {
+        font-weight:$font-weight-bold;
+        color: $primary-color;
+      }
+      .icon.external-link-icon-outer {
+        color: white;
+      }
+      .icon.external-link-icon {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+
 .itinerary-tabs-container {
   margin-left: auto;
   margin-right: auto;
