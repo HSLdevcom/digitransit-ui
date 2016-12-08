@@ -2,18 +2,35 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Splash from './Splash';
 
+import config from '../config';
+import { getIntroShown, setIntroShown } from '../store/localStorage';
+import { isBrowser } from '../util/browser';
 
-const SplashOrComponent = ({ displaySplash, children }) => {
-  if (!displaySplash) {
-    return children;
+class SplashOrComponent extends React.Component {
+  static propTypes = {
+    displaySplash: React.PropTypes.bool.isRequired,
+    children: React.PropTypes.node.isRequired,
+  };
+
+  state = { shouldShowIntro:
+    config.shouldShowIntro && getIntroShown() !== true &&
+    // Do not show intro in mock mode
+    !(isBrowser && window.mock),
   }
-  return <Splash />;
-};
 
-SplashOrComponent.propTypes = {
-  displaySplash: React.PropTypes.bool.isRequired,
-  children: React.PropTypes.node.isRequired,
-};
+  setIntroShown = () => {
+    this.setState({ shouldShowIntro: false }, setIntroShown);
+  }
+
+  render() {
+    if (!this.props.displaySplash && !this.state.shouldShowIntro) {
+      return this.props.children;
+    }
+    return (
+      <Splash setIntroShown={this.setIntroShown} shouldShowIntro={this.state.shouldShowIntro} />
+    );
+  }
+}
 
 export default connectToStores(SplashOrComponent, ['PositionStore', 'EndpointStore'],
   (context) => {

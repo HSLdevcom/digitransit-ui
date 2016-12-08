@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../Icon';
 
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../util/browser';
 
 let L;
 let Marker;

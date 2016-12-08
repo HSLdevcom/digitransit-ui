@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Departure from './Departure';
+import { isBrowser } from '../util/browser';
 
 const mergeDepartures = departures =>
   Array.prototype.concat.apply([], departures).sort((a, b) => a.stoptime - b.stoptime);
@@ -18,8 +19,7 @@ const asDepartures = stoptimes => (
       /* OTP returns either scheduled time or realtime prediction in
        * 'realtimeDeparture' and 'realtimeArrival' fields.
        * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
-      const canceled = stoptime.realtimeState === 'CANCELED' ||
-        (window.mock && stoptime.realtimeDeparture % 40 === 0);
+      const canceled = stoptime.realtimeState === 'CANCELED';
       const arrivalTime = stoptime.serviceDay +
         (!canceled
           ? stoptime.realtimeArrival
@@ -58,7 +58,7 @@ class DepartureListContainer extends Component {
   };
 
   onScroll = () => {
-    if (this.props.infiniteScroll && typeof window !== 'undefined' && window !== null) {
+    if (this.props.infiniteScroll && isBrowser) {
       return this.scrollHandler;
     }
     return null;
