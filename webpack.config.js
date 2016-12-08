@@ -11,15 +11,15 @@ const StatsPlugin = require('stats-webpack-plugin');
 // const OptimizeJsPlugin = require('optimize-js-plugin');
 const OfflinePlugin = require('offline-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const GzipCompressionPlugin = require('compression-webpack-plugin');
+const BrotliCompressionPlugin = require('brotli-webpack-plugin');
 const fs = require('fs');
 
 require('babel-core/register')({
-  presets: ['modern-node', 'stage-2'], // eslint-disable-line prefer-template
+  presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
-    'transform-es2015-destructuring',
-    'transform-es2015-parameters',
-    'transform-class-properties',
-    'transform-es2015-modules-commonjs',
+    'transform-system-import-commonjs',
+    path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
   ignore: [
     /node_modules/,
@@ -28,6 +28,10 @@ require('babel-core/register')({
 });
 
 const port = process.env.HOT_LOAD_PORT || 9000;
+
+const devBrowsers = ['edge 14', 'last 1 chrome version', 'Firefox ESR', 'safari 9'];
+
+const prodBrowsers = ['IE 10', '> 0.3% in FI', 'last 2 versions'];
 
 function getRulesConfig(env) {
   if (env === 'development') {
@@ -40,11 +44,19 @@ function getRulesConfig(env) {
         loader: 'babel',
         exclude: /node_modules/,
         options: {
-          // loose is needed by older Androids < 4.3 and IE10
-          presets: [['latest', { es2015: { loose: true, modules: false } }], 'react', 'stage-2'],
+          presets: [
+            ['env', { targets: { browsers: devBrowsers }, modules: false }],
+            'react',
+            'stage-2',
+          ],
           plugins: [
             'transform-system-import-commonjs',
             path.join(__dirname, 'build/babelRelayPlugin'),
+            ['transform-runtime', {
+              helpers: true,
+              polyfill: false,
+              regenerator: true,
+            }],
           ],
           ignore: [
             'app/util/piwik.js',
@@ -63,10 +75,19 @@ function getRulesConfig(env) {
       exclude: /node_modules/,
       options: {
         // loose is needed by older Androids < 4.3 and IE10
-        presets: [['latest', { es2015: { loose: true, modules: false } }], 'react', 'stage-2'],
+        presets: [
+          ['env', { targets: { browsers: prodBrowsers }, loose: true, modules: false }],
+          'react',
+          'stage-2',
+        ],
         plugins: [
           'transform-react-remove-prop-types',
           path.join(__dirname, 'build/babelRelayPlugin'),
+          ['transform-runtime', {
+            helpers: true,
+            polyfill: false,
+            regenerator: true,
+          }],
         ],
         ignore: [
           'app/util/piwik.js',
@@ -133,7 +154,7 @@ function getPluginsConfig(env) {
       debug: false,
       minimize: true,
       options: {
-        postcss: () => [autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] }), csswring],
+        postcss: () => [autoprefixer({ browsers: prodBrowsers }), csswring],
       },
     }),
     getSourceMapPlugin(/\.(js)($|\?)/i, '/js/'),
@@ -141,8 +162,8 @@ function getPluginsConfig(env) {
     new webpack.optimize.CommonsChunkPlugin({
       names: ['common', 'leaflet', 'manifest'],
     }),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 20000 }),
+    new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.2 }),
+    new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 60000 }),
     new StatsPlugin('../stats.json', { chunkModules: true }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
@@ -164,15 +185,33 @@ function getPluginsConfig(env) {
       allChunks: true,
     }),
     new OfflinePlugin({
-      excludes: ['**/.*', '**/*.map', '../stats.json'],
+      excludes: ['**/.*', '**/*.map', '../stats.json', '**/*.gz', '**/*.br'],
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
-        main: [':rest:'],
-        additional: [':externals:'],
-        optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js'],
+        main: [':rest:', ':externals:'],
+        additional: ['js/+([a-z0-9]).js'],
+        optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js', '*.png'],
       },
+      externals: ['/'],
       safeToUseOptionalCaches: true,
+      ServiceWorker: {
+        entry: './app/util/font-sw.js',
+      },
+      AppCache: {
+        caches: ['main', 'additional', 'optional'],
+      },
+    }),
+    new GzipCompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'zopfli',
+      test: /\.(js|css|html|svg)$/,
+      minRatio: 0.95,
+    }),
+    new BrotliCompressionPlugin({
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      minRatio: 0.95,
     }),
     new webpack.NoErrorsPlugin(),
   ]);

@@ -10,10 +10,10 @@ export default function SummaryTitle(props) {
           defaultMessage="Itinerary suggestions"
         />
         :
-          <FormattedMessage
-            id="itinerary-page.title"
-            defaultMessage="Itinerary"
-          />
+        <FormattedMessage
+          id="itinerary-page.title"
+          defaultMessage="Itinerary"
+        />
       }
     </span>
   );

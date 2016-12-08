@@ -261,7 +261,9 @@ select {
 .split-bars {
   display: flex;
   align-items: stretch;
-  & > .split-bar {
+  .split-bar {
+    display: flex;
+    align-items: center;
     flex-grow: 1;
   }
 }

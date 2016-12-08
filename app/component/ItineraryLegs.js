@@ -17,6 +17,20 @@ import CarLeg from './CarLeg';
 import config from '../config';
 
 class ItineraryLegs extends React.Component {
+
+  static childContextTypes = {
+    focusFunction: React.PropTypes.func,
+  };
+
+  getChildContext() {
+    return { focusFunction: this.focus };
+  }
+
+  focus = position => (e) => {
+    e.stopPropagation();
+    this.props.focusMap(position.lat, position.lon);
+  };
+
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
   continueWithBicycle = (leg1, leg2) => (
@@ -77,10 +91,6 @@ class ItineraryLegs extends React.Component {
 
     const numberOfLegs = compressedLegs.length;
 
-    const focus = position => (e) => {
-      e.stopPropagation();
-      this.props.focusMap(position.lat, position.lon);
-    };
 
     compressedLegs.forEach((leg, j) => {
       if (j + 1 < compressedLegs.length) {
@@ -97,7 +107,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           />);
       } else if (leg.mode === 'TRAM') {
         legs.push(
@@ -105,7 +115,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           />);
       } else if (leg.mode === 'FERRY') {
         legs.push(
@@ -113,7 +123,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           />);
       } else if (leg.mode === 'RAIL') {
         legs.push(
@@ -121,7 +131,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           />);
       } else if (leg.mode === 'SUBWAY') {
         legs.push(
@@ -129,7 +139,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           />);
       } else if (leg.mode === 'AIRPLANE') {
         startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
@@ -139,7 +149,7 @@ class ItineraryLegs extends React.Component {
             key={`${j}ci`}
             leg={leg}
             startTime={startTime}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           />);
 
         legs.push(
@@ -147,14 +157,14 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           />);
 
         legs.push(
           <AirportCollectLuggageLeg
             key={`${j}cl`}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           />);
       } else if (leg.rentedBike || leg.mode === 'BICYCLE' || leg.mode === 'BICYCLE_WALK') {
         legs.push(
@@ -162,7 +172,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           />);
       } else if (leg.mode === 'CAR') {
         legs.push(
@@ -170,7 +180,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           >
             {this.stopCode(leg.from.stop)}
           </CarLeg>);
@@ -180,7 +190,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
-            focusAction={focus(leg.from)}
+            focusAction={this.focus(leg.from)}
           >
             {this.stopCode(leg.from.stop)}
           </WalkLeg>);
@@ -198,7 +208,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             startTime={leg.endTime}
             waitTime={waitTime}
-            focusAction={focus(leg.to)}
+            focusAction={this.focus(leg.to)}
           >
             {this.stopCode(leg.to.stop)}
           </WaitLeg>);
@@ -210,7 +220,7 @@ class ItineraryLegs extends React.Component {
         key={numberOfLegs}
         index={numberOfLegs}
         endTime={this.props.itinerary.endTime}
-        focusAction={focus(compressedLegs[numberOfLegs - 1].to)}
+        focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
         to={compressedLegs[numberOfLegs - 1].to.name}
       />);
 

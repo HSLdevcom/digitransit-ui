@@ -30,8 +30,6 @@ export default Relay.createContainer(RouteAgencyInfo, {
       fragment on Route {
         agency {
           name
-          url
-          fareUrl
         }
       }
     `,

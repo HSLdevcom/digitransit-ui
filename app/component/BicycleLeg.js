@@ -66,7 +66,7 @@ function BicycleLeg(props) {
           {legDescription}
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-intermediate-stops">
+        <div>
           {stopsDescription}
         </div>
       </div>
