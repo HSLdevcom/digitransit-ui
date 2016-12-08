@@ -19,10 +19,10 @@ function RouteNumber(props) {
           className={mode}
           img={`icon-icon_${mode}`}
         /> :
-          <Icon
-            className={mode}
-            img={`icon-icon_${mode}`}
-          />
+        <Icon
+          className={mode}
+          img={`icon-icon_${mode}`}
+        />
       }
       {props.vertical ? <br /> : null}
       <span className={`vehicle-number ${mode}`}>

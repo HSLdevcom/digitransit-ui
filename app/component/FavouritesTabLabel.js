@@ -11,10 +11,10 @@ export default function FavouritesTabLabel({ hasDisruption, classes, onClick }) 
           className="prefix-icon favourites-icon"
           img="icon-icon_star"
         /> :
-          <Icon
-            className="prefix-icon favourites-icon"
-            img="icon-icon_star"
-          />}
+        <Icon
+          className="prefix-icon favourites-icon"
+          img="icon-icon_star"
+        />}
       <FormattedMessage id="your-favourites" defaultMessage="Favourites" />
     </li>
   );

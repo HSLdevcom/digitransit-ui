@@ -25,6 +25,15 @@ function enterAddress(addressSearch) {
   return this;
 }
 
+function verifyCurrentLocation() {
+  this.api.debug('see if current location is available');
+  this.waitForElementVisible('@addressPlaceholderNoSelect', this.api.globals.elementVisibleTimeout);
+  this.api.checkedClick(this.elements.addressPlaceholderNoSelect.selector);
+  this.waitForElementPresent('@searchResultCurrentLocation', this.api.globals.elementVisibleTimeout);
+  this.setValue('@searchFavourite', this.api.Keys.ENTER);
+  return this;
+}
+
 function enterName(name) {
   this.api.debug('entering name');
   this.waitForElementVisible('@nameInput', this.api.globals.elementVisibleTimeout);
@@ -82,6 +91,7 @@ module.exports = {
     saveFavourite,
     saveHomeFavourite,
     verifyFirstName,
+    verifyCurrentLocation,
     verifyFavouriteInSearchResult,
     verifyFavouriteRoute,
   }],
@@ -90,7 +100,7 @@ module.exports = {
       selector: 'li.favourites',
     },
     newFavouriteButtonContent: {
-      selector: '#add-new-favourite-0',
+      selector: '#add-new-favourite-1',
     },
     addressPlaceholderNoSelect: {
       selector: '.address-placeholder ',
