@@ -175,18 +175,6 @@ div.itinerary-main > div > .row:nth-child(1)  {
     content: "●";
   }
 
-  .itinerary-leg-intermediate-stops  {
-    padding-left: 10px;
-    list-style-type: none;
-    padding-bottom: 0;
-  }
-
-  .itinerary-intermediate-stop {
-    position:relative;
-    padding-top: 2px;
-    padding-bottom: 5px;
-  }
-
   &:last-child .itinerary-instruction-column::before {
     content: "⚬";
     font-size: 24px;
@@ -437,12 +425,6 @@ div.itinerary-container-content {
   min-height: 100%;
   //for ie mobile
   max-height: 100%;
-}
-
-.itinerary-intermediate-stop-name {
-  font-size: 13px;
-  color: $black;
-  @include font-medium;
 }
 
 .intermediate-stop-no-stops {

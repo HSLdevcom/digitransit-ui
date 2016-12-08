@@ -25,7 +25,7 @@ function AirportCheckInLeg(props) {
           />
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-intermediate-stops">
+        <div>
           <FormattedMessage
             id="airport-security-check-go-to-gate"
             defaultMessage="Walk through the security check and go to gate"
