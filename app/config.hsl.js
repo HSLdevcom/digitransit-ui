@@ -65,6 +65,10 @@ export default {
 
   appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
 
+  agency: {
+    show: false,
+  },
+
   socialMedia: {
     title: 'Uusi Reittiopas',
     description: APP_DESCRIPTION,

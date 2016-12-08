@@ -204,6 +204,7 @@ const translations = {
     'platform-short': 'Lait.',
     'footer-feedback': 'Anna palautetta',
     'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
+    'agency': 'Liikennöitsijä',
   },
 
   'sv': {
@@ -369,6 +370,7 @@ const translations = {
     'platform-short': 'Plat.',
     'footer-feedback': 'TODO Anna palautetta',
     'footer-link-to-old': 'TODO Siirry vanhaan Reittioppaaseen',
+    'agency': 'TODO Byrå',
   },
 
   'nb': {
