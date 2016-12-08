@@ -58,7 +58,7 @@
     "debug": "2.3.3",
     "element-resize-detector": "1.1.9",
     "express": "4.14.0",
-    "express-static-gzip": "0.2.1",
+    "express-static-gzip": "0.2.2",
     "fluxible": "1.2.0",
     "fluxible-addons-react": "0.2.8",
     "foundation-apps": "1.2.0",
