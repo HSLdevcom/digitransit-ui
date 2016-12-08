@@ -26,11 +26,6 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
       <div>
-        <span id="splash-text-block">
-          <FormattedMessage
-            id="splash-please-allow-positioning"
-            defaultMessage="The service works best if you use positioning."
-          /></span>
         <span
           id="splash-locationing-button"
           onClick={() => context.executeAction(startLocationWatch)}
