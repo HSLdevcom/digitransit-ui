@@ -19,8 +19,7 @@ const asDepartures = stoptimes => (
       /* OTP returns either scheduled time or realtime prediction in
        * 'realtimeDeparture' and 'realtimeArrival' fields.
        * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
-      const canceled = stoptime.realtimeState === 'CANCELED' ||
-        (window.mock && stoptime.realtimeDeparture % 40 === 0);
+      const canceled = stoptime.realtimeState === 'CANCELED';
       const arrivalTime = stoptime.serviceDay +
         (!canceled
           ? stoptime.realtimeArrival

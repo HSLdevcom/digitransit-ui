@@ -100,6 +100,14 @@ export function setFeedbackStorage(data) {
   setItem('feedback', data);
 }
 
+export function getIntroShown() {
+  return getItemAsJson('intro') === true;
+}
+
+export function setIntroShown() {
+  setItem('intro', true);
+}
+
 export function setPositioningHasSucceeded(state) {
   setItem('positioningSuccesful', { state });
 }

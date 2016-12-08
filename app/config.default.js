@@ -183,6 +183,10 @@ export default {
     showInfoButton: true,
   },
 
+  agency: {
+    show: true,
+  },
+
   socialMedia: {
     title: 'Uusi Matka.fi',
     description: APP_DESCRIPTION,
