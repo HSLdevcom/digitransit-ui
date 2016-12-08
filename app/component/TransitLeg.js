@@ -8,6 +8,7 @@ import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import StopCode from './StopCode';
+import LegAgencyInfo from './LegAgencyInfo';
 import IntermediateLeg from './IntermediateLeg';
 
 class TransitLeg extends React.Component {
@@ -116,6 +117,7 @@ class TransitLeg extends React.Component {
         <div className="itinerary-transit-leg-route">
           {this.props.children}
         </div>
+        <LegAgencyInfo leg={this.props.leg} />
         <div >
           <StopInfo
             toggleFunction={this.toggleShowIntermediateStops}

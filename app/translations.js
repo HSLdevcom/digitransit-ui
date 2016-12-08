@@ -56,6 +56,7 @@ const translations = {
     'map': 'Kartta',
     'buy-ticket': 'Näin ostat lipun (HSL.fi)',
     'required-ticket': 'Reitillä tarvittava lippu',
+    'ticket-and-price-info': 'Lippu- ja hintatiedot',
     'share': 'Jaa ohje',
     'print': 'Tulosta',
     'navigate': 'Navigoi',
@@ -259,6 +260,7 @@ const translations = {
     'map': 'Karta',
     'buy-ticket': 'Såhär köper du biljetten (HSL.fi)',
     'required-ticket': 'Biljett för resan',
+    'ticket-and-price-info': 'Biljett- och prisinformation',
     'share': 'Dela resan',
     'print': 'Skriv ut',
     'navigate': 'Navigera',
@@ -383,7 +385,7 @@ const translations = {
     'platform-short': 'Plat.',
     'footer-feedback': 'Skicka feedback',
     'footer-link-to-old': 'Använd den gamla reseplaneraren',
-    'agency': 'TODO Byrå',
+    'agency': 'Trafikidkare',
   },
 
   'nb': {

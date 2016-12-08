@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 
-const ExternalLink = ({ name, href }) => ((name !== undefined) &&
-  <span className="external-link-container">
-    <a className="external-link" href={href} >{name}</a>
+const ExternalLink = ({ name, href, className }) => ((name !== undefined) &&
+  <span className={`external-link-container ${className}`}>
+    <a onClick={e => e.stopPropagation()}className="external-link" href={href} >{name}</a>
     <Icon img="icon-icon_external_link_arrow" className="external-link-icon-outer" />
     <Icon img="icon-icon_external_link_arrow" className="external-link-icon" />
   </span>
@@ -13,6 +13,11 @@ const ExternalLink = ({ name, href }) => ((name !== undefined) &&
 ExternalLink.propTypes = {
   name: PropTypes.string,
   href: PropTypes.string,
+  className: PropTypes.string,
+};
+
+ExternalLink.defaultProps = {
+  className: '',
 };
 
 ExternalLink.description = () => (
