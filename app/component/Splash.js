@@ -44,9 +44,9 @@ class Splash extends React.Component {
           <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
         </div>
         <div id="splash-search-field-container" className="flex-vertical">
-          <span id="splash-searchfield" onClick={this.openModal}>
+          <span id="splash-searchfield" ><button className="modest" onClick={this.openModal}>
             <FormattedMessage id="give-origin" defaultMessage="Type in your origin" />
-            <Icon className="icon-edit" img="icon-icon_edit" />
+            <Icon className="icon-edit" img="icon-icon_edit" /></button>
           </span>
         </div>
         <div className="splash-separator">
