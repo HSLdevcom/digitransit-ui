@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
+import get from 'lodash/get';
 import { FormattedMessage } from 'react-intl';
 
 import { displayDistance } from '../util/geo-utils';
@@ -8,14 +9,16 @@ import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
+import config from '../config';
 
 const getLegText = (leg) => {
+  const showAgency = get(config, 'agency.show', false);
   if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
     // TODO: Include in the icon itself
     return 'M';
   } else if (leg.transitLeg && leg.route.shortName) {
     return leg.route.shortName;
-  } else if (leg.route.agency) {
+  } else if (showAgency && leg.route.agency) {
     return leg.route.agency.name;
   }
   return '';

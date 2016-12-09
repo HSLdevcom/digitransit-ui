@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 import filter from 'lodash/filter';
+import get from 'lodash/get';
 
 import Distance from './Distance';
 import RouteNumber from './RouteNumber';
@@ -11,11 +12,12 @@ import config from '../config';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const getRouteNumberText = (route) => {
+  const showAgency = get(config, 'agency.show', false);
   if (route.mode.toLowerCase() === 'subway' && !route.shortName) {
     return '';
   } else if (route.shortName) {
     return route.shortName;
-  } else if (route.agency) {
+  } else if (showAgency && route.agency) {
     return route.agency.name;
   }
   return '';

@@ -1,6 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
 import polyUtil from 'polyline-encoded';
+import get from 'lodash/get';
+import config from '../../config';
 
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
@@ -10,11 +12,12 @@ import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 
 const getLegText = (leg) => {
+  const showAgency = get(config, 'agency.show', false);
   if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
     return 'M';
   } else if (leg.transitLeg && leg.route.shortName) {
     return leg.route.shortName;
-  } else if (leg.route.agency) {
+  } else if (showAgency && leg.route.agency) {
     return leg.route.agency.name;
   }
   return '';
