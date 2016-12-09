@@ -13,6 +13,8 @@ let slides = {};
 if (typeof window !== 'undefined') {
   slides = {
     hsl: require('./IntroHsl').default, // eslint-disable-line global-require
+    // TODO change to 'matka' when DT-1624 is merged
+    default: require('./IntroMatka').default, // eslint-disable-line global-require
   };
 }
 

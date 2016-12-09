@@ -2,9 +2,9 @@ export default [
   {
     image: require('../../static/img/intro-pic.png'), // eslint-disable-line global-require
     header: {
-      fi: 'Tervetuloa käyttämään uutta reittiopasta',
-      en: 'Welcome to new Journey planner',
-      sv: 'Välkommen till den nya reseplaneraren',
+      fi: 'Tervetuloa käyttämään uutta Matka.fi-palvelua',
+      en: 'Welcome to new Matka.fi',
+      sv: 'Välkommen till den nya Matka.fi',
     },
     text: {
       fi: 'Nykyinen sijaintisi on avain uusiin ominaisuuksiin. Sallithan paikannuksen!',
@@ -12,7 +12,7 @@ export default [
       sv: 'Din position är nyckeln till nya egenskaper. Tillåt gärna att dela din plats!',
     },
   }, {
-    image: require('../../static/img/hsl-origin.png'), // eslint-disable-line global-require
+    image: require('../../static/img/matka-origin.png'), // eslint-disable-line global-require
     header: {
       fi: 'Missä oletkin',
       en: 'Wherever you are',
@@ -24,7 +24,7 @@ export default [
       sv: 'Din position fungerar som avfärdsplats. Resan planerar du genom att berätta vart du är på väg.',
     },
   }, {
-    image: require('../../static/img/hsl-nearyou.png'), // eslint-disable-line global-require
+    image: require('../../static/img/matka-nearyou.png'), // eslint-disable-line global-require
     header: {
       fi: 'Milloin lähden?',
       en: 'When will I go?',
