@@ -7,7 +7,7 @@ const FavouriteRouteContainer = connectToStores(Favourite, ['FavouriteRoutesStor
   (context, { gtfsId }) => ({
     favourite: context.getStore('FavouriteRoutesStore').isFavourite(gtfsId),
     addFavourite: () => context.executeAction(addFavouriteRoute, gtfsId),
-  })
+  }),
 );
 
 FavouriteRouteContainer.contextTypes = {

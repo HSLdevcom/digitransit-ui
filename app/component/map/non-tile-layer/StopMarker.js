@@ -9,9 +9,7 @@ import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import config from '../../../config';
 import { getCaseRadius, getStopRadius, getHubRadius } from '../../../util/mapIconUtils';
-
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../../util/browser';
 
 let L;
 

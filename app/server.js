@@ -79,8 +79,6 @@ if (process.env.NODE_ENV !== 'development') {
     />,
   ];
 
-  console.log(find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]);
-
   svgSprite = (
     <script
       dangerouslySetInnerHTML={{ __html: `
@@ -128,11 +126,11 @@ function getPolyfills(userAgent) {
     'Symbol.iterator': { flags: ['gated'] },
   };
 
-  for (const language of config.availableLanguages) {
+  config.availableLanguages.forEach((language) => {
     features[`Intl.~locale.${language}`] = {
       flags: ['gated'],
     };
-  }
+  });
 
   return polyfillService.getPolyfillString({
     uaString: userAgent,
@@ -172,7 +170,7 @@ function getContent(context, renderProps, locale, userAgent) {
           {IsomorphicRouter.render(renderProps)}
         </MuiThemeProvider>
       </IntlProvider>
-    </FluxibleComponent>
+    </FluxibleComponent>,
   );
 }
 
@@ -190,13 +188,14 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       // content={content}
       polyfill={polyfills}
       state={`window.state=${serialize(application.dehydrate(context))};`}
-      locale={locale} scripts={getScripts(req)}
+      locale={locale}
+      scripts={getScripts(req)}
       fonts={config.URL.FONT}
       config={`window.config=${JSON.stringify(config)}`}
       geolocationStarter={geolocationStarter}
       relayData={relayData != null ? relayData.data : []}
       head={head}
-    />
+    />,
   );
 }
 
@@ -237,14 +236,8 @@ export default function (req, res, next) {
         IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];
 
-      if (renderProps.routes[1] && renderProps.routes[1].loadAction) {
-        renderProps.routes[1]
-          .loadAction(renderProps.params)
-          .forEach(action => promises.push(context.executeAction(action[0], action[1])));
-      }
-
       Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`)
+        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`),
       ).catch((err) => {
         if (err) { next(err); }
       });

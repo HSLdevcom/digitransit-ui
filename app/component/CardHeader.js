@@ -25,18 +25,18 @@ const CardHeader = ({
         <Icon img={icon} />
       </div>
     ) : null}
-    { icons ? (
-      <div className="right">
-        <SplitBars>{icons}</SplitBars>
+    <div className="card-header-wrapper">
+      <span className={headingStyle || 'h4 link-color'}>
+        {name}<span className="link-arrow"> ›</span>
+      </span>
+      <div className="card-sub-header">
+        {code != null ? <p className="card-code">{code}</p> : null}
+        <p className="sub-header-h4">{description}</p>
       </div>
-    ) : null}
-    <span className={headingStyle || 'h4 link-color'}>
-      {name}<span className="link-arrow"> ›</span>
-    </span>
-    <div className="card-sub-header">
-      {code != null ? <p className="card-code">{code}</p> : null}
-      <p className="sub-header-h4">{description}</p>
     </div>
+    { icons ? (
+      <SplitBars>{icons}</SplitBars>
+    ) : null}
   </div>);
 
 const exampleIcons = [<Favourite favourite={false} addFavourite={() => {}} />];

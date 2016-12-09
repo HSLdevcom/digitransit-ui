@@ -22,7 +22,7 @@ const language = (lang, currentLanguage, highlight, executeAction) => (
 const LangSelect = ({ currentLanguage }, { executeAction }) => (
   <div key="lang-select" className="lang-select">
     {config.availableLanguages.map(lang =>
-      language(lang, currentLanguage, lang === currentLanguage, executeAction)
+      language(lang, currentLanguage, lang === currentLanguage, executeAction),
     )}
   </div>
 );

@@ -419,8 +419,23 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   }
 }
 
+.desktop .route-agency-name {
+    font-size: $font-size-normal;
+    padding-left:24px;
+  }
+
+.route-agency-name {
+  padding-left:14px;
+  padding-bottom: 8px;
+  font-size: $font-size-small;
+  color: $gray;
+}
+
 // Tabs
 div.route-tabs {
+
+
+
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;

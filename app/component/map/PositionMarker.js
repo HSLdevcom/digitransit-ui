@@ -5,8 +5,7 @@ import { intlShape } from 'react-intl';
 
 import OriginPopup from './OriginPopup';
 import Icon from '../Icon';
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../util/browser';
 
 let Marker;
 let L;

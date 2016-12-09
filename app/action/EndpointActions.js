@@ -14,6 +14,20 @@ export function storeEndpoint(actionContext, { target, endpoint }, done) {
   return done();
 }
 
+export function storeEndpointIfNotCurrent(actionContext, { target, endpoint }, done) {
+  actionContext.dispatch('setEndpointIfNotCurrent', {
+    target,
+    value: {
+      lat: endpoint.lat,
+      lon: endpoint.lon,
+      address: endpoint.address,
+    },
+  });
+
+  return done();
+}
+
+
 export function setEndpoint(actionContext, payload) {
   return actionContext.executeAction(storeEndpoint, payload, (e) => {
     if (e) {

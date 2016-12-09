@@ -1,5 +1,7 @@
+import { isBrowser } from '../util/browser';
+
 function setItem(key, value) {
-  if (typeof window !== 'undefined' && window.localStorage) {
+  if (isBrowser && window.localStorage) {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
@@ -14,7 +16,7 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  return (typeof window !== 'undefined' && window.localStorage &&
+  return (isBrowser && window.localStorage &&
     window.localStorage.getItem(key)) || null;
 }
 
@@ -29,7 +31,7 @@ function getItemAsJson(key, defaultValue) {
 }
 
 export function removeItem(k) {
-  if (typeof window !== 'undefined' && window.localStorage) {
+  if (isBrowser && window.localStorage) {
     window.localStorage.removeItem(k);
   }
 }
@@ -98,10 +100,26 @@ export function setFeedbackStorage(data) {
   setItem('feedback', data);
 }
 
+export function getIntroShown() {
+  return getItemAsJson('intro') === true;
+}
+
+export function setIntroShown() {
+  setItem('intro', true);
+}
+
 export function setPositioningHasSucceeded(state) {
   setItem('positioningSuccesful', { state });
 }
 
 export function getPositioningHasSucceeded() {
   return getItemAsJson('positioningSuccesful', '{ "state": false }').state;
+}
+
+export function setHistory(history) {
+  setItem('history', history);
+}
+
+export function getHistory() {
+  return getItemAsJson('history', '{"entries":["/"], "index":0}');
 }

@@ -2,14 +2,16 @@ import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Tab from 'material-ui/Tabs/Tab';
 import cx from 'classnames';
+import without from 'lodash/without';
 
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import FakeSearchBar from './FakeSearchBar';
-import { default as FakeSearchWithButton } from './FakeSearchWithButton';
+import FakeSearchWithButtonContainer from './FakeSearchWithButtonContainer';
 import GeolocationOrInput from './GeolocationOrInput';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 import Icon from './Icon';
+import { getAllEndpointLayers } from '../util/searchUtils';
 
 class SearchMainContainer extends React.Component {
   static contextTypes = {
@@ -92,7 +94,7 @@ class SearchMainContainer extends React.Component {
     });
   }
 
-  renderEndpointTab = (tabname, tablabel, type, endpoint) => (
+  renderEndpointTab = (tabname, tablabel, type, endpoint, layers) => (
     <Tab
       className={`search-header__button${this.state.selectedTab === tabname ? '--selected' : ''}`}
       label={tablabel}
@@ -106,6 +108,7 @@ class SearchMainContainer extends React.Component {
         useCurrentPosition={endpoint.useCurrentPosition}
         initialValue={endpoint.address}
         type={type}
+        layers={layers}
         close={this.closeModal}
         onSuggestionSelected={this.onSuggestionSelected}
       />
@@ -128,14 +131,18 @@ class SearchMainContainer extends React.Component {
     const Component = this.context.breakpoint === 'large' ? SearchModalLarge : SearchModal;
 
     const origin = this.context.getStore('EndpointStore').getOrigin();
+    let searchLayers = getAllEndpointLayers();
+    if (origin.useCurrentPosition) { // currpos-currpos routing not allowed
+      searchLayers = without(searchLayers, 'CurrentPosition');
+    }
 
     return (
       <div
         className={cx(
-          'fake-search-container', `bp-${this.context.breakpoint}`, this.props.className
+          'fake-search-container', `bp-${this.context.breakpoint}`, this.props.className,
         )}
       >
-        <FakeSearchWithButton fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
+        <FakeSearchWithButtonContainer fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
         <Component
           selectedTab={this.state.selectedTab}
           modalIsOpen={this.state.modalIsOpen}
@@ -158,7 +165,8 @@ class SearchMainContainer extends React.Component {
               </span>
             </div>,
             'endpoint',
-            this.context.getStore('EndpointStore').getOrigin()
+            this.context.getStore('EndpointStore').getOrigin(),
+            searchLayers,
           )}
           {this.renderEndpointTab(
             'destination',
@@ -174,6 +182,7 @@ class SearchMainContainer extends React.Component {
             </div>,
             'all',
             this.context.getStore('EndpointStore').getDestination(),
+            searchLayers,
           )}
         </Component>
       </div>

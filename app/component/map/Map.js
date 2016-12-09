@@ -6,8 +6,7 @@ import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../util/browser';
 
 /* eslint-disable global-require */
 // TODO When server side rendering is re-enabled,
@@ -88,7 +87,7 @@ class Map extends React.Component {
       if (this.props.fitBounds) {
         this.refs.map.leafletElement.fitBounds(
           boundWithMinimumArea(this.props.bounds),
-          this.props.boundsOptions
+          this.props.boundsOptions,
         );
       }
     }
@@ -137,13 +136,13 @@ class Map extends React.Component {
         leafletObjs.push(
           <LazilyLoad key="vector-tiles" modules={this.vectorTileLayerContainerModules}>
             {this.renderVectorTileLayerContainer}
-          </LazilyLoad>
+          </LazilyLoad>,
         );
       } else if (this.props.showStops) {
         leafletObjs.push(
           <LazilyLoad key="stop-layer" modules={this.stopMarkerContainerModules}>
             {this.renderStopMarkerContainer}
-          </LazilyLoad>
+          </LazilyLoad>,
           );
 
         if (config.cityBike.showCityBikes) {

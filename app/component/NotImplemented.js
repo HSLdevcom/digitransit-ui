@@ -66,5 +66,5 @@ NotImplemented.propTypes = {
 };
 
 export default connectToStores(NotImplemented, ['NotImplementedStore'], context =>
-  ({ name: context.getStore('NotImplementedStore').getName() })
+  ({ name: context.getStore('NotImplementedStore').getName() }),
 );

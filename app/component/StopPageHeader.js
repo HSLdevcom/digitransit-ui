@@ -8,7 +8,6 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { addFavouriteStop } from '../action/FavouriteActions';
 import ComponentUsageExample from './ComponentUsageExample';
 import Labeled from './Labeled';
-import Centered from './Centered';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
 
@@ -26,17 +25,15 @@ const StopPageHeader = compose(
       >
         <InfoIcon stop={props.stop} />
       </Labeled>,
-      <Centered>
-        <Favourite
-          favourite={props.favourite}
-          addFavourite={(e) => {
-            e.stopPropagation();
-            props.executeAction(addFavouriteStop, props.params.stopId);
-          }}
-        />
-      </Centered>,
+      <Favourite
+        favourite={props.favourite}
+        addFavourite={(e) => {
+          e.stopPropagation();
+          props.executeAction(addFavouriteStop, props.params.stopId);
+        }}
+      />,
     ],
-  }))
+  })),
 )(StopCardHeaderContainer);
 
 const exampleStop = {

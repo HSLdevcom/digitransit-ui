@@ -50,7 +50,7 @@ const TripRouteStop = (props) => {
         selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
         fullscreenMap={props.fullscreenMap}
       />
-    )
+    ),
   );
 
   const reverseVehicles = props.reverseVehicles && props.reverseVehicles.map(vehicle => (
@@ -71,7 +71,7 @@ const TripRouteStop = (props) => {
           reverse
         />)
       }
-    />)
+    />),
   );
 
   return (

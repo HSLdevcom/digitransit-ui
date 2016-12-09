@@ -11,7 +11,7 @@ const CityBikeCardContainer = connectToStores(CityBikeCard, ['FavouriteCityBikeS
       e.preventDefault();
       context.executeAction(toggleFavouriteCityBikeStation, props.station.stationId);
     },
-  })
+  }),
 );
 
 CityBikeCardContainer.propTypes = {

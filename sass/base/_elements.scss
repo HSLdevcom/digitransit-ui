@@ -11,8 +11,16 @@ $border-radius-rounded: 30px;
 
 }
 .card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   background-color: $white;
   padding: 0.4em 0 0.5em;
+
+  .card-header-wrapper {
+    flex-grow: 1;
+  }
+
   .h3 {
    margin-top: -10px;
   }

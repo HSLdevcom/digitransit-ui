@@ -10,6 +10,7 @@ function getRaven() {
 
     Raven.config(config.SENTRY_DSN, {
       release: COMMIT_ID,
+      stacktrace: true,
     }).install();
     return Raven;
   }

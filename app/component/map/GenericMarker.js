@@ -2,8 +2,7 @@ import React from 'react';
 
 import config from '../../config';
 import ComponentUsageExample from '../ComponentUsageExample';
-
-const isBrowser = typeof window !== 'undefined' && window !== null;
+import { isBrowser } from '../../util/browser';
 
 let Marker;
 let Popup;

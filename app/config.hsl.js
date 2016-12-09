@@ -12,6 +12,7 @@ export default {
     STOP_MAP: `${API_URL}/map/v1/hsl-stop-map/`,
     CITYBIKE_MAP: `${API_URL}/map/v1/hsl-citybike-map/`,
     PARK_AND_RIDE_MAP: `${API_URL}/map/v1/hsl-parkandride-map/`,
+    TICKET_SALES_MAP: `${API_URL}/map/v1/hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/6653152/css/fonts.css',
   },
 
@@ -51,6 +52,11 @@ export default {
     parkAndRideMinZoom: 14,
   },
 
+  ticketSales: {
+    showTicketSales: true,
+    ticketSalesMinZoom: 16,
+  },
+
   stopsMinZoom: 14,
 
   colors: {
@@ -58,6 +64,10 @@ export default {
   },
 
   appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
+
+  agency: {
+    show: false,
+  },
 
   socialMedia: {
     title: 'Uusi Reittiopas',
@@ -95,7 +105,7 @@ export default {
     content: [
       { label: (function () { return `© HSL ${(1900 + new Date().getYear())}`; }()) },
       {},
-      { name: 'footer-feedback', nameEn: 'Send feedback', type: 'feedback', icon: 'icon-icon_speech-bubble' },
+      { name: 'footer-feedback', nameEn: 'Send feedback', href: 'https://www.hsl.fi/palaute', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
       { name: 'footer-link-to-old', nameEn: 'Use old Journey planner', href: 'http://www.reittiopas.fi/' },
     ],
@@ -112,6 +122,8 @@ export default {
     { icon: 'icon-icon_airplane', label: 'Lentoasema, Vantaa', lat: 60.317429, lon: 24.9690395 },
     { icon: 'icon-icon_bus', label: 'Kampin bussiterminaali, Helsinki', lat: 60.16902, lon: 24.931702 },
   ],
+
+  shouldShowIntro: true,
 
   /* eslint-disable max-len*/
   aboutThisService: {

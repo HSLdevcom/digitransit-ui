@@ -38,7 +38,7 @@ const PlaceAtDistanceList = (props) => {
             key={node.place.id}
             currentTime={props.currentTime}
             placeAtDistance={node}
-          />
+          />,
         );
       }
     });

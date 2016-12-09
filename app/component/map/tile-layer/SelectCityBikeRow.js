@@ -5,11 +5,11 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 function SelectCityBikeRow(props) {
   return (
     <div className="no-margin">
-      <div className="cursor-pointer" onClick={props.selectRow}>
-        <div className="left padding-vertical-small select-row-icon">
+      <div className="cursor-pointer select-row" onClick={props.selectRow}>
+        <div className="padding-vertical-normal select-row-icon">
           <Icon img="icon-icon_citybike" />
         </div>
-        <div className="left padding-vertical-normal select-row-text">
+        <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">{props.name} ›</span>
         </div>
         <div className="clear" />

@@ -13,7 +13,7 @@ class FavouriteRouteListContainerRoute extends Relay.Route {
         routes (ids:$ids) {
           ${Component.getFragment('routes', {
             ids: variables.ids,
-          }
+          },
         )
       }
     }}`,
@@ -61,5 +61,5 @@ FavouritesPanel.propTypes = {
 export default connectToStores(FavouritesPanel, ['FavouriteRoutesStore'], context =>
   ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),
-  })
+  }),
 );

@@ -15,7 +15,6 @@ import {
   gqErrorsMiddleware,
   retryMiddleware,
 } from 'react-relay-network-layer';
-import 'regenerator-runtime/runtime';
 import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
@@ -73,12 +72,12 @@ Relay.injectNetworkLayer(
     }),
     gqErrorsMiddleware(),
     retryMiddleware(),
-  ], { disableBatchQuery: false })
+  ], { disableBatchQuery: false }),
 );
 
 IsomorphicRelay.injectPreparedData(
   Relay.Store,
-  JSON.parse(document.getElementById('relayData').textContent)
+  JSON.parse(document.getElementById('relayData').textContent),
 );
 
 if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
@@ -110,7 +109,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
           .getComponentContext()
           .getStore('TimeStore')
           .getCurrentTime()
-          .valueOf()
+          .valueOf(),
         )
       ) {
         context.executeAction(openFeedbackModal);
@@ -143,7 +142,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
         </Router>
       </MuiThemeProvider>
     </ContextProvider>
-    , document.getElementById('app')
+    , document.getElementById('app'),
   );
 
   // init geolocation handling
@@ -156,7 +155,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     // e.userChoice will return a Promise. (Only in chrome, not IE)
     if (e.userChoice) {
       e.userChoice.then(choiceResult =>
-        piwik.trackEvent('installprompt', 'result', choiceResult.outcome)
+        piwik.trackEvent('installprompt', 'result', choiceResult.outcome),
       );
     }
   });
@@ -180,9 +179,10 @@ if (typeof window.Intl !== 'undefined') {
 } else {
   const modules = [System.import('intl')];
 
-  for (const language of config.availableLanguages) {
-    modules.push(System.import(`intl/locale-data/jsonp/${language}`));
-  }
+  config.availableLanguages.forEach((language) => {
+    // eslint-disable-next-line prefer-template
+    modules.push(System.import('intl/locale-data/jsonp/' + language));
+  });
 
   Promise.all(modules).then(callback);
 }
