@@ -43,6 +43,8 @@ export default {
     ],
   },
 
+  shouldShowIntro: true,
+
   /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
