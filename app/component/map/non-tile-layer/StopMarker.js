@@ -129,7 +129,7 @@ class StopMarker extends React.Component {
             date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
           })}
           renderLoading={() =>
-            <div className="card" style={{ height: 150 }}><div className="spinner-loader" /></div>
+            <div className="card" style={{ height: '12rem' }}><div className="spinner-loader" /></div>
           }
           renderFetched={data =>
             <StopMarkerPopupWithContext {...data} context={this.context} />

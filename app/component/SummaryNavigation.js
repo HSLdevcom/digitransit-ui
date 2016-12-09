@@ -82,6 +82,10 @@ class SummaryNavigation extends React.Component {
 
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
+    let drawerWidth = 291;
+    if (typeof window !== 'undefined') {
+      drawerWidth = 0.5 * window.innerWidth > 291 ? 0.5 * window.innerWidth : 291;
+    }
 
     return (
       <section>
@@ -96,7 +100,7 @@ class SummaryNavigation extends React.Component {
               onRequestChange={this.onRequestChange}
               // Needed for the closing arrow button that's left of the drawer.
               containerStyle={{ background: 'transparent', boxShadow: 'none' }}
-              width={291}
+              width={drawerWidth}
             >
               <CustomizeSearch
                 params={this.props.params}

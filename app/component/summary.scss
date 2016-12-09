@@ -12,21 +12,23 @@
 
 .time-selectors {
   @include font-book;
-  font-size: $font-size-smallish;
-  height: 30px;
+  font-size: $font-size-small;
   background-color: $secondary-color;
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   input[type="date"], input[type="time"], input[type="text"], select {
     vertical-align: middle;
     text-align: left;
     width: auto;
-    margin: 0px 0px 0px 1px;
+    height: 2.6em;
+    margin: 0;
+    padding: 0;
     font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
-    background-color: $secondary-color;
+    background-color: $primary-color;
     box-shadow: none;
     color: $secondary-font-color;
     border: none;
@@ -45,30 +47,25 @@
       outline: none;
       box-shadow: none;
     }
-
-    border-radius: $border-radius;
-    background: $primary-color !important;
-    padding: 6px 13px 6px 6px !important;
   }
   .select-wrapper {
-    position:relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: $padding-xsmall;
+    border-radius: $border-radius;
+    background: $primary-color;
+    margin-right: 1px;
   }
 
   .fake-select-arrow {
-    position: absolute;
-    right: 5px;
-    top: 13px;
-    font-size: 5px;
+    font-size: 0.5rem;
+    width: 2em;
     color: #fff;
-  }
-
-  select {
-    height: 30px;
   }
 
   .time-selector {
     @include font-book;
-    height: 30px !important;
     text-align: left;
     font-family: $font-family !important;
     display: flex !important;
@@ -81,7 +78,9 @@
   }
 
   .time-mui {
-    max-width: 5em;
+    max-width: 3.5em;
+    height: 2.6em !important;
+    font-size: $font-size-xxsmall !important;
   }
 
   .arrive {
@@ -91,20 +90,27 @@
 }
 
 .time-selector-settings-row {
-  padding: 0 6px;
-  min-width: 320px;
+  padding: $padding-small 6px;
   overflow-x: hidden;
+  background-color: $secondary-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &.bp-large {
+    height: 50px;
+  }
 }
 
 .bp-large.time-selector-settings-row {
   padding: 0 20px;
 
-  input[type="date"], input[type="time"], input[type="text"], select {
+  input[type="date"], input[type="time"], input[type="text"], select, .time-mui {
     font-size: $font-size-normal !important;
+    height: 35px !important;
   }
 
   .right-offcanvas-toggle {
-      padding: 0 7px;
       span {
         font-size: $font-size-small;
       }
@@ -114,38 +120,37 @@
 .right-offcanvas-toggle {
   span {
     @include font-bold;
-    font-size: 10px;
-    margin: 0 4px;
+    font-size: $font-size-xxxsmall;
+    margin-left: $padding-xsmall;
   }
   margin: 0;
   background-color: $primary-color;
   border-radius: 2px;
   width: auto;
-  font-size: $font-size-xxsmall;
-  height: 30px;
   text-align: center;
   text-transform:uppercase;
   color: $primary-font-color;
-  padding: 0px 2px 0px 2px;
+  padding: $padding-small;
+  display: flex;
+  align-items: center;
+  min-height: 30px;
 
   .icon-holder {
-    position: relative;
-    top: 5px;
-    vertical-align: middle;
     display: inline;
-    white-space: nowrap;
+    position: relative;
+    line-height: 0;
 
     .icon {
       fill: $white;
-      font-size: 15pt;
+      font-size: $font-size-large;
     }
 
     .super-icon {
       fill: $hilight-color;
       position: absolute;
-      right: 4px;
+      right: 0;
       top: -2px;
-      height: 12px;
+      font-size: $font-size-xxsmall;
     }
   }
 }

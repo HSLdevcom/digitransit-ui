@@ -127,6 +127,14 @@ $itinerary-route-max-width: 500px;
   }
 }
 
+//start of first leg
+div.itinerary-main > div > .row:nth-child(1)  {
+  .itinerary-instruction-column::before {
+    background-color: green;
+    content:"";
+  }
+}
+
 .row.itinerary-row {
   position:relative;
   line-height: 1.1;
@@ -162,33 +170,65 @@ $itinerary-route-max-width: 500px;
     left: -2px;
     top: -6px;
   }
-  &:first-child .itinerary-instruction-column::before {
-    content: "";
+
+  .itinerary-instruction-column.intermediate::before {
+    content: "●";
   }
+
   &:last-child .itinerary-instruction-column::before {
-    content: "";
+    content: "⚬";
+    font-size: 24px;
+    position: absolute;
+    left: -2.5px;
+    top: -6px;
   }
-  .itinerary-instruction-column:not(.to)::after {
+  &:last-child .itinerary-instruction-column.intermediate::before {
+    content: "●";
+  }
+
+  .itinerary-instruction-column.start::before {
+     content: "";
+  }
+
+ .itinerary-instruction-column.end::before {
+    content: "";
+ }
+
+ .itinerary-main > div:nth-child(1)::after {
+   content: "";
+ }
+
+ .itinerary-instruction-column:not(.to)::after {
     content: "";
     position: absolute;
     top: 17px;
-    bottom: -8px;
+    bottom: -10px;
     left: 3px;
     border-left: solid 4px;
   }
+
+  .itinerary-instruction-column.intermediate:not(.to)::after {
+    top: 0px;
+  }
+
   .itinerary-instruction-column.walk:not(.to)::after{
     border-left-style: dotted;
   }
   .itinerary-instruction-column.bicycle_walk:not(.to)::after{
     border-left-style: dotted;
   }
+
   .itinerary-instruction-column {
     cursor: pointer;
     @include font-book;
     font-size: 10pt;
     padding-left: 1.5em;
     margin-bottom: 0.5em;
-    min-height: 4em;
+    min-height: 4.15em;
+
+    &.intermediate {
+      min-height:5px;
+    }
 
     .itinerary-leg-first-row {
       display: block;
@@ -200,7 +240,6 @@ $itinerary-route-max-width: 500px;
         @include font-medium;
         font-size: 6px;
       }
-
     }
 
     .itinerary-leg-text-gray {
@@ -220,12 +259,31 @@ $itinerary-route-max-width: 500px;
 
     .itinerary-leg-intermediate-stops {
       margin-top: 12px;
-      padding-bottom: 10px;
+      padding-bottom: 0px;
       @extend .itinerary-leg-text-gray
+    }
 
+    .intermediate-stop-info-container {
+      padding-top:6px;
+    }
+
+    .intermediate-stops-link {
+      @include font-bold
+      color: $gray-blue;
+      border-bottom: 2px dotted $gray-blue;
+    }
+
+    .intermediate-stops-duration {
+      color: $gray;
     }
 
   }
+}
+
+
+
+.bp-large .row.itinerary-row .itinerary-instruction-column:not(.to)::after {
+    left: 3px;
 }
 
 .bp-large .row.itinerary-row {
@@ -245,8 +303,12 @@ $itinerary-route-max-width: 500px;
 
   .itinerary-instruction-column {
     font-size: $font-size-normal;
-    min-height: 80px;
+    min-height: 75px;
 
+    &.intermediate {
+      min-height: 10px;
+      margin-bottom: 7px;
+    }
     .itinerary-icon {
       font-size: 13px;
       margin-left: -24px;
@@ -309,6 +371,30 @@ div.itinerary-container-content {
   width: 100%;
 }
 
+.itinerary-leg-agency {
+  @extend .itinerary-leg-text-gray;
+  padding-top: 10px;
+  .agency-link-container {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    .itinerary-leg-agency-link {
+      font-size: 10px;
+      padding: 7px 8px;
+      a {
+        font-weight:$font-weight-bold;
+        color: $primary-color;
+      }
+      .icon.external-link-icon-outer {
+        color: white;
+      }
+      .icon.external-link-icon {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+
 .itinerary-tabs-container {
   margin-left: auto;
   margin-right: auto;
@@ -363,4 +449,14 @@ div.itinerary-container-content {
   min-height: 100%;
   //for ie mobile
   max-height: 100%;
+}
+
+.intermediate-stop-no-stops {
+  color: $gray;
+  font-weight: $font-weight-book;
+  font-size: 10pt;
+}
+
+.desktop .itinerary-intermediate-stop-name {
+  font-size: 15px;
 }
