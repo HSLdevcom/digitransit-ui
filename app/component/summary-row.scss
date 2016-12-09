@@ -144,6 +144,11 @@
       width: 1.3em;
       margin-left: $padding-xsmall;
       margin-top: 1px;
+      &.long {
+        @extend .overflow-fade;
+        display: inline-block;
+        width: 100%;
+      }
     }
   }
 

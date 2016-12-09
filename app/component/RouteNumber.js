@@ -5,6 +5,8 @@ import IconWithBigCaution from './IconWithBigCaution';
 import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 
+const LONG_ROUTE_NUMBER_LENGTH = 6;
+
 function RouteNumber(props) {
   let mode = props.mode.toLowerCase();
 
@@ -25,7 +27,7 @@ function RouteNumber(props) {
         />
       }
       {props.vertical ? <br /> : null}
-      <span className={`vehicle-number ${mode}`}>
+      <span className={`vehicle-number ${props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH ? 'long' : ''} ${mode}`}>
         {props.text}
       </span>
     </span>);
