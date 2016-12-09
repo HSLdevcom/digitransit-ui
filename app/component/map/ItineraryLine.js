@@ -9,6 +9,17 @@ import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 
+const getLegText = (leg) => {
+  if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
+    return 'M';
+  } else if (leg.transitLeg && leg.route.shortName) {
+    return leg.route.shortName;
+  } else if (leg.route.agency) {
+    return leg.route.agency.name;
+  }
+  return '';
+};
+
 class ItineraryLine extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
@@ -75,10 +86,7 @@ class ItineraryLine extends React.Component {
               station={leg.from.bikeRentalStation}
             />);
         } else if (leg.transitLeg) {
-          let name = leg.route && leg.route.shortName;
-          if (mode === 'SUBWAY' && !name) {
-            name = 'M';
-          }
+          const name = getLegText(leg);
           objs.push(
             <LegMarker
               key={`${i},${leg.mode}legmarker`}
@@ -154,6 +162,9 @@ export default Relay.createContainer(ItineraryLine, {
         transitLeg
         route {
           shortName
+          agency {
+            name
+          }
         }
         from {
           lat
