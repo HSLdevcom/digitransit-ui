@@ -127,23 +127,29 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   });
 
   // init geolocation handling
-  context.executeAction(initGeolocation);
-
-  ReactDOM.render(
-    <ContextProvider translations={translations} context={context.getComponentContext()}>
-      <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
-        <Router
-          history={history}
-          environment={Relay.Store}
-          render={applyRouterMiddleware(useRelay)}
-          onUpdate={track}
-        >
-          {app.getComponent()}
-        </Router>
-      </MuiThemeProvider>
-    </ContextProvider>
-    , document.getElementById('app'),
-  );
+  context.executeAction(initGeolocation).then(() => {
+    ReactDOM.render(
+      <ContextProvider translations={translations} context={context.getComponentContext()}>
+        <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
+          <Router
+            history={history}
+            environment={Relay.Store}
+            render={applyRouterMiddleware(useRelay)}
+            onUpdate={track}
+          >
+            {app.getComponent()}
+          </Router>
+        </MuiThemeProvider>
+      </ContextProvider>,
+      document.getElementById('app'),
+      () => {
+        // Run only in production mode and when built in a docker container
+        if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
+          OfflinePlugin.install();
+        }
+      },
+    );
+  });
 
   // Listen for Web App Install Banner events
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -163,11 +169,6 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   // and started positioning
   piwik.setCustomVariable(4, 'commit_id', COMMIT_ID, 'visit');
   piwik.setCustomVariable(5, 'build_time', BUILD_TIME, 'visit');
-
-  // Roun only in production mode and when built in a docker container
-  if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-    OfflinePlugin.install();
-  }
 });
 
 // Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service
