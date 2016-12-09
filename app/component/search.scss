@@ -24,6 +24,9 @@ $search-header-height: 45px;
 .search-form {
   top: 0;
   padding-top: 10px;
+  button {
+    width: 100%;
+  }
 
  .postfix {
     height: $search-form-input-height;
@@ -45,6 +48,7 @@ $search-header-height: 45px;
   }
 
   .address-placeholder {
+    @include font-medium;
     color: $gray;
     background-color: transparent;
     border-radius: $form-input-border-radius;
