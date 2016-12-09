@@ -3,13 +3,23 @@ import moment from 'moment';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 
-import legTextUtil from '../util/leg-text-util';
 import { displayDistance } from '../util/geo-utils';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
+const getLegText = (leg) => {
+  if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
+    // TODO: Include in the icon itself
+    return 'M';
+  } else if (leg.transitLeg && leg.route.shortName) {
+    return leg.route.shortName;
+  } else if (leg.route.agency) {
+    return leg.route.agency.name;
+  }
+  return '';
+};
 
 export default function SummaryRow(props, { breakpoint }) {
   let mode;
@@ -55,7 +65,7 @@ export default function SummaryRow(props, { breakpoint }) {
           }
           <RouteNumber
             mode={mode}
-            text={legTextUtil.getLegText(leg)}
+            text={getLegText(leg)}
             className={cx('line', mode.toLowerCase())}
             vertical
           />

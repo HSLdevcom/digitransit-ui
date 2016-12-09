@@ -61,6 +61,9 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           rentedBike
           route {
             shortName
+            agency {
+              name
+            }
           }
           from {
             name
