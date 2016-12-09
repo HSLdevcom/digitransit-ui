@@ -25,10 +25,9 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
 
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
-      <div>
+      <button className="modest" tabIndex="0" onClick={() => context.executeAction(startLocationWatch)}>
         <span
           id="splash-locationing-button"
-          onClick={() => context.executeAction(startLocationWatch)}
         >
           <Icon className="icon-positioning" img="icon-icon_position" />
           <FormattedMessage
@@ -36,7 +35,7 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
             defaultMessage="Use positioning"
           />
         </span>
-      </div>
+      </button>
     );
   } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
     return (
