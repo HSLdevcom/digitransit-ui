@@ -93,7 +93,7 @@ class CityBikeMarker extends React.Component {
           Component={CityBikePopup}
           route={new CityBikeRoute({ stationId: this.props.station.stationId })}
           renderLoading={() => (
-            <div className="card" style={{ height: 150 }}>
+            <div className="card" style={{ height: '12rem' }}>
               <div className="spinner-loader" />
             </div>
           )}

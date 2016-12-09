@@ -1,6 +1,6 @@
 .itinerary-summary-row {
-  min-height: 46px;
-  padding-left: 10px;
+  min-height: 3.3em;
+  padding-left: $padding-medium;
   padding-right: 0;
   padding-top: 0;
   padding-bottom: 0;
@@ -48,7 +48,7 @@
     margin-top: -1px;
     color: $distance-gray;
     font-weight: $font-weight-book;
-    font-size: $font-size-smallish;
+    font-size: $font-size-small;
 
     .icon {
       margin-bottom: -2px;
@@ -64,7 +64,7 @@
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
-      font-size: small;
+      font-size: $font-size-xsmall;
       margin-top: -1px;
       margin-right: -7px;
       font-weight: 100;
@@ -87,9 +87,11 @@
     margin-top: 3px;
     min-width: 0;
     flex: 1 1 0;
+    flex-grow: 1; //Needed on IE
 
     .leg {
       flex: 1 0 0;
+      flex-grow: 1; //Needed on IE
       overflow: hidden;
     }
 
@@ -126,38 +128,35 @@
       }
 
       .icon {
-        margin-top: 0.25em;
-        margin-left: 3px;
-        font-size: 20px;
+        margin-top: $padding-small;
+        margin-left: $padding-xsmall;
+        font-size: 1.1em;
         float: left;
       }
     }
 
     .vehicle-number {
       font-weight: $font-weight-medium;
-      font-size: $font-size-smallish;
+      font-size: $font-size-small;
       clear: left;
       float: left;
       padding: 0;
-      width: 20px;
-      margin-left: 3px;
+      width: 1.3em;
+      margin-left: $padding-xsmall;
       margin-top: 1px;
     }
   }
 
   .action-arrow-click-area {
-    padding: 1px 8px 4px 15px;
+    padding: $padding-xsmall $padding-medium;
+    display: flex;
   }
   .action-arrow {
-    line-height: 38px;
-    margin-top: 2px;
-    margin-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 2px;
-    padding-bottom: 0;
+    display: flex;
+    align-items: center;
     border: 1px solid rgba(0, 0, 0, 0.19);
     border-radius: 4px;
+    padding: $padding-xxsmall $padding-xxsmall 0px $padding-xxsmall;
 
     svg {
       color: $action-color;
@@ -200,7 +199,6 @@
       font-size: 21px;
       margin-top: 25px;
       padding-top: 8px;
-      padding-left: 16px;
       @include font-narrow-medium;
 
       .itinerary-first-leg-start-time {
@@ -239,12 +237,10 @@
     }
 
     .action-arrow-click-area {
-      padding: 22px 25px 2px 13px;
+      padding: 0 25px 0 20px;
     }
     .action-arrow {
-      padding-left: 30px;
       font-size: 20px;
-      padding-top: 8px;
       border: 0;
     }
     .action-arrow span > svg {
@@ -273,7 +269,7 @@
     }
   }
   h4 {
-    font-size: $font-size-smallish;  // larger than normal
+    font-size: $font-size-small;  // larger than normal
     margin: 10px 0 5px 0;
   }
   input[type="text"] {
