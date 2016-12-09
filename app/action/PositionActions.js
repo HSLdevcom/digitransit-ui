@@ -169,6 +169,8 @@ export function initGeolocation(actionContext, payload, done) {
         // for ff with permisson api display error immediately instead of timeout error
         actionContext.dispatch('GeolocationDenied');
         done();
+      } else {
+        done();
       }
     });
   } else if (getPositioningHasSucceeded(true)) {
