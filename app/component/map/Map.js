@@ -60,7 +60,7 @@ class Map extends React.Component {
   componentDidMount = () => {
     L.control.attribution({
       position: 'bottomleft',
-      prefix: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
+      prefix: '&copy; <a tabindex="-1" href="http://osm.org/copyright">OpenStreetMap</a>',
     }).addTo(this.refs.map.leafletElement);
 
     if (this.props.showScaleBar) {
