@@ -76,12 +76,16 @@ export default class Intro extends React.Component {
   handleChange = value => this.setState({ slideIndex: value })
 
   renderSlide = (content, i) =>
-    this.state.slideIndex === i &&
-    <div tabIndex="0" role="banner" aria-labelledby="label" aria-describedby="info" className="intro-slide" key={i} onClick={this.onNextClick}>
-      <img src={content.image} role="presentation" />
-      <h3 id="label">{content.header[this.context.intl.locale]}</h3>
-      <span id="info">{content.text[this.context.intl.locale]}</span>
+
+    <div className="intro-slide" key={i} onClick={this.onNextClick}>
+
+      <img aria-hidden="true" src={content.image} role="presentation" />
+      <section tabIndex={-i}>
+        <h3>{content.header[this.context.intl.locale]}</h3>
+        <span>{content.text[this.context.intl.locale]}</span>
+      </section>
     </div>
+
 
   renderDot = (text, i) =>
     <span key={i} className={cx('dot', { active: i === this.state.slideIndex })}>•</span>
@@ -95,11 +99,12 @@ export default class Intro extends React.Component {
           onTransitionEnd={this.onTransitionFinished}
           className="intro-swipeable"
         >
-          {[...(themeSlides.map(this.renderSlide)), (this.state.slideIndex === 4) && this.props.finalSlide]}
+          {[...(themeSlides.map(this.renderSlide)), (this.state.slideIndex === 4)
+            && this.props.finalSlide]}
         </BindKeyboardSwipeableViews>
         <div className={cx('bottom', { hidden: this.state.slideIndex === themeSlides.length })} >
           {[...themeSlides, this.props.finalSlide].map(this.renderDot)}
-          <button className="next noborder" onClick={this.onNextClick} tabIndex="1">
+          <button tabIndex={(this.state.slideIndex)}className="next noborder" onClick={this.onNextClick}>
             <FormattedMessage id="next" defaultMessage="next" />
           </button>
         </div>
