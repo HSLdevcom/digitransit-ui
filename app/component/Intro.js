@@ -99,7 +99,7 @@ export default class Intro extends React.Component {
         </BindKeyboardSwipeableViews>
         <div className={cx('bottom', { hidden: this.state.slideIndex === themeSlides.length })} >
           {[...themeSlides, this.props.finalSlide].map(this.renderDot)}
-          <button className="next modest" onClick={this.onNextClick} tabIndex="1">
+          <button className="next noborder" onClick={this.onNextClick} tabIndex="1">
             <FormattedMessage id="next" defaultMessage="next" />
           </button>
         </div>

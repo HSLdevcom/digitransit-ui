@@ -31,7 +31,7 @@
 }
 
 
-button.modest {
+button.noborder {
   position:relative;
   display: inline;
   border: 0px;
@@ -42,7 +42,7 @@ button.modest {
   justify-content: center;
   text-align: initial;
   background: none;
-  border-style: solid;
+  border-style: none;
   border-width: 0px;
   cursor: pointer;
   font-family: inherit;

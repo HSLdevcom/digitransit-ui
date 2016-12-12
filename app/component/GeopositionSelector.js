@@ -25,7 +25,7 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
 
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
-      <button className="modest" tabIndex="0" onClick={() => context.executeAction(startLocationWatch)}>
+      <button className="noborder" tabIndex="0" onClick={() => context.executeAction(startLocationWatch)}>
         <span
           id="splash-locationing-button"
         >
