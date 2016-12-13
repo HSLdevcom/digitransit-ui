@@ -8,6 +8,7 @@ import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
 import config from '../config';
 import ItineraryLegs from './ItineraryLegs';
+import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 
 const routeInformation = config.showRouteInformation && <RouteInformation />;
@@ -89,9 +90,7 @@ export default Relay.createContainer(ItineraryTab, {
         }
         legs {
           mode
-          agency {
-            name
-          }
+          ${LegAgencyInfo.getFragment('leg')}
           from {
             lat
             lon

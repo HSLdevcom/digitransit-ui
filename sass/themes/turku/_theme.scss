@@ -77,13 +77,21 @@ $narrow-letter-spacing: 0;
 
 $line-height-normal: 1.2;
 
-$font-size-xxsmall: 11px;
-$font-size-xsmall: 12px;
-$font-size-small: 13px;
-$font-size-smallish: 13px;
-$font-size-normal: 16px;
-$font-size-large: 24px;
-$font-size-xlarge: 32px;
+$font-size-xxxsmall: 0.72rem;
+$font-size-xxsmall: 0.80rem;
+$font-size-xsmall: 0.87rem;
+$font-size-small: 0.92rem;
+$font-size-normal: 1rem;
+$font-size-large: 1.25rem;
+$font-size-xlarge: 1.5rem;
+
+/* Paddings */
+$padding-xxsmall: 0.125em;
+$padding-xsmall: 0.25em;
+$padding-small: 0.4em;
+$padding-medium: 0.7em;
+$padding-large: 1.5em;
+$padding-xlarge: 2em;
 
 /* Borders */
 $border-radius: 3px;

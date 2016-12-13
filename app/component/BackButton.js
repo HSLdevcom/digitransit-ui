@@ -31,9 +31,7 @@ export default class BackButton extends React.Component {
         style={{
           minWidth: '40px',
           height: '40px',
-          position: 'absolute',
-          top: 0,
-          left: 0,
+          alignSelf: 'stretch',
         }}
         icon={<Icon img="icon-icon_arrow-left" className="cursor-pointer back" />}
       />

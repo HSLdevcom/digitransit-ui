@@ -181,6 +181,10 @@ export default {
     showInfoButton: true,
   },
 
+  agency: {
+    show: true,
+  },
+
   socialMedia: {
     title: 'Digitransit',
     description: APP_DESCRIPTION,

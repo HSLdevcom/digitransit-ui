@@ -25,7 +25,7 @@ $slider-gray: #575757;
 input[type=range].slider {
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 100%; /* Specific width is required for Firefox. */
-  margin: 3px 0 0;
+  margin: 3px 0 1em;
 }
 input[type=range].slider:focus {
   outline: none;
@@ -201,8 +201,6 @@ $btn-heigth: 17px;
   }
   .icon {
     color: $btn-icon-color-inactive;
-    width: $btn-width;
-    height: $btn-heigth;
   }
 }
 .btn-bar  {
@@ -224,7 +222,7 @@ $btn-heigth: 17px;
 
 .standalone-btn {
   background-color: $standalone-btn-color;
-  padding: 6px 12px;
+  padding: $padding-small $padding-medium;
   border-radius: 20px;
   .icon-holder  {
     padding: 0;
@@ -261,7 +259,9 @@ select {
 .split-bars {
   display: flex;
   align-items: stretch;
-  & > .split-bar {
+  .split-bar {
+    display: flex;
+    align-items: center;
     flex-grow: 1;
   }
 }

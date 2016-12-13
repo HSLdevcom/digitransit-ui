@@ -7,6 +7,7 @@ import cx from 'classnames';
 import Icon from './Icon';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
+import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
 import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClientAction';
 import NotFound from './404';
@@ -105,6 +106,7 @@ class RoutePage extends React.Component {
           onSelectChange={this.onPatternChange}
           className={cx({ 'bp-large': this.context.breakpoint === 'large' })}
         />}
+        <RouteAgencyInfo route={this.props.route} />
       </div>
     );
   }
@@ -119,6 +121,7 @@ export default Relay.createContainer(RoutePage, {
         shortName
         longName
         mode
+        ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
       }
     `,

@@ -1,16 +1,17 @@
 .origin-destination-bar {
   background-color: $primary-color;
-  height: 35px;
   width: 100%;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: $padding-small;
+  padding-right: $padding-small;
+  padding-top: calc(#{$padding-large} - 15px);
+  padding-bottom: calc(#{$padding-medium} - 8px);
   display: flex;
   align-items: center;
   justify-content: space-around;
 
   .field-link{
     @include font-book;
-    font-size: $font-size-smallish;
+    font-size: $font-size-small;
     cursor: pointer;
     color: $primary-font-color;
     display: inline-block;
@@ -18,7 +19,7 @@
 
 
   .field-link {
-    width: calc(50% - 20px);
+    width: 43%;
     padding-left: 17px;
     position: relative;
 
@@ -65,8 +66,8 @@
   }
 
   .switch {
-    padding: 2px 3px;
-    font-size: 13px;
+    padding: $padding-xsmall;
+    font-size: $font-size-small;
     margin-top: -4px;
     background-color: $secondary-color;
     border-radius: $border-radius;
@@ -87,7 +88,7 @@
     padding-right: 30px;
 
     .field-link {
-      width: calc(50% - 35px);
+      width: 43%;
       padding-left: 30px;
       margin-bottom: 5px;
 

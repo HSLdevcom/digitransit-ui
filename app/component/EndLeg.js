@@ -11,7 +11,7 @@ function EndLeg(props) {
           {moment(props.endTime).format('HH:mm')}
         </div>
       </div>
-      <div onClick={props.focusAction} className="small-10 columns itinerary-instruction-column to">
+      <div onClick={props.focusAction} className="small-10 columns itinerary-instruction-column to end">
         <div>
           <Icon img="icon-icon_mapMarker-point" className="itinerary-icon to" />
         </div>

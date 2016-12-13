@@ -7,7 +7,7 @@
 @media #{$small-up} {
   // https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/
   .momentum-scroll {
-    overflow-y: scroll;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 }

@@ -39,9 +39,9 @@ const createLocalStorageHistory = () => {
   });
   hist.listen((event) => {
     switch (event.action) {
-      case 'POP': POP(event); break;
-      case 'REPLACE': REPLACE(event); break;
-      case 'PUSH': PUSH(event); break;
+      case 'POP': POP(event); break; // eslint-disable-line new-cap
+      case 'REPLACE': REPLACE(event); break;  // eslint-disable-line new-cap
+      case 'PUSH': PUSH(event); break; // eslint-disable-line new-cap
       default:
         console.error('unhandled history event:', event);
     }

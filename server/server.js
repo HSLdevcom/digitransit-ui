@@ -6,9 +6,8 @@
 const path = require('path');
 
 require('babel-core/register')({
-  presets: ['modern-node', 'stage-2', 'react'], // eslint-disable-line prefer-template
+  presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
-    'transform-es2015-modules-commonjs',
     'transform-system-import-commonjs',
     path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
@@ -32,6 +31,7 @@ if (process.env.NODE_ENV === 'production') {
 
 /* ********* Server **********/
 const express = require('express');
+const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
@@ -44,7 +44,9 @@ function setUpStaticFolders() {
   const staticFolder = path.join(process.cwd(), '_static');
   // Sert cache for 1 week
   const oneDay = 86400000;
-  app.use(config.APP_PATH, express.static(staticFolder, {
+  app.use(config.APP_PATH, expressStaticGzip(staticFolder, {
+    enableBrotli: true,
+    indexFromEmptyFile: false,
     maxAge: 30 * oneDay,
     setHeaders(res, reqPath) {
       if (

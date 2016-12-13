@@ -15,7 +15,21 @@ html {
   /* Disable touch delay on ms-devices */
   -ms-touch-action: manipulation;
   touch-action: manipulation;
+  font-size: 15px !important;
 }
+
+@media screen and (min-width: 320px) {
+  html {
+    font-size: calc(14px + 7 * (100vw - 320px) / 500) !important;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  html {
+    font-size: 16px !important;
+  }
+}
+
 body {
   background-color: $background-color !important;
   font-family: $font-family;
@@ -71,7 +85,7 @@ h4,
 .h4  {
   font-family: $font-family;
   font-weight: $font-weight-bold;
-  font-size: 12px;
+  font-size: $font-size-xsmall;
   text-transform: uppercase;
   line-height: $line-height-normal;
   color: $gray;

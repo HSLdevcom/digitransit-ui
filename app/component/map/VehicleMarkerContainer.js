@@ -115,7 +115,7 @@ export default class VehicleMarkerContainer extends React.Component {
             (message.tripStartTime.substring(2, 4) * 60),
         })}
         renderLoading={() => (
-          <div className="card" style={{ height: 150 }}><div className="spinner-loader" /></div>
+          <div className="card" style={{ height: '12rem' }}><div className="spinner-loader" /></div>
         )}
         renderFetched={data => (
           <RouteMarkerPopupWithContext {...data} message={message} context={this.context} />

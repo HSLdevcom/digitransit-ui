@@ -79,8 +79,6 @@ if (process.env.NODE_ENV !== 'development') {
     />,
   ];
 
-  console.log(find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]);
-
   svgSprite = (
     <script
       dangerouslySetInnerHTML={{ __html: `
@@ -190,7 +188,8 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       // content={content}
       polyfill={polyfills}
       state={`window.state=${serialize(application.dehydrate(context))};`}
-      locale={locale} scripts={getScripts(req)}
+      locale={locale}
+      scripts={getScripts(req)}
       fonts={config.URL.FONT}
       config={`window.config=${JSON.stringify(config)}`}
       geolocationStarter={geolocationStarter}
