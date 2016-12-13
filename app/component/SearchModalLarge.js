@@ -23,7 +23,7 @@ const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }) => {
               }}
               value={selectedTab}
             >{children}</Tabs>
-            <div className="closeSearchButton" id="closeSearchButton" onClick={closeModal}>
+            <div className="close-search-button" id="closeSearchButton" onClick={closeModal}>
               <Icon img="icon-icon_close" />
             </div>
           </div>
