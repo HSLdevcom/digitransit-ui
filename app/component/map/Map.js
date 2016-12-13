@@ -181,6 +181,7 @@ class Map extends React.Component {
       map = (
         <LeafletMap
           {...{
+            keyboard: false,
             ref: 'map',
             center,
             zoom,
