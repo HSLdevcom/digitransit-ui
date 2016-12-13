@@ -79,16 +79,17 @@ class MainMenuContainer extends Component {
           )}
         </LazilyLoad>
         {config.mainMenu.show ?
-          <button
-            aria-label={`${this.context.intl.formatMessage({
-              id: 'main-menu-label-open',
-              defaultMessage: 'Open main menu',
-            })}`}
-            onClick={this.toggleOffcanvas}
-            className="noborder icon-holder cursor-pointer main-menu-toggle"
-          >
-            <Icon img={'icon-icon_menu'} className="icon" />
-          </button> :
+          <div className="icon-holder cursor-pointer main-menu-toggle">
+            <button
+              aria-label={`${this.context.intl.formatMessage({
+                id: 'main-menu-label-open',
+                defaultMessage: 'Open main menu',
+              })}`}
+              onClick={this.toggleOffcanvas}
+              className="noborder cursor-pointer"
+            >
+              <Icon img={'icon-icon_menu'} className="icon" />
+            </button></div> :
           null}
       </div>);
   }
