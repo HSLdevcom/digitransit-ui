@@ -55,7 +55,7 @@ class MessageBar extends Component {
                 position: 'absolute',
                 top: 0,
               }}
-              aria-label={`${this.context.intl.formatMessage({
+              title={`${this.context.intl.formatMessage({
                 id: 'messagebar-label-page',
                 defaultMessage: 'Page',
               })} ${i + 1}`}
@@ -119,7 +119,7 @@ class MessageBar extends Component {
       return (
         <section role="banner" className="message-bar flex-horizontal">
           <Icon img={'icon-icon_info'} className="info" />
-          <div>
+          <div className="flex-grow">
             <SwipeableViews
               index={this.state.slideIndex}
               onChangeIndex={this.handleChange}
