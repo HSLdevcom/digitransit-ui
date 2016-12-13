@@ -1,0 +1,102 @@
+/* Default theme */
+
+/* General palette */
+$white: #ffffff;
+$light-gray: #ddd;
+$medium-gray: #ccc;
+$gray: #888;
+$dark-gray: #575757;
+$black: #333;
+$gray-blue: #78909c;
+$gray-blue-light: rgb(182, 193, 199);
+
+/* Operator palette */
+$livi-blue: #00AFFF;
+$livi-gold: rgb(233, 171, 0);
+$livi-bus-blue: rgb(0, 136, 206);
+$livi-airplane-blue: rgb(0, 70, 173);
+$livi-ferry-blue: rgb(53, 181, 179);
+$livi-rail-purple: rgb(175, 141, 188);
+$livi-subway-orange: rgb(237, 140, 0);
+$livi-tram-green: rgb(106, 137, 37);
+
+/* Application palette */
+$background-color: #eef1f3;
+$primary-color: $livi-blue;
+$primary-font-color: $white;
+$secondary-color: #008bde;
+$secondary-font-color: $white;
+$favourite-color: $livi-gold;
+$hilight-color: $livi-blue;
+$action-color: $livi-blue;
+$cancelation-red: #dc0451;
+$cancelation-black: #666;
+$cancelation-background: #fbe0ea;
+$disruption-color: $cancelation-red;
+$realtime-color: #46b32a;
+$dark-color: $gray;
+
+/* Component palette */
+$title-color: $white;
+$standalone-btn-color: $primary-color;
+$standalone-btn-hover-color: $gray-blue-light;
+$standalone-btn-active-color: $gray-blue-light;
+$viewpoint-marker-color: $livi-blue;
+$link-color: $gray-blue;
+$from-color: #64be14;
+$to-color: #f092cd;
+$slider-warning-color: #FC7C08;
+$slider-ok-color: #55B511;
+
+/* Vehicle palette */
+$airplane-color: $livi-airplane-blue;
+$bus-color: $livi-bus-blue;
+$tram-color: $livi-tram-green;
+$metro-color: $livi-subway-orange;
+$rail-color: $livi-rail-purple;
+$ferry-color: $livi-ferry-blue;
+$citybike-color: #FBB800;
+$walk-color: #6ba3af;
+$wait-color: #979797;
+$bicycle-color: #64be14;
+$car-color: #333;
+
+/* Fonts */
+$font-family: Lato, Arial, Georgia, Serif;
+$font-weight-book: 400;
+$font-weight-medium: 400;
+$font-weight-bold: 700;
+$font-weight-map-container: $font-weight-book;
+$letter-spacing: 0;
+
+$font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
+$font-narrow-weight-book: 400;
+$font-narrow-weight-medium: 500;
+$narrow-letter-spacing: 0;
+
+$line-height-normal: 1.2;
+
+$font-size-xxxsmall: 0.72rem;
+$font-size-xxsmall: 0.80rem;
+$font-size-xsmall: 0.87rem;
+$font-size-small: 0.92rem;
+$font-size-normal: 1rem;
+$font-size-large: 1.25rem;
+$font-size-xlarge: 1.5rem;
+
+/* Paddings */
+$padding-xxsmall: 0.125em;
+$padding-xsmall: 0.25em;
+$padding-small: 0.4em;
+$padding-medium: 0.7em;
+$padding-large: 1.5em;
+$padding-xlarge: 2em;
+
+/* Borders */
+$border-radius: 3px;
+$border-radius-bigger: 8px;
+
+/* Navbar logo */
+$nav-logo: url('matka-logo.png');
+
+$spinner-image: url('/img/default-spinner.png')

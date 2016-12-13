@@ -18,7 +18,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   div, .columns.route-stop-time {
     @include font-narrow-book;
     color: $gray;
-    font-size: 12px;
+    font-size: $font-size-small;
   }
   &.route-stop {
     min-height:0;
@@ -207,7 +207,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   max-width: calc(100% - 40px - 53px - 40px - 50px);
   margin-left: -10px;
   padding-left: 10px;
-  font-size: 15px;
+  font-size: $font-size-normal;
 }
 .route-stop-code,
 .route-stop-mins {
@@ -371,7 +371,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   width: 50px;
   position: relative;
   z-index: 1;
-  font-size: $font-size-smallish;
+  font-size: $font-size-small;
 }
 
 .trip-from {
@@ -427,7 +427,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-agency-name {
   padding-left:14px;
   padding-bottom: 8px;
-  font-size: $font-size-smallish;
+  font-size: $font-size-small;
   color: $gray;
 }
 
@@ -454,8 +454,8 @@ div.route-tabs {
       pointer-events: auto;
       display: inline-block;
       text-decoration: none;
-      font-size: 9px;
-      min-width: 60px;
+      font-size: $font-size-xxsmall;
+      min-width: 6em;
 
       &.is-active {
         border-bottom: 2px solid $primary-color ;
@@ -482,9 +482,9 @@ div.route-tabs {
 
       .icon {
         display: block;
-        width: 15px;
-        height: 15px;
-        margin: 4px auto;
+        width: 1.5em;
+        height: 1.5em;
+        margin: $padding-small auto;
       }
     }
   }
@@ -553,7 +553,7 @@ div.route-tabs {
     -webkit-padding-end: 35px;
     -webkit-padding-start: 10px;
     @include font-medium;
-    height: 35px;
+    height: 2.5rem;
     border-radius: 5px;
     border: 1px solid $light-gray;
     appearance: none;
@@ -567,7 +567,7 @@ div.route-tabs {
     color: $gray-blue;
     position: absolute;
     right: 23px;
-    top: 18px;
+    top: 1.25rem;
     pointer-events: none;
   }
 

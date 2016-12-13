@@ -14,7 +14,7 @@ $search-result-icon-color: $gray;
 $search-form-icon-color: $white;
 $search-form-border-radius: $border-radius;
 $search-form-transparency: $transparency;
-$search-form-input-height: 35px;
+$search-form-input-height: 3em;
 $search-form-input-overlay-height: 27px;
 $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
@@ -29,19 +29,24 @@ $search-header-height: 45px;
   }
 
  .postfix {
-    height: $search-form-input-height;
-    line-height: $search-form-input-height;
+    height: calc(2rem + 15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
     .icon {
-      font-size: 15px;
-      margin-top: 10px;
+      font-size: $font-size-normal;
+    }
+    span {
+      line-height: 0;
     }
   }
 
   .input-placeholder {
-    @include form-element();
-    height: $search-form-input-height;
-    line-height: $search-form-input-overlay-height;
+    display: flex;
+    align-items: center;
+    background-color: $white;
+    height: calc(2rem + 15px);
     border-top-left-radius: $input-border-radius;
     border-bottom-left-radius: $input-border-radius;
     box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
@@ -54,8 +59,7 @@ $search-header-height: 45px;
     border-radius: $form-input-border-radius;
     border: 0px;
     height: $search-form-input-overlay-height;
-    padding-left: 5px;
-    padding-right: 3px;
+    padding-left: calc(#{$padding-large} - 10px);
     line-height: $search-form-input-overlay-height;
   }
 }
@@ -122,7 +126,6 @@ $search-header-height: 45px;
 
       .search-header__button, .search-header__button--selected {
         font-size: 18px !important;
-        height: 60px !important;
       }
 
       .geolocation {
@@ -241,7 +244,6 @@ $search-header-height: 45px;
     height: 60px;
     width: 60px;
     .icon {
-      margin-top: 18px;
       font-size: 26px;
     }
   }
@@ -260,7 +262,7 @@ $search-header-height: 45px;
 }
 
 .react-autowhatever__type-selector {
-  font-size: 11px;
+  font-size: $font-size-xxsmall;
   line-height: 1;
   display: flex;
   flex: 0 0 auto;
@@ -368,7 +370,7 @@ ul.react-autowhatever__items-list {
   display: flex;
   align-items: center;
   line-height: 1.2;
-  min-height: 40px;
+  min-height: 2.5em;
 
 
   .havePosition {
@@ -385,9 +387,9 @@ ul.react-autowhatever__items-list {
 
   .autosuggestIcon {
     color: $medium-gray;
-    padding-left: 3px;
-    padding-right: 10px;
-    font-size: 19px;
+    padding-left: calc(0.6em - 7px);
+    padding-right: 0.6em;
+    font-size: $font-size-large;
 
     svg.havePosition {
       vertical-align: -0.15em;
@@ -406,18 +408,17 @@ ul.react-autowhatever__items-list {
   }
 
   .suggestion-name, .use-own-position {
-    font-size: 13px;
+    font-size: $font-size-small;
   }
 
   .suggestion-label {
-    font-size: 11px;
+    font-size: $font-size-xxsmall;
     color: $gray;
   }
 }
 
 
 .bp-large .search-result {
-  min-height: 45px;
   line-height: 1.4;
 
   .autosuggestIcon {
@@ -492,8 +493,6 @@ div.origin-destination-bar {
 }
 
 .search-header {
-  line-height: $search-header-height;
-  height: 100%;
   overflow: hidden;
 
   .search-header__category-text {
@@ -507,8 +506,8 @@ div.origin-destination-bar {
   .search-header__back-arrow {
     position: absolute;
     color: $gray-blue;
-    width: 30px;
     user-select: none;
+    line-height: 3.5em;
   }
 
   .search-header__button, .search-header__button--selected {
@@ -516,7 +515,6 @@ div.origin-destination-bar {
     letter-spacing: -0.025em;
     font-size: $font-size-small !important;
     font-weight: $font-weight-bold !important;
-    height: $search-header-height !important;
 
     &:first-child {
       @extend .overflow-fade;
@@ -525,6 +523,7 @@ div.origin-destination-bar {
     // Uh-oh, override material-ui style for not overflowing the beginning of the word
     > div > div {
       align-items: stretch !important;
+      height: 3.5em !important;
     }
   }
 
@@ -562,9 +561,11 @@ div.origin-destination-bar {
   .geolocation-selected {
     background-color: $background-color;
     padding: 4px;
+    padding-top: 0.5em;
     padding-bottom: 1px;
     border-radius: 2px;
     vertical-align: text-top;
+    height: 100%;
     @include font-book
     > span:nth-child(1) {  //icon
       vertical-align: middle;
@@ -582,17 +583,12 @@ div.origin-destination-bar {
 
   .close-icon {
     color: $gray;
-    > span {
-      > svg {
-        width: 14px;
-      }
-    }
   }
 
   .clear-icon {
     position: absolute;
-    top: -3px;
-    right: 0px;
+    top: 0.75em;
+    right: 0.2em;
     width: 25px;
     @extend .close-icon;
   }
@@ -602,7 +598,7 @@ div.origin-destination-bar {
     top: 0px;
     width: 100%;
     padding: 5px;
-    height: 27px;
+    height: 2.7em;
     line-height: normal;
   }
 }
@@ -610,15 +606,15 @@ div.origin-destination-bar {
 .search-header-separator {
   border-left: 1px solid $light-gray;
   margin-left: 11px;
-  height: 23px;
+  height: 2em;
   display: inline-block;
   position: relative;
-  bottom: -4px;
+  bottom: -0.6em;
 }
 
 .search-current-origin-tip {
   @include font-book;
-  font-size: 10px;
+  font-size: $font-size-xxxsmall;
   text-transform: none;
 
   svg.icon {

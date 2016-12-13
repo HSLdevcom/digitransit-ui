@@ -16,7 +16,7 @@
     width: 3em;
   }
   .icon {
-    font-size: 9pt;
+    font-size: 0.85em;
   }
   .route-destination {
     padding-left: 0.5em;
@@ -108,7 +108,7 @@
   @include font-narrow-book;
   width: 3em;
   color: $gray;
-  font-size: $font-size-smallish;
+  font-size: $font-size-small;
   text-align: right;
 }
 
@@ -125,8 +125,8 @@
 
 .icon.realtime-icon {
   position: relative;
-  top: -10px;
-  left: 2px;
+  top: -0.7em;
+  left: 0.1em;
   height: 0.5em;
   width: 0.5em;
 }
@@ -285,7 +285,7 @@
   @include font-narrow-book;
   font-size: $font-size-small;
   white-space: nowrap;
-  padding-left: 15px;
+  padding-left: 1.5em;
   line-height: $line-height-normal;
   border-bottom: 1px solid $light-gray;
 
@@ -294,17 +294,17 @@
     vertical-align: top;
   }
   .route-number-header {
-    width: 50px;
+    width: 4em;
   }
   .route-destination-header {
-    padding-left: 10px;
+    padding-left: 1em;
   }
   .time-header {
     font-weight: inherit;
     text-align: right;
-    width: 50px;
-    padding-right: 10px;
-    margin-right: 10px;
+    width: 3.5em;
+    padding-right: $padding-medium;
+    margin-right: $padding-medium;
   }
 }
 
@@ -313,7 +313,7 @@
     width: 50px;
   }
   .route-destination-header {
-    padding-left: 30px;
+    padding-left: 1.5em;
   }
   .time-header {
     width: 50px;
