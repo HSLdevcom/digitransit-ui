@@ -9,7 +9,7 @@ import NotImplementedLink from './NotImplementedLink';
 function FuzzyPatternLink(props) {
   const imgName = `icon-icon_${props.mode}-live`;
   const icon = (props.selected && (<SelectedIconWithTail img={imgName} />))
-    || (<IconWithTail desaturate img={imgName} rotate={props.reverse ? 0 : 180} />);
+    || (<IconWithTail className={`${props.reverse ? 'icon-with-tail-reverse' : ''}`} desaturate img={imgName} rotate={props.reverse ? 0 : 180} />);
 
   if (props.trip.trip) {
     return (
