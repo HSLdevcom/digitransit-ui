@@ -637,10 +637,12 @@ div.origin-destination-bar {
   }
 }
 
-.close-search-button {
+#close-search-button-container {
   position: absolute;
-  font-size: 24px;
   top: 10px;
   right: 20px;
-  color: $gray-blue
+  .icon {
+    color: $gray-blue;
+    font-size: 24px;
+  }
 }
