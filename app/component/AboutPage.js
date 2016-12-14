@@ -16,7 +16,7 @@ const AboutPage = ({ currentLanguage }) => {
           />
         </h1>
         <p>{about.about}</p>
-  
+
         <h1>
           <FormattedMessage
             id="digitransit-platform" defaultMessage="Digitransit platform"
