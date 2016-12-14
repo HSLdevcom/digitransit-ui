@@ -57,6 +57,7 @@ NotImplemented.description = (
   </div>
 );
 
+
 NotImplemented.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
 };
@@ -65,6 +66,10 @@ NotImplemented.propTypes = {
   name: React.PropTypes.string,
 };
 
-export default connectToStores(NotImplemented, ['NotImplementedStore'], context =>
+const component = connectToStores(NotImplemented, ['NotImplementedStore'], context =>
   ({ name: context.getStore('NotImplementedStore').getName() }),
 );
+
+component.displayName = 'NotImplemented';
+
+export default component;
