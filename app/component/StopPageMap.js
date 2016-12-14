@@ -34,7 +34,7 @@ const fullscreenMapToggle = (fullscreenMap, params) => (
   </Link>
 );
 
-const StopPageMap = ({ stop, routes, router, params }, { breakpoint }) => {
+const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
   const fullscreenMap = some(routes, 'fullscreenMap');
   const leafletObjs = [];
   const children = [];
@@ -74,13 +74,13 @@ StopPageMap.contextTypes = {
   breakpoint: React.PropTypes.string.isRequired,
   router: React.PropTypes.shape({
     replace: React.PropTypes.func.isRequired,
+    push: React.PropTypes.func.isRequired,
   }).isRequired,
 };
 
 StopPageMap.propTypes = {
   stop: React.PropTypes.object.isRequired,
   routes: React.PropTypes.object.isRequired,
-  router: React.PropTypes.object.isRequired,
   params: React.PropTypes.object.isRequired,
 };
 
