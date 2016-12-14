@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 function Icon(props) {
   return (
-    <span>
+    <span aria-hidden>
       <svg id={props.id} viewBox={props.viewBox} className={cx('icon', props.className)}>
         <use xlinkHref={`#${props.img}`} />
       </svg>
