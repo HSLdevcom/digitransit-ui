@@ -141,7 +141,7 @@ module.exports = {
       selector: '.geolocation-selected',
     },
     closeSearchButton: {
-      selector: '#closeSearchButton',
+      selector: '#close-search-button-container > button',
     },
   },
 };
