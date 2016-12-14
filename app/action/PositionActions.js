@@ -52,6 +52,7 @@ export function geolocatonCallback(actionContext, { pos, disableDebounce }, done
     lat: pos.coords.latitude,
     lon: pos.coords.longitude,
     heading: pos.coords.heading,
+    disableFiltering: disableDebounce,
   });
 
   if (disableDebounce) {
