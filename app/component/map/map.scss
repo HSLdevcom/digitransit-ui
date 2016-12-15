@@ -175,6 +175,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     border-radius: $border-radius;
     padding: 0;
     margin-bottom: 5px;
+    outline: 1px solid rgba(0,0,0,0.10);
   }
   .leaflet-popup-content {
     margin: 0;
@@ -260,8 +261,9 @@ div.origin-popup {
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
     padding: 0;
-    border: 1px solid $gray;
     overflow: hidden;
+    outline: 1px solid rgba(0,0,0,0.10);
+    
     .leaflet-popup-content {
       margin:8px;
       svg.right-arrow {
