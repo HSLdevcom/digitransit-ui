@@ -18,6 +18,7 @@ export default function LocationMarker({ position, className }) {
     <Marker
       zIndexOffset={10}
       position={position}
+      keyboard={false}
       icon={L.divIcon({
         html: Icon.asString('icon-icon_mapMarker-point'),
         className,
