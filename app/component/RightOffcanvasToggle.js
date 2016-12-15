@@ -5,16 +5,16 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
   return (
-    <div
+    <button
       onClick={onToggleClick}
-      className="cursor-pointer right-offcanvas-toggle"
+      className="noborder cursor-pointer right-offcanvas-toggle"
     >
       <div className="icon-holder">
         {hasChanges ?
           <Icon img="icon-icon_settings-adjusted" /> : <Icon img="icon-icon_settings" />}
         {hasChanges ? <Icon img="icon-icon_attention" className="super-icon" /> : null}
       </div><span><FormattedMessage id="settings" defaultMessage="Settings" /></span>
-    </div>
+    </button>
   );
 }
 
