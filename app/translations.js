@@ -135,6 +135,9 @@ const translations = {
     'no-route-msg': `Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle
       välille. Muuta lähdön tai määränpään osoitetta.`,
     'close': 'Sulje',
+    'messagebar-label-close-message-bar': 'Sulje banneri',
+    'messagebar-label-page': 'Sivu',
+    'main-menu-label-open': 'Avaa päävalikko',
     'likely-to-recommend': `Kuinka todennäköistä on, että suosittelisit palveluamme
       ystävälle tai kollegallesi?`,
     'likely-to-use': `Kuinka todennäköisesti käyttäisit tätä palvelua ennemmin kuin

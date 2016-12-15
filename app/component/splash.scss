@@ -35,6 +35,10 @@
     margin-right: 10px;
   }
 
+  #splash-locationing-button-container {
+    width:80%;
+  }
+
   #splash-locationing-button {
     @include font-medium;
     display: inline-block;
@@ -44,7 +48,7 @@
     color: $primary-font-color;
 
     cursor: pointer;
-
+    font-size: 13px;
     .icon {
       margin-right: 1rem;
       font-size: 17px;
@@ -202,6 +206,8 @@
 
 #splash .intro-slide {
   padding-bottom: 1em;
+  display: block;
+  text-align: center;
 
   img {
     width: 100%;

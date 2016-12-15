@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { intlShape } from 'react-intl';
 
 import config from '../config';
 import Icon from './Icon';
@@ -12,6 +13,7 @@ class MainMenuContainer extends Component {
     location: PropTypes.object.isRequired,
     piwik: PropTypes.object,
     router: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
   };
 
   onRequestChange = newState => this.internalSetOffcanvas(newState);
@@ -72,18 +74,25 @@ class MainMenuContainer extends Component {
                 openFeedback={this.openFeedback}
                 toggleVisibility={this.toggleOffcanvas}
                 showDisruptionInfo={this.getOffcanvasState()}
+                visible={this.getOffcanvasState()}
               />
             </Drawer>
           )}
         </LazilyLoad>
-        {config.mainMenu.show ?
-          <div
-            onClick={this.toggleOffcanvas}
-            className="icon-holder cursor-pointer main-menu-toggle"
-          >
-            <Icon img={'icon-icon_menu'} className="icon" />
-          </div> :
-          null}
+        {config.mainMenu.show ? (
+          <div className="icon-holder cursor-pointer main-menu-toggle">
+            <button
+              aria-label={this.context.intl.formatMessage({
+                id: 'main-menu-label-open',
+                defaultMessage: 'Open main menu',
+              })}
+              onClick={this.toggleOffcanvas}
+              className="noborder cursor-pointer"
+            >
+              <Icon img={'icon-icon_menu'} className="icon" />
+            </button>
+          </div>
+        ) : null}
       </div>);
   }
 }
