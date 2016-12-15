@@ -25,16 +25,15 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
 
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
-      <div className="splash-locationing-button-conteiner">
+      <div className="splash-locationing-button-container">
         <button id="splash-locationing-button" className="noborder standalone-btn" tabIndex="0" onClick={() => context.executeAction(startLocationWatch)}>
-
           <Icon className="icon-positioning" img="icon-icon_position" />
           <FormattedMessage
             id="splash-use-positioning"
             defaultMessage="Use positioning"
           />
-
-        </button></div>
+        </button>
+      </div>
     );
   } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
     return (
