@@ -203,7 +203,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     @include font-medium;
     font-size: $font-size-small;
     line-height: $line-height-normal;
-    color: $gray;
+    color: $primary-color;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -216,6 +216,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     div {
       padding: 0.5em 12px;
       flex-grow: 1;
+      text-align: center;
 
       &:first-child {
         border-right: 1px solid $light-gray;
