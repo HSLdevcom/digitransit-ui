@@ -39,11 +39,10 @@ export default class Intro extends React.Component {
   handleChange = value => this.setState({ slideIndex: value })
 
   renderSlide = (content, i) =>
-
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div className="intro-slide" key={i} onClick={this.onNextClick}>
-
       <img aria-hidden="true" src={content.image} role="presentation" />
-      <section tabIndex={-i}>
+      <section tabIndex={-1}>
         <h3>{content.header[this.context.intl.locale]}</h3>
         <span>{content.text[this.context.intl.locale]}</span>
       </section>
