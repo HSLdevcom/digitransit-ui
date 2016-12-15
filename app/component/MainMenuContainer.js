@@ -69,13 +69,13 @@ class MainMenuContainer extends Component {
               open={this.getOffcanvasState()}
               openSecondary
               onRequestChange={this.onRequestChange}
-            >{
+            >
               <MainMenu
                 openFeedback={this.openFeedback}
                 toggleVisibility={this.toggleOffcanvas}
                 showDisruptionInfo={this.getOffcanvasState()}
                 visible={this.getOffcanvasState()}
-              />}
+              />
             </Drawer>
           )}
         </LazilyLoad>
