@@ -88,7 +88,7 @@ class SummaryNavigation extends React.Component {
     }
 
     return (
-      <section>
+      <div>
         <LazilyLoad modules={this.customizeSearchModules} >
           {({ Drawer, CustomizeSearch }) => (
             <Drawer
@@ -122,7 +122,7 @@ class SummaryNavigation extends React.Component {
             hasChanges={!this.props.hasDefaultPreferences}
           />
         </div>
-      </section>
+      </div>
     );
   }
 }
