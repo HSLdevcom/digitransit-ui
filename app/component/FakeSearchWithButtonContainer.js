@@ -1,14 +1,11 @@
-
 import React from 'react';
 import getContext from 'recompose/getContext';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import FakeSearchBar from './FakeSearchBar';
 
-
 export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => (
   <div className={`row search-form bp-${breakpoint}`}>
-
     <div className="small-12 columns search-form-map-overlay">
       <button title="haku" tabIndex="0" onClick={onClick} className="noborder search-button flex-horisontal">
         <div className="flex-grow row collapse postfix-radius">
@@ -23,7 +20,6 @@ export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => 
         </div>
       </button>
     </div>
-
   </div>
 
 );
