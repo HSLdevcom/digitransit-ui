@@ -103,6 +103,7 @@ class SummaryNavigation extends React.Component {
               width={drawerWidth}
             >
               <CustomizeSearch
+                isOpen={this.getOffcanvasState()}
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
               />

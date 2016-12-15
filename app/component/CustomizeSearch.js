@@ -25,7 +25,7 @@ class CustomizeSearch extends React.Component {
   };
 
   static propTypes = {
-    open: React.PropTypes.bool,
+    isOpen: React.PropTypes.bool,
     onToggleClick: React.PropTypes.func,
   };
 
@@ -46,7 +46,6 @@ class CustomizeSearch extends React.Component {
     const sliderSteps = lowRange.concat(highRange.concat(max));
     return sliderSteps;
   }
-
 
   static getDefaultModes() {
     return [
@@ -315,6 +314,7 @@ class CustomizeSearch extends React.Component {
   render() {
     return (
       <div
+        aria-hidden={!this.props.isOpen}
         className="customize-search-wrapper"
         // Clicks to the transparent area and close arrow should close the offcanvas
         onClick={this.props.onToggleClick}
