@@ -36,7 +36,6 @@ class IndexPage extends React.Component {
     breakpoint: React.PropTypes.string.isRequired,
     content: React.PropTypes.node,
     routes: React.PropTypes.array,
-
   }
 
   componentWillMount = () => {
@@ -105,11 +104,11 @@ class IndexPage extends React.Component {
       if (selected === 1) {
         this.closeTab();
       } else {
-        this.openNearby();
+        this.openNearby(selected === 2);
       }
       this.trackEvent('Front page tabs', 'Nearby', selected === 1 ? 'close' : 'open');
     } else {
-      this.openNearby();
+      this.openNearby(true);
       this.trackEvent('Front page tabs', 'Nearby', 'open');
     }
   };
@@ -121,11 +120,11 @@ class IndexPage extends React.Component {
       if (selected === 2) {
         this.closeTab();
       } else {
-        this.openFavourites();
+        this.openFavourites(selected === 1);
       }
       this.trackEvent('Front page tabs', 'Favourites', selected === 2 ? 'close' : 'open');
     } else {
-      this.openFavourites();
+      this.openFavourites(true);
       this.trackEvent('Front page tabs', 'Nearby', 'open');
     }
   };
@@ -136,16 +135,36 @@ class IndexPage extends React.Component {
     }
   }
 
-  openFavourites = () => {
-    this.replace('/suosikit');
+  push = (path) => {
+    if (this.context.router) {
+      this.context.router.push(path);
+    }
   }
 
-  openNearby = () => {
-    this.replace('/lahellasi');
+  openFavourites = (replace) => {
+    if (replace) {
+      this.replace('/suosikit');
+    } else {
+      this.push('/suosikit');
+    }
   }
 
+  openNearby = (replace) => {
+    if (replace) {
+      this.replace('/lahellasi');
+    } else {
+      this.push('/lahellasi');
+    }
+  }
+
+  // used only in mobile with fullscreen tabs
   closeTab = () => {
-    this.replace('/');
+    if (this.context.location && this.context.location.action === 'PUSH') {
+      // entered the tab from the index page, not by a direct url
+      this.context.router.goBack();
+    } else {
+      this.replace('/');
+    }
   }
 
   render() {
