@@ -32,6 +32,7 @@ function TicketSalesPopup(props) {
           name={props.NIMI}
           description={props.OSOITE}
           icon={getIcon(props.TYYPPI)}
+          unlinked
         />
       </Card>
       <MarkerPopupBottom
