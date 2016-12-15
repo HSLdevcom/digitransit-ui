@@ -17,7 +17,7 @@ function MainMenu(props) {
     </p>);
 
   return (
-    <div className="main-menu no-select">
+    <div aria-hidden={!props.visible} className="main-menu no-select">
       <div onClick={props.toggleVisibility} className="close-button cursor-pointer">
         <Icon img="icon-icon_close" className="medium" />
       </div>
@@ -46,6 +46,11 @@ MainMenu.propTypes = {
   openFeedback: PropTypes.func.isRequired,
   showDisruptionInfo: PropTypes.bool,
   toggleVisibility: PropTypes.func.isRequired,
+  visible: PropTypes.bool,
+};
+
+MainMenu.defaultProps = {
+  visible: true,
 };
 
 MainMenu.contextTypes = {
