@@ -407,6 +407,20 @@ ul.react-autowhatever__items-list {
     font-size: $font-size-small;
   }
 
+  .suggestion-name {
+    span {
+      .bus, .tram, .rail, .subway, .ferry, .airplane {
+        font-weight: $font-weight-medium;
+      }
+      .suggestion-type {
+        font-size: $font-size-xxsmall;
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        color: $gray;
+      }
+    }
+  }
+
   .suggestion-label {
     font-size: $font-size-xxsmall;
     color: $gray;
