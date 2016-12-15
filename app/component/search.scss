@@ -337,7 +337,7 @@ ul.react-autowhatever__items-list {
   font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
   letter-spacing: $search-result-text-letter-spacing;
-  padding:0.1em;
+  padding: 0.2em;
 }
 
 .react-autowhatever__item--focused {
@@ -383,8 +383,7 @@ ul.react-autowhatever__items-list {
 
   .autosuggestIcon {
     color: $medium-gray;
-    padding-left: calc(0.6em - 7px);
-    padding-right: 0.6em;
+    padding: 0 0.6em;
     font-size: $font-size-large;
 
     svg.havePosition {
@@ -411,6 +410,8 @@ ul.react-autowhatever__items-list {
     span {
       .bus, .tram, .rail, .subway, .ferry, .airplane {
         font-weight: $font-weight-medium;
+        font-family: $font-family-narrow;
+        font-size: $font-size-normal;
       }
       .suggestion-type {
         font-size: $font-size-xxsmall;
@@ -429,14 +430,14 @@ ul.react-autowhatever__items-list {
 
 
 .bp-large .search-result {
-  line-height: 1.4;
+  line-height: 1.25;
 
   .autosuggestIcon {
     font-size: 24px;
   }
 
   .suggestion-name, .use-own-position {
-    font-size: 18px;
+    font-size: 15px;
   }
 
   .suggestion-label {
