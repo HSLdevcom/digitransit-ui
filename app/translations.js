@@ -41,6 +41,7 @@ const translations = {
     'route': 'Linja',
     'leaves': 'Lähtee',
     'next': 'Seuraava',
+    'back-button-title': 'Siirry takaisin edelliselle sivulle',
     'destination': 'Määränpää',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
     'nearest': 'Lähimmät',

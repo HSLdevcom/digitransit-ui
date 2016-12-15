@@ -1,10 +1,12 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton';
+import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import { hasHistoryEntries } from '../util/browser';
 
 export default class BackButton extends React.Component {
   static contextTypes = {
+    intl: intlShape.isRequired,
     router: React.PropTypes.object,
   };
 
@@ -34,7 +36,12 @@ export default class BackButton extends React.Component {
           alignSelf: 'stretch',
         }}
         icon={<Icon img="icon-icon_arrow-left" className="cursor-pointer back" />}
-      />
+      ><span
+        title={this.context.intl.formatMessage({
+          id: 'back-button-title',
+          defaultMessage: 'Go back to previous page',
+        })}
+      /></FlatButton>
     );
   }
 }
