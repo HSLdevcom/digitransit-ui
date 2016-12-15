@@ -13,7 +13,7 @@ export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
         {hasChanges ?
           <Icon img="icon-icon_settings-adjusted" /> : <Icon img="icon-icon_settings" />}
         {hasChanges ? <Icon img="icon-icon_attention" className="super-icon" /> : null}
-      </div><span><FormattedMessage id="settings" defaultMessage="Settings" /></span>
+      </div><FormattedMessage id="settings" defaultMessage="Settings" />
     </button>
   );
 }

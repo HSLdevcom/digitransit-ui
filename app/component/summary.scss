@@ -112,13 +112,16 @@
 
   .right-offcanvas-toggle {
       span {
+        color: $primary-font-color;
         font-size: $font-size-small;
       }
   }
 }
 
 .right-offcanvas-toggle {
+
   span {
+    color: $primary-font-color;
     @include font-bold;
     font-size: $font-size-xxxsmall;
     margin-left: $padding-xsmall;
