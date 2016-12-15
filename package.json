@@ -114,7 +114,7 @@
     "compression-webpack-plugin": "0.3.2",
     "css-loader": "0.26.1",
     "csswring": "5.1.0",
-    "eslint": "3.12.0",
+    "eslint": "3.12.2",
     "eslint-config-airbnb": "13.0.0",
     "eslint-import-resolver-webpack": "0.7.1",
     "eslint-plugin-graphql": "0.4.2",
