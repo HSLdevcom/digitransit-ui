@@ -69,29 +69,30 @@ class MainMenuContainer extends Component {
               open={this.getOffcanvasState()}
               openSecondary
               onRequestChange={this.onRequestChange}
-            >{
+            >
               <MainMenu
                 openFeedback={this.openFeedback}
                 toggleVisibility={this.toggleOffcanvas}
                 showDisruptionInfo={this.getOffcanvasState()}
                 visible={this.getOffcanvasState()}
-              />}
+              />
             </Drawer>
           )}
         </LazilyLoad>
-        {config.mainMenu.show ?
+        {config.mainMenu.show ? (
           <div className="icon-holder cursor-pointer main-menu-toggle">
             <button
-              aria-label={`${this.context.intl.formatMessage({
+              aria-label={this.context.intl.formatMessage({
                 id: 'main-menu-label-open',
                 defaultMessage: 'Open main menu',
-              })}`}
+              })}
               onClick={this.toggleOffcanvas}
               className="noborder cursor-pointer"
             >
               <Icon img={'icon-icon_menu'} className="icon" />
-            </button></div> :
-          null}
+            </button>
+          </div>
+        ) : null}
       </div>);
   }
 }

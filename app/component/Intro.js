@@ -39,15 +39,16 @@ export default class Intro extends React.Component {
   handleChange = value => this.setState({ slideIndex: value })
 
   renderSlide = (content, i) =>
-
-    <div className="intro-slide" key={i} onClick={this.onNextClick}>
-
+    <button
+      className="intro-slide noborder"
+      key={i}
+      tabIndex={0}
+      onClick={this.onNextClick}
+    >
       <img aria-hidden="true" src={content.image} role="presentation" />
-      <section tabIndex={-i}>
-        <h3>{content.header[this.context.intl.locale]}</h3>
-        <span>{content.text[this.context.intl.locale]}</span>
-      </section>
-    </div>
+      <h3>{content.header[this.context.intl.locale]}</h3>
+      <span>{content.text[this.context.intl.locale]}</span>
+    </button>
 
 
   renderDot = (text, i) =>
@@ -61,9 +62,14 @@ export default class Intro extends React.Component {
           onChangeIndex={this.handleChange}
           onTransitionEnd={this.onTransitionFinished}
           className="intro-swipeable"
+          onScroll={((e) => {
+            // If we notice that we tab to the next slide, switch slide and reset scroll position
+            if (e.target.scrollLeft !== 0) { this.onNextClick(); }
+            // eslint-disable-next-line no-param-reassign
+            e.target.scrollLeft = 0;
+          })}
         >
-          {[...(themeSlides.map(this.renderSlide)), (this.state.slideIndex === 4)
-            && this.props.finalSlide]}
+          {[...(themeSlides.map(this.renderSlide)), this.props.finalSlide]}
         </BindKeyboardSwipeableViews>
         <div className={cx('bottom', { hidden: this.state.slideIndex === themeSlides.length })} >
           {[...themeSlides, this.props.finalSlide].map(this.renderDot)}
