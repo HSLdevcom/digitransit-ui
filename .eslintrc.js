@@ -25,9 +25,6 @@ module.exports = {
     // Temporary fix for: https://github.com/babel/babel-eslint/issues/316
     'generator-star-spacing': 0,
   },
-  settings: {
-    'import/resolver': 'webpack',
-  },
   'env': {
     'browser': true,
   },
