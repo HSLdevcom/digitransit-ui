@@ -9,8 +9,10 @@ import { getIcon } from '../util/suggestionUtils';
 const OriginSelectorRow = ({ icon, label, lat, lon }, { executeAction }) => (
   <li>
     <button
-      className="noborder" onClick={() => executeAction(setEndpoint,
-    { target: 'origin', endpoint: { lat, lon, address: label } })}
+      className="noborder"
+      style={{ display: 'block' }}
+      onClick={() => executeAction(setEndpoint,
+        { target: 'origin', endpoint: { lat, lon, address: label } })}
     >
       <Icon className={`splash-icon ${icon}`} img={icon} />
       { label }

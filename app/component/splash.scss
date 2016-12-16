@@ -132,7 +132,7 @@
       padding-bottom: 7px;
       cursor: pointer;
       border-bottom: 1px solid $light-gray;
-      span {
+      > span {
         display: flex;
         align-items: center;
       }
