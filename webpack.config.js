@@ -272,8 +272,6 @@ module.exports = {
   },
   plugins: getPluginsConfig(process.env.NODE_ENV),
   resolve: {
-    extensions: ['.js'],
-    modules: ['node_modules'],
     mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     alias: {
       'lodash.merge': 'lodash/merge',
