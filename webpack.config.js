@@ -37,7 +37,6 @@ function getRulesConfig(env) {
   if (env === 'development') {
     return ([
       { test: /\.css$/, loaders: ['style', 'css', 'postcss'] },
-      { test: /\.json$/, loader: 'json' },
       { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] },
       { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
       { test: /\.js$/,
@@ -67,7 +66,6 @@ function getRulesConfig(env) {
   }
   return ([
     { test: /\.css$/, loader: ExtractTextPlugin.extract('css!postcss') },
-    { test: /\.json$/, loader: 'json' },
     { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss!sass') },
     { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'url-loader?limit=10000' },
     { test: /\.js$/,
