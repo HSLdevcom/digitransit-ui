@@ -48,7 +48,7 @@
     "@mapbox/sphericalmercator": "1.0.5",
     "babel-core": "6.21.0",
     "babel-plugin-transform-system-import-commonjs": "1.0.3",
-    "babel-preset-env": "^1.1.1",
+    "babel-preset-env": "1.1.4",
     "babel-preset-react": "6.16.0",
     "babel-preset-stage-2": "6.18.0",
     "babel-relay-plugin": "0.10.0",
