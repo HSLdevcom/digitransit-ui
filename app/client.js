@@ -58,8 +58,8 @@ const ravenPlugin = {
 };
 
 if (process.env.NODE_ENV === 'development') {
-  // eslint-disable-next-line global-require, prefer-template, import/no-dynamic-require
-  require('../sass/themes/' + config.CONFIG + '/main.scss');
+  // eslint-disable-next-line global-require, import/no-dynamic-require
+  require(`../sass/themes/${config.CONFIG}/main.scss`);
 }
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
@@ -180,8 +180,7 @@ if (typeof window.Intl !== 'undefined') {
   const modules = [System.import('intl')];
 
   config.availableLanguages.forEach((language) => {
-    // eslint-disable-next-line prefer-template
-    modules.push(System.import('intl/locale-data/jsonp/' + language));
+    modules.push(System.import(`intl/locale-data/jsonp/${language}`));
   });
 
   Promise.all(modules).then(callback);

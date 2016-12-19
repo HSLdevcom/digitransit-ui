@@ -5,8 +5,8 @@ import defaultConfig from './config.default';
 let additionalConfig;
 
 if (process.env.CONFIG && process.env.CONFIG !== 'default') {
-  // eslint-disable-next-line global-require, prefer-template, import/no-dynamic-require
-  additionalConfig = require('./config.' + process.env.CONFIG).default;
+  // eslint-disable-next-line global-require, import/no-dynamic-require
+  additionalConfig = require(`./config.${process.env.CONFIG}`).default;
 }
 
 function customizer(objValue, srcValue) {

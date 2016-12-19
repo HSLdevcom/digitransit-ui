@@ -3,7 +3,7 @@
 
 const MAX_ROUTE_LENGTH = 6;
 
-function getLegText(leg) {
+export default function getLegText(leg) {
   if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
     // TODO: Translate these characters.
     return 'M';
@@ -14,7 +14,3 @@ function getLegText(leg) {
   }
   return '';
 }
-
-module.exports = {
-  getLegText,
-};
