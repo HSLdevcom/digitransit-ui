@@ -263,7 +263,7 @@ div.origin-popup {
     padding: 0;
     overflow: hidden;
     outline: 1px solid rgba(0,0,0,0.10);
-    
+
     .leaflet-popup-content {
       margin:8px;
       svg.right-arrow {
@@ -271,11 +271,15 @@ div.origin-popup {
       }
     }
   }
+  
   .origin-popup-name {
-      @include font-book;
-      text-transform: none;
-      color: $black;
-      font-size: $font-size-small;
+    @include font-book;
+    height: 1.3em;
+    width:200px;
+    text-transform: none;
+    color: $black;
+    font-size: $font-size-small;
+    overflow: hidden;
   }
 
   .shade-to-white {
@@ -285,11 +289,6 @@ div.origin-popup {
     position: absolute;
     right: 1px;
     top: 2em;
-  }
-
-  .origin-popup-name {
-    height: 1.3em;
-    width:200px;
   }
 
   .leaflet-popup-tip-container {
