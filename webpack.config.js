@@ -315,6 +315,6 @@ module.exports = {
     'object-assign': 'var Object.assign',
   },
   performance: {
-    hints: process.env.NODE_ENV !== 'development',
+    hints: (process.env.NODE_ENV === 'development') ? false : 'warning',
   },
 };
