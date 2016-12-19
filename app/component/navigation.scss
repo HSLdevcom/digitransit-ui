@@ -51,6 +51,10 @@ $content-background-color: $background-color;
     align-items: center;
     line-height: 1.8em;
     box-shadow: 2px 0px 2px #575757;
+
+    @media print {
+      display: none;
+    }
   }
 
   .icon-holder {
@@ -226,12 +230,21 @@ section.content {
     flex-direction: row;
     height: 100%;
 
+    @media print {
+      display: block;
+    }
+
     .main-content {
       width: 600px;
       height: 100%;
       display: flex;
       flex-direction: column;
       position: relative;
+
+      @media print {
+        width: 100%;
+        page-break-after: always;
+      }
     }
 
     .map-content {
@@ -240,6 +253,11 @@ section.content {
       display: flex;
       flex-direction: column;
       position: relative;
+
+      @media print {
+        width: 100%;
+        min-height: 27cm;
+      }
     }
   }
 }

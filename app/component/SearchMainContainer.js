@@ -101,7 +101,7 @@ class SearchMainContainer extends React.Component {
       value={tabname}
       id={tabname}
       onActive={this.onTabChange}
-    >
+    >{this.state.selectedTab === tabname &&
       <GeolocationOrInput
         ref={(c) => { this.searchInputs[tabname] = c; }}
         id={`search-${tabname}`}
@@ -111,7 +111,7 @@ class SearchMainContainer extends React.Component {
         layers={layers}
         close={this.closeModal}
         onSuggestionSelected={this.onSuggestionSelected}
-      />
+      />}
     </Tab>
   );
 

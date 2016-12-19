@@ -1,11 +1,12 @@
 import React from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
+import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import config from '../config';
 
 
-const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }) => {
+const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }, { intl }) => {
   if (!modalIsOpen) {
     return false;
   }
@@ -23,8 +24,15 @@ const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }) => {
               }}
               value={selectedTab}
             >{children}</Tabs>
-            <div className="closeSearchButton" id="closeSearchButton" onClick={closeModal}>
-              <Icon img="icon-icon_close" />
+            <div id="close-search-button-container" >
+              <button
+                onClick={closeModal} title={intl.formatMessage({
+                  id: 'close',
+                  defaultMessage: 'Close' })}
+                className="noborder"
+              >
+                <Icon img="icon-icon_close" />
+              </button>
             </div>
           </div>
         </div>
@@ -38,6 +46,10 @@ SearchModal.propTypes = {
   closeModal: React.PropTypes.func.isRequired,
   selectedTab: React.PropTypes.string.isRequired,
   children: React.PropTypes.node,
+};
+
+SearchModal.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 export default SearchModal;

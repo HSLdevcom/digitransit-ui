@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'material-ui/Tabs';
+import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
 
@@ -14,6 +15,7 @@ import Icon from './Icon';
 class MessageBar extends Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
@@ -29,7 +31,7 @@ class MessageBar extends Component {
 
   getTabContent = () => (
     this.unreadMessages().map((el, i) => (
-      <div key={i} onClick={this.maximize}>
+      <div tabIndex={0} role="banner" key={i} onClick={this.maximize}>
         <h2>{el.content[this.props.lang].title}</h2>
         {el.content[this.props.lang].content}
       </div>
@@ -37,6 +39,7 @@ class MessageBar extends Component {
   );
 
   getTabs = () => (
+
     this.unreadMessages().map((el, i) => (
       <Tab
         key={i}
@@ -52,9 +55,11 @@ class MessageBar extends Component {
                 position: 'absolute',
                 top: 0,
               }}
-            >
-              •
-            </span>
+              title={`${this.context.intl.formatMessage({
+                id: 'messagebar-label-page',
+                defaultMessage: 'Page',
+              })} ${i + 1}`}
+            >•</span>
           </span>
         )}
         value={i}
@@ -112,46 +117,53 @@ class MessageBar extends Component {
   render = () => {
     if (this.state.visible && this.unreadMessages().length > 0) {
       return (
-        <div className="message-bar">
+        <section role="banner" className="message-bar flex-horizontal">
           <Icon img={'icon-icon_info'} className="info" />
-          <a
-            id="close-message-bar"
-            onClick={this.handleClose} className="close-button cursor-pointer"
-          >
-            <Icon img="icon-icon_close" className="close" />
-          </a>
-          <SwipeableViews
-            index={this.state.slideIndex}
-            onChangeIndex={this.handleChange}
-            containerStyle={{
-              maxHeight: this.state.maximized ? '400px' : '60px',
-              transition: 'max-height 300ms',
-            }}
-            slideStyle={{
-              maxHeight: this.state.maximized ? '400px' : '60px',
-              transition: 'max-height 300ms',
-              padding: '10px',
-              overflow: 'hidden',
-              background: '#fff',
-            }}
-          >
-            {this.getTabContent()}
-          </SwipeableViews>
-          <Tabs
-            onChange={this.handleChange}
-            value={this.state.slideIndex}
-            tabItemContainerStyle={{
-              backgroundColor: '#fff',
-              height: '18px',
-              width: '60px',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-            inkBarStyle={{ display: 'none' }}
-          >
-            {this.getTabs()}
-          </Tabs>
-        </div>);
+          <div className="flex-grow">
+            <SwipeableViews
+              index={this.state.slideIndex}
+              onChangeIndex={this.handleChange}
+              containerStyle={{
+                maxHeight: this.state.maximized ? '400px' : '60px',
+                transition: 'max-height 300ms',
+              }}
+              slideStyle={{
+                maxHeight: this.state.maximized ? '400px' : '60px',
+                transition: 'max-height 300ms',
+                padding: '10px',
+                overflow: 'hidden',
+                background: '#fff',
+              }}
+            >
+              {this.getTabContent()}
+            </SwipeableViews>
+            <Tabs
+              onChange={this.handleChange}
+              value={this.state.slideIndex}
+              tabItemContainerStyle={{
+                backgroundColor: '#fff',
+                height: '18px',
+                width: '60px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+              inkBarStyle={{ display: 'none' }}
+            >
+              {this.getTabs()}
+            </Tabs>
+          </div>
+          <div>
+            <button
+              id="close-message-bar" title={this.context.intl.formatMessage({
+                id: 'messagebar-label-close-message-bar',
+                defaultMessage: 'Close banner',
+              })}
+              onClick={this.handleClose} className="noborder close-button cursor-pointer"
+            >
+              <Icon img="icon-icon_close" className="close" />
+            </button>
+          </div>
+        </section>);
     }
     return null;
   }
