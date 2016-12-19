@@ -25,13 +25,17 @@ class OriginDestinationBar extends React.Component {
     location: React.PropTypes.object.isRequired,
   };
 
-  state = {
-    tabOpen: false,
-  };
-
   componentWillMount() {
     this.context.executeAction(storeEndpointIfNotCurrent, { target: 'origin', endpoint: this.props.origin });
     this.context.executeAction(storeEndpointIfNotCurrent, { target: 'destination', endpoint: this.props.destination });
+  }
+
+  getSearchModalState = () => {
+    if (this.context.location.state != null &&
+        this.context.location.state.searchTabOpen != null) {
+      return this.context.location.state.searchTabOpen;
+    }
+    return false;
   }
 
   swapEndpoints= () => {
@@ -44,15 +48,14 @@ class OriginDestinationBar extends React.Component {
     );
   }
 
-  closeModal = () => {
-    this.setState({
-      tabOpen: false,
-    });
+  closeSearchModal = () => {
+    this.context.router.goBack();
   }
 
-  openSearch = (tab) => {
-    this.setState({
-      tabOpen: tab,
+  openSearchModal = (tab) => {
+    this.context.router.push({
+      state: { searchTabOpen: tab },
+      pathname: this.context.location.pathname,
     });
   }
 
@@ -70,14 +73,16 @@ class OriginDestinationBar extends React.Component {
     }
 
     let initialValue = '';
-    if (this.props[this.state.tabOpen]) {
-      initialValue = this.props[this.state.tabOpen].useCurrentPosition ?
-        ownPosition : this.props[this.state.tabOpen].address;
+    const tab = this.getSearchModalState();
+
+    if (this.props[tab]) {
+      initialValue = this.props[tab].useCurrentPosition ?
+        ownPosition : this.props[tab].address;
     }
 
     return (
       <div className={cx('origin-destination-bar', this.props.className)}>
-        <div className="field-link from-link" onClick={() => this.openSearch('origin')}>
+        <div className="field-link from-link" onClick={() => this.openSearchModal('origin')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
           <span className="link-name">
             {this.props.originIsCurrent ? ownPosition : this.props.origin.address}
@@ -88,7 +93,7 @@ class OriginDestinationBar extends React.Component {
             <Icon img="icon-icon_direction-b" />
           </span>
         </div>
-        <div className="field-link to-link" onClick={() => this.openSearch('destination')}>
+        <div className="field-link to-link" onClick={() => this.openSearchModal('destination')}>
           <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
           <span className="link-name">
             {this.props.destinationIsCurrent ?
@@ -96,12 +101,12 @@ class OriginDestinationBar extends React.Component {
           </span>
         </div>
         <OneTabSearchModal
-          modalIsOpen={this.state.tabOpen}
-          closeModal={this.closeModal}
+          modalIsOpen={tab}
+          closeModal={this.closeSearchModal}
           initialValue={initialValue}
           layers={searchLayers}
-          endpoint={this.props[this.state.tabOpen]}
-          target={this.state.tabOpen}
+          endpoint={this.props[tab]}
+          target={tab}
           responsive
         />
       </div>);
