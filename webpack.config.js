@@ -314,4 +314,7 @@ module.exports = {
     './fetch': 'var fetch',
     'object-assign': 'var Object.assign',
   },
+  performance: {
+    hints: process.env.NODE_ENV !== 'development',
+  },
 };
