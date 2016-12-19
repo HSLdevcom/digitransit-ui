@@ -11,7 +11,7 @@ const config = require('../webpack.config');
 const port = process.env.HOT_LOAD_PORT || 9000;
 
 new WebpackDevServer(webpack(config), {
-  contentBase: `http://localhost:${port}`,
+  proxy: { '*': `http://localhost:${port}` },
   publicPath: config.output.publicPath,
   noInfo: true,
   hot: true,
