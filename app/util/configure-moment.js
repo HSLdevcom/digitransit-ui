@@ -4,7 +4,7 @@ import config from '../config';
 
 // Configure moment with the selected language
 // and with the relative time thresholds used when humanizing times
-function configureMoment(language) {
+export default function configureMoment(language) {
   moment.locale(language);
 
   if (config.timezoneData) {
@@ -24,5 +24,3 @@ function configureMoment(language) {
   moment.relativeTimeThreshold('M', config.moment.relativeTimeThreshold.months);
   return moment;
 }
-
-module.exports = configureMoment;
