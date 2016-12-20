@@ -93,7 +93,7 @@ class OneTabSearchModal extends React.Component {
         <div className={cx('fake-search-container', responsiveClass)}>
           <Component
             selectedTab="tab"
-            modalIsOpen={this.props.modalIsOpen}
+            modalIsOpen={!(!this.props.modalIsOpen)}
             closeModal={this.props.closeModal}
           >
             <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
