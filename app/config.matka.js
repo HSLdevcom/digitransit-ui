@@ -1,7 +1,5 @@
 const CONFIG = process.env.CONFIG || 'matka';
-const APP_DESCRIPTION =
-  'Liikenneviraston Matka.fi uudistuu. Apuasi kaivataan kehitystyössä. ' +
-  'Tule palvelun testaajaksi tai tee siitä saman tien parempi.';
+const APP_DESCRIPTION = 'Liikenneviraston Matka.fi–palvelu.';
 
 export default {
   CONFIG,
