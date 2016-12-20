@@ -36,7 +36,10 @@ export function route(actionContext, payload, done) {
     ) {
       payload.router.replace({
         ...payload.location,
-        state: { summaryPageSelected: 0 }, // reset back to 1st alternative at reroute
+        state: {  // reset back to 1st alternative at reroute
+          ...payload.location.state,
+          summaryPageSelected: 0
+        },
         pathname: path,
       });
     } else {
