@@ -78,28 +78,26 @@
     font-size: $font-size-xsmall;
   }
   .favourite-location-departure {
-    vertical-align: middle;
-    & > span {
-      vertical-align: middle;
-      padding-top: 3px;
-    }
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-xxsmall;
+    line-height: $font-size-xxsmall;
+    padding: $padding-xsmall 0;
+
     .route-number {
-      width: auto;
-      display: inline-block;
-      font-size: $font-size-xxsmall;
-      & > span:first-of-type {
-        vertical-align: middle;
-      }
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-basis: 0;
     }
   }
-  .favourite-location-departure-time {
-    vertical-align: top;
-    font-size: 12px;
-  }
+
   .favourite-location-departure-time--realtime {
-    @extend .favourite-location-departure-time;
     color: $realtime-color;
   }
+
   .favourite-location-arrival-time {
     margin: 0;
     vertical-align: top;
