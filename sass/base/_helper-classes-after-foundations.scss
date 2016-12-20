@@ -29,3 +29,38 @@
     width: 330px;
   }
 }
+
+
+button.noborder {
+  position:relative;
+  display: inline;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: initial;
+  background: none;
+  border-style: none;
+  border-width: 0px;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  background-color: inherit;
+  transition: none;
+  color:inherit;
+
+  &:focus {
+    background-color: inherit;
+    color:inherit;
+  }
+  &:active {
+    background-color: inherit;
+    color:inherit;
+  }
+  &:hover {
+    background-color: inherit;
+    color:inherit;
+  }
+}

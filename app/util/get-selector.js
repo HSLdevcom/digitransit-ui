@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax, no-continue */
 
-module.exports = (mode) => {
+export default function getSelector(mode) {
   const selector = mode.toLowerCase();
   for (const index in document.styleSheets) {
     // Use hasOwnProperty from the {} to make sure styleSheets hasn't overridden it
@@ -21,4 +21,4 @@ module.exports = (mode) => {
     }
   }
   return false;
-};
+}

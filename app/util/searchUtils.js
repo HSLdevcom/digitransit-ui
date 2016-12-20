@@ -1,4 +1,3 @@
-
 import Relay from 'react-relay';
 
 import get from 'lodash/get';
@@ -36,7 +35,7 @@ function mapRoutes(res) {
       properties: {
         ...item,
         layer: `route-${item.mode}`,
-        link: `/linjat/${item.gtfsId}`,
+        link: `/linjat/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
       },
       geometry: {
         coordinates: null,
@@ -151,6 +150,7 @@ function getFavouriteRoutes(favourites, input) {
         shortName
         mode
         longName
+        patterns { code }
       }
     }`, { ids: favourites },
   );
@@ -219,6 +219,7 @@ function getRoutes(input) {
           shortName
           mode
           longName
+          patterns { code }
         }
       }
     }`, { name: input },
