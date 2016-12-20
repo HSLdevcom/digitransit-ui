@@ -89,7 +89,13 @@ class RoutePage extends React.Component {
               <FormattedMessage id="timetable" defaultMessage="Timetable" />
             </div>
           </Link>
-          <Link to={`/linjat/${this.props.route.gtfsId}/hairiot`} activeClassName="is-active">
+          <Link
+            to={`/linjat/${this.props.route.gtfsId}/hairiot`}
+            activeClassName="is-active"
+            className={cx({
+              activeAlert: this.props.route.alerts && this.props.route.alerts.length > 0,
+            })}
+          >
             <div>
               <Icon img="icon-icon_caution" />
               <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
@@ -123,6 +129,7 @@ export default Relay.createContainer(RoutePage, {
         mode
         ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
+        alerts
       }
     `,
   },

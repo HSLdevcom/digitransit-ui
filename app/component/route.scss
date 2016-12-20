@@ -457,6 +457,12 @@ div.route-tabs {
       font-size: $font-size-xxsmall;
       min-width: 6em;
 
+      &.activeAlert, &.activeAlert.is-active, &.activeAlert:hover {
+        .icon {
+          fill: $cancelation-red;
+        }
+      }
+
       &.is-active {
         border-bottom: 2px solid $primary-color ;
         color: $black;
