@@ -85,12 +85,14 @@
     font-size: $font-size-xxsmall;
     line-height: $font-size-xxsmall;
     padding: $padding-xsmall 0;
+    flex-basis: 0;
+    flex-grow: 1;
 
     .route-number {
       display: flex;
       flex-direction: row;
       align-items: center;
-      flex-basis: 0;
+      width: auto;
     }
   }
 
