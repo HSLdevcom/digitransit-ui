@@ -14,6 +14,8 @@ function RouteNumber(props) {
     mode += '-withoutBox';
   }
 
+  const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
+
   return (
     <span className={cx('route-number', props.className, { vertical: props.vertical })}>
       {props.hasDisruption ?
@@ -27,7 +29,7 @@ function RouteNumber(props) {
         />
       }
       {props.vertical ? <br /> : null}
-      <span className={`vehicle-number ${props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH ? 'long' : ''} ${mode}`}>
+      <span className={`vehicle-number ${longText && props.fadeLong ? 'overflow-fade' : ''} ${longText ? 'long' : ''} ${mode}`}>
         {props.text}
       </span>
     </span>);
@@ -57,6 +59,7 @@ RouteNumber.propTypes = {
   vertical: React.PropTypes.bool,
   className: React.PropTypes.string,
   hasDisruption: React.PropTypes.bool,
+  fadeLong: React.PropTypes.bool,
 };
 
 RouteNumber.displayName = 'RouteNumber';
