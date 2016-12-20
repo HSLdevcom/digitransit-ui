@@ -251,6 +251,7 @@ $search-header-height: 45px;
       @include form-element();
       height: 60px;
       font-size:18px;
+      text-align: left;
       line-height: $search-form-input-overlay-height;
       border-top-left-radius: $input-border-radius;
       border-bottom-left-radius: $input-border-radius;
