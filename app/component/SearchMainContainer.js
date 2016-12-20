@@ -7,7 +7,7 @@ import without from 'lodash/without';
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import FakeSearchBar from './FakeSearchBar';
 import FakeSearchWithButtonContainer from './FakeSearchWithButtonContainer';
-import GeolocationOrInput from './GeolocationOrInput';
+import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 import Icon from './Icon';
@@ -94,7 +94,7 @@ class SearchMainContainer extends React.Component {
     });
   }
 
-  renderEndpointTab = (tabname, tablabel, type, endpoint, layers) => (
+  renderEndpointTab = (tabname, tablabel, placeholder, type, endpoint, layers) => (
     <Tab
       className={`search-header__button${this.state.selectedTab === tabname ? '--selected' : ''}`}
       label={tablabel}
@@ -102,11 +102,12 @@ class SearchMainContainer extends React.Component {
       id={tabname}
       onActive={this.onTabChange}
     >{this.state.selectedTab === tabname &&
-      <GeolocationOrInput
+      <SearchInputContainer
         ref={(c) => { this.searchInputs[tabname] = c; }}
         id={`search-${tabname}`}
         useCurrentPosition={endpoint.useCurrentPosition}
         initialValue={endpoint.address}
+        placeholder={placeholder}
         type={type}
         layers={layers}
         close={this.closeModal}
@@ -164,6 +165,10 @@ class SearchMainContainer extends React.Component {
                 ]}
               </span>
             </div>,
+            this.context.intl.formatMessage({
+              id: 'origin',
+              defaultMessage: 'Origin',
+            }),
             'endpoint',
             this.context.getStore('EndpointStore').getOrigin(),
             searchLayers,
@@ -180,6 +185,10 @@ class SearchMainContainer extends React.Component {
                 />
               </span>
             </div>,
+            this.context.intl.formatMessage({
+              id: 'place-route-or-keyword',
+              defaultMessage: 'Destination, route or stop',
+            }),
             'all',
             this.context.getStore('EndpointStore').getDestination(),
             searchLayers,
