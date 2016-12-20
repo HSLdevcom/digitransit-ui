@@ -14,9 +14,7 @@ import { isBrowser } from '../../util/browser';
 const getLegText = (leg) => {
   if (!leg.route) return '';
   const showAgency = get(config, 'agency.show', false);
-  if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
-    return 'M';
-  } else if (leg.transitLeg && leg.route.shortName) {
+  if (leg.transitLeg && leg.route.shortName) {
     return leg.route.shortName;
   } else if (showAgency && leg.route.agency) {
     return leg.route.agency.name;
