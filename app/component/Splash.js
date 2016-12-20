@@ -9,26 +9,26 @@ import Intro from './Intro';
 
 
 class Splash extends React.Component {
+  static contextTypes = {
+    router: React.PropTypes.object,
+    location: React.PropTypes.object,
+  };
   static propTypes = {
     shouldShowIntro: React.PropTypes.bool.isRequired,
     setIntroShown: React.PropTypes.func.isRequired,
   }
 
-  state = {
-    searchModalIsOpen: false,
-  };
-
   openModal = () => {
-    this.setState({
-      searchModalIsOpen: true,
+    this.context.router.push({
+      state: { searchOpened: true},
+      pathname: this.context.location.pathname,
     });
   };
 
   closeModal = () => {
-    this.setState({
-      searchModalIsOpen: false,
-    });
+      this.context.router.goBack();
   };
+
 
   renderContents() {
     return (
@@ -39,7 +39,7 @@ class Splash extends React.Component {
             defaultMessage="How do you want to start?"
           />
         </h3>
-        <GeopositionSelector searchModalIsOpen={this.state.searchModalIsOpen} />
+        <GeopositionSelector searchModalIsOpen={this.context.location.state && this.context.location.state.searchOpened} />
         <div className="splash-separator">
           <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
         </div>
@@ -61,7 +61,7 @@ class Splash extends React.Component {
     return (
       <div className="fullscreen">
         <OneTabSearchModal
-          modalIsOpen={this.state.searchModalIsOpen}
+          modalIsOpen={this.context.location.state && this.context.location.state.searchOpened}
           closeModal={this.closeModal} initialValue="" target="origin"
         />
         <div className="front-page fullscreen">
