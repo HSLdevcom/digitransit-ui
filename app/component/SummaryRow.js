@@ -191,7 +191,7 @@ const exampleData = {
       distance: 586.4621425755712,
       duration: 120,
       rentedBike: false,
-      route: { shortName: '57' },
+      route: { shortName: '57', mode: 'BUS' },
       from: { name: 'Ilmattarentie' },
     },
     {
