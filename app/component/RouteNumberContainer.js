@@ -17,10 +17,10 @@ const getText = (route) => {
 const getMode = route =>
   route.mode || (route.rentedBike && 'CITYBIKE');
 
-const SmartRouteNumber = ({ route, ...props }) =>
+const RouteNumberContainer = ({ route, ...props }) =>
   route && <RouteNumber mode={getMode(route)} text={getText(route)} {...props} />;
 
-SmartRouteNumber.propTypes = {
+RouteNumberContainer.propTypes = {
   route: React.PropTypes.object.isRequired,
   vertical: React.PropTypes.bool,
   className: React.PropTypes.string,
@@ -28,5 +28,5 @@ SmartRouteNumber.propTypes = {
   fadeLong: React.PropTypes.bool,
 };
 
-SmartRouteNumber.displayName = 'SmartRouteNumber';
-export default SmartRouteNumber;
+RouteNumberContainer.displayName = 'RouteNumberContainer';
+export default RouteNumberContainer;
