@@ -8,7 +8,7 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { addFavouriteStop } from '../action/FavouriteActions';
 import ComponentUsageExample from './ComponentUsageExample';
 import Labeled from './Labeled';
-import InfoIcon from './InfoIcon';
+// import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
 
 const StopPageHeader = compose(
@@ -23,7 +23,7 @@ const StopPageHeader = compose(
         label={<FormattedMessage id="extra-info" defaultMessage="More info" />}
         showLabel={props.breakpoint === 'large'}
       >
-        <InfoIcon stop={props.stop} />
+        {/* <InfoIcon stop={props.stop} />*/}
       </Labeled>,
       <Favourite
         favourite={props.favourite}

@@ -1,10 +1,8 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
-import { FormattedMessage } from 'react-intl';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
-import NotImplementedLink from './NotImplementedLink';
 
 function FuzzyPatternLink(props) {
   const imgName = `icon-icon_${props.mode}-live`;
@@ -22,11 +20,8 @@ function FuzzyPatternLink(props) {
     );
   }
 
-  return (<NotImplementedLink
-    nonTextLink
-    className="route-now-content"
-    name={<FormattedMessage id="realtime-matching" defaultMessage="Realtime matching" />}
-  >{icon}</NotImplementedLink>);
+  console.warn('Unable to match trip', props);
+  return icon;
 }
 
 FuzzyPatternLink.propTypes = {
