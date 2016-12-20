@@ -32,7 +32,6 @@ RouteHeader.propTypes = {
   route: React.PropTypes.object.isRequired,
   trip: React.PropTypes.string,
   pattern: React.PropTypes.object.isRequired,
-  reverseId: React.PropTypes.string,
   className: React.PropTypes.string,
   favourite: React.PropTypes.bool.isRequired,
 };

@@ -9,7 +9,7 @@ import NotImplementedLink from './NotImplementedLink';
 function FuzzyPatternLink(props) {
   const imgName = `icon-icon_${props.mode}-live`;
   const icon = (props.selected && (<SelectedIconWithTail img={imgName} />))
-    || (<IconWithTail className={`${props.reverse ? 'icon-with-tail-reverse' : ''}`} desaturate img={imgName} rotate={props.reverse ? 0 : 180} />);
+    || (<IconWithTail desaturate img={imgName} rotate={180} />);
 
   if (props.trip.trip) {
     return (
@@ -32,7 +32,6 @@ function FuzzyPatternLink(props) {
 FuzzyPatternLink.propTypes = {
   trip: React.PropTypes.object.isRequired,
   mode: React.PropTypes.string.isRequired,
-  reverse: React.PropTypes.bool,
   selected: React.PropTypes.bool,
 };
 
