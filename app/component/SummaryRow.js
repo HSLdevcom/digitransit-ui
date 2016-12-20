@@ -12,6 +12,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import config from '../config';
 
 const getLegText = (leg) => {
+  if (!leg.route) return '';
   const showAgency = get(config, 'agency.show', false);
   if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
     // TODO: Include in the icon itself

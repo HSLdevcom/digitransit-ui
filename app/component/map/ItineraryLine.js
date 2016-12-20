@@ -12,6 +12,7 @@ import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 
 const getLegText = (leg) => {
+  if (!leg.route) return '';
   const showAgency = get(config, 'agency.show', false);
   if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
     return 'M';

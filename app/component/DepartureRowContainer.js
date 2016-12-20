@@ -12,6 +12,7 @@ import config from '../config';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const getRouteNumberText = (route) => {
+  if (!route) return '';
   const showAgency = get(config, 'agency.show', false);
   if (route.mode.toLowerCase() === 'subway' && !route.shortName) {
     return '';
