@@ -67,7 +67,7 @@ CardHeader.propTypes = {
   icon: React.PropTypes.string,
   icons: React.PropTypes.arrayOf(React.PropTypes.node),
   children: React.PropTypes.node,
-  unlinked: React.PropTypes.boolean,
+  unlinked: React.PropTypes.bool,
 };
 
 export default CardHeader;
