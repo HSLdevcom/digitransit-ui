@@ -67,26 +67,5 @@ export default {
   },
   /* eslint-enable max-len*/
 
-  /* eslint-disable max-len*/
-  staticMessages: [{
-    id: 1,
-
-    content: {
-      fi: {
-        title: 'Tämä on Matka.fi:n kehitysversio',
-        content: 'Käytät Matka.fi-palvelun kehitysversiota. Kokeile uusia ominaisuuksia ja lähetä meille palautetta. Päivitämme palvelua jatkuvasti. Lisätietoa projektista löydät osoitteesta digitransit.fi.',
-      },
-
-      sv: {
-        title: 'Det här är utvecklingsversionen av Resa.fi',
-        content: 'Du använder utvecklingsversionen av Resa.fi. Prova de nya egenskaperna och ge oss feedback. Vi uppdaterar tjänsten kontinuerligt. Mer information om projektet hittar du på addressen digitransit.fi.',
-      },
-
-      en: {
-        title: 'This version of Journey.fi is under development',
-        content: 'You are using the development version of Journey.fi. Try the new features and send us feedback. We are updating the service constantly. More information about the project can be found at digitransit.fi.',
-      },
-    },
-  }],
-  /* eslint-enable max-len*/
+  staticMessages: [],
 };
