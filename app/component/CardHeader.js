@@ -54,6 +54,7 @@ CardHeader.description = (
         description="Testipysäkki 2"
         code="7528"
         icons={exampleIcons}
+        headingStyle="header-primary"
       />
     </ComponentUsageExample>
   </div>);
