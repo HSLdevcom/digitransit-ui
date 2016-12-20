@@ -7,18 +7,21 @@ import FakeSearchBar from './FakeSearchBar';
 export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => (
   <div className={`row search-form bp-${breakpoint}`}>
     <div className="small-12 columns search-form-map-overlay">
-      <div className="row collapse postfix-radius">
-        <div className="small-11 columns">
-          {fakeSearchBar}
+      <button title="haku" tabIndex="0" onClick={onClick} className="noborder search-button flex-horisontal">
+        <div className="flex-grow row collapse postfix-radius">
+          <div className="small-11 columns">
+            {fakeSearchBar}
+          </div>
+          <div className="small-1 columns">
+            <span className="postfix search cursor-pointer button-icon">
+              <Icon img="icon-icon_search" />
+            </span>
+          </div>
         </div>
-        <div className="small-1 columns" onClick={onClick}>
-          <span className="postfix search cursor-pointer button-icon">
-            <Icon img="icon-icon_search" />
-          </span>
-        </div>
-      </div>
+      </button>
     </div>
   </div>
+
 );
 
 FakeSearchWithButton.propTypes = {
@@ -36,8 +39,8 @@ FakeSearchWithButton.displayName = 'FakeSearchWithButton';
 FakeSearchWithButton.description = () => (
   <div>
     <p>
-      Visual search component that acts as a link to search dialog.
-    </p>
+    Visual search component that acts as a link to search dialog.
+  </p>
     <ComponentUsageExample description="Centered fake search field with search icon button">
       <FakeSearchWithButton fakeSearchBar={<FakeSearchBar placeholder="Enter address" />} />
     </ComponentUsageExample>

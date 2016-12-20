@@ -30,6 +30,19 @@ html {
   }
 }
 
+@media print {
+  @page {
+    size: A4 portrait;
+  }
+
+  /* TODO: Remove after foundation is removed */
+  @for $i from 1 through 12 {
+    div.small-#{$i} {
+      width: calc(#{$i} * 100% / 12);
+    }
+  }
+}
+
 body {
   background-color: $background-color !important;
   font-family: $font-family;
@@ -38,9 +51,19 @@ body {
   /* Remove Mobile Safari automatic font size adjustments */
   -webkit-text-size-adjust: 100%;
 }
+
 #main {
   background-color: $background-color;
 }
+
+#app {
+  height: 100%;
+
+  @media print {
+    height: auto;
+  }
+}
+
 p {
   font-family: $font-family;
   font-weight: $font-weight-book;

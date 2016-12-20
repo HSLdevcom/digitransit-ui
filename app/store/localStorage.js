@@ -1,4 +1,4 @@
-import { isBrowser } from '../util/browser';
+import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
 
 function setItem(key, value) {
   if (isBrowser && window.localStorage) {
@@ -112,7 +112,11 @@ export function setPositioningHasSucceeded(state) {
   setItem('positioningSuccesful', { state });
 }
 
-export function getPositioningHasSucceeded() {
+export function getPositioningHasSucceeded(shouldCheckBrowser) {
+  // Hack for Windows phone and iOS fullscreen apps
+  if (shouldCheckBrowser && !(isWindowsPhone || isIOSApp)) {
+    return false;
+  }
   return getItemAsJson('positioningSuccesful', '{ "state": false }').state;
 }
 

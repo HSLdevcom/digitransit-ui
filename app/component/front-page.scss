@@ -366,6 +366,7 @@ div.route-tabs .tabs-navigation.bp-large {
 
 .flex-grow {
   flex-grow: 1;
+  flex-basis: 0;
 }
 
 .flex-vertical {
@@ -430,4 +431,14 @@ svg.icon.footer-icon {
 .front-page.bp-large .leaflet-container .leaflet-control-attribution {
   bottom: 40px;
   left: 50px;
+}
+
+.about-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  > div {
+    max-width: 600px;
+  }
 }

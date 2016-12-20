@@ -24,7 +24,6 @@ export function getIcon(type) {
 }
 
 function TicketSalesPopup(props) {
-  console.log(props);
   return (
     <div className="card">
       <Card className="padding-small">

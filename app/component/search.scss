@@ -24,6 +24,9 @@ $search-header-height: 45px;
 .search-form {
   top: 0;
   padding-top: 10px;
+  button {
+    width: 100%;
+  }
 
  .postfix {
     height: calc(2rem + 15px);
@@ -50,6 +53,7 @@ $search-header-height: 45px;
   }
 
   .address-placeholder {
+    @include font-medium;
     color: $gray;
     background-color: transparent;
     border-radius: $form-input-border-radius;
@@ -247,6 +251,7 @@ $search-header-height: 45px;
       @include form-element();
       height: 60px;
       font-size:18px;
+      text-align: left;
       line-height: $search-form-input-overlay-height;
       border-top-left-radius: $input-border-radius;
       border-bottom-left-radius: $input-border-radius;
@@ -644,10 +649,12 @@ div.origin-destination-bar {
   }
 }
 
-.closeSearchButton {
+#close-search-button-container {
   position: absolute;
-  font-size: 24px;
   top: 10px;
   right: 20px;
-  color: $gray-blue
+  .icon {
+    color: $gray-blue;
+    font-size: 24px;
+  }
 }
