@@ -17,7 +17,7 @@ export default {
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
 
-  appBarLink: { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/' },
+  appBarLink: { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut' },
 
   socialMedia: {
     title: 'Matka.fi',
