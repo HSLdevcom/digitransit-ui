@@ -5,25 +5,11 @@ import get from 'lodash/get';
 import { FormattedMessage } from 'react-intl';
 
 import { displayDistance } from '../util/geo-utils';
-import RouteNumber from './RouteNumber';
+import SmartRouteNumber from './SmartRouteNumber';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 import config from '../config';
-
-const getLegText = (leg) => {
-  if (!leg.route) return '';
-  const showAgency = get(config, 'agency.show', false);
-  if (leg.transitLeg && leg.mode.toLowerCase() === 'subway' && !leg.route.shortName) {
-    // TODO: Include in the icon itself
-    return 'M';
-  } else if (leg.transitLeg && leg.route.shortName) {
-    return leg.route.shortName;
-  } else if (showAgency && leg.route.agency) {
-    return leg.route.agency.name;
-  }
-  return '';
-};
 
 export default function SummaryRow(props, { breakpoint }) {
   let mode;
@@ -59,7 +45,6 @@ export default function SummaryRow(props, { breakpoint }) {
       if (leg.rentedBike) {
         mode = 'CITYBIKE';
       }
-
       legs.push(
         <div key={i} className="leg">
           {breakpoint === 'large' &&
@@ -67,9 +52,8 @@ export default function SummaryRow(props, { breakpoint }) {
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
             </div>
           }
-          <RouteNumber
-            mode={mode}
-            text={getLegText(leg)}
+          <SmartRouteNumber
+            route={leg.route}
             className={cx('line', mode.toLowerCase())}
             vertical
           />
