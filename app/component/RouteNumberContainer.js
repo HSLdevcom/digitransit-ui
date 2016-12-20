@@ -14,7 +14,7 @@ const getText = (route) => {
   return '';
 };
 
-const getMode = (route) =>
+const getMode = route =>
   route.mode || (route.rentedBike && 'CITYBIKE');
 
 const SmartRouteNumber = ({ route, ...props }) =>

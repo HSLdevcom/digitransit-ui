@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import get from 'lodash/get';
 import { FormattedMessage } from 'react-intl';
 
 import { displayDistance } from '../util/geo-utils';
@@ -9,7 +8,6 @@ import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
-import config from '../config';
 
 export default function SummaryRow(props, { breakpoint }) {
   let mode;
