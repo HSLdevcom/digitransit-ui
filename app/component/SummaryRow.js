@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { FormattedMessage } from 'react-intl';
 
 import { displayDistance } from '../util/geo-utils';
-import SmartRouteNumber from './SmartRouteNumber';
+import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -52,7 +52,7 @@ export default function SummaryRow(props, { breakpoint }) {
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
             </div>
           }
-          <SmartRouteNumber
+          <RouteNumberContainer
             route={leg.route}
             className={cx('line', mode.toLowerCase())}
             vertical

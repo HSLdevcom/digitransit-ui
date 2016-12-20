@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import { Link } from 'react-router';
 import filter from 'lodash/filter';
 
-import SmartRouteNumber from './SmartRouteNumber';
+import RouteNumberContainer from './RouteNumberContainer';
 import Distance from './Distance';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
@@ -83,7 +83,7 @@ const DepartureRow = (props) => {
         key={departure.pattern.code}
       >
         <Distance distance={props.distance} />
-        <SmartRouteNumber
+        <RouteNumberContainer
           route={departure.pattern.route}
           hasDisruption={hasActiveDisruption(props.currentTime, departure.pattern.route.alerts)}
         />
