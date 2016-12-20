@@ -29,7 +29,7 @@ function RouteNumber(props) {
         />
       }
       {props.vertical ? <br /> : null}
-      <span className={`vehicle-number ${longText && props.fadeLong ? 'overflow-fade' : ''} ${longText ? 'long' : ''} ${mode}`}>
+      <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
         {props.text}
       </span>
     </span>);
