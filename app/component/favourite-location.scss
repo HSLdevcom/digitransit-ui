@@ -1,10 +1,12 @@
 .favourite-button-shared {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
   border-radius: $border-radius;
   border: 1px solid $medium-gray;
   cursor: pointer;
-  padding-top: 8px;
-  padding-bottom: 3px;
+  padding: $padding-xxsmall 0;
   height: 100%;
 }
 
@@ -108,11 +110,7 @@
 .new-favourite-button-content {
   @extend .favourite-button-shared;
   background: $background-color;
-
-  .add-new-favourite-icon {
-    color: $gray-blue;
-    margin-top: 14px;
-  }
+  padding: $padding-medium 0;
 
   .add-location-text {
     @include font-medium;
