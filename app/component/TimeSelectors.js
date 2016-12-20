@@ -98,4 +98,4 @@ TimeSelectors.description = () =>
         dates={[<option value={'2016-05-18'} key={'2016-05-18'} >Today</option>]}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;

@@ -30,7 +30,7 @@ CityBikeUse.description = () =>
     <ComponentUsageExample description="">
       <CityBikeUse lang={exampleLang} />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 CityBikeUse.propTypes = {
   lang: React.PropTypes.string.isRequired,
