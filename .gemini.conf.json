@@ -1,12 +1,27 @@
 { "rootUrl": "http://localhost:8080",
   "screenshotsDir": "./test/visual-images/",
-  "httpTimeout": 25000,
+  "httpTimeout": 30000,
   "sessionRequestTimeout": 120000,
   "sessionsPerBrowser": 2,
+  "suitesPerSession": 50,
   "system": {
+    "parallelLimit": 4,
+    "coverage": false,
     "plugins": { "browserstack": {} }
   },
   "browsers": {
+    "ie11": {
+      "windowSize": "1024x768",
+      "retry": 3,
+      "desiredCapabilities": {
+        "os": "Windows",
+        "os_version": "8.1",
+        "browserName": "internet explorer",
+        "browser": "IE",
+        "browser_version": "11",
+        "locationContextEnabled": false
+      }
+    },
     "chrome50": {
       "windowSize": "600x1024",
       "retry": 3,
@@ -15,6 +30,38 @@
         "os_version": "El Capitan",
         "browserName": "chrome",
         "version": "50",
+        "locationContextEnabled": false
+      }
+    },
+    "safari10": {
+      "windowSize": "600x1024",
+      "retry": 3,
+      "desiredCapabilities": {
+        "os": "OS X",
+        "os_version": "Sierra",
+        "browserName": "safari",
+        "version": "10",
+        "locationContextEnabled": false
+      }
+    },
+    "edge13": {
+      "windowSize": "600x1024",
+      "retry": 3,
+      "desiredCapabilities": {
+        "os": "Windows",
+        "os_version": "10",
+        "browserName": "edge",
+        "version": "13",
+        "locationContextEnabled": false
+      }
+    },
+    "firefox47": {
+      "retry": 3,
+      "desiredCapabilities": {
+        "os": "Windows",
+        "os_version": "10",
+        "browserName": "firefox",
+        "version": "47",
         "locationContextEnabled": false
       }
     }
