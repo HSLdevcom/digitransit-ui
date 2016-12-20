@@ -1,0 +1,6 @@
+[
+  {
+    "id": "subway-with-route-number",
+    "defaultMessage": "Subway {routeNumber} {headSign}"
+  }
+]

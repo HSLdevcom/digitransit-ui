@@ -1,0 +1,14 @@
+[
+  {
+    "id": "leaves",
+    "defaultMessage": "Leaves"
+  },
+  {
+    "id": "route",
+    "defaultMessage": "Route"
+  },
+  {
+    "id": "destination",
+    "defaultMessage": "Destination"
+  }
+]

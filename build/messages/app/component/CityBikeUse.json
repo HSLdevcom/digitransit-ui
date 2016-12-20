@@ -1,0 +1,10 @@
+[
+  {
+    "id": "citybike-register-required",
+    "defaultMessage": "Citybikes requires registration"
+  },
+  {
+    "id": "use-citybike",
+    "defaultMessage": "Use a bike"
+  }
+]

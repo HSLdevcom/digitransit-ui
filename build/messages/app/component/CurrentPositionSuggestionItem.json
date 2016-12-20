@@ -1,0 +1,10 @@
+[
+  {
+    "id": "search-position",
+    "defaultMessage": "Locate"
+  },
+  {
+    "id": "use-own-position",
+    "defaultMessage": "Use Your current location"
+  }
+]

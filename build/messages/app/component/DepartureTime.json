@@ -1,0 +1,10 @@
+[
+  {
+    "id": "arriving-soon",
+    "defaultMessage": "Now"
+  },
+  {
+    "id": "departure-time-in-minutes",
+    "defaultMessage": "{minutes} min"
+  }
+]

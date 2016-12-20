@@ -1,0 +1,6 @@
+[
+  {
+    "id": "alert.duration",
+    "defaultMessage": "{day} {startTime} – {endTime}"
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "required-ticket",
+    "defaultMessage": "Ticket required for the journey"
+  },
+  {
+    "id": "buy-ticket",
+    "defaultMessage": "How to buy a ticket (HSL.fi)"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "inquiry",
+    "defaultMessage": "Give feedback"
+  },
+  {
+    "id": "frontpage",
+    "defaultMessage": "Front page"
+  },
+  {
+    "id": "about-this-service",
+    "defaultMessage": "About this service"
+  }
+]

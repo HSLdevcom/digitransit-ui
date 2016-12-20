@@ -1,0 +1,6 @@
+[
+  {
+    "id": "walk-distance-duration",
+    "defaultMessage": "Walk {distance} ({duration})"
+  }
+]

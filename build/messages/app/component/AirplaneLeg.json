@@ -1,0 +1,6 @@
+[
+  {
+    "id": "airplane-with-route-number",
+    "defaultMessage": "Flight {routeNumber}"
+  }
+]

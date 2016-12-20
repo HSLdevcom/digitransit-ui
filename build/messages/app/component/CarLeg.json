@@ -1,0 +1,6 @@
+[
+  {
+    "id": "car-distance-duration",
+    "defaultMessage": "Drive {distance} ({duration})"
+  }
+]

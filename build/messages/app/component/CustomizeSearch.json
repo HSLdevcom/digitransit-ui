@@ -1,0 +1,10 @@
+[
+  {
+    "id": "main-mode",
+    "defaultMessage": "I'm travelling by"
+  },
+  {
+    "id": "using-modes",
+    "defaultMessage": "Using"
+  }
+]

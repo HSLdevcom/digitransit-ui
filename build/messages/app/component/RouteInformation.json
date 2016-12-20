@@ -1,0 +1,10 @@
+[
+  {
+    "id": "weather-at-destination",
+    "defaultMessage": "Weather at destination"
+  },
+  {
+    "id": "trip-co2-emissions",
+    "defaultMessage": "Trip CO2 emissions"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "next",
+    "defaultMessage": "Next"
+  },
+  {
+    "id": "leaves",
+    "defaultMessage": "Leaves"
+  },
+  {
+    "id": "to-stop",
+    "defaultMessage": "To stop"
+  },
+  {
+    "id": "route",
+    "defaultMessage": "Route"
+  },
+  {
+    "id": "destination",
+    "defaultMessage": "Destination"
+  }
+]

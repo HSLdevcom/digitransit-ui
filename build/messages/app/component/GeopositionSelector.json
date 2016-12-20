@@ -1,0 +1,26 @@
+[
+  {
+    "id": "splash-use-positioning",
+    "defaultMessage": "Use positioning"
+  },
+  {
+    "id": "splash-locating",
+    "defaultMessage": "Positioning..."
+  },
+  {
+    "id": "splash-geolocation-denied-message",
+    "defaultMessage": "Positioning is not allowed. Please check the settings of your browser."
+  },
+  {
+    "id": "splash-geolocation-watch-timeout-message",
+    "defaultMessage": "Positioning is taking longer than expected. Choose origin below or try again later."
+  },
+  {
+    "id": "splash-geolocation-not-supported-message",
+    "defaultMessage": "Your browser does not support Positioning."
+  },
+  {
+    "id": "splash-geolocation-prompt-message",
+    "defaultMessage": "Please accept the positioning request."
+  }
+]

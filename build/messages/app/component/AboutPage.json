@@ -1,0 +1,18 @@
+[
+  {
+    "id": "about-this-service",
+    "defaultMessage": "About this service"
+  },
+  {
+    "id": "digitransit-platform",
+    "defaultMessage": "Digitransit platform"
+  },
+  {
+    "id": "datasources",
+    "defaultMessage": "Datasources"
+  },
+  {
+    "id": "back-to-front-page",
+    "defaultMessage": "Back to front page"
+  }
+]

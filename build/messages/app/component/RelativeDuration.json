@@ -1,0 +1,10 @@
+[
+  {
+    "id": "hour-short",
+    "defaultMessage": "h"
+  },
+  {
+    "id": "minute-short",
+    "defaultMessage": "min"
+  }
+]

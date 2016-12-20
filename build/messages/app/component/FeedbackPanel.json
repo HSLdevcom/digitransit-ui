@@ -1,0 +1,26 @@
+[
+  {
+    "id": "very-unlikely",
+    "defaultMessage": "Very unlikely"
+  },
+  {
+    "id": "very-likely",
+    "defaultMessage": "Very likely"
+  },
+  {
+    "id": "likely-to-use",
+    "defaultMessage": "How likely would you use the new service compared to the current reittiopas.fi?"
+  },
+  {
+    "id": "how-to-rate-service",
+    "defaultMessage": "How would you rate the service?"
+  },
+  {
+    "id": "send",
+    "defaultMessage": "Send"
+  },
+  {
+    "id": "likely-to-recommend",
+    "defaultMessage": "How likely is it that you would recommend our service to a friend or colleague?"
+  }
+]

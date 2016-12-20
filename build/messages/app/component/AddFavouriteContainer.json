@@ -1,0 +1,34 @@
+[
+  {
+    "id": "add-location-to-favourites",
+    "defaultMessage": "Add a location to your favourites tab"
+  },
+  {
+    "id": "edit-favourites",
+    "defaultMessage": "Edit favourite place"
+  },
+  {
+    "id": "specify-location",
+    "defaultMessage": "Specify the location"
+  },
+  {
+    "id": "give-name-to-location",
+    "defaultMessage": "Name the location"
+  },
+  {
+    "id": "pick-icon",
+    "defaultMessage": "Select an icon"
+  },
+  {
+    "id": "save",
+    "defaultMessage": "Save"
+  },
+  {
+    "id": "delete",
+    "defaultMessage": "Delete"
+  },
+  {
+    "id": "cancel",
+    "defaultMessage": "Cancel"
+  }
+]

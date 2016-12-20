@@ -1,0 +1,18 @@
+[
+  {
+    "id": "right-now",
+    "defaultMessage": "Right now"
+  },
+  {
+    "id": "stop",
+    "defaultMessage": "Stop"
+  },
+  {
+    "id": "leaves",
+    "defaultMessage": "Leaves"
+  },
+  {
+    "id": "next",
+    "defaultMessage": "Next"
+  }
+]

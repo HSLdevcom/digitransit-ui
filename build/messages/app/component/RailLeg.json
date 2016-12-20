@@ -1,0 +1,6 @@
+[
+  {
+    "id": "train-with-route-number",
+    "defaultMessage": "Train {routeNumber} {headSign}"
+  }
+]

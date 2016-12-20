@@ -1,0 +1,10 @@
+[
+  {
+    "id": "airport-check-in",
+    "defaultMessage": "Optionally check in your luggage with {agency}"
+  },
+  {
+    "id": "airport-security-check-go-to-gate",
+    "defaultMessage": "Walk through the security check and go to gate"
+  }
+]

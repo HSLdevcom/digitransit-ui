@@ -1,0 +1,14 @@
+[
+  {
+    "id": "earlier",
+    "defaultMessage": "Earlier"
+  },
+  {
+    "id": "now",
+    "defaultMessage": "Now"
+  },
+  {
+    "id": "later",
+    "defaultMessage": "Later"
+  }
+]

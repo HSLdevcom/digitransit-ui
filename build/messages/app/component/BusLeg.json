@@ -1,0 +1,6 @@
+[
+  {
+    "id": "bus-with-route-number",
+    "defaultMessage": "Bus {routeNumber} {headSign}"
+  }
+]

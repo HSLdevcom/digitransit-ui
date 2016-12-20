@@ -1,0 +1,10 @@
+[
+  {
+    "id": "not-implemented",
+    "defaultMessage": "{name} - feature is not implemented"
+  },
+  {
+    "id": "not-implemented-msg",
+    "defaultMessage": "If you want to participate in the development of this service/feature please see more information from the below links."
+  }
+]

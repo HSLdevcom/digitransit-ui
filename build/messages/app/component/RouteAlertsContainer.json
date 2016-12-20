@@ -1,0 +1,14 @@
+[
+  {
+    "id": "today",
+    "defaultMessage": "Today"
+  },
+  {
+    "id": "yesterday",
+    "defaultMessage": "Yesterday"
+  },
+  {
+    "id": "disruption-info-no-alerts",
+    "defaultMessage": "No disruption info."
+  }
+]

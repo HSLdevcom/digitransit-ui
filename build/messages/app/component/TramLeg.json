@@ -1,0 +1,6 @@
+[
+  {
+    "id": "tram-with-route-number",
+    "defaultMessage": "Tram {routeNumber} {headSign}"
+  }
+]

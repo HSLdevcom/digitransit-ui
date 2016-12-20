@@ -1,0 +1,14 @@
+[
+  {
+    "id": "stops",
+    "defaultMessage": "Stops"
+  },
+  {
+    "id": "timetable",
+    "defaultMessage": "Timetable"
+  },
+  {
+    "id": "disruptions",
+    "defaultMessage": "Disruptions"
+  }
+]

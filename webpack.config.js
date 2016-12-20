@@ -86,6 +86,9 @@ function getRulesConfig(env) {
             polyfill: false,
             regenerator: true,
           }],
+          ['react-intl', {
+            messagesDir: './build/messages/',
+          }],
         ],
         ignore: [
           'app/util/piwik.js',

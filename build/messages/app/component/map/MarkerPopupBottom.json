@@ -1,0 +1,10 @@
+[
+  {
+    "id": "route-from-here",
+    "defaultMessage": "Route from here"
+  },
+  {
+    "id": "route-here",
+    "defaultMessage": "Route to here"
+  }
+]

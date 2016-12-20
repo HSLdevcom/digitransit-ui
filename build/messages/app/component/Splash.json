@@ -1,0 +1,18 @@
+[
+  {
+    "id": "splash-welcome",
+    "defaultMessage": "How do you want to start?"
+  },
+  {
+    "id": "splash-you-can-also",
+    "defaultMessage": "You can also"
+  },
+  {
+    "id": "give-origin",
+    "defaultMessage": "Type in your origin"
+  },
+  {
+    "id": "splash-or-choose",
+    "defaultMessage": "or choose your origin from"
+  }
+]

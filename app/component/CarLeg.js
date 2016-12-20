@@ -43,7 +43,7 @@ function CarLeg(props) {
           <FormattedMessage
             id="car-distance-duration"
             values={{ distance, duration }}
-            defaultMessage="Drive {distance} ({duration})}"
+            defaultMessage="Drive {distance} ({duration})"
           />
         </div>
       </div>

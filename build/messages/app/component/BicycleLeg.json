@@ -1,0 +1,14 @@
+[
+  {
+    "id": "cyclewalk-distance-duration",
+    "defaultMessage": "Walk the bike {distance} ({duration})"
+  },
+  {
+    "id": "cycle-distance-duration",
+    "defaultMessage": "Cycle {distance} ({duration})"
+  },
+  {
+    "id": "rent-cycle-at",
+    "defaultMessage": "Rent cycle at {station}"
+  }
+]

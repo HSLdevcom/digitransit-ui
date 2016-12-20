@@ -1,0 +1,18 @@
+[
+  {
+    "id": "origin",
+    "defaultMessage": "Origin"
+  },
+  {
+    "id": "own-position",
+    "defaultMessage": "Your current location"
+  },
+  {
+    "id": "search",
+    "defaultMessage": "Search"
+  },
+  {
+    "id": "place-route-or-keyword",
+    "defaultMessage": "Destination, route or stop"
+  }
+]

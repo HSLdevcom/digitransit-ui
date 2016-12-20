@@ -1,0 +1,22 @@
+[
+  {
+    "id": "destination",
+    "defaultMessage": "Destination"
+  },
+  {
+    "id": "route-stop-or-keyword",
+    "defaultMessage": "Route, stop or keyword"
+  },
+  {
+    "id": "search-no-results",
+    "defaultMessage": "No results"
+  },
+  {
+    "id": "search-destination-results-but-no-search",
+    "defaultMessage": "See results from Destination tab"
+  },
+  {
+    "id": "search-search-results-but-no-destination",
+    "defaultMessage": "See results from \"Route, stop or keyword\" tab"
+  }
+]

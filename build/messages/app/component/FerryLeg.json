@@ -1,0 +1,6 @@
+[
+  {
+    "id": "ferry-with-route-number",
+    "defaultMessage": "Ferry {routeNumber} {headSign}"
+  }
+]

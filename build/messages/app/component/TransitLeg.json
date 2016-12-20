@@ -1,0 +1,10 @@
+[
+  {
+    "id": "itinerary-hide-stops",
+    "defaultMessage": "Hide stops"
+  },
+  {
+    "id": "number-of-intermediate-stops",
+    "defaultMessage": "{number, plural, =0 {No intermediate stops} one {1 stop} other {{number} stops}}"
+  }
+]
