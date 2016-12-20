@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import Relay from 'react-relay';
 import get from 'lodash/get';
@@ -18,9 +19,11 @@ function LegAgencyInfo({ leg }, context) {
     return (<div className="itinerary-leg-agency">
       <FormattedMessage id="agency" defaultMessage="Agency" />:<br />
       {agencyName}<br />
+      {/* TODO: Liikennevirasto will notify when this can be enabled
       <div className="agency-link-container">
         <ExternalLink className="itinerary-leg-agency-link" name={linkLabel} href={fareUrl || agencyUrl} />
       </div>
+      */}
     </div>);
   }
   return null;
