@@ -137,9 +137,6 @@ module.exports = {
     searchResultCurrentLocation: {
       selector: '.search-result.CurrentLocation',
     },
-    geolocationSelected: {
-      selector: '.geolocation-selected',
-    },
     closeSearchButton: {
       selector: '#close-search-button-container > button',
     },
