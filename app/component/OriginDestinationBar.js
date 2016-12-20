@@ -12,8 +12,8 @@ import { getAllEndpointLayers } from '../util/searchUtils';
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
-    origin: React.PropTypes.node,
-    destination: React.PropTypes.node,
+    origin: React.PropTypes.object,
+    destination: React.PropTypes.object,
     originIsCurrent: React.PropTypes.bool,
     destinationIsCurrent: React.PropTypes.bool,
   }
