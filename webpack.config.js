@@ -29,7 +29,7 @@ require('babel-core/register')({
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
-const devBrowsers = ['edge 14', 'last 1 chrome version', 'Firefox ESR', 'safari 9', 'IE 11'];
+const devBrowsers = ['edge 14', 'last 1 chrome version', 'Firefox ESR', 'safari 9'];
 
 const prodBrowsers = ['IE 10', '> 0.3% in FI', 'last 2 versions'];
 
