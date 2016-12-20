@@ -87,12 +87,9 @@
     margin-top: 3px;
     min-width: 0;
     flex: 1 1 0;
-    flex-grow: 1; //Needed on IE
 
     .leg {
-      flex-grow: 1; //Needed on IE
-      flex-shrink: 0; //Needed on IE
-      flex-basis: 0px; //Needed on IE (must have unit)
+      flex: 1 0 0;
       overflow: hidden;
     }
 
