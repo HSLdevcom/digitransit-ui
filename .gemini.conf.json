@@ -2,8 +2,6 @@
   "screenshotsDir": "./test/visual-images/",
   "httpTimeout": 30000,
   "sessionRequestTimeout": 120000,
-  "sessionsPerBrowser": 2,
-  "suitesPerSession": 50,
   "system": {
     "parallelLimit": 4,
     "coverage": false,
@@ -11,7 +9,7 @@
   },
   "browsers": {
     "ie11": {
-      "windowSize": "1024x768",
+      "windowSize": "600x1024",
       "retry": 3,
       "desiredCapabilities": {
         "os": "Windows",
@@ -56,6 +54,7 @@
       }
     },
     "firefox47": {
+      "windowSize": "600x1024",
       "retry": 3,
       "desiredCapabilities": {
         "os": "Windows",
