@@ -24,6 +24,8 @@ RightOffcanvasToggle.propTypes = {
   text: React.PropTypes.string,
 };
 
+RightOffcanvasToggle.displayName = 'RightOffcanvasToggle';
+
 RightOffcanvasToggle.description = (
   <div>
     <p>

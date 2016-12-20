@@ -29,6 +29,8 @@ export default class TimeNavigationButtons extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
   };
 
+  static displayName ='TimeNavigationButtons';
+
   static description = (
     <div>
       <p>

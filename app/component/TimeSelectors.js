@@ -80,6 +80,8 @@ TimeSelectors.contextTypes = {
   intl: intlShape.isRequired,
 };
 
+TimeSelectors.displayName = 'TimeSelectors';
+
 TimeSelectors.description = (
   <div>
     <p>

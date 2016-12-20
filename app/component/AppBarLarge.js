@@ -31,6 +31,8 @@ AppBarLarge.propTypes = {
   titleClicked: PropTypes.func.isRequired,
 };
 
+AppBarLarge.displayName = 'AppBarLarge';
+
 AppBarLarge.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
 };

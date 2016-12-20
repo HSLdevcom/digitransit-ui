@@ -7,7 +7,7 @@ const Card = ({ className, children }) => (
     {children}
   </div>
 );
-
+Card.displayName = 'Card';
 Card.description = () => (
   <div>
     <p>Renders a card container</p>

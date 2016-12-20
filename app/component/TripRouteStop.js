@@ -130,6 +130,8 @@ TripRouteStop.propTypes = {
   fullscreenMap: React.PropTypes.bool,
 };
 
+TripRouteStop.displayName = 'TripRouteStop';
+
 TripRouteStop.description = (
   <div>
     <p>

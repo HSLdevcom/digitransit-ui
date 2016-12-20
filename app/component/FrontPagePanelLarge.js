@@ -35,6 +35,8 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
 
 const noop = () => {};
 
+FrontPagePanelLarge.displayName = 'FrontPagePanelLarge';
+
 FrontPagePanelLarge.description = () => (
   <div>
     <p>

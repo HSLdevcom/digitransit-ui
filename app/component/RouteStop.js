@@ -124,6 +124,8 @@ RouteStop.propTypes = {
   last: React.PropTypes.bool,
 };
 
+RouteStop.displayName = 'RouteStop';
+
 RouteStop.description = (
   <ComponentUsageExample description="basic">
     <RouteStop

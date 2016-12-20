@@ -59,6 +59,8 @@ FooterItem.defaultProps = {
   links: [],
 };
 
+FooterItem.displayName = 'FooterItem';
+
 FooterItem.description = () => (
   <div>
     <p>

@@ -61,6 +61,8 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
 
 const noop = () => {};
 
+FrontPagePanelSmall.displayName = 'FrontPagePanelSmall';
+
 FrontPagePanelSmall.description = () => (
   <div>
     <p>

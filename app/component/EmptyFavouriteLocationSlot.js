@@ -18,6 +18,7 @@ const EmptyFavouriteLocationSlot = ({ index }) => (
     </div>
   </Link>);
 
+EmptyFavouriteLocationSlot.displayName = 'EmptyFavouriteLocationSlot';
 
 EmptyFavouriteLocationSlot.description = (
   <div>

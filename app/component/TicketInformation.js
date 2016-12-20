@@ -40,6 +40,8 @@ TicketInformation.propTypes = {
   fares: React.PropTypes.array,
 };
 
+TicketInformation.displayName = 'TicketInformation';
+
 TicketInformation.description = (
   <div>
     <p>Information about the required ticket for the itinerary.</p>

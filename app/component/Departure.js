@@ -90,6 +90,8 @@ Departure.description = (
     </ComponentUsageExample>
   </div>);
 
+Departure.displayName = 'Departure';
+
 Departure.propTypes = {
   canceled: React.PropTypes.bool,
   className: React.PropTypes.string,

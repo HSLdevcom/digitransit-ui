@@ -49,6 +49,7 @@ RouteScheduleDateSelect.propTypes = {
 RouteScheduleDateSelect.contextTypes = {
   intl: intlShape.isRequired,
 };
+RouteScheduleDateSelect.displayName = 'RouteScheduleDateSelect';
 
 RouteScheduleDateSelect.description = (
   <div>

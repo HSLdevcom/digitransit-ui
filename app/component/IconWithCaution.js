@@ -16,9 +16,10 @@ const IconWithCaution = props => (
   </svg>
 );
 
-IconWithCaution.description = (<ComponentUsageExample description="Bus with caution">
-  <IconWithCaution className="bus" img={'icon-icon_bus'} />
-</ComponentUsageExample>);
+IconWithCaution.description = () =>
+  <ComponentUsageExample description="Bus with caution">
+    <IconWithCaution className="bus" img={'icon-icon_bus'} />
+  </ComponentUsageExample>;
 
 IconWithCaution.displayName = 'IconWithCaution';
 

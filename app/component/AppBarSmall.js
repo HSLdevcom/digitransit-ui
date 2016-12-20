@@ -22,6 +22,8 @@ const AppBarSmall = ({ disableBackButton, showLogo, title }) =>
     </nav>
   </div>;
 
+AppBarSmall.displayName = 'AppBarSmall';
+
 AppBarSmall.description = () => (
   <div>
     <p>

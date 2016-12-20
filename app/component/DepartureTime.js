@@ -91,6 +91,8 @@ DepartureTime.description = (
     </ComponentUsageExample>
   </div>);
 
+DepartureTime.displayName = 'DepartureTime';
+
 DepartureTime.propTypes = {
   className: React.PropTypes.string,
   canceled: React.PropTypes.bool,

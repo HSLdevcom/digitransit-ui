@@ -27,6 +27,7 @@ RouteScheduleStopSelect.propTypes = {
   options: PropTypes.array.isRequired,
   onSelectChange: PropTypes.func.isRequired,
 };
+RouteScheduleStopSelect.displayName = 'RouteScheduleStopSelect';
 
 RouteScheduleStopSelect.description = (
   <div>

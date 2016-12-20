@@ -16,6 +16,8 @@ RouteScheduleTripRow.propTypes = {
   arrivalTime: PropTypes.string.isRequired,
 };
 
+RouteScheduleTripRow.displayName = 'RouteScheduleTripRow';
+
 RouteScheduleTripRow.description = (
   <div>
     <p>

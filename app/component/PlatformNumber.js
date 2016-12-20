@@ -17,6 +17,8 @@ PlatformNumber.propTypes = {
   number: React.PropTypes.string,
 };
 
+PlatformNumber.displayName = 'PlatformNumber';
+
 PlatformNumber.description = (
   <div>
     <p>
