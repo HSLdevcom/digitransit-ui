@@ -460,10 +460,18 @@ div.route-tabs {
       &.is-active {
         border-bottom: 2px solid $primary-color ;
         color: $black;
+
+        .icon {
+          fill: $black;
+        }
       }
 
       &:hover {
         color: lighten($black, 20%);
+
+        .icon {
+          fill: lighten($black, 20%);
+        }
       }
 
       > div {
@@ -484,6 +492,8 @@ div.route-tabs {
         display: block;
         width: 1.5em;
         height: 1.5em;
+        fill: $gray-blue;
+        color: $background-color;
         margin: $padding-small auto;
       }
     }
