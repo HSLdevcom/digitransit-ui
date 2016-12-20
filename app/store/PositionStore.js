@@ -69,8 +69,14 @@ export default class PositionStore extends Store {
 
     const statusChanged = this.hasStatusChanged(true);
 
-    this.lat = this.lat !== 0 ? (this.lat + location.lat) / 2 : location.lat;
-    this.lon = this.lon !== 0 ? (this.lon + location.lon) / 2 : location.lon;
+    if (location && location.disableFiltering !== true) {
+      this.lat = this.lat !== 0 ? (this.lat + location.lat) / 2 : location.lat;
+      this.lon = this.lon !== 0 ? (this.lon + location.lon) / 2 : location.lon;
+    } else {
+      this.lat = location.lat;
+      this.lon = location.lon;
+    }
+
     this.heading = location.heading ? location.heading : this.heading;
     this.status = PositionStore.STATUS_FOUND_LOCATION;
 
