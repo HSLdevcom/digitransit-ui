@@ -8,14 +8,13 @@ const Card = ({ className, children }) => (
   </div>
 );
 Card.displayName = 'Card';
-Card.description = () => (
+Card.description = () =>
   <div>
     <p>Renders a card container</p>
     <ComponentUsageExample description="">
       <Card className="padding-small">content of a card</Card>
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 Card.displayName = 'Card';
 

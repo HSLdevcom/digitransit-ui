@@ -43,7 +43,7 @@ const exampleIcons = [<Favourite favourite={false} addFavourite={() => {}} />];
 
 CardHeader.displayName = 'CardHeader';
 
-CardHeader.description = (
+CardHeader.description = () =>
   <div>
     <p>
       Generic card header, which displays card name, description,
@@ -57,7 +57,7 @@ CardHeader.description = (
         icons={exampleIcons}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 CardHeader.propTypes = {
   className: React.PropTypes.string,

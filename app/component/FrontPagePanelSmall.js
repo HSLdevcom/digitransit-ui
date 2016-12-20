@@ -63,7 +63,7 @@ const noop = () => {};
 
 FrontPagePanelSmall.displayName = 'FrontPagePanelSmall';
 
-FrontPagePanelSmall.description = () => (
+FrontPagePanelSmall.description = () =>
   <div>
     <p>
       Front page tabs for small display.
@@ -71,7 +71,7 @@ FrontPagePanelSmall.description = () => (
     <ComponentUsageExample description="Front page tabs">
       <FrontPagePanelSmall closePanel={noop} favouritesClicked={noop} nearbyClicked={noop} />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 FrontPagePanelSmall.propTypes = {
   selectedPanel: React.PropTypes.number,

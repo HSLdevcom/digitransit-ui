@@ -213,7 +213,7 @@ const exampleData = {
   ],
 };
 
-SummaryRow.description = (
+SummaryRow.description = () =>
   <div>
     <p>
       Displays a summary of an itinerary.
@@ -244,5 +244,4 @@ SummaryRow.description = (
         hash={1}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;

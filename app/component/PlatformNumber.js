@@ -19,7 +19,7 @@ PlatformNumber.propTypes = {
 
 PlatformNumber.displayName = 'PlatformNumber';
 
-PlatformNumber.description = (
+PlatformNumber.description = () =>
   <div>
     <p>
       Displays the platform number for a specific departure
@@ -29,6 +29,6 @@ PlatformNumber.description = (
         number="2"
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default PlatformNumber;

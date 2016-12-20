@@ -18,15 +18,14 @@ const SelectedIconWithTail = ({ img, fullscreenMap }) => (
 
 SelectedIconWithTail.displayName = 'SelectedIconWithTail';
 
-SelectedIconWithTail.description = (
+SelectedIconWithTail.description = () =>
   <div>
     <p>Shows an selected (vehicle) icon that cconsists of IconWithTail and a green ckecked
     mark and a greyish circle on top of it.</p>
     <ComponentUsageExample description="">
       <SelectedIconWithTail className="bus selected-tail-icon" img="icon-icon_bus-live" />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 SelectedIconWithTail.propTypes = {
   img: React.PropTypes.string.isRequired,

@@ -20,14 +20,13 @@ const EmptyFavouriteLocationSlot = ({ index }) => (
 
 EmptyFavouriteLocationSlot.displayName = 'EmptyFavouriteLocationSlot';
 
-EmptyFavouriteLocationSlot.description = (
+EmptyFavouriteLocationSlot.description = () =>
   <div>
     <p>Renders a empty favourite location slot component</p>
     <ComponentUsageExample description="none">
       <EmptyFavouriteLocationSlot />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 EmptyFavouriteLocationSlot.propTypes = {
   index: React.PropTypes.number.isRequired,

@@ -18,7 +18,7 @@ RouteScheduleTripRow.propTypes = {
 
 RouteScheduleTripRow.displayName = 'RouteScheduleTripRow';
 
-RouteScheduleTripRow.description = (
+RouteScheduleTripRow.description = () =>
   <div>
     <p>
       Display a route schedule row using react components
@@ -29,7 +29,7 @@ RouteScheduleTripRow.description = (
         arrivalTime={'08:12'}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 
 export default RouteScheduleTripRow;

@@ -3,7 +3,7 @@ import { click } from '../action/notImplementedActions';
 import ComponentUsageExample from './ComponentUsageExample';
 
 class NotImplementedLink extends React.Component {
-  static description = (
+  static description = () =>
     <div>
       <p>Builds a link that opens a &lsquo;not implemented&rsquo; popup.</p>
       <p>
@@ -14,7 +14,6 @@ class NotImplementedLink extends React.Component {
         <NotImplementedLink name="The promiseware">Promiseware</NotImplementedLink>
       </ComponentUsageExample>
     </div>
-  );
 
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,

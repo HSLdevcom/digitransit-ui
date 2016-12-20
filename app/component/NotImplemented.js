@@ -47,15 +47,14 @@ function NotImplemented({ name }, { executeAction }) {
   );
 }
 
-NotImplemented.description = (
+NotImplemented.description = () =>
   <div>
     <p>
       Placeholder for a &lsquo;not implemented&rsquo; popup.
       It is activated from clicking of NotImplementedLink
     </p>
     <ComponentUsageExample><NotImplemented /></ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 NotImplemented.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,

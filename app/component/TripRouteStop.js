@@ -132,7 +132,7 @@ TripRouteStop.propTypes = {
 
 TripRouteStop.displayName = 'TripRouteStop';
 
-TripRouteStop.description = (
+TripRouteStop.description = () =>
   <div>
     <p>
       Renders a row intended to for use in a trip route stop list.
@@ -172,6 +172,6 @@ TripRouteStop.description = (
         selectedVehicle={exampleVehicle}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default TripRouteStop;

@@ -24,7 +24,7 @@ const CityBikeUse = ({ lang }) => (
 
 CityBikeUse.displayName = 'CityBikeUse';
 
-CityBikeUse.description = (
+CityBikeUse.description = () =>
   <div>
     <p>Renders use citybike component</p>
     <ComponentUsageExample description="">

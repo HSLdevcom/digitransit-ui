@@ -54,7 +54,7 @@ DepartureTime.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-DepartureTime.description = (
+DepartureTime.description = () =>
   <div>
     <p>
       Display time in correct format. Displays minutes for 20 minutes,
@@ -89,7 +89,7 @@ DepartureTime.description = (
         useUTC
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 DepartureTime.displayName = 'DepartureTime';
 

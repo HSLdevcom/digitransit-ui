@@ -53,7 +53,7 @@ RouteAlertsRow.propTypes = {
   expired: React.PropTypes.bool.isRequired,
 };
 
-RouteAlertsRow.description = (
+RouteAlertsRow.description = () =>
   <div>
     <p>
       Display a disruption alert for a specific route.
@@ -90,4 +90,4 @@ RouteAlertsRow.description = (
         />
       </ComponentUsageExample>
     </div>
-  </div>);
+  </div>;

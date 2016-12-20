@@ -38,7 +38,7 @@ DisruptionInfo.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
 };
 
-DisruptionInfo.description = (
+DisruptionInfo.description = () =>
   <div>
     <p>
       Modal that shows all available disruption info.
@@ -48,7 +48,7 @@ DisruptionInfo.description = (
     <ComponentUsageExample>
       <DisruptionInfo />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default connectToStores(DisruptionInfo, ['DisruptionInfoStore'], context =>
   ({

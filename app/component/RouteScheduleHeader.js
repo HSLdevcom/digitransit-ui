@@ -44,7 +44,7 @@ RouteScheduleHeader.propTypes = {
 
 RouteScheduleHeader.displayName = 'RouteScheduleHeader';
 
-RouteScheduleHeader.description = (
+RouteScheduleHeader.description = () =>
   <div>
     <p>
       Display a route schedule header using react components
@@ -58,6 +58,6 @@ RouteScheduleHeader.description = (
         onToSelectChange={event => event.target.value}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default RouteScheduleHeader;

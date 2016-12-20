@@ -42,10 +42,10 @@ TicketInformation.propTypes = {
 
 TicketInformation.displayName = 'TicketInformation';
 
-TicketInformation.description = (
+TicketInformation.description = () =>
   <div>
     <p>Information about the required ticket for the itinerary.</p>
     <ComponentUsageExample>
       <TicketInformation fares={examplePlan.itineraries[0].fares} />
     </ComponentUsageExample>
-  </div>);
+  </div>;

@@ -23,12 +23,11 @@ function GenericTable(props) {
 
 GenericTable.displayName = 'GenericTable';
 
-GenericTable.description = (
+GenericTable.description = () =>
   <div>
     <p>Renders a score table</p>
     <ComponentUsageExample description=""><GenericTable /></ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 GenericTable.propTypes = {
   showLabels: React.PropTypes.bool,

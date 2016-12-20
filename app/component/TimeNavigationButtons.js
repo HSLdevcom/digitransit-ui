@@ -31,7 +31,7 @@ export default class TimeNavigationButtons extends React.Component {
 
   static displayName ='TimeNavigationButtons';
 
-  static description = (
+  static description = () =>
     <div>
       <p>
         Shows buttons for changing the itinerary search time to show previous or next deaprtures or
@@ -40,7 +40,7 @@ export default class TimeNavigationButtons extends React.Component {
       <ComponentUsageExample>
         <TimeNavigationButtons itineraries={examplePlan.itineraries} />
       </ComponentUsageExample>
-    </div>);
+    </div>
 
   setEarlierSelectedTime() {
     const earliestArrivalTime = this.props.itineraries.reduce((previous, current) => {
