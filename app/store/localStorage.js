@@ -8,6 +8,9 @@ function setItem(key, value) {
       if (error.name === 'QuotaExceededError') {
         console.log('[localStorage]' + // eslint-disable-line no-console
           ' Unable to save state; localStorage is not available in Safari private mode');
+      } else if (error.name === 'SecurityError') {
+        console.log('[localStorage]' + // eslint-disable-line no-console
+          ' Unable to save state; access to localStorage denied by browser settings');
       } else {
         throw error;
       }
@@ -16,8 +19,18 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  return (isBrowser && window.localStorage &&
-    window.localStorage.getItem(key)) || null;
+  if (isBrowser && window.localStorage) {
+    try {
+      return window.localStorage.getItem(key);
+    } catch (error) {
+      if (error.name === 'SecurityError') {
+        // localStorage not available
+      } else {
+        throw error;
+      }
+    }
+  }
+  return null;
 }
 
 function getItemAsJson(key, defaultValue) {
@@ -32,7 +45,15 @@ function getItemAsJson(key, defaultValue) {
 
 export function removeItem(k) {
   if (isBrowser && window.localStorage) {
-    window.localStorage.removeItem(k);
+    try {
+      window.localStorage.removeItem(k);
+    } catch (error) {
+      if (error.name === 'SecurityError') {
+        // localStorage not available
+      } else {
+        throw error;
+      }
+    }
   }
 }
 
