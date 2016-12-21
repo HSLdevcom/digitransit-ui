@@ -1,9 +1,18 @@
 import React from 'react';
+import styled from 'styled-components';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
+import CardStopCode from './atom/CardStopCode';
+import config from '../config';
+
+const IconWrapper = styled.div`
+  font-size: 32px;
+  padding-right: 10px;
+  height: 32px;
+`;
 
 const CardHeader = ({
   className,
@@ -18,19 +27,16 @@ const CardHeader = ({
   <div className={cx('card-header', className)}>
     {children}
     {icon ? (
-      <div
-        className="left"
-        style={{ fontSize: 32, paddingRight: 10, height: 32 }}
-      >
+      <IconWrapper>
         <Icon img={icon} />
-      </div>
+      </IconWrapper>
     ) : null}
     <div className="card-header-wrapper">
       <span className={headingStyle || 'h4 link-color'}>
         {name}<span className="link-arrow"> ›</span>
       </span>
       <div className="card-sub-header">
-        {code != null ? <p className="card-code">{code}</p> : null}
+        {code != null ? <CardStopCode>{code}</CardStopCode> : null}
         <p className="sub-header-h4">{description}</p>
       </div>
     </div>

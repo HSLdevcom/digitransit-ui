@@ -1,5 +1,6 @@
 import React from 'react';
 
+import CardStopCode from './atom/CardStopCode';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SelectedStopPopupContent = ({ stop }) => (
@@ -12,7 +13,7 @@ const SelectedStopPopupContent = ({ stop }) => (
     <div>
       <div className="origin-popup-name">
         <div className="selected-stop-popup">
-          <p className="card-code">{stop.code}</p>
+          <CardStopCode>{stop.code}</CardStopCode>
           <span className="description">{stop.desc}</span>
         </div>
       </div>
