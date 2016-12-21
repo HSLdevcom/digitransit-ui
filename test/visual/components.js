@@ -55,7 +55,7 @@ testVariation(undefined, 'RouteDestination', 'isArrival', 2);
 
 testVariation(undefined, 'Distance', 'zero');
 testVariation(undefined, 'Distance', 'meters', 2);
-testVariation(undefined, 'Distance', 'km', 2);
+testVariation(undefined, 'Distance', 'km', 3);
 
 testVariation(undefined, 'PlatformNumber');
 
