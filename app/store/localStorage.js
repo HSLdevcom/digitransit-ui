@@ -1,5 +1,15 @@
 import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
 
+function handleSecurityError(error, logMessage) {
+  if (error.name === 'SecurityError') {
+    if (logMessage) {
+      console.log(logMessage); // eslint-disable-line no-console
+    }
+  } else {
+    throw error;
+  }
+}
+
 function setItem(key, value) {
   if (isBrowser && window.localStorage) {
     try {
@@ -8,11 +18,9 @@ function setItem(key, value) {
       if (error.name === 'QuotaExceededError') {
         console.log('[localStorage]' + // eslint-disable-line no-console
           ' Unable to save state; localStorage is not available in Safari private mode');
-      } else if (error.name === 'SecurityError') {
-        console.log('[localStorage]' + // eslint-disable-line no-console
-          ' Unable to save state; access to localStorage denied by browser settings');
       } else {
-        throw error;
+        handleSecurityError(error, '[localStorage]' +
+          ' Unable to save state; access to localStorage denied by browser settings');
       }
     }
   }
@@ -23,11 +31,7 @@ function getItem(key) {
     try {
       return window.localStorage.getItem(key);
     } catch (error) {
-      if (error.name === 'SecurityError') {
-        // localStorage not available
-      } else {
-        throw error;
-      }
+      handleSecurityError(error);
     }
   }
   return null;
@@ -48,11 +52,7 @@ export function removeItem(k) {
     try {
       window.localStorage.removeItem(k);
     } catch (error) {
-      if (error.name === 'SecurityError') {
-        // localStorage not available
-      } else {
-        throw error;
-      }
+      handleSecurityError(error);
     }
   }
 }
