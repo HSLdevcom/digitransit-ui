@@ -5,7 +5,7 @@ export default {
   fontFamily: 'Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif',
   palette: {
     textColor: '#fff',
-    primary1Color: config.colors.primary,
+    primary1Color: config.theme.colors.primary,
   },
   tabs: {
     textColor: '#333',
@@ -16,7 +16,7 @@ export default {
     backgroundColor: '#fff',
   },
   timePicker: {
-    headerColor: config.colors.primary,
+    headerColor: config.theme.colors.primary,
     selectTextColor: '#fff',
     clockCircleColor: '#eef1f3',
   },

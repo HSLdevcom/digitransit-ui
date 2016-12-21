@@ -19,7 +19,7 @@ const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }, { intl 
             <Tabs
               className="search-header__tabs-root"
               inkBarStyle={{
-                backgroundColor: config.colors.primary,
+                backgroundColor: config.theme.colors.primary,
                 height: '4px',
               }}
               value={selectedTab}

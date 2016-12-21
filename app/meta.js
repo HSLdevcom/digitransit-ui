@@ -43,7 +43,7 @@ export default function getMetadata(lang) {
       content: `${root}/browserconfig.${configPath}.xml`,
     }, {
       name: 'msapplication-TileColor',
-      content: `${config.colors.primary}`,
+      content: `${config.theme.colors.primary}`,
     }, {
       name: 'msapplication-TileImage',
       content: `${root}/img/${configPath}-icons/ms-icon-144x144.png`,

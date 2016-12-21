@@ -57,8 +57,31 @@ export default {
 
   stopsMinZoom: 14,
 
-  colors: {
-    primary: '#007ac9',
+  theme: {
+    colors: {
+      primary: '#007ac9',
+      white: '#ffffff',
+      lightGray: '#ddd',
+      mediumGray: '#ccc',
+      gray: '#888',
+      darkGray: '#575757',
+      black: '#333',
+      grayBlue: '#78909c',
+      grayBlueLight: 'rgb(182, 193, 199)',
+    },
+    borderRadius: {
+      normal: '3px',
+      large: '8px',
+    },
+    fontSize: {
+      xxxsmall: '0.72rem',
+      xxsmall: '0.80rem',
+      xsmall: '0.87rem',
+      small: '0.92rem',
+      normal: '1rem',
+      large: '1.25rem',
+      xlarge: '1.5rem',
+    },
   },
 
   appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
