@@ -135,6 +135,9 @@ module.exports = {
       selector: 'a#search-tab',
     },
     searchResultCurrentLocation: {
+      selector: '.search-result.CurrentLocation',
+    },
+    geolocationSelected: {
       selector: '.search-current-origin-tip svg.icon',
     },
     closeSearchButton: {
