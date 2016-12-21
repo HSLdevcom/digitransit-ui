@@ -135,7 +135,7 @@ module.exports = {
       selector: 'a#search-tab',
     },
     searchResultCurrentLocation: {
-      selector: '.search-result.CurrentLocation',
+      selector: '.search-current-origin-tip svg.icon',
     },
     closeSearchButton: {
       selector: '#close-search-button-container > button',
