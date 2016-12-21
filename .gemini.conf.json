@@ -3,8 +3,6 @@
   "httpTimeout": 30000,
   "sessionRequestTimeout": 120000,
   "system": {
-    "parallelLimit": 4,
-    "coverage": false,
     "plugins": { "browserstack": {} }
   },
   "browsers": {
@@ -53,16 +51,5 @@
         "locationContextEnabled": false
       }
     },
-    "firefox47": {
-      "windowSize": "600x1024",
-      "retry": 3,
-      "desiredCapabilities": {
-        "os": "Windows",
-        "os_version": "10",
-        "browserName": "firefox",
-        "version": "47",
-        "locationContextEnabled": false
-      }
-    }
   }
 }
