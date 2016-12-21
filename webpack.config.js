@@ -33,6 +33,10 @@ const devBrowsers = ['edge 14', 'last 1 chrome version', 'Firefox ESR', 'safari 
 
 const prodBrowsers = ['IE 10', '> 0.3% in FI', 'last 2 versions'];
 
+function getDevBrowsers() {
+  return process.env.UITEST ? prodBrowsers : devBrowsers;
+}
+
 function getRulesConfig(env) {
   if (env === 'development') {
     return ([
@@ -44,7 +48,7 @@ function getRulesConfig(env) {
         exclude: /node_modules/,
         options: {
           presets: [
-            ['env', { targets: { browsers: devBrowsers }, modules: false }],
+            ['env', { targets: { browsers: getDevBrowsers() }, modules: false }],
             'react',
             'stage-2',
           ],
@@ -135,7 +139,7 @@ function getPluginsConfig(env) {
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
-          postcss: () => [autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] })],
+          postcss: () => [autoprefixer({ browsers: getDevBrowsers() })],
         },
       }),
       new webpack.NoErrorsPlugin(),
