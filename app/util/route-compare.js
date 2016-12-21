@@ -1,4 +1,4 @@
-module.exports = (routea, routeb) => {
+export default function routeCompare(routea, routeb) {
   if (routea.agency && routea.agency.name && routeb.agency && routeb.agency.name) {
     const agencyCompare = routea.agency.name.localeCompare(routeb.agency.name);
     if (agencyCompare !== 0) {
@@ -21,4 +21,4 @@ module.exports = (routea, routeb) => {
     (routea.shortName || '')
     .localeCompare(routeb.shortName || '') || (routea.longName || '')
     .localeCompare(routeb.longName || '');
-};
+}
