@@ -18,6 +18,7 @@ class AddFavouriteContainer extends React.Component {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
   };
 
@@ -27,17 +28,18 @@ class AddFavouriteContainer extends React.Component {
 
   componentWillMount = () => {
     if (this.isEdit()) {
-      this.setState({ favourite: this.props.favourite, searchModalIsOpen: false });
+      this.setState({ favourite: this.props.favourite, });
     } else {
-      this.setState({ favourite: {
-        selectedIconId: undefined,
-        lat: undefined,
-        lon: undefined,
-        locationName: undefined,
-        address: undefined,
-        version: 1,
-      },
-        searchModalIsOpen: false });
+      this.setState({
+        favourite: {
+          selectedIconId: undefined,
+          lat: undefined,
+          lon: undefined,
+          locationName: undefined,
+          address: undefined,
+          version: 1,
+        },
+      });
     }
   }
 
@@ -145,8 +147,9 @@ class AddFavouriteContainer extends React.Component {
                 placeholder={destinationPlaceholder}
                 onClick={(e) => {
                   e.preventDefault();
-                  this.setState({
-                    searchModalIsOpen: true,
+                  this.context.router.push({
+                    state: { oneTabSearchModalOpen: true },
+                    pathname: this.context.location.pathname,
                   });
                 }} id="destination" className="add-favourite-container__input-placeholder"
               />
@@ -209,14 +212,12 @@ class AddFavouriteContainer extends React.Component {
         </row>
       </div>
       <OneTabSearchModal
-        modalIsOpen={this.state.searchModalIsOpen}
-        closeModal={this.closeSearchModal}
         customTabLabel={searchTabLabel}
         layers={favouriteLayers}
         initialValue=""
         customOnSuggestionSelected={(name, item) => {
           this.setCoordinatesAndAddress(name, item);
-          return this.closeSearchModal();
+          return this.context.router.goBack();
         }}
       /></div>);
   }

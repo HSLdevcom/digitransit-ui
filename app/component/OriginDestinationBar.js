@@ -32,8 +32,8 @@ class OriginDestinationBar extends React.Component {
 
   getSearchModalState = () => {
     if (this.context.location.state != null &&
-        this.context.location.state.searchTabOpen != null) {
-      return this.context.location.state.searchTabOpen;
+        this.context.location.state.oneTabSearchModalOpen != null) {
+      return this.context.location.state.oneTabSearchModalOpen;
     }
     return false;
   }
@@ -48,13 +48,9 @@ class OriginDestinationBar extends React.Component {
     );
   }
 
-  closeSearchModal = () => {
-    this.context.router.goBack();
-  }
-
   openSearchModal = (tab) => {
     this.context.router.push({
-      state: { searchTabOpen: tab },
+      state: { oneTabSearchModalOpen: tab },
       pathname: this.context.location.pathname,
     });
   }
@@ -101,8 +97,6 @@ class OriginDestinationBar extends React.Component {
           </span>
         </div>
         <OneTabSearchModal
-          modalIsOpen={tab}
-          closeModal={this.closeSearchModal}
           initialValue={initialValue}
           layers={searchLayers}
           endpoint={this.props[tab]}

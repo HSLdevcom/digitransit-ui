@@ -20,17 +20,13 @@ class Splash extends React.Component {
 
   openModal = () => {
     this.context.router.push({
-      state: { searchOpened: true},
+      state: { oneTabSearchModalOpen: true },
       pathname: this.context.location.pathname,
     });
   };
 
-  closeModal = () => {
-      this.context.router.goBack();
-  };
-
-
   renderContents() {
+    const modalOpen = this.context.location.state && this.context.location.state.oneTabSearchModalOpen ? true : false;
     return (
       <div key="contents" className="flex-vertical">
         <h3>
@@ -39,7 +35,7 @@ class Splash extends React.Component {
             defaultMessage="How do you want to start?"
           />
         </h3>
-        <GeopositionSelector searchModalIsOpen={this.context.location.state && this.context.location.state.searchOpened} />
+        <GeopositionSelector searchModalIsOpen={modalOpen} />
         <div className="splash-separator">
           <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
         </div>
@@ -63,8 +59,7 @@ class Splash extends React.Component {
     return (
       <div className="fullscreen">
         <OneTabSearchModal
-          modalIsOpen={this.context.location.state && this.context.location.state.searchOpened}
-          closeModal={this.closeModal} initialValue="" target="origin"
+          initialValue="" target="origin"
         />
         <div className="front-page fullscreen">
           <div id="splash-map" className="fullscreen">
