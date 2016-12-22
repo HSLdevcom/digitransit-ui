@@ -14,6 +14,7 @@ const CardHeader = ({
   code,
   icon,
   icons,
+  unlinked,
 }) => (
   <div className={cx('card-header', className)}>
     {children}
@@ -26,8 +27,8 @@ const CardHeader = ({
       </div>
     ) : null}
     <div className="card-header-wrapper">
-      <span className={headingStyle || 'h4 link-color'}>
-        {name}<span className="link-arrow"> ›</span>
+      <span className={headingStyle || 'h4'}>
+        {name}{unlinked ? null : <span className="link-arrow"> ›</span>}
       </span>
       <div className="card-sub-header">
         {code != null ? <p className="card-code">{code}</p> : null}
@@ -53,6 +54,7 @@ CardHeader.description = (
         description="Testipysäkki 2"
         code="7528"
         icons={exampleIcons}
+        headingStyle="header-primary"
       />
     </ComponentUsageExample>
   </div>);
@@ -66,6 +68,7 @@ CardHeader.propTypes = {
   icon: React.PropTypes.string,
   icons: React.PropTypes.arrayOf(React.PropTypes.node),
   children: React.PropTypes.node,
+  unlinked: React.PropTypes.bool,
 };
 
 export default CardHeader;
