@@ -187,12 +187,15 @@ function getPluginsConfig(env) {
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
-        main: [':rest:', ':externals:'],
-        additional: ['js/+([a-z0-9]).js',
-          // TODO: move these back to optional after caching has been fixed.
-          'css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js', '*.png',
+        main: [':rest:'],
+        additional: [
+          ':externals:',
+          'js/+([a-z0-9]).js',
+          // TODO: move the ones below back to optional after caching has been fixed.
+          'css/*.css',
+          '*.svg',
         ],
-        optional: [],
+        optional: ['js/*_theme.*.js', 'js/*_sprite.*.js', '*.png'],
       },
       externals: ['/'],
       safeToUseOptionalCaches: true,
