@@ -23,7 +23,6 @@ class OneTabSearchModal extends React.Component {
     customOnSuggestionSelected: React.PropTypes.func,
     customTabLabel: React.PropTypes.string,
     endpoint: React.PropTypes.object,
-    initialValue: React.PropTypes.string.isRequired,
     modalIsOpen: React.PropTypes.oneOfType(
       [React.PropTypes.bool, React.PropTypes.string]).isRequired,
     target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
@@ -100,7 +99,6 @@ class OneTabSearchModal extends React.Component {
               <SearchInputContainer
                 ref={(c) => { this.searchInputContainer = c; }}
                 useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
-                initialValue={placeholder ? '' : this.props.initialValue}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={this.props.layers}

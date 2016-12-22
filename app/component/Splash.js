@@ -64,7 +64,8 @@ class Splash extends React.Component {
       <div className="fullscreen">
         <OneTabSearchModal
           modalIsOpen={this.state.searchModalIsOpen}
-          closeModal={this.closeModal} initialValue="" target="origin"
+          closeModal={this.closeModal}
+          target="origin"
         />
         <div className="front-page fullscreen">
           <div id="splash-map" className="fullscreen">

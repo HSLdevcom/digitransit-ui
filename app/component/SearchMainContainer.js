@@ -106,7 +106,6 @@ class SearchMainContainer extends React.Component {
         ref={(c) => { this.searchInputs[tabname] = c; }}
         id={`search-${tabname}`}
         useCurrentPosition={endpoint.useCurrentPosition}
-        initialValue={endpoint.address}
         placeholder={placeholder}
         type={type}
         layers={layers}
