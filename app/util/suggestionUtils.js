@@ -26,8 +26,10 @@ export const getLabel = memoize((suggestion) => {
       return suggestion.shortName ? [(
         <span>
           <span className={suggestion.mode.toLowerCase()}>{suggestion.shortName}</span>
-          &nbsp;-&nbsp;
-          <FormattedMessage id="route" defaultMessage="Route" />
+          <span className="suggestion-type">
+            &nbsp;-&nbsp;
+            <FormattedMessage id="route" defaultMessage="Route" />
+          </span>
         </span>
       ), suggestion.longName] : [suggestion.longName, null];
     case 'venue': {
