@@ -112,15 +112,14 @@ function getPolyfills(userAgent) {
   }
 
   const features = {
-    'Array.prototype.includes': { flags: ['gated'] },
+    'caniuse:console-basic': { flags: ['gated'] },
     default: { flags: ['gated'] },
     es5: { flags: ['gated'] },
     es6: { flags: ['gated'] },
+    es7: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
     Intl: { flags: ['gated'] },
     matchMedia: { flags: ['gated'] },
-    Symbol: { flags: ['gated'] },
-    'Symbol.iterator': { flags: ['gated'] },
   };
 
   config.availableLanguages.forEach((language) => {
