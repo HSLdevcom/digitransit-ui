@@ -32,7 +32,7 @@ class OneTabSearchModal extends React.Component {
 
   componentDidUpdate() {
     if (this.props.modalIsOpen) {
-      setTimeout(() => this.searchInputContainer.searchInput.autowhatever.input.focus(), 0);
+      this.searchInputContainer && this.searchInputContainer.autowhatever.input.focus();
     }
   }
 
