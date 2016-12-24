@@ -127,31 +127,31 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     raven: React.PropTypes.object,
   });
 
+  const componentTree = (
+    <AppContainer>
+      <ContextProvider translations={translations} context={context.getComponentContext()}>
+        <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
+          <Router
+            history={history}
+            environment={Relay.Store}
+            render={applyRouterMiddleware(useRelay)}
+            onUpdate={track}
+          >
+            {app.getComponent()}
+          </Router>
+        </MuiThemeProvider>
+      </ContextProvider>
+    </AppContainer>
+  );
+
   // init geolocation handling
   context.executeAction(initGeolocation).then(() => {
-    ReactDOM.render(
-      <AppContainer>
-        <ContextProvider translations={translations} context={context.getComponentContext()}>
-          <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
-            <Router
-              history={history}
-              environment={Relay.Store}
-              render={applyRouterMiddleware(useRelay)}
-              onUpdate={track}
-            >
-              {app.getComponent()}
-            </Router>
-          </MuiThemeProvider>
-        </ContextProvider>
-      </AppContainer>,
-      document.getElementById('app'),
-      () => {
-        // Run only in production mode and when built in a docker container
-        if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-          OfflinePlugin.install();
-        }
-      },
-    );
+    ReactDOM.render(componentTree, document.getElementById('app'), () => {
+      // Run only in production mode and when built in a docker container
+      if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
+        OfflinePlugin.install();
+      }
+    });
   });
 
   // Listen for Web App Install Banner events
@@ -168,23 +168,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 
   if (module.hot) {
     module.hot.accept('./app', () => {
-      ReactDOM.render(
-        <AppContainer>
-          <ContextProvider translations={translations} context={context.getComponentContext()}>
-            <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
-              <Router
-                history={history}
-                environment={Relay.Store}
-                render={applyRouterMiddleware(useRelay)}
-                onUpdate={track}
-              >
-                {app.getComponent()}
-              </Router>
-            </MuiThemeProvider>
-          </ContextProvider>
-        </AppContainer>,
-        document.getElementById('app'),
-      );
+      ReactDOM.render(componentTree, document.getElementById('app'));
     });
   }
 
