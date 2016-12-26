@@ -135,7 +135,7 @@ function getPluginsConfig(env) {
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
-          postcss: () => [autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] })],
+          postcss: () => [autoprefixer({ browsers: devBrowsers })],
         },
       }),
       new webpack.NoErrorsPlugin(),
