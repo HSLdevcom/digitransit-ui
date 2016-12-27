@@ -89,7 +89,7 @@ $heading-color: #858585;
     }
     .next-departures-list-header {
       background: #eef1f3;
-      padding:14px;
+      padding: 6px 14px;
     }
     .next-departure-row {
       padding-left:20px;
@@ -99,14 +99,14 @@ $heading-color: #858585;
       background-image: linear-gradient(0deg, white, rgba(255, 255, 255, 0));
       content: '';
       width: 100%;
-      height: 0.5em;
+      height: 1em;
       position: absolute;
       right:0;
-      bottom: 5px;
+      bottom: 1px;
       z-index:1
     }
     .scrollable.nearby {
-      height: calc(100% - 113px);
+      height: calc(100% - 93px);
     }
 
     .scrollable.favourites {
@@ -124,12 +124,13 @@ $heading-color: #858585;
   padding: 0px;
   margin: 0px;
   height: 50px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  outline: 1px solid rgba(0, 0, 0, 0.1);
 
   &.bp-large {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-top: none;
+    outline: none;
   }
 
   li {
