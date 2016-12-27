@@ -7,7 +7,6 @@ const RouteListHeader = ({ className }) => (
     <div className="columns route-stop-now">
       <FormattedMessage id="right-now" defaultMessage="Right now" />
     </div>
-    <div className="columns route-stop-now-reverse" />
     <div className="columns route-stop-name">
       <FormattedMessage id="stop" defaultMessage="Stop" />
     </div>

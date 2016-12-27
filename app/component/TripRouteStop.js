@@ -1,5 +1,4 @@
 import React from 'react';
-import Relay from 'react-relay';
 import { Link } from 'react-router';
 import cx from 'classnames';
 
@@ -7,8 +6,6 @@ import ComponentUsageExample from './ComponentUsageExample';
 import WalkDistance from './WalkDistance';
 import StopCode from './StopCode';
 import PatternLink from './PatternLink';
-import FuzzyTripRoute from '../route/FuzzyTripRoute';
-import FuzzyPatternLink from './FuzzyPatternLink';
 import { fromStopTime } from './DepartureTime';
 import {
   currentTime as exampleCurrentTime,
@@ -53,31 +50,9 @@ const TripRouteStop = (props) => {
     ),
   );
 
-  const reverseVehicles = props.reverseVehicles && props.reverseVehicles.map(vehicle => (
-    <Relay.RootContainer
-      key={vehicle.id}
-      Component={FuzzyPatternLink}
-      route={new FuzzyTripRoute({
-        route: vehicle.route,
-        direction: vehicle.direction,
-        date: vehicle.operatingDay,
-        time: (vehicle.tripStartTime.substring(0, 2) * 60 * 60) +
-          (vehicle.tripStartTime.substring(2, 4) * 60),
-      })}
-      renderFetched={data =>
-        (<FuzzyPatternLink
-          mode={vehicle.mode}
-          {...data}
-          reverse
-        />)
-      }
-    />),
-  );
-
   return (
     <div className={cx('route-stop row', { passed: props.stopPassed }, props.className)}>
       <div className="columns route-stop-now">{vehicles}</div>
-      <div className="columns route-stop-now-reverse">{reverseVehicles}</div>
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
         <div className={`columns route-stop-name ${props.mode}`}>
           {getRouteStopSvg(props.first, props.last)}
@@ -107,7 +82,6 @@ const TripRouteStop = (props) => {
 
 TripRouteStop.propTypes = {
   vehicles: React.PropTypes.array,
-  reverseVehicles: React.PropTypes.array,
   mode: React.PropTypes.string.isRequired,
   stopPassed: React.PropTypes.bool,
   realtimeDeparture: React.PropTypes.number,
