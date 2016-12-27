@@ -45,6 +45,7 @@ export default class ParkAndRidePopup extends React.Component {
             })}
             description={this.props.name}
             icon="icon-icon_car"
+            unlinked
           />
           <ParkAndRideAvailability
             realtime={this.props.realtime}

@@ -1,7 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
-import Icon from '../Icon';
 import { setEndpoint } from '../../action/EndpointActions';
 
 class MarkerPopupBottom extends React.Component {
@@ -38,11 +36,9 @@ class MarkerPopupBottom extends React.Component {
     return (
       <div className="bottom location">
         <div onClick={() => this.routeFrom()} className="route cursor-pointer">
-          <Icon img="icon-icon_route" />
           <FormattedMessage id="route-from-here" defaultMessage="Route from here" />
         </div>
         <div onClick={() => this.routeTo()} className="route cursor-pointer">
-          <Icon img="icon-icon_route" />
           <FormattedMessage id="route-here" defaultMessage="Route to here" />
         </div>
       </div>);
