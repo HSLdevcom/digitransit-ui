@@ -14,8 +14,6 @@ import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import Distance from './Distance';
 import PlatformNumber from './PlatformNumber';
-import NotImplemented from './NotImplemented';
-import NotImplementedLink from './NotImplementedLink';
 import CardHeader from './CardHeader';
 import Card from './Card';
 import CityBikeCard from './CityBikeCard';
@@ -81,8 +79,6 @@ const components = {
   DepartureTime,
   Distance,
   PlatformNumber,
-  NotImplemented,
-  NotImplementedLink,
   CardHeader,
   Card,
   CityBikeCard,

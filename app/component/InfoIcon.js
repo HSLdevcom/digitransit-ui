@@ -1,18 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router';
 import Icon from './Icon';
-import NotImplementedLink from './NotImplementedLink';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const InfoIcon = ({ stop }) => (
-  <NotImplementedLink
-    href={`/pysakit/${stop.gtfsId}/info`}
-    name="info"
-    nonTextLink
-  >
+  <Link href={`/pysakit/${stop.gtfsId}/info`}>
     <span className="cursor-pointer">
       <Icon className="info" img="icon-icon_info" />
     </span>
-  </NotImplementedLink>
+  </Link>
 );
 
 InfoIcon.propTypes = {

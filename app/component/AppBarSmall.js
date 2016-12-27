@@ -1,14 +1,12 @@
 import React, { PropTypes } from 'react';
 
 import BackButton from './BackButton';
-import NotImplemented from './NotImplemented';
 import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const AppBarSmall = ({ disableBackButton, showLogo, title }) =>
   <div>
-    <NotImplemented />
     <DisruptionInfo />
     <nav className="top-bar">
       {!disableBackButton && <BackButton />}
