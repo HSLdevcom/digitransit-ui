@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Tab from 'material-ui/Tabs/Tab';
@@ -26,45 +27,41 @@ class SearchMainContainer extends React.Component {
 
   static propTypes = {
     className: React.PropTypes.string,
+    searchModalIsOpen: React.PropTypes.bool.isRequired,
+    selectedTab: React.PropTypes.string.isRequired,
   }
-
-  state = {
-    searchModalIsOpen: false,
-  };
-
-  /* shouldComponentUpdate() {
-    return true;
-  } */
 
   onTabChange = tab => this.changeToTab(tab.props.value)
 
+  componentDidMount() {
+    this.focusInput(this.props.selectedTab);
+  }
+
   onSuggestionSelected = (name, item) => {
-    const newLocation = {
-      ...this.context.location,
-      state: {
-        ...this.context.location.state,
-        searchModalIsOpen: false,
-      },
+    if (item.properties.link) {
+      const newLocation = {
+          ...this.context.location,
+        state: {
+          ...this.context.location.state,
+          searchModalIsOpen: false,
+        },
+        pathname: item.properties.link,
+      }
+      return this.context.router.push(newLocation);
     }
 
-    if (item.properties.link) {
-      this.context.router.push(item.properties.link);
-    } else if (item.type === 'CurrentLocation') {
+    if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
-        target: this.context.location.state.selectedTab,
-        router: this.context.router,
-        location: newLocation,
+        target: this.props.selectedTab,
       });
     } else {
       this.context.executeAction(setEndpoint, {
-        target: this.context.location.state.selectedTab,
+        target: this.props.selectedTab,
         endpoint: {
           lat: item.geometry.coordinates[1],
           lon: item.geometry.coordinates[0],
           address: name,
         },
-        router: this.context.router,
-        location: newLocation,
       });
     }
 
@@ -82,15 +79,12 @@ class SearchMainContainer extends React.Component {
   }
 
   isOpen = () => {
-    if (this.context.location.state) {
-      return !(!this.context.location.state.searchModalIsOpen); // bool
-    }
-    return false;
+    return this.props.searchModalIsOpen;
   }
 
   openDialog = (tab) => {
     const state = {
-      searchModalIsOpen: 1 + Math.random(),
+      searchModalIsOpen: true,
       selectedTab: tab,
     };
 
@@ -98,8 +92,6 @@ class SearchMainContainer extends React.Component {
       state: state,
       pathname: this.context.location.pathname,
     });
-//    this.setState({ searchModalIsOpen: 1 + Math.random() });
-//    this.forceUpdate();
   }
 
   focusInput = value => {
@@ -118,14 +110,13 @@ class SearchMainContainer extends React.Component {
         ...this.context.location.state,
         selectedTab: tabname,
       },
-      pathname: this.context.location.pathname,
     });
-//      this.focusInput(tabname);
+    this.focusInput(tabname);
   }
 
   renderEndpointTab = (tabname, tablabel, type, endpoint, layers) => (
     <Tab
-      className={`search-header__button${this.state && this.state.selectedTab === tabname ? '--selected' : ''}`}
+      className={`search-header__button${this.props.selectedTab === tabname ? '--selected' : ''}`}
       label={tablabel}
       value={tabname}
       id={tabname}
@@ -149,13 +140,9 @@ class SearchMainContainer extends React.Component {
       id: 'destination-placeholder',
       defaultMessage: 'Where to? - address or stop',
     });
-    let selectedTab='destination';
-    if(this.context.location.state)
-      selectedTab = this.context.location.state.selectedTab || selectedTab;
 
     const fakeSearchBar = (
       <FakeSearchBar
-        onClick={this.clickSearch}
         placeholder={destinationPlaceholder}
         id="front-page-search-bar"
       />);
@@ -176,7 +163,7 @@ class SearchMainContainer extends React.Component {
       >
         <FakeSearchWithButtonContainer fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
         <Component
-          selectedTab={selectedTab}
+          selectedTab={this.props.selectedTab}
           modalIsOpen={this.isOpen()}
           closeModal={this.closeModal}
         >
