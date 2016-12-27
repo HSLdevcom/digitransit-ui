@@ -43,6 +43,7 @@ function PositionMarker({ coordinates, useCurrentPosition, displayOriginPopup },
 
   return (
     <Marker
+      keyboard={false}
       zIndexOffset={5}
       position={coordinates}
       icon={currentLocationIcon}

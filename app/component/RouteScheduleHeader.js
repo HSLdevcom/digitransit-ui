@@ -42,6 +42,8 @@ RouteScheduleHeader.propTypes = {
   onToSelectChange: PropTypes.func.isRequired,
 };
 
+RouteScheduleHeader.displayName = 'RouteScheduleHeader';
+
 RouteScheduleHeader.description = (
   <div>
     <p>

@@ -70,25 +70,28 @@ class OriginDestinationBar extends React.Component {
     }
 
     return (
-      <div className={cx('origin-destination-bar', this.props.className)}>
-        <div className="field-link from-link" onClick={() => this.openSearch('origin')}>
-          <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
-          <span className="link-name">
-            {this.props.originIsCurrent ? ownPosition : this.props.origin.address}
-          </span>
-        </div>
+      <div className={cx('origin-destination-bar', this.props.className, 'flex-horizontal')}>
+        <button className="flex-grow noborder" onClick={() => this.openSearch('origin')}>
+          <div className="field-link from-link" >
+            <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
+            <span className="link-name">
+              {this.props.originIsCurrent ? ownPosition : this.props.origin.address}
+            </span>
+          </div></button>
         <div className="switch" onClick={() => this.swapEndpoints()}>
           <span>
             <Icon img="icon-icon_direction-b" />
           </span>
         </div>
-        <div className="field-link to-link" onClick={() => this.openSearch('destination')}>
-          <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
-          <span className="link-name">
-            {this.props.destinationIsCurrent ?
+        <button className="flex-grow noborder" onClick={() => this.openSearch('destination')}>
+          <div className="field-link to-link" >
+            <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
+            <span className="link-name">
+              {this.props.destinationIsCurrent ?
               ownPosition : this.props.destination.address}
-          </span>
-        </div>
+            </span>
+          </div>
+        </button>
         <OneTabSearchModal
           modalIsOpen={this.state.tabOpen}
           closeModal={this.closeModal}
