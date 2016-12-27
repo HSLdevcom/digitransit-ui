@@ -4,11 +4,11 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import StopPageContentContainer from './StopPageContentContainer';
 
-class StopPageContainerRoute extends Route {
+class TerminalPageContainerRoute extends Route {
   static queries = {
     stop: (RelayComponent, variables) => Relay.QL`
       query {
-        stop(id: $stopId) {
+        station(id: $terminalId) {
           ${RelayComponent.getFragment('stop', variables)}
         }
       }
@@ -22,18 +22,18 @@ class StopPageContainerRoute extends Route {
   static routeName = 'StopPageContainerRoute';
 }
 
-const StopPageRootContainer = routeProps => (
+const TerminalPageRootContainer = routeProps => (
   <Relay.Renderer
     Container={StopPageContentContainer}
-    queryConfig={new StopPageContainerRoute({
-      stopId: routeProps.params.stopId,
+    queryConfig={new TerminalPageContainerRoute({
+      terminalId: routeProps.params.terminalId,
       ...routeProps,
     })}
     environment={Relay.Store}
   />
 );
 
-export default connectToStores(StopPageRootContainer, ['TimeStore', 'FavouriteStopsStore'],
+export default connectToStores(TerminalPageRootContainer, ['TimeStore', 'FavouriteStopsStore'],
   ({ getStore }) => ({
     startTime: `${Math.floor((getStore('TimeStore').getCurrentTime().valueOf()) / 1000)}`,
     timeRange: 3600,
