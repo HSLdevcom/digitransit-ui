@@ -3,7 +3,6 @@
 
 /**
  * Customizable test function
- * @skip browsers to skip
  * @componentName the component name to test
  * @variationName variation name
  * @aptureOrExampleNumber example number (index starts from 1) or array of
@@ -12,177 +11,180 @@
  * @fn callback(actions, find) –  Optional callback describes a sequence of actions to bring the
  * page to this state, starting from a previous state of the suite.
 **/
-function testVariation(skip, componentName, variationName = 'normal', captureOrExampleNumber = 1,
+function testVariation(componentName, variationName = 'normal', captureOrExampleNumber = 1,
   ignoreElements, fn = () => {}) {
-  gemini.suite(`${componentName}_${variationName}`, (suite) => {
-    if (skip) {
-      suite.skip(skip);
-    }
-
-    try {
-      let capture = `.component-example:nth-of-type(${captureOrExampleNumber}) .component`;
-      if (captureOrExampleNumber instanceof Array) {
-        capture = captureOrExampleNumber;
-      }
-      suite
+  return new Promise(
+    (resolve) => {
+      gemini.suite(`${componentName}_${variationName}`, (suite) => {
+        try {
+          let capture = `.component-example:nth-of-type(${captureOrExampleNumber}) .component`;
+          if (captureOrExampleNumber instanceof Array) {
+            capture = captureOrExampleNumber;
+          }
+          suite
       .setUrl(`/styleguide/component/${componentName}`)
       .setCaptureElements(capture)
       .ignoreElements(ignoreElements || [])
       .capture(variationName, {}, fn);
-    } catch (error) {
-      console.error('Error occurred while testing variation', variationName);
-      throw error;
-    }
-  });
+          resolve(suite);
+        } catch (error) {
+          console.error('Error occurred while testing variation', variationName);
+          throw error;
+        }
+      });
+    });
 }
 
+const skip = (browsers => (suite) => { suite.skip(browsers); });
+
+
 // tests//
-testVariation('ie11', 'Departure', 'normal', 1, '.component-example:nth-of-type(1) .component .realtime-icon');
-testVariation(undefined, 'Departure', 'added-padding', 2);
-testVariation(undefined, 'Departure', 'with-stop', 3);
-testVariation(undefined, 'Departure', 'isArrival', 4);
+testVariation('Departure', 'normal', 1, '.component-example:nth-of-type(1) .component .realtime-icon').then(skip('ie11')).catch(() => {});
+testVariation('Departure', 'added-padding', 2);
+testVariation('Departure', 'with-stop', 3);
+testVariation('Departure', 'isArrival', 4);
 
-testVariation(undefined, 'DepartureTime', 'normal', 2);
-testVariation(undefined, 'DepartureTime', 'canceled', 3);
-
-
-testVariation(undefined, 'RouteNumber', 'normal');
-testVariation(undefined, 'RouteNumber', 'vertical', 2);
-
-testVariation(undefined, 'RouteDestination', 'normal');
-testVariation(undefined, 'RouteDestination', 'isArrival', 2);
+testVariation('DepartureTime', 'normal', 2);
+testVariation('DepartureTime', 'canceled', 3);
 
 
-testVariation(undefined, 'Distance', 'zero');
-testVariation(undefined, 'Distance', 'meters', 2);
-testVariation(undefined, 'Distance', 'km', 3);
+testVariation('RouteNumber', 'normal');
+testVariation('RouteNumber', 'vertical', 2);
 
-testVariation(undefined, 'PlatformNumber');
+testVariation('RouteDestination', 'normal');
+testVariation('RouteDestination', 'isArrival', 2);
 
-testVariation(undefined, 'CardHeader');
-testVariation(undefined, 'Card');
-testVariation(undefined, 'CityBikeCard');
-testVariation(undefined, 'CityBikeContent');
-testVariation(undefined, 'CityBikeAvailability');
-testVariation(undefined, 'CityBikeUse');
 
-testVariation(undefined, 'Availability');
+testVariation('Distance', 'zero');
+testVariation('Distance', 'meters', 2);
+testVariation('Distance', 'km', 3);
 
-testVariation(undefined, 'ParkAndRideAvailability', 'non-realtime');
-testVariation(undefined, 'ParkAndRideAvailability', 'realtime', 2);
+testVariation('PlatformNumber');
 
-testVariation('ie11', 'FavouriteLocation', 'normal', 1,
-      '.component-example:nth-of-type(1) .component .realtime-icon');
+testVariation('CardHeader');
+testVariation('Card');
+testVariation('CityBikeCard');
+testVariation('CityBikeContent');
+testVariation('CityBikeAvailability');
+testVariation('CityBikeUse');
 
-testVariation(undefined, 'EmptyFavouriteLocationSlot');
+testVariation('Availability');
 
-testVariation(undefined, 'TripRouteStop', 'non-realtime');
-testVariation('ie11', 'TripRouteStop', 'realtime', [
+testVariation('ParkAndRideAvailability', 'non-realtime');
+testVariation('ParkAndRideAvailability', 'realtime', 2);
+
+testVariation('FavouriteLocation', 'normal', 1,
+      '.component-example:nth-of-type(1) .component .realtime-icon').then(skip('ie11'));
+
+testVariation('EmptyFavouriteLocationSlot');
+
+testVariation('TripRouteStop', 'non-realtime');
+testVariation('TripRouteStop', 'realtime', [
   '.component-example:nth-of-type(2) .component',
-], '.component-example:nth-of-type(2) .component svg.realtime');
+], '.component-example:nth-of-type(2) .component svg.realtime').then(skip('ie11'));
 
-testVariation(undefined, 'Favourite', 'normal');
-testVariation(undefined, 'Favourite', 'hovered', 1, [], actions => actions.mouseMove(
+testVariation('Favourite', 'normal');
+testVariation('Favourite', 'hovered', 1, [], actions => actions.mouseMove(
       '.component-example:nth-of-type(1) .component svg'));
-testVariation(undefined, 'Favourite', 'not-favourite', 2);
-testVariation(undefined, 'Favourite', 'not-favourite-hovered', 2, [], actions => actions.mouseMove(
+testVariation('Favourite', 'not-favourite', 2);
+testVariation('Favourite', 'not-favourite-hovered', 2, [], actions => actions.mouseMove(
       '.component-example:nth-of-type(2) .component svg'));
 
 
-testVariation(undefined, 'IconWithTail', 'normal');
-testVariation(undefined, 'IconWithTail', 'rotate', 2);
-testVariation(undefined, 'IconWithTail', 'class', 3);
-testVariation(undefined, 'IconWithTail', 'notail', 4);
+testVariation('IconWithTail', 'normal');
+testVariation('IconWithTail', 'rotate', 2);
+testVariation('IconWithTail', 'class', 3);
+testVariation('IconWithTail', 'notail', 4);
 
-testVariation(undefined, 'SelectedIconWithTail');
-testVariation(undefined, 'IconWithCaution');
-testVariation(undefined, 'IconWithBigCaution');
+testVariation('SelectedIconWithTail');
+testVariation('IconWithCaution');
+testVariation('IconWithBigCaution');
 
 
-testVariation(undefined, 'TimeNavigationButtons', 'normal');
-testVariation(undefined, 'TimeNavigationButtons', 'hovered', 1, [], (actions) => {
+testVariation('TimeNavigationButtons', 'normal');
+testVariation('TimeNavigationButtons', 'hovered', 1, [], (actions) => {
   actions.mouseMove(
          // eslint-disable-next-line comma-dangle
         '.component-example:nth-of-type(1) .component button:first-of-type'
       ).wait(400); // Wait for animation to happen
 });
 
-testVariation(['ie11', 'safari10'], 'TimeSelectors'); // TODO figure out why time differs when run locally & snap
+testVariation('TimeSelectors').then(skip(['ie11', 'safari10'])); // TODO figure out why time differs when run locally & snap
 
-testVariation(undefined, 'RightOffcanvasToggle', 'default');
-testVariation(undefined, 'RightOffcanvasToggle', 'adjusted', 2);
+testVariation('RightOffcanvasToggle', 'default');
+testVariation('RightOffcanvasToggle', 'adjusted', 2);
 
-testVariation(undefined, 'MarkerSelectPopup');
-testVariation(undefined, 'SelectStopRow');
-testVariation(undefined, 'SelectTerminalRow');
-testVariation(undefined, 'SelectCityBikeRow');
-testVariation(undefined, 'SelectParkAndRideRow');
-testVariation(undefined, 'TicketInformation');
-testVariation(undefined, 'RouteScheduleDateSelect');
-testVariation(undefined, 'RouteScheduleHeader');
-testVariation(undefined, 'RouteScheduleStopSelect');
-testVariation(undefined, 'RouteScheduleTripRow');
+testVariation('MarkerSelectPopup');
+testVariation('SelectStopRow');
+testVariation('SelectTerminalRow');
+testVariation('SelectCityBikeRow');
+testVariation('SelectParkAndRideRow');
+testVariation('TicketInformation');
+testVariation('RouteScheduleDateSelect');
+testVariation('RouteScheduleHeader');
+testVariation('RouteScheduleStopSelect');
+testVariation('RouteScheduleTripRow');
 
-testVariation(undefined, 'AppBarSmall', 'with-back-arrow');
-testVariation(undefined, 'AppBarSmall', 'without-back-arrow', 2);
-testVariation(undefined, 'AppBarSmall', 'with-logo', 3);
+testVariation('AppBarSmall', 'with-back-arrow');
+testVariation('AppBarSmall', 'without-back-arrow', 2);
+testVariation('AppBarSmall', 'with-logo', 3);
 
-testVariation(undefined, 'AppBarLarge');
+testVariation('AppBarLarge');
 
-testVariation(undefined, 'FakeSearchWithButton', 'basic');
-testVariation(undefined, 'FakeSearchWithButton', 'large', 2);
+testVariation('FakeSearchWithButton', 'basic');
+testVariation('FakeSearchWithButton', 'large', 2);
 
 
-testVariation(undefined, 'FrontPagePanelLarge');
-testVariation(undefined, 'FrontPagePanelSmall');
-testVariation(undefined, 'ExternalLink');
-testVariation(undefined, 'LangSelect');
+testVariation('FrontPagePanelLarge');
+testVariation('FrontPagePanelSmall');
+testVariation('ExternalLink');
+testVariation('LangSelect');
 
-testVariation(undefined, 'ModeFilter', 'grey-buttons');
-testVariation(undefined, 'ModeFilter', 'white-buttons', [
+testVariation('ModeFilter', 'grey-buttons');
+testVariation('ModeFilter', 'white-buttons', [
   '.nearby-routes .component-example:nth-of-type(1) .component',
 ]);
 
 
-testVariation('ie11', 'RouteStop', 'normal', [
+testVariation('RouteStop', 'normal', [
   '.component-example:nth-of-type(1) .component',
-], '.component-example:nth-of-type(1) .component svg.realtime');
+], '.component-example:nth-of-type(1) .component svg.realtime').then(skip('ie11'));
 
 
-testVariation('ie11', 'DepartureRow', 'normal', 1, [
+testVariation('DepartureRow', 'normal', 1, [
   '.component-example:nth-of-type(1) .component .realtime-icon',
-]);
+]).then(skip('ie11'));
 
-testVariation(undefined, 'DepartureRow', 'with-cancelation', 2);
-
-
-testVariation(undefined, 'BicycleRentalStationRow', 'plenty-of-bikes');
-testVariation(undefined, 'BicycleRentalStationRow', 'few-bikes', 2);
-testVariation(undefined, 'BicycleRentalStationRow', 'no-bikes', 3);
-
-testVariation(undefined, 'StopPageHeader');
-testVariation(undefined, 'StopCardHeader');
-testVariation(undefined, 'SplitBars');
-testVariation(undefined, 'Labeled');
-testVariation(undefined, 'Centered');
-testVariation(undefined, 'InfoIcon');
-testVariation(undefined, 'DepartureListHeader');
-testVariation(undefined, 'NextDeparturesListHeader');
-testVariation(undefined, 'SelectedStopPopupContent');
-testVariation(undefined, 'PageFooter');
-
-testVariation(undefined, 'FooterItem', 'basic');
-testVariation(undefined, 'FooterItem', 'with-icon', 2);
+testVariation('DepartureRow', 'with-cancelation', 2);
 
 
-testVariation(undefined, 'SummaryRow', 'passive');
-testVariation(undefined, 'SummaryRow', 'active', 2);
-testVariation(undefined, 'SummaryRow', 'open', 3);
+testVariation('BicycleRentalStationRow', 'plenty-of-bikes');
+testVariation('BicycleRentalStationRow', 'few-bikes', 2);
+testVariation('BicycleRentalStationRow', 'no-bikes', 3);
 
-testVariation(undefined, 'CurrentPositionSuggestionItem', 'with-position');
-testVariation(undefined, 'CurrentPositionSuggestionItem', 'no-position', 2);
+testVariation('StopPageHeader');
+testVariation('StopCardHeader');
+testVariation('SplitBars');
+testVariation('Labeled');
+testVariation('Centered');
+testVariation('InfoIcon');
+testVariation('DepartureListHeader');
+testVariation('NextDeparturesListHeader');
+testVariation('SelectedStopPopupContent');
+testVariation('PageFooter');
 
-testVariation(undefined, 'SuggestionItem', 'Favourite');
-testVariation(undefined, 'SuggestionItem', 'Address', 2);
-testVariation(undefined, 'SuggestionItem', 'Route', 3);
-testVariation(undefined, 'SuggestionItem', 'Stop', 4);
+testVariation('FooterItem', 'basic');
+testVariation('FooterItem', 'with-icon', 2);
+
+
+testVariation('SummaryRow', 'passive');
+testVariation('SummaryRow', 'active', 2);
+testVariation('SummaryRow', 'open', 3);
+
+testVariation('CurrentPositionSuggestionItem', 'with-position');
+testVariation('CurrentPositionSuggestionItem', 'no-position', 2);
+
+testVariation('SuggestionItem', 'Favourite');
+testVariation('SuggestionItem', 'Address', 2);
+testVariation('SuggestionItem', 'Route', 3);
+testVariation('SuggestionItem', 'Stop', 4);
