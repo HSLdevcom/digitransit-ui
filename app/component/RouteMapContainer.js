@@ -44,6 +44,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
     <RouteLine key="line" pattern={pattern} />,
     <VehicleMarkerContainer
       key="vehicles"
+      direction={pattern.directionId}
       pattern={pattern.code}
       tripStart={tripStart}
       useSmallIcons={false}
@@ -97,6 +98,7 @@ export const RouteMapFragments = {
   pattern: () => Relay.QL`
     fragment on Pattern {
       code
+      directionId
       geometry {
         lat
         lon
