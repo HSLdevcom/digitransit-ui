@@ -37,7 +37,7 @@ function testVariation(skip, componentName, variationName = 'normal', captureOrE
 }
 
 // tests//
-testVariation('ie11', 'Departure', 'normal', 1, '#Departure .component-example:nth-of-type(1) .component .realtime-icon');
+testVariation('ie11', 'Departure', 'normal', 1, '.component-example:nth-of-type(1) .component .realtime-icon');
 testVariation(undefined, 'Departure', 'added-padding', 2);
 testVariation(undefined, 'Departure', 'with-stop', 3);
 testVariation(undefined, 'Departure', 'isArrival', 4);
@@ -72,21 +72,21 @@ testVariation(undefined, 'ParkAndRideAvailability', 'non-realtime');
 testVariation(undefined, 'ParkAndRideAvailability', 'realtime', 2);
 
 testVariation('ie11', 'FavouriteLocation', 'normal', 1,
-      '#FavouriteLocation .component-example:nth-of-type(1) .component .realtime-icon');
+      '.component-example:nth-of-type(1) .component .realtime-icon');
 
 testVariation(undefined, 'EmptyFavouriteLocationSlot');
 
 testVariation(undefined, 'TripRouteStop', 'non-realtime');
 testVariation('ie11', 'TripRouteStop', 'realtime', [
-  '#TripRouteStop .component-example:nth-of-type(2) .component',
-], '#TripRouteStop .component-example:nth-of-type(2) .component svg.realtime');
+  '.component-example:nth-of-type(2) .component',
+], '.component-example:nth-of-type(2) .component svg.realtime');
 
 testVariation(undefined, 'Favourite', 'normal');
 testVariation(undefined, 'Favourite', 'hovered', 1, [], actions => actions.mouseMove(
-      '#Favourite .component-example:nth-of-type(1) .component svg'));
+      '.component-example:nth-of-type(1) .component svg'));
 testVariation(undefined, 'Favourite', 'not-favourite', 2);
 testVariation(undefined, 'Favourite', 'not-favourite-hovered', 2, [], actions => actions.mouseMove(
-      '#Favourite .component-example:nth-of-type(2) .component svg'));
+      '.component-example:nth-of-type(2) .component svg'));
 
 
 testVariation(undefined, 'IconWithTail', 'normal');
@@ -103,7 +103,7 @@ testVariation(undefined, 'TimeNavigationButtons', 'normal');
 testVariation(undefined, 'TimeNavigationButtons', 'hovered', 1, [], (actions) => {
   actions.mouseMove(
          // eslint-disable-next-line comma-dangle
-        '#TimeNavigationButtons .component-example:nth-of-type(1) .component button:first-of-type'
+        '.component-example:nth-of-type(1) .component button:first-of-type'
       ).wait(400); // Wait for animation to happen
 });
 
@@ -145,12 +145,12 @@ testVariation(undefined, 'ModeFilter', 'white-buttons', [
 
 
 testVariation('ie11', 'RouteStop', 'normal', [
-  '#RouteStop .component-example:nth-of-type(1) .component',
-], '#RouteStop .component-example:nth-of-type(1) .component svg.realtime');
+  '.component-example:nth-of-type(1) .component',
+], '.component-example:nth-of-type(1) .component svg.realtime');
 
 
 testVariation('ie11', 'DepartureRow', 'normal', 1, [
-  '#DepartureRow .component-example:nth-of-type(1) .component .realtime-icon',
+  '.component-example:nth-of-type(1) .component .realtime-icon',
 ]);
 
 testVariation(undefined, 'DepartureRow', 'with-cancelation', 2);

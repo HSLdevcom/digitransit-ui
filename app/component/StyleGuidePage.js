@@ -446,14 +446,11 @@ function getComponents() {
 function StyleGuidePage(props) {
   if (props.params.componentName) {
     return (
-      <div className="container column">
-        <ComponentDocumentation
-          mode="examples-only"
-          component={components[props.params.componentName]}
-        />
-        <hr />
-        <Link to="/styleguide">Go back to styleguide</Link>
-      </div>);
+      <ComponentDocumentation
+        mode="examples-only"
+        component={components[props.params.componentName]}
+      />
+    );
   }
 
   return (
