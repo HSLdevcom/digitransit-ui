@@ -394,6 +394,7 @@ const routes = (
     />
     <Route
       path="/styleguide/component/:componentName"
+      topBarOptions={{ hidden: true }}
       getComponent={(location, cb) => {
         System.import('./component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
       }}
