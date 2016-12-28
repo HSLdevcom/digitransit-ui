@@ -38,13 +38,13 @@
 
     &:hover {
       background-color: $primary-color;
-      outline: none;
+      //outline: none;
       box-shadow: none;
     }
 
     &:focus {
       background-color: $primary-color;
-      outline: none;
+      //outline: none;
       box-shadow: none;
     }
   }
@@ -115,10 +115,23 @@
         color: $primary-font-color;
         font-size: $font-size-small;
       }
+      border-radius: 3px;
   }
 }
 
-.right-offcanvas-toggle {
+button.right-offcanvas-toggle {
+
+  &:hover {
+    background-color: $primary-color;
+    //outline: none;
+    box-shadow: none;
+  }
+
+  &:focus {
+    background-color: $primary-color;
+    //outline: none;
+    box-shadow: none;
+  }
 
   span {
     color: $primary-font-color;
@@ -133,7 +146,7 @@
   text-align: center;
   text-transform:uppercase;
   color: $primary-font-color;
-  padding: $padding-small;
+  padding: 9px;
   display: flex;
   align-items: center;
   min-height: 30px;
