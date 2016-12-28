@@ -10,7 +10,7 @@ import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
-
+// XXX fix visual test, now only mobile layout is tested
 export default function SummaryRow(props, { breakpoint }) {
   let mode;
   const data = props.data;
@@ -111,13 +111,13 @@ export default function SummaryRow(props, { breakpoint }) {
         />,
         <button
           key="arrow"
-          className="action-arrow-click-area noborder"
+          className="action-arrow-click-area noborder flex-vertical"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow">
+          <div className="action-arrow flex-grow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
         </button>,
