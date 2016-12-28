@@ -9,8 +9,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
 
 function DisruptionInfo(props, context) {
-
-  const isOpen = () => (context.location.state? context.location.state.disruptionInfoOpen : false);
+  const isOpen = () => (context.location.state ? context.location.state.disruptionInfoOpen : false);
 
   const toggleVisibility = () => {
     if (isOpen()) {
@@ -24,7 +23,7 @@ function DisruptionInfo(props, context) {
         },
       });
     }
-  }
+  };
 
   if (isBrowser && isOpen()) {
     return (
@@ -32,7 +31,7 @@ function DisruptionInfo(props, context) {
         open
         title={
           <FormattedMessage id="disruption-info" defaultMessage="Disruption Info" />}
-        toggleVisibility={ toggleVisibility }
+        toggleVisibility={toggleVisibility}
       >
         <Relay.RootContainer
           Component={DisruptionListContainer}

@@ -6,7 +6,6 @@ import { isBrowser } from '../util/browser';
 
 function DisruptionInfoButtonContainer(props, { router, location }) {
   if (isBrowser) {
-
     const openDisruptionInfo = () => {
       router.push({
         ...location,

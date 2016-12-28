@@ -31,28 +31,28 @@ class SearchMainContainer extends React.Component {
     selectedTab: React.PropTypes.string.isRequired,
   }
 
-  onTabChange = tab => this.changeToTab(tab.props.value)
-
   componentDidUpdate() {
     if (this.props.searchModalIsOpen) {
       setTimeout(
         () => {
           this.focusInput(this.props.selectedTab);
-        }, 0
+        }, 0,
       );
     }
   }
 
+  onTabChange = tab => this.changeToTab(tab.props.value)
+
   onSuggestionSelected = (name, item) => {
     if (item.properties.link) {
       const newLocation = {
-          ...this.context.location,
+        ...this.context.location,
         state: {
           ...this.context.location.state,
           searchModalIsOpen: false,
         },
         pathname: item.properties.link,
-      }
+      };
       return this.context.router.push(newLocation);
     }
 
@@ -71,7 +71,7 @@ class SearchMainContainer extends React.Component {
       });
     }
 
-    this.closeModal();
+    return this.closeModal();
   }
 
   searchInputs = [];
@@ -85,21 +85,19 @@ class SearchMainContainer extends React.Component {
   }
 
   openDialog = (tab) => {
-    const state = {
-      searchModalIsOpen: true,
-      selectedTab: tab,
-    };
-
     this.context.router.push({
-      state: state,
+      state: {
+        searchModalIsOpen: true,
+        selectedTab: tab,
+      },
       pathname: this.context.location.pathname,
     });
   }
 
-  focusInput = value => {
+  focusInput = (value) => {
     // this.searchInputs[value].searchInput is a hack
-    if(this.searchInputs[value]) {
-      this.searchInputs[value].searchInput.autowhatever.input.focus()
+    if (this.searchInputs[value]) {
+      this.searchInputs[value].searchInput.autowhatever.input.focus();
     }
   }
 

@@ -28,7 +28,7 @@ class AddFavouriteContainer extends React.Component {
 
   componentWillMount = () => {
     if (this.isEdit()) {
-      this.setState({ favourite: this.props.favourite, });
+      this.setState({ favourite: this.props.favourite });
     } else {
       this.setState({
         favourite: {

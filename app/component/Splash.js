@@ -26,7 +26,8 @@ class Splash extends React.Component {
   };
 
   renderContents() {
-    const modalOpen = this.context.location.state && this.context.location.state.oneTabSearchModalOpen ? true : false;
+    const modalOpen = this.context.location.state &&
+          this.context.location.state.oneTabSearchModalOpen;
     return (
       <div key="contents" className="flex-vertical">
         <h3>

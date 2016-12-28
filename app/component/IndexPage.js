@@ -169,17 +169,25 @@ class IndexPage extends React.Component {
 
   render() {
     const selectedTab = this.getSelectedTab();
-    const searchModalIsOpen = this.context.location.state ? !!this.context.location.state.searchModalIsOpen : false;
-    const selectedSearchTab = this.context.location.state && this.context.location.state.selectedTab ?
+    const searchModalIsOpen = this.context.location.state ?
+          !!this.context.location.state.searchModalIsOpen : false;
+    const selectedSearchTab = this.context.location.state &&
+          this.context.location.state.selectedTab ?
           this.context.location.state.selectedTab : 'destination';
     return (this.props.breakpoint === 'large' ? (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         {messageBar}
         <MapWithTracking
-          breakpoint={this.props.breakpoint} showStops showScaleBar tab={selectedTab}
-          searchModalIsOpen={searchModalIsOpen} selectedTab={selectedSearchTab}
+          breakpoint={this.props.breakpoint}
+          showStops
+          showScaleBar
+          searchModalIsOpen={searchModalIsOpen}
+          selectedTab={selectedSearchTab}
         >
-          <SearchMainContainer searchModalIsOpen={searchModalIsOpen} selectedTab={selectedSearchTab} />
+          <SearchMainContainer
+            searchModalIsOpen={searchModalIsOpen}
+            selectedTab={selectedSearchTab}
+          />
           <div key="foo" className="fpccontainer">
             <FrontPagePanelLarge
               selectedPanel={selectedTab}
@@ -196,11 +204,18 @@ class IndexPage extends React.Component {
     ) : (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         <div className="flex-grow map-container">
-          <MapWithTracking breakpoint={this.props.breakpoint} showStops showScaleBar
-            searchModalIsOpen={searchModalIsOpen} selectedTab={selectedSearchTab}
+          <MapWithTracking
+            breakpoint={this.props.breakpoint}
+            showStops
+            showScaleBar
+            searchModalIsOpen={searchModalIsOpen}
+            selectedTab={selectedSearchTab}
           >
             {messageBar}
-            <SearchMainContainer searchModalIsOpen={searchModalIsOpen} selectedTab={selectedSearchTab} />
+            <SearchMainContainer
+              searchModalIsOpen={searchModalIsOpen}
+              selectedTab={selectedSearchTab}
+            />
           </MapWithTracking>
         </div>
         <div>

@@ -38,7 +38,7 @@ export function route(actionContext, payload, done) {
         ...payload.location,
         state: {  // reset back to 1st alternative at reroute
           ...payload.location.state,
-          summaryPageSelected: 0
+          summaryPageSelected: 0,
         },
         pathname: path,
       });

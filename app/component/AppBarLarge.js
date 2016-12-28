@@ -7,7 +7,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 
-const AppBarLarge = ({ titleClicked }, {router, location} ) => {
+const AppBarLarge = ({ titleClicked }, { router, location }) => {
   const openDisruptionInfo = () => {
     router.push({
       ...location,
@@ -36,7 +36,7 @@ const AppBarLarge = ({ titleClicked }, {router, location} ) => {
       <DisruptionInfo />
     </div>
   );
-}
+};
 
 AppBarLarge.propTypes = {
   titleClicked: PropTypes.func.isRequired,

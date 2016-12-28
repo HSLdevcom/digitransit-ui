@@ -31,19 +31,12 @@ class OneTabSearchModal extends React.Component {
     if (this.modalIsOpen()) {
       setTimeout(
         () => {
-          if(this.geolocationOrInput) {
+          if (this.geolocationOrInput) {
             this.geolocationOrInput.searchInput.autowhatever.input.focus();
           }
-        }, 0
+        }, 0,
       );
     }
-  }
-
-  modalIsOpen = () => {
-    if (this.context.location.state) {
-      return !(!this.context.location.state.oneTabSearchModalOpen); // bool
-    }
-    return false;
   }
 
   onSuggestionSelected = (name, item) => {
@@ -53,7 +46,7 @@ class OneTabSearchModal extends React.Component {
         ...this.context.location.state,
         oneTabSearchModalOpen: false,
       },
-    }
+    };
 
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
@@ -75,6 +68,13 @@ class OneTabSearchModal extends React.Component {
     }
     this.context.router.goBack();
   };
+
+  modalIsOpen = () => {
+    if (this.context.location.state) {
+      return !(!this.context.location.state.oneTabSearchModalOpen); // bool
+    }
+    return false;
+  }
 
   render() {
     if (!this.modalIsOpen()) {
