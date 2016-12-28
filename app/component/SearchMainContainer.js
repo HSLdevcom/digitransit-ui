@@ -33,8 +33,14 @@ class SearchMainContainer extends React.Component {
 
   onTabChange = tab => this.changeToTab(tab.props.value)
 
-  componentDidMount() {
-    this.focusInput(this.props.selectedTab);
+  componentDidUpdate() {
+    if (this.props.searchModalIsOpen) {
+      setTimeout(
+        () => {
+          this.focusInput(this.props.selectedTab);
+        }, 0
+      );
+    }
   }
 
   onSuggestionSelected = (name, item) => {
@@ -76,10 +82,6 @@ class SearchMainContainer extends React.Component {
     const hasOrigin = origin.lat || (origin.useCurrentPosition && geolocation.hasLocation);
 
     this.openDialog(hasOrigin ? 'destination' : 'origin');
-  }
-
-  isOpen = () => {
-    return this.props.searchModalIsOpen;
   }
 
   openDialog = (tab) => {
@@ -164,7 +166,7 @@ class SearchMainContainer extends React.Component {
         <FakeSearchWithButtonContainer fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
         <Component
           selectedTab={this.props.selectedTab}
-          modalIsOpen={this.isOpen()}
+          modalIsOpen={this.props.searchModalIsOpen}
           closeModal={this.closeModal}
         >
           {this.renderEndpointTab(
