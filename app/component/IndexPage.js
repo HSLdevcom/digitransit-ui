@@ -169,10 +169,6 @@ class IndexPage extends React.Component {
 
   render() {
     let selectedMainTab = this.getSelectedTab();
-    if (this.props.breakpoint === 'large') {
-      selectedMainTab = selectedMainTab || 1; // need always a value
-    }
-
     const selectedSearchTab = this.context.location.state &&
           this.context.location.state.selectedTab ?
           this.context.location.state.selectedTab : 'destination';
