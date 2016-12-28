@@ -5,7 +5,6 @@ import cx from 'classnames';
 
 import FuzzyTripRoute from './FuzzyTripRoute';
 import TripLink from './TripLink';
-import FuzzyPatternLink from './FuzzyPatternLink';
 import WalkDistance from './WalkDistance';
 import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
@@ -35,32 +34,12 @@ const getRouteStopSvg = (first, last) => (
 );
 
 const RouteStop = ({
-  vehicles, reverseVehicles, stop, mode, distance, last, first, currentTime, className,
+  vehicles, stop, mode, distance, last, first, currentTime, className,
 }) => {
-  const vehicleTripLinks = vehicles && vehicles.map(vehicle =>
-      (<Relay.RootContainer
-        key={vehicle.id}
-        Component={TripLink}
-        route={new FuzzyTripRoute({
-          route: vehicle.route,
-          direction: vehicle.direction,
-          date: vehicle.operatingDay,
-          time: (vehicle.tripStartTime.substring(0, 2) * 60 * 60) +
-            (vehicle.tripStartTime.substring(2, 4) * 60),
-        })}
-        renderFetched={data =>
-          (<TripLink
-            mode={vehicle.mode}
-            {...data}
-          />)
-        }
-      />),
-    );
-
-  const reverseVehicleLinks = reverseVehicles && reverseVehicles.map(vehicle => (
+  const vehicleTripLinks = vehicles && vehicles.map(vehicle => (
     <Relay.RootContainer
       key={vehicle.id}
-      Component={FuzzyPatternLink}
+      Component={TripLink}
       route={new FuzzyTripRoute({
         route: vehicle.route,
         direction: vehicle.direction,
@@ -69,19 +48,17 @@ const RouteStop = ({
           (vehicle.tripStartTime.substring(2, 4) * 60),
       })}
       renderFetched={data =>
-        (<FuzzyPatternLink
+        (<TripLink
           mode={vehicle.mode}
           {...data}
-          reverse
         />)
       }
-    />),
-  );
+    />
+  ));
 
   return (
     <div className={cx('route-stop row', className)}>
       <div className="columns route-stop-now">{vehicleTripLinks}</div>
-      <div className="columns route-stop-now-reverse">{reverseVehicleLinks}</div>
       <Link to={`/pysakit/${stop.gtfsId}`}>
         <div className={`columns route-stop-name ${mode}`}>
           {getRouteStopSvg(first, last)}
@@ -114,7 +91,6 @@ const RouteStop = ({
 
 RouteStop.propTypes = {
   vehicles: React.PropTypes.array,
-  reverseVehicles: React.PropTypes.array,
   stop: React.PropTypes.object,
   mode: React.PropTypes.string,
   className: React.PropTypes.string,

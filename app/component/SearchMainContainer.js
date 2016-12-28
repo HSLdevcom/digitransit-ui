@@ -8,7 +8,7 @@ import without from 'lodash/without';
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import FakeSearchBar from './FakeSearchBar';
 import FakeSearchWithButtonContainer from './FakeSearchWithButtonContainer';
-import GeolocationOrInput from './GeolocationOrInput';
+import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 import Icon from './Icon';
@@ -97,7 +97,7 @@ class SearchMainContainer extends React.Component {
   focusInput = (value) => {
     // this.searchInputs[value].searchInput is a hack
     if (this.searchInputs[value]) {
-      this.searchInputs[value].searchInput.autowhatever.input.focus();
+      this.searchInputs[value].autowhatever.input.focus();
     }
   }
 
@@ -114,24 +114,24 @@ class SearchMainContainer extends React.Component {
     this.focusInput(tabname);
   }
 
-  renderEndpointTab = (tabname, tablabel, type, endpoint, layers) => (
+  renderEndpointTab = (tabname, tablabel, placeholder, type, endpoint, layers) => (
     <Tab
       className={`search-header__button${this.props.selectedTab === tabname ? '--selected' : ''}`}
       label={tablabel}
       value={tabname}
       id={tabname}
       onActive={this.onTabChange}
-    >
-      <GeolocationOrInput
+    >{this.props.selectedTab === tabname &&
+      <SearchInputContainer
         ref={(c) => { this.searchInputs[tabname] = c; }}
         id={`search-${tabname}`}
         useCurrentPosition={endpoint.useCurrentPosition}
-        initialValue={endpoint.address}
+        placeholder={placeholder}
         type={type}
         layers={layers}
         close={this.closeModal}
         onSuggestionSelected={this.onSuggestionSelected}
-      />
+      />}
     </Tab>
   );
 
@@ -183,6 +183,10 @@ class SearchMainContainer extends React.Component {
                 ]}
               </span>
             </div>,
+            this.context.intl.formatMessage({
+              id: 'origin',
+              defaultMessage: 'Origin',
+            }),
             'endpoint',
             this.context.getStore('EndpointStore').getOrigin(),
             searchLayers,
@@ -199,6 +203,10 @@ class SearchMainContainer extends React.Component {
                 />
               </span>
             </div>,
+            this.context.intl.formatMessage({
+              id: 'place-route-or-keyword',
+              defaultMessage: 'Destination, route or stop',
+            }),
             'all',
             this.context.getStore('EndpointStore').getDestination(),
             searchLayers,

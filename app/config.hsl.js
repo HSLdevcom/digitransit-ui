@@ -1,8 +1,6 @@
 const CONFIG = process.env.CONFIG || 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const APP_DESCRIPTION =
-  'HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. ' +
-  'Tule palvelun testaajaksi tai tee siitä saman tien parempi.';
+const APP_DESCRIPTION = 'HSL:n uuden Reittioppaan kokeiluversio.';
 
 export default {
   CONFIG,

@@ -60,20 +60,12 @@ class OriginDestinationBar extends React.Component {
       id: 'own-position',
       defaultMessage: 'Your current location',
     });
+    const tab = this.getSearchModalState();
 
     let searchLayers = getAllEndpointLayers();
-
     // don't offer current pos if it is already used as a route end point
     if (this.props.originIsCurrent || this.props.destinationIsCurrent) {
       searchLayers = without(searchLayers, 'CurrentPosition');
-    }
-
-    let initialValue = '';
-    const tab = this.getSearchModalState();
-
-    if (this.props[tab]) {
-      initialValue = this.props[tab].useCurrentPosition ?
-        ownPosition : this.props[tab].address;
     }
 
     return (
@@ -97,7 +89,6 @@ class OriginDestinationBar extends React.Component {
           </span>
         </div>
         <OneTabSearchModal
-          initialValue={initialValue}
           layers={searchLayers}
           endpoint={this.props[tab]}
           target={tab}

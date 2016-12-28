@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import config from '../config';
-import NotImplemented from './NotImplemented';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
 import Icon from './Icon';
@@ -32,7 +31,6 @@ const AppBarLarge = ({ titleClicked }, { router, location }) => {
           <ExternalLink {...config.appBarLink} />
         </div>
       </div>
-      <NotImplemented />
       <DisruptionInfo />
     </div>
   );

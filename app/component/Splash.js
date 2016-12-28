@@ -26,8 +26,8 @@ class Splash extends React.Component {
   };
 
   renderContents() {
-    const modalOpen = this.context.location.state &&
-          this.context.location.state.oneTabSearchModalOpen;
+    const modalOpen =
+      !!(this.context.location.state && this.context.location.state.oneTabSearchModalOpen);
     return (
       <div key="contents" className="flex-vertical">
         <h3>
@@ -59,9 +59,7 @@ class Splash extends React.Component {
   render() {
     return (
       <div className="fullscreen">
-        <OneTabSearchModal
-          initialValue="" target="origin"
-        />
+        <OneTabSearchModal target="origin" />
         <div className="front-page fullscreen">
           <div id="splash-map" className="fullscreen">
             <div className="map fullscreen">

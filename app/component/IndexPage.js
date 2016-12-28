@@ -168,12 +168,16 @@ class IndexPage extends React.Component {
   }
 
   render() {
-    const selectedTab = this.getSelectedTab();
-    const searchModalIsOpen = this.context.location.state ?
-          !!this.context.location.state.searchModalIsOpen : false;
+    let selectedMainTab = this.getSelectedTab();
+    if (this.props.breakpoint === 'large') {
+      selectedMainTab = selectedMainTab || 1; // need always a value
+    }
+
     const selectedSearchTab = this.context.location.state &&
           this.context.location.state.selectedTab ?
           this.context.location.state.selectedTab : 'destination';
+    const searchModalIsOpen = this.context.location.state ?
+          !!this.context.location.state.searchModalIsOpen : false;
     return (this.props.breakpoint === 'large' ? (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         {messageBar}
@@ -183,6 +187,7 @@ class IndexPage extends React.Component {
           showScaleBar
           searchModalIsOpen={searchModalIsOpen}
           selectedTab={selectedSearchTab}
+          tab={selectedMainTab}
         >
           <SearchMainContainer
             searchModalIsOpen={searchModalIsOpen}
@@ -190,7 +195,7 @@ class IndexPage extends React.Component {
           />
           <div key="foo" className="fpccontainer">
             <FrontPagePanelLarge
-              selectedPanel={selectedTab}
+              selectedPanel={selectedMainTab}
               nearbyClicked={this.clickNearby}
               favouritesClicked={this.clickFavourites}
             >{this.props.content}</FrontPagePanelLarge>
@@ -220,7 +225,7 @@ class IndexPage extends React.Component {
         </div>
         <div>
           <FrontPagePanelSmall
-            selectedPanel={this.getSelectedTab()}
+            selectedPanel={selectedMainTab}
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
             closePanel={this.closeTab}

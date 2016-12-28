@@ -3,7 +3,7 @@ import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 
-import GeolocationOrInput from './GeolocationOrInput';
+import SearchInputContainer from './SearchInputContainer';
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
@@ -21,7 +21,6 @@ class OneTabSearchModal extends React.Component {
     customOnSuggestionSelected: React.PropTypes.func,
     customTabLabel: React.PropTypes.string,
     endpoint: React.PropTypes.object,
-    initialValue: React.PropTypes.string.isRequired,
     target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
     layers: React.PropTypes.array,
     responsive: React.PropTypes.bool, // a switch to force use of fullscreen modal
@@ -29,13 +28,11 @@ class OneTabSearchModal extends React.Component {
 
   componentDidUpdate() {
     if (this.modalIsOpen()) {
-      setTimeout(
-        () => {
-          if (this.geolocationOrInput) {
-            this.geolocationOrInput.searchInput.autowhatever.input.focus();
-          }
-        }, 0,
-      );
+      setTimeout(() => {
+        if (this.searchInputContainer) {
+          this.searchInputContainer.autowhatever.input.focus();
+        }
+      }, 0);
     }
   }
 
@@ -113,10 +110,9 @@ class OneTabSearchModal extends React.Component {
             closeModal={this.context.router.goBack}
           >
             <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
-              <GeolocationOrInput
-                ref={(c) => { this.geolocationOrInput = c; }}
+              <SearchInputContainer
+                ref={(c) => { this.searchInputContainer = c; }}
                 useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
-                initialValue={placeholder ? '' : this.props.initialValue}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={this.props.layers}

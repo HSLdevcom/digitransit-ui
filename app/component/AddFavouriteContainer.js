@@ -214,7 +214,6 @@ class AddFavouriteContainer extends React.Component {
       <OneTabSearchModal
         customTabLabel={searchTabLabel}
         layers={favouriteLayers}
-        initialValue=""
         customOnSuggestionSelected={(name, item) => {
           this.setCoordinatesAndAddress(name, item);
           return this.context.router.goBack();

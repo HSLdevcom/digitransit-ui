@@ -19,14 +19,14 @@ export default [
       sv: 'Där du är',
     },
     text: {
-      fi: 'Nykyinen sijaintisi toimii lähtöpaikkana. Saat reitityksen kertomalla määränpään.',
+      fi: 'Nykyinen sijaintisi toimii lähtöpaikkanasi. Saat reitityksen kertomalla määränpään.',
       en: 'Your current location works as a starting point. You get route suggestions by writing your destination.',
       sv: 'Din position fungerar som avfärdsplats. Resan planerar du genom att berätta vart du är på väg.',
     },
   }, {
     image: require('../../static/img/matka-nearyou.png'), // eslint-disable-line global-require
     header: {
-      fi: 'Milloin lähden?',
+      fi: 'Milloin lähdet?',
       en: 'When will I go?',
       sv: 'När åker jag?',
     },

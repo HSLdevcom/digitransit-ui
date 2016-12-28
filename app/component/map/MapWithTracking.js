@@ -55,7 +55,7 @@ const withMapStateTracking = withReducer('mapState', 'dispatch', mapStateReducer
 const onlyUpdateCoordChanges = onlyUpdateForKeys(
   // searchModalIsOpen and selectedTab keys here's just to get map updated
   // when those props change (in large view tabs are inside map)
-  ['breakpoint', 'lat', 'lon', 'zoom', 'mapTracking', 'lang', 'searchModalIsOpen', 'selectedTab']);
+  ['breakpoint', 'lat', 'lon', 'zoom', 'mapTracking', 'lang', 'tab', 'searchModalIsOpen', 'selectedTab']);
 
 const MapWithTracking =
   withMapStateTracking(
@@ -79,7 +79,7 @@ const MapWithTracking =
         })();
 
         if (!origin.useCurrentPosition && origin !== props.mapState.previousOrigin) {
-          setImmediate(props.dispatch, {
+          setTimeout(props.dispatch, 0, {
             type: 'useOrigin',
             origin,
           });
@@ -89,7 +89,7 @@ const MapWithTracking =
           props.mapState.previousOrigin &&
           origin !== props.mapState.previousOrigin
         ) {
-          setImmediate(props.dispatch, {
+          setTimeout(props.dispatch, 0, {
             type: 'usePosition',
             origin,
           });

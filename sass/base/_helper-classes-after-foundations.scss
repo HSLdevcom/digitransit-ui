@@ -47,20 +47,20 @@ button.noborder {
   cursor: pointer;
   font-family: inherit;
   position: relative;
-  background-color: inherit;
+  background-color: transparent;
   transition: none;
   color:inherit;
 
   &:focus {
-    background-color: inherit;
+    background-color: transparent;
     color:inherit;
   }
   &:active {
-    background-color: inherit;
+    background-color: transparent;
     color:inherit;
   }
   &:hover {
-    background-color: inherit;
+    background-color: transparent;
     color:inherit;
   }
 }
