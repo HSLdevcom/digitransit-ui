@@ -69,12 +69,6 @@ class OriginDestinationBar extends React.Component {
       searchLayers = without(searchLayers, 'CurrentPosition');
     }
 
-    let initialValue = '';
-    if (this.props[this.state.tabOpen]) {
-      initialValue = this.props[this.state.tabOpen].useCurrentPosition ?
-        ownPosition : this.props[this.state.tabOpen].address;
-    }
-
     return (
       <div className={cx('origin-destination-bar', this.props.className, 'flex-horizontal')}>
         <button className="flex-grow noborder" onClick={() => this.openSearch('origin')}>
@@ -101,7 +95,6 @@ class OriginDestinationBar extends React.Component {
         <OneTabSearchModal
           modalIsOpen={this.state.tabOpen}
           closeModal={this.closeModal}
-          initialValue={initialValue}
           layers={searchLayers}
           endpoint={this.props[this.state.tabOpen]}
           target={this.state.tabOpen}

@@ -14,7 +14,7 @@ export default function RouteHeader(props) {
 
   const routeLineText = ` ${props.route.shortName || ''}`;
 
-  const routeLine = props.trip ?
+  const routeLine = (props.trip && props.pattern) ?
     (<Link to={`/linjat/${props.route.gtfsId}/pysakit/${props.pattern.code}`}>
       {routeLineText}
     </Link>) : routeLineText;
@@ -29,10 +29,13 @@ export default function RouteHeader(props) {
 }
 
 RouteHeader.propTypes = {
-  route: React.PropTypes.object.isRequired,
+  route: React.PropTypes.shape({
+    gtfsId: React.PropTypes.string.isRequired,
+    mode: React.PropTypes.string.isRequired,
+    shortName: React.PropTypes.string,
+  }).isRequired,
   trip: React.PropTypes.string,
-  pattern: React.PropTypes.object.isRequired,
-  reverseId: React.PropTypes.string,
+  pattern: React.PropTypes.shape({ code: React.PropTypes.string.isRequired }),
   className: React.PropTypes.string,
   favourite: React.PropTypes.bool.isRequired,
 };

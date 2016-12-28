@@ -1,6 +1,6 @@
 import React from 'react';
 import SwipeableViews from 'react-swipeable-views';
-import bindKeyboard from 'react-swipeable-views/lib/bindKeyboard';
+import { bindKeyboard } from 'react-swipeable-views-utils';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 

@@ -37,7 +37,6 @@ function getRulesConfig(env) {
   if (env === 'development') {
     return ([
       { test: /\.css$/, loaders: ['style', 'css', 'postcss'] },
-      { test: /\.json$/, loader: 'json' },
       { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] },
       { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
       { test: /\.js$/,
@@ -67,7 +66,6 @@ function getRulesConfig(env) {
   }
   return ([
     { test: /\.css$/, loader: ExtractTextPlugin.extract('css!postcss') },
-    { test: /\.json$/, loader: 'json' },
     { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss!sass') },
     { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'url-loader?limit=10000' },
     { test: /\.js$/,
@@ -137,7 +135,7 @@ function getPluginsConfig(env) {
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
-          postcss: () => [autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] })],
+          postcss: () => [autoprefixer({ browsers: devBrowsers })],
         },
       }),
       new webpack.NoErrorsPlugin(),
@@ -189,9 +187,15 @@ function getPluginsConfig(env) {
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
-        main: [':rest:', ':externals:'],
-        additional: ['js/+([a-z0-9]).js'],
-        optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js', '*.png'],
+        main: [':rest:'],
+        additional: [
+          ':externals:',
+          'js/+([a-z0-9]).js',
+          // TODO: move the ones below back to optional after caching has been fixed.
+          'css/*.css',
+          '*.svg',
+        ],
+        optional: ['js/*_theme.*.js', 'js/*_sprite.*.js', '*.png'],
       },
       externals: ['/'],
       safeToUseOptionalCaches: true,
@@ -274,8 +278,6 @@ module.exports = {
   },
   plugins: getPluginsConfig(process.env.NODE_ENV),
   resolve: {
-    extensions: ['.js'],
-    modules: ['node_modules'],
     mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     alias: {
       'lodash.merge': 'lodash/merge',
@@ -317,5 +319,8 @@ module.exports = {
     'fbjs/lib/fetch': 'var fetch',
     './fetch': 'var fetch',
     'object-assign': 'var Object.assign',
+  },
+  performance: {
+    hints: (process.env.NODE_ENV === 'development') ? false : 'warning',
   },
 };

@@ -24,7 +24,6 @@ export function getIcon(type) {
 }
 
 function TicketSalesPopup(props) {
-  console.log(props);
   return (
     <div className="card">
       <Card className="padding-small">
@@ -32,6 +31,7 @@ function TicketSalesPopup(props) {
           name={props.NIMI}
           description={props.OSOITE}
           icon={getIcon(props.TYYPPI)}
+          unlinked
         />
       </Card>
       <MarkerPopupBottom

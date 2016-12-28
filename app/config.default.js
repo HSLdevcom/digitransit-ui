@@ -53,7 +53,7 @@ export default {
 
   maxWalkDistance: 10000,
   maxBikingDistance: 100000,
-  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb'],
+  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de'],
   defaultLanguage: 'en',
   // This timezone data will expire on 31.12.2020
   timezoneData: 'Europe/Helsinki|EET EEST|-20 -30|01010101010101010101010|1BWp0 1qM0 WM0 1qM0 ' +
@@ -423,6 +423,7 @@ export default {
 
     nb: {},
     fr: {},
+    de: {},
   },
   /* eslint-enable max-len*/
 

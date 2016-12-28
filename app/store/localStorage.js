@@ -1,4 +1,14 @@
-import { isBrowser } from '../util/browser';
+import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
+
+function handleSecurityError(error, logMessage) {
+  if (error.name === 'SecurityError') {
+    if (logMessage) {
+      console.log(logMessage); // eslint-disable-line no-console
+    }
+  } else {
+    throw error;
+  }
+}
 
 function setItem(key, value) {
   if (isBrowser && window.localStorage) {
@@ -9,15 +19,22 @@ function setItem(key, value) {
         console.log('[localStorage]' + // eslint-disable-line no-console
           ' Unable to save state; localStorage is not available in Safari private mode');
       } else {
-        throw error;
+        handleSecurityError(error, '[localStorage]' +
+          ' Unable to save state; access to localStorage denied by browser settings');
       }
     }
   }
 }
 
 function getItem(key) {
-  return (isBrowser && window.localStorage &&
-    window.localStorage.getItem(key)) || null;
+  if (isBrowser && window.localStorage) {
+    try {
+      return window.localStorage.getItem(key);
+    } catch (error) {
+      handleSecurityError(error);
+    }
+  }
+  return null;
 }
 
 function getItemAsJson(key, defaultValue) {
@@ -32,7 +49,11 @@ function getItemAsJson(key, defaultValue) {
 
 export function removeItem(k) {
   if (isBrowser && window.localStorage) {
-    window.localStorage.removeItem(k);
+    try {
+      window.localStorage.removeItem(k);
+    } catch (error) {
+      handleSecurityError(error);
+    }
   }
 }
 
@@ -85,7 +106,7 @@ export function setModeStorage(data) {
 }
 
 export function getOldSearchesStorage() {
-  return getItemAsJson('saved-searches');
+  return getItemAsJson('saved-searches', '{"items": []}');
 }
 
 export function setOldSearchesStorage(data) {
@@ -112,7 +133,11 @@ export function setPositioningHasSucceeded(state) {
   setItem('positioningSuccesful', { state });
 }
 
-export function getPositioningHasSucceeded() {
+export function getPositioningHasSucceeded(shouldCheckBrowser) {
+  // Hack for Windows phone and iOS fullscreen apps
+  if (shouldCheckBrowser && !(isWindowsPhone || isIOSApp)) {
+    return false;
+  }
   return getItemAsJson('positioningSuccesful', '{ "state": false }').state;
 }
 
