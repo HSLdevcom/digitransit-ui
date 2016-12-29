@@ -53,7 +53,7 @@ class SearchMainContainer extends React.Component {
         },
         pathname: item.properties.link,
       };
-      return this.context.router.push(newLocation);
+      return this.context.router.replace(newLocation);
     }
 
     if (item.type === 'CurrentLocation') {
