@@ -209,6 +209,7 @@ const translations = {
     'platform-short': 'Lait.',
     'footer-feedback': 'Anna palautetta',
     'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
+    'footer-link-to-privacy-policy': 'Rekisteriseloste',
     'agency': 'Liikennöitsijä',
   },
 
@@ -388,6 +389,7 @@ const translations = {
     'platform-short': 'Plat.',
     'footer-feedback': 'Skicka feedback',
     'footer-link-to-old': 'Använd den gamla reseplaneraren',
+    'footer-link-to-privacy-policy': 'TODO Datasystembeskrivning',
     'agency': 'Trafikidkare',
   },
 
