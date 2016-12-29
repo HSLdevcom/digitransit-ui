@@ -52,7 +52,7 @@ const RouteMarkerPopupWithContext = provideContext(RouteMarkerPopup, {
   router: PropTypes.object.isRequired,
 });
 
-export default class VehicleMarkerContainer extends React.Component {
+export default class VehicleMarkerContainer extends React.PureComponent {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -61,27 +61,23 @@ export default class VehicleMarkerContainer extends React.Component {
 
   static propTypes = {
     startRealTimeClient: PropTypes.bool,
-    tripStartTime: PropTypes.string,
+    tripStart: PropTypes.string,
+    direction: PropTypes.number,
     useSmallIcons: PropTypes.bool,
   }
 
   componentWillMount() {
+    this.context.getStore('RealTimeInformationStore').addChangeListener(this.onChange);
+
     if (this.props.startRealTimeClient) {
       this.context.executeAction(startRealTimeClient);
     }
+  }
 
-    this.context.getStore('RealTimeInformationStore').addChangeListener(this.onChange);
-
-    const vehicles = this.context.getStore('RealTimeInformationStore').vehicles;
-
-    Object.keys(vehicles).forEach((id) => {
-      // if tripStartTime has been specified,
-      // use only the updates for vehicles with matching startTime
-      const message = vehicles[id];
-      if (!this.props.tripStartTime || message.tripStartTime === this.props.tripStartTime) {
-        this.updateVehicle(id, message);
-      }
-    });
+  componentWillReceiveProps(newProps) {
+    // Reset vehicles when recieving new props
+    this.vehicles = {};
+    this.updateVehicles(newProps);
   }
 
   componentWillUnmount() {
@@ -97,7 +93,32 @@ export default class VehicleMarkerContainer extends React.Component {
 
   onChange = (id) => {
     const message = this.context.getStore('RealTimeInformationStore').getVehicle(id);
-    this.updateVehicle(id, message);
+    if (this.shouldVehicleUpdate(message)) {
+      this.updateVehicle(id, message);
+      this.forceUpdate();
+    }
+  }
+
+  updateVehicles(newProps) {
+    const vehicles = this.context.getStore('RealTimeInformationStore').vehicles;
+
+    Object.keys(vehicles).forEach((id) => {
+      // if tripStartTime has been specified,
+      // use only the updates for vehicles with matching startTime
+      const message = vehicles[id];
+      if (this.shouldVehicleUpdate(message, newProps)) {
+        this.updateVehicle(id, message);
+      }
+    });
+  }
+
+  // if tripStartTime has been specified,
+  // use only the updates for vehicles with matching startTime
+  shouldVehicleUpdate(message, props = this.props) {
+    return (
+      (props.direction === undefined || message.direction === props.direction) &&
+      (props.tripStart === undefined || message.tripStartTime === props.tripStart)
+    );
   }
 
   vehicles = {};
@@ -142,8 +163,6 @@ export default class VehicleMarkerContainer extends React.Component {
         </Popup>
       </Marker>
     );
-
-    this.forceUpdate();
   }
 
   render() {

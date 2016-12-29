@@ -2,13 +2,13 @@ import React from 'react';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
 import compose from 'recompose/compose';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 
 import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { addFavouriteStop } from '../action/FavouriteActions';
 import ComponentUsageExample from './ComponentUsageExample';
-import Labeled from './Labeled';
-import InfoIcon from './InfoIcon';
+// import Labeled from './Labeled';
+// import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
 
 const StopPageHeader = compose(
@@ -19,12 +19,13 @@ const StopPageHeader = compose(
     className: 'stop-page header',
     headingStyle: 'h3',
     icons: [
-      <Labeled
+      // TODO: Re-add when done
+      /* <Labeled
         label={<FormattedMessage id="extra-info" defaultMessage="More info" />}
         showLabel={props.breakpoint === 'large'}
       >
         <InfoIcon stop={props.stop} />
-      </Labeled>,
+      </Labeled>, */
       <Favourite
         favourite={props.favourite}
         addFavourite={(e) => {

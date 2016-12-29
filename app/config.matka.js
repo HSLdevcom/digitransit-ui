@@ -1,7 +1,5 @@
 const CONFIG = process.env.CONFIG || 'matka';
-const APP_DESCRIPTION =
-  'Liikenneviraston Matka.fi uudistuu. Apuasi kaivataan kehitystyössä. ' +
-  'Tule palvelun testaajaksi tai tee siitä saman tien parempi.';
+const APP_DESCRIPTION = 'Liikenneviraston Matka.fi–palvelu.';
 
 export default {
   CONFIG,
@@ -17,7 +15,7 @@ export default {
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
 
-  appBarLink: { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/' },
+  appBarLink: { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut' },
 
   socialMedia: {
     title: 'Matka.fi',
@@ -38,8 +36,8 @@ export default {
     content: [
       { label: (function () { return `© Liikennevirasto ${(1900 + new Date().getYear())}`; }()) },
       {},
-      { name: 'footer-feedback', nameEn: 'Send feedback', href: 'http://www.liikennevirasto.fi/yhteystiedot/palaute', icon: 'icon-icon_speech-bubble' },
-      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      { name: 'footer-feedback', nameEn: 'Send feedback', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut/matka.fi-palautesivu', icon: 'icon-icon_speech-bubble' },
+      { name: 'about-this-service', nameEn: 'About this service', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut/tietoja-matka.fi-palvelusta', icon: 'icon-icon_info' },
     ],
   },
 
@@ -48,7 +46,7 @@ export default {
   /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
-      about: 'Tämän palvelun tarjoaa Liikennevirasto joukkoliikenteen reittisuunnittelua varten koko Suomen alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
+      about: 'Tämän palvelun tarjoaa Liikennevirasto joukkoliikenteen reittisuunnittelua varten koko Suomen alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan. Reittiehdotukset perustuvat arvioituihin ajoaikoihin. Ehdotetun yhteyden toteutumista ei voida kuitenkaan taata. Liikennevirasto ei korvaa kulkuyhteyden toteutumatta jäämisestä mahdollisesti aiheutuvia vahinkoja.',
       digitransit: 'Digitransit palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin ratkaisu, jonka taustalla toimii mm. OpenTripPlanner. Lähdekoodi tarjotaan EUPL v1.2 ja AGPLv3 lisensseillä.',
       datasources: 'Kartat, kadut, rakennukset, pysäkkisijainnit ym. tiedot tarjoaa © OpenStreetMap contributors ja ne ladataan Geofabrik palvelusta. Osoitetiedot tuodaan VRK:n rakennustietorekisteristä ja ne ladataan OpenAddresses-palvelusta. Joukkoliikenteen reitit ja aikataulut ladataan mm. Liikenneviraston valtakunnallisesta joukkoliikenteen tietokannasta.',
     },
@@ -67,26 +65,5 @@ export default {
   },
   /* eslint-enable max-len*/
 
-  /* eslint-disable max-len*/
-  staticMessages: [{
-    id: 1,
-
-    content: {
-      fi: {
-        title: 'Tämä on Matka.fi:n kehitysversio',
-        content: 'Käytät Matka.fi-palvelun kehitysversiota. Kokeile uusia ominaisuuksia ja lähetä meille palautetta. Päivitämme palvelua jatkuvasti. Lisätietoa projektista löydät osoitteesta digitransit.fi.',
-      },
-
-      sv: {
-        title: 'Det här är utvecklingsversionen av Resa.fi',
-        content: 'Du använder utvecklingsversionen av Resa.fi. Prova de nya egenskaperna och ge oss feedback. Vi uppdaterar tjänsten kontinuerligt. Mer information om projektet hittar du på addressen digitransit.fi.',
-      },
-
-      en: {
-        title: 'This version of Journey.fi is under development',
-        content: 'You are using the development version of Journey.fi. Try the new features and send us feedback. We are updating the service constantly. More information about the project can be found at digitransit.fi.',
-      },
-    },
-  }],
-  /* eslint-enable max-len*/
+  staticMessages: [],
 };

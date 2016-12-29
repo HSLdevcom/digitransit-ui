@@ -11,6 +11,7 @@ export default function LocationPopup({ name, lat, lon }, { intl }) {
         <CardHeader
           name={intl.formatMessage({ id: 'location-from-map', defaultMessage: 'Picked location' })}
           description={name}
+          unlinked
           className="padding-small"
         />
       </div>
