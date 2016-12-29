@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
 import RouteNumber from './RouteNumber';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
@@ -12,7 +11,6 @@ export default function RouteAlertsRow({
   endTime,
   routeMode,
   routeLine,
-  day,
   expired,
 }) {
   return (
@@ -21,15 +19,7 @@ export default function RouteAlertsRow({
       <Icon img="icon-icon_caution" className="caution" />
       <div className="route-alert-contents">
         <div className="route-alert-duration">
-          <FormattedMessage
-            id="alert.duration"
-            defaultMessage="{day} {startTime} – {endTime}"
-            values={{
-              day,
-              startTime,
-              endTime,
-            }}
-          />
+          {startTime} – {endTime}
         </div>
         <div className={cx('route-alert-header', routeMode)}>
           {header}
@@ -49,7 +39,6 @@ RouteAlertsRow.propTypes = {
   endTime: React.PropTypes.string.isRequired,
   routeMode: React.PropTypes.string.isRequired,
   routeLine: React.PropTypes.string.isRequired,
-  day: React.PropTypes.string.isRequired,
   expired: React.PropTypes.bool.isRequired,
 };
 
