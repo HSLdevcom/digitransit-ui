@@ -1,12 +1,16 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
+export default function RightOffcanvasToggle({ onToggleClick, hasChanges },
+  { intl: { formatMessage } }) {
+  const label = formatMessage({ id: 'settings-label-change', defaultMessage: 'Change settings' });
   return (
     <button
       onClick={onToggleClick}
+      aria-label={label}
+      title={label}
       className="noborder cursor-pointer right-offcanvas-toggle"
     >
       <div className="icon-holder">
@@ -21,7 +25,10 @@ export default function RightOffcanvasToggle({ onToggleClick, hasChanges }) {
 RightOffcanvasToggle.propTypes = {
   onToggleClick: React.PropTypes.func.isRequired,
   hasChanges: React.PropTypes.bool,
-  text: React.PropTypes.string,
+};
+
+RightOffcanvasToggle.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 RightOffcanvasToggle.description = (
