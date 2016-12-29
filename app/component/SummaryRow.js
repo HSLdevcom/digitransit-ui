@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import getLegText from '../util/leg-text-util';
 import { displayDistance } from '../util/geo-utils';
@@ -11,7 +11,7 @@ import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
 // XXX fix visual test, now only mobile layout is tested
-export default function SummaryRow(props, { breakpoint }) {
+export default function SummaryRow(props, { breakpoint, intl: { formatMessage } }) {
   let mode;
   const data = props.data;
   const startTime = moment(data.startTime);
@@ -89,6 +89,7 @@ export default function SummaryRow(props, { breakpoint }) {
     open: props.open || props.children,
   }]);
 
+  const itineraryLabel = formatMessage({ id: 'itinerary-page.title', defaultMessage: 'Itinerary' });
   return (
     <div
       className={classes}
@@ -110,6 +111,7 @@ export default function SummaryRow(props, { breakpoint }) {
           tagName="h2"
         />,
         <button
+          title={itineraryLabel}
           key="arrow"
           className="action-arrow-click-area noborder flex-vertical"
           onClick={(e) => {
@@ -137,6 +139,7 @@ export default function SummaryRow(props, { breakpoint }) {
           {endTime.format('HH:mm')}
         </div>,
         <button
+          title={itineraryLabel}
           key="arrow"
           className="action-arrow-click-area flex-vertical noborder"
           onClick={(e) => {
@@ -165,6 +168,7 @@ SummaryRow.propTypes = {
 
 SummaryRow.contextTypes = {
   breakpoint: React.PropTypes.string,
+  intl: intlShape.isRequired,
 };
 
 SummaryRow.displayName = 'SummaryRow';
