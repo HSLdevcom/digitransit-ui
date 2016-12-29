@@ -69,9 +69,12 @@ class OriginDestinationBar extends React.Component {
       searchLayers = without(searchLayers, 'CurrentPosition');
     }
 
+    const originLabel = this.context.intl.formatMessage({ id: 'origin-label-change', defaultMessage: 'Change origin' });
+    const destinationLabel = this.context.intl.formatMessage({ id: 'destination-label-change', defaultMessage: 'Change destination' });
+
     return (
       <div className={cx('origin-destination-bar', this.props.className, 'flex-horizontal')}>
-        <button className="flex-grow noborder" onClick={() => this.openSearch('origin')}>
+        <button aria-label={originLabel} className="flex-grow noborder" onClick={() => this.openSearch('origin')}>
           <div className="field-link from-link" >
             <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
             <span className="link-name">
@@ -83,7 +86,7 @@ class OriginDestinationBar extends React.Component {
             <Icon img="icon-icon_direction-b" />
           </span>
         </div>
-        <button className="flex-grow noborder" onClick={() => this.openSearch('destination')}>
+        <button aria-label={destinationLabel} className="flex-grow noborder" onClick={() => this.openSearch('destination')}>
           <div className="field-link to-link" >
             <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
             <span className="link-name">
