@@ -8,19 +8,17 @@ const selectLanguage = (executeAction, lang) =>
   () => executeAction(setLanguage, lang);
 
 const language = (lang, currentLanguage, highlight, executeAction) => (
-  <div className="lang" key={lang}>
-    <span
-      id={`lang-${lang}`}
-      className={(highlight && 'selected') || ''}
-      onClick={selectLanguage(executeAction, lang)}
-    >
-      {lang}
-    </span>
-  </div>
+  <button
+    id={`lang-${lang}`}
+    className={`${(highlight && 'selected') || ''} noborder lang`}
+    onClick={selectLanguage(executeAction, lang)}
+  >
+    {lang}
+  </button>
 );
 
 const LangSelect = ({ currentLanguage }, { executeAction }) => (
-  <div key="lang-select" className="lang-select">
+  <div key="lang-select" id="lang-select">
     {config.availableLanguages.map(lang =>
       language(lang, currentLanguage, lang === currentLanguage, executeAction),
     )}
