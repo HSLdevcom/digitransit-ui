@@ -102,7 +102,10 @@ class RoutePage extends React.Component {
             </div>
           </a>
           <a
-            className={cx({ 'is-active': activeTab === 'hairiot' })}
+            activeClassName="is-active"
+            className={cx({
+              activeAlert: this.props.route.alerts && this.props.route.alerts.length > 0,
+            })}
             onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/hairiot`); }}
           >
             <div>
@@ -138,6 +141,7 @@ export default Relay.createContainer(RoutePage, {
         mode
         ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
+        alerts
       }
     `,
   },

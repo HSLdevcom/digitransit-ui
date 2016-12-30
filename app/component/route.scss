@@ -430,6 +430,12 @@ div.route-tabs {
       font-size: $font-size-xxsmall;
       min-width: 6em;
 
+      &.activeAlert, &.activeAlert.is-active, &.activeAlert:hover {
+        .icon {
+          fill: $cancelation-red;
+        }
+      }
+
       &.is-active {
         border-bottom: 2px solid $primary-color ;
         color: $black;
@@ -597,6 +603,7 @@ div.route-tabs {
     .route-number {
       padding-top: 0.2em;
       padding-right: 0.8em;
+      flex-shrink: 0;
 
       .icon {
         width: 1.5em;
