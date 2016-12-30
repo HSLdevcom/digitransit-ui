@@ -36,7 +36,7 @@ const PlaceAtDistanceList = ({ places, currentTime }) => {
       sortBy(places.edges.filter(
           ({ node }) => node.place.__typename !== 'DepartureRow' ||
           (node.place.stoptimes && node.place.stoptimes.length > 0),
-        ), ({ node }) => (`${`00000${node.distance - (node.distance % 10)}`.slice(-5)}${node.place.id}${node.place.stoptimes[0].serviceDay +
+        ), ({ node }) => (`${`00000${node.distance}`.slice(-5)}${node.place.id}${node.place.stoptimes[0].serviceDay +
         node.place.stoptimes[0].realtimeDeparture}`),
       )
       .map(({ node }) =>
