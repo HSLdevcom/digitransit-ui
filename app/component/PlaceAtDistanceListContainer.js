@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import sortBy from 'lodash/sortBy';
 
 import PlaceAtDistanceContainer from './PlaceAtDistanceContainer';
 import config from '../config';
@@ -8,12 +9,14 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
   fragment on placeAtDistanceConnection {
     edges {
       node {
+        distance
         place {
           id
           __typename
           ... on DepartureRow {
             stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
-              realtimeState
+              serviceDay
+              realtimeDeparture
             }
           }
         }
@@ -28,8 +31,14 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
 const PlaceAtDistanceList = ({ places, currentTime }) => {
   if (places && places.edges) {
     return (<div>
-      {places.edges.filter(({ node }) => node.place.__typename !== 'DepartureRow' ||
-      (node.place.stoptimes && node.place.stoptimes.length > 0))
+      {/* sorting the departure times is done by stop not rounded distance,
+        this might look confusing in the ui */
+      sortBy(places.edges.filter(
+          ({ node }) => node.place.__typename !== 'DepartureRow' ||
+          (node.place.stoptimes && node.place.stoptimes.length > 0),
+        ), ({ node }) => (`${`00000${node.distance - (node.distance % 10)}`.slice(-5)}${node.place.id}${node.place.stoptimes[0].serviceDay +
+        node.place.stoptimes[0].realtimeDeparture}`),
+      )
       .map(({ node }) =>
         <PlaceAtDistanceContainer
           key={node.place.id}
