@@ -95,12 +95,6 @@ class AddFavouriteContainer extends React.Component {
     this.setState({ favourite: { ...this.state.favourite, selectedIconId: id } });
   };
 
-  closeSearchModal = () => {
-    this.setState({
-      searchModalIsOpen: false,
-    });
-  }
-
   render() {
     const destinationPlaceholder = this.context.intl.formatMessage({
       id: 'address',
