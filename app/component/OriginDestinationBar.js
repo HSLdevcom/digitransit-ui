@@ -50,8 +50,11 @@ class OriginDestinationBar extends React.Component {
 
   openSearchModal = (tab) => {
     this.context.router.push({
-      state: { oneTabSearchModalOpen: tab },
-      pathname: this.context.location.pathname,
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        oneTabSearchModalOpen: tab,
+      },
     });
   }
 

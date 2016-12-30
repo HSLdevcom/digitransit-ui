@@ -86,11 +86,12 @@ class SearchMainContainer extends React.Component {
 
   openDialog = (tab) => {
     this.context.router.push({
+      ...this.context.location,
       state: {
+        ...this.context.location.state,
         searchModalIsOpen: true,
         selectedTab: tab,
       },
-      pathname: this.context.location.pathname,
     });
   }
 

@@ -148,8 +148,11 @@ class AddFavouriteContainer extends React.Component {
                 onClick={(e) => {
                   e.preventDefault();
                   this.context.router.push({
-                    state: { oneTabSearchModalOpen: true },
-                    pathname: this.context.location.pathname,
+                    ...this.context.location,
+                    state: {
+                      ...this.context.location.state,
+                      oneTabSearchModalOpen: true,
+                    },
                   });
                 }} id="destination" className="add-favourite-container__input-placeholder"
               />
