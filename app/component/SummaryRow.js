@@ -11,7 +11,8 @@ import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
 export default function SummaryRow(props, { breakpoint }) {
-  let mode, routeNumber;
+  let mode;
+  let routeNumber;
   const data = props.data;
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -63,7 +64,7 @@ export default function SummaryRow(props, { breakpoint }) {
           />
         );
       }
-      
+
       legs.push(
         <div key={i} className="leg">
           {breakpoint === 'large' &&
