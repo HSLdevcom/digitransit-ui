@@ -392,6 +392,11 @@ div.route-tabs .tabs-navigation.bp-large {
 .footer-item {
   cursor: pointer;
   font-size: $font-size-small;
+  button {
+    display:inline-block;
+    @include font-medium;
+    font-size: $font-size-small;
+  }
   color: $primary-color;
   margin-left:10px;
   margin-right:10px;
