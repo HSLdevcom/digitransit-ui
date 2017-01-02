@@ -15,7 +15,6 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
           id
           __typename
           ... on DepartureRow {
-            stop{id}
             stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
               serviceDay
               realtimeDeparture
