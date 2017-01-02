@@ -4,13 +4,14 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 
 import { displayDistance } from '../util/geo-utils';
+import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
 export default function SummaryRow(props, { breakpoint }) {
-  let mode;
+  let mode, routeNumber;
   const data = props.data;
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -43,6 +44,26 @@ export default function SummaryRow(props, { breakpoint }) {
       if (leg.rentedBike) {
         mode = 'CITYBIKE';
       }
+
+      if (leg.route) {
+        routeNumber = (
+          <RouteNumberContainer
+            route={leg.route}
+            className={cx('line', mode.toLowerCase())}
+            vertical
+          />
+        );
+      } else {
+        routeNumber = (
+          <RouteNumber
+            mode={mode}
+            text={''}
+            className={cx('line', mode.toLowerCase())}
+            vertical
+          />
+        );
+      }
+      
       legs.push(
         <div key={i} className="leg">
           {breakpoint === 'large' &&
@@ -50,11 +71,7 @@ export default function SummaryRow(props, { breakpoint }) {
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
             </div>
           }
-          <RouteNumberContainer
-            route={leg.route}
-            className={cx('line', mode.toLowerCase())}
-            vertical
-          />
+          {routeNumber}
         </div>,
       );
     }

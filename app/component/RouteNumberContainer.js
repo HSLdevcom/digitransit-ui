@@ -14,11 +14,8 @@ const getText = (route) => {
   return '';
 };
 
-const getMode = route =>
-  route.mode || (route.rentedBike && 'CITYBIKE');
-
 const RouteNumberContainer = ({ route, ...props }) =>
-  route && <RouteNumber mode={getMode(route)} text={getText(route)} {...props} />;
+  route && <RouteNumber mode={route.mode} text={getText(route)} {...props} />;
 
 RouteNumberContainer.propTypes = {
   route: React.PropTypes.object.isRequired,
