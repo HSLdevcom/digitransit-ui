@@ -62,12 +62,10 @@ class OneTabSearchModal extends React.Component {
     this.context.router.goBack();
   };
 
-  modalIsOpen = () => {
-    if (this.context.location.state) {
-      return !(!this.context.location.state.oneTabSearchModalOpen); // bool
-    }
-    return false;
-  }
+  modalIsOpen = () => (
+    this.context.location.state ?
+      !(!this.context.location.state.oneTabSearchModalOpen) : false
+  )
 
   render() {
     if (!this.modalIsOpen()) {
