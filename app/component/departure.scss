@@ -56,6 +56,10 @@
     vertical-align: middle;
 }
 
+.desktop .route-destination {
+  width: calc(100% - 12.5em);
+}
+
 .route-destination {
   overflow: hidden;
   position: relative;
