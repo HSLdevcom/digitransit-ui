@@ -36,6 +36,6 @@ const StopPageRootContainer = routeProps => (
 export default connectToStores(StopPageRootContainer, ['TimeStore', 'FavouriteStopsStore'],
   ({ getStore }) => ({
     startTime: `${Math.floor((getStore('TimeStore').getCurrentTime().valueOf()) / 1000)}`,
-    timeRange: 3600,
-    numberOfDepartures: 10,
+    timeRange: 3600 * 12,
+    numberOfDepartures: 100,
   }));

@@ -38,7 +38,7 @@ export default Relay.createContainer(StopPageContent, {
 
   initialVariables: {
     startTime: `${Math.floor(new Date().getTime() / 1000)}`,
-    timeRange: 3600,
-    numberOfDepartures: 10,
+    timeRange: 3600 * 12,
+    numberOfDepartures: 100,
   },
 });
