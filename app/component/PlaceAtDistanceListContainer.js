@@ -32,13 +32,12 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
 const PlaceAtDistanceList = ({ places, currentTime }) => {
   if (places && places.edges) {
     return (<div>
-      {/* sorting the departure times is done by stop not rounded distance,
-        this might look confusing in the ui */
-      sortBy(places.edges.filter(
+      {sortBy(places.edges.filter(
           ({ node }) => node.place.__typename !== 'DepartureRow' ||
           (node.place.stoptimes && node.place.stoptimes.length > 0),
-        ), [({ node }) => round(node.distance), ({ node }) => node.place.stoptimes[0].serviceDay +
-        node.place.stoptimes[0].realtimeDeparture])
+        ), [({ node }) => round(node.distance), ({ node }) =>
+          (node.place.stoptimes && node.place.stoptimes.length > 0 && (node.place.stoptimes[0].serviceDay +
+            node.place.stoptimes[0].realtimeDeparture))])
       .map(({ node }) =>
         <PlaceAtDistanceContainer
           key={node.place.id}
