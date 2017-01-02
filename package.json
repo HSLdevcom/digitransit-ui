@@ -120,7 +120,7 @@
     "eslint-import-resolver-webpack": "0.8.0",
     "eslint-plugin-graphql": "0.4.3",
     "eslint-plugin-import": "2.2.0",
-    "eslint-plugin-jsx-a11y": "2.2.3",
+    "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-react": "6.8.0",
     "exports-loader": "0.6.3",
     "extract-text-webpack-plugin": "2.0.0-beta.4",
