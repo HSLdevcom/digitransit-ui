@@ -1,19 +1,23 @@
 import React from 'react';
 import Relay from 'react-relay';
+import sortBy from 'lodash/sortBy';
 
 import PlaceAtDistanceContainer from './PlaceAtDistanceContainer';
 import config from '../config';
+import { round } from './Distance';
 
 export const placeAtDistanceListContainerFragment = variables => Relay.QL`
   fragment on placeAtDistanceConnection {
     edges {
       node {
+        distance
         place {
           id
           __typename
           ... on DepartureRow {
             stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
-              realtimeState
+              serviceDay
+              realtimeDeparture
             }
           }
         }
@@ -25,25 +29,25 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
 `;
 
 /* eslint-disable no-underscore-dangle */
-const PlaceAtDistanceList = (props) => {
-  const rows = [];
-  if (props.places && props.places.edges) {
-    props.places.edges.forEach((edge) => {
-      const node = edge.node;
-      const hasDepartures = node.place.__typename !== 'DepartureRow' ||
-        (node.place.stoptimes && node.place.stoptimes.length > 0);
-      if (hasDepartures) {
-        rows.push(
-          <PlaceAtDistanceContainer
-            key={node.place.id}
-            currentTime={props.currentTime}
-            placeAtDistance={node}
-          />,
-        );
-      }
-    });
+const PlaceAtDistanceList = ({ places, currentTime }) => {
+  if (places && places.edges) {
+    return (<div>
+      {sortBy(places.edges.filter(
+          ({ node }) => node.place.__typename !== 'DepartureRow' ||
+          (node.place.stoptimes && node.place.stoptimes.length > 0),
+        ), [({ node }) => round(node.distance), ({ node }) =>
+          (node.place.stoptimes && node.place.stoptimes.length > 0 && (node.place.stoptimes[0].serviceDay +
+            node.place.stoptimes[0].realtimeDeparture))])
+      .map(({ node }) =>
+        <PlaceAtDistanceContainer
+          key={node.place.id}
+          currentTime={currentTime}
+          placeAtDistance={node}
+        />,
+      )}
+    </div>);
   }
-  return (<div>{rows}</div>);
+  return null;
 };
 /* eslint-enable no-underscore-dangle */
 
