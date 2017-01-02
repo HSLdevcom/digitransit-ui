@@ -4,6 +4,7 @@ import sortBy from 'lodash/sortBy';
 
 import PlaceAtDistanceContainer from './PlaceAtDistanceContainer';
 import config from '../config';
+import { round } from './Distance';
 
 export const placeAtDistanceListContainerFragment = variables => Relay.QL`
   fragment on placeAtDistanceConnection {
@@ -37,9 +38,8 @@ const PlaceAtDistanceList = ({ places, currentTime }) => {
       sortBy(places.edges.filter(
           ({ node }) => node.place.__typename !== 'DepartureRow' ||
           (node.place.stoptimes && node.place.stoptimes.length > 0),
-        ), ({ node }) => (`${`00000${node.distance}`.slice(-5)}${node.place.stop.id}${node.place.stoptimes[0].serviceDay +
-        node.place.stoptimes[0].realtimeDeparture}`),
-      )
+        ), [({ node }) => round(node.distance), ({ node }) => node.place.stoptimes[0].serviceDay +
+        node.place.stoptimes[0].realtimeDeparture])
       .map(({ node }) =>
         <PlaceAtDistanceContainer
           key={node.place.id}
