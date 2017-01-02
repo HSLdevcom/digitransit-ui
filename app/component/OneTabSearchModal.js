@@ -3,7 +3,7 @@ import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 
-import GeolocationOrInput from './GeolocationOrInput';
+import SearchInputContainer from './SearchInputContainer';
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
@@ -23,7 +23,6 @@ class OneTabSearchModal extends React.Component {
     customOnSuggestionSelected: React.PropTypes.func,
     customTabLabel: React.PropTypes.string,
     endpoint: React.PropTypes.object,
-    initialValue: React.PropTypes.string.isRequired,
     modalIsOpen: React.PropTypes.oneOfType(
       [React.PropTypes.bool, React.PropTypes.string]).isRequired,
     target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
@@ -32,8 +31,8 @@ class OneTabSearchModal extends React.Component {
   };
 
   componentDidUpdate() {
-    if (this.props.modalIsOpen) {
-      setTimeout(() => this.geolocationOrInput.searchInput.autowhatever.input.focus(), 0);
+    if (this.props.modalIsOpen && this.searchInputContainer) {
+      this.searchInputContainer.autowhatever.input.focus();
     }
   }
 
@@ -97,10 +96,9 @@ class OneTabSearchModal extends React.Component {
             closeModal={this.props.closeModal}
           >
             <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
-              <GeolocationOrInput
-                ref={(c) => { this.geolocationOrInput = c; }}
+              <SearchInputContainer
+                ref={(c) => { this.searchInputContainer = c; }}
                 useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
-                initialValue={placeholder ? '' : this.props.initialValue}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={this.props.layers}

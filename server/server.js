@@ -23,10 +23,11 @@ global.self = { fetch: global.fetch };
 
 const config = require('../app/config').default;
 
-let raven;
+let Raven;
 
 if (process.env.NODE_ENV === 'production') {
-  raven = require('raven');
+  Raven = require('raven');
+  Raven.config(process.env.SENTRY_SECRET_DSN, { captureUnhandledRejections: true }).install();
 }
 
 /* ********* Server **********/
@@ -71,13 +72,13 @@ function onError(err, req, res) {
 
 function setupRaven() {
   if (process.env.NODE_ENV === 'production') {
-    app.use(raven.middleware.express.requestHandler(process.env.SENTRY_SECRET_DSN));
+    app.use(Raven.requestHandler());
   }
 }
 
 function setupErrorHandling() {
   if (process.env.NODE_ENV === 'production') {
-    app.use(raven.middleware.express.errorHandler(process.env.SENTRY_SECRET_DSN));
+    app.use(Raven.errorHandler());
   }
 
   app.use(onError);

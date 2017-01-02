@@ -213,7 +213,6 @@ class AddFavouriteContainer extends React.Component {
         closeModal={this.closeSearchModal}
         customTabLabel={searchTabLabel}
         layers={favouriteLayers}
-        initialValue=""
         customOnSuggestionSelected={(name, item) => {
           this.setCoordinatesAndAddress(name, item);
           return this.closeSearchModal();

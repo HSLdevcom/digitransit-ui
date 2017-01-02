@@ -2,9 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
 import IconWithTail from './IconWithTail';
-import NotImplementedLink from './NotImplementedLink';
 
 function TripLink(props) {
   const icon = (<IconWithTail
@@ -23,11 +21,8 @@ function TripLink(props) {
     >{icon}</Link>);
   }
 
-  return (<NotImplementedLink
-    nonTextLink
-    className="route-now-content"
-    name={<FormattedMessage id="realtime-matching" defaultMessage="Realtime matching" />}
-  >{icon}</NotImplementedLink>);
+  console.warn('Unable to match trip', props);
+  return icon;
 }
 
 TripLink.propTypes = {

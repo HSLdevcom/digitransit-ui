@@ -1,8 +1,6 @@
 const CONFIG = process.env.CONFIG || 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const APP_DESCRIPTION =
-  'HSL:n Reittiopas.fi uudistuu. Apuasi kaivataan kehitystyössä. ' +
-  'Tule palvelun testaajaksi tai tee siitä saman tien parempi.';
+const APP_DESCRIPTION = 'HSL:n uuden Reittioppaan kokeiluversio.';
 
 export default {
   CONFIG,
@@ -107,6 +105,7 @@ export default {
       {},
       { name: 'footer-feedback', nameEn: 'Send feedback', href: 'https://www.hsl.fi/palaute', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      { name: 'footer-link-to-privacy-policy', nameEn: 'Privacy policy', href: 'https://www.hsl.fi/tietoa-sivustosta' },
       { name: 'footer-link-to-old', nameEn: 'Use old Journey planner', href: 'http://www.reittiopas.fi/' },
     ],
   },
