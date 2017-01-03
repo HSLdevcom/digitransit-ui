@@ -265,8 +265,9 @@ const routes = (
                   System.import('./component/RoutePage').then(getDefault),
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/PatternStopsContainer').then(getDefault),
+                  System.import('./component/RoutePageMeta').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
+                  ([title, header, map, content, meta]) => cb(null, { title, header, map, content, meta }),
                 );
               }}
               queries={{
@@ -274,6 +275,7 @@ const routes = (
                 header: RouteQueries,
                 map: PatternQueries,
                 content: PatternQueries,
+                meta: RouteQueries,
               }}
               render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
             />
