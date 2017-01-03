@@ -3,13 +3,13 @@
   "httpTimeout": 25000,
   "sessionRequestTimeout": 120000,
   "sessionsPerBrowser": 2,
+  "retry": 3,
   "system": {
     "plugins": { "browserstack": {} }
   },
   "browsers": {
     "chrome50": {
       "windowSize": "600x1024",
-      "retry": 3,
       "desiredCapabilities": {
         "os": "OS X",
         "os_version": "El Capitan",
