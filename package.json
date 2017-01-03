@@ -67,7 +67,7 @@
     "isomorphic-relay": "0.7.3",
     "isomorphic-relay-router": "0.8.6",
     "leaflet": "1.0.2",
-    "lodash": "4.17.3",
+    "lodash": "4.17.4",
     "mapbox-gl-function": "2.1.0",
     "material-ui": "0.16.5",
     "moment": "2.17.1",
