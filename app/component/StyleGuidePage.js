@@ -63,7 +63,7 @@ import SuggestionItem from './SuggestionItem';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
-import SummaryRow from './SummaryRow';
+import { component as SummaryRow } from './SummaryRow';
 import PageFooter from './PageFooter';
 import FooterItem from './FooterItem';
 

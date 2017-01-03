@@ -206,7 +206,7 @@ gemini.suite('components', () => {
   gemini.suite('SummaryRow', () => {
     gemini.suite('passive', test('SummaryRow'));
     gemini.suite('active', test('SummaryRow', 2));
-    gemini.suite('open', test('SummaryRow', 3));
+    gemini.suite('open', test('SummaryRow', 6));
   });
 
   gemini.suite('CurrentPositionSuggestionItem', () => {
