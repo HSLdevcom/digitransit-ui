@@ -7,20 +7,37 @@ import { intlShape } from 'react-intl';
 
 const StopPageMeta = compose(
   getContext({ intl: intlShape }),
-  mapProps(props => ({
-    title: props.intl.formatMessage({
-      id: props.params.stopId ? 'stop-page.title' : 'terminal-page.title-short',
+  mapProps(({ intl, params, stop }) => {
+    const title = intl.formatMessage({
+      id: params.stopId ? 'stop-page.title' : 'terminal-page.title',
       defaultMessage:
-        props.params.stopId ? 'Stop {stop_name} - {stop_code}' : 'Terminal {stop_name}',
-    }, { stop_name: props.stop.name, stop_code: props.stop.code }),
-    meta: [{
-      name: 'description',
-      content: props.intl.formatMessage({
-        id: 'stop-page.description',
-        defaultMessage: 'Stop {stop_name} - {stop_code}',
-      }, { stop_name: props.stop.name, stop_code: props.stop.code }),
-    }],
-  })),
+        params.stopId ? 'Stop - {name} {code}' : 'Terminal - {name}',
+    }, stop);
+    const description = intl.formatMessage({
+      id: 'stop-page.description',
+      defaultMessage: 'Stop - {name} {code}',
+    }, stop);
+    return {
+      title,
+      meta: [{
+        name: 'description',
+        content: description,
+      }, {
+        property: 'og:title',
+        content: title,
+      }, {
+        property: 'og:description',
+        content: description,
+      }, {
+        property: 'twitter:title',
+        content: title,
+      }, {
+        property: 'twitter:description',
+        content: description,
+      },
+      ],
+    };
+  }),
 )(Helmet);
 
 export default Relay.createContainer(StopPageMeta, {
@@ -29,6 +46,7 @@ export default Relay.createContainer(StopPageMeta, {
       fragment on Stop {
         name
         code
+        desc
       }
     `,
   },
