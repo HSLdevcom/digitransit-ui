@@ -2,16 +2,17 @@ import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import getContext from 'recompose/getContext';
 
 import getLegText from '../util/leg-text-util';
+import TimeFrame, { dateOrEmpty } from './TimeFrame';
 import { displayDistance } from '../util/geo-utils';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
-
-export default function SummaryRow(props, { breakpoint }) {
+const SummaryRow = (props) => {
   let mode;
   const data = props.data;
   const startTime = moment(data.startTime);
@@ -47,8 +48,8 @@ export default function SummaryRow(props, { breakpoint }) {
       }
 
       legs.push(
-        <div key={i} className="leg">
-          {breakpoint === 'large' &&
+        <div key={i} className="leg flex-vertical">
+          {props.breakpoint === 'large' &&
             <div className="departure-stop overflow-fade">
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
             </div>
@@ -85,9 +86,11 @@ export default function SummaryRow(props, { breakpoint }) {
 
   const classes = cx(['itinerary-summary-row', 'cursor-pointer', {
     passive: props.passive,
-    'bp-large': breakpoint === 'large',
+    'bp-large': props.breakpoint === 'large',
     open: props.open || props.children,
   }]);
+
+  const NOW = moment();
 
   return (
     <div
@@ -104,11 +107,15 @@ export default function SummaryRow(props, { breakpoint }) {
         </div>
       </div>
       {props.open || props.children ? [
-        <FormattedMessage
-          id="itinerary-page.title"
-          defaultMessage="Itinerary"
-          tagName="h2"
-        />,
+        <span className="flex-grow">
+          <FormattedMessage
+            id="itinerary-page.title"
+            defaultMessage="Itinerary"
+            tagName="h2"
+          /><span className="itinerary-title-timeframe">
+            <TimeFrame withSlashes={false} startTime={data.startTime} endTime={data.endTime} />
+          </span>
+        </span>,
         <div
           key="arrow"
           className="action-arrow-click-area"
@@ -126,8 +133,8 @@ export default function SummaryRow(props, { breakpoint }) {
         <div
           className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}
           key="startTime"
-        >
-          {startTime.format('HH:mm')}
+        ><span className="itinerary-start-date" >&nbsp;{dateOrEmpty(startTime, NOW)}</span>
+          <span>{startTime.format('HH:mm')}</span>
           {firstLegStartTime}
         </div>,
         <div className="itinerary-legs" key="legs">
@@ -150,7 +157,7 @@ export default function SummaryRow(props, { breakpoint }) {
         </div>,
       ]}
     </div>);
-}
+};
 
 
 SummaryRow.propTypes = {
@@ -161,10 +168,7 @@ SummaryRow.propTypes = {
   hash: React.PropTypes.number.isRequired,
   children: React.PropTypes.node,
   open: React.PropTypes.bool,
-};
-
-SummaryRow.contextTypes = {
-  breakpoint: React.PropTypes.string,
+  breakpoint: React.PropTypes.string.isRequired,
 };
 
 SummaryRow.displayName = 'SummaryRow';
@@ -220,6 +224,7 @@ SummaryRow.description = (
     </p>
     <ComponentUsageExample description="passive">
       <SummaryRow
+        breakpoint="small"
         data={exampleData}
         passive
         onSelect={() => {}}
@@ -229,6 +234,7 @@ SummaryRow.description = (
     </ComponentUsageExample>
     <ComponentUsageExample description="active">
       <SummaryRow
+        breakpoint="small"
         data={exampleData}
         onSelect={() => {}}
         onSelectImmediately={() => {}}
@@ -237,6 +243,36 @@ SummaryRow.description = (
     </ComponentUsageExample>
     <ComponentUsageExample description="open">
       <SummaryRow
+        breakpoint="small"
+        open
+        data={exampleData}
+        onSelect={() => {}}
+        onSelectImmediately={() => {}}
+        hash={1}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="passive">
+      <SummaryRow
+        breakpoint="large"
+        data={exampleData}
+        passive
+        onSelect={() => {}}
+        onSelectImmediately={() => {}}
+        hash={1}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="active">
+      <SummaryRow
+        breakpoint="large"
+        data={exampleData}
+        onSelect={() => {}}
+        onSelectImmediately={() => {}}
+        hash={1}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="open">
+      <SummaryRow
+        breakpoint="large"
         open
         data={exampleData}
         onSelect={() => {}}
@@ -246,3 +282,8 @@ SummaryRow.description = (
     </ComponentUsageExample>
   </div>
 );
+
+const withBreakPoint = getContext({
+  breakpoint: React.PropTypes.string.isRequired })(SummaryRow);
+
+export { SummaryRow as component, withBreakPoint as default };

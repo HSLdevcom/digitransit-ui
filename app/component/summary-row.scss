@@ -35,6 +35,10 @@
     margin: 0.5em;
   }
 
+  .itinerary-title-timeframe {
+    padding-left:10px;
+  }
+
   .itinerary-duration-and-distance {
     width: 4em;
     margin-top: 7px;
@@ -57,10 +61,10 @@
 
   .itinerary-start-time {
     text-align: right;
-    padding-right: 10px;
+    //padding-right: 10px;
     padding-left: 5px;
-    width: 3em;
-    margin-top: 7px;
+    width: 2.8em;
+    //margin-top: 7px;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
@@ -68,6 +72,14 @@
       margin-top: -1px;
       margin-right: -7px;
       font-weight: 100;
+    }
+    .itinerary-start-date {
+      line-height:1;
+      display:block;
+      text-transform: capitalize;
+      @include font-medium;
+      font-size: $font-size-xxxsmall;
+      color: $dark-gray;
     }
   }
 
@@ -82,17 +94,17 @@
   }
 
   .itinerary-legs {
+    padding-left:5px;
     display: flex;
     white-space: nowrap;
     margin-top: 3px;
     min-width: 0;
-    flex: 1 1 0;
     flex-grow: 1; //Needed on IE
 
     .leg {
-      flex: 1 0 0;
       flex-grow: 1; //Needed on IE
       overflow: hidden;
+      justify-content: center;
     }
 
     .departure-stop {
@@ -183,7 +195,7 @@
     }
 
     h2 {
-      margin-top: 25px;
+      margin-top: 10px;
     }
 
     .itinerary-duration {
@@ -197,14 +209,16 @@
 
     .itinerary-start-time {
       font-size: 21px;
-      margin-top: 25px;
-      padding-top: 8px;
+      //margin-top: 25px;
+      padding-top: 24px;
       @include font-narrow-medium;
 
       .itinerary-first-leg-start-time {
         padding-top: 0;
         font-size: $font-size-normal;
       }
+
+
     }
 
     .itinerary-legs {
