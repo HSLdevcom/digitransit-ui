@@ -58,17 +58,13 @@ class SummaryNavigation extends React.Component {
       );
     }
 
-    if (newState) {
-      this.context.router.push({
-        ...this.context.location,
-        state: {
-          ...this.context.location.state,
-          customizeSearchOffcanvas: newState,
-        },
-      });
-    } else {
-      this.context.router.goBack();
-    }
+    this.context.router.replace({
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        customizeSearchOffcanvas: newState,
+      },
+    });
   }
 
   toggleCustomizeSearchOffcanvas = () => {
