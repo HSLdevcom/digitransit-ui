@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
-
+const TIME_PATTERN = 'HH:mm';
+const DATE_PATTERN = 'dd D.M.';
 /**
  * Returns date or '' if same day as reference
  */
@@ -9,7 +10,7 @@ const dateOrEmpty = (momentTime, momentRefTime) => {
   if (momentTime.isSame(momentRefTime, 'day')) {
     return '';
   }
-  return momentTime.format('dd D.M.');
+  return momentTime.format(DATE_PATTERN);
 };
 
 /**
@@ -17,9 +18,9 @@ const dateOrEmpty = (momentTime, momentRefTime) => {
  */
 const dateTime = (momentTime, momentRefTime) => {
   if (momentTime.isSame(momentRefTime, 'day')) {
-    return momentTime.format('HH:mm');
+    return momentTime.format(TIME_PATTERN);
   }
-  return momentTime.format('D.M. HH:mm');
+  return momentTime.format(`${DATE_PATTERN} ${TIME_PATTERN}`);
 };
 
 const TimeFrame = ({ className, withSlashes, startTime, endTime }) => {
