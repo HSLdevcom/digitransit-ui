@@ -3,8 +3,8 @@ import Relay from 'react-relay';
 import { Link } from 'react-router';
 import filter from 'lodash/filter';
 
+import RouteNumberContainer from './RouteNumberContainer';
 import Distance from './Distance';
-import RouteNumber from './RouteNumber';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import config from '../config';
@@ -23,6 +23,9 @@ const departureRowContainerFragment = () => Relay.QL`
           id
           effectiveStartDate
           effectiveEndDate
+        }
+        agency {
+          name
         }
       }
       code
@@ -80,9 +83,8 @@ const DepartureRow = (props) => {
         key={departure.pattern.code}
       >
         <Distance distance={props.distance} />
-        <RouteNumber
-          mode={departure.pattern.route.mode}
-          text={departure.pattern.route.shortName}
+        <RouteNumberContainer
+          route={departure.pattern.route}
           hasDisruption={hasActiveDisruption(props.currentTime, departure.pattern.route.alerts)}
         />
         <RouteDestination

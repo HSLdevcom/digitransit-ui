@@ -162,6 +162,10 @@ div.itinerary-main > div > .row:nth-child(1)  {
     .route-number {
       padding-top: 0.25em;
     }
+    .vehicle-number.long {
+      overflow: hidden;
+      width: inherit;
+    }
   }
   .itinerary-instruction-column::before {
     content: "⚬";
@@ -250,6 +254,7 @@ div.itinerary-main > div > .row:nth-child(1)  {
     .itinerary-transit-leg-route {
       @extend .itinerary-leg-text-gray;
       margin-top: 1px;
+      overflow: hidden;
     }
 
     .itinerary-leg-action {

@@ -56,6 +56,10 @@
     vertical-align: middle;
 }
 
+.desktop .route-destination {
+  width: calc(100% - 12.5em);
+}
+
 .route-destination {
   overflow: hidden;
   position: relative;
@@ -184,6 +188,7 @@
     width: 3.5em;
     vertical-align: middle;
     margin-bottom: -2px;
+    overflow: hidden;
   }
   .vehicle-number {
     vertical-align: top;
