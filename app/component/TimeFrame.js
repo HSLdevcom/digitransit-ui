@@ -30,7 +30,7 @@ const TimeFrame = ({ className, withSlashes, startTime, endTime }) => {
 
   return (
     <span className={className}>
-      {withSlashes ? '//' : ''}{dateTime(start, now)} - {dateTime(end, startTime)}
+      {withSlashes ? '//' : ''}<span className="capitalize">{dateTime(start, now)}</span> - <span className="capitalize">{dateTime(end, startTime)}</span>
     </span>
   );
 };
