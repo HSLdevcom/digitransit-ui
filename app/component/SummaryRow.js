@@ -4,16 +4,17 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 
-import getLegText from '../util/leg-text-util';
 import TimeFrame, { dateOrEmpty } from './TimeFrame';
 import { displayDistance } from '../util/geo-utils';
 import RouteNumber from './RouteNumber';
+import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SummaryRow = (props) => {
   let mode;
+  let routeNumber;
   const data = props.data;
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -47,19 +48,33 @@ const SummaryRow = (props) => {
         mode = 'CITYBIKE';
       }
 
+      if (leg.route) {
+        routeNumber = (
+          <RouteNumberContainer
+            route={leg.route}
+            className={cx('line', mode.toLowerCase())}
+            vertical
+          />
+        );
+      } else {
+        routeNumber = (
+          <RouteNumber
+            mode={mode}
+            text={''}
+            className={cx('line', mode.toLowerCase())}
+            vertical
+          />
+        );
+      }
+
       legs.push(
-        <div key={i} className="leg flex-vertical">
+        <div key={i} className="leg">
           {props.breakpoint === 'large' &&
             <div className="departure-stop overflow-fade">
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
             </div>
           }
-          <RouteNumber
-            mode={mode}
-            text={getLegText(leg)}
-            className={cx('line', mode.toLowerCase())}
-            vertical
-          />
+          {routeNumber}
         </div>,
       );
     }
@@ -199,7 +214,7 @@ const exampleData = {
       distance: 586.4621425755712,
       duration: 120,
       rentedBike: false,
-      route: { shortName: '57' },
+      route: { shortName: '57', mode: 'BUS' },
       from: { name: 'Ilmattarentie' },
     },
     {
