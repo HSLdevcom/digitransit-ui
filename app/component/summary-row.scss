@@ -61,10 +61,8 @@
 
   .itinerary-start-time {
     text-align: right;
-    //padding-right: 10px;
     padding-left: 5px;
     width: 2.8em;
-    //margin-top: 7px;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
@@ -99,10 +97,10 @@
     white-space: nowrap;
     margin-top: 3px;
     min-width: 0;
-    flex-grow: 1; //Needed on IE
+    flex: 1 1 0;
 
     .leg {
-      flex-grow: 1; //Needed on IE
+      flex: 1 1 0;
       overflow: hidden;
       justify-content: center;
     }
@@ -156,6 +154,13 @@
       width: 1.3em;
       margin-left: $padding-xsmall;
       margin-top: 1px;
+      &.long {
+        @extend .overflow-fade;
+        display: inline-block;
+        width: 100%;
+        text-align: left;
+        overflow: hidden;
+      }
     }
   }
 
@@ -217,8 +222,6 @@
         padding-top: 0;
         font-size: $font-size-normal;
       }
-
-
     }
 
     .itinerary-legs {
