@@ -149,7 +149,7 @@ const SummaryRow = (props) => {
           className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}
           key="startTime"
         ><span className="itinerary-start-date" >&nbsp;{dateOrEmpty(startTime, NOW)}</span>
-          <span>{startTime.format('HH:mm')}</span>
+          {startTime.format('HH:mm')}
           {firstLegStartTime}
         </div>,
         <div className="itinerary-legs" key="legs">
