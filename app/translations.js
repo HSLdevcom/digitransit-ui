@@ -582,6 +582,12 @@ const translations = {
     'splash-geolocation-not-supported-message': 'Nettleseren din har ikke støtte for lokalisering.',
     'no-transfers-margin': 'Ingen',
     'long-transfers-margin': 'Veldig lang',
+    'messagebar-label-page': 'Side',
+    'messagebar-label-close-message-bar': 'Lukk melding',
+    'main-menu-label-open': 'Åpen hovedmenyen',
+    'park-and-ride': 'Innfartsparkering',
+    'park-and-ride-availability': 'Tilgjengelighet',
+    'using-modes': 'Transportform',
   },
 
   'fr': {
