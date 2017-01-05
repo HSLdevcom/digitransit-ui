@@ -72,12 +72,19 @@
       font-weight: 100;
     }
     .itinerary-start-date {
+      background-color: $dark-gray;
       line-height:1;
       display:block;
       text-transform: capitalize;
       @include font-medium;
       font-size: $font-size-xxxsmall;
-      color: $dark-gray;
+      color: $white;
+      border-radius:2px;
+      padding-bottom:1px;
+
+      &.nobg {
+        background-color: transparent;
+      }
     }
   }
 
