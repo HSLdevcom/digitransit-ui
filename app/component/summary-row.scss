@@ -80,7 +80,7 @@
       font-size: $font-size-xxxsmall;
       color: $white;
       border-radius:2px;
-      padding-bottom:1px;
+      padding: 0px 1px;
 
       &.nobg {
         background-color: transparent;
@@ -222,7 +222,7 @@
     .itinerary-start-time {
       font-size: 21px;
       //margin-top: 25px;
-      padding-top: 24px;
+      padding-top: 15px;
       @include font-narrow-medium;
 
       .itinerary-first-leg-start-time {

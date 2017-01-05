@@ -148,7 +148,7 @@ const SummaryRow = (props) => {
         <div
           className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}
           key="startTime"
-        ><span className={cx('itinerary-start-date', { nobg: dateOrEmpty(startTime, NOW) === '' })} >&nbsp;{dateOrEmpty(startTime, NOW)}</span>
+        ><span className={cx('itinerary-start-date', { nobg: dateOrEmpty(startTime, NOW) === '' })} >{dateOrEmpty(startTime, NOW)}</span>
           {startTime.format('HH:mm')}
           {firstLegStartTime}
         </div>,
