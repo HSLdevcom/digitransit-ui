@@ -19,17 +19,55 @@ import fs from 'fs';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import find from 'lodash/find';
+import mergeWith from 'lodash/mergeWith';
 
 // Application
 import application from './app';
-import config from './config';
 import translations from './translations';
 import ApplicationHtml from './html';
 
+// configuration
+import defaultConfig from './config';
+
 const port = process.env.HOT_LOAD_PORT || 9000;
+
+// Look up paths for various asset files
+const appRoot = `${process.cwd()}/`;
+
+// cached assets
+const configs = {};
+const networkLayers = {};
+const cssDefs = {};
+const sprites = {};
+
+const themeMap = {};
+
+if (defaultConfig.themeMap) {
+  Object.keys(defaultConfig.themeMap).forEach((theme) => {
+    themeMap[theme] = new RegExp(defaultConfig.themeMap[theme], 'i'); // str to regex
+  });
+}
 
 // Disable relay query cache in order tonot leak memory, see facebook/relay#754
 Relay.disableQueryCaching();
+
+function customizer(objValue, srcValue) {
+  if (Array.isArray(objValue)) { return srcValue; } // Return only latest if array
+  return undefined; // Otherwise use default customizer
+}
+
+function getConfiguration(configName) {
+  if (!configs[configName]) {
+    let additionalConfig;
+
+    if (configName !== 'default') {
+      // eslint-disable-next-line global-require, import/no-dynamic-require
+      additionalConfig = require(`./config.${configName}`).default;
+    }
+    configs[configName] = mergeWith({}, defaultConfig, additionalConfig, customizer);
+  }
+  return configs[configName];
+}
 
 function getStringOrArrayElement(arrayOrString, index) {
   if (Array.isArray(arrayOrString)) {
@@ -40,67 +78,85 @@ function getStringOrArrayElement(arrayOrString, index) {
   throw new Error(`Not array or string: ${arrayOrString}`);
 }
 
-// Look up paths for various asset files
-const appRoot = `${process.cwd()}/`;
-
-const networkLayer = new RelayNetworkLayer([
-  retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
-  urlMiddleware({
-    url: `${config.URL.OTP}index/graphql`,
-    batchUrl: `${config.URL.OTP}index/graphql/batch`,
-  }),
-  gqErrorsMiddleware(),
-], { disableBatchQuery: false });
-
 let stats;
 let manifest;
-let css;
-let svgSprite;
 
 if (process.env.NODE_ENV !== 'development') {
   stats = require('../stats.json'); // eslint-disable-line global-require, import/no-unresolved
 
   const manifestFile = getStringOrArrayElement(stats.assetsByChunkName.manifest, 0);
   manifest = fs.readFileSync(`${appRoot}_static/${manifestFile}`);
-  css = [
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 1)}`}
-    />,
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href={`${config.APP_PATH}/${
-        getStringOrArrayElement(stats.assetsByChunkName[`${config.CONFIG}_theme`], 1)
-      }`}
-    />,
-  ];
-
-  svgSprite = (
-    <script
-      dangerouslySetInnerHTML={{ __html: `
-        fetch('${
-          config.APP_PATH}/${find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]
-        }').then(function(response) {return response.text();}).then(function(blob) {
-          var div = document.createElement('div');
-          div.innerHTML = blob;
-          document.body.insertBefore(div, document.body.childNodes[0]);
-        })
-    ` }}
-    />
-  );
-} else {
-  svgSprite = (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString(),
-      }}
-    />
-  );
 }
 
-function getPolyfills(userAgent) {
+function getNetworkLayer(config) {
+  if (!networkLayers[config.CONFIG]) {
+    networkLayers[config.CONFIG] = new RelayNetworkLayer(
+      [
+        retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
+        urlMiddleware({
+          url: `${config.URL.OTP}index/graphql`,
+          batchUrl: `${config.URL.OTP}index/graphql/batch`,
+        }),
+        gqErrorsMiddleware(),
+      ],
+      { disableBatchQuery: false },
+    );
+  }
+  return networkLayers[config.CONFIG];
+}
+
+function getCss(config) {
+  if (!cssDefs[config.CONFIG]) {
+    cssDefs[config.CONFIG] = [
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 1)}`}
+      />,
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href={`${config.APP_PATH}/${
+          getStringOrArrayElement(stats.assetsByChunkName[`${config.CONFIG}_theme`], 1)
+        }`}
+      />,
+    ];
+  }
+  return cssDefs[config.CONFIG];
+}
+
+function getSprite(config) {
+  if (!sprites[config.CONFIG]) {
+    let svgSprite;
+
+    if (process.env.NODE_ENV !== 'development') {
+      svgSprite = (
+        <script
+          dangerouslySetInnerHTML={{ __html: `fetch('${
+            config.APP_PATH}/${find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]
+            }').then(function(response) {return response.text();}).then(function(blob) {
+              var div = document.createElement('div');
+              div.innerHTML = blob;
+              document.body.insertBefore(div, document.body.childNodes[0]);
+            })
+          ` }}
+        />
+      );
+    } else {
+      svgSprite = (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString(),
+          }}
+        />
+      );
+    }
+    sprites[config.CONFIG] = svgSprite;
+  }
+  return sprites[config.CONFIG];
+}
+
+function getPolyfills(userAgent, config) {
   // Do not trust Samsung, LG
   // see https://digitransit.atlassian.net/browse/DT-360
   // https://digitransit.atlassian.net/browse/DT-445
@@ -136,7 +192,7 @@ function getPolyfills(userAgent) {
   });
 }
 
-function getScripts(req) {
+function getScripts(req, config) {
   if (process.env.NODE_ENV === 'development') {
     const host =
       (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
@@ -170,14 +226,14 @@ function getContent(context, renderProps, locale, userAgent) {
   );
 }
 
-function getHtml(context, locale, [polyfills, relayData], req) {
+function getHtml(context, locale, [polyfills, relayData], req, config) {
   // eslint-disable-next-line no-unused-vars
   const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent']) : undefined;
   const head = Helmet.rewind();
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
-      css={process.env.NODE_ENV === 'development' ? false : css}
-      svgSprite={svgSprite}
+      css={process.env.NODE_ENV === 'development' ? false : getCss(config)}
+      svgSprite={getSprite(config)}
       content=""
       // TODO: temporarely disable server-side rendering in order to fix issue with having different
       // content from the server, which breaks leaflet integration. Should be:
@@ -185,7 +241,7 @@ function getHtml(context, locale, [polyfills, relayData], req) {
       polyfill={polyfills}
       state={`window.state=${serialize(application.dehydrate(context))};`}
       locale={locale}
-      scripts={getScripts(req)}
+      scripts={getScripts(req, config)}
       fonts={config.URL.FONT}
       config={`window.config=${JSON.stringify(config)}`}
       relayData={relayData != null ? relayData.data : []}
@@ -194,8 +250,23 @@ function getHtml(context, locale, [polyfills, relayData], req) {
   );
 }
 
+
 export default function (req, res, next) {
-   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
+  let configName = process.env.CONFIG || 'default';
+
+  if (process.env.NODE_ENV !== 'development') {
+    const host = (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
+    Object.keys(themeMap).forEach((theme) => {
+      if (themeMap[theme].test(host)) {
+        configName = theme;
+      }
+    });
+  }
+
+  const config = getConfiguration(configName);
+  const networkLayer = getNetworkLayer(config);
+
+  // 1. use locale from cookie (user selected) 2. browser preferred 3. default
   let locale = req.cookies.lang ||
     req.acceptsLanguages(config.availableLanguages);
 
@@ -226,13 +297,13 @@ export default function (req, res, next) {
       res.status(404).send('Not found');
     } else {
       const promises = [
-        getPolyfills(req.headers['user-agent']),
+        getPolyfills(req.headers['user-agent'], config),
         // Isomorphic rendering is ok to fail due timeout
         IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];
 
       Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`),
+        res.send(`<!doctype html>${getHtml(context, locale, results, req, config)}`),
       ).catch((err) => {
         if (err) { next(err); }
       });
