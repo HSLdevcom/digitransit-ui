@@ -374,6 +374,7 @@ div.origin-popup {
 
 .map .legmarker {
    display: flex;
+   flex-direction: column;
    align-items: center;
    justify-content: center;
    & > div {
@@ -385,6 +386,10 @@ div.origin-popup {
      padding: 0 2px;
      text-align: center;
      flex-shrink: 0; /* work around iOS bug with flex sizes */
+     white-space: nowrap;
+     margin-left: -50%;
+     margin-right: 50%;
+     margin-top: -9px;
    }
 }
 

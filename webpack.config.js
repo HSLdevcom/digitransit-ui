@@ -120,6 +120,15 @@ function getSourceMapPlugin(testPattern, prefix) {
   });
 }
 
+function printDevModeWarning() {
+  /* eslint-disable no-console */
+  console.log('\n************* NOTICE ***************');
+  console.log('dev mode does not support all browsers');
+  console.log(`currently supported are: ${devBrowsers}`);
+  console.log('************************************\n');
+  /* eslint-enable no-console */
+}
+
 function getPluginsConfig(env) {
   const languageExpression = new RegExp('^./(' + getAllPossibleLanguages().join('|') + ')$');
   const momentExpression = /moment[/\\]locale$/;
@@ -129,6 +138,7 @@ function getPluginsConfig(env) {
   const selectedTheme = new RegExp(`^./(${process.env.CONFIG || 'default'})/main.scss$`);
 
   if (env === 'development') {
+    printDevModeWarning();
     return ([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
