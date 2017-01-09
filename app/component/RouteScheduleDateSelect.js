@@ -49,8 +49,9 @@ RouteScheduleDateSelect.propTypes = {
 RouteScheduleDateSelect.contextTypes = {
   intl: intlShape.isRequired,
 };
+RouteScheduleDateSelect.displayName = 'RouteScheduleDateSelect';
 
-RouteScheduleDateSelect.description = (
+RouteScheduleDateSelect.description = () =>
   <div>
     <p>
       Display a route schedule date select using react components
@@ -63,6 +64,6 @@ RouteScheduleDateSelect.description = (
         onDateChange={event => event.target.value}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default RouteScheduleDateSelect;

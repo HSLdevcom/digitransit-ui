@@ -44,14 +44,13 @@ function ScoreTable(props) {
 
 ScoreTable.displayName = 'ScoreTable';
 
-ScoreTable.description = (
+ScoreTable.description = () =>
   <div>
     <p>Renders a score table</p>
     <ComponentUsageExample description="">
       <ScoreTable lowestScore={0} highestScore={5} handleClick={() => {}} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 ScoreTable.propTypes = {
   lowestScore: React.PropTypes.number.isRequired,

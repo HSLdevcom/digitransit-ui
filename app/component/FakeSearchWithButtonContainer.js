@@ -51,4 +51,5 @@ FakeSearchWithButton.description = () => (
     </ComponentUsageExample>
   </div>);
 
-export default getContext({ breakpoint: React.PropTypes.string.isRequired })(FakeSearchWithButton);
+export default getContext(
+  { breakpoint: React.PropTypes.string.isRequired })(FakeSearchWithButton);

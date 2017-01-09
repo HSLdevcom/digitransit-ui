@@ -17,7 +17,9 @@ PlatformNumber.propTypes = {
   number: React.PropTypes.string,
 };
 
-PlatformNumber.description = (
+PlatformNumber.displayName = 'PlatformNumber';
+
+PlatformNumber.description = () =>
   <div>
     <p>
       Displays the platform number for a specific departure
@@ -27,6 +29,6 @@ PlatformNumber.description = (
         number="2"
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default PlatformNumber;

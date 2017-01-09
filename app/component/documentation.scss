@@ -3,3 +3,15 @@
     margin: 25px 0;
   }
 }
+.component-example-container {
+  background-color: white;
+  height:100%;
+  padding:25px;
+}
+.component-example.component-example-large-vertical-padding{
+  padding:50px 0px;
+  .component {
+    margin: none;
+  }
+
+}

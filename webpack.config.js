@@ -33,6 +33,10 @@ const devBrowsers = ['edge 14', 'last 1 chrome version', 'Firefox ESR', 'safari 
 
 const prodBrowsers = ['IE 10', '> 0.3% in FI', 'last 2 versions'];
 
+function getDevBrowsers() {
+  return process.env.USE_PROD_BROWSERS ? prodBrowsers : devBrowsers;
+}
+
 function getRulesConfig(env) {
   if (env === 'development') {
     return ([
@@ -44,7 +48,7 @@ function getRulesConfig(env) {
         exclude: /node_modules/,
         options: {
           presets: [
-            ['env', { targets: { browsers: devBrowsers }, modules: false }],
+            ['env', { targets: { browsers: getDevBrowsers() }, modules: false }],
             'react',
             'stage-2',
           ],
@@ -120,7 +124,7 @@ function printDevModeWarning() {
   /* eslint-disable no-console */
   console.log('\n************* NOTICE ***************');
   console.log('dev mode does not support all browsers');
-  console.log(`currently supported are: ${devBrowsers}`);
+  console.log(`currently supported are: ${getDevBrowsers()}`);
   console.log('************************************\n');
   /* eslint-enable no-console */
 }
@@ -145,7 +149,7 @@ function getPluginsConfig(env) {
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
-          postcss: () => [autoprefixer({ browsers: devBrowsers })],
+          postcss: () => [autoprefixer({ browsers: getDevBrowsers() })],
         },
       }),
       new webpack.NoErrorsPlugin(),

@@ -53,7 +53,7 @@ const exampleIcons = [<InfoIcon stop={exampleStop} />];
 
 StopCardHeader.displayName = 'StopCardHeader';
 
-StopCardHeader.description = (
+StopCardHeader.description = () =>
   <div>
     <ComponentUsageExample description="basic">
       <StopCardHeader stop={exampleStop} distance={345.6} />
@@ -61,7 +61,6 @@ StopCardHeader.description = (
     <ComponentUsageExample description="with icons">
       <StopCardHeader stop={exampleStop} distance={345.6} icons={exampleIcons} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default StopCardHeader;
