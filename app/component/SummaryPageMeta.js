@@ -17,7 +17,7 @@ export default compose(
       defaultMessage: 'Itinerary suggestions',
     }, params);
     const description = intl.formatMessage({
-      id: 'route-page.description',
+      id: 'summary-page.description',
       defaultMessage: '{from} - {to}',
     }, params);
     return {
