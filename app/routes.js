@@ -265,7 +265,8 @@ const routes = (
                   System.import('./component/PatternStopsContainer').then(getDefault),
                   System.import('./component/RoutePageMeta').then(getDefault),
                 ]).then(
-                  ([title, header, map, content, meta]) => cb(null, { title, header, map, content, meta }),
+                  ([title, header, map, content, meta]) =>
+                    cb(null, { title, header, map, content, meta }),
                 );
               }}
               queries={{
