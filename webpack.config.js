@@ -34,7 +34,7 @@ const devBrowsers = ['edge 14', 'last 1 chrome version', 'Firefox ESR', 'safari 
 const prodBrowsers = ['IE 10', '> 0.3% in FI', 'last 2 versions'];
 
 function getDevBrowsers() {
-  return process.env.UITEST ? prodBrowsers : devBrowsers;
+  return process.env.USE_PROD_BROWSERS ? prodBrowsers : devBrowsers;
 }
 
 function getRulesConfig(env) {
@@ -124,7 +124,7 @@ function printDevModeWarning() {
   /* eslint-disable no-console */
   console.log('\n************* NOTICE ***************');
   console.log('dev mode does not support all browsers');
-  console.log(`currently supported are: ${devBrowsers}`);
+  console.log(`currently supported are: ${getDevBrowsers()}`);
   console.log('************************************\n');
   /* eslint-enable no-console */
 }
