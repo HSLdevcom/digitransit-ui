@@ -96,7 +96,9 @@ class TransitLeg extends React.Component {
           <RouteNumber
             mode={this.props.mode.toLowerCase()}
             text={this.props.leg.route && this.props.leg.route.shortName}
-            realtime={this.props.leg.realTime} vertical
+            realtime={this.props.leg.realTime}
+            vertical
+            fadeLong
           />
         </div>
       </Link>
