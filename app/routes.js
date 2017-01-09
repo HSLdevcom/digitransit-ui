@@ -370,7 +370,8 @@ const routes = (
         Promise.all([
           System.import('./component/SummaryTitle').then(getDefault),
           System.import('./component/SummaryPage').then(getDefault),
-        ]).then(([title, content]) => cb(null, { title, content }));
+          System.import('./component/SummaryPageMeta').then(getDefault),
+        ]).then(([title, content, meta]) => cb(null, { title, content, meta }));
       }}
       queries={{ content: planQueries }}
       prepareParams={preparePlanParams}

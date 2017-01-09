@@ -196,7 +196,7 @@ class SummaryPage extends React.Component {
         <DesktopView
           title={(
             <FormattedMessage
-              id="itinerary-summary-page.title"
+              id="summary-page.title"
               defaultMessage="Itinerary suggestions"
             />
           )}
@@ -253,6 +253,8 @@ class SummaryPage extends React.Component {
   }
 }
 
+
+export const customizableParameters = SummaryPage.customizableParameters;
 
 export default Relay.createContainer(SummaryPage, {
   fragments: {
