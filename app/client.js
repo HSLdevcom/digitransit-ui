@@ -8,6 +8,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import tapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { AppContainer } from 'react-hot-loader';
 import debug from 'debug';
 import {
   RelayNetworkLayer,
@@ -129,18 +130,20 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   // init geolocation handling
   context.executeAction(initGeolocation).then(() => {
     ReactDOM.render(
-      <ContextProvider translations={translations} context={context.getComponentContext()}>
-        <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
-          <Router
-            history={history}
-            environment={Relay.Store}
-            render={applyRouterMiddleware(useRelay)}
-            onUpdate={track}
-          >
-            {app.getComponent()}
-          </Router>
-        </MuiThemeProvider>
-      </ContextProvider>,
+      <AppContainer>
+        <ContextProvider translations={translations} context={context.getComponentContext()}>
+          <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
+            <Router
+              history={history}
+              environment={Relay.Store}
+              render={applyRouterMiddleware(useRelay)}
+              onUpdate={track}
+            >
+              {app.getComponent()}
+            </Router>
+          </MuiThemeProvider>
+        </ContextProvider>
+      </AppContainer>,
       document.getElementById('app'),
       () => {
         // Run only in production mode and when built in a docker container
@@ -162,6 +165,28 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
       );
     }
   });
+
+  if (module.hot) {
+    module.hot.accept('./app', () => {
+      ReactDOM.render(
+        <AppContainer>
+          <ContextProvider translations={translations} context={context.getComponentContext()}>
+            <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
+              <Router
+                history={history}
+                environment={Relay.Store}
+                render={applyRouterMiddleware(useRelay)}
+                onUpdate={track}
+              >
+                {app.getComponent()}
+              </Router>
+            </MuiThemeProvider>
+          </ContextProvider>
+        </AppContainer>,
+        document.getElementById('app'),
+      );
+    });
+  }
 
   piwik.enableLinkTracking();
 
