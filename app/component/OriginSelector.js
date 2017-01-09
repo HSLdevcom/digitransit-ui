@@ -42,7 +42,7 @@ const OriginSelector = ({ favourites, oldSearches }) => {
       />)
       .concat(oldSearches.map(s => <OriginSelectorRow
         key={`o-${s.properties.label}`}
-        icon={getIcon(s.properties.layer)}
+        icon={getIcon(s.properties.layer, s.properties.mode)}
         label={s.properties.label}
         lat={s.geometry.coordinates[1]}
         lon={s.geometry.coordinates[0]}
