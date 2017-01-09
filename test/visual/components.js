@@ -204,9 +204,16 @@ gemini.suite('components', () => {
   });
 
   gemini.suite('SummaryRow', () => {
-    gemini.suite('passive', test('SummaryRow'));
-    gemini.suite('active', test('SummaryRow', 2));
-    gemini.suite('open', test('SummaryRow', 6));
+    gemini.suite('passive-small-today', test('SummaryRow'));
+    gemini.suite('active-small-today', test('SummaryRow', 2));
+    gemini.suite('passive-large-today', test('SummaryRow', 3));
+    gemini.suite('active-large-today', test('SummaryRow', 4));
+    gemini.suite('passive-small-tomorrow', test('SummaryRow', 5));
+    gemini.suite('active-small-tomorrow', test('SummaryRow', 6));
+    gemini.suite('passive-large-tomorrow', test('SummaryRow', 7));
+    gemini.suite('active-large-tomorrow', test('SummaryRow', 8));
+    gemini.suite('open-large-today', test('SummaryRow', 9));
+    gemini.suite('open-large-tomorrow', test('SummaryRow', 10));
   });
 
   gemini.suite('CurrentPositionSuggestionItem', () => {

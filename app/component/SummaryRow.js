@@ -188,16 +188,16 @@ SummaryRow.propTypes = {
 
 SummaryRow.displayName = 'SummaryRow';
 
-const exampleData = {
-  startTime: 1478611781000,
-  endTime: 1478612600000,
+const exampleData = t1 => ({
+  startTime: t1,
+  endTime: t1 + 10000,
   walkDistance: 770,
   legs: [
     {
       realTime: false,
       transitLeg: false,
-      startTime: 1478611781000,
-      endTime: 1478612219000,
+      startTime: t1 + 10000,
+      endTime: t1 + 20000,
       mode: 'WALK',
       distance: 483.84600000000006,
       duration: 438,
@@ -208,8 +208,8 @@ const exampleData = {
     {
       realTime: false,
       transitLeg: true,
-      startTime: 1478612220000,
-      endTime: 1478612340000,
+      startTime: t1 + 20000,
+      endTime: t1 + 30000,
       mode: 'BUS',
       distance: 586.4621425755712,
       duration: 120,
@@ -220,8 +220,8 @@ const exampleData = {
     {
       realTime: false,
       transitLeg: false,
-      startTime: 1478612341000,
-      endTime: 1478612600000,
+      startTime: t1 + 30000,
+      endTime: t1 + 40000,
       mode: 'WALK',
       distance: 291.098,
       duration: 259,
@@ -230,73 +230,116 @@ const exampleData = {
       from: { name: 'Veturitie' },
     },
   ],
-};
+});
 
-SummaryRow.description = (
-  <div>
-    <p>
+SummaryRow.description = () => {
+  const today = moment().hour(12).minute(34).second(0)
+    .valueOf();
+  const date = 1478611781000;
+  return (
+    <div>
+      <p>
       Displays a summary of an itinerary.
     </p>
-    <ComponentUsageExample description="passive">
-      <SummaryRow
-        breakpoint="small"
-        data={exampleData}
-        passive
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
-        hash={1}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="active">
-      <SummaryRow
-        breakpoint="small"
-        data={exampleData}
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
-        hash={1}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="open">
-      <SummaryRow
-        breakpoint="small"
-        open
-        data={exampleData}
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
-        hash={1}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="passive">
-      <SummaryRow
-        breakpoint="large"
-        data={exampleData}
-        passive
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
-        hash={1}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="active">
-      <SummaryRow
-        breakpoint="large"
-        data={exampleData}
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
-        hash={1}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="open">
-      <SummaryRow
-        breakpoint="large"
-        open
-        data={exampleData}
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
-        hash={1}
-      />
-    </ComponentUsageExample>
-  </div>
-);
+      <ComponentUsageExample description="passive-small-today">
+        <SummaryRow
+          breakpoint="small"
+          data={exampleData(today)}
+          passive
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="active-small-today">
+        <SummaryRow
+          breakpoint="small"
+          data={exampleData(today)}
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="passive-large-today">
+        <SummaryRow
+          breakpoint="large"
+          data={exampleData(today)}
+          passive
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="active-large-today">
+        <SummaryRow
+          breakpoint="large"
+          data={exampleData(today)}
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="passive-small-tomorrow">
+        <SummaryRow
+          breakpoint="small"
+          data={exampleData(date)}
+          passive
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="active-small-tomorrow">
+        <SummaryRow
+          breakpoint="small"
+          data={exampleData(date)}
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="passive-large-tomorrow">
+        <SummaryRow
+          breakpoint="large"
+          data={exampleData(date)}
+          passive
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="active-large-tomorrow">
+        <SummaryRow
+          breakpoint="large"
+          data={exampleData(date)}
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="open-large-today">
+        <SummaryRow
+          breakpoint="large"
+          data={exampleData(today)}
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+          open
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="open-large-tomorrow">
+        <SummaryRow
+          breakpoint="large"
+          data={exampleData(date)}
+          onSelect={() => {}}
+          onSelectImmediately={() => {}}
+          hash={1}
+          open
+        />
+      </ComponentUsageExample>
+    </div>
+  );
+};
 
 const withBreakPoint = getContext({
   breakpoint: React.PropTypes.string.isRequired })(SummaryRow);
