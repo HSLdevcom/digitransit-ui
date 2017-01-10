@@ -4,8 +4,6 @@ const APP_DESCRIPTION = 'Liikenneviraston Matka.fi–palvelu.';
 export default {
   CONFIG,
 
-  title: 'Reittiopas',
-
   contactName: {
     sv: 'Livin',
     fi: 'Livin',

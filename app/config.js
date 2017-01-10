@@ -30,7 +30,7 @@ export default {
   },
 
   APP_PATH: `${APP_PATH}`,
-  title: 'Reittihaku',
+  title: 'Reittiopas',
 
   contactName: {
     sv: 'Digitransit',

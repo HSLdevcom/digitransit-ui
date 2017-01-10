@@ -1,23 +1,13 @@
+import mergeWith from 'lodash/mergeWith';
+
 const CONFIG = process.env.CONFIG || 'turku';
-const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const APP_DESCRIPTION =
   'Fölin reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
 
-export default {
+const walttiConfig = require('./config.waltti').default;
+
+export default mergeWith({}, walttiConfig, {
   CONFIG,
-
-  URL: {
-    OTP: `${API_URL}/routing/v1/routers/waltti/`,
-    STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
-  },
-
-  title: 'Reittiopas',
-
-  contactName: {
-    sv: '',
-    fi: '',
-    default: '',
-  },
 
   searchParams: {
     'boundary.rect.min_lat': 59.963388,
@@ -26,29 +16,16 @@ export default {
     'boundary.rect.max_lon': 22.939795,
   },
 
-  availableLanguages: ['fi', 'sv', 'en'],
-  defaultLanguage: 'fi',
-
   initialLocation: {
     lat: 60.451159,
     lon: 22.267633,
   },
-
-  cityBike: {
-    showCityBikes: false,
-  },
-
-  stopsMinZoom: 14,
 
   colors: {
     primary: '#e8aa27',
   },
 
   appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },
-
-  agency: {
-    show: false,
-  },
 
   socialMedia: {
     title: 'Fölin reittiopas',
@@ -64,32 +41,11 @@ export default {
   },
 
   transportModes: {
-    tram: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
-    subway: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
-    citybike: {
-      availableForSelection: false,
-    },
-
-    airplane: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
     ferry: {
       availableForSelection: true,
       defaultValue: true,
     },
   },
-
-  showModeFilter: false,
 
   /* eslint-disable max-len*/
   areaPolygon: [[21.145557, 59.963388], [21.145557, 60.950777], [22.939795, 60.950777], [22.939795, 59.963388]],
@@ -156,4 +112,8 @@ export default {
     },
   }],
 
-};
+}, function arrMerger(objValue, srcValue) {
+  if (Array.isArray(srcValue)) { return srcValue; }
+  if (Array.isArray(objValue)) { return objValue; }
+  return undefined; // default merge
+});
