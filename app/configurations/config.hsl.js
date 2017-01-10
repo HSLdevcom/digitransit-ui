@@ -14,13 +14,14 @@ export default {
     FONT: 'https://cloud.typography.com/6364294/6653152/css/fonts.css',
   },
 
-  title: 'Reittiopas',
-
   contactName: {
     sv: 'HSR',
     fi: 'HSL',
     default: 'HSL',
   },
+
+  availableLanguages: ['fi', 'sv', 'en'],
+  defaultLanguage: 'fi',
 
   preferredAgency: 'HSL',
 
@@ -42,9 +43,6 @@ export default {
   },
 
   maxWalkDistance: 2500,
-  availableLanguages: ['fi', 'sv', 'en'],
-  defaultLanguage: 'fi',
-
   parkAndRide: {
     showParkAndRide: true,
     parkAndRideMinZoom: 14,
