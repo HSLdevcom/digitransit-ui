@@ -37,7 +37,7 @@ $content-background-color: $background-color;
   background: $primary-color;
   text-align: center;
   overflow: visible; // Show drawer menu
-  z-index: 803;
+  z-index: 1001;
   line-height: 35px;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
@@ -206,6 +206,17 @@ $content-background-color: $background-color;
 
 .offcanvas-section {
   padding: 0.5em $padding-large;
+  .footer-item {
+    margin: 0px;
+    display:inline-block;
+    font-size: $font-size-normal;
+    button {
+      font-size: $font-size-normal;
+    }
+    .icon {
+      display: none;
+    }
+  }
 }
 
 /* content */

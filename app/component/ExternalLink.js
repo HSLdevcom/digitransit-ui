@@ -20,6 +20,8 @@ ExternalLink.defaultProps = {
   className: '',
 };
 
+ExternalLink.displayName = 'ExternalLink';
+
 ExternalLink.description = () => (
   <div>
     <p>

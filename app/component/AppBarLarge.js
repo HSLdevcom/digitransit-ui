@@ -40,6 +40,8 @@ AppBarLarge.propTypes = {
   titleClicked: PropTypes.func.isRequired,
 };
 
+AppBarLarge.displayName = 'AppBarLarge';
+
 AppBarLarge.contextTypes = {
   router: React.PropTypes.object,
   location: React.PropTypes.object,

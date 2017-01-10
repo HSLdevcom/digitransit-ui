@@ -24,12 +24,11 @@ const exampleStop = {
   desc: 'Kaivonkatsojantie',
 };
 
-InfoIcon.description = (
+InfoIcon.description = () =>
   <div>
     <ComponentUsageExample description="basic">
       <InfoIcon stop={exampleStop} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default InfoIcon;

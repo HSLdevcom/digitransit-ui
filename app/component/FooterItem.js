@@ -8,12 +8,12 @@ const mapToLink = (href, children) => (<span className="cursor-pointer"><a href=
 
 const mapToFn = (fn, children) => (<span className="cursor-pointer"><a onClick={() => { fn(); return false; }}>{children}</a></span>);
 
-const mapToRoute = (router, route, children) => (<span
-  className="cursor-pointer"
+const mapToRoute = (router, route, children) => (<button
+  className="noborder button cursor-pointer"
   onClick={() => {
     router.push(route);
   }}
->{children}</span>);
+>{children}</button>);
 
 const getFuntionForType = (type, executeAction) => {
   switch (type) {
@@ -59,13 +59,15 @@ FooterItem.defaultProps = {
   links: [],
 };
 
+FooterItem.displayName = 'FooterItem';
+
 FooterItem.description = () => (
   <div>
     <p>
       Front page footer item
     </p>
     <ComponentUsageExample description="external">
-      <FooterItem name="Palaute" href="http://www.google.com" />
+      <FooterItem name="Palaute" href="http://www.hsl.fi/" />
     </ComponentUsageExample>
     <ComponentUsageExample description="with icon">
       <FooterItem icon="icon-icon_speech-bubble" name="Feedback" route="/" />
