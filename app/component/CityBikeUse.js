@@ -24,13 +24,13 @@ const CityBikeUse = ({ lang }) => (
 
 CityBikeUse.displayName = 'CityBikeUse';
 
-CityBikeUse.description = (
+CityBikeUse.description = () =>
   <div>
     <p>Renders use citybike component</p>
     <ComponentUsageExample description="">
       <CityBikeUse lang={exampleLang} />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 CityBikeUse.propTypes = {
   lang: React.PropTypes.string.isRequired,
