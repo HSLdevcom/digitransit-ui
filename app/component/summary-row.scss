@@ -41,7 +41,7 @@
 
   .itinerary-duration-and-distance {
     width: 4em;
-    margin-top: 7px;
+    margin-top: 10px;
   }
 
   .itinerary-duration {
@@ -62,7 +62,7 @@
   .itinerary-start-time {
     text-align: right;
     padding-left: 5px;
-    width: 2.8em;
+    width: 3.5em;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
@@ -72,7 +72,7 @@
       font-weight: 100;
     }
     .itinerary-start-date {
-      background-color: $dark-gray;
+      background-color: $gray;
       line-height:1;
       display:block;
       text-transform: capitalize;
@@ -80,9 +80,11 @@
       font-size: $font-size-xxxsmall;
       color: $white;
       border-radius:2px;
-      padding: 0px 1px;
+      padding: 3px 0;
+      text-align: center;
 
       &.nobg {
+        margin-top: 13px;
         background-color: transparent;
       }
     }
@@ -95,14 +97,14 @@
   .itinerary-end-time {
     padding-left: 10px;
     width: 3em;
-    margin-top: 7px;
+    margin-top: 18px;
   }
 
   .itinerary-legs {
     padding-left:5px;
     display: flex;
     white-space: nowrap;
-    margin-top: 3px;
+    margin-top: 11px;
     min-width: 0;
     flex: 1 1 0;
 
@@ -203,7 +205,7 @@
 
     .itinerary-duration-and-distance {
       width: 100px;
-      margin-top: 22px;
+      margin-top: 28px;
     }
 
     h2 {
@@ -221,8 +223,7 @@
 
     .itinerary-start-time {
       font-size: 21px;
-      //margin-top: 25px;
-      padding-top: 15px;
+      padding-top: 13px;
       @include font-narrow-medium;
 
       .itinerary-first-leg-start-time {
@@ -257,7 +258,7 @@
     .itinerary-end-time {
       font-size: 21px;
       padding-top: 8px;
-      margin-top: 25px;
+      margin-top: 24px;
     }
 
     .action-arrow-click-area {
