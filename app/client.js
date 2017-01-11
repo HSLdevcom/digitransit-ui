@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
@@ -18,7 +19,6 @@ import {
 import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
-import config from './config';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import app from './app';
@@ -34,6 +34,8 @@ const plugContext = f => () => ({
   plugActionContext: f,
   plugStoreContext: f,
 });
+
+const config = window.config;
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
 
@@ -56,6 +58,15 @@ const ravenPlugin = {
   name: 'RavenPlugin',
   plugContext: plugContext(addRaven),
 };
+
+const addConfig = context =>
+ (context.config = window.config); // eslint-disable-line no-param-reassign
+
+const configPlugin = {
+  name: 'ConfigPlugin',
+  plugContext: plugContext(addConfig),
+};
+
 
 if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line global-require, import/no-dynamic-require
@@ -90,6 +101,7 @@ tapEventPlugin();
 // Add plugins
 app.plug(piwikPlugin);
 app.plug(ravenPlugin);
+app.plug(configPlugin);
 
 // Run application
 const callback = () => app.rehydrate(window.state, (err, context) => {
@@ -124,13 +136,16 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
     piwik: React.PropTypes.object,
     raven: React.PropTypes.object,
+    config: React.PropTypes.object,
   });
 
   // init geolocation handling
   context.executeAction(initGeolocation).then(() => {
     ReactDOM.render(
       <ContextProvider translations={translations} context={context.getComponentContext()}>
-        <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
+        <MuiThemeProvider
+          muiTheme={getMuiTheme(MUITheme(window.config), { userAgent: navigator.userAgent })}
+        >
           <Router
             history={history}
             environment={Relay.Store}
