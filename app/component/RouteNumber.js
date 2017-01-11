@@ -35,7 +35,7 @@ function RouteNumber(props) {
     </span>);
 }
 
-RouteNumber.description = (
+RouteNumber.description = () =>
   <div>
     <p>Display mode icon and route number with mode color</p>
     <ComponentUsageExample>
@@ -51,7 +51,7 @@ RouteNumber.description = (
         vertical
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 RouteNumber.propTypes = {
   mode: React.PropTypes.string.isRequired,

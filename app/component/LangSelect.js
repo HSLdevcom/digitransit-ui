@@ -27,6 +27,8 @@ const LangSelect = ({ currentLanguage }, { executeAction }) => (
   </div>
 );
 
+LangSelect.displayName = 'LangSelect';
+
 LangSelect.description = () => (
   <div>
     <p>

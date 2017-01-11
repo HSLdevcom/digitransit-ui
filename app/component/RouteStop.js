@@ -100,7 +100,9 @@ RouteStop.propTypes = {
   last: React.PropTypes.bool,
 };
 
-RouteStop.description = (
+RouteStop.displayName = 'RouteStop';
+
+RouteStop.description = () =>
   <ComponentUsageExample description="basic">
     <RouteStop
       stop={{
@@ -130,6 +132,6 @@ RouteStop.description = (
       last={false}
       currentTime={1471515614}
     />
-  </ComponentUsageExample>
-);
+  </ComponentUsageExample>;
+
 export default RouteStop;
