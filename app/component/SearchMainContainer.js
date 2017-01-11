@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Tab from 'material-ui/Tabs/Tab';
@@ -33,11 +32,7 @@ class SearchMainContainer extends React.Component {
 
   componentDidUpdate() {
     if (this.props.searchModalIsOpen) {
-      setTimeout(
-        () => {
-          this.focusInput(this.props.selectedTab);
-        }, 0,
-      );
+      this.focusInput(this.props.selectedTab);
     }
   }
 
