@@ -239,6 +239,11 @@ export default function (req, res, next) {
 
   const context = application.createContext({ url: req.url, headers: req.headers, config });
 
+  context
+    .getComponentContext()
+    .getStore('MessageStore')
+    .addConfigMessages(config);
+
   // required by material-ui
   global.navigator = { userAgent: req.headers['user-agent'] };
 

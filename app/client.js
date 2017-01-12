@@ -99,6 +99,11 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 
   window.context = context;
 
+  context
+    .getComponentContext()
+    .getStore('MessageStore')
+    .addConfigMessages(config);
+
   function track() {
     // track "getting back to home"
     const newHref = this.props.history.createHref(this.state.location);
