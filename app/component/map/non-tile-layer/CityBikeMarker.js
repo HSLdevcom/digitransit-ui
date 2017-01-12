@@ -25,8 +25,8 @@ if (isBrowser) {
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
+  router: React.PropTypes.routerShape.isRequired,
+  location: React.PropTypes.locationShape.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
@@ -57,8 +57,8 @@ class CityBikeMarker extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    router: React.PropTypes.routerShape.isRequired,
+    location: React.PropTypes.locationShape.isRequired,
     route: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };

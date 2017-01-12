@@ -24,8 +24,8 @@ if (isBrowser) {
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
+  router: React.PropTypes.routerShape.isRequired,
+  location: React.PropTypes.locationShape.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
@@ -41,8 +41,8 @@ class StopMarker extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    router: React.PropTypes.routerShape.isRequired,
+    location: React.PropTypes.locationShape.isRequired,
     route: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };

@@ -34,8 +34,8 @@ function DisruptionInfoButtonContainer(props, { router, location }) {
 }
 
 DisruptionInfoButtonContainer.contextTypes = {
-  router: React.PropTypes.object,
-  location: React.PropTypes.object,
+  router: React.PropTypes.routerShape,
+  location: React.PropTypes.locationShape,
 };
 
 export default DisruptionInfoButtonContainer;
