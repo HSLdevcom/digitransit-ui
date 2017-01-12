@@ -465,3 +465,16 @@ div.itinerary-container-content {
 .desktop .itinerary-intermediate-stop-name {
   font-size: 15px;
 }
+
+.itinerary-tab .itinerary-timeframe {
+  padding-top: 10px;
+}
+
+.timeframe-nextday {
+  background-color: $gray;
+  line-height:1;
+  @include font-narrow-medium;
+  color: $white;
+  border-radius:2px;
+  padding: 4px 5.5px;
+}

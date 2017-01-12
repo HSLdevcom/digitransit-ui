@@ -18,9 +18,15 @@ const dateOrEmpty = (momentTime, momentRefTime) => {
  */
 const dateTime = (momentTime, momentRefTime) => {
   if (momentTime.isSame(momentRefTime, 'day')) {
-    return momentTime.format(TIME_PATTERN);
+    return <span className="capitalize">{momentTime.format(TIME_PATTERN)}</span>;
   }
-  return momentTime.format(`${DATE_PATTERN} ${TIME_PATTERN}`);
+  return (
+    <span className="capitalize">
+      <span className="timeframe-nextday">{momentTime.format(DATE_PATTERN)}</span>
+      &nbsp;
+      <span>{momentTime.format(TIME_PATTERN)}</span>
+    </span>
+  );
 };
 
 const TimeFrame = ({ className, withSlashes, startTime, endTime }) => {
@@ -30,7 +36,9 @@ const TimeFrame = ({ className, withSlashes, startTime, endTime }) => {
 
   return (
     <span className={className}>
-      {withSlashes ? '//' : ''}<span className="capitalize">{dateTime(start, now)}</span> - <span className="capitalize">{dateTime(end, startTime)}</span>
+      {withSlashes ? '//' : ''}
+      {startTime && dateTime(start, now)}
+      {endTime && `- ${dateTime(end, startTime)}`}
     </span>
   );
 };

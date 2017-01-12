@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -51,11 +52,22 @@ class ItineraryTab extends React.Component {
         {this.context.breakpoint !== 'large' &&
           <ItinerarySummary itinerary={this.props.itinerary}>
             <TimeFrame
+              withSlahes={false}
               startTime={this.props.itinerary.startTime}
               endTime={this.props.itinerary.endTime}
               className="timeframe--itinerary-summary"
             />
           </ItinerarySummary>
+        }
+        {this.context.breakpoint === 'large' &&
+          <div className="itinerary-timeframe">
+            <FormattedMessage id="leaves" defaultMessage="Leaves" />
+            &nbsp;
+            <TimeFrame
+              withSlashes={false}
+              startTime={this.props.itinerary.startTime}
+            />
+          </div>
         }
         <div className="momentum-scroll itinerary-tabs__scroll">
           <div

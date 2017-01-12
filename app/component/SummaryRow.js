@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 
-import TimeFrame, { dateOrEmpty } from './TimeFrame';
+import { dateOrEmpty } from './TimeFrame';
 import { displayDistance } from '../util/geo-utils';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
@@ -129,9 +129,7 @@ const SummaryRow = (props) => {
             id="itinerary-page.title"
             defaultMessage="Itinerary"
             tagName="h2"
-          /><span className="itinerary-title-timeframe">
-            <TimeFrame withSlashes={false} startTime={data.startTime} endTime={data.endTime} />
-          </span>
+          />
         </span>,
         <div
           key="arrow"
