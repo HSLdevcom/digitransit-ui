@@ -36,9 +36,7 @@ const TimeFrame = ({ className, withSlashes, startTime, endTime }) => {
 
   return (
     <span className={className}>
-      {withSlashes ? '//' : ''}
-      {startTime && dateTime(start, now)}
-      {endTime && `- ${dateTime(end, startTime)}`}
+      {withSlashes ? '//' : ''} {dateTime(start, now)} - {dateTime(end, startTime)}
     </span>
   );
 };
