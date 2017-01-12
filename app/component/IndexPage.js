@@ -28,8 +28,8 @@ const messageBar = (
 class IndexPage extends React.Component {
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
-    location: React.PropTypes.locationShape.isRequired,
-    router: React.PropTypes.routerShape.isRequired,
+    location: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {

@@ -32,7 +32,7 @@ class CustomizeSearch extends React.Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: React.PropTypes.routerShape.isRequired,
+    router: React.PropTypes.object.isRequired,
     location: React.PropTypes.shape({
       query: React.PropTypes.object.isRequired,
     }).isRequired,

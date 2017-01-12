@@ -46,8 +46,8 @@ function DisruptionInfo(props, context) {
 
 
 DisruptionInfo.contextTypes = {
-  router: React.PropTypes.routerShape,
-  location: React.PropTypes.locationShape,
+  router: React.PropTypes.object,
+  location: React.PropTypes.object,
 };
 
 DisruptionInfo.description = () =>

@@ -17,8 +17,8 @@ class AddFavouriteContainer extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
-    router: PropTypes.routerShape.isRequired,
-    location: PropTypes.locationShape.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
   };
 

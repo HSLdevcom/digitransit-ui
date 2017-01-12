@@ -10,7 +10,7 @@ const AppBarContainer = ({ breakpoint, router, ...args }) => (
       {...args} titleClicked={() => router.push('/lahellasi')}
     />);
 
-const WithContext = getContext({ router: React.PropTypes.routerShape.isRequired,
+const WithContext = getContext({ router: React.PropTypes.object.isRequired,
   breakpoint: React.PropTypes.string.isRequired })(AppBarContainer);
 
 WithContext.propTypes = {

@@ -6,13 +6,13 @@ class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
 
   static propTypes = {
-    location: React.PropTypes.locationShape.isRequired,
+    location: React.PropTypes.object.isRequired,
   };
 
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.routerShape.isRequired,
-    location: React.PropTypes.locationShape.isRequired,
+    router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
   };
 
   routeFrom = () => {

@@ -43,8 +43,8 @@ AppBarLarge.propTypes = {
 AppBarLarge.displayName = 'AppBarLarge';
 
 AppBarLarge.contextTypes = {
-  router: React.PropTypes.routerShape,
-  location: React.PropTypes.locationShape,
+  router: React.PropTypes.object,
+  location: React.PropTypes.object,
 };
 
 AppBarLarge.description = () => (

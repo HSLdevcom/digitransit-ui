@@ -11,7 +11,7 @@ class StopMarkerLayer extends React.Component {
     // Needed for passing context to dynamic popup, maybe should be done in there?
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.routerShape.isRequired,
+    router: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
     map: React.PropTypes.object.isRequired,
   };
