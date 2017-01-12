@@ -129,31 +129,19 @@ class IndexPage extends React.Component {
     }
   };
 
-  replace = (path) => {
-    if (this.context.router) {
-      this.context.router.replace(path);
-    }
-  }
-
-  push = (path) => {
-    if (this.context.router) {
-      this.context.router.push(path);
-    }
-  }
-
   openFavourites = (replace) => {
     if (replace) {
-      this.replace('/suosikit');
+      this.context.router.replace('/suosikit');
     } else {
-      this.push('/suosikit');
+      this.context.router.push('/suosikit');
     }
   }
 
   openNearby = (replace) => {
     if (replace) {
-      this.replace('/lahellasi');
+      this.context.router.replace('/lahellasi');
     } else {
-      this.push('/lahellasi');
+      this.context.router.push('/lahellasi');
     }
   }
 
@@ -163,7 +151,7 @@ class IndexPage extends React.Component {
       // entered the tab from the index page, not by a direct url
       this.context.router.goBack();
     } else {
-      this.replace('/');
+      this.context.router.replace('/');
     }
   }
 
