@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 
 import Modal from './Modal';
 import ViewerRoute from '../route/ViewerRoute';
@@ -46,8 +47,8 @@ function DisruptionInfo(props, context) {
 
 
 DisruptionInfo.contextTypes = {
-  router: React.PropTypes.object,
-  location: React.PropTypes.object,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
 };
 
 DisruptionInfo.description = () =>

@@ -1,11 +1,12 @@
 import React from 'react';
+import { routerShape } from 'react-router';
 import FlatButton from 'material-ui/FlatButton';
 import Icon from './Icon';
 import { hasHistoryEntries } from '../util/browser';
 
 export default class BackButton extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object,
+    router: routerShape.isRequired,
   };
 
   // TODO

@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { routerShape, locationShape } from 'react-router';
 import config from '../config';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
@@ -43,8 +44,8 @@ AppBarLarge.propTypes = {
 AppBarLarge.displayName = 'AppBarLarge';
 
 AppBarLarge.contextTypes = {
-  router: React.PropTypes.object,
-  location: React.PropTypes.object,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
 };
 
 AppBarLarge.description = () => (

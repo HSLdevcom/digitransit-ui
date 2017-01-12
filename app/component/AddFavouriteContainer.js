@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import { Link } from 'react-router';
+import { Link, routerShape, locationShape } from 'react-router';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
@@ -17,8 +17,8 @@ class AddFavouriteContainer extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     getStore: PropTypes.func.isRequired,
   };
 

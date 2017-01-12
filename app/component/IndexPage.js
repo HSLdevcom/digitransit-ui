@@ -1,4 +1,5 @@
 import React from 'react';
+import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import { clearDestination } from '../action/EndpointActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -28,8 +29,8 @@ const messageBar = (
 class IndexPage extends React.Component {
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
-    location: React.PropTypes.object.isRequired,
-    router: React.PropTypes.object.isRequired,
+    location: locationShape.isRequired,
+    router: routerShape.isRequired,
   };
 
   static propTypes = {

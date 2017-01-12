@@ -1,4 +1,5 @@
 import React from 'react';
+import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { setEndpoint } from '../../action/EndpointActions';
 
@@ -11,8 +12,8 @@ class MarkerPopupBottom extends React.Component {
 
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
   };
 
   routeFrom = () => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { routerShape, locationShape } from 'react-router';
 import ViewerRoute from '../route/ViewerRoute';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';
@@ -34,8 +35,8 @@ function DisruptionInfoButtonContainer(props, { router, location }) {
 }
 
 DisruptionInfoButtonContainer.contextTypes = {
-  router: React.PropTypes.object,
-  location: React.PropTypes.object,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
 };
 
 export default DisruptionInfoButtonContainer;
