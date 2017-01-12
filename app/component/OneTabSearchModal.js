@@ -64,7 +64,7 @@ class OneTabSearchModal extends React.Component {
 
   modalIsOpen = () => (
     this.context.location.state ?
-      !!this.context.location.state.oneTabSearchModalOpen : false
+      Boolean(this.context.location.state.oneTabSearchModalOpen) : false
   )
 
   render() {
