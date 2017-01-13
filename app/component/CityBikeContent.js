@@ -15,13 +15,13 @@ const CityBikeContent = ({ station, lang }) => (
 
 CityBikeContent.displayName = 'CityBikeContent';
 
-CityBikeContent.description = (
+CityBikeContent.description = () =>
   <div>
     <p>Renders content of a citybike card</p>
     <ComponentUsageExample description="">
       <CityBikeContent station={exampleStation} lang={exampleLang} />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 CityBikeContent.propTypes = {
   station: React.PropTypes.object.isRequired,

@@ -8,12 +8,13 @@ const Centered = ({ children }) => (
   </div>
 );
 
-
 Centered.propTypes = {
   children: React.PropTypes.node.isRequired,
 };
 
-Centered.description = (
+Centered.displayName = 'Centered';
+
+Centered.description = () =>
   <div>
     <p>
       This component centers other components using flex.
@@ -21,7 +22,7 @@ Centered.description = (
     <ComponentUsageExample description="basic">
       <Centered>Center this</Centered>
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
+
 
 export default Centered;

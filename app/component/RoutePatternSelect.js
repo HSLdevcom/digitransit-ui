@@ -28,7 +28,7 @@ RoutePatternSelect.propTypes = {
   onSelectChange: React.PropTypes.func.isRequired,
 };
 
-RoutePatternSelect.description = (
+RoutePatternSelect.description = () =>
   <div>
     <p>
       Display a dropdown to select the pattern for a route
@@ -39,7 +39,7 @@ RoutePatternSelect.description = (
         onSelectChange={() => {}}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default Relay.createContainer(RoutePatternSelect, {
   fragments: {

@@ -23,7 +23,7 @@ const Distance = (props) => {
   return <span className="distance">{distance}</span>;
 };
 
-Distance.description = (
+Distance.description = () =>
   <div>
     <p>Display distance in correct format. Rounds to 10s of meters
       or if above 1000 then shows kilometers with one decimal.
@@ -37,8 +37,7 @@ Distance.description = (
     <ComponentUsageExample description="distance in km">
       <Distance distance={3040} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 Distance.propTypes = {
   distance: React.PropTypes.number.isRequired,

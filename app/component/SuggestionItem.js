@@ -102,7 +102,7 @@ const exampleStop = {
   },
 };
 
-SuggestionItem.description = (
+SuggestionItem.description = () =>
   <div>
     <ComponentUsageExample description="Favourite">
       <SuggestionItem item={exampleFavourite} />
@@ -116,7 +116,6 @@ SuggestionItem.description = (
     <ComponentUsageExample description="Stop">
       <SuggestionItem item={exampleStop} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default SuggestionItem;

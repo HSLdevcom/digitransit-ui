@@ -21,7 +21,7 @@ SplitBars.propTypes = {
   children: React.PropTypes.node.isRequired,
 };
 
-SplitBars.description = (
+SplitBars.description = () =>
   <div>
     <p>Splits its children with a vertical bar.</p>
     <ComponentUsageExample>
@@ -31,8 +31,6 @@ SplitBars.description = (
         <span>3</span>
       </SplitBars>
     </ComponentUsageExample>
-  </div>
-);
-
+  </div>;
 
 export default SplitBars;
