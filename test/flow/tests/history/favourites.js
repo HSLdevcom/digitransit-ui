@@ -3,8 +3,6 @@ module.exports = {
 
   'Back button works on add favourite page': (browser) => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
 
     const favourites = browser.page.myFavourites();
     favourites.clickFavourites();

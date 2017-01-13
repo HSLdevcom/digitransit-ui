@@ -3,8 +3,6 @@ module.exports = {
 
   'Back button closes main search modal': (browser) => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
 
     const searchFields = browser.page.searchFields();
     searchFields.openSearch();

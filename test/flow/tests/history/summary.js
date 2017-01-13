@@ -3,8 +3,6 @@ module.exports = {
 
   'History works on itinerary summary page': (browser) => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
 
     const searchFields = browser.page.searchFields();
     searchFields.itinerarySearch('Elielinaukio', 'Opastinsilta 6');
