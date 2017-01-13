@@ -10,15 +10,27 @@ function addFavourite() {
   this.api.debug('clicking add favourite');
   this.waitForElementVisible('@newFavouriteButtonContent', this.api.globals.elementVisibleTimeout);
   this.api.checkedClick(this.elements.newFavouriteButtonContent.selector);
+  this.waitForElementVisible('@addressPlaceholderNoSelect', this.api.globals.elementVisibleTimeout);
   return this;
 }
 
-function enterAddress(addressSearch) {
-  this.api.debug('entering address');
-  this.waitForElementVisible('@addressPlaceholderNoSelect', this.api.globals.elementVisibleTimeout);
-
+function openFavouriteSearch() {
+  this.api.debug('opening favourite search modal');
   this.api.checkedClick(this.elements.addressPlaceholderNoSelect.selector);
   this.waitForElementPresent('@searchFavourite', this.api.globals.elementVisibleTimeout);
+  return this;
+}
+
+function waitForFavouriteSearchClosing() {
+  this.api.debug('wait favourite search modal closing');
+  this.waitForElementNotPresent('@searchFavourite', this.api.globals.elementVisibleTimeout);
+  return this;
+}
+
+
+function enterAddress(addressSearch) {
+  this.api.debug('entering address');
+  this.openFavouriteSearch();
   this.setValue('@searchFavourite', addressSearch);
   this.verifyFavouriteInSearchResult(addressSearch);
   this.setValue('@searchFavourite', this.api.Keys.ENTER);
@@ -27,7 +39,6 @@ function enterAddress(addressSearch) {
 
 function verifyCurrentLocation() {
   this.api.debug('see if current location is available');
-  this.waitForElementVisible('@addressPlaceholderNoSelect', this.api.globals.elementVisibleTimeout);
   this.api.checkedClick(this.elements.addressPlaceholderNoSelect.selector);
   this.waitForElementPresent('@searchResultCurrentLocation', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchFavourite', this.api.Keys.ENTER);
@@ -94,6 +105,8 @@ module.exports = {
     verifyCurrentLocation,
     verifyFavouriteInSearchResult,
     verifyFavouriteRoute,
+    openFavouriteSearch,
+    waitForFavouriteSearchClosing,
   }],
   elements: {
     favouritePaneSelect: {
