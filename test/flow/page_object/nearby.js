@@ -13,7 +13,6 @@ function waitForRoutes() {
 
 function chooseRoute(n) {
   return this.api.checkedClick(`.next-departure-row:nth-of-type(${n})`);
-  this.waitForElementNotVisible('@scrollableRoutes', timeout);
 }
 
 function clickStops() {
