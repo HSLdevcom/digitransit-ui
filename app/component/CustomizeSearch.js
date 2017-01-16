@@ -1,5 +1,6 @@
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 import range from 'lodash/range';
 import xor from 'lodash/xor';
 import without from 'lodash/without';
@@ -32,10 +33,8 @@ class CustomizeSearch extends React.Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.shape({
-      query: React.PropTypes.object.isRequired,
-    }).isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     executeAction: React.PropTypes.func.isRequired,
   };
 

@@ -1,12 +1,22 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { routerShape, locationShape } from 'react-router';
 import ViewerRoute from '../route/ViewerRoute';
-import { open } from '../action/DisruptionInfoAction';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';
 
-function DisruptionInfoButtonContainer(props, { executeAction }) {
+function DisruptionInfoButtonContainer(props, { router, location }) {
   if (isBrowser) {
+    const openDisruptionInfo = () => {
+      router.push({
+        ...location,
+        state: {
+          ...location.state,
+          disruptionInfoOpen: true,
+        },
+      });
+    };
+
     return (
       <Relay.Renderer
         Container={DisruptionInfoButton}
@@ -16,7 +26,7 @@ function DisruptionInfoButtonContainer(props, { executeAction }) {
         render={({ done, renderProps }) => (done ? (
           <DisruptionInfoButton
             {...renderProps}
-            toggleDisruptionInfo={() => executeAction(open)}
+            toggleDisruptionInfo={openDisruptionInfo}
           />) : undefined
         )}
       />);
@@ -25,7 +35,8 @@ function DisruptionInfoButtonContainer(props, { executeAction }) {
 }
 
 DisruptionInfoButtonContainer.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
 };
 
 export default DisruptionInfoButtonContainer;
