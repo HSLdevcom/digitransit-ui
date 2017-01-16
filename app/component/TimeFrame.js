@@ -13,12 +13,14 @@ const dateOrEmpty = (momentTime, momentRefTime) => {
   return momentTime.format(DATE_PATTERN);
 };
 
+const time = momentTime => (<span className="capitalize">{momentTime.format(TIME_PATTERN)}</span>);
+
 /**
  * Returns date time or time if same day as reference
  */
 const dateTime = (momentTime, momentRefTime) => {
   if (momentTime.isSame(momentRefTime, 'day')) {
-    return <span className="capitalize">{momentTime.format(TIME_PATTERN)}</span>;
+    return time(momentTime);
   }
   return (
     <span className="capitalize">
@@ -36,7 +38,7 @@ const TimeFrame = ({ className, startTime, endTime }) => {
 
   return (
     <span className={className}>
-      {dateTime(start, now)} - {dateTime(end, startTime)}
+      {dateTime(start, now)} - {time(end)}
     </span>
   );
 };
