@@ -1,4 +1,5 @@
 import React from 'react';
+import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import { clearDestination } from '../action/EndpointActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -28,15 +29,14 @@ const messageBar = (
 class IndexPage extends React.Component {
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
-    location: React.PropTypes.object.isRequired,
-    router: React.PropTypes.object.isRequired,
+    location: locationShape.isRequired,
+    router: routerShape.isRequired,
   };
 
   static propTypes = {
     breakpoint: React.PropTypes.string.isRequired,
     content: React.PropTypes.node,
     routes: React.PropTypes.array,
-
   }
 
   componentWillMount = () => {
@@ -101,15 +101,15 @@ class IndexPage extends React.Component {
   clickNearby = () => {
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
-      if (this.getSelectedTab() === 1) {
+      const selected = this.getSelectedTab();
+      if (selected === 1) {
         this.closeTab();
       } else {
-        this.openNearby();
+        this.openNearby(selected === 2);
       }
-      this.trackEvent('Front page tabs', 'Nearby',
-        this.getSelectedTab() === 1 ? 'close' : 'open');
+      this.trackEvent('Front page tabs', 'Nearby', selected === 1 ? 'close' : 'open');
     } else {
-      this.openNearby();
+      this.openNearby(true);
       this.trackEvent('Front page tabs', 'Nearby', 'open');
     }
   };
@@ -117,49 +117,70 @@ class IndexPage extends React.Component {
   clickFavourites = () => {
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
-      if (this.getSelectedTab() === 2) {
+      const selected = this.getSelectedTab();
+      if (selected === 2) {
         this.closeTab();
       } else {
-        this.openFavourites();
+        this.openFavourites(selected === 1);
       }
-      this.trackEvent('Front page tabs', 'Favourites',
-        this.getSelectedTab() === 1 ? 'close' : 'open');
+      this.trackEvent('Front page tabs', 'Favourites', selected === 2 ? 'close' : 'open');
     } else {
-      this.openFavourites();
+      this.openFavourites(true);
       this.trackEvent('Front page tabs', 'Nearby', 'open');
     }
   };
 
-  replace = (path) => {
-    if (this.context.router) {
-      this.context.router.replace(path);
+  openFavourites = (replace) => {
+    if (replace) {
+      this.context.router.replace('/suosikit');
+    } else {
+      this.context.router.push('/suosikit');
     }
   }
 
-  openFavourites = () => {
-    this.replace('/suosikit');
+  openNearby = (replace) => {
+    if (replace) {
+      this.context.router.replace('/lahellasi');
+    } else {
+      this.context.router.push('/lahellasi');
+    }
   }
 
-  openNearby = () => {
-    this.replace('/lahellasi');
-  }
-
+  // used only in mobile with fullscreen tabs
   closeTab = () => {
-    this.replace('/');
+    if (this.context.location && this.context.location.action === 'PUSH') {
+      // entered the tab from the index page, not by a direct url
+      this.context.router.goBack();
+    } else {
+      this.context.router.replace('/');
+    }
   }
 
   render() {
-    const selectedTab = this.getSelectedTab();
+    const selectedMainTab = this.getSelectedTab();
+    const selectedSearchTab = this.context.location.state &&
+          this.context.location.state.selectedTab ?
+          this.context.location.state.selectedTab : 'destination';
+    const searchModalIsOpen = this.context.location.state ?
+          Boolean(this.context.location.state.searchModalIsOpen) : false;
     return (this.props.breakpoint === 'large' ? (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         {messageBar}
         <MapWithTracking
-          breakpoint={this.props.breakpoint} showStops showScaleBar tab={selectedTab}
+          breakpoint={this.props.breakpoint}
+          showStops
+          showScaleBar
+          searchModalIsOpen={searchModalIsOpen}
+          selectedTab={selectedSearchTab}
+          tab={selectedMainTab}
         >
-          <SearchMainContainer />
+          <SearchMainContainer
+            searchModalIsOpen={searchModalIsOpen}
+            selectedTab={selectedSearchTab}
+          />
           <div key="foo" className="fpccontainer">
             <FrontPagePanelLarge
-              selectedPanel={selectedTab}
+              selectedPanel={selectedMainTab}
               nearbyClicked={this.clickNearby}
               favouritesClicked={this.clickFavourites}
             >{this.props.content}</FrontPagePanelLarge>
@@ -173,14 +194,23 @@ class IndexPage extends React.Component {
     ) : (
       <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
         <div className="flex-grow map-container">
-          <MapWithTracking breakpoint={this.props.breakpoint} showStops showScaleBar>
+          <MapWithTracking
+            breakpoint={this.props.breakpoint}
+            showStops
+            showScaleBar
+            searchModalIsOpen={searchModalIsOpen}
+            selectedTab={selectedSearchTab}
+          >
             {messageBar}
-            <SearchMainContainer />
+            <SearchMainContainer
+              searchModalIsOpen={searchModalIsOpen}
+              selectedTab={selectedSearchTab}
+            />
           </MapWithTracking>
         </div>
         <div>
           <FrontPagePanelSmall
-            selectedPanel={this.getSelectedTab()}
+            selectedPanel={selectedMainTab}
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
             closePanel={this.closeTab}

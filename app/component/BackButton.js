@@ -1,4 +1,5 @@
 import React from 'react';
+import { routerShape } from 'react-router';
 import FlatButton from 'material-ui/FlatButton';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';

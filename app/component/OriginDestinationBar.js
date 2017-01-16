@@ -12,8 +12,8 @@ import { getAllEndpointLayers } from '../util/searchUtils';
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
-    origin: React.PropTypes.node,
-    destination: React.PropTypes.node,
+    origin: React.PropTypes.object,
+    destination: React.PropTypes.object,
     originIsCurrent: React.PropTypes.bool,
     destinationIsCurrent: React.PropTypes.bool,
   }
@@ -25,13 +25,17 @@ class OriginDestinationBar extends React.Component {
     location: React.PropTypes.object.isRequired,
   };
 
-  state = {
-    tabOpen: false,
-  };
-
   componentWillMount() {
     this.context.executeAction(storeEndpointIfNotCurrent, { target: 'origin', endpoint: this.props.origin });
     this.context.executeAction(storeEndpointIfNotCurrent, { target: 'destination', endpoint: this.props.destination });
+  }
+
+  getSearchModalState = () => {
+    if (this.context.location.state != null &&
+        this.context.location.state.oneTabSearchModalOpen != null) {
+      return this.context.location.state.oneTabSearchModalOpen;
+    }
+    return false;
   }
 
   swapEndpoints= () => {
@@ -44,15 +48,13 @@ class OriginDestinationBar extends React.Component {
     );
   }
 
-  closeModal = () => {
-    this.setState({
-      tabOpen: false,
-    });
-  }
-
-  openSearch = (tab) => {
-    this.setState({
-      tabOpen: tab,
+  openSearchModal = (tab) => {
+    this.context.router.push({
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        oneTabSearchModalOpen: tab,
+      },
     });
   }
 
@@ -61,9 +63,9 @@ class OriginDestinationBar extends React.Component {
       id: 'own-position',
       defaultMessage: 'Your current location',
     });
+    const tab = this.getSearchModalState();
 
     let searchLayers = getAllEndpointLayers();
-
     // don't offer current pos if it is already used as a route end point
     if (this.props.originIsCurrent || this.props.destinationIsCurrent) {
       searchLayers = without(searchLayers, 'CurrentPosition');
@@ -81,11 +83,7 @@ class OriginDestinationBar extends React.Component {
               {this.props.originIsCurrent ? ownPosition : this.props.origin.address}
             </span>
           </div></button>
-        <div className="switch" onClick={() => this.swapEndpoints()}>
-          <span>
-            <Icon img="icon-icon_direction-b" />
-          </span>
-        </div>
+
         <button aria-label={destinationLabel} className="flex-grow noborder" onClick={() => this.openSearch('destination')}>
           <div className="field-link to-link" >
             <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
@@ -96,11 +94,9 @@ class OriginDestinationBar extends React.Component {
           </div>
         </button>
         <OneTabSearchModal
-          modalIsOpen={this.state.tabOpen}
-          closeModal={this.closeModal}
           layers={searchLayers}
-          endpoint={this.props[this.state.tabOpen]}
-          target={this.state.tabOpen}
+          endpoint={this.props[tab]}
+          target={tab}
           responsive
         />
       </div>);
