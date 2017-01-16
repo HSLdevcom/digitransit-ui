@@ -151,7 +151,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
           muiTheme={getMuiTheme(MUITheme(window.config), { userAgent: navigator.userAgent })}
         >
           <Router
-            history={history}
+            history={history(config)}
             environment={Relay.Store}
             render={applyRouterMiddleware(useRelay)}
             onUpdate={track}
