@@ -289,6 +289,10 @@
       .action-arrow span > svg {
         transform: rotate(-90deg);
       }
+
+      &.bp-large {
+        min-height: 75px;
+      }
     }
   }
 }
