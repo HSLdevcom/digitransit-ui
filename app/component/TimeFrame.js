@@ -29,29 +29,25 @@ const dateTime = (momentTime, momentRefTime) => {
   );
 };
 
-const TimeFrame = ({ className, withSlashes, startTime, endTime }) => {
+const TimeFrame = ({ className, startTime, endTime }) => {
   const now = moment();
   const start = moment(startTime);
   const end = moment(endTime);
 
   return (
     <span className={className}>
-      {withSlashes ? '//' : ''} {dateTime(start, now)} - {dateTime(end, startTime)}
+      {dateTime(start, now)} - {dateTime(end, startTime)}
     </span>
   );
 };
 
-TimeFrame.description = 'Displays the time frame of interval (example: // 15:55 - 16:15)';
+TimeFrame.description = 'Displays the time frame of interval (example: 15:55 - 16:15)';
 
 TimeFrame.propTypes = {
   startTime: React.PropTypes.number.isRequired,
   endTime: React.PropTypes.number.isRequired,
   className: React.PropTypes.string,
-  withSlashes: React.PropTypes.bool,
 };
 
-TimeFrame.defaultProps = {
-  withSlashes: true,
-};
 TimeFrame.displayName = 'TimeFrame';
 export { TimeFrame as default, dateOrEmpty };

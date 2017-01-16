@@ -6,6 +6,7 @@ import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
+import DateWarning from './DateWarning';
 import config from '../config';
 import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
@@ -51,7 +52,6 @@ class ItineraryTab extends React.Component {
         {this.context.breakpoint !== 'large' &&
           <ItinerarySummary itinerary={this.props.itinerary}>
             <TimeFrame
-              withSlahes={false}
               startTime={this.props.itinerary.startTime}
               endTime={this.props.itinerary.endTime}
               className="timeframe--itinerary-summary"
@@ -60,10 +60,7 @@ class ItineraryTab extends React.Component {
         }
         {this.context.breakpoint === 'large' &&
           <div className="itinerary-timeframe">
-            <TimeFrame
-              withSlashes={false}
-              startTime={this.props.itinerary.startTime}
-            />
+            <DateWarning date={this.props.itinerary.startTime} />
           </div>
         }
         <div className="momentum-scroll itinerary-tabs__scroll">

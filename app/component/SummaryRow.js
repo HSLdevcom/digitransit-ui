@@ -124,7 +124,7 @@ const SummaryRow = (props) => {
         </div>
       </div>
       {props.open || props.children ? [
-        <span className="flex-grow">
+        <span className="flex-grow itinerary-heading">
           <FormattedMessage
             id="itinerary-page.title"
             defaultMessage="Itinerary"
