@@ -8,7 +8,7 @@ import { hasHistoryEntries } from '../util/browser';
 export default class BackButton extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: React.PropTypes.object,
+    router: routerShape,
   };
 
   // TODO
