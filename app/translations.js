@@ -609,6 +609,8 @@ const translations = {
     'terminal-page.description': 'Terminal - {name}',
     'ticket-and-price-info': 'Billett- og prisinformasjon',
     'using-modes': 'Transportform',
+    'platform-short': 'Plat.',
+    'agency': 'Operatør',
   },
 
   'fr': {
