@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
+import { routerShape, locationShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
@@ -35,6 +36,8 @@ class FavouriteLocationsContainer extends React.Component {
 
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     config: React.PropTypes.object.isRequired,
   };
 
@@ -65,6 +68,8 @@ class FavouriteLocationsContainer extends React.Component {
     this.context.executeAction(setEndpoint, {
       target: 'destination',
       endpoint: location,
+      router: this.context.router,
+      location: this.context.location,
     });
   }
 
