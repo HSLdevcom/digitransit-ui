@@ -13,6 +13,7 @@ N/A | React Material Drawer | 1200/1300 | Defined by material-ui
 `#splash-container` | Splash screen |  802 |
 `.toggle-positioning-container` | Pan-to-your-position button | 802 |
 `.message-bar` | Messagebar | 802 |
+`.top-bar` | AppBar | 1001 |
 `.search-form-map-overlay` | Fake search field | 802 |
 `.fullscreen-toggle` | Map fullscreen toggle | 802 |
 `.background-gradient` | Shadow at top of map | 801 |

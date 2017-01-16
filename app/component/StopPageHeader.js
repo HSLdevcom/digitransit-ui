@@ -5,11 +5,11 @@ import compose from 'recompose/compose';
 // import { FormattedMessage } from 'react-intl';
 
 import StopCardHeaderContainer from './StopCardHeaderContainer';
-import { addFavouriteStop } from '../action/FavouriteActions';
+// import { addFavouriteStop } from '../action/FavouriteActions';
 import ComponentUsageExample from './ComponentUsageExample';
 // import Labeled from './Labeled';
 // import InfoIcon from './InfoIcon';
-import Favourite from './Favourite';
+// import Favourite from './Favourite';
 
 const StopPageHeader = compose(
   getContext({ executeAction: React.PropTypes.func.isRequired,
@@ -25,14 +25,14 @@ const StopPageHeader = compose(
         showLabel={props.breakpoint === 'large'}
       >
         <InfoIcon stop={props.stop} />
-      </Labeled>, */
+      </Labeled>,
       <Favourite
         favourite={props.favourite}
         addFavourite={(e) => {
           e.stopPropagation();
           props.executeAction(addFavouriteStop, props.params.stopId);
         }}
-      />,
+      />, */
     ],
   })),
 )(StopCardHeaderContainer);
@@ -46,12 +46,11 @@ const exampleStop = {
 
 StopPageHeader.displayName = 'StopPageHeader';
 
-StopPageHeader.description = (
+StopPageHeader.description = () =>
   <div>
     <ComponentUsageExample description="basic">
       <StopPageHeader stop={exampleStop} params={{ stopId: 123 }} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default StopPageHeader;

@@ -22,13 +22,13 @@ const FavouriteIconTable = ({ favouriteIconIds, selectedIconId, handleClick }) =
 
 FavouriteIconTable.displayName = 'FavouriteIconTable';
 
-FavouriteIconTable.description =
-  (<div>
+FavouriteIconTable.description = () =>
+  <div>
     <p>Renders a score table</p>
     <ComponentUsageExample description="">
       <FavouriteIconTable handleClick={() => {}} />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 FavouriteIconTable.propTypes = {
   handleClick: React.PropTypes.func.isRequired,

@@ -35,7 +35,9 @@ const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
 
 const noop = () => {};
 
-FrontPagePanelLarge.description = () => (
+FrontPagePanelLarge.displayName = 'FrontPagePanelLarge';
+
+FrontPagePanelLarge.description = () =>
   <div>
     <p>
       Front page tabs for large display.
@@ -45,7 +47,7 @@ FrontPagePanelLarge.description = () => (
         <FrontPagePanelLarge selectedPanel={2} nearbyClicked={noop} favouritesClicked={noop} />
       </ComponentUsageExample>
     </div>
-  </div>);
+  </div>;
 
 FrontPagePanelLarge.propTypes = {
   selectedPanel: React.PropTypes.number.isRequired,

@@ -13,6 +13,21 @@ import Select from './Select';
 import config from '../config';
 import { route } from '../action/ItinerarySearchActions';
 
+// find the array slot closest to a value
+function mapToSlider(value, arr) {
+  let best = 0;
+  let minDiff = Math.abs(value - arr[0]);
+
+  for (let i = 1; i < arr.length; i++) {
+    const diff = Math.abs(value - arr[i]);
+    if (diff < minDiff) {
+      minDiff = diff;
+      best = i;
+    }
+  }
+  return best;
+}
+
 class CustomizeSearch extends React.Component {
 
   static contextTypes = {
@@ -77,9 +92,11 @@ class CustomizeSearch extends React.Component {
   }
 
   getWalkReluctanceSlider = () => {
-    // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkReluctance()
-
-    const walkReluctanceSliderValues = CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
+    const walkReluctanceSliderValues =
+          CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
+    const initVal = this.context.location.query.walkReluctance ?
+          mapToSlider(this.context.location.query.walkReluctance, walkReluctanceSliderValues) :
+          10;
 
     return (<section className="offcanvas-section">
       <Slider
@@ -87,13 +104,13 @@ class CustomizeSearch extends React.Component {
           id: 'walking',
           defaultMessage: 'Walking',
         })}
-        defaultValue={10}
         onSliderChange={e => this.updateSettings(
           'walkReluctance',
           walkReluctanceSliderValues[e.target.value],
         )}
         min={0}
         max={20}
+        defaultValue={initVal}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'avoid-walking',
@@ -108,10 +125,11 @@ class CustomizeSearch extends React.Component {
   }
 
   getWalkBoardCostSlider = () => {
-    // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkBoardCost()
-
     const walkBoardCostSliderValues =
       CustomizeSearch.getSliderStepsArray(1, 1800, 600).reverse().map(num => Math.round(num));
+    const initVal = this.context.location.query.walkBoardCost ?
+          mapToSlider(this.context.location.query.walkBoardCost, walkBoardCostSliderValues) :
+          10;
 
     return (
       <section className="offcanvas-section">
@@ -120,13 +138,13 @@ class CustomizeSearch extends React.Component {
             id: 'transfers',
             defaultMessage: 'Transfers',
           })}
-          defaultValue={10}
           onSliderChange={e => this.updateSettings(
             'walkBoardCost',
             walkBoardCostSliderValues[e.target.value],
           )}
           min={0}
           max={20}
+          defaultValue={initVal}
           step={1}
           minText={this.context.intl.formatMessage({
             id: 'avoid-transfers',
@@ -141,10 +159,11 @@ class CustomizeSearch extends React.Component {
   }
 
   getTransferMarginSlider = () => {
-    // TODO: connect to this.context.getStore('ItinerarySearchStore').getMinTransferTime()
-
-    const transferMarginSliderValues = CustomizeSearch.getSliderStepsArray(60, 660, 180).map(
-      num => Math.round(num));
+    const transferMarginSliderValues =
+          CustomizeSearch.getSliderStepsArray(60, 660, 180).map(num => Math.round(num));
+    const initVal = this.context.location.query.minTransferTime ?
+          mapToSlider(this.context.location.query.minTransferTime, transferMarginSliderValues) :
+          10;
 
     return (
       <section className="offcanvas-section">
@@ -153,13 +172,13 @@ class CustomizeSearch extends React.Component {
             id: 'transfers-margin',
             defaultMessage: 'Transfer margin',
           })}
-          defaultValue={10}
           onSliderChange={e => this.updateSettings(
             'minTransferTime',
             transferMarginSliderValues[e.target.value],
           )}
           min={0}
           max={20}
+          defaultValue={initVal}
           step={1}
           minText={this.context.intl.formatMessage({
             id: 'no-transfers-margin',
@@ -174,9 +193,10 @@ class CustomizeSearch extends React.Component {
   }
 
   getWalkSpeedSlider = () => {
-    // TODO: connect to this.context.getStore('ItinerarySearchStore').getWalkSpeed()
-
     const walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(0.5, 3, 1.2);
+    const initVal = this.context.location.query.walkSpeed ?
+          mapToSlider(this.context.location.query.walkSpeed, walkingSpeedSliderValues) :
+          10;
 
     return (
       <section className="offcanvas-section">
@@ -185,13 +205,13 @@ class CustomizeSearch extends React.Component {
             id: 'walking-speed',
             defaultMessage: 'Walking speed',
           })}
-          defaultValue={10}
           onSliderChange={e => this.updateSettings(
             'walkSpeed',
             walkingSpeedSliderValues[e.target.value],
           )}
           min={0}
           max={20}
+          defaultValue={initVal}
           step={1}
           minText={this.context.intl.formatMessage({
             id: 'slow',

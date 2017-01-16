@@ -1,28 +1,29 @@
 import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 
+
+const round = (distance) => {
+  if (distance < 1000) return distance - (distance % 10);
+  return distance - (distance % 100);
+};
+
 const Distance = (props) => {
   let distance;
-  let roundedDistanceInKm;
-  let roundedDistanceInM;
+  let roundedDistance;
 
   if (props.distance) {
-    roundedDistanceInM = props.distance - (props.distance % 10);
-    roundedDistanceInKm = ((props.distance - (props.distance % 100)) / 1000).toFixed(1);
-  }
-
-  if (!props.distance) {
-    distance = '';
-  } else if (roundedDistanceInM < 1000) {
-    distance = `${roundedDistanceInM}m`;
-  } else {
-    distance = `${roundedDistanceInKm}km`;
-  }
+    roundedDistance = round(props.distance);
+    if (roundedDistance < 1000) {
+      distance = `${roundedDistance}m`;
+    } else {
+      distance = `${(roundedDistance / 1000).toFixed(1)}km`;
+    }
+  } else distance = '';
 
   return <span className="distance">{distance}</span>;
 };
 
-Distance.description = (
+Distance.description = () =>
   <div>
     <p>Display distance in correct format. Rounds to 10s of meters
       or if above 1000 then shows kilometers with one decimal.
@@ -36,8 +37,7 @@ Distance.description = (
     <ComponentUsageExample description="distance in km">
       <Distance distance={3040} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 Distance.propTypes = {
   distance: React.PropTypes.number.isRequired,
@@ -45,4 +45,4 @@ Distance.propTypes = {
 
 Distance.displayName = 'Distance';
 
-export default Distance;
+export { Distance as default, round };

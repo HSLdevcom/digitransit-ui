@@ -211,7 +211,6 @@ const routes = (
         }}
         queries={{
           header: StopQueries,
-          content: StopQueries,
           map: StopQueries,
           meta: StopQueries,
         }}
@@ -234,7 +233,7 @@ const routes = (
           Promise.all([
             System.import('./component/TerminalTitle').then(getDefault),
             System.import('./component/StopPageHeaderContainer').then(getDefault),
-            System.import('./component/StopPage').then(getDefault),
+            System.import('./component/TerminalPage').then(getDefault),
             System.import('./component/StopPageMap').then(getDefault),
             System.import('./component/StopPageMeta').then(getDefault),
           ]).then(([title, header, content, map, meta]) =>
@@ -243,7 +242,6 @@ const routes = (
         }}
         queries={{
           header: terminalQueries,
-          content: terminalQueries,
           map: terminalQueries,
           meta: terminalQueries,
         }}
@@ -394,6 +392,7 @@ const routes = (
     />
     <Route
       path="/styleguide/component/:componentName"
+      topBarOptions={{ hidden: true }}
       getComponent={(location, cb) => {
         System.import('./component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
       }}

@@ -104,7 +104,9 @@ TripRouteStop.propTypes = {
   fullscreenMap: React.PropTypes.bool,
 };
 
-TripRouteStop.description = (
+TripRouteStop.displayName = 'TripRouteStop';
+
+TripRouteStop.description = () =>
   <div>
     <p>
       Renders a row intended to for use in a trip route stop list.
@@ -144,6 +146,6 @@ TripRouteStop.description = (
         selectedVehicle={exampleVehicle}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default TripRouteStop;

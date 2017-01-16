@@ -31,7 +31,9 @@ RightOffcanvasToggle.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-RightOffcanvasToggle.description = (
+RightOffcanvasToggle.displayName = 'RightOffcanvasToggle';
+
+RightOffcanvasToggle.description = () =>
   <div>
     <p>
       A toggle for the itinerary search preferences.
@@ -42,4 +44,4 @@ RightOffcanvasToggle.description = (
     <ComponentUsageExample description="User has modified the preferences">
       <RightOffcanvasToggle onToggleClick={() => {}} hasChanges />
     </ComponentUsageExample>
-  </div>);
+  </div>;

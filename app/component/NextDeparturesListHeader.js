@@ -24,12 +24,11 @@ const NextDeparturesListHeader = () => (
 
 NextDeparturesListHeader.displayName = 'NextDeparturesListHeader';
 
-NextDeparturesListHeader.description = (
+NextDeparturesListHeader.description = () =>
   <div>
     <ComponentUsageExample>
       <NextDeparturesListHeader />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default NextDeparturesListHeader;

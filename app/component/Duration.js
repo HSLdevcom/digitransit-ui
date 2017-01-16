@@ -15,7 +15,7 @@ function Duration(props) {
   );
 }
 
-Duration.description =
+Duration.description = () =>
   "Displays itinerary's duration in minutes, and a time icon next to it." +
   'Takes duration in seconds as props';
 
