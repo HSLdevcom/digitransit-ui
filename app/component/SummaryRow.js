@@ -115,9 +115,9 @@ const SummaryRow = (props) => {
       onClick={() => props.onSelect(props.hash)}
     >
       <div className="itinerary-duration-and-distance">
-        <div className="itinerary-duration">
+        <span className="itinerary-duration">
           <RelativeDuration duration={duration} />
-        </div>
+        </span>
         <div className="itinerary-walking-distance">
           <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
           {displayDistance(data.walkDistance)}
@@ -148,7 +148,7 @@ const SummaryRow = (props) => {
         <div
           className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}
           key="startTime"
-        ><span className={cx('itinerary-start-date', { nobg: sameDay })} >{dateOrEmpty(startTime, NOW)}</span>
+        ><span className={cx('itinerary-start-date', { nobg: sameDay })} ><span>{dateOrEmpty(startTime, NOW)}</span></span>
           {startTime.format('HH:mm')}
           {firstLegStartTime}
         </div>,
