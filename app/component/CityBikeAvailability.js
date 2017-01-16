@@ -22,14 +22,13 @@ const CityBikeAvailability = mapProps(({ bikesAvailable, totalSpaces }) => ({
 
 CityBikeAvailability.displayName = 'CityBikeAvailability';
 
-CityBikeAvailability.description = (
+CityBikeAvailability.description = () =>
   <div>
     <p>Renders information about citybike availability</p>
     <ComponentUsageExample description="">
       <CityBikeAvailability bikesAvailable={1} totalSpaces={3} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 CityBikeAvailability.propTypes = {
   bikesAvailable: React.PropTypes.number.isRequired,

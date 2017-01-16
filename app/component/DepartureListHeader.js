@@ -27,12 +27,11 @@ const DepartureListHeader = () => (
 
 DepartureListHeader.displayName = 'DepartureListHeader';
 
-DepartureListHeader.description = (
+DepartureListHeader.description = () =>
   <div>
     <ComponentUsageExample>
       <DepartureListHeader />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default DepartureListHeader;

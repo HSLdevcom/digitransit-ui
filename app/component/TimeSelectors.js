@@ -80,7 +80,9 @@ TimeSelectors.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-TimeSelectors.description = (
+TimeSelectors.displayName = 'TimeSelectors';
+
+TimeSelectors.description = () =>
   <div>
     <p>
       A toolbar for changing arriveBy/departAt, date and time
@@ -96,4 +98,4 @@ TimeSelectors.description = (
         dates={[<option value={'2016-05-18'} key={'2016-05-18'} >Today</option>]}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;

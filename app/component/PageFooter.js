@@ -16,6 +16,8 @@ PageFooter.defaultProps = {
   content: [],
 };
 
+PageFooter.displayName = 'PageFooter';
+
 PageFooter.description = () => (
   <div>
     <p>

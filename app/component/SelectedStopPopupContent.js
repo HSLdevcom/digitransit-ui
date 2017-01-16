@@ -27,7 +27,7 @@ SelectedStopPopupContent.propTypes = {
 
 SelectedStopPopupContent.displayName = 'SelectedStopPopupContent';
 
-SelectedStopPopupContent.description = (
+SelectedStopPopupContent.description = () =>
   <div>
     <p>Renders a popup with the selected stop</p>
     <ComponentUsageExample description="example">
@@ -35,7 +35,6 @@ SelectedStopPopupContent.description = (
         stop={{ name: 'Name', code: '123', desc: 'Desc' }}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default SelectedStopPopupContent;

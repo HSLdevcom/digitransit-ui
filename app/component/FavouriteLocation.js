@@ -72,7 +72,7 @@ const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
   );
 };
 
-FavouriteLocation.description = (
+FavouriteLocation.description = () =>
   <div>
     <p>Renders a favourite location component</p>
     <ComponentUsageExample description="first leg is with a bus">
@@ -81,8 +81,7 @@ FavouriteLocation.description = (
         {...favouriteLocationExample}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 FavouriteLocation.propTypes = {
   favourite: React.PropTypes.object,
