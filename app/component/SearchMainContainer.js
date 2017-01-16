@@ -18,6 +18,7 @@ class SearchMainContainer extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     getStore: React.PropTypes.func.isRequired,
     router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     breakpoint: React.PropTypes.string.isRequired,
   };
@@ -47,10 +48,16 @@ class SearchMainContainer extends React.Component {
     if (item.properties.link) {
       this.context.router.push(item.properties.link);
     } else if (item.type === 'CurrentLocation') {
-      this.context.executeAction(setUseCurrent, { target: this.state.selectedTab });
+      this.context.executeAction(setUseCurrent, {
+        target: this.state.selectedTab,
+        router: this.context.router,
+        location: this.context.location,
+      });
     } else {
       this.context.executeAction(setEndpoint, {
         target: this.state.selectedTab,
+        router: this.context.router,
+        location: this.context.location,
         endpoint: {
           lat: item.geometry.coordinates[1],
           lon: item.geometry.coordinates[0],
