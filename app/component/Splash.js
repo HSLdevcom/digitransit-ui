@@ -9,28 +9,28 @@ import Intro from './Intro';
 
 
 class Splash extends React.Component {
+  static contextTypes = {
+    router: React.PropTypes.object,
+    location: React.PropTypes.object,
+  };
   static propTypes = {
     shouldShowIntro: React.PropTypes.bool.isRequired,
     setIntroShown: React.PropTypes.func.isRequired,
   }
 
-  state = {
-    searchModalIsOpen: false,
-  };
-
   openModal = () => {
-    this.setState({
-      searchModalIsOpen: true,
-    });
-  };
-
-  closeModal = () => {
-    this.setState({
-      searchModalIsOpen: false,
+    this.context.router.push({
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        oneTabSearchModalOpen: true,
+      },
     });
   };
 
   renderContents() {
+    const modalOpen =
+      Boolean(this.context.location.state && this.context.location.state.oneTabSearchModalOpen);
     return (
       <div key="contents" className="flex-vertical">
         <h3>
@@ -39,7 +39,7 @@ class Splash extends React.Component {
             defaultMessage="How do you want to start?"
           />
         </h3>
-        <GeopositionSelector searchModalIsOpen={this.state.searchModalIsOpen} />
+        <GeopositionSelector searchModalIsOpen={modalOpen} />
         <div className="splash-separator">
           <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
         </div>
@@ -62,11 +62,7 @@ class Splash extends React.Component {
   render() {
     return (
       <div className="fullscreen">
-        <OneTabSearchModal
-          modalIsOpen={this.state.searchModalIsOpen}
-          closeModal={this.closeModal}
-          target="origin"
-        />
+        <OneTabSearchModal target="origin" />
         <div className="front-page fullscreen">
           <div id="splash-map" className="fullscreen">
             <div className="map fullscreen">

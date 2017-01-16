@@ -1,6 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 import uniq from 'lodash/uniq';
+import { routerShape } from 'react-router';
 
 import config from '../../../config';
 import StopMarker from './StopMarker';
@@ -11,7 +12,7 @@ class StopMarkerLayer extends React.Component {
     // Needed for passing context to dynamic popup, maybe should be done in there?
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     route: React.PropTypes.object.isRequired,
     map: React.PropTypes.object.isRequired,
   };

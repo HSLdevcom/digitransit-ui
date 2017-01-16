@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import { Link } from 'react-router';
 import some from 'lodash/some';
 
 import Map from './map/Map';
@@ -15,29 +14,35 @@ const getFullscreenTogglePath = (fullscreenMap, params) =>
     params.stopId ? params.stopId : params.terminalId
   }${fullscreenMap ? '' : '/kartta'}`;
 
+const toggleFullscreenMap = (fullscreenMap, params, router) => {
+  if (fullscreenMap) {
+    router.goBack();
+    return;
+  }
+  router.push(getFullscreenTogglePath(fullscreenMap, params));
+};
 
 const fullscreenMapOverlay = (fullscreenMap, params, router) => (
   !fullscreenMap && (
     <div
       className="map-click-prevent-overlay"
       key="overlay"
-      onClick={() => router.replace(getFullscreenTogglePath(fullscreenMap, params))}
+      onClick={() => { toggleFullscreenMap(fullscreenMap, params, router); }}
     />
   )
 );
 
-const fullscreenMapToggle = (fullscreenMap, params) => (
-  <Link to={getFullscreenTogglePath(fullscreenMap, params)} key="toggle">
-    <div className="fullscreen-toggle">
-      <Icon img="icon-icon_maximize" className="cursor-pointer" />
-    </div>
-  </Link>
+const fullscreenMapToggle = (fullscreenMap, params, router) => (
+  <div className="fullscreen-toggle" onClick={() => { toggleFullscreenMap(fullscreenMap, params, router); }}>
+    <Icon img="icon-icon_maximize" className="cursor-pointer" />
+  </div>
 );
 
 const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
   const fullscreenMap = some(routes, 'fullscreenMap');
   const leafletObjs = [];
   const children = [];
+
 
   if (breakpoint === 'large') {
     leafletObjs.push(
@@ -47,7 +52,7 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
     );
   } else {
     children.push(fullscreenMapOverlay(fullscreenMap, params, router));
-    children.push(fullscreenMapToggle(fullscreenMap, params));
+    children.push(fullscreenMapToggle(fullscreenMap, params, router));
   }
 
   const showScale = fullscreenMap || breakpoint === 'large';
@@ -74,6 +79,7 @@ StopPageMap.contextTypes = {
   breakpoint: React.PropTypes.string.isRequired,
   router: React.PropTypes.shape({
     replace: React.PropTypes.func.isRequired,
+    push: React.PropTypes.func.isRequired,
   }).isRequired,
 };
 
