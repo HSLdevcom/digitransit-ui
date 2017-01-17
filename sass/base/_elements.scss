@@ -176,6 +176,7 @@ $border-radius-rounded: 30px;
 }
 
 .overflow-fade {
+  overflow: hidden;
   mask-image: linear-gradient(to left, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
 }
 
