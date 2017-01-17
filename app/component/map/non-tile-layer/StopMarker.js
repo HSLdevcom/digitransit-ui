@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 
 import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
@@ -24,8 +25,8 @@ if (isBrowser) {
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
   route: React.PropTypes.object.isRequired,
 });
 
@@ -41,8 +42,8 @@ class StopMarker extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     route: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
