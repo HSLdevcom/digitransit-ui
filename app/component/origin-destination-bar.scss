@@ -66,10 +66,10 @@
   }
 
   .switch {
-    padding: $padding-xsmall;
-    font-size: $font-size-small;
+    padding: $padding-xxsmall;
+    font-size: $font-size-normal;
     margin-top: -4px;
-    background-color: $secondary-color;
+    border: solid 1px $secondary-color;
     border-radius: $border-radius;
     color: $secondary-font-color;
     cursor: pointer;
@@ -112,8 +112,8 @@
     }
 
     .switch {
-      padding: 4px 6px;
-      font-size: 18px;
+      padding: 1px 2px;
+      font-size: 20px;
       margin-top: -10px;
 
       .icon {
