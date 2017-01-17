@@ -71,26 +71,32 @@ class OriginDestinationBar extends React.Component {
       searchLayers = without(searchLayers, 'CurrentPosition');
     }
 
+    const originLabel = this.context.intl.formatMessage({ id: 'origin-label-change', defaultMessage: 'Change origin' });
+    const destinationLabel = this.context.intl.formatMessage({ id: 'destination-label-change', defaultMessage: 'Change destination' });
+
     return (
-      <div className={cx('origin-destination-bar', this.props.className)}>
-        <div className="field-link from-link" onClick={() => this.openSearchModal('origin')}>
-          <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
-          <span className="link-name">
-            {this.props.originIsCurrent ? ownPosition : this.props.origin.address}
-          </span>
-        </div>
+      <div className={cx('origin-destination-bar', this.props.className, 'flex-horizontal')}>
+        <button id="open-origin" aria-label={originLabel} className="flex-grow noborder" onClick={() => this.openSearchModal('origin')}>
+          <div className="field-link from-link" >
+            <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
+            <span className="link-name">
+              {this.props.originIsCurrent ? ownPosition : this.props.origin.address}
+            </span>
+          </div></button>
         <div className="switch" onClick={() => this.swapEndpoints()}>
           <span>
             <Icon img="icon-icon_direction-b" />
           </span>
         </div>
-        <div className="field-link to-link" onClick={() => this.openSearchModal('destination')}>
-          <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
-          <span className="link-name">
-            {this.props.destinationIsCurrent ?
+        <button id="open-destination" aria-label={destinationLabel} className="flex-grow noborder" onClick={() => this.openSearchModal('destination')}>
+          <div className="field-link to-link" >
+            <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
+            <span className="link-name">
+              {this.props.destinationIsCurrent ?
               ownPosition : this.props.destination.address}
-          </span>
-        </div>
+            </span>
+          </div>
+        </button>
         <OneTabSearchModal
           layers={searchLayers}
           endpoint={this.props[tab]}
