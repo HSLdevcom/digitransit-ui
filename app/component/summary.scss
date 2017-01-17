@@ -16,7 +16,7 @@
   background-color: $secondary-color;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch;
 
   input[type="date"], input[type="time"], input[type="text"], select {
     vertical-align: middle;
@@ -24,7 +24,7 @@
     width: auto;
     height: 2.6em;
     margin: 0;
-    padding: 0;
+    padding: 0 1rem 0 $padding-small;
     font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
@@ -47,15 +47,20 @@
       //outline: none;
       box-shadow: none;
     }
+
   }
   .select-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-left: $padding-xsmall;
     border-radius: $border-radius;
     background: $primary-color;
     margin-right: 1px;
+
+    > span {
+      margin-left: -1rem;
+      pointer-events: none;
+    }
   }
 
   .fake-select-arrow {
@@ -95,7 +100,7 @@
   background-color: $secondary-color;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
 
   &.bp-large {
     height: 50px;
@@ -103,10 +108,20 @@
 }
 
 .bp-large.time-selector-settings-row {
-  padding: 0 20px;
+  padding: $padding-small 20px;
+
+  .select-wrapper {
+    margin-right: 2px;
+    padding-right: 0.5rem;
+
+    > span {
+      margin-left: -1.5rem;
+    }
+  }
 
   input[type="date"], input[type="time"], input[type="text"], select, .time-mui {
     font-size: $font-size-normal !important;
+    padding: 0 calc(#{$padding-medium} + 1.5rem) 0 $padding-medium;
     height: 35px !important;
   }
 
@@ -146,7 +161,7 @@ button.right-offcanvas-toggle {
   text-align: center;
   text-transform:uppercase;
   color: $primary-font-color;
-  padding: 9px;
+  padding: $padding-small;
   display: flex;
   align-items: center;
   min-height: 30px;
