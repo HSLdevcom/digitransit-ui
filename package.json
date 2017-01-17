@@ -141,7 +141,7 @@
     "stats-webpack-plugin": "0.4.3",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
-    "webpack": "2.2.0-rc.2",
+    "webpack": "2.2.0-rc.7",
     "webpack-dev-server": "2.2.0-rc.0",
     "webpack-md5-hash": "0.0.5"
   }
