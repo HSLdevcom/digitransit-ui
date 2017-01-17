@@ -56,7 +56,7 @@
     "body-parser": "1.15.2",
     "classnames": "2.2.5",
     "cookie-parser": "1.4.3",
-    "debug": "2.5.1",
+    "debug": "2.6.0",
     "element-resize-detector": "1.1.10",
     "express": "4.14.0",
     "express-static-gzip": "0.2.2",
