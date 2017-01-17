@@ -211,12 +211,12 @@ class TileLayerContainer extends MapLayer {
               route={this.state.selectableTargets[0].feature.properties.stops ?
                 new TerminalRoute({
                   terminalId: id,
-                  date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
+                  currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
                 })
                 :
                 new StopRoute({
                   stopId: id,
-                  date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
+                  currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
                 })
               }
               renderLoading={loadingPopup}

@@ -3,6 +3,8 @@ import Relay from 'react-relay';
 import StopCardContainer from '../../StopCardContainer';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 
+const NUMBER_OF_DEPARTURES = 5;
+
 function StopMarkerPopup(props) {
   const stop = props.stop || props.terminal;
   const terminal = props.terminal !== null;
@@ -11,9 +13,11 @@ function StopMarkerPopup(props) {
     <div className="card">
       <StopCardContainer
         stop={stop}
-        departures={5}
-        date={props.relay.variables.date}
+        numberOfDepartures={(terminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
+        startTime={props.relay.variables.currentTime}
         isTerminal={terminal}
+        timeRange={(terminal ? 1 : 12) * 60 * 60}
+        limit={NUMBER_OF_DEPARTURES}
         className="padding-small cursor-pointer"
       />
       <MarkerPopupBottom
@@ -32,33 +36,42 @@ StopMarkerPopup.propTypes = {
   terminal: React.PropTypes.object,
   relay: React.PropTypes.shape({
     variables: React.PropTypes.shape({
-      date: React.PropTypes.string.isRequired,
+      currentTime: React.PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };
 
 export default Relay.createContainer(StopMarkerPopup, {
   fragments: {
-    stop: ({ date }) => Relay.QL`
+    stop: ({ currentTime }) => Relay.QL`
       fragment on Stop{
         gtfsId
         lat
         lon
         name
-        ${StopCardContainer.getFragment('stop', { date })}
+        ${StopCardContainer.getFragment('stop', {
+          startTime: currentTime,
+          timeRange: 24 * 60 * 60,
+          numberOfDepartures: NUMBER_OF_DEPARTURES,
+        })}
       }
     `,
-    terminal: ({ date }) => Relay.QL`
+    terminal: ({ currentTime }) => Relay.QL`
       fragment on Stop{
         gtfsId
         lat
         lon
         name
-        ${StopCardContainer.getFragment('stop', { date })}
+        ${StopCardContainer.getFragment('stop', {
+          startTime: currentTime,
+          timeRange: 60 * 60,
+          // Terminals do not show arrivals, so we need some slack
+          numberOfDepartures: NUMBER_OF_DEPARTURES * 3,
+        })}
       }
     `,
   },
   initialVariables: {
-    date: null,
+    currentTime: 0,
   },
 });

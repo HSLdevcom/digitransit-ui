@@ -3,28 +3,18 @@ import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import StopCardHeaderContainer from './StopCardHeaderContainer';
-import DepartureListContainer from './DepartureListContainer';
+import DepartureWithoutPatternsListContainer from './DepartureWithoutPatternsListContainer';
 import StopCard from './StopCard';
-// import { addFavouriteStop } from '../action/FavouriteActions';
-// import Favourite from './Favourite';
 
 const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (context, props) =>
   ({
-    icons: [
-      props.isTerminal ? null : null,      /*<Favourite
-        favourite={context.getStore('FavouriteStopsStore').isFavourite(props.stop.gtfsId)}
-        addFavourite={(e) => {
-          e.preventDefault();
-          return context.executeAction(addFavouriteStop, props.stop.gtfsId);
-        }}
-      />*/
-    ],
     isTerminal: props.isTerminal,
-    children: <DepartureListContainer
+    children: <DepartureWithoutPatternsListContainer
       rowClasses="no-padding no-margin"
       stoptimes={props.stop.stoptimes}
-      limit={props.departures}
+      limit={props.limit}
       isTerminal={props.isTerminal}
+      currentTime={props.relay.variables.startTime}
     />,
   }),
 );
@@ -40,14 +30,20 @@ export default Relay.createContainer(StopCardContainer, {
     stop: () => Relay.QL`
       fragment on Stop{
         gtfsId
-        stoptimes: stoptimesForServiceDate(date: $date) {
-          ${DepartureListContainer.getFragment('stoptimes')}
+        stoptimes: stoptimesWithoutPatterns(
+          startTime: $startTime,
+          timeRange: $timeRange,
+          numberOfDepartures: $numberOfDepartures
+        ) {
+          ${DepartureWithoutPatternsListContainer.getFragment('stoptimes')}
         }
         ${StopCardHeaderContainer.getFragment('stop')}
       }
     `,
   },
   initialVariables: {
-    date: null,
+    startTime: 0,
+    timeRange: 12 * 60 * 60,
+    numberOfDepartures: 5,
   },
 });
