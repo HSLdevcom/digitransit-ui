@@ -31,6 +31,7 @@ class IndexPage extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     location: locationShape.isRequired,
     router: routerShape.isRequired,
+    piwik: React.PropTypes.object,
   };
 
   static propTypes = {
@@ -93,8 +94,8 @@ class IndexPage extends React.Component {
   }
 
   trackEvent = (...args) => {
-    if (typeof this.context.piwik === 'function') {
-      this.context.piwik(...args);
+    if (typeof this.context.piwik === 'object') {
+      this.context.piwik.trackEvent(...args);
     }
   }
 
