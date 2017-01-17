@@ -76,15 +76,19 @@ class OriginDestinationBar extends React.Component {
 
     return (
       <div className={cx('origin-destination-bar', this.props.className, 'flex-horizontal')}>
-        <button aria-label={originLabel} className="flex-grow noborder" onClick={() => this.openSearch('origin')}>
+        <button id="open-origin" aria-label={originLabel} className="flex-grow noborder" onClick={() => this.openSearchModal('origin')}>
           <div className="field-link from-link" >
             <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon from" />
             <span className="link-name">
               {this.props.originIsCurrent ? ownPosition : this.props.origin.address}
             </span>
           </div></button>
-
-        <button aria-label={destinationLabel} className="flex-grow noborder" onClick={() => this.openSearch('destination')}>
+        <div className="switch" onClick={() => this.swapEndpoints()}>
+          <span>
+            <Icon img="icon-icon_direction-b" />
+          </span>
+        </div>
+        <button id="open-destination" aria-label={destinationLabel} className="flex-grow noborder" onClick={() => this.openSearchModal('destination')}>
           <div className="field-link to-link" >
             <Icon img={'icon-icon_mapMarker-point'} className="itinerary-icon to" />
             <span className="link-name">
