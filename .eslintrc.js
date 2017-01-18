@@ -20,8 +20,6 @@ module.exports = {
     'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
     'jsx-a11y/no-static-element-interactions': 'warn',
     'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
-    // Temporary fix for: https://github.com/babel/babel-eslint/issues/316
-    'generator-star-spacing': 0,
     'compat/compat': 'error',
   },
   'env': {
