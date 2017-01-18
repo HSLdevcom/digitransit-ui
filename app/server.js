@@ -9,7 +9,7 @@ import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware, retryMiddleware } from 'react-relay-network-layer';
-import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
+import provideContext from 'fluxible-addons-react/provideContext';
 
 // Libraries
 import serialize from 'serialize-javascript';
@@ -157,16 +157,24 @@ function getScripts(req) {
   ];
 }
 
+const ContextProvider = provideContext(IntlProvider, {
+  config: React.PropTypes.object,
+  url: React.PropTypes.string,
+  headers: React.PropTypes.object,
+});
+
 function getContent(context, renderProps, locale, userAgent) {
   // TODO: This should be moved to a place to coexist with similar content from client.js
   return ReactDOM.renderToString(
-    <FluxibleComponent context={context.getComponentContext()}>
-      <IntlProvider locale={locale} messages={translations[locale]}>
-        <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent })}>
-          {IsomorphicRouter.render(renderProps)}
-        </MuiThemeProvider>
-      </IntlProvider>
-    </FluxibleComponent>,
+    <ContextProvider
+      locale={locale}
+      messages={translations[locale]}
+      context={context.getComponentContext()}
+    >
+      <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent })}>
+        {IsomorphicRouter.render(renderProps)}
+      </MuiThemeProvider>
+    </ContextProvider>,
   );
 }
 
@@ -207,7 +215,7 @@ export default function (req, res, next) {
     res.cookie('lang', locale);
   }
 
-  const context = application.createContext();
+  const context = application.createContext({ url: req.url, headers: req.headers });
 
   // required by material-ui
   global.navigator = { userAgent: req.headers['user-agent'] };
