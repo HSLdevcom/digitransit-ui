@@ -7,8 +7,6 @@ module.exports = {
   },
   'extends': 'airbnb',
   'rules': {
-    'eqeqeq': ['error', 'allow-null'],
-    'no-void': 'error',
     'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
     'react/no-string-refs': 'warn',
     'react/no-find-dom-node': 'warn',
