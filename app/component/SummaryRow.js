@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import { FormattedMessage, intlShape } from 'react-intl';
 import getContext from 'recompose/getContext';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import { dateOrEmpty } from './TimeFrame';
 import { displayDistance } from '../util/geo-utils';
@@ -12,7 +12,7 @@ import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SummaryRow = (props, { breakpoint, intl: { formatMessage } }) => {
+const SummaryRow = (props, { intl: { formatMessage } }) => {
   let mode;
   let routeNumber;
   const data = props.data;
@@ -69,7 +69,7 @@ const SummaryRow = (props, { breakpoint, intl: { formatMessage } }) => {
 
       legs.push(
         <div key={i} className="leg">
-          {breakpoint === 'large' &&
+          {props.breakpoint === 'large' &&
             <div className="departure-stop overflow-fade">
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
             </div>
@@ -101,7 +101,7 @@ const SummaryRow = (props, { breakpoint, intl: { formatMessage } }) => {
 
   const classes = cx(['itinerary-summary-row', 'cursor-pointer', {
     passive: props.passive,
-    'bp-large': breakpoint === 'large',
+    'bp-large': props.breakpoint === 'large',
     open: props.open || props.children,
   }]);
 
@@ -187,10 +187,10 @@ SummaryRow.propTypes = {
   hash: React.PropTypes.number.isRequired,
   children: React.PropTypes.node,
   open: React.PropTypes.bool,
+  breakpoint: React.PropTypes.string.isRequired,
 };
 
 SummaryRow.contextTypes = {
-  breakpoint: React.PropTypes.string,
   intl: intlShape.isRequired,
 };
 
