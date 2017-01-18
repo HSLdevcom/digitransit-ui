@@ -71,7 +71,14 @@ export default {
     title: 'Uusi Reittiopas',
     description: APP_DESCRIPTION,
 
+    image: {
+      url: '/img/hsl-icons/social-share.png',
+      width: 400,
+      height: 400,
+    },
+
     twitter: {
+      card: 'summary',
       site: '@hsldevcom',
     },
   },
