@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import { Link } from 'react-router';
+import { Link, routerShape, locationShape } from 'react-router';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
@@ -17,7 +17,8 @@ class AddFavouriteContainer extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     getStore: PropTypes.func.isRequired,
   };
 
@@ -27,17 +28,18 @@ class AddFavouriteContainer extends React.Component {
 
   componentWillMount = () => {
     if (this.isEdit()) {
-      this.setState({ favourite: this.props.favourite, searchModalIsOpen: false });
+      this.setState({ favourite: this.props.favourite });
     } else {
-      this.setState({ favourite: {
-        selectedIconId: undefined,
-        lat: undefined,
-        lon: undefined,
-        locationName: undefined,
-        address: undefined,
-        version: 1,
-      },
-        searchModalIsOpen: false });
+      this.setState({
+        favourite: {
+          selectedIconId: undefined,
+          lat: undefined,
+          lon: undefined,
+          locationName: undefined,
+          address: undefined,
+          version: 1,
+        },
+      });
     }
   }
 
@@ -93,12 +95,6 @@ class AddFavouriteContainer extends React.Component {
     this.setState({ favourite: { ...this.state.favourite, selectedIconId: id } });
   };
 
-  closeSearchModal = () => {
-    this.setState({
-      searchModalIsOpen: false,
-    });
-  }
-
   render() {
     const destinationPlaceholder = this.context.intl.formatMessage({
       id: 'address',
@@ -145,8 +141,12 @@ class AddFavouriteContainer extends React.Component {
                 placeholder={destinationPlaceholder}
                 onClick={(e) => {
                   e.preventDefault();
-                  this.setState({
-                    searchModalIsOpen: true,
+                  this.context.router.push({
+                    ...this.context.location,
+                    state: {
+                      ...this.context.location.state,
+                      oneTabSearchModalOpen: true,
+                    },
                   });
                 }} id="destination" className="add-favourite-container__input-placeholder"
               />
@@ -209,13 +209,11 @@ class AddFavouriteContainer extends React.Component {
         </row>
       </div>
       <OneTabSearchModal
-        modalIsOpen={this.state.searchModalIsOpen}
-        closeModal={this.closeSearchModal}
         customTabLabel={searchTabLabel}
         layers={favouriteLayers}
         customOnSuggestionSelected={(name, item) => {
           this.setCoordinatesAndAddress(name, item);
-          return this.closeSearchModal();
+          return this.context.router.goBack();
         }}
       /></div>);
   }

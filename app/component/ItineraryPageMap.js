@@ -38,9 +38,10 @@ export default function ItineraryPageMap(
 
   const toggleFullscreenMap = fullscreen ?
     router.goBack :
-    () => router.push({
-      pathname: `${location.pathname}/kartta`,
-    });
+        () => router.push({
+          ...location,
+          pathname: `${location.pathname}/kartta`,
+        });
 
   const overlay = fullscreen ? undefined : (
     <div

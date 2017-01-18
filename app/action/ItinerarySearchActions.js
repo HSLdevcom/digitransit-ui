@@ -34,7 +34,14 @@ export function route(actionContext, payload, done) {
     if (payload && payload.router && payload.location &&
       payload.location.pathname.indexOf('/reitti') === 0
     ) {
-      payload.router.replace({ ...payload.location, pathname: path });
+      payload.router.replace({
+        ...payload.location,
+        state: {  // reset back to 1st alternative at reroute
+          ...payload.location.state,
+          summaryPageSelected: 0,
+        },
+        pathname: path,
+      });
     } else {
       history.push({ pathname: path });
     }

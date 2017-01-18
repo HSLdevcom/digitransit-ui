@@ -1,14 +1,10 @@
 /* Turku theme */
 
+/* Base theme */
+@import '../default/theme';
+
 /* General palette */
-$white: #ffffff;
-$light-gray: #ddd;
-$medium-gray: #ccc;
-$gray: #888;
-$dark-gray: #575757;
-$black: #333;
 $gray-blue: #7f929c;
-$gray-blue-light: rgb(182, 193, 199);
 
 /* Operator palette */
 $turku-light-yellow: #e8aa27;
@@ -22,23 +18,13 @@ $turku-rail-color: #8c4799;
 $turku-ferry-color: rgb(53, 181, 179);
 
 /* Application palette */
-$background-color: #eef1f3;
 $primary-color: $turku-light-yellow;
-$primary-font-color: $white;
 $secondary-color: $turku-dark-yellow;
-$secondary-font-color: $white;
 $favourite-color: $turku-light-yellow;
 $hilight-color: $turku-dark;
 $action-color: $turku-dark;
-$cancelation-red: #dc0451;
-$cancelation-black: #666;
-$cancelation-background: #fbe0ea;
-$disruption-color: $cancelation-red;
-$realtime-color: #46b32a;
-$dark-color: $gray;
 
 /* Component palette */
-$title-color: $white;
 $standalone-btn-color: $turku-dark;
 $standalone-btn-hover-color: $turku-light-gray;
 $standalone-btn-active-color: $turku-light-gray;
@@ -58,44 +44,6 @@ $rail-color: $turku-rail-color;
 $ferry-color: $turku-ferry-color;
 $citybike-color: $turku-light-yellow;
 $walk-color: $turku-dark-blue;
-$wait-color: #979797;
-$bicycle-color: #64be14;
-$car-color: #333;
-
-/* Fonts */
-$font-family: Lato, Arial, Georgia, Serif;
-$font-weight-book: 400;
-$font-weight-medium: 400;
-$font-weight-bold: 700;
-$font-weight-map-container: $font-weight-book;
-$letter-spacing: 0;
-
-$font-family-narrow: 'PT Sans Narrow', 'Arial Condensed', Arial, Georgia, Serif;
-$font-narrow-weight-book: 400;
-$font-narrow-weight-medium: 500;
-$narrow-letter-spacing: 0;
-
-$line-height-normal: 1.2;
-
-$font-size-xxxsmall: 0.72rem;
-$font-size-xxsmall: 0.80rem;
-$font-size-xsmall: 0.87rem;
-$font-size-small: 0.92rem;
-$font-size-normal: 1rem;
-$font-size-large: 1.25rem;
-$font-size-xlarge: 1.5rem;
-
-/* Paddings */
-$padding-xxsmall: 0.125em;
-$padding-xsmall: 0.25em;
-$padding-small: 0.4em;
-$padding-medium: 0.7em;
-$padding-large: 1.5em;
-$padding-xlarge: 2em;
-
-/* Borders */
-$border-radius: 3px;
-$border-radius-bigger: 8px;
 
 /* Navbar logo */
 $nav-logo: url('foli-logo.png');

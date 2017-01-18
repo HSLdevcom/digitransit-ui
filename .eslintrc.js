@@ -24,6 +24,7 @@ module.exports = {
     'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
     // Temporary fix for: https://github.com/babel/babel-eslint/issues/316
     'generator-star-spacing': 0,
+    'compat/compat': 'error',
   },
   'env': {
     'browser': true,
@@ -31,5 +32,9 @@ module.exports = {
   'plugins': [
     'react',
     'graphql',
+    'compat',
   ],
+  'settings': {
+    'polyfills': ['fetch']
+  }
 };
