@@ -33,7 +33,7 @@ export default function SummaryRow(props, { breakpoint, intl: { formatMessage } 
 
   let lastLegRented = false;
 
-  data.legs.forEach((leg, i) => {
+  data.legs.forEach((leg) => {
     if (leg.rentedBike && lastLegRented) {
       return;
     }
@@ -67,7 +67,7 @@ export default function SummaryRow(props, { breakpoint, intl: { formatMessage } 
       }
 
       legs.push(
-        <div key={i} className="leg">
+        <div key={`${leg.mode}_${leg.startTime}`} className="leg">
           {breakpoint === 'large' &&
             <div className="departure-stop overflow-fade">
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
@@ -121,6 +121,7 @@ export default function SummaryRow(props, { breakpoint, intl: { formatMessage } 
       </div>
       {props.open || props.children ? [
         <FormattedMessage
+          key="title"
           id="itinerary-page.title"
           defaultMessage="Itinerary"
           tagName="h2"
@@ -232,6 +233,7 @@ const exampleData = {
   ],
 };
 
+const emptyFunction = () => {};
 SummaryRow.description = () =>
   <div>
     <p>
@@ -241,16 +243,16 @@ SummaryRow.description = () =>
       <SummaryRow
         data={exampleData}
         passive
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
+        onSelect={emptyFunction}
+        onSelectImmediately={emptyFunction}
         hash={1}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="active">
       <SummaryRow
         data={exampleData}
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
+        onSelect={emptyFunction}
+        onSelectImmediately={emptyFunction}
         hash={1}
       />
     </ComponentUsageExample>
@@ -258,8 +260,8 @@ SummaryRow.description = () =>
       <SummaryRow
         open
         data={exampleData}
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
+        onSelect={emptyFunction}
+        onSelectImmediately={emptyFunction}
         hash={1}
       />
     </ComponentUsageExample>

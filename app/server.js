@@ -73,11 +73,13 @@ if (process.env.NODE_ENV !== 'development') {
   manifest = fs.readFileSync(`${appRoot}_static/${manifestFile}`);
   css = [
     <link
+      key="main_css"
       rel="stylesheet"
       type="text/css"
       href={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 1)}`}
     />,
     <link
+      key="theme_css"
       rel="stylesheet"
       type="text/css"
       href={`${config.APP_PATH}/${
@@ -153,14 +155,17 @@ function getScripts(req) {
     return <script async src={`//${host}:${port}/js/bundle.js`} />;
   }
   return [
-    <script dangerouslySetInnerHTML={{ __html: manifest }} />,
+    <script key="manifest "dangerouslySetInnerHTML={{ __html: manifest }} />,
     <script
+      key="common_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.common, 0)}`}
     />,
     <script
+      key="leaflet_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.leaflet, 0)}`}
     />,
     <script
+      key="min_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 0)}`}
     />,
   ];

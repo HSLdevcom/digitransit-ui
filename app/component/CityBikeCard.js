@@ -19,6 +19,7 @@ const CityBikeCard = ({ station, children, className, isFavourite, toggleFavouri
         icon="icon-icon_citybike"
         unlinked
         icons={[<Favourite
+          key="favourite"
           favourite={isFavourite}
           addFavourite={toggleFavourite}
         />,
