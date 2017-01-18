@@ -41,10 +41,11 @@ export default Relay.createContainer(NearbyRouteList, {
   initialVariables: {
     lat: null,
     lon: null,
-    maxDistance: 1,
-    maxResults: 5,
+    maxDistance: 0,
+    maxResults: 50,
     modes: [],
     placeTypes: [],
     currentTime: 0,
+    timeRange: 0,
   },
 });

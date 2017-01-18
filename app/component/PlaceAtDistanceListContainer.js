@@ -3,7 +3,6 @@ import Relay from 'react-relay';
 import sortBy from 'lodash/sortBy';
 
 import PlaceAtDistanceContainer from './PlaceAtDistanceContainer';
-import config from '../config';
 import { round } from './Distance';
 
 export const placeAtDistanceListContainerFragment = variables => Relay.QL`
@@ -69,6 +68,6 @@ export default Relay.createContainer(PlaceAtDistanceList, {
 
   initialVariables: {
     currentTime: 0,
-    timeRange: config.nearbyRoutes.timeRange || 7200,
+    timeRange: 0,
   },
 });
