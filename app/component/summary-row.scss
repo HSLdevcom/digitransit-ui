@@ -81,7 +81,8 @@
       & > span {
         line-height: 1;
         text-transform: capitalize;
-        border-radius: 2px;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
         padding: 3px 5px;
         color: $white;
         background-color: $gray;
@@ -242,6 +243,9 @@
       }
       .itinerary-start-date {
         font-size: $font-size-xxsmall;
+        & > span {
+          border-radius: 2px;
+        }
       }
     }
 
