@@ -200,8 +200,9 @@
   }
 
   .itinerary-tab {
-    width: 100%;
+    width: calc(100% - 120px);
     margin-left: 100px;
+    margin-right: 10px;
     border-top: solid 1px $light-gray;
   }
 

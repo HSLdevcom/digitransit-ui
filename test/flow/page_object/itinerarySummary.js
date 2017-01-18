@@ -65,6 +65,6 @@ module.exports = {
     secondItinerarySummaryRow: '.itinerary-summary-row:nth-of-type(2)',
     swapDir: '.switch',
     later: '.time-navigation-later-btn',
-    destination: '.to-link',
+    destination: '#open-destination',
   },
 };

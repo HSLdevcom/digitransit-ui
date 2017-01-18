@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import getContext from 'recompose/getContext';
 
 import { dateOrEmpty } from './TimeFrame';
@@ -12,7 +12,7 @@ import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SummaryRow = (props) => {
+const SummaryRow = (props, { breakpoint, intl: { formatMessage } }) => {
   let mode;
   let routeNumber;
   const data = props.data;
@@ -69,7 +69,7 @@ const SummaryRow = (props) => {
 
       legs.push(
         <div key={i} className="leg">
-          {props.breakpoint === 'large' &&
+          {breakpoint === 'large' &&
             <div className="departure-stop overflow-fade">
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
             </div>
@@ -101,13 +101,15 @@ const SummaryRow = (props) => {
 
   const classes = cx(['itinerary-summary-row', 'cursor-pointer', {
     passive: props.passive,
-    'bp-large': props.breakpoint === 'large',
+    'bp-large': breakpoint === 'large',
     open: props.open || props.children,
   }]);
 
   const NOW = moment();
 
   const sameDay = dateOrEmpty(startTime, NOW) === '';
+
+  const itineraryLabel = formatMessage({ id: 'itinerary-page.title', defaultMessage: 'Itinerary' });
 
   return (
     <div
@@ -131,18 +133,19 @@ const SummaryRow = (props) => {
             tagName="h2"
           />
         </span>,
-        <div
+        <button
+          title={itineraryLabel}
           key="arrow"
-          className="action-arrow-click-area"
+          className="action-arrow-click-area noborder flex-vertical"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow">
+          <div className="action-arrow flex-grow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
-        </div>,
+        </button>,
         props.children,
       ] : [
         <div
@@ -158,18 +161,19 @@ const SummaryRow = (props) => {
         <div className="itinerary-end-time" key="endtime">
           {endTime.format('HH:mm')}
         </div>,
-        <div
+        <button
+          title={itineraryLabel}
           key="arrow"
-          className="action-arrow-click-area"
+          className="action-arrow-click-area flex-vertical noborder"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow">
+          <div className="action-arrow flex-grow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
-        </div>,
+        </button>,
       ]}
     </div>);
 };
@@ -183,7 +187,11 @@ SummaryRow.propTypes = {
   hash: React.PropTypes.number.isRequired,
   children: React.PropTypes.node,
   open: React.PropTypes.bool,
-  breakpoint: React.PropTypes.string.isRequired,
+};
+
+SummaryRow.contextTypes = {
+  breakpoint: React.PropTypes.string,
+  intl: intlShape.isRequired,
 };
 
 SummaryRow.displayName = 'SummaryRow';
