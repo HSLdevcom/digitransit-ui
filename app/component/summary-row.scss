@@ -63,6 +63,7 @@
     text-align: right;
     padding-left: 5px;
     min-width: 35px;
+    @include font-narrow-medium;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
@@ -76,7 +77,7 @@
       text-align: right;
       min-width: 20px;
       line-height: 1;
-      @include font-medium;
+      @include font-narrow-book;
       font-size: $font-size-xxxxsmall;
       & > span {
         line-height: 1;
@@ -235,13 +236,13 @@
       min-width: 50px;
       font-size: 21px;
       padding-top: 17px;
-      @include font-narrow-medium;
 
       .itinerary-first-leg-start-time {
         padding-top: 1px;
         font-size: $font-size-normal;
       }
       .itinerary-start-date {
+        @include font-narrow-book;
         font-size: $font-size-xxsmall;
         & > span {
           border-radius: 2px;
