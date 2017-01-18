@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import { dateOrEmpty } from './TimeFrame';
 import { displayDistance } from '../util/geo-utils';
@@ -12,7 +12,7 @@ import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SummaryRow = (props) => {
+const SummaryRow = (props, { intl: { formatMessage } }) => {
   let mode;
   let routeNumber;
   const data = props.data;
@@ -109,6 +109,8 @@ const SummaryRow = (props) => {
 
   const sameDay = dateOrEmpty(startTime, NOW) === '';
 
+  const itineraryLabel = formatMessage({ id: 'itinerary-page.title', defaultMessage: 'Itinerary' });
+
   return (
     <div
       className={classes}
@@ -131,18 +133,19 @@ const SummaryRow = (props) => {
             tagName="h2"
           />
         </span>,
-        <div
+        <button
+          title={itineraryLabel}
           key="arrow"
-          className="action-arrow-click-area"
+          className="action-arrow-click-area noborder flex-vertical"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow">
+          <div className="action-arrow flex-grow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
-        </div>,
+        </button>,
         props.children,
       ] : [
         <div
@@ -158,18 +161,19 @@ const SummaryRow = (props) => {
         <div className="itinerary-end-time" key="endtime">
           {endTime.format('HH:mm')}
         </div>,
-        <div
+        <button
+          title={itineraryLabel}
           key="arrow"
-          className="action-arrow-click-area"
+          className="action-arrow-click-area flex-vertical noborder"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow">
+          <div className="action-arrow flex-grow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
-        </div>,
+        </button>,
       ]}
     </div>);
 };
@@ -184,6 +188,10 @@ SummaryRow.propTypes = {
   children: React.PropTypes.node,
   open: React.PropTypes.bool,
   breakpoint: React.PropTypes.string.isRequired,
+};
+
+SummaryRow.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 SummaryRow.displayName = 'SummaryRow';

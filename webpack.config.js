@@ -136,7 +136,7 @@ function getPluginsConfig(env) {
           postcss: () => [autoprefixer({ browsers: prodBrowsers })],
         },
       }),
-      new webpack.NoErrorsPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
     ]);
   }
   return ([
@@ -215,7 +215,7 @@ function getPluginsConfig(env) {
       test: /\.(js|css|html|svg)$/,
       minRatio: 0.95,
     }),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ]);
 }
 
