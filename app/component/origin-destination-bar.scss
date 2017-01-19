@@ -36,7 +36,7 @@
 
       &::before {
         position: absolute;
-        margin-top: 3px;
+        margin-top: 4px;
         margin-left: -14px;
         z-index: 1;
         font-size: 9px;
@@ -99,7 +99,7 @@
       }
 
       span:first-child::before {
-        margin-top: -3px;
+        margin-top: 0px;
         margin-left: -27px;
         font-size: 14.4px;
       }
