@@ -84,6 +84,9 @@ export default function getMetadata(lang, host, url) {
       property: 'twitter:site',
       content: config.socialMedia.twitter.site,
     }, {
+      property: 'twitter:creator',
+      content: config.socialMedia.twitter.site,
+    }, {
       property: 'twitter:title',
       content: config.socialMedia.title,
     }, {
