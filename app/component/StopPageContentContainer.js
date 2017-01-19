@@ -3,9 +3,9 @@ import Relay from 'react-relay';
 import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
-
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
+import StopPageActionBar from './StopPageActionBar';
 
 const DepartureListContainerWithProps = mapProps(props => ({
   stoptimes: props.stop.stoptimes,
@@ -20,15 +20,18 @@ const DepartureListContainerWithProps = mapProps(props => ({
 const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
   some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
     <div className="stop-page-content-wrapper">
+      <StopPageActionBar printUrl={props.stop.url} />
       <DepartureListHeader />
       <DepartureListContainerWithProps {...props} />
     </div>
   )));
 
+
 export default Relay.createContainer(StopPageContent, {
   fragments: {
     stop: () => Relay.QL`
       fragment on Stop {
+        url
         stoptimes: stoptimesForPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }

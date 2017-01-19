@@ -364,17 +364,15 @@ section.content {
     line-height:0;
   }
 
+  .icon.external-link-icon-outer {
+    font-size: 7px;
+    color: $primary-color;
+  }
 
-    .icon.external-link-icon-outer {
-      font-size: 7px;
-      color: $primary-color;
-    }
-
-    .icon.external-link-icon {
-      font-size: 6px;
-      color: $primary-font-color;
-    }
-
+  .icon.external-link-icon {
+    font-size: 6px;
+    color: $primary-font-color;
+  }
 
   .external-link {
     spacing: 0;
