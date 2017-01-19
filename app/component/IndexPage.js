@@ -108,10 +108,10 @@ class IndexPage extends React.Component {
       } else {
         this.openNearby(selected === 2);
       }
-      this.trackEvent('Front page tabs', `Nearby ${selected === 1 ? 'close' : 'open'}`);
+      this.trackEvent('Front page tabs', 'Nearby', selected === 1 ? 'close' : 'open');
     } else {
       this.openNearby(true);
-      this.trackEvent('Front page tabs', 'Nearby open (desktop)');
+      this.trackEvent('Front page tabs', 'Nearby', 'click');
     }
   };
 
@@ -124,10 +124,10 @@ class IndexPage extends React.Component {
       } else {
         this.openFavourites(selected === 1);
       }
-      this.trackEvent('Front page tabs', `Favourites ${selected === 2 ? 'close' : 'open'}`);
+      this.trackEvent('Front page tabs', 'Favourites', selected === 2 ? 'close' : 'open');
     } else {
       this.openFavourites(true);
-      this.trackEvent('Front page tabs', 'Favourites open (desktop)');
+      this.trackEvent('Front page tabs', 'Favourites', 'click');
     }
   };
 
