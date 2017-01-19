@@ -140,7 +140,7 @@
   }
 }
 
-button.right-offcanvas-toggle {
+.right-offcanvas-toggle {
 
   &:hover {
     background-color: $primary-color;
@@ -159,18 +159,25 @@ button.right-offcanvas-toggle {
     @include font-bold;
     font-size: $font-size-xxxsmall;
     margin-left: $padding-xsmall;
+    text-align: center;
+    text-transform:uppercase;
   }
+  width: auto;
   margin: 0;
   background-color: $primary-color;
   border-radius: 2px;
-  width: auto;
-  text-align: center;
-  text-transform:uppercase;
   color: $primary-font-color;
-  padding: $padding-small;
   display: flex;
   align-items: center;
   min-height: 30px;
+
+  > button {
+    padding: 0 $padding-small;
+    height: 100%;
+    > div {
+      display: flex;
+    }
+  }
 
   .icon-holder {
     display: inline;
