@@ -20,7 +20,7 @@ import OfflinePlugin from 'offline-plugin/runtime';
 import Raven from './util/Raven';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
-import app from './app';
+import appCreator from './app';
 import translations from './translations';
 import { openFeedbackModal } from './action/feedbackActions';
 import { shouldDisplayPopup } from './util/Feedback';
@@ -96,6 +96,8 @@ if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
 
 // Material-ui uses touch tap events
 tapEventPlugin();
+
+const app = appCreator(window.config);
 
 // Add plugins
 app.plug(piwikPlugin);

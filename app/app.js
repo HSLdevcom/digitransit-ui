@@ -16,24 +16,26 @@ import SearchStore from './store/SearchStore';
 import TimeStore from './store/TimeStore';
 import FavouriteCityBikeStationStore from './store/FavouriteCityBikeStationStore';
 
-const app = new Fluxible({
-  component: routes,
-});
+const appConstructor = (config) => {
+  const app = new Fluxible({ component: routes(config) });
 
-app.registerStore(DisruptionInfoStore);
-app.registerStore(EndpointStore);
-app.registerStore(FavouriteLocationStore);
-app.registerStore(FavouriteRoutesStore);
-app.registerStore(FavouriteStopsStore);
-app.registerStore(FeedbackStore);
-app.registerStore(MessageStore);
-app.registerStore(ModeStore);
-app.registerStore(OldSearchesStore);
-app.registerStore(PositionStore);
-app.registerStore(PreferencesStore);
-app.registerStore(RealTimeInformationStore);
-app.registerStore(SearchStore);
-app.registerStore(TimeStore);
-app.registerStore(FavouriteCityBikeStationStore);
+  app.registerStore(DisruptionInfoStore);
+  app.registerStore(EndpointStore);
+  app.registerStore(FavouriteLocationStore);
+  app.registerStore(FavouriteRoutesStore);
+  app.registerStore(FavouriteStopsStore);
+  app.registerStore(FeedbackStore);
+  app.registerStore(MessageStore);
+  app.registerStore(ModeStore);
+  app.registerStore(OldSearchesStore);
+  app.registerStore(PositionStore);
+  app.registerStore(PreferencesStore);
+  app.registerStore(RealTimeInformationStore);
+  app.registerStore(SearchStore);
+  app.registerStore(TimeStore);
+  app.registerStore(FavouriteCityBikeStationStore);
 
-export default app;
+  return app;
+};
+
+export default appConstructor;

@@ -22,7 +22,7 @@ import find from 'lodash/find';
 import mergeWith from 'lodash/mergeWith';
 
 // Application
-import application from './app';
+import appCreator from './app';
 import translations from './translations';
 import ApplicationHtml from './html';
 
@@ -234,7 +234,7 @@ function getContent(context, renderProps, locale, userAgent, config) {
   );
 }
 
-function getHtml(context, locale, [polyfills, relayData], req, config) {
+function getHtml(application, context, locale, [polyfills, relayData], req, config) {
   // eslint-disable-next-line no-unused-vars
   const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent'], config) : undefined;
   const head = Helmet.rewind();
@@ -274,6 +274,7 @@ export default function (req, res, next) {
 
   const config = getConfiguration(configName);
   const networkLayer = getNetworkLayer(config);
+  const application = appCreator(config);
 
   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
   let locale = req.cookies.lang ||
@@ -317,7 +318,7 @@ export default function (req, res, next) {
       ];
 
       Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(context, locale, results, req, config)}`),
+        res.send(`<!doctype html>${getHtml(application, context, locale, results, req, config)}`),
       ).catch((err) => {
         if (err) { next(err); }
       });
