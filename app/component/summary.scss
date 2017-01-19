@@ -18,7 +18,7 @@
   flex-direction: row;
   align-items: stretch;
 
-  input[type="date"], input[type="time"], input[type="text"], select {
+  input[type="date"], input[type="time"], input[type="text"], select, .time-mui > input {
     vertical-align: middle;
     text-align: left;
     width: auto;
@@ -83,7 +83,8 @@
   }
 
   .time-mui {
-    max-width: 3.5em;
+    max-width: 4.5em;
+    padding-left: $padding-small;
     height: 2.6em !important;
     font-size: $font-size-xxsmall !important;
   }
@@ -119,7 +120,12 @@
     }
   }
 
-  input[type="date"], input[type="time"], input[type="text"], select, .time-mui {
+  .time-mui {
+    padding-left: $padding-medium;
+    max-width: 6.5em;
+  }
+
+  input[type="date"], input[type="time"], input[type="text"], select, .time-mui > input {
     font-size: $font-size-normal !important;
     padding: 0 calc(#{$padding-medium} + 1.5rem) 0 $padding-medium;
     height: 35px !important;
