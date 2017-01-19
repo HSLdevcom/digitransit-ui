@@ -364,19 +364,16 @@ section.content {
     line-height:0;
   }
 
-  span:nth-of-type(1) {
-    .icon {
+
+    .icon.external-link-icon-outer {
       font-size: 7px;
       color: $primary-color;
     }
-  }
 
-  span:nth-of-type(2) {
-    .icon {
+    .icon.external-link-icon {
       font-size: 6px;
       color: $primary-font-color;
     }
-  }
 
 
   .external-link {
