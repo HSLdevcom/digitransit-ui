@@ -20,7 +20,7 @@ class NearbyRouteListContainerRoute extends Route {
     placeTypes: { required: true },
     maxDistance: { required: true },
     maxResults: { required: true },
-    timeRange: {  required: true },
+    timeRange: { required: true },
   };
   static routeName = 'NearbyRouteListContainerRoute';
 }

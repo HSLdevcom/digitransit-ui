@@ -39,7 +39,7 @@ class MessageStore extends Store {
   }
 
   addConfigMessages = (config) => {
-    if(config.staticMessages) {
+    if (config.staticMessages) {
       config.staticMessages.forEach(this.addMessage);
     }
   }

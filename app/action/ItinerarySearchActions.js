@@ -30,7 +30,7 @@ export function route(actionContext, payload, done) {
 
     const path = getRoutePath(from, to);
 
-    if(payload.location.pathname.indexOf('/reitti') === 0) {
+    if (payload.location.pathname.indexOf('/reitti') === 0) {
       payload.router.replace({ ...payload.location, pathname: path });
     } else {
       payload.router.push({ ...payload.location, pathname: path });

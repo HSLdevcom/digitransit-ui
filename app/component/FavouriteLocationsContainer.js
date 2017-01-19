@@ -71,7 +71,7 @@ class FavouriteLocationsContainer extends React.Component {
       endpoint: location,
       router: this.context.router,
       location: this.context.location,
-   });
+    });
   }
 
   getFavourite = (index) => {
