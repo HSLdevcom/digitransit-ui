@@ -111,7 +111,7 @@ class IndexPage extends React.Component {
       this.trackEvent('Front page tabs', 'Nearby', selected === 1 ? 'close' : 'open');
     } else {
       this.openNearby(true);
-      this.trackEvent('Front page tabs', 'Nearby', 'click');
+      this.trackEvent('Front page tabs', 'Nearby', 'open');
     }
   };
 
@@ -127,7 +127,7 @@ class IndexPage extends React.Component {
       this.trackEvent('Front page tabs', 'Favourites', selected === 2 ? 'close' : 'open');
     } else {
       this.openFavourites(true);
-      this.trackEvent('Front page tabs', 'Favourites', 'click');
+      this.trackEvent('Front page tabs', 'Favourites', 'open');
     }
   };
 
