@@ -27,6 +27,7 @@ const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
   route: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 class TerminalMarker extends React.Component {
@@ -37,6 +38,7 @@ class TerminalMarker extends React.Component {
     location: locationShape.isRequired,
     route: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {

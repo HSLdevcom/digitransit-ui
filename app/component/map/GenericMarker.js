@@ -1,6 +1,5 @@
 import React from 'react';
 
-import config from '../../config';
 import ComponentUsageExample from '../ComponentUsageExample';
 import { isBrowser } from '../../util/browser';
 
@@ -41,6 +40,7 @@ export default class GenericMarker extends React.Component {
 
   static contextTypes = {
     map: React.PropTypes.object.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -72,10 +72,10 @@ export default class GenericMarker extends React.Component {
       icon={this.props.getIcon(this.context.map.getZoom())}
     >
       <Popup
-        offset={config.map.genericMarker.popup.offset}
+        offset={this.context.config.map.genericMarker.popup.offset}
         closeButton={false}
-        maxWidth={config.map.genericMarker.popup.maxWidth}
-        minWidth={config.map.genericMarker.popup.minWidth}
+        maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
+        minWidth={this.context.config.map.genericMarker.popup.minWidth}
         className="popup"
       >
         {this.props.children}
@@ -86,7 +86,7 @@ export default class GenericMarker extends React.Component {
   getNameMarker() {
     if (
       !this.props.renderName ||
-      this.context.map.getZoom() < config.map.genericMarker.nameMarkerMinZoom
+      this.context.map.getZoom() < this.context.config.map.genericMarker.nameMarkerMinZoom
     ) {
       return false;
     }

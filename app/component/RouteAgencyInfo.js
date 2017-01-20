@@ -2,11 +2,10 @@ import React from 'react';
 import Relay from 'react-relay';
 import get from 'lodash/get';
 import { FormattedMessage, intlShape } from 'react-intl';
-import config from '../config';
 
-function RouteAgencyInfo({ route }) {
+function RouteAgencyInfo({ route }, context) {
   const agencyName = get(route, 'agency.name');
-  const show = get(config, 'agency.show', false);
+  const show = get(context.config, 'agency.show', false);
   if (show && agencyName) {
     return (<span className="route-agency-name">
       <FormattedMessage id="agency" defaultMessage="Agency" />: {agencyName}
@@ -17,6 +16,7 @@ function RouteAgencyInfo({ route }) {
 
 RouteAgencyInfo.contextTypes = {
   intl: intlShape.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 RouteAgencyInfo.propTypes = {

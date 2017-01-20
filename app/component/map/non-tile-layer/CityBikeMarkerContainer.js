@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import ViewerRoute from '../../../route/ViewerRoute';
 
-import config from '../../../config';
 import CityBikeMarker from './CityBikeMarker';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
@@ -38,6 +37,7 @@ class CityBikeMarkerContainer extends React.Component {
 
   static contextTypes = {
     map: React.PropTypes.object.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -51,7 +51,7 @@ class CityBikeMarkerContainer extends React.Component {
   onMapZoom = () => this.forceUpdate()
 
   render() {
-    if (this.context.map.getZoom() < config.cityBike.cityBikeMinZoom) {
+    if (this.context.map.getZoom() < this.context.config.cityBike.cityBikeMinZoom) {
       return false;
     }
     return (

@@ -28,6 +28,7 @@ const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
@@ -35,6 +36,7 @@ const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
@@ -43,6 +45,7 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
@@ -51,6 +54,7 @@ const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPopup, {
@@ -59,6 +63,7 @@ const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPo
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
@@ -67,12 +72,15 @@ const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const LocationPopupWithContext = provideContext(LocationPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const PopupOptions = {
@@ -103,6 +111,7 @@ class TileLayerContainer extends MapLayer {
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   state = {
