@@ -346,40 +346,31 @@ section.content {
   width: 15px;
 }
 
-.external-link-container {
+.external-top-bar {
+  font-size: 10px;
   position:relative;
-  spacing: 0px;
-  margin: 0px;
-  padding: 0px 6px 3px 6px;
-  line-height:0;
-  border: 1px solid rgba(0,0,0,0.15);
-  border-radius: 4px;
-
-  span {
-    position: absolute;
-    line-height: normal;
-    top: -1px;
-    right: -1px;
-    height:7px;
-    line-height:0;
+   > svg.icon { //decoration
+    font-size:7px;
+    top:-8px;
   }
-
-  .icon.external-link-icon-outer {
-    font-size: 7px;
+  .external-link-icon-outer {
     color: $primary-color;
   }
 
-  .icon.external-link-icon {
-    font-size: 6px;
+  .external-link-icon {
     color: $primary-font-color;
   }
+  .external-link-container {
+    font-size: 17.5px;
+    margin: 0px;
+    padding: 0px 6px 3px 6px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
 
-  .external-link {
-    spacing: 0;
-    margin: 0;
-    color: $white;
-    font-size: $font-size-xxsmall;
-    text-decoration: none;
+    .external-link {
+      color: $white;
+      font-size: $font-size-xxsmall;
+      text-decoration: none;
+    }
   }
-
 }
