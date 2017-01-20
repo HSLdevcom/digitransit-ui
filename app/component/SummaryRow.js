@@ -4,7 +4,7 @@ import cx from 'classnames';
 import getContext from 'recompose/getContext';
 import { FormattedMessage, intlShape } from 'react-intl';
 
-import { dateOrEmpty } from './TimeFrame';
+import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import { displayDistance } from '../util/geo-utils';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
@@ -16,6 +16,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
   let mode;
   let routeNumber;
   const data = props.data;
+  const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
@@ -107,8 +108,6 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
 
   const NOW = moment();
 
-  const sameDay = dateOrEmpty(startTime, NOW) === '';
-
   const itineraryLabel = formatMessage({ id: 'itinerary-page.title', defaultMessage: 'Itinerary' });
 
   return (
@@ -151,7 +150,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
         <div
           className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}
           key="startTime"
-        ><span className={cx('itinerary-start-date', { nobg: sameDay })} ><span>{dateOrEmpty(startTime, NOW)}</span></span>
+          ><span className={cx('itinerary-start-date', { nobg: sameDay(startTime, refTime) })} ><span>{dateOrEmpty(startTime, refTime)}</span></span>
           {startTime.format('HH:mm')}
           {firstLegStartTime}
         </div>,
@@ -180,6 +179,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
 
 
 SummaryRow.propTypes = {
+  refTime: React.PropTypes.number.isRequired,
   data: React.PropTypes.object.isRequired,
   passive: React.PropTypes.bool,
   onSelect: React.PropTypes.func.isRequired,
@@ -251,6 +251,7 @@ SummaryRow.description = () => {
     </p>
       <ComponentUsageExample description="passive-small-today">
         <SummaryRow
+          refTime={date}
           breakpoint="small"
           data={exampleData(today)}
           passive
@@ -261,6 +262,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="active-small-today">
         <SummaryRow
+          refTime={date}
           breakpoint="small"
           data={exampleData(today)}
           onSelect={() => {}}
@@ -270,6 +272,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="passive-large-today">
         <SummaryRow
+          refTime={date}
           breakpoint="large"
           data={exampleData(today)}
           passive
@@ -280,6 +283,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="active-large-today">
         <SummaryRow
+          refTime={date}
           breakpoint="large"
           data={exampleData(today)}
           onSelect={() => {}}
@@ -289,6 +293,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="passive-small-tomorrow">
         <SummaryRow
+          refTime={date}
           breakpoint="small"
           data={exampleData(date)}
           passive
@@ -299,6 +304,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="active-small-tomorrow">
         <SummaryRow
+          refTime={date}
           breakpoint="small"
           data={exampleData(date)}
           onSelect={() => {}}
@@ -308,6 +314,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="passive-large-tomorrow">
         <SummaryRow
+          refTime={date}
           breakpoint="large"
           data={exampleData(date)}
           passive
@@ -318,6 +325,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="active-large-tomorrow">
         <SummaryRow
+          refTime={date}
           breakpoint="large"
           data={exampleData(date)}
           onSelect={() => {}}
@@ -327,6 +335,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="open-large-today">
         <SummaryRow
+          refTime={date}
           breakpoint="large"
           data={exampleData(today)}
           onSelect={() => {}}
@@ -337,6 +346,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="open-large-tomorrow">
         <SummaryRow
+          refTime={date}
           breakpoint="large"
           data={exampleData(date)}
           onSelect={() => {}}

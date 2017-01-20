@@ -1,17 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-const TIME_PATTERN = 'HH:mm';
-const DATE_PATTERN = 'dd D.M.';
-/**
- * Returns date or '' if same day as reference
- */
-const dateOrEmpty = (momentTime, momentRefTime) => {
-  if (momentTime.isSame(momentRefTime, 'day')) {
-    return '';
-  }
-  return momentTime.format(DATE_PATTERN);
-};
+import { TIME_PATTERN, DATE_PATTERN } from '../util/timeUtils';
 
 const time = momentTime => (<span className="capitalize">{momentTime.format(TIME_PATTERN)}</span>);
 
@@ -31,8 +21,8 @@ const dateTime = (momentTime, momentRefTime) => {
   );
 };
 
-const TimeFrame = ({ className, startTime, endTime }) => {
-  const now = moment();
+const TimeFrame = ({ className, startTime, endTime, refTime }) => {
+  const now = moment(refTime);
   const start = moment(startTime);
   const end = moment(endTime);
 
@@ -48,8 +38,9 @@ TimeFrame.description = 'Displays the time frame of interval (example: 15:55 - 1
 TimeFrame.propTypes = {
   startTime: React.PropTypes.number.isRequired,
   endTime: React.PropTypes.number.isRequired,
+  refTime: React.PropTypes.number.isRequired,
   className: React.PropTypes.string,
 };
 
 TimeFrame.displayName = 'TimeFrame';
-export { TimeFrame as default, dateOrEmpty };
+export { TimeFrame as default };
