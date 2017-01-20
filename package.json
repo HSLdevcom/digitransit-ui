@@ -47,7 +47,7 @@
   "browserlist": ["IE 11", "> 0.3% in FI", "last 2 versions"],
   "dependencies": {
     "@mapbox/sphericalmercator": "1.0.5",
-    "babel-core": "6.21.0",
+    "babel-core": "6.22.1",
     "babel-plugin-transform-system-import-commonjs": "1.0.3",
     "babel-preset-env": "1.1.8",
     "babel-preset-react": "6.16.0",
