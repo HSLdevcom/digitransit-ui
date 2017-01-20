@@ -14,8 +14,8 @@ const StopPageMeta = compose(
         params.stopId ? 'Stop - {name} {code}' : 'Terminal - {name}',
     }, stop);
     const description = intl.formatMessage({
-      id: 'stop-page.description',
-      defaultMessage: 'Stop - {name} {code}',
+      id: params.stopId ? 'stop-page.description' : 'terminal-page.description',
+      defaultMessage: params.stopId ? 'Stop - {name} {code}' : 'Terminal - {name} {code}',
     }, stop);
     return {
       title,
