@@ -3,13 +3,13 @@
   "httpTimeout": 30000,
   "sessionRequestTimeout": 120000,
   "suitesPerSession": 10,
-  "system": {
+  "retry": 3,
+    "system": {
     "plugins": { "browserstack": {} }
   },
   "browsers": {
     "ie11": {
       "windowSize": "600x1024",
-      "retry": 3,
       "desiredCapabilities": {
         "os": "Windows",
         "os_version": "8.1",
@@ -21,7 +21,6 @@
     },
     "chrome50": {
       "windowSize": "600x1024",
-      "retry": 3,
       "desiredCapabilities": {
         "os": "OS X",
         "os_version": "El Capitan",
@@ -32,7 +31,6 @@
     },
     "safari10": {
       "windowSize": "600x1024",
-      "retry": 3,
       "desiredCapabilities": {
         "os": "OS X",
         "os_version": "Sierra",
@@ -43,7 +41,6 @@
     },
     "edge13": {
       "windowSize": "600x1024",
-      "retry": 3,
       "desiredCapabilities": {
         "os": "Windows",
         "os_version": "10",
