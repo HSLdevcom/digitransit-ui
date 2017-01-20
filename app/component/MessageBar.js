@@ -30,8 +30,8 @@ class MessageBar extends Component {
   };
 
   getTabContent = () => (
-    this.unreadMessages().map((el, i) => (
-      <div tabIndex={0} role="banner" key={i} onClick={this.maximize}>
+    this.unreadMessages().map(el => (
+      <div tabIndex={0} role="banner" key={el.id} onClick={this.maximize}>
         <h2>{el.content[this.props.lang].title}</h2>
         {el.content[this.props.lang].content}
       </div>
@@ -42,7 +42,7 @@ class MessageBar extends Component {
 
     this.unreadMessages().map((el, i) => (
       <Tab
-        key={i}
+        key={el.id}
         selected={i === this.state.slideIndex}
         icon={(
           // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
