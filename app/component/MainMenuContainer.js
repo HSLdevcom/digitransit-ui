@@ -65,7 +65,6 @@ class MainMenuContainer extends Component {
             <Drawer
               className="offcanvas"
               disableSwipeToOpen
-              ref="leftNav"
               docked={false}
               open={this.getOffcanvasState()}
               openSecondary
