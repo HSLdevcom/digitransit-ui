@@ -61,31 +61,31 @@ class Map extends React.Component {
     L.control.attribution({
       position: 'bottomleft',
       prefix: '&copy; <a tabindex="-1" href="http://osm.org/copyright">OpenStreetMap</a>',
-    }).addTo(this.refs.map.leafletElement);
+    }).addTo(this.map.leafletElement);
 
     if (this.props.showScaleBar) {
-      L.control.scale({ imperial: false, position: 'bottomright' }).addTo(this.refs.map.leafletElement);
+      L.control.scale({ imperial: false, position: 'bottomright' }).addTo(this.map.leafletElement);
     }
 
     if (!this.props.disableZoom || L.Browser.touch) {
       L.control.zoom({ position: 'topleft' })
-        .addTo(this.refs.map.leafletElement);
+        .addTo(this.map.leafletElement);
     }
 
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
     /* eslint-disable no-underscore-dangle */
-    this.erd.listenTo(this.refs.map.leafletElement._container, this.resizeMap);
+    this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
   }
 
   componentWillUnmount = () => {
-    this.erd.removeListener(this.refs.map.leafletElement._container, this.resizeMap);
+    this.erd.removeListener(this.map.leafletElement._container, this.resizeMap);
   }
 
   resizeMap = () => {
-    if (this.refs.map) {
-      this.refs.map.leafletElement.invalidateSize(false);
+    if (this.map) {
+      this.map.leafletElement.invalidateSize(false);
       if (this.props.fitBounds) {
-        this.refs.map.leafletElement.fitBounds(
+        this.map.leafletElement.fitBounds(
           boundWithMinimumArea(this.props.bounds),
           this.props.boundsOptions,
         );
@@ -180,18 +180,17 @@ class Map extends React.Component {
 
       map = (
         <LeafletMap
-          {...{
-            keyboard: false,
-            ref: 'map',
-            center,
-            zoom,
-            zoomControl: false,
-            attributionControl: false,
-            bounds: (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) || undefined,
-            animate: true,
-            ...this.props.leafletOptions,
-            boundsOptions,
-            ...this.props.leafletEvents }}
+          keyboard={false}
+          ref={(el) => { this.map = el; }}
+          center={center}
+          zoom={zoom}
+          zoomControl={false}
+          attributionControl={false}
+          bounds={(this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) || undefined}
+          animate
+          {...this.props.leafletOptions}
+          boundsOptions={boundsOptions}
+          {...this.props.leafletEvents}
         >
           <TileLayer
             url={`${config.URL.MAP}{z}/{x}/{y}{size}.png`}
