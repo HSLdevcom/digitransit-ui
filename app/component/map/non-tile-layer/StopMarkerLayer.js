@@ -2,8 +2,8 @@ import React from 'react';
 import Relay from 'react-relay';
 import uniq from 'lodash/uniq';
 import { routerShape } from 'react-router';
+import _config from '../../../config';
 
-import config from '../../../config';
 import StopMarker from './StopMarker';
 import TerminalMarker from './TerminalMarker';
 
@@ -15,6 +15,7 @@ class StopMarkerLayer extends React.Component {
     router: routerShape.isRequired,
     route: React.PropTypes.object.isRequired,
     map: React.PropTypes.object.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -39,7 +40,7 @@ class StopMarkerLayer extends React.Component {
   onMapMove = () => {
     let bounds;
 
-    if (this.context.map.getZoom() >= config.stopsMinZoom) {
+    if (this.context.map.getZoom() >= this.context.config.stopsMinZoom) {
       bounds = this.context.map.getBounds();
 
       this.props.relay.setVariables({
@@ -64,7 +65,8 @@ class StopMarkerLayer extends React.Component {
       const modeClass = stop.routes[0].mode.toLowerCase();
       const selected = this.props.hilightedStops && this.props.hilightedStops.includes(stop.gtfsId);
 
-      if (stop.parentStation && this.context.map.getZoom() <= config.terminalStopsMaxZoom) {
+      if (stop.parentStation &&
+          this.context.map.getZoom() <= this.context.config.terminalStopsMaxZoom) {
         stops.push(
           <TerminalMarker
             key={stop.parentStation.gtfsId}
@@ -94,7 +96,9 @@ class StopMarkerLayer extends React.Component {
 
   render() {
     return (
-      <div>{this.context.map.getZoom() >= config.stopsMinZoom ? this.getStops() : false}</div>
+      <div>
+        {this.context.map.getZoom() >= this.context.config.stopsMinZoom ? this.getStops() : false}
+      </div>
     );
   }
 }
@@ -136,6 +140,6 @@ export default Relay.createContainer(StopMarkerLayer, {
     minLon: null,
     maxLat: null,
     maxLon: null,
-    agency: config.preferredAgency,
+    agency: _config.preferredAgency,
   },
 });

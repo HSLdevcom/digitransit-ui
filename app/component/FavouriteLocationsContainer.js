@@ -8,8 +8,6 @@ import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import ComponentUsageExample from './ComponentUsageExample';
 import { setEndpoint } from '../action/EndpointActions';
 
-import config from '../config';
-
 class FavouriteLocationContainerRoute extends Relay.Route {
   static queries = {
     plan: (Component, variables) => Relay.QL`
@@ -40,6 +38,7 @@ class FavouriteLocationsContainer extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static description =
@@ -86,6 +85,8 @@ class FavouriteLocationsContainer extends React.Component {
     />);
 
     if (this.props.location) {
+      const config = this.context.config;
+
       return (<Relay.RootContainer
         Component={FavouriteLocationContainer} forceFetch
         route={new FavouriteLocationContainerRoute({

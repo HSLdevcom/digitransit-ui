@@ -2,7 +2,6 @@ import React from 'react';
 import pure from 'recompose/pure';
 
 import ToggleButton from './ToggleButton';
-import config from '../config';
 import ComponentUsageExample from './ComponentUsageExample';
 
 
@@ -15,15 +14,16 @@ class ModeFilter extends React.Component {
 
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
-  availableModes = () => Object.keys(config.transportModes).filter(
-    mode => (config.transportModes[mode].availableForSelection))
+  availableModes = () => Object.keys(this.context.config.transportModes).filter(
+    mode => (this.context.config.transportModes[mode].availableForSelection))
 
   render = () => {
     const widthPercentage = 100 / this.availableModes().length;
     const ModeToggleButton = ({ type, stateName }) => {
-      if (config.transportModes[type].availableForSelection) {
+      if (this.context.config.transportModes[type].availableForSelection) {
         const action = this.props.action[
           `toggle${type.charAt(0).toUpperCase() + type.slice(1)}State`];
         const selectedModes = this.props.selectedModes;
