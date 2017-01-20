@@ -80,7 +80,6 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
   config: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
 });
 
 const PopupOptions = {
@@ -179,7 +178,7 @@ class TileLayerContainer extends MapLayer {
   });
 
   createTile = (tileCoords, done) => {
-    const tile = new TileContainer(tileCoords, done, this.props);
+    const tile = new TileContainer(tileCoords, done, this.props, this.context.config);
 
     tile.onSelectableTargetClicked = (selectableTargets, coords) => {
       if (selectableTargets && this.props.disableMapTracking) {

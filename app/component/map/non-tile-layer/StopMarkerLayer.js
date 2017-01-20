@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import uniq from 'lodash/uniq';
 import { routerShape } from 'react-router';
-import _config from '../../../config';
 
 import StopMarker from './StopMarker';
 import TerminalMarker from './TerminalMarker';
@@ -140,6 +139,6 @@ export default Relay.createContainer(StopMarkerLayer, {
     minLon: null,
     maxLat: null,
     maxLon: null,
-    agency: _config.preferredAgency,
+    agency: null,
   },
 });

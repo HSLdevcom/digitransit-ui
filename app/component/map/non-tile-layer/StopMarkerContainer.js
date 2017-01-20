@@ -32,6 +32,7 @@ export default function StopMarkerContainer({ hilightedStops }, { map, config })
         minLon,
         maxLat,
         maxLon,
+        agency: config.preferredAgency,
       })}
       renderFetched={data => (
         <StopMarkerLayer
@@ -41,6 +42,7 @@ export default function StopMarkerContainer({ hilightedStops }, { map, config })
           minLon={minLon}
           maxLat={maxLat}
           maxLon={maxLon}
+          agency={config.preferredAgency}
         />
       )}
     />
