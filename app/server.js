@@ -132,14 +132,15 @@ function getSprite(config) {
     if (process.env.NODE_ENV !== 'development') {
       svgSprite = (
         <script
-          dangerouslySetInnerHTML={{ __html: `fetch('${
-            config.APP_PATH}/${find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]
+          dangerouslySetInnerHTML={{ __html: `
+            fetch('${
+              config.APP_PATH}/${find(stats.modules, { name: `./static/svg-sprite.${config.CONFIG}.svg` }).assets[0]
             }').then(function(response) {return response.text();}).then(function(blob) {
               var div = document.createElement('div');
               div.innerHTML = blob;
               document.body.insertBefore(div, document.body.childNodes[0]);
             })
-          ` }}
+        ` }}
         />
       );
     } else {

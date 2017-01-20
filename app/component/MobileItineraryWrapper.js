@@ -52,6 +52,7 @@ export default class MobileItineraryWrapper extends React.Component {
       this.context.router.goBack();
     } else {
       this.context.router.push({
+        ...this.context.location,
         pathname: `${this.context.location.pathname}/kartta`,
       });
     }
@@ -61,8 +62,9 @@ export default class MobileItineraryWrapper extends React.Component {
 
   switchSlide = (index) => {
     this.context.router.replace({
-      state: { summaryPageSelected: index },
-      pathname: `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}` });
+      ...this.context.location,
+      pathname: `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}`,
+    });
     const itineraryTab = this.refs[`itineraryTab${index}`];
 
     if (itineraryTab) {

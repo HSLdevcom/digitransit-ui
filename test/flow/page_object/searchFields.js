@@ -1,7 +1,6 @@
 function setOrigin(origin) {
   const timeout = this.api.globals.elementVisibleTimeout;
   this.openSearch();
-  this.waitForElementVisible('@origin', timeout);
   this.api.checkedClick(this.elements.origin.selector);
   this.waitForElementVisible('@searchOrigin', timeout);
   this.clearValue('@searchOrigin');
@@ -13,7 +12,6 @@ function setOrigin(origin) {
 function useCurrentLocationInOrigin() {
   const timeout = this.api.globals.elementVisibleTimeout;
   this.openSearch();
-  this.waitForElementVisible('@origin', timeout);
   this.api.checkedClick(this.elements.origin.selector);
   this.waitForElementVisible('@searchOrigin', timeout);
   this.isVisible('@geolocationSelected', (result) => {
@@ -42,12 +40,16 @@ function enterKeyOrigin() {
 function openSearch() {
   this.waitForElementVisible('@frontPageSearchBar', this.api.globals.elementVisibleTimeout);
   this.api.checkedClick(this.elements.frontPageSearchBar.selector);
+  this.waitForElementVisible('@origin', this.api.globals.elementVisibleTimeout);
+}
+
+function waitSearchClosing() {
+  this.waitForElementNotPresent('@origin', this.api.globals.elementVisibleTimeout);
 }
 
 function setDestination(destination) {
   this.api.debug('setting destination');
   this.openSearch();
-  this.waitForElementVisible('@destination', this.api.globals.elementVisibleTimeout);
   this.checkedClick(this.elements.destination.selector);
   this.waitForElementVisible('@searchDestination', this.api.globals.elementVisibleTimeout);
   this.setValue('@searchDestination', destination);
@@ -81,7 +83,6 @@ function itinerarySearch(origin, destination) {
 function setSearch(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
   this.openSearch();
-  this.waitForElementVisible('@search', timeout);
   this.api.checkedClick(this.elements.search.selector);
   this.waitForElementVisible('@searchDestination', timeout)
   .setValue('@searchDestination', search);
@@ -110,6 +111,7 @@ module.exports = {
     itinerarySearch,
     setSearch,
     openSearch,
+    waitSearchClosing,
     verifyItemInSearchResult,
   }],
   elements: {

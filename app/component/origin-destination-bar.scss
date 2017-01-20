@@ -1,8 +1,6 @@
 .origin-destination-bar {
   background-color: $primary-color;
   width: 100%;
-  padding-left: $padding-small;
-  padding-right: $padding-small;
   padding-top: calc(#{$padding-large} - 15px);
   padding-bottom: calc(#{$padding-medium} - 8px);
   display: flex;
@@ -15,23 +13,21 @@
     cursor: pointer;
     color: $primary-font-color;
     display: inline-block;
-  }
-
-
-  .field-link {
-    width: 43%;
     padding-left: 17px;
     position: relative;
+    min-width: 0;
+    margin: 0 $padding-medium;
 
     .link-name {
+      @extend .overflow-fade;
       border-bottom: 1px solid $secondary-color;
     }
 
-    &.from-link span:first-child::before {
+    .from-link span:first-child::before {
         content: "A";
     }
 
-    &.to-link span:first-child::before {
+    .to-link span:first-child::before {
         content: "B";
     }
 
@@ -63,13 +59,17 @@
       width: 100%;
 
     }
+
+    &:hover {
+      color: $white;
+    }
   }
 
   .switch {
-    padding: $padding-xsmall;
-    font-size: $font-size-small;
+    padding: $padding-xxsmall;
+    font-size: $font-size-normal;
     margin-top: -4px;
-    background-color: $secondary-color;
+    border: solid 1px $secondary-color;
     border-radius: $border-radius;
     color: $secondary-font-color;
     cursor: pointer;
@@ -84,11 +84,11 @@
   &.bp-large {
     height: 50px;
     flex-wrap: wrap;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
 
     .field-link {
-      width: 43%;
+      width: 95%;
       padding-left: 30px;
       margin-bottom: 5px;
 
@@ -112,8 +112,8 @@
     }
 
     .switch {
-      padding: 4px 6px;
-      font-size: 18px;
+      padding: 1px 2px;
+      font-size: 20px;
       margin-top: -10px;
 
       .icon {

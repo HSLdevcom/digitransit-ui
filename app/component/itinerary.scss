@@ -235,6 +235,7 @@ div.itinerary-main > div > .row:nth-child(1)  {
     }
 
     .itinerary-leg-first-row {
+      overflow: hidden;
       display: block;
       width: 90%;
       color: $black;
