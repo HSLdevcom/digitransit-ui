@@ -46,7 +46,6 @@ export default Relay.createContainer(StopPageMeta, {
       fragment on Stop {
         name
         code
-        desc
       }
     `,
   },
