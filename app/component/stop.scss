@@ -97,15 +97,39 @@
 }
 
 #stop-page-action-bar {
+  padding: 5px 10px;
   text-align:right;
-  .external {
-      .external-link-icon-outer{
-        color: $light-gray;
-        font-size:9px;
+  .action-bar {
+    font-size: 10px;
+    a.external-link {
+      font-size: $font-size-xxsmall;
+      line-height:20px;
+      color: $gray-blue;
+      svg.icon {
+        top:3px;
+        font-size:14px;
+        position: relative;
       }
-      .external-link-icon {
-        color: $gray-blue;
-        font-size:7px;
+    }
+    .external-link-icon-outer{
+      color: #eef1f3;
+    }
+    .external-link-icon {
+      color: $gray-blue;
+    }
+  }
+}
+
+.desktop {
+  #stop-page-action-bar {
+    .action-bar {
+      a.external-link {
+        font-size: 14px;
+        line-height:22px;
+        svg.icon {
+          font-size:18px;
+        }
       }
+    }
   }
 }

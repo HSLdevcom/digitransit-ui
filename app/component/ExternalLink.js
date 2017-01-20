@@ -4,11 +4,11 @@ import FooterItem from './FooterItem';
 import ExternalLinkDecoration from './ExternalLinkDecoration';
 
 const ExternalLink = ({ name, children, href, className }) => ((name || children !== undefined) &&
-<span className={className}>
+<span className={className} style={{ position: 'relative' }}>
   <span className="external-link-container">
     <a onClick={e => e.stopPropagation()}className="external-link" href={href} >{name || children}</a>
   </span>
-  <ExternalLinkDecoration />
+  <ExternalLinkDecoration className="external-link-decoration" />
 </span>
 );
 

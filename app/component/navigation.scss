@@ -348,10 +348,9 @@ section.content {
 
 .external-top-bar {
   font-size: 10px;
-  position:relative;
    > svg.icon { //decoration
     font-size:7px;
-    top:-8px;
+    top:-7px;
   }
   .external-link-icon-outer {
     color: $primary-color;
@@ -360,17 +359,24 @@ section.content {
   .external-link-icon {
     color: $primary-font-color;
   }
-  .external-link-container {
-    font-size: 17.5px;
-    margin: 0px;
-    padding: 0px 6px 3px 6px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
+}
+.external-link-decoration {
+  font-size: 9px;
+}
+.external-link-container {
+  display: inline-block;
+  line-height: 22px;
+  font-size: 17.5px;
+  margin: 0px;
+  padding: 0px 6px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
 
-    .external-link {
-      color: $white;
-      font-size: $font-size-xxsmall;
-      text-decoration: none;
-    }
+  a.external-link {
+    display: inline-block;
+    vertical-align: text-top;
+    color: $white;
+    font-size: $font-size-xxsmall;
+    text-decoration: none;
   }
 }
