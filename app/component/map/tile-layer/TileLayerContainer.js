@@ -87,7 +87,6 @@ const PopupOptions = {
 
 // TODO eslint doesn't know that TileLayerContainer is a react component,
 //      because it doesn't inherit it directly. This will force the detection
-//      once eslint-plugin-react has a new release (https://github.com/yannickcr/eslint-plugin-react/pull/513)
 /** @extends React.Component */
 class TileLayerContainer extends MapLayer {
   static propTypes = {
@@ -142,15 +141,13 @@ class TileLayerContainer extends MapLayer {
       /* eslint-disable no-underscore-dangle */
       activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
       /* eslint-enable no-underscore-dangle */
-      activeTiles.forEach((tile) => {
-        /* eslint-disable no-unused-expressions */
+      activeTiles.forEach(tile =>
         tile.el.layers && tile.el.layers.forEach((layer) => {
           if (layer.onTimeChange) {
             layer.onTimeChange();
           }
-        });
-        /* eslint-enable no-unused-expressions */
-      });
+        }),
+      );
     }
   }
 

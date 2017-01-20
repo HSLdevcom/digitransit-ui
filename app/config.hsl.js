@@ -131,7 +131,6 @@ export default {
 
   shouldShowIntro: true,
 
-  /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
       about: 'Tervetuloa Reittioppaaseen! Reittiopas kertoo, miten pääset nopeasti ja helposti perille joukkoliikenteellä Helsingissä, Espoossa, Vantaalla, Kauniaisissa, Keravalla, Kirkkonummella ja Sipoossa. Reittiopas etsii nopeat reitit myös kävelyyn ja pyöräilyyn sekä rajatusti myös yksityisautoiluun. Reittiopas-palvelun tarjoaa HSL Helsingin seudun liikenne, ja se perustuu Digitransit-palvelualustaan.',
@@ -151,9 +150,7 @@ export default {
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
   },
-  /* eslint-enable max-len*/
 
-  /* eslint-disable max-len*/
   staticMessages: [{
     id: 1,
 
@@ -174,5 +171,4 @@ export default {
       },
     },
   }],
-  /* eslint-enable max-len*/
 };

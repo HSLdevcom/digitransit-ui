@@ -408,7 +408,6 @@ export default {
     { icon: 'icon-icon_airplane', label: 'Rovaniemen lentoasema', lat: 66.557326, lon: 25.828135 },
   ],
 
-  /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
       about: 'Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
@@ -432,9 +431,7 @@ export default {
     fr: {},
     de: {},
   },
-  /* eslint-enable max-len*/
 
-  /* eslint-disable max-len*/
   staticMessages: [{
     id: 1,
 
@@ -455,6 +452,5 @@ export default {
       },
     },
   }],
-  /* eslint-enable max-len*/
 
 };
