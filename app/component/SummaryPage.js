@@ -254,8 +254,6 @@ class SummaryPage extends React.Component {
 }
 
 
-export const customizableParameters = SummaryPage.customizableParameters;
-
 export default Relay.createContainer(SummaryPage, {
   fragments: {
     plan: () => Relay.QL`
