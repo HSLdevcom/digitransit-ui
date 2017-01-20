@@ -1,6 +1,6 @@
 const CONFIG = process.env.CONFIG || 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const APP_DESCRIPTION = 'HSL:n uuden Reittioppaan kokeiluversio.';
+const APP_DESCRIPTION = 'Helsingin seudun liikenteen uusi Reittiopas.';
 
 export default {
   CONFIG,
@@ -71,8 +71,15 @@ export default {
     title: 'Uusi Reittiopas',
     description: APP_DESCRIPTION,
 
+    image: {
+      url: '/img/hsl-icons/social-share.png',
+      width: 400,
+      height: 400,
+    },
+
     twitter: {
-      site: '@hsldevcom',
+      card: 'summary',
+      site: '@HSL_HRT',
     },
   },
 

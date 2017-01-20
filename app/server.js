@@ -9,7 +9,7 @@ import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware, retryMiddleware } from 'react-relay-network-layer';
-import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
+import provideContext from 'fluxible-addons-react/provideContext';
 
 // Libraries
 import serialize from 'serialize-javascript';
@@ -43,8 +43,17 @@ function getStringOrArrayElement(arrayOrString, index) {
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
-const networkLayer = new RelayNetworkLayer([
+const defaultNetworkLayer = new RelayNetworkLayer([
   retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
+  urlMiddleware({
+    url: `${config.URL.OTP}index/graphql`,
+    batchUrl: `${config.URL.OTP}index/graphql/batch`,
+  }),
+  gqErrorsMiddleware(),
+], { disableBatchQuery: false });
+
+const robotNetworkLayer = new RelayNetworkLayer([
+  retryMiddleware({ fetchTimeout: 10000, retryDelays: [] }),
   urlMiddleware({
     url: `${config.URL.OTP}index/graphql`,
     batchUrl: `${config.URL.OTP}index/graphql/batch`,
@@ -157,16 +166,24 @@ function getScripts(req) {
   ];
 }
 
+const ContextProvider = provideContext(IntlProvider, {
+  config: React.PropTypes.object,
+  url: React.PropTypes.string,
+  headers: React.PropTypes.object,
+});
+
 function getContent(context, renderProps, locale, userAgent) {
   // TODO: This should be moved to a place to coexist with similar content from client.js
   return ReactDOM.renderToString(
-    <FluxibleComponent context={context.getComponentContext()}>
-      <IntlProvider locale={locale} messages={translations[locale]}>
-        <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent })}>
-          {IsomorphicRouter.render(renderProps)}
-        </MuiThemeProvider>
-      </IntlProvider>
-    </FluxibleComponent>,
+    <ContextProvider
+      locale={locale}
+      messages={translations[locale]}
+      context={context.getComponentContext()}
+    >
+      <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent })}>
+        {IsomorphicRouter.render(renderProps)}
+      </MuiThemeProvider>
+    </ContextProvider>,
   );
 }
 
@@ -194,6 +211,11 @@ function getHtml(context, locale, [polyfills, relayData], req) {
   );
 }
 
+const isRobotRequest = agent =>
+  agent &&
+  (agent.indexOf('facebook') !== -1 ||
+   agent.indexOf('Twitterbot') !== -1);
+
 export default function (req, res, next) {
    // 1. use locale from cookie (user selected) 2. browser preferred 3. default
   let locale = req.cookies.lang ||
@@ -207,7 +229,7 @@ export default function (req, res, next) {
     res.cookie('lang', locale);
   }
 
-  const context = application.createContext();
+  const context = application.createContext({ url: req.url, headers: req.headers });
 
   // required by material-ui
   global.navigator = { userAgent: req.headers['user-agent'] };
@@ -225,8 +247,13 @@ export default function (req, res, next) {
     } else if (!renderProps) {
       res.status(404).send('Not found');
     } else {
+      const agent = req.headers['user-agent'];
+      let networkLayer = defaultNetworkLayer;
+      if (isRobotRequest(agent)) {
+        networkLayer = robotNetworkLayer;
+      }
       const promises = [
-        getPolyfills(req.headers['user-agent']),
+        getPolyfills(agent),
         // Isomorphic rendering is ok to fail due timeout
         IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];

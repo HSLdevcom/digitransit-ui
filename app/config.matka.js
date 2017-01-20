@@ -21,10 +21,6 @@ export default {
     title: 'Matka.fi',
     description: APP_DESCRIPTION,
     locale: 'fi_FI',
-
-    twitter: {
-      site: '@hsldevcom',
-    },
   },
 
   meta: {

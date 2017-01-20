@@ -10,7 +10,7 @@ const getAppleTouchIcon = size => ({
 });
 
 
-export default function getMetadata(lang) {
+export default function getMetadata(lang, host, url) {
   return {
     title: config.title,
 
@@ -52,7 +52,7 @@ export default function getMetadata(lang) {
       content: '#fff',
     }, {
       property: 'og:url',
-      content: `${root}/`,
+      content: `https://${host}${url}`,
     }, {
       property: 'og:type',
       content: 'website',
@@ -67,25 +67,34 @@ export default function getMetadata(lang) {
       content: config.socialMedia.description,
     }, {
       property: 'og:image',
-      content: `${root}/img/${configPath}-icons/social-share.png`,
+      content: `https://${host}${config.socialMedia.image.url}`,
+    }, {
+      property: 'og:image:width',
+      content: config.socialMedia.image.width,
+    }, {
+      property: 'og:image:height',
+      content: config.socialMedia.image.height,
     }, {
       property: 'og:locale',
       content: config.socialMedia.locale,
     }, {
-      name: 'twitter:card',
-      content: 'summary_large_image',
+      property: 'twitter:card',
+      content: config.socialMedia.twitter.card,
     }, {
-      name: 'twitter:site',
+      property: 'twitter:site',
       content: config.socialMedia.twitter.site,
     }, {
-      name: 'twitter:title',
+      property: 'twitter:creator',
+      content: config.socialMedia.twitter.site,
+    }, {
+      property: 'twitter:title',
       content: config.socialMedia.title,
     }, {
-      name: 'twitter:description',
+      property: 'twitter:description',
       content: config.socialMedia.description,
     }, {
-      name: 'twitter:image',
-      content: `${root}/img/${configPath}-icons/social-share.png`,
+      property: 'twitter:image',
+      content: `https://${host}${config.socialMedia.image.url}`,
     }],
 
     link: [{

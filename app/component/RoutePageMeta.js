@@ -5,18 +5,17 @@ import getContext from 'recompose/getContext';
 import compose from 'recompose/compose';
 import { intlShape } from 'react-intl';
 
-const StopPageMeta = compose(
+const RoutePageMeta = compose(
   getContext({ intl: intlShape }),
-  mapProps(({ intl, params, stop }) => {
+  mapProps(({ intl, route }) => {
     const title = intl.formatMessage({
-      id: params.stopId ? 'stop-page.title' : 'terminal-page.title',
-      defaultMessage:
-        params.stopId ? 'Stop - {name} {code}' : 'Terminal - {name}',
-    }, stop);
+      id: 'route-page.title',
+      defaultMessage: 'Route - {shortName}',
+    }, route);
     const description = intl.formatMessage({
-      id: params.stopId ? 'stop-page.description' : 'terminal-page.description',
-      defaultMessage: params.stopId ? 'Stop - {name} {code}' : 'Terminal - {name} {code}',
-    }, stop);
+      id: 'route-page.description',
+      defaultMessage: 'Route - {shortName}, {longName}',
+    }, route);
     return {
       title,
       meta: [{
@@ -40,12 +39,12 @@ const StopPageMeta = compose(
   }),
 )(Helmet);
 
-export default Relay.createContainer(StopPageMeta, {
+export default Relay.createContainer(RoutePageMeta, {
   fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        name
-        code
+    route: () => Relay.QL`
+      fragment on Route {
+        shortName
+        longName
       }
     `,
   },

@@ -190,7 +190,14 @@ export default {
     description: APP_DESCRIPTION,
     locale: 'en_US',
 
+    image: {
+      url: '/img/default-icons/social-share.png',
+      width: 2400,
+      height: 1260,
+    },
+
     twitter: {
+      card: 'summary_large_image',
       site: '@hsldevcom',
     },
   },
