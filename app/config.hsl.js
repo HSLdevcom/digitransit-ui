@@ -79,7 +79,7 @@ export default {
 
     twitter: {
       card: 'summary',
-      site: '@hsldevcom',
+      site: '@HSL_HRT',
     },
   },
 

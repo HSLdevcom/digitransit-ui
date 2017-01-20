@@ -288,7 +288,8 @@ const routes = (
                   System.import('./component/PatternStopsContainer').then(getDefault),
                   System.import('./component/RoutePageMeta').then(getDefault),
                 ]).then(
-                  ([title, header, map, content, meta]) => cb(null, { title, header, map, content, meta }),
+                  ([title, header, map, content, meta]) =>
+                    cb(null, { title, header, map, content, meta }),
                 );
               }}
               queries={{
@@ -298,7 +299,8 @@ const routes = (
                 content: PatternQueries,
                 meta: RouteQueries,
               }}
-              render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+              render={{ title: ({ props, element }) =>
+                React.cloneElement(element, props) }}
               fullscreenMap
             />
             <Route
@@ -311,7 +313,8 @@ const routes = (
                   System.import('./component/TripStopsContainer').then(getDefault),
                   System.import('./component/RoutePageMeta').then(getDefault),
                 ]).then(
-                  ([title, header, map, content, meta]) => cb(null, { title, header, map, content, meta }),
+                  ([title, header, map, content, meta]) =>
+                    cb(null, { title, header, map, content, meta }),
                 );
               }}
               queries={{
@@ -339,7 +342,8 @@ const routes = (
                 System.import('./component/RouteMapContainer').then(getDefault),
                 System.import('./component/RouteScheduleContainer').then(getDefault),
                 System.import('./component/RoutePageMeta').then(getDefault),
-              ]).then(([title, header, map, content, meta]) => cb(null, { title, header, map, content, meta }));
+              ]).then(([title, header, map, content, meta]) =>
+                cb(null, { title, header, map, content, meta }));
             }}
             queries={{
               title: RouteQueries,
