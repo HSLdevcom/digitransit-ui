@@ -1,18 +1,19 @@
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
-import getLegText from '../util/leg-text-util';
 import { displayDistance } from '../util/geo-utils';
 import RouteNumber from './RouteNumber';
+import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
-
-export default function SummaryRow(props, { breakpoint }) {
+// XXX fix visual test, now only mobile layout is tested
+export default function SummaryRow(props, { breakpoint, intl: { formatMessage } }) {
   let mode;
+  let routeNumber;
   const data = props.data;
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -32,7 +33,7 @@ export default function SummaryRow(props, { breakpoint }) {
 
   let lastLegRented = false;
 
-  data.legs.forEach((leg, i) => {
+  data.legs.forEach((leg) => {
     if (leg.rentedBike && lastLegRented) {
       return;
     }
@@ -46,19 +47,33 @@ export default function SummaryRow(props, { breakpoint }) {
         mode = 'CITYBIKE';
       }
 
+      if (leg.route) {
+        routeNumber = (
+          <RouteNumberContainer
+            route={leg.route}
+            className={cx('line', mode.toLowerCase())}
+            vertical
+          />
+        );
+      } else {
+        routeNumber = (
+          <RouteNumber
+            mode={mode}
+            text={''}
+            className={cx('line', mode.toLowerCase())}
+            vertical
+          />
+        );
+      }
+
       legs.push(
-        <div key={i} className="leg">
+        <div key={`${leg.mode}_${leg.startTime}`} className="leg">
           {breakpoint === 'large' &&
             <div className="departure-stop overflow-fade">
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
             </div>
           }
-          <RouteNumber
-            mode={mode}
-            text={getLegText(leg)}
-            className={cx('line', mode.toLowerCase())}
-            vertical
-          />
+          {routeNumber}
         </div>,
       );
     }
@@ -89,6 +104,7 @@ export default function SummaryRow(props, { breakpoint }) {
     open: props.open || props.children,
   }]);
 
+  const itineraryLabel = formatMessage({ id: 'itinerary-page.title', defaultMessage: 'Itinerary' });
   return (
     <div
       className={classes}
@@ -105,22 +121,24 @@ export default function SummaryRow(props, { breakpoint }) {
       </div>
       {props.open || props.children ? [
         <FormattedMessage
+          key="title"
           id="itinerary-page.title"
           defaultMessage="Itinerary"
           tagName="h2"
         />,
-        <div
+        <button
+          title={itineraryLabel}
           key="arrow"
-          className="action-arrow-click-area"
+          className="action-arrow-click-area noborder flex-vertical"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow">
+          <div className="action-arrow flex-grow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
-        </div>,
+        </button>,
         props.children,
       ] : [
         <div
@@ -136,18 +154,19 @@ export default function SummaryRow(props, { breakpoint }) {
         <div className="itinerary-end-time" key="endtime">
           {endTime.format('HH:mm')}
         </div>,
-        <div
+        <button
+          title={itineraryLabel}
           key="arrow"
-          className="action-arrow-click-area"
+          className="action-arrow-click-area flex-vertical noborder"
           onClick={(e) => {
             e.stopPropagation();
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow">
+          <div className="action-arrow flex-grow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
-        </div>,
+        </button>,
       ]}
     </div>);
 }
@@ -165,6 +184,7 @@ SummaryRow.propTypes = {
 
 SummaryRow.contextTypes = {
   breakpoint: React.PropTypes.string,
+  intl: intlShape.isRequired,
 };
 
 SummaryRow.displayName = 'SummaryRow';
@@ -195,7 +215,7 @@ const exampleData = {
       distance: 586.4621425755712,
       duration: 120,
       rentedBike: false,
-      route: { shortName: '57' },
+      route: { shortName: '57', mode: 'BUS' },
       from: { name: 'Ilmattarentie' },
     },
     {
@@ -213,7 +233,8 @@ const exampleData = {
   ],
 };
 
-SummaryRow.description = (
+const emptyFunction = () => {};
+SummaryRow.description = () =>
   <div>
     <p>
       Displays a summary of an itinerary.
@@ -222,16 +243,16 @@ SummaryRow.description = (
       <SummaryRow
         data={exampleData}
         passive
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
+        onSelect={emptyFunction}
+        onSelectImmediately={emptyFunction}
         hash={1}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="active">
       <SummaryRow
         data={exampleData}
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
+        onSelect={emptyFunction}
+        onSelectImmediately={emptyFunction}
         hash={1}
       />
     </ComponentUsageExample>
@@ -239,10 +260,9 @@ SummaryRow.description = (
       <SummaryRow
         open
         data={exampleData}
-        onSelect={() => {}}
-        onSelectImmediately={() => {}}
+        onSelect={emptyFunction}
+        onSelectImmediately={emptyFunction}
         hash={1}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;

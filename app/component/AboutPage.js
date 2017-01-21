@@ -8,7 +8,7 @@ import Config from '../config';
 const AboutPage = ({ currentLanguage }) => {
   const about = Config.aboutThisService[currentLanguage];
   return (
-    <div className="about-page">
+    <div className="about-page fullscreen">
       <div className="page-frame fullscreen momentum-scroll">
         <h1 id="about-header">
           <FormattedMessage

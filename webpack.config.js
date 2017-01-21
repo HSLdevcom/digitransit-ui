@@ -29,9 +29,7 @@ require('babel-core/register')({
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
-const devBrowsers = ['edge 14', 'last 1 chrome version', 'Firefox ESR', 'safari 9'];
-
-const prodBrowsers = ['IE 10', '> 0.3% in FI', 'last 2 versions'];
+const prodBrowsers = ['IE 11', '> 0.3% in FI', 'last 2 versions'];
 
 function getRulesConfig(env) {
   if (env === 'development') {
@@ -44,7 +42,7 @@ function getRulesConfig(env) {
         exclude: /node_modules/,
         options: {
           presets: [
-            ['env', { targets: { browsers: devBrowsers }, modules: false }],
+            ['env', { targets: { browsers: prodBrowsers }, modules: false }],
             'react',
             'stage-2',
           ],
@@ -135,10 +133,10 @@ function getPluginsConfig(env) {
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
-          postcss: () => [autoprefixer({ browsers: ['last 3 version', '> 1%', 'IE 10'] })],
+          postcss: () => [autoprefixer({ browsers: prodBrowsers })],
         },
       }),
-      new webpack.NoErrorsPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
     ]);
   }
   return ([
@@ -187,9 +185,15 @@ function getPluginsConfig(env) {
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
-        main: [':rest:', ':externals:'],
-        additional: ['js/+([a-z0-9]).js'],
-        optional: ['css/*.css', 'js/*_theme.*.js', '*.svg', 'js/*_sprite.*.js', '*.png'],
+        main: [':rest:'],
+        additional: [
+          ':externals:',
+          'js/+([a-z0-9]).js',
+          // TODO: move the ones below back to optional after caching has been fixed.
+          'css/*.css',
+          '*.svg',
+        ],
+        optional: ['js/*_theme.*.js', 'js/*_sprite.*.js', '*.png'],
       },
       externals: ['/'],
       safeToUseOptionalCaches: true,
@@ -211,7 +215,7 @@ function getPluginsConfig(env) {
       test: /\.(js|css|html|svg)$/,
       minRatio: 0.95,
     }),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ]);
 }
 

@@ -125,7 +125,6 @@ class FeedbackPanel extends React.Component {
           <p className="feedback-question auxiliary-feedback-question">
             <FormattedMessage
               id="likely-to-use"
-              // eslint-disable-next-line
               defaultMessage="How likely would you use the new service compared to the current reittiopas.fi?"
             />
           </p>
@@ -184,7 +183,6 @@ class FeedbackPanel extends React.Component {
             <p className="feedback-question">
               <FormattedMessage
                 id="likely-to-recommend"
-                // eslint-disable-next-line
                 defaultMessage="How likely is it that you would recommend our service to a friend or colleague?"
               />
             </p>

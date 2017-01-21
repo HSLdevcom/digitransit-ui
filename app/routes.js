@@ -211,7 +211,6 @@ const routes = (
         }}
         queries={{
           header: StopQueries,
-          content: StopQueries,
           map: StopQueries,
           meta: StopQueries,
         }}
@@ -234,7 +233,7 @@ const routes = (
           Promise.all([
             System.import('./component/TerminalTitle').then(getDefault),
             System.import('./component/StopPageHeaderContainer').then(getDefault),
-            System.import('./component/StopPage').then(getDefault),
+            System.import('./component/TerminalPage').then(getDefault),
             System.import('./component/StopPageMap').then(getDefault),
             System.import('./component/StopPageMeta').then(getDefault),
           ]).then(([title, header, content, map, meta]) =>
@@ -243,7 +242,6 @@ const routes = (
         }}
         queries={{
           header: terminalQueries,
-          content: terminalQueries,
           map: terminalQueries,
           meta: terminalQueries,
         }}
@@ -265,8 +263,10 @@ const routes = (
                   System.import('./component/RoutePage').then(getDefault),
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/PatternStopsContainer').then(getDefault),
+                  System.import('./component/RoutePageMeta').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
+                  ([title, header, map, content, meta]) =>
+                    cb(null, { title, header, map, content, meta }),
                 );
               }}
               queries={{
@@ -274,6 +274,7 @@ const routes = (
                 header: RouteQueries,
                 map: PatternQueries,
                 content: PatternQueries,
+                meta: RouteQueries,
               }}
               render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
             />
@@ -285,8 +286,10 @@ const routes = (
                   System.import('./component/RoutePage').then(getDefault),
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/PatternStopsContainer').then(getDefault),
+                  System.import('./component/RoutePageMeta').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
+                  ([title, header, map, content, meta]) =>
+                    cb(null, { title, header, map, content, meta }),
                 );
               }}
               queries={{
@@ -294,8 +297,10 @@ const routes = (
                 header: RouteQueries,
                 map: PatternQueries,
                 content: PatternQueries,
+                meta: RouteQueries,
               }}
-              render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+              render={{ title: ({ props, element }) =>
+                React.cloneElement(element, props) }}
               fullscreenMap
             />
             <Route
@@ -306,8 +311,10 @@ const routes = (
                   System.import('./component/RoutePage').then(getDefault),
                   System.import('./component/RouteMapContainer').then(getDefault),
                   System.import('./component/TripStopsContainer').then(getDefault),
+                  System.import('./component/RoutePageMeta').then(getDefault),
                 ]).then(
-                  ([title, header, map, content]) => cb(null, { title, header, map, content }),
+                  ([title, header, map, content, meta]) =>
+                    cb(null, { title, header, map, content, meta }),
                 );
               }}
               queries={{
@@ -315,6 +322,7 @@ const routes = (
                 header: RouteQueries,
                 map: TripQueries,
                 content: TripQueries,
+                meta: RouteQueries,
               }}
               render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
             >
@@ -333,13 +341,16 @@ const routes = (
                 System.import('./component/RoutePage').then(getDefault),
                 System.import('./component/RouteMapContainer').then(getDefault),
                 System.import('./component/RouteScheduleContainer').then(getDefault),
-              ]).then(([title, header, map, content]) => cb(null, { title, header, map, content }));
+                System.import('./component/RoutePageMeta').then(getDefault),
+              ]).then(([title, header, map, content, meta]) =>
+                cb(null, { title, header, map, content, meta }));
             }}
             queries={{
               title: RouteQueries,
               header: RouteQueries,
               map: PatternQueries,
               content: PatternQueries,
+              meta: RouteQueries,
             }}
             render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
           />
@@ -351,12 +362,14 @@ const routes = (
               System.import('./component/RouteTitle').then(getDefault),
               System.import('./component/RoutePage').then(getDefault),
               System.import('./component/RouteAlertsContainer').then(getDefault),
-            ]).then(([title, header, content]) => cb(null, { title, header, content }));
+              System.import('./component/RoutePageMeta').then(getDefault),
+            ]).then(([title, header, content, meta]) => cb(null, { title, header, content, meta }));
           }}
           queries={{
             title: RouteQueries,
             header: RouteQueries,
             content: RouteQueries,
+            meta: RouteQueries,
           }}
           render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
         />
@@ -368,7 +381,8 @@ const routes = (
         Promise.all([
           System.import('./component/SummaryTitle').then(getDefault),
           System.import('./component/SummaryPage').then(getDefault),
-        ]).then(([title, content]) => cb(null, { title, content }));
+          System.import('./component/SummaryPageMeta').then(getDefault),
+        ]).then(([title, content, meta]) => cb(null, { title, content, meta }));
       }}
       queries={{ content: planQueries }}
       prepareParams={preparePlanParams}
@@ -394,6 +408,7 @@ const routes = (
     />
     <Route
       path="/styleguide/component/:componentName"
+      topBarOptions={{ hidden: true }}
       getComponent={(location, cb) => {
         System.import('./component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
       }}

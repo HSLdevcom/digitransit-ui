@@ -53,12 +53,6 @@ class RouteStopListContainer extends React.Component {
       `HSL:${vehicle.next_stop}`,
     );
 
-    const reverse = this.props.pattern.directionId === 0 ? 1 : 0;
-
-    const reverseVehicleStops = groupBy(vehicles[reverse], vehicle =>
-      getDistanceToNearestStop(vehicle.lat, vehicle.long, stops).stop.gtfsId,
-    );
-
     const rowClassName = this.context.breakpoint === 'large' && 'bp-large';
 
     return stops.map((stop, i) => {
@@ -73,7 +67,6 @@ class RouteStopListContainer extends React.Component {
           stop={stop}
           mode={mode}
           vehicles={vehicleStops[stop.gtfsId]}
-          reverseVehicles={reverseVehicleStops[stops[i].gtfsId]}
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? 'nearestStop' : null}
           currentTime={this.props.currentTime.unix()}
@@ -86,14 +79,8 @@ class RouteStopListContainer extends React.Component {
   }
 
   render() {
-    const rowClassName = this.context.breakpoint === 'large' && 'bp-large';
-
     return (
       <div className={cx('route-stop-list momentum-scroll', this.props.className)}>
-        <div
-          className={cx('route-stop-now-divider', rowClassName)}
-          ref={el => el && el.style.setProperty('height', `${el.parentNode.scrollHeight - 50}px`)}
-        />
         {this.getStops()}
       </div>);
   }

@@ -7,50 +7,57 @@ import without from 'lodash/without';
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import FakeSearchBar from './FakeSearchBar';
 import FakeSearchWithButtonContainer from './FakeSearchWithButtonContainer';
-import GeolocationOrInput from './GeolocationOrInput';
+import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 import Icon from './Icon';
 import { getAllEndpointLayers } from '../util/searchUtils';
+
 
 class SearchMainContainer extends React.Component {
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
     getStore: React.PropTypes.func.isRequired,
     router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     breakpoint: React.PropTypes.string.isRequired,
   };
 
   static propTypes = {
     className: React.PropTypes.string,
+    searchModalIsOpen: React.PropTypes.bool.isRequired,
+    selectedTab: React.PropTypes.string.isRequired,
   }
 
-  state = {
-    selectedTab: 'destination',
-    modalIsOpen: false,
-  };
-
-  componentDidMount() {
-    this.context.getStore('SearchStore').addChangeListener(this.onSearchChange);
+  componentDidUpdate() {
+    if (this.props.searchModalIsOpen) {
+      this.focusInput(this.props.selectedTab);
+    }
   }
-
-  componentWillUnmount() {
-    this.context.getStore('SearchStore').removeChangeListener(this.onSearchChange);
-  }
-
-  onSearchChange = payload => payload.action === 'open' && this.openDialog(payload.data);
 
   onTabChange = tab => this.changeToTab(tab.props.value)
 
   onSuggestionSelected = (name, item) => {
     if (item.properties.link) {
-      this.context.router.push(item.properties.link);
-    } else if (item.type === 'CurrentLocation') {
-      this.context.executeAction(setUseCurrent, { target: this.state.selectedTab });
+      const newLocation = {
+        ...this.context.location,
+        state: {
+          ...this.context.location.state,
+          searchModalIsOpen: false,
+        },
+        pathname: item.properties.link,
+      };
+      return this.context.router.replace(newLocation);
+    }
+
+    if (item.type === 'CurrentLocation') {
+      this.context.executeAction(setUseCurrent, {
+        target: this.props.selectedTab,
+      });
     } else {
       this.context.executeAction(setEndpoint, {
-        target: this.state.selectedTab,
+        target: this.props.selectedTab,
         endpoint: {
           lat: item.geometry.coordinates[1],
           lon: item.geometry.coordinates[0],
@@ -59,7 +66,7 @@ class SearchMainContainer extends React.Component {
       });
     }
 
-    this.closeModal();
+    return this.closeModal();
   }
 
   searchInputs = [];
@@ -72,41 +79,48 @@ class SearchMainContainer extends React.Component {
     this.openDialog(hasOrigin ? 'destination' : 'origin');
   }
 
-  openDialog(tab) {
-    this.setState({ modalIsOpen: true });
-    this.changeToTab(tab);
-  }
-
-  focusInput = value => (
-    // this.searchInputs[value].searchInput is a hack
-    this.searchInputs[value].searchInput.autowhatever.input.focus()
-  )
-
-  closeModal = () => this.setState({ modalIsOpen: false })
-
-  changeToTab(tabname) {
-    this.setState({
-      selectedTab: tabname,
-    }, () => {
-      // Cannot use setTimeout for the focus, or iOS Safari won't show the caret.
-      // Other browsers don't seem to care one way or another.
-      this.focusInput(tabname);
+  openDialog = (tab) => {
+    this.context.router.push({
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        searchModalIsOpen: true,
+        selectedTab: tab,
+      },
     });
   }
 
-  renderEndpointTab = (tabname, tablabel, type, endpoint, layers) => (
+  focusInput = value => (
+    // this.searchInputs[value] is a hack
+    this.searchInputs[value] && this.searchInputs[value].autowhatever.input.focus()
+  )
+
+  closeModal = () => this.context.router.goBack()
+
+  changeToTab(tabname) {
+    this.context.router.replace({
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        selectedTab: tabname,
+      },
+    });
+    this.focusInput(tabname);
+  }
+
+  renderEndpointTab = (tabname, tablabel, placeholder, type, endpoint, layers) => (
     <Tab
-      className={`search-header__button${this.state.selectedTab === tabname ? '--selected' : ''}`}
+      className={`search-header__button${this.props.selectedTab === tabname ? '--selected' : ''}`}
       label={tablabel}
       value={tabname}
       id={tabname}
       onActive={this.onTabChange}
-    >{this.state.selectedTab === tabname &&
-      <GeolocationOrInput
+    >{this.props.selectedTab === tabname &&
+      <SearchInputContainer
         ref={(c) => { this.searchInputs[tabname] = c; }}
         id={`search-${tabname}`}
         useCurrentPosition={endpoint.useCurrentPosition}
-        initialValue={endpoint.address}
+        placeholder={placeholder}
         type={type}
         layers={layers}
         close={this.closeModal}
@@ -123,7 +137,6 @@ class SearchMainContainer extends React.Component {
 
     const fakeSearchBar = (
       <FakeSearchBar
-        onClick={this.clickSearch}
         placeholder={destinationPlaceholder}
         id="front-page-search-bar"
       />);
@@ -144,8 +157,8 @@ class SearchMainContainer extends React.Component {
       >
         <FakeSearchWithButtonContainer fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
         <Component
-          selectedTab={this.state.selectedTab}
-          modalIsOpen={this.state.modalIsOpen}
+          selectedTab={this.props.selectedTab}
+          modalIsOpen={this.props.searchModalIsOpen}
           closeModal={this.closeModal}
         >
           {this.renderEndpointTab(
@@ -164,6 +177,10 @@ class SearchMainContainer extends React.Component {
                 ]}
               </span>
             </div>,
+            this.context.intl.formatMessage({
+              id: 'origin',
+              defaultMessage: 'Origin',
+            }),
             'endpoint',
             this.context.getStore('EndpointStore').getOrigin(),
             searchLayers,
@@ -180,6 +197,10 @@ class SearchMainContainer extends React.Component {
                 />
               </span>
             </div>,
+            this.context.intl.formatMessage({
+              id: 'place-route-or-keyword',
+              defaultMessage: 'Destination, route or stop',
+            }),
             'all',
             this.context.getStore('EndpointStore').getDestination(),
             searchLayers,

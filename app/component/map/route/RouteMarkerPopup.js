@@ -50,29 +50,31 @@ class RouteMarkerPopup extends React.Component {
   }
 
   render() {
+    let patternPath = `/linjat/${this.props.trip.route.gtfsId}/pysakit`;
+    let tripPath = patternPath;
+
+    if (this.props.trip.fuzzyTrip) {
+      patternPath += `/${this.props.trip.fuzzyTrip.pattern.code}`;
+      tripPath = `${patternPath}/${this.props.trip.fuzzyTrip.gtfsId}`;
+    }
+
+
     return (
       <div className="card">
         <RouteHeader
           route={this.props.trip.route}
-          pattern={this.props.trip.fuzzyTrip.pattern}
+          pattern={this.props.trip.fuzzyTrip && this.props.trip.fuzzyTrip.pattern}
           trip={this.props.message.tripStartTime}
           favourite={this.props.favourite}
           addFavouriteRoute={this.addAsFavouriteRoute}
         />
         <div className="bottom location">
-          <Link
-            to={`/linjat/${this.props.trip.route.gtfsId}/pysakit/${
-              this.props.trip.fuzzyTrip.pattern.code}/${this.props.trip.fuzzyTrip.gtfsId}`}
-          >
+          <Link to={tripPath} >
             <Icon img="icon-icon_time" />
             Lähdön tiedot
           </Link>
           <br />
-          <Link
-            to={`/linjat/${this.props.trip.route.gtfsId}/pysakit/${
-              this.props.trip.fuzzyTrip.pattern.code}`}
-            className="route"
-          >
+          <Link to={patternPath} className="route" >
             <Icon img={`icon-icon_${this.props.message.mode}-withoutBox`} />
             Linjan tiedot
           </Link>

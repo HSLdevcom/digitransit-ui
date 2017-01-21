@@ -20,6 +20,7 @@ class SummaryPlanContainer extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
+    breakpoint: React.PropTypes.string.isRequired,
   };
 
   onSelectActive = (index) => {
@@ -36,18 +37,31 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectImmediately = (index) => {
     if (Number(this.props.params.hash) === index) {
-      this.context.router.goBack();
+      if (this.context.breakpoint === 'large') {
+        this.context.router.replace({
+          ...this.context.location,
+          pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+        });
+      } else {
+        this.context.router.goBack();
+      }
     } else {
-      this.context.router.replace({
+      const newState = {
         ...this.context.location,
         state: { summaryPageSelected: index },
-        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
-      });
-      this.context.router.push({
-        ...this.context.location,
-        state: { summaryPageSelected: index },
-        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`,
-      });
+      };
+      const basePath = `/reitti/${this.props.params.from}/${this.props.params.to}`;
+      const indexPath = `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`;
+
+      if (this.context.breakpoint === 'large') {
+        newState.pathname = indexPath;
+        this.context.router.replace(newState);
+      } else {
+        newState.pathname = basePath;
+        this.context.router.replace(newState);
+        newState.pathname = indexPath;
+        this.context.router.push(newState);
+      }
     }
   }
 

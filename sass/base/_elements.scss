@@ -113,7 +113,7 @@ $border-radius-rounded: 30px;
   .icon.favourite {
     height: 24px;
     width: 24px;
-    stroke: $light-gray;
+    stroke: $medium-gray;
     stroke-width: 50px;
     fill: transparent;
 
@@ -168,6 +168,7 @@ $border-radius-rounded: 30px;
 }
 
 .overflow-fade {
+  overflow: hidden;
   mask-image: linear-gradient(to left, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
 }
 

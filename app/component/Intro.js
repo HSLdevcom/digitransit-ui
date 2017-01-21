@@ -1,6 +1,6 @@
 import React from 'react';
 import SwipeableViews from 'react-swipeable-views';
-import bindKeyboard from 'react-swipeable-views/lib/bindKeyboard';
+import { bindKeyboard } from 'react-swipeable-views-utils';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 
@@ -45,7 +45,7 @@ export default class Intro extends React.Component {
       tabIndex={0}
       onClick={this.onNextClick}
     >
-      <img aria-hidden="true" src={content.image} role="presentation" />
+      <img alt="" aria-hidden="true" src={content.image} role="presentation" />
       <h3>{content.header[this.context.intl.locale]}</h3>
       <span>{content.text[this.context.intl.locale]}</span>
     </button>

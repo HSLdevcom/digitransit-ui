@@ -16,7 +16,7 @@ Favourite.propTypes = {
   className: React.PropTypes.string,
 };
 
-Favourite.description = (
+Favourite.description = () =>
   <div>
     <p>
       {`This component shows whether an entity is a favourite
@@ -28,8 +28,7 @@ Favourite.description = (
     <ComponentUsageExample description="entity is not favourite">
       <Favourite addFavourite={() => {}} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 Favourite.displayName = 'Favourite';
 

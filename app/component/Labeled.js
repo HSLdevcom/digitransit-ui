@@ -24,7 +24,9 @@ Labeled.propTypes = {
 
 const exampleLabel = <span>Example label</span>;
 
-Labeled.description = (
+Labeled.displayName = 'Labeled';
+
+Labeled.description = () =>
   <div>
     <p>
       This component wraps other components into a labeled component.
@@ -32,7 +34,6 @@ Labeled.description = (
     <ComponentUsageExample>
       <Labeled label={exampleLabel} showLabel>Example content</Labeled>
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default Labeled;

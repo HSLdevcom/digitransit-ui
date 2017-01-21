@@ -6,6 +6,7 @@ import config from '../config';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
 import LangSelect from './LangSelect';
+import MainMenuLinks from './MainMenuLinks';
 
 function MainMenu(props) {
   const inquiry = (
@@ -26,19 +27,18 @@ function MainMenu(props) {
         {config.mainMenu.showInquiry && inquiry}
       </header>
       <div className="offcanvas-section">
+        {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
+          <DisruptionInfoButtonContainer />}
+      </div>
+      <div className="offcanvas-section">
         <Link id="frontpage" to="/">
           <FormattedMessage id="frontpage" defaultMessage="Front page" />
         </Link>
       </div>
-      <div className="offcanvas-section">
-        <Link id="about" to="/tietoja-palvelusta">
-          <FormattedMessage id="about-this-service" defaultMessage="About this service" />
-        </Link>
-      </div>
-      <div className="offcanvas-section">
-        {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
-          <DisruptionInfoButtonContainer />}
-      </div>
+      <MainMenuLinks
+        content={([config.appBarLink].concat(config.footer && config.footer.content) || [])
+        .filter((item => item.href || item.route))}
+      />
     </div>);
 }
 

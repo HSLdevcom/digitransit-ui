@@ -190,7 +190,14 @@ export default {
     description: APP_DESCRIPTION,
     locale: 'en_US',
 
+    image: {
+      url: '/img/default-icons/social-share.png',
+      width: 2400,
+      height: 1260,
+    },
+
     twitter: {
+      card: 'summary_large_image',
       site: '@hsldevcom',
     },
   },
@@ -401,7 +408,6 @@ export default {
     { icon: 'icon-icon_airplane', label: 'Rovaniemen lentoasema', lat: 66.557326, lon: 25.828135 },
   ],
 
-  /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
       about: 'Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
@@ -425,9 +431,7 @@ export default {
     fr: {},
     de: {},
   },
-  /* eslint-enable max-len*/
 
-  /* eslint-disable max-len*/
   staticMessages: [{
     id: 1,
 
@@ -448,6 +452,5 @@ export default {
       },
     },
   }],
-  /* eslint-enable max-len*/
 
 };

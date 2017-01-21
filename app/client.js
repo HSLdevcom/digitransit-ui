@@ -124,6 +124,8 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
     piwik: React.PropTypes.object,
     raven: React.PropTypes.object,
+    url: React.PropTypes.string,
+    headers: React.PropTypes.object,
   });
 
   // init geolocation handling

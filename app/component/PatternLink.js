@@ -3,10 +3,10 @@ import { Link } from 'react-router';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
 
-function PatternLink({ mode, pattern, route, fullscreenMap, reverse = false, selected = false }) {
+function PatternLink({ mode, pattern, route, fullscreenMap, selected = false }) {
   const imgName = `icon-icon_${mode}-live`;
   const icon = (selected && (<SelectedIconWithTail img={imgName} fullscreenMap={fullscreenMap} />))
-    || (<IconWithTail desaturate img={imgName} rotate={reverse ? 0 : 180} />);
+    || (<IconWithTail desaturate img={imgName} rotate={180} />);
 
   return (<Link
     to={`/linjat/${route}/pysakit/${pattern}`}
@@ -19,7 +19,6 @@ PatternLink.propTypes = {
   pattern: React.PropTypes.string.isRequired,
   route: React.PropTypes.string.isRequired,
   fullscreenMap: React.PropTypes.bool,
-  reverse: React.PropTypes.bool,
   selected: React.PropTypes.bool,
 };
 
