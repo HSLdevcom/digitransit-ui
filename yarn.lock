@@ -3058,10 +3058,6 @@ forwarded@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.0.tgz#19ef9874c4ae1c297bcf078fde63a09b66a84363"
 
-foundation-apps@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/foundation-apps/-/foundation-apps-1.2.0.tgz#efa154406a0c4f40715e100f072af0e460bbe96b"
-
 fresh@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.3.0.tgz#651f838e22424e7566de161d8358caa199f83d4f"
