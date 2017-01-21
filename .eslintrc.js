@@ -14,6 +14,7 @@ module.exports = {
     // TODO: https://github.com/yannickcr/eslint-plugin-react/issues/811
     'react/no-unused-prop-types': ['off', { skipShapeProps: true }],
     'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
+    'react/require-default-props': 'warn',
     'jsx-a11y/no-static-element-interactions': 'warn',
     'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
     'compat/compat': 'error',
