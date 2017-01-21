@@ -28,7 +28,7 @@ export default class MobileItineraryWrapper extends React.Component {
     return itineraries.map((itinerary, i) => (
       <Tab
         selected={i === selectedIndex}
-        key={i}
+        key={i} // eslint-disable-line react/no-array-index-key
         label="•"
         value={i}
         className={i === selectedIndex ? 'itinerary-tab-root--selected' : 'itinerary-tab-root'}

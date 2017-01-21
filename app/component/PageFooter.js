@@ -5,13 +5,14 @@ import FooterItem from './FooterItem';
 const PageFooter = ({ content }) => (<div id="page-footer">
   {content.map((link, i) => (
     (Object.keys(link).length === 0)
+      // eslint-disable-next-line react/no-array-index-key
       ? <span className="footer-separator" key={i} />
       : <FooterItem key={link.label || link.name} {...link} />))}
 </div>);
 
 
 PageFooter.propTypes = {
-  content: PropTypes.arrayOf(FooterItem.propTypes),
+  content: PropTypes.arrayOf(PropTypes.shape(FooterItem.propTypes)),
 };
 
 PageFooter.defaultProps = {
