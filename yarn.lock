@@ -8296,7 +8296,3 @@ zip-stream@~0.5.0:
     compress-commons "~0.2.0"
     lodash "~3.2.0"
     readable-stream "~1.0.26"
-
-zurb-foundation-5@5.4.7:
-  version "5.4.7"
-  resolved "https://registry.yarnpkg.com/zurb-foundation-5/-/zurb-foundation-5-5.4.7.tgz#bd94bbe93c94b3a6b226ac2fde0ebeedd664e024"
