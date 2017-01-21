@@ -4,21 +4,13 @@
   Foundation css is loaded before this
 */
 
-@media #{$small-up} {
-  // https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/
-  .momentum-scroll {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
+// https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/
+.momentum-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-@media #{$large-up} {
-  .momentum-scroll {
-    overflow-y: auto;
-  }
-}
-
-@media #{$small-only} {
+@media (max-width: 900px) {
   .modal  {
     width: 90% !important;
   }

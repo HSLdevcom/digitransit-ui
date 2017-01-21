@@ -44,10 +44,6 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/splash';
 @import '../app/component/documentation';
 
-/* Modal */
-@import '../node_modules/foundation-apps/scss/helpers/breakpoints';
-@import '../node_modules/foundation-apps/scss/components/modal';
-
 // And these application specific styles use Foundation variables,
 // so they have to be loaded afterwards
 @import '../app/component/search';
