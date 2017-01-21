@@ -6,7 +6,6 @@ import Icon from './Icon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
 import CardStopCode from './atom/CardStopCode';
-import config from '../config';
 
 const IconWrapper = styled.div`
   font-size: 32px;
