@@ -1,5 +1,3 @@
-/* Calculate some extra width for typeahead results*/
-$search-result-width: grid-calc($total-columns+1, $total-columns) + 1;
 $search-result-background-color: $white;
 $search-result-text-font-family: $font-family;
 $search-result-text-font-weight: $font-weight-book;
@@ -231,7 +229,10 @@ $search-header-height: 45px;
     }
   }
   .input-placeholder {
-      @include form-element();
+      display: block;
+      padding: .25rem;
+      width: 100%;
+      transition: box-shadow .45s,border-color .45s ease-in-out;
       height: 60px;
       font-size:18px;
       text-align: left;
