@@ -19,8 +19,8 @@
 }
 
 @media #{$small-only} {
-  #app .modal  {
-    width: 90%;
+  .modal  {
+    width: 90% !important;
   }
 }
 

@@ -53,27 +53,21 @@ $border-radius-rounded: 30px;
 }
 
 /* Modal */
-#app .modal {
+.modal {
   border-radius: $border-radius;
-  padding: 10px 22px;
   max-height: 85%;
   cursor: auto;
 
   p  {
     margin: 10px 0;
   }
-  .modal-wrapper  {
-    height: 100%;
-  }
   .modal-content  {
+    color: $black;
     max-height: 64vh;
     overflow-y: auto;
     section {
       padding-bottom: 20px;
     }
-  }
-  .modal-top-nav {
-    padding-top: 10px;
   }
   .disruption-header  {
     .line {
