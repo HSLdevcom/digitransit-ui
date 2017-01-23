@@ -50,7 +50,15 @@ function getChild(child) {
   );
 }
 
-export default function ComponentUsageExample({ description, children }) {
+export default function ComponentUsageExample({ description, children }, { componentOnly }) {
+  if (componentOnly) {
+    return (<div className="component-example component-example-large-vertical-padding">
+      <div className="component">
+        {children}
+      </div>
+    </div>);
+  }
+
   let wrappedDescription = '';
 
   if (description) {
@@ -67,4 +75,8 @@ export default function ComponentUsageExample({ description, children }) {
 ComponentUsageExample.propTypes = {
   description: PropTypes.node,
   children: PropTypes.node,
+};
+
+ComponentUsageExample.contextTypes = {
+  componentOnly: PropTypes.bool,
 };

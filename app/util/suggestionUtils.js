@@ -24,10 +24,12 @@ export const getLabel = memoize((suggestion) => {
     case 'route-FERRY':
     case 'route-AIRPLANE':
       return suggestion.shortName ? [(
-        <span>
+        <span key={suggestion.gtfsId}>
           <span className={suggestion.mode.toLowerCase()}>{suggestion.shortName}</span>
-          &nbsp;-&nbsp;
-          <FormattedMessage id="route" defaultMessage="Route" />
+          <span className="suggestion-type">
+            &nbsp;-&nbsp;
+            <FormattedMessage id="route" defaultMessage="Route" />
+          </span>
         </span>
       ), suggestion.longName] : [suggestion.longName, null];
     case 'venue': {
@@ -45,7 +47,9 @@ export const getLabel = memoize((suggestion) => {
     case 'stop':
       return suggestion.source === 'gtfs' ?
         [suggestion.name || suggestion.label, getLocality(suggestion)] : [suggestion.name, (
-          <span>{suggestion.code && <StopCode code={suggestion.code} />} {suggestion.desc}</span>
+          <span key={suggestion.id}>
+            {suggestion.code && <StopCode code={suggestion.code} />} {suggestion.desc}
+          </span>
         )];
     case 'station':
       return [suggestion.name || suggestion.label, getLocality(suggestion)];

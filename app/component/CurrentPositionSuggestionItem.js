@@ -47,7 +47,7 @@ const exampleItem = {
   properties: { labelId: 'own-position', layer: 'currentPosition' },
 };
 
-CurrentPositionSuggestionItem.description = (
+CurrentPositionSuggestionItem.description = () =>
   <div>
     <ComponentUsageExample description="With position">
       <CurrentPositionSuggestionItemComponent havePosition item={exampleItem} />
@@ -55,7 +55,6 @@ CurrentPositionSuggestionItem.description = (
     <ComponentUsageExample description="No position">
       <CurrentPositionSuggestionItemComponent item={exampleItem} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default CurrentPositionSuggestionItem;

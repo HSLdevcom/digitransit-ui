@@ -21,9 +21,10 @@ const IconWithBigCaution = props => (
 IconWithBigCaution.displayName = 'IconWithBigCaution';
 
 
-IconWithBigCaution.description = (<ComponentUsageExample description="Bus with caution">
-  <IconWithBigCaution className="bus" img={'icon-icon_bus'} />
-</ComponentUsageExample>);
+IconWithBigCaution.description = () =>
+  <ComponentUsageExample description="Bus with caution">
+    <IconWithBigCaution className="bus" img={'icon-icon_bus'} />
+  </ComponentUsageExample>;
 
 
 IconWithBigCaution.propTypes = {

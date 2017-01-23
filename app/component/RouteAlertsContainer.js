@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import moment from 'moment';
 import find from 'lodash/find';
+import upperFirst from 'lodash/upperFirst';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteAlertsRow from './RouteAlertsRow';
@@ -44,36 +45,20 @@ const getAlerts = (route, currentTime, intl) => {
       description = description.text;
     }
 
-    let endTime = moment(alert.effectiveEndDate * 1000);
-    let day;
-    switch (currentTime.diff(endTime, 'days')) {
-      case 0:
-        day = <FormattedMessage id="today" defaultMessage="Today" />;
-        break;
-      case 1:
-        day = <FormattedMessage id="yesterday" defaultMessage="Yesterday" />;
-        break;
-      default:
-        day = intl.formatDate(endTime);
-    }
-    endTime = intl.formatTime(endTime);
-    const startTime = intl.formatTime(moment(alert.effectiveStartDate * 1000));
-    const expired = endTime < currentTime;
-
+    const startTime = moment(alert.effectiveStartDate * 1000);
+    const endTime = moment(alert.effectiveEndDate * 1000);
+    const sameDay = startTime.isSame(endTime, 'day');
 
     return (
       <RouteAlertsRow
         key={alert.id}
-        {...{
-          routeMode,
-          routeLine,
-          header,
-          description,
-          day,
-          endTime,
-          startTime,
-          expired,
-        }}
+        routeMode={routeMode}
+        routeLine={routeLine}
+        header={header}
+        description={description}
+        endTime={sameDay ? intl.formatTime(endTime) : upperFirst(endTime.calendar(currentTime))}
+        startTime={upperFirst(startTime.calendar(currentTime))}
+        expired={startTime > currentTime || currentTime > endTime}
       />);
   });
 };

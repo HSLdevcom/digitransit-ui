@@ -9,7 +9,7 @@ const ItinerarySummary = ({ itinerary, children }) => (
     <WalkDistance walkDistance={itinerary.walkDistance} />
   </div>);
 
-ItinerarySummary.description =
+ItinerarySummary.description = () =>
   "Displays itinerary summary row; itinerary's duration and walk distance";
 
 ItinerarySummary.propTypes = {

@@ -9,7 +9,6 @@ import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import { executeSearch, executeSearchImmediate } from '../util/searchUtils';
 import { getLabel } from '../util/suggestionUtils';
 import { saveSearch } from '../action/SearchActions';
-import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 
 const L = isBrowser ? require('leaflet') : null;
@@ -26,7 +25,6 @@ export default class SearchInputContainer extends Component {
     onSuggestionSelected: PropTypes.func.isRequired,
     className: PropTypes.string,
     id: PropTypes.string,
-    initialValue: PropTypes.string,
     placeholder: PropTypes.string,
     children: PropTypes.node,
     close: PropTypes.func.isRequired,
@@ -37,7 +35,6 @@ export default class SearchInputContainer extends Component {
   state = {
     focusedItemIndex: 0,
     suggestions: [],
-    value: this.props.initialValue,
     type: 'endpoint',
   };
 
@@ -293,7 +290,7 @@ export default class SearchInputContainer extends Component {
     const inputValue = (
       this.state.value != null &&
         typeof this.state.value === 'string' &&
-        this.state.value.length >= 0 ? this.state.value : this.props.initialValue
+        this.state.value.length >= 0 ? this.state.value : null
     ) || '';
 
     return (
@@ -321,15 +318,6 @@ export default class SearchInputContainer extends Component {
             onTouchStart: this.handleOnTouchStart,
           }}
         />
-        {inputValue.length > 0 ? (
-          <div
-            className="clear-icon"
-            onClick={this.clearInput}
-          >
-            <Icon img="icon-icon_close" />
-          </div>
-        ) : false
-        }
         {this.props.children}
       </div>);
   }

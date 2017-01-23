@@ -31,6 +31,8 @@ class TopLevel extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     intl: intlShape,
+    url: React.PropTypes.string.isRequired,
+    headers: React.PropTypes.object.isRequired,
   };
 
   static childContextTypes = {
@@ -53,7 +55,9 @@ class TopLevel extends React.Component {
 
   render() {
     configureMoment(this.context.intl.locale);
-    const metadata = meta(this.context.intl.locale);
+    const host = this.context.headers && this.context.headers.host;
+    const url = this.context.url;
+    const metadata = meta(this.context.intl.locale, host, url);
     const topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
 
     const disableMapOnMobile = some(this.props.routes, route => route.disableMapOnMobile);
@@ -85,7 +89,7 @@ class TopLevel extends React.Component {
 
     return (
       <div className="fullscreen">
-        <AppBarContainer title={this.props.title} {...topBarOptions} />
+        {!topBarOptions.hidden && <AppBarContainer title={this.props.title} {...topBarOptions} />}
         <Helmet {...metadata} />
         <section ref="content" className="content" style={{ height: `calc(100% - ${menuHeight})` }}>
           {this.props.meta}

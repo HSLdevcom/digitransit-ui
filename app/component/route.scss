@@ -72,18 +72,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   flex-grow: 20;
   flex-basis: 0;
   position: relative;
-
-  .route-stop-now-divider {
-    position: absolute;
-    height: calc(100% - 9px);
-    left: 38px;
-    top: 9px;
-    border-left: 2px dashed $light-gray;
-
-    &.bp-large {
-      left: 79px;
-    }
-  }
 }
 
 // each stop row
@@ -106,23 +94,15 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     padding: 6px 10px 8px 20px;
 
     .route-stop-now {
-      width: 59px;
+      width: 90px;
       .tail-icon {
         font-size: 5.5em;
-        left: -23px;
+        left: -20px;
 
         &.selected-tail-icon {
           font-size: 8em;
           left: -43px;
         }
-      }
-    }
-
-    .route-stop-now-reverse {
-      width: 107px;
-      .tail-icon {
-        font-size: 5.5em;
-        left: -9px;
       }
     }
 
@@ -138,7 +118,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
     .route-stop-name {
       font-size: 18px;
-      max-width: calc(100% - 59px - 107px - 60px - 70px);
+      max-width: calc(100% - 90px - 60px - 70px);
     }
 
     .route-stop-address {
@@ -181,19 +161,12 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 }
 .route-stop-now {
   min-height: 100%;
-  width: 40px;
+  width: 65px;
   .tail-icon {
     left: -5px;
     &.selected-tail-icon {
       left: -17px;
     }
-  }
-}
-.route-stop-now-reverse {
-  border-left: dashed 1px $light-gray;
-  width: 53px;
-  .tail-icon {
-    left: -15px;
   }
 }
 .route-stop-schematized {
@@ -204,7 +177,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   top: -4px;
 }
 .route-stop-name {
-  max-width: calc(100% - 40px - 53px - 40px - 50px);
+  max-width: calc(100% - 65px - 40px - 50px);
   margin-left: -10px;
   padding-left: 10px;
   font-size: $font-size-normal;
@@ -457,13 +430,27 @@ div.route-tabs {
       font-size: $font-size-xxsmall;
       min-width: 6em;
 
+      &.activeAlert, &.activeAlert.is-active, &.activeAlert:hover {
+        .icon {
+          fill: $cancelation-red;
+        }
+      }
+
       &.is-active {
         border-bottom: 2px solid $primary-color ;
         color: $black;
+
+        .icon {
+          fill: $black;
+        }
       }
 
       &:hover {
         color: lighten($black, 20%);
+
+        .icon {
+          fill: lighten($black, 20%);
+        }
       }
 
       > div {
@@ -484,6 +471,8 @@ div.route-tabs {
         display: block;
         width: 1.5em;
         height: 1.5em;
+        fill: $gray-blue;
+        color: $background-color;
         margin: $padding-small auto;
       }
     }
@@ -614,6 +603,7 @@ div.route-tabs {
     .route-number {
       padding-top: 0.2em;
       padding-right: 0.8em;
+      flex-shrink: 0;
 
       .icon {
         width: 1.5em;

@@ -40,7 +40,7 @@ export const asString = (props) => {
 
 IconWithTail.displayName = 'IconWithTail';
 
-IconWithTail.description = (
+IconWithTail.description = () =>
   <div>
     <p>Shows an icon from the SVG sprite and adds blue &lsquo;tail&rsquo;.</p>
     <ComponentUsageExample description="Rotate 0">
@@ -55,7 +55,7 @@ IconWithTail.description = (
     <ComponentUsageExample description="no tail">
       <IconWithTail desaturate img="icon-icon_bus-live" />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 IconWithTail.propTypes = {
   id: React.PropTypes.string,

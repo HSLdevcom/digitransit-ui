@@ -36,10 +36,11 @@ class MainMenuContainer extends Component {
 
     if (newState) {
       this.context.router.push({
-        state: { offcanvasVisible: newState },
-        pathname: this.context.location.pathname + (
-          (this.context.location.search && this.context.location.search.indexOf('mock') > -1) ?
-            '?mock' : ''),
+        ...this.context.location,
+        state: {
+          ...this.context.location.state,
+          offcanvasVisible: newState,
+        },
       });
     } else {
       this.context.router.goBack();

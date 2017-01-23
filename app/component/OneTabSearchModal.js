@@ -3,14 +3,13 @@ import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 
-import GeolocationOrInput from './GeolocationOrInput';
+import SearchInputContainer from './SearchInputContainer';
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 
 class OneTabSearchModal extends React.Component {
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     router: React.PropTypes.object,
@@ -19,30 +18,34 @@ class OneTabSearchModal extends React.Component {
   };
 
   static propTypes = {
-    closeModal: React.PropTypes.func.isRequired,
     customOnSuggestionSelected: React.PropTypes.func,
     customTabLabel: React.PropTypes.string,
     endpoint: React.PropTypes.object,
-    initialValue: React.PropTypes.string.isRequired,
-    modalIsOpen: React.PropTypes.oneOfType(
-      [React.PropTypes.bool, React.PropTypes.string]).isRequired,
     target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
     layers: React.PropTypes.array,
     responsive: React.PropTypes.bool, // a switch to force use of fullscreen modal
   };
 
   componentDidUpdate() {
-    if (this.props.modalIsOpen) {
-      setTimeout(() => this.geolocationOrInput.searchInput.autowhatever.input.focus(), 0);
+    if (this.modalIsOpen() && this.searchInputContainer) {
+      this.searchInputContainer.autowhatever.input.focus();
     }
   }
 
   onSuggestionSelected = (name, item) => {
+    const newLocation = {
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        oneTabSearchModalOpen: false,
+      },
+    };
+
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
         target: this.props.target,
         router: this.context.router,
-        location: this.context.location,
+        location: newLocation,
       });
     } else {
       this.context.executeAction(setEndpoint, {
@@ -53,15 +56,19 @@ class OneTabSearchModal extends React.Component {
           address: name,
         },
         router: this.context.router,
-        location: this.context.location,
+        location: newLocation,
       });
     }
-
-    return this.props.closeModal();
+    this.context.router.goBack();
   };
 
+  modalIsOpen = () => (
+    this.context.location.state ?
+      Boolean(this.context.location.state.oneTabSearchModalOpen) : false
+  )
+
   render() {
-    if (!this.props.modalIsOpen) {
+    if (!this.modalIsOpen()) {
       return false;
     }
 
@@ -93,20 +100,19 @@ class OneTabSearchModal extends React.Component {
         <div className={cx('fake-search-container', responsiveClass)}>
           <Component
             selectedTab="tab"
-            modalIsOpen={this.props.modalIsOpen}
-            closeModal={this.props.closeModal}
+            modalIsOpen
+            closeModal={this.context.router.goBack}
           >
             <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
-              <GeolocationOrInput
-                ref={(c) => { this.geolocationOrInput = c; }}
+              <SearchInputContainer
+                ref={(c) => { this.searchInputContainer = c; }}
                 useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
-                initialValue={placeholder ? '' : this.props.initialValue}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={this.props.layers}
                 onSuggestionSelected={
                   this.props.customOnSuggestionSelected || this.onSuggestionSelected}
-                close={this.props.closeModal}
+                close={this.context.router.goBack}
               />
             </Tab>
           </Component>

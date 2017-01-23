@@ -1,6 +1,6 @@
 const CONFIG = process.env.CONFIG || 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const APP_DESCRIPTION = 'HSL:n uuden Reittioppaan kokeiluversio.';
+const APP_DESCRIPTION = 'Helsingin seudun liikenteen uusi Reittiopas.';
 
 export default {
   CONFIG,
@@ -71,8 +71,15 @@ export default {
     title: 'Uusi Reittiopas',
     description: APP_DESCRIPTION,
 
+    image: {
+      url: '/img/hsl-icons/social-share.png',
+      width: 400,
+      height: 400,
+    },
+
     twitter: {
-      site: '@hsldevcom',
+      card: 'summary',
+      site: '@HSL_HRT',
     },
   },
 
@@ -105,6 +112,7 @@ export default {
       {},
       { name: 'footer-feedback', nameEn: 'Send feedback', href: 'https://www.hsl.fi/palaute', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      { name: 'footer-link-to-privacy-policy', nameEn: 'Privacy policy', href: 'https://www.hsl.fi/tietoa-sivustosta' },
       { name: 'footer-link-to-old', nameEn: 'Use old Journey planner', href: 'http://www.reittiopas.fi/' },
     ],
   },
@@ -123,7 +131,6 @@ export default {
 
   shouldShowIntro: true,
 
-  /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
       about: 'Tervetuloa Reittioppaaseen! Reittiopas kertoo, miten pääset nopeasti ja helposti perille joukkoliikenteellä Helsingissä, Espoossa, Vantaalla, Kauniaisissa, Keravalla, Kirkkonummella ja Sipoossa. Reittiopas etsii nopeat reitit myös kävelyyn ja pyöräilyyn sekä rajatusti myös yksityisautoiluun. Reittiopas-palvelun tarjoaa HSL Helsingin seudun liikenne, ja se perustuu Digitransit-palvelualustaan.',
@@ -143,9 +150,7 @@ export default {
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
   },
-  /* eslint-enable max-len*/
 
-  /* eslint-disable max-len*/
   staticMessages: [{
     id: 1,
 
@@ -166,5 +171,4 @@ export default {
       },
     },
   }],
-  /* eslint-enable max-len*/
 };

@@ -46,14 +46,13 @@ function Availability({ total, available, fewAvailableCount, text }) {
 
 Availability.displayName = 'Availability';
 
-Availability.description = (
+Availability.description = () =>
   <div>
     <p>Renders information about availability</p>
     <ComponentUsageExample description="">
       <Availability available={1} total={3} fewAvailableCount={3} text="Bikes available" />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 Availability.propTypes = {
   available: React.PropTypes.number.isRequired,

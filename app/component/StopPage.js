@@ -1,49 +1,41 @@
 import React from 'react';
-import Relay from 'react-relay';
-import moment from 'moment';
+import Relay, { Route } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import some from 'lodash/some';
-import mapProps from 'recompose/mapProps';
-import getContext from 'recompose/getContext';
 
-import DepartureListHeader from './DepartureListHeader';
-import DepartureListContainer from './DepartureListContainer';
+import StopPageContentContainer from './StopPageContentContainer';
 
-const DepartureListContainerWithProps = mapProps(props => ({
-  stoptimes: props.stop.stoptimes,
-  key: 'departures',
-  className: 'stop-page momentum-scroll',
-  routeLinks: true,
-  infiniteScroll: true,
-  isTerminal: !(props.params.stopId),
-  rowClasses: 'padding-normal border-bottom',
-}))(DepartureListContainer);
-
-const StopPage = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
-  some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
-    <div className="stop-page-content-wrapper">
-      <DepartureListHeader />
-      <DepartureListContainerWithProps {...props} />
-    </div>
-  )));
-
-const StopPageContainer = Relay.createContainer(StopPage, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        stoptimes: stoptimesForServiceDate(date: $date) {
-          ${DepartureListContainer.getFragment('stoptimes')}
+class StopPageContainerRoute extends Route {
+  static queries = {
+    stop: (RelayComponent, variables) => Relay.QL`
+      query {
+        stop(id: $stopId) {
+          ${RelayComponent.getFragment('stop', variables)}
         }
       }
     `,
-  },
+  };
+  static paramDefinitions = {
+    startTime: { required: true },
+    timeRange: { required: true },
+    numberOfDepartures: { required: true },
+  };
+  static routeName = 'StopPageContainerRoute';
+}
 
-  initialVariables: {
-    date: moment().format('YYYYMMDD'),
-  },
-});
+const StopPageRootContainer = routeProps => (
+  <Relay.Renderer
+    Container={StopPageContentContainer}
+    queryConfig={new StopPageContainerRoute({
+      stopId: routeProps.params.stopId,
+      ...routeProps,
+    })}
+    environment={Relay.Store}
+  />
+);
 
-export default connectToStores(StopPageContainer, ['TimeStore', 'FavouriteStopsStore'],
+export default connectToStores(StopPageRootContainer, ['TimeStore', 'FavouriteStopsStore'],
   ({ getStore }) => ({
-    date: getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
+    startTime: `${Math.floor((getStore('TimeStore').getCurrentTime().valueOf()) / 1000)}`,
+    timeRange: 3600 * 12,
+    numberOfDepartures: 100,
   }));

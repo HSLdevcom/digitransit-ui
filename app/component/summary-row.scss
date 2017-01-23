@@ -87,11 +87,9 @@
     margin-top: 3px;
     min-width: 0;
     flex: 1 1 0;
-    flex-grow: 1; //Needed on IE
 
     .leg {
       flex: 1 0 0;
-      flex-grow: 1; //Needed on IE
       overflow: hidden;
     }
 
@@ -144,6 +142,13 @@
       width: 1.3em;
       margin-left: $padding-xsmall;
       margin-top: 1px;
+      &.long {
+        @extend .overflow-fade;
+        display: inline-block;
+        width: 100%;
+        text-align: left;
+        overflow: hidden;
+      }
     }
   }
 
@@ -166,8 +171,9 @@
   }
 
   .itinerary-tab {
-    width: 100%;
+    width: calc(100% - 120px);
     margin-left: 100px;
+    margin-right: 10px;
     border-top: solid 1px $light-gray;
   }
 

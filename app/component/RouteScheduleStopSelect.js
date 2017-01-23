@@ -27,8 +27,9 @@ RouteScheduleStopSelect.propTypes = {
   options: PropTypes.array.isRequired,
   onSelectChange: PropTypes.func.isRequired,
 };
+RouteScheduleStopSelect.displayName = 'RouteScheduleStopSelect';
 
-RouteScheduleStopSelect.description = (
+RouteScheduleStopSelect.description = () =>
   <div>
     <p>
       Display a route schedule stop select using react components
@@ -40,6 +41,6 @@ RouteScheduleStopSelect.description = (
         onSelectChange={event => event.target.value}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default RouteScheduleStopSelect;

@@ -37,7 +37,7 @@ $content-background-color: $background-color;
   background: $primary-color;
   text-align: center;
   overflow: visible; // Show drawer menu
-  z-index: 803;
+  z-index: 1001;
   line-height: 35px;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
@@ -112,21 +112,30 @@ $content-background-color: $background-color;
   flex-direction: row;
 }
 
-.lang-select {
+#lang-select {
   color: white;
   border-bottom: 1px solid #262626;
-  padding: 2px 5px;
+  padding: 0px 5px;
   .lang {
+    @include font-medium
+    font-size: font-size-small;
     display: inline-block;
     text-transform: uppercase;
-    span {
-      cursor: pointer;
-      padding: 3px 8px;
-      margin: 0px 2px;
-    }
-    span.selected {
+    cursor: pointer;
+    padding: 2px 8px;
+    margin: 0px 2px;
+    &.selected {
       border-radius: 3px;
       background-color: rgba($white, 0.15);
+    }
+  }
+}
+
+.navi-languages { //desktop
+  #lang-select{
+    border-bottom: 0px;
+    .lang.selected {
+        background: rgba(0, 0, 0, 0.15);
     }
   }
 }
@@ -140,16 +149,6 @@ $content-background-color: $background-color;
   margin-bottom: 10px;
 }
 
-.navi-languages {
-  .lang-select{
-    border-bottom: 0px;
-    .lang {
-      .selected {
-        background: rgba(0, 0, 0, 0.15);
-      }
-    }
-  }
-}
 .navi-icons {
   .icon {
     font-size: 1.8em;
@@ -206,6 +205,17 @@ $content-background-color: $background-color;
 
 .offcanvas-section {
   padding: 0.5em $padding-large;
+  .footer-item {
+    margin: 0px;
+    display:inline-block;
+    font-size: $font-size-normal;
+    button {
+      font-size: $font-size-normal;
+    }
+    .icon {
+      display: none;
+    }
+  }
 }
 
 /* content */

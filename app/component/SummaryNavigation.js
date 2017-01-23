@@ -88,7 +88,7 @@ class SummaryNavigation extends React.Component {
     }
 
     return (
-      <section>
+      <div>
         <LazilyLoad modules={this.customizeSearchModules} >
           {({ Drawer, CustomizeSearch }) => (
             <Drawer
@@ -103,6 +103,7 @@ class SummaryNavigation extends React.Component {
               width={drawerWidth}
             >
               <CustomizeSearch
+                isOpen={this.getOffcanvasState()}
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
               />
@@ -121,7 +122,7 @@ class SummaryNavigation extends React.Component {
             hasChanges={!this.props.hasDefaultPreferences}
           />
         </div>
-      </section>
+      </div>
     );
   }
 }
