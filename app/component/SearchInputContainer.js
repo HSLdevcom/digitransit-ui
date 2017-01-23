@@ -270,7 +270,7 @@ export default class SearchInputContainer extends Component {
     </div>
   )
 
-  renderItem = item => { // eslint-disable-line class-methods-use-this
+  renderItem = (item) => { // eslint-disable-line class-methods-use-this
     if (item.properties.layer === 'currentPosition') {
       return (
         <CurrentPositionSuggestionItem
