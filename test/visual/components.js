@@ -22,10 +22,10 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
             capture = captureOrExampleNumber;
           }
           suite
-      .setUrl(`/styleguide/component/${componentName}`)
-      .setCaptureElements(capture)
-      .ignoreElements(ignoreElements || [])
-      .capture(variationName, {}, fn);
+            .setUrl(`/styleguide/component/${componentName}`)
+            .setCaptureElements(capture)
+            .ignoreElements(ignoreElements || [])
+            .capture(variationName, {}, fn);
           resolve(suite);
         } catch (error) {
           console.error('Error occurred while testing variation', variationName);
