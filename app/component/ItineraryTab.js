@@ -6,6 +6,7 @@ import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
+import DateWarning from './DateWarning';
 import config from '../config';
 import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
@@ -15,6 +16,7 @@ const routeInformation = config.showRouteInformation && <RouteInformation />;
 
 class ItineraryTab extends React.Component {
   static propTypes = {
+    searchTime: PropTypes.number.isRequired,
     itinerary: PropTypes.object.isRequired,
     focus: PropTypes.func.isRequired,
   };
@@ -53,9 +55,15 @@ class ItineraryTab extends React.Component {
             <TimeFrame
               startTime={this.props.itinerary.startTime}
               endTime={this.props.itinerary.endTime}
+              refTime={this.props.searchTime}
               className="timeframe--itinerary-summary"
             />
           </ItinerarySummary>
+        }
+        {this.context.breakpoint === 'large' &&
+          <div className="itinerary-timeframe">
+            <DateWarning date={this.props.itinerary.startTime} refTime={this.props.searchTime} />
+          </div>
         }
         <div className="momentum-scroll itinerary-tabs__scroll">
           <div
@@ -77,6 +85,11 @@ class ItineraryTab extends React.Component {
 
 export default Relay.createContainer(ItineraryTab, {
   fragments: {
+    searchTime: () => Relay.QL`
+      fragment on Plan {
+        date
+      }
+    `,
     itinerary: () => Relay.QL`
       fragment on Itinerary {
         walkDistance
