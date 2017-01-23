@@ -22,10 +22,10 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
             capture = captureOrExampleNumber;
           }
           suite
-      .setUrl(`/styleguide/component/${componentName}`)
-      .setCaptureElements(capture)
-      .ignoreElements(ignoreElements || [])
-      .capture(variationName, {}, fn);
+            .setUrl(`/styleguide/component/${componentName}`)
+            .setCaptureElements(capture)
+            .ignoreElements(ignoreElements || [])
+            .capture(variationName, {}, fn);
           resolve(suite);
         } catch (error) {
           console.error('Error occurred while testing variation', variationName);
@@ -177,9 +177,16 @@ testVariation('FooterItem', 'basic');
 testVariation('FooterItem', 'with-icon', 2);
 
 
-testVariation('SummaryRow', 'passive');
-testVariation('SummaryRow', 'active', 2);
-testVariation('SummaryRow', 'open', 3);
+testVariation('SummaryRow', 'passive-small-today');
+testVariation('SummaryRow', 'active-small-today', 2);
+testVariation('SummaryRow', 'passive-large-today', 3);
+testVariation('SummaryRow', 'active-large-today', 4);
+testVariation('SummaryRow', 'passive-small-tomorrow', 5);
+testVariation('SummaryRow', 'active-small-tomorrow', 6);
+testVariation('SummaryRow', 'passive-large-tomorrow', 7);
+testVariation('SummaryRow', 'active-large-tomorrow', 8);
+testVariation('SummaryRow', 'open-large-today', 9);
+testVariation('SummaryRow', 'open-large-tomorrow', 10);
 
 testVariation('CurrentPositionSuggestionItem', 'with-position');
 testVariation('CurrentPositionSuggestionItem', 'no-position', 2);
@@ -188,3 +195,5 @@ testVariation('SuggestionItem', 'Favourite');
 testVariation('SuggestionItem', 'Address', 2);
 testVariation('SuggestionItem', 'Route', 3);
 testVariation('SuggestionItem', 'Stop', 4);
+
+testVariation('DateWarning', 'tomorrow-show-warning', 2);

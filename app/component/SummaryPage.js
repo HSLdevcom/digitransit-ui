@@ -179,6 +179,7 @@ class SummaryPage extends React.Component {
       if (done) {
         content = (
           <SummaryPlanContainer
+            plan={this.props.plan.plan}
             itineraries={this.props.plan.plan.itineraries}
             params={this.props.params}
           >
@@ -241,6 +242,7 @@ class SummaryPage extends React.Component {
     } else {
       content = (
         <SummaryPlanContainer
+          plan={this.props.plan.plan}
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
         />
@@ -282,6 +284,8 @@ export default Relay.createContainer(SummaryPage, {
           arriveBy: $arriveBy,
           preferred: $preferred)
         {
+          ${SummaryPlanContainer.getFragment('plan')}
+          ${ItineraryTab.getFragment('searchTime')}
           itineraries {
             ${ItineraryTab.getFragment('itinerary')}
             ${SummaryPlanContainer.getFragment('itineraries')}
