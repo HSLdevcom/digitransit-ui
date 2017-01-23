@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -196,7 +198,7 @@ class SummaryPage extends React.Component {
         <DesktopView
           title={(
             <FormattedMessage
-              id="itinerary-summary-page.title"
+              id="summary-page.title"
               defaultMessage="Itinerary suggestions"
             />
           )}

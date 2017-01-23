@@ -14,8 +14,8 @@ import RealTimeInformationStore from './store/RealTimeInformationStore';
 import TimeStore from './store/TimeStore';
 import FavouriteCityBikeStationStore from './store/FavouriteCityBikeStationStore';
 
-const appConstructor = (config) => {
-  const app = new Fluxible({ component: routes(config) });
+const appConstructor = (Config) => {
+  const app = new Fluxible({ component: routes(Config) });
 
   app.registerStore(EndpointStore);
   app.registerStore(FavouriteLocationStore);
@@ -30,6 +30,36 @@ const appConstructor = (config) => {
   app.registerStore(RealTimeInformationStore);
   app.registerStore(TimeStore);
   app.registerStore(FavouriteCityBikeStationStore);
+
+  app.plug({
+    name: 'extra-context-plugin',
+    plugContext: (options) => {
+      let { config, url, headers } = options;
+      return {
+        plugComponentContext: (componentContext) => {
+          // eslint-disable-next-line no-param-reassign
+          componentContext.config = config;
+          // eslint-disable-next-line no-param-reassign
+          componentContext.url = url;
+          // eslint-disable-next-line no-param-reassign
+          componentContext.headers = headers;
+        },
+
+        dehydrate: () => ({
+          config,
+          url,
+          headers,
+        }),
+        rehydrate: (state) => {
+          config = state.config;
+          url = state.url;
+          headers = state.headers;
+        },
+      };
+    },
+    dehydrate: () => ({}),
+    rehydrate: () => {},
+  });
 
   return app;
 };

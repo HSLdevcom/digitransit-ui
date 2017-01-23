@@ -52,7 +52,7 @@ const exampleStop = {
   desc: 'Kaivonkatsojantie',
 };
 
-const exampleIcons = [<InfoIcon stop={exampleStop} />];
+const exampleIcons = [<InfoIcon stop={exampleStop} key="example" />];
 
 StopCardHeader.displayName = 'StopCardHeader';
 

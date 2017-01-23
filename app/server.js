@@ -37,6 +37,7 @@ const appRoot = `${process.cwd()}/`;
 // cached assets
 const configs = {};
 const networkLayers = {};
+const robotLayers = {};
 const cssDefs = {};
 const sprites = {};
 
@@ -78,6 +79,35 @@ function getStringOrArrayElement(arrayOrString, index) {
   throw new Error(`Not array or string: ${arrayOrString}`);
 }
 
+function getRobotNetworkLayer(config) {
+  if (!robotLayers[config.CONFIG]) {
+    robotLayers[config.CONFIG] = new RelayNetworkLayer([
+      retryMiddleware({ fetchTimeout: 10000, retryDelays: [] }),
+      urlMiddleware({
+        url: `${config.URL.OTP}index/graphql`,
+        batchUrl: `${config.URL.OTP}index/graphql/batch`,
+      }),
+      gqErrorsMiddleware(),
+    ], { disableBatchQuery: false });
+  }
+  return robotLayers[config.CONFIG];
+}
+
+function getNetworkLayer(config) {
+  if (!networkLayers[config.CONFIG]) {
+    networkLayers[config.CONFIG] = new RelayNetworkLayer([
+      retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
+      urlMiddleware({
+        url: `${config.URL.OTP}index/graphql`,
+        batchUrl: `${config.URL.OTP}index/graphql/batch`,
+      }),
+      gqErrorsMiddleware(),
+    ], { disableBatchQuery: false },
+    );
+  }
+  return networkLayers[config.CONFIG];
+}
+
 let stats;
 let manifest;
 
@@ -88,32 +118,17 @@ if (process.env.NODE_ENV !== 'development') {
   manifest = fs.readFileSync(`${appRoot}_static/${manifestFile}`);
 }
 
-function getNetworkLayer(config) {
-  if (!networkLayers[config.CONFIG]) {
-    networkLayers[config.CONFIG] = new RelayNetworkLayer(
-      [
-        retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
-        urlMiddleware({
-          url: `${config.URL.OTP}index/graphql`,
-          batchUrl: `${config.URL.OTP}index/graphql/batch`,
-        }),
-        gqErrorsMiddleware(),
-      ],
-      { disableBatchQuery: false },
-    );
-  }
-  return networkLayers[config.CONFIG];
-}
-
 function getCss(config) {
   if (!cssDefs[config.CONFIG]) {
     cssDefs[config.CONFIG] = [
       <link
+        key="main_css"
         rel="stylesheet"
         type="text/css"
         href={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 1)}`}
       />,
       <link
+        key="theme_css"
         rel="stylesheet"
         type="text/css"
         href={`${config.APP_PATH}/${
@@ -201,32 +216,36 @@ function getScripts(req, config) {
     return <script async src={`//${host}:${port}/js/bundle.js`} />;
   }
   return [
-    <script dangerouslySetInnerHTML={{ __html: manifest }} />,
+    <script key="manifest "dangerouslySetInnerHTML={{ __html: manifest }} />,
     <script
+      key="common_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.common, 0)}`}
     />,
     <script
+      key="leaflet_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.leaflet, 0)}`}
     />,
     <script
+      key="min_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 0)}`}
     />,
   ];
 }
 
-
 const ContextProvider = provideContext(IntlProvider, {
   config: React.PropTypes.object,
+  url: React.PropTypes.string,
+  headers: React.PropTypes.object,
 });
 
-function getContent(context, renderProps, locale, userAgent, config) {
+function getContent(context, renderProps, locale, userAgent) {
   // TODO: This should be moved to a place to coexist with similar content from client.js
 
   return ReactDOM.renderToString(
     <ContextProvider
       locale={locale}
       messages={translations[locale]}
-      context={{ ...context.getComponentContext(), config }}
+      context={context.getComponentContext()}
     >
       <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent })}>
         {IsomorphicRouter.render(renderProps)}
@@ -237,9 +256,9 @@ function getContent(context, renderProps, locale, userAgent, config) {
 
 function getHtml(application, context, locale, [polyfills, relayData], req, config) {
   // eslint-disable-next-line no-unused-vars
-  const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent'], config) : undefined;
+  const content = relayData != null ?
+        getContent(context, relayData.props, locale, req.headers['user-agent'], config) : undefined;
   const head = Helmet.rewind();
-
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
       css={process.env.NODE_ENV === 'development' ? false : getCss(config)}
@@ -260,6 +279,10 @@ function getHtml(application, context, locale, [polyfills, relayData], req, conf
   );
 }
 
+const isRobotRequest = agent =>
+  agent &&
+  (agent.indexOf('facebook') !== -1 ||
+   agent.indexOf('Twitterbot') !== -1);
 
 export default function (req, res, next) {
   let configName = process.env.CONFIG || 'default';
@@ -274,7 +297,6 @@ export default function (req, res, next) {
   }
 
   const config = getConfiguration(configName);
-  const networkLayer = getNetworkLayer(config);
   const application = appCreator(config);
 
   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
@@ -289,15 +311,16 @@ export default function (req, res, next) {
     res.cookie('lang', locale);
   }
 
-  const context = application.createContext();
+  const context = application.createContext({ url: req.url, headers: req.headers, config });
 
   context
     .getComponentContext()
     .getStore('MessageStore')
     .addConfigMessages(config);
 
+  const agent = req.headers['user-agent'];
   // required by material-ui
-  global.navigator = { userAgent: req.headers['user-agent'] };
+  global.navigator = { userAgent: agent };
 
   const location = createHistory({ basename: config.APP_PATH }).createLocation(req.url);
 
@@ -312,8 +335,14 @@ export default function (req, res, next) {
     } else if (!renderProps) {
       res.status(404).send('Not found');
     } else {
+      let networkLayer;
+      if (isRobotRequest(agent)) {
+        networkLayer = getRobotNetworkLayer(config);
+      } else {
+        networkLayer = getNetworkLayer(config);
+      }
       const promises = [
-        getPolyfills(req.headers['user-agent'], config),
+        getPolyfills(agent, config),
         // Isomorphic rendering is ok to fail due timeout
         IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];

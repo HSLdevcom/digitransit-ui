@@ -29,6 +29,7 @@ class TransitLeg extends React.Component {
     if (this.props.leg.intermediateStops.length > 0 && this.state.showIntermediateStops === true) {
       return this.props.leg.intermediateStops.map(
         stop => (<IntermediateLeg
+          key={stop.gtfsId}
           mode={this.props.mode}
           name={stop.name}
           stopCode={stop.code}
@@ -43,7 +44,7 @@ class TransitLeg extends React.Component {
     const originalTime = (
       this.props.leg.realTime &&
       this.props.leg.departureDelay >= this.context.config.itinerary.delayThreshold) &&
-      [<br />, <span className="original-time">
+      [<br key="br" />, <span key="time" className="original-time">
         {moment(this.props.leg.startTime).subtract(this.props.leg.departureDelay, 's')
           .format('HH:mm')
         }

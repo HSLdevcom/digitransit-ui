@@ -40,7 +40,8 @@ const CardHeader = ({
     ) : null}
   </div>);
 
-const exampleIcons = [<Favourite favourite={false} addFavourite={() => {}} />];
+const emptyFunction = () => {};
+const exampleIcons = [<Favourite key="favourite" favourite={false} addFavourite={emptyFunction} />];
 
 CardHeader.displayName = 'CardHeader';
 
