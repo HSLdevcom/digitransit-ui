@@ -1,17 +1,7 @@
-.icon {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  fill: currentColor;
-}
+/* Base theme */
+@import '../default/icon';
 
-/* =======================================================================================
-Example showing how to change the color/size of the icons:
-.icon-name {
-  font-size: 32px; // works because "width" & "height" were set using em units
-  color: red; // works for single-colored icons, because "fill" was set to "currentColor"
-}
-======================================================================================== */
+/* hsl specific colors */
 .fill-color1 {
   fill: #000;
 }
@@ -50,7 +40,4 @@ Example showing how to change the color/size of the icons:
 }
 .fill-color13 {
   fill: #ff6319;
-}
-.fill-color14 {
-  fill: #fff;
 }

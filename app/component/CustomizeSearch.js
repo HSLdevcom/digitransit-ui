@@ -39,7 +39,7 @@ class CustomizeSearch extends React.Component {
   };
 
   static propTypes = {
-    open: React.PropTypes.bool,
+    isOpen: React.PropTypes.bool,
     onToggleClick: React.PropTypes.func,
   };
 
@@ -78,7 +78,7 @@ class CustomizeSearch extends React.Component {
 
     return availableStreetModes.map((streetMode, index) => (
       <ToggleButton
-        key={`toggle-button${index}`}
+        key={`toggle-button-${streetMode}`}
         icon={config.streetModes[streetMode].icon}
         onBtnClick={() => this.toggleStreetMode(streetMode)}
         state={this.getMode(streetMode)}
@@ -333,6 +333,7 @@ class CustomizeSearch extends React.Component {
   render() {
     return (
       <div
+        aria-hidden={!this.props.isOpen}
         className="customize-search-wrapper"
         // Clicks to the transparent area and close arrow should close the offcanvas
         onClick={this.props.onToggleClick}
