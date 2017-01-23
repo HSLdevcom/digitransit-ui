@@ -4,6 +4,8 @@ import StopCardContainer from '../../StopCardContainer';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 
 const NUMBER_OF_DEPARTURES = 5;
+const STOP_TIME_RANGE = 12 * 60 * 60;
+const TERMINAL_TIME_RANGE = 60 * 60;
 
 function StopMarkerPopup(props) {
   const stop = props.stop || props.terminal;
@@ -16,7 +18,7 @@ function StopMarkerPopup(props) {
         numberOfDepartures={(terminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
         startTime={props.relay.variables.currentTime}
         isTerminal={terminal}
-        timeRange={(terminal ? 1 : 12) * 60 * 60}
+        timeRange={terminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
         limit={NUMBER_OF_DEPARTURES}
         className="padding-small cursor-pointer"
       />
@@ -51,7 +53,7 @@ export default Relay.createContainer(StopMarkerPopup, {
         name
         ${StopCardContainer.getFragment('stop', {
           startTime: currentTime,
-          timeRange: 24 * 60 * 60,
+          timeRange: STOP_TIME_RANGE,
           numberOfDepartures: NUMBER_OF_DEPARTURES,
         })}
       }
@@ -64,7 +66,7 @@ export default Relay.createContainer(StopMarkerPopup, {
         name
         ${StopCardContainer.getFragment('stop', {
           startTime: currentTime,
-          timeRange: 60 * 60,
+          timeRange: TERMINAL_TIME_RANGE,
           // Terminals do not show arrivals, so we need some slack
           numberOfDepartures: NUMBER_OF_DEPARTURES * 3,
         })}
