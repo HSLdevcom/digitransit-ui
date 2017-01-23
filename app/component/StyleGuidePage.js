@@ -65,6 +65,7 @@ import ExternalLink from './ExternalLink';
 import { component as SummaryRow } from './SummaryRow';
 import PageFooter from './PageFooter';
 import FooterItem from './FooterItem';
+import DateWarning from './DateWarning';
 
 const components = {
   Icon,
@@ -131,6 +132,7 @@ const components = {
   LangSelect,
   PageFooter,
   FooterItem,
+  DateWarning,
 };
 
 function getColors() {

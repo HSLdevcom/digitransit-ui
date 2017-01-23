@@ -195,3 +195,5 @@ testVariation('SuggestionItem', 'Favourite');
 testVariation('SuggestionItem', 'Address', 2);
 testVariation('SuggestionItem', 'Route', 3);
 testVariation('SuggestionItem', 'Stop', 4);
+
+testVariation('DateWarning', 'tomorrow-show-warning', 2);
