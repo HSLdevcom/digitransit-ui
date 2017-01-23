@@ -130,7 +130,7 @@
         color: $primary-font-color;
         font-size: $font-size-small;
       }
-      border-radius: 3px;
+      border-radius: $border-radius;
   }
 }
 
@@ -156,7 +156,7 @@ button.right-offcanvas-toggle {
   }
   margin: 0;
   background-color: $primary-color;
-  border-radius: 2px;
+  border-radius: $border-radius-small;
   width: auto;
   text-align: center;
   text-transform:uppercase;

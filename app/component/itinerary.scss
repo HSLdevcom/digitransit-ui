@@ -353,7 +353,7 @@ span.itinerary-stop-code {
   @include font-medium;
   color: $gray;
   border: solid 1px $light-gray;
-  border-radius: 2px;
+  border-radius: $border-radius-small;
   padding: 1px 4px;
   margin-right: 2px;
   margin-left: 3px;
@@ -480,8 +480,8 @@ div.itinerary-container-content {
   line-height: 1;
   @include font-narrow-medium;
   color: $white;
-  border-radius: 2px;
-  padding: 4px 5.5px;
+  border-radius: $border-radius-small;
+  padding: $padding-xsmall $padding-small;
 }
 
 .date-warning {

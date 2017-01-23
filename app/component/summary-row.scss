@@ -84,7 +84,7 @@
         text-transform: capitalize;
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
-        padding: 3px 5px;
+        padding: $padding-xsmall $padding-small;
         color: $white;
         background-color: $gray;
         display: inline-block;
@@ -152,7 +152,7 @@
         top: 0.875em;
 
         border: 2px solid;
-        border-radius: 2px;
+        border-radius: $border-radius-small;
       }
 
       .icon {
@@ -245,7 +245,7 @@
         @include font-narrow-book;
         font-size: $font-size-xxsmall;
         & > span {
-          border-radius: 2px;
+          border-radius: $border-radius-small;
         }
       }
     }
@@ -257,7 +257,7 @@
       .line:after {
         top: 10px;
         border-width: 3px;
-        border-radius: 3px;
+        border-radius: $border-radius;
       }
 
       .line .icon {
