@@ -46,7 +46,7 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
 
   if (breakpoint === 'large') {
     leafletObjs.push(
-      <SelectedStopPopup lat={stop.lat} lon={stop.lon}>
+      <SelectedStopPopup lat={stop.lat} lon={stop.lon} key="SelectedStopPopup">
         <SelectedStopPopupContent stop={stop} />
       </SelectedStopPopup>,
     );
