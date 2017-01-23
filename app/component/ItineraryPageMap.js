@@ -70,6 +70,7 @@ export default function ItineraryPageMap(
       disableZoom={false}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
+      hideOrigin
     >
       {breakpoint !== 'large' && overlay}
       {breakpoint !== 'large' && (
