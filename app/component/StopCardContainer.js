@@ -3,13 +3,13 @@ import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import StopCardHeaderContainer from './StopCardHeaderContainer';
-import DepartureWithoutPatternsListContainer from './DepartureWithoutPatternsListContainer';
+import DepartureListContainer from './DepartureListContainer';
 import StopCard from './StopCard';
 
 const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (context, props) =>
   ({
     isTerminal: props.isTerminal,
-    children: <DepartureWithoutPatternsListContainer
+    children: <DepartureListContainer
       rowClasses="no-padding no-margin"
       stoptimes={props.stop.stoptimes}
       limit={props.limit}
@@ -35,7 +35,7 @@ export default Relay.createContainer(StopCardContainer, {
           timeRange: $timeRange,
           numberOfDepartures: $numberOfDepartures
         ) {
-          ${DepartureWithoutPatternsListContainer.getFragment('stoptimes')}
+          ${DepartureListContainer.getFragment('stoptimes')}
         }
         ${StopCardHeaderContainer.getFragment('stop')}
       }
