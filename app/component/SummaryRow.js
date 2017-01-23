@@ -123,9 +123,8 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
         </div>
       </div>
       {props.open || props.children ? [
-        <div className="flex-grow itinerary-heading">
+        <div className="flex-grow itinerary-heading" key="title">
           <FormattedMessage
-            key="title"
             id="itinerary-page.title"
             defaultMessage="Itinerary"
             tagName="h2"
