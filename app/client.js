@@ -58,6 +58,14 @@ const ravenPlugin = {
   plugContext: plugContext(addRaven),
 };
 
+const addConfig = context =>
+ (context.config = window.config); // eslint-disable-line no-param-reassign
+
+const configPlugin = {
+  name: 'ConfigPlugin',
+  plugContext: plugContext(addConfig),
+};
+
 if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line global-require, import/no-dynamic-require
   require(`../sass/themes/${config.CONFIG}/main.scss`);
@@ -93,6 +101,7 @@ const app = appCreator(window.config);
 // Add plugins
 app.plug(piwikPlugin);
 app.plug(ravenPlugin);
+app.plug(configPlugin);
 
 // Run application
 const callback = () => app.rehydrate(window.state, (err, context) => {
