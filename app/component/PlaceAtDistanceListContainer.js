@@ -15,14 +15,15 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
           id
           __typename
           ... on DepartureRow {
-            stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
+            stoptimes (startTime:$currentTime, timeRange: $timeRange, numberOfDepartures:2) {
               serviceDay
               realtimeDeparture
             }
           }
         }
         ${PlaceAtDistanceContainer.getFragment('placeAtDistance', {
-          currentTime: variables.currentTime })},
+          currentTime: variables.currentTime,
+          timeRange: variables.timeRange })},
       }
     }
   }
@@ -31,7 +32,7 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
 const testStopTimes = stoptimes => (stoptimes && stoptimes.length > 0);
 
 /* eslint-disable no-underscore-dangle */
-const PlaceAtDistanceList = ({ places, currentTime }) => {
+const PlaceAtDistanceList = ({ places, currentTime, timeRange }) => {
   if (places && places.edges) {
     return (<div>
       {sortBy(places.edges.filter(
@@ -45,6 +46,7 @@ const PlaceAtDistanceList = ({ places, currentTime }) => {
         <PlaceAtDistanceContainer
           key={node.place.id}
           currentTime={currentTime}
+          timeRange={timeRange}
           placeAtDistance={node}
         />,
       )}
@@ -57,6 +59,7 @@ const PlaceAtDistanceList = ({ places, currentTime }) => {
 PlaceAtDistanceList.propTypes = {
   places: React.PropTypes.object.isRequired,
   currentTime: React.PropTypes.number.isRequired,
+  timeRange: React.PropTypes.number.isRequired,
 };
 
 export default Relay.createContainer(PlaceAtDistanceList, {
