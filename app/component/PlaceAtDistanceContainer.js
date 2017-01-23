@@ -10,9 +10,13 @@ const placeAtDistanceFragment = variables => Relay.QL`
     place {
       id
       __typename
-      ${DepartureRowContainer.getFragment('departure', { currentTime: variables.currentTime })}
+      ${DepartureRowContainer.getFragment('departure', {
+        currentTime: variables.currentTime,
+        timeRange: variables.timeRange,
+      })}
       ${BicycleRentalStationRowContainer.getFragment('station', {
-        currentTime: variables.currentTime })}
+        currentTime: variables.currentTime,
+      })}
     }
   }
 `;
@@ -26,6 +30,7 @@ const PlaceAtDistance = (props) => {
         distance={props.placeAtDistance.distance}
         departure={props.placeAtDistance.place}
         currentTime={props.currentTime}
+        timeRange={props.timeRange}
       />
     );
   } else if (props.placeAtDistance.place.__typename === 'BikeRentalStation') {
@@ -44,6 +49,7 @@ const PlaceAtDistance = (props) => {
 PlaceAtDistance.propTypes = {
   placeAtDistance: React.PropTypes.object.isRequired,
   currentTime: React.PropTypes.number.isRequired,
+  timeRange: React.PropTypes.number.isRequired,
 };
 
 export default Relay.createContainer(PlaceAtDistance, {
@@ -53,5 +59,6 @@ export default Relay.createContainer(PlaceAtDistance, {
 
   initialVariables: {
     currentTime: 0,
+    timeRange: 0,
   },
 });
