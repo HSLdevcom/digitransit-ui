@@ -256,7 +256,7 @@ SummaryRow.description = () => {
     </p>
       <ComponentUsageExample description="passive-small-today">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="small"
           data={exampleData(today)}
           passive
@@ -267,7 +267,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="active-small-today">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="small"
           data={exampleData(today)}
           onSelect={() => {}}
@@ -277,7 +277,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="passive-large-today">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="large"
           data={exampleData(today)}
           passive
@@ -288,7 +288,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="active-large-today">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="large"
           data={exampleData(today)}
           onSelect={() => {}}
@@ -298,7 +298,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="passive-small-tomorrow">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="small"
           data={exampleData(date)}
           passive
@@ -309,7 +309,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="active-small-tomorrow">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="small"
           data={exampleData(date)}
           onSelect={() => {}}
@@ -319,7 +319,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="passive-large-tomorrow">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="large"
           data={exampleData(date)}
           passive
@@ -330,7 +330,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="active-large-tomorrow">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="large"
           data={exampleData(date)}
           onSelect={() => {}}
@@ -340,7 +340,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="open-large-today">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="large"
           data={exampleData(today)}
           onSelect={() => {}}
@@ -351,7 +351,7 @@ SummaryRow.description = () => {
       </ComponentUsageExample>
       <ComponentUsageExample description="open-large-tomorrow">
         <SummaryRow
-          refTime={date}
+          refTime={today}
           breakpoint="large"
           data={exampleData(date)}
           onSelect={() => {}}
