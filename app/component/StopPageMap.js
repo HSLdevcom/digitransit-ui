@@ -84,9 +84,18 @@ StopPageMap.contextTypes = {
 };
 
 StopPageMap.propTypes = {
-  stop: React.PropTypes.object.isRequired,
-  routes: React.PropTypes.object.isRequired,
-  params: React.PropTypes.object.isRequired,
+  stop: React.PropTypes.shape({
+    lat: React.PropTypes.number.isRequired,
+    lon: React.PropTypes.number.isRequired,
+    platformCode: React.PropTypes.string,
+  }).isRequired,
+  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
+    fullscreenMap: React.PropTypes.string,
+  }).isRequired).isRequired,
+  params: React.PropTypes.oneOfType([
+    React.PropTypes.shape({ stopId: React.PropTypes.string.isRequired }).isRequired,
+    React.PropTypes.shape({ terminalId: React.PropTypes.string.isRequired }).isRequired,
+  ]).isRequired,
 };
 
 export default Relay.createContainer(StopPageMap, {
