@@ -9,13 +9,16 @@ const FavouriteIconTable = ({ favouriteIconIds, selectedIconId, handleClick }) =
     width: `${100 / favouriteIconIds.length}%`,
   };
 
-  const columns = favouriteIconIds.map((value, index) =>
-    (<div
-      key={index} className={cx('favourite-icon-table-column', {
-        'selected-icon': value === selectedIconId,
-      })} style={columnWidth} onClick={() => handleClick(value)}
-    ><Icon img={value} /></div>),
-  );
+  const columns = favouriteIconIds.map(value => (
+    <div
+      key={value}
+      className={cx('favourite-icon-table-column', { 'selected-icon': value === selectedIconId })}
+      style={columnWidth}
+      onClick={() => handleClick(value)}
+    >
+      <Icon img={value} />
+    </div>
+  ));
 
   return <GenericTable showLabels={false}>{columns}</GenericTable>;
 };

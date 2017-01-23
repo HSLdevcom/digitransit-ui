@@ -1,22 +1,25 @@
-import Relay from 'react-relay';
 import Helmet from 'react-helmet';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
 import compose from 'recompose/compose';
 import { intlShape } from 'react-intl';
+import { otpToLocation } from '../util/otpStrings';
 
-const StopPageMeta = compose(
+export default compose(
   getContext({ intl: intlShape }),
-  mapProps(({ intl, params, stop }) => {
+  mapProps(({ intl, params: { from, to } }) => {
+    const params = {
+      from: otpToLocation(from).address,
+      to: otpToLocation(to).address,
+    };
     const title = intl.formatMessage({
-      id: params.stopId ? 'stop-page.title' : 'terminal-page.title',
-      defaultMessage:
-        params.stopId ? 'Stop - {name} {code}' : 'Terminal - {name}',
-    }, stop);
+      id: 'summary-page.title',
+      defaultMessage: 'Itinerary suggestions',
+    }, params);
     const description = intl.formatMessage({
-      id: params.stopId ? 'stop-page.description' : 'terminal-page.description',
-      defaultMessage: params.stopId ? 'Stop - {name} {code}' : 'Terminal - {name} {code}',
-    }, stop);
+      id: 'summary-page.description',
+      defaultMessage: '{from} - {to}',
+    }, params);
     return {
       title,
       meta: [{
@@ -39,14 +42,3 @@ const StopPageMeta = compose(
     };
   }),
 )(Helmet);
-
-export default Relay.createContainer(StopPageMeta, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        name
-        code
-      }
-    `,
-  },
-});

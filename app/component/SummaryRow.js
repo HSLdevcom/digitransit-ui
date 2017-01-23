@@ -35,7 +35,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
 
   let lastLegRented = false;
 
-  data.legs.forEach((leg, i) => {
+  data.legs.forEach((leg) => {
     if (leg.rentedBike && lastLegRented) {
       return;
     }
@@ -69,7 +69,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
       }
 
       legs.push(
-        <div key={i} className="leg">
+        <div key={`${leg.mode}_${leg.startTime}`} className="leg">
           {props.breakpoint === 'large' &&
             <div className="departure-stop overflow-fade">
               &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
@@ -127,6 +127,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
       {props.open || props.children ? [
         <div className="flex-grow itinerary-heading">
           <FormattedMessage
+            key="title"
             id="itinerary-page.title"
             defaultMessage="Itinerary"
             tagName="h2"
@@ -245,6 +246,8 @@ const exampleData = t1 => ({
   ],
 });
 
+const nop = () => {};
+
 SummaryRow.description = () => {
   const today = moment().hour(12).minute(34).second(0)
     .valueOf();
@@ -260,8 +263,8 @@ SummaryRow.description = () => {
           breakpoint="small"
           data={exampleData(today)}
           passive
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
         />
       </ComponentUsageExample>
@@ -270,8 +273,8 @@ SummaryRow.description = () => {
           refTime={today}
           breakpoint="small"
           data={exampleData(today)}
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
         />
       </ComponentUsageExample>
@@ -281,8 +284,8 @@ SummaryRow.description = () => {
           breakpoint="large"
           data={exampleData(today)}
           passive
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
         />
       </ComponentUsageExample>
@@ -291,8 +294,8 @@ SummaryRow.description = () => {
           refTime={today}
           breakpoint="large"
           data={exampleData(today)}
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
         />
       </ComponentUsageExample>
@@ -302,8 +305,8 @@ SummaryRow.description = () => {
           breakpoint="small"
           data={exampleData(date)}
           passive
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
         />
       </ComponentUsageExample>
@@ -312,8 +315,8 @@ SummaryRow.description = () => {
           refTime={today}
           breakpoint="small"
           data={exampleData(date)}
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
         />
       </ComponentUsageExample>
@@ -323,8 +326,8 @@ SummaryRow.description = () => {
           breakpoint="large"
           data={exampleData(date)}
           passive
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
         />
       </ComponentUsageExample>
@@ -333,8 +336,8 @@ SummaryRow.description = () => {
           refTime={today}
           breakpoint="large"
           data={exampleData(date)}
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
         />
       </ComponentUsageExample>
@@ -343,8 +346,8 @@ SummaryRow.description = () => {
           refTime={today}
           breakpoint="large"
           data={exampleData(today)}
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
           open
         />
@@ -354,8 +357,8 @@ SummaryRow.description = () => {
           refTime={today}
           breakpoint="large"
           data={exampleData(date)}
-          onSelect={() => {}}
-          onSelectImmediately={() => {}}
+          onSelect={nop}
+          onSelectImmediately={nop}
           hash={1}
           open
         />
