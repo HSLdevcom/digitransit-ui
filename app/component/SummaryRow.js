@@ -143,7 +143,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
         </button>,
-        props.children,
+        React.cloneElement(React.Children.only(props.children), { searchTime: props.refTime }),
       ] : [
         <div
           className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}
