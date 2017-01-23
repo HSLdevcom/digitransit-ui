@@ -34,5 +34,3 @@ export const dateOrEmpty = (momentTime, momentRefTime) => {
 };
 
 export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
-
-

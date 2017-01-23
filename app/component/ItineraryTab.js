@@ -62,7 +62,7 @@ class ItineraryTab extends React.Component {
         }
         {this.context.breakpoint === 'large' &&
           <div className="itinerary-timeframe">
-            <DateWarning date={this.props.itinerary.startTime} refTime={this.props.searchTime}/>
+            <DateWarning date={this.props.itinerary.startTime} refTime={this.props.searchTime} />
           </div>
         }
         <div className="momentum-scroll itinerary-tabs__scroll">

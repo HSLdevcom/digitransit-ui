@@ -106,8 +106,6 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
     open: props.open || props.children,
   }]);
 
-  const NOW = moment();
-
   const itineraryLabel = formatMessage({ id: 'itinerary-page.title', defaultMessage: 'Itinerary' });
 
   return (
