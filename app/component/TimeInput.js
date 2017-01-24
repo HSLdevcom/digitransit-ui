@@ -37,7 +37,7 @@ class TimeInput extends Component {
       console.log('callback');
       this.props.changeTime({ target: { value: `${hours} ${minutes}` } });
     }
-  }, 500);
+  }, 1000);
 
   render() {
     return (
