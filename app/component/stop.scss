@@ -97,13 +97,16 @@
 }
 
 #stop-page-action-bar {
+  box-shadow: 0px -1px 0px 0px rgba(0,0,0,0.1);
+  height: 40px;
+  z-index: 400; //get shadow over map
   padding: 5px 10px;
   text-align:right;
   .action-bar {
-    font-size: 10px;
+    font-size: 20px;
+    line-height:0;
     a.external-link {
       font-size: $font-size-xxsmall;
-      line-height:20px;
       color: $gray-blue;
       svg.icon {
         top:3px;
@@ -120,9 +123,19 @@
   }
 }
 
+hr.action-bar {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid #ddd;;
+  width:100%;
+  padding-bottom: 8px;
+}
+
 .desktop {
   #stop-page-action-bar {
-    padding: 8px 20px;
+    box-shadow: none;
+    height: auto;
+    padding: 10px 20px 8px 20px;
     .action-bar {
       a.external-link {
         font-size: 14px;

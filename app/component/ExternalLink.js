@@ -7,8 +7,8 @@ const ExternalLink = ({ name, children, href, className }) => ((name || children
 <span className={className} style={{ position: 'relative' }}>
   <span className="external-link-container">
     <a onClick={e => e.stopPropagation()}className="external-link" href={href} >{name || children}</a>
+    <ExternalLinkDecoration className="external-link-decoration" />
   </span>
-  <ExternalLinkDecoration className="external-link-decoration" />
 </span>
 );
 

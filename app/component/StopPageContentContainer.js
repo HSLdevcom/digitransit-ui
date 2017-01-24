@@ -20,7 +20,7 @@ const DepartureListContainerWithProps = mapProps(props => ({
 const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
   some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
     <div className="stop-page-content-wrapper">
-      <StopPageActionBar printUrl={props.stop.url} />
+      <StopPageActionBar breakpoint={props.breakpoint} printUrl={props.stop.url} />
       <DepartureListHeader />
       <DepartureListContainerWithProps {...props} />
     </div>

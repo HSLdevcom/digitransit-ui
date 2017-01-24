@@ -3,7 +3,7 @@ import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const ExternalLinkDecoration = ({ className }) => (
-  <svg style={{ position: 'absolute', right: '0px' }} viewBox="0 0 40 40" className={cx('icon', className)}>
+  <svg style={{ position: 'absolute', top: '0px', right: '0px' }} viewBox="0 0 40 40" className={cx('icon', className)}>
     <use
       className="external-link-icon-outer"
       xlinkHref="#icon-icon_external_link_arrow"
