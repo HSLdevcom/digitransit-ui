@@ -63,7 +63,6 @@ $content-background-color: $background-color;
   }
   .icon {
     fill: $top-navigation-icon-color;
-    font-size: $font-size-large;
     vertical-align: middle;
   }
   section.title {
@@ -361,9 +360,13 @@ section.content {
   }
 }
 .external-link-decoration {
+  position: absolute;
+  top: -1px;
+  right: -1px;
   font-size: 9px;
 }
 .external-link-container {
+  position: relative;
   display: inline-block;
   line-height: 22px;
   font-size: 18px;
