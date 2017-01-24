@@ -19,7 +19,6 @@ import fs from 'fs';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import find from 'lodash/find';
-import mergeWith from 'lodash/mergeWith';
 
 // Application
 import appCreator from './app';
@@ -27,7 +26,7 @@ import translations from './translations';
 import ApplicationHtml from './html';
 
 // configuration
-import defaultConfig from './config';
+import { getConfiguration } from './config';
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -35,40 +34,13 @@ const port = process.env.HOT_LOAD_PORT || 9000;
 const appRoot = `${process.cwd()}/`;
 
 // cached assets
-const configs = {};
 const networkLayers = {};
 const robotLayers = {};
 const cssDefs = {};
 const sprites = {};
 
-const themeMap = {};
-
-if (defaultConfig.themeMap) {
-  Object.keys(defaultConfig.themeMap).forEach((theme) => {
-    themeMap[theme] = new RegExp(defaultConfig.themeMap[theme], 'i'); // str to regex
-  });
-}
-
 // Disable relay query cache in order tonot leak memory, see facebook/relay#754
 Relay.disableQueryCaching();
-
-function customizer(objValue, srcValue) {
-  if (Array.isArray(objValue)) { return srcValue; } // Return only latest if array
-  return undefined; // Otherwise use default customizer
-}
-
-function getConfiguration(configName) {
-  if (!configs[configName]) {
-    let additionalConfig;
-
-    if (configName !== 'default') {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      additionalConfig = require(`./config.${configName}`).default;
-    }
-    configs[configName] = mergeWith({}, defaultConfig, additionalConfig, customizer);
-  }
-  return configs[configName];
-}
 
 function getStringOrArrayElement(arrayOrString, index) {
   if (Array.isArray(arrayOrString)) {
@@ -285,18 +257,7 @@ const isRobotRequest = agent =>
    agent.indexOf('Twitterbot') !== -1);
 
 export default function (req, res, next) {
-  let configName = process.env.CONFIG || 'default';
-
-  if (process.env.NODE_ENV !== 'development') {
-    const host = (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
-    Object.keys(themeMap).forEach((theme) => {
-      if (themeMap[theme].test(host)) {
-        configName = theme;
-      }
-    });
-  }
-
-  const config = getConfiguration(configName);
+  const config = getConfiguration(req);
   const application = appCreator(config);
 
   // 1. use locale from cookie (user selected) 2. browser preferred 3. default

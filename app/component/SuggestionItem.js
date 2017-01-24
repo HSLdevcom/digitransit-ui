@@ -5,7 +5,7 @@ import pure from 'recompose/pure';
 import Icon from './Icon';
 import { getLabel, getIcon } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
-import staticConfig from '../config';
+import defaultConfig from '../configurations/config.default';
 
 const SuggestionItem = pure((props) => {
   let icon;
@@ -107,16 +107,16 @@ const exampleStop = {
 SuggestionItem.description = () =>
   <div>
     <ComponentUsageExample description="Favourite">
-      <SuggestionItem item={exampleFavourite} config={staticConfig} />
+      <SuggestionItem item={exampleFavourite} config={defaultConfig} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Address">
-      <SuggestionItem item={exampleAddress} config={staticConfig} />
+      <SuggestionItem item={exampleAddress} config={defaultConfig} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Route">
-      <SuggestionItem item={exampleRoute} config={staticConfig} />
+      <SuggestionItem item={exampleRoute} config={defaultConfig} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Stop">
-      <SuggestionItem item={exampleStop} config={staticConfig} />
+      <SuggestionItem item={exampleStop} config={defaultConfig} />
     </ComponentUsageExample>
   </div>;
 
