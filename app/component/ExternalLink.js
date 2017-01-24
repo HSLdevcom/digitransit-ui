@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
-import FooterItem from './FooterItem';
+import Icon from './Icon';
 import ExternalLinkDecoration from './ExternalLinkDecoration';
 
 const ExternalLink = ({ name, children, href, className }) => ((name || children !== undefined) &&
 <span className={className} style={{ position: 'relative' }}>
   <span className="external-link-container">
-    <a onClick={e => e.stopPropagation()}className="external-link" href={href} >{name || children}</a>
-    <ExternalLinkDecoration className="external-link-decoration" />
+    <a onClick={e => e.stopPropagation()} className="external-link" href={href} >{name || children}</a>
+    <ExternalLinkDecoration />
   </span>
 </span>
 );
@@ -36,10 +36,9 @@ ExternalLink.description = () => (
     </ComponentUsageExample>
     <ComponentUsageExample description="with more complex content">
       <span style={{ background: '#ccc', padding: '10px 10px 10px 10px' }}>
-        <ExternalLink className="external-top-bar" >
-          <FooterItem
-            icon="icon-icon_speech-bubble" name="Feedback" href="http://www.hsl.fi"
-          /></ExternalLink>
+        <ExternalLink className="action-bar" href="http://print.me.invalid" >
+          <Icon img="icon-icon_print" /> Print
+        </ExternalLink>
       </span>
     </ComponentUsageExample>
   </div>);
