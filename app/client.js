@@ -17,7 +17,7 @@ import {
 } from 'react-relay-network-layer';
 import OfflinePlugin from 'offline-plugin/runtime';
 
-import Raven from './util/Raven';
+import getRaven from './util/Raven';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import appCreator from './app';
@@ -51,6 +51,7 @@ const piwikPlugin = {
   plugContext: plugContext(addPiwik),
 };
 
+const Raven = getRaven(config);
 const addRaven = context => (context.raven = Raven); // eslint-disable-line no-param-reassign
 
 const ravenPlugin = {
@@ -98,6 +99,7 @@ tapEventPlugin();
 
 const app = appCreator(window.config);
 
+
 // Add plugins
 app.plug(piwikPlugin);
 app.plug(ravenPlugin);
@@ -127,6 +129,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
           .getStore('TimeStore')
           .getCurrentTime()
           .valueOf(),
+        window.config,
         )
       ) {
         context.executeAction(openFeedbackModal);
