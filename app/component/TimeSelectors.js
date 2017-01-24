@@ -51,7 +51,7 @@ export default function TimeSelectors(
           <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
         </div> :
         <div className="select-wrapper">
-          <TimeInput changeTime={changeTime} />
+          <TimeInput value={time.format('HH:mm')} changeTime={changeTime} />
         </div>}
     </div>
   );
