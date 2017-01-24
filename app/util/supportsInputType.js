@@ -1,5 +1,7 @@
 export default function supportsInputType(inputType) {
   if (typeof document !== 'undefined') {
+    const agent = navigator ? navigator.userAgent : 'unknown';
+    const desktopChrome = /Chrome/i.test(agent) && !/Android/i.test(agent);
     const input = document.createElement('input');
     input.setAttribute('type', inputType);
     const desiredType = input.getAttribute('type');
@@ -17,14 +19,20 @@ export default function supportsInputType(inputType) {
         }
         break;
       case 'color':
+      case 'number':
+        if (helloWorldAccepted) {
+          supported = false;
+        }
+        break;
       case 'date':
       case 'datetime':
       case 'month':
-      case 'number':
       case 'time':
       case 'week':
-        if (helloWorldAccepted) {
+        if (desktopChrome) {
           supported = false;
+        } else {
+          supported = !helloWorldAccepted;
         }
         break;
       default:

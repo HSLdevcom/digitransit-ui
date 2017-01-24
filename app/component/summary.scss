@@ -48,6 +48,11 @@
       box-shadow: none;
     }
 
+    &.text-time-selector {
+      width: 60px;
+      padding: 0;
+      text-align: center;
+    }
   }
   .select-wrapper {
     display: flex;
@@ -123,6 +128,12 @@
     font-size: $font-size-normal !important;
     padding: 0 calc(#{$padding-medium} + 1.5rem) 0 $padding-medium;
     height: 35px !important;
+
+    &.text-time-selector {
+      width: 60px;
+      padding: 0;
+      text-align: center;
+    }
   }
 
   .right-offcanvas-toggle {
