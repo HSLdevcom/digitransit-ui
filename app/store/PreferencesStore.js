@@ -17,7 +17,7 @@ function loadLanguage(config) {
 class PreferencesStore extends Store {
   static storeName = 'PreferencesStore';
 
-  constructor (dispatcher) {
+  constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
     this.language = loadLanguage(this.config);
