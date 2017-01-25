@@ -40,6 +40,9 @@ export default mergeWith({}, walttiConfig, {
     description: APP_DESCRIPTION,
   },
 
+  // Labels for manifest creation
+  name: 'Turku Digitransit',
+
   transportModes: {
     ferry: {
       availableForSelection: true,
@@ -116,7 +119,7 @@ export default mergeWith({}, walttiConfig, {
     },
   }],
 
-}, function arrMerger(objValue, srcValue) {
+}, (objValue, srcValue) => {
   if (Array.isArray(srcValue)) { return srcValue; }
   if (Array.isArray(objValue)) { return objValue; }
   return undefined; // default merge

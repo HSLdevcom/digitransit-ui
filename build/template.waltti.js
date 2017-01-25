@@ -1,3 +1,4 @@
+/* eslint-disable */
 import mergeWith from 'lodash/mergeWith';
 
 const CONFIG = process.env.CONFIG || '__theme__';
@@ -20,6 +21,9 @@ export default mergeWith({}, walttiConfig, {
     description: APP_DESCRIPTION,
   },
 
+  // Label for manifest creation
+  name: '__Theme__ Digitransit',
+
   footer: {
     content: [
       { label: (function () { return `© __Theme__ ${(1900 + new Date().getYear())}`; }()) },
@@ -29,7 +33,6 @@ export default mergeWith({}, walttiConfig, {
     ],
   },
 
-  /* eslint-disable max-len*/
   aboutThisService: {
     fi: {
       about: 'Tämä on testi uudeksi __Theme__-reittioppaaksi. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
@@ -49,9 +52,8 @@ export default mergeWith({}, walttiConfig, {
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
   },
-  /* eslint-enable max-len*/
 
-}, function arrMerger(objValue, srcValue) {
+}, (objValue, srcValue) => {
   if (Array.isArray(srcValue)) { return srcValue; }
   if (Array.isArray(objValue)) { return objValue; }
   return undefined; // default merge

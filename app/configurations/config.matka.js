@@ -26,6 +26,10 @@ export default {
     keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
   },
 
+  // Labels for manifest creation
+  name: 'matka.fi',
+  shortName: 'matka.fi',
+
   footer: {
     content: [
       { label: (function () { return `© Liikennevirasto ${(1900 + new Date().getYear())}`; }()) },

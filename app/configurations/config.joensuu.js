@@ -23,6 +23,9 @@ export default mergeWith({}, walttiConfig, {
 
   appBarLink: { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
 
+  // Labels for manifest creation
+  name: 'Joensuu Digitransit',
+
   colors: {
     primary: '#5c4696',
   },
@@ -80,7 +83,7 @@ export default mergeWith({}, walttiConfig, {
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
   },
-}, function arrMerger(objValue, srcValue) {
+}, (objValue, srcValue) => {
   if (Array.isArray(srcValue)) { return srcValue; }
   if (Array.isArray(objValue)) { return objValue; }
   return undefined; // default merge

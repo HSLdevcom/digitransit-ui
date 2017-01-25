@@ -20,6 +20,10 @@ export default {
     default: 'HSL',
   },
 
+  // Labels for manifest creation
+  name: 'Reittiopas Beta',
+  shortName: 'Reittiopas',
+
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
 
