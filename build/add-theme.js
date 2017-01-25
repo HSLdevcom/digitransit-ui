@@ -3,9 +3,12 @@
 /* initialize a skeleton for a new theme */
 /* For example: npm run add-theme juupajoki 0x80CCAA */
 const fs = require('fs');
+const path = require('path');
 
 const theme = process.argv[2];
 const color = process.argv[3] || '$livi-blue';
+const logoPath = process.argv[4] || 'sass/themes/default/digitransit-logo.png'; // source icon
+const logo = path.basename(logoPath);
 
 console.log(color);
 
@@ -41,34 +44,23 @@ $primary-color: ${color};
 $secondary-color: #008bde;
 $hilight-color: ${color};
 $action-color: ${color};
+/* Navbar logo */
+$nav-logo: url(${logo});
 `);
 
-// copy default browserconfig
-fs.createReadStream('static/browserconfig.default.xml').pipe(
-  fs.createWriteStream('static/browserconfig.' + theme + '.xml'));
-
 // copy logo
-fs.createReadStream('sass/themes/default/digitransit-logo.png').pipe(
-  fs.createWriteStream(dir + '/digitransit-logo.png'));
+fs.createReadStream(logo).pipe(fs.createWriteStream(dir + '/' + logo));
 
 // copy sprites
 fs.createReadStream('static/svg-sprite.default.svg').pipe(
   fs.createWriteStream('static/svg-sprite.' + theme + '.svg'));
-
-// generate manifest
-let manifest = require('../static/manifest.default.json');
-manifest.name = name + ' Digitransit';
-manifest.background_color = color;
-manifest.theme_color = color;
-
-fs.writeFileSync('static/manifest.' + theme + '.json', JSON.stringify(manifest, null, 2));
 
 // generate app configuration
 const regexColor = new RegExp('__color__', 'g');
 const regexTheme = new RegExp('__theme__', 'g');
 const regexName = new RegExp('__Theme__', 'g');
 
-let conf = fs.readFileSync('app/template.waltti.js', "utf-8");
+let conf = fs.readFileSync('build/template.waltti.js', "utf-8");
 conf = conf.replace(regexColor, color).replace(regexTheme, theme).replace(regexName, name);
 fs.writeFileSync('app/config.' + theme + '.js', conf);
 
