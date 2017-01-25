@@ -38,6 +38,10 @@ export default {
     default: "Digitransit's",
   },
 
+  // Default labels for manifest creation
+  name: 'Digitransit beta',
+  shortName: 'Digitransit',
+
   searchParams: {},
 
   search: {
