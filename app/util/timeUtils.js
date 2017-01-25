@@ -1,5 +1,8 @@
 import moment from 'moment';
 
+export const TIME_PATTERN = 'HH:mm';
+export const DATE_PATTERN = 'dd D.M.';
+
 // converts the given parameter into a string in format HHmm
 // Input: time - seconds since midnight
 export function getStartTime(time) {
@@ -19,3 +22,15 @@ export function durationToString(inDuration) {
 
   return `${duration.minutes()} min`;
 }
+
+/**
+ * Returns date or '' if same day as reference
+ */
+export const dateOrEmpty = (momentTime, momentRefTime) => {
+  if (momentTime.isSame(momentRefTime, 'day')) {
+    return '';
+  }
+  return momentTime.format(DATE_PATTERN);
+};
+
+export const sameDay = (x, y) => dateOrEmpty(x, y) === '';

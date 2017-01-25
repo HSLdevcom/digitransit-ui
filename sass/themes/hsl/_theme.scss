@@ -1,14 +1,7 @@
 /* HSL theme */
 
-/* General palette */
-$white: #ffffff;
-$light-gray: #ddd;
-$medium-gray: #ccc;
-$gray: #888;
-$dark-gray: #575757;
-$black: #333;
-$gray-blue: #78909c;
-$gray-blue-light: rgb(182, 193, 199);
+/* Base theme */
+@import '../default/theme';
 
 /* Operator palette */
 $hsl-blue: #007ac9;
@@ -21,32 +14,17 @@ $hsl-rail-red: #8c4799;
 $hsl-ferry-blue: #00b9e4;
 
 /* Application palette */
-$background-color: #eef1f3;
 $primary-color: $hsl-blue;
-$primary-font-color: $white;
 $secondary-color: $hsl-dark-blue;
-$secondary-font-color: $white;
 $favourite-color: $hsl-pink;
 $hilight-color: $hsl-pink;
 $action-color: $hsl-blue;
-$cancelation-red: #dc0451;
-$cancelation-black: #666;
-$cancelation-background: #fbe0ea;
-$disruption-color: $cancelation-red;
-$realtime-color: #46b32a;
-$dark-color: $gray;
 
 /* Component palette */
-$title-color: $white;
 $standalone-btn-color: $primary-color;
 $standalone-btn-hover-color: $secondary-color;
 $standalone-btn-active-color: $secondary-color;
 $viewpoint-marker-color: $hsl-blue;
-$link-color: $gray-blue;
-$from-color: #64be14;
-$to-color: #f092cd;
-$slider-warning-color: #FC7C08;
-$slider-ok-color: #55B511;
 
 /* Vehicle palette */
 $airplane-color: black;
@@ -55,46 +33,13 @@ $tram-color: $hsl-tram-green;
 $metro-color: $hsl-metro-orange;
 $rail-color: $hsl-rail-red;
 $ferry-color: $hsl-ferry-blue;
-$citybike-color: #FBB800;
-$walk-color: #6ba3af;
-$wait-color: #979797;
-$bicycle-color: #64be14;
-$car-color: #333;
 
 /* Fonts */
 $font-family: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif;
-$font-weight-book: 400;
 $font-weight-medium: 500;
-$font-weight-bold: 700;
-$font-weight-map-container: $font-weight-book;
 $letter-spacing: -0.025em;
 
 $font-family-narrow: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif;
-$font-narrow-weight-book: 400;
-$font-narrow-weight-medium: 500;
-$narrow-letter-spacing: 0;
-
-$line-height-normal: 1.2;
-
-$font-size-xxxsmall: 0.72rem;
-$font-size-xxsmall: 0.80rem;
-$font-size-xsmall: 0.87rem;
-$font-size-small: 0.92rem;
-$font-size-normal: 1rem;
-$font-size-large: 1.25rem;
-$font-size-xlarge: 1.5rem;
-
-/* Paddings */
-$padding-xxsmall: 0.125em;
-$padding-xsmall: 0.25em;
-$padding-small: 0.4em;
-$padding-medium: 0.7em;
-$padding-large: 1.5em;
-$padding-xlarge: 2em;
-
-/* Borders */
-$border-radius: 3px;
-$border-radius-bigger: 8px;
 
 /* Navbar logo */
 $nav-logo: url('reittiopas-logo.svg');

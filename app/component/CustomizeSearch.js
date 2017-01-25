@@ -1,5 +1,6 @@
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 import range from 'lodash/range';
 import xor from 'lodash/xor';
 import without from 'lodash/without';
@@ -32,15 +33,13 @@ class CustomizeSearch extends React.Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.shape({
-      query: React.PropTypes.object.isRequired,
-    }).isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     executeAction: React.PropTypes.func.isRequired,
   };
 
   static propTypes = {
-    open: React.PropTypes.bool,
+    isOpen: React.PropTypes.bool,
     onToggleClick: React.PropTypes.func,
   };
 
@@ -79,7 +78,7 @@ class CustomizeSearch extends React.Component {
 
     return availableStreetModes.map((streetMode, index) => (
       <ToggleButton
-        key={`toggle-button${index}`}
+        key={`toggle-button-${streetMode}`}
         icon={config.streetModes[streetMode].icon}
         onBtnClick={() => this.toggleStreetMode(streetMode)}
         state={this.getMode(streetMode)}
@@ -334,6 +333,7 @@ class CustomizeSearch extends React.Component {
   render() {
     return (
       <div
+        aria-hidden={!this.props.isOpen}
         className="customize-search-wrapper"
         // Clicks to the transparent area and close arrow should close the offcanvas
         onClick={this.props.onToggleClick}

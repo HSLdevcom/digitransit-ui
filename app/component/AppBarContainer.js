@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { routerShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
@@ -10,7 +11,7 @@ const AppBarContainer = ({ breakpoint, router, ...args }) => (
       {...args} titleClicked={() => router.push('/lahellasi')}
     />);
 
-const WithContext = getContext({ router: React.PropTypes.object.isRequired,
+const WithContext = getContext({ router: routerShape.isRequired,
   breakpoint: React.PropTypes.string.isRequired })(AppBarContainer);
 
 WithContext.propTypes = {

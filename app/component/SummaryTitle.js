@@ -6,7 +6,7 @@ export default function SummaryTitle(props) {
     <span>
       {props.params.hash == null ?
         <FormattedMessage
-          id="itinerary-summary-page.title"
+          id="summary-page.title"
           defaultMessage="Itinerary suggestions"
         />
         :
