@@ -1,6 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
 import { getMessagesStorage, setMessagesStorage } from './localStorage';
-import staticMessages from '../staticMessages';
 
 // Save to local storage as an array of key, value pairs
 function saveMapToStorage(msgMap) {
@@ -19,7 +18,6 @@ class MessageStore extends Store {
   constructor(...args) {
     super(...args);
     this.messages = new Map(getMessagesStorage());
-    staticMessages.forEach(this.addMessage);
   }
 
   /* Message format:
@@ -38,6 +36,12 @@ class MessageStore extends Store {
     this.messages.set(message.id, message);
     saveMapToStorage(this.messages);
     this.emitChange();
+  }
+
+  addConfigMessages = (config) => {
+    if (config.staticMessages) {
+      config.staticMessages.forEach(this.addMessage);
+    }
   }
 
   markMessageAsRead = (id) => {

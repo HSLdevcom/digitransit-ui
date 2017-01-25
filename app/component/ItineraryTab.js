@@ -7,12 +7,10 @@ import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
-import config from '../config';
+
 import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
-
-const routeInformation = config.showRouteInformation && <RouteInformation />;
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -23,6 +21,7 @@ class ItineraryTab extends React.Component {
 
   static contextTypes = {
     breakpoint: React.PropTypes.string.isRequired,
+    config: React.PropTypes.object.isRequired,
   }
 
   state = {
@@ -48,6 +47,9 @@ class ItineraryTab extends React.Component {
   }
 
   render() {
+    const config = this.context.config;
+    const routeInformation = config.showRouteInformation && <RouteInformation />;
+
     return (
       <div className="itinerary-tab">
         {this.context.breakpoint !== 'large' &&

@@ -2,12 +2,12 @@ import { VectorTile } from 'vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 
-import config from '../../../config';
 import { drawRoundIcon, drawTerminalIcon } from '../../../util/mapIconUtils';
 
 class Stops {
-  constructor(tile) {
+  constructor(tile, config) {
     this.tile = tile;
+    this.config = config;
     this.promise = this.getPromise();
   }
 
@@ -19,7 +19,7 @@ class Stops {
         this.tile,
         feature.geom,
         feature.properties.type,
-        this.tile.coords.z >= config.terminalNamesZoom ? feature.properties.name : false,
+        this.tile.coords.z >= this.config.terminalNamesZoom ? feature.properties.name : false,
       );
       return;
     }
@@ -35,7 +35,7 @@ class Stops {
 
   getPromise() {
     return fetch(
-      `${config.URL.STOP_MAP}${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}` +
+      `${this.config.URL.STOP_MAP}${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}` +
       `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     )
     .then((res) => {
@@ -48,11 +48,11 @@ class Stops {
 
         this.features = [];
 
-        if (vt.layers.stops != null && this.tile.coords.z >= config.stopsMinZoom) {
+        if (vt.layers.stops != null && this.tile.coords.z >= this.config.stopsMinZoom) {
           for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
             const feature = vt.layers.stops.feature(i);
             if (feature.properties.type && (feature.properties.parentStation === 'null' ||
-              config.terminalStopsMaxZoom - 1 <=
+              this.config.terminalStopsMaxZoom - 1 <=
               this.tile.coords.z + (this.tile.props.zoomOffset || 0))
             ) {
               feature.geom = feature.loadGeometry()[0][0];
@@ -62,8 +62,9 @@ class Stops {
           }
         }
         if (vt.layers.stations != null &&
-            config.terminalStopsMaxZoom > this.tile.coords.z + (this.tile.props.zoomOffset || 0) &&
-            this.tile.coords.z >= config.terminalStopsMinZoom
+            this.config.terminalStopsMaxZoom > this.tile.coords.z +
+              (this.tile.props.zoomOffset || 0) &&
+            this.tile.coords.z >= this.config.terminalStopsMinZoom
         ) {
           for (let i = 0, ref = vt.layers.stations.length - 1; i <= ref; i++) {
             const feature = vt.layers.stations.feature(i);
@@ -74,7 +75,8 @@ class Stops {
                 this.tile,
                 feature.geom,
                 feature.properties.type,
-                this.tile.coords.z >= config.terminalNamesZoom ? feature.properties.name : false,
+                this.tile.coords.z >= this.config.terminalNamesZoom ?
+                  feature.properties.name : false,
               );
             }
           }

@@ -1,5 +1,4 @@
 import { route } from './ItinerarySearchActions';
-import config from '../config';
 
 export function storeEndpoint(actionContext, { target, endpoint }, done) {
   actionContext.dispatch('setEndpoint', {
@@ -52,7 +51,6 @@ export function setUseCurrent(actionContext, payload) {
 export function swapEndpoints(actionContext, payload) {
   actionContext.dispatch('swapEndpoints');
 
-
   return actionContext.executeAction(route, payload, (e) => {
     if (e) {
       return console.error('Could not route:', e);
@@ -76,6 +74,6 @@ export function clearGeolocation(actionContext) {
 export function setOriginToDefault(actionContext) {
   return actionContext.executeAction(setEndpoint, {
     target: 'origin',
-    endpoint: config.defaultEndpoint,
+    endpoint: actionContext.config.defaultEndpoint,
   });
 }

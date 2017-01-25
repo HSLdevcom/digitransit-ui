@@ -1,5 +1,6 @@
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 import Tab from 'material-ui/Tabs/Tab';
 import cx from 'classnames';
 import without from 'lodash/without';
@@ -18,8 +19,8 @@ class SearchMainContainer extends React.Component {
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
     getStore: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     intl: intlShape.isRequired,
     breakpoint: React.PropTypes.string.isRequired,
   };
@@ -54,6 +55,8 @@ class SearchMainContainer extends React.Component {
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
         target: this.props.selectedTab,
+        router: this.context.router,
+        location: this.context.location,
       });
     } else {
       this.context.executeAction(setEndpoint, {
@@ -63,6 +66,8 @@ class SearchMainContainer extends React.Component {
           lon: item.geometry.coordinates[0],
           address: name,
         },
+        router: this.context.router,
+        location: this.context.location,
       });
     }
 

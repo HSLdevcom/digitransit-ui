@@ -102,9 +102,9 @@ class RoutePage extends React.Component {
             </div>
           </a>
           <a
-            activeClassName="is-active"
             className={cx({
               activeAlert: this.props.route.alerts && this.props.route.alerts.length > 0,
+              'is-active': activeTab === 'hairiot',
             })}
             onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/hairiot`); }}
           >

@@ -2,12 +2,13 @@ import { VectorTile } from 'vector-tile';
 import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
-import config from '../../../config';
 import { drawIcon, getStopRadius } from '../../../util/mapIconUtils';
 
 export default class TicketSales {
-  constructor(tile) {
+  constructor(tile, config) {
     this.tile = tile;
+    this.config = config;
+
     this.scaleratio = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
     this.promise = this.getPromise();
   }
@@ -34,7 +35,7 @@ export default class TicketSales {
 
   getPromise() {
     return fetch(
-      `${config.URL.TICKET_SALES_MAP}${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}` +
+      `${this.config.URL.TICKET_SALES_MAP}${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}` +
       `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     )
     .then((res) => {

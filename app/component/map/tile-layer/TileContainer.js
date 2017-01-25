@@ -2,17 +2,16 @@ import flatten from 'lodash/flatten';
 import omit from 'lodash/omit';
 import L from 'leaflet';
 
-import config from '../../../config';
 import { isBrowser } from '../../../util/browser';
 
-const markersMinZoom = Math.min(
-  config.cityBike.cityBikeMinZoom,
-  config.stopsMinZoom,
-  config.terminalStopsMinZoom,
-);
-
 class TileContainer {
-  constructor(coords, done, props) {
+  constructor(coords, done, props, config) {
+    const markersMinZoom = Math.min(
+      config.cityBike.cityBikeMinZoom,
+      config.stopsMinZoom,
+      config.terminalStopsMinZoom,
+    );
+
     this.coords = coords;
     this.props = props;
     this.extent = 4096;
@@ -47,7 +46,7 @@ class TileContainer {
         return true;
       }
       return false;
-    }).map(Layer => new Layer(this));
+    }).map(Layer => new Layer(this, config));
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
 

@@ -18,6 +18,9 @@ class NearbyRouteListContainerRoute extends Route {
     currentTime: { required: true },
     modes: { required: true },
     placeTypes: { required: true },
+    maxDistance: { required: true },
+    maxResults: { required: true },
+    timeRange: { required: true },
   };
   static routeName = 'NearbyRouteListContainerRoute';
 }
@@ -29,6 +32,9 @@ export default class NearestRoutesContainer extends Component {
     currentTime: PropTypes.number.isRequired,
     modes: PropTypes.array.isRequired,
     placeTypes: PropTypes.array.isRequired,
+    maxDistance: PropTypes.number.isRequired,
+    maxResults: PropTypes.number.isRequired,
+    timeRange: PropTypes.number.isRequired,
   };
 
   constructor() {
@@ -48,7 +54,10 @@ export default class NearestRoutesContainer extends Component {
       nextProps.lon !== this.props.lon ||
       nextProps.currentTime !== this.props.currentTime ||
       nextProps.modes !== this.props.modes ||
-      nextProps.placeTypes !== this.props.placeTypes
+      nextProps.placeTypes !== this.props.placeTypes ||
+      nextProps.maxDistance !== this.props.maxDistance ||
+      nextProps.maxResults !== this.props.maxResults ||
+      nextProps.timeRange !== this.props.timeRange
     );
   }
 
@@ -62,6 +71,9 @@ export default class NearestRoutesContainer extends Component {
           currentTime: this.props.currentTime,
           modes: this.props.modes,
           placeTypes: this.props.placeTypes,
+          maxDistance: this.props.maxDistance,
+          maxResults: this.props.maxResults,
+          timeRange: this.props.timeRange,
         })}
         environment={Relay.Store}
         render={({ props }) => {

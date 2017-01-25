@@ -453,4 +453,11 @@ export default {
     },
   }],
 
+  themeMap: {
+    turku: 'turku',
+    hsl: 'reittiopas',
+    joensuu: 'joensuu',
+    matka: 'matka',
+  },
+
 };

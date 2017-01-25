@@ -7,7 +7,6 @@ import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from './SearchMainContainer';
-import config from '../config';
 import PageFooter from './PageFooter';
 
 const feedbackPanelMudules = { Panel: () => importLazy(System.import('./FeedbackPanel')) };
@@ -31,6 +30,7 @@ class IndexPage extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     location: locationShape.isRequired,
     router: routerShape.isRequired,
+    config: React.PropTypes.object.isRequired,
     piwik: React.PropTypes.object,
   };
 
@@ -48,7 +48,7 @@ class IndexPage extends React.Component {
     const search = this.context.location.search;
 
     if (search && search.indexOf('citybikes') >= -1) {
-      config.transportModes.citybike.defaultValue = true;
+      this.context.config.transportModes.citybike.defaultValue = true;
     }
 
     // auto select nearby tab if none selected and bp=large
@@ -188,7 +188,9 @@ class IndexPage extends React.Component {
           </div>
         </MapWithTracking>
         <div id="page-footer-container">
-          <PageFooter content={(config.footer && config.footer.content) || []} />
+          <PageFooter
+            content={(this.context.config.footer && this.context.config.footer.content) || []}
+          />
         </div>
         {feedbackPanel}
       </div>
