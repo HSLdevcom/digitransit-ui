@@ -240,7 +240,7 @@
     .itinerary-start-time {
       min-width: 50px;
       font-size: 21px;
-      padding-top: 25px;
+      padding-top: 17px;
 
       .itinerary-first-leg-start-time {
         padding-top: 1px;
@@ -251,6 +251,10 @@
         font-size: $font-size-xxsmall;
         & > span {
           border-radius: $border-radius-small;
+        }
+
+        &.nobg {
+          height: 1.2rem;
         }
       }
     }
