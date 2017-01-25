@@ -8,7 +8,8 @@ function ItinerarySummaryListContainer(props) {
     const open = props.open && Number(props.open);
     const summaries = props.itineraries.map((itinerary, i) => (
       <SummaryRow
-        key={i}
+        refTime={props.searchTime}
+        key={i} // eslint-disable-line react/no-array-index-key
         hash={i}
         data={itinerary}
         passive={i !== props.activeIndex}
@@ -34,6 +35,7 @@ function ItinerarySummaryListContainer(props) {
 }
 
 ItinerarySummaryListContainer.propTypes = {
+  searchTime: React.PropTypes.number.isRequired,
   itineraries: React.PropTypes.array,
   activeIndex: React.PropTypes.number.isRequired,
   currentTime: React.PropTypes.number.isRequired,
