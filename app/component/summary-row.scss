@@ -11,9 +11,8 @@
   display: flex;
   user-select: none;
   $distance-gray: #999999;
-  font-size: $font-size-xxsmall;
-  font-weight: $font-weight-medium;
-  @include font-narrow-book;
+  font-size: $font-size-normal;
+  @include font-narrow-medium;
   white-space: nowrap;
 
   &.passive {
@@ -41,7 +40,7 @@
 
   .itinerary-duration-and-distance {
     width: 4em;
-    margin-top: 12px;
+    margin-top: $padding-small;
   }
 
   .itinerary-duration {
@@ -49,10 +48,10 @@
   }
 
   .itinerary-walking-distance {
-    margin-top: -4px;
+    margin-top: -2px;
     color: $distance-gray;
     font-weight: $font-weight-book;
-    font-size: $font-size-xxxsmall;
+    font-size: $font-size-small;
 
     .icon {
       margin-bottom: -2px;
@@ -62,23 +61,31 @@
   .itinerary-start-time {
     text-align: right;
     padding-left: 5px;
-    min-width: 35px;
+    min-width: 2em;
     @include font-narrow-medium;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
-      font-size: $font-size-xxxsmall;
-      margin-top: -4px;
+      font-size: $font-size-xsmall;
+      margin-top: -6px;
       margin-right: -7px;
       font-weight: 100;
     }
+
+    // When we don't have a start date box, we can add some spacing
+    .itinerary-start-date.nobg + .itinerary-first-leg-start-time {
+      margin-top: -1px;
+    }
+
     .itinerary-start-date {
       display: block;
       text-align: right;
-      min-width: 20px;
+      min-width: 2em;
+      margin-top: -1px;
+      margin-bottom: -2px;
       line-height: 1;
       @include font-narrow-book;
-      font-size: $font-size-xxxxsmall;
+      font-size: $font-size-xxxsmall;
       & > span {
         line-height: 1;
         text-transform: capitalize;
@@ -91,7 +98,7 @@
       }
 
       &.nobg {
-        height: 12px;
+        height: 0.8em;
         & > span {
           background-color: transparent;
         }
@@ -106,14 +113,13 @@
   .itinerary-end-time {
     padding-left: 10px;
     width: 3em;
-    margin-top: 12px;
+    margin-top: $padding-small;
   }
 
   .itinerary-legs {
-    padding-left:5px;
+    padding-left: $padding-medium;
     display: flex;
     white-space: nowrap;
-    margin-top: 8px;
     min-width: 0;
     flex: 1 1 0;
 
@@ -149,7 +155,7 @@
         z-index: -1;
         right: 1px;
         left: 0;
-        top: 0.875em;
+        top: 1em;
 
         border: 2px solid;
         border-radius: $border-radius-small;
@@ -158,20 +164,19 @@
       .icon {
         margin-top: $padding-small;
         margin-left: $padding-xsmall;
-        font-size: 1.1em;
+        font-size: 1.3rem;
         float: left;
       }
     }
 
     .vehicle-number {
       font-weight: $font-weight-medium;
-      font-size: $font-size-xxxsmall;
+      font-size: $font-size-small;
       clear: left;
       float: left;
       padding: 0;
       width: 1.3em;
-      margin-left: $padding-xsmall;
-      margin-top: -1px;
+      margin-left: $padding-small;
       &.long {
         @extend .overflow-fade;
         display: inline-block;
@@ -235,7 +240,7 @@
     .itinerary-start-time {
       min-width: 50px;
       font-size: 21px;
-      padding-top: 17px;
+      padding-top: 25px;
 
       .itinerary-first-leg-start-time {
         padding-top: 1px;
