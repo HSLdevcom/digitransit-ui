@@ -1,16 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
 import reactCookie from 'react-cookie';
 
-function loadLanguage(config) {
-  let language = reactCookie.load('lang');
-
-  if (config.availableLanguages.indexOf(language) === -1) { // illegal selection, use default
-    language = config.defaultLanguage;
-  }
-
-  return language;
-}
-
 /* Language is stored in cookie, server should set the language based on browser
  * accepted languages
  */
@@ -20,7 +10,13 @@ class PreferencesStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
-    this.language = loadLanguage(this.config);
+
+    const language = reactCookie.load('lang');
+    if (this.config.availableLanguages.indexOf(language) === -1) { // illegal selection, use default
+      this.language = this.config.defaultLanguage;
+    } else {
+      this.language = language;
+    }
   }
 
   getLanguage() {
