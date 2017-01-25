@@ -1,22 +1,16 @@
 import React, { PropTypes } from 'react';
-import { FormattedMessage } from 'react-intl';
-import ExternalLink from './ExternalLink';
-import Icon from './Icon';
+import PrintLink from './PrintLink';
 
 const StopPageActionBar = ({ printUrl, breakpoint }) => (
   printUrl &&
     <div id="stop-page-action-bar">
       {breakpoint === 'large' && <hr className="action-bar" />}
-      <ExternalLink className="action-bar" href={printUrl} >
-        <Icon img="icon-icon_print" /> <FormattedMessage id="print" defaultMessage="Print" />
-      </ExternalLink>
+      <PrintLink className="action-bar" href={printUrl} />
     </div>
   );
 
 StopPageActionBar.displayName = 'StopPageActionBar';
 
-StopPageActionBar.description = () =>
-  <div />;
 
 StopPageActionBar.propTypes = {
   printUrl: PropTypes.string,
