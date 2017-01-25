@@ -28,6 +28,7 @@ const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
@@ -35,6 +36,7 @@ const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
@@ -43,6 +45,7 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
@@ -51,6 +54,7 @@ const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPopup, {
@@ -59,6 +63,7 @@ const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPo
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
@@ -67,12 +72,14 @@ const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
   location: React.PropTypes.object.isRequired,
   route: React.PropTypes.object.isRequired,
   getStore: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const LocationPopupWithContext = provideContext(LocationPopup, {
   intl: intlShape.isRequired,
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 const PopupOptions = {
@@ -87,7 +94,6 @@ const PopupOptions = {
 
 // TODO eslint doesn't know that TileLayerContainer is a react component,
 //      because it doesn't inherit it directly. This will force the detection
-//      once eslint-plugin-react has a new release (https://github.com/yannickcr/eslint-plugin-react/pull/513)
 /** @extends React.Component */
 class TileLayerContainer extends MapLayer {
   static propTypes = {
@@ -104,6 +110,7 @@ class TileLayerContainer extends MapLayer {
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   state = {
@@ -142,15 +149,13 @@ class TileLayerContainer extends MapLayer {
       /* eslint-disable no-underscore-dangle */
       activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
       /* eslint-enable no-underscore-dangle */
-      activeTiles.forEach((tile) => {
-        /* eslint-disable no-unused-expressions */
+      activeTiles.forEach(tile =>
         tile.el.layers && tile.el.layers.forEach((layer) => {
           if (layer.onTimeChange) {
             layer.onTimeChange();
           }
-        });
-        /* eslint-enable no-unused-expressions */
-      });
+        }),
+      );
     }
   }
 
@@ -173,7 +178,7 @@ class TileLayerContainer extends MapLayer {
   });
 
   createTile = (tileCoords, done) => {
-    const tile = new TileContainer(tileCoords, done, this.props);
+    const tile = new TileContainer(tileCoords, done, this.props, this.context.config);
 
     tile.onSelectableTargetClicked = (selectableTargets, coords) => {
       if (selectableTargets && this.props.disableMapTracking) {

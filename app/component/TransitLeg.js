@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
-import config from '../config';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
@@ -30,6 +29,7 @@ class TransitLeg extends React.Component {
     if (this.props.leg.intermediateStops.length > 0 && this.state.showIntermediateStops === true) {
       return this.props.leg.intermediateStops.map(
         stop => (<IntermediateLeg
+          key={stop.gtfsId}
           mode={this.props.mode}
           name={stop.name}
           stopCode={stop.code}
@@ -43,8 +43,8 @@ class TransitLeg extends React.Component {
   renderMain = () => {
     const originalTime = (
       this.props.leg.realTime &&
-      this.props.leg.departureDelay >= config.itinerary.delayThreshold) &&
-      [<br />, <span className="original-time">
+      this.props.leg.departureDelay >= this.context.config.itinerary.delayThreshold) &&
+      [<br key="br" />, <span key="time" className="original-time">
         {moment(this.props.leg.startTime).subtract(this.props.leg.departureDelay, 's')
           .format('HH:mm')
         }
@@ -150,6 +150,7 @@ TransitLeg.propTypes = {
 
 TransitLeg.contextTypes = {
   focusFunction: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 

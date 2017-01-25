@@ -1,23 +1,38 @@
 import React from 'react';
 import Relay from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 
 import Modal from './Modal';
 import ViewerRoute from '../route/ViewerRoute';
-import { close } from '../action/DisruptionInfoAction';
 import DisruptionListContainer from './DisruptionListContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
 
 function DisruptionInfo(props, context) {
-  if (isBrowser && props.open) {
+  const isOpen = () => (context.location.state ? context.location.state.disruptionInfoOpen : false);
+
+  const toggleVisibility = () => {
+    if (isOpen()) {
+      context.router.goBack();
+    } else {
+      context.router.push({
+        ...location,
+        state: {
+          ...location.state,
+          disruptionInfoOpen: true,
+        },
+      });
+    }
+  };
+
+  if (isBrowser && isOpen()) {
     return (
       <Modal
-        open={props.open}
+        open
         title={
           <FormattedMessage id="disruption-info" defaultMessage="Disruption Info" />}
-        toggleVisibility={() => context.executeAction(close)}
+        toggleVisibility={toggleVisibility}
       >
         <Relay.RootContainer
           Component={DisruptionListContainer}
@@ -30,28 +45,22 @@ function DisruptionInfo(props, context) {
   return <div />;
 }
 
-DisruptionInfo.propTypes = {
-  open: React.PropTypes.bool,
-};
 
 DisruptionInfo.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
 };
 
-DisruptionInfo.description = (
+DisruptionInfo.description = () =>
   <div>
     <p>
       Modal that shows all available disruption info.
-      Activated via DisruptionInfoAction, used by DisruptionInfoButton.
+      Opened by DisruptionInfoButton.
       <strong>Deprecated:</strong> Will be removed in short future in favor of announcements page.
     </p>
     <ComponentUsageExample>
       <DisruptionInfo />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
-export default connectToStores(DisruptionInfo, ['DisruptionInfoStore'], context =>
-  ({
-    open: context.getStore('DisruptionInfoStore').isOpen,
-  }),
-);
+export default DisruptionInfo;

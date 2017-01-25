@@ -1,6 +1,5 @@
 import { locationToOTP } from '../util/otpStrings';
 import { getRoutePath } from '../util/path';
-import history from '../history';
 
 // eslint-disable-next-line import/prefer-default-export
 export function route(actionContext, payload, done) {
@@ -31,12 +30,17 @@ export function route(actionContext, payload, done) {
 
     const path = getRoutePath(from, to);
 
-    if (payload && payload.router && payload.location &&
-      payload.location.pathname.indexOf('/reitti') === 0
-    ) {
-      payload.router.replace({ ...payload.location, pathname: path });
+    if (payload.location.pathname.indexOf('/reitti') === 0) {
+      payload.router.replace({
+        ...payload.location,
+        state: {  // reset back to 1st alternative at reroute
+          ...payload.location.state,
+          summaryPageSelected: 0,
+        },
+        pathname: path,
+      });
     } else {
-      history.push({ pathname: path });
+      payload.router.push({ ...payload.location, pathname: path });
     }
   }
 

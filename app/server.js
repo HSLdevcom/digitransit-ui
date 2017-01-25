@@ -9,7 +9,7 @@ import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware, retryMiddleware } from 'react-relay-network-layer';
-import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
+import provideContext from 'fluxible-addons-react/provideContext';
 
 // Libraries
 import serialize from 'serialize-javascript';
@@ -19,15 +19,14 @@ import fs from 'fs';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import find from 'lodash/find';
-import mergeWith from 'lodash/mergeWith';
 
 // Application
-import application from './app';
+import appCreator from './app';
 import translations from './translations';
 import ApplicationHtml from './html';
 
 // configuration
-import defaultConfig from './config';
+import { getConfiguration } from './config';
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -35,39 +34,13 @@ const port = process.env.HOT_LOAD_PORT || 9000;
 const appRoot = `${process.cwd()}/`;
 
 // cached assets
-const configs = {};
 const networkLayers = {};
+const robotLayers = {};
 const cssDefs = {};
 const sprites = {};
 
-const themeMap = {};
-
-if (defaultConfig.themeMap) {
-  Object.keys(defaultConfig.themeMap).forEach((theme) => {
-    themeMap[theme] = new RegExp(defaultConfig.themeMap[theme], 'i'); // str to regex
-  });
-}
-
 // Disable relay query cache in order tonot leak memory, see facebook/relay#754
 Relay.disableQueryCaching();
-
-function customizer(objValue, srcValue) {
-  if (Array.isArray(objValue)) { return srcValue; } // Return only latest if array
-  return undefined; // Otherwise use default customizer
-}
-
-function getConfiguration(configName) {
-  if (!configs[configName]) {
-    let additionalConfig;
-
-    if (configName !== 'default') {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      additionalConfig = require(`./config.${configName}`).default;
-    }
-    configs[configName] = mergeWith({}, defaultConfig, additionalConfig, customizer);
-  }
-  return configs[configName];
-}
 
 function getStringOrArrayElement(arrayOrString, index) {
   if (Array.isArray(arrayOrString)) {
@@ -76,6 +49,35 @@ function getStringOrArrayElement(arrayOrString, index) {
     return arrayOrString;
   }
   throw new Error(`Not array or string: ${arrayOrString}`);
+}
+
+function getRobotNetworkLayer(config) {
+  if (!robotLayers[config.CONFIG]) {
+    robotLayers[config.CONFIG] = new RelayNetworkLayer([
+      retryMiddleware({ fetchTimeout: 10000, retryDelays: [] }),
+      urlMiddleware({
+        url: `${config.URL.OTP}index/graphql`,
+        batchUrl: `${config.URL.OTP}index/graphql/batch`,
+      }),
+      gqErrorsMiddleware(),
+    ], { disableBatchQuery: false });
+  }
+  return robotLayers[config.CONFIG];
+}
+
+function getNetworkLayer(config) {
+  if (!networkLayers[config.CONFIG]) {
+    networkLayers[config.CONFIG] = new RelayNetworkLayer([
+      retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
+      urlMiddleware({
+        url: `${config.URL.OTP}index/graphql`,
+        batchUrl: `${config.URL.OTP}index/graphql/batch`,
+      }),
+      gqErrorsMiddleware(),
+    ], { disableBatchQuery: false },
+    );
+  }
+  return networkLayers[config.CONFIG];
 }
 
 let stats;
@@ -88,32 +90,17 @@ if (process.env.NODE_ENV !== 'development') {
   manifest = fs.readFileSync(`${appRoot}_static/${manifestFile}`);
 }
 
-function getNetworkLayer(config) {
-  if (!networkLayers[config.CONFIG]) {
-    networkLayers[config.CONFIG] = new RelayNetworkLayer(
-      [
-        retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
-        urlMiddleware({
-          url: `${config.URL.OTP}index/graphql`,
-          batchUrl: `${config.URL.OTP}index/graphql/batch`,
-        }),
-        gqErrorsMiddleware(),
-      ],
-      { disableBatchQuery: false },
-    );
-  }
-  return networkLayers[config.CONFIG];
-}
-
 function getCss(config) {
   if (!cssDefs[config.CONFIG]) {
     cssDefs[config.CONFIG] = [
       <link
+        key="main_css"
         rel="stylesheet"
         type="text/css"
         href={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 1)}`}
       />,
       <link
+        key="theme_css"
         rel="stylesheet"
         type="text/css"
         href={`${config.APP_PATH}/${
@@ -132,14 +119,15 @@ function getSprite(config) {
     if (process.env.NODE_ENV !== 'development') {
       svgSprite = (
         <script
-          dangerouslySetInnerHTML={{ __html: `fetch('${
-            config.APP_PATH}/${find(stats.modules, { issuer: `multi ${config.CONFIG}_sprite` }).assets[0]
+          dangerouslySetInnerHTML={{ __html: `
+            fetch('${
+              config.APP_PATH}/${find(stats.modules, { name: `./static/svg-sprite.${config.CONFIG}.svg` }).assets[0]
             }').then(function(response) {return response.text();}).then(function(blob) {
               var div = document.createElement('div');
               div.innerHTML = blob;
               document.body.insertBefore(div, document.body.childNodes[0]);
             })
-          ` }}
+        ` }}
         />
       );
     } else {
@@ -200,35 +188,48 @@ function getScripts(req, config) {
     return <script async src={`//${host}:${port}/js/bundle.js`} />;
   }
   return [
-    <script dangerouslySetInnerHTML={{ __html: manifest }} />,
+    <script key="manifest "dangerouslySetInnerHTML={{ __html: manifest }} />,
     <script
+      key="common_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.common, 0)}`}
     />,
     <script
+      key="leaflet_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.leaflet, 0)}`}
     />,
     <script
+      key="min_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 0)}`}
     />,
   ];
 }
 
+const ContextProvider = provideContext(IntlProvider, {
+  config: React.PropTypes.object,
+  url: React.PropTypes.string,
+  headers: React.PropTypes.object,
+});
+
 function getContent(context, renderProps, locale, userAgent) {
   // TODO: This should be moved to a place to coexist with similar content from client.js
+
   return ReactDOM.renderToString(
-    <FluxibleComponent context={context.getComponentContext()}>
-      <IntlProvider locale={locale} messages={translations[locale]}>
-        <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent })}>
-          {IsomorphicRouter.render(renderProps)}
-        </MuiThemeProvider>
-      </IntlProvider>
-    </FluxibleComponent>,
+    <ContextProvider
+      locale={locale}
+      messages={translations[locale]}
+      context={context.getComponentContext()}
+    >
+      <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent })}>
+        {IsomorphicRouter.render(renderProps)}
+      </MuiThemeProvider>
+    </ContextProvider>,
   );
 }
 
-function getHtml(context, locale, [polyfills, relayData], req, config) {
+function getHtml(application, context, locale, [polyfills, relayData], req, config) {
   // eslint-disable-next-line no-unused-vars
-  const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent']) : undefined;
+  const content = relayData != null ?
+        getContent(context, relayData.props, locale, req.headers['user-agent'], config) : undefined;
   const head = Helmet.rewind();
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
@@ -250,21 +251,14 @@ function getHtml(context, locale, [polyfills, relayData], req, config) {
   );
 }
 
+const isRobotRequest = agent =>
+  agent &&
+  (agent.indexOf('facebook') !== -1 ||
+   agent.indexOf('Twitterbot') !== -1);
 
 export default function (req, res, next) {
-  let configName = process.env.CONFIG || 'default';
-
-  if (process.env.NODE_ENV !== 'development') {
-    const host = (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
-    Object.keys(themeMap).forEach((theme) => {
-      if (themeMap[theme].test(host)) {
-        configName = theme;
-      }
-    });
-  }
-
-  const config = getConfiguration(configName);
-  const networkLayer = getNetworkLayer(config);
+  const config = getConfiguration(req);
+  const application = appCreator(config);
 
   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
   let locale = req.cookies.lang ||
@@ -278,10 +272,16 @@ export default function (req, res, next) {
     res.cookie('lang', locale);
   }
 
-  const context = application.createContext();
+  const context = application.createContext({ url: req.url, headers: req.headers, config });
 
+  context
+    .getComponentContext()
+    .getStore('MessageStore')
+    .addConfigMessages(config);
+
+  const agent = req.headers['user-agent'];
   // required by material-ui
-  global.navigator = { userAgent: req.headers['user-agent'] };
+  global.navigator = { userAgent: agent };
 
   const location = createHistory({ basename: config.APP_PATH }).createLocation(req.url);
 
@@ -296,14 +296,20 @@ export default function (req, res, next) {
     } else if (!renderProps) {
       res.status(404).send('Not found');
     } else {
+      let networkLayer;
+      if (isRobotRequest(agent)) {
+        networkLayer = getRobotNetworkLayer(config);
+      } else {
+        networkLayer = getNetworkLayer(config);
+      }
       const promises = [
-        getPolyfills(req.headers['user-agent'], config),
+        getPolyfills(agent, config),
         // Isomorphic rendering is ok to fail due timeout
         IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];
 
       Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(context, locale, results, req, config)}`),
+        res.send(`<!doctype html>${getHtml(application, context, locale, results, req, config)}`),
       ).catch((err) => {
         if (err) { next(err); }
       });

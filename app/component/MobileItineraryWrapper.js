@@ -28,7 +28,7 @@ export default class MobileItineraryWrapper extends React.Component {
     return itineraries.map((itinerary, i) => (
       <Tab
         selected={i === selectedIndex}
-        key={i}
+        key={i} // eslint-disable-line react/no-array-index-key
         label="•"
         value={i}
         className={i === selectedIndex ? 'itinerary-tab-root--selected' : 'itinerary-tab-root'}
@@ -52,6 +52,7 @@ export default class MobileItineraryWrapper extends React.Component {
       this.context.router.goBack();
     } else {
       this.context.router.push({
+        ...this.context.location,
         pathname: `${this.context.location.pathname}/kartta`,
       });
     }
@@ -61,8 +62,9 @@ export default class MobileItineraryWrapper extends React.Component {
 
   switchSlide = (index) => {
     this.context.router.replace({
-      state: { summaryPageSelected: index },
-      pathname: `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}` });
+      ...this.context.location,
+      pathname: `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}`,
+    });
     const itineraryTab = this.refs[`itineraryTab${index}`];
 
     if (itineraryTab) {

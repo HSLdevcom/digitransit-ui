@@ -1,5 +1,6 @@
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 import range from 'lodash/range';
 import xor from 'lodash/xor';
 import without from 'lodash/without';
@@ -10,7 +11,6 @@ import Slider from './Slider';
 import ToggleButton from './ToggleButton';
 import ModeFilter from './ModeFilter';
 import Select from './Select';
-import config from '../config';
 import { route } from '../action/ItinerarySearchActions';
 
 // find the array slot closest to a value
@@ -32,15 +32,14 @@ class CustomizeSearch extends React.Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.shape({
-      query: React.PropTypes.object.isRequired,
-    }).isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     executeAction: React.PropTypes.func.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    open: React.PropTypes.bool,
+    isOpen: React.PropTypes.bool,
     onToggleClick: React.PropTypes.func,
   };
 
@@ -62,25 +61,26 @@ class CustomizeSearch extends React.Component {
     return sliderSteps;
   }
 
-  static getDefaultModes() {
-    return [
-      ...Object.keys(config.transportModes)
-          .filter(mode => config.transportModes[mode].defaultValue).map(mode => mode.toUpperCase()),
-      ...Object.keys(config.streetModes)
-          .filter(mode => config.streetModes[mode].defaultValue).map(mode => mode.toUpperCase()),
-    ];
-  }
+  getDefaultModes = () =>
+    [
+      ...Object.keys(this.context.config.transportModes)
+        .filter(mode => this.context.config.transportModes[mode].defaultValue)
+        .map(mode => mode.toUpperCase()),
+      ...Object.keys(this.context.config.streetModes)
+        .filter(mode => this.context.config.streetModes[mode].defaultValue)
+        .map(mode => mode.toUpperCase()),
+    ]
 
   getStreetModesToggleButtons = () => {
-    const availableStreetModes = Object.keys(config.streetModes)
-      .filter(streetMode => config.streetModes[streetMode].availableForSelection);
+    const availableStreetModes = Object.keys(this.context.config.streetModes)
+      .filter(streetMode => this.context.config.streetModes[streetMode].availableForSelection);
 
     if (!availableStreetModes.length) return null;
 
     return availableStreetModes.map((streetMode, index) => (
       <ToggleButton
-        key={`toggle-button${index}`}
-        icon={config.streetModes[streetMode].icon}
+        key={`toggle-button-${streetMode}`}
+        icon={this.context.config.streetModes[streetMode].icon}
         onBtnClick={() => this.toggleStreetMode(streetMode)}
         state={this.getMode(streetMode)}
         checkedClass={streetMode}
@@ -234,7 +234,7 @@ class CustomizeSearch extends React.Component {
         })}
         name="ticket"
         selected={this.context.location.query.ticketOption || '0'}
-        options={config.ticketOptions}
+        options={this.context.config.ticketOptions}
         onSelectChange={e => this.updateSettings(
           'ticketOption',
           e.target.value,
@@ -251,7 +251,7 @@ class CustomizeSearch extends React.Component {
         })}
         name="accessible"
         selected={this.context.location.query.accessibilityOption || '0'}
-        options={config.accessibilityOptions}
+        options={this.context.config.accessibilityOptions}
         onSelectChange={e => this.updateSettings(
           'accessibilityOption',
           e.target.value,
@@ -263,7 +263,7 @@ class CustomizeSearch extends React.Component {
     if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes).split(',');
     }
-    return CustomizeSearch.getDefaultModes();
+    return this.getDefaultModes();
   }
 
   getMode(mode) {
@@ -311,7 +311,9 @@ class CustomizeSearch extends React.Component {
           query: {
             ...this.context.location.query,
             modes:
-              without(this.getModes(), ...Object.keys(config.streetModes).map(m => m.toUpperCase()))
+              without(
+                this.getModes(),
+                ...Object.keys(this.context.config.streetModes).map(m => m.toUpperCase()))
               .concat(mode.toUpperCase())
               .join(','),
           },
@@ -332,8 +334,10 @@ class CustomizeSearch extends React.Component {
   }
 
   render() {
+    const config = this.context.config;
     return (
       <div
+        aria-hidden={!this.props.isOpen}
         className="customize-search-wrapper"
         // Clicks to the transparent area and close arrow should close the offcanvas
         onClick={this.props.onToggleClick}

@@ -1,6 +1,5 @@
 import React from 'react';
 import sortBy from 'lodash/sortBy';
-import { Link } from 'react-router';
 
 import { FakeSearchWithButton } from './FakeSearchWithButtonContainer';
 import Icon from './Icon';
@@ -63,9 +62,10 @@ import SuggestionItem from './SuggestionItem';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
-import SummaryRow from './SummaryRow';
+import { component as SummaryRow } from './SummaryRow';
 import PageFooter from './PageFooter';
 import FooterItem from './FooterItem';
+import DateWarning from './DateWarning';
 
 const components = {
   Icon,
@@ -132,6 +132,7 @@ const components = {
   LangSelect,
   PageFooter,
   FooterItem,
+  DateWarning,
 };
 
 function getColors() {
@@ -442,14 +443,11 @@ function getComponents() {
 function StyleGuidePage(props) {
   if (props.params.componentName) {
     return (
-      <div className="container column">
-        <ComponentDocumentation
-          mode="examples-only"
-          component={components[props.params.componentName]}
-        />
-        <hr />
-        <Link to="/styleguide">Go back to styleguide</Link>
-      </div>);
+      <ComponentDocumentation
+        mode="examples-only"
+        component={components[props.params.componentName]}
+      />
+    );
   }
 
   return (

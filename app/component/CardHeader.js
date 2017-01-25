@@ -40,13 +40,16 @@ const CardHeader = ({
     ) : null}
   </div>);
 
-const exampleIcons = [<Favourite favourite={false} addFavourite={() => {}} />];
+const emptyFunction = () => {};
+const exampleIcons = [<Favourite key="favourite" favourite={false} addFavourite={emptyFunction} />];
 
-CardHeader.description = (
+CardHeader.displayName = 'CardHeader';
+
+CardHeader.description = () =>
   <div>
     <p>
-      {`Generic card header, which displays card name, description,\n
-        favourite star and optional childs`}
+      Generic card header, which displays card name, description,
+      favourite star and optional childs
     </p>
     <ComponentUsageExample description="">
       <CardHeader
@@ -57,7 +60,7 @@ CardHeader.description = (
         headingStyle="header-primary"
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 CardHeader.propTypes = {
   className: React.PropTypes.string,

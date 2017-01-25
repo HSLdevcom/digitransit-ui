@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+
 import React from 'react';
 
 import WalkLeg from './WalkLeg';
@@ -14,7 +16,6 @@ import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
-import config from '../config';
 
 class ItineraryLegs extends React.Component {
 
@@ -47,7 +48,7 @@ class ItineraryLegs extends React.Component {
     let startTime;
     let previousLeg;
     let nextLeg;
-    const waitThreshold = config.itinerary.waitThreshold * 1000;
+    const waitThreshold = this.context.config.itinerary.waitThreshold * 1000;
     const legs = [];
     const usingOwnBicycle = (
       ((this.props.itinerary.legs[0]) != null) &&
@@ -231,6 +232,10 @@ class ItineraryLegs extends React.Component {
 ItineraryLegs.propTypes = {
   itinerary: React.PropTypes.object,
   focusMap: React.PropTypes.func,
+};
+
+ItineraryLegs.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };
 
 export default ItineraryLegs;

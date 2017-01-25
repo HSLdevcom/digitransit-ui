@@ -7,7 +7,6 @@ import RouteNumberContainer from './RouteNumberContainer';
 import Distance from './Distance';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
-import config from '../config';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const departureRowContainerFragment = () => Relay.QL`
@@ -103,6 +102,7 @@ DepartureRow.propTypes = {
   departure: React.PropTypes.object.isRequired,
   distance: React.PropTypes.number.isRequired,
   currentTime: React.PropTypes.number.isRequired,
+  timeRange: React.PropTypes.number.isRequired,
 };
 
 const exampleDeparture1 = {
@@ -154,7 +154,7 @@ const exampleDeparture2 = {
   ],
 };
 
-DepartureRow.description = (
+DepartureRow.description = () =>
   <div>
     <ComponentUsageExample description="example">
       <DepartureRow
@@ -170,8 +170,8 @@ DepartureRow.description = (
         currentTime={1473676196}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
+
 
 export { DepartureRow };
 
@@ -182,6 +182,6 @@ export default Relay.createContainer(DepartureRow, {
 
   initialVariables: {
     currentTime: 0,
-    timeRange: config.nearbyRoutes.timeRange || 7200,
+    timeRange: 0,
   },
 });

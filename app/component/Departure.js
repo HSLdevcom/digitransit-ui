@@ -44,7 +44,7 @@ function Departure(props) {
     </p>);
 }
 
-Departure.description = (
+Departure.description = () =>
   <div>
     <p>
       Display a departure row using react components
@@ -88,7 +88,9 @@ Departure.description = (
         isArrival
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
+
+Departure.displayName = 'Departure';
 
 Departure.propTypes = {
   canceled: React.PropTypes.bool,

@@ -6,6 +6,7 @@ import TimeNavigationButtons from './TimeNavigationButtons';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
+    plan: React.PropTypes.object.isRequired,
     itineraries: React.PropTypes.array.isRequired,
     children: React.PropTypes.node,
     params: React.PropTypes.shape({
@@ -20,6 +21,7 @@ class SummaryPlanContainer extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
+    breakpoint: React.PropTypes.string.isRequired,
   };
 
   onSelectActive = (index) => {
@@ -36,18 +38,31 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectImmediately = (index) => {
     if (Number(this.props.params.hash) === index) {
-      this.context.router.goBack();
+      if (this.context.breakpoint === 'large') {
+        this.context.router.replace({
+          ...this.context.location,
+          pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+        });
+      } else {
+        this.context.router.goBack();
+      }
     } else {
-      this.context.router.replace({
+      const newState = {
         ...this.context.location,
         state: { summaryPageSelected: index },
-        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
-      });
-      this.context.router.push({
-        ...this.context.location,
-        state: { summaryPageSelected: index },
-        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`,
-      });
+      };
+      const basePath = `/reitti/${this.props.params.from}/${this.props.params.to}`;
+      const indexPath = `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`;
+
+      if (this.context.breakpoint === 'large') {
+        newState.pathname = indexPath;
+        this.context.router.replace(newState);
+      } else {
+        newState.pathname = basePath;
+        this.context.router.replace(newState);
+        newState.pathname = indexPath;
+        this.context.router.push(newState);
+      }
     }
   }
 
@@ -66,6 +81,7 @@ class SummaryPlanContainer extends React.Component {
     return (
       <div className="summary">
         <ItinerarySummaryListContainer
+          searchTime={this.props.plan.date}
           itineraries={this.props.itineraries}
           currentTime={currentTime}
           onSelect={this.onSelectActive}
@@ -83,6 +99,11 @@ class SummaryPlanContainer extends React.Component {
 
 export default Relay.createContainer(SummaryPlanContainer, {
   fragments: {
+    plan: () => Relay.QL`
+      fragment on Plan {
+        date
+      }
+    `,
     itineraries: () => Relay.QL`
       fragment on Itinerary @relay(plural: true) {
         ${ItinerarySummaryListContainer.getFragment('itineraries')}

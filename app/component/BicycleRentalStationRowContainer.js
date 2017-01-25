@@ -5,7 +5,6 @@ import { intlShape } from 'react-intl';
 import Distance from './Distance';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
-import config from '../config';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const bicycleRentalRowContainerFragment = () => Relay.QL`
@@ -22,7 +21,7 @@ const BicycleRentalStationRow = (props, context) => {
 
   if (props.station.bikesAvailable === 0 && props.station.spacesAvailable === 0) {
     availabilityIcon = (<Icon img="icon-icon_not-in-use" />);
-  } else if (props.station.bikesAvailable > config.cityBike.fewAvailableCount) {
+  } else if (props.station.bikesAvailable > context.config.cityBike.fewAvailableCount) {
     availabilityIcon = (<Icon img="icon-icon_good-availability" />);
   } else if (props.station.bikesAvailable > 0) {
     availabilityIcon = (<Icon img="icon-icon_poor-availability" />);
@@ -63,6 +62,7 @@ BicycleRentalStationRow.propTypes = {
 
 BicycleRentalStationRow.contextTypes = {
   intl: intlShape.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 BicycleRentalStationRow.displayName = 'BicycleRentalStationRow';
@@ -88,7 +88,7 @@ const exampleStation3 = {
   spacesAvailable: 16,
 };
 
-BicycleRentalStationRow.description = (
+BicycleRentalStationRow.description = () =>
   <div>
     <ComponentUsageExample description="plenty of bikes available">
       <BicycleRentalStationRow
@@ -111,8 +111,7 @@ BicycleRentalStationRow.description = (
         currentTime={1473676196}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export { BicycleRentalStationRow };
 

@@ -1,5 +1,5 @@
 .itinerary-summary-row {
-  min-height: 3.3em;
+  min-height: 50px;
   padding-left: $padding-medium;
   padding-right: 0;
   padding-top: 0;
@@ -11,7 +11,7 @@
   display: flex;
   user-select: none;
   $distance-gray: #999999;
-  font-size: $font-size-normal;
+  font-size: $font-size-xxsmall;
   font-weight: $font-weight-medium;
   @include font-narrow-book;
   white-space: nowrap;
@@ -35,9 +35,13 @@
     margin: 0.5em;
   }
 
+  .itinerary-timeframe {
+    padding-left:10px;
+  }
+
   .itinerary-duration-and-distance {
     width: 4em;
-    margin-top: 7px;
+    margin-top: 12px;
   }
 
   .itinerary-duration {
@@ -45,10 +49,10 @@
   }
 
   .itinerary-walking-distance {
-    margin-top: -1px;
+    margin-top: -4px;
     color: $distance-gray;
     font-weight: $font-weight-book;
-    font-size: $font-size-small;
+    font-size: $font-size-xxxsmall;
 
     .icon {
       margin-bottom: -2px;
@@ -57,17 +61,41 @@
 
   .itinerary-start-time {
     text-align: right;
-    padding-right: 10px;
     padding-left: 5px;
-    width: 3em;
-    margin-top: 7px;
+    min-width: 35px;
+    @include font-narrow-medium;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
-      font-size: $font-size-xsmall;
-      margin-top: -1px;
+      font-size: $font-size-xxxsmall;
+      margin-top: -4px;
       margin-right: -7px;
       font-weight: 100;
+    }
+    .itinerary-start-date {
+      display: block;
+      text-align: right;
+      min-width: 20px;
+      line-height: 1;
+      @include font-narrow-book;
+      font-size: $font-size-xxxxsmall;
+      & > span {
+        line-height: 1;
+        text-transform: capitalize;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        padding: $padding-xsmall $padding-small;
+        color: $white;
+        background-color: $gray;
+        display: inline-block;
+      }
+
+      &.nobg {
+        height: 12px;
+        & > span {
+          background-color: transparent;
+        }
+      }
     }
   }
 
@@ -78,19 +106,21 @@
   .itinerary-end-time {
     padding-left: 10px;
     width: 3em;
-    margin-top: 7px;
+    margin-top: 12px;
   }
 
   .itinerary-legs {
+    padding-left:5px;
     display: flex;
     white-space: nowrap;
-    margin-top: 3px;
+    margin-top: 8px;
     min-width: 0;
     flex: 1 1 0;
 
     .leg {
-      flex: 1 0 0;
+      flex: 1 1 0;
       overflow: hidden;
+      justify-content: center;
     }
 
     .departure-stop {
@@ -122,7 +152,7 @@
         top: 0.875em;
 
         border: 2px solid;
-        border-radius: 2px;
+        border-radius: $border-radius-small;
       }
 
       .icon {
@@ -135,13 +165,13 @@
 
     .vehicle-number {
       font-weight: $font-weight-medium;
-      font-size: $font-size-small;
+      font-size: $font-size-xxxsmall;
       clear: left;
       float: left;
       padding: 0;
       width: 1.3em;
       margin-left: $padding-xsmall;
-      margin-top: 1px;
+      margin-top: -1px;
       &.long {
         @extend .overflow-fade;
         display: inline-block;
@@ -162,6 +192,7 @@
     border: 1px solid rgba(0, 0, 0, 0.19);
     border-radius: 4px;
     padding: $padding-xxsmall $padding-xxsmall 0px $padding-xxsmall;
+    line-height: 1;
 
     svg {
       color: $action-color;
@@ -171,8 +202,9 @@
   }
 
   .itinerary-tab {
-    width: 100%;
+    width: calc(100% - 120px);
     margin-left: 100px;
+    margin-right: 10px;
     border-top: solid 1px $light-gray;
   }
 
@@ -183,16 +215,16 @@
     padding-top: 0;
 
     .itinerary-duration-and-distance {
-      width: 100px;
-      margin-top: 22px;
-    }
-
-    h2 {
+      width: 75px;
       margin-top: 25px;
     }
 
+    h2 {
+      margin-top: 10px;
+    }
+
     .itinerary-duration {
-      font-size: 21px;
+      font-size: 18px;
       @include font-narrow-medium;
     }
 
@@ -201,14 +233,20 @@
     }
 
     .itinerary-start-time {
+      min-width: 50px;
       font-size: 21px;
-      margin-top: 25px;
-      padding-top: 8px;
-      @include font-narrow-medium;
+      padding-top: 17px;
 
       .itinerary-first-leg-start-time {
-        padding-top: 0;
+        padding-top: 1px;
         font-size: $font-size-normal;
+      }
+      .itinerary-start-date {
+        @include font-narrow-book;
+        font-size: $font-size-xxsmall;
+        & > span {
+          border-radius: $border-radius-small;
+        }
       }
     }
 
@@ -219,7 +257,7 @@
       .line:after {
         top: 10px;
         border-width: 3px;
-        border-radius: 3px;
+        border-radius: $border-radius;
       }
 
       .line .icon {
@@ -256,6 +294,10 @@
 
       .action-arrow span > svg {
         transform: rotate(-90deg);
+      }
+
+      &.bp-large {
+        min-height: 75px;
       }
     }
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 
 import CityBikePopup from '../popups/CityBikePopup';
 import Icon from '../../Icon';
@@ -9,7 +10,6 @@ import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import CityBikeRoute from '../../../route/CityBikeRoute';
-import config from '../../../config';
 import { isBrowser } from '../../../util/browser';
 
 let L;
@@ -25,9 +25,10 @@ if (isBrowser) {
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
   route: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 // Small icon for zoom levels <= 15
@@ -57,14 +58,15 @@ class CityBikeMarker extends React.Component {
   static contextTypes = {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     route: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   getIcon = zoom => (
-    (!this.props.transit && zoom <= config.stopsSmallMaxZoom) ?
+    (!this.props.transit && zoom <= this.context.config.stopsSmallMaxZoom) ?
       L.divIcon({
         html: smallIconSvg,
         iconSize: [8, 8],

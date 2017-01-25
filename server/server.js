@@ -21,11 +21,11 @@ global.fetch = require('node-fetch');
 
 global.self = { fetch: global.fetch };
 
-const config = require('../app/config').default;
+const config = require('../app/config').getConfiguration();
 
 let Raven;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
   Raven = require('raven');
   Raven.config(process.env.SENTRY_SECRET_DSN, { captureUnhandledRejections: true }).install();
 }
@@ -71,13 +71,13 @@ function onError(err, req, res) {
 }
 
 function setupRaven() {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
     app.use(Raven.requestHandler());
   }
 }
 
 function setupErrorHandling() {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
     app.use(Raven.errorHandler());
   }
 

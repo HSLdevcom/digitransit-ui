@@ -46,14 +46,13 @@ TextAreaWithCounter.defaultProps = {
 
 TextAreaWithCounter.displayName = 'TextAreaWithCounter';
 
-TextAreaWithCounter.description = (
+TextAreaWithCounter.description = () =>
   <div>
     <p>Renders a text area. Counter is optional</p>
     <ComponentUsageExample description="">
       <TextAreaWithCounter showCounter maxLength={200} handleChange={() => {}} charLeft={200} />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 TextAreaWithCounter.PropTypes = {
   showCounter: React.PropTypes.bool,

@@ -1,6 +1,5 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import config from '../config';
 import ComponentUsageExample from './ComponentUsageExample';
 import { setLanguage } from '../action/userPreferencesActions';
 
@@ -8,24 +7,25 @@ const selectLanguage = (executeAction, lang) =>
   () => executeAction(setLanguage, lang);
 
 const language = (lang, currentLanguage, highlight, executeAction) => (
-  <div className="lang" key={lang}>
-    <span
-      id={`lang-${lang}`}
-      className={(highlight && 'selected') || ''}
-      onClick={selectLanguage(executeAction, lang)}
-    >
-      {lang}
-    </span>
-  </div>
+  <button
+    id={`lang-${lang}`}
+    key={lang}
+    className={`${(highlight && 'selected') || ''} noborder lang`}
+    onClick={selectLanguage(executeAction, lang)}
+  >
+    {lang}
+  </button>
 );
 
-const LangSelect = ({ currentLanguage }, { executeAction }) => (
-  <div key="lang-select" className="lang-select">
+const LangSelect = ({ currentLanguage }, { executeAction, config }) => (
+  <div key="lang-select" id="lang-select">
     {config.availableLanguages.map(lang =>
       language(lang, currentLanguage, lang === currentLanguage, executeAction),
     )}
   </div>
 );
+
+LangSelect.displayName = 'LangSelect';
 
 LangSelect.description = () => (
   <div>
@@ -45,6 +45,7 @@ LangSelect.propTypes = {
 
 LangSelect.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 const connected = connectToStores(LangSelect, ['PreferencesStore'], context => ({

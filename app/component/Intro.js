@@ -4,8 +4,6 @@ import { bindKeyboard } from 'react-swipeable-views-utils';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 
-import config from '../config';
-
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
 let slides = {};
@@ -17,8 +15,6 @@ if (typeof window !== 'undefined') {
   };
 }
 
-const themeSlides = slides[config.CONFIG] || [];
-
 export default class Intro extends React.Component {
   static propTypes = {
     onIntroFinished: React.PropTypes.func.isRequired,
@@ -27,14 +23,17 @@ export default class Intro extends React.Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
+    config: React.PropTypes.object.isRequired,
   }
 
   state = { slideIndex: 0 }
 
   onNextClick = () => this.handleChange(this.state.slideIndex + 1)
 
-  onTransitionFinished = () =>
-    this.state.slideIndex === themeSlides.length && this.props.onIntroFinished()
+  onTransitionFinished = () => {
+    const themeSlides = slides[this.context.config.CONFIG] || [];
+    return (this.state.slideIndex === themeSlides.length && this.props.onIntroFinished());
+  }
 
   handleChange = value => this.setState({ slideIndex: value })
 
@@ -45,7 +44,7 @@ export default class Intro extends React.Component {
       tabIndex={0}
       onClick={this.onNextClick}
     >
-      <img aria-hidden="true" src={content.image} role="presentation" />
+      <img alt="" aria-hidden="true" src={content.image} role="presentation" />
       <h3>{content.header[this.context.intl.locale]}</h3>
       <span>{content.text[this.context.intl.locale]}</span>
     </button>
@@ -55,6 +54,7 @@ export default class Intro extends React.Component {
     <span key={i} className={cx('dot', { active: i === this.state.slideIndex })}>•</span>
 
   render() {
+    const themeSlides = slides[this.context.config.CONFIG] || [];
     return (
       <div className="flex-vertical intro-slides">
         <BindKeyboardSwipeableViews

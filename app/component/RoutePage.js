@@ -1,7 +1,6 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { Link } from 'react-router';
 import cx from 'classnames';
 
 import Icon from './Icon';
@@ -60,9 +59,22 @@ class RoutePage extends React.Component {
     );
   }
 
+  changeTab = (path) => {
+    this.context.router.replace(path);
+  }
+
   render() {
     if (this.props.route == null) {
       return <div className="error"><NotFound /></div>; // TODO: redirect?
+    }
+
+    let activeTab;
+    if (this.props.location.pathname.indexOf('/pysakit/') > -1) {
+      activeTab = 'pysakit';
+    } else if (this.props.location.pathname.indexOf('/aikataulu/') > -1) {
+      activeTab = 'aikataulu';
+    } else if (this.props.location.pathname.indexOf('/hairiot') > -1) {
+      activeTab = 'hairiot';
     }
 
     return (
@@ -71,36 +83,36 @@ class RoutePage extends React.Component {
           { this.context.breakpoint === 'large' && (
             <RouteNumber mode={this.props.route.mode} text={this.props.route.shortName} />
           )}
-          <Link
-            to={`/linjat/${this.props.route.gtfsId}/pysakit/${this.props.params.patternId || ''}`}
-            activeClassName="is-active"
+          <a
+            className={cx({ 'is-active': activeTab === 'pysakit' })}
+            onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/pysakit/${this.props.params.patternId || ''}`); }}
           >
             <div>
               <Icon img="icon-icon_bus-stop" />
               <FormattedMessage id="stops" defaultMessage="Stops" />
             </div>
-          </Link>
-          <Link
-            to={`/linjat/${this.props.route.gtfsId}/aikataulu/${this.props.params.patternId || ''}`}
-            activeClassName="is-active"
+          </a>
+          <a
+            className={cx({ 'is-active': activeTab === 'aikataulu' })}
+            onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/aikataulu/${this.props.params.patternId || ''}`); }}
           >
             <div>
               <Icon img="icon-icon_schedule" />
               <FormattedMessage id="timetable" defaultMessage="Timetable" />
             </div>
-          </Link>
-          <Link
-            to={`/linjat/${this.props.route.gtfsId}/hairiot`}
-            activeClassName="is-active"
+          </a>
+          <a
             className={cx({
               activeAlert: this.props.route.alerts && this.props.route.alerts.length > 0,
+              'is-active': activeTab === 'hairiot',
             })}
+            onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/hairiot`); }}
           >
             <div>
               <Icon img="icon-icon_caution" />
               <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
             </div>
-          </Link>
+          </a>
           <FavouriteRouteContainer
             className="route-page-header"
             gtfsId={this.props.route.gtfsId}

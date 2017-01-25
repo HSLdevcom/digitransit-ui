@@ -86,7 +86,7 @@ function SelectStopRow(props) {
 
 SelectStopRow.displayName = 'SelectStopRow';
 
-SelectStopRow.description = (
+SelectStopRow.description = () =>
   <div>
     <p>Renders a select stop row</p>
     <ComponentUsageExample description="">
@@ -97,8 +97,7 @@ SelectStopRow.description = (
         patterns={'[{"headsign":"Kuninkaanmäki","type":"BUS","shortName":"518"}]'}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 SelectStopRow.propTypes = {
   type: React.PropTypes.string.isRequired,

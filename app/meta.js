@@ -1,16 +1,13 @@
-import config from './config';
+export default function getMetadata(lang, host, url, config) {
+  const configPath = config.CONFIG;
+  const root = config.APP_PATH;
 
-const configPath = config.CONFIG;
-const root = config.APP_PATH;
+  const getAppleTouchIcon = size => ({
+    rel: 'apple-touch-icon',
+    sizes: size,
+    href: `${root}/img/${configPath}-icons/apple-icon-${size}.png`,
+  });
 
-const getAppleTouchIcon = size => ({
-  rel: 'apple-touch-icon',
-  sizes: size,
-  href: `${root}/img/${configPath}-icons/apple-icon-${size}.png`,
-});
-
-
-export default function getMetadata(lang) {
   return {
     title: config.title,
 
@@ -31,7 +28,7 @@ export default function getMetadata(lang) {
       content: config.meta.keywords,
     }, {
       name: 'viewport',
-      content: 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no, minimal-ui', // eslint-disable-line max-len
+      content: 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no, minimal-ui',
     }, {
       name: 'mobile-web-app-capable',
       content: 'yes',
@@ -52,7 +49,7 @@ export default function getMetadata(lang) {
       content: '#fff',
     }, {
       property: 'og:url',
-      content: `${root}/`,
+      content: `https://${host}${url}`,
     }, {
       property: 'og:type',
       content: 'website',
@@ -67,25 +64,34 @@ export default function getMetadata(lang) {
       content: config.socialMedia.description,
     }, {
       property: 'og:image',
-      content: `${root}/img/${configPath}-icons/social-share.png`,
+      content: `https://${host}${config.socialMedia.image.url}`,
+    }, {
+      property: 'og:image:width',
+      content: config.socialMedia.image.width,
+    }, {
+      property: 'og:image:height',
+      content: config.socialMedia.image.height,
     }, {
       property: 'og:locale',
       content: config.socialMedia.locale,
     }, {
-      name: 'twitter:card',
-      content: 'summary_large_image',
+      property: 'twitter:card',
+      content: config.socialMedia.twitter.card,
     }, {
-      name: 'twitter:site',
+      property: 'twitter:site',
       content: config.socialMedia.twitter.site,
     }, {
-      name: 'twitter:title',
+      property: 'twitter:creator',
+      content: config.socialMedia.twitter.site,
+    }, {
+      property: 'twitter:title',
       content: config.socialMedia.title,
     }, {
-      name: 'twitter:description',
+      property: 'twitter:description',
       content: config.socialMedia.description,
     }, {
-      name: 'twitter:image',
-      content: `${root}/img/${configPath}-icons/social-share.png`,
+      property: 'twitter:image',
+      content: `https://${host}${config.socialMedia.image.url}`,
     }],
 
     link: [{

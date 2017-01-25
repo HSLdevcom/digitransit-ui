@@ -8,7 +8,6 @@ import values from 'lodash/values';
 import cx from 'classnames';
 
 import { getDistanceToNearestStop } from '../util/geo-utils';
-import config from '../config';
 import RouteStop from './RouteStop';
 
 const RouteStopClass = toClass(RouteStop);
@@ -24,6 +23,7 @@ class RouteStopListContainer extends React.Component {
 
   static contextTypes = {
     breakpoint: React.PropTypes.string,
+    config: React.PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -57,7 +57,7 @@ class RouteStopListContainer extends React.Component {
 
     return stops.map((stop, i) => {
       const isNearest = (
-        nearest && nearest.distance < config.nearestStopDistance.maxShownDistance &&
+        nearest && nearest.distance < this.context.config.nearestStopDistance.maxShownDistance &&
           nearest.stop.gtfsId
       ) === stop.gtfsId;
 

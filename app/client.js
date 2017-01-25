@@ -17,11 +17,10 @@ import {
 } from 'react-relay-network-layer';
 import OfflinePlugin from 'offline-plugin/runtime';
 
-import Raven from './util/Raven';
-import config from './config';
+import getRaven from './util/Raven';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
-import app from './app';
+import appCreator from './app';
 import translations from './translations';
 import { openFeedbackModal } from './action/feedbackActions';
 import { shouldDisplayPopup } from './util/Feedback';
@@ -34,6 +33,8 @@ const plugContext = f => () => ({
   plugActionContext: f,
   plugStoreContext: f,
 });
+
+const config = window.config;
 
 const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
 
@@ -50,11 +51,20 @@ const piwikPlugin = {
   plugContext: plugContext(addPiwik),
 };
 
+const Raven = getRaven(config);
 const addRaven = context => (context.raven = Raven); // eslint-disable-line no-param-reassign
 
 const ravenPlugin = {
   name: 'RavenPlugin',
   plugContext: plugContext(addRaven),
+};
+
+const addConfig = context =>
+ (context.config = window.config); // eslint-disable-line no-param-reassign
+
+const configPlugin = {
+  name: 'ConfigPlugin',
+  plugContext: plugContext(addConfig),
 };
 
 if (process.env.NODE_ENV === 'development') {
@@ -87,9 +97,13 @@ if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
 // Material-ui uses touch tap events
 tapEventPlugin();
 
+const app = appCreator(window.config);
+
+
 // Add plugins
 app.plug(piwikPlugin);
 app.plug(ravenPlugin);
+app.plug(configPlugin);
 
 // Run application
 const callback = () => app.rehydrate(window.state, (err, context) => {
@@ -98,6 +112,11 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   }
 
   window.context = context;
+
+  context
+    .getComponentContext()
+    .getStore('MessageStore')
+    .addConfigMessages(config);
 
   function track() {
     // track "getting back to home"
@@ -110,6 +129,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
           .getStore('TimeStore')
           .getCurrentTime()
           .valueOf(),
+        window.config,
         )
       ) {
         context.executeAction(openFeedbackModal);
@@ -124,15 +144,20 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
     piwik: React.PropTypes.object,
     raven: React.PropTypes.object,
+    config: React.PropTypes.object,
+    url: React.PropTypes.string,
+    headers: React.PropTypes.object,
   });
 
   // init geolocation handling
   context.executeAction(initGeolocation).then(() => {
     ReactDOM.render(
       <ContextProvider translations={translations} context={context.getComponentContext()}>
-        <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
+        <MuiThemeProvider
+          muiTheme={getMuiTheme(MUITheme(window.config), { userAgent: navigator.userAgent })}
+        >
           <Router
-            history={history}
+            history={history(config)}
             environment={Relay.Store}
             render={applyRouterMiddleware(useRelay)}
             onUpdate={track}

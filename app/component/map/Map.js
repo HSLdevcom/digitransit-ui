@@ -1,7 +1,6 @@
 import React from 'react';
 import elementResizeDetectorMaker from 'element-resize-detector';
 
-import config from '../../config';
 import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
@@ -55,6 +54,7 @@ class Map extends React.Component {
     getStore: React.PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
     piwik: React.PropTypes.object,
+    config: React.PropTypes.object.isRequired,
   };
 
   componentDidMount = () => {
@@ -128,6 +128,7 @@ class Map extends React.Component {
     let zoom;
     let origin;
     let leafletObjs;
+    const config = this.context.config;
 
     if (isBrowser) {
       leafletObjs = this.props.leafletObjs || [];

@@ -29,9 +29,7 @@ require('babel-core/register')({
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
-const devBrowsers = ['edge 14', 'last 1 chrome version', 'Firefox ESR', 'safari 9'];
-
-const prodBrowsers = ['IE 10', '> 0.3% in FI', 'last 2 versions'];
+const prodBrowsers = ['IE 11', '> 0.3% in FI', 'last 2 versions'];
 
 function getRulesConfig(env) {
   if (env === 'development') {
@@ -44,7 +42,7 @@ function getRulesConfig(env) {
         exclude: /node_modules/,
         options: {
           presets: [
-            ['env', { targets: { browsers: devBrowsers }, modules: false }],
+            ['env', { targets: { browsers: prodBrowsers }, modules: false }],
             'react',
             'stage-2',
           ],
@@ -96,7 +94,7 @@ function getRulesConfig(env) {
 }
 
 function getAllPossibleLanguages() {
-  const srcDirectory = 'app';
+  const srcDirectory = 'app/configurations';
   return fs.readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
     .filter(file => !/^config\.client\.js$/.test(file))
@@ -116,15 +114,6 @@ function getSourceMapPlugin(testPattern, prefix) {
   });
 }
 
-function printDevModeWarning() {
-  /* eslint-disable no-console */
-  console.log('\n************* NOTICE ***************');
-  console.log('dev mode does not support all browsers');
-  console.log(`currently supported are: ${devBrowsers}`);
-  console.log('************************************\n');
-  /* eslint-enable no-console */
-}
-
 function getPluginsConfig(env) {
   const languageExpression = new RegExp('^./(' + getAllPossibleLanguages().join('|') + ')$');
   const momentExpression = /moment[/\\]locale$/;
@@ -134,7 +123,6 @@ function getPluginsConfig(env) {
   const selectedTheme = new RegExp(`^./(${process.env.CONFIG || 'default'})/main.scss$`);
 
   if (env === 'development') {
-    printDevModeWarning();
     return ([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
@@ -145,10 +133,10 @@ function getPluginsConfig(env) {
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
-          postcss: () => [autoprefixer({ browsers: devBrowsers })],
+          postcss: () => [autoprefixer({ browsers: prodBrowsers })],
         },
       }),
-      new webpack.NoErrorsPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
     ]);
   }
   return ([
@@ -227,7 +215,7 @@ function getPluginsConfig(env) {
       test: /\.(js|css|html|svg)$/,
       minRatio: 0.95,
     }),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ]);
 }
 

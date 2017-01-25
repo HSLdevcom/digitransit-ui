@@ -8,7 +8,6 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ItineraryFeedback from './itinerary-feedback';
 import Icon from './Icon';
-import config from '../config';
 
 // TODO: sptlit into container and view
 
@@ -27,9 +26,12 @@ export default class TimeNavigationButtons extends React.Component {
     location: PropTypes.object.isRequired,
     breakpoint: PropTypes.string,
     executeAction: React.PropTypes.func.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
-  static description = (
+  static displayName ='TimeNavigationButtons';
+
+  static description = () =>
     <div>
       <p>
         Shows buttons for changing the itinerary search time to show previous or next deaprtures or
@@ -38,7 +40,7 @@ export default class TimeNavigationButtons extends React.Component {
       <ComponentUsageExample>
         <TimeNavigationButtons itineraries={examplePlan.itineraries} />
       </ComponentUsageExample>
-    </div>);
+    </div>
 
   setEarlierSelectedTime() {
     const earliestArrivalTime = this.props.itineraries.reduce((previous, current) => {
@@ -119,6 +121,8 @@ export default class TimeNavigationButtons extends React.Component {
   }
 
   render() {
+    const config = this.context.config;
+
     if (!this.props.itineraries || !this.props.itineraries[0]) { return null; }
     const itineraryFeedback = config.itinerary.enableFeedback ? <ItineraryFeedback /> : null;
     const enableButtonArrows = config.itinerary.timeNavigation.enableButtonArrows;
