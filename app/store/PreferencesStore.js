@@ -12,7 +12,8 @@ class PreferencesStore extends Store {
     this.config = dispatcher.getContext().config;
 
     const language = reactCookie.load('lang');
-    if (this.config.availableLanguages.indexOf(language) === -1) { // illegal selection, use default
+    if (this.config && this.config.availableLanguages.indexOf(language) === -1) {
+      // illegal selection, use default
       this.language = this.config.defaultLanguage;
     } else {
       this.language = language;
