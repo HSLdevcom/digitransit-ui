@@ -32,4 +32,30 @@ app.registerStore(RealTimeInformationStore);
 app.registerStore(TimeStore);
 app.registerStore(FavouriteCityBikeStationStore);
 
+app.plug({
+  name: 'extra-context-plugin',
+  plugContext: (options) => {
+    let { url, headers } = options;
+    return {
+      plugComponentContext: (componentContext) => {
+        // eslint-disable-next-line no-param-reassign
+        componentContext.url = url;
+        // eslint-disable-next-line no-param-reassign
+        componentContext.headers = headers;
+      },
+
+      dehydrate: () => ({
+        url,
+        headers,
+      }),
+      rehydrate: (state) => {
+        url = state.url;
+        headers = state.headers;
+      },
+    };
+  },
+  dehydrate: () => ({}),
+  rehydrate: () => {},
+});
+
 export default app;
