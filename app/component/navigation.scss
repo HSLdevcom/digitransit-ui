@@ -143,11 +143,6 @@ $content-background-color: $background-color;
   border-right: 1px solid rgba(0,0,0,0.15);
 }
 
-.navi-margin {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 .navi-icons {
   .icon {
     font-size: 1.8em;
@@ -356,11 +351,6 @@ section.content {
 }
 
 .external-top-bar {
-  font-size: 10px;
-   > svg.icon { //decoration
-    font-size:7px;
-    top:-7px;
-  }
   .external-link-icon-outer {
     color: $primary-color;
   }
@@ -369,6 +359,7 @@ section.content {
     color: $primary-font-color;
   }
 }
+
 .external-link-decoration {
   position: absolute;
   top: -1px;
