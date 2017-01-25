@@ -5,10 +5,10 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
-
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import RouteScheduleDateSelect from './RouteScheduleDateSelect';
+import PrintLink from './PrintLink';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -115,12 +115,15 @@ class RouteScheduleContainer extends Component {
   render() {
     return (
       <div className="route-schedule-content-wrapper">
-        <RouteScheduleDateSelect
-          startDate={this.props.serviceDay}
-          selectedDate={this.props.relay.variables.serviceDay}
-          dateFormat={DATE_FORMAT}
-          onDateChange={this.changeDate}
-        />
+        <div className="route-page-action-bar">
+          <RouteScheduleDateSelect
+            startDate={this.props.serviceDay}
+            selectedDate={this.props.relay.variables.serviceDay}
+            dateFormat={DATE_FORMAT}
+            onDateChange={this.changeDate}
+          />
+          <PrintLink className="action-bar" href={this.props.pattern.route.url} />
+        </div>
         <div className="route-schedule-list-wrapper">
           <RouteScheduleHeader
             stops={this.props.pattern.stops}
@@ -147,6 +150,9 @@ export const relayFragment = {
       stops {
         id
         name
+      }
+      route {
+        url
       }
       tripsForDate(serviceDay: $serviceDay) {
         id

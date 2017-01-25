@@ -102,22 +102,23 @@
   z-index: 400; //get shadow over map
   padding: 5px 10px;
   text-align:right;
-  .action-bar {
-    a.external-link {
-      font-size: $font-size-xxsmall;
-      color: $gray-blue;
-      svg.icon {
-        top:3px;
-        font-size:14px;
-        position: relative;
-      }
+}
+
+.action-bar {
+  a.external-link {
+    font-size: $font-size-xxsmall;
+    color: $gray-blue;
+    svg.icon {
+      top:3px;
+      font-size:14px;
+      position: relative;
     }
-    .external-link-icon-outer{
-      color: #eef1f3;
-    }
-    .external-link-icon {
-      color: $gray-blue;
-    }
+  }
+  .external-link-icon-outer{
+    color: #eef1f3;
+  }
+  .external-link-icon {
+    color: $gray-blue;
   }
 }
 
@@ -134,13 +135,13 @@ hr.action-bar {
     box-shadow: none;
     height: auto;
     padding: 10px 20px 8px 20px;
-    .action-bar {
-      a.external-link {
-        font-size: 14px;
-        line-height:22px;
-        svg.icon {
-          font-size:18px;
-        }
+  }
+  .action-bar {
+    a.external-link {
+      font-size: 14px;
+      line-height:22px;
+      svg.icon {
+        font-size:18px;
       }
     }
   }
