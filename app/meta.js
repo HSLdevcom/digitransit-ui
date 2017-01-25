@@ -3,12 +3,6 @@ import config from './config';
 const configPath = config.CONFIG;
 const root = config.APP_PATH;
 
-const getAppleTouchIcon = size => ({
-  rel: 'apple-touch-icon',
-  sizes: size,
-  href: `${root}/img/${configPath}-icons/apple-icon-${size}.png`,
-});
-
 
 export default function getMetadata(lang, host, url) {
   return {
@@ -98,39 +92,6 @@ export default function getMetadata(lang, host, url) {
     }],
 
     link: [{
-      rel: 'apple-touch-startup-image',
-      href: `${root}/img/${configPath}-icons/ios-splash-screen.png`,
-    },
-      getAppleTouchIcon('57x57'),
-      getAppleTouchIcon('60x60'),
-      getAppleTouchIcon('72x72'),
-      getAppleTouchIcon('76x76'),
-      getAppleTouchIcon('114x114'),
-      getAppleTouchIcon('120x120'),
-      getAppleTouchIcon('144x144'),
-      getAppleTouchIcon('152x152'),
-      getAppleTouchIcon('180x180'),
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '192x192',
-      href: `${root}/img/${configPath}-icons/android-icon-192x192.png`,
-    }, {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '32x32',
-      href: `${root}/img/${configPath}-icons/favicon-32x32.png`,
-    }, {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '96x96',
-      href: `${root}/img/${configPath}-icons/favicon-96x96.png`,
-    }, {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '16x16',
-      href: `${root}/img/${configPath}-icons/favicon-16x16.png`,
-    }, {
       rel: 'manifest',
       href: `${root}/manifest.${configPath}.json`,
     }],
