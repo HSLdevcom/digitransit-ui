@@ -285,6 +285,7 @@
 }
 
 .departure-list-header {
+  flex: 1 0 auto;
   color: $gray;
   background-color: $white;
   @include font-narrow-book;
