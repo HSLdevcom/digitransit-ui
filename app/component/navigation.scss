@@ -158,7 +158,17 @@ $content-background-color: $background-color;
   }
 }
 .main-menu-toggle {
+  .icon {
+    font-size: $font-size-large;;
+  }
+
   right: 0;
+}
+
+.back-button {
+  .icon {
+    font-size: $font-size-large;;
+  }
 }
 
 .main-menu {
