@@ -9,11 +9,13 @@ class PreferencesStore extends Store {
 
   constructor(dispatcher) {
     super(dispatcher);
-    this.config = dispatcher.getContext().config;
+    const config = dispatcher.getContext().config;
+    this.availableLanguages = config.availableLanguages;
+    this.defaultLanguage = config.defaultLanguage;
 
     const language = reactCookie.load('lang');
-    if (this.config.availableLanguages.indexOf(language) === -1) { // illegal selection, use default
-      this.language = this.config.defaultLanguage;
+    if (this.availableLanguages.indexOf(language) === -1) { // illegal selection, use default
+      this.language = this.defaultLanguage;
     } else {
       this.language = language;
     }
@@ -24,7 +26,7 @@ class PreferencesStore extends Store {
   }
 
   setLanguage(language) {
-    if (this.config.availableLanguages.indexOf(language) === -1) {
+    if (this.availableLanguages.indexOf(language) === -1) {
       return;
     }
 
