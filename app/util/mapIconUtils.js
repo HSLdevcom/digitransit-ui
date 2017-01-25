@@ -81,7 +81,6 @@ function drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio)
 }
 
 /* eslint-disable no-param-reassign */
-/* eslint-disable require-yield */
 export async function drawRoundIcon(tile, geom, type, large, platformNumber) {
   const scale = large ? 2 : 1;
   const caseRadius = getCaseRadius({ $zoom: tile.coords.z }) * scale;
