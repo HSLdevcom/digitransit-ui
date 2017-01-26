@@ -13,7 +13,7 @@ const logo = path.basename(logoPath);
 console.log(color);
 
 if (!theme || theme === '?') {
-  console.log('Usage: npm run add-theme <name> <optional theme hex color> \n');
+  console.log('Usage: npm run add-theme <name> <optional hex color (with quotes!)> <optional logo image> \n');
   process.exit(0);
 }
 
