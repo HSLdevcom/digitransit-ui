@@ -23,6 +23,8 @@ export default mergeWith({}, walttiConfig, {
 
   title: '__Theme__ Digitransit',
 
+  useTextBanner: true,
+
   footer: {
     content: [
       { label: (function () { return `© __Theme__ ${(1900 + new Date().getYear())}`; }()) },
