@@ -19,6 +19,8 @@ export default {
     default: '',
   },
 
+  feedIds: ['JOE', 'POSJOE'],
+
   searchParams: {
     'boundary.rect.min_lat': 61.6,
     'boundary.rect.max_lat': 63.6,
