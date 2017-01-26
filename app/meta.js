@@ -1,6 +1,7 @@
 export default function getMetadata(lang, host, url, config) {
-  const configPath = config.CONFIG;
+  const configName = config.CONFIG;
   const root = config.APP_PATH;
+  const iconPath = `${root}/${configName}-icons/`;
 
   return {
     title: config.title,
@@ -31,13 +32,13 @@ export default function getMetadata(lang, host, url, config) {
       content: 'yes',
     }, {
       name: 'msapplication-config',
-      content: `${root}/browserconfig.${configPath}.xml`,
+      content: `${iconPath}browserconfig.xml`,
     }, {
       name: 'msapplication-TileColor',
       content: `${config.colors.primary}`,
     }, {
       name: 'msapplication-TileImage',
-      content: `${root}/img/${configPath}-icons/ms-icon-144x144.png`,
+      content: `${iconPath}ms-icon-144x144.png`,
     }, {
       name: 'theme-color',
       content: '#fff',
@@ -90,7 +91,7 @@ export default function getMetadata(lang, host, url, config) {
 
     link: [{
       rel: 'manifest',
-      href: `${root}/manifest.${configPath}.json`,
+      href: `${iconPath}manifest.json`,
     }],
   };
 }
