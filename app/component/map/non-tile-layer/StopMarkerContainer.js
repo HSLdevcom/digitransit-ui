@@ -1,11 +1,10 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-import config from '../../../config';
 import StopMarkerLayer from './StopMarkerLayer';
 import StopMarkerLayerRoute from '../../../route/StopMarkerLayerRoute';
 
-export default function StopMarkerContainer({ hilightedStops }, { map }) {
+export default function StopMarkerContainer({ hilightedStops }, { map, config }) {
   let bounds;
   let maxLon;
   let maxLat;
@@ -33,6 +32,7 @@ export default function StopMarkerContainer({ hilightedStops }, { map }) {
         minLon,
         maxLat,
         maxLon,
+        agency: config.preferredAgency,
       })}
       renderFetched={data => (
         <StopMarkerLayer
@@ -42,6 +42,7 @@ export default function StopMarkerContainer({ hilightedStops }, { map }) {
           minLon={minLon}
           maxLat={maxLat}
           maxLon={maxLon}
+          agency={config.preferredAgency}
         />
       )}
     />
@@ -54,4 +55,5 @@ StopMarkerContainer.propTypes = {
 
 StopMarkerContainer.contextTypes = {
   map: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 };

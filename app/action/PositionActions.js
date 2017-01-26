@@ -1,7 +1,6 @@
 import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
 import { getJson } from '../util/xhrPromise';
-import config from '../config';
 import { setOriginToDefault } from './EndpointActions';
 import { getPositioningHasSucceeded } from '../store/localStorage';
 import { createMock } from './MockActions';
@@ -11,7 +10,7 @@ let geoWatchId;
 function reverseGeocodeAddress(actionContext, location) {
   const language = actionContext.getStore('PreferencesStore').getLanguage();
 
-  return getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
+  return getJson(actionContext.config.URL.PELIAS_REVERSE_GEOCODER, {
     'point.lat': location.lat,
     'point.lon': location.lon,
     lang: language,
@@ -39,7 +38,7 @@ const debouncedRunReverseGeocodingAction = debounce(runReverseGeocodingAction, 6
 });
 
 const setCurrentLocation = (actionContext, position) => {
-  if (inside([position.lon, position.lat], config.areaPolygon)) {
+  if (inside([position.lon, position.lat], actionContext.config.areaPolygon)) {
     actionContext.dispatch('GeolocationFound', position);
   } else if (!actionContext.getStore('EndpointStore').getOrigin().userSetPosition) {
     // TODO: should we really do this?

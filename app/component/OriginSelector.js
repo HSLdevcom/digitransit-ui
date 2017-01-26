@@ -1,7 +1,6 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import config from '../config';
 import { setEndpoint } from '../action/EndpointActions';
 import Icon from './Icon';
 import { getIcon } from '../util/suggestionUtils';
@@ -31,7 +30,7 @@ OriginSelectorRow.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
 };
 
-const OriginSelector = ({ favourites, oldSearches }) => {
+const OriginSelector = ({ favourites, oldSearches }, { config }) => {
   const names = favourites.map(
       f => <OriginSelectorRow
         key={`f-${f.locationName}`}
@@ -54,6 +53,10 @@ const OriginSelector = ({ favourites, oldSearches }) => {
 OriginSelector.propTypes = {
   favourites: React.PropTypes.array.isRequired,
   oldSearches: React.PropTypes.array.isRequired,
+};
+
+OriginSelector.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };
 
 export default connectToStores(
