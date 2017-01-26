@@ -8,7 +8,6 @@ import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 
 import config from '../config';
-
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
@@ -28,21 +27,17 @@ function getRelayQuery(query) {
   });
 }
 
-function mapRoutes(res) {
-  return res.map(item =>
-    ({
-      type: 'Route',
-      properties: {
-        ...item,
-        layer: `route-${item.mode}`,
-        link: `/linjat/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
-      },
-      geometry: {
-        coordinates: null,
-      },
-    }),
-  );
-}
+const mapRoute = item => ({
+  type: 'Route',
+  properties: {
+    ...item,
+    layer: `route-${item.mode}`,
+    link: `/linjat/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
+  },
+  geometry: {
+    coordinates: null,
+  },
+});
 
 function mapStops(stops) {
   return stops.map(item => ({
@@ -156,7 +151,7 @@ function getFavouriteRoutes(favourites, input) {
   );
 
   return getRelayQuery(query)
-    .then(favouriteRoutes => mapRoutes(favouriteRoutes))
+    .then(favouriteRoutes => favouriteRoutes.map(mapRoute))
     .then(routes => routes.map(favourite => ({
       ...favourite,
       properties: { ...favourite.properties, layer: 'favouriteRoute' },
@@ -226,9 +221,12 @@ function getRoutes(input) {
   );
 
   return getRelayQuery(query).then(data =>
-    mapRoutes(data[0].routes).sort((x, y) => routeCompare(x.properties, y.properties)),
-  ).then(suggestions => take(suggestions, 10));
-}
+    data[0].routes.filter((item) => (
+      config.feedIds === undefined || config.feedIds.indexOf(item.gtfsId.split(':')[0]) > -1
+    )
+    .map(mapRoute)
+    .sort((x, y) => routeCompare(x.properties, y.properties)),
+  ).then((suggestions) => take(suggestions, 10)));
 
 function getStops(input, origin) {
   if (typeof input !== 'string' || input.trim().length === 0) {
