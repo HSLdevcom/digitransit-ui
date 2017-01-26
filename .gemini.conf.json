@@ -6,7 +6,8 @@
   "retry": 3,
   "suitesPerSession": 10,
   "system": {
-    "plugins": { "browserstack": {} }
+    "plugins": { "browserstack": {} },
+    "parallelLimit": 3
   },
   "browsers": {
     "ie11": {
