@@ -24,7 +24,7 @@ export default mergeWith({}, walttiConfig, {
   // Label for manifest creation
   name: '__Theme__ Digitransit',
 
-  useTextBanner: true,
+  textLogo: true, // title text instead of logo img
 
   footer: {
     content: [

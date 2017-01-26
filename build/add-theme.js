@@ -62,6 +62,6 @@ const regexName = new RegExp('__Theme__', 'g');
 
 let conf = fs.readFileSync('build/template.waltti.js', "utf-8");
 conf = conf.replace(regexColor, color).replace(regexTheme, theme).replace(regexName, name);
-fs.writeFileSync('app/config.' + theme + '.js', conf);
+fs.writeFileSync('app/configurations/config.' + theme + '.js', conf);
 
-console.log('Theme for ' + theme + ' created! Apply "git add" to join new components to the project. /n');
+console.log('Theme for ' + theme + ' created! Apply "git add" to join new components to the project. \n');
