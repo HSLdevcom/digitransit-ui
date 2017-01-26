@@ -10,8 +10,6 @@ const color = process.argv[3] || '$livi-blue';
 const logoPath = process.argv[4] || 'sass/themes/default/digitransit-logo.png'; // source icon
 const logo = path.basename(logoPath);
 
-console.log(color);
-
 if (!theme || theme === '?') {
   console.log('Usage: npm run add-theme <name> <optional hex color (with quotes!)> <optional logo image> \n');
   process.exit(0);
