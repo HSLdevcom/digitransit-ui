@@ -1,10 +1,7 @@
-import config from './config';
+export default function getMetadata(lang, host, url, config) {
+  const configPath = config.CONFIG;
+  const root = config.APP_PATH;
 
-const configPath = config.CONFIG;
-const root = config.APP_PATH;
-
-
-export default function getMetadata(lang, host, url) {
   return {
     title: config.title,
 

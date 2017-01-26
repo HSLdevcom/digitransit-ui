@@ -1,23 +1,13 @@
+import mergeWith from 'lodash/mergeWith';
+
 const CONFIG = process.env.CONFIG || 'joensuu';
-const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const APP_DESCRIPTION =
   'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
 
-export default {
+const walttiConfig = require('./waltti').default;
+
+export default mergeWith({}, walttiConfig, {
   CONFIG,
-
-  URL: {
-    OTP: `${API_URL}/routing/v1/routers/waltti/`,
-    STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
-  },
-
-  title: 'Reittiopas',
-
-  contactName: {
-    sv: '',
-    fi: '',
-    default: '',
-  },
 
   searchParams: {
     'boundary.rect.min_lat': 61.6,
@@ -26,28 +16,17 @@ export default {
     'boundary.rect.max_lon': 31,
   },
 
-  availableLanguages: ['fi', 'sv', 'en'],
-  defaultLanguage: 'fi',
-
   initialLocation: {
     lat: 62.6024263,
     lon: 29.7569847,
   },
 
-  cityBike: {
-    showCityBikes: false,
-  },
-
-  stopsMinZoom: 14,
-
   appBarLink: { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
+
+  title: 'Joensuu Digitransit',
 
   colors: {
     primary: '#5c4696',
-  },
-
-  agency: {
-    show: false,
   },
 
   socialMedia: {
@@ -55,37 +34,12 @@ export default {
     description: APP_DESCRIPTION,
   },
 
-  meta: {
-    description: APP_DESCRIPTION,
-  },
-
   transportModes: {
-    tram: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
-    subway: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
-    citybike: {
-      availableForSelection: false,
-    },
-
-    airplane: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
     ferry: {
       availableForSelection: true,
       defaultValue: true,
     },
   },
-
-  showModeFilter: false,
 
   areaPolygon: [[29.2154, 62.2692], [29.2154, 62.9964], [31.0931, 62.9964], [31.0931, 62.2692]],
 
@@ -128,5 +82,8 @@ export default {
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
   },
-
-};
+}, (objValue, srcValue) => {
+  if (Array.isArray(srcValue)) { return srcValue; }
+  if (Array.isArray(objValue)) { return objValue; }
+  return undefined; // default merge
+});

@@ -2,10 +2,8 @@ import React from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 
 import Icon from './Icon';
-import config from '../config';
 
-
-const SearchModal = (props) => {
+const SearchModal = (props, context) => {
   if (!props.modalIsOpen) {
     return false;
   }
@@ -19,7 +17,7 @@ const SearchModal = (props) => {
           </div>
           <Tabs
             className="search-header__tabs-root"
-            inkBarStyle={{ backgroundColor: config.colors.primary, height: 4 }}
+            inkBarStyle={{ backgroundColor: context.config.colors.primary, height: 4 }}
             value={props.selectedTab}
           >
             {props.children}
@@ -34,6 +32,10 @@ SearchModal.propTypes = {
   closeModal: React.PropTypes.func.isRequired,
   selectedTab: React.PropTypes.string.isRequired,
   children: React.PropTypes.node,
+};
+
+SearchModal.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };
 
 export default SearchModal;

@@ -1,6 +1,5 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import config from '../config';
 import ComponentUsageExample from './ComponentUsageExample';
 import { setLanguage } from '../action/userPreferencesActions';
 
@@ -18,7 +17,7 @@ const language = (lang, currentLanguage, highlight, executeAction) => (
   </button>
 );
 
-const LangSelect = ({ currentLanguage }, { executeAction }) => (
+const LangSelect = ({ currentLanguage }, { executeAction, config }) => (
   <div key="lang-select" id="lang-select">
     {config.availableLanguages.map(lang =>
       language(lang, currentLanguage, lang === currentLanguage, executeAction),
@@ -46,6 +45,7 @@ LangSelect.propTypes = {
 
 LangSelect.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 const connected = connectToStores(LangSelect, ['PreferencesStore'], context => ({

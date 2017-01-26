@@ -1,6 +1,5 @@
 import React from 'react';
 
-import config from '../../../config';
 import { isBrowser } from '../../../util/browser';
 
 const Popup = isBrowser ?
@@ -12,6 +11,10 @@ class SelectedStopPopup extends React.Component {
     lat: React.PropTypes.number.isRequired,
     lon: React.PropTypes.number.isRequired,
     children: React.PropTypes.node.isRequired,
+  };
+
+  static contextTypes = {
+    config: React.PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -26,7 +29,7 @@ class SelectedStopPopup extends React.Component {
         position={{ lat: this.props.lat, lng: this.props.lon }}
         offset={[50, 25]}
         closeButton={false}
-        maxWidth={config.map.genericMarker.popup.maxWidth}
+        maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
         autoPan={false}
         className="origin-popup"
       >

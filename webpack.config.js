@@ -95,11 +95,15 @@ function getRulesConfig(env) {
 }
 
 function getAllConfigs() {
-  const srcDirectory = 'app';
+  const srcDirectory = 'app/configurations';
+
   return fs.readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
     .filter(file => !/^config\.client\.js$/.test(file))
-    .map(file => require('./' + srcDirectory + '/' + file).default);
+    .map((file) => {
+      const theme = file.replace('config.', '').replace('.js', '');
+      return require('./app/config').getNamedConfiguration(theme);
+    });
 }
 
 function getAllPossibleLanguages() {

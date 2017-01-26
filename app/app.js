@@ -14,48 +14,54 @@ import RealTimeInformationStore from './store/RealTimeInformationStore';
 import TimeStore from './store/TimeStore';
 import FavouriteCityBikeStationStore from './store/FavouriteCityBikeStationStore';
 
-const app = new Fluxible({
-  component: routes,
-});
+const appConstructor = (Config) => {
+  const app = new Fluxible({ component: routes(Config) });
 
-app.registerStore(EndpointStore);
-app.registerStore(FavouriteLocationStore);
-app.registerStore(FavouriteRoutesStore);
-app.registerStore(FavouriteStopsStore);
-app.registerStore(FeedbackStore);
-app.registerStore(MessageStore);
-app.registerStore(ModeStore);
-app.registerStore(OldSearchesStore);
-app.registerStore(PositionStore);
-app.registerStore(PreferencesStore);
-app.registerStore(RealTimeInformationStore);
-app.registerStore(TimeStore);
-app.registerStore(FavouriteCityBikeStationStore);
+  app.registerStore(EndpointStore);
+  app.registerStore(FavouriteLocationStore);
+  app.registerStore(FavouriteRoutesStore);
+  app.registerStore(FavouriteStopsStore);
+  app.registerStore(FeedbackStore);
+  app.registerStore(MessageStore);
+  app.registerStore(ModeStore);
+  app.registerStore(OldSearchesStore);
+  app.registerStore(PositionStore);
+  app.registerStore(PreferencesStore);
+  app.registerStore(RealTimeInformationStore);
+  app.registerStore(TimeStore);
+  app.registerStore(FavouriteCityBikeStationStore);
 
-app.plug({
-  name: 'extra-context-plugin',
-  plugContext: (options) => {
-    let { url, headers } = options;
-    return {
-      plugComponentContext: (componentContext) => {
-        // eslint-disable-next-line no-param-reassign
-        componentContext.url = url;
-        // eslint-disable-next-line no-param-reassign
-        componentContext.headers = headers;
-      },
+  app.plug({
+    name: 'extra-context-plugin',
+    plugContext: (options) => {
+      let { config, url, headers } = options;
+      return {
+        plugComponentContext: (componentContext) => {
+          // eslint-disable-next-line no-param-reassign
+          componentContext.config = config;
+          // eslint-disable-next-line no-param-reassign
+          componentContext.url = url;
+          // eslint-disable-next-line no-param-reassign
+          componentContext.headers = headers;
+        },
 
-      dehydrate: () => ({
-        url,
-        headers,
-      }),
-      rehydrate: (state) => {
-        url = state.url;
-        headers = state.headers;
-      },
-    };
-  },
-  dehydrate: () => ({}),
-  rehydrate: () => {},
-});
+        dehydrate: () => ({
+          config,
+          url,
+          headers,
+        }),
+        rehydrate: (state) => {
+          config = state.config;
+          url = state.url;
+          headers = state.headers;
+        },
+      };
+    },
+    dehydrate: () => ({}),
+    rehydrate: () => {},
+  });
 
-export default app;
+  return app;
+};
+
+export default appConstructor;

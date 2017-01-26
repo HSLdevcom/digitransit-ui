@@ -8,7 +8,6 @@ import values from 'lodash/values';
 
 import TripRouteStop from './TripRouteStop';
 import { getDistanceToNearestStop } from '../util/geo-utils';
-import config from '../config';
 
 class TripStopListContainer extends React.Component {
 
@@ -24,6 +23,7 @@ class TripStopListContainer extends React.Component {
 
   static contextTypes = {
     breakpoint: React.PropTypes.string,
+    config: React.PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -91,7 +91,7 @@ class TripStopListContainer extends React.Component {
         distance={nearest != null
           && nearest.stop != null
           && nearest.stop.gtfsId === stoptime.stop.gtfsId
-          && nearest.distance < config.nearestStopDistance.maxShownDistance
+          && nearest.distance < this.context.config.nearestStopDistance.maxShownDistance
           && nearest.distance
           }
         currentTime={this.props.currentTime.unix()}
