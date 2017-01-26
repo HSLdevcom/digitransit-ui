@@ -108,9 +108,14 @@ function getAllPossibleLanguages() {
 }
 
 function faviconPluginFromConfig(config) {
+  let logo = './static/img/' + config.CONFIG + '-icon.png';
+  if (!fs.existsSync(logo)) {
+    logo = './static/img/default-icon.png';
+  }
+
   return new FaviconsWebpackPlugin({
     // Your source logo
-    logo: './static/img/' + config.CONFIG + '-icon.png',
+    logo,
     // The prefix for all image files (might be a folder or a name)
     prefix: 'icons-[hash]/',
     // Emit all stats of the generated icons
