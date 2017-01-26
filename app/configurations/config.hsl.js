@@ -72,7 +72,7 @@ export default {
     description: APP_DESCRIPTION,
 
     image: {
-      url: '/img/hsl-icons/social-share.png',
+      url: '/img/hsl-social-share.png',
       width: 400,
       height: 400,
     },
