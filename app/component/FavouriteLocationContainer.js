@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import find from 'lodash/find';
 import FavouriteLocation from './FavouriteLocation';
-import config from '../config';
 
 
 const FavouriteLocationContainer = ({ currentTime, onClickFavourite, plan, favourite }) => {
@@ -79,10 +78,10 @@ export default Relay.createContainer(FavouriteLocationContainer, {
     minTransferTime: 180,
     walkSpeed: 1.2,
     wheelchair: false,
-    maxWalkDistance: config.maxWalkDistance + 0.1,
+    maxWalkDistance: 0,
 
     preferred: {
-      agencies: config.preferredAgency || '',
+      agencies: '',
     },
 
     arriveBy: false,

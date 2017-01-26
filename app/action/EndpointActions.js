@@ -1,5 +1,4 @@
 import { route } from './ItinerarySearchActions';
-import config from '../config';
 
 export function storeEndpoint(actionContext, { target, endpoint }, done) {
   actionContext.dispatch('setEndpoint', {
@@ -76,6 +75,6 @@ export function clearGeolocation(actionContext) {
 export function setOriginToDefault(actionContext) {
   return actionContext.executeAction(setEndpoint, {
     target: 'origin',
-    endpoint: config.defaultEndpoint,
+    endpoint: actionContext.config.defaultEndpoint,
   });
 }

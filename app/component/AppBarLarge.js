@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
 import { routerShape, locationShape } from 'react-router';
-import config from '../config';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 
-const AppBarLarge = ({ titleClicked }, { router, location }) => {
+const AppBarLarge = ({ titleClicked }, { router, location, config }) => {
   const openDisruptionInfo = () => {
     router.push({
       ...location,
@@ -46,6 +45,7 @@ AppBarLarge.displayName = 'AppBarLarge';
 AppBarLarge.contextTypes = {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 AppBarLarge.description = () => (
