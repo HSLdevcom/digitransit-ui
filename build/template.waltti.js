@@ -24,6 +24,8 @@ export default mergeWith({}, walttiConfig, {
   // Label for manifest creation
   name: '__Theme__ Digitransit',
 
+  useTextBanner: true,
+
   footer: {
     content: [
       { label: (function () { return `© __Theme__ ${(1900 + new Date().getYear())}`; }()) },
