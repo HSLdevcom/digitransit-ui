@@ -110,7 +110,7 @@ function getAllPossibleLanguages() {
 function faviconPluginFromConfig(config) {
   return new FaviconsWebpackPlugin({
     // Your source logo
-    logo: './static/img/' + config.CONFIG + '-icon.svg',
+    logo: './static/img/' + config.CONFIG + '-icon.png',
     // The prefix for all image files (might be a folder or a name)
     prefix: 'icons-[hash]/',
     // Emit all stats of the generated icons
