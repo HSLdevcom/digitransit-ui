@@ -2,13 +2,12 @@ import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 
-import config from '../config';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 
-function MainMenu(props) {
+function MainMenu(props, context) {
   const inquiry = (
     <p style={{ fontSize: '20px', backgroundColor: '#888888', padding: '20px' }} >
       <span onClick={props.openFeedback}>
@@ -16,6 +15,8 @@ function MainMenu(props) {
         <Icon img="icon-icon_arrow-right" className="small" />
       </span>
     </p>);
+
+  const config = context.config;
 
   return (
     <div aria-hidden={!props.visible} className="main-menu no-select">
@@ -55,6 +56,7 @@ MainMenu.defaultProps = {
 
 MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 

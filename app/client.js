@@ -125,6 +125,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     piwik: React.PropTypes.object,
     raven: React.PropTypes.object,
     url: React.PropTypes.string,
+    config: React.PropTypes.object,
     headers: React.PropTypes.object,
   });
 

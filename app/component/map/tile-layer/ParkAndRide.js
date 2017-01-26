@@ -5,7 +5,6 @@ import isEmpty from 'lodash/isEmpty';
 import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
-import config from '../../../config';
 import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
 import { Contour } from '../../../util/geo-utils';
 import { isBrowser } from '../../../util/browser';
@@ -13,8 +12,9 @@ import { isBrowser } from '../../../util/browser';
 const showFacilities = 17;
 
 export default class ParkAndRide {
-  constructor(tile) {
+  constructor(tile, config) {
     this.tile = tile;
+    this.config = config;
     const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.width = 24 * scaleratio;
     this.height = 12 * scaleratio;
@@ -25,7 +25,7 @@ export default class ParkAndRide {
 
   getPromise() {
     return fetch(
-      `${config.URL.PARK_AND_RIDE_MAP}${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}` +
+      `${this.config.URL.PARK_AND_RIDE_MAP}${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}` +
       `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     )
     .then((res) => {
