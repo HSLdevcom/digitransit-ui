@@ -23,7 +23,7 @@ export default mergeWith({}, walttiConfig, {
 
   title: '__Theme__ Digitransit',
 
-  useTextBanner: true,
+  textLogo: true, // title text instead of logo img
 
   footer: {
     content: [
