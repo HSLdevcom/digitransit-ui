@@ -234,7 +234,7 @@ export default function (req, res, next) {
     res.cookie('lang', locale);
   }
 
-  const context = application.createContext({ url: req.url, headers: req.headers });
+  const context = application.createContext({ url: req.url, headers: req.headers, config });
 
   // required by material-ui
   global.navigator = { userAgent: req.headers['user-agent'] };

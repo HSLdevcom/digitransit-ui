@@ -50,6 +50,7 @@ if (isBrowser) {
 const RouteMarkerPopupWithContext = provideContext(RouteMarkerPopup, {
   intl: intlShape.isRequired,
   router: PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 export default class VehicleMarkerContainer extends React.PureComponent {
@@ -57,6 +58,7 @@ export default class VehicleMarkerContainer extends React.PureComponent {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: PropTypes.object.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {

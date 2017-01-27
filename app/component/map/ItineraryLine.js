@@ -4,7 +4,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import polyUtil from 'polyline-encoded';
 import get from 'lodash/get';
-import config from '../../config';
 
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
@@ -13,7 +12,7 @@ import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 
-const getLegText = (leg) => {
+const getLegText = (leg, config) => {
   if (!leg.route) return '';
   const showAgency = get(config, 'agency.show', false);
   if (leg.transitLeg && leg.route.shortName) {
@@ -90,7 +89,7 @@ class ItineraryLine extends React.Component {
               station={leg.from.bikeRentalStation}
             />);
         } else if (leg.transitLeg) {
-          const name = getLegText(leg);
+          const name = getLegText(leg, this.context.config);
           objs.push(
             <LegMarker
               key={`${i},${leg.mode}legmarker`}
@@ -152,6 +151,10 @@ ItineraryLine.propTypes = {
   hash: React.PropTypes.number,
   showTransferLabels: React.PropTypes.bool,
   showIntermediateStops: React.PropTypes.bool,
+};
+
+ItineraryLine.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };
 
 export default Relay.createContainer(ItineraryLine, {

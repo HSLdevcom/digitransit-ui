@@ -8,7 +8,6 @@ import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
-import config from '../../../config';
 import { getCaseRadius, getStopRadius, getHubRadius } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 
@@ -28,6 +27,7 @@ const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
   route: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 class StopMarker extends React.Component {
@@ -46,6 +46,7 @@ class StopMarker extends React.Component {
     location: locationShape.isRequired,
     route: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
 
@@ -53,7 +54,7 @@ class StopMarker extends React.Component {
     const iconId = `icon-icon_${this.props.mode}`;
     const icon = Icon.asString(iconId, 'mode-icon');
     let size;
-    if (zoom <= config.stopsSmallMaxZoom) {
+    if (zoom <= this.context.config.stopsSmallMaxZoom) {
       size = 8;
     } else if (this.props.selected) {
       size = 28;
@@ -116,7 +117,7 @@ class StopMarker extends React.Component {
           lon: this.props.stop.lon,
         }}
         getIcon={
-          config.map.useModeIconsInNonTileLayer && !this.props.disableModeIcons ?
+          this.context.config.map.useModeIconsInNonTileLayer && !this.props.disableModeIcons ?
           this.getModeIcon : this.getIcon
         }
         id={this.props.stop.gtfsId}
