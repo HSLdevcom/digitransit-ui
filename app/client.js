@@ -50,7 +50,8 @@ const piwikPlugin = {
   plugContext: plugContext(addPiwik),
 };
 
-const addRaven = context => (context.raven = Raven); // eslint-disable-line no-param-reassign
+// eslint-disable-next-line no-param-reassign
+const addRaven = context => (context.raven = Raven(config.SENTRY_DSN));
 
 const ravenPlugin = {
   name: 'RavenPlugin',
