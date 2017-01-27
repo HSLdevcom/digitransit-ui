@@ -124,7 +124,7 @@
     "eslint-config-airbnb": "14.0.0",
     "eslint-import-resolver-webpack": "0.8.0",
     "eslint-plugin-compat": "1.0.0",
-    "eslint-plugin-graphql": "0.4.3",
+    "eslint-plugin-graphql": "0.6.0",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-react": "6.9.0",
