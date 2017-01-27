@@ -283,7 +283,7 @@ export default class SearchInputContainer extends Component {
       <SuggestionItem
         ref={item.name}
         item={item}
-        config={this.context.config}
+        useTransportIconsconfig={this.context.config.search.suggestions.useTransportIcons}
       />
     );
   }
