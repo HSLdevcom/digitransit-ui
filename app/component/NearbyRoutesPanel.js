@@ -28,6 +28,9 @@ function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }, context
           currentTime={currentTime}
           modes={modes}
           placeTypes={placeTypes}
+          maxDistance={context.config.nearbyRoutes.radius}
+          maxResults={context.config.nearbyRoutes.results || 50}
+          timeRange={context.config.nearbyRoutes.timeRange || 7200}
         />
       </div>
     </div>

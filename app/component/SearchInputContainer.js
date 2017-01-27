@@ -44,6 +44,7 @@ export default class SearchInputContainer extends Component {
       input: '',
       type: this.props.type,
       layers: this.props.layers,
+      config: this.context.config,
     }, this.onSearchChange);
   }
 
@@ -170,6 +171,7 @@ export default class SearchInputContainer extends Component {
       input: event.target.value,
       type: this.props.type,
       layers: this.props.layers,
+      config: this.context.config,
     }, this.onSearchChange);
   }
 
@@ -283,7 +285,7 @@ export default class SearchInputContainer extends Component {
       <SuggestionItem
         ref={item.name}
         item={item}
-        config={this.context.config}
+        useTransportIconsconfig={this.context.config.search.suggestions.useTransportIcons}
       />
     );
   }

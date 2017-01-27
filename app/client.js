@@ -99,12 +99,17 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 
   window.context = context;
 
+  context
+    .getComponentContext()
+    .getStore('MessageStore')
+    .addConfigMessages(config);
+
   function track() {
     // track "getting back to home"
     const newHref = this.props.history.createHref(this.state.location);
 
     if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-      if (shouldDisplayPopup(
+      if (config.feedback.enable && shouldDisplayPopup(
         context
           .getComponentContext()
           .getStore('TimeStore')
@@ -133,7 +138,10 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   context.executeAction(initGeolocation).then(() => {
     ReactDOM.render(
       <ContextProvider translations={translations} context={context.getComponentContext()}>
-        <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
+        <MuiThemeProvider
+          muiTheme={getMuiTheme(MUITheme(
+            context.getComponentContext().config), { userAgent: navigator.userAgent })}
+        >
           <Router
             history={history}
             environment={Relay.Store}
