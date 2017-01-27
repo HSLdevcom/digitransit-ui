@@ -1,9 +1,9 @@
 export default function getMetadata(lang, host, url, config) {
-  const configName = config.CONFIG;
   const root = config.APP_PATH;
-  const iconPath = `${root}/${configName}-icons/`;
+  const path = config.iconPath || 'icons';
+  const iconPath = `${root}/${path}/`;
 
-  return {
+  const baseData = {
     title: config.title,
 
     meta: [{
@@ -24,24 +24,6 @@ export default function getMetadata(lang, host, url, config) {
     }, {
       name: 'viewport',
       content: 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no, minimal-ui',
-    }, {
-      name: 'mobile-web-app-capable',
-      content: 'yes',
-    }, {
-      name: 'apple-mobile-web-app-capable',
-      content: 'yes',
-    }, {
-      name: 'msapplication-config',
-      content: `${iconPath}browserconfig.xml`,
-    }, {
-      name: 'msapplication-TileColor',
-      content: `${config.colors.primary}`,
-    }, {
-      name: 'msapplication-TileImage',
-      content: `${iconPath}ms-icon-144x144.png`,
-    }, {
-      name: 'theme-color',
-      content: '#fff',
     }, {
       property: 'og:url',
       content: `https://${host}${url}`,
@@ -88,10 +70,21 @@ export default function getMetadata(lang, host, url, config) {
       property: 'twitter:image',
       content: `https://${host}${config.socialMedia.image.url}`,
     }],
-
     link: [{
       rel: 'manifest',
       href: `${iconPath}manifest.json`,
+    }, {
+      rel: 'yandex-tableaou-widget',
+      href: `${iconPath}yandex-browser-manifest.json`,
     }],
   };
+
+  if (config.metaData) {
+    return {
+      meta: baseData.meta.concat(config.metaData.meta),
+      link: baseData.link.concat(config.metaData.link),
+    };
+  }
+
+  return baseData;
 }

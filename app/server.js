@@ -26,7 +26,7 @@ import translations from './translations';
 import ApplicationHtml from './html';
 
 // configuration
-import { getConfiguration } from './config';
+import { getConfiguration, addMetaData } from './config';
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -258,6 +258,7 @@ const isRobotRequest = agent =>
 
 export default function (req, res, next) {
   const config = getConfiguration(req);
+  addMetaData(config); // add dynamic metadata content
   const application = appCreator(config);
 
   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
