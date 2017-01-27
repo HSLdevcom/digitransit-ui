@@ -35,38 +35,58 @@ const plugContext = f => () => ({
   plugStoreContext: f,
 });
 
-const piwik = require('./util/piwik').getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
-
-if (!config.PIWIK_ADDRESS || config.PIWIK_ID == null) {
-  piwik.trackEvent = () => {};
-  piwik.setCustomVariable = () => {};
-  piwik.trackPageView = () => {};
-}
-
-const addPiwik = context => (context.piwik = piwik); // eslint-disable-line no-param-reassign
-
-const piwikPlugin = {
-  name: 'PiwikPlugin',
-  plugContext: plugContext(addPiwik),
-};
-
-// eslint-disable-next-line no-param-reassign
-const addRaven = context => (context.raven = Raven(config.SENTRY_DSN));
-
-const ravenPlugin = {
-  name: 'RavenPlugin',
-  plugContext: plugContext(addRaven),
-};
-
-if (process.env.NODE_ENV === 'development') {
-  // eslint-disable-next-line global-require, import/no-dynamic-require
-  require(`../sass/themes/${config.CONFIG}/main.scss`);
-}
-
 window.debug = debug; // Allow _debug.enable('*') in browser console
+
+// Material-ui uses touch tap events
+tapEventPlugin();
+
+// Run application
+const callback = () => app.rehydrate(window.state, (err, context) => {
+  if (err) {
+    throw err;
+  }
+
+  window.context = context;
+  const config = context.getComponentContext().config;
+
+  if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line global-require, import/no-dynamic-require
+    require(`../sass/themes/${config.CONFIG}/main.scss`);
+  }
+
+  const piwik = Piwik.getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
+
+  if (!config.PIWIK_ADDRESS || config.PIWIK_ID == null) {
+    piwik.trackEvent = () => {};
+    piwik.setCustomVariable = () => {};
+    piwik.trackPageView = () => {};
+  }
+
+  const addPiwik = c => (c.piwik = piwik); // eslint-disable-line no-param-reassign
+
+  const piwikPlugin = {
+    name: 'PiwikPlugin',
+    plugContext: plugContext(addPiwik),
+  };
+
+  // eslint-disable-next-line no-param-reassign
+  const addRaven = c => (c.raven = Raven(config.SENTRY_DSN));
+
+  const ravenPlugin = {
+    name: 'RavenPlugin',
+    plugContext: plugContext(addRaven),
+  };
 
 Relay.injectNetworkLayer(
   new RelayNetworkLayer([
+  if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
+    window.Raven.setUserContext({ piwik: piwik.getVisitorId() });
+  }
+
+  // Add plugins
+  app.plug(piwikPlugin);
+  app.plug(ravenPlugin);
+
     urlMiddleware({
       url: `${config.URL.OTP}index/graphql`,
       batchUrl: `${config.URL.OTP}index/graphql/batch`,
