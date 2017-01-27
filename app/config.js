@@ -1,3 +1,4 @@
+
 import htmlParser from 'htm-to-json';
 import mergeWith from 'lodash/mergeWith';
 import defaultConfig from './configurations/config.default';
@@ -63,7 +64,8 @@ export function getNamedConfiguration(configName) {
 export function getConfiguration(req) {
   let configName = process.env.CONFIG || 'default';
 
-  if (req && process.env.NODE_ENV !== 'development') {
+  if (req && process.env.NODE_ENV !== 'development'
+    && (process.env.CONFIG === '' || !process.env.CONFIG)) {
     const host = (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
 
     Object.keys(themeMap).forEach((theme) => {
