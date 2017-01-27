@@ -21,7 +21,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import find from 'lodash/find';
 
 // Application
-import application from './app';
+import appCreator from './app';
 import config from './config';
 import translations from './translations';
 import ApplicationHtml from './html';
@@ -195,7 +195,7 @@ function getContent(context, renderProps, locale, userAgent) {
   );
 }
 
-function getHtml(context, locale, [polyfills, relayData], req) {
+function getHtml(application, context, locale, [polyfills, relayData], req) {
   // eslint-disable-next-line no-unused-vars
   const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent']) : undefined;
   const head = Helmet.rewind();
@@ -237,6 +237,8 @@ export default function (req, res, next) {
     res.cookie('lang', locale);
   }
 
+  const application = appCreator(config);
+
   const context = application.createContext({ url: req.url, headers: req.headers, config });
 
   context
@@ -272,7 +274,7 @@ export default function (req, res, next) {
       ];
 
       Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(context, locale, results, req)}`),
+        res.send(`<!doctype html>${getHtml(application, context, locale, results, req)}`),
       ).catch((err) => {
         if (err) { next(err); }
       });

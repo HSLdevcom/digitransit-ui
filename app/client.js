@@ -21,7 +21,7 @@ import OfflinePlugin from 'offline-plugin/runtime';
 import Raven from './util/Raven';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
-import app from './app';
+import appCreator from './app';
 import translations from './translations';
 import { openFeedbackModal } from './action/feedbackActions';
 import { shouldDisplayPopup } from './util/Feedback';
@@ -41,6 +41,10 @@ window.debug = debug; // Allow _debug.enable('*') in browser console
 // Material-ui uses touch tap events
 tapEventPlugin();
 
+// TODO: this is an ugly hack, but required due to cyclical processing in app
+const config = window.state.context.plugins['extra-context-plugin'].config;
+const app = appCreator(config);
+
 // Run application
 const callback = () => app.rehydrate(window.state, (err, context) => {
   if (err) {
@@ -48,7 +52,6 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   }
 
   window.context = context;
-  const config = context.getComponentContext().config;
 
   if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line global-require, import/no-dynamic-require
@@ -185,6 +188,7 @@ if (typeof window.Intl !== 'undefined') {
 } else {
   const modules = [System.import('intl')];
 
+  // TODO: re-enable this
   // config.availableLanguages.forEach((language) => {
   //  modules.push(System.import(`intl/locale-data/jsonp/${language}`));
   // });
