@@ -117,7 +117,7 @@ function faviconPluginFromConfig(config) {
     // Your source logo
     logo,
     // The prefix for all image files (might be a folder or a name)
-    prefix: 'icons-' + config.CONFIG + '/',
+    prefix: 'icons-[hash]/',
     // Emit all stats of the generated icons
     emitStats: true,
     // The name of the json containing all favicon information

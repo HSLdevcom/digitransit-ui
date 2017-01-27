@@ -105,7 +105,8 @@
     "recompose": "0.21.2",
     "serialize-javascript": "1.3.0",
     "vector-tile": "1.3.0",
-    "zurb-foundation-5": "5.4.7"
+    "zurb-foundation-5": "5.4.7",
+    "htm-to-json": "^0.1.4"
   },
   "devDependencies": {
     "async": "2.1.4",

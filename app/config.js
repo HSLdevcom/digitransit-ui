@@ -1,3 +1,4 @@
+import htmlParser from 'htm-to-json';
 import mergeWith from 'lodash/mergeWith';
 import defaultConfig from './configurations/config.default';
 
@@ -13,6 +14,37 @@ if (defaultConfig.themeMap) {
 function customizer(objValue, srcValue) {
   if (Array.isArray(objValue)) { return srcValue; } // Return only latest if array
   return undefined; // Otherwise use default customizer
+}
+
+export function addMetaData(config) {
+  // eslint-disable-next-line global-require, import/no-dynamic-require
+  const stats = require(`../_static/iconstats-${config.CONFIG}`);
+  const html = stats.html.join(' ');
+
+  htmlParser.convert_html_to_json(html, (err, data) => {
+    if (!err) {
+      data.meta.forEach((e) => {
+        // eslint-disable-next-line no-param-reassign
+        delete e.innerHTML;
+        if (e.name === 'msapplication-config' || e.name === 'msapplication-TileImage') {
+          // eslint-disable-next-line no-param-reassign
+          e.content = `${stats.outputFilePrefix}${e.content}`; // fix path bug
+        } else if (e.name === 'theme-color') {
+          // eslint-disable-next-line no-param-reassign
+          e.content = '#fff';
+        }
+      });
+      data.link.forEach((e) => {
+        // eslint-disable-next-line no-param-reassign
+        delete e.innerHTML;
+      });
+
+      // eslint-disable-next-line no-param-reassign
+      config.metaData = data;
+      // eslint-disable-next-line no-param-reassign
+      config.iconPath = stats.outputFilePrefix;
+    }
+  });
 }
 
 export function getNamedConfiguration(configName) {
