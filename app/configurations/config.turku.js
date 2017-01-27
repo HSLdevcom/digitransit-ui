@@ -40,6 +40,7 @@ export default mergeWith({}, walttiConfig, {
     description: APP_DESCRIPTION,
   },
 
+  sprites: 'svg-sprite.turku.svg',
   title: 'Fölin reittiopas',
 
   transportModes: {

@@ -117,11 +117,12 @@ function getSprite(config) {
     let svgSprite;
 
     if (process.env.NODE_ENV !== 'development') {
+      const spriteName = config.sprites || `svg-sprite.${config.CONFIG}.svg`;
       svgSprite = (
         <script
           dangerouslySetInnerHTML={{ __html: `
             fetch('${
-              config.APP_PATH}/${find(stats.modules, { name: `./static/svg-sprite.${config.CONFIG}.svg` }).assets[0]
+              config.APP_PATH}/${find(stats.modules, { name: `./static/${spriteName}` }).assets[0]
             }').then(function(response) {return response.text();}).then(function(blob) {
               var div = document.createElement('div');
               div.innerHTML = blob;

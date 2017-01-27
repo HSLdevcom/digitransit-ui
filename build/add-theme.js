@@ -49,10 +49,6 @@ $nav-logo: url(${logo});
 // copy logo
 fs.createReadStream(logo).pipe(fs.createWriteStream(dir + '/' + logo));
 
-// copy sprites
-fs.createReadStream('static/svg-sprite.default.svg').pipe(
-  fs.createWriteStream('static/svg-sprite.' + theme + '.svg'));
-
 // generate app configuration
 const regexColor = new RegExp('__color__', 'g');
 const regexTheme = new RegExp('__theme__', 'g');
