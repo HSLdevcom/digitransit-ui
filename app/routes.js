@@ -18,6 +18,7 @@ import SplashOrChildren from './component/SplashOrChildren';
 import { otpToLocation } from './util/otpStrings';
 
 import TopLevel from './component/TopLevel';
+import Title from './component/Title';
 
 import config from './config';
 import { isBrowser } from './util/browser';
@@ -152,7 +153,7 @@ const routes = (
   >
     <Route
       path="/" topBarOptions={{ disableBackButton: true }} components={{
-        title: () => <span>{config.title}</span>,
+        title: Title,
         content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
         ,
       }}
@@ -174,7 +175,7 @@ const routes = (
     </Route>
     <Route
       path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
-        title: () => <span>{config.title}</span>,
+        title: Title,
         content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>,
       }}
     >
@@ -429,7 +430,7 @@ const routes = (
       path="/tietoja-palvelusta"
       getComponents={(location, cb) => {
         Promise.all([
-          Promise.resolve(() => <span>{config.title}</span>),
+          Promise.resolve(Title),
           System.import('./component/AboutPage').then(getDefault),
         ]).then(([title, content]) => cb(null, { title, content }));
       }}
