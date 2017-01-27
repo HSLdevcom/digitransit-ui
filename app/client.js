@@ -109,7 +109,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     const newHref = this.props.history.createHref(this.state.location);
 
     if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-      if (shouldDisplayPopup(
+      if (config.feedback.enable && shouldDisplayPopup(
         context
           .getComponentContext()
           .getStore('TimeStore')
