@@ -133,7 +133,10 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   context.executeAction(initGeolocation).then(() => {
     ReactDOM.render(
       <ContextProvider translations={translations} context={context.getComponentContext()}>
-        <MuiThemeProvider muiTheme={getMuiTheme(MUITheme, { userAgent: navigator.userAgent })}>
+        <MuiThemeProvider
+          muiTheme={getMuiTheme(MUITheme(
+            context.getComponentContext().config), { userAgent: navigator.userAgent })}
+        >
           <Router
             history={history}
             environment={Relay.Store}
