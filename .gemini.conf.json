@@ -3,11 +3,11 @@
   "httpTimeout": 30000,
   "sessionRequestTimeout": 120000,
   "sessionsPerBrowser": 2,
-  "retry": 3,
   "suitesPerSession": 10,
   "retry": 3,
-    "system": {
-    "plugins": { "browserstack": {} }
+  "system": {
+    "plugins": { "browserstack": {} },
+    "parallelLimit": 3
   },
   "browsers": {
     "ie11": {
