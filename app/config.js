@@ -1,3 +1,4 @@
+
 import htmlParser from 'htm-to-json';
 import mergeWith from 'lodash/mergeWith';
 import defaultConfig from './configurations/config.default';
