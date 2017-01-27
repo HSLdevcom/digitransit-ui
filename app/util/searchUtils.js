@@ -221,12 +221,13 @@ function getRoutes(input) {
   );
 
   return getRelayQuery(query).then(data =>
-    data[0].routes.filter((item) => (
+    data[0].routes.filter(item => (
       config.feedIds === undefined || config.feedIds.indexOf(item.gtfsId.split(':')[0]) > -1
-    )
+    ))
     .map(mapRoute)
     .sort((x, y) => routeCompare(x.properties, y.properties)),
-  ).then((suggestions) => take(suggestions, 10)));
+  ).then(suggestions => take(suggestions, 10));
+}
 
 function getStops(input, origin) {
   if (typeof input !== 'string' || input.trim().length === 0) {
