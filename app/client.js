@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
-import useRelay from 'react-router-relay';
-import { Router, applyRouterMiddleware } from 'react-router';
+import { Router } from 'react-router';
+import match from 'react-router/lib/match';
 import IsomorphicRelay from 'isomorphic-relay';
+import IsomorphicRouter from 'isomorphic-relay-router';
 import provideContext from 'fluxible-addons-react/provideContext';
 import tapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -18,7 +19,6 @@ import {
 import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
-import config from './config';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import app from './app';
@@ -28,6 +28,7 @@ import { shouldDisplayPopup } from './util/Feedback';
 import { initGeolocation } from './action/PositionActions';
 import history from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';
+import Piwik from './util/piwik';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -77,8 +78,6 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     plugContext: plugContext(addRaven),
   };
 
-Relay.injectNetworkLayer(
-  new RelayNetworkLayer([
   if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
     window.Raven.setUserContext({ piwik: piwik.getVisitorId() });
   }
@@ -87,38 +86,19 @@ Relay.injectNetworkLayer(
   app.plug(piwikPlugin);
   app.plug(ravenPlugin);
 
+  Relay.injectNetworkLayer(new RelayNetworkLayer([
     urlMiddleware({
       url: `${config.URL.OTP}index/graphql`,
       batchUrl: `${config.URL.OTP}index/graphql/batch`,
     }),
     gqErrorsMiddleware(),
     retryMiddleware(),
-  ], { disableBatchQuery: false }),
-);
+  ], { disableBatchQuery: false }));
 
-IsomorphicRelay.injectPreparedData(
-  Relay.Store,
-  JSON.parse(document.getElementById('relayData').textContent),
-);
-
-if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
-  window.Raven.setUserContext({ piwik: piwik.getVisitorId() });
-}
-
-// Material-ui uses touch tap events
-tapEventPlugin();
-
-// Add plugins
-app.plug(piwikPlugin);
-app.plug(ravenPlugin);
-
-// Run application
-const callback = () => app.rehydrate(window.state, (err, context) => {
-  if (err) {
-    throw err;
-  }
-
-  window.context = context;
+  IsomorphicRelay.injectPreparedData(
+    Relay.Store,
+    JSON.parse(document.getElementById('relayData').textContent),
+  );
 
   context
     .getComponentContext()
@@ -157,30 +137,26 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 
   // init geolocation handling
   context.executeAction(initGeolocation).then(() => {
-    ReactDOM.render(
-      <ContextProvider translations={translations} context={context.getComponentContext()}>
-        <MuiThemeProvider
-          muiTheme={getMuiTheme(MUITheme(
-            context.getComponentContext().config), { userAgent: navigator.userAgent })}
-        >
-          <Router
-            history={history}
-            environment={Relay.Store}
-            render={applyRouterMiddleware(useRelay)}
-            onUpdate={track}
-          >
-            {app.getComponent()}
-          </Router>
-        </MuiThemeProvider>
-      </ContextProvider>,
-      document.getElementById('app'),
-      () => {
-        // Run only in production mode and when built in a docker container
-        if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-          OfflinePlugin.install();
-        }
-      },
-    );
+    match({ routes: app.getComponent(), history }, (error, redirectLocation, renderProps) => {
+      IsomorphicRouter.prepareInitialRender(Relay.Store, renderProps).then((props) => {
+        ReactDOM.render(
+          <ContextProvider translations={translations} context={context.getComponentContext()}>
+            <MuiThemeProvider
+              muiTheme={getMuiTheme(MUITheme(config), { userAgent: navigator.userAgent })}
+            >
+              <Router {...props} onUpdate={track} />
+            </MuiThemeProvider>
+          </ContextProvider>,
+          document.getElementById('app'),
+          () => {
+            // Run only in production mode and when built in a docker container
+            if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
+              OfflinePlugin.install();
+            }
+          },
+        );
+      });
+    });
   });
 
   // Listen for Web App Install Banner events
@@ -209,9 +185,9 @@ if (typeof window.Intl !== 'undefined') {
 } else {
   const modules = [System.import('intl')];
 
-  config.availableLanguages.forEach((language) => {
-    modules.push(System.import(`intl/locale-data/jsonp/${language}`));
-  });
+  // config.availableLanguages.forEach((language) => {
+  //  modules.push(System.import(`intl/locale-data/jsonp/${language}`));
+  // });
 
   Promise.all(modules).then(callback);
 }
