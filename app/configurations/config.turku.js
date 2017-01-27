@@ -42,8 +42,8 @@ export default mergeWith({}, walttiConfig, {
     description: APP_DESCRIPTION,
   },
 
-  // Labels for manifest creation
-  name: 'Turku Digitransit',
+  sprites: 'svg-sprite.turku.svg',
+  title: 'Fölin reittiopas',
 
   transportModes: {
     ferry: {

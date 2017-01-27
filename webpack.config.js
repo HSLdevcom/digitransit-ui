@@ -291,11 +291,19 @@ function getEntry() {
     main: './app/client',
   };
 
+  const spriteMap = {};
+  getAllConfigs().forEach((config) => {
+    if (config.sprites) {
+      spriteMap[config.CONFIG] = config.sprites;
+    }
+  });
+
   const directories = getDirectories('./sass/themes');
   directories.forEach((theme) => {
     const sassEntryPath = './sass/themes/' + theme + '/main.scss';
     entry[theme + '_theme'] = [sassEntryPath];
-    const svgEntryPath = './static/svg-sprite.' + theme + '.svg';
+    const svgEntryPath = spriteMap[theme] ? './static/' + spriteMap[theme] :
+          './static/svg-sprite.' + theme + '.svg';
     entry[theme + '_sprite'] = [svgEntryPath];
   });
 

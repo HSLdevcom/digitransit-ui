@@ -25,8 +25,9 @@ export default mergeWith({}, walttiConfig, {
 
   appBarLink: { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
 
-  // Labels for manifest creation
-  name: 'Joensuu Digitransit',
+  sprites: 'svg-sprite.joensuu.svg',
+
+  title: 'Joensuu Digitransit',
 
   colors: {
     primary: '#5c4696',
