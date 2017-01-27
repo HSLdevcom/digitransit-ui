@@ -211,7 +211,7 @@ const translations = {
     'park-and-ride-availability': 'Pysäköintipaikkoja vapaana',
     'platform-short': 'Lait.',
     'footer-feedback': 'Anna palautetta',
-    'footer-faq': 'FAQ',
+    'footer-faq': 'UKK',
     'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
     'agency': 'Liikennöitsijä',
