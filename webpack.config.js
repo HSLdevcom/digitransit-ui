@@ -189,13 +189,10 @@ function getPluginsConfig(env) {
         additional: [
           ':externals:',
           'js/+([a-z0-9]).js',
-          // TODO: move the ones below back to optional after caching has been fixed.
-          'css/*.css',
-          '*.svg',
         ],
-        optional: ['js/*_theme.*.js', 'js/*_sprite.*.js', '*.png'],
+        optional: ['js/*_theme.*.js', 'js/*_sprite.*.js', '*.png', 'css/*.css', '*.svg'],
       },
-      externals: ['/'],
+      externals: [/* '/' Can be re-added later when we want to cache index page */],
       safeToUseOptionalCaches: true,
       ServiceWorker: {
         entry: './app/util/font-sw.js',
