@@ -56,4 +56,8 @@ FrontPagePanelLarge.propTypes = {
   children: React.PropTypes.node,
 };
 
+FrontPagePanelLarge.defaultProps = {
+  selectedPanel: 1,
+};
+
 export default FrontPagePanelLarge;

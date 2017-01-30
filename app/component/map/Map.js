@@ -34,6 +34,7 @@ class Map extends React.Component {
     disableZoom: React.PropTypes.bool,
     displayOriginPopup: React.PropTypes.bool,
     fitBounds: React.PropTypes.bool,
+    hideOrigin: React.PropTypes.bool,
     hilightedStops: React.PropTypes.array,
     lat: React.PropTypes.number,
     lon: React.PropTypes.number,
@@ -156,7 +157,7 @@ class Map extends React.Component {
 
       origin = this.context.getStore('EndpointStore').getOrigin();
 
-      if (origin && origin.lat) {
+      if (origin && origin.lat && !this.props.hideOrigin) {
         leafletObjs.push(
           <PlaceMarker
             position={origin}

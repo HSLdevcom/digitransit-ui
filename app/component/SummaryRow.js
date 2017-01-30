@@ -123,9 +123,8 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
         </div>
       </div>
       {props.open || props.children ? [
-        <div className="flex-grow itinerary-heading">
+        <div className="flex-grow itinerary-heading" key="title">
           <FormattedMessage
-            key="title"
             id="itinerary-page.title"
             defaultMessage="Itinerary"
             tagName="h2"
@@ -144,7 +143,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
         </button>,
-        props.children,
+        React.cloneElement(React.Children.only(props.children), { searchTime: props.refTime }),
       ] : [
         <div
           className={cx('itinerary-start-time', { 'realtime-available': realTimeAvailable })}

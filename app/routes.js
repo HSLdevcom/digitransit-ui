@@ -276,7 +276,8 @@ const routes = (
                 content: PatternQueries,
                 meta: RouteQueries,
               }}
-              render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+              render={{ title: ({ props, element }) =>
+                React.cloneElement(element, { route: null, ...props }) }}
             />
             <Route
               path="kartta"
@@ -300,7 +301,7 @@ const routes = (
                 meta: RouteQueries,
               }}
               render={{ title: ({ props, element }) =>
-                React.cloneElement(element, props) }}
+                React.cloneElement(element, { route: null, ...props }) }}
               fullscreenMap
             />
             <Route
@@ -324,7 +325,8 @@ const routes = (
                 content: TripQueries,
                 meta: RouteQueries,
               }}
-              render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+              render={{ title: ({ props, element }) =>
+                React.cloneElement(element, { route: null, ...props }) }}
             >
               <Route path="kartta" fullscreenMap />
             </Route>
@@ -352,7 +354,8 @@ const routes = (
               content: PatternQueries,
               meta: RouteQueries,
             }}
-            render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+            render={{ title: ({ props, element }) =>
+              React.cloneElement(element, { route: null, ...props }) }}
           />
         </Route>
         <Route
@@ -371,7 +374,8 @@ const routes = (
             content: RouteQueries,
             meta: RouteQueries,
           }}
-          render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+          render={{ title: ({ props, element }) =>
+            React.cloneElement(element, { route: null, ...props }) }}
         />
       </Route>
     </Route>
