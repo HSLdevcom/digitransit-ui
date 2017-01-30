@@ -306,7 +306,7 @@ export default function (req, res, next) {
         networkLayer = getNetworkLayer(config);
       }
       const promises = [
-        getPolyfills(agent),
+        getPolyfills(agent, config),
         // Isomorphic rendering is ok to fail due timeout
         IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
       ];
