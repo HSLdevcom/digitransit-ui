@@ -212,7 +212,6 @@ function getHtml(application, context, locale, [polyfills, relayData], req) {
       locale={locale}
       scripts={getScripts(req)}
       fonts={config.URL.FONT}
-      config={`window.config=${JSON.stringify(config)}`}
       relayData={relayData != null ? relayData.data : []}
       head={head}
     />,

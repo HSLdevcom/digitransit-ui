@@ -36,9 +36,6 @@
   "bugs": {
     "url": "https://github.com/HSLdevcom/digitransit-ui/issues"
   },
-  "browser": {
-    "./app/config.js": "./app/config.client.js"
-  },
   "engineStrict": true,
   "engines": {
     "node": ">=5.0",
