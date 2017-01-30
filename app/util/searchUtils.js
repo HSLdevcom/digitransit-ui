@@ -7,7 +7,6 @@ import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 
-import config from '../config';
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
@@ -196,7 +195,7 @@ function getFavouriteStops(favourites, input, origin) {
 }
 
 
-function getRoutes(input) {
+function getRoutes(input, config) {
   if (typeof input !== 'string' || input.trim().length === 0) {
     return Promise.resolve([]);
   }
@@ -323,7 +322,7 @@ export function executeSearchImmediate(getStore, { input, type, layers, config }
       getFavouriteRoutes(favouriteRoutes, input),
       getFavouriteStops(favouriteStops, input, origin),
       getOldSearches(oldSearches, input),
-      getRoutes(input),
+      getRoutes(input, config),
       getStops(input, location),
     ])
     .then(flatten)
