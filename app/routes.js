@@ -220,7 +220,8 @@ export default (config) => {
             // eslint-disable-next-line react/prop-types
             header: ({ props, element }) =>
               (props ? React.cloneElement(element, props) : <LoadingPage />),
-            content: ({ props, element }) => (props ? React.cloneElement(element, props) : undefined),
+            content: ({ props, element }) =>
+              (props ? React.cloneElement(element, props) : undefined),
           }}
         >
           <Route path="kartta" fullscreenMap />
@@ -365,7 +366,8 @@ export default (config) => {
                 System.import('./component/RoutePage').then(getDefault),
                 System.import('./component/RouteAlertsContainer').then(getDefault),
                 System.import('./component/RoutePageMeta').then(getDefault),
-              ]).then(([title, header, content, meta]) => cb(null, { title, header, content, meta }));
+              ]).then(([title, header, content, meta]) =>
+                cb(null, { title, header, content, meta }));
             }}
             queries={{
               title: RouteQueries,
