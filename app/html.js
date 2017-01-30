@@ -8,7 +8,6 @@ const Application = (
     content,
     polyfill,
     state,
-    config,
     locale,
     scripts,
     relayData,
@@ -28,7 +27,6 @@ const Application = (
       {svgSprite}
       <div id="app" dangerouslySetInnerHTML={{ __html: content }} />
       <script dangerouslySetInnerHTML={{ __html: state }} />
-      <script dangerouslySetInnerHTML={{ __html: config }} />
       <script
         dangerouslySetInnerHTML={{ __html: JSON.stringify(relayData) }}
         type="application/json"
@@ -46,7 +44,6 @@ Application.propTypes = {
   content: React.PropTypes.string,
   polyfill: React.PropTypes.string,
   state: React.PropTypes.string,
-  config: React.PropTypes.string,
   locale: React.PropTypes.string,
   scripts: React.PropTypes.node,
   relayData: React.PropTypes.any,

@@ -3,12 +3,6 @@ import { useRouterHistory } from 'react-router';
 import createLocalStorageHistory from './localStorageHistory';
 import { isIOSApp, isBrowser } from './util/browser';
 
-import config from './config';
-
-const args = {
-  basename: config.APP_PATH,
-};
-
 let createHistoryFunction;
 
 if (isIOSApp) {
@@ -19,6 +13,8 @@ if (isIOSApp) {
   createHistoryFunction = createMemoryHistory;
 }
 
-const history = useRouterHistory(createHistoryFunction)(args);
+const history = config => useRouterHistory(createHistoryFunction)({
+  basename: config.APP_PATH,
+});
 
 export default history;

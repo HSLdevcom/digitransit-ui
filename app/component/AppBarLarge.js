@@ -28,7 +28,7 @@ const AppBarLarge = ({ titleClicked }, { router, location, config }) => {
           </a>
         </div>
         <div className="padding-horizontal-large navi-margin" >
-          <ExternalLink {...config.appBarLink} />
+          <ExternalLink className="external-top-bar" {...config.appBarLink} />
         </div>
       </div>
       <DisruptionInfo />

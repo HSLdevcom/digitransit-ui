@@ -138,6 +138,7 @@ testVariation('FakeSearchWithButton', 'large', 2);
 testVariation('FrontPagePanelLarge');
 testVariation('FrontPagePanelSmall');
 testVariation('ExternalLink');
+testVariation('ExternalLink', 'with-icon-and-text', 2);
 testVariation('LangSelect');
 
 testVariation('ModeFilter', 'grey-buttons');

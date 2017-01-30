@@ -1,16 +1,13 @@
-import config from './config';
+export default function getMetadata(lang, host, url, config) {
+  const configPath = config.CONFIG;
+  const root = config.APP_PATH;
 
-const configPath = config.CONFIG;
-const root = config.APP_PATH;
+  const getAppleTouchIcon = size => ({
+    rel: 'apple-touch-icon',
+    sizes: size,
+    href: `${root}/img/${configPath}-icons/apple-icon-${size}.png`,
+  });
 
-const getAppleTouchIcon = size => ({
-  rel: 'apple-touch-icon',
-  sizes: size,
-  href: `${root}/img/${configPath}-icons/apple-icon-${size}.png`,
-});
-
-
-export default function getMetadata(lang, host, url) {
   return {
     title: config.title,
 
