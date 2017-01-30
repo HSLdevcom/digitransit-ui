@@ -1,6 +1,4 @@
-import config from './config';
-
-export default {
+export default config => ({
 
   fontFamily: 'Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif',
   palette: {
@@ -23,4 +21,4 @@ export default {
   dialog: {
     bodyColor: '#888',
   },
-};
+});

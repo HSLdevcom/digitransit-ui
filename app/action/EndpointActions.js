@@ -51,7 +51,6 @@ export function setUseCurrent(actionContext, payload) {
 export function swapEndpoints(actionContext, payload) {
   actionContext.dispatch('swapEndpoints');
 
-
   return actionContext.executeAction(route, payload, (e) => {
     if (e) {
       return console.error('Could not route:', e);

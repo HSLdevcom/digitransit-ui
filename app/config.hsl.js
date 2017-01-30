@@ -110,6 +110,7 @@ export default {
     content: [
       { label: (function () { return `© HSL ${(1900 + new Date().getYear())}`; }()) },
       {},
+      { name: 'footer-faq', nameEn: 'FAQ', href: 'https://www.hsl.fi/ohjeita-ja-tietoja/reittiopas' },
       { name: 'footer-feedback', nameEn: 'Send feedback', href: 'https://www.hsl.fi/palaute', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
       { name: 'footer-link-to-privacy-policy', nameEn: 'Privacy policy', href: 'https://www.hsl.fi/tietoa-sivustosta' },

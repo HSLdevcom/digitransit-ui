@@ -1,10 +1,8 @@
 import moment from 'moment-timezone/moment-timezone';
 
-import config from '../config';
-
 // Configure moment with the selected language
 // and with the relative time thresholds used when humanizing times
-export default function configureMoment(language) {
+export default function configureMoment(language, config) {
   moment.locale(language);
 
   if (config.timezoneData) {

@@ -33,6 +33,7 @@ class TopLevel extends React.Component {
     intl: intlShape,
     url: React.PropTypes.string.isRequired,
     headers: React.PropTypes.object.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static childContextTypes = {
@@ -54,7 +55,7 @@ class TopLevel extends React.Component {
     'large'
 
   render() {
-    configureMoment(this.context.intl.locale);
+    configureMoment(this.context.intl.locale, this.context.config);
     const host = this.context.headers && this.context.headers.host;
     const url = this.context.url;
     const metadata = meta(this.context.intl.locale, host, url);

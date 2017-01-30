@@ -5,11 +5,10 @@ import pure from 'recompose/pure';
 import Icon from './Icon';
 import { getLabel, getIcon } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
-import staticConfig from '../config';
 
 const SuggestionItem = pure((props) => {
   let icon;
-  if (props.item.properties.mode && props.config.search.suggestions.useTransportIcons) {
+  if (props.item.properties.mode && props.useTransportIcons) {
     icon = (
       <Icon
         img={`icon-icon_${props.item.properties.mode}`}
@@ -107,16 +106,16 @@ const exampleStop = {
 SuggestionItem.description = () =>
   <div>
     <ComponentUsageExample description="Favourite">
-      <SuggestionItem item={exampleFavourite} config={staticConfig} />
+      <SuggestionItem item={exampleFavourite} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Address">
-      <SuggestionItem item={exampleAddress} config={staticConfig} />
+      <SuggestionItem item={exampleAddress} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Route">
-      <SuggestionItem item={exampleRoute} config={staticConfig} />
+      <SuggestionItem item={exampleRoute} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Stop">
-      <SuggestionItem item={exampleStop} config={staticConfig} />
+      <SuggestionItem item={exampleStop} />
     </ComponentUsageExample>
   </div>;
 
