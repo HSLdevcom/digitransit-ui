@@ -1,6 +1,7 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
@@ -22,8 +23,8 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
     && !searchModalIsOpen && !origin.userSetPosition && !origin.useCurrentPosition) {
     context.executeAction(setUseCurrent, {
       target: 'origin',
-      router: this.context.router,
-      location: this.context.location,
+      router: context.router,
+      location: context.location,
     });
   }
 
@@ -79,6 +80,8 @@ GeopositionSelector.propTypes = {
 
 GeopositionSelector.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
 };
 
 export default connectToStores(
