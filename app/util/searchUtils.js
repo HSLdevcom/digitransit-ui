@@ -26,21 +26,17 @@ function getRelayQuery(query) {
   });
 }
 
-function mapRoutes(res) {
-  return res.map(item =>
-    ({
-      type: 'Route',
-      properties: {
-        ...item,
-        layer: `route-${item.mode}`,
-        link: `/linjat/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
-      },
-      geometry: {
-        coordinates: null,
-      },
-    }),
-  );
-}
+const mapRoute = item => ({
+  type: 'Route',
+  properties: {
+    ...item,
+    layer: `route-${item.mode}`,
+    link: `/linjat/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
+  },
+  geometry: {
+    coordinates: null,
+  },
+});
 
 function mapStops(stops) {
   return stops.map(item => ({
@@ -154,7 +150,7 @@ function getFavouriteRoutes(favourites, input) {
   );
 
   return getRelayQuery(query)
-    .then(favouriteRoutes => mapRoutes(favouriteRoutes))
+    .then(favouriteRoutes => favouriteRoutes.map(mapRoute))
     .then(routes => routes.map(favourite => ({
       ...favourite,
       properties: { ...favourite.properties, layer: 'favouriteRoute' },
@@ -199,7 +195,7 @@ function getFavouriteStops(favourites, input, origin) {
 }
 
 
-function getRoutes(input) {
+function getRoutes(input, config) {
   if (typeof input !== 'string' || input.trim().length === 0) {
     return Promise.resolve([]);
   }
@@ -224,7 +220,11 @@ function getRoutes(input) {
   );
 
   return getRelayQuery(query).then(data =>
-    mapRoutes(data[0].routes).sort((x, y) => routeCompare(x.properties, y.properties)),
+    data[0].routes.filter(item => (
+      config.feedIds === undefined || config.feedIds.indexOf(item.gtfsId.split(':')[0]) > -1
+    ))
+    .map(mapRoute)
+    .sort((x, y) => routeCompare(x.properties, y.properties)),
   ).then(suggestions => take(suggestions, 10));
 }
 
@@ -322,7 +322,7 @@ export function executeSearchImmediate(getStore, { input, type, layers, config }
       getFavouriteRoutes(favouriteRoutes, input),
       getFavouriteStops(favouriteStops, input, origin),
       getOldSearches(oldSearches, input),
-      getRoutes(input),
+      getRoutes(input, config),
       getStops(input, location),
     ])
     .then(flatten)

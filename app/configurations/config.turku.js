@@ -19,6 +19,8 @@ export default {
     default: '',
   },
 
+  feedIds: ['FOLI'],
+
   searchParams: {
     'boundary.rect.min_lat': 59.963388,
     'boundary.rect.max_lat': 60.950777,
