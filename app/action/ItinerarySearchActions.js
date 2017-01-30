@@ -1,6 +1,5 @@
 import { locationToOTP } from '../util/otpStrings';
 import { getRoutePath } from '../util/path';
-import history from '../history';
 
 // eslint-disable-next-line import/prefer-default-export
 export function route(actionContext, payload, done) {
@@ -42,8 +41,6 @@ export function route(actionContext, payload, done) {
         },
         pathname: path,
       });
-    } else {
-      history.push({ pathname: path });
     }
   }
 
