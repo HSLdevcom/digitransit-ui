@@ -15,6 +15,7 @@ const DepartureListContainerWithProps = mapProps(props => ({
   infiniteScroll: true,
   isTerminal: !(props.params.stopId),
   rowClasses: 'padding-normal border-bottom',
+  currentTime: props.relay.variables.startTime,
 }))(DepartureListContainer);
 
 const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
@@ -32,7 +33,7 @@ export default Relay.createContainer(StopPageContent, {
     stop: () => Relay.QL`
       fragment on Stop {
         url
-        stoptimes: stoptimesForPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
+        stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
       }
@@ -40,7 +41,7 @@ export default Relay.createContainer(StopPageContent, {
   },
 
   initialVariables: {
-    startTime: `${Math.floor(new Date().getTime() / 1000)}`,
+    startTime: 0,
     timeRange: 3600 * 12,
     numberOfDepartures: 100,
   },

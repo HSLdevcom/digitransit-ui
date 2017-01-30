@@ -7,8 +7,6 @@ import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 
-import config from '../config';
-
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
@@ -124,7 +122,7 @@ function getFavouriteLocations(favourites, input) {
   ));
 }
 
-function getGeocodingResult(input, geolocation, language) {
+function getGeocodingResult(input, geolocation, language, config) {
   // TODO: minimum length should be in config
   if (input === undefined || input === null || input.trim().length < 3) {
     return Promise.resolve([]);
@@ -272,7 +270,7 @@ export const getAllEndpointLayers = () => (
 );
 
 
-export function executeSearchImmediate(getStore, { input, type, layers }, callback) {
+export function executeSearchImmediate(getStore, { input, type, layers, config }, callback) {
   const position = getStore('PositionStore').getLocationState();
   let endpointSearches = [];
   let searchSearches = [];
@@ -299,7 +297,7 @@ export function executeSearchImmediate(getStore, { input, type, layers }, callba
       searchComponents.push(getOldSearches(oldSearches, input, dropLayers));
     }
     if (endpointLayers.includes('Geocoding')) {
-      searchComponents.push(getGeocodingResult(input, position, language));
+      searchComponents.push(getGeocodingResult(input, position, language, config));
     }
 
     endpointSearches = Promise.all(searchComponents)
