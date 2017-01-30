@@ -4,7 +4,7 @@ import Icon from './Icon';
 import ExternalLinkDecoration from './ExternalLinkDecoration';
 
 const ExternalLink = ({ name, children, href, className }) => ((name || children !== undefined) &&
-<span className={className} style={{ position: 'relative' }}>
+<span className={className}>
   <span className="external-link-container">
     <a onClick={e => e.stopPropagation()} className="external-link" href={href} >{name || children}</a>
     <ExternalLinkDecoration />

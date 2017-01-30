@@ -3,8 +3,8 @@
   "httpTimeout": 30000,
   "sessionRequestTimeout": 120000,
   "sessionsPerBrowser": 2,
-  "retry": 3,
   "suitesPerSession": 10,
+  "retry": 1,
   "system": {
     "plugins": { "browserstack": {} },
     "parallelLimit": 3

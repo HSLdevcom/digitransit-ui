@@ -355,12 +355,18 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   transform: translateX(50%);
 }
 
+.route-page-action-bar {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 0 15px;
+  background-color: #eef1f3;
+}
+
 .route-schedule-date {
   @include font-book;
 
   min-height: $route-schedule-date-height;
-  background-color: #eef1f3;
-  padding: 0 15px;
   margin: 0;
 
   .icon {
