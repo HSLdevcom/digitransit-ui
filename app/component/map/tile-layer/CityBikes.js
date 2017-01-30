@@ -4,7 +4,6 @@ import Relay from 'react-relay';
 import glfun from 'mapbox-gl-function';
 import pick from 'lodash/pick';
 
-import config from '../../../config';
 import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
@@ -23,8 +22,9 @@ const getScale = glfun({
 const timeOfLastFetch = {};
 
 class CityBikes {
-  constructor(tile) {
+  constructor(tile, config) {
     this.tile = tile;
+    this.config = config;
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize = 16 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
@@ -35,7 +35,7 @@ class CityBikes {
   }
 
   fetchWithAction = actionFn =>
-    fetch(`${config.URL.CITYBIKE_MAP}` +
+    fetch(`${this.config.URL.CITYBIKE_MAP}` +
       `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
       `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then((res) => {
@@ -80,7 +80,7 @@ class CityBikes {
 
         if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
           drawCitybikeNotInUseIcon(this.tile, geom, this.notInUseImageSize);
-        } else if (result.bikesAvailable > config.cityBike.fewAvailableCount) {
+        } else if (result.bikesAvailable > this.config.cityBike.fewAvailableCount) {
           drawAvailabilityBadge('good', this.tile, geom, this.citybikeImageSize,
             this.availabilityImageSize, this.scaleratio);
         } else if (result.bikesAvailable > 0) {
@@ -105,7 +105,7 @@ class CityBikes {
   }
 
   addFeature = (feature) => {
-    if (this.tile.coords.z <= config.cityBike.cityBikeSmallIconZoom) {
+    if (this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom) {
       drawRoundIcon(this.tile, feature.geom, 'citybike');
     } else {
       drawCitybikeIcon(this.tile, feature.geom, this.citybikeImageSize);
@@ -114,7 +114,7 @@ class CityBikes {
   }
 
   onTimeChange = () => {
-    if (this.tile.coords.z > config.cityBike.cityBikeSmallIconZoom) {
+    if (this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom) {
       this.fetchWithAction(this.fetchAndDrawStatus);
     }
   }

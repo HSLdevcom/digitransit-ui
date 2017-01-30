@@ -7,18 +7,25 @@ export default function RightOffcanvasToggle({ onToggleClick, hasChanges },
   { intl: { formatMessage } }) {
   const label = formatMessage({ id: 'settings-label-change', defaultMessage: 'Change settings' });
   return (
-    <button
-      onClick={onToggleClick}
-      aria-label={label}
-      title={label}
-      className="noborder cursor-pointer right-offcanvas-toggle"
-    >
-      <div className="icon-holder">
-        {hasChanges ?
-          <Icon img="icon-icon_settings-adjusted" /> : <Icon img="icon-icon_settings" />}
-        {hasChanges ? <Icon img="icon-icon_attention" className="super-icon" /> : null}
-      </div><FormattedMessage id="settings" defaultMessage="Settings" />
-    </button>
+    <div className="right-offcanvas-toggle">
+      <button
+        onClick={onToggleClick}
+        aria-label={label}
+        title={label}
+        className="noborder cursor-pointer"
+      >
+        <div>
+          <div className="icon-holder">
+            {hasChanges ?
+              <Icon img="icon-icon_settings-adjusted" /> : <Icon img="icon-icon_settings" />}
+            {hasChanges ? <Icon img="icon-icon_attention" className="super-icon" /> : null}
+          </div>
+          <div>
+            <FormattedMessage id="settings" defaultMessage="Settings" />
+          </div>
+        </div>
+      </button>
+    </div>
   );
 }
 

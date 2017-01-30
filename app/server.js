@@ -25,6 +25,7 @@ import application from './app';
 import config from './config';
 import translations from './translations';
 import ApplicationHtml from './html';
+import MUITheme from './MuiTheme';
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -185,7 +186,9 @@ function getContent(context, renderProps, locale, userAgent) {
       messages={translations[locale]}
       context={context.getComponentContext()}
     >
-      <MuiThemeProvider muiTheme={getMuiTheme({}, { userAgent })}>
+      <MuiThemeProvider
+        muiTheme={getMuiTheme(MUITheme(context.getComponentContext().config), { userAgent })}
+      >
         {IsomorphicRouter.render(renderProps)}
       </MuiThemeProvider>
     </ContextProvider>,
@@ -234,7 +237,12 @@ export default function (req, res, next) {
     res.cookie('lang', locale);
   }
 
-  const context = application.createContext({ url: req.url, headers: req.headers });
+  const context = application.createContext({ url: req.url, headers: req.headers, config });
+
+  context
+    .getComponentContext()
+    .getStore('MessageStore')
+    .addConfigMessages(config);
 
   // required by material-ui
   global.navigator = { userAgent: req.headers['user-agent'] };

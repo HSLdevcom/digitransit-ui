@@ -18,6 +18,7 @@ export default class SearchInputContainer extends Component {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
     intl: intlShape,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -43,6 +44,7 @@ export default class SearchInputContainer extends Component {
       input: '',
       type: this.props.type,
       layers: this.props.layers,
+      config: this.context.config,
     }, this.onSearchChange);
   }
 
@@ -169,6 +171,7 @@ export default class SearchInputContainer extends Component {
       input: event.target.value,
       type: this.props.type,
       layers: this.props.layers,
+      config: this.context.config,
     }, this.onSearchChange);
   }
 
@@ -269,7 +272,7 @@ export default class SearchInputContainer extends Component {
     </div>
   )
 
-  renderItem(item) { // eslint-disable-line class-methods-use-this
+  renderItem = (item) => { // eslint-disable-line class-methods-use-this
     if (item.properties.layer === 'currentPosition') {
       return (
         <CurrentPositionSuggestionItem
@@ -282,6 +285,7 @@ export default class SearchInputContainer extends Component {
       <SuggestionItem
         ref={item.name}
         item={item}
+        useTransportIconsconfig={this.context.config.search.suggestions.useTransportIcons}
       />
     );
   }

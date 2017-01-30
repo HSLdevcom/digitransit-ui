@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
+import { routerShape, locationShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import ComponentUsageExample from './ComponentUsageExample';
 import { setEndpoint } from '../action/EndpointActions';
-
-import config from '../config';
 
 class FavouriteLocationContainerRoute extends Relay.Route {
   static queries = {
@@ -37,6 +36,9 @@ class FavouriteLocationsContainer extends React.Component {
 
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static description =
@@ -66,6 +68,8 @@ class FavouriteLocationsContainer extends React.Component {
     this.context.executeAction(setEndpoint, {
       target: 'destination',
       endpoint: location,
+      router: this.context.router,
+      location: this.context.location,
     });
   }
 
@@ -81,6 +85,8 @@ class FavouriteLocationsContainer extends React.Component {
     />);
 
     if (this.props.location) {
+      const config = this.context.config;
+
       return (<Relay.RootContainer
         Component={FavouriteLocationContainer} forceFetch
         route={new FavouriteLocationContainerRoute({

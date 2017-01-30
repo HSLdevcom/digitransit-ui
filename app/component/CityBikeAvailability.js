@@ -4,12 +4,11 @@ import { FormattedMessage } from 'react-intl';
 
 import Availability from './Availability';
 import ComponentUsageExample from './ComponentUsageExample';
-import config from '../config';
 
-const CityBikeAvailability = mapProps(({ bikesAvailable, totalSpaces }) => ({
+const CityBikeAvailability = mapProps(({ bikesAvailable, totalSpaces, fewAvailableCount }) => ({
   available: bikesAvailable,
   total: totalSpaces,
-  fewAvailableCount: config.cityBike.fewAvailableCount,
+  fewAvailableCount,
   text: (
     <p className="sub-header-h4 availability-header">
       <FormattedMessage id="bike-availability" defaultMessage="Bikes available" />
@@ -26,13 +25,14 @@ CityBikeAvailability.description = () =>
   <div>
     <p>Renders information about citybike availability</p>
     <ComponentUsageExample description="">
-      <CityBikeAvailability bikesAvailable={1} totalSpaces={3} />
+      <CityBikeAvailability bikesAvailable={1} totalSpaces={3} fewAvailableCount={3} />
     </ComponentUsageExample>
   </div>;
 
 CityBikeAvailability.propTypes = {
   bikesAvailable: React.PropTypes.number.isRequired,
   totalSpaces: React.PropTypes.number.isRequired,
+  fewAvailableCount: React.PropTypes.number.isRequired,
 };
 
 export default CityBikeAvailability;
