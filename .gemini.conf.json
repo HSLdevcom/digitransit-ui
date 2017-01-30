@@ -12,7 +12,6 @@
   "browsers": {
     "ie11": {
       "windowSize": "600x1024",
-      "retry": 3,
       "desiredCapabilities": {
         "os": "Windows",
         "os_version": "8.1",
@@ -34,7 +33,6 @@
     },
     "safari10": {
       "windowSize": "600x1024",
-      "retry": 3,
       "desiredCapabilities": {
         "os": "OS X",
         "os_version": "Sierra",
@@ -45,7 +43,6 @@
     },
     "edge13": {
       "windowSize": "600x1024",
-      "retry": 3,
       "desiredCapabilities": {
         "os": "Windows",
         "os_version": "10",

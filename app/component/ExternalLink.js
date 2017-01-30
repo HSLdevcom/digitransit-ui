@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
+import ExternalLinkDecoration from './ExternalLinkDecoration';
 
-const ExternalLink = ({ name, href, className }) => ((name !== undefined) &&
-  <span className={`external-link-container ${className}`}>
-    <a onClick={e => e.stopPropagation()}className="external-link" href={href} >{name}</a>
-    <Icon img="icon-icon_external_link_arrow" className="external-link-icon-outer" />
-    <Icon img="icon-icon_external_link_arrow" className="external-link-icon" />
+const ExternalLink = ({ name, children, href, className }) => ((name || children !== undefined) &&
+<span className={className} style={{ position: 'relative' }}>
+  <span className="external-link-container">
+    <a onClick={e => e.stopPropagation()} className="external-link" href={href} >{name || children}</a>
+    <ExternalLinkDecoration />
   </span>
+</span>
 );
 
 ExternalLink.propTypes = {
@@ -27,9 +29,16 @@ ExternalLink.description = () => (
     <p>
       Link to external url
     </p>
-    <ComponentUsageExample description="">
+    <ComponentUsageExample description="with text only">
       <span style={{ background: '#007ac9', padding: '10px 10px 10px 10px' }}>
-        <ExternalLink name="HSL.fi" href="http://www.hsl.fi" />
+        <ExternalLink className="external-top-bar" name="HSL.fi" href="http://www.hsl.fi" />
+      </span>
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with more complex content">
+      <span style={{ background: '#ccc', padding: '10px 10px 10px 10px' }}>
+        <ExternalLink className="action-bar" href="http://print.me.invalid" >
+          <Icon img="icon-icon_print" /> Print
+        </ExternalLink>
       </span>
     </ComponentUsageExample>
   </div>);

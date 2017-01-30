@@ -30,6 +30,7 @@ export default class BackButton extends React.Component {
   render() {
     return (
       <FlatButton
+        className="back-button"
         onClick={this.goBack}
         style={{
           minWidth: '40px',
