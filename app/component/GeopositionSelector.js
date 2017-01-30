@@ -20,7 +20,11 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
   if ((status === PositionStore.STATUS_FOUND_LOCATION ||
     status === PositionStore.STATUS_FOUND_ADDRESS)
     && !searchModalIsOpen && !origin.userSetPosition && !origin.useCurrentPosition) {
-    context.executeAction(setUseCurrent, { target: 'origin' });
+    context.executeAction(setUseCurrent, {
+      target: 'origin',
+      router: this.context.router,
+      location: this.context.location,
+    });
   }
 
   if (status === PositionStore.STATUS_NO_LOCATION) {
