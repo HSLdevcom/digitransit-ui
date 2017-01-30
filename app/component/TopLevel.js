@@ -58,7 +58,7 @@ class TopLevel extends React.Component {
     configureMoment(this.context.intl.locale, this.context.config);
     const host = this.context.headers && this.context.headers.host;
     const url = this.context.url;
-    const metadata = meta(this.context.intl.locale, host, url);
+    const metadata = meta(this.context.intl.locale, host, url, this.context.config);
     const topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
 
     const disableMapOnMobile = some(this.props.routes, route => route.disableMapOnMobile);

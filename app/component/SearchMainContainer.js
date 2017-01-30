@@ -55,10 +55,14 @@ class SearchMainContainer extends React.Component {
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
         target: this.props.selectedTab,
+        router: this.context.router,
+        location: this.context.location,
       });
     } else {
       this.context.executeAction(setEndpoint, {
         target: this.props.selectedTab,
+        router: this.context.router,
+        location: this.context.location,
         endpoint: {
           lat: item.geometry.coordinates[1],
           lon: item.geometry.coordinates[0],

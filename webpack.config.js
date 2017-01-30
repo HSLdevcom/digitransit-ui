@@ -94,10 +94,9 @@ function getRulesConfig(env) {
 }
 
 function getAllPossibleLanguages() {
-  const srcDirectory = 'app';
+  const srcDirectory = 'app/configurations';
   return fs.readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
-    .filter(file => !/^config\.client\.js$/.test(file))
     .map(file => require('./' + srcDirectory + '/' + file).default.availableLanguages)
     .reduce((languages, languages2) => languages.concat(languages2))
     .filter((language, position, languages) => languages.indexOf(language) === position);

@@ -46,7 +46,7 @@ const SuggestionItem = pure((props) => {
 
 SuggestionItem.propTypes = {
   item: React.PropTypes.object,
-  config: React.PropTypes.object.isRequired,
+  useTransportIcons: React.PropTypes.bool,
 };
 
 

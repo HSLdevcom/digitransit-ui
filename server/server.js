@@ -21,7 +21,7 @@ global.fetch = require('node-fetch');
 
 global.self = { fetch: global.fetch };
 
-const config = require('../app/config').default;
+const config = require('../app/config').getConfiguration();
 
 let Raven;
 
