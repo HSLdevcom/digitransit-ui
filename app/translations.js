@@ -282,10 +282,8 @@ const translations = {
     'later': 'Myöhemmin',
     'leaves': 'Lähtee',
     'leaving-at': 'Lähtee',
-    'likely-to-recommend': `Kuinka todennäköistä on, että suosittelisit palveluamme
-      ystävälle tai kollegallesi?`,
-    'likely-to-use': `Kuinka todennäköisesti käyttäisit tätä palvelua ennemmin kuin
-      nykyistä reittiopas-palvelua?`,
+    'likely-to-recommend': 'Kuinka todennäköistä on, että suosittelisit palveluamme ystävälle tai kollegallesi?',
+    'likely-to-use': 'Kuinka todennäköisesti käyttäisit tätä palvelua ennemmin kuin nykyistä reittiopas-palvelua?',
     'loading': 'Ladataan...',
     'locate': 'Paikanna',
     'location-examples': 'esim. Koti, Työ, Koulu,...',
@@ -303,23 +301,17 @@ const translations = {
     'near-you': 'Lähelläsi',
     'nearest': 'Lähimmät',
     'next': 'Seuraava',
-    'no-favourites': 'Tähti-painikkeilla saat lisättyä linjan tai pysäkin suosikiksesi. ' +
-      'Suosikkisi näkyvät tällä sivulla.',
+    'no-favourites': 'Tähti-painikkeilla saat lisättyä linjan tai pysäkin suosikiksesi. Suosikkisi näkyvät tällä sivulla.',
     'no-position': 'Ei sijaintia',
-    'no-position-no-stops': `Sijaintisi ei ole tiedossa, joten emme voi näyttää
-      lähimpiä pysäkkejä.`,
-    'no-route-msg': `Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle
-      välille. Muuta lähdön tai määränpään osoitetta.`,
+    'no-position-no-stops': 'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
+    'no-route-msg': 'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
     'not-implemented': '{name} -toiminnallisuus on vielä kesken',
-    'not-implemented-msg': `Jos haluat osallistua kehitystyöhön, löydät lisätietoa
-      suunnitelluista toiminnallisuuksista oheisista linkeistä.`,
+    'not-implemented-msg': 'Jos haluat osallistua kehitystyöhön, löydät lisätietoa suunnitelluista toiminnallisuuksista oheisista linkeistä.',
     'now': 'Nyt',
-    'number-of-intermediate-stops': `{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other
-      {{number} pysäkkiä} }`,
-    'off-canvas-info': `Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää
-      niitä muillakin laitteillasi`,
+    'number-of-intermediate-stops': '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
+    'off-canvas-info': 'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'or': 'tai',
     'origin': 'Lähtöpaikka',
     'origin-label-change': 'Vaihda lähtöpaikka',
@@ -430,8 +422,7 @@ const translations = {
     'airplane-with-route-number': 'Avion {routeNumber}',
     'airport-check-in': "S'enregistrer au guichet {agency}",
     'airport-collect-luggage': 'Récupérer vos bagages',
-    'airport-security-check-go-to-gate': `Franchir les contrôles de sécurité et se rendre
-      à la porte d'embarquement`,
+    'airport-security-check-go-to-gate': 'Franchir les contrôles de sécurité et se rendre à la porte d\'embarquement',
     'approx-meters': '{approxDistance} m',
     'arriving-at': 'Arrivée',
     'arriving-soon': 'Imm.',
@@ -509,22 +500,17 @@ const translations = {
     'near-you': 'A proximité',
     'nearest': 'A proximité',
     'next': 'Suivant',
-    'no-favourites': `Vous pouvez cliquer sur les étoiles pour ajouter une ligne à vos favoris.
-      Après l'ajout, ceux-ci sont disponibles dans l'onglet Favoris de l'interface`,
+    'no-favourites': 'Vous pouvez cliquer sur les étoiles pour ajouter une ligne à vos favoris. Après l\'ajout, ceux-ci sont disponibles dans l\'onglet Favoris de l\'interface',
     'no-position': 'Aucune position',
     'no-position-no-stops': 'Localisation inconnue, impossible de proposer les arrêts à proximité.',
-    'no-route-msg': `Impossible de trouver un itinéraire dans cette zone. Changer le point
-      de départ ou d'arrivée.`,
+    'no-route-msg': 'Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d\'arrivée.',
     'no-transfers-margin': '1 min',
     'no-trips-found': "Il n'y a pas de trajet possible au jour choisi.",
     'not-implemented': '{name} - la fonctionnalité est en cours de développement',
-    'not-implemented-msg': `Si vous souhaitez participer au développement, vous pouvez
-      obtenir des informations via les liens ci-dessous`,
+    'not-implemented-msg': 'Si vous souhaitez participer au développement, vous pouvez obtenir des informations via les liens ci-dessous',
     'now': 'Maintenant',
-    'number-of-intermediate-stops': `{number, plural, =0 {Sans arrêt} =1 {{number} arrêt}
-      other {{number} arrêts} }`,
-    'off-canvas-info': `En vous connectant, vos favoris seront sauvegardés et accessibles depuis
-      d'autres appareils`,
+    'number-of-intermediate-stops': '{number, plural, =0 {Sans arrêt} =1 {{number} arrêt} other {{number} arrêts} }',
+    'off-canvas-info': 'En vous connectant, vos favoris seront sauvegardés et accessibles depuis d\'autres appareils',
     'or': 'ou',
     'origin': 'Départ',
     'origin-placeholder': 'Lieu, adresse ou arrêt',
@@ -698,10 +684,8 @@ const translations = {
     'later': 'Senere',
     'leaves': 'Går',
     'leaving-at': 'Avgang',
-    'likely-to-recommend': `Hvor sannsynlig er det at du anbefaler vår tjeneste til en
-      venn eller kollega?`,
-    'likely-to-use': `Hvor sannsynlig er det at du vil bruke denne tjenesten fremfor
-      tjenesten du allerede bruker?`,
+    'likely-to-recommend': 'Hvor sannsynlig er det at du anbefaler vår tjeneste til en venn eller kollega?',
+    'likely-to-use': 'Hvor sannsynlig er det at du vil bruke denne tjenesten fremfor tjenesten du allerede bruker?',
     'loading': 'laster',
     'locate': 'Der jeg er',
     'location-examples': 'f.eks hjemme, arbeid, skole ...',
@@ -719,20 +703,16 @@ const translations = {
     'near-you': 'Nær deg',
     'nearest': 'Forrige',
     'next': 'Neste',
-    'no-favourites': `Du kan legge til favoritter ved å trykke på favorittknapper forskjellige
-      steder i reiseplanleggeren`,
+    'no-favourites': 'Du kan legge til favoritter ved å trykke på favorittknapper forskjellige steder i reiseplanleggeren',
     'no-position': 'Ingen posisjon',
     'no-position-no-stops': 'Kan ikke vise holdeplasser i nærheten da vi ikke vet din posisjon.',
-    'no-route-msg': `Vi finner dessverre ingen reiseforslag til angitt rute. Forsøk å
-      endre adresse`,
+    'no-route-msg': 'Vi finner dessverre ingen reiseforslag til angitt rute. Forsøk å endre adresse',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen reiser tilgjenelig for denne dagen.',
     'not-implemented': '{name} - funksjonen er ikke implementert',
-    'not-implemented-msg': `Om du vil delta i utviklingen kan du finne mer informasjon
-      i følgende lenker`,
+    'not-implemented-msg': 'Om du vil delta i utviklingen kan du finne mer informasjon i følgende lenker',
     'now': 'Nå',
-    'number-of-intermediate-stops': `{number, plural, =0 {Ingen stopp} other {{number}
-      stopp} }`,
+    'number-of-intermediate-stops': '{number, plural, =0 {Ingen stopp} other {{number} stopp} }',
     'off-canvas-info': 'Ved å logge inn kan du finne tilbake til dine favoritter på andre enheter',
     'or': 'eller',
     'origin': 'Fra',
@@ -758,8 +738,7 @@ const translations = {
     'route-destination-arrives': 'Destinasjon / Siste holdeplass',
     'route-from-here': 'Finn rute herfra',
     'route-here': 'Finn rute hit',
-    'route-not-possible': `Dessverre kan vi ikke finne et reiseforslag til deg. Teknisk
-      feil: "{error}"`,
+    'route-not-possible': 'Dessverre kan vi ikke finne et reiseforslag til deg. Teknisk feil: "{error}"',
     'route-page.description': 'Rute {shortName}, {longName}',
     'route-page.title': 'Rute {shortName}',
     'route-page.title-short': 'Rute',
@@ -902,8 +881,7 @@ const translations = {
     'later': 'Senare',
     'leaves': 'Avgår',
     'leaving-at': 'Avgår',
-    'likely-to-recommend': `Hur sannolikt är det att du skulle rekommendera den här
-      tjänsten åt en vän eller kollega?`,
+    'likely-to-recommend': 'Hur sannolikt är det att du skulle rekommendera den här tjänsten åt en vän eller kollega?',
     'loading': 'Laddar',
     'locate': 'Lokalisera',
     'location-from-map': 'Vald position',
@@ -917,18 +895,14 @@ const translations = {
     'next': 'Nästa',
     'no-favourites': 'Du har ännu inte lagt till några favoriter.',
     'no-position': 'Ingen position',
-    'no-position-no-stops': `De närmaste hållplatserna kan inte visas, eftersom din
-      position inte är känd.`,
+    'no-position-no-stops': 'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
     'no-route-msg': 'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.',
     'no-transfers-margin': 'Ingen',
     'not-implemented': '{name} - funktionen är inte implementerad',
-    'not-implemented-msg': `Om du vill delta i utvecklingen så kan du hitta mer information
-      om de planerade funktionerna i följande länkar`,
+    'not-implemented-msg': 'Om du vill delta i utvecklingen så kan du hitta mer information om de planerade funktionerna i följande länkar',
     'now': 'Nu',
-    'number-of-intermediate-stops': `{number, plural, =0 {Inga hållplatser} one {1 hållplats} other
-      {{number} hållplatser} }`,
-    'off-canvas-info': `Genom att logga in sparas dina favoriter och kan användas
-      på dina andra enheter.`,
+    'number-of-intermediate-stops': '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
+    'off-canvas-info': 'Genom att logga in sparas dina favoriter och kan användas på dina andra enheter.',
     'or': 'eller',
     'origin': 'Från',
     'origin-label-change': 'TODO byta avfärdsplats',
