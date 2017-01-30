@@ -52,13 +52,13 @@ class SearchMainContainer extends React.Component {
       this.context.router.replace(newLocation);
     } else if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
-        target: this.state.selectedTab,
+        target: this.props.selectedTab,
         router: this.context.router,
         location: this.context.location,
       });
     } else {
       this.context.executeAction(setEndpoint, {
-        target: this.state.selectedTab,
+        target: this.props.selectedTab,
         router: this.context.router,
         location: this.context.location,
         endpoint: {
