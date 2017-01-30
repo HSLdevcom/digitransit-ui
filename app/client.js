@@ -8,6 +8,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import tapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { AppContainer } from 'react-hot-loader';
 import debug from 'debug';
 import {
   RelayNetworkLayer,
@@ -134,9 +135,8 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     headers: React.PropTypes.object,
   });
 
-  // init geolocation handling
-  context.executeAction(initGeolocation).then(() => {
-    ReactDOM.render(
+  const componentTree = (
+    <AppContainer>
       <ContextProvider translations={translations} context={context.getComponentContext()}>
         <MuiThemeProvider
           muiTheme={getMuiTheme(MUITheme(
@@ -151,15 +151,18 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
             {app.getComponent()}
           </Router>
         </MuiThemeProvider>
-      </ContextProvider>,
-      document.getElementById('app'),
-      () => {
-        // Run only in production mode and when built in a docker container
-        if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-          OfflinePlugin.install();
-        }
-      },
-    );
+      </ContextProvider>
+    </AppContainer>
+  );
+
+  // init geolocation handling
+  context.executeAction(initGeolocation).then(() => {
+    ReactDOM.render(componentTree, document.getElementById('app'), () => {
+      // Run only in production mode and when built in a docker container
+      if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
+        OfflinePlugin.install();
+      }
+    });
   });
 
   // Listen for Web App Install Banner events
@@ -173,6 +176,12 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
       );
     }
   });
+
+  if (module.hot) {
+    module.hot.accept('./app', () => {
+      ReactDOM.render(componentTree, document.getElementById('app'));
+    });
+  }
 
   piwik.enableLinkTracking();
 
