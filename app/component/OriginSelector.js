@@ -1,17 +1,22 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { routerShape, locationShape } from 'react-router';
 
 import { setEndpoint } from '../action/EndpointActions';
 import Icon from './Icon';
 import { getIcon } from '../util/suggestionUtils';
 
-const OriginSelectorRow = ({ icon, label, lat, lon }, { executeAction }) => (
+const OriginSelectorRow = ({ icon, label, lat, lon }, { executeAction, router, location }) => (
   <li>
     <button
       className="noborder"
       style={{ display: 'block' }}
-      onClick={() => executeAction(setEndpoint,
-        { target: 'origin', endpoint: { lat, lon, address: label } })}
+      onClick={() => executeAction(setEndpoint, {
+        target: 'origin',
+        endpoint: { lat, lon, address: label },
+        router,
+        location,
+      })}
     >
       <Icon className={`splash-icon ${icon}`} img={icon} />
       { label }
@@ -28,6 +33,8 @@ OriginSelectorRow.propTypes = {
 
 OriginSelectorRow.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
 };
 
 const OriginSelector = ({ favourites, oldSearches }, { config }) => {
