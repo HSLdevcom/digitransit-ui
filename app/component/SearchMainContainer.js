@@ -49,8 +49,10 @@ class SearchMainContainer extends React.Component {
         },
         pathname: item.properties.link,
       };
-      this.context.router.replace(newLocation);
-    } else if (item.type === 'CurrentLocation') {
+      return this.context.router.replace(newLocation);
+    }
+
+    if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
         target: this.props.selectedTab,
         router: this.context.router,
