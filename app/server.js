@@ -260,7 +260,9 @@ const isRobotRequest = agent =>
 
 export default function (req, res, next) {
   const config = getConfiguration(req);
-  addMetaData(config); // add dynamic metadata content
+  if (process.env.NODE_ENV !== 'development') {
+    addMetaData(config); // add dynamic metadata content
+  }
   const application = appCreator(config);
 
   // TODO: Move this to PreferencesStore
