@@ -463,4 +463,15 @@ export default {
     joensuu: 'joensuu',
     matka: 'matka',
   },
+
+  piwikMap: [ // in priority order. 1st match stops
+    { id: '5', expr: 'dev.reittiopas' },
+    { id: '4', expr: 'reittiopas' },
+    { id: '7', expr: 'dev.matka|dev.digitransit' },
+    { id: '6', expr: 'matka|digitransit' },
+    { id: '10', expr: 'dev-joensuu' },
+    { id: '11', expr: 'joensuu' },
+    { id: '12', expr: 'dev-turku' },
+    { id: '13', expr: 'turku' },
+  ],
 };

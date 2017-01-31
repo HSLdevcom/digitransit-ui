@@ -5,11 +5,21 @@ import defaultConfig from './configurations/config.default';
 
 const configs = {}; // cache merged configs for speed
 const themeMap = {};
+const piwikMap = [];
 
 if (defaultConfig.themeMap) {
   Object.keys(defaultConfig.themeMap).forEach((theme) => {
     themeMap[theme] = new RegExp(defaultConfig.themeMap[theme], 'i'); // str to regex
   });
+}
+
+if (defaultConfig.piwikMap) {
+  for (let i = 0; i < defaultConfig.piwikMap.length; i++) {
+    piwikMap.push({
+      id: defaultConfig.piwikMap[i].id,
+      expr: new RegExp(defaultConfig.piwikMap[i].expr, 'i'),
+    });
+  }
 }
 
 function customizer(objValue, srcValue) {
@@ -48,34 +58,54 @@ export function addMetaData(config) {
   });
 }
 
-export function getNamedConfiguration(configName) {
-  if (!configs[configName]) {
+export function getNamedConfiguration(configName, piwikId) {
+  const key = configName + (piwikId || '');
+
+  if (!configs[key]) {
     let additionalConfig;
 
     if (configName !== 'default') {
       // eslint-disable-next-line global-require, import/no-dynamic-require
       additionalConfig = require(`./configurations/config.${configName}`).default;
     }
-    configs[configName] = mergeWith({}, defaultConfig, additionalConfig, customizer);
+    configs[key] = mergeWith({}, defaultConfig, additionalConfig, customizer);
+
+    if (piwikId) {
+      configs[key].piwikId = piwikId;
+    }
   }
-  return configs[configName];
+  return configs[key];
 }
 
 export function getConfiguration(req) {
-  if (process.env.CONFIG) {
-    return getNamedConfiguration(process.env.CONFIG);
+  let configName = process.env.CONFIG || 'default';
+  let host;
+  let piwikId;
+
+  if (req) {
+    host = (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
   }
 
-  let configName = 'default';
-
-  if (req && process.env.NODE_ENV !== 'development') {
-    const host = (req.headers.host && req.headers.host.split(':')[0]);
-
+  if (host && process.env.NODE_ENV !== 'development'
+    && (process.env.CONFIG === '' || !process.env.CONFIG)) {
+    // no forced CONFIG, map dynamically
     Object.keys(themeMap).forEach((theme) => {
       if (themeMap[theme].test(host)) {
         configName = theme;
       }
     });
   }
-  return getNamedConfiguration(configName);
+
+  if (host && process.env.NODE_ENV !== 'development'
+    && (!process.env.PIWIK_ID || process.env.PIWIK_ID === '')) {
+    // PIWIK_ID unset, map dynamically by hostname
+    for (let i = 0; i < piwikMap.length; i++) {
+      if (piwikMap[i].expr.test(host)) {
+        piwikId = piwikMap[i].id;
+        // console.log('###PIWIK', piwikId);
+        break;
+      }
+    }
+  }
+  return getNamedConfiguration(configName, piwikId);
 }
