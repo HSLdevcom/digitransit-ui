@@ -37,8 +37,7 @@ export default {
   },
 
   feedback: {
-    // Enable feedback popup
-    enable: true,
+    enable: false,
   },
 
   maxWalkDistance: 2500,
