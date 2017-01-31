@@ -47,9 +47,9 @@
   color: $to-color;
 }
 .gray {
-  color: $dark-color;
+  color: $gray;
   p {
-    color: $dark-color;
+    color: $gray;
   }
 }
 
@@ -116,9 +116,6 @@
 /* Appearance */
 .cursor-pointer {
   cursor: pointer;
-}
-.dashed-underline {
-  border-bottom: 1px dashed $dark-color;
 }
 
 /* TODO Remove this - setting only the font-weight can give wrong combinations,
