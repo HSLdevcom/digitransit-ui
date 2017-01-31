@@ -1,4 +1,5 @@
-{ "rootUrl": "http://localhost:8080",
+module.exports = {
+  "rootUrl": "http://localhost:8080",
   "screenshotsDir": "./test/visual-images/",
   "httpTimeout": 30000,
   "sessionRequestTimeout": 120000,
@@ -6,7 +7,7 @@
   "suitesPerSession": 10,
   "retry": 1,
   "system": {
-    "plugins": { "browserstack": {} },
+    "plugins": { "browserstack": { "localIdentifier": process.env.SNAP_COMMIT } },
     "parallelLimit": 3
   },
   "browsers": {
