@@ -4,7 +4,7 @@ const CONFIG = process.env.CONFIG || 'joensuu';
 const APP_DESCRIPTION =
   'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
 
-const walttiConfig = require('./config.waltti').default;
+const walttiConfig = require('./waltti').default;
 
 export default mergeWith({}, walttiConfig, {
   CONFIG,

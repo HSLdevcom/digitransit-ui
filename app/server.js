@@ -275,9 +275,6 @@ export default function (req, res, next) {
   if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
     res.cookie('lang', locale);
   }
-
-  const application = appCreator(config);
-
   const context = application.createContext({ url: req.url, headers: req.headers, config });
 
   context
