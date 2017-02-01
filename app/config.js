@@ -27,10 +27,11 @@ function customizer(objValue, srcValue) {
   return undefined; // Otherwise use default customizer
 }
 
-export function addMetaData(config) {
+function addMetaData(config) {
   // eslint-disable-next-line global-require, import/no-dynamic-require
   const stats = require(`../_static/iconstats-${config.CONFIG}`);
   const html = stats.html.join(' ');
+  const appPathPrefix = config.APP_PATH && config.APP_PATH !== '' ? `${config.APP_PATH}'/'` : '';
 
   htmlParser.convert_html_to_json(html, (err, data) => {
     if (!err) {
@@ -39,7 +40,7 @@ export function addMetaData(config) {
         delete e.innerHTML;
         if (e.name === 'msapplication-config' || e.name === 'msapplication-TileImage') {
           // eslint-disable-next-line no-param-reassign
-          e.content = `${stats.outputFilePrefix}${e.content}`; // fix path bug
+          e.content = `${appPathPrefix}${stats.outputFilePrefix}${e.content}`; // fix path bug
         } else if (e.name === 'theme-color') {
           // eslint-disable-next-line no-param-reassign
           e.content = '#fff';
@@ -68,11 +69,15 @@ export function getNamedConfiguration(configName, piwikId) {
       // eslint-disable-next-line global-require, import/no-dynamic-require
       additionalConfig = require(`./configurations/config.${configName}`).default;
     }
-    configs[key] = mergeWith({}, defaultConfig, additionalConfig, customizer);
+    const config = mergeWith({}, defaultConfig, additionalConfig, customizer);
 
     if (piwikId) {
-      configs[key].piwikId = piwikId;
+      config.piwikId = piwikId;
     }
+    if (process.env.NODE_ENV !== 'development') {
+      addMetaData(config); // add dynamic metadata content
+    }
+    configs[key] = config;
   }
   return configs[key];
 }

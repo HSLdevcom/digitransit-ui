@@ -27,7 +27,7 @@ import ApplicationHtml from './html';
 import MUITheme from './MuiTheme';
 
 // configuration
-import { getConfiguration, addMetaData } from './config';
+import { getConfiguration } from './config';
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
@@ -260,9 +260,6 @@ const isRobotRequest = agent =>
 
 export default function (req, res, next) {
   const config = getConfiguration(req);
-  if (process.env.NODE_ENV !== 'development') {
-    addMetaData(config); // add dynamic metadata content
-  }
   const application = appCreator(config);
 
   // TODO: Move this to PreferencesStore
