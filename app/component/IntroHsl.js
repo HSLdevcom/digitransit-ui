@@ -1,6 +1,6 @@
 export default [
   {
-    image: require('../../static/img/intro-pic.png'), // eslint-disable-line global-require
+    image: require('../../sass/themes/default/intro-pic.png'), // eslint-disable-line global-require
     header: {
       fi: 'Tervetuloa käyttämään uutta Reittiopasta',
       en: 'Welcome to new Journey planner',
