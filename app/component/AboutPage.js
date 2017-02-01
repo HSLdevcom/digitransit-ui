@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
@@ -8,27 +9,13 @@ const AboutPage = ({ currentLanguage }, context) => {
   return (
     <div className="about-page fullscreen">
       <div className="page-frame fullscreen momentum-scroll">
-        <h1 id="about-header">
-          <FormattedMessage
-            id="about-this-service" defaultMessage="About this service"
-          />
-        </h1>
-        <p>{about.about}</p>
-
-        <h1>
-          <FormattedMessage
-            id="digitransit-platform" defaultMessage="Digitransit platform"
-          />
-        </h1>
-        <p>{about.digitransit}</p>
-
-        <h1>
-          <FormattedMessage
-            id="datasources" defaultMessage="Datasources"
-          />
-        </h1>
-        <p>{about.datasources}</p>
-
+        {about.map((section, i) => (
+          <div key={`about-section-${i}`}>
+            <h1 className="about-header">{section.header}</h1>
+            {section.paragraphs && section.paragraphs.map(p => (<p key={`about-section-p-${i}`}>{p}</p>))}
+            {section.link && <Link to={section.link}>{section.link}</Link>}
+          </div>
+        ))}
         <Link to="/">
           <div className="call-to-action-button">
             <FormattedMessage
