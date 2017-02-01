@@ -439,26 +439,7 @@ export default {
     de: {},
   },
 
-  staticMessages: [{
-    id: 1,
-
-    content: {
-      fi: {
-        title: 'Tämä on Digitransitin kehitysversio',
-        content: 'Käytät Digitransitin kehitysversiota.',
-      },
-
-      sv: {
-        title: 'Det här är utvecklingsversionen av Digitransit',
-        content: 'Du använder utvecklingsversionen av Digitransit.',
-      },
-
-      en: {
-        title: 'This version of Digitransit is under development',
-        content: 'You are using the development version of Digitransit.',
-      },
-    },
-  }],
+  staticMessages: [],
 
   themeMap: {
     turku: 'turku',

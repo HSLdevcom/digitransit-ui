@@ -153,24 +153,5 @@ export default {
     },
   },
 
-  staticMessages: [{
-    id: 1,
-
-    content: {
-      fi: {
-        title: 'Tervetuloa kokeilemaan uutta Reittiopasta!',
-        content: 'Uusi Reittiopas auttaa löytämään sinulle läheisimmät joukkoliikennepalvelut. Voit antaa meille palautetta HSL:n palautelomakkeen kautta: https://www.hsl.fi/palaute',
-      },
-
-      sv: {
-        title: 'Välkommen till den nya reseplaneraren!',
-        content: 'Den nya reseplaneraren hjälper dig hitta de närmaste kollektivtrafikstjänsterna. Du kan ge oss feedback genom HRT:s responsformulär: https://www.hsl.fi/respons',
-      },
-
-      en: {
-        title: 'Welcome to new Journey planner!',
-        content: 'The new Journey planner will help you to find public transport nearby. You can send us feedback at https://www.hsl.fi/palaute',
-      },
-    },
-  }],
+  staticMessages: [],
 };
