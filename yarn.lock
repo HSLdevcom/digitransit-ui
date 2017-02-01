@@ -1339,9 +1339,9 @@ browserslist@^1.4.0, browserslist@^1.5.2, browserslist@~1.5.1:
   dependencies:
     caniuse-db "^1.0.30000604"
 
-browserstacktunnel-wrapper@^1.3.1:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/browserstacktunnel-wrapper/-/browserstacktunnel-wrapper-1.4.2.tgz#6598fb7d784b6ff348e3df7c104b0d9c27ea5275"
+browserstacktunnel-wrapper@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/browserstacktunnel-wrapper/-/browserstacktunnel-wrapper-2.0.0.tgz#4d6ebf6a667451ad4ee9325fddcf3546607b4d92"
   dependencies:
     unzip "~0.1.9"
 
@@ -3130,11 +3130,11 @@ gaze@^1.0.0:
   dependencies:
     globule "^1.0.0"
 
-gemini-browserstack@1.0.0:
+"gemini-browserstack@https://github.com/HSLdevcom/gemini-browserstack":
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/gemini-browserstack/-/gemini-browserstack-1.0.0.tgz#021f36da6550ed1e829a8e9f41241ec7d61ed681"
+  resolved "https://github.com/HSLdevcom/gemini-browserstack#c59bb7d0426acc5c07b5e337ce650e833fcb4f6e"
   dependencies:
-    browserstacktunnel-wrapper "^1.3.1"
+    browserstacktunnel-wrapper "^2.0.0"
     cleankill "^1.0.0"
     lodash "^3.5.0"
     q "^1.2.0"
@@ -4515,10 +4515,6 @@ lodash@4.17.2, lodash@^4.0.0, lodash@^4.11.1, lodash@^4.13.1, lodash@^4.14.0, lo
 lodash@^3.10.1, lodash@^3.5.0, lodash@^3.9.3:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
-
-lodash@^4.0.0, lodash@^4.11.1, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.2, lodash@^4.16.4, lodash@^4.2.0, lodash@^4.3.0:
-  version "4.17.3"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.3.tgz#557ed7d2a9438cac5fd5a43043ca60cb455e01f7"
 
 lodash@~3.2.0:
   version "3.2.0"
