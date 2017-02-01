@@ -446,6 +446,13 @@ div.map-click-prevent-overlay {
     cursor: grab;
 }
 
+.bp-large .leaflet-control-scale.leaflet-control {
+    //front page desktop
+    margin-right: 400px;
+    margin-bottom: 44px;
+    cursor: grab;
+}
+
 .map.full .leaflet-control-scale.leaflet-control {
     //stop & ininerary page mobile
     margin-right: 60px;
