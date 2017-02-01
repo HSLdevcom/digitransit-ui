@@ -179,6 +179,11 @@ class Map extends React.Component {
         boundsOptions.paddingTopLeft = this.props.padding;
       }
 
+      let mapUrl = config.URL.MAP;
+      if (mapUrl !== null && typeof mapUrl === 'object') {
+        mapUrl = mapUrl[this.context.getStore('PreferencesStore').getLanguage()] || config.URL.MAP.default;
+      }
+
       map = (
         <LeafletMap
           {...{
@@ -195,7 +200,7 @@ class Map extends React.Component {
             ...this.props.leafletEvents }}
         >
           <TileLayer
-            url={`${config.URL.MAP}{z}/{x}/{y}{size}.png`}
+            url={`${mapUrl}{z}/{x}/{y}{size}.png`}
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
             updateWhenIdle={false}
