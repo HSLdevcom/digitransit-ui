@@ -2,8 +2,8 @@
 import mergeWith from 'lodash/mergeWith';
 
 const CONFIG = process.env.CONFIG || 'oulu';
-const APP_DESCRIPTION =
-  'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
+const APP_DESCRIPTION = 'Oulun seudun uusi reittiopas';
+const APP_TITLE = 'Reittiopas';
 
 const walttiConfig = require('./waltti').default;
 
@@ -17,11 +17,11 @@ export default mergeWith({}, walttiConfig, {
   },
 
   socialMedia: {
-    title: 'Uusi Reittiopas - Oulu',
+    title: APP_TITLE,
     description: APP_DESCRIPTION,
   },
 
-  title: 'Oulu Digitransit',
+  title: APP_TITLE,
 
   searchParams: {
     'boundary.rect.min_lat': 64.71,

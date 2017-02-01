@@ -2,10 +2,10 @@
 import mergeWith from 'lodash/mergeWith';
 
 const CONFIG = process.env.CONFIG || '__theme__';
-const APP_DESCRIPTION =
-  'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
+const APP_TITLE = 'Uusi Reittiopas';
+const APP_DESCRIPTION = 'Uusi Reittiopas - __theme__';
 
-const walttiConfig = require('./config.waltti').default;
+const walttiConfig = require('./waltti').default;
 
 export default mergeWith({}, walttiConfig, {
   CONFIG,
@@ -17,12 +17,11 @@ export default mergeWith({}, walttiConfig, {
   },
 
   socialMedia: {
-    title: 'Uusi Reittiopas - __Theme__',
+    title: APP_TITLE,
     description: APP_DESCRIPTION,
   },
 
-  // Label for manifest creation
-  name: '__Theme__ Digitransit',
+  title: APP_TITLE,
 
   textLogo: true, // title text instead of logo img
 

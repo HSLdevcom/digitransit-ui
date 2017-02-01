@@ -1,6 +1,5 @@
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const APP_DESCRIPTION =
-  'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
+const APP_DESCRIPTION = 'Uusi Reittiopas';
 
 export default {
   URL: {

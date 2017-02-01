@@ -1,8 +1,8 @@
 import mergeWith from 'lodash/mergeWith';
 
 const CONFIG = process.env.CONFIG || 'joensuu';
-const APP_DESCRIPTION =
-  'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
+const APP_TITLE = 'Joensuun reittiopas';
+const APP_DESCRIPTION = 'Joensuun uusi reittiopas';
 
 const walttiConfig = require('./waltti').default;
 
@@ -27,14 +27,14 @@ export default mergeWith({}, walttiConfig, {
 
   sprites: 'svg-sprite.joensuu.svg',
 
-  title: 'Joensuu Digitransit',
+  title: APP_TITLE,
 
   colors: {
     primary: '#5c4696',
   },
 
   socialMedia: {
-    title: 'Uusi Reittiopas - Joensuu',
+    title: APP_TITLE,
     description: APP_DESCRIPTION,
   },
 

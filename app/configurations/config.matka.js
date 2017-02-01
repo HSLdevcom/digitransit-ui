@@ -1,5 +1,6 @@
 const CONFIG = process.env.CONFIG || 'matka';
 const APP_DESCRIPTION = 'Liikenneviraston Matka.fi–palvelu.';
+const APP_TITLE = 'Matka.fi';
 
 export default {
   CONFIG,
@@ -16,19 +17,19 @@ export default {
   appBarLink: { name: 'Liikennevirasto', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut' },
 
   socialMedia: {
-    title: 'Matka.fi',
+    title: APP_TITLE,
     description: APP_DESCRIPTION,
     locale: 'fi_FI',
   },
+
+  title: APP_TITLE,
+
+  favicon: './sass/themes/hsl/icon_favicon-matkafi.svg',
 
   meta: {
     description: APP_DESCRIPTION,
     keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
   },
-
-  // Labels for manifest creation
-  name: 'matka.fi',
-  shortName: 'matka.fi',
 
   footer: {
     content: [

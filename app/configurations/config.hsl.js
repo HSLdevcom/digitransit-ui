@@ -20,12 +20,12 @@ export default {
     default: 'HSL',
   },
 
-  // Labels for manifest creation
-  name: 'Reittiopas Beta',
-  shortName: 'Reittiopas',
+  title: 'Reittiopas',
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
+
+  favicon: './sass/themes/hsl/icon_favicon-reittiopas.svg',
 
   preferredAgency: 'HSL',
 

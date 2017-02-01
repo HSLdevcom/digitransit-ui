@@ -1,6 +1,7 @@
 import mergeWith from 'lodash/mergeWith';
 
 const CONFIG = process.env.CONFIG || 'turku';
+const APP_TITLE = 'Fölin reittiopas';
 const APP_DESCRIPTION =
   'Fölin reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
 
@@ -30,7 +31,7 @@ export default mergeWith({}, walttiConfig, {
   appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },
 
   socialMedia: {
-    title: 'Fölin reittiopas',
+    title: APP_TITLE,
     description: APP_DESCRIPTION,
 
     twitter: {
@@ -43,7 +44,7 @@ export default mergeWith({}, walttiConfig, {
   },
 
   sprites: 'svg-sprite.turku.svg',
-  title: 'Fölin reittiopas',
+  title: APP_TITLE,
 
   transportModes: {
     ferry: {
