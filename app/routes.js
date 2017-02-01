@@ -225,7 +225,6 @@ export default (config) => {
           }}
         >
           <Route path="kartta" fullscreenMap />
-          <Route path="info" component={Error404} />
         </Route>
       </Route>
       <Route path="/terminaalit">
@@ -253,7 +252,7 @@ export default (config) => {
         </Route>
       </Route>
       <Route path="/linjat">
-        <IndexRoute component={Error404} />
+        <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes */}
         <Route path=":routeId">
           <IndexRedirect to="pysakit" />
           <Route path="pysakit">
