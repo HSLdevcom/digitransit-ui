@@ -37,7 +37,7 @@ function addMetaData(config) {
   }
 
   const html = stats.html.join(' ');
-  const appPathPrefix = config.APP_PATH && config.APP_PATH !== '' ? `${config.APP_PATH}'/'` : '';
+  const appPathPrefix = config.APP_PATH && config.APP_PATH !== '' ? `${config.APP_PATH}'/'` : '/';
 
   htmlParser.convert_html_to_json(html, (err, data) => {
     if (!err) {
