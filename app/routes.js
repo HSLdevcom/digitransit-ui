@@ -437,7 +437,7 @@ export default (config) => {
           ]).then(([title, content]) => cb(null, { title, content }));
         }}
       />
-      /* For all the rest render 404 */
+      {/* For all the rest render 404 */}
       <Route path="*" component={Error404} />
     </Route>
   );
