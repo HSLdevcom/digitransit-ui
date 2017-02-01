@@ -98,7 +98,10 @@ function getAllConfigs() {
   const srcDirectory = 'app/configurations';
   return fs.readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
-    .map(file => require('./' + srcDirectory + '/' + file).default);
+    .map((file) => {
+      const theme = file.replace('config.', '').replace('.js', '');
+      return require('./app/config').getNamedConfiguration(theme);
+    });
 }
 
 function getAllPossibleLanguages() {
@@ -108,9 +111,9 @@ function getAllPossibleLanguages() {
 }
 
 function faviconPluginFromConfig(config) {
-  let logo = './static/img/' + config.CONFIG + '-icon.png';
+  let logo = config.favicon || './sass/themes/' + config.CONFIG + '/favicon.png';
   if (!fs.existsSync(logo)) {
-    logo = './static/img/default-icon.png';
+    logo = './sass/themes/default/favicon.png';
   }
 
   return new FaviconsWebpackPlugin({

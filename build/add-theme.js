@@ -39,7 +39,7 @@ fs.writeFileSync(dir + '/_theme.scss',
 
 /* main theme colors */
 $primary-color: ${color};
-$secondary-color: #008bde;
+$secondary-color: darken($primary-color, 20%);
 $hilight-color: ${color};
 $action-color: ${color};
 /* Navbar logo */
