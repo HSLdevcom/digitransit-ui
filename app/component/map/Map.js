@@ -13,11 +13,17 @@ import { isBrowser } from '../../util/browser';
 //      Perhaps still using the require from webpack?
 let LeafletMap;
 let TileLayer;
+let AttributionControl;
+let ScaleControl;
+let ZoomControl;
 let L;
 
 if (isBrowser) {
   LeafletMap = require('react-leaflet/lib/Map').default;
   TileLayer = require('react-leaflet/lib/TileLayer').default;
+  AttributionControl = require('react-leaflet/lib/AttributionControl').default;
+  ScaleControl = require('react-leaflet/lib/ScaleControl').default;
+  ZoomControl = require('react-leaflet/lib/ZoomControl').default;
   L = require('leaflet');
   // Webpack handles this by bundling it with the other css files
   require('leaflet/dist/leaflet.css');
@@ -58,20 +64,6 @@ class Map extends React.Component {
   };
 
   componentDidMount = () => {
-    L.control.attribution({
-      position: 'bottomleft',
-      prefix: '&copy; <a tabindex="-1" href="http://osm.org/copyright">OpenStreetMap</a>',
-    }).addTo(this.refs.map.leafletElement);
-
-    if (this.props.showScaleBar) {
-      L.control.scale({ imperial: false, position: 'bottomright' }).addTo(this.refs.map.leafletElement);
-    }
-
-    if (!this.props.disableZoom || L.Browser.touch) {
-      L.control.zoom({ position: 'topleft' })
-        .addTo(this.refs.map.leafletElement);
-    }
-
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
     /* eslint-disable no-underscore-dangle */
     this.erd.listenTo(this.refs.map.leafletElement._container, this.resizeMap);
@@ -206,6 +198,12 @@ class Map extends React.Component {
             updateWhenIdle={false}
             size={(config.map.useRetinaTiles && L.Browser.retina) ? '@2x' : ''}
           />
+          <AttributionControl
+            position="bottomleft"
+            prefix='&copy; <a tabindex="-1" href="http://osm.org/copyright">OpenStreetMap</a>'
+          />
+          {this.props.showScaleBar && <ScaleControl imperial={false} position="bottomright" />}
+          {(!this.props.disableZoom || L.Browser.touch) && <ZoomControl position="topleft" />}
           {leafletObjs}
         </LeafletMap>
       );
