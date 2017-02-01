@@ -5,13 +5,13 @@ import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const AppBarSmall = ({ disableBackButton, showLogo, title }, config) =>
+const AppBarSmall = ({ disableBackButton, showLogo, title }, { config }) =>
   <div>
     <DisruptionInfo />
     <nav className="top-bar">
       {!disableBackButton && <BackButton />}
       <section className="title">
-        {showLogo && !config.textLogo ?
+        {(showLogo && !config.textLogo) ?
           <div className="logo" /> :
           <span className="title">{title}</span>
         }
