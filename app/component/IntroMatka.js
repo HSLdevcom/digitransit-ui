@@ -12,7 +12,7 @@ export default [
       sv: 'Din position är nyckeln till nya egenskaper. Tillåt gärna att dela din plats!',
     },
   }, {
-    image: require('../../static/img/matka-origin.png'), // eslint-disable-line global-require
+    image: require('../../sass/themes/matka/matka-origin.png'), // eslint-disable-line global-require
     header: {
       fi: 'Missä oletkin',
       en: 'Wherever you are',
@@ -24,7 +24,7 @@ export default [
       sv: 'Din position fungerar som avfärdsplats. Resan planerar du genom att berätta vart du är på väg.',
     },
   }, {
-    image: require('../../static/img/matka-nearyou.png'), // eslint-disable-line global-require
+    image: require('../../sass/themes/matka/matka-nearyou.png'), // eslint-disable-line global-require
     header: {
       fi: 'Milloin lähdet?',
       en: 'When will I go?',
