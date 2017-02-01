@@ -116,9 +116,9 @@ function getCss(config) {
 function getSprite(config) {
   if (!sprites[config.CONFIG]) {
     let svgSprite;
+    const spriteName = config.sprites || `svg-sprite.${config.CONFIG}.svg`;
 
     if (process.env.NODE_ENV !== 'development') {
-      const spriteName = config.sprites || `svg-sprite.${config.CONFIG}.svg`;
       svgSprite = (
         <script
           dangerouslySetInnerHTML={{ __html: `
@@ -136,7 +136,7 @@ function getSprite(config) {
       svgSprite = (
         <div
           dangerouslySetInnerHTML={{
-            __html: fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString(),
+            __html: fs.readFileSync(`${appRoot}_static/${spriteName}`).toString(),
           }}
         />
       );
