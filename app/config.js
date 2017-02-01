@@ -1,4 +1,3 @@
-
 import htmlParser from 'htm-to-json';
 import mergeWith from 'lodash/mergeWith';
 import defaultConfig from './configurations/config.default';
@@ -28,8 +27,15 @@ function customizer(objValue, srcValue) {
 }
 
 function addMetaData(config) {
-  // eslint-disable-next-line global-require, import/no-dynamic-require
-  const stats = require(`../_static/iconstats-${config.CONFIG}`);
+  let stats;
+
+  try {
+    // eslint-disable-next-line global-require, import/no-dynamic-require
+    stats = require(`../_static/iconstats-${config.CONFIG}`);
+  } catch (error) {
+    return;
+  }
+
   const html = stats.html.join(' ');
   const appPathPrefix = config.APP_PATH && config.APP_PATH !== '' ? `${config.APP_PATH}'/'` : '';
 
@@ -74,9 +80,8 @@ export function getNamedConfiguration(configName, piwikId) {
     if (piwikId) {
       config.piwikId = piwikId;
     }
-    if (process.env.NODE_ENV !== 'development') {
-      addMetaData(config); // add dynamic metadata content
-    }
+    addMetaData(config); // add dynamic metadata content
+
     configs[key] = config;
   }
   return configs[key];
