@@ -9,7 +9,7 @@ $heading-color: #858585;
   position: absolute;
   top: 0;
   height: calc(100% - 48px);
-  z-index: 1200;
+  z-index: 1000;
   width: 100%;
   overflow: hidden;
   background-color: $background-color;
@@ -117,7 +117,7 @@ $heading-color: #858585;
 }
 
 .tabs-row {
-  z-index: 1201;
+  z-index: 1000;
   background: $light-gray;
   position: relative;
   display: flex;
