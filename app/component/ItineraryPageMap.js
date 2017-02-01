@@ -59,7 +59,6 @@ export default function ItineraryPageMap(
 
   return (
     <Map
-      key={showScale}
       className="full itinerary"
       leafletObjs={leafletObjs}
       lat={center ? center.lat : from.lat}
