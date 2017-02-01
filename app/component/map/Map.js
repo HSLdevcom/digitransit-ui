@@ -191,6 +191,7 @@ class Map extends React.Component {
             ref: 'map',
             center,
             zoom,
+            minZoom: 1,
             zoomControl: false,
             attributionControl: false,
             bounds: (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) || undefined,
