@@ -186,19 +186,18 @@ class Map extends React.Component {
 
       map = (
         <LeafletMap
-          {...{
-            keyboard: false,
-            ref: 'map',
-            center,
-            zoom,
-            minZoom: 1,
-            zoomControl: false,
-            attributionControl: false,
-            bounds: (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) || undefined,
-            animate: true,
-            ...this.props.leafletOptions,
-            boundsOptions,
-            ...this.props.leafletEvents }}
+          keyboard={false}
+          ref="map"
+          center={center}
+          zoom={zoom}
+          minZoom={1}
+          zoomControl={false}
+          attributionControl={false}
+          bounds={(this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) || undefined}
+          animate
+          {...this.props.leafletOptions}
+          boundsOptions={boundsOptions}
+          {...this.props.leafletEvents}
         >
           <TileLayer
             url={`${mapUrl}{z}/{x}/{y}{size}.png`}
@@ -208,7 +207,8 @@ class Map extends React.Component {
             size={(config.map.useRetinaTiles && L.Browser.retina) ? '@2x' : ''}
           />
           {leafletObjs}
-        </LeafletMap>);
+        </LeafletMap>
+      );
     }
     return (
       <div className={`map ${this.props.className ? this.props.className : ''}`}>
