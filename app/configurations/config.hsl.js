@@ -113,7 +113,7 @@ export default {
       { name: 'footer-feedback', nameEn: 'Send feedback', href: 'https://www.hsl.fi/palaute', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
       { name: 'footer-link-to-privacy-policy', nameEn: 'Privacy policy', href: 'https://www.hsl.fi/tietoa-sivustosta' },
-      { name: 'footer-link-to-old', nameEn: 'Use old Journey planner', href: 'http://www.reittiopas.fi/' },
+      { name: 'footer-link-to-old', nameEn: 'Use old Journey planner', href: 'http://classic.reittiopas.fi/' },
     ],
   },
 
