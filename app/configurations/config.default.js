@@ -18,7 +18,10 @@ export default {
   URL: {
     API_URL,
     OTP: `${API_URL}/routing/v1/routers/finland/`,
-    MAP: `${MAP_URL}/map/v1/hsl-map/`,
+    MAP: {
+      default: `${MAP_URL}/map/v1/hsl-map/`,
+      sv: `${MAP_URL}/map/v1/hsl-map-sv/`,
+    },
     STOP_MAP: `${API_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${API_URL}/map/v1/hsl-citybike-map/`,
     MQTT: 'wss://dev.hsl.fi/mqtt-proxy',
