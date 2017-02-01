@@ -41,6 +41,10 @@ export default {
     default: "Digitransit's",
   },
 
+  // Default labels for manifest creation
+  name: 'Digitransit beta',
+  shortName: 'Digitransit',
+
   searchParams: {},
 
   search: {
@@ -194,7 +198,7 @@ export default {
     locale: 'en_US',
 
     image: {
-      url: '/img/default-icons/social-share.png',
+      url: '/img/default-social-share.png',
       width: 2400,
       height: 1260,
     },
@@ -462,4 +466,15 @@ export default {
     joensuu: 'joensuu',
     matka: 'matka',
   },
+
+  piwikMap: [ // in priority order. 1st match stops
+    { id: '5', expr: 'dev.reittiopas' },
+    { id: '4', expr: 'reittiopas' },
+    { id: '7', expr: 'dev.matka|dev.digitransit' },
+    { id: '6', expr: 'matka|digitransit' },
+    { id: '10', expr: 'dev-joensuu' },
+    { id: '11', expr: 'joensuu' },
+    { id: '12', expr: 'dev-turku' },
+    { id: '13', expr: 'turku' },
+  ],
 };

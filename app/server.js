@@ -116,13 +116,14 @@ function getCss(config) {
 function getSprite(config) {
   if (!sprites[config.CONFIG]) {
     let svgSprite;
+    const spriteName = config.sprites || `svg-sprite.${config.CONFIG}.svg`;
 
     if (process.env.NODE_ENV !== 'development') {
       svgSprite = (
         <script
           dangerouslySetInnerHTML={{ __html: `
             fetch('${
-              config.APP_PATH}/${find(stats.modules, { name: `./static/svg-sprite.${config.CONFIG}.svg` }).assets[0]
+              config.APP_PATH}/${find(stats.modules, { name: `./static/${spriteName}` }).assets[0]
             }').then(function(response) {return response.text();}).then(function(blob) {
               var div = document.createElement('div');
               div.innerHTML = blob;
@@ -135,7 +136,7 @@ function getSprite(config) {
       svgSprite = (
         <div
           dangerouslySetInnerHTML={{
-            __html: fs.readFileSync(`${appRoot}_static/svg-sprite.${config.CONFIG}.svg`).toString(),
+            __html: fs.readFileSync(`${appRoot}_static/${spriteName}`).toString(),
           }}
         />
       );
@@ -259,6 +260,7 @@ const isRobotRequest = agent =>
 
 export default function (req, res, next) {
   const config = getConfiguration(req);
+  const application = appCreator(config);
 
   // TODO: Move this to PreferencesStore
    // 1. use locale from cookie (user selected) 2. browser preferred 3. default
@@ -272,9 +274,6 @@ export default function (req, res, next) {
   if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
     res.cookie('lang', locale);
   }
-
-  const application = appCreator(config);
-
   const context = application.createContext({ url: req.url, headers: req.headers, config });
 
   context

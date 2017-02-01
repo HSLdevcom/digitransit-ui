@@ -13,6 +13,7 @@ const OfflinePlugin = require('offline-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const GzipCompressionPlugin = require('compression-webpack-plugin');
 const BrotliCompressionPlugin = require('brotli-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const fs = require('fs');
 
 require('babel-core/register')({
@@ -93,13 +94,62 @@ function getRulesConfig(env) {
   ]);
 }
 
-function getAllPossibleLanguages() {
+function getAllConfigs() {
   const srcDirectory = 'app/configurations';
   return fs.readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
-    .map(file => require('./' + srcDirectory + '/' + file).default.availableLanguages)
+    .map((file) => {
+      const theme = file.replace('config.', '').replace('.js', '');
+      return require('./app/config').getNamedConfiguration(theme);
+    });
+}
+
+function getAllPossibleLanguages() {
+  return getAllConfigs().map(config => config.availableLanguages)
     .reduce((languages, languages2) => languages.concat(languages2))
     .filter((language, position, languages) => languages.indexOf(language) === position);
+}
+
+function faviconPluginFromConfig(config) {
+  let logo = config.favicon || './sass/themes/' + config.CONFIG + '/favicon.png';
+  if (!fs.existsSync(logo)) {
+    logo = './sass/themes/default/favicon.png';
+  }
+
+  return new FaviconsWebpackPlugin({
+    // Your source logo
+    logo,
+    // The prefix for all image files (might be a folder or a name)
+    prefix: `icons-${config.CONFIG}-[hash]/`,
+    // Emit all stats of the generated icons
+    emitStats: true,
+    // The name of the json containing all favicon information
+    statsFilename: 'iconstats-' + config.CONFIG + '.json',
+    // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
+    background: config.colors ? config.colors.primary : '#ffffff',
+      // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+    title: config.title,
+    appName: config.title,
+    appDescription: config.meta.description,
+
+    // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+    icons: {
+      android: true,
+      appleIcon: true,
+      appleStartup: true,
+      coast: true,
+      favicons: true,
+      firefox: true,
+      opengraph: true,
+      twitter: true,
+      yandex: true,
+      windows: true,
+    },
+  });
+}
+
+function getAllFaviconPlugins() {
+  return getAllConfigs().map(faviconPluginFromConfig);
 }
 
 function getSourceMapPlugin(testPattern, prefix) {
@@ -175,6 +225,7 @@ function getPluginsConfig(env) {
     // new OptimizeJsPlugin({
     //   sourceMap: true,
     // }),
+    ...getAllFaviconPlugins(),
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
       allChunks: true,
@@ -243,15 +294,20 @@ function getEntry() {
     main: './app/client',
   };
 
-  const directories = getDirectories('./sass/themes');
-  directories.forEach((theme) => {
-    const entryPath = './sass/themes/' + theme + '/main.scss';
-    entry[theme + '_theme'] = [entryPath];
+  const spriteMap = {};
+  getAllConfigs().forEach((config) => {
+    if (config.sprites) {
+      spriteMap[config.CONFIG] = config.sprites;
+    }
   });
 
+  const directories = getDirectories('./sass/themes');
   directories.forEach((theme) => {
-    const entryPath = './static/svg-sprite.' + theme + '.svg';
-    entry[theme + '_sprite'] = [entryPath];
+    const sassEntryPath = './sass/themes/' + theme + '/main.scss';
+    entry[theme + '_theme'] = [sassEntryPath];
+    const svgEntryPath = spriteMap[theme] ? './static/' + spriteMap[theme] :
+          './static/svg-sprite.' + theme + '.svg';
+    entry[theme + '_sprite'] = [svgEntryPath];
   });
 
   return entry;
