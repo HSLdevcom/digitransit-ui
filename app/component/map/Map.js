@@ -6,6 +6,7 @@ import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { isBrowser } from '../../util/browser';
+import Icon from '../Icon';
 
 /* eslint-disable global-require */
 // TODO When server side rendering is re-enabled,
@@ -203,7 +204,13 @@ class Map extends React.Component {
             prefix='&copy; <a tabindex="-1" href="http://osm.org/copyright">OpenStreetMap</a>'
           />
           {this.props.showScaleBar && <ScaleControl imperial={false} position="bottomright" />}
-          {this.context.breakpoint === 'large' && <ZoomControl position="bottomleft" />}
+          {this.context.breakpoint === 'large' && (
+            <ZoomControl
+              position="bottomleft"
+              zoomInText={Icon.asString('icon-icon_plus')}
+              zoomOutText={Icon.asString('icon-icon_minus')}
+            />
+          )}
           {leafletObjs}
         </LeafletMap>
       );
