@@ -37,7 +37,6 @@ class Map extends React.Component {
     className: React.PropTypes.string,
     children: React.PropTypes.node,
     disableMapTracking: React.PropTypes.func,
-    disableZoom: React.PropTypes.bool,
     displayOriginPopup: React.PropTypes.bool,
     fitBounds: React.PropTypes.bool,
     hilightedStops: React.PropTypes.array,
@@ -61,6 +60,7 @@ class Map extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     piwik: React.PropTypes.object,
     config: React.PropTypes.object.isRequired,
+    breakpoint: React.PropTypes.string.isRequired,
   };
 
   componentDidMount = () => {
@@ -203,7 +203,7 @@ class Map extends React.Component {
             prefix='&copy; <a tabindex="-1" href="http://osm.org/copyright">OpenStreetMap</a>'
           />
           {this.props.showScaleBar && <ScaleControl imperial={false} position="bottomright" />}
-          {(!this.props.disableZoom || L.Browser.touch) && <ZoomControl position="topleft" />}
+          {this.context.breakpoint === 'large' && <ZoomControl position="bottomleft" />}
           {leafletObjs}
         </LeafletMap>
       );

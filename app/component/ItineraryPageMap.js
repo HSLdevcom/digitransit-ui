@@ -67,7 +67,6 @@ export default function ItineraryPageMap(
       zoom={bounds ? undefined : 16}
       bounds={bounds}
       fitBounds={bounds !== false}
-      disableZoom={false}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
     >
