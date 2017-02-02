@@ -18,11 +18,6 @@ export default mergeWith({}, walttiConfig, {
     'boundary.rect.max_lon': 31,
   },
 
-  initialLocation: {
-    lat: 62.6024263,
-    lon: 29.7569847,
-  },
-
   appBarLink: { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
 
   title: APP_TITLE,

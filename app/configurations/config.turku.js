@@ -19,11 +19,6 @@ export default mergeWith({}, walttiConfig, {
     'boundary.rect.max_lon': 22.939795,
   },
 
-  initialLocation: {
-    lat: 60.451159,
-    lon: 22.267633,
-  },
-
   colors: {
     primary: '#e8aa27',
   },

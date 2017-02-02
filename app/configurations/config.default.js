@@ -93,12 +93,6 @@ export default {
     },
   },
 
-  initialLocation: {
-    zoom: 11,
-    lat: 60.17332,
-    lon: 24.94102,
-  },
-
   nearestStopDistance: {
     maxShownDistance: 5000,
   },
