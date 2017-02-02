@@ -25,13 +25,7 @@ if(!fs.existsSync(dir)) {
 fs.writeFileSync(dir + '/main.scss',
 `@import 'theme';
 @import '../../main';
-@import 'icon';
 `
-);
-
-fs.writeFileSync(
-  dir + '/_icon.scss',
-  `@import '../default/icon';`
 );
 
 fs.writeFileSync(dir + '/_theme.scss',
@@ -40,8 +34,15 @@ fs.writeFileSync(dir + '/_theme.scss',
 /* main theme colors */
 $primary-color: ${color};
 $secondary-color: darken($primary-color, 20%);
-$hilight-color: ${color};
-$action-color: ${color};
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+$bus-color: $primary-color;
+$viewpoint-marker-color: $primary-color;
+
+$standalone-btn-color: $primary-color;
+$standalone-btn-hover-color: $gray;
+$standalone-btn-active-color: $gray;
+
 /* Navbar logo */
 $nav-logo: url(${logo});
 `);
