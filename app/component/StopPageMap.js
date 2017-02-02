@@ -39,6 +39,8 @@ const fullscreenMapToggle = (fullscreenMap, params, router) => (
 );
 
 const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
+  if (!stop) return false;
+
   const fullscreenMap = some(routes, 'fullscreenMap');
   const leafletObjs = [];
   const children = [];
