@@ -43,7 +43,6 @@ export default mergeWith({}, walttiConfig, {
     description: APP_DESCRIPTION,
   },
 
-  sprites: 'svg-sprite.turku.svg',
   title: APP_TITLE,
 
   transportModes: {

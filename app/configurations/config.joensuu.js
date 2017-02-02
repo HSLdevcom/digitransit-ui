@@ -25,8 +25,6 @@ export default mergeWith({}, walttiConfig, {
 
   appBarLink: { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
 
-  sprites: 'svg-sprite.joensuu.svg',
-
   title: APP_TITLE,
 
   colors: {
@@ -91,4 +89,3 @@ export default mergeWith({}, walttiConfig, {
   if (Array.isArray(objValue)) { return objValue; }
   return undefined; // default merge
 });
-
