@@ -61,6 +61,7 @@ div.leaflet-marker-icon.place {
     > svg.icon {
       width: 24px;
       height: 24px;
+      fill: $viewpoint-marker-color;
     }
   }
 }
