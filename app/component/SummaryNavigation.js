@@ -28,9 +28,8 @@ class SummaryNavigation extends React.Component {
         (!location.state || !location.state.customizeSearchOffcanvas)
         && !this.transitionDone && location.pathname.startsWith('/reitti/')) {
         this.transitionDone = true;
-        const newLocation = { ...location,
-          pathname: this.context.location.pathname,
-          query: this.context.location.query,
+        const newLocation = { ...this.context.location,
+          state: { ...this.context.location.state, customizeSearchOffcanvas: false },
         };
         setTimeout(() => this.context.router.replace(newLocation), 0);
       } else {
