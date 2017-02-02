@@ -48,7 +48,7 @@ $nav-logo: url(${logo});
 `);
 
 // copy logo
-fs.createReadStream(logo).pipe(fs.createWriteStream(dir + '/' + logo));
+fs.createReadStream(logoPath).pipe(fs.createWriteStream(dir + '/' + logo));
 
 // generate app configuration
 const regexColor = new RegExp('__color__', 'g');
