@@ -19,6 +19,8 @@ class StopCardHeader extends React.Component {
   }
 
   render() {
+    if (!this.props.stop) return false;
+
     return (
       <CardHeader
         className={this.props.className}
