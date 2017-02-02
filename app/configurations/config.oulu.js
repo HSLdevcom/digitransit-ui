@@ -10,6 +10,8 @@ const walttiConfig = require('./waltti').default;
 export default mergeWith({}, walttiConfig, {
   CONFIG,
 
+  feedIds: ['OULU'],
+
   appBarLink: { name: 'Oulun joukkoliikenne', href: 'http://www.oulunjoukkoliikennen.fi' },
 
   colors: {
