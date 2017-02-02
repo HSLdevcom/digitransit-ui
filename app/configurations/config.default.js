@@ -445,6 +445,7 @@ export default {
     turku: 'turku',
     hsl: 'reittiopas',
     joensuu: 'joensuu',
+    oulu: 'oulu',
     matka: 'matka',
   },
 
