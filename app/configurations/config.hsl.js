@@ -14,13 +14,18 @@ export default {
     FONT: 'https://cloud.typography.com/6364294/6653152/css/fonts.css',
   },
 
-  title: 'Reittiopas',
-
   contactName: {
     sv: 'HSR',
     fi: 'HSL',
     default: 'HSL',
   },
+
+  title: 'Reittiopas',
+
+  availableLanguages: ['fi', 'sv', 'en'],
+  defaultLanguage: 'fi',
+
+  favicon: './sass/themes/hsl/icon_favicon-reittiopas.svg',
 
   preferredAgency: 'HSL',
 
@@ -37,14 +42,10 @@ export default {
   },
 
   feedback: {
-    // Enable feedback popup
-    enable: true,
+    enable: false,
   },
 
   maxWalkDistance: 2500,
-  availableLanguages: ['fi', 'sv', 'en'],
-  defaultLanguage: 'fi',
-
   parkAndRide: {
     showParkAndRide: true,
     parkAndRideMinZoom: 14,
@@ -72,7 +73,7 @@ export default {
     description: APP_DESCRIPTION,
 
     image: {
-      url: '/img/hsl-icons/social-share.png',
+      url: '/img/hsl-social-share.png',
       width: 400,
       height: 400,
     },
@@ -114,7 +115,7 @@ export default {
       { name: 'footer-feedback', nameEn: 'Send feedback', href: 'https://www.hsl.fi/palaute', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
       { name: 'footer-link-to-privacy-policy', nameEn: 'Privacy policy', href: 'https://www.hsl.fi/tietoa-sivustosta' },
-      { name: 'footer-link-to-old', nameEn: 'Use old Journey planner', href: 'http://www.reittiopas.fi/' },
+      { name: 'footer-link-to-old', nameEn: 'Use old Journey planner', href: 'http://classic.reittiopas.fi/' },
     ],
   },
 
@@ -152,24 +153,5 @@ export default {
     },
   },
 
-  staticMessages: [{
-    id: 1,
-
-    content: {
-      fi: {
-        title: 'Tervetuloa kokeilemaan uutta Reittiopasta!',
-        content: 'Uusi Reittiopas auttaa löytämään sinulle läheisimmät joukkoliikennepalvelut. Voit antaa meille palautetta HSL:n palautelomakkeen kautta: https://www.hsl.fi/palaute',
-      },
-
-      sv: {
-        title: 'Välkommen till den nya reseplaneraren!',
-        content: 'Den nya reseplaneraren hjälper dig hitta de närmaste kollektivtrafikstjänsterna. Du kan ge oss feedback genom HRT:s responsformulär: https://www.hsl.fi/respons',
-      },
-
-      en: {
-        title: 'Welcome to new Journey planner!',
-        content: 'The new Journey planner will help you to find public transport nearby. You can send us feedback at https://www.hsl.fi/palaute',
-      },
-    },
-  }],
+  staticMessages: [],
 };

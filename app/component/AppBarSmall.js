@@ -5,13 +5,13 @@ import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const AppBarSmall = ({ disableBackButton, showLogo, title }) =>
+const AppBarSmall = ({ disableBackButton, showLogo, title }, { config }) =>
   <div>
     <DisruptionInfo />
     <nav className="top-bar">
       {!disableBackButton && <BackButton />}
       <section className="title">
-        {showLogo ?
+        {(showLogo && !config.textLogo) ?
           <div className="logo" /> :
           <span className="title">{title}</span>
         }
@@ -43,6 +43,10 @@ AppBarSmall.propTypes = {
   disableBackButton: PropTypes.bool,
   title: PropTypes.node,
   showLogo: PropTypes.bool,
+};
+
+AppBarSmall.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 export default AppBarSmall;

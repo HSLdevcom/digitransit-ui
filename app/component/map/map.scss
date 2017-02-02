@@ -162,13 +162,6 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     & h1 {
       font-size: 12pt;
     }
-    .route-header-name {
-      display:none;
-    }
-    .route-header-direction {
-      color: $dark-color;
-      font-size: $font-size-small;
-    }
   }
 
   .leaflet-popup-content-wrapper {
@@ -271,7 +264,7 @@ div.origin-popup {
       }
     }
   }
-  
+
   .origin-popup-name {
     @include font-book;
     height: 1.3em;
@@ -423,8 +416,12 @@ div.origin-popup {
 }
 
 /* Fix to default leaflet behavior */
-.leaflet-map-pane svg.icon {
+.leaflet-map-pane svg {
   position: relative;
+}
+
+.leaflet-marker-icon > svg {
+  position: absolute;
 }
 
 div.background-gradient {

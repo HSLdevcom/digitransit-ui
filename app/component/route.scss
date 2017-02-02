@@ -1,12 +1,6 @@
 $route-header-height: 65px;
 $route-schedule-date-height: 36px;
 
-$route-header-favourite-icon-stroke-color: $light-gray;
-$route-header-favourite-icon-fill-color: $background-color;
-$route-header-favourite-icon-hover-stroke-color: $white;
-$route-header-favourite-icon-selected-fill-color: $favourite-color;
-$route-header-favourite-icon-selected-hover-stroke-color: $white;
-
 /* table headers */
 .route-list-header {
   border-bottom: solid 1px #eef1f3;
@@ -148,7 +142,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 
 .columns.route-stop-time {
   text-align: right;
-  color: $dark-color;
+  color: $black;
   padding-left: 0;
   padding-top: 1px;
   width: 50px;
@@ -220,35 +214,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     .vehicle-number {
       padding-left: 0.25em;
     }
-  }
-  .route-header-name {
-    margin: 0;
-    color: $gray;
-    @include font-book;
-    font-size: 10pt;
-  }
-  .route-header-direction {
-    margin: 0.5em 0;
-    color: $black;
-    .icon {
-      height: 0.5em;
-      width: 0.5em;
-    }
-    .route-header-direction-switch {
-      background: currentColor;
-      width: 1.7em;
-      height: 1.2em;
-      padding: 2px;
-      border-radius: 0.6em;
-      fill: white;
-      vertical-align: bottom;
-      margin-left: 1ex;
-    }
-  }
-  .favourite-icon {
-    position: absolute;
-    top: 13px;
-    right: 15px;
   }
 }
 

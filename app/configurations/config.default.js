@@ -18,7 +18,10 @@ export default {
   URL: {
     API_URL,
     OTP: `${API_URL}/routing/v1/routers/finland/`,
-    MAP: `${MAP_URL}/map/v1/hsl-map/`,
+    MAP: {
+      default: `${MAP_URL}/map/v1/hsl-map/`,
+      sv: `${MAP_URL}/map/v1/hsl-map-sv/`,
+    },
     STOP_MAP: `${API_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${API_URL}/map/v1/hsl-citybike-map/`,
     MQTT: 'wss://dev.hsl.fi/mqtt-proxy',
@@ -37,6 +40,10 @@ export default {
     fi: 'Digitransit',
     default: "Digitransit's",
   },
+
+  // Default labels for manifest creation
+  name: 'Digitransit beta',
+  shortName: 'Digitransit',
 
   searchParams: {},
 
@@ -191,7 +198,7 @@ export default {
     locale: 'en_US',
 
     image: {
-      url: '/img/default-icons/social-share.png',
+      url: '/img/default-social-share.png',
       width: 2400,
       height: 1260,
     },
@@ -432,26 +439,7 @@ export default {
     de: {},
   },
 
-  staticMessages: [{
-    id: 1,
-
-    content: {
-      fi: {
-        title: 'Tämä on Digitransitin kehitysversio',
-        content: 'Käytät Digitransitin kehitysversiota.',
-      },
-
-      sv: {
-        title: 'Det här är utvecklingsversionen av Digitransit',
-        content: 'Du använder utvecklingsversionen av Digitransit.',
-      },
-
-      en: {
-        title: 'This version of Digitransit is under development',
-        content: 'You are using the development version of Digitransit.',
-      },
-    },
-  }],
+  staticMessages: [],
 
   themeMap: {
     turku: 'turku',
@@ -459,4 +447,15 @@ export default {
     joensuu: 'joensuu',
     matka: 'matka',
   },
+
+  piwikMap: [ // in priority order. 1st match stops
+    { id: '5', expr: 'dev.reittiopas' },
+    { id: '4', expr: 'reittiopas' },
+    { id: '7', expr: 'dev.matka|dev.digitransit' },
+    { id: '6', expr: 'matka|digitransit' },
+    { id: '10', expr: 'dev-joensuu' },
+    { id: '11', expr: 'joensuu' },
+    { id: '12', expr: 'dev-turku' },
+    { id: '13', expr: 'turku' },
+  ],
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import groupBy from 'lodash/groupBy';
+import toPairs from 'lodash/toPairs';
 import uniq from 'lodash/uniq';
 import cx from 'classnames';
 
@@ -8,7 +9,7 @@ import RouteNumber from './RouteNumber';
 
 function RouteList(props) {
   const routeObjs =
-    Object.entries(groupBy(props.routes, route => route.mode.toLowerCase()))
+    toPairs(groupBy(props.routes, route => route.mode.toLowerCase()))
       .map(([mode, routes]) => (
         <div key={mode} className={mode}>
           <RouteNumber

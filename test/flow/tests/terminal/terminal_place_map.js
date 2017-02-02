@@ -3,9 +3,8 @@ module.exports = {
   'Open Kamppi Terminal and show its departures': (browser) => {
     browser.url(browser.launch_url);
     browser.setGeolocation(60.169546, 24.931658);
-    const messagebar = browser.page.messageBar();
-    messagebar.close();
-
+//    const messagebar = browser.page.messageBar();
+//    messagebar.close();
     const marker = browser.page.marker();
     browser.debug('Waiting a while for tiles to load');
     marker.waitForVectorLayerLoaded();

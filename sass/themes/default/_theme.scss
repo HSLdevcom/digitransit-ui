@@ -34,7 +34,6 @@ $cancelation-black: #666;
 $cancelation-background: #fbe0ea;
 $disruption-color: $cancelation-red;
 $realtime-color: #46b32a;
-$dark-color: $gray;
 
 /* Component palette */
 $title-color: $white;
@@ -101,4 +100,4 @@ $border-radius-bigger: 8px;
 /* Navbar logo */
 $nav-logo: url('digitransit-logo.png');
 
-$spinner-image: url('/img/default-spinner.png')
+$spinner-image: url('../default/default-spinner.png')

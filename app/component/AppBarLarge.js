@@ -16,10 +16,18 @@ const AppBarLarge = ({ titleClicked }, { router, location, config }) => {
       },
     });
   };
+
   return (
     <div>
       <div className="top-bar bp-large flex-horizontal">
-        <a onClick={titleClicked} ><div className="navi-logo" /></a>
+        <a onClick={titleClicked} >
+          {config.textLogo ?
+            <section className="title">
+              <span className="title">{config.title}</span>
+            </section> :
+            <div className="navi-logo" />
+          }
+        </a>
         <div className="empty-space flex-grow" />
         <div className="navi-languages right-border navi-margin"><LangSelect /></div>
         <div className="navi-icons navi-margin padding-horizontal-large">
