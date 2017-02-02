@@ -216,13 +216,6 @@ export default (config) => {
             map: StopQueries,
             meta: StopQueries,
           }}
-          render={{
-            // eslint-disable-next-line react/prop-types
-            header: ({ props, element }) =>
-              (props ? React.cloneElement(element, props) : <LoadingPage />),
-            content: ({ props, element }) =>
-              (props ? React.cloneElement(element, props) : undefined),
-          }}
         >
           <Route path="kartta" fullscreenMap />
         </Route>
