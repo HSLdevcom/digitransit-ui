@@ -9,7 +9,7 @@ const walttiConfig = require('./waltti').default;
 export default mergeWith({}, walttiConfig, {
   CONFIG,
 
-  feedIds: ['JOE', 'POSJOE'],
+  feedIds: ['Joensuu', 'JoensuuEly'],
 
   searchParams: {
     'boundary.rect.min_lat': 61.6,
