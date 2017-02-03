@@ -12,7 +12,7 @@ const AboutPage = ({ currentLanguage }, context) => {
         {about.map((section, i) => (
           <div key={`about-section-${i}`}>
             <h1 className="about-header">{section.header}</h1>
-            {section.paragraphs && section.paragraphs.map(p => (<p key={`about-section-p-${i}`}>{p}</p>))}
+            {section.paragraphs && section.paragraphs.map((p, j) => (<p key={`about-section-${i}-p-${j}`}>{p}</p>))}
             {section.link && <Link to={section.link}>{section.link}</Link>}
           </div>
         ))}
