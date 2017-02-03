@@ -11,7 +11,6 @@ import moment from 'moment';
 
 // React pages
 import IndexPage from './component/IndexPage';
-import LoadingPage from './component/LoadingPage';
 import Error404 from './component/404';
 import SplashOrChildren from './component/SplashOrChildren';
 
