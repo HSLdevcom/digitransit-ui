@@ -10,12 +10,12 @@ const CityBikeUse = ({ lang }, context) => (
     <p className="sub-header-h4 text-center">
       <FormattedMessage
         id="citybike-register-required"
-        defaultMessage="Citybikes requires registration"
+        defaultMessage="To use city bikes, you need to register"
       />
     </p>
     <a href={context.config.cityBike.useUrl[lang]}>
       <button className="use-bike-button cursor-pointer">
-        <FormattedMessage id="use-citybike" defaultMessage="Use a bike" />
+        <FormattedMessage id="use-citybike" defaultMessage="Start using" />
       </button>
     </a>
   </div>);

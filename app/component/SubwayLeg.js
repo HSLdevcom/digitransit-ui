@@ -16,7 +16,7 @@ const SubwayLeg = ({ leg, focusAction, index }) => (
         routeNumber: leg.route && leg.route.shortName,
         headSign: leg.trip && leg.trip.tripHeadsign,
       }}
-      defaultMessage="Subway {routeNumber} {headSign}"
+      defaultMessage="Metro {routeNumber} {headSign}"
     />
   </TransitLeg>
 );

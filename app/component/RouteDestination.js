@@ -13,7 +13,7 @@ function RouteDestination(props, context) {
         <span>
           {context.intl.formatMessage({
             id: 'route-destination-arrives',
-            defaultMessage: 'Arriving / Last stop',
+            defaultMessage: 'Arrives / Terminus',
           })}
         </span>
       </span>);

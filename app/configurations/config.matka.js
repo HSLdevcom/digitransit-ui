@@ -35,7 +35,7 @@ export default {
     content: [
       { label: (function () { return `© Liikennevirasto ${(1900 + new Date().getYear())}`; }()) },
       {},
-      { name: 'footer-feedback', nameEn: 'Send feedback', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut/matka.fi-palautesivu', icon: 'icon-icon_speech-bubble' },
+      { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut/matka.fi-palautesivu', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut/tietoja-matka.fi-palvelusta', icon: 'icon-icon_info' },
     ],
   },
