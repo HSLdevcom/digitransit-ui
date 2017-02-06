@@ -78,6 +78,9 @@ $heading-color: #858585;
 
   .frontpage-panel {
     flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: $border-radius-bigger;
     overflow: hidden;
     background: #eef1f3;
     border-bottom-right-radius: $border-radius-bigger;
@@ -102,15 +105,10 @@ $heading-color: #858585;
       height: 1em;
       position: absolute;
       right:0;
-      bottom: 1px;
+      bottom: $border-radius-bigger;
       z-index:1
     }
-    .scrollable.nearby {
-      height: calc(100% - 93px);
-    }
-
     .scrollable.favourites {
-      height: calc(100% - 152px);
       position: relative;
     }
   }

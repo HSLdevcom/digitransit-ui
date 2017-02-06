@@ -9,7 +9,7 @@ const walttiConfig = require('./waltti').default;
 export default mergeWith({}, walttiConfig, {
   CONFIG,
 
-  feedIds: ['JOE', 'POSJOE'],
+  feedIds: ['Joensuu', 'JoensuuEly'],
 
   searchParams: {
     'boundary.rect.min_lat': 61.6,
@@ -18,14 +18,7 @@ export default mergeWith({}, walttiConfig, {
     'boundary.rect.max_lon': 31,
   },
 
-  initialLocation: {
-    lat: 62.6024263,
-    lon: 29.7569847,
-  },
-
   appBarLink: { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
-
-  sprites: 'svg-sprite.joensuu.svg',
 
   title: APP_TITLE,
 
@@ -91,4 +84,3 @@ export default mergeWith({}, walttiConfig, {
   if (Array.isArray(objValue)) { return objValue; }
   return undefined; // default merge
 });
-
