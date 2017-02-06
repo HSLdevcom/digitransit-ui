@@ -96,7 +96,10 @@ export function getConfiguration(req) {
   let piwikId;
 
   if (req) {
-    host = (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
+    host =
+      (req.headers['X-Forwarded-Host'] && req.headers['X-Forwarded-Host'].split(':')[0]) ||
+      (req.headers.host && req.headers.host.split(':')[0]) ||
+      'localhost';
   }
 
   if (host && process.env.NODE_ENV !== 'development'
