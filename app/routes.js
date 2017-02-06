@@ -12,6 +12,7 @@ import moment from 'moment';
 // React pages
 import IndexPage from './component/IndexPage';
 import Error404 from './component/404';
+import Loading from './component/LoadingPage';
 import SplashOrChildren from './component/SplashOrChildren';
 
 import { otpToLocation } from './util/otpStrings';
@@ -20,6 +21,18 @@ import TopLevel from './component/TopLevel';
 import Title from './component/Title';
 
 import { isBrowser } from './util/browser';
+
+const ComponentLoading404Renderer = {
+  // eslint-disable-next-line react/prop-types
+  header: ({ error, props, element }) => {
+    if (error) {
+      return <Error404 />;
+    } else if (props) {
+      return React.cloneElement(element, props);
+    }
+    return <Loading />;
+  },
+};
 
 const StopQueries = {
   stop: () => Relay.QL`
@@ -215,6 +228,7 @@ export default (config) => {
             map: StopQueries,
             meta: StopQueries,
           }}
+          render={ComponentLoading404Renderer}
         >
           <Route path="kartta" fullscreenMap />
         </Route>
@@ -239,6 +253,7 @@ export default (config) => {
             map: terminalQueries,
             meta: terminalQueries,
           }}
+          render={ComponentLoading404Renderer}
         >
           <Route path="kartta" fullscreenMap />
         </Route>
@@ -270,7 +285,7 @@ export default (config) => {
                   content: PatternQueries,
                   meta: RouteQueries,
                 }}
-                render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+                render={ComponentLoading404Renderer}
               />
               <Route
                 path="kartta"
@@ -318,7 +333,6 @@ export default (config) => {
                   content: TripQueries,
                   meta: RouteQueries,
                 }}
-                render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
               >
                 <Route path="kartta" fullscreenMap />
               </Route>
@@ -346,7 +360,6 @@ export default (config) => {
                 content: PatternQueries,
                 meta: RouteQueries,
               }}
-              render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
             />
           </Route>
           <Route
@@ -366,7 +379,6 @@ export default (config) => {
               content: RouteQueries,
               meta: RouteQueries,
             }}
-            render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
           />
         </Route>
       </Route>

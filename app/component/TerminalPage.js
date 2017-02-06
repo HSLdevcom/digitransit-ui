@@ -3,8 +3,6 @@ import Relay, { Route } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import StopPageContentContainer from './StopPageContentContainer';
-import Error404 from '../component/404';
-import Loading from '../component/LoadingPage';
 
 class TerminalPageContainerRoute extends Route {
   static queries = {
@@ -32,14 +30,6 @@ const TerminalPageRootContainer = routeProps => (
       ...routeProps,
     })}
     environment={Relay.Store}
-    render={({ error, props }) => {
-      if (error) {
-        return <Error404 />;
-      } else if (props) {
-        return <StopPageContentContainer {...props} />;
-      }
-      return <Loading />;
-    }}
   />
 );
 
