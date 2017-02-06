@@ -160,7 +160,7 @@ class CustomizeSearch extends React.Component {
 
   getTransferMarginSlider = () => {
     const transferMarginSliderValues =
-          CustomizeSearch.getSliderStepsArray(60, 660, 180).map(num => Math.round(num));
+          CustomizeSearch.getSliderStepsArray(60, 720, 180).map(num => Math.round(num));
     const initVal = this.context.location.query.minTransferTime ?
           mapToSlider(this.context.location.query.minTransferTime, transferMarginSliderValues) :
           10;
