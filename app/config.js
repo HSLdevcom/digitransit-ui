@@ -50,6 +50,9 @@ function addMetaData(config) {
         } else if (e.name === 'theme-color') {
           // eslint-disable-next-line no-param-reassign
           e.content = '#fff';
+        } else if (e.name === 'apple-mobile-web-app-status-bar-style') {
+          // eslint-disable-next-line no-param-reassign
+          e.content = 'black';
         }
       });
       data.link.forEach((e) => {
