@@ -26,6 +26,8 @@ export default {
 
   favicon: './sass/themes/hsl/icon_favicon-matkafi.svg',
 
+  sprites: 'svg-sprite.default.svg',
+
   meta: {
     description: APP_DESCRIPTION,
     keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
