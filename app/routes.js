@@ -32,6 +32,19 @@ const ComponentLoading404Renderer = {
     }
     return <Loading />;
   },
+  map: ({ error, props, element }) => {
+    if (error) {
+      return null;
+    } else if (props) {
+      return React.cloneElement(element, props);
+    }
+    return undefined;
+  },
+  title: ({ props, element }) => React.cloneElement(element, props),
+  // eslint-disable-next-line react/prop-types
+  content: ({ props, element }) => (
+    props ? React.cloneElement(element, props) : <div className="flex-grow" />
+  ),
 };
 
 const StopQueries = {
