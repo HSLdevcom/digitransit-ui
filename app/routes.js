@@ -321,8 +321,7 @@ export default (config) => {
                   content: PatternQueries,
                   meta: RouteQueries,
                 }}
-                render={{ title: ({ props, element }) =>
-                  React.cloneElement(element, props) }}
+                render={ComponentLoading404Renderer}
                 fullscreenMap
               />
               <Route
@@ -346,6 +345,7 @@ export default (config) => {
                   content: TripQueries,
                   meta: RouteQueries,
                 }}
+                render={ComponentLoading404Renderer}
               >
                 <Route path="kartta" fullscreenMap />
               </Route>
@@ -373,6 +373,7 @@ export default (config) => {
                 content: PatternQueries,
                 meta: RouteQueries,
               }}
+              render={ComponentLoading404Renderer}
             />
           </Route>
           <Route
@@ -392,6 +393,7 @@ export default (config) => {
               content: RouteQueries,
               meta: RouteQueries,
             }}
+            render={ComponentLoading404Renderer}
           />
         </Route>
       </Route>
