@@ -50,6 +50,9 @@ function addMetaData(config) {
         } else if (e.name === 'theme-color') {
           // eslint-disable-next-line no-param-reassign
           e.content = '#fff';
+        } else if (e.name === 'apple-mobile-web-app-status-bar-style') {
+          // eslint-disable-next-line no-param-reassign
+          e.content = 'black';
         }
       });
       data.link.forEach((e) => {
@@ -93,7 +96,10 @@ export function getConfiguration(req) {
   let piwikId;
 
   if (req) {
-    host = (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
+    host =
+      (req.headers['X-Forwarded-Host'] && req.headers['X-Forwarded-Host'].split(':')[0]) ||
+      (req.headers.host && req.headers.host.split(':')[0]) ||
+      'localhost';
   }
 
   if (host && process.env.NODE_ENV !== 'development'
