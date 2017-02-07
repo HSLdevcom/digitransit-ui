@@ -556,6 +556,7 @@ div.route-tabs {
     border-bottom: 1px solid $light-gray;
     display: flex;
     padding: 0.8em 0.8em 0.8em 0.8em;
+    position: relative;
 
     .icon.caution {
       fill: $cancelation-red;
