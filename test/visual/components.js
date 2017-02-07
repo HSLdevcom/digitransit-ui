@@ -22,7 +22,7 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
             capture = captureOrExampleNumber;
           }
           suite
-            .setUrl(`/styleguide/component/${componentName}`)
+            .setUrl(`/styleguide/component/${componentName}?en`)
             .setCaptureElements(capture)
             .ignoreElements(ignoreElements || [])
             .capture(variationName, {}, fn);

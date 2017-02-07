@@ -1,5 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
 import reactCookie from 'react-cookie';
+import { isLangMockEn } from '../util/browser';
 
 /* Language is stored in cookie, server should set the language based on browser
  * accepted languages
@@ -9,9 +10,14 @@ class PreferencesStore extends Store {
 
   constructor(dispatcher) {
     super(dispatcher);
+
     const config = dispatcher.getContext().config;
     this.availableLanguages = config.availableLanguages;
     this.defaultLanguage = config.defaultLanguage;
+
+    if (isLangMockEn) {
+      this.setLanguage('en');
+    }
 
     const language = reactCookie.load('lang');
     if (this.availableLanguages.indexOf(language) === -1) { // illegal selection, use default
@@ -36,6 +42,7 @@ class PreferencesStore extends Store {
   }
 
   static handlers = {
+
     SetLanguage: 'setLanguage',
   };
 }
