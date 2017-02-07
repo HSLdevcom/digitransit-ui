@@ -424,8 +424,12 @@ div.origin-popup {
 }
 
 /* Fix to default leaflet behavior */
-.leaflet-map-pane svg.icon {
+.leaflet-map-pane svg {
   position: relative;
+}
+
+.leaflet-marker-icon > svg {
+  position: absolute;
 }
 
 div.background-gradient {

@@ -20,8 +20,6 @@ function parseMessage(topic, message, actionContext) {
 
   if (message instanceof Uint8Array) {
     parsedMessage = JSON.parse(message).VP;
-    // fix oday format
-    parsedMessage.oday = parsedMessage.oday && parsedMessage.oday.replace(/-/g, '');
   } else {
     parsedMessage = message.VP;
   }
