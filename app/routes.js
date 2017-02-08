@@ -40,8 +40,8 @@ const ComponentLoading404Renderer = {
     }
     return undefined;
   },
-  title: ({ props, element }) => React.cloneElement(element, props),
   // eslint-disable-next-line react/prop-types
+  title: ({ props, element }) => React.cloneElement(element, { route: null, ...props }),
   content: ({ props, element }) => (
     props ? React.cloneElement(element, props) : <div className="flex-grow" />
   ),
