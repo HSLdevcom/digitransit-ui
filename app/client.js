@@ -60,7 +60,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 
   const piwik = Piwik.getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
 
-  if (!config.PIWIK_ADDRESS || config.PIWIK_ID == null) {
+  if (!config.PIWIK_ADDRESS || !config.PIWIK_ID || config.PIWIK_ID === '') {
     piwik.trackEvent = () => {};
     piwik.setCustomVariable = () => {};
     piwik.trackPageView = () => {};
