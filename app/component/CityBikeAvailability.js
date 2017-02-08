@@ -11,7 +11,7 @@ const CityBikeAvailability = mapProps(({ bikesAvailable, totalSpaces, fewAvailab
   fewAvailableCount,
   text: (
     <p className="sub-header-h4 availability-header">
-      <FormattedMessage id="bike-availability" defaultMessage="Bikes available" />
+      <FormattedMessage id="bike-availability" defaultMessage="Bikes available at the station right now" />
       {'\u00a0'}
       ({isNaN(bikesAvailable) ? 0 : bikesAvailable}/
       {isNaN(totalSpaces) ? 0 : totalSpaces})

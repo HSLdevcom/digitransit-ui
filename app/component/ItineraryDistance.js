@@ -12,7 +12,7 @@ const Distance = (props) => {
         <FormattedMessage
           id="approx-meters"
           values={{ approxDistance }}
-          defaultMessage="About {approxDistance} meters"
+          defaultMessage="{approxDistance} m"
         />
       );
     }

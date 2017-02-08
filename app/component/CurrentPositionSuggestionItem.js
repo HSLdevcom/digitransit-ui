@@ -12,7 +12,7 @@ const Locate = () => (
   <span className="use-own-position">
     &nbsp;-&nbsp;
     <span className="search-position">
-      <FormattedMessage id="search-position" defaultMessage="Locate" />
+      <FormattedMessage id="search-position" defaultMessage="Detect location" />
     </span>
   </span>
 );
@@ -25,7 +25,7 @@ const CurrentPositionSuggestionItemComponent = pure(
       </span>
       <FormattedMessage
         id="use-own-position"
-        defaultMessage="Use Your current location"
+        defaultMessage="Use current location"
       >
         {message => <span className="use-own-position">{message}</span>}
       </FormattedMessage>

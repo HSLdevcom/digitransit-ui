@@ -17,13 +17,13 @@ export default function TimeSelectors(
           <option value="false">
             {intl.formatMessage({
               id: 'leaving-at',
-              defaultMessage: 'Leaving at',
+              defaultMessage: 'Leaving',
             })}
           </option>
           <option value="true">
             {intl.formatMessage({
               id: 'arriving-at',
-              defaultMessage: 'Arriving at',
+              defaultMessage: 'Arriving',
             })}
           </option>
         </select>

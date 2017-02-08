@@ -11,7 +11,7 @@ function MainMenu(props, context) {
   const inquiry = (
     <p style={{ fontSize: '20px', backgroundColor: '#888888', padding: '20px' }} >
       <span onClick={props.openFeedback}>
-        <FormattedMessage id="inquiry" defaultMessage="Give feedback" />
+        <FormattedMessage id="inquiry" defaultMessage="How did you find the new Journey Planner? Please tell us!" />
         <Icon img="icon-icon_arrow-right" className="small" />
       </span>
     </p>);
@@ -33,7 +33,7 @@ function MainMenu(props, context) {
       </div>
       <div className="offcanvas-section">
         <Link id="frontpage" to="/">
-          <FormattedMessage id="frontpage" defaultMessage="Front page" />
+          <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
         </Link>
       </div>
       <MainMenuLinks

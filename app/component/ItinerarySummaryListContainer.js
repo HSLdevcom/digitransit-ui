@@ -27,8 +27,8 @@ function ItinerarySummaryListContainer(props) {
     <div className="summary-list-container summary-no-route-found">
       <FormattedMessage
         id="no-route-msg"
-        defaultMessage={'Unfortunately no route was found between the locations you gave. ' +
-          'Please change origin and/or destination address.'}
+        defaultMessage={'Unfortunately no routes were found for your journey. ' +
+          'Please change your origin or destination address.'}
       />
     </div>
   );
