@@ -3,12 +3,12 @@ export default [
     image: require('../../sass/themes/default/intro-pic.png'), // eslint-disable-line global-require
     header: {
       fi: 'Tervetuloa käyttämään uutta Reittiopasta',
-      en: 'Welcome to new Journey planner',
+      en: 'Welcome to new Journey Planner',
       sv: 'Välkommen till den nya reseplaneraren',
     },
     text: {
       fi: 'Nykyinen sijaintisi on avain uusiin ominaisuuksiin. Sallithan paikannuksen!',
-      en: 'Your current location enables new features. Please allow browser to know your location!',
+      en: 'To get the most out of the service, enable location services.',
       sv: 'Din position är nyckeln till nya egenskaper. Tillåt gärna att dela din plats!',
     },
   }, {

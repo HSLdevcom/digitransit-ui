@@ -41,7 +41,7 @@ export default class ParkAndRidePopup extends React.Component {
           <CardHeader
             name={this.context.intl.formatMessage({
               id: 'park-and-ride',
-              defaultMessage: 'Park and ride',
+              defaultMessage: 'Park and Ride',
             })}
             description={this.props.name}
             icon="icon-icon_car"

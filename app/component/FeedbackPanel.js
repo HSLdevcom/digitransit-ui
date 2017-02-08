@@ -125,7 +125,7 @@ class FeedbackPanel extends React.Component {
           <p className="feedback-question auxiliary-feedback-question">
             <FormattedMessage
               id="likely-to-use"
-              defaultMessage="How likely would you use the new service compared to the current reittiopas.fi?"
+              defaultMessage="How likely are you to use this service rather than the current Journey Planner?"
             />
           </p>
           <ScoreTable
@@ -183,7 +183,7 @@ class FeedbackPanel extends React.Component {
             <p className="feedback-question">
               <FormattedMessage
                 id="likely-to-recommend"
-                defaultMessage="How likely is it that you would recommend our service to a friend or colleague?"
+                defaultMessage="How likely are you to recommend our service to your friends or colleagues?"
               />
             </p>
             <ScoreTable

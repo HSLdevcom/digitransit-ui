@@ -8,7 +8,7 @@ const Error404 = () => (
   <div className="page-not-found">
     <Icon img="icon-icon_error_page_not_found" />
     <p>
-      <FormattedMessage id="page-not-found" defaultMessage="Page was not found." />
+      <FormattedMessage id="page-not-found" defaultMessage="The page cannot be found." />
     </p>
     <p>
       <Link to="/">

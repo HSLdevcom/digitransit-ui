@@ -8,7 +8,7 @@ function RouteAgencyInfo({ route }, context) {
   const show = get(context.config, 'agency.show', false);
   if (show && agencyName) {
     return (<span className="route-agency-name">
-      <FormattedMessage id="agency" defaultMessage="Agency" />: {agencyName}
+      <FormattedMessage id="agency" defaultMessage="Operator" />: {agencyName}
     </span>);
   }
   return null;
