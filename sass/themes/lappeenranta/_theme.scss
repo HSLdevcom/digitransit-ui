@@ -1,0 +1,15 @@
+@import '../default/theme';
+
+/* main theme colors */
+$primary-color: #7AB92A;
+$secondary-color: #609020;
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+$bus-color: $primary-color;
+$viewpoint-marker-color: $primary-color;
+
+$standalone-btn-color: $primary-color;
+$standalone-btn-hover-color: $gray;
+$standalone-btn-active-color: $gray;
+
+$nav-logo: none;
