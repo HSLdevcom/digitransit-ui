@@ -33,6 +33,11 @@ export default {
   defaultLanguage: 'fi',
 
   transportModes: {
+    rail: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
     tram: {
       availableForSelection: false,
       defaultValue: false,
