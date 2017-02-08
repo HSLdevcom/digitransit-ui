@@ -12,6 +12,7 @@ import moment from 'moment';
 // React pages
 import IndexPage from './component/IndexPage';
 import Error404 from './component/404';
+import NetworkError from './component/NetworkError';
 import Loading from './component/LoadingPage';
 import SplashOrChildren from './component/SplashOrChildren';
 
@@ -23,9 +24,14 @@ import Title from './component/Title';
 import { isBrowser } from './util/browser';
 
 const ComponentLoading404Renderer = {
-  // eslint-disable-next-line react/prop-types
-  header: ({ error, props, element }) => {
+  /* eslint-disable react/prop-types */
+  header: ({ error, props, element, retry }) => {
     if (error) {
+      if (error.message === 'Failed to fetch' // Chrome
+        || error.message === 'Network request failed' // Safari && FF && IE
+      ) {
+        return <NetworkError retry={retry} />;
+      }
       return <Error404 />;
     } else if (props) {
       return React.cloneElement(element, props);
@@ -40,11 +46,11 @@ const ComponentLoading404Renderer = {
     }
     return undefined;
   },
-  // eslint-disable-next-line react/prop-types
   title: ({ props, element }) => React.cloneElement(element, { route: null, ...props }),
   content: ({ props, element }) => (
     props ? React.cloneElement(element, props) : <div className="flex-grow" />
   ),
+  /* eslint-enable react/prop-types */
 };
 
 const StopQueries = {
