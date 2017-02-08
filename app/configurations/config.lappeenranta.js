@@ -39,7 +39,7 @@ export default mergeWith({}, walttiConfig, {
   areaPolygon: [[28.031, 61.017], [28.031, 61.1028], [28.33, 61.1028], [28.33, 61.017]],
 
   defaultEndpoint: {
-    address: 'Oleksi/Koulukatu',
+    address: 'Oleksin ja Koulukadun risteys',
     lat: 61.059097,
     lon: 28.185720,
   },
