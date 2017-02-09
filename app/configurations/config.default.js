@@ -18,7 +18,10 @@ export default {
   URL: {
     API_URL,
     OTP: `${API_URL}/routing/v1/routers/finland/`,
-    MAP: `${MAP_URL}/map/v1/hsl-map/`,
+    MAP: {
+      default: `${MAP_URL}/map/v1/hsl-map/`,
+      sv: `${MAP_URL}/map/v1/hsl-map-sv/`,
+    },
     STOP_MAP: `${API_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${API_URL}/map/v1/hsl-citybike-map/`,
     MQTT: 'wss://dev.hsl.fi/mqtt-proxy',
@@ -37,6 +40,10 @@ export default {
     fi: 'Digitransit',
     default: "Digitransit's",
   },
+
+  // Default labels for manifest creation
+  name: 'Digitransit beta',
+  shortName: 'Digitransit',
 
   searchParams: {},
 
@@ -84,12 +91,6 @@ export default {
     timeNavigation: {
       enableButtonArrows: false,
     },
-  },
-
-  initialLocation: {
-    zoom: 11,
-    lat: 60.17332,
-    lon: 24.94102,
   },
 
   nearestStopDistance: {
@@ -191,7 +192,7 @@ export default {
     locale: 'en_US',
 
     image: {
-      url: '/img/default-icons/social-share.png',
+      url: '/img/default-social-share.png',
       width: 2400,
       height: 1260,
     },
@@ -391,7 +392,7 @@ export default {
     content: [
       { label: (function () { return `© HSL, Liikennevirasto ${(1900 + new Date().getYear())}`; }()) },
       {},
-      { name: 'footer-feedback', nameEn: 'Send feedback', href: 'https://github.com/HSLdevcom/digitransit-ui/issues', icon: 'icon-icon_speech-bubble' },
+      { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'https://github.com/HSLdevcom/digitransit-ui/issues', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
     ],
   },
@@ -432,31 +433,24 @@ export default {
     de: {},
   },
 
-  staticMessages: [{
-    id: 1,
-
-    content: {
-      fi: {
-        title: 'Tämä on Digitransitin kehitysversio',
-        content: 'Käytät Digitransitin kehitysversiota.',
-      },
-
-      sv: {
-        title: 'Det här är utvecklingsversionen av Digitransit',
-        content: 'Du använder utvecklingsversionen av Digitransit.',
-      },
-
-      en: {
-        title: 'This version of Digitransit is under development',
-        content: 'You are using the development version of Digitransit.',
-      },
-    },
-  }],
+  staticMessages: [],
 
   themeMap: {
     turku: 'turku',
     hsl: 'reittiopas',
     joensuu: 'joensuu',
+    oulu: 'oulu',
     matka: 'matka',
   },
+
+  piwikMap: [ // in priority order. 1st match stops
+    { id: '5', expr: 'dev.reittiopas' },
+    { id: '4', expr: 'reittiopas' },
+    { id: '7', expr: 'dev.matka|dev.digitransit' },
+    { id: '6', expr: 'matka|digitransit' },
+    { id: '10', expr: 'dev-joensuu' },
+    { id: '11', expr: 'joensuu' },
+    { id: '12', expr: 'dev-turku' },
+    { id: '13', expr: 'turku' },
+  ],
 };

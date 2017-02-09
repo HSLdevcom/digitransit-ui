@@ -1,25 +1,15 @@
-const CONFIG = process.env.CONFIG || 'joensuu';
-const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const APP_DESCRIPTION =
-  'Reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
+import mergeWith from 'lodash/mergeWith';
 
-export default {
+const CONFIG = process.env.CONFIG || 'joensuu';
+const APP_TITLE = 'Joensuun reittiopas';
+const APP_DESCRIPTION = 'Joensuun uusi reittiopas';
+
+const walttiConfig = require('./waltti').default;
+
+export default mergeWith({}, walttiConfig, {
   CONFIG,
 
-  URL: {
-    OTP: `${API_URL}/routing/v1/routers/waltti/`,
-    STOP_MAP: `${API_URL}/map/v1/waltti-stop-map/`,
-  },
-
-  title: 'Reittiopas',
-
-  contactName: {
-    sv: '',
-    fi: '',
-    default: '',
-  },
-
-  feedIds: ['JOE', 'POSJOE'],
+  feedIds: ['Joensuu', 'JoensuuEly'],
 
   searchParams: {
     'boundary.rect.min_lat': 61.6,
@@ -28,66 +18,25 @@ export default {
     'boundary.rect.max_lon': 31,
   },
 
-  availableLanguages: ['fi', 'sv', 'en'],
-  defaultLanguage: 'fi',
-
-  initialLocation: {
-    lat: 62.6024263,
-    lon: 29.7569847,
-  },
-
-  cityBike: {
-    showCityBikes: false,
-  },
-
-  stopsMinZoom: 14,
-
   appBarLink: { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
+
+  title: APP_TITLE,
 
   colors: {
     primary: '#5c4696',
   },
 
-  agency: {
-    show: false,
-  },
-
   socialMedia: {
-    title: 'Uusi Reittiopas - Joensuu',
-    description: APP_DESCRIPTION,
-  },
-
-  meta: {
+    title: APP_TITLE,
     description: APP_DESCRIPTION,
   },
 
   transportModes: {
-    tram: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
-    subway: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
-    citybike: {
-      availableForSelection: false,
-    },
-
-    airplane: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-
     ferry: {
       availableForSelection: true,
       defaultValue: true,
     },
   },
-
-  showModeFilter: false,
 
   areaPolygon: [[29.2154, 62.2692], [29.2154, 62.9964], [31.0931, 62.9964], [31.0931, 62.2692]],
 
@@ -95,7 +44,7 @@ export default {
     content: [
       { label: (function () { return `© Joensuun kaupunki ${(1900 + new Date().getYear())}`; }()) },
       {},
-      { name: 'footer-feedback', nameEn: 'Send feedback', type: 'feedback', icon: 'icon-icon_speech-bubble' },
+      { name: 'footer-feedback', nameEn: 'Submit feedback', type: 'feedback', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
     ],
   },
@@ -130,5 +79,8 @@ export default {
       datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
     },
   },
-
-};
+}, (objValue, srcValue) => {
+  if (Array.isArray(srcValue)) { return srcValue; }
+  if (Array.isArray(objValue)) { return objValue; }
+  return undefined; // default merge
+});

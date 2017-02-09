@@ -71,7 +71,7 @@ class RouteScheduleContainer extends Component {
       return (
         <div className="text-center">
           {this.context.intl.formatMessage(
-            { id: 'no-trips-found', defaultMessage: 'No trips available for this day.' },
+            { id: 'no-trips-found', defaultMessage: 'No journeys found for the selected date.' },
           )}
         </div>);
     }

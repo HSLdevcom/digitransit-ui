@@ -19,7 +19,7 @@ function BicycleLeg(props) {
       <FormattedMessage
         id="cyclewalk-distance-duration"
         values={{ distance, duration }}
-        defaultMessage="Walk the bike {distance} ({duration})"
+        defaultMessage="Walk your bike {distance} ({duration})"
       />
     );
   } else {
@@ -37,7 +37,7 @@ function BicycleLeg(props) {
       <FormattedMessage
         id="rent-cycle-at"
         values={{ station: props.leg.from.name }}
-        defaultMessage="Rent cycle at {station}"
+        defaultMessage="Rent a bike at {station} station"
       />
     );
 

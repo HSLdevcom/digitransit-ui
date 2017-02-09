@@ -85,7 +85,7 @@ class MainMenuContainer extends Component {
             <button
               aria-label={this.context.intl.formatMessage({
                 id: 'main-menu-label-open',
-                defaultMessage: 'Open main menu',
+                defaultMessage: 'Open the main menu',
               })}
               onClick={this.toggleOffcanvas}
               className="noborder cursor-pointer"

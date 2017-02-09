@@ -10,7 +10,7 @@ export default function DesktopView({ title, header, map, content }, { intl: { f
       <div className="main-content">
         <div className="desktop-title">
           <h2>
-            <Link title={formatMessage({ id: 'back-to-front-page', defaultMessage: 'Back to front page' })} to="/"><Icon img="icon-icon_home" className="home-icon" /></Link>
+            <Link title={formatMessage({ id: 'back-to-front-page', defaultMessage: 'Back to the front page' })} to="/"><Icon img="icon-icon_home" className="home-icon" /></Link>
             <Icon img="icon-icon_arrow-collapse--right" className="arrow-icon" />
             {title}
           </h2>

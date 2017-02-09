@@ -35,13 +35,21 @@ div.below-map {
   height: calc(100% - #{$small-map-height});
 }
 
-/* Hide top container for small screens.
- * When we are demoing application on a desktop browser in "narrow mobile width"
- * Leaflet top bar icons are always in a way of something.
- * Note that only checking if we are on mobile device using Leaflet.Browser.touch is not enough.
- */
-div.leaflet-control-container div.leaflet-top {
-  display: none;
+div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
+  color: $gray-blue;
+  border: none;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  margin-bottom: 14px;
+  margin-left: 20px;
+  .icon {
+    font-size: 17px;
+  }
+  a {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 22px;
+  }
 }
 
 div.leaflet-container {
@@ -136,12 +144,12 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   position: absolute;
   z-index: 802;
   bottom: 18px;
-  left: 12px;
+  left: 20px;
   background-color: $white;
   padding: 6px;
   border-radius: $border-radius;
   line-height: 0.5;
-  box-shadow:0 0 1px #000000;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .icon-mapMarker-toggle-positioning-online {
@@ -416,8 +424,12 @@ div.origin-popup {
 }
 
 /* Fix to default leaflet behavior */
-.leaflet-map-pane svg.icon {
+.leaflet-map-pane svg {
   position: relative;
+}
+
+.leaflet-marker-icon > svg {
+  position: absolute;
 }
 
 div.background-gradient {

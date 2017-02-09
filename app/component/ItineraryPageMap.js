@@ -59,7 +59,6 @@ export default function ItineraryPageMap(
 
   return (
     <Map
-      key={showScale}
       className="full itinerary"
       leafletObjs={leafletObjs}
       lat={center ? center.lat : from.lat}
@@ -67,7 +66,6 @@ export default function ItineraryPageMap(
       zoom={bounds ? undefined : 16}
       bounds={bounds}
       fitBounds={bounds !== false}
-      disableZoom={false}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
     >

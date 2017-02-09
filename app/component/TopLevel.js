@@ -56,7 +56,7 @@ class TopLevel extends React.Component {
 
   render() {
     configureMoment(this.context.intl.locale, this.context.config);
-    const host = this.context.headers && this.context.headers.host;
+    const host = this.context.headers && (this.context.headers['x-forwarded-host'] || this.context.headers.host);
     const url = this.context.url;
     const metadata = meta(this.context.intl.locale, host, url, this.context.config);
     const topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));

@@ -160,7 +160,7 @@ class CustomizeSearch extends React.Component {
 
   getTransferMarginSlider = () => {
     const transferMarginSliderValues =
-          CustomizeSearch.getSliderStepsArray(60, 660, 180).map(num => Math.round(num));
+          CustomizeSearch.getSliderStepsArray(60, 720, 180).map(num => Math.round(num));
     const initVal = this.context.location.query.minTransferTime ?
           mapToSlider(this.context.location.query.minTransferTime, transferMarginSliderValues) :
           10;
@@ -170,7 +170,7 @@ class CustomizeSearch extends React.Component {
         <Slider
           headerText={this.context.intl.formatMessage({
             id: 'transfers-margin',
-            defaultMessage: 'Transfer margin',
+            defaultMessage: 'Transfer margin at least',
           })}
           onSliderChange={e => this.updateSettings(
             'minTransferTime',
@@ -182,11 +182,11 @@ class CustomizeSearch extends React.Component {
           step={1}
           minText={this.context.intl.formatMessage({
             id: 'no-transfers-margin',
-            defaultMessage: 'None',
+            defaultMessage: '1 min',
           })}
           maxText={this.context.intl.formatMessage({
             id: 'long-transfers-margin',
-            defaultMessage: 'Very long',
+            defaultMessage: '12 min',
           })}
         />
       </section>);
@@ -230,7 +230,7 @@ class CustomizeSearch extends React.Component {
       <Select
         headerText={this.context.intl.formatMessage({
           id: 'zones',
-          defaultMessage: 'Zones',
+          defaultMessage: 'Fare zones',
         })}
         name="ticket"
         selected={this.context.location.query.ticketOption || '0'}
@@ -367,7 +367,7 @@ class CustomizeSearch extends React.Component {
           </section>
 
           <section className="offcanvas-section">
-            <h4><FormattedMessage id="using-modes" defaultMessage="Using" /></h4>
+            <h4><FormattedMessage id="using-modes" defaultMessage="I want to travel by" /></h4>
             <ModeFilter
               action={this.actions}
               buttonClass="mode-icon"

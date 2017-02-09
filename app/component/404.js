@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <div>
       <p>
-        <FormattedMessage id="page-not-found" defaultMessage="Bummer! page is not found" />
+        <FormattedMessage id="page-not-found" defaultMessage="The page cannot be found." />
       </p>
     </div>
   );

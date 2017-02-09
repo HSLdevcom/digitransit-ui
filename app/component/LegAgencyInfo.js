@@ -16,7 +16,7 @@ function LegAgencyInfo({ leg }, context) {
     //   defaultMessage: 'Ticket and price information',
     // });
     return (<div className="itinerary-leg-agency">
-      <FormattedMessage id="agency" defaultMessage="Agency" />:<br />
+      <FormattedMessage id="agency" defaultMessage="Operator" />:<br />
       {agencyName}<br />
       {/* TODO: Liikennevirasto will notify when this can be enabled
       <div className="agency-link-container">

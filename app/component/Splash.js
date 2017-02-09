@@ -36,23 +36,23 @@ class Splash extends React.Component {
         <h3>
           <FormattedMessage
             id="splash-welcome"
-            defaultMessage="How do you want to start?"
+            defaultMessage="How do you wish to start?"
           />
         </h3>
         <GeopositionSelector searchModalIsOpen={modalOpen} />
         <div className="splash-separator">
-          <FormattedMessage id="splash-you-can-also" defaultMessage="You can also" />
+          <FormattedMessage id="splash-you-can-also" defaultMessage="or" />
         </div>
         <div id="splash-search-field-container" className="flex-vertical">
           <span id="splash-searchfield" >
             <button className="noborder" onClick={this.openModal} style={{ display: 'block' }}>
-              <FormattedMessage id="give-origin" defaultMessage="Type in your origin" />
+              <FormattedMessage id="give-origin" defaultMessage="Enter your origin" />
               <Icon className="icon-edit" img="icon-icon_edit" />
             </button>
           </span>
         </div>
         <div className="splash-separator">
-          <FormattedMessage id="splash-or-choose" defaultMessage="or choose your origin from" />
+          <FormattedMessage id="splash-or-choose" defaultMessage="or select your origin" />
         </div>
         <OriginSelector />
       </div>
