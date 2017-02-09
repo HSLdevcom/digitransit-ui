@@ -1,0 +1,12 @@
+/* waltti 'virtual' base theme */
+
+@import '../themes/default/theme';
+
+/* Component palette */
+$from-color: lighten($from-color, 10%);
+$to-color: darken($to-color, 10%);
+
+$standalone-btn-hover-color: $gray;
+$standalone-btn-active-color: $gray;
+
+$nav-logo: none;
