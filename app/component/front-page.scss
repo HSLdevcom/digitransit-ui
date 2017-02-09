@@ -61,7 +61,9 @@ $heading-color: #858585;
   z-index: 802;
   height: 100%;
   max-height: calc(100% - 60px);
-  width: 340px;
+  min-width: 340px;
+  width: 30%;
+  max-width: 600px;
 }
 
 .fpcfloat {
