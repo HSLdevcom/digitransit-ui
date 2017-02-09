@@ -152,11 +152,14 @@ div.itinerary-main > div > .row:nth-child(1)  {
     margin-bottom: 0.5em;
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
+      span {
+        position: relative;
+      }
     }
     .icon {
       &.realtime-icon.realtime {
         top: -0.3em;
-        left: 0.3em;
+        left: -0.4em;
         position: absolute;
       }
       font-size: 14pt;
