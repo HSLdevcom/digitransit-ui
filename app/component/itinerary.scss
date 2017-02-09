@@ -241,15 +241,19 @@ div.itinerary-main > div > .row:nth-child(1)  {
     }
 
     .itinerary-leg-first-row {
-      overflow: hidden;
       display: block;
+      white-space: normal;
       width: 90%;
       color: $black;
       @include font-medium;
 
       .itinerary-leg-first-row__arrow {
         @include font-medium;
-        font-size: 6px;
+        font-size: 0.6em;
+
+      }
+      span.itinerary-stop-code {
+        vertical-align: 2px;
       }
     }
 
