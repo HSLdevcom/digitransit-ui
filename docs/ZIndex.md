@@ -7,6 +7,7 @@ Selector | Component | Z-Index | Comment
 `.modal-overlay` | Modal util | 1400 |
 N/A | React Material Drawer | 1200/1300 | Defined by material-ui
 `.search-modal` | Search modal | 1202 |
+`.search-modal-overlay` | Search modal | 1000 |
 `.frontpage-panel-container .tabs-row` | Front page tabs | 1000 |
 `.frontpage-panel-wrapper` | Front page pull ups (nearby, favourites) | 1000 |
 `.top-bar` | AppBar | 1001 |
