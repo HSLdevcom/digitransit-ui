@@ -176,7 +176,6 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     border-radius: $border-radius;
     padding: 0;
     margin-bottom: 5px;
-    outline: 1px solid rgba(0,0,0,0.10);
   }
   .leaflet-popup-content {
     margin: 0;
@@ -232,13 +231,16 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   }
 
   .leaflet-popup-tip-container {
-    margin: -6px 0px;
+    margin: -5px 0px;
     left: 0px;
     .leaflet-popup-tip  {
-      border: 1px solid $gray;
       background: $background-color;
     }
   }
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 14px rgba(0, 0, 0, 0.4)
 }
 
 div.origin-popup {
@@ -263,7 +265,6 @@ div.origin-popup {
     border-radius: $border-radius;
     padding: 0;
     overflow: hidden;
-    outline: 1px solid rgba(0,0,0,0.10);
 
     .leaflet-popup-content {
       margin:8px;
@@ -294,12 +295,8 @@ div.origin-popup {
 
   .leaflet-popup-tip-container {
     position: relative;
-    bottom: 1px;
     left: 0px;
     margin: 0px 0px;
-    .leaflet-popup-tip {
-      border: 1px solid $gray;
-    }
   }
 }
 
