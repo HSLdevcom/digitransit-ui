@@ -43,6 +43,24 @@ class CustomizeSearch extends React.Component {
     onToggleClick: React.PropTypes.func,
   };
 
+  /*
+      This function is used to map our desired min, max, and default values to a standard
+      amount of steps on the UI sliders. This allows us to always keep the default values
+      in the slider midpoint.
+
+      The ranges below and above the default value are divided into even steps, after which
+      the two ranges are combined into a single array of desired values.
+  */
+  static getSliderStepsArray(min, max, defaultValue, stepCount = 20) {
+    const denom = stepCount / 2;
+    const lowStep = (defaultValue - min) / denom;
+    const lowRange = range(min, defaultValue, lowStep);
+    const highStep = (max - defaultValue) / denom;
+    const highRange = range(defaultValue, max, highStep);
+    const sliderSteps = lowRange.concat(highRange.concat(max));
+    return sliderSteps;
+  }
+
   componentWillMount() {
     this.walkReluctanceSliderValues =
       CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
@@ -66,24 +84,6 @@ class CustomizeSearch extends React.Component {
     this.walkingSpeedInitVal = this.context.location.query.walkSpeed ?
       mapToSlider(this.context.location.query.walkSpeed, this.walkingSpeedSliderValues) :
       10;
-  }
-
-  /*
-      This function is used to map our desired min, max, and default values to a standard
-      amount of steps on the UI sliders. This allows us to always keep the default values
-      in the slider midpoint.
-
-      The ranges below and above the default value are divided into even steps, after which
-      the two ranges are combined into a single array of desired values.
-  */
-  static getSliderStepsArray(min, max, defaultValue, stepCount = 20) {
-    const denom = stepCount / 2;
-    const lowStep = (defaultValue - min) / denom;
-    const lowRange = range(min, defaultValue, lowStep);
-    const highStep = (max - defaultValue) / denom;
-    const highRange = range(defaultValue, max, highStep);
-    const sliderSteps = lowRange.concat(highRange.concat(max));
-    return sliderSteps;
   }
 
   getDefaultModes = () =>
@@ -116,8 +116,8 @@ class CustomizeSearch extends React.Component {
     ));
   }
 
-  getWalkReluctanceSlider = () => {
-    return (<section className="offcanvas-section">
+  getWalkReluctanceSlider = () => (
+    <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
           id: 'walking',
@@ -141,91 +141,84 @@ class CustomizeSearch extends React.Component {
         })}
       />
     </section>);
-  }
 
-  getWalkBoardCostSlider = () => {
-    return (
-      <section className="offcanvas-section">
-        <Slider
-          headerText={this.context.intl.formatMessage({
-            id: 'transfers',
-            defaultMessage: 'Transfers',
-          })}
-          onSliderChange={e => this.updateSettings(
-            'walkBoardCost',
-            this.walkBoardCostSliderValues[e.target.value],
-          )}
-          min={0}
-          max={20}
-          defaultValue={this.walkBoardCostInitVal}
-          step={1}
-          minText={this.context.intl.formatMessage({
-            id: 'avoid-transfers',
-            defaultMessage: 'Avoid transfers',
-          })}
-          maxText={this.context.intl.formatMessage({
-            id: 'transfers-allowed',
-            defaultMessage: 'Transfers allowed',
-          })}
-        />
-      </section>);
-  }
+  getWalkBoardCostSlider = () => (
+    <section className="offcanvas-section">
+      <Slider
+        headerText={this.context.intl.formatMessage({
+          id: 'transfers',
+          defaultMessage: 'Transfers',
+        })}
+        onSliderChange={e => this.updateSettings(
+          'walkBoardCost',
+          this.walkBoardCostSliderValues[e.target.value],
+        )}
+        min={0}
+        max={20}
+        defaultValue={this.walkBoardCostInitVal}
+        step={1}
+        minText={this.context.intl.formatMessage({
+          id: 'avoid-transfers',
+          defaultMessage: 'Avoid transfers',
+        })}
+        maxText={this.context.intl.formatMessage({
+          id: 'transfers-allowed',
+          defaultMessage: 'Transfers allowed',
+        })}
+      />
+    </section>);
 
-  getTransferMarginSlider = () => {
-    return (
-      <section className="offcanvas-section">
-        <Slider
-          headerText={this.context.intl.formatMessage({
-            id: 'transfers-margin',
-            defaultMessage: 'Transfer margin at least',
-          })}
-          onSliderChange={e => this.updateSettings(
-            'minTransferTime',
-            this.transferMarginSliderValues[e.target.value],
-          )}
-          min={0}
-          max={20}
-          defaultValue={this.transferMarginInitVal}
-          step={1}
-          minText={this.context.intl.formatMessage({
-            id: 'no-transfers-margin',
-            defaultMessage: '1 min',
-          })}
-          maxText={this.context.intl.formatMessage({
-            id: 'long-transfers-margin',
-            defaultMessage: '12 min',
-          })}
-        />
-      </section>);
-  }
+  getTransferMarginSlider = () => (
+    <section className="offcanvas-section">
+      <Slider
+        headerText={this.context.intl.formatMessage({
+          id: 'transfers-margin',
+          defaultMessage: 'Transfer margin at least',
+        })}
+        onSliderChange={e => this.updateSettings(
+          'minTransferTime',
+          this.transferMarginSliderValues[e.target.value],
+        )}
+        min={0}
+        max={20}
+        defaultValue={this.transferMarginInitVal}
+        step={1}
+        minText={this.context.intl.formatMessage({
+          id: 'no-transfers-margin',
+          defaultMessage: '1 min',
+        })}
+        maxText={this.context.intl.formatMessage({
+          id: 'long-transfers-margin',
+          defaultMessage: '12 min',
+        })}
+      />
+    </section>);
 
-  getWalkSpeedSlider = () => {
-    return (
-      <section className="offcanvas-section">
-        <Slider
-          headerText={this.context.intl.formatMessage({
-            id: 'walking-speed',
-            defaultMessage: 'Walking speed',
-          })}
-          onSliderChange={e => this.updateSettings(
-            'walkSpeed',
-            this.walkingSpeedSliderValues[e.target.value],
-          )}
-          min={0}
-          max={20}
-          defaultValue={this.walkingSpeedInitVal}
-          step={1}
-          minText={this.context.intl.formatMessage({
-            id: 'slow',
-            defaultMessage: 'Slow',
-          })}
-          maxText={this.context.intl.formatMessage({
-            id: 'run',
-            defaultMessage: 'Run',
-          })}
-        />
-      </section>);
-  }
+  getWalkSpeedSlider = () => (
+    <section className="offcanvas-section">
+      <Slider
+        headerText={this.context.intl.formatMessage({
+          id: 'walking-speed',
+          defaultMessage: 'Walking speed',
+        })}
+        onSliderChange={e => this.updateSettings(
+          'walkSpeed',
+          this.walkingSpeedSliderValues[e.target.value],
+        )}
+        min={0}
+        max={20}
+        defaultValue={this.walkingSpeedInitVal}
+        step={1}
+        minText={this.context.intl.formatMessage({
+          id: 'slow',
+          defaultMessage: 'Slow',
+        })}
+        maxText={this.context.intl.formatMessage({
+          id: 'run',
+          defaultMessage: 'Run',
+        })}
+      />
+    </section>);
 
   getTicketSelector = () => (
     <section className="offcanvas-section">
