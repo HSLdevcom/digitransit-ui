@@ -63,10 +63,8 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
       lat={stop.lat}
       lon={stop.lon}
       zoom={!(params.stopId) || stop.platformCode ? 18 : 16}
-      key={`map-${showScale}`} // forces update when prop fullScreenMap changes
       showStops
       hilightedStops={[params.stopId]}
-      disableZoom={!fullscreenMap}
       leafletObjs={leafletObjs}
       showScaleBar={showScale}
     >
