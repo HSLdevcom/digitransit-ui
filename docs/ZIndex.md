@@ -7,8 +7,9 @@ Selector | Component | Z-Index | Comment
 `.modal-overlay` | Modal util | 1400 |
 N/A | React Material Drawer | 1200/1300 | Defined by material-ui
 `.search-modal` | Search modal | 1202 |
-`.frontpage-panel-container .tabs-row` | Front page tabs | 1201 |
-`.frontpage-panel-wrapper` | Front page pull ups (nearby, favourites) | 1200 |
+`.search-modal-overlay` | Search modal | 1000 |
+`.frontpage-panel-container .tabs-row` | Front page tabs | 1000 |
+`.frontpage-panel-wrapper` | Front page pull ups (nearby, favourites) | 1000 |
 `.top-bar` | AppBar | 1001 |
 `div.leaflet-marker-icon.from, div.leaflet-marker-icon.to { > span { &::before` | From/To marker letters | 1000 | Could be removed through new icon components
 `#splash-container` | Splash screen |  802 |
