@@ -129,7 +129,7 @@ class CustomizeSearch extends React.Component {
         )}
         min={0}
         max={20}
-        defaultValue={this.walkReluctanceInitVal}
+        initialValue={this.walkReluctanceInitVal}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'avoid-walking',
@@ -155,7 +155,7 @@ class CustomizeSearch extends React.Component {
         )}
         min={0}
         max={20}
-        defaultValue={this.walkBoardCostInitVal}
+        initialValue={this.walkBoardCostInitVal}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'avoid-transfers',
@@ -181,7 +181,7 @@ class CustomizeSearch extends React.Component {
         )}
         min={0}
         max={20}
-        defaultValue={this.transferMarginInitVal}
+        initialValue={this.transferMarginInitVal}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'no-transfers-margin',
@@ -207,7 +207,7 @@ class CustomizeSearch extends React.Component {
         )}
         min={0}
         max={20}
-        defaultValue={this.walkingSpeedInitVal}
+        initialValue={this.walkingSpeedInitVal}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'slow',
