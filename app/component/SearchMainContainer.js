@@ -137,7 +137,7 @@ class SearchMainContainer extends React.Component {
   render() {
     const destinationPlaceholder = this.context.intl.formatMessage({
       id: 'destination-placeholder',
-      defaultMessage: 'Where to? - address or stop',
+      defaultMessage: 'Enter destination, route or stop',
     });
 
     const fakeSearchBar = (

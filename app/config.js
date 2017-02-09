@@ -97,7 +97,7 @@ export function getConfiguration(req) {
 
   if (req) {
     host =
-      (req.headers['X-Forwarded-Host'] && req.headers['X-Forwarded-Host'].split(':')[0]) ||
+      (req.headers['x-forwarded-host'] && req.headers['x-forwarded-host'].split(':')[0]) ||
       (req.headers.host && req.headers.host.split(':')[0]) ||
       'localhost';
   }

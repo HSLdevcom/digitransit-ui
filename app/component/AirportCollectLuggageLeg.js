@@ -20,7 +20,7 @@ function AirportCollectLuggageLeg(props) {
         <div className="itinerary-leg-first-row">
           <FormattedMessage
             id="airport-collect-luggage"
-            defaultMessage="Collect your luggage, if any."
+            defaultMessage="Collect your luggage"
           />
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
