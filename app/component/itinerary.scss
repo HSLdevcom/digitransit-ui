@@ -458,6 +458,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-tab {
+  @include font-medium;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
