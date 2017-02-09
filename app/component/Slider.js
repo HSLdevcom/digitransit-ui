@@ -25,11 +25,10 @@ class Slider extends React.Component {
     maxText: '',
   };
 
-  componentWillMount = () => {
-    this.defaultValue = this.props.defaultValue ? this.props.defaultValue :
+  defaultValue = this.props.defaultValue != null ? this.props.defaultValue :
       Math.floor((this.props.min + this.props.max) / 2);
-    this.setState({ modified: this.props.initialValue !== this.defaultValue });
-  }
+
+  state = { modified: this.props.initialValue !== this.defaultValue }
 
   componentDidMount = () => {
     this.refs.slider.addEventListener('touchmove', e => e.stopPropagation());
