@@ -11,8 +11,9 @@ import moment from 'moment';
 
 // React pages
 import IndexPage from './component/IndexPage';
-import LoadingPage from './component/LoadingPage';
 import Error404 from './component/404';
+import NetworkError from './component/NetworkError';
+import Loading from './component/LoadingPage';
 import SplashOrChildren from './component/SplashOrChildren';
 
 import { otpToLocation } from './util/otpStrings';
@@ -21,6 +22,36 @@ import TopLevel from './component/TopLevel';
 import Title from './component/Title';
 
 import { isBrowser } from './util/browser';
+
+const ComponentLoading404Renderer = {
+  /* eslint-disable react/prop-types */
+  header: ({ error, props, element, retry }) => {
+    if (error) {
+      if (error.message === 'Failed to fetch' // Chrome
+        || error.message === 'Network request failed' // Safari && FF && IE
+      ) {
+        return <NetworkError retry={retry} />;
+      }
+      return <Error404 />;
+    } else if (props) {
+      return React.cloneElement(element, props);
+    }
+    return <Loading />;
+  },
+  map: ({ error, props, element }) => {
+    if (error) {
+      return null;
+    } else if (props) {
+      return React.cloneElement(element, props);
+    }
+    return undefined;
+  },
+  title: ({ props, element }) => React.cloneElement(element, { route: null, ...props }),
+  content: ({ props, element }) => (
+    props ? React.cloneElement(element, props) : <div className="flex-grow" />
+  ),
+  /* eslint-enable react/prop-types */
+};
 
 const StopQueries = {
   stop: () => Relay.QL`
@@ -216,16 +247,9 @@ export default (config) => {
             map: StopQueries,
             meta: StopQueries,
           }}
-          render={{
-            // eslint-disable-next-line react/prop-types
-            header: ({ props, element }) =>
-              (props ? React.cloneElement(element, props) : <LoadingPage />),
-            content: ({ props, element }) =>
-              (props ? React.cloneElement(element, props) : undefined),
-          }}
+          render={ComponentLoading404Renderer}
         >
           <Route path="kartta" fullscreenMap />
-          <Route path="info" component={Error404} />
         </Route>
       </Route>
       <Route path="/terminaalit">
@@ -248,12 +272,13 @@ export default (config) => {
             map: terminalQueries,
             meta: terminalQueries,
           }}
+          render={ComponentLoading404Renderer}
         >
           <Route path="kartta" fullscreenMap />
         </Route>
       </Route>
       <Route path="/linjat">
-        <IndexRoute component={Error404} />
+        <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes */}
         <Route path=":routeId">
           <IndexRedirect to="pysakit" />
           <Route path="pysakit">
@@ -279,7 +304,7 @@ export default (config) => {
                   content: PatternQueries,
                   meta: RouteQueries,
                 }}
-                render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+                render={ComponentLoading404Renderer}
               />
               <Route
                 path="kartta"
@@ -302,8 +327,7 @@ export default (config) => {
                   content: PatternQueries,
                   meta: RouteQueries,
                 }}
-                render={{ title: ({ props, element }) =>
-                  React.cloneElement(element, props) }}
+                render={ComponentLoading404Renderer}
                 fullscreenMap
               />
               <Route
@@ -327,7 +351,7 @@ export default (config) => {
                   content: TripQueries,
                   meta: RouteQueries,
                 }}
-                render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+                render={ComponentLoading404Renderer}
               >
                 <Route path="kartta" fullscreenMap />
               </Route>
@@ -355,7 +379,7 @@ export default (config) => {
                 content: PatternQueries,
                 meta: RouteQueries,
               }}
-              render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+              render={ComponentLoading404Renderer}
             />
           </Route>
           <Route
@@ -375,7 +399,7 @@ export default (config) => {
               content: RouteQueries,
               meta: RouteQueries,
             }}
-            render={{ title: ({ props, element }) => React.cloneElement(element, props) }}
+            render={ComponentLoading404Renderer}
           />
         </Route>
       </Route>
@@ -438,6 +462,8 @@ export default (config) => {
           ]).then(([title, content]) => cb(null, { title, content }));
         }}
       />
+      {/* For all the rest render 404 */}
+      <Route path="*" component={Error404} />
     </Route>
   );
 };

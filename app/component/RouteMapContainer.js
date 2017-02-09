@@ -11,6 +11,8 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
 
 function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, location, breakpoint }) {
+  if (!pattern) return false;
+
   let selectedVehicle;
   let fitBounds = true;
   let zoom;

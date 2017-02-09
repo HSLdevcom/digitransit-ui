@@ -6,6 +6,7 @@ import getContext from 'recompose/getContext';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import StopPageActionBar from './StopPageActionBar';
+import Error404 from './404';
 
 const DepartureListContainerWithProps = mapProps(props => ({
   stoptimes: props.stop.stoptimes,
@@ -27,8 +28,18 @@ const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequir
     </div>
   )));
 
+const StopPageContentOrEmpty = (props) => {
+  if (props.stop) {
+    return <StopPageContent {...props} />;
+  }
+  return <Error404 />;
+};
 
-export default Relay.createContainer(StopPageContent, {
+StopPageContentOrEmpty.propTypes = {
+  stop: React.PropTypes.object,
+};
+
+export default Relay.createContainer(StopPageContentOrEmpty, {
   fragments: {
     stop: () => Relay.QL`
       fragment on Stop {
