@@ -84,7 +84,7 @@ class SummaryNavigation extends React.Component {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
-      drawerWidth = 0.5 * window.innerWidth > 291 ? 0.5 * window.innerWidth : 291;
+      drawerWidth = 0.5 * window.innerWidth > 291 ? Math.min(600, 0.5 * window.innerWidth) : 291;
     }
 
     return (
