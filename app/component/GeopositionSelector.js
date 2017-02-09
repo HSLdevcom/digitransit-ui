@@ -35,7 +35,7 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
           <Icon className="icon-positioning" img="icon-icon_position" />
           <FormattedMessage
             id="splash-use-positioning"
-            defaultMessage="Use positioning"
+            defaultMessage="Use location services"
           />
         </button>
       </div>
@@ -45,28 +45,28 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
       <div id="geoposition-selector">
         <div className="spinner-loader" />
         <div className="spinner-caption">
-          <FormattedMessage id="splash-locating" defaultMessage="Positioning..." />…
+          <FormattedMessage id="splash-locating" defaultMessage="Detecting location" />…
         </div>
       </div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_DENIED) {
     return (<div id="splash-positioning-message"><FormattedMessage
       id="splash-geolocation-denied-message"
-      defaultMessage="Positioning is not allowed. Please check the settings of your browser."
+      defaultMessage="You have not enabled location services. You can enable location services in your browser or phone settings."
     /></div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_WATCH_TIMEOUT) {
     return (<div id="splash-positioning-message"><FormattedMessage
       id="splash-geolocation-watch-timeout-message"
-      defaultMessage="Positioning is taking longer than expected. Choose origin below or try again later."
+      defaultMessage="Detecting your location is taking longer than expected. Have you accepted your browser’s request to access your location?"
     /></div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED) {
     return (<div id="splash-positioning-message"><FormattedMessage
       id="splash-geolocation-not-supported-message"
-      defaultMessage="Your browser does not support Positioning."
+      defaultMessage="Your browser does not support location retrieval."
     /></div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_PROMPT) {
     return (<div id="splash-positioning-message"><FormattedMessage
       id="splash-geolocation-prompt-message"
-      defaultMessage="Please accept the positioning request."
+      defaultMessage="Accept your browser’s request to access your location."
     /></div>);
   }
   return null;

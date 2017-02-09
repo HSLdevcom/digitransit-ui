@@ -35,7 +35,7 @@ function PositionMarker({ coordinates, useCurrentPosition, displayOriginPopup },
       <OriginPopup
         shouldOpen={useCurrentPosition}
         header={intl.formatMessage({ id: 'origin', defaultMessage: 'From' })}
-        text={intl.formatMessage({ id: 'own-position', defaultMessage: 'Your current position' })}
+        text={intl.formatMessage({ id: 'own-position', defaultMessage: 'Your current location' })}
         yOffset={20}
       />
     );

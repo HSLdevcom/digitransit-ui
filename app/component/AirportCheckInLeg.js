@@ -21,14 +21,14 @@ function AirportCheckInLeg(props) {
           <FormattedMessage
             id="airport-check-in"
             values={{ agency: props.leg.agency && props.leg.agency.name }}
-            defaultMessage="Optionally check in your luggage with {agency}"
+            defaultMessage="Check-in at the {agency} desk"
           />
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
         <div>
           <FormattedMessage
             id="airport-security-check-go-to-gate"
-            defaultMessage="Walk through the security check and go to gate"
+            defaultMessage="Proceed to your gate through security check"
           />
         </div>
       </div>
