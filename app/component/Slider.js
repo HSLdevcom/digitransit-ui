@@ -25,6 +25,7 @@ class Slider extends React.Component {
     maxText: '',
   };
 
+  // eslint-disable-next-line
   defaultValue = this.props.defaultValue != null ? this.props.defaultValue :
       Math.floor((this.props.min + this.props.max) / 2);
 
