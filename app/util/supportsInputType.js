@@ -17,15 +17,13 @@ export default function supportsInputType(inputType) {
         }
         break;
       case 'color':
+      case 'number':
       case 'date':
       case 'datetime':
       case 'month':
-      case 'number':
       case 'time':
       case 'week':
-        if (helloWorldAccepted) {
-          supported = false;
-        }
+        supported = !helloWorldAccepted;
         break;
       default:
         break;

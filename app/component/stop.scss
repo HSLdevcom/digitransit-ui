@@ -95,3 +95,53 @@
 .selected-stop-header {
   color: $black;
 }
+
+#stop-page-action-bar {
+  box-shadow: 0px -1px 0px 0px rgba(0,0,0,0.1);
+  z-index: 400; //get shadow over map
+  padding: 5px 10px;
+  text-align:right;
+}
+
+.action-bar {
+  a.external-link {
+    font-size: $font-size-xxsmall;
+    color: $gray-blue;
+    svg.icon {
+      top:3px;
+      font-size:14px;
+      position: relative;
+    }
+  }
+  .external-link-icon-outer{
+    color: #eef1f3;
+  }
+  .external-link-icon {
+    color: $gray-blue;
+  }
+}
+
+hr.action-bar {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid #ddd;;
+  width:100%;
+  padding-bottom: 8px;
+}
+
+.desktop {
+  #stop-page-action-bar {
+    box-shadow: none;
+    height: auto;
+    padding: 10px 20px 8px 20px;
+  }
+  .action-bar {
+    a.external-link {
+      font-size: 14px;
+      line-height:22px;
+      svg.icon {
+        font-size:18px;
+      }
+    }
+  }
+}

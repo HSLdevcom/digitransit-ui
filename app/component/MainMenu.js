@@ -2,20 +2,21 @@ import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 
-import config from '../config';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 
-function MainMenu(props) {
+function MainMenu(props, context) {
   const inquiry = (
     <p style={{ fontSize: '20px', backgroundColor: '#888888', padding: '20px' }} >
       <span onClick={props.openFeedback}>
-        <FormattedMessage id="inquiry" defaultMessage="Give feedback" />
+        <FormattedMessage id="inquiry" defaultMessage="How did you find the new Journey Planner? Please tell us!" />
         <Icon img="icon-icon_arrow-right" className="small" />
       </span>
     </p>);
+
+  const config = context.config;
 
   return (
     <div aria-hidden={!props.visible} className="main-menu no-select">
@@ -27,13 +28,13 @@ function MainMenu(props) {
         {config.mainMenu.showInquiry && inquiry}
       </header>
       <div className="offcanvas-section">
-        {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
-          <DisruptionInfoButtonContainer />}
+        <Link id="frontpage" to="/">
+          <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
+        </Link>
       </div>
       <div className="offcanvas-section">
-        <Link id="frontpage" to="/">
-          <FormattedMessage id="frontpage" defaultMessage="Front page" />
-        </Link>
+        {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
+          <DisruptionInfoButtonContainer />}
       </div>
       <MainMenuLinks
         content={([config.appBarLink].concat(config.footer && config.footer.content) || [])
@@ -55,6 +56,7 @@ MainMenu.defaultProps = {
 
 MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 

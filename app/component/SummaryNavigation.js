@@ -28,10 +28,10 @@ class SummaryNavigation extends React.Component {
         (!location.state || !location.state.customizeSearchOffcanvas)
         && !this.transitionDone && location.pathname.startsWith('/reitti/')) {
         this.transitionDone = true;
-        this.context.router.replace({ ...location,
-          pathname: this.context.location.pathname,
-          query: this.context.location.query,
-        });
+        const newLocation = { ...this.context.location,
+          state: { ...this.context.location.state, customizeSearchOffcanvas: false },
+        };
+        setTimeout(() => this.context.router.replace(newLocation), 0);
       } else {
         this.transitionDone = false;
       }
@@ -84,7 +84,7 @@ class SummaryNavigation extends React.Component {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
-      drawerWidth = 0.5 * window.innerWidth > 291 ? 0.5 * window.innerWidth : 291;
+      drawerWidth = 0.5 * window.innerWidth > 291 ? Math.min(600, 0.5 * window.innerWidth) : 291;
     }
 
     return (

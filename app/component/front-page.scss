@@ -9,7 +9,7 @@ $heading-color: #858585;
   position: absolute;
   top: 0;
   height: calc(100% - 48px);
-  z-index: 1200;
+  z-index: 1000;
   width: 100%;
   overflow: hidden;
   background-color: $background-color;
@@ -78,6 +78,9 @@ $heading-color: #858585;
 
   .frontpage-panel {
     flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: $border-radius-bigger;
     overflow: hidden;
     background: #eef1f3;
     border-bottom-right-radius: $border-radius-bigger;
@@ -102,22 +105,17 @@ $heading-color: #858585;
       height: 1em;
       position: absolute;
       right:0;
-      bottom: 1px;
+      bottom: $border-radius-bigger;
       z-index:1
     }
-    .scrollable.nearby {
-      height: calc(100% - 93px);
-    }
-
     .scrollable.favourites {
-      height: calc(100% - 152px);
       position: relative;
     }
   }
 }
 
 .tabs-row {
-  z-index: 1201;
+  z-index: 1000;
   background: $light-gray;
   position: relative;
   display: flex;
@@ -433,9 +431,13 @@ svg.icon.footer-icon {
   bottom: 40px;
 }
 
+.front-page.bp-large div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
+  margin-bottom: 80px;
+}
+
 .front-page.bp-large .leaflet-container .leaflet-control-attribution {
   bottom: 40px;
-  left: 50px;
+  left: 70px;
 }
 
 .about-page {

@@ -11,7 +11,6 @@ import Slider from './Slider';
 import ToggleButton from './ToggleButton';
 import ModeFilter from './ModeFilter';
 import Select from './Select';
-import config from '../config';
 import { route } from '../action/ItinerarySearchActions';
 
 // find the array slot closest to a value
@@ -36,6 +35,7 @@ class CustomizeSearch extends React.Component {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     executeAction: React.PropTypes.func.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -61,25 +61,51 @@ class CustomizeSearch extends React.Component {
     return sliderSteps;
   }
 
-  static getDefaultModes() {
-    return [
-      ...Object.keys(config.transportModes)
-          .filter(mode => config.transportModes[mode].defaultValue).map(mode => mode.toUpperCase()),
-      ...Object.keys(config.streetModes)
-          .filter(mode => config.streetModes[mode].defaultValue).map(mode => mode.toUpperCase()),
-    ];
+  componentWillMount() {
+    this.walkReluctanceSliderValues =
+      CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
+    this.walkReluctanceInitVal = this.context.location.query.walkReluctance ?
+      mapToSlider(this.context.location.query.walkReluctance, this.walkReluctanceSliderValues) :
+      10;
+
+    this.walkBoardCostSliderValues =
+      CustomizeSearch.getSliderStepsArray(1, 1800, 600).reverse().map(num => Math.round(num));
+    this.walkBoardCostInitVal = this.context.location.query.walkBoardCost ?
+      mapToSlider(this.context.location.query.walkBoardCost, this.walkBoardCostSliderValues) :
+      10;
+
+    this.transferMarginSliderValues =
+       CustomizeSearch.getSliderStepsArray(60, 720, 180).map(num => Math.round(num));
+    this.transferMarginInitVal = this.context.location.query.minTransferTime ?
+      mapToSlider(this.context.location.query.minTransferTime, this.transferMarginSliderValues) :
+      10;
+
+    this.walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(0.5, 3, 1.2);
+    this.walkingSpeedInitVal = this.context.location.query.walkSpeed ?
+      mapToSlider(this.context.location.query.walkSpeed, this.walkingSpeedSliderValues) :
+      10;
   }
 
+  getDefaultModes = () =>
+    [
+      ...Object.keys(this.context.config.transportModes)
+        .filter(mode => this.context.config.transportModes[mode].defaultValue)
+        .map(mode => mode.toUpperCase()),
+      ...Object.keys(this.context.config.streetModes)
+        .filter(mode => this.context.config.streetModes[mode].defaultValue)
+        .map(mode => mode.toUpperCase()),
+    ]
+
   getStreetModesToggleButtons = () => {
-    const availableStreetModes = Object.keys(config.streetModes)
-      .filter(streetMode => config.streetModes[streetMode].availableForSelection);
+    const availableStreetModes = Object.keys(this.context.config.streetModes)
+      .filter(streetMode => this.context.config.streetModes[streetMode].availableForSelection);
 
     if (!availableStreetModes.length) return null;
 
     return availableStreetModes.map((streetMode, index) => (
       <ToggleButton
         key={`toggle-button-${streetMode}`}
-        icon={config.streetModes[streetMode].icon}
+        icon={this.context.config.streetModes[streetMode].icon}
         onBtnClick={() => this.toggleStreetMode(streetMode)}
         state={this.getMode(streetMode)}
         checkedClass={streetMode}
@@ -90,14 +116,8 @@ class CustomizeSearch extends React.Component {
     ));
   }
 
-  getWalkReluctanceSlider = () => {
-    const walkReluctanceSliderValues =
-          CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
-    const initVal = this.context.location.query.walkReluctance ?
-          mapToSlider(this.context.location.query.walkReluctance, walkReluctanceSliderValues) :
-          10;
-
-    return (<section className="offcanvas-section">
+  getWalkReluctanceSlider = () => (
+    <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
           id: 'walking',
@@ -105,11 +125,11 @@ class CustomizeSearch extends React.Component {
         })}
         onSliderChange={e => this.updateSettings(
           'walkReluctance',
-          walkReluctanceSliderValues[e.target.value],
+          this.walkReluctanceSliderValues[e.target.value],
         )}
         min={0}
         max={20}
-        defaultValue={initVal}
+        initialValue={this.walkReluctanceInitVal}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'avoid-walking',
@@ -121,119 +141,95 @@ class CustomizeSearch extends React.Component {
         })}
       />
     </section>);
-  }
 
-  getWalkBoardCostSlider = () => {
-    const walkBoardCostSliderValues =
-      CustomizeSearch.getSliderStepsArray(1, 1800, 600).reverse().map(num => Math.round(num));
-    const initVal = this.context.location.query.walkBoardCost ?
-          mapToSlider(this.context.location.query.walkBoardCost, walkBoardCostSliderValues) :
-          10;
+  getWalkBoardCostSlider = () => (
+    <section className="offcanvas-section">
+      <Slider
+        headerText={this.context.intl.formatMessage({
+          id: 'transfers',
+          defaultMessage: 'Transfers',
+        })}
+        onSliderChange={e => this.updateSettings(
+          'walkBoardCost',
+          this.walkBoardCostSliderValues[e.target.value],
+        )}
+        min={0}
+        max={20}
+        initialValue={this.walkBoardCostInitVal}
+        step={1}
+        minText={this.context.intl.formatMessage({
+          id: 'avoid-transfers',
+          defaultMessage: 'Avoid transfers',
+        })}
+        maxText={this.context.intl.formatMessage({
+          id: 'transfers-allowed',
+          defaultMessage: 'Transfers allowed',
+        })}
+      />
+    </section>);
 
-    return (
-      <section className="offcanvas-section">
-        <Slider
-          headerText={this.context.intl.formatMessage({
-            id: 'transfers',
-            defaultMessage: 'Transfers',
-          })}
-          onSliderChange={e => this.updateSettings(
-            'walkBoardCost',
-            walkBoardCostSliderValues[e.target.value],
-          )}
-          min={0}
-          max={20}
-          defaultValue={initVal}
-          step={1}
-          minText={this.context.intl.formatMessage({
-            id: 'avoid-transfers',
-            defaultMessage: 'Avoid transfers',
-          })}
-          maxText={this.context.intl.formatMessage({
-            id: 'transfers-allowed',
-            defaultMessage: 'Transfers allowed',
-          })}
-        />
-      </section>);
-  }
+  getTransferMarginSlider = () => (
+    <section className="offcanvas-section">
+      <Slider
+        headerText={this.context.intl.formatMessage({
+          id: 'transfers-margin',
+          defaultMessage: 'Transfer margin at least',
+        })}
+        onSliderChange={e => this.updateSettings(
+          'minTransferTime',
+          this.transferMarginSliderValues[e.target.value],
+        )}
+        min={0}
+        max={20}
+        initialValue={this.transferMarginInitVal}
+        step={1}
+        minText={this.context.intl.formatMessage({
+          id: 'no-transfers-margin',
+          defaultMessage: '1 min',
+        })}
+        maxText={this.context.intl.formatMessage({
+          id: 'long-transfers-margin',
+          defaultMessage: '12 min',
+        })}
+      />
+    </section>);
 
-  getTransferMarginSlider = () => {
-    const transferMarginSliderValues =
-          CustomizeSearch.getSliderStepsArray(60, 660, 180).map(num => Math.round(num));
-    const initVal = this.context.location.query.minTransferTime ?
-          mapToSlider(this.context.location.query.minTransferTime, transferMarginSliderValues) :
-          10;
-
-    return (
-      <section className="offcanvas-section">
-        <Slider
-          headerText={this.context.intl.formatMessage({
-            id: 'transfers-margin',
-            defaultMessage: 'Transfer margin',
-          })}
-          onSliderChange={e => this.updateSettings(
-            'minTransferTime',
-            transferMarginSliderValues[e.target.value],
-          )}
-          min={0}
-          max={20}
-          defaultValue={initVal}
-          step={1}
-          minText={this.context.intl.formatMessage({
-            id: 'no-transfers-margin',
-            defaultMessage: 'None',
-          })}
-          maxText={this.context.intl.formatMessage({
-            id: 'long-transfers-margin',
-            defaultMessage: 'Very long',
-          })}
-        />
-      </section>);
-  }
-
-  getWalkSpeedSlider = () => {
-    const walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(0.5, 3, 1.2);
-    const initVal = this.context.location.query.walkSpeed ?
-          mapToSlider(this.context.location.query.walkSpeed, walkingSpeedSliderValues) :
-          10;
-
-    return (
-      <section className="offcanvas-section">
-        <Slider
-          headerText={this.context.intl.formatMessage({
-            id: 'walking-speed',
-            defaultMessage: 'Walking speed',
-          })}
-          onSliderChange={e => this.updateSettings(
-            'walkSpeed',
-            walkingSpeedSliderValues[e.target.value],
-          )}
-          min={0}
-          max={20}
-          defaultValue={initVal}
-          step={1}
-          minText={this.context.intl.formatMessage({
-            id: 'slow',
-            defaultMessage: 'Slow',
-          })}
-          maxText={this.context.intl.formatMessage({
-            id: 'run',
-            defaultMessage: 'Run',
-          })}
-        />
-      </section>);
-  }
+  getWalkSpeedSlider = () => (
+    <section className="offcanvas-section">
+      <Slider
+        headerText={this.context.intl.formatMessage({
+          id: 'walking-speed',
+          defaultMessage: 'Walking speed',
+        })}
+        onSliderChange={e => this.updateSettings(
+          'walkSpeed',
+          this.walkingSpeedSliderValues[e.target.value],
+        )}
+        min={0}
+        max={20}
+        initialValue={this.walkingSpeedInitVal}
+        step={1}
+        minText={this.context.intl.formatMessage({
+          id: 'slow',
+          defaultMessage: 'Slow',
+        })}
+        maxText={this.context.intl.formatMessage({
+          id: 'run',
+          defaultMessage: 'Run',
+        })}
+      />
+    </section>);
 
   getTicketSelector = () => (
     <section className="offcanvas-section">
       <Select
         headerText={this.context.intl.formatMessage({
           id: 'zones',
-          defaultMessage: 'Zones',
+          defaultMessage: 'Fare zones',
         })}
         name="ticket"
         selected={this.context.location.query.ticketOption || '0'}
-        options={config.ticketOptions}
+        options={this.context.config.ticketOptions}
         onSelectChange={e => this.updateSettings(
           'ticketOption',
           e.target.value,
@@ -250,7 +246,7 @@ class CustomizeSearch extends React.Component {
         })}
         name="accessible"
         selected={this.context.location.query.accessibilityOption || '0'}
-        options={config.accessibilityOptions}
+        options={this.context.config.accessibilityOptions}
         onSelectChange={e => this.updateSettings(
           'accessibilityOption',
           e.target.value,
@@ -262,7 +258,7 @@ class CustomizeSearch extends React.Component {
     if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes).split(',');
     }
-    return CustomizeSearch.getDefaultModes();
+    return this.getDefaultModes();
   }
 
   getMode(mode) {
@@ -310,7 +306,9 @@ class CustomizeSearch extends React.Component {
           query: {
             ...this.context.location.query,
             modes:
-              without(this.getModes(), ...Object.keys(config.streetModes).map(m => m.toUpperCase()))
+              without(
+                this.getModes(),
+                ...Object.keys(this.context.config.streetModes).map(m => m.toUpperCase()))
               .concat(mode.toUpperCase())
               .join(','),
           },
@@ -331,6 +329,7 @@ class CustomizeSearch extends React.Component {
   }
 
   render() {
+    const config = this.context.config;
     return (
       <div
         aria-hidden={!this.props.isOpen}
@@ -363,7 +362,7 @@ class CustomizeSearch extends React.Component {
           </section>
 
           <section className="offcanvas-section">
-            <h4><FormattedMessage id="using-modes" defaultMessage="Using" /></h4>
+            <h4><FormattedMessage id="using-modes" defaultMessage="I want to travel by" /></h4>
             <ModeFilter
               action={this.actions}
               buttonClass="mode-icon"

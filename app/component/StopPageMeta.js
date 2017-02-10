@@ -8,6 +8,8 @@ import { intlShape } from 'react-intl';
 const StopPageMeta = compose(
   getContext({ intl: intlShape }),
   mapProps(({ intl, params, stop }) => {
+    if (!stop) return false;
+
     const title = intl.formatMessage({
       id: params.stopId ? 'stop-page.title' : 'terminal-page.title',
       defaultMessage:
@@ -15,7 +17,7 @@ const StopPageMeta = compose(
     }, stop);
     const description = intl.formatMessage({
       id: params.stopId ? 'stop-page.description' : 'terminal-page.description',
-      defaultMessage: params.stopId ? 'Stop - {name} {code}' : 'Terminal - {name} {code}',
+      defaultMessage: params.stopId ? 'Stop - {name} {code}, {desc}' : 'Terminal - {name} {code}, {desc}',
     }, stop);
     return {
       title,

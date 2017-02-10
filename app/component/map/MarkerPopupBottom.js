@@ -40,7 +40,7 @@ class MarkerPopupBottom extends React.Component {
           <FormattedMessage id="route-from-here" defaultMessage="Route from here" />
         </div>
         <div onClick={() => this.routeTo()} className="route cursor-pointer">
-          <FormattedMessage id="route-here" defaultMessage="Route to here" />
+          <FormattedMessage id="route-here" defaultMessage="Route here" />
         </div>
       </div>);
   }

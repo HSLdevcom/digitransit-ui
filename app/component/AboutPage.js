@@ -3,30 +3,28 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import Config from '../config';
-
-const AboutPage = ({ currentLanguage }) => {
-  const about = Config.aboutThisService[currentLanguage];
+const AboutPage = ({ currentLanguage }, context) => {
+  const about = context.config.aboutThisService[currentLanguage];
   return (
     <div className="about-page fullscreen">
       <div className="page-frame fullscreen momentum-scroll">
         <h1 id="about-header">
           <FormattedMessage
-            id="about-this-service" defaultMessage="About this service"
+            id="about-this-service" defaultMessage="About the service"
           />
         </h1>
         <p>{about.about}</p>
 
         <h1>
           <FormattedMessage
-            id="digitransit-platform" defaultMessage="Digitransit platform"
+            id="digitransit-platform" defaultMessage="Digitransit service platform"
           />
         </h1>
         <p>{about.digitransit}</p>
 
         <h1>
           <FormattedMessage
-            id="datasources" defaultMessage="Datasources"
+            id="datasources" defaultMessage="Data sources"
           />
         </h1>
         <p>{about.datasources}</p>
@@ -45,6 +43,10 @@ const AboutPage = ({ currentLanguage }) => {
 
 AboutPage.propTypes = {
   currentLanguage: React.PropTypes.string.isRequired,
+};
+
+AboutPage.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };
 
 export default connectToStores(AboutPage, ['PreferencesStore'], context => ({

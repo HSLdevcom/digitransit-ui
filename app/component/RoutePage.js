@@ -9,7 +9,6 @@ import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
 import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClientAction';
-import NotFound from './404';
 
 class RoutePage extends React.Component {
 
@@ -24,6 +23,7 @@ class RoutePage extends React.Component {
   };
 
   static propTypes = {
+    history: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
     location: React.PropTypes.shape({
       pathname: React.PropTypes.string.isRequired,
@@ -65,7 +65,11 @@ class RoutePage extends React.Component {
 
   render() {
     if (this.props.route == null) {
-      return <div className="error"><NotFound /></div>; // TODO: redirect?
+      /* In this case there is little we can do
+       * There is no point continuing rendering as it can only
+       * confuse user. Therefore redirect to Routes page */
+      this.props.history.replace('/linjat');
+      return null;
     }
 
     let activeTab;

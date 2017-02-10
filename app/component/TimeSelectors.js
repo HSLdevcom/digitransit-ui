@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
-import TimePicker from 'material-ui/TimePicker';
 import Icon from './Icon';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import supportsInputType from '../util/supportsInputType';
+import TimeInput from './TimeInput';
 
 export default function TimeSelectors(
-  { arriveBy, time, dates, setArriveBy, changeTime, changeTimeMui, changeDate }, { intl },
+  { arriveBy, time, dates, setArriveBy, changeTime, changeDate }, { intl },
 ) {
   return (
     <div className="time-selectors">
@@ -17,13 +17,13 @@ export default function TimeSelectors(
           <option value="false">
             {intl.formatMessage({
               id: 'leaving-at',
-              defaultMessage: 'Leaving at',
+              defaultMessage: 'Leaving',
             })}
           </option>
           <option value="true">
             {intl.formatMessage({
               id: 'arriving-at',
-              defaultMessage: 'Arriving at',
+              defaultMessage: 'Arriving',
             })}
           </option>
         </select>
@@ -50,17 +50,7 @@ export default function TimeSelectors(
           <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
         </div> :
         <div className="select-wrapper">
-          <TimePicker
-            format="24hr"
-            className="time-selector time-mui"
-            defaultTime={time.toDate()}
-            value={time.toDate()}
-            onChange={changeTimeMui}
-            style={{
-              display: 'inline-block',
-            }}
-          />
-          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+          <TimeInput value={time.format('HH:mm')} changeTime={changeTime} />
         </div>}
     </div>
   );
@@ -71,7 +61,6 @@ TimeSelectors.propTypes = {
   time: PropTypes.instanceOf(moment).isRequired,
   setArriveBy: PropTypes.func.isRequired,
   changeTime: PropTypes.func.isRequired,
-  changeTimeMui: PropTypes.func.isRequired,
   changeDate: PropTypes.func.isRequired,
   dates: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
@@ -93,7 +82,6 @@ TimeSelectors.description = () =>
         time={moment('2016-05-18 09:30')}
         setArriveBy={() => {}}
         changeTime={() => {}}
-        changeTimeMui={() => {}}
         changeDate={() => {}}
         dates={[<option value={'2016-05-18'} key={'2016-05-18'} >Today</option>]}
       />

@@ -7,7 +7,7 @@
 }
 
 .summary-no-route-found {
-    margin: 1em;
+    padding: 1em;
 }
 
 .time-selectors {
@@ -18,7 +18,7 @@
   flex-direction: row;
   align-items: stretch;
 
-  input[type="date"], input[type="time"], input[type="text"], select {
+  input[type="date"], input[type="time"], input[type="text"], select, .time-mui > input {
     vertical-align: middle;
     text-align: left;
     width: auto;
@@ -48,6 +48,11 @@
       box-shadow: none;
     }
 
+    &.text-time-selector {
+      width: 60px;
+      padding: 0;
+      text-align: center;
+    }
   }
   .select-wrapper {
     display: flex;
@@ -83,7 +88,8 @@
   }
 
   .time-mui {
-    max-width: 3.5em;
+    max-width: 4.5em;
+    padding-left: $padding-small;
     height: 2.6em !important;
     font-size: $font-size-xxsmall !important;
   }
@@ -119,10 +125,21 @@
     }
   }
 
-  input[type="date"], input[type="time"], input[type="text"], select, .time-mui {
+  .time-mui {
+    padding-left: $padding-medium;
+    max-width: 6.5em;
+  }
+
+  input[type="date"], input[type="time"], input[type="text"], select, .time-mui > input {
     font-size: $font-size-normal !important;
     padding: 0 calc(#{$padding-medium} + 1.5rem) 0 $padding-medium;
     height: 35px !important;
+
+    &.text-time-selector {
+      width: 60px;
+      padding: 0;
+      text-align: center;
+    }
   }
 
   .right-offcanvas-toggle {
@@ -134,7 +151,7 @@
   }
 }
 
-button.right-offcanvas-toggle {
+.right-offcanvas-toggle {
 
   &:hover {
     background-color: $primary-color;
@@ -153,18 +170,25 @@ button.right-offcanvas-toggle {
     @include font-bold;
     font-size: $font-size-xxxsmall;
     margin-left: $padding-xsmall;
+    text-align: center;
+    text-transform:uppercase;
   }
+  width: auto;
   margin: 0;
   background-color: $primary-color;
   border-radius: $border-radius-small;
-  width: auto;
-  text-align: center;
-  text-transform:uppercase;
   color: $primary-font-color;
-  padding: $padding-small;
   display: flex;
   align-items: center;
   min-height: 30px;
+
+  > button {
+    padding: $padding-small;
+    height: 100%;
+    > div {
+      display: flex;
+    }
+  }
 
   .icon-holder {
     display: inline;

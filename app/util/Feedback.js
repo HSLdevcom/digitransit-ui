@@ -1,6 +1,5 @@
 import reactCookie from 'react-cookie';
 import moment from 'moment';
-import config from '../config';
 import { isBrowser } from './browser';
 import { getFeedbackStorage, setFeedbackStorage } from '../store/localStorage';
 
@@ -20,7 +19,7 @@ function removeCookies(NOW) {
 }
 
 const shouldDisplayPopup = (time) => {
-  if (isBrowser && config.feedback.enable) {
+  if (isBrowser) {
     const NOW = moment(time);
     if (reactCookie.load('vc') !== undefined) {
       // previously data was in cookies, remove cookies TODO remove this at some point

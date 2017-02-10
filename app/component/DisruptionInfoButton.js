@@ -2,7 +2,6 @@ import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import config from '../config';
 
 class DisruptionInfoButton extends React.Component {
   static propTypes = {
@@ -10,8 +9,12 @@ class DisruptionInfoButton extends React.Component {
     alerts: React.PropTypes.object,
   };
 
+  static contextTypes = {
+    config: React.PropTypes.object.isRequired,
+  };
+
   render() {
-    if (!config.disruption || config.disruption.showInfoButton) {
+    if (!this.context.config.disruption || this.context.config.disruption.showInfoButton) {
       return (
         <div
           className={'cursor-pointer disruption-info'}

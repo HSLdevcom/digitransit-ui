@@ -114,6 +114,13 @@ $border-radius-rounded: 30px;
 }
 
 /* ICONS */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
 .favourite-icon {
   padding: 0;
   height: 24px;

@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 
-import config from '../../config';
 import { isBrowser } from '../../util/browser';
 
 let Polyline;
@@ -18,6 +17,10 @@ export default class Line extends React.Component {
     passive: React.PropTypes.bool,
     mode: React.PropTypes.string.isRequired,
     geometry: React.PropTypes.array.isRequired,
+  }
+
+  static contextTypes = {
+    config: React.PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -44,7 +47,7 @@ export default class Line extends React.Component {
   render() {
     const className = cx([this.props.mode, { thin: this.props.thin }]);
 
-    const lineConfig = config.map.line;
+    const lineConfig = this.context.config.map.line;
     let haloWeight = this.props.thin ? lineConfig.halo.thinWeight : lineConfig.halo.weight;
     let legWeight = this.props.thin ? lineConfig.leg.thinWeight : lineConfig.leg.weight;
 

@@ -380,8 +380,6 @@ function getHelpers() {
       <br />
       <div className="cursor-pointer">some div<span className="code">.cursor-pointer</span>
       </div>
-      <div className="dashed-underline">some div<span className="code">.dashed-underline</span>
-      </div>
       <div className="bold">some div<span className="code">.bold</span>
       </div>
       <div className="uppercase">some div<span className="code">.uppercase</span>

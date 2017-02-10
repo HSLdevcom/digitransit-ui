@@ -35,7 +35,7 @@ const TerminalPageRootContainer = routeProps => (
 
 export default connectToStores(TerminalPageRootContainer, ['TimeStore', 'FavouriteStopsStore'],
   ({ getStore }) => ({
-    startTime: `${Math.floor((getStore('TimeStore').getCurrentTime().valueOf()) / 1000)}`,
+    startTime: getStore('TimeStore').getCurrentTime().unix(),
     timeRange: 3600,
-    numberOfDepartures: 10,
+    numberOfDepartures: 100,
   }));

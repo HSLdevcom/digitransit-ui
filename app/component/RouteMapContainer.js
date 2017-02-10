@@ -11,6 +11,8 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
 
 function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, location, breakpoint }) {
+  if (!pattern) return false;
+
   let selectedVehicle;
   let fitBounds = true;
   let zoom;
@@ -57,7 +59,6 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       lat={(selectedVehicle && selectedVehicle.lat) || undefined}
       lon={(selectedVehicle && selectedVehicle.long) || undefined}
       className={'full'}
-      key={showScale} // rerender for scale
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
       bounds={(pattern.geometry || pattern.stops).map(p => [p.lat, p.lon])}

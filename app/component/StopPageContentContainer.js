@@ -3,9 +3,10 @@ import Relay from 'react-relay';
 import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
-
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
+import StopPageActionBar from './StopPageActionBar';
+import Error404 from './404';
 
 const DepartureListContainerWithProps = mapProps(props => ({
   stoptimes: props.stop.stoptimes,
@@ -15,21 +16,35 @@ const DepartureListContainerWithProps = mapProps(props => ({
   infiniteScroll: true,
   isTerminal: !(props.params.stopId),
   rowClasses: 'padding-normal border-bottom',
+  currentTime: props.relay.variables.startTime,
 }))(DepartureListContainer);
 
 const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
   some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
     <div className="stop-page-content-wrapper">
+      <StopPageActionBar breakpoint={props.breakpoint} printUrl={props.stop.url} />
       <DepartureListHeader />
       <DepartureListContainerWithProps {...props} />
     </div>
   )));
 
-export default Relay.createContainer(StopPageContent, {
+const StopPageContentOrEmpty = (props) => {
+  if (props.stop) {
+    return <StopPageContent {...props} />;
+  }
+  return <Error404 />;
+};
+
+StopPageContentOrEmpty.propTypes = {
+  stop: React.PropTypes.object,
+};
+
+export default Relay.createContainer(StopPageContentOrEmpty, {
   fragments: {
     stop: () => Relay.QL`
       fragment on Stop {
-        stoptimes: stoptimesForPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
+        url
+        stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
       }
@@ -37,7 +52,7 @@ export default Relay.createContainer(StopPageContent, {
   },
 
   initialVariables: {
-    startTime: `${Math.floor(new Date().getTime() / 1000)}`,
+    startTime: 0,
     timeRange: 3600 * 12,
     numberOfDepartures: 100,
   },

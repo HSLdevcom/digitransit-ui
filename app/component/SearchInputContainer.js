@@ -18,6 +18,7 @@ export default class SearchInputContainer extends Component {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
     intl: intlShape,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -43,6 +44,7 @@ export default class SearchInputContainer extends Component {
       input: '',
       type: this.props.type,
       layers: this.props.layers,
+      config: this.context.config,
     }, this.onSearchChange);
   }
 
@@ -169,6 +171,7 @@ export default class SearchInputContainer extends Component {
       input: event.target.value,
       type: this.props.type,
       layers: this.props.layers,
+      config: this.context.config,
     }, this.onSearchChange);
   }
 
@@ -181,7 +184,7 @@ export default class SearchInputContainer extends Component {
         const state = this.context.getStore('PositionStore').getLocationState();
         item.geometry = { coordinates: [state.lon, state.lat] };
         name = this.context.intl.formatMessage(
-          { id: 'own-position', defaultMessage: 'Current position' },
+          { id: 'own-position', defaultMessage: 'Your current location' },
         );
       } else {
         const type = (this.props.type === 'all' && this.state.type) || this.props.type;
@@ -211,13 +214,13 @@ export default class SearchInputContainer extends Component {
         (this.state.suggestions[0].items.length === 0 &&
         this.state.suggestions[1].items.length === 0)) {
       // No results
-      elem = <FormattedMessage id="search-no-results" defaultMessage="No results" />;
+      elem = <FormattedMessage id="search-no-results" defaultMessage="No location" />;
     } else if (children === null && this.state.suggestions[0].items.length > 0) {
       // Complex search, Results in destination tab
-      elem = <FormattedMessage id="search-destination-results-but-no-search" defaultMessage="See results from Destination tab" />;
+      elem = <FormattedMessage id="search-destination-results-but-no-search" defaultMessage="'View results in the adjacent “Destination” tab" />;
     } else if (children === null && this.state.suggestions[1].items.length > 0) {
       // Complex search, Results in search tab
-      elem = <FormattedMessage id="search-search-results-but-no-destination" defaultMessage="See results from &quot;Route, stop or keyword&quot; tab" />;
+      elem = <FormattedMessage id="search-search-results-but-no-destination" defaultMessage="View results in the adjacent “About the route or stop” tab" />;
     } else {
       throw Error('Rendering results is not working correctly');
     }
@@ -257,7 +260,7 @@ export default class SearchInputContainer extends Component {
           className={cx({ selected: this.state.type === 'search' })}
           id="search-tab"
         >
-          <FormattedMessage id="route-stop-or-keyword" defaultMessage="Route, stop or keyword" />
+          <FormattedMessage id="route-stop-or-keyword" defaultMessage="About the route or stop" />
           {this.state.type !== 'search' && (
             <span className="item-count">
               {(find(this.state.suggestions, ['name', 'search']) || { items: [] }).items.length}
@@ -269,7 +272,7 @@ export default class SearchInputContainer extends Component {
     </div>
   )
 
-  renderItem(item) { // eslint-disable-line class-methods-use-this
+  renderItem = (item) => { // eslint-disable-line class-methods-use-this
     if (item.properties.layer === 'currentPosition') {
       return (
         <CurrentPositionSuggestionItem
@@ -282,6 +285,7 @@ export default class SearchInputContainer extends Component {
       <SuggestionItem
         ref={item.name}
         item={item}
+        useTransportIconsconfig={this.context.config.search.suggestions.useTransportIcons}
       />
     );
   }
