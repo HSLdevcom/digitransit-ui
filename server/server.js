@@ -85,6 +85,7 @@ function setupErrorHandling() {
 }
 
 function setUpRoutes() {
+  app.use(['/', '/fi/', '/en/', '/sv/', '/ru/', '/slangi/'], require('./reittiopasParameterMiddleware').default);
   app.use(require('../app/server').default);
 }
 
