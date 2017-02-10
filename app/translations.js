@@ -1202,7 +1202,7 @@ const translations = {
     'tickets': 'Biljetter',
     'time': 'Tid',
     'timetable': 'Tidtabell',
-    'to-stop': 'Till hållplats',
+    'to-stop': 'Avstånd',
     'today': 'I dag',
     'tomorrow': 'I morgon',
     'train-with-route-number': 'Tåg {routeNumber} {headSign}',
