@@ -5,7 +5,8 @@ class Slider extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
     id: React.PropTypes.string,
-    defaultValue: React.PropTypes.number.isRequired,
+    defaultValue: React.PropTypes.number,
+    initialValue: React.PropTypes.number.isRequired,
     onSliderChange: React.PropTypes.func.isRequired,
     min: React.PropTypes.number,
     max: React.PropTypes.number,
@@ -24,7 +25,11 @@ class Slider extends React.Component {
     maxText: '',
   };
 
-  state = { modified: false };
+  // eslint-disable-next-line
+  defaultValue = this.props.defaultValue != null ? this.props.defaultValue :
+      Math.floor((this.props.min + this.props.max) / 2);
+
+  state = { modified: this.props.initialValue !== this.defaultValue }
 
   componentDidMount = () => {
     this.refs.slider.addEventListener('touchmove', e => e.stopPropagation());
@@ -35,7 +40,7 @@ class Slider extends React.Component {
   }
 
   valueChanged = (e) => {
-    if (parseInt(e.target.value, 10) !== this.props.defaultValue) {
+    if (parseInt(e.target.value, 10) !== this.defaultValue) {
       this.setState({ modified: true });
     } else {
       this.setState({ modified: false });
@@ -54,7 +59,7 @@ class Slider extends React.Component {
           id={this.props.id}
           className={cx('slider')}
           type="range"
-          defaultValue={this.props.defaultValue}
+          defaultValue={this.props.initialValue}
           min={this.props.min}
           max={this.props.max}
           step={this.props.step}
