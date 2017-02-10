@@ -66,10 +66,12 @@ function getRobotNetworkLayer(config) {
   return robotLayers[config.CONFIG];
 }
 
+const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
+
 function getNetworkLayer(config) {
   if (!networkLayers[config.CONFIG]) {
     networkLayers[config.CONFIG] = new RelayNetworkLayer([
-      retryMiddleware({ fetchTimeout: 1000, retryDelays: [] }),
+      retryMiddleware({ RELAY_FETCH_TIMEOUT, retryDelays: [] }),
       urlMiddleware({
         url: `${config.URL.OTP}index/graphql`,
         batchUrl: `${config.URL.OTP}index/graphql/batch`,

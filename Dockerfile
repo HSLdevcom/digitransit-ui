@@ -19,13 +19,13 @@ ENV \
   CONFIG='' \
   PIWIK_ADDRESS='' \
   PIWIK_ID='' \
-  NODE_ENV=''
+  NODE_ENV='' \
+  NODE_OPTS='' \
+  RELAY_FETCH_TIMEOUT=''
 
 WORKDIR ${WORK}
 ADD . ${WORK}
 
-# Build and set permissions for arbitary non-root users in OpenShift
-# (https://docs.openshift.org/latest/creating_images/guidelines.html#openshift-specific-guidelines)
 RUN \
   npm install && \
   npm rebuild node-sass && \
@@ -37,7 +37,6 @@ RUN \
   chown -R 9999:9999 ${WORK}
 
 # Don't run as root, because there's no reason to (https://docs.docker.com/engine/articles/dockerfile_best-practices/#user).
-# This also reveals permission problems on local Docker, before pushing to OpenShift.
 USER 9999
 
 CMD npm run start
