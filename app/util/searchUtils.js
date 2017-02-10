@@ -118,7 +118,7 @@ function getFavouriteLocations(favourites, input) {
   ));
 }
 
-function getGeocodingResult(input, geolocation, language, config) {
+export function getGeocodingResult(input, geolocation, language, config) {
   // TODO: minimum length should be in config
   if (input === undefined || input === null || input.trim().length < 3) {
     return Promise.resolve([]);
