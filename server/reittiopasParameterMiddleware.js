@@ -1,4 +1,5 @@
 import proj4 from 'proj4';
+import moment from 'moment-timezone';
 import { locationToOTP } from '../app/util/otpStrings';
 import { getGeocodingResult } from '../app/util/searchUtils';
 import { getConfiguration } from '../app/config';
@@ -33,10 +34,30 @@ function parseLocation(location, input, config, next) {
 export default function reittiopasParameterMiddleware(req, res, next) {
   const config = getConfiguration(req);
   if (req.query.from || req.query.to || req.query.from_in || req.query.to_in) {
+    const time = moment.tz(config.timezoneData.split('|')[0]);
+    if (req.query.year) {
+      time.year(req.query.year);
+    }
+    if (req.query.month) {
+      time.month(req.query.month - 1);
+    }
+    if (req.query.day) {
+      time.date(req.query.day);
+    }
+    if (req.query.hour) {
+      time.hour(req.query.hour);
+    }
+    if (req.query.minute) {
+      time.minute(req.query.minute);
+    }
+    const arriveBy = req.query.timetype === 'arrival';
+
     Promise.all([
       parseLocation(req.query.from, req.query.from_in, config, next),
       parseLocation(req.query.to, req.query.to_in, config, next),
-    ]).then(([from, to]) => res.redirect(`/reitti/${from}/${to}`));
+    ]).then(([from, to]) => res.redirect(
+      `/reitti/${from}/${to}?time=${time.unix()}&arriveBy=${arriveBy}`,
+    ));
   } else {
     next();
   }
