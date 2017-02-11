@@ -228,7 +228,7 @@ function getPluginsConfig(env) {
     ...getAllFaviconPlugins(),
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
-      allChunks: true,
+      options: { allChunks: true },
     }),
     new OfflinePlugin({
       excludes: ['**/.*', '**/*.map', '../stats.json', '**/*.gz', '**/*.br'],
