@@ -257,12 +257,12 @@ function getPluginsConfig(env) {
     new GzipCompressionPlugin({
       asset: '[path].gz[query]',
       algorithm: 'zopfli',
-      test: /\.(js|css|html|svg)$/,
+      test: /\.(js|css|html|svg|ico)$/,
       minRatio: 0.95,
     }),
     new BrotliCompressionPlugin({
       asset: '[path].br[query]',
-      test: /\.(js|css|html|svg)$/,
+      test: /\.(js|css|html|svg|ico)$/,
       minRatio: 0.95,
     }),
     new webpack.NoEmitOnErrorsPlugin(),
