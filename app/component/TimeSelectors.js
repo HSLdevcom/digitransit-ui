@@ -47,7 +47,9 @@ export default function TimeSelectors(
             value={time.format('HH:mm')}
             onChange={changeTime}
           />
-          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+          {navigator.userAgent.match(/Mobile/) &&
+            <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" key="caret" />
+          }
         </div> :
         <div className="select-wrapper">
           <TimeInput value={time.format('HH:mm')} changeTime={changeTime} />
