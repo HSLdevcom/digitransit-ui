@@ -135,7 +135,7 @@
     "gemini-browserstack": "https://github.com/HSLdevcom/gemini-browserstack",
     "imports-loader": "0.7.0",
     "nightwatch": "0.9.12",
-    "node-sass": "3.13.1",
+    "node-sass": "4.5.0",
     "nodemon": "1.11.0",
     "phantomjs-prebuilt": "2.1.14",
     "postcss-loader": "1.2.2",
