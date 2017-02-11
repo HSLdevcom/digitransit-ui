@@ -109,7 +109,7 @@ testVariation('TimeNavigationButtons', 'hovered', 1, [], (actions) => {
       ).wait(400); // Wait for animation to happen
 });
 
-testVariation('TimeSelectors').then(skip(['ie11', 'safari10'])); // TODO figure out why time differs when run locally & snap
+testVariation('TimeSelectors');
 
 testVariation('RightOffcanvasToggle', 'default');
 testVariation('RightOffcanvasToggle', 'adjusted', 2);
