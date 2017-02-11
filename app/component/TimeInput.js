@@ -50,6 +50,7 @@ class TimeInput extends Component {
         onChange={this.onChange}
         onClick={() => { this.refs.time.select(); }}
         maxLength="5"
+        size="5"
         style={{
           display: 'inline-block',
         }}
