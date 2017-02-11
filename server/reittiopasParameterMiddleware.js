@@ -33,7 +33,10 @@ function parseLocation(location, input, config, next) {
 
 export default function reittiopasParameterMiddleware(req, res, next) {
   const config = getConfiguration(req);
-  if (req.query.from || req.query.to || req.query.from_in || req.query.to_in) {
+  if (
+    config.redirectReittiopasParams &&
+    (req.query.from || req.query.to || req.query.from_in || req.query.to_in)
+  ) {
     const time = moment.tz(config.timezoneData.split('|')[0]);
     if (req.query.year) {
       time.year(req.query.year);
