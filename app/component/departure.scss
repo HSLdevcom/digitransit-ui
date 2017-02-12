@@ -29,13 +29,13 @@
   font-size: $font-size-normal;
 }
 
-& .time,
-& .vehicle-number,
-& .destination,
-& .platform-number,
-& .bicycle-rental-station,
-& .city-bike-station-name,
-& .city-bike-station-availability {
+.time,
+.vehicle-number,
+.destination,
+.platform-number,
+.bicycle-rental-station,
+.city-bike-station-name,
+.city-bike-station-availability {
   display: inline-block;
 }
 
