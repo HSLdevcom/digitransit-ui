@@ -442,6 +442,7 @@ export default {
     joensuu: 'joensuu',
     oulu: 'oulu',
     matka: 'matka',
+    kuopio: 'kuopio',
   },
 
   piwikMap: [ // in priority order. 1st match stops
