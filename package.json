@@ -25,7 +25,7 @@
     "lint": "npm run es-lint",
     "build": "NODE_ENV=production webpack --progress --color --display-error-details",
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
-    "start": "NODE_ENV=production node server/server",
+    "start": "NODE_ENV=production node $NODE_OPTS server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js",
     "add-theme": "node build/add-theme"
   },
