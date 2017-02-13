@@ -85,6 +85,8 @@ function setupErrorHandling() {
 }
 
 function setUpRoutes() {
+  app.use(['/', '/fi/', '/en/', '/sv/', '/ru/', '/slangi/'], require('./reittiopasParameterMiddleware').default);
+  app.use('/search/', (req, res) => res.redirect(`http://classic.reittiopas.fi/search${req.url}`));
   app.use(require('../app/server').default);
 }
 

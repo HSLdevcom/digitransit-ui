@@ -2,11 +2,17 @@
 // and string format OpenTripPlanner uses in many places
 
 
-export const otpToLocation = otpString => ({
-  address: otpString.split('::')[0],
-  lat: parseFloat(otpString.split('::')[1].split(',')[0]),
-  lon: parseFloat(otpString.split('::')[1].split(',')[1]),
-});
+export const otpToLocation = (otpString) => {
+  const [address, coords] = otpString.split('::');
+  if (coords) {
+    return ({
+      address,
+      lat: parseFloat(coords.split(',')[0]),
+      lon: parseFloat(coords.split(',')[1]),
+    });
+  }
+  return { address };
+};
 
 export const locationToOTP = location => `${location.address}::${location.lat},${location.lon}`;
 

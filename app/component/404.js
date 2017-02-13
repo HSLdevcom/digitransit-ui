@@ -18,4 +18,6 @@ const Error404 = () => (
   </div>
 );
 
+Error404.displayName = 'Error404';
+
 export default Error404;

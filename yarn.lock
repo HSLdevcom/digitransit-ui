@@ -5012,6 +5012,10 @@ methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
 
+mgrs@~0.0.2:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/mgrs/-/mgrs-0.0.3.tgz#3058d38ae92e1abfbf74b32a8f6cb5225a6eaa05"
+
 micromatch@^2.1.5, micromatch@^2.3.11, micromatch@^2.3.7:
   version "2.3.11"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-2.3.11.tgz#86677c97d1720b363431d04d0d15293bd38c1565"
@@ -6414,6 +6418,12 @@ proclaim@^3.4.1:
 progress@^1.1.8, progress@~1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
+
+proj4@^2.3.17:
+  version "2.3.17"
+  resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.3.17.tgz#c0beb4960fb9d76a7d889eb3b0d4cd1ba8aa420a"
+  dependencies:
+    mgrs "~0.0.2"
 
 promise-polyfill@^1.1.6:
   version "1.1.6"

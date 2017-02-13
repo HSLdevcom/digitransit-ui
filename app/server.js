@@ -300,6 +300,12 @@ export default function (req, res, next) {
     } else if (!renderProps) {
       res.status(404).send('Not found');
     } else {
+      if (
+        renderProps.components
+          .filter(component => component && component.displayName === 'Error404').length > 0
+      ) {
+        res.status(404);
+      }
       let networkLayer;
       if (isRobotRequest(agent)) {
         networkLayer = getRobotNetworkLayer(config);
