@@ -231,7 +231,10 @@ function getPluginsConfig(env) {
       allChunks: true,
     }),
     new OfflinePlugin({
-      excludes: ['**/.*', '**/*.map', '../stats.json', '**/*.gz', '**/*.br'],
+      excludes: [
+        '**/.*', '**/*.map', '../stats.json', '**/*.gz', '**/*.br',
+        'js/*_theme.*.js', 'js/*_sprite.*.js', 'iconstats-*.json',
+      ],
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
@@ -240,7 +243,7 @@ function getPluginsConfig(env) {
           ':externals:',
           'js/+([a-z0-9]).js',
         ],
-        optional: ['js/*_theme.*.js', 'js/*_sprite.*.js', '*.png', 'css/*.css', '*.svg'],
+        optional: ['*.png', 'css/*.css', '*.svg'],
       },
       externals: [/* '/' Can be re-added later when we want to cache index page */],
       safeToUseOptionalCaches: true,
@@ -254,12 +257,12 @@ function getPluginsConfig(env) {
     new GzipCompressionPlugin({
       asset: '[path].gz[query]',
       algorithm: 'zopfli',
-      test: /\.(js|css|html|svg)$/,
+      test: /\.(js|css|html|svg|ico)$/,
       minRatio: 0.95,
     }),
     new BrotliCompressionPlugin({
       asset: '[path].br[query]',
-      test: /\.(js|css|html|svg)$/,
+      test: /\.(js|css|html|svg|ico)$/,
       minRatio: 0.95,
     }),
     new webpack.NoEmitOnErrorsPlugin(),
