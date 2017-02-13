@@ -30,6 +30,7 @@
   }
 
   h2 {
+    @include font-medium;
     flex-grow: 1;
     margin: 0.5em;
   }
@@ -70,6 +71,10 @@
       margin-top: -6px;
       margin-right: -7px;
       font-weight: 100;
+
+      &.realtime {
+        color: $realtime-color;
+      }
     }
 
     // When we don't have a start date box, we can add some spacing
@@ -104,10 +109,6 @@
         }
       }
     }
-  }
-
-  .realtime-available {
-    color: $realtime-color;
   }
 
   .itinerary-end-time {

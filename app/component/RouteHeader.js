@@ -37,5 +37,4 @@ RouteHeader.propTypes = {
   trip: React.PropTypes.string,
   pattern: React.PropTypes.shape({ code: React.PropTypes.string.isRequired }),
   className: React.PropTypes.string,
-  favourite: React.PropTypes.bool.isRequired,
 };

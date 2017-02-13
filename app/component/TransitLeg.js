@@ -89,6 +89,8 @@ class TransitLeg extends React.Component {
         <div className="small-2 columns itinerary-time-column">
           <div className="itinerary-time-column-time">
             <span className={this.props.leg.realTime ? 'realtime' : ''}>
+              {this.props.leg.realTime &&
+                <Icon img="icon-icon_realtime" className="realtime-icon realtime" />}
               {moment(this.props.leg.startTime).format('HH:mm')}
             </span>{originalTime}
           </div>

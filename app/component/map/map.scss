@@ -167,9 +167,6 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   .route-header {
     height:auto;
     border: none;
-    & h1 {
-      font-size: 12pt;
-    }
   }
 
   .leaflet-popup-content-wrapper {
@@ -214,19 +211,16 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     background: $background-color;
     border-top: solid 1px #ddd;
 
-    div {
+    div, a {
+      display: block;
       padding: 0.5em 12px;
       flex-grow: 1;
       text-align: center;
+      text-decoration: none;
 
       &:first-child {
         border-right: 1px solid $light-gray;
       }
-    }
-
-    a {
-      color: $gray;
-      text-decoration: none;
     }
   }
 
