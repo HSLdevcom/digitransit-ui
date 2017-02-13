@@ -441,6 +441,7 @@ export default {
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
     oulu: 'oulu',
+    hameenlinna: 'hameenlinna',
     matka: 'matka',
   },
 
