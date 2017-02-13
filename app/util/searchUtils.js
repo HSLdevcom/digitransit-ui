@@ -349,3 +349,10 @@ export const executeSearch = (getStore, data, callback) => {
   callback(null); // This means 'we are searching'
   debouncedSearch(getStore, data, callback);
 };
+
+export const withCurrentTime = (getStore, location) => ({
+  ...location,
+  query: {
+    time: getStore('TimeStore').getCurrentTime().unix(),
+  },
+});
