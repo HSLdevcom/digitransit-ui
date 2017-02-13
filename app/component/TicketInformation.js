@@ -16,12 +16,16 @@ export default function TicketInformation({ fares }) {
     }
   }
 
+  if (!regularFare) {
+    return null;
+  }
+
   return (
     <div className="itinerary-ticket-information">
       <div>
         <FormattedMessage id="required-ticket" defaultMessage="Ticket required for the journey" />:
         <div className="itinerary-ticket-information-class">
-          {regularFare ? `${(regularFare.cents / 100).toFixed(2)} ${currency}` : 'alk. 2,70€'}
+          {`${(regularFare.cents / 100).toFixed(2)} ${currency}`}
         </div>
       </div>
       <div className="itinerary-ticket-information-buy">

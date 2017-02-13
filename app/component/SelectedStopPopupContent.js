@@ -9,15 +9,17 @@ const SelectedStopPopupContent = ({ stop }) => (
         {stop.name}
       </div>
     </div>
-    <div>
-      <div className="origin-popup-name">
-        <div className="selected-stop-popup">
-          <p className="card-code">{stop.code}</p>
-          <span className="description">{stop.desc}</span>
+    {(stop.code || stop.desc) && (
+      <div>
+        <div className="origin-popup-name">
+          <div className="selected-stop-popup">
+            {stop.code && <p className="card-code">{stop.code}</p>}
+            <span className="description">{stop.desc}</span>
+          </div>
         </div>
+        <div className="shade-to-white" />
       </div>
-      <div className="shade-to-white" />
-    </div>
+    )}
   </div>
 );
 

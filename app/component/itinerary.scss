@@ -152,10 +152,15 @@ div.itinerary-main > div > .row:nth-child(1)  {
     margin-bottom: 0.5em;
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
+      span {
+        position: relative;
+      }
     }
     .icon {
       &.realtime-icon.realtime {
-        margin-top: -0.35em;
+        top: -0.3em;
+        left: -0.4em;
+        position: absolute;
       }
       font-size: 14pt;
     }
@@ -239,15 +244,19 @@ div.itinerary-main > div > .row:nth-child(1)  {
     }
 
     .itinerary-leg-first-row {
-      overflow: hidden;
       display: block;
+      white-space: normal;
       width: 90%;
       color: $black;
       @include font-medium;
 
       .itinerary-leg-first-row__arrow {
         @include font-medium;
-        font-size: 6px;
+        font-size: 0.6em;
+
+      }
+      span.itinerary-stop-code {
+        vertical-align: 2px;
       }
     }
 
@@ -452,6 +461,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-tab {
+  @include font-medium;
   display: flex;
   flex-direction: column;
   flex-grow: 1;

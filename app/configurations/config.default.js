@@ -438,6 +438,7 @@ export default {
   themeMap: {
     turku: 'turku',
     hsl: 'reittiopas',
+    lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
     oulu: 'oulu',
     matka: 'matka',

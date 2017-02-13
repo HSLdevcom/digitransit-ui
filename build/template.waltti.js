@@ -23,7 +23,7 @@ export default mergeWith({}, walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: true, // title text instead of logo img
+  textLogo: __textlogo__, // title text instead of logo img
 
   footer: {
     content: [

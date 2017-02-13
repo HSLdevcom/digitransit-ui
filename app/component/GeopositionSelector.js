@@ -61,7 +61,7 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
   } else if (status === PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED) {
     return (<div id="splash-positioning-message"><FormattedMessage
       id="splash-geolocation-not-supported-message"
-      defaultMessage="Your browser does not support location retrieval."
+      defaultMessage="Location services unavailable."
     /></div>);
   } else if (status === PositionStore.STATUS_GEOLOCATION_PROMPT) {
     return (<div id="splash-positioning-message"><FormattedMessage

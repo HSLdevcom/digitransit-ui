@@ -101,8 +101,8 @@ $route-schedule-date-height: 36px;
     }
 
     .route-stop-row-divider {
-      width: calc(100% - 188px);
-      left: 188px;
+      width: calc(100% - 110px);
+      left: 110px;
     }
 
     .route-stop-schematized {
@@ -134,9 +134,9 @@ $route-schedule-date-height: 36px;
 .route-stop-row-divider {
   position: absolute;
   height: 1px;
-  width: calc(100% - 90px);
+  width: calc(100% - 4.5em);
   bottom: 0px;
-  left: 90px;
+  left: 4.5em;
   background-color: $background-color;
 }
 

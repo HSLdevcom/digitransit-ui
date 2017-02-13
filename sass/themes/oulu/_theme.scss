@@ -1,4 +1,4 @@
-@import '../default/theme';
+@import '../../base/waltti';
 
 /* main theme colors */
 $ouluColor: #c40065;
@@ -11,7 +11,6 @@ $bus-color: $ouluColor;
 $viewpoint-marker-color: $ouluColor;
 
 $standalone-btn-color: $primary-color;
-$standalone-btn-hover-color: $gray;
-$standalone-btn-active-color: $gray;
+
 /* Navbar logo */
-$nav-logo: url(oulu-logo.png);
+$nav-logo: url('oulu-logo.png');
