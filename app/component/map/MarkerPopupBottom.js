@@ -14,24 +14,42 @@ class MarkerPopupBottom extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
+    getStore: React.PropTypes.func.isRequired,
   };
 
   routeFrom = () => {
+    const time = this.context.getStore('TimeStore').getCurrentTime().unix();
+    const locationWithTime = {
+      ...this.context.location,
+      query: {
+        time,
+      },
+    };
+
     this.context.executeAction(setEndpoint, {
       target: 'origin',
       endpoint: this.props.location,
       router: this.context.router,
-      location: this.context.location,
+      location: locationWithTime,
     });
   }
 
-  routeTo = () =>
+  routeTo = () => {
+    const time = this.context.getStore('TimeStore').getCurrentTime().unix();
+    const locationWithTime = {
+      ...this.context.location,
+      query: {
+        time,
+      },
+    };
+
     this.context.executeAction(setEndpoint, {
       target: 'destination',
       endpoint: this.props.location,
       router: this.context.router,
-      location: this.context.location,
+      location: locationWithTime,
     });
+  }
 
   render() {
     return (

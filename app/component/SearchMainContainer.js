@@ -52,17 +52,25 @@ class SearchMainContainer extends React.Component {
       return this.context.router.replace(newLocation);
     }
 
+    const time = this.context.getStore('TimeStore').getCurrentTime().unix();
+    const locationWithTime = {
+      ...this.context.location,
+      query: {
+        time,
+      },
+    };
+
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
         target: this.props.selectedTab,
         router: this.context.router,
-        location: this.context.location,
+        location: locationWithTime,
       });
     } else {
       this.context.executeAction(setEndpoint, {
         target: this.props.selectedTab,
         router: this.context.router,
-        location: this.context.location,
+        location: locationWithTime,
         endpoint: {
           lat: item.geometry.coordinates[1],
           lon: item.geometry.coordinates[0],
