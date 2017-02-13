@@ -2,8 +2,8 @@
 import mergeWith from 'lodash/mergeWith';
 
 const CONFIG = process.env.CONFIG || 'kuopio';
-const APP_TITLE = 'Uusi Reittiopas';
-const APP_DESCRIPTION = 'Uusi Reittiopas - kuopio';
+const APP_TITLE = 'reittiopas.kuopio.fi';
+const APP_DESCRIPTION = 'Kuopion uusi reittiopas';
 
 const walttiConfig = require('./waltti').default;
 
