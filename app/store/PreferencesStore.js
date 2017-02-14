@@ -36,7 +36,11 @@ class PreferencesStore extends Store {
       return;
     }
 
-    reactCookie.save('lang', language, { maxAge: 365 * 24 * 60 * 60 }); // Good up to one year
+    reactCookie.save('lang', language, {
+      // Good up to one year
+      maxAge: 365 * 24 * 60 * 60,
+      path: '/',
+    });
     this.language = language;
     this.emitChange();
   }
