@@ -343,6 +343,7 @@ module.exports = {
       'history/lib/useQueries': 'history/es6/useQueries',
       'react-router/lib/getRouteParams': 'react-router/es6/getRouteParams',
       moment$: 'moment/moment.js',
+      'core-js/library/fn/weak-map': path.join(__dirname, 'app/util/WeakMap'),
     },
   },
   resolveLoader: {
