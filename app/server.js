@@ -179,7 +179,7 @@ function getPolyfills(userAgent, config) {
   return polyfillService.getPolyfillString({
     uaString: userAgent,
     features,
-    minify: true,
+    minify: process.env.NODE_ENV !== 'development',
     unknown: 'polyfill',
   });
 }
