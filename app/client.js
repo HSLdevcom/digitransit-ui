@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
-import { Router } from 'react-router';
-import match from 'react-router/lib/match';
+import { Router, match } from 'react-router';
 import IsomorphicRelay from 'isomorphic-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import provideContext from 'fluxible-addons-react/provideContext';
