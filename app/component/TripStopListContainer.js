@@ -48,7 +48,7 @@ class TripStopListContainer extends React.Component {
 
     const vehicles = groupBy(
       values(this.props.vehicles)
-        .filter(vehicle => (this.props.currentTime - (vehicle.timestamp * 1000)) < (90 * 1000))
+        .filter(vehicle => (this.props.currentTime - (vehicle.timestamp * 1000)) < (5 * 60 * 1000))
         .filter(vehicle => vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined')
       , vehicle => vehicle.direction);
 
