@@ -65,7 +65,8 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       zoom={zoom}
       showScaleBar={showScale}
     >
-      {!fullscreen && <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
+      {breakpoint !== 'large' && !fullscreen &&
+        <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} key="overlay" />}
       {breakpoint !== 'large' && (
         <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
           {fullscreen ?
@@ -79,7 +80,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
 RouteMapContainer.contextTypes = {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
-  breakpoint: React.PropTypes.string,
+  breakpoint: React.PropTypes.string.isRequired,
 };
 
 RouteMapContainer.propTypes = {
