@@ -23,7 +23,7 @@ export default mergeWith({}, walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: true, // title text instead of logo img
+  textLogo: false, // title text instead of logo img
 
   favicon: './sass/themes/kuopio/favicon.png',
 
@@ -45,9 +45,9 @@ export default mergeWith({}, walttiConfig, {
   },
 
   defaultOrigins: [
-    { icon: 'icon-icon_bus', label: 'Linja-autoasema', lat: 62.898516, lon: 27.679409 },
-    { icon: 'icon-icon_rail', label: 'Rautatieasema', lat: 62.896875, lon: 27.680523 },
-    { icon: 'icon-icon_school', label: 'Itä-Suomen yliopisto', lat: 62.894982, lon: 27.640932 },
+    { icon: 'icon-icon_bus', label: 'Linja-autoasema, Kuopio', lat: 62.898516, lon: 27.679409 },
+    { icon: 'icon-icon_rail', label: 'Rautatieasema, Kuopio', lat: 62.896875, lon: 27.680523 },
+    { icon: 'icon-icon_school', label: 'Itä-Suomen yliopisto, Kuopio', lat: 62.894982, lon: 27.640932 },
   ],
 
   footer: {
