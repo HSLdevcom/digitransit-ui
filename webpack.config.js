@@ -334,6 +334,7 @@ module.exports = {
     mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     alias: {
       'lodash.merge': 'lodash/merge',
+      'lodash.keys': 'lodash/keys',
       'history/lib/Actions': 'history/es6/Actions',
       'history/lib/createBrowserHistory': 'history/es6/createBrowserHistory',
       'history/lib/createHashHistory': 'history/es6/createHashHistory',
@@ -359,6 +360,7 @@ module.exports = {
     'core-js/library/fn/object/assign': 'var Object.assign',
     'core-js/library/fn/weak-map': 'var WeakMap',
     'core-js/library/es6/map': 'var Map',
+    'core-js/library/fn/map': 'var Map',
     'core-js/library/fn/promise': 'var Promise',
     'core-js/library/fn/array/from': 'var Array.from',
     'core-js/library/fn/object/keys': 'var Object.keys',
