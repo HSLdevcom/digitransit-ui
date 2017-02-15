@@ -443,6 +443,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    kuopio: 'kuopio',
   },
 
   piwikMap: [ // in priority order. 1st match stops
