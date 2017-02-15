@@ -2,6 +2,7 @@ import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { setEndpoint } from '../../action/EndpointActions';
+import { withCurrentTime } from '../../util/searchUtils';
 
 class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
@@ -14,24 +15,28 @@ class MarkerPopupBottom extends React.Component {
     executeAction: React.PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
+    getStore: React.PropTypes.func.isRequired,
   };
 
   routeFrom = () => {
+    const locationWithTime = withCurrentTime(this.context.getStore, this.context.location);
     this.context.executeAction(setEndpoint, {
       target: 'origin',
       endpoint: this.props.location,
       router: this.context.router,
-      location: this.context.location,
+      location: locationWithTime,
     });
   }
 
-  routeTo = () =>
+  routeTo = () => {
+    const locationWithTime = withCurrentTime(this.context.getStore, this.context.location);
     this.context.executeAction(setEndpoint, {
       target: 'destination',
       endpoint: this.props.location,
       router: this.context.router,
-      location: this.context.location,
+      location: locationWithTime,
     });
+  }
 
   render() {
     return (
