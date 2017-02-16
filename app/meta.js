@@ -83,7 +83,7 @@ export default function getMetadata(lang, host, url, config) {
     return {
       meta: baseData.meta.concat(config.metaData.meta),
       link: baseData.link.concat(config.metaData.link),
-      title,
+      title: config.title,
     };
   }
 
