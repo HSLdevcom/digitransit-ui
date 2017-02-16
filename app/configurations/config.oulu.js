@@ -1,3 +1,4 @@
+
 /* eslint-disable */
 import mergeWith from 'lodash/mergeWith';
 
@@ -12,7 +13,7 @@ export default mergeWith({}, walttiConfig, {
 
   feedIds: ['OULU'],
 
-  appBarLink: { name: 'Oulun joukkoliikenne', href: 'http://www.oulunjoukkoliikennen.fi' },
+  appBarLink: { name: 'Oulun joukkoliikenne', href: 'http://www.oulunjoukkoliikenne.fi' },
 
   colors: {
     primary: '#c40065',
