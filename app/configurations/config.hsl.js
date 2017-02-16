@@ -138,19 +138,17 @@ export default {
   aboutThisService: {
     fi: {
       about: 'Tervetuloa Reittioppaaseen! Reittiopas kertoo, miten pääset nopeasti ja helposti perille joukkoliikenteellä Helsingissä, Espoossa, Vantaalla, Kauniaisissa, Keravalla, Kirkkonummella ja Sipoossa. Reittiopas etsii nopeat reitit myös kävelyyn ja pyöräilyyn sekä rajatusti myös yksityisautoiluun. Reittiopas-palvelun tarjoaa HSL Helsingin seudun liikenne, ja se perustuu Digitransit-palvelualustaan.',
-      digitransit: 'Digitransit-palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote. Lähdekoodi tarjotaan EUPL v1.2 ja AGPLv3 lisensseillä. Tule mukaan kehittämään palvelusta entistä parempi: digitransit.fi.',
       datasources: 'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors, ja ne ladataan Geofabrik palvelusta. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä, ja ne ladataan OpenAddresses-palvelusta. Joukkoliikenteen reitit ja aikataulut ladataan HSL:n dev.hsl.fi/gtfs palvelimelta.',
     },
 
     sv: {
       about: 'Den här tjänsten erbjuds av HRT för reseplanering inom huvudstadsregionen (Helsingfors, Esbo, Vanda, Grankulla, Kervo, Kyrkslätt och Sibbo). Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
-      digitransit: 'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Trafikverket. Källkoden distribueras under EUPL v1.2 och AGPLv3 licenserna. Du är välkommen att delta i utvecklandet av plattformen. Mer information hittar du på addressen digitransit.fi.',
+
       datasources: 'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors och hämtas från Geofabrik-tjänsten. Addressinformation hämtas från BRC:s byggnadsinformationsregister och hämtas från OpenAddresses-tjänsten. Kollektivtrafikens rutter och tidtabeller hämtas från HRT:s egna tjänst dev.hsl.fi/gtfs.',
     },
 
     en: {
       about: 'Welcome to the Journey Planner! The Journey Planner shows you how to get to your destination fast and easy by public transport in Helsinki, Espoo, Vantaa, Kauniainen, Kerava, Kirkkonummi and Sipoo. You can also use the planner to find fast walking and cycling routes, and to an extent, for driving directions. The Journey Planner is provided by HSL Helsinki Region Transport and it is based on the Digitransit service platform.',
-      digitransit: 'The Digitransit service platform is an open source routing platform developed by HSL and The Finnish Transport Agency. The source code is available with the EUPL v1.2 and AGPLv3 licenses. Join us to make the service even better: digitransit.fi.',
       datasources: 'Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center and downloaded from the OpenAddresses service. Public transport routes and timetables are downloaded from HSL’s dev.hsl.fi/gtfs server.',
     },
   },
