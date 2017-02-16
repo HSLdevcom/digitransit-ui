@@ -425,7 +425,7 @@ export default {
     en: {
       about: 'The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
       digitransit: 'The Digitransit service platform is an open source routing platform developed by HSL and The Finnish Transport Agency. The source code is available with the EUPL v1.2 and AGPLv3 licenses. Join us to make the service even better: digitransit.fi.',
-      datasources: "Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center and downloaded from the OpenAddresses service. Public transport routes and timetables are downloaded from Finnish Transport Agency's national public transit database.",
+      datasources: "Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors and downloaded from Geofabrik. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center and downloaded from the OpenAddresses service. Public transport routes and timetables are downloaded from Finnish Transport Agency's national public transit database.",
     },
 
     nb: {},

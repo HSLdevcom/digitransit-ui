@@ -69,7 +69,7 @@ export default mergeWith({}, walttiConfig, {
     },
 
     en: {
-      about: 'This service is provided by Kuopion seudun joukkoliikenne for route planning in Kuopio and Siilinjärvi region. The service covers public transport, walking, cycling, and some private car use.',
+      about: 'This service is provided by Kuopion seudun joukkoliikenne for route planning in Kuopio and Siilinjärvi region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
     },
   },
 
