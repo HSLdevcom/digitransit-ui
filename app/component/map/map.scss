@@ -449,8 +449,8 @@ div.map-click-prevent-overlay {
 
 .bp-large .leaflet-control-scale.leaflet-control {
     //front page desktop
-    margin-right: 400px;
-    margin-bottom: 44px;
+    right: calc(100px + 28vw);
+    bottom: 24px;
     cursor: grab;
 }
 
