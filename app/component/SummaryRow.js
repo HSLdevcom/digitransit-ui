@@ -12,6 +12,50 @@ import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
+const Leg = ({ routeNumber, leg, large }) => (
+  <div key={`${leg.mode}_${leg.startTime}`} className="leg">
+    { large &&
+      <div className="departure-stop overflow-fade">
+        &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
+      </div>
+    }
+    {routeNumber}
+  </div>
+);
+
+const RouteLeg = ({ leg, mode, large }) => {
+  const routeNumber = (
+    <RouteNumberContainer
+      route={leg.route}
+      className={cx('line', mode.toLowerCase())}
+      vertical
+    />
+  );
+  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
+};
+
+const ModeLeg = ({ leg, mode, large }) => {
+  const routeNumber = (
+    <RouteNumber
+      mode={mode}
+      text={''}
+      className={cx('line', mode.toLowerCase())}
+      vertical
+    />
+  );
+  return <Leg leg={leg} routeNumber={routeNumber} large={large}/>;
+};
+
+const CityBikeLeg = ({ leg, large }) => (
+  <ModeLeg leg={leg} mode="CITYBIKE" large={large} />
+);
+
+const ViaLeg = ({ leg, large }) => (
+  <div key={`${leg.mode}_${leg.startTime}`} className="leg via">
+    <Icon img="icon-icon_place" className="itinerary-icon place" />
+  </div>
+);
+
 const SummaryRow = (props, { intl: { formatMessage } }) => {
   let mode;
   let routeNumber;
@@ -42,42 +86,18 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
 
     lastLegRented = leg.rentedBike;
 
+    const large = props.breakpoint === 'large';
+
     if (leg.transitLeg || leg.rentedBike || noTransitLegs) {
-      mode = leg.mode;
-
       if (leg.rentedBike) {
-        mode = 'CITYBIKE';
-      }
-
-      if (leg.route) {
-        routeNumber = (
-          <RouteNumberContainer
-            route={leg.route}
-            className={cx('line', mode.toLowerCase())}
-            vertical
-          />
-        );
+        legs.push(<ModeLeg leg={leg} mode="CITYBIKE" large={large} />);
+      } else if (leg.mode === 'VIA') {
+        legs.push(<ViaLeg leg={leg} large={large} />);
+      } else if (leg.route) {
+        legs.push(<RouteLeg leg={leg} mode={leg.mode} large={large} />);
       } else {
-        routeNumber = (
-          <RouteNumber
-            mode={mode}
-            text={''}
-            className={cx('line', mode.toLowerCase())}
-            vertical
-          />
-        );
+        legs.push(<ModeLeg leg={leg} mode={leg.mode} large={large} />);
       }
-
-      legs.push(
-        <div key={`${leg.mode}_${leg.startTime}`} className="leg">
-          {props.breakpoint === 'large' &&
-            <div className="departure-stop overflow-fade">
-              &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
-            </div>
-          }
-          {routeNumber}
-        </div>,
-      );
     }
   });
 
@@ -245,6 +265,74 @@ const exampleData = t1 => ({
   ],
 });
 
+const exampleDataVia = t1 => ({
+  startTime: t1,
+  endTime: t1 + 10000,
+  walkDistance: 770,
+  legs: [
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: t1 + 10000,
+      endTime: t1 + 20000,
+      mode: 'WALK',
+      distance: 483.84600000000006,
+      duration: 438,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Messuaukio 1, Helsinki' },
+    },
+    {
+      realTime: false,
+      transitLeg: true,
+      startTime: t1 + 20000,
+      endTime: t1 + 30000,
+      mode: 'BUS',
+      distance: 586.4621425755712,
+      duration: 120,
+      rentedBike: false,
+      route: { shortName: '57', mode: 'BUS' },
+      from: { name: 'Ilmattarentie' },
+    },
+    {
+      realTime: false,
+      transitLeg: true,
+      startTime: t1 + 30000,
+      endTime: t1 + 40000,
+      mode: 'VIA',
+      distance: 586.4621425755712,
+      duration: 600,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Ilmattarentie' },
+    },
+    {
+      realTime: false,
+      transitLeg: true,
+      startTime: t1 + 40000,
+      endTime: t1 + 50000,
+      mode: 'BUS',
+      distance: 586.4621425755712,
+      duration: 120,
+      rentedBike: false,
+      route: { shortName: '57', mode: 'BUS' },
+      from: { name: 'Messuaukio 1, Helsinki' },
+    },
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: t1 + 50000,
+      endTime: t1 + 60000,
+      mode: 'WALK',
+      distance: 291.098,
+      duration: 259,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Messuaukio 1, Helsinki' },
+    },
+  ],
+});
+
 const nop = () => {};
 
 SummaryRow.description = () => {
@@ -254,8 +342,8 @@ SummaryRow.description = () => {
   return (
     <div>
       <p>
-      Displays a summary of an itinerary.
-    </p>
+        Displays a summary of an itinerary.
+      </p>
       <ComponentUsageExample description="passive-small-today">
         <SummaryRow
           refTime={today}
@@ -360,6 +448,27 @@ SummaryRow.description = () => {
           onSelectImmediately={nop}
           hash={1}
           open
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="passive-small-via">
+        <SummaryRow
+          refTime={today}
+          breakpoint="small"
+          data={exampleDataVia(today)}
+          passive
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="active-large-via">
+        <SummaryRow
+          refTime={today}
+          breakpoint="large"
+          data={exampleDataVia(today)}
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
         />
       </ComponentUsageExample>
     </div>

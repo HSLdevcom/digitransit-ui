@@ -188,6 +188,8 @@ testVariation('SummaryRow', 'passive-large-tomorrow', 7);
 testVariation('SummaryRow', 'active-large-tomorrow', 8);
 testVariation('SummaryRow', 'open-large-today', 9);
 testVariation('SummaryRow', 'open-large-tomorrow', 10);
+testVariation('SummaryRow', 'passive-small-via', 11);
+testVariation('SummaryRow', 'active-large-via', 12);
 
 testVariation('CurrentPositionSuggestionItem', 'with-position');
 testVariation('CurrentPositionSuggestionItem', 'no-position', 2);
