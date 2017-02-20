@@ -10,7 +10,7 @@ function DisruptionListContainer({ alerts }, { intl }) {
     return (
       <FormattedMessage
         id="disruption-info-no-alerts"
-        defaultMessage="No known disruptions or diversions to the route"
+        defaultMessage="No known disruptions or diversions."
       />
     );
   }
