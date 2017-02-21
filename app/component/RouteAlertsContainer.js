@@ -68,8 +68,8 @@ function RouteAlertsContainer({ route, currentTime }, { intl }) {
     return (
       <div className="no-alerts-message">
         <FormattedMessage
-          id="disruption-info-no-alerts"
-          defaultMessage="No disruption info."
+          id="disruption-info-route-no-alerts"
+          defaultMessage="No known disruptions or diversions for route."
         />
       </div>);
   }
