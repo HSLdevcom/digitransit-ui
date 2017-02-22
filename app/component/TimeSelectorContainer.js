@@ -18,7 +18,7 @@ class TimeSelectorContainer extends Component {
   };
 
   static propTypes = {
-    serviceTimeRange: React.PropTypes.object,
+    serviceTimeRange: React.PropTypes.object.isRequired,
   };
 
   state = { time: this.context.location.query.time ?

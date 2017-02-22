@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import cx from 'classnames';
 
 import OriginDestinationBar from './OriginDestinationBar';
@@ -116,7 +117,11 @@ class SummaryNavigation extends React.Component {
           destination={otpToLocation(this.props.params.to)}
         />
         <div className={cx('time-selector-settings-row', className)}>
-          <TimeSelectorContainer />
+          <Relay.RootContainer
+            Component={TimeSelectorContainer}
+            forceFetch
+            route={new ViewerRoute()}
+          />
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
             hasChanges={!this.props.hasDefaultPreferences}
