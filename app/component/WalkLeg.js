@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 
@@ -50,6 +51,27 @@ function WalkLeg(props) {
     </div>
   );
 }
+
+const exampleLeg = t1 => ({
+  duration: 438,
+  startTime: t1 + 10000,
+  distance: 483.84600000000006,
+  mode: 'WALK',
+  from: { name: 'Messukeskus', stop: { code: '0613' } },
+});
+
+WalkLeg.description = () => {
+  const today = moment().hour(12).minute(34).second(0)
+                        .valueOf();
+  return (
+    <div>
+      <p>Displays an itinerary walk leg.</p>
+      <ComponentUsageExample>
+        <WalkLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
+      </ComponentUsageExample>
+    </div>
+  );
+};
 
 WalkLeg.propTypes = {
   leg: React.PropTypes.shape({

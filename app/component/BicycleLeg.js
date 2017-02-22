@@ -3,6 +3,7 @@ import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
@@ -73,6 +74,64 @@ function BicycleLeg(props) {
     </div>
   );
 }
+
+const exampleLeg = t1 => ({
+  duration: 120,
+  startTime: t1 + 20000,
+  distance: 586.4621425755712,
+  from: { name: 'Ilmattarentie' },
+  mode: 'BICYCLE',
+  rentedBike: false,
+});
+
+const exampleLegWalkingBike = t1 => ({
+  duration: 120,
+  startTime: t1 + 20000,
+  distance: 586.4621425755712,
+  from: { name: 'Ilmattarentie' },
+  mode: 'BICYCLE_WALK',
+  rentedBike: false,
+});
+
+const exampleLegCitybike = t1 => ({
+  duration: 120,
+  startTime: t1 + 20000,
+  distance: 586.4621425755712,
+  from: { name: 'Ilmattarentie' },
+  mode: 'BICYCLE',
+  rentedBike: true,
+});
+
+const exampleLegCitybikeWalkingBike = t1 => ({
+  duration: 120,
+  startTime: t1 + 20000,
+  distance: 586.4621425755712,
+  from: { name: 'Ilmattarentie' },
+  mode: 'WALK',
+  rentedBike: true,
+});
+
+BicycleLeg.description = () => {
+  const today = moment().hour(12).minute(34).second(0)
+                        .valueOf();
+  return (
+    <div>
+      <p>Displays an itinerary bicycle leg.</p>
+      <ComponentUsageExample description="bicycle-leg-normal">
+        <BicycleLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="bicycle-leg-walking-bike">
+        <BicycleLeg leg={exampleLegWalkingBike(today)} index={0} focusAction={() => {}} />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="bicycle-leg-citybike">
+        <BicycleLeg leg={exampleLegCitybike(today)} index={0} focusAction={() => {}} />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="bicycle-leg-citybike-walking-bike">
+        <BicycleLeg leg={exampleLegCitybikeWalkingBike(today)} index={0} focusAction={() => {}} />
+      </ComponentUsageExample>
+    </div>
+  );
+};
 
 BicycleLeg.propTypes = {
   leg: React.PropTypes.shape({

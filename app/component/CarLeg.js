@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 
@@ -51,6 +52,27 @@ function CarLeg(props) {
   );
 }
 
+const exampleLeg = t1 => ({
+  duration: 900,
+  startTime: t1 + 20000,
+  distance: 5678,
+  from: { name: 'Ratsukuja', stop: { code: 'E1102' } },
+  mode: 'CAR',
+});
+
+CarLeg.description = () => {
+  const today = moment().hour(12).minute(34).second(0)
+                        .valueOf();
+  return (
+    <div>
+      <p>Displays an itinerary car leg.</p>
+      <ComponentUsageExample>
+        <CarLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
+      </ComponentUsageExample>
+    </div>
+  );
+};
+
 CarLeg.propTypes = {
   leg: React.PropTypes.shape({
     duration: React.PropTypes.number.isRequired,
@@ -66,7 +88,7 @@ CarLeg.propTypes = {
   }).isRequired,
   index: React.PropTypes.number.isRequired,
   focusAction: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node.isRequired,
+  children: React.PropTypes.node,
 };
 
 export default CarLeg;

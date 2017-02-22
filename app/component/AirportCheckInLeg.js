@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 function AirportCheckInLeg(props) {
   return (
@@ -35,6 +36,23 @@ function AirportCheckInLeg(props) {
     </div>
   );
 }
+
+const exampleLeg = () => ({
+  agency: { name: 'Finnair' },
+});
+
+AirportCheckInLeg.description = () => {
+  const startTime = moment().hour(12).minute(34).second(0)
+                        .valueOf();
+  return (
+    <div>
+      <p>Displays an itinerary airport check-in leg.</p>
+      <ComponentUsageExample>
+        <AirportCheckInLeg leg={exampleLeg()} startTime={startTime} focusAction={() => {}} />
+      </ComponentUsageExample>
+    </div>
+  );
+};
 
 AirportCheckInLeg.propTypes = {
   leg: React.PropTypes.shape({
