@@ -230,6 +230,9 @@ div.itinerary-main > div > .row:nth-child(1)  {
   .itinerary-instruction-column.bicycle_walk:not(.to)::after{
     border-left-style: dotted;
   }
+  .itinerary-instruction-column.citybike_walk:not(.to)::after{
+    border-left-style: dotted;
+  }
 
   .itinerary-instruction-column {
     cursor: pointer;
