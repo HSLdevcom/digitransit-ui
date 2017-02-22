@@ -66,8 +66,11 @@ WalkLeg.description = () => {
   return (
     <div>
       <p>Displays an itinerary walk leg.</p>
-      <ComponentUsageExample>
+      <ComponentUsageExample description="walk-start">
         <WalkLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="walk-middle">
+        <WalkLeg leg={exampleLeg(today)} index={1} focusAction={() => {}} />
       </ComponentUsageExample>
     </div>
   );
