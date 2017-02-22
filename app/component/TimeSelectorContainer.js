@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Relay from 'react-relay';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import debounce from 'lodash/debounce';
@@ -14,6 +15,10 @@ class TimeSelectorContainer extends Component {
     router: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
+  };
+
+  static propTypes = {
+    serviceTimeRange: React.PropTypes.object,
   };
 
   state = { time: this.context.location.query.time ?
@@ -111,4 +116,17 @@ class TimeSelectorContainer extends Component {
   }
 }
 
-export default TimeSelectorContainer;
+export const relayFragment = {
+  serviceTimeRange: () => Relay.QL`
+  fragment on QueryType {
+    serviceTimeRange {
+      start
+      end
+    }
+  }
+  `,
+};
+
+export default Relay.createContainer(TimeSelectorContainer, {
+  fragments: relayFragment,
+});
