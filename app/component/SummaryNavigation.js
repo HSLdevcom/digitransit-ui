@@ -7,6 +7,7 @@ import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { otpToLocation } from '../util/otpStrings';
+import ServiceTimeRangeRoute from '../route/ServiceTimeRangeRoute';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -120,7 +121,7 @@ class SummaryNavigation extends React.Component {
           <Relay.RootContainer
             Component={TimeSelectorContainer}
             forceFetch
-            route={new ViewerRoute()}
+            route={new ServiceTimeRangeRoute()}
           />
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
