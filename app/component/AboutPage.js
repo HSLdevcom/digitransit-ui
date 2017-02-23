@@ -10,11 +10,13 @@ const AboutPage = ({ currentLanguage }, context) => {
     <div className="about-page fullscreen">
       <div className="page-frame fullscreen momentum-scroll">
         {about.map((section, i) => (
-          <div key={`about-section-${i}`}>
-            <h1 className="about-header">{section.header}</h1>
-            {section.paragraphs && section.paragraphs.map((p, j) => (<p key={`about-section-${i}-p-${j}`}>{p}</p>))}
-            {section.link && <Link to={section.link}>{section.link}</Link>}
-          </div>
+          ((section.paragraphs && section.paragraphs.length) || section.link) ?
+            <div key={`about-section-${i}`}>
+              <h1 className="about-header">{section.header}</h1>
+              {section.paragraphs && section.paragraphs.map((p, j) => (<p key={`about-section-${i}-p-${j}`}>{p}</p>))}
+              {section.link && <Link to={section.link}>{section.link}</Link>}
+            </div> :
+            false
         ))}
         <Link to="/">
           <div className="call-to-action-button">
