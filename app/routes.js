@@ -119,10 +119,22 @@ function getDefault(module) {
   return module.default;
 }
 
+function getIntermediatePlaces(intermediatePlaces) {
+  if (!intermediatePlaces) {
+    return null;
+  } else if (Array.isArray(intermediatePlaces)) {
+    return intermediatePlaces.map(otpToLocation);
+  } else if (typeof intermediatePlaces === 'string') {
+    return [otpToLocation(intermediatePlaces)];
+  }
+  return null;
+}
+
 export default (config) => {
   const preparePlanParams = (
       { from, to },
       { location: { query: {
+        intermediatePlaces,
         numItineraries,
         time,
         arriveBy,
@@ -138,6 +150,7 @@ export default (config) => {
       toPlace: to,
       from: otpToLocation(from),
       to: otpToLocation(to),
+      intermediatePlaces: getIntermediatePlaces(intermediatePlaces),
       numItineraries: numItineraries ? Number(numItineraries) : undefined,
       modes: modes ? modes
         .split(',')

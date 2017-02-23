@@ -270,6 +270,7 @@ export default Relay.createContainer(SummaryPage, {
         plan(
           fromPlace: $fromPlace,
           toPlace: $toPlace,
+          intermediatePlaces: $intermediatePlaces,
           numItineraries: $numItineraries,
           modes: $modes,
           date: $date,
@@ -306,6 +307,7 @@ export default Relay.createContainer(SummaryPage, {
     to: null,
     fromPlace: null,
     toPlace: null,
+    intermediatePlaces: null,
     numItineraries: typeof matchMedia !== 'undefined' &&
       matchMedia('(min-width: 900px)').matches ? 5 : 3,
     date: moment().format('YYYY-MM-DD'),
