@@ -9,7 +9,7 @@ function aboutMerger(objValue, srcValue) {
       merged[i] = { header: objValue[i].header };
       for (let j = 0; j < srcValue.length; j++) {
         if (srcValue[j].header === objValue[i].header) {
-          merged[i].paragraphs = srcValue[i].paragraphs;
+          merged[i].paragraphs = srcValue[j].paragraphs;
           break;
         }
       }
@@ -26,7 +26,7 @@ function aboutMerger(objValue, srcValue) {
   return undefined; // Otherwise use default customizer
 }
 
-export default function configMerger(objValue, srcValue, key) {
+function merger(objValue, srcValue, key) {
   if (key === 'aboutThisService') { // property inheritance from objValue to srcValue
     return mergeWith({}, objValue, srcValue, aboutMerger);
   }
@@ -34,4 +34,8 @@ export default function configMerger(objValue, srcValue, key) {
   if (Array.isArray(objValue)) { return objValue; }
 
   return undefined; // Otherwise use default customizer
+}
+
+export default function configMerger(obj, src) {
+  return mergeWith({}, obj, src, merger);
 }
