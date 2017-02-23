@@ -199,6 +199,10 @@ $itinerary-route-max-width: 500px;
     content: "";
  }
 
+  .itinerary-instruction-column.via::before {
+     content: "";
+  }
+
  .itinerary-main > div:nth-child(1)::after {
    content: "";
  }
