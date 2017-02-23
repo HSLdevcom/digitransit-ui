@@ -394,14 +394,18 @@ div.itinerary-container-content {
   @extend .itinerary-leg-text-gray;
   padding-top: 10px;
   .agency-link-container {
+    max-width:calc(100% - 1em);
+    white-space: nowrap;
     padding-top: 15px;
     padding-bottom: 10px;
     .itinerary-leg-agency-link {
       font-size: 10px;
       padding: 7px 8px;
+      .external-link-container { max-width: calc(100% - 1em);}
       a {
         font-weight:$font-weight-bold;
         color: $primary-color;
+        max-width: 100%;
       }
       .icon.external-link-icon-outer {
         color: white;
