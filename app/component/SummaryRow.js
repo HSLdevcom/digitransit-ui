@@ -23,6 +23,12 @@ const Leg = ({ routeNumber, leg, large }) => (
   </div>
 );
 
+Leg.propTypes = {
+  routeNumber: React.PropTypes.node.isRequired,
+  leg: React.PropTypes.object.isRequired,
+  large: React.PropTypes.boolean.isRequired,
+};
+
 const RouteLeg = ({ leg, mode, large }) => {
   const routeNumber = (
     <RouteNumberContainer
@@ -34,6 +40,12 @@ const RouteLeg = ({ leg, mode, large }) => {
   return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
 };
 
+RouteLeg.propTypes = {
+  leg: React.PropTypes.object.isRequired,
+  mode: React.PropTypes.string.isRequired,
+  large: React.PropTypes.boolean.isRequired,
+};
+
 const ModeLeg = ({ leg, mode, large }) => {
   const routeNumber = (
     <RouteNumber
@@ -43,22 +55,36 @@ const ModeLeg = ({ leg, mode, large }) => {
       vertical
     />
   );
-  return <Leg leg={leg} routeNumber={routeNumber} large={large}/>;
+  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
+};
+
+ModeLeg.propTypes = {
+  leg: React.PropTypes.object.isRequired,
+  mode: React.PropTypes.string.isRequired,
+  large: React.PropTypes.boolean.isRequired,
 };
 
 const CityBikeLeg = ({ leg, large }) => (
   <ModeLeg leg={leg} mode="CITYBIKE" large={large} />
 );
 
-const ViaLeg = ({ leg, large }) => (
+CityBikeLeg.propTypes = {
+  leg: React.PropTypes.object.isRequired,
+  mode: React.PropTypes.string.isRequired,
+  large: React.PropTypes.boolean.isRequired,
+};
+
+const ViaLeg = ({ leg }) => (
   <div key={`${leg.mode}_${leg.startTime}`} className="leg via">
     <Icon img="icon-icon_place" className="itinerary-icon place" />
   </div>
 );
 
+ViaLeg.propTypes = {
+  leg: React.PropTypes.object.isRequired,
+};
+
 const SummaryRow = (props, { intl: { formatMessage } }) => {
-  let mode;
-  let routeNumber;
   const data = props.data;
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
@@ -92,7 +118,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
       if (leg.rentedBike) {
         legs.push(<ModeLeg leg={leg} mode="CITYBIKE" large={large} />);
       } else if (leg.mode === 'VIA') {
-        legs.push(<ViaLeg leg={leg} large={large} />);
+        legs.push(<ViaLeg leg={leg} />);
       } else if (leg.route) {
         legs.push(<RouteLeg leg={leg} mode={leg.mode} large={large} />);
       } else {
