@@ -121,13 +121,13 @@ function getDefault(module) {
 
 function getIntermediatePlaces(intermediatePlaces) {
   if (!intermediatePlaces) {
-    return null;
+    return [];
   } else if (Array.isArray(intermediatePlaces)) {
     return intermediatePlaces.map(otpToLocation);
   } else if (typeof intermediatePlaces === 'string') {
     return [otpToLocation(intermediatePlaces)];
   }
-  return null;
+  return [];
 }
 
 export default (config) => {

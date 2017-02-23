@@ -111,12 +111,14 @@ class SummaryNavigation extends React.Component {
             </Drawer>
           )}
         </LazilyLoad>
-        <ViaPointSearchModal />
         <OriginDestinationBar
           className={className}
           origin={otpToLocation(this.props.params.from)}
           destination={otpToLocation(this.props.params.to)}
         />
+        <div className="via-point-bar">
+          <ViaPointSearchModal />
+        </div>
         <div className={cx('time-selector-settings-row', className)}>
           <TimeSelectorContainer />
           <RightOffcanvasToggle

@@ -62,7 +62,7 @@
 
   input[type="text"] {
     background-color: transparent;
-    border: 1px solid #575757;
+    border: 1px solid $dark-gray;
     border-radius: $border-radius;
     color: $white;
     display: block;
@@ -75,6 +75,41 @@
   input[type="text"]:focus {
     color: $black;
     outline: none;
+  }
+}
+
+.via-point {
+  width: 100%;
+  display: flex;
+  color: $light-gray;
+  align-items: flex-end;
+
+ button.link-name {
+    @include font-book;
+    overflow: hidden;
+    flex: 1;
+    border-bottom: solid 1px $gray;
+    padding-bottom: $padding-xsmall;
+    padding-top: $padding-medium;
+    padding-left: 0;
+    padding-right: 0;
+
+    span {
+      @extend .overflow-fade;
+      white-space: nowrap;
+      width: 100%;
+      flex: 1;
+    }
+  }
+
+  button {
+    background: transparent;
+    width: auto;
+    padding: 0;
+  }
+
+  .icon {
+    margin-left: $padding-medium;
   }
 }
 
